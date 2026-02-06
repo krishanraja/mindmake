@@ -60,7 +60,7 @@ const Footer = () => {
                   <ExternalLink className="h-3 w-3" />
                 </a>
                 <a 
-                  href="https://content.themindmaker.ai" 
+                  href="https://live.themindmaker.ai/" 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4 inline-flex items-center gap-1"

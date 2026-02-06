@@ -32,7 +32,7 @@ const Navigation = () => {
       dropdown: [
         { label: "Free Lightning Lessons", type: "lessons" },
         { label: "Cohorts", href: "https://maven.com/aimindmaker/ai-literacy-to-strategy-for-leaders", external: true },
-        { label: "Live Learnings", href: "https://content.themindmaker.ai", external: true },
+        { label: "Live Learnings", href: "https://live.themindmaker.ai/", external: true },
         { label: "Blog", href: "/blog" },
       ]
     },

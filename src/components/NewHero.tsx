@@ -58,7 +58,7 @@ const NewHero = () => {
             <div className="relative w-full" style={{ minHeight: "2.4em" }}>
               <h1
                 className="invisible font-bold leading-[1.15] tracking-tight max-w-5xl pointer-events-none"
-                style={{ fontSize: "clamp(2.5rem, 7vw, 6rem)" }}
+                style={{ fontSize: "clamp(3.5rem, 10vw, 8rem)" }}
                 aria-hidden="true"
               >
                 <div
@@ -77,7 +77,7 @@ const NewHero = () => {
               <h1
                 className="absolute top-0 left-0 font-bold leading-[1.15] tracking-tight text-white max-w-5xl"
                 style={{
-                  fontSize: "clamp(2.5rem, 7vw, 6rem)",
+                  fontSize: "clamp(3.5rem, 10vw, 8rem)",
                   width: "100%",
                   overflow: "hidden",
                 }}

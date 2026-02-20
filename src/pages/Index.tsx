@@ -3,7 +3,6 @@ import Navigation from "@/components/Navigation";
 import NewHero from "@/components/NewHero";
 import AINewsTicker from "@/components/AINewsTicker";
 import FrameworkJourney from "@/components/FrameworkJourney";
-import ScrollingMarquee from "@/components/ScrollingMarquee";
 import TheProblem from "@/components/TheProblem";
 import TrustSection from "@/components/TrustSection";
 import SimpleCTA from "@/components/SimpleCTA";
@@ -70,9 +69,6 @@ const Index = () => {
 
       {/* 3. Framework Journey */}
       <FrameworkJourney />
-
-      {/* Visual breather */}
-      <ScrollingMarquee />
 
       {/* 4. Who Is This For + Sprint Chooser */}
       <TheProblem />

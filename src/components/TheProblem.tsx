@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
-import { Wrench, Compass, CheckCircle, ArrowRight, ArrowDown } from "lucide-react";
+import { Wrench, Compass, CheckCircle, ArrowRight, ArrowDown, Square, CheckSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { InitialConsultModal } from "@/components/InitialConsultModal";
@@ -9,17 +9,23 @@ type PathType = "build" | "orchestrate" | null;
 
 const spring = { type: "spring" as const, stiffness: 80, damping: 18 };
 
-interface CriteriaBar {
+interface CriteriaItem {
   label: string;
-  builderValue: number;
-  orchestratorValue: number;
+  value: number;
 }
 
-const criteriaData: CriteriaBar[] = [
-  { label: "Hands-on effort", builderValue: 8, orchestratorValue: 3 },
-  { label: "Technical curiosity", builderValue: 7, orchestratorValue: 3 },
-  { label: "Weekly time investment", builderValue: 6, orchestratorValue: 4 },
-  { label: "System ownership", builderValue: 9, orchestratorValue: 2 },
+const builderCriteria: CriteriaItem[] = [
+  { label: "Creative freedom", value: 9 },
+  { label: "System ownership", value: 9 },
+  { label: "Future-proofing", value: 8 },
+  { label: "Personal velocity", value: 8 },
+];
+
+const orchestratorCriteria: CriteriaItem[] = [
+  { label: "Decision speed", value: 9 },
+  { label: "Board confidence", value: 9 },
+  { label: "Strategic clarity", value: 8 },
+  { label: "Time efficiency", value: 8 },
 ];
 
 const builderTraits = [
@@ -40,15 +46,15 @@ const builderSprints = [
     tagline: "One decision. Four weeks. Board-ready.",
     description: "Pick one nervous decision and resolve it with a working prototype and board-ready memo.",
     emphasis: ["Working prototype or system", "Tool commitment hierarchy", "Build-ready decision memo"],
-    route: "/sprint/4-week",
+    route: "/sprints",
     commitment: "4wk",
   },
   {
     name: "90-Day Concierge Sprint",
-    tagline: "Full journey. Mind Set \u2192 Mind Map \u2192 Mind Make.",
+    tagline: "Full journey. MindSet \u2192 MindMap \u2192 MindMake.",
     description: "Build 3\u20135 personal AI systems, resolve 2\u20133 strategic decisions, and leave with a 12-month roadmap.",
     emphasis: ["3\u20135 deployed AI systems", "Personal System Architecture", "Strength Amplifier + Builder Dossier"],
-    route: "/sprint/90-day",
+    route: "/sprints",
     commitment: "90d",
   },
 ];
@@ -59,15 +65,15 @@ const orchestratorSprints = [
     tagline: "One decision. Four weeks. Board-ready.",
     description: "Pick one nervous decision and resolve it with a defensible trade-off analysis and board memo.",
     emphasis: ["Vendor evaluation scorecard", "Governance decision memo", "Board-ready narrative"],
-    route: "/sprint/4-week",
+    route: "/sprints",
     commitment: "4wk",
   },
   {
     name: "90-Day Concierge Sprint",
-    tagline: "Full journey. Mind Set \u2192 Mind Map \u2192 Mind Make.",
+    tagline: "Full journey. MindSet \u2192 MindMap \u2192 MindMake.",
     description: "Set your AI operating model, resolve 2\u20133 vendor/governance decisions, and build a board-ready roadmap.",
     emphasis: ["AI Operating Model + RACI", "Strategic vendor decisions resolved", "12-month roadmap with quarterly gates"],
-    route: "/sprint/90-day",
+    route: "/sprints",
     commitment: "90d",
   },
 ];
@@ -81,6 +87,34 @@ const AnimatedBar = ({ value, delay, isVisible }: { value: number; delay: number
       transition={{ duration: 0.8, delay, ease: "easeOut" }}
     />
   </div>
+);
+
+const CheckboxRow = ({
+  label,
+  checked,
+  onChange,
+}: {
+  label: string;
+  checked: boolean;
+  onChange: () => void;
+}) => (
+  <button
+    onClick={onChange}
+    className={`w-full flex items-start gap-3 p-3 rounded-lg text-left transition-all min-h-[48px] ${
+      checked
+        ? "bg-ink/[0.06] dark:bg-mint/[0.08] border border-ink/20 dark:border-mint/30"
+        : "bg-transparent border border-border/30 hover:border-ink/20 dark:hover:border-mint/20"
+    }`}
+  >
+    {checked ? (
+      <CheckSquare className="w-5 h-5 text-ink dark:text-mint shrink-0 mt-0.5" />
+    ) : (
+      <Square className="w-5 h-5 text-muted-foreground shrink-0 mt-0.5" />
+    )}
+    <span className={`text-sm ${checked ? "font-medium" : "text-muted-foreground"}`}>
+      {label}
+    </span>
+  </button>
 );
 
 const PathCard = ({
@@ -97,12 +131,24 @@ const PathCard = ({
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
   const isBuilder = type === "build";
+  const [checkedItems, setCheckedItems] = useState<boolean[]>([false, false, false]);
 
   const traits = isBuilder ? builderTraits : orchestratorTraits;
+  const criteria = isBuilder ? builderCriteria : orchestratorCriteria;
   const Icon = isBuilder ? Wrench : Compass;
   const headline = isBuilder
     ? "You want to build alongside AI."
     : "You want direction without the build.";
+
+  const allChecked = checkedItems.every(Boolean);
+
+  const toggleCheck = (index: number) => {
+    setCheckedItems((prev) => {
+      const next = [...prev];
+      next[index] = !next[index];
+      return next;
+    });
+  };
 
   return (
     <motion.div
@@ -127,49 +173,57 @@ const PathCard = ({
 
       <p className="text-lg font-medium mb-5">{headline}</p>
 
-      {/* Traits -- always visible */}
-      <ul className="space-y-2.5 mb-6">
+      {/* Interactive checkboxes */}
+      <div className="space-y-2 mb-6">
+        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
+          Check all that apply to you:
+        </p>
         {traits.map((trait, i) => (
-          <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-            <CheckCircle className="w-4 h-4 text-ink/40 dark:text-mint/60 shrink-0 mt-0.5" />
-            <span>{trait}</span>
-          </li>
+          <CheckboxRow
+            key={i}
+            label={trait}
+            checked={checkedItems[i]}
+            onChange={() => toggleCheck(i)}
+          />
         ))}
-      </ul>
+      </div>
 
-      {/* Criteria bars -- always visible, animate on scroll */}
+      {/* Criteria bars */}
       <div className="space-y-3 mb-6 pt-4 border-t border-border/30">
-        {criteriaData.map((c, i) => (
+        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
+          {isBuilder ? "What you gain" : "What you gain"}
+        </p>
+        {criteria.map((c, i) => (
           <div key={c.label} className="flex items-center gap-3">
             <span className="text-xs text-muted-foreground w-28 shrink-0">{c.label}</span>
-            <AnimatedBar
-              value={isBuilder ? c.builderValue : c.orchestratorValue}
-              delay={i * 0.12}
-              isVisible={isInView}
-            />
-            <span className="text-xs font-bold text-ink dark:text-white w-7 text-right">
-              {isBuilder ? c.builderValue : c.orchestratorValue}/10
-            </span>
+            <AnimatedBar value={c.value} delay={i * 0.12} isVisible={isInView} />
+            <span className="text-xs font-bold text-ink dark:text-white w-7 text-right">{c.value}/10</span>
           </div>
         ))}
       </div>
 
-      {/* CTA */}
+      {/* CTA -- enabled only when all checked */}
       {!isSelected && !isOtherSelected && (
-        <Button
-          className="w-full bg-ink dark:bg-mint text-white dark:text-ink hover:opacity-90 font-semibold"
-          onClick={onSelect}
+        <motion.div
+          animate={allChecked ? { scale: [1, 1.03, 1] } : {}}
+          transition={{ duration: 0.4 }}
         >
-          This is me
-        </Button>
+          <Button
+            className={`w-full font-semibold transition-all ${
+              allChecked
+                ? "bg-ink dark:bg-mint text-white dark:text-ink hover:opacity-90 shadow-lg"
+                : "bg-ink/20 dark:bg-white/10 text-ink/40 dark:text-white/30 cursor-not-allowed"
+            }`}
+            disabled={!allChecked}
+            onClick={onSelect}
+          >
+            {allChecked ? "This is me \u2192" : "Check all to continue"}
+          </Button>
+        </motion.div>
       )}
 
       {isSelected && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="text-center"
-        >
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center">
           <p className="text-sm font-semibold text-ink dark:text-mint mb-3">
             {isBuilder ? "You're a Builder." : "You're an Orchestrator."} See your sprints below.
           </p>
@@ -201,7 +255,7 @@ const SprintCard = ({
 
   return (
     <motion.div
-      className="p-8 rounded-2xl border border-border/50 hover:border-ink/30 dark:hover:border-mint/30 transition-all flex flex-col"
+      className="p-8 rounded-2xl border border-border/50 hover:border-ink/30 dark:hover:border-mint/30 transition-all flex flex-col hover:-translate-y-1 hover:shadow-lg duration-300"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={spring}
@@ -303,7 +357,6 @@ const TheProblem = () => {
             )}
           </AnimatePresence>
 
-          {/* Sprint Chooser -- user scrolls here manually */}
           <AnimatePresence>
             {selectedPath && (
               <motion.div
@@ -335,9 +388,7 @@ const TheProblem = () => {
                 </div>
 
                 <div className="text-center mt-10">
-                  <p className="text-xs text-muted-foreground mb-3">
-                    Not sure which sprint?
-                  </p>
+                  <p className="text-xs text-muted-foreground mb-3">Not sure which sprint?</p>
                   <Button
                     variant="outline"
                     size="sm"

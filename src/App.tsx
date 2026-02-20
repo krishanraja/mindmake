@@ -11,6 +11,7 @@ import BuilderSprint from "./pages/BuilderSprint";
 import BuilderEconomy from "./pages/BuilderEconomy";
 import Sprint4Week from "./pages/Sprint4Week";
 import Sprint90Day from "./pages/Sprint90Day";
+import Sprints from "./pages/Sprints";
 import NotFound from "./pages/NotFound";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
@@ -43,9 +44,10 @@ const AppRoutes = () => {
         <Route path="/" element={<Index />} />
         <Route path="/individual" element={<Navigate to="/" replace />} />
         <Route path="/team" element={<Navigate to="/" replace />} />
-        <Route path="/sprint/4-week" element={<Sprint4Week />} />
-        <Route path="/sprint/90-day" element={<Sprint90Day />} />
-        <Route path="/builder-sprint" element={<Navigate to="/sprint/4-week" replace />} />
+        <Route path="/sprints" element={<Sprints />} />
+        <Route path="/sprint/4-week" element={<Navigate to="/sprints" replace />} />
+        <Route path="/sprint/90-day" element={<Navigate to="/sprints" replace />} />
+        <Route path="/builder-sprint" element={<Navigate to="/sprints" replace />} />
         <Route path="/builder-economy" element={<BuilderEconomy />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />

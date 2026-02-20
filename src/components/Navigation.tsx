@@ -23,14 +23,14 @@ const Navigation = () => {
     { 
       label: "Sprints", 
       dropdown: [
-        { label: "4-Week Sprint", href: "/sprint/4-week" },
-        { label: "90-Day Sprint", href: "/sprint/90-day" },
+        { label: "Builder Sprints", href: "/sprints" },
+        { label: "Orchestrator Sprints", href: "/sprints" },
       ]
     },
     { 
       label: "Resources", 
       dropdown: [
-        { label: "Decision Diagnostic", href: "/leaders" },
+        { label: "Decision Tools", href: "#", type: "actions" },
         { label: "Blog", href: "/blog" },
         { label: "Live Learnings", href: "https://live.themindmaker.ai/", external: true },
         { label: "Free Lightning Lessons", type: "lessons" },
@@ -138,6 +138,21 @@ const Navigation = () => {
                     aria-label={`${item.label} menu`}
                   >
                     {item.dropdown.map((subItem) => {
+                      if (subItem.type === "actions") {
+                        return (
+                          <button
+                            key={subItem.label}
+                            onClick={() => {
+                              window.dispatchEvent(new CustomEvent('openActionsHub'));
+                              setOpenDropdown(null);
+                            }}
+                            className="flex items-center px-4 py-2.5 text-sm font-medium rounded-md mx-2 w-full text-left
+                              text-ink dark:text-white hover:bg-mint/10 hover:text-ink dark:hover:text-white transition-colors"
+                          >
+                            {subItem.label}
+                          </button>
+                        );
+                      }
                       if (subItem.type === "lessons") {
                         return (
                           <div key={subItem.label} className="px-2">
@@ -257,6 +272,22 @@ const Navigation = () => {
                         text-muted-foreground mb-3 px-4">{item.label}</div>
                       <div className="flex flex-col space-y-1">
                         {item.dropdown.map((subItem) => {
+                          if (subItem.type === "actions") {
+                            return (
+                              <button
+                                key={subItem.label}
+                                onClick={() => {
+                                  window.dispatchEvent(new CustomEvent('openActionsHub'));
+                                  setIsOpen(false);
+                                }}
+                                className="min-h-[44px] flex items-center px-4 py-3 
+                                  text-base font-medium text-ink dark:text-white 
+                                  hover:bg-mint/10 rounded-md transition-colors"
+                              >
+                                {subItem.label}
+                              </button>
+                            );
+                          }
                           if (subItem.type === "lessons") {
                             return (
                               <div key={subItem.label} className="py-2">

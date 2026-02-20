@@ -23,22 +23,22 @@ const Footer = () => {
               </h4>
               <nav className="flex flex-col gap-3">
                 <a
-                  href="/sprint/4-week"
+                  href="/sprints"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
-                  4-Week Sprint
+                  Builder Sprints
                 </a>
                 <a
-                  href="/sprint/90-day"
+                  href="/sprints"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
-                  90-Day Sprint
+                  Orchestrator Sprints
                 </a>
                 <a
                   href="/leaders"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
-                  Decision Diagnostic
+                  Decision Tools
                 </a>
               </nav>
             </div>

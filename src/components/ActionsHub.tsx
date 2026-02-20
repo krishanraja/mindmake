@@ -126,7 +126,7 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
         <section>
           <div className="flex items-center gap-2 mb-3">
             <Sparkles className="w-4 h-4 text-mint" />
-            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">AI Tools</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Decision Tools</h3>
             <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-mint/10 border border-mint/20 ml-auto">
               <Mic className="w-2.5 h-2.5 text-mint" />
               <span className="text-[9px] font-medium text-mint-dark">Voice</span>

@@ -1,7 +1,6 @@
 import { Quote } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
 import krishHeadshot from "@/assets/krish-headshot.png";
 
 const spring = { type: "spring" as const, stiffness: 80, damping: 18 };
@@ -39,7 +38,7 @@ const testimonials: Testimonial[] = [
     metricLabel: "of going in circles \u2192 resolved",
     shortQuote: "I finally knew what to build versus buy.",
     fullQuote:
-      "I\u2019d been going in circles for 6 months \u2014 do we build our own AI underwriting model or use a vendor API? Every conversation made it worse. Krish didn\u2019t give me a recommendation. He gave me the framework to decide for myself.",
+      "I\u2019d been going in circles for 6 months \u2014 do we build our own AI underwriting model or use a vendor API? Krish didn\u2019t give me a recommendation. He gave me the framework to decide for myself.",
     name: "Founder",
     title: "Early-Stage FinTech",
   },
@@ -48,7 +47,7 @@ const testimonials: Testimonial[] = [
     metricLabel: "Board confidence, first time",
     shortQuote: "For the first time I wasn\u2019t guessing in a board conversation on AI.",
     fullQuote:
-      "I went into a board conversation on AI the week after our session and for the first time I wasn\u2019t guessing. I had the questions, I knew what to push on, and I didn\u2019t get cornered. That alone made this worth it.",
+      "I went into a board conversation on AI the week after our session and for the first time I wasn\u2019t guessing. I had the questions, I knew what to push on, and I didn\u2019t get cornered.",
     name: "CEO",
     title: "Mid-market Services",
   },
@@ -76,9 +75,8 @@ const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <motion.div
-      className="p-6 rounded-2xl border border-border/50 hover:border-ink/20 dark:hover:border-mint/20 transition-all cursor-pointer flex flex-col"
-      whileHover={{ y: -4 }}
+    <div
+      className="w-[320px] sm:w-[360px] shrink-0 p-6 rounded-2xl border border-border/50 hover:border-ink/20 dark:hover:border-mint/20 transition-all cursor-pointer flex flex-col bg-background snap-start"
       onClick={() => setIsExpanded(!isExpanded)}
     >
       <div className="mb-3">
@@ -112,7 +110,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => {
       {!isExpanded && (
         <span className="text-[10px] text-muted-foreground mt-1">Click to expand</span>
       )}
-    </motion.div>
+    </div>
   );
 };
 
@@ -131,7 +129,7 @@ const TrustSection = () => {
         }}
       />
       <div className="container-width relative z-10">
-        {/* Krish bio with social links */}
+        {/* Krish bio */}
         <motion.div
           className="text-center mb-20"
           initial={{ opacity: 0, y: 30 }}
@@ -142,20 +140,23 @@ const TrustSection = () => {
             <img
               src={krishHeadshot}
               alt="Krish Raja"
-              className="w-36 h-36 md:w-40 md:h-40 rounded-full border-4 border-ink/10 dark:border-mint/20 shadow-xl"
+              className="w-36 h-36 md:w-44 md:h-44 rounded-full border-4 border-ink/10 dark:border-mint/20 shadow-xl"
               loading="lazy"
             />
           </div>
 
-          <p className="text-2xl md:text-3xl font-bold mb-2">
-            16 years. 90+ engagements. Microsoft. Harvard.
+          <p className="text-xl md:text-2xl font-bold mb-4 max-w-2xl mx-auto leading-snug">
+            I work with AI every single day &mdash; building, breaking, and shipping real systems. I&rsquo;m here to make sure you can too, without the jargon, without the judgement, and without pretending you should already know this stuff.
           </p>
-          <p className="text-muted-foreground max-w-lg mx-auto mb-6">
-            I'm not going to sell you a tool or a framework slide. I'm going to help you make the decisions you've been avoiding.
+          <p className="text-muted-foreground max-w-xl mx-auto mb-8">
+            This is a safe space to ask the &ldquo;silly&rdquo; questions, get honest answers, and walk away with the skills and confidence to future-proof yourself for the next decade. That&rsquo;s what I&rsquo;m passionate about.
           </p>
 
-          {/* Social links */}
-          <div className="flex items-center justify-center gap-4">
+          {/* Get to know me */}
+          <p className="text-xs text-muted-foreground mb-4 uppercase tracking-wider font-medium">
+            Get to know me a bit more
+          </p>
+          <div className="flex items-center justify-center gap-3 flex-wrap">
             <a
               href="https://www.linkedin.com/in/krishanraja/"
               target="_blank"
@@ -163,7 +164,7 @@ const TrustSection = () => {
               className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-border/50 hover:border-ink/30 dark:hover:border-mint/30 transition-all hover:-translate-y-0.5 hover:shadow-md bg-background"
             >
               <svg className="w-5 h-5 text-[#0A66C2] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
               </svg>
               <span className="text-sm font-medium">LinkedIn</span>
             </a>
@@ -178,26 +179,31 @@ const TrustSection = () => {
               </svg>
               <span className="text-sm font-medium">krishraja.com</span>
             </a>
+            <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-border/30 bg-background opacity-50 cursor-not-allowed">
+              <span className="text-sm font-medium text-muted-foreground">Cohorts (Coming Soon)</span>
+            </span>
           </div>
         </motion.div>
 
-        {/* Testimonials grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {testimonials.map((testimonial, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ ...spring, delay: index * 0.08 }}
-            >
-              <TestimonialCard testimonial={testimonial} />
-            </motion.div>
-          ))}
+        {/* Horizontal scroll testimonials */}
+        <div className="overflow-x-auto pb-4 -mx-4 px-4 scrollbar-thin">
+          <div className="flex gap-5 snap-x snap-mandatory">
+            {testimonials.map((testimonial, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ ...spring, delay: index * 0.08 }}
+              >
+                <TestimonialCard testimonial={testimonial} />
+              </motion.div>
+            ))}
+          </div>
         </div>
 
         {/* Client sectors */}
         <motion.div
-          className="mt-16 text-center"
+          className="mt-14 text-center"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 0.5 }}

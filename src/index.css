@@ -111,9 +111,9 @@
     max-width: 100%;
   }
   
-  /* Hero h1 - Override global h1 sizing BEFORE base layer loads */
+  /* Hero h1 - billboard scale, responsive */
   #hero h1 {
-    font-size: clamp(1.5rem, 4vw, 2.25rem) !important;
+    font-size: clamp(3rem, 9vw, 7rem) !important;
     overflow-wrap: anywhere;
     word-break: break-word;
   }
@@ -134,23 +134,7 @@
     pointer-events: none;
   }
   
-  /* Responsive hero text sizing - applied from first paint */
-  .hero-text-size {
-    font-size: 1.5rem !important;
-    line-height: 1.2 !important;
-  }
-  
-  @media (min-width: 640px) {
-    .hero-text-size {
-      font-size: clamp(1.5rem, calc(1.5rem + (100vw - 640px) * 0.00195), 2.25rem) !important;
-    }
-  }
-  
-  @media (min-width: 1024px) {
-    .hero-text-size {
-      font-size: 2.25rem !important;
-    }
-  }
+  /* Legacy hero-text-size class removed -- sizing now controlled by #hero h1 rule above */
   
   /* Hero content wrapper responsive padding - moved from inline styles */
   #hero .hero-content-wrapper {

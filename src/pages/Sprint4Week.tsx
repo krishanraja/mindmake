@@ -132,6 +132,75 @@ const Sprint4Week = () => {
             </ul>
           </div>
 
+          {/* Decision Sprint Library */}
+          <div className="mb-12">
+            <h2 className="text-3xl font-bold mb-3">
+              Example Decision Sprints
+            </h2>
+            <p className="text-lg text-muted-foreground mb-8">
+              Pick one. We resolve it in four weeks.
+            </p>
+
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-sm font-bold uppercase tracking-wider text-mint mb-3">
+                  Mind Set (Clarity)
+                </h3>
+                <div className="grid sm:grid-cols-3 gap-3">
+                  {[
+                    { name: "AI Landscape Compression", decision: "What actually matters in AI right now?" },
+                    { name: "Tool Commitment Philosophy", decision: "Which tools do I commit to vs experiment with?" },
+                    { name: "Personal AI Manifesto", decision: "What are my boundaries?" },
+                  ].map((sprint, i) => (
+                    <div key={i} className="p-4 rounded-lg bg-ink/5 border border-border/50">
+                      <div className="font-semibold text-sm mb-1">{sprint.name}</div>
+                      <div className="text-xs text-muted-foreground">{sprint.decision}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-bold uppercase tracking-wider text-mint mb-3">
+                  Mind Map (Leverage)
+                </h3>
+                <div className="grid sm:grid-cols-3 gap-3">
+                  {[
+                    { name: "Personal System Architecture", decision: "What systems should I build for myself?" },
+                    { name: "Strength Amplifier", decision: "How do I multiply my strongest edge?" },
+                    { name: "Weakness Counterbalance", decision: "Where am I bottlenecked personally?" },
+                  ].map((sprint, i) => (
+                    <div key={i} className="p-4 rounded-lg bg-ink/5 border border-border/50">
+                      <div className="font-semibold text-sm mb-1">{sprint.name}</div>
+                      <div className="text-xs text-muted-foreground">{sprint.decision}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-bold uppercase tracking-wider text-mint mb-3">
+                  Mind Make (Direction)
+                </h3>
+                <div className="grid sm:grid-cols-3 gap-3">
+                  {[
+                    { name: "Build vs Buy vs Glue", decision: "Where is AI core vs commodity?" },
+                    { name: "AI Pricing & Monetization", decision: "How does AI reshape revenue?" },
+                    { name: "Vendor Selection Without Regret", decision: "Which vendors do we commit to?" },
+                    { name: "AI Operating Model", decision: "Who owns AI and how?" },
+                    { name: "Strategic Data Prioritisation", decision: "What data is strategic?" },
+                    { name: "12-Month AI Roadmap", decision: "What do we actually do next year?" },
+                  ].map((sprint, i) => (
+                    <div key={i} className="p-4 rounded-lg bg-ink/5 border border-border/50">
+                      <div className="font-semibold text-sm mb-1">{sprint.name}</div>
+                      <div className="text-xs text-muted-foreground">{sprint.decision}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* CTA */}
           <div className="text-center glass-card p-12">
             <h2 className="text-3xl font-bold mb-4">

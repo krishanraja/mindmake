@@ -202,6 +202,18 @@ const LeadershipInsights = () => {
                 Start diagnostic
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
+
+              <div className="mt-4 p-3 rounded-lg bg-muted/50 border border-border/50 text-center">
+                <p className="text-xs text-muted-foreground">
+                  Want something quicker?{" "}
+                  <button
+                    onClick={() => window.dispatchEvent(new CustomEvent('openActionsHub'))}
+                    className="text-mint font-medium hover:underline"
+                  >
+                    Try our instant AI tools
+                  </button>
+                </p>
+              </div>
             </DiagnosticCard>
           </ViewportContainer>
         )}

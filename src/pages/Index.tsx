@@ -3,7 +3,6 @@ import Navigation from "@/components/Navigation";
 import NewHero from "@/components/NewHero";
 import FrameworkJourney from "@/components/FrameworkJourney";
 import TheProblem from "@/components/TheProblem";
-import ProductLadder from "@/components/ProductLadder";
 import TrustSection from "@/components/TrustSection";
 import BeforeAfterSplit from "@/components/ShowDontTell/BeforeAfterSplit";
 import SimpleCTA from "@/components/SimpleCTA";
@@ -79,13 +78,8 @@ const Index = () => {
         <FrameworkJourney />
       </div>
       
-      {/* Interactive Command Centre */}
+      {/* Who Is This For + Sprint Chooser (unified flow) */}
       <TheProblem />
-      
-      {/* Product Ladder */}
-      <div id="book">
-        <ProductLadder />
-      </div>
       
       {/* Trust Section */}
       <TrustSection />

@@ -32,6 +32,7 @@ const Navigation = () => {
       dropdown: [
         { label: "Decision Diagnostic", href: "/leaders" },
         { label: "Blog", href: "/blog" },
+        { label: "Live Learnings", href: "https://live.themindmaker.ai/", external: true },
         { label: "Free Lightning Lessons", type: "lessons" },
       ]
     },

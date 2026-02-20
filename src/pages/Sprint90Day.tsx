@@ -125,6 +125,74 @@ const Sprint90Day = () => {
             </div>
           </div>
 
+          {/* The Sprint Library -- what each month covers */}
+          <div className="mb-12">
+            <h2 className="text-3xl font-bold mb-3">
+              What Each Month Looks Like
+            </h2>
+            <p className="text-lg text-muted-foreground mb-8">
+              Each month maps to a phase. Here are the decision sprints you'll work through.
+            </p>
+
+            <div className="space-y-6">
+              <div className="glass-card p-6">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-mint mb-1">
+                  Month 1 &mdash; Mind Set (Clarity)
+                </h3>
+                <p className="text-xs text-muted-foreground mb-3">Filter the noise. Set your boundaries. Develop taste.</p>
+                <div className="grid sm:grid-cols-3 gap-3">
+                  {[
+                    { name: "AI Landscape Compression", artifact: "AI relevance map + discard list" },
+                    { name: "Tool Commitment Philosophy", artifact: "Tool hierarchy (Core / Tactical / Experimental)" },
+                    { name: "Personal AI Manifesto", artifact: "1-page personal AI charter" },
+                  ].map((sprint, i) => (
+                    <div key={i} className="p-3 rounded bg-ink/5 border border-border/50">
+                      <div className="font-semibold text-sm mb-1">{sprint.name}</div>
+                      <div className="text-xs text-muted-foreground">Artifact: {sprint.artifact}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="glass-card p-6">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-mint mb-1">
+                  Month 2 &mdash; Mind Map (Leverage)
+                </h3>
+                <p className="text-xs text-muted-foreground mb-3">Build systems. Multiply strengths. Automate weaknesses.</p>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {[
+                    { name: "Personal System Architecture", artifact: "3\u20135 working AI systems + deployment checklist" },
+                    { name: "Strength Amplifier or Weakness Counterbalance", artifact: "Amplifier blueprint or delegation flow + automation stack" },
+                  ].map((sprint, i) => (
+                    <div key={i} className="p-3 rounded bg-ink/5 border border-border/50">
+                      <div className="font-semibold text-sm mb-1">{sprint.name}</div>
+                      <div className="text-xs text-muted-foreground">Artifact: {sprint.artifact}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="glass-card p-6">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-mint mb-1">
+                  Month 3 &mdash; Mind Make (Direction)
+                </h3>
+                <p className="text-xs text-muted-foreground mb-3">Make high-stakes decisions. Set the roadmap. Brief the board.</p>
+                <div className="grid sm:grid-cols-3 gap-3">
+                  {[
+                    { name: "Build vs Buy vs Glue", artifact: "Decision memo + investment table" },
+                    { name: "Vendor Selection Without Regret", artifact: "Scorecard + shortlist + exit criteria" },
+                    { name: "12-Month AI Roadmap", artifact: "Quarterly milestones + board narrative" },
+                  ].map((sprint, i) => (
+                    <div key={i} className="p-3 rounded bg-ink/5 border border-border/50">
+                      <div className="font-semibold text-sm mb-1">{sprint.name}</div>
+                      <div className="text-xs text-muted-foreground">Artifact: {sprint.artifact}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Extended Sprint */}
           <div className="glass-card p-8 mb-12">
             <h3 className="text-2xl font-bold mb-4">Need More Time?</h3>

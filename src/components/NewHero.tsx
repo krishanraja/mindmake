@@ -125,35 +125,37 @@ const NewHero = () => {
         {/* Hero Content */}
         <div className="max-w-5xl overflow-x-hidden overflow-y-hidden">
           <div className="space-y-6 sm:space-y-8 md:space-y-10 fade-in-up" style={{animationDelay: '0.1s'}}>
-            {/* Two-line hero layout: rotating text on line 1, static text on line 2 */}
+            {/* Rotating nervous-decision headline -- sole visual anchor */}
             <div 
               ref={containerRef}
               className="relative w-full max-w-5xl" 
               style={{ 
-                minHeight: 'calc(2.4em + 1.2em)', // 2 lines of rotating text + 1 line of static text
+                minHeight: '2.4em',
               }}
             >
               {/* Hidden measurement element for headline validation */}
               <div
                 ref={measureRef}
-                className="absolute invisible pointer-events-none hero-text-size"
+                className="absolute invisible pointer-events-none"
                 style={{
+                  fontSize: 'clamp(2rem, 5vw, 3.75rem)',
                   fontWeight: 'bold',
                   whiteSpace: 'nowrap',
                 }}
                 aria-hidden="true"
               />
               
-              {/* Invisible spacer to reserve exact height for both lines - uses longest variant */}
+              {/* Invisible spacer */}
               <h1 
-                className="invisible font-bold leading-tight tracking-tight max-w-4xl pointer-events-none hero-text-size" 
+                className="invisible font-bold leading-tight tracking-tight max-w-5xl pointer-events-none" 
                 style={{
+                  fontSize: 'clamp(2rem, 5vw, 3.75rem)',
                   lineHeight: '1.2',
                 }}
                 aria-hidden="true"
               >
                 <div style={{ 
-                  height: '2.4em', // 2 lines at 1.2em line-height
+                  height: '2.4em',
                   overflow: 'hidden',
                   display: '-webkit-box',
                   WebkitLineClamp: 2,
@@ -161,35 +163,26 @@ const NewHero = () => {
                 }}>
                   Everyone's talking about AI. I still haven't decided.
                 </div>
-                <div style={{ 
-                  height: '1.2em', 
-                  whiteSpace: 'nowrap',
-                  lineHeight: '1.2',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                }}>
-                  Boss the boardroom confidently.
-                </div>
               </h1>
               
-              {/* Visible headline - two-line layout with fixed structure */}
+              {/* Visible rotating headline */}
               <h1 
-                className="absolute top-0 left-0 font-bold leading-tight tracking-tight text-white max-w-4xl flex flex-col hero-text-size"
+                className="absolute top-0 left-0 font-bold leading-tight tracking-tight text-white max-w-5xl flex flex-col"
                 style={{
+                  fontSize: 'clamp(2rem, 5vw, 3.75rem)',
                   lineHeight: '1.2',
                   width: '100%',
                   overflow: 'hidden',
                 }}
               >
-                {/* Line 1: Rotating text - exactly 2 lines, bottom-aligned */}
                 <div 
                   className="relative"
                   style={{ 
-                    minHeight: '2.4em', // 2 lines at 1.2em line-height
+                    minHeight: '2.4em',
                     maxHeight: '2.4em',
                     height: '2.4em',
                     display: 'flex',
-                    alignItems: 'flex-end', // Bottom-align the text
+                    alignItems: 'flex-end',
                     overflow: 'hidden',
                   }}
                 >
@@ -215,32 +208,6 @@ const NewHero = () => {
                       {heroVariants[currentIndex]}
                     </motion.div>
                   </AnimatePresence>
-                </div>
-                
-                {/* Line 2: Static text - exactly 1 line, never moves */}
-                <div 
-                  className="relative flex items-center"
-                  style={{ 
-                    height: '1.2em',
-                    minHeight: '1.2em',
-                    maxHeight: '1.2em',
-                    marginTop: 0,
-                  }}
-                >
-                  <span 
-                    className="relative inline-block w-full text-mint font-bold tracking-tight hero-text-size"
-                    style={{ 
-                      whiteSpace: 'nowrap',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      lineHeight: '1.2',
-                      textShadow: '0 0 40px hsl(var(--mint) / 0.6), 0 0 80px hsl(var(--mint) / 0.4), 0 0 120px hsl(var(--mint) / 0.2)',
-                      filter: 'drop-shadow(0 0 20px hsl(var(--mint) / 0.5))',
-                    }}
-                  >
-                    <span className="md:hidden">Boss the boardroom confidently.</span>
-                    <span className="hidden md:inline">Boss the boardroom confidently.</span>
-                  </span>
                 </div>
               </h1>
             </div>

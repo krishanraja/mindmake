@@ -88,25 +88,18 @@ export const InitialConsultModal = ({
     { 
       value: "build", 
       label: "I want to build with AI myself",
-      helper: "Requires hands-on work and habit change."
+      helper: "Hands-on systems, vibe coding, personal AI leverage."
     },
     { 
       value: "orchestrate", 
-      label: "I want to orchestrate AI as an executive",
-      helper: "Focused on decision control, not building tools."
-    },
-    { 
-      value: "team", 
-      label: "I'm booking for a leadership team",
-      helper: "Facilitated decision reset for exec teams."
+      label: "I want to set direction and make clean decisions",
+      helper: "Governance, vendor decisions, board-ready strategy."
     },
   ];
 
   const commitmentOptions = [
-    { value: "1hr", label: "1 Hour Session", description: "Quick consultation or drop-in session" },
-    { value: "3hr", label: "3 Hour Session", description: "Extended alignment or deep dive session" },
-    { value: "4wk", label: "4 Week Program", description: "Weekly cadence with async support" },
-    { value: "90d", label: "90 Day Program", description: "Full transformation program" },
+    { value: "4wk", label: "4-Week Decision Sprint", description: "One nervous decision, resolved and board-ready" },
+    { value: "90d", label: "90-Day Concierge Sprint", description: "Full Mind Set \u2192 Mind Map \u2192 Mind Make journey" },
   ];
 
   const handleSubmit = async (e: React.FormEvent) => {

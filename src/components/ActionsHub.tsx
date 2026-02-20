@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Sparkles, ChevronLeft, Calendar, MessageCircle, User, Lightbulb, Map, TrendingUp, Mic } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
@@ -42,6 +42,12 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
   const [consultModalOpen, setConsultModalOpen] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
   const isMobile = useIsMobile();
+
+  useEffect(() => {
+    const handleOpenHub = () => setIsOpen(true);
+    window.addEventListener('openActionsHub', handleOpenHub);
+    return () => window.removeEventListener('openActionsHub', handleOpenHub);
+  }, []);
 
   const tools = [
     {
@@ -137,6 +143,13 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
               />
             ))}
           </div>
+          <a
+            href="/leaders"
+            className="block mt-3 text-center text-xs text-muted-foreground hover:text-mint transition-colors"
+            onClick={() => setIsOpen(false)}
+          >
+            Want the full diagnostic? Take the Decision Readiness Diagnostic &rarr;
+          </a>
         </section>
 
         {/* CHAT Section */}

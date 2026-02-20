@@ -145,7 +145,7 @@ const TrustSection = () => {
           </div>
 
           <p className="text-xl md:text-2xl font-bold mb-4 max-w-2xl mx-auto leading-snug">
-            I work with AI every single day &mdash; building, breaking, and shipping real systems. I&rsquo;m here to make sure you can too, without the jargon, without the judgement, and without pretending you should already know this stuff.
+            I work with AI every single day - building, breaking, and shipping real systems. I&rsquo;ve run and restructured businesses, P&amp;Ls and teams with automation, and I&rsquo;m here to make sure you can too: without the jargon, without the judgement, and without pretending you should already know this stuff.
           </p>
           <p className="text-muted-foreground max-w-xl mx-auto mb-8">
             This is a safe space to ask the &ldquo;silly&rdquo; questions, get honest answers, and walk away with the skills and confidence to future-proof yourself for the next decade. That&rsquo;s what I&rsquo;m passionate about.

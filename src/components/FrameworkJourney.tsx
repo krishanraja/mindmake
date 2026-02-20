@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
+import { useRef } from "react";
 import { Target, Zap, FileCheck } from "lucide-react";
 
 const MindLabel = ({ prefix, suffix }: { prefix: string; suffix: string }) => (
@@ -116,54 +116,40 @@ const Card = ({
 };
 
 const MindSetContent = () => {
-  const [visibleCount, setVisibleCount] = useState(0);
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { amount: 0.3 });
-
-  useEffect(() => {
-    if (!isInView) return;
-    const interval = setInterval(() => {
-      setVisibleCount((prev) => {
-        if (prev >= noiseItems.length) { clearInterval(interval); return prev; }
-        return prev + 1;
-      });
-    }, 350);
-    return () => clearInterval(interval);
-  }, [isInView]);
-
-  const settled = visibleCount >= noiseItems.length;
+  const doubled = [...noiseItems, ...noiseItems];
 
   return (
-    <div ref={ref} className="h-full flex flex-col">
-      <div className="flex-1 space-y-1 overflow-hidden">
-        {noiseItems.map((item, i) => {
-          if (i >= visibleCount) return null;
-          return (
-            <motion.div
+    <div className="h-full flex flex-col">
+      {/* Scrolling list with fade masks */}
+      <div className="flex-1 overflow-hidden relative">
+        <div className="absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-white/[0.04] to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-white/[0.04] to-transparent z-10 pointer-events-none" />
+        <div
+          className="space-y-1.5 pb-4"
+          style={{
+            animation: "mindset-scroll 18s linear infinite",
+          }}
+        >
+          {doubled.map((item, i) => (
+            <div
               key={i}
               className="flex items-center gap-2 px-2 py-1 rounded text-[11px]"
-              initial={{ opacity: 0, x: -8 }}
-              animate={{ opacity: 1, x: 0 }}
             >
               <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${item.keep ? "bg-mint" : "bg-red-400/50"}`} />
-              <span className={settled && !item.keep ? "line-through text-white/20" : item.keep && settled ? "font-semibold text-white" : "text-white/60"}>
+              <span className={!item.keep ? "line-through text-white/20" : "font-semibold text-white"}>
                 {item.label}
               </span>
-              {settled && item.keep && <span className="ml-auto text-[9px] font-bold text-mint uppercase">Signal</span>}
-            </motion.div>
-          );
-        })}
+              {item.keep && <span className="ml-auto text-[9px] font-bold text-mint uppercase">Signal</span>}
+            </div>
+          ))}
+        </div>
       </div>
-      {/* Fixed footer -- always at bottom */}
-      <div className="h-[48px] shrink-0 flex items-center justify-center border-t border-white/10 mt-auto">
-        {settled ? (
-          <motion.div className="text-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <span className="text-[10px] text-white/30">8 inputs &rarr; </span>
-            <span className="text-xs font-bold text-mint">3 that matter</span>
-          </motion.div>
-        ) : (
-          <span className="text-[10px] text-white/20">Filtering...</span>
-        )}
+      {/* Fixed footer */}
+      <div className="h-[48px] shrink-0 flex items-center justify-center border-t border-white/10">
+        <div className="text-center">
+          <span className="text-[10px] text-white/30">8 inputs &rarr; </span>
+          <span className="text-xs font-bold text-mint">3 that matter</span>
+        </div>
       </div>
     </div>
   );

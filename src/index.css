@@ -887,6 +887,11 @@ a:hover {
     100% { transform: translateX(-50%); }
   }
 
+  @keyframes mindset-scroll {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-50%); }
+  }
+
   @keyframes fade-in-up {
     from {
       opacity: 0;

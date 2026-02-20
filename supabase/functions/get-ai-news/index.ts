@@ -85,8 +85,9 @@ CRITICAL RULES:
 2. Be HYPER-SPECIFIC: Name real companies, sectors, concrete numbers
 3. Keep headlines CONCISE: 8-15 words maximum
 4. Mix all 4 categories in every batch
-5. NO future tense — present tense only
-6. NO fluff — concrete information or sharp opinion only
+5. LAST 7 DAYS ONLY — every headline must reference something that happened or was announced this week
+6. NO future tense — present tense only
+7. NO fluff — concrete information or sharp opinion only
 
 FORMAT: Return ONLY a valid JSON array:
 [{"title": "[CATEGORY]: Insight text here", "source": "Source Name"}]
@@ -225,7 +226,7 @@ const fetchAIHeadlines = async (provider: 'lovable' | 'openai', apiKey: string):
         { role: 'system', content: AI_SYSTEM_PROMPT },
         { 
           role: 'user', 
-          content: `Generate 6 headlines for ${new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} that a CEO deciding their AI strategy this week needs to see. Focus on decisions, vendor moves, governance shifts, and real ROI data.` 
+          content: `Generate 6 headlines from the LAST 7 DAYS ONLY (today is ${new Date().toISOString().split('T')[0]}) that a CEO deciding their AI strategy this week needs to see. Only reference events, announcements, or data from this past week. Focus on decisions, vendor moves, governance shifts, and real ROI data.` 
         }
       ],
       temperature: 0.3,

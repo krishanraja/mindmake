@@ -26,12 +26,12 @@ const SimpleCTA = () => {
           </div>
           
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-dark-card-heading dark:text-foreground">
-            Ready to future proof yourself for the next decade?
+            You've been pitched enough.
           </h2>
           
           <p className="text-xl text-dark-card-body dark:text-foreground leading-relaxed mb-8">
-            "Businesses with AI literate leaders will set the pace in 2026 - and the rest will have to keep up with them"
-            <span className="block mt-2 text-lg text-dark-card-heading dark:text-foreground">-Krish Raja, Founder</span>
+            You've sat through enough demos. You've downloaded enough whitepapers. The only thing left is to make a decision.
+            <span className="block mt-4 text-lg">Start with your first one.</span>
           </p>
           
           <Button 
@@ -39,12 +39,12 @@ const SimpleCTA = () => {
             className="bg-mint text-ink hover:bg-mint/90 font-semibold px-6 sm:px-12 py-6 text-lg touch-target group w-full sm:w-auto"
             onClick={() => setConsultModalOpen(true)}
           >
-            Book Your Initial Consult
+            What's your nervous decision?
             <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
           </Button>
           
           <p className="text-sm text-dark-card-muted dark:text-muted-foreground mt-6">
-            No prep required. Just bring your real work.
+            The first conversation is free. No prep required.
           </p>
         </div>
       </div>

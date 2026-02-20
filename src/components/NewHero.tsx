@@ -9,19 +9,18 @@ const NewHero = () => {
   const measureRef = useRef<HTMLDivElement>(null);
 
   const heroVariants = [
-    "Boss the boardroom with",
-    "Build your knowledge instead of relying on IT with",
-    "Create product strategy that sells in the new era with",
-    "Become the leader your board needs with",
-    "Activate your best dormant ideas with",
-    "Remove your blind spots as a leader with",
-    "Build your own AI assistants that 10X YOU",
-    "Become a systems-builder instead of a delegator with",
-    "Cut through the AI vendor theatre with",
-    "Lead the AI implementation sprint with",
-    "Lead from the front with",
-    "Show your team who's boss with",
-    "Drive the next era of your business through",
+    "Everyone's talking about AI. I still haven't decided.",
+    "I've been pitched 14 tools this quarter. I use none of them.",
+    "My board wants an AI strategy. I don't know where to start.",
+    "I'm either building the future or being replaced by it.",
+    "Should we build our own AI tools or buy off the shelf?",
+    "Which vendors do we actually commit to?",
+    "How do I multiply my strongest edge with AI?",
+    "Everyone on my team is using different tools. It's chaos.",
+    "How do I know if AI is delivering ROI or just hype?",
+    "I'm nervous about vendor lock-in but scared to build.",
+    "My team is resisting AI and I don't know how to lead them.",
+    "I feel like I should understand this but I don't.",
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -160,7 +159,7 @@ const NewHero = () => {
                   WebkitLineClamp: 2,
                   WebkitBoxOrient: 'vertical',
                 }}>
-                  Build your knowledge instead of relying on IT with
+                  Everyone's talking about AI. I still haven't decided.
                 </div>
                 <div style={{ 
                   height: '1.2em', 
@@ -169,7 +168,7 @@ const NewHero = () => {
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                 }}>
-                  AI literacy for commercial leaders
+                  Boss the boardroom confidently.
                 </div>
               </h1>
               
@@ -239,15 +238,15 @@ const NewHero = () => {
                       filter: 'drop-shadow(0 0 20px hsl(var(--mint) / 0.5))',
                     }}
                   >
-                    <span className="md:hidden">AI literacy for leaders</span>
-                    <span className="hidden md:inline">AI literacy for commercial leaders</span>
+                    <span className="md:hidden">Boss the boardroom confidently.</span>
+                    <span className="hidden md:inline">Boss the boardroom confidently.</span>
                   </span>
                 </div>
               </h1>
             </div>
       
             <p className="text-base sm:text-lg md:text-xl lg:text-xl text-white/90 max-w-3xl font-light leading-relaxed">
-              Most leaders feel behind on AI, but don't know what to actually do about it. Learn how to command AI in the boardroom, and build AI systems to extend your own ideas and capabilities - so you can outlive the unpredictable changes that lie ahead.
+              Mindmaker is a 1:1 sprint that turns AI chaos into calm, clear, executable direction. No training. No decks. No demos. Just decisions.
             </p>
               
             {/* Trust Bar */}
@@ -262,13 +261,13 @@ const NewHero = () => {
                 <svg className="w-3 h-3 sm:w-4 sm:h-4 text-mint" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                Practice on real work
+                No decks or demos
               </span>
               <span className="flex items-center gap-2">
                 <svg className="w-3 h-3 sm:w-4 sm:h-4 text-mint" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                No coding needed
+                Just decisions
               </span>
             </div>
             
@@ -279,27 +278,20 @@ const NewHero = () => {
                 className="bg-mint text-ink hover:bg-mint-500/95 font-bold px-8 sm:px-10 py-6 sm:py-7 text-base sm:text-lg shadow-lg shadow-mint-lg hover:shadow-xl hover:shadow-mint-lg transition-all duration-300 ease-out hover:-translate-y-0.5 touch-target group overflow-hidden"
                 onClick={() => setConsultModalOpen(true)}
               >
-                <span className="group-hover:opacity-90">Book Your Initial Consult</span>
+                <span className="group-hover:opacity-90">What's your nervous decision?</span>
               </Button>
               <Button 
                 size="lg" 
                 variant="outline" 
                 className="border-2 border-mint/50 text-mint hover:bg-mint/10 hover:border-mint/70 backdrop-blur-md font-bold px-8 sm:px-10 py-6 sm:py-7 text-base sm:text-lg touch-target transition-all duration-300 ease-out shadow-sm hover:shadow-md overflow-hidden"
                 onClick={() => {
-                  // Dispatch event to skip scroll hijack animation
-                  // ChaosToClarity component will listen and handle completion
-                  window.dispatchEvent(new CustomEvent('skipChaosToClarity'));
-                  
-                  // Small delay to ensure skip completes, then scroll to products section
-                  setTimeout(() => {
-                    const productsSection = document.getElementById('products') || document.getElementById('book');
-                    if (productsSection) {
-                      productsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                  }, 150);
+                  const productsSection = document.getElementById('products') || document.getElementById('book');
+                  if (productsSection) {
+                    productsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
                 }}
               >
-                View Programs
+                View Sprints
               </Button>
             </div>
           </div>

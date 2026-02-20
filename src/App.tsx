@@ -9,6 +9,8 @@ import Individual from "./pages/Individual";
 import Team from "./pages/Team";
 import BuilderSprint from "./pages/BuilderSprint";
 import BuilderEconomy from "./pages/BuilderEconomy";
+import Sprint4Week from "./pages/Sprint4Week";
+import Sprint90Day from "./pages/Sprint90Day";
 import NotFound from "./pages/NotFound";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
@@ -41,7 +43,9 @@ const AppRoutes = () => {
         <Route path="/" element={<Index />} />
         <Route path="/individual" element={<Individual />} />
         <Route path="/team" element={<Team />} />
-        <Route path="/builder-sprint" element={<BuilderSprint />} />
+        <Route path="/sprint/4-week" element={<Sprint4Week />} />
+        <Route path="/sprint/90-day" element={<Sprint90Day />} />
+        <Route path="/builder-sprint" element={<Navigate to="/sprint/4-week" replace />} />
         <Route path="/builder-economy" element={<BuilderEconomy />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
@@ -53,9 +57,10 @@ const AppRoutes = () => {
         <Route path="/leaders" element={<LeadershipInsights />} />
         <Route path="/leadership-insights" element={<LeadershipInsights />} />
         {/* Redirects for old URLs */}
-        <Route path="/builder-session" element={<Navigate to="/individual?path=orchestrate" replace />} />
-        <Route path="/leadership-lab" element={<Navigate to="/team" replace />} />
-        <Route path="/builder" element={<Navigate to="/individual?path=build" replace />} />
+        <Route path="/builder-session" element={<Navigate to="/" replace />} />
+        <Route path="/leadership-lab" element={<Navigate to="/" replace />} />
+        <Route path="/builder" element={<Navigate to="/" replace />} />
+        <Route path="/portfolio-program" element={<Navigate to="/" replace />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -15,10 +15,10 @@ interface ChatPanelProps {
 }
 
 const quickReplies = [
-  "We want to assess our AI readiness",
-  "We need help with AI strategy",
-  "Tell us about MindMaker",
-  "We're ready to book a call",
+  "What's a 4-week sprint?",
+  "I have a nervous decision about AI",
+  "Am I a Builder or Orchestrator?",
+  "I'm ready to start a conversation",
 ];
 
 export const ChatPanel = ({ onClose }: ChatPanelProps) => {
@@ -72,8 +72,8 @@ export const ChatPanel = ({ onClose }: ChatPanelProps) => {
           <AvatarFallback>K</AvatarFallback>
         </Avatar>
         <div className="flex-1">
-          <h3 className="font-semibold text-sm">Krish</h3>
-          <p className="text-xs text-muted-foreground">AI Strategy Advisor</p>
+          <h3 className="font-semibold text-sm">Ask Mindmaker</h3>
+          <p className="text-xs text-muted-foreground">Mind Set &rarr; Mind Map &rarr; Mind Make</p>
         </div>
         <Button
           variant="ghost"

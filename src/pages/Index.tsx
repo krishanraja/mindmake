@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import NewHero from "@/components/NewHero";
-import ChaosToClarity from "@/components/ShowDontTell/ChaosToClarity";
+import FrameworkJourney from "@/components/FrameworkJourney";
 import TheProblem from "@/components/TheProblem";
 import ProductLadder from "@/components/ProductLadder";
 import TrustSection from "@/components/TrustSection";
@@ -74,9 +74,9 @@ const Index = () => {
       {/* Hero Section */}
       <NewHero />
       
-      {/* Chaos to Clarity Animation */}
-      <div id="problem">
-        <ChaosToClarity />
+      {/* Framework Journey - Mind Set → Mind Map → Mind Make */}
+      <div id="framework">
+        <FrameworkJourney />
       </div>
       
       {/* Interactive Command Centre */}

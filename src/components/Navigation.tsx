@@ -21,27 +21,26 @@ const Navigation = () => {
 
   const navItems = [
     { 
-      label: "Executive Advisory", 
+      label: "Sprints", 
       dropdown: [
-        { label: "Individual", href: "/individual" },
-        { label: "Team", href: "/team" },
+        { label: "4-Week Sprint", href: "/sprint/4-week" },
+        { label: "90-Day Sprint", href: "/sprint/90-day" },
       ]
     },
     { 
-      label: "Learning & Content", 
+      label: "Resources", 
       dropdown: [
-        { label: "Free Lightning Lessons", type: "lessons" },
-        { label: "Cohorts", href: "https://maven.com/aimindmaker/ai-literacy-to-strategy-for-leaders", external: true },
-        { label: "Live Learnings", href: "https://live.themindmaker.ai/", external: true },
+        { label: "Decision Diagnostic", href: "/leaders" },
         { label: "Blog", href: "/blog" },
+        { label: "Free Lightning Lessons", type: "lessons" },
       ]
     },
     { 
       label: "About", 
       dropdown: [
         { label: "FAQ", href: "/faq" },
-        { label: "Privacy", href: "/privacy" },
         { label: "Contact", href: "/contact" },
+        { label: "Privacy", href: "/privacy" },
       ]
     },
   ];
@@ -218,7 +217,7 @@ const Navigation = () => {
               }}
             >
               <span className="absolute -top-1 -right-1 w-2 h-2 bg-mint rounded-full animate-pulse" />
-              Book Session
+              What's your nervous decision?
             </Button>
           </div>
 
@@ -382,7 +381,7 @@ const Navigation = () => {
                     setIsOpen(false);
                   }}
                 >
-                  Book Session
+                  What's your nervous decision?
                 </Button>
               </div>
             </ScrollArea>

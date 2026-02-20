@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import NewHero from "@/components/NewHero";
 import AINewsTicker from "@/components/AINewsTicker";
+import BigProblem from "@/components/BigProblem";
 import FrameworkJourney from "@/components/FrameworkJourney";
 import TheProblem from "@/components/TheProblem";
 import TrustSection from "@/components/TrustSection";
@@ -64,10 +65,13 @@ const Index = () => {
       {/* 1. Hero */}
       <NewHero />
 
-      {/* 2. Live AI News Ticker -- Mind Set in action */}
+      {/* 2. Live AI News Ticker */}
       <AINewsTicker />
 
-      {/* 3. Framework Journey */}
+      {/* 3. The Big Problem -- existential urgency */}
+      <BigProblem />
+
+      {/* 4. Framework Journey */}
       <FrameworkJourney />
 
       {/* 4. Who Is This For + Sprint Chooser */}

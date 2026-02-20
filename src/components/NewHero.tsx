@@ -4,15 +4,14 @@ import { InitialConsultModal } from "@/components/InitialConsultModal";
 import { motion, AnimatePresence } from "framer-motion";
 
 const heroVariants = [
-  "Everyone's talking about AI. I still haven't decided.",
-  "I've been pitched 14 tools this quarter. I use none of them.",
-  "My board wants an AI strategy. I don't know where to start.",
-  "Should we build our own AI tools or buy off the shelf?",
-  "Which vendors do we actually commit to?",
-  "How do I multiply my strongest edge with AI?",
-  "Everyone on my team is using different tools. It's chaos.",
-  "I'm nervous about vendor lock-in but scared to build.",
-  "I feel like I should understand this but I don't.",
+  "I still haven't decided.",
+  "14 tools pitched. None adopted.",
+  "My board wants an AI strategy.",
+  "Build or buy?",
+  "Which vendors do we commit to?",
+  "How do I multiply my edge?",
+  "My team is using AI. It's chaos.",
+  "I should understand this. I don't.",
 ];
 
 const spring = { type: "spring" as const, stiffness: 100, damping: 18 };
@@ -67,7 +66,6 @@ const NewHero = () => {
                   <video
                     autoPlay
                     muted
-                    loop
                     playsInline
                     className="w-full h-full object-cover"
                   >
@@ -204,7 +202,6 @@ const NewHero = () => {
               <video
                 autoPlay
                 muted
-                loop
                 playsInline
                 className="w-full h-full object-cover"
               >

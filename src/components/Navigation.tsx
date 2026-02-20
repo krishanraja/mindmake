@@ -233,8 +233,8 @@ const Navigation = () => {
               }}
             >
               <span className="absolute -top-1 -right-1 w-2 h-2 bg-mint rounded-full animate-pulse" />
-              <span className="hidden lg:inline">What's your nervous decision?</span>
-              <span className="lg:hidden">Get started</span>
+              <span className="hidden xl:inline">What's your nervous decision?</span>
+              <span className="xl:hidden">Book a call</span>
             </Button>
           </div>
 

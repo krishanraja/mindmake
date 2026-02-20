@@ -17,26 +17,21 @@ const CACHE_KEY = 'ai_news_cache';
 const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
 
 const FALLBACK_HEADLINES: NewsHeadline[] = [
-  { title: "Claude 4 beats SDRs at cold email writing", source: "Model Report" },
-  { title: "Prompt engineer salaries down 40% as tools simplify", source: "Workforce Watch" },
-  { title: "Vibe-coded CRM replaces Salesforce at 50-person co", source: "Builder Daily" },
-  { title: "GPT-5 passes bar exam, 12K paralegals at risk", source: "The Shift" },
-  { title: "New job: AI Output Editor. 50K openings by 2026", source: "Workforce Watch" },
-  { title: "Gemini 3 Pro generates production React in one shot", source: "Model Report" },
-  { title: "3-person team ships $2M ARR product using only AI", source: "Builder Daily" },
-  { title: "Customer support teams shrink 60% industry-wide", source: "The Shift" },
-  { title: "Cursor + Claude saves devs 20hrs/week", source: "Operator Intel" },
-  { title: "AI Ops Manager: fastest growing role in tech 2026", source: "Workforce Watch" },
-  { title: "Bookkeepers face 80% job loss by end of 2026", source: "The Shift" },
-  { title: "Lovable hits 100K apps built, avg time: 4 hours", source: "Builder Daily" },
-  { title: "Mistral Large 3 beats GPT-4 on coding benchmarks", source: "Model Report" },
-  { title: "Marketing teams now 2 people + AI, not 12", source: "The Shift" },
-  { title: "Best hack: voice memos to action items via AI", source: "Operator Intel" },
-  { title: "Junior dev hiring down 35% at Fortune 500", source: "Workforce Watch" },
-  { title: "No-code founder builds $500K business in 6 months", source: "Builder Daily" },
-  { title: "Data entry roles: 90% automated by Q2 2026", source: "The Shift" },
-  { title: "Claude Artifacts now rival Figma for quick mockups", source: "Model Report" },
-  { title: "AI fluency now required for 40% of job postings", source: "Workforce Watch" }
+  { title: "[SIGNAL]: Microsoft mandates AI fluency for all managers by Q3", source: "Bloomberg" },
+  { title: "[DECISION TRIGGER]: Google cuts Gemini API pricing 40% \u2014 reevaluate vendor costs", source: "Financial Times" },
+  { title: "[KRISH'S TAKE]: 80% of companies using AI \u2260 80% using it well", source: "Mindmaker" },
+  { title: "[SIGNAL]: Walmart cuts 1,200 middle-management roles after AI workflow rollout", source: "WSJ" },
+  { title: "[NOISE]: Another AI startup raises $50M with no enterprise customers", source: "Mindmaker" },
+  { title: "[DECISION TRIGGER]: EU AI Act compliance deadline hits enterprise vendors", source: "Financial Times" },
+  { title: "[SIGNAL]: JPMorgan deploys AI to automate 50% of internal reporting", source: "Bloomberg" },
+  { title: "[KRISH'S TAKE]: Your AI strategy isn't a strategy if it's just a vendor list", source: "Mindmaker" },
+  { title: "[SIGNAL]: 67% of C-suite say AI governance is now a board-level agenda item", source: "McKinsey" },
+  { title: "[DECISION TRIGGER]: AWS announces enterprise AI credits \u2014 build-vs-buy just shifted", source: "WSJ" },
+  { title: "[NOISE]: McKinsey publishes another AI readiness framework nobody will use", source: "Mindmaker" },
+  { title: "[SIGNAL]: Fortune 500 CAIO appointments up 300% in 12 months", source: "HBR" },
+  { title: "[KRISH'S TAKE]: The leaders who win aren't adopting AI \u2014 they're deciding what to use it for", source: "Mindmaker" },
+  { title: "[DECISION TRIGGER]: Salesforce raises AI feature pricing 25% \u2014 check your contract", source: "Bloomberg" },
+  { title: "[SIGNAL]: Companies with AI governance frameworks show 2x faster deployment", source: "Gartner" },
 ];
 
 // Safe cache loading with validation

@@ -13,8 +13,13 @@ interface AINewsResponse {
   fallback?: boolean;
 }
 
-const CACHE_KEY = 'ai_news_cache';
+const CACHE_KEY = 'ai_news_cache_v2';
 const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
+
+// Clear old cache keys from previous versions
+if (typeof window !== 'undefined') {
+  localStorage.removeItem('ai_news_cache');
+}
 
 const FALLBACK_HEADLINES: NewsHeadline[] = [
   { title: "[SIGNAL]: Microsoft mandates AI fluency for all managers by Q3", source: "Bloomberg" },

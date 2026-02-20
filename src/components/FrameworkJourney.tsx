@@ -32,7 +32,7 @@ const FrameworkJourney = () => {
     offset: ["start end", "end start"],
   });
 
-  const spotlight = useTransform(scrollYProgress, [0.2, 0.35, 0.5, 0.65, 0.8], [0, 0, 1, 2, 2]);
+  const spotlight = useTransform(scrollYProgress, [0.05, 0.15, 0.3, 0.45, 0.6], [0, 0, 1, 2, 2]);
 
   return (
     <section ref={sectionRef} className="py-24 md:py-32 bg-ink">
@@ -79,35 +79,38 @@ const Card = ({
   headline: string;
   children: React.ReactNode;
 }) => {
-  const opacity = useTransform(spotlight, (v: number) => {
+  const cardOpacity = useTransform(spotlight, (v: number) => {
     const dist = Math.abs(v - index);
-    return dist < 0.6 ? 1 : 0.25;
+    return Math.max(0.2, 1 - dist * 0.8);
+  });
+
+  const glowOpacity = useTransform(spotlight, (v: number) => {
+    const dist = Math.abs(v - index);
+    return Math.max(0, 1 - dist * 2) * 0.35;
   });
 
   return (
     <motion.div
-      className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 flex flex-col h-[400px] relative overflow-hidden"
-      style={{ opacity }}
+      className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 flex flex-col h-[420px] relative overflow-hidden"
+      style={{ opacity: cardOpacity }}
     >
-      {/* Glow when active */}
+      {/* Natural radial glow */}
       <motion.div
         className="absolute inset-0 rounded-2xl pointer-events-none"
         style={{
-          opacity: useTransform(spotlight, (v: number) =>
-            Math.abs(v - index) < 0.6 ? 0.25 : 0
-          ),
-          boxShadow:
-            "inset 0 0 60px rgba(126, 244, 194, 0.2), 0 0 40px rgba(126, 244, 194, 0.1)",
+          opacity: glowOpacity,
+          background: "radial-gradient(ellipse at center, rgba(126, 244, 194, 0.15) 0%, transparent 70%)",
+          boxShadow: "0 0 80px rgba(126, 244, 194, 0.08)",
         }}
       />
 
-      <div className="text-center mb-4 shrink-0">
-        <Icon className="w-6 h-6 text-mint mx-auto mb-2" />
-        <h3 className="text-lg md:text-xl font-bold text-white">{headline}</h3>
+      <div className="text-center shrink-0 h-[72px] flex flex-col items-center justify-center">
+        <Icon className="w-6 h-6 text-mint mb-1.5" />
+        <h3 className="text-lg md:text-xl font-bold text-white leading-tight">{headline}</h3>
         <p className="text-xs text-mint mt-0.5">{label}</p>
       </div>
 
-      <div className="flex-1 overflow-hidden">{children}</div>
+      <div className="flex-1 flex flex-col overflow-hidden">{children}</div>
     </motion.div>
   );
 };
@@ -151,12 +154,17 @@ const MindSetContent = () => {
           );
         })}
       </div>
-      {settled && (
-        <motion.div className="pt-2 border-t border-white/10 text-center shrink-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-          <span className="text-[10px] text-white/30">8 inputs &rarr; </span>
-          <span className="text-xs font-bold text-mint">3 that matter</span>
-        </motion.div>
-      )}
+      {/* Fixed footer -- always at bottom */}
+      <div className="h-[48px] shrink-0 flex items-center justify-center border-t border-white/10 mt-auto">
+        {settled ? (
+          <motion.div className="text-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            <span className="text-[10px] text-white/30">8 inputs &rarr; </span>
+            <span className="text-xs font-bold text-mint">3 that matter</span>
+          </motion.div>
+        ) : (
+          <span className="text-[10px] text-white/20">Filtering...</span>
+        )}
+      </div>
     </div>
   );
 };
@@ -192,10 +200,13 @@ const MindMapContent = () => {
           </div>
         ))}
       </div>
-      <motion.div className="text-center mt-4 pt-3 border-t border-white/10" initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: 2.2 }}>
-        <span className="text-lg font-bold text-mint">5&ndash;10 hrs</span>
-        <span className="text-xs text-white/40 ml-1">saved/week</span>
-      </motion.div>
+      {/* Fixed footer */}
+      <div className="h-[48px] shrink-0 flex items-center justify-center border-t border-white/10 mt-auto">
+        <motion.div className="text-center" initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: 2.2 }}>
+          <span className="text-lg font-bold text-mint">5&ndash;10 hrs</span>
+          <span className="text-xs text-white/40 ml-1">saved/week</span>
+        </motion.div>
+      </div>
     </div>
   );
 };
@@ -226,7 +237,10 @@ const MindMakeContent = () => {
           </svg>
           Build (with exit criteria)
         </motion.div>
-        <motion.div className="flex gap-4 pt-2 border-t border-white/10" initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: 2.3 }}>
+      </div>
+      {/* Fixed footer */}
+      <div className="h-[48px] shrink-0 flex items-center border-t border-white/10 mt-auto">
+        <motion.div className="flex gap-6" initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: 2.3 }}>
           <div>
             <div className="text-[9px] text-white/30">ROI</div>
             <div className="text-base font-bold text-mint">340%</div>

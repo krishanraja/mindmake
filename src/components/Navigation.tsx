@@ -73,7 +73,7 @@ const Navigation = () => {
       className="fixed top-0 w-full z-[100] bg-background/80 backdrop-blur-md border-b border-border/50 shadow-md pt-safe-top transition-all duration-300 ease-out"
       style={{ transform: isHidden ? 'translateY(-100%)' : 'translateY(0)' }}
     >
-      <div className="container-width px-4 sm:px-6">
+      <div className="container-width">
         <div className="flex items-center justify-between h-16 sm:h-18 md:h-20">
           {/* Logo */}
           <div className="flex items-center mr-12">

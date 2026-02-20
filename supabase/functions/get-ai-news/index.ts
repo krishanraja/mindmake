@@ -34,28 +34,23 @@ interface Provider {
   key?: string;
 }
 
-// Provider cascade: NewsAPI → Lovable AI → OpenAI → Static Fallback
+// Provider cascade: Lovable AI → OpenAI → Static Fallback
+// NewsAPI skipped: returns raw unfiltered news that doesn't match ICP
 const getProvider = (): Provider => {
-  const NEWSAPI_KEY = Deno.env.get('NEWSAPI_KEY');
   const LOVABLE_KEY = Deno.env.get('LOVABLE_API_KEY');
   const OPENAI_KEY = Deno.env.get('OPENAI_API_KEY');
   
-  if (NEWSAPI_KEY) {
-    console.log('✅ Using NewsAPI.org (Plan A - Real News)');
-    return { name: 'newsapi', key: NEWSAPI_KEY };
-  }
-  
   if (LOVABLE_KEY) {
-    console.log('⚠️ NewsAPI unavailable, using LOVABLE AI (Plan B)');
+    console.log('✅ Using LOVABLE AI (Plan A - LLM curated)');
     return { name: 'lovable', key: LOVABLE_KEY };
   }
   
   if (OPENAI_KEY) {
-    console.log('⚠️ NewsAPI & Lovable unavailable, using OPENAI (Plan C)');
+    console.log('⚠️ Lovable unavailable, using OPENAI (Plan B)');
     return { name: 'openai', key: OPENAI_KEY };
   }
   
-  console.error('❌ No API keys available, returning static fallback (Plan D)');
+  console.error('❌ No API keys available, returning static fallback (Plan C)');
   return { name: 'fallback' };
 };
 

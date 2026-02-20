@@ -86,7 +86,7 @@ const Sprint90Day = () => {
                       <p className="text-sm text-mint">{month.phase}</p>
                     </div>
                   </div>
-                  <p className="ml-[60px] text-muted-foreground">
+                  <p className="ml-14 sm:ml-[60px] text-muted-foreground">
                     {month.description}
                   </p>
                 </div>

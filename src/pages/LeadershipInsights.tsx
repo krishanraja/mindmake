@@ -187,7 +187,7 @@ const LeadershipInsights = () => {
             
             <DiagnosticCard>
               <h1 className="font-gobold text-2xl sm:text-3xl text-ink leading-tight mb-4">
-                KNOW WHERE YOU STAND ON AI
+                WHAT'S YOUR NERVOUS DECISION?
               </h1>
               
               <p className="text-muted-foreground mb-6">

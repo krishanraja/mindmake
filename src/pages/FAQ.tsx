@@ -28,27 +28,22 @@ const faqItems: FAQItem[] = [
   {
     category: "getting-started",
     question: "How do I start?",
-    answer: "Book a Builder Session. Bring one real problem, leave with systems. From there, you can choose Weekly Updates for steady progress or dive into the 30-Day Sprint. No pressure, just clarity."
+    answer: "Start with the 4-Week Decision Sprint. Bring one real problem, leave with systems. From there, you can dive into the 90-Day Concierge Sprint for deeper work. No pressure, just clarity."
   },
   {
     category: "programs",
-    question: "What's a Builder Session?",
-    answer: "A 60-minute live session with Krish where you bring one real leadership problem. You leave with an AI friction map, 1-2 draft systems, and a written follow-up with prompts you can use immediately."
+    question: "What's the 4-Week Decision Sprint?",
+    answer: "A 4-week program where you bring one nervous decision about AI. Week 1: clarity on what actually matters. Week 2: options and trade-offs. Week 3: you make the call. Week 4: board-ready decision memo. You leave with a defensible decision and ROI framework."
   },
   {
     category: "programs",
-    question: "What's the 30-Day Builder Sprint?",
-    answer: "A 4-week intensive program for senior leaders where you build 3-5 working AI-enabled systems around your actual week. You leave with a Builder Dossier and 90-day implementation plan."
+    question: "What's the 90-Day Concierge Sprint?",
+    answer: "A 90-day program for senior leaders: Mind Set (Month 1), Mind Map (Month 2), Mind Make (Month 3). You build 3-5 deployed AI systems, resolve 2-3 strategic decisions, and leave with a 12-month roadmap and Builder Dossier."
   },
   {
     category: "programs",
-    question: "How is the AI Leadership Lab different?",
-    answer: "The Lab is for executive teams of 6-12 people. It's a 2-8 hour intensive where you run 2 real decisions through a new AI-enabled way of working. You leave with a 90-day pilot charter to implement across your team."
-  },
-  {
-    category: "programs",
-    question: "What's the Portfolio Program?",
-    answer: "For VCs, advisors, and consultancies who want to help the business leaders they serve become AI literate. We give you a repeatable method to assess readiness, then co-create sprints and labs you can deliver across your portfolio or client base. 6-12 month engagement."
+    question: "How is the Mindmaker Sprint for teams different?",
+    answer: "Mindmaker Sprints for teams bring executive groups of 6-12 through the same framework in an intensive format. You run real decisions through a new AI-enabled way of working and leave with a 90-day pilot charter to implement across your team."
   },
   {
     category: "ai-literacy",
@@ -320,13 +315,13 @@ const FAQ = () => {
             <div className="dark-cta-card">
               <h3 className="text-xl font-bold mb-3">Still Have Questions?</h3>
               <p className="mb-6">
-                Book a Builder Session to talk through your situation and get personalized guidance.
+                Start a 4-Week Decision Sprint to talk through your situation and get personalized guidance.
               </p>
               <Button 
                 variant="mint"
                 onClick={() => window.open('https://calendly.com/krish-raja/mindmaker-meeting', '_blank')}
               >
-                Book a Builder Session
+                Start a 4-Week Decision Sprint
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>

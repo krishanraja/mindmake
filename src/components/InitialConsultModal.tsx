@@ -119,6 +119,17 @@ export const InitialConsultModal = ({
       return;
     }
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setEmailError("Please enter a valid email address");
+      toast({
+        title: "Invalid email",
+        description: "Please check your email address",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
     setEmailError(null);
 

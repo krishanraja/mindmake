@@ -41,8 +41,8 @@ const AppRoutes = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Index />} />
-        <Route path="/individual" element={<Individual />} />
-        <Route path="/team" element={<Team />} />
+        <Route path="/individual" element={<Navigate to="/" replace />} />
+        <Route path="/team" element={<Navigate to="/" replace />} />
         <Route path="/sprint/4-week" element={<Sprint4Week />} />
         <Route path="/sprint/90-day" element={<Sprint90Day />} />
         <Route path="/builder-sprint" element={<Navigate to="/sprint/4-week" replace />} />

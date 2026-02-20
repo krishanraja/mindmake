@@ -88,7 +88,7 @@ const Sprint4Week = () => {
                     </div>
                     <h3 className="text-2xl font-semibold">{week.theme}</h3>
                   </div>
-                  <p className="ml-[60px] text-muted-foreground">
+                  <p className="ml-14 sm:ml-[60px] text-muted-foreground">
                     {week.description}
                   </p>
                 </div>

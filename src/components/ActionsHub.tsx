@@ -156,7 +156,7 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
         <section>
           <div className="flex items-center gap-2 mb-3">
             <MessageCircle className="w-4 h-4 text-mint" />
-            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Chat with Krish</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Ask Mindmaker</h3>
           </div>
           <button
             onClick={handleOpenChat}

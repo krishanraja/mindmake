@@ -1,8 +1,6 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Target, Zap, FileCheck } from "lucide-react";
-
-const spring = { type: "spring" as const, stiffness: 80, damping: 18 };
 
 const MindLabel = ({ prefix, suffix }: { prefix: string; suffix: string }) => (
   <span>
@@ -10,10 +8,19 @@ const MindLabel = ({ prefix, suffix }: { prefix: string; suffix: string }) => (
   </span>
 );
 
-const chaosItems = [
-  "GPT-4", "Claude", "Copilot", "Gemini", "Midjourney", "Perplexity",
-  "Vendor deck", "Board memo", "LinkedIn post", "McKinsey report",
-  "Colleague's tip", "CTO's roadmap",
+const noiseItems = [
+  { label: "GPT-4o", keep: false },
+  { label: "Claude 3.5", keep: true },
+  { label: "Copilot", keep: false },
+  { label: "Gemini Pro", keep: false },
+  { label: "Midjourney", keep: false },
+  { label: "Perplexity", keep: true },
+  { label: "Vendor A pitch", keep: false },
+  { label: "Board memo", keep: true },
+  { label: "LinkedIn hype", keep: false },
+  { label: "McKinsey report", keep: false },
+  { label: "CTO's roadmap", keep: false },
+  { label: "Colleague's tip", keep: false },
 ];
 
 const workflowPairs = [
@@ -59,13 +66,10 @@ const FrameworkJourney = () => {
 
 const MindSetCard = ({ opacityValue }: { opacityValue: any }) => {
   const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.5 });
 
   return (
-    <motion.div
-      ref={ref}
-      className="text-center"
-      style={{ opacity: opacityValue }}
-    >
+    <motion.div ref={ref} className="text-center" style={{ opacity: opacityValue }}>
       <div className="mb-6">
         <Target className="w-8 h-8 text-ink dark:text-white mx-auto mb-3" />
         <h3 className="text-2xl font-bold">Filter the noise.</h3>
@@ -74,32 +78,72 @@ const MindSetCard = ({ opacityValue }: { opacityValue: any }) => {
         </p>
       </div>
 
-      <div className="relative h-48 overflow-hidden rounded-xl bg-ink/[0.03] dark:bg-white/[0.03] border border-border/30">
-        {chaosItems.map((item, i) => (
-          <motion.span
-            key={i}
-            className="absolute px-2 py-0.5 bg-ink/10 dark:bg-mint/15 text-[10px] rounded whitespace-nowrap text-ink/70 dark:text-white/70"
-            style={{
-              left: `${(i % 4) * 24 + Math.random() * 8}%`,
-              top: `${Math.floor(i / 4) * 30 + Math.random() * 15}%`,
-            }}
-            initial={{ opacity: 0.8, scale: 0.7 + Math.random() * 0.5, rotate: -12 + Math.random() * 24 }}
-            whileInView={{ opacity: 0, scale: 0.1, x: "40%", y: "40%", rotate: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 1.2, delay: i * 0.07, ease: "easeIn" }}
-          >
-            {item}
-          </motion.span>
-        ))}
+      {/* Filtering animation: items appear, noise gets struck through and fades, signal stays */}
+      <div className="relative overflow-hidden rounded-xl bg-ink/[0.03] dark:bg-white/[0.03] border border-border/30 p-4">
+        <div className="space-y-1.5">
+          {noiseItems.map((item, i) => (
+            <motion.div
+              key={i}
+              className="flex items-center gap-2 px-3 py-1.5 rounded text-[12px]"
+              initial={{ opacity: 0, x: -10 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.3, delay: i * 0.2 }}
+            >
+              {/* Strike-through for noise, highlight for signal */}
+              <motion.div
+                className="flex items-center gap-2 w-full"
+                animate={
+                  isInView
+                    ? item.keep
+                      ? { opacity: 1 }
+                      : { opacity: 0.25 }
+                    : {}
+                }
+                transition={{ duration: 0.8, delay: i * 0.2 + 1.5 }}
+              >
+                <motion.div
+                  className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+                    item.keep
+                      ? "bg-emerald-500 dark:bg-mint"
+                      : "bg-red-400/60"
+                  }`}
+                  initial={{ scale: 0 }}
+                  animate={isInView ? { scale: 1 } : {}}
+                  transition={{ delay: i * 0.2 + 1.5 }}
+                />
+                <span
+                  className={
+                    item.keep
+                      ? "font-semibold text-ink dark:text-white"
+                      : "line-through text-muted-foreground"
+                  }
+                >
+                  {item.label}
+                </span>
+                {item.keep && (
+                  <motion.span
+                    className="ml-auto text-[10px] font-bold text-emerald-600 dark:text-mint uppercase"
+                    initial={{ opacity: 0 }}
+                    animate={isInView ? { opacity: 1 } : {}}
+                    transition={{ delay: i * 0.2 + 2.5 }}
+                  >
+                    Signal
+                  </motion.span>
+                )}
+              </motion.div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Summary at bottom */}
         <motion.div
-          className="absolute inset-0 flex flex-col items-center justify-center"
-          initial={{ opacity: 0, scale: 0.8 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6, delay: 1.3 }}
+          className="mt-4 pt-3 border-t border-border/30 text-center"
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 4.5, duration: 0.8 }}
         >
-          <FileCheck className="w-7 h-7 text-ink dark:text-mint mb-1" />
-          <span className="text-sm font-semibold text-ink dark:text-white">Your AI Relevance Map</span>
+          <span className="text-xs text-muted-foreground">12 inputs &rarr; </span>
+          <span className="text-sm font-bold text-ink dark:text-mint">3 that matter</span>
         </motion.div>
       </div>
     </motion.div>
@@ -107,8 +151,11 @@ const MindSetCard = ({ opacityValue }: { opacityValue: any }) => {
 };
 
 const MindMapCard = ({ opacityValue }: { opacityValue: any }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.5 });
+
   return (
-    <motion.div className="text-center" style={{ opacity: opacityValue }}>
+    <motion.div ref={ref} className="text-center" style={{ opacity: opacityValue }}>
       <div className="mb-6">
         <Zap className="w-8 h-8 text-ink dark:text-white mx-auto mb-3" />
         <h3 className="text-2xl font-bold">Build your systems.</h3>
@@ -117,47 +164,46 @@ const MindMapCard = ({ opacityValue }: { opacityValue: any }) => {
         </p>
       </div>
 
-      <div className="relative h-48 overflow-hidden rounded-xl bg-ink/[0.03] dark:bg-white/[0.03] border border-border/30 p-5">
-        {workflowPairs.map((pair, i) => (
-          <div key={i} className="flex items-center gap-2 mb-3">
-            <motion.div
-              className="flex-1 px-2 py-1.5 rounded bg-ink/[0.06] dark:bg-white/[0.06] text-[11px] font-medium text-center"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ ...spring, delay: i * 0.25 + 0.2 }}
-            >
-              {pair.from}
-            </motion.div>
-            <motion.span
-              className="text-ink/40 dark:text-mint text-xs font-bold"
-              initial={{ opacity: 0, scale: 0 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.25 + 0.35 }}
-            >
-              &rarr;
-            </motion.span>
-            <motion.div
-              className="flex-1 px-2 py-1.5 rounded bg-ink/10 dark:bg-mint/15 text-[11px] font-medium text-center border border-ink/10 dark:border-mint/20"
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ ...spring, delay: i * 0.25 + 0.4 }}
-            >
-              {pair.to}
-            </motion.div>
-          </div>
-        ))}
+      <div className="relative overflow-hidden rounded-xl bg-ink/[0.03] dark:bg-white/[0.03] border border-border/30 p-5">
+        <div className="space-y-4">
+          {workflowPairs.map((pair, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <motion.div
+                className="flex-1 px-3 py-2 rounded-lg bg-ink/[0.06] dark:bg-white/[0.06] text-[12px] font-medium text-center"
+                initial={{ opacity: 0, x: -30 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ type: "spring", stiffness: 60, damping: 15, delay: i * 0.8 + 0.5 }}
+              >
+                {pair.from}
+              </motion.div>
+              <motion.div
+                className="text-ink/30 dark:text-mint text-sm font-bold"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ delay: i * 0.8 + 1.0 }}
+              >
+                &rarr;
+              </motion.div>
+              <motion.div
+                className="flex-1 px-3 py-2 rounded-lg bg-ink/10 dark:bg-mint/15 text-[12px] font-medium text-center border border-ink/10 dark:border-mint/20"
+                initial={{ opacity: 0, x: 30 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ type: "spring", stiffness: 60, damping: 15, delay: i * 0.8 + 1.2 }}
+              >
+                {pair.to}
+              </motion.div>
+            </div>
+          ))}
+        </div>
+
         <motion.div
-          className="text-center mt-3"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 1.3 }}
+          className="text-center mt-5 pt-3 border-t border-border/30"
+          initial={{ opacity: 0, y: 10 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 3.5, duration: 0.6 }}
         >
-          <span className="text-lg font-bold text-ink dark:text-mint">5&ndash;10 hrs</span>
-          <span className="text-xs text-muted-foreground ml-1">saved/week</span>
+          <span className="text-2xl font-bold text-ink dark:text-mint">5&ndash;10 hrs</span>
+          <span className="text-sm text-muted-foreground ml-2">saved every week</span>
         </motion.div>
       </div>
     </motion.div>
@@ -165,8 +211,11 @@ const MindMapCard = ({ opacityValue }: { opacityValue: any }) => {
 };
 
 const MindMakeCard = ({ opacityValue }: { opacityValue: any }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.5 });
+
   return (
-    <motion.div className="text-center" style={{ opacity: opacityValue }}>
+    <motion.div ref={ref} className="text-center" style={{ opacity: opacityValue }}>
       <div className="mb-6">
         <FileCheck className="w-8 h-8 text-ink dark:text-white mx-auto mb-3" />
         <h3 className="text-2xl font-bold">Decide and ship.</h3>
@@ -175,61 +224,74 @@ const MindMakeCard = ({ opacityValue }: { opacityValue: any }) => {
         </p>
       </div>
 
-      <div className="relative h-48 overflow-hidden rounded-xl bg-ink/[0.03] dark:bg-white/[0.03] border border-border/30 p-4">
+      <div className="relative overflow-hidden rounded-xl bg-ink/[0.03] dark:bg-white/[0.03] border border-border/30 p-5">
         <motion.div
-          className="space-y-2"
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
+          className="text-left space-y-3"
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.5, duration: 0.5 }}
         >
-          <div className="text-[11px] font-bold text-left">Decision: Build vs Buy</div>
-          <div className="flex gap-2">
+          {/* Decision header */}
+          <motion.div
+            className="text-[13px] font-bold"
+            initial={{ opacity: 0, y: 8 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.8 }}
+          >
+            Decision: Build vs Buy
+          </motion.div>
+
+          {/* Two options */}
+          <div className="flex gap-3">
             <motion.div
-              className="flex-1 p-2 rounded bg-ink/[0.06] dark:bg-white/[0.06] text-[10px] text-left"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5 }}
+              className="flex-1 p-3 rounded-lg bg-ink/[0.06] dark:bg-white/[0.06] text-[11px]"
+              initial={{ opacity: 0, y: 10 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 1.5, duration: 0.5 }}
             >
-              <div className="font-semibold mb-0.5">Build</div>
-              <div className="text-muted-foreground">Full control, IP ownership</div>
+              <div className="font-semibold mb-1">Build</div>
+              <div className="text-muted-foreground">Full control. IP ownership. Higher upfront cost.</div>
             </motion.div>
             <motion.div
-              className="flex-1 p-2 rounded bg-ink/[0.06] dark:bg-white/[0.06] text-[10px] text-left"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.7 }}
+              className="flex-1 p-3 rounded-lg bg-ink/[0.06] dark:bg-white/[0.06] text-[11px]"
+              initial={{ opacity: 0, y: 10 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 2.0, duration: 0.5 }}
             >
-              <div className="font-semibold mb-0.5">Buy</div>
-              <div className="text-muted-foreground">Fast deploy, vendor risk</div>
+              <div className="font-semibold mb-1">Buy</div>
+              <div className="text-muted-foreground">Fast deploy. Vendor risk. Recurring cost.</div>
             </motion.div>
           </div>
 
+          {/* Decision made */}
           <motion.div
-            className="flex items-center gap-1 text-ink dark:text-mint text-[11px] font-semibold"
-            initial={{ opacity: 0, x: -10 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 1.0 }}
+            className="flex items-center gap-2 text-[12px] font-semibold text-ink dark:text-mint pt-1"
+            initial={{ opacity: 0, x: -15 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ delay: 3.0, duration: 0.5 }}
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
             </svg>
             Decision: Build (with exit criteria)
           </motion.div>
 
-          <div className="flex gap-4 mt-1">
-            <motion.div initial={{ opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 1.2 }}>
-              <div className="text-[10px] text-muted-foreground">ROI</div>
-              <div className="text-sm font-bold text-ink dark:text-mint">340%</div>
-            </motion.div>
-            <motion.div initial={{ opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 1.4 }}>
-              <div className="text-[10px] text-muted-foreground">Deploy</div>
-              <div className="text-sm font-bold text-ink dark:text-mint">6 weeks</div>
-            </motion.div>
-          </div>
+          {/* Metrics */}
+          <motion.div
+            className="flex gap-6 pt-2 border-t border-border/30"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ delay: 3.8, duration: 0.6 }}
+          >
+            <div>
+              <div className="text-[10px] text-muted-foreground">Projected ROI</div>
+              <div className="text-xl font-bold text-ink dark:text-mint">340%</div>
+            </div>
+            <div>
+              <div className="text-[10px] text-muted-foreground">Time to deploy</div>
+              <div className="text-xl font-bold text-ink dark:text-mint">6 weeks</div>
+            </div>
+          </motion.div>
         </motion.div>
       </div>
     </motion.div>

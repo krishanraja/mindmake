@@ -99,10 +99,7 @@
    Prevents scrollbar flash during CSS/font loading race
    ============================================================= */
 @layer hero {
-  /* Hero section - overflow hidden on the section to prevent decorative bleed */
-  #hero {
-    overflow: hidden;
-  }
+  /* Hero section - no layout overrides, uses same container-width as nav */
   
   /* Prevent decorative hero children from causing overflow (not layout containers) */
   #hero .hero-decoration {
@@ -116,11 +113,7 @@
     word-break: break-word;
   }
   
-  /* Hero content wrapper - overflow prevention only, no layout interference */
-  #hero .hero-content-wrapper {
-    overflow-x: hidden;
-    overflow-y: hidden;
-  }
+  /* Hero content wrapper - no overflow overrides */
   
   /* Hero decorative elements - orbs, backgrounds, etc */
   #hero .hero-decoration {

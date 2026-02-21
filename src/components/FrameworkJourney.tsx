@@ -1,6 +1,19 @@
 import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring } from "framer-motion";
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import { Target, Zap, FileCheck } from "lucide-react";
+
+/** Breakpoint matches Tailwind `md:` (grid switches to 3-col at 768px). */
+const useMobile = () => {
+  const [mobile, setMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const update = () => setMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  return mobile;
+};
 
 const MindLabel = ({ prefix, suffix }: { prefix: string; suffix: string }) => (
   <span>
@@ -27,14 +40,21 @@ const workflowPairs = [
 
 const FrameworkJourney = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const isMobile = useMobile();
+
+  // Desktop scroll-synced spotlight:
+  //   offset: start tracking when section top hits 85% of viewport (early),
+  //           stop when section bottom reaches viewport top.
+  //   keyframes: entire 3-card sequence completes within the first ~35%
+  //     of scroll so no card is missed before the section leaves.
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["start 0.65", "end start"],
+    offset: ["start 0.85", "end start"],
   });
 
   const spotlight = useTransform(
     scrollYProgress,
-    [0, 0.15, 0.25, 0.40, 0.55, 0.70, 0.85],
+    [0, 0.04, 0.08, 0.16, 0.24, 0.34, 0.50],
     [-1, -1, 0, 0, 1, 2, 2],
   );
 
@@ -96,13 +116,13 @@ const FrameworkJourney = () => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
-          <Card index={0} spotlight={spotlight} icon={Target} label="MindSet" headline="Filter the noise.">
+          <Card index={0} spotlight={spotlight} isMobile={isMobile} icon={Target} label="MindSet" headline="Filter the noise.">
             <MindSetContent />
           </Card>
-          <Card index={1} spotlight={spotlight} icon={Zap} label="MindMap" headline="Build your systems.">
+          <Card index={1} spotlight={spotlight} isMobile={isMobile} icon={Zap} label="MindMap" headline="Build your systems.">
             <MindMapContent />
           </Card>
-          <Card index={2} spotlight={spotlight} icon={FileCheck} label="MindMake" headline="Decide and ship.">
+          <Card index={2} spotlight={spotlight} isMobile={isMobile} icon={FileCheck} label="MindMake" headline="Decide and ship.">
             <MindMakeContent />
           </Card>
         </div>
@@ -114,6 +134,7 @@ const FrameworkJourney = () => {
 const Card = ({
   index,
   spotlight,
+  isMobile,
   icon: Icon,
   label,
   headline,
@@ -121,13 +142,19 @@ const Card = ({
 }: {
   index: number;
   spotlight: any;
+  isMobile: boolean;
   icon: any;
   label: string;
   headline: string;
   children: React.ReactNode;
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
 
+  // Mobile: each card fades in independently when it scrolls into view.
+  const inView = useInView(cardRef, { once: true, amount: 0.25 });
+
+  // Desktop: scroll-synced spotlight drives opacity.
   const cardOpacity = useTransform(spotlight, (v: number) => {
     const dist = Math.abs(v - index);
     return Math.max(0.2, 1 - dist * 0.8);
@@ -138,10 +165,16 @@ const Card = ({
     return Math.max(0, 1 - dist * 2) * 0.35;
   });
 
+  // Resolve final opacity: hover > mobile-inView > desktop-spotlight
+  const resolvedOpacity = isHovered ? 1 : isMobile ? undefined : cardOpacity;
+
   return (
     <motion.div
+      ref={cardRef}
       className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 flex flex-col h-[420px] relative overflow-hidden transition-opacity duration-300"
-      style={{ opacity: isHovered ? 1 : cardOpacity }}
+      style={{ opacity: resolvedOpacity }}
+      // Mobile: CSS-driven fade-in via class toggle (no motion value needed)
+      {...(isMobile && !isHovered ? { animate: { opacity: inView ? 1 : 0.15 }, transition: { duration: 0.5 } } : {})}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -149,7 +182,7 @@ const Card = ({
       <motion.div
         className="absolute inset-0 rounded-2xl pointer-events-none"
         style={{
-          opacity: isHovered ? 0.35 : glowOpacity,
+          opacity: isHovered ? 0.35 : isMobile ? (inView ? 0.25 : 0) : glowOpacity,
           background: "radial-gradient(ellipse at center, rgba(126, 244, 194, 0.15) 0%, transparent 70%)",
           boxShadow: "0 0 80px rgba(126, 244, 194, 0.08)",
         }}
@@ -208,7 +241,7 @@ const MindSetContent = () => {
 
 const MindMapContent = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.5, margin: "-15% 0px" });
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
     <div ref={ref} className="h-full flex flex-col justify-center">
@@ -250,7 +283,7 @@ const MindMapContent = () => {
 
 const MindMakeContent = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.5, margin: "-15% 0px" });
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
     <div ref={ref} className="h-full flex flex-col justify-center">

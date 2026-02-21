@@ -16,16 +16,16 @@ interface CriteriaItem {
 
 const builderCriteria: CriteriaItem[] = [
   { label: "Creative freedom", value: 9 },
-  { label: "System ownership", value: 9 },
-  { label: "Future-proofing", value: 8 },
-  { label: "Personal velocity", value: 8 },
+  { label: "System ownership", value: 8 },
+  { label: "Future-proofing", value: 7 },
+  { label: "Personal velocity", value: 9 },
 ];
 
 const orchestratorCriteria: CriteriaItem[] = [
-  { label: "Decision speed", value: 9 },
+  { label: "Decision speed", value: 8 },
   { label: "Board confidence", value: 9 },
-  { label: "Strategic clarity", value: 8 },
-  { label: "Time efficiency", value: 8 },
+  { label: "Strategic clarity", value: 7 },
+  { label: "Time efficiency", value: 9 },
 ];
 
 const builderTraits = [

@@ -241,11 +241,11 @@ const MindMapContent = () => {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   const nodes = [
-    { x: 100, y: 20, label: "Data" },
-    { x: 40, y: 60, label: "Ops" },
-    { x: 160, y: 55, label: "Sales" },
-    { x: 70, y: 110, label: "Support" },
-    { x: 135, y: 105, label: "Product" },
+    { x: 100, y: 20, label: "my clone" },
+    { x: 40, y: 60, label: "my memory" },
+    { x: 160, y: 55, label: "my writer" },
+    { x: 70, y: 110, label: "my EA" },
+    { x: 135, y: 105, label: "my PM" },
   ];
 
   const connections = [
@@ -276,7 +276,7 @@ const MindMapContent = () => {
           {nodes.map((node, i) => (
             <g key={`node-${i}`}>
               <motion.circle
-                cx={node.x} cy={node.y} r="10"
+                cx={node.x} cy={node.y} r="16"
                 fill="rgba(126, 244, 194, 0.12)"
                 stroke="#7ef4c2"
                 strokeWidth="1.5"
@@ -288,7 +288,7 @@ const MindMapContent = () => {
                 x={node.x} y={node.y + 1}
                 textAnchor="middle"
                 dominantBaseline="middle"
-                className="fill-white text-[7px] font-semibold"
+                className="fill-white text-[6px] font-semibold"
                 initial={{ opacity: 0 }}
                 animate={isInView ? { opacity: 0.9 } : {}}
                 transition={{ delay: 0.3 + i * 0.15 }}
@@ -298,7 +298,7 @@ const MindMapContent = () => {
 
               {/* Pulse on arrival */}
               <motion.circle
-                cx={node.x} cy={node.y} r="10"
+                cx={node.x} cy={node.y} r="16"
                 fill="none"
                 stroke="#7ef4c2"
                 strokeWidth="1"

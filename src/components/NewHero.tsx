@@ -30,7 +30,7 @@ const NewHero = () => {
   return (
     <section
       id="hero"
-      className="min-h-[100dvh] flex items-center justify-center bg-ink text-white relative overflow-hidden pt-safe-area-top"
+      className="min-h-[100dvh] flex items-center bg-ink text-white relative overflow-hidden pt-safe-area-top"
     >
       {/* Background layers */}
       <div className="hero-decoration absolute inset-0 bg-gradient-to-br from-ink-900 via-ink to-ink-700/50" />

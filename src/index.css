@@ -106,8 +106,8 @@
     contain: layout style paint;
   }
   
-  /* Prevent any hero child from causing overflow */
-  #hero * {
+  /* Prevent decorative hero children from causing overflow (not layout containers) */
+  #hero .hero-decoration {
     max-width: 100%;
   }
   

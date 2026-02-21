@@ -20,11 +20,11 @@ const Navigation = () => {
   const { isHidden } = useScrollDirection({ disabled: isOpen });
 
   const navItems = [
-    { 
-      label: "Sprints", 
+    {
+      label: "Sprints",
       dropdown: [
-        { label: "Builder Sprints", href: "/sprints" },
-        { label: "Orchestrator Sprints", href: "/sprints" },
+        { label: "Builder Sprints", href: "/sprints?path=build" },
+        { label: "Orchestrator Sprints", href: "/sprints?path=orchestrate" },
       ]
     },
     { 

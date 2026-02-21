@@ -227,6 +227,7 @@ const Sprint4Week = () => {
       <InitialConsultModal
         open={consultModalOpen}
         onOpenChange={setConsultModalOpen}
+        commitmentLevel="4wk"
       />
     </main>
   );

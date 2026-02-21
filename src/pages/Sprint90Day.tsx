@@ -234,6 +234,7 @@ const Sprint90Day = () => {
       <InitialConsultModal
         open={consultModalOpen}
         onOpenChange={setConsultModalOpen}
+        commitmentLevel="90d"
       />
     </main>
   );

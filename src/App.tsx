@@ -45,8 +45,8 @@ const AppRoutes = () => {
         <Route path="/individual" element={<Navigate to="/" replace />} />
         <Route path="/team" element={<Navigate to="/" replace />} />
         <Route path="/sprints" element={<Sprints />} />
-        <Route path="/sprint/4-week" element={<Navigate to="/sprints" replace />} />
-        <Route path="/sprint/90-day" element={<Navigate to="/sprints" replace />} />
+        <Route path="/sprint/4-week" element={<Sprint4Week />} />
+        <Route path="/sprint/90-day" element={<Sprint90Day />} />
         <Route path="/builder-sprint" element={<Navigate to="/sprints" replace />} />
         <Route path="/builder-economy" element={<BuilderEconomy />} />
         <Route path="/privacy" element={<Privacy />} />

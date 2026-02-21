@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { InitialConsultModal } from "@/components/InitialConsultModal";
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle, ArrowRight, Zap, FileCheck, Target } from "lucide-react";
 
@@ -104,7 +105,10 @@ const SprintLibrarySection = ({ library, label }: { library: typeof builderSprin
 );
 
 const Sprints = () => {
-  const [activeTab, setActiveTab] = useState<PathTab>("build");
+  const [searchParams] = useSearchParams();
+  const pathParam = searchParams.get("path");
+  const initialTab: PathTab = pathParam === "orchestrate" ? "orchestrate" : "build";
+  const [activeTab, setActiveTab] = useState<PathTab>(initialTab);
   const [consultModalOpen, setConsultModalOpen] = useState(false);
   const [bookingCommitment, setBookingCommitment] = useState<string | undefined>();
 

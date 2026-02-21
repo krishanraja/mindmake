@@ -46,7 +46,7 @@ const builderSprints = [
     tagline: "One decision. Four weeks. Board-ready.",
     description: "Pick one nervous decision and resolve it with a working prototype and board-ready memo.",
     emphasis: ["Working prototype or system", "Tool commitment hierarchy", "Build-ready decision memo"],
-    route: "/sprints",
+    route: "/sprint/4-week",
     commitment: "4wk",
   },
   {
@@ -54,7 +54,7 @@ const builderSprints = [
     tagline: "Full journey. MindSet \u2192 MindMap \u2192 MindMake.",
     description: "Build 3\u20135 personal AI systems, resolve 2\u20133 strategic decisions, and leave with a 12-month roadmap.",
     emphasis: ["3\u20135 deployed AI systems", "Personal System Architecture", "Strength Amplifier + Builder Dossier"],
-    route: "/sprints",
+    route: "/sprint/90-day",
     commitment: "90d",
   },
 ];
@@ -65,7 +65,7 @@ const orchestratorSprints = [
     tagline: "One decision. Four weeks. Board-ready.",
     description: "Pick one nervous decision and resolve it with a defensible trade-off analysis and board memo.",
     emphasis: ["Vendor evaluation scorecard", "Governance decision memo", "Board-ready narrative"],
-    route: "/sprints",
+    route: "/sprint/4-week",
     commitment: "4wk",
   },
   {
@@ -73,7 +73,7 @@ const orchestratorSprints = [
     tagline: "Full journey. MindSet \u2192 MindMap \u2192 MindMake.",
     description: "Set your AI operating model, resolve 2\u20133 vendor/governance decisions, and build a board-ready roadmap.",
     emphasis: ["AI Operating Model + RACI", "Strategic vendor decisions resolved", "12-month roadmap with quarterly gates"],
-    route: "/sprints",
+    route: "/sprint/90-day",
     commitment: "90d",
   },
 ];

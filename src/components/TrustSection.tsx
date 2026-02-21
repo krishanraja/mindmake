@@ -145,7 +145,7 @@ const TestimonialCarousel = ({ isInView }: { isInView: boolean }) => {
   }, [api, onSelect]);
 
   return (
-    <div className="relative group">
+    <div className="relative group hide-scrollbar">
       {/* Carousel */}
       <Carousel
         setApi={setApi}

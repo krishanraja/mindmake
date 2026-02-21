@@ -47,7 +47,7 @@ const NewHero = () => {
       </div>
 
       {/* Content -- uses container-width, same as nav */}
-      <div className="relative z-10 container-width pt-32 sm:pt-36 md:pt-40 pb-16 sm:pb-20 md:pb-24 min-h-screen flex flex-col justify-center">
+      <div className="relative z-10 container-width pt-32 sm:pt-36 md:pt-40 pb-16 sm:pb-20 md:pb-24 min-h-screen flex flex-col justify-center lg:pr-[280px] xl:pr-[320px]">
         {/* Rotating headline */}
         <div className="mb-8">
           <div className="relative h-[2.3em] overflow-hidden">

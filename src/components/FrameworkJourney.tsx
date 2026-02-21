@@ -32,7 +32,7 @@ const FrameworkJourney = () => {
     offset: ["start end", "end start"],
   });
 
-  const spotlight = useTransform(scrollYProgress, [0.05, 0.15, 0.3, 0.45, 0.6], [0, 0, 1, 2, 2]);
+  const spotlight = useTransform(scrollYProgress, [0.28, 0.38, 0.53, 0.68, 0.83], [0, 0, 1, 2, 2]);
 
   return (
     <section ref={sectionRef} className="py-24 md:py-32 bg-ink">

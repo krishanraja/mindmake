@@ -65,19 +65,17 @@ const Index = () => {
       {/* 1. Hero */}
       <NewHero />
 
-      {/* 2. Live AI News Ticker */}
-      <AINewsTicker />
-
-      {/* 3. The Big Problem -- existential urgency */}
+      {/* 2. The Big Problem -- existential urgency */}
       <BigProblem />
 
-      {/* 4. Framework Journey */}
+      {/* 3. Framework Journey */}
       <FrameworkJourney />
 
       {/* 4. Who Is This For + Sprint Chooser */}
       <TheProblem />
 
-      {/* 5. Trust / Proof */}
+      {/* 5. News Ticker + Trust / Proof */}
+      <AINewsTicker />
       <TrustSection />
 
       {/* 6. Final CTA */}

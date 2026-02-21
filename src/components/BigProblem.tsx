@@ -14,7 +14,7 @@ const BigProblem = () => {
     el.style.setProperty("--my", `${e.clientY - rect.top}px`);
   }, []);
 
-  const base = "text-xl sm:text-2xl md:text-3xl font-display tracking-tight leading-relaxed text-left";
+  const base = "text-lg sm:text-xl md:text-2xl font-display tracking-tight leading-relaxed text-left";
   const fade = (delay: number, alwaysVisible?: boolean) => ({
     initial: alwaysVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 },
     animate: isInView ? { opacity: 1, y: 0 } : alwaysVisible ? undefined : { opacity: 0, y: 16 },

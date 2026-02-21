@@ -99,11 +99,9 @@
    Prevents scrollbar flash during CSS/font loading race
    ============================================================= */
 @layer hero {
-  /* Hero section - GUARANTEED overflow prevention from first paint */
+  /* Hero section - overflow hidden on the section to prevent decorative bleed */
   #hero {
-    max-width: 100vw !important;
-    overflow: hidden !important;
-    contain: layout style paint;
+    overflow: hidden;
   }
   
   /* Prevent decorative hero children from causing overflow (not layout containers) */

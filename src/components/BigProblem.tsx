@@ -62,12 +62,28 @@ const BigProblem = () => {
         {...fade(0.5)}
       >
         <span className="font-medium">This isn&rsquo;t a technology decision.</span>{" "}
-        <span
+        <motion.span
           className={`font-black ${isMint ? "text-mint" : "text-mint"}`}
+          animate={isInView ? {
+            textShadow: [
+              "0 0 60px hsl(158 82% 73% / 0.3)",
+              "0 0 90px hsl(158 82% 73% / 0.55), 0 0 30px hsl(158 82% 73% / 0.3)",
+              "0 0 30px hsl(158 82% 73% / 0.1)",
+              "0 0 120px hsl(158 82% 73% / 0.8), 0 0 50px hsl(158 82% 73% / 0.5), 0 0 10px hsl(158 82% 73% / 0.4)",
+              "0 0 60px hsl(158 82% 73% / 0.3)",
+            ],
+            opacity: [1, 1, 0.7, 1, 1],
+          } : undefined}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut",
+            times: [0, 0.25, 0.45, 0.7, 1],
+          }}
           style={!isMint ? { textShadow: "0 0 60px hsl(158 82% 73% / 0.3)" } : undefined}
         >
-          It&rsquo;s a leadership one.
-        </span>{" "}
+          It&rsquo;s a mindset one.
+        </motion.span>{" "}
         <span className="font-light">
           The question isn&rsquo;t whether AI will reshape your business.
         </span>{" "}

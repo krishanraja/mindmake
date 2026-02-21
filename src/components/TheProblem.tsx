@@ -15,17 +15,17 @@ interface CriteriaItem {
 }
 
 const builderCriteria: CriteriaItem[] = [
-  { label: "Creative freedom", value: 9 },
-  { label: "System ownership", value: 8 },
-  { label: "Future-proofing", value: 7 },
-  { label: "Personal velocity", value: 9 },
+  { label: "Creative freedom", value: 96 },
+  { label: "System ownership", value: 91 },
+  { label: "Future-proofing", value: 88 },
+  { label: "Personal velocity", value: 94 },
 ];
 
 const orchestratorCriteria: CriteriaItem[] = [
-  { label: "Decision speed", value: 8 },
-  { label: "Board confidence", value: 9 },
-  { label: "Strategic clarity", value: 7 },
-  { label: "Time efficiency", value: 9 },
+  { label: "Decision speed", value: 93 },
+  { label: "Board confidence", value: 97 },
+  { label: "Strategic clarity", value: 89 },
+  { label: "Time efficiency", value: 95 },
 ];
 
 const builderTraits = [
@@ -83,7 +83,7 @@ const AnimatedBar = ({ value, delay, isVisible }: { value: number; delay: number
     <motion.div
       className="h-full bg-ink dark:bg-mint rounded-full"
       initial={{ width: 0 }}
-      animate={isVisible ? { width: `${value * 10}%` } : { width: 0 }}
+      animate={isVisible ? { width: `${value}%` } : { width: 0 }}
       transition={{ duration: 0.8, delay, ease: "easeOut" }}
     />
   </div>
@@ -197,7 +197,6 @@ const PathCard = ({
           <div key={c.label} className="flex items-center gap-3">
             <span className="text-xs text-muted-foreground w-28 shrink-0">{c.label}</span>
             <AnimatedBar value={c.value} delay={i * 0.12} isVisible={isInView} />
-            <span className="text-xs font-bold text-ink dark:text-white w-7 text-right">{c.value}/10</span>
           </div>
         ))}
       </div>

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { InitialConsultModal } from "@/components/InitialConsultModal";
@@ -14,6 +14,7 @@ interface SprintOffering {
   cta: string;
   route: string;
   intensity: string;
+  commitment: string;
 }
 
 const offerings: SprintOffering[] = [
@@ -38,6 +39,7 @@ const offerings: SprintOffering[] = [
     cta: "Start 4-Week Sprint",
     route: "/sprint/4-week",
     intensity: "Focused",
+    commitment: "4wk",
   },
   {
     name: "90-Day Sprint",
@@ -60,20 +62,19 @@ const offerings: SprintOffering[] = [
     cta: "Start 90-Day Sprint",
     route: "/sprint/90-day",
     intensity: "Deep",
+    commitment: "90d",
   },
 ];
 
 const SprintCard = ({
-  name,
-  tagline,
-  duration,
-  description,
-  outcomes,
-  examples,
-  cta,
-  route,
-}: SprintOffering) => {
+  offering,
+  onBook,
+}: {
+  offering: SprintOffering;
+  onBook: () => void;
+}) => {
   const navigate = useNavigate();
+  const { name, tagline, duration, description, outcomes, examples, cta, route } = offering;
 
   return (
     <div className="glass-card p-8 hover:border-mint/40 transition-all flex flex-col">
@@ -106,13 +107,21 @@ const SprintCard = ({
         </div>
       </div>
 
-      <div className="mt-auto">
+      <div className="mt-auto flex flex-col gap-2">
         <Button
           size="lg"
           className="w-full bg-mint text-ink hover:bg-mint/90"
-          onClick={() => navigate(route)}
+          onClick={onBook}
         >
           {cta}
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="w-full text-muted-foreground hover:text-foreground"
+          onClick={() => navigate(route)}
+        >
+          Learn more <ArrowRight className="w-4 h-4 ml-1" />
         </Button>
       </div>
     </div>
@@ -121,6 +130,12 @@ const SprintCard = ({
 
 const ProductLadder = () => {
   const [consultModalOpen, setConsultModalOpen] = useState(false);
+  const [bookingCommitment, setBookingCommitment] = useState<string | undefined>();
+
+  const handleBook = (commitment: string) => {
+    setBookingCommitment(commitment);
+    setConsultModalOpen(true);
+  };
 
   return (
     <section id="products" className="section-padding bg-background">
@@ -136,7 +151,11 @@ const ProductLadder = () => {
 
         <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {offerings.map((offering) => (
-            <SprintCard key={offering.name} {...offering} />
+            <SprintCard
+              key={offering.name}
+              offering={offering}
+              onBook={() => handleBook(offering.commitment)}
+            />
           ))}
         </div>
 
@@ -173,6 +192,7 @@ const ProductLadder = () => {
       <InitialConsultModal
         open={consultModalOpen}
         onOpenChange={setConsultModalOpen}
+        commitmentLevel={bookingCommitment}
       />
     </section>
   );

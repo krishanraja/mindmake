@@ -23,23 +23,23 @@ const Footer = () => {
               </h4>
               <nav className="flex flex-col gap-3">
                 <a
-                  href="/sprints"
+                  href="/sprints?path=build"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
                   Builder Sprints
                 </a>
                 <a
-                  href="/sprints"
+                  href="/sprints?path=orchestrate"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
                   Orchestrator Sprints
                 </a>
-                <a
-                  href="/leaders"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
+                <button
+                  onClick={() => window.dispatchEvent(new CustomEvent('openActionsHub'))}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4 text-left"
                 >
                   Decision Tools
-                </a>
+                </button>
               </nav>
             </div>
 

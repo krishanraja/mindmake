@@ -273,7 +273,7 @@ const TrustSection = () => {
 
           {/* Desktop: wider container, full text */}
           <div className="hidden md:block">
-            <p className="text-2xl font-bold mb-4 max-w-4xl mx-auto leading-snug">
+            <p className="text-2xl font-bold mb-4 max-w-5xl mx-auto leading-snug">
               I work with AI every single day - building, breaking, and shipping real systems. I&rsquo;ve run and restructured businesses, P&amp;Ls and teams with automation, and I&rsquo;m here to make sure you can too: without the jargon, without the judgement, and without pretending you should already know this stuff.
             </p>
             <p className="text-muted-foreground max-w-3xl mx-auto mb-8">

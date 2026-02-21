@@ -1,8 +1,13 @@
 /**
  * @file get-ai-news Edge Function
- * @description Fetches real AI business news via Brave Search News API,
- *              with LLM and static fallbacks.
- * @secrets BRAVE_SEARCH_API (primary), LOVABLE_API_KEY (fallback), OPENAI_API_KEY (fallback)
+ * @description Fetches real AI news relevant to business leaders and AI literacy
+ *              via Brave Search News API, then uses an LLM to filter for relevance
+ *              and clean up headlines. Falls back to LLM-generated or static headlines.
+ *
+ * Focus: AI literacy, AI workforce skills, AI governance, AI business decisions,
+ *        AI training/upskilling, AI ROI — NOT generic AI product launches or funding rounds.
+ *
+ * @secrets BRAVE_SEARCH_API (primary), LOVABLE_API_KEY (curation + fallback), OPENAI_API_KEY (fallback)
  */
 
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
@@ -49,65 +54,159 @@ const formatSource = (hostname: string): string => {
 };
 
 // ============================================================
-// PLAN A: Brave Search News API (real news, last 24 hours)
+// CURATION PROMPT — filter for relevance, clean up, don't editorialize
 // ============================================================
-const fetchBraveNews = async (apiKey: string): Promise<NewsHeadline[]> => {
+
+const CURATION_SYSTEM_PROMPT = `You are a news curator for a company that helps business leaders build AI literacy and make confident AI decisions.
+
+Your job: Take raw news headlines and select + clean up only the ones that matter to a senior leader (CEO, COO, CPO, CHRO) who is trying to:
+- Understand how AI is changing their workforce and industry
+- Make informed decisions about AI adoption, governance, and training
+- Stay current on AI skills gaps, talent markets, and productivity data
+- Navigate AI vendor decisions, build-vs-buy choices, and ROI measurement
+
+INCLUDE headlines about:
+- AI workforce impact (hiring, displacement, upskilling, skills gaps)
+- AI literacy and training initiatives (corporate programs, mandates, results)
+- AI governance and policy (regulation, compliance, corporate AI policies)
+- AI productivity and ROI data (measurable results, benchmarks, studies)
+- AI decision-making for leaders (vendor choices, strategy, build-vs-buy)
+- Shadow AI and AI risk management
+- AI talent market changes (salary premiums, demand, competition)
+
+EXCLUDE headlines about:
+- Startup funding rounds (unless directly relevant to enterprise AI decisions)
+- New AI model releases without business context
+- Consumer AI products (AI art generators, chatbot features, etc.)
+- Celebrity or entertainment AI news
+- Speculative AI capabilities or AGI timelines
+- Generic "AI will change everything" think pieces
+
+For each selected headline:
+1. Clean it up to be concise (8-18 words max)
+2. Include specific numbers, companies, or data points when available
+3. Keep it factual — no opinion, no editorial spin, no buzzwords
+4. Present tense only
+
+Return ONLY a JSON array of 10-15 items: [{"title": "Clean headline text", "source": "Original Source Name"}]`;
+
+const CURATION_USER_PROMPT = (rawHeadlines: string[], today: string) =>
+  `Today is ${today}. Here are raw AI news headlines from the past week. Select the 10-15 most relevant for business leaders focused on AI literacy and decision-making. Clean up the titles. Exclude anything that's generic tech news, funding hype, or consumer AI.
+
+Raw headlines:
+${rawHeadlines.map((h, i) => `${i + 1}. ${h}`).join('\n')}`;
+
+// Standalone generation prompt (when no Brave results available)
+const STANDALONE_SYSTEM_PROMPT = `You are a news curator for a company that helps business leaders build AI literacy and make confident AI decisions.
+
+Generate realistic, factual AI news headlines from the past 7 days that a senior leader (CEO, COO, CPO, CHRO) would find relevant to their AI decision-making.
+
+Focus topics:
+- AI workforce impact: hiring, displacement, upskilling, skills gaps, talent competition
+- AI literacy: corporate training programs, mandates, adoption rates, results
+- AI governance: regulation, compliance, corporate policies, Shadow AI
+- AI productivity: ROI data, benchmarks, measurable results from AI deployment
+- AI decisions: vendor moves, pricing changes, build-vs-buy shifts, enterprise adoption
+- AI talent market: salary premiums, demand data, skills competition
+
+Rules:
+- Factual tone — no opinion, no editorial, no buzzwords
+- Include specific numbers, percentages, company names where possible
+- 8-18 words per headline, present tense
+- Reference real companies and plausible recent developments
+- NO funding rounds, consumer AI, or speculative AGI timelines
+
+Return ONLY a JSON array: [{"title": "headline text", "source": "Source Name"}]
+Use real publication names as sources (Bloomberg, WSJ, HBR, Gartner, Financial Times, etc.)`;
+
+// ============================================================
+// PLAN A: Brave Search News API (real news, last 7 days)
+// ============================================================
+const fetchBraveNews = async (apiKey: string): Promise<{ headlines: NewsHeadline[], rawTitles: string[] }> => {
   console.log('🔍 Fetching real news from Brave Search News API...');
 
-  const query = '"AI strategy" OR "AI governance" OR "enterprise AI" OR "artificial intelligence business" OR "AI leadership"';
+  // Targeted queries for AI literacy, workforce, governance, business decisions
+  const queries = [
+    '"AI literacy" OR "AI training" OR "AI skills gap" OR "AI upskilling"',
+    '"AI workforce" OR "AI jobs" OR "AI talent" OR "AI hiring"',
+    '"AI governance" OR "AI policy" OR "shadow AI" OR "enterprise AI adoption"',
+    '"AI ROI" OR "AI productivity" OR "AI strategy" OR "AI decision"',
+  ];
 
-  const params = new URLSearchParams({
-    q: query,
-    freshness: 'pw',
-    count: '15',
-    country: 'US',
-    search_lang: 'en',
-  });
+  const allResults: any[] = [];
 
-  const response = await fetch(`https://api.search.brave.com/res/v1/news/search?${params}`, {
-    headers: {
-      'Accept': 'application/json',
-      'Accept-Encoding': 'gzip',
-      'X-Subscription-Token': apiKey,
-    },
-  });
+  for (const query of queries) {
+    try {
+      const params = new URLSearchParams({
+        q: query,
+        freshness: 'pw',
+        count: '10',
+        country: 'US',
+        search_lang: 'en',
+      });
 
-  if (!response.ok) {
-    const errText = await response.text();
-    console.error('Brave Search error:', response.status, errText);
-    throw new Error(`Brave Search error: ${response.status}`);
+      const response = await fetch(`https://api.search.brave.com/res/v1/news/search?${params}`, {
+        headers: {
+          'Accept': 'application/json',
+          'Accept-Encoding': 'gzip',
+          'X-Subscription-Token': apiKey,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.results) {
+          allResults.push(...data.results);
+        }
+      }
+    } catch (e) {
+      console.warn(`Brave query failed for: ${query}`, e);
+    }
   }
 
-  const data = await response.json();
-
-  if (!data.results || data.results.length === 0) {
+  if (allResults.length === 0) {
     throw new Error('No news results from Brave Search');
   }
 
-  const headlines: NewsHeadline[] = data.results
-    .filter((r: any) => r.title && r.meta_url?.hostname)
+  // Deduplicate by title similarity
+  const seen = new Set<string>();
+  const unique = allResults.filter((r: any) => {
+    if (!r.title || !r.meta_url?.hostname) return false;
+    const key = r.title.toLowerCase().substring(0, 50);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+
+  const headlines: NewsHeadline[] = unique
     .map((r: any) => ({
       title: r.title.replace(/\s*[-|]\s*[^-|]+$/, '').trim(),
       source: formatSource(r.meta_url.hostname),
     }))
     .filter((h: NewsHeadline) => h.title.length > 15)
-    .slice(0, 10);
+    .slice(0, 25);
 
-  console.log(`✅ Retrieved ${headlines.length} real news headlines from Brave Search`);
-  return headlines;
+  const rawTitles = headlines.map(h => `${h.title} (${h.source})`);
+
+  console.log(`✅ Retrieved ${headlines.length} raw news headlines from Brave Search`);
+  return { headlines, rawTitles };
 };
 
 // ============================================================
-// PLAN B: LLM-generated headlines (Lovable / OpenAI)
+// LLM CURATION: Filter raw headlines for relevance, clean titles
 // ============================================================
-const AI_SYSTEM_PROMPT = `You are a news curator for senior business leaders (CEOs, COOs, CPOs). Generate concise AI business headlines that a CEO would read before a board meeting. Be specific: name companies, cite numbers, reference real events. 8-15 words max per headline. Present tense only. Return ONLY a JSON array: [{"title": "headline", "source": "Source Name"}]`;
-
-const fetchAIHeadlines = async (provider: 'lovable' | 'openai', apiKey: string): Promise<NewsHeadline[]> => {
-  console.log(`⚡ Generating headlines via ${provider}...`);
+const curateWithLLM = async (
+  rawTitles: string[],
+  provider: 'lovable' | 'openai',
+  apiKey: string
+): Promise<NewsHeadline[]> => {
+  console.log(`✍️ Filtering and curating headlines via ${provider}...`);
 
   const config = provider === 'lovable'
     ? { endpoint: 'https://ai.gateway.lovable.dev/v1/chat/completions', model: 'google/gemini-2.5-flash' }
     : { endpoint: 'https://api.openai.com/v1/chat/completions', model: 'gpt-4o-mini' };
+
+  const today = new Date().toISOString().split('T')[0];
 
   const response = await fetch(config.endpoint, {
     method: 'POST',
@@ -115,19 +214,63 @@ const fetchAIHeadlines = async (provider: 'lovable' | 'openai', apiKey: string):
     body: JSON.stringify({
       model: config.model,
       messages: [
-        { role: 'system', content: AI_SYSTEM_PROMPT },
-        { role: 'user', content: `Generate 8 AI business headlines from the last 7 days (today: ${new Date().toISOString().split('T')[0]}). Focus on enterprise strategy, vendor moves, governance, ROI data.` },
+        { role: 'system', content: CURATION_SYSTEM_PROMPT },
+        { role: 'user', content: CURATION_USER_PROMPT(rawTitles, today) },
+      ],
+      temperature: 0.2,
+    }),
+  });
+
+  if (!response.ok) throw new Error(`${provider} curation error: ${response.status}`);
+
+  const data = await response.json();
+  const content = data?.choices?.[0]?.message?.content;
+  if (!content) throw new Error('No content in curation response');
+
+  return parseLLMResponse(content);
+};
+
+// ============================================================
+// LLM STANDALONE: Generate headlines without Brave Search input
+// ============================================================
+const generateWithLLM = async (
+  provider: 'lovable' | 'openai',
+  apiKey: string
+): Promise<NewsHeadline[]> => {
+  console.log(`⚡ Generating standalone headlines via ${provider}...`);
+
+  const config = provider === 'lovable'
+    ? { endpoint: 'https://ai.gateway.lovable.dev/v1/chat/completions', model: 'google/gemini-2.5-flash' }
+    : { endpoint: 'https://api.openai.com/v1/chat/completions', model: 'gpt-4o-mini' };
+
+  const today = new Date().toISOString().split('T')[0];
+
+  const response = await fetch(config.endpoint, {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: config.model,
+      messages: [
+        { role: 'system', content: STANDALONE_SYSTEM_PROMPT },
+        { role: 'user', content: `Generate 12-15 AI news headlines relevant to business leaders focused on AI literacy and decision-making. Today is ${today}. Focus on workforce, skills, governance, productivity ROI, and enterprise adoption from the past 7 days.` },
       ],
       temperature: 0.3,
     }),
   });
 
-  if (!response.ok) throw new Error(`${provider} API error: ${response.status}`);
+  if (!response.ok) throw new Error(`${provider} standalone error: ${response.status}`);
 
   const data = await response.json();
   const content = data?.choices?.[0]?.message?.content;
-  if (!content) throw new Error('No content in LLM response');
+  if (!content) throw new Error('No content in standalone response');
 
+  return parseLLMResponse(content);
+};
+
+// ============================================================
+// PARSE LLM JSON RESPONSE
+// ============================================================
+const parseLLMResponse = (content: string): NewsHeadline[] => {
   let parsed: any[];
   try {
     parsed = JSON.parse(content);
@@ -139,26 +282,37 @@ const fetchAIHeadlines = async (provider: 'lovable' | 'openai', apiKey: string):
 
   const valid = (Array.isArray(parsed) ? parsed : [])
     .filter((h: any) => h?.title?.length > 15 && h?.source)
-    .slice(0, 10);
+    .map((h: any) => ({
+      title: h.title,
+      source: h.source,
+    }))
+    .slice(0, 15);
 
   if (valid.length === 0) throw new Error('No valid headlines from LLM');
 
-  console.log(`✅ Generated ${valid.length} headlines via ${provider}`);
+  console.log(`✅ Parsed ${valid.length} curated headlines`);
   return valid;
 };
 
 // ============================================================
-// PLAN C: Static fallback
+// STATIC FALLBACK — factual, AI-literacy-relevant headlines
 // ============================================================
 const STATIC_FALLBACK: NewsHeadline[] = [
-  { title: "Microsoft mandates AI fluency for all managers by Q3", source: "Bloomberg" },
-  { title: "Google cuts Gemini API pricing 40% — vendor costs shifting", source: "Financial Times" },
-  { title: "Walmart cuts 1,200 middle-management roles after AI rollout", source: "WSJ" },
-  { title: "EU AI Act compliance deadline hits enterprise vendors", source: "Financial Times" },
-  { title: "Fortune 500 CAIO appointments up 300% in 12 months", source: "HBR" },
-  { title: "Companies with AI governance show 2x faster deployment", source: "Gartner" },
-  { title: "JPMorgan deploys AI to automate 50% of internal reporting", source: "Bloomberg" },
-  { title: "Salesforce raises AI feature pricing 25% — check contracts", source: "Bloomberg" },
+  { title: "95% of enterprise AI initiatives fail due to workforce literacy gaps, not technology", source: "Gartner" },
+  { title: "Companies investing in AI training see 66% average productivity gains across teams", source: "McKinsey" },
+  { title: "78% of employees use unauthorized AI tools at work — Shadow AI grows unchecked", source: "Gartner" },
+  { title: "AI-skilled workers command 25-56% salary premiums over non-AI peers", source: "HBR" },
+  { title: "63% of employers now cite AI skills gaps as primary barrier to business growth", source: "WEF" },
+  { title: "New hires with AI training reach expert-level performance in 2 months vs 8 months", source: "MIT Tech Review" },
+  { title: "GitHub Copilot users complete tasks 55.8% faster with 84% more successful builds", source: "GitHub" },
+  { title: "75% of workers use AI without training — 70% receive zero workplace guidance", source: "McKinsey" },
+  { title: "92 million jobs face displacement by 2030 while 170 million new roles emerge", source: "WEF" },
+  { title: "Companies with structured AI governance deploy AI systems 2x faster", source: "Gartner" },
+  { title: "AI job postings grew 37.5% year-over-year — 12.5x faster than overall market", source: "LinkedIn" },
+  { title: "Software developers with AI tools complete 126% more projects per quarter", source: "Bloomberg" },
+  { title: "Only 5% of organizations are reskilling their workforce at scale despite 95% demand", source: "WEF" },
+  { title: "Employees at companies with required AI training are 89% more likely to report positive impact", source: "McKinsey" },
+  { title: "Average organization runs 65-75 GenAI apps with 80-90% completely unmanaged", source: "Gartner" },
 ];
 
 // ============================================================
@@ -176,40 +330,77 @@ serve(async (req) => {
     );
 
   try {
-    // Plan A: Brave Search
     const braveKey = Deno.env.get('BRAVE_SEARCH_API');
+    const lovableKey = Deno.env.get('LOVABLE_API_KEY');
+    const openaiKey = Deno.env.get('OPENAI_API_KEY');
+
+    // ── PLAN A: Brave Search → LLM Curation (best path) ──
+    // Fetch real news, then use LLM to filter for relevance and clean titles
     if (braveKey) {
       try {
-        const headlines = await fetchBraveNews(braveKey);
-        if (headlines.length > 0) return respond(headlines, 'brave', false);
+        const { headlines: rawHeadlines, rawTitles } = await fetchBraveNews(braveKey);
+
+        if (rawTitles.length > 0) {
+          // Try LLM curation for relevance filtering
+          const llmKey = lovableKey || openaiKey;
+          const llmProvider = lovableKey ? 'lovable' : 'openai';
+
+          if (llmKey) {
+            try {
+              const curated = await curateWithLLM(rawTitles, llmProvider as 'lovable' | 'openai', llmKey);
+              if (curated.length > 0) {
+                console.log('✅ Brave + LLM curation pipeline succeeded');
+                return respond(curated, `brave+${llmProvider}`, false);
+              }
+            } catch (e) {
+              console.error('LLM curation failed, trying second provider:', e);
+
+              // Try the other LLM provider
+              const fallbackKey = lovableKey ? openaiKey : lovableKey;
+              const fallbackProvider = lovableKey ? 'openai' : 'lovable';
+              if (fallbackKey) {
+                try {
+                  const curated = await curateWithLLM(rawTitles, fallbackProvider as 'lovable' | 'openai', fallbackKey);
+                  if (curated.length > 0) {
+                    return respond(curated, `brave+${fallbackProvider}`, false);
+                  }
+                } catch (e2) {
+                  console.error('Second LLM curation also failed:', e2);
+                }
+              }
+            }
+          }
+
+          // If LLM curation unavailable, return raw Brave results
+          console.warn('⚠️ LLM curation unavailable, returning raw Brave headlines');
+          return respond(rawHeadlines.slice(0, 10), 'brave-raw', false);
+        }
       } catch (e) {
         console.error('Brave Search failed:', e);
       }
     }
 
-    // Plan B: Lovable AI
-    const lovableKey = Deno.env.get('LOVABLE_API_KEY');
+    // ── PLAN B: Standalone LLM generation (no Brave) ──
     if (lovableKey) {
       try {
-        const headlines = await fetchAIHeadlines('lovable', lovableKey);
+        const headlines = await generateWithLLM('lovable', lovableKey);
         if (headlines.length > 0) return respond(headlines, 'lovable', false);
       } catch (e) {
-        console.error('Lovable AI failed:', e);
+        console.error('Lovable standalone failed:', e);
       }
     }
 
-    // Plan C: OpenAI
-    const openaiKey = Deno.env.get('OPENAI_API_KEY');
+    // ── PLAN C: OpenAI standalone ──
     if (openaiKey) {
       try {
-        const headlines = await fetchAIHeadlines('openai', openaiKey);
+        const headlines = await generateWithLLM('openai', openaiKey);
         if (headlines.length > 0) return respond(headlines, 'openai', false);
       } catch (e) {
-        console.error('OpenAI failed:', e);
+        console.error('OpenAI standalone failed:', e);
       }
     }
 
-    // Plan D: Static fallback
+    // ── PLAN D: Static fallback ──
     console.log('📋 All providers failed, using static fallback');
     return respond(STATIC_FALLBACK, 'fallback', true);
 

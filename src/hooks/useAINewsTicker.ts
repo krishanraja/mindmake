@@ -22,21 +22,21 @@ if (typeof window !== 'undefined') {
 }
 
 const FALLBACK_HEADLINES: NewsHeadline[] = [
-  { title: "[SIGNAL]: Microsoft mandates AI fluency for all managers by Q3", source: "Bloomberg" },
-  { title: "[DECISION TRIGGER]: Google cuts Gemini API pricing 40% \u2014 reevaluate vendor costs", source: "Financial Times" },
-  { title: "[KRISH'S TAKE]: 80% of companies using AI \u2260 80% using it well", source: "Mindmaker" },
-  { title: "[SIGNAL]: Walmart cuts 1,200 middle-management roles after AI workflow rollout", source: "WSJ" },
-  { title: "[NOISE]: Another AI startup raises $50M with no enterprise customers", source: "Mindmaker" },
-  { title: "[DECISION TRIGGER]: EU AI Act compliance deadline hits enterprise vendors", source: "Financial Times" },
-  { title: "[SIGNAL]: JPMorgan deploys AI to automate 50% of internal reporting", source: "Bloomberg" },
-  { title: "[KRISH'S TAKE]: Your AI strategy isn't a strategy if it's just a vendor list", source: "Mindmaker" },
-  { title: "[SIGNAL]: 67% of C-suite say AI governance is now a board-level agenda item", source: "McKinsey" },
-  { title: "[DECISION TRIGGER]: AWS announces enterprise AI credits \u2014 build-vs-buy just shifted", source: "WSJ" },
-  { title: "[NOISE]: McKinsey publishes another AI readiness framework nobody will use", source: "Mindmaker" },
-  { title: "[SIGNAL]: Fortune 500 CAIO appointments up 300% in 12 months", source: "HBR" },
-  { title: "[KRISH'S TAKE]: The leaders who win aren't adopting AI \u2014 they're deciding what to use it for", source: "Mindmaker" },
-  { title: "[DECISION TRIGGER]: Salesforce raises AI feature pricing 25% \u2014 check your contract", source: "Bloomberg" },
-  { title: "[SIGNAL]: Companies with AI governance frameworks show 2x faster deployment", source: "Gartner" },
+  { title: "95% of enterprise AI initiatives fail due to workforce literacy gaps, not technology", source: "Gartner" },
+  { title: "Companies investing in AI training see 66% average productivity gains across teams", source: "McKinsey" },
+  { title: "78% of employees use unauthorized AI tools at work — Shadow AI grows unchecked", source: "Gartner" },
+  { title: "AI-skilled workers command 25-56% salary premiums over non-AI peers", source: "HBR" },
+  { title: "63% of employers now cite AI skills gaps as primary barrier to business growth", source: "WEF" },
+  { title: "New hires with AI training reach expert-level performance in 2 months vs 8 months", source: "MIT Tech Review" },
+  { title: "GitHub Copilot users complete tasks 55.8% faster with 84% more successful builds", source: "GitHub" },
+  { title: "75% of workers use AI without training — 70% receive zero workplace guidance", source: "McKinsey" },
+  { title: "92 million jobs face displacement by 2030 while 170 million new roles emerge", source: "WEF" },
+  { title: "Companies with structured AI governance deploy AI systems 2x faster", source: "Gartner" },
+  { title: "AI job postings grew 37.5% year-over-year — 12.5x faster than overall market", source: "LinkedIn" },
+  { title: "Software developers with AI tools complete 126% more projects per quarter", source: "Bloomberg" },
+  { title: "Only 5% of organizations are reskilling their workforce at scale despite 95% demand", source: "WEF" },
+  { title: "Employees at companies with required AI training are 89% more likely to report positive impact", source: "McKinsey" },
+  { title: "Average organization runs 65-75 GenAI apps with 80-90% completely unmanaged", source: "Gartner" },
 ];
 
 // Safe cache loading with validation

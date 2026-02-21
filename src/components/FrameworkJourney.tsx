@@ -145,8 +145,8 @@ const MindSetContent = () => {
         </div>
       </div>
       {/* Fixed footer */}
-      <div className="h-[48px] shrink-0 flex items-center justify-center border-t border-white/10">
-        <div className="text-center">
+      <div className="h-[48px] shrink-0 flex items-center border-t border-white/10">
+        <div>
           <span className="text-[10px] text-white/30">8 inputs &rarr; </span>
           <span className="text-xs font-bold text-mint">3 that matter</span>
         </div>
@@ -187,8 +187,8 @@ const MindMapContent = () => {
         ))}
       </div>
       {/* Fixed footer */}
-      <div className="h-[48px] shrink-0 flex items-center justify-center border-t border-white/10 mt-auto">
-        <motion.div className="text-center" initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: 2.2 }}>
+      <div className="h-[48px] shrink-0 flex items-center border-t border-white/10 mt-auto">
+        <motion.div initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: 2.2 }}>
           <span className="text-lg font-bold text-mint">5&ndash;10 hrs</span>
           <span className="text-xs text-white/40 ml-1">saved/week</span>
         </motion.div>

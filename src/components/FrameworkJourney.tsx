@@ -22,21 +22,18 @@ const MindLabel = ({ prefix, suffix }: { prefix: string; suffix: string }) => (
 );
 
 const noiseItems = [
-  { label: "GPT-4o", keep: false },
-  { label: "Claude 3.5", keep: true },
-  { label: "Copilot", keep: false },
-  { label: "Gemini Pro", keep: false },
-  { label: "Perplexity", keep: true },
-  { label: "Vendor pitch", keep: false },
-  { label: "Board memo", keep: true },
-  { label: "LinkedIn hype", keep: false },
+  { label: "Vendor pitch deck #14", keep: false },
+  { label: "Core workflow bottleneck", keep: true },
+  { label: "LinkedIn: AI will replace you", keep: false },
+  { label: "Team using 6 different tools", keep: false },
+  { label: "Analyst report: $4.2T market", keep: false },
+  { label: "Your strongest differentiator", keep: true },
+  { label: "Competitor launched AI feature", keep: false },
+  { label: "Customer asking about AI plan", keep: true },
+  { label: "New model release hype cycle", keep: false },
+  { label: "Board wants an AI strategy", keep: false },
 ];
 
-const workflowPairs = [
-  { from: "Weekly briefing", to: "AI draft" },
-  { from: "Vendor analysis", to: "Comparison matrix" },
-  { from: "Board prep", to: "Slide generator" },
-];
 
 const FrameworkJourney = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -188,10 +185,10 @@ const Card = ({
         }}
       />
 
-      <div className="text-center shrink-0 h-[72px] flex flex-col items-center justify-center">
-        <Icon className="w-6 h-6 text-mint mb-1.5" />
+      <div className="text-center shrink-0 mb-5 flex flex-col items-center">
+        <Icon className="w-6 h-6 text-mint mb-2" />
         <h3 className="text-lg md:text-xl font-bold text-white leading-tight">{headline}</h3>
-        <p className="text-xs text-mint mt-0.5">{label}</p>
+        <p className="text-xs text-mint mt-1">{label}</p>
       </div>
 
       <div className="flex-1 flex flex-col overflow-hidden mt-4">{children}</div>
@@ -205,9 +202,9 @@ const MindSetContent = () => {
   return (
     <div className="h-full flex flex-col">
       {/* Scrolling list with fade masks */}
-      <div className="flex-1 overflow-hidden relative mb-3">
-        <div className="absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-white/[0.04] to-transparent z-10 pointer-events-none" />
-        <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-white/[0.04] to-transparent z-10 pointer-events-none" />
+      <div className="flex-1 overflow-hidden relative">
+        <div className="absolute inset-x-0 top-0 h-4 bg-gradient-to-b from-white/[0.04] to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-white/[0.04] to-transparent z-10 pointer-events-none" />
         <div
           className="space-y-1.5 pb-4"
           style={{
@@ -229,9 +226,9 @@ const MindSetContent = () => {
         </div>
       </div>
       {/* Fixed footer */}
-      <div className="h-[48px] shrink-0 flex items-center border-t border-white/10">
-        <div>
-          <span className="text-[10px] text-white/30">8 inputs &rarr; </span>
+      <div className="h-[48px] shrink-0 flex items-center justify-center border-t border-white/10">
+        <div className="text-center">
+          <span className="text-[10px] text-white/30">10 inputs &rarr; </span>
           <span className="text-xs font-bold text-mint">3 that matter</span>
         </div>
       </div>
@@ -243,38 +240,97 @@ const MindMapContent = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
+  const nodes = [
+    { x: 100, y: 20, label: "Data" },
+    { x: 40, y: 60, label: "Ops" },
+    { x: 160, y: 55, label: "Sales" },
+    { x: 70, y: 110, label: "Support" },
+    { x: 135, y: 105, label: "Product" },
+  ];
+
+  const connections = [
+    [0, 1], [0, 2], [1, 3], [2, 4], [3, 4], [1, 2],
+  ];
+
   return (
-    <div ref={ref} className="h-full flex flex-col justify-center">
-      <div className="space-y-3">
-        {workflowPairs.map((pair, i) => (
-          <div key={i} className="flex items-center gap-1.5">
-            <motion.div
-              className="flex-1 px-2 py-2 rounded bg-white/[0.06] text-[11px] font-medium text-center text-white/70"
-              initial={{ opacity: 0, x: -15 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ type: "spring", stiffness: 60, damping: 15, delay: i * 0.5 + 0.3 }}
-            >
-              {pair.from}
-            </motion.div>
-            <motion.span className="text-mint text-[10px] font-bold" initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: i * 0.5 + 0.6 }}>
-              &rarr;
-            </motion.span>
-            <motion.div
-              className="flex-1 px-2 py-2 rounded bg-mint/15 text-[11px] font-medium text-center text-white border border-mint/20"
-              initial={{ opacity: 0, x: 15 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ type: "spring", stiffness: 60, damping: 15, delay: i * 0.5 + 0.7 }}
-            >
-              {pair.to}
-            </motion.div>
-          </div>
-        ))}
+    <div ref={ref} className="h-full flex flex-col">
+      {/* Circuit-board system assembly */}
+      <div className="flex-1 flex items-center justify-center overflow-hidden">
+        <svg width="100%" height="100%" viewBox="0 0 200 140" className="max-h-full">
+          {/* Connections drawing in */}
+          {connections.map(([from, to], i) => (
+            <motion.line
+              key={`conn-${i}`}
+              x1={nodes[from].x} y1={nodes[from].y}
+              x2={nodes[to].x} y2={nodes[to].y}
+              stroke="#7ef4c2"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={isInView ? { pathLength: 1, opacity: 0.35 } : {}}
+              transition={{ delay: 0.6 + i * 0.18, duration: 0.5, ease: "easeOut" }}
+            />
+          ))}
+
+          {/* Nodes appearing */}
+          {nodes.map((node, i) => (
+            <g key={`node-${i}`}>
+              <motion.circle
+                cx={node.x} cy={node.y} r="10"
+                fill="rgba(126, 244, 194, 0.12)"
+                stroke="#7ef4c2"
+                strokeWidth="1.5"
+                initial={{ scale: 0, opacity: 0 }}
+                animate={isInView ? { scale: 1, opacity: 1 } : {}}
+                transition={{ delay: 0.15 + i * 0.15, type: "spring", stiffness: 200, damping: 15 }}
+              />
+              <motion.text
+                x={node.x} y={node.y + 1}
+                textAnchor="middle"
+                dominantBaseline="middle"
+                className="fill-white text-[7px] font-semibold"
+                initial={{ opacity: 0 }}
+                animate={isInView ? { opacity: 0.9 } : {}}
+                transition={{ delay: 0.3 + i * 0.15 }}
+              >
+                {node.label}
+              </motion.text>
+
+              {/* Pulse on arrival */}
+              <motion.circle
+                cx={node.x} cy={node.y} r="10"
+                fill="none"
+                stroke="#7ef4c2"
+                strokeWidth="1"
+                initial={{ scale: 1, opacity: 0.6 }}
+                animate={isInView ? { scale: 2.2, opacity: 0 } : {}}
+                transition={{ delay: 0.15 + i * 0.15, duration: 0.8 }}
+              />
+            </g>
+          ))}
+
+          {/* Persistent subtle pulse traveling along a connection */}
+          {isInView && (
+            <motion.circle
+              r="2.5"
+              fill="#7ef4c2"
+              initial={{ opacity: 0 }}
+              animate={{
+                opacity: [0, 0.8, 0.8, 0],
+                cx: [nodes[0].x, nodes[1].x, nodes[3].x, nodes[4].x],
+                cy: [nodes[0].y, nodes[1].y, nodes[3].y, nodes[4].y],
+              }}
+              transition={{ delay: 2, duration: 3, repeat: Infinity, repeatDelay: 1.5, ease: "easeInOut" }}
+            />
+          )}
+        </svg>
       </div>
+
       {/* Fixed footer */}
-      <div className="h-[48px] shrink-0 flex items-center border-t border-white/10 mt-auto">
-        <motion.div initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: 2.2 }}>
-          <span className="text-lg font-bold text-mint">5&ndash;10 hrs</span>
-          <span className="text-xs text-white/40 ml-1">saved/week</span>
+      <div className="h-[48px] shrink-0 flex items-center justify-center border-t border-white/10">
+        <motion.div className="text-center" initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: 2 }}>
+          <span className="text-[10px] text-white/30">5 nodes &rarr; </span>
+          <span className="text-xs font-bold text-mint">1 system</span>
         </motion.div>
       </div>
     </div>
@@ -285,40 +341,105 @@ const MindMakeContent = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
+  const stages = [
+    { label: "Anxious", position: 0 },
+    { label: "Informed", position: 50 },
+    { label: "Decided", position: 100 },
+  ];
+
+  const outcomes = [
+    { label: "Decision", value: "Build", delay: 2.0 },
+    { label: "Timeline", value: "6 weeks", delay: 2.3 },
+    { label: "ROI", value: "340%", delay: 2.6 },
+  ];
+
   return (
-    <div ref={ref} className="h-full flex flex-col justify-center">
-      <div className="space-y-3">
-        <motion.div className="text-[12px] font-bold text-white" initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: 0.3 }}>
-          Decision: Build vs Buy
-        </motion.div>
-        <div className="flex gap-2">
-          <motion.div className="flex-1 p-2 rounded bg-white/[0.06] text-[10px]" initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: 0.8 }}>
-            <div className="font-semibold text-white mb-0.5">Build</div>
-            <div className="text-white/40">Full control. IP ownership.</div>
-          </motion.div>
-          <motion.div className="flex-1 p-2 rounded bg-white/[0.06] text-[10px]" initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: 1.2 }}>
-            <div className="font-semibold text-white mb-0.5">Buy</div>
-            <div className="text-white/40">Fast deploy. Vendor risk.</div>
-          </motion.div>
+    <div ref={ref} className="h-full flex flex-col">
+      {/* Confidence Arc */}
+      <div className="flex-1 flex flex-col justify-center px-1">
+        {/* Stage labels */}
+        <div className="flex justify-between mb-2">
+          {stages.map((stage, i) => (
+            <motion.span
+              key={stage.label}
+              className="text-[10px] font-medium"
+              initial={{ opacity: 0, y: 5 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.2 + i * 0.3 }}
+              style={{ color: i === 0 ? "rgba(251, 146, 60, 0.7)" : i === 1 ? "rgba(255,255,255,0.5)" : "#7ef4c2" }}
+            >
+              {stage.label}
+            </motion.span>
+          ))}
         </div>
-        <motion.div className="flex items-center gap-1.5 text-[11px] font-semibold text-mint" initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: 1.8 }}>
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+        {/* Progress bar track */}
+        <div className="relative h-3 rounded-full bg-white/[0.08] overflow-hidden">
+          {/* Fill with gradient */}
+          <motion.div
+            className="absolute inset-y-0 left-0 rounded-full"
+            style={{
+              background: "linear-gradient(to right, rgba(251,146,60,0.6) 0%, rgba(255,255,255,0.4) 50%, #7ef4c2 100%)",
+            }}
+            initial={{ width: "0%" }}
+            animate={isInView ? { width: "100%" } : {}}
+            transition={{ delay: 0.5, duration: 2, ease: "easeOut" }}
+          />
+          {/* Glow at leading edge */}
+          <motion.div
+            className="absolute inset-y-0 w-6 rounded-full"
+            style={{
+              background: "radial-gradient(circle, rgba(126,244,194,0.6) 0%, transparent 70%)",
+            }}
+            initial={{ left: "0%" }}
+            animate={isInView ? { left: "calc(100% - 12px)" } : {}}
+            transition={{ delay: 0.5, duration: 2, ease: "easeOut" }}
+          />
+        </div>
+
+        {/* Tick marks under the bar */}
+        <div className="flex justify-between mt-1.5 px-0.5">
+          {stages.map((_, i) => (
+            <motion.div
+              key={i}
+              className="w-px h-2"
+              style={{ backgroundColor: i === 0 ? "rgba(251,146,60,0.4)" : i === 1 ? "rgba(255,255,255,0.2)" : "rgba(126,244,194,0.5)" }}
+              initial={{ scaleY: 0 }}
+              animate={isInView ? { scaleY: 1 } : {}}
+              transition={{ delay: 0.5 + i * 0.8 }}
+            />
+          ))}
+        </div>
+
+        {/* Outcome stats appearing below */}
+        <div className="flex justify-between mt-6">
+          {outcomes.map((outcome) => (
+            <motion.div
+              key={outcome.label}
+              className="text-center"
+              initial={{ opacity: 0, y: 8 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: outcome.delay, duration: 0.5 }}
+            >
+              <div className="text-[9px] text-white/30 uppercase tracking-wider">{outcome.label}</div>
+              <div className="text-sm font-bold text-mint mt-0.5">{outcome.value}</div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      {/* Fixed footer */}
+      <div className="h-[48px] shrink-0 flex items-center justify-center border-t border-white/10">
+        <motion.div
+          className="flex items-center gap-1.5"
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 3 }}
+        >
+          <svg className="w-4 h-4 text-mint" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
           </svg>
-          Build (with exit criteria)
-        </motion.div>
-      </div>
-      {/* Fixed footer */}
-      <div className="h-[48px] shrink-0 flex items-center border-t border-white/10 mt-auto">
-        <motion.div className="flex gap-6" initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: 2.3 }}>
-          <div>
-            <div className="text-[9px] text-white/30">ROI</div>
-            <div className="text-base font-bold text-mint">340%</div>
-          </div>
-          <div>
-            <div className="text-[9px] text-white/30">Deploy</div>
-            <div className="text-base font-bold text-mint">6 weeks</div>
-          </div>
+          <span className="text-xs font-bold text-mint">Board-ready</span>
         </motion.div>
       </div>
     </div>

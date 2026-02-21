@@ -57,9 +57,9 @@ const SimpleCTA = () => {
             viewport={{ once: true, amount: 0.3 }}
             transition={spring}
           >
-            {/* Heading row with owl */}
-            <div className="flex items-center justify-center gap-6 md:gap-8 mb-8">
-              <div className="w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden shrink-0">
+            {/* Owl above heading */}
+            <div className="flex justify-center mb-6">
+              <div className="w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden">
                 <video
                   ref={videoRef}
                   muted
@@ -70,10 +70,10 @@ const SimpleCTA = () => {
                   <source src="/MM owl.mp4" type="video/mp4" />
                 </video>
               </div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white dark:text-foreground text-left">
-                You've been pitched enough.
-              </h2>
             </div>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white dark:text-foreground text-center mb-8">
+              You've been pitched enough.
+            </h2>
 
             <div className="text-center">
               <p className="text-xl text-white/70 dark:text-muted-foreground leading-relaxed mb-10">

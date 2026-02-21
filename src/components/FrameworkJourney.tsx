@@ -110,7 +110,7 @@ const Card = ({
         <p className="text-xs text-mint mt-0.5">{label}</p>
       </div>
 
-      <div className="flex-1 flex flex-col overflow-hidden">{children}</div>
+      <div className="flex-1 flex flex-col overflow-hidden mt-4">{children}</div>
     </motion.div>
   );
 };
@@ -121,7 +121,7 @@ const MindSetContent = () => {
   return (
     <div className="h-full flex flex-col">
       {/* Scrolling list with fade masks */}
-      <div className="flex-1 overflow-hidden relative">
+      <div className="flex-1 overflow-hidden relative mb-3">
         <div className="absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-white/[0.04] to-transparent z-10 pointer-events-none" />
         <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-white/[0.04] to-transparent z-10 pointer-events-none" />
         <div

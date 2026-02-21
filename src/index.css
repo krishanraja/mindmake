@@ -118,12 +118,10 @@
     word-break: break-word;
   }
   
-  /* Hero content wrapper - contains all interactive content */
+  /* Hero content wrapper - overflow prevention only, no layout interference */
   #hero .hero-content-wrapper {
-    contain: layout style;
     overflow-x: hidden;
     overflow-y: hidden;
-    max-width: 100%;
   }
   
   /* Hero decorative elements - orbs, backgrounds, etc */

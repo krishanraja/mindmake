@@ -166,8 +166,8 @@ const TestimonialCarousel = ({ isInView }: { isInView: boolean }) => {
               key={index}
               className={`pl-4 ${
                 isMobile
-                  ? "basis-[78%]"
-                  : "basis-[29%]"
+                  ? "basis-[72%]"
+                  : "basis-[26%]"
               }`}
             >
               <motion.div
@@ -183,16 +183,16 @@ const TestimonialCarousel = ({ isInView }: { isInView: boolean }) => {
         </CarouselContent>
       </Carousel>
 
-      {/* Edge fade gradients — wider to cover peeking cards */}
+      {/* Edge fade gradients — narrow so peeking cards stay visible */}
       <div
-        className="absolute left-0 top-0 bottom-0 w-12 md:w-20 pointer-events-none z-10"
+        className="absolute left-0 top-0 bottom-0 w-6 md:w-8 pointer-events-none z-10"
         style={{
           background:
             "linear-gradient(to right, var(--muted), transparent)",
         }}
       />
       <div
-        className="absolute right-0 top-0 bottom-0 w-12 md:w-20 pointer-events-none z-10"
+        className="absolute right-0 top-0 bottom-0 w-6 md:w-8 pointer-events-none z-10"
         style={{
           background:
             "linear-gradient(to left, var(--muted), transparent)",

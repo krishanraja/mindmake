@@ -1,5 +1,5 @@
-/* LAYER ORDER: scroll-hijack loads FIRST, then hero, to prevent all scroll issues */
-@layer scroll-hijack, hero, base, components, utilities;
+/* LAYER ORDER */
+@layer scroll-hijack, base, components, utilities;
 
 @tailwind base;
 @tailwind components;
@@ -94,72 +94,7 @@
   }
 }
 
-/* =============================================================
-   HERO LAYER - Loads BEFORE base layers
-   Prevents scrollbar flash during CSS/font loading race
-   ============================================================= */
-@layer hero {
-  /* Hero section - overflow prevention */
-  #hero {
-    max-width: 100vw;
-    overflow: hidden;
-  }
-  
-  /* Prevent decorative hero children from causing overflow (not layout containers) */
-  #hero .hero-decoration {
-    max-width: 100%;
-  }
-  
-  /* Hero h1 - billboard scale, responsive */
-  #hero h1 {
-    font-size: clamp(3rem, 9vw, 7rem) !important;
-    overflow-wrap: anywhere;
-    word-break: break-word;
-  }
-  
-  /* Hero content wrapper */
-  #hero .hero-content-wrapper {
-    overflow-x: hidden;
-    overflow-y: hidden;
-    max-width: 100%;
-  }
-  
-  /* Hero decorative elements - orbs, backgrounds, etc */
-  #hero .hero-decoration {
-    position: absolute;
-    overflow: hidden;
-    max-width: 100%;
-    pointer-events: none;
-  }
-  
-  /* Legacy hero-text-size class removed -- sizing now controlled by #hero h1 rule above */
-  
-  /* Hero content wrapper responsive padding - moved from inline styles */
-  #hero .hero-content-wrapper {
-    padding-top: calc(5rem * 0.8 * 0.5);
-  }
-  
-  @media (min-width: 640px) {
-    #hero .hero-content-wrapper {
-      padding-top: calc(7rem * 0.8 * 0.5);
-    }
-  }
-  
-  @media (min-width: 768px) {
-    #hero .hero-content-wrapper {
-      padding-top: calc(8rem * 0.8 * 0.5);
-    }
-  }
-  
-  /* Dynamic viewport height fallback for older browsers */
-  /* 100dvh accounts for mobile browser toolbars, preventing scrollbar */
-  @supports not (min-height: 100dvh) {
-    #hero {
-      min-height: 100vh;
-      min-height: -webkit-fill-available;
-    }
-  }
-}
+/* Hero @layer deleted -- hero is now styled purely via Tailwind classes in NewHero.tsx */
 
 /* MINDMAKER 2.0 DESIGN SYSTEM - INK + MINT */
 @layer base {
@@ -546,8 +481,7 @@ a:hover {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
-  /* NOTE: Hero text sizing moved to @layer hero for earlier loading */
-  /* See top of file for .hero-text-size and #hero containment rules */
+  /* Hero text sizing now handled by Tailwind classes in NewHero.tsx */
 
   /* Premium hover lift - desktop only, calm 600ms ease */
   .hover-lift {

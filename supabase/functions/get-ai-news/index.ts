@@ -5,7 +5,8 @@
  *              and clean up headlines. Falls back to LLM-generated or static headlines.
  *
  * Focus: AI literacy, AI workforce skills, AI governance, AI business decisions,
- *        AI training/upskilling, AI ROI — NOT generic AI product launches or funding rounds.
+ *        AI training/upskilling, AI ROI, AI personal amplification (clones, assistants,
+ *        solopreneur tools) — NOT generic AI product launches or funding rounds.
  *
  * @secrets BRAVE_SEARCH_API (primary), LOVABLE_API_KEY (curation + fallback), OPENAI_API_KEY (fallback)
  */
@@ -59,11 +60,12 @@ const formatSource = (hostname: string): string => {
 
 const CURATION_SYSTEM_PROMPT = `You are a news curator for a company that helps business leaders build AI literacy and make confident AI decisions.
 
-Your job: Take raw news headlines and select + clean up only the ones that matter to a senior leader (CEO, COO, CPO, CHRO) who is trying to:
+Your job: Take raw news headlines and select + clean up only the ones that matter to a business leader, entrepreneur, or small business owner who is trying to:
 - Understand how AI is changing their workforce and industry
 - Make informed decisions about AI adoption, governance, and training
 - Stay current on AI skills gaps, talent markets, and productivity data
 - Navigate AI vendor decisions, build-vs-buy choices, and ROI measurement
+- Use AI to amplify themselves — clones, virtual assistants, AI avatars, and personal productivity tools
 
 INCLUDE headlines about:
 - AI workforce impact (hiring, displacement, upskilling, skills gaps)
@@ -73,11 +75,12 @@ INCLUDE headlines about:
 - AI decision-making for leaders (vendor choices, strategy, build-vs-buy)
 - Shadow AI and AI risk management
 - AI talent market changes (salary premiums, demand, competition)
+- AI personal amplification (AI clones, AI avatars, AI assistants, AI voice/video tools like HeyGen, OpenClaw, ElevenLabs, Synthesia, Descript, etc.)
+- Solopreneur and small business AI tools (automating operations, scaling without headcount, AI agents doing real work)
 
 EXCLUDE headlines about:
-- Startup funding rounds (unless directly relevant to enterprise AI decisions)
+- Startup funding rounds (unless directly relevant to AI adoption decisions)
 - New AI model releases without business context
-- Consumer AI products (AI art generators, chatbot features, etc.)
 - Celebrity or entertainment AI news
 - Speculative AI capabilities or AGI timelines
 - Generic "AI will change everything" think pieces
@@ -99,7 +102,7 @@ ${rawHeadlines.map((h, i) => `${i + 1}. ${h}`).join('\n')}`;
 // Standalone generation prompt (when no Brave results available)
 const STANDALONE_SYSTEM_PROMPT = `You are a news curator for a company that helps business leaders build AI literacy and make confident AI decisions.
 
-Generate realistic, factual AI news headlines from the past 7 days that a senior leader (CEO, COO, CPO, CHRO) would find relevant to their AI decision-making.
+Generate realistic, factual AI news headlines from the past 7 days that a business leader, entrepreneur, or small business owner would find relevant to their AI decision-making and personal AI amplification.
 
 Focus topics:
 - AI workforce impact: hiring, displacement, upskilling, skills gaps, talent competition
@@ -108,13 +111,15 @@ Focus topics:
 - AI productivity: ROI data, benchmarks, measurable results from AI deployment
 - AI decisions: vendor moves, pricing changes, build-vs-buy shifts, enterprise adoption
 - AI talent market: salary premiums, demand data, skills competition
+- AI personal amplification: AI clones, AI avatars, AI voice/video (HeyGen, Synthesia, ElevenLabs), AI assistants (OpenClaw, Lindy, etc.), solopreneur tools
+- Small business AI: automating operations with AI agents, scaling without headcount, one-person businesses using AI to do the work of teams
 
 Rules:
 - Factual tone — no opinion, no editorial, no buzzwords
 - Include specific numbers, percentages, company names where possible
 - 8-18 words per headline, present tense
 - Reference real companies and plausible recent developments
-- NO funding rounds, consumer AI, or speculative AGI timelines
+- NO funding rounds, speculative AGI timelines, or celebrity AI news
 
 Return ONLY a JSON array: [{"title": "headline text", "source": "Source Name"}]
 Use real publication names as sources (Bloomberg, WSJ, HBR, Gartner, Financial Times, etc.)`;
@@ -125,12 +130,13 @@ Use real publication names as sources (Bloomberg, WSJ, HBR, Gartner, Financial T
 const fetchBraveNews = async (apiKey: string): Promise<{ headlines: NewsHeadline[], rawTitles: string[] }> => {
   console.log('🔍 Fetching real news from Brave Search News API...');
 
-  // Targeted queries for AI literacy, workforce, governance, business decisions
+  // Targeted queries for AI literacy, workforce, governance, business decisions, and personal amplification
   const queries = [
     '"AI literacy" OR "AI training" OR "AI skills gap" OR "AI upskilling"',
     '"AI workforce" OR "AI jobs" OR "AI talent" OR "AI hiring"',
     '"AI governance" OR "AI policy" OR "shadow AI" OR "enterprise AI adoption"',
     '"AI ROI" OR "AI productivity" OR "AI strategy" OR "AI decision"',
+    '"AI clone" OR "AI avatar" OR "HeyGen" OR "AI assistant" OR "AI agent" OR "solopreneur AI"',
   ];
 
   const allResults: any[] = [];
@@ -252,7 +258,7 @@ const generateWithLLM = async (
       model: config.model,
       messages: [
         { role: 'system', content: STANDALONE_SYSTEM_PROMPT },
-        { role: 'user', content: `Generate 12-15 AI news headlines relevant to business leaders focused on AI literacy and decision-making. Today is ${today}. Focus on workforce, skills, governance, productivity ROI, and enterprise adoption from the past 7 days.` },
+        { role: 'user', content: `Generate 12-15 AI news headlines relevant to business leaders and entrepreneurs focused on AI literacy, decision-making, and personal amplification. Today is ${today}. Focus on workforce skills, governance, productivity ROI, enterprise adoption, AI clones/avatars, AI assistants, and solopreneur AI tools from the past 7 days.` },
       ],
       temperature: 0.3,
     }),
@@ -306,13 +312,18 @@ const STATIC_FALLBACK: NewsHeadline[] = [
   { title: "New hires with AI training reach expert-level performance in 2 months vs 8 months", source: "MIT Tech Review" },
   { title: "GitHub Copilot users complete tasks 55.8% faster with 84% more successful builds", source: "GitHub" },
   { title: "75% of workers use AI without training — 70% receive zero workplace guidance", source: "McKinsey" },
-  { title: "92 million jobs face displacement by 2030 while 170 million new roles emerge", source: "WEF" },
-  { title: "Companies with structured AI governance deploy AI systems 2x faster", source: "Gartner" },
+  { title: "HeyGen now lets founders create AI video clones that present in 40+ languages", source: "TechCrunch" },
+  { title: "Solopreneurs using AI assistants report running operations that previously required 5-person teams", source: "Forbes" },
+  { title: "AI avatar market projected to reach $440B by 2031 as professionals clone themselves for scale", source: "Bloomberg" },
+  { title: "OpenClaw and similar platforms let entrepreneurs build AI versions of themselves for client interactions", source: "VentureBeat" },
+  { title: "ElevenLabs voice cloning now used by 1M+ creators to scale content without recording", source: "Wired" },
+  { title: "Small businesses using AI agents for scheduling, email, and ops save 15+ hours per week", source: "Forbes" },
   { title: "AI job postings grew 37.5% year-over-year — 12.5x faster than overall market", source: "LinkedIn" },
-  { title: "Software developers with AI tools complete 126% more projects per quarter", source: "Bloomberg" },
-  { title: "Only 5% of organizations are reskilling their workforce at scale despite 95% demand", source: "WEF" },
-  { title: "Employees at companies with required AI training are 89% more likely to report positive impact", source: "McKinsey" },
-  { title: "Average organization runs 65-75 GenAI apps with 80-90% completely unmanaged", source: "Gartner" },
+  { title: "Synthesia reports 50,000+ companies now use AI avatars for training and customer-facing video", source: "Bloomberg" },
+  { title: "One-person businesses generating $1M+ revenue using AI for sales, support, and fulfillment", source: "WSJ" },
+  { title: "Companies with structured AI governance deploy AI systems 2x faster", source: "Gartner" },
+  { title: "92 million jobs face displacement by 2030 while 170 million new roles emerge", source: "WEF" },
+  { title: "Descript and AI editing tools cut video production time by 80% for small content teams", source: "The Verge" },
 ];
 
 // ============================================================

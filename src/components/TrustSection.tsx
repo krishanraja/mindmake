@@ -83,36 +83,42 @@ const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => {
 
   return (
     <div
-      className="w-full p-5 rounded-2xl border border-border/50 hover:border-ink/20 dark:hover:border-mint/20 transition-all cursor-pointer flex flex-col bg-background h-[260px] select-none"
+      className="w-full p-5 rounded-2xl border border-border/50 hover:border-ink/20 dark:hover:border-mint/20 transition-all cursor-pointer flex flex-col bg-background select-none"
       onClick={() => setIsExpanded(!isExpanded)}
     >
-      {/* Metric -- fixed height */}
-      <div className="mb-2 h-[56px]">
+      {/* Metric */}
+      <div className="mb-2">
         <div className="text-3xl font-bold text-ink dark:text-mint leading-none">
           {testimonial.metric}
         </div>
         <div className="text-[11px] text-muted-foreground mt-1 line-clamp-1">{testimonial.metricLabel}</div>
       </div>
 
-      {/* Quote -- exactly 2 lines */}
+      {/* Quote */}
       <Quote className="h-3.5 w-3.5 text-ink/20 dark:text-white/20 mb-1.5 shrink-0" />
-      <p className="text-sm font-medium line-clamp-2 h-[40px] shrink-0">
+      <p className={`text-sm font-medium shrink-0 ${isExpanded ? "" : "line-clamp-2"}`}>
         &ldquo;{testimonial.shortQuote}&rdquo;
       </p>
 
       {/* Expanded detail */}
-      {isExpanded && (
-        <motion.p
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          className="text-[11px] text-muted-foreground leading-relaxed mt-1"
-        >
+      <motion.div
+        initial={false}
+        animate={{ height: isExpanded ? "auto" : 0, opacity: isExpanded ? 1 : 0 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className="overflow-hidden"
+      >
+        <p className="text-[12px] text-muted-foreground leading-relaxed mt-2">
           {testimonial.fullQuote}
-        </motion.p>
+        </p>
+      </motion.div>
+
+      {/* Read more hint */}
+      {!isExpanded && (
+        <p className="text-[10px] text-mint mt-1.5 font-medium">Read more</p>
       )}
 
       {/* Footer -- always at bottom */}
-      <div className="mt-auto pt-2 border-t border-border/30">
+      <div className="mt-auto pt-3 border-t border-border/30">
         <div className="font-semibold text-[11px]">{testimonial.name}</div>
         <div className="text-[10px] text-muted-foreground">{testimonial.title}</div>
       </div>
@@ -124,14 +130,10 @@ const TestimonialCarousel = ({ isInView }: { isInView: boolean }) => {
   const isMobile = useIsMobile();
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
-  const [canScrollPrev, setCanScrollPrev] = useState(false);
-  const [canScrollNext, setCanScrollNext] = useState(false);
 
   const onSelect = useCallback(() => {
     if (!api) return;
     setCurrent(api.selectedScrollSnap());
-    setCanScrollPrev(api.canScrollPrev());
-    setCanScrollNext(api.canScrollNext());
   }, [api]);
 
   useEffect(() => {
@@ -151,9 +153,8 @@ const TestimonialCarousel = ({ isInView }: { isInView: boolean }) => {
         setApi={setApi}
         opts={{
           align: "start",
-          loop: false,
+          loop: true,
           dragFree: false,
-          containScroll: "trimSnaps",
         }}
         orientation="horizontal"
         className="w-full"
@@ -165,7 +166,7 @@ const TestimonialCarousel = ({ isInView }: { isInView: boolean }) => {
               className={`pl-5 ${
                 isMobile
                   ? "basis-[85%]"
-                  : "basis-[320px]"
+                  : "basis-1/3"
               }`}
             >
               <motion.div
@@ -183,18 +184,14 @@ const TestimonialCarousel = ({ isInView }: { isInView: boolean }) => {
 
       {/* Edge fade gradients */}
       <div
-        className={`absolute left-0 top-0 bottom-0 w-8 pointer-events-none z-10 transition-opacity duration-300 ${
-          canScrollPrev ? "opacity-100" : "opacity-0"
-        }`}
+        className="absolute left-0 top-0 bottom-0 w-8 pointer-events-none z-10"
         style={{
           background:
             "linear-gradient(to right, var(--muted), transparent)",
         }}
       />
       <div
-        className={`absolute right-0 top-0 bottom-0 w-8 pointer-events-none z-10 transition-opacity duration-300 ${
-          canScrollNext ? "opacity-100" : "opacity-0"
-        }`}
+        className="absolute right-0 top-0 bottom-0 w-8 pointer-events-none z-10"
         style={{
           background:
             "linear-gradient(to left, var(--muted), transparent)",
@@ -206,24 +203,14 @@ const TestimonialCarousel = ({ isInView }: { isInView: boolean }) => {
         <>
           <button
             onClick={() => api?.scrollPrev()}
-            disabled={!canScrollPrev}
-            className={`absolute -left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-background border border-border/50 shadow-md flex items-center justify-center transition-all duration-200 ${
-              canScrollPrev
-                ? "hover:border-mint/50 hover:shadow-lg hover:scale-105 opacity-0 group-hover:opacity-100 cursor-pointer"
-                : "opacity-0 pointer-events-none"
-            }`}
+            className="absolute -left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-background border border-border/50 shadow-md flex items-center justify-center transition-all duration-200 hover:border-mint/50 hover:shadow-lg hover:scale-105 opacity-0 group-hover:opacity-100 cursor-pointer"
             aria-label="Previous testimonial"
           >
             <ChevronLeft className="w-5 h-5 text-ink dark:text-foreground" />
           </button>
           <button
             onClick={() => api?.scrollNext()}
-            disabled={!canScrollNext}
-            className={`absolute -right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-background border border-border/50 shadow-md flex items-center justify-center transition-all duration-200 ${
-              canScrollNext
-                ? "hover:border-mint/50 hover:shadow-lg hover:scale-105 opacity-0 group-hover:opacity-100 cursor-pointer"
-                : "opacity-0 pointer-events-none"
-            }`}
+            className="absolute -right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-background border border-border/50 shadow-md flex items-center justify-center transition-all duration-200 hover:border-mint/50 hover:shadow-lg hover:scale-105 opacity-0 group-hover:opacity-100 cursor-pointer"
             aria-label="Next testimonial"
           >
             <ChevronRight className="w-5 h-5 text-ink dark:text-foreground" />

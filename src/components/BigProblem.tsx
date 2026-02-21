@@ -1,6 +1,71 @@
 import { useInView } from "framer-motion";
 import { useRef, useState, useEffect, useCallback } from "react";
 
+const SIZE = "text-xl sm:text-2xl md:text-3xl font-display tracking-tight leading-snug";
+
+const linesData = [
+  { text: "In ten years, every leader will fall into one of two categories.", weight: "font-light", dim: false, mint: false },
+  { text: "Those who learned to orchestrate AI.", weight: "font-black", dim: false, mint: false, pw: "orchestrate" },
+  { text: "And those who got orchestrated by it.", weight: "font-light", dim: true, mint: false },
+  { text: "Those who trained AI to extend their thinking.", weight: "font-black", dim: false, mint: false, pw: "trained" },
+  { text: "And those who let AI replace it.", weight: "font-light", dim: true, mint: false },
+  { text: "Those who used it to accelerate.", weight: "font-black", dim: false, mint: false, pw: "accelerate" },
+  { text: "And those who got flattened by those who did.", weight: "font-light", dim: true, mint: false },
+  { text: "This isn\u2019t a technology decision.", weight: "font-medium", dim: false, mint: false },
+  { text: "It\u2019s a leadership one.", weight: "font-black", dim: false, mint: true },
+  { text: "The question isn\u2019t whether AI will reshape your business. It\u2019s whether you\u2019ll be the one holding the pen.", weight: "font-light", dim: false, mint: false, boldEnd: "It\u2019s whether you\u2019ll be the one holding the pen." },
+];
+
+const renderText = (line: typeof linesData[0], isMintLayer: boolean) => {
+  if (isMintLayer) return line.text;
+
+  if (line.boldEnd) {
+    const parts = line.text.split(line.boldEnd);
+    return <>{parts[0]}<span className="font-bold">{line.boldEnd}</span></>;
+  }
+  if (line.pw) {
+    const parts = line.text.split(line.pw);
+    return <>{parts[0]}<span className="tracking-[0.06em]">{line.pw}</span>{parts[1]}</>;
+  }
+  return line.text;
+};
+
+const SharedLines = ({ isMintLayer, litIndex }: { isMintLayer: boolean; litIndex: number }) => (
+  <div className="space-y-3 md:space-y-4 text-center">
+    {linesData.map((line, i) => {
+      const isLit = i <= litIndex;
+      const isCurrent = i === litIndex;
+
+      let color: string;
+      if (isMintLayer) {
+        color = "text-mint";
+      } else if (line.mint && isLit) {
+        color = "text-mint";
+      } else if (isLit) {
+        color = isCurrent ? "text-white" : line.dim ? "text-white/25" : "text-white/60";
+      } else {
+        color = "text-white/[0.06]";
+      }
+
+      return (
+        <p
+          key={i}
+          className={`${SIZE} ${line.weight} ${color} transition-all duration-700 ease-out ${
+            !isMintLayer && isCurrent ? "scale-[1.01]" : "scale-100"
+          }`}
+          style={
+            !isMintLayer && line.mint && isLit
+              ? { textShadow: "0 0 60px hsl(158 82% 73% / 0.3), 0 0 120px hsl(158 82% 73% / 0.1)" }
+              : undefined
+          }
+        >
+          {renderText(line, isMintLayer)}
+        </p>
+      );
+    })}
+  </div>
+);
+
 const BigProblem = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -12,12 +77,12 @@ const BigProblem = () => {
     let i = -1;
     const interval = setInterval(() => {
       i++;
-      if (i > 8) {
+      if (i >= linesData.length) {
         clearInterval(interval);
         return;
       }
       setLitIndex(i);
-    }, 450);
+    }, 400);
     return () => clearInterval(interval);
   }, [isInView]);
 
@@ -30,156 +95,27 @@ const BigProblem = () => {
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      className="bg-ink py-20 md:py-28 lg:py-32"
-    >
+    <section ref={sectionRef} className="bg-ink py-16 md:py-20">
       <div
         ref={contentRef}
-        className="relative container-width max-w-5xl px-6 md:px-12"
+        className="relative container-width max-w-6xl px-4 md:px-8"
         onMouseMove={handleMouseMove}
       >
-        <div className="space-y-5 md:space-y-6 text-center">
-          <Line index={0} litIndex={litIndex} className="text-lg sm:text-xl md:text-2xl font-display font-light tracking-tight leading-relaxed">
-            In ten years, every leader will fall into one of two categories.
-          </Line>
+        {/* Base text layer */}
+        <SharedLines isMintLayer={false} litIndex={litIndex} />
 
-          <Line index={1} litIndex={litIndex} className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-black tracking-tight leading-[1.08]">
-            Those who learned to <PW>orchestrate</PW> AI.
-          </Line>
-
-          <Line index={2} litIndex={litIndex} dim className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-light tracking-tight leading-[1.08]">
-            And those who got orchestrated by it.
-          </Line>
-
-          <Line index={3} litIndex={litIndex} className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-black tracking-tight leading-[1.08]">
-            Those who <PW>trained</PW> AI to extend their thinking.
-          </Line>
-
-          <Line index={4} litIndex={litIndex} dim className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-light tracking-tight leading-[1.08]">
-            And those who let AI replace it.
-          </Line>
-
-          <Line index={5} litIndex={litIndex} className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-black tracking-tight leading-[1.08]">
-            Those who used it to <PW>accelerate</PW>.
-          </Line>
-
-          <Line index={6} litIndex={litIndex} dim className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-light tracking-tight leading-[1.08]">
-            And those who got flattened by those who did.
-          </Line>
-
-          <div className="pt-4 md:pt-6">
-            <Line index={7} litIndex={litIndex} className="text-lg sm:text-xl md:text-2xl font-display font-medium tracking-tight leading-relaxed">
-              This isn&rsquo;t a technology decision.
-            </Line>
-            <Line index={7} litIndex={litIndex} mint className="text-2xl sm:text-3xl md:text-4xl font-display font-black tracking-tight leading-[1.08] mt-2">
-              It&rsquo;s a leadership one.
-            </Line>
-          </div>
-
-          <Line index={8} litIndex={litIndex} className="text-base sm:text-lg md:text-xl font-display font-light tracking-tight leading-relaxed max-w-2xl mx-auto">
-            The question isn&rsquo;t whether AI will reshape your business.{" "}
-            <span className="font-bold">It&rsquo;s whether you&rsquo;ll be the one holding the pen.</span>
-          </Line>
-        </div>
-
-        {/* Mint torchlight overlay */}
+        {/* Mint torchlight overlay -- identical structure, masked to cursor */}
         <div
-          className="absolute inset-0 pointer-events-none"
+          className="absolute inset-0 pointer-events-none px-4 md:px-8"
           style={{
             maskImage: "radial-gradient(circle 120px at var(--mx, -200px) var(--my, -200px), black 0%, transparent 80%)",
             WebkitMaskImage: "radial-gradient(circle 120px at var(--mx, -200px) var(--my, -200px), black 0%, transparent 80%)",
           }}
         >
-          <div className="space-y-5 md:space-y-6 text-center">
-            <MintLine className="text-lg sm:text-xl md:text-2xl font-display font-light tracking-tight leading-relaxed">
-              In ten years, every leader will fall into one of two categories.
-            </MintLine>
-            <MintLine className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-black tracking-tight leading-[1.08]">
-              Those who learned to <span className="tracking-[0.06em]">orchestrate</span> AI.
-            </MintLine>
-            <MintLine className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-light tracking-tight leading-[1.08]">
-              And those who got orchestrated by it.
-            </MintLine>
-            <MintLine className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-black tracking-tight leading-[1.08]">
-              Those who <span className="tracking-[0.06em]">trained</span> AI to extend their thinking.
-            </MintLine>
-            <MintLine className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-light tracking-tight leading-[1.08]">
-              And those who let AI replace it.
-            </MintLine>
-            <MintLine className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-black tracking-tight leading-[1.08]">
-              Those who used it to <span className="tracking-[0.06em]">accelerate</span>.
-            </MintLine>
-            <MintLine className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-light tracking-tight leading-[1.08]">
-              And those who got flattened by those who did.
-            </MintLine>
-            <div className="pt-4 md:pt-6">
-              <MintLine className="text-lg sm:text-xl md:text-2xl font-display font-medium tracking-tight leading-relaxed">
-                This isn&rsquo;t a technology decision.
-              </MintLine>
-              <MintLine className="text-2xl sm:text-3xl md:text-4xl font-display font-black tracking-tight leading-[1.08] mt-2">
-                It&rsquo;s a leadership one.
-              </MintLine>
-            </div>
-            <MintLine className="text-base sm:text-lg md:text-xl font-display font-light tracking-tight leading-relaxed max-w-2xl mx-auto">
-              The question isn&rsquo;t whether AI will reshape your business.{" "}
-              <span className="font-bold">It&rsquo;s whether you&rsquo;ll be the one holding the pen.</span>
-            </MintLine>
-          </div>
+          <SharedLines isMintLayer={true} litIndex={litIndex} />
         </div>
       </div>
     </section>
-  );
-};
-
-const PW = ({ children }: { children: React.ReactNode }) => (
-  <span className="tracking-[0.06em]">{children}</span>
-);
-
-const MintLine = ({ className, children }: { className?: string; children: React.ReactNode }) => (
-  <p className={`${className} text-mint`}>{children}</p>
-);
-
-const Line = ({
-  index,
-  litIndex,
-  dim,
-  mint,
-  className,
-  children,
-}: {
-  index: number;
-  litIndex: number;
-  dim?: boolean;
-  mint?: boolean;
-  className?: string;
-  children: React.ReactNode;
-}) => {
-  const isLit = index <= litIndex;
-  const isCurrent = index === litIndex;
-
-  let color: string;
-  if (mint && isLit) {
-    color = "text-mint";
-  } else if (isLit) {
-    color = isCurrent ? "text-white" : dim ? "text-white/25" : "text-white/60";
-  } else {
-    color = "text-white/[0.06]";
-  }
-
-  return (
-    <p
-      className={`${className} ${color} transition-all duration-700 ease-out ${
-        isCurrent ? "scale-[1.01]" : "scale-100"
-      }`}
-      style={
-        mint && isLit
-          ? { textShadow: "0 0 60px hsl(158 82% 73% / 0.3), 0 0 120px hsl(158 82% 73% / 0.1)" }
-          : undefined
-      }
-    >
-      {children}
-    </p>
   );
 };
 

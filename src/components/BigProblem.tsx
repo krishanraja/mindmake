@@ -82,7 +82,7 @@ const BigProblem = () => {
     <section ref={sectionRef} className="bg-ink pt-16 md:pt-24 pb-0">
       <div
         ref={contentRef}
-        className="relative max-w-6xl mx-auto px-4"
+        className="relative container-width"
         onMouseMove={handleMouseMove}
       >
         {/* Base text layer */}
@@ -90,7 +90,7 @@ const BigProblem = () => {
 
         {/* Mint torchlight overlay */}
         <div
-          className="absolute inset-0 pointer-events-none px-4"
+          className="absolute inset-0 pointer-events-none px-4 sm:px-6 lg:px-8"
           style={{
             maskImage: "radial-gradient(circle 100px at var(--mx, -999px) var(--my, -999px), black 0%, transparent 70%)",
             WebkitMaskImage: "radial-gradient(circle 100px at var(--mx, -999px) var(--my, -999px), black 0%, transparent 70%)",

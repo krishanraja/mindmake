@@ -1,7 +1,14 @@
-import { Quote } from "lucide-react";
-import { useState, useRef } from "react";
+import { Quote, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import krishHeadshot from "@/assets/krish-headshot.png";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  type CarouselApi,
+} from "@/components/ui/carousel";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const spring = { type: "spring" as const, stiffness: 80, damping: 18 };
 
@@ -76,7 +83,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => {
 
   return (
     <div
-      className="w-[300px] sm:w-[320px] shrink-0 p-5 rounded-2xl border border-border/50 hover:border-ink/20 dark:hover:border-mint/20 transition-all cursor-pointer flex flex-col bg-background snap-start h-[260px]"
+      className="w-full p-5 rounded-2xl border border-border/50 hover:border-ink/20 dark:hover:border-mint/20 transition-all cursor-pointer flex flex-col bg-background h-[260px] select-none"
       onClick={() => setIsExpanded(!isExpanded)}
     >
       {/* Metric -- fixed height */}
@@ -109,6 +116,138 @@ const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => {
         <div className="font-semibold text-[11px]">{testimonial.name}</div>
         <div className="text-[10px] text-muted-foreground">{testimonial.title}</div>
       </div>
+    </div>
+  );
+};
+
+const TestimonialCarousel = ({ isInView }: { isInView: boolean }) => {
+  const isMobile = useIsMobile();
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(false);
+
+  const onSelect = useCallback(() => {
+    if (!api) return;
+    setCurrent(api.selectedScrollSnap());
+    setCanScrollPrev(api.canScrollPrev());
+    setCanScrollNext(api.canScrollNext());
+  }, [api]);
+
+  useEffect(() => {
+    if (!api) return;
+    onSelect();
+    api.on("select", onSelect);
+    api.on("reInit", onSelect);
+    return () => {
+      api.off("select", onSelect);
+    };
+  }, [api, onSelect]);
+
+  return (
+    <div className="relative group hide-scrollbar">
+      {/* Carousel */}
+      <Carousel
+        setApi={setApi}
+        opts={{
+          align: "start",
+          loop: false,
+          dragFree: false,
+          containScroll: "trimSnaps",
+        }}
+        orientation="horizontal"
+        className="w-full"
+      >
+        <CarouselContent className="-ml-5">
+          {testimonials.map((testimonial, index) => (
+            <CarouselItem
+              key={index}
+              className={`pl-5 ${
+                isMobile
+                  ? "basis-[85%]"
+                  : "basis-[320px]"
+              }`}
+            >
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ ...spring, delay: index * 0.08 }}
+                className="h-full"
+              >
+                <TestimonialCard testimonial={testimonial} />
+              </motion.div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+      </Carousel>
+
+      {/* Edge fade gradients */}
+      <div
+        className={`absolute left-0 top-0 bottom-0 w-8 pointer-events-none z-10 transition-opacity duration-300 ${
+          canScrollPrev ? "opacity-100" : "opacity-0"
+        }`}
+        style={{
+          background:
+            "linear-gradient(to right, var(--muted), transparent)",
+        }}
+      />
+      <div
+        className={`absolute right-0 top-0 bottom-0 w-8 pointer-events-none z-10 transition-opacity duration-300 ${
+          canScrollNext ? "opacity-100" : "opacity-0"
+        }`}
+        style={{
+          background:
+            "linear-gradient(to left, var(--muted), transparent)",
+        }}
+      />
+
+      {/* Desktop: Arrow buttons */}
+      {!isMobile && (
+        <>
+          <button
+            onClick={() => api?.scrollPrev()}
+            disabled={!canScrollPrev}
+            className={`absolute -left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-background border border-border/50 shadow-md flex items-center justify-center transition-all duration-200 ${
+              canScrollPrev
+                ? "hover:border-mint/50 hover:shadow-lg hover:scale-105 opacity-0 group-hover:opacity-100 cursor-pointer"
+                : "opacity-0 pointer-events-none"
+            }`}
+            aria-label="Previous testimonial"
+          >
+            <ChevronLeft className="w-5 h-5 text-ink dark:text-foreground" />
+          </button>
+          <button
+            onClick={() => api?.scrollNext()}
+            disabled={!canScrollNext}
+            className={`absolute -right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-background border border-border/50 shadow-md flex items-center justify-center transition-all duration-200 ${
+              canScrollNext
+                ? "hover:border-mint/50 hover:shadow-lg hover:scale-105 opacity-0 group-hover:opacity-100 cursor-pointer"
+                : "opacity-0 pointer-events-none"
+            }`}
+            aria-label="Next testimonial"
+          >
+            <ChevronRight className="w-5 h-5 text-ink dark:text-foreground" />
+          </button>
+        </>
+      )}
+
+      {/* Mobile: Dot indicators */}
+      {isMobile && (
+        <div className="flex justify-center gap-2 mt-5">
+          {testimonials.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => api?.scrollTo(index)}
+              className={`h-2 rounded-full transition-all duration-200 ${
+                current === index
+                  ? "w-6 bg-mint"
+                  : "w-2 bg-muted-foreground/30"
+              }`}
+              aria-label={`Go to testimonial ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
@@ -214,21 +353,8 @@ const TrustSection = () => {
           </div>
         </motion.div>
 
-        {/* Horizontal scroll testimonials */}
-        <div className="overflow-x-auto pb-4 -mx-4 px-4 scrollbar-thin">
-          <div className="flex gap-5 snap-x snap-mandatory">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ ...spring, delay: index * 0.08 }}
-              >
-                <TestimonialCard testimonial={testimonial} />
-              </motion.div>
-            ))}
-          </div>
-        </div>
+        {/* Testimonial Carousel */}
+        <TestimonialCarousel isInView={isInView} />
 
         {/* Client sectors */}
         <motion.div

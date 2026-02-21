@@ -116,6 +116,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => {
 const TrustSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const [bioExpanded, setBioExpanded] = useState(false);
 
   return (
     <section ref={ref} className="py-24 md:py-32 bg-muted relative overflow-hidden" id="trust">
@@ -144,12 +145,41 @@ const TrustSection = () => {
             />
           </div>
 
-          <p className="text-xl md:text-2xl font-bold mb-4 max-w-2xl mx-auto leading-snug">
-            I work with AI every single day - building, breaking, and shipping real systems. I&rsquo;ve run and restructured businesses, P&amp;Ls and teams with automation, and I&rsquo;m here to make sure you can too: without the jargon, without the judgement, and without pretending you should already know this stuff.
-          </p>
-          <p className="text-muted-foreground max-w-xl mx-auto mb-8">
-            This is a safe space to ask the &ldquo;silly&rdquo; questions, get honest answers, and walk away with the skills and confidence to future-proof yourself for the next decade. That&rsquo;s what I&rsquo;m passionate about.
-          </p>
+          {/* Desktop: wider container, full text */}
+          <div className="hidden md:block">
+            <p className="text-2xl font-bold mb-4 max-w-4xl mx-auto leading-snug">
+              I work with AI every single day - building, breaking, and shipping real systems. I&rsquo;ve run and restructured businesses, P&amp;Ls and teams with automation, and I&rsquo;m here to make sure you can too: without the jargon, without the judgement, and without pretending you should already know this stuff.
+            </p>
+            <p className="text-muted-foreground max-w-3xl mx-auto mb-8">
+              This is a safe space to ask the &ldquo;silly&rdquo; questions, get honest answers, and walk away with the skills and confidence to future-proof yourself for the next decade. That&rsquo;s what I&rsquo;m passionate about.
+            </p>
+          </div>
+
+          {/* Mobile: collapsible bio */}
+          <div className="md:hidden mb-8">
+            <p className="text-lg font-bold leading-snug">
+              I work with AI every single day&mdash;building, breaking, and shipping real systems.
+            </p>
+            <motion.div
+              initial={false}
+              animate={{ height: bioExpanded ? "auto" : 0, opacity: bioExpanded ? 1 : 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="overflow-hidden"
+            >
+              <p className="text-lg font-bold leading-snug mt-2">
+                I&rsquo;ve run and restructured businesses, P&amp;Ls and teams with automation, and I&rsquo;m here to make sure you can too: without the jargon, without the judgement, and without pretending you should already know this stuff.
+              </p>
+              <p className="text-muted-foreground mt-4">
+                This is a safe space to ask the &ldquo;silly&rdquo; questions, get honest answers, and walk away with the skills and confidence to future-proof yourself for the next decade. That&rsquo;s what I&rsquo;m passionate about.
+              </p>
+            </motion.div>
+            <button
+              onClick={() => setBioExpanded(!bioExpanded)}
+              className="mt-3 text-sm text-mint hover:text-mint/80 transition-colors font-medium"
+            >
+              {bioExpanded ? "Show less" : "Read more"}
+            </button>
+          </div>
 
           {/* Get to know me */}
           <p className="text-xs text-muted-foreground mb-4 uppercase tracking-wider font-medium">

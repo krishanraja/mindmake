@@ -50,14 +50,10 @@ const Contact = () => {
         body: {
           name: formData.name,
           email: formData.email,
-          message: `
-Company: ${formData.company || "Not provided"}
-Role: ${formData.role || "Not provided"}
-Interest: ${formData.interest || "Not specified"}
-
-Message:
-${formData.message}
-          `.trim()
+          message: formData.message,
+          company: formData.company || undefined,
+          role: formData.role || undefined,
+          interest: formData.interest || undefined,
         },
       });
 

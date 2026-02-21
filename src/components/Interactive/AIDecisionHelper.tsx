@@ -220,7 +220,6 @@ export const TryItWidget = ({ compact = false, onClose }: TryItWidgetProps) => {
                   <Button
                     variant="outline"
                     className="w-full border-white/20 text-white hover:bg-white/10"
-                    variant="outline"
                     onClick={handleReset}
                   >
                     Ask Another Question
@@ -459,7 +458,6 @@ export const TryItWidget = ({ compact = false, onClose }: TryItWidgetProps) => {
             <Button
               variant="outline"
               className="w-full border-white/20 text-white hover:bg-white/10"
-              variant="outline"
               onClick={handleReset}
             >
               Ask Another Question

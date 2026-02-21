@@ -477,8 +477,9 @@ a:hover {
     }
   }
 
-  .container-width { 
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  .container-width {
+    @apply mx-auto px-4 sm:px-6 lg:px-8;
+    max-width: 108rem; /* ~1728px, 35% wider than the previous 80rem/1280px */
   }
 
   /* Hero text sizing now handled by Tailwind classes in NewHero.tsx */

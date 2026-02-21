@@ -83,7 +83,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => {
 
   return (
     <div
-      className="w-full p-5 rounded-2xl border border-border/50 hover:border-ink/20 dark:hover:border-mint/20 transition-all cursor-pointer flex flex-col bg-background select-none"
+      className="w-full h-full p-5 rounded-2xl border border-border/50 hover:border-ink/20 dark:hover:border-mint/20 transition-all cursor-pointer flex flex-col bg-background select-none"
       onClick={() => setIsExpanded(!isExpanded)}
     >
       {/* Metric */}
@@ -147,26 +147,27 @@ const TestimonialCarousel = ({ isInView }: { isInView: boolean }) => {
   }, [api, onSelect]);
 
   return (
-    <div className="relative group hide-scrollbar">
-      {/* Carousel */}
+    <div className="relative group">
+      {/* Carousel — center-aligned so prev/next cards peek on both edges */}
       <Carousel
         setApi={setApi}
         opts={{
-          align: "start",
+          align: "center",
           loop: true,
           dragFree: false,
+          slidesToScroll: 1,
         }}
         orientation="horizontal"
         className="w-full"
       >
-        <CarouselContent className="-ml-5">
+        <CarouselContent className="-ml-4">
           {testimonials.map((testimonial, index) => (
             <CarouselItem
               key={index}
-              className={`pl-5 ${
+              className={`pl-4 ${
                 isMobile
-                  ? "basis-[85%]"
-                  : "basis-1/3"
+                  ? "basis-[78%]"
+                  : "basis-[29%]"
               }`}
             >
               <motion.div
@@ -182,16 +183,16 @@ const TestimonialCarousel = ({ isInView }: { isInView: boolean }) => {
         </CarouselContent>
       </Carousel>
 
-      {/* Edge fade gradients */}
+      {/* Edge fade gradients — wider to cover peeking cards */}
       <div
-        className="absolute left-0 top-0 bottom-0 w-8 pointer-events-none z-10"
+        className="absolute left-0 top-0 bottom-0 w-12 md:w-20 pointer-events-none z-10"
         style={{
           background:
             "linear-gradient(to right, var(--muted), transparent)",
         }}
       />
       <div
-        className="absolute right-0 top-0 bottom-0 w-8 pointer-events-none z-10"
+        className="absolute right-0 top-0 bottom-0 w-12 md:w-20 pointer-events-none z-10"
         style={{
           background:
             "linear-gradient(to left, var(--muted), transparent)",
@@ -203,14 +204,14 @@ const TestimonialCarousel = ({ isInView }: { isInView: boolean }) => {
         <>
           <button
             onClick={() => api?.scrollPrev()}
-            className="absolute -left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-background border border-border/50 shadow-md flex items-center justify-center transition-all duration-200 hover:border-mint/50 hover:shadow-lg hover:scale-105 opacity-0 group-hover:opacity-100 cursor-pointer"
+            className="absolute -left-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-background border border-border/50 shadow-md flex items-center justify-center transition-all duration-200 hover:border-mint/50 hover:shadow-lg hover:scale-105 opacity-0 group-hover:opacity-100 cursor-pointer"
             aria-label="Previous testimonial"
           >
             <ChevronLeft className="w-5 h-5 text-ink dark:text-foreground" />
           </button>
           <button
             onClick={() => api?.scrollNext()}
-            className="absolute -right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-background border border-border/50 shadow-md flex items-center justify-center transition-all duration-200 hover:border-mint/50 hover:shadow-lg hover:scale-105 opacity-0 group-hover:opacity-100 cursor-pointer"
+            className="absolute -right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-background border border-border/50 shadow-md flex items-center justify-center transition-all duration-200 hover:border-mint/50 hover:shadow-lg hover:scale-105 opacity-0 group-hover:opacity-100 cursor-pointer"
             aria-label="Next testimonial"
           >
             <ChevronRight className="w-5 h-5 text-ink dark:text-foreground" />
@@ -218,23 +219,21 @@ const TestimonialCarousel = ({ isInView }: { isInView: boolean }) => {
         </>
       )}
 
-      {/* Mobile: Dot indicators */}
-      {isMobile && (
-        <div className="flex justify-center gap-2 mt-5">
-          {testimonials.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => api?.scrollTo(index)}
-              className={`h-2 rounded-full transition-all duration-200 ${
-                current === index
-                  ? "w-6 bg-mint"
-                  : "w-2 bg-muted-foreground/30"
-              }`}
-              aria-label={`Go to testimonial ${index + 1}`}
-            />
-          ))}
-        </div>
-      )}
+      {/* Dot indicators — shown on both mobile and desktop */}
+      <div className="flex justify-center gap-1.5 mt-5">
+        {testimonials.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => api?.scrollTo(index)}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              current === index
+                ? "w-6 bg-mint"
+                : "w-1.5 bg-muted-foreground/25 hover:bg-muted-foreground/40"
+            }`}
+            aria-label={`Go to testimonial ${index + 1}`}
+          />
+        ))}
+      </div>
     </div>
   );
 };

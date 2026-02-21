@@ -1,5 +1,5 @@
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import { useRef } from "react";
+import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring } from "framer-motion";
+import { useRef, useState, useCallback } from "react";
 import { Target, Zap, FileCheck } from "lucide-react";
 
 const MindLabel = ({ prefix, suffix }: { prefix: string; suffix: string }) => (
@@ -29,18 +29,61 @@ const FrameworkJourney = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["start end", "end start"],
+    offset: ["start 0.65", "end start"],
   });
 
   const spotlight = useTransform(
     scrollYProgress,
-    [0, 0.35, 0.42, 0.50, 0.60, 0.72, 0.85],
+    [0, 0.15, 0.25, 0.40, 0.55, 0.70, 0.85],
     [-1, -1, 0, 0, 1, 2, 2],
   );
 
+  // Torchlight: mouse-following mint glow
+  const rawX = useMotionValue(-1000);
+  const rawY = useMotionValue(-1000);
+  const torchX = useSpring(rawX, { stiffness: 300, damping: 30 });
+  const torchY = useSpring(rawY, { stiffness: 300, damping: 30 });
+  const [torchVisible, setTorchVisible] = useState(false);
+
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      const rect = sectionRef.current?.getBoundingClientRect();
+      if (!rect) return;
+      rawX.set(e.clientX - rect.left);
+      rawY.set(e.clientY - rect.top);
+    },
+    [rawX, rawY],
+  );
+
+  const handleMouseEnter = useCallback(() => setTorchVisible(true), []);
+  const handleMouseLeave = useCallback(() => setTorchVisible(false), []);
+
   return (
-    <section ref={sectionRef} className="py-24 md:py-32 bg-ink">
-      <div className="container-width">
+    <section
+      ref={sectionRef}
+      className="py-24 md:py-32 bg-ink relative"
+      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {/* Torchlight glow that follows cursor */}
+      <motion.div
+        className="absolute pointer-events-none z-10 rounded-full"
+        style={{
+          width: 420,
+          height: 420,
+          x: torchX,
+          y: torchY,
+          translateX: "-50%",
+          translateY: "-50%",
+          background:
+            "radial-gradient(circle, rgba(126,244,194,0.10) 0%, rgba(126,244,194,0.04) 35%, transparent 70%)",
+          opacity: torchVisible ? 1 : 0,
+          transition: "opacity 0.3s ease",
+        }}
+      />
+
+      <div className="container-width relative z-20">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3">
             <MindLabel prefix="Mind" suffix="Set" /> &rarr;{" "}
@@ -83,6 +126,8 @@ const Card = ({
   headline: string;
   children: React.ReactNode;
 }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
   const cardOpacity = useTransform(spotlight, (v: number) => {
     const dist = Math.abs(v - index);
     return Math.max(0.2, 1 - dist * 0.8);
@@ -95,14 +140,16 @@ const Card = ({
 
   return (
     <motion.div
-      className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 flex flex-col h-[420px] relative overflow-hidden"
-      style={{ opacity: cardOpacity }}
+      className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 flex flex-col h-[420px] relative overflow-hidden transition-opacity duration-300"
+      style={{ opacity: isHovered ? 1 : cardOpacity }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Natural radial glow */}
       <motion.div
         className="absolute inset-0 rounded-2xl pointer-events-none"
         style={{
-          opacity: glowOpacity,
+          opacity: isHovered ? 0.35 : glowOpacity,
           background: "radial-gradient(ellipse at center, rgba(126, 244, 194, 0.15) 0%, transparent 70%)",
           boxShadow: "0 0 80px rgba(126, 244, 194, 0.08)",
         }}

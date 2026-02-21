@@ -26,7 +26,7 @@ const SimpleCTA = () => {
           >
             {/* Heading row with owl */}
             <div className="flex items-center justify-center gap-6 md:gap-8 mb-8">
-              <div className="w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden border-2 border-mint/20 shadow-lg shadow-mint/10 shrink-0">
+              <div className="w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden shrink-0">
                 <video
                   autoPlay
                   muted

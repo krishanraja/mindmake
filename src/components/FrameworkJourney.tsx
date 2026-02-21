@@ -32,7 +32,11 @@ const FrameworkJourney = () => {
     offset: ["start end", "end start"],
   });
 
-  const spotlight = useTransform(scrollYProgress, [0.28, 0.38, 0.53, 0.68, 0.83], [0, 0, 1, 2, 2]);
+  const spotlight = useTransform(
+    scrollYProgress,
+    [0, 0.35, 0.42, 0.50, 0.60, 0.72, 0.85],
+    [-1, -1, 0, 0, 1, 2, 2],
+  );
 
   return (
     <section ref={sectionRef} className="py-24 md:py-32 bg-ink">
@@ -157,7 +161,7 @@ const MindSetContent = () => {
 
 const MindMapContent = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const isInView = useInView(ref, { once: true, amount: 0.5, margin: "-15% 0px" });
 
   return (
     <div ref={ref} className="h-full flex flex-col justify-center">
@@ -199,7 +203,7 @@ const MindMapContent = () => {
 
 const MindMakeContent = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const isInView = useInView(ref, { once: true, amount: 0.5, margin: "-15% 0px" });
 
   return (
     <div ref={ref} className="h-full flex flex-col justify-center">

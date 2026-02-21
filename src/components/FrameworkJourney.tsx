@@ -32,7 +32,11 @@ const FrameworkJourney = () => {
     offset: ["start end", "end start"],
   });
 
-  const spotlight = useTransform(scrollYProgress, [0.05, 0.15, 0.3, 0.45, 0.6], [0, 0, 1, 2, 2]);
+  const spotlight = useTransform(
+    scrollYProgress,
+    [0, 0.35, 0.42, 0.50, 0.60, 0.72, 0.85],
+    [-1, -1, 0, 0, 1, 2, 2],
+  );
 
   return (
     <section ref={sectionRef} className="py-24 md:py-32 bg-ink">
@@ -110,7 +114,7 @@ const Card = ({
         <p className="text-xs text-mint mt-0.5">{label}</p>
       </div>
 
-      <div className="flex-1 flex flex-col overflow-hidden">{children}</div>
+      <div className="flex-1 flex flex-col overflow-hidden mt-4">{children}</div>
     </motion.div>
   );
 };
@@ -121,7 +125,7 @@ const MindSetContent = () => {
   return (
     <div className="h-full flex flex-col">
       {/* Scrolling list with fade masks */}
-      <div className="flex-1 overflow-hidden relative">
+      <div className="flex-1 overflow-hidden relative mb-3">
         <div className="absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-white/[0.04] to-transparent z-10 pointer-events-none" />
         <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-white/[0.04] to-transparent z-10 pointer-events-none" />
         <div
@@ -145,8 +149,8 @@ const MindSetContent = () => {
         </div>
       </div>
       {/* Fixed footer */}
-      <div className="h-[48px] shrink-0 flex items-center justify-center border-t border-white/10">
-        <div className="text-center">
+      <div className="h-[48px] shrink-0 flex items-center border-t border-white/10">
+        <div>
           <span className="text-[10px] text-white/30">8 inputs &rarr; </span>
           <span className="text-xs font-bold text-mint">3 that matter</span>
         </div>
@@ -157,7 +161,7 @@ const MindSetContent = () => {
 
 const MindMapContent = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const isInView = useInView(ref, { once: true, amount: 0.5, margin: "-15% 0px" });
 
   return (
     <div ref={ref} className="h-full flex flex-col justify-center">
@@ -187,8 +191,8 @@ const MindMapContent = () => {
         ))}
       </div>
       {/* Fixed footer */}
-      <div className="h-[48px] shrink-0 flex items-center justify-center border-t border-white/10 mt-auto">
-        <motion.div className="text-center" initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: 2.2 }}>
+      <div className="h-[48px] shrink-0 flex items-center border-t border-white/10 mt-auto">
+        <motion.div initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: 2.2 }}>
           <span className="text-lg font-bold text-mint">5&ndash;10 hrs</span>
           <span className="text-xs text-white/40 ml-1">saved/week</span>
         </motion.div>
@@ -199,7 +203,7 @@ const MindMapContent = () => {
 
 const MindMakeContent = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const isInView = useInView(ref, { once: true, amount: 0.5, margin: "-15% 0px" });
 
   return (
     <div ref={ref} className="h-full flex flex-col justify-center">

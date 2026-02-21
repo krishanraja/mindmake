@@ -4,14 +4,18 @@ import { InitialConsultModal } from "@/components/InitialConsultModal";
 import { motion, AnimatePresence } from "framer-motion";
 
 const headlines = [
-  "I still haven't decided.",
-  "14 tools pitched. None adopted.",
-  "My board wants an AI strategy.",
-  "Build or buy?",
-  "Which vendors do we commit to?",
-  "How do I multiply my edge?",
-  "It's chaos.",
-  "I should understand this. I don't.",
+  "If there were 3 of me, I'd be able to get everything done.",
+  "I need to deliver an AI strategy - where do I start?",
+  "What if I could give every employee an AI coworker?",
+  "14 tools pitched this quarter. I use none of them.",
+  "I want to build an AI assistant that actually knows our business.",
+  "Should we build our own AI tools or buy off the shelf?",
+  "Everyone on my team is using different AI tools. It's chaos.",
+  "I want AI doing the boring work so my team does the real work.",
+  "How do I know if AI is delivering ROI or just hype?",
+  "I keep imagining what my company looks like with AI embedded everywhere.",
+  "I'm nervous about getting locked into the wrong vendor.",
+  "I should probably understand this better than I do.",
 ];
 
 const NewHero = () => {

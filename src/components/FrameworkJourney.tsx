@@ -29,12 +29,12 @@ const FrameworkJourney = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["start end", "end start"],
+    offset: ["start 0.65", "end start"],
   });
 
   const spotlight = useTransform(
     scrollYProgress,
-    [0, 0.35, 0.42, 0.50, 0.60, 0.72, 0.85],
+    [0, 0.15, 0.25, 0.40, 0.55, 0.70, 0.85],
     [-1, -1, 0, 0, 1, 2, 2],
   );
 

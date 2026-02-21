@@ -30,7 +30,7 @@ const NewHero = () => {
   return (
     <section
       id="hero"
-      className="min-h-[100dvh] flex items-center bg-ink text-white relative pt-safe-area-top"
+      className="min-h-[100dvh] flex items-center justify-center bg-ink text-white relative overflow-hidden pt-safe-area-top"
     >
       {/* Background layers */}
       <div className="hero-decoration absolute inset-0 bg-gradient-to-br from-ink-900 via-ink to-ink-700/50" />
@@ -50,7 +50,7 @@ const NewHero = () => {
       />
 
       {/* Content -- split layout: text left, owl right */}
-      <div className="container-width relative z-10 pb-12 sm:pb-16 md:pb-20 hero-content-wrapper">
+      <div className="container-width relative z-10 pb-12 sm:pb-16 md:pb-20 overflow-x-hidden hero-content-wrapper">
         <div className="flex flex-col md:flex-row items-center gap-10 md:gap-12 lg:gap-16">
           {/* Left: text content */}
           <div className="flex-1 max-w-4xl overflow-hidden order-2 md:order-1">

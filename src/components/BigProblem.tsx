@@ -1,22 +1,25 @@
-import { useInView } from "framer-motion";
-import { useRef, useState, useEffect, useCallback } from "react";
+import { motion, useInView } from "framer-motion";
+import { useRef, useCallback } from "react";
+
+const lines = [
+  { text: "In ten years, every leader will fall into one of two categories.", weight: "font-light", gap: false },
+  { text: "", weight: "", gap: true },
+  { text: "Those who learned to orchestrate AI.", weight: "font-black", pw: "orchestrate", gap: false },
+  { text: "And those who got orchestrated by it.", weight: "font-light", dim: true, gap: false },
+  { text: "Those who trained AI to extend their thinking.", weight: "font-black", pw: "trained", gap: false },
+  { text: "And those who let AI replace it.", weight: "font-light", dim: true, gap: false },
+  { text: "Those who used it to accelerate.", weight: "font-black", pw: "accelerate", gap: false },
+  { text: "And those who got flattened by those who did.", weight: "font-light", dim: true, gap: false },
+  { text: "", weight: "", gap: true },
+  { text: "This isn\u2019t a technology decision.", weight: "font-medium", gap: false },
+  { text: "It\u2019s a leadership one.", weight: "font-black", mint: true, gap: false },
+  { text: "The question isn\u2019t whether AI will reshape your business. It\u2019s whether you\u2019ll be the one holding the pen.", weight: "font-light", boldEnd: "It\u2019s whether you\u2019ll be the one holding the pen.", gap: false },
+];
 
 const BigProblem = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: true, amount: 0.3 });
-  const [litIndex, setLitIndex] = useState(-1);
-
-  useEffect(() => {
-    if (!isInView) return;
-    let i = -1;
-    const interval = setInterval(() => {
-      i++;
-      if (i > 2) { clearInterval(interval); return; }
-      setLitIndex(i);
-    }, 600);
-    return () => clearInterval(interval);
-  }, [isInView]);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const el = contentRef.current;
@@ -26,92 +29,82 @@ const BigProblem = () => {
     el.style.setProperty("--my", `${e.clientY - rect.top}px`);
   }, []);
 
+  const renderLine = (line: typeof lines[0], i: number, isMint: boolean) => {
+    if (line.gap) return <div key={i} className="h-4 md:h-6" />;
+
+    const base = "text-xl sm:text-2xl md:text-3xl font-display tracking-tight leading-snug text-left";
+
+    let color: string;
+    if (isMint) {
+      color = "text-mint";
+    } else if (line.mint) {
+      color = "text-mint";
+    } else if (line.dim) {
+      color = "text-white/30";
+    } else {
+      color = "text-white/90";
+    }
+
+    let content: React.ReactNode = line.text;
+    if (line.pw) {
+      const parts = line.text.split(line.pw);
+      content = <>{parts[0]}<span className="tracking-[0.06em]">{line.pw}</span>{parts[1]}</>;
+    } else if (line.boldEnd) {
+      const parts = line.text.split(line.boldEnd);
+      content = <>{parts[0]}<span className="font-bold">{line.boldEnd}</span></>;
+    }
+
+    return (
+      <motion.p
+        key={i}
+        className={`${base} ${line.weight} ${color}`}
+        initial={{ opacity: 0, y: 12 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4, delay: i * 0.12, ease: "easeOut" }}
+        style={
+          !isMint && line.mint
+            ? { textShadow: "0 0 60px hsl(158 82% 73% / 0.3)" }
+            : undefined
+        }
+      >
+        {content}
+      </motion.p>
+    );
+  };
+
   return (
-    <section ref={sectionRef} className="bg-ink py-16 md:py-24">
+    <section ref={sectionRef} className="bg-ink pt-16 md:pt-24 pb-0">
       <div
         ref={contentRef}
-        className="relative max-w-3xl mx-auto px-6 md:px-8"
+        className="relative max-w-5xl mx-auto px-4 md:px-6"
         onMouseMove={handleMouseMove}
       >
         {/* Base text layer */}
-        <Paragraphs litIndex={litIndex} mint={false} />
+        <div className="space-y-1">
+          {lines.map((line, i) => renderLine(line, i, false))}
+        </div>
 
-        {/* Mint torchlight overlay -- identical structure */}
+        {/* Mint torchlight overlay */}
         <div
-          className="absolute inset-0 pointer-events-none px-6 md:px-8"
+          className="absolute inset-0 pointer-events-none px-4 md:px-6"
           style={{
             maskImage: "radial-gradient(circle 100px at var(--mx, -999px) var(--my, -999px), black 0%, transparent 70%)",
             WebkitMaskImage: "radial-gradient(circle 100px at var(--mx, -999px) var(--my, -999px), black 0%, transparent 70%)",
           }}
         >
-          <Paragraphs litIndex={litIndex} mint={true} />
+          <div className="space-y-1">
+            {lines.map((line, i) => renderLine(line, i, true))}
+          </div>
         </div>
       </div>
+
+      {/* Section break */}
+      <div className="mt-16 md:mt-24 flex items-center justify-center gap-4 px-8">
+        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-mint/30 to-transparent" />
+        <div className="w-1.5 h-1.5 rounded-full bg-mint/40" />
+        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-mint/30 to-transparent" />
+      </div>
     </section>
-  );
-};
-
-const Paragraphs = ({ litIndex, mint }: { litIndex: number; mint: boolean }) => {
-  const base = "text-xl sm:text-2xl md:text-3xl font-display tracking-tight leading-relaxed text-left";
-  const dimColor = mint ? "text-mint" : "text-white/[0.06]";
-  const litColor = mint ? "text-mint" : "text-white/90";
-  const currentColor = mint ? "text-mint" : "text-white";
-  const fadedLit = mint ? "text-mint" : "text-white/50";
-
-  const p0 = litIndex >= 0 ? (litIndex === 0 ? currentColor : fadedLit) : dimColor;
-  const p1 = litIndex >= 1 ? (litIndex === 1 ? currentColor : fadedLit) : dimColor;
-  const p2 = litIndex >= 2 ? (litIndex === 2 ? currentColor : fadedLit) : dimColor;
-
-  return (
-    <div className="space-y-8 md:space-y-10">
-      {/* Paragraph 1: Opening */}
-      <p className={`${base} font-light transition-all duration-700 ${p0}`}>
-        In ten years, every leader will fall into one of two categories.
-      </p>
-
-      {/* Paragraph 2: The three contrasts */}
-      <div className={`space-y-1 transition-all duration-700 ${p1}`}>
-        <p className={`${base} font-black`}>
-          Those who learned to <span className="tracking-[0.06em]">orchestrate</span> AI.
-        </p>
-        <p className={`${base} font-light ${mint ? "text-mint" : litIndex >= 1 ? "text-white/30" : dimColor}`}>
-          And those who got orchestrated by it.
-        </p>
-        <p className={`${base} font-black`}>
-          Those who <span className="tracking-[0.06em]">trained</span> AI to extend their thinking.
-        </p>
-        <p className={`${base} font-light ${mint ? "text-mint" : litIndex >= 1 ? "text-white/30" : dimColor}`}>
-          And those who let AI replace it.
-        </p>
-        <p className={`${base} font-black`}>
-          Those who used it to <span className="tracking-[0.06em]">accelerate</span>.
-        </p>
-        <p className={`${base} font-light ${mint ? "text-mint" : litIndex >= 1 ? "text-white/30" : dimColor}`}>
-          And those who got flattened by those who did.
-        </p>
-      </div>
-
-      {/* Paragraph 3: The closer */}
-      <div className={`transition-all duration-700 ${p2}`}>
-        <p className={`${base} font-medium`}>
-          This isn&rsquo;t a technology decision.
-        </p>
-        <p
-          className={`${base} font-black mt-1 ${mint ? "text-mint" : litIndex >= 2 ? "text-mint" : dimColor}`}
-          style={
-            !mint && litIndex >= 2
-              ? { textShadow: "0 0 60px hsl(158 82% 73% / 0.3)" }
-              : undefined
-          }
-        >
-          It&rsquo;s a leadership one.
-        </p>
-        <p className={`${base} font-light mt-4`}>
-          The question isn&rsquo;t whether AI will reshape your business.{" "}
-          <span className="font-bold">It&rsquo;s whether you&rsquo;ll be the one holding the pen.</span>
-        </p>
-      </div>
-    </div>
   );
 };
 

@@ -15,18 +15,18 @@ const BigProblem = () => {
   }, []);
 
   const base = "text-xl sm:text-2xl md:text-3xl font-display tracking-tight leading-relaxed text-left";
-  const fade = (delay: number) => ({
-    initial: { opacity: 0, y: 12 } as const,
-    animate: isInView ? { opacity: 1, y: 0 } : undefined,
-    transition: { duration: 0.4, delay, ease: "easeOut" as const },
-  });
+  const fade = (delay: number, alwaysVisible?: boolean) => ({
+    initial: alwaysVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 },
+    animate: isInView ? { opacity: 1, y: 0 } : alwaysVisible ? undefined : { opacity: 0, y: 16 },
+    transition: { duration: 0.9, delay, ease: [0.25, 0.1, 0.25, 1] as const },
+  } as const);
 
   const content = (isMint: boolean) => (
     <div className="space-y-8 md:space-y-10">
       {/* Paragraph 1 */}
       <motion.p
         className={`${base} font-light ${isMint ? "text-mint" : "text-white/80"}`}
-        {...fade(0)}
+        {...fade(0, true)}
       >
         In ten years, every leader will fall into one of two categories.
       </motion.p>
@@ -34,7 +34,7 @@ const BigProblem = () => {
       {/* Paragraph 2 -- continuous flowing text */}
       <motion.p
         className={`${base} ${isMint ? "text-mint" : "text-white/90"}`}
-        {...fade(0.15)}
+        {...fade(0.1)}
       >
         <span className={`font-black ${isMint ? "" : "text-white"}`}>
           Those who learned to <span className="tracking-[0.06em]">orchestrate</span> AI.
@@ -59,7 +59,7 @@ const BigProblem = () => {
       {/* Paragraph 3 -- continuous flowing text */}
       <motion.p
         className={`${base} ${isMint ? "text-mint" : "text-white/90"}`}
-        {...fade(0.3)}
+        {...fade(0.5)}
       >
         <span className="font-medium">This isn&rsquo;t a technology decision.</span>{" "}
         <span

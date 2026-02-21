@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { InitialConsultModal } from "@/components/InitialConsultModal";
@@ -8,6 +8,39 @@ const spring = { type: "spring" as const, stiffness: 80, damping: 18 };
 
 const SimpleCTA = () => {
   const [consultModalOpen, setConsultModalOpen] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const hasPlayedRef = useRef(false);
+
+  const handleTimeUpdate = useCallback(() => {
+    const video = videoRef.current;
+    if (!video || !video.duration) return;
+    // When the video nears the end of its first loop, pause on the last frame
+    if (video.currentTime >= video.duration - 0.1) {
+      video.pause();
+      video.currentTime = video.duration;
+      video.removeEventListener("timeupdate", handleTimeUpdate);
+    }
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasPlayedRef.current) {
+          hasPlayedRef.current = true;
+          video.addEventListener("timeupdate", handleTimeUpdate);
+          video.play();
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, [handleTimeUpdate]);
 
   return (
     <>
@@ -28,10 +61,10 @@ const SimpleCTA = () => {
             <div className="flex items-center justify-center gap-6 md:gap-8 mb-8">
               <div className="w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden shrink-0">
                 <video
-                  autoPlay
+                  ref={videoRef}
                   muted
-                  loop
                   playsInline
+                  preload="auto"
                   className="w-full h-full object-cover"
                 >
                   <source src="/MM owl.mp4" type="video/mp4" />

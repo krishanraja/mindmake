@@ -1,14 +1,14 @@
 /**
  * @file get-ai-news Edge Function
- * @description Fetches real AI news via Brave Search News API, then curates through
- *              Mindmaker's SIGNAL/NOISE/DECISION TRIGGER/KRISH'S TAKE framework.
- *              Falls back to LLM-generated or static headlines.
+ * @description Fetches and curates real-time AI news through Mindmaker's
+ *              SIGNAL/NOISE/DECISION TRIGGER/KRISH'S TAKE framework.
  *
- * Focus: Actionable AI news for leaders — model launches, pricing shifts, real
- *        deployment stories, tool releases, competitive moves. NOT governance
- *        surveys, workforce stats, or geopolitical theater.
+ * Pipeline:
+ *   Plan A: Perplexity (real-time search + curation in one call)
+ *   Plan B: OpenAI curation of Brave Search results
+ *   Plan C: Static fallback headlines
  *
- * @secrets BRAVE_SEARCH_API (primary), LOVABLE_API_KEY (curation + fallback), OPENAI_API_KEY (fallback)
+ * @secrets PERPLEXITY_API_KEY (primary), BRAVE_SEARCH_API, OPENAI_API_KEY
  */
 
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
@@ -24,46 +24,16 @@ interface NewsHeadline {
   source: string;
 }
 
-// Domain -> clean source name
-const SOURCE_MAP: Record<string, string> = {
-  "bloomberg.com": "Bloomberg",
-  "ft.com": "Financial Times",
-  "wsj.com": "WSJ",
-  "nytimes.com": "NYT",
-  "reuters.com": "Reuters",
-  "cnbc.com": "CNBC",
-  "bbc.com": "BBC",
-  "bbc.co.uk": "BBC",
-  "techcrunch.com": "TechCrunch",
-  "theverge.com": "The Verge",
-  "wired.com": "Wired",
-  "hbr.org": "HBR",
-  "mckinsey.com": "McKinsey",
-  "gartner.com": "Gartner",
-  "technologyreview.com": "MIT Tech Review",
-  "forbes.com": "Forbes",
-  "businessinsider.com": "Business Insider",
-  "theguardian.com": "The Guardian",
-  "apnews.com": "AP News",
-  "axios.com": "Axios",
-  "venturebeat.com": "VentureBeat",
-};
-
-const formatSource = (hostname: string): string => {
-  const clean = hostname.replace(/^www\./, "");
-  return SOURCE_MAP[clean] || clean.split(".")[0].charAt(0).toUpperCase() + clean.split(".")[0].slice(1);
-};
-
 // ============================================================
-// CURATION PROMPT — filter for relevance, clean up, don't editorialize
+// PERPLEXITY PROMPT — real-time search + curation in one call
 // ============================================================
 
-const CURATION_SYSTEM_PROMPT = `You are Mindmaker's AI news filter. Your job is to take raw news headlines and rewrite them through a cynical, experienced AI operator's lens.
+const PERPLEXITY_SYSTEM_PROMPT = `You are Mindmaker's AI news filter. You search for today's AI news and curate it through a cynical, experienced operator's lens.
 
-For each headline worth keeping, assign ONE category and rewrite the headline:
+For each headline, assign ONE category:
 
 SIGNAL — This actually matters for business leaders. Real impact, real decisions.
-NOISE — Hype, funding announcements, vendor marketing. Include 1-2 of these to show you're filtering.
+NOISE — Hype, funding announcements, vendor marketing. Include 1-2 to show you're filtering.
 DECISION TRIGGER — Something changed that requires a business leader to act or decide.
 KRISH'S TAKE — Sharp opinion/analysis. Slightly cynical, deeply knowledgeable.
 
@@ -75,6 +45,7 @@ EXCLUDE:
 - Geopolitical AI news (Stargate, CHIPS Act, US-China) unless directly affecting vendor choices
 - Speculative AGI timelines
 - Celebrity/entertainment AI
+- Funding rounds unless they signal a major competitive shift
 
 INCLUDE:
 - Model releases and capability changes that affect what you can build
@@ -82,57 +53,96 @@ INCLUDE:
 - Real deployment stories with numbers
 - Tool launches that change how leaders can use AI day-to-day
 - Competitive moves that create decision pressure
-
-Format each headline as: "[CATEGORY] Rewritten headline here"
-8-18 words per headline. Present tense. Include specific numbers/companies where possible.
-
-Return ONLY a JSON array: [{"title": "[CATEGORY] headline text", "source": "Source Name"}]
-Select 10-15 headlines. Mix categories — at least 2 of each type.`;
-
-const CURATION_USER_PROMPT = (rawHeadlines: string[], today: string) =>
-  `Today is ${today}. Here are raw AI news headlines from the past week. Pick the 10-15 most interesting for a business leader deciding how to use AI. Rewrite each with a category tag. Skip governance fluff, workforce surveys, and geopolitical theater. Focus on things that change what a leader should build, buy, or decide.
-
-Raw headlines:
-${rawHeadlines.map((h, i) => `${i + 1}. ${h}`).join('\n')}`;
-
-// Standalone generation prompt (when no Brave results available)
-const STANDALONE_SYSTEM_PROMPT = `You are Mindmaker's AI news filter. Generate realistic, recent AI news headlines through a cynical, experienced operator's lens.
-
-Categorize each headline:
-- SIGNAL — Actually matters for business leaders making AI decisions
-- NOISE — Hype to ignore (include 1-2 to show contrast)
-- DECISION TRIGGER — Something changed, leaders need to act
-- KRISH'S TAKE — Sharp, slightly cynical analysis
-
-Topics that matter:
-- New model capabilities that change what you can build
-- Vendor pricing shifts affecting build-vs-buy decisions
-- Real deployment stories with measurable results
-- AI tools that change day-to-day leadership work
-- Competitive moves creating decision pressure
 - AI agents and automation replacing manual workflows
-- AI personal amplification (clones, avatars, voice/video tools)
 
-Topics to avoid:
-- Governance surveys and compliance stats
-- Workforce literacy gaps (boring)
-- Geopolitical AI infrastructure (Stargate, CHIPS Act)
-- Funding rounds
-- AGI speculation
+Format each as: "[CATEGORY] headline text"
+8-18 words per headline. Present tense. Specific numbers/companies where possible.
 
-Voice: Confident, slightly cynical, deeply knowledgeable.
+Return ONLY a JSON array of 12-15 items:
+[{"title": "[SIGNAL] headline here", "source": "Publication Name"}]
 
-Format: [{"title": "[CATEGORY] headline text", "source": "Source Name"}]
-8-18 words, present tense, specific numbers/companies. 12-15 headlines. Mix all 4 categories.
-Use real publication names as sources (Bloomberg, WSJ, Wired, The Verge, TechCrunch, etc.)`;
+Use real source names from the articles you find. Mix all 4 categories — at least 2 of each.`;
 
 // ============================================================
-// PLAN A: Brave Search News API (real news, last 7 days)
+// CURATION PROMPT — for Brave Search + OpenAI fallback path
 // ============================================================
-const fetchBraveNews = async (apiKey: string): Promise<{ headlines: NewsHeadline[], rawTitles: string[] }> => {
-  console.log('🔍 Fetching real news from Brave Search News API...');
 
-  // Broad queries for actionable AI news leaders actually care about
+const CURATION_SYSTEM_PROMPT = `You are Mindmaker's AI news filter. Rewrite raw headlines through a cynical, experienced AI operator's lens.
+
+For each headline worth keeping, assign ONE category and rewrite:
+
+SIGNAL — Actually matters for business leaders. Real impact, real decisions.
+NOISE — Hype to ignore. Include 1-2 to show you're filtering.
+DECISION TRIGGER — Something changed, leaders need to act or decide.
+KRISH'S TAKE — Sharp, slightly cynical opinion/analysis.
+
+EXCLUDE: governance fluff, workforce surveys, geopolitics, AGI speculation, celebrity AI.
+INCLUDE: model releases, pricing changes, deployment stories, tool launches, competitive moves.
+
+Format: "[CATEGORY] headline text" — 8-18 words, present tense, specific numbers/companies.
+Return ONLY a JSON array: [{"title": "[SIGNAL] headline here", "source": "Source Name"}]
+Select 10-15 headlines. Mix all 4 categories.`;
+
+// ============================================================
+// PLAN A: Perplexity — real-time search + curation in one call
+// ============================================================
+const fetchWithPerplexity = async (apiKey: string): Promise<NewsHeadline[]> => {
+  console.log('🔍 Fetching real-time AI news via Perplexity...');
+
+  const today = new Date().toISOString().split('T')[0];
+
+  const response = await fetch('https://api.perplexity.ai/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: 'sonar',
+      messages: [
+        { role: 'system', content: PERPLEXITY_SYSTEM_PROMPT },
+        { role: 'user', content: `Search for the most important AI news from the past 7 days (today is ${today}). Find 12-15 headlines that a business leader deciding how to use AI would care about. Focus on model releases, vendor pricing changes, real deployment stories, tool launches, and competitive moves. Skip governance surveys, workforce stats, funding rounds, and geopolitical theater. Curate with [SIGNAL], [NOISE], [DECISION TRIGGER], and [KRISH'S TAKE] tags.` },
+      ],
+      temperature: 0.2,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text().catch(() => 'unable to read body');
+    console.error(`❌ Perplexity error: ${response.status} - ${errorBody}`);
+    throw new Error(`Perplexity error: ${response.status}`);
+  }
+
+  const data = await response.json();
+  const content = data?.choices?.[0]?.message?.content;
+  if (!content) throw new Error('No content in Perplexity response');
+
+  return parseLLMResponse(content);
+};
+
+// ============================================================
+// PLAN B: Brave Search → OpenAI Curation (two-step fallback)
+// ============================================================
+
+const SOURCE_MAP: Record<string, string> = {
+  "bloomberg.com": "Bloomberg", "ft.com": "Financial Times", "wsj.com": "WSJ",
+  "nytimes.com": "NYT", "reuters.com": "Reuters", "cnbc.com": "CNBC",
+  "bbc.com": "BBC", "bbc.co.uk": "BBC", "techcrunch.com": "TechCrunch",
+  "theverge.com": "The Verge", "wired.com": "Wired", "hbr.org": "HBR",
+  "mckinsey.com": "McKinsey", "gartner.com": "Gartner",
+  "technologyreview.com": "MIT Tech Review", "forbes.com": "Forbes",
+  "businessinsider.com": "Business Insider", "theguardian.com": "The Guardian",
+  "apnews.com": "AP News", "axios.com": "Axios", "venturebeat.com": "VentureBeat",
+};
+
+const formatSource = (hostname: string): string => {
+  const clean = hostname.replace(/^www\./, "");
+  return SOURCE_MAP[clean] || clean.split(".")[0].charAt(0).toUpperCase() + clean.split(".")[0].slice(1);
+};
+
+const fetchBraveNews = async (apiKey: string): Promise<string[]> => {
+  console.log('🔍 Fetching news from Brave Search...');
+
   const queries = [
     '"AI" AND ("pricing" OR "API" OR "launch" OR "release" OR "update")',
     '"AI" AND ("enterprise" OR "business" OR "company" OR "CEO" OR "CTO")',
@@ -146,154 +156,111 @@ const fetchBraveNews = async (apiKey: string): Promise<{ headlines: NewsHeadline
   for (const query of queries) {
     try {
       const params = new URLSearchParams({
-        q: query,
-        freshness: 'pw',
-        count: '10',
-        country: 'US',
-        search_lang: 'en',
+        q: query, freshness: 'pw', count: '10', country: 'US', search_lang: 'en',
       });
-
       const response = await fetch(`https://api.search.brave.com/res/v1/news/search?${params}`, {
-        headers: {
-          'Accept': 'application/json',
-          'Accept-Encoding': 'gzip',
-          'X-Subscription-Token': apiKey,
-        },
+        headers: { 'Accept': 'application/json', 'Accept-Encoding': 'gzip', 'X-Subscription-Token': apiKey },
       });
-
       if (response.ok) {
         const data = await response.json();
-        if (data.results) {
-          allResults.push(...data.results);
-        }
+        if (data.results) allResults.push(...data.results);
       }
     } catch (e) {
-      console.warn(`Brave query failed for: ${query}`, e);
+      console.warn(`Brave query failed: ${query}`, e);
     }
   }
 
-  if (allResults.length === 0) {
-    throw new Error('No news results from Brave Search');
+  if (allResults.length === 0) throw new Error('No results from Brave Search');
+
+  const seen = new Set<string>();
+  const rawTitles: string[] = [];
+
+  for (const r of allResults) {
+    if (!r.title || !r.meta_url?.hostname) continue;
+    const key = r.title.toLowerCase().substring(0, 50);
+    if (seen.has(key)) continue;
+    seen.add(key);
+
+    const title = r.title.replace(/\s*[-|]\s*[^-|]+$/, '').trim();
+    if (title.length > 15) {
+      rawTitles.push(`${title} (${formatSource(r.meta_url.hostname)})`);
+    }
+    if (rawTitles.length >= 25) break;
   }
 
-  // Deduplicate by title similarity
-  const seen = new Set<string>();
-  const unique = allResults.filter((r: any) => {
-    if (!r.title || !r.meta_url?.hostname) return false;
-    const key = r.title.toLowerCase().substring(0, 50);
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-
-  const headlines: NewsHeadline[] = unique
-    .map((r: any) => ({
-      title: r.title.replace(/\s*[-|]\s*[^-|]+$/, '').trim(),
-      source: formatSource(r.meta_url.hostname),
-    }))
-    .filter((h: NewsHeadline) => h.title.length > 15)
-    .slice(0, 25);
-
-  const rawTitles = headlines.map(h => `${h.title} (${h.source})`);
-
-  console.log(`✅ Retrieved ${headlines.length} raw news headlines from Brave Search`);
-  return { headlines, rawTitles };
+  return rawTitles;
 };
 
-// ============================================================
-// LLM CURATION: Filter raw headlines for relevance, clean titles
-// ============================================================
-const curateWithLLM = async (
-  rawTitles: string[],
-  provider: 'lovable' | 'openai',
-  apiKey: string
-): Promise<NewsHeadline[]> => {
-  console.log(`✍️ Filtering and curating headlines via ${provider}...`);
-
-  const config = provider === 'lovable'
-    ? { endpoint: 'https://ai.gateway.lovable.dev/v1/chat/completions', model: 'google/gemini-2.5-flash' }
-    : { endpoint: 'https://api.openai.com/v1/chat/completions', model: 'gpt-4o-mini' };
+const curateWithOpenAI = async (rawTitles: string[], apiKey: string): Promise<NewsHeadline[]> => {
+  console.log('✍️ Curating headlines via OpenAI...');
 
   const today = new Date().toISOString().split('T')[0];
 
-  const response = await fetch(config.endpoint, {
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      model: config.model,
+      model: 'gpt-4o-mini',
       messages: [
         { role: 'system', content: CURATION_SYSTEM_PROMPT },
-        { role: 'user', content: CURATION_USER_PROMPT(rawTitles, today) },
+        { role: 'user', content: `Today is ${today}. Pick the 10-15 most interesting for a business leader deciding how to use AI. Rewrite each with a category tag. Skip governance fluff and geopolitical theater.\n\nRaw headlines:\n${rawTitles.map((h, i) => `${i + 1}. ${h}`).join('\n')}` },
       ],
       temperature: 0.2,
     }),
   });
 
-  if (!response.ok) throw new Error(`${provider} curation error: ${response.status}`);
+  if (!response.ok) {
+    const errorBody = await response.text().catch(() => '');
+    throw new Error(`OpenAI curation error: ${response.status} - ${errorBody.substring(0, 200)}`);
+  }
 
   const data = await response.json();
   const content = data?.choices?.[0]?.message?.content;
-  if (!content) throw new Error('No content in curation response');
+  if (!content) throw new Error('No content in OpenAI response');
 
   return parseLLMResponse(content);
 };
 
 // ============================================================
-// LLM STANDALONE: Generate headlines without Brave Search input
-// ============================================================
-const generateWithLLM = async (
-  provider: 'lovable' | 'openai',
-  apiKey: string
-): Promise<NewsHeadline[]> => {
-  console.log(`⚡ Generating standalone headlines via ${provider}...`);
-
-  const config = provider === 'lovable'
-    ? { endpoint: 'https://ai.gateway.lovable.dev/v1/chat/completions', model: 'google/gemini-2.5-flash' }
-    : { endpoint: 'https://api.openai.com/v1/chat/completions', model: 'gpt-4o-mini' };
-
-  const today = new Date().toISOString().split('T')[0];
-
-  const response = await fetch(config.endpoint, {
-    method: 'POST',
-    headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: config.model,
-      messages: [
-        { role: 'system', content: STANDALONE_SYSTEM_PROMPT },
-        { role: 'user', content: `Generate 12-15 AI news headlines for business leaders deciding how to use AI. Today is ${today}. Focus on model releases, pricing changes, real deployment stories, tool launches, and competitive moves from the past 7 days. Use the [SIGNAL], [NOISE], [DECISION TRIGGER], and [KRISH'S TAKE] category tags. Mix all 4 categories.` },
-      ],
-      temperature: 0.3,
-    }),
-  });
-
-  if (!response.ok) throw new Error(`${provider} standalone error: ${response.status}`);
-
-  const data = await response.json();
-  const content = data?.choices?.[0]?.message?.content;
-  if (!content) throw new Error('No content in standalone response');
-
-  return parseLLMResponse(content);
-};
-
-// ============================================================
-// PARSE LLM JSON RESPONSE
+// PARSE LLM JSON RESPONSE (robust)
 // ============================================================
 const parseLLMResponse = (content: string): NewsHeadline[] => {
   let parsed: any[];
+
+  // Strip markdown code fences if present
+  let cleaned = content.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
+
   try {
-    parsed = JSON.parse(content);
+    parsed = JSON.parse(cleaned);
   } catch {
-    const match = content.match(/\[[\s\S]*?\]/);
-    if (match) parsed = JSON.parse(match[0]);
-    else throw new Error('Could not parse LLM JSON');
+    const start = cleaned.indexOf('[');
+    const end = cleaned.lastIndexOf(']');
+    if (start !== -1 && end > start) {
+      try {
+        parsed = JSON.parse(cleaned.substring(start, end + 1));
+      } catch {
+        // Fix truncated JSON by removing incomplete trailing object
+        let fixable = cleaned.substring(start, end + 1);
+        const lastComplete = fixable.lastIndexOf('},');
+        if (lastComplete > 0) {
+          fixable = fixable.substring(0, lastComplete + 1) + ']';
+          try {
+            parsed = JSON.parse(fixable);
+          } catch {
+            throw new Error('Could not parse LLM JSON after cleanup');
+          }
+        } else {
+          throw new Error('Could not parse LLM JSON');
+        }
+      }
+    } else {
+      throw new Error('No JSON array found in LLM response');
+    }
   }
 
   const valid = (Array.isArray(parsed) ? parsed : [])
     .filter((h: any) => h?.title?.length > 15 && h?.source)
-    .map((h: any) => ({
-      title: h.title,
-      source: h.source,
-    }))
+    .map((h: any) => ({ title: h.title, source: h.source }))
     .slice(0, 15);
 
   if (valid.length === 0) throw new Error('No valid headlines from LLM');
@@ -303,7 +270,7 @@ const parseLLMResponse = (content: string): NewsHeadline[] => {
 };
 
 // ============================================================
-// STATIC FALLBACK — factual, AI-literacy-relevant headlines
+// STATIC FALLBACK
 // ============================================================
 const STATIC_FALLBACK: NewsHeadline[] = [
   { title: "[SIGNAL] Claude 3.5 Sonnet outperforms GPT-4o on coding benchmarks — build-vs-buy math just changed", source: "The Verge" },
@@ -343,78 +310,45 @@ serve(async (req) => {
     );
 
   try {
+    const perplexityKey = Deno.env.get('PERPLEXITY_API_KEY');
     const braveKey = Deno.env.get('BRAVE_SEARCH_API');
-    const lovableKey = Deno.env.get('LOVABLE_API_KEY');
     const openaiKey = Deno.env.get('OPENAI_API_KEY');
 
-    // ── PLAN A: Brave Search → LLM Curation (best path) ──
-    // Fetch real news, then use LLM to filter for relevance and clean titles
-    if (braveKey) {
+    // ── PLAN A: Perplexity (real-time search + curation, one call) ──
+    if (perplexityKey) {
       try {
-        const { headlines: rawHeadlines, rawTitles } = await fetchBraveNews(braveKey);
+        const headlines = await fetchWithPerplexity(perplexityKey);
+        if (headlines.length > 0) {
+          console.log('✅ Perplexity pipeline succeeded');
+          return respond(headlines, 'perplexity', false);
+        }
+      } catch (e) {
+        console.error('Perplexity failed:', e);
+      }
+    }
 
+    // ── PLAN B: Brave Search → OpenAI Curation ──
+    if (braveKey && openaiKey) {
+      try {
+        const rawTitles = await fetchBraveNews(braveKey);
         if (rawTitles.length > 0) {
-          // Try LLM curation for relevance filtering
-          const llmKey = lovableKey || openaiKey;
-          const llmProvider = lovableKey ? 'lovable' : 'openai';
-
-          if (llmKey) {
-            try {
-              const curated = await curateWithLLM(rawTitles, llmProvider as 'lovable' | 'openai', llmKey);
-              if (curated.length > 0) {
-                console.log('✅ Brave + LLM curation pipeline succeeded');
-                return respond(curated, `brave+${llmProvider}`, false);
-              }
-            } catch (e) {
-              console.error('LLM curation failed, trying second provider:', e);
-
-              // Try the other LLM provider
-              const fallbackKey = lovableKey ? openaiKey : lovableKey;
-              const fallbackProvider = lovableKey ? 'openai' : 'lovable';
-              if (fallbackKey) {
-                try {
-                  const curated = await curateWithLLM(rawTitles, fallbackProvider as 'lovable' | 'openai', fallbackKey);
-                  if (curated.length > 0) {
-                    return respond(curated, `brave+${fallbackProvider}`, false);
-                  }
-                } catch (e2) {
-                  console.error('Second LLM curation also failed:', e2);
-                }
-              }
+          try {
+            const curated = await curateWithOpenAI(rawTitles, openaiKey);
+            if (curated.length > 0) {
+              console.log('✅ Brave + OpenAI curation pipeline succeeded');
+              return respond(curated, 'brave+openai', false);
             }
+          } catch (e) {
+            console.error('OpenAI curation failed:', e);
           }
-
-          // If LLM curation unavailable, return raw Brave results
-          console.warn('⚠️ LLM curation unavailable, returning raw Brave headlines');
-          return respond(rawHeadlines.slice(0, 10), 'brave-raw', false);
         }
       } catch (e) {
         console.error('Brave Search failed:', e);
       }
     }
 
-    // ── PLAN B: Standalone LLM generation (no Brave) ──
-    if (lovableKey) {
-      try {
-        const headlines = await generateWithLLM('lovable', lovableKey);
-        if (headlines.length > 0) return respond(headlines, 'lovable', false);
-      } catch (e) {
-        console.error('Lovable standalone failed:', e);
-      }
-    }
-
-    // ── PLAN C: OpenAI standalone ──
-    if (openaiKey) {
-      try {
-        const headlines = await generateWithLLM('openai', openaiKey);
-        if (headlines.length > 0) return respond(headlines, 'openai', false);
-      } catch (e) {
-        console.error('OpenAI standalone failed:', e);
-      }
-    }
-
-    // ── PLAN D: Static fallback ──
-    console.log('📋 All providers failed, using static fallback');
+    // ── PLAN C: Static fallback ──
+    console.log('📋 Using static fallback headlines');
     return respond(STATIC_FALLBACK, 'fallback', true);
 
   } catch (error) {

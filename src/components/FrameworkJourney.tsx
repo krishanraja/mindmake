@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring } from "framer-motion";
+import { motion, useTransform, useInView, useMotionValue, useSpring, animate } from "framer-motion";
 import { useRef, useState, useCallback, useEffect } from "react";
 import { Target, Zap, FileCheck } from "lucide-react";
 
@@ -39,21 +39,19 @@ const FrameworkJourney = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isMobile = useMobile();
 
-  // Desktop scroll-synced spotlight:
-  //   offset: start tracking when section top hits 85% of viewport (early),
-  //           stop when section bottom reaches viewport top.
-  //   keyframes: entire 3-card sequence completes within the first ~35%
-  //     of scroll so no card is missed before the section leaves.
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start 0.85", "end start"],
-  });
+  // Auto-rotating spotlight: cycles 0 → 1 → 2 → 0 every 3 seconds,
+  // with smooth eased transitions between cards so the light "hands off."
+  const spotlight = useMotionValue(0);
 
-  const spotlight = useTransform(
-    scrollYProgress,
-    [0, 0.04, 0.08, 0.16, 0.24, 0.34, 0.50],
-    [-1, -1, 0, 0, 1, 2, 2],
-  );
+  useEffect(() => {
+    let idx = 0;
+    const cycle = () => {
+      idx = (idx + 1) % 3;
+      animate(spotlight, idx, { duration: 0.6, ease: "easeInOut" });
+    };
+    const id = setInterval(cycle, 3000);
+    return () => clearInterval(id);
+  }, [spotlight]);
 
   // Torchlight: mouse-following mint glow
   const rawX = useMotionValue(-1000);

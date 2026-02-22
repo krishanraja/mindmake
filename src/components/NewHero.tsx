@@ -32,9 +32,13 @@ const NewHero = () => {
       {/* Backgrounds */}
       <div className="absolute inset-0 bg-gradient-to-br from-ink-900 via-ink to-ink-700/50 pointer-events-none" />
       <div className="absolute inset-0 bg-gradient-to-t from-ink-900/80 via-transparent to-mint/5 pointer-events-none" />
-      <div
-        className="absolute inset-0 opacity-15 pointer-events-none"
-        style={{ backgroundImage: "url(/mindmaker-background-green.gif)", backgroundSize: "cover", backgroundPosition: "center" }}
+      <video
+        className="absolute inset-0 w-full h-full object-cover opacity-15 pointer-events-none"
+        src="/rising-cities.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
       />
       <div
         className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-mint/15 rounded-full blur-3xl pointer-events-none"

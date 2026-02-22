@@ -214,6 +214,8 @@ const curateWithLLM = async (
     ? { endpoint: 'https://ai.gateway.lovable.dev/v1/chat/completions', model: 'google/gemini-2.5-flash' }
     : { endpoint: 'https://api.openai.com/v1/chat/completions', model: 'gpt-4o-mini' };
 
+  console.log(`📡 Calling ${config.endpoint} with model ${config.model}`);
+
   const today = new Date().toISOString().split('T')[0];
 
   const response = await fetch(config.endpoint, {
@@ -229,11 +231,19 @@ const curateWithLLM = async (
     }),
   });
 
-  if (!response.ok) throw new Error(`${provider} curation error: ${response.status}`);
+  if (!response.ok) {
+    const errorBody = await response.text().catch(() => 'unable to read body');
+    console.error(`❌ ${provider} curation error: ${response.status} - ${errorBody}`);
+    throw new Error(`${provider} curation error: ${response.status} - ${errorBody}`);
+  }
 
   const data = await response.json();
+  console.log(`✅ ${provider} responded, parsing content...`);
   const content = data?.choices?.[0]?.message?.content;
-  if (!content) throw new Error('No content in curation response');
+  if (!content) {
+    console.error(`❌ No content in ${provider} response. Keys: ${Object.keys(data || {}).join(', ')}`);
+    throw new Error('No content in curation response');
+  }
 
   return parseLLMResponse(content);
 };
@@ -251,6 +261,8 @@ const generateWithLLM = async (
     ? { endpoint: 'https://ai.gateway.lovable.dev/v1/chat/completions', model: 'google/gemini-2.5-flash' }
     : { endpoint: 'https://api.openai.com/v1/chat/completions', model: 'gpt-4o-mini' };
 
+  console.log(`📡 Calling ${config.endpoint} with model ${config.model}`);
+
   const today = new Date().toISOString().split('T')[0];
 
   const response = await fetch(config.endpoint, {
@@ -266,11 +278,19 @@ const generateWithLLM = async (
     }),
   });
 
-  if (!response.ok) throw new Error(`${provider} standalone error: ${response.status}`);
+  if (!response.ok) {
+    const errorBody = await response.text().catch(() => 'unable to read body');
+    console.error(`❌ ${provider} standalone error: ${response.status} - ${errorBody}`);
+    throw new Error(`${provider} standalone error: ${response.status} - ${errorBody}`);
+  }
 
   const data = await response.json();
+  console.log(`✅ ${provider} responded, parsing content...`);
   const content = data?.choices?.[0]?.message?.content;
-  if (!content) throw new Error('No content in standalone response');
+  if (!content) {
+    console.error(`❌ No content in ${provider} response. Keys: ${Object.keys(data || {}).join(', ')}`);
+    throw new Error('No content in standalone response');
+  }
 
   return parseLLMResponse(content);
 };
@@ -280,12 +300,39 @@ const generateWithLLM = async (
 // ============================================================
 const parseLLMResponse = (content: string): NewsHeadline[] => {
   let parsed: any[];
+
+  // Strip markdown code fences if present
+  let cleaned = content.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
+
   try {
-    parsed = JSON.parse(content);
+    parsed = JSON.parse(cleaned);
   } catch {
-    const match = content.match(/\[[\s\S]*?\]/);
-    if (match) parsed = JSON.parse(match[0]);
-    else throw new Error('Could not parse LLM JSON');
+    // Try to extract the outermost JSON array (greedy match for last ])
+    const start = cleaned.indexOf('[');
+    const end = cleaned.lastIndexOf(']');
+    if (start !== -1 && end > start) {
+      try {
+        parsed = JSON.parse(cleaned.substring(start, end + 1));
+      } catch {
+        // Try to fix truncated JSON by closing incomplete strings/objects
+        let fixable = cleaned.substring(start, end + 1);
+        // Remove trailing incomplete object (after last complete }, before ])
+        const lastComplete = fixable.lastIndexOf('},');
+        if (lastComplete > 0) {
+          fixable = fixable.substring(0, lastComplete + 1) + ']';
+          try {
+            parsed = JSON.parse(fixable);
+          } catch {
+            console.error('Could not parse even after fixing truncation. Content preview:', cleaned.substring(0, 300));
+            throw new Error('Could not parse LLM JSON after cleanup');
+          }
+        } else {
+          throw new Error('Could not parse LLM JSON');
+        }
+      }
+    } else {
+      throw new Error('No JSON array found in LLM response');
+    }
   }
 
   const valid = (Array.isArray(parsed) ? parsed : [])
@@ -336,9 +383,11 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  const debugErrors: string[] = [];
+
   const respond = (headlines: NewsHeadline[], provider: string, fallback: boolean) =>
     new Response(
-      JSON.stringify({ headlines, timestamp: new Date().toISOString(), provider, fallback }),
+      JSON.stringify({ headlines, timestamp: new Date().toISOString(), provider, fallback, ...(debugErrors.length > 0 ? { _debug: debugErrors } : {}) }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 200 }
     );
 
@@ -366,6 +415,7 @@ serve(async (req) => {
                 return respond(curated, `brave+${llmProvider}`, false);
               }
             } catch (e) {
+              debugErrors.push(`${llmProvider} curation: ${e instanceof Error ? e.message : String(e)}`);
               console.error('LLM curation failed, trying second provider:', e);
 
               // Try the other LLM provider
@@ -378,6 +428,7 @@ serve(async (req) => {
                     return respond(curated, `brave+${fallbackProvider}`, false);
                   }
                 } catch (e2) {
+                  debugErrors.push(`${fallbackProvider} curation: ${e2 instanceof Error ? e2.message : String(e2)}`);
                   console.error('Second LLM curation also failed:', e2);
                 }
               }

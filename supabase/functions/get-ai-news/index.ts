@@ -1,12 +1,12 @@
 /**
  * @file get-ai-news Edge Function
- * @description Fetches real AI news relevant to business leaders and AI literacy
- *              via Brave Search News API, then uses an LLM to filter for relevance
- *              and clean up headlines. Falls back to LLM-generated or static headlines.
+ * @description Fetches real AI news via Brave Search News API, then curates through
+ *              Mindmaker's SIGNAL/NOISE/DECISION TRIGGER/KRISH'S TAKE framework.
+ *              Falls back to LLM-generated or static headlines.
  *
- * Focus: AI literacy, AI workforce skills, AI governance, AI business decisions,
- *        AI training/upskilling, AI ROI, AI personal amplification (clones, assistants,
- *        solopreneur tools) — NOT generic AI product launches or funding rounds.
+ * Focus: Actionable AI news for leaders — model launches, pricing shifts, real
+ *        deployment stories, tool releases, competitive moves. NOT governance
+ *        surveys, workforce stats, or geopolitical theater.
  *
  * @secrets BRAVE_SEARCH_API (primary), LOVABLE_API_KEY (curation + fallback), OPENAI_API_KEY (fallback)
  */
@@ -58,71 +58,73 @@ const formatSource = (hostname: string): string => {
 // CURATION PROMPT — filter for relevance, clean up, don't editorialize
 // ============================================================
 
-const CURATION_SYSTEM_PROMPT = `You are a news curator for a company that helps business leaders build AI literacy and make confident AI decisions.
+const CURATION_SYSTEM_PROMPT = `You are Mindmaker's AI news filter. Your job is to take raw news headlines and rewrite them through a cynical, experienced AI operator's lens.
 
-Your job: Take raw news headlines and select + clean up only the ones that matter to a business leader, entrepreneur, or small business owner who is trying to:
-- Understand how AI is changing their workforce and industry
-- Make informed decisions about AI adoption, governance, and training
-- Stay current on AI skills gaps, talent markets, and productivity data
-- Navigate AI vendor decisions, build-vs-buy choices, and ROI measurement
-- Use AI to amplify themselves — clones, virtual assistants, AI avatars, and personal productivity tools
+For each headline worth keeping, assign ONE category and rewrite the headline:
 
-INCLUDE headlines about:
-- AI workforce impact (hiring, displacement, upskilling, skills gaps)
-- AI literacy and training initiatives (corporate programs, mandates, results)
-- AI governance and policy (regulation, compliance, corporate AI policies)
-- AI productivity and ROI data (measurable results, benchmarks, studies)
-- AI decision-making for leaders (vendor choices, strategy, build-vs-buy)
-- Shadow AI and AI risk management
-- AI talent market changes (salary premiums, demand, competition)
-- AI personal amplification (AI clones, AI avatars, AI assistants, AI voice/video tools like HeyGen, OpenClaw, ElevenLabs, Synthesia, Descript, etc.)
-- Solopreneur and small business AI tools (automating operations, scaling without headcount, AI agents doing real work)
+SIGNAL — This actually matters for business leaders. Real impact, real decisions.
+NOISE — Hype, funding announcements, vendor marketing. Include 1-2 of these to show you're filtering.
+DECISION TRIGGER — Something changed that requires a business leader to act or decide.
+KRISH'S TAKE — Sharp opinion/analysis. Slightly cynical, deeply knowledgeable.
 
-EXCLUDE headlines about:
-- Startup funding rounds (unless directly relevant to AI adoption decisions)
-- New AI model releases without business context
-- Celebrity or entertainment AI news
-- Speculative AI capabilities or AGI timelines
-- Generic "AI will change everything" think pieces
+Voice: Confident, slightly cynical, deeply knowledgeable. Like a friend who works in AI every day and has seen it all.
 
-For each selected headline:
-1. Clean it up to be concise (8-18 words max)
-2. Include specific numbers, companies, or data points when available
-3. Keep it factual — no opinion, no editorial spin, no buzzwords
-4. Present tense only
+EXCLUDE:
+- Generic AI governance/policy/regulation unless it creates a real decision trigger
+- Workforce skills gap surveys and literacy stats (boring, repetitive)
+- Geopolitical AI news (Stargate, CHIPS Act, US-China) unless directly affecting vendor choices
+- Speculative AGI timelines
+- Celebrity/entertainment AI
 
-Return ONLY a JSON array of 10-15 items: [{"title": "Clean headline text", "source": "Original Source Name"}]`;
+INCLUDE:
+- Model releases and capability changes that affect what you can build
+- Vendor pricing changes that affect build-vs-buy math
+- Real deployment stories with numbers
+- Tool launches that change how leaders can use AI day-to-day
+- Competitive moves that create decision pressure
+
+Format each headline as: "[CATEGORY] Rewritten headline here"
+8-18 words per headline. Present tense. Include specific numbers/companies where possible.
+
+Return ONLY a JSON array: [{"title": "[CATEGORY] headline text", "source": "Source Name"}]
+Select 10-15 headlines. Mix categories — at least 2 of each type.`;
 
 const CURATION_USER_PROMPT = (rawHeadlines: string[], today: string) =>
-  `Today is ${today}. Here are raw AI news headlines from the past week. Select the 10-15 most relevant for business leaders focused on AI literacy and decision-making. Clean up the titles. Exclude anything that's generic tech news, funding hype, or consumer AI.
+  `Today is ${today}. Here are raw AI news headlines from the past week. Pick the 10-15 most interesting for a business leader deciding how to use AI. Rewrite each with a category tag. Skip governance fluff, workforce surveys, and geopolitical theater. Focus on things that change what a leader should build, buy, or decide.
 
 Raw headlines:
 ${rawHeadlines.map((h, i) => `${i + 1}. ${h}`).join('\n')}`;
 
 // Standalone generation prompt (when no Brave results available)
-const STANDALONE_SYSTEM_PROMPT = `You are a news curator for a company that helps business leaders build AI literacy and make confident AI decisions.
+const STANDALONE_SYSTEM_PROMPT = `You are Mindmaker's AI news filter. Generate realistic, recent AI news headlines through a cynical, experienced operator's lens.
 
-Generate realistic, factual AI news headlines from the past 7 days that a business leader, entrepreneur, or small business owner would find relevant to their AI decision-making and personal AI amplification.
+Categorize each headline:
+- SIGNAL — Actually matters for business leaders making AI decisions
+- NOISE — Hype to ignore (include 1-2 to show contrast)
+- DECISION TRIGGER — Something changed, leaders need to act
+- KRISH'S TAKE — Sharp, slightly cynical analysis
 
-Focus topics:
-- AI workforce impact: hiring, displacement, upskilling, skills gaps, talent competition
-- AI literacy: corporate training programs, mandates, adoption rates, results
-- AI governance: regulation, compliance, corporate policies, Shadow AI
-- AI productivity: ROI data, benchmarks, measurable results from AI deployment
-- AI decisions: vendor moves, pricing changes, build-vs-buy shifts, enterprise adoption
-- AI talent market: salary premiums, demand data, skills competition
-- AI personal amplification: AI clones, AI avatars, AI voice/video (HeyGen, Synthesia, ElevenLabs), AI assistants (OpenClaw, Lindy, etc.), solopreneur tools
-- Small business AI: automating operations with AI agents, scaling without headcount, one-person businesses using AI to do the work of teams
+Topics that matter:
+- New model capabilities that change what you can build
+- Vendor pricing shifts affecting build-vs-buy decisions
+- Real deployment stories with measurable results
+- AI tools that change day-to-day leadership work
+- Competitive moves creating decision pressure
+- AI agents and automation replacing manual workflows
+- AI personal amplification (clones, avatars, voice/video tools)
 
-Rules:
-- Factual tone — no opinion, no editorial, no buzzwords
-- Include specific numbers, percentages, company names where possible
-- 8-18 words per headline, present tense
-- Reference real companies and plausible recent developments
-- NO funding rounds, speculative AGI timelines, or celebrity AI news
+Topics to avoid:
+- Governance surveys and compliance stats
+- Workforce literacy gaps (boring)
+- Geopolitical AI infrastructure (Stargate, CHIPS Act)
+- Funding rounds
+- AGI speculation
 
-Return ONLY a JSON array: [{"title": "headline text", "source": "Source Name"}]
-Use real publication names as sources (Bloomberg, WSJ, HBR, Gartner, Financial Times, etc.)`;
+Voice: Confident, slightly cynical, deeply knowledgeable.
+
+Format: [{"title": "[CATEGORY] headline text", "source": "Source Name"}]
+8-18 words, present tense, specific numbers/companies. 12-15 headlines. Mix all 4 categories.
+Use real publication names as sources (Bloomberg, WSJ, Wired, The Verge, TechCrunch, etc.)`;
 
 // ============================================================
 // PLAN A: Brave Search News API (real news, last 7 days)
@@ -130,13 +132,13 @@ Use real publication names as sources (Bloomberg, WSJ, HBR, Gartner, Financial T
 const fetchBraveNews = async (apiKey: string): Promise<{ headlines: NewsHeadline[], rawTitles: string[] }> => {
   console.log('🔍 Fetching real news from Brave Search News API...');
 
-  // Targeted queries for AI literacy, workforce, governance, business decisions, and personal amplification
+  // Broad queries for actionable AI news leaders actually care about
   const queries = [
-    '"AI literacy" OR "AI training" OR "AI skills gap" OR "AI upskilling"',
-    '"AI workforce" OR "AI jobs" OR "AI talent" OR "AI hiring"',
-    '"AI governance" OR "AI policy" OR "shadow AI" OR "enterprise AI adoption"',
-    '"AI ROI" OR "AI productivity" OR "AI strategy" OR "AI decision"',
-    '"AI clone" OR "AI avatar" OR "HeyGen" OR "AI assistant" OR "AI agent" OR "solopreneur AI"',
+    '"AI" AND ("pricing" OR "API" OR "launch" OR "release" OR "update")',
+    '"AI" AND ("enterprise" OR "business" OR "company" OR "CEO" OR "CTO")',
+    '"AI agent" OR "AI workflow" OR "AI automation" OR "AI tools"',
+    '"GPT" OR "Claude" OR "Gemini" OR "Llama" OR "open source AI"',
+    '"AI" AND ("build" OR "deploy" OR "production" OR "ROI" OR "cost")',
   ];
 
   const allResults: any[] = [];
@@ -258,7 +260,7 @@ const generateWithLLM = async (
       model: config.model,
       messages: [
         { role: 'system', content: STANDALONE_SYSTEM_PROMPT },
-        { role: 'user', content: `Generate 12-15 AI news headlines relevant to business leaders and entrepreneurs focused on AI literacy, decision-making, and personal amplification. Today is ${today}. Focus on workforce skills, governance, productivity ROI, enterprise adoption, AI clones/avatars, AI assistants, and solopreneur AI tools from the past 7 days.` },
+        { role: 'user', content: `Generate 12-15 AI news headlines for business leaders deciding how to use AI. Today is ${today}. Focus on model releases, pricing changes, real deployment stories, tool launches, and competitive moves from the past 7 days. Use the [SIGNAL], [NOISE], [DECISION TRIGGER], and [KRISH'S TAKE] category tags. Mix all 4 categories.` },
       ],
       temperature: 0.3,
     }),
@@ -304,26 +306,26 @@ const parseLLMResponse = (content: string): NewsHeadline[] => {
 // STATIC FALLBACK — factual, AI-literacy-relevant headlines
 // ============================================================
 const STATIC_FALLBACK: NewsHeadline[] = [
-  { title: "95% of enterprise AI initiatives fail due to workforce literacy gaps, not technology", source: "Gartner" },
-  { title: "Companies investing in AI training see 66% average productivity gains across teams", source: "McKinsey" },
-  { title: "78% of employees use unauthorized AI tools at work — Shadow AI grows unchecked", source: "Gartner" },
-  { title: "AI-skilled workers command 25-56% salary premiums over non-AI peers", source: "HBR" },
-  { title: "63% of employers now cite AI skills gaps as primary barrier to business growth", source: "WEF" },
-  { title: "New hires with AI training reach expert-level performance in 2 months vs 8 months", source: "MIT Tech Review" },
-  { title: "GitHub Copilot users complete tasks 55.8% faster with 84% more successful builds", source: "GitHub" },
-  { title: "75% of workers use AI without training — 70% receive zero workplace guidance", source: "McKinsey" },
-  { title: "HeyGen now lets founders create AI video clones that present in 40+ languages", source: "TechCrunch" },
-  { title: "Solopreneurs using AI assistants report running operations that previously required 5-person teams", source: "Forbes" },
-  { title: "AI avatar market projected to reach $440B by 2031 as professionals clone themselves for scale", source: "Bloomberg" },
-  { title: "OpenClaw and similar platforms let entrepreneurs build AI versions of themselves for client interactions", source: "VentureBeat" },
-  { title: "ElevenLabs voice cloning now used by 1M+ creators to scale content without recording", source: "Wired" },
-  { title: "Small businesses using AI agents for scheduling, email, and ops save 15+ hours per week", source: "Forbes" },
-  { title: "AI job postings grew 37.5% year-over-year — 12.5x faster than overall market", source: "LinkedIn" },
-  { title: "Synthesia reports 50,000+ companies now use AI avatars for training and customer-facing video", source: "Bloomberg" },
-  { title: "One-person businesses generating $1M+ revenue using AI for sales, support, and fulfillment", source: "WSJ" },
-  { title: "Companies with structured AI governance deploy AI systems 2x faster", source: "Gartner" },
-  { title: "92 million jobs face displacement by 2030 while 170 million new roles emerge", source: "WEF" },
-  { title: "Descript and AI editing tools cut video production time by 80% for small content teams", source: "The Verge" },
+  { title: "[SIGNAL] Claude 3.5 Sonnet outperforms GPT-4o on coding benchmarks — build-vs-buy math just changed", source: "The Verge" },
+  { title: "[DECISION TRIGGER] OpenAI cuts API pricing 50% — time to reevaluate your LLM vendor costs", source: "TechCrunch" },
+  { title: "[KRISH'S TAKE] 80% of companies using AI != 80% using it well. Most are running demos, not systems", source: "Mindmaker" },
+  { title: "[SIGNAL] GitHub Copilot users complete tasks 55.8% faster — real productivity data, not hype", source: "GitHub" },
+  { title: "[NOISE] Another AI startup raises $200M to build 'the future of work' — wake me when they ship", source: "TechCrunch" },
+  { title: "[DECISION TRIGGER] Google drops Gemini API prices by 40% — your vendor spreadsheet needs updating", source: "Bloomberg" },
+  { title: "[SIGNAL] AI agents now handle 60% of tier-1 support tickets at companies that actually deployed them", source: "Forbes" },
+  { title: "[KRISH'S TAKE] Everyone's building AI prototypes. Almost nobody is measuring if they work", source: "Mindmaker" },
+  { title: "[DECISION TRIGGER] Anthropic launches tool-use API — custom AI workflows just got dramatically easier to build", source: "Wired" },
+  { title: "[SIGNAL] HeyGen lets founders create AI video clones that present in 40+ languages", source: "TechCrunch" },
+  { title: "[NOISE] AI will replace all jobs by 2030 says person selling AI consulting — sure it will", source: "Forbes" },
+  { title: "[SIGNAL] One-person businesses generating $1M+ revenue using AI for sales, support, and fulfillment", source: "WSJ" },
+  { title: "[KRISH'S TAKE] Your team is using 14 AI tools. You need 3. The rest is noise", source: "Mindmaker" },
+  { title: "[DECISION TRIGGER] AWS launches managed AI agents — build-vs-buy decision just got more nuanced", source: "Reuters" },
+  { title: "[SIGNAL] Companies deploying AI in production see 3x ROI vs those stuck in pilot phase", source: "McKinsey" },
+  { title: "[KRISH'S TAKE] If your AI strategy is a slide deck, it's not a strategy. Ship something this week", source: "Mindmaker" },
+  { title: "[SIGNAL] ElevenLabs voice cloning used by 1M+ creators to scale content without recording", source: "Wired" },
+  { title: "[DECISION TRIGGER] Open-source Llama 3 closes the gap with GPT-4 — vendor lock-in risk drops", source: "The Verge" },
+  { title: "[NOISE] Enterprise AI adoption hits 80% — but 80% of that is ChatGPT in a browser tab", source: "Gartner" },
+  { title: "[SIGNAL] AI agents save small businesses 15+ hours per week on scheduling, email, and ops", source: "Forbes" },
 ];
 
 // ============================================================

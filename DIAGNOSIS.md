@@ -508,3 +508,50 @@ if (emailError) {
 ---
 
 **Diagnostic Complete** - Ready for implementation plan.
+
+---
+
+## ADDENDUM: 2026-02-21 — ROUND 2 DIAGNOSTIC
+
+### Context
+Previous round (Issues 1-8 above) resulted in comprehensive fixes to `send-lead-email`, `InitialConsultModal`, and `calendly.ts`. However, fixes were **applied unevenly** — the other two email edge functions (`send-contact-email`, `send-leadership-insights-email`) were left with the original vulnerable patterns.
+
+### Verified via Deployment Check
+```
+send-lead-email:                HEALTHY (HTTP 200) — hardened version IS deployed
+send-contact-email:             HTTP 500 "Unexpected end of JSON input" — OLD version deployed (no health check)
+send-leadership-insights-email: HTTP 500 "Unexpected end of JSON input" — OLD version deployed (no health check)
+```
+
+### New Failure Points Identified (10 Total)
+
+| # | Failure | Severity | File | Status |
+|---|---------|----------|------|--------|
+| F1 | `send-contact-email` has no RESEND_API_KEY validation | CRITICAL | `supabase/functions/send-contact-email/index.ts` | FIXED |
+| F2 | `send-leadership-insights-email` has no RESEND_API_KEY validation | CRITICAL | `supabase/functions/send-leadership-insights-email/index.ts` | FIXED |
+| F3 | `send-contact-email` has no retry logic | HIGH | Same as F1 | FIXED |
+| F4 | `send-leadership-insights-email` has no retry logic | HIGH | Same as F2 | FIXED |
+| F5 | Contact form submissions have no database persistence | MEDIUM | Same as F1 | NOTED (future) |
+| F6 | Contact form sends embedded data instead of structured fields | MEDIUM | `src/pages/Contact.tsx` | FIXED |
+| F7 | Leadership insights sends to user email (requires Resend paid plan) | MEDIUM | Same as F2 | NOTED (graceful degradation added) |
+| F8 | Edge function deployment gap — code may not match deployed functions | CRITICAL | No CI/CD pipeline | VERIFICATION SCRIPT CREATED |
+| F9 | `escapeHtml` in contact/leadership functions crashes on null/undefined | HIGH | Both functions | FIXED |
+| F10 | No health check endpoints in contact/leadership functions | MEDIUM | Both functions | FIXED |
+
+### Architectural Root Cause
+Inconsistency across the three email edge functions. `send-lead-email` was comprehensively hardened; the other two were not. No shared enforcement of patterns. No deployment verification.
+
+### Fixes Applied
+1. **`send-contact-email`**: Rewritten with API key validation, retry (3 attempts, exponential backoff), null-safe `escapeHtml`, health check endpoint, structured logging with requestId, Zod schema expanded for optional company/role/interest fields.
+2. **`send-leadership-insights-email`**: Rewritten with same hardening. Added `sendEmailWithRetry` helper. User email failure is now non-blocking (notification to Krish still sent).
+3. **`Contact.tsx`**: Now sends company, role, interest as separate body fields instead of embedding in message string. Edge function template conditional rendering now works correctly.
+4. **`AIDecisionHelper.tsx`**: Fixed duplicate `variant="outline"` JSX attribute (build warning).
+5. **`scripts/verify-edge-functions.sh`**: New deployment verification script that tests health and validation endpoints for all 3 email functions.
+
+### CRITICAL: Deployment Required
+All edge function changes must be deployed to Supabase:
+```bash
+supabase functions deploy send-contact-email
+supabase functions deploy send-leadership-insights-email
+```
+Without deployment, the code changes have zero effect on production.

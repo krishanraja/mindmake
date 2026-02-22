@@ -13,30 +13,35 @@ interface AINewsResponse {
   fallback?: boolean;
 }
 
-const CACHE_KEY = 'ai_news_cache';
+const CACHE_KEY = 'ai_news_cache_v2';
 const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
 
+// Clear old cache keys from previous versions
+if (typeof window !== 'undefined') {
+  localStorage.removeItem('ai_news_cache');
+}
+
 const FALLBACK_HEADLINES: NewsHeadline[] = [
-  { title: "Claude 4 beats SDRs at cold email writing", source: "Model Report" },
-  { title: "Prompt engineer salaries down 40% as tools simplify", source: "Workforce Watch" },
-  { title: "Vibe-coded CRM replaces Salesforce at 50-person co", source: "Builder Daily" },
-  { title: "GPT-5 passes bar exam, 12K paralegals at risk", source: "The Shift" },
-  { title: "New job: AI Output Editor. 50K openings by 2026", source: "Workforce Watch" },
-  { title: "Gemini 3 Pro generates production React in one shot", source: "Model Report" },
-  { title: "3-person team ships $2M ARR product using only AI", source: "Builder Daily" },
-  { title: "Customer support teams shrink 60% industry-wide", source: "The Shift" },
-  { title: "Cursor + Claude saves devs 20hrs/week", source: "Operator Intel" },
-  { title: "AI Ops Manager: fastest growing role in tech 2026", source: "Workforce Watch" },
-  { title: "Bookkeepers face 80% job loss by end of 2026", source: "The Shift" },
-  { title: "Lovable hits 100K apps built, avg time: 4 hours", source: "Builder Daily" },
-  { title: "Mistral Large 3 beats GPT-4 on coding benchmarks", source: "Model Report" },
-  { title: "Marketing teams now 2 people + AI, not 12", source: "The Shift" },
-  { title: "Best hack: voice memos to action items via AI", source: "Operator Intel" },
-  { title: "Junior dev hiring down 35% at Fortune 500", source: "Workforce Watch" },
-  { title: "No-code founder builds $500K business in 6 months", source: "Builder Daily" },
-  { title: "Data entry roles: 90% automated by Q2 2026", source: "The Shift" },
-  { title: "Claude Artifacts now rival Figma for quick mockups", source: "Model Report" },
-  { title: "AI fluency now required for 40% of job postings", source: "Workforce Watch" }
+  { title: "[SIGNAL] Claude 3.5 Sonnet outperforms GPT-4o on coding benchmarks — build-vs-buy math just changed", source: "The Verge" },
+  { title: "[DECISION TRIGGER] OpenAI cuts API pricing 50% — time to reevaluate your LLM vendor costs", source: "TechCrunch" },
+  { title: "[KRISH'S TAKE] 80% of companies using AI != 80% using it well. Most are running demos, not systems", source: "Mindmaker" },
+  { title: "[SIGNAL] GitHub Copilot users complete tasks 55.8% faster — real productivity data, not hype", source: "GitHub" },
+  { title: "[NOISE] Another AI startup raises $200M to build 'the future of work' — wake me when they ship", source: "TechCrunch" },
+  { title: "[DECISION TRIGGER] Google drops Gemini API prices by 40% — your vendor spreadsheet needs updating", source: "Bloomberg" },
+  { title: "[SIGNAL] AI agents now handle 60% of tier-1 support tickets at companies that actually deployed them", source: "Forbes" },
+  { title: "[KRISH'S TAKE] Everyone's building AI prototypes. Almost nobody is measuring if they work", source: "Mindmaker" },
+  { title: "[DECISION TRIGGER] Anthropic launches tool-use API — custom AI workflows just got dramatically easier to build", source: "Wired" },
+  { title: "[SIGNAL] HeyGen lets founders create AI video clones that present in 40+ languages", source: "TechCrunch" },
+  { title: "[NOISE] AI will replace all jobs by 2030 says person selling AI consulting — sure it will", source: "Forbes" },
+  { title: "[SIGNAL] One-person businesses generating $1M+ revenue using AI for sales, support, and fulfillment", source: "WSJ" },
+  { title: "[KRISH'S TAKE] Your team is using 14 AI tools. You need 3. The rest is noise", source: "Mindmaker" },
+  { title: "[DECISION TRIGGER] AWS launches managed AI agents — build-vs-buy decision just got more nuanced", source: "Reuters" },
+  { title: "[SIGNAL] Companies deploying AI in production see 3x ROI vs those stuck in pilot phase", source: "McKinsey" },
+  { title: "[KRISH'S TAKE] If your AI strategy is a slide deck, it's not a strategy. Ship something this week", source: "Mindmaker" },
+  { title: "[SIGNAL] ElevenLabs voice cloning used by 1M+ creators to scale content without recording", source: "Wired" },
+  { title: "[DECISION TRIGGER] Open-source Llama 3 closes the gap with GPT-4 — vendor lock-in risk drops", source: "The Verge" },
+  { title: "[NOISE] Enterprise AI adoption hits 80% — but 80% of that is ChatGPT in a browser tab", source: "Gartner" },
+  { title: "[SIGNAL] AI agents save small businesses 15+ hours per week on scheduling, email, and ops", source: "Forbes" },
 ];
 
 // Safe cache loading with validation

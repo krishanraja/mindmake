@@ -37,7 +37,7 @@ const Contact = () => {
 
   const seoData = {
     title: "Contact Us - Mindmaker",
-    description: "Get in touch with Mindmaker. Have questions about our AI literacy programs? We'd love to hear from you.",
+    description: "Get in touch with Mindmaker. Have a nervous decision about AI? We'd love to hear from you.",
     canonical: "/contact",
   };
 
@@ -50,14 +50,10 @@ const Contact = () => {
         body: {
           name: formData.name,
           email: formData.email,
-          message: `
-Company: ${formData.company || "Not provided"}
-Role: ${formData.role || "Not provided"}
-Interest: ${formData.interest || "Not specified"}
-
-Message:
-${formData.message}
-          `.trim()
+          message: formData.message,
+          company: formData.company || undefined,
+          role: formData.role || undefined,
+          interest: formData.interest || undefined,
         },
       });
 
@@ -75,13 +71,9 @@ ${formData.message}
   };
 
   const interestOptions = [
-    { value: "builder-session", label: "Builder Session (1:1)" },
-    { value: "builder-sprint", label: "30-Day Builder Sprint" },
-    { value: "leadership-lab", label: "Leadership Lab (Team)" },
-    { value: "portfolio-program", label: "Portfolio Program" },
-    { value: "speaking", label: "Speaking Engagement" },
-    { value: "partnership", label: "Partnership Opportunity" },
-    { value: "other", label: "Something Else" },
+    { value: "4-week-sprint", label: "4-Week Decision Sprint" },
+    { value: "90-day-sprint", label: "90-Day Concierge Sprint" },
+    { value: "not-sure", label: "Not sure yet" },
   ];
 
   return (
@@ -116,7 +108,7 @@ ${formData.message}
                 Let's <span className="text-mint dark:text-mint">Talk</span>
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground">
-                Have questions about AI literacy or want to explore how we can work together? 
+                Have a nervous decision about AI or want to explore working together? 
                 I'd love to hear from you.
               </p>
             </div>
@@ -209,8 +201,7 @@ ${formData.message}
                   <h3 className="font-semibold">Ready to Start?</h3>
                 </div>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Book a Builder Session to identify your highest-impact AI opportunities 
-                  and build your first working systems in 60 minutes.
+                  Start with a free conversation. No decks, no demos—just clarity on your nervous decision.
                 </p>
                 <Button 
                   variant="mint"
@@ -218,7 +209,7 @@ ${formData.message}
                   onClick={() => setConsultModalOpen(true)}
                 >
                   <Calendar className="h-4 w-4 mr-2" />
-                  Book a Session
+                  What's your nervous decision?
                 </Button>
               </div>
 
@@ -288,7 +279,7 @@ ${formData.message}
                     <Button 
                       onClick={() => setConsultModalOpen(true)}
                     >
-                      Book a Session
+                      Start the Conversation
                     </Button>
                   </div>
                 </div>
@@ -366,14 +357,14 @@ ${formData.message}
                     {/* Interest */}
                     <div>
                       <label htmlFor="interest" className="block text-sm font-medium text-foreground mb-2">
-                        What are you interested in?
+                        Which sprint interests you?
                       </label>
                       <Select
                         value={formData.interest}
                         onValueChange={(value) => setFormData({ ...formData, interest: value })}
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder="Select an option..." />
+                          <SelectValue placeholder="Choose one..." />
                         </SelectTrigger>
                         <SelectContent>
                           {interestOptions.map((option) => (
@@ -393,7 +384,7 @@ ${formData.message}
                       <Textarea
                         id="message"
                         name="message"
-                        placeholder="Tell me about your situation and how I might be able to help..."
+                        placeholder="What's your nervous decision? Tell me what you're working through..."
                         required
                         rows={6}
                         value={formData.message}

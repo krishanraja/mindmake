@@ -1,16 +1,14 @@
 import { useState, useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import NewHero from "@/components/NewHero";
-import ChaosToClarity from "@/components/ShowDontTell/ChaosToClarity";
+import AINewsTicker from "@/components/AINewsTicker";
+import BigProblem from "@/components/BigProblem";
+import FrameworkJourney from "@/components/FrameworkJourney";
 import TheProblem from "@/components/TheProblem";
-import ProductLadder from "@/components/ProductLadder";
 import TrustSection from "@/components/TrustSection";
-import BeforeAfterSplit from "@/components/ShowDontTell/BeforeAfterSplit";
 import SimpleCTA from "@/components/SimpleCTA";
 import Footer from "@/components/Footer";
 import { ParticleBackground } from "@/components/Animations/ParticleBackground";
-import WhitepaperPromo from "@/components/WhitepaperPromo";
-import WhitepaperPopup from "@/components/WhitepaperPopup";
 import { ActionsHub } from "@/components/ActionsHub";
 import { Dialog, DialogWizardContent } from "@/components/ui/dialog";
 import { BuilderAssessment } from "@/components/Interactive/BuilderAssessment";
@@ -28,12 +26,8 @@ const Index = () => {
   const [consultModalOpen, setConsultModalOpen] = useState(false);
   const isMobile = useIsMobile();
 
-  // Listen for custom event from Navigation to open consult modal
   useEffect(() => {
-    const handleOpenConsultModal = () => {
-      setConsultModalOpen(true);
-    };
-
+    const handleOpenConsultModal = () => setConsultModalOpen(true);
     window.addEventListener('openConsultModal', handleOpenConsultModal);
     return () => window.removeEventListener('openConsultModal', handleOpenConsultModal);
   }, []);
@@ -65,53 +59,34 @@ const Index = () => {
 
   return (
     <main className="min-h-screen bg-background relative">
-      {/* Particle Background Effect */}
       <ParticleBackground />
-      
-      {/* Navigation */}
       <Navigation />
-      
-      {/* Hero Section */}
+
+      {/* 1. Hero */}
       <NewHero />
-      
-      {/* Chaos to Clarity Animation */}
-      <div id="problem">
-        <ChaosToClarity />
-      </div>
-      
-      {/* Interactive Command Centre */}
+
+      {/* 2. The Big Problem -- existential urgency */}
+      <BigProblem />
+
+      {/* 3. Framework Journey */}
+      <FrameworkJourney />
+
+      {/* 4. Who Is This For + Sprint Chooser */}
       <TheProblem />
-      
-      {/* Product Ladder */}
-      <div id="book">
-        <ProductLadder />
-      </div>
-      
-      {/* Trust Section */}
+
+      {/* 5. News Ticker + Trust / Proof */}
+      <AINewsTicker />
       <TrustSection />
-      
-      {/* Before/After Split */}
-      <BeforeAfterSplit />
-      
-      {/* Whitepaper Lead Magnet */}
-      <WhitepaperPromo />
-      
-      {/* Simple CTA */}
+
+      {/* 6. Final CTA */}
       <SimpleCTA />
-      
-      {/* Footer */}
+
       <Footer />
-      
-      {/* Whitepaper Popup */}
-      <WhitepaperPopup />
-      
-      {/* Unified Actions Hub - Single access point for all actions */}
+
       <ActionsHub onToolClick={setDialogType} />
 
-      {/* Dialog for Interactive Tools */}
       <Dialog open={dialogType !== null} onOpenChange={() => setDialogType(null)}>
         <DialogWizardContent className="sm:max-w-2xl sm:max-h-[85vh]" hideCloseButton={isMobile}>
-          {/* Desktop: Header with close button */}
           {!isMobile && (
             <div className="shrink-0 p-6 pb-4 border-b">
               <div className="flex items-center justify-between">
@@ -128,14 +103,12 @@ const Index = () => {
               </div>
             </div>
           )}
-          {/* Content wrapper - flex-1 to fill available space */}
           <div className="flex-1 flex flex-col min-h-0 overflow-hidden sm:p-6 sm:pt-4">
             {renderDialogContent()}
           </div>
         </DialogWizardContent>
       </Dialog>
 
-      {/* Global Consult Modal for Navigation button */}
       <InitialConsultModal
         open={consultModalOpen}
         onOpenChange={setConsultModalOpen}

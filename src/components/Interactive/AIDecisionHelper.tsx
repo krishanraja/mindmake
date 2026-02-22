@@ -91,7 +91,7 @@ export const TryItWidget = ({ compact = false, onClose }: TryItWidgetProps) => {
       } else {
         toast.error('Failed to get response. Please try again.');
       }
-      setResponse("I'm having trouble connecting right now. Here's what I'd suggest:\n\n**For your AI decision**, consider applying first-principles thinking: What's the fundamental problem you're actually trying to solve? Strip away assumptions and start from the core need.\n\n[Book a Builder Session](/#book) to work through this together in 60 minutes.");
+      setResponse("I'm having trouble connecting right now. Here's what I'd suggest:\n\n**For your AI decision**, consider first-principles thinking: What's the fundamental problem you're actually trying to solve? Strip away assumptions and start from the core need.\n\n[Start a Sprint](/sprints) to work through this with Mindmaker.");
     } finally {
       setIsLoading(false);
     }
@@ -219,16 +219,16 @@ export const TryItWidget = ({ compact = false, onClose }: TryItWidgetProps) => {
                 <div className="p-4 border-t space-y-3">
                   <Button
                     variant="outline"
-                    className="w-full"
+                    className="w-full border-white/20 text-white hover:bg-white/10"
                     onClick={handleReset}
                   >
                     Ask Another Question
                   </Button>
                   <Button
-                    className="w-full bg-ink text-white hover:bg-ink/90"
+                    className="w-full bg-mint text-ink hover:bg-mint/90"
                     onClick={() => openCalendlyPopup({ source: 'ai-decision-helper' })}
                   >
-                    Book a Builder Session
+                    Start a Sprint
                   </Button>
                 </div>
               </motion.div>
@@ -457,17 +457,17 @@ export const TryItWidget = ({ compact = false, onClose }: TryItWidgetProps) => {
           <div className="space-y-3">
             <Button
               variant="outline"
-              className="w-full"
+              className="w-full border-white/20 text-white hover:bg-white/10"
               onClick={handleReset}
             >
               Ask Another Question
             </Button>
             <Button
               size="lg"
-              className="w-full bg-ink text-white hover:bg-ink/90"
+              className="w-full bg-mint text-ink hover:bg-mint/90"
               onClick={() => setConsultModalOpen(true)}
             >
-              Book a Builder Session
+              Start a Sprint
             </Button>
           </div>
         )}

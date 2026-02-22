@@ -1,613 +1,417 @@
-import { useState, useRef, useEffect, useCallback } from "react";
-import { motion, useInView } from "framer-motion";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { ArrowUp, MousePointer2 } from "lucide-react";
-import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
+import { useState, useRef } from "react";
+import { motion, AnimatePresence, useInView } from "framer-motion";
+import { Wrench, Compass, CheckCircle, ArrowRight, ArrowDown, Square, CheckSquare } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { InitialConsultModal } from "@/components/InitialConsultModal";
 
-interface PanelData {
-  problem: {
-    video: string;
-    headline: string;
-    objectPosition?: string;
-  };
-  opportunity: {
-    video: string;
-    headline: string;
-    objectPosition?: string;
-  };
+type PathType = "build" | "orchestrate" | null;
+
+const spring = { type: "spring" as const, stiffness: 80, damping: 18 };
+
+interface CriteriaItem {
+  label: string;
+  value: number;
 }
 
-const panels: PanelData[] = [
+const builderCriteria: CriteriaItem[] = [
+  { label: "Creative freedom", value: 96 },
+  { label: "System ownership", value: 91 },
+  { label: "Future-proofing", value: 88 },
+  { label: "Personal velocity", value: 94 },
+];
+
+const orchestratorCriteria: CriteriaItem[] = [
+  { label: "Decision speed", value: 93 },
+  { label: "Board confidence", value: 97 },
+  { label: "Strategic clarity", value: 89 },
+  { label: "Time efficiency", value: 95 },
+];
+
+const builderTraits = [
+  "I'm curious about vibe coding and building my own AI systems",
+  "I want to own and control what I build, even if it takes effort",
+  "I'm willing to invest 4\u20138 hours/week to future-proof myself",
+];
+
+const orchestratorTraits = [
+  "I need reliable outputs from AI without becoming technical",
+  "I want to make clean decisions and not need IT in the room",
+  "I can invest 2\u20134 hours/week and want results, not learning curves",
+];
+
+const builderSprints = [
   {
-    problem: {
-      video: '/problem 1.mp4',
-      headline: 'AI is being bought like software and implemented like labor.',
-      objectPosition: 'center center',
-    },
-    opportunity: {
-      video: '/solution 1.mp4',
-      headline: 'Successful leaders are embracing AI literacy, not delegating it.',
-      objectPosition: 'center center',
-    },
+    name: "4-Week Decision Sprint",
+    tagline: "One decision. Four weeks. Board-ready.",
+    description: "Pick one nervous decision and resolve it with a working prototype and board-ready memo.",
+    emphasis: ["Working prototype or system", "Tool commitment hierarchy", "Build-ready decision memo"],
+    route: "/sprint/4-week",
+    commitment: "4wk",
   },
   {
-    problem: {
-      video: '/problem 2.mp4',
-      headline: 'Dashboard theatre blurs what real success looks like.',
-      objectPosition: 'center center',
-    },
-    opportunity: {
-      video: '/solution 2.mp4',
-      headline: 'Leaders who understand how to orchestrate AI can\'t be blinded by AI theatre.',
-      objectPosition: 'center center',
-    },
-  },
-  {
-    problem: {
-      video: '/problem 3.mp4',
-      headline: 'Leadership teams are looking to one another for the answer.',
-      objectPosition: 'center center',
-    },
-    opportunity: {
-      video: '/solution 3.mp4',
-      headline: 'Teams aligned once can create compounding successes across the org.',
-      objectPosition: 'center center',
-    },
+    name: "90-Day Concierge Sprint",
+    tagline: "Full journey. MindSet \u2192 MindMap \u2192 MindMake.",
+    description: "Build 3\u20135 personal AI systems, resolve 2\u20133 strategic decisions, and leave with a 12-month roadmap.",
+    emphasis: ["3\u20135 deployed AI systems", "Personal System Architecture", "Strength Amplifier + Builder Dossier"],
+    route: "/sprint/90-day",
+    commitment: "90d",
   },
 ];
 
-interface PanelProps {
-  panel: PanelData;
-  index: number;
-  canAutoReveal: boolean;
-  onReveal: () => void;
-}
+const orchestratorSprints = [
+  {
+    name: "4-Week Decision Sprint",
+    tagline: "One decision. Four weeks. Board-ready.",
+    description: "Pick one nervous decision and resolve it with a defensible trade-off analysis and board memo.",
+    emphasis: ["Vendor evaluation scorecard", "Governance decision memo", "Board-ready narrative"],
+    route: "/sprint/4-week",
+    commitment: "4wk",
+  },
+  {
+    name: "90-Day Concierge Sprint",
+    tagline: "Full journey. MindSet \u2192 MindMap \u2192 MindMake.",
+    description: "Set your AI operating model, resolve 2\u20133 vendor/governance decisions, and build a board-ready roadmap.",
+    emphasis: ["AI Operating Model + RACI", "Strategic vendor decisions resolved", "12-month roadmap with quarterly gates"],
+    route: "/sprint/90-day",
+    commitment: "90d",
+  },
+];
 
-const Panel = ({ panel, index, canAutoReveal, onReveal }: PanelProps) => {
-  const panelRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [wipeProgress, setWipeProgress] = useState(0);
-  const [isWiped, setIsWiped] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const isInView = useInView(panelRef, { once: false, amount: 0.3 });
-  const isMobile = useIsMobile();
-  const autoRevealTimerRef = useRef<NodeJS.Timeout | null>(null);
+const AnimatedBar = ({ value, delay, isVisible }: { value: number; delay: number; isVisible: boolean }) => (
+  <div className="flex-1 h-2 bg-ink/10 dark:bg-white/10 rounded-full overflow-hidden">
+    <motion.div
+      className="h-full bg-ink dark:bg-mint rounded-full"
+      initial={{ width: 0 }}
+      animate={isVisible ? { width: `${value}%` } : { width: 0 }}
+      transition={{ duration: 0.8, delay, ease: "easeOut" }}
+    />
+  </div>
+);
 
-  // Reveal the panel
-  const revealPanel = useCallback(() => {
-    if (!isWiped) {
-      setIsWiped(true);
-      setWipeProgress(1);
-      if (containerRef.current) {
-        containerRef.current.style.setProperty('--wipe-progress', '0%');
-      }
-      onReveal();
-    }
-  }, [isWiped, onReveal]);
+const CheckboxRow = ({
+  label,
+  checked,
+  onChange,
+}: {
+  label: string;
+  checked: boolean;
+  onChange: () => void;
+}) => (
+  <button
+    onClick={onChange}
+    className={`w-full flex items-start gap-3 p-3 rounded-lg text-left transition-all min-h-[48px] ${
+      checked
+        ? "bg-ink/[0.06] dark:bg-mint/[0.08] border border-ink/20 dark:border-mint/30"
+        : "bg-transparent border border-border/30 hover:border-ink/20 dark:hover:border-mint/20"
+    }`}
+  >
+    {checked ? (
+      <CheckSquare className="w-5 h-5 text-ink dark:text-mint shrink-0 mt-0.5" />
+    ) : (
+      <Square className="w-5 h-5 text-muted-foreground shrink-0 mt-0.5" />
+    )}
+    <span className={`text-sm ${checked ? "font-medium" : "text-muted-foreground"}`}>
+      {label}
+    </span>
+  </button>
+);
 
-  // Handle hover for visual feedback only (no auto-reveal on hover)
-  const handleMouseEnter = useCallback(() => {
-    if (!isMobile) {
-      setIsHovered(true);
-    }
-  }, [isMobile]);
+const PathCard = ({
+  type,
+  isSelected,
+  isOtherSelected,
+  onSelect,
+}: {
+  type: "build" | "orchestrate";
+  isSelected: boolean;
+  isOtherSelected: boolean;
+  onSelect: () => void;
+}) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const isBuilder = type === "build";
+  const [checkedItems, setCheckedItems] = useState<boolean[]>([false, false, false]);
 
-  const handleMouseLeave = useCallback(() => {
-    if (!isMobile) {
-      setIsHovered(false);
-    }
-  }, [isMobile]);
+  const traits = isBuilder ? builderTraits : orchestratorTraits;
+  const criteria = isBuilder ? builderCriteria : orchestratorCriteria;
+  const Icon = isBuilder ? Wrench : Compass;
+  const headline = isBuilder
+    ? "You want to build alongside AI."
+    : "You want direction without the build.";
 
-  // Handle click/tap to reveal
-  const handleClick = useCallback(() => {
-    revealPanel();
-  }, [revealPanel]);
+  const allChecked = checkedItems.every(Boolean);
 
-  // Auto-reveal after 3 seconds when this panel can auto-reveal and is in view
-  useEffect(() => {
-    if (canAutoReveal && isInView && !isWiped) {
-      autoRevealTimerRef.current = setTimeout(() => {
-        revealPanel();
-      }, 3000);
-
-      return () => {
-        if (autoRevealTimerRef.current) {
-          clearTimeout(autoRevealTimerRef.current);
-        }
-      };
-    }
-  }, [canAutoReveal, isInView, isWiped, revealPanel]);
-
-  // Initialize CSS variable (start at 100% = fully hidden)
-  useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.style.setProperty('--wipe-progress', '100%');
-    }
-  }, []);
-
-  // Cleanup timer on unmount
-  useEffect(() => {
-    return () => {
-      if (autoRevealTimerRef.current) {
-        clearTimeout(autoRevealTimerRef.current);
-      }
-    };
-  }, []);
+  const toggleCheck = (index: number) => {
+    setCheckedItems((prev) => {
+      const next = [...prev];
+      next[index] = !next[index];
+      return next;
+    });
+  };
 
   return (
     <motion.div
-      ref={panelRef}
-      className="relative h-[80vh] w-full overflow-hidden cursor-pointer group"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onClick={handleClick}
-      role="button"
-      tabIndex={0}
-      aria-label={`Panel ${index + 1}: ${panel.problem.headline}`}
-      whileHover={!isMobile && !isWiped ? { scale: 1.02 } : {}}
-      transition={{ duration: 0.3, ease: 'easeOut' }}
-      style={{
-        boxShadow: isHovered && !isWiped
-          ? '0 0 40px rgba(158, 82%, 73%, 0.3), 0 0 80px rgba(158, 82%, 73%, 0.15)'
-          : 'none',
-        border: isHovered && !isWiped
-          ? '2px solid rgba(158, 82%, 73%, 0.4)'
-          : '2px solid transparent',
-        transition: 'box-shadow 0.3s ease, border 0.3s ease',
-      }}
+      ref={ref}
+      className={`p-8 rounded-2xl border transition-all ${
+        isSelected
+          ? "border-ink dark:border-mint bg-ink/[0.03] dark:bg-mint/[0.03] ring-1 ring-ink/10 dark:ring-mint/20"
+          : isOtherSelected
+          ? "opacity-30 scale-[0.97] pointer-events-none border-border/30"
+          : "border-border/50 hover:border-ink/30 dark:hover:border-mint/30"
+      }`}
+      initial={{ opacity: 0, y: 40 }}
+      animate={isInView ? { opacity: isOtherSelected ? 0.3 : 1, y: 0 } : {}}
+      transition={spring}
     >
-      {/* Visual Affordance Indicator - Desktop Only */}
-      {!isMobile && !isWiped && (
-        <motion.div
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 pointer-events-none"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ 
-            opacity: [0.6, 1, 0.6],
-            y: [0, -4, 0],
-          }}
-          transition={{ 
-            duration: 2,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-        >
-          <div className="flex items-center gap-2 text-white/90 text-sm font-medium bg-black/40 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
-            <MousePointer2 className="w-4 h-4" />
-            <span>Click to reveal solution</span>
+      <div className="flex items-center gap-3 mb-4">
+        <div className="w-10 h-10 rounded-full bg-ink/10 dark:bg-mint/20 flex items-center justify-center">
+          <Icon className="w-5 h-5 text-ink dark:text-mint" />
+        </div>
+        <h3 className="text-xl font-bold">{isBuilder ? "The Builder" : "The Orchestrator"}</h3>
+      </div>
+
+      <p className="text-lg font-medium mb-5">{headline}</p>
+
+      {/* Interactive checkboxes */}
+      <div className="space-y-2 mb-6">
+        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
+          Check all that apply to you:
+        </p>
+        {traits.map((trait, i) => (
+          <CheckboxRow
+            key={i}
+            label={trait}
+            checked={checkedItems[i]}
+            onChange={() => toggleCheck(i)}
+          />
+        ))}
+      </div>
+
+      {/* Criteria bars */}
+      <div className="space-y-3 mb-6 pt-4 border-t border-border/30">
+        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
+          {isBuilder ? "What you gain" : "What you gain"}
+        </p>
+        {criteria.map((c, i) => (
+          <div key={c.label} className="flex items-center gap-3">
+            <span className="text-xs text-muted-foreground w-28 shrink-0">{c.label}</span>
+            <AnimatedBar value={c.value} delay={i * 0.12} isVisible={isInView} />
           </div>
+        ))}
+      </div>
+
+      {/* CTA -- enabled only when all checked */}
+      {!isSelected && !isOtherSelected && (
+        <motion.div
+          animate={allChecked ? { scale: [1, 1.03, 1] } : {}}
+          transition={{ duration: 0.4 }}
+        >
+          <Button
+            className={`w-full font-semibold transition-all ${
+              allChecked
+                ? "bg-ink dark:bg-mint text-white dark:text-ink hover:opacity-90 shadow-lg"
+                : "bg-ink/20 dark:bg-white/10 text-ink/40 dark:text-white/30 cursor-not-allowed"
+            }`}
+            disabled={!allChecked}
+            onClick={onSelect}
+          >
+            {allChecked ? "This is me \u2192" : "Check all to continue"}
+          </Button>
         </motion.div>
       )}
 
-      {/* Problem Video Layer (Bottom - Always Visible) */}
-      <div className="absolute inset-0 z-0">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{
-            objectPosition: panel.problem.objectPosition || 'center center',
-          }}
-          aria-hidden="true"
-        >
-          <source src={panel.problem.video} type="video/mp4" />
-        </video>
-        
-        {/* Problem Overlay - Muted Red */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundColor: 'rgba(185, 28, 28, 0.4)',
-          }}
-          aria-hidden="true"
-        />
-
-        {/* Problem Text Overlay */}
-        <div className="absolute inset-0 z-10 flex items-center justify-center px-4 sm:px-6" style={{ opacity: isWiped ? 0 : 1, transition: 'opacity 0.3s ease' }}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView && !isWiped ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{
-              duration: 0.8,
-              ease: [0.25, 0.1, 0.25, 1],
-              delay: 0.2,
+      {isSelected && (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center">
+          <p className="text-sm font-semibold text-ink dark:text-mint mb-3">
+            {isBuilder ? "You're a Builder." : "You're an Orchestrator."} See your sprints below.
+          </p>
+          <button
+            onClick={() => {
+              const el = document.getElementById("sprint-chooser");
+              if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
             }}
-            className="max-w-[90%] text-center"
-            style={{
-              background: 'rgba(0, 0, 0, 1)',
-              backdropFilter: 'blur(8px)',
-              padding: '1.5rem 2rem',
-              borderRadius: '8px',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',
-            }}
+            className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
           >
-            <h2
-              className="font-display text-xl sm:text-2xl md:text-3xl font-normal leading-[1.15] tracking-tight text-white"
-              style={{
-                textShadow: '0 2px 8px rgba(0, 0, 0, 0.8), 0 4px 16px rgba(0, 0, 0, 0.6)',
-              }}
-            >
-              {panel.problem.headline}
-            </h2>
-          </motion.div>
-        </div>
+            <ArrowDown className="w-4 h-4" /> See my sprints
+          </button>
+        </motion.div>
+      )}
+    </motion.div>
+  );
+};
+
+const SprintCard = ({
+  sprint,
+  pathType,
+  onBook,
+}: {
+  sprint: typeof builderSprints[0];
+  pathType: PathType;
+  onBook: () => void;
+}) => {
+  const navigate = useNavigate();
+
+  return (
+    <motion.div
+      className="p-8 rounded-2xl border border-border/50 hover:border-ink/30 dark:hover:border-mint/30 transition-all flex flex-col hover:-translate-y-1 hover:shadow-lg duration-300"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={spring}
+    >
+      <h4 className="text-2xl font-bold mb-1">{sprint.name}</h4>
+      <p className="text-sm text-ink/60 dark:text-mint mb-4">{sprint.tagline}</p>
+      <p className="text-muted-foreground text-sm mb-6">{sprint.description}</p>
+
+      <div className="mb-6">
+        <h5 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">
+          {pathType === "build" ? "Builder focus" : "Orchestrator focus"}
+        </h5>
+        <ul className="space-y-1.5">
+          {sprint.emphasis.map((item, i) => (
+            <li key={i} className="flex items-start gap-2 text-sm">
+              <CheckCircle className="w-4 h-4 text-ink/40 dark:text-mint/60 shrink-0 mt-0.5" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
       </div>
 
-      {/* Solution Video Layer (Top - Revealed via Wipe) */}
-      <div
-        ref={containerRef}
-        className="absolute inset-0 z-30"
-        style={{
-          clipPath: 'inset(var(--wipe-progress, 100%) 0 0 0)',
-          transition: isWiped ? 'clip-path 1.5s cubic-bezier(0.25, 0.1, 0.25, 1)' : 'none',
-          willChange: 'clip-path',
-          pointerEvents: isWiped ? 'auto' : 'none',
-        }}
-      >
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{
-            objectPosition: panel.opportunity.objectPosition || 'center center',
-          }}
-          aria-hidden="true"
+      <div className="mt-auto flex flex-col gap-2">
+        <Button
+          size="lg"
+          className="w-full bg-ink dark:bg-mint text-white dark:text-ink hover:opacity-90 font-semibold"
+          onClick={onBook}
         >
-          <source src={panel.opportunity.video} type="video/mp4" />
-        </video>
-        
-        {/* Opportunity Overlay - Muted Green */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundColor: 'rgba(22, 163, 74, 0.4)',
-          }}
-          aria-hidden="true"
-        />
-
-        {/* Opportunity Text Overlay */}
-        <div className="absolute inset-0 z-10 flex items-center justify-center px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={wipeProgress > 0.3 ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{
-              duration: 0.8,
-              ease: [0.25, 0.1, 0.25, 1],
-              delay: 0.3,
-            }}
-            className="max-w-[90%] text-center"
-            style={{
-              background: 'rgba(255, 255, 255, 1)',
-              backdropFilter: 'blur(8px)',
-              padding: '1.5rem 2rem',
-              borderRadius: '8px',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
-            }}
-          >
-            <h2
-              className="font-display text-xl sm:text-2xl md:text-3xl font-normal leading-[1.15] tracking-tight text-foreground"
-              style={{
-                textShadow: '0 1px 4px rgba(0, 0, 0, 0.2)',
-              }}
-            >
-              {panel.opportunity.headline}
-            </h2>
-          </motion.div>
-        </div>
+          {sprint.name.includes("4-Week") ? "Start 4-Week Sprint" : "Start 90-Day Sprint"}
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="w-full text-muted-foreground hover:text-foreground"
+          onClick={() => navigate(sprint.route)}
+        >
+          Learn more <ArrowRight className="w-4 h-4 ml-1" />
+        </Button>
       </div>
     </motion.div>
   );
 };
 
-interface MobilePanelProps {
-  panel: PanelData;
-  index: number;
-  isActive: boolean;
-  canAutoReveal: boolean;
-  onReveal: () => void;
-}
+const TheProblem = () => {
+  const [selectedPath, setSelectedPath] = useState<PathType>(null);
+  const [consultModalOpen, setConsultModalOpen] = useState(false);
+  const [bookingCommitment, setBookingCommitment] = useState<string | undefined>();
 
-const MobilePanel = ({ panel, index, isActive, canAutoReveal, onReveal }: MobilePanelProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [wipeProgress, setWipeProgress] = useState(0);
-  const [isWiped, setIsWiped] = useState(false);
-  const isInView = useInView(containerRef, { once: false, amount: 0.5 });
-  const autoRevealTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const activeSprints = selectedPath === "build" ? builderSprints : orchestratorSprints;
 
-  // Reveal the panel
-  const revealPanel = useCallback(() => {
-    if (!isWiped) {
-      setIsWiped(true);
-      setWipeProgress(1);
-      if (containerRef.current) {
-        containerRef.current.style.setProperty('--wipe-progress', '0%');
-      }
-      onReveal();
-    }
-  }, [isWiped, onReveal]);
-
-  // Auto-reveal after 3 seconds when this panel can auto-reveal, is active, and in view
-  useEffect(() => {
-    if (canAutoReveal && isActive && isInView && !isWiped) {
-      autoRevealTimerRef.current = setTimeout(() => {
-        revealPanel();
-      }, 3000);
-
-      return () => {
-        if (autoRevealTimerRef.current) {
-          clearTimeout(autoRevealTimerRef.current);
-        }
-      };
-    }
-  }, [canAutoReveal, isActive, isInView, isWiped, revealPanel]);
-
-  // Handle tap to reveal
-  const handleClick = useCallback(() => {
-    revealPanel();
-  }, [revealPanel]);
-
-  // Initialize CSS variable
-  useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.style.setProperty('--wipe-progress', '100%');
-    }
-  }, []);
-
-  // Cleanup timer on unmount
-  useEffect(() => {
-    return () => {
-      if (autoRevealTimerRef.current) {
-        clearTimeout(autoRevealTimerRef.current);
-      }
-    };
-  }, []);
+  const handleBook = (commitment: string) => {
+    setBookingCommitment(commitment);
+    setConsultModalOpen(true);
+  };
 
   return (
-    <div
-      ref={containerRef}
-      className="relative h-[65vh] w-full overflow-hidden rounded-lg"
-      onClick={handleClick}
-      role="button"
-      tabIndex={0}
-      aria-label={`Panel ${index + 1}: ${panel.problem.headline}`}
-    >
-      {/* Problem Video Layer */}
-      <div className="absolute inset-0 z-0">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{
-            objectPosition: panel.problem.objectPosition || 'center center',
-          }}
-          aria-hidden="true"
-        >
-          <source src={panel.problem.video} type="video/mp4" />
-        </video>
-        
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundColor: 'rgba(185, 28, 28, 0.4)',
-          }}
-          aria-hidden="true"
-        />
-
-        <div className="absolute inset-0 z-10 flex items-center justify-center px-4" style={{ opacity: isWiped ? 0 : 1, transition: 'opacity 0.3s ease' }}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView && !isWiped ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{
-              duration: 0.6,
-              ease: [0.25, 0.1, 0.25, 1],
-            }}
-            className="max-w-[90%] text-center"
-            style={{
-              background: 'rgba(0, 0, 0, 1)',
-              backdropFilter: 'blur(8px)',
-              padding: '1.25rem 1.75rem',
-              borderRadius: '8px',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',
-            }}
-          >
-            <h2
-              className="font-display text-lg sm:text-xl md:text-2xl font-normal leading-[1.15] tracking-tight text-white"
-              style={{
-                textShadow: '0 2px 8px rgba(0, 0, 0, 0.8), 0 4px 16px rgba(0, 0, 0, 0.6)',
-              }}
-            >
-              {panel.problem.headline}
+    <>
+      <section className="py-24 md:py-32 bg-background" id="products">
+        <div className="container-width">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+              Who is this for?
             </h2>
-            {!isWiped && (
+            <p className="text-lg text-muted-foreground max-w-md mx-auto">
+              Two paths. Both end with decisions that stick.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <PathCard
+              type="build"
+              isSelected={selectedPath === "build"}
+              isOtherSelected={selectedPath === "orchestrate"}
+              onSelect={() => setSelectedPath("build")}
+            />
+            <PathCard
+              type="orchestrate"
+              isSelected={selectedPath === "orchestrate"}
+              isOtherSelected={selectedPath === "build"}
+              onSelect={() => setSelectedPath("orchestrate")}
+            />
+          </div>
+
+          <AnimatePresence>
+            {selectedPath && (
               <motion.div
-                className="mt-3 text-white/80 text-xs flex items-center justify-center gap-1"
-                animate={{ opacity: [0.6, 1, 0.6] }}
-                transition={{ duration: 2, repeat: Infinity }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="text-center mt-6"
               >
-                <span>Tap to reveal solution</span>
+                <button
+                  onClick={() => setSelectedPath(null)}
+                  className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-4"
+                >
+                  Change my selection
+                </button>
               </motion.div>
             )}
-          </motion.div>
-        </div>
-      </div>
+          </AnimatePresence>
 
-      {/* Solution Video Layer */}
-      <div
-        className="absolute inset-0 z-30"
-        style={{
-          clipPath: 'inset(var(--wipe-progress, 100%) 0 0 0)',
-          transition: isWiped ? 'clip-path 1.5s cubic-bezier(0.25, 0.1, 0.25, 1)' : 'none',
-          willChange: 'clip-path',
-          pointerEvents: isWiped ? 'auto' : 'none',
-        }}
-      >
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{
-            objectPosition: panel.opportunity.objectPosition || 'center center',
-          }}
-          aria-hidden="true"
-        >
-          <source src={panel.opportunity.video} type="video/mp4" />
-        </video>
-        
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundColor: 'rgba(22, 163, 74, 0.4)',
-          }}
-          aria-hidden="true"
-        />
+          <AnimatePresence>
+            {selectedPath && (
+              <motion.div
+                id="sprint-chooser"
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 40 }}
+                transition={{ ...spring, delay: 0.15 }}
+                className="mt-20"
+              >
+                <div className="text-center mb-10">
+                  <h3 className="text-3xl md:text-4xl font-bold mb-3">Choose your sprint.</h3>
+                  <p className="text-muted-foreground max-w-md mx-auto text-sm">
+                    {selectedPath === "build"
+                      ? "Builder sprints focus on systems, prototypes, and personal AI leverage."
+                      : "Orchestrator sprints focus on governance, vendor decisions, and board-ready direction."}
+                  </p>
+                </div>
 
-        <div className="absolute inset-0 z-10 flex items-center justify-center px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={wipeProgress > 0.3 ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{
-              duration: 0.8,
-              ease: [0.25, 0.1, 0.25, 1],
-              delay: 0.3,
-            }}
-            className="max-w-[90%] text-center"
-            style={{
-              background: 'rgba(255, 255, 255, 0.85)',
-              backdropFilter: 'blur(8px)',
-              padding: '1.25rem 1.75rem',
-              borderRadius: '8px',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
-            }}
-          >
-            <h2
-              className="font-display text-lg sm:text-xl md:text-2xl font-normal leading-[1.15] tracking-tight text-foreground"
-              style={{
-                textShadow: '0 1px 4px rgba(0, 0, 0, 0.2)',
-              }}
-            >
-              {panel.opportunity.headline}
-            </h2>
-          </motion.div>
-        </div>
-      </div>
-    </div>
-  );
-};
+                <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                  {activeSprints.map((sprint) => (
+                    <SprintCard
+                      key={sprint.name}
+                      sprint={sprint}
+                      pathType={selectedPath}
+                      onBook={() => handleBook(sprint.commitment)}
+                    />
+                  ))}
+                </div>
 
-const TheProblem = () => {
-  const isMobile = useIsMobile();
-  const [carouselApi, setCarouselApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
-  // Track which panel index can auto-reveal next (sequential: 0 -> 1 -> 2)
-  const [nextAutoRevealIndex, setNextAutoRevealIndex] = useState(0);
-
-  useEffect(() => {
-    if (!carouselApi) {
-      return;
-    }
-
-    setCurrent(carouselApi.selectedScrollSnap());
-
-    carouselApi.on("select", () => {
-      setCurrent(carouselApi.selectedScrollSnap());
-    });
-  }, [carouselApi]);
-
-  // Handle panel reveal - advance to next panel for auto-reveal
-  const handlePanelReveal = useCallback((index: number) => {
-    // When a panel is revealed, allow the next panel to auto-reveal
-    if (index === nextAutoRevealIndex) {
-      setNextAutoRevealIndex(index + 1);
-    }
-  }, [nextAutoRevealIndex]);
-
-  // Desktop: Grid layout
-  if (!isMobile) {
-    return (
-      <section className="relative w-full py-12 md:py-16" aria-label="Problem to opportunity journey">
-        <div className="container-width mb-12 md:mb-16">
-          <h2 className="text-center font-display text-2xl font-normal tracking-tight text-foreground sm:text-3xl md:text-4xl">
-            Boss the boardroom confidently.
-          </h2>
-        </div>
-
-        <div className="container-width">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
-            {panels.map((panel, index) => (
-              <Panel 
-                key={index} 
-                panel={panel} 
-                index={index} 
-                canAutoReveal={index === nextAutoRevealIndex}
-                onReveal={() => handlePanelReveal(index)}
-              />
-            ))}
-          </div>
+                <div className="text-center mt-10">
+                  <p className="text-xs text-muted-foreground mb-3">Not sure which sprint?</p>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setBookingCommitment(undefined);
+                      setConsultModalOpen(true);
+                    }}
+                  >
+                    Start with a conversation
+                  </Button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </section>
-    );
-  }
 
-  // Mobile: Horizontal carousel
-  return (
-    <section className="relative w-full py-8 md:py-12" aria-label="Problem to opportunity journey">
-      <div className="container-width mb-8 md:mb-12">
-        <h2 className="text-center font-display text-xl font-normal tracking-tight text-foreground sm:text-2xl md:text-3xl">
-          Boss the boardroom confidently.
-        </h2>
-      </div>
-
-      <div className="container-width">
-        <Carousel
-          setApi={setCarouselApi}
-          opts={{
-            align: 'center',
-            loop: false,
-            dragFree: false,
-            containScroll: 'trimSnaps',
-          }}
-          orientation="horizontal"
-          className="w-full"
-        >
-          <CarouselContent className="-ml-2 md:-ml-4">
-            {panels.map((panel, index) => (
-              <CarouselItem key={index} className="pl-2 md:pl-4 basis-[90%] sm:basis-[85%]">
-                <MobilePanel 
-                  panel={panel} 
-                  index={index} 
-                  isActive={current === index}
-                  canAutoReveal={index === nextAutoRevealIndex}
-                  onReveal={() => handlePanelReveal(index)}
-                />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
-
-        {/* Dot Indicators */}
-        <div className="flex justify-center gap-2 mt-6">
-          {panels.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => carouselApi?.scrollTo(index)}
-              className={`h-2 rounded-full transition-all ${
-                current === index
-                  ? 'w-8 bg-mint'
-                  : 'w-2 bg-muted-foreground/30'
-              }`}
-              aria-label={`Go to panel ${index + 1}`}
-            />
-          ))}
-        </div>
-      </div>
-    </section>
+      <InitialConsultModal
+        open={consultModalOpen}
+        onOpenChange={setConsultModalOpen}
+        pathType={selectedPath === "build" ? "build" : selectedPath === "orchestrate" ? "orchestrate" : undefined}
+        commitmentLevel={bookingCommitment}
+      />
+    </>
   );
 };
 

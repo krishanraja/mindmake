@@ -166,10 +166,10 @@ const LeadershipInsights = () => {
   return (
     <>
       <SEO 
-        title="AI Leadership Benchmark | The Mindmaker"
-        description="Evaluate your AI leadership readiness in 10 minutes. Get personalized insights, strategic recommendations, and actionable next steps."
+        title="Decision Readiness Diagnostic | The Mindmaker"
+        description="Identify your nervous decisions about AI, find out if you're a Builder or Orchestrator, and get a recommended sprint in 10 minutes."
         canonical="/leaders"
-        keywords="AI leadership assessment, AI readiness benchmark, executive AI evaluation, AI literacy test, leadership diagnostic"
+        keywords="AI decision readiness, nervous decisions AI, executive AI diagnostic, builder orchestrator assessment, AI sprint recommendation"
       />
       
       <AnimatePresence mode="wait">
@@ -187,7 +187,7 @@ const LeadershipInsights = () => {
             
             <DiagnosticCard>
               <h1 className="font-gobold text-2xl sm:text-3xl text-ink leading-tight mb-4">
-                KNOW WHERE YOU STAND ON AI
+                WHAT'S YOUR NERVOUS DECISION?
               </h1>
               
               <p className="text-muted-foreground mb-6">
@@ -202,6 +202,18 @@ const LeadershipInsights = () => {
                 Start diagnostic
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
+
+              <div className="mt-4 p-3 rounded-lg bg-muted/50 border border-border/50 text-center">
+                <p className="text-xs text-muted-foreground">
+                  Want something quicker?{" "}
+                  <button
+                    onClick={() => window.dispatchEvent(new CustomEvent('openActionsHub'))}
+                    className="text-mint font-medium hover:underline"
+                  >
+                    Try our instant AI tools
+                  </button>
+                </p>
+              </div>
             </DiagnosticCard>
           </ViewportContainer>
         )}
@@ -442,8 +454,8 @@ const LeadershipInsights = () => {
                   animate={{ opacity: 1, y: 0 }}
                   className="bg-white rounded-lg shadow-lg border border-border p-6"
                 >
-                  <h1 className="font-bold text-xl mb-1">AI Leadership Benchmark</h1>
-                  <p className="text-sm text-muted-foreground mb-4">Your personalized leadership insights</p>
+                  <h1 className="font-bold text-xl mb-1">Decision Readiness Diagnostic</h1>
+                  <p className="text-sm text-muted-foreground mb-4">Identify your nervous decisions and the right sprint</p>
                   
                   {/* Score Display */}
                   <div className="text-center py-4">

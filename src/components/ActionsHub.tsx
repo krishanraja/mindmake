@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Sparkles, ChevronLeft, Calendar, MessageCircle, User, Lightbulb, Map, TrendingUp, Mic } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
@@ -42,6 +42,12 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
   const [consultModalOpen, setConsultModalOpen] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
   const isMobile = useIsMobile();
+
+  useEffect(() => {
+    const handleOpenHub = () => setIsOpen(true);
+    window.addEventListener('openActionsHub', handleOpenHub);
+    return () => window.removeEventListener('openActionsHub', handleOpenHub);
+  }, []);
 
   const tools = [
     {
@@ -120,7 +126,7 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
         <section>
           <div className="flex items-center gap-2 mb-3">
             <Sparkles className="w-4 h-4 text-mint" />
-            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">AI Tools</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Decision Tools</h3>
             <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-mint/10 border border-mint/20 ml-auto">
               <Mic className="w-2.5 h-2.5 text-mint" />
               <span className="text-[9px] font-medium text-mint-dark">Voice</span>
@@ -137,13 +143,20 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
               />
             ))}
           </div>
+          <a
+            href="/leaders"
+            className="block mt-3 text-center text-xs text-muted-foreground hover:text-mint transition-colors"
+            onClick={() => setIsOpen(false)}
+          >
+            Want the full diagnostic? Take the Decision Readiness Diagnostic &rarr;
+          </a>
         </section>
 
         {/* CHAT Section */}
         <section>
           <div className="flex items-center gap-2 mb-3">
             <MessageCircle className="w-4 h-4 text-mint" />
-            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Chat with Krish</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Ask Mindmaker</h3>
           </div>
           <button
             onClick={handleOpenChat}

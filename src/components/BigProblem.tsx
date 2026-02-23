@@ -1,13 +1,12 @@
-import { motion, useInView } from "framer-motion";
-import { useRef, useCallback } from "react";
-import { ChevronDown } from "lucide-react";
+import { motion, AnimatePresence, useInView } from "framer-motion";
+import { useRef, useCallback, useState } from "react";
+import { ArrowRight } from "lucide-react";
 
 const BigProblem = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const revealRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
-  const revealInView = useInView(revealRef, { once: true, amount: 0.3 });
+  const [isRevealed, setIsRevealed] = useState(false);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const el = contentRef.current;
@@ -18,17 +17,12 @@ const BigProblem = () => {
   }, []);
 
   const base = "text-lg sm:text-xl md:text-2xl font-display tracking-tight leading-relaxed text-left";
+  const ease = [0.25, 0.1, 0.25, 1] as const;
 
   const fade = (delay: number, alwaysVisible?: boolean) => ({
     initial: alwaysVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 },
     animate: isInView ? { opacity: 1, y: 0 } : alwaysVisible ? undefined : { opacity: 0, y: 16 },
-    transition: { duration: 0.9, delay, ease: [0.25, 0.1, 0.25, 1] as const },
-  } as const);
-
-  const revealFade = (delay: number) => ({
-    initial: { opacity: 0, y: 16 } as const,
-    animate: revealInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 },
-    transition: { duration: 0.9, delay, ease: [0.25, 0.1, 0.25, 1] as const },
+    transition: { duration: 0.9, delay, ease },
   } as const);
 
   /* Shared glow keyframes — reused on "mindset one", "walk the walk", "walk the talk" */
@@ -53,7 +47,7 @@ const BigProblem = () => {
   const content = (isMint: boolean) => (
     <div className="space-y-8 md:space-y-10">
 
-      {/* ─── ACT 1: The Provocation (existing, unchanged) ─── */}
+      {/* ─── ACT 1: The Provocation (unchanged) ─── */}
 
       {/* Paragraph 1 */}
       <motion.p
@@ -110,97 +104,111 @@ const BigProblem = () => {
         </span>
       </motion.p>
 
-      {/* ─── BRIDGE: Breathing scroll cue ─── */}
+      {/* ─── THE REVEAL: Pulsing button → click → content ─── */}
 
-      <div
-        ref={!isMint ? revealRef : undefined}
-        className="flex flex-col items-center py-10 md:py-14"
-      >
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 1.5, duration: 0.8 }}
-        >
+      <AnimatePresence mode="wait">
+        {!isRevealed ? (
           <motion.div
-            animate={{ y: [0, 8, 0], opacity: [0.3, 0.7, 0.3] }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-            className="flex flex-col items-center gap-1"
+            key="reveal-cta"
+            className="flex justify-center py-10 md:py-14"
+            initial={{ opacity: 0, y: 12 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+            exit={{ opacity: 0, scale: 0.95, filter: "blur(4px)" }}
+            transition={{ duration: 0.4, delay: 1.5, ease }}
           >
-            <ChevronDown className={`w-5 h-5 ${isMint ? "text-mint" : "text-mint/40"}`} />
-            <ChevronDown className={`w-5 h-5 -mt-3 ${isMint ? "text-mint/70" : "text-mint/25"}`} />
+            <button
+              onClick={() => setIsRevealed(true)}
+              className={`group relative px-8 py-4 rounded-full border
+                         font-semibold text-lg cursor-pointer transition-colors
+                         ${isMint
+                           ? "border-mint/50 text-mint"
+                           : "border-mint/30 text-white hover:border-mint/60 glow-pulse"
+                         }`}
+            >
+              <span className="flex items-center gap-3">
+                Here&rsquo;s how you pick up the pen
+                <ArrowRight className={`w-5 h-5 ${isMint ? "text-mint" : "text-mint"} group-hover:translate-x-1 transition-transform`} />
+              </span>
+            </button>
           </motion.div>
-        </motion.div>
-      </div>
+        ) : (
+          <motion.div
+            key="revealed-content"
+            className="space-y-8 md:space-y-10 pt-6 md:pt-10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            {/* Title — blur-to-focus "lens crystallizing" effect */}
+            <motion.h3
+              className={`text-3xl sm:text-4xl md:text-5xl font-black leading-tight ${
+                isMint ? "text-mint" : "text-white"
+              }`}
+              initial={{ opacity: 0, filter: "blur(12px)", scale: 1.08, y: 30 }}
+              animate={{ opacity: 1, filter: "blur(0px)", scale: 1, y: 0 }}
+              transition={{ duration: 1.0, ease }}
+            >
+              Does your consultant actually{" "}
+              <motion.span
+                className="text-mint"
+                animate={glowAnimation}
+                transition={glowTransition}
+                style={!isMint ? { textShadow: "0 0 60px hsl(158 82% 73% / 0.3)" } : undefined}
+              >
+                walk the walk
+              </motion.span>
+              ?
+            </motion.h3>
 
-      {/* ─── ACT 2: The Reveal — "Walk the Walk" ─── */}
+            {/* Body paragraph 1 */}
+            <motion.p
+              className={`${base} ${isMint ? "text-mint" : "text-white/90"}`}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.4, ease }}
+            >
+              <span className="font-medium">
+                Mindmaker helps leaders lead from the front on AI transformation with a hands-on fluency sprint.
+              </span>{" "}
+              <span className="font-light">
+                The days of delegating all things AI to the tech guys are over &mdash; it&rsquo;s time to{" "}
+              </span>
+              <motion.span
+                className={`font-black ${isMint ? "text-mint" : "text-mint"}`}
+                animate={glowAnimation}
+                transition={{ ...glowTransition, delay: 0.5 }}
+                style={!isMint ? { textShadow: "0 0 60px hsl(158 82% 73% / 0.3)" } : undefined}
+              >
+                walk the talk
+              </motion.span>{" "}
+              <span className="font-light">
+                if you want to own the next decade.
+              </span>
+            </motion.p>
 
-      {/* Title — blur-to-focus "lens crystallizing" effect */}
-      <motion.h3
-        className={`text-3xl sm:text-4xl md:text-5xl font-black leading-tight ${
-          isMint ? "text-mint" : "text-white"
-        }`}
-        initial={{ opacity: 0, filter: "blur(12px)", scale: 1.08, y: 30 }}
-        animate={
-          revealInView
-            ? { opacity: 1, filter: "blur(0px)", scale: 1, y: 0 }
-            : {}
-        }
-        transition={{ duration: 1.0, ease: [0.25, 0.1, 0.25, 1] }}
-      >
-        Does your consultant actually{" "}
-        <motion.span
-          className="text-mint"
-          animate={revealInView ? glowAnimation : undefined}
-          transition={glowTransition}
-          style={!isMint ? { textShadow: "0 0 60px hsl(158 82% 73% / 0.3)" } : undefined}
-        >
-          walk the walk
-        </motion.span>
-        ?
-      </motion.h3>
-
-      {/* Body paragraph 1 */}
-      <motion.p
-        className={`${base} ${isMint ? "text-mint" : "text-white/90"}`}
-        {...revealFade(0.4)}
-      >
-        <span className="font-medium">
-          Mindmaker helps leaders lead from the front on AI transformation with a hands-on fluency sprint.
-        </span>{" "}
-        <span className="font-light">
-          The days of delegating all things AI to the tech guys are over &mdash; it&rsquo;s time to{" "}
-        </span>
-        <motion.span
-          className={`font-black ${isMint ? "text-mint" : "text-mint"}`}
-          animate={revealInView ? glowAnimation : undefined}
-          transition={{ ...glowTransition, delay: 0.5 }}
-          style={!isMint ? { textShadow: "0 0 60px hsl(158 82% 73% / 0.3)" } : undefined}
-        >
-          walk the talk
-        </motion.span>{" "}
-        <span className="font-light">
-          if you want to own the next decade.
-        </span>
-      </motion.p>
-
-      {/* Body paragraph 2 */}
-      <motion.p
-        className={`${base} ${isMint ? "text-mint" : "text-white/90"}`}
-        {...revealFade(0.7)}
-      >
-        <span className="font-medium">
-          We don&rsquo;t hand you a strategy deck.
-        </span>{" "}
-        <span className="font-light">
-          We get you working with the tools on your terms, within your limits &mdash; and then we guide your personal output{" "}
-        </span>
-        <span className={`font-black tracking-wide ${isMint ? "" : "text-mint"}`}>
-          Mindmake
-        </span>{" "}
-        <span className="font-light">
-          roadmap mapped back from what you want to accomplish, with new ways of operating that you&rsquo;ll take with you for years.
-        </span>
-      </motion.p>
+            {/* Body paragraph 2 */}
+            <motion.p
+              className={`${base} ${isMint ? "text-mint" : "text-white/90"}`}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.7, ease }}
+            >
+              <span className="font-medium">
+                We don&rsquo;t hand you a strategy deck.
+              </span>{" "}
+              <span className="font-light">
+                We get you working with the tools on your terms, within your limits &mdash; and then we guide your personal output{" "}
+              </span>
+              <span className={`font-black tracking-wide ${isMint ? "" : "text-mint"}`}>
+                Mindmake
+              </span>{" "}
+              <span className="font-light">
+                roadmap mapped back from what you want to accomplish, with new ways of operating that you&rsquo;ll take with you for years.
+              </span>
+            </motion.p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 

@@ -148,16 +148,16 @@ const BigProblem = () => {
               animate={{ opacity: 1, filter: "blur(0px)", scale: 1, y: 0 }}
               transition={{ duration: 1.0, ease }}
             >
-              Does your consultant actually{" "}
+              Work with someone who actually{" "}
               <motion.span
                 className="text-mint"
                 animate={glowAnimation}
                 transition={glowTransition}
                 style={!isMint ? { textShadow: "0 0 60px hsl(158 82% 73% / 0.3)" } : undefined}
               >
-                walk the walk
+                ships your results
               </motion.span>
-              ?
+              {" "}in real time.
             </motion.h3>
 
             {/* Body paragraph 1 */}

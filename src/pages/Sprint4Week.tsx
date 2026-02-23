@@ -41,6 +41,10 @@ const nervousDecisions = [
   "How do I evaluate vendor promises vs reality?",
   "What's the right first AI project to build credibility?",
   "How do I prioritize 12 competing AI initiatives?",
+  "Should I build an AI clone of myself or is that overkill?",
+  "What should I delegate to AI vs keep doing myself?",
+  "How do I get AI to actually sound like me?",
+  "How do I make AI remember my preferences and context?",
 ];
 
 const deliverables = [
@@ -169,6 +173,8 @@ const Sprint4Week = () => {
                     { name: "Personal System Architecture", decision: "What systems should I build for myself?" },
                     { name: "Strength Amplifier", decision: "How do I multiply my strongest edge?" },
                     { name: "Weakness Counterbalance", decision: "Where am I bottlenecked personally?" },
+                    { name: "AI Clone Design", decision: "How do I build a digital version of myself that works?" },
+                    { name: "Agentic Workflow Engine", decision: "Which tasks should run autonomously?" },
                   ].map((sprint, i) => (
                     <div key={i} className="p-4 rounded-lg bg-ink/5 border border-border/50">
                       <div className="font-semibold text-sm mb-1">{sprint.name}</div>
@@ -190,6 +196,7 @@ const Sprint4Week = () => {
                     { name: "AI Operating Model", decision: "Who owns AI and how?" },
                     { name: "Strategic Data Prioritisation", decision: "What data is strategic?" },
                     { name: "12-Month AI Roadmap", decision: "What do we actually do next year?" },
+                    { name: "AI Delegation Matrix", decision: "What stays human and what gets handed off?" },
                   ].map((sprint, i) => (
                     <div key={i} className="p-4 rounded-lg bg-ink/5 border border-border/50">
                       <div className="font-semibold text-sm mb-1">{sprint.name}</div>

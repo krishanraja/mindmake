@@ -18,7 +18,7 @@ const monthlyArc = [
     phase: "Mind Map",
     theme: "Leverage",
     description:
-      "We build working systems around your actual workflows. Not demos, not proofs-of-concept \u2014 real, deployed AI that multiplies your strongest capabilities.",
+      "We build working systems around your actual workflows \u2014 AI clones, agentic automations, memory structures. Not demos, not proofs-of-concept. Real, deployed AI that multiplies your strongest capabilities.",
   },
   {
     month: 3,
@@ -36,6 +36,7 @@ const outcomes = [
   "Board-level confidence (you can defend every decision)",
   "Team alignment on AI standards and boundaries",
   "Builder Dossier (all decisions, systems, and learnings in one place)",
+  "Personal AI systems (clones, agents, memory) that make you operate at 3x",
 ];
 
 const examples = [
@@ -45,6 +46,8 @@ const examples = [
   "Vendor landscape clarity",
   "Build vs buy resolved across the stack",
   "Hiring strategy for AI roles",
+  "AI clone deployed for communications and first-draft work",
+  "Delegation framework with clear human-vs-AI boundaries",
 ];
 
 const Sprint90Day = () => {
@@ -159,10 +162,11 @@ const Sprint90Day = () => {
                   Month 2 &mdash; Mind Map (Leverage)
                 </h3>
                 <p className="text-xs text-muted-foreground mb-3">Build systems. Multiply strengths. Automate weaknesses.</p>
-                <div className="grid sm:grid-cols-2 gap-3">
+                <div className="grid sm:grid-cols-3 gap-3">
                   {[
                     { name: "Personal System Architecture", artifact: "3\u20135 working AI systems + deployment checklist" },
                     { name: "Strength Amplifier or Weakness Counterbalance", artifact: "Amplifier blueprint or delegation flow + automation stack" },
+                    { name: "AI Clone & Memory Architecture", artifact: "Clone prompt library + memory system + deployment guide" },
                   ].map((sprint, i) => (
                     <div key={i} className="p-3 rounded bg-ink/5 border border-border/50">
                       <div className="font-semibold text-sm mb-1">{sprint.name}</div>

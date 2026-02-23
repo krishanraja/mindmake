@@ -21,10 +21,14 @@ const builderSprintLibrary = {
     { name: "Personal System Architecture", decision: "What systems should I build for myself?", artifact: "3\u20135 working AI systems + deployment checklist" },
     { name: "Strength Amplifier", decision: "How do I multiply my strongest edge?", artifact: "Amplifier blueprint + workflow design" },
     { name: "Weakness Counterbalance", decision: "Where am I bottlenecked personally?", artifact: "Delegation flow + automation stack" },
+    { name: "AI Clone Design", decision: "How do I build a digital version of myself?", artifact: "Clone prompt library + voice/tone profile + deployment playbook" },
+    { name: "Agentic Workflow Engine", decision: "Which tasks should run on autopilot?", artifact: "3\u20135 autonomous agent workflows + trigger/guardrail config" },
+    { name: "Memory & Context Architecture", decision: "How do I make AI remember everything I need it to?", artifact: "Knowledge base structure + retrieval system + update cadence" },
   ],
   mindMake: [
     { name: "Build vs Buy vs Glue", decision: "Where is AI core vs commodity?", artifact: "Decision memo + investment table" },
     { name: "AI Pricing & Monetization", decision: "How does AI reshape revenue?", artifact: "Monetization framework + SKU structure" },
+    { name: "The 3-Person Team Stack", decision: "What\u2019s the minimum AI stack to operate like a team of three?", artifact: "Deployed clone + agent suite + daily workflow documentation" },
   ],
 };
 
@@ -33,15 +37,20 @@ const orchestratorSprintLibrary = {
     { name: "AI Landscape Compression", decision: "What actually matters in AI right now?", artifact: "AI relevance map + discard list" },
     { name: "Tool Commitment Philosophy", decision: "Which tools do I commit to vs experiment with?", artifact: "Tool hierarchy (Core / Tactical / Experimental)" },
     { name: "Personal AI Manifesto", decision: "What are my boundaries?", artifact: "1-page personal AI charter" },
+    { name: "Executive AI Intelligence System", decision: "How do I stay sharp on AI without drowning in noise?", artifact: "Personal signal filter + weekly briefing structure + discard rules" },
   ],
   mindMap: [
     { name: "AI Operating Model", decision: "Who owns AI and how?", artifact: "Governance structure + RACI + operating cadence" },
     { name: "Strategic Data Prioritisation", decision: "What data is strategic?", artifact: "Investment sequencing + ownership logic" },
+    { name: "AI Delegation Framework", decision: "What do I hand off to AI and what stays human?", artifact: "Delegation matrix + risk tiers + escalation triggers" },
+    { name: "Communication Style Cloning", decision: "How do I get AI to write and speak like us?", artifact: "Brand voice profile + prompt templates + quality rubric" },
+    { name: "Institutional Memory Design", decision: "How does our AI retain what the organisation knows?", artifact: "Knowledge architecture + ingestion plan + ownership model" },
   ],
   mindMake: [
     { name: "Vendor Selection Without Regret", decision: "Which vendors do we commit to?", artifact: "Scorecard + shortlist + exit criteria" },
     { name: "12-Month AI Roadmap", decision: "What do we actually do next year?", artifact: "Quarterly milestones + board narrative" },
     { name: "Build vs Buy vs Glue", decision: "Where is AI core vs commodity?", artifact: "Decision memo + investment table" },
+    { name: "AI Authority Blueprint", decision: "How do I lead AI conversations with confidence?", artifact: "Executive talking points + board Q&A prep + vendor negotiation playbook" },
   ],
 };
 
@@ -69,8 +78,8 @@ const SprintLibrarySection = ({ library, label }: { library: typeof builderSprin
     <h3 className="text-2xl font-bold">Decision Sprint Library</h3>
     <p className="text-muted-foreground text-sm">
       {label === "Builder"
-        ? "Builder sprints emphasise personal systems, prototypes, and creative leverage."
-        : "Orchestrator sprints emphasise governance, vendor decisions, and board-ready direction."}
+        ? "Builder sprints emphasise AI clones, agentic automations, memory structures, and deploying personal systems that make you operate like a team of three."
+        : "Orchestrator sprints emphasise delegation frameworks, communication style cloning, institutional memory, and building the authority to direct AI with confidence."}
     </p>
 
     {(["mindSet", "mindMap", "mindMake"] as const).map((phase) => (
@@ -182,8 +191,8 @@ const Sprints = () => {
                   </p>
                   <p className="text-muted-foreground mt-2 max-w-2xl">
                     {activeTab === "build"
-                      ? "Pick one nervous decision \u2014 tool commitment, build vs buy, first AI project \u2014 and resolve it with a working prototype and decision memo."
-                      : "Pick one nervous decision \u2014 vendor selection, governance model, AI roadmap \u2014 and resolve it with a defensible trade-off analysis and board memo."}
+                      ? "Pick one nervous decision \u2014 tool commitment, AI clone design, your first agentic workflow \u2014 and resolve it with a working system and decision memo."
+                      : "Pick one nervous decision \u2014 vendor selection, delegation framework, what your team hands off vs keeps \u2014 and resolve it with a defensible trade-off analysis and board memo."}
                   </p>
                 </div>
 
@@ -228,8 +237,8 @@ const Sprints = () => {
                   </p>
                   <p className="text-muted-foreground mt-2 max-w-2xl">
                     {activeTab === "build"
-                      ? "Build 3\u20135 personal AI systems, resolve 2\u20133 strategic decisions, and leave with a Builder Dossier and 12-month roadmap."
-                      : "Set your AI operating model, resolve 2\u20133 strategic vendor/governance decisions, and build a board-ready 12-month roadmap."}
+                      ? "Build your AI clone, deploy agentic workflows, design your memory systems \u2014 and leave operating like a 3-person team with a Builder Dossier and 12-month roadmap."
+                      : "Set your delegation framework, clone your communication standards into AI, build institutional memory \u2014 and leave with a board-ready 12-month roadmap and the authority to direct it."}
                   </p>
                 </div>
 

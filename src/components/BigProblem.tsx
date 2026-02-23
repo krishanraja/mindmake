@@ -1,6 +1,22 @@
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useRef, useCallback, useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Crown, Brain, Zap, Rocket, Compass, KeyRound } from "lucide-react";
+
+/* ─── Card data ─── */
+
+const categories = [
+  { icon: Crown, strong: "Orchestrate AI.", contrast: "...or get orchestrated by it.", delay: 0.15 },
+  { icon: Brain, strong: "Extend your thinking.", contrast: "...or let AI replace it.", delay: 0.25 },
+  { icon: Zap, strong: "Accelerate.", contrast: "...or get flattened by those who did.", delay: 0.35 },
+];
+
+const valueProps = [
+  { icon: Rocket, headline: "Ships, not slides.", body: "No strategy decks. Working systems and defensible decisions, built alongside you in real time.", delay: 0 },
+  { icon: Compass, headline: "You lead, not watch.", body: "Hands-on fluency sprint. You build with AI in your actual workflows \u2014 not a training course.", delay: 0.1 },
+  { icon: KeyRound, headline: "Yours to keep.", body: "A personal Mindmake roadmap and new operating rhythms you\u2019ll carry for years.", delay: 0.2 },
+];
+
+/* ─── Component ─── */
 
 const BigProblem = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -22,10 +38,10 @@ const BigProblem = () => {
   const fade = (delay: number, alwaysVisible?: boolean) => ({
     initial: alwaysVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 },
     animate: isInView ? { opacity: 1, y: 0 } : alwaysVisible ? undefined : { opacity: 0, y: 16 },
-    transition: { duration: 0.9, delay, ease },
+    transition: { duration: 0.5, delay, ease },
   } as const);
 
-  /* Shared glow keyframes — reused on "mindset one", "walk the walk", "walk the talk" */
+  /* Shared glow keyframes — reused on "mindset one" + revealed heading */
   const glowAnimation = {
     textShadow: [
       "0 0 60px hsl(158 82% 73% / 0.3)",
@@ -47,9 +63,7 @@ const BigProblem = () => {
   const content = (isMint: boolean) => (
     <div className="space-y-8 md:space-y-10">
 
-      {/* ─── ACT 1: The Provocation (unchanged) ─── */}
-
-      {/* Paragraph 1 */}
+      {/* ─── Opening Line ─── */}
       <motion.p
         className={`${base} font-light ${isMint ? "text-mint" : "text-white/80"}`}
         {...fade(0, true)}
@@ -57,32 +71,32 @@ const BigProblem = () => {
         In ten years, every leader will fall into one of two categories.
       </motion.p>
 
-      {/* Paragraph 2 — continuous flowing text */}
-      <motion.p
-        className={`${base} ${isMint ? "text-mint" : "text-white/90"}`}
-        {...fade(0.1)}
-      >
-        <span className={`font-black ${isMint ? "" : "text-white"}`}>
-          Those who learned to <span className="tracking-[0.06em]">orchestrate</span> AI.
-        </span>{" "}
-        <span className={`font-light ${isMint ? "" : "text-white/30"}`}>
-          And those who got orchestrated by it.
-        </span>{" "}
-        <span className={`font-black ${isMint ? "" : "text-white"}`}>
-          Those who <span className="tracking-[0.06em]">trained</span> AI to extend their thinking.
-        </span>{" "}
-        <span className={`font-light ${isMint ? "" : "text-white/30"}`}>
-          And those who let AI replace it.
-        </span>{" "}
-        <span className={`font-black ${isMint ? "" : "text-white"}`}>
-          Those who used it to <span className="tracking-[0.06em]">accelerate</span>.
-        </span>{" "}
-        <span className={`font-light ${isMint ? "" : "text-white/30"}`}>
-          And those who got flattened by those who did.
-        </span>
-      </motion.p>
+      {/* ─── Leader Category Cards ─── */}
+      <div className="grid md:grid-cols-3 gap-4">
+        {categories.map((cat, i) => {
+          const Icon = cat.icon;
+          return (
+            <motion.div
+              key={i}
+              className={`rounded-xl border p-5 md:p-6 transition-all ease-out
+                ${isMint
+                  ? "border-mint/20 bg-mint/[0.03]"
+                  : "border-white/10 bg-white/[0.03] hover:border-mint/40 hover:bg-white/[0.07] group"
+                }`}
+              style={{ transitionDuration: "120ms" }}
+              initial={{ opacity: 0, y: 16 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.3, delay: cat.delay, ease }}
+            >
+              <Icon className={`w-7 h-7 mb-3 transition-colors ${isMint ? "text-mint" : "text-white/50 group-hover:text-mint"}`} />
+              <p className={`text-lg font-bold mb-1 ${isMint ? "text-mint" : "text-white"}`}>{cat.strong}</p>
+              <p className={`text-sm font-light ${isMint ? "text-mint/40" : "text-white/25"}`}>{cat.contrast}</p>
+            </motion.div>
+          );
+        })}
+      </div>
 
-      {/* Paragraph 3 — continuous flowing text */}
+      {/* ─── Bridge: "It's a mindset one." ─── */}
       <motion.p
         className={`${base} ${isMint ? "text-mint" : "text-white/90"}`}
         {...fade(0.5)}
@@ -104,17 +118,16 @@ const BigProblem = () => {
         </span>
       </motion.p>
 
-      {/* ─── THE REVEAL: Pulsing button → click → content ─── */}
-
+      {/* ─── Button → Click → Value Prop Cards ─── */}
       <AnimatePresence mode="wait">
         {!isRevealed ? (
           <motion.div
             key="reveal-cta"
-            className="flex justify-center py-10 md:py-14"
+            className="flex justify-center py-8 md:py-10"
             initial={{ opacity: 0, y: 12 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
             exit={{ opacity: 0, scale: 0.95, filter: "blur(4px)" }}
-            transition={{ duration: 0.4, delay: 1.5, ease }}
+            transition={{ duration: 0.25, delay: 0.4, ease }}
           >
             <button
               onClick={() => setIsRevealed(true)}
@@ -127,26 +140,24 @@ const BigProblem = () => {
             >
               <span className="flex items-center gap-3">
                 Here&rsquo;s how you pick up the pen
-                <ArrowRight className={`w-5 h-5 ${isMint ? "text-mint" : "text-mint"} group-hover:translate-x-1 transition-transform`} />
+                <ArrowRight className="w-5 h-5 text-mint group-hover:translate-x-1 transition-transform" />
               </span>
             </button>
           </motion.div>
         ) : (
           <motion.div
             key="revealed-content"
-            className="space-y-8 md:space-y-10 pt-6 md:pt-10"
+            className="pt-4 md:pt-6 space-y-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
           >
-            {/* Title — blur-to-focus "lens crystallizing" effect */}
+            {/* Heading — fast fade, not the old 1s blur-to-focus */}
             <motion.h3
-              className={`text-3xl sm:text-4xl md:text-5xl font-black leading-tight ${
-                isMint ? "text-mint" : "text-white"
-              }`}
-              initial={{ opacity: 0, filter: "blur(12px)", scale: 1.08, y: 30 }}
-              animate={{ opacity: 1, filter: "blur(0px)", scale: 1, y: 0 }}
-              transition={{ duration: 1.0, ease }}
+              className={`text-2xl md:text-3xl font-bold leading-snug ${isMint ? "text-mint" : "text-white"}`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.25, ease }}
             >
               Work with someone who actually{" "}
               <motion.span
@@ -156,56 +167,33 @@ const BigProblem = () => {
                 style={!isMint ? { textShadow: "0 0 60px hsl(158 82% 73% / 0.3)" } : undefined}
               >
                 ships your results
-              </motion.span>
-              {" "}in real time.
+              </motion.span>.
             </motion.h3>
 
-            {/* Body paragraph 1 */}
-            <motion.p
-              className={`${base} ${isMint ? "text-mint" : "text-white/90"}`}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.4, ease }}
-            >
-              <span className="font-medium">
-                Mindmaker helps leaders lead from the front on AI transformation with a hands-on fluency sprint.
-              </span>{" "}
-              <span className="font-light">
-                The days of delegating all things AI to the tech guys are over &mdash; it&rsquo;s time to{" "}
-              </span>
-              <motion.span
-                className={`font-black ${isMint ? "text-mint" : "text-mint"}`}
-                animate={glowAnimation}
-                transition={{ ...glowTransition, delay: 0.5 }}
-                style={!isMint ? { textShadow: "0 0 60px hsl(158 82% 73% / 0.3)" } : undefined}
-              >
-                walk the talk
-              </motion.span>{" "}
-              <span className="font-light">
-                if you want to own the next decade.
-              </span>
-            </motion.p>
-
-            {/* Body paragraph 2 */}
-            <motion.p
-              className={`${base} ${isMint ? "text-mint" : "text-white/90"}`}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.7, ease }}
-            >
-              <span className="font-medium">
-                We don&rsquo;t hand you a strategy deck.
-              </span>{" "}
-              <span className="font-light">
-                We get you working with the tools on your terms, within your limits &mdash; and then we guide your personal output{" "}
-              </span>
-              <span className={`font-black tracking-wide ${isMint ? "" : "text-mint"}`}>
-                Mindmake
-              </span>{" "}
-              <span className="font-light">
-                roadmap mapped back from what you want to accomplish, with new ways of operating that you&rsquo;ll take with you for years.
-              </span>
-            </motion.p>
+            {/* Value prop cards — clipPath wipe from bottom */}
+            <div className="grid md:grid-cols-3 gap-4">
+              {valueProps.map((prop, i) => {
+                const Icon = prop.icon;
+                return (
+                  <motion.div
+                    key={i}
+                    className={`rounded-xl border p-5 md:p-6 transition-all ease-out
+                      ${isMint
+                        ? "border-mint/20 bg-mint/[0.03]"
+                        : "border-white/10 bg-white/[0.03] hover:border-mint/40 hover:bg-white/[0.07] group"
+                      }`}
+                    style={{ transitionDuration: "120ms" }}
+                    initial={{ clipPath: "inset(100% 0 0 0)", opacity: 0 }}
+                    animate={{ clipPath: "inset(0% 0 0 0)", opacity: 1 }}
+                    transition={{ duration: 0.25, delay: prop.delay, ease }}
+                  >
+                    <Icon className={`w-7 h-7 mb-3 transition-colors ${isMint ? "text-mint" : "text-white/50 group-hover:text-mint"}`} />
+                    <p className={`text-lg font-bold mb-1 ${isMint ? "text-mint" : "text-white"}`}>{prop.headline}</p>
+                    <p className={`text-sm font-light leading-relaxed ${isMint ? "text-mint/60" : "text-white/60"}`}>{prop.body}</p>
+                  </motion.div>
+                );
+              })}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

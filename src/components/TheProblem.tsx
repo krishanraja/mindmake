@@ -1,9 +1,16 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { Wrench, Compass, CheckCircle, ArrowRight, ArrowDown, Square, CheckSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { InitialConsultModal } from "@/components/InitialConsultModal";
+import { useIsMobile } from "@/hooks/use-mobile";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  type CarouselApi,
+} from "@/components/ui/carousel";
 
 type PathType = "build" | "orchestrate" | null;
 
@@ -302,6 +309,31 @@ const TheProblem = () => {
   const [selectedPath, setSelectedPath] = useState<PathType>(null);
   const [consultModalOpen, setConsultModalOpen] = useState(false);
   const [bookingCommitment, setBookingCommitment] = useState<string | undefined>();
+  const isMobile = useIsMobile();
+
+  // Path cards carousel state (mobile)
+  const [pathCarouselApi, setPathCarouselApi] = useState<CarouselApi>();
+  const [pathSlide, setPathSlide] = useState(0);
+
+  useEffect(() => {
+    if (!pathCarouselApi) return;
+    setPathSlide(pathCarouselApi.selectedScrollSnap());
+    pathCarouselApi.on("select", () => {
+      setPathSlide(pathCarouselApi.selectedScrollSnap());
+    });
+  }, [pathCarouselApi]);
+
+  // Sprint cards carousel state (mobile)
+  const [sprintCarouselApi, setSprintCarouselApi] = useState<CarouselApi>();
+  const [sprintSlide, setSprintSlide] = useState(0);
+
+  useEffect(() => {
+    if (!sprintCarouselApi) return;
+    setSprintSlide(sprintCarouselApi.selectedScrollSnap());
+    sprintCarouselApi.on("select", () => {
+      setSprintSlide(sprintCarouselApi.selectedScrollSnap());
+    });
+  }, [sprintCarouselApi]);
 
   const activeSprints = selectedPath === "build" ? builderSprints : orchestratorSprints;
 
@@ -309,6 +341,32 @@ const TheProblem = () => {
     setBookingCommitment(commitment);
     setConsultModalOpen(true);
   };
+
+  const pathCards = (
+    <>
+      <PathCard
+        type="build"
+        isSelected={selectedPath === "build"}
+        isOtherSelected={selectedPath === "orchestrate"}
+        onSelect={() => setSelectedPath("build")}
+      />
+      <PathCard
+        type="orchestrate"
+        isSelected={selectedPath === "orchestrate"}
+        isOtherSelected={selectedPath === "build"}
+        onSelect={() => setSelectedPath("orchestrate")}
+      />
+    </>
+  );
+
+  const sprintCards = activeSprints.map((sprint) => (
+    <SprintCard
+      key={sprint.name}
+      sprint={sprint}
+      pathType={selectedPath}
+      onBook={() => handleBook(sprint.commitment)}
+    />
+  ));
 
   return (
     <>
@@ -323,20 +381,58 @@ const TheProblem = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            <PathCard
-              type="build"
-              isSelected={selectedPath === "build"}
-              isOtherSelected={selectedPath === "orchestrate"}
-              onSelect={() => setSelectedPath("build")}
-            />
-            <PathCard
-              type="orchestrate"
-              isSelected={selectedPath === "orchestrate"}
-              isOtherSelected={selectedPath === "build"}
-              onSelect={() => setSelectedPath("orchestrate")}
-            />
-          </div>
+          {isMobile ? (
+            <>
+              <Carousel
+                setApi={setPathCarouselApi}
+                opts={{
+                  align: "start",
+                  loop: false,
+                  dragFree: false,
+                  containScroll: "trimSnaps",
+                }}
+                orientation="horizontal"
+                className="w-full max-w-5xl mx-auto"
+              >
+                <CarouselContent className="-ml-3">
+                  <CarouselItem className="pl-3 basis-[88%]">
+                    <PathCard
+                      type="build"
+                      isSelected={selectedPath === "build"}
+                      isOtherSelected={selectedPath === "orchestrate"}
+                      onSelect={() => setSelectedPath("build")}
+                    />
+                  </CarouselItem>
+                  <CarouselItem className="pl-3 basis-[88%]">
+                    <PathCard
+                      type="orchestrate"
+                      isSelected={selectedPath === "orchestrate"}
+                      isOtherSelected={selectedPath === "build"}
+                      onSelect={() => setSelectedPath("orchestrate")}
+                    />
+                  </CarouselItem>
+                </CarouselContent>
+              </Carousel>
+
+              {/* Dot indicators */}
+              <div className="flex justify-center gap-2 mt-4">
+                {[0, 1].map((index) => (
+                  <button
+                    key={index}
+                    onClick={() => pathCarouselApi?.scrollTo(index)}
+                    className={`h-2 rounded-full transition-all duration-200 ${
+                      pathSlide === index ? "w-6 bg-mint" : "w-2 bg-muted-foreground/30"
+                    }`}
+                    aria-label={`Go to ${index === 0 ? "Builder" : "Orchestrator"} card`}
+                  />
+                ))}
+              </div>
+            </>
+          ) : (
+            <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+              {pathCards}
+            </div>
+          )}
 
           <AnimatePresence>
             {selectedPath && (
@@ -375,16 +471,47 @@ const TheProblem = () => {
                   </p>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                  {activeSprints.map((sprint) => (
-                    <SprintCard
-                      key={sprint.name}
-                      sprint={sprint}
-                      pathType={selectedPath}
-                      onBook={() => handleBook(sprint.commitment)}
-                    />
-                  ))}
-                </div>
+                {isMobile ? (
+                  <>
+                    <Carousel
+                      setApi={setSprintCarouselApi}
+                      opts={{
+                        align: "start",
+                        loop: false,
+                        dragFree: false,
+                        containScroll: "trimSnaps",
+                      }}
+                      orientation="horizontal"
+                      className="w-full max-w-5xl mx-auto"
+                    >
+                      <CarouselContent className="-ml-3">
+                        {sprintCards.map((card, i) => (
+                          <CarouselItem key={i} className="pl-3 basis-[88%]">
+                            {card}
+                          </CarouselItem>
+                        ))}
+                      </CarouselContent>
+                    </Carousel>
+
+                    {/* Dot indicators */}
+                    <div className="flex justify-center gap-2 mt-4">
+                      {activeSprints.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => sprintCarouselApi?.scrollTo(index)}
+                          className={`h-2 rounded-full transition-all duration-200 ${
+                            sprintSlide === index ? "w-6 bg-mint" : "w-2 bg-muted-foreground/30"
+                          }`}
+                          aria-label={`Go to sprint ${index + 1}`}
+                        />
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    {sprintCards}
+                  </div>
+                )}
 
                 <div className="text-center mt-10">
                   <p className="text-xs text-muted-foreground mb-3">Not sure which sprint?</p>

@@ -1,6 +1,12 @@
 import { motion, useTransform, useInView, useMotionValue, useSpring, animate } from "framer-motion";
 import { useRef, useState, useCallback, useEffect } from "react";
 import { Target, Zap, FileCheck } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  type CarouselApi,
+} from "@/components/ui/carousel";
 
 /** Breakpoint matches Tailwind `md:` (grid switches to 3-col at 768px). */
 const useMobile = () => {
@@ -73,6 +79,67 @@ const FrameworkJourney = () => {
   const handleMouseEnter = useCallback(() => setTorchVisible(true), []);
   const handleMouseLeave = useCallback(() => setTorchVisible(false), []);
 
+  // Mobile carousel state + auto-rotation
+  const [carouselApi, setCarouselApi] = useState<CarouselApi>();
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const userInteractedRef = useRef(false);
+
+  useEffect(() => {
+    if (!carouselApi) return;
+    setCurrentSlide(carouselApi.selectedScrollSnap());
+    carouselApi.on("select", () => {
+      setCurrentSlide(carouselApi.selectedScrollSnap());
+    });
+  }, [carouselApi]);
+
+  // Auto-rotate carousel on mobile every 4s, pause on user interaction
+  useEffect(() => {
+    if (!isMobile || !carouselApi) return;
+
+    let autoplayId: ReturnType<typeof setInterval>;
+    let resumeId: ReturnType<typeof setTimeout>;
+
+    const startAutoplay = () => {
+      autoplayId = setInterval(() => {
+        if (!carouselApi.canScrollNext()) {
+          carouselApi.scrollTo(0);
+        } else {
+          carouselApi.scrollNext();
+        }
+      }, 4000);
+    };
+
+    const onPointerDown = () => {
+      userInteractedRef.current = true;
+      clearInterval(autoplayId);
+      clearTimeout(resumeId);
+      resumeId = setTimeout(() => {
+        userInteractedRef.current = false;
+        startAutoplay();
+      }, 6000);
+    };
+
+    startAutoplay();
+    carouselApi.on("pointerDown", onPointerDown);
+
+    return () => {
+      clearInterval(autoplayId);
+      clearTimeout(resumeId);
+    };
+  }, [isMobile, carouselApi]);
+
+  const cards = [
+    <Card key={0} index={0} spotlight={spotlight} isMobile={isMobile} icon={Target} label="MindSet" headline="Filter the noise.">
+      <MindSetContent />
+    </Card>,
+    <Card key={1} index={1} spotlight={spotlight} isMobile={isMobile} icon={Zap} label="MindMap" headline="Build your systems.">
+      <MindMapContent />
+    </Card>,
+    <Card key={2} index={2} spotlight={spotlight} isMobile={isMobile} icon={FileCheck} label="MindMake" headline="Decide and ship.">
+      <MindMakeContent />
+    </Card>,
+  ];
+
   return (
     <section
       id="framework-journey"
@@ -101,7 +168,7 @@ const FrameworkJourney = () => {
 
       <div className="container-width relative z-20">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3">
+          <h2 className="text-[1.35rem] sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3">
             <MindLabel prefix="Mind" suffix="Set" /> &rarr;{" "}
             <MindLabel prefix="Mind" suffix="Map" /> &rarr;{" "}
             <MindLabel prefix="Mind" suffix="Make" />
@@ -111,17 +178,47 @@ const FrameworkJourney = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
-          <Card index={0} spotlight={spotlight} isMobile={isMobile} icon={Target} label="MindSet" headline="Filter the noise.">
-            <MindSetContent />
-          </Card>
-          <Card index={1} spotlight={spotlight} isMobile={isMobile} icon={Zap} label="MindMap" headline="Build your systems.">
-            <MindMapContent />
-          </Card>
-          <Card index={2} spotlight={spotlight} isMobile={isMobile} icon={FileCheck} label="MindMake" headline="Decide and ship.">
-            <MindMakeContent />
-          </Card>
-        </div>
+        {isMobile ? (
+          <>
+            <Carousel
+              setApi={setCarouselApi}
+              opts={{
+                align: "start",
+                loop: false,
+                dragFree: false,
+                containScroll: "trimSnaps",
+              }}
+              orientation="horizontal"
+              className="w-full max-w-6xl mx-auto"
+            >
+              <CarouselContent className="-ml-3">
+                {cards.map((card, i) => (
+                  <CarouselItem key={i} className="pl-3 basis-[85%]">
+                    {card}
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+
+            {/* Dot indicators */}
+            <div className="flex justify-center gap-2 mt-4">
+              {[0, 1, 2].map((index) => (
+                <button
+                  key={index}
+                  onClick={() => carouselApi?.scrollTo(index)}
+                  className={`h-2 rounded-full transition-all duration-200 ${
+                    currentSlide === index ? "w-6 bg-mint" : "w-2 bg-white/30"
+                  }`}
+                  aria-label={`Go to card ${index + 1}`}
+                />
+              ))}
+            </div>
+          </>
+        ) : (
+          <div className="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
+            {cards}
+          </div>
+        )}
       </div>
     </section>
   );

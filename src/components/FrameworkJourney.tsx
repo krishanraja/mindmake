@@ -75,6 +75,7 @@ const FrameworkJourney = () => {
 
   return (
     <section
+      id="framework-journey"
       ref={sectionRef}
       className="py-24 md:py-32 bg-ink relative"
       onMouseMove={handleMouseMove}

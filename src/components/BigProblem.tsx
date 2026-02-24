@@ -249,7 +249,7 @@ const BigProblem = () => {
           >
             {initialContent(false)}
             <div
-              className="absolute inset-0 pointer-events-none px-4 sm:px-6 lg:px-8"
+              className="absolute inset-0 pointer-events-none"
               style={{ maskImage: torchMask, WebkitMaskImage: torchMask }}
             >
               {initialContent(true)}
@@ -266,7 +266,7 @@ const BigProblem = () => {
           >
             {revealedContent(false)}
             <div
-              className="absolute inset-0 pointer-events-none px-4 sm:px-6 lg:px-8"
+              className="absolute inset-0 pointer-events-none"
               style={{ maskImage: torchMask, WebkitMaskImage: torchMask }}
             >
               {revealedContent(true)}

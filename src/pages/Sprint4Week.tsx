@@ -209,7 +209,7 @@ const Sprint4Week = () => {
           </div>
 
           {/* CTA */}
-          <div className="text-center glass-card p-12">
+          <div className="text-center glass-card p-6 sm:p-12">
             <h2 className="text-3xl font-bold mb-4">
               What's your nervous decision?
             </h2>
@@ -219,7 +219,7 @@ const Sprint4Week = () => {
             </p>
             <Button
               size="lg"
-              className="bg-mint text-ink hover:bg-mint/90 font-semibold px-12 py-6 text-lg"
+              className="bg-mint text-ink hover:bg-mint/90 font-semibold px-6 sm:px-12 py-6 text-base sm:text-lg"
               onClick={() => setConsultModalOpen(true)}
             >
               Start the Conversation

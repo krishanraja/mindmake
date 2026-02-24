@@ -150,7 +150,7 @@ const BigProblem = () => {
         <button
           onClick={() => setIsRevealed(true)}
           className={`group relative px-8 py-4 rounded-full border
-                     font-semibold text-lg cursor-pointer transition-colors
+                     font-semibold text-sm sm:text-lg cursor-pointer transition-colors
                      ${isMint
                        ? "border-mint/50 text-mint"
                        : "border-mint/30 text-white hover:border-mint/60 glow-pulse"
@@ -211,7 +211,7 @@ const BigProblem = () => {
         <button
           onClick={scrollToFramework}
           className={`group relative px-8 py-4 rounded-full border
-                     font-semibold text-lg cursor-pointer transition-colors
+                     font-semibold text-sm sm:text-lg cursor-pointer transition-colors
                      ${isMint
                        ? "border-mint/50 text-mint"
                        : "border-mint/30 text-white hover:border-mint/60 glow-pulse"

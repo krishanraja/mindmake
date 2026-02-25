@@ -1,6 +1,6 @@
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, animate, type PanInfo, AnimatePresence } from "framer-motion";
 import { useRef, useCallback, useState, useEffect } from "react";
-import { ArrowRight, Crown, Brain, Zap, Rocket, Compass, KeyRound } from "lucide-react";
+import { ArrowRight, Crown, Brain, Zap, Rocket, Compass, KeyRound, ChevronLeft } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 /* ─── Card data ─── */
@@ -30,6 +30,13 @@ const BigProblem = () => {
   const [revealedHeight, setRevealedHeight] = useState<number>(0);
   const isMobile = useIsMobile();
 
+  /* ─── Mobile horizontal peel state ─── */
+  const [peelProgress, setPeelProgress] = useState(0);
+  const peelRef = useRef(0);
+  const isPeelingRef = useRef(false);
+  const [contentWidth, setContentWidth] = useState(0);
+  const sectionVisible = useInView(sectionRef, { amount: 0.05 });
+
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const el = contentRef.current;
     if (!el) return;
@@ -42,11 +49,12 @@ const BigProblem = () => {
     document.getElementById("framework-journey")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, []);
 
-  /* ─── Height measurement ─── */
+  /* ─── Height + width measurement ─── */
   useEffect(() => {
     const measure = () => {
       if (stateARef.current) setInitialHeight(stateARef.current.scrollHeight);
       if (stateBRef.current) setRevealedHeight(stateBRef.current.scrollHeight);
+      if (contentRef.current) setContentWidth(contentRef.current.offsetWidth);
     };
     measure();
     window.addEventListener("resize", measure);
@@ -61,6 +69,54 @@ const BigProblem = () => {
       }, 150);
     }
   }, [isMobile, isRevealed]);
+
+  /* ─── Mobile peel: snap animations ─── */
+  const animateToComplete = useCallback(() => {
+    animate(peelRef.current, 1, {
+      type: "spring",
+      stiffness: 300,
+      damping: 30,
+      onUpdate: (v: number) => {
+        peelRef.current = v;
+        setPeelProgress(v);
+      },
+      onComplete: () => {
+        setIsRevealed(true);
+      },
+    });
+  }, []);
+
+  const animateToZero = useCallback(() => {
+    animate(peelRef.current, 0, {
+      type: "spring",
+      stiffness: 400,
+      damping: 35,
+      onUpdate: (v: number) => {
+        peelRef.current = v;
+        setPeelProgress(v);
+      },
+    });
+  }, []);
+
+  /* ─── Mobile peel: pan handlers (horizontal only) ─── */
+  const handlePan = useCallback((_: PointerEvent, info: PanInfo) => {
+    if (!isPeelingRef.current) return;
+    const leftDrag = Math.max(0, -info.offset.x);
+    const maxDrag = (contentWidth || 300) * 0.5;
+    const progress = Math.min(1, leftDrag / maxDrag);
+    peelRef.current = progress;
+    setPeelProgress(progress);
+  }, [contentWidth]);
+
+  const handlePanEnd = useCallback((_: PointerEvent, info: PanInfo) => {
+    isPeelingRef.current = false;
+    const shouldComplete = peelRef.current >= 0.3 || info.velocity.x < -500;
+    if (shouldComplete) {
+      animateToComplete();
+    } else {
+      animateToZero();
+    }
+  }, [animateToComplete, animateToZero]);
 
   const base = "text-lg sm:text-xl md:text-2xl font-display tracking-tight leading-relaxed text-left";
   const ease = [0.25, 0.1, 0.25, 1] as const;
@@ -91,6 +147,10 @@ const BigProblem = () => {
   };
 
   const torchMask = "radial-gradient(circle 100px at var(--mx, -999px) var(--my, -999px), black 0%, transparent 70%)";
+
+  /* ─── Mobile peel: clipPath values ─── */
+  const stateAClip = isRevealed ? "inset(0 100% 0 0)" : `inset(0 ${peelProgress * 100}% 0 0)`;
+  const stateBClip = isRevealed ? "inset(0 0 0 0)" : `inset(0 0 0 ${(1 - peelProgress) * 100}%)`;
 
   /* ─── State A: Initial content ─── */
   const initialContent = (isMint: boolean) => (
@@ -151,7 +211,7 @@ const BigProblem = () => {
         </span>
       </motion.p>
 
-      {/* CTA Button — desktop only (on mobile, the sticky floating button handles this) */}
+      {/* CTA Button — desktop only (on mobile, the peel tab handles this) */}
       {!isMobile && (
         <motion.div
           className="flex justify-center py-8 md:py-10"
@@ -256,12 +316,12 @@ const BigProblem = () => {
           <motion.div
             ref={stateARef}
             className="absolute inset-x-0 top-0"
-            style={{ willChange: isMobile ? "opacity, transform" : "clip-path" }}
-            animate={isMobile
-              ? { opacity: isRevealed ? 0 : 1, scale: isRevealed ? 0.97 : 1 }
-              : { clipPath: isRevealed ? "inset(0 0 0 100%)" : "inset(0 0 0 0)" }
+            style={isMobile
+              ? { clipPath: stateAClip, willChange: "clip-path" }
+              : { willChange: "clip-path" }
             }
-            transition={{ duration: 0.5, ease }}
+            animate={isMobile ? undefined : { clipPath: isRevealed ? "inset(0 0 0 100%)" : "inset(0 0 0 0)" }}
+            transition={isMobile ? undefined : { duration: 0.4, ease }}
           >
             {initialContent(false)}
             <div
@@ -277,15 +337,12 @@ const BigProblem = () => {
             ref={stateBRef}
             className="absolute inset-x-0 top-0"
             aria-live="polite"
-            style={{ willChange: isMobile ? "opacity, transform" : "clip-path" }}
-            animate={isMobile
-              ? { opacity: isRevealed ? 1 : 0, y: isRevealed ? 0 : 16 }
-              : { clipPath: isRevealed ? "inset(0 0 0 0)" : "inset(0 100% 0 0)" }
+            style={isMobile
+              ? { clipPath: stateBClip, willChange: "clip-path" }
+              : { willChange: "clip-path" }
             }
-            transition={isMobile
-              ? { duration: 0.5, ease, delay: 0.15 }
-              : { duration: 0.4, ease }
-            }
+            animate={isMobile ? undefined : { clipPath: isRevealed ? "inset(0 0 0 0)" : "inset(0 100% 0 0)" }}
+            transition={isMobile ? undefined : { duration: 0.4, ease }}
           >
             {revealedContent(false)}
             <div
@@ -295,29 +352,51 @@ const BigProblem = () => {
               {revealedContent(true)}
             </div>
           </motion.div>
-        </motion.div>
 
-        {/* Mobile sticky CTA — floats at viewport bottom while section is visible */}
-        {isMobile && !isRevealed && (
-          <div className="sticky bottom-6 z-20 flex justify-center pb-4">
-            <motion.button
-              onClick={() => setIsRevealed(true)}
-              initial={{ opacity: 0, y: 10 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-              transition={{ duration: 0.4, delay: 0.6, ease }}
-              className="px-6 py-3 rounded-full border border-mint/40
-                         bg-ink/80 backdrop-blur-md text-white font-semibold text-sm
-                         shadow-[0_0_20px_rgba(126,244,194,0.15)] glow-pulse
-                         active:scale-95 transition-transform"
-            >
-              <span className="flex items-center gap-2">
-                Here&rsquo;s how you pick up the pen
-                <ArrowRight className="w-4 h-4 text-mint" />
-              </span>
-            </motion.button>
-          </div>
-        )}
+          {/* Peel edge glow — mint line at the fold (mobile only) */}
+          {isMobile && peelProgress > 0 && !isRevealed && (
+            <div
+              className="absolute top-0 bottom-0 w-1 z-10 pointer-events-none"
+              style={{
+                right: `${peelProgress * 100}%`,
+                background: "linear-gradient(to bottom, transparent 5%, rgba(126, 244, 194, 0.5) 50%, transparent 95%)",
+                boxShadow: `0 0 12px rgba(126, 244, 194, 0.3), 0 0 4px rgba(126, 244, 194, 0.5)`,
+              }}
+            />
+          )}
+        </motion.div>
       </div>
+
+      {/* ─── Mobile peel tab — fixed on right edge while section is visible ─── */}
+      <AnimatePresence>
+        {isMobile && sectionVisible && !isRevealed && (
+          <motion.div
+            key="peel-tab"
+            className="fixed right-0 top-1/2 -translate-y-1/2 z-30"
+            initial={{ x: 60, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: 60, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25, delay: 0.3 }}
+          >
+            <motion.div
+              className="flex items-center justify-center w-10 h-24
+                         rounded-l-xl border-l border-y border-mint/40
+                         bg-ink/90 backdrop-blur-md cursor-grab active:cursor-grabbing
+                         shadow-[0_0_16px_rgba(126,244,194,0.15)]"
+              style={{ touchAction: "pan-y" }}
+              onPanStart={() => { isPeelingRef.current = true; }}
+              onPan={handlePan}
+              onPanEnd={handlePanEnd}
+              onClick={() => animateToComplete()}
+              animate={{ x: [0, -5, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, repeatDelay: 3, ease: "easeInOut" }}
+              aria-label="Drag left or tap to reveal"
+            >
+              <ChevronLeft className="w-5 h-5 text-mint" />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Section break */}
       <div className="mt-16 md:mt-24 flex items-center justify-center gap-4 px-8">

@@ -1,6 +1,66 @@
 # AI MINDMAKER CHANGELOG
 
-**Last Updated:** 2026-01-08
+**Last Updated:** 2026-02-25
+
+---
+
+## Brand Vision 11/10 — Complete Brand Repositioning (2026-02-25)
+
+### Brand Transformation
+- **Positioning:** "AI advisory" → "Anti-consultancy for leaders done being sold AI"
+- **Framework:** Established Mind Set → Mind Map → Mind Make as core language
+- **Voice:** Corporate → Confident + Cynical + Helpful
+- **CTA:** "Book a discovery call" → "What's your nervous decision?"
+- **Brand North Star:** Stripe's design sensibility meets Anthony Bourdain's authenticity
+
+### Product Simplification
+- **Removed:** Builder Session (1hr), Leadership Lab (team), Portfolio Partner (referral only)
+- **Core Products:** 4-Week Sprint + 90-Day Sprint (only two public offerings)
+- **Extended Sprint:** 6-month continuation (mentioned, not public)
+- **Chatbot:** "Chat with Krish" → "Ask Mindmaker"
+- **Diagnostic:** "AI Leadership Benchmark" → "Decision Readiness Diagnostic"
+
+### Homepage Scroll Redesign (7 Blocks)
+1. **Hero:** Rotating "nervous decisions" + "What's your nervous decision?" CTA
+2. **Framework Journey:** Mind Set → Mind Map → Mind Make visual performance
+3. **Who Is This For:** Builder vs Orchestrator fork
+4. **Sprint Chooser:** 4-Week vs 90-Day comparison cards
+5. **Trust Anchor:** Krish bio + proof points + testimonials
+6. **News Ticker:** SIGNAL/NOISE/DECISION TRIGGER/KRISH'S TAKE categories
+7. **Final CTA:** "You've been pitched enough."
+
+### New Pages & Routes
+- `/sprint/4-week` — 4-Week Sprint detail page
+- `/sprint/90-day` — 90-Day Sprint detail page
+- `/sprints` — Sprint overview/chooser with Builder/Orchestrator paths
+
+### Redirects
+- `/builder-session` → `/`
+- `/leadership-lab` → `/`
+- `/portfolio-program` → `/`
+- `/builder-sprint` → `/sprints`
+- `/individual`, `/team`, `/builder` → `/`
+
+### New Components
+- `FrameworkJourney.tsx` — Mind Set → Mind Map → Mind Make visual performance
+- `Sprint4Week.tsx`, `Sprint90Day.tsx`, `Sprints.tsx` — Sprint pages
+- `MediaEasterEggs/VideoDrawer.tsx` — Slide-out video player
+- `MediaEasterEggs/AudioPlayer.tsx` — Expandable audio player
+- `MediaEasterEggs/ArtifactPreview.tsx` — Hover-to-reveal artifact previews
+- `MediaEasterEggs/ExpandableQuote.tsx` — Click-to-expand quotes
+
+### Updated Components
+- `NewHero.tsx` — Nervous decision rotating headlines
+- `TheProblem.tsx` — Builder/Orchestrator fork
+- `ProductLadder.tsx` — 2-card sprint chooser
+- `SimpleCTA.tsx` — "You've been pitched enough."
+- `TrustSection.tsx` — Krish bio + real testimonials
+- `Navigation.tsx` — Updated nav (Sprints dropdown, removed old products)
+- `App.tsx` — New routes + redirects
+
+### Documentation
+- All project-documentation files rewritten to match brand vision 11/10
+- CLAUDE.md created as comprehensive implementation guide
 
 ---
 

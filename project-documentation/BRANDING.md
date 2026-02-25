@@ -1,151 +1,158 @@
 # Branding
 
-**Last Updated:** 2026-01-08
+**Last Updated:** 2026-02-25
+
+---
+
+## Brand Position
+
+**The anti-consultancy for leaders who are done being sold AI and ready to use it.**
+
+The site should feel like your most cynical, knowledgeable friend who runs AI transformation every day — premium through substance, not stiffness.
+
+**Brand North Star:** If Stripe's design sensibility met Anthony Bourdain's authenticity.
 
 ---
 
 ## Brand Voice
 
-**Professional but not corporate**  
-**Confident but not arrogant**  
-**Direct but not cold**  
-**Expert but not academic**
+**Confident + Cynical + Helpful**
+
+Your smartest, most cynical friend who runs AI transformation every day and genuinely loves building things.
+
+- **Confident**, not arrogant
+- **Cynical**, not negative
+- **Helpful**, not pushy
+- **Premium** through substance, not stiffness
 
 ---
 
 ## Tone Attributes
 
 ### What We Are
-✅ **Practical** - Real work, not theory  
-✅ **Confident** - We've done this  
-✅ **Direct** - No fluff, clear value  
-✅ **Empowering** - You can do this  
-✅ **Operator-led** - Built from experience
+- **Direct** — Name the anxiety, don't dance around it
+- **Cynical** — We've seen every vendor pitch. We know what's real.
+- **Helpful** — Here to serve, not to sell
+- **Operator-led** — Built from doing the work, not advising about it
+- **Specific** — "12 hours/week" not "significant time savings"
 
 ### What We're Not
-❌ **Salesy** - No hype or pressure  
-❌ **Academic** - No jargon or theory  
-❌ **Corporate** - No buzzwords  
-❌ **Casual** - Not a friend, a guide  
-❌ **Apologetic** - We know what works
+- **Corporate** — No buzzwords, no "leverage", no "transformation"
+- **Salesy** — No hype, no FOMO, no artificial urgency
+- **Academic** — No jargon, no theoretical frameworks
+- **Stiff** — Premium through substance, not formality
+- **Vague** — If you can't measure it, don't promise it
 
 ---
 
-## Messaging Pillars
+## Framework Language
 
-### 1. Cut Through Hype
-"No vendor theatre. No generic training. Real work only."
+**Mind Set → Mind Map → Mind Make** — used everywhere as the core framework.
 
-### 2. Build, Don't Buy
-"We don't sell AI tools. We teach you to build."
+| Phase | Meaning | Outcome |
+|-------|---------|---------|
+| Mind Set | Clarity | Cut the noise. Know what matters. |
+| Mind Map | Leverage | Build your edge. Multiply what you're good at. |
+| Mind Make | Direction | Decide. Ship. Measure. |
 
-### 3. Proof Over Theory
-"Working systems in 30 days, not strategy decks."
+---
 
-### 4. Independence
-"Success = you don't need us anymore."
+## CTA Language
 
-### 5. Operator Experience
-"Krish built $100M+ with AI. He teaches what works."
+**Primary CTA (everywhere):** "What's your nervous decision?"
+
+**Supporting CTAs:**
+- "Start the Conversation"
+- "Start 4-Week Sprint"
+- "Start 90-Day Sprint"
+- "The first conversation is free."
 
 ---
 
 ## Copy Guidelines
 
 ### Headlines
-- **Start with outcome** - "Build 3-5 AI systems in 30 days"
-- **Be specific** - "60 minutes" not "quick session"
-- **Use verbs** - "Build", "Deploy", "Learn", not "Transformation"
-- **Avoid buzzwords** - No "synergy", "paradigm", "holistic"
+- **Start with the anxiety**, not the solution — "I still haven't decided" not "We help you decide"
+- **Be specific** — "4 weeks" not "short engagement"
+- **Use concrete verbs** — Build, Ship, Decide, Cut, Filter, Deploy
+- **Name the feeling** — nervous, chaos, calm, clarity, confidence
 
 ### Body Copy
-- **Short sentences** - 15-20 words max
-- **Active voice** - "You build systems" not "Systems are built"
-- **Concrete examples** - "Save 10 hours/week" not "Increase efficiency"
-- **Second person** - "You", "Your", not "One" or "Organizations"
+- **Short sentences** — 15-20 words max
+- **Active voice** — "You decide" not "Decisions are made"
+- **Second person** — "You", "Your", not "Leaders" or "Organizations"
+- **Concrete examples** — "12 hours/week saved" not "improved efficiency"
+- **Show the emotional arc** — anxiety → relief → momentum → confidence → calm
 
-### CTAs
-- **Action-oriented** - "Book Your Session" not "Learn More"
-- **Value-focused** - "Reserve My Spot" not "Submit"
-- **Specific** - "Book Your Initial Consult" not "Get Started"
+### Example Transformations
 
----
-
-## Content Patterns
-
-### Describing Programs
-```
-[Program Name]
-[Duration] • [Format]
-[One-sentence outcome]
-
-What's Included:
-- [Concrete deliverable 1]
-- [Concrete deliverable 2]
-- [Concrete deliverable 3]
-
-Who It's For: [Specific role/situation]
-```
-
-### Value Props
-```
-Problem: [Specific pain point]
-Solution: [Concrete approach]
-Proof: [Measurable outcome]
-```
-
-### Social Proof
-```
-"[Specific result]"
-- [Role], [Context]
-```
+| OLD (Corporate) | NEW (Mindmaker Voice) |
+|---|---|
+| "We help enterprises leverage AI to drive transformation" | "You'll stop talking about AI and start using it" |
+| "Our comprehensive AI strategy framework" | "Mind Set → Mind Map → Mind Make" |
+| "Designed for non-technical leaders" | "You don't need to code. You need to decide." |
+| "Book a discovery call" | "What's your nervous decision?" |
+| "Cutting-edge AI solutions" | "Working systems, not demos" |
+| "AI readiness assessment" | "Decision Readiness Diagnostic" |
+| "Chat with Krish" | "Ask Mindmaker" |
 
 ---
 
 ## Word Choices
 
 ### Use These
-- Build (not develop)
-- Systems (not solutions)
-- Working (not functional)
-- Deploy (not implement)
-- Literacy (not knowledge)
-- Session (not meeting)
-- Sprint (not program)
-- Friction (not inefficiency)
+- Build, Systems, Working, Deploy, Decide, Sprint, Friction
+- Ship, Cut, Filter, Calm, Clarity, Confidence, Nervous
+- Decision, Direction, Leverage, Multiply, Board-ready
+- Specific numbers: "12 hours/week", "$3K to build", "3 decisions"
 
-### Avoid These
-- Transformation
-- Digital
-- Synergy
-- Leverage
-- Ecosystem
-- Journey (unless literally referring to customer journey)
-- Innovative
-- Revolutionary
+### Never Use
+- Transformation, Digital, Synergy, Leverage (as buzzword), Ecosystem
+- Journey (unless literally referring to Mind Set → Mind Map → Mind Make)
+- Innovative, Revolutionary, Cutting-edge, Next-generation
+- "We help you..." (use "You will..." or "We..." directly)
+- Optimize, Enhance, Maximize, Holistic, Paradigm
+- Passive voice
 
 ---
 
 ## Terminology Standards
 
-**Initial Consult** - Not "consultation", "discovery call", "intro call"  
-**Builder Session** - Not "coaching session", "workshop"  
-**Builder Sprint** - Not "program", "bootcamp", "course"  
-**Leadership Lab** - Not "workshop", "seminar", "training"  
-**Partner Program** - Not "partnership", "collaboration"
+**4-Week Sprint** — Not "coaching", "workshop", "session"
+**90-Day Sprint** — Not "program", "bootcamp", "course", "engagement"
+**Extended Sprint** — 6-month continuation (mentioned, not a public product)
+**Decision Readiness Diagnostic** — Not "AI Leadership Benchmark", "assessment quiz"
+**Ask Mindmaker** — Not "Chat with Krish", "AI chatbot"
+**Initial Conversation** — Not "discovery call", "intro call", "consultation"
+**Builder** — Leaders who want to build alongside AI
+**Orchestrator** — Leaders who want to set standards and delegate execution
+**Nervous Decision** — The AI decision they've been avoiding
+**Mind Set → Mind Map → Mind Make** — The framework (always in this order)
 
-**Hold** - Not "deposit", "fee", "payment"  
-**Refundable** - Always specify this for the $50  
-**Deducted** - Not "applied", "credited"
+---
+
+## Product Naming
+
+| Product | Tagline |
+|---------|---------|
+| 4-Week Sprint | One decision. Four weeks. Board-ready. |
+| 90-Day Sprint | The full journey. Mind Set → Mind Map → Mind Make. |
+| Decision Readiness Diagnostic | Not another AI literacy quiz. |
+| Ask Mindmaker | Trained on the Mind Set → Mind Map → Mind Make framework. |
+
+### Removed Products (Do Not Reference)
+- Builder Session (1hr) — removed
+- Leadership Lab (team) — demoted, mentioned only post-engagement
+- Portfolio Partner — by referral only, no public page
 
 ---
 
 ## Email/Communication Style
 
 ### Subject Lines
-- Specific + Action: "Your Builder Session - Nov 30 at 2pm"
-- Outcome-focused: "3 Systems Built - Next Steps"
-- No clickbait: Avoid "You won't believe...", "The secret to..."
+- Specific + Direct: "Your 4-Week Sprint — Decision Week"
+- Outcome-focused: "Decision Made — Here's Your Memo"
+- No clickbait, no FOMO
 
 ### Email Body
 ```
@@ -157,7 +164,6 @@ Proof: [Measurable outcome]
 
 [Clear next action]
 
-Thanks,
 Krish
 ```
 
@@ -167,36 +173,6 @@ Krish Raja
 Founder, Mindmaker
 mindmaker.ai
 ```
-
----
-
-## Social Media Voice
-
-**LinkedIn:** Professional, insights-driven, operator perspective  
-**Twitter:** Direct, punchy, data-driven  
-**Email:** Personal, helpful, focused
-
-### Post Structure
-```
-[Hook - surprising insight or question]
-
-[Context - 2-3 sentences]
-
-[Takeaway - what this means]
-
-[Call to action if appropriate]
-```
-
----
-
-## Brand Don'ts
-
-❌ **Don't oversell** - Let outcomes speak  
-❌ **Don't use FOMO** - No artificial urgency  
-❌ **Don't be cute** - No puns, no clever wordplay  
-❌ **Don't apologize** - Confident in value  
-❌ **Don't use emojis** - Except sparingly in casual contexts  
-❌ **Don't use exclamation marks** - One per page max
 
 ---
 
@@ -217,18 +193,43 @@ mindmaker.ai
 **Never use mint text on white/light backgrounds.** Poor contrast = poor accessibility.
 
 Mint usage:
-- ✅ Background for CTAs (`bg-mint`)
-- ✅ Text on dark backgrounds (`text-mint` on `bg-ink`)
-- ✅ Accent highlights in dark sections
-- ❌ Text on white backgrounds (`text-mint` on `bg-background`)
+- bg-mint (CTA buttons)
+- text-mint on bg-ink (dark backgrounds)
+- Accent highlights in dark sections
+- NEVER text-mint on bg-background
 
 On white backgrounds, use `text-foreground` or `text-ink` for proper readability.
 
 ### Photography
 - Real people, not stock photos
 - Candid, not posed
-- Business context, not generic offices
 - Krish headshot for founder/trust sections
+
+---
+
+## News Ticker Categories
+
+The AI news ticker uses these categories (SIGNAL/NOISE/DECISION/TAKE):
+
+| Category | Purpose | Example |
+|----------|---------|---------|
+| SIGNAL | Actually matters for business leaders | "Long-context workflows just became viable" |
+| NOISE | Ignore this. Hype, funding, vendor marketing. | "Another AI company raising money" |
+| DECISION TRIGGER | Act on this. Something changed. | "Time to reevaluate your LLM vendor costs" |
+| KRISH'S TAKE | Opinion/analysis from Mindmaker | "80% using AI != 80% using it well" |
+
+---
+
+## Brand Don'ts
+
+- Don't oversell — let outcomes speak
+- Don't use FOMO — no artificial urgency
+- Don't use emojis (except sparingly in documentation)
+- Don't use exclamation marks — one per page max
+- Don't be cute — no puns, no clever wordplay
+- Don't apologize — confident in value
+- Don't use "leverage" as a verb
+- Don't reference removed products (Builder Session, Leadership Lab, Portfolio Partner)
 
 ---
 

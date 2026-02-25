@@ -1,6 +1,6 @@
 # Replication Guide
 
-**Last Updated:** 2026-01-08
+**Last Updated:** 2026-02-25
 
 ---
 
@@ -13,14 +13,13 @@ This guide provides step-by-step instructions to replicate the Mindmaker platfor
 - npm or yarn package manager
 - Git installed
 - Lovable account (lovable.dev)
-- Stripe account (stripe.com)
 - Calendly account (calendly.com)
 
-**Time to Complete:** 2-3 hours
+**Note:** Stripe integration exists but is currently paused. Not required for initial setup.
 
 ---
 
-## Phase 1: Environment Setup (15 min)
+## Phase 1: Environment Setup
 
 ### Step 1: Create Lovable Project
 ```bash
@@ -49,7 +48,7 @@ This guide provides step-by-step instructions to replicate the Mindmaker platfor
 
 ---
 
-## Phase 2: Base Configuration (30 min)
+## Phase 2: Base Configuration
 
 ### Step 4: Install Dependencies
 ```bash
@@ -83,269 +82,234 @@ npm install sonner@1.7.4
 
 ---
 
-## Phase 3: Core Components (45 min)
+## Phase 3: Core Components
 
 ### Step 7: Create Shadcn UI Components
 ```bash
 # Lovable has these pre-installed, but for reference:
 # Copy all files from src/components/ui/
-- button.tsx
-- dialog.tsx
-- input.tsx
-- label.tsx
-- card.tsx
-- radio-group.tsx
-- toast.tsx
-- etc.
+- button.tsx, dialog.tsx, input.tsx, label.tsx, card.tsx, etc.
 ```
 
 ### Step 8: Create Layout Components
 **Files to create:**
 ```
-src/components/Navigation.tsx
+src/components/Navigation.tsx      # Nav with Sprints/Resources/About dropdowns
 src/components/Footer.tsx
-src/components/InitialConsultModal.tsx
+src/components/InitialConsultModal.tsx  # Main CTA modal
 src/components/ConsultationBooking.tsx
 ```
-
-**Copy from repo or build following:**
-- Navigation: Sticky header, logo, nav links, mobile menu
-- Footer: Links, social, legal
-- InitialConsultModal: Program selection, name/email form
-- ConsultationBooking: Alternative booking form
 
 ### Step 9: Create Page Components
 **Files to create:**
 ```
-src/pages/Index.tsx              # Landing page
-src/pages/BuilderSession.tsx
-src/pages/BuilderSprint.tsx
-src/pages/LeadershipLab.tsx
-src/pages/PartnerProgram.tsx
+src/pages/Index.tsx              # Landing page (homepage scroll)
+src/pages/Sprint4Week.tsx        # 4-Week Sprint detail
+src/pages/Sprint90Day.tsx        # 90-Day Sprint detail
+src/pages/Sprints.tsx            # Sprint overview/chooser
+src/pages/LeadershipInsights.tsx # Decision Readiness Diagnostic
+src/pages/Blog.tsx               # Blog listing
+src/pages/BlogPost.tsx           # Individual blog posts
+src/pages/BuilderEconomy.tsx     # Thought leadership
 src/pages/Privacy.tsx
 src/pages/Terms.tsx
 src/pages/FAQ.tsx
+src/pages/Contact.tsx
 src/pages/NotFound.tsx
+```
+
+### Step 10: Create Homepage Components
+**Files to create:**
+```
+src/components/NewHero.tsx          # Hero with rotating nervous decisions
+src/components/FrameworkJourney.tsx  # Mind Set → Mind Map → Mind Make
+src/components/TheProblem.tsx       # Builder/Orchestrator fork
+src/components/ProductLadder.tsx    # Sprint chooser (2-card)
+src/components/TrustSection.tsx     # Krish bio + testimonials
+src/components/AINewsTicker.tsx     # SIGNAL/NOISE/DECISION/TAKE
+src/components/SimpleCTA.tsx        # Final CTA
+```
+
+### Step 11: Create Media Easter Egg Components
+**Files to create:**
+```
+src/components/MediaEasterEggs/VideoDrawer.tsx      # Slide-out video
+src/components/MediaEasterEggs/AudioPlayer.tsx       # Expandable audio
+src/components/MediaEasterEggs/ArtifactPreview.tsx   # Hover-to-reveal
+src/components/MediaEasterEggs/ExpandableQuote.tsx   # Click-to-expand
 ```
 
 ---
 
-## Phase 4: Edge Functions (30 min)
+## Phase 4: Edge Functions
 
-### Step 10: Create Consultation Hold Function
-**File:** `supabase/functions/create-consultation-hold/index.ts`
-```typescript
-// Copy complete function from repo
-// Key elements:
-- Stripe SDK import
-- CORS headers
-- Authorization hold creation
-- Calendly redirect URL
-- Error handling
-```
-
-### Step 11: Create Chatbot Function
+### Step 12: Create Chatbot Function ("Ask Mindmaker")
 **File:** `supabase/functions/chat-with-krish/index.ts`
-```typescript
-// Copy from repo
-// Key elements:
-- OpenAI SDK import
-- Conversation context handling
-- Streaming responses
-- Error handling
+- Vertex AI RAG with Gemini 2.5 Flash
+- Service account authentication
+- Mode detection (Builder Profile, Try It, Chat)
+- Anti-fragile error handling
+
+### Step 13: Create News Ticker Function
+**File:** `supabase/functions/get-ai-news/index.ts`
+- SIGNAL/NOISE/DECISION TRIGGER/KRISH'S TAKE categories
+- Lovable AI Gateway
+
+### Step 14: Create Lead Email Function
+**File:** `supabase/functions/send-lead-email/index.ts`
+- OpenAI-powered company research
+- Session data compilation
+- Resend email delivery with retry
+
+### Step 15: Create Other Functions
+```
+supabase/functions/send-contact-email/index.ts
+supabase/functions/send-leadership-insights-email/index.ts
+supabase/functions/get-market-sentiment/index.ts
+supabase/functions/create-consultation-hold/index.ts (paused)
 ```
 
-### Step 12: Configure Functions
+### Step 16: Configure Functions
 **File:** `supabase/config.toml`
 ```toml
 project_id = "your-project-id"
 
-[functions.create-consultation-hold]
+[functions.chat-with-krish]
 verify_jwt = false
 
-[functions.chat-with-krish]
+[functions.get-ai-news]
+verify_jwt = false
+
+[functions.send-lead-email]
+verify_jwt = false
+
+[functions.send-contact-email]
+verify_jwt = false
+
+[functions.send-leadership-insights-email]
+verify_jwt = false
+
+[functions.get-market-sentiment]
+verify_jwt = false
+
+[functions.create-consultation-hold]
 verify_jwt = false
 ```
 
 ---
 
-## Phase 5: Integrations (30 min)
+## Phase 5: Integrations
 
-### Step 13: Set Up Stripe
+### Step 17: Set Up Google Vertex AI
 ```bash
-1. Go to stripe.com → Dashboard
-2. Get your Secret Key:
-   - Developers → API Keys
-   - Copy "Secret key" (starts with sk_test_...)
-   
-3. In Lovable:
-   - Cloud → Settings → Secrets
-   - Add secret: STRIPE_SECRET_KEY
-   - Paste your Stripe secret key
-   - Save
+1. Go to Google Cloud Console
+2. Enable Vertex AI API
+3. Create service account with Vertex AI permissions
+4. Download service account JSON key
+5. In Supabase: Settings → Secrets → Add GOOGLE_SERVICE_ACCOUNT_KEY
+6. Paste raw JSON (not base64 encoded)
 ```
 
-### Step 14: Configure Stripe Products (Optional)
+### Step 18: Set Up Resend (Email)
 ```bash
-# For testing authorization holds:
-1. No specific products needed
-2. Edge function creates price_data dynamically
-3. For production, consider creating products in Stripe Dashboard
+1. Go to resend.com
+2. Create API key
+3. Verify sending domain
+4. In Supabase: Settings → Secrets → Add RESEND_API_KEY
 ```
 
-### Step 15: Set Up Calendly
-```bash
-1. Go to calendly.com
-2. Create event type:
-   - Name: "Mindmaker Initial Consult"
-   - Duration: 45 minutes
-   - Add custom questions:
-     * Program Interest
-     * How did you hear about us?
-   
-3. Get your scheduling URL:
-   - Example: https://calendly.com/your-name/mindmaker-meeting
-   
-4. Update in edge function:
-   - supabase/functions/create-consultation-hold/index.ts
-   - Line ~47: success_url with your Calendly URL
-```
-
-### Step 16: Set Up OpenAI (For Chatbot)
+### Step 19: Set Up OpenAI
 ```bash
 1. Go to platform.openai.com
 2. Create API key
-3. In Lovable:
-   - Cloud → Settings → Secrets
-   - Add secret: OPENAI_API_KEY
-   - Paste your OpenAI key
-   - Save
+3. In Supabase: Settings → Secrets → Add OPENAI_API_KEY
+```
+
+### Step 20: Set Up Calendly
+```bash
+1. Go to calendly.com
+2. Create event type: "Mindmaker Initial Conversation"
+3. Duration: 30-45 minutes
+4. Get scheduling URL
+5. Update Calendly URL in ConsultationBooking component
 ```
 
 ---
 
-## Phase 6: Assets & Content (15 min)
+## Phase 6: Routing Setup
 
-### Step 17: Add Images
-```bash
-# Copy these files to public/:
-public/mindmaker-background.gif
-public/mindmaker-background-green.gif
-public/mindmaker-favicon.png
-public/fonts/Gobold_Bold.otf
+**File:** `src/App.tsx`
 
-# Copy these files to src/assets/:
-src/assets/krish-headshot.png
-src/assets/mindmaker-icon-dark.png
-src/assets/mindmaker-icon-light.png
-src/assets/mindmaker-logo-new.png
-```
+```typescript
+// Core routes
+<Route path="/" element={<Index />} />
+<Route path="/sprints" element={<Sprints />} />
+<Route path="/sprint/4-week" element={<Sprint4Week />} />
+<Route path="/sprint/90-day" element={<Sprint90Day />} />
+<Route path="/leaders" element={<LeadershipInsights />} />
+<Route path="/leadership-insights" element={<LeadershipInsights />} />
+<Route path="/blog" element={<Blog />} />
+<Route path="/blog/:slug" element={<BlogPost />} />
+<Route path="/builder-economy" element={<BuilderEconomy />} />
+<Route path="/faq" element={<FAQ />} />
+<Route path="/privacy" element={<Privacy />} />
+<Route path="/terms" element={<Terms />} />
+<Route path="/contact" element={<Contact />} />
 
-### Step 18: Update Content
-**Files to customize:**
-```
-src/pages/Index.tsx          # Hero headline, CTAs
-src/pages/BuilderSession.tsx # Session description
-src/pages/BuilderSprint.tsx  # Sprint details
-src/components/SimpleCTA.tsx # Founder quote
+// Redirects for old URLs
+<Route path="/builder-session" element={<Navigate to="/" replace />} />
+<Route path="/leadership-lab" element={<Navigate to="/" replace />} />
+<Route path="/portfolio-program" element={<Navigate to="/" replace />} />
+<Route path="/builder-sprint" element={<Navigate to="/sprints" replace />} />
+<Route path="/individual" element={<Navigate to="/" replace />} />
+<Route path="/team" element={<Navigate to="/" replace />} />
+<Route path="*" element={<NotFound />} />
 ```
 
 ---
 
-## Phase 7: Testing (20 min)
+## Phase 7: Testing
 
-### Step 19: Test Locally
+### Step 21: Test Locally
 ```bash
-# In Lovable, preview should auto-update
 # Test these flows:
-
-1. Homepage loads
-2. Navigation works
-3. CTAs open modal
-4. Modal form validates
-5. Stripe checkout redirects (use test mode)
-6. Calendly pre-fills data
-7. Chatbot responds
-8. Mobile view works
-```
-
-### Step 20: Test Edge Functions
-```bash
-# Check Lovable Cloud logs:
-1. Cloud → Logs
-2. Trigger booking flow
-3. Verify function logs:
-   - "Function invoked"
-   - "Request body: ..."
-   - "Checkout session created"
-4. Check for errors
-```
-
-### Step 21: Test Stripe Integration
-```bash
-# Use Stripe test cards:
-1. Open booking modal
-2. Fill form
-3. Click "Reserve My Spot"
-4. On Stripe Checkout:
-   - Card: 4242 4242 4242 4242
-   - Expiry: Any future date
-   - CVC: Any 3 digits
-   - ZIP: Any 5 digits
-5. Complete payment
-6. Verify redirect to Calendly
-7. Check Stripe Dashboard:
-   - Payment appears as "Uncaptured"
+1. Homepage loads with rotating nervous decisions
+2. Framework Journey animation works
+3. Builder/Orchestrator fork displays
+4. Sprint chooser (4-week vs 90-day) works
+5. CTA "What's your nervous decision?" opens modal
+6. Sprint detail pages load (/sprint/4-week, /sprint/90-day)
+7. Decision Readiness Diagnostic completes (/leaders)
+8. "Ask Mindmaker" chatbot responds
+9. News ticker shows SIGNAL/NOISE/DECISION/TAKE categories
+10. All redirects work (old URLs → new)
+11. Mobile view works
+12. No mint text on light backgrounds
 ```
 
 ---
 
-## Phase 8: Deployment (10 min)
+## Phase 8: Deployment
 
 ### Step 22: Deploy Frontend
 ```bash
-# In Lovable:
-1. Click "Publish" button (top right)
-2. Review changes
-3. Click "Update" to deploy
-4. Wait 2-3 minutes for CDN propagation
-5. Test live URL
+1. Click "Publish" in Lovable (or push to GitHub)
+2. Wait for CDN propagation
+3. Test live URL
 ```
 
-### Step 23: Verify Edge Functions
+### Step 23: Final Smoke Tests
 ```bash
-# Edge functions auto-deploy on code push
-1. Check deployment timestamp
-2. Test on live URL
-3. Check logs for any errors
-4. Verify Stripe integration on live site
-```
-
-### Step 24: Final Smoke Tests
-```bash
-Test on production URL:
-1. ✓ Homepage loads
-2. ✓ Navigation works
-3. ✓ Modal opens
-4. ✓ Stripe checkout works
-5. ✓ Calendly redirect works
-6. ✓ Chatbot responds
-7. ✓ Mobile works
-8. ✓ All pages accessible
-```
-
----
-
-## Phase 9: Documentation (5 min)
-
-### Step 25: Copy Documentation
-```bash
-# Copy entire project-documentation/ folder
-# Customize for your project:
-1. Update PURPOSE.md with your mission
-2. Update ICP.md with your target users
-3. Update VALUE_PROP.md with your positioning
-4. Keep technical docs (ARCHITECTURE, DESIGN_SYSTEM, etc.)
+1. Homepage loads with nervous decisions
+2. Navigation works (Sprints dropdown, Resources, About)
+3. "What's your nervous decision?" opens modal
+4. Sprint detail pages load
+5. Diagnostic works end-to-end
+6. Chatbot responds
+7. News ticker displays
+8. Mobile view works
+9. All redirects work
+10. No console errors
 ```
 
 ---
@@ -355,75 +319,16 @@ Test on production URL:
 ### Required for Production
 - [ ] Custom domain connected
 - [ ] SSL certificate verified
-- [ ] Analytics installed (Google Analytics, Plausible, etc.)
+- [ ] Analytics installed
 - [ ] Error tracking (Sentry, LogRocket, etc.)
-- [ ] Stripe live keys configured
 - [ ] Legal pages reviewed
-- [ ] Privacy policy compliant (GDPR, CCPA)
-- [ ] Terms of service reviewed
-- [ ] Backup strategy in place
+- [ ] WCAG AA compliance verified
 
 ### Recommended
 - [ ] Set up monitoring (uptime, performance)
-- [ ] Configure email notifications (booking confirmations)
-- [ ] Set up CRM integration (for lead tracking)
+- [ ] Configure email notifications
+- [ ] Set up CRM integration
 - [ ] Create operations runbook
-- [ ] Document refund process
-- [ ] Train team on Stripe Dashboard
-- [ ] Set up customer support system
-
----
-
-## Common Issues During Replication
-
-### Issue: Edge Functions Not Found
-**Solution:** Wait 60 seconds after pushing code, then refresh
-
-### Issue: Stripe Key Not Working
-**Solution:** Verify key starts with `sk_test_` or `sk_live_` and is copied completely
-
-### Issue: CORS Errors
-**Solution:** Verify CORS headers in edge functions, check OPTIONS handling
-
-### Issue: Modal Not Opening
-**Solution:** Check browser console for React errors, verify component imports
-
-### Issue: Styles Not Applying
-**Solution:** Verify Tailwind config includes all paths, check for CSS conflicts
-
----
-
-## Verification Checklist
-
-After completing all steps, verify:
-
-- [ ] All pages load without errors
-- [ ] Navigation works on all pages
-- [ ] CTAs open modal correctly
-- [ ] Modal form validates properly
-- [ ] Stripe checkout redirects correctly
-- [ ] Calendly pre-fills user data
-- [ ] Chatbot responds to messages
-- [ ] Mobile view works (test 375px width)
-- [ ] All images load
-- [ ] Fonts load correctly
-- [ ] Design tokens applied consistently
-- [ ] Edge functions respond correctly
-- [ ] Stripe integration works end-to-end
-- [ ] Legal pages accessible
-- [ ] 404 page works
-
----
-
-## Next Steps After Replication
-
-1. **Customize Content:** Replace placeholder text with your content
-2. **Add Analytics:** Install tracking to measure conversions
-3. **Set Up Monitoring:** Track uptime and errors
-4. **Create Operations Docs:** Document booking process, refund process
-5. **Train Team:** If applicable, train on Stripe Dashboard, Calendly
-6. **Launch Marketing:** Drive traffic to site
-7. **Iterate Based on Feedback:** Continuously improve based on user behavior
 
 ---
 
@@ -431,9 +336,9 @@ After completing all steps, verify:
 
 - **Lovable Docs:** https://docs.lovable.dev
 - **Supabase Docs:** https://supabase.com/docs
-- **Stripe Docs:** https://stripe.com/docs
 - **TailwindCSS Docs:** https://tailwindcss.com/docs
 - **React Docs:** https://react.dev
+- **Brand Guide:** `CLAUDE.md` in repo root
 
 ---
 

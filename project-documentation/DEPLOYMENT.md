@@ -1,6 +1,6 @@
 # Deployment Checklist
 
-**Last Updated:** 2026-01-08
+**Last Updated:** 2026-02-25
 
 This document outlines the pre-deploy and post-deploy verification steps for the Mindmaker project.
 
@@ -36,7 +36,7 @@ Run these checks before every deployment:
 - [ ] No breaking schema changes without migration
 
 ### 5. Frontend
-- [ ] All routes are accessible
+- [ ] All routes are accessible (see route list below)
 - [ ] Mobile responsive layouts verified (375px, 640px, 1024px)
 - [ ] No console errors on page load
 - [ ] All external links working
@@ -49,6 +49,49 @@ Run these checks before every deployment:
 - [ ] Dark backgrounds use `.dark-cta-card` or `text-dark-card-*` utilities
 - [ ] No `text-white/80` on dark backgrounds
 - [ ] Critical CSS in `@layer components` (not inline styles)
+- [ ] **No `text-mint` on white/light backgrounds** (critical WCAG rule)
+
+### 7. Brand Compliance
+- [ ] All CTAs say "What's your nervous decision?" (primary CTA)
+- [ ] Framework language: Mind Set → Mind Map → Mind Make (everywhere)
+- [ ] Product names: "4-Week Sprint" and "90-Day Sprint" (not old names)
+- [ ] Chatbot branded as "Ask Mindmaker" (not "Chat with Krish")
+- [ ] Diagnostic labeled "Decision Readiness Diagnostic" (not "AI Leadership Benchmark")
+- [ ] No removed product references (Builder Session, Leadership Lab, Portfolio)
+- [ ] Voice/tone follows anti-consultancy guidelines (see BRANDING.md)
+
+---
+
+## Route Verification
+
+All these routes should be accessible:
+
+| Route | Page | Status |
+|-------|------|--------|
+| `/` | Landing page | Must load |
+| `/sprints` | Sprint overview | Must load |
+| `/sprint/4-week` | 4-Week Sprint detail | Must load |
+| `/sprint/90-day` | 90-Day Sprint detail | Must load |
+| `/leaders` | Decision Readiness Diagnostic | Must load |
+| `/leadership-insights` | Diagnostic (alias) | Must load |
+| `/blog` | Blog listing | Must load |
+| `/blog/:slug` | Blog post | Must load |
+| `/builder-economy` | Thought leadership | Must load |
+| `/faq` | FAQ | Must load |
+| `/privacy` | Privacy policy | Must load |
+| `/terms` | Terms of service | Must load |
+| `/contact` | Contact | Must load |
+
+### Redirects (Should redirect correctly)
+| Old Route | Expected Redirect |
+|-----------|------------------|
+| `/builder-session` | `/` |
+| `/leadership-lab` | `/` |
+| `/portfolio-program` | `/` |
+| `/builder-sprint` | `/sprints` |
+| `/individual` | `/` |
+| `/team` | `/` |
+| `/builder` | `/` |
 
 ---
 
@@ -59,17 +102,17 @@ Run these checks after every deployment:
 ### 1. Health Check
 - [ ] Homepage loads without errors
 - [ ] Navigation works (all links functional)
-- [ ] Chatbot responds to messages
-- [ ] AI news ticker displays headlines
+- [ ] "Ask Mindmaker" chatbot responds to messages
+- [ ] AI news ticker displays headlines with SIGNAL/NOISE/DECISION/TAKE categories
 
 ### 2. Regression Check
-- [ ] Builder Assessment completes successfully
-- [ ] Leadership Benchmark diagnostic works end-to-end
-- [ ] Friction Map generates output
-- [ ] Portfolio Builder calculates savings
-- [ ] Try It Widget receives AI responses
-- [ ] Calendly booking modal opens
+- [ ] Decision Readiness Diagnostic works end-to-end
+- [ ] Sprint detail pages load (4-week and 90-day)
+- [ ] Sprint overview/chooser page loads
+- [ ] "What's your nervous decision?" CTA opens InitialConsultModal
+- [ ] Calendly booking modal opens after form submission
 - [ ] Blog pages load correctly
+- [ ] Homepage scroll experience flows properly (7 blocks)
 
 ### 3. Edge Function Verification
 - [ ] `chat-with-krish`: Send test message, verify response

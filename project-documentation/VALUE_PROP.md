@@ -1,139 +1,138 @@
 # Value Proposition
 
-**Last Updated:** 2026-01-08
+**Last Updated:** 2026-02-25
 
 ---
 
 ## Core Value Proposition
 
-**"Become the commercial leader who confidently bosses the boardroom with AI—whether you need systems and authority, want to build alongside AI, or need to sharpen your team's transformation readiness."**
+**"Mindmaker is a 1:1 sprint that turns AI chaos into calm, clear, executable direction. No training. No decks. No demos. Just decisions."**
 
-**Target Audience:** Commercial leaders (not technical ones) who accept what's coming: we won't delegate the future to others, but to systems. Leaders who want to lead from the front.
+**Target Audience:** Leaders who have a nervous decision about AI — whether to build or buy, which vendors to commit to, how to multiply their edge, or how to lead their team through AI adoption.
 
 ---
 
 ## Key Differentiators
 
-### 1. Builder, Not Consultant
-**Them:** Strategy decks, frameworks  
-**Us:** Working systems, deployed solutions  
-**Why:** Leaders need proof, not theory
+### 1. Anti-Consultancy, Not Consultancy
+**Them:** Strategy decks, transformation roadmaps, 6-month engagements
+**Us:** 4-week or 90-day sprints. Decisions that stick. Board-ready memos.
+**Why:** Leaders don't need more advice. They need to decide.
 
-### 2. Real Work, Not Case Studies
-**Them:** Generic examples  
-**Us:** Your actual problems, data, workflow  
-**Why:** Transfer learning doesn't work
+### 2. Nervous Decisions, Not Generic Training
+**Them:** "AI literacy quiz", "transformation readiness"
+**Us:** "What's your nervous decision?" — name it, map it, resolve it
+**Why:** The anxiety is the entry point, not the curriculum
 
-### 3. Literacy, Not Dependency
-**Them:** Do it for you, ongoing retainer  
-**Us:** Teach you to build, become independent  
-**Why:** Leaders need capability, not vendors
+### 3. Framework, Not Frameworks
+**Them:** 12 different models, matrices, and quadrants
+**Us:** Mind Set → Mind Map → Mind Make. Three phases. One direction.
+**Why:** Simplicity is premium. One framework you can actually use.
 
-### 4. Operator, Not Academic
-**Them:** Theoretical frameworks  
-**Us:** Krish built $100M+ with AI  
-**Why:** Trust from "I've done this"
+### 4. Builder or Orchestrator — Both Win
+**Them:** One-size-fits-all programs
+**Us:** Two paths based on how you want to lead AI
+**Why:** Some leaders build alongside AI. Others set standards and delegate. Both need clarity.
 
-### 5. Flexible Entry, Clear Path
-**Them:** Long sales cycle  
-**Us:** 45 min consult, choose intensity  
-**Why:** Busy leaders need low friction
+### 5. Operator, Not Academic
+**Them:** Theoretical frameworks from people who advise
+**Us:** Krish runs AI transformation for businesses 100x your size during the day and builds with AI every night
+**Why:** Trust comes from "I do this every day"
 
 ---
 
-## Positioning by ICP (Ideal Customer Profile)
+## Positioning by Audience
 
-### ICP 1: Hands-Off Leaders
-**Who:** Commercial leaders who need AI systems, authority, and ideas from their new AI capabilities  
-**Problem:** Can't confidently boss the boardroom on AI. Need working systems without hands-on building.  
-**What You Become:** The leader with AI systems, authority, and ideas. Deploy working systems that give you command without hands-on building.  
-**Value:** Deploy 3-5 working AI systems in 30-90 days. Gain boardroom confidence through systems that work.  
-**Proof:** 10-20x ROI, 8-15 hrs saved/week, confident boardroom presence
+### Builders
+**Who:** Leaders who want to build alongside AI
+**Nervous Decisions:**
+- "What should I build vs buy?"
+- "How do I prototype without a technical team?"
+- "Which tools do I actually commit to?"
+**Value:** Fastest path from idea to working system
+**Sprint:** 4-Week (single decision) or 90-Day (multiple systems)
 
-### ICP 2: Hands-On Builders
-**Who:** Commercial leaders who want to become builders alongside AI  
-**Problem:** Want to create weapons-grade AI-enabled GTM engines, content engines, and end-to-end apps—following what Krish is doing.  
-**What You Become:** A builder alongside AI. Create weapons-grade systems: GTM engines, content engines, end-to-end apps. (The Builder Economy path)  
-**Value:** Build alongside AI, not just delegate to it. Create production-grade systems that transform your business.  
-**Proof:** Working GTM/content engines, end-to-end apps, transformation-ready business
+### Orchestrators
+**Who:** Leaders who want to set standards and make clean decisions
+**Nervous Decisions:**
+- "Which vendors do we commit to?"
+- "How do I evaluate AI vendor promises vs reality?"
+- "What's my AI boundary for this year?"
+**Value:** Board-level clarity without technical details
+**Sprint:** 4-Week (single decision) or 90-Day (full governance framework)
 
-### ICP 3: Teams Needing Transformation
-**Who:** Teams that aren't aligned or confident enough to undergo transformation  
-**Problem:** Being pitched by OpenAI or countless consultants but need to sharpen communal AI literacy first—before wasting your one bullet for future-proofing.  
-**What You Become:** A transformation-ready team with sharpened communal AI literacy. Confident to evaluate vendors and lead boardroom discussions.  
-**Value:** Sharpen communal AI literacy before committing to transformation. Stop wasting your one bullet on vendors who can't deliver.  
-**Proof:** 90-day pilot charter, measurable ROI, team alignment, confident vendor evaluation
+### Common Outcome
+**Both paths start with Mind Set. Both end with decisions that stick.**
 
-### Common Outcome Across All ICPs
-**All paths lead to:** Confidently "boss the boardroom"—something you cannot do right now. Whether you need systems and authority, want to build alongside AI, or need to sharpen transformation readiness, the outcome is the same: confident boardroom leadership.
+---
 
-## Positioning by Segment (Legacy Structure)
+## Product Positioning
 
-### Individual Leaders
-**Problem:** Pressure to "do AI", drowning in pitches  
-**Value:** See what's possible in 60 min, walk away with working systems  
-**Proof:** 3-5 systems in 30 days, 10-20x ROI
+### 4-Week Sprint
+**Tagline:** One decision. Four weeks. Board-ready.
+**For:** Leaders with one nervous decision about AI
+**Emotional Arc:** Relief → Momentum → Confidence → Calm
+**Outcome:** One clear, defensible decision + board-ready memo
 
-### Executive Teams
-**Problem:** Fragmented efforts, no shared language  
-**Value:** Align team in half-day, create shared framework  
-**Proof:** 90-day charter, measurable ROI
-
-### Portfolio Partners
-**Problem:** Want to help the leaders they serve become AI literate, but lack a concrete method to deliver at scale  
-**Value:** Repeatable approach to AI literacy you can bring to your portfolio or client base  
-**Proof:** 10-20 leaders engaged, measurable progress, differentiated positioning
+### 90-Day Sprint
+**Tagline:** The full journey. Mind Set → Mind Map → Mind Make.
+**For:** Leaders who need complete AI direction
+**Emotional Arc:** Clarity (Month 1) → Leverage (Month 2) → Direction (Month 3)
+**Outcome:** 3-5 deployed systems + 12-month roadmap + board-level confidence
 
 ---
 
 ## Positioning Statements
 
-**One-Liner:** "Become the commercial leader who confidently bosses the boardroom with AI—through building, not training."
+**One-Liner:** "Mindmaker turns AI chaos into calm, clear, executable direction."
 
-**Elevator Pitch (30s):** "For commercial leaders who accept what's coming: we won't delegate the future to others, but to systems. Whether you need AI systems and authority (hands-off), want to build alongside AI (hands-on), or need to sharpen your team's transformation readiness—all paths lead to confidently bossing the boardroom. Start with a 60-minute session, walk away with deployed solutions."
+**Elevator Pitch (30s):** "You have a nervous decision about AI — whether to build or buy, which vendors to commit to, how to multiply your edge. Mindmaker is a 1:1 sprint that helps you make that decision with confidence. Four weeks for one decision. Ninety days for the full journey. You walk away with board-ready direction, not another deck."
 
 ---
 
 ## Objection Handling
 
-**"I don't have time"**  
-→ "60 min session saves 2-5 hrs/week. 100+ hrs/year. Pays for itself month one."
+**"I don't have time"**
+→ "One decision. Four weeks. Four 60-minute sessions. That's it."
 
-**"My team should handle this"**  
-→ "Your team builds tactically. You need strategic AI literacy to guide them. As a commercial leader, you need to confidently boss the boardroom—you can't do that by delegating AI to others."
+**"My team should handle this"**
+→ "Your team builds tactically. You own the decision. You can't delegate 'which vendors do we commit to?' — that's yours."
 
-**"We need strategy first"**  
-→ "Strategy without proof doesn't work. Build 1-2 systems, then strategize."
+**"We need strategy first"**
+→ "Strategy without decisions is theatre. Make one real decision. Then you have a strategy."
 
-**"I'm not technical"**  
-→ "Perfect. Designed for non-technical leaders. You won't write code."
+**"I'm not technical"**
+→ "You don't need to code. You need to decide."
 
-**"We're already working with [vendor]"**  
-→ "Great. I teach you to build, not sell tools. You'll evaluate vendors better."
+**"We're already working with a vendor"**
+→ "Then your nervous decision might be: 'Are we locked in, or is there a better option?' That's a 4-week sprint."
+
+**"I've been pitched 14 tools this quarter"**
+→ "That's the problem. We help you go from 14 tools to 3 decisions that matter."
 
 ---
 
 ## Competitive Positioning
 
 ### vs. AI Consultancies
-**Them:** 6-month engagements, strategy decks, $500K+  
-**Us:** 30-day sprints, working systems, 1/10th cost  
-**Win:** Speed, practicality, ROI
+**Them:** 6-month engagements, strategy decks, $500K+
+**Us:** 4-week or 90-day sprints, board-ready memos
+**Win:** Speed, decisions, not decks
 
 ### vs. AI Training
-**Them:** Generic courses, theoretical  
-**Us:** 1:1 building, your work, deployed solutions  
-**Win:** Relevance, implementation
+**Them:** Generic courses, AI literacy quizzes
+**Us:** 1:1 sprints around your actual nervous decisions
+**Win:** Relevance, decisions that stick
 
 ### vs. AI Tool Vendors
-**Them:** Selling tools  
-**Us:** Building literacy, tool-agnostic  
-**Win:** Independence
+**Them:** Selling their tool as the answer
+**Us:** Tool-agnostic decision framework
+**Win:** Independence, honest trade-off analysis
 
-### vs. Do It Yourself
-**Them:** Slow, trial-and-error  
-**Us:** Fast, guided, proven frameworks  
-**Win:** Speed to value
+### vs. Doing Nothing
+**Them:** Avoiding the decision, hoping it resolves
+**Us:** "What's your nervous decision?" — name it and resolve it
+**Win:** Calm confidence vs. ongoing anxiety
 
 ---
 
@@ -142,26 +141,23 @@
 **Quantitative:**
 - 10-20x ROI within 6 months
 - 8-15 hrs saved/week (Sprint)
-- 3-5 systems in 30 days
-- 90% still using after 90 days
+- Board-ready in 4 weeks
+- 3-5 deployed systems in 90 days
 
 **Qualitative:**
-- "I finally understand what's possible"
-- "Paid for itself first month"
-- "Team has shared language now"
-- "I can confidently boss the boardroom on AI now"
-- "We stopped wasting our transformation bullet on vendors"
-- "Building alongside AI transformed how we operate"
+- "I stopped dreading board AI questions."
+- "We went from 14 tools to 3 systems that actually work."
+- "I finally knew what to build versus buy."
 
 ---
 
 ## Brand Promises
 
-1. **No Vendor Theatre** - We don't sell AI tools
-2. **Real Work Only** - Your problems, your data
-3. **Working Systems** - Deployed solutions, not concepts
-4. **AI Literacy** - Capability that outlives tools
-5. **Independence** - Success = you don't need us
+1. **No Vendor Theatre** — We don't sell AI tools
+2. **Decisions, Not Decks** — Board-ready memos, not slide decks
+3. **Working Systems** — Deployed solutions, not concepts
+4. **Your Nervous Decision** — We start where you're anxious
+5. **Independence** — Success = you don't need us
 
 ---
 

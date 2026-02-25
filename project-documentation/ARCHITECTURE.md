@@ -1,6 +1,6 @@
 # Architecture
 
-**Last Updated:** 2026-01-08
+**Last Updated:** 2026-02-25
 
 ---
 
@@ -23,7 +23,7 @@
 - Deno std@0.190.0
 
 **Third-Party Services:**
-- Stripe (payments) - **Paused: $50 hold bypassed, direct Calendly booking**
+- Stripe (payments) — **Paused: $50 hold bypassed, direct Calendly booking**
 - Calendly (scheduling)
 - Vertex AI RAG (chatbot with custom business knowledge)
 - Lovable AI Gateway (news ticker via Gemini 2.5 Flash)
@@ -44,38 +44,38 @@ mindmaker/
 ├── src/
 │   ├── components/           # React components
 │   │   ├── ui/              # Shadcn base components
-│   │   ├── ChatBot/         # AI chatbot system
-│   │   ├── Animations/      # Visual effects
-│   │   ├── Interactive/     # Interactive demos
+│   │   ├── ChatBot/         # AI chatbot ("Ask Mindmaker")
+│   │   ├── Animations/      # Visual effects (ParticleBackground, etc.)
+│   │   ├── Interactive/     # Interactive demos (FrictionMap, etc.)
+│   │   ├── MediaEasterEggs/ # Video, audio, artifact components
+│   │   │   ├── VideoDrawer.tsx
+│   │   │   ├── AudioPlayer.tsx
+│   │   │   ├── ArtifactPreview.tsx
+│   │   │   └── ExpandableQuote.tsx
 │   │   ├── ShowDontTell/    # Content sections
 │   │   ├── ActionsHub.tsx   # Side drawer with actions
-│   │   ├── AINewsTicker.tsx # News ticker component
+│   │   ├── AINewsTicker.tsx # News ticker (SIGNAL/NOISE/DECISION/TAKE)
+│   │   ├── FrameworkJourney.tsx  # Mind Set → Mind Map → Mind Make
 │   │   ├── InitialConsultModal.tsx
 │   │   ├── ConsultationBooking.tsx
 │   │   ├── Navigation.tsx
 │   │   ├── Footer.tsx
-│   │   ├── NewHero.tsx      # Main hero section
-│   │   ├── TheProblem.tsx   # ICP cards section
-│   │   ├── ProductLadder.tsx
-│   │   ├── SimpleCTA.tsx
-│   │   ├── TrustSection.tsx
-│   │   ├── SEO.tsx          # SEO component
-│   │   ├── LightningLessons.tsx
-│   │   ├── ModuleExplorer.tsx
-│   │   ├── WhitepaperPopup.tsx
-│   │   ├── WhitepaperPromo.tsx
-│   │   ├── WhoThisIsFor.tsx
+│   │   ├── NewHero.tsx      # Hero with rotating nervous decisions
+│   │   ├── TheProblem.tsx   # Builder/Orchestrator fork
+│   │   ├── ProductLadder.tsx # Sprint chooser (4-week vs 90-day)
+│   │   ├── SimpleCTA.tsx    # Final CTA ("You've been pitched enough")
+│   │   ├── TrustSection.tsx # Krish bio + testimonials
+│   │   ├── SEO.tsx
 │   │   └── ...
 │   ├── pages/               # Route pages
-│   │   ├── Index.tsx        # Landing page
-│   │   ├── BuilderSession.tsx
-│   │   ├── BuilderSprint.tsx
-│   │   ├── LeadershipLab.tsx
-│   │   ├── PartnerProgram.tsx
-│   │   ├── BuilderEconomy.tsx
-│   │   ├── LeadershipInsights.tsx  # AI Leadership Benchmark
+│   │   ├── Index.tsx        # Landing page (homepage scroll)
+│   │   ├── Sprint4Week.tsx  # 4-Week Sprint detail
+│   │   ├── Sprint90Day.tsx  # 90-Day Sprint detail
+│   │   ├── Sprints.tsx      # Sprint overview/chooser
+│   │   ├── LeadershipInsights.tsx  # Decision Readiness Diagnostic
 │   │   ├── Blog.tsx         # Blog listing
 │   │   ├── BlogPost.tsx     # Individual blog posts
+│   │   ├── BuilderEconomy.tsx # Thought leadership
 │   │   ├── FAQ.tsx
 │   │   ├── Privacy.tsx
 │   │   ├── Terms.tsx
@@ -83,48 +83,42 @@ mindmaker/
 │   │   └── NotFound.tsx
 │   ├── hooks/               # Custom React hooks
 │   │   ├── useAssessment.ts      # Builder Profile logic
-│   │   ├── useLeadershipInsights.ts  # Leadership diagnostic logic
+│   │   ├── useLeadershipInsights.ts  # Diagnostic logic
 │   │   ├── useAINewsTicker.ts    # News ticker hook
 │   │   ├── useFrictionMap.ts     # Friction map logic
-│   │   ├── usePortfolio.ts       # Portfolio builder logic
 │   │   ├── useVoiceInput.ts      # Voice input for chat
-│   │   ├── useScrollAnimation.ts # Scroll-based animations
+│   │   ├── useScrollHijack.ts    # Scroll hijack for animations
 │   │   ├── useScrollDirection.ts # Navbar hide/show
-│   │   ├── useScrollLock.ts      # Animation scroll hijacking
-│   │   ├── useScrollTrigger.ts   # Scroll trigger events
-│   │   ├── useScrollBackToTop.ts # Back to top functionality
-│   │   ├── useFontLoader.ts      # Font loading status
+│   │   ├── useScrollLock.ts      # Animation scroll locking
 │   │   ├── useRealisticCounters.ts # Counter animations
-│   │   ├── useStatsTimer.ts      # Stats display timing
-│   │   ├── useThrottledProgress.ts # Progress bar throttling
-│   │   ├── useOpenAIContext.ts   # AI context management
-│   │   ├── use-mobile.tsx        # Mobile detection
-│   │   └── use-toast.ts          # Toast notifications
+│   │   └── ...
 │   ├── contexts/            # React contexts
 │   │   └── SessionDataContext.tsx
 │   ├── data/                # Static data files
 │   ├── lib/                 # Utilities
 │   ├── integrations/supabase/ # Supabase client
 │   ├── index.css            # Design system tokens
-│   ├── App.tsx              # Root component
+│   ├── App.tsx              # Root component + routing
 │   └── main.tsx             # Entry point
 ├── supabase/
 │   ├── functions/           # Edge functions
 │   │   ├── _shared/         # Shared utilities
 │   │   │   └── vertex-client.ts  # Vertex AI RAG client
-│   │   ├── chat-with-krish/
-│   │   ├── get-ai-news/
+│   │   ├── chat-with-krish/     # "Ask Mindmaker" chatbot
+│   │   ├── get-ai-news/         # News ticker
 │   │   ├── get-market-sentiment/
 │   │   ├── send-lead-email/
 │   │   ├── send-contact-email/
 │   │   ├── send-leadership-insights-email/
 │   │   └── create-consultation-hold/ (paused)
+│   ├── migrations/          # SQL migrations
 │   └── config.toml          # Supabase config
 ├── public/                  # Static assets
 │   ├── robots.txt
 │   ├── sitemap.xml
 │   └── ...
 ├── project-documentation/   # This documentation
+├── CLAUDE.md                # Brand vision 11/10 implementation guide
 ├── tailwind.config.ts       # Tailwind config
 ├── vite.config.ts           # Vite config
 └── package.json             # Dependencies
@@ -137,10 +131,9 @@ mindmaker/
 ```typescript
 // src/App.tsx
 <Route path="/" element={<Index />} />
-<Route path="/builder-session" element={<BuilderSession />} />
-<Route path="/builder-sprint" element={<BuilderSprint />} />
-<Route path="/leadership-lab" element={<LeadershipLab />} />
-<Route path="/portfolio-program" element={<PartnerProgram />} />
+<Route path="/sprints" element={<Sprints />} />
+<Route path="/sprint/4-week" element={<Sprint4Week />} />
+<Route path="/sprint/90-day" element={<Sprint90Day />} />
 <Route path="/builder-economy" element={<BuilderEconomy />} />
 <Route path="/privacy" element={<Privacy />} />
 <Route path="/terms" element={<Terms />} />
@@ -150,8 +143,15 @@ mindmaker/
 <Route path="/blog/:slug" element={<BlogPost />} />
 <Route path="/leaders" element={<LeadershipInsights />} />
 <Route path="/leadership-insights" element={<LeadershipInsights />} />
-<Route path="/builder" element={<Navigate to="/builder-session" />} />
-<Route path="/partner-program" element={<Navigate to="/portfolio-program" />} />
+
+// Redirects for old URLs
+<Route path="/builder-session" element={<Navigate to="/" replace />} />
+<Route path="/leadership-lab" element={<Navigate to="/" replace />} />
+<Route path="/portfolio-program" element={<Navigate to="/" replace />} />
+<Route path="/builder-sprint" element={<Navigate to="/sprints" replace />} />
+<Route path="/individual" element={<Navigate to="/" replace />} />
+<Route path="/team" element={<Navigate to="/" replace />} />
+<Route path="/builder" element={<Navigate to="/" replace />} />
 <Route path="*" element={<NotFound />} />
 ```
 
@@ -159,14 +159,14 @@ mindmaker/
 
 ## Data Flow
 
-### Booking Flow (Current - As of 2025-12-01)
-**Status:** Stripe hold paused - Direct Calendly booking
+### Booking Flow (Current)
+**Status:** Stripe hold paused — Direct Calendly booking
 
 ```
-1. User clicks CTA
+1. User clicks "What's your nervous decision?" CTA
    └─> InitialConsultModal opens (React state)
 
-2. User fills form + selects program
+2. User fills form + selects sprint interest
    └─> Form submission (React event)
    └─> Session data captured via SessionDataContext
 
@@ -177,77 +177,46 @@ mindmaker/
 
 4. Edge function enriches lead data
    └─> OpenAI research: domain → company info + latest news
-   └─> Compiles engagement data (friction map, portfolio, assessment)
+   └─> Compiles engagement data (friction map, assessment, etc.)
 
 5. Edge function sends email (with retry)
    └─> Resend API with exponential backoff (3 attempts)
    └─> Email to krish@themindmaker.ai with full lead intelligence
 
 6. User redirected to Calendly
-   └─> URL pre-filled with: name, email, program
+   └─> URL pre-filled with: name, email, sprint type
    └─> Direct booking, no payment hold
-
-7. User books time on Calendly
-   └─> Calendly sends confirmation email
 ```
 
-### Leadership Insights Flow
+### Decision Readiness Diagnostic Flow
 ```
 1. User navigates to /leaders
    └─> LeadershipInsights page renders
 
 2. Intro → Start Diagnostic
-   └─> Phase changes to 'questions'
+   └─> 6 Likert-scale questions (auto-advance)
 
-3. User answers 6 Likert-scale questions
-   └─> Auto-advance on selection
-   └─> Progress bar animates forward (never regresses)
+3. Optional personalization (5 more questions) or skip
 
-4. After Q6 → Personalization Prompt
-   └─> Option to personalize (5 more questions) or skip
+4. Generation phase
+   └─> Progress animation (easing, never regresses)
+   └─> Results calculated client-side
 
-5. Generation phase begins
-   └─> Smooth progress animation (easing, 5s duration)
-   └─> Results calculated client-side from answers
-
-6. Results displayed
-   └─> Score, tier, percentile (free)
-   └─> Strengths, growth areas, strategic insights (free)
+5. Results displayed
+   └─> Decision Readiness Score + tier
+   └─> Builder or Orchestrator identification
+   └─> Top 3 nervous decisions
+   └─> Sprint recommendation (4-week or 90-day)
    └─> Collapsible form to unlock full results
 
-7. User submits unlock form
-   └─> supabase.functions.invoke('send-leadership-insights-email', {...})
-   └─> Resend: User receives full results email
-   └─> Resend: Krish receives lead notification
+6. User submits unlock form
+   └─> send-leadership-insights-email edge function
+   └─> User receives full results + Krish receives lead notification
 ```
 
-### Builder Profile Flow
+### Chatbot Flow ("Ask Mindmaker")
 ```
-1. User completes assessment questions
-   └─> Answers stored in React state
-
-2. Frontend calls edge function
-   └─> supabase.functions.invoke('chat-with-krish', {
-         body: { messages: [{ role: 'user', content: '...detailed prompt...' }] }
-       })
-   └─> NO widgetMode sent (was bug, now fixed)
-
-3. Edge function detects Builder Profile mode
-   └─> Checks message content for patterns
-   └─> Uses minimal system prompt (defers to user instructions)
-
-4. Edge function calls Vertex AI RAG
-   └─> Gemini 2.5 Flash + custom RAG corpus
-   └─> maxOutputTokens: 4096 (increased for CEO-grade output)
-
-5. Response parsed and displayed
-   └─> JSON extraction with multiple strategies
-   └─> Fallback to LLM-generated or score-based profile if parsing fails
-```
-
-### Chatbot Flow
-```
-1. User clicks chat button
+1. User clicks "Ask Mindmaker" button
    └─> ChatPanel opens (slide-in animation)
 
 2. User types message
@@ -255,7 +224,7 @@ mindmaker/
 
 3. Frontend calls edge function
    └─> supabase.functions.invoke('chat-with-krish', {
-         body: { messages: conversationHistory, widgetMode: 'tryit' or undefined }
+         body: { messages: conversationHistory }
        })
 
 4. Edge function authenticates with Google
@@ -263,6 +232,7 @@ mindmaker/
 
 5. Edge function calls Vertex AI RAG
    └─> Gemini 2.5 Flash + custom RAG corpus
+   └─> Trained on Mind Set → Mind Map → Mind Make framework
 
 6. Response returned to frontend
    └─> Displayed in ChatPanel
@@ -305,48 +275,12 @@ verify_jwt = false
 verify_jwt = false
 ```
 
-### Function Template
-```typescript
-import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
-
-serve(async (req) => {
-  // Handle CORS preflight
-  if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
-  }
-
-  try {
-    // Function logic here
-    
-    return new Response(
-      JSON.stringify({ data }),
-      {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 200,
-      },
-    );
-  } catch (error) {
-    console.error('Error:', error);
-    return new Response(
-      JSON.stringify({ error: error.message }),
-      {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 400,
-      },
-    );
-  }
-});
-```
-
 ### Current Functions
 
-#### `chat-with-krish`
+#### `chat-with-krish` — "Ask Mindmaker"
 **Purpose:** AI chatbot powered by Google Vertex AI RAG with Gemini 2.5 Flash
+
+**Brand Voice:** Confident, slightly cynical, deeply helpful. Trained on Mind Set → Mind Map → Mind Make framework.
 
 **Secrets Required:** `GOOGLE_SERVICE_ACCOUNT_KEY`
 
@@ -355,50 +289,12 @@ serve(async (req) => {
 - Token caching (50-minute lifetime)
 - RAG corpus integration for business-specific knowledge
 - Mode detection: Builder Profile, Try It Widget, Chat
-- Comprehensive error handling with graceful fallbacks
 - Anti-fragile design: always returns usable content
-
-**Mode Detection:**
-```typescript
-const isBuilderProfile = mode === 'builder-profile' || 
-  (messages[0]?.content?.includes('AI readiness assessment') || 
-   messages[0]?.content?.includes('Builder Profile') ||
-   messages[0]?.content?.includes('CEO/COO/CPO\'s AI readiness'));
-```
-
-**System Prompt Selection:**
-- Builder Profile → Minimal prompt (defers to user instructions)
-- Try It Widget → TRYIT_SYSTEM_PROMPT
-- Chat → CHAT_SYSTEM_PROMPT
 
 **Token Allocation:**
 - Builder Profile: 4096 tokens
 - Try It Widget: 1024 tokens
 - Chat: 2048 tokens
-
-**Request Format:**
-```typescript
-{
-  messages: Array<{
-    role: 'user' | 'assistant' | 'system';
-    content: string;
-  }>;
-  widgetMode?: 'tryit';  // Optional
-  mode?: 'builder-profile' | 'tryit' | 'chat';  // Optional
-}
-```
-
-**Response Format:**
-```typescript
-{
-  message: string;
-  metadata?: {
-    model: string;
-    cached: boolean;
-    fallback: boolean;
-  };
-}
-```
 
 **Vertex AI Configuration:**
 - Project: `gen-lang-client-0174430158`
@@ -406,243 +302,76 @@ const isBuilderProfile = mode === 'builder-profile' ||
 - Model: `gemini-2.5-flash`
 - RAG Corpus: `6917529027641081856`
 
-**Error Handling:**
-- 429 Rate Limit → User-friendly message
-- 402 Payment Required → Quota message
-- 401 Unauthorized → Token refresh
-- All other errors → Fallback message with CTAs
-
 #### `get-ai-news`
-**Purpose:** Fetches AI-related news for ticker using Lovable AI Gateway
+**Purpose:** Fetches AI news for ticker with SIGNAL/NOISE/DECISION/TAKE categories
 
-**Secrets Required:** `LOVABLE_API_KEY` (auto-provisioned with Lovable Cloud)
+**Secrets Required:** `LOVABLE_API_KEY` (auto-provisioned)
 
-**Request Format:** None (GET request)
-
-**Response Format:**
-```typescript
-{
-  headlines: Array<{ title: string; source: string; }>;
-  timestamp: string;
-  fallback?: boolean;
-}
-```
-
-**AI Configuration:**
-- Model: `google/gemini-2.5-flash` via Lovable AI Gateway
-- Generates 20 AI intelligence briefings with operator perspective
-- Categories: SIGNAL, HOT TAKE, OPERATOR INTEL, WATCH LIST
-- Falls back to static headlines on error
+**Categories:**
+- SIGNAL — Actually matters for business leaders
+- NOISE — Hype, funding, vendor marketing (ignore)
+- DECISION TRIGGER — Act on this, something changed
+- KRISH'S TAKE — Opinion/analysis from Mindmaker
 
 #### `get-market-sentiment`
 **Purpose:** Analyzes market sentiment using OpenAI
 
 **Secrets Required:** `OPENAI_API_KEY`
 
-**Request Format:** None (GET request)
-
-**Response Format:**
-```typescript
-{
-  aiAnxietyMultiplier: number; // 0.7-1.5
-  trainingInterestMultiplier: number; // 0.8-1.4
-  newsContext: string;
-  timestamp: number;
-}
-```
-
 #### `send-lead-email`
 **Purpose:** Captures lead data, enriches with company research, sends detailed email
 
-**Secrets Required:** `RESEND_API_KEY`, `OPENAI_API_KEY` (optional for research)
-
-**Request Format:**
-```typescript
-{
-  name: string;
-  email: string;
-  jobTitle: string;
-  selectedProgram: string;
-  sessionData: {
-    frictionMap?: object;
-    portfolioBuilder?: object;
-    assessment?: object;
-    tryItWidget?: object;
-    pagesVisited: string[];
-    timeOnSite: number;
-    scrollDepth: number;
-  };
-}
-```
+**Secrets Required:** `RESEND_API_KEY`, `OPENAI_API_KEY`
 
 **Features:**
-- OpenAI-powered company research (domain → company info + news)
-- Session engagement compilation (friction map, portfolio, assessment)
-- Retry logic with exponential backoff (3 attempts, 1s/2s/4s delays)
-- Comprehensive lead intelligence email to krish@themindmaker.ai
+- OpenAI-powered company research
+- Session engagement compilation
+- Retry logic with exponential backoff (3 attempts)
+- Lead intelligence email to krish@themindmaker.ai
 
 #### `send-contact-email`
 **Purpose:** Sends contact form submissions
 
 **Secrets Required:** `RESEND_API_KEY`
 
-**Request Format:**
-```typescript
-{
-  name: string;
-  email: string;
-  message: string;
-}
-```
-
-**Features:**
-- Input validation with Zod
-- HTML escaping for XSS prevention
-- Email to krish@themindmaker.ai
-
 #### `send-leadership-insights-email`
-**Purpose:** Sends AI Leadership Benchmark results to users and lead notification to Krish
+**Purpose:** Sends Decision Readiness Diagnostic results + lead notification
 
 **Secrets Required:** `RESEND_API_KEY`
 
-**Request Format:**
-```typescript
-{
-  name: string;
-  email: string;
-  department?: string;
-  aiFocus?: string;
-  results?: {
-    score: number;
-    tier: string;
-    percentile: number;
-    strengths: string[];
-    growthAreas: string[];
-    strategicInsights: string[];
-    promptTemplates: string[];
-    actionPlan: string[];
-  };
-}
-```
-
 **Features:**
 - Dual email delivery (user results + Krish notification)
-- Personalized AI prompt templates in user email
-- 90-day action plan based on tier
-- Input validation with Zod
-- HTML escaping for XSS prevention
+- Sprint recommendation based on diagnostic results
 
 #### `create-consultation-hold` (PAUSED)
-**Purpose:** Creates Stripe authorization hold for consultations
+**Purpose:** Creates Stripe authorization hold
 
-**Status:** Currently bypassed - direct Calendly booking without payment
-
-**Secrets Required:** `STRIPE_SECRET_KEY`
+**Status:** Currently bypassed — direct Calendly booking
 
 ---
 
 ## Authentication & Authorization
 
 **Current:** None (public site, no user accounts)
-
-**Future:** When implemented:
-- Supabase Auth (email/password)
-- JWT tokens for session management
-- RLS policies for data access
-- Protected routes in React Router
-
-**Why Deferred:**
-- All bookings via Calendly (external system)
-- No user-generated content yet
-- Simpler MVP without auth complexity
+**Future:** When implemented — Supabase Auth, JWT tokens, RLS policies
 
 ---
 
 ## Database
 
 **Status:** Supabase connected, minimal usage
-
-**Current Tables:** None (no data storage yet)
-
-**Future Schema:**
-```sql
--- When implemented
-users (
-  id uuid primary key,
-  email text unique,
-  name text,
-  created_at timestamp
-)
-
-sessions (
-  id uuid primary key,
-  user_id uuid references users,
-  program text,
-  date timestamp,
-  notes text,
-  systems_built jsonb
-)
-
-portfolio_companies (
-  id uuid primary key,
-  partner_id uuid references users,
-  name text,
-  status text
-)
-
-profiles (
-  id uuid primary key,
-  user_id uuid references users,
-  assessment_answers jsonb,
-  profile_result jsonb,
-  created_at timestamp
-)
-```
+**Current Tables:** `leads`, `company_research_cache`
 
 ---
 
 ## State Management
 
 **Global State:** None (using React Router + TanStack Query)
-
 **Local State:** React hooks (useState, useReducer)
-
 **URL State:** React Router (route params, search params)
-
 **Form State:** React Hook Form (validation, submission)
-
 **Server State:** TanStack Query (caching, refetching)
-
-**Context State:**
-- `SessionDataContext` - Session engagement tracking
-- `ThemeProvider` - Light/dark theme
-
----
-
-## API Integration Patterns
-
-### Supabase Edge Functions
-```typescript
-const { data, error } = await supabase.functions.invoke('function-name', {
-  body: { ...payload }
-});
-```
-
-### Error Handling
-```typescript
-try {
-  const { data, error } = await supabase.functions.invoke(...);
-  if (error) throw error;
-  // Handle success
-} catch (error) {
-  console.error('Error:', error);
-  toast({
-    title: "Error title",
-    description: error.message,
-    variant: "destructive",
-  });
-}
-```
+**Context State:** `SessionDataContext` (session engagement tracking), `ThemeProvider` (light/dark)
 
 ---
 
@@ -655,7 +384,7 @@ try {
 
 ### Asset Optimization
 - Images: WebP format preferred
-- Fonts: Variable fonts (Inter Variable, Space Grotesk Variable), preloaded, font-display: optional
+- Fonts: Variable fonts (Inter Variable, Space Grotesk Variable), preloaded
 - Icons: SVG via Lucide React (tree-shakeable)
 
 ### Caching Strategy
@@ -664,7 +393,7 @@ try {
 - Edge function responses: No caching (always fresh)
 
 ### CSS Performance
-- Layout containment (`contain: layout style`) for animation sections
+- Layout containment for animation sections
 - `will-change` hints for scroll-triggered animations
 - Disabled heavy hover transforms on mobile/touch devices
 
@@ -674,19 +403,11 @@ try {
 
 ### Environment Variables
 **Secrets stored in Supabase/Lovable Cloud:**
-- `STRIPE_SECRET_KEY` (Stripe API key)
-- `GOOGLE_SERVICE_ACCOUNT_KEY` (Google service account JSON for Vertex AI RAG)
-- `OPENAI_API_KEY` (OpenAI API key for market sentiment, company research)
-- `LOVABLE_API_KEY` (Lovable AI Gateway key - auto-provisioned)
-- `RESEND_API_KEY` (Resend email delivery API key)
-- `SUPABASE_URL` (auto-configured)
-- `SUPABASE_ANON_KEY` (auto-configured - deprecated, use SUPABASE_PUBLISHABLE_KEY)
-- `SUPABASE_PUBLISHABLE_KEY` (auto-configured)
-- `SUPABASE_SERVICE_ROLE_KEY` (auto-configured)
-
-**Access Pattern:**
-- Frontend: Public keys only (anon key)
-- Edge Functions: Secret keys via `Deno.env.get()`
+- `GOOGLE_SERVICE_ACCOUNT_KEY` (Vertex AI RAG)
+- `OPENAI_API_KEY` (market sentiment, company research)
+- `LOVABLE_API_KEY` (AI Gateway — auto-provisioned)
+- `RESEND_API_KEY` (email delivery)
+- `STRIPE_SECRET_KEY` (payments — paused)
 
 ### CORS Policy
 - Edge functions: Allow all origins (`*`)
@@ -695,7 +416,6 @@ try {
 ### Input Validation
 - Frontend: React Hook Form + Zod schemas
 - Backend: Zod validation in edge functions
-- Stripe: Handled by Stripe Checkout
 - HTML Escaping: XSS prevention in email templates
 
 ---
@@ -710,45 +430,20 @@ npm run dev          # Start Vite dev server
 ### Build
 ```bash
 npm run build        # Vite build → dist/
+npm run lint         # ESLint check
 ```
 
 ### Deploy
 ```
-1. Push to GitHub (any branch)
+1. Push to GitHub
    └─> Auto-sync to Lovable/Vercel
-   
+
 2. Frontend builds
    └─> Deploys to CDN
-   
+
 3. Edge functions auto-deploy
    └─> 30-60 second deployment time
-   
-4. Preview URL available immediately
-   └─> Production URL updated on manual publish
 ```
-
----
-
-## Monitoring & Debugging
-
-### Frontend
-- Browser DevTools (console, network, React DevTools)
-- Lovable preview console (integrated)
-- Error boundaries (React)
-
-### Edge Functions
-- Lovable Cloud logs (real-time)
-- Supabase Dashboard logs
-- `console.log` statements (visible in logs)
-- Error responses (returned to frontend)
-
-### Stripe
-- Stripe Dashboard (payments, customers, events)
-- Webhooks (future implementation)
-
-### Calendly
-- Calendly Dashboard (bookings, confirmations)
-- No API integration (redirect-only)
 
 ---
 

@@ -1,14 +1,16 @@
-# The Mindmaker - AI Literacy Platform
+# Mindmaker — The Anti-Consultancy for AI Decisions
 
-**Last Updated:** 2026-01-08
+**Last Updated:** 2026-02-25
 
 ---
 
 ## Overview
 
-The Mindmaker is an AI literacy platform for business leaders. We help non-technical executives and senior leaders build practical AI systems through hands-on coaching, not theory.
+Mindmaker is a 1:1 sprint that turns AI chaos into calm, clear, executable direction. No training. No decks. No demos. Just decisions. We help leaders make the nervous decisions they've been avoiding about AI — and feel good about them.
 
-**Live Site:** [themindmaker.ai](https://themindmaker.ai)  
+**Brand North Star:** If Stripe's design sensibility met Anthony Bourdain's authenticity.
+
+**Live Site:** [themindmaker.ai](https://themindmaker.ai)
 **Lovable Project:** [lovable.dev/projects/ce33b9ef-a970-44f3-91e3-5c37cfff48cf](https://lovable.dev/projects/ce33b9ef-a970-44f3-91e3-5c37cfff48cf)
 
 ---
@@ -62,10 +64,11 @@ mindmaker/
 ├── src/
 │   ├── components/     # React components
 │   │   ├── ui/         # Shadcn base components
-│   │   ├── ChatBot/    # AI chatbot system
+│   │   ├── ChatBot/    # AI chatbot ("Ask Mindmaker")
 │   │   ├── Animations/ # Visual effects
 │   │   ├── Interactive/# Interactive demos
-│   │   └── ShowDontTell/# Content sections
+│   │   ├── MediaEasterEggs/ # Video, audio, artifact components
+│   │   └── ShowDontTell/    # Content sections
 │   ├── pages/          # Route pages
 │   ├── hooks/          # Custom hooks
 │   ├── contexts/       # React contexts
@@ -81,20 +84,51 @@ mindmaker/
 
 ---
 
+## Framework
+
+**Mind Set → Mind Map → Mind Make**
+
+| Phase | Focus | Outcome |
+|-------|-------|---------|
+| Mind Set | Clarity | Cut noise, know what matters |
+| Mind Map | Leverage | Build your edge, multiply strengths |
+| Mind Make | Direction | Decide, ship, measure |
+
+---
+
+## Products
+
+| Product | Duration | Description |
+|---------|----------|-------------|
+| **4-Week Sprint** | 4 weeks | One decision. Four weeks. Board-ready. |
+| **90-Day Sprint** | 90 days | Full journey: Mind Set → Mind Map → Mind Make |
+| **Extended Sprint** | 6 months | Continuation of 90-day (by discussion) |
+
+---
+
 ## Key Routes
 
 | Route | Description |
 |-------|-------------|
-| `/` | Landing page |
-| `/builder-session` | 60-minute session details |
-| `/builder-sprint` | 4-week intensive details |
-| `/leadership-lab` | Team workshop details |
-| `/portfolio-program` | Partner program details |
-| `/leaders` | AI Leadership Benchmark diagnostic |
+| `/` | Landing page (homepage scroll experience) |
+| `/sprints` | Sprint overview / chooser |
+| `/sprint/4-week` | 4-Week Sprint detail page |
+| `/sprint/90-day` | 90-Day Sprint detail page |
+| `/leaders` | Decision Readiness Diagnostic |
 | `/blog` | Blog listing page |
 | `/blog/:slug` | Individual blog posts |
 | `/builder-economy` | Thought leadership page |
 | `/faq`, `/privacy`, `/terms`, `/contact` | Support pages |
+
+### Redirects (Old URLs)
+| Old Route | Redirects To |
+|-----------|-------------|
+| `/builder-session` | `/` |
+| `/leadership-lab` | `/` |
+| `/portfolio-program` | `/` |
+| `/builder-sprint` | `/sprints` |
+| `/individual` | `/` |
+| `/team` | `/` |
 
 ---
 
@@ -102,12 +136,12 @@ mindmaker/
 
 | Function | Purpose |
 |----------|---------|
-| `chat-with-krish` | AI chatbot (Vertex AI RAG + Gemini 2.5 Flash) |
-| `get-ai-news` | News ticker (Lovable AI Gateway) |
+| `chat-with-krish` | AI chatbot — "Ask Mindmaker" (Vertex AI RAG + Gemini 2.5 Flash) |
+| `get-ai-news` | News ticker with SIGNAL/NOISE/DECISION/TAKE categories |
 | `get-market-sentiment` | Market analysis (OpenAI) |
 | `send-lead-email` | Lead capture + enrichment |
 | `send-contact-email` | Contact form |
-| `send-leadership-insights-email` | Leadership Benchmark results |
+| `send-leadership-insights-email` | Decision Readiness Diagnostic results |
 | `create-consultation-hold` | Stripe checkout (paused) |
 
 ---
@@ -132,6 +166,9 @@ Full documentation available in `/project-documentation/`:
 - **[ARCHITECTURE.md](./project-documentation/ARCHITECTURE.md)** - System architecture
 - **[FEATURES.md](./project-documentation/FEATURES.md)** - Feature catalogue
 - **[DESIGN_SYSTEM.md](./project-documentation/DESIGN_SYSTEM.md)** - Design system guide
+- **[BRANDING.md](./project-documentation/BRANDING.md)** - Brand voice and tone
+- **[VALUE_PROP.md](./project-documentation/VALUE_PROP.md)** - Value propositions
+- **[ICP.md](./project-documentation/ICP.md)** - Ideal Customer Profiles
 - **[COMMON_ISSUES.md](./project-documentation/COMMON_ISSUES.md)** - Known issues & solutions
 - **[HISTORY.md](./project-documentation/HISTORY.md)** - Change history
 - **[DECISIONS_LOG.md](./project-documentation/DECISIONS_LOG.md)** - Design decisions
@@ -139,27 +176,13 @@ Full documentation available in `/project-documentation/`:
 
 ---
 
-## Recent Changes (2026-01)
+## Brand Implementation Guide
 
-### Hero & Drawer UX Fixes (2026-01-06)
-- Fixed horizontal scrollbar flash on page load
-- Fixed side drawer content cut off behind navbar
-- Added navbar-aware sheet positioning system
-
-### Text Contrast System Fix (2026-01-05)
-- Fixed WCAG AA contrast failures on dark backgrounds
-- Added `dark-cta-card` component class
-- Added `dark-card-*` text color utilities
-
-### Builder Profile Pipeline Fix (2026-01-XX)
-- Fixed `widgetMode: 'tryit'` bug causing generic outputs
-- Added Builder Profile mode detection in edge function
-- Improved fallback quality with LLM-generated responses
-
-### AI Backend (2025-01-25)
-- Migrated chatbot to Vertex AI RAG with custom corpus
-- Gemini 2.5 Flash model with business-specific knowledge
-- Anti-fragile error handling with graceful fallbacks
+See **[CLAUDE.md](./CLAUDE.md)** for the complete brand vision 11/10 implementation guide, including:
+- Section-by-section transformation instructions
+- Copy guidelines and voice/tone rules
+- Phase-by-phase implementation checklist
+- Media easter egg specifications
 
 ---
 
@@ -172,14 +195,10 @@ Full documentation available in `/project-documentation/`:
 | Display Font | Space Grotesk Variable |
 | Body Font | Inter Variable |
 
-### Typography System
-- **Headings (h1-h6)**: Space Grotesk Variable
-- **Body text**: Inter Variable
-- **Fluid sizing**: Uses `clamp()` for responsive typography
-
-### Dark Card Text (WCAG Compliant)
-- Never use `text-white/80` on dark backgrounds
-- Use `.dark-cta-card` class or `text-dark-card-*` utilities
+### Critical Rules
+- **NEVER** use `text-mint` on white/light backgrounds (fails WCAG)
+- Use `.dark-cta-card` class or `text-dark-card-*` utilities on dark backgrounds
+- Mint (#7ef4c2) for highlights/CTAs ONLY
 
 ---
 
@@ -198,10 +217,11 @@ Full documentation available in `/project-documentation/`:
 
 ## Contributing
 
-1. Check [COMMON_ISSUES.md](./project-documentation/COMMON_ISSUES.md) for known problems
-2. Read [DECISIONS_LOG.md](./project-documentation/DECISIONS_LOG.md) for context
+1. Read [CLAUDE.md](./CLAUDE.md) for brand vision and implementation rules
+2. Check [COMMON_ISSUES.md](./project-documentation/COMMON_ISSUES.md) for known problems
 3. Follow design system in [DESIGN_SYSTEM.md](./project-documentation/DESIGN_SYSTEM.md)
-4. Update documentation with your changes
+4. Follow voice/tone in [BRANDING.md](./project-documentation/BRANDING.md)
+5. Update documentation with your changes
 
 ---
 

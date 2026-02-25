@@ -1,85 +1,87 @@
 # Purpose
 
-**Last Updated:** 2026-01-08
+**Last Updated:** 2026-02-25
 
 ---
 
 ## Mission
 
-Help senior business leaders become AI-literate by building working AI systems around their real work - not through vendor theatre, theoretical training, or generic demos.
+Transform Mindmaker from "professional AI advisory site" to "the anti-consultancy for leaders who are done being sold AI and ready to use it." Help leaders make the nervous decisions they've been avoiding — and feel good about them.
+
+**Brand North Star:** If Stripe's design sensibility met Anthony Bourdain's authenticity.
 
 ---
 
 ## Vision
 
-Create a world where business leaders can confidently integrate AI into their operations, make informed strategic decisions about AI adoption, and lead their organizations through the AI transformation with clarity and competence.
+A world where business leaders stop talking about AI and start using it. Where "AI strategy" means deployed systems and defensible decisions — not slide decks and vendor theatre. Where leaders feel calm confidence, not anxiety, when the board asks about AI.
 
 ---
 
 ## Core Objectives
 
-### 1. Build AI Literacy Through Practice
-- Leaders learn by building, not by listening
-- Real problems from their actual work, not case studies
-- Working systems they can immediately deploy, not concepts
+### 1. Turn AI Chaos Into Calm
+- Leaders arrive with anxiety and leave with decisions
+- Cut noise into signal using Mind Set → Mind Map → Mind Make
+- Working systems, not strategy decks
 
-### 2. Cut Through AI Hype
-- No vendor theatre or product pitches
-- No generic "AI strategy decks" that go nowhere
-- Practical implementation over theoretical frameworks
+### 2. Make Nervous Decisions Stick
+- Name the anxiety. Map the options. Decide. Ship.
+- Board-ready memos, not 40-slide presentations
+- Trade-off analysis that's defensible and real
 
-### 3. Create Lasting Capability
-- AI literacy that outlives any one tool
-- Frameworks for evaluating and implementing AI
-- Skills to continue building independently
+### 3. Build Lasting Decision Capability
+- Framework thinking (Mind Set → Mind Map → Mind Make) outlives any tool
+- Builder or Orchestrator — both paths lead to clear direction
+- Independence: success = you don't need us anymore
 
-### 4. Meet Leaders Where They Are
-- Multiple engagement models (session, sprint, lab, partnership)
-- No coding required
-- Flexible intensity (1 hour to 12 months)
+### 4. Meet Leaders at Their Nervous Decision
+- Two sprint options: 4-Week (one decision) or 90-Day (full journey)
+- No coding required. No prep required.
+- "What's your nervous decision?" — start there
 
 ---
 
 ## What Success Looks Like
 
-**For Individual Leaders:**
-- Can identify where AI removes friction in their work
-- Have 1-5 working AI systems deployed
-- Can evaluate AI tools and vendors independently
-- Feel confident leading AI discussions
+**For a 4-Week Sprint Leader:**
+- Made one clear, defensible decision about AI
+- Has a board-ready decision memo they feel confident about
+- Stopped dreading the next AI conversation
+- ROI framework to measure success in 3/6/12 months
 
-**For Teams:**
-- Shared language and framework for AI work
-- 90-day pilot charter with clear metrics
-- Demonstrated ROI from initial AI implementations
-- Momentum to continue building
+**For a 90-Day Sprint Leader:**
+- 3-5 deployed AI systems (working, measured, documented)
+- 2-3 strategic decisions resolved with trade-off memos
+- 12-month AI roadmap with clear gates and owners
+- Board-level confidence on AI direction
 
-**For Organizations:**
-- AI-literate leadership pipeline
-- Portfolio-wide AI assessment and prioritization
-- Repeatable frameworks for AI integration
-- Competitive advantage through AI capability
+**For Both:**
+- Calm clarity where there was chaos
+- Decisions that stick because they understand the "why"
+- A framework (Mind Set → Mind Map → Mind Make) they can apply independently
 
 ---
 
 ## Anti-Goals (What We Explicitly Don't Do)
 
-❌ Sell AI tools or platforms  
-❌ Build AI for clients (we teach them to build)  
-❌ Offer generic AI training or certifications  
-❌ Promise ROI without doing the work  
-❌ Create dependency on consultants  
-❌ Replace technical teams (we empower leaders)
+- Sell AI tools or platforms
+- Deliver generic AI training or certifications
+- Create 40-slide strategy decks
+- Use the words "transformation", "synergy", or "leverage"
+- Promise ROI without doing the work
+- Create dependency (success = you don't need us)
+- Pitch vendors or recommend tools without trade-off analysis
 
 ---
 
 ## Target Impact
 
 By end of 2026, Mindmaker aims to:
-- Have trained 500+ senior leaders
-- Deployed 2,000+ working AI systems built by leaders
-- Established partnerships with 20+ VCs/advisory firms
-- Created measurable competitive advantage for 100+ organizations
+- Help 200+ leaders make their nervous decisions
+- Deploy 1,000+ working AI systems through sprints
+- Achieve 90%+ "calm confidence" rating from sprint graduates
+- Establish Mind Set → Mind Map → Mind Make as a recognized framework
 
 ---
 

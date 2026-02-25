@@ -1,6 +1,6 @@
-import { motion, useInView, animate, type PanInfo } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef, useCallback, useState, useEffect } from "react";
-import { ArrowRight, Crown, Brain, Zap, Rocket, Compass, KeyRound, ChevronUp } from "lucide-react";
+import { ArrowRight, Crown, Brain, Zap, Rocket, Compass, KeyRound } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 /* ─── Card data ─── */
@@ -28,13 +28,7 @@ const BigProblem = () => {
   const [isRevealed, setIsRevealed] = useState(false);
   const [initialHeight, setInitialHeight] = useState<number>(0);
   const [revealedHeight, setRevealedHeight] = useState<number>(0);
-
-  /* ─── Mobile peel state ─── */
   const isMobile = useIsMobile();
-  const [peelProgress, setPeelProgress] = useState(0);
-  const peelRef = useRef(0);
-  const isPeelingRef = useRef(false);
-  const [showTapFallback, setShowTapFallback] = useState(false);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const el = contentRef.current;
@@ -59,58 +53,13 @@ const BigProblem = () => {
     return () => window.removeEventListener("resize", measure);
   }, [isInView]);
 
-  /* ─── Mobile peel handlers ─── */
-  const animatePeelToComplete = useCallback(() => {
-    animate(peelRef.current, 1, {
-      type: "spring",
-      stiffness: 300,
-      damping: 30,
-      onUpdate: (v: number) => {
-        peelRef.current = v;
-        setPeelProgress(v);
-      },
-      onComplete: () => {
-        setIsRevealed(true);
-      },
-    });
-  }, []);
-
-  const animatePeelToZero = useCallback(() => {
-    animate(peelRef.current, 0, {
-      type: "spring",
-      stiffness: 400,
-      damping: 35,
-      onUpdate: (v: number) => {
-        peelRef.current = v;
-        setPeelProgress(v);
-      },
-    });
-  }, []);
-
-  const handlePan = useCallback((_: PointerEvent, info: PanInfo) => {
-    if (!isPeelingRef.current) return;
-    const dragDistance = Math.max(0, -info.offset.y);
-    const maxDrag = (initialHeight || 500) * 0.5;
-    const progress = Math.min(1, dragDistance / maxDrag);
-    peelRef.current = progress;
-    setPeelProgress(progress);
-  }, [initialHeight]);
-
-  const handlePanEnd = useCallback((_: PointerEvent, info: PanInfo) => {
-    isPeelingRef.current = false;
-    const shouldComplete = peelRef.current >= 0.3 || info.velocity.y < -500;
-    if (shouldComplete) {
-      animatePeelToComplete();
-    } else {
-      animatePeelToZero();
-    }
-  }, [animatePeelToComplete, animatePeelToZero]);
-
-  /* ─── Tap fallback for discoverability ─── */
+  /* ─── Auto-scroll after mobile reveal ─── */
   useEffect(() => {
-    if (!isMobile || isRevealed) return;
-    const timer = setTimeout(() => setShowTapFallback(true), 5000);
-    return () => clearTimeout(timer);
+    if (isMobile && isRevealed) {
+      setTimeout(() => {
+        sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 150);
+    }
   }, [isMobile, isRevealed]);
 
   const base = "text-lg sm:text-xl md:text-2xl font-display tracking-tight leading-relaxed text-left";
@@ -142,13 +91,6 @@ const BigProblem = () => {
   };
 
   const torchMask = "radial-gradient(circle 100px at var(--mx, -999px) var(--my, -999px), black 0%, transparent 70%)";
-
-  /* ─── Mobile peel computed values ─── */
-  const peelTranslateY = peelProgress * (initialHeight || 500);
-  const peelRotateX = peelProgress * 12;
-  const peelOpacity = isRevealed ? 0 : 1 - peelProgress;
-  const peelShadow = `0 ${peelProgress * 20}px ${peelProgress * 40}px rgba(0,0,0,${peelProgress * 0.4})`;
-  const stateBOpacity = isRevealed ? 1 : peelProgress;
 
   /* ─── State A: Initial content ─── */
   const initialContent = (isMint: boolean) => (
@@ -209,51 +151,8 @@ const BigProblem = () => {
         </span>
       </motion.p>
 
-      {/* CTA Button (desktop) / Drag Handle (mobile) */}
-      {isMobile ? (
-        isMint ? (
-          /* Mint overlay: visual only, no interaction */
-          <div className="flex flex-col items-center gap-2 py-6">
-            <div className="w-full h-px bg-gradient-to-r from-transparent via-mint/30 to-transparent" />
-            <div className="flex flex-col items-center gap-1.5 pt-3">
-              <div className="w-10 h-1 rounded-full bg-mint/40" />
-              <div className="w-6 h-1 rounded-full bg-mint/25" />
-            </div>
-            <p className="text-xs font-medium tracking-wide uppercase text-mint/40">
-              Swipe up to reveal
-            </p>
-            <ChevronUp className="w-5 h-5 text-mint/40" />
-          </div>
-        ) : (
-          /* Interactive drag zone */
-          <motion.div
-            className="flex flex-col items-center gap-2 py-6 cursor-grab active:cursor-grabbing"
-            style={{ touchAction: 'none' }}
-            onPanStart={() => { isPeelingRef.current = true; }}
-            onPan={handlePan}
-            onPanEnd={handlePanEnd}
-            aria-label="Swipe upward to reveal how Mindmaker works"
-          >
-            <div className="w-full h-px bg-gradient-to-r from-transparent via-mint/30 to-transparent" />
-            <div className="flex flex-col items-center gap-1.5 pt-3">
-              <div className="w-10 h-1 rounded-full bg-mint/40 animate-pulse" />
-              <div className="w-6 h-1 rounded-full bg-mint/25" style={{ animationDelay: '150ms' }} />
-            </div>
-            <p className="text-xs font-medium tracking-wide uppercase text-white/30">
-              Swipe up to reveal
-            </p>
-            <ChevronUp className="w-5 h-5 text-mint/40 animate-bounce" />
-            {showTapFallback && (
-              <button
-                onClick={() => setIsRevealed(true)}
-                className="mt-2 px-6 py-2 rounded-full border border-mint/30 text-white/60 text-sm hover:border-mint/60 transition-colors"
-              >
-                Tap to reveal
-              </button>
-            )}
-          </motion.div>
-        )
-      ) : (
+      {/* CTA Button — desktop only (on mobile, the sticky floating button handles this) */}
+      {!isMobile && (
         <motion.div
           className="flex justify-center py-8 md:py-10"
           initial={{ opacity: 0, y: 12 }}
@@ -351,24 +250,18 @@ const BigProblem = () => {
         <motion.div
           className="relative overflow-hidden"
           animate={{ height: (isRevealed ? revealedHeight : initialHeight) || "auto" }}
-          transition={{ duration: 0.4, ease }}
+          transition={{ duration: 0.5, ease }}
         >
           {/* State A: initial content */}
           <motion.div
             ref={stateARef}
             className="absolute inset-x-0 top-0"
-            style={isMobile ? {
-              willChange: "transform, opacity",
-              transform: `translateY(${-peelTranslateY}px) perspective(800px) rotateX(${peelRotateX}deg)`,
-              transformOrigin: 'bottom center',
-              opacity: peelOpacity,
-              boxShadow: peelShadow,
-              pointerEvents: isRevealed ? 'none' as const : 'auto' as const,
-            } : {
-              willChange: "clip-path" as const,
-            }}
-            animate={isMobile ? undefined : { clipPath: isRevealed ? "inset(0 0 0 100%)" : "inset(0 0 0 0)" }}
-            transition={isMobile ? undefined : { duration: 0.4, ease }}
+            style={{ willChange: isMobile ? "opacity, transform" : "clip-path" }}
+            animate={isMobile
+              ? { opacity: isRevealed ? 0 : 1, scale: isRevealed ? 0.97 : 1 }
+              : { clipPath: isRevealed ? "inset(0 0 0 100%)" : "inset(0 0 0 0)" }
+            }
+            transition={{ duration: 0.5, ease }}
           >
             {initialContent(false)}
             <div
@@ -377,18 +270,6 @@ const BigProblem = () => {
             >
               {initialContent(true)}
             </div>
-
-            {/* Peel edge glow (mobile only) */}
-            {isMobile && peelProgress > 0 && !isRevealed && (
-              <div
-                className="absolute bottom-0 inset-x-0 pointer-events-none"
-                style={{
-                  height: '4px',
-                  background: `linear-gradient(to right, transparent, rgba(126, 244, 194, ${peelProgress * 0.6}), transparent)`,
-                  boxShadow: `0 0 ${peelProgress * 16}px rgba(126, 244, 194, ${peelProgress * 0.3})`,
-                }}
-              />
-            )}
           </motion.div>
 
           {/* State B: revealed content */}
@@ -396,15 +277,15 @@ const BigProblem = () => {
             ref={stateBRef}
             className="absolute inset-x-0 top-0"
             aria-live="polite"
-            style={isMobile ? {
-              willChange: "transform, opacity",
-              opacity: stateBOpacity,
-              transform: isRevealed ? 'none' : `translateY(${(1 - peelProgress) * 20}px)`,
-            } : {
-              willChange: "clip-path" as const,
-            }}
-            animate={isMobile ? undefined : { clipPath: isRevealed ? "inset(0 0 0 0)" : "inset(0 100% 0 0)" }}
-            transition={isMobile ? undefined : { duration: 0.4, ease }}
+            style={{ willChange: isMobile ? "opacity, transform" : "clip-path" }}
+            animate={isMobile
+              ? { opacity: isRevealed ? 1 : 0, y: isRevealed ? 0 : 16 }
+              : { clipPath: isRevealed ? "inset(0 0 0 0)" : "inset(0 100% 0 0)" }
+            }
+            transition={isMobile
+              ? { duration: 0.5, ease, delay: 0.15 }
+              : { duration: 0.4, ease }
+            }
           >
             {revealedContent(false)}
             <div
@@ -415,6 +296,27 @@ const BigProblem = () => {
             </div>
           </motion.div>
         </motion.div>
+
+        {/* Mobile sticky CTA — floats at viewport bottom while section is visible */}
+        {isMobile && !isRevealed && (
+          <div className="sticky bottom-6 z-20 flex justify-center pb-4">
+            <motion.button
+              onClick={() => setIsRevealed(true)}
+              initial={{ opacity: 0, y: 10 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+              transition={{ duration: 0.4, delay: 0.6, ease }}
+              className="px-6 py-3 rounded-full border border-mint/40
+                         bg-ink/80 backdrop-blur-md text-white font-semibold text-sm
+                         shadow-[0_0_20px_rgba(126,244,194,0.15)] glow-pulse
+                         active:scale-95 transition-transform"
+            >
+              <span className="flex items-center gap-2">
+                Here&rsquo;s how you pick up the pen
+                <ArrowRight className="w-4 h-4 text-mint" />
+              </span>
+            </motion.button>
+          </div>
+        )}
       </div>
 
       {/* Section break */}

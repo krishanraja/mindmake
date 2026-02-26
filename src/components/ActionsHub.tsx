@@ -183,13 +183,11 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
       <motion.button
         onClick={() => setIsOpen(true)}
         className={cn(
-          "fixed right-0 z-[60]",
-          isMobile 
-            ? "top-[60%] -translate-y-1/2 w-11 h-16" 
-            : "top-1/2 -translate-y-1/2 w-12 h-20",
-          "rounded-l-2xl",
+          "fixed z-[60]",
+          isMobile
+            ? "bottom-6 right-4 w-12 h-12 rounded-full border border-mint/20"
+            : "right-0 top-1/2 -translate-y-1/2 w-12 h-20 rounded-l-2xl border-l border-t border-b border-mint/20",
           "bg-gradient-to-b from-ink/95 to-ink",
-          "border-l border-t border-b border-mint/20",
           "shadow-lg shadow-ink/30",
           "flex flex-col items-center justify-center gap-1",
           "transition-all duration-300",
@@ -203,13 +201,16 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
         aria-label="Open Actions Hub"
       >
         {/* Pulse indicator */}
-        <span className="absolute -left-1 top-3 flex h-2.5 w-2.5">
+        <span className={cn(
+          "absolute flex h-2.5 w-2.5",
+          isMobile ? "-top-0.5 -right-0.5" : "-left-1 top-3"
+        )}>
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-mint opacity-75"></span>
           <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-mint"></span>
         </span>
-        
+
         <Sparkles className="w-5 h-5 text-mint group-hover:scale-110 transition-transform" />
-        <ChevronLeft className="w-4 h-4 text-white/60" />
+        {!isMobile && <ChevronLeft className="w-4 h-4 text-white/60" />}
       </motion.button>
 
       {/* Drawer */}

@@ -164,9 +164,10 @@ const Sprint90Day = () => {
                 <p className="text-xs text-muted-foreground mb-3">Build systems. Multiply strengths. Automate weaknesses.</p>
                 <div className="grid sm:grid-cols-3 gap-3">
                   {[
-                    { name: "Personal System Architecture", artifact: "3\u20135 working AI systems + deployment checklist" },
+                    { name: "Personal System Architecture", artifact: "3–5 working AI systems + deployment checklist" },
                     { name: "Strength Amplifier or Weakness Counterbalance", artifact: "Amplifier blueprint or delegation flow + automation stack" },
                     { name: "AI Clone & Memory Architecture", artifact: "Clone prompt library + memory system + deployment guide" },
+                    { name: "Vibe Code Ideas to MVP", artifact: "Working prototype + build-vs-hire decision matrix" },
                   ].map((sprint, i) => (
                     <div key={i} className="p-3 rounded bg-ink/5 border border-border/50">
                       <div className="font-semibold text-sm mb-1">{sprint.name}</div>
@@ -186,6 +187,7 @@ const Sprint90Day = () => {
                     { name: "Build vs Buy vs Glue", artifact: "Decision memo + investment table" },
                     { name: "Vendor Selection Without Regret", artifact: "Scorecard + shortlist + exit criteria" },
                     { name: "12-Month AI Roadmap", artifact: "Quarterly milestones + board narrative" },
+                    { name: "AI-Powered GTM", artifact: "Deployed lead-gen system + cost-per-lead model" },
                   ].map((sprint, i) => (
                     <div key={i} className="p-3 rounded bg-ink/5 border border-border/50">
                       <div className="font-semibold text-sm mb-1">{sprint.name}</div>

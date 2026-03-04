@@ -24,11 +24,13 @@ const builderSprintLibrary = {
     { name: "AI Clone Design", decision: "How do I build a digital version of myself?", artifact: "Clone prompt library + voice/tone profile + deployment playbook" },
     { name: "Agentic Workflow Engine", decision: "Which tasks should run on autopilot?", artifact: "3\u20135 autonomous agent workflows + trigger/guardrail config" },
     { name: "Memory & Context Architecture", decision: "How do I make AI remember everything I need it to?", artifact: "Knowledge base structure + retrieval system + update cadence" },
+    { name: "Vibe Code Ideas to MVP", decision: "What can I build myself vs outsource?", artifact: "Working prototype + build-vs-hire decision matrix" },
   ],
   mindMake: [
     { name: "Build vs Buy vs Glue", decision: "Where is AI core vs commodity?", artifact: "Decision memo + investment table" },
     { name: "AI Pricing & Monetization", decision: "How does AI reshape revenue?", artifact: "Monetization framework + SKU structure" },
     { name: "The 3-Person Team Stack", decision: "What\u2019s the minimum AI stack to operate like a team of three?", artifact: "Deployed clone + agent suite + daily workflow documentation" },
+    { name: "AI-Powered GTM", decision: "How do I generate leads without scaling headcount?", artifact: "Deployed lead-gen system + cost-per-lead model" },
   ],
 };
 
@@ -45,12 +47,14 @@ const orchestratorSprintLibrary = {
     { name: "AI Delegation Framework", decision: "What do I hand off to AI and what stays human?", artifact: "Delegation matrix + risk tiers + escalation triggers" },
     { name: "Communication Style Cloning", decision: "How do I get AI to write and speak like us?", artifact: "Brand voice profile + prompt templates + quality rubric" },
     { name: "Institutional Memory Design", decision: "How does our AI retain what the organisation knows?", artifact: "Knowledge architecture + ingestion plan + ownership model" },
+    { name: "Vibe Code Culture Design", decision: "How do I identify and empower my top 10% AI builders?", artifact: "Builder identification criteria + MVP pipeline + innovation cadence" },
   ],
   mindMake: [
     { name: "Vendor Selection Without Regret", decision: "Which vendors do we commit to?", artifact: "Scorecard + shortlist + exit criteria" },
     { name: "12-Month AI Roadmap", decision: "What do we actually do next year?", artifact: "Quarterly milestones + board narrative" },
     { name: "Build vs Buy vs Glue", decision: "Where is AI core vs commodity?", artifact: "Decision memo + investment table" },
     { name: "AI Authority Blueprint", decision: "How do I lead AI conversations with confidence?", artifact: "Executive talking points + board Q&A prep + vendor negotiation playbook" },
+    { name: "AI-Powered GTM Strategy", decision: "How do I do more with less before incumbents do it to me?", artifact: "GTM efficiency model + headcount-to-output benchmarks + competitive response plan" },
   ],
 };
 
@@ -78,8 +82,8 @@ const SprintLibrarySection = ({ library, label }: { library: typeof builderSprin
     <h3 className="text-2xl font-bold">Decision Sprint Library</h3>
     <p className="text-muted-foreground text-sm">
       {label === "Builder"
-        ? "Builder sprints emphasise AI clones, agentic automations, memory structures, and deploying personal systems that make you operate like a team of three."
-        : "Orchestrator sprints emphasise delegation frameworks, communication style cloning, institutional memory, and building the authority to direct AI with confidence."}
+        ? "Builder sprints turn you into a one-person product team. Vibe-code your own websites, ecommerce, and app prototypes. Deploy AI-powered GTM that generates leads without scaling headcount. Leave operating like a team of three."
+        : "Orchestrator sprints give you leverage over AI-driven growth. Identify your top 10% builders and accelerate innovation. Deploy AI-powered GTM to do more with less before incumbents do it to you. Leave with the authority to direct it all."}
     </p>
 
     {(["mindSet", "mindMap", "mindMake"] as const).map((phase) => (

@@ -1,6 +1,29 @@
 # AI MINDMAKER CHANGELOG
 
-**Last Updated:** 2026-02-25
+**Last Updated:** 2026-03-03
+
+---
+
+## Documentation Refresh & SPRINTS.md (2026-03-03)
+
+### New Documentation
+- **Created SPRINTS.md** — Comprehensive sprint guide serving as the single source of truth for:
+  - Full ICP 1 (Builder) profile: titles, company context, nervous decisions, how they talk, sprint fit, transformation outcome
+  - Full ICP 2 (Orchestrator) profile: same depth and structure
+  - Common traits, qualification signals, and anti-ICPs
+  - 4-Week Sprint: four-week emotional arc (Relief → Momentum → Confidence → Calm), full deliverables, ICP-specific examples, 30/90-day outcome tracking
+  - 90-Day Sprint: three-month arc (Mind Set → Mind Map → Mind Make) with week-by-week breakdown across all 12 weeks, full deliverables, ICP-specific examples, 90-day/6-month outcome tracking
+  - Extended Sprint and post-sprint extensions (Leadership Lab, Portfolio Partner)
+  - Sprint comparison table and framework-to-sprint mapping
+
+### Documentation Updates
+- Updated all 15 project-documentation files to 2026-03-03
+- Added SPRINTS.md cross-references to ICP.md, FEATURES.md, OUTCOMES.md, and both README files
+- Updated DESIGN_SYSTEM.md with brand-specific component patterns (CTA buttons, sprint cards, framework journey, media easter eggs)
+- Updated VISUAL_GUIDELINES.md with homepage scroll experience visual spec and media easter egg visual philosophy
+- Marked Q1 2026 roadmap items as completed in FEATURES.md
+- Added decision record in DECISIONS_LOG.md for SPRINTS.md creation
+- Added history entry in HISTORY.md for documentation refresh
 
 ---
 

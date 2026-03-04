@@ -1,6 +1,6 @@
 # Ideal Customer Profile
 
-**Last Updated:** 2026-02-25
+**Last Updated:** 2026-03-03
 
 ---
 
@@ -105,6 +105,14 @@
 - Technical team wanting implementation help
 - Looking for a tool recommendation (we do trade-off analysis, not recommendations)
 - Wants ongoing retainer (we do sprints, then you're independent)
+
+---
+
+---
+
+## Related Documentation
+
+For complete sprint breakdowns by ICP (weekly schedules, deliverables, outcomes), see **[SPRINTS.md](./SPRINTS.md)**.
 
 ---
 

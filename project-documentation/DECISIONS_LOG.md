@@ -1,10 +1,41 @@
 # Decisions Log
 
-**Last Updated:** 2026-02-25
+**Last Updated:** 2026-03-03
 
 ---
 
 ## Brand & Product Decisions
+
+### 2026-03-03: Comprehensive Sprint Documentation (SPRINTS.md)
+
+**Decision:** Create a single authoritative document covering both ICPs in full detail alongside complete sprint breakdowns, deliverables, and outcomes.
+
+**Context:**
+- ICP profiles existed in ICP.md but lacked sprint-specific detail
+- Sprint descriptions existed in FEATURES.md and OUTCOMES.md but were split across files
+- Week-by-week and month-by-month breakdowns were only in CLAUDE.md (implementation guide) and sprint page source code
+- No single document answered "who are the ICPs, what does each sprint look like for them, and what do they get"
+
+**Rationale:**
+- Sales conversations, onboarding, and content creation all need one reference document
+- Builders and Orchestrators have different nervous decisions and different sprint experiences — this needed to be explicit
+- Week-by-week detail builds confidence for prospects evaluating the sprint
+
+**What SPRINTS.md Covers:**
+- Full ICP 1 (Builder) profile: titles, context, nervous decisions, how they talk, sprint fit, transformation
+- Full ICP 2 (Orchestrator) profile: same structure
+- Common traits and qualification signals
+- 4-Week Sprint: four-week arc, deliverables, ICP-specific examples, 30/90-day outcomes
+- 90-Day Sprint: three-month arc with week-by-week breakdown, deliverables, ICP-specific examples, 90-day/6-month outcomes
+- Extended Sprint and post-sprint extensions
+- Sprint comparison table
+- Framework mapping to sprints
+
+**Impact:**
+- Single source of truth for sprint-related content
+- Cross-referenced from ICP.md, FEATURES.md, OUTCOMES.md, and both READMEs
+
+---
 
 ### 2026-02-25: Brand Vision 11/10 — Complete Brand Repositioning
 

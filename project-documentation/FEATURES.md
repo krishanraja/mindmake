@@ -1,6 +1,6 @@
 # Features
 
-**Last Updated:** 2026-02-25
+**Last Updated:** 2026-03-03
 
 ---
 
@@ -64,6 +64,8 @@
 - Builder Dossier (all decisions, systems, learnings)
 
 **Extension Option:** 6-month Extended Sprint (continuation, discussed if relevant)
+
+**Full Sprint Guide:** See **[SPRINTS.md](./SPRINTS.md)** for week-by-week breakdowns, ICP-specific examples, and detailed deliverables.
 
 **Implementation:** `Sprint90Day.tsx`
 
@@ -291,25 +293,28 @@ The homepage is a curated scroll experience with these blocks:
 
 ## Feature Roadmap
 
-### Q1 2026
-- Brand vision 11/10 implementation (in progress)
+### Q1 2026 (Completed)
+- Brand vision 11/10 implementation
 - Sprint detail pages (4-week + 90-day)
 - Framework Journey component
 - Media easter egg components
 - Decision Readiness Diagnostic rebrand
 - Chatbot rebrand to "Ask Mindmaker"
 - Navigation simplification
+- Full sprint documentation (SPRINTS.md)
 
 ### Q2 2026
 - Video/audio content integration (when assets available)
 - Artifact previews on sprint pages
 - Extended Sprint positioning
 - Client portal dashboard
+- First testimonial collection from sprint graduates
 
 ### Q3 2026
 - Community features
 - Template library
 - Advanced analytics
+- Leadership Lab structure formalized
 
 ---
 

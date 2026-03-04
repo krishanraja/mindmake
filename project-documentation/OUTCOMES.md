@@ -1,6 +1,6 @@
 # User Outcomes
 
-**Last Updated:** 2026-02-25
+**Last Updated:** 2026-03-03
 
 ---
 
@@ -149,6 +149,14 @@ Month 3: Direction  (Mind Make) → Measure, document, board-ready narrative
 
 **Pattern 3: "I finally knew..."**
 > "I finally knew what to build versus buy. Krish didn't give me a recommendation. He gave me the framework to decide for myself."
+
+---
+
+---
+
+## Related Documentation
+
+For complete sprint breakdowns with week-by-week detail and ICP-specific examples, see **[SPRINTS.md](./SPRINTS.md)**.
 
 ---
 

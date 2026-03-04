@@ -1,6 +1,6 @@
 # Visual Guidelines
 
-**Last Updated:** 2026-01-08
+**Last Updated:** 2026-03-03
 
 ---
 
@@ -412,6 +412,47 @@ Gaps:            gap-4 -> gap-6
   height: calc(100dvh - var(--navbar-height)) !important;
 }
 ```
+
+---
+
+---
+
+## Brand Vision 11/10 Visual Patterns
+
+### Homepage Scroll Experience (7 Blocks)
+
+The homepage is a curated vertical scroll with these visual sections:
+
+| Block | Component | Visual Treatment |
+|-------|-----------|-----------------|
+| 1. Hero | `NewHero.tsx` | Full-viewport, dark ink background, particle animation, rotating nervous decisions, mint CTA |
+| 2. Framework Journey | `FrameworkJourney.tsx` | Three glass-card panels (Mind Set → Mind Map → Mind Make) with scroll-triggered animations |
+| 3. Who Is This For | `TheProblem.tsx` | Builder vs Orchestrator fork — two-column glass cards with video panels |
+| 4. Sprint Chooser | `ProductLadder.tsx` | 2-card grid (4-Week vs 90-Day), glass-card with mint accents |
+| 5. Trust Anchor | `TrustSection.tsx` | Krish headshot (circular, mint border), bio, stats, testimonials |
+| 6. News Ticker | `AINewsTicker.tsx` | Horizontal scroll, SIGNAL/NOISE/DECISION/TAKE color-coded badges |
+| 7. Final CTA | `SimpleCTA.tsx` | Dark CTA card, "You've been pitched enough.", mint button |
+
+### Media Easter Eggs — Visual Philosophy
+
+Media is **discoverable**, not primary content. Users who explore get rewarded with richer content.
+
+**VideoDrawer:** Slide-out from right edge, spring animation, dark overlay (bg-ink/90), close button top-right. Trigger: click (default) or hover.
+
+**AudioPlayer:** Compact pill shape (60px collapsed → expanded with title). Fixed bottom-right or inline. Mint play button, glass-card background.
+
+**ArtifactPreview:** Glass card with file icon, hover reveals image preview below. Click opens full-screen modal with dark overlay (bg-ink/95).
+
+**ExpandableQuote:** Glass card with Quote icon (mint). Short quote on load, full quote on click. "Click to read more" hint in mint.
+
+### Sprint Detail Pages — Visual Structure
+
+Both sprint detail pages follow the same layout:
+1. Full-width header with title + tagline (mint accent)
+2. Glass-card arc section (weeks or months with numbered circles)
+3. Example nervous decisions grid (2-column, bg-ink/5 cards with CheckCircle icons)
+4. "What You Get" glass-card with CheckCircle list
+5. Bottom CTA glass-card with "What's your nervous decision?" button
 
 ---
 

@@ -1,6 +1,6 @@
 # Mindmaker Project Documentation
 
-**Last Updated:** 2026-02-25
+**Last Updated:** 2026-03-03
 
 ---
 
@@ -21,6 +21,7 @@ This directory contains comprehensive documentation for the Mindmaker platform �
 | [BRANDING.md](./BRANDING.md) | Brand voice, tone, copy guidelines, terminology |
 | [VALUE_PROP.md](./VALUE_PROP.md) | Value propositions, positioning, objection handling |
 | [ICP.md](./ICP.md) | Ideal Customer Profiles (Builder + Orchestrator) |
+| [SPRINTS.md](./SPRINTS.md) | Full sprint guide — ICPs, weekly breakdowns, deliverables, outcomes |
 | [PURPOSE.md](./PURPOSE.md) | Mission, vision, anti-goals |
 | [OUTCOMES.md](./OUTCOMES.md) | User outcomes for each sprint and diagnostic |
 | [DEPLOYMENT.md](./DEPLOYMENT.md) | Pre-deploy/post-deploy checklists, environment setup |
@@ -39,7 +40,8 @@ This directory contains comprehensive documentation for the Mindmaker platform �
 1. **[BRANDING.md](./BRANDING.md)** — Voice, tone, word choices, terminology standards
 2. **[VALUE_PROP.md](./VALUE_PROP.md)** — Positioning, objection handling, competitive analysis
 3. **[ICP.md](./ICP.md)** — Builder vs Orchestrator profiles, qualification signals
-4. **[PURPOSE.md](./PURPOSE.md)** — Mission, vision, anti-goals
+4. **[SPRINTS.md](./SPRINTS.md)** — Full sprint guide with ICP context, weekly breakdowns, and outcomes
+5. **[PURPOSE.md](./PURPOSE.md)** — Mission, vision, anti-goals
 
 ### For Development
 1. **[ARCHITECTURE.md](./ARCHITECTURE.md)** — Tech stack, routes, data flows

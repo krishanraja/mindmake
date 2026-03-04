@@ -1,6 +1,6 @@
 # Mindmaker — The Anti-Consultancy for AI Decisions
 
-**Last Updated:** 2026-02-25
+**Last Updated:** 2026-03-03
 
 ---
 
@@ -169,6 +169,7 @@ Full documentation available in `/project-documentation/`:
 - **[BRANDING.md](./project-documentation/BRANDING.md)** - Brand voice and tone
 - **[VALUE_PROP.md](./project-documentation/VALUE_PROP.md)** - Value propositions
 - **[ICP.md](./project-documentation/ICP.md)** - Ideal Customer Profiles
+- **[SPRINTS.md](./project-documentation/SPRINTS.md)** - Full sprint guide (ICPs, breakdowns, outcomes)
 - **[COMMON_ISSUES.md](./project-documentation/COMMON_ISSUES.md)** - Known issues & solutions
 - **[HISTORY.md](./project-documentation/HISTORY.md)** - Change history
 - **[DECISIONS_LOG.md](./project-documentation/DECISIONS_LOG.md)** - Design decisions

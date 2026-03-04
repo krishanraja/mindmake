@@ -1,6 +1,31 @@
 # History
 
-**Last Updated:** 2026-02-25
+**Last Updated:** 2026-03-03
+
+---
+
+## 2026-03-03: Documentation Refresh & SPRINTS.md
+
+**What Changed:**
+- Created SPRINTS.md — comprehensive sprint guide with full ICP profiles, week-by-week breakdowns, deliverables, and outcomes for both 4-Week and 90-Day sprints
+- Updated all project documentation dates to 2026-03-03
+- Added SPRINTS.md references to README, ICP, FEATURES, OUTCOMES, and documentation index
+- Updated DESIGN_SYSTEM.md with brand-specific component patterns (CTA buttons, sprint cards, media easter eggs)
+- Updated VISUAL_GUIDELINES.md with homepage scroll experience visual spec and media easter egg visual philosophy
+- Marked Q1 2026 roadmap items as completed in FEATURES.md
+
+**Why:**
+- Sprint documentation needed a single, authoritative source with full detail for both ICPs
+- Week-by-week breakdowns were described in CLAUDE.md implementation guide but not in standalone documentation
+- Design system and visual guidelines were behind on brand vision 11/10 patterns
+
+**Files Created:**
+- `project-documentation/SPRINTS.md`
+
+**Files Updated:**
+- All 15 project-documentation files (dates and cross-references)
+- Root `README.md`
+- `CHANGELOG.md`
 
 ---
 

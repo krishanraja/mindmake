@@ -1,6 +1,6 @@
 # Design System
 
-**Last Updated:** 2026-01-08
+**Last Updated:** 2026-03-03
 
 ---
 
@@ -443,6 +443,50 @@ On white/light backgrounds, always use `text-foreground`, `text-ink`, or `text-m
 ```css
 .voice-wave-bar { /* Staggered height animation */ }
 ```
+
+---
+
+---
+
+## Brand-Specific Patterns
+
+### CTA Buttons (Primary)
+```tsx
+<Button
+  size="lg"
+  className="bg-mint text-ink hover:bg-mint/90 font-semibold px-8 py-6 text-lg"
+  onClick={() => setConsultModalOpen(true)}
+>
+  What's your nervous decision?
+</Button>
+```
+
+### Sprint Cards (2-Card Layout)
+```tsx
+<div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+  <div className="glass-card p-8 hover:border-mint/40 transition-all">
+    <h3 className="text-3xl font-bold mb-2">4-Week Sprint</h3>
+    <p className="text-xl text-mint">One decision. Four weeks. Board-ready.</p>
+  </div>
+  <div className="glass-card p-8 hover:border-mint/40 transition-all">
+    <h3 className="text-3xl font-bold mb-2">90-Day Sprint</h3>
+    <p className="text-xl text-mint">Mind Set → Mind Map → Mind Make.</p>
+  </div>
+</div>
+```
+
+### Framework Journey (Mind Set → Mind Map → Mind Make)
+Three-panel layout with scroll-triggered animations. Each panel uses `glass-card` with animated content inside. See `FrameworkJourney.tsx`.
+
+### Builder/Orchestrator Fork
+Two-column layout on desktop, stacked on mobile. Glass cards with distinct copy for each ICP. See `TheProblem.tsx`.
+
+### Media Easter Eggs
+Discoverable components, not main content:
+- `VideoDrawer`: Slide-out video player (Framer Motion spring animation)
+- `AudioPlayer`: Expandable audio with play/pause (fixed or inline positioning)
+- `ArtifactPreview`: Hover-to-reveal with full-view modal
+- `ExpandableQuote`: Click-to-expand testimonial quotes
 
 ---
 

@@ -1,8 +1,17 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { SessionDataProvider, useSessionData } from "@/contexts/SessionDataContext";
 import { useState, useEffect } from "react";
+
+// Scroll to top on route change
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
 import { InitialConsultModal } from "@/components/InitialConsultModal";
 import { ActionsHub } from "@/components/ActionsHub";
 import { Dialog, DialogWizardContent } from "@/components/ui/dialog";
@@ -77,6 +86,7 @@ const AppRoutes = () => {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/individual" element={<Navigate to="/" replace />} />

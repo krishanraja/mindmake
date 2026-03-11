@@ -82,11 +82,11 @@ const SimpleCTA = () => {
 
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold px-10 sm:px-14 py-7 text-lg shadow-lg shadow-mint/25 hover:shadow-xl hover:shadow-mint/30 transition-all duration-300 hover:-translate-y-0.5 touch-target group"
+                className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold px-6 sm:px-14 py-7 text-base sm:text-lg shadow-lg shadow-mint/25 hover:shadow-xl hover:shadow-mint/30 transition-all duration-300 hover:-translate-y-0.5 touch-target group w-full sm:w-auto whitespace-normal"
                 onClick={() => setConsultModalOpen(true)}
               >
                 What's your nervous decision?
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="ml-2 h-5 w-5 shrink-0 group-hover:translate-x-1 transition-transform" />
               </Button>
 
               <p className="text-sm text-white/40 dark:text-muted-foreground mt-6">

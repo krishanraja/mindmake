@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
-import { Wrench, Compass, CheckCircle, ArrowRight, ArrowDown, Square, CheckSquare } from "lucide-react";
+import { Wrench, Compass, CheckCircle, ArrowRight, ArrowDown, Square, CheckSquare, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { InitialConsultModal } from "@/components/InitialConsultModal";
@@ -100,14 +100,16 @@ const CheckboxRow = ({
   label,
   checked,
   onChange,
+  compact = false,
 }: {
   label: string;
   checked: boolean;
   onChange: () => void;
+  compact?: boolean;
 }) => (
   <button
     onClick={onChange}
-    className={`w-full flex items-start gap-3 p-3 rounded-lg text-left transition-all min-h-[48px] ${
+    className={`w-full flex items-start gap-3 ${compact ? 'p-2.5' : 'p-3'} rounded-lg text-left transition-all min-h-[44px] ${
       checked
         ? "bg-ink/[0.06] dark:bg-mint/[0.08] border border-ink/20 dark:border-mint/30"
         : "bg-transparent border border-border/30 hover:border-ink/20 dark:hover:border-mint/20"
@@ -129,11 +131,13 @@ const PathCard = ({
   isSelected,
   isOtherSelected,
   onSelect,
+  isMobile = false,
 }: {
   type: "build" | "orchestrate";
   isSelected: boolean;
   isOtherSelected: boolean;
   onSelect: () => void;
+  isMobile?: boolean;
 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
@@ -160,7 +164,7 @@ const PathCard = ({
   return (
     <motion.div
       ref={ref}
-      className={`p-8 rounded-2xl border transition-all ${
+      className={`${isMobile ? 'p-5' : 'p-8'} rounded-2xl border transition-all ${
         isSelected
           ? "border-ink dark:border-mint bg-ink/[0.03] dark:bg-mint/[0.03] ring-1 ring-ink/10 dark:ring-mint/20"
           : isOtherSelected
@@ -178,10 +182,10 @@ const PathCard = ({
         <h3 className="text-xl font-bold">{isBuilder ? "The Builder" : "The Orchestrator"}</h3>
       </div>
 
-      <p className="text-lg font-medium mb-5">{headline}</p>
+      <p className={`text-lg font-medium ${isMobile ? 'mb-3' : 'mb-5'}`}>{headline}</p>
 
       {/* Interactive checkboxes */}
-      <div className="space-y-2 mb-6">
+      <div className={`${isMobile ? 'space-y-1.5 mb-4' : 'space-y-2 mb-6'}`}>
         <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
           Check all that apply to you:
         </p>
@@ -191,22 +195,40 @@ const PathCard = ({
             label={trait}
             checked={checkedItems[i]}
             onChange={() => toggleCheck(i)}
+            compact={isMobile}
           />
         ))}
       </div>
 
       {/* Criteria bars */}
-      <div className="space-y-3 mb-6 pt-4 border-t border-border/30">
-        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
-          {isBuilder ? "What you gain" : "What you gain"}
-        </p>
-        {criteria.map((c, i) => (
-          <div key={c.label} className="flex items-center gap-3">
-            <span className="text-xs text-muted-foreground w-28 shrink-0">{c.label}</span>
-            <AnimatedBar value={c.value} delay={i * 0.12} isVisible={isInView} />
+      {isMobile ? (
+        <details className="mb-4 pt-3 border-t border-border/30 group">
+          <summary className="text-xs font-medium text-muted-foreground uppercase tracking-wider cursor-pointer list-none flex items-center justify-between">
+            What you gain
+            <ChevronDown className="w-4 h-4 transition-transform group-open:rotate-180" />
+          </summary>
+          <div className="space-y-2.5 mt-3">
+            {criteria.map((c, i) => (
+              <div key={c.label} className="flex items-center gap-3">
+                <span className="text-xs text-muted-foreground w-28 shrink-0">{c.label}</span>
+                <AnimatedBar value={c.value} delay={i * 0.12} isVisible={isInView} />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </details>
+      ) : (
+        <div className="space-y-3 mb-6 pt-4 border-t border-border/30">
+          <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
+            What you gain
+          </p>
+          {criteria.map((c, i) => (
+            <div key={c.label} className="flex items-center gap-3">
+              <span className="text-xs text-muted-foreground w-28 shrink-0">{c.label}</span>
+              <AnimatedBar value={c.value} delay={i * 0.12} isVisible={isInView} />
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* CTA -- enabled only when all checked */}
       {!isSelected && !isOtherSelected && (
@@ -311,17 +333,8 @@ const TheProblem = () => {
   const [bookingCommitment, setBookingCommitment] = useState<string | undefined>();
   const isMobile = useIsMobile();
 
-  // Path cards carousel state (mobile)
-  const [pathCarouselApi, setPathCarouselApi] = useState<CarouselApi>();
-  const [pathSlide, setPathSlide] = useState(0);
-
-  useEffect(() => {
-    if (!pathCarouselApi) return;
-    setPathSlide(pathCarouselApi.selectedScrollSnap());
-    pathCarouselApi.on("select", () => {
-      setPathSlide(pathCarouselApi.selectedScrollSnap());
-    });
-  }, [pathCarouselApi]);
+  // Tab state for mobile path selection
+  const [activeTab, setActiveTab] = useState<"build" | "orchestrate">("build");
 
   // Sprint cards carousel state (mobile)
   const [sprintCarouselApi, setSprintCarouselApi] = useState<CarouselApi>();
@@ -383,49 +396,41 @@ const TheProblem = () => {
 
           {isMobile ? (
             <>
-              <Carousel
-                setApi={setPathCarouselApi}
-                opts={{
-                  align: "start",
-                  loop: false,
-                  dragFree: false,
-                  containScroll: "trimSnaps",
-                }}
-                orientation="horizontal"
-                className="w-full max-w-5xl mx-auto"
-              >
-                <CarouselContent className="-ml-3">
-                  <CarouselItem className="pl-3 basis-[88%]">
-                    <PathCard
-                      type="build"
-                      isSelected={selectedPath === "build"}
-                      isOtherSelected={selectedPath === "orchestrate"}
-                      onSelect={() => setSelectedPath("build")}
-                    />
-                  </CarouselItem>
-                  <CarouselItem className="pl-3 basis-[88%]">
-                    <PathCard
-                      type="orchestrate"
-                      isSelected={selectedPath === "orchestrate"}
-                      isOtherSelected={selectedPath === "build"}
-                      onSelect={() => setSelectedPath("orchestrate")}
-                    />
-                  </CarouselItem>
-                </CarouselContent>
-              </Carousel>
+              {/* Segmented tab control */}
+              <div className="flex max-w-sm mx-auto mb-4 rounded-xl bg-ink/[0.04] dark:bg-white/[0.06] p-1">
+                <button
+                  onClick={() => setActiveTab("build")}
+                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-all ${
+                    activeTab === "build"
+                      ? "bg-background shadow-sm text-foreground"
+                      : "text-muted-foreground"
+                  }`}
+                >
+                  <Wrench className="w-4 h-4" />
+                  Builder
+                </button>
+                <button
+                  onClick={() => setActiveTab("orchestrate")}
+                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-all ${
+                    activeTab === "orchestrate"
+                      ? "bg-background shadow-sm text-foreground"
+                      : "text-muted-foreground"
+                  }`}
+                >
+                  <Compass className="w-4 h-4" />
+                  Orchestrator
+                </button>
+              </div>
 
-              {/* Dot indicators */}
-              <div className="flex justify-center gap-2 mt-4">
-                {[0, 1].map((index) => (
-                  <button
-                    key={index}
-                    onClick={() => pathCarouselApi?.scrollTo(index)}
-                    className={`h-2 rounded-full transition-all duration-200 ${
-                      pathSlide === index ? "w-6 bg-mint" : "w-2 bg-muted-foreground/30"
-                    }`}
-                    aria-label={`Go to ${index === 0 ? "Builder" : "Orchestrator"} card`}
-                  />
-                ))}
+              {/* Single card based on active tab */}
+              <div className="max-w-sm mx-auto">
+                <PathCard
+                  type={activeTab}
+                  isSelected={selectedPath === activeTab}
+                  isOtherSelected={selectedPath !== null && selectedPath !== activeTab}
+                  onSelect={() => setSelectedPath(activeTab)}
+                  isMobile={true}
+                />
               </div>
             </>
           ) : (

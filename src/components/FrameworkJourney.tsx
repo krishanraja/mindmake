@@ -129,13 +129,13 @@ const FrameworkJourney = () => {
   }, [isMobile, carouselApi]);
 
   const cards = [
-    <Card key={0} index={0} spotlight={spotlight} isMobile={isMobile} icon={Target} label="MindSet" headline="Filter the noise.">
+    <Card key={0} index={0} spotlight={spotlight} isMobile={isMobile} isActive={isMobile && currentSlide === 0} icon={Target} label="MindSet" headline="Filter the noise.">
       <MindSetContent />
     </Card>,
-    <Card key={1} index={1} spotlight={spotlight} isMobile={isMobile} icon={Zap} label="MindMap" headline="Build your systems.">
+    <Card key={1} index={1} spotlight={spotlight} isMobile={isMobile} isActive={isMobile && currentSlide === 1} icon={Zap} label="MindMap" headline="Build your systems.">
       <MindMapContent />
     </Card>,
-    <Card key={2} index={2} spotlight={spotlight} isMobile={isMobile} icon={FileCheck} label="MindMake" headline="Decide and ship.">
+    <Card key={2} index={2} spotlight={spotlight} isMobile={isMobile} isActive={isMobile && currentSlide === 2} icon={FileCheck} label="MindMake" headline="Decide and ship.">
       <MindMakeContent />
     </Card>,
   ];
@@ -228,6 +228,7 @@ const Card = ({
   index,
   spotlight,
   isMobile,
+  isActive,
   icon: Icon,
   label,
   headline,
@@ -236,6 +237,7 @@ const Card = ({
   index: number;
   spotlight: any;
   isMobile: boolean;
+  isActive: boolean;
   icon: any;
   label: string;
   headline: string;
@@ -258,7 +260,7 @@ const Card = ({
     return Math.max(0, 1 - dist * 2) * 0.35;
   });
 
-  // Resolve final opacity: hover > mobile-inView > desktop-spotlight
+  // Resolve final opacity: hover > mobile-active > desktop-spotlight
   const resolvedOpacity = isHovered ? 1 : isMobile ? undefined : cardOpacity;
 
   return (
@@ -266,8 +268,8 @@ const Card = ({
       ref={cardRef}
       className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 flex flex-col h-[420px] relative overflow-hidden transition-opacity duration-300"
       style={{ opacity: resolvedOpacity }}
-      // Mobile: CSS-driven fade-in via class toggle (no motion value needed)
-      {...(isMobile && !isHovered ? { animate: { opacity: inView ? 1 : 0.15 }, transition: { duration: 0.5 } } : {})}
+      // Mobile: active card is fully lit, others dim
+      {...(isMobile && !isHovered ? { animate: { opacity: isActive ? 1 : (inView ? 0.4 : 0.15) }, transition: { duration: 0.35 } } : {})}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -275,7 +277,7 @@ const Card = ({
       <motion.div
         className="absolute inset-0 rounded-2xl pointer-events-none"
         style={{
-          opacity: isHovered ? 0.35 : isMobile ? (inView ? 0.25 : 0) : glowOpacity,
+          opacity: isHovered ? 0.35 : isMobile ? (isActive ? 0.35 : (inView ? 0.1 : 0)) : glowOpacity,
           background: "radial-gradient(ellipse at center, rgba(126, 244, 194, 0.15) 0%, transparent 70%)",
           boxShadow: "0 0 80px rgba(126, 244, 194, 0.08)",
         }}

@@ -211,8 +211,8 @@ const BigProblem = () => {
         </span>
       </motion.p>
 
-      {/* CTA Button — desktop only (on mobile, the peel tab handles this) */}
-      {!isMobile && (
+      {/* CTA Button — different treatment per platform */}
+      {!isMobile ? (
         <motion.div
           className="flex justify-center py-8 md:py-10"
           initial={{ opacity: 0, y: 12 }}
@@ -232,6 +232,31 @@ const BigProblem = () => {
               Here&rsquo;s how you pick up the pen
               <ArrowRight className="w-5 h-5 text-mint group-hover:translate-x-1 transition-transform" />
             </span>
+          </button>
+        </motion.div>
+      ) : (
+        <motion.div
+          className="flex justify-center py-6"
+          initial={{ opacity: 0, y: 12 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+          transition={{ duration: 0.4, delay: 0.6, ease }}
+        >
+          <button
+            onClick={() => animateToComplete()}
+            className={`group flex items-center gap-3 px-6 py-3 rounded-full border
+                       font-semibold text-base cursor-pointer transition-colors
+                       ${isMint
+                         ? "border-mint/50 text-mint"
+                         : "border-mint/30 text-white active:bg-mint/10"
+                       }`}
+          >
+            <span>Here&rsquo;s how you pick up the pen</span>
+            <motion.span
+              animate={{ x: [0, -4, 0] }}
+              transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 2, ease: "easeInOut" }}
+            >
+              <ChevronLeft className="w-5 h-5 text-mint" />
+            </motion.span>
           </button>
         </motion.div>
       )}
@@ -379,20 +404,30 @@ const BigProblem = () => {
             transition={{ type: "spring", stiffness: 300, damping: 25, delay: 0.3 }}
           >
             <motion.div
-              className="flex items-center justify-center w-10 h-24
-                         rounded-l-xl border-l border-y border-mint/40
+              className="flex flex-col items-center justify-center w-12 h-32
+                         rounded-l-xl border-l border-y border-mint/60
                          bg-ink/90 backdrop-blur-md cursor-grab active:cursor-grabbing
-                         shadow-[0_0_16px_rgba(126,244,194,0.15)]"
+                         shadow-[0_0_20px_rgba(126,244,194,0.25)]"
               style={{ touchAction: "pan-y" }}
               onPanStart={() => { isPeelingRef.current = true; }}
               onPan={handlePan}
               onPanEnd={handlePanEnd}
               onClick={() => animateToComplete()}
-              animate={{ x: [0, -5, 0] }}
-              transition={{ duration: 1.8, repeat: Infinity, repeatDelay: 3, ease: "easeInOut" }}
+              animate={{
+                x: [0, -10, 0],
+                boxShadow: [
+                  "0 0 16px rgba(126,244,194,0.2)",
+                  "0 0 28px rgba(126,244,194,0.45)",
+                  "0 0 16px rgba(126,244,194,0.2)",
+                ],
+              }}
+              transition={{ duration: 2, repeat: Infinity, repeatDelay: 2.5, ease: "easeInOut" }}
               aria-label="Drag left or tap to reveal"
             >
               <ChevronLeft className="w-5 h-5 text-mint" />
+              <span className="text-[10px] font-semibold tracking-widest uppercase text-mint/80 [writing-mode:vertical-rl] mt-1">
+                Reveal
+              </span>
             </motion.div>
           </motion.div>
         )}

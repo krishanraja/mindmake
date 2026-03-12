@@ -27,7 +27,7 @@ const WhoThisIsFor = () => {
             For commercial leaders (not technical ones) who accept what's coming: we won't delegate the future to others, but to systems. The best leaders will use AI to build systems and lead from the front.
           </p>
           <p className="text-sm sm:text-base font-semibold text-foreground mb-8 sm:mb-12">
-            All paths lead to one outcome: confidently boss the boardroom—something you cannot do right now.
+            All paths lead to one outcome: confidently own the boardroom conversation on AI.
           </p>
 
           {/* Three ICPs */}
@@ -47,7 +47,7 @@ const WhoThisIsFor = () => {
             <div className="minimal-card p-4 sm:p-5">
               <h4 className="font-bold text-sm text-mint-dark mb-2">TEAMS NEEDING TRANSFORMATION</h4>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Your team isn't aligned or confident enough to undergo transformation. You're being pitched by OpenAI or consultants but need to sharpen communal AI literacy first—before wasting your one bullet for future-proofing.
+                Your team isn't aligned or confident enough to undergo transformation. You're being pitched by OpenAI or consultants but need to sharpen communal AI literacy first—so you invest your transformation budget with confidence.
               </p>
             </div>
           </div>

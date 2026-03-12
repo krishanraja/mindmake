@@ -6,9 +6,9 @@ import { useIsMobile } from "@/hooks/use-mobile";
 /* ─── Card data ─── */
 
 const categories = [
-  { icon: Crown, strong: "Orchestrate AI.", contrast: "...or get orchestrated by it.", delay: 0.15 },
-  { icon: Brain, strong: "Extend your thinking.", contrast: "...or let AI replace it.", delay: 0.25 },
-  { icon: Zap, strong: "Accelerate.", contrast: "...or get flattened by those who did.", delay: 0.35 },
+  { icon: Crown, strong: "Orchestrate AI.", contrast: "...and set the pace.", delay: 0.15 },
+  { icon: Brain, strong: "Extend your thinking.", contrast: "...and multiply your edge.", delay: 0.25 },
+  { icon: Zap, strong: "Accelerate.", contrast: "...before the window closes.", delay: 0.35 },
 ];
 
 const valueProps = [
@@ -189,7 +189,7 @@ const BigProblem = () => {
         })}
       </div>
 
-      {/* Bridge: "It's a mindset one." */}
+      {/* Bridge: "It's a leadership one." */}
       <motion.p
         className={`${base} ${isMint ? "text-mint" : "text-white/90"}`}
         {...fade(0.5)}
@@ -201,7 +201,7 @@ const BigProblem = () => {
           transition={glowTransition}
           style={!isMint ? { textShadow: "0 0 60px hsl(158 82% 73% / 0.3)" } : undefined}
         >
-          It&rsquo;s a mindset one.
+          It&rsquo;s a leadership one.
         </motion.span>{" "}
         <span className="font-light">
           The question isn&rsquo;t whether AI will reshape your business.

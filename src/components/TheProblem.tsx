@@ -53,6 +53,7 @@ const builderSprints = [
     tagline: "One decision. Four weeks. Board-ready.",
     description: "Pick one nervous decision and resolve it with a working prototype and board-ready memo.",
     emphasis: ["Working prototype or system", "Tool commitment hierarchy", "Build-ready decision memo"],
+    focusLabel: "Builder focus",
     route: "/sprint/4-week",
     commitment: "4wk",
   },
@@ -60,7 +61,8 @@ const builderSprints = [
     name: "90-Day Concierge Sprint",
     tagline: "Full journey. MindSet \u2192 MindMap \u2192 MindMake.",
     description: "Build 3\u20135 personal AI systems, resolve 2\u20133 strategic decisions, and leave with a 12-month roadmap.",
-    emphasis: ["3\u20135 deployed AI systems", "Personal System Architecture", "Strength Amplifier + Builder Dossier"],
+    emphasis: ["3\u20135 deployed AI systems", "Personal System Architecture", "Strength Amplifier + Dossier"],
+    focusLabel: "Orchestrator focus",
     route: "/sprint/90-day",
     commitment: "90d",
   },
@@ -72,6 +74,7 @@ const orchestratorSprints = [
     tagline: "One decision. Four weeks. Board-ready.",
     description: "Pick one nervous decision and resolve it with a defensible trade-off analysis and board memo.",
     emphasis: ["Vendor evaluation scorecard", "Governance decision memo", "Board-ready narrative"],
+    focusLabel: "Builder focus",
     route: "/sprint/4-week",
     commitment: "4wk",
   },
@@ -80,6 +83,7 @@ const orchestratorSprints = [
     tagline: "Full journey. MindSet \u2192 MindMap \u2192 MindMake.",
     description: "Set your AI operating model, resolve 2\u20133 vendor/governance decisions, and build a board-ready roadmap.",
     emphasis: ["AI Operating Model + RACI", "Strategic vendor decisions resolved", "12-month roadmap with quarterly gates"],
+    focusLabel: "Orchestrator focus",
     route: "/sprint/90-day",
     commitment: "90d",
   },
@@ -294,7 +298,7 @@ const SprintCard = ({
 
       <div className="mb-6">
         <h5 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">
-          {pathType === "build" ? "Builder focus" : "Orchestrator focus"}
+          {sprint.focusLabel}
         </h5>
         <ul className="space-y-1.5">
           {sprint.emphasis.map((item, i) => (

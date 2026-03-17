@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
@@ -7,7 +7,8 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, ArrowRight, ChevronLeft, Hammer, Compass, Zap, Calendar } from "lucide-react";
+import { Loader2, ArrowRight, ChevronLeft, Hammer, Compass, Zap, Calendar, CheckCircle, CalendarDays } from "lucide-react";
+import krishHeadshot from "@/assets/krish-headshot.png";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useSessionData } from "@/contexts/SessionDataContext";
 import { openCalendlyPopup } from "@/utils/calendly";
@@ -83,6 +84,74 @@ const MobileStepDots = ({
   </div>
 );
 
+const ThankYouScreen = ({
+  firstName,
+  onBookTime,
+}: {
+  firstName: string;
+  onBookTime: () => void;
+}) => (
+  <div className="flex flex-col items-center justify-center py-8 px-4 text-center">
+    <motion.div
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      transition={{ type: "spring", stiffness: 200, damping: 15 }}
+    >
+      <CheckCircle className="w-16 h-16 text-mint mb-6" />
+    </motion.div>
+
+    <motion.h2
+      className="text-2xl font-bold mb-2"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.2, duration: 0.4 }}
+    >
+      Thank you, {firstName}!
+    </motion.h2>
+
+    <motion.p
+      className="text-lg text-muted-foreground mb-8"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.35, duration: 0.4 }}
+    >
+      I'll be in touch ASAP.
+    </motion.p>
+
+    <motion.div
+      className="flex flex-col items-center gap-2 mb-8"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.5, duration: 0.4 }}
+    >
+      <img
+        src={krishHeadshot}
+        alt="Krish Raja"
+        className="w-16 h-16 rounded-full border-2 border-mint/20"
+      />
+      <span className="text-sm font-medium">Krish Raja</span>
+    </motion.div>
+
+    <motion.div
+      className="w-full space-y-3"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.7, duration: 0.4 }}
+    >
+      <Button
+        className="w-full bg-mint text-ink hover:bg-mint/90 font-semibold text-base py-6"
+        onClick={onBookTime}
+      >
+        <CalendarDays className="mr-2 h-5 w-5" />
+        Book a time now
+      </Button>
+      <p className="text-sm text-muted-foreground">
+        Or just sit tight — I'll reach out to you directly.
+      </p>
+    </motion.div>
+  </div>
+);
+
 // ---------------------------------------------------------------------------
 // Main component
 // ---------------------------------------------------------------------------
@@ -113,9 +182,13 @@ export const InitialConsultModal = ({
   const [emailError, setEmailError] = useState<string | null>(null);
   const [mobileStep, setMobileStep] = useState(0);
   const [slideDirection, setSlideDirection] = useState<1 | -1>(1);
+  const [showThankYou, setShowThankYou] = useState(false);
   const { toast } = useToast();
   const isMobile = useIsMobile();
   const { sessionData } = useSessionData();
+  const contactFormRef = useRef<HTMLFormElement>(null);
+
+  const firstName = name.split(" ")[0] || "friend";
 
   // Get qualification data from context or props (props take precedence)
   const qualificationData = sessionData?.qualificationData;
@@ -129,6 +202,8 @@ export const InitialConsultModal = ({
   if (!effectivePreselectedProgram) mobileSteps.push("path");
   if (!effectiveCommitmentLevel) mobileSteps.push("commitment");
   mobileSteps.push("contact");
+
+  const currentStepId = mobileSteps[mobileStep] as StepId | undefined;
 
   // Auto-populate from props or context when modal opens
   useEffect(() => {
@@ -150,6 +225,7 @@ export const InitialConsultModal = ({
       setSelectedPath("");
       setSelectedCommitment("");
       setEmailError(null);
+      setShowThankYou(false);
       setMobileStep(0);
       setSlideDirection(1);
     }
@@ -167,6 +243,43 @@ export const InitialConsultModal = ({
       });
     }
   }, []);
+
+  // Mobile keyboard fix: scroll focused input into view
+  useEffect(() => {
+    if (!isMobile || currentStepId !== "contact") return;
+
+    const handleFocusIn = (e: FocusEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.tagName === "INPUT" || target.tagName === "TEXTAREA") {
+        setTimeout(() => {
+          target.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 350);
+      }
+    };
+
+    const formEl = contactFormRef.current;
+    formEl?.addEventListener("focusin", handleFocusIn);
+    return () => formEl?.removeEventListener("focusin", handleFocusIn);
+  }, [isMobile, currentStepId]);
+
+  // Mobile keyboard fix: dynamic padding via visualViewport
+  useEffect(() => {
+    if (!isMobile || currentStepId !== "contact") return;
+
+    const viewport = window.visualViewport;
+    if (!viewport) return;
+
+    const handleResize = () => {
+      const keyboardHeight = window.innerHeight - viewport.height;
+      if (contactFormRef.current) {
+        contactFormRef.current.style.paddingBottom =
+          keyboardHeight > 100 ? `${keyboardHeight + 20}px` : "";
+      }
+    };
+
+    viewport.addEventListener("resize", handleResize);
+    return () => viewport.removeEventListener("resize", handleResize);
+  }, [isMobile, currentStepId]);
 
   const pathOptions = [
     {
@@ -200,6 +313,29 @@ export const InitialConsultModal = ({
       setMobileStep((s) => s - 1);
     }
   }, [mobileStep]);
+
+  // Open Calendly from the thank-you screen
+  const handleBookTime = useCallback(async () => {
+    const programValue = effectivePreselectedProgram || selectedPath || 'not-sure';
+    const finalCommitmentLevel = effectiveCommitmentLevel || selectedCommitment;
+    try {
+      await openCalendlyPopup({
+        name,
+        email,
+        source: 'initial-consult',
+        preselectedProgram: programValue,
+        commitmentLevel: finalCommitmentLevel,
+      });
+    } catch (calendlyError) {
+      console.error('Calendly error:', calendlyError);
+      toast({
+        title: "Booking Error",
+        description: "Could not open booking page. Please try again or contact support.",
+        variant: "destructive",
+      });
+    }
+    onOpenChange(false);
+  }, [name, email, effectivePreselectedProgram, selectedPath, effectiveCommitmentLevel, selectedCommitment, onOpenChange, toast]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -330,29 +466,10 @@ export const InitialConsultModal = ({
         return;
       }
 
-      // Email succeeded - proceed to Calendly
-      try {
-        await openCalendlyPopup({
-          name,
-          email,
-          source: 'initial-consult',
-          preselectedProgram: programValue,
-          commitmentLevel: finalCommitmentLevel,
-        });
-
-        onOpenChange(false);
-        toast({
-          title: "Opening Calendly",
-          description: "Booking your consultation...",
-        });
-      } catch (calendlyError) {
-        console.error('Calendly error:', calendlyError);
-        toast({
-          title: "Booking Error",
-          description: "Could not open booking page. Please try again or contact support.",
-          variant: "destructive",
-        });
-      }
+      // Email succeeded - show thank-you screen (user can optionally book via Calendly)
+      setShowThankYou(true);
+      setIsLoading(false);
+      return;
 
     } catch (error) {
       console.error('Error creating checkout:', error);
@@ -534,8 +651,6 @@ export const InitialConsultModal = ({
   // Mobile wizard flow
   // -------------------------------------------------------------------------
 
-  const currentStepId = mobileSteps[mobileStep] as StepId | undefined;
-
   const handlePathSelect = (value: string) => {
     setSelectedPath(value);
     // Auto-advance after brief visual feedback
@@ -635,7 +750,7 @@ export const InitialConsultModal = ({
 
             {/* STEP: Contact Info */}
             {currentStepId === "contact" && (
-              <form onSubmit={handleSubmit} className="flex flex-col h-full">
+              <form ref={contactFormRef} onSubmit={handleSubmit} className="flex flex-col h-full">
                 <div className="space-y-5 flex-1">
                   <div>
                     <h3 className="text-xl font-bold mb-1">Almost there</h3>
@@ -736,15 +851,27 @@ export const InitialConsultModal = ({
     return (
       <Drawer open={open} onOpenChange={onOpenChange}>
         <DrawerContent className="px-4 flex flex-col max-h-[85dvh]">
-          <DrawerHeader className="text-left pb-1 shrink-0">
-            <DrawerTitle className="text-lg font-bold">Book Your Free Consult</DrawerTitle>
-            <DrawerDescription className="sr-only">
-              Book a free 45-minute consultation
-            </DrawerDescription>
-          </DrawerHeader>
-          <div className="flex-1 min-h-0">
-            {mobileWizardContent}
-          </div>
+          {showThankYou ? (
+            <>
+              <DrawerHeader className="sr-only">
+                <DrawerTitle>Booking Confirmed</DrawerTitle>
+                <DrawerDescription>Thank you for booking</DrawerDescription>
+              </DrawerHeader>
+              <ThankYouScreen firstName={firstName} onBookTime={handleBookTime} />
+            </>
+          ) : (
+            <>
+              <DrawerHeader className="text-left pb-1 shrink-0">
+                <DrawerTitle className="text-lg font-bold">Book Your Free Consult</DrawerTitle>
+                <DrawerDescription className="sr-only">
+                  Book a free 45-minute consultation
+                </DrawerDescription>
+              </DrawerHeader>
+              <div className="flex-1 min-h-0">
+                {mobileWizardContent}
+              </div>
+            </>
+          )}
         </DrawerContent>
       </Drawer>
     );
@@ -753,15 +880,27 @@ export const InitialConsultModal = ({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[520px] max-h-[90vh] flex flex-col">
-        <DialogHeader className="shrink-0">
-          <DialogTitle className="text-2xl font-bold">Book Your Initial Consult</DialogTitle>
-          <DialogDescription className="text-base">
-            45 minutes to map your outcomes • Zero pressure • Real conversation
-          </DialogDescription>
-        </DialogHeader>
-        <div className="flex-1 min-h-0">
-          {formContent}
-        </div>
+        {showThankYou ? (
+          <>
+            <DialogHeader className="sr-only">
+              <DialogTitle>Booking Confirmed</DialogTitle>
+              <DialogDescription>Thank you for booking</DialogDescription>
+            </DialogHeader>
+            <ThankYouScreen firstName={firstName} onBookTime={handleBookTime} />
+          </>
+        ) : (
+          <>
+            <DialogHeader className="shrink-0">
+              <DialogTitle className="text-2xl font-bold">Book Your Initial Consult</DialogTitle>
+              <DialogDescription className="text-base">
+                45 minutes to map your outcomes • Zero pressure • Real conversation
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex-1 min-h-0">
+              {formContent}
+            </div>
+          </>
+        )}
       </DialogContent>
     </Dialog>
   );

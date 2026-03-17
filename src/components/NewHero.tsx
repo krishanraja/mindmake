@@ -96,7 +96,7 @@ const NewHero = () => {
             className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold px-8 py-6 text-base sm:text-lg shadow-lg shadow-mint/25 transition-all duration-300 hover:-translate-y-0.5"
             onClick={() => setModalOpen(true)}
           >
-            What's your nervous decision?
+            Tackle your million dollar decision
           </Button>
           <Button
             size="lg"
@@ -104,7 +104,7 @@ const NewHero = () => {
             className="border-2 border-mint/50 text-mint hover:bg-mint/10 font-bold px-8 py-6 text-base sm:text-lg transition-all duration-300"
             onClick={() => document.getElementById("products")?.scrollIntoView({ behavior: "smooth" })}
           >
-            View Sprints
+            Learn how you can level up
           </Button>
         </motion.div>
       </div>

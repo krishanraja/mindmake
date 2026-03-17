@@ -205,13 +205,13 @@ const Sprints = () => {
                   {fourWeekArc.map((week, i) => (
                     <motion.div
                       key={week.week}
-                      className="p-5 rounded-xl border border-border/50 text-center"
+                      className="p-5 rounded-xl border border-border/50"
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ ...spring, delay: i * 0.1 }}
                     >
-                      <div className="w-10 h-10 rounded-full bg-ink/10 dark:bg-mint/20 flex items-center justify-center mx-auto mb-3 text-sm font-bold text-ink dark:text-mint">
+                      <div className="w-10 h-10 rounded-full bg-ink/10 dark:bg-mint/20 flex items-center justify-center mb-3 text-sm font-bold text-ink dark:text-mint">
                         {week.week}
                       </div>
                       <div className="font-bold mb-1">{week.theme}</div>

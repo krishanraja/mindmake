@@ -339,6 +339,18 @@ const Navigation = () => {
                                       <span>Improve The Memory Of Your AI Tools</span>
                                       <ExternalLink className="h-3 w-3 flex-shrink-0 ml-2" />
                                     </a>
+                                    <a
+                                      href="https://live.themindmaker.ai/"
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="min-h-[44px] flex items-center justify-between px-4 py-3
+                                        text-sm font-medium text-ink dark:text-white
+                                        hover:bg-mint/10 rounded-md transition-colors"
+                                      onClick={() => setIsOpen(false)}
+                                    >
+                                      <span>Vibe Coding for Leaders: Build What You Brief</span>
+                                      <ExternalLink className="h-3 w-3 flex-shrink-0 ml-2" />
+                                    </a>
                                   </div>
                                 )}
                               </div>

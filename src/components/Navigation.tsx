@@ -303,40 +303,40 @@ const Navigation = () => {
                                 
                                 {lessonsExpanded && (
                                   <div className="flex flex-col space-y-1 mt-2 ml-4">
-                                    <a 
-                                      href="https://maven.com/p/6c1d16/learn-how-to-program-your-ai-tools" 
-                                      target="_blank" 
+                                    <a
+                                      href="https://maven.com/p/6c1d16/learn-how-to-program-your-ai-tools"
+                                      target="_blank"
                                       rel="noopener noreferrer"
-                                      className="min-h-[44px] flex items-center justify-between px-4 py-3 
-                                        text-sm font-medium text-ink dark:text-white 
+                                      className="min-h-[44px] flex items-center justify-between px-4 py-3
+                                        text-sm font-medium text-ink dark:text-white
                                         hover:bg-mint/10 rounded-md transition-colors"
                                       onClick={() => setIsOpen(false)}
                                     >
-                                      <span>Learn How To Program Your AI Tools</span>
+                                      <span>Skills 101: Program Your AI Tools</span>
                                       <ExternalLink className="h-3 w-3 flex-shrink-0 ml-2" />
                                     </a>
-                                    <a 
-                                      href="https://maven.com/p/1054a6/build-in-public-with-gen-ai-as-your-co-founder?utm_medium=ll_share_link&utm_source=instructor" 
-                                      target="_blank" 
+                                    <a
+                                      href="https://live.themindmaker.ai/"
+                                      target="_blank"
                                       rel="noopener noreferrer"
-                                      className="min-h-[44px] flex items-center justify-between px-4 py-3 
-                                        text-sm font-medium text-ink dark:text-white 
+                                      className="min-h-[44px] flex items-center justify-between px-4 py-3
+                                        text-sm font-medium text-ink dark:text-white
                                         hover:bg-mint/10 rounded-md transition-colors"
                                       onClick={() => setIsOpen(false)}
                                     >
-                                      <span>Build In Public with Gen AI</span>
+                                      <span>Run Your Life With OpenClaw</span>
                                       <ExternalLink className="h-3 w-3 flex-shrink-0 ml-2" />
                                     </a>
-                                    <a 
-                                      href="https://maven.com/p/b95f6c/vibe-code-your-way-to-a-new-income-stream?utm_medium=ll_share_link&utm_source=instructor" 
-                                      target="_blank" 
+                                    <a
+                                      href="https://live.themindmaker.ai/"
+                                      target="_blank"
                                       rel="noopener noreferrer"
-                                      className="min-h-[44px] flex items-center justify-between px-4 py-3 
-                                        text-sm font-medium text-ink dark:text-white 
+                                      className="min-h-[44px] flex items-center justify-between px-4 py-3
+                                        text-sm font-medium text-ink dark:text-white
                                         hover:bg-mint/10 rounded-md transition-colors"
                                       onClick={() => setIsOpen(false)}
                                     >
-                                      <span>Vibe Code Your Way To Income</span>
+                                      <span>Improve The Memory Of Your AI Tools</span>
                                       <ExternalLink className="h-3 w-3 flex-shrink-0 ml-2" />
                                     </a>
                                   </div>

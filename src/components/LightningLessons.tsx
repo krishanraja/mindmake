@@ -43,6 +43,18 @@ export const LightningLessons = () => {
         "Context management techniques",
         "Build smarter, longer conversations"
       ]
+    },
+    {
+      title: "Vibe Coding for Leaders: Build What You Brief",
+      url: "https://live.themindmaker.ai/",
+      image: "/lesson-vibe-code.png",
+      duration: "45 min",
+      cta: "Sign Up",
+      bullets: [
+        "Turn briefs into working prototypes with AI",
+        "No coding experience required",
+        "Practical, hands-on building session"
+      ]
     }
   ];
 

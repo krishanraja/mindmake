@@ -9,7 +9,7 @@ export const LightningLessons = () => {
 
   const lessons = [
     {
-      title: "Learn How To Program Your AI Tools",
+      title: "Skills 101: Learn How To Program Your AI Tools",
       url: "https://maven.com/p/6c1d16/learn-how-to-program-your-ai-tools",
       image: "/lesson-program-ai-tools.png",
       duration: "45 min",
@@ -21,27 +21,27 @@ export const LightningLessons = () => {
       ]
     },
     {
-      title: "Build In Public with Gen AI",
-      url: "https://maven.com/p/1054a6/build-in-public-with-gen-ai-as-your-co-founder?utm_medium=ll_share_link&utm_source=instructor",
-      image: "/lesson-build-in-public.png",
+      title: "Run Your Life With OpenClaw: The Good, The Bad and The Ugly",
+      url: "https://live.themindmaker.ai/",
+      image: "/lesson-openclaw.png",
       duration: "45 min",
       cta: "Sign Up",
       bullets: [
-        "Use AI as your thinking partner",
-        "Share progress authentically",
-        "Build audience while building"
+        "Hands-on OpenClaw walkthrough",
+        "Real pros and cons from daily use",
+        "When to use it vs alternatives"
       ]
     },
     {
-      title: "Vibe Code Your Way To Income",
-      url: "https://maven.com/p/b95f6c/vibe-code-your-way-to-a-new-income-stream?utm_medium=ll_share_link&utm_source=instructor",
-      image: "/lesson-vibe-code.png",
+      title: "Improve The Memory Of Your AI Tools",
+      url: "https://live.themindmaker.ai/",
+      image: "/lesson-ai-memory.png",
       duration: "45 min",
       cta: "Sign Up",
       bullets: [
-        "No-code to low-code transition",
-        "Monetize your AI skills",
-        "Real income stream strategies"
+        "Give your AI persistent memory",
+        "Context management techniques",
+        "Build smarter, longer conversations"
       ]
     }
   ];

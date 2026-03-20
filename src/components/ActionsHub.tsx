@@ -179,39 +179,71 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
 
   return (
     <>
-      {/* Trigger Tab - Always visible on right edge */}
-      <motion.button
-        onClick={() => setIsOpen(true)}
-        className={cn(
-          "fixed z-[60]",
-          isMobile
-            ? "bottom-6 right-4 w-12 h-12 rounded-full border border-mint/20"
-            : "right-0 top-1/2 -translate-y-1/2 w-12 h-20 rounded-l-2xl border-l border-t border-b border-mint/20",
-          "bg-gradient-to-b from-ink/95 to-ink",
-          "shadow-lg shadow-ink/30",
-          "flex flex-col items-center justify-center gap-1",
-          "transition-all duration-300",
-          "hover:shadow-xl hover:shadow-mint/20 hover:border-mint/40",
-          "group",
-          isOpen && "opacity-0 pointer-events-none"
-        )}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isOpen ? 0 : 1 }}
-        transition={{ duration: 0.3, delay: 0.3 }}
-        aria-label="Open Actions Hub"
-      >
-        {/* Pulse indicator */}
-        <span className={cn(
-          "absolute flex h-2.5 w-2.5",
-          isMobile ? "-top-0.5 -right-0.5" : "-left-1 top-3"
-        )}>
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-mint opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-mint"></span>
-        </span>
+      {/* Trigger — Mobile: avatar circle bottom-right, Desktop: avatar tab right edge */}
+      {isMobile ? (
+        <motion.button
+          onClick={() => setIsOpen(true)}
+          className={cn(
+            "fixed z-[60] bottom-6 right-4 h-14 w-14",
+            isOpen && "opacity-0 pointer-events-none"
+          )}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isOpen ? 0 : 1 }}
+          transition={{ duration: 0.3, delay: 0.3 }}
+          aria-label="Get in touch"
+        >
+          {/* Sonar rings */}
+          <span className="absolute inset-0 rounded-full border-2 border-mint/40 animate-sonar-ping" />
+          <span
+            className="absolute inset-0 rounded-full border-2 border-mint/30 animate-sonar-ping"
+            style={{ animationDelay: "1s" }}
+          />
 
-        <Sparkles className="w-5 h-5 text-mint group-hover:scale-110 transition-transform" />
-        {!isMobile && <ChevronLeft className="w-4 h-4 text-white/60" />}
-      </motion.button>
+          {/* Avatar button */}
+          <div className="relative h-14 w-14 rounded-full shadow-lg bg-ink border-2 border-mint/30 flex items-center justify-center chat-fab-animated overflow-hidden">
+            <Avatar className="h-11 w-11 border-0">
+              <AvatarImage src={krishHeadshot} alt="Get in touch" loading="eager" />
+              <AvatarFallback className="bg-mint/20 text-mint font-bold">K</AvatarFallback>
+            </Avatar>
+
+            {/* Chat bubble overlay — bottom-right of avatar */}
+            <div className="absolute -bottom-0.5 -right-0.5 h-5 w-5 rounded-full bg-mint flex items-center justify-center shadow-md">
+              <MessageCircle className="w-3 h-3 text-ink" />
+            </div>
+          </div>
+        </motion.button>
+      ) : (
+        <motion.button
+          onClick={() => setIsOpen(true)}
+          className={cn(
+            "fixed z-[60] right-0 top-1/2 -translate-y-1/2 w-14 rounded-l-2xl border-l border-t border-b border-mint/20",
+            "bg-gradient-to-b from-ink/95 to-ink",
+            "shadow-lg shadow-ink/30",
+            "flex flex-col items-center justify-center gap-2 py-4",
+            "transition-all duration-300",
+            "hover:shadow-xl hover:shadow-mint/20 hover:border-mint/40 hover:w-16",
+            "group",
+            isOpen && "opacity-0 pointer-events-none"
+          )}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isOpen ? 0 : 1 }}
+          transition={{ duration: 0.3, delay: 0.3 }}
+          aria-label="Get in touch"
+          title="Get in touch"
+        >
+          {/* Pulse indicator */}
+          <span className="absolute flex h-2.5 w-2.5 -left-1 top-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-mint opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-mint"></span>
+          </span>
+
+          <Avatar className="h-8 w-8 border-2 border-mint/30 group-hover:border-mint/60 transition-colors">
+            <AvatarImage src={krishHeadshot} alt="Get in touch" loading="eager" />
+            <AvatarFallback className="bg-mint/20 text-mint text-xs font-bold">K</AvatarFallback>
+          </Avatar>
+          <MessageCircle className="w-4 h-4 text-mint group-hover:scale-110 transition-transform" />
+        </motion.button>
+      )}
 
       {/* Drawer */}
       <Sheet open={isOpen} onOpenChange={setIsOpen}>

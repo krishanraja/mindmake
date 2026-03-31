@@ -6,6 +6,7 @@ import {
   CheckCircle, ArrowRight, Clock, MapPin, FileText, Calendar, Users
 } from "lucide-react";
 import { SEO } from "@/components/SEO";
+import krishHeadshot from "@/assets/krish-headshot.png";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -96,8 +97,8 @@ export default function StrategyDay() {
             animate="show"
             variants={fadeUp}
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-mint/10 border border-mint/20 text-mint text-sm font-medium mb-6">
-              <Clock className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-mint/10 border border-mint/20 text-foreground text-sm font-medium mb-6">
+              <Clock className="w-3.5 h-3.5 text-mint" />
               April dates available - virtual or NYC in-person
             </div>
             <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
@@ -147,7 +148,7 @@ export default function StrategyDay() {
             variants={fadeUp}
           >
             <p className="text-muted-foreground text-sm mb-2">
-              Krish spent 16 years on the commercial side of AI transformation at
+              Krish spent 16 years running commercial data, automation and AI strategy at
             </p>
             <p className="font-semibold text-base">
               Singtel - Nine Entertainment - Meliora
@@ -156,6 +157,33 @@ export default function StrategyDay() {
               The AI Revenue Day distills that experience into a single focused session
               for your commercial team.
             </p>
+            <div className="mt-6 flex flex-col items-center">
+              <img
+                src={krishHeadshot}
+                alt="Krish Raja"
+                className="w-28 h-28 rounded-full border-4 border-mint/20 object-cover mb-4"
+              />
+              <p className="text-sm text-muted-foreground">
+                Learn more about Krish on{" "}
+                <a
+                  href="https://www.krishraja.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-mint hover:underline font-medium"
+                >
+                  his website
+                </a>
+                {" "}and{" "}
+                <a
+                  href="https://www.linkedin.com/in/krish-raja/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-mint hover:underline font-medium"
+                >
+                  LinkedIn
+                </a>
+              </p>
+            </div>
           </motion.div>
         </div>
       </section>

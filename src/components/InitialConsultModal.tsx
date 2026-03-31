@@ -146,7 +146,7 @@ const ThankYouScreen = ({
         Book a time now
       </Button>
       <p className="text-sm text-muted-foreground">
-        Or just sit tight — I'll reach out to you directly.
+        Or just sit tight. I'll reach out to you directly.
       </p>
     </motion.div>
   </div>

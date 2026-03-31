@@ -6,6 +6,7 @@ import {
   CheckCircle, ArrowRight, Clock, Users, Shield, Calendar, BarChart3
 } from "lucide-react";
 import { SEO } from "@/components/SEO";
+import krishHeadshot from "@/assets/krish-headshot.png";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -118,8 +119,8 @@ export default function WarRoom() {
             animate="show"
             variants={fadeUp}
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-mint/10 border border-mint/20 text-mint text-sm font-medium mb-6">
-              <Clock className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-mint/10 border border-mint/20 text-foreground text-sm font-medium mb-6">
+              <Clock className="w-3.5 h-3.5 text-mint" />
               4 April slots - 2 remaining
             </div>
             <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
@@ -133,8 +134,8 @@ export default function WarRoom() {
             </p>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10">
               This is not a technology assessment. It is not another AI roadmap.
-              It is a commercial strategy sprint run by someone who has spent 16 years
-              on the revenue side of AI transformation in media and telco.
+              It is a commercial strategy sprint run by someone who has spent
+              16 years running commercial data, automation and AI strategy in media and telco.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
@@ -169,7 +170,7 @@ export default function WarRoom() {
             variants={fadeUp}
           >
             <p className="text-muted-foreground text-sm mb-2">
-              Krish ran commercial strategy and revenue transformation at
+              Krish ran commercial data, automation and AI strategy at
             </p>
             <p className="font-semibold text-base">
               Singtel - Nine Entertainment - Meliora
@@ -178,6 +179,33 @@ export default function WarRoom() {
               He is not advising on a sector he studied. He ran P&Ls and commercial operations
               inside the businesses your company competes with. That is the difference.
             </p>
+            <div className="mt-6 flex flex-col items-center">
+              <img
+                src={krishHeadshot}
+                alt="Krish Raja"
+                className="w-28 h-28 rounded-full border-4 border-mint/20 object-cover mb-4"
+              />
+              <p className="text-sm text-muted-foreground">
+                Learn more about Krish on{" "}
+                <a
+                  href="https://www.krishraja.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-mint hover:underline font-medium"
+                >
+                  his website
+                </a>
+                {" "}and{" "}
+                <a
+                  href="https://www.linkedin.com/in/krish-raja/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-mint hover:underline font-medium"
+                >
+                  LinkedIn
+                </a>
+              </p>
+            </div>
           </motion.div>
         </div>
       </section>

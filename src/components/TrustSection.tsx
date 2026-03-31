@@ -148,7 +148,7 @@ const TestimonialCarousel = ({ isInView }: { isInView: boolean }) => {
 
   return (
     <div className="relative group">
-      {/* Carousel — center-aligned so prev/next cards peek on both edges */}
+      {/* Carousel - center-aligned so prev/next cards peek on both edges */}
       <Carousel
         setApi={setApi}
         opts={{
@@ -183,7 +183,7 @@ const TestimonialCarousel = ({ isInView }: { isInView: boolean }) => {
         </CarouselContent>
       </Carousel>
 
-      {/* Edge fade gradients — narrow so peeking cards stay visible */}
+      {/* Edge fade gradients - narrow so peeking cards stay visible */}
       <div
         className="absolute left-0 top-0 bottom-0 w-6 md:w-8 pointer-events-none z-10"
         style={{
@@ -219,7 +219,7 @@ const TestimonialCarousel = ({ isInView }: { isInView: boolean }) => {
         </>
       )}
 
-      {/* Dot indicators — shown on both mobile and desktop */}
+      {/* Dot indicators - shown on both mobile and desktop */}
       <div className="flex justify-center gap-1.5 mt-5">
         {testimonials.map((_, index) => (
           <button

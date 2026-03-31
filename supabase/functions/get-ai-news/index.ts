@@ -25,17 +25,17 @@ interface NewsHeadline {
 }
 
 // ============================================================
-// PERPLEXITY PROMPT — real-time search + curation in one call
+// PERPLEXITY PROMPT: real-time search + curation in one call
 // ============================================================
 
 const PERPLEXITY_SYSTEM_PROMPT = `You are Mindmaker's AI news filter. You search for today's AI news and curate it through a cynical, experienced operator's lens.
 
 For each headline, assign ONE category:
 
-SIGNAL — This actually matters for business leaders. Real impact, real decisions.
-NOISE — Hype, funding announcements, vendor marketing. Include 1-2 to show you're filtering.
-DECISION TRIGGER — Something changed that requires a business leader to act or decide.
-KRISH'S TAKE — Sharp opinion/analysis. Slightly cynical, deeply knowledgeable.
+SIGNAL: This actually matters for business leaders. Real impact, real decisions.
+NOISE: Hype, funding announcements, vendor marketing. Include 1-2 to show you're filtering.
+DECISION TRIGGER: Something changed that requires a business leader to act or decide.
+KRISH'S TAKE: Sharp opinion/analysis. Slightly cynical, deeply knowledgeable.
 
 Voice: Confident, slightly cynical, deeply knowledgeable. Like a friend who works in AI every day and has seen it all.
 
@@ -61,30 +61,30 @@ Format each as: "[CATEGORY] headline text"
 Return ONLY a JSON array of 12-15 items:
 [{"title": "[SIGNAL] headline here", "source": "Publication Name"}]
 
-Use real source names from the articles you find. Mix all 4 categories — at least 2 of each.`;
+Use real source names from the articles you find. Mix all 4 categories, at least 2 of each.`;
 
 // ============================================================
-// CURATION PROMPT — for Brave Search + OpenAI fallback path
+// CURATION PROMPT: for Brave Search + OpenAI fallback path
 // ============================================================
 
 const CURATION_SYSTEM_PROMPT = `You are Mindmaker's AI news filter. Rewrite raw headlines through a cynical, experienced AI operator's lens.
 
 For each headline worth keeping, assign ONE category and rewrite:
 
-SIGNAL — Actually matters for business leaders. Real impact, real decisions.
-NOISE — Hype to ignore. Include 1-2 to show you're filtering.
-DECISION TRIGGER — Something changed, leaders need to act or decide.
-KRISH'S TAKE — Sharp, slightly cynical opinion/analysis.
+SIGNAL: Actually matters for business leaders. Real impact, real decisions.
+NOISE: Hype to ignore. Include 1-2 to show you're filtering.
+DECISION TRIGGER: Something changed, leaders need to act or decide.
+KRISH'S TAKE: Sharp, slightly cynical opinion/analysis.
 
 EXCLUDE: governance fluff, workforce surveys, geopolitics, AGI speculation, celebrity AI.
 INCLUDE: model releases, pricing changes, deployment stories, tool launches, competitive moves.
 
-Format: "[CATEGORY] headline text" — 8-18 words, present tense, specific numbers/companies.
+Format: "[CATEGORY] headline text", 8-18 words, present tense, specific numbers/companies.
 Return ONLY a JSON array: [{"title": "[SIGNAL] headline here", "source": "Source Name"}]
 Select 10-15 headlines. Mix all 4 categories.`;
 
 // ============================================================
-// PLAN A: Perplexity — real-time search + curation in one call
+// PLAN A: Perplexity, real-time search + curation in one call
 // ============================================================
 const fetchWithPerplexity = async (apiKey: string): Promise<NewsHeadline[]> => {
   console.log('🔍 Fetching real-time AI news via Perplexity...');
@@ -273,25 +273,25 @@ const parseLLMResponse = (content: string): NewsHeadline[] => {
 // STATIC FALLBACK
 // ============================================================
 const STATIC_FALLBACK: NewsHeadline[] = [
-  { title: "[SIGNAL] Claude 3.5 Sonnet outperforms GPT-4o on coding benchmarks — build-vs-buy math just changed", source: "The Verge" },
-  { title: "[DECISION TRIGGER] OpenAI cuts API pricing 50% — time to reevaluate your LLM vendor costs", source: "TechCrunch" },
+  { title: "[SIGNAL] Claude 3.5 Sonnet outperforms GPT-4o on coding benchmarks, and the build-vs-buy math just changed", source: "The Verge" },
+  { title: "[DECISION TRIGGER] OpenAI cuts API pricing 50%, so it's time to reevaluate your LLM vendor costs", source: "TechCrunch" },
   { title: "[KRISH'S TAKE] 80% of companies using AI != 80% using it well. Most are running demos, not systems", source: "Mindmaker" },
-  { title: "[SIGNAL] GitHub Copilot users complete tasks 55.8% faster — real productivity data, not hype", source: "GitHub" },
-  { title: "[NOISE] Another AI startup raises $200M to build 'the future of work' — wake me when they ship", source: "TechCrunch" },
-  { title: "[DECISION TRIGGER] Google drops Gemini API prices by 40% — your vendor spreadsheet needs updating", source: "Bloomberg" },
+  { title: "[SIGNAL] GitHub Copilot users complete tasks 55.8% faster. Real productivity data, not hype", source: "GitHub" },
+  { title: "[NOISE] Another AI startup raises $200M to build 'the future of work.' Wake me when they ship something", source: "TechCrunch" },
+  { title: "[DECISION TRIGGER] Google drops Gemini API prices by 40%, so your vendor spreadsheet needs updating", source: "Bloomberg" },
   { title: "[SIGNAL] AI agents now handle 60% of tier-1 support tickets at companies that actually deployed them", source: "Forbes" },
   { title: "[KRISH'S TAKE] Everyone's building AI prototypes. Almost nobody is measuring if they work", source: "Mindmaker" },
-  { title: "[DECISION TRIGGER] Anthropic launches tool-use API — custom AI workflows just got dramatically easier to build", source: "Wired" },
+  { title: "[DECISION TRIGGER] Anthropic launches tool-use API, and custom AI workflows just got dramatically easier to build", source: "Wired" },
   { title: "[SIGNAL] HeyGen lets founders create AI video clones that present in 40+ languages", source: "TechCrunch" },
-  { title: "[NOISE] AI will replace all jobs by 2030 says person selling AI consulting — sure it will", source: "Forbes" },
+  { title: "[NOISE] AI will replace all jobs by 2030 says person selling AI consulting. Sure it will", source: "Forbes" },
   { title: "[SIGNAL] One-person businesses generating $1M+ revenue using AI for sales, support, and fulfillment", source: "WSJ" },
   { title: "[KRISH'S TAKE] Your team is using 14 AI tools. You need 3. The rest is noise", source: "Mindmaker" },
-  { title: "[DECISION TRIGGER] AWS launches managed AI agents — build-vs-buy decision just got more nuanced", source: "Reuters" },
+  { title: "[DECISION TRIGGER] AWS launches managed AI agents, and the build-vs-buy decision just got more nuanced", source: "Reuters" },
   { title: "[SIGNAL] Companies deploying AI in production see 3x ROI vs those stuck in pilot phase", source: "McKinsey" },
   { title: "[KRISH'S TAKE] If your AI strategy is a slide deck, it's not a strategy. Ship something this week", source: "Mindmaker" },
   { title: "[SIGNAL] ElevenLabs voice cloning used by 1M+ creators to scale content without recording", source: "Wired" },
-  { title: "[DECISION TRIGGER] Open-source Llama 3 closes the gap with GPT-4 — vendor lock-in risk drops", source: "The Verge" },
-  { title: "[NOISE] Enterprise AI adoption hits 80% — but 80% of that is ChatGPT in a browser tab", source: "Gartner" },
+  { title: "[DECISION TRIGGER] Open-source Llama 3 closes the gap with GPT-4, and vendor lock-in risk drops", source: "The Verge" },
+  { title: "[NOISE] Enterprise AI adoption hits 80%, but 80% of that is ChatGPT in a browser tab", source: "Gartner" },
   { title: "[SIGNAL] AI agents save small businesses 15+ hours per week on scheduling, email, and ops", source: "Forbes" },
 ];
 

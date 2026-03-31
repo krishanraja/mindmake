@@ -18,12 +18,12 @@ const faqItems: FAQItem[] = [
   {
     category: "getting-started",
     question: "What is Mindmaker?",
-    answer: "Mindmaker turns non-technical leaders into no-code AI builders. We help CEOs, GMs, and executives build working AI systems around their real work—without writing code or waiting for IT."
+    answer: "Mindmaker turns non-technical leaders into no-code AI builders. We help CEOs, GMs, and executives build working AI systems around their real work, without writing code or waiting for IT."
   },
   {
     category: "getting-started",
     question: "Who is this for?",
-    answer: "CEO, GM, CCO, CPO, CMO, CRO, COO—leaders with P&L responsibility who need to design the future, not delegate it. If you're tired of vendor theatre and want to build real systems, this is for you."
+    answer: "CEO, GM, CCO, CPO, CMO, CRO, COO. Leaders with P&L responsibility who need to design the future, not delegate it. If you're tired of vendor theatre and want to build real systems, this is for you."
   },
   {
     category: "getting-started",
@@ -48,12 +48,12 @@ const faqItems: FAQItem[] = [
   {
     category: "ai-literacy",
     question: "How is this different from AI training?",
-    answer: "Training fades. Consulting tells you what to do. Tools do it for you. We build the system with you so you can think for yourself—design systems, run decisions, and stop wasting money on vendor theatre."
+    answer: "Training fades. Consulting tells you what to do. Tools do it for you. We build the system with you so you can think for yourself: design systems, run decisions, and stop wasting money on vendor theatre."
   },
   {
     category: "ai-literacy",
     question: "What do I actually get?",
-    answer: "Working systems you can use tomorrow. Not slides, not theory—prompts, workflows, and frameworks built around your real work. Each engagement includes concrete deliverables you can implement immediately."
+    answer: "Working systems you can use tomorrow. Not slides, not theory. Prompts, workflows, and frameworks built around your real work. Each engagement includes concrete deliverables you can implement immediately."
   },
   {
     category: "ai-literacy",
@@ -63,7 +63,7 @@ const faqItems: FAQItem[] = [
   {
     category: "ai-literacy",
     question: "What's The Builder Economy?",
-    answer: "The Builder Economy is our upcoming community platform featuring podcast episodes, live sessions, and insights on what's working in real portfolios—not vendor hype. Coming soon at thebuildereconomy.com."
+    answer: "The Builder Economy is our upcoming community platform featuring podcast episodes, live sessions, and insights on what's working in real portfolios, not vendor hype. Coming soon at thebuildereconomy.com."
   }
 ];
 
@@ -129,7 +129,7 @@ const FAQ = () => {
 
   const seoData = {
     title: "FAQ - Mindmaker",
-    description: "Frequently asked questions about Mindmaker—turn non-technical leaders into no-code AI builders.",
+    description: "Frequently asked questions about Mindmaker. Turn non-technical leaders into no-code AI builders.",
     canonical: "/faq",
     jsonLd: {
       "@context": "https://schema.org",

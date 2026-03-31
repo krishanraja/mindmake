@@ -142,7 +142,7 @@ const Contact = () => {
                 
                 <p className="text-sm text-foreground leading-relaxed mb-4">
                   I help senior business leaders become AI-literate by building working AI systems 
-                  around their real work—not through vendor theatre or theoretical training.
+                  around their real work, not through vendor theatre or theoretical training.
                 </p>
                 
                 <p className="text-sm text-foreground leading-relaxed mb-6">
@@ -189,7 +189,7 @@ const Contact = () => {
                 </p>
                 <p className="text-sm leading-relaxed">
                   My mission is to ensure senior leaders can confidently integrate AI into 
-                  their work—making informed strategic decisions and leading their organizations 
+                  their work, making informed strategic decisions and leading their organizations 
                   through the AI transformation with clarity.
                 </p>
               </div>
@@ -201,7 +201,7 @@ const Contact = () => {
                   <h3 className="font-semibold">Ready to Start?</h3>
                 </div>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Start with a free conversation. No decks, no demos—just clarity on your nervous decision.
+                  Start with a free conversation. No decks, no demos, just clarity on your nervous decision.
                 </p>
                 <Button 
                   variant="mint"

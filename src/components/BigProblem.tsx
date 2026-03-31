@@ -127,7 +127,7 @@ const BigProblem = () => {
     transition: { duration: 0.5, delay, ease },
   } as const);
 
-  /* Shared glow keyframes — reused on "mindset one" + revealed heading */
+  /* Shared glow keyframes - reused on "mindset one" + revealed heading */
   const glowAnimation = {
     textShadow: [
       "0 0 60px hsl(158 82% 73% / 0.3)",
@@ -211,7 +211,7 @@ const BigProblem = () => {
         </span>
       </motion.p>
 
-      {/* CTA Button — different treatment per platform */}
+      {/* CTA Button - different treatment per platform */}
       {!isMobile ? (
         <motion.div
           className="flex justify-center py-8 md:py-10"
@@ -331,7 +331,7 @@ const BigProblem = () => {
         className="relative container-width"
         onMouseMove={handleMouseMove}
       >
-        {/* Height-locked wrapper — animates between state A / B heights */}
+        {/* Height-locked wrapper - animates between state A / B heights */}
         <motion.div
           className="relative overflow-hidden"
           animate={{ height: (isRevealed ? revealedHeight : initialHeight) || "auto" }}
@@ -378,7 +378,7 @@ const BigProblem = () => {
             </div>
           </motion.div>
 
-          {/* Peel edge glow — mint line at the fold (mobile only) */}
+          {/* Peel edge glow - mint line at the fold (mobile only) */}
           {isMobile && peelProgress > 0 && !isRevealed && (
             <div
               className="absolute top-0 bottom-0 w-1 z-10 pointer-events-none"
@@ -392,7 +392,7 @@ const BigProblem = () => {
         </motion.div>
       </div>
 
-      {/* ─── Mobile peel tab — fixed on right edge while section is visible ─── */}
+      {/* ─── Mobile peel tab - fixed on right edge while section is visible ─── */}
       <AnimatePresence>
         {isMobile && sectionVisible && !isRevealed && (
           <motion.div

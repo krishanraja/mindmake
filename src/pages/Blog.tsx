@@ -84,7 +84,7 @@ const Blog = () => {
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground">
                 Practical frameworks and strategies for leaders building AI capability. 
-                No vendor theatre—just real insights from real implementations.
+                No vendor theatre, just real insights from real implementations.
               </p>
             </div>
           </div>

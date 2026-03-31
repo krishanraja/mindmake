@@ -63,12 +63,16 @@ const STRIPE_DEPOSIT = import.meta.env.VITE_STRIPE_SPRINT_DEPOSIT || null;
 const CALENDLY_URL =
   import.meta.env.VITE_CALENDLY_URL || "https://calendly.com/krish-raja/mindmaker-meeting";
 
-const handleCTA = () => {
+const handleDeposit = () => {
   if (STRIPE_DEPOSIT) {
     window.open(STRIPE_DEPOSIT, "_blank");
   } else {
-    window.open(CALENDLY_URL, "_blank");
+    window.open(`${CALENDLY_URL}?source=sprint-deposit`, "_blank");
   }
+};
+
+const handleExplore = () => {
+  window.open(CALENDLY_URL, "_blank");
 };
 
 export default function StrategyDay() {
@@ -76,12 +80,12 @@ export default function StrategyDay() {
     <main className="min-h-screen bg-background">
       <SEO
         title="AI Positioning Sprint | Mindmaker"
-        description="Great AI products still need great positioning. One day to design the commercial strategy and product marketing your AI capabilities deserve. $12,500."
+        description="Great AI products still need great positioning. One day to design the commercial strategy and product marketing your AI capabilities deserve. $10,000."
       />
       <Navigation />
 
       {/* HERO */}
-      <section className="section-padding pt-32">
+      <section className="section-padding pt-32 bg-ink">
         <div className="container-width max-w-4xl">
           <motion.div
             className="text-center mb-16"
@@ -93,16 +97,16 @@ export default function StrategyDay() {
               <Clock className="w-3.5 h-3.5" />
               April dates available
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white">
               In a world full of AI products,
               <br />
               <span className="text-mint">positioning is the only real advantage.</span>
             </h1>
-            <p className="text-xl text-muted-foreground mb-4 max-w-2xl mx-auto">
+            <p className="text-xl text-white/70 mb-4 max-w-2xl mx-auto">
               Great AI capabilities still need great commercial strategy.
               One day to build both.
             </p>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10">
+            <p className="text-lg text-white/60 max-w-2xl mx-auto mb-10">
               Four hours with someone who has spent 15 years learning the patterns
               of what wins commercially with AI - and what doesn't. You leave with
               a positioning framework, product marketing strategy, and a 90-day
@@ -112,7 +116,7 @@ export default function StrategyDay() {
               <Button
                 size="lg"
                 className="bg-mint text-ink hover:bg-mint/90 font-semibold text-base px-8"
-                onClick={handleCTA}
+                onClick={handleDeposit}
               >
                 Book Your Sprint
                 <ArrowRight className="ml-2 w-4 h-4" />
@@ -120,30 +124,30 @@ export default function StrategyDay() {
               <Button
                 variant="outline"
                 size="lg"
-                className="border-border text-foreground font-semibold text-base px-8"
-                onClick={() => window.open(CALENDLY_URL, "_blank")}
+                className="border-white/20 text-white hover:bg-white/10 font-semibold text-base px-8"
+                onClick={handleExplore}
               >
                 <Calendar className="mr-2 w-4 h-4" />
                 Check availability
               </Button>
             </div>
-            <p className="text-sm text-muted-foreground mt-4">
-              $2,500 deposit to book. $10,000 balance on completion. Virtual or NYC in-person.
+            <p className="text-sm text-white/40 mt-4">
+              $2,000 deposit to book. $8,000 balance on completion. Virtual or NYC in-person.
             </p>
           </motion.div>
 
           {/* Credibility */}
           <motion.div
-            className="glass-card p-6 mb-16 text-center"
+            className="rounded-lg border border-white/10 bg-white/5 p-6 mb-16 text-center"
             initial="hidden"
             animate="show"
             custom={2}
             variants={fadeUp}
           >
-            <p className="font-semibold text-base mb-2">
+            <p className="font-semibold text-base mb-2 text-white">
               Product marketing is the multiplier most AI companies are missing.
             </p>
-            <p className="text-muted-foreground text-sm max-w-xl mx-auto">
+            <p className="text-white/60 text-sm max-w-xl mx-auto">
               When every competitor has AI capabilities, the company that positions
               best wins. Krish brings 15 years of commercial pattern recognition
               and master product marketing to help you do exactly that.
@@ -153,7 +157,7 @@ export default function StrategyDay() {
       </section>
 
       {/* SESSION ARC */}
-      <section className="section-padding bg-ink/5">
+      <section className="section-padding bg-muted">
         <div className="container-width max-w-4xl">
           <motion.div
             initial="hidden"
@@ -177,8 +181,8 @@ export default function StrategyDay() {
                 custom={i}
                 variants={fadeUp}
               >
-                <div className="shrink-0 w-14 h-14 rounded-xl bg-mint/15 flex flex-col items-center justify-center">
-                  <span className="text-xs text-mint font-medium">{hour.hour}</span>
+                <div className="shrink-0 w-14 h-14 rounded-xl bg-ink text-white flex flex-col items-center justify-center">
+                  <span className="text-xs font-medium">{hour.hour}</span>
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold mb-2">{hour.theme}</h3>
@@ -208,7 +212,7 @@ export default function StrategyDay() {
             {deliverables.map((item, i) => (
               <motion.div
                 key={i}
-                className="flex items-start gap-3 p-4 rounded-xl bg-ink/5"
+                className="flex items-start gap-3 p-4 rounded-xl bg-muted"
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true }}
@@ -224,7 +228,7 @@ export default function StrategyDay() {
       </section>
 
       {/* PRICING */}
-      <section className="section-padding bg-ink/5">
+      <section className="section-padding bg-muted">
         <div className="container-width max-w-4xl">
           <motion.div
             className="glass-card p-8 md:p-12"
@@ -237,11 +241,11 @@ export default function StrategyDay() {
               <div>
                 <h2 className="text-3xl font-bold mb-3">Getting started</h2>
                 <div className="flex items-baseline gap-3 mb-2">
-                  <span className="text-4xl font-bold text-mint">$2,500</span>
+                  <span className="text-4xl font-bold">$2,000</span>
                   <span className="text-muted-foreground">deposit to book</span>
                 </div>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Total investment: $12,500. Balance due on completion.
+                  Total investment: $10,000. Balance due on completion.
                 </p>
                 <div className="space-y-2 text-sm text-muted-foreground">
                   <div className="flex items-center gap-2">
@@ -262,7 +266,7 @@ export default function StrategyDay() {
                 <Button
                   size="lg"
                   className="bg-mint text-ink hover:bg-mint/90 font-semibold w-full"
-                  onClick={handleCTA}
+                  onClick={handleDeposit}
                 >
                   Book Your Sprint
                   <ArrowRight className="ml-2 w-4 h-4" />
@@ -271,7 +275,7 @@ export default function StrategyDay() {
                   variant="outline"
                   size="lg"
                   className="w-full font-semibold"
-                  onClick={() => window.open(CALENDLY_URL, "_blank")}
+                  onClick={handleExplore}
                 >
                   Check availability
                 </Button>
@@ -315,7 +319,7 @@ export default function StrategyDay() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="section-padding bg-ink/5">
+      <section className="section-padding bg-muted">
         <div className="container-width max-w-3xl text-center">
           <motion.div
             initial="hidden"
@@ -327,14 +331,14 @@ export default function StrategyDay() {
               April dates available.
             </h2>
             <p className="text-muted-foreground text-lg mb-8">
-              $2,500 deposit books your date. The rest of the investment comes
+              $2,000 deposit books your date. The rest of the investment comes
               after you have seen the value.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 size="lg"
                 className="bg-mint text-ink hover:bg-mint/90 font-semibold text-base px-8"
-                onClick={handleCTA}
+                onClick={handleDeposit}
               >
                 Book Your Sprint
                 <ArrowRight className="ml-2 w-4 h-4" />
@@ -343,7 +347,7 @@ export default function StrategyDay() {
                 variant="outline"
                 size="lg"
                 className="font-semibold text-base px-8"
-                onClick={() => window.open(CALENDLY_URL, "_blank")}
+                onClick={handleExplore}
               >
                 <Clock className="mr-2 w-4 h-4" />
                 Check availability

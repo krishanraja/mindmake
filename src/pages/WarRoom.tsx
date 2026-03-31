@@ -23,19 +23,19 @@ const phases = [
       "Your team completes a focused commercial assessment. We run a competitive positioning audit and map your situation against patterns from 15 years of similar AI commercialisation efforts. By the time we sit down together, we already know what has worked and what has failed in businesses like yours.",
   },
   {
-    period: "Days 1-2",
+    period: "Days 1-3",
     theme: "Commercial Archaeology",
     description:
       "We reverse-engineer the commercial thinking behind what your team has built. Which assumptions still hold? Where has the competitive landscape shifted? What would you build differently if commercial success was the starting point, not an afterthought?",
   },
   {
-    period: "Days 3-4",
+    period: "Days 4-7",
     theme: "Strategy and Positioning",
     description:
       "This is where the product marketing expertise matters most. We design the commercial strategy, revenue model, and competitive positioning for your AI investment. Not just how to sell what you have. How to position it to win in a market where everyone will have AI capabilities.",
   },
   {
-    period: "Days 5-7",
+    period: "Days 8-10",
     theme: "Execution Blueprint",
     description:
       "Go-to-market strategy based on predictive market analysis. Sales enablement for both technical and commercial teams. Product roadmap aligned with commercial goals. Board-ready presentation with financial projections and a 90-day execution plan.",
@@ -90,8 +90,12 @@ const handleDeposit = () => {
   if (STRIPE_DEPOSIT) {
     window.open(STRIPE_DEPOSIT, "_blank");
   } else {
-    window.open(CALENDLY_URL, "_blank");
+    window.open(`${CALENDLY_URL}?source=accelerator-deposit`, "_blank");
   }
+};
+
+const handleExplore = () => {
+  window.open(CALENDLY_URL, "_blank");
 };
 
 export default function WarRoom() {
@@ -99,12 +103,12 @@ export default function WarRoom() {
     <main className="min-h-screen bg-background">
       <SEO
         title="AI Commercial Accelerator | Mindmaker"
-        description="Most AI investments are built first and commercialised later. The companies that win do it backwards. 7-day intensive commercial strategy from someone with 15 years of pattern recognition."
+        description="Most AI investments are built first and commercialised later. The companies that win do it backwards. 10-day intensive commercial strategy from someone with 15 years of pattern recognition."
       />
       <Navigation />
 
       {/* HERO */}
-      <section className="section-padding pt-32">
+      <section className="section-padding pt-32 bg-ink">
         <div className="container-width max-w-4xl">
           <motion.div
             className="text-center mb-16"
@@ -116,16 +120,16 @@ export default function WarRoom() {
               <Sparkles className="w-3.5 h-3.5" />
               2 April slots remaining
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white">
               Most companies build AI first,
               <br />
               <span className="text-mint">then figure out how to make money from it.</span>
             </h1>
-            <p className="text-xl text-muted-foreground mb-4 max-w-2xl mx-auto">
+            <p className="text-xl text-white/70 mb-4 max-w-2xl mx-auto">
               The ones that win do it the other way around.
             </p>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10">
-              In 7 days, I reverse-engineer your AI investment and build the commercial strategy
+            <p className="text-lg text-white/60 max-w-2xl mx-auto mb-10">
+              In 10 days, I reverse-engineer your AI investment and build the commercial strategy
               it should have had from day one. Revenue architecture, product marketing,
               competitive positioning, and an execution blueprint your board will actually back.
             </p>
@@ -141,32 +145,32 @@ export default function WarRoom() {
               <Button
                 variant="outline"
                 size="lg"
-                className="border-border text-foreground font-semibold text-base px-8"
-                onClick={() => window.open(CALENDLY_URL, "_blank")}
+                className="border-white/20 text-white hover:bg-white/10 font-semibold text-base px-8"
+                onClick={handleExplore}
               >
                 <Calendar className="mr-2 w-4 h-4" />
                 Explore fit in 20 minutes
               </Button>
             </div>
-            <p className="text-sm text-muted-foreground mt-4">
+            <p className="text-sm text-white/40 mt-4">
               $5,000 deposit to hold your slot. Balance on completion.
             </p>
           </motion.div>
 
           {/* Credibility */}
           <motion.div
-            className="glass-card p-6 mb-16"
+            className="rounded-lg border border-white/10 bg-white/5 p-6 mb-16"
             initial="hidden"
             animate="show"
             custom={2}
             variants={fadeUp}
           >
-            <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
+            <div className="flex flex-col md:flex-row md:items-start gap-6 md:gap-8">
               <div className="flex-1">
-                <p className="font-semibold text-base mb-2">
+                <p className="font-semibold text-base mb-2 text-white">
                   15 years of commercial pattern recognition
                 </p>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-white/60 text-sm">
                   Krish has spent 15 years on the commercial side of data, automation, and AI
                   at Singtel, Nine Entertainment, and across media and telco at scale.
                   Not studying AI strategy from the outside. Building commercial success
@@ -174,10 +178,10 @@ export default function WarRoom() {
                 </p>
               </div>
               <div className="flex-1">
-                <p className="font-semibold text-base mb-2">
+                <p className="font-semibold text-base mb-2 text-white">
                   Product marketing is the multiplier
                 </p>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-white/60 text-sm">
                   In a world where every company will have AI capabilities,
                   knowing what to build is only half the equation. Knowing how to
                   position it to win in market is the other half. Krish brings both.
@@ -189,7 +193,7 @@ export default function WarRoom() {
       </section>
 
       {/* THE PROCESS */}
-      <section className="section-padding bg-ink/5">
+      <section className="section-padding bg-muted">
         <div className="container-width max-w-4xl">
           <motion.div
             initial="hidden"
@@ -199,7 +203,7 @@ export default function WarRoom() {
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-3">How it works</h2>
             <p className="text-muted-foreground text-lg mb-10">
-              7 days. Commercial strategy, product marketing, and execution blueprint.
+              10 days. Commercial strategy, product marketing, and execution blueprint.
             </p>
           </motion.div>
           <div className="space-y-5">
@@ -213,8 +217,8 @@ export default function WarRoom() {
                 custom={i}
                 variants={fadeUp}
               >
-                <div className="shrink-0 w-16 h-16 rounded-xl bg-mint/15 flex flex-col items-center justify-center">
-                  <span className="text-[10px] text-mint font-medium text-center leading-tight px-1">
+                <div className="shrink-0 w-16 h-16 rounded-xl bg-ink text-white flex flex-col items-center justify-center">
+                  <span className="text-[10px] font-medium text-center leading-tight px-1">
                     {phase.period}
                   </span>
                 </div>
@@ -246,7 +250,7 @@ export default function WarRoom() {
             {deliverables.map((item, i) => (
               <motion.div
                 key={i}
-                className="flex items-start gap-3 p-4 rounded-xl bg-ink/5"
+                className="flex items-start gap-3 p-4 rounded-xl bg-muted"
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true }}
@@ -262,7 +266,7 @@ export default function WarRoom() {
       </section>
 
       {/* INVESTMENT */}
-      <section className="section-padding bg-ink/5">
+      <section className="section-padding bg-muted">
         <div className="container-width max-w-4xl">
           <motion.div
             className="glass-card p-8 md:p-12"
@@ -275,11 +279,11 @@ export default function WarRoom() {
               <div>
                 <h2 className="text-3xl font-bold mb-3">Getting started</h2>
                 <div className="flex items-baseline gap-3 mb-2">
-                  <span className="text-4xl font-bold text-mint">$5,000</span>
+                  <span className="text-4xl font-bold">$5,000</span>
                   <span className="text-muted-foreground">deposit to secure your slot</span>
                 </div>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Total investment: $35,000. Balance due on completion.
+                  Total investment: $25,000. Balance due on completion.
                 </p>
                 <div className="space-y-2 text-sm text-muted-foreground mb-4">
                   <div className="flex items-center gap-2">
@@ -288,7 +292,7 @@ export default function WarRoom() {
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-mint shrink-0" />
-                    <span>$30,000 balance after you have seen the output</span>
+                    <span>$20,000 balance after you have seen the output</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-mint shrink-0" />
@@ -309,7 +313,7 @@ export default function WarRoom() {
                   variant="outline"
                   size="lg"
                   className="w-full font-semibold"
-                  onClick={() => window.open(CALENDLY_URL, "_blank")}
+                  onClick={handleExplore}
                 >
                   Explore fit first
                 </Button>
@@ -367,7 +371,7 @@ export default function WarRoom() {
       </section>
 
       {/* QUESTIONS */}
-      <section className="section-padding bg-ink/5">
+      <section className="section-padding bg-muted">
         <div className="container-width max-w-3xl">
           <motion.div
             initial="hidden"
@@ -424,7 +428,7 @@ export default function WarRoom() {
                 variant="outline"
                 size="lg"
                 className="font-semibold text-base px-8"
-                onClick={() => window.open(CALENDLY_URL, "_blank")}
+                onClick={handleExplore}
               >
                 <Clock className="mr-2 w-4 h-4" />
                 Explore fit in 20 minutes

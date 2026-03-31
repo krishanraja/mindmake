@@ -79,10 +79,21 @@ const signals = [
   "You need predictive thinking about where AI competition is heading in your sector",
 ];
 
+const STRIPE_DEPOSIT = import.meta.env.VITE_STRIPE_CAIO_DEPOSIT || null;
 const CALENDLY_URL =
   import.meta.env.VITE_CALENDLY_URL || "https://calendly.com/krish-raja/mindmaker-meeting";
 
-const handleApply = () => window.open(CALENDLY_URL, "_blank");
+const handleDeposit = () => {
+  if (STRIPE_DEPOSIT) {
+    window.open(STRIPE_DEPOSIT, "_blank");
+  } else {
+    window.open(`${CALENDLY_URL}?source=embedded-deposit`, "_blank");
+  }
+};
+
+const handleExplore = () => {
+  window.open(CALENDLY_URL, "_blank");
+};
 
 export default function FractionalCAIO() {
   return (
@@ -94,7 +105,7 @@ export default function FractionalCAIO() {
       <Navigation />
 
       {/* HERO */}
-      <section className="section-padding pt-32">
+      <section className="section-padding pt-32 bg-ink">
         <div className="container-width max-w-4xl">
           <motion.div
             className="text-center mb-16"
@@ -106,16 +117,16 @@ export default function FractionalCAIO() {
               <Sparkles className="w-3.5 h-3.5" />
               1 engagement slot available
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white">
               Technical capability gets you in the game.
               <br />
               <span className="text-mint">Commercial strategy is how you win it.</span>
             </h1>
-            <p className="text-xl text-muted-foreground mb-4 max-w-2xl mx-auto">
+            <p className="text-xl text-white/70 mb-4 max-w-2xl mx-auto">
               In a world where every company will have AI capabilities,
               competitive advantage shifts to commercial strategy and product marketing.
             </p>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10">
+            <p className="text-lg text-white/60 max-w-2xl mx-auto mb-10">
               Embedded commercial strategy leadership for your AI investments.
               Not a quarterly advisor. Someone who owns the commercial thinking:
               what to build for market success, how to position it to win,
@@ -125,7 +136,7 @@ export default function FractionalCAIO() {
               <Button
                 size="lg"
                 className="bg-mint text-ink hover:bg-mint/90 font-semibold text-base px-8"
-                onClick={handleApply}
+                onClick={handleDeposit}
               >
                 Explore This Engagement
                 <ArrowRight className="ml-2 w-4 h-4" />
@@ -133,42 +144,42 @@ export default function FractionalCAIO() {
               <Button
                 variant="outline"
                 size="lg"
-                className="border-border text-foreground font-semibold text-base px-8"
-                onClick={handleApply}
+                className="border-white/20 text-white hover:bg-white/10 font-semibold text-base px-8"
+                onClick={handleExplore}
               >
                 <Calendar className="mr-2 w-4 h-4" />
                 20-minute chemistry call
               </Button>
             </div>
-            <p className="text-sm text-muted-foreground mt-4">
-              $5,000 deposit to begin. $20,000/month. 6-month minimum engagement.
+            <p className="text-sm text-white/40 mt-4">
+              $5,000 deposit to begin. $15,000/month. 6-month minimum engagement.
             </p>
           </motion.div>
 
           {/* Credibility */}
           <motion.div
-            className="glass-card p-6 mb-16"
+            className="rounded-lg border border-white/10 bg-white/5 p-6 mb-16"
             initial="hidden"
             animate="show"
             custom={2}
             variants={fadeUp}
           >
-            <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
+            <div className="flex flex-col md:flex-row md:items-start gap-6 md:gap-8">
               <div className="flex-1">
-                <p className="font-semibold text-base mb-2">
+                <p className="font-semibold text-base mb-2 text-white">
                   The rare combination
                 </p>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-white/60 text-sm">
                   Commercial product strategy plus master product marketing.
                   "What should we build" combined with "how do we position it to win."
                   Most companies get one or the other. This engagement gives you both.
                 </p>
               </div>
               <div className="flex-1">
-                <p className="font-semibold text-base mb-2">
+                <p className="font-semibold text-base mb-2 text-white">
                   15 years of what works (and what doesn't)
                 </p>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-white/60 text-sm">
                   Singtel. Nine Entertainment. Media and telco at scale.
                   Pattern recognition from inside the companies your business competes with.
                 </p>
@@ -179,7 +190,7 @@ export default function FractionalCAIO() {
       </section>
 
       {/* WHAT KRISH BRINGS / WHAT THIS IS NOT */}
-      <section className="section-padding bg-ink/5">
+      <section className="section-padding bg-muted">
         <div className="container-width max-w-4xl">
           <div className="grid md:grid-cols-2 gap-8">
             <motion.div
@@ -188,7 +199,7 @@ export default function FractionalCAIO() {
               viewport={{ once: true }}
               variants={fadeUp}
             >
-              <h3 className="text-xl font-bold mb-5 text-mint">What Krish brings</h3>
+              <h3 className="text-xl font-bold mb-5">What Krish brings</h3>
               <div className="space-y-3">
                 {whatKrishBrings.map((item, i) => (
                   <div key={i} className="flex items-start gap-3">
@@ -245,8 +256,8 @@ export default function FractionalCAIO() {
                 variants={fadeUp}
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-20 h-8 rounded-lg bg-mint/15 flex items-center justify-center">
-                    <span className="text-xs text-mint font-medium">{phase.period}</span>
+                  <div className="w-20 h-8 rounded-lg bg-ink text-white flex items-center justify-center">
+                    <span className="text-xs font-medium">{phase.period}</span>
                   </div>
                   <h3 className="text-xl font-semibold">{phase.title}</h3>
                 </div>
@@ -265,7 +276,7 @@ export default function FractionalCAIO() {
       </section>
 
       {/* MONTHLY SCOPE */}
-      <section className="section-padding bg-ink/5">
+      <section className="section-padding bg-muted">
         <div className="container-width max-w-4xl">
           <motion.div
             initial="hidden"
@@ -279,7 +290,7 @@ export default function FractionalCAIO() {
             {monthlyScope.map((item, i) => (
               <motion.div
                 key={i}
-                className="flex items-start gap-3 p-4 rounded-xl bg-ink/5"
+                className="flex items-start gap-3 p-4 rounded-xl bg-background"
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true }}
@@ -308,11 +319,11 @@ export default function FractionalCAIO() {
               <div>
                 <h2 className="text-3xl font-bold mb-3">Getting started</h2>
                 <div className="flex items-baseline gap-3 mb-2">
-                  <span className="text-4xl font-bold text-mint">$5,000</span>
+                  <span className="text-4xl font-bold">$5,000</span>
                   <span className="text-muted-foreground">deposit to begin</span>
                 </div>
                 <p className="text-sm text-muted-foreground mb-4">
-                  $20,000/month. 6-month minimum engagement ($120,000 total).
+                  $15,000/month. 6-month minimum engagement ($90,000 total).
                 </p>
                 <div className="space-y-2 text-sm text-muted-foreground">
                   <div className="flex items-center gap-2">
@@ -325,7 +336,7 @@ export default function FractionalCAIO() {
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-mint shrink-0" />
-                    <span>Maximum 3 active engagements at any time</span>
+                    <span>Maximum 2 active engagements at any time</span>
                   </div>
                 </div>
               </div>
@@ -333,7 +344,7 @@ export default function FractionalCAIO() {
                 <Button
                   size="lg"
                   className="bg-mint text-ink hover:bg-mint/90 font-semibold w-full"
-                  onClick={handleApply}
+                  onClick={handleDeposit}
                 >
                   Explore This Engagement
                   <ArrowRight className="ml-2 w-4 h-4" />
@@ -342,7 +353,7 @@ export default function FractionalCAIO() {
                   variant="outline"
                   size="lg"
                   className="w-full font-semibold"
-                  onClick={handleApply}
+                  onClick={handleExplore}
                 >
                   Chemistry call first
                 </Button>
@@ -353,7 +364,7 @@ export default function FractionalCAIO() {
       </section>
 
       {/* GOOD FIT */}
-      <section className="section-padding bg-ink/5">
+      <section className="section-padding bg-muted">
         <div className="container-width max-w-4xl">
           <motion.div
             initial="hidden"
@@ -404,7 +415,7 @@ export default function FractionalCAIO() {
             <Button
               size="lg"
               className="bg-mint text-ink hover:bg-mint/90 font-semibold text-base px-8"
-              onClick={handleApply}
+              onClick={handleExplore}
             >
               Start the Conversation
               <ArrowRight className="ml-2 w-4 h-4" />

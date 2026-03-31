@@ -79,7 +79,7 @@ const signals = [
   "You need predictive thinking about where AI competition is heading in your sector",
 ];
 
-const STRIPE_LINK = import.meta.env.VITE_STRIPE_CAIO_LINK || null;
+const STRIPE_LINK = import.meta.env.VITE_STRIPE_FRACTIONAL_DEPOSIT || null;
 const CALENDLY_URL =
   import.meta.env.VITE_CALENDLY_URL || "https://calendly.com/krish-raja/mindmaker-meeting";
 

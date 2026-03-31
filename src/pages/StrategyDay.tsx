@@ -59,7 +59,7 @@ const goodFor = [
   "Organisations preparing for board-level AI investment conversations",
 ];
 
-const STRIPE_LINK = import.meta.env.VITE_STRIPE_STRATEGY_DAY_LINK || null;
+const STRIPE_LINK = import.meta.env.VITE_STRIPE_SPRINT_DEPOSIT || null;
 const CALENDLY_URL =
   import.meta.env.VITE_CALENDLY_URL || "https://calendly.com/krish-raja/mindmaker-meeting";
 

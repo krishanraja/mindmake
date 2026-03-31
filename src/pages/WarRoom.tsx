@@ -120,13 +120,13 @@ export default function WarRoom() {
             variants={fadeUp}
           >
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-mint/10 border border-mint/20 text-foreground text-sm font-medium mb-6">
-              <Clock className="w-3.5 h-3.5 text-mint" />
+              <Clock className="w-3.5 h-3.5 text-mint-dark dark:text-mint" />
               4 April slots - 2 remaining
             </div>
             <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
               You have AI capability.
               <br />
-              <span className="text-mint">You are missing the commercial model.</span>
+              <span className="text-mint-dark dark:text-mint">You are missing the commercial model.</span>
             </h1>
             <p className="text-xl text-muted-foreground mb-4 max-w-2xl mx-auto">
               In 5 days: revenue architecture, pricing framework, go-to-market plan,
@@ -191,7 +191,7 @@ export default function WarRoom() {
                   href="https://www.krishraja.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-mint hover:underline font-medium"
+                  className="text-mint-dark dark:text-mint hover:underline font-medium"
                 >
                   his website
                 </a>
@@ -200,7 +200,7 @@ export default function WarRoom() {
                   href="https://www.linkedin.com/in/krish-raja/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-mint hover:underline font-medium"
+                  className="text-mint-dark dark:text-mint hover:underline font-medium"
                 >
                   LinkedIn
                 </a>
@@ -237,7 +237,7 @@ export default function WarRoom() {
                 variants={fadeUp}
               >
                 <div className="shrink-0 w-14 h-14 rounded-xl bg-mint/15 flex flex-col items-center justify-center">
-                  <span className="text-xs text-mint font-medium text-center leading-tight px-1">
+                  <span className="text-xs text-mint-dark dark:text-mint font-medium text-center leading-tight px-1">
                     {day.period}
                   </span>
                 </div>
@@ -276,7 +276,7 @@ export default function WarRoom() {
                 custom={i * 0.4}
                 variants={fadeUp}
               >
-                <CheckCircle className="w-5 h-5 text-mint shrink-0 mt-0.5" />
+                <CheckCircle className="w-5 h-5 text-mint-dark dark:text-mint shrink-0 mt-0.5" />
                 <span className="text-sm">{item}</span>
               </motion.div>
             ))}
@@ -298,20 +298,20 @@ export default function WarRoom() {
               <div>
                 <h2 className="text-3xl font-bold mb-3">Investment</h2>
                 <div className="flex items-baseline gap-3 mb-4">
-                  <span className="text-5xl font-bold text-mint">$25,000</span>
+                  <span className="text-5xl font-bold text-mint-dark dark:text-mint">$25,000</span>
                   <span className="text-muted-foreground">flat fee</span>
                 </div>
                 <div className="space-y-2 text-sm text-muted-foreground mb-4">
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-mint shrink-0" />
+                    <CheckCircle className="w-4 h-4 text-mint-dark dark:text-mint shrink-0" />
                     <span>No hourly. No scope creep. One price.</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-mint shrink-0" />
+                    <CheckCircle className="w-4 h-4 text-mint-dark dark:text-mint shrink-0" />
                     <span>100% upfront, or 50% on booking / 50% on delivery</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-mint shrink-0" />
+                    <CheckCircle className="w-4 h-4 text-mint-dark dark:text-mint shrink-0" />
                     <span>4 April slots (2 remaining)</span>
                   </div>
                 </div>
@@ -353,13 +353,13 @@ export default function WarRoom() {
               variants={fadeUp}
             >
               <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                <Users className="w-5 h-5 text-mint" />
+                <Users className="w-5 h-5 text-mint-dark dark:text-mint" />
                 Who This Is For
               </h2>
               <div className="space-y-3">
                 {whoItIsFor.map((item, i) => (
                   <div key={i} className="flex items-start gap-3">
-                    <CheckCircle className="w-4 h-4 text-mint shrink-0 mt-1" />
+                    <CheckCircle className="w-4 h-4 text-mint-dark dark:text-mint shrink-0 mt-1" />
                     <span className="text-sm text-muted-foreground">{item}</span>
                   </div>
                 ))}

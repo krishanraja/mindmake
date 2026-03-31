@@ -123,7 +123,7 @@ const Navigation = () => {
                   className={`text-sm font-semibold transition-all duration-200 ease-out flex items-center gap-1.5
                     py-2 px-3 rounded-md ${
                     openDropdown === item.label 
-                      ? 'text-mint bg-mint/10 shadow-sm' 
+                      ? 'text-mint-dark dark:text-mint bg-mint/10 shadow-sm'
                       : 'text-ink dark:text-white hover:text-mint hover:bg-mint/5'
                   }`}
                   aria-expanded={openDropdown === item.label}

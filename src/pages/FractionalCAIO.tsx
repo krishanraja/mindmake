@@ -100,13 +100,13 @@ export default function FractionalCAIO() {
             variants={fadeUp}
           >
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-mint/10 border border-mint/20 text-foreground text-sm font-medium mb-6">
-              <Zap className="w-3.5 h-3.5 text-mint" />
+              <Zap className="w-3.5 h-3.5 text-mint-dark dark:text-mint" />
               Maximum 4 active engagements - 1 slot available
             </div>
             <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
               Your CTO owns the build.
               <br />
-              <span className="text-mint">Who owns the revenue?</span>
+              <span className="text-mint-dark dark:text-mint">Who owns the revenue?</span>
             </h1>
             <p className="text-xl text-muted-foreground mb-4 max-w-2xl mx-auto">
               Most companies scaling AI have strong technical leadership and no commercial counterpart.
@@ -172,7 +172,7 @@ export default function FractionalCAIO() {
                   href="https://www.krishraja.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-mint hover:underline font-medium"
+                  className="text-mint-dark dark:text-mint hover:underline font-medium"
                 >
                   his website
                 </a>
@@ -181,7 +181,7 @@ export default function FractionalCAIO() {
                   href="https://www.linkedin.com/in/krish-raja/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-mint hover:underline font-medium"
+                  className="text-mint-dark dark:text-mint hover:underline font-medium"
                 >
                   LinkedIn
                 </a>
@@ -213,11 +213,11 @@ export default function FractionalCAIO() {
               viewport={{ once: true }}
               variants={fadeUp}
             >
-              <h3 className="text-xl font-bold mb-5 text-mint">What Krish Owns</h3>
+              <h3 className="text-xl font-bold mb-5 text-mint-dark dark:text-mint">What Krish Owns</h3>
               <div className="space-y-3">
                 {whatKrishDoes.map((item, i) => (
                   <div key={i} className="flex items-start gap-3">
-                    <CheckCircle className="w-4 h-4 text-mint shrink-0 mt-1" />
+                    <CheckCircle className="w-4 h-4 text-mint-dark dark:text-mint shrink-0 mt-1" />
                     <span className="text-sm text-muted-foreground">{item}</span>
                   </div>
                 ))}
@@ -278,7 +278,7 @@ export default function FractionalCAIO() {
                 <div className="space-y-2">
                   {section.items.map((item, j) => (
                     <div key={j} className="flex items-start gap-3">
-                      <CheckCircle className="w-4 h-4 text-mint shrink-0 mt-1" />
+                      <CheckCircle className="w-4 h-4 text-mint-dark dark:text-mint shrink-0 mt-1" />
                       <span className="text-sm text-muted-foreground">{item}</span>
                     </div>
                   ))}
@@ -303,7 +303,7 @@ export default function FractionalCAIO() {
               <div>
                 <h2 className="text-3xl font-bold mb-3">Investment</h2>
                 <div className="flex items-baseline gap-3 mb-2">
-                  <span className="text-5xl font-bold text-mint">$15,000</span>
+                  <span className="text-5xl font-bold text-mint-dark dark:text-mint">$15,000</span>
                   <span className="text-muted-foreground">per month</span>
                 </div>
                 <p className="text-sm text-muted-foreground mb-4">
@@ -311,15 +311,15 @@ export default function FractionalCAIO() {
                 </p>
                 <div className="space-y-2 text-sm text-muted-foreground mb-4">
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-mint shrink-0" />
+                    <CheckCircle className="w-4 h-4 text-mint-dark dark:text-mint shrink-0" />
                     <span>2 on-site or virtual strategy sessions per month</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-mint shrink-0" />
+                    <CheckCircle className="w-4 h-4 text-mint-dark dark:text-mint shrink-0" />
                     <span>Unlimited async advisory (Slack or email)</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-mint shrink-0" />
+                    <CheckCircle className="w-4 h-4 text-mint-dark dark:text-mint shrink-0" />
                     <span>Maximum 4 active clients at once</span>
                   </div>
                 </div>
@@ -362,13 +362,13 @@ export default function FractionalCAIO() {
               variants={fadeUp}
             >
               <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                <Users className="w-5 h-5 text-mint" />
+                <Users className="w-5 h-5 text-mint-dark dark:text-mint" />
                 Who This Is For
               </h2>
               <div className="space-y-3">
                 {whoItIsFor.map((item, i) => (
                   <div key={i} className="flex items-start gap-3">
-                    <CheckCircle className="w-4 h-4 text-mint shrink-0 mt-1" />
+                    <CheckCircle className="w-4 h-4 text-mint-dark dark:text-mint shrink-0 mt-1" />
                     <span className="text-sm text-muted-foreground">{item}</span>
                   </div>
                 ))}

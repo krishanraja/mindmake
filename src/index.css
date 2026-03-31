@@ -243,6 +243,7 @@
     --ink-50: 210 58% 95%;        /* Lightest ink tint for dark mode */
     
     /* MINT VARIATIONS - Dark mode */
+    --mint-dark: 158 82% 73%;     /* In dark mode, mint-dark = bright mint (dark bg provides contrast) */
     --mint-900: 158 60% 35%;      /* Darker mint */
     --mint-500: 158 82% 73%;      /* Current mint */
     --mint-300: 158 82% 85%;     /* Lighter mint */

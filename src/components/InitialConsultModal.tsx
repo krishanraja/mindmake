@@ -97,7 +97,7 @@ const ThankYouScreen = ({
       animate={{ scale: 1 }}
       transition={{ type: "spring", stiffness: 200, damping: 15 }}
     >
-      <CheckCircle className="w-16 h-16 text-mint mb-6" />
+      <CheckCircle className="w-16 h-16 text-mint-dark dark:text-mint mb-6" />
     </motion.div>
 
     <motion.h2

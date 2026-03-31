@@ -80,7 +80,7 @@ const SprintCard = ({
     <div className="glass-card p-8 hover:border-mint/40 transition-all flex flex-col">
       <div className="mb-6">
         <h3 className="text-3xl font-bold mb-2">{name}</h3>
-        <p className="text-xl text-mint">{tagline}</p>
+        <p className="text-xl text-mint-dark dark:text-mint">{tagline}</p>
         <p className="text-sm text-muted-foreground mt-2">{duration}</p>
       </div>
 
@@ -91,7 +91,7 @@ const SprintCard = ({
         <ul className="space-y-2">
           {outcomes.map((outcome, i) => (
             <li key={i} className="flex items-start gap-2">
-              <CheckCircle className="w-5 h-5 text-mint shrink-0 mt-0.5" />
+              <CheckCircle className="w-5 h-5 text-mint-dark dark:text-mint shrink-0 mt-0.5" />
               <span>{outcome}</span>
             </li>
           ))}

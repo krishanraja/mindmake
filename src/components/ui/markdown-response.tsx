@@ -55,7 +55,7 @@ export const MarkdownResponse = ({ content, className = '' }: MarkdownResponsePr
     ),
     li: ({ children }: any) => (
       <li className="flex gap-2">
-        <span className="text-mint mt-0.5">•</span>
+        <span className="text-mint-dark dark:text-mint mt-0.5">•</span>
         <span className="flex-1">{children}</span>
       </li>
     ),

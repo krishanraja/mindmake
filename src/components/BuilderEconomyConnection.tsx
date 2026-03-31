@@ -43,7 +43,7 @@ const BuilderEconomyConnection = () => {
             const cardContent = (
               <>
                 <div className="w-12 h-12 bg-mint/10 rounded-md flex items-center justify-center mx-auto mb-4">
-                  <IconComponent className="h-6 w-6 text-mint" />
+                  <IconComponent className="h-6 w-6 text-mint-dark dark:text-mint" />
                 </div>
                 
                 <h3 className="text-lg font-semibold text-foreground mb-3">

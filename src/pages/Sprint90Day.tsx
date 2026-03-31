@@ -64,7 +64,7 @@ const Sprint90Day = () => {
             <h1 className="text-5xl md:text-6xl font-bold mb-6">
               90-Day Sprint
             </h1>
-            <p className="text-2xl text-mint mb-4">
+            <p className="text-2xl text-mint-dark dark:text-mint mb-4">
               The full journey. Mind Set &rarr; Mind Map &rarr; Mind Make.
             </p>
             <p className="text-xl text-muted-foreground">
@@ -81,12 +81,12 @@ const Sprint90Day = () => {
               {monthlyArc.map((month) => (
                 <div key={month.month}>
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-12 h-12 rounded-full bg-mint/20 flex items-center justify-center font-bold text-mint">
+                    <div className="w-12 h-12 rounded-full bg-mint/20 flex items-center justify-center font-bold text-mint-dark dark:text-mint">
                       {month.month}
                     </div>
                     <div>
                       <h3 className="text-2xl font-semibold">{month.theme}</h3>
-                      <p className="text-sm text-mint">{month.phase}</p>
+                      <p className="text-sm text-mint-dark dark:text-mint">{month.phase}</p>
                     </div>
                   </div>
                   <p className="ml-14 sm:ml-[60px] text-muted-foreground">
@@ -103,7 +103,7 @@ const Sprint90Day = () => {
             <ul className="space-y-4">
               {outcomes.map((item, i) => (
                 <li key={i} className="flex items-start gap-3">
-                  <CheckCircle className="w-6 h-6 text-mint shrink-0 mt-0.5" />
+                  <CheckCircle className="w-6 h-6 text-mint-dark dark:text-mint shrink-0 mt-0.5" />
                   <span className="text-lg">{item}</span>
                 </li>
               ))}
@@ -121,7 +121,7 @@ const Sprint90Day = () => {
                   key={i}
                   className="flex items-start gap-2 p-4 rounded-lg bg-ink/5"
                 >
-                  <CheckCircle className="w-5 h-5 text-mint shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-mint-dark dark:text-mint shrink-0 mt-0.5" />
                   <span className="text-sm">{example}</span>
                 </div>
               ))}
@@ -139,7 +139,7 @@ const Sprint90Day = () => {
 
             <div className="space-y-6">
               <div className="glass-card p-6">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-mint mb-1">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-mint-dark dark:text-mint mb-1">
                   Month 1 &mdash; Mind Set (Clarity)
                 </h3>
                 <p className="text-xs text-muted-foreground mb-3">Filter the noise. Set your boundaries. Develop taste.</p>
@@ -158,7 +158,7 @@ const Sprint90Day = () => {
               </div>
 
               <div className="glass-card p-6">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-mint mb-1">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-mint-dark dark:text-mint mb-1">
                   Month 2 &mdash; Mind Map (Leverage)
                 </h3>
                 <p className="text-xs text-muted-foreground mb-3">Build systems. Multiply strengths. Automate weaknesses.</p>
@@ -178,7 +178,7 @@ const Sprint90Day = () => {
               </div>
 
               <div className="glass-card p-6">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-mint mb-1">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-mint-dark dark:text-mint mb-1">
                   Month 3 &mdash; Mind Make (Direction)
                 </h3>
                 <p className="text-xs text-muted-foreground mb-3">Make high-stakes decisions. Set the roadmap. Brief the board.</p>

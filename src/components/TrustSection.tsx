@@ -114,7 +114,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => {
 
       {/* Read more hint */}
       {!isExpanded && (
-        <p className="text-[10px] text-mint mt-1.5 font-medium">Read more</p>
+        <p className="text-[10px] text-mint-dark dark:text-mint mt-1.5 font-medium">Read more</p>
       )}
 
       {/* Footer -- always at bottom */}

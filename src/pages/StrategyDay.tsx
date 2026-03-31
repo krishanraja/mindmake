@@ -98,13 +98,13 @@ export default function StrategyDay() {
             variants={fadeUp}
           >
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-mint/10 border border-mint/20 text-foreground text-sm font-medium mb-6">
-              <Clock className="w-3.5 h-3.5 text-mint" />
+              <Clock className="w-3.5 h-3.5 text-mint-dark dark:text-mint" />
               April dates available - virtual or NYC in-person
             </div>
             <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
               You built the AI product.
               <br />
-              <span className="text-mint">Your team cannot sell it.</span>
+              <span className="text-mint-dark dark:text-mint">Your team cannot sell it.</span>
             </h1>
             <p className="text-xl text-muted-foreground mb-4 max-w-2xl mx-auto">
               One day. Positioning, pricing, sales story, and your first 3 revenue plays.
@@ -169,7 +169,7 @@ export default function StrategyDay() {
                   href="https://www.krishraja.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-mint hover:underline font-medium"
+                  className="text-mint-dark dark:text-mint hover:underline font-medium"
                 >
                   his website
                 </a>
@@ -178,7 +178,7 @@ export default function StrategyDay() {
                   href="https://www.linkedin.com/in/krish-raja/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-mint hover:underline font-medium"
+                  className="text-mint-dark dark:text-mint hover:underline font-medium"
                 >
                   LinkedIn
                 </a>
@@ -213,7 +213,7 @@ export default function StrategyDay() {
                 custom={i}
                 variants={fadeUp}
               >
-                <CheckCircle className="w-5 h-5 text-mint shrink-0 mt-0.5" />
+                <CheckCircle className="w-5 h-5 text-mint-dark dark:text-mint shrink-0 mt-0.5" />
                 <span className="text-sm">{item}</span>
               </motion.div>
             ))}
@@ -247,7 +247,7 @@ export default function StrategyDay() {
                 variants={fadeUp}
               >
                 <div className="shrink-0 w-14 h-14 rounded-xl bg-mint/15 flex flex-col items-center justify-center">
-                  <span className="text-xs text-mint font-medium text-center leading-tight px-1">
+                  <span className="text-xs text-mint-dark dark:text-mint font-medium text-center leading-tight px-1">
                     {hour.hour}
                   </span>
                 </div>
@@ -286,7 +286,7 @@ export default function StrategyDay() {
                 custom={i * 0.4}
                 variants={fadeUp}
               >
-                <CheckCircle className="w-5 h-5 text-mint shrink-0 mt-0.5" />
+                <CheckCircle className="w-5 h-5 text-mint-dark dark:text-mint shrink-0 mt-0.5" />
                 <span className="text-sm">{item}</span>
               </motion.div>
             ))}
@@ -308,23 +308,23 @@ export default function StrategyDay() {
               <div>
                 <h2 className="text-3xl font-bold mb-3">Investment</h2>
                 <div className="flex items-baseline gap-3 mb-4">
-                  <span className="text-5xl font-bold text-mint">$7,500</span>
+                  <span className="text-5xl font-bold text-mint-dark dark:text-mint">$7,500</span>
                 </div>
                 <div className="space-y-2 text-sm text-muted-foreground mb-4">
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-mint shrink-0" />
+                    <CheckCircle className="w-4 h-4 text-mint-dark dark:text-mint shrink-0" />
                     <span>100% upfront at booking</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-mint shrink-0" />
+                    <CheckCircle className="w-4 h-4 text-mint-dark dark:text-mint shrink-0" />
                     <span>Virtual or NYC in-person</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-mint shrink-0" />
+                    <CheckCircle className="w-4 h-4 text-mint-dark dark:text-mint shrink-0" />
                     <span>Written deliverables within 48 hours</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-mint shrink-0" />
+                    <CheckCircle className="w-4 h-4 text-mint-dark dark:text-mint shrink-0" />
                     <span>Up to 6 people from your team can join</span>
                   </div>
                 </div>
@@ -362,7 +362,7 @@ export default function StrategyDay() {
             variants={fadeUp}
           >
             <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-              <Users className="w-5 h-5 text-mint" />
+              <Users className="w-5 h-5 text-mint-dark dark:text-mint" />
               Good For
             </h2>
           </motion.div>
@@ -377,7 +377,7 @@ export default function StrategyDay() {
                 custom={i * 0.3}
                 variants={fadeUp}
               >
-                <CheckCircle className="w-4 h-4 text-mint shrink-0 mt-1" />
+                <CheckCircle className="w-4 h-4 text-mint-dark dark:text-mint shrink-0 mt-1" />
                 <span className="text-sm text-muted-foreground">{item}</span>
               </motion.div>
             ))}

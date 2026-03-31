@@ -70,7 +70,7 @@ const Sprint4Week = () => {
             <h1 className="text-5xl md:text-6xl font-bold mb-6">
               4-Week Sprint
             </h1>
-            <p className="text-2xl text-mint mb-4">
+            <p className="text-2xl text-mint-dark dark:text-mint mb-4">
               One decision. Four weeks. Board-ready.
             </p>
             <p className="text-xl text-muted-foreground">
@@ -87,7 +87,7 @@ const Sprint4Week = () => {
               {weeklyArc.map((week) => (
                 <div key={week.week}>
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-12 h-12 rounded-full bg-mint/20 flex items-center justify-center font-bold text-mint">
+                    <div className="w-12 h-12 rounded-full bg-mint/20 flex items-center justify-center font-bold text-mint-dark dark:text-mint">
                       {week.week}
                     </div>
                     <h3 className="text-2xl font-semibold">{week.theme}</h3>
@@ -116,7 +116,7 @@ const Sprint4Week = () => {
                   key={i}
                   className="flex items-start gap-2 p-4 rounded-lg bg-ink/5"
                 >
-                  <CheckCircle className="w-5 h-5 text-mint shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-mint-dark dark:text-mint shrink-0 mt-0.5" />
                   <span className="text-sm">{decision}</span>
                 </div>
               ))}
@@ -129,7 +129,7 @@ const Sprint4Week = () => {
             <ul className="space-y-4">
               {deliverables.map((item, i) => (
                 <li key={i} className="flex items-start gap-3">
-                  <CheckCircle className="w-6 h-6 text-mint shrink-0 mt-0.5" />
+                  <CheckCircle className="w-6 h-6 text-mint-dark dark:text-mint shrink-0 mt-0.5" />
                   <span className="text-lg">{item}</span>
                 </li>
               ))}
@@ -147,7 +147,7 @@ const Sprint4Week = () => {
 
             <div className="space-y-6">
               <div>
-                <h3 className="text-sm font-bold uppercase tracking-wider text-mint mb-3">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-mint-dark dark:text-mint mb-3">
                   Mind Set (Clarity)
                 </h3>
                 <div className="grid sm:grid-cols-3 gap-3">
@@ -165,7 +165,7 @@ const Sprint4Week = () => {
               </div>
 
               <div>
-                <h3 className="text-sm font-bold uppercase tracking-wider text-mint mb-3">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-mint-dark dark:text-mint mb-3">
                   Mind Map (Leverage)
                 </h3>
                 <div className="grid sm:grid-cols-3 gap-3">
@@ -186,7 +186,7 @@ const Sprint4Week = () => {
               </div>
 
               <div>
-                <h3 className="text-sm font-bold uppercase tracking-wider text-mint mb-3">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-mint-dark dark:text-mint mb-3">
                   Mind Make (Direction)
                 </h3>
                 <div className="grid sm:grid-cols-3 gap-3">

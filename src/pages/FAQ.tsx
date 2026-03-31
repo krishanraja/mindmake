@@ -174,7 +174,7 @@ const FAQ = () => {
               </div>
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-display">
-                Frequently Asked <span className="text-mint dark:text-mint">Questions</span>
+                Frequently Asked <span className="text-mint-dark dark:text-mint">Questions</span>
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground">
                 Everything you need to know about turning leaders into no-code AI builders.

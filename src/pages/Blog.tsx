@@ -80,7 +80,7 @@ const Blog = () => {
             
             <div className="max-w-3xl">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-display">
-                AI Literacy <span className="text-mint dark:text-mint">Insights</span>
+                AI Literacy <span className="text-mint-dark dark:text-mint">Insights</span>
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground">
                 Practical frameworks and strategies for leaders building AI capability. 

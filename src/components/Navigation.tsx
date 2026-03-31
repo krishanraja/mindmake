@@ -21,6 +21,14 @@ const Navigation = () => {
 
   const navItems = [
     {
+      label: "Work With Me",
+      dropdown: [
+        { label: "AI War Room — $25K", href: "/war-room" },
+        { label: "Fractional CAIO — $15K/mo", href: "/fractional-caio" },
+        { label: "AI Strategy Day — $7.5K", href: "/strategy-day" },
+      ]
+    },
+    {
       label: "Sprints",
       dropdown: [
         { label: "Builder Sprints", href: "/sprints?path=build" },

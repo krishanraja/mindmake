@@ -37,6 +37,9 @@ import Contact from "./pages/Contact";
 import LeadershipInsights from "./pages/LeadershipInsights";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import WarRoom from "./pages/WarRoom";
+import FractionalCAIO from "./pages/FractionalCAIO";
+import StrategyDay from "./pages/StrategyDay";
 
 const queryClient = new QueryClient();
 
@@ -102,6 +105,10 @@ const AppRoutes = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
+        {/* Enterprise Offers */}
+        <Route path="/war-room" element={<WarRoom />} />
+        <Route path="/fractional-caio" element={<FractionalCAIO />} />
+        <Route path="/strategy-day" element={<StrategyDay />} />
         {/* Leadership Insights Diagnostic - accessible at /leaders */}
         <Route path="/leaders" element={<LeadershipInsights />} />
         <Route path="/leadership-insights" element={<LeadershipInsights />} />

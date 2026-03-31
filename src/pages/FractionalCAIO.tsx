@@ -79,16 +79,12 @@ const signals = [
   "You need predictive thinking about where AI competition is heading in your sector",
 ];
 
-const STRIPE_DEPOSIT = import.meta.env.VITE_STRIPE_CAIO_DEPOSIT || null;
+const STRIPE_LINK = import.meta.env.VITE_STRIPE_FRACTIONAL_DEPOSIT || null;
 const CALENDLY_URL =
   import.meta.env.VITE_CALENDLY_URL || "https://calendly.com/krish-raja/mindmaker-meeting";
 
-const handleDeposit = () => {
-  if (STRIPE_DEPOSIT) {
-    window.open(STRIPE_DEPOSIT, "_blank");
-  } else {
-    window.open(`${CALENDLY_URL}?source=embedded-deposit`, "_blank");
-  }
+const handleBook = () => {
+  window.open(STRIPE_LINK || CALENDLY_URL, "_blank");
 };
 
 const handleExplore = () => {
@@ -117,26 +113,22 @@ export default function FractionalCAIO() {
               <Sparkles className="w-3.5 h-3.5" />
               1 engagement slot available
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white text-balance">
               Technical capability gets you in the game.
               <br />
-              <span className="text-mint">Commercial strategy is how you win it.</span>
+              <span className="text-mint">Commercial strategy is how you win.</span>
             </h1>
-            <p className="text-xl text-white/70 mb-4 max-w-2xl mx-auto">
-              In a world where every company will have AI capabilities,
-              competitive advantage shifts to commercial strategy and product marketing.
+            <p className="text-xl text-white/70 mb-4 max-w-2xl mx-auto text-balance">
+              When every company has AI capabilities, competitive advantage shifts to commercial strategy and product marketing.
             </p>
-            <p className="text-lg text-white/60 max-w-2xl mx-auto mb-10">
-              Embedded commercial strategy leadership for your AI investments.
-              Not a quarterly advisor. Someone who owns the commercial thinking:
-              what to build for market success, how to position it to win,
-              and how to stay ahead of competition.
+            <p className="text-lg text-white/60 max-w-2xl mx-auto mb-10 text-balance">
+              Embedded commercial strategy leadership for your AI investments. Not a quarterly advisor. Someone who owns the commercial thinking: what to build for market success, how to position it to win, and how to stay ahead of competition.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 size="lg"
                 className="bg-mint text-ink hover:bg-mint/90 font-semibold text-base px-8"
-                onClick={handleDeposit}
+                onClick={handleBook}
               >
                 Explore This Engagement
                 <ArrowRight className="ml-2 w-4 h-4" />
@@ -344,7 +336,7 @@ export default function FractionalCAIO() {
                 <Button
                   size="lg"
                   className="bg-mint text-ink hover:bg-mint/90 font-semibold w-full"
-                  onClick={handleDeposit}
+                  onClick={handleBook}
                 >
                   Explore This Engagement
                   <ArrowRight className="ml-2 w-4 h-4" />

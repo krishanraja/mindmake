@@ -59,16 +59,12 @@ const goodFor = [
   "Organisations preparing for board-level AI investment conversations",
 ];
 
-const STRIPE_DEPOSIT = import.meta.env.VITE_STRIPE_SPRINT_DEPOSIT || null;
+const STRIPE_LINK = import.meta.env.VITE_STRIPE_SPRINT_DEPOSIT || null;
 const CALENDLY_URL =
   import.meta.env.VITE_CALENDLY_URL || "https://calendly.com/krish-raja/mindmaker-meeting";
 
-const handleDeposit = () => {
-  if (STRIPE_DEPOSIT) {
-    window.open(STRIPE_DEPOSIT, "_blank");
-  } else {
-    window.open(`${CALENDLY_URL}?source=sprint-deposit`, "_blank");
-  }
+const handleBook = () => {
+  window.open(STRIPE_LINK || CALENDLY_URL, "_blank");
 };
 
 const handleExplore = () => {
@@ -97,26 +93,22 @@ export default function StrategyDay() {
               <Clock className="w-3.5 h-3.5" />
               April dates available
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white text-balance">
               In a world full of AI products,
               <br />
-              <span className="text-mint">positioning is the only real advantage.</span>
+              <span className="text-mint">positioning is the only advantage.</span>
             </h1>
-            <p className="text-xl text-white/70 mb-4 max-w-2xl mx-auto">
-              Great AI capabilities still need great commercial strategy.
-              One day to build both.
+            <p className="text-xl text-white/70 mb-4 max-w-2xl mx-auto text-balance">
+              Great AI capabilities still need great commercial strategy. One day to build both.
             </p>
-            <p className="text-lg text-white/60 max-w-2xl mx-auto mb-10">
-              Four hours with someone who has spent 15 years learning the patterns
-              of what wins commercially with AI - and what doesn't. You leave with
-              a positioning framework, product marketing strategy, and a 90-day
-              commercial roadmap your team can execute immediately.
+            <p className="text-lg text-white/60 max-w-2xl mx-auto mb-10 text-balance">
+              Four hours with someone who has spent 15 years learning the patterns of what wins commercially with AI - and what doesn't. You leave with a positioning framework, product marketing strategy, and a 90-day commercial roadmap your team can execute immediately.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 size="lg"
                 className="bg-mint text-ink hover:bg-mint/90 font-semibold text-base px-8"
-                onClick={handleDeposit}
+                onClick={handleBook}
               >
                 Book Your Sprint
                 <ArrowRight className="ml-2 w-4 h-4" />
@@ -266,7 +258,7 @@ export default function StrategyDay() {
                 <Button
                   size="lg"
                   className="bg-mint text-ink hover:bg-mint/90 font-semibold w-full"
-                  onClick={handleDeposit}
+                  onClick={handleBook}
                 >
                   Book Your Sprint
                   <ArrowRight className="ml-2 w-4 h-4" />
@@ -338,7 +330,7 @@ export default function StrategyDay() {
               <Button
                 size="lg"
                 className="bg-mint text-ink hover:bg-mint/90 font-semibold text-base px-8"
-                onClick={handleDeposit}
+                onClick={handleBook}
               >
                 Book Your Sprint
                 <ArrowRight className="ml-2 w-4 h-4" />

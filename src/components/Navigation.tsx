@@ -23,9 +23,9 @@ const Navigation = () => {
     {
       label: "Work With Me",
       dropdown: [
-        { label: "AI War Room — $25K", href: "/war-room" },
-        { label: "Fractional CAIO — $15K/mo", href: "/fractional-caio" },
-        { label: "AI Strategy Day — $7.5K", href: "/strategy-day" },
+        { label: "Commercial Strategy Sprint - $25K", href: "/war-room" },
+        { label: "Fractional Commercial Strategist - $15K/mo", href: "/fractional-caio" },
+        { label: "AI Revenue Day - $7.5K", href: "/strategy-day" },
       ]
     },
     {

@@ -1,104 +1,111 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle, ArrowRight, Clock, Users, FileText, Zap, Shield, Calendar } from "lucide-react";
-import { InitialConsultModal } from "@/components/InitialConsultModal";
+import {
+  CheckCircle, ArrowRight, Clock, Users, Shield, Calendar, BarChart3
+} from "lucide-react";
 import { SEO } from "@/components/SEO";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
-  show: (i = 0) => ({ opacity: 1, y: 0, transition: { delay: i * 0.08, duration: 0.5, ease: "easeOut" } }),
+  show: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.08, duration: 0.5, ease: "easeOut" },
+  }),
 };
 
-const warRoomDays = [
+const sprintDays = [
   {
     period: "Pre-work",
-    theme: "Foundation",
+    theme: "Commercial Audit",
     description:
-      "Before Day 1, you complete an AI Readiness Questionnaire. We build a full research brief: your competitive landscape, peer AI benchmarks, current tool inventory. No session starts cold.",
+      "Before Day 1, your team completes a Commercial AI Audit questionnaire. We build a competitive brief covering what your peers are actually earning from AI, how they are pricing it, and where the commercial gaps are. No session starts cold.",
   },
   {
-    period: "Days 1–2",
-    theme: "Discovery",
+    period: "Days 1-2",
+    theme: "Diagnostic",
     description:
-      "Two 2-hour working sessions with your leadership team. We map your current AI maturity across five dimensions — honestly. We identify what's working, what's wasted spend, and where the real opportunities sit.",
+      "Two 2-hour working sessions with your commercial leadership team. We map where the AI investment currently sits versus where the revenue is. We identify who owns the commercial model for AI (usually nobody). We agree on the 3 highest-value commercial opportunities.",
   },
   {
-    period: "Days 3–4",
-    theme: "Strategy Build",
+    period: "Days 3-4",
+    theme: "Commercial Architecture",
     description:
-      "Your top 5 AI opportunities, ranked by ROI and implementation feasibility. A competitive landscape map. A vendor shortlist with TCO estimates. A 90-day implementation roadmap. Built while you sleep.",
+      "Revenue model built and scored across 3 options. Pricing framework: how to charge for AI-enabled products and services. Go-to-market plan: who buys this, what the sales motion looks like, and what your commercial team needs to execute it. Built while you run the business.",
   },
   {
     period: "Day 5",
     theme: "Board-Ready",
     description:
-      "Krish presents a 90-minute board-ready session: your strategy, your roadmap, your decisions — defended and documented. Every asset is yours, editable, branded. Plus a 30-day follow-up call.",
+      "Krish presents the full commercial strategy in a 90-minute session: revenue model, pricing, go-to-market, and 90-day commercial roadmap. Every asset is yours, editable, branded. 30-day follow-up call included.",
   },
 ];
 
 const deliverables = [
-  "AI maturity assessment across 5 dimensions",
-  "Competitive AI landscape map (your sector, your peers)",
-  "Top 5 AI opportunities ranked by ROI + feasibility",
-  "Vendor shortlist with TCO estimates for top 3 use cases",
-  "90-day implementation roadmap with 30/60/90 milestones",
-  "Risk and governance framework (1 page)",
-  "Board-ready presentation deck (Krish presents, or you take it)",
-  "Written executive summary (2–3 pages)",
+  "Commercial AI audit: what exists, what it costs, what it earns",
+  "Revenue model framework with 3 options scored against your business",
+  "Pricing and packaging architecture for AI-enabled products",
+  "Go-to-market plan: target buyers, sales motion, channel strategy",
+  "Sales enablement kit: talk tracks, objection handling, demo flow",
+  "90-day commercial roadmap with milestones and owners",
+  "Written commercial strategy document (25-30 pages, client-branded)",
+  "Board presentation deck (Krish presents or you take it)",
   "30-day follow-up call",
 ];
 
 const whoItIsFor = [
-  "CMOs, CCOs, CDOs, and CEOs at media, telco, and entertainment companies",
-  "Companies with $50M–$500M revenue that know AI matters but haven't moved",
-  "Leadership teams who've started an AI initiative and stalled",
-  "New CDOs or CMOs who need a strategy to present within 90 days",
-  "PE-backed portfolio companies under pressure to demonstrate AI value",
+  "CEOs, CMOs, CCOs, and CPOs at media, telco, and entertainment companies",
+  "Companies with AI capability built or in progress and no commercial model for it",
+  "Leadership teams where AI investment is not showing in the P&L",
+  "New commercial leaders who need a board-ready AI revenue strategy fast",
+  "PE-backed companies under pressure to show AI commercial returns",
 ];
 
 const notFor = [
-  "Pure tech companies with an in-house AI team",
-  "Companies wanting to build AI products (this is strategy, not engineering)",
-  "Companies under $20M revenue",
+  "Companies still in the AI build phase (come back when you have something)",
+  "Companies looking for AI engineering or technical implementation support",
+  "Companies where the commercial team already owns AI revenue strategy",
 ];
 
 const objections = [
   {
-    q: '"$25K is a lot."',
-    a: "A senior strategy consultant's day rate is $5,000–$10,000. This is five days of full-team output plus research, analysis, and a board deck. Comparable work from a big-4 firm runs $100,000–$200,000 and takes three months.",
+    q: "We have a Head of AI already.",
+    a: "Good. They own the build. This Sprint is about who owns the revenue. Those are different jobs. The Sprint works alongside your technical leadership, not instead of them.",
   },
   {
-    q: '"We could do this internally."',
-    a: "You could. Most companies have been trying for 12+ months. The value is outside-in perspective, speed, and the fact that it actually gets done — in a week.",
+    q: "We could figure this out internally.",
+    a: "Probably. Most companies have been trying for 12 months. The value here is outside-in commercial perspective, speed, and the fact that it actually gets finished in a week.",
   },
   {
-    q: '"We need to think about it."',
-    a: "Understood. There are 4 April slots. Two are earmarked. Happy to hold one while you decide — no obligation if it doesn't work.",
+    q: "Why 5 days?",
+    a: "Because the commercial model does not take 3 months to build if the right person is in the room. Speed is the point. Your board is not waiting.",
+  },
+  {
+    q: "$25,000 is a lot.",
+    a: "A senior commercial consultant costs $5,000 to $10,000 per day. This is 5 days of focused output plus research, analysis, and a board-ready strategy. Comparable scope from a Big 4 firm runs $100,000 to $200,000 and takes 3 months.",
   },
 ];
 
-const STRIPE_WAR_ROOM_LINK = import.meta.env.VITE_STRIPE_WAR_ROOM_LINK || null;
-const CALENDLY_URL = import.meta.env.VITE_CALENDLY_URL || "https://calendly.com/krish-mindmaker";
+const STRIPE_LINK = import.meta.env.VITE_STRIPE_WAR_ROOM_LINK || null;
+const CALENDLY_URL =
+  import.meta.env.VITE_CALENDLY_URL || "https://calendly.com/krish-raja/mindmaker-meeting";
+
+const handleBook = () => {
+  if (STRIPE_LINK) {
+    window.open(STRIPE_LINK, "_blank");
+  } else {
+    window.open(CALENDLY_URL, "_blank");
+  }
+};
 
 export default function WarRoom() {
-  const [consultModalOpen, setConsultModalOpen] = useState(false);
-
-  const handleCTA = () => {
-    if (STRIPE_WAR_ROOM_LINK) {
-      window.open(STRIPE_WAR_ROOM_LINK, "_blank");
-    } else {
-      window.open(CALENDLY_URL, "_blank");
-    }
-  };
-
   return (
     <main className="min-h-screen bg-background">
       <SEO
-        title="AI War Room — 5-Day Strategy Sprint | Mindmaker"
-        description="Your AI strategy built in 5 days. A rapid sprint that produces a board-ready AI roadmap, competitive landscape, and 90-day implementation plan. $25,000 flat fee."
+        title="Commercial Strategy Sprint - 5-Day Intensive | Mindmaker"
+        description="You have AI capability. You are missing the commercial model. In 5 days: revenue architecture, pricing framework, go-to-market plan, and a board-ready strategy. $25,000 flat fee."
       />
       <Navigation />
 
@@ -112,30 +119,30 @@ export default function WarRoom() {
             variants={fadeUp}
           >
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-mint/10 border border-mint/20 text-mint text-sm font-medium mb-6">
-              <Zap className="w-3.5 h-3.5" />
-              4 April slots — 2 remaining
+              <Clock className="w-3.5 h-3.5" />
+              4 April slots - 2 remaining
             </div>
             <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-              Your AI Strategy.
+              You have AI capability.
               <br />
-              <span className="text-mint">Built in 5 Days.</span>
+              <span className="text-mint">You are missing the commercial model.</span>
             </h1>
             <p className="text-xl text-muted-foreground mb-4 max-w-2xl mx-auto">
-              Most companies have been "working on their AI strategy" for over a year.
-              The War Room ends that.
+              In 5 days: revenue architecture, pricing framework, go-to-market plan,
+              and a board-ready commercial strategy for your AI investment.
             </p>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10">
-              A competitive landscape map. Your top 5 AI opportunities ranked by ROI.
-              A 90-day implementation roadmap. A board-ready presentation.
-              All in one week.
+              This is not a technology assessment. It is not another AI roadmap.
+              It is a commercial strategy sprint run by someone who has spent 16 years
+              on the revenue side of AI transformation in media and telco.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 size="lg"
                 className="bg-mint text-ink hover:bg-mint/90 font-semibold text-base px-8"
-                onClick={handleCTA}
+                onClick={handleBook}
               >
-                Book a War Room
+                Book a Commercial Strategy Sprint
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
               <Button
@@ -145,15 +152,15 @@ export default function WarRoom() {
                 onClick={() => window.open(CALENDLY_URL, "_blank")}
               >
                 <Calendar className="mr-2 w-4 h-4" />
-                Schedule a 20-minute call first
+                20-minute call first
               </Button>
             </div>
             <p className="text-sm text-muted-foreground mt-4">
-              $25,000 flat fee — no hourly, no scope creep. 100% upfront, or 50/50 on booking and delivery.
+              $25,000 flat fee. No hourly. No scope creep. 100% upfront or 50/50 on booking and delivery.
             </p>
           </motion.div>
 
-          {/* Social proof bar */}
+          {/* Credibility bar */}
           <motion.div
             className="glass-card p-6 mb-16 text-center"
             initial="hidden"
@@ -162,20 +169,20 @@ export default function WarRoom() {
             variants={fadeUp}
           >
             <p className="text-muted-foreground text-sm mb-2">
-              Krish ran AI transformation mandates at
+              Krish ran commercial strategy and revenue transformation at
             </p>
             <p className="font-semibold text-base">
-              Singtel · Nine Entertainment · Meliora
+              Singtel - Nine Entertainment - Meliora
             </p>
-            <p className="text-muted-foreground text-sm mt-2">
-              Enterprise media and telco companies across Asia-Pacific, Australia, and the US.
-              The War Room is that same thinking, compressed into a week.
+            <p className="text-muted-foreground text-sm mt-2 max-w-xl mx-auto">
+              He is not advising on a sector he studied. He ran P&Ls and commercial operations
+              inside the businesses your company competes with. That is the difference.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* THE 5-DAY ARC */}
+      {/* 5-DAY ARC */}
       <section className="section-padding bg-ink/5">
         <div className="container-width max-w-4xl">
           <motion.div
@@ -186,12 +193,12 @@ export default function WarRoom() {
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-3">The 5-Day Arc</h2>
             <p className="text-muted-foreground text-lg mb-10">
-              Not a workshop. Not a framework. A real strategy — built around your business.
+              Commercial model, pricing, go-to-market, and board-ready output.
+              Built while you run the business.
             </p>
           </motion.div>
-
-          <div className="space-y-6">
-            {warRoomDays.map((day, i) => (
+          <div className="space-y-5">
+            {sprintDays.map((day, i) => (
               <motion.div
                 key={day.period}
                 className="glass-card p-6 flex gap-5"
@@ -201,14 +208,14 @@ export default function WarRoom() {
                 custom={i}
                 variants={fadeUp}
               >
-                <div className="shrink-0">
-                  <div className="w-14 h-14 rounded-xl bg-mint/15 flex flex-col items-center justify-center">
-                    <span className="text-xs text-mint font-medium leading-none">{day.period}</span>
-                  </div>
+                <div className="shrink-0 w-14 h-14 rounded-xl bg-mint/15 flex flex-col items-center justify-center">
+                  <span className="text-xs text-mint font-medium text-center leading-tight px-1">
+                    {day.period}
+                  </span>
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold mb-2">{day.theme}</h3>
-                  <p className="text-muted-foreground">{day.description}</p>
+                  <p className="text-muted-foreground text-sm">{day.description}</p>
                 </div>
               </motion.div>
             ))}
@@ -227,10 +234,9 @@ export default function WarRoom() {
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-3">What You Walk Away With</h2>
             <p className="text-muted-foreground text-lg mb-10">
-              Everything editable. Everything branded. Everything yours.
+              Everything editable, branded, and ready to present.
             </p>
           </motion.div>
-
           <div className="grid sm:grid-cols-2 gap-4">
             {deliverables.map((item, i) => (
               <motion.div
@@ -239,7 +245,7 @@ export default function WarRoom() {
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true }}
-                custom={i * 0.5}
+                custom={i * 0.4}
                 variants={fadeUp}
               >
                 <CheckCircle className="w-5 h-5 text-mint shrink-0 mt-0.5" />
@@ -250,7 +256,7 @@ export default function WarRoom() {
         </div>
       </section>
 
-      {/* PRICING CALLOUT */}
+      {/* PRICING */}
       <section className="section-padding bg-ink/5">
         <div className="container-width max-w-4xl">
           <motion.div
@@ -260,14 +266,14 @@ export default function WarRoom() {
             viewport={{ once: true }}
             variants={fadeUp}
           >
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-8">
               <div>
                 <h2 className="text-3xl font-bold mb-3">Investment</h2>
                 <div className="flex items-baseline gap-3 mb-4">
                   <span className="text-5xl font-bold text-mint">$25,000</span>
                   <span className="text-muted-foreground">flat fee</span>
                 </div>
-                <div className="space-y-2 text-sm text-muted-foreground">
+                <div className="space-y-2 text-sm text-muted-foreground mb-4">
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-mint shrink-0" />
                     <span>No hourly. No scope creep. One price.</span>
@@ -281,17 +287,17 @@ export default function WarRoom() {
                     <span>4 April slots (2 remaining)</span>
                   </div>
                 </div>
-                <p className="text-xs text-muted-foreground mt-4 italic">
-                  Compare: McKinsey charges $300,000+ for equivalent scope. Big-4 firms charge $100,000–$200,000 and take 3 months.
+                <p className="text-xs text-muted-foreground italic">
+                  Comparable scope from McKinsey or a Big 4 firm: $100,000 to $200,000 and 3 months.
                 </p>
               </div>
               <div className="flex flex-col gap-3 md:min-w-[220px]">
                 <Button
                   size="lg"
                   className="bg-mint text-ink hover:bg-mint/90 font-semibold w-full"
-                  onClick={handleCTA}
+                  onClick={handleBook}
                 >
-                  Book a War Room
+                  Book the Sprint - $25,000
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
                 <Button
@@ -308,7 +314,7 @@ export default function WarRoom() {
         </div>
       </section>
 
-      {/* WHO IT'S FOR */}
+      {/* WHO IT IS FOR */}
       <section className="section-padding">
         <div className="container-width max-w-4xl">
           <div className="grid md:grid-cols-2 gap-10">
@@ -345,7 +351,7 @@ export default function WarRoom() {
               <div className="space-y-3">
                 {notFor.map((item, i) => (
                   <div key={i} className="flex items-start gap-3">
-                    <span className="w-4 h-4 shrink-0 mt-1 text-muted-foreground font-bold text-xs">✕</span>
+                    <span className="w-4 shrink-0 mt-1 text-muted-foreground font-bold text-xs">x</span>
                     <span className="text-sm text-muted-foreground">{item}</span>
                   </div>
                 ))}
@@ -355,7 +361,7 @@ export default function WarRoom() {
         </div>
       </section>
 
-      {/* OBJECTION HANDLING */}
+      {/* OBJECTIONS */}
       <section className="section-padding bg-ink/5">
         <div className="container-width max-w-3xl">
           <motion.div
@@ -366,7 +372,7 @@ export default function WarRoom() {
           >
             <h2 className="text-3xl font-bold mb-10">Common Questions</h2>
           </motion.div>
-          <div className="space-y-6">
+          <div className="space-y-5">
             {objections.map((obj, i) => (
               <motion.div
                 key={i}
@@ -398,15 +404,16 @@ export default function WarRoom() {
               4 April slots. 2 remaining.
             </h2>
             <p className="text-muted-foreground text-lg mb-8">
-              If AI strategy is the conversation that keeps getting pushed — this ends that.
+              If the commercial model for your AI investment is the conversation nobody can answer,
+              this is where that changes.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 size="lg"
                 className="bg-mint text-ink hover:bg-mint/90 font-semibold text-base px-8"
-                onClick={handleCTA}
+                onClick={handleBook}
               >
-                Book a War Room — $25,000
+                Book the Sprint - $25,000
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
               <Button
@@ -424,7 +431,6 @@ export default function WarRoom() {
       </section>
 
       <Footer />
-      <InitialConsultModal open={consultModalOpen} onOpenChange={setConsultModalOpen} />
     </main>
   );
 }

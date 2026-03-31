@@ -114,12 +114,12 @@ export default function FractionalCAIO() {
               1 engagement slot available
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white text-balance">
-              Technical capability gets you in the game.
+              AI capabilities are table stakes.
               <br />
-              <span className="text-mint">Commercial strategy is how you win.</span>
+              <span className="text-mint">Commercial strategy creates advantage.</span>
             </h1>
             <p className="text-xl text-white/70 mb-4 max-w-2xl mx-auto text-balance">
-              When every company has AI capabilities, competitive advantage shifts to commercial strategy and product marketing.
+              Embedded strategic leadership for companies serious about transforming AI investment into commercial success.
             </p>
             <p className="text-lg text-white/60 max-w-2xl mx-auto mb-10 text-balance">
               Embedded commercial strategy leadership for your AI investments. Not a quarterly advisor. Someone who owns the commercial thinking: what to build for market success, how to position it to win, and how to stay ahead of competition.
@@ -144,7 +144,7 @@ export default function FractionalCAIO() {
               </Button>
             </div>
             <p className="text-sm text-white/40 mt-4">
-              $5,000 deposit to begin. $15,000/month. 6-month minimum engagement.
+              $5,000 deposit to begin. $15,000/month. 6-month minimum engagement. $95,000 total.
             </p>
           </motion.div>
 

@@ -54,11 +54,11 @@ const deliverables = [
 ];
 
 const signals = [
-  "You have strong AI capabilities and suspect you are not approaching commercialisation strategically",
-  "Your engineering team is excellent but the commercial story is not keeping pace",
-  "You want to get ahead of the competition wave before AI capabilities become commoditised",
-  "Your technical team and commercial team speak different languages about AI",
-  "You need a board-ready commercial strategy and product marketing framework",
+  "You have strong AI capabilities and want to ensure your commercial strategy matches that strength",
+  "Your engineering team has built excellent AI products and you want the commercial story to reflect that excellence",
+  "You want to establish competitive advantage before AI capabilities become commoditised across your market",
+  "Your technical team and commercial team would benefit from a unified commercial narrative around AI",
+  "You need a board-ready commercial strategy and product marketing framework for your AI investments",
 ];
 
 const notFor = [
@@ -117,15 +117,15 @@ export default function WarRoom() {
               2 April slots remaining
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white text-balance">
-              Most companies build AI first,
+              Turn AI capabilities into
               <br />
-              <span className="text-mint">then figure out how to make money.</span>
+              <span className="text-mint">commercial advantage.</span>
             </h1>
             <p className="text-xl text-white/70 mb-4 max-w-2xl mx-auto text-balance">
-              The ones that win do it the other way around.
+              10-day intensive to design the commercial strategy your AI investment deserves.
             </p>
             <p className="text-lg text-white/60 max-w-2xl mx-auto mb-10 text-balance">
-              In 10 days, I reverse-engineer your AI investment and build the commercial strategy it should have had from day one. Revenue architecture, product marketing, competitive positioning, and an execution blueprint your board will actually back.
+              Revenue architecture, product marketing, competitive positioning, and execution blueprint. Built from 15 years of pattern recognition across similar transformations. Designed for leadership teams ready to move from capability to commercial success.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
@@ -147,7 +147,7 @@ export default function WarRoom() {
               </Button>
             </div>
             <p className="text-sm text-white/40 mt-4">
-              $5,000 deposit to hold your slot. Balance on completion.
+              $5,000 deposit to secure your slot. $20,000 balance on completion. $25,000 total.
             </p>
           </motion.div>
 

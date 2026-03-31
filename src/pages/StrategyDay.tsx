@@ -94,12 +94,12 @@ export default function StrategyDay() {
               April dates available
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white text-balance">
-              In a world full of AI products,
+              Strong AI capabilities need
               <br />
-              <span className="text-mint">positioning is the only advantage.</span>
+              <span className="text-mint">stronger commercial positioning.</span>
             </h1>
             <p className="text-xl text-white/70 mb-4 max-w-2xl mx-auto text-balance">
-              Great AI capabilities still need great commercial strategy. One day to build both.
+              Four focused hours to design the positioning and go-to-market strategy your AI investment deserves.
             </p>
             <p className="text-lg text-white/60 max-w-2xl mx-auto mb-10 text-balance">
               Four hours with someone who has spent 15 years learning the patterns of what wins commercially with AI - and what doesn't. You leave with a positioning framework, product marketing strategy, and a 90-day commercial roadmap your team can execute immediately.

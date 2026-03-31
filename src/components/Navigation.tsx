@@ -23,9 +23,9 @@ const Navigation = () => {
     {
       label: "Business Impact",
       dropdown: [
-        { label: "Commercial Strategy Sprint - $25K", href: "/war-room" },
-        { label: "Fractional Commercial Strategist - $15K/mo", href: "/fractional-caio" },
-        { label: "AI Revenue Day - $7.5K", href: "/strategy-day" },
+        { label: "AI Commercial Accelerator", href: "/war-room" },
+        { label: "Embedded Commercial Strategy", href: "/fractional-caio" },
+        { label: "AI Positioning Sprint", href: "/strategy-day" },
       ]
     },
     {

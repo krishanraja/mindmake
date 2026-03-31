@@ -3,16 +3,14 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import {
-  CheckCircle, ArrowRight, Clock, MapPin, FileText, Calendar, Users
+  CheckCircle, ArrowRight, Clock, Calendar, TrendingUp, Sparkles
 } from "lucide-react";
 import { SEO } from "@/components/SEO";
-import krishHeadshot from "@/assets/krish-headshot.png";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
   show: (i = 0) => ({
-    opacity: 1,
-    y: 0,
+    opacity: 1, y: 0,
     transition: { delay: i * 0.08, duration: 0.5, ease: "easeOut" },
   }),
 };
@@ -20,60 +18,54 @@ const fadeUp = {
 const sessionArc = [
   {
     hour: "Hour 1",
-    theme: "What You Have",
+    theme: "Commercial Positioning",
     description:
-      "Plain-language audit of your AI capability. What exists, what it can do, and what customer or commercial problems it actually solves. Honest, not promotional.",
+      "What you have, what it is worth, and where it sits competitively. We cut through the technical noise and build a commercial picture that a buyer would actually respond to.",
   },
   {
     hour: "Hour 2",
-    theme: "Who Buys It and Why",
+    theme: "Market Strategy",
     description:
-      "Customer and buyer segmentation. Who will pay for this, what they value, what they are comparing you against, and how much they will pay. Grounded in your market, not generic frameworks.",
+      "Who is this actually for? What do they value? What are they comparing you against? We design the product marketing framework that differentiates you in a market where everyone claims AI capabilities.",
   },
   {
     hour: "Hour 3",
     theme: "The Sales Story",
     description:
-      "The commercial narrative your team needs: problem, solution, value, and proof. How to handle the top 5 objections. What the demo should show. What the call-to-action is.",
+      "The commercial narrative your team needs. Problem, solution, value, proof. How to handle the objections. What the conversation should sound like. This is where product marketing meets revenue.",
   },
   {
     hour: "Hour 4",
-    theme: "First 3 Revenue Plays",
+    theme: "90-Day Roadmap",
     description:
-      "Specific commercial actions to take in the next 30 days. Not a roadmap. Three specific plays, each with a clear owner, a clear action, and a clear success metric.",
+      "Three specific commercial plays for the next 30 days. Revenue milestones for 60 and 90. Each with a clear owner, timeline, and success metric. Not a strategy deck. An execution plan.",
   },
 ];
 
-const beforeSession = [
-  "AI capability questionnaire (20 minutes, completed by your team)",
-  "Competitive brief: who else is in this space and how they are positioned commercially",
-  "Optional 30-minute pre-call with Krish",
-];
-
 const deliverables = [
-  "Sales story framework (1-2 pages, ready for your commercial team)",
+  "Commercial positioning framework (2 pages, ready for your team)",
+  "Product marketing strategy with competitive differentiation",
   "Pricing model with 2-3 packaging options",
-  "Competitive positioning summary",
-  "First 3 revenue plays with owners and success metrics",
-  "Written session summary (8-10 pages, delivered within 48 hours)",
-  "Objection handling guide for your top buyer persona",
+  "Sales narrative and objection handling guide",
+  "90-day commercial roadmap with owners and milestones",
+  "Comprehensive written strategy (15-20 pages, delivered within 48 hours)",
 ];
 
 const goodFor = [
-  "Commercial teams who have AI capability and cannot explain it to prospects",
-  "Founders preparing to sell an AI-enabled product for the first time",
-  "Leadership teams preparing for a board presentation on AI revenue",
-  "Companies where AI is built but the sales motion does not exist yet",
-  "New hires who need to get up to speed on the commercial AI story fast",
+  "Leadership teams who want strategic input on AI commercial positioning before committing to a larger engagement",
+  "Companies launching AI-powered products and wanting world-class product marketing from day one",
+  "Commercial teams who need to articulate AI value to buyers in competitive markets",
+  "Founders who have built strong AI products and want to position them to win",
+  "Organisations preparing for board-level AI investment conversations",
 ];
 
-const STRIPE_LINK = import.meta.env.VITE_STRIPE_STRATEGY_DAY_LINK || null;
+const STRIPE_DEPOSIT = import.meta.env.VITE_STRIPE_SPRINT_DEPOSIT || null;
 const CALENDLY_URL =
   import.meta.env.VITE_CALENDLY_URL || "https://calendly.com/krish-raja/mindmaker-meeting";
 
 const handleCTA = () => {
-  if (STRIPE_LINK) {
-    window.open(STRIPE_LINK, "_blank");
+  if (STRIPE_DEPOSIT) {
+    window.open(STRIPE_DEPOSIT, "_blank");
   } else {
     window.open(CALENDLY_URL, "_blank");
   }
@@ -83,8 +75,8 @@ export default function StrategyDay() {
   return (
     <main className="min-h-screen bg-background">
       <SEO
-        title="AI Revenue Day - Sales Enablement Intensive | Mindmaker"
-        description="You built the AI product. Your sales team cannot sell it. One day fixes that. Positioning, pricing, sales story, and first 3 revenue plays. $7,500."
+        title="AI Positioning Sprint | Mindmaker"
+        description="Great AI products still need great positioning. One day to design the commercial strategy and product marketing your AI capabilities deserve. $12,500."
       />
       <Navigation />
 
@@ -97,23 +89,24 @@ export default function StrategyDay() {
             animate="show"
             variants={fadeUp}
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-mint/10 border border-mint/20 text-foreground text-sm font-medium mb-6">
-              <Clock className="w-3.5 h-3.5 text-mint-dark dark:text-mint" />
-              April dates available - virtual or NYC in-person
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-mint/10 border border-mint/20 text-mint text-sm font-medium mb-6">
+              <Clock className="w-3.5 h-3.5" />
+              April dates available
             </div>
             <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-              You built the AI product.
+              In a world full of AI products,
               <br />
-              <span className="text-mint-dark dark:text-mint">Your team cannot sell it.</span>
+              <span className="text-mint">positioning is the only real advantage.</span>
             </h1>
             <p className="text-xl text-muted-foreground mb-4 max-w-2xl mx-auto">
-              One day. Positioning, pricing, sales story, and your first 3 revenue plays.
-              Written up and in your inbox within 48 hours.
+              Great AI capabilities still need great commercial strategy.
+              One day to build both.
             </p>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10">
-              Four hours with your commercial leadership team. By the end, your team
-              can explain what you have, who it is for, and why someone should buy it.
-              That is the whole problem, solved.
+              Four hours with someone who has spent 15 years learning the patterns
+              of what wins commercially with AI - and what doesn't. You leave with
+              a positioning framework, product marketing strategy, and a 90-day
+              commercial roadmap your team can execute immediately.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
@@ -121,7 +114,7 @@ export default function StrategyDay() {
                 className="bg-mint text-ink hover:bg-mint/90 font-semibold text-base px-8"
                 onClick={handleCTA}
               >
-                Book an AI Revenue Day
+                Book Your Sprint
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
               <Button
@@ -135,7 +128,7 @@ export default function StrategyDay() {
               </Button>
             </div>
             <p className="text-sm text-muted-foreground mt-4">
-              $7,500. 100% upfront at booking. Virtual or NYC in-person.
+              $2,500 deposit to book. $10,000 balance on completion. Virtual or NYC in-person.
             </p>
           </motion.div>
 
@@ -147,48 +140,19 @@ export default function StrategyDay() {
             custom={2}
             variants={fadeUp}
           >
-            <p className="text-muted-foreground text-sm mb-2">
-              Krish spent 16 years running commercial data, automation and AI strategy at
+            <p className="font-semibold text-base mb-2">
+              Product marketing is the multiplier most AI companies are missing.
             </p>
-            <p className="font-semibold text-base">
-              Singtel - Nine Entertainment - Meliora
+            <p className="text-muted-foreground text-sm max-w-xl mx-auto">
+              When every competitor has AI capabilities, the company that positions
+              best wins. Krish brings 15 years of commercial pattern recognition
+              and master product marketing to help you do exactly that.
             </p>
-            <p className="text-muted-foreground text-sm mt-2 max-w-xl mx-auto">
-              The AI Revenue Day distills that experience into a single focused session
-              for your commercial team.
-            </p>
-            <div className="mt-6 flex flex-col items-center">
-              <img
-                src={krishHeadshot}
-                alt="Krish Raja"
-                className="w-28 h-28 rounded-full border-4 border-mint/20 object-cover mb-4"
-              />
-              <p className="text-sm text-muted-foreground">
-                Learn more about Krish on{" "}
-                <a
-                  href="https://www.krishraja.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-mint-dark dark:text-mint hover:underline font-medium"
-                >
-                  his website
-                </a>
-                {" "}and{" "}
-                <a
-                  href="https://www.linkedin.com/in/krish-raja/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-mint-dark dark:text-mint hover:underline font-medium"
-                >
-                  LinkedIn
-                </a>
-              </p>
-            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* BEFORE SESSION */}
+      {/* SESSION ARC */}
       <section className="section-padding bg-ink/5">
         <div className="container-width max-w-4xl">
           <motion.div
@@ -197,42 +161,9 @@ export default function StrategyDay() {
             viewport={{ once: true }}
             variants={fadeUp}
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-3">Before the Session</h2>
-            <p className="text-muted-foreground text-lg mb-8">
-              No session starts cold.
-            </p>
-          </motion.div>
-          <div className="space-y-3">
-            {beforeSession.map((item, i) => (
-              <motion.div
-                key={i}
-                className="flex items-start gap-3 p-4 rounded-xl bg-ink/5"
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                custom={i}
-                variants={fadeUp}
-              >
-                <CheckCircle className="w-5 h-5 text-mint-dark dark:text-mint shrink-0 mt-0.5" />
-                <span className="text-sm">{item}</span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SESSION ARC */}
-      <section className="section-padding">
-        <div className="container-width max-w-4xl">
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            variants={fadeUp}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-3">The 4-Hour Arc</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-3">The 4-hour arc</h2>
             <p className="text-muted-foreground text-lg mb-10">
-              Commercial clarity built in a single focused session.
+              Positioning, product marketing, sales story, and execution plan.
             </p>
           </motion.div>
           <div className="space-y-5">
@@ -247,9 +178,7 @@ export default function StrategyDay() {
                 variants={fadeUp}
               >
                 <div className="shrink-0 w-14 h-14 rounded-xl bg-mint/15 flex flex-col items-center justify-center">
-                  <span className="text-xs text-mint-dark dark:text-mint font-medium text-center leading-tight px-1">
-                    {hour.hour}
-                  </span>
+                  <span className="text-xs text-mint font-medium">{hour.hour}</span>
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold mb-2">{hour.theme}</h3>
@@ -262,7 +191,7 @@ export default function StrategyDay() {
       </section>
 
       {/* DELIVERABLES */}
-      <section className="section-padding bg-ink/5">
+      <section className="section-padding">
         <div className="container-width max-w-4xl">
           <motion.div
             initial="hidden"
@@ -270,9 +199,9 @@ export default function StrategyDay() {
             viewport={{ once: true }}
             variants={fadeUp}
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-3">What You Walk Away With</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-3">What you walk away with</h2>
             <p className="text-muted-foreground text-lg mb-10">
-              Same day and within 48 hours.
+              Same-day output plus comprehensive write-up within 48 hours.
             </p>
           </motion.div>
           <div className="grid sm:grid-cols-2 gap-4">
@@ -283,10 +212,10 @@ export default function StrategyDay() {
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true }}
-                custom={i * 0.4}
+                custom={i * 0.3}
                 variants={fadeUp}
               >
-                <CheckCircle className="w-5 h-5 text-mint-dark dark:text-mint shrink-0 mt-0.5" />
+                <CheckCircle className="w-5 h-5 text-mint shrink-0 mt-0.5" />
                 <span className="text-sm">{item}</span>
               </motion.div>
             ))}
@@ -295,7 +224,7 @@ export default function StrategyDay() {
       </section>
 
       {/* PRICING */}
-      <section className="section-padding">
+      <section className="section-padding bg-ink/5">
         <div className="container-width max-w-4xl">
           <motion.div
             className="glass-card p-8 md:p-12"
@@ -306,26 +235,26 @@ export default function StrategyDay() {
           >
             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-8">
               <div>
-                <h2 className="text-3xl font-bold mb-3">Investment</h2>
-                <div className="flex items-baseline gap-3 mb-4">
-                  <span className="text-5xl font-bold text-mint-dark dark:text-mint">$7,500</span>
+                <h2 className="text-3xl font-bold mb-3">Getting started</h2>
+                <div className="flex items-baseline gap-3 mb-2">
+                  <span className="text-4xl font-bold text-mint">$2,500</span>
+                  <span className="text-muted-foreground">deposit to book</span>
                 </div>
-                <div className="space-y-2 text-sm text-muted-foreground mb-4">
+                <p className="text-sm text-muted-foreground mb-4">
+                  Total investment: $12,500. Balance due on completion.
+                </p>
+                <div className="space-y-2 text-sm text-muted-foreground">
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-mint-dark dark:text-mint shrink-0" />
-                    <span>100% upfront at booking</span>
+                    <CheckCircle className="w-4 h-4 text-mint shrink-0" />
+                    <span>4-hour intensive session</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-mint-dark dark:text-mint shrink-0" />
+                    <CheckCircle className="w-4 h-4 text-mint shrink-0" />
+                    <span>Comprehensive written deliverables within 48 hours</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-mint shrink-0" />
                     <span>Virtual or NYC in-person</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-mint-dark dark:text-mint shrink-0" />
-                    <span>Written deliverables within 48 hours</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-mint-dark dark:text-mint shrink-0" />
-                    <span>Up to 6 people from your team can join</span>
                   </div>
                 </div>
               </div>
@@ -335,7 +264,7 @@ export default function StrategyDay() {
                   className="bg-mint text-ink hover:bg-mint/90 font-semibold w-full"
                   onClick={handleCTA}
                 >
-                  Book - $7,500
+                  Book Your Sprint
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
                 <Button
@@ -352,8 +281,8 @@ export default function StrategyDay() {
         </div>
       </section>
 
-      {/* WHO IT IS GOOD FOR */}
-      <section className="section-padding bg-ink/5">
+      {/* GOOD FOR */}
+      <section className="section-padding">
         <div className="container-width max-w-4xl">
           <motion.div
             initial="hidden"
@@ -362,8 +291,8 @@ export default function StrategyDay() {
             variants={fadeUp}
           >
             <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-              <Users className="w-5 h-5 text-mint-dark dark:text-mint" />
-              Good For
+              <TrendingUp className="w-5 h-5 text-mint" />
+              Designed for
             </h2>
           </motion.div>
           <div className="space-y-3">
@@ -374,10 +303,10 @@ export default function StrategyDay() {
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true }}
-                custom={i * 0.3}
+                custom={i * 0.2}
                 variants={fadeUp}
               >
-                <CheckCircle className="w-4 h-4 text-mint-dark dark:text-mint shrink-0 mt-1" />
+                <CheckCircle className="w-4 h-4 text-mint shrink-0 mt-1" />
                 <span className="text-sm text-muted-foreground">{item}</span>
               </motion.div>
             ))}
@@ -386,7 +315,7 @@ export default function StrategyDay() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="section-padding">
+      <section className="section-padding bg-ink/5">
         <div className="container-width max-w-3xl text-center">
           <motion.div
             initial="hidden"
@@ -398,8 +327,8 @@ export default function StrategyDay() {
               April dates available.
             </h2>
             <p className="text-muted-foreground text-lg mb-8">
-              If your commercial team cannot explain what you have built,
-              one day fixes that.
+              $2,500 deposit books your date. The rest of the investment comes
+              after you have seen the value.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
@@ -407,7 +336,7 @@ export default function StrategyDay() {
                 className="bg-mint text-ink hover:bg-mint/90 font-semibold text-base px-8"
                 onClick={handleCTA}
               >
-                Book - $7,500
+                Book Your Sprint
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
               <Button

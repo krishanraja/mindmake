@@ -25,7 +25,7 @@ interface ToolCardProps {
 const ToolCard = ({ icon, title, subtitle, onClick }: ToolCardProps) => (
   <button
     onClick={onClick}
-    className="flex items-center gap-3 p-3 rounded-xl bg-muted/50 hover:bg-muted border border-border/50 hover:border-mint/30 transition-all duration-200 text-left group w-full"
+    className="flex items-center gap-3 p-4 rounded-xl bg-muted/50 hover:bg-muted border border-border/50 hover:border-mint/30 transition-all duration-200 text-left group w-full"
   >
     <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-mint/20 to-mint/5 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
       {icon}
@@ -99,7 +99,7 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto px-5 py-4 space-y-6">
+      <div className="flex-1 overflow-y-auto px-5 py-6 space-y-8">
         {/* PRIMARY CTA - Book Session */}
         <section>
           <button
@@ -124,15 +124,15 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
 
         {/* AI TOOLS Section */}
         <section>
-          <div className="flex items-center gap-2 mb-3">
+          <div className="flex items-center gap-2 mb-4">
             <Sparkles className="w-4 h-4 text-mint" />
-            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Decision Tools</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground leading-none">Decision Tools</h3>
             <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-mint/10 border border-mint/20 ml-auto">
               <Mic className="w-2.5 h-2.5 text-mint" />
               <span className="text-[9px] font-medium text-mint-dark">Voice</span>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-2">
+          <div className="grid grid-cols-1 gap-3">
             {tools.map((tool) => (
               <ToolCard
                 key={tool.id}
@@ -145,7 +145,7 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
           </div>
           <a
             href="/leaders"
-            className="block mt-3 text-center text-xs text-muted-foreground hover:text-mint transition-colors"
+            className="block mt-4 text-center text-xs text-muted-foreground hover:text-mint transition-colors"
             onClick={() => setIsOpen(false)}
           >
             Want the full diagnostic? Take the Decision Readiness Diagnostic &rarr;
@@ -154,7 +154,7 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
 
         {/* CHAT Section */}
         <section>
-          <div className="flex items-center gap-2 mb-3">
+          <div className="flex items-center gap-2 mb-4">
             <MessageCircle className="w-4 h-4 text-mint" />
             <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Ask Mindmaker</h3>
           </div>

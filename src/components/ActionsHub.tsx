@@ -187,7 +187,7 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
 
   return (
     <>
-      {/* Trigger — Mobile: avatar circle bottom-right, Desktop: avatar tab right edge */}
+      {/* Trigger - Mobile: avatar circle bottom-right, Desktop: avatar tab right edge */}
       {isMobile ? (
         <motion.button
           onClick={() => setIsOpen(true)}
@@ -214,7 +214,7 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
               <AvatarFallback className="bg-mint/20 text-mint font-bold">K</AvatarFallback>
             </Avatar>
 
-            {/* Chat bubble overlay — bottom-right of avatar */}
+            {/* Chat bubble overlay - bottom-right of avatar */}
             <div className="absolute -bottom-0.5 -right-0.5 h-5 w-5 rounded-full bg-mint flex items-center justify-center shadow-md">
               <MessageCircle className="w-3 h-3 text-ink" />
             </div>

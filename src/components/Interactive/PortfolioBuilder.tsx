@@ -963,7 +963,7 @@ Help me by:
 3. Creating a draft framework or template I can use immediately
 4. Flagging potential pitfalls so I avoid common mistakes
 
-Be direct and practical—I want to implement this today, not someday.`
+Be direct and practical. I want to implement this today, not someday.`
       });
     }
   });

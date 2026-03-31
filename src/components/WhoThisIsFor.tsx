@@ -47,7 +47,7 @@ const WhoThisIsFor = () => {
             <div className="minimal-card p-4 sm:p-5">
               <h4 className="font-bold text-sm text-mint-dark mb-2">TEAMS NEEDING TRANSFORMATION</h4>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Your team isn't aligned or confident enough to undergo transformation. You're being pitched by OpenAI or consultants but need to sharpen communal AI literacy first—so you invest your transformation budget with confidence.
+                Your team isn't aligned or confident enough to undergo transformation. You're being pitched by OpenAI or consultants but need to sharpen communal AI literacy first, so you invest your transformation budget with confidence.
               </p>
             </div>
           </div>

@@ -27,7 +27,7 @@ const FRICTION_MAP_PROMPT = `You are Krish from MindMaker, an AI implementation 
 ## MINDMAKER METHODOLOGY (Apply strategically)
 
 ### Core Principle
-"AI literacy is about compounding leadership performance—using AI to think better, faster, and more creatively as a leader."
+"AI literacy is about compounding leadership performance, using AI to think better, faster, and more creatively as a leader."
 
 ### The Five Cognitive Frameworks:
 1. **First-Principles Thinking**: What's the fundamental problem? Strip assumptions.
@@ -262,12 +262,12 @@ function generateFallbackResponse(problem: string): Omit<FrictionMapData, 'probl
 
   if (isWriting) {
     return {
-      currentState: `Your writing workflow—drafting, editing, and ensuring consistent tone—is consuming hours that could go toward strategic work. Each piece requires multiple revision cycles and context-switching between different communication types.`,
+      currentState: `Your writing workflow (drafting, editing, and ensuring consistent tone) is consuming hours that could go toward strategic work. Each piece requires multiple revision cycles and context-switching between different communication types.`,
       aiEnabledState: `AI generates solid first drafts in your voice within seconds, handles tone adjustments automatically, and maintains consistency across all your communications. You shift from writer to editor, reducing writing time by 60-70%.`,
       timeSaved: '5-8 hours per week (based on typical leadership communication volume)',
       toolRecommendations: [
         { name: 'Claude', description: 'Advanced AI with nuanced writing capabilities and strong reasoning.', useCase: `Draft your emails, memos, and strategic communications. Claude excels at matching professional tone and can handle complex, multi-stakeholder messages.` },
-        { name: 'Grammarly Business', description: 'AI writing assistant that integrates everywhere you write.', useCase: `Real-time improvements as you write—catches tone mismatches, clarity issues, and ensures your communications land as intended.` },
+        { name: 'Grammarly Business', description: 'AI writing assistant that integrates everywhere you write.', useCase: `Real-time improvements as you write. Catches tone mismatches, clarity issues, and ensures your communications land as intended.` },
         { name: 'Notion AI', description: 'AI embedded in your workspace for contextual writing.', useCase: `Generate content within your existing documents and projects. Great for internal communications and documentation that needs organizational context.` },
       ],
       masterPrompts: [
@@ -279,7 +279,7 @@ function generateFallbackResponse(problem: string): Omit<FrictionMapData, 'probl
 
   if (isData) {
     return {
-      currentState: `Your data analysis workflow involves manually gathering information from multiple sources, processing it in spreadsheets, and interpreting patterns—a process that takes hours and is prone to human error and inconsistency.`,
+      currentState: `Your data analysis workflow involves manually gathering information from multiple sources, processing it in spreadsheets, and interpreting patterns. This process takes hours and is prone to human error and inconsistency.`,
       aiEnabledState: `AI automates data gathering, recognizes patterns you might miss, and generates initial analysis with visualizations in minutes. You move from data processor to insight validator and strategic decision-maker.`,
       timeSaved: '6-10 hours per week (based on typical executive reporting cycles)',
       toolRecommendations: [
@@ -297,7 +297,7 @@ function generateFallbackResponse(problem: string): Omit<FrictionMapData, 'probl
   if (isMeetings) {
     return {
       currentState: `Your meetings generate scattered notes, action items fall through the cracks, and follow-up takes significant effort. The value from meetings dissipates because capture and follow-through are manual.`,
-      aiEnabledState: `AI captures everything automatically, generates structured summaries with clear action items, and tracks follow-up—ensuring every meeting produces lasting value without your manual effort.`,
+      aiEnabledState: `AI captures everything automatically, generates structured summaries with clear action items, and tracks follow-up, ensuring every meeting produces lasting value without your manual effort.`,
       timeSaved: '3-5 hours per week (based on typical leadership meeting load)',
       toolRecommendations: [
         { name: 'Otter.ai', description: 'AI meeting transcription with smart summaries.', useCase: `Automatically records and transcribes your meetings, then generates summaries with action items. Join meetings knowing capture is handled.` },
@@ -314,11 +314,11 @@ function generateFallbackResponse(problem: string): Omit<FrictionMapData, 'probl
   // Default fallback - apply first-principles thinking
   return {
     currentState: `Your workflow involves manual steps, context-switching, and repetitive tasks that fragment your attention and consume time that should go toward strategic thinking and leadership.`,
-    aiEnabledState: `AI handles the routine elements—drafting, summarizing, analyzing, organizing—while you focus on judgment and decision-making. Context is maintained automatically, and your output velocity increases 2-3x.`,
+    aiEnabledState: `AI handles the routine elements (drafting, summarizing, analyzing, organizing) while you focus on judgment and decision-making. Context is maintained automatically, and your output velocity increases 2-3x.`,
     timeSaved: '4-7 hours per week (based on typical executive time allocation)',
     toolRecommendations: [
       { name: 'Claude', description: 'Advanced AI with strong reasoning for complex tasks.', useCase: `Your go-to for drafting, analysis, and thinking through complex problems. Particularly strong at nuanced communication and multi-step reasoning.` },
-      { name: 'ChatGPT Plus', description: 'Versatile AI assistant with broad capabilities.', useCase: `Quick tasks, brainstorming, and general acceleration. The Swiss Army knife of AI tools—good at almost everything.` },
+      { name: 'ChatGPT Plus', description: 'Versatile AI assistant with broad capabilities.', useCase: `Quick tasks, brainstorming, and general acceleration. The Swiss Army knife of AI tools, good at almost everything.` },
       { name: 'Notion AI', description: 'AI embedded in your workspace.', useCase: `Generate content within your existing documents and projects. Great for keeping AI assistance connected to your actual work context.` },
     ],
     masterPrompts: [

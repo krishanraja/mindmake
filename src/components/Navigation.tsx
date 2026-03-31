@@ -21,7 +21,7 @@ const Navigation = () => {
 
   const navItems = [
     {
-      label: "Work With Me",
+      label: "Business Impact",
       dropdown: [
         { label: "Commercial Strategy Sprint - $25K", href: "/war-room" },
         { label: "Fractional Commercial Strategist - $15K/mo", href: "/fractional-caio" },
@@ -29,7 +29,7 @@ const Navigation = () => {
       ]
     },
     {
-      label: "Sprints",
+      label: "Personal Impact",
       dropdown: [
         { label: "Builder Sprints", href: "/sprints?path=build" },
         { label: "Orchestrator Sprints", href: "/sprints?path=orchestrate" },

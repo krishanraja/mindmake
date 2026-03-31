@@ -11,7 +11,7 @@ export interface Message {
 const WELCOME_MESSAGE: Message = {
   id: 'welcome',
   role: 'assistant',
-  content: "I'm Mindmaker's AI. We help leaders move from AI chaos to calm—Mind Set → Mind Map → Mind Make. What's your nervous decision? Name it, and we'll help you get clarity.",
+  content: "I'm Mindmaker's AI. We help leaders move from AI chaos to calm: Mind Set → Mind Map → Mind Make. What's your nervous decision? Name it, and we'll help you get clarity.",
   timestamp: new Date(),
 };
 

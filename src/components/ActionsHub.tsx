@@ -20,19 +20,26 @@ interface ToolCardProps {
   title: string;
   subtitle: string;
   onClick: () => void;
+  compact?: boolean;
 }
 
-const ToolCard = ({ icon, title, subtitle, onClick }: ToolCardProps) => (
+const ToolCard = ({ icon, title, subtitle, onClick, compact }: ToolCardProps) => (
   <button
     onClick={onClick}
-    className="flex items-center gap-3 p-3 rounded-xl bg-muted/50 hover:bg-muted border border-border/50 hover:border-mint/30 transition-all duration-200 text-left group w-full"
+    className={cn(
+      "flex items-center rounded-xl bg-muted/50 hover:bg-muted border border-border/50 hover:border-mint/30 transition-all duration-200 text-left group w-full",
+      compact ? "gap-2 p-3" : "gap-3 p-4"
+    )}
   >
-    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-mint/20 to-mint/5 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+    <div className={cn(
+      "rounded-lg bg-gradient-to-br from-mint/20 to-mint/5 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform",
+      compact ? "w-8 h-8" : "w-10 h-10"
+    )}>
       {icon}
     </div>
     <div className="flex-1 min-w-0">
-      <h4 className="font-semibold text-sm leading-tight">{title}</h4>
-      <p className="text-xs text-muted-foreground">{subtitle}</p>
+      <h4 className={cn("font-semibold leading-tight", compact ? "text-xs" : "text-sm")}>{title}</h4>
+      {!compact && <p className="text-xs text-muted-foreground">{subtitle}</p>}
     </div>
   </button>
 );
@@ -94,23 +101,23 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
   const drawerContent = (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="flex items-center justify-between px-5 pt-6 pb-4 border-b border-border/50">
+      <div className={cn("flex items-center justify-between px-5 border-b border-border/50", isMobile ? "pt-4 pb-3" : "pt-6 pb-4")}>
         <h2 className="font-bold text-base tracking-wide text-foreground">Actions</h2>
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto px-5 py-4 space-y-6">
+      <div className={cn("flex-1 overflow-y-auto px-5", isMobile ? "py-4 space-y-5" : "py-6 space-y-8")}>
         {/* PRIMARY CTA - Book Session */}
         <section>
           <button
             onClick={handleBookSession}
-            className="w-full relative overflow-hidden rounded-2xl bg-gradient-to-br from-mint to-mint-dark p-5 text-left group transition-all duration-300 hover:shadow-lg hover:shadow-mint/20 hover:scale-[1.02]"
+            className={cn("w-full relative overflow-hidden rounded-2xl bg-gradient-to-br from-mint to-mint-dark text-left group transition-all duration-300 hover:shadow-lg hover:shadow-mint/20 hover:scale-[1.02]", isMobile ? "p-4" : "p-5")}
           >
             {/* Decorative glow */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
             
             <div className="relative z-10 flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center backdrop-blur-sm">
+              <div className={cn("rounded-xl bg-white/20 flex items-center justify-center backdrop-blur-sm", isMobile ? "w-10 h-10" : "w-12 h-12")}>
                 <Calendar className="w-6 h-6 text-ink" />
               </div>
               <div className="flex-1">
@@ -124,15 +131,15 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
 
         {/* AI TOOLS Section */}
         <section>
-          <div className="flex items-center gap-2 mb-3">
+          <div className={cn("flex items-center gap-2", isMobile ? "mb-3" : "mb-4")}>
             <Sparkles className="w-4 h-4 text-mint" />
-            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Decision Tools</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground leading-none">Decision Tools</h3>
             <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-mint/10 border border-mint/20 ml-auto">
               <Mic className="w-2.5 h-2.5 text-mint" />
               <span className="text-[9px] font-medium text-mint-dark">Voice</span>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-2">
+          <div className={cn("grid", isMobile ? "grid-cols-2 gap-2" : "grid-cols-1 gap-3")}>
             {tools.map((tool) => (
               <ToolCard
                 key={tool.id}
@@ -140,12 +147,13 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
                 title={tool.title}
                 subtitle={tool.subtitle}
                 onClick={() => handleToolClick(tool.id)}
+                compact={isMobile}
               />
             ))}
           </div>
           <a
             href="/leaders"
-            className="block mt-3 text-center text-xs text-muted-foreground hover:text-mint transition-colors"
+            className={cn("block text-center text-xs text-muted-foreground hover:text-mint transition-colors", isMobile ? "mt-3" : "mt-4")}
             onClick={() => setIsOpen(false)}
           >
             Want the full diagnostic? Take the Decision Readiness Diagnostic &rarr;
@@ -154,15 +162,15 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
 
         {/* CHAT Section */}
         <section>
-          <div className="flex items-center gap-2 mb-3">
+          <div className={cn("flex items-center gap-2", isMobile ? "mb-3" : "mb-4")}>
             <MessageCircle className="w-4 h-4 text-mint" />
             <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Ask Mindmaker</h3>
           </div>
           <button
             onClick={handleOpenChat}
-            className="w-full flex items-center gap-4 p-4 rounded-xl bg-ink dark:bg-card border-2 border-ink/10 dark:border-mint/20 hover:border-mint/40 transition-all duration-200 group"
+            className={cn("w-full flex items-center rounded-xl bg-ink dark:bg-card border-2 border-ink/10 dark:border-mint/20 hover:border-mint/40 transition-all duration-200 group", isMobile ? "gap-3 p-3" : "gap-4 p-4")}
           >
-            <Avatar className="h-12 w-12 border-2 border-mint/30 group-hover:border-mint/50 transition-colors">
+            <Avatar className={cn("border-2 border-mint/30 group-hover:border-mint/50 transition-colors", isMobile ? "h-10 w-10" : "h-12 w-12")}>
               <AvatarImage src={krishHeadshot} alt="Krish" />
               <AvatarFallback>K</AvatarFallback>
             </Avatar>

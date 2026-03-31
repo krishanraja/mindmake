@@ -82,16 +82,12 @@ const questions = [
   },
 ];
 
-const STRIPE_DEPOSIT = import.meta.env.VITE_STRIPE_ACCELERATOR_DEPOSIT || null;
+const STRIPE_LINK = import.meta.env.VITE_STRIPE_WAR_ROOM_LINK || null;
 const CALENDLY_URL =
   import.meta.env.VITE_CALENDLY_URL || "https://calendly.com/krish-raja/mindmaker-meeting";
 
-const handleDeposit = () => {
-  if (STRIPE_DEPOSIT) {
-    window.open(STRIPE_DEPOSIT, "_blank");
-  } else {
-    window.open(`${CALENDLY_URL}?source=accelerator-deposit`, "_blank");
-  }
+const handleBook = () => {
+  window.open(STRIPE_LINK || CALENDLY_URL, "_blank");
 };
 
 const handleExplore = () => {
@@ -120,24 +116,22 @@ export default function WarRoom() {
               <Sparkles className="w-3.5 h-3.5" />
               2 April slots remaining
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white text-balance">
               Most companies build AI first,
               <br />
-              <span className="text-mint">then figure out how to make money from it.</span>
+              <span className="text-mint">then figure out how to make money.</span>
             </h1>
-            <p className="text-xl text-white/70 mb-4 max-w-2xl mx-auto">
+            <p className="text-xl text-white/70 mb-4 max-w-2xl mx-auto text-balance">
               The ones that win do it the other way around.
             </p>
-            <p className="text-lg text-white/60 max-w-2xl mx-auto mb-10">
-              In 10 days, I reverse-engineer your AI investment and build the commercial strategy
-              it should have had from day one. Revenue architecture, product marketing,
-              competitive positioning, and an execution blueprint your board will actually back.
+            <p className="text-lg text-white/60 max-w-2xl mx-auto mb-10 text-balance">
+              In 10 days, I reverse-engineer your AI investment and build the commercial strategy it should have had from day one. Revenue architecture, product marketing, competitive positioning, and an execution blueprint your board will actually back.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 size="lg"
                 className="bg-mint text-ink hover:bg-mint/90 font-semibold text-base px-8"
-                onClick={handleDeposit}
+                onClick={handleBook}
               >
                 Secure Your Slot
                 <ArrowRight className="ml-2 w-4 h-4" />
@@ -304,7 +298,7 @@ export default function WarRoom() {
                 <Button
                   size="lg"
                   className="bg-mint text-ink hover:bg-mint/90 font-semibold w-full"
-                  onClick={handleDeposit}
+                  onClick={handleBook}
                 >
                   Secure Your Slot
                   <ArrowRight className="ml-2 w-4 h-4" />
@@ -419,7 +413,7 @@ export default function WarRoom() {
               <Button
                 size="lg"
                 className="bg-mint text-ink hover:bg-mint/90 font-semibold text-base px-8"
-                onClick={handleDeposit}
+                onClick={handleBook}
               >
                 Secure Your Slot
                 <ArrowRight className="ml-2 w-4 h-4" />

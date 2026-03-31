@@ -340,7 +340,7 @@ export default function FractionalCAIO() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="w-full font-semibold"
+                  className="w-full font-semibold border-border text-foreground"
                   onClick={() => window.open(CALENDLY_URL, "_blank")}
                 >
                   Discovery call first
@@ -426,7 +426,7 @@ export default function FractionalCAIO() {
               <Button
                 variant="outline"
                 size="lg"
-                className="font-semibold text-base px-8"
+                className="border-border text-foreground font-semibold text-base px-8"
                 onClick={() => window.open(CALENDLY_URL, "_blank")}
               >
                 <Clock className="mr-2 w-4 h-4" />

@@ -328,7 +328,7 @@ export default function FractionalCAIO() {
                   This is the same commercial ownership at a fraction of the cost.
                 </p>
               </div>
-              <div className="flex flex-col gap-3 md:min-w-[220px]">
+              <div className="flex flex-col gap-3 md:min-w-[280px] shrink-0">
                 <Button
                   size="lg"
                   className="bg-mint text-ink hover:bg-mint/90 font-semibold w-full"

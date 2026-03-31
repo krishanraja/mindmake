@@ -3,99 +3,92 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import {
-  CheckCircle, ArrowRight, Clock, Users, Shield, Calendar, BarChart3
+  CheckCircle, ArrowRight, Clock, Users, Shield, Calendar, Sparkles, TrendingUp
 } from "lucide-react";
 import { SEO } from "@/components/SEO";
-import krishHeadshot from "@/assets/krish-headshot.png";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
   show: (i = 0) => ({
-    opacity: 1,
-    y: 0,
+    opacity: 1, y: 0,
     transition: { delay: i * 0.08, duration: 0.5, ease: "easeOut" },
   }),
 };
 
-const sprintDays = [
+const phases = [
   {
-    period: "Pre-work",
-    theme: "Commercial Audit",
+    period: "Before we start",
+    theme: "Pattern Analysis",
     description:
-      "Before Day 1, your team completes a Commercial AI Audit questionnaire. We build a competitive brief covering what your peers are actually earning from AI, how they are pricing it, and where the commercial gaps are. No session starts cold.",
+      "Your team completes a focused commercial assessment. We run a competitive positioning audit and map your situation against patterns from 15 years of similar AI commercialisation efforts. By the time we sit down together, we already know what has worked and what has failed in businesses like yours.",
   },
   {
     period: "Days 1-2",
-    theme: "Diagnostic",
+    theme: "Commercial Archaeology",
     description:
-      "Two 2-hour working sessions with your commercial leadership team. We map where the AI investment currently sits versus where the revenue is. We identify who owns the commercial model for AI (usually nobody). We agree on the 3 highest-value commercial opportunities.",
+      "We reverse-engineer the commercial thinking behind what your team has built. Which assumptions still hold? Where has the competitive landscape shifted? What would you build differently if commercial success was the starting point, not an afterthought?",
   },
   {
     period: "Days 3-4",
-    theme: "Commercial Architecture",
+    theme: "Strategy and Positioning",
     description:
-      "Revenue model built and scored across 3 options. Pricing framework: how to charge for AI-enabled products and services. Go-to-market plan: who buys this, what the sales motion looks like, and what your commercial team needs to execute it. Built while you run the business.",
+      "This is where the product marketing expertise matters most. We design the commercial strategy, revenue model, and competitive positioning for your AI investment. Not just how to sell what you have. How to position it to win in a market where everyone will have AI capabilities.",
   },
   {
-    period: "Day 5",
-    theme: "Board-Ready",
+    period: "Days 5-7",
+    theme: "Execution Blueprint",
     description:
-      "Krish presents the full commercial strategy in a 90-minute session: revenue model, pricing, go-to-market, and 90-day commercial roadmap. Every asset is yours, editable, branded. 30-day follow-up call included.",
+      "Go-to-market strategy based on predictive market analysis. Sales enablement for both technical and commercial teams. Product roadmap aligned with commercial goals. Board-ready presentation with financial projections and a 90-day execution plan.",
   },
 ];
 
 const deliverables = [
-  "Commercial AI audit: what exists, what it costs, what it earns",
-  "Revenue model framework with 3 options scored against your business",
-  "Pricing and packaging architecture for AI-enabled products",
-  "Go-to-market plan: target buyers, sales motion, channel strategy",
-  "Sales enablement kit: talk tracks, objection handling, demo flow",
-  "90-day commercial roadmap with milestones and owners",
-  "Written commercial strategy document (25-30 pages, client-branded)",
-  "Board presentation deck (Krish presents or you take it)",
-  "30-day follow-up call",
+  "Commercial strategy document (30-40 pages, comprehensive and client-branded)",
+  "Product marketing framework: positioning, messaging, competitive differentiation",
+  "Revenue model with multiple scenarios tested against your business",
+  "Go-to-market playbook: channels, sales process, enablement materials",
+  "Product roadmap aligned with commercial goals (not just technical milestones)",
+  "Financial projections: 12-month outlook with investment requirements",
+  "Board presentation deck (Krish presents if requested)",
+  "30-day follow-up strategy session included",
 ];
 
-const whoItIsFor = [
-  "CEOs, CMOs, CCOs, and CPOs at media, telco, and entertainment companies",
-  "Companies with AI capability built or in progress and no commercial model for it",
-  "Leadership teams where AI investment is not showing in the P&L",
-  "New commercial leaders who need a board-ready AI revenue strategy fast",
-  "PE-backed companies under pressure to show AI commercial returns",
+const signals = [
+  "You have strong AI capabilities and suspect you are not approaching commercialisation strategically",
+  "Your engineering team is excellent but the commercial story is not keeping pace",
+  "You want to get ahead of the competition wave before AI capabilities become commoditised",
+  "Your technical team and commercial team speak different languages about AI",
+  "You need a board-ready commercial strategy and product marketing framework",
 ];
 
 const notFor = [
-  "Companies still in the AI build phase (come back when you have something)",
-  "Companies looking for AI engineering or technical implementation support",
-  "Companies where the commercial team already owns AI revenue strategy",
+  "Companies still in early AI experimentation",
+  "Organisations with mature, working AI commercial strategies",
+  "Companies looking for technical AI implementation support",
 ];
 
-const objections = [
+const questions = [
   {
-    q: "We have a Head of AI already.",
-    a: "Good. They own the build. This Sprint is about who owns the revenue. Those are different jobs. The Sprint works alongside your technical leadership, not instead of them.",
+    q: "How is this different from a consulting engagement?",
+    a: "Most consultants research your industry and present findings. I bring 15 years of pattern recognition from similar situations - I have seen what works, what fails, and why. Combined with master-level product marketing, the output is a competitive commercial strategy, not a research report.",
   },
   {
-    q: "We could figure this out internally.",
-    a: "Probably. Most companies have been trying for 12 months. The value here is outside-in commercial perspective, speed, and the fact that it actually gets finished in a week.",
+    q: "What if we are not sure this is the right time?",
+    a: "The $5,000 deposit secures your slot while you get internal alignment. If you decide not to proceed, we will have a conversation about it. The deposit model exists to reduce friction, not create pressure.",
   },
   {
-    q: "Why 5 days?",
-    a: "Because the commercial model does not take 3 months to build if the right person is in the room. Speed is the point. Your board is not waiting.",
-  },
-  {
-    q: "$25,000 is a lot.",
-    a: "A senior commercial consultant costs $5,000 to $10,000 per day. This is 5 days of focused output plus research, analysis, and a board-ready strategy. Comparable scope from a Big 4 firm runs $100,000 to $200,000 and takes 3 months.",
+    q: "Can our engineering team be involved?",
+    a: "Absolutely. One of the unique things about this process is that it bridges technical and commercial thinking. The best outcomes happen when both teams are in the room.",
   },
 ];
 
-const STRIPE_LINK = import.meta.env.VITE_STRIPE_WAR_ROOM_LINK || null;
+const STRIPE_DEPOSIT = import.meta.env.VITE_STRIPE_ACCELERATOR_DEPOSIT || null;
 const CALENDLY_URL =
   import.meta.env.VITE_CALENDLY_URL || "https://calendly.com/krish-raja/mindmaker-meeting";
 
-const handleBook = () => {
-  if (STRIPE_LINK) {
-    window.open(STRIPE_LINK, "_blank");
+const handleDeposit = () => {
+  if (STRIPE_DEPOSIT) {
+    window.open(STRIPE_DEPOSIT, "_blank");
   } else {
     window.open(CALENDLY_URL, "_blank");
   }
@@ -105,8 +98,8 @@ export default function WarRoom() {
   return (
     <main className="min-h-screen bg-background">
       <SEO
-        title="Commercial Strategy Sprint - 5-Day Intensive | Mindmaker"
-        description="You have AI capability. You are missing the commercial model. In 5 days: revenue architecture, pricing framework, go-to-market plan, and a board-ready strategy. $25,000 flat fee."
+        title="AI Commercial Accelerator | Mindmaker"
+        description="Most AI investments are built first and commercialised later. The companies that win do it backwards. 7-day intensive commercial strategy from someone with 15 years of pattern recognition."
       />
       <Navigation />
 
@@ -119,31 +112,30 @@ export default function WarRoom() {
             animate="show"
             variants={fadeUp}
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-mint/10 border border-mint/20 text-foreground text-sm font-medium mb-6">
-              <Clock className="w-3.5 h-3.5 text-mint-dark dark:text-mint" />
-              4 April slots - 2 remaining
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-mint/10 border border-mint/20 text-mint text-sm font-medium mb-6">
+              <Sparkles className="w-3.5 h-3.5" />
+              2 April slots remaining
             </div>
             <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-              You have AI capability.
+              Most companies build AI first,
               <br />
-              <span className="text-mint-dark dark:text-mint">You are missing the commercial model.</span>
+              <span className="text-mint">then figure out how to make money from it.</span>
             </h1>
             <p className="text-xl text-muted-foreground mb-4 max-w-2xl mx-auto">
-              In 5 days: revenue architecture, pricing framework, go-to-market plan,
-              and a board-ready commercial strategy for your AI investment.
+              The ones that win do it the other way around.
             </p>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10">
-              This is not a technology assessment. It is not another AI roadmap.
-              It is a commercial strategy sprint run by someone who has spent
-              16 years running commercial data, automation and AI strategy in media and telco.
+              In 7 days, I reverse-engineer your AI investment and build the commercial strategy
+              it should have had from day one. Revenue architecture, product marketing,
+              competitive positioning, and an execution blueprint your board will actually back.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 size="lg"
                 className="bg-mint text-ink hover:bg-mint/90 font-semibold text-base px-8"
-                onClick={handleBook}
+                onClick={handleDeposit}
               >
-                Book a Commercial Strategy Sprint
+                Secure Your Slot
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
               <Button
@@ -153,64 +145,50 @@ export default function WarRoom() {
                 onClick={() => window.open(CALENDLY_URL, "_blank")}
               >
                 <Calendar className="mr-2 w-4 h-4" />
-                20-minute call first
+                Explore fit in 20 minutes
               </Button>
             </div>
             <p className="text-sm text-muted-foreground mt-4">
-              $25,000 flat fee. No hourly. No scope creep. 100% upfront or 50/50 on booking and delivery.
+              $5,000 deposit to hold your slot. Balance on completion.
             </p>
           </motion.div>
 
-          {/* Credibility bar */}
+          {/* Credibility */}
           <motion.div
-            className="glass-card p-6 mb-16 text-center"
+            className="glass-card p-6 mb-16"
             initial="hidden"
             animate="show"
             custom={2}
             variants={fadeUp}
           >
-            <p className="text-muted-foreground text-sm mb-2">
-              Krish ran commercial data, automation and AI strategy at
-            </p>
-            <p className="font-semibold text-base">
-              Singtel - Nine Entertainment - Meliora
-            </p>
-            <p className="text-muted-foreground text-sm mt-2 max-w-xl mx-auto">
-              He is not advising on a sector he studied. He ran P&Ls and commercial operations
-              inside the businesses your company competes with. That is the difference.
-            </p>
-            <div className="mt-6 flex flex-col items-center">
-              <img
-                src={krishHeadshot}
-                alt="Krish Raja"
-                className="w-28 h-28 rounded-full border-4 border-mint/20 object-cover mb-4"
-              />
-              <p className="text-sm text-muted-foreground">
-                Learn more about Krish on{" "}
-                <a
-                  href="https://www.krishraja.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-mint-dark dark:text-mint hover:underline font-medium"
-                >
-                  his website
-                </a>
-                {" "}and{" "}
-                <a
-                  href="https://www.linkedin.com/in/krish-raja/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-mint-dark dark:text-mint hover:underline font-medium"
-                >
-                  LinkedIn
-                </a>
-              </p>
+            <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
+              <div className="flex-1">
+                <p className="font-semibold text-base mb-2">
+                  15 years of commercial pattern recognition
+                </p>
+                <p className="text-muted-foreground text-sm">
+                  Krish has spent 15 years on the commercial side of data, automation, and AI
+                  at Singtel, Nine Entertainment, and across media and telco at scale.
+                  Not studying AI strategy from the outside. Building commercial success
+                  (and learning from commercial failures) on the inside.
+                </p>
+              </div>
+              <div className="flex-1">
+                <p className="font-semibold text-base mb-2">
+                  Product marketing is the multiplier
+                </p>
+                <p className="text-muted-foreground text-sm">
+                  In a world where every company will have AI capabilities,
+                  knowing what to build is only half the equation. Knowing how to
+                  position it to win in market is the other half. Krish brings both.
+                </p>
+              </div>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* 5-DAY ARC */}
+      {/* THE PROCESS */}
       <section className="section-padding bg-ink/5">
         <div className="container-width max-w-4xl">
           <motion.div
@@ -219,16 +197,15 @@ export default function WarRoom() {
             viewport={{ once: true }}
             variants={fadeUp}
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-3">The 5-Day Arc</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-3">How it works</h2>
             <p className="text-muted-foreground text-lg mb-10">
-              Commercial model, pricing, go-to-market, and board-ready output.
-              Built while you run the business.
+              7 days. Commercial strategy, product marketing, and execution blueprint.
             </p>
           </motion.div>
           <div className="space-y-5">
-            {sprintDays.map((day, i) => (
+            {phases.map((phase, i) => (
               <motion.div
-                key={day.period}
+                key={phase.period}
                 className="glass-card p-6 flex gap-5"
                 initial="hidden"
                 whileInView="show"
@@ -236,14 +213,14 @@ export default function WarRoom() {
                 custom={i}
                 variants={fadeUp}
               >
-                <div className="shrink-0 w-14 h-14 rounded-xl bg-mint/15 flex flex-col items-center justify-center">
-                  <span className="text-xs text-mint-dark dark:text-mint font-medium text-center leading-tight px-1">
-                    {day.period}
+                <div className="shrink-0 w-16 h-16 rounded-xl bg-mint/15 flex flex-col items-center justify-center">
+                  <span className="text-[10px] text-mint font-medium text-center leading-tight px-1">
+                    {phase.period}
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold mb-2">{day.theme}</h3>
-                  <p className="text-muted-foreground text-sm">{day.description}</p>
+                  <h3 className="text-xl font-semibold mb-2">{phase.theme}</h3>
+                  <p className="text-muted-foreground text-sm">{phase.description}</p>
                 </div>
               </motion.div>
             ))}
@@ -260,9 +237,9 @@ export default function WarRoom() {
             viewport={{ once: true }}
             variants={fadeUp}
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-3">What You Walk Away With</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-3">What you walk away with</h2>
             <p className="text-muted-foreground text-lg mb-10">
-              Everything editable, branded, and ready to present.
+              Everything yours. Editable. Ready to execute.
             </p>
           </motion.div>
           <div className="grid sm:grid-cols-2 gap-4">
@@ -273,10 +250,10 @@ export default function WarRoom() {
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true }}
-                custom={i * 0.4}
+                custom={i * 0.3}
                 variants={fadeUp}
               >
-                <CheckCircle className="w-5 h-5 text-mint-dark dark:text-mint shrink-0 mt-0.5" />
+                <CheckCircle className="w-5 h-5 text-mint shrink-0 mt-0.5" />
                 <span className="text-sm">{item}</span>
               </motion.div>
             ))}
@@ -284,7 +261,7 @@ export default function WarRoom() {
         </div>
       </section>
 
-      {/* PRICING */}
+      {/* INVESTMENT */}
       <section className="section-padding bg-ink/5">
         <div className="container-width max-w-4xl">
           <motion.div
@@ -296,36 +273,36 @@ export default function WarRoom() {
           >
             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-8">
               <div>
-                <h2 className="text-3xl font-bold mb-3">Investment</h2>
-                <div className="flex items-baseline gap-3 mb-4">
-                  <span className="text-5xl font-bold text-mint-dark dark:text-mint">$25,000</span>
-                  <span className="text-muted-foreground">flat fee</span>
+                <h2 className="text-3xl font-bold mb-3">Getting started</h2>
+                <div className="flex items-baseline gap-3 mb-2">
+                  <span className="text-4xl font-bold text-mint">$5,000</span>
+                  <span className="text-muted-foreground">deposit to secure your slot</span>
                 </div>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Total investment: $35,000. Balance due on completion.
+                </p>
                 <div className="space-y-2 text-sm text-muted-foreground mb-4">
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-mint-dark dark:text-mint shrink-0" />
-                    <span>No hourly. No scope creep. One price.</span>
+                    <CheckCircle className="w-4 h-4 text-mint shrink-0" />
+                    <span>$5,000 deposit holds your April slot</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-mint-dark dark:text-mint shrink-0" />
-                    <span>100% upfront, or 50% on booking / 50% on delivery</span>
+                    <CheckCircle className="w-4 h-4 text-mint shrink-0" />
+                    <span>$30,000 balance after you have seen the output</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-mint-dark dark:text-mint shrink-0" />
-                    <span>4 April slots (2 remaining)</span>
+                    <CheckCircle className="w-4 h-4 text-mint shrink-0" />
+                    <span>30-day follow-up session included at no extra cost</span>
                   </div>
                 </div>
-                <p className="text-xs text-muted-foreground italic">
-                  Comparable scope from McKinsey or a Big 4 firm: $100,000 to $200,000 and 3 months.
-                </p>
               </div>
               <div className="flex flex-col gap-3 md:min-w-[220px]">
                 <Button
                   size="lg"
                   className="bg-mint text-ink hover:bg-mint/90 font-semibold w-full"
-                  onClick={handleBook}
+                  onClick={handleDeposit}
                 >
-                  Book the Sprint - $25,000
+                  Secure Your Slot
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
                 <Button
@@ -334,7 +311,7 @@ export default function WarRoom() {
                   className="w-full font-semibold"
                   onClick={() => window.open(CALENDLY_URL, "_blank")}
                 >
-                  Talk first
+                  Explore fit first
                 </Button>
               </div>
             </div>
@@ -342,7 +319,7 @@ export default function WarRoom() {
         </div>
       </section>
 
-      {/* WHO IT IS FOR */}
+      {/* GOOD FIT */}
       <section className="section-padding">
         <div className="container-width max-w-4xl">
           <div className="grid md:grid-cols-2 gap-10">
@@ -353,13 +330,13 @@ export default function WarRoom() {
               variants={fadeUp}
             >
               <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                <Users className="w-5 h-5 text-mint-dark dark:text-mint" />
-                Who This Is For
+                <TrendingUp className="w-5 h-5 text-mint" />
+                Good fit signals
               </h2>
               <div className="space-y-3">
-                {whoItIsFor.map((item, i) => (
+                {signals.map((item, i) => (
                   <div key={i} className="flex items-start gap-3">
-                    <CheckCircle className="w-4 h-4 text-mint-dark dark:text-mint shrink-0 mt-1" />
+                    <CheckCircle className="w-4 h-4 text-mint shrink-0 mt-1" />
                     <span className="text-sm text-muted-foreground">{item}</span>
                   </div>
                 ))}
@@ -374,7 +351,7 @@ export default function WarRoom() {
             >
               <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
                 <Shield className="w-5 h-5 text-muted-foreground" />
-                Not For
+                Not the right fit
               </h2>
               <div className="space-y-3">
                 {notFor.map((item, i) => (
@@ -389,7 +366,7 @@ export default function WarRoom() {
         </div>
       </section>
 
-      {/* OBJECTIONS */}
+      {/* QUESTIONS */}
       <section className="section-padding bg-ink/5">
         <div className="container-width max-w-3xl">
           <motion.div
@@ -398,10 +375,10 @@ export default function WarRoom() {
             viewport={{ once: true }}
             variants={fadeUp}
           >
-            <h2 className="text-3xl font-bold mb-10">Common Questions</h2>
+            <h2 className="text-3xl font-bold mb-10">Questions</h2>
           </motion.div>
           <div className="space-y-5">
-            {objections.map((obj, i) => (
+            {questions.map((q, i) => (
               <motion.div
                 key={i}
                 className="glass-card p-6"
@@ -411,8 +388,8 @@ export default function WarRoom() {
                 custom={i}
                 variants={fadeUp}
               >
-                <p className="font-semibold mb-3">{obj.q}</p>
-                <p className="text-muted-foreground text-sm">{obj.a}</p>
+                <p className="font-semibold mb-3">{q.q}</p>
+                <p className="text-muted-foreground text-sm">{q.a}</p>
               </motion.div>
             ))}
           </div>
@@ -429,19 +406,18 @@ export default function WarRoom() {
             variants={fadeUp}
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              4 April slots. 2 remaining.
+              2 April slots remaining.
             </h2>
             <p className="text-muted-foreground text-lg mb-8">
-              If the commercial model for your AI investment is the conversation nobody can answer,
-              this is where that changes.
+              $5,000 deposit secures yours while you get internal alignment.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 size="lg"
                 className="bg-mint text-ink hover:bg-mint/90 font-semibold text-base px-8"
-                onClick={handleBook}
+                onClick={handleDeposit}
               >
-                Book the Sprint - $25,000
+                Secure Your Slot
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
               <Button
@@ -451,7 +427,7 @@ export default function WarRoom() {
                 onClick={() => window.open(CALENDLY_URL, "_blank")}
               >
                 <Clock className="mr-2 w-4 h-4" />
-                20-minute call first
+                Explore fit in 20 minutes
               </Button>
             </div>
           </motion.div>

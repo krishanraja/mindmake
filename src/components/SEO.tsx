@@ -14,7 +14,7 @@ export const SEO = ({
   title,
   description,
   canonical,
-  ogImage = "https://www.themindmaker.ai/og-image.jpg",
+  ogImage = "https://www.themindmaker.ai/og-image.jpg?v=2",
   ogType = "website",
   keywords,
   jsonLd,

@@ -144,7 +144,7 @@ export default function FractionalCAIO() {
               </Button>
             </div>
             <p className="text-sm text-white/40 mt-4">
-              $5,000 deposit to begin. $15,000/month. 6-month minimum engagement. $95,000 total.
+              $5,000 deposit to begin. $8,000/month. 6-month minimum engagement. $53,000 total.
             </p>
           </motion.div>
 

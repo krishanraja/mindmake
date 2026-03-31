@@ -17,28 +17,28 @@ const fadeUp = {
 
 const sessionArc = [
   {
-    hour: "Hour 1",
-    theme: "Commercial Positioning",
+    hour: "Morning",
+    theme: "Commercial Positioning & Market Strategy",
     description:
-      "What you have, what it is worth, and where it sits competitively. We cut through the technical noise and build a commercial picture that a buyer would actually respond to.",
+      "What you have, what it is worth, and where it sits competitively. We cut through the technical noise and build a commercial picture that a buyer would actually respond to. Then we design the product marketing framework that differentiates you in a market where everyone claims AI capabilities.",
   },
   {
-    hour: "Hour 2",
-    theme: "Market Strategy",
+    hour: "Midday",
+    theme: "Sales Story & Revenue Model",
     description:
-      "Who is this actually for? What do they value? What are they comparing you against? We design the product marketing framework that differentiates you in a market where everyone claims AI capabilities.",
+      "The commercial narrative your team needs. Problem, solution, value, proof. How to handle the objections. What the conversation should sound like. We design the pricing model and packaging that maximizes your AI investment return.",
   },
   {
-    hour: "Hour 3",
-    theme: "The Sales Story",
+    hour: "Afternoon",
+    theme: "Execution Planning & Roadmap",
     description:
-      "The commercial narrative your team needs. Problem, solution, value, proof. How to handle the objections. What the conversation should sound like. This is where product marketing meets revenue.",
+      "Three specific commercial plays for the next 30 days. Revenue milestones for 60 and 90. Each with a clear owner, timeline, and success metric. Not a strategy deck. An execution plan your team can start Monday.",
   },
   {
-    hour: "Hour 4",
-    theme: "90-Day Roadmap",
+    hour: "Wrap-up",
+    theme: "Board Presentation & Next Steps",
     description:
-      "Three specific commercial plays for the next 30 days. Revenue milestones for 60 and 90. Each with a clear owner, timeline, and success metric. Not a strategy deck. An execution plan.",
+      "We build the board-ready presentation of your AI strategy. Clear positioning, financial projections, competitive advantage, and 90-day milestones. You leave with everything you need to present confidently to leadership.",
   },
 ];
 
@@ -102,7 +102,7 @@ export default function StrategyDay() {
               Four focused hours to design the positioning and go-to-market strategy your AI investment deserves.
             </p>
             <p className="text-lg text-white/60 max-w-2xl mx-auto mb-10 text-balance">
-              Four hours with someone who has spent 15 years learning the patterns of what wins commercially with AI - and what doesn't. You leave with a positioning framework, product marketing strategy, and a 90-day commercial roadmap your team can execute immediately.
+              One full day with someone who has spent 15 years learning the patterns of what wins commercially with AI - and what doesn't. You leave with a positioning framework, product marketing strategy, and a 90-day commercial roadmap your team can execute immediately.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
@@ -124,7 +124,7 @@ export default function StrategyDay() {
               </Button>
             </div>
             <p className="text-sm text-white/40 mt-4">
-              $2,000 deposit to book. $8,000 balance on completion. Virtual or NYC in-person.
+              $1,500 deposit to book. $6,000 balance on completion. $7,500 total. Virtual or NYC in-person.
             </p>
           </motion.div>
 
@@ -157,9 +157,9 @@ export default function StrategyDay() {
             viewport={{ once: true }}
             variants={fadeUp}
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-3">The 4-hour arc</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-3">The full-day structure</h2>
             <p className="text-muted-foreground text-lg mb-10">
-              Positioning, product marketing, sales story, and execution plan.
+              Positioning, product marketing, sales story, and execution plan over a complete working day.
             </p>
           </motion.div>
           <div className="space-y-5">

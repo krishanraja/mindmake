@@ -233,16 +233,16 @@ export default function StrategyDay() {
               <div>
                 <h2 className="text-3xl font-bold mb-3">Getting started</h2>
                 <div className="flex items-baseline gap-3 mb-2">
-                  <span className="text-4xl font-bold">$2,000</span>
+                  <span className="text-4xl font-bold">$1,500</span>
                   <span className="text-muted-foreground">deposit to book</span>
                 </div>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Total investment: $10,000. Balance due on completion.
+                  Total investment: $7,500. $6,000 balance due on completion.
                 </p>
                 <div className="space-y-2 text-sm text-muted-foreground">
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-mint shrink-0" />
-                    <span>4-hour intensive session</span>
+                    <span>Full-day intensive session</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-mint shrink-0" />
@@ -323,7 +323,7 @@ export default function StrategyDay() {
               April dates available.
             </h2>
             <p className="text-muted-foreground text-lg mb-8">
-              $2,000 deposit books your date. The rest of the investment comes
+              $1,500 deposit books your date. The $6,000 balance comes
               after you have seen the value.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

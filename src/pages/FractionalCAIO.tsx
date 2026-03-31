@@ -315,7 +315,7 @@ export default function FractionalCAIO() {
                   <span className="text-muted-foreground">deposit to begin</span>
                 </div>
                 <p className="text-sm text-muted-foreground mb-4">
-                  $15,000/month. 6-month minimum engagement ($90,000 total).
+                  $8,000/month. 6-month minimum engagement. $53,000 total including deposit.
                 </p>
                 <div className="space-y-2 text-sm text-muted-foreground">
                   <div className="flex items-center gap-2">

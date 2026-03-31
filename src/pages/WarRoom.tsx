@@ -82,7 +82,7 @@ const questions = [
   },
 ];
 
-const STRIPE_LINK = import.meta.env.VITE_STRIPE_ACCELERATOR_DEPOSIT || null;
+const STRIPE_LINK = import.meta.env.VITE_STRIPE_WAR_ROOM_DEPOSIT || null;
 const CALENDLY_URL =
   import.meta.env.VITE_CALENDLY_URL || "https://calendly.com/krish-raja/mindmaker-meeting";
 

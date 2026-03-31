@@ -2,79 +2,90 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { CheckCircle, ArrowRight, Zap, Calendar, MessageSquare, BarChart3, Users, Shield } from "lucide-react";
+import {
+  CheckCircle, ArrowRight, Zap, Calendar, BarChart3, Users, Shield, Clock
+} from "lucide-react";
 import { SEO } from "@/components/SEO";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
-  show: (i = 0) => ({ opacity: 1, y: 0, transition: { delay: i * 0.08, duration: 0.5, ease: "easeOut" } }),
+  show: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.08, duration: 0.5, ease: "easeOut" },
+  }),
 };
 
 const onStartItems = [
-  "Full AI maturity assessment (Week 1)",
-  "90-day roadmap with prioritised use cases (Week 2–3)",
-  "Team enablement workshop (Week 4)",
+  "Commercial AI audit: what capability exists, what it costs vs what it earns (Week 1)",
+  "Revenue architecture: 3 commercial models built and scored for your business (Week 2)",
+  "90-day commercial roadmap with milestones and owners (Week 3)",
+  "Sales enablement workshop with your commercial team (Week 4)",
 ];
 
 const monthlyItems = [
-  "2x 60-minute strategy sessions (recorded and summarised)",
-  "Unlimited async advisory via email or Slack (24-hour response)",
-  "Monthly AI Landscape Brief — what's moving in your sector and what it means for you",
-  "One major deliverable per month (vendor eval, policy draft, roadmap update, or board prep)",
+  "2x 60-minute commercial strategy sessions (recorded and summarised)",
+  "Unlimited async advisory via email or Slack (24-hour response time)",
+  "Monthly commercial brief: what is moving in your competitive landscape and what it means for your revenue model",
+  "One major commercial deliverable per month: pricing update, GTM refresh, sales enablement kit, board prep, or new revenue model",
 ];
 
 const quarterlyItems = [
-  "Board-level AI update presentation (Krish presents if needed)",
-  "Full engagement review and roadmap refresh",
+  "Board-level commercial AI update (Krish presents if needed)",
+  "Full engagement review and commercial roadmap refresh",
+  "Competitive positioning update",
 ];
 
-const ongoingItems = [
-  "Escalation calls (up to 2/month, 30 minutes each)",
-  "Vendor demos and negotiation support",
-  "Hiring input for AI and data roles",
+const whatKrishDoes = [
+  "Owns the commercial model for your AI initiative",
+  "Builds and iterates the pricing architecture",
+  "Designs and refines the go-to-market strategy",
+  "Trains and enables your commercial team to sell AI-enabled products",
+  "Sits in the room when commercial AI decisions get made",
+  "Prepares the board case for AI investment",
+];
+
+const whatKrishDoesNot = [
+  "Does not manage or direct your technical or engineering team",
+  "Does not own the technical AI roadmap (that is your CTO)",
+  "Does not run day-to-day sales execution",
+  "Does not replace your commercial leadership - he works alongside them",
 ];
 
 const whoItIsFor = [
-  "CEOs and CMOs at media, telco, and entertainment companies",
-  "Companies with $100M–$1B revenue that need AI leadership but can't justify a $400K hire",
-  "Boards asking the AI question with no clear internal owner",
-  "New CDOs or CMOs who need to show AI progress within 90 days",
-  "PE-backed companies under pressure to demonstrate AI value creation",
-];
-
-const highFitSignals = [
-  "Company has made public commitments to AI but has no execution plan",
-  "Competitor just announced a significant AI initiative",
-  "AI keeps appearing in board meetings without a satisfying answer",
-  "You've hired tools but not strategy",
+  "CEOs, CMOs, CCOs, and CPOs at media, telco, and entertainment companies",
+  "Companies with AI capability and no internal owner of the commercial model",
+  "Boards asking why AI investment is not showing in the revenue",
+  "Companies with strong technical AI leadership and a gap on the commercial side",
+  "PE-backed companies that need to show AI commercial returns within 6 months",
 ];
 
 const notFor = [
-  "Companies with existing AI leadership and a functioning roadmap",
-  "Companies wanting technical AI development or product engineering",
+  "Companies without any AI capability yet (build first, then engage)",
+  "Companies with a functioning commercial AI team already in place",
+  "Companies looking for technical AI leadership or engineering management",
 ];
 
-const STRIPE_CAIO_LINK = import.meta.env.VITE_STRIPE_CAIO_LINK || null;
-const CALENDLY_URL = import.meta.env.VITE_CALENDLY_URL || "https://calendly.com/krish-mindmaker";
+const STRIPE_LINK = import.meta.env.VITE_STRIPE_CAIO_LINK || null;
+const CALENDLY_URL =
+  import.meta.env.VITE_CALENDLY_URL || "https://calendly.com/krish-raja/mindmaker-meeting";
+
+const handleApply = () => window.open(CALENDLY_URL, "_blank");
+
+const handleStripe = () => {
+  if (STRIPE_LINK) {
+    window.open(STRIPE_LINK, "_blank");
+  } else {
+    window.open(CALENDLY_URL, "_blank");
+  }
+};
 
 export default function FractionalCAIO() {
-  const handleCTA = () => {
-    window.open(CALENDLY_URL, "_blank");
-  };
-
-  const handleStripe = () => {
-    if (STRIPE_CAIO_LINK) {
-      window.open(STRIPE_CAIO_LINK, "_blank");
-    } else {
-      window.open(CALENDLY_URL, "_blank");
-    }
-  };
-
   return (
     <main className="min-h-screen bg-background">
       <SEO
-        title="Fractional CAIO — Chief AI Officer | Mindmaker"
-        description="The AI leadership your business needs, without the $400K price tag. A fractional Chief AI Officer for media, telco, and entertainment companies. $15,000/month."
+        title="Fractional Commercial Strategist - AI Revenue | Mindmaker"
+        description="Your CTO owns the AI build. Who owns the revenue? Embedded commercial strategy leadership for companies with AI capability and no commercial model for it. $15,000/month."
       />
       <Navigation />
 
@@ -89,32 +100,30 @@ export default function FractionalCAIO() {
           >
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-mint/10 border border-mint/20 text-mint text-sm font-medium mb-6">
               <Zap className="w-3.5 h-3.5" />
-              Maximum 4 active engagements — 1 slot available
+              Maximum 4 active engagements - 1 slot available
             </div>
             <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-              The AI Leadership
+              Your CTO owns the build.
               <br />
-              <span className="text-mint">Your Business Needs.</span>
+              <span className="text-mint">Who owns the revenue?</span>
             </h1>
-            <p className="text-2xl font-medium mb-4">
-              Without the $400,000 price tag.
-            </p>
             <p className="text-xl text-muted-foreground mb-4 max-w-2xl mx-auto">
-              A full-time Chief AI Officer costs $350,000–$500,000 per year plus equity.
-              Your Fractional CAIO brings the same strategic leadership at 10% of the cost.
+              Most companies scaling AI have strong technical leadership and no commercial counterpart.
+              The revenue model sits in a slide deck from the original business case
+              and has not been touched since.
             </p>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10">
-              Not an outside advisor who turns up for quarterly reviews.
-              An embedded strategic leader — in your Slack, on your calls,
-              thinking about your AI problems between sessions.
+              This engagement fills the commercial seat. Krish becomes the embedded owner
+              of your AI commercial strategy - revenue model, pricing, go-to-market,
+              and sales enablement. Not an outside advisor. An actual commercial owner.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 size="lg"
                 className="bg-mint text-ink hover:bg-mint/90 font-semibold text-base px-8"
-                onClick={handleCTA}
+                onClick={handleApply}
               >
-                Apply for a CAIO Engagement
+                Apply for an Engagement
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
               <Button
@@ -124,15 +133,15 @@ export default function FractionalCAIO() {
                 onClick={() => window.open(CALENDLY_URL, "_blank")}
               >
                 <Calendar className="mr-2 w-4 h-4" />
-                20-minute discovery call
+                Discovery call first
               </Button>
             </div>
             <p className="text-sm text-muted-foreground mt-4">
-              $15,000/month · Minimum 3-month engagement ($45,000 total)
+              $15,000/month. Minimum 3-month engagement. Not a retainer - an embedded commercial role.
             </p>
           </motion.div>
 
-          {/* Credibility bar */}
+          {/* Credibility */}
           <motion.div
             className="glass-card p-6 mb-16 text-center"
             initial="hidden"
@@ -141,20 +150,20 @@ export default function FractionalCAIO() {
             variants={fadeUp}
           >
             <p className="text-muted-foreground text-sm mb-2">
-              AI transformation mandates delivered at
+              16 years running commercial strategy at
             </p>
             <p className="font-semibold text-base">
-              Singtel · Nine Entertainment · Meliora
+              Singtel - Nine Entertainment - Meliora
             </p>
-            <p className="text-muted-foreground text-sm mt-2">
-              Not an outside advisor who studied these companies. Someone who actually ran transformation
-              mandates inside them — P&amp;L ownership, board accountability, and all.
+            <p className="text-muted-foreground text-sm mt-2 max-w-xl mx-auto">
+              Krish has been on the commercial and revenue side of AI transformation at operating scale.
+              Not advising. Doing.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* WHAT'S INCLUDED */}
+      {/* WHAT KRISH DOES AND DOES NOT DO */}
       <section className="section-padding bg-ink/5">
         <div className="container-width max-w-4xl">
           <motion.div
@@ -163,106 +172,41 @@ export default function FractionalCAIO() {
             viewport={{ once: true }}
             variants={fadeUp}
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-3">What's Included</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-3">What This Role Is (and Is Not)</h2>
             <p className="text-muted-foreground text-lg mb-10">
-              Three months. Real outcomes. Then you decide whether to continue or bring the function in-house.
+              This is not a fractional CTO. It is not a Chief AI Officer.
+              It is the commercial counterpart to your technical AI leadership.
             </p>
           </motion.div>
-
-          <div className="space-y-6">
-            {/* On Start */}
+          <div className="grid md:grid-cols-2 gap-8">
             <motion.div
-              className="glass-card p-8"
               initial="hidden"
               whileInView="show"
               viewport={{ once: true }}
               variants={fadeUp}
             >
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-10 h-10 rounded-xl bg-mint/15 flex items-center justify-center">
-                  <Zap className="w-5 h-5 text-mint" />
-                </div>
-                <h3 className="text-xl font-semibold">On Engagement Start</h3>
-              </div>
+              <h3 className="text-xl font-bold mb-5 text-mint">What Krish Owns</h3>
               <div className="space-y-3">
-                {onStartItems.map((item, i) => (
+                {whatKrishDoes.map((item, i) => (
                   <div key={i} className="flex items-start gap-3">
-                    <CheckCircle className="w-4 h-4 text-mint shrink-0 mt-0.5" />
+                    <CheckCircle className="w-4 h-4 text-mint shrink-0 mt-1" />
                     <span className="text-sm text-muted-foreground">{item}</span>
                   </div>
                 ))}
               </div>
             </motion.div>
-
-            {/* Monthly */}
             <motion.div
-              className="glass-card p-8"
               initial="hidden"
               whileInView="show"
               viewport={{ once: true }}
               custom={1}
               variants={fadeUp}
             >
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-10 h-10 rounded-xl bg-mint/15 flex items-center justify-center">
-                  <Calendar className="w-5 h-5 text-mint" />
-                </div>
-                <h3 className="text-xl font-semibold">Monthly</h3>
-              </div>
+              <h3 className="text-xl font-bold mb-5 text-muted-foreground">What Krish Does Not Do</h3>
               <div className="space-y-3">
-                {monthlyItems.map((item, i) => (
+                {whatKrishDoesNot.map((item, i) => (
                   <div key={i} className="flex items-start gap-3">
-                    <CheckCircle className="w-4 h-4 text-mint shrink-0 mt-0.5" />
-                    <span className="text-sm text-muted-foreground">{item}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Quarterly */}
-            <motion.div
-              className="glass-card p-8"
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true }}
-              custom={2}
-              variants={fadeUp}
-            >
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-10 h-10 rounded-xl bg-mint/15 flex items-center justify-center">
-                  <BarChart3 className="w-5 h-5 text-mint" />
-                </div>
-                <h3 className="text-xl font-semibold">Quarterly</h3>
-              </div>
-              <div className="space-y-3">
-                {quarterlyItems.map((item, i) => (
-                  <div key={i} className="flex items-start gap-3">
-                    <CheckCircle className="w-4 h-4 text-mint shrink-0 mt-0.5" />
-                    <span className="text-sm text-muted-foreground">{item}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Ongoing */}
-            <motion.div
-              className="glass-card p-8"
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true }}
-              custom={3}
-              variants={fadeUp}
-            >
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-10 h-10 rounded-xl bg-mint/15 flex items-center justify-center">
-                  <MessageSquare className="w-5 h-5 text-mint" />
-                </div>
-                <h3 className="text-xl font-semibold">Ongoing Availability</h3>
-              </div>
-              <div className="space-y-3">
-                {ongoingItems.map((item, i) => (
-                  <div key={i} className="flex items-start gap-3">
-                    <CheckCircle className="w-4 h-4 text-mint shrink-0 mt-0.5" />
+                    <span className="w-4 shrink-0 mt-1 text-muted-foreground font-bold text-xs">x</span>
                     <span className="text-sm text-muted-foreground">{item}</span>
                   </div>
                 ))}
@@ -272,8 +216,53 @@ export default function FractionalCAIO() {
         </div>
       </section>
 
-      {/* PRICING */}
+      {/* SCOPE */}
       <section className="section-padding">
+        <div className="container-width max-w-4xl">
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            variants={fadeUp}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-3">What Is Included</h2>
+            <p className="text-muted-foreground text-lg mb-10">
+              Three-month minimum. By month 3, your commercial AI strategy is live and the team owns it.
+            </p>
+          </motion.div>
+
+          <div className="space-y-8">
+            {[
+              { title: "First 30 Days: Foundation", items: onStartItems },
+              { title: "Every Month: Ongoing Commercial Leadership", items: monthlyItems },
+              { title: "Every Quarter: Review and Refresh", items: quarterlyItems },
+            ].map((section, i) => (
+              <motion.div
+                key={section.title}
+                className="glass-card p-6"
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true }}
+                custom={i}
+                variants={fadeUp}
+              >
+                <h3 className="text-xl font-semibold mb-4">{section.title}</h3>
+                <div className="space-y-2">
+                  {section.items.map((item, j) => (
+                    <div key={j} className="flex items-start gap-3">
+                      <CheckCircle className="w-4 h-4 text-mint shrink-0 mt-1" />
+                      <span className="text-sm text-muted-foreground">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PRICING */}
+      <section className="section-padding bg-ink/5">
         <div className="container-width max-w-4xl">
           <motion.div
             className="glass-card p-8 md:p-12"
@@ -287,38 +276,37 @@ export default function FractionalCAIO() {
                 <h2 className="text-3xl font-bold mb-3">Investment</h2>
                 <div className="flex items-baseline gap-3 mb-2">
                   <span className="text-5xl font-bold text-mint">$15,000</span>
-                  <span className="text-muted-foreground">/month</span>
+                  <span className="text-muted-foreground">per month</span>
                 </div>
-                <p className="text-muted-foreground text-sm mb-5">
-                  Minimum 3-month engagement ($45,000 total commitment)
+                <p className="text-sm text-muted-foreground mb-4">
+                  Minimum 3-month engagement ($45,000 total)
                 </p>
-                <div className="space-y-2 text-sm text-muted-foreground">
+                <div className="space-y-2 text-sm text-muted-foreground mb-4">
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-mint shrink-0" />
-                    <span>Simple agreement — no 12-page SOW</span>
+                    <span>2 on-site or virtual strategy sessions per month</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-mint shrink-0" />
-                    <span>Stripe link, one signature, we start</span>
+                    <span>Unlimited async advisory (Slack or email)</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-mint shrink-0" />
-                    <span>Maximum 4 active engagements at once</span>
+                    <span>Maximum 4 active clients at once</span>
                   </div>
                 </div>
-                <div className="mt-5 p-4 rounded-xl bg-ink/5 text-xs text-muted-foreground">
-                  <strong className="text-foreground">Market context:</strong> A full-time CAIO in the US costs $350,000–$500,000 base + equity.
-                  Fractional CAIO market rates run $15,000–$30,000/month (Umbrex, Hyperion Consulting, 2026).
-                  This engagement is priced at the market floor.
-                </div>
+                <p className="text-xs text-muted-foreground italic">
+                  A full-time commercial strategy hire costs $250,000 to $400,000 per year plus equity.
+                  This is the same commercial ownership at a fraction of the cost.
+                </p>
               </div>
               <div className="flex flex-col gap-3 md:min-w-[220px]">
                 <Button
                   size="lg"
                   className="bg-mint text-ink hover:bg-mint/90 font-semibold w-full"
-                  onClick={handleCTA}
+                  onClick={handleApply}
                 >
-                  Apply for CAIO Engagement
+                  Apply for an Engagement
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
                 <Button
@@ -329,24 +317,14 @@ export default function FractionalCAIO() {
                 >
                   Discovery call first
                 </Button>
-                {STRIPE_CAIO_LINK && (
-                  <Button
-                    size="lg"
-                    variant="ghost"
-                    className="w-full text-mint font-semibold"
-                    onClick={handleStripe}
-                  >
-                    Pay and start immediately
-                  </Button>
-                )}
               </div>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* WHO IT'S FOR */}
-      <section className="section-padding bg-ink/5">
+      {/* WHO IT IS FOR */}
+      <section className="section-padding">
         <div className="container-width max-w-4xl">
           <div className="grid md:grid-cols-2 gap-10">
             <motion.div
@@ -359,19 +337,10 @@ export default function FractionalCAIO() {
                 <Users className="w-5 h-5 text-mint" />
                 Who This Is For
               </h2>
-              <div className="space-y-3 mb-8">
+              <div className="space-y-3">
                 {whoItIsFor.map((item, i) => (
                   <div key={i} className="flex items-start gap-3">
                     <CheckCircle className="w-4 h-4 text-mint shrink-0 mt-1" />
-                    <span className="text-sm text-muted-foreground">{item}</span>
-                  </div>
-                ))}
-              </div>
-              <h3 className="text-lg font-semibold mb-4">High-Fit Signals</h3>
-              <div className="space-y-3">
-                {highFitSignals.map((item, i) => (
-                  <div key={i} className="flex items-start gap-3 p-3 rounded-lg bg-mint/5 border border-mint/15">
-                    <Zap className="w-4 h-4 text-mint shrink-0 mt-0.5" />
                     <span className="text-sm text-muted-foreground">{item}</span>
                   </div>
                 ))}
@@ -388,26 +357,13 @@ export default function FractionalCAIO() {
                 <Shield className="w-5 h-5 text-muted-foreground" />
                 Not For
               </h2>
-              <div className="space-y-3 mb-10">
+              <div className="space-y-3">
                 {notFor.map((item, i) => (
                   <div key={i} className="flex items-start gap-3">
-                    <span className="text-muted-foreground font-bold text-xs mt-1 w-4 shrink-0">✕</span>
+                    <span className="w-4 shrink-0 mt-1 text-muted-foreground font-bold text-xs">x</span>
                     <span className="text-sm text-muted-foreground">{item}</span>
                   </div>
                 ))}
-              </div>
-
-              <div className="glass-card p-6">
-                <h3 className="font-semibold mb-3">Natural Next Step</h3>
-                <p className="text-sm text-muted-foreground">
-                  Many companies start with an{" "}
-                  <a href="/war-room" className="text-mint underline underline-offset-2">
-                    AI War Room
-                  </a>{" "}
-                  to get a rapid strategy built, then move into the Fractional CAIO
-                  for ongoing leadership. The War Room covers the upfront sprint;
-                  the CAIO covers everything that comes after.
-                </p>
               </div>
             </motion.div>
           </div>
@@ -415,7 +371,7 @@ export default function FractionalCAIO() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="section-padding">
+      <section className="section-padding bg-ink/5">
         <div className="container-width max-w-3xl text-center">
           <motion.div
             initial="hidden"
@@ -424,18 +380,19 @@ export default function FractionalCAIO() {
             variants={fadeUp}
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              1 slot available in April.
+              1 slot available for April.
             </h2>
             <p className="text-muted-foreground text-lg mb-8">
-              If the AI leadership gap exists at your company, the conversation is worth having.
+              If the commercial ownership of your AI initiative is the gap,
+              this is how you fill it.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 size="lg"
                 className="bg-mint text-ink hover:bg-mint/90 font-semibold text-base px-8"
-                onClick={handleCTA}
+                onClick={handleApply}
               >
-                Apply — $15,000/month
+                Apply for an Engagement
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
               <Button
@@ -444,8 +401,8 @@ export default function FractionalCAIO() {
                 className="font-semibold text-base px-8"
                 onClick={() => window.open(CALENDLY_URL, "_blank")}
               >
-                <Calendar className="mr-2 w-4 h-4" />
-                20-minute call first
+                <Clock className="mr-2 w-4 h-4" />
+                Discovery call first
               </Button>
             </div>
           </motion.div>

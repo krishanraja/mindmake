@@ -1,4 +1,4 @@
-# CLAUDE.md — Mindmaker Brand Vision 11/10 Implementation Guide
+# CLAUDE.md  - Mindmaker Brand Vision 11/10 Implementation Guide
 
 **Version:** 1.0  
 **Created:** 2026-02-20  
@@ -9,7 +9,7 @@
 
 ## 🎯 MISSION
 
-Transform Mindmaker from "professional AI advisory site" to "the anti-consultancy for leaders who are done being sold AI and ready to use it." The site should feel like your most cynical, knowledgeable friend who runs AI transformation every day — premium through substance, not stiffness.
+Transform Mindmaker from "professional AI advisory site" to "the anti-consultancy for leaders who are done being sold AI and ready to use it." The site should feel like your most cynical, knowledgeable friend who runs AI transformation every day  - premium through substance, not stiffness.
 
 **Brand North Star:** If Stripe's design sensibility met Anthony Bourdain's authenticity.
 
@@ -24,12 +24,12 @@ These are working well and embody the brand energy. Leave them untouched:
 - ✅ **ParticleBackground** (`/src/components/Animations/ParticleBackground.tsx`)
 - ✅ **Glass card system** (`.glass-card`, `.editorial-card`)
 - ✅ **Scroll hijack mechanics** (smooth scroll, sections snapping)
-- ✅ **AI News Ticker** (`/src/components/AINewsTicker.tsx`) — EVOLVE prompt (see section below)
-- ✅ **InitialConsultModal** — single conversion path (good pattern)
+- ✅ **AI News Ticker** (`/src/components/AINewsTicker.tsx`)  - EVOLVE prompt (see section below)
+- ✅ **InitialConsultModal**  - single conversion path (good pattern)
 - ✅ **Testimonials structure** in TrustSection
 
 ### Technical Infrastructure
-- ✅ **ChatBot** (Vertex AI RAG + Gemini) — REBRAND only (see section below)
+- ✅ **ChatBot** (Vertex AI RAG + Gemini)  - REBRAND only (see section below)
 - ✅ **Edge functions** (lead enrichment, email)
 - ✅ **Supabase setup**
 - ✅ **Design system** (colors, spacing, typography)
@@ -45,10 +45,10 @@ These are working well and embody the brand energy. Leave them untouched:
 ## 🔄 TRANSFORMATION ARCHITECTURE
 
 ### Phase 1: Core Positioning & Copy (Priority)
-1. **Framework Language** — Mind Set → Mind Map → Mind Make everywhere
-2. **Product Simplification** — Remove complexity, focus on 2 core offerings
-3. **Voice Evolution** — Corporate → Confident + Cynical + Helpful
-4. **CTA Language** — "What's your nervous decision?" everywhere
+1. **Framework Language**  - Mind Set → Mind Map → Mind Make everywhere
+2. **Product Simplification**  - Remove complexity, focus on 2 core offerings
+3. **Voice Evolution**  - Corporate → Confident + Cynical + Helpful
+4. **CTA Language**  - "What's your nervous decision?" everywhere
 
 ### Phase 2: Homepage Scroll Redesign
 5. **Block 1:** Hero (evolve rotating headlines to nervous decisions)
@@ -449,7 +449,7 @@ Clearer Builder vs Orchestrator split with updated copy
 **Builder Panel:**
 ```typescript
 headline: "You want to build alongside AI."
-body: "Prototype. Ship. Create leverage. You're not waiting for permission — you're looking for the fastest path from idea to working system."
+body: "Prototype. Ship. Create leverage. You're not waiting for permission  - you're looking for the fastest path from idea to working system."
 ```
 
 **Orchestrator Panel:**
@@ -654,7 +654,7 @@ Enhanced with Krish's photo + short bio + real testimonials
   <p className="text-lg leading-relaxed">
     I run AI transformation for businesses 100x your size during the day. I build products with AI every night. 
     I've spent 16 years in data and tech, including Microsoft and Harvard Business School. I'm not going to sell 
-    you a tool or a framework slide. I'm going to help you make the decisions you've been avoiding — and feel good about them.
+    you a tool or a framework slide. I'm going to help you make the decisions you've been avoiding  - and feel good about them.
   </p>
 </div>
 ```
@@ -671,19 +671,19 @@ Enhanced with Krish's photo + short bio + real testimonials
 const testimonials = [
   {
     quote: "I stopped dreading board AI questions.",
-    details: "Before the sprint, I was fielding questions about our AI strategy and honestly just making it up as I went. Krish helped me get clear on the 3 decisions that actually mattered for our product roadmap. Now when the board asks, I have real answers — not theater.",
+    details: "Before the sprint, I was fielding questions about our AI strategy and honestly just making it up as I went. Krish helped me get clear on the 3 decisions that actually mattered for our product roadmap. Now when the board asks, I have real answers  - not theater.",
     name: "Sarah M.",
     title: "CPO, Series C SaaS Company"
   },
   {
     quote: "We went from 14 tools to 3 systems that actually work.",
-    details: "Everyone on the team was experimenting with AI — ChatGPT for this, Claude for that, some random automation tool someone saw on LinkedIn. It was chaos. The 4-week sprint forced us to decide: what's actually strategic, and what's just noise?",
+    details: "Everyone on the team was experimenting with AI  - ChatGPT for this, Claude for that, some random automation tool someone saw on LinkedIn. It was chaos. The 4-week sprint forced us to decide: what's actually strategic, and what's just noise?",
     name: "Anonymous",
     title: "VP of Operations"
   },
   {
     quote: "I finally knew what to build versus buy.",
-    details: "I'd been going in circles for 6 months — do we build our own AI underwriting model or use a vendor API? Every conversation made it worse. Krish didn't give me a recommendation. He gave me the framework to decide for myself.",
+    details: "I'd been going in circles for 6 months  - do we build our own AI underwriting model or use a vendor API? Every conversation made it worse. Krish didn't give me a recommendation. He gave me the framework to decide for myself.",
     name: "Founder",
     title: "Early-Stage FinTech"
   }
@@ -712,16 +712,16 @@ You are Mindmaker's AI news filter. Your job is to take the day's AI news and ca
 
 For each news item, assign ONE category:
 
-SIGNAL — This actually matters for business leaders. Real impact, real decisions.
+SIGNAL  - This actually matters for business leaders. Real impact, real decisions.
 Example: "OpenAI releases GPT-5 with 10x context window" → SIGNAL: Long-context workflows just became viable
 
-NOISE — Ignore this. Hype, funding announcements, vendor marketing.
+NOISE  - Ignore this. Hype, funding announcements, vendor marketing.
 Example: "AI Startup Raises $50M Series B" → NOISE: Another AI company raising money
 
-DECISION TRIGGER — Act on this. Something changed that requires a decision.
+DECISION TRIGGER  - Act on this. Something changed that requires a decision.
 Example: "Google announces Gemini API price cut by 40%" → DECISION TRIGGER: Time to reevaluate your LLM vendor costs
 
-KRISH'S TAKE — Opinion/analysis from Mindmaker's perspective.
+KRISH'S TAKE  - Opinion/analysis from Mindmaker's perspective.
 Example: "Enterprise AI adoption hits 80%" → KRISH'S TAKE: 80% of companies using AI != 80% using it well
 
 Voice: Confident, slightly cynical, deeply knowledgeable. Like a friend who works in AI every day and has seen it all.
@@ -850,7 +850,7 @@ const Sprint4Week = () => {
                   <h3 className="text-2xl font-semibold">Confidence</h3>
                 </div>
                 <p className="ml-15 text-muted-foreground">
-                  Week three: You make the call. We document why. Not a 40-slide deck — a decision memo. 
+                  Week three: You make the call. We document why. Not a 40-slide deck  - a decision memo. 
                   One page. What you decided, why, what success looks like, what the risks are. Defensible. Real.
                 </p>
               </div>
@@ -980,13 +980,13 @@ const monthlyArc = [
     month: 1,
     phase: "Mind Set",
     theme: "Clarity",
-    description: "We identify the 2-3 decisions that will define your AI direction for the next year. No noise, no vendor theater — just what actually matters for your business."
+    description: "We identify the 2-3 decisions that will define your AI direction for the next year. No noise, no vendor theater  - just what actually matters for your business."
   },
   {
     month: 2,
     phase: "Mind Map",
     theme: "Leverage",
-    description: "We build working systems around your actual workflows. Not demos, not proofs-of-concept — real, deployed AI that multiplies your strongest capabilities."
+    description: "We build working systems around your actual workflows. Not demos, not proofs-of-concept  - real, deployed AI that multiplies your strongest capabilities."
   },
   {
     month: 3,
@@ -1016,7 +1016,7 @@ const outcomes = [
     as they scale what they've built. We call this the <strong>Extended Sprint</strong>.
   </p>
   <p className="text-muted-foreground">
-    This isn't a separate product — it's a natural continuation. We'll discuss this option 
+    This isn't a separate product  - it's a natural continuation. We'll discuss this option 
     in your initial conversation if it makes sense for your situation.
   </p>
 </div>
@@ -1104,7 +1104,7 @@ Your job is to:
 1. Help visitors understand the Mind Set → Mind Map → Mind Make framework
 2. Surface their nervous decisions about AI
 3. Recommend the right sprint (4-week or 90-day)
-4. Be honest — if they don't need Mindmaker, say so
+4. Be honest  - if they don't need Mindmaker, say so
 
 Voice guidelines:
 - Not corporate. No "leverage" or "transformation" buzzwords.
@@ -1115,7 +1115,7 @@ Voice guidelines:
 Example responses:
 - "Sounds like you're nervous about vendor lock-in. That's a 4-week sprint decision."
 - "You don't need AI training. You need to decide what to build vs buy."
-- "Most people in your situation start with Mind Set — getting clear on what actually matters."
+- "Most people in your situation start with Mind Set  - getting clear on what actually matters."
 
 You can also do a lightweight version of the Decision Readiness Diagnostic in conversation.
 ```

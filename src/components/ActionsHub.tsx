@@ -83,17 +83,27 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
     }
   ];
 
+  // Track ActionsHub usage via Plausible custom events
+  const trackEvent = (name: string, props?: Record<string, string>) => {
+    if (typeof window !== "undefined" && (window as Record<string, unknown>).plausible) {
+      (window as Record<string, unknown> & { plausible: (name: string, opts?: { props: Record<string, string> }) => void }).plausible(name, props ? { props } : undefined);
+    }
+  };
+
   const handleToolClick = (toolId: DialogType) => {
+    trackEvent("ActionsHub Tool Opened", { tool: toolId ?? "unknown" });
     onToolClick(toolId);
     setIsOpen(false);
   };
 
   const handleBookSession = () => {
+    trackEvent("ActionsHub Book Session");
     setConsultModalOpen(true);
     setIsOpen(false);
   };
 
   const handleOpenChat = () => {
+    trackEvent("ActionsHub Chat Opened");
     setChatOpen(true);
     setIsOpen(false);
   };

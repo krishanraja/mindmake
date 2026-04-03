@@ -8,7 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { SEO } from "@/components/SEO";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { blogPosts, getAllCategories, BlogPost } from "@/data/blogPosts";
+import { useBlogPosts } from "@/hooks/useBlogPosts";
+import type { BlogPost } from "@/data/blogPosts";
 
 const categoryLabels: Record<string, string> = {
   "ai-literacy": "AI Literacy",
@@ -28,8 +29,9 @@ const Blog = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  
-  const categories = getAllCategories();
+
+  const { data: blogPosts = [] } = useBlogPosts();
+  const categories = [...new Set(blogPosts.map((p) => p.category))];
 
   const filteredPosts = blogPosts.filter(post => {
     const matchesCategory = !selectedCategory || post.category === selectedCategory;

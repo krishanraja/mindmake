@@ -283,7 +283,7 @@ const TrustSection = () => {
           {/* Mobile: collapsible bio */}
           <div className="md:hidden mb-8">
             <p className="text-lg font-bold leading-snug">
-              I work with AI every single day&mdash;building, breaking, and shipping real systems.
+              I work with AI every single day - building, breaking, and shipping real systems.
             </p>
             <motion.div
               initial={false}

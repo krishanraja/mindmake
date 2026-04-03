@@ -41,6 +41,29 @@ const Footer = () => {
                   Decision Tools
                 </button>
               </nav>
+              <div className="mt-4 pt-3 border-t border-border/30">
+                <p className="text-xs text-muted-foreground/60 uppercase tracking-wider mb-2">Enterprise</p>
+                <nav className="flex flex-col gap-3">
+                  <a
+                    href="/war-room"
+                    className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
+                  >
+                    AI Commercial Accelerator
+                  </a>
+                  <a
+                    href="/fractional-caio"
+                    className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
+                  >
+                    Embedded Commercial Strategy
+                  </a>
+                  <a
+                    href="/strategy-day"
+                    className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
+                  >
+                    AI Positioning Sprint
+                  </a>
+                </nav>
+              </div>
             </div>
 
             {/* Resources */}

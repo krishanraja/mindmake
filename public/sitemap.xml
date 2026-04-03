@@ -1,174 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
-  <!-- Homepage -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://themindmaker.ai/</loc>
-    <lastmod>2026-01-15</lastmod>
+    <loc>https://www.themindmaker.ai/</loc>
+    <lastmod>2026-04-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <image:image>
-      <image:loc>https://themindmaker.ai/og-image.jpg</image:loc>
-      <image:title>The Mindmaker - Build AI Systems Without Code</image:title>
-      <image:caption>Turn non-technical leaders into no-code AI builders</image:caption>
-    </image:image>
   </url>
-
-  <!-- Individual Builder Session -->
   <url>
-    <loc>https://themindmaker.ai/individual</loc>
-    <lastmod>2026-01-15</lastmod>
+    <loc>https://www.themindmaker.ai/sprint/4-week</loc>
+    <lastmod>2026-04-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
-
-  <!-- Team Leadership Lab -->
   <url>
-    <loc>https://themindmaker.ai/team</loc>
-    <lastmod>2026-01-15</lastmod>
+    <loc>https://www.themindmaker.ai/sprint/90-day</loc>
+    <lastmod>2026-04-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
-
-  <!-- Builder Sprint -->
   <url>
-    <loc>https://themindmaker.ai/builder-sprint</loc>
-    <lastmod>2026-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <!-- Builder Economy -->
-  <url>
-    <loc>https://themindmaker.ai/builder-economy</loc>
-    <lastmod>2026-01-15</lastmod>
+    <loc>https://www.themindmaker.ai/sprints</loc>
+    <lastmod>2026-04-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-
-  <!-- Leadership Insights -->
   <url>
-    <loc>https://themindmaker.ai/leaders</loc>
-    <lastmod>2026-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://themindmaker.ai/leadership-insights</loc>
-    <lastmod>2026-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Blog Listing -->
-  <url>
-    <loc>https://themindmaker.ai/blog</loc>
-    <lastmod>2026-01-15</lastmod>
+    <loc>https://www.themindmaker.ai/blog</loc>
+    <lastmod>2026-04-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-
-  <!-- Blog Posts -->
   <url>
-    <loc>https://themindmaker.ai/blog/four-modes-of-ai-literacy-every-leader-needs</loc>
-    <lastmod>2025-01-02</lastmod>
+    <loc>https://www.themindmaker.ai/leaders</loc>
+    <lastmod>2026-04-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-
   <url>
-    <loc>https://themindmaker.ai/blog/why-ai-training-fails-and-building-works</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://www.themindmaker.ai/faq</loc>
+    <lastmod>2026-04-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.5</priority>
   </url>
-
   <url>
-    <loc>https://themindmaker.ai/blog/shadow-ai-to-strategic-ai-leaders-guide</loc>
-    <lastmod>2024-12-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://www.themindmaker.ai/contact</loc>
+    <lastmod>2026-04-03</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
   </url>
-
   <url>
-    <loc>https://themindmaker.ai/blog/10-20x-roi-what-real-ai-implementation-looks-like</loc>
-    <lastmod>2024-12-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://themindmaker.ai/blog/builder-vs-consumer-mindset-in-ai</loc>
-    <lastmod>2024-12-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://themindmaker.ai/blog/ai-vendor-theatre-how-to-spot-and-avoid-it</loc>
-    <lastmod>2024-12-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://themindmaker.ai/blog/building-ai-systems-in-30-days-sprint-approach</loc>
-    <lastmod>2024-12-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://themindmaker.ai/blog/ai-literacy-for-executive-teams-lab-model</loc>
-    <lastmod>2024-12-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://themindmaker.ai/blog/how-to-increase-creative-leadership-with-ai</loc>
-    <lastmod>2025-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://themindmaker.ai/blog/how-to-control-your-use-of-ai-as-a-leader</loc>
-    <lastmod>2025-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- Support Pages -->
-  <url>
-    <loc>https://themindmaker.ai/faq</loc>
-    <lastmod>2026-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <url>
-    <loc>https://themindmaker.ai/contact</loc>
-    <lastmod>2026-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <url>
-    <loc>https://themindmaker.ai/privacy</loc>
-    <lastmod>2026-01-15</lastmod>
+    <loc>https://www.themindmaker.ai/privacy</loc>
+    <lastmod>2026-04-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
-
   <url>
-    <loc>https://themindmaker.ai/terms</loc>
-    <lastmod>2026-01-15</lastmod>
+    <loc>https://www.themindmaker.ai/terms</loc>
+    <lastmod>2026-04-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
-
+  <url>
+    <loc>https://www.themindmaker.ai/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan</loc>
+    <lastmod>2026-04-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.themindmaker.ai/blog/four-modes-of-ai-literacy-every-leader-needs</loc>
+    <lastmod>2026-04-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.themindmaker.ai/blog/why-ai-training-fails-and-building-works</loc>
+    <lastmod>2026-04-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.themindmaker.ai/blog/shadow-ai-to-strategic-ai-leaders-guide</loc>
+    <lastmod>2026-04-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.themindmaker.ai/blog/10-20x-roi-what-real-ai-implementation-looks-like</loc>
+    <lastmod>2026-04-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.themindmaker.ai/blog/builder-vs-consumer-mindset-in-ai</loc>
+    <lastmod>2026-04-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.themindmaker.ai/blog/ai-vendor-theatre-how-to-spot-and-avoid-it</loc>
+    <lastmod>2026-04-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.themindmaker.ai/blog/building-ai-systems-in-30-days-sprint-approach</loc>
+    <lastmod>2026-04-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.themindmaker.ai/blog/ai-literacy-for-executive-teams-lab-model</loc>
+    <lastmod>2026-04-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.themindmaker.ai/blog/how-to-increase-creative-leadership-with-ai</loc>
+    <lastmod>2026-04-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.themindmaker.ai/blog/how-to-control-your-use-of-ai-as-a-leader</loc>
+    <lastmod>2026-04-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>

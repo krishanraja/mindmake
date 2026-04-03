@@ -21,22 +21,15 @@ const Navigation = () => {
 
   const navItems = [
     {
-      label: "Business Impact",
+      label: "Sprints",
       dropdown: [
-        { label: "AI Commercial Accelerator", href: "/war-room" },
-        { label: "Embedded Commercial Strategy", href: "/fractional-caio" },
-        { label: "AI Positioning Sprint", href: "/strategy-day" },
+        { label: "4-Week Sprint", href: "/sprint/4-week" },
+        { label: "90-Day Sprint", href: "/sprint/90-day" },
+        { label: "All Sprints", href: "/sprints" },
       ]
     },
     {
-      label: "Personal Impact",
-      dropdown: [
-        { label: "Builder Sprints", href: "/sprints?path=build" },
-        { label: "Orchestrator Sprints", href: "/sprints?path=orchestrate" },
-      ]
-    },
-    { 
-      label: "Resources", 
+      label: "Resources",
       dropdown: [
         { label: "Decision Tools", href: "#", type: "actions" },
         { label: "Blog", href: "/blog" },
@@ -44,8 +37,8 @@ const Navigation = () => {
         { label: "Free Lightning Lessons", type: "lessons" },
       ]
     },
-    { 
-      label: "About", 
+    {
+      label: "About",
       dropdown: [
         { label: "FAQ", href: "/faq" },
         { label: "Contact", href: "/contact" },

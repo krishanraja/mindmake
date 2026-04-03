@@ -16,6 +16,9 @@ export const ParticleBackground = () => {
   const rafRef = useRef<number>();
 
   useEffect(() => {
+    // Skip particle animation on mobile — saves battery and improves scroll perf
+    if (window.innerWidth < 768) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 

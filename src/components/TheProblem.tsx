@@ -1,307 +1,71 @@
-import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence, useInView } from "framer-motion";
-import { Wrench, Compass, CheckCircle, ArrowRight, ArrowDown, Square, CheckSquare, ChevronDown } from "lucide-react";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { CheckCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { InitialConsultModal } from "@/components/InitialConsultModal";
-import { useIsMobile } from "@/hooks/use-mobile";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  type CarouselApi,
-} from "@/components/ui/carousel";
-
-type PathType = "build" | "orchestrate" | null;
 
 const spring = { type: "spring" as const, stiffness: 80, damping: 18 };
 
-interface CriteriaItem {
-  label: string;
-  value: number;
-}
-
-const builderCriteria: CriteriaItem[] = [
-  { label: "Creative freedom", value: 96 },
-  { label: "System ownership", value: 91 },
-  { label: "Future-proofing", value: 88 },
-  { label: "Personal velocity", value: 94 },
-];
-
-const orchestratorCriteria: CriteriaItem[] = [
-  { label: "Decision speed", value: 93 },
-  { label: "Board confidence", value: 97 },
-  { label: "Strategic clarity", value: 89 },
-  { label: "Time efficiency", value: 95 },
-];
-
-const builderTraits = [
-  "I'm curious about vibe coding and building my own AI systems",
-  "I want to own and control what I build, even if it takes effort",
-  "I'm willing to invest 4\u20138 hours/week to future-proof myself",
-];
-
-const orchestratorTraits = [
-  "I need reliable outputs from AI without becoming technical",
-  "I want to make clean decisions and not need IT in the room",
-  "I can invest 2\u20134 hours/week and want results, not learning curves",
-];
-
-const builderSprints = [
+const sprints = [
   {
-    name: "4-Week Decision Sprint",
+    name: "4-Week Sprint",
     tagline: "One decision. Four weeks. Board-ready.",
-    description: "Pick one nervous decision and resolve it with a working prototype and board-ready memo.",
-    emphasis: ["Working prototype or system", "Tool commitment hierarchy", "Build-ready decision memo"],
-    focusLabel: "Builder focus",
+    description:
+      "You have a nervous decision about AI. We help you make it with confidence. Week 1: clarity. Week 2: options. Week 3: decision. Week 4: board-ready memo.",
+    outcomes: [
+      "One clear, defensible decision",
+      "Trade-off analysis you can explain",
+      "Board-ready decision memo",
+      "ROI framework to measure success",
+    ],
     route: "/sprint/4-week",
-    commitment: "4wk",
+    cta: "Start 4-Week Sprint",
   },
   {
-    name: "90-Day Concierge Sprint",
-    tagline: "Full journey. MindSet \u2192 MindMap \u2192 MindMake.",
-    description: "Build 3\u20135 personal AI systems, resolve 2\u20133 strategic decisions, and leave with a 12-month roadmap.",
-    emphasis: ["3\u20135 deployed AI systems", "Personal System Architecture", "Strength Amplifier + Dossier"],
-    focusLabel: "Orchestrator focus",
+    name: "90-Day Sprint",
+    tagline: "The full journey. MindSet → MindMap → MindMake.",
+    description:
+      "Three decisions. Three months. Complete transformation from AI chaos to calm, clear direction. Month 1: clarity. Month 2: systems. Month 3: deployment.",
+    outcomes: [
+      "3–5 deployed AI systems",
+      "2–3 strategic decisions resolved",
+      "12-month roadmap with clear gates",
+      "Board-level confidence on AI",
+    ],
     route: "/sprint/90-day",
-    commitment: "90d",
+    cta: "Start 90-Day Sprint",
   },
 ];
-
-const orchestratorSprints = [
-  {
-    name: "4-Week Decision Sprint",
-    tagline: "One decision. Four weeks. Board-ready.",
-    description: "Pick one nervous decision and resolve it with a defensible trade-off analysis and board memo.",
-    emphasis: ["Vendor evaluation scorecard", "Governance decision memo", "Board-ready narrative"],
-    focusLabel: "Builder focus",
-    route: "/sprint/4-week",
-    commitment: "4wk",
-  },
-  {
-    name: "90-Day Concierge Sprint",
-    tagline: "Full journey. MindSet \u2192 MindMap \u2192 MindMake.",
-    description: "Set your AI operating model, resolve 2\u20133 vendor/governance decisions, and build a board-ready roadmap.",
-    emphasis: ["AI Operating Model + RACI", "Strategic vendor decisions resolved", "12-month roadmap with quarterly gates"],
-    focusLabel: "Orchestrator focus",
-    route: "/sprint/90-day",
-    commitment: "90d",
-  },
-];
-
-const AnimatedBar = ({ value, delay, isVisible }: { value: number; delay: number; isVisible: boolean }) => (
-  <div className="flex-1 h-2 bg-ink/10 dark:bg-white/10 rounded-full overflow-hidden">
-    <motion.div
-      className="h-full bg-ink dark:bg-mint rounded-full"
-      initial={{ width: 0 }}
-      animate={isVisible ? { width: `${value}%` } : { width: 0 }}
-      transition={{ duration: 0.8, delay, ease: "easeOut" }}
-    />
-  </div>
-);
-
-const CheckboxRow = ({
-  label,
-  checked,
-  onChange,
-  compact = false,
-}: {
-  label: string;
-  checked: boolean;
-  onChange: () => void;
-  compact?: boolean;
-}) => (
-  <button
-    onClick={onChange}
-    className={`w-full flex items-start gap-3 ${compact ? 'p-2.5' : 'p-3'} rounded-lg text-left transition-all min-h-[44px] ${
-      checked
-        ? "bg-ink/[0.06] dark:bg-mint/[0.08] border border-ink/20 dark:border-mint/30"
-        : "bg-transparent border border-border/30 hover:border-ink/20 dark:hover:border-mint/20"
-    }`}
-  >
-    {checked ? (
-      <CheckSquare className="w-5 h-5 text-ink dark:text-mint shrink-0 mt-0.5" />
-    ) : (
-      <Square className="w-5 h-5 text-muted-foreground shrink-0 mt-0.5" />
-    )}
-    <span className={`text-sm ${checked ? "font-medium" : "text-muted-foreground"}`}>
-      {label}
-    </span>
-  </button>
-);
-
-const PathCard = ({
-  type,
-  isSelected,
-  isOtherSelected,
-  onSelect,
-  isMobile = false,
-}: {
-  type: "build" | "orchestrate";
-  isSelected: boolean;
-  isOtherSelected: boolean;
-  onSelect: () => void;
-  isMobile?: boolean;
-}) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
-  const isBuilder = type === "build";
-  const [checkedItems, setCheckedItems] = useState<boolean[]>([false, false, false]);
-
-  const traits = isBuilder ? builderTraits : orchestratorTraits;
-  const criteria = isBuilder ? builderCriteria : orchestratorCriteria;
-  const Icon = isBuilder ? Wrench : Compass;
-  const headline = isBuilder
-    ? "You want to build alongside AI."
-    : "You want direction without the build.";
-
-  const allChecked = checkedItems.every(Boolean);
-
-  const toggleCheck = (index: number) => {
-    setCheckedItems((prev) => {
-      const next = [...prev];
-      next[index] = !next[index];
-      return next;
-    });
-  };
-
-  return (
-    <motion.div
-      ref={ref}
-      className={`${isMobile ? 'p-5' : 'p-8'} rounded-2xl border transition-all ${
-        isSelected
-          ? "border-ink dark:border-mint bg-ink/[0.03] dark:bg-mint/[0.03] ring-1 ring-ink/10 dark:ring-mint/20"
-          : isOtherSelected
-          ? "opacity-30 scale-[0.97] pointer-events-none border-border/30"
-          : "border-border/50 hover:border-ink/30 dark:hover:border-mint/30"
-      }`}
-      initial={{ opacity: 0, y: 40 }}
-      animate={isInView ? { opacity: isOtherSelected ? 0.3 : 1, y: 0 } : {}}
-      transition={spring}
-    >
-      <div className="flex items-center gap-3 mb-4">
-        <div className="w-10 h-10 rounded-full bg-ink/10 dark:bg-mint/20 flex items-center justify-center">
-          <Icon className="w-5 h-5 text-ink dark:text-mint" />
-        </div>
-        <h3 className="text-xl font-bold">{isBuilder ? "The Builder" : "The Orchestrator"}</h3>
-      </div>
-
-      <p className={`text-lg font-medium ${isMobile ? 'mb-3' : 'mb-5'}`}>{headline}</p>
-
-      {/* Interactive checkboxes */}
-      <div className={`${isMobile ? 'space-y-1.5 mb-4' : 'space-y-2 mb-6'}`}>
-        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
-          Check all that apply to you:
-        </p>
-        {traits.map((trait, i) => (
-          <CheckboxRow
-            key={i}
-            label={trait}
-            checked={checkedItems[i]}
-            onChange={() => toggleCheck(i)}
-            compact={isMobile}
-          />
-        ))}
-      </div>
-
-      {/* Criteria bars */}
-      {isMobile ? (
-        <details className="mb-4 pt-3 border-t border-border/30 group">
-          <summary className="text-xs font-medium text-muted-foreground uppercase tracking-wider cursor-pointer list-none flex items-center justify-between">
-            What you gain
-            <ChevronDown className="w-4 h-4 transition-transform group-open:rotate-180" />
-          </summary>
-          <div className="space-y-2.5 mt-3">
-            {criteria.map((c, i) => (
-              <div key={c.label} className="flex items-center gap-3">
-                <span className="text-xs text-muted-foreground w-28 shrink-0">{c.label}</span>
-                <AnimatedBar value={c.value} delay={i * 0.12} isVisible={isInView} />
-              </div>
-            ))}
-          </div>
-        </details>
-      ) : (
-        <div className="space-y-3 mb-6 pt-4 border-t border-border/30">
-          <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
-            What you gain
-          </p>
-          {criteria.map((c, i) => (
-            <div key={c.label} className="flex items-center gap-3">
-              <span className="text-xs text-muted-foreground w-28 shrink-0">{c.label}</span>
-              <AnimatedBar value={c.value} delay={i * 0.12} isVisible={isInView} />
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* CTA -- enabled only when all checked */}
-      {!isSelected && !isOtherSelected && (
-        <motion.div
-          animate={allChecked ? { scale: [1, 1.03, 1] } : {}}
-          transition={{ duration: 0.4 }}
-        >
-          <Button
-            className={`w-full font-semibold transition-all ${
-              allChecked
-                ? "bg-ink dark:bg-mint text-white dark:text-ink hover:opacity-90 shadow-lg"
-                : "bg-ink/20 dark:bg-white/10 text-ink/40 dark:text-white/30 cursor-not-allowed"
-            }`}
-            disabled={!allChecked}
-            onClick={onSelect}
-          >
-            {allChecked ? "This is me \u2192" : "Check all to continue"}
-          </Button>
-        </motion.div>
-      )}
-
-      {isSelected && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center">
-          <p className="text-sm font-semibold text-ink dark:text-mint mb-3">
-            {isBuilder ? "You're a Builder." : "You're an Orchestrator."} See your sprints below.
-          </p>
-          <button
-            onClick={() => {
-              const el = document.getElementById("sprint-chooser");
-              if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-            }}
-            className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
-          >
-            <ArrowDown className="w-4 h-4" /> See my sprints
-          </button>
-        </motion.div>
-      )}
-    </motion.div>
-  );
-};
 
 const SprintCard = ({
   sprint,
-  pathType,
-  onBook,
+  index,
 }: {
-  sprint: typeof builderSprints[0];
-  pathType: PathType;
-  onBook: () => void;
+  sprint: (typeof sprints)[0];
+  index: number;
 }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
   const navigate = useNavigate();
 
   return (
     <motion.div
+      ref={ref}
       className="p-8 rounded-2xl border border-border/50 hover:border-ink/30 dark:hover:border-mint/30 transition-all flex flex-col hover:-translate-y-1 hover:shadow-lg duration-300"
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={spring}
+      initial={{ opacity: 0, y: 40 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ ...spring, delay: index * 0.1 }}
     >
-      <h4 className="text-2xl font-bold mb-1">{sprint.name}</h4>
+      <h3 className="text-2xl font-bold mb-1">{sprint.name}</h3>
       <p className="text-sm text-ink/60 dark:text-mint mb-4">{sprint.tagline}</p>
       <p className="text-muted-foreground text-sm mb-6">{sprint.description}</p>
 
       <div className="mb-6">
-        <h5 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">
-          {sprint.focusLabel}
-        </h5>
-        <ul className="space-y-1.5">
-          {sprint.emphasis.map((item, i) => (
+        <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">
+          What you get
+        </h4>
+        <ul className="space-y-2">
+          {sprint.outcomes.map((item, i) => (
             <li key={i} className="flex items-start gap-2 text-sm">
               <CheckCircle className="w-4 h-4 text-ink/40 dark:text-mint/60 shrink-0 mt-0.5" />
               <span>{item}</span>
@@ -314,9 +78,11 @@ const SprintCard = ({
         <Button
           size="lg"
           className="w-full bg-ink dark:bg-mint text-white dark:text-ink hover:opacity-90 font-semibold"
-          onClick={onBook}
+          onClick={() => {
+            window.dispatchEvent(new CustomEvent("openConsultModal"));
+          }}
         >
-          {sprint.name.includes("4-Week") ? "Start 4-Week Sprint" : "Start 90-Day Sprint"}
+          {sprint.cta}
         </Button>
         <Button
           variant="ghost"
@@ -332,222 +98,38 @@ const SprintCard = ({
 };
 
 const TheProblem = () => {
-  const [selectedPath, setSelectedPath] = useState<PathType>(null);
-  const [consultModalOpen, setConsultModalOpen] = useState(false);
-  const [bookingCommitment, setBookingCommitment] = useState<string | undefined>();
-  const isMobile = useIsMobile();
-
-  // Tab state for mobile path selection
-  const [activeTab, setActiveTab] = useState<"build" | "orchestrate">("build");
-
-  // Sprint cards carousel state (mobile)
-  const [sprintCarouselApi, setSprintCarouselApi] = useState<CarouselApi>();
-  const [sprintSlide, setSprintSlide] = useState(0);
-
-  useEffect(() => {
-    if (!sprintCarouselApi) return;
-    setSprintSlide(sprintCarouselApi.selectedScrollSnap());
-    sprintCarouselApi.on("select", () => {
-      setSprintSlide(sprintCarouselApi.selectedScrollSnap());
-    });
-  }, [sprintCarouselApi]);
-
-  const activeSprints = selectedPath === "build" ? builderSprints : orchestratorSprints;
-
-  const handleBook = (commitment: string) => {
-    setBookingCommitment(commitment);
-    setConsultModalOpen(true);
-  };
-
-  const pathCards = (
-    <>
-      <PathCard
-        type="build"
-        isSelected={selectedPath === "build"}
-        isOtherSelected={selectedPath === "orchestrate"}
-        onSelect={() => setSelectedPath("build")}
-      />
-      <PathCard
-        type="orchestrate"
-        isSelected={selectedPath === "orchestrate"}
-        isOtherSelected={selectedPath === "build"}
-        onSelect={() => setSelectedPath("orchestrate")}
-      />
-    </>
-  );
-
-  const sprintCards = activeSprints.map((sprint) => (
-    <SprintCard
-      key={sprint.name}
-      sprint={sprint}
-      pathType={selectedPath}
-      onBook={() => handleBook(sprint.commitment)}
-    />
-  ));
-
   return (
-    <>
-      <section className="py-24 md:py-32 bg-background" id="products">
-        <div className="container-width">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-              Who is this for?
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-md mx-auto">
-              Two paths. Both end with decisions that stick.
-            </p>
-          </div>
-
-          {isMobile ? (
-            <>
-              {/* Segmented tab control */}
-              <div className="flex max-w-sm mx-auto mb-4 rounded-xl bg-ink/[0.04] dark:bg-white/[0.06] p-1">
-                <button
-                  onClick={() => setActiveTab("build")}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-all ${
-                    activeTab === "build"
-                      ? "bg-background shadow-sm text-foreground"
-                      : "text-muted-foreground"
-                  }`}
-                >
-                  <Wrench className="w-4 h-4" />
-                  Builder
-                </button>
-                <button
-                  onClick={() => setActiveTab("orchestrate")}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-all ${
-                    activeTab === "orchestrate"
-                      ? "bg-background shadow-sm text-foreground"
-                      : "text-muted-foreground"
-                  }`}
-                >
-                  <Compass className="w-4 h-4" />
-                  Orchestrator
-                </button>
-              </div>
-
-              {/* Single card based on active tab */}
-              <div className="max-w-sm mx-auto">
-                <PathCard
-                  type={activeTab}
-                  isSelected={selectedPath === activeTab}
-                  isOtherSelected={selectedPath !== null && selectedPath !== activeTab}
-                  onSelect={() => setSelectedPath(activeTab)}
-                  isMobile={true}
-                />
-              </div>
-            </>
-          ) : (
-            <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-              {pathCards}
-            </div>
-          )}
-
-          <AnimatePresence>
-            {selectedPath && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="text-center mt-6"
-              >
-                <button
-                  onClick={() => setSelectedPath(null)}
-                  className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-4"
-                >
-                  Change my selection
-                </button>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          <AnimatePresence>
-            {selectedPath && (
-              <motion.div
-                id="sprint-chooser"
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 40 }}
-                transition={{ ...spring, delay: 0.15 }}
-                className="mt-20"
-              >
-                <div className="text-center mb-10">
-                  <h3 className="text-3xl md:text-4xl font-bold mb-3">Choose your sprint.</h3>
-                  <p className="text-muted-foreground max-w-md mx-auto text-sm">
-                    {selectedPath === "build"
-                      ? "Builder sprints focus on systems, prototypes, and personal AI leverage."
-                      : "Orchestrator sprints focus on governance, vendor decisions, and board-ready direction."}
-                  </p>
-                </div>
-
-                {isMobile ? (
-                  <>
-                    <Carousel
-                      setApi={setSprintCarouselApi}
-                      opts={{
-                        align: "start",
-                        loop: false,
-                        dragFree: false,
-                        containScroll: "trimSnaps",
-                      }}
-                      orientation="horizontal"
-                      className="w-full max-w-5xl mx-auto"
-                    >
-                      <CarouselContent className="-ml-3">
-                        {sprintCards.map((card, i) => (
-                          <CarouselItem key={i} className="pl-3 basis-[88%]">
-                            {card}
-                          </CarouselItem>
-                        ))}
-                      </CarouselContent>
-                    </Carousel>
-
-                    {/* Dot indicators */}
-                    <div className="flex justify-center gap-2 mt-4">
-                      {activeSprints.map((_, index) => (
-                        <button
-                          key={index}
-                          onClick={() => sprintCarouselApi?.scrollTo(index)}
-                          className={`h-2 rounded-full transition-all duration-200 ${
-                            sprintSlide === index ? "w-6 bg-mint" : "w-2 bg-muted-foreground/30"
-                          }`}
-                          aria-label={`Go to sprint ${index + 1}`}
-                        />
-                      ))}
-                    </div>
-                  </>
-                ) : (
-                  <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                    {sprintCards}
-                  </div>
-                )}
-
-                <div className="text-center mt-10">
-                  <p className="text-xs text-muted-foreground mb-3">Not sure which sprint?</p>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      setBookingCommitment(undefined);
-                      setConsultModalOpen(true);
-                    }}
-                  >
-                    Start with a conversation
-                  </Button>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+    <section className="py-24 md:py-32 bg-background" id="products">
+      <div className="container-width">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+            Choose your sprint.
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-lg mx-auto">
+            Whether you're hands-on or hands-off, both paths start with clarity and end with decisions that stick.
+          </p>
         </div>
-      </section>
 
-      <InitialConsultModal
-        open={consultModalOpen}
-        onOpenChange={setConsultModalOpen}
-        pathType={selectedPath === "build" ? "build" : selectedPath === "orchestrate" ? "orchestrate" : undefined}
-        commitmentLevel={bookingCommitment}
-      />
-    </>
+        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {sprints.map((sprint, i) => (
+            <SprintCard key={sprint.name} sprint={sprint} index={i} />
+          ))}
+        </div>
+
+        <div className="text-center mt-10">
+          <p className="text-xs text-muted-foreground mb-3">Not sure which sprint?</p>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              window.dispatchEvent(new CustomEvent("openConsultModal"));
+            }}
+          >
+            Start with a conversation
+          </Button>
+        </div>
+      </div>
+    </section>
   );
 };
 

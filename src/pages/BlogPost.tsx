@@ -8,7 +8,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { InitialConsultModal } from "@/components/InitialConsultModal";
 import { useSessionData } from "@/contexts/SessionDataContext";
-import { getBlogPostBySlug, blogPosts, BlogPost as BlogPostType } from "@/data/blogPosts";
+import { useBlogPost, useBlogPosts } from "@/hooks/useBlogPosts";
 import ReactMarkdown from 'react-markdown';
 
 const categoryLabels: Record<string, string> = {
@@ -31,7 +31,7 @@ const BlogPost = () => {
   const { sessionData } = useSessionData();
   const [consultModalOpen, setConsultModalOpen] = useState(false);
   
-  const post = slug ? getBlogPostBySlug(slug) : undefined;
+  const { data: post } = useBlogPost(slug);
   
   if (!post) {
     return (
@@ -49,7 +49,8 @@ const BlogPost = () => {
   }
 
   // Get related posts (same category, excluding current)
-  const relatedPosts = blogPosts
+  const { data: allPosts = [] } = useBlogPosts();
+  const relatedPosts = allPosts
     .filter(p => p.category === post.category && p.slug !== post.slug)
     .slice(0, 3);
 

@@ -21,17 +21,19 @@ const Index = () => {
       {/* 2. The Big Problem -- existential urgency */}
       <BigProblem />
 
-      {/* 3. Framework Journey */}
-      <FrameworkJourney />
-
-      {/* 4. Who Is This For + Sprint Chooser */}
-      <TheProblem />
-
-      {/* 5. News Ticker + Trust / Proof */}
-      <AINewsTicker />
+      {/* 3. Trust / Proof -- social proof early, before methodology */}
       <TrustSection />
 
-      {/* 6. Final CTA */}
+      {/* 4. Framework Journey */}
+      <FrameworkJourney />
+
+      {/* 5. Who Is This For + Sprint Chooser */}
+      <TheProblem />
+
+      {/* 6. News Ticker */}
+      <AINewsTicker />
+
+      {/* 7. Final CTA */}
       <SimpleCTA />
 
       <Footer />

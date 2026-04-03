@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { SessionDataProvider, useSessionData } from "@/contexts/SessionDataContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 
 // Scroll to top on route change
 const ScrollToTop = () => {
@@ -12,6 +12,7 @@ const ScrollToTop = () => {
   }, [pathname]);
   return null;
 };
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { InitialConsultModal } from "@/components/InitialConsultModal";
 import { ActionsHub } from "@/components/ActionsHub";
 import { Dialog, DialogWizardContent } from "@/components/ui/dialog";
@@ -21,25 +22,26 @@ import { TryItWidget } from "@/components/Interactive/AIDecisionHelper";
 import { PortfolioBuilder } from "@/components/Interactive/PortfolioBuilder";
 import { Mic } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+
+// Homepage loaded eagerly (critical path)
 import Index from "./pages/Index";
-import Individual from "./pages/Individual";
-import Team from "./pages/Team";
-import BuilderSprint from "./pages/BuilderSprint";
-import BuilderEconomy from "./pages/BuilderEconomy";
-import Sprint4Week from "./pages/Sprint4Week";
-import Sprint90Day from "./pages/Sprint90Day";
-import Sprints from "./pages/Sprints";
-import NotFound from "./pages/NotFound";
-import Privacy from "./pages/Privacy";
-import Terms from "./pages/Terms";
-import FAQ from "./pages/FAQ";
-import Contact from "./pages/Contact";
-import LeadershipInsights from "./pages/LeadershipInsights";
-import Blog from "./pages/Blog";
-import BlogPost from "./pages/BlogPost";
-import WarRoom from "./pages/WarRoom";
-import FractionalCAIO from "./pages/FractionalCAIO";
-import StrategyDay from "./pages/StrategyDay";
+
+// All other pages lazy-loaded for smaller initial bundle
+const BuilderEconomy = lazy(() => import("./pages/BuilderEconomy"));
+const Sprint4Week = lazy(() => import("./pages/Sprint4Week"));
+const Sprint90Day = lazy(() => import("./pages/Sprint90Day"));
+const Sprints = lazy(() => import("./pages/Sprints"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const Terms = lazy(() => import("./pages/Terms"));
+const FAQ = lazy(() => import("./pages/FAQ"));
+const Contact = lazy(() => import("./pages/Contact"));
+const LeadershipInsights = lazy(() => import("./pages/LeadershipInsights"));
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogPost = lazy(() => import("./pages/BlogPost"));
+const WarRoom = lazy(() => import("./pages/WarRoom"));
+const FractionalCAIO = lazy(() => import("./pages/FractionalCAIO"));
+const StrategyDay = lazy(() => import("./pages/StrategyDay"));
 
 const queryClient = new QueryClient();
 
@@ -90,6 +92,8 @@ const AppRoutes = () => {
   return (
     <BrowserRouter>
       <ScrollToTop />
+      <ErrorBoundary>
+      <Suspense fallback={<div className="min-h-screen bg-background" />}>
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/individual" element={<Navigate to="/" replace />} />
@@ -120,7 +124,9 @@ const AppRoutes = () => {
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-      
+      </Suspense>
+      </ErrorBoundary>
+
       {/* Global Consult Modal - works on all pages */}
       <InitialConsultModal
         open={globalConsultModalOpen}

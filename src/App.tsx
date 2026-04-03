@@ -13,6 +13,7 @@ const ScrollToTop = () => {
   return null;
 };
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { CookieConsent } from "@/components/CookieConsent";
 import { InitialConsultModal } from "@/components/InitialConsultModal";
 import { ActionsHub } from "@/components/ActionsHub";
 import { Dialog, DialogWizardContent } from "@/components/ui/dialog";
@@ -164,6 +165,8 @@ const AppRoutes = () => {
           </div>
         </DialogWizardContent>
       </Dialog>
+
+      <CookieConsent />
     </BrowserRouter>
   );
 };

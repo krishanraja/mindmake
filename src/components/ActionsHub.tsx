@@ -111,23 +111,23 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
   const drawerContent = (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className={cn("flex items-center justify-between px-5 border-b border-border/50", isMobile ? "pt-4 pb-3" : "pt-6 pb-4")}>
+      <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-border/50">
         <h2 className="font-bold text-base tracking-wide text-foreground">Actions</h2>
       </div>
 
       {/* Content */}
-      <div className={cn("flex-1 overflow-y-auto px-5", isMobile ? "py-4 space-y-5" : "py-6 space-y-8")}>
+      <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5">
         {/* PRIMARY CTA - Book Session */}
         <section>
           <button
             onClick={handleBookSession}
-            className={cn("w-full relative overflow-hidden rounded-2xl bg-gradient-to-br from-mint to-mint-dark text-left group transition-all duration-300 hover:shadow-lg hover:shadow-mint/20 hover:scale-[1.02]", isMobile ? "p-4" : "p-5")}
+            className="w-full relative overflow-hidden rounded-2xl bg-gradient-to-br from-mint to-mint-dark text-left group transition-all duration-300 hover:shadow-lg hover:shadow-mint/20 hover:scale-[1.02] p-4"
           >
             {/* Decorative glow */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
             
             <div className="relative z-10 flex items-center gap-4">
-              <div className={cn("rounded-xl bg-white/20 flex items-center justify-center backdrop-blur-sm", isMobile ? "w-10 h-10" : "w-12 h-12")}>
+              <div className="rounded-xl bg-white/20 flex items-center justify-center backdrop-blur-sm w-10 h-10">
                 <Calendar className="w-6 h-6 text-ink" />
               </div>
               <div className="flex-1">
@@ -141,7 +141,7 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
 
         {/* AI TOOLS Section */}
         <section>
-          <div className={cn("flex items-center gap-2", isMobile ? "mb-3" : "mb-4")}>
+          <div className="flex items-center gap-2 mb-3">
             <Sparkles className="w-4 h-4 text-mint" />
             <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground leading-none">Decision Tools</h3>
             <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-mint/10 border border-mint/20 ml-auto">
@@ -149,7 +149,7 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
               <span className="text-[9px] font-medium text-mint-dark">Voice</span>
             </div>
           </div>
-          <div className={cn("grid", isMobile ? "grid-cols-2 gap-2" : "grid-cols-1 gap-3")}>
+          <div className="grid grid-cols-2 gap-2">
             {tools.map((tool) => (
               <ToolCard
                 key={tool.id}
@@ -157,13 +157,13 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
                 title={tool.title}
                 subtitle={tool.subtitle}
                 onClick={() => handleToolClick(tool.id)}
-                compact={isMobile}
+                compact
               />
             ))}
           </div>
           <a
             href="/leaders"
-            className={cn("block text-center text-xs text-muted-foreground hover:text-mint transition-colors", isMobile ? "mt-3" : "mt-4")}
+            className="block text-center text-xs text-muted-foreground hover:text-mint transition-colors mt-3"
             onClick={() => setIsOpen(false)}
           >
             Want the full diagnostic? Take the Decision Readiness Diagnostic &rarr;
@@ -172,15 +172,15 @@ export const ActionsHub = ({ onToolClick }: ActionsHubProps) => {
 
         {/* CHAT Section */}
         <section>
-          <div className={cn("flex items-center gap-2", isMobile ? "mb-3" : "mb-4")}>
+          <div className="flex items-center gap-2 mb-3">
             <MessageCircle className="w-4 h-4 text-mint" />
             <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Ask Mindmaker</h3>
           </div>
           <button
             onClick={handleOpenChat}
-            className={cn("w-full flex items-center rounded-xl bg-ink dark:bg-card border-2 border-ink/10 dark:border-mint/20 hover:border-mint/40 transition-all duration-200 group", isMobile ? "gap-3 p-3" : "gap-4 p-4")}
+            className="w-full flex items-center gap-3 p-3 rounded-xl bg-ink dark:bg-card border-2 border-ink/10 dark:border-mint/20 hover:border-mint/40 transition-all duration-200 group"
           >
-            <Avatar className={cn("border-2 border-mint/30 group-hover:border-mint/50 transition-colors", isMobile ? "h-10 w-10" : "h-12 w-12")}>
+            <Avatar className="h-10 w-10 border-2 border-mint/30 group-hover:border-mint/50 transition-colors">
               <AvatarImage src={krishHeadshot} alt="Krish" />
               <AvatarFallback>K</AvatarFallback>
             </Avatar>

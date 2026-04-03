@@ -258,7 +258,7 @@ const Sprints = () => {
                       transition={{ ...spring, delay: i * 0.1 }}
                     >
                       <div className="text-xs font-bold uppercase tracking-wider text-ink dark:text-mint mb-2">
-                        Month {month.month} &mdash; {month.phase}
+                        Month {month.month} - {month.phase}
                       </div>
                       <div className="text-xl font-bold mb-2">{month.theme}</div>
                       <div className="text-sm text-muted-foreground">{month.description}</div>

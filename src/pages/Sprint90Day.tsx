@@ -140,7 +140,7 @@ const Sprint90Day = () => {
             <div className="space-y-6">
               <div className="glass-card p-6">
                 <h3 className="text-sm font-bold uppercase tracking-wider text-mint-dark dark:text-mint mb-1">
-                  Month 1 &mdash; Mind Set (Clarity)
+                  Month 1 - Mind Set (Clarity)
                 </h3>
                 <p className="text-xs text-muted-foreground mb-3">Filter the noise. Set your boundaries. Develop taste.</p>
                 <div className="grid sm:grid-cols-3 gap-3">
@@ -159,7 +159,7 @@ const Sprint90Day = () => {
 
               <div className="glass-card p-6">
                 <h3 className="text-sm font-bold uppercase tracking-wider text-mint-dark dark:text-mint mb-1">
-                  Month 2 &mdash; Mind Map (Leverage)
+                  Month 2 - Mind Map (Leverage)
                 </h3>
                 <p className="text-xs text-muted-foreground mb-3">Build systems. Multiply strengths. Automate weaknesses.</p>
                 <div className="grid sm:grid-cols-3 gap-3">
@@ -179,7 +179,7 @@ const Sprint90Day = () => {
 
               <div className="glass-card p-6">
                 <h3 className="text-sm font-bold uppercase tracking-wider text-mint-dark dark:text-mint mb-1">
-                  Month 3 &mdash; Mind Make (Direction)
+                  Month 3 - Mind Make (Direction)
                 </h3>
                 <p className="text-xs text-muted-foreground mb-3">Make high-stakes decisions. Set the roadmap. Brief the board.</p>
                 <div className="grid sm:grid-cols-3 gap-3">
@@ -208,7 +208,7 @@ const Sprint90Day = () => {
               the <strong>Extended Sprint</strong>.
             </p>
             <p className="text-muted-foreground">
-              This isn't a separate product &mdash; it's a natural continuation.
+              This isn't a separate product - it's a natural continuation.
               We'll discuss this option in your initial conversation if it makes
               sense for your situation.
             </p>

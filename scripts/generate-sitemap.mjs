@@ -4,6 +4,8 @@
  *
  * Reads blog slugs from the static data file and combines
  * with known routes to produce a complete sitemap.
+ *
+ * Covers www, live, and ctrl subdomains.
  */
 
 import { readFileSync, writeFileSync } from "fs";
@@ -11,7 +13,12 @@ import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const SITE_URL = "https://www.themindmaker.ai";
+
+const DOMAINS = [
+  "https://www.themindmaker.ai",
+  "https://live.themindmaker.ai",
+  "https://ctrl.themindmaker.ai",
+];
 
 // Static routes with their change frequency and priority
 const staticRoutes = [
@@ -21,6 +28,10 @@ const staticRoutes = [
   { path: "/sprints", changefreq: "monthly", priority: "0.8" },
   { path: "/blog", changefreq: "weekly", priority: "0.8" },
   { path: "/leaders", changefreq: "monthly", priority: "0.7" },
+  { path: "/war-room", changefreq: "monthly", priority: "0.7" },
+  { path: "/fractional-caio", changefreq: "monthly", priority: "0.7" },
+  { path: "/strategy-day", changefreq: "monthly", priority: "0.7" },
+  { path: "/builder-economy", changefreq: "monthly", priority: "0.6" },
   { path: "/faq", changefreq: "monthly", priority: "0.5" },
   { path: "/contact", changefreq: "yearly", priority: "0.5" },
   { path: "/privacy", changefreq: "yearly", priority: "0.3" },
@@ -46,24 +57,29 @@ function generateSitemap() {
   const today = new Date().toISOString().split("T")[0];
   const blogSlugs = getBlogSlugs();
 
-  const urls = [
-    ...staticRoutes.map(
-      (route) => `  <url>
-    <loc>${SITE_URL}${route.path}</loc>
+  const urls = [];
+
+  for (const domain of DOMAINS) {
+    // Static pages
+    for (const route of staticRoutes) {
+      urls.push(`  <url>
+    <loc>${domain}${route.path}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>${route.changefreq}</changefreq>
     <priority>${route.priority}</priority>
-  </url>`
-    ),
-    ...blogSlugs.map(
-      (slug) => `  <url>
-    <loc>${SITE_URL}/blog/${slug}</loc>
+  </url>`);
+    }
+
+    // Blog posts
+    for (const slug of blogSlugs) {
+      urls.push(`  <url>
+    <loc>${domain}/blog/${slug}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>`
-    ),
-  ];
+  </url>`);
+    }
+  }
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -79,8 +95,10 @@ ${urls.join("\n")}
     // dist/ may not exist yet if running before build
   }
 
+  const totalUrls = urls.length;
+  const domainsCount = DOMAINS.length;
   console.log(
-    `Sitemap generated: ${staticRoutes.length} pages + ${blogSlugs.length} blog posts`
+    `Sitemap generated: ${staticRoutes.length} pages + ${blogSlugs.length} blog posts across ${domainsCount} domains (${totalUrls} total URLs)`
   );
 }
 

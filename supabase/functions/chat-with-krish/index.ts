@@ -260,6 +260,81 @@ CEOs, COOs, GMs, CCOs, CPOs: senior leaders making AI decisions who need clarity
 REMEMBER: You're Mindmaker, confident, slightly cynical, deeply helpful. Reference their specific words. If you can't be specific, ask ONE clarifying question instead of giving generic advice.`;
 
 // ============================================================================
+// LIVE MODEL DATA INJECTION (Artificial Analysis API)
+// ============================================================================
+
+const VENDOR_KEYWORDS = [
+  'which model', 'which llm', 'gpt', 'claude', 'gemini', 'llama', 'deepseek',
+  'grok', 'mistral', 'pricing', 'cost per token', 'benchmark', 'fastest',
+  'cheapest', 'best model', 'vendor', 'compare', 'build vs buy', 'build or buy',
+  'which ai', 'model comparison', 'token cost', 'api pricing', 'which provider',
+];
+
+let modelDataCache: string | null = null;
+let modelDataCacheTime = 0;
+const MODEL_CACHE_TTL = 60 * 60 * 1000; // 1 hour
+
+function isVendorQuery(messages: Array<{ role: string; content: string }>): boolean {
+  const lastUserMsg = messages
+    .filter((m) => m.role === 'user')
+    .pop()?.content?.toLowerCase() || '';
+  return VENDOR_KEYWORDS.some((kw) => lastUserMsg.includes(kw));
+}
+
+async function fetchModelContext(): Promise<string | null> {
+  // Return cached data if fresh
+  if (modelDataCache && (Date.now() - modelDataCacheTime) < MODEL_CACHE_TTL) {
+    return modelDataCache;
+  }
+
+  const apiKey = Deno.env.get('ARTIFICIALANALYSIS_API_KEY');
+  if (!apiKey) return null;
+
+  try {
+    const response = await fetch('https://artificialanalysis.ai/api/v2/data/llms/models', {
+      headers: { 'x-api-key': apiKey, 'Accept': 'application/json' },
+    });
+    if (!response.ok) return null;
+
+    const raw = await response.json();
+    const rawModels = raw?.data || raw;
+    if (!Array.isArray(rawModels) || rawModels.length === 0) return null;
+
+    // Build a compact table string for the top models
+    const rows = rawModels
+      .map((m: any) => {
+        const name = m.name;
+        if (!name) return null;
+        const creator = m.model_creator?.name || 'Unknown';
+        const quality = m.evaluations?.quality_index ?? m.evaluations?.arena_elo ?? '—';
+        const inputPrice = m.pricing?.input_per_million_tokens ?? m.pricing?.input ?? '—';
+        const outputPrice = m.pricing?.output_per_million_tokens ?? m.pricing?.output ?? '—';
+        const speed = typeof m.median_output_tokens_per_second === 'number'
+          ? Math.round(m.median_output_tokens_per_second)
+          : '—';
+        return { name, creator, quality, inputPrice, outputPrice, speed };
+      })
+      .filter(Boolean)
+      .slice(0, 15);
+
+    if (rows.length === 0) return null;
+
+    const table = rows
+      .map((r: any) => `${r.name} (${r.creator}) | Quality: ${r.quality} | Input: $${r.inputPrice}/M | Output: $${r.outputPrice}/M | Speed: ${r.speed} tok/s`)
+      .join('\n');
+
+    const context = `\n\n## CURRENT AI MODEL MARKET DATA (from Artificial Analysis, updated hourly)\nUse this data to give specific, number-backed recommendations when discussing models or vendors.\n\n${table}\n\nWhen citing this data: be opinionated. Compare prices and benchmarks directly. Tell them when the premium isn't worth it. Example: "Claude Opus is 6x more expensive than GPT-4o but only 3% better on benchmarks. For your use case, that premium probably isn't worth it."\nAlways mention that market data is from Artificial Analysis (artificialanalysis.ai).\n`;
+
+    modelDataCache = context;
+    modelDataCacheTime = Date.now();
+    return context;
+  } catch (e) {
+    console.warn('Failed to fetch model data for chat context:', e);
+    return null;
+  }
+}
+
+// ============================================================================
 // MAIN HANDLER
 // ============================================================================
 
@@ -363,6 +438,16 @@ serve(async (req) => {
     // #region agent log
     console.log(`[DEBUG_B] System prompt selected: isBuilderProfile=${isBuilderProfile}, isTryItWidget=${isTryItWidget}, promptLength=${systemPrompt.length}, promptType=${isBuilderProfile ? 'BUILDER_PROFILE' : isTryItWidget ? 'TRYIT' : 'CHAT'}, hypothesisId=B`);
     // #endregion
+
+    // Inject live model data when user asks about vendors/models
+    if (!isBuilderProfile && isVendorQuery(messages)) {
+      logger.info('Vendor query detected, fetching model market data');
+      const modelContext = await fetchModelContext();
+      if (modelContext) {
+        systemPrompt += modelContext;
+        logger.info('Model market data injected into system prompt');
+      }
+    }
 
     // Create robust Vertex client and call
     const vertexClient = createMindmakerVertexClient();

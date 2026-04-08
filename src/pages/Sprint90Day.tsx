@@ -2,6 +2,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { InitialConsultModal } from "@/components/InitialConsultModal";
+import LiveDecisionPreview from "@/components/LiveDecisionPreview";
 import { useState } from "react";
 import { CheckCircle, ArrowRight } from "lucide-react";
 
@@ -198,6 +199,9 @@ const Sprint90Day = () => {
               </div>
             </div>
           </div>
+
+          {/* Live Decision Artifact */}
+          <LiveDecisionPreview />
 
           {/* Extended Sprint */}
           <div className="glass-card p-8 mb-12">

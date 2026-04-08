@@ -3,6 +3,7 @@ import NewHero from "@/components/NewHero";
 import AINewsTicker from "@/components/AINewsTicker";
 import BigProblem from "@/components/BigProblem";
 import FrameworkJourney from "@/components/FrameworkJourney";
+import VendorLandscape from "@/components/Interactive/VendorLandscape";
 import TheProblem from "@/components/TheProblem";
 import TrustSection from "@/components/TrustSection";
 import SimpleCTA from "@/components/SimpleCTA";
@@ -26,6 +27,9 @@ const Index = () => {
 
       {/* 4. Framework Journey */}
       <FrameworkJourney />
+
+      {/* 4.5. Vendor Landscape — live model comparisons */}
+      <VendorLandscape />
 
       {/* 5. Who Is This For + Sprint Chooser */}
       <TheProblem />

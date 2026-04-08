@@ -2,6 +2,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { InitialConsultModal } from "@/components/InitialConsultModal";
+import LiveDecisionPreview from "@/components/LiveDecisionPreview";
 import { useState } from "react";
 import { CheckCircle, ArrowRight } from "lucide-react";
 
@@ -209,6 +210,9 @@ const Sprint4Week = () => {
               </div>
             </div>
           </div>
+
+          {/* Live Decision Artifact */}
+          <LiveDecisionPreview />
 
           {/* CTA */}
           <div className="text-center glass-card p-6 sm:p-12">

@@ -270,6 +270,110 @@ const parseLLMResponse = (content: string): NewsHeadline[] => {
 };
 
 // ============================================================
+// MARKET PULSE: Live model data from Artificial Analysis
+// ============================================================
+
+const generateMarketPulseHeadlines = async (): Promise<NewsHeadline[]> => {
+  const apiKey = Deno.env.get('ARTIFICIALANALYSIS_API_KEY');
+  if (!apiKey) return [];
+
+  try {
+    const response = await fetch('https://artificialanalysis.ai/api/v2/data/llms/models', {
+      headers: { 'x-api-key': apiKey, 'Accept': 'application/json' },
+    });
+
+    if (!response.ok) return [];
+
+    const raw = await response.json();
+    const rawModels = raw?.data || raw;
+    if (!Array.isArray(rawModels) || rawModels.length === 0) return [];
+
+    // Extract key metrics
+    interface SimplifiedModel {
+      name: string;
+      creator: string;
+      quality: number | null;
+      inputPrice: number | null;
+      outputPrice: number | null;
+      speed: number | null;
+    }
+
+    const models: SimplifiedModel[] = rawModels
+      .map((m: any): SimplifiedModel | null => {
+        if (!m.name) return null;
+        return {
+          name: m.name,
+          creator: m.model_creator?.name || 'Unknown',
+          quality: m.evaluations?.quality_index ?? m.evaluations?.arena_elo ?? null,
+          inputPrice: m.pricing?.input_per_million_tokens ?? m.pricing?.input ?? null,
+          outputPrice: m.pricing?.output_per_million_tokens ?? m.pricing?.output ?? null,
+          speed: typeof m.median_output_tokens_per_second === 'number'
+            ? Math.round(m.median_output_tokens_per_second) : null,
+        };
+      })
+      .filter((m): m is SimplifiedModel => m !== null);
+
+    const headlines: NewsHeadline[] = [];
+
+    // Find fastest model
+    const bySpeed = models.filter(m => m.speed !== null).sort((a, b) => (b.speed ?? 0) - (a.speed ?? 0));
+    if (bySpeed.length >= 2) {
+      const fastest = bySpeed[0];
+      const second = bySpeed[1];
+      const ratio = Math.round((fastest.speed! / second.speed!) * 10) / 10;
+      headlines.push({
+        title: `[SIGNAL] Fastest LLM right now: ${fastest.name} at ${fastest.speed} tok/s — ${ratio}x faster than ${second.name}`,
+        source: "Artificial Analysis",
+      });
+    }
+
+    // Find cheapest high-quality model
+    const withPricing = models.filter(m => m.inputPrice !== null && m.quality !== null);
+    const highQuality = withPricing.filter(m => m.quality! > (withPricing[0]?.quality ?? 0) * 0.85);
+    const cheapestGood = highQuality.sort((a, b) => (a.inputPrice ?? Infinity) - (b.inputPrice ?? Infinity))[0];
+    const mostExpensive = highQuality.sort((a, b) => (b.inputPrice ?? 0) - (a.inputPrice ?? 0))[0];
+    if (cheapestGood && mostExpensive && cheapestGood.name !== mostExpensive.name) {
+      const costRatio = Math.round((mostExpensive.inputPrice! / cheapestGood.inputPrice!) * 10) / 10;
+      headlines.push({
+        title: `[DECISION TRIGGER] ${cheapestGood.name} costs $${cheapestGood.inputPrice}/M input tokens vs $${mostExpensive.inputPrice}/M for ${mostExpensive.name} — ${costRatio}x cheaper at similar quality`,
+        source: "Artificial Analysis",
+      });
+    }
+
+    // Quality leader
+    const byQuality = models.filter(m => m.quality !== null).sort((a, b) => (b.quality ?? 0) - (a.quality ?? 0));
+    if (byQuality.length >= 2) {
+      headlines.push({
+        title: `[SIGNAL] Quality leader: ${byQuality[0].name} (${byQuality[0].creator}) scores ${byQuality[0].quality} — ${byQuality[1].name} trails at ${byQuality[1].quality}`,
+        source: "Artificial Analysis",
+      });
+    }
+
+    // Cynical take on the premium models
+    if (byQuality.length >= 3 && withPricing.length >= 3) {
+      const top = byQuality[0];
+      const midRange = byQuality[Math.floor(byQuality.length / 3)];
+      if (top.inputPrice && midRange.inputPrice && top.quality && midRange.quality) {
+        const priceDiff = Math.round((top.inputPrice / midRange.inputPrice) * 10) / 10;
+        const qualityDiff = Math.round(((top.quality - midRange.quality) / midRange.quality) * 100);
+        if (priceDiff > 1.5 && qualityDiff < 15) {
+          headlines.push({
+            title: `[KRISH'S TAKE] ${top.name} is ${priceDiff}x more expensive than ${midRange.name} but only ${qualityDiff}% better on benchmarks — the premium rarely justifies itself`,
+            source: "Artificial Analysis",
+          });
+        }
+      }
+    }
+
+    console.log(`✅ Generated ${headlines.length} market pulse headlines`);
+    return headlines;
+  } catch (e) {
+    console.warn('Market pulse generation failed:', e);
+    return [];
+  }
+};
+
+// ============================================================
 // STATIC FALLBACK
 // ============================================================
 const STATIC_FALLBACK: NewsHeadline[] = [
@@ -314,13 +418,17 @@ serve(async (req) => {
     const braveKey = Deno.env.get('BRAVE_SEARCH_API');
     const openaiKey = Deno.env.get('OPENAI_API_KEY');
 
+    // Fetch market pulse in parallel (non-blocking, best-effort)
+    const marketPulsePromise = generateMarketPulseHeadlines().catch(() => [] as NewsHeadline[]);
+
     // ── PLAN A: Perplexity (real-time search + curation, one call) ──
     if (perplexityKey) {
       try {
         const headlines = await fetchWithPerplexity(perplexityKey);
         if (headlines.length > 0) {
           console.log('✅ Perplexity pipeline succeeded');
-          return respond(headlines, 'perplexity', false);
+          const marketPulse = await marketPulsePromise;
+          return respond([...headlines, ...marketPulse], 'perplexity', false);
         }
       } catch (e) {
         console.error('Perplexity failed:', e);
@@ -336,7 +444,8 @@ serve(async (req) => {
             const curated = await curateWithOpenAI(rawTitles, openaiKey);
             if (curated.length > 0) {
               console.log('✅ Brave + OpenAI curation pipeline succeeded');
-              return respond(curated, 'brave+openai', false);
+              const marketPulse = await marketPulsePromise;
+              return respond([...curated, ...marketPulse], 'brave+openai', false);
             }
           } catch (e) {
             console.error('OpenAI curation failed:', e);
@@ -347,9 +456,10 @@ serve(async (req) => {
       }
     }
 
-    // ── PLAN C: Static fallback ──
+    // ── PLAN C: Static fallback + market pulse ──
     console.log('📋 Using static fallback headlines');
-    return respond(STATIC_FALLBACK, 'fallback', true);
+    const marketPulse = await marketPulsePromise;
+    return respond([...STATIC_FALLBACK, ...marketPulse], 'fallback', true);
 
   } catch (error) {
     console.error('Fatal error:', error);

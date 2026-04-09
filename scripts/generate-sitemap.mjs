@@ -5,7 +5,8 @@
  * Reads blog slugs from the static data file and combines
  * with known routes to produce a complete sitemap.
  *
- * Covers www, live, and ctrl subdomains.
+ * Only includes the canonical production domain to avoid
+ * noindex issues with non-production Vercel deployments.
  */
 
 import { readFileSync, writeFileSync } from "fs";
@@ -16,8 +17,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const DOMAINS = [
   "https://www.themindmaker.ai",
-  "https://live.themindmaker.ai",
-  "https://ctrl.themindmaker.ai",
 ];
 
 // Static routes with their change frequency and priority

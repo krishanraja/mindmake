@@ -6,9 +6,9 @@ import { useIsMobile } from "@/hooks/use-mobile";
 /* ─── Card data ─── */
 
 const categories = [
-  { icon: Crown, strong: "Orchestrate AI.", contrast: "...and set the pace.", delay: 0.15 },
-  { icon: Brain, strong: "Extend your thinking.", contrast: "...and multiply your edge.", delay: 0.25 },
-  { icon: Zap, strong: "Accelerate.", contrast: "...before the window closes.", delay: 0.35 },
+  { icon: Crown, strong: "Orchestrate AI.", contrast: "...or report to it.", delay: 0.15 },
+  { icon: Brain, strong: "Extend your thinking.", contrast: "...or become a commodity.", delay: 0.25 },
+  { icon: Zap, strong: "Accelerate.", contrast: "...or get passed by.", delay: 0.35 },
 ];
 
 const valueProps = [

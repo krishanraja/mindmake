@@ -14,10 +14,6 @@ const fadeUp = {
   }),
 };
 
-const openConsultModal = () => {
-  window.dispatchEvent(new CustomEvent("openConsultModal"));
-};
-
 const trackCta = () => {
   try {
     (window as unknown as { plausible?: (e: string) => void }).plausible?.(
@@ -42,7 +38,7 @@ const agentGroups = [
     group: "Content",
     agents: [
       { name: "Maya", role: "Essay scaffolding + research" },
-      { name: "Ravi", role: "Signal Desk classification" },
+      { name: "Ravi", role: "Brief classification + ranking" },
       { name: "Theo", role: "Editorial QA + voice drift" },
     ],
   },
@@ -98,7 +94,7 @@ const lessons = [
     headline: "Agent orchestration is where most AI products fail commercially.",
     body: "The reason your enterprise's AI capabilities aren't selling isn't the capabilities themselves. It's that nobody's designed the system that turns capability into commercial outcome.",
     example:
-      "Example: this is the lesson most Revenue Architecture engagements start with — the commercial failure is an orchestration failure, not a model failure.",
+      "Example: this is the lesson most Revenue Architecture engagements start with. The commercial failure is an orchestration failure, not a model failure.",
   },
 ];
 
@@ -107,7 +103,7 @@ export default function Operator() {
     <main className="min-h-screen bg-background">
       <SEO
         title="How I operate: the 14-agent OS behind Mindmaker"
-        description="Most AI advisors sell frameworks they've read. I operate the frameworks I sell — a 14-agent operating system managing a 13-venture portfolio. Memory, cost, and orchestration lessons from the system."
+        description="Most AI advisors sell frameworks they've read. I operate the frameworks I sell. A 14-agent operating system managing a 13-venture portfolio. Memory, cost, and orchestration lessons from the system."
         canonical="/operator"
         ogType="article"
       />
@@ -144,7 +140,7 @@ export default function Operator() {
             variants={fadeUp}
             className="text-muted-foreground"
           >
-            Mindmaker sits on top of 13 ventures coordinated by a 14-agent operating system built on n8n, Supabase, Claude, Gemini, and custom orchestration. It runs in production. It's cost-optimised. It's self-monitoring. It makes its own handoffs.
+            Mindmaker sits on top of a 14-agent operating system coordinating a 13-venture portfolio. It runs in production. It's cost-optimised. It's self-monitoring. It makes its own handoffs.
           </motion.p>
           <motion.p
             initial="hidden"
@@ -154,7 +150,7 @@ export default function Operator() {
             variants={fadeUp}
             className="text-muted-foreground"
           >
-            The commercial strategy, positioning, and GTM work I do for clients is informed by this system. Every framework has been pressure-tested against real operating constraints — cost ceilings, agent handoffs, memory pollution, context drift.
+            The commercial strategy, positioning, and GTM work I do for clients is informed by this system. Every framework has been pressure-tested against real operating constraints: cost ceilings, agent handoffs, memory pollution, context drift.
           </motion.p>
         </div>
       </section>
@@ -201,9 +197,6 @@ export default function Operator() {
             14 agents. One memory web. Zero human in the loop for routine work.
           </div>
 
-          <div className="mt-4 text-center text-[11px] text-muted-foreground/70">
-            External systems touched: Supabase · Telegram · Stripe · Anthropic · Gemini · OpenAI · n8n
-          </div>
         </div>
       </section>
 
@@ -252,7 +245,7 @@ export default function Operator() {
               What this means if you're commercializing AI.
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-5">
-              If you've built AI capabilities and they're not converting to revenue, the problem is almost never the capabilities. It's the system around them — the positioning, the pricing, the commercial narrative, the agent-to-customer handoff. The Revenue Architecture engagement applies the operating patterns from this page to your commercial architecture. You don't need a consultant explaining agents. You need an operator who's already run the playbook you're about to build.
+              If you've built AI capabilities and they're not converting to revenue, the problem is almost never the capabilities. It's the system around them: the positioning, the pricing, the commercial narrative, the agent-to-customer handoff. The Revenue Architecture engagement applies the operating patterns from this page to your commercial architecture. You don't need a consultant explaining agents. You need an operator who's already run the playbook you're about to build.
             </p>
             <Button
               asChild
@@ -264,45 +257,6 @@ export default function Operator() {
                 See Revenue Architecture <ArrowRight className="ml-2 w-4 h-4" />
               </a>
             </Button>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* WHAT THIS PAGE IS NOT */}
-      <section className="section-padding">
-        <div className="container-width max-w-3xl">
-          <motion.p
-            className="text-sm text-muted-foreground italic leading-relaxed"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeUp}
-          >
-            This page is not a hiring pitch for agentic-system-building consulting. That's not what I sell. What I sell is commercial strategy for companies with AI capabilities. This page exists because the commercial strategy I deliver is shaped by operating one of these systems every day. If you want to talk about the system itself, email me — but the offer is commercial.
-          </motion.p>
-        </div>
-      </section>
-
-      {/* FINAL CTA */}
-      <section className="section-padding bg-muted/30">
-        <div className="container-width max-w-3xl text-center">
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}>
-            <h2 className="text-3xl md:text-4xl font-bold mb-5">Where to from here?</h2>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold"
-                onClick={() => {
-                  trackCta();
-                  openConsultModal();
-                }}
-              >
-                Book an enterprise call <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-              <Button asChild size="lg" variant="outline" className="font-bold">
-                <a href="/cohort">Or join the cohort →</a>
-              </Button>
-            </div>
           </motion.div>
         </div>
       </section>

@@ -54,7 +54,7 @@ const comparisonRows = [
   {
     label: "Price",
     signal: "$15,000",
-    revenue: "$60,000 – $100,000",
+    revenue: "$60,000 to $100,000",
   },
   {
     label: "Format",
@@ -76,11 +76,11 @@ const comparisonRows = [
 const faqs = [
   {
     q: "How is this different from consulting?",
-    a: "Consultants present findings from research. I work from 16 years of pattern recognition on what wins commercially with AI and what doesn't — and the output is a commercial strategy your team can execute on Monday, not a slide deck.",
+    a: "Consultants present findings from research. I work from 16 years of pattern recognition on what wins commercially with AI and what doesn't. The output is a commercial strategy your team can execute on Monday, not a slide deck.",
   },
   {
     q: "Why no ongoing retainer?",
-    a: "Mindmaker sells sprints and blueprints, not calendar hours. Every enterprise engagement has a fixed scope and a finish line. If you need someone to run commercial operations long-term, we'll talk about who that should be — but it won't be me on payroll.",
+    a: "Mindmaker sells sprints and blueprints, not calendar hours. Every enterprise engagement has a fixed scope and a finish line. If you need someone to run commercial operations long-term, we'll talk about who that should be, but it won't be me on payroll.",
   },
   {
     q: "Can our engineering team be involved?",
@@ -88,7 +88,7 @@ const faqs = [
   },
   {
     q: "What happens after the engagement ends?",
-    a: "You own the outputs — documents, frameworks, decks — editable and ready to execute. A 30-day follow-up session is included in The Revenue Architecture. Beyond that, a Signal Session or a Builder Sprint can re-engage on a specific follow-up.",
+    a: "You own the outputs (documents, frameworks, decks), editable and ready to execute. A 30-day follow-up session is included in The Revenue Architecture. Beyond that, a Signal Session can re-engage on a specific follow-up.",
   },
   {
     q: "How fast can we start?",

@@ -9,53 +9,53 @@ export const LightningLessons = () => {
 
   const lessons = [
     {
-      title: "Skills 101: Learn How To Program Your AI Tools",
-      url: "https://maven.com/p/6c1d16/learn-how-to-program-your-ai-tools",
-      image: "/lesson-program-ai-tools.png",
+      title: "Vibe Coding for Leaders: Build What You Brief",
+      url: "https://maven.com/p/ca6d71/vibe-coding-for-leaders-build-what-you-brief",
+      image: "/lesson-vibe-coding.png",
       duration: "45 min",
       cta: "Sign Up",
       bullets: [
-        "Master prompt engineering basics",
-        "Build custom AI workflows",
-        "Practical hands-on exercises"
-      ]
+        "Turn briefs into working prototypes",
+        "No coding background required",
+        "Hands-on build session",
+      ],
     },
     {
-      title: "Run Your Life With OpenClaw: The Good, The Bad and The Ugly",
-      url: "https://live.themindmaker.ai/",
-      image: "/lesson-openclaw.png",
+      title: "Make AI Your Co-Founder",
+      url: "https://maven.com/p/0cc82a/make-ai-your-co-founder",
+      image: "/lesson-co-founder.png",
       duration: "45 min",
       cta: "Sign Up",
       bullets: [
-        "Hands-on OpenClaw walkthrough",
-        "Real pros and cons from daily use",
-        "When to use it vs alternatives"
-      ]
+        "Build your sparring partner",
+        "Delegate what you dread",
+        "Ship what you brief",
+      ],
     },
     {
-      title: "Improve The Memory Of Your AI Tools",
-      url: "https://live.themindmaker.ai/",
+      title: "Build an Autonomous Business with AI",
+      url: "https://maven.com/p/38d196/build-an-autonomous-business-with-ai",
+      image: "/lesson-autonomous-business.png",
+      duration: "45 min",
+      cta: "Sign Up",
+      bullets: [
+        "Map the work AI can own",
+        "Wire agents into your stack",
+        "Keep the human in the loop",
+      ],
+    },
+    {
+      title: "Give Your AI Memory",
+      url: "https://maven.com/p/8fba42/improve-the-memory-of-your-ai-tools",
       image: "/lesson-ai-memory.png",
       duration: "45 min",
       cta: "Sign Up",
       bullets: [
-        "Give your AI persistent memory",
-        "Context management techniques",
-        "Build smarter, longer conversations"
-      ]
+        "Persistent memory that sticks",
+        "Context that travels across tools",
+        "Smarter, longer conversations",
+      ],
     },
-    {
-      title: "Vibe Coding for Leaders: Build What You Brief",
-      url: "https://live.themindmaker.ai/",
-      image: "/lesson-vibe-code.png",
-      duration: "45 min",
-      cta: "Sign Up",
-      bullets: [
-        "Turn briefs into working prototypes with AI",
-        "No coding experience required",
-        "Practical, hands-on building session"
-      ]
-    }
   ];
 
   return (
@@ -82,16 +82,22 @@ export const LightningLessons = () => {
                 key={index}
                 className="border border-border rounded-lg overflow-hidden hover:border-mint bg-card flex flex-col h-full hover-lift"
               >
-                {/* Thumbnail */}
-                <div className="relative h-24 overflow-hidden flex-shrink-0">
-                  <img 
-                    src={lesson.image} 
-                    alt={lesson.title}
-                    className="w-full h-full object-cover object-center"
+                {/* Thumbnail — gradient fallback if image fails to load */}
+                <div className="relative h-24 overflow-hidden flex-shrink-0 bg-gradient-to-br from-ink via-ink/90 to-mint/40 flex items-center justify-center">
+                  <img
+                    src={lesson.image}
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover object-center"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).style.display = "none";
+                    }}
                   />
-                  <Badge 
-                    variant="secondary" 
-                    className="absolute top-2 right-2 bg-mint/90 text-ink border-0"
+                  <span className="relative z-10 px-3 text-[11px] font-bold uppercase tracking-[0.14em] text-white/80 text-center">
+                    {lesson.title.split(":")[0]}
+                  </span>
+                  <Badge
+                    variant="secondary"
+                    className="absolute top-2 right-2 bg-mint/90 text-ink border-0 z-20"
                   >
                     <Clock className="w-3 h-3 mr-1" />
                     {lesson.duration}

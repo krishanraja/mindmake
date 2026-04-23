@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, ArrowRight, ChevronLeft, Hammer, Compass, Zap, Calendar, CheckCircle, CalendarDays } from "lucide-react";
+import { Loader2, ArrowRight, ChevronLeft, Users, Compass, Zap, Calendar, CheckCircle, CalendarDays } from "lucide-react";
 import krishHeadshot from "@/assets/krish-headshot.png";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useSessionData } from "@/contexts/SessionDataContext";
@@ -197,10 +197,9 @@ export const InitialConsultModal = ({
   const effectiveAudienceType = audienceType || qualificationData?.audienceType;
   const effectivePathType = pathType || qualificationData?.pathType;
 
-  // Compute which mobile steps to show
+  // Compute which mobile steps to show (commitment step removed in v5)
   const mobileSteps: StepId[] = [];
   if (!effectivePreselectedProgram) mobileSteps.push("path");
-  if (!effectiveCommitmentLevel) mobileSteps.push("commitment");
   mobileSteps.push("contact");
 
   const currentStepId = mobileSteps[mobileStep] as StepId | undefined;
@@ -283,20 +282,25 @@ export const InitialConsultModal = ({
 
   const pathOptions = [
     {
-      value: "build",
-      label: "I want to build with AI myself",
-      helper: "Hands-on systems, vibe coding, personal AI leverage."
+      value: "cohort-enrollment",
+      label: "The AI Decision Cohort",
+      helper: "$3,500 per seat. Three weeks with 15 other senior leaders, mostly async plus three live sessions. For your nervous AI decision.",
     },
     {
-      value: "orchestrate",
-      label: "I want to set direction and make clean decisions",
-      helper: "Governance, vendor decisions, board-ready strategy."
+      value: "signal-session",
+      label: "The Signal Session",
+      helper: "$15,000. One intensive day plus a 48h Commercial Narrative. For teams needing rapid alignment on how to sell an AI capability.",
     },
-  ];
-
-  const commitmentOptions = [
-    { value: "4wk", label: "4-Week Decision Sprint", description: "One nervous decision, resolved and board-ready" },
-    { value: "90d", label: "90-Day Concierge Sprint", description: "Full Mind Set → Mind Map → Mind Make journey" },
+    {
+      value: "revenue-architecture",
+      label: "The Revenue Architecture",
+      helper: "$60,000 to $100,000, scope-dependent. A 30-day build of pricing, positioning, packaging, and GTM for companies commercializing AI.",
+    },
+    {
+      value: "1-1-inquiry",
+      label: "Private 1:1 engagement (by inquiry)",
+      helper: "A handful of private engagements each year. Scope and pricing by conversation.",
+    },
   ];
 
   // Mobile navigation helpers
@@ -342,10 +346,8 @@ export const InitialConsultModal = ({
 
     // If preselectedProgram is provided (from props or context), selectedPath is optional
     const pathRequired = !effectivePreselectedProgram;
-    // Commitment is required if we're showing the commitment question (no effective commitment from props/context)
-    const commitmentRequired = !effectiveCommitmentLevel;
 
-    if (!name || !email || !jobTitle || (pathRequired && !selectedPath) || (commitmentRequired && !selectedCommitment)) {
+    if (!name || !email || !jobTitle || (pathRequired && !selectedPath)) {
       toast({
         title: "Missing information",
         description: "Please fill in all fields",
@@ -491,10 +493,10 @@ export const InitialConsultModal = ({
     <form onSubmit={handleSubmit} className="flex flex-col h-full">
       {/* Content area */}
       <div className="flex-1 min-h-0 flex flex-col gap-4 px-1 sm:px-0 pr-1 overflow-y-auto">
-        {/* Path Selection - Required First Question (only show if not pre-selected) */}
+        {/* Program Selection (only shown if not pre-selected) */}
         {!effectivePreselectedProgram && (
           <div className="space-y-3">
-            <Label className="text-sm font-semibold">How do you want to work with AI?</Label>
+            <Label className="text-sm font-semibold">What brings you in?</Label>
             <RadioGroup value={selectedPath} onValueChange={setSelectedPath}>
               {pathOptions.map((path) => (
                 <div key={path.value} className="flex items-start space-x-3 space-y-0">
@@ -519,43 +521,6 @@ export const InitialConsultModal = ({
                 </p>
               </div>
             )}
-          </div>
-        )}
-
-        {/* Time Commitment Question - Show if not provided via props or context */}
-        {!effectiveCommitmentLevel && (
-          <div className="space-y-3">
-            <Label className="text-sm font-semibold">What time commitment are you looking for?</Label>
-            <RadioGroup value={selectedCommitment} onValueChange={setSelectedCommitment}>
-              {commitmentOptions.map((commitment) => (
-                <div key={commitment.value} className="flex items-start space-x-3 space-y-0">
-                  <RadioGroupItem value={commitment.value} id={commitment.value} className="mt-1" />
-                  <Label
-                    htmlFor={commitment.value}
-                    className="font-normal cursor-pointer flex-1 leading-tight"
-                  >
-                    <div>
-                      <span className="font-semibold block">{commitment.label}</span>
-                      <span className="text-xs text-muted-foreground block mt-0.5">{commitment.description}</span>
-                    </div>
-                  </Label>
-                </div>
-              ))}
-            </RadioGroup>
-          </div>
-        )}
-
-        {/* Show commitment level if provided (read-only display) */}
-        {effectiveCommitmentLevel && (
-          <div className="bg-mint/10 border border-mint/30 rounded-lg p-3">
-            <p className="text-sm font-semibold text-foreground mb-0.5">Selected Commitment:</p>
-            <p className="text-sm text-muted-foreground">
-              {effectiveCommitmentLevel === "1hr" ? "1 Hour Session" :
-               effectiveCommitmentLevel === "3hr" ? "3 Hour Session" :
-               effectiveCommitmentLevel === "4wk" ? "4 Week Program" :
-               effectiveCommitmentLevel === "90d" ? "90 Day Program" :
-               effectiveCommitmentLevel}
-            </p>
           </div>
         )}
 
@@ -657,10 +622,6 @@ export const InitialConsultModal = ({
     setTimeout(() => goForward(), 250);
   };
 
-  const handleCommitmentSelect = (value: string) => {
-    setSelectedCommitment(value);
-    setTimeout(() => goForward(), 250);
-  };
 
   const mobileWizardContent = (
     <div className="flex flex-col h-full pb-4">
@@ -694,55 +655,42 @@ export const InitialConsultModal = ({
             transition={{ duration: 0.2, ease: "easeOut" }}
             className="flex flex-col h-full"
           >
-            {/* STEP: Path Selection */}
+            {/* STEP: Program Selection */}
             {currentStepId === "path" && (
               <div className="space-y-5">
                 <div>
-                  <h3 className="text-xl font-bold mb-1">How do you work with AI?</h3>
+                  <h3 className="text-xl font-bold mb-1">What brings you in?</h3>
                   <p className="text-sm text-muted-foreground">Pick the one that fits. We'll tailor everything from here.</p>
                 </div>
 
                 <div className="space-y-3">
                   <SelectionCard
-                    selected={selectedPath === "build"}
-                    icon={Hammer}
-                    title="I build with AI"
-                    subtitle="Hands-on systems, vibe coding, personal AI leverage."
-                    onClick={() => handlePathSelect("build")}
+                    selected={selectedPath === "cohort-enrollment"}
+                    icon={Users}
+                    title="The AI Decision Cohort"
+                    subtitle="$3,500. Three weeks with 15 senior leaders."
+                    onClick={() => handlePathSelect("cohort-enrollment")}
                   />
                   <SelectionCard
-                    selected={selectedPath === "orchestrate"}
-                    icon={Compass}
-                    title="I set direction"
-                    subtitle="Governance, vendor decisions, board-ready strategy."
-                    onClick={() => handlePathSelect("orchestrate")}
-                  />
-                </div>
-              </div>
-            )}
-
-            {/* STEP: Commitment Level */}
-            {currentStepId === "commitment" && (
-              <div className="space-y-5">
-                <div>
-                  <h3 className="text-xl font-bold mb-1">What kind of sprint?</h3>
-                  <p className="text-sm text-muted-foreground">Both start with your nervous decision. Pick your pace.</p>
-                </div>
-
-                <div className="space-y-3">
-                  <SelectionCard
-                    selected={selectedCommitment === "4wk"}
+                    selected={selectedPath === "signal-session"}
                     icon={Zap}
-                    title="4-Week Sprint"
-                    subtitle="One nervous decision, resolved and board-ready."
-                    onClick={() => handleCommitmentSelect("4wk")}
+                    title="The Signal Session"
+                    subtitle="$15,000. One intensive day. Rapid commercial alignment."
+                    onClick={() => handlePathSelect("signal-session")}
                   />
                   <SelectionCard
-                    selected={selectedCommitment === "90d"}
+                    selected={selectedPath === "revenue-architecture"}
+                    icon={Compass}
+                    title="The Revenue Architecture"
+                    subtitle="$60k to $100k. 30-day commercial build."
+                    onClick={() => handlePathSelect("revenue-architecture")}
+                  />
+                  <SelectionCard
+                    selected={selectedPath === "1-1-inquiry"}
                     icon={Calendar}
-                    title="90-Day Sprint"
-                    subtitle="Full Mind Set → Mind Map → Mind Make journey."
-                    onClick={() => handleCommitmentSelect("90d")}
+                    title="Private 1:1 engagement"
+                    subtitle="By inquiry. Scope and pricing by conversation."
+                    onClick={() => handlePathSelect("1-1-inquiry")}
                   />
                 </div>
               </div>
@@ -862,9 +810,9 @@ export const InitialConsultModal = ({
           ) : (
             <>
               <DrawerHeader className="text-left pb-1 shrink-0">
-                <DrawerTitle className="text-lg font-bold">Book Your Free Consult</DrawerTitle>
+                <DrawerTitle className="text-lg font-bold">Book an intro call</DrawerTitle>
                 <DrawerDescription className="sr-only">
-                  Book a free 45-minute consultation
+                  45 minutes, zero pressure
                 </DrawerDescription>
               </DrawerHeader>
               <div className="flex-1 min-h-0">
@@ -891,9 +839,9 @@ export const InitialConsultModal = ({
         ) : (
           <>
             <DialogHeader className="shrink-0">
-              <DialogTitle className="text-2xl font-bold">Book Your Initial Consult</DialogTitle>
+              <DialogTitle className="text-2xl font-bold">Book an intro call</DialogTitle>
               <DialogDescription className="text-base">
-                45 minutes to map your outcomes • Zero pressure • Real conversation
+                45 minutes. Zero pressure. Real conversation.
               </DialogDescription>
             </DialogHeader>
             <div className="flex-1 min-h-0">

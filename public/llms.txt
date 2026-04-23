@@ -14,8 +14,7 @@
 ## Try it
 
 - [The Nervous Decision Machine](/tool): One-shot decision-reframing tool. Free, no email required.
-- [The Signal Desk](/signal): Weekly classification of AI signal, noise, decisions and takes.
-- [Decision Readiness Diagnostic](/leaders): Self-diagnostic for senior leaders on AI readiness.
+- [The Operator's Brief](/signal): Weekly classified reads on AI. Tagged as WATCH, SKIP, CALL, or TAKE.
 
 ## About
 
@@ -25,8 +24,8 @@
 
 ## Writing
 
-- [The Signal Desk](/signal): weekly reads on AI signal vs noise.
-- [Builder Economy](/builder-economy): thesis on the post-AI org.
+- [The Operator's Brief](/signal): weekly classified reads on AI.
+- [The Builder Economy (Podcast)](/builder-economy): Krish's podcast + thesis on the post-AI org.
 - [Blog](/blog): long-form analysis.
 
 ## Positioning

@@ -24,49 +24,49 @@ const template = readFileSync(resolve(distDir, "index.html"), "utf-8");
 const pages = [
   {
     path: "/cohort",
-    title: "The AI Decision Cohort — Mindmaker",
+    title: "The AI Decision Cohort: Mindmaker",
     description:
       "Make your nervous AI decision with 15 other senior leaders. Three weeks. Mostly async. Three live sessions. $3,500 per seat, quarterly.",
   },
   {
     path: "/enterprise",
-    title: "Enterprise — Mindmaker",
+    title: "Enterprise: Mindmaker",
     description:
       "Your AI capabilities, translated into revenue. The Signal Session ($15k) aligns your team fast. The Revenue Architecture ($60-100k) builds the complete commercial strategy.",
   },
   {
     path: "/operator",
-    title: "How I operate — Mindmaker",
+    title: "How I operate: Mindmaker",
     description:
       "The 14-agent operating system behind Mindmaker. Memory, cost, and orchestration lessons from running a real agentic business in production.",
   },
   {
     path: "/signal",
-    title: "The Signal Desk — Mindmaker",
+    title: "The Operator's Brief: Mindmaker",
     description:
-      "Signal, noise, decisions, and takes on where AI is actually moving — classified by Krish Raja.",
+      "Watch, skip, call, and take. Classified reads for leaders making AI decisions, by Krish Raja.",
   },
   {
     path: "/tool",
-    title: "The Nervous Decision Machine — Mindmaker",
+    title: "The Nervous Decision Machine: Mindmaker",
     description:
       "Type the AI decision you're putting off. Get a one-page artifact in 60 seconds. No email required.",
   },
   {
     path: "/blog",
-    title: "Blog — Mindmaker",
+    title: "Blog: Mindmaker",
     description:
       "Analysis, frameworks, and decisions on the state of AI for leaders. No vendor theatre.",
   },
   {
     path: "/faq",
-    title: "FAQ — Mindmaker",
+    title: "FAQ: Mindmaker",
     description:
       "Answers to common questions about Mindmaker sprints, pricing, and how we work.",
   },
   {
     path: "/contact",
-    title: "Contact — Mindmaker",
+    title: "Contact: Mindmaker",
     description: "Get in touch with Mindmaker. Start the conversation.",
   },
 ];

@@ -16,7 +16,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { 
   ArrowRight, 
   Clock, 
-  Sparkles, 
+  Info,
   User, 
   Mail, 
   Building2, 
@@ -180,7 +180,7 @@ const LeadershipInsights = () => {
             <div className="w-full max-w-lg mb-6 flex items-center justify-between">
               <MindmakerLogo />
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Sparkles className="w-4 h-4" />
+                <Info className="w-4 h-4" />
                 <span>Sample</span>
               </div>
             </div>
@@ -330,7 +330,7 @@ const LeadershipInsights = () => {
                 <div className="flex items-center justify-between mb-3">
                   <h2 className="font-semibold text-lg">Personalization</h2>
                   <div className="flex items-center gap-1 text-sm text-muted-foreground bg-muted px-2 py-1 rounded-full">
-                    <Sparkles className="w-3 h-3" />
+                    <Info className="w-3 h-3" />
                     <span>{personalizationIndex + 1}/{totalPersonalizationQuestions}</span>
                   </div>
                 </div>
@@ -590,7 +590,7 @@ const LeadershipInsights = () => {
                   <CollapsibleTrigger className="w-full p-5 flex items-center justify-between hover:bg-mint/5 transition-colors">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-mint/20 rounded-full flex items-center justify-center">
-                        <Sparkles className="w-5 h-5 text-mint-dark" />
+                        <Info className="w-5 h-5 text-mint-dark" />
                       </div>
                       <div className="text-left">
                         <h2 className="font-bold">Unlock Your Full Results</h2>

@@ -11,16 +11,6 @@ const fadeUp = {
   }),
 };
 
-const openConsultModal = (detail?: Record<string, unknown>) => {
-  window.dispatchEvent(
-    new CustomEvent("openConsultModal", { detail: detail || {} })
-  );
-};
-
-// Kept here so the homepage copy stays in sync with /cohort hero. When this
-// moves to a Supabase table, replace this literal.
-const nextCohortLabel = "July 14, 2026";
-
 const YFork = () => {
   return (
     <section
@@ -67,25 +57,15 @@ const YFork = () => {
                 <span className="text-3xl font-bold">$3,500</span>
                 <span className="text-sm text-muted-foreground">per seat</span>
               </div>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Button
-                  asChild
-                  size="lg"
-                  className="bg-ink dark:bg-mint text-white dark:text-ink hover:opacity-90 font-bold"
-                >
-                  <a href="/cohort">
-                    See the cohort <ArrowRight className="ml-2 w-4 h-4" />
-                  </a>
-                </Button>
-                <Button
-                  asChild
-                  size="lg"
-                  variant="outline"
-                  className="font-bold"
-                >
-                  <a href="/cohort#enroll">Next cohort: {nextCohortLabel}</a>
-                </Button>
-              </div>
+              <Button
+                asChild
+                size="lg"
+                className="w-full bg-ink dark:bg-mint text-white dark:text-ink hover:opacity-90 font-bold"
+              >
+                <a href="/cohort">
+                  See the cohort <ArrowRight className="ml-2 w-4 h-4" />
+                </a>
+              </Button>
             </div>
           </motion.article>
 
@@ -114,25 +94,15 @@ const YFork = () => {
                 </span>
                 <span className="text-3xl font-bold">$15,000</span>
               </div>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Button
-                  asChild
-                  size="lg"
-                  className="bg-ink dark:bg-mint text-white dark:text-ink hover:opacity-90 font-bold"
-                >
-                  <a href="/enterprise">
-                    Explore enterprise <ArrowRight className="ml-2 w-4 h-4" />
-                  </a>
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  onClick={() => openConsultModal()}
-                  className="font-bold"
-                >
-                  Book a call
-                </Button>
-              </div>
+              <Button
+                asChild
+                size="lg"
+                className="w-full bg-ink dark:bg-mint text-white dark:text-ink hover:opacity-90 font-bold"
+              >
+                <a href="/enterprise">
+                  Explore enterprise <ArrowRight className="ml-2 w-4 h-4" />
+                </a>
+              </Button>
             </div>
           </motion.article>
         </div>

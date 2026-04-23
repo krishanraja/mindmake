@@ -7,7 +7,7 @@ import {
   DrawerTitle,
   DrawerDescription,
 } from "@/components/ui/drawer";
-import { ArrowRight, ArrowLeft, X, Sparkles } from "lucide-react";
+import { ArrowRight, ArrowLeft, X, Zap } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSessionData } from "@/contexts/SessionDataContext";
 
@@ -37,21 +37,21 @@ const classify = (answers: Answers): Recommendation => {
       return {
         title: "The Signal Session is your likely fit.",
         blurb:
-          "You need rapid alignment on how to position an AI capability commercially — one intensive day, plus a 15-20 page Commercial Narrative within 48 hours. We'd scope the session on the call.",
+          "You need rapid alignment on how to position an AI capability commercially. One intensive day, plus a 15-20 page Commercial Narrative within 48 hours. We'd scope the session on the call.",
         preselected: "signal-session",
       };
     }
     return {
       title: "The Revenue Architecture is your likely fit.",
       blurb:
-        "This sounds like a full commercial build — pricing, packaging, GTM, board-ready narrative. 30-day intensive, informed by operating an AI business in production. We'd scope fit on the intake call.",
+        "This sounds like a full commercial build: pricing, packaging, GTM, board-ready narrative. 30-day intensive, informed by operating an AI business in production. We'd scope fit on the intake call.",
       preselected: "revenue-architecture",
     };
   }
   return {
     title: "The AI Decision Cohort is your likely fit.",
     blurb:
-      "You're describing a single nervous AI decision you want resolved. That's what the cohort is for — three weeks with 15 other senior leaders, a peer group that holds you accountable, and a board-ready memo on the way out.",
+      "You're describing a single nervous AI decision you want resolved. That's what the cohort is for: three weeks with 15 other senior leaders, a peer group that holds you accountable, and a board-ready memo on the way out.",
     preselected: "cohort-enrollment",
   };
 };
@@ -148,7 +148,7 @@ const PreCallQualifier = () => {
         aria-label="Warm up before your call"
         className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-3 rounded-full bg-ink text-white dark:bg-mint dark:text-ink shadow-lg shadow-ink/30 dark:shadow-mint/30 hover:shadow-xl transition-all hover:-translate-y-0.5 font-semibold text-sm"
       >
-        <Sparkles className="w-4 h-4" />
+        <Zap className="w-4 h-4" />
         <span>Warm up before your call</span>
         <ArrowRight className="w-4 h-4" />
       </button>

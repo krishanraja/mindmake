@@ -70,7 +70,7 @@ const LiveDecisionPreview = () => {
         <h2 className="text-3xl font-bold">Live Decision Artifact</h2>
       </div>
       <p className="text-lg text-muted-foreground mb-6">
-        This is a real decision memo built with live market data — the kind of
+        This is a real decision memo built with live market data. The kind of
         artifact you walk away with after a sprint.
       </p>
 

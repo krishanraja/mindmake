@@ -59,7 +59,7 @@ const Footer = () => {
                   href="/signal"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
-                  The Signal Desk
+                  The Operator's Brief
                 </a>
                 <a
                   href="/tool"
@@ -74,16 +74,10 @@ const Footer = () => {
                   How I operate
                 </a>
                 <a
-                  href="/leaders"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
-                >
-                  Decision Readiness Diagnostic
-                </a>
-                <a
                   href="/builder-economy"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
-                  Builder Economy
+                  The Builder Economy (Podcast)
                 </a>
                 <a
                   href="/blog"

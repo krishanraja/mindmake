@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Loader2, Sparkles, RotateCcw } from "lucide-react";
+import { ArrowRight, Loader2, Target, RotateCcw } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 type Path = { name: string; tradeoff: string; confidence: string };
@@ -101,7 +101,7 @@ const NervousDecisionMachine = ({ variant = "homepage" }: Props) => {
           transition={{ duration: 0.5 }}
         >
           <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-mint mb-4">
-            <Sparkles className="w-3.5 h-3.5" />
+            <Target className="w-3.5 h-3.5" />
             The Nervous Decision Machine
           </div>
           <h2
@@ -339,7 +339,7 @@ const NervousDecisionMachine = ({ variant = "homepage" }: Props) => {
                     isHomepage ? "text-white" : "text-foreground"
                   }`}
                 >
-                  This is the 60-second version. The AI Decision Cohort is where you actually <span className="font-bold text-mint-dark dark:text-mint">resolve it</span> — three weeks, fifteen other senior leaders, and a peer group that holds you accountable.
+                  This is the 60-second version. The AI Decision Cohort is where you actually <span className="font-bold text-mint-dark dark:text-mint">resolve it</span>. Three weeks, fifteen other senior leaders, and a peer group that holds you accountable.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <Button

@@ -13,8 +13,7 @@
 
 ## Try it
 
-- [The Nervous Decision Machine](/tool): One-shot decision-reframing tool. Free, no email required.
-- [The Operator's Brief](/signal): Weekly classified reads on AI. Tagged as WATCH, SKIP, CALL, or TAKE.
+- [The Operator's Brief](/signal): Live model prices, weekly classified reads (WATCH / SKIP / CALL / TAKE), and the Nervous Decision Machine embedded in-page. Free, no email required. Tagged as WATCH, SKIP, CALL, or TAKE.
 
 ## About
 
@@ -24,8 +23,8 @@
 
 ## Writing
 
-- [The Operator's Brief](/signal): weekly classified reads on AI.
-- [The Builder Economy (Podcast)](/builder-economy): Krish's podcast + thesis on the post-AI org.
+- [The Operator's Brief](/signal): live model prices + weekly classified reads on AI.
+- [The Builder Economy (Podcast)](https://www.thebuildereconomy.com): Krish's podcast + thesis on the post-AI org. Lives on a separate site.
 - [Blog](/blog): long-form analysis.
 
 ## Positioning

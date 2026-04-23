@@ -52,7 +52,7 @@ const Navigation = () => {
       dropdown: [
         { label: "How I operate", href: "/operator" },
         { label: "Blog", href: "/blog" },
-        { label: "The Builder Economy (Podcast)", href: "/builder-economy" },
+        { label: "The Builder Economy (Podcast)", href: "https://www.thebuildereconomy.com", external: true },
         { label: "Lightning Lessons", type: "lessons" },
       ],
     },

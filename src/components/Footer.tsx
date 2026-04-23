@@ -62,22 +62,19 @@ const Footer = () => {
                   The Operator's Brief
                 </a>
                 <a
-                  href="/tool"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
-                >
-                  Nervous Decision Machine
-                </a>
-                <a
                   href="/operator"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
                   How I operate
                 </a>
                 <a
-                  href="/builder-economy"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
+                  href="https://www.thebuildereconomy.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4 inline-flex items-center gap-1"
                 >
                   The Builder Economy (Podcast)
+                  <ExternalLink className="h-3 w-3" />
                 </a>
                 <a
                   href="/blog"

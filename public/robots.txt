@@ -23,9 +23,7 @@ Allow: /cohort
 Allow: /enterprise
 Allow: /operator
 Allow: /signal
-Allow: /tool
 Allow: /leaders
-Allow: /builder-economy
 Allow: /faq
 Allow: /privacy
 Allow: /terms

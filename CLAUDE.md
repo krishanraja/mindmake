@@ -52,7 +52,7 @@ Authoritative source: `src/pages/Index.tsx`.
 5. `TrustSection` — Krish bio, headshot, testimonials carousel.
 6. `FrameworkJourney` — three-panel animated MindSet → MindMap → MindMake.
 7. `OperatorsEdge` (v5) — typography-only credential section, dark bg, three proof tiles (Architecture / Optimization / Memory), CTA to Revenue Architecture + secondary link to `/operator`. "BEYOND PATTERN RECOGNITION" now the dominant wordmark.
-8. `OperatorsBrief` — the desk. Live model-pricing ticker (Artificial Analysis via `useModelData`), four classified cards (WATCH / SKIP / CALL / TAKE) on the left, two blog cards on the right (via `useBlogPosts`), compact Nervous Decision input below. Submitting swaps the right column to the 3-card artifact in place.
+8. `OperatorsBrief` — the Operator's Brief homepage teaser. Minimal on purpose: a continuous CSS-marquee `PriceTicker` with the canonical 7 models, a rotating plain-English interpretation line underneath (3 takes, 8s cross-fade), a compact Nervous Decision input (via `nervous-decision/Input`), and a muted "Open the full dashboard →" link to `/signal`. No card grid, no blog column — those live on `/signal` only.
 9. `SimpleCTA` — final CTA.
 10. `Footer`.
 
@@ -77,11 +77,9 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 | `/cohort` | `Cohort` | The AI Decision Cohort ($3,500/seat, quarterly). Primary leader surface. |
 | `/enterprise` | `Enterprise` | The Signal Session ($15k) + The Revenue Architecture ($60-100k). |
 | `/operator` | `Operator` | (v5) How I operate — 14-agent OS credential page. |
-| `/signal` | `Brief` | The Operator's Brief archive (WATCH / SKIP / CALL / TAKE) with filters + search. Route preserved for inbound URLs. |
-| `/tool` | `Tool` | The Nervous Decision Machine. |
+| `/signal` | `Brief` | The Operator's Brief — the full dashboard: extended live-price ticker, plain-English interpretation grid, classified card archive (WATCH / SKIP / CALL / TAKE with filters + search), blog column, full Nervous Decision Machine. Route preserved for inbound URLs. |
 | `/leaders` | `LeadershipInsights` | Decision Readiness Diagnostic. Unlinked from nav/footer but still reachable by direct URL for deep-links. |
 | `/leadership-insights` | `LeadershipInsights` | Alias. |
-| `/builder-economy` | `BuilderEconomy` | Long-form thesis piece. |
 | `/blog`, `/blog/:slug` | `Blog`, `BlogPost` | Blog index + post. |
 | `/faq` | `FAQ` | |
 | `/contact` | `Contact` | |
@@ -89,6 +87,8 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 | `*` | `NotFound` | Catch-all. |
 
 **Client-side redirects (301-equivalent via `<Navigate replace />`):**
+- `/tool` → `/signal#decision` (page deleted; decision machine now lives inside the Operator's Brief dashboard)
+- `/builder-economy` → `https://www.thebuildereconomy.com` via `ExternalRedirect` (page deleted; canonical site is the separate domain)
 - `/sprints` → `/cohort`
 - `/sprint/4-week` → `/cohort?inquiry=1:1`
 - `/sprint/90-day` → `/cohort?inquiry=1:1`
@@ -111,7 +111,7 @@ File: `src/components/Navigation.tsx`. Primary CTA: **"Book a call"** (no condit
 - **Cohort** (direct link): `/cohort`.
 - **Enterprise** (dropdown): The Signal Session → `/enterprise#signal-session`, The Revenue Architecture → `/enterprise#revenue-architecture`, All Enterprise → `/enterprise`.
 - **Signal** (link): `/signal`.
-- **Resources** (dropdown): How I operate → `/operator`, Blog → `/blog`, The Builder Economy (Podcast) → `/builder-economy`, Lightning Lessons (external Maven links).
+- **Resources** (dropdown): How I operate → `/operator`, Blog → `/blog`, The Builder Economy (Podcast) → external `www.thebuildereconomy.com`, Lightning Lessons (external Maven links).
 
 The second top-level link is labelled **"The Brief"** and points at `/signal`. The Decision Readiness Diagnostic is no longer linked from nav or footer.
 - **About** (dropdown): FAQ → `/faq`, Contact → `/contact`, Privacy → `/privacy`.
@@ -134,7 +134,7 @@ Payment terms (small muted text below price): cohort = "Full payment or 2x split
 
 ## The Nervous Decision Machine
 
-Component: `src/components/NervousDecisionMachine.tsx` (used inline on homepage and on `/tool`).
+Components: `src/components/nervous-decision/Input.tsx` (compact + full sizes) and `src/components/nervous-decision/Artifact.tsx`. Embedded inside `OperatorsBrief` on the homepage and inside `Brief.tsx` at `/signal`. No standalone page — `/tool` has been deleted.
 Edge function: `supabase/functions/nervous-decision-machine/index.ts`.
 Model: `claude-haiku-4-5-20251001`, max 1500 tokens, system prompt enforces JSON output schema + Krish's voice. 1-hour per-IP rate limit + global request ceiling as a soft circuit breaker. Requires `ANTHROPIC_API_KEY` on the Supabase project.
 
@@ -150,7 +150,10 @@ Component: `src/components/PreCallQualifier.tsx`. Replaces the old ChatBot. Floa
 
 Renamed from "Signal Desk" to avoid overlap with Krish's other business (Signal & Noise).
 
-- Homepage section: `src/components/OperatorsBrief.tsx`. Single premium panel: live model-pricing ticker (Artificial Analysis), 4 classified cards on the left (WATCH / SKIP / CALL / TAKE), 2 blog cards on the right (via `useBlogPosts`), and a compact Nervous Decision input at the bottom that swaps the right column to the 3-card artifact in place.
+- Homepage teaser: `src/components/OperatorsBrief.tsx`. Minimal — continuous marquee `PriceTicker` + rotating interpretation line + compact Nervous Decision input + footer link to the dashboard. No cards, no blog column.
+- Full dashboard: `src/pages/Brief.tsx` at `/signal`. Extended ticker, 3-card interpretation grid, the full classified archive with filter pills + search, a blog column, and the full-size Nervous Decision input with example chips.
+- Shared: `src/components/PriceTicker.tsx` (CSS-marquee, no native scrollbar, pauses on hover, respects `prefers-reduced-motion`). `src/components/nervous-decision/` has `Input.tsx`, `Artifact.tsx`, `types.ts`.
+- Model allowlist lives inside `src/hooks/useModelData.ts` as `ALLOWED_MODEL_IDS`. Current canonical set: Opus 4.7, Sonnet 4.6, Haiku 4.5, Gemini 2.5 Pro, Gemini 2.5 Flash, GPT-5, GPT-5 Mini. Update here when a new frontier model is worth surfacing.
 - Archive page: `src/pages/Brief.tsx` at route `/signal` (URL preserved for inbound). Filter pills for WATCH / SKIP / CALL / TAKE plus search.
 - Taxonomy: **WATCH** (worth acting on), **SKIP** (hype / ignore), **CALL** (a decision is overdue), **TAKE** (Krish's opinion). Renamed from the previous SIGNAL / NOISE / DECISION / TAKE set.
 - Data source: still inlined sample cards for now. `get-ai-news` edge function schema remains in place for eventual dynamic feed.
@@ -171,7 +174,7 @@ The next-cohort date is displayed on `/cohort` only. When Supabase `cohort_dates
 
 ## Operator's Edge (v5)
 
-Homepage section: `src/components/OperatorsEdge.tsx`. Dark-bg, typography-only section between `TrustSection` and `OperatorsBrief`. "BEYOND PATTERN RECOGNITION" is the dominant wordmark; three glass tiles (Architecture / Optimization / Memory) follow. Primary CTA to `/enterprise#revenue-architecture`, secondary muted link to `/operator`.
+Homepage section: `src/components/OperatorsEdge.tsx`. Dark-bg section between `FrameworkJourney` and `OperatorsBrief`. The heading "Beyond *pattern* recognition" is retypeset to match the FrameworkJourney header scale exactly — `text-[1.35rem] sm:text-3xl md:text-4xl lg:text-5xl font-bold`, partial-mint treatment on "pattern" only, no drop-shadow glow. Reads as a clear new section via the `WHO YOU'RE WORKING WITH` eyebrow, hairline top border, and gradient background tonal shift. Lead line is the anti-consultant statement (pulled from a top-of-file constant so Krish can edit in one place). Three glass tiles (Architecture / Optimization / Memory) follow. Primary CTA to `/enterprise#revenue-architecture`, secondary muted link to `/operator`.
 
 Dedicated page: `src/pages/Operator.tsx` at `/operator`. Hero → thesis (no tool names listed) → 5-cluster static agent diagram (14 named agents) → four extractable lessons → commercial crossover. Page ends at the crossover CTA. OG type `article`. Tracked via `plausible('operator_page_cta_clicked')` on the Revenue Architecture CTA.
 

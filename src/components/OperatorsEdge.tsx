@@ -10,6 +10,11 @@ const fadeUp = {
   }),
 };
 
+// Copy lives up here so it's easy to tweak without hunting through markup.
+const LEAD_LINE = "I'm the anti-consultant. I don't deliver slides, I deliver systems.";
+const SUPPORTING_COPY =
+  "Mindmaker is me running a portfolio of agentic businesses, not writing about them. The playbook you'll see on a call is the same one my own systems run on.";
+
 const tiles = [
   {
     label: "Architecture",
@@ -44,36 +49,52 @@ const trackCta = (cta: string) => {
 
 const OperatorsEdge = () => {
   return (
-    <section className="relative py-20 sm:py-24 md:py-28 bg-ink text-white">
+    <section
+      className="relative border-t border-white/10 bg-gradient-to-b from-ink via-ink to-[#0a1612] text-white py-28 md:py-32"
+    >
       <div className="container-width max-w-5xl">
         <motion.div
-          className="text-center mb-10 md:mb-14"
+          className="text-center mb-12 md:mb-16"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeUp}
         >
-          <motion.h2
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight text-mint leading-[0.95] mb-6"
+          {/* Section eyebrow — matches other homepage sections */}
+          <motion.div
+            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.24em] text-mint/80 mb-5"
             variants={fadeUp}
             custom={0}
-            style={{ textShadow: "0 0 60px hsl(158 82% 73% / 0.25)" }}
           >
-            Beyond Pattern<br />Recognition
-          </motion.h2>
-          <motion.p
-            className="text-lg md:text-2xl font-semibold text-white leading-snug tracking-tight max-w-3xl mx-auto"
+            <span className="h-1 w-1 rounded-full bg-mint" />
+            Who you're working with
+          </motion.div>
+
+          {/* Heading — matches FrameworkJourney scale + partial-mint treatment */}
+          <motion.h2
+            className="text-[1.35rem] sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-5"
             variants={fadeUp}
             custom={1}
           >
-            I'm not theorizing about agentic business. I'm running one.
-          </motion.p>
+            Beyond <span className="text-mint">pattern</span> recognition
+          </motion.h2>
+
+          {/* Lead line — human voice, not AI-written */}
           <motion.p
-            className="mt-6 text-base md:text-lg text-white/70 leading-relaxed max-w-3xl mx-auto"
+            className="text-base md:text-lg text-white/70 leading-relaxed max-w-2xl mx-auto"
             variants={fadeUp}
             custom={2}
           >
-            Mindmaker sits on top of a 14-agent operating system managing a 13-venture portfolio. The memory architectures, cost optimization patterns, delegation frameworks, and agent boundaries I teach are pressure-tested daily in production. When you hire me, you're not buying theory. You're buying a playbook built under real operating constraints.
+            {LEAD_LINE}
+          </motion.p>
+
+          {/* Supporting paragraph — trimmed */}
+          <motion.p
+            className="mt-4 text-sm md:text-base text-white/50 leading-relaxed max-w-2xl mx-auto"
+            variants={fadeUp}
+            custom={3}
+          >
+            {SUPPORTING_COPY}
           </motion.p>
         </motion.div>
 
@@ -85,7 +106,7 @@ const OperatorsEdge = () => {
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, margin: "-50px" }}
-              custom={3 + i}
+              custom={4 + i}
               variants={fadeUp}
             >
               <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-mint mb-4">
@@ -106,7 +127,7 @@ const OperatorsEdge = () => {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-50px" }}
-          custom={6}
+          custom={7}
           variants={fadeUp}
         >
           <p className="text-sm md:text-base text-white/75">
@@ -126,7 +147,7 @@ const OperatorsEdge = () => {
               onClick={() => trackCta("operator")}
               className="text-white/70 hover:text-mint underline underline-offset-4"
             >
-              How I operate →
+              How I operate &rarr;
             </a>
           </p>
         </motion.div>

@@ -1,10 +1,43 @@
 # Decisions Log
 
-**Last Updated:** 2026-03-03
+**Last Updated:** 2026-04-23
 
 ---
 
 ## Brand & Product Decisions
+
+### 2026-04-23: Documentation Upgrade — Align all docs with v4/v5 barbell state
+
+**Decision:** Rewrite all business documentation and surgically update technical documentation to match the v4 barbell pivot and v5 Operator's Edge, as captured in `mindmaker_rebuild_brief_v4.md` and `CLAUDE.md`.
+
+**Context:**
+- `mindmaker_rebuild_brief_v4.md` and `CLAUDE.md` reflected the barbell (Cohort + Enterprise, no middle) and the Operator's Edge additions
+- Downstream documentation (README, PURPOSE, VALUE_PROP, ICP, SPRINTS, OUTCOMES, BRANDING, Master_Messaging, ARCHITECTURE, FEATURES, DEPLOYMENT, COMMON_ISSUES, REPLICATION_GUIDE) still referenced 4-Week and 90-Day sprints, Builder/Orchestrator ICPs, "What's your nervous decision?" as a CTA, "Signal Desk", SIGNAL/NOISE/DECISION/TAKE taxonomy, a standalone `/tool` page, the ChatBot, and CTRL / Builder Economy as Mindmaker products
+- Salespeople, content writers, and AI agents consuming the docs were getting stale answers
+
+**Key changes across docs:**
+- **Offers:** 4-Week / 90-Day / Extended Sprint → The AI Decision Cohort ($3,500/seat) + The Signal Session ($15k) + The Revenue Architecture ($60–100k). No middle tier. No 1:1 sprints on the public site.
+- **ICPs:** Builder / Orchestrator → AI leaders (cohort buyer) / AI products (enterprise buyer)
+- **CTA:** "What's your nervous decision?" → "Book a call" (as a button label everywhere; the diagnostic question can still appear in body copy)
+- **Editorial surface:** "Signal Desk" → "The Operator's Brief" at `/signal`
+- **Taxonomy:** SIGNAL / NOISE / DECISION / TAKE → WATCH / SKIP / CALL / TAKE
+- **Nervous Decision Machine:** standalone `/tool` page → embedded on homepage `OperatorsBrief` + `/signal`
+- **ChatBot / Ask Mindmaker:** retired → `PreCallQualifier` floating pill
+- **Builder Economy:** Mindmaker product → external sister domain (`thebuildereconomy.com`)
+- **Credential surfaces added:** `OperatorsEdge` homepage section + `/operator` page (v5)
+
+**Rationale:**
+- Documentation that contradicts the codebase produces bad content, bad pitches, and bad PRs
+- The v4 barbell is now ~2 months old in the codebase; salespeople reading docs had no authoritative reference
+- Consolidating sprint doc into `OFFERS.md` removes the "sprint" framing from contexts that no longer sell sprints
+
+**Files created:** `OFFERS.md`
+**Files deleted:** `SPRINTS.md`
+**Files rewritten:** `README.md`, `PURPOSE.md`, `VALUE_PROP.md`, `ICP.md`, `OUTCOMES.md`, `BRANDING.md`, `Master_Messaging_and_FAQ.md`, `ARCHITECTURE.md`, `FEATURES.md`, `DEPLOYMENT.md`, `COMMON_ISSUES.md`, `REPLICATION_GUIDE.md`
+**Files surgically updated:** `DESIGN_SYSTEM.md`, `VISUAL_GUIDELINES.md`, `HISTORY.md`, `DECISIONS_LOG.md`
+**Files left untouched:** `EXECUTIVE_SUMMARY.md`, `LLM_CRITICAL_THINKING_TRAINING.md`, `mindmaker_rebuild_brief_v4.md` (flagged as research / authoritative source respectively)
+
+---
 
 ### 2026-03-03: Comprehensive Sprint Documentation (SPRINTS.md)
 

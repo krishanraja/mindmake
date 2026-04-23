@@ -1,6 +1,6 @@
 # Visual Guidelines
 
-**Last Updated:** 2026-03-03
+**Last Updated:** 2026-04-23
 
 ---
 
@@ -417,42 +417,82 @@ Gaps:            gap-4 -> gap-6
 
 ---
 
-## Brand Vision 11/10 Visual Patterns
+## Homepage Visual Patterns (v4/v5 barbell)
 
-### Homepage Scroll Experience (7 Blocks)
+### Homepage scroll
 
-The homepage is a curated vertical scroll with these visual sections:
+The homepage is a curated vertical scroll. Authoritative source: `src/pages/Index.tsx`.
 
-| Block | Component | Visual Treatment |
-|-------|-----------|-----------------|
-| 1. Hero | `NewHero.tsx` | Full-viewport, dark ink background, particle animation, rotating nervous decisions, mint CTA |
-| 2. Framework Journey | `FrameworkJourney.tsx` | Three glass-card panels (Mind Set → Mind Map → Mind Make) with scroll-triggered animations |
-| 3. Who Is This For | `TheProblem.tsx` | Builder vs Orchestrator fork — two-column glass cards with video panels |
-| 4. Sprint Chooser | `ProductLadder.tsx` | 2-card grid (4-Week vs 90-Day), glass-card with mint accents |
-| 5. Trust Anchor | `TrustSection.tsx` | Krish headshot (circular, mint border), bio, stats, testimonials |
-| 6. News Ticker | `AINewsTicker.tsx` | Horizontal scroll, SIGNAL/NOISE/DECISION/TAKE color-coded badges |
-| 7. Final CTA | `SimpleCTA.tsx` | Dark CTA card, "You've been pitched enough.", mint button |
+| Block | Component | Visual treatment |
+|-------|-----------|------------------|
+| 1. Navigation | `Navigation.tsx` | Fixed top, mint "Book a call" CTA, hides on scroll-down |
+| 2. Hero | `NewHero.tsx` | Full-viewport dark ink, looping `/rising-cities.mp4` background, particle animation, rotating headlines, eyebrow "Questions I hear every week", mint CTA "Book a call", secondary "See how I work" |
+| 3. Y-Fork | `YFork.tsx` | Two-card glass layout — The Cohort ($3,500) vs Enterprise (from $15k) |
+| 4. Big Problem | `BigProblem.tsx` | Existential urgency frame |
+| 5. Trust Anchor | `TrustSection.tsx` | Krish headshot (circular, mint border), bio, testimonials carousel (COHORT-STYLE / ENTERPRISE tagged) |
+| 6. Framework Journey | `FrameworkJourney.tsx` | Three glass-card panels (Mind Set → Mind Map → Mind Make) with scroll-triggered animations |
+| 7. Operator's Edge | `OperatorsEdge.tsx` | Dark-bg typography-only credential section, "Beyond pattern recognition", three proof tiles, Revenue Architecture CTA |
+| 8. Operator's Brief teaser | `OperatorsBrief.tsx` | CSS-marquee `PriceTicker` + rotating plain-English interpretation line + compact Nervous Decision input + muted link to `/signal` |
+| 9. Final CTA | `SimpleCTA.tsx` | Dark CTA card, mint "Book a call" button |
+| 10. Footer | `Footer.tsx` | |
 
-### Media Easter Eggs — Visual Philosophy
+### Global overlays (above-scroll)
 
-Media is **discoverable**, not primary content. Users who explore get rewarded with richer content.
+Mounted in `src/App.tsx`:
+- `InitialConsultModal` — the single conversion surface
+- `PreCallQualifier` — floating pill bottom-right
+- `CookieConsent`
 
-**VideoDrawer:** Slide-out from right edge, spring animation, dark overlay (bg-ink/90), close button top-right. Trigger: click (default) or hover.
+### Operator's Edge (v5) — visual spec
 
-**AudioPlayer:** Compact pill shape (60px collapsed → expanded with title). Fixed bottom-right or inline. Mint play button, glass-card background.
+Dark-bg section positioned between `FrameworkJourney` and `OperatorsBrief`. Reads as a clear new section via:
+- `WHO YOU'RE WORKING WITH` eyebrow
+- Hairline top border
+- Gradient background tonal shift
+- Heading "Beyond *pattern* recognition" at exact `FrameworkJourney` scale: `text-[1.35rem] sm:text-3xl md:text-4xl lg:text-5xl font-bold`
+- Partial-mint treatment on "pattern" only, no drop-shadow glow
+- Three glass tiles: Architecture / Optimization / Memory
+- Primary CTA → `/enterprise#revenue-architecture`
+- Secondary muted link → `/operator`
+- Lead line (the anti-consultant statement) is a top-of-file constant in the component
 
-**ArtifactPreview:** Glass card with file icon, hover reveals image preview below. Click opens full-screen modal with dark overlay (bg-ink/95).
+Guardrails: no scrolling logs, no terminal aesthetics, no ASCII art, no interactive dashboards. Every claim passes the CMO-15-second test.
 
-**ExpandableQuote:** Glass card with Quote icon (mint). Short quote on load, full quote on click. "Click to read more" hint in mint.
+### Operator's Brief — visual spec
 
-### Sprint Detail Pages — Visual Structure
+**Homepage teaser (`OperatorsBrief.tsx`)** — minimal:
+- Continuous CSS-marquee `PriceTicker` with the canonical 7 models
+- Rotating plain-English interpretation line underneath (3 takes, 8s cross-fade)
+- Compact Nervous Decision input (`nervous-decision/Input.tsx` at compact size)
+- Muted "Open the full dashboard →" link to `/signal`
+- No card grid, no blog column
 
-Both sprint detail pages follow the same layout:
-1. Full-width header with title + tagline (mint accent)
-2. Glass-card arc section (weeks or months with numbered circles)
-3. Example nervous decisions grid (2-column, bg-ink/5 cards with CheckCircle icons)
-4. "What You Get" glass-card with CheckCircle list
-5. Bottom CTA glass-card with "What's your nervous decision?" button
+**Full dashboard (`Brief.tsx` at `/signal`):**
+- Extended PriceTicker
+- 3-card plain-English interpretation grid
+- Classified card archive with filter pills (WATCH / SKIP / CALL / TAKE) + search
+- Blog column
+- Full-size Nervous Decision input with example chips
+
+Taxonomy **WATCH / SKIP / CALL / TAKE** — replaces the previous SIGNAL / NOISE / DECISION / TAKE.
+
+### `/cohort` and `/enterprise` page structure
+
+Both pages follow a similar shape:
+1. Full-width header with eyebrow + title + price (mint accent)
+2. "What you get" glass-card block with CheckCircle list
+3. Format / cadence block (for cohort: weeks; for enterprise: days and phases)
+4. Example decisions or commercial problems grid (2-column, bg-ink/5 cards)
+5. Bottom CTA glass-card with **"Book a call"** button
+
+### Retired visual patterns (do not build)
+
+- Builder/Orchestrator fork (`TheProblem.tsx`) — replaced by `YFork`
+- 4-Week / 90-Day sprint chooser (`ProductLadder.tsx`) — replaced by `YFork`
+- AI News Ticker (`AINewsTicker.tsx`) with SIGNAL/NOISE/DECISION/TAKE badges — replaced by PriceTicker + Operator's Brief
+- ActionsHub side drawer — unmounted
+- `"What's your nervous decision?"` as a CTA button label — replaced by `"Book a call"` everywhere
+- Engine Room / mm-ctrl agent visualization — never built for homepage per CLAUDE.md guardrails
 
 ---
 

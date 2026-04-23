@@ -1,87 +1,103 @@
 # Purpose
 
-**Last Updated:** 2026-03-03
+**Last Updated:** 2026-04-23
 
 ---
 
 ## Mission
 
-Transform Mindmaker from "professional AI advisory site" to "the anti-consultancy for leaders who are done being sold AI and ready to use it." Help leaders make the nervous decisions they've been avoiding — and feel good about them.
+Mindmaker is **the anti-consultancy for leaders who are done being sold AI and ready to use it.** We turn AI chaos into direction for two audiences and nobody else: senior leaders wrestling with AI decisions, and companies commercializing AI products.
 
-**Brand North Star:** If Stripe's design sensibility met Anthony Bourdain's authenticity.
+Every offer has a fixed scope, a fixed outcome, and a finish line.
+
+**Brand North Star:** Stripe's design sensibility meets Anthony Bourdain's authenticity.
+
+---
+
+## The Business
+
+Mindmaker is a **barbell** with no middle tier:
+
+| End | Offer | Price | Buyer |
+|-----|-------|-------|-------|
+| Low | The AI Decision Cohort | $3,500/seat | Senior leader with a nervous AI decision |
+| High entry | The Signal Session | $15,000 | Company commercializing an AI product |
+| High flagship | The Revenue Architecture | $60,000–$100,000 | Same, needing a full commercial rebuild |
+
+The cohort runs on content distribution and turns an audience into paying customers. Enterprise runs on inbound plus targeted outbound. The cohort is the flywheel that feeds the enterprise funnel.
+
+---
+
+## What We Do Not Sell
+
+- No 1:1 sprint products on the public site (inquiry-only if specifically requested)
+- No fractional executive roles (no fractional CAIO, CTO, CMO)
+- No ongoing retainers or month-to-month work
+- No production IT, deployment, or implementation services
+- No hourly billing
+- No 40-slide strategy decks
+- No tool recommendations without trade-off analysis
 
 ---
 
 ## Vision
 
-A world where business leaders stop talking about AI and start using it. Where "AI strategy" means deployed systems and defensible decisions — not slide decks and vendor theatre. Where leaders feel calm confidence, not anxiety, when the board asks about AI.
+A world where senior leaders stop talking about AI and start using it. Where "AI strategy" means a deployed system and a defensible decision, not a slide deck and vendor theatre. Where companies commercializing AI stop confusing capability with revenue and learn to translate one into the other.
 
 ---
 
 ## Core Objectives
 
-### 1. Turn AI Chaos Into Calm
-- Leaders arrive with anxiety and leave with decisions
-- Cut noise into signal using Mind Set → Mind Map → Mind Make
-- Working systems, not strategy decks
+### 1. Make the cohort the default room for senior AI decisions
+- 10–15 seats per cohort, 4 cohorts per year
+- Members show up with a nervous decision and leave with a board-ready position
+- Peer pressure and accountability do what a deck cannot
 
-### 2. Make Nervous Decisions Stick
-- Name the anxiety. Map the options. Decide. Ship.
-- Board-ready memos, not 40-slide presentations
-- Trade-off analysis that's defensible and real
+### 2. Turn AI capability into revenue for enterprise buyers
+- The Signal Session (1 day, $15k) surfaces the real commercial problem
+- The Revenue Architecture (8–12 weeks, $60–100k) ships the positioning, pricing, and GTM that makes the AI investment pay back
+- Operator credentials — real P&L experience plus an agentic OS Krish runs every day — make the engagement expensive to ignore
 
-### 3. Build Lasting Decision Capability
-- Framework thinking (Mind Set → Mind Map → Mind Make) outlives any tool
-- Builder or Orchestrator — both paths lead to clear direction
-- Independence: success = you don't need us anymore
+### 3. Preserve the barbell
+- No middle tier. Ever.
+- No scope creep into retainers.
+- Every engagement has a finish line.
 
-### 4. Meet Leaders at Their Nervous Decision
-- Two sprint options: 4-Week (one decision) or 90-Day (full journey)
-- No coding required. No prep required.
-- "What's your nervous decision?" — start there
+### 4. Keep the framework portable
+- Mind Set → Mind Map → Mind Make outlives any tool, model, or vendor
+- Success = you don't need us anymore
 
 ---
 
 ## What Success Looks Like
 
-**For a 4-Week Sprint Leader:**
-- Made one clear, defensible decision about AI
-- Has a board-ready decision memo they feel confident about
-- Stopped dreading the next AI conversation
-- ROI framework to measure success in 3/6/12 months
+**For a cohort seat holder:**
+- One nervous AI decision resolved with a board-ready position
+- Peer network of 10–15 senior leaders working the same problems
+- A framework for the next decision, not dependence on us
 
-**For a 90-Day Sprint Leader:**
-- 3-5 deployed AI systems (working, measured, documented)
-- 2-3 strategic decisions resolved with trade-off memos
-- 12-month AI roadmap with clear gates and owners
-- Board-level confidence on AI direction
+**For an enterprise Signal Session buyer:**
+- One day, one room, one commercial problem named and framed
+- A prioritized thesis on what to do in the next 90 days
+- A clear decision on whether the Revenue Architecture is worth it
 
-**For Both:**
-- Calm clarity where there was chaos
-- Decisions that stick because they understand the "why"
-- A framework (Mind Set → Mind Map → Mind Make) they can apply independently
+**For an enterprise Revenue Architecture buyer:**
+- Positioning, pricing, and GTM rebuilt around the AI capability
+- A 12-month commercial roadmap with gates and owners
+- A board-ready narrative that translates AI into revenue
 
 ---
 
 ## Anti-Goals (What We Explicitly Don't Do)
 
-- Sell AI tools or platforms
+- Sell AI tools, platforms, or software subscriptions
 - Deliver generic AI training or certifications
 - Create 40-slide strategy decks
 - Use the words "transformation", "synergy", or "leverage"
-- Promise ROI without doing the work
+- Run ongoing retainers or fractional roles
 - Create dependency (success = you don't need us)
 - Pitch vendors or recommend tools without trade-off analysis
-
----
-
-## Target Impact
-
-By end of 2026, Mindmaker aims to:
-- Help 200+ leaders make their nervous decisions
-- Deploy 1,000+ working AI systems through sprints
-- Achieve 90%+ "calm confidence" rating from sprint graduates
-- Establish Mind Set → Mind Map → Mind Make as a recognized framework
+- Promote a 1:1 sprint product on the public site
 
 ---
 

@@ -1,6 +1,6 @@
 # Design System
 
-**Last Updated:** 2026-03-03
+**Last Updated:** 2026-04-23
 
 ---
 
@@ -455,22 +455,28 @@ On white/light backgrounds, always use `text-foreground`, `text-ink`, or `text-m
 <Button
   size="lg"
   className="bg-mint text-ink hover:bg-mint/90 font-semibold px-8 py-6 text-lg"
-  onClick={() => setConsultModalOpen(true)}
+  onClick={() => window.dispatchEvent(new CustomEvent('openConsultModal'))}
 >
-  What's your nervous decision?
+  Book a call
 </Button>
 ```
 
-### Sprint Cards (2-Card Layout)
+Primary CTA copy is always **"Book a call"** — no conditional labels. The previous `"What's your nervous decision?"` button copy has been retired. All CTAs open the global `InitialConsultModal` via the `openConsultModal` custom event.
+
+### Y-Fork Cards (homepage 2-card layout)
+Replaces the old `ProductLadder` 4-Week / 90-Day sprint chooser.
+
 ```tsx
 <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
   <div className="glass-card p-8 hover:border-mint/40 transition-all">
-    <h3 className="text-3xl font-bold mb-2">4-Week Sprint</h3>
-    <p className="text-xl text-mint">One decision. Four weeks. Board-ready.</p>
+    <p className="text-xs tracking-widest text-muted-foreground">THE COHORT</p>
+    <h3 className="text-3xl font-bold mb-2">Make your AI decisions with 15 other senior leaders.</h3>
+    <p className="text-xl text-mint">$3,500 per seat</p>
   </div>
   <div className="glass-card p-8 hover:border-mint/40 transition-all">
-    <h3 className="text-3xl font-bold mb-2">90-Day Sprint</h3>
-    <p className="text-xl text-mint">Mind Set → Mind Map → Mind Make.</p>
+    <p className="text-xs tracking-widest text-muted-foreground">ENTERPRISE</p>
+    <h3 className="text-3xl font-bold mb-2">Your AI capabilities, translated into revenue.</h3>
+    <p className="text-xl text-mint">From $15,000</p>
   </div>
 </div>
 ```
@@ -478,15 +484,24 @@ On white/light backgrounds, always use `text-foreground`, `text-ink`, or `text-m
 ### Framework Journey (Mind Set → Mind Map → Mind Make)
 Three-panel layout with scroll-triggered animations. Each panel uses `glass-card` with animated content inside. See `FrameworkJourney.tsx`.
 
-### Builder/Orchestrator Fork
-Two-column layout on desktop, stacked on mobile. Glass cards with distinct copy for each ICP. See `TheProblem.tsx`.
+### Operator's Edge (v5)
+Dark-bg typography-only section matching `FrameworkJourney` header scale exactly (`text-[1.35rem] sm:text-3xl md:text-4xl lg:text-5xl font-bold`). Partial-mint on the word "pattern" only, no drop-shadow glow. Three glass tiles (Architecture / Optimization / Memory). See `OperatorsEdge.tsx`.
 
-### Media Easter Eggs
-Discoverable components, not main content:
-- `VideoDrawer`: Slide-out video player (Framer Motion spring animation)
-- `AudioPlayer`: Expandable audio with play/pause (fixed or inline positioning)
-- `ArtifactPreview`: Hover-to-reveal with full-view modal
-- `ExpandableQuote`: Click-to-expand testimonial quotes
+**Guardrails:** no scrolling logs, no terminal aesthetics, no ASCII art, no interactive dashboards.
+
+### Price Ticker
+`PriceTicker.tsx` — CSS-marquee, no native scrollbar, pauses on hover, respects `prefers-reduced-motion`. Used on homepage `OperatorsBrief` teaser and on `/signal`.
+
+### Nervous Decision Input
+`nervous-decision/Input.tsx` renders compact (homepage teaser) or full (`/signal`) sizes. `nervous-decision/Artifact.tsx` renders the typed response.
+
+### Retired component patterns (do not reference)
+
+- `TheProblem.tsx` Builder/Orchestrator fork — replaced by `YFork` (AI leaders vs AI products)
+- `ProductLadder.tsx` 4-Week vs 90-Day sprint chooser — replaced by `YFork`
+- `AINewsTicker.tsx` with SIGNAL/NOISE/DECISION/TAKE badges — replaced by `OperatorsBrief` + full dashboard at `/signal` with WATCH/SKIP/CALL/TAKE taxonomy
+- `ActionsHub` side drawer and Interactive decision tools — unmounted
+- Media Easter Egg components (`VideoDrawer`, `AudioPlayer`, `ArtifactPreview`, `ExpandableQuote`) — not in current homepage; kept in `src/components/MediaEasterEggs/` for possible future use
 
 ---
 

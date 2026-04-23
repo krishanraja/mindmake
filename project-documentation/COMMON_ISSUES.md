@@ -1,188 +1,161 @@
 # Common Issues
 
-**Last Updated:** 2026-03-03
+**Last Updated:** 2026-04-23
 
 ---
 
 ## Brand & Content Issues
 
-### Issue: Old Product Names in Copy
-**Symptom:** References to "Builder Session", "Leadership Lab", "Portfolio Program"
-**Cause:** Legacy copy not updated to new brand spec
-**Solution:** Replace with current product names:
-- "Builder Session" → removed (no replacement)
-- "Leadership Lab" → mentioned post-engagement only, not a public product
-- "Portfolio Program" → by referral only, no public page
-- Use "4-Week Sprint" and "90-Day Sprint" exclusively
+### Issue: Retired product names in copy
+**Symptom:** References to "4-Week Sprint", "90-Day Sprint", "Builder Sprint", "Builder Session", "Leadership Lab", "Portfolio Partner", "Fractional CAIO", "Signal Desk", "Ask Mindmaker" / "Chat with Krish", or `"What's your nervous decision?"` as a CTA button label.
 
-**Prevention:** Check all copy against BRANDING.md terminology standards
+**Cause:** Legacy copy not updated to current spec.
 
----
+**Solution:** Replace with current terminology:
+- Offers → **The AI Decision Cohort**, **The Signal Session**, **The Revenue Architecture**
+- `/signal` label → **The Brief** / **The Operator's Brief**
+- Primary CTA label → **"Book a call"** (everywhere, no conditional labels)
+- ChatBot surface → retired; replaced by `PreCallQualifier` floating pill
 
-### Issue: Old CTA Language
-**Symptom:** "Book a discovery call", "Book your session", etc.
-**Cause:** Legacy CTA copy not updated
-**Solution:** Primary CTA everywhere: "What's your nervous decision?"
-**Supporting CTAs:** "Start the Conversation", "Start 4-Week Sprint", "Start 90-Day Sprint"
-
-**Prevention:** Check BRANDING.md for approved CTA language
+See `BRANDING.md` and `FEATURES.md` for the complete retired-concepts list.
 
 ---
 
-### Issue: Mint Text on Light Backgrounds
-**Symptom:** Text using `text-mint` class on white/light backgrounds is hard to read
-**Cause:** Mint (#7ef4c2) has poor contrast ratio against light backgrounds
-**Solution:** Never use `text-mint` on light backgrounds. Use `text-foreground` or `text-ink` instead.
+### Issue: `"What's your nervous decision?"` used as a CTA button
+**Symptom:** Button copy reads "What's your nervous decision?" somewhere.
+**Cause:** Legacy CTA from the pre-v4 branding.
+**Solution:** Replace with `"Book a call"`. All CTAs open the global `InitialConsultModal` via `window.dispatchEvent(new CustomEvent('openConsultModal'))`.
 
-**WCAG Rule:**
-```tsx
-// NEVER DO THIS on light backgrounds
-<div className="bg-background">
-  <p className="text-mint">Can't read this</p>
-</div>
-
-// DO THIS instead
-<div className="bg-background">
-  <p className="text-foreground">Readable text</p>
-</div>
-
-// Mint is OK on dark backgrounds
-<div className="bg-ink">
-  <p className="text-mint">This is fine</p>
-</div>
-```
+Note: the phrase "what's your nervous decision" can still appear in body copy as a diagnostic question ("What's the nervous decision you've been avoiding?"), but never as a CTA button label.
 
 ---
 
-## Recently Fixed Issues
-
-### FIXED: Hero Scrollbar Flash on Page Load (2026-01-08 - PERMANENT FIX)
-**Symptom:** Horizontal scrollbar briefly appeared during first ~2 seconds of page load
-**Root Cause:** 17 contributing factors including CSS race conditions, font loading, animation overflow, and viewport units
-
-**Permanent Solution:** Defense-in-depth architecture with 7 overlapping prevention layers:
-1. HTML-level inline CSS preventing overflow before any stylesheets load
-2. New `@layer hero` that loads BEFORE base layer
-3. Removed all inline `<style>` tags from component
-4. `hero-decoration` class on all background elements with overflow containment
-5. Removed Framer Motion `y` transforms (opacity-only animations)
-6. Replaced `min-h-screen` (100vh) with `min-h-[100dvh]` for mobile
-7. CSS fallback for older browsers
+### Issue: Wrong Operator's Brief taxonomy
+**Symptom:** Cards labelled SIGNAL / NOISE / DECISION / TAKE.
+**Cause:** Old taxonomy.
+**Solution:** Use WATCH / SKIP / CALL / TAKE. This is enforced in `src/pages/Brief.tsx` filter pills and card badges.
 
 ---
 
-### FIXED: Side Drawer Content Cut Off (2026-01-06)
-**Symptom:** "Actions" header hidden behind navbar on desktop
-**Solution:** CSS variables for navbar height + `.sheet-navbar-aware` class
+### Issue: Builder Economy positioned as a Mindmaker product
+**Symptom:** Copy says "Mindmaker arms the leaders of the Builder Economy" or similar, or links `/builder-economy` internally.
+**Cause:** Pre-v4 framing.
+**Solution:** Builder Economy is now a **separate sister domain** at `thebuildereconomy.com`. `/builder-economy` route redirects externally via `ExternalRedirect`. Reference it only in the Resources dropdown as "The Builder Economy (Podcast)".
 
 ---
 
-### FIXED: Text Contrast on Dark Backgrounds (2026-01-05)
-**Symptom:** `text-white/80` on dark ink backgrounds failed WCAG AA
-**Solution:** `.dark-cta-card` class and `text-dark-card-*` utilities
-
-**Prevention:** Never use `text-white/80` on dark backgrounds. Use `.dark-cta-card` or `text-dark-card-*`.
+### Issue: `/tool` page linked internally
+**Symptom:** An internal link points to `/tool`.
+**Cause:** `/tool` was the standalone Nervous Decision Machine page — now deleted.
+**Solution:** Link to `/signal#decision` instead. The Nervous Decision Machine is now embedded on the homepage `OperatorsBrief` and on `/signal`.
 
 ---
 
-### FIXED: Builder Profile Returns Generic Output
-**Symptom:** Profile shows generic outputs instead of CEO-grade insights
-**Cause:** `widgetMode: 'tryit'` triggering wrong system prompt
-**Solution:** Mode detection from message content, minimal system prompt for Builder Profile
+### Issue: Decision Readiness Diagnostic linked from nav or footer
+**Symptom:** A link to `/leaders` appears in `Navigation.tsx` or `Footer.tsx`.
+**Cause:** Pre-v4 framing — the diagnostic was a primary lead-gen surface.
+**Solution:** The diagnostic is unlinked from nav and footer by design. It's reachable only by direct URL (`/leaders` or `/leadership-insights`) for deep-link and outbound campaigns. Do not re-add to nav.
+
+---
+
+### Issue: Mint text on light backgrounds (WCAG fail)
+**Symptom:** `text-mint` used on `bg-background` or any white/light surface.
+**Solution:** Never `text-mint` on light. Use `text-foreground` or `text-ink` on light; `text-dark-card-*` on dark.
 
 ---
 
 ## Edge Function Issues
 
-### Issue: GOOGLE_SERVICE_ACCOUNT_KEY Not Working
-**Symptom:** "Ask Mindmaker" chatbot returns fallback message
-**Cause:** Service account key not configured or malformed JSON
+### Issue: Nervous Decision Machine returns no response
+**Symptom:** `/signal` or homepage machine returns fallback or nothing.
+**Cause:** Missing `ANTHROPIC_API_KEY` or rate limit hit.
 **Solution:**
-1. Verify `GOOGLE_SERVICE_ACCOUNT_KEY` exists in Supabase secrets
-2. Ensure value is valid JSON (not base64 encoded)
-3. Check service account has Vertex AI permissions
-4. Verify project ID matches: `gen-lang-client-0174430158`
+1. Verify `ANTHROPIC_API_KEY` set in Supabase secrets
+2. Check `nervous-decision-machine` logs for 429 (per-IP rate limit is 1 hour) or global ceiling trip
+3. Verify model ID `claude-haiku-4-5-20251001` still valid
 
 ---
 
-### Issue: LOVABLE_API_KEY Not Configured
-**Symptom:** AI news ticker shows only fallback headlines
-**Cause:** `LOVABLE_API_KEY` not provisioned
+### Issue: PriceTicker shows empty / stale data
+**Symptom:** `PriceTicker.tsx` renders blank or old models.
+**Cause:** `get-model-data` edge function failure or `ALLOWED_MODEL_IDS` allowlist drift.
 **Solution:**
-1. Verify Lovable Cloud is enabled
-2. Check if `LOVABLE_API_KEY` exists in secrets
-3. Try disabling and re-enabling Lovable Cloud
+1. Check `get-model-data` logs
+2. Verify `ALLOWED_MODEL_IDS` in `src/hooks/useModelData.ts` matches current canonical set (Opus 4.7, Sonnet 4.6, Haiku 4.5, Gemini 2.5 Pro, Gemini 2.5 Flash, GPT-5, GPT-5 Mini)
 
 ---
 
-### Issue: Email Send Failures (Resend)
-**Symptom:** Leads not receiving confirmation
-**Cause:** Resend API failure, rate limiting, or domain not verified
+### Issue: Email send failures (Resend)
+**Symptom:** Leads not receiving emails, Krish not receiving notifications.
+**Cause:** Resend API failure, rate limiting, or domain not verified.
 **Solution:**
 1. Check Resend dashboard for delivery status
-2. Verify sending domain is verified
-3. Check edge function logs for retry attempts
+2. Verify sending domain is verified (not using Resend test domain)
+3. Check edge function logs for retry backoff (3 attempts)
 
 ---
 
-### Issue: Edge Function Not Found (404)
-**Symptom:** `Failed to send request to Edge Function`
-**Solution:** Wait 30-60 seconds after code push for deployment
+### Issue: Edge function 404 after deploy
+**Symptom:** "Failed to send request to Edge Function".
+**Cause:** Propagation lag.
+**Solution:** Wait 30–60 seconds after push.
 
 ---
 
-### Issue: CORS Preflight Failure
-**Symptom:** OPTIONS request returns error
-**Solution:**
+### Issue: CORS preflight failure
+**Solution:** Ensure OPTIONS handler returns:
 ```typescript
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
-
-if (req.method === 'OPTIONS') {
-  return new Response(null, { headers: corsHeaders });
-}
+if (req.method === 'OPTIONS') return new Response(null, { headers: corsHeaders });
 ```
 
 ---
 
 ## Frontend Issues
 
-### Issue: Old URLs Return 404
-**Symptom:** `/builder-session`, `/leadership-lab`, `/portfolio-program` show 404
-**Cause:** Pages removed but redirects not configured
-**Solution:** Redirects are configured in App.tsx:
-```typescript
-<Route path="/builder-session" element={<Navigate to="/" replace />} />
-<Route path="/leadership-lab" element={<Navigate to="/" replace />} />
-<Route path="/portfolio-program" element={<Navigate to="/" replace />} />
-<Route path="/builder-sprint" element={<Navigate to="/sprints" replace />} />
-```
-**Note:** If 404 still appears, verify these routes exist in App.tsx
+### Issue: Old URLs return 404
+**Symptom:** `/sprint/4-week`, `/war-room`, `/fractional-caio` etc. show 404.
+**Cause:** Redirect not configured.
+**Solution:** Redirects are defined in `src/App.tsx` via `<HashRedirect />` and `<Navigate />`. See `ARCHITECTURE.md` for the full redirect map. If 404 still appears, verify `App.tsx` has the correct `<Route>` entry.
 
 ---
 
-### Issue: Modal State Persists After Navigation
-**Symptom:** Modal opens automatically on page load
-**Cause:** React state not cleaned up on unmount
-**Solution:** Add cleanup in useEffect
+### Issue: Builder Economy link returns internal 404 or loops
+**Symptom:** `/builder-economy` not redirecting externally.
+**Cause:** `ExternalRedirect` component missing or misconfigured.
+**Solution:** Verify `ExternalRedirect` is used: `<Route path="/builder-economy" element={<ExternalRedirect to="https://www.thebuildereconomy.com" />} />`.
 
 ---
 
-### Issue: Hardcoded Colors Break Theme
-**Symptom:** Elements don't respect design system
-**Cause:** Using `bg-[#hexcode]` instead of semantic tokens
-**Solution:** Use `bg-mint`, `text-ink`, etc.
+### Issue: `InitialConsultModal` doesn't open from a button
+**Symptom:** CTA click does nothing.
+**Cause:** Button not dispatching the custom event.
+**Solution:** Use `window.dispatchEvent(new CustomEvent('openConsultModal', { detail: { preselected?: string } }))`. The modal listens globally from `src/App.tsx`.
+
+---
+
+### Issue: PreCallQualifier doesn't render
+**Symptom:** Floating pill missing.
+**Cause:** Component not mounted.
+**Solution:** Confirm `<PreCallQualifier />` is mounted in `src/App.tsx` alongside the other global overlays.
+
+---
+
+### Issue: Hardcoded colors break theme
+**Symptom:** Elements ignore design tokens.
+**Solution:** Use `bg-mint`, `text-ink`, `border-border` — never `bg-[#7ef4c2]` or `text-[#0e1a2b]`.
 
 ---
 
 ## Design System Issues
 
-### Issue: Poor Text Contrast on Dark Backgrounds
+### Issue: Poor text contrast on dark backgrounds
 **Solution:**
 ```tsx
-// NEVER on dark backgrounds
+// NEVER
 <div className="bg-ink">
   <p className="text-white/80">Hard to read</p>
 </div>
@@ -194,35 +167,36 @@ if (req.method === 'OPTIONS') {
 </div>
 ```
 
----
-
-### Issue: Inconsistent Spacing
-**Solution:** Use spacing scale: 4, 8, 12, 16, 24, 32, 48, 64, 80
+### Issue: Operator's Edge heading looks larger/smaller than FrameworkJourney
+**Symptom:** Visual inconsistency between sections.
+**Solution:** Exact class on both headings: `text-[1.35rem] sm:text-3xl md:text-4xl lg:text-5xl font-bold`. Mint treatment applies only to the word "pattern" in Operator's Edge.
 
 ---
 
 ## Build Issues
 
-### Issue: Build Fails with TypeScript Error
+### Issue: Build fails with TypeScript error
 **Solution:**
-1. Check error message for specific file/line
-2. Verify imports are correct
+1. Check error message for file/line
+2. Verify imports
 3. Run `npm run build` locally before pushing
 
-### Issue: Missing Dependency Error
-**Solution:** `npm install [package-name] --save`
+### Issue: Sitemap not regenerated
+**Cause:** `scripts/generate-sitemap.mjs` failed silently during `npm run build`.
+**Solution:** Check build log for sitemap step. Build chain is Vite → `generate-sitemap.mjs` → `prerender.mjs`.
 
 ---
 
 ## Known Limitations
 
-### No User Authentication
-**Impact:** Can't track user history, save preferences
-**Workaround:** Use Calendly for identity
-**Future:** Implement Supabase Auth when needed
+### No user authentication
+No user accounts; all bookings via Calendly. No plan to change unless a client portal is built.
 
-### Manual Stripe Capture
-**Status:** Stripe integration paused — direct Calendly booking
+### Stripe authorization hold bypassed
+`create-consultation-hold` exists but is not wired into the booking flow. Direct Calendly booking is live.
+
+### Cohort date hardcoded
+The next-cohort date is a literal in `Cohort.tsx`. When Supabase `cohort_dates` is wired up, replace the literal. Until then, update on each cohort release.
 
 ---
 
@@ -232,18 +206,18 @@ When investigating issues:
 
 1. Check browser console for errors
 2. Check network tab for failed requests
-3. Check Supabase/Lovable Cloud logs for edge function errors
-4. Verify environment variables are set
+3. Check Lovable Cloud / Supabase logs for edge function errors
+4. Verify secrets (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `RESEND_API_KEY`, `LOVABLE_API_KEY`)
 5. Test on mobile viewport (375px width)
 6. Hard refresh to clear cache
-7. Verify edge functions deployed (check timestamp)
+7. Verify edge functions deployed (check timestamp, 30–60s propagation)
 8. Check for TypeScript errors in build
-9. Verify correct system prompt being used (for AI features)
-10. Check Vertex AI/OpenAI quota and limits
+9. Verify correct system prompt on `nervous-decision-machine`
+10. Check Anthropic / OpenAI quota + rate limits
 11. Verify WCAG contrast on dark backgrounds
-12. Check for CSS layer/specificity conflicts
-13. Verify no old product names in new copy
-14. Verify brand voice compliance (see BRANDING.md)
+12. Confirm `InitialConsultModal` listens for `openConsultModal` custom event
+13. Verify no retired product names in new copy
+14. Verify brand voice compliance (see `BRANDING.md`)
 
 ---
 

@@ -92,7 +92,7 @@ const NewHero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.6 }}
         >
-          1:1 sprints that turn AI chaos into direction.
+          Cohorts and enterprise sprints that turn AI chaos into direction.
         </motion.p>
 
         {/* CTAs */}

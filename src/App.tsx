@@ -22,8 +22,9 @@ import PreCallQualifier from "@/components/PreCallQualifier";
 import Index from "./pages/Index";
 
 // All other pages lazy-loaded for smaller initial bundle
-const Sprints = lazy(() => import("./pages/Sprints"));
+const Cohort = lazy(() => import("./pages/Cohort"));
 const Enterprise = lazy(() => import("./pages/Enterprise"));
+const Operator = lazy(() => import("./pages/Operator"));
 const Signal = lazy(() => import("./pages/Signal"));
 const Tool = lazy(() => import("./pages/Tool"));
 const BuilderEconomy = lazy(() => import("./pages/BuilderEconomy"));
@@ -70,8 +71,9 @@ const AppRoutes = () => {
             <Route path="/" element={<Index />} />
 
             {/* Core consolidated pages */}
-            <Route path="/sprints" element={<Sprints />} />
+            <Route path="/cohort" element={<Cohort />} />
             <Route path="/enterprise" element={<Enterprise />} />
+            <Route path="/operator" element={<Operator />} />
             <Route path="/signal" element={<Signal />} />
             <Route path="/tool" element={<Tool />} />
 
@@ -87,9 +89,10 @@ const AppRoutes = () => {
             <Route path="/terms" element={<Terms />} />
 
             {/* 301 redirects (client-side) for deleted routes */}
-            <Route path="/sprint/4-week" element={<HashRedirect to="/sprints#builder" />} />
-            <Route path="/sprint/90-day" element={<HashRedirect to="/sprints#builder" />} />
-            <Route path="/builder-sprint" element={<HashRedirect to="/sprints#builder" />} />
+            <Route path="/sprints" element={<HashRedirect to="/cohort" />} />
+            <Route path="/sprint/4-week" element={<HashRedirect to="/cohort?inquiry=1:1" />} />
+            <Route path="/sprint/90-day" element={<HashRedirect to="/cohort?inquiry=1:1" />} />
+            <Route path="/builder-sprint" element={<HashRedirect to="/cohort?inquiry=1:1" />} />
             <Route path="/war-room" element={<HashRedirect to="/enterprise#revenue-architecture" />} />
             <Route path="/strategy-day" element={<HashRedirect to="/enterprise#signal-session" />} />
             <Route path="/fractional-caio" element={<HashRedirect to="/enterprise" />} />

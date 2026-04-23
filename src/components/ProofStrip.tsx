@@ -11,7 +11,10 @@ const fadeUp = {
   }),
 };
 
+type ProofTag = "COHORT-STYLE" | "ENTERPRISE";
+
 type ProofCard = {
+  tag: ProofTag;
   role: string;
   context: string;
   walkedInWith: string;
@@ -23,6 +26,7 @@ type ProofCard = {
 
 const cards: ProofCard[] = [
   {
+    tag: "COHORT-STYLE",
     role: "SVP, Top-10 US Digital Publisher",
     context: "14 AI vendors pitched in Q3. Board asking for an AI roadmap.",
     walkedInWith: "I need an AI strategy and I don't know where to start.",
@@ -33,6 +37,7 @@ const cards: ProofCard[] = [
     shippedMetric: "40% faster content ops. No new headcount.",
   },
   {
+    tag: "COHORT-STYLE",
     role: "Head of Strategy, Legacy Broadcast Business",
     context: "Team of 4. $250k budget. No mandate.",
     walkedInWith: "Everyone on my team is using different AI tools. It's chaos.",
@@ -43,6 +48,7 @@ const cards: ProofCard[] = [
     shippedMetric: "Fractional role converted to permanent CAIO seat.",
   },
   {
+    tag: "ENTERPRISE",
     role: "Founder, Series B Adtech",
     context: "6 months into a custom AI build. Investors asking hard questions.",
     walkedInWith: "I want to build an AI assistant that knows our business.",
@@ -77,14 +83,17 @@ const ProofStrip = () => {
           {cards.map((card, i) => (
             <motion.article
               key={i}
-              className="editorial-card glass-card p-7 flex flex-col h-full border border-border/50 hover:border-mint/30 transition-colors"
+              className="editorial-card glass-card p-7 flex flex-col h-full border border-border/50 hover:border-mint/30 transition-colors relative"
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, margin: "-50px" }}
               custom={i}
               variants={fadeUp}
             >
-              <div className="space-y-5 flex-1">
+              <span className="absolute top-5 right-5 inline-flex items-center px-2 py-1 rounded-full text-[9px] font-bold uppercase tracking-[0.14em] border border-mint/30 bg-mint/10 text-mint-dark dark:text-mint">
+                {card.tag}
+              </span>
+              <div className="space-y-5 flex-1 pr-24">
                 <div>
                   <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground mb-1.5">
                     Role
@@ -137,13 +146,25 @@ const ProofStrip = () => {
 
         <div className="flex flex-col items-center gap-4">
           <p className="text-lg font-semibold">Could this be your decision?</p>
-          <Button
-            size="lg"
-            className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold px-8"
-            onClick={() => window.dispatchEvent(new CustomEvent("openConsultModal"))}
-          >
-            Book a call <ArrowRight className="ml-2 w-4 h-4" />
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Button
+              asChild
+              size="lg"
+              className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold px-8"
+            >
+              <a href="/cohort">
+                Join the next cohort <ArrowRight className="ml-2 w-4 h-4" />
+              </a>
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="font-bold px-8"
+              onClick={() => window.dispatchEvent(new CustomEvent("openConsultModal"))}
+            >
+              Book an enterprise call
+            </Button>
+          </div>
         </div>
       </div>
     </section>

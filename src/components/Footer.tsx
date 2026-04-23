@@ -16,54 +16,37 @@ const Footer = () => {
               </p>
             </div>
 
-            {/* Sprints */}
+            {/* Work with me */}
             <div className="flex flex-col gap-4">
               <h4 className="text-sm font-bold text-foreground uppercase tracking-wider mb-2">
-                Sprints
+                Work with me
               </h4>
               <nav className="flex flex-col gap-3">
                 <a
-                  href="/sprints#builder"
+                  href="/cohort"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
-                  Builder Sprints
+                  The AI Decision Cohort
                 </a>
                 <a
-                  href="/sprints#orchestrator"
+                  href="/enterprise#signal-session"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
-                  Orchestrator Sprints
+                  The Signal Session
                 </a>
                 <a
-                  href="/sprints"
+                  href="/enterprise#revenue-architecture"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
-                  All Sprints
+                  The Revenue Architecture
+                </a>
+                <a
+                  href="/enterprise"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
+                >
+                  All Enterprise
                 </a>
               </nav>
-              <div className="mt-4 pt-3 border-t border-border/30">
-                <p className="text-xs text-muted-foreground/60 uppercase tracking-wider mb-2">Enterprise</p>
-                <nav className="flex flex-col gap-3">
-                  <a
-                    href="/enterprise#signal-session"
-                    className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
-                  >
-                    The Signal Session
-                  </a>
-                  <a
-                    href="/enterprise#revenue-architecture"
-                    className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
-                  >
-                    The Revenue Architecture
-                  </a>
-                  <a
-                    href="/enterprise"
-                    className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
-                  >
-                    All Enterprise
-                  </a>
-                </nav>
-              </div>
             </div>
 
             {/* Resources */}
@@ -83,6 +66,12 @@ const Footer = () => {
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
                   Nervous Decision Machine
+                </a>
+                <a
+                  href="/operator"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
+                >
+                  How I operate
                 </a>
                 <a
                   href="/leaders"

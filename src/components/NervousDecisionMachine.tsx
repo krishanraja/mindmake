@@ -339,16 +339,17 @@ const NervousDecisionMachine = ({ variant = "homepage" }: Props) => {
                     isHomepage ? "text-white" : "text-foreground"
                   }`}
                 >
-                  This is <span className="font-bold text-mint-dark dark:text-mint">0.1%</span> of
-                  what a 4-week sprint does. If this hit, book the full version.
+                  This is the 60-second version. The AI Decision Cohort is where you actually <span className="font-bold text-mint-dark dark:text-mint">resolve it</span> — three weeks, fifteen other senior leaders, and a peer group that holds you accountable.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <Button
+                    asChild
                     size="lg"
                     className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold"
-                    onClick={openConsultModal}
                   >
-                    Book a call <ArrowRight className="ml-2 w-4 h-4" />
+                    <a href="/cohort">
+                      See the next cohort <ArrowRight className="ml-2 w-4 h-4" />
+                    </a>
                   </Button>
                   {retries < MAX_RETRIES && (
                     <Button

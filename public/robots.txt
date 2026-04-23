@@ -19,8 +19,9 @@ Disallow: /404
 Disallow: *.json$
 
 # Allow important pages explicitly
-Allow: /sprints
+Allow: /cohort
 Allow: /enterprise
+Allow: /operator
 Allow: /signal
 Allow: /tool
 Allow: /leaders

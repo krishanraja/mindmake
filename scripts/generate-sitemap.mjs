@@ -22,8 +22,9 @@ const DOMAINS = [
 // Static routes with their change frequency and priority
 const staticRoutes = [
   { path: "/", changefreq: "daily", priority: "1.0" },
-  { path: "/sprints", changefreq: "weekly", priority: "0.9" },
+  { path: "/cohort", changefreq: "weekly", priority: "0.9" },
   { path: "/enterprise", changefreq: "weekly", priority: "0.9" },
+  { path: "/operator", changefreq: "monthly", priority: "0.7" },
   { path: "/signal", changefreq: "daily", priority: "0.8" },
   { path: "/tool", changefreq: "monthly", priority: "0.7" },
   { path: "/blog", changefreq: "daily", priority: "0.8" },

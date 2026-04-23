@@ -27,30 +27,32 @@ type Recommendation = {
 
 const classify = (answers: Answers): Recommendation => {
   const text = `${answers.decision} ${answers.tried} ${answers.stakes}`.toLowerCase();
-  const teamSignals = /\b(team|org|company|cto|ceo|engineering|revenue|product|go-?to-?market|gtm|commercial|pricing|positioning)\b/;
-  const longHorizon = /\b(90[\s-]?day|quarterly|quarter|multi[\s-]?step|roadmap|board)\b/;
+  const commercialSignals =
+    /\b(team|product|commercialize|commercial|revenue|gtm|go-?to-?market|pricing|positioning|packaging|sales|launch)\b/;
+  const rapidAlignmentSignals = /\b(quick|align|day|one day|intensive|pitch|fast|asap|next week)\b/;
+  const fullBuildSignals = /\b(build|full|month|quarter|roadmap|board|strategy|30[\s-]?day|90[\s-]?day)\b/;
 
-  if (teamSignals.test(text)) {
+  if (commercialSignals.test(text)) {
+    if (rapidAlignmentSignals.test(text) && !fullBuildSignals.test(text)) {
+      return {
+        title: "The Signal Session is your likely fit.",
+        blurb:
+          "You need rapid alignment on how to position an AI capability commercially — one intensive day, plus a 15-20 page Commercial Narrative within 48 hours. We'd scope the session on the call.",
+        preselected: "signal-session",
+      };
+    }
     return {
       title: "The Revenue Architecture is your likely fit.",
       blurb:
-        "This sounds like an enterprise-level commercialization call. We'd spend week 1 naming the real decision — pricing, positioning, or packaging — and the revenue model it unlocks.",
+        "This sounds like a full commercial build — pricing, packaging, GTM, board-ready narrative. 30-day intensive, informed by operating an AI business in production. We'd scope fit on the intake call.",
       preselected: "revenue-architecture",
     };
   }
-  if (longHorizon.test(text)) {
-    return {
-      title: "The 90-Day Sprint is your likely fit.",
-      blurb:
-        "You're describing a multi-decision arc, not a single call. Month one is MindSet: filter the noise, name the real decisions, set boundaries. Then MindMap, then MindMake.",
-      preselected: "90-day-builder",
-    };
-  }
   return {
-    title: "The 4-Week Sprint is your likely fit.",
+    title: "The AI Decision Cohort is your likely fit.",
     blurb:
-      "This reads as one nervous decision you want resolved cleanly. We'd name the real decision in week 1, map the trade-offs in week 2, make the call in week 3, and leave you board-ready in week 4.",
-    preselected: "4-week-builder",
+      "You're describing a single nervous AI decision you want resolved. That's what the cohort is for — three weeks with 15 other senior leaders, a peer group that holds you accountable, and a board-ready memo on the way out.",
+    preselected: "cohort-enrollment",
   };
 };
 

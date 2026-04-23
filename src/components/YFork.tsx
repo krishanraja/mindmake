@@ -11,9 +11,15 @@ const fadeUp = {
   }),
 };
 
-const openConsultModal = () => {
-  window.dispatchEvent(new CustomEvent("openConsultModal"));
+const openConsultModal = (detail?: Record<string, unknown>) => {
+  window.dispatchEvent(
+    new CustomEvent("openConsultModal", { detail: detail || {} })
+  );
 };
+
+// Kept here so the homepage copy stays in sync with /cohort hero. When this
+// moves to a Supabase table, replace this literal.
+const nextCohortLabel = "July 14, 2026";
 
 const YFork = () => {
   return (
@@ -33,12 +39,12 @@ const YFork = () => {
             Two ways I work.
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-            1:1 with leaders making nervous AI decisions. Or with companies commercializing AI products.
+            A cohort for leaders making AI decisions. Or enterprise sprints for companies commercializing AI products.
           </p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-6 md:gap-8">
-          {/* Card A — For leaders */}
+          {/* Card A — For AI leaders (The Cohort) */}
           <motion.article
             className="glass-card editorial-card p-8 md:p-10 flex flex-col h-full group hover:-translate-y-1 hover:shadow-xl hover:shadow-mint/10 transition-all duration-300 border border-border/50 hover:border-mint/40"
             initial="hidden"
@@ -48,20 +54,18 @@ const YFork = () => {
             variants={fadeUp}
           >
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-mint-dark dark:text-mint mb-4">
-              1:1 Sprints
+              The Cohort
             </div>
             <h3 className="text-2xl md:text-3xl font-bold mb-4 leading-tight">
-              Your nervous decision, resolved.
+              Make your AI decisions with 15 other senior leaders.
             </h3>
             <p className="text-muted-foreground mb-6 leading-relaxed">
-              You're a leader with a specific AI decision you keep pushing off. Builder Sprints turn you into a one-person product team. Orchestrator Sprints give you executive authority over AI. Both end with decisions that stick.
+              The AI Decision Cohort runs quarterly. Three weeks async, three live sessions, 10-15 senior leaders. You show up with a nervous AI decision and leave with a board-ready position. Small group. Peer pressure. Accountability. Done.
             </p>
             <div className="mt-auto">
               <div className="flex items-baseline gap-2 mb-6 pb-6 border-b border-border/50">
-                <span className="text-sm uppercase tracking-wider text-muted-foreground font-semibold">
-                  From
-                </span>
-                <span className="text-3xl font-bold">$18,000</span>
+                <span className="text-3xl font-bold">$3,500</span>
+                <span className="text-sm text-muted-foreground">per seat</span>
               </div>
               <div className="flex flex-col sm:flex-row gap-3">
                 <Button
@@ -69,23 +73,23 @@ const YFork = () => {
                   size="lg"
                   className="bg-ink dark:bg-mint text-white dark:text-ink hover:opacity-90 font-bold"
                 >
-                  <a href="/sprints">
-                    Explore sprints <ArrowRight className="ml-2 w-4 h-4" />
+                  <a href="/cohort">
+                    See the cohort <ArrowRight className="ml-2 w-4 h-4" />
                   </a>
                 </Button>
                 <Button
+                  asChild
                   size="lg"
                   variant="outline"
-                  onClick={openConsultModal}
                   className="font-bold"
                 >
-                  Book a call
+                  <a href="/cohort#enroll">Next cohort: {nextCohortLabel}</a>
                 </Button>
               </div>
             </div>
           </motion.article>
 
-          {/* Card B — For AI products */}
+          {/* Card B — For AI products (Enterprise) */}
           <motion.article
             className="glass-card editorial-card p-8 md:p-10 flex flex-col h-full group hover:-translate-y-1 hover:shadow-xl hover:shadow-mint/10 transition-all duration-300 border border-border/50 hover:border-mint/40"
             initial="hidden"
@@ -101,7 +105,7 @@ const YFork = () => {
               Your AI capabilities, translated into revenue.
             </h3>
             <p className="text-muted-foreground mb-6 leading-relaxed">
-              You've built AI capabilities. Great products still need great positioning, pricing, and GTM. I build the commercial strategy and revenue architecture that makes your AI investment pay back.
+              You've built AI capabilities. Great products still need great positioning, pricing, and GTM. I build the commercial strategy that makes your AI investment pay back.
             </p>
             <div className="mt-auto">
               <div className="flex items-baseline gap-2 mb-6 pb-6 border-b border-border/50">
@@ -123,7 +127,7 @@ const YFork = () => {
                 <Button
                   size="lg"
                   variant="outline"
-                  onClick={openConsultModal}
+                  onClick={() => openConsultModal()}
                   className="font-bold"
                 >
                   Book a call

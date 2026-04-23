@@ -3,7 +3,7 @@
 **Last Updated:** 2026-04-23
 **Purpose:** Describe the current state of the Mindmaker codebase so agents and contributors can navigate it without reverse-engineering the tree.
 
-This file is **descriptive**, not prescriptive. For strategic intent, read `project-documentation/mindmaker_rebuild_brief_v3.md` — the brief that produced the current shape of the site.
+This file is **descriptive**, not prescriptive. For strategic intent, read `project-documentation/mindmaker_rebuild_brief_v4.md` (v4/v5 combined — the barbell pivot + Operator's Edge).
 
 ---
 
@@ -11,7 +11,7 @@ This file is **descriptive**, not prescriptive. For strategic intent, read `proj
 
 Mindmaker is the **anti-consultancy for leaders who are done being sold AI and ready to use it**. The voice is confident, lightly cynical, deeply helpful — premium through substance, not stiffness. Stripe's design sensibility meets Anthony Bourdain's authenticity.
 
-Mindmaker sells **sprints and blueprints, not calendar hours**. No fractional executive roles. No ongoing retainers. No production IT work. Every offer has a fixed scope, a fixed outcome, and a finish line.
+Mindmaker is a **barbell**: cohort at the low end, enterprise at the high end, no middle tier. No 1:1 sprints on the public site. No fractional executive roles. No ongoing retainers. No production IT work. Every offer has a fixed scope, a fixed outcome, and a finish line.
 
 ---
 
@@ -46,16 +46,17 @@ Mindmaker sells **sprints and blueprints, not calendar hours**. No fractional ex
 Authoritative source: `src/pages/Index.tsx`.
 
 1. `Navigation` — fixed top, hides on scroll-down via `useScrollDirection`.
-2. `NewHero` — rotating headlines + "Book a call" + "See how I work" CTAs.
-3. `YFork` — "Two ways I work." → `/sprints` vs `/enterprise`.
+2. `NewHero` — rotating headlines + "Book a call" + "See how I work" CTAs. Subheadline: "Cohorts and enterprise sprints that turn AI chaos into direction."
+3. `YFork` — "Two ways I work." → `/cohort` ($3,500) vs `/enterprise` (from $15,000).
 4. `BigProblem` — existential urgency frame.
 5. `TrustSection` — Krish bio, headshot, testimonials carousel.
 6. `FrameworkJourney` — three-panel animated MindSet → MindMap → MindMake.
-7. `ProofStrip` — three anonymized case studies.
-8. `SignalDeskPreview` — 6 SIGNAL / NOISE / DECISION / TAKE cards + link to `/signal`.
-9. `NervousDecisionMachine` — embedded demo tool (also lives at `/tool`).
-10. `SimpleCTA` — final "What's your nervous decision?" CTA.
-11. `Footer`.
+7. `ProofStrip` — three anonymised case studies tagged COHORT-STYLE / ENTERPRISE. Dual CTA below: "Join the next cohort" + "Book an enterprise call".
+8. `OperatorsEdge` (v5) — typography-only credential section, dark bg, three proof tiles (Architecture / Optimization / Memory), CTA to Revenue Architecture + secondary link to `/operator`.
+9. `SignalDeskPreview` — 6 SIGNAL / NOISE / DECISION / TAKE cards + link to `/signal`.
+10. `NervousDecisionMachine` — embedded demo tool (also lives at `/tool`). Footer now points at `/cohort`.
+11. `SimpleCTA` — final CTA.
+12. `Footer`.
 
 Global overlays mounted in `src/App.tsx`:
 - `InitialConsultModal` — opened via the `openConsultModal` custom event.
@@ -73,8 +74,9 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 | Route | Page | Notes |
 |---|---|---|
 | `/` | `Index` | Homepage, eager-loaded. |
-| `/sprints` | `Sprints` | Builder + Orchestrator tracks, 4 engagement cards (4-week/90-day × Builder/Orchestrator). |
-| `/enterprise` | `Enterprise` | The Signal Session + The Revenue Architecture. |
+| `/cohort` | `Cohort` | The AI Decision Cohort ($3,500/seat, quarterly). Primary leader surface. |
+| `/enterprise` | `Enterprise` | The Signal Session ($15k) + The Revenue Architecture ($60-100k). |
+| `/operator` | `Operator` | (v5) How I operate — 14-agent OS credential page. |
 | `/signal` | `Signal` | Signal Desk archive with filters + search. |
 | `/tool` | `Tool` | The Nervous Decision Machine. |
 | `/leaders` | `LeadershipInsights` | **Decision Readiness Diagnostic** (primary URL). |
@@ -87,15 +89,18 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 | `*` | `NotFound` | Catch-all. |
 
 **Client-side redirects (301-equivalent via `<Navigate replace />`):**
-- `/sprint/4-week` → `/sprints#builder`
-- `/sprint/90-day` → `/sprints#builder`
-- `/builder-sprint` → `/sprints#builder`
+- `/sprints` → `/cohort`
+- `/sprint/4-week` → `/cohort?inquiry=1:1`
+- `/sprint/90-day` → `/cohort?inquiry=1:1`
+- `/builder-sprint` → `/cohort?inquiry=1:1`
 - `/war-room` → `/enterprise#revenue-architecture`
 - `/strategy-day` → `/enterprise#signal-session`
 - `/fractional-caio` → `/enterprise`
 - Legacy: `/individual`, `/team`, `/builder`, `/builder-session`, `/leadership-lab`, `/portfolio-program` → `/`.
 
-No `/pricing` page — pricing lives in context on `/sprints` and `/enterprise`.
+On `/cohort?inquiry=1:1`: a banner surfaces the 1:1 inquiry-only path for buyers specifically seeking private engagements, without advertising the offer on the main page.
+
+No `/pricing` page — pricing lives in context on `/cohort` and `/enterprise`.
 
 ---
 
@@ -103,10 +108,10 @@ No `/pricing` page — pricing lives in context on `/sprints` and `/enterprise`.
 
 File: `src/components/Navigation.tsx`. Primary CTA: **"Book a call"** (no conditional label).
 
-- **Sprints** (dropdown): Builder Sprint → `/sprints#builder`, Orchestrator Sprint → `/sprints#orchestrator`, All Sprints → `/sprints`.
+- **Cohort** (direct link): `/cohort`.
 - **Enterprise** (dropdown): The Signal Session → `/enterprise#signal-session`, The Revenue Architecture → `/enterprise#revenue-architecture`, All Enterprise → `/enterprise`.
 - **Signal** (link): `/signal`.
-- **Resources** (dropdown): Decision Readiness Diagnostic → `/leaders`, Blog → `/blog`, Builder Economy → `/builder-economy`, Lightning Lessons (external Maven links).
+- **Resources** (dropdown): How I operate → `/operator`, Decision Readiness Diagnostic → `/leaders`, Blog → `/blog`, Builder Economy → `/builder-economy`, Lightning Lessons (external Maven links).
 - **About** (dropdown): FAQ → `/faq`, Contact → `/contact`, Privacy → `/privacy`.
 
 ---
@@ -115,14 +120,13 @@ File: `src/components/Navigation.tsx`. Primary CTA: **"Book a call"** (no condit
 
 | Offer | Price |
 |---|---|
-| 4-Week Builder Sprint | $18,000 |
-| 4-Week Orchestrator Sprint | $18,000 |
-| 90-Day Builder Sprint | $60,000 |
-| 90-Day Orchestrator Sprint | $60,000 |
+| The AI Decision Cohort | $3,500 / seat (or 2× $1,800 split) |
 | The Signal Session | $15,000 |
-| The Revenue Architecture | $60,000 – $80,000 (scope-dependent) |
+| The Revenue Architecture | $60,000 – $100,000 (scope-dependent) |
 
-Payment terms (small muted text below price): sprints = "Payment 50/50 at kickoff and midpoint"; enterprise = "Payment on kickoff, final on delivery".
+Internal (not shown on site): Revenue Architecture floor $60k, ceiling $125k for extended scope; cohort min viable enrollment = 8 seats, cap = 15.
+
+Payment terms (small muted text below price): cohort = "Full payment or 2x split"; Signal Session = "Payment on kickoff"; Revenue Architecture = "50/50 at kickoff and delivery".
 
 ---
 
@@ -151,10 +155,22 @@ Component: `src/components/PreCallQualifier.tsx`. Replaces the old ChatBot. Floa
 ## Homepage Y-fork
 
 `src/components/YFork.tsx`. Two glass-cards side by side:
-- **1:1 Sprints** — "Your nervous decision, resolved." From $18,000. CTA → `/sprints` + Book a call.
+- **The Cohort** — "Make your AI decisions with 15 other senior leaders." $3,500 per seat. CTA → `/cohort` + "Next cohort: [DATE]".
 - **Enterprise** — "Your AI capabilities, translated into revenue." From $15,000. CTA → `/enterprise` + Book a call.
 
 `NewHero`'s secondary CTA "See how I work" smooth-scrolls to `#y-fork`.
+
+The next-cohort label is currently a literal in `YFork.tsx` and `Cohort.tsx`. When Supabase `cohort_dates` is wired up, replace both with a shared data source.
+
+---
+
+## Operator's Edge (v5)
+
+Homepage section: `src/components/OperatorsEdge.tsx`. Dark-bg, typography-only section between `ProofStrip` and `SignalDeskPreview`. Three glass tiles (Architecture / Optimization / Memory). Primary CTA to `/enterprise#revenue-architecture`, secondary muted link to `/operator`.
+
+Dedicated page: `src/pages/Operator.tsx` at `/operator`. Hero → thesis → 5-cluster static agent diagram (14 named agents) → four extractable lessons → commercial crossover → final CTA. OG type `article`. Tracked via `plausible('operator_page_cta_clicked')` on the Revenue Architecture CTA.
+
+**Design guardrails:** no scrolling logs, no terminal aesthetics, no ASCII art, no interactive dashboards. Every claim must pass the CMO-15-second test.
 
 ---
 
@@ -189,7 +205,8 @@ Your smartest, most cynical friend who runs AI transformation every day and genu
 
 ## Related documentation
 
-- `project-documentation/mindmaker_rebuild_brief_v3.md` — the v3 rebuild brief that produced this site.
+- `project-documentation/mindmaker_rebuild_brief_v4.md` — the v4/v5 brief (barbell pivot + Operator's Edge) that shapes the current site.
+- `project-documentation/mindmaker_rebuild_brief_v3.md` — the prior v3 brief, preserved for diffing.
 - `project-documentation/EXECUTIVE_SUMMARY.md`, `PURPOSE.md` — brand thesis + positioning.
 - `project-documentation/SPRINTS.md` — full sprint library (Builder + Orchestrator tracks).
 - `project-documentation/ICP.md` — ideal customer profiles.

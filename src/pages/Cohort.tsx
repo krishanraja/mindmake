@@ -1,0 +1,435 @@
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+import { ArrowRight, CheckCircle, Users, Calendar, Info, Sparkles } from "lucide-react";
+import { SEO } from "@/components/SEO";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  show: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.08, duration: 0.5, ease: "easeOut" },
+  }),
+};
+
+// Dynamic cohort details. In a future pass these come from a Supabase
+// `cohort_dates` table + admin UI; for now they're maintained in this file.
+const nextCohort = {
+  id: "q3-2026",
+  startLabel: "July 14, 2026",
+  seatsRemaining: 11,
+  seatsTotal: 15,
+};
+
+const openConsultModal = (detail?: Record<string, unknown>) => {
+  window.dispatchEvent(
+    new CustomEvent("openConsultModal", {
+      detail: detail || {},
+    })
+  );
+};
+
+const curriculum = [
+  {
+    week: 1,
+    title: "Name the decision.",
+    body: "You arrive with an AI decision you've been putting off. You leave week one with the real decision underneath it named, scoped and shareable.",
+    async: "3 videos · 2 frameworks · 1 worksheet",
+    live: "90 min peer-guided decision-naming session",
+  },
+  {
+    week: 2,
+    title: "Map the paths.",
+    body: "Structured trade-off analysis on the three real options — build vs buy, now vs wait, this vendor vs that vendor. Your actual fork, on the table.",
+    async: "2 videos · 1 framework · 1 scorecard",
+    live: "90 min peer pressure-test of the options",
+  },
+  {
+    week: 3,
+    title: "Make the call.",
+    body: "You commit. Out loud. To the group. You leave with a one-page decision memo ready to send to your board, your team or your manager.",
+    async: "1 video · decision memo template",
+    live: "90 min memo peer review and commitment",
+  },
+];
+
+const walkOutWith = [
+  "Board-ready decision memo (1 page)",
+  "Trade-off analysis document",
+  "Access to the cohort Slack for 90 days post-cohort",
+  "Lifetime access to curriculum materials",
+  "Invitation to the cohort alumni network",
+];
+
+const forYou = [
+  "You're a senior operator (VP, SVP, CxO, founder-operator) with budget authority and a real AI decision on your desk.",
+  "You're comfortable with 'good enough' thinking and want to stop over-researching.",
+  "You want peers, not a consultant lecturing you.",
+];
+
+const faqs = [
+  {
+    q: "What if I can't make a live session?",
+    a: "Sessions are recorded. You can submit async — written memo, video, or a short Loom — and get peer feedback in Slack before the next week.",
+  },
+  {
+    q: "What if I don't have a decision to bring?",
+    a: "We'll help you name one. But honestly, if you can't name a nervous AI decision on your desk this quarter, this cohort isn't the right fit — come back next quarter.",
+  },
+  {
+    q: "Can I send a colleague instead?",
+    a: "No. The cohort runs on peer continuity — the same 10-15 leaders in each session. Substitutions break that.",
+  },
+  {
+    q: "Is this tax-deductible?",
+    a: "For most US buyers, yes — as professional development. Ask your finance team. We can provide an invoice to your employer.",
+  },
+  {
+    q: "What's the refund policy?",
+    a: "Full refund up to 7 days before the cohort starts. 50% refund up to day one. No refund after day one.",
+  },
+];
+
+export default function Cohort() {
+  const [searchParams] = useSearchParams();
+  const inquiryOnly = searchParams.get("inquiry") === "1:1";
+  const [showInquiryBanner, setShowInquiryBanner] = useState(inquiryOnly);
+
+  useEffect(() => {
+    if (window.location.hash) {
+      const id = window.location.hash.slice(1);
+      const el = document.getElementById(id);
+      if (el) setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 100);
+    }
+  }, []);
+
+  return (
+    <main className="min-h-screen bg-background">
+      <SEO
+        title="The AI Decision Cohort"
+        description="Make your nervous AI decision with 15 other senior leaders. Three weeks. Mostly async. Three live sessions. $3,500 per seat, quarterly."
+        canonical="/cohort"
+        ogType="website"
+      />
+      <Navigation />
+
+      {/* Inquiry banner — shown only if ?inquiry=1:1 */}
+      {showInquiryBanner && (
+        <div className="pt-20">
+          <div className="container-width max-w-5xl">
+            <div className="mt-4 p-4 rounded-xl border border-mint/40 bg-mint/10 flex flex-wrap items-center justify-between gap-3">
+              <p className="text-sm">
+                Looking for 1:1 work? I take on a handful of private engagements by inquiry.
+              </p>
+              <div className="flex items-center gap-2">
+                <Button
+                  size="sm"
+                  onClick={() =>
+                    openConsultModal({ preselected: "1-1-inquiry", inquiry: "1:1" })
+                  }
+                  className="bg-ink dark:bg-mint text-white dark:text-ink font-bold"
+                >
+                  Contact me
+                </Button>
+                <button
+                  onClick={() => setShowInquiryBanner(false)}
+                  aria-label="Dismiss"
+                  className="text-xs text-muted-foreground hover:text-foreground px-2 py-1"
+                >
+                  Dismiss
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* HERO */}
+      <section className={`section-padding ${showInquiryBanner ? "pt-10" : "pt-32"}`}>
+        <div className="container-width max-w-4xl text-center">
+          <motion.div initial="hidden" animate="show" variants={fadeUp}>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-mint/10 border border-mint/20 text-mint-dark dark:text-mint text-xs font-bold uppercase tracking-[0.18em] mb-6">
+              <Sparkles className="w-3.5 h-3.5" />
+              The AI Decision Cohort
+            </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-5 leading-tight">
+              Make your nervous AI decision with <span className="text-mint-dark dark:text-mint">15 other senior leaders.</span>
+            </h1>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+              Three weeks. Mostly async. Three live sessions. You leave with the one decision you've been avoiding, pressure-tested by a room full of people who've been there.
+            </p>
+
+            <div className="inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm mb-8">
+              <Calendar className="w-4 h-4 text-mint-dark dark:text-mint" />
+              <span className="font-semibold">Next cohort starts {nextCohort.startLabel}</span>
+              <span className="text-muted-foreground">
+                · {nextCohort.seatsRemaining} of {nextCohort.seatsTotal} seats remaining
+              </span>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold px-8"
+                onClick={() => {
+                  document.getElementById("enroll")?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                Enroll in the next cohort <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="font-bold"
+                onClick={() => openConsultModal({ preselected: "cohort-syllabus" })}
+              >
+                Get the syllabus
+              </Button>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* PROBLEM FRAME */}
+      <section className="section-padding pt-0">
+        <div className="container-width max-w-3xl text-center">
+          <motion.p
+            className="text-lg md:text-xl text-muted-foreground leading-relaxed"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeUp}
+          >
+            You've been pitched 14 AI vendor decks this quarter. You have a nervous AI decision you keep deferring — build vs buy, tool commitment, a clone, its boundaries, vendor lock-in, something. You're tired of thinking alone. You don't have time for a consultant. You want to <span className="text-foreground font-bold">decide</span>.
+          </motion.p>
+        </div>
+      </section>
+
+      {/* WHO THIS IS FOR */}
+      <section className="section-padding bg-muted/30">
+        <div className="container-width max-w-4xl">
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}>
+            <div className="flex items-center gap-3 mb-6">
+              <Users className="w-6 h-6 text-mint-dark dark:text-mint" />
+              <h2 className="text-3xl md:text-4xl font-bold">Who it's for.</h2>
+            </div>
+          </motion.div>
+          <div className="grid md:grid-cols-3 gap-5">
+            {forYou.map((line, i) => (
+              <motion.div
+                key={i}
+                className="glass-card editorial-card p-6 border border-border/50"
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true }}
+                custom={i}
+                variants={fadeUp}
+              >
+                <CheckCircle className="w-5 h-5 text-mint mb-3" />
+                <p className="text-sm leading-relaxed">{line}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CURRICULUM */}
+      <section className="section-padding">
+        <div className="container-width max-w-5xl">
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}>
+            <h2 className="text-3xl md:text-4xl font-bold mb-3">The three-week arc.</h2>
+            <p className="text-muted-foreground text-lg mb-10 max-w-2xl">
+              Mostly async. One 90-minute live session each week. Commit ~4-5 hours a week.
+            </p>
+          </motion.div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {curriculum.map((week, i) => (
+              <motion.article
+                key={week.week}
+                className="glass-card editorial-card p-7 flex flex-col h-full border border-border/50"
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: "-50px" }}
+                custom={i}
+                variants={fadeUp}
+              >
+                <div className="text-xs font-bold uppercase tracking-[0.18em] text-mint-dark dark:text-mint mb-3">
+                  Week {week.week}
+                </div>
+                <h3 className="text-2xl font-bold mb-3">{week.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-5 flex-1">
+                  {week.body}
+                </p>
+                <div className="space-y-3 text-sm pt-4 border-t border-border/50">
+                  <div>
+                    <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-muted-foreground mb-1">
+                      Async
+                    </div>
+                    <div>{week.async}</div>
+                  </div>
+                  <div>
+                    <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-muted-foreground mb-1">
+                      Live
+                    </div>
+                    <div>{week.live}</div>
+                  </div>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* WHAT YOU WALK OUT WITH */}
+      <section className="section-padding bg-muted/30">
+        <div className="container-width max-w-3xl">
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}>
+            <h2 className="text-3xl md:text-4xl font-bold mb-10">What you walk out with.</h2>
+          </motion.div>
+          <ul className="space-y-3">
+            {walkOutWith.map((item, i) => (
+              <motion.li
+                key={i}
+                className="flex items-start gap-3"
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true }}
+                custom={i}
+                variants={fadeUp}
+              >
+                <CheckCircle className="w-5 h-5 text-mint shrink-0 mt-0.5" />
+                <span>{item}</span>
+              </motion.li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ENROLL */}
+      <section id="enroll" className="section-padding scroll-mt-24">
+        <div className="container-width max-w-3xl">
+          <motion.div
+            className="glass-card editorial-card p-8 md:p-12 border border-mint/30"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeUp}
+          >
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-mint-dark dark:text-mint mb-3">
+              Enrollment
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-5">
+              Next cohort starts {nextCohort.startLabel}.
+            </h2>
+            <div className="flex items-baseline gap-3 mb-4">
+              <span className="text-4xl font-bold">$3,500</span>
+              <span className="text-muted-foreground">per seat</span>
+            </div>
+            <p className="text-sm text-muted-foreground mb-6">
+              Full payment or 2x split ($1,800 × 2). Seats: {nextCohort.seatsRemaining} of {nextCohort.seatsTotal} remaining.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 mb-5">
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold"
+                onClick={() =>
+                  openConsultModal({
+                    preselected: "cohort-enrollment",
+                    commitmentLevel: "cohort",
+                  })
+                }
+              >
+                Reserve my seat <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="font-bold"
+                onClick={() => openConsultModal({ preselected: "cohort-waitlist" })}
+              >
+                Get notified about future cohorts
+              </Button>
+            </div>
+            <p className="text-xs text-muted-foreground flex items-start gap-2">
+              <Info className="w-3.5 h-3.5 mt-0.5 shrink-0" />
+              Payment and cohort platform set-up happen on the intake call. Stripe checkout coming soon.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* CROSS-LINK TO ENTERPRISE */}
+      <section className="section-padding pt-0">
+        <div className="container-width max-w-3xl text-center">
+          <p className="text-sm text-muted-foreground">
+            Need enterprise-scale commercial work instead?{" "}
+            <a
+              href="/enterprise"
+              className="font-semibold text-mint-dark dark:text-mint hover:underline"
+            >
+              See Enterprise →
+            </a>
+          </p>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="section-padding bg-muted/30">
+        <div className="container-width max-w-3xl">
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}>
+            <h2 className="text-3xl md:text-4xl font-bold mb-10">Questions.</h2>
+          </motion.div>
+          <div className="space-y-5">
+            {faqs.map((q, i) => (
+              <motion.div
+                key={i}
+                className="glass-card editorial-card p-6 border border-border/50"
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true }}
+                custom={i}
+                variants={fadeUp}
+              >
+                <p className="font-bold mb-3">{q.q}</p>
+                <p className="text-muted-foreground text-sm leading-relaxed">{q.a}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 1:1 ESCAPE HATCH */}
+      <section className="section-padding">
+        <div className="container-width max-w-3xl">
+          <motion.div
+            className="p-8 rounded-2xl border border-border/50 bg-muted/20"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeUp}
+          >
+            <h3 className="text-xl font-bold mb-2">Want to work with me 1:1?</h3>
+            <p className="text-muted-foreground mb-5">
+              I take on a small number of private engagements each year. Scope and pricing by inquiry.
+            </p>
+            <Button
+              variant="outline"
+              className="font-bold"
+              onClick={() =>
+                openConsultModal({ preselected: "1-1-inquiry", inquiry: "1:1" })
+              }
+            >
+              Start a conversation <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
+          </motion.div>
+        </div>
+      </section>
+
+      <Footer />
+    </main>
+  );
+}

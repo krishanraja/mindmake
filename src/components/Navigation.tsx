@@ -32,12 +32,8 @@ const Navigation = () => {
 
   const navItems: NavItem[] = [
     {
-      label: "Sprints",
-      dropdown: [
-        { label: "Builder Sprint", href: "/sprints#builder" },
-        { label: "Orchestrator Sprint", href: "/sprints#orchestrator" },
-        { label: "All Sprints", href: "/sprints" },
-      ],
+      label: "Cohort",
+      href: "/cohort",
     },
     {
       label: "Enterprise",
@@ -54,6 +50,7 @@ const Navigation = () => {
     {
       label: "Resources",
       dropdown: [
+        { label: "How I operate", href: "/operator" },
         { label: "Decision Readiness Diagnostic", href: "/leaders" },
         { label: "Blog", href: "/blog" },
         { label: "Builder Economy", href: "/builder-economy" },

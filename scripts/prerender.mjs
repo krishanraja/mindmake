@@ -23,16 +23,22 @@ const template = readFileSync(resolve(distDir, "index.html"), "utf-8");
 // Pages to prerender with their meta tags
 const pages = [
   {
-    path: "/sprints",
-    title: "1:1 Sprints — Mindmaker",
+    path: "/cohort",
+    title: "The AI Decision Cohort — Mindmaker",
     description:
-      "Your nervous decision, resolved. Builder or Orchestrator. 4-week ($18k) or 90-day ($60k). Fixed scope. Decisions that stick.",
+      "Make your nervous AI decision with 15 other senior leaders. Three weeks. Mostly async. Three live sessions. $3,500 per seat, quarterly.",
   },
   {
     path: "/enterprise",
     title: "Enterprise — Mindmaker",
     description:
-      "Your AI capabilities, translated into revenue. The Signal Session ($15k) aligns your team fast. The Revenue Architecture ($60-80k) builds the complete commercial strategy.",
+      "Your AI capabilities, translated into revenue. The Signal Session ($15k) aligns your team fast. The Revenue Architecture ($60-100k) builds the complete commercial strategy.",
+  },
+  {
+    path: "/operator",
+    title: "How I operate — Mindmaker",
+    description:
+      "The 14-agent operating system behind Mindmaker. Memory, cost, and orchestration lessons from running a real agentic business in production.",
   },
   {
     path: "/signal",

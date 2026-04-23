@@ -54,7 +54,7 @@ const comparisonRows = [
   {
     label: "Price",
     signal: "$15,000",
-    revenue: "$60,000 – $80,000",
+    revenue: "$60,000 – $100,000",
   },
   {
     label: "Format",
@@ -112,7 +112,7 @@ export default function Enterprise() {
     <main className="min-h-screen bg-background">
       <SEO
         title="Enterprise: AI commercialization sprints"
-        description="Two sprints. Fixed scope. Board-ready output. The Signal Session ($15k) aligns your team fast. The Revenue Architecture ($60-80k) builds the complete commercial strategy."
+        description="Two sprints. Fixed scope. Board-ready output. The Signal Session ($15k) aligns your team fast. The Revenue Architecture ($60-100k) builds the complete commercial strategy."
         canonical="/enterprise"
         ogType="website"
       />
@@ -239,7 +239,7 @@ export default function Enterprise() {
                   </span>
                 </div>
                 <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-6">
-                  Turning your AI capabilities into an actual revenue stream. A 30-day intensive to build your pricing models, packaging, go-to-market playbook, and the product marketing architecture that commercializes your AI investment.
+                  Turning your AI capabilities into an actual revenue stream. A 30-day intensive to build your pricing models, packaging, go-to-market playbook, and the product marketing architecture that commercializes your AI investment. Informed by someone operating a 14-agent AI business in production, not theorizing about one. <a href="/operator" className="text-mint-dark dark:text-mint font-semibold hover:underline">See how I operate →</a>
                 </p>
                 <div className="mb-6">
                   <div className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground mb-3">
@@ -258,7 +258,7 @@ export default function Enterprise() {
                   <strong className="text-foreground">Best for:</strong> Companies with strong AI capabilities needing a complete commercial strategy and board-ready narrative. Pricing varies with scope, team size, and depth of existing commercial infrastructure.
                 </p>
                 <p className="text-xs text-muted-foreground mb-1">
-                  $60,000 to $80,000, scope-dependent. Final scope and price determined during intake call.
+                  $60,000 to $100,000, scope-dependent. Final scope and price determined during intake call.
                 </p>
                 <p className="text-xs text-muted-foreground">
                   Payment on kickoff, final on delivery.

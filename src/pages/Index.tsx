@@ -5,6 +5,7 @@ import BigProblem from "@/components/BigProblem";
 import TrustSection from "@/components/TrustSection";
 import FrameworkJourney from "@/components/FrameworkJourney";
 import ProofStrip from "@/components/ProofStrip";
+import OperatorsEdge from "@/components/OperatorsEdge";
 import SignalDeskPreview from "@/components/SignalDeskPreview";
 import NervousDecisionMachine from "@/components/NervousDecisionMachine";
 import SimpleCTA from "@/components/SimpleCTA";
@@ -35,13 +36,16 @@ const Index = () => {
       {/* 6. Proof Strip -- real decisions */}
       <ProofStrip />
 
-      {/* 7. Signal Desk preview */}
+      {/* 7. Operator's Edge (v5) -- credential proof before Signal Desk */}
+      <OperatorsEdge />
+
+      {/* 8. Signal Desk preview */}
       <SignalDeskPreview />
 
-      {/* 8. Nervous Decision Machine (demo tool) */}
+      {/* 9. Nervous Decision Machine (demo tool) */}
       <NervousDecisionMachine />
 
-      {/* 9. Final CTA */}
+      {/* 10. Final CTA */}
       <SimpleCTA />
 
       <Footer />

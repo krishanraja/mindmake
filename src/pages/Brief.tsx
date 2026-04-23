@@ -158,7 +158,7 @@ export default function Brief() {
       <section className="pt-32 pb-10 bg-ink text-white">
         <div className="container-width max-w-5xl">
           <motion.div initial="hidden" animate="show" variants={fadeUp} className="text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight text-white">
               Live Intel
             </h1>
             <p className="text-lg md:text-xl text-white/60 max-w-3xl mx-auto">
@@ -185,7 +185,7 @@ export default function Brief() {
             <div className="text-xs font-bold uppercase tracking-[0.22em] text-mint/80 mb-3">
               What this actually means
             </div>
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white">
               Read the prices in plain English.
             </h2>
           </div>
@@ -362,7 +362,7 @@ export default function Brief() {
       <section className="section-padding bg-ink text-white border-t border-white/10">
         <div className="container-width max-w-3xl">
           <div className="mb-8 text-center">
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-3">
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-3 text-white">
               The Nervous Decision Machine
             </h2>
             <p className="text-white/60 max-w-xl mx-auto">

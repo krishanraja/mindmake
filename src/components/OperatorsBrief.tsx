@@ -34,7 +34,7 @@ const OperatorsBrief = () => {
         >
           <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.24em] text-mint/80 mb-5">
             <span className="h-1 w-1 rounded-full bg-mint" />
-            The Operator's Brief
+            Live Intel
           </div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-4">
             Live prices. Sharp takes. One nervous decision at a time.

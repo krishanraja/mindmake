@@ -52,7 +52,7 @@ Authoritative source: `src/pages/Index.tsx`.
 5. `TrustSection` — Krish bio, headshot, testimonials carousel.
 6. `FrameworkJourney` — three-panel animated MindSet → MindMap → MindMake.
 7. `OperatorsEdge` (v5) — typography-only credential section, dark bg, three proof tiles (Architecture / Optimization / Memory), CTA to Revenue Architecture + secondary link to `/operator`. "BEYOND PATTERN RECOGNITION" now the dominant wordmark.
-8. `OperatorsBrief` — the Operator's Brief homepage teaser. Minimal on purpose: a continuous CSS-marquee `PriceTicker` with the canonical 7 models, a rotating plain-English interpretation line underneath (3 takes, 8s cross-fade), a compact Nervous Decision input (via `nervous-decision/Input`), and a muted "Open the full dashboard →" link to `/signal`. No card grid, no blog column — those live on `/signal` only.
+8. `OperatorsBrief` — the Live Intel homepage teaser. Minimal on purpose: a continuous CSS-marquee `PriceTicker` with the canonical 7 models, a rotating plain-English interpretation line underneath (3 takes, 8s cross-fade), a compact Nervous Decision input (via `nervous-decision/Input`), and a muted "Open the full dashboard →" link to `/signal`. No card grid, no blog column — those live on `/signal` only.
 9. `SimpleCTA` — final CTA.
 10. `Footer`.
 
@@ -77,7 +77,7 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 | `/cohort` | `Cohort` | The AI Decision Cohort ($3,500/seat, quarterly). Primary leader surface. |
 | `/enterprise` | `Enterprise` | The Signal Session ($15k) + The Revenue Architecture ($60-100k). |
 | `/operator` | `Operator` | (v5) How I operate — 14-agent OS credential page. |
-| `/signal` | `Brief` | The Operator's Brief — the full dashboard: extended live-price ticker, plain-English interpretation grid, classified card archive (WATCH / SKIP / CALL / TAKE with filters + search), blog column, full Nervous Decision Machine. Route preserved for inbound URLs. |
+| `/signal` | `Brief` | Live Intel — the full dashboard: extended live-price ticker, plain-English interpretation grid, classified card archive (WATCH / SKIP / CALL / TAKE with filters + search), blog column, full Nervous Decision Machine. Route preserved for inbound URLs. |
 | `/leaders` | `LeadershipInsights` | Decision Readiness Diagnostic. Unlinked from nav/footer but still reachable by direct URL for deep-links. |
 | `/leadership-insights` | `LeadershipInsights` | Alias. |
 | `/blog`, `/blog/:slug` | `Blog`, `BlogPost` | Blog index + post. |
@@ -87,7 +87,7 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 | `*` | `NotFound` | Catch-all. |
 
 **Client-side redirects (301-equivalent via `<Navigate replace />`):**
-- `/tool` → `/signal#decision` (page deleted; decision machine now lives inside the Operator's Brief dashboard)
+- `/tool` → `/signal#decision` (page deleted; decision machine now lives inside the Live Intel dashboard)
 - `/builder-economy` → `https://www.thebuildereconomy.com` via `ExternalRedirect` (page deleted; canonical site is the separate domain)
 - `/sprints` → `/cohort`
 - `/sprint/4-week` → `/cohort?inquiry=1:1`
@@ -109,11 +109,11 @@ No `/pricing` page — pricing lives in context on `/cohort` and `/enterprise`.
 File: `src/components/Navigation.tsx`. Primary CTA: **"Book a call"** (no conditional label).
 
 - **Cohort** (direct link): `/cohort`.
-- **Enterprise** (dropdown): The Signal Session → `/enterprise#signal-session`, The Revenue Architecture → `/enterprise#revenue-architecture`, All Enterprise → `/enterprise`.
-- **Signal** (link): `/signal`.
+- **Enterprise** (dropdown): The Signal Session → `/enterprise#signal-session`, The Revenue Architecture → `/enterprise#revenue-architecture`.
+- **Live Intel** (link): `/signal`.
 - **Resources** (dropdown): How I operate → `/operator`, Blog → `/blog`, The Builder Economy (Podcast) → external `www.thebuildereconomy.com`, Lightning Lessons (external Maven links).
 
-The second top-level link is labelled **"The Brief"** and points at `/signal`. The Decision Readiness Diagnostic is no longer linked from nav or footer.
+The second top-level link is labelled **"Live Intel"** and points at `/signal`. The Decision Readiness Diagnostic is no longer linked from nav or footer.
 - **About** (dropdown): FAQ → `/faq`, Contact → `/contact`, Privacy → `/privacy`.
 
 ---
@@ -146,9 +146,9 @@ Component: `src/components/PreCallQualifier.tsx`. Replaces the old ChatBot. Floa
 
 ---
 
-## The Operator's Brief
+## Live Intel
 
-Renamed from "Signal Desk" to avoid overlap with Krish's other business (Signal & Noise).
+Renamed from "The Operator's Brief" (previously "Signal Desk") for straightforward nav clarity — this is live model pricing and weekly calls.
 
 - Homepage teaser: `src/components/OperatorsBrief.tsx`. Minimal — continuous marquee `PriceTicker` + rotating interpretation line + compact Nervous Decision input + footer link to the dashboard. No cards, no blog column.
 - Full dashboard: `src/pages/Brief.tsx` at `/signal`. Extended ticker, 3-card interpretation grid, the full classified archive with filter pills + search, a blog column, and the full-size Nervous Decision input with example chips.
@@ -176,7 +176,7 @@ The next-cohort date is displayed on `/cohort` only. When Supabase `cohort_dates
 
 Homepage section: `src/components/OperatorsEdge.tsx`. Dark-bg section between `FrameworkJourney` and `OperatorsBrief`. The heading "Beyond *pattern* recognition" is retypeset to match the FrameworkJourney header scale exactly — `text-[1.35rem] sm:text-3xl md:text-4xl lg:text-5xl font-bold`, partial-mint treatment on "pattern" only, no drop-shadow glow. Reads as a clear new section via the `WHO YOU'RE WORKING WITH` eyebrow, hairline top border, and gradient background tonal shift. Lead line is the anti-consultant statement (pulled from a top-of-file constant so Krish can edit in one place). Three glass tiles (Architecture / Optimization / Memory) follow. Primary CTA to `/enterprise#revenue-architecture`, secondary muted link to `/operator`.
 
-Dedicated page: `src/pages/Operator.tsx` at `/operator`. Hero → thesis (no tool names listed) → 5-cluster static agent diagram (14 named agents) → four extractable lessons → commercial crossover. Page ends at the crossover CTA. OG type `article`. Tracked via `plausible('operator_page_cta_clicked')` on the Revenue Architecture CTA.
+Dedicated page: `src/pages/Operator.tsx` at `/operator`. Hero (text + `Krish-Headshot.png`) → thesis (looping `ctrl-demo-video.mp4` left of text, no tool names listed) → 5-cluster static agent diagram (14 named agents) → four extractable lessons → `On stage` strip with three `krish-stage-*` images → commercial crossover. Page ends at the crossover CTA. OG type `article`. Tracked via `plausible('operator_page_cta_clicked')` on the Revenue Architecture CTA.
 
 **Design guardrails:** no scrolling logs, no terminal aesthetics, no ASCII art, no interactive dashboards. Every claim must pass the CMO-15-second test.
 

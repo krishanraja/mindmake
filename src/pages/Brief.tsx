@@ -148,7 +148,7 @@ export default function Brief() {
   return (
     <main className="min-h-screen bg-background">
       <SEO
-        title="The Operator's Brief"
+        title="Live Intel"
         description="Live model prices, weekly classified reads (WATCH / SKIP / CALL / TAKE), and a nervous-decision machine for leaders making AI calls."
         canonical="/signal"
       />
@@ -158,14 +158,10 @@ export default function Brief() {
       <section className="pt-32 pb-10 bg-ink text-white">
         <div className="container-width max-w-5xl">
           <motion.div initial="hidden" animate="show" variants={fadeUp} className="text-center">
-            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.24em] text-mint/80 mb-5">
-              <span className="h-1 w-1 rounded-full bg-mint" />
-              The Operator's Brief
-            </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight">
-              The live sandbox.
+              Live Intel
             </h1>
-            <p className="text-lg md:text-xl text-white/60 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-white/60 max-w-3xl mx-auto">
               Every model price, every signal, every decision worth making this week.
             </p>
             <p className="mt-3 text-xs text-white/30 uppercase tracking-wider font-mono">
@@ -254,7 +250,7 @@ export default function Brief() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <input
                 type="search"
-                placeholder="Search the brief"
+                placeholder="Search live intel"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 className="w-full pl-9 pr-3 py-2 text-sm rounded-full border border-border bg-background focus:outline-none focus:ring-2 focus:ring-mint/40"
@@ -366,14 +362,11 @@ export default function Brief() {
       <section className="section-padding bg-ink text-white border-t border-white/10">
         <div className="container-width max-w-3xl">
           <div className="mb-8 text-center">
-            <div className="text-xs font-bold uppercase tracking-[0.22em] text-mint/80 mb-3">
-              The Nervous Decision Machine
-            </div>
             <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-3">
-              The AI call you keep putting off? Paste it.
+              The Nervous Decision Machine
             </h2>
             <p className="text-white/60 max-w-xl mx-auto">
-              60 seconds, one 3-card artifact. No email required.
+              The AI call you keep putting off? Paste it. 60 seconds, one 3-card artifact. No email required.
             </p>
           </div>
           <NervousDecisionInput size="full" tone="dark" examples={EXAMPLES} />

@@ -59,7 +59,7 @@ const Footer = () => {
                   href="/signal"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
-                  The Operator's Brief
+                  Live Intel
                 </a>
                 <a
                   href="/operator"

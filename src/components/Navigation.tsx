@@ -40,11 +40,10 @@ const Navigation = () => {
       dropdown: [
         { label: "The Signal Session", href: "/enterprise#signal-session" },
         { label: "The Revenue Architecture", href: "/enterprise#revenue-architecture" },
-        { label: "All Enterprise", href: "/enterprise" },
       ],
     },
     {
-      label: "The Brief",
+      label: "Live Intel",
       href: "/signal",
     },
     {

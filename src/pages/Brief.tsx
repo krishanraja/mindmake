@@ -4,10 +4,10 @@ import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { ArrowRight, Search } from "lucide-react";
 import { SEO } from "@/components/SEO";
+import { PriceTicker } from "@/components/PriceTicker";
+import { NervousDecisionInput } from "@/components/nervous-decision/Input";
+import { useBlogPosts } from "@/hooks/useBlogPosts";
 
-// Taxonomy renamed from the previous SIGNAL / NOISE / DECISION / TAKE to
-// WATCH / SKIP / CALL / TAKE to avoid overlap with Krish's other business
-// (Signal & Noise).
 export type BriefTag = "WATCH" | "SKIP" | "CALL" | "TAKE";
 
 export type BriefCard = {
@@ -35,6 +35,23 @@ const tagStyles: Record<BriefTag, string> = {
 };
 
 const tags: (BriefTag | "ALL")[] = ["ALL", "WATCH", "SKIP", "CALL", "TAKE"];
+
+// Interpretation layer — the plain-English read on the ticker. Matches the
+// homepage teaser but fleshed out with supporting context.
+const INTERPRETATIONS: { headline: string; body: string }[] = [
+  {
+    headline: "Haiku 4.5 is the new default for everyday work.",
+    body: "Haiku 4.5 runs ~15x cheaper than Opus 4.7 and clears 90% of everyday reasoning tasks. If your summarisation, classification, or routing still defaults to Opus, you're burning a line item for no quality gain. The delta shows up first in the bill, then in latency.",
+  },
+  {
+    headline: "Gemini 2.5 Pro owns high-volume extraction.",
+    body: "At $1.25/M input, Gemini 2.5 Pro is the only frontier model under $2/M. For high-volume classification, document extraction, and retrieval-heavy pipelines, it's the default choice. Not Claude, not GPT-5. Multi-model stacks are the norm in production, not the exception.",
+  },
+  {
+    headline: "Frontier cost collapsed ~70% in 12 months.",
+    body: "The price-to-quality frontier has shifted so fast that any cost model older than 30 days is probably wrong. If your AI budget is a fixed line item set last year, you're under-using it, not over-using it. The smart move is to expand scope, not hold the line.",
+  },
+];
 
 const sampleArchive: BriefCard[] = [
   {
@@ -65,7 +82,7 @@ const sampleArchive: BriefCard[] = [
   {
     tag: "WATCH",
     timestamp: "1w ago",
-    headline: "Haiku 4.5 is cheaper than gpt-4o-mini and better on reasoning.",
+    headline: "Haiku 4.5 is cheaper than GPT-5 Mini and stronger on reasoning.",
     body: "Price-to-quality frontier shifted. Any LLM cost model older than 30 days is probably wrong.",
   },
   {
@@ -95,9 +112,16 @@ const sampleArchive: BriefCard[] = [
   },
 ];
 
+const EXAMPLES = [
+  "Should we build our own AI tools or use ChatGPT Teams?",
+  "Is it worth fine-tuning our own model?",
+  "Do we need an AI strategy or are we procrastinating?",
+];
+
 export default function Brief() {
   const [filter, setFilter] = useState<BriefTag | "ALL">("ALL");
   const [query, setQuery] = useState("");
+  const { data: blogPosts } = useBlogPosts();
 
   const filtered = useMemo(() => {
     return sampleArchive.filter((c) => {
@@ -113,35 +137,103 @@ export default function Brief() {
     });
   }, [filter, query]);
 
+  const featuredPosts = useMemo(() => (blogPosts || []).slice(0, 6), [blogPosts]);
+
+  const lastUpdated = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "short",
+    day: "numeric",
+  });
+
   return (
     <main className="min-h-screen bg-background">
       <SEO
         title="The Operator's Brief"
-        description="What's worth watching, what to skip, what to call, and what I make of it. Classified reads for leaders making AI decisions."
+        description="Live model prices, weekly classified reads (WATCH / SKIP / CALL / TAKE), and a nervous-decision machine for leaders making AI calls."
         canonical="/signal"
       />
       <Navigation />
 
-      <section className="section-padding pt-32">
+      {/* Page header */}
+      <section className="pt-32 pb-10 bg-ink text-white">
         <div className="container-width max-w-5xl">
-          <motion.div
-            initial="hidden"
-            animate="show"
-            variants={fadeUp}
-            className="text-center mb-10"
-          >
-            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-mint-dark dark:text-mint mb-4">
+          <motion.div initial="hidden" animate="show" variants={fadeUp} className="text-center">
+            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.24em] text-mint/80 mb-5">
+              <span className="h-1 w-1 rounded-full bg-mint" />
               The Operator's Brief
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight">
-              Watch. Skip. Call. Take.
+              The live sandbox.
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-              What I'm tracking this week. Classified by whether it's worth your time, and the calls you should be making.
+            <p className="text-lg md:text-xl text-white/60 max-w-2xl mx-auto">
+              Every model price, every signal, every decision worth making this week.
+            </p>
+            <p className="mt-3 text-xs text-white/30 uppercase tracking-wider font-mono">
+              Updated {lastUpdated}
             </p>
           </motion.div>
+        </div>
+      </section>
 
-          {/* Filters */}
+      {/* Extended ticker */}
+      <section className="bg-ink">
+        <div className="container-width max-w-6xl pb-10">
+          <PriceTicker size="lg" tone="dark" />
+        </div>
+      </section>
+
+      {/* Interpretation grid */}
+      <section className="section-padding bg-ink text-white border-t border-white/10">
+        <div className="container-width max-w-5xl">
+          <div className="mb-8">
+            <div className="text-xs font-bold uppercase tracking-[0.22em] text-mint/80 mb-3">
+              What this actually means
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
+              Read the prices in plain English.
+            </h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-5">
+            {INTERPRETATIONS.map((insight, i) => (
+              <motion.article
+                key={i}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: "-50px" }}
+                custom={i}
+                variants={fadeUp}
+                className="rounded-xl p-6 bg-white/5 border border-white/10"
+              >
+                <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-mint mb-3">
+                  Insight 0{i + 1}
+                </div>
+                <h3 className="font-bold text-base text-white leading-snug mb-3">
+                  {insight.headline}
+                </h3>
+                <p className="text-[13px] text-white/60 leading-relaxed">
+                  {insight.body}
+                </p>
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Classified cards grid */}
+      <section className="section-padding bg-background">
+        <div className="container-width max-w-5xl">
+          <div className="mb-8">
+            <div className="text-xs font-bold uppercase tracking-[0.22em] text-mint-dark dark:text-mint mb-3">
+              What I'm watching this week
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-2">
+              Watch. Skip. Call. Take.
+            </h2>
+            <p className="text-muted-foreground max-w-2xl">
+              Classified by whether it's worth your time, and the calls you should be making.
+            </p>
+          </div>
+
           <div className="flex flex-col md:flex-row md:items-center gap-4 mb-8">
             <div className="flex flex-wrap gap-2">
               {tags.map((t) => (
@@ -217,6 +309,92 @@ export default function Brief() {
               ))}
             </div>
           )}
+        </div>
+      </section>
+
+      {/* Blog column */}
+      {featuredPosts.length > 0 && (
+        <section className="section-padding bg-muted/30">
+          <div className="container-width max-w-5xl">
+            <div className="mb-8">
+              <div className="text-xs font-bold uppercase tracking-[0.22em] text-mint-dark dark:text-mint mb-3">
+                What I'm writing
+              </div>
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
+                Longer reads.
+              </h2>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {featuredPosts.map((post) => (
+                <a
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  className="group rounded-xl p-6 bg-background border border-border hover:border-mint/40 transition-colors flex flex-col h-full"
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-mint-dark dark:text-mint">
+                      Essay
+                    </span>
+                    {post.readingTime && (
+                      <span className="text-[10px] text-muted-foreground">
+                        {post.readingTime} min read
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="font-bold text-base leading-snug mb-2 group-hover:text-mint-dark dark:group-hover:text-mint transition-colors">
+                    {post.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3 flex-1">
+                    {post.excerpt}
+                  </p>
+                </a>
+              ))}
+            </div>
+            <div className="mt-8 text-center">
+              <a
+                href="/blog"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-mint-dark dark:text-mint hover:underline"
+              >
+                All essays <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Full nervous-decision input */}
+      <section className="section-padding bg-ink text-white border-t border-white/10">
+        <div className="container-width max-w-3xl">
+          <div className="mb-8 text-center">
+            <div className="text-xs font-bold uppercase tracking-[0.22em] text-mint/80 mb-3">
+              The Nervous Decision Machine
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-3">
+              The AI call you keep putting off? Paste it.
+            </h2>
+            <p className="text-white/60 max-w-xl mx-auto">
+              60 seconds, one 3-card artifact. No email required.
+            </p>
+          </div>
+          <NervousDecisionInput size="full" tone="dark" examples={EXAMPLES} />
+        </div>
+      </section>
+
+      {/* Footer nav */}
+      <section className="py-10 bg-background border-t border-border">
+        <div className="container-width max-w-5xl flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-muted-foreground">
+          <a href="/" className="hover:text-foreground transition-colors">
+            &larr; Back to home
+          </a>
+          <a href="/blog" className="hover:text-foreground transition-colors">
+            All blog posts &rarr;
+          </a>
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="hover:text-foreground transition-colors"
+          >
+            Back to top &uarr;
+          </button>
         </div>
       </section>
 

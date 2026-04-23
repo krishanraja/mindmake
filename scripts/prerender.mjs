@@ -44,13 +44,7 @@ const pages = [
     path: "/signal",
     title: "The Operator's Brief: Mindmaker",
     description:
-      "Watch, skip, call, and take. Classified reads for leaders making AI decisions, by Krish Raja.",
-  },
-  {
-    path: "/tool",
-    title: "The Nervous Decision Machine: Mindmaker",
-    description:
-      "Type the AI decision you're putting off. Get a one-page artifact in 60 seconds. No email required.",
+      "The live sandbox. Model prices, classified reads (WATCH / SKIP / CALL / TAKE), and a decision machine for leaders making AI calls.",
   },
   {
     path: "/blog",

@@ -26,8 +26,6 @@ const Cohort = lazy(() => import("./pages/Cohort"));
 const Enterprise = lazy(() => import("./pages/Enterprise"));
 const Operator = lazy(() => import("./pages/Operator"));
 const Brief = lazy(() => import("./pages/Brief"));
-const Tool = lazy(() => import("./pages/Tool"));
-const BuilderEconomy = lazy(() => import("./pages/BuilderEconomy"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Terms = lazy(() => import("./pages/Terms"));
@@ -41,6 +39,14 @@ const queryClient = new QueryClient();
 
 // Hash-aware redirect helper (301-equivalent client-side)
 const HashRedirect = ({ to }: { to: string }) => <Navigate to={to} replace />;
+
+// External redirect (for routes that now live on a different domain)
+const ExternalRedirect = ({ to }: { to: string }) => {
+  useEffect(() => {
+    window.location.replace(to);
+  }, [to]);
+  return null;
+};
 
 const AppRoutes = () => {
   const [globalConsultModalOpen, setGlobalConsultModalOpen] = useState(false);
@@ -75,10 +81,17 @@ const AppRoutes = () => {
             <Route path="/enterprise" element={<Enterprise />} />
             <Route path="/operator" element={<Operator />} />
             <Route path="/signal" element={<Brief />} />
-            <Route path="/tool" element={<Tool />} />
+
+            {/* /tool deleted — decision machine now lives inside Brief at /signal#decision */}
+            <Route path="/tool" element={<Navigate to="/signal#decision" replace />} />
+
+            {/* /builder-economy deleted — canonical site is thebuildereconomy.com */}
+            <Route
+              path="/builder-economy"
+              element={<ExternalRedirect to="https://www.thebuildereconomy.com" />}
+            />
 
             {/* Preserved pages */}
-            <Route path="/builder-economy" element={<BuilderEconomy />} />
             <Route path="/leaders" element={<LeadershipInsights />} />
             <Route path="/leadership-insights" element={<LeadershipInsights />} />
             <Route path="/blog" element={<Blog />} />

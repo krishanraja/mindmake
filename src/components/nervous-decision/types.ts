@@ -1,6 +1,5 @@
 // Shared types for the Nervous Decision Machine edge-function output.
-// Used by both the full-section NervousDecisionMachine and the compact
-// version embedded in OperatorsBrief.
+// Consumed by nervous-decision/Input and nervous-decision/Artifact.
 
 export type NDMPath = {
   name: string;

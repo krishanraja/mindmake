@@ -1,320 +1,307 @@
 # Features
 
-**Last Updated:** 2026-03-03
+**Last Updated:** 2026-04-23
 
 ---
 
 ## Product Offerings
 
-### 1. 4-Week Sprint (Core Product)
+Mindmaker is a barbell: three public offers, no middle tier, every offer with a fixed scope and finish line. Full detail lives in [OFFERS.md](./OFFERS.md).
+
+### 1. The AI Decision Cohort — $3,500/seat
 **Status:** Live
-**Duration:** 4 weeks
-**Price:** TBD
-**Route:** `/sprint/4-week`
+**Route:** `/cohort`
+**Implementation:** `src/pages/Cohort.tsx`
 
-**Tagline:** One decision. Four weeks. Board-ready.
+**For:** Senior leaders (CEO/COO/CFO/CPO/CCO/CMO/GM/VP-level) wrestling with an AI decision.
 
-**Description:** You have a nervous decision about AI. We help you make it with confidence. Week 1: clarity. Week 2: options. Week 3: decision. Week 4: board-ready memo.
+**Format:** ~5 weeks elapsed — 3 weeks async + 3 live sessions. 10–15 seats per cohort. Quarterly cadence.
 
-**The Four-Week Arc:**
-- **Week 1: Relief** — Name what you're actually anxious about
-- **Week 2: Momentum** — Map all options with trade-off analysis
-- **Week 3: Confidence** — Make the call, document why
-- **Week 4: Calm** — Board-ready, done
+**Outcome:** A board-ready position on one nervous decision (1-page decision memo), trade-off analysis, peer network.
 
-**What You Get:**
-- One clear, defensible decision
-- Trade-off analysis you can explain
-- Board-ready decision memo (1-2 pages)
-- ROI framework to measure success
-- 4 weekly decision sessions (60 min each)
-- Async support between sessions
+**Payment terms:** Full payment or 2× $1,800 split.
 
-**Example Nervous Decisions:**
-- Which vendors do we commit to?
-- What should I build vs buy?
-- How do I multiply my strongest edge?
-- What's my AI boundary?
-
-**Implementation:** `Sprint4Week.tsx`
+The next-cohort date renders literally on `/cohort` for now. When Supabase `cohort_dates` is wired up, replace the literal.
 
 ---
 
-### 2. 90-Day Sprint (Core Product)
+### 2. The Signal Session — $15,000
 **Status:** Live
-**Duration:** 90 days
-**Price:** TBD
-**Route:** `/sprint/90-day`
+**Route:** `/enterprise#signal-session`
+**Implementation:** `src/pages/Enterprise.tsx` (anchor section)
 
-**Tagline:** The full journey. Mind Set → Mind Map → Mind Make.
+**For:** Founders / CEOs / CCOs / CROs / CPOs at companies commercializing AI product or AI-enabled capability.
 
-**Description:** Three decisions. Three months. Complete transformation from AI chaos to calm, clear direction. Month 1: Mind Set (clarity). Month 2: Mind Map (systems). Month 3: Mind Make (deployment).
+**Format:** One intensive day (on-site or remote) + 2 weeks pre-work + written thesis delivered within 5 business days after.
 
-**The Three-Month Arc:**
-- **Month 1: Mind Set (Clarity)** — Identify 2-3 decisions that define AI direction
-- **Month 2: Mind Map (Leverage)** — Build working systems around actual workflows
-- **Month 3: Mind Make (Direction)** — Measure, document, board-ready narrative
+**Outcome:** Prioritized commercial thesis (written ~5–10 pages), top-3 commercial problems for next 90 days, clear read on whether Revenue Architecture is warranted.
 
-**What You Get:**
-- 3-5 deployed AI systems (working, measured, documented)
-- 2-3 strategic decisions resolved (with trade-off memos)
-- 12-month roadmap with clear gates and owners
-- Board-level confidence on AI
-- Team alignment on AI standards
-- Builder Dossier (all decisions, systems, learnings)
-
-**Extension Option:** 6-month Extended Sprint (continuation, discussed if relevant)
-
-**Full Sprint Guide:** See **[SPRINTS.md](./SPRINTS.md)** for week-by-week breakdowns, ICP-specific examples, and detailed deliverables.
-
-**Implementation:** `Sprint90Day.tsx`
+**Payment terms:** Payment on kickoff.
 
 ---
 
-### 3. Sprints Overview Page
+### 3. The Revenue Architecture — $60,000–$100,000
 **Status:** Live
-**Route:** `/sprints`
+**Route:** `/enterprise#revenue-architecture`
+**Implementation:** `src/pages/Enterprise.tsx` (anchor section)
 
-**Purpose:** Sprint chooser page with Builder/Orchestrator path selection and side-by-side comparison of 4-Week vs 90-Day sprints.
+**For:** Enterprise buyers ready for a commercial rebuild.
 
-**Implementation:** `Sprints.tsx`
+**Format:** 8–12 weeks elapsed. Kickoff workshop on-site; weekly working sessions + async deliverables. Krish-led, no associate model.
+
+**Outcome:** Positioning, pricing, packaging, GTM motion, ICP refresh, 12-month commercial roadmap, board narrative.
+
+**Payment terms:** 50/50 at kickoff and delivery.
 
 ---
 
-### 4. Decision Readiness Diagnostic (Lead Generation)
-**Status:** Live
-**Duration:** 10 minutes
-**Price:** Free
-**Route:** `/leaders`, `/leadership-insights`
+### Inquiry-Only: 1:1 Engagements
 
-**Purpose:** Self-serve diagnostic that identifies nervous decisions, determines Builder/Orchestrator type, and recommends the right sprint.
-
-**User Flow:**
-1. Intro screen with value prop
-2. 6-question diagnostic (Likert scale 1-5) covering:
-   - Leadership Growth (industry understanding, tool usage)
-   - Strategic Vision (roadmap clarity, vendor evaluation)
-   - Implementation (workflow adoption, readiness)
-3. Optional: Quick personalization (5 additional questions)
-4. Generating phase with progress animation
-5. Results page with:
-   - Decision Readiness Score with tier classification
-   - Builder or Orchestrator identification
-   - Top 3 nervous decisions (curated from answers)
-   - Recommended sprint (4-week or 90-day)
-   - Strengths and growth areas (free)
-   - Collapsible form to unlock full results via email
-
-**Tiers:**
-- AI-Leader (80-100)
-- AI-Advanced (65-79)
-- AI-Proficient (50-64)
-- AI-Developing (35-49)
-- AI-Emerging (0-34)
-
-**Implementation:** `LeadershipInsights.tsx`, `useLeadershipInsights.ts`, `send-leadership-insights-email` edge function
+Triggered by `/cohort?inquiry=1:1`. A muted banner surfaces a Contact link. No public pricing, no public page, not promoted. Handled per engagement.
 
 ---
 
-### 5. Initial Conversation (Entry Point)
-**Status:** Live
-**Duration:** Free conversation
-**Price:** Free
+## Retired Offers (do not reference)
 
-**Purpose:** Understand user context, identify nervous decision, recommend appropriate sprint
-
-**Booking Flow:**
-1. User clicks CTA ("What's your nervous decision?") → Modal opens
-2. Select sprint interest + enter name/email/job title
-3. Lead email sent with enriched data (company research, session engagement)
-4. Direct Calendly redirect for time booking
-5. The first conversation is free. No prep required.
-
-**Implementation:** `InitialConsultModal`, `send-lead-email` edge function
-
----
-
-### 6. Blog / Content Hub
-**Status:** Live
-**Routes:** `/blog`, `/blog/:slug`
-
-**Purpose:** Thought leadership content, SEO, and audience engagement
-
-**Features:**
-- Blog listing page with featured posts
-- Individual blog post pages with rich content
-- SEO-optimized with meta tags and structured data
-- Dark-themed CTA cards with WCAG-compliant contrast
-- Responsive design
-
-**Implementation:** `Blog.tsx`, `BlogPost.tsx`
-
----
-
-## Removed Products (Redirecting)
-
-| Old Product | Status | Redirect |
-|------------|--------|----------|
-| Builder Session (1hr) | Removed | `/builder-session` → `/` |
-| Leadership Lab (team) | Demoted | `/leadership-lab` → `/` |
-| Portfolio Partner | Demoted | `/portfolio-program` → `/` |
-| Builder Sprint (old) | Redirected | `/builder-sprint` → `/sprints` |
-
-**Leadership Lab** and **Portfolio Partner** are mentioned as post-sprint options ("What Comes Next") but have no public product pages.
+| Retired | Redirect |
+|---------|----------|
+| 4-Week Sprint | `/sprint/4-week` → `/cohort?inquiry=1:1` |
+| 90-Day Sprint | `/sprint/90-day` → `/cohort?inquiry=1:1` |
+| Sprints overview | `/sprints` → `/cohort` |
+| Builder Sprint | `/builder-sprint` → `/cohort?inquiry=1:1` |
+| Builder Session | `/builder-session` → `/` |
+| Leadership Lab | `/leadership-lab` → `/` |
+| Portfolio Partner | `/portfolio-program` → `/` |
+| War Room | `/war-room` → `/enterprise#revenue-architecture` |
+| Strategy Day | `/strategy-day` → `/enterprise#signal-session` |
+| Fractional CAIO | `/fractional-caio` → `/enterprise` |
 
 ---
 
 ## Website Features
 
-### Homepage Scroll Experience (/)
+### Homepage scroll (`/`)
 
-The homepage is a curated scroll experience with these blocks:
+Authoritative: `src/pages/Index.tsx`. Order:
 
-1. **Hero** — Rotating "nervous decision" headlines + "What's your nervous decision?" CTA
-2. **Framework Journey** — Mind Set → Mind Map → Mind Make visual performance
-3. **Who Is This For** — Builder vs Orchestrator fork with video panels
-4. **Sprint Chooser** — 4-Week vs 90-Day comparison cards
-5. **Trust Anchor** — Krish bio + proof points + testimonials
-6. **News Ticker** — AI news with SIGNAL/NOISE/DECISION/TAKE categories
-7. **Final CTA** — "You've been pitched enough." + "What's your nervous decision?"
+1. `NewHero` — rotating headlines, eyebrow "Questions I hear every week", looping `/rising-cities.mp4` background, mint pulse, particle background. Primary CTA "Book a call", secondary "See how I work" (smooth-scrolls to Y-fork).
+2. `YFork` — "Two ways I work." Card A = The Cohort ($3,500, `/cohort`). Card B = Enterprise (from $15,000, `/enterprise`).
+3. `BigProblem` — existential urgency frame.
+4. `TrustSection` — Krish bio + headshot + testimonials carousel (COHORT-STYLE / ENTERPRISE tagged).
+5. `FrameworkJourney` — three-panel animated Mind Set → Mind Map → Mind Make.
+6. `OperatorsEdge` — v5 typography-only credential section ("Beyond pattern recognition"). Three proof tiles (Architecture / Optimization / Memory). Primary CTA to Revenue Architecture, secondary link to `/operator`.
+7. `OperatorsBrief` — homepage teaser for The Operator's Brief. CSS-marquee PriceTicker + rotating interpretation line (3 takes, 8s cross-fade) + compact Nervous Decision input + muted link to full dashboard.
+8. `SimpleCTA` — final CTA.
+9. `Footer`.
 
-**Key Components:**
-- `NewHero.tsx` — Particle animation + rotating nervous decisions
-- `FrameworkJourney.tsx` — Mind Set → Mind Map → Mind Make visual journey
-- `TheProblem.tsx` — Builder/Orchestrator fork
-- `ProductLadder.tsx` — Sprint chooser (2-card layout)
-- `TrustSection.tsx` — Krish bio + testimonials
-- `AINewsTicker.tsx` — AI news ticker
-- `SimpleCTA.tsx` — Final CTA
+### Global overlays
 
-### Booking System
-- `InitialConsultModal` with sprint selection
-- Lead capture with session data context
-- Company research enrichment (OpenAI)
-- Email delivery with retry logic (Resend)
-- Calendly integration (pre-filled data)
-- Stripe integration (paused)
+Mounted in `src/App.tsx`:
+- `InitialConsultModal` — the single conversion surface. Opened via `window.dispatchEvent(new CustomEvent('openConsultModal', { detail: { preselected?: string } }))`
+- `PreCallQualifier` — floating pill bottom-right. 3-step intake drawer → keyword-classified offer recommendation → pre-loads modal via `SessionDataContext.setQualificationData`. Answers saved to `localStorage` under `mindmaker:pre-call-qualifier`, no email capture.
+- `CookieConsent`
 
-### AI Chatbot — "Ask Mindmaker"
-- Floating button (bottom right)
-- Slide-out panel
-- AI-powered responses (Vertex AI RAG with Gemini 2.5 Flash)
-- Custom RAG corpus (business-specific knowledge)
-- Trained on Mind Set → Mind Map → Mind Make framework
-- Context-aware with conversation history
-- Persistent across navigation
-- Voice input support (Web Speech API)
+### Navigation
 
-### News Ticker
-- AI-generated intelligence briefings
-- Categories: SIGNAL, NOISE, DECISION TRIGGER, KRISH'S TAKE
-- 10-15 headlines with cynical operator perspective
-- Fallback to static headlines on error
-- Powered by Lovable AI Gateway (Gemini 2.5 Flash)
+File: `src/components/Navigation.tsx`. Primary CTA button: **"Book a call"** (no conditional label).
 
-### Media Easter Eggs
-- `VideoDrawer` — Slide-out video player (for Krish's Cynical AI Take)
-- `AudioPlayer` — Expandable audio player (for voice content)
-- `ArtifactPreview` — Hover-to-reveal artifact previews (for sprint deliverables)
-- `ExpandableQuote` — Click-to-expand testimonial quotes
-- **Design Philosophy:** Media is discoverable easter eggs, not main content
+- **Cohort** (direct link): `/cohort`
+- **Enterprise** (dropdown): Signal Session, Revenue Architecture, All Enterprise
+- **The Brief** (link): `/signal`
+- **Resources** (dropdown): How I operate, Blog, Builder Economy (external), Lightning Lessons (external)
+- **About** (dropdown): FAQ, Contact, Privacy
 
-### Supporting Pages
-- `/sprint/4-week` — 4-Week Sprint detail
-- `/sprint/90-day` — 90-Day Sprint detail
-- `/sprints` — Sprint overview/chooser
-- `/leaders` — Decision Readiness Diagnostic
-- `/builder-economy` — Thought leadership
-- `/blog`, `/blog/:slug` — Blog
-- `/faq`, `/privacy`, `/terms`, `/contact` — Support pages
+Hides on scroll-down via `useScrollDirection`.
 
 ---
 
-## Technical Features
+## The AI Decision Cohort (`/cohort`)
 
-### Payment Processing
-**Status:** Paused (Stripe integration exists but bypassed)
-- Authorization holds ($50) — currently disabled
-- **Current flow:** Direct Calendly booking without payment hold
+- Offer detail, curriculum structure, enrollment flow
+- Next-cohort date currently literal, future: Supabase `cohort_dates` table
+- `/cohort?inquiry=1:1` query param surfaces the private-engagement banner
 
-### Edge Functions
-**Status:** Live (Supabase/Deno)
-- `chat-with-krish` — AI chatbot "Ask Mindmaker" (Vertex AI RAG + Gemini 2.5 Flash)
-- `get-ai-news` — News ticker (Lovable AI Gateway + Gemini 2.5 Flash)
-- `get-market-sentiment` — Market analysis (OpenAI GPT-4o-mini)
-- `send-lead-email` — Lead capture + company research (OpenAI + Resend)
-- `send-contact-email` — Contact form submissions (Resend)
-- `send-leadership-insights-email` — Diagnostic results + lead notification (Resend)
-- `create-consultation-hold` — Stripe checkout (paused)
+---
 
-### SEO Implementation
-**Status:** Complete (10/10 score)
-- Meta tags and Open Graph optimization
-- Structured data / Schema.org (JSON-LD)
-- robots.txt and sitemap.xml configured
-- Canonical URLs on all pages
+## Enterprise (`/enterprise`)
 
-### Authentication
-**Status:** Not implemented
-**Reason:** No user accounts needed (all via Calendly)
+- Entry point (Signal Session) and flagship (Revenue Architecture) detailed on one page
+- Anchor links `#signal-session`, `#revenue-architecture` for deep-links and redirects
+- "Informed by someone operating one, not just theorizing about it" credential line reinforces the Operator's Edge
 
-### Database
-**Status:** Minimal (Supabase connected)
-**Tables:** `leads`, `company_research_cache`
+---
+
+## The Operator's Brief (`/signal`)
+
+Renamed from "Signal Desk" to avoid overlap with Krish's separate business, Signal & Noise.
+
+**Homepage teaser (`OperatorsBrief.tsx`):** minimal. PriceTicker (continuous CSS-marquee) + rotating interpretation line (3 takes, 8s cross-fade) + compact Nervous Decision input + muted "Open the full dashboard →" link.
+
+**Full dashboard (`Brief.tsx`):**
+- Extended PriceTicker
+- 3-card plain-English interpretation grid
+- Classified card archive with filter pills (WATCH / SKIP / CALL / TAKE) + search
+- Blog column
+- Full-size Nervous Decision input with example chips
+
+**Shared components:**
+- `PriceTicker.tsx` — CSS-marquee, no native scrollbar, pauses on hover, respects `prefers-reduced-motion`
+- `nervous-decision/Input.tsx` (compact + full sizes)
+- `nervous-decision/Artifact.tsx`, `types.ts`
+
+**Model allowlist:** `src/hooks/useModelData.ts` exports `ALLOWED_MODEL_IDS`. Canonical set: Opus 4.7, Sonnet 4.6, Haiku 4.5, Gemini 2.5 Pro, Gemini 2.5 Flash, GPT-5, GPT-5 Mini.
+
+**Taxonomy:**
+- **WATCH** — worth acting on
+- **SKIP** — hype / ignore
+- **CALL** — a decision is overdue
+- **TAKE** — Krish's opinion
+
+Renamed from the previous SIGNAL / NOISE / DECISION / TAKE set.
+
+---
+
+## The Nervous Decision Machine
+
+Embedded only — no standalone page. `/tool` redirects to `/signal#decision`.
+
+**Components:**
+- `src/components/nervous-decision/Input.tsx` — compact (for homepage teaser) + full (for `/signal`) sizes
+- `src/components/nervous-decision/Artifact.tsx` — renders the typed response schema
+
+**Edge function:** `supabase/functions/nervous-decision-machine/index.ts`
+- Model: `claude-haiku-4-5-20251001`
+- Max 1500 tokens
+- JSON output schema enforced in system prompt
+- Krish's voice enforced in system prompt
+- 1-hour per-IP rate limit + global request ceiling as a soft circuit breaker
+- Requires `ANTHROPIC_API_KEY`
+
+---
+
+## The Operator Page (`/operator`)
+
+(v5) Typography-only credential page showing Krish as a practitioner running an actual agentic organization.
+
+Structure: Hero → thesis (no tool names listed) → 5-cluster static agent diagram (14 named agents) → four extractable lessons → commercial crossover. Page ends at the crossover CTA.
+
+**Design guardrails:**
+- No scrolling logs
+- No terminal aesthetics
+- No ASCII art
+- No interactive dashboards
+- Every claim passes the CMO-15-second test
+
+**SEO:** OG type `article`. Plausible event `operator_page_cta_clicked` tracks clicks on the Revenue Architecture CTA.
+
+---
+
+## The Operator's Edge Section (homepage)
+
+`src/components/OperatorsEdge.tsx`. Dark-bg section between `FrameworkJourney` and `OperatorsBrief`.
+
+- Heading "Beyond *pattern* recognition" (partial-mint treatment on "pattern" only)
+- Heading scale matches `FrameworkJourney` exactly: `text-[1.35rem] sm:text-3xl md:text-4xl lg:text-5xl font-bold`
+- Eyebrow "WHO YOU'RE WORKING WITH"
+- Three glass tiles: Architecture / Optimization / Memory
+- Primary CTA → `/enterprise#revenue-architecture`
+- Secondary muted link → `/operator`
+- Lead line (the anti-consultant statement) lives in a top-of-file constant for easy single-edit updates
+
+---
+
+## Homepage Y-Fork
+
+`src/components/YFork.tsx`. Two glass-cards side by side.
+
+- **Card A — The Cohort.** "Make your AI decisions with 15 other senior leaders." $3,500 per seat. CTA → `/cohort`.
+- **Card B — Enterprise.** "Your AI capabilities, translated into revenue." From $15,000. CTA → `/enterprise`.
+
+`NewHero`'s secondary CTA "See how I work" smooth-scrolls to `#y-fork`. Hero eyebrow reads "Questions I hear every week" (previous "DECISION BLOCKERS I HEAR EVERY WEEK" was normalised).
+
+---
+
+## Decision Readiness Diagnostic (`/leaders`)
+
+**Status:** Live but unlinked from nav and footer. Reachable by direct URL for deep-links and outbound campaigns.
+
+**Routes:** `/leaders`, `/leadership-insights` (alias).
+
+**Flow:**
+1. Intro screen with value prop
+2. 6 Likert-scale questions (auto-advance)
+3. Optional 5-question personalization or skip
+4. Generation phase (progress animation, never regresses)
+5. Results: Decision Readiness Score + tier, top 3 nervous decisions (curated from answers), recommended next step
+6. Collapsible form to unlock full results via email (`send-leadership-insights-email` edge function)
+
+**Tiers:** AI-Leader (80–100), AI-Advanced (65–79), AI-Proficient (50–64), AI-Developing (35–49), AI-Emerging (0–34).
+
+---
+
+## Booking Flow
+
+- Single entry point: `InitialConsultModal` opened via `openConsultModal` custom event
+- All CTAs route through this modal (except PreCallQualifier which pre-loads it)
+- Stripe $50 hold paused — direct Calendly booking
+- Lead enrichment via OpenAI company research in `send-lead-email`
+- Email delivery via Resend with exponential-backoff retry
+
+---
+
+## Blog (`/blog`, `/blog/:slug`)
+
+- Blog listing with featured posts
+- Individual post pages with SEO metadata
+- Responsive, WCAG-compliant dark CTA cards
+
+---
+
+## Edge Functions (live)
+
+- `nervous-decision-machine` — Anthropic Haiku 4.5
+- `get-ai-news` — Operator's Brief content (Lovable AI Gateway)
+- `get-market-sentiment` — OpenAI
+- `get-model-data` — frontier model price and spec feed
+- `send-lead-email` — OpenAI enrichment + Resend
+- `send-contact-email` — Resend
+- `send-leadership-insights-email` — Resend (dual delivery)
+- `create-consultation-hold` — Stripe (currently bypassed)
+
+---
+
+## SEO and LLM Discoverability
+
+- Meta + Open Graph on all pages (`SEO.tsx`)
+- Structured data (Schema.org JSON-LD)
+- `scripts/generate-sitemap.mjs` + `scripts/prerender.mjs` run during `npm run build`
+- `public/llms.txt` for LLM summaries
+- `public/robots.txt` allow-list for GPTBot, ClaudeBot, PerplexityBot, Google-Extended
+- Plausible event `operator_page_cta_clicked` on Revenue Architecture CTA from `/operator`
 
 ---
 
 ## Design System
 
-### Color Palette
-- **Ink** (#0e1a2b): Primary dark, structure, typography
-- **Mint** (#7ef4c2): Highlights, accents, CTAs (sparingly)
-- Neutrals: Off-white, light grey, mid grey, graphite
+See [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md) and [VISUAL_GUIDELINES.md](./VISUAL_GUIDELINES.md).
 
-### Typography
-- **Space Grotesk Variable**: Headings (h1-h6), display text
-- **Inter Variable**: Body text, UI elements
-
-### Components
-- Glass morphism cards (`.glass-card`)
-- Editorial cards (`.editorial-card`)
-- Dark CTA cards (`.dark-cta-card`) — WCAG AA compliant
-- Shadcn/ui base components
-- Framer Motion animations
-- Media easter egg components
-
-### Accessibility
-- WCAG AA compliant text contrast
-- `dark-card-*` utilities for text on dark backgrounds
-- Focus visible states
-- Reduced motion support
+Key points:
+- **Ink** `#0e1a2b` + **Mint** `#7ef4c2` — the two-color system
+- Inter Variable (body) + Space Grotesk Variable (display)
+- WCAG rule: never `text-mint` on light backgrounds
+- `.glass-card`, `.editorial-card`, `.dark-cta-card` utilities
 
 ---
 
-## Feature Roadmap
+## Retired Features (do not reference)
 
-### Q1 2026 (Completed)
-- Brand vision 11/10 implementation
-- Sprint detail pages (4-week + 90-day)
-- Framework Journey component
-- Media easter egg components
-- Decision Readiness Diagnostic rebrand
-- Chatbot rebrand to "Ask Mindmaker"
-- Navigation simplification
-- Full sprint documentation (SPRINTS.md)
-
-### Q2 2026
-- Video/audio content integration (when assets available)
-- Artifact previews on sprint pages
-- Extended Sprint positioning
-- Client portal dashboard
-- First testimonial collection from sprint graduates
-
-### Q3 2026
-- Community features
-- Template library
-- Advanced analytics
-- Leadership Lab structure formalized
+- ChatBot / "Chat with Krish" / "Ask Mindmaker" — replaced by `PreCallQualifier`
+- `/tool` standalone page — deleted
+- `ActionsHub` drawer and Interactive decision tools (BuilderAssessment, TryItWidget, AIDecisionHelper, FrictionMapBuilder, PortfolioBuilder) — unmounted
+- `VendorLandscape`, `AINewsTicker`, `TheProblem`, `ProductLadder` — replaced
+- Engine Room / mm-ctrl visualization — never built for homepage; lives nowhere public
+- CTRL as a Mindmaker product — not on site
+- Signal Desk naming — renamed to The Operator's Brief
 
 ---
 

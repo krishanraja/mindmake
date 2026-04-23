@@ -1,162 +1,149 @@
 # User Outcomes
 
-**Last Updated:** 2026-03-03
+**Last Updated:** 2026-04-23
 
 ---
 
 ## Outcome Framework
 
-Success = nervous decision resolved with calm confidence. Users pay for decisions that stick, not completion metrics.
+Success = the buyer walks away with an artefact they can defend and act on, inside the fixed finish line of the engagement. Mindmaker is paid for resolved decisions and rebuilt commercial architecture, not for activity, slides, or time.
+
+Every offer has a defined artefact, a defined finish line, and no retainer attached.
 
 ---
 
-## 4-Week Sprint Outcomes
+## Cohort Outcomes — The AI Decision Cohort
 
-### The Emotional Arc
+### Emotional arc
+
 ```
-Week 1: Relief     → Finally addressing the anxiety directly
-Week 2: Momentum   → Seeing options clearly for the first time
-Week 3: Confidence  → Decision made, defensible, documented
-Week 4: Calm        → Board-ready, done
-```
-
-### Immediate (End of Sprint)
-- One clear, defensible decision on their biggest AI anxiety
-- Trade-off analysis showing all options + why they picked theirs
-- Decision memo (1-2 pages, board-ready)
-- ROI framework to measure success in 3/6/12 months
-
-### 30 Days Later
-- 70%+ have presented decision to board/stakeholders
-- Confidence in AI direction: 3/10 → 8/10
-- Stopped dreading AI conversations
-
-### 90 Days Later
-- Decision validated with measurable results
-- ROI tracking in place
-- 50%+ considering 90-Day Sprint for broader decisions
-
-**Measurable:** Decision quality, board presentation confidence, ROI framework usage
-
----
-
-## 90-Day Sprint Outcomes
-
-### The Three-Month Arc
-```
-Month 1: Clarity    (Mind Set) → Identify 2-3 decisions that matter
-Month 2: Leverage   (Mind Map) → Build working systems around actual workflows
-Month 3: Direction  (Mind Make) → Measure, document, board-ready narrative
+Week 0:  Relief     → Finally naming the decision out loud to peers
+Week 1:  Clarity    → Cutting through vendor noise to the real question
+Week 2:  Momentum   → Options mapped, trade-offs visible, path narrowing
+Week 3:  Confidence → Board-ready position written, defended, committed
 ```
 
-### Immediate (End of Sprint)
-- 3-5 deployed AI systems (working, measured, documented)
-- 2-3 strategic decisions resolved (with trade-off memos)
-- 12-month AI roadmap with clear gates and owners
-- Board-level confidence (can defend every decision)
-- Team alignment on AI standards and boundaries
-- Builder Dossier (all decisions, systems, and learnings in one place)
+### Immediate (end of cohort)
 
-### 90 Days Later
-- 80%+ still using deployed systems
-- 8-15 hours/week saved across systems
-- 2-3 additional systems built independently
-- Team operating with shared AI decision framework
+- One board-ready position on one nervous AI decision (1-page decision memo)
+- Trade-off analysis with options named and rejection reasons documented
+- Peer network of 10–15 senior leaders working comparable decisions
+- Working fluency with the Mind Set → Mind Map → Mind Make framework
 
-### 6 Months Later
-- 60%+ built 5+ additional systems independently
-- 10-20x ROI measured and documented
-- Board-level confidence sustained
-- Some extend to 6-month Extended Sprint
+### 30 days later
 
-**Measurable:** Systems deployed, decisions resolved, hours saved, ROI, board confidence
+- Position presented to board, peers, or leadership team
+- Follow-up decisions surfacing, now with a framework for them
+- Peer network still active via private channel
 
----
+### 90 days later
 
-## Decision Readiness Diagnostic Outcomes
+- Decision implemented or visibly in motion
+- Second-order decisions being worked with cohort peers as sparring partners
+- ~30% of cohort members refer a peer to the next cohort
 
-### Immediate (After Completing Diagnostic)
-- Builder or Orchestrator identification
-- Top 3 nervous decisions surfaced (from curated list based on answers)
-- Recommended sprint (4-week or 90-day)
-- Decision Readiness Score with explanation
-
-### 30 Days Later
-- 40%+ proceed to sprint conversation
-- Better self-awareness of their actual AI anxiety
-- Clarity on whether they're a Builder or Orchestrator
-
-**Measurable:** Conversion to sprint, diagnostic completion rate, self-identification accuracy
+**What we measure:** Decision shipped, board readiness, peer network retention, referral rate.
 
 ---
 
-## Initial Conversation Outcomes
+## Signal Session Outcomes — Enterprise Entry
 
-### Immediate (After Free Conversation)
-- Nervous decision clearly named
-- Builder or Orchestrator path identified
-- Sprint recommendation (4-week or 90-day)
-- Clear next step (no ambiguity)
+### Immediate (within 5 business days)
 
-### 7 Days Later
-- 60%+ proceed to sprint
-- No "let me think about it" — decision to start or not is made
+- Written commercial thesis (~5–10 pages) delivered
+- Named list of the top 3 commercial problems to solve in the next 90 days
+- Clear read on whether the Revenue Architecture engagement is warranted
+- If warranted: scope estimate and proposed timeline; if not: the reasons why in writing
 
-**Measurable:** Conversion rate, time to decision, sprint starts
+### 30 days later
+
+- Buyer has circulated the thesis to their leadership team
+- Commercial priorities reframed around the thesis (pricing re-examined, positioning questioned, GTM debated)
+- Decision on whether to proceed to Revenue Architecture made with clarity, not pressure
+
+**What we measure:** Thesis delivered on time, clarity of next decision, honest read (no false upsell).
 
 ---
 
-## Outcome Categories
+## Revenue Architecture Outcomes — Enterprise Flagship
 
-### 1. Decision Quality
-- From "I don't know where to start" → clear, defensible decision
-- From "I've been avoiding this" → addressed with confidence
-- From "I can't explain our AI strategy" → board-ready memo
+### Immediate (end of 8–12 week engagement)
 
-### 2. Time Savings
-- 4-Week Sprint: 2-5 hrs/week saved on decision-related anxiety
-- 90-Day Sprint: 8-15 hrs/week saved from deployed systems
-- Board prep: from days → hours (memo already written)
+- Positioning document (board-ready)
+- Pricing architecture with tiers, value metric, packaging, discount policy
+- SKU / offer structure aligned to buyer journey
+- GTM motion map and sales enablement artefacts
+- Updated ICP definition with qualification signals
+- 12-month commercial roadmap with quarterly gates, owners, success metrics
+- Board narrative: the "AI → revenue" story leadership can defend
 
-### 3. Confidence
-- AI confidence: 3/10 → 8/10
-- Board readiness: anxious → calm
-- Vendor evaluation: overwhelmed → framework for deciding
+### 90 days post-engagement
 
-### 4. Business Impact
-- 10-20x ROI within 6 months
-- 3-5 deployed systems (90-day)
-- 12-month roadmap with measurable gates
+- Pricing live in the sales motion
+- Positioning reflected in collateral, site, sales deck
+- Sales qualifying against new ICP / framework
+- First read on pipeline impact (leading indicators: deal size, win rate, sales cycle length)
+
+### 6–12 months post-engagement
+
+- Measurable commercial impact on deal size, win rate, or ARR per customer
+- Board defending the AI → revenue narrative externally
+- Commercial roadmap gates met or course-corrected with accountability
+
+**What we measure:** Deliverables shipped, commercial artefacts in production, leading indicators at 90 days, ARR / deal size impact at 6–12 months.
+
+---
+
+## Outcome Categories (across all offers)
+
+### 1. Decision quality
+- From "I don't know where to start" → a defensible written position
+- From "I've been avoiding this" → resolved inside a fixed finish line
+- From "our commercial story is inconsistent" → a single board-ready narrative
+
+### 2. Commercial impact (enterprise)
+- Pricing that reflects the value the AI capability enables
+- Deal size and win rate moving in the right direction 6–12 months post-engagement
+- Sales team able to articulate differentiation without rehearsal
+
+### 3. Confidence (all audiences)
+- Board AI-readiness moving from "anxious improv" to "written and defensible"
+- Peer validation (cohort) or operator validation (enterprise) behind the thesis
+- No more dreading the next AI or commercial-strategy conversation
+
+### 4. Independence
+- Framework portable — Mind Set → Mind Map → Mind Make
+- Artefacts owned by the buyer, editable, and reusable
+- Success explicitly defined as "you don't need us next quarter"
 
 ---
 
 ## Anti-Outcomes
 
-- Not: "AI transformation" → Instead: One specific decision made and documented
-- Not: "AI strategy deck" → Instead: Board-ready decision memo (1-2 pages)
-- Not: "AI literacy improvement" → Instead: Nervous decision resolved with confidence
-- Not: "Tool recommendation" → Instead: Trade-off analysis so you can decide yourself
+- **Not** "AI transformation" → Instead: one specific decision or commercial artefact, finished
+- **Not** a 40-slide strategy deck → Instead: one-page decision memo (cohort) or board-ready commercial artefacts (enterprise)
+- **Not** ongoing retainer or fractional role → Instead: fixed scope, fixed finish line
+- **Not** tool recommendations → Instead: trade-off analysis so the buyer decides
+- **Not** implementation or production IT → Instead: the commercial and decision layer, with clean handover
 
 ---
 
 ## Testimonial Patterns
 
-**Pattern 1: "I stopped dreading..."**
-> "I stopped dreading board AI questions. Before the sprint, I was honestly just making it up as I went. Now I have real answers — not theater."
+**Pattern 1 — "I stopped dreading..."**
+> "I stopped dreading board AI questions. Before the cohort I was making it up. Now I have a written position I can defend without rehearsing."
 
-**Pattern 2: "We went from X to Y..."**
-> "We went from 14 tools to 3 systems that actually work. The 4-week sprint forced us to decide: what's actually strategic, and what's just noise?"
+**Pattern 2 — "We went from X to Y..."**
+> "We went from pricing guesswork to a tiered architecture with a value metric. Deal sizes doubled in the next two quarters because sales finally had a story."
 
-**Pattern 3: "I finally knew..."**
-> "I finally knew what to build versus buy. Krish didn't give me a recommendation. He gave me the framework to decide for myself."
-
----
+**Pattern 3 — "No vendor theatre..."**
+> "Krish never pitched a tool. Never tried to extend the engagement. The finish line was real. That's rarer than it should be."
 
 ---
 
 ## Related Documentation
 
-For complete sprint breakdowns with week-by-week detail and ICP-specific examples, see **[SPRINTS.md](./SPRINTS.md)**.
+For full offer detail and scope, see **[OFFERS.md](./OFFERS.md)**. For ICP qualification signals, see **[ICP.md](./ICP.md)**.
 
 ---
 

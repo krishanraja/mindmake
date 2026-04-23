@@ -1,6 +1,43 @@
 # History
 
-**Last Updated:** 2026-03-03
+**Last Updated:** 2026-04-23
+
+---
+
+## 2026-04-23: Documentation Upgrade — Barbell + Operator's Edge Alignment
+
+**What Changed:**
+- Rewrote business documentation to reflect the v4 barbell pivot and v5 Operator's Edge addition (both captured in `mindmaker_rebuild_brief_v4.md`)
+- Replaced `SPRINTS.md` with `OFFERS.md` covering The AI Decision Cohort ($3,500/seat), The Signal Session ($15,000), and The Revenue Architecture ($60,000–$100,000). Retired 1:1 sprint framing from public documentation
+- Retired the Builder / Orchestrator ICP split in favour of AI leaders (Cohort) vs AI products (Enterprise)
+- Removed the "What's your nervous decision?" CTA from documentation; primary CTA is now "Book a call" everywhere
+- Renamed the `/signal` surface from "Signal Desk" to "The Operator's Brief" (to avoid overlap with Krish's separate business, Signal & Noise)
+- Renamed editorial taxonomy from SIGNAL / NOISE / DECISION / TAKE to WATCH / SKIP / CALL / TAKE
+- Documented the v5 `OperatorsEdge` section and `/operator` page as credential surfaces
+- Documented `/tool` deletion (Nervous Decision Machine now embedded on homepage + `/signal`)
+- Documented Builder Economy as an external sister domain (`thebuildereconomy.com`), no longer a Mindmaker product
+- Updated `PreCallQualifier` as the replacement for the retired ChatBot / "Ask Mindmaker"
+- Updated architecture to reflect Anthropic Haiku 4.5 for `nervous-decision-machine`, `get-model-data` for PriceTicker, and the `ALLOWED_MODEL_IDS` allowlist
+
+**Why:**
+- Documentation lagged ~2 months behind the barbell pivot in the codebase and the CLAUDE.md reference
+- Salespeople, content writers, and AI agents reading the docs were receiving stale product names, stale CTA copy, and stale ICP framing
+- `mindmaker_rebuild_brief_v4.md` was updated; downstream docs weren't
+
+**Files Created:**
+- `project-documentation/OFFERS.md`
+
+**Files Deleted:**
+- `project-documentation/SPRINTS.md` (superseded by OFFERS.md)
+
+**Files Rewritten:**
+- `README.md`, `PURPOSE.md`, `VALUE_PROP.md`, `ICP.md`, `OUTCOMES.md`, `BRANDING.md`, `Master_Messaging_and_FAQ.md`, `ARCHITECTURE.md`, `FEATURES.md`, `DEPLOYMENT.md`, `COMMON_ISSUES.md`, `REPLICATION_GUIDE.md`
+
+**Files Surgically Updated:**
+- `DESIGN_SYSTEM.md` (CTA + card + retired patterns), `VISUAL_GUIDELINES.md` (homepage scroll + retired patterns), `HISTORY.md`, `DECISIONS_LOG.md`
+
+**Files Unchanged (research, not business content):**
+- `EXECUTIVE_SUMMARY.md`, `LLM_CRITICAL_THINKING_TRAINING.md` — noted in `README.md` as research artefacts
 
 ---
 
@@ -255,11 +292,33 @@
 ### Phase 8: Brand Vision 11/10 (Feb 2026)
 - Complete brand repositioning
 - Mind Set → Mind Map → Mind Make framework
-- 2-sprint product model (4-Week, 90-Day)
-- "What's your nervous decision?" CTA
-- Builder/Orchestrator ICP split
+- 2-sprint product model (4-Week, 90-Day) — superseded by the v4 barbell
+- "What's your nervous decision?" CTA — superseded by "Book a call" in v4
+- Builder/Orchestrator ICP split — superseded by AI leaders / AI products in v4
 - Media easter egg components
 - All documentation rewritten
+
+### Phase 9: Barbell Pivot (v4, early 2026)
+- Retired 1:1 sprint products from the public site
+- Introduced The AI Decision Cohort ($3,500/seat, quarterly)
+- Introduced enterprise-only pricing: Signal Session $15k, Revenue Architecture $60–100k
+- Repositioned the homepage Y-fork (AI leaders vs AI products)
+- New `/cohort` and `/enterprise` pages
+- Redirects for `/sprints`, `/sprint/4-week`, `/sprint/90-day`, `/war-room`, `/strategy-day`, `/fractional-caio`
+
+### Phase 10: Operator's Edge (v5, 2026)
+- Added `OperatorsEdge` homepage section (typography-only credential frame)
+- Added `/operator` credential page with 14-agent static diagram
+- Renamed Signal Desk → The Operator's Brief
+- Renamed editorial taxonomy → WATCH / SKIP / CALL / TAKE
+- Deleted `/tool` page (Nervous Decision Machine now embedded)
+- ChatBot retired; replaced by `PreCallQualifier` floating pill
+- CTA copy unified to "Book a call" everywhere
+
+### Phase 11: Documentation Upgrade (Apr 2026)
+- Rewrote all business documentation to match the v4/v5 state
+- Replaced `SPRINTS.md` with `OFFERS.md`
+- Updated architecture, features, deployment, common issues, and replication docs
 
 ---
 

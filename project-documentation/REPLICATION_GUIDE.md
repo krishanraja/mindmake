@@ -1,183 +1,164 @@
 # Replication Guide
 
-**Last Updated:** 2026-03-03
+**Last Updated:** 2026-04-23
 
 ---
 
 ## Overview
 
-This guide provides step-by-step instructions to replicate the Mindmaker platform from scratch. Follow these steps in order for a complete working build.
+Step-by-step instructions to replicate the Mindmaker platform. Follow in order.
 
 **Prerequisites:**
-- Node.js 18+ installed
-- npm or yarn package manager
-- Git installed
-- Lovable account (lovable.dev)
-- Calendly account (calendly.com)
+- Node.js 18+
+- npm
+- Git
+- Lovable account (`lovable.dev`) — or Vercel + Supabase if going non-Lovable
+- Calendly account
+- Anthropic, OpenAI, Resend accounts
 
-**Note:** Stripe integration exists but is currently paused. Not required for initial setup.
+**Note:** Stripe integration exists (`create-consultation-hold`) but is currently bypassed. Not required for initial setup.
 
 ---
 
 ## Phase 1: Environment Setup
 
-### Step 1: Create Lovable Project
-```bash
+### Step 1: Create Lovable project
+```
 1. Go to lovable.dev
-2. Click "New Project"
-3. Name: "mindmaker" (or your choice)
-4. Click "Create"
+2. New Project → "mindmaker"
 ```
 
 ### Step 2: Enable Lovable Cloud
-```bash
-1. In Lovable, click "Cloud" tab
-2. Click "Enable Cloud"
-3. Wait for Supabase project provisioning (2-3 min)
-4. Note: project_id in supabase/config.toml
-```
+Provisioning a Supabase project takes 2–3 min. Note the `project_id` in `supabase/config.toml`.
 
-### Step 3: Connect GitHub (Optional but Recommended)
-```bash
-1. Click "GitHub" button in Lovable
-2. Authorize Lovable GitHub App
-3. Select account/org
-4. Click "Create Repository"
-5. Repository created with bidirectional sync
-```
+### Step 3: Connect GitHub (recommended)
+Bidirectional sync via the Lovable GitHub App.
 
 ---
 
 ## Phase 2: Base Configuration
 
-### Step 4: Install Dependencies
+### Step 4: Install dependencies
 ```bash
-# Lovable auto-installs these, but for reference:
 npm install react@18.3.1 react-dom@18.3.1
-npm install @tanstack/react-query@5.83.0
-npm install react-router-dom@6.30.1
+npm install @tanstack/react-query@5
+npm install react-router-dom@6
 npm install @radix-ui/react-dialog @radix-ui/react-label
-npm install framer-motion@12.23.24
-npm install lucide-react@0.462.0
-npm install tailwindcss@3.4.1 tailwindcss-animate@1.0.7
-npm install class-variance-authority@0.7.1 clsx@2.1.1 tailwind-merge@2.6.0
-npm install @supabase/supabase-js@2.57.4
-npm install zod@3.25.76 react-hook-form@7.61.1
-npm install sonner@1.7.4
+npm install framer-motion@12
+npm install lucide-react
+npm install tailwindcss@3 tailwindcss-animate
+npm install class-variance-authority clsx tailwind-merge
+npm install @supabase/supabase-js
+npm install zod react-hook-form
+npm install sonner
+npm install next-themes
+npm install react-helmet-async
 ```
 
 ### Step 5: Configure Tailwind
-**File:** `tailwind.config.ts`
-```typescript
-// Copy from project-documentation/DESIGN_SYSTEM.md
-// Or use existing tailwind.config.ts from repo
-```
+Copy `tailwind.config.ts` from the repo. See `DESIGN_SYSTEM.md` for tokens.
 
-### Step 6: Set Up Design System
-**File:** `src/index.css`
-```css
-// Copy complete design tokens from repo
-// Or follow DESIGN_SYSTEM.md
-```
+### Step 6: Set up design system
+Copy `src/index.css` from the repo. See `DESIGN_SYSTEM.md`.
 
 ---
 
 ## Phase 3: Core Components
 
-### Step 7: Create Shadcn UI Components
-```bash
-# Lovable has these pre-installed, but for reference:
-# Copy all files from src/components/ui/
-- button.tsx, dialog.tsx, input.tsx, label.tsx, card.tsx, etc.
-```
+### Step 7: shadcn/ui components
+Copy files from `src/components/ui/`.
 
-### Step 8: Create Layout Components
-**Files to create:**
+### Step 8: Layout components
 ```
-src/components/Navigation.tsx      # Nav with Sprints/Resources/About dropdowns
+src/components/Navigation.tsx          # Cohort / Enterprise / The Brief / Resources / About
 src/components/Footer.tsx
-src/components/InitialConsultModal.tsx  # Main CTA modal
-src/components/ConsultationBooking.tsx
+src/components/InitialConsultModal.tsx # single conversion surface (openConsultModal event listener)
+src/components/PreCallQualifier.tsx    # floating pill, 3-step intake
+src/components/CookieConsent.tsx
 ```
 
-### Step 9: Create Page Components
-**Files to create:**
+### Step 9: Page components
 ```
-src/pages/Index.tsx              # Landing page (homepage scroll)
-src/pages/Sprint4Week.tsx        # 4-Week Sprint detail
-src/pages/Sprint90Day.tsx        # 90-Day Sprint detail
-src/pages/Sprints.tsx            # Sprint overview/chooser
-src/pages/LeadershipInsights.tsx # Decision Readiness Diagnostic
-src/pages/Blog.tsx               # Blog listing
-src/pages/BlogPost.tsx           # Individual blog posts
-src/pages/BuilderEconomy.tsx     # Thought leadership
-src/pages/Privacy.tsx
-src/pages/Terms.tsx
-src/pages/FAQ.tsx
-src/pages/Contact.tsx
+src/pages/Index.tsx                    # homepage (eager-loaded)
+src/pages/Cohort.tsx                   # The AI Decision Cohort
+src/pages/Enterprise.tsx               # Signal Session + Revenue Architecture
+src/pages/Operator.tsx                 # 14-agent OS credential page
+src/pages/Brief.tsx                    # The Operator's Brief (/signal)
+src/pages/LeadershipInsights.tsx       # Decision Readiness Diagnostic
+src/pages/Blog.tsx, BlogPost.tsx
+src/pages/FAQ.tsx, Contact.tsx, Privacy.tsx, Terms.tsx
 src/pages/NotFound.tsx
 ```
 
-### Step 10: Create Homepage Components
-**Files to create:**
+### Step 10: Homepage section components
 ```
-src/components/NewHero.tsx          # Hero with rotating nervous decisions
-src/components/FrameworkJourney.tsx  # Mind Set → Mind Map → Mind Make
-src/components/TheProblem.tsx       # Builder/Orchestrator fork
-src/components/ProductLadder.tsx    # Sprint chooser (2-card)
-src/components/TrustSection.tsx     # Krish bio + testimonials
-src/components/AINewsTicker.tsx     # SIGNAL/NOISE/DECISION/TAKE
-src/components/SimpleCTA.tsx        # Final CTA
+src/components/NewHero.tsx             # rotating headlines + Book a call CTA
+src/components/YFork.tsx               # Cohort vs Enterprise cards
+src/components/BigProblem.tsx          # existential urgency frame
+src/components/TrustSection.tsx        # Krish bio + testimonials carousel
+src/components/FrameworkJourney.tsx    # Mind Set → Mind Map → Mind Make
+src/components/OperatorsEdge.tsx       # v5 credential section
+src/components/OperatorsBrief.tsx      # homepage teaser for /signal
+src/components/PriceTicker.tsx         # CSS-marquee model price ticker
+src/components/SimpleCTA.tsx
 ```
 
-### Step 11: Create Media Easter Egg Components
-**Files to create:**
+### Step 11: Nervous Decision Machine components
 ```
-src/components/MediaEasterEggs/VideoDrawer.tsx      # Slide-out video
-src/components/MediaEasterEggs/AudioPlayer.tsx       # Expandable audio
-src/components/MediaEasterEggs/ArtifactPreview.tsx   # Hover-to-reveal
-src/components/MediaEasterEggs/ExpandableQuote.tsx   # Click-to-expand
+src/components/nervous-decision/Input.tsx     # compact + full sizes
+src/components/nervous-decision/Artifact.tsx
+src/components/nervous-decision/types.ts
+```
+
+### Step 12: Global context + hooks
+```
+src/contexts/SessionDataContext.tsx     # threads qualifier data into modal
+src/hooks/useModelData.ts               # ALLOWED_MODEL_IDS allowlist
+src/hooks/useScrollDirection.ts         # navbar hide/show
+src/hooks/useLeadershipInsights.ts
 ```
 
 ---
 
 ## Phase 4: Edge Functions
 
-### Step 12: Create Chatbot Function ("Ask Mindmaker")
-**File:** `supabase/functions/chat-with-krish/index.ts`
-- Vertex AI RAG with Gemini 2.5 Flash
-- Service account authentication
-- Mode detection (Builder Profile, Try It, Chat)
-- Anti-fragile error handling
-
-### Step 13: Create News Ticker Function
-**File:** `supabase/functions/get-ai-news/index.ts`
-- SIGNAL/NOISE/DECISION TRIGGER/KRISH'S TAKE categories
-- Lovable AI Gateway
-
-### Step 14: Create Lead Email Function
-**File:** `supabase/functions/send-lead-email/index.ts`
-- OpenAI-powered company research
-- Session data compilation
-- Resend email delivery with retry
-
-### Step 15: Create Other Functions
+### Step 13: Create Nervous Decision Machine function
 ```
+supabase/functions/nervous-decision-machine/index.ts
+```
+- Model: `claude-haiku-4-5-20251001`
+- Max 1500 tokens
+- JSON output schema in system prompt
+- Krish's voice enforced
+- 1-hour per-IP rate limit + global ceiling (soft circuit breaker)
+- Secret: `ANTHROPIC_API_KEY`
+
+### Step 14: Create other functions
+```
+supabase/functions/get-ai-news/index.ts               # Operator's Brief content
+supabase/functions/get-market-sentiment/index.ts
+supabase/functions/get-model-data/index.ts            # PriceTicker feed
+supabase/functions/send-lead-email/index.ts           # OpenAI enrichment + Resend
 supabase/functions/send-contact-email/index.ts
 supabase/functions/send-leadership-insights-email/index.ts
-supabase/functions/get-market-sentiment/index.ts
-supabase/functions/create-consultation-hold/index.ts (paused)
+supabase/functions/create-consultation-hold/index.ts  # Stripe (bypassed)
 ```
 
-### Step 16: Configure Functions
-**File:** `supabase/config.toml`
+### Step 15: Configure functions
 ```toml
+# supabase/config.toml
 project_id = "your-project-id"
 
-[functions.chat-with-krish]
+[functions.nervous-decision-machine]
 verify_jwt = false
 
 [functions.get-ai-news]
+verify_jwt = false
+
+[functions.get-market-sentiment]
+verify_jwt = false
+
+[functions.get-model-data]
 verify_jwt = false
 
 [functions.send-lead-email]
@@ -189,9 +170,6 @@ verify_jwt = false
 [functions.send-leadership-insights-email]
 verify_jwt = false
 
-[functions.get-market-sentiment]
-verify_jwt = false
-
 [functions.create-consultation-hold]
 verify_jwt = false
 ```
@@ -200,145 +178,149 @@ verify_jwt = false
 
 ## Phase 5: Integrations
 
-### Step 17: Set Up Google Vertex AI
-```bash
-1. Go to Google Cloud Console
-2. Enable Vertex AI API
-3. Create service account with Vertex AI permissions
-4. Download service account JSON key
-5. In Supabase: Settings → Secrets → Add GOOGLE_SERVICE_ACCOUNT_KEY
-6. Paste raw JSON (not base64 encoded)
-```
+### Step 16: Anthropic
+1. `console.anthropic.com` → API Keys → create key
+2. Supabase: Settings → Secrets → add `ANTHROPIC_API_KEY`
 
-### Step 18: Set Up Resend (Email)
-```bash
-1. Go to resend.com
-2. Create API key
-3. Verify sending domain
-4. In Supabase: Settings → Secrets → Add RESEND_API_KEY
-```
+### Step 17: OpenAI
+1. `platform.openai.com` → API keys
+2. Supabase: add `OPENAI_API_KEY`
 
-### Step 19: Set Up OpenAI
-```bash
-1. Go to platform.openai.com
-2. Create API key
-3. In Supabase: Settings → Secrets → Add OPENAI_API_KEY
-```
+### Step 18: Resend
+1. `resend.com` → API keys
+2. Verify sending domain
+3. Supabase: add `RESEND_API_KEY`
 
-### Step 20: Set Up Calendly
-```bash
-1. Go to calendly.com
-2. Create event type: "Mindmaker Initial Conversation"
-3. Duration: 30-45 minutes
-4. Get scheduling URL
-5. Update Calendly URL in ConsultationBooking component
-```
+### Step 19: Calendly
+1. Create event type: "Mindmaker Initial Consultation"
+2. 30–45 minutes
+3. Set redirect URL in `InitialConsultModal` flow
+
+### Step 20: Plausible (optional)
+Track `operator_page_cta_clicked` on `/operator` Revenue Architecture CTA.
 
 ---
 
-## Phase 6: Routing Setup
+## Phase 6: Routing
 
-**File:** `src/App.tsx`
+`src/App.tsx`:
 
-```typescript
-// Core routes
+```tsx
+// Live routes
 <Route path="/" element={<Index />} />
-<Route path="/sprints" element={<Sprints />} />
-<Route path="/sprint/4-week" element={<Sprint4Week />} />
-<Route path="/sprint/90-day" element={<Sprint90Day />} />
+<Route path="/cohort" element={<Cohort />} />
+<Route path="/enterprise" element={<Enterprise />} />
+<Route path="/operator" element={<Operator />} />
+<Route path="/signal" element={<Brief />} />
 <Route path="/leaders" element={<LeadershipInsights />} />
 <Route path="/leadership-insights" element={<LeadershipInsights />} />
 <Route path="/blog" element={<Blog />} />
 <Route path="/blog/:slug" element={<BlogPost />} />
-<Route path="/builder-economy" element={<BuilderEconomy />} />
 <Route path="/faq" element={<FAQ />} />
+<Route path="/contact" element={<Contact />} />
 <Route path="/privacy" element={<Privacy />} />
 <Route path="/terms" element={<Terms />} />
-<Route path="/contact" element={<Contact />} />
 
-// Redirects for old URLs
+// Internal redirects (HashRedirect preserves query + hash)
+<Route path="/tool" element={<Navigate to="/signal#decision" replace />} />
+<Route path="/sprints" element={<HashRedirect to="/cohort" />} />
+<Route path="/sprint/4-week" element={<HashRedirect to="/cohort?inquiry=1:1" />} />
+<Route path="/sprint/90-day" element={<HashRedirect to="/cohort?inquiry=1:1" />} />
+<Route path="/builder-sprint" element={<HashRedirect to="/cohort?inquiry=1:1" />} />
+<Route path="/war-room" element={<HashRedirect to="/enterprise#revenue-architecture" />} />
+<Route path="/strategy-day" element={<HashRedirect to="/enterprise#signal-session" />} />
+<Route path="/fractional-caio" element={<HashRedirect to="/enterprise" />} />
+
+// External redirect
+<Route path="/builder-economy" element={<ExternalRedirect to="https://www.thebuildereconomy.com" />} />
+
+// Legacy cleanup
+<Route path="/individual" element={<Navigate to="/" replace />} />
+<Route path="/team" element={<Navigate to="/" replace />} />
+<Route path="/builder" element={<Navigate to="/" replace />} />
 <Route path="/builder-session" element={<Navigate to="/" replace />} />
 <Route path="/leadership-lab" element={<Navigate to="/" replace />} />
 <Route path="/portfolio-program" element={<Navigate to="/" replace />} />
-<Route path="/builder-sprint" element={<Navigate to="/sprints" replace />} />
-<Route path="/individual" element={<Navigate to="/" replace />} />
-<Route path="/team" element={<Navigate to="/" replace />} />
+
 <Route path="*" element={<NotFound />} />
+```
+
+### Global overlays
+Mount inside `BrowserRouter` but outside `<Routes>`:
+```tsx
+<InitialConsultModal />
+<PreCallQualifier />
+<CookieConsent />
 ```
 
 ---
 
 ## Phase 7: Testing
 
-### Step 21: Test Locally
-```bash
-# Test these flows:
-1. Homepage loads with rotating nervous decisions
-2. Framework Journey animation works
-3. Builder/Orchestrator fork displays
-4. Sprint chooser (4-week vs 90-day) works
-5. CTA "What's your nervous decision?" opens modal
-6. Sprint detail pages load (/sprint/4-week, /sprint/90-day)
-7. Decision Readiness Diagnostic completes (/leaders)
-8. "Ask Mindmaker" chatbot responds
-9. News ticker shows SIGNAL/NOISE/DECISION/TAKE categories
-10. All redirects work (old URLs → new)
-11. Mobile view works
-12. No mint text on light backgrounds
-```
+### Step 21: Local test flows
+Verify end-to-end:
+1. Homepage loads with rotating headlines + "Book a call" CTA
+2. YFork shows Cohort ($3,500) and Enterprise (from $15k) cards
+3. Framework Journey animation plays
+4. Operator's Edge renders with "Beyond pattern recognition" at correct scale
+5. Operator's Brief teaser shows PriceTicker + rotating interpretation + compact NDM input
+6. `/cohort` loads with offer detail and inquiry-only banner when `?inquiry=1:1` present
+7. `/enterprise` loads with `#signal-session` and `#revenue-architecture` anchors
+8. `/operator` loads with 14-agent static diagram, no scrolling logs
+9. `/signal` loads full Operator's Brief dashboard with WATCH / SKIP / CALL / TAKE filter pills
+10. Nervous Decision Machine returns typed response on both homepage and `/signal`
+11. "Book a call" CTA opens `InitialConsultModal` from every surface
+12. `PreCallQualifier` pill opens drawer, completes 3-step intake, pre-loads modal
+13. `/leaders` diagnostic completes end-to-end
+14. All redirects function (see Phase 6)
+15. Mobile works (375px)
+16. No `text-mint` on light backgrounds anywhere
 
 ---
 
 ## Phase 8: Deployment
 
-### Step 22: Deploy Frontend
-```bash
-1. Click "Publish" in Lovable (or push to GitHub)
+### Step 22: Deploy
+1. Lovable: click Publish, or push to GitHub for auto-deploy
 2. Wait for CDN propagation
-3. Test live URL
-```
+3. Test live URL against the Phase 7 flows
 
-### Step 23: Final Smoke Tests
-```bash
-1. Homepage loads with nervous decisions
-2. Navigation works (Sprints dropdown, Resources, About)
-3. "What's your nervous decision?" opens modal
-4. Sprint detail pages load
-5. Diagnostic works end-to-end
-6. Chatbot responds
-7. News ticker displays
-8. Mobile view works
-9. All redirects work
-10. No console errors
-```
+### Step 23: Final smoke tests
+- All navigation links work
+- All redirects work, including `/builder-economy` → external
+- Edge functions respond (check Lovable logs)
+- No console errors on any page
+- Analytics (Plausible) recording `operator_page_cta_clicked`
 
 ---
 
 ## Post-Launch Checklist
 
-### Required for Production
+**Required:**
 - [ ] Custom domain connected
-- [ ] SSL certificate verified
-- [ ] Analytics installed
-- [ ] Error tracking (Sentry, LogRocket, etc.)
+- [ ] SSL verified
+- [ ] Analytics installed (Plausible recommended)
+- [ ] Error tracking (Sentry or similar)
 - [ ] Legal pages reviewed
 - [ ] WCAG AA compliance verified
 
-### Recommended
-- [ ] Set up monitoring (uptime, performance)
-- [ ] Configure email notifications
-- [ ] Set up CRM integration
-- [ ] Create operations runbook
+**Recommended:**
+- [ ] Uptime monitoring
+- [ ] Email deliverability monitoring (Resend dashboard)
+- [ ] CRM integration (lead pipeline)
+- [ ] Cohort dates → Supabase table (replace `Cohort.tsx` literal)
 
 ---
 
 ## Support Resources
 
-- **Lovable Docs:** https://docs.lovable.dev
-- **Supabase Docs:** https://supabase.com/docs
-- **TailwindCSS Docs:** https://tailwindcss.com/docs
-- **React Docs:** https://react.dev
-- **Brand Guide:** `CLAUDE.md` in repo root
+- Lovable Docs — `docs.lovable.dev`
+- Supabase Docs — `supabase.com/docs`
+- Anthropic API Docs — `docs.anthropic.com`
+- Tailwind Docs — `tailwindcss.com/docs`
+- React Docs — `react.dev`
+- Authoritative codebase reference — `CLAUDE.md` (repo root)
+- Strategic brief — `project-documentation/mindmaker_rebuild_brief_v4.md`
 
 ---
 

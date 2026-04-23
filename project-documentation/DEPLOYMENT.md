@@ -1,243 +1,181 @@
 # Deployment Checklist
 
-**Last Updated:** 2026-03-03
+**Last Updated:** 2026-04-23
 
-This document outlines the pre-deploy and post-deploy verification steps for the Mindmaker project.
+Pre-deploy and post-deploy verification for the Mindmaker project.
 
 ---
 
 ## Pre-Deploy Checklist
 
-Run these checks before every deployment:
+### 1. Build & type checks
+- [ ] `npm run build` passes with no errors (runs Vite → `scripts/generate-sitemap.mjs` → `scripts/prerender.mjs`)
+- [ ] TypeScript compilation succeeds in strict mode
+- [ ] `npm run lint` passes with no warnings
 
-### 1. Build & Type Checks
-- [ ] `npm run build` passes with no errors
-- [ ] TypeScript compilation succeeds with no type errors
-- [ ] ESLint passes with no warnings/errors
+### 2. Environment variables
+All required secrets configured in Lovable Cloud / Supabase:
+- [ ] `ANTHROPIC_API_KEY` — required for the Nervous Decision Machine (Claude Haiku 4.5)
+- [ ] `OPENAI_API_KEY` — lead enrichment + market sentiment
+- [ ] `RESEND_API_KEY` — email delivery
+- [ ] `LOVABLE_API_KEY` — AI gateway (auto-provisioned)
+- [ ] `STRIPE_SECRET_KEY` — optional, currently bypassed
 
-### 2. Environment Variables
-- [ ] All required secrets are configured in Lovable Cloud/Supabase:
-  - `GOOGLE_SERVICE_ACCOUNT_KEY` (Vertex AI RAG - required for chatbot)
-  - `OPENAI_API_KEY` (market sentiment, lead enrichment)
-  - `RESEND_API_KEY` (email delivery - required for lead capture)
-  - `LOVABLE_API_KEY` (AI gateway for news ticker - auto-provisioned)
-  - `STRIPE_SECRET_KEY` (payments - optional, currently paused)
+### 3. Edge functions
+- [ ] All functions handle OPTIONS preflight + CORS headers
+- [ ] All functions return 200 on error with fallback data (anti-fragile design)
+- [ ] `nervous-decision-machine` rate limiter configured (1-hour per IP + global ceiling)
 
-### 3. Edge Functions
-- [ ] All edge functions have CORS headers configured
-- [ ] All edge functions handle OPTIONS preflight requests
-- [ ] All edge functions return 200 on error with fallback data (anti-fragile design)
-- [ ] Logging is present for all key branches
-- [ ] Mode detection logic is correct (Builder Profile, Try It, Chat)
+### 4. Frontend routes
+All routes in `src/App.tsx` accessible:
 
-### 4. Database (if applicable)
-- [ ] Migrations have been applied
-- [ ] RLS policies are in place for all tables
-- [ ] No breaking schema changes without migration
+**Live pages:**
+- [ ] `/` (Index) — homepage
+- [ ] `/cohort` (Cohort) — AI Decision Cohort
+- [ ] `/enterprise` (Enterprise) — Signal Session + Revenue Architecture
+- [ ] `/operator` (Operator) — v5 credential page
+- [ ] `/signal` (Brief) — The Operator's Brief
+- [ ] `/leaders`, `/leadership-insights` (LeadershipInsights) — diagnostic
+- [ ] `/blog`, `/blog/:slug` — blog
+- [ ] `/faq`, `/contact`, `/privacy`, `/terms` — support pages
 
-### 5. Frontend
-- [ ] All routes are accessible (see route list below)
-- [ ] Mobile responsive layouts verified (375px, 640px, 1024px)
-- [ ] No console errors on page load
-- [ ] All external links working
-- [ ] No horizontal scrollbar on hero (check with hard refresh)
-- [ ] Side drawers/sheets positioned below navbar
-- [ ] Text contrast WCAG AA compliant on dark backgrounds
+**Redirects:**
+- [ ] `/tool` → `/signal#decision`
+- [ ] `/builder-economy` → `https://www.thebuildereconomy.com` (external)
+- [ ] `/sprints` → `/cohort`
+- [ ] `/sprint/4-week`, `/sprint/90-day`, `/builder-sprint` → `/cohort?inquiry=1:1`
+- [ ] `/war-room` → `/enterprise#revenue-architecture`
+- [ ] `/strategy-day` → `/enterprise#signal-session`
+- [ ] `/fractional-caio` → `/enterprise`
+- [ ] `/individual`, `/team`, `/builder`, `/builder-session`, `/leadership-lab`, `/portfolio-program` → `/`
 
-### 6. Design System Compliance
-- [ ] No hardcoded colors (use tokens)
-- [ ] Dark backgrounds use `.dark-cta-card` or `text-dark-card-*` utilities
-- [ ] No `text-white/80` on dark backgrounds
-- [ ] Critical CSS in `@layer components` (not inline styles)
-- [ ] **No `text-mint` on white/light backgrounds** (critical WCAG rule)
+### 5. Design system compliance
+- [ ] No hardcoded hex colors (use design tokens)
+- [ ] No `text-mint` on white or light backgrounds (WCAG fail)
+- [ ] No `text-white/80` or opacity variants on dark backgrounds — use `.dark-cta-card` or `text-dark-card-*`
+- [ ] Side drawers / sheets positioned below navbar via `.sheet-navbar-aware`
 
-### 7. Brand Compliance
-- [ ] All CTAs say "What's your nervous decision?" (primary CTA)
-- [ ] Framework language: Mind Set → Mind Map → Mind Make (everywhere)
-- [ ] Product names: "4-Week Sprint" and "90-Day Sprint" (not old names)
-- [ ] Chatbot branded as "Ask Mindmaker" (not "Chat with Krish")
-- [ ] Diagnostic labeled "Decision Readiness Diagnostic" (not "AI Leadership Benchmark")
-- [ ] No removed product references (Builder Session, Leadership Lab, Portfolio)
-- [ ] Voice/tone follows anti-consultancy guidelines (see BRANDING.md)
+### 6. Brand compliance
+- [ ] Primary CTA everywhere is **"Book a call"** (no conditional labels, not "What's your nervous decision?")
+- [ ] All CTAs route through `InitialConsultModal` via `window.dispatchEvent(new CustomEvent('openConsultModal'))`
+- [ ] Framework language: Mind Set → Mind Map → Mind Make (unchanged)
+- [ ] Offers labelled correctly: **The AI Decision Cohort**, **The Signal Session**, **The Revenue Architecture**
+- [ ] No references to retired offers (4-Week Sprint, 90-Day Sprint, Builder Sprint, Leadership Lab, Portfolio Partner, Fractional CAIO)
+- [ ] `/signal` labelled **"The Brief"** in nav, not "Signal Desk"
+- [ ] Taxonomy on `/signal` is **WATCH / SKIP / CALL / TAKE** (not SIGNAL / NOISE / DECISION / TAKE)
+- [ ] Decision Readiness Diagnostic (`/leaders`) is **not** linked from nav or footer
+- [ ] Pre-Call Qualifier floating pill renders on every page (no ChatBot anywhere)
 
----
+### 7. Content verification
+- [ ] Cohort next-cohort date updated on `/cohort` (literal in `Cohort.tsx` until Supabase `cohort_dates` wired up)
+- [ ] Pricing shown in context: $3,500 (cohort), $15,000 (Signal Session), $60,000–$100,000 (Revenue Architecture)
+- [ ] Payment terms rendered below each price: "Full payment or 2× split" / "Payment on kickoff" / "50/50 at kickoff and delivery"
+- [ ] Testimonials in `TrustSection.tsx` tagged COHORT-STYLE or ENTERPRISE
+- [ ] Operator's Edge lead line matches current anti-consultant statement (top-of-file constant in `OperatorsEdge.tsx`)
 
-## Route Verification
-
-All these routes should be accessible:
-
-| Route | Page | Status |
-|-------|------|--------|
-| `/` | Landing page | Must load |
-| `/sprints` | Sprint overview | Must load |
-| `/sprint/4-week` | 4-Week Sprint detail | Must load |
-| `/sprint/90-day` | 90-Day Sprint detail | Must load |
-| `/leaders` | Decision Readiness Diagnostic | Must load |
-| `/leadership-insights` | Diagnostic (alias) | Must load |
-| `/blog` | Blog listing | Must load |
-| `/blog/:slug` | Blog post | Must load |
-| `/builder-economy` | Thought leadership | Must load |
-| `/faq` | FAQ | Must load |
-| `/privacy` | Privacy policy | Must load |
-| `/terms` | Terms of service | Must load |
-| `/contact` | Contact | Must load |
-
-### Redirects (Should redirect correctly)
-| Old Route | Expected Redirect |
-|-----------|------------------|
-| `/builder-session` | `/` |
-| `/leadership-lab` | `/` |
-| `/portfolio-program` | `/` |
-| `/builder-sprint` | `/sprints` |
-| `/individual` | `/` |
-| `/team` | `/` |
-| `/builder` | `/` |
+### 8. SEO & LLM discoverability
+- [ ] `public/sitemap.xml` regenerated by build
+- [ ] `public/llms.txt` present
+- [ ] `public/robots.txt` allow-list includes GPTBot, ClaudeBot, PerplexityBot, Google-Extended
+- [ ] `/operator` OG type is `article`
 
 ---
 
 ## Post-Deploy Checklist
 
-Run these checks after every deployment:
-
-### 1. Health Check
+### 1. Health check
 - [ ] Homepage loads without errors
-- [ ] Navigation works (all links functional)
-- [ ] "Ask Mindmaker" chatbot responds to messages
-- [ ] AI news ticker displays headlines with SIGNAL/NOISE/DECISION/TAKE categories
+- [ ] Navigation works (Cohort / Enterprise / The Brief / Resources / About)
+- [ ] `PriceTicker` renders and scrolls on both `/` and `/signal`
+- [ ] Nervous Decision Machine returns a response on both homepage and `/signal`
 
-### 2. Regression Check
-- [ ] Decision Readiness Diagnostic works end-to-end
-- [ ] Sprint detail pages load (4-week and 90-day)
-- [ ] Sprint overview/chooser page loads
-- [ ] "What's your nervous decision?" CTA opens InitialConsultModal
-- [ ] Calendly booking modal opens after form submission
-- [ ] Blog pages load correctly
-- [ ] Homepage scroll experience flows properly (7 blocks)
+### 2. Conversion regression check
+- [ ] "Book a call" CTA opens `InitialConsultModal` from every page
+- [ ] `PreCallQualifier` floating pill opens drawer, completes 3-step intake, pre-loads modal
+- [ ] Modal submission invokes `send-lead-email`; Calendly opens with pre-filled identity
+- [ ] Decision Readiness Diagnostic (`/leaders`) completes end-to-end; unlock form sends `send-leadership-insights-email`
 
-### 3. Edge Function Verification
-- [ ] `chat-with-krish`: Send test message, verify response
-- [ ] `get-ai-news`: Check network tab for successful fetch
-- [ ] `send-lead-email`: (test environment only) Submit test lead
-- [ ] `send-leadership-insights-email`: (test) Complete diagnostic and unlock
+### 3. Edge function verification
+- [ ] `nervous-decision-machine`: valid prompt returns typed JSON artefact
+- [ ] `get-ai-news`: `/signal` editorial archive populates
+- [ ] `get-model-data`: PriceTicker populates with canonical 7 models
+- [ ] `send-lead-email`: (test env) submit lead, verify receipt
+- [ ] `send-leadership-insights-email`: (test env) complete diagnostic + unlock, verify dual email
 
-### 4. Log Scan
-- [ ] Check Lovable Cloud logs for any errors
-- [ ] Verify no 500 errors in edge function logs
-- [ ] Check for rate limiting issues
-- [ ] Verify no authentication failures (Vertex AI)
+### 4. Redirect check
+- [ ] `/tool` redirects to `/signal#decision`
+- [ ] `/builder-economy` redirects to external `thebuildereconomy.com`
+- [ ] `/sprints` redirects to `/cohort`
+- [ ] `/sprint/4-week` and `/sprint/90-day` redirect to `/cohort?inquiry=1:1`, and banner surfaces
+- [ ] `/war-room`, `/strategy-day`, `/fractional-caio` redirect to `/enterprise` anchors
 
-### 5. Performance
+### 5. Log scan
+- [ ] Check Lovable Cloud logs for errors
+- [ ] No 500s in edge function logs
+- [ ] No Anthropic rate-limit errors from Nervous Decision Machine
+
+### 6. Performance
 - [ ] Page load under 3s on desktop
-- [ ] No layout shift during scroll
-- [ ] Animations smooth (60fps)
-- [ ] No scrollbar flash on page load
+- [ ] No layout shift during homepage scroll
+- [ ] Hero video loads without flash
+- [ ] No horizontal scrollbar on hero (regression check)
 
-### 6. Accessibility
-- [ ] Text contrast passes WCAG AA on all pages
-- [ ] Focus states visible on interactive elements
-- [ ] Screen reader announces dialog content
+### 7. Accessibility
+- [ ] Text contrast passes WCAG AA on every page (check dark sections especially: Hero, Operator's Edge, SimpleCTA, `/operator`)
+- [ ] Focus states visible on all interactive elements
+- [ ] `PriceTicker` respects `prefers-reduced-motion`
 
 ---
 
-## Environment Secrets Reference
+## Secrets Reference
 
-### Required Secrets
-
+### Required
 | Secret | Purpose | Provider |
 |--------|---------|----------|
-| `GOOGLE_SERVICE_ACCOUNT_KEY` | Vertex AI RAG authentication | Google Cloud |
+| `ANTHROPIC_API_KEY` | Nervous Decision Machine | Anthropic |
+| `OPENAI_API_KEY` | Lead enrichment, market sentiment | OpenAI |
 | `RESEND_API_KEY` | Email delivery | Resend |
-| `OPENAI_API_KEY` | Market sentiment, company research | OpenAI |
 
-### Auto-Provisioned Secrets
+### Auto-provisioned (Lovable Cloud)
+| Secret | Purpose |
+|--------|---------|
+| `LOVABLE_API_KEY` | AI gateway |
+| `SUPABASE_URL` | Database connection |
+| `SUPABASE_PUBLISHABLE_KEY` | Client API key |
+| `SUPABASE_SERVICE_ROLE_KEY` | Admin API key |
 
-| Secret | Purpose | Notes |
-|--------|---------|-------|
-| `LOVABLE_API_KEY` | AI Gateway (news ticker) | Auto-provisioned with Lovable Cloud |
-| `SUPABASE_URL` | Database connection | Auto-configured |
-| `SUPABASE_PUBLISHABLE_KEY` | Client API key | Auto-configured |
-| `SUPABASE_SERVICE_ROLE_KEY` | Admin API key | Auto-configured |
-
-### Optional Secrets
-
-| Secret | Purpose | Status |
-|--------|---------|--------|
-| `STRIPE_SECRET_KEY` | Payment processing | Currently paused |
-
----
-
-## Secret Configuration Guide
-
-### Google Service Account Key
-```json
-{
-  "type": "service_account",
-  "project_id": "gen-lang-client-0174430158",
-  "private_key_id": "...",
-  "private_key": "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n",
-  "client_email": "...",
-  "client_id": "...",
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://oauth2.googleapis.com/token"
-}
-```
-- Store as raw JSON (not base64 encoded)
-- Ensure service account has Vertex AI permissions
-- Project ID must match: `gen-lang-client-0174430158`
-
-### Resend API Key
-- Get from: https://resend.com/api-keys
-- Format: `re_...`
-- Ensure sending domain is verified (not using test domain)
-
-### OpenAI API Key
-- Get from: https://platform.openai.com/api-keys
-- Format: `sk-...`
-- Monitor usage to avoid quota issues
+### Optional
+| Secret | Status |
+|--------|--------|
+| `STRIPE_SECRET_KEY` | Payment holds — currently bypassed |
 
 ---
 
 ## Rollback Procedure
 
-If critical issues are found post-deploy:
+If critical issues surface post-deploy:
 
-1. **Identify the issue** via logs and console
-2. **Revert to previous commit** in Lovable
-3. **Verify rollback** by running post-deploy checklist
-4. **Document the issue** in COMMON_ISSUES.md
+1. Identify via Lovable Cloud logs + browser console
+2. Revert to previous commit in Lovable (or `git revert` + push)
+3. Run post-deploy checklist against rolled-back version
+4. Document in `COMMON_ISSUES.md`
+
+Edge functions redeploy automatically on code push (30–60s propagation).
 
 ---
 
 ## Deployment Schedule
 
-- **Preview deployments**: Automatic on every code change
-- **Production**: Manual review after preview verification
+- **Preview deployments:** automatic on every push
+- **Production:** manual promote after preview verification
 
 ---
 
-## Edge Function Deployment
+## Contact / Support
 
-Edge functions auto-deploy when code is pushed. Allow 30-60 seconds for deployment.
-
-### Verifying Deployment
-1. Check Lovable Cloud logs for deployment timestamp
-2. Test function endpoint directly
-3. Verify secrets are available via `Deno.env.get()`
-
-### Troubleshooting
-- If function returns 404: Wait 60 seconds, then retry
-- If secrets not found: Check Supabase Dashboard → Settings → Secrets
-- If CORS errors: Verify OPTIONS handler and headers
-
----
-
-## Contact
-
-For deployment issues, check:
-- `project-documentation/COMMON_ISSUES.md`
-- `project-documentation/ARCHITECTURE.md`
-- Edge function logs in Lovable Cloud
-- Supabase Dashboard logs
+- Lovable Cloud logs
+- Supabase dashboard logs
+- `COMMON_ISSUES.md` and `ARCHITECTURE.md` in this directory
 
 ---
 

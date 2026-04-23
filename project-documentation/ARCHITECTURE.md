@@ -1,6 +1,6 @@
 # Architecture
 
-**Last Updated:** 2026-03-03
+**Last Updated:** 2026-04-23
 
 ---
 
@@ -10,28 +10,28 @@
 - React 18.3.1
 - TypeScript (strict mode)
 - Vite 5.x (build tool)
-- TailwindCSS 3.x + tailwindcss-animate
-- Radix UI (headless components)
+- TailwindCSS 3.x + `tailwindcss-animate`
+- Radix UI (headless components, via shadcn/ui)
 - Framer Motion (animations)
 - React Router DOM 6.x
-- TanStack Query (data fetching)
+- TanStack Query (data fetching and caching)
 - React Helmet (SEO)
 - Zod (validation)
+- `next-themes` (class-based dark mode)
 
 **Backend:**
 - Supabase Edge Functions (Deno runtime)
-- Deno std@0.190.0
 
-**Third-Party Services:**
-- Stripe (payments) — **Paused: $50 hold bypassed, direct Calendly booking**
-- Calendly (scheduling)
-- Vertex AI RAG (chatbot with custom business knowledge)
-- Lovable AI Gateway (news ticker via Gemini 2.5 Flash)
-- OpenAI API (market sentiment, company research in lead emails)
-- Resend (email delivery)
+**Third-party services:**
+- Anthropic Claude API (Haiku 4.5, powers the Nervous Decision Machine)
+- OpenAI API (market sentiment, lead enrichment)
+- Lovable AI Gateway (The Operator's Brief content)
+- Resend (transactional email delivery)
+- Calendly (scheduling, post-consult modal)
+- Stripe (payment holds — currently bypassed)
 
-**Hosting & Deployment:**
-- Lovable Cloud (auto-deploy) / Vercel (frontend)
+**Hosting & deployment:**
+- Lovable Cloud / Vercel (frontend auto-deploy)
 - Supabase Cloud (edge functions)
 - GitHub integration (bidirectional sync)
 
@@ -42,408 +42,347 @@
 ```
 mindmaker/
 ├── src/
-│   ├── components/           # React components
-│   │   ├── ui/              # Shadcn base components
-│   │   ├── ChatBot/         # AI chatbot ("Ask Mindmaker")
-│   │   ├── Animations/      # Visual effects (ParticleBackground, etc.)
-│   │   ├── Interactive/     # Interactive demos (FrictionMap, etc.)
-│   │   ├── MediaEasterEggs/ # Video, audio, artifact components
-│   │   │   ├── VideoDrawer.tsx
-│   │   │   ├── AudioPlayer.tsx
-│   │   │   ├── ArtifactPreview.tsx
-│   │   │   └── ExpandableQuote.tsx
-│   │   ├── ShowDontTell/    # Content sections
-│   │   ├── ActionsHub.tsx   # Side drawer with actions
-│   │   ├── AINewsTicker.tsx # News ticker (SIGNAL/NOISE/DECISION/TAKE)
-│   │   ├── FrameworkJourney.tsx  # Mind Set → Mind Map → Mind Make
-│   │   ├── InitialConsultModal.tsx
-│   │   ├── ConsultationBooking.tsx
+│   ├── components/
+│   │   ├── ui/                       # shadcn/ui base components
+│   │   ├── Animations/
+│   │   │   └── ParticleBackground.tsx  # global particle field
+│   │   ├── nervous-decision/         # Nervous Decision Machine
+│   │   │   ├── Input.tsx             # compact + full sizes
+│   │   │   ├── Artifact.tsx
+│   │   │   └── types.ts
+│   │   ├── NewHero.tsx               # rotating headlines + CTAs
+│   │   ├── YFork.tsx                 # "Two ways I work" — Cohort vs Enterprise
+│   │   ├── BigProblem.tsx
+│   │   ├── TrustSection.tsx          # Krish bio + testimonials carousel
+│   │   ├── FrameworkJourney.tsx      # Mind Set → Mind Map → Mind Make
+│   │   ├── OperatorsEdge.tsx         # v5 credential section
+│   │   ├── OperatorsBrief.tsx        # homepage teaser for /signal
+│   │   ├── PriceTicker.tsx           # CSS-marquee model price ticker
+│   │   ├── SimpleCTA.tsx             # final CTA
 │   │   ├── Navigation.tsx
 │   │   ├── Footer.tsx
-│   │   ├── NewHero.tsx      # Hero with rotating nervous decisions
-│   │   ├── TheProblem.tsx   # Builder/Orchestrator fork
-│   │   ├── ProductLadder.tsx # Sprint chooser (4-week vs 90-day)
-│   │   ├── SimpleCTA.tsx    # Final CTA ("You've been pitched enough")
-│   │   ├── TrustSection.tsx # Krish bio + testimonials
-│   │   ├── SEO.tsx
-│   │   └── ...
-│   ├── pages/               # Route pages
-│   │   ├── Index.tsx        # Landing page (homepage scroll)
-│   │   ├── Sprint4Week.tsx  # 4-Week Sprint detail
-│   │   ├── Sprint90Day.tsx  # 90-Day Sprint detail
-│   │   ├── Sprints.tsx      # Sprint overview/chooser
-│   │   ├── LeadershipInsights.tsx  # Decision Readiness Diagnostic
-│   │   ├── Blog.tsx         # Blog listing
-│   │   ├── BlogPost.tsx     # Individual blog posts
-│   │   ├── BuilderEconomy.tsx # Thought leadership
+│   │   ├── InitialConsultModal.tsx   # global conversion surface
+│   │   ├── PreCallQualifier.tsx      # floating pill, 3-step intake
+│   │   ├── CookieConsent.tsx
+│   │   └── SEO.tsx
+│   ├── pages/
+│   │   ├── Index.tsx                 # homepage (eager-loaded)
+│   │   ├── Cohort.tsx                # The AI Decision Cohort
+│   │   ├── Enterprise.tsx            # Signal Session + Revenue Architecture
+│   │   ├── Operator.tsx              # How I operate (14-agent OS credential page)
+│   │   ├── Brief.tsx                 # The Operator's Brief — /signal
+│   │   ├── LeadershipInsights.tsx    # Decision Readiness Diagnostic — /leaders
+│   │   ├── Blog.tsx
+│   │   ├── BlogPost.tsx
 │   │   ├── FAQ.tsx
+│   │   ├── Contact.tsx
 │   │   ├── Privacy.tsx
 │   │   ├── Terms.tsx
-│   │   ├── Contact.tsx
 │   │   └── NotFound.tsx
-│   ├── hooks/               # Custom React hooks
-│   │   ├── useAssessment.ts      # Builder Profile logic
-│   │   ├── useLeadershipInsights.ts  # Diagnostic logic
-│   │   ├── useAINewsTicker.ts    # News ticker hook
-│   │   ├── useFrictionMap.ts     # Friction map logic
-│   │   ├── useVoiceInput.ts      # Voice input for chat
-│   │   ├── useScrollHijack.ts    # Scroll hijack for animations
-│   │   ├── useScrollDirection.ts # Navbar hide/show
-│   │   ├── useScrollLock.ts      # Animation scroll locking
-│   │   ├── useRealisticCounters.ts # Counter animations
+│   ├── hooks/
+│   │   ├── useModelData.ts           # includes ALLOWED_MODEL_IDS allowlist
+│   │   ├── useLeadershipInsights.ts
+│   │   ├── useScrollDirection.ts     # navbar hide/show
 │   │   └── ...
-│   ├── contexts/            # React contexts
-│   │   └── SessionDataContext.tsx
-│   ├── data/                # Static data files
-│   ├── lib/                 # Utilities
-│   ├── integrations/supabase/ # Supabase client
-│   ├── index.css            # Design system tokens
-│   ├── App.tsx              # Root component + routing
-│   └── main.tsx             # Entry point
+│   ├── contexts/
+│   │   └── SessionDataContext.tsx    # threads qualification data into modal
+│   ├── data/
+│   ├── lib/
+│   ├── integrations/supabase/
+│   ├── index.css                     # design tokens
+│   ├── App.tsx                       # routing + global overlays
+│   └── main.tsx
 ├── supabase/
-│   ├── functions/           # Edge functions
-│   │   ├── _shared/         # Shared utilities
-│   │   │   └── vertex-client.ts  # Vertex AI RAG client
-│   │   ├── chat-with-krish/     # "Ask Mindmaker" chatbot
-│   │   ├── get-ai-news/         # News ticker
+│   ├── functions/
+│   │   ├── _shared/
+│   │   ├── nervous-decision-machine/  # Anthropic Haiku 4.5
+│   │   ├── get-ai-news/               # The Operator's Brief content
 │   │   ├── get-market-sentiment/
+│   │   ├── get-model-data/            # frontier-model price and spec feed
 │   │   ├── send-lead-email/
 │   │   ├── send-contact-email/
 │   │   ├── send-leadership-insights-email/
-│   │   └── create-consultation-hold/ (paused)
-│   ├── migrations/          # SQL migrations
-│   └── config.toml          # Supabase config
-├── public/                  # Static assets
-│   ├── robots.txt
-│   ├── sitemap.xml
+│   │   └── create-consultation-hold/  # Stripe — currently bypassed
+│   ├── migrations/
+│   └── config.toml
+├── public/
+│   ├── llms.txt                       # LLM discoverability
+│   ├── robots.txt                     # allow-list for GPTBot / ClaudeBot / PerplexityBot / Google-Extended
+│   ├── sitemap.xml                    # generated by scripts/generate-sitemap.mjs
+│   ├── rising-cities.mp4              # hero background video
 │   └── ...
-├── project-documentation/   # This documentation
-├── CLAUDE.md                # Brand vision 11/10 implementation guide
-├── tailwind.config.ts       # Tailwind config
-├── vite.config.ts           # Vite config
-└── package.json             # Dependencies
+├── scripts/
+│   ├── generate-sitemap.mjs
+│   └── prerender.mjs
+├── project-documentation/
+├── CLAUDE.md                          # authoritative codebase reference
+├── tailwind.config.ts
+├── vite.config.ts
+└── package.json
 ```
 
 ---
 
 ## Application Routes
 
-```typescript
-// src/App.tsx
-<Route path="/" element={<Index />} />
-<Route path="/sprints" element={<Sprints />} />
-<Route path="/sprint/4-week" element={<Sprint4Week />} />
-<Route path="/sprint/90-day" element={<Sprint90Day />} />
-<Route path="/builder-economy" element={<BuilderEconomy />} />
-<Route path="/privacy" element={<Privacy />} />
-<Route path="/terms" element={<Terms />} />
-<Route path="/faq" element={<FAQ />} />
-<Route path="/contact" element={<Contact />} />
-<Route path="/blog" element={<Blog />} />
-<Route path="/blog/:slug" element={<BlogPost />} />
-<Route path="/leaders" element={<LeadershipInsights />} />
-<Route path="/leadership-insights" element={<LeadershipInsights />} />
+Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `React.lazy`.
 
-// Redirects for old URLs
-<Route path="/builder-session" element={<Navigate to="/" replace />} />
-<Route path="/leadership-lab" element={<Navigate to="/" replace />} />
-<Route path="/portfolio-program" element={<Navigate to="/" replace />} />
-<Route path="/builder-sprint" element={<Navigate to="/sprints" replace />} />
-<Route path="/individual" element={<Navigate to="/" replace />} />
-<Route path="/team" element={<Navigate to="/" replace />} />
-<Route path="/builder" element={<Navigate to="/" replace />} />
-<Route path="*" element={<NotFound />} />
-```
+### Live pages
+
+| Route | Page | Notes |
+|-------|------|-------|
+| `/` | `Index` | Homepage, eager-loaded |
+| `/cohort` | `Cohort` | The AI Decision Cohort ($3,500/seat). Primary leader surface |
+| `/enterprise` | `Enterprise` | The Signal Session ($15k) + The Revenue Architecture ($60–100k) |
+| `/operator` | `Operator` | (v5) How I operate — 14-agent OS credential page |
+| `/signal` | `Brief` | The Operator's Brief — full dashboard |
+| `/leaders`, `/leadership-insights` | `LeadershipInsights` | Decision Readiness Diagnostic — unlinked from nav, reachable by URL |
+| `/blog`, `/blog/:slug` | `Blog`, `BlogPost` | |
+| `/faq` | `FAQ` | |
+| `/contact` | `Contact` | |
+| `/privacy`, `/terms` | `Privacy`, `Terms` | |
+| `*` | `NotFound` | Catch-all |
+
+### Client-side redirects (via `<Navigate replace />` / `<ExternalRedirect />`)
+
+| Old path | Redirects to | Mechanism |
+|----------|--------------|-----------|
+| `/tool` | `/signal#decision` | Navigate (page deleted; machine now embedded on homepage + `/signal`) |
+| `/builder-economy` | `https://www.thebuildereconomy.com` | `ExternalRedirect` (Builder Economy is now a separate sister domain) |
+| `/sprints` | `/cohort` | HashRedirect |
+| `/sprint/4-week` | `/cohort?inquiry=1:1` | HashRedirect |
+| `/sprint/90-day` | `/cohort?inquiry=1:1` | HashRedirect |
+| `/builder-sprint` | `/cohort?inquiry=1:1` | HashRedirect |
+| `/war-room` | `/enterprise#revenue-architecture` | HashRedirect |
+| `/strategy-day` | `/enterprise#signal-session` | HashRedirect |
+| `/fractional-caio` | `/enterprise` | HashRedirect |
+| `/individual`, `/team`, `/builder`, `/builder-session`, `/leadership-lab`, `/portfolio-program` | `/` | Navigate |
+
+On `/cohort?inquiry=1:1`, a banner surfaces the inquiry-only private-engagement path without advertising it on the main page.
+
+No `/pricing` page — pricing lives in context on `/cohort` and `/enterprise`.
 
 ---
 
-## Data Flow
+## Homepage Scroll Order
 
-### Booking Flow (Current)
-**Status:** Stripe hold paused — Direct Calendly booking
+Authoritative source: `src/pages/Index.tsx`.
+
+1. `Navigation` — fixed top, hides on scroll-down via `useScrollDirection`
+2. `NewHero` — rotating headlines, "Book a call" primary CTA, "See how I work" secondary (smooth-scrolls to Y-fork)
+3. `YFork` — "Two ways I work." → `/cohort` vs `/enterprise`
+4. `BigProblem` — existential urgency frame
+5. `TrustSection` — Krish bio, headshot, testimonials carousel (COHORT-STYLE / ENTERPRISE tagged)
+6. `FrameworkJourney` — three-panel animated MindSet → MindMap → MindMake
+7. `OperatorsEdge` — v5 typography-only credential section ("Beyond pattern recognition")
+8. `OperatorsBrief` — homepage teaser (price ticker + rotating interpretation + compact Nervous Decision input + link to `/signal`)
+9. `SimpleCTA` — final CTA
+10. `Footer`
+
+### Global overlays (mounted in `src/App.tsx`)
+
+- `InitialConsultModal` — opened via `window.dispatchEvent(new CustomEvent('openConsultModal', { detail: { preselected?: string } }))`
+- `PreCallQualifier` — floating pill, 3-step intake, pre-loads modal via `SessionDataContext.setQualificationData`
+- `CookieConsent`
+
+---
+
+## Navigation Structure
+
+File: `src/components/Navigation.tsx`. Primary CTA: **"Book a call"** (no conditional label).
+
+- **Cohort** (direct link): `/cohort`
+- **Enterprise** (dropdown): The Signal Session → `/enterprise#signal-session`, The Revenue Architecture → `/enterprise#revenue-architecture`, All Enterprise → `/enterprise`
+- **The Brief** (link, label for `/signal`): `/signal`
+- **Resources** (dropdown): How I operate → `/operator`, Blog → `/blog`, The Builder Economy (podcast, external) → `thebuildereconomy.com`, Lightning Lessons (external Maven)
+- **About** (dropdown): FAQ → `/faq`, Contact → `/contact`, Privacy → `/privacy`
+
+Decision Readiness Diagnostic (`/leaders`) is deliberately **not** in nav or footer.
+
+---
+
+## Data Flows
+
+### Booking Flow (current)
+
+Stripe $50 hold bypassed — direct Calendly booking.
 
 ```
-1. User clicks "What's your nervous decision?" CTA
-   └─> InitialConsultModal opens (React state)
+1. User clicks "Book a call" anywhere on site
+   └─> window.dispatchEvent('openConsultModal', { preselected? })
+   └─> InitialConsultModal opens
 
-2. User fills form + selects sprint interest
-   └─> Form submission (React event)
-   └─> Session data captured via SessionDataContext
+2. User fills form; SessionDataContext contributes qualifier data
+   └─> Submission invokes edge function
 
-3. Frontend calls edge function
-   └─> supabase.functions.invoke('send-lead-email', {
-         body: { name, email, jobTitle, selectedProgram, sessionData }
-       })
+3. supabase.functions.invoke('send-lead-email', { body: {...} })
+   └─> Edge function enriches via OpenAI (company research) + compiles session data
+   └─> Resend API delivers lead intelligence email (retry with exponential backoff)
 
-4. Edge function enriches lead data
-   └─> OpenAI research: domain → company info + latest news
-   └─> Compiles engagement data (friction map, assessment, etc.)
-
-5. Edge function sends email (with retry)
-   └─> Resend API with exponential backoff (3 attempts)
-   └─> Email to krish@themindmaker.ai with full lead intelligence
-
-6. User redirected to Calendly
-   └─> URL pre-filled with: name, email, sprint type
-   └─> Direct booking, no payment hold
+4. User redirected to Calendly with pre-filled identity + selected offer
 ```
 
-### Decision Readiness Diagnostic Flow
+### Pre-Call Qualifier Flow
+
 ```
-1. User navigates to /leaders
-   └─> LeadershipInsights page renders
-
-2. Intro → Start Diagnostic
-   └─> 6 Likert-scale questions (auto-advance)
-
-3. Optional personalization (5 more questions) or skip
-
-4. Generation phase
-   └─> Progress animation (easing, never regresses)
-   └─> Results calculated client-side
-
-5. Results displayed
-   └─> Decision Readiness Score + tier
-   └─> Builder or Orchestrator identification
-   └─> Top 3 nervous decisions
-   └─> Sprint recommendation (4-week or 90-day)
-   └─> Collapsible form to unlock full results
-
-6. User submits unlock form
-   └─> send-leadership-insights-email edge function
-   └─> User receives full results + Krish receives lead notification
+1. Floating pill bottom-right on every page ("Warm up before your call")
+2. User opens drawer → 3-step intake (Component: PreCallQualifier.tsx)
+3. Keyword classification → sprint / offer recommendation
+4. Answers saved to localStorage under 'mindmaker:pre-call-qualifier' (no email capture)
+5. Triggers openConsultModal with pre-loaded qualification data
 ```
 
-### Chatbot Flow ("Ask Mindmaker")
+### Nervous Decision Machine Flow
+
+Embedded inside `OperatorsBrief` on homepage and inside `Brief.tsx` at `/signal`. No standalone page — `/tool` redirects to `/signal#decision`.
+
 ```
-1. User clicks "Ask Mindmaker" button
-   └─> ChatPanel opens (slide-in animation)
-
-2. User types message
-   └─> Message added to conversation state
-
-3. Frontend calls edge function
-   └─> supabase.functions.invoke('chat-with-krish', {
-         body: { messages: conversationHistory }
-       })
-
-4. Edge function authenticates with Google
-   └─> JWT signed with service account → Access token
-
-5. Edge function calls Vertex AI RAG
-   └─> Gemini 2.5 Flash + custom RAG corpus
-   └─> Trained on Mind Set → Mind Map → Mind Make framework
-
-6. Response returned to frontend
-   └─> Displayed in ChatPanel
-
-7. Conversation persists in session
-   └─> localStorage (client-side only)
+1. User types a nervous decision prompt (compact or full input)
+2. supabase.functions.invoke('nervous-decision-machine', { prompt })
+3. Edge function calls Anthropic API
+   └─> Model: claude-haiku-4-5-20251001, max 1500 tokens
+   └─> System prompt enforces JSON schema + Krish's voice
+   └─> 1-hour per-IP rate limit + global request ceiling (soft circuit breaker)
+   └─> Requires ANTHROPIC_API_KEY
+4. Response renders via Artifact.tsx (typed schema in types.ts)
 ```
+
+### Decision Readiness Diagnostic Flow (`/leaders`)
+
+Route unlinked from nav; deep-link only.
+
+```
+1. Intro → 6 Likert-scale questions (auto-advance)
+2. Optional: 5 personalization questions, or skip
+3. Generation phase with progress animation (never regresses)
+4. Results (calculated client-side):
+   ├── Decision Readiness Score + tier
+   ├── Top 3 nervous decisions (curated from answer patterns)
+   └── Collapsible unlock form → send-leadership-insights-email
+5. Edge function delivers user results + lead notification to Krish
+```
+
+### The Operator's Brief (`/signal`) Flow
+
+- Extended `PriceTicker` using canonical `ALLOWED_MODEL_IDS` from `src/hooks/useModelData.ts` (current set: Opus 4.7, Sonnet 4.6, Haiku 4.5, Gemini 2.5 Pro, Gemini 2.5 Flash, GPT-5, GPT-5 Mini)
+- 3-card plain-English interpretation grid
+- Classified card archive (WATCH / SKIP / CALL / TAKE) with filter pills + search
+- Blog column
+- Full-size Nervous Decision input with example chips
+
+Price and model data flows through `get-model-data` edge function. Editorial cards currently inline; `get-ai-news` schema preserved for future dynamic feed.
 
 ---
 
 ## Edge Functions
 
-### Location
-`supabase/functions/[function-name]/index.ts`
+Location: `supabase/functions/[function-name]/index.ts`. All functions set `verify_jwt = false` in `supabase/config.toml`.
 
-### Configuration
-`supabase/config.toml`:
-```toml
-project_id = "smvwbbilnsprexeuplex"
+### `nervous-decision-machine`
+- Powers the Nervous Decision Machine embedded on homepage + `/signal`
+- Anthropic Claude (`claude-haiku-4-5-20251001`)
+- 1500 token max, JSON output schema, Krish's voice enforced in system prompt
+- 1-hour per-IP rate limit + global request ceiling (soft circuit breaker)
+- Secret: `ANTHROPIC_API_KEY`
 
-[functions.create-consultation-hold]
-verify_jwt = false
+### `get-ai-news`
+- Powers The Operator's Brief editorial feed
+- Categories: WATCH / SKIP / CALL / TAKE
+- Secret: `LOVABLE_API_KEY` (auto-provisioned)
 
-[functions.chat-with-krish]
-verify_jwt = false
+### `get-market-sentiment`
+- Market sentiment analysis (OpenAI)
+- Secret: `OPENAI_API_KEY`
 
-[functions.get-ai-news]
-verify_jwt = false
+### `get-model-data`
+- Frontier-model price and spec feed for PriceTicker and `/signal` interpretation grid
+- Allowlist lives in `src/hooks/useModelData.ts` as `ALLOWED_MODEL_IDS`
 
-[functions.get-market-sentiment]
-verify_jwt = false
+### `send-lead-email`
+- Captures and enriches lead data (company research via OpenAI)
+- Resend API for delivery, retry with exponential backoff (3 attempts)
+- Secrets: `RESEND_API_KEY`, `OPENAI_API_KEY`
 
-[functions.send-lead-email]
-verify_jwt = false
+### `send-contact-email`
+- Contact form submissions
+- Secret: `RESEND_API_KEY`
 
-[functions.send-contact-email]
-verify_jwt = false
+### `send-leadership-insights-email`
+- Dual email delivery: diagnostic results to user + lead notification to Krish
+- Secret: `RESEND_API_KEY`
 
-[functions.send-leadership-insights-email]
-verify_jwt = false
-```
-
-### Current Functions
-
-#### `chat-with-krish` — "Ask Mindmaker"
-**Purpose:** AI chatbot powered by Google Vertex AI RAG with Gemini 2.5 Flash
-
-**Brand Voice:** Confident, slightly cynical, deeply helpful. Trained on Mind Set → Mind Map → Mind Make framework.
-
-**Secrets Required:** `GOOGLE_SERVICE_ACCOUNT_KEY`
-
-**Architecture:**
-- Service account authentication (RS256 JWT signing)
-- Token caching (50-minute lifetime)
-- RAG corpus integration for business-specific knowledge
-- Mode detection: Builder Profile, Try It Widget, Chat
-- Anti-fragile design: always returns usable content
-
-**Token Allocation:**
-- Builder Profile: 4096 tokens
-- Try It Widget: 1024 tokens
-- Chat: 2048 tokens
-
-**Vertex AI Configuration:**
-- Project: `gen-lang-client-0174430158`
-- Region: `us-east1`
-- Model: `gemini-2.5-flash`
-- RAG Corpus: `6917529027641081856`
-
-#### `get-ai-news`
-**Purpose:** Fetches AI news for ticker with SIGNAL/NOISE/DECISION/TAKE categories
-
-**Secrets Required:** `LOVABLE_API_KEY` (auto-provisioned)
-
-**Categories:**
-- SIGNAL — Actually matters for business leaders
-- NOISE — Hype, funding, vendor marketing (ignore)
-- DECISION TRIGGER — Act on this, something changed
-- KRISH'S TAKE — Opinion/analysis from Mindmaker
-
-#### `get-market-sentiment`
-**Purpose:** Analyzes market sentiment using OpenAI
-
-**Secrets Required:** `OPENAI_API_KEY`
-
-#### `send-lead-email`
-**Purpose:** Captures lead data, enriches with company research, sends detailed email
-
-**Secrets Required:** `RESEND_API_KEY`, `OPENAI_API_KEY`
-
-**Features:**
-- OpenAI-powered company research
-- Session engagement compilation
-- Retry logic with exponential backoff (3 attempts)
-- Lead intelligence email to krish@themindmaker.ai
-
-#### `send-contact-email`
-**Purpose:** Sends contact form submissions
-
-**Secrets Required:** `RESEND_API_KEY`
-
-#### `send-leadership-insights-email`
-**Purpose:** Sends Decision Readiness Diagnostic results + lead notification
-
-**Secrets Required:** `RESEND_API_KEY`
-
-**Features:**
-- Dual email delivery (user results + Krish notification)
-- Sprint recommendation based on diagnostic results
-
-#### `create-consultation-hold` (PAUSED)
-**Purpose:** Creates Stripe authorization hold
-
-**Status:** Currently bypassed — direct Calendly booking
-
----
-
-## Authentication & Authorization
-
-**Current:** None (public site, no user accounts)
-**Future:** When implemented — Supabase Auth, JWT tokens, RLS policies
-
----
-
-## Database
-
-**Status:** Supabase connected, minimal usage
-**Current Tables:** `leads`, `company_research_cache`
+### `create-consultation-hold` (bypassed)
+- Stripe authorization hold — currently bypassed, Calendly booking direct
+- Secret: `STRIPE_SECRET_KEY`
 
 ---
 
 ## State Management
 
-**Global State:** None (using React Router + TanStack Query)
-**Local State:** React hooks (useState, useReducer)
-**URL State:** React Router (route params, search params)
-**Form State:** React Hook Form (validation, submission)
-**Server State:** TanStack Query (caching, refetching)
-**Context State:** `SessionDataContext` (session engagement tracking), `ThemeProvider` (light/dark)
+- **Routing / URL state:** React Router v6 (`BrowserRouter` in `App.tsx`)
+- **Server state:** TanStack Query (5-minute stale time)
+- **Form state:** React Hook Form + Zod schemas
+- **Context state:** `SessionDataContext` threads qualifier answers into the consult modal. `ThemeProvider` (next-themes) handles dark mode via class attribute.
+- **Local storage:** `mindmaker:pre-call-qualifier` key only (PreCallQualifier answers)
+- **No user authentication:** All bookings via Calendly; no user accounts
 
 ---
 
-## Performance Considerations
+## Database
 
-### Code Splitting
-- Route-based code splitting (React Router lazy)
-- Component lazy loading for heavy components
+- Supabase connected, minimal usage
+- Tables: `leads`, `company_research_cache`
+- RLS policies on all tables
+
+---
+
+## Performance
+
+- Route-based code splitting via React Router + `React.lazy`
 - Vite automatic chunking
-
-### Asset Optimization
-- Images: WebP format preferred
-- Fonts: Variable fonts (Inter Variable, Space Grotesk Variable), preloaded
-- Icons: SVG via Lucide React (tree-shakeable)
-
-### Caching Strategy
-- Static assets: Vite build hash (cache forever)
-- API responses: TanStack Query (5min stale time)
-- Edge function responses: No caching (always fresh)
-
-### CSS Performance
-- Layout containment for animation sections
-- `will-change` hints for scroll-triggered animations
-- Disabled heavy hover transforms on mobile/touch devices
+- Variable fonts (Inter Variable, Space Grotesk Variable), preloaded
+- Lucide React icons (SVG, tree-shakeable)
+- `TanStack Query` 5-min stale
+- Hero background video (`/rising-cities.mp4`) preloaded
+- CSS-marquee `PriceTicker` (no native scrollbar, pauses on hover, respects `prefers-reduced-motion`)
 
 ---
 
-## Security
+## SEO & LLM Discoverability
 
-### Environment Variables
-**Secrets stored in Supabase/Lovable Cloud:**
-- `GOOGLE_SERVICE_ACCOUNT_KEY` (Vertex AI RAG)
-- `OPENAI_API_KEY` (market sentiment, company research)
-- `LOVABLE_API_KEY` (AI Gateway — auto-provisioned)
-- `RESEND_API_KEY` (email delivery)
-- `STRIPE_SECRET_KEY` (payments — paused)
-
-### CORS Policy
-- Edge functions: Allow all origins (`*`)
-- Production: Will restrict to domain
-
-### Input Validation
-- Frontend: React Hook Form + Zod schemas
-- Backend: Zod validation in edge functions
-- HTML Escaping: XSS prevention in email templates
+- Meta + Open Graph across all pages via `SEO.tsx`
+- Structured data (Schema.org JSON-LD)
+- `scripts/generate-sitemap.mjs` generates `public/sitemap.xml` during build
+- `scripts/prerender.mjs` prerenders key routes post-build
+- `public/llms.txt` for LLM summaries
+- `public/robots.txt` allow-list for GPTBot, ClaudeBot, PerplexityBot, Google-Extended
+- `/operator` OG type set to `article`
+- Plausible event: `operator_page_cta_clicked` on the Revenue Architecture CTA from `/operator`
 
 ---
 
-## Deployment Pipeline
+## Build & Deploy
 
-### Development
 ```bash
-npm run dev          # Start Vite dev server
+npm run dev     # Vite dev server
+npm run lint    # ESLint
+npm run build   # Vite build → generate-sitemap.mjs → prerender.mjs → dist/
 ```
 
-### Build
-```bash
-npm run build        # Vite build → dist/
-npm run lint         # ESLint check
-```
+Push to GitHub triggers Lovable / Vercel auto-deploy. Edge functions auto-deploy (30–60s propagation).
 
-### Deploy
-```
-1. Push to GitHub
-   └─> Auto-sync to Lovable/Vercel
+---
 
-2. Frontend builds
-   └─> Deploys to CDN
+## Secrets Reference
 
-3. Edge functions auto-deploy
-   └─> 30-60 second deployment time
-```
+| Secret | Purpose | Required |
+|--------|---------|----------|
+| `ANTHROPIC_API_KEY` | Nervous Decision Machine | Yes |
+| `OPENAI_API_KEY` | Lead enrichment, market sentiment | Yes |
+| `RESEND_API_KEY` | Email delivery | Yes |
+| `LOVABLE_API_KEY` | AI Gateway (auto-provisioned by Lovable Cloud) | Auto |
+| `STRIPE_SECRET_KEY` | Payment holds | Optional (bypassed) |
+| `SUPABASE_*` | Auto-configured by Lovable Cloud | Auto |
 
 ---
 

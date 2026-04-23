@@ -169,7 +169,11 @@ Full documentation available in `/project-documentation/`:
 - **[BRANDING.md](./project-documentation/BRANDING.md)** - Brand voice and tone
 - **[VALUE_PROP.md](./project-documentation/VALUE_PROP.md)** - Value propositions
 - **[ICP.md](./project-documentation/ICP.md)** - Ideal Customer Profiles
-- **[SPRINTS.md](./project-documentation/SPRINTS.md)** - Full sprint guide (ICPs, breakdowns, outcomes)
+- **[OFFERS.md](./project-documentation/OFFERS.md)** - Full offer guide (Cohort, Signal Session, Revenue Architecture)
+- **[PURPOSE.md](./project-documentation/PURPOSE.md)** - Mission, vision, anti-goals
+- **[OUTCOMES.md](./project-documentation/OUTCOMES.md)** - Buyer outcomes by offer
+- **[Master_Messaging_and_FAQ.md](./project-documentation/Master_Messaging_and_FAQ.md)** - Sales pitches, FAQ, objection handling
+- **[REPLICATION_GUIDE.md](./project-documentation/REPLICATION_GUIDE.md)** - Step-by-step replication
 - **[COMMON_ISSUES.md](./project-documentation/COMMON_ISSUES.md)** - Known issues & solutions
 - **[HISTORY.md](./project-documentation/HISTORY.md)** - Change history
 - **[DECISIONS_LOG.md](./project-documentation/DECISIONS_LOG.md)** - Design decisions

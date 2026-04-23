@@ -214,12 +214,15 @@ Your smartest, most cynical friend who runs AI transformation every day and genu
 ## Related documentation
 
 - `project-documentation/mindmaker_rebuild_brief_v4.md` — the v4/v5 brief (barbell pivot + Operator's Edge) that shapes the current site.
-- `project-documentation/mindmaker_rebuild_brief_v3.md` — the prior v3 brief, preserved for diffing.
-- `project-documentation/EXECUTIVE_SUMMARY.md`, `PURPOSE.md` — brand thesis + positioning.
-- `project-documentation/SPRINTS.md` — full sprint library (Builder + Orchestrator tracks).
-- `project-documentation/ICP.md` — ideal customer profiles.
+- `project-documentation/README.md` — index of all project documentation.
+- `project-documentation/PURPOSE.md`, `VALUE_PROP.md` — mission, positioning, differentiators.
+- `project-documentation/OFFERS.md` — full offer guide (Cohort, Signal Session, Revenue Architecture). Supersedes the deleted `SPRINTS.md`.
+- `project-documentation/ICP.md` — the two ICPs (AI leaders / AI products) and anti-ICPs.
+- `project-documentation/OUTCOMES.md` — buyer outcomes by offer.
+- `project-documentation/Master_Messaging_and_FAQ.md` — sales pitches and objection handling.
 - `project-documentation/BRANDING.md`, `VISUAL_GUIDELINES.md`, `DESIGN_SYSTEM.md` — brand + visual systems.
-- `project-documentation/ARCHITECTURE.md`, `DEPLOYMENT.md` — technical architecture + deploy flow.
+- `project-documentation/ARCHITECTURE.md`, `FEATURES.md`, `DEPLOYMENT.md` — technical architecture, feature catalogue, and deploy flow.
+- `project-documentation/EXECUTIVE_SUMMARY.md`, `LLM_CRITICAL_THINKING_TRAINING.md` — research artefacts (not Mindmaker business content).
 
 ---
 

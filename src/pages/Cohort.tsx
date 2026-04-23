@@ -4,7 +4,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle, Users, Calendar, Info } from "lucide-react";
+import { ArrowRight, CheckCircle, Users, Calendar, Info, ExternalLink } from "lucide-react";
 import { SEO } from "@/components/SEO";
 
 const fadeUp = {
@@ -24,6 +24,8 @@ const nextCohort = {
   seatsRemaining: 11,
   seatsTotal: 15,
 };
+
+const MAVEN_COHORT_URL = "https://maven.com/aimindmaker/ai-decision-intensive";
 
 const openConsultModal = (detail?: Record<string, unknown>) => {
   window.dispatchEvent(
@@ -332,18 +334,28 @@ export default function Cohort() {
             <p className="text-sm text-muted-foreground mb-6">
               Full payment or 2x split ($1,800 × 2). Seats: {nextCohort.seatsRemaining} of {nextCohort.seatsTotal} remaining.
             </p>
+            <a
+              href={MAVEN_COHORT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted/50 border border-border text-muted-foreground hover:text-foreground hover:border-border/80 transition-colors text-xs font-medium mb-5"
+            >
+              Hosted on Maven
+              <ExternalLink className="w-3 h-3" />
+            </a>
             <div className="flex flex-col sm:flex-row gap-3 mb-5">
               <Button
+                asChild
                 size="lg"
                 className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold"
-                onClick={() =>
-                  openConsultModal({
-                    preselected: "cohort-enrollment",
-                    commitmentLevel: "cohort",
-                  })
-                }
               >
-                Reserve my seat <ArrowRight className="ml-2 w-4 h-4" />
+                <a
+                  href={MAVEN_COHORT_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Reserve my seat on Maven <ArrowRight className="ml-2 w-4 h-4" />
+                </a>
               </Button>
               <Button
                 size="lg"
@@ -356,7 +368,20 @@ export default function Cohort() {
             </div>
             <p className="text-xs text-muted-foreground flex items-start gap-2">
               <Info className="w-3.5 h-3.5 mt-0.5 shrink-0" />
-              Payment and cohort platform set-up happen on the intake call. Stripe checkout coming soon.
+              Enrollment and payment happen on Maven. Questions first?{" "}
+              <button
+                type="button"
+                onClick={() =>
+                  openConsultModal({
+                    preselected: "cohort-enrollment",
+                    commitmentLevel: "cohort",
+                  })
+                }
+                className="underline underline-offset-2 hover:text-foreground transition-colors"
+              >
+                Book an intake call
+              </button>
+              .
             </p>
           </motion.div>
         </div>

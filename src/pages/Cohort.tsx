@@ -25,6 +25,8 @@ const nextCohort = {
   seatsTotal: 15,
 };
 
+const MAVEN_COHORT_URL = "https://maven.com/aimindmaker/ai-decision-intensive";
+
 const openConsultModal = (detail?: Record<string, unknown>) => {
   window.dispatchEvent(
     new CustomEvent("openConsultModal", {
@@ -334,16 +336,17 @@ export default function Cohort() {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 mb-5">
               <Button
+                asChild
                 size="lg"
                 className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold"
-                onClick={() =>
-                  openConsultModal({
-                    preselected: "cohort-enrollment",
-                    commitmentLevel: "cohort",
-                  })
-                }
               >
-                Reserve my seat <ArrowRight className="ml-2 w-4 h-4" />
+                <a
+                  href={MAVEN_COHORT_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Reserve my seat on Maven <ArrowRight className="ml-2 w-4 h-4" />
+                </a>
               </Button>
               <Button
                 size="lg"
@@ -356,7 +359,20 @@ export default function Cohort() {
             </div>
             <p className="text-xs text-muted-foreground flex items-start gap-2">
               <Info className="w-3.5 h-3.5 mt-0.5 shrink-0" />
-              Payment and cohort platform set-up happen on the intake call. Stripe checkout coming soon.
+              Enrollment and payment happen on Maven. Questions first?{" "}
+              <button
+                type="button"
+                onClick={() =>
+                  openConsultModal({
+                    preselected: "cohort-enrollment",
+                    commitmentLevel: "cohort",
+                  })
+                }
+                className="underline underline-offset-2 hover:text-foreground transition-colors"
+              >
+                Book an intake call
+              </button>
+              .
             </p>
           </motion.div>
         </div>

@@ -23,28 +23,34 @@ const template = readFileSync(resolve(distDir, "index.html"), "utf-8");
 // Pages to prerender with their meta tags
 const pages = [
   {
-    path: "/sprint/4-week",
-    title: "4-Week Sprint — Mindmaker",
-    description:
-      "One decision. Four weeks. Board-ready. A 1:1 sprint that turns your biggest AI anxiety into a clear, defensible decision.",
-  },
-  {
-    path: "/sprint/90-day",
-    title: "90-Day Sprint — Mindmaker",
-    description:
-      "The full journey. Mind Set → Mind Map → Mind Make. Three decisions, three months, complete transformation from AI chaos to calm direction.",
-  },
-  {
     path: "/sprints",
-    title: "AI Sprints — Mindmaker",
+    title: "1:1 Sprints — Mindmaker",
     description:
-      "Choose your sprint. 4-week or 90-day. Both start with clarity. Both end with decisions that stick.",
+      "Your nervous decision, resolved. Builder or Orchestrator. 4-week ($18k) or 90-day ($60k). Fixed scope. Decisions that stick.",
+  },
+  {
+    path: "/enterprise",
+    title: "Enterprise — Mindmaker",
+    description:
+      "Your AI capabilities, translated into revenue. The Signal Session ($15k) aligns your team fast. The Revenue Architecture ($60-80k) builds the complete commercial strategy.",
+  },
+  {
+    path: "/signal",
+    title: "The Signal Desk — Mindmaker",
+    description:
+      "Signal, noise, decisions, and takes on where AI is actually moving — classified by Krish Raja.",
+  },
+  {
+    path: "/tool",
+    title: "The Nervous Decision Machine — Mindmaker",
+    description:
+      "Type the AI decision you're putting off. Get a one-page artifact in 60 seconds. No email required.",
   },
   {
     path: "/blog",
-    title: "AI Literacy Blog — Mindmaker",
+    title: "Blog — Mindmaker",
     description:
-      "Expert insights on AI literacy for business leaders. Practical frameworks, not vendor theatre.",
+      "Analysis, frameworks, and decisions on the state of AI for leaders. No vendor theatre.",
   },
   {
     path: "/faq",

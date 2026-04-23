@@ -19,10 +19,11 @@ Disallow: /404
 Disallow: *.json$
 
 # Allow important pages explicitly
-Allow: /builder-sprint
-Allow: /leadership-lab
-Allow: /partner-program
-Allow: /builder-session
+Allow: /sprints
+Allow: /enterprise
+Allow: /signal
+Allow: /tool
+Allow: /leaders
 Allow: /builder-economy
 Allow: /faq
 Allow: /privacy
@@ -76,6 +77,25 @@ User-agent: Pinterestbot
 Allow: /
 
 User-agent: Slackbot
+Allow: /
+
+# AI / LLM crawlers — explicitly allowed (see brief §10.9)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
 Allow: /
 
 # Block bad bots

@@ -206,12 +206,12 @@ const LeadershipInsights = () => {
               <div className="mt-4 p-3 rounded-lg bg-muted/50 border border-border/50 text-center">
                 <p className="text-xs text-muted-foreground">
                   Want something quicker?{" "}
-                  <button
-                    onClick={() => window.dispatchEvent(new CustomEvent('openActionsHub'))}
+                  <a
+                    href="/tool"
                     className="text-mint font-medium hover:underline"
                   >
-                    Try our instant AI tools
-                  </button>
+                    Try the Nervous Decision Machine
+                  </a>
                 </p>
               </div>
             </DiagnosticCard>

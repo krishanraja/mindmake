@@ -1,0 +1,35 @@
+# The Mindmaker
+
+> 1:1 sprints and enterprise advisory helping leaders make nervous AI decisions. Founded by Krish Raja.
+
+## Core offers
+
+- [1:1 Sprints](/sprints): Builder or Orchestrator tracks. 4-week ($18,000) or 90-day ($60,000).
+- [Enterprise](/enterprise): The Signal Session ($15,000). The Revenue Architecture ($60,000–$80,000).
+
+## Try it
+
+- [The Nervous Decision Machine](/tool): One-shot decision-reframing tool. Free, no email required.
+- [The Signal Desk](/signal): Weekly classification of AI signal, noise, decisions and takes.
+- [Decision Readiness Diagnostic](/leaders): Builder vs Orchestrator self-diagnostic.
+
+## About
+
+- [Krish Raja, Founder](/)
+- 16 years in adtech, media, and AI strategy.
+- Based in Brooklyn, NY.
+
+## Writing
+
+- [The Signal Desk](/signal): weekly reads on AI signal vs noise.
+- [Builder Economy](/builder-economy): thesis on the post-AI org.
+- [Blog](/blog): long-form analysis.
+
+## Positioning
+
+Mindmaker sells sprints and blueprints, not calendar hours. Every engagement has a fixed scope and a finish line. No fractional executive roles. No ongoing retainers. No production IT work. The primary conversion goal is booking a qualified call with Krish.
+
+## Contact
+
+- Book: https://www.themindmaker.ai (Book a call from any page)
+- Email: krish@themindmaker.ai

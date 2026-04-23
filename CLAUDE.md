@@ -1,35 +1,35 @@
 # CLAUDE.md — Mindmaker Repository Guide
 
-**Last Updated:** 2026-04-20
+**Last Updated:** 2026-04-23
 **Purpose:** Describe the current state of the Mindmaker codebase so agents and contributors can navigate it without reverse-engineering the tree.
 
-This file is **descriptive**, not prescriptive. For historical brand-vision context, see `project-documentation/EXECUTIVE_SUMMARY.md`, `project-documentation/PURPOSE.md`, and `project-documentation/BRANDING.md`.
+This file is **descriptive**, not prescriptive. For strategic intent, read `project-documentation/mindmaker_rebuild_brief_v3.md` — the brief that produced the current shape of the site.
 
 ---
 
 ## Brand North Star
 
-Mindmaker positions itself as the **anti-consultancy for leaders who are done being sold AI and ready to use it**. The voice is confident, lightly cynical, deeply helpful — premium through substance, not stiffness. Think Stripe's design sensibility meets Anthony Bourdain's authenticity.
+Mindmaker is the **anti-consultancy for leaders who are done being sold AI and ready to use it**. The voice is confident, lightly cynical, deeply helpful — premium through substance, not stiffness. Stripe's design sensibility meets Anthony Bourdain's authenticity.
+
+Mindmaker sells **sprints and blueprints, not calendar hours**. No fractional executive roles. No ongoing retainers. No production IT work. Every offer has a fixed scope, a fixed outcome, and a finish line.
 
 ---
 
-## Non-Negotiables (do not touch without reason)
+## Non-Negotiables
 
 ### Visual systems
-- `src/components/NewHero.tsx` — rotating headline + gradient + looping background video (`/rising-cities.mp4`) + pulsing mint blur.
+- `src/components/NewHero.tsx` — rotating headline + gradient + looping background video (`/rising-cities.mp4`) + pulsing mint blur. Eyebrow reframe: "Questions I hear every week."
 - `src/components/Animations/ParticleBackground.tsx` — global particle field mounted in `Index.tsx`.
 - `.glass-card` / `.editorial-card` Tailwind utilities.
-- Scroll + snap behavior on the homepage.
-- `src/components/AINewsTicker.tsx` — fed by the `get-ai-news` Supabase edge function.
-- `src/components/InitialConsultModal.tsx` — the single conversion surface. Opened globally via `window.dispatchEvent(new CustomEvent('openConsultModal'))`.
+- `src/components/InitialConsultModal.tsx` — the single conversion surface. Opened globally via `window.dispatchEvent(new CustomEvent('openConsultModal', { detail: { preselected?: string } }))`.
 - Testimonial structure in `src/components/TrustSection.tsx`.
 
 ### Technical infrastructure
-- Chatbot (`src/components/ChatBot/*`) — Vertex AI RAG + Gemini, powered by the `chat-with-krish` edge function. Branded **"Ask Mindmaker"**.
 - Supabase edge functions in `supabase/functions/`:
-  - `chat-with-krish`, `get-ai-news`, `get-market-sentiment`, `get-model-data`,
-  - `send-contact-email`, `send-lead-email`, `send-leadership-insights-email`,
-  - `create-consultation-hold`.
+  - `nervous-decision-machine` (Claude Haiku 4.5 — powers `/tool`)
+  - `get-ai-news`, `get-market-sentiment`, `get-model-data`
+  - `send-contact-email`, `send-lead-email`, `send-leadership-insights-email`
+  - `create-consultation-hold`
 - `SessionDataContext` (`src/contexts/SessionDataContext.tsx`) threads qualification data into the global consult modal.
 - Design system in `tailwind.config.ts` + `src/index.css`.
 
@@ -46,83 +46,23 @@ Mindmaker positions itself as the **anti-consultancy for leaders who are done be
 Authoritative source: `src/pages/Index.tsx`.
 
 1. `Navigation` — fixed top, hides on scroll-down via `useScrollDirection`.
-2. `NewHero` — rotating headlines + philosophical statement + dual CTA.
-3. `BigProblem` — existential urgency frame.
-4. `TrustSection` — Krish bio, headshot, testimonials carousel.
-5. `FrameworkJourney` — three-panel animated performance of **MindSet → MindMap → MindMake**.
-6. `VendorLandscape` (from `src/components/Interactive/`) — live model comparisons.
-7. `TheProblem` (id `#products`) — sprint chooser (4-Week vs 90-Day).
-8. `AINewsTicker` — SIGNAL / NOISE / DECISION / TAKE classifier ticker.
-9. `SimpleCTA` — "You've been pitched enough." + final "What's your nervous decision?" CTA.
-10. `Footer`.
+2. `NewHero` — rotating headlines + "Book a call" + "See how I work" CTAs.
+3. `YFork` — "Two ways I work." → `/sprints` vs `/enterprise`.
+4. `BigProblem` — existential urgency frame.
+5. `TrustSection` — Krish bio, headshot, testimonials carousel.
+6. `FrameworkJourney` — three-panel animated MindSet → MindMap → MindMake.
+7. `ProofStrip` — three anonymized case studies.
+8. `SignalDeskPreview` — 6 SIGNAL / NOISE / DECISION / TAKE cards + link to `/signal`.
+9. `NervousDecisionMachine` — embedded demo tool (also lives at `/tool`).
+10. `SimpleCTA` — final "What's your nervous decision?" CTA.
+11. `Footer`.
 
 Global overlays mounted in `src/App.tsx`:
 - `InitialConsultModal` — opened via the `openConsultModal` custom event.
-- `ActionsHub` — decision tools launcher (builder quiz, decision helper, friction map, portfolio builder).
+- `PreCallQualifier` — floating pill, 3-step intake → pre-loads consult modal.
 - `CookieConsent`.
 
----
-
-## Hero copy (current)
-
-File: `src/components/NewHero.tsx`.
-
-**Rotating headlines** (`headlines` array, 5 s interval):
-1. "If there were 3 of me, I'd be able to get everything done."
-2. "I need to deliver an AI strategy - where do I start?"
-3. "What if I could give every employee an AI coworker?"
-4. "14 tools pitched this quarter. I use none of them."
-5. "I want to build an AI assistant that actually knows our business."
-6. "Should we build our own AI tools or buy off the shelf?"
-7. "Everyone on my team is using different AI tools. It's chaos."
-8. "I want AI doing the boring work so my team does the real work."
-9. "How do I know if AI is delivering ROI or just hype?"
-10. "I keep imagining what my company looks like with AI embedded everywhere."
-11. "I'm nervous about getting locked into the wrong vendor."
-12. "I should probably understand this better than I do."
-
-**Philosophical statement (mint):** "Everyone's selling AI. Nobody's helping you think."
-
-**Subheadline:** "1:1 sprints that turn AI chaos into direction."
-
-**Primary CTA:** "Tackle your million dollar decision" → opens `InitialConsultModal`.
-**Secondary CTA:** "Learn how you can level up" → smooth-scrolls to `#products`.
-
-Note: the navigation bar and `SimpleCTA` use a different CTA label — **"What's your nervous decision?"** — intentionally, so the same message lands in multiple registers across the scroll.
-
----
-
-## Sprint chooser (homepage `#products`)
-
-File: `src/components/TheProblem.tsx`.
-
-Header: **"Choose your sprint."**
-Subheader: "Whether you're hands-on or hands-off, both paths start with clarity and end with decisions that stick."
-
-Two cards rendered from the `sprints` array:
-
-| Card | Tagline | Route |
-|---|---|---|
-| 4-Week Sprint | One decision. Four weeks. Board-ready. | `/sprint/4-week` |
-| 90-Day Sprint | The full journey. MindSet → MindMap → MindMake. | `/sprint/90-day` |
-
-Each card shows outcomes, a primary CTA that opens the consult modal, and a "Learn more" ghost button that navigates to the detail page. Below the grid, a "Not sure which sprint?" prompt opens the consult modal.
-
-> There is no separate `ProductLadder.tsx` file — that concept lives entirely inside `TheProblem.tsx`.
-
----
-
-## Framework Journey
-
-File: `src/components/FrameworkJourney.tsx`.
-
-Three-panel scroll-triggered animation (Framer Motion + `useInView`):
-
-1. **MindSet → Clarity.** Chaos of scattered tool labels compresses into "3 Decisions That Matter."
-2. **MindMap → Leverage.** SVG node graph assembles node-by-node, edges drawn via `pathLength`.
-3. **MindMake → Direction.** Document materializes with ROI + cost-to-build tiles.
-
-Replaces the older "ChaosToClarity" component (now removed).
+**Not on the homepage:** VendorLandscape, AINewsTicker, ActionsHub, decision-tool launchers, the ChatBot, the Engine Room / mm-ctrl visualization, or the old TheProblem sprint chooser. All removed per rebuild brief v3.
 
 ---
 
@@ -132,15 +72,13 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 
 | Route | Page | Notes |
 |---|---|---|
-| `/` | `Index` | Homepage, eager-loaded (critical path). |
-| `/sprints` | `Sprints` | Full Builder vs Orchestrator sprint library (tabbed). |
-| `/sprint/4-week` | `Sprint4Week` | 4-week sprint detail + emotional arc. |
-| `/sprint/90-day` | `Sprint90Day` | 90-day sprint detail + monthly arc + "Extended Sprint" note. |
+| `/` | `Index` | Homepage, eager-loaded. |
+| `/sprints` | `Sprints` | Builder + Orchestrator tracks, 4 engagement cards (4-week/90-day × Builder/Orchestrator). |
+| `/enterprise` | `Enterprise` | The Signal Session + The Revenue Architecture. |
+| `/signal` | `Signal` | Signal Desk archive with filters + search. |
+| `/tool` | `Tool` | The Nervous Decision Machine. |
 | `/leaders` | `LeadershipInsights` | **Decision Readiness Diagnostic** (primary URL). |
-| `/leadership-insights` | `LeadershipInsights` | Alias of the above. |
-| `/war-room` | `WarRoom` | Enterprise: AI War Room offer. |
-| `/fractional-caio` | `FractionalCAIO` | Enterprise: fractional CAIO engagement. |
-| `/strategy-day` | `StrategyDay` | Enterprise: one-day strategy intensive. |
+| `/leadership-insights` | `LeadershipInsights` | Alias. |
 | `/builder-economy` | `BuilderEconomy` | Long-form thesis piece. |
 | `/blog`, `/blog/:slug` | `Blog`, `BlogPost` | Blog index + post. |
 | `/faq` | `FAQ` | |
@@ -148,82 +86,75 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 | `/privacy`, `/terms` | `Privacy`, `Terms` | |
 | `*` | `NotFound` | Catch-all. |
 
-**Redirects:**
-- `/individual` → `/`
-- `/team` → `/`
-- `/builder` → `/`
-- `/builder-session` → `/`
-- `/leadership-lab` → `/`
-- `/portfolio-program` → `/`
-- `/builder-sprint` → `/sprints`
+**Client-side redirects (301-equivalent via `<Navigate replace />`):**
+- `/sprint/4-week` → `/sprints#builder`
+- `/sprint/90-day` → `/sprints#builder`
+- `/builder-sprint` → `/sprints#builder`
+- `/war-room` → `/enterprise#revenue-architecture`
+- `/strategy-day` → `/enterprise#signal-session`
+- `/fractional-caio` → `/enterprise`
+- Legacy: `/individual`, `/team`, `/builder`, `/builder-session`, `/leadership-lab`, `/portfolio-program` → `/`.
 
-No `/diagnostic` route exists. The diagnostic is at `/leaders` (preferred) and `/leadership-insights`.
+No `/pricing` page — pricing lives in context on `/sprints` and `/enterprise`.
 
 ---
 
 ## Navigation structure
 
-File: `src/components/Navigation.tsx`.
+File: `src/components/Navigation.tsx`. Primary CTA: **"Book a call"** (no conditional label).
 
-Three top-level dropdowns + a primary CTA button. On wide screens the button reads **"What's your nervous decision?"**; on narrow screens it collapses to **"Book a call"**. Both fire the `openConsultModal` event.
-
-**Sprints**
-- 4-Week Sprint → `/sprint/4-week`
-- 90-Day Sprint → `/sprint/90-day`
-- All Sprints → `/sprints`
-
-**Resources**
-- Decision Tools → opens `ActionsHub` via the `openActionsHub` event
-- Blog → `/blog`
-- Live Learnings → `https://live.themindmaker.ai/` (external)
-- Free Lightning Lessons → inline `LightningLessons` submenu (external Maven links)
-
-**About**
-- FAQ → `/faq`
-- Contact → `/contact`
-- Privacy → `/privacy`
-
-Enterprise offers (`/war-room`, `/fractional-caio`, `/strategy-day`) and the `BuilderEconomy` page are reachable via direct link, SEO, and in-page CTAs — they are not in the top nav by design.
+- **Sprints** (dropdown): Builder Sprint → `/sprints#builder`, Orchestrator Sprint → `/sprints#orchestrator`, All Sprints → `/sprints`.
+- **Enterprise** (dropdown): The Signal Session → `/enterprise#signal-session`, The Revenue Architecture → `/enterprise#revenue-architecture`, All Enterprise → `/enterprise`.
+- **Signal** (link): `/signal`.
+- **Resources** (dropdown): Decision Readiness Diagnostic → `/leaders`, Blog → `/blog`, Builder Economy → `/builder-economy`, Lightning Lessons (external Maven links).
+- **About** (dropdown): FAQ → `/faq`, Contact → `/contact`, Privacy → `/privacy`.
 
 ---
 
-## Decision tools (ActionsHub dialogs)
+## Pricing (canonical)
 
-Mounted globally in `src/App.tsx` via `ActionsHub` + a shared `Dialog`. Each tool has a compact embedded mode and a full modal mode:
+| Offer | Price |
+|---|---|
+| 4-Week Builder Sprint | $18,000 |
+| 4-Week Orchestrator Sprint | $18,000 |
+| 90-Day Builder Sprint | $60,000 |
+| 90-Day Orchestrator Sprint | $60,000 |
+| The Signal Session | $15,000 |
+| The Revenue Architecture | $60,000 – $80,000 (scope-dependent) |
 
-- `BuilderAssessment` (`src/components/Interactive/BuilderAssessment.tsx`) — Builder Profile Quiz.
-- `TryItWidget` / `AIDecisionHelper` (`src/components/Interactive/AIDecisionHelper.tsx`) — AI Decision Helper.
-- `FrictionMapBuilder` (`src/components/Interactive/FrictionMapBuilder.tsx`) — Friction Map Builder.
-- `PortfolioBuilder` (`src/components/Interactive/PortfolioBuilder.tsx`) — "Model out your starting points."
-
-The dialog header shows a "LIVE" badge and "Powered by Mindmaker Methodology" subtitle on desktop.
-
----
-
-## Media easter egg components
-
-Folder: `src/components/MediaEasterEggs/`. Built and ready for use; integration is per-page and opportunistic.
-
-- `VideoDrawer.tsx` — thumbnail → full-screen slide-out video player. Hover or click trigger.
-- `AudioPlayer.tsx` — collapsed floating pill that expands on hover; play/pause + title.
-- `ArtifactPreview.tsx` — glass-card tile with hover-reveal preview → click-to-expand full artifact modal.
-- `ExpandableQuote.tsx` — short pull-quote card that expands to the full quote on click.
+Payment terms (small muted text below price): sprints = "Payment 50/50 at kickoff and midpoint"; enterprise = "Payment on kickoff, final on delivery".
 
 ---
 
-## Chatbot
+## The Nervous Decision Machine
 
-Folder: `src/components/ChatBot/`. Branded **"Ask Mindmaker"** (see `ChatPanel.tsx:75`, `ChatButton.tsx:28`). Quick replies prime the user toward sprint selection and the Builder/Orchestrator identification.
-
-Backend: `supabase/functions/chat-with-krish` (Vertex AI RAG + Gemini).
+Component: `src/components/NervousDecisionMachine.tsx` (used inline on homepage and on `/tool`).
+Edge function: `supabase/functions/nervous-decision-machine/index.ts`.
+Model: `claude-haiku-4-5-20251001`, max 1500 tokens, system prompt enforces JSON output schema + Krish's voice. 1-hour per-IP rate limit + global request ceiling as a soft circuit breaker. Requires `ANTHROPIC_API_KEY` on the Supabase project.
 
 ---
 
-## Decision Readiness Diagnostic
+## Pre-Call Qualifier
 
-File: `src/pages/LeadershipInsights.tsx`. Titled **"Decision Readiness Diagnostic"** (SEO title at line 169, on-page header at line 457). Reachable at `/leaders` and `/leadership-insights`.
+Component: `src/components/PreCallQualifier.tsx`. Replaces the old ChatBot. Floating pill bottom-right on every page ("Warm up before your call"). 3-step drawer → keyword-classified sprint recommendation → pre-loads consult modal via `SessionDataContext.setQualificationData`. Answers can also be saved to `localStorage` under `mindmaker:pre-call-qualifier` — no email capture.
 
-Output surfaces Builder vs Orchestrator identification and feeds into sprint recommendation logic.
+---
+
+## Signal Desk
+
+- `/signal` (page): filterable archive of SIGNAL / NOISE / DECISION / TAKE cards.
+- `src/components/SignalDeskPreview.tsx`: homepage 6-card grid, links to `/signal`.
+- Data source: currently sample data inlined in the component. The `get-ai-news` edge function schema is still in place for later extension to TAKE cards (per rebuild brief §3.5).
+
+---
+
+## Homepage Y-fork
+
+`src/components/YFork.tsx`. Two glass-cards side by side:
+- **1:1 Sprints** — "Your nervous decision, resolved." From $18,000. CTA → `/sprints` + Book a call.
+- **Enterprise** — "Your AI capabilities, translated into revenue." From $15,000. CTA → `/enterprise` + Book a call.
+
+`NewHero`'s secondary CTA "See how I work" smooth-scrolls to `#y-fork`.
 
 ---
 
@@ -246,26 +177,24 @@ Your smartest, most cynical friend who runs AI transformation every day and genu
 ## Development notes
 
 - Package manager / build: `npm` + Vite (`vite.config.ts`).
-- Lint: `npm run lint`.
-- Build: `npm run build`.
+- Lint: `npm run lint`. Build: `npm run build` (runs Vite → `scripts/generate-sitemap.mjs` → `scripts/prerender.mjs`).
 - Routing: React Router v6 (`BrowserRouter` in `App.tsx`).
 - State: `@tanstack/react-query` + `SessionDataContext`.
 - Styling: Tailwind + shadcn/ui components in `src/components/ui/`.
 - Theme: `next-themes` with `attribute="class"` (dark mode class-based).
 - All CTAs should route through `InitialConsultModal` via the `openConsultModal` event unless the feature explicitly needs its own flow.
+- LLM discoverability: `public/llms.txt` + allow-list for GPTBot / ClaudeBot / PerplexityBot / Google-Extended in `public/robots.txt`.
 
 ---
 
 ## Related documentation
 
-- `README.md` — short public-facing project overview.
-- `project-documentation/EXECUTIVE_SUMMARY.md` — brand thesis + positioning.
-- `project-documentation/PURPOSE.md` — mission / "why Mindmaker."
+- `project-documentation/mindmaker_rebuild_brief_v3.md` — the v3 rebuild brief that produced this site.
+- `project-documentation/EXECUTIVE_SUMMARY.md`, `PURPOSE.md` — brand thesis + positioning.
 - `project-documentation/SPRINTS.md` — full sprint library (Builder + Orchestrator tracks).
 - `project-documentation/ICP.md` — ideal customer profiles.
 - `project-documentation/BRANDING.md`, `VISUAL_GUIDELINES.md`, `DESIGN_SYSTEM.md` — brand + visual systems.
 - `project-documentation/ARCHITECTURE.md`, `DEPLOYMENT.md` — technical architecture + deploy flow.
-- `DESIGN_SYSTEM_GUIDE.md`, `MINDMAKER_DESIGN_SYSTEM_GUIDE.md` — legacy design system notes (may overlap with `project-documentation/DESIGN_SYSTEM.md`).
 
 ---
 

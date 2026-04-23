@@ -1,332 +1,441 @@
+import { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { InitialConsultModal } from "@/components/InitialConsultModal";
-import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle, ArrowRight, Zap, FileCheck, Target } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowRight, CheckCircle, Info, Zap, Compass } from "lucide-react";
+import { SEO } from "@/components/SEO";
 
-const spring = { type: "spring" as const, stiffness: 80, damping: 18 };
-
-type PathTab = "build" | "orchestrate";
-
-const builderSprintLibrary = {
-  mindSet: [
-    { name: "AI Landscape Compression", decision: "What actually matters in AI right now?", artifact: "AI relevance map + discard list" },
-    { name: "Tool Commitment Philosophy", decision: "Which tools do I commit to vs experiment with?", artifact: "Tool hierarchy (Core / Tactical / Experimental)" },
-    { name: "Personal AI Manifesto", decision: "What are my boundaries?", artifact: "1-page personal AI charter" },
-  ],
-  mindMap: [
-    { name: "Personal System Architecture", decision: "What systems should I build for myself?", artifact: "3\u20135 working AI systems + deployment checklist" },
-    { name: "Strength Amplifier", decision: "How do I multiply my strongest edge?", artifact: "Amplifier blueprint + workflow design" },
-    { name: "Weakness Counterbalance", decision: "Where am I bottlenecked personally?", artifact: "Delegation flow + automation stack" },
-    { name: "AI Clone Design", decision: "How do I build a digital version of myself?", artifact: "Clone prompt library + voice/tone profile + deployment playbook" },
-    { name: "Agentic Workflow Engine", decision: "Which tasks should run on autopilot?", artifact: "3\u20135 autonomous agent workflows + trigger/guardrail config" },
-    { name: "Memory & Context Architecture", decision: "How do I make AI remember everything I need it to?", artifact: "Knowledge base structure + retrieval system + update cadence" },
-    { name: "Vibe Code Ideas to MVP", decision: "What can I build myself vs outsource?", artifact: "Working prototype + build-vs-hire decision matrix" },
-  ],
-  mindMake: [
-    { name: "Build vs Buy vs Glue", decision: "Where is AI core vs commodity?", artifact: "Decision memo + investment table" },
-    { name: "AI Pricing & Monetization", decision: "How does AI reshape revenue?", artifact: "Monetization framework + SKU structure" },
-    { name: "The 3-Person Team Stack", decision: "What\u2019s the minimum AI stack to operate like a team of three?", artifact: "Deployed clone + agent suite + daily workflow documentation" },
-    { name: "AI-Powered GTM", decision: "How do I generate leads without scaling headcount?", artifact: "Deployed lead-gen system + cost-per-lead model" },
-  ],
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  show: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.08, duration: 0.5, ease: "easeOut" },
+  }),
 };
 
-const orchestratorSprintLibrary = {
-  mindSet: [
-    { name: "AI Landscape Compression", decision: "What actually matters in AI right now?", artifact: "AI relevance map + discard list" },
-    { name: "Tool Commitment Philosophy", decision: "Which tools do I commit to vs experiment with?", artifact: "Tool hierarchy (Core / Tactical / Experimental)" },
-    { name: "Personal AI Manifesto", decision: "What are my boundaries?", artifact: "1-page personal AI charter" },
-    { name: "Executive AI Intelligence System", decision: "How do I stay sharp on AI without drowning in noise?", artifact: "Personal signal filter + weekly briefing structure + discard rules" },
-  ],
-  mindMap: [
-    { name: "AI Operating Model", decision: "Who owns AI and how?", artifact: "Governance structure + RACI + operating cadence" },
-    { name: "Strategic Data Prioritisation", decision: "What data is strategic?", artifact: "Investment sequencing + ownership logic" },
-    { name: "AI Delegation Framework", decision: "What do I hand off to AI and what stays human?", artifact: "Delegation matrix + risk tiers + escalation triggers" },
-    { name: "Communication Style Cloning", decision: "How do I get AI to write and speak like us?", artifact: "Brand voice profile + prompt templates + quality rubric" },
-    { name: "Institutional Memory Design", decision: "How does our AI retain what the organisation knows?", artifact: "Knowledge architecture + ingestion plan + ownership model" },
-    { name: "Vibe Code Culture Design", decision: "How do I identify and empower my top 10% AI builders?", artifact: "Builder identification criteria + MVP pipeline + innovation cadence" },
-  ],
-  mindMake: [
-    { name: "Vendor Selection Without Regret", decision: "Which vendors do we commit to?", artifact: "Scorecard + shortlist + exit criteria" },
-    { name: "12-Month AI Roadmap", decision: "What do we actually do next year?", artifact: "Quarterly milestones + board narrative" },
-    { name: "Build vs Buy vs Glue", decision: "Where is AI core vs commodity?", artifact: "Decision memo + investment table" },
-    { name: "AI Authority Blueprint", decision: "How do I lead AI conversations with confidence?", artifact: "Executive talking points + board Q&A prep + vendor negotiation playbook" },
-    { name: "AI-Powered GTM Strategy", decision: "How do I do more with less before incumbents do it to me?", artifact: "GTM efficiency model + headcount-to-output benchmarks + competitive response plan" },
-  ],
+const openConsultModal = (preselected?: string) => {
+  if (preselected) {
+    window.dispatchEvent(
+      new CustomEvent("openConsultModal", { detail: { preselected } })
+    );
+  } else {
+    window.dispatchEvent(new CustomEvent("openConsultModal"));
+  }
 };
 
-const fourWeekArc = [
-  { week: 1, theme: "Relief", description: "Name the real decision. Not the vendor deck version." },
-  { week: 2, theme: "Momentum", description: "Map every option. Trade-off analysis, no hand-waving." },
-  { week: 3, theme: "Confidence", description: "Make the call. Document why. One-page decision memo." },
-  { week: 4, theme: "Calm", description: "Board-ready. Walk in with answers, not anxiety." },
-];
-
-const ninetyDayArc = [
-  { month: 1, phase: "MindSet", theme: "Clarity", description: "Filter noise, set boundaries, develop executive AI judgment." },
-  { month: 2, phase: "MindMap", theme: "Leverage", description: "Build working systems that multiply what you're already good at." },
-  { month: 3, phase: "MindMake", theme: "Direction", description: "Make high-stakes decisions. Set the roadmap. Brief the board." },
-];
-
-const PhaseIcon = ({ phase }: { phase: string }) => {
-  if (phase === "mindSet") return <Target className="w-4 h-4" />;
-  if (phase === "mindMap") return <Zap className="w-4 h-4" />;
-  return <FileCheck className="w-4 h-4" />;
+type SprintCardProps = {
+  title: string;
+  price: string;
+  duration: string;
+  pitch: string;
+  includes: string[];
+  ctaLabel: string;
+  ctaId: string;
 };
 
-const SprintLibrarySection = ({ library, label }: { library: typeof builderSprintLibrary; label: string }) => (
-  <div className="space-y-8">
-    <h3 className="text-2xl font-bold">Decision Sprint Library</h3>
-    <p className="text-muted-foreground text-sm">
-      {label === "Builder"
-        ? "Builder sprints turn you into a one-person product team. Vibe-code your own websites, ecommerce, and app prototypes. Deploy AI-powered GTM that generates leads without scaling headcount. Leave operating like a team of three."
-        : "Orchestrator sprints give you leverage over AI-driven growth. Identify your top 10% builders and accelerate innovation. Deploy AI-powered GTM to do more with less before incumbents do it to you. Leave with the authority to direct it all."}
-    </p>
-
-    {(["mindSet", "mindMap", "mindMake"] as const).map((phase) => (
-      <div key={phase}>
-        <div className="flex items-center gap-2 mb-3">
-          <PhaseIcon phase={phase} />
-          <h4 className="text-sm font-bold uppercase tracking-wider text-ink dark:text-mint">
-            {phase === "mindSet" ? "MindSet" : phase === "mindMap" ? "MindMap" : "MindMake"}
-          </h4>
-        </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {library[phase].map((sprint, i) => (
-            <motion.div
-              key={i}
-              className="p-4 rounded-xl border border-border/50 hover:border-ink/20 dark:hover:border-mint/20 transition-all hover:-translate-y-0.5"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ ...spring, delay: i * 0.05 }}
-            >
-              <div className="font-semibold text-sm mb-1">{sprint.name}</div>
-              <div className="text-xs text-muted-foreground mb-2">&ldquo;{sprint.decision}&rdquo;</div>
-              <div className="text-[11px] text-ink/50 dark:text-white/40">
-                Artifact: {sprint.artifact}
-              </div>
-            </motion.div>
-          ))}
-        </div>
+const SprintCard = ({
+  title,
+  price,
+  duration,
+  pitch,
+  includes,
+  ctaLabel,
+  ctaId,
+}: SprintCardProps) => (
+  <motion.article
+    className="glass-card editorial-card p-8 flex flex-col h-full border border-border/50 hover:border-mint/30 transition-colors"
+    initial="hidden"
+    whileInView="show"
+    viewport={{ once: true, margin: "-50px" }}
+    variants={fadeUp}
+  >
+    <h3 className="text-2xl font-bold mb-1">{title}</h3>
+    <div className="flex items-baseline gap-3 mb-4 pb-4 border-b border-border/50">
+      <span className="text-3xl font-bold">{price}</span>
+      <span className="text-sm text-muted-foreground">{duration}</span>
+    </div>
+    <p className="text-muted-foreground mb-5 leading-relaxed">{pitch}</p>
+    <div className="mb-6 flex-1">
+      <div className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground mb-3">
+        Includes
       </div>
-    ))}
-  </div>
+      <ul className="space-y-2">
+        {includes.map((item, i) => (
+          <li key={i} className="flex items-start gap-3">
+            <CheckCircle className="w-4 h-4 text-mint shrink-0 mt-1" />
+            <span className="text-sm">{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <p className="text-xs text-muted-foreground mb-4">
+      Payment 50/50 at kickoff and midpoint.
+    </p>
+    <Button
+      size="lg"
+      className="bg-ink dark:bg-mint text-white dark:text-ink hover:opacity-90 font-bold w-full"
+      onClick={() => openConsultModal(ctaId)}
+    >
+      {ctaLabel} <ArrowRight className="ml-2 w-4 h-4" />
+    </Button>
+  </motion.article>
 );
 
-const Sprints = () => {
-  const [searchParams] = useSearchParams();
-  const pathParam = searchParams.get("path");
-  const initialTab: PathTab = pathParam === "orchestrate" ? "orchestrate" : "build";
-  const [activeTab, setActiveTab] = useState<PathTab>(initialTab);
-  const [consultModalOpen, setConsultModalOpen] = useState(false);
-  const [bookingCommitment, setBookingCommitment] = useState<string | undefined>();
+const comparisonRows = [
+  {
+    label: "Duration",
+    values: ["4 weeks", "90 days", "4 weeks", "90 days"],
+  },
+  {
+    label: "Price",
+    values: ["$18,000", "$60,000", "$18,000", "$60,000"],
+  },
+  {
+    label: "Best for",
+    values: [
+      "One nervous build decision",
+      "Full builder operating system",
+      "One nervous leadership call",
+      "Executive AI authority",
+    ],
+  },
+  {
+    label: "You walk out with",
+    values: [
+      "Working v1 + decision memo",
+      "AI clone, agent stack, 12-month roadmap",
+      "Delegation framework + decision memo",
+      "Governance, roadmap, board-ready deck",
+    ],
+  },
+  {
+    label: "Session format",
+    values: [
+      "4 × 60 min + async",
+      "Weekly sessions + async",
+      "4 × 60 min + async",
+      "Weekly sessions + async",
+    ],
+  },
+];
 
-  const library = activeTab === "build" ? builderSprintLibrary : orchestratorSprintLibrary;
+const faqs = [
+  {
+    q: "How do I choose between Builder and Orchestrator?",
+    a: "Builder is for founders, operators and leaders who want to build and ship AI systems personally. Orchestrator is for leaders responsible for AI across a team or org who need to direct it, not build it. If you're not sure, book a call — we'll figure it out together.",
+  },
+  {
+    q: "How do I choose between 4-week and 90-day?",
+    a: "4-week resolves one specific decision with a working artifact. 90-day rebuilds how you operate. If you can name a single decision keeping you up at night, start with 4-week. If you're asking 'how should I think about AI across my whole role?', 90-day.",
+  },
+  {
+    q: "What if I need more than 90 days?",
+    a: "Some leaders extend for ongoing support as they scale. We talk about it at the end of the 90 days, not before. No retainers.",
+  },
+  {
+    q: "Can I upgrade from 4-week to 90-day?",
+    a: "Yes. If mid-sprint we realise the decision under your decision is bigger than four weeks, we credit the 4-week fee against the 90-day engagement.",
+  },
+  {
+    q: "Do you do this in-person?",
+    a: "Sessions are virtual by default. NYC in-person available for the 90-day engagement on request.",
+  },
+];
 
-  const openBooking = (commitment: string) => {
-    setBookingCommitment(commitment);
-    setConsultModalOpen(true);
-  };
+export default function Sprints() {
+  useEffect(() => {
+    if (window.location.hash) {
+      const id = window.location.hash.slice(1);
+      const el = document.getElementById(id);
+      if (el) {
+        setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 100);
+      }
+    }
+  }, []);
 
   return (
     <main className="min-h-screen bg-background">
+      <SEO
+        title="1:1 Sprints: Builder and Orchestrator tracks"
+        description="Your nervous decision, resolved. Builder or Orchestrator. 4-week ($18k) or 90-day ($60k). Fixed scope. Decisions that stick."
+        canonical="/sprints"
+      />
       <Navigation />
 
-      <section className="pt-32 pb-16">
-        <div className="container-width max-w-5xl">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <motion.h1
-              className="text-5xl md:text-6xl lg:text-7xl font-bold mb-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={spring}
-            >
-              Let's do this.
-            </motion.h1>
-            <motion.p
-              className="text-xl text-muted-foreground"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-            >
-              Pick your path. Pick your sprint. Make your decision.
-            </motion.p>
-          </div>
-
-          {/* Tab switcher */}
-          <div className="flex justify-center mb-16">
-            <div className="inline-flex rounded-full border border-border/50 p-1 bg-ink/[0.03] dark:bg-white/[0.03]">
-              {(["build", "orchestrate"] as const).map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`relative px-8 py-3 rounded-full text-sm font-semibold transition-all ${
-                    activeTab === tab
-                      ? "bg-ink dark:bg-mint text-white dark:text-ink shadow-lg"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {tab === "build" ? "Builder" : "Orchestrator"}
-                </button>
-              ))}
+      {/* HERO */}
+      <section className="section-padding pt-32">
+        <div className="container-width max-w-4xl text-center">
+          <motion.div initial="hidden" animate="show" variants={fadeUp}>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-mint/10 border border-mint/20 text-mint-dark dark:text-mint text-xs font-bold uppercase tracking-[0.18em] mb-6">
+              1:1 Sprints
             </div>
-          </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-5 leading-tight">
+              Your nervous decision, resolved.
+            </h1>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+              Pick your track. Builder or Orchestrator. Then pick how deep you want to go. 4 weeks or 90 days.
+            </p>
+          </motion.div>
+        </div>
+      </section>
 
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, x: activeTab === "build" ? -30 : 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: activeTab === "build" ? 30 : -30 }}
-              transition={{ duration: 0.3 }}
-              className="space-y-20"
+      {/* TRACK SELECTOR */}
+      <section className="pb-12">
+        <div className="container-width max-w-5xl">
+          <div className="grid md:grid-cols-2 gap-6">
+            <motion.a
+              href="#builder"
+              className="glass-card editorial-card p-8 border border-border/50 hover:border-mint/40 transition-all group"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-50px" }}
+              variants={fadeUp}
             >
-              {/* 4-Week Sprint */}
-              <div>
-                <div className="mb-8">
-                  <h2 className="text-3xl md:text-4xl font-bold mb-2">4-Week Decision Sprint</h2>
-                  <p className="text-lg text-ink/60 dark:text-mint">
-                    One decision. Four weeks. Board-ready.
-                  </p>
-                  <p className="text-muted-foreground mt-2 max-w-2xl">
-                    {activeTab === "build"
-                      ? "Pick one nervous decision \u2014 tool commitment, AI clone design, your first agentic workflow \u2014 and resolve it with a working system and decision memo."
-                      : "Pick one nervous decision \u2014 vendor selection, delegation framework, what your team hands off vs keeps \u2014 and resolve it with a defensible trade-off analysis and board memo."}
-                  </p>
-                </div>
-
-                {/* Emotional arc */}
-                <div className="grid sm:grid-cols-4 gap-4 mb-8">
-                  {fourWeekArc.map((week, i) => (
-                    <motion.div
-                      key={week.week}
-                      className="p-5 rounded-xl border border-border/50"
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ ...spring, delay: i * 0.1 }}
-                    >
-                      <div className="w-10 h-10 rounded-full bg-ink/10 dark:bg-mint/20 flex items-center justify-center mb-3 text-sm font-bold text-ink dark:text-mint">
-                        {week.week}
-                      </div>
-                      <div className="font-bold mb-1">{week.theme}</div>
-                      <div className="text-xs text-muted-foreground">{week.description}</div>
-                    </motion.div>
-                  ))}
-                </div>
-
-                <Button
-                  size="lg"
-                  className="bg-ink dark:bg-mint text-white dark:text-ink hover:opacity-90 font-bold px-10 py-6 text-base"
-                  onClick={() => openBooking("4wk")}
-                >
-                  Start 4-Week Sprint <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
+              <div className="w-12 h-12 rounded-xl bg-mint/15 flex items-center justify-center mb-4">
+                <Zap className="w-5 h-5 text-mint-dark dark:text-mint" />
               </div>
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-mint-dark dark:text-mint mb-2">
+                Builder Track
+              </div>
+              <h2 className="text-2xl font-bold mb-3">
+                Build working systems that multiply what you're good at.
+              </h2>
+              <p className="text-sm text-muted-foreground mb-4">
+                <strong className="text-foreground">For:</strong> Founders, operators, and leaders who want to build and ship AI systems personally.
+              </p>
+              <p className="text-sm text-muted-foreground mb-6">
+                <strong className="text-foreground">You leave with:</strong> AI clone, agentic workflows, memory architecture. Operating like a team of three.
+              </p>
+              <span className="inline-flex items-center gap-2 text-sm font-bold text-mint-dark dark:text-mint group-hover:gap-3 transition-all">
+                Explore Builder Sprint <ArrowRight className="w-4 h-4" />
+              </span>
+            </motion.a>
 
-              {/* Divider */}
-              <div className="border-t border-border/30" />
+            <motion.a
+              href="#orchestrator"
+              className="glass-card editorial-card p-8 border border-border/50 hover:border-mint/40 transition-all group"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-50px" }}
+              custom={1}
+              variants={fadeUp}
+            >
+              <div className="w-12 h-12 rounded-xl bg-mint/15 flex items-center justify-center mb-4">
+                <Compass className="w-5 h-5 text-mint-dark dark:text-mint" />
+              </div>
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-mint-dark dark:text-mint mb-2">
+                Orchestrator Track
+              </div>
+              <h2 className="text-2xl font-bold mb-3">
+                Filter noise, set boundaries, develop executive AI judgment.
+              </h2>
+              <p className="text-sm text-muted-foreground mb-4">
+                <strong className="text-foreground">For:</strong> Leaders responsible for AI across a team or org. Set the roadmap, brief the board, direct the work.
+              </p>
+              <p className="text-sm text-muted-foreground mb-6">
+                <strong className="text-foreground">You leave with:</strong> Delegation framework, governance, board-ready 12-month roadmap, executive AI authority.
+              </p>
+              <span className="inline-flex items-center gap-2 text-sm font-bold text-mint-dark dark:text-mint group-hover:gap-3 transition-all">
+                Explore Orchestrator Sprint <ArrowRight className="w-4 h-4" />
+              </span>
+            </motion.a>
+          </div>
+        </div>
+      </section>
 
-              {/* 90-Day Sprint */}
+      {/* BUILDER SECTION */}
+      <section id="builder" className="section-padding bg-ink/[0.02] dark:bg-white/[0.02] scroll-mt-24">
+        <div className="container-width max-w-5xl">
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}>
+            <h2 className="text-3xl md:text-4xl font-bold mb-3">Builder Sprint</h2>
+            <p className="text-base md:text-lg text-muted-foreground mb-8 max-w-3xl">
+              One-on-one with leaders who want to build with their own hands. We design the architecture for your AI systems, ship working prototypes, and leave you operating like a team of three.
+            </p>
+
+            {/* Scope boundary callout */}
+            <div className="rounded-2xl border-2 border-mint/40 bg-mint/5 p-6 mb-10 flex gap-4">
+              <Info className="w-5 h-5 text-mint-dark dark:text-mint shrink-0 mt-0.5" />
               <div>
-                <div className="mb-8">
-                  <h2 className="text-3xl md:text-4xl font-bold mb-2">90-Day Concierge Sprint</h2>
-                  <p className="text-lg text-ink/60 dark:text-mint">
-                    The full journey. MindSet &rarr; MindMap &rarr; MindMake.
-                  </p>
-                  <p className="text-muted-foreground mt-2 max-w-2xl">
-                    {activeTab === "build"
-                      ? "Build your AI clone, deploy agentic workflows, design your memory systems \u2014 and leave operating like a 3-person team with a Builder Dossier and 12-month roadmap."
-                      : "Set your delegation framework, clone your communication standards into AI, build institutional memory \u2014 and leave with a board-ready 12-month roadmap and the authority to direct it."}
-                  </p>
-                </div>
-
-                {/* 3-month arc */}
-                <div className="grid sm:grid-cols-3 gap-4 mb-8">
-                  {ninetyDayArc.map((month, i) => (
-                    <motion.div
-                      key={month.month}
-                      className="p-6 rounded-xl border border-border/50"
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ ...spring, delay: i * 0.1 }}
-                    >
-                      <div className="text-xs font-bold uppercase tracking-wider text-ink dark:text-mint mb-2">
-                        Month {month.month} - {month.phase}
-                      </div>
-                      <div className="text-xl font-bold mb-2">{month.theme}</div>
-                      <div className="text-sm text-muted-foreground">{month.description}</div>
-                    </motion.div>
-                  ))}
-                </div>
-
-                <Button
-                  size="lg"
-                  className="bg-ink dark:bg-mint text-white dark:text-ink hover:opacity-90 font-bold px-10 py-6 text-base"
-                  onClick={() => openBooking("90d")}
-                >
-                  Start 90-Day Sprint <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-
-                {/* Extended sprint mention */}
-                <p className="text-xs text-muted-foreground mt-4">
-                  Some leaders extend to 6 months for ongoing support as they scale. We'll discuss if relevant.
+                <p className="font-bold mb-2">Note on scope.</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  I design the architecture and build the v1 prototypes. Your team (or my vetted partners) own the production deployment. I give you the blueprint; I am not your IT department. If you need long-term engineering ownership, we'll identify who runs it — but it won't be me.
                 </p>
               </div>
+            </div>
+          </motion.div>
 
-              {/* Divider */}
-              <div className="border-t border-border/30" />
+          <div className="grid md:grid-cols-2 gap-6">
+            <SprintCard
+              title="4-Week Builder"
+              price="$18,000"
+              duration="4 weeks"
+              pitch="Pick one nervous decision — tool commitment, AI clone design, your first agentic workflow — and resolve it with a working system and decision memo."
+              includes={[
+                "4 weekly decision sessions (60 min)",
+                "Async support between sessions",
+                "Decision memo + trade-off analysis",
+                "Working v1 prototype",
+                "ROI framework and cost-to-build model",
+              ]}
+              ctaLabel="Book 4-Week Builder"
+              ctaId="4-week-builder"
+            />
+            <SprintCard
+              title="90-Day Builder"
+              price="$60,000"
+              duration="90 days"
+              pitch="Build your AI clone, deploy agentic workflows, design your memory systems — and leave operating like a 3-person team with a Builder Dossier and 12-month roadmap."
+              includes={[
+                "2-3 strategic decisions resolved",
+                "3-5 deployed AI systems",
+                "AI clone deployed with prompt library + memory",
+                "Builder Dossier (fully documented)",
+                "12-month personal AI roadmap",
+              ]}
+              ctaLabel="Book 90-Day Builder"
+              ctaId="90-day-builder"
+            />
+          </div>
+        </div>
+      </section>
 
-              {/* Sprint Library */}
-              <SprintLibrarySection
-                library={library}
-                label={activeTab === "build" ? "Builder" : "Orchestrator"}
-              />
+      {/* ORCHESTRATOR SECTION */}
+      <section id="orchestrator" className="section-padding scroll-mt-24">
+        <div className="container-width max-w-5xl">
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}>
+            <h2 className="text-3xl md:text-4xl font-bold mb-3">Orchestrator Sprint</h2>
+            <p className="text-base md:text-lg text-muted-foreground mb-10 max-w-3xl">
+              One-on-one with leaders who direct AI across a team or org. Name the decisions that matter, set the boundaries, brief the board — and walk out with executive authority over AI.
+            </p>
+          </motion.div>
 
-              {/* Final CTA */}
+          <div className="grid md:grid-cols-2 gap-6">
+            <SprintCard
+              title="4-Week Orchestrator"
+              price="$18,000"
+              duration="4 weeks"
+              pitch="Pick one nervous decision — vendor selection, delegation framework, what your team hands off vs keeps — and resolve it with a defensible trade-off analysis and board memo."
+              includes={[
+                "4 weekly decision sessions (60 min)",
+                "Async support between sessions",
+                "Board-ready decision memo",
+                "Vendor / tool scorecard",
+                "Delegation framework",
+              ]}
+              ctaLabel="Book 4-Week Orchestrator"
+              ctaId="4-week-orchestrator"
+            />
+            <SprintCard
+              title="90-Day Orchestrator"
+              price="$60,000"
+              duration="90 days"
+              pitch="Set your delegation framework, clone your communication standards into AI, build institutional memory — and leave with a board-ready 12-month roadmap and the authority to direct it."
+              includes={[
+                "AI operating model + governance",
+                "Delegation matrix + escalation triggers",
+                "Communication voice / brand cloning",
+                "Vendor scorecard + decision memo",
+                "Board-ready 12-month roadmap",
+              ]}
+              ctaLabel="Book 90-Day Orchestrator"
+              ctaId="90-day-orchestrator"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* COMPARISON TABLE */}
+      <section className="section-padding bg-muted/30">
+        <div className="container-width max-w-6xl">
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}>
+            <h2 className="text-3xl md:text-4xl font-bold mb-3">All four, side by side.</h2>
+            <p className="text-muted-foreground text-lg mb-10">
+              Same shape. Different depth. Pick the one that matches the decision.
+            </p>
+          </motion.div>
+
+          <div className="rounded-2xl border border-border/50 overflow-x-auto">
+            <table className="w-full min-w-[720px] text-sm">
+              <thead>
+                <tr className="bg-muted/50 border-b border-border/50">
+                  <th className="text-left p-4 text-xs font-bold uppercase tracking-[0.14em] text-muted-foreground">
+                    &nbsp;
+                  </th>
+                  <th className="text-left p-4 text-xs font-bold">4-Week Builder</th>
+                  <th className="text-left p-4 text-xs font-bold">90-Day Builder</th>
+                  <th className="text-left p-4 text-xs font-bold">4-Week Orchestrator</th>
+                  <th className="text-left p-4 text-xs font-bold">90-Day Orchestrator</th>
+                </tr>
+              </thead>
+              <tbody>
+                {comparisonRows.map((row, i) => (
+                  <tr
+                    key={row.label}
+                    className={i < comparisonRows.length - 1 ? "border-b border-border/40" : ""}
+                  >
+                    <td className="p-4 text-xs font-bold uppercase tracking-[0.14em] text-muted-foreground align-top">
+                      {row.label}
+                    </td>
+                    {row.values.map((v, j) => (
+                      <td key={j} className="p-4 align-top">
+                        {v}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* NOT SURE */}
+      <section className="section-padding">
+        <div className="container-width max-w-3xl text-center">
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Not sure which sprint?</h2>
+            <p className="text-muted-foreground mb-6">
+              Book a 30-minute call. We'll figure out the right fit together. No pitch deck.
+            </p>
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold px-10"
+              onClick={() => openConsultModal()}
+            >
+              Book a call <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="section-padding bg-muted/30">
+        <div className="container-width max-w-3xl">
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}>
+            <h2 className="text-3xl md:text-4xl font-bold mb-10">Questions.</h2>
+          </motion.div>
+          <div className="space-y-5">
+            {faqs.map((q, i) => (
               <motion.div
-                className="text-center p-12 rounded-2xl border border-border/50 bg-ink/[0.02] dark:bg-white/[0.02]"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                key={i}
+                className="glass-card editorial-card p-6 border border-border/50"
+                initial="hidden"
+                whileInView="show"
                 viewport={{ once: true }}
-                transition={spring}
+                custom={i}
+                variants={fadeUp}
               >
-                <h2 className="text-3xl font-bold mb-3">What's your nervous decision?</h2>
-                <p className="text-muted-foreground mb-6">
-                  The first conversation is free. No prep required.
-                </p>
-                <Button
-                  size="lg"
-                  className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold px-12 py-6 text-lg shadow-lg shadow-mint/20"
-                  onClick={() => {
-                    setBookingCommitment(undefined);
-                    setConsultModalOpen(true);
-                  }}
-                >
-                  Start the Conversation <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
+                <p className="font-bold mb-3">{q.q}</p>
+                <p className="text-muted-foreground text-sm leading-relaxed">{q.a}</p>
               </motion.div>
-            </motion.div>
-          </AnimatePresence>
+            ))}
+          </div>
         </div>
       </section>
 
       <Footer />
-
-      <InitialConsultModal
-        open={consultModalOpen}
-        onOpenChange={setConsultModalOpen}
-        pathType={activeTab}
-        commitmentLevel={bookingCommitment}
-      />
     </main>
   );
-};
-
-export default Sprints;
+}

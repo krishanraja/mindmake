@@ -23,44 +23,44 @@ const Footer = () => {
               </h4>
               <nav className="flex flex-col gap-3">
                 <a
-                  href="/sprints?path=build"
+                  href="/sprints#builder"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
                   Builder Sprints
                 </a>
                 <a
-                  href="/sprints?path=orchestrate"
+                  href="/sprints#orchestrator"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
                   Orchestrator Sprints
                 </a>
-                <button
-                  onClick={() => window.dispatchEvent(new CustomEvent('openActionsHub'))}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4 text-left"
+                <a
+                  href="/sprints"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
-                  Decision Tools
-                </button>
+                  All Sprints
+                </a>
               </nav>
               <div className="mt-4 pt-3 border-t border-border/30">
                 <p className="text-xs text-muted-foreground/60 uppercase tracking-wider mb-2">Enterprise</p>
                 <nav className="flex flex-col gap-3">
                   <a
-                    href="/war-room"
+                    href="/enterprise#signal-session"
                     className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                   >
-                    AI Commercial Accelerator
+                    The Signal Session
                   </a>
                   <a
-                    href="/fractional-caio"
+                    href="/enterprise#revenue-architecture"
                     className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                   >
-                    Embedded Commercial Strategy
+                    The Revenue Architecture
                   </a>
                   <a
-                    href="/strategy-day"
+                    href="/enterprise"
                     className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                   >
-                    AI Positioning Sprint
+                    All Enterprise
                   </a>
                 </nav>
               </div>
@@ -72,6 +72,30 @@ const Footer = () => {
                 Resources
               </h4>
               <nav className="flex flex-col gap-3">
+                <a
+                  href="/signal"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
+                >
+                  The Signal Desk
+                </a>
+                <a
+                  href="/tool"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
+                >
+                  Nervous Decision Machine
+                </a>
+                <a
+                  href="/leaders"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
+                >
+                  Decision Readiness Diagnostic
+                </a>
+                <a
+                  href="/builder-economy"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
+                >
+                  Builder Economy
+                </a>
                 <a
                   href="/blog"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
@@ -85,15 +109,6 @@ const Footer = () => {
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4 inline-flex items-center gap-1"
                 >
                   Live Learnings
-                  <ExternalLink className="h-3 w-3" />
-                </a>
-                <a
-                  href="https://www.thebuildereconomy.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4 inline-flex items-center gap-1"
-                >
-                  Podcast
                   <ExternalLink className="h-3 w-3" />
                 </a>
               </nav>

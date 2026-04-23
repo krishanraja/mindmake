@@ -1,11 +1,12 @@
 import Navigation from "@/components/Navigation";
 import NewHero from "@/components/NewHero";
-import AINewsTicker from "@/components/AINewsTicker";
+import YFork from "@/components/YFork";
 import BigProblem from "@/components/BigProblem";
-import FrameworkJourney from "@/components/FrameworkJourney";
-import VendorLandscape from "@/components/Interactive/VendorLandscape";
-import TheProblem from "@/components/TheProblem";
 import TrustSection from "@/components/TrustSection";
+import FrameworkJourney from "@/components/FrameworkJourney";
+import ProofStrip from "@/components/ProofStrip";
+import SignalDeskPreview from "@/components/SignalDeskPreview";
+import NervousDecisionMachine from "@/components/NervousDecisionMachine";
 import SimpleCTA from "@/components/SimpleCTA";
 import Footer from "@/components/Footer";
 import { ParticleBackground } from "@/components/Animations/ParticleBackground";
@@ -19,25 +20,28 @@ const Index = () => {
       {/* 1. Hero */}
       <NewHero />
 
-      {/* 2. The Big Problem -- existential urgency */}
+      {/* 2. The Y-fork */}
+      <YFork />
+
+      {/* 3. The Big Problem -- existential urgency */}
       <BigProblem />
 
-      {/* 3. Trust / Proof -- social proof early, before methodology */}
+      {/* 4. Trust / Proof */}
       <TrustSection />
 
-      {/* 4. Framework Journey */}
+      {/* 5. Framework Journey */}
       <FrameworkJourney />
 
-      {/* 4.5. Vendor Landscape — live model comparisons */}
-      <VendorLandscape />
+      {/* 6. Proof Strip -- real decisions */}
+      <ProofStrip />
 
-      {/* 5. Who Is This For + Sprint Chooser */}
-      <TheProblem />
+      {/* 7. Signal Desk preview */}
+      <SignalDeskPreview />
 
-      {/* 6. News Ticker */}
-      <AINewsTicker />
+      {/* 8. Nervous Decision Machine (demo tool) */}
+      <NervousDecisionMachine />
 
-      {/* 7. Final CTA */}
+      {/* 9. Final CTA */}
       <SimpleCTA />
 
       <Footer />

@@ -51,12 +51,12 @@ Authoritative source: `src/pages/Index.tsx`.
 4. `BigProblem` — existential urgency frame.
 5. `TrustSection` — Krish bio, headshot, testimonials carousel.
 6. `FrameworkJourney` — three-panel animated MindSet → MindMap → MindMake.
-7. `ProofStrip` — three anonymised case studies tagged COHORT-STYLE / ENTERPRISE. Dual CTA below: "Join the next cohort" + "Book an enterprise call".
-8. `OperatorsEdge` (v5) — typography-only credential section, dark bg, three proof tiles (Architecture / Optimization / Memory), CTA to Revenue Architecture + secondary link to `/operator`.
-9. `SignalDeskPreview` — 6 SIGNAL / NOISE / DECISION / TAKE cards + link to `/signal`.
-10. `NervousDecisionMachine` — embedded demo tool (also lives at `/tool`). Footer now points at `/cohort`.
-11. `SimpleCTA` — final CTA.
-12. `Footer`.
+7. `OperatorsEdge` (v5) — typography-only credential section, dark bg, three proof tiles (Architecture / Optimization / Memory), CTA to Revenue Architecture + secondary link to `/operator`. "BEYOND PATTERN RECOGNITION" now the dominant wordmark.
+8. `OperatorsBrief` — the desk. Live model-pricing ticker (Artificial Analysis via `useModelData`), four classified cards (WATCH / SKIP / CALL / TAKE) on the left, two blog cards on the right (via `useBlogPosts`), compact Nervous Decision input below. Submitting swaps the right column to the 3-card artifact in place.
+9. `SimpleCTA` — final CTA.
+10. `Footer`.
+
+Case studies (anonymised, COHORT-STYLE / ENTERPRISE tagged) are merged into `TrustSection`'s carousel. `ProofStrip` and `SignalDeskPreview` are deleted.
 
 Global overlays mounted in `src/App.tsx`:
 - `InitialConsultModal` — opened via the `openConsultModal` custom event.
@@ -77,9 +77,9 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 | `/cohort` | `Cohort` | The AI Decision Cohort ($3,500/seat, quarterly). Primary leader surface. |
 | `/enterprise` | `Enterprise` | The Signal Session ($15k) + The Revenue Architecture ($60-100k). |
 | `/operator` | `Operator` | (v5) How I operate — 14-agent OS credential page. |
-| `/signal` | `Signal` | Signal Desk archive with filters + search. |
+| `/signal` | `Brief` | The Operator's Brief archive (WATCH / SKIP / CALL / TAKE) with filters + search. Route preserved for inbound URLs. |
 | `/tool` | `Tool` | The Nervous Decision Machine. |
-| `/leaders` | `LeadershipInsights` | **Decision Readiness Diagnostic** (primary URL). |
+| `/leaders` | `LeadershipInsights` | Decision Readiness Diagnostic. Unlinked from nav/footer but still reachable by direct URL for deep-links. |
 | `/leadership-insights` | `LeadershipInsights` | Alias. |
 | `/builder-economy` | `BuilderEconomy` | Long-form thesis piece. |
 | `/blog`, `/blog/:slug` | `Blog`, `BlogPost` | Blog index + post. |
@@ -111,7 +111,9 @@ File: `src/components/Navigation.tsx`. Primary CTA: **"Book a call"** (no condit
 - **Cohort** (direct link): `/cohort`.
 - **Enterprise** (dropdown): The Signal Session → `/enterprise#signal-session`, The Revenue Architecture → `/enterprise#revenue-architecture`, All Enterprise → `/enterprise`.
 - **Signal** (link): `/signal`.
-- **Resources** (dropdown): How I operate → `/operator`, Decision Readiness Diagnostic → `/leaders`, Blog → `/blog`, Builder Economy → `/builder-economy`, Lightning Lessons (external Maven links).
+- **Resources** (dropdown): How I operate → `/operator`, Blog → `/blog`, The Builder Economy (Podcast) → `/builder-economy`, Lightning Lessons (external Maven links).
+
+The second top-level link is labelled **"The Brief"** and points at `/signal`. The Decision Readiness Diagnostic is no longer linked from nav or footer.
 - **About** (dropdown): FAQ → `/faq`, Contact → `/contact`, Privacy → `/privacy`.
 
 ---
@@ -144,31 +146,34 @@ Component: `src/components/PreCallQualifier.tsx`. Replaces the old ChatBot. Floa
 
 ---
 
-## Signal Desk
+## The Operator's Brief
 
-- `/signal` (page): filterable archive of SIGNAL / NOISE / DECISION / TAKE cards.
-- `src/components/SignalDeskPreview.tsx`: homepage 6-card grid, links to `/signal`.
-- Data source: currently sample data inlined in the component. The `get-ai-news` edge function schema is still in place for later extension to TAKE cards (per rebuild brief §3.5).
+Renamed from "Signal Desk" to avoid overlap with Krish's other business (Signal & Noise).
+
+- Homepage section: `src/components/OperatorsBrief.tsx`. Single premium panel: live model-pricing ticker (Artificial Analysis), 4 classified cards on the left (WATCH / SKIP / CALL / TAKE), 2 blog cards on the right (via `useBlogPosts`), and a compact Nervous Decision input at the bottom that swaps the right column to the 3-card artifact in place.
+- Archive page: `src/pages/Brief.tsx` at route `/signal` (URL preserved for inbound). Filter pills for WATCH / SKIP / CALL / TAKE plus search.
+- Taxonomy: **WATCH** (worth acting on), **SKIP** (hype / ignore), **CALL** (a decision is overdue), **TAKE** (Krish's opinion). Renamed from the previous SIGNAL / NOISE / DECISION / TAKE set.
+- Data source: still inlined sample cards for now. `get-ai-news` edge function schema remains in place for eventual dynamic feed.
 
 ---
 
 ## Homepage Y-fork
 
-`src/components/YFork.tsx`. Two glass-cards side by side:
-- **The Cohort** — "Make your AI decisions with 15 other senior leaders." $3,500 per seat. CTA → `/cohort` + "Next cohort: [DATE]".
-- **Enterprise** — "Your AI capabilities, translated into revenue." From $15,000. CTA → `/enterprise` + Book a call.
+`src/components/YFork.tsx`. Two glass-cards side by side, each with a single full-width CTA:
+- **The Cohort** — "Make your AI decisions with 15 other senior leaders." $3,500 per seat. CTA → `/cohort`.
+- **Enterprise** — "Your AI capabilities, translated into revenue." From $15,000. CTA → `/enterprise`.
 
-`NewHero`'s secondary CTA "See how I work" smooth-scrolls to `#y-fork`.
+`NewHero`'s secondary CTA "See how I work" smooth-scrolls to `#y-fork`. Hero eyebrow reads "DECISION BLOCKERS I HEAR EVERY WEEK".
 
-The next-cohort label is currently a literal in `YFork.tsx` and `Cohort.tsx`. When Supabase `cohort_dates` is wired up, replace both with a shared data source.
+The next-cohort date is displayed on `/cohort` only. When Supabase `cohort_dates` is wired up, replace the literal in `Cohort.tsx`.
 
 ---
 
 ## Operator's Edge (v5)
 
-Homepage section: `src/components/OperatorsEdge.tsx`. Dark-bg, typography-only section between `ProofStrip` and `SignalDeskPreview`. Three glass tiles (Architecture / Optimization / Memory). Primary CTA to `/enterprise#revenue-architecture`, secondary muted link to `/operator`.
+Homepage section: `src/components/OperatorsEdge.tsx`. Dark-bg, typography-only section between `TrustSection` and `OperatorsBrief`. "BEYOND PATTERN RECOGNITION" is the dominant wordmark; three glass tiles (Architecture / Optimization / Memory) follow. Primary CTA to `/enterprise#revenue-architecture`, secondary muted link to `/operator`.
 
-Dedicated page: `src/pages/Operator.tsx` at `/operator`. Hero → thesis → 5-cluster static agent diagram (14 named agents) → four extractable lessons → commercial crossover → final CTA. OG type `article`. Tracked via `plausible('operator_page_cta_clicked')` on the Revenue Architecture CTA.
+Dedicated page: `src/pages/Operator.tsx` at `/operator`. Hero → thesis (no tool names listed) → 5-cluster static agent diagram (14 named agents) → four extractable lessons → commercial crossover. Page ends at the crossover CTA. OG type `article`. Tracked via `plausible('operator_page_cta_clicked')` on the Revenue Architecture CTA.
 
 **Design guardrails:** no scrolling logs, no terminal aesthetics, no ASCII art, no interactive dashboards. Every claim must pass the CMO-15-second test.
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, Search, ChevronDown, ArrowRight, Sparkles, Users, Rocket, HelpCircle } from "lucide-react";
+import { ArrowLeft, Search, ChevronDown, ArrowRight, Lightbulb, Users, Rocket, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
@@ -84,7 +84,7 @@ const categoryConfig = {
   },
   "ai-literacy": {
     label: "AI Literacy",
-    icon: Sparkles,
+    icon: Lightbulb,
     color: "text-purple-600 dark:text-purple-400",
     bgColor: "bg-purple-100 dark:bg-purple-900/30",
     borderColor: "border-purple-200 dark:border-purple-800"

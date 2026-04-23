@@ -25,7 +25,7 @@ import Index from "./pages/Index";
 const Cohort = lazy(() => import("./pages/Cohort"));
 const Enterprise = lazy(() => import("./pages/Enterprise"));
 const Operator = lazy(() => import("./pages/Operator"));
-const Signal = lazy(() => import("./pages/Signal"));
+const Brief = lazy(() => import("./pages/Brief"));
 const Tool = lazy(() => import("./pages/Tool"));
 const BuilderEconomy = lazy(() => import("./pages/BuilderEconomy"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -74,7 +74,7 @@ const AppRoutes = () => {
             <Route path="/cohort" element={<Cohort />} />
             <Route path="/enterprise" element={<Enterprise />} />
             <Route path="/operator" element={<Operator />} />
-            <Route path="/signal" element={<Signal />} />
+            <Route path="/signal" element={<Brief />} />
             <Route path="/tool" element={<Tool />} />
 
             {/* Preserved pages */}

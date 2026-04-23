@@ -21,7 +21,7 @@ const tiles = [
     label: "Optimization",
     claim: "Cost patterns running in production across Anthropic, Gemini, and OpenAI.",
     elaboration:
-      "Model routing, fallback logic, and usage governance — built because the bills forced me to.",
+      "Model routing, fallback logic, and usage governance, built because the bills forced me to.",
   },
   {
     label: "Memory",
@@ -53,20 +53,21 @@ const OperatorsEdge = () => {
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeUp}
         >
-          <motion.div
-            className="text-xs font-bold uppercase tracking-[0.2em] text-mint mb-5"
+          <motion.h2
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight text-mint leading-[0.95] mb-6"
             variants={fadeUp}
             custom={0}
+            style={{ textShadow: "0 0 60px hsl(158 82% 73% / 0.25)" }}
           >
-            Beyond Pattern Recognition
-          </motion.div>
-          <motion.h2
-            className="text-3xl md:text-5xl font-bold leading-tight tracking-tight max-w-3xl mx-auto"
+            Beyond Pattern<br />Recognition
+          </motion.h2>
+          <motion.p
+            className="text-lg md:text-2xl font-semibold text-white leading-snug tracking-tight max-w-3xl mx-auto"
             variants={fadeUp}
             custom={1}
           >
             I'm not theorizing about agentic business. I'm running one.
-          </motion.h2>
+          </motion.p>
           <motion.p
             className="mt-6 text-base md:text-lg text-white/70 leading-relaxed max-w-3xl mx-auto"
             variants={fadeUp}

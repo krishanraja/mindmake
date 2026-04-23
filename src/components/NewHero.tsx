@@ -54,7 +54,7 @@ const NewHero = () => {
         >
           <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold uppercase tracking-[0.18em] text-mint/80">
             <span className="h-1.5 w-1.5 rounded-full bg-mint animate-pulse" />
-            Questions I hear every week
+            Decision blockers I hear every week
           </span>
         </motion.div>
 

@@ -4,10 +4,8 @@ import YFork from "@/components/YFork";
 import BigProblem from "@/components/BigProblem";
 import TrustSection from "@/components/TrustSection";
 import FrameworkJourney from "@/components/FrameworkJourney";
-import ProofStrip from "@/components/ProofStrip";
 import OperatorsEdge from "@/components/OperatorsEdge";
-import SignalDeskPreview from "@/components/SignalDeskPreview";
-import NervousDecisionMachine from "@/components/NervousDecisionMachine";
+import OperatorsBrief from "@/components/OperatorsBrief";
 import SimpleCTA from "@/components/SimpleCTA";
 import Footer from "@/components/Footer";
 import { ParticleBackground } from "@/components/Animations/ParticleBackground";
@@ -24,28 +22,22 @@ const Index = () => {
       {/* 2. The Y-fork */}
       <YFork />
 
-      {/* 3. The Big Problem -- existential urgency */}
+      {/* 3. The Big Problem — existential urgency */}
       <BigProblem />
 
-      {/* 4. Trust / Proof */}
+      {/* 4. Trust + merged Case Studies (enriched carousel) */}
       <TrustSection />
 
       {/* 5. Framework Journey */}
       <FrameworkJourney />
 
-      {/* 6. Proof Strip -- real decisions */}
-      <ProofStrip />
-
-      {/* 7. Operator's Edge (v5) -- credential proof before Signal Desk */}
+      {/* 6. Operator's Edge (v5 credential proof) */}
       <OperatorsEdge />
 
-      {/* 8. Signal Desk preview */}
-      <SignalDeskPreview />
+      {/* 7. The Operator's Brief — live prices, cards, essays, decision machine */}
+      <OperatorsBrief />
 
-      {/* 9. Nervous Decision Machine (demo tool) */}
-      <NervousDecisionMachine />
-
-      {/* 10. Final CTA */}
+      {/* 8. Final CTA */}
       <SimpleCTA />
 
       <Footer />

@@ -4,7 +4,19 @@ import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { ArrowRight, Search } from "lucide-react";
 import { SEO } from "@/components/SEO";
-import type { SignalCard, SignalTag } from "@/components/SignalDeskPreview";
+
+// Taxonomy renamed from the previous SIGNAL / NOISE / DECISION / TAKE to
+// WATCH / SKIP / CALL / TAKE to avoid overlap with Krish's other business
+// (Signal & Noise).
+export type BriefTag = "WATCH" | "SKIP" | "CALL" | "TAKE";
+
+export type BriefCard = {
+  tag: BriefTag;
+  timestamp: string;
+  headline: string;
+  body: string;
+  takeLink?: string;
+};
 
 const fadeUp = {
   hidden: { opacity: 0, y: 16 },
@@ -15,33 +27,33 @@ const fadeUp = {
   }),
 };
 
-const tagStyles: Record<SignalTag, string> = {
-  SIGNAL: "bg-mint/15 text-mint-dark dark:text-mint border-mint/30",
-  NOISE: "bg-orange-500/15 text-orange-600 dark:text-orange-400 border-orange-500/30",
-  DECISION: "bg-background text-foreground border-mint/50",
+const tagStyles: Record<BriefTag, string> = {
+  WATCH: "bg-mint/15 text-mint-dark dark:text-mint border-mint/30",
+  SKIP: "bg-orange-500/15 text-orange-600 dark:text-orange-400 border-orange-500/30",
+  CALL: "bg-background text-foreground border-mint/50",
   TAKE: "bg-mint/10 text-mint-dark dark:text-mint border-mint/30",
 };
 
-const tags: (SignalTag | "ALL")[] = ["ALL", "SIGNAL", "NOISE", "DECISION", "TAKE"];
+const tags: (BriefTag | "ALL")[] = ["ALL", "WATCH", "SKIP", "CALL", "TAKE"];
 
-const sampleArchive: SignalCard[] = [
+const sampleArchive: BriefCard[] = [
   {
-    tag: "SIGNAL",
+    tag: "WATCH",
     timestamp: "2d ago",
     headline: "Anthropic ships agent-native browser, not a plugin.",
     body: "The browser as operating surface is now a serious product category. Orchestration buyers should rethink desktop-vs-cloud roadmaps.",
   },
   {
-    tag: "NOISE",
+    tag: "SKIP",
     timestamp: "3d ago",
-    headline: "Another vendor rebrands workflow automation as 'agentic AI'.",
-    body: "If your team is being pitched 'agents' without a memory architecture or an eval harness, that isn't agentic. It's Zapier with better branding.",
+    headline: "Another vendor rebrands workflow automation as agentic AI.",
+    body: "If your team is being pitched agents without a memory architecture or an eval harness, that isn't agentic. It's Zapier with better branding.",
   },
   {
-    tag: "DECISION",
+    tag: "CALL",
     timestamp: "4d ago",
     headline: "Build vs buy on your internal copilot is a 30-day call.",
-    body: "OpenAI and Google's enterprise tiers now ship what most leaders were scoping a build for. Reopen the build memo before Q3.",
+    body: "OpenAI and Google enterprise tiers now ship what most leaders were scoping a build for. Reopen the build memo before Q3.",
   },
   {
     tag: "TAKE",
@@ -51,7 +63,7 @@ const sampleArchive: SignalCard[] = [
     takeLink: "/blog",
   },
   {
-    tag: "SIGNAL",
+    tag: "WATCH",
     timestamp: "1w ago",
     headline: "Haiku 4.5 is cheaper than gpt-4o-mini and better on reasoning.",
     body: "Price-to-quality frontier shifted. Any LLM cost model older than 30 days is probably wrong.",
@@ -64,27 +76,27 @@ const sampleArchive: SignalCard[] = [
     takeLink: "/blog",
   },
   {
-    tag: "DECISION",
+    tag: "CALL",
     timestamp: "2w ago",
-    headline: "Approve your first 'AI agent writes production code' policy.",
-    body: "Get ahead of shadow usage. A 1-page policy on scope, review, and audit is cheaper than the first incident.",
+    headline: "Approve your first agent-writes-production-code policy.",
+    body: "Get ahead of shadow usage. A one-page policy on scope, review, and audit is cheaper than the first incident.",
   },
   {
-    tag: "NOISE",
+    tag: "SKIP",
     timestamp: "2w ago",
-    headline: "'AI will replace 50% of knowledge work by 2027' makes another round.",
+    headline: "'AI will replace 50% of knowledge work by 2027' is back.",
     body: "The specific number changes. The claim is unfalsifiable. Don't staff plans against headline math.",
   },
   {
-    tag: "SIGNAL",
+    tag: "WATCH",
     timestamp: "3w ago",
     headline: "Procurement teams are writing model-ban lists. Fast.",
     body: "If your team's tool choices haven't been approved centrally, assume a 90-day clock before they get blocked.",
   },
 ];
 
-export default function Signal() {
-  const [filter, setFilter] = useState<SignalTag | "ALL">("ALL");
+export default function Brief() {
+  const [filter, setFilter] = useState<BriefTag | "ALL">("ALL");
   const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {
@@ -104,23 +116,28 @@ export default function Signal() {
   return (
     <main className="min-h-screen bg-background">
       <SEO
-        title="The Signal Desk"
-        description="What's worth watching this week. Signal, noise, decision, and take — classified calls from Krish Raja on where AI is actually moving."
+        title="The Operator's Brief"
+        description="What's worth watching, what to skip, what to call, and what I make of it. Classified reads for leaders making AI decisions."
         canonical="/signal"
       />
       <Navigation />
 
       <section className="section-padding pt-32">
         <div className="container-width max-w-5xl">
-          <motion.div initial="hidden" animate="show" variants={fadeUp} className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-mint-dark dark:text-mint mb-4">
-              The Signal Desk
+          <motion.div
+            initial="hidden"
+            animate="show"
+            variants={fadeUp}
+            className="text-center mb-10"
+          >
+            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-mint-dark dark:text-mint mb-4">
+              The Operator's Brief
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight">
-              Signal. Noise. Decisions. Takes.
+              Watch. Skip. Call. Take.
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-              What I'm watching this week. Classified by whether it's worth your time — and the calls you should be making.
+              What I'm tracking this week. Classified by whether it's worth your time, and the calls you should be making.
             </p>
           </motion.div>
 
@@ -145,7 +162,7 @@ export default function Signal() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <input
                 type="search"
-                placeholder="Search the desk"
+                placeholder="Search the brief"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 className="w-full pl-9 pr-3 py-2 text-sm rounded-full border border-border bg-background focus:outline-none focus:ring-2 focus:ring-mint/40"
@@ -153,7 +170,6 @@ export default function Signal() {
             </div>
           </div>
 
-          {/* Grid */}
           {filtered.length === 0 ? (
             <p className="text-center text-muted-foreground py-20">
               No cards match that filter yet.
@@ -194,7 +210,7 @@ export default function Signal() {
                       href={card.takeLink}
                       className="inline-flex items-center gap-1.5 mt-4 text-sm font-semibold text-mint-dark dark:text-mint hover:underline"
                     >
-                      Read Krish's take <ArrowRight className="w-3.5 h-3.5" />
+                      Read the take <ArrowRight className="w-3.5 h-3.5" />
                     </a>
                   )}
                 </motion.article>

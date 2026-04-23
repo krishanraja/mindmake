@@ -44,16 +44,15 @@ const Navigation = () => {
       ],
     },
     {
-      label: "Signal",
+      label: "The Brief",
       href: "/signal",
     },
     {
       label: "Resources",
       dropdown: [
         { label: "How I operate", href: "/operator" },
-        { label: "Decision Readiness Diagnostic", href: "/leaders" },
         { label: "Blog", href: "/blog" },
-        { label: "Builder Economy", href: "/builder-economy" },
+        { label: "The Builder Economy (Podcast)", href: "/builder-economy" },
         { label: "Lightning Lessons", type: "lessons" },
       ],
     },

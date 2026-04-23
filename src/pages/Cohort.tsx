@@ -4,7 +4,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle, Users, Calendar, Info, Sparkles } from "lucide-react";
+import { ArrowRight, CheckCircle, Users, Calendar, Info } from "lucide-react";
 import { SEO } from "@/components/SEO";
 
 const fadeUp = {
@@ -44,7 +44,7 @@ const curriculum = [
   {
     week: 2,
     title: "Map the paths.",
-    body: "Structured trade-off analysis on the three real options — build vs buy, now vs wait, this vendor vs that vendor. Your actual fork, on the table.",
+    body: "Structured trade-off analysis on the three real options: build vs buy, now vs wait, this vendor vs that vendor. Your actual fork, on the table.",
     async: "2 videos · 1 framework · 1 scorecard",
     live: "90 min peer pressure-test of the options",
   },
@@ -74,19 +74,19 @@ const forYou = [
 const faqs = [
   {
     q: "What if I can't make a live session?",
-    a: "Sessions are recorded. You can submit async — written memo, video, or a short Loom — and get peer feedback in Slack before the next week.",
+    a: "Sessions are recorded. You can submit async (written memo, video, or a short Loom) and get peer feedback in Slack before the next week.",
   },
   {
     q: "What if I don't have a decision to bring?",
-    a: "We'll help you name one. But honestly, if you can't name a nervous AI decision on your desk this quarter, this cohort isn't the right fit — come back next quarter.",
+    a: "We'll help you name one. But honestly, if you can't name a nervous AI decision on your desk this quarter, this cohort isn't the right fit. Come back next quarter.",
   },
   {
     q: "Can I send a colleague instead?",
-    a: "No. The cohort runs on peer continuity — the same 10-15 leaders in each session. Substitutions break that.",
+    a: "No. The cohort runs on peer continuity: the same 10-15 leaders in each session. Substitutions break that.",
   },
   {
     q: "Is this tax-deductible?",
-    a: "For most US buyers, yes — as professional development. Ask your finance team. We can provide an invoice to your employer.",
+    a: "For most US buyers, yes, as professional development. Ask your finance team. We can provide an invoice to your employer.",
   },
   {
     q: "What's the refund policy?",
@@ -153,7 +153,7 @@ export default function Cohort() {
         <div className="container-width max-w-4xl text-center">
           <motion.div initial="hidden" animate="show" variants={fadeUp}>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-mint/10 border border-mint/20 text-mint-dark dark:text-mint text-xs font-bold uppercase tracking-[0.18em] mb-6">
-              <Sparkles className="w-3.5 h-3.5" />
+              <Users className="w-3.5 h-3.5" />
               The AI Decision Cohort
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-5 leading-tight">
@@ -204,7 +204,7 @@ export default function Cohort() {
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeUp}
           >
-            You've been pitched 14 AI vendor decks this quarter. You have a nervous AI decision you keep deferring — build vs buy, tool commitment, a clone, its boundaries, vendor lock-in, something. You're tired of thinking alone. You don't have time for a consultant. You want to <span className="text-foreground font-bold">decide</span>.
+            You've been pitched 14 AI vendor decks this quarter. You have a nervous AI decision you keep deferring: build vs buy, tool commitment, a clone, its boundaries, vendor lock-in, something. You're tired of thinking alone. You don't have time for a consultant. You want to <span className="text-foreground font-bold">decide</span>.
           </motion.p>
         </div>
       </section>

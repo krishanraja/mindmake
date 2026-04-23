@@ -254,16 +254,36 @@ const Navigation = () => {
                                   </button>
                                   {lessonsExpanded && (
                                     <div className="flex flex-col space-y-1 mt-2 ml-4">
-                                      <a
-                                        href="https://live.themindmaker.ai/"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="min-h-[44px] flex items-center justify-between px-4 py-3 text-sm font-medium text-ink dark:text-white hover:bg-mint/10 rounded-md transition-colors"
-                                        onClick={() => setIsOpen(false)}
-                                      >
-                                        <span>Live Learnings</span>
-                                        <ExternalLink className="h-3 w-3 flex-shrink-0 ml-2" />
-                                      </a>
+                                      {[
+                                        {
+                                          label: "Vibe Coding for Leaders",
+                                          url: "https://maven.com/p/ca6d71/vibe-coding-for-leaders-build-what-you-brief",
+                                        },
+                                        {
+                                          label: "Make AI Your Co-Founder",
+                                          url: "https://maven.com/p/0cc82a/make-ai-your-co-founder",
+                                        },
+                                        {
+                                          label: "Build an Autonomous Business with AI",
+                                          url: "https://maven.com/p/38d196/build-an-autonomous-business-with-ai",
+                                        },
+                                        {
+                                          label: "Give Your AI Memory",
+                                          url: "https://maven.com/p/8fba42/improve-the-memory-of-your-ai-tools",
+                                        },
+                                      ].map((lesson) => (
+                                        <a
+                                          key={lesson.url}
+                                          href={lesson.url}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="min-h-[44px] flex items-center justify-between px-4 py-3 text-sm font-medium text-ink dark:text-white hover:bg-mint/10 rounded-md transition-colors"
+                                          onClick={() => setIsOpen(false)}
+                                        >
+                                          <span>{lesson.label}</span>
+                                          <ExternalLink className="h-3 w-3 flex-shrink-0 ml-2" />
+                                        </a>
+                                      ))}
                                     </div>
                                   )}
                                 </div>

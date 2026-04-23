@@ -1,9 +1,16 @@
+import { useCallback, useEffect, useState } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { SEO } from "@/components/SEO";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  type CarouselApi,
+} from "@/components/ui/carousel";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 12 },
@@ -98,6 +105,62 @@ const lessons = [
   },
 ];
 
+const stageImages = [
+  "/krish-stage-1.jpg",
+  "/krish-stage-2.png",
+  "/krish-stage-3.png",
+];
+
+const StageCarousel = () => {
+  const [api, setApi] = useState<CarouselApi>();
+  const [isPaused, setIsPaused] = useState(false);
+
+  const advance = useCallback(() => {
+    if (!api || isPaused) return;
+    api.scrollNext();
+  }, [api, isPaused]);
+
+  useEffect(() => {
+    if (!api) return;
+    const interval = window.setInterval(advance, 3500);
+    return () => window.clearInterval(interval);
+  }, [api, advance]);
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
+      <Carousel
+        setApi={setApi}
+        opts={{ align: "center", loop: true, slidesToScroll: 1 }}
+        orientation="horizontal"
+        className="w-full"
+      >
+        <CarouselContent className="-ml-4">
+          {stageImages.map((src, i) => (
+            <CarouselItem
+              key={src}
+              className="pl-4 basis-[88%] sm:basis-[60%] md:basis-1/2 lg:basis-1/3"
+            >
+              <div className="rounded-xl overflow-hidden bg-ink border border-border/50 flex items-center justify-center h-56 md:h-64">
+                <img
+                  src={src}
+                  alt={`Krish speaking on stage ${i + 1}`}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+      </Carousel>
+    </div>
+  );
+};
+
 export default function Operator() {
   return (
     <main className="min-h-screen bg-background">
@@ -110,10 +173,10 @@ export default function Operator() {
       <Navigation />
 
       {/* HERO */}
-      <section className="section-padding pt-32 bg-ink text-white">
+      <section className="pt-24 pb-10 sm:pt-28 sm:pb-14 md:pt-32 md:pb-24 lg:pb-32 bg-ink text-white">
         <div className="container-width max-w-5xl">
           <motion.div initial="hidden" animate="show" variants={fadeUp}>
-            <div className="text-xs font-bold uppercase tracking-[0.2em] text-mint mb-6">
+            <div className="text-xs font-bold uppercase tracking-[0.2em] text-mint mb-4 md:mb-6">
               How I operate
             </div>
             <motion.img
@@ -124,12 +187,12 @@ export default function Operator() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-              className="w-40 h-40 md:w-48 md:h-48 rounded-full object-cover ring-1 ring-white/10 shadow-lg mb-8"
+              className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full object-cover ring-1 ring-white/10 shadow-lg mb-5 md:mb-8"
             />
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-5 leading-tight tracking-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-5 leading-tight tracking-tight">
               The operating system behind Mindmaker.
             </h1>
-            <p className="text-lg md:text-xl text-white/70 leading-relaxed max-w-3xl">
+            <p className="text-base sm:text-lg md:text-xl text-white/70 leading-relaxed max-w-3xl">
               Most advisors sell frameworks they read. I run the frameworks I sell.
             </p>
           </motion.div>
@@ -284,27 +347,7 @@ export default function Operator() {
               Where I've been talking about this.
             </h2>
           </motion.div>
-          <div className="grid sm:grid-cols-3 gap-6">
-            {["/krish-stage-1.jpg", "/krish-stage-2.png", "/krish-stage-3.png"].map((src, i) => (
-              <motion.div
-                key={src}
-                className="rounded-xl overflow-hidden bg-ink border border-border/50 flex items-center justify-center h-56 md:h-64"
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, margin: "-50px" }}
-                custom={i}
-                variants={fadeUp}
-              >
-                <img
-                  src={src}
-                  alt={`Krish speaking on stage ${i + 1}`}
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-contain"
-                />
-              </motion.div>
-            ))}
-          </div>
+          <StageCarousel />
         </div>
       </section>
 

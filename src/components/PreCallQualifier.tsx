@@ -108,7 +108,10 @@ const PreCallQualifier = () => {
 
   const bookCall = () => {
     if (!rec) return;
-    setQualificationData({ preselectedProgram: rec.preselected });
+    setQualificationData({
+      preselectedProgram: rec.preselected,
+      qualifierAnswers: answers,
+    });
     setOpen(false);
     window.dispatchEvent(
       new CustomEvent("openConsultModal", {
@@ -281,7 +284,7 @@ const PreCallQualifier = () => {
                       </Button>
                     </div>
                     <p className="text-xs text-muted-foreground mt-4">
-                      Saved locally in your browser. Nothing is emailed.
+                      Your answers ride along with the intake form when you book. "Save my answers" keeps a local copy in this browser if you want to come back later.
                     </p>
                   </motion.div>
                 )

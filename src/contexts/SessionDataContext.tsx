@@ -49,11 +49,18 @@ interface TryItData {
   challenges: { input: string; response: string; timestamp: Date }[];
 }
 
+export interface QualifierAnswers {
+  decision: string;
+  tried: string;
+  stakes: string;
+}
+
 export interface QualificationData {
   preselectedProgram?: string;
   commitmentLevel?: string;
   audienceType?: "individual" | "team";
   pathType?: "build" | "orchestrate";
+  qualifierAnswers?: QualifierAnswers;
 }
 
 export interface SessionData {

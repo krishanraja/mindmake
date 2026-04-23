@@ -55,10 +55,16 @@ const AppRoutes = () => {
   useEffect(() => {
     const handleOpenConsultModal = (e: Event) => {
       const detail = (e as CustomEvent).detail as
-        | { preselected?: string; qualifierAnswers?: Record<string, string> }
+        | {
+            preselected?: string;
+            qualifierAnswers?: { decision: string; tried: string; stakes: string };
+          }
         | undefined;
-      if (detail?.preselected) {
-        setQualificationData({ preselectedProgram: detail.preselected });
+      if (detail?.preselected || detail?.qualifierAnswers) {
+        setQualificationData({
+          preselectedProgram: detail.preselected,
+          qualifierAnswers: detail.qualifierAnswers,
+        });
       }
       setGlobalConsultModalOpen(true);
     };

@@ -173,6 +173,12 @@ const sessionDataSchema = z.object({
   scrollDepth: z.number().default(0),
 });
 
+const qualifierAnswersSchema = z.object({
+  decision: z.string().max(500).default(""),
+  tried: z.string().max(500).default(""),
+  stakes: z.string().max(500).default(""),
+});
+
 const leadRequestSchema = z.object({
   name: z.string().min(1, "Name is required").max(100, "Name too long"),
   email: z.string().email("Invalid email format").max(255, "Email too long"),
@@ -181,6 +187,7 @@ const leadRequestSchema = z.object({
   commitmentLevel: z.string().max(20).optional(), // e.g., "1hr", "3hr", "4wk", "90d"
   audienceType: z.string().max(20).optional(), // "individual" or "team"
   pathType: z.string().max(20).optional(), // "build" or "orchestrate" (for individual)
+  qualifierAnswers: qualifierAnswersSchema.optional(),
   sessionData: sessionDataSchema.default({
     pagesVisited: [],
     timeOnSite: 0,
@@ -271,7 +278,7 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
     
-    const { name, email, jobTitle, selectedProgram, commitmentLevel, audienceType, pathType, sessionData } = parseResult.data;
+    const { name, email, jobTitle, selectedProgram, commitmentLevel, audienceType, pathType, qualifierAnswers, sessionData } = parseResult.data;
     
     console.log("[LeadEmail] Request received:", {
       requestId,
@@ -282,6 +289,7 @@ const handler = async (req: Request): Promise<Response> => {
       commitmentLevel,
       audienceType,
       pathType,
+      hasQualifierAnswers: Boolean(qualifierAnswers),
     });
 
     // Safely extract domain from email
@@ -546,8 +554,36 @@ const handler = async (req: Request): Promise<Response> => {
       ` : ''}
     `;
 
+    // Add Pre-Call Qualifier answers if the user completed the drawer
+    const hasQualifierAnswers = qualifierAnswers && (
+      qualifierAnswers.decision.trim() ||
+      qualifierAnswers.tried.trim() ||
+      qualifierAnswers.stakes.trim()
+    );
+
+    if (hasQualifierAnswers) {
+      emailHtml += `
+      <!-- Pre-call qualifier -->
+      <div style="background: #f5f5f7; border-radius: 12px; padding: 24px; margin-bottom: 20px;">
+        <h2 style="color: #1d1d1f; margin: 0 0 16px 0; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Pre-call qualifier</h2>
+        <div style="background: #ffffff; border-radius: 8px; padding: 16px; margin-bottom: 12px;">
+          <p style="color: #86868b; margin: 0 0 6px 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px;">Decision they're trying to make</p>
+          <p style="color: #1d1d1f; margin: 0; font-size: 14px; line-height: 1.5; white-space: pre-wrap;">${escapeHtml(qualifierAnswers!.decision || "—")}</p>
+        </div>
+        <div style="background: #ffffff; border-radius: 8px; padding: 16px; margin-bottom: 12px;">
+          <p style="color: #86868b; margin: 0 0 6px 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px;">What they've tried already</p>
+          <p style="color: #1d1d1f; margin: 0; font-size: 14px; line-height: 1.5; white-space: pre-wrap;">${escapeHtml(qualifierAnswers!.tried || "—")}</p>
+        </div>
+        <div style="background: #ffffff; border-radius: 8px; padding: 16px;">
+          <p style="color: #86868b; margin: 0 0 6px 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px;">What's at stake if they get it wrong</p>
+          <p style="color: #1d1d1f; margin: 0; font-size: 14px; line-height: 1.5; white-space: pre-wrap;">${escapeHtml(qualifierAnswers!.stakes || "—")}</p>
+        </div>
+      </div>
+      `;
+    }
+
     // Add session engagement data - only if there's meaningful data
-    const hasEngagementData = sessionData.frictionMap || 
+    const hasEngagementData = sessionData.frictionMap ||
       (sessionData.portfolioBuilder && sessionData.portfolioBuilder.selectedTasks.length > 0) ||
       sessionData.assessment ||
       (sessionData.tryItWidget && sessionData.tryItWidget.challenges.length > 0);

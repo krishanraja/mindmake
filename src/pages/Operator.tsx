@@ -112,33 +112,27 @@ export default function Operator() {
       {/* HERO */}
       <section className="section-padding pt-32 bg-ink text-white">
         <div className="container-width max-w-5xl">
-          <div className="grid md:grid-cols-5 gap-10 items-center">
-            <motion.div initial="hidden" animate="show" variants={fadeUp} className="md:col-span-3">
-              <div className="text-xs font-bold uppercase tracking-[0.2em] text-mint mb-5">
-                How I operate
-              </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-5 leading-tight tracking-tight">
-                The operating system behind Mindmaker.
-              </h1>
-              <p className="text-lg md:text-xl text-white/70 leading-relaxed">
-                Most advisors sell frameworks they read. I run the frameworks I sell. This is how.
-              </p>
-            </motion.div>
-            <motion.div
+          <motion.div initial="hidden" animate="show" variants={fadeUp}>
+            <div className="text-xs font-bold uppercase tracking-[0.2em] text-mint mb-6">
+              How I operate
+            </div>
+            <motion.img
+              src="/Krish-Headshot.png"
+              alt="Krish Raja"
+              loading="eager"
+              decoding="async"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-              className="md:col-span-2 flex justify-center md:justify-end"
-            >
-              <img
-                src="/Krish-Headshot.png"
-                alt="Krish Raja"
-                loading="eager"
-                decoding="async"
-                className="w-full max-w-[340px] rounded-2xl border border-white/10 shadow-lg"
-              />
-            </motion.div>
-          </div>
+              className="w-40 h-40 md:w-48 md:h-48 rounded-full object-cover ring-1 ring-white/10 shadow-lg mb-8"
+            />
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-5 leading-tight tracking-tight">
+              The operating system behind Mindmaker.
+            </h1>
+            <p className="text-lg md:text-xl text-white/70 leading-relaxed max-w-3xl">
+              Most advisors sell frameworks they read. I run the frameworks I sell.
+            </p>
+          </motion.div>
         </div>
       </section>
 
@@ -151,6 +145,7 @@ export default function Operator() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6, ease: "easeOut" }}
+              className="flex justify-center md:justify-start"
             >
               <video
                 src="/ctrl-demo-video.mp4"
@@ -158,7 +153,7 @@ export default function Operator() {
                 loop
                 muted
                 playsInline
-                className="w-full rounded-xl border border-border/60 shadow-lg"
+                className="w-full max-w-[280px] rounded-xl shadow-lg"
               />
             </motion.div>
             <div className="space-y-5 text-base md:text-lg leading-relaxed">
@@ -274,7 +269,7 @@ export default function Operator() {
 
       {/* STAGE / IN-THE-WILD */}
       <section className="section-padding bg-background border-t border-border/40">
-        <div className="container-width max-w-5xl">
+        <div className="container-width max-w-6xl">
           <motion.div
             initial="hidden"
             whileInView="show"
@@ -289,21 +284,25 @@ export default function Operator() {
               Where I've been talking about this.
             </h2>
           </motion.div>
-          <div className="grid sm:grid-cols-3 gap-4">
+          <div className="grid sm:grid-cols-3 gap-6">
             {["/krish-stage-1.jpg", "/krish-stage-2.png", "/krish-stage-3.png"].map((src, i) => (
-              <motion.img
+              <motion.div
                 key={src}
-                src={src}
-                alt={`Krish speaking on stage ${i + 1}`}
-                loading="lazy"
-                decoding="async"
-                className="w-full h-56 md:h-64 object-cover rounded-xl border border-border/50"
+                className="rounded-xl overflow-hidden bg-ink border border-border/50 flex items-center justify-center h-56 md:h-64"
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true, margin: "-50px" }}
                 custom={i}
                 variants={fadeUp}
-              />
+              >
+                <img
+                  src={src}
+                  alt={`Krish speaking on stage ${i + 1}`}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-contain"
+                />
+              </motion.div>
             ))}
           </div>
         </div>

@@ -378,6 +378,7 @@ export const InitialConsultModal = ({
       const finalCommitmentLevel = effectiveCommitmentLevel || selectedCommitment;
       const finalAudienceType = effectiveAudienceType || (selectedPath === "team" ? "team" : "individual");
       const finalPathType = effectivePathType || (selectedPath === "build" ? "build" : selectedPath === "orchestrate" ? "orchestrate" : undefined);
+      const qualifierAnswers = qualificationData?.qualifierAnswers;
 
       // Log request details for debugging
       console.log('📧 Sending lead email request:', {
@@ -390,6 +391,7 @@ export const InitialConsultModal = ({
           commitmentLevel: finalCommitmentLevel,
           audienceType: finalAudienceType,
           pathType: finalPathType,
+          hasQualifierAnswers: Boolean(qualifierAnswers),
           sessionDataKeys: Object.keys(sessionData || {})
         },
         supabaseUrl: (supabase as any).supabaseUrl?.substring(0, 30) + '...',
@@ -411,6 +413,7 @@ export const InitialConsultModal = ({
           commitmentLevel: finalCommitmentLevel,
           audienceType: finalAudienceType,
           pathType: finalPathType,
+          qualifierAnswers,
           sessionData
         }
       });

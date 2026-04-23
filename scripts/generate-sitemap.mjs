@@ -21,15 +21,14 @@ const DOMAINS = [
 
 // Static routes with their change frequency and priority
 const staticRoutes = [
-  { path: "/", changefreq: "weekly", priority: "1.0" },
-  { path: "/sprint/4-week", changefreq: "monthly", priority: "0.9" },
-  { path: "/sprint/90-day", changefreq: "monthly", priority: "0.9" },
-  { path: "/sprints", changefreq: "monthly", priority: "0.8" },
-  { path: "/blog", changefreq: "weekly", priority: "0.8" },
+  { path: "/", changefreq: "daily", priority: "1.0" },
+  { path: "/cohort", changefreq: "weekly", priority: "0.9" },
+  { path: "/enterprise", changefreq: "weekly", priority: "0.9" },
+  { path: "/operator", changefreq: "monthly", priority: "0.7" },
+  { path: "/signal", changefreq: "daily", priority: "0.8" },
+  { path: "/tool", changefreq: "monthly", priority: "0.7" },
+  { path: "/blog", changefreq: "daily", priority: "0.8" },
   { path: "/leaders", changefreq: "monthly", priority: "0.7" },
-  { path: "/war-room", changefreq: "monthly", priority: "0.7" },
-  { path: "/fractional-caio", changefreq: "monthly", priority: "0.7" },
-  { path: "/strategy-day", changefreq: "monthly", priority: "0.7" },
   { path: "/builder-economy", changefreq: "monthly", priority: "0.6" },
   { path: "/faq", changefreq: "monthly", priority: "0.5" },
   { path: "/contact", changefreq: "yearly", priority: "0.5" },

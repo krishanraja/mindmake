@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { InitialConsultModal } from "@/components/InitialConsultModal";
 import { motion, AnimatePresence } from "framer-motion";
 
 const headlines = [
@@ -19,7 +18,6 @@ const headlines = [
 ];
 
 const NewHero = () => {
-  const [modalOpen, setModalOpen] = useState(false);
   const [idx, setIdx] = useState(0);
 
   useEffect(() => {
@@ -47,6 +45,19 @@ const NewHero = () => {
 
       {/* Content */}
       <div className="relative z-10 container-width pt-32 sm:pt-36 md:pt-40 pb-16 sm:pb-20 md:pb-24 min-h-screen flex flex-col justify-center">
+        {/* Small eyebrow label reframing the rotation as social proof */}
+        <motion.div
+          className="mb-4"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold uppercase tracking-[0.18em] text-mint/80">
+            <span className="h-1.5 w-1.5 rounded-full bg-mint animate-pulse" />
+            Questions I hear every week
+          </span>
+        </motion.div>
+
         {/* Rotating headline -- natural height, no clipping */}
         <div className="mb-8 min-h-[1.2em] sm:min-h-[1.3em]">
           <AnimatePresence mode="wait">
@@ -81,7 +92,7 @@ const NewHero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.6 }}
         >
-          1:1 sprints that turn AI chaos into direction.
+          Cohorts and enterprise sprints that turn AI chaos into direction.
         </motion.p>
 
         {/* CTAs */}
@@ -94,22 +105,20 @@ const NewHero = () => {
           <Button
             size="lg"
             className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold px-8 py-6 text-base sm:text-lg shadow-lg shadow-mint/25 transition-all duration-300 hover:-translate-y-0.5"
-            onClick={() => setModalOpen(true)}
+            onClick={() => window.dispatchEvent(new CustomEvent("openConsultModal"))}
           >
-            Tackle your million dollar decision
+            Book a call
           </Button>
           <Button
             size="lg"
             variant="outline"
             className="border-2 border-mint/50 text-mint hover:bg-mint/10 font-bold px-8 py-6 text-base sm:text-lg transition-all duration-300"
-            onClick={() => document.getElementById("products")?.scrollIntoView({ behavior: "smooth" })}
+            onClick={() => document.getElementById("y-fork")?.scrollIntoView({ behavior: "smooth" })}
           >
-            Learn how you can level up
+            See how I work
           </Button>
         </motion.div>
       </div>
-
-      <InitialConsultModal open={modalOpen} onOpenChange={setModalOpen} />
     </section>
   );
 };

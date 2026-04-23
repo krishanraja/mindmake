@@ -16,54 +16,37 @@ const Footer = () => {
               </p>
             </div>
 
-            {/* Sprints */}
+            {/* Work with me */}
             <div className="flex flex-col gap-4">
               <h4 className="text-sm font-bold text-foreground uppercase tracking-wider mb-2">
-                Sprints
+                Work with me
               </h4>
               <nav className="flex flex-col gap-3">
                 <a
-                  href="/sprints?path=build"
+                  href="/cohort"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
-                  Builder Sprints
+                  The AI Decision Cohort
                 </a>
                 <a
-                  href="/sprints?path=orchestrate"
+                  href="/enterprise#signal-session"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
-                  Orchestrator Sprints
+                  The Signal Session
                 </a>
-                <button
-                  onClick={() => window.dispatchEvent(new CustomEvent('openActionsHub'))}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4 text-left"
+                <a
+                  href="/enterprise#revenue-architecture"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
-                  Decision Tools
-                </button>
+                  The Revenue Architecture
+                </a>
+                <a
+                  href="/enterprise"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
+                >
+                  All Enterprise
+                </a>
               </nav>
-              <div className="mt-4 pt-3 border-t border-border/30">
-                <p className="text-xs text-muted-foreground/60 uppercase tracking-wider mb-2">Enterprise</p>
-                <nav className="flex flex-col gap-3">
-                  <a
-                    href="/war-room"
-                    className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
-                  >
-                    AI Commercial Accelerator
-                  </a>
-                  <a
-                    href="/fractional-caio"
-                    className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
-                  >
-                    Embedded Commercial Strategy
-                  </a>
-                  <a
-                    href="/strategy-day"
-                    className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
-                  >
-                    AI Positioning Sprint
-                  </a>
-                </nav>
-              </div>
             </div>
 
             {/* Resources */}
@@ -72,6 +55,36 @@ const Footer = () => {
                 Resources
               </h4>
               <nav className="flex flex-col gap-3">
+                <a
+                  href="/signal"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
+                >
+                  The Signal Desk
+                </a>
+                <a
+                  href="/tool"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
+                >
+                  Nervous Decision Machine
+                </a>
+                <a
+                  href="/operator"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
+                >
+                  How I operate
+                </a>
+                <a
+                  href="/leaders"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
+                >
+                  Decision Readiness Diagnostic
+                </a>
+                <a
+                  href="/builder-economy"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
+                >
+                  Builder Economy
+                </a>
                 <a
                   href="/blog"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
@@ -85,15 +98,6 @@ const Footer = () => {
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4 inline-flex items-center gap-1"
                 >
                   Live Learnings
-                  <ExternalLink className="h-3 w-3" />
-                </a>
-                <a
-                  href="https://www.thebuildereconomy.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4 inline-flex items-center gap-1"
-                >
-                  Podcast
                   <ExternalLink className="h-3 w-3" />
                 </a>
               </nav>

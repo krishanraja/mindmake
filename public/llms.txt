@@ -1,0 +1,39 @@
+# The Mindmaker
+
+> Cohort-based and enterprise advisory helping leaders make nervous AI decisions. Founded by Krish Raja.
+
+## Core offers
+
+- [The AI Decision Cohort](/cohort): $3,500 per seat, 3 weeks, quarterly. For senior leaders with a nervous AI decision to make. 10-15 seats per cohort, mostly async with three 90-minute live sessions.
+- [Enterprise](/enterprise): The Signal Session ($15,000, 1 day + 48h delivery). The Revenue Architecture ($60,000-$100,000, 30 days). For companies commercializing AI products.
+
+## How I operate
+
+- [The operating system behind Mindmaker](/operator): 14-agent fleet managing a 13-venture portfolio, memory architecture, cost optimization patterns. The operational foundation the commercial advice is built on.
+
+## Try it
+
+- [The Nervous Decision Machine](/tool): One-shot decision-reframing tool. Free, no email required.
+- [The Signal Desk](/signal): Weekly classification of AI signal, noise, decisions and takes.
+- [Decision Readiness Diagnostic](/leaders): Self-diagnostic for senior leaders on AI readiness.
+
+## About
+
+- [Krish Raja, Founder](/)
+- 16 years in adtech, media, and AI strategy.
+- Based in Brooklyn, NY.
+
+## Writing
+
+- [The Signal Desk](/signal): weekly reads on AI signal vs noise.
+- [Builder Economy](/builder-economy): thesis on the post-AI org.
+- [Blog](/blog): long-form analysis.
+
+## Positioning
+
+Mindmaker is a barbell: cohort at $3,500/seat for leader decisions, enterprise sprints at $15,000-$100,000 for AI commercialization. No 1:1 sprint product on the public site (inquiry only). No fractional executive roles. No ongoing retainers. No production IT work. Every engagement has a fixed scope and a finish line. The primary conversion goals are cohort seat sales through content and qualified enterprise inbound calls.
+
+## Contact
+
+- Book: https://www.themindmaker.ai (Book a call from any page)
+- Email: krish@themindmaker.ai

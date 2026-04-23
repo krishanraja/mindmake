@@ -4,7 +4,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle, Users, Calendar, Info } from "lucide-react";
+import { ArrowRight, CheckCircle, Users, Calendar, Info, ExternalLink } from "lucide-react";
 import { SEO } from "@/components/SEO";
 
 const fadeUp = {
@@ -334,6 +334,15 @@ export default function Cohort() {
             <p className="text-sm text-muted-foreground mb-6">
               Full payment or 2x split ($1,800 × 2). Seats: {nextCohort.seatsRemaining} of {nextCohort.seatsTotal} remaining.
             </p>
+            <a
+              href={MAVEN_COHORT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted/50 border border-border text-muted-foreground hover:text-foreground hover:border-border/80 transition-colors text-xs font-medium mb-5"
+            >
+              Hosted on Maven
+              <ExternalLink className="w-3 h-3" />
+            </a>
             <div className="flex flex-col sm:flex-row gap-3 mb-5">
               <Button
                 asChild

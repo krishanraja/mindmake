@@ -111,47 +111,82 @@ export default function Operator() {
 
       {/* HERO */}
       <section className="section-padding pt-32 bg-ink text-white">
-        <div className="container-width max-w-4xl">
-          <motion.div initial="hidden" animate="show" variants={fadeUp}>
-            <div className="text-xs font-bold uppercase tracking-[0.2em] text-mint mb-5">
-              How I operate
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-5 leading-tight tracking-tight">
-              The operating system behind Mindmaker.
-            </h1>
-            <p className="text-lg md:text-xl text-white/70 max-w-2xl leading-relaxed">
-              Most advisors sell frameworks they read. I run the frameworks I sell. This is how.
-            </p>
-          </motion.div>
+        <div className="container-width max-w-5xl">
+          <div className="grid md:grid-cols-5 gap-10 items-center">
+            <motion.div initial="hidden" animate="show" variants={fadeUp} className="md:col-span-3">
+              <div className="text-xs font-bold uppercase tracking-[0.2em] text-mint mb-5">
+                How I operate
+              </div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-5 leading-tight tracking-tight">
+                The operating system behind Mindmaker.
+              </h1>
+              <p className="text-lg md:text-xl text-white/70 leading-relaxed">
+                Most advisors sell frameworks they read. I run the frameworks I sell. This is how.
+              </p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+              className="md:col-span-2 flex justify-center md:justify-end"
+            >
+              <img
+                src="/Krish-Headshot.png"
+                alt="Krish Raja"
+                loading="eager"
+                decoding="async"
+                className="w-full max-w-[340px] rounded-2xl border border-white/10 shadow-lg"
+              />
+            </motion.div>
+          </div>
         </div>
       </section>
 
       {/* THESIS */}
       <section className="section-padding">
-        <div className="container-width max-w-3xl space-y-5 text-base md:text-lg leading-relaxed">
-          <motion.p initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}>
-            Every AI advisor claims to understand agentic systems. Very few have actually built one and kept it running.
-          </motion.p>
-          <motion.p
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-100px" }}
-            custom={1}
-            variants={fadeUp}
-            className="text-muted-foreground"
-          >
-            Mindmaker sits on top of a 14-agent operating system coordinating a 13-venture portfolio. It runs in production. It's cost-optimised. It's self-monitoring. It makes its own handoffs.
-          </motion.p>
-          <motion.p
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-100px" }}
-            custom={2}
-            variants={fadeUp}
-            className="text-muted-foreground"
-          >
-            The commercial strategy, positioning, and GTM work I do for clients is informed by this system. Every framework has been pressure-tested against real operating constraints: cost ceilings, agent handoffs, memory pollution, context drift.
-          </motion.p>
+        <div className="container-width max-w-5xl">
+          <div className="grid md:grid-cols-2 gap-10 items-center">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              <video
+                src="/ctrl-demo-video.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full rounded-xl border border-border/60 shadow-lg"
+              />
+            </motion.div>
+            <div className="space-y-5 text-base md:text-lg leading-relaxed">
+              <motion.p initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}>
+                Every AI advisor claims to understand agentic systems. Very few have actually built one and kept it running.
+              </motion.p>
+              <motion.p
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: "-100px" }}
+                custom={1}
+                variants={fadeUp}
+                className="text-muted-foreground"
+              >
+                Mindmaker sits on top of a 14-agent operating system coordinating a 13-venture portfolio. It runs in production. It's cost-optimised. It's self-monitoring. It makes its own handoffs.
+              </motion.p>
+              <motion.p
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: "-100px" }}
+                custom={2}
+                variants={fadeUp}
+                className="text-muted-foreground"
+              >
+                The commercial strategy, positioning, and GTM work I do for clients is informed by this system. Every framework has been pressure-tested against real operating constraints: cost ceilings, agent handoffs, memory pollution, context drift.
+              </motion.p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -232,6 +267,43 @@ export default function Operator() {
                 <p className="text-muted-foreground leading-relaxed mb-3">{lesson.body}</p>
                 <p className="text-sm text-foreground leading-relaxed">{lesson.example}</p>
               </motion.article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* STAGE / IN-THE-WILD */}
+      <section className="section-padding bg-background border-t border-border/40">
+        <div className="container-width max-w-5xl">
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeUp}
+            className="mb-10"
+          >
+            <div className="text-xs font-bold uppercase tracking-[0.2em] text-mint-dark dark:text-mint mb-3">
+              On stage
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
+              Where I've been talking about this.
+            </h2>
+          </motion.div>
+          <div className="grid sm:grid-cols-3 gap-4">
+            {["/krish-stage-1.jpg", "/krish-stage-2.png", "/krish-stage-3.png"].map((src, i) => (
+              <motion.img
+                key={src}
+                src={src}
+                alt={`Krish speaking on stage ${i + 1}`}
+                loading="lazy"
+                decoding="async"
+                className="w-full h-56 md:h-64 object-cover rounded-xl border border-border/50"
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: "-50px" }}
+                custom={i}
+                variants={fadeUp}
+              />
             ))}
           </div>
         </div>

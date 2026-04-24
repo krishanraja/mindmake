@@ -208,13 +208,16 @@ export default function Operator() {
       <Navigation />
 
       {/* HERO */}
-      <section className="pt-20 pb-10 sm:pt-24 sm:pb-12 md:pt-28 md:pb-16 bg-ink text-white">
+      <section className="pt-24 pb-10 sm:pt-28 sm:pb-14 md:pt-32 md:pb-24 lg:pb-32 bg-ink text-white">
         <div className="container-width max-w-5xl">
-          <motion.div initial="hidden" animate="show" variants={fadeUp}>
-            <div className="text-xs font-bold uppercase tracking-[0.2em] text-mint mb-5 md:mb-6">
+          <motion.div initial="hidden" animate="show" variants={fadeUp} className="flex flex-col">
+            <div className="order-1 text-xs font-bold uppercase tracking-[0.2em] text-mint mb-4 md:mb-6">
               How I operate
             </div>
-            <div className="flex items-center gap-5 sm:gap-7 md:gap-8">
+            <h1 className="order-2 sm:order-3 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-5 leading-tight tracking-tight">
+              The operating system behind Mindmaker.
+            </h1>
+            <div className="order-3 sm:contents flex items-center gap-4">
               <motion.img
                 src="/Krish-Headshot.png"
                 alt="Krish Raja"
@@ -223,16 +226,11 @@ export default function Operator() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-                className="w-24 h-24 shrink-0 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-44 lg:h-44 rounded-full object-cover ring-1 ring-white/10 shadow-lg"
+                className="sm:order-2 w-24 h-24 shrink-0 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full object-cover ring-1 ring-white/10 shadow-lg mb-0 sm:mb-5 md:mb-8"
               />
-              <div className="flex-1 min-w-0">
-                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight tracking-tight mb-2 md:mb-3">
-                  The operating system behind Mindmaker.
-                </h1>
-                <p className="text-base sm:text-lg md:text-xl text-white/70 leading-relaxed">
-                  Most advisors sell frameworks they read. I run the frameworks I sell.
-                </p>
-              </div>
+              <p className="sm:order-4 text-base sm:text-lg md:text-xl text-white/70 leading-relaxed max-w-3xl flex-1 sm:flex-none">
+                Most advisors sell frameworks they read. I run the frameworks I sell.
+              </p>
             </div>
           </motion.div>
         </div>

@@ -167,6 +167,36 @@ Enterprise buyers (typically $10M–$1B+ revenue) who have:
 
 ---
 
+## 4. The AI Immersion
+
+### Position
+
+A half-day session for executive teams who need to get aligned on AI fast. Request-only — not featured in main navigation. Serves buyers whose need is a team conversation, not an individual decision or a commercial rebuild.
+
+### For
+
+CEO-level sponsors with up to 8 senior leaders who need to resolve specific shared tensions about AI — vendor commitments, build-vs-buy, board narrative, replace-vs-empower calls — in one focused session.
+
+### Format
+
+- 4-hour working session (on-site or remote)
+- 45-minute pre-alignment call with sponsor
+- 2-page written summary within 5 business days
+- Uses Diagnose → Decompose → Decide → Deploy protocol
+- Private, no recording, Chatham House rules
+
+### What you walk out with
+
+- Three named decisions with named owners and deadlines
+- Written summary, board-ready, delivered within 5 business days
+- A team genuinely aligned (not performatively aligned) on the three issues addressed
+
+### Payment terms
+
+$12,000 flat. Travel additional for on-site. Full payment at booking or 50/50 at booking and delivery.
+
+---
+
 ## Inquiry-only: 1:1 engagements
 
 Occasionally a senior leader arrives looking specifically for private 1:1 work rather than the cohort. This is handled via inquiry, not sold on the public site.

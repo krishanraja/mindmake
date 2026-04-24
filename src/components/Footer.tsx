@@ -46,6 +46,12 @@ const Footer = () => {
                 >
                   All Enterprise
                 </a>
+                <a
+                  href="/immersion"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
+                >
+                  The AI Immersion
+                </a>
               </nav>
             </div>
 
@@ -75,6 +81,12 @@ const Footer = () => {
                 >
                   The Builder Economy (Podcast)
                   <ExternalLink className="h-3 w-3" />
+                </a>
+                <a
+                  href="/new-age-leadership"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
+                >
+                  New Age Leadership
                 </a>
                 <a
                   href="/blog"

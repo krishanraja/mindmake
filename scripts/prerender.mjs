@@ -47,6 +47,18 @@ const pages = [
       "The live sandbox. Model prices, classified reads (WATCH / SKIP / CALL / TAKE), and a decision machine for leaders making AI calls.",
   },
   {
+    path: "/immersion",
+    title: "The AI Immersion: Mindmaker",
+    description:
+      "A focused half-day session for executive teams who need to get aligned on AI fast. Up to eight senior leaders, one facilitated conversation, a board-ready summary within five business days. $12,000.",
+  },
+  {
+    path: "/new-age-leadership",
+    title: "New Age Leadership: Mindmaker",
+    description:
+      "Most leadership content about AI is theoretical. This is the org chart of a business already running a 14-agent fleet, with the decisions every leader will need to make as their organization becomes AI-native.",
+  },
+  {
     path: "/blog",
     title: "Blog: Mindmaker",
     description:

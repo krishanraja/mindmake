@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -162,41 +162,6 @@ const StageCarousel = () => {
 };
 
 export default function Operator() {
-  const demoVideoRef = useRef<HTMLVideoElement | null>(null);
-
-  useEffect(() => {
-    const video = demoVideoRef.current;
-    if (!video) return;
-    const isMobile = window.matchMedia("(max-width: 639px)").matches;
-    if (!isMobile) return;
-
-    const seekAndPlay = () => {
-      try {
-        if (video.duration && video.duration > 3) {
-          video.currentTime = 3;
-        }
-        const result = video.play();
-        if (result && typeof (result as Promise<void>).catch === "function") {
-          (result as Promise<void>).catch(() => {
-            /* autoplay blocked; the autoPlay attribute will retry on scroll-in */
-          });
-        }
-      } catch {
-        /* noop */
-      }
-    };
-
-    if (video.readyState >= 1) {
-      seekAndPlay();
-    } else {
-      video.addEventListener("loadedmetadata", seekAndPlay, { once: true });
-    }
-
-    return () => {
-      video.removeEventListener("loadedmetadata", seekAndPlay);
-    };
-  }, []);
-
   return (
     <main className="min-h-screen bg-background">
       <SEO
@@ -208,13 +173,13 @@ export default function Operator() {
       <Navigation />
 
       {/* HERO */}
-      <section className="pt-24 pb-10 sm:pt-28 sm:pb-14 md:pt-32 md:pb-24 lg:pb-32 bg-ink text-white">
+      <section className="pt-24 pb-6 sm:pt-28 sm:pb-14 md:pt-32 md:pb-24 lg:pb-32 bg-ink text-white">
         <div className="container-width max-w-5xl">
           <motion.div initial="hidden" animate="show" variants={fadeUp} className="flex flex-col">
             <div className="order-1 text-xs font-bold uppercase tracking-[0.2em] text-mint mb-4 md:mb-6">
               How I operate
             </div>
-            <h1 className="order-2 sm:order-3 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-5 leading-tight tracking-tight">
+            <h1 className="order-2 sm:order-3 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 md:mb-5 leading-tight tracking-tight">
               The operating system behind Mindmaker.
             </h1>
             <div className="order-3 sm:contents flex items-center gap-4">
@@ -248,7 +213,6 @@ export default function Operator() {
               className="flex justify-center md:justify-start"
             >
               <video
-                ref={demoVideoRef}
                 src="/ctrl-demo-video.mp4"
                 autoPlay
                 loop
@@ -281,6 +245,16 @@ export default function Operator() {
                 className="text-muted-foreground"
               >
                 The commercial strategy, positioning, and GTM work I do for clients is informed by this system. Every framework has been pressure-tested against real operating constraints: cost ceilings, agent handoffs, memory pollution, context drift.
+              </motion.p>
+              <motion.p
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: "-100px" }}
+                custom={3}
+                variants={fadeUp}
+                className="text-muted-foreground"
+              >
+                Layer that on sixteen years running P&amp;Ls, shaping tech product strategy, and — right now — leading GenAI advisory inside a global media enterprise. That's not a credential line. It's a day job.
               </motion.p>
             </div>
           </div>

@@ -179,7 +179,7 @@ export default function Operator() {
             <div className="order-1 text-xs font-bold uppercase tracking-[0.2em] text-mint mb-4 md:mb-6">
               How I operate
             </div>
-            <h1 className="order-2 sm:order-3 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 md:mb-5 leading-tight tracking-tight">
+            <h1 className="order-2 sm:order-3 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 md:mb-5 leading-tight tracking-tight text-white">
               The operating system behind Mindmaker.
             </h1>
             <div className="order-3 sm:contents flex items-center gap-4">

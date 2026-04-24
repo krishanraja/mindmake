@@ -41,12 +41,6 @@ const Footer = () => {
                   The Revenue Architecture
                 </a>
                 <a
-                  href="/enterprise"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
-                >
-                  All Enterprise
-                </a>
-                <a
                   href="/immersion"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >

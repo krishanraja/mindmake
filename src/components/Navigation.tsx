@@ -49,6 +49,7 @@ const Navigation = () => {
     {
       label: "Resources",
       dropdown: [
+        { label: "New Age Leadership", href: "/new-age-leadership" },
         { label: "How I operate", href: "/operator" },
         { label: "Blog", href: "/blog" },
         { label: "The Builder Economy (Podcast)", href: "https://www.thebuildereconomy.com", external: true },

@@ -13,6 +13,53 @@ import { useSessionData } from "@/contexts/SessionDataContext";
 
 const STORAGE_KEY = "mindmaker:pre-call-qualifier";
 
+type DecisionTag =
+  | "build-vs-buy"
+  | "commercial-stuck"
+  | "gtm-launch"
+  | "alignment"
+  | "personal-clarity"
+  | "other";
+
+type TimelineTag = "rapid" | "quarter" | "ninety-day" | "roadmap" | "exploring";
+
+type StakesTag = "revenue" | "launch" | "board" | "team" | "budget" | "personal";
+
+type Option<T extends string> = { tag: T; label: string };
+
+const decisionOptions: Option<DecisionTag>[] = [
+  { tag: "build-vs-buy", label: "Build vs. buy — should we build AI or buy it?" },
+  { tag: "commercial-stuck", label: "We've built AI but it's not converting to revenue" },
+  { tag: "gtm-launch", label: "We're launching an AI product or feature" },
+  { tag: "alignment", label: "My team isn't aligned on AI direction" },
+  { tag: "personal-clarity", label: "I want personal clarity before committing budget" },
+  { tag: "other", label: "Something else" },
+];
+
+const timelineOptions: Option<TimelineTag>[] = [
+  { tag: "rapid", label: "This week or next — I need rapid alignment" },
+  { tag: "quarter", label: "This quarter — we're moving soon" },
+  { tag: "ninety-day", label: "Next 90 days — we're planning runway" },
+  { tag: "roadmap", label: "6+ months — we're building a long-view roadmap" },
+  { tag: "exploring", label: "Exploring — no firm timeline" },
+];
+
+const stakesOptions: Option<StakesTag>[] = [
+  { tag: "revenue", label: "Revenue — growth is stuck or slipping" },
+  { tag: "launch", label: "A product launch hanging in the balance" },
+  { tag: "board", label: "Board / investor confidence" },
+  { tag: "team", label: "Team going sideways — wasted effort / conflict" },
+  { tag: "budget", label: "Wrong tools — budget wasted on the wrong bets" },
+  { tag: "personal", label: "Personal — I don't want to make the wrong call" },
+];
+
+type Selections = {
+  decisionTag: DecisionTag | null;
+  decisionOther: string;
+  timelineTag: TimelineTag | null;
+  stakesTag: StakesTag | null;
+};
+
 type Answers = {
   decision: string;
   tried: string;
@@ -25,22 +72,26 @@ type Recommendation = {
   preselected: string;
 };
 
-const classify = (answers: Answers): Recommendation => {
-  const text = `${answers.decision} ${answers.tried} ${answers.stakes}`.toLowerCase();
-  const commercialSignals =
-    /\b(team|product|commercialize|commercial|revenue|gtm|go-?to-?market|pricing|positioning|packaging|sales|launch)\b/;
-  const rapidAlignmentSignals = /\b(quick|align|day|one day|intensive|pitch|fast|asap|next week)\b/;
-  const fullBuildSignals = /\b(build|full|month|quarter|roadmap|board|strategy|30[\s-]?day|90[\s-]?day)\b/;
+const classify = (s: Selections): Recommendation => {
+  const { decisionTag, timelineTag, stakesTag } = s;
 
-  if (commercialSignals.test(text)) {
-    if (rapidAlignmentSignals.test(text) && !fullBuildSignals.test(text)) {
-      return {
-        title: "The Signal Session is your likely fit.",
-        blurb:
-          "You need rapid alignment on how to position an AI capability commercially. One intensive day, plus a 15-20 page Commercial Narrative within 48 hours. We'd scope the session on the call.",
-        preselected: "signal-session",
-      };
-    }
+  const commercialDecision =
+    decisionTag === "commercial-stuck" || decisionTag === "gtm-launch";
+  const shortTimeline = timelineTag === "rapid" || timelineTag === "quarter";
+  const planTimeline = timelineTag === "ninety-day" || timelineTag === "roadmap";
+  const commercialStakes =
+    stakesTag === "revenue" || stakesTag === "launch" || stakesTag === "board";
+
+  if (commercialDecision && shortTimeline && commercialStakes) {
+    return {
+      title: "The Signal Session is your likely fit.",
+      blurb:
+        "You need rapid alignment on how to position an AI capability commercially. One intensive day, plus a 15-20 page Commercial Narrative within 48 hours. We'd scope the session on the call.",
+      preselected: "signal-session",
+    };
+  }
+
+  if (commercialDecision && planTimeline) {
     return {
       title: "The Revenue Architecture is your likely fit.",
       blurb:
@@ -48,6 +99,16 @@ const classify = (answers: Answers): Recommendation => {
       preselected: "revenue-architecture",
     };
   }
+
+  if (decisionTag === "gtm-launch") {
+    return {
+      title: "The Signal Session is your likely fit.",
+      blurb:
+        "Launch moments reward a focused, intensive day. One session, plus a 15-20 page Commercial Narrative within 48 hours. We'd scope fit on the intake call.",
+      preselected: "signal-session",
+    };
+  }
+
   return {
     title: "The AI Decision Cohort is your likely fit.",
     blurb:
@@ -56,13 +117,28 @@ const classify = (answers: Answers): Recommendation => {
   };
 };
 
+const selectionsToAnswers = (s: Selections): Answers => {
+  const decisionLabel =
+    decisionOptions.find((o) => o.tag === s.decisionTag)?.label || "";
+  const decision =
+    s.decisionTag === "other" && s.decisionOther.trim()
+      ? `${decisionLabel} — ${s.decisionOther.trim()}`
+      : decisionLabel;
+  const tried = timelineOptions.find((o) => o.tag === s.timelineTag)?.label || "";
+  const stakes = stakesOptions.find((o) => o.tag === s.stakesTag)?.label || "";
+  return { decision, tried, stakes };
+};
+
+type StoredShape = Selections & { version?: number };
+
 const PreCallQualifier = () => {
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<Answers>({
-    decision: "",
-    tried: "",
-    stakes: "",
+  const [selections, setSelections] = useState<Selections>({
+    decisionTag: null,
+    decisionOther: "",
+    timelineTag: null,
+    stakesTag: null,
   });
   const [saved, setSaved] = useState(false);
   const { setQualificationData } = useSessionData();
@@ -70,12 +146,14 @@ const PreCallQualifier = () => {
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw) as Partial<Answers>;
-        setAnswers({
-          decision: parsed.decision || "",
-          tried: parsed.tried || "",
-          stakes: parsed.stakes || "",
+      if (!raw) return;
+      const parsed = JSON.parse(raw) as Partial<StoredShape>;
+      if (parsed && parsed.version === 2) {
+        setSelections({
+          decisionTag: (parsed.decisionTag as DecisionTag) || null,
+          decisionOther: parsed.decisionOther || "",
+          timelineTag: (parsed.timelineTag as TimelineTag) || null,
+          stakesTag: (parsed.stakesTag as StakesTag) || null,
         });
       }
     } catch {
@@ -83,31 +161,29 @@ const PreCallQualifier = () => {
     }
   }, []);
 
-  const rec = step === 3 ? classify(answers) : null;
+  const rec = step === 3 ? classify(selections) : null;
 
-  const prompts = [
-    {
-      label: "What's the decision you're trying to make?",
-      key: "decision" as const,
-    },
-    {
-      label: "What have you tried already?",
-      key: "tried" as const,
-    },
-    {
-      label: "What happens if you get this wrong?",
-      key: "stakes" as const,
-    },
-  ];
-
-  const canAdvance =
-    step < 3 && (answers[prompts[step].key]?.trim()?.length || 0) > 0;
+  const canAdvance = (() => {
+    if (step === 0) {
+      if (!selections.decisionTag) return false;
+      if (
+        selections.decisionTag === "other" &&
+        selections.decisionOther.trim().length === 0
+      )
+        return false;
+      return true;
+    }
+    if (step === 1) return !!selections.timelineTag;
+    if (step === 2) return !!selections.stakesTag;
+    return false;
+  })();
 
   const next = () => setStep((s) => Math.min(s + 1, 3));
   const back = () => setStep((s) => Math.max(s - 1, 0));
 
   const bookCall = () => {
     if (!rec) return;
+    const answers = selectionsToAnswers(selections);
     setQualificationData({
       preselectedProgram: rec.preselected,
       qualifierAnswers: answers,
@@ -132,12 +208,106 @@ const PreCallQualifier = () => {
 
   const saveLocal = () => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(answers));
+      const payload: StoredShape = { ...selections, version: 2 };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
     } catch {
       /* ignore */
     }
+  };
+
+  const chipClass = (selected: boolean) =>
+    `w-full text-left px-4 py-3 rounded-xl border text-sm md:text-base leading-snug transition-all min-h-[44px] ${
+      selected
+        ? "border-mint bg-mint/10 text-foreground font-semibold"
+        : "border-border bg-background hover:border-mint/60 hover:bg-mint/5"
+    }`;
+
+  const renderStep = () => {
+    if (step === 0) {
+      return (
+        <>
+          <label className="block text-lg font-semibold mb-3">
+            What's the decision you're wrestling with?
+          </label>
+          <div className="space-y-2">
+            {decisionOptions.map((opt) => (
+              <button
+                key={opt.tag}
+                type="button"
+                onClick={() =>
+                  setSelections((s) => ({ ...s, decisionTag: opt.tag }))
+                }
+                className={chipClass(selections.decisionTag === opt.tag)}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+          {selections.decisionTag === "other" && (
+            <textarea
+              rows={2}
+              value={selections.decisionOther}
+              onChange={(e) =>
+                setSelections((s) => ({
+                  ...s,
+                  decisionOther: e.target.value.slice(0, 240),
+                }))
+              }
+              placeholder="A sentence or two is plenty..."
+              className="mt-3 w-full rounded-xl border border-border bg-background p-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-mint/40"
+            />
+          )}
+        </>
+      );
+    }
+
+    if (step === 1) {
+      return (
+        <>
+          <label className="block text-lg font-semibold mb-3">
+            What's your timeline?
+          </label>
+          <div className="space-y-2">
+            {timelineOptions.map((opt) => (
+              <button
+                key={opt.tag}
+                type="button"
+                onClick={() =>
+                  setSelections((s) => ({ ...s, timelineTag: opt.tag }))
+                }
+                className={chipClass(selections.timelineTag === opt.tag)}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <label className="block text-lg font-semibold mb-3">
+          What's the real cost of not solving this?
+        </label>
+        <div className="space-y-2">
+          {stakesOptions.map((opt) => (
+            <button
+              key={opt.tag}
+              type="button"
+              onClick={() =>
+                setSelections((s) => ({ ...s, stakesTag: opt.tag }))
+              }
+              className={chipClass(selections.stakesTag === opt.tag)}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+      </>
+    );
   };
 
   return (
@@ -165,7 +335,7 @@ const PreCallQualifier = () => {
                   Let's make sure we use the call well.
                 </DrawerTitle>
                 <DrawerDescription className="mt-2 text-base">
-                  Three quick questions. Takes 90 seconds. Your answers pre-load into the intake form so we skip the basics on the call.
+                  Three quick taps. Takes 30 seconds. Your answers pre-load into the intake form so we skip the basics on the call.
                 </DrawerDescription>
               </div>
               <button
@@ -203,25 +373,8 @@ const PreCallQualifier = () => {
                   exit={{ opacity: 0, x: -12 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <label className="block text-lg font-semibold mb-3">
-                    {prompts[step].label}
-                  </label>
-                  <textarea
-                    rows={5}
-                    value={answers[prompts[step].key]}
-                    onChange={(e) =>
-                      setAnswers((a) => ({
-                        ...a,
-                        [prompts[step].key]: e.target.value.slice(0, 500),
-                      }))
-                    }
-                    placeholder="Type here..."
-                    className="w-full rounded-xl border border-border bg-background p-4 text-base resize-none focus:outline-none focus:ring-2 focus:ring-mint/40"
-                  />
-                  <div className="flex items-center justify-between mt-2">
-                    <span className="text-xs text-muted-foreground">
-                      {answers[prompts[step].key].length}/500
-                    </span>
+                  {renderStep()}
+                  <div className="flex items-center justify-end mt-5">
                     <div className="flex items-center gap-2">
                       {step > 0 && (
                         <Button

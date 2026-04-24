@@ -571,7 +571,7 @@ const handler = async (req: Request): Promise<Response> => {
           <p style="color: #1d1d1f; margin: 0; font-size: 14px; line-height: 1.5; white-space: pre-wrap;">${escapeHtml(qualifierAnswers!.decision || "—")}</p>
         </div>
         <div style="background: #ffffff; border-radius: 8px; padding: 16px; margin-bottom: 12px;">
-          <p style="color: #86868b; margin: 0 0 6px 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px;">What they've tried already</p>
+          <p style="color: #86868b; margin: 0 0 6px 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px;">Timeline</p>
           <p style="color: #1d1d1f; margin: 0; font-size: 14px; line-height: 1.5; white-space: pre-wrap;">${escapeHtml(qualifierAnswers!.tried || "—")}</p>
         </div>
         <div style="background: #ffffff; border-radius: 8px; padding: 16px;">

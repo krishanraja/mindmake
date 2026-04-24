@@ -394,6 +394,9 @@ const handler = async (req: Request): Promise<Response> => {
       "orchestrate": "Orchestrate AI",
       "team": "Team Alignment",
       "individual": "Individual",
+      "cohort-enrollment": "The AI Decision Cohort",
+      "signal-session": "The Signal Session",
+      "revenue-architecture": "The Revenue Architecture",
     };
 
     // Commitment level labels
@@ -479,6 +482,25 @@ const handler = async (req: Request): Promise<Response> => {
       console.warn('Supabase client not available - skipping database insert');
     }
 
+    // Qualifier-driven leads carry three answers. Show them first — this is the
+    // most insightful signal on the call.
+    const hasQualifierAnswers = qualifierAnswers && (
+      qualifierAnswers.decision.trim() ||
+      qualifierAnswers.tried.trim() ||
+      qualifierAnswers.stakes.trim()
+    );
+
+    // The three questions asked in PreCallQualifier.tsx — kept in sync manually.
+    const qualifierQuestions = [
+      { q: "What's the decision you're wrestling with?", a: qualifierAnswers?.decision },
+      { q: "What's your timeline?", a: qualifierAnswers?.tried },
+      { q: "What's the real cost of not solving this?", a: qualifierAnswers?.stakes },
+    ];
+
+    const likelyFitLabel = hasQualifierAnswers && programLabels[selectedProgram]
+      ? programLabels[selectedProgram]
+      : null;
+
     // Build email HTML - Clean Minimal Apple-Style Design
     // High contrast, excellent readability, professional
     let emailHtml = `
@@ -489,98 +511,103 @@ const handler = async (req: Request): Promise<Response> => {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif; line-height: 1.5; color: #1d1d1f; max-width: 600px; margin: 0 auto; padding: 0; background-color: #f5f5f7;">
-  
+
   <!-- Outer Container -->
   <div style="background: #ffffff; margin: 20px; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
-    
+
     <!-- Header -->
     <div style="background: #1d1d1f; padding: 40px 32px; text-align: center;">
       <p style="color: #86868b; margin: 0 0 8px 0; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;">New Lead</p>
       <h1 style="color: #ffffff; margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -0.5px;">${escapeHtml(name)}</h1>
       <p style="color: #a1a1a6; margin: 8px 0 0 0; font-size: 17px; font-weight: 400;">${escapeHtml(jobTitle || 'Role not specified')}</p>
+      ${likelyFitLabel ? `
+      <p style="margin: 14px 0 0 0;">
+        <span style="display: inline-block; background: rgba(126, 244, 194, 0.15); color: #7ef4c2; padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; letter-spacing: 0.3px;">Likely fit · ${escapeHtml(likelyFitLabel)}</span>
+      </p>
+      ` : ''}
     </div>
-    
+
     <!-- Contact Email - HIGH CONTRAST -->
     <div style="background: #0071e3; padding: 24px 32px; text-align: center;">
       <p style="color: rgba(255,255,255,0.7); margin: 0 0 6px 0; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Contact Email</p>
       <a href="mailto:${escapeHtml(email)}" style="color: #ffffff; font-size: 20px; font-weight: 600; text-decoration: none; word-break: break-all;">${escapeHtml(email)}</a>
     </div>
-    
+
     <!-- Main Content -->
     <div style="padding: 32px;">
-      
-      <!-- Company Card -->
+    `;
+
+    // Pre-call qualifier Q&A (top of email — this is the primary signal)
+    if (hasQualifierAnswers) {
+      emailHtml += `
       <div style="background: #f5f5f7; border-radius: 12px; padding: 24px; margin-bottom: 20px;">
-        <h2 style="color: #1d1d1f; margin: 0 0 16px 0; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Company Intelligence</h2>
-        
+        <h2 style="color: #1d1d1f; margin: 0 0 6px 0; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">What they told us</h2>
+        <p style="color: #86868b; margin: 0 0 16px 0; font-size: 12px;">Three tappable answers from the pre-call qualifier.</p>
+      `;
+      qualifierQuestions.forEach(({ q, a }, i) => {
+        const answer = (a || "").trim() || "—";
+        const marginBottom = i === qualifierQuestions.length - 1 ? '0' : '12px';
+        emailHtml += `
+        <div style="background: #ffffff; border-radius: 8px; padding: 16px; margin-bottom: ${marginBottom};">
+          <p style="color: #86868b; margin: 0 0 8px 0; font-size: 12px; font-weight: 600; letter-spacing: 0.2px;">Q: ${escapeHtml(q)}</p>
+          <p style="color: #1d1d1f; margin: 0; font-size: 16px; font-weight: 600; line-height: 1.45; white-space: pre-wrap;">${escapeHtml(answer)}</p>
+        </div>
+        `;
+      });
+      emailHtml += `</div>`;
+    }
+
+    // Company intelligence (domain-inferred research)
+    emailHtml += `
+      <div style="background: #f5f5f7; border-radius: 12px; padding: 24px; margin-bottom: 20px;">
+        <h2 style="color: #1d1d1f; margin: 0 0 6px 0; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Who they are</h2>
+        <p style="color: #86868b; margin: 0 0 16px 0; font-size: 12px;">Inferred from their email domain (<strong>${escapeHtml(domain || 'unknown')}</strong>).</p>
+
         <div style="margin-bottom: 12px;">
           <span style="color: #86868b; font-size: 13px; font-weight: 500;">Company</span>
           <p style="color: #1d1d1f; margin: 4px 0 0 0; font-size: 17px; font-weight: 600;">${escapeHtml(companyResearch.companyName)}</p>
         </div>
-        
+
         <div style="margin-bottom: 12px;">
           <span style="color: #86868b; font-size: 13px; font-weight: 500;">Industry</span>
           <p style="color: #1d1d1f; margin: 4px 0 0 0; font-size: 15px; font-weight: 500;">${escapeHtml(companyResearch.industry)}</p>
         </div>
-        
+
         <div style="margin-bottom: ${companyResearch.latestNews && companyResearch.latestNews !== 'Unable to verify company information' ? '12px' : '0'};">
           <span style="color: #86868b; font-size: 13px; font-weight: 500;">Size</span>
           <p style="color: #1d1d1f; margin: 4px 0 0 0; font-size: 15px; font-weight: 500; text-transform: capitalize;">${escapeHtml(companyResearch.companySize)}</p>
         </div>
-        
+
         ${companyResearch.latestNews && companyResearch.latestNews !== 'Unable to verify company information' ? `
-        <div>
-          <span style="color: #86868b; font-size: 13px; font-weight: 500;">Recent News</span>
+        <div style="margin-bottom: ${companyResearch.suggestedScope && companyResearch.suggestedScope !== 'Discovery call to understand specific needs' ? '12px' : '0'};">
+          <span style="color: #86868b; font-size: 13px; font-weight: 500;">Recent news</span>
           <p style="color: #1d1d1f; margin: 4px 0 0 0; font-size: 14px; font-weight: 400; line-height: 1.5;">${escapeHtml(companyResearch.latestNews)}</p>
         </div>
         ` : ''}
-        
+
+        ${companyResearch.suggestedScope && companyResearch.suggestedScope !== 'Discovery call to understand specific needs' ? `
+        <div>
+          <span style="color: #86868b; font-size: 13px; font-weight: 500;">AI-suggested angle</span>
+          <p style="color: #1d1d1f; margin: 4px 0 0 0; font-size: 14px; font-weight: 400; line-height: 1.5;">${escapeHtml(companyResearch.suggestedScope)}</p>
+        </div>
+        ` : ''}
+
         ${companyResearch.confidence && companyResearch.confidence !== 'low' ? `
         <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #d2d2d7;">
-          <span style="display: inline-block; background: ${companyResearch.confidence === 'high' ? '#34c759' : '#ff9500'}; color: #ffffff; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase;">AI Confidence: ${escapeHtml(companyResearch.confidence)}</span>
+          <span style="display: inline-block; background: ${companyResearch.confidence === 'high' ? '#34c759' : '#ff9500'}; color: #ffffff; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase;">AI confidence: ${escapeHtml(companyResearch.confidence)}</span>
         </div>
         ` : ''}
       </div>
 
-      <!-- Program Interest -->
-      ${commitmentLevel || sessionTypeLabel !== 'Not specified' ? `
+      ${commitmentLevel ? `
+      <!-- Program Interest (only rendered when commitment level set via the modal) -->
       <div style="background: #1d1d1f; border-radius: 12px; padding: 24px; margin-bottom: 20px;">
-        <h2 style="color: #86868b; margin: 0 0 12px 0; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Program Interest</h2>
-        ${commitmentLevel ? `
+        <h2 style="color: #86868b; margin: 0 0 12px 0; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Program selected on intake</h2>
         <p style="color: #ffffff; margin: 0 0 4px 0; font-size: 24px; font-weight: 700;">${escapeHtml(commitmentLabels[commitmentLevel] || commitmentLevel)}</p>
-        ` : ''}
         <p style="color: #a1a1a6; margin: 0; font-size: 15px; font-weight: 500;">${escapeHtml(sessionTypeLabel)}</p>
       </div>
       ` : ''}
     `;
-
-    // Add Pre-Call Qualifier answers if the user completed the drawer
-    const hasQualifierAnswers = qualifierAnswers && (
-      qualifierAnswers.decision.trim() ||
-      qualifierAnswers.tried.trim() ||
-      qualifierAnswers.stakes.trim()
-    );
-
-    if (hasQualifierAnswers) {
-      emailHtml += `
-      <!-- Pre-call qualifier -->
-      <div style="background: #f5f5f7; border-radius: 12px; padding: 24px; margin-bottom: 20px;">
-        <h2 style="color: #1d1d1f; margin: 0 0 16px 0; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Pre-call qualifier</h2>
-        <div style="background: #ffffff; border-radius: 8px; padding: 16px; margin-bottom: 12px;">
-          <p style="color: #86868b; margin: 0 0 6px 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px;">Decision they're trying to make</p>
-          <p style="color: #1d1d1f; margin: 0; font-size: 14px; line-height: 1.5; white-space: pre-wrap;">${escapeHtml(qualifierAnswers!.decision || "—")}</p>
-        </div>
-        <div style="background: #ffffff; border-radius: 8px; padding: 16px; margin-bottom: 12px;">
-          <p style="color: #86868b; margin: 0 0 6px 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px;">Timeline</p>
-          <p style="color: #1d1d1f; margin: 0; font-size: 14px; line-height: 1.5; white-space: pre-wrap;">${escapeHtml(qualifierAnswers!.tried || "—")}</p>
-        </div>
-        <div style="background: #ffffff; border-radius: 8px; padding: 16px;">
-          <p style="color: #86868b; margin: 0 0 6px 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px;">What's at stake if they get it wrong</p>
-          <p style="color: #1d1d1f; margin: 0; font-size: 14px; line-height: 1.5; white-space: pre-wrap;">${escapeHtml(qualifierAnswers!.stakes || "—")}</p>
-        </div>
-      </div>
-      `;
-    }
 
     // Add session engagement data - only if there's meaningful data
     const hasEngagementData = sessionData.frictionMap ||

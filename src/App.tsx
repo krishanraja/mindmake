@@ -24,6 +24,8 @@ import Index from "./pages/Index";
 // All other pages lazy-loaded for smaller initial bundle
 const Cohort = lazy(() => import("./pages/Cohort"));
 const Enterprise = lazy(() => import("./pages/Enterprise"));
+const Immersion = lazy(() => import("./pages/Immersion"));
+const NewAgeLeadership = lazy(() => import("./pages/NewAgeLeadership"));
 const Operator = lazy(() => import("./pages/Operator"));
 const Brief = lazy(() => import("./pages/Brief"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -87,6 +89,10 @@ const AppRoutes = () => {
             <Route path="/enterprise" element={<Enterprise />} />
             <Route path="/operator" element={<Operator />} />
             <Route path="/signal" element={<Brief />} />
+
+            {/* Hidden pages — linked from footer, not nav */}
+            <Route path="/immersion" element={<Immersion />} />
+            <Route path="/new-age-leadership" element={<NewAgeLeadership />} />
 
             {/* /tool deleted — decision machine now lives inside Brief at /signal#decision */}
             <Route path="/tool" element={<Navigate to="/signal#decision" replace />} />

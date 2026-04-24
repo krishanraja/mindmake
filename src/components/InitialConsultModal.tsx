@@ -178,6 +178,8 @@ export const InitialConsultModal = ({
   const [jobTitle, setJobTitle] = useState("");
   const [selectedPath, setSelectedPath] = useState("");
   const [selectedCommitment, setSelectedCommitment] = useState("");
+  const [immersionAttendees, setImmersionAttendees] = useState("");
+  const [immersionMode, setImmersionMode] = useState<"" | "on-site" | "remote">("");
   const [isLoading, setIsLoading] = useState(false);
   const [emailError, setEmailError] = useState<string | null>(null);
   const [mobileStep, setMobileStep] = useState(0);
@@ -223,6 +225,8 @@ export const InitialConsultModal = ({
       setJobTitle("");
       setSelectedPath("");
       setSelectedCommitment("");
+      setImmersionAttendees("");
+      setImmersionMode("");
       setEmailError(null);
       setShowThankYou(false);
       setMobileStep(0);
@@ -297,11 +301,19 @@ export const InitialConsultModal = ({
       helper: "$60,000 to $100,000, scope-dependent. A 30-day build of pricing, positioning, packaging, and GTM for companies commercializing AI.",
     },
     {
+      value: "immersion",
+      label: "The AI Immersion",
+      helper: "$12,000 flat. A half-day working session with up to 8 of your senior leaders. Board-ready summary within 5 business days.",
+    },
+    {
       value: "1-1-inquiry",
       label: "Private 1:1 engagement (by inquiry)",
       helper: "A handful of private engagements each year. Scope and pricing by conversation.",
     },
   ];
+
+  const isImmersion =
+    (effectivePreselectedProgram || selectedPath) === "immersion";
 
   // Mobile navigation helpers
   const goForward = useCallback(() => {
@@ -356,6 +368,15 @@ export const InitialConsultModal = ({
       return;
     }
 
+    if (isImmersion && (!immersionAttendees || !immersionMode)) {
+      toast({
+        title: "A couple more details",
+        description: "Tell us roughly how many leaders will attend and whether it's on-site or remote.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setEmailError("Please enter a valid email address");
@@ -404,6 +425,11 @@ export const InitialConsultModal = ({
         setTimeout(() => reject(new Error('Request timeout - please try again')), 30000);
       });
 
+      const immersionDetails =
+        programValue === "immersion"
+          ? { attendees: immersionAttendees, mode: immersionMode }
+          : undefined;
+
       const emailPromise = supabase.functions.invoke('send-lead-email', {
         body: {
           name,
@@ -414,6 +440,7 @@ export const InitialConsultModal = ({
           audienceType: finalAudienceType,
           pathType: finalPathType,
           qualifierAnswers,
+          immersionDetails,
           sessionData
         }
       });
@@ -565,6 +592,44 @@ export const InitialConsultModal = ({
           </div>
         </div>
 
+        {/* Immersion-only: attendee count + on-site/remote */}
+        {isImmersion && (
+          <div className="space-y-3">
+            <div className="space-y-2">
+              <Label htmlFor="immersion-attendees">How many leaders will attend?</Label>
+              <Input
+                id="immersion-attendees"
+                value={immersionAttendees}
+                onChange={(e) => setImmersionAttendees(e.target.value)}
+                placeholder="e.g. 6 — exec team + 2 product leads"
+                required
+                className="w-[99%]"
+              />
+              <p className="text-xs text-muted-foreground">Up to 8. Past that, the format breaks.</p>
+            </div>
+            <div className="space-y-2">
+              <Label>On-site or remote?</Label>
+              <RadioGroup
+                value={immersionMode}
+                onValueChange={(v) => setImmersionMode(v as "on-site" | "remote")}
+              >
+                <div className="flex items-start space-x-3 space-y-0">
+                  <RadioGroupItem value="on-site" id="immersion-onsite" className="mt-1" />
+                  <Label htmlFor="immersion-onsite" className="font-normal cursor-pointer">
+                    On-site (travel billed separately)
+                  </Label>
+                </div>
+                <div className="flex items-start space-x-3 space-y-0">
+                  <RadioGroupItem value="remote" id="immersion-remote" className="mt-1" />
+                  <Label htmlFor="immersion-remote" className="font-normal cursor-pointer">
+                    Remote (Zoom / Meet + shared canvas)
+                  </Label>
+                </div>
+              </RadioGroup>
+            </div>
+          </div>
+        )}
+
         {/* Value Props */}
         <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
           <div className="flex items-start gap-2 text-sm">
@@ -689,6 +754,13 @@ export const InitialConsultModal = ({
                     onClick={() => handlePathSelect("revenue-architecture")}
                   />
                   <SelectionCard
+                    selected={selectedPath === "immersion"}
+                    icon={Users}
+                    title="The AI Immersion"
+                    subtitle="$12,000. Half-day with your leadership team."
+                    onClick={() => handlePathSelect("immersion")}
+                  />
+                  <SelectionCard
                     selected={selectedPath === "1-1-inquiry"}
                     icon={Calendar}
                     title="Private 1:1 engagement"
@@ -745,6 +817,45 @@ export const InitialConsultModal = ({
                         className="h-12 text-base"
                       />
                     </div>
+
+                    {isImmersion && (
+                      <>
+                        <div className="space-y-1.5">
+                          <Label htmlFor="mobile-immersion-attendees" className="text-sm font-medium">
+                            How many leaders will attend?
+                          </Label>
+                          <Input
+                            id="mobile-immersion-attendees"
+                            value={immersionAttendees}
+                            onChange={(e) => setImmersionAttendees(e.target.value)}
+                            placeholder="e.g. 6 — exec team + 2 product leads"
+                            required
+                            className="h-12 text-base"
+                          />
+                          <p className="text-xs text-muted-foreground">Up to 8. Past that, the format breaks.</p>
+                        </div>
+                        <div className="space-y-1.5">
+                          <Label className="text-sm font-medium">On-site or remote?</Label>
+                          <RadioGroup
+                            value={immersionMode}
+                            onValueChange={(v) => setImmersionMode(v as "on-site" | "remote")}
+                          >
+                            <div className="flex items-start space-x-3 space-y-0">
+                              <RadioGroupItem value="on-site" id="mobile-immersion-onsite" className="mt-1" />
+                              <Label htmlFor="mobile-immersion-onsite" className="font-normal cursor-pointer text-sm">
+                                On-site (travel billed separately)
+                              </Label>
+                            </div>
+                            <div className="flex items-start space-x-3 space-y-0">
+                              <RadioGroupItem value="remote" id="mobile-immersion-remote" className="mt-1" />
+                              <Label htmlFor="mobile-immersion-remote" className="font-normal cursor-pointer text-sm">
+                                Remote (Zoom / Meet + shared canvas)
+                              </Label>
+                            </div>
+                          </RadioGroup>
+                        </div>
+                      </>
+                    )}
                   </div>
 
                   {/* Error Message Display */}

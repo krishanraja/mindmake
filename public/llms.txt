@@ -7,6 +7,10 @@
 - [The AI Decision Cohort](/cohort): $3,500 per seat, 3 weeks, quarterly. For senior leaders with a nervous AI decision to make. 10-15 seats per cohort, mostly async with three 90-minute live sessions.
 - [Enterprise](/enterprise): The Signal Session ($15,000, 1 day + 48h delivery). The Revenue Architecture ($60,000-$100,000, 30 days). For companies commercializing AI products.
 
+## Request-only offers
+
+- [The AI Immersion](/immersion): $12,000 flat. Half-day facilitated session for up to 8 senior leaders. Request-only, not featured in primary navigation. For CEO-level sponsors who need their exec team aligned on AI fast. 2-page board-ready summary within 5 business days.
+
 ## How I operate
 
 - [The operating system behind Mindmaker](/operator): 14-agent fleet managing a 13-venture portfolio, memory architecture, cost optimization patterns. The operational foundation the commercial advice is built on.
@@ -26,6 +30,10 @@
 - [The Operator's Brief](/signal): live model prices + weekly classified reads on AI.
 - [The Builder Economy (Podcast)](https://www.thebuildereconomy.com): Krish's podcast + thesis on the post-AI org. Lives on a separate site.
 - [Blog](/blog): long-form analysis.
+
+## Thought leadership
+
+- [New Age Leadership](/new-age-leadership): How org charts change when AI agents become teammates. Interactive demonstration of human / hybrid / agent-first / emergent roles, with the role-design decisions leaders will face. Draws on the 14-agent Mindmaker fleet as a live example.
 
 ## Positioning
 

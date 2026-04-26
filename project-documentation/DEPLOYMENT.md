@@ -1,6 +1,6 @@
 # Deployment Checklist
 
-**Last Updated:** 2026-04-23
+**Last Updated:** 2026-04-26
 
 Pre-deploy and post-deploy verification for the Mindmaker project.
 
@@ -16,10 +16,11 @@ Pre-deploy and post-deploy verification for the Mindmaker project.
 ### 2. Environment variables
 All required secrets configured in Lovable Cloud / Supabase:
 - [ ] `ANTHROPIC_API_KEY` — required for the Nervous Decision Machine (Claude Haiku 4.5)
-- [ ] `OPENAI_API_KEY` — lead enrichment + market sentiment
+- [ ] `GEMINI_API_KEY` — preferred for `send-lead-email` company research with Google Search grounding
+- [ ] `OPENAI_API_KEY` — market sentiment + lead enrichment fallback
 - [ ] `RESEND_API_KEY` — email delivery
 - [ ] `LOVABLE_API_KEY` — AI gateway (auto-provisioned)
-- [ ] `STRIPE_SECRET_KEY` — optional, currently bypassed
+- [ ] `STRIPE_SECRET_KEY` — optional, currently bypassed (Cohort payment runs via Maven)
 
 ### 3. Edge functions
 - [ ] All functions handle OPTIONS preflight + CORS headers
@@ -31,11 +32,13 @@ All routes in `src/App.tsx` accessible:
 
 **Live pages:**
 - [ ] `/` (Index) — homepage
-- [ ] `/cohort` (Cohort) — AI Decision Cohort
-- [ ] `/enterprise` (Enterprise) — Signal Session + Revenue Architecture
-- [ ] `/operator` (Operator) — v5 credential page
-- [ ] `/signal` (Brief) — The Operator's Brief
-- [ ] `/leaders`, `/leadership-insights` (LeadershipInsights) — diagnostic
+- [ ] `/cohort` (Cohort) — AI Decision Cohort. "Hosted on Maven" pill + "Reserve my seat on Maven" → `https://maven.com/aimindmaker/ai-decision-intensive`
+- [ ] `/enterprise` (Enterprise) — Signal Session ($15k, 1 day + 48h delivery) + Revenue Architecture ($60–100k, **30 days**)
+- [ ] `/operator` (Operator) — v5 credential page; `/ctrl-demo-video.mp4` autoplay-loop verified
+- [ ] `/signal` (Brief) — Live Intel
+- [ ] `/immersion` (Immersion) — AI Immersion ($12k, inquiry-only)
+- [ ] `/new-age-leadership` (NewAgeLeadership) — long-form thought leadership; OrgChart lazy-loaded
+- [ ] `/leaders`, `/leadership-insights` (LeadershipInsights) — diagnostic, unlinked from nav
 - [ ] `/blog`, `/blog/:slug` — blog
 - [ ] `/faq`, `/contact`, `/privacy`, `/terms` — support pages
 
@@ -57,21 +60,28 @@ All routes in `src/App.tsx` accessible:
 
 ### 6. Brand compliance
 - [ ] Primary CTA everywhere is **"Book a call"** (no conditional labels, not "What's your nervous decision?")
-- [ ] All CTAs route through `InitialConsultModal` via `window.dispatchEvent(new CustomEvent('openConsultModal'))`
+- [ ] Cohort `/cohort` page surfaces "Hosted on Maven" pill and "Reserve my seat on Maven" CTA pointing to the canonical Maven URL
+- [ ] All other CTAs route through `InitialConsultModal` via `window.dispatchEvent(new CustomEvent('openConsultModal'))`
 - [ ] Framework language: Mind Set → Mind Map → Mind Make (unchanged)
-- [ ] Offers labelled correctly: **The AI Decision Cohort**, **The Signal Session**, **The Revenue Architecture**
+- [ ] Offers labelled correctly: **The AI Decision Cohort**, **The Signal Session**, **The Revenue Architecture**, **The AI Immersion**
 - [ ] No references to retired offers (4-Week Sprint, 90-Day Sprint, Builder Sprint, Leadership Lab, Portfolio Partner, Fractional CAIO)
-- [ ] `/signal` labelled **"The Brief"** in nav, not "Signal Desk"
+- [ ] `/signal` labelled **"Live Intel"** in nav (NOT "The Brief", NOT "Signal Desk")
 - [ ] Taxonomy on `/signal` is **WATCH / SKIP / CALL / TAKE** (not SIGNAL / NOISE / DECISION / TAKE)
 - [ ] Decision Readiness Diagnostic (`/leaders`) is **not** linked from nav or footer
-- [ ] Pre-Call Qualifier floating pill renders on every page (no ChatBot anywhere)
+- [ ] `/immersion` is **not** linked from main nav (inquiry-only)
+- [ ] Pre-Call Qualifier floating pill renders on every page (no ChatBot anywhere). Confirms 3 chip-based stages: decision → timeline → stakes.
+- [ ] Resources dropdown includes **New Age Leadership** at the top, then How I operate, Blog, Builder Economy (external), Lightning Lessons (4 Maven URLs)
+- [ ] No "All Enterprise" link in nav or footer
 
 ### 7. Content verification
-- [ ] Cohort next-cohort date updated on `/cohort` (literal in `Cohort.tsx` until Supabase `cohort_dates` wired up)
-- [ ] Pricing shown in context: $3,500 (cohort), $15,000 (Signal Session), $60,000–$100,000 (Revenue Architecture)
-- [ ] Payment terms rendered below each price: "Full payment or 2× split" / "Payment on kickoff" / "50/50 at kickoff and delivery"
+- [ ] Cohort next-cohort date and seats-remaining updated in `Cohort.tsx` `nextCohort` const (literal until Supabase `cohort_dates` wired up)
+- [ ] Pricing shown in context: $3,500 (Cohort), $15,000 (Signal Session), $60,000–$100,000 (Revenue Architecture), $12,000 (Immersion)
+- [ ] **Revenue Architecture duration says "30 days (4–5 calendar weeks)"** — not 8–12 weeks
+- [ ] **Signal Session deliverable says "Commercial Narrative, 15–20 pages, within 48 hours"** — not 5–10 pages, not 5 business days
+- [ ] Payment terms rendered below each price: Cohort = "Full payment or 2× $1,800 split"; Signal Session = "Payment on kickoff"; Revenue Architecture = "50/50 at kickoff and delivery"; Immersion = "Full at booking or 50/50"
 - [ ] Testimonials in `TrustSection.tsx` tagged COHORT-STYLE or ENTERPRISE
 - [ ] Operator's Edge lead line matches current anti-consultant statement (top-of-file constant in `OperatorsEdge.tsx`)
+- [ ] `/operator` demo video file `public/ctrl-demo-video.mp4` exists and autoplays
 
 ### 8. SEO & LLM discoverability
 - [ ] `public/sitemap.xml` regenerated by build
@@ -85,9 +95,11 @@ All routes in `src/App.tsx` accessible:
 
 ### 1. Health check
 - [ ] Homepage loads without errors
-- [ ] Navigation works (Cohort / Enterprise / The Brief / Resources / About)
+- [ ] Navigation works (Cohort / Enterprise / **Live Intel** / Resources / About)
 - [ ] `PriceTicker` renders and scrolls on both `/` and `/signal`
 - [ ] Nervous Decision Machine returns a response on both homepage and `/signal`
+- [ ] `/immersion` and `/new-age-leadership` lazy-load and render correctly
+- [ ] `Cohort` page Maven pill and "Reserve my seat on Maven" CTA both link to `https://maven.com/aimindmaker/ai-decision-intensive`
 
 ### 2. Conversion regression check
 - [ ] "Book a call" CTA opens `InitialConsultModal` from every page
@@ -133,7 +145,8 @@ All routes in `src/App.tsx` accessible:
 | Secret | Purpose | Provider |
 |--------|---------|----------|
 | `ANTHROPIC_API_KEY` | Nervous Decision Machine | Anthropic |
-| `OPENAI_API_KEY` | Lead enrichment, market sentiment | OpenAI |
+| `GEMINI_API_KEY` | Lead enrichment with Google Search grounding (preferred) | Google AI |
+| `OPENAI_API_KEY` | Market sentiment + lead enrichment fallback | OpenAI |
 | `RESEND_API_KEY` | Email delivery | Resend |
 
 ### Auto-provisioned (Lovable Cloud)
@@ -147,7 +160,7 @@ All routes in `src/App.tsx` accessible:
 ### Optional
 | Secret | Status |
 |--------|--------|
-| `STRIPE_SECRET_KEY` | Payment holds — currently bypassed |
+| `STRIPE_SECRET_KEY` | Payment holds — currently bypassed (Cohort payment runs through Maven) |
 
 ---
 

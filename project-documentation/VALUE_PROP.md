@@ -1,17 +1,18 @@
 # Value Proposition
 
-**Last Updated:** 2026-04-23
+**Last Updated:** 2026-04-26
 
 ---
 
 ## Core Value Proposition
 
-**"Mindmaker is the anti-consultancy for leaders done being sold AI. A cohort for senior leaders making AI decisions. Enterprise sprints for companies commercializing AI products. No middle tier. Every offer has a finish line."**
+**"Mindmaker is the anti-consultancy for leaders done being sold AI. A Maven-hosted cohort for senior leaders making AI decisions. Enterprise sprints for companies commercializing AI products. An inquiry-only Immersion for exec teams that need fast alignment. No middle tier. Every offer has a finish line."**
 
-**Two audiences, no overlap:**
+**Three audiences, no overlap:**
 
-1. **AI leaders** — senior operators with a nervous AI decision to make. Answer: **The AI Decision Cohort ($3,500/seat, quarterly).**
-2. **AI products** — companies with AI capability but unclear commercial traction. Answer: **The Signal Session ($15k) and The Revenue Architecture ($60–100k).**
+1. **AI leaders** — senior operators with a nervous AI decision to make. Answer: **The AI Decision Cohort ($3,500/seat, quarterly, hosted on Maven).**
+2. **AI products** — companies with AI capability but unclear commercial traction. Answer: **The Signal Session ($15k, 1 day + 48h Commercial Narrative)** and **The Revenue Architecture ($60–100k, 30 days).**
+3. **Executive teams** — CEO-led leadership groups stuck on shared AI tensions. Answer (inquiry-only): **The AI Immersion ($12k, 4 hours, 5-day summary).**
 
 ---
 
@@ -24,20 +25,25 @@
 
 ### 2. Operator, not advisor
 **Them:** Strategists who researched AI.
-**Us:** Krish runs a 14-agent autonomous OS every day, took Nine Entertainment's data revenue from $9M → $61M, scaled Captify APAC from $0 → $12M ARR.
+**Us:** Krish runs a 14-agent autonomous OS every day, took Nine Entertainment's data revenue from $9M → $61M, scaled Captify APAC from $0 → $12M ARR, built Microsoft's first global automated media campaigns.
 **Why:** The Revenue Architecture engagement is "informed by someone operating one, not just theorizing about it." See `/operator`.
 
 ### 3. Cohort, not course
 **Them:** Async video courses, certifications, AI literacy quizzes.
-**Us:** 10–15 senior leaders, 3 weeks async plus 3 live sessions, you show up with a nervous decision and leave with a board-ready position.
+**Us:** 10–15 senior leaders, 3 weeks mostly async plus 3 live 90-min sessions, you show up with a nervous decision and leave with a board-ready position. Hosted on Maven so payment, community, and alumni continuity all live in one place.
 **Why:** Peer pressure and accountability do what a curriculum cannot.
 
 ### 4. Revenue, not capability
 **Them:** "AI transformation roadmaps."
-**Us:** Positioning, pricing, packaging, GTM — the commercial layer that turns AI capability into pay-back.
+**Us:** Positioning, pricing, packaging, GTM — the commercial layer that turns AI capability into pay-back. The Revenue Architecture ships a 30–40 page strategy document, a tested revenue model, a 90-day GTM playbook, and a board-ready deck — in 30 days.
 **Why:** A capability that doesn't sell is a cost centre. We translate.
 
-### 5. Finish line, not retainer
+### 5. 30-day rebuild, not 6-month engagement
+**Them:** McKinsey-style 6-month rebuilds with associates running discovery.
+**Us:** **30 days, 4–5 calendar weeks, Krish in the room.** Same scope, fraction of the time, no associates.
+**Why:** Calendar quarters move. Six-month engagements outlive the problem they were hired to solve.
+
+### 6. Finish line, not retainer
 **Them:** Open-ended engagements, monthly invoices, "strategic partnership."
 **Us:** Fixed scope. Fixed outcome. Fixed finish line. Every engagement.
 **Why:** Independence is a better outcome than dependence. Our success = you don't need us.
@@ -57,24 +63,56 @@
 - "What do I replace vs what do I empower?"
 - "How do I evaluate vendor claims without being technical?"
 
-**Value:** One board-ready position on one nervous decision, in a room of peers with the same problem. $3,500. Done.
+**Benefits they walk out with:**
+- One board-ready position memo on one nervous decision
+- Trade-off analysis with options named and rejection reasons documented
+- 90 days of cohort Slack + lifetime curriculum + alumni network
+- A peer network of 10–15 senior operators they can pressure-test the next decision against
+- Confidence in board meetings — they're no longer making it up
 
-**Answer:** The AI Decision Cohort. See `/cohort`.
+**Answer:** The AI Decision Cohort. See `/cohort`. Enrolment via Maven.
 
 ### AI Products (Enterprise buyer)
 
 **Who:** Founders, CEOs, Chief Product Officers, Chief Commercial Officers at companies that have built AI capability but can't translate it into revenue predictably.
 
-**Nervous decisions we hear every week:**
+**Commercial problems we hear every week:**
 - "We have the tech. We don't have the pitch."
 - "Pricing is guesswork. What's this actually worth?"
 - "Our GTM was built for a non-AI product. It doesn't fit."
 - "Sales can't articulate why we're different."
 - "How do we move upmarket without burning the existing book?"
 
-**Value:** A 1-day commercial diagnosis ($15k) or a full commercial rebuild ($60–100k) that makes the AI investment pay back.
+**Benefits — Signal Session ($15k):**
+- A 15–20 page Commercial Narrative within 48 hours
+- A 2-page positioning framework the team can use Monday morning
+- A sales narrative + objection handling guide
+- A pricing model sketch with 2–3 packaging options
+- A 30-day commercial roadmap with named owners
+- A clear, honest read on whether the Revenue Architecture is warranted
+
+**Benefits — Revenue Architecture ($60–100k):**
+- A 30–40 page client-branded commercial strategy document
+- Product marketing framework (positioning, messaging, competitive differentiation)
+- Revenue model with multiple pricing scenarios, tested against business reality
+- Packaging and tiering structure (2–3 ship-ready options)
+- 90-day GTM playbook with channels, sales process, enablement materials
+- Board-ready deck (Krish presents if requested)
+- Product roadmap aligned to commercial milestones
+- 30-day follow-up session included
 
 **Answer:** The Signal Session or The Revenue Architecture. See `/enterprise`.
+
+### Executive Teams (Immersion buyer, inquiry-only)
+
+**Who:** A CEO sponsoring a 4–8 person leadership group needing rapid alignment on shared AI decisions: vendor commitments, build-vs-buy, replace-vs-empower, board narrative.
+
+**Benefits:**
+- Three named decisions with named owners and named deadlines
+- A 2-page board-ready summary within 5 business days
+- A team genuinely aligned (not performatively aligned)
+
+**Answer:** The AI Immersion. See `/immersion`. Inquiry-only.
 
 ---
 
@@ -82,24 +120,31 @@
 
 ### The AI Decision Cohort
 **Price:** $3,500 / seat (or 2× $1,800 split)
-**Tagline:** Make your AI decisions with 15 other senior leaders.
+**Tagline:** Make your nervous AI decision with 15 other senior leaders.
 **For:** Senior leaders with one nervous AI decision.
-**Format:** 3 weeks async + 3 live sessions. 10–15 seats. Quarterly cohorts.
-**Outcome:** A board-ready position on your nervous decision, tested with peers.
+**Format:** 3 weeks mostly async + 3 live 90-min sessions. 10–15 seats. Quarterly cohorts. Hosted on Maven.
+**Outcome:** A board-ready 1-page decision memo + trade-off doc + peer network + alumni access.
 
 ### The Signal Session
 **Price:** $15,000
 **Tagline:** One day. One room. One commercial thesis.
 **For:** Enterprise buyers commercializing an AI product.
-**Format:** One intensive day, on-site or remote. Pre-work plus live session plus written thesis.
-**Outcome:** The real commercial problem named, framed, prioritised — and a clear read on whether the Revenue Architecture is warranted.
+**Format:** One intensive day (on-site or remote) + 2 weeks pre-work + Commercial Narrative within 48 hours.
+**Outcome:** 15–20 page Commercial Narrative + 2-page positioning + sales narrative + pricing sketch + 30-day roadmap.
 
 ### The Revenue Architecture
-**Price:** $60,000–$100,000 (scope-dependent, 50/50 at kickoff and delivery)
+**Price:** $60,000–$100,000 (50/50 at kickoff and delivery)
 **Tagline:** Your AI capabilities, translated into revenue.
 **For:** Enterprise buyers who need to rebuild positioning, pricing, and GTM around the AI capability.
-**Format:** 8–12 week engagement. Fixed scope, fixed deliverables.
-**Outcome:** Positioning, pricing, packaging, GTM motion, and a 12-month commercial roadmap — all board-ready.
+**Format:** 30 days (4–5 calendar weeks). Fixed scope, fixed deliverables, multi-session.
+**Outcome:** 30–40 page commercial strategy + revenue model + packaging + 90-day GTM playbook + product roadmap + board deck + 30-day follow-up.
+
+### The AI Immersion (inquiry-only)
+**Price:** $12,000 (flat; travel additional for on-site)
+**Tagline:** Three decisions. One afternoon. Real alignment.
+**For:** CEO sponsors with up to 8 senior leaders.
+**Format:** 4-hour facilitated session + 2-page summary within 5 business days. Diagnose → Decompose → Decide → Deploy.
+**Outcome:** Three named decisions with named owners and named deadlines.
 
 ---
 
@@ -107,9 +152,11 @@
 
 **One-liner:** "The anti-consultancy for leaders done being sold AI."
 
-**Cohort elevator pitch (30s):** "You've got a nervous AI decision you've been avoiding — build vs buy, which vendor, what to tell the board. The AI Decision Cohort puts you in a room with 10–15 other senior leaders working the same problem. Three weeks async. Three live sessions. $3,500. You leave with a board-ready position, not another deck."
+**Cohort elevator pitch (30s):** "You've got a nervous AI decision you've been avoiding — build vs buy, which vendor, what to tell the board. The AI Decision Cohort puts you in a room with 10–15 other senior leaders working the same problem. Three weeks mostly async. Three live 90-minute sessions. $3,500. Hosted on Maven. You leave with a board-ready position memo, not another deck."
 
-**Enterprise elevator pitch (30s):** "You've built an AI capability. Great products still need great positioning, pricing, and GTM, and most of yours was built for a non-AI product. The Signal Session is a one-day commercial diagnosis for $15k. The Revenue Architecture is the full rebuild for $60–100k. Both are fixed scope, fixed outcome, no retainer."
+**Enterprise elevator pitch (30s):** "You've built an AI capability. Great products still need great positioning, pricing, and GTM, and most of yours was built for a non-AI product. The Signal Session is a one-day commercial diagnosis for $15k — you get a 15–20 page Commercial Narrative within 48 hours. The Revenue Architecture is the full 30-day rebuild for $60–100k. Both are fixed scope, fixed outcome, no retainer."
+
+**Immersion elevator pitch (when asked):** "If your exec team is stuck on three AI decisions and you need real alignment in an afternoon, I run a 4-hour facilitated Immersion for $12k. Up to 8 leaders. You leave with three decisions named, three owners named, three deadlines named, and a 2-page summary within five days. Inquiry-only — not on the main site."
 
 ---
 
@@ -121,10 +168,13 @@
 → "If 1:1 is the right shape, the cohort isn't for you. I take a handful of private engagements by inquiry — `/cohort?inquiry=1:1` — but that's not the public offer. The cohort exists because peer pressure and shared vocabulary produce better decisions than 1:1 advice."
 
 **"$3,500 is a lot for a course."**
-→ "It isn't a course. It's a quarterly decision room with 10–15 other senior leaders. You leave with a board-ready position on a nervous decision you've been avoiding. Compare that to the cost of the wrong vendor commitment."
+→ "It isn't a course. It's a quarterly decision room with 10–15 other senior leaders, hosted on Maven. You leave with a board-ready position on a nervous decision you've been avoiding. Compare that to the cost of the wrong vendor commitment."
 
 **"I don't have three weeks."**
-→ "Two hours of async reading, three 90-minute live sessions, one written position. That's the whole thing. If you can't give it four hours a week for three weeks, the decision isn't actually on fire."
+→ "Most of the work is async. Two hours of structured async per week + three 90-minute live sessions + one written position memo. If you can't give it four hours a week for three weeks, the decision isn't actually on fire."
+
+**"Why Maven?"**
+→ "Enrollment, payment, the cohort Slack, and the alumni network all live on Maven. It's where the cohort experience runs. Themindmaker.ai is where the offer is described; Maven is where the experience happens."
 
 ### Enterprise objections
 
@@ -132,7 +182,10 @@
 → "They sell 6-figure decks built by researchers. I'm an operator — P&L experience plus a live 14-agent OS I run every day. You're paying for operational certainty from someone doing this, not someone advising about it."
 
 **"$15k for one day?"**
-→ "The output is the real commercial problem named and framed, with a prioritized thesis on what to do next and a clear read on whether the bigger engagement is worth it. The math is: one wasted quarter of GTM is worth more than $15k."
+→ "You're paying for the Commercial Narrative — 15–20 pages delivered within 48 hours, plus a 2-page positioning framework, sales narrative, pricing sketch, and 30-day roadmap. The math is: one wasted quarter of GTM is worth more than $15k. And if the Revenue Architecture isn't the right next step, I tell you so in writing."
+
+**"Why is the Revenue Architecture only 30 days? Other firms take six months."**
+→ "Because I'm not running discovery for six months — I'm running pattern recognition on what wins commercially with AI. Six-month engagements outlive the problem. 30 days is enough when the operator is in the room and there are no associates."
 
 **"Can we just do a fractional CAIO arrangement?"**
 → "No. I don't do fractional roles. Every Mindmaker offer has a finish line. If ongoing capacity is what you need, hire a full-time exec or a different firm."
@@ -140,14 +193,22 @@
 **"Can you build/deploy/implement it for us?"**
 → "No. I do positioning, pricing, packaging, GTM and the commercial roadmap. Deployment and production IT are explicitly out of scope. I'll name the right partners if that's what you need next."
 
+### Immersion objections
+
+**"Why is this not on the public site?"**
+→ "Because team alignment is rarely the actual problem. Usually it's an individual decision (Cohort) or a commercial gap (Enterprise). Immersion is the relief valve for genuine team-alignment work — when that's truly what's needed, we'll book it."
+
+**"Can we record it?"**
+→ "No. The format depends on candor. Recording kills candor. The 2-page summary captures the durable decisions and owners."
+
 ---
 
 ## Competitive Positioning
 
 ### vs. Management Consultancies (McKinsey, BCG, Deloitte, Accenture)
 **Them:** 6-month engagements, 40-slide decks, $500k+, researchers not operators.
-**Us:** Fixed scope, 1-day or 8–12 week engagements, board-ready commercial narrative, operator credentials.
-**Win:** Speed, skin in the game, finish line.
+**Us:** Fixed scope, 1-day or 30-day engagements, board-ready commercial narrative, operator credentials.
+**Win:** Speed (30 days vs 6 months), skin in the game, finish line, no associates.
 
 ### vs. AI Strategy Boutiques / Fractional CAIOs
 **Them:** Ongoing retainer, fractional role, month-to-month.
@@ -156,12 +217,12 @@
 
 ### vs. AI Training / Cohort Courses
 **Them:** Curriculum, certifications, lecture videos.
-**Us:** Decision room with peers working real nervous decisions on real business problems.
+**Us:** Decision room with peers working real nervous decisions on real business problems. Hosted on Maven.
 **Win:** Output is a decision, not a completion certificate.
 
 ### vs. AI Tool Vendors
 **Them:** "Our tool is the answer."
-**Us:** Tool-agnostic. We do trade-off analysis. We don't sell software.
+**Us:** Tool-agnostic. We do trade-off analysis. We don't sell software. We don't take referral fees.
 **Win:** Independence. Honest framing.
 
 ### vs. Doing Nothing
@@ -188,9 +249,9 @@
 ## Brand Promises
 
 1. **No vendor theatre** — we don't sell AI tools, and we don't accept vendor referral fees
-2. **Decisions and commercial artefacts, not decks** — board-ready output, one-page where possible
+2. **Decisions and commercial artefacts, not decks** — board-ready output, one-page where possible (Cohort), 15–40 page commercial strategy where appropriate (Enterprise)
 3. **Fixed scope, fixed finish line** — every engagement, no exceptions
-4. **Operator-led** — Krish is in the room and builds the output
+4. **Operator-led** — Krish is in the room and builds the output. No associates.
 5. **Independence** — success means you don't need us
 
 ---

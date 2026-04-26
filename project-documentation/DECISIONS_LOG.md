@@ -1,10 +1,130 @@
 # Decisions Log
 
-**Last Updated:** 2026-04-23
+**Last Updated:** 2026-04-26
 
 ---
 
 ## Brand & Product Decisions
+
+### 2026-04-26: Revenue Architecture compresses to 30 days (was 8–12 weeks)
+
+**Decision:** The Revenue Architecture engagement runs for **30 days (4–5 calendar weeks)**, not 8–12 weeks. Live in `src/pages/Enterprise.tsx` as the canonical duration.
+
+**Context:**
+- The 8–12 week framing pre-dated Krish's full agentic OS being in production; it assumed a discovery phase that's no longer needed
+- Pattern recognition from the operator side has compressed the engagement; associates aren't part of the model
+- 30 days matches the natural calendar quarter cadence of enterprise buyers and removes the risk of the engagement outliving the problem
+
+**Rationale:**
+- Speed is a differentiator vs Big 4 (6-month engagements with associates)
+- A fixed 30-day clock keeps scope honest and prevents creep
+- The 30-day follow-up session included in the price covers the "what changed once it's in market" loop
+
+**Impact:**
+- All sales materials, doc copy, outbound templates, and proposal scaffolds must reference 30 days
+- Updated in `OFFERS.md`, `VALUE_PROP.md`, `OUTCOMES.md`, `Master_Messaging_and_FAQ.md`, `SALES_PLAYBOOK.md`, `BRANDING.md` (retired-spec list), and `FEATURES.md`
+
+---
+
+### 2026-04-26: Signal Session deliverable is the Commercial Narrative (15–20 pages, 48 hours)
+
+**Decision:** The Signal Session output is the **Commercial Narrative** — a 15–20 page document delivered within 48 hours — plus a 2-page positioning framework, sales narrative + objection guide, pricing sketch, and 30-day commercial roadmap. Replaces the older "5–10 page thesis within 5 business days" framing.
+
+**Rationale:**
+- 48-hour delivery is a forcing function for sharpness; 5 business days made the day feel like a workshop
+- 15–20 pages is the right depth: it covers positioning, pricing, sales narrative, and 90-day priorities without becoming a McKinsey deck
+- "Commercial Narrative" is a stronger, more specific name than "thesis" or "report"
+
+**Impact:**
+- Updated in all sales-facing docs (`OFFERS.md`, `VALUE_PROP.md`, `OUTCOMES.md`, `SALES_PLAYBOOK.md`, `Master_Messaging_and_FAQ.md`, `FEATURES.md`)
+- Outbound and email templates now reference the 48-hour Commercial Narrative explicitly
+
+---
+
+### 2026-04-26: Cohort enrolment runs on Maven
+
+**Decision:** Cohort enrolment, payment, the cohort Slack, and the alumni network all run on **Maven** at `https://maven.com/aimindmaker/ai-decision-intensive`. The `/cohort` page surfaces a "Hosted on Maven" pill and a "Reserve my seat on Maven" CTA pointing directly at the Maven URL.
+
+**Context:**
+- The cohort's experience-side workflow (community Slack, alumni continuity, payments, repeat enrolment) was being patched together; Maven solves all of these in one place
+- Maven also provides discovery distribution that improves cohort fill at marginal cost
+
+**Rationale:**
+- One source of truth for the cohort experience reduces ops overhead for a solo operator
+- Direct-to-Maven CTA on `/cohort` lets buyers who already know the cohort is the right fit skip the consult call
+
+**Impact:**
+- The "Book a call" path remains for buyers who need to qualify; it's no longer the only path on `/cohort`
+- All sales scripts, email follow-ups, and outbound messages reference the Maven URL when Cohort is the recommended offer
+- Internal: cohort dates and seat counts continue to be managed via the `nextCohort` const in `Cohort.tsx` until a Supabase `cohort_dates` table replaces it
+
+---
+
+### 2026-04-26: The AI Immersion launched as an inquiry-only fourth offer
+
+**Decision:** Launch a fourth offer — **The AI Immersion** ($12,000, 4-hour facilitated session, 2-page summary within 5 business days, up to 8 senior leaders) — at `/immersion`, **inquiry-only**. Not promoted on the homepage or in the main nav; surfaced only when the buyer's actual need is team alignment rather than an individual decision or commercial rebuild.
+
+**Rationale:**
+- A genuine subset of inbound buyers ask for "a strategy day" or "leadership offsite" where the right shape is a 4-hour facilitated session, not the Cohort and not Enterprise
+- Inquiry-only positioning keeps the offer from cannibalizing Cohort or Enterprise; the headline barbell stays clean
+- Diagnose → Decompose → Decide → Deploy protocol matches the Cohort framework, so the operator load is low
+
+**Guardrails:**
+- Max 8 leaders (format breaks past that)
+- No recording (kills candor)
+- No multi-session (we don't run multi-session Immersions)
+- Substitution disallowed (the format depends on the actual leaders being present)
+
+**Impact:**
+- New page at `/immersion`, lazy-loaded in `App.tsx`
+- ICP 3 added to `ICP.md` (Executive Teams)
+- Sales playbook routes "team alignment" pain → Immersion via inquiry only
+
+---
+
+### 2026-04-26: New Age Leadership promoted from hidden to Resources nav
+
+**Decision:** `/new-age-leadership` (long-form thought leadership on agent-native org charts) moved into the Resources dropdown above "How I operate". Builder Economy podcast retained, "All Enterprise" footer link dropped (commit 226ecf1).
+
+**Rationale:**
+- Long-form thought leadership is a top-of-funnel asset for the Cohort; surfacing it via Resources lets curious senior leaders reach it without the homepage having to advertise it
+- Article-style content lifts SEO and gives outbound a credible "here's what I think about agent-native orgs" payload
+
+**Impact:**
+- `Navigation.tsx` Resources dropdown reorders: New Age Leadership → How I operate → Blog → Builder Economy (external) → Lightning Lessons
+- Schema.org `Article` JSON-LD on the page; lazy-loaded `OrgChart` component to keep hero LCP fast
+
+---
+
+### 2026-04-26: PreCallQualifier rebuilt as chip-based 3-step intake
+
+**Decision:** `PreCallQualifier` is now chip-based across all three stages (decision → timeline → stakes), each with 5–6 chip options plus an "other" / textarea fallback on the decision step. Replaces the previous text-entry version.
+
+**Rationale:**
+- Free-text intake produced lower completion rates and noisier classification
+- Chip selection produces structured, classifiable answers that map cleanly to offer recommendation
+- Mobile experience is materially better with chips than with text entry
+
+**Impact:**
+- `classify()` function in `PreCallQualifier.tsx` deterministically maps {decision, timeline, stakes} → {Cohort | Signal Session | Revenue Architecture}
+- Plausible event `pre_call_qualifier_completed` fires on book-a-call; gives a leading indicator on qualifier-to-meeting conversion
+- Storage: `localStorage` under `mindmaker:pre-call-qualifier`, version 2
+
+---
+
+### 2026-04-26: `/signal` nav label is "Live Intel" (was "The Brief")
+
+**Decision:** The second-top-level nav slot is labelled **"Live Intel"**. "The Operator's Brief" is acceptable in editorial body copy on `/signal`, but is no longer the nav label.
+
+**Rationale:**
+- "The Brief" tested fine internally but read as opaque to first-time visitors
+- "Live Intel" says exactly what the surface is: live model pricing, live signals, live decision tool
+
+**Impact:**
+- `Navigation.tsx` line 46
+- Updated everywhere in docs; old "The Brief" / "Signal Desk" labels added to retired-terminology lists in `BRANDING.md`, `COMMON_ISSUES.md`, and `SALES_PLAYBOOK.md`
+
+---
 
 ### 2026-04-23: Documentation Upgrade — Align all docs with v4/v5 barbell state
 

@@ -1,6 +1,6 @@
 # Visual Guidelines
 
-**Last Updated:** 2026-04-23
+**Last Updated:** 2026-04-26
 
 ---
 
@@ -426,13 +426,13 @@ The homepage is a curated vertical scroll. Authoritative source: `src/pages/Inde
 | Block | Component | Visual treatment |
 |-------|-----------|------------------|
 | 1. Navigation | `Navigation.tsx` | Fixed top, mint "Book a call" CTA, hides on scroll-down |
-| 2. Hero | `NewHero.tsx` | Full-viewport dark ink, looping `/rising-cities.mp4` background, particle animation, rotating headlines, eyebrow "Questions I hear every week", mint CTA "Book a call", secondary "See how I work" |
+| 2. Hero | `NewHero.tsx` | Full-viewport dark ink, looping `/rising-cities.mp4` background, particle animation, rotating headlines, eyebrow "Decision blockers I hear every week", mint CTA "Book a call", secondary "See how I work" |
 | 3. Y-Fork | `YFork.tsx` | Two-card glass layout — The Cohort ($3,500) vs Enterprise (from $15k) |
 | 4. Big Problem | `BigProblem.tsx` | Existential urgency frame |
 | 5. Trust Anchor | `TrustSection.tsx` | Krish headshot (circular, mint border), bio, testimonials carousel (COHORT-STYLE / ENTERPRISE tagged) |
 | 6. Framework Journey | `FrameworkJourney.tsx` | Three glass-card panels (Mind Set → Mind Map → Mind Make) with scroll-triggered animations |
 | 7. Operator's Edge | `OperatorsEdge.tsx` | Dark-bg typography-only credential section, "Beyond pattern recognition", three proof tiles, Revenue Architecture CTA |
-| 8. Operator's Brief teaser | `OperatorsBrief.tsx` | CSS-marquee `PriceTicker` + rotating plain-English interpretation line + compact Nervous Decision input + muted link to `/signal` |
+| 8. Live Intel teaser | `OperatorsBrief.tsx` | CSS-marquee `PriceTicker` + rotating plain-English interpretation line + compact Nervous Decision input + muted link to `/signal` (Live Intel dashboard) |
 | 9. Final CTA | `SimpleCTA.tsx` | Dark CTA card, mint "Book a call" button |
 | 10. Footer | `Footer.tsx` | |
 
@@ -458,7 +458,9 @@ Dark-bg section positioned between `FrameworkJourney` and `OperatorsBrief`. Read
 
 Guardrails: no scrolling logs, no terminal aesthetics, no ASCII art, no interactive dashboards. Every claim passes the CMO-15-second test.
 
-### Operator's Brief — visual spec
+### Live Intel — visual spec
+
+**Nav label:** **"Live Intel"** (NOT "The Brief", NOT "Signal Desk"). The body-copy term "The Operator's Brief" remains acceptable in editorial copy on `/signal`, but the nav label is "Live Intel".
 
 **Homepage teaser (`OperatorsBrief.tsx`)** — minimal:
 - Continuous CSS-marquee `PriceTicker` with the canonical 7 models
@@ -476,14 +478,14 @@ Guardrails: no scrolling logs, no terminal aesthetics, no ASCII art, no interact
 
 Taxonomy **WATCH / SKIP / CALL / TAKE** — replaces the previous SIGNAL / NOISE / DECISION / TAKE.
 
-### `/cohort` and `/enterprise` page structure
+### `/cohort`, `/enterprise`, and `/immersion` page structure
 
-Both pages follow a similar shape:
+Pages follow a similar shape:
 1. Full-width header with eyebrow + title + price (mint accent)
 2. "What you get" glass-card block with CheckCircle list
-3. Format / cadence block (for cohort: weeks; for enterprise: days and phases)
-4. Example decisions or commercial problems grid (2-column, bg-ink/5 cards)
-5. Bottom CTA glass-card with **"Book a call"** button
+3. Format / cadence block (Cohort: 3 weeks + 3 live sessions; Signal Session: 1 day + 48h delivery; Revenue Architecture: 30 days; Immersion: 4 hours + 5-day summary)
+4. Example decisions, commercial problems, or shared tensions grid (2-column, bg-ink/5 cards)
+5. Bottom CTA glass-card with **"Book a call"** button (Cohort additionally has a "Hosted on Maven" pill and a "Reserve my seat on Maven" CTA pointing directly at the canonical Maven URL; Immersion CTA reads "Request a date")
 
 ### Retired visual patterns (do not build)
 

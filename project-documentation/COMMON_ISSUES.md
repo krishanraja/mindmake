@@ -1,21 +1,24 @@
 # Common Issues
 
-**Last Updated:** 2026-04-23
+**Last Updated:** 2026-04-26
 
 ---
 
 ## Brand & Content Issues
 
 ### Issue: Retired product names in copy
-**Symptom:** References to "4-Week Sprint", "90-Day Sprint", "Builder Sprint", "Builder Session", "Leadership Lab", "Portfolio Partner", "Fractional CAIO", "Signal Desk", "Ask Mindmaker" / "Chat with Krish", or `"What's your nervous decision?"` as a CTA button label.
+**Symptom:** References to "4-Week Sprint", "90-Day Sprint", "Builder Sprint", "Builder Session", "Leadership Lab", "Portfolio Partner", "Fractional CAIO", "Signal Desk", "Ask Mindmaker" / "Chat with Krish", or `"What's your nervous decision?"` as a CTA button label. References to "The Brief" as a nav label. References to "8–12 week Revenue Architecture" or "5–10 page Signal Session thesis".
 
 **Cause:** Legacy copy not updated to current spec.
 
 **Solution:** Replace with current terminology:
-- Offers → **The AI Decision Cohort**, **The Signal Session**, **The Revenue Architecture**
-- `/signal` label → **The Brief** / **The Operator's Brief**
+- Offers → **The AI Decision Cohort**, **The Signal Session**, **The Revenue Architecture**, **The AI Immersion**
+- `/signal` nav label → **Live Intel** (NOT "The Brief", NOT "Signal Desk"). Body copy may still use "The Operator's Brief".
+- Revenue Architecture duration → **30 days (4–5 calendar weeks)**, not 8–12 weeks
+- Signal Session deliverable → **15–20 page Commercial Narrative within 48 hours**, not 5–10 pages within 5 days
 - Primary CTA label → **"Book a call"** (everywhere, no conditional labels)
-- ChatBot surface → retired; replaced by `PreCallQualifier` floating pill
+- Cohort enrolment CTA → **"Reserve my seat on Maven"** points directly at `https://maven.com/aimindmaker/ai-decision-intensive`
+- ChatBot surface → retired; replaced by `PreCallQualifier` floating pill (3 chip stages: decision → timeline → stakes)
 
 See `BRANDING.md` and `FEATURES.md` for the complete retired-concepts list.
 
@@ -30,10 +33,31 @@ Note: the phrase "what's your nervous decision" can still appear in body copy as
 
 ---
 
-### Issue: Wrong Operator's Brief taxonomy
+### Issue: Wrong Live Intel taxonomy
 **Symptom:** Cards labelled SIGNAL / NOISE / DECISION / TAKE.
 **Cause:** Old taxonomy.
 **Solution:** Use WATCH / SKIP / CALL / TAKE. This is enforced in `src/pages/Brief.tsx` filter pills and card badges.
+
+---
+
+### Issue: Nav label still says "The Brief" or "Signal Desk"
+**Symptom:** Second top-level nav slot reads "The Brief" or "Signal Desk".
+**Cause:** Nav copy not updated to v4/v5 latest.
+**Solution:** Nav label is **"Live Intel"** (`Navigation.tsx`). The body-copy term "The Operator's Brief" is still acceptable in editorial copy on `/signal`, but the nav label is "Live Intel".
+
+---
+
+### Issue: Cohort enrolment routes to consult modal instead of Maven
+**Symptom:** "Reserve my seat" button on `/cohort` opens `InitialConsultModal` rather than going to Maven.
+**Cause:** Maven URL constant missing or button not pointing to it.
+**Solution:** The "Reserve my seat on Maven" CTA in `Cohort.tsx` should point directly to the `MAVEN_COHORT_URL` constant (`https://maven.com/aimindmaker/ai-decision-intensive`). The "Book a call" path remains, but the primary Cohort enrolment CTA is direct-to-Maven.
+
+---
+
+### Issue: Pre-Call Qualifier asks for free-text answers
+**Symptom:** Pre-Call Qualifier shows a textarea for the buyer to type the decision.
+**Cause:** Old text-entry version.
+**Solution:** Current PreCallQualifier is chip-based with 3 stages (decision → timeline → stakes). The decision step has 6 chips + an "Something else" option that reveals a textarea. See `src/components/PreCallQualifier.tsx`.
 
 ---
 

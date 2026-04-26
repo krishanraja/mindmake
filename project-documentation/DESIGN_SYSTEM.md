@@ -1,6 +1,6 @@
 # Design System
 
-**Last Updated:** 2026-04-23
+**Last Updated:** 2026-04-26
 
 ---
 
@@ -490,7 +490,10 @@ Dark-bg typography-only section matching `FrameworkJourney` header scale exactly
 **Guardrails:** no scrolling logs, no terminal aesthetics, no ASCII art, no interactive dashboards.
 
 ### Price Ticker
-`PriceTicker.tsx` — CSS-marquee, no native scrollbar, pauses on hover, respects `prefers-reduced-motion`. Used on homepage `OperatorsBrief` teaser and on `/signal`.
+`PriceTicker.tsx` — CSS-marquee, no native scrollbar, pauses on hover, respects `prefers-reduced-motion`. Used on the homepage Live Intel teaser (`OperatorsBrief.tsx`) and on `/signal` (Live Intel dashboard, `Brief.tsx`).
+
+### Maven pill (Cohort enrolment)
+On `/cohort`, a small "Hosted on Maven" pill (`Cohort.tsx`) sits above the seat-reservation CTA. It uses `bg-muted/50 border border-border text-muted-foreground` styling, `rounded-full`, and an external-link icon. The pill and the primary CTA both link directly to `https://maven.com/aimindmaker/ai-decision-intensive`.
 
 ### Nervous Decision Input
 `nervous-decision/Input.tsx` renders compact (homepage teaser) or full (`/signal`) sizes. `nervous-decision/Artifact.tsx` renders the typed response.

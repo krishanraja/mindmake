@@ -1,6 +1,6 @@
 # Replication Guide
 
-**Last Updated:** 2026-04-23
+**Last Updated:** 2026-04-26
 
 ---
 
@@ -80,11 +80,13 @@ src/components/CookieConsent.tsx
 ### Step 9: Page components
 ```
 src/pages/Index.tsx                    # homepage (eager-loaded)
-src/pages/Cohort.tsx                   # The AI Decision Cohort
-src/pages/Enterprise.tsx               # Signal Session + Revenue Architecture
-src/pages/Operator.tsx                 # 14-agent OS credential page
-src/pages/Brief.tsx                    # The Operator's Brief (/signal)
-src/pages/LeadershipInsights.tsx       # Decision Readiness Diagnostic
+src/pages/Cohort.tsx                   # The AI Decision Cohort (Maven enrolment)
+src/pages/Enterprise.tsx               # Signal Session + Revenue Architecture (30 days)
+src/pages/Operator.tsx                 # 14-agent OS credential page (autoplay /ctrl-demo-video.mp4)
+src/pages/Brief.tsx                    # Live Intel (/signal)
+src/pages/Immersion.tsx                # AI Immersion ($12k, inquiry-only)
+src/pages/NewAgeLeadership.tsx         # /new-age-leadership thought leadership
+src/pages/LeadershipInsights.tsx       # Decision Readiness Diagnostic (unlinked from nav)
 src/pages/Blog.tsx, BlogPost.tsx
 src/pages/FAQ.tsx, Contact.tsx, Privacy.tsx, Terms.tsx
 src/pages/NotFound.tsx
@@ -98,9 +100,16 @@ src/components/BigProblem.tsx          # existential urgency frame
 src/components/TrustSection.tsx        # Krish bio + testimonials carousel
 src/components/FrameworkJourney.tsx    # Mind Set → Mind Map → Mind Make
 src/components/OperatorsEdge.tsx       # v5 credential section
-src/components/OperatorsBrief.tsx      # homepage teaser for /signal
+src/components/OperatorsBrief.tsx      # Live Intel homepage teaser
 src/components/PriceTicker.tsx         # CSS-marquee model price ticker
+src/components/LightningLessons.tsx    # 4 Maven Lightning Lesson links (Resources nav)
 src/components/SimpleCTA.tsx
+```
+
+### Step 10b: New Age Leadership components
+```
+src/components/new-age/OrgChart.tsx    # interactive agent-native org chart (lazy-loaded)
+src/components/new-age/AgathaStory.tsx # embedded narrative + completion beacon
 ```
 
 ### Step 11: Nervous Decision Machine components
@@ -196,8 +205,13 @@ verify_jwt = false
 2. 30–45 minutes
 3. Set redirect URL in `InitialConsultModal` flow
 
+### Step 19b: Maven (Cohort enrolment)
+1. Create the cohort offering on Maven (or use the existing `https://maven.com/aimindmaker/ai-decision-intensive`)
+2. Update `MAVEN_COHORT_URL` constant in `src/pages/Cohort.tsx`
+3. Verify the "Hosted on Maven" pill and the "Reserve my seat on Maven" CTA both link to the URL
+
 ### Step 20: Plausible (optional)
-Track `operator_page_cta_clicked` on `/operator` Revenue Architecture CTA.
+Track `operator_page_cta_clicked` on `/operator` Revenue Architecture CTA, and `pre_call_qualifier_completed` on the PreCallQualifier book-a-call action.
 
 ---
 
@@ -212,6 +226,8 @@ Track `operator_page_cta_clicked` on `/operator` Revenue Architecture CTA.
 <Route path="/enterprise" element={<Enterprise />} />
 <Route path="/operator" element={<Operator />} />
 <Route path="/signal" element={<Brief />} />
+<Route path="/immersion" element={<Immersion />} />
+<Route path="/new-age-leadership" element={<NewAgeLeadership />} />
 <Route path="/leaders" element={<LeadershipInsights />} />
 <Route path="/leadership-insights" element={<LeadershipInsights />} />
 <Route path="/blog" element={<Blog />} />

@@ -1,6 +1,45 @@
 # History
 
-**Last Updated:** 2026-04-23
+**Last Updated:** 2026-04-26
+
+---
+
+## 2026-04-26: Documentation Refresh — current-state of repo + sales/marketing anchors
+
+**What Changed:**
+- Reconciled all `project-documentation/*` files with the actual codebase as of 2026-04-26 (commits since 2026-04-23 added Immersion, New Age Leadership, Maven Cohort integration, PreCallQualifier chip rebuild, and several copy/UX fixes)
+- Renamed the `/signal` nav label across all docs from "The Brief" → **Live Intel** (matches `Navigation.tsx` line 46)
+- Corrected Revenue Architecture duration: **30 days (4–5 calendar weeks)** — was incorrectly documented as 8–12 weeks
+- Corrected Signal Session deliverable: **15–20 page Commercial Narrative within 48 hours** — was incorrectly documented as 5–10 page thesis within 5 business days
+- Documented `/immersion` (The AI Immersion, $12,000, inquiry-only) and `/new-age-leadership` (long-form thought leadership)
+- Documented Maven as the canonical Cohort enrolment platform (`https://maven.com/aimindmaker/ai-decision-intensive`), the "Hosted on Maven" pill, and the "Reserve my seat on Maven" CTA
+- Documented the rebuilt `PreCallQualifier` (now chip-based with 3 stages: decision → timeline → stakes)
+- Documented Lightning Lessons (4 external Maven course links surfaced in the Resources nav)
+- Added two new docs:
+  - `SALES_PLAYBOOK.md` — single ground-truth doc for AI sales/marketing agents (ICP firmographic + psychographic signals, pain → offer mapping, value driver matrix, ROI math, discovery question bank, objection bank, channel-specific message templates, competitive grid, disqualifiers, routing logic, lead-email anatomy, sales hygiene rules, quick reference card)
+  - References integrated across `README.md`, `OFFERS.md`, `OUTCOMES.md`, `Master_Messaging_and_FAQ.md`
+- Documented `send-lead-email` upgrade to Gemini company research with Google Search grounding (3× retry with exponential backoff)
+- Documented the Immersion-specific 3-phase format (alignment / 4-hr session / 2-page summary in 5 business days, Diagnose → Decompose → Decide → Deploy)
+- Documented Cohort curriculum (Week 1 Name the decision / Week 2 Map the paths / Week 3 Make the call), walk-out artefacts (1-page memo, trade-off doc, 90-day Slack, lifetime curriculum, alumni network), and refund policy
+- Cleaned up stale technical references: dropped "All Enterprise" footer link from nav docs; dropped 8–12 week and 5–10 page legacy specs; updated edge-function docs to reflect Gemini-first lead enrichment
+- Added explicit benefits, ICP signals, outcomes, and sales/marketing anchors throughout so AI agents can ground confidently
+
+**Why:**
+- Documentation lagged ~3 days behind the most recent codebase work (Immersion + NewAgeLeadership ship + UX audit + Maven integration polish), and was carrying multiple legacy specs that contradicted the live site (RA duration, Signal Session deliverable, nav label)
+- AI sales and marketing agents need a single, structured, retrieval-friendly document to ground on — `SALES_PLAYBOOK.md` is now that document
+- The user explicitly requested: "fully up to date with the current state of the repo… benefits, ICP, outcomes and sales/marketing anchors so that my sales and marketing AI agents can sell this at scale… ensure nothing old remains"
+
+**Files Created:**
+- `project-documentation/SALES_PLAYBOOK.md`
+
+**Files Rewritten:**
+- `README.md`, `PURPOSE.md`, `VALUE_PROP.md`, `ICP.md`, `OFFERS.md`, `OUTCOMES.md`, `BRANDING.md`, `Master_Messaging_and_FAQ.md`, `ARCHITECTURE.md`, `FEATURES.md`
+
+**Files Surgically Updated:**
+- `DESIGN_SYSTEM.md`, `VISUAL_GUIDELINES.md`, `DEPLOYMENT.md`, `COMMON_ISSUES.md`, `REPLICATION_GUIDE.md`, `HISTORY.md`, `DECISIONS_LOG.md`
+
+**Files Untouched (research artefacts, intentionally preserved):**
+- `EXECUTIVE_SUMMARY.md`, `LLM_CRITICAL_THINKING_TRAINING.md`, `mindmaker_rebuild_brief_v4.md`
 
 ---
 

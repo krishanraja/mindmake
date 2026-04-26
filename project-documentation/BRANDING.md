@@ -1,6 +1,6 @@
 # Branding
 
-**Last Updated:** 2026-04-23
+**Last Updated:** 2026-04-26
 
 ---
 
@@ -8,7 +8,7 @@
 
 **The anti-consultancy for leaders who are done being sold AI and ready to use it.**
 
-Mindmaker sells exactly two things: a decision room for senior leaders (the cohort) and a commercial rebuild for companies commercializing AI products (the Signal Session and Revenue Architecture). Nothing in between. Nothing ongoing.
+Mindmaker sells exactly four things, in two tiers and one inquiry-only relief valve: a Maven-hosted decision room for senior leaders (the Cohort), enterprise sprints for companies commercializing AI products (the Signal Session and Revenue Architecture), and a half-day team-alignment Immersion (inquiry-only). Nothing in between. Nothing ongoing.
 
 **Brand North Star:** If Stripe's design sensibility met Anthony Bourdain's authenticity.
 
@@ -33,7 +33,7 @@ Your smartest, most cynical friend who runs AI transformation every day and genu
 ### What we are
 - **Direct** — name the decision, don't dance around it
 - **Cynical** — we've seen every vendor pitch; we know what's real
-- **Specific** — "10–15 seats", "$60–100k", "8–12 weeks", not "enterprise engagements"
+- **Specific** — "10–15 seats", "30 days", "$60–100k", not "enterprise engagements"
 - **Finish-line honest** — every offer has a fixed end, and we say so
 - **Premium without stiffness** — confident prose, no corporate rigor mortis
 
@@ -50,7 +50,7 @@ Your smartest, most cynical friend who runs AI transformation every day and genu
 **Mind Set → Mind Map → Mind Make** — the core framework, unchanged, used everywhere.
 
 | Phase | Meaning | Outcome |
-|-------|---------|---------|
+|---|---|---|
 | Mind Set | Clarity | Cut the noise. Know what matters. |
 | Mind Map | Leverage | Build your edge. Multiply what you're good at. |
 | Mind Make | Direction | Decide. Ship. Measure. |
@@ -63,11 +63,14 @@ Your smartest, most cynical friend who runs AI transformation every day and genu
 
 No conditional labels. No "What's your nervous decision?" (retired — it tested as too therapist-y for enterprise buyers). No "Start the Conversation". Just "Book a call", which opens `InitialConsultModal` via the global `openConsultModal` event.
 
+**Cohort-specific direct CTA:** **"Reserve my seat on Maven"** — points directly at `https://maven.com/aimindmaker/ai-decision-intensive` for buyers who already know the cohort is the right fit and want to skip the consult call.
+
 **Supporting CTAs:**
 - "See the cohort" → `/cohort`
 - "Explore enterprise" → `/enterprise`
 - "See how I work" — secondary hero CTA, smooth-scrolls to Y-fork
 - "Open the full dashboard →" — muted link from homepage `OperatorsBrief` to `/signal`
+- "Request a date" — Immersion page CTA, opens consult modal preselected to "immersion"
 
 ---
 
@@ -75,7 +78,7 @@ No conditional labels. No "What's your nervous decision?" (retired — it tested
 
 ### Headlines
 - **Name the decision or the commercial symptom**, not the abstract benefit
-- **Be specific** — "$3,500 per seat", "10–15 leaders", "8–12 weeks"
+- **Be specific** — "$3,500 per seat", "10–15 leaders", "30 days", "48 hours"
 - **Use concrete verbs** — decide, ship, rebuild, cut, filter, commit
 - **Avoid feeling words** as crutches — "calm clarity" is OK once per page, not a refrain
 
@@ -88,26 +91,29 @@ No conditional labels. No "What's your nervous decision?" (retired — it tested
 ### Example transformations
 
 | OLD | NEW |
-|-----|-----|
-| "1:1 sprint that turns AI chaos into direction" | "A cohort for leaders making AI decisions. Enterprise sprints for AI products." |
-| "4-Week or 90-Day Sprint" | "The Cohort, The Signal Session, or The Revenue Architecture" |
+|---|---|
+| "1:1 sprint that turns AI chaos into direction" | "A Maven-hosted cohort for leaders making AI decisions. Enterprise sprints for AI products." |
+| "4-Week or 90-Day Sprint" | "The Cohort, The Signal Session, the Revenue Architecture, or the Immersion" |
 | "What's your nervous decision?" (CTA button) | "Book a call" |
 | "Chat with Krish" / "Ask Mindmaker" | (chatbot retired — replaced by `PreCallQualifier`) |
 | "AI Leadership Benchmark" | "Decision Readiness Diagnostic" (`/leaders`, unlinked from nav) |
-| "Signal Desk" | "The Operator's Brief" |
+| "Signal Desk" / "The Brief" / "The Operator's Brief" (as a nav label) | **"Live Intel"** (as the nav label and page H1) |
 | "Builder vs Orchestrator" | "AI leaders vs AI products" (the Y-fork) |
+| "8–12 week Revenue Architecture" | "30-day Revenue Architecture (4–5 calendar weeks)" |
+| "5–10 page Signal Session thesis" | "15–20 page Commercial Narrative within 48 hours" |
 
 ---
 
 ## Word Choices
 
 ### Use
-- Cohort, enterprise, sprint (only for Signal Session / Revenue Architecture), finish line
+- Cohort, enterprise, sprint (only for Signal Session / Revenue Architecture), Immersion, finish line
 - Build, systems, working, deploy, decide, ship, commit, cut, filter
 - Clarity, direction, confidence, decision, trade-off, board-ready
 - Positioning, pricing, packaging, GTM, commercial, revenue
 - Operator, practitioner, in the room, at the P&L
-- Specific numbers: "$3,500", "$15k", "$60–100k", "10–15 leaders", "14-agent OS"
+- Specific numbers: "$3,500", "$15k", "$60–100k", "$12k", "10–15 leaders", "14-agent OS", "30 days", "48 hours"
+- Maven (when referring to Cohort enrollment, Slack, alumni community)
 
 ### Never use
 - Transformation, digital, synergy, leverage (as a verb), ecosystem, journey (as a generic noun)
@@ -116,6 +122,7 @@ No conditional labels. No "What's your nervous decision?" (retired — it tested
 - "We help you…" — prefer "You will…" or the direct verb
 - Optimize, enhance, maximize, holistic, paradigm
 - "Chat with Krish", "Sprint 4-Week", "Sprint 90-Day", "Builder Economy" (as a Mindmaker product — it's now an external sister domain)
+- "Signal Desk" or "The Brief" as a nav label (the live label is **"Live Intel"**)
 
 ---
 
@@ -124,22 +131,28 @@ No conditional labels. No "What's your nervous decision?" (retired — it tested
 - **The AI Decision Cohort** — not "cohort program", "course", "bootcamp"
 - **The Signal Session** — not "strategy day", "workshop", "discovery"
 - **The Revenue Architecture** — not "sprint", "engagement", "project"
-- **The Operator's Brief** — the editorial surface at `/signal` (renamed from "Signal Desk" to avoid overlap with Krish's Signal & Noise business)
+- **The AI Immersion** — not "team workshop", "leadership offsite", "alignment session"
+- **The Commercial Narrative** — the 15–20 page Signal Session deliverable; not "thesis", "report", "deliverable"
+- **Live Intel** — the nav label and H1 for the editorial surface at `/signal` (renamed from "Signal Desk" → "The Brief" → "Live Intel" for plain-English clarity)
+- **The Operator's Brief** — body-copy alternative for Live Intel; OK in editorial copy, not as a nav label
 - **The Nervous Decision Machine** — the embedded tool; no longer on a standalone `/tool` page
 - **Decision Readiness Diagnostic** — the `/leaders` quiz; unlinked from nav but reachable by URL
-- **Pre-Call Qualifier** — the floating pill; replaces the retired ChatBot
+- **Pre-Call Qualifier** — the floating pill; replaces the retired ChatBot. 3-step chip-based intake (decision → timeline → stakes)
 - **Book a call** — the primary CTA label, never variant
+- **Reserve my seat on Maven** — the Cohort direct-enrolment CTA on `/cohort`
 - **Mind Set → Mind Map → Mind Make** — the framework, always in that order
+- **Hosted on Maven** — the pill on `/cohort` indicating where enrolment happens
 
 ---
 
 ## Product Naming
 
 | Product | Price | Tagline |
-|---------|-------|---------|
-| The AI Decision Cohort | $3,500 / seat | Make your AI decisions with 15 other senior leaders. |
-| The Signal Session | $15,000 | Your AI capabilities, translated into revenue. (entry point) |
-| The Revenue Architecture | $60,000–$100,000 | Your AI capabilities, translated into revenue. (flagship) |
+|---|---|---|
+| The AI Decision Cohort | $3,500 / seat | Make your nervous AI decision with 15 other senior leaders. |
+| The Signal Session | $15,000 | One day. One room. One commercial thesis. |
+| The Revenue Architecture | $60,000–$100,000 | Your AI capabilities, translated into revenue. |
+| The AI Immersion (inquiry-only) | $12,000 | Three decisions. One afternoon. Real alignment. |
 
 ### Retired products (do not reference)
 
@@ -152,7 +165,7 @@ No conditional labels. No "What's your nervous decision?" (retired — it tested
 
 ### Builder Economy
 
-The Builder Economy is **not a Mindmaker product**. It's Krish's podcast / creator project at `thebuildereconomy.com`. Reference it via the Resources dropdown and `/builder-economy` redirect. Do not position Mindmaker as "arming the leaders of the Builder Economy" on the main site — that was old framing.
+The Builder Economy is **not a Mindmaker product**. It's Krish's podcast / creator project at `thebuildereconomy.com`. Reference it via the Resources dropdown and `/builder-economy` redirect (which points externally). Do not position Mindmaker as "arming the leaders of the Builder Economy" on the main site — that was old framing.
 
 ---
 
@@ -174,8 +187,8 @@ Default credential line:
 ## Email / Communication Style
 
 ### Subject lines
-- Specific + direct: "Cohort enrolment — next starts [DATE]"
-- Outcome-focused: "Signal Session thesis — delivered"
+- Specific + direct: "Cohort enrolment — next starts July 14, 2026"
+- Outcome-focused: "Signal Session Commercial Narrative — delivered"
 - No clickbait, no FOMO
 
 ### Email body
@@ -220,16 +233,16 @@ Mint is an accent, not a text color on light surfaces.
 ### Photography
 - Real people, not stock
 - Candid, not posed
-- Krish headshot in `TrustSection.tsx`
+- Krish headshot in `TrustSection.tsx` and `/operator`
 
 ---
 
-## The Operator's Brief — taxonomy
+## Live Intel — taxonomy
 
 The classified archive on `/signal` uses these four categories:
 
 | Category | Meaning | Example |
-|----------|---------|---------|
+|---|---|---|
 | **WATCH** | Worth acting on | "Long-context workflows just became viable" |
 | **SKIP** | Hype or noise — ignore | "Another AI company raised money" |
 | **CALL** | A decision is overdue | "Time to reevaluate your LLM vendor costs" |
@@ -251,6 +264,9 @@ Renamed from the previous SIGNAL / NOISE / DECISION / TAKE set. Do not reference
 - Don't position Mindmaker as fractional capacity of any kind
 - Don't promise ROI numbers without a verifiable case study behind them
 - Don't use "transformation", "synergy", "leverage" (as verb), "journey" (as abstract noun)
+- Don't say "8–12 weeks" for the Revenue Architecture — it's now **30 days**
+- Don't say "5–10 page thesis" for the Signal Session — it's now **15–20 page Commercial Narrative within 48 hours**
+- Don't label `/signal` as "The Brief" or "Signal Desk" in nav — the label is **"Live Intel"**
 
 ---
 

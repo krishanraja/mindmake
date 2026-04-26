@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 
 export interface LeadershipQuestion {
   id: string;
@@ -210,6 +210,83 @@ export const useLeadershipInsights = () => {
     }
   }, [personalizationIndex, totalPersonalizationQuestions]);
 
+  const calculateResults = useCallback((): LeadershipResults => {
+    // Calculate raw score (sum of all answers)
+    const totalScore = Object.values(answers).reduce((sum, val) => sum + val, 0);
+    const maxScore = totalQuestions * 5;
+    const normalizedScore = Math.round((totalScore / maxScore) * 100);
+
+    // Determine tier based on score
+    let tier: LeadershipResults['tier'];
+    if (normalizedScore >= 80) tier = 'AI-Leader';
+    else if (normalizedScore >= 65) tier = 'AI-Advanced';
+    else if (normalizedScore >= 50) tier = 'AI-Proficient';
+    else if (normalizedScore >= 35) tier = 'AI-Developing';
+    else tier = 'AI-Emerging';
+
+    // Calculate percentile (simplified - in production would compare against database)
+    const percentile = Math.min(99, Math.max(1, Math.round(normalizedScore * 0.9 + Math.random() * 10)));
+
+    // Generate strengths based on high-scoring areas
+    const strengths: string[] = [];
+    const growthAreas: string[] = [];
+
+    Object.entries(answers).forEach(([questionId, score]) => {
+      const question = LEADERSHIP_QUESTIONS.find(q => q.id === questionId);
+      if (!question) return;
+
+      if (score >= 4) {
+        if (question.phase === 'Leadership Growth') {
+          strengths.push('Strategic AI understanding');
+        } else if (question.phase === 'Strategic Vision') {
+          strengths.push('Clear AI vision and evaluation skills');
+        } else if (question.phase === 'Implementation') {
+          strengths.push('Practical AI implementation experience');
+        }
+      } else if (score <= 2) {
+        if (question.phase === 'Leadership Growth') {
+          growthAreas.push('Deepening AI industry knowledge');
+        } else if (question.phase === 'Strategic Vision') {
+          growthAreas.push('Building AI strategy and vendor evaluation skills');
+        } else if (question.phase === 'Implementation') {
+          growthAreas.push('Hands-on AI implementation experience');
+        }
+      }
+    });
+
+    // Deduplicate
+    const uniqueStrengths = [...new Set(strengths)];
+    const uniqueGrowthAreas = [...new Set(growthAreas)];
+
+    // Ensure we have at least something
+    if (uniqueStrengths.length === 0) {
+      uniqueStrengths.push('Willingness to learn AI');
+    }
+    if (uniqueGrowthAreas.length === 0) {
+      uniqueGrowthAreas.push('Continuous AI skill development');
+    }
+
+    // Generate strategic insights based on tier and personalization
+    const strategicInsights = generateStrategicInsights(tier, personalizationAnswers);
+
+    // Generate prompt templates
+    const promptTemplates = generatePromptTemplates(tier, personalizationAnswers);
+
+    // Generate action plan
+    const actionPlan = generateActionPlan(tier, uniqueGrowthAreas);
+
+    return {
+      score: normalizedScore,
+      tier,
+      percentile,
+      strengths: uniqueStrengths.slice(0, 3),
+      growthAreas: uniqueGrowthAreas.slice(0, 3),
+      strategicInsights: strategicInsights.slice(0, 3),
+      promptTemplates: promptTemplates.slice(0, 3),
+      actionPlan: actionPlan.slice(0, 3),
+    };
+  }, [answers, personalizationAnswers, totalQuestions]);
+
   // Smooth progress bar that NEVER regresses
   const startGeneration = useCallback(() => {
     setPhase('generating');
@@ -275,83 +352,6 @@ export const useLeadershipInsights = () => {
       completeProgress();
     }, 5000);
   }, [answers, personalizationAnswers, calculateResults]);
-
-  const calculateResults = useCallback((): LeadershipResults => {
-    // Calculate raw score (sum of all answers)
-    const totalScore = Object.values(answers).reduce((sum, val) => sum + val, 0);
-    const maxScore = totalQuestions * 5;
-    const normalizedScore = Math.round((totalScore / maxScore) * 100);
-    
-    // Determine tier based on score
-    let tier: LeadershipResults['tier'];
-    if (normalizedScore >= 80) tier = 'AI-Leader';
-    else if (normalizedScore >= 65) tier = 'AI-Advanced';
-    else if (normalizedScore >= 50) tier = 'AI-Proficient';
-    else if (normalizedScore >= 35) tier = 'AI-Developing';
-    else tier = 'AI-Emerging';
-    
-    // Calculate percentile (simplified - in production would compare against database)
-    const percentile = Math.min(99, Math.max(1, Math.round(normalizedScore * 0.9 + Math.random() * 10)));
-    
-    // Generate strengths based on high-scoring areas
-    const strengths: string[] = [];
-    const growthAreas: string[] = [];
-    
-    Object.entries(answers).forEach(([questionId, score]) => {
-      const question = LEADERSHIP_QUESTIONS.find(q => q.id === questionId);
-      if (!question) return;
-      
-      if (score >= 4) {
-        if (question.phase === 'Leadership Growth') {
-          strengths.push('Strategic AI understanding');
-        } else if (question.phase === 'Strategic Vision') {
-          strengths.push('Clear AI vision and evaluation skills');
-        } else if (question.phase === 'Implementation') {
-          strengths.push('Practical AI implementation experience');
-        }
-      } else if (score <= 2) {
-        if (question.phase === 'Leadership Growth') {
-          growthAreas.push('Deepening AI industry knowledge');
-        } else if (question.phase === 'Strategic Vision') {
-          growthAreas.push('Building AI strategy and vendor evaluation skills');
-        } else if (question.phase === 'Implementation') {
-          growthAreas.push('Hands-on AI implementation experience');
-        }
-      }
-    });
-    
-    // Deduplicate
-    const uniqueStrengths = [...new Set(strengths)];
-    const uniqueGrowthAreas = [...new Set(growthAreas)];
-    
-    // Ensure we have at least something
-    if (uniqueStrengths.length === 0) {
-      uniqueStrengths.push('Willingness to learn AI');
-    }
-    if (uniqueGrowthAreas.length === 0) {
-      uniqueGrowthAreas.push('Continuous AI skill development');
-    }
-    
-    // Generate strategic insights based on tier and personalization
-    const strategicInsights = generateStrategicInsights(tier, personalizationAnswers);
-    
-    // Generate prompt templates
-    const promptTemplates = generatePromptTemplates(tier, personalizationAnswers);
-    
-    // Generate action plan
-    const actionPlan = generateActionPlan(tier, uniqueGrowthAreas);
-    
-    return {
-      score: normalizedScore,
-      tier,
-      percentile,
-      strengths: uniqueStrengths.slice(0, 3),
-      growthAreas: uniqueGrowthAreas.slice(0, 3),
-      strategicInsights: strategicInsights.slice(0, 3),
-      promptTemplates: promptTemplates.slice(0, 3),
-      actionPlan: actionPlan.slice(0, 3),
-    };
-  }, [answers, personalizationAnswers, totalQuestions]);
 
   const reset = useCallback(() => {
     if (progressIntervalRef.current) {

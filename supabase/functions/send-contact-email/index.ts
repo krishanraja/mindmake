@@ -20,8 +20,23 @@
 
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+
+const mapInterestToProgram = (interest: string | undefined): string => {
+  if (interest === '4-week-sprint') return '4-week';
+  if (interest === '90-day-sprint') return '90-day';
+  return 'not-sure';
+};
+
+const mapInterestToCommitment = (interest: string | undefined): string => {
+  if (interest === '4-week-sprint') return '4wk';
+  if (interest === '90-day-sprint') return '90d';
+  return 'not-sure';
+};
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -125,6 +140,48 @@ const handler = async (req: Request): Promise<Response> => {
       hasInterest: !!interest,
       timestamp: new Date().toISOString(),
     });
+
+    // Persist the contact submission as a lead row so every touch from a user
+    // who gives us contact info ends up in the same system of record.
+    // Non-blocking: if the insert fails we still try to send the email.
+    let leadId: string | null = null;
+    if (SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY) {
+      try {
+        const admin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+        const { data, error } = await admin
+          .from('leads')
+          .insert({
+            name,
+            email,
+            job_title: role || null,
+            selected_program: mapInterestToProgram(interest),
+            commitment_level: mapInterestToCommitment(interest),
+            audience_type: 'individual',
+            path_type: null,
+            session_data: {
+              source: 'contact-form',
+              message,
+              company: company || null,
+              role: role || null,
+              interest: interest || null,
+              submittedAt: new Date().toISOString(),
+            },
+            engagement_score: 40, // contact-form visitors wrote us a message
+          })
+          .select('id')
+          .single();
+        if (error) {
+          console.error(`[ContactEmail][${requestId}] leads insert failed:`, error.message);
+        } else {
+          leadId = data?.id ?? null;
+          console.log(`[ContactEmail][${requestId}] lead stored:`, leadId);
+        }
+      } catch (e) {
+        console.error(`[ContactEmail][${requestId}] leads insert exception:`, (e as Error).message);
+      }
+    } else {
+      console.warn(`[ContactEmail][${requestId}] Supabase admin creds not configured; skipping DB insert`);
+    }
 
     // Build email HTML
     const emailHtml = `
@@ -248,9 +305,23 @@ const handler = async (req: Request): Promise<Response> => {
           attempt,
           duration: `${duration}ms`,
           emailId: result.id,
+          leadId,
         });
 
-        return new Response(JSON.stringify({ success: true }), {
+        // Mark the lead's email_sent flag so krish can tell which contacts got a real notification
+        if (leadId && SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY) {
+          try {
+            const admin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+            await admin.from('leads').update({
+              email_sent: true,
+              email_sent_at: new Date().toISOString(),
+            }).eq('id', leadId);
+          } catch (e) {
+            console.error(`[ContactEmail][${requestId}] email_sent flag update failed:`, (e as Error).message);
+          }
+        }
+
+        return new Response(JSON.stringify({ success: true, leadId }), {
           status: 200,
           headers: { "Content-Type": "application/json", ...corsHeaders },
         });

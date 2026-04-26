@@ -183,7 +183,7 @@ const BigProblem = () => {
             >
               <Icon className={`w-7 h-7 mb-3 transition-colors ${isMint ? "text-mint" : "text-white/50 group-hover:text-mint"}`} />
               <p className={`text-lg font-bold mb-1 ${isMint ? "text-mint" : "text-white"}`}>{cat.strong}</p>
-              <p className={`text-sm font-light ${isMint ? "text-mint/40" : "text-white/25"}`}>{cat.contrast}</p>
+              <p className={`text-sm font-light ${isMint ? "text-mint/80" : "text-white/70"}`}>{cat.contrast}</p>
             </motion.div>
           );
         })}

@@ -407,12 +407,16 @@ const MindMapContent = () => {
             </g>
           ))}
 
-          {/* Persistent subtle pulse traveling along a connection */}
+          {/* Persistent subtle pulse traveling along a connection.
+              Provide initial cx/cy so the SVG is valid before framer-motion
+              attaches; otherwise browsers reject cx="undefined" on first paint. */}
           {isInView && (
             <motion.circle
               r="2.5"
+              cx={nodes[0].x}
+              cy={nodes[0].y}
               fill="#7ef4c2"
-              initial={{ opacity: 0 }}
+              initial={{ opacity: 0, cx: nodes[0].x, cy: nodes[0].y }}
               animate={{
                 opacity: [0, 0.8, 0.8, 0],
                 cx: [nodes[0].x, nodes[1].x, nodes[3].x, nodes[4].x],

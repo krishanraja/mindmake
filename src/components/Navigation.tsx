@@ -96,7 +96,7 @@ const Navigation = () => {
                 src={mindmakerLogoDark}
                 alt="Mindmaker"
                 loading="eager"
-                fetchPriority="high"
+                fetchpriority="high"
                 decoding="sync"
                 className="h-7 sm:h-8 md:h-[24px] w-auto max-w-[150px] sm:max-w-[180px] object-contain dark:hidden"
               />
@@ -104,7 +104,7 @@ const Navigation = () => {
                 src={mindmakerLogoLight}
                 alt="Mindmaker"
                 loading="eager"
-                fetchPriority="high"
+                fetchpriority="high"
                 decoding="sync"
                 className="h-7 sm:h-8 md:h-[24px] w-auto max-w-[150px] sm:max-w-[180px] object-contain hidden dark:block"
               />

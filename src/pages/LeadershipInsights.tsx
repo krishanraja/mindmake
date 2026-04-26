@@ -208,7 +208,7 @@ const LeadershipInsights = () => {
                   Want something quicker?{" "}
                   <a
                     href="/tool"
-                    className="text-mint font-medium hover:underline"
+                    className="text-mint-dark dark:text-mint font-medium hover:underline"
                   >
                     Try the Nervous Decision Machine
                   </a>

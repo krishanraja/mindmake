@@ -25,3 +25,7 @@ dist-ssr
 
 # Supabase
 supabase/.temp/
+
+# Local audit artifacts
+audit-artifacts/
+.claude/

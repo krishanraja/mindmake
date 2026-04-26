@@ -46,7 +46,7 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      const { error } = await supabase.functions.invoke("send-contact-email", {
+      const { data, error } = await supabase.functions.invoke("send-contact-email", {
         body: {
           name: formData.name,
           email: formData.email,
@@ -58,13 +58,17 @@ const Contact = () => {
       });
 
       if (error) throw error;
+      // Edge function can return { success: false, error } with HTTP 200 on partial failures.
+      if (data && data.success === false) {
+        throw new Error(data.error || "Unknown error sending message");
+      }
 
       setIsSubmitted(true);
       toast.success("Message sent successfully! Krish will get back to you soon.");
       setFormData({ name: "", email: "", company: "", role: "", interest: "", message: "" });
     } catch (error) {
       console.error("Error sending message:", error);
-      toast.error("Failed to send message. Please try again or email directly.");
+      toast.error("Failed to send message. Please try again or email krish@themindmaker.ai directly.");
     } finally {
       setIsSubmitting(false);
     }

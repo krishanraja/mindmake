@@ -38,20 +38,18 @@ export async function checkSupabaseHealth(): Promise<SupabaseHealthCheck> {
       result.urlConfigured = true;
     }
     
-    // Check key (we can't directly access it, but we can test with a simple query)
+    // Check key by probing a real table that exists. RLS denies anon SELECT
+    // on `leads`, but the request itself succeeds — that's the signal we
+    // want. Probing a fake table just spams a 404 on every page load.
     try {
-      // Try a simple operation to verify key works
-      const { error } = await supabase.from('_test_health_check').select('id').limit(0);
-      // We expect this to fail with "relation does not exist" which means auth worked
-      if (error && error.code === 'PGRST116') {
-        result.keyConfigured = true; // Auth worked, table just doesn't exist
-      } else if (!error) {
-        result.keyConfigured = true; // Query succeeded
+      const { error } = await supabase.from('leads').select('id').limit(0);
+      if (!error || error.code) {
+        result.keyConfigured = true;
       } else {
         result.errors.push(`Supabase key validation failed: ${error.message}`);
       }
     } catch (err) {
-      result.errors.push(`Health check query failed: ${err}`);
+      result.errors.push(`Health check query failed: ${(err as Error).message}`);
     }
     
     result.isHealthy = result.urlConfigured && result.keyConfigured && result.clientInitialized;

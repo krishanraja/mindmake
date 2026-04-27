@@ -5,7 +5,6 @@ import ReactFlow, {
   Position,
   type NodeProps,
   type NodeMouseHandler,
-  MiniMap,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,12 +12,14 @@ import { Bot, User, Sparkles, Star } from "lucide-react";
 import {
   traditionalChart,
   newAgeChart,
+  nodeVariantClasses,
+  type ChartState,
   type OrgNode,
   type OrgNodeData,
 } from "./orgChartData";
 import { DecisionPromptSheet } from "./DecisionPromptSheet";
-
-type ChartState = "traditional" | "new-age";
+import { OrgChartMobile } from "./OrgChartMobile";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const trackEvent = (name: string, props?: Record<string, string>) => {
   try {
@@ -51,12 +52,7 @@ const OrgNodeCard = ({ data }: NodeProps<OrgNodeData>) => {
 
   const base =
     "relative px-4 py-3 rounded-xl border transition-all duration-200 shadow-sm w-[176px] select-none text-center";
-  const variant =
-    kind === "human"
-      ? "bg-ink text-white border-ink/40 dark:border-white/20"
-      : kind === "agent"
-      ? "bg-mint text-ink border-mint"
-      : "bg-gradient-to-br from-ink via-ink/95 to-mint/40 text-white border-mint/50";
+  const variant = nodeVariantClasses(kind);
 
   const hover = clickable
     ? "hover:-translate-y-0.5 hover:shadow-lg hover:shadow-mint/30 cursor-pointer"
@@ -129,6 +125,7 @@ export const OrgChart = ({ className }: OrgChartProps) => {
   const [selectedNode, setSelectedNode] = useState<OrgNodeData | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
   const reducedMotion = usePrefersReducedMotion();
+  const isMobile = useIsMobile();
 
   // Auto-toggle to new-age once after mount to reveal the payoff
   useEffect(() => {
@@ -142,13 +139,20 @@ export const OrgChart = ({ className }: OrgChartProps) => {
 
   const chart = state === "traditional" ? traditionalChart : newAgeChart;
 
-  const onNodeClick: NodeMouseHandler = useCallback((_, node) => {
-    const data = node.data as OrgNodeData;
-    if (!data.decisionPrompt) return;
-    setSelectedNode(data);
-    setSheetOpen(true);
-    trackEvent("chart_node_clicked", { node: node.id });
-  }, []);
+  const openDecision = useCallback(
+    (data: OrgNodeData, nodeId: string) => {
+      if (!data.decisionPrompt) return;
+      setSelectedNode(data);
+      setSheetOpen(true);
+      trackEvent("chart_node_clicked", { node: nodeId });
+    },
+    []
+  );
+
+  const onNodeClick: NodeMouseHandler = useCallback(
+    (_, node) => openDecision(node.data as OrgNodeData, node.id),
+    [openDecision]
+  );
 
   const handleToggle = (next: ChartState) => {
     if (next === state) return;
@@ -195,54 +199,48 @@ export const OrgChart = ({ className }: OrgChartProps) => {
       </div>
 
       {/* Chart */}
-      <div className="relative rounded-2xl border border-border/60 bg-background overflow-hidden h-[520px] md:h-[600px]">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={state}
-            className="absolute inset-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: reducedMotion ? 0.15 : 0.5 }}
-          >
-            <ReactFlow
-              nodes={nodes}
-              edges={edges}
-              nodeTypes={nodeTypes}
-              defaultEdgeOptions={defaultEdgeOptions}
-              onNodeClick={onNodeClick}
-              fitView
-              fitViewOptions={{ padding: 0.2, duration: reducedMotion ? 0 : 600 }}
-              minZoom={0.3}
-              maxZoom={1.4}
-              proOptions={{ hideAttribution: true }}
-              nodesDraggable={false}
-              nodesConnectable={false}
-              panOnScroll={false}
-              zoomOnScroll={false}
-              zoomOnPinch
-              zoomOnDoubleClick={false}
-              panOnDrag
+      {isMobile ? (
+        <OrgChartMobile
+          state={state}
+          reducedMotion={reducedMotion}
+          onNodeSelect={openDecision}
+        />
+      ) : (
+        <div className="relative rounded-2xl border border-border/60 bg-background overflow-hidden h-[480px] md:h-[560px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={state}
+              className="absolute inset-0"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: reducedMotion ? 0.15 : 0.5 }}
             >
-              <Background gap={24} color="hsl(var(--border) / 0.5)" />
-              <MiniMap
-                zoomable={false}
-                pannable={false}
-                className="!bg-background/80 !border !border-border/60"
-                maskColor="hsl(var(--muted) / 0.5)"
-                nodeColor={(n) => {
-                  const d = n.data as OrgNodeData;
-                  return d.kind === "agent"
-                    ? "hsl(158 82% 73%)"
-                    : d.kind === "hybrid"
-                    ? "hsl(210 58% 11%)"
-                    : "hsl(210 58% 11%)";
-                }}
-              />
-            </ReactFlow>
-          </motion.div>
-        </AnimatePresence>
-      </div>
+              <ReactFlow
+                nodes={nodes}
+                edges={edges}
+                nodeTypes={nodeTypes}
+                defaultEdgeOptions={defaultEdgeOptions}
+                onNodeClick={onNodeClick}
+                fitView
+                fitViewOptions={{ padding: 0.2, duration: reducedMotion ? 0 : 600 }}
+                minZoom={0.3}
+                maxZoom={1.4}
+                proOptions={{ hideAttribution: true }}
+                nodesDraggable={false}
+                nodesConnectable={false}
+                panOnScroll={false}
+                zoomOnScroll={false}
+                zoomOnPinch
+                zoomOnDoubleClick={false}
+                panOnDrag={false}
+              >
+                <Background gap={24} color="hsl(var(--border) / 0.5)" />
+              </ReactFlow>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      )}
 
       <DecisionPromptSheet open={sheetOpen} onOpenChange={setSheetOpen} data={selectedNode} />
     </div>

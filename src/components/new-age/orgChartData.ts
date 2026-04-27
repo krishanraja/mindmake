@@ -25,6 +25,14 @@ export interface OrgNodeData {
 
 export type OrgNode = Node<OrgNodeData>;
 export type OrgEdge = Edge;
+export type ChartState = "traditional" | "new-age";
+
+export const nodeVariantClasses = (kind: NodeKind): string =>
+  kind === "human"
+    ? "bg-ink text-white border-ink/40 dark:border-white/20"
+    : kind === "agent"
+    ? "bg-mint text-ink border-mint"
+    : "bg-gradient-to-br from-ink via-ink/95 to-mint/40 text-white border-mint/50";
 
 // Layout constants — we hand-place nodes in a compact hierarchy so the
 // chart reads cleanly on laptop widths without ReactFlow's auto-layout.

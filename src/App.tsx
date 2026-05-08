@@ -24,6 +24,7 @@ import Index from "./pages/Index";
 // All other pages lazy-loaded for smaller initial bundle
 const Cohort = lazy(() => import("./pages/Cohort"));
 const Enterprise = lazy(() => import("./pages/Enterprise"));
+const Capital = lazy(() => import("./pages/Capital"));
 const Immersion = lazy(() => import("./pages/Immersion"));
 const NewAgeLeadership = lazy(() => import("./pages/NewAgeLeadership"));
 const Operator = lazy(() => import("./pages/Operator"));
@@ -87,6 +88,7 @@ const AppRoutes = () => {
             {/* Core consolidated pages */}
             <Route path="/cohort" element={<Cohort />} />
             <Route path="/enterprise" element={<Enterprise />} />
+            <Route path="/capital" element={<Capital />} />
             <Route path="/operator" element={<Operator />} />
             <Route path="/signal" element={<Brief />} />
 

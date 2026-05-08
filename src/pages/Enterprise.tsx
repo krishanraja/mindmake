@@ -3,8 +3,10 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle, Clock, Calendar, TrendingUp } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { SEO } from "@/components/SEO";
+import ProductExpandSection from "@/components/ProductExpandSection";
+import type { ProductExpandCardData } from "@/components/ProductExpandCard";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -17,7 +19,6 @@ const fadeUp = {
 
 const openConsultModal = (preselected?: string) => {
   if (preselected) {
-    // Pass via a custom detail property that InitialConsultModal can ignore safely if unused
     window.dispatchEvent(
       new CustomEvent("openConsultModal", { detail: { preselected } })
     );
@@ -26,23 +27,92 @@ const openConsultModal = (preselected?: string) => {
   }
 };
 
-const signalSessionOutcomes = [
-  "Commercial Narrative document (15-20 pages, delivered within 48 hours)",
-  "Commercial positioning framework (2 pages, ready for your team)",
-  "Sales narrative and objection handling guide",
-  "Pricing model sketch with 2-3 packaging options",
-  "30-day commercial roadmap with owners and milestones",
-];
+const ENTERPRISE_TRIO_LINE =
+  "What gets mapped together: your product strategy, your team's capability, your own fluency as a leader. Most engagements skip this part because it's invisible until you hit a wall.";
 
-const revenueArchitectureOutcomes = [
-  "Commercial strategy document (30-40 pages, client-branded)",
-  "Product marketing framework: positioning, messaging, competitive differentiation",
-  "Revenue model with multiple pricing scenarios, tested against your business reality",
-  "Packaging and tiering structure (2-3 options, ready to ship)",
-  "90-day GTM playbook: channels, sales process, enablement materials",
-  "Product roadmap aligned with commercial milestones (not just technical milestones)",
-  "Board-ready presentation deck (Krish presents if requested)",
-  "30-day follow-up strategy session included",
+const enterpriseProducts: ProductExpandCardData[] = [
+  {
+    id: "signal-session",
+    category: "The Signal Session",
+    headline: "Your commercial diagnosis. Shipped in 48 hours.",
+    subhead:
+      "One day intensive. 15-20 page Commercial Narrative deliverable. Best entry point if you're not sure whether Revenue Architecture is right for you.",
+    price: "$15,000",
+    trioLine: ENTERPRISE_TRIO_LINE,
+    description:
+      "One day with Krish, on-site or remote, working through your current commercial state. 48 hours later you receive a 15-20 page Commercial Narrative document, a 2-page positioning framework ready for Monday, a sales narrative and objection-handling guide, a pricing model sketch with 2-3 packaging options, and a written read on whether the full Revenue Architecture engagement is warranted.",
+    walkOutWith: [
+      "Commercial Narrative document (15-20 pages, delivered within 48 hours)",
+      "2-page positioning framework ready for the team to use Monday",
+      "Sales narrative and objection handling guide",
+      "Pricing model sketch with 2-3 packaging options",
+      "30-day commercial roadmap with named owners and milestones",
+      "Written read on whether Revenue Architecture is warranted",
+    ],
+    bestFor:
+      "Companies with AI capability that haven't translated it into a defensible commercial story yet, or who suspect their pricing and positioning are leaving money on the table.",
+    paymentTerms: "Payment in full at kickoff.",
+    primaryCTA: {
+      label: "Book The Signal Session",
+      preselected: "enterprise-signal-session",
+    },
+  },
+  {
+    id: "revenue-architecture",
+    category: "The Revenue Architecture",
+    headline: "30-day commercial rebuild. One person in the room.",
+    subhead:
+      "New ICP, new pricing, new GTM, new content engine, new outbound. All running AI-native from day one. No associates, no retainer.",
+    price: "From $60,000",
+    priceDetail: "to $100,000, scope-dependent",
+    trioLine: ENTERPRISE_TRIO_LINE,
+    description:
+      "30 days with Krish in the room, fixed scope, no retainer, no partner-shuffles. The work is structurally different from a consulting engagement: when something works there's exactly one person to credit, when something doesn't there's exactly one person to fire. Most consulting engagements are designed the other way, multiple associates, an open-ended timeline, and a partner-shuffle every quarter. Mindmaker is sized small enough that it can't hide behind any of that.",
+    walkOutWith: [
+      "Commercial strategy document (30-40 pages, client-branded)",
+      "Product marketing framework (positioning, messaging, competitive differentiation)",
+      "Revenue model with multiple pricing scenarios tested against business reality",
+      "Packaging and tiering structure (2-3 ship-ready options)",
+      "90-day GTM playbook with channels, sales process, enablement materials",
+      "Board-ready presentation deck",
+      "30-day follow-up strategy session included",
+    ],
+    bestFor:
+      "Companies past the Signal Session stage, or who arrive knowing they need a full commercial rebuild, typically because the category is shifting, the founder is the bottleneck, or the company is pivoting into a new line and needs an AI-native engine from day one.",
+    paymentTerms: "50% deposit at kickoff, 50% at delivery.",
+    primaryCTA: {
+      label: "Book The Revenue Architecture",
+      preselected: "enterprise-revenue-architecture",
+    },
+  },
+  {
+    id: "immersion",
+    category: "The AI Immersion",
+    headline:
+      "Half a day, your full leadership team, one shared AI tension named.",
+    subhead:
+      "Inquiry-only. For executive teams who need fast alignment before a budget cycle, board meeting, or pivot decision.",
+    price: "$12,000",
+    priceDetail: "flat fee, plus travel for on-site",
+    trioLine:
+      "What gets mapped together: your product strategy, your team's capability, the leadership team's collective fluency. Most off-sites optimise the first two and ignore the third.",
+    description:
+      "4-hour facilitated session for executive teams. Pre-session diagnostic, the live session itself (on-site or remote), 2-page summary delivered within 5 business days. Designed for the moment when an executive team needs to leave a room with one AI tension named and three decisions made, not another open-ended discussion.",
+    walkOutWith: [
+      "Pre-session diagnostic on the team's current AI surface",
+      "Half-day facilitated session (4 hours, on-site or remote)",
+      "One named AI tension with three concrete next-step decisions",
+      "2-page summary document delivered within 5 business days",
+      "Optional 30-day follow-up coaching call",
+    ],
+    bestFor:
+      "Executive teams that have stalled on AI alignment, are entering a budget cycle with no shared point of view, or are about to make a major restructure decision and need everyone in the same room first.",
+    paymentTerms: "Payment in full at booking, or 50/50 at booking and delivery.",
+    primaryCTA: {
+      label: "Inquire about The Immersion",
+      preselected: "enterprise-immersion",
+    },
+  },
 ];
 
 const comparisonRows = [
@@ -98,12 +168,15 @@ const faqs = [
 
 export default function Enterprise() {
   useEffect(() => {
-    // Scroll to hash anchor if present
+    const productIds = enterpriseProducts.map((p) => p.id);
     if (window.location.hash) {
       const id = window.location.hash.slice(1);
-      const el = document.getElementById(id);
-      if (el) {
-        setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 100);
+      // Product ID anchors are handled by ProductExpandSection
+      if (!productIds.includes(id)) {
+        const el = document.getElementById(id);
+        if (el) {
+          setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 100);
+        }
       }
     }
   }, []);
@@ -161,121 +234,8 @@ export default function Enterprise() {
 
       {/* ENGAGEMENTS */}
       <section id="engagements" className="section-padding scroll-mt-24">
-        <div className="container-width max-w-5xl space-y-10">
-          {/* Signal Session */}
-          <motion.article
-            id="signal-session"
-            className="glass-card editorial-card p-8 md:p-12 border border-border/50 scroll-mt-24"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeUp}
-          >
-            <div className="flex flex-col lg:flex-row gap-8 lg:items-start">
-              <div className="flex-1">
-                <div className="text-xs font-bold uppercase tracking-[0.18em] text-mint-dark dark:text-mint mb-3">
-                  The Signal Session
-                </div>
-                <div className="flex flex-wrap items-baseline gap-3 mb-4">
-                  <span className="text-4xl font-bold">$15,000</span>
-                  <span className="text-sm text-muted-foreground">
-                    1 day intensive + 48h written delivery
-                  </span>
-                </div>
-                <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-6">
-                  You've built the AI capabilities. Now nobody knows how to sell them. In one intensive day, we untangle the tech, align your executive team, and build the exact commercial narrative your buyers will actually understand.
-                </p>
-                <div className="mb-6">
-                  <div className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground mb-3">
-                    You walk out with
-                  </div>
-                  <ul className="space-y-2.5">
-                    {signalSessionOutcomes.map((item, i) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <CheckCircle className="w-4 h-4 text-mint shrink-0 mt-1" />
-                        <span className="text-sm">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-2">
-                  <strong className="text-foreground">Best for:</strong> Teams with AI capabilities needing rapid alignment before committing to a larger build. Often used as the entry point before a Revenue Architecture engagement.
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  Payment on kickoff, final on delivery.
-                </p>
-              </div>
-
-              <div className="lg:w-56 shrink-0 flex lg:flex-col gap-3">
-                <Button
-                  size="lg"
-                  className="flex-1 lg:w-full bg-ink dark:bg-mint text-white dark:text-ink hover:opacity-90 font-bold"
-                  onClick={() => openConsultModal("signal-session")}
-                >
-                  Book The Signal Session
-                </Button>
-              </div>
-            </div>
-          </motion.article>
-
-          {/* Revenue Architecture */}
-          <motion.article
-            id="revenue-architecture"
-            className="glass-card editorial-card p-8 md:p-12 border border-border/50 scroll-mt-24"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeUp}
-          >
-            <div className="flex flex-col lg:flex-row gap-8 lg:items-start">
-              <div className="flex-1">
-                <div className="text-xs font-bold uppercase tracking-[0.18em] text-mint-dark dark:text-mint mb-3">
-                  The Revenue Architecture
-                </div>
-                <div className="flex flex-wrap items-baseline gap-3 mb-4">
-                  <span className="text-4xl font-bold">From $60,000</span>
-                  <span className="text-sm text-muted-foreground">
-                    30 days intensive (4-5 calendar weeks)
-                  </span>
-                </div>
-                <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-6">
-                  Turning your AI capabilities into an actual revenue stream. A 30-day intensive to build your pricing models, packaging, go-to-market playbook, and the product marketing architecture that commercializes your AI investment. Informed by someone operating a 14-agent AI business in production, not theorizing about one. <a href="/operator" className="text-mint-dark dark:text-mint font-semibold hover:underline">See how I operate →</a>
-                </p>
-                <div className="mb-6">
-                  <div className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground mb-3">
-                    You walk out with
-                  </div>
-                  <ul className="space-y-2.5">
-                    {revenueArchitectureOutcomes.map((item, i) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <CheckCircle className="w-4 h-4 text-mint shrink-0 mt-1" />
-                        <span className="text-sm">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-2">
-                  <strong className="text-foreground">Best for:</strong> Companies with strong AI capabilities needing a complete commercial strategy and board-ready narrative. Pricing varies with scope, team size, and depth of existing commercial infrastructure.
-                </p>
-                <p className="text-xs text-muted-foreground mb-1">
-                  $60,000 to $100,000, scope-dependent. Final scope and price determined during intake call.
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  Payment on kickoff, final on delivery.
-                </p>
-              </div>
-
-              <div className="lg:w-56 shrink-0 flex lg:flex-col gap-3">
-                <Button
-                  size="lg"
-                  className="flex-1 lg:w-full bg-ink dark:bg-mint text-white dark:text-ink hover:opacity-90 font-bold"
-                  onClick={() => openConsultModal("revenue-architecture")}
-                >
-                  Book The Revenue Architecture
-                </Button>
-              </div>
-            </div>
-          </motion.article>
+        <div className="container-width max-w-5xl">
+          <ProductExpandSection products={enterpriseProducts} />
         </div>
       </section>
 
@@ -364,6 +324,38 @@ export default function Enterprise() {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* CAPITAL CROSS-LINK */}
+      <section className="section-padding">
+        <div className="container-width max-w-4xl">
+          <motion.div
+            className="glass-card editorial-card p-8 md:p-10 border border-border/50"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeUp}
+          >
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-mint-dark dark:text-mint mb-3">
+              Allocating capital, not running a company?
+            </div>
+            <h3 className="text-2xl md:text-3xl font-bold mb-3 leading-tight">
+              The same engine, deployed across a portfolio.
+            </h3>
+            <p className="text-muted-foreground mb-6 leading-relaxed">
+              For Operating Partners, family offices, and funds. Make the fund itself AI-native first. Then deploy the same engagement across portfolio companies, with fund-level pricing for repeat work.
+            </p>
+            <Button
+              asChild
+              size="lg"
+              className="bg-ink dark:bg-mint text-white dark:text-ink hover:opacity-90 font-bold"
+            >
+              <a href="/capital">
+                Explore Capital <ArrowRight className="ml-2 w-4 h-4" />
+              </a>
+            </Button>
+          </motion.div>
         </div>
       </section>
 

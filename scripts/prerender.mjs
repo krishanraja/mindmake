@@ -35,6 +35,12 @@ const pages = [
       "Your AI capabilities, translated into revenue. The Signal Session ($15k) aligns your team fast. The Revenue Architecture ($60-100k) builds the complete commercial strategy.",
   },
   {
+    path: "/capital",
+    title: "Capital: Mindmaker",
+    description:
+      "For Operating Partners, family offices, and funds. The Signal Session ($15k) maps the AI strategy for your fund or a portfolio company. The Revenue Architecture ($60-100k per portco) deploys the rebuild. Fund-level pricing available.",
+  },
+  {
     path: "/operator",
     title: "How I operate: Mindmaker",
     description:

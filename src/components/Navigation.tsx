@@ -13,7 +13,7 @@ type NavSubItem = {
   label: string;
   href?: string;
   external?: boolean;
-  type?: "lessons";
+  type?: "lessons" | "section";
 };
 
 type NavItem = {
@@ -44,11 +44,9 @@ const Navigation = () => {
         { label: "The Signal Session", href: "/enterprise#signal-session" },
         { label: "The Revenue Architecture", href: "/enterprise#revenue-architecture" },
         { label: "The AI Immersion", href: "/enterprise#immersion" },
+        { type: "section", label: "For funds & operating partners" },
+        { label: "Capital", href: "/capital" },
       ],
-    },
-    {
-      label: "Capital",
-      href: "/capital",
     },
     {
       label: "Mindmaker LIVE",
@@ -181,6 +179,16 @@ const Navigation = () => {
                             </div>
                           );
                         }
+                        if (subItem.type === "section") {
+                          return (
+                            <div
+                              key={subItem.label}
+                              className="mx-2 mt-2 pt-2 border-t border-border/50 px-4 pb-1 text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground"
+                            >
+                              {subItem.label}
+                            </div>
+                          );
+                        }
                         return (
                           <a
                             key={subItem.label}
@@ -261,6 +269,16 @@ const Navigation = () => {
                         </div>
                         <div className="flex flex-col space-y-1">
                           {item.dropdown?.map((subItem) => {
+                            if (subItem.type === "section") {
+                              return (
+                                <div
+                                  key={subItem.label}
+                                  className="mx-4 mt-3 pt-3 border-t border-border/50 text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground"
+                                >
+                                  {subItem.label}
+                                </div>
+                              );
+                            }
                             if (subItem.type === "lessons") {
                               return (
                                 <div key={subItem.label} className="py-2">

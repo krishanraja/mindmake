@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
+import { CONCIERGE_CALENDLY_URL } from "@/utils/calendly";
 
 const headlines = [
   "If there were 3 of me, I'd be able to get everything done.",
@@ -117,6 +119,24 @@ const NewHero = () => {
           >
             See how I work
           </Button>
+        </motion.div>
+
+        {/* Secondary diagnostic CTA */}
+        <motion.div
+          className="mt-5"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.9, duration: 0.6 }}
+        >
+          <a
+            href={CONCIERGE_CALENDLY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-sm text-white/55 hover:text-mint transition-colors"
+          >
+            Or grab a free 15-min diagnostic
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </a>
         </motion.div>
       </div>
     </section>

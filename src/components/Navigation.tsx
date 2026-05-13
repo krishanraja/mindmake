@@ -18,6 +18,7 @@ type NavSubItem = {
 type NavItem = {
   label: string;
   href?: string;
+  badge?: string;
   dropdown?: NavSubItem[];
 };
 
@@ -53,6 +54,11 @@ const Navigation = () => {
     {
       label: "Live Intel",
       href: "/signal",
+    },
+    {
+      label: "Newsletter",
+      href: "/#mindmaker-live",
+      badge: "LIVE",
     },
     {
       label: "Resources",
@@ -126,9 +132,14 @@ const Navigation = () => {
                   <a
                     key={item.label}
                     href={item.href}
-                    className="text-sm font-semibold py-2 px-3 rounded-md text-ink dark:text-white hover:text-mint hover:bg-mint/5 transition-all duration-200"
+                    className="text-sm font-semibold py-2 px-3 rounded-md text-ink dark:text-white hover:text-mint hover:bg-mint/5 transition-all duration-200 inline-flex items-center gap-1.5"
                   >
                     {item.label}
+                    {item.badge && (
+                      <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-gradient-to-r from-mint to-emerald-400 text-ink text-[9px] font-extrabold tracking-[0.14em] leading-none">
+                        {item.badge}
+                      </span>
+                    )}
                   </a>
                 );
               }
@@ -234,10 +245,15 @@ const Navigation = () => {
                     {!item.dropdown && item.href ? (
                       <a
                         href={item.href}
-                        className="min-h-[44px] flex items-center px-4 py-3 text-base font-semibold text-ink dark:text-white hover:bg-mint/10 rounded-md transition-colors"
+                        className="min-h-[44px] flex items-center gap-2 px-4 py-3 text-base font-semibold text-ink dark:text-white hover:bg-mint/10 rounded-md transition-colors"
                         onClick={() => setIsOpen(false)}
                       >
                         {item.label}
+                        {item.badge && (
+                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-gradient-to-r from-mint to-emerald-400 text-ink text-[9px] font-extrabold tracking-[0.14em] leading-none">
+                            {item.badge}
+                          </span>
+                        )}
                       </a>
                     ) : (
                       <div className="py-2">

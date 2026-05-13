@@ -2,11 +2,13 @@ import { useState, useMemo } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
-import { ArrowRight, Search } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Search } from "lucide-react";
 import { SEO } from "@/components/SEO";
 import { PriceTicker } from "@/components/PriceTicker";
 import { NervousDecisionInput } from "@/components/nervous-decision/Input";
+import { SubstackSubscribeForm } from "@/components/SubstackSubscribeForm";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
+import { CONCIERGE_CALENDLY_URL } from "@/utils/calendly";
 
 export type BriefTag = "WATCH" | "SKIP" | "CALL" | "TAKE";
 
@@ -308,6 +310,34 @@ export default function Brief() {
         </div>
       </section>
 
+      {/* MindMaker Live inline subscribe */}
+      <section className="section-padding bg-background border-t border-border/40">
+        <div className="container-width max-w-3xl">
+          <div className="rounded-2xl p-8 md:p-10 bg-ink text-white border border-mint/20 relative overflow-hidden">
+            <div
+              className="absolute -top-20 -right-20 w-72 h-72 bg-mint/15 rounded-full blur-3xl pointer-events-none"
+              aria-hidden="true"
+            />
+            <div className="relative">
+              <div className="inline-flex items-center gap-2 mb-4">
+                <span className="text-sm font-bold tracking-tight text-white">MINDMAKER</span>
+                <span className="h-1 w-1 rounded-full bg-mint" aria-hidden="true" />
+                <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-gradient-to-r from-mint to-emerald-400 text-ink text-[10px] font-extrabold tracking-[0.18em]">
+                  LIVE
+                </span>
+              </div>
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white mb-2">
+                Want this in your inbox?
+              </h2>
+              <p className="text-sm md:text-base text-white/60 mb-6 max-w-xl">
+                Headlines, resources, and perspectives — same signal, less browser tabs.
+              </p>
+              <SubstackSubscribeForm tone="dark" size="full" source="signal-page" />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Blog column */}
       {featuredPosts.length > 0 && (
         <section className="section-padding bg-muted/30">
@@ -370,6 +400,17 @@ export default function Brief() {
             </p>
           </div>
           <NervousDecisionInput size="full" tone="dark" examples={EXAMPLES} />
+          <div className="mt-8 text-center">
+            <a
+              href={CONCIERGE_CALENDLY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-sm text-white/55 hover:text-mint transition-colors"
+            >
+              Want a human to weigh in? Free 15-min diagnostic
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </a>
+          </div>
         </div>
       </section>
 

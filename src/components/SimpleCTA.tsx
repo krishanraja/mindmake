@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { InitialConsultModal } from "@/components/InitialConsultModal";
 import { motion } from "framer-motion";
+import { CONCIERGE_CALENDLY_URL } from "@/utils/calendly";
 
 const spring = { type: "spring" as const, stiffness: 80, damping: 18 };
 
@@ -91,6 +92,18 @@ const SimpleCTA = () => {
 
               <p className="text-sm text-white/40 dark:text-muted-foreground mt-6">
                 The first conversation is free. No prep required.
+              </p>
+              <p className="text-sm text-white/40 dark:text-muted-foreground mt-3">
+                Or{" "}
+                <a
+                  href={CONCIERGE_CALENDLY_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-white/70 dark:text-foreground underline underline-offset-4 hover:text-mint dark:hover:text-mint transition-colors"
+                >
+                  book a free 15-min diagnostic instead
+                  <ArrowUpRight className="h-3.5 w-3.5" />
+                </a>
               </p>
             </div>
           </motion.div>

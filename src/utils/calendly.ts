@@ -11,6 +11,12 @@ declare global {
   }
 }
 
+/**
+ * Free 15-minute concierge diagnostic. A lower-friction door than the
+ * 45-minute consult flow — used as a secondary CTA across the site.
+ */
+export const CONCIERGE_CALENDLY_URL = "https://calendly.com/krish-raja/mindmaker-concierge";
+
 export type CalendlySource =
   | 'builder-assessment'
   | 'ai-decision-helper'

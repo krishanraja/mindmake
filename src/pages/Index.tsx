@@ -6,6 +6,7 @@ import TrustSection from "@/components/TrustSection";
 import FrameworkJourney from "@/components/FrameworkJourney";
 import OperatorsEdge from "@/components/OperatorsEdge";
 import OperatorsBrief from "@/components/OperatorsBrief";
+import { MindMakerLiveSection } from "@/components/MindMakerLiveSection";
 import SimpleCTA from "@/components/SimpleCTA";
 import Footer from "@/components/Footer";
 import { ParticleBackground } from "@/components/Animations/ParticleBackground";
@@ -37,7 +38,10 @@ const Index = () => {
       {/* 7. The Operator's Brief — live prices, cards, essays, decision machine */}
       <OperatorsBrief />
 
-      {/* 8. Final CTA */}
+      {/* 8. MindMaker Live — newsletter subscribe surface */}
+      <MindMakerLiveSection />
+
+      {/* 9. Final CTA */}
       <SimpleCTA />
 
       <Footer />

@@ -1,440 +1,388 @@
-import { motion, useInView, animate, type PanInfo, AnimatePresence } from "framer-motion";
-import { useRef, useCallback, useState, useEffect } from "react";
-import { ArrowRight, Crown, Brain, Zap, Rocket, Compass, KeyRound, ChevronLeft } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useReducedMotion,
+  type MotionValue,
+} from "framer-motion";
+import { useCallback, useRef } from "react";
+import {
+  ArrowDown,
+  Brain,
+  Compass,
+  Crown,
+  KeyRound,
+  Rocket,
+  Zap,
+  type LucideIcon,
+} from "lucide-react";
 
-/* ─── Card data ─── */
+/* ─── Content ─────────────────────────────────────────────────────────────
+   Each card holds two faces:
+   - fate: what happens if you don't pick up the pen
+   - value: what working with us looks like
+   The same card frame morphs from face A to face B via a left→right wipe
+   during the final act of the scroll narrative.
+   ──────────────────────────────────────────────────────────────────────── */
 
-const categories = [
-  { icon: Crown, strong: "Orchestrate AI.", contrast: "...or report to it.", delay: 0.15 },
-  { icon: Brain, strong: "Extend your thinking.", contrast: "...or become a commodity.", delay: 0.25 },
-  { icon: Zap, strong: "Accelerate.", contrast: "...or get passed by.", delay: 0.35 },
+type Face = { icon: LucideIcon; strong: string; sub: string };
+
+const cards: { fate: Face; value: Face }[] = [
+  {
+    fate: { icon: Crown, strong: "Orchestrate AI.", sub: "Or report to it." },
+    value: {
+      icon: Rocket,
+      strong: "Ships, not slides.",
+      sub: "Working systems and defensible decisions — built alongside you in real time.",
+    },
+  },
+  {
+    fate: { icon: Brain, strong: "Extend your thinking.", sub: "Or become a commodity." },
+    value: {
+      icon: Compass,
+      strong: "You lead, not watch.",
+      sub: "Hands-on fluency in your actual workflows. Not a training course.",
+    },
+  },
+  {
+    fate: { icon: Zap, strong: "Accelerate.", sub: "Or get passed by." },
+    value: {
+      icon: KeyRound,
+      strong: "Yours to keep.",
+      sub: "A Mindmake roadmap and operating rhythms you'll carry for years.",
+    },
+  },
 ];
 
-const valueProps = [
-  { icon: Rocket, headline: "Ships, not slides.", body: "No strategy decks. Working systems and defensible decisions, built alongside you in real time." },
-  { icon: Compass, headline: "You lead, not watch.", body: "Hands-on fluency sprint. You build with AI in your actual workflows \u2014 not a training course." },
-  { icon: KeyRound, headline: "Yours to keep.", body: "A personal Mindmake roadmap and new operating rhythms you\u2019ll carry for years." },
-];
+/* ─── A single card that morphs between its two faces via a clipPath wipe ── */
 
-/* ─── Component ─── */
+type MorphCardProps = {
+  index: number;
+  fate: Face;
+  value: Face;
+  scrollYProgress: MotionValue<number>;
+};
+
+const MorphCard = ({ index, fate, value, scrollYProgress }: MorphCardProps) => {
+  // Stagger the wipe per card to create a cascading reveal across the row.
+  const start = 0.66 + index * 0.03;
+  const end = start + 0.12;
+
+  const wipe = useTransform(scrollYProgress, [start, end], [0, 1]);
+  const fateClip = useTransform(wipe, (p) => `inset(0 0 0 ${p * 100}%)`);
+  const valueClip = useTransform(wipe, (p) => `inset(0 ${(1 - p) * 100}% 0 0)`);
+
+  const FateIcon = fate.icon;
+  const ValueIcon = value.icon;
+
+  return (
+    <div className="relative overflow-hidden rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm h-[78px] sm:h-[92px] md:h-[200px]">
+      {/* Fate face — visible in Act 1, wiped away in Act 3 */}
+      <motion.div
+        style={{ clipPath: fateClip, WebkitClipPath: fateClip as unknown as string }}
+        className="absolute inset-0 flex flex-row md:flex-col items-center md:items-start gap-4 md:gap-0 p-4 md:p-6"
+      >
+        <FateIcon className="w-6 h-6 md:w-7 md:h-7 md:mb-3 text-white/60 shrink-0" />
+        <div className="min-w-0">
+          <p className="text-base md:text-xl font-bold text-white leading-tight">{fate.strong}</p>
+          <p className="text-xs md:text-sm text-white/60 leading-snug mt-0.5">{fate.sub}</p>
+        </div>
+      </motion.div>
+
+      {/* Value face — wiped in during Act 3 */}
+      <motion.div
+        style={{ clipPath: valueClip, WebkitClipPath: valueClip as unknown as string }}
+        className="absolute inset-0 flex flex-row md:flex-col items-center md:items-start gap-4 md:gap-0 p-4 md:p-6"
+      >
+        <ValueIcon className="w-6 h-6 md:w-7 md:h-7 md:mb-3 text-mint shrink-0" />
+        <div className="min-w-0">
+          <p className="text-base md:text-xl font-bold text-white leading-tight">{value.strong}</p>
+          <p className="text-xs md:text-sm text-white/70 leading-snug mt-0.5">{value.sub}</p>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
+/* ─── Reduced-motion fallback: stacked, static, accessible ───────────────── */
+
+const StaticFallback = ({ onCTA }: { onCTA: () => void }) => (
+  <section id="big-problem" className="bg-ink py-20 md:py-28">
+    <div className="container-width max-w-5xl">
+      <div className="text-xs font-bold uppercase tracking-[0.22em] text-mint mb-6">
+        Ten years from now
+      </div>
+
+      <h2 className="text-3xl md:text-5xl font-bold leading-[1.05] text-white mb-12 tracking-tight">
+        Every leader will fall into one of <span className="text-mint">two categories.</span>
+      </h2>
+
+      <div className="grid md:grid-cols-3 gap-3 md:gap-4 mb-14">
+        {cards.map(({ fate }, i) => {
+          const Icon = fate.icon;
+          return (
+            <div
+              key={i}
+              className="rounded-xl border border-white/10 bg-white/[0.03] p-5 md:p-6 flex flex-row md:flex-col items-center md:items-start gap-4 md:gap-0"
+            >
+              <Icon className="w-7 h-7 md:mb-3 text-white/60 shrink-0" />
+              <div>
+                <p className="text-lg md:text-xl font-bold text-white">{fate.strong}</p>
+                <p className="text-sm text-white/60 mt-0.5">{fate.sub}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <p className="text-xl md:text-3xl font-bold text-white leading-snug tracking-tight mb-14 max-w-4xl">
+        This isn&rsquo;t a technology decision. <span className="text-mint">It&rsquo;s a leadership one.</span>{" "}
+        <span className="font-medium text-white/75">
+          The question isn&rsquo;t whether AI will reshape your business — it&rsquo;s whether you&rsquo;ll be the one
+          holding the pen.
+        </span>
+      </p>
+
+      <h3 className="text-3xl md:text-5xl font-bold text-white mb-10 tracking-tight">
+        Here&rsquo;s how you <span className="text-mint">pick up the pen.</span>
+      </h3>
+
+      <div className="grid md:grid-cols-3 gap-3 md:gap-4 mb-14">
+        {cards.map(({ value }, i) => {
+          const Icon = value.icon;
+          return (
+            <div
+              key={i}
+              className="rounded-xl border border-mint/30 bg-mint/[0.03] p-5 md:p-6 flex flex-row md:flex-col items-center md:items-start gap-4 md:gap-0"
+            >
+              <Icon className="w-7 h-7 md:mb-3 text-mint shrink-0" />
+              <div>
+                <p className="text-lg md:text-xl font-bold text-white">{value.strong}</p>
+                <p className="text-sm text-white/70 mt-0.5 leading-relaxed">{value.sub}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <button
+        onClick={onCTA}
+        className="group inline-flex items-center gap-3 px-7 py-3.5 rounded-full border border-mint/40 hover:border-mint text-white font-semibold transition-colors"
+      >
+        See how I work
+        <ArrowDown className="w-4 h-4 text-mint group-hover:translate-y-0.5 transition-transform" />
+      </button>
+    </div>
+
+    <div className="mt-20 flex items-center justify-center gap-4 px-8">
+      <div className="flex-1 h-px bg-gradient-to-r from-transparent via-mint/30 to-transparent" />
+      <div className="w-1.5 h-1.5 rounded-full bg-mint/40" />
+      <div className="flex-1 h-px bg-gradient-to-r from-transparent via-mint/30 to-transparent" />
+    </div>
+  </section>
+);
+
+/* ─── Main: pinned, scroll-driven three-act narrative ────────────────────── */
 
 const BigProblem = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const stateARef = useRef<HTMLDivElement>(null);
-  const stateBRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
-  const [isRevealed, setIsRevealed] = useState(false);
-  const [initialHeight, setInitialHeight] = useState<number>(0);
-  const [revealedHeight, setRevealedHeight] = useState<number>(0);
-  const isMobile = useIsMobile();
+  const prefersReducedMotion = useReducedMotion();
 
-  /* ─── Mobile horizontal peel state ─── */
-  const [peelProgress, setPeelProgress] = useState(0);
-  const peelRef = useRef(0);
-  const isPeelingRef = useRef(false);
-  const [contentWidth, setContentWidth] = useState(0);
-  const sectionVisible = useInView(sectionRef, { amount: 0.05 });
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const el = contentRef.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    el.style.setProperty("--mx", `${e.clientX - rect.left}px`);
-    el.style.setProperty("--my", `${e.clientY - rect.top}px`);
-  }, []);
+  /* Eyebrow: persists across the section */
+  const eyebrowOpacity = useTransform(scrollYProgress, [0, 0.04, 0.92, 1], [0, 1, 1, 0.55]);
+
+  /* Headlines: three states crossfade in the same vertical slot */
+  // Act 1
+  const h1Opacity = useTransform(scrollYProgress, [0, 0.04, 0.28, 0.36], [0, 1, 1, 0]);
+  const h1Y = useTransform(scrollYProgress, [0, 0.04, 0.36], [40, 0, -28]);
+
+  // Act 2 — the pivot
+  const h2Opacity = useTransform(scrollYProgress, [0.30, 0.40, 0.56, 0.64], [0, 1, 1, 0]);
+  const h2Y = useTransform(scrollYProgress, [0.30, 0.40, 0.64], [40, 0, -28]);
+  // Marker-stroke highlight that draws left → right behind "leadership one"
+  const leadHighlight = useTransform(scrollYProgress, [0.43, 0.55], ["0%", "100%"]);
+
+  // Act 3 — the answer
+  const h3Opacity = useTransform(scrollYProgress, [0.58, 0.66, 1], [0, 1, 1]);
+  const h3Y = useTransform(scrollYProgress, [0.58, 0.66], [40, 0]);
+
+  /* Card grid: present from Act 1, recedes during the typography pivot, returns for Act 3 */
+  const cardsOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.10, 0.30, 0.42, 0.58, 0.66, 1],
+    [0, 1, 1, 0.22, 0.22, 1, 1],
+  );
+  const cardsY = useTransform(
+    scrollYProgress,
+    [0, 0.10, 0.30, 0.42, 0.58, 0.66],
+    [40, 0, 0, 14, 14, 0],
+  );
+  const cardsScale = useTransform(
+    scrollYProgress,
+    [0.30, 0.42, 0.58, 0.66],
+    [1, 0.95, 0.95, 1],
+  );
+
+  /* Mint hairline beam at the wipe edge — visible only during the morph */
+  const beamX = useTransform(scrollYProgress, [0.66, 0.84], ["-2%", "102%"]);
+  const beamOpacity = useTransform(scrollYProgress, [0.64, 0.68, 0.82, 0.86], [0, 1, 1, 0]);
+
+  /* CTA fades in once the wipe completes */
+  const ctaOpacity = useTransform(scrollYProgress, [0.86, 0.95], [0, 1]);
+  const ctaY = useTransform(scrollYProgress, [0.86, 0.95], [16, 0]);
+
+  /* Ambient mint glow breathes with scroll */
+  const glowOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.18, 0.38, 0.22]);
+  const glowScale = useTransform(scrollYProgress, [0, 1], [1, 1.25]);
+
+  /* Progress bar — fine left rail signalling how far through the narrative the reader is */
+  const progressScaleY = scrollYProgress;
 
   const scrollToFramework = useCallback(() => {
     document.getElementById("framework-journey")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, []);
 
-  /* ─── Height + width measurement ─── */
-  useEffect(() => {
-    const measure = () => {
-      if (stateARef.current) setInitialHeight(stateARef.current.scrollHeight);
-      if (stateBRef.current) setRevealedHeight(stateBRef.current.scrollHeight);
-      if (contentRef.current) setContentWidth(contentRef.current.offsetWidth);
-    };
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, [isInView]);
-
-  /* ─── Auto-scroll after mobile reveal ─── */
-  useEffect(() => {
-    if (isMobile && isRevealed) {
-      setTimeout(() => {
-        sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 150);
-    }
-  }, [isMobile, isRevealed]);
-
-  /* ─── Mobile peel: snap animations ─── */
-  const animateToComplete = useCallback(() => {
-    animate(peelRef.current, 1, {
-      type: "spring",
-      stiffness: 300,
-      damping: 30,
-      onUpdate: (v: number) => {
-        peelRef.current = v;
-        setPeelProgress(v);
-      },
-      onComplete: () => {
-        setIsRevealed(true);
-      },
-    });
-  }, []);
-
-  const animateToZero = useCallback(() => {
-    animate(peelRef.current, 0, {
-      type: "spring",
-      stiffness: 400,
-      damping: 35,
-      onUpdate: (v: number) => {
-        peelRef.current = v;
-        setPeelProgress(v);
-      },
-    });
-  }, []);
-
-  /* ─── Mobile peel: pan handlers (horizontal only) ─── */
-  const handlePan = useCallback((_: PointerEvent, info: PanInfo) => {
-    if (!isPeelingRef.current) return;
-    const leftDrag = Math.max(0, -info.offset.x);
-    const maxDrag = (contentWidth || 300) * 0.5;
-    const progress = Math.min(1, leftDrag / maxDrag);
-    peelRef.current = progress;
-    setPeelProgress(progress);
-  }, [contentWidth]);
-
-  const handlePanEnd = useCallback((_: PointerEvent, info: PanInfo) => {
-    isPeelingRef.current = false;
-    const shouldComplete = peelRef.current >= 0.3 || info.velocity.x < -500;
-    if (shouldComplete) {
-      animateToComplete();
-    } else {
-      animateToZero();
-    }
-  }, [animateToComplete, animateToZero]);
-
-  const base = "text-lg sm:text-xl md:text-2xl font-display tracking-tight leading-relaxed text-left";
-  const ease = [0.25, 0.1, 0.25, 1] as const;
-
-  const fade = (delay: number, alwaysVisible?: boolean) => ({
-    initial: alwaysVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 },
-    animate: isInView ? { opacity: 1, y: 0 } : alwaysVisible ? undefined : { opacity: 0, y: 16 },
-    transition: { duration: 0.5, delay, ease },
-  } as const);
-
-  /* Shared glow keyframes - reused on "mindset one" + revealed heading */
-  const glowAnimation = {
-    textShadow: [
-      "0 0 60px hsl(158 82% 73% / 0.3)",
-      "0 0 90px hsl(158 82% 73% / 0.55), 0 0 30px hsl(158 82% 73% / 0.3)",
-      "0 0 30px hsl(158 82% 73% / 0.1)",
-      "0 0 120px hsl(158 82% 73% / 0.8), 0 0 50px hsl(158 82% 73% / 0.5), 0 0 10px hsl(158 82% 73% / 0.4)",
-      "0 0 60px hsl(158 82% 73% / 0.3)",
-    ],
-    opacity: [1, 1, 0.7, 1, 1],
-  };
-
-  const glowTransition = {
-    duration: 4,
-    repeat: Infinity,
-    ease: "easeInOut" as const,
-    times: [0, 0.25, 0.45, 0.7, 1],
-  };
-
-  const torchMask = "radial-gradient(circle 100px at var(--mx, -999px) var(--my, -999px), black 0%, transparent 70%)";
-
-  /* ─── Mobile peel: clipPath values ─── */
-  const stateAClip = isRevealed ? "inset(0 100% 0 0)" : `inset(0 ${peelProgress * 100}% 0 0)`;
-  const stateBClip = isRevealed ? "inset(0 0 0 0)" : `inset(0 0 0 ${(1 - peelProgress) * 100}%)`;
-
-  /* ─── State A: Initial content ─── */
-  const initialContent = (isMint: boolean) => (
-    <div className="space-y-8 md:space-y-10">
-
-      {/* Opening Line */}
-      <motion.p
-        className={`${base} font-light ${isMint ? "text-mint" : "text-white/80"}`}
-        {...fade(0, true)}
-      >
-        In ten years, every leader will fall into one of two categories.
-      </motion.p>
-
-      {/* Leader Category Cards */}
-      <div className="grid md:grid-cols-3 gap-4">
-        {categories.map((cat, i) => {
-          const Icon = cat.icon;
-          return (
-            <motion.div
-              key={i}
-              className={`rounded-xl border p-5 md:p-6 transition-all ease-out
-                ${isMint
-                  ? "border-mint/20 bg-mint/[0.03]"
-                  : "border-white/10 bg-white/[0.03] hover:border-mint/40 hover:bg-white/[0.07] group"
-                }`}
-              style={{ transitionDuration: "120ms" }}
-              initial={{ opacity: 0, y: 16 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.3, delay: cat.delay, ease }}
-            >
-              <Icon className={`w-7 h-7 mb-3 transition-colors ${isMint ? "text-mint" : "text-white/50 group-hover:text-mint"}`} />
-              <p className={`text-lg font-bold mb-1 ${isMint ? "text-mint" : "text-white"}`}>{cat.strong}</p>
-              <p className={`text-sm font-light ${isMint ? "text-mint/80" : "text-white/70"}`}>{cat.contrast}</p>
-            </motion.div>
-          );
-        })}
-      </div>
-
-      {/* Bridge: "It's a leadership one." */}
-      <motion.p
-        className={`${base} ${isMint ? "text-mint" : "text-white/90"}`}
-        {...fade(0.5)}
-      >
-        <span className="font-medium">This isn&rsquo;t a technology decision.</span>{" "}
-        <motion.span
-          className={`font-black ${isMint ? "text-mint" : "text-mint"}`}
-          animate={isInView ? glowAnimation : undefined}
-          transition={glowTransition}
-          style={!isMint ? { textShadow: "0 0 60px hsl(158 82% 73% / 0.3)" } : undefined}
-        >
-          It&rsquo;s a leadership one.
-        </motion.span>{" "}
-        <span className="font-light">
-          The question isn&rsquo;t whether AI will reshape your business.
-        </span>{" "}
-        <span className="font-bold">
-          It&rsquo;s whether you&rsquo;ll be the one holding the pen.
-        </span>
-      </motion.p>
-
-      {/* CTA Button - different treatment per platform */}
-      {!isMobile ? (
-        <motion.div
-          className="flex justify-center py-8 md:py-10"
-          initial={{ opacity: 0, y: 12 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-          transition={{ duration: 0.25, delay: 0.4, ease }}
-        >
-          <button
-            onClick={() => setIsRevealed(true)}
-            className={`group relative px-8 py-4 rounded-full border
-                       font-semibold text-sm sm:text-lg cursor-pointer transition-colors
-                       ${isMint
-                         ? "border-mint/50 text-mint"
-                         : "border-mint/30 text-white hover:border-mint/60 glow-pulse"
-                       }`}
-          >
-            <span className="flex items-center gap-3">
-              Here&rsquo;s how you pick up the pen
-              <ArrowRight className="w-5 h-5 text-mint group-hover:translate-x-1 transition-transform" />
-            </span>
-          </button>
-        </motion.div>
-      ) : (
-        <motion.div
-          className="flex justify-center py-6"
-          initial={{ opacity: 0, y: 12 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-          transition={{ duration: 0.4, delay: 0.6, ease }}
-        >
-          <button
-            onClick={() => animateToComplete()}
-            className={`group flex items-center gap-3 px-6 py-3 rounded-full border
-                       font-semibold text-base cursor-pointer transition-colors
-                       ${isMint
-                         ? "border-mint/50 text-mint"
-                         : "border-mint/30 text-white active:bg-mint/10"
-                       }`}
-          >
-            <span>Here&rsquo;s how you pick up the pen</span>
-            <motion.span
-              animate={{ x: [0, -4, 0] }}
-              transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 2, ease: "easeInOut" }}
-            >
-              <ChevronLeft className="w-5 h-5 text-mint" />
-            </motion.span>
-          </button>
-        </motion.div>
-      )}
-    </div>
-  );
-
-  /* ─── State B: Revealed content ─── */
-  const revealedContent = (isMint: boolean) => (
-    <div className="space-y-8 md:space-y-10">
-
-      {/* Heading */}
-      <h3
-        className={`text-2xl md:text-3xl font-bold leading-snug ${isMint ? "text-mint" : "text-white"}`}
-      >
-        Work with someone who actually{" "}
-        <motion.span
-          className="text-mint"
-          animate={glowAnimation}
-          transition={glowTransition}
-          style={!isMint ? { textShadow: "0 0 60px hsl(158 82% 73% / 0.3)" } : undefined}
-        >
-          ships your results
-        </motion.span>.
-      </h3>
-
-      {/* Value prop cards */}
-      <div className="grid md:grid-cols-3 gap-4">
-        {valueProps.map((prop, i) => {
-          const Icon = prop.icon;
-          return (
-            <div
-              key={i}
-              className={`rounded-xl border p-5 md:p-6 transition-all ease-out
-                ${isMint
-                  ? "border-mint/20 bg-mint/[0.03]"
-                  : "border-white/10 bg-white/[0.03] hover:border-mint/40 hover:bg-white/[0.07] group"
-                }`}
-              style={{ transitionDuration: "120ms" }}
-            >
-              <Icon className={`w-7 h-7 mb-3 transition-colors ${isMint ? "text-mint" : "text-white/50 group-hover:text-mint"}`} />
-              <p className={`text-lg font-bold mb-1 ${isMint ? "text-mint" : "text-white"}`}>{prop.headline}</p>
-              <p className={`text-sm font-light leading-relaxed ${isMint ? "text-mint/60" : "text-white/60"}`}>{prop.body}</p>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Learn more → scroll to FrameworkJourney */}
-      <div className="flex justify-center py-8 md:py-10">
-        <button
-          onClick={scrollToFramework}
-          className={`group relative px-8 py-4 rounded-full border
-                     font-semibold text-sm sm:text-lg cursor-pointer transition-colors
-                     ${isMint
-                       ? "border-mint/50 text-mint"
-                       : "border-mint/30 text-white hover:border-mint/60 glow-pulse"
-                     }`}
-        >
-          <span className="flex items-center gap-3">
-            Learn more
-            <ArrowRight className="w-5 h-5 text-mint group-hover:translate-x-1 transition-transform" />
-          </span>
-        </button>
-      </div>
-    </div>
-  );
+  if (prefersReducedMotion) {
+    return <StaticFallback onCTA={scrollToFramework} />;
+  }
 
   return (
-    <section ref={sectionRef} className="bg-ink pt-16 md:pt-24 pb-0">
-      <div
-        ref={contentRef}
-        className="relative container-width"
-        onMouseMove={handleMouseMove}
-      >
-        {/* Height-locked wrapper - animates between state A / B heights */}
+    <section
+      ref={sectionRef}
+      id="big-problem"
+      className="relative bg-ink h-[220vh] sm:h-[240vh] md:h-[280vh]"
+    >
+      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center">
+        {/* Ambient mint glow */}
         <motion.div
-          className="relative overflow-hidden"
-          animate={{ height: (isRevealed ? revealedHeight : initialHeight) || "auto" }}
-          transition={{ duration: 0.5, ease }}
+          style={{ opacity: glowOpacity, scale: glowScale }}
+          className="absolute inset-0 pointer-events-none"
+          aria-hidden
         >
-          {/* State A: initial content */}
-          <motion.div
-            ref={stateARef}
-            className="absolute inset-x-0 top-0"
-            style={isMobile
-              ? { clipPath: stateAClip, willChange: "clip-path" }
-              : { willChange: "clip-path" }
-            }
-            animate={isMobile ? undefined : { clipPath: isRevealed ? "inset(0 0 0 100%)" : "inset(0 0 0 0)" }}
-            transition={isMobile ? undefined : { duration: 0.4, ease }}
-          >
-            {initialContent(false)}
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{ maskImage: torchMask, WebkitMaskImage: torchMask }}
-            >
-              {initialContent(true)}
-            </div>
-          </motion.div>
-
-          {/* State B: revealed content */}
-          <motion.div
-            ref={stateBRef}
-            className="absolute inset-x-0 top-0"
-            aria-live="polite"
-            style={isMobile
-              ? { clipPath: stateBClip, willChange: "clip-path" }
-              : { willChange: "clip-path" }
-            }
-            animate={isMobile ? undefined : { clipPath: isRevealed ? "inset(0 0 0 0)" : "inset(0 100% 0 0)" }}
-            transition={isMobile ? undefined : { duration: 0.4, ease }}
-          >
-            {revealedContent(false)}
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{ maskImage: torchMask, WebkitMaskImage: torchMask }}
-            >
-              {revealedContent(true)}
-            </div>
-          </motion.div>
-
-          {/* Peel edge glow - mint line at the fold (mobile only) */}
-          {isMobile && peelProgress > 0 && !isRevealed && (
-            <div
-              className="absolute top-0 bottom-0 w-1 z-10 pointer-events-none"
-              style={{
-                right: `${peelProgress * 100}%`,
-                background: "linear-gradient(to bottom, transparent 5%, rgba(126, 244, 194, 0.5) 50%, transparent 95%)",
-                boxShadow: `0 0 12px rgba(126, 244, 194, 0.3), 0 0 4px rgba(126, 244, 194, 0.5)`,
-              }}
-            />
-          )}
+          <div
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] h-[120vw] max-w-[1200px] max-h-[1200px] rounded-full"
+            style={{
+              background:
+                "radial-gradient(circle, hsl(158 82% 73% / 0.22) 0%, hsl(158 82% 73% / 0.05) 35%, transparent 65%)",
+            }}
+          />
         </motion.div>
+
+        {/* Vertical progress rail — left side, desktop only */}
+        <div className="absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 hidden md:flex flex-col items-center gap-3 z-20">
+          <div className="text-[10px] font-bold uppercase tracking-[0.22em] text-mint/60 [writing-mode:vertical-rl] rotate-180">
+            01 — 03
+          </div>
+          <div className="relative h-32 w-px bg-white/10 overflow-hidden">
+            <motion.div
+              style={{ scaleY: progressScaleY, transformOrigin: "top" }}
+              className="absolute inset-0 bg-mint"
+            />
+          </div>
+        </div>
+
+        <div className="container-width max-w-5xl relative z-10 w-full">
+          {/* Eyebrow */}
+          <motion.div
+            style={{ opacity: eyebrowOpacity }}
+            className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.22em] text-mint mb-5 sm:mb-7"
+          >
+            Ten years from now
+          </motion.div>
+
+          {/* Headline slot — three acts crossfade in the same space */}
+          <div className="relative min-h-[28vh] sm:min-h-[26vh] md:min-h-[24vh] lg:min-h-[22vh]">
+            {/* Act 1 */}
+            <motion.h2
+              style={{ opacity: h1Opacity, y: h1Y }}
+              className="absolute inset-0 text-[clamp(1.875rem,5.5vw,4.5rem)] font-bold leading-[1.02] tracking-tight text-white"
+            >
+              Every leader will fall into one of{" "}
+              <span className="text-mint">two categories.</span>
+            </motion.h2>
+
+            {/* Act 2 — pivot with marker-stroke highlight */}
+            <motion.h2
+              style={{ opacity: h2Opacity, y: h2Y }}
+              className="absolute inset-0 text-[clamp(1.375rem,3.8vw,3rem)] font-bold leading-[1.18] tracking-tight text-white"
+            >
+              This isn&rsquo;t a technology decision.{" "}
+              <span className="relative inline-block">
+                <motion.span
+                  aria-hidden
+                  style={{ width: leadHighlight }}
+                  className="absolute inset-y-[0.1em] left-0 bg-mint/20 rounded-sm pointer-events-none"
+                />
+                <span className="relative text-mint">It&rsquo;s a leadership one.</span>
+              </span>{" "}
+              <span className="font-medium text-white/65">
+                The question isn&rsquo;t whether AI will reshape your business — it&rsquo;s whether
+                you&rsquo;ll be the one holding the pen.
+              </span>
+            </motion.h2>
+
+            {/* Act 3 */}
+            <motion.h2
+              style={{ opacity: h3Opacity, y: h3Y }}
+              className="absolute inset-0 text-[clamp(1.875rem,5.5vw,4.5rem)] font-bold leading-[1.02] tracking-tight text-white"
+            >
+              Here&rsquo;s how you{" "}
+              <span className="text-mint">pick up the pen.</span>
+            </motion.h2>
+          </div>
+
+          {/* Card grid */}
+          <motion.div
+            style={{ opacity: cardsOpacity, y: cardsY, scale: cardsScale }}
+            className="relative grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mt-8 md:mt-12"
+          >
+            {/* Mint hairline beam — sweeps across the row during the Act 3 wipe */}
+            <motion.div
+              aria-hidden
+              style={{
+                left: beamX,
+                opacity: beamOpacity,
+                background:
+                  "linear-gradient(to bottom, transparent 0%, hsl(158 82% 73%) 50%, transparent 100%)",
+                boxShadow: "0 0 14px hsl(158 82% 73% / 0.7), 0 0 4px hsl(158 82% 73% / 0.9)",
+              }}
+              className="absolute -top-3 -bottom-3 w-px z-30 pointer-events-none hidden md:block"
+            />
+
+            {cards.map((card, i) => (
+              <MorphCard
+                key={i}
+                index={i}
+                fate={card.fate}
+                value={card.value}
+                scrollYProgress={scrollYProgress}
+              />
+            ))}
+          </motion.div>
+
+          {/* CTA */}
+          <motion.div
+            style={{ opacity: ctaOpacity, y: ctaY }}
+            className="flex justify-center mt-8 md:mt-12"
+          >
+            <button
+              onClick={scrollToFramework}
+              className="group inline-flex items-center gap-3 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full border border-mint/40 hover:border-mint bg-ink/40 backdrop-blur-sm text-white font-semibold text-sm sm:text-base transition-colors"
+            >
+              See how I work
+              <ArrowDown className="w-4 h-4 text-mint group-hover:translate-y-0.5 transition-transform" />
+            </button>
+          </motion.div>
+        </div>
       </div>
 
-      {/* ─── Mobile peel tab - fixed on right edge while section is visible ─── */}
-      <AnimatePresence>
-        {isMobile && sectionVisible && !isRevealed && (
-          <motion.div
-            key="peel-tab"
-            className="fixed right-0 top-1/2 -translate-y-1/2 z-30"
-            initial={{ x: 60, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: 60, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 300, damping: 25, delay: 0.3 }}
-          >
-            <motion.div
-              className="flex flex-col items-center justify-center w-12 h-32
-                         rounded-l-xl border-l border-y border-mint/60
-                         bg-ink/90 backdrop-blur-md cursor-grab active:cursor-grabbing
-                         shadow-[0_0_20px_rgba(126,244,194,0.25)]"
-              style={{ touchAction: "pan-y" }}
-              onPanStart={() => { isPeelingRef.current = true; }}
-              onPan={handlePan}
-              onPanEnd={handlePanEnd}
-              onClick={() => animateToComplete()}
-              animate={{
-                x: [0, -10, 0],
-                boxShadow: [
-                  "0 0 16px rgba(126,244,194,0.2)",
-                  "0 0 28px rgba(126,244,194,0.45)",
-                  "0 0 16px rgba(126,244,194,0.2)",
-                ],
-              }}
-              transition={{ duration: 2, repeat: Infinity, repeatDelay: 2.5, ease: "easeInOut" }}
-              aria-label="Drag left or tap to reveal"
-            >
-              <ChevronLeft className="w-5 h-5 text-mint" />
-              <span className="text-[10px] font-semibold tracking-widest uppercase text-mint/80 [writing-mode:vertical-rl] mt-1">
-                Reveal
-              </span>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Section break */}
-      <div className="mt-16 md:mt-24 flex items-center justify-center gap-4 px-8">
+      {/* Section break — sits at the bottom of the tall section, visible as it releases */}
+      <div className="absolute bottom-8 left-0 right-0 flex items-center justify-center gap-4 px-8">
         <div className="flex-1 h-px bg-gradient-to-r from-transparent via-mint/30 to-transparent" />
         <div className="w-1.5 h-1.5 rounded-full bg-mint/40" />
         <div className="flex-1 h-px bg-gradient-to-r from-transparent via-mint/30 to-transparent" />

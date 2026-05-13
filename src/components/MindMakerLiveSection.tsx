@@ -40,16 +40,11 @@ export const MindMakerLiveSection = ({ id = "mindmaker-live" }: MindMakerLiveSec
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.5 }}
         >
-          {/* Wordmark — mirrors the Substack hero */}
-          <div className="inline-flex items-center gap-3 mb-6">
-            <span className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-white via-mint/90 to-emerald-300 bg-clip-text text-transparent">
-              MINDMAKER
-            </span>
-            <span className="h-1.5 w-1.5 rounded-full bg-mint" aria-hidden="true" />
-            <span className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-mint to-emerald-400 text-ink text-xs md:text-sm font-extrabold tracking-[0.18em]">
-              LIVE
-            </span>
-          </div>
+          <img
+            src="/mindmaker-live-logo.png"
+            alt="Mindmaker Live"
+            className="mx-auto mb-6 h-20 md:h-24 w-auto"
+          />
 
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-4">
             The signal, in your inbox.

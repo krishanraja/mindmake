@@ -77,19 +77,19 @@ const Footer = () => {
               </h4>
               <nav className="flex flex-col gap-3">
                 <a
-                  href="/#mindmaker-live"
+                  href="/signal"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4 inline-flex items-center gap-1.5"
                 >
-                  MindMaker Live (Newsletter)
+                  Mindmaker LIVE
                   <span className="inline-flex items-center px-1 py-0.5 rounded-full bg-gradient-to-r from-mint to-emerald-400 text-ink text-[8px] font-extrabold tracking-[0.14em] leading-none">
                     LIVE
                   </span>
                 </a>
                 <a
-                  href="/signal"
+                  href="/library"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
-                  Live Intel
+                  Library
                 </a>
                 <a
                   href="/operator"
@@ -113,12 +113,6 @@ const Footer = () => {
                   New Age Leadership
                 </a>
                 <a
-                  href="/blog"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
-                >
-                  Blog
-                </a>
-                <a
                   href="https://live.themindmaker.ai/"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -137,7 +131,7 @@ const Footer = () => {
               </h4>
               <nav className="flex flex-col gap-3">
                 <a
-                  href="/faq"
+                  href="/library?tab=questions"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
                   FAQ

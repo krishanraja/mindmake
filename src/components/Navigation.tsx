@@ -6,19 +6,21 @@ import { useTheme } from "next-themes";
 import mindmakerLogoDark from "@/assets/mindmaker-logo-dark.png";
 import mindmakerLogoLight from "@/assets/mindmaker-logo-light.png";
 import { LightningLessons } from "@/components/LightningLessons";
+import { MindMakerWordmark } from "@/components/MindMakerWordmark";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
 
 type NavSubItem = {
   label: string;
   href?: string;
   external?: boolean;
-  type?: "lessons";
+  type?: "lessons" | "section";
 };
 
 type NavItem = {
   label: string;
   href?: string;
   badge?: string;
+  wordmark?: boolean;
   dropdown?: NavSubItem[];
 };
 
@@ -42,40 +44,33 @@ const Navigation = () => {
         { label: "The Signal Session", href: "/enterprise#signal-session" },
         { label: "The Revenue Architecture", href: "/enterprise#revenue-architecture" },
         { label: "The AI Immersion", href: "/enterprise#immersion" },
+        { type: "section", label: "For funds & operating partners" },
+        { label: "Capital", href: "/capital" },
       ],
     },
     {
-      label: "Capital",
-      dropdown: [
-        { label: "The Signal Session", href: "/capital#signal-session" },
-        { label: "The Revenue Architecture", href: "/capital#revenue-architecture" },
-      ],
-    },
-    {
-      label: "Live Intel",
+      label: "Mindmaker LIVE",
       href: "/signal",
+      wordmark: true,
     },
     {
-      label: "Newsletter",
-      href: "/#mindmaker-live",
-      badge: "LIVE",
-    },
-    {
-      label: "Resources",
+      label: "Operator",
       dropdown: [
-        { label: "New Age Leadership", href: "/new-age-leadership" },
         { label: "How I operate", href: "/operator" },
-        { label: "Blog", href: "/blog" },
         { label: "The Builder Economy (Podcast)", href: "https://www.thebuildereconomy.com", external: true },
         { label: "Lightning Lessons", type: "lessons" },
       ],
     },
     {
+      label: "Library",
+      href: "/library",
+    },
+    {
       label: "About",
       dropdown: [
-        { label: "FAQ", href: "/faq" },
         { label: "Contact", href: "/contact" },
         { label: "Privacy", href: "/privacy" },
+        { label: "Terms", href: "/terms" },
       ],
     },
   ];
@@ -132,9 +127,10 @@ const Navigation = () => {
                   <a
                     key={item.label}
                     href={item.href}
+                    aria-label={item.wordmark ? item.label : undefined}
                     className="text-sm font-semibold py-2 px-3 rounded-md text-ink dark:text-white hover:text-mint hover:bg-mint/5 transition-all duration-200 inline-flex items-center gap-1.5"
                   >
-                    {item.label}
+                    {item.wordmark ? <MindMakerWordmark size="nav" /> : item.label}
                     {item.badge && (
                       <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-gradient-to-r from-mint to-emerald-400 text-ink text-[9px] font-extrabold tracking-[0.14em] leading-none">
                         {item.badge}
@@ -180,6 +176,16 @@ const Navigation = () => {
                           return (
                             <div key={subItem.label} className="px-2">
                               <LightningLessons />
+                            </div>
+                          );
+                        }
+                        if (subItem.type === "section") {
+                          return (
+                            <div
+                              key={subItem.label}
+                              className="mx-2 mt-2 pt-2 border-t border-border/50 px-4 pb-1 text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground"
+                            >
+                              {subItem.label}
                             </div>
                           );
                         }
@@ -245,10 +251,11 @@ const Navigation = () => {
                     {!item.dropdown && item.href ? (
                       <a
                         href={item.href}
+                        aria-label={item.wordmark ? item.label : undefined}
                         className="min-h-[44px] flex items-center gap-2 px-4 py-3 text-base font-semibold text-ink dark:text-white hover:bg-mint/10 rounded-md transition-colors"
                         onClick={() => setIsOpen(false)}
                       >
-                        {item.label}
+                        {item.wordmark ? <MindMakerWordmark size="nav" /> : item.label}
                         {item.badge && (
                           <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-gradient-to-r from-mint to-emerald-400 text-ink text-[9px] font-extrabold tracking-[0.14em] leading-none">
                             {item.badge}
@@ -262,6 +269,16 @@ const Navigation = () => {
                         </div>
                         <div className="flex flex-col space-y-1">
                           {item.dropdown?.map((subItem) => {
+                            if (subItem.type === "section") {
+                              return (
+                                <div
+                                  key={subItem.label}
+                                  className="mx-4 mt-3 pt-3 border-t border-border/50 text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground"
+                                >
+                                  {subItem.label}
+                                </div>
+                              );
+                            }
                             if (subItem.type === "lessons") {
                               return (
                                 <div key={subItem.label} className="py-2">

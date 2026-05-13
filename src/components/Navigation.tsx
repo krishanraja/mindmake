@@ -297,20 +297,24 @@ const Navigation = () => {
                                     <div className="flex flex-col space-y-1 mt-2 ml-4">
                                       {[
                                         {
-                                          label: "Vibe Coding for Leaders",
-                                          url: "https://maven.com/p/ca6d71/vibe-coding-for-leaders-build-what-you-brief",
-                                        },
-                                        {
-                                          label: "Make AI Your Co-Founder",
-                                          url: "https://maven.com/p/0cc82a/make-ai-your-co-founder",
+                                          label: "Build Your AI's Permanent Identity",
+                                          url: "https://maven.com/p/8fba42/build-your-ai-s-permanent-identity",
                                         },
                                         {
                                           label: "Build an Autonomous Business with AI",
-                                          url: "https://maven.com/p/38d196/build-an-autonomous-business-with-ai",
+                                          url: "https://maven.com/p/99a529/build-an-autonomous-business-with-ai",
                                         },
                                         {
-                                          label: "Give Your AI Memory",
-                                          url: "https://maven.com/p/8fba42/improve-the-memory-of-your-ai-tools",
+                                          label: "Vibe Coding for Leaders: The Unfair Advantage",
+                                          url: "https://maven.com/p/b118d0/vibe-coding-how-your-competitors-are-pulling-ahead",
+                                        },
+                                        {
+                                          label: "Build Your Agentic Org Chart",
+                                          url: "https://maven.com/p/48674a/create-your-business-agentic-org-chart",
+                                        },
+                                        {
+                                          label: "Build Your AI Chief of Staff",
+                                          url: "https://maven.com/p/dd0ebd/build-your-ai-chief-of-staff",
                                         },
                                       ].map((lesson) => (
                                         <a

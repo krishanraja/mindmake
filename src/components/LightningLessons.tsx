@@ -9,32 +9,20 @@ export const LightningLessons = () => {
 
   const lessons = [
     {
-      title: "Vibe Coding for Leaders: Build What You Brief",
-      url: "https://maven.com/p/ca6d71/vibe-coding-for-leaders-build-what-you-brief",
-      image: "/lesson-vibe-coding.png",
+      title: "Build Your AI's Permanent Identity",
+      url: "https://maven.com/p/8fba42/build-your-ai-s-permanent-identity",
+      image: "/lesson-permanent-identity.png",
       duration: "45 min",
       cta: "Sign Up",
       bullets: [
-        "Turn briefs into working prototypes",
-        "No coding background required",
-        "Hands-on build session",
-      ],
-    },
-    {
-      title: "Make AI Your Co-Founder",
-      url: "https://maven.com/p/0cc82a/make-ai-your-co-founder",
-      image: "/lesson-co-founder.png",
-      duration: "45 min",
-      cta: "Sign Up",
-      bullets: [
-        "Build your sparring partner",
-        "Delegate what you dread",
-        "Ship what you brief",
+        "Memory that survives every session",
+        "Voice and context that stick",
+        "Stop re-briefing the same things",
       ],
     },
     {
       title: "Build an Autonomous Business with AI",
-      url: "https://maven.com/p/38d196/build-an-autonomous-business-with-ai",
+      url: "https://maven.com/p/99a529/build-an-autonomous-business-with-ai",
       image: "/lesson-autonomous-business.png",
       duration: "45 min",
       cta: "Sign Up",
@@ -45,15 +33,39 @@ export const LightningLessons = () => {
       ],
     },
     {
-      title: "Give Your AI Memory",
-      url: "https://maven.com/p/8fba42/improve-the-memory-of-your-ai-tools",
-      image: "/lesson-ai-memory.png",
+      title: "Vibe Coding for Leaders: The Unfair Advantage",
+      url: "https://maven.com/p/b118d0/vibe-coding-how-your-competitors-are-pulling-ahead",
+      image: "/lesson-vibe-coding-unfair-advantage.png",
       duration: "45 min",
       cta: "Sign Up",
       bullets: [
-        "Persistent memory that sticks",
-        "Context that travels across tools",
-        "Smarter, longer conversations",
+        "Ship prototypes without engineers",
+        "Brief, build, iterate in one sitting",
+        "Build the edge competitors can't copy",
+      ],
+    },
+    {
+      title: "Build Your Agentic Org Chart",
+      url: "https://maven.com/p/48674a/create-your-business-agentic-org-chart",
+      image: "/lesson-agentic-org-chart.png",
+      duration: "45 min",
+      cta: "Sign Up",
+      bullets: [
+        "Map roles to AI agents",
+        "Decide what stays human",
+        "Stand up your first agent team",
+      ],
+    },
+    {
+      title: "Build Your AI Chief of Staff",
+      url: "https://maven.com/p/dd0ebd/build-your-ai-chief-of-staff",
+      image: "/lesson-ai-chief-of-staff.png",
+      duration: "45 min",
+      cta: "Sign Up",
+      bullets: [
+        "Delegate the meta-work",
+        "One agent, total context",
+        "Prep, draft, summarize on demand",
       ],
     },
   ];
@@ -71,12 +83,12 @@ export const LightningLessons = () => {
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-2xl">Free Lightning Lessons</DialogTitle>
           </DialogHeader>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mt-4">
             {lessons.map((lesson, index) => (
               <div 
                 key={index}

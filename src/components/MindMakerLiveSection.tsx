@@ -89,7 +89,7 @@ export const MindMakerLiveSection = ({ id = "mindmaker-live" }: MindMakerLiveSec
           transition={{ duration: 0.45, delay: 0.15 }}
           className="max-w-xl mx-auto"
         >
-          <SubstackSubscribeForm tone="dark" size="full" source="homepage-section" />
+          <SubstackSubscribeForm tone="dark" size="full" source="homepage-section" showLogo={false} />
         </motion.div>
       </div>
     </section>

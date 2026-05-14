@@ -41,9 +41,9 @@ export const MindMakerLiveSection = ({ id = "mindmaker-live" }: MindMakerLiveSec
           transition={{ duration: 0.5 }}
         >
           <img
-            src="/mindmaker-live-logo.png"
+            src="/mindmaker-live-logo-dark.png"
             alt="Mindmaker Live"
-            className="mx-auto mb-6 h-20 md:h-24 w-auto"
+            className="mx-auto mb-6 h-10 md:h-12 w-auto"
           />
 
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-4">
@@ -89,7 +89,7 @@ export const MindMakerLiveSection = ({ id = "mindmaker-live" }: MindMakerLiveSec
           transition={{ duration: 0.45, delay: 0.15 }}
           className="max-w-xl mx-auto"
         >
-          <SubstackSubscribeForm tone="dark" size="full" source="homepage-section" showLogo={false} />
+          <SubstackSubscribeForm tone="dark" size="full" source="homepage-section" />
         </motion.div>
       </div>
     </section>

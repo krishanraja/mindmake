@@ -1,5 +1,6 @@
 import { ExternalLink } from "lucide-react";
 import { SubstackSubscribeForm } from "@/components/SubstackSubscribeForm";
+import { MindMakerWordmark } from "@/components/MindMakerWordmark";
 
 const Footer = () => {
   return (
@@ -9,13 +10,7 @@ const Footer = () => {
           {/* Newsletter strip */}
           <div className="grid lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-12 items-center pb-12 border-b border-border/50">
             <div>
-              <div className="inline-flex items-center gap-2 mb-3">
-                <span className="text-base font-bold tracking-tight text-foreground">MINDMAKER</span>
-                <span className="h-1 w-1 rounded-full bg-mint" aria-hidden="true" />
-                <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-gradient-to-r from-mint to-emerald-400 text-ink text-[10px] font-extrabold tracking-[0.18em]">
-                  LIVE
-                </span>
-              </div>
+              <MindMakerWordmark size="section" className="mb-3" />
               <p className="text-base font-semibold text-foreground mb-1">
                 Weekly signal in your inbox.
               </p>

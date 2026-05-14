@@ -2,39 +2,41 @@ import { cn } from "@/lib/utils";
 
 interface MindMakerWordmarkProps {
   size?: "nav" | "section";
+  /** "auto" swaps with the theme; "dark"/"light" force a variant for fixed backgrounds. */
+  tone?: "auto" | "dark" | "light";
   className?: string;
 }
 
-export const MindMakerWordmark = ({ size = "nav", className }: MindMakerWordmarkProps) => {
-  const isNav = size === "nav";
+// Renders the canonical Mindmaker Live brand lockup. The light variant carries
+// the dark-navy → mint gradient for light backgrounds; the dark variant lifts
+// the left side toward white so it stays legible on dark backgrounds.
+export const MindMakerWordmark = ({
+  size = "nav",
+  tone = "auto",
+  className,
+}: MindMakerWordmarkProps) => {
+  const heightClass = size === "nav" ? "h-[18px]" : "h-7 md:h-9";
+  const base = cn("w-auto object-contain", heightClass, className);
+
+  if (tone === "dark") {
+    return <img src="/mindmaker-live-logo-dark.png" alt="Mindmaker Live" className={base} />;
+  }
+  if (tone === "light") {
+    return <img src="/mindmaker-live-logo.png" alt="Mindmaker Live" className={base} />;
+  }
 
   return (
-    <span
-      className={cn("inline-flex items-center", isNav ? "gap-1.5" : "gap-3", className)}
-      aria-label="Mindmaker Live"
-    >
-      <span
-        className={cn(
-          "font-bold tracking-tight bg-gradient-to-r from-foreground via-mint/90 to-emerald-400 dark:from-white dark:via-mint/90 dark:to-emerald-300 bg-clip-text text-transparent",
-          isNav ? "text-sm" : "text-2xl md:text-3xl",
-        )}
-      >
-        MINDMAKER
-      </span>
-      <span
-        className={cn("rounded-full bg-mint", isNav ? "h-1 w-1" : "h-1.5 w-1.5")}
-        aria-hidden="true"
+    <>
+      <img
+        src="/mindmaker-live-logo.png"
+        alt="Mindmaker Live"
+        className={cn(base, "dark:hidden")}
       />
-      <span
-        className={cn(
-          "inline-flex items-center rounded-full bg-gradient-to-r from-mint to-emerald-400 text-ink font-extrabold leading-none",
-          isNav
-            ? "px-1.5 py-0.5 text-[9px] tracking-[0.14em]"
-            : "px-3 py-1 text-xs md:text-sm tracking-[0.18em]",
-        )}
-      >
-        LIVE
-      </span>
-    </span>
+      <img
+        src="/mindmaker-live-logo-dark.png"
+        alt="Mindmaker Live"
+        className={cn(base, "hidden dark:block")}
+      />
+    </>
   );
 };

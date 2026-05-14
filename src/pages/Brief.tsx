@@ -7,6 +7,7 @@ import { SEO } from "@/components/SEO";
 import { PriceTicker } from "@/components/PriceTicker";
 import { NervousDecisionInput } from "@/components/nervous-decision/Input";
 import { SubstackSubscribeForm } from "@/components/SubstackSubscribeForm";
+import { MindMakerWordmark } from "@/components/MindMakerWordmark";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
 import { CONCIERGE_CALENDLY_URL } from "@/utils/calendly";
 
@@ -319,13 +320,7 @@ export default function Brief() {
               aria-hidden="true"
             />
             <div className="relative">
-              <div className="inline-flex items-center gap-2 mb-4">
-                <span className="text-sm font-bold tracking-tight text-white">MINDMAKER</span>
-                <span className="h-1 w-1 rounded-full bg-mint" aria-hidden="true" />
-                <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-gradient-to-r from-mint to-emerald-400 text-ink text-[10px] font-extrabold tracking-[0.18em]">
-                  LIVE
-                </span>
-              </div>
+              <MindMakerWordmark tone="dark" className="mb-4" />
               <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white mb-2">
                 Want this in your inbox?
               </h2>

@@ -24,9 +24,9 @@ export const SubstackSubscribeForm = ({
     <div className="flex flex-col items-start gap-3">
       {showLogo && (
         <img
-          src="/mindmaker-live-logo.png"
+          src={tone === "dark" ? "/mindmaker-live-logo-dark.png" : "/mindmaker-live-logo.png"}
           alt="Mindmaker Live"
-          className="h-8 w-auto"
+          className="h-7 w-auto"
         />
       )}
       <iframe

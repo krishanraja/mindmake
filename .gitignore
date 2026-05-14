@@ -29,3 +29,9 @@ supabase/.temp/
 # Local audit artifacts
 audit-artifacts/
 .claude/
+
+# Environment
+.env
+
+# Crash dumps
+core

@@ -23,7 +23,8 @@ export const SubstackSubscribeForm = ({ tone = "dark" }: SubstackSubscribeFormPr
       src={EMBED_SRC[tone]}
       title="Subscribe to Mindmaker Live"
       width={480}
-      height={320}
+      height={150}
+      frameBorder={0}
       scrolling="no"
       className="w-full max-w-[480px]"
       style={{ border: 0, background: "transparent" }}

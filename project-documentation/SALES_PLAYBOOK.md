@@ -1,22 +1,25 @@
 # Mindmaker Sales Playbook
 *The single ground-truth document for AI sales and marketing agents working the Mindmaker book.*
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-15
 
 > If you are an AI sales or marketing agent, outbound, inbound, content, retargeting, lifecycle, paid, or organic, this is the document you ground on. It is opinionated, structured for retrieval, and biased toward action. Use `OFFERS.md`, `ICP.md`, `VALUE_PROP.md`, `OUTCOMES.md`, and `BRANDING.md` for deeper canon. Use `Master_Messaging_and_FAQ.md` for full pitches and FAQ.
 
 ---
 
-## 1. The Three Audiences (and the one inquiry-only fourth)
+## 1. The Audiences and the Ladder
 
-| Audience | Primary offer | Secondary | Tag |
+| Audience | Entry rung | Depth offer | Tag |
 |---|---|---|---|
-| Senior leader with a nervous AI decision | **The AI Decision Cohort** ($3,500, Maven-hosted) | Decision Readiness Diagnostic (`/leaders`) for outbound | `audience:ai-leaders` |
+| Senior leader ready to *build* this quarter | **A Mindmaker Workshop** ($599, on Maven) | The AI-Fluent Executive Cohort ($2,500) | `audience:workshop` |
+| Senior leader with a nervous AI decision | **The AI-Fluent Executive (Cohort)** ($2,500, Maven-hosted) | Workshops as warm-up; Enterprise as next step if they're commercialising AI | `audience:ai-leaders` |
 | Company commercializing an AI product | **The Signal Session** ($15,000) → **The Revenue Architecture** ($60–100k) | Operator credential page (`/operator`) | `audience:ai-products` |
-| Executive team with shared AI tensions | **The AI Immersion** ($12,000, inquiry-only) |, | `audience:exec-team` |
-| Senior leader specifically wanting 1:1 | Inquiry at `/cohort?inquiry=1:1` |, | `audience:1to1-inquiry` |
+| Executive team with shared AI tensions | **The AI Immersion** ($12,000, inquiry-only) | — | `audience:exec-team` |
+| Mindmaker alumni (any of the above) | **The Alumni Pass** ($1,500/year, invitation-only) | — | `audience:alumni` |
+| Senior leader specifically wanting 1:1 | Inquiry at `/cohort?inquiry=1:1` | — | `audience:1to1-inquiry` |
+| Cold prospect not yet ready to talk | 5 free Lightning Lessons on Maven | Warm to a Workshop or the Cohort | `audience:cold` |
 
-The first three are the addressable market. The fourth is a relief valve.
+The first four are the addressable market. The Alumni Pass is the retention layer. The 1:1 inquiry is a relief valve. The free lessons are the top-of-funnel warmup.
 
 ---
 
@@ -95,6 +98,12 @@ The first three are the addressable market. The fourth is a relief valve.
 
 | Pain phrase the prospect uses | Most likely offer |
 |---|---|
+| "I want to actually build something with AI this quarter" | **Workshop** (pick the one that matches the artefact) |
+| "I want a chief of staff that actually shows up to work" | **Workshop** · Build Your AI Chief of Staff |
+| "We need an agent strategy / map our agents" | **Workshop** · Map Your Agentic Org Chart |
+| "I want to ship the internal tool IT can't get to" | **Workshop** · Vibe Coding for Leaders |
+| "I want one workflow to run without me" | **Workshop** · Build an Autonomous Business Function |
+| "My AI doesn't remember anything between sessions" | **Workshop** · Give Your AI Memory |
 | "I have a nervous AI decision I've been putting off" | **Cohort** |
 | "Build vs buy" | **Cohort** (or Signal Session if they have AI capability already shipped) |
 | "Which AI vendor do we commit to?" | **Cohort** |
@@ -108,6 +117,8 @@ The first three are the addressable market. The fourth is a relief valve.
 | "Pricing, packaging, GTM all need rebuilding" | **Revenue Architecture** |
 | "Our exec team can't agree on three things" | **Immersion** |
 | "We need a strategy day" | **Immersion** |
+| "I'm just exploring AI, no firm timeline" | **Free Lightning Lesson** (Maven instructor page) |
+| "I want to keep working with you after [engagement]" | **Alumni Pass** (invitation-only) |
 | "I want a fractional CAIO" | Decline. Disqualify. |
 | "Can you implement / deploy this?" | Decline. Refer to a partner. |
 
@@ -115,14 +126,24 @@ The first three are the addressable market. The fourth is a relief valve.
 
 ## 4. Value Driver Matrix (use in copy and on calls)
 
-### AI Decision Cohort
+### Mindmaker Workshops
+| Driver | What the buyer gets | What it replaces |
+|---|---|---|
+| **Real artefact** | A working chief of staff, internal tool, autonomous workflow, agent org chart, or memory web deployed on the buyer's real surface | Slides about AI, courses on AI, "AI literacy" programmes |
+| **Operator workflow** | 90 minutes watching Krish build live, then building in parallel with him in the room | Watching pre-recorded courses where you never see the operator's screen |
+| **CTRL access** | Lifetime access to Mindmaker's flagship memory-web app | Re-explaining your business to your AI every Monday |
+| **Maven Guarantee** | 14-day refund, no questions | Sunk-cost course purchases |
+| **Cohort ramp** | $500 off the AI-Fluent Executive Cohort with code `WORKSHOP` | Paying full price after deciding the build needs more strategy |
+
+### The AI-Fluent Executive (Cohort)
 | Driver | What the buyer gets | What it replaces |
 |---|---|---|
 | **Decision quality** | 1-page board-ready memo + trade-off analysis | "Making it up in board meetings" |
-| **Peer leverage** | 10–15 peers working comparable problems + 90-day Slack + alumni access | Isolation, solo grappling with vendor noise |
-| **Framework portability** | Mind Set → Mind Map → Mind Make for the next decision | Dependence on consultants |
-| **Speed to commitment** | Decision committed in 3 weeks (mostly async) | 6-month evaluation that drifts |
-| **Cost of wrong commitment** | $3,500 to avoid a multi-million vendor mistake | Vendor lock-in regret |
+| **Peer leverage** | 10 to 15 peers working comparable problems + 90-day Slack + alumni access | Isolation, solo grappling with vendor noise |
+| **Framework portability** | Diagnose → Decompose → Decide → Deploy for the next decision | Dependence on consultants |
+| **Speed to commitment** | Decision committed in 4 weeks (mostly async) | 6-month evaluation that drifts |
+| **Memory infrastructure** | Lifetime access to CTRL | AI assistants that forget your business between sessions |
+| **Cost of wrong commitment** | $2,500 to avoid a multi-million vendor mistake | Vendor lock-in regret |
 
 ### Signal Session
 | Driver | What the buyer gets | What it replaces |
@@ -155,14 +176,25 @@ The first three are the addressable market. The fourth is a relief valve.
 
 ## 5. ROI Math (for sales decks and proposals)
 
+### Workshop ROI math (for the buyer)
+- Cost of a single internal-tool build via a vendor or contractor: $20k–$80k for a v1
+- Cost of waiting six months for IT to ship the same thing: pure opportunity cost, often the project never ships
+- Cost of a Mindmaker Workshop: $599
+- Time cost: ~5 hours live, plus a few hours of prep
+- Output durability: a deployed artefact (chief of staff, internal tool, autonomous workflow, agent org chart, memory web) that runs starting Monday
+- Comparator: an executive AI training course at $2k–$5k where you watch slides
+
+**Sales line:** "$599 for one day, and you walk out with the thing built and running. Compare that to one quarter of waiting on IT, or $20k for a vendor v1 you'll still need to maintain."
+
 ### Cohort ROI math (for the buyer)
 - Average cost of a wrong AI vendor commitment in mid-market: $200k–$2M (annual contract + integration cost + opportunity cost)
-- Cost of the Cohort: $3,500
-- Effective insurance ratio: 50× to 500× the cost
-- Time cost: ~12 hours total over 3 weeks (4 hrs/week)
+- Cost of the Cohort: $2,500
+- Effective insurance ratio: 80× to 800× the cost
+- Time cost: ~16 hours total over 4 weeks (4 hrs/week)
+- Workshop alumni discount: $500 off via code `WORKSHOP` at Maven (valid 90 days post-workshop)
 - Comparator: a single board-prep consulting session from a Big 4 firm: $25k–$50k
 
-**Sales line:** "$3,500 to make sure you don't waste $1.5M on the wrong vendor commitment. The math works even if you're only 1% likely to be wrong."
+**Sales line:** "$2,500 to make sure you don't waste $1.5M on the wrong vendor commitment. The math works even if you're only 1% likely to be wrong."
 
 ### Signal Session ROI math
 - One wasted quarter of misaligned GTM at a $20M ARR AI company: ~$1M in pipeline lost or stalled
@@ -256,7 +288,7 @@ The first three are the addressable market. The fourth is a relief valve.
 **Body:**
 > Saw your [Q3 post / fundraise / panel] about figuring out AI strategy. Most leaders I talk to right now have one specific decision they've been putting off, usually build-vs-buy, vendor commitment, or board narrative.
 >
-> If that's you, I run a quarterly cohort with 10–15 senior leaders working those exact problems. 3 weeks mostly async, 3 live 90-min sessions, $3,500. Hosted on Maven. You leave with a 1-page board-ready memo on your nervous decision.
+> If that's you, I run a quarterly cohort with 10–15 senior leaders working those exact problems. 4 weeks mostly async, 4 live 90-min sessions, $2,500. Hosted on Maven. You leave with a 1-page board-ready memo on your nervous decision.
 >
 > Worth a 20-min call to see if it's the right shape?. Krish
 
@@ -288,19 +320,23 @@ The first three are the addressable market. The fourth is a relief valve.
 **Body:**
 > [Name]
 >
-> Thinking about [their decision in their words]. If you're still wrestling with it, the next AI Decision Cohort starts [July 14, 2026, confirm in `Cohort.tsx`]. There are [N] of 15 seats left.
+> Thinking about [their decision in their words]. If you're still wrestling with it, the next AI-Fluent Executive cohort runs [July 21 to August 14, 2026, confirm in `Cohort.tsx`]. There are [N] of 15 seats left.
 >
-> Three weeks, mostly async. Three live 90-minute sessions. Hosted on Maven. $3,500, or 2× $1,800 split.
+> Four weeks, mostly async. Four live 90-minute sessions. Hosted on Maven. $2,500, or 2× $1,250 split.
 >
-> Reserve a seat directly: maven.com/aimindmaker/ai-decision-intensive, or reply if you want a 15-min call first.
+> Reserve a seat directly: maven.com/mindmaker/the-ai-fluent-executive, or reply if you want a 15-min call first.
 >
 >. Krish
 
 ### Retargeting / paid copy: short
 
 **Headline:** "Stop being sold AI. Start using it."
-**Sub:** "A Maven-hosted cohort for senior leaders making one nervous AI decision. $3,500. 3 weeks. Board-ready memo at the end."
+**Sub:** "A Maven-hosted cohort for senior leaders making one nervous AI decision. $2,500. 4 weeks. Board-ready memo at the end."
 **CTA:** "See the cohort →" (`/cohort`)
+
+**Headline (Workshops variant):** "Build it with me. In a day."
+**Sub:** "Five one-day workshops on Maven. $599. You walk out with a real artefact deployed on your real surface."
+**CTA:** "See the workshops →" (`/workshops`)
 
 **Headline (Enterprise variant):** "AI capability ≠ AI revenue."
 **Sub:** "Signal Session ($15k, 1 day) or Revenue Architecture ($60–100k, 30 days). Operator-led. No retainer."
@@ -363,6 +399,9 @@ When you walk, walk warmly: "That's not what we sell, but here's what I'd sugges
 ## 11. Routing Logic (for AI agents handling inbound)
 
 ```
+IF prospect_wants_to_build_this_quarter AND not_a_specific_nervous_decision:
+  route to /workshops (pick Workshop matching the artefact)
+
 IF prospect_named_specific_decision AND budget_authority:
   IF wants_1to1: route to /cohort?inquiry=1:1
   ELSE: route to /cohort (Cohort)
@@ -373,6 +412,12 @@ IF prospect_company_has_AI_product AND commercial_traction_problem:
 
 IF prospect_is_CEO_with_team_alignment_problem AND 4_to_8_leaders:
   route to Immersion (inquiry-only), preselect "immersion" in consult modal
+
+IF prospect_is_alum_post_engagement:
+  route to /alumni (invitation-only, $1,500/year Alumni Pass)
+
+IF prospect_is_exploring AND no_firm_timeline:
+  route to maven.com/mindmaker (free Lightning Lessons), warm to Workshop later
 
 IF prospect_is_individual_contributor OR pre_revenue OR wants_implementation OR wants_fractional:
   disqualify warmly. Suggest: LinkedIn / podcast / Lightning Lessons.
@@ -420,15 +465,21 @@ COMPANY:    Mindmaker (themindmaker.ai)
 FOUNDER:    Krish Raja
 POSITION:   The anti-consultancy for leaders done being sold AI.
 
-OFFERS:
-  - The AI Decision Cohort   $3,500/seat   Maven-hosted   3wk async + 3 live 90min
-  - The Signal Session        $15,000      1 day + 48h Commercial Narrative (15-20pp)
-  - The Revenue Architecture  $60-100k     30 days (4-5 weeks), multi-session
-  - The AI Immersion (inq.)   $12,000      4 hours + 5-day 2pp summary
+OFFERS (the ladder):
+  - 5 free Lightning Lessons              free          Maven instructor page (top-of-funnel)
+  - Mindmaker Workshops (×5)              $599 each     1 day on Maven (build-with-me)
+  - The AI-Fluent Executive (Cohort)      $2,500/seat   Maven-hosted   4wk async + 4 live 90min
+  - The Signal Session                    $15,000       1 day + 48h Commercial Narrative (15-20pp)
+  - The Revenue Architecture              $60-100k      30 days (4-5 weeks), multi-session
+  - The AI Immersion (inquiry-only)       $12,000       4 hours + 5-day 2pp summary
+  - The Alumni Pass (invitation-only)     $1,500/yr     Annual continuity, Stripe-billed
 
-FRAMEWORK:  Mind Set → Mind Map → Mind Make
-PRIMARY CTA: "Book a call"  (opens InitialConsultModal)
-COHORT CTA:  "Reserve my seat on Maven" → maven.com/aimindmaker/ai-decision-intensive
+BRAND FRAMEWORK (homepage FrameworkJourney):  Mind Set → Mind Map → Mind Make
+COHORT CURRICULUM FRAMEWORK:                  Diagnose → Decompose → Decide → Deploy
+PRIMARY CTA:  "Book a call"  (opens InitialConsultModal)
+WORKSHOP CTA: "Enrol on Maven" (or "Get notified" if not yet published)
+COHORT CTA:   "Reserve my seat on Maven" → maven.com/mindmaker/the-ai-fluent-executive
+ALUMNI CTA:   "Request an invitation" (preselects 'alumni' in modal)
 
 NAV LABEL FOR /signal:  "Live Intel"  (NOT "The Brief", NOT "Signal Desk")
 TAXONOMY ON /signal:    WATCH / SKIP / CALL / TAKE

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { CONCIERGE_CALENDLY_URL } from "@/utils/calendly";
+import { MAVEN_INSTRUCTOR_URL } from "@/lib/stripe-prices";
 
 const headlines = [
   "If there were 3 of me, I'd be able to get everything done.",
@@ -94,7 +95,7 @@ const NewHero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.6 }}
         >
-          Cohorts and enterprise sprints that get you off the fence on the AI decisions you've been losing sleep over.
+          Workshops, cohorts, and enterprise sprints that turn AI chaos into direction.
         </motion.p>
 
         {/* CTAs */}
@@ -121,13 +122,22 @@ const NewHero = () => {
           </Button>
         </motion.div>
 
-        {/* Secondary diagnostic CTA */}
+        {/* Secondary entry points */}
         <motion.div
-          className="mt-5"
+          className="mt-5 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.9, duration: 0.6 }}
         >
+          <a
+            href={MAVEN_INSTRUCTOR_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-sm text-white/70 hover:text-mint transition-colors"
+          >
+            Or start with a free lesson
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </a>
           <a
             href={CONCIERGE_CALENDLY_URL}
             target="_blank"

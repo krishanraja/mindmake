@@ -8,6 +8,7 @@ interface SEOProps {
   ogType?: string;
   keywords?: string;
   jsonLd?: object;
+  noindex?: boolean;
 }
 
 export const SEO = ({
@@ -18,6 +19,7 @@ export const SEO = ({
   ogType = "website",
   keywords,
   jsonLd,
+  noindex = false,
 }: SEOProps) => {
   const fullTitle = `${title} | The Mindmaker`;
   const siteUrl = "https://www.themindmaker.ai";
@@ -30,7 +32,8 @@ export const SEO = ({
       <meta name="title" content={fullTitle} />
       <meta name="description" content={description} />
       {keywords && <meta name="keywords" content={keywords} />}
-      
+      {noindex && <meta name="robots" content="noindex, nofollow" />}
+
       {/* Canonical URL */}
       <link rel="canonical" href={canonicalUrl} />
       

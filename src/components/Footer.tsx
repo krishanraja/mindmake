@@ -39,10 +39,16 @@ const Footer = () => {
               </h4>
               <nav className="flex flex-col gap-3">
                 <a
+                  href="/workshops"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
+                >
+                  Workshops
+                </a>
+                <a
                   href="/cohort"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
-                  The AI Decision Cohort
+                  The AI-Fluent Executive
                 </a>
                 <a
                   href="/enterprise#signal-session"

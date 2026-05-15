@@ -74,7 +74,7 @@ mindmaker/
 │   │   └── SEO.tsx
 │   ├── pages/
 │   │   ├── Index.tsx                 # homepage (eager-loaded)
-│   │   ├── Cohort.tsx                # The AI Decision Cohort (Maven enrolment)
+│   │   ├── Cohort.tsx                # The AI-Fluent Executive (Cohort) (Maven enrolment)
 │   │   ├── Enterprise.tsx            # Signal Session + Revenue Architecture
 │   │   ├── Operator.tsx              # /operator, 14-agent OS credential
 │   │   ├── Brief.tsx                 # Live Intel, /signal
@@ -146,18 +146,29 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 | Route | Page | Notes |
 |---|---|---|
 | `/` | `Index` | Homepage, eager-loaded |
-| `/cohort` | `Cohort` | The AI Decision Cohort ($3,500/seat). Enrolment on **Maven** at `maven.com/aimindmaker/ai-decision-intensive`. Banner appears on `?inquiry=1:1`. |
+| `/workshops` | `Workshops` | Mindmaker Workshops index. Five $599 one-day workshops on Maven. |
+| `/workshops/build-your-ai-chief-of-staff` | `workshops/BuildYourAIChiefOfStaff` | Workshop sub-page. CTA: "Enrol on Maven" or "Get notified". |
+| `/workshops/map-your-agentic-org-chart` | `workshops/MapYourAgenticOrgChart` | Workshop sub-page. |
+| `/workshops/vibe-coding-for-leaders` | `workshops/VibeCodingForLeaders` | Workshop sub-page. |
+| `/workshops/build-an-autonomous-business-function` | `workshops/BuildAnAutonomousBusinessFunction` | Workshop sub-page. |
+| `/workshops/give-your-ai-memory` | `workshops/GiveYourAIMemory` | Workshop sub-page. |
+| `/cohort` | `Cohort` | The AI-Fluent Executive (Cohort) ($2,500/seat, 4 weeks). Enrolment on **Maven** at `maven.com/mindmaker/the-ai-fluent-executive`. Banner appears on `?inquiry=1:1`. |
 | `/enterprise` | `Enterprise` | The Signal Session ($15k, 1 day + 48h delivery) + The Revenue Architecture ($60–100k, 30 days). Anchors `#signal-session`, `#revenue-architecture`. |
+| `/capital` | `Capital` | Third door for funds and operating partners. Same Signal Session and Revenue Architecture engagement formats, repositioned for fund-level buyers. |
 | `/operator` | `Operator` | (v5) How I operate, 14-agent OS credential page. Looping `/ctrl-demo-video.mp4`. |
 | `/signal` | `Brief` | **Live Intel**, full dashboard. Extended PriceTicker, interpretation grid, classified archive (WATCH/SKIP/CALL/TAKE), blog column, Nervous Decision Machine. |
+| `/library` | `Library` | Library of resources, FAQ, etc. |
 | `/immersion` | `Immersion` | **AI Immersion** ($12k, inquiry-only). 3-phase format: alignment / 4-hour session / 2-page summary in 5 days. |
+| `/alumni` | `Alumni` | **The Alumni Pass** ($1,500/year, invitation-only). Hidden from nav and footer; reachable by direct URL only. SEO `noindex`. |
 | `/new-age-leadership` | `NewAgeLeadership` | Long-form thought leadership: agent-native org chart, hybrid teams, agent-first functions, emergent agent-native roles. Lazy-loaded `OrgChart` + `AgathaStory`. |
 | `/leaders`, `/leadership-insights` | `LeadershipInsights` | Decision Readiness Diagnostic, unlinked from nav, reachable by URL |
 | `/blog`, `/blog/:slug` | `Blog`, `BlogPost` | |
-| `/faq` | `FAQ` | |
+| `/faq` | `Library` (redirect via Navigate) | Aliased to `/library?tab=questions`. |
 | `/contact` | `Contact` | |
 | `/privacy`, `/terms` | `Privacy`, `Terms` | |
 | `*` | `NotFound` | Catch-all |
+
+**Stripe price constants** are stored in `src/lib/stripe-prices.ts`. The Workshop and Cohort price IDs are referential only (Maven collects payment for those). The Alumni Pass is the only product the site itself charges via Stripe; the live checkout flow is invitation-gated and not shipped from the page.
 
 ### Client-side redirects (via `<Navigate replace />` / `<HashRedirect />` / `<ExternalRedirect />`)
 
@@ -186,7 +197,7 @@ Authoritative source: `src/pages/Index.tsx`. Verified 2026-04-26.
 
 1. `Navigation`. fixed top, hides on scroll-down via `useScrollDirection`
 2. `NewHero`. rotating headlines, eyebrow "Decision blockers I hear every week", "Book a call" primary CTA + "See how I work" secondary
-3. `YFork`. "Two ways I work." → `/cohort` ($3,500) vs `/enterprise` (from $15,000)
+3. `YFork`. "Two ways I work." → `/cohort` ($2,500) vs `/enterprise` (from $15,000)
 4. `BigProblem`. existential urgency frame
 5. `TrustSection`. Krish bio, headshot, testimonials carousel (COHORT-STYLE / ENTERPRISE tagged)
 6. `FrameworkJourney`. three-panel animated MindSet → MindMap → MindMake
@@ -225,7 +236,7 @@ Decision Readiness Diagnostic (`/leaders`) is deliberately **not** in nav or foo
 
 | Offer | Price | Duration |
 |---|---|---|
-| The AI Decision Cohort | $3,500 / seat (or 2× $1,800 split) | 3 weeks (mostly async) + 3 × 90-min live sessions |
+| The AI-Fluent Executive (Cohort) | $2,500 / seat (or 2× $1,250 split) | 4 weeks (mostly async) + 4 × 90-min live sessions |
 | The Signal Session | $15,000 | 1 day intensive + 48-hour Commercial Narrative (15–20 pages) |
 | The Revenue Architecture | $60,000–$100,000 | **30 days (4–5 calendar weeks)**, multi-session |
 | The AI Immersion (inquiry) | $12,000 (flat; travel additional) | 4-hour session + 2-page summary within 5 business days |
@@ -258,7 +269,7 @@ Stripe $50 hold bypassed. Cohort payment flows entirely through Maven; Enterpris
 4. User redirected to Calendly with pre-filled identity + selected offer
 ```
 
-Cohort enrolment can also bypass the consult call entirely: the `/cohort` page surfaces a "Hosted on Maven" pill and a "Reserve my seat on Maven" CTA pointing directly to `https://maven.com/aimindmaker/ai-decision-intensive`.
+Cohort enrolment can also bypass the consult call entirely: the `/cohort` page surfaces a "Hosted on Maven" pill and a "Reserve my seat on Maven" CTA pointing directly to `https://maven.com/mindmaker/the-ai-fluent-executive`.
 
 ### Pre-Call Qualifier Flow
 

@@ -1,18 +1,19 @@
 # Ideal Customer Profile
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-15
 
 ---
 
 ## Three Audiences, No Overlap
 
-Mindmaker is a barbell with a third inquiry-only doorway. There are exactly three ICPs and no overlap between them. The old "Builder vs Orchestrator" split was a 1:1 sprint framing and has been retired along with the public 1:1 sprint product.
+Mindmaker is a ladder with a third inquiry-only doorway. There are three primary ICPs and a retention layer (the Alumni Pass). The old "Builder vs Orchestrator" split was a 1:1 sprint framing and has been retired along with the public 1:1 sprint product.
 
-| ICP | Primary offer | Entry price | Doorway |
+| ICP | Primary entry | Primary depth offer | Doorway |
 |---|---|---|---|
-| **AI Leaders** (senior operators making AI decisions) | The AI Decision Cohort | $3,500 / seat | `/cohort` (Maven enrolment) |
-| **AI Products** (companies commercializing AI capability) | Signal Session → Revenue Architecture | $15,000 → $60–100k | `/enterprise` |
-| **Executive Teams** (CEO-sponsored leadership groups) | The AI Immersion (inquiry-only) | $12,000 | `/immersion` |
+| **AI Leaders** (senior operators making AI decisions) | A Mindmaker Workshop ($599) for technical-curious leaders ready to build; The AI-Fluent Executive Cohort ($2,500) for leaders sitting on a nervous decision | The AI-Fluent Executive (Cohort) | `/workshops`, `/cohort` (Maven enrolment) |
+| **AI Products** (companies commercializing AI capability) | The Signal Session ($15,000) | Signal Session → Revenue Architecture ($60–100k) | `/enterprise` |
+| **Executive Teams** (CEO-sponsored leadership groups) | The AI Immersion (inquiry-only, $12,000) | The AI Immersion | `/immersion` |
+| **Alumni** (retention layer, not a primary acquisition path) | The Alumni Pass ($1,500/year) | The Alumni Pass | `/alumni` (invitation-only, unlinked) |
 
 ---
 
@@ -41,6 +42,18 @@ Mindmaker is a barbell with a third inquiry-only doorway. There are exactly thre
 - Presents AI strategies to boards they can't actually execute
 - Watches AI-native competitors moving faster and feels the cost of catching up compounding
 - Trusts peers more than vendors
+
+### Workshop-buyer signal (sub-segment of AI Leaders)
+
+A subset of AI Leaders are technical-curious and ready to build something this quarter. They don't yet have a singular nervous decision; they want to *do* in order to *understand*. Workshops at $599 are the right entry rung. Indicators:
+
+- "I've watched AI from the sidelines long enough; I want to ship something with it"
+- "I want a chief of staff that actually shows up to work"
+- "I'm tired of waiting for IT, I want to build the internal tool myself"
+- "Our agent strategy is theoretical, I want to map it for real"
+- "We've tried five tools; I want to give my AI memory that survives Monday"
+
+A successful Workshop attendee often graduates to the Cohort (the $500 `WORKSHOP` discount code at Maven checkout is the ramp).
 
 ### Nervous decisions we hear every week
 
@@ -264,13 +277,15 @@ A team genuinely aligned (not performatively aligned) on the three issues addres
 
 ## Entry Points
 
-Every public path lands at **"Book a call"** via the global `InitialConsultModal`. The `PreCallQualifier` floating pill helps self-classify before the call so the 30-minute window is spent on the actual decision.
+Every public path lands at **"Book a call"** via the global `InitialConsultModal`. The `PreCallQualifier` floating pill helps self-classify before the call so the 30-minute window is spent on the actual decision. The homepage hero also exposes a tertiary "Or start with a free lesson →" link to the Maven instructor page for cold buyers not yet ready to talk.
 
-- Cohort-curious leaders land at `/cohort` and can either book a call or click straight through to Maven enrollment
-- Enterprise-curious buyers land at `/enterprise`
-- Warm inbound (blog, podcast, LinkedIn, referrals) lands on `/` and forks at the Y-fork section
-- Immersion inquiries flow through `Book a call` → modal preselects "immersion"
-- 1:1 inquiry-only path lives at `/cohort?inquiry=1:1` (not advertised on the main page)
+- Workshop-curious leaders land at `/workshops`, browse the five sub-pages, and enrol on Maven (or get notified for unpublished workshops). Workshop alumni get $500 off the Cohort with code `WORKSHOP`.
+- Cohort-curious leaders land at `/cohort` and can either book a call or click straight through to Maven enrolment.
+- Enterprise-curious buyers land at `/enterprise`.
+- Warm inbound (blog, podcast, LinkedIn, referrals) lands on `/` and forks at the homepage tri-fork (Workshops | Cohort | Enterprise).
+- Immersion inquiries flow through `Book a call` → modal preselects "immersion".
+- 1:1 inquiry-only path lives at `/cohort?inquiry=1:1` (not advertised on the main page).
+- Alumni invitations: Krish sends invited alumni a direct link to `/alumni`. The page is `noindex` and unlinked from nav and footer.
 
 ---
 

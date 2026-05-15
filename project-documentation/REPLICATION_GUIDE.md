@@ -80,7 +80,7 @@ src/components/CookieConsent.tsx
 ### Step 9: Page components
 ```
 src/pages/Index.tsx                    # homepage (eager-loaded)
-src/pages/Cohort.tsx                   # The AI Decision Cohort (Maven enrolment)
+src/pages/Cohort.tsx                   # The AI-Fluent Executive (Cohort) (Maven enrolment)
 src/pages/Enterprise.tsx               # Signal Session + Revenue Architecture (30 days)
 src/pages/Operator.tsx                 # 14-agent OS credential page (autoplay /ctrl-demo-video.mp4)
 src/pages/Brief.tsx                    # Live Intel (/signal)
@@ -205,10 +205,16 @@ verify_jwt = false
 2. 30–45 minutes
 3. Set redirect URL in `InitialConsultModal` flow
 
-### Step 19b: Maven (Cohort enrolment)
-1. Create the cohort offering on Maven (or use the existing `https://maven.com/aimindmaker/ai-decision-intensive`)
-2. Update `MAVEN_COHORT_URL` constant in `src/pages/Cohort.tsx`
+### Step 19b: Maven (Cohort and Workshops enrolment)
+1. Create the cohort offering on Maven (or use the existing `https://maven.com/mindmaker/the-ai-fluent-executive`)
+2. Update `MAVEN_COHORT_URL` constant in `src/lib/stripe-prices.ts`
 3. Verify the "Hosted on Maven" pill and the "Reserve my seat on Maven" CTA both link to the URL
+4. Create each Workshop on Maven as it's launched. Update the corresponding key in `WORKSHOP_MAVEN_URLS` in `src/lib/stripe-prices.ts`. Until a workshop is published, leave the URL pointing to the Maven instructor page (`https://maven.com/mindmaker`) and toggle the workshop's `mavenPublished` config flag to `false` so the CTA reads "Get notified" instead of "Enrol on Maven".
+
+### Step 19c: Stripe (Alumni Pass + referential IDs)
+1. Workshop and Cohort price IDs in `src/lib/stripe-prices.ts` are referential only. Maven collects payment for those.
+2. The Alumni Pass is the only product the site itself charges via Stripe. Price ID `price_1TXOzcHGqJqsGEJLjN7P4ddi` ($1,500/year recurring, product `prod_UWRtT59kvz7mk6`).
+3. The live alumni checkout flow is invitation-gated. The page CTA opens `InitialConsultModal` with `preselected: 'alumni'`; once Krish confirms eligibility, he sends the alum a direct Stripe Payment Link out of band. Building the in-page checkout is a separate task.
 
 ### Step 20: Plausible (optional)
 Track `operator_page_cta_clicked` on `/operator` Revenue Architecture CTA, and `pre_call_qualifier_completed` on the PreCallQualifier book-a-call action.
@@ -222,17 +228,25 @@ Track `operator_page_cta_clicked` on `/operator` Revenue Architecture CTA, and `
 ```tsx
 // Live routes
 <Route path="/" element={<Index />} />
+<Route path="/workshops" element={<Workshops />} />
+<Route path="/workshops/build-your-ai-chief-of-staff" element={<WorkshopChiefOfStaff />} />
+<Route path="/workshops/map-your-agentic-org-chart" element={<WorkshopOrgChart />} />
+<Route path="/workshops/vibe-coding-for-leaders" element={<WorkshopVibeCoding />} />
+<Route path="/workshops/build-an-autonomous-business-function" element={<WorkshopAutonomous />} />
+<Route path="/workshops/give-your-ai-memory" element={<WorkshopMemory />} />
 <Route path="/cohort" element={<Cohort />} />
 <Route path="/enterprise" element={<Enterprise />} />
+<Route path="/capital" element={<Capital />} />
 <Route path="/operator" element={<Operator />} />
 <Route path="/signal" element={<Brief />} />
+<Route path="/library" element={<Library />} />
 <Route path="/immersion" element={<Immersion />} />
+<Route path="/alumni" element={<Alumni />} /> {/* unlinked from nav and footer; SEO noindex */}
 <Route path="/new-age-leadership" element={<NewAgeLeadership />} />
 <Route path="/leaders" element={<LeadershipInsights />} />
 <Route path="/leadership-insights" element={<LeadershipInsights />} />
 <Route path="/blog" element={<Blog />} />
 <Route path="/blog/:slug" element={<BlogPost />} />
-<Route path="/faq" element={<FAQ />} />
 <Route path="/contact" element={<Contact />} />
 <Route path="/privacy" element={<Privacy />} />
 <Route path="/terms" element={<Terms />} />
@@ -276,7 +290,7 @@ Mount inside `BrowserRouter` but outside `<Routes>`:
 ### Step 21: Local test flows
 Verify end-to-end:
 1. Homepage loads with rotating headlines + "Book a call" CTA
-2. YFork shows Cohort ($3,500) and Enterprise (from $15k) cards
+2. YFork (homepage tri-fork) shows Workshops (from $599), The AI-Fluent Executive ($2,500), and Enterprise (from $15k) cards
 3. Framework Journey animation plays
 4. Operator's Edge renders with "Beyond pattern recognition" at correct scale
 5. Operator's Brief teaser shows PriceTicker + rotating interpretation + compact NDM input

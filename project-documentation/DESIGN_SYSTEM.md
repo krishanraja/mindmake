@@ -471,7 +471,7 @@ Replaces the old `ProductLadder` 4-Week / 90-Day sprint chooser.
   <div className="glass-card p-8 hover:border-mint/40 transition-all">
     <p className="text-xs tracking-widest text-muted-foreground">THE COHORT</p>
     <h3 className="text-3xl font-bold mb-2">Make your AI decisions with 15 other senior leaders.</h3>
-    <p className="text-xl text-mint">$3,500 per seat</p>
+    <p className="text-xl text-mint">$2,500 per seat</p>
   </div>
   <div className="glass-card p-8 hover:border-mint/40 transition-all">
     <p className="text-xs tracking-widest text-muted-foreground">ENTERPRISE</p>
@@ -493,7 +493,7 @@ Dark-bg typography-only section matching `FrameworkJourney` header scale exactly
 `PriceTicker.tsx`. CSS-marquee, no native scrollbar, pauses on hover, respects `prefers-reduced-motion`. Used on the homepage Live Intel teaser (`OperatorsBrief.tsx`) and on `/signal` (Live Intel dashboard, `Brief.tsx`).
 
 ### Maven pill (Cohort enrolment)
-On `/cohort`, a small "Hosted on Maven" pill (`Cohort.tsx`) sits above the seat-reservation CTA. It uses `bg-muted/50 border border-border text-muted-foreground` styling, `rounded-full`, and an external-link icon. The pill and the primary CTA both link directly to `https://maven.com/aimindmaker/ai-decision-intensive`.
+On `/cohort`, a small "Hosted on Maven" pill (`Cohort.tsx`) sits above the seat-reservation CTA. It uses `bg-muted/50 border border-border text-muted-foreground` styling, `rounded-full`, and an external-link icon. The pill and the primary CTA both link directly to `https://maven.com/mindmaker/the-ai-fluent-executive`.
 
 ### Nervous Decision Input
 `nervous-decision/Input.tsx` renders compact (homepage teaser) or full (`/signal`) sizes. `nervous-decision/Artifact.tsx` renders the typed response.

@@ -19,6 +19,7 @@ type DecisionTag =
   | "gtm-launch"
   | "alignment"
   | "personal-clarity"
+  | "technical-build"
   | "other";
 
 type TimelineTag = "rapid" | "quarter" | "ninety-day" | "roadmap" | "exploring";
@@ -32,6 +33,7 @@ const decisionOptions: Option<DecisionTag>[] = [
   { tag: "commercial-stuck", label: "We've built AI but it's not converting to revenue" },
   { tag: "gtm-launch", label: "We're launching an AI product or feature" },
   { tag: "alignment", label: "My team isn't aligned on AI direction" },
+  { tag: "technical-build", label: "I want to actually build something with AI this quarter" },
   { tag: "personal-clarity", label: "I want personal clarity before committing budget" },
   { tag: "other", label: "Something else" },
 ];
@@ -70,6 +72,8 @@ type Recommendation = {
   title: string;
   blurb: string;
   preselected: string;
+  ctaHref?: string;
+  ctaLabel?: string;
 };
 
 const classify = (s: Selections): Recommendation => {
@@ -81,6 +85,30 @@ const classify = (s: Selections): Recommendation => {
   const planTimeline = timelineTag === "ninety-day" || timelineTag === "roadmap";
   const commercialStakes =
     stakesTag === "revenue" || stakesTag === "launch" || stakesTag === "board";
+
+  // Technical build with this-quarter timeline routes to a Workshop.
+  if (decisionTag === "technical-build" && (timelineTag === "rapid" || timelineTag === "quarter")) {
+    return {
+      title: "A Mindmaker Workshop is your likely fit.",
+      blurb:
+        "You want to build, not deliberate. The workshops run one day on Maven and you walk out with a real artefact deployed on your real surface. Five workshops to choose from.",
+      preselected: "workshop",
+      ctaHref: "/workshops",
+      ctaLabel: "See the workshops",
+    };
+  }
+
+  // Personal clarity at the exploring end routes to a free lesson.
+  if (decisionTag === "personal-clarity" && timelineTag === "exploring") {
+    return {
+      title: "Start with a free Lightning Lesson.",
+      blurb:
+        "You're early in the thinking. Five 45-minute Lightning Lessons live on Maven. Free. Pick one and come back when you've got a sharper question on your desk.",
+      preselected: "free-lesson",
+      ctaHref: "https://maven.com/mindmaker",
+      ctaLabel: "Browse free lessons",
+    };
+  }
 
   if (commercialDecision && shortTimeline && commercialStakes) {
     return {
@@ -110,9 +138,9 @@ const classify = (s: Selections): Recommendation => {
   }
 
   return {
-    title: "The AI Decision Cohort is your likely fit.",
+    title: "The AI-Fluent Executive cohort is your likely fit.",
     blurb:
-      "You're describing a single nervous AI decision you want resolved. That's what the cohort is for. Three weeks with 15 other senior leaders, peers who hold you accountable, and a one-page memo you can take to the board on the way out.",
+      "You're describing a single nervous AI decision you want resolved. That's what the cohort is for. Four weeks with 15 other senior leaders, diagnose, decompose, decide, deploy, and a one-page memo you can take to the board on the way out.",
     preselected: "cohort-enrollment",
   };
 };
@@ -420,13 +448,29 @@ const PreCallQualifier = () => {
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-3">
-                      <Button
-                        size="lg"
-                        onClick={bookCall}
-                        className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold"
-                      >
-                        Book your intro call <ArrowRight className="w-4 h-4 ml-2" />
-                      </Button>
+                      {rec.ctaHref ? (
+                        <Button
+                          asChild
+                          size="lg"
+                          className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold"
+                        >
+                          <a
+                            href={rec.ctaHref}
+                            target={rec.ctaHref.startsWith("http") ? "_blank" : undefined}
+                            rel={rec.ctaHref.startsWith("http") ? "noopener noreferrer" : undefined}
+                          >
+                            {rec.ctaLabel || "Open"} <ArrowRight className="w-4 h-4 ml-2" />
+                          </a>
+                        </Button>
+                      ) : (
+                        <Button
+                          size="lg"
+                          onClick={bookCall}
+                          className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold"
+                        >
+                          Book your intro call <ArrowRight className="w-4 h-4 ml-2" />
+                        </Button>
+                      )}
                       <Button
                         size="lg"
                         variant="outline"

@@ -286,9 +286,14 @@ export const InitialConsultModal = ({
 
   const pathOptions = [
     {
+      value: "workshop",
+      label: "A Mindmaker Workshop",
+      helper: "$599 per workshop. One day on Maven. You build a real artefact alongside me on your real surface. Five workshops to choose from.",
+    },
+    {
       value: "cohort-enrollment",
-      label: "The AI Decision Cohort",
-      helper: "$3,500 per seat. Three weeks with 15 other senior leaders, mostly async plus three live sessions. For your nervous AI decision.",
+      label: "The AI-Fluent Executive (Cohort)",
+      helper: "$2,500 per seat. Four weeks with 15 other senior leaders, mostly async plus weekly live sessions. Diagnose, decompose, decide, deploy.",
     },
     {
       value: "signal-session",
@@ -733,10 +738,17 @@ export const InitialConsultModal = ({
 
                 <div className="space-y-3">
                   <SelectionCard
+                    selected={selectedPath === "workshop"}
+                    icon={Zap}
+                    title="A Mindmaker Workshop"
+                    subtitle="$599. One day on Maven. Build a real artefact."
+                    onClick={() => handlePathSelect("workshop")}
+                  />
+                  <SelectionCard
                     selected={selectedPath === "cohort-enrollment"}
                     icon={Users}
-                    title="The AI Decision Cohort"
-                    subtitle="$3,500. Three weeks with 15 senior leaders."
+                    title="The AI-Fluent Executive (Cohort)"
+                    subtitle="$2,500. Four weeks with 15 senior leaders."
                     onClick={() => handlePathSelect("cohort-enrollment")}
                   />
                   <SelectionCard

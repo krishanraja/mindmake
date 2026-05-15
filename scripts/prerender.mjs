@@ -24,9 +24,45 @@ const template = readFileSync(resolve(distDir, "index.html"), "utf-8");
 const pages = [
   {
     path: "/cohort",
-    title: "The AI Decision Cohort: Mindmaker",
+    title: "The AI-Fluent Executive: Mindmaker",
     description:
-      "Make your nervous AI decision with 15 other senior leaders. Three weeks. Mostly async. Three live sessions. $3,500 per seat, quarterly.",
+      "Make your nervous AI decision with 15 other senior leaders. Four weeks. Mostly async. Weekly live sessions. Diagnose, decompose, decide, deploy. $2,500 per seat, quarterly. Hosted on Maven.",
+  },
+  {
+    path: "/workshops",
+    title: "Workshops: Mindmaker",
+    description:
+      "Five one-day workshops on Maven. Build alongside Krish Raja, operator running a 14-agent AI business. From $599.",
+  },
+  {
+    path: "/workshops/build-your-ai-chief-of-staff",
+    title: "Build Your AI Chief of Staff: Mindmaker",
+    description:
+      "One-day workshop on Maven. Build the AI assistant that actually shows up to work, connected to your real inbox, calendar, and chat channels. $599.",
+  },
+  {
+    path: "/workshops/map-your-agentic-org-chart",
+    title: "Map Your Agentic Org Chart: Mindmaker",
+    description:
+      "One-day workshop on Maven. Design the agent fleet your business actually needs. Walk out with a complete agent-native org chart and a 90-day build sequence. $599.",
+  },
+  {
+    path: "/workshops/vibe-coding-for-leaders",
+    title: "Vibe Coding for Leaders: Mindmaker",
+    description:
+      "One-day workshop on Maven. Ship the internal tool you've been waiting six months for IT to build. Working tool, live URL, deployed by end of day. $599.",
+  },
+  {
+    path: "/workshops/build-an-autonomous-business-function",
+    title: "Build an Autonomous Business Function: Mindmaker",
+    description:
+      "One-day workshop on Maven. Build the workflow that runs without you. Real n8n or Make workflow, deployed on your real business by end of session. $599.",
+  },
+  {
+    path: "/workshops/give-your-ai-memory",
+    title: "Give Your AI Memory: Mindmaker",
+    description:
+      "One-day workshop on Maven. Build the memory web that makes your AI worth using. Stop re-explaining your business every Monday. Private, portable, deployed by end of day. $599.",
   },
   {
     path: "/enterprise",

@@ -1,7 +1,7 @@
 # Mindmaker Master Messaging & FAQ Document
 *Core source of truth for product marketing, sales, content, and outbound*
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-15
 
 **Goal:** One document a salesperson, content writer, or AI agent can open and get every pitch, position, and objection answer right. Supersedes the earlier CTRL / 1:1-sprint-era version. For strategic intent, read `mindmaker_rebuild_brief_v4.md`. For agent-grade sales detail (ICP signals, ROI math, channel templates), read `SALES_PLAYBOOK.md`.
 
@@ -13,7 +13,7 @@
 **The anti-consultancy for leaders done being sold AI.**
 
 ### Mindmaker in a paragraph
-Mindmaker is a barbell. A Maven-hosted quarterly Cohort for senior leaders making AI decisions ($3,500/seat). Enterprise sprints for companies commercializing AI products ($15k Signal Session → $60–100k Revenue Architecture). And an inquiry-only AI Immersion ($12k, 4 hours) for executive teams that need to align on three shared AI tensions in an afternoon. No middle tier. No 1:1 sprint product on the public site. No fractional executive roles. No retainers. No production IT. Every engagement has a fixed scope, a fixed outcome, and a finish line.
+Mindmaker is a ladder. Free Lightning Lessons at the top. Five one-day, $599 Workshops on Maven where you build a real artefact alongside Krish. A Maven-hosted quarterly Cohort, The AI-Fluent Executive, for senior leaders making AI decisions ($2,500/seat, 4 weeks). Enterprise sprints for companies commercializing AI products ($15k Signal Session → $60–100k Revenue Architecture). An inquiry-only AI Immersion ($12k, 4 hours) for executive teams that need to align on three shared AI tensions in an afternoon. An invitation-only Alumni Pass ($1,500/year) for continuity after the finish line. No 1:1 sprint product on the public site. No fractional executive roles. No retainers. No production IT. Every engagement has a fixed scope, a fixed outcome, and a finish line.
 
 ### Krish one-liner
 Technical operator. 16 years monetizing emerging tech. CEO of a business he runs with a 14-agent autonomous OS.
@@ -43,7 +43,7 @@ I am not an advisor. I am an operator. I do not sell 40-slide decks. I do not se
 - **Competitor threat**. AI-native competitors moving faster by default, and the cost of catching up compounds
 - **Vendor paralysis**. fear of committing millions to the wrong platform without the technical literacy to evaluate
 
-**What they need:** A decision room with 10–15 peers working the same problem. A board-ready position memo on one nervous decision. The **AI Decision Cohort**, hosted on Maven.
+**What they need:** Either a one-day Workshop to build something real this quarter ($599, on Maven) or a four-week decision room with 10 to 15 peers working the same problem. A board-ready position memo on one nervous decision. **A Mindmaker Workshop** for the leader ready to ship something now; **The AI-Fluent Executive (Cohort)** for the leader sitting on a nervous decision.
 
 ### AI products (Enterprise buyer)
 
@@ -74,24 +74,25 @@ The big consultancies (McKinsey, BCG, Deloitte, Accenture) sell 6-figure decks b
 
 ## PART 3: THE OFFERS (CANONICAL PITCHES)
 
-### The AI Decision Cohort: $3,500/seat (Maven)
+### The AI-Fluent Executive (Cohort): $2,500/seat (Maven)
 
 **One-line:** A quarterly decision room for senior leaders wrestling with AI decisions, hosted on Maven.
 
-**Pitch (60s):** You've got a nervous AI decision you've been avoiding, build vs buy, which vendor, what to tell the board, what to replace vs empower. The Cohort puts you in a room with 10–15 other senior leaders working the same problem. Three weeks mostly async (videos, frameworks, worksheets), three live 90-minute sessions, and a one-page board-ready decision memo at the end. $3,500 per seat or 2× $1,800 split. Hosted on Maven so payment, the cohort Slack, and alumni continuity all live in one place. No coaching, no deck, no vendor pitch. You leave with a decision you can defend, a peer network you can keep, and 90 days of post-cohort Slack.
+**Pitch (60s):** You've got a nervous AI decision you've been avoiding, build vs buy, which vendor, what to tell the board, what to replace vs empower. The Cohort puts you in a room with 10–15 other senior leaders working the same problem. Four weeks mostly async (videos, frameworks, worksheets), four live 90-minute sessions, and a one-page board-ready decision memo at the end. $2,500 per seat or 2× $1,250 split. Hosted on Maven so payment, the cohort Slack, and alumni continuity all live in one place. No coaching, no deck, no vendor pitch. You leave with a decision you can defend, a peer network you can keep, and 90 days of post-cohort Slack.
 
-**Curriculum at a glance:**
-- Week 1: Name the decision (peer-guided decision-naming session)
-- Week 2: Map the paths (peer pressure-test of options)
-- Week 3: Make the call (memo peer review and commitment)
+**Curriculum at a glance (Diagnose → Decompose → Decide → Deploy):**
+- Week 1: Diagnose. Name the real decision (peer-guided diagnosis session)
+- Week 2: Decompose. Surface the real trade-offs (peer pressure-test of the options)
+- Week 3: Decide. Commit out loud (memo peer review and commitment)
+- Week 4: Deploy. Ship the first concrete step (show-and-tell, accountability, alumni onboarding)
 
-**Walk-out artefacts:** 1-page board-ready memo, trade-off analysis doc, 90-day Slack access, lifetime curriculum, alumni network access.
+**Walk-out artefacts:** 1-page board-ready memo, trade-off analysis doc, lifetime CTRL access, 90-day Slack access, lifetime curriculum, alumni network access. Workshop alumni get $500 off via code `WORKSHOP` at Maven checkout.
 
 **Who it's for:** CEO, COO, CFO, CPO, CCO, CMO, GM, VP-level, founder-operator. 10+ years in leadership. Budget authority for the decision. Company revenue $10M–$500M sweet spot.
 
 **Who it's not for:** Technical contributors without commercial authority. Early-stage founders pre-revenue. People wanting a 1:1 relationship (inquiry-only at `/cohort?inquiry=1:1`).
 
-**Route:** `/cohort` (Maven enrolment at `https://maven.com/aimindmaker/ai-decision-intensive`).
+**Route:** `/cohort` (Maven enrolment at `https://maven.com/mindmaker/the-ai-fluent-executive`).
 
 ### The Signal Session: $15,000
 
@@ -127,13 +128,43 @@ The big consultancies (McKinsey, BCG, Deloitte, Accenture) sell 6-figure decks b
 
 **Route:** `/immersion`.
 
+### Mindmaker Workshops: $599 each (entry-paid, on Maven)
+
+**One-line:** Build alongside me in one day.
+
+**Pitch (60s):** Five one-day workshops on Maven. Roughly five hours live: I frame the problem, drive a build live so you see the operator workflow, then you build in parallel with me in the room. You leave with a real artefact deployed on your real surface, not slides. Every workshop includes lifetime CTRL access, the recording, alumni channel, templates and prompts, certificate, and Maven's 14-day refund guarantee.
+
+**The five workshops:**
+- **Build Your AI Chief of Staff** (`/workshops/build-your-ai-chief-of-staff`): an assistant connected to your real inbox, calendar, chat
+- **Map Your Agentic Org Chart** (`/workshops/map-your-agentic-org-chart`): a complete agent-native org chart with named roles and a 90-day build sequence
+- **Vibe Coding for Leaders** (`/workshops/vibe-coding-for-leaders`): a working internal tool with a live URL, deployed by end of day
+- **Build an Autonomous Business Function** (`/workshops/build-an-autonomous-business-function`): a real n8n or Make workflow running on your real business
+- **Give Your AI Memory** (`/workshops/give-your-ai-memory`): a private, portable memory web your AI can read from
+
+**Who it's for:** Senior leaders who want to *build*, not deliberate. The AI-curious operator ready to ship something this quarter. The functional leader tired of waiting for IT.
+
+**Workshop alumni discount:** Code `WORKSHOP` at Maven checkout takes $500 off the AI-Fluent Executive Cohort, valid 90 days post-workshop.
+
+**Route:** `/workshops` (and per-workshop sub-pages).
+
+### The Alumni Pass: $1,500 / year (invitation-only)
+
+**One-line:** Continuity after the finish line.
+
+**Pitch (30s):** $1,500/year recurring, cancel anytime. Annual access to all five Workshops (re-attend any), quarterly state-of-the-market memo, alumni Slack, first-refusal cohort seats, lifetime CTRL. Invitations are sent post-engagement. The page sits at `/alumni`, `noindex`, unlinked from nav and footer.
+
+**Who it's for:** Anyone who completed a Workshop, the Cohort, a Signal Session, the Revenue Architecture, or the AI Immersion.
+
+**Route:** `/alumni` (direct URL only). CTA: "Request an invitation" → opens `InitialConsultModal` with `preselected: 'alumni'`.
+
 ---
 
 ## PART 4: HOMEPAGE AND SITE NARRATIVE
 
-- **Homepage Y-fork:** "Two ways I work." Card A = The Cohort ($3,500/seat, `/cohort`). Card B = Enterprise (from $15k, `/enterprise`).
+- **Homepage tri-fork:** "Three doors. Pick yours." Card A = Workshops (from $599, `/workshops`). Card B = The AI-Fluent Executive ($2,500/seat, `/cohort`). Card C = Enterprise (from $15k, `/enterprise`). Capital remains a third door under the Enterprise nav dropdown and at `/capital`.
 - **Hero eyebrow:** "Decision blockers I hear every week."
-- **Hero subheadline:** "Cohorts and enterprise sprints that turn AI chaos into direction."
+- **Hero subheadline:** "Workshops, cohorts, and enterprise sprints that turn AI chaos into direction."
+- **Hero tertiary CTA:** "Or start with a free lesson →" linking to `https://maven.com/mindmaker` for cold buyers not ready to talk.
 - **Operator's Edge section:** "Beyond pattern recognition", positions Krish as a practitioner who runs an actual agentic organization. Links to `/operator`.
 - **Live Intel (homepage teaser):** Continuous price ticker + rotating plain-English interpretation line + compact Nervous Decision Machine input + muted "Open the full dashboard →" link to `/signal`. Component: `OperatorsBrief.tsx`.
 - **Live Intel (full dashboard at `/signal`):** Extended ticker, 3-card interpretation grid, classified card archive (WATCH/SKIP/CALL/TAKE) with filters and search, blog column, full-size Nervous Decision Machine. Component: `Brief.tsx`.
@@ -148,14 +179,15 @@ Case studies are anonymised and tagged COHORT-STYLE or ENTERPRISE inside `TrustS
 
 | Slot | Label | Behaviour |
 |---|---|---|
-| 1 | Cohort | Direct link → `/cohort` |
-| 2 | Enterprise | Dropdown → Signal Session, Revenue Architecture |
-| 3 | **Live Intel** | Direct link → `/signal` |
-| 4 | Resources | Dropdown → New Age Leadership, How I operate, Blog, The Builder Economy (Podcast) [external], Lightning Lessons (4 Maven URLs) |
-| 5 | About | Dropdown → FAQ, Contact, Privacy |
+| 1 | **Workshops** | Direct link → `/workshops` |
+| 2 | Cohort | Direct link → `/cohort` |
+| 3 | Enterprise | Dropdown → Signal Session, Revenue Architecture, AI Immersion, Capital (under "For funds & operating partners") |
+| 4 | **Mindmaker LIVE** | Direct link → `/signal` |
+| 5 | Resources | Dropdown → How I operate, Library, The Builder Economy (Podcast) [external], Lightning Lessons (5 Maven URLs) |
+| 6 | About | Dropdown → Contact, Privacy, Terms |
 | CTA | Book a call | Opens `InitialConsultModal` |
 
-The second-top-level link is **"Live Intel"** (renamed from "The Brief"). The Decision Readiness Diagnostic is no longer linked from nav or footer.
+The Decision Readiness Diagnostic, FAQ, `/alumni`, and `/immersion` are not linked from nav or footer (still reachable by direct URL).
 
 ---
 
@@ -185,8 +217,8 @@ Vendor selection is downstream of a clearer question: what decision are you actu
 ### "Why is the Cohort hosted on Maven?"
 Enrollment, payment, the cohort Slack, and the alumni network all run on Maven. It's the platform that holds the experience. The cohort runs the same way whether you book through `/cohort` or directly via the Maven URL, themindmaker.ai describes the offer; Maven runs it.
 
-### "$3,500 is expensive for a cohort."
-It isn't a course. It's 10–15 senior leaders working one nervous decision each with structured facilitation over three live sessions and three weeks of mostly-async work. The output is a board-ready position memo, plus 90 days of cohort Slack, plus lifetime curriculum, plus alumni network access. Compared to the cost of the wrong vendor commitment, the Cohort is insurance priced at a rounding error.
+### "$2,500 is expensive for a cohort."
+It isn't a course. It's 10–15 senior leaders working one nervous decision each with structured facilitation over four live sessions and four weeks of mostly-async work. The output is a board-ready position memo, plus 90 days of cohort Slack, plus lifetime curriculum, plus alumni network access. Compared to the cost of the wrong vendor commitment, the Cohort is insurance priced at a rounding error.
 
 ### "$60–100k is steep. What am I really paying for?"
 A commercial architecture, 30–40 page strategy doc, product marketing framework, revenue model with tested pricing scenarios, 2–3 packaging options, 90-day GTM playbook, product roadmap, and the board-ready deck, delivered by an operator inside 30 days. Plus a 30-day follow-up session. Ask a management consultancy for the same scope; the bid comes back at $400k+ with a 9-month timeline and associates doing the work. Krish does it personally and finishes.

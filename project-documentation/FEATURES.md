@@ -8,24 +8,25 @@
 
 Mindmaker is a barbell with one inquiry-only relief valve: three public offers, one inquiry-only offer, no middle tier. Every offer has a fixed scope and finish line. Full detail in [OFFERS.md](./OFFERS.md). Sales-grade detail in [SALES_PLAYBOOK.md](./SALES_PLAYBOOK.md).
 
-### 1. The AI Decision Cohort: $3,500/seat (hosted on Maven)
+### 1. The AI-Fluent Executive (Cohort): $2,500/seat (hosted on Maven)
 **Status:** Live
 **Route:** `/cohort`
 **Implementation:** `src/pages/Cohort.tsx`
-**Maven URL (canonical enrolment):** `https://maven.com/aimindmaker/ai-decision-intensive`
+**Maven URL (canonical enrolment):** `https://maven.com/mindmaker/the-ai-fluent-executive`
 
 **For:** Senior leaders (CEO/COO/CFO/CPO/CCO/CMO/GM/VP-level/founder-operator) wrestling with one nervous AI decision.
 
-**Format:** 3 weeks (mostly async) + 3 × 90-min live sessions. 10–15 seats per cohort. Quarterly cadence.
+**Format:** 4 weeks (mostly async) + 4 × 90-min live sessions. 10–15 seats per cohort. Quarterly cadence.
 
-**Curriculum:**
-- Week 1. Name the decision (peer-guided decision-naming session)
-- Week 2. Map the paths (peer pressure-test of the three real options)
-- Week 3. Make the call (memo peer review + commitment)
+**Curriculum:** Diagnose → Decompose → Decide → Deploy.
+- Week 1. Diagnose. Name the real decision (peer-guided diagnosis session)
+- Week 2. Decompose. Surface the real trade-offs (peer pressure-test of the options)
+- Week 3. Decide. Commit out loud (memo peer review and commitment)
+- Week 4. Deploy. Ship the first concrete step (show-and-tell, accountability, alumni onboarding)
 
-**Outcome:** A board-ready 1-page decision memo + trade-off analysis doc + 90-day cohort Slack access + lifetime curriculum + alumni network.
+**Outcome:** A board-ready 1-page decision memo + trade-off analysis doc + lifetime access to CTRL (Mindmaker's flagship memory-web app) + 90-day cohort Slack access + lifetime curriculum + alumni network.
 
-**Payment terms:** Full payment or 2× $1,800 split. Collected by Maven.
+**Payment terms:** Full payment or 2× $1,250 split. Collected by Maven.
 
 The next-cohort date renders literally on `/cohort` (`nextCohort` const in `Cohort.tsx`). Cohort dates are managed in code for now; a future Supabase `cohort_dates` table will replace the literal.
 
@@ -132,7 +133,7 @@ Triggered by `/cohort?inquiry=1:1`. A muted banner surfaces a Contact link. No p
 Authoritative: `src/pages/Index.tsx`. Order:
 
 1. `NewHero`. rotating headlines, eyebrow "Decision blockers I hear every week", looping `/rising-cities.mp4` background, mint pulse, particle background. Primary CTA "Book a call", secondary "See how I work" (smooth-scrolls to Y-fork).
-2. `YFork`. "Two ways I work." Card A = The Cohort ($3,500, `/cohort`). Card B = Enterprise (from $15,000, `/enterprise`).
+2. `YFork`. "Two ways I work." Card A = The Cohort ($2,500, `/cohort`). Card B = Enterprise (from $15,000, `/enterprise`).
 3. `BigProblem`. existential urgency frame.
 4. `TrustSection`. Krish bio + headshot + testimonials carousel (COHORT-STYLE / ENTERPRISE tagged).
 5. `FrameworkJourney`. three-panel animated Mind Set → Mind Map → Mind Make.
@@ -171,10 +172,10 @@ Surfaced in the Resources dropdown via the `LightningLessons` component. Four co
 
 ---
 
-## The AI Decision Cohort (`/cohort`)
+## The AI-Fluent Executive (Cohort) (`/cohort`)
 
 - Offer detail, curriculum structure (Week 1 / Week 2 / Week 3), enrolment flow
-- "Hosted on Maven" pill + "Reserve my seat on Maven" CTA route directly to `https://maven.com/aimindmaker/ai-decision-intensive`
+- "Hosted on Maven" pill + "Reserve my seat on Maven" CTA route directly to `https://maven.com/mindmaker/the-ai-fluent-executive`
 - Next-cohort date currently literal in `Cohort.tsx` (`nextCohort` const); future: Supabase `cohort_dates` table
 - `/cohort?inquiry=1:1` query param surfaces the private-engagement banner
 - Refund policy: full refund up to 7 days before start; 50% refund up to day one; no refund after day one
@@ -300,7 +301,7 @@ Structure:
 
 `src/components/YFork.tsx`. Two glass-cards side by side.
 
-- **Card A. The Cohort.** "Make your nervous AI decision with 15 other senior leaders." $3,500 per seat. CTA → `/cohort`.
+- **Card A. The Cohort.** "Make your nervous AI decision with 15 other senior leaders." $2,500 per seat. CTA → `/cohort`.
 - **Card B. Enterprise.** "Your AI capabilities, translated into revenue." From $15,000. CTA → `/enterprise`.
 
 `NewHero`'s secondary CTA "See how I work" smooth-scrolls to `#y-fork`. Hero eyebrow reads "Decision blockers I hear every week".

@@ -1,17 +1,18 @@
 # Mindmaker: The Anti-Consultancy for Leaders Done Being Sold AI
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-15
 
 ---
 
 ## Overview
 
-Mindmaker is a barbell business with two primary public offers and one inquiry-only relief valve. No middle tier. No retainers. No fractional roles. Every offer has a fixed scope, a fixed outcome, and a finish line.
+Mindmaker is a ladder, not a single product. Free Lightning Lessons at the top of the funnel. Five one-day Workshops at $599 as the paid entry. The AI-Fluent Executive Cohort at $2,500 as the qualifying step. Enterprise sprints from $15,000 to $100,000 as the margin engine. The Alumni Pass at $1,500/year as continuity. No retainers. No fractional roles. Every offer has a fixed scope, a fixed outcome, and a finish line.
 
 **Brand North Star:** If Stripe's design sensibility met Anthony Bourdain's authenticity.
 
 **Live site:** [themindmaker.ai](https://themindmaker.ai)
-**Cohort enrolment:** [maven.com/aimindmaker/ai-decision-intensive](https://maven.com/aimindmaker/ai-decision-intensive)
+**Cohort enrolment:** [maven.com/mindmaker/the-ai-fluent-executive](https://maven.com/mindmaker/the-ai-fluent-executive)
+**Workshops + free lessons:** [maven.com/mindmaker](https://maven.com/mindmaker)
 
 ---
 
@@ -19,12 +20,14 @@ Mindmaker is a barbell business with two primary public offers and one inquiry-o
 
 | Offer | Price | Duration | Audience |
 |---|---|---|---|
-| **The AI Decision Cohort** | $3,500 / seat | 3 weeks (mostly async) + 3 × 90-min live sessions | Senior leader with a nervous AI decision |
+| **Mindmaker Workshops** (×5) | $599 / workshop | 1 day each on Maven | Senior leader ready to build a real artefact alongside Krish |
+| **The AI-Fluent Executive (Cohort)** | $2,500 / seat | 4 weeks (mostly async) + 4 × 90-min live sessions | Senior leader with a nervous AI decision |
 | **The Signal Session** | $15,000 | 1 day intensive + 48-hour Commercial Narrative (15–20 pages) | Company commercializing an AI product |
 | **The Revenue Architecture** | $60,000–$100,000 | 30 days (4–5 calendar weeks) | Same, ready for a full commercial rebuild |
 | **The AI Immersion** (inquiry-only) | $12,000 | 4-hour facilitated session + 2-page summary in 5 business days | CEO-sponsored exec team needing fast alignment |
+| **The Alumni Pass** (invitation-only) | $1,500 / year | Annual | Anyone who has completed any of the above |
 
-Cohort enrolment runs on **Maven** (Slack, payment, alumni community). Enterprise and Immersion are invoiced direct.
+Workshops and Cohort are hosted and paid through **Maven** (Slack, payment, alumni community). Enterprise and Immersion are invoiced direct. The Alumni Pass is Stripe-billed via a direct payment link issued post-engagement.
 
 ---
 
@@ -145,7 +148,7 @@ mindmaker/
 | Route | Description |
 |---|---|
 | `/` | Homepage (eager-loaded) |
-| `/cohort` | The AI Decision Cohort. Maven enrolment |
+| `/cohort` | The AI-Fluent Executive (Cohort). Maven enrolment |
 | `/enterprise` | Signal Session ($15k) + Revenue Architecture ($60–100k, 30 days) |
 | `/operator` | How I operate, 14-agent OS credential page |
 | `/signal` | **Live Intel**, model price ticker, classified archive (WATCH/SKIP/CALL/TAKE), Nervous Decision Machine |
@@ -265,7 +268,7 @@ For agents working on the codebase, start with **[CLAUDE.md](./CLAUDE.md)** in t
 
 - **Email:** krish@themindmaker.ai
 - **Calendly:** Book directly via site CTAs
-- **Cohort enrolment:** [maven.com/aimindmaker/ai-decision-intensive](https://maven.com/aimindmaker/ai-decision-intensive)
+- **Cohort enrolment:** [maven.com/mindmaker/the-ai-fluent-executive](https://maven.com/mindmaker/the-ai-fluent-executive)
 
 ---
 

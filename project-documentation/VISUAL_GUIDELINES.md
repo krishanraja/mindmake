@@ -427,7 +427,7 @@ The homepage is a curated vertical scroll. Authoritative source: `src/pages/Inde
 |-------|-----------|------------------|
 | 1. Navigation | `Navigation.tsx` | Fixed top, mint "Book a call" CTA, hides on scroll-down |
 | 2. Hero | `NewHero.tsx` | Full-viewport dark ink, looping `/rising-cities.mp4` background, particle animation, rotating headlines, eyebrow "Decision blockers I hear every week", mint CTA "Book a call", secondary "See how I work" |
-| 3. Y-Fork | `YFork.tsx` | Two-card glass layout. The Cohort ($3,500) vs Enterprise (from $15k) |
+| 3. Y-Fork | `YFork.tsx` | Two-card glass layout. The Cohort ($2,500) vs Enterprise (from $15k) |
 | 4. Big Problem | `BigProblem.tsx` | Existential urgency frame |
 | 5. Trust Anchor | `TrustSection.tsx` | Krish headshot (circular, mint border), bio, testimonials carousel (COHORT-STYLE / ENTERPRISE tagged) |
 | 6. Framework Journey | `FrameworkJourney.tsx` | Three glass-card panels (Mind Set → Mind Map → Mind Make) with scroll-triggered animations |
@@ -483,7 +483,7 @@ Taxonomy **WATCH / SKIP / CALL / TAKE**, replaces the previous SIGNAL / NOISE / 
 Pages follow a similar shape:
 1. Full-width header with eyebrow + title + price (mint accent)
 2. "What you get" glass-card block with CheckCircle list
-3. Format / cadence block (Cohort: 3 weeks + 3 live sessions; Signal Session: 1 day + 48h delivery; Revenue Architecture: 30 days; Immersion: 4 hours + 5-day summary)
+3. Format / cadence block (Cohort: 4 weeks + 4 live sessions; Signal Session: 1 day + 48h delivery; Revenue Architecture: 30 days; Immersion: 4 hours + 5-day summary)
 4. Example decisions, commercial problems, or shared tensions grid (2-column, bg-ink/5 cards)
 5. Bottom CTA glass-card with **"Book a call"** button (Cohort additionally has a "Hosted on Maven" pill and a "Reserve my seat on Maven" CTA pointing directly at the canonical Maven URL; Immersion CTA reads "Request a date")
 

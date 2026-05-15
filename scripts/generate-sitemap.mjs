@@ -22,6 +22,12 @@ const DOMAINS = [
 // Static routes with their change frequency and priority
 const staticRoutes = [
   { path: "/", changefreq: "daily", priority: "1.0" },
+  { path: "/workshops", changefreq: "weekly", priority: "0.8" },
+  { path: "/workshops/build-your-ai-chief-of-staff", changefreq: "weekly", priority: "0.8" },
+  { path: "/workshops/map-your-agentic-org-chart", changefreq: "weekly", priority: "0.8" },
+  { path: "/workshops/vibe-coding-for-leaders", changefreq: "weekly", priority: "0.8" },
+  { path: "/workshops/build-an-autonomous-business-function", changefreq: "weekly", priority: "0.8" },
+  { path: "/workshops/give-your-ai-memory", changefreq: "weekly", priority: "0.8" },
   { path: "/cohort", changefreq: "weekly", priority: "0.9" },
   { path: "/enterprise", changefreq: "weekly", priority: "0.9" },
   { path: "/capital", changefreq: "weekly", priority: "0.9" },
@@ -35,6 +41,7 @@ const staticRoutes = [
   { path: "/contact", changefreq: "yearly", priority: "0.5" },
   { path: "/privacy", changefreq: "yearly", priority: "0.3" },
   { path: "/terms", changefreq: "yearly", priority: "0.3" },
+  // /alumni intentionally excluded: invitation-only, noindex.
 ];
 
 // Extract blog slugs from the static data file

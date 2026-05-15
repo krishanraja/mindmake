@@ -1,6 +1,45 @@
 # History
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-15
+
+---
+
+## 2026-05-15: v6 ladder restructure (Workshops + Alumni Pass added)
+
+**What Changed:**
+- Restructured the offer architecture from a barbell (Cohort + Enterprise) to a four-rung ladder: free Lightning Lessons → paid Workshops at $599 → AI-Fluent Executive Cohort at $2,500 → Enterprise from $15,000, with the Alumni Pass at $1,500/year as continuity.
+- Renamed the Cohort: "The AI Decision Cohort" → **"The AI-Fluent Executive"**. Repriced from $3,500 to $2,500. Duration corrected from 3 weeks to 4 weeks. Curriculum framework corrected from "Name → Map → Make" to **"Diagnose → Decompose → Decide → Deploy"**. CTRL added to "What's included".
+- Added a new top-level offering: **Workshops**. Five one-day, $599 workshops hosted on Maven. New `/workshops` index page plus five sub-pages (`/workshops/build-your-ai-chief-of-staff`, `/workshops/map-your-agentic-org-chart`, `/workshops/vibe-coding-for-leaders`, `/workshops/build-an-autonomous-business-function`, `/workshops/give-your-ai-memory`).
+- Added a new alumni page at `/alumni`. Hidden from nav and footer (reachable by direct URL only). `noindex`. Sells the Alumni Pass at $1,500/year.
+- Replaced the dead Maven URL `maven.com/aimindmaker/ai-decision-intensive` with the live `maven.com/mindmaker/the-ai-fluent-executive` everywhere in the codebase and documentation.
+- Updated the homepage tri-fork from "Cohort | Enterprise | Capital" to **"Workshops | Cohort | Enterprise"** (Capital remains a third door under the Enterprise nav dropdown and at `/capital`).
+- Reorganised Navigation: Workshops added as slot 1; Operator dropdown renamed to "Resources" and now includes How I Operate, Library, The Builder Economy, and Lightning Lessons; the standalone Library nav item retired in favour of the Resources dropdown.
+- NewHero: added "Or start with a free lesson →" tertiary link below the primary CTAs (linking to `https://maven.com/mindmaker`); subheadline updated to "Workshops, cohorts, and enterprise sprints that turn AI chaos into direction."
+- Added `src/lib/stripe-prices.ts` with all canonical Stripe product and price IDs (workshops + cohort + alumni). Workshop and Cohort IDs are referential (Maven collects). The Alumni Pass is the only product the site charges via Stripe; the live checkout flow is invitation-gated and not shipped in this pass.
+- Extended `PreCallQualifier` with new routing rules: "technical-build + this-quarter" → Workshop, "personal-clarity + exploring" → Free Lightning Lesson.
+- Extended `send-lead-email` `programLabels` map to include workshop/alumni/free-lesson values.
+- Updated `LightningLessons` to confirm five lessons with the canonical free-lesson URLs.
+
+**Why:**
+- Maven price gravity for senior-leader cohorts sits at $2,500. The previous $3,500 price was fighting the market.
+- A single $3,500 price point left no entry rung for buyers who weren't yet ready for the cohort. Workshops at $599 give them a real, paid, build-with-me first step.
+- Retention had no product. The Alumni Pass formalises continuity for buyers post any engagement, with a frictionless price.
+- The site needed to make a cold buyer think "Mindmaker is the operator-led AI advisory I want to work with" *first*, with Maven as the enrolment mechanic. The ladder restructure reinforces that direction.
+
+**Files Created:**
+- `src/lib/stripe-prices.ts`
+- `src/pages/Workshops.tsx`
+- `src/pages/workshops/WorkshopPage.tsx`
+- `src/pages/workshops/BuildYourAIChiefOfStaff.tsx`
+- `src/pages/workshops/MapYourAgenticOrgChart.tsx`
+- `src/pages/workshops/VibeCodingForLeaders.tsx`
+- `src/pages/workshops/BuildAnAutonomousBusinessFunction.tsx`
+- `src/pages/workshops/GiveYourAIMemory.tsx`
+- `src/pages/Alumni.tsx`
+
+**Files Updated:**
+- `src/App.tsx` (new routes), `src/components/Navigation.tsx`, `src/components/NewHero.tsx`, `src/components/YFork.tsx`, `src/components/Footer.tsx`, `src/components/InitialConsultModal.tsx`, `src/components/PreCallQualifier.tsx`, `src/components/SEO.tsx` (added `noindex` prop), `src/pages/Cohort.tsx` (rename, reprice, 4 weeks, new framework, CTRL, $500 workshop-credit callout), `supabase/functions/send-lead-email/index.ts`, `scripts/generate-sitemap.mjs`, `scripts/prerender.mjs`, `public/llms.txt`
+- All forward-looking docs in `project-documentation/` (OFFERS, ICP, VALUE_PROP, Master_Messaging_and_FAQ, SALES_PLAYBOOK, BRANDING, ARCHITECTURE, FEATURES, COMMON_ISSUES, DEPLOYMENT, REPLICATION_GUIDE)
 
 ---
 
@@ -12,7 +51,7 @@
 - Corrected Revenue Architecture duration: **30 days (4–5 calendar weeks)**. was incorrectly documented as 8–12 weeks
 - Corrected Signal Session deliverable: **15–20 page Commercial Narrative within 48 hours**. was incorrectly documented as 5–10 page thesis within 5 business days
 - Documented `/immersion` (The AI Immersion, $12,000, inquiry-only) and `/new-age-leadership` (long-form thought leadership)
-- Documented Maven as the canonical Cohort enrolment platform (`https://maven.com/aimindmaker/ai-decision-intensive`), the "Hosted on Maven" pill, and the "Reserve my seat on Maven" CTA
+- Documented Maven as the canonical Cohort enrolment platform (`https://maven.com/mindmaker/the-ai-fluent-executive`), the "Hosted on Maven" pill, and the "Reserve my seat on Maven" CTA
 - Documented the rebuilt `PreCallQualifier` (now chip-based with 3 stages: decision → timeline → stakes)
 - Documented Lightning Lessons (4 external Maven course links surfaced in the Resources nav)
 - Added two new docs:

@@ -322,7 +322,7 @@ const generateMarketPulseHeadlines = async (): Promise<NewsHeadline[]> => {
       const second = bySpeed[1];
       const ratio = Math.round((fastest.speed! / second.speed!) * 10) / 10;
       headlines.push({
-        title: `[SIGNAL] Fastest LLM right now: ${fastest.name} at ${fastest.speed} tok/s — ${ratio}x faster than ${second.name}`,
+        title: `[SIGNAL] Fastest LLM right now: ${fastest.name} at ${fastest.speed} tok/s, ${ratio}x faster than ${second.name}`,
         source: "Artificial Analysis",
       });
     }
@@ -335,7 +335,7 @@ const generateMarketPulseHeadlines = async (): Promise<NewsHeadline[]> => {
     if (cheapestGood && mostExpensive && cheapestGood.name !== mostExpensive.name) {
       const costRatio = Math.round((mostExpensive.inputPrice! / cheapestGood.inputPrice!) * 10) / 10;
       headlines.push({
-        title: `[DECISION TRIGGER] ${cheapestGood.name} costs $${cheapestGood.inputPrice}/M input tokens vs $${mostExpensive.inputPrice}/M for ${mostExpensive.name} — ${costRatio}x cheaper at similar quality`,
+        title: `[DECISION TRIGGER] ${cheapestGood.name} costs $${cheapestGood.inputPrice}/M input tokens vs $${mostExpensive.inputPrice}/M for ${mostExpensive.name}, ${costRatio}x cheaper at similar quality`,
         source: "Artificial Analysis",
       });
     }
@@ -344,7 +344,7 @@ const generateMarketPulseHeadlines = async (): Promise<NewsHeadline[]> => {
     const byQuality = models.filter(m => m.quality !== null).sort((a, b) => (b.quality ?? 0) - (a.quality ?? 0));
     if (byQuality.length >= 2) {
       headlines.push({
-        title: `[SIGNAL] Quality leader: ${byQuality[0].name} (${byQuality[0].creator}) scores ${byQuality[0].quality} — ${byQuality[1].name} trails at ${byQuality[1].quality}`,
+        title: `[SIGNAL] Quality leader: ${byQuality[0].name} (${byQuality[0].creator}) scores ${byQuality[0].quality}, ${byQuality[1].name} trails at ${byQuality[1].quality}`,
         source: "Artificial Analysis",
       });
     }
@@ -358,7 +358,7 @@ const generateMarketPulseHeadlines = async (): Promise<NewsHeadline[]> => {
         const qualityDiff = Math.round(((top.quality - midRange.quality) / midRange.quality) * 100);
         if (priceDiff > 1.5 && qualityDiff < 15) {
           headlines.push({
-            title: `[KRISH'S TAKE] ${top.name} is ${priceDiff}x more expensive than ${midRange.name} but only ${qualityDiff}% better on benchmarks — the premium rarely justifies itself`,
+            title: `[KRISH'S TAKE] ${top.name} is ${priceDiff}x more expensive than ${midRange.name} but only ${qualityDiff}% better on benchmarks, the premium rarely justifies itself`,
             source: "Artificial Analysis",
           });
         }

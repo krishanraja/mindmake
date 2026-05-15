@@ -18,21 +18,21 @@ const SUPPORTING_COPY =
 const tiles = [
   {
     label: "Architecture",
-    claim: "A 14-agent fleet with named roles and memory webs.",
+    claim: "14 agents running my business with named roles and shared memory.",
     elaboration:
-      "Cross-system dependency mapping. Agent boundaries designed for delegation, not chaos.",
+      "Each agent has its own scope. They hand work off to each other instead of stepping on toes. I built this because I got tired of doing every step myself.",
   },
   {
     label: "Optimization",
-    claim: "Cost patterns running in production across Anthropic, Gemini, and OpenAI.",
+    claim: "Production cost patterns across Anthropic, Gemini, and OpenAI.",
     elaboration:
-      "Model routing, fallback logic, and usage governance, built because the bills forced me to.",
+      "Model routing, fallbacks, governance. Built because the bills forced me to do it.",
   },
   {
     label: "Memory",
-    claim: "Memory architecture for individual operators and organizational knowledge.",
+    claim: "Memory architecture for one operator or a whole company.",
     elaboration:
-      "The same patterns I apply for clients. Private memory webs, structured retrieval, institutional context that persists.",
+      "The same setup I run for clients: private memory webs, structured retrieval, the kind of context that doesn't evaporate when someone leaves.",
   },
 ];
 
@@ -60,7 +60,7 @@ const OperatorsEdge = () => {
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeUp}
         >
-          {/* Section eyebrow — matches other homepage sections */}
+          {/* Section eyebrow, matches other homepage sections */}
           <motion.div
             className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.24em] text-mint/80 mb-5"
             variants={fadeUp}
@@ -70,7 +70,7 @@ const OperatorsEdge = () => {
             Who you're working with
           </motion.div>
 
-          {/* Heading — matches FrameworkJourney scale + partial-mint treatment */}
+          {/* Heading: matches FrameworkJourney scale + partial-mint treatment */}
           <motion.h2
             className="text-[1.35rem] sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-5"
             variants={fadeUp}
@@ -79,7 +79,7 @@ const OperatorsEdge = () => {
             Beyond <span className="text-mint">pattern</span> recognition
           </motion.h2>
 
-          {/* Lead line — human voice, not AI-written */}
+          {/* Lead line: human voice, not AI-written */}
           <motion.p
             className="text-base md:text-lg text-white/70 leading-relaxed max-w-2xl mx-auto"
             variants={fadeUp}
@@ -88,7 +88,7 @@ const OperatorsEdge = () => {
             {LEAD_LINE}
           </motion.p>
 
-          {/* Supporting paragraph — trimmed */}
+          {/* Supporting paragraph, trimmed */}
           <motion.p
             className="mt-4 text-sm md:text-base text-white/50 leading-relaxed max-w-2xl mx-auto"
             variants={fadeUp}

@@ -17,18 +17,18 @@ const VALID_TABS: TabKey[] = ["posts", "questions", "manifesto"];
 
 const TAB_META: Record<TabKey, { title: string; description: string; canonical: string }> = {
   posts: {
-    title: "Library — Posts",
+    title: "Library: Posts",
     description:
       "Practical writing for leaders building AI capability. No vendor theatre, just frameworks from real implementations.",
     canonical: "/library",
   },
   questions: {
-    title: "Library — Questions",
-    description: "Frequently asked questions about Mindmaker — programs, AI literacy, getting started.",
+    title: "Library: Questions",
+    description: "Frequently asked questions about Mindmaker, programs, AI literacy, and getting started.",
     canonical: "/library?tab=questions",
   },
   manifesto: {
-    title: "Library — Manifesto",
+    title: "Library: Manifesto",
     description:
       "What we believe. Your context is the most valuable thing you own. It should not live inside someone else's product.",
     canonical: "/library?tab=manifesto",
@@ -39,7 +39,7 @@ const MANIFESTO_PILLARS = [
   {
     label: "Portable",
     accent: "Your context follows you.",
-    body: "Exportable across every AI tool you actually use — ChatGPT, Claude, Gemini, Cursor — without being trapped inside any of them.",
+    body: "Exportable across every AI tool you actually use (ChatGPT, Claude, Gemini, Cursor) without being trapped inside any of them.",
   },
   {
     label: "Agnostic",
@@ -54,7 +54,7 @@ const MANIFESTO_PILLARS = [
   {
     label: "You Own Your Context",
     accent: "Encrypted. Exportable. Deletable.",
-    body: "Your data is yours. Encrypted, user-controlled, never used for model training. Take it with you, or take it off the table — your call.",
+    body: "Your data is yours. Encrypted, user-controlled, never used for model training. Take it with you, or take it off the table. Your call.",
   },
   {
     label: "Future-Proof",

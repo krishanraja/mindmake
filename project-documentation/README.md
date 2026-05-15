@@ -70,19 +70,19 @@ For the strategic intent behind the current shape of the business, read `mindmak
 ## Start Here
 
 ### For brand, copy, sales, and marketing
-1. [SALES_PLAYBOOK.md](./SALES_PLAYBOOK.md) — the single ground-truth doc for any sales or marketing AI agent
-2. [BRANDING.md](./BRANDING.md) — voice, terminology, retired products
-3. [VALUE_PROP.md](./VALUE_PROP.md) — positioning and objections
-4. [ICP.md](./ICP.md) — the audiences
-5. [OFFERS.md](./OFFERS.md) — pricing, scope, format, outcomes
-6. [Master_Messaging_and_FAQ.md](./Master_Messaging_and_FAQ.md) — canonical pitches and FAQ
-7. [PURPOSE.md](./PURPOSE.md) — mission and anti-goals
+1. [SALES_PLAYBOOK.md](./SALES_PLAYBOOK.md), the single ground-truth doc for any sales or marketing AI agent
+2. [BRANDING.md](./BRANDING.md), voice, terminology, retired products
+3. [VALUE_PROP.md](./VALUE_PROP.md), positioning and objections
+4. [ICP.md](./ICP.md), the audiences
+5. [OFFERS.md](./OFFERS.md), pricing, scope, format, outcomes
+6. [Master_Messaging_and_FAQ.md](./Master_Messaging_and_FAQ.md), canonical pitches and FAQ
+7. [PURPOSE.md](./PURPOSE.md), mission and anti-goals
 
 ### For development
-1. [ARCHITECTURE.md](./ARCHITECTURE.md) — tech stack, routes, edge functions
-2. [FEATURES.md](./FEATURES.md) — what exists
-3. [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md) — tokens, components, contrast rules
-4. [DEPLOYMENT.md](./DEPLOYMENT.md) — deploy checklists
+1. [ARCHITECTURE.md](./ARCHITECTURE.md), tech stack, routes, edge functions
+2. [FEATURES.md](./FEATURES.md), what exists
+3. [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md), tokens, components, contrast rules
+4. [DEPLOYMENT.md](./DEPLOYMENT.md), deploy checklists
 
 ### For troubleshooting
 1. [COMMON_ISSUES.md](./COMMON_ISSUES.md)
@@ -90,7 +90,7 @@ For the strategic intent behind the current shape of the business, read `mindmak
 3. [HISTORY.md](./HISTORY.md)
 
 ### For agents working on the codebase
-- [`../CLAUDE.md`](../CLAUDE.md) — authoritative state-of-the-codebase reference
+- [`../CLAUDE.md`](../CLAUDE.md), authoritative state-of-the-codebase reference
 
 ---
 
@@ -116,9 +116,9 @@ For the strategic intent behind the current shape of the business, read `mindmak
 
 ### ICPs
 
-- **AI leaders** — senior operators making AI decisions (Cohort buyer)
-- **AI products** — companies commercializing AI capability (Signal Session → Revenue Architecture buyer)
-- **Executive teams** — CEO-sponsored leadership groups needing fast alignment (Immersion buyer)
+- **AI leaders**. senior operators making AI decisions (Cohort buyer)
+- **AI products**. companies commercializing AI capability (Signal Session → Revenue Architecture buyer)
+- **Executive teams**. CEO-sponsored leadership groups needing fast alignment (Immersion buyer)
 
 ### Brand voice
 
@@ -126,7 +126,7 @@ For the strategic intent behind the current shape of the business, read `mindmak
 
 ### Primary CTA
 
-**"Book a call"** — everywhere. Opens the global `InitialConsultModal` via the `openConsultModal` event. No conditional labels.
+**"Book a call"**, everywhere. Opens the global `InitialConsultModal` via the `openConsultModal` event. No conditional labels.
 
 ---
 

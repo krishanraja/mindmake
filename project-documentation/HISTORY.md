@@ -4,19 +4,19 @@
 
 ---
 
-## 2026-04-26: Documentation Refresh — current-state of repo + sales/marketing anchors
+## 2026-04-26: Documentation Refresh: current-state of repo + sales/marketing anchors
 
 **What Changed:**
 - Reconciled all `project-documentation/*` files with the actual codebase as of 2026-04-26 (commits since 2026-04-23 added Immersion, New Age Leadership, Maven Cohort integration, PreCallQualifier chip rebuild, and several copy/UX fixes)
 - Renamed the `/signal` nav label across all docs from "The Brief" → **Live Intel** (matches `Navigation.tsx` line 46)
-- Corrected Revenue Architecture duration: **30 days (4–5 calendar weeks)** — was incorrectly documented as 8–12 weeks
-- Corrected Signal Session deliverable: **15–20 page Commercial Narrative within 48 hours** — was incorrectly documented as 5–10 page thesis within 5 business days
+- Corrected Revenue Architecture duration: **30 days (4–5 calendar weeks)**. was incorrectly documented as 8–12 weeks
+- Corrected Signal Session deliverable: **15–20 page Commercial Narrative within 48 hours**. was incorrectly documented as 5–10 page thesis within 5 business days
 - Documented `/immersion` (The AI Immersion, $12,000, inquiry-only) and `/new-age-leadership` (long-form thought leadership)
 - Documented Maven as the canonical Cohort enrolment platform (`https://maven.com/aimindmaker/ai-decision-intensive`), the "Hosted on Maven" pill, and the "Reserve my seat on Maven" CTA
 - Documented the rebuilt `PreCallQualifier` (now chip-based with 3 stages: decision → timeline → stakes)
 - Documented Lightning Lessons (4 external Maven course links surfaced in the Resources nav)
 - Added two new docs:
-  - `SALES_PLAYBOOK.md` — single ground-truth doc for AI sales/marketing agents (ICP firmographic + psychographic signals, pain → offer mapping, value driver matrix, ROI math, discovery question bank, objection bank, channel-specific message templates, competitive grid, disqualifiers, routing logic, lead-email anatomy, sales hygiene rules, quick reference card)
+  - `SALES_PLAYBOOK.md`. single ground-truth doc for AI sales/marketing agents (ICP firmographic + psychographic signals, pain → offer mapping, value driver matrix, ROI math, discovery question bank, objection bank, channel-specific message templates, competitive grid, disqualifiers, routing logic, lead-email anatomy, sales hygiene rules, quick reference card)
   - References integrated across `README.md`, `OFFERS.md`, `OUTCOMES.md`, `Master_Messaging_and_FAQ.md`
 - Documented `send-lead-email` upgrade to Gemini company research with Google Search grounding (3× retry with exponential backoff)
 - Documented the Immersion-specific 3-phase format (alignment / 4-hr session / 2-page summary in 5 business days, Diagnose → Decompose → Decide → Deploy)
@@ -26,7 +26,7 @@
 
 **Why:**
 - Documentation lagged ~3 days behind the most recent codebase work (Immersion + NewAgeLeadership ship + UX audit + Maven integration polish), and was carrying multiple legacy specs that contradicted the live site (RA duration, Signal Session deliverable, nav label)
-- AI sales and marketing agents need a single, structured, retrieval-friendly document to ground on — `SALES_PLAYBOOK.md` is now that document
+- AI sales and marketing agents need a single, structured, retrieval-friendly document to ground on, `SALES_PLAYBOOK.md` is now that document
 - The user explicitly requested: "fully up to date with the current state of the repo… benefits, ICP, outcomes and sales/marketing anchors so that my sales and marketing AI agents can sell this at scale… ensure nothing old remains"
 
 **Files Created:**
@@ -43,7 +43,7 @@
 
 ---
 
-## 2026-04-23: Documentation Upgrade — Barbell + Operator's Edge Alignment
+## 2026-04-23: Documentation Upgrade: Barbell + Operator's Edge Alignment
 
 **What Changed:**
 - Rewrote business documentation to reflect the v4 barbell pivot and v5 Operator's Edge addition (both captured in `mindmaker_rebuild_brief_v4.md`)
@@ -76,14 +76,14 @@
 - `DESIGN_SYSTEM.md` (CTA + card + retired patterns), `VISUAL_GUIDELINES.md` (homepage scroll + retired patterns), `HISTORY.md`, `DECISIONS_LOG.md`
 
 **Files Unchanged (research, not business content):**
-- `EXECUTIVE_SUMMARY.md`, `LLM_CRITICAL_THINKING_TRAINING.md` — noted in `README.md` as research artefacts
+- `EXECUTIVE_SUMMARY.md`, `LLM_CRITICAL_THINKING_TRAINING.md`. noted in `README.md` as research artefacts
 
 ---
 
 ## 2026-03-03: Documentation Refresh & SPRINTS.md
 
 **What Changed:**
-- Created SPRINTS.md — comprehensive sprint guide with full ICP profiles, week-by-week breakdowns, deliverables, and outcomes for both 4-Week and 90-Day sprints
+- Created SPRINTS.md, comprehensive sprint guide with full ICP profiles, week-by-week breakdowns, deliverables, and outcomes for both 4-Week and 90-Day sprints
 - Updated all project documentation dates to 2026-03-03
 - Added SPRINTS.md references to README, ICP, FEATURES, OUTCOMES, and documentation index
 - Updated DESIGN_SYSTEM.md with brand-specific component patterns (CTA buttons, sprint cards, media easter eggs)
@@ -105,7 +105,7 @@
 
 ---
 
-## 2026-02-25: Brand Vision 11/10 — Complete Transformation
+## 2026-02-25: Brand Vision 11/10: Complete Transformation
 
 **What Changed:**
 - Complete brand repositioning: "AI advisory" → "anti-consultancy for nervous decisions"
@@ -129,7 +129,7 @@
 
 **Why:**
 - Previous positioning was corporate and undifferentiated
-- Leaders don't need more AI advice — they need to make decisions
+- Leaders don't need more AI advice, they need to make decisions
 - "Nervous decisions" as entry point resonates more than feature lists
 - Two-sprint model reduces choice paralysis
 - Anti-consultancy positioning creates clear market differentiation
@@ -331,9 +331,9 @@
 ### Phase 8: Brand Vision 11/10 (Feb 2026)
 - Complete brand repositioning
 - Mind Set → Mind Map → Mind Make framework
-- 2-sprint product model (4-Week, 90-Day) — superseded by the v4 barbell
-- "What's your nervous decision?" CTA — superseded by "Book a call" in v4
-- Builder/Orchestrator ICP split — superseded by AI leaders / AI products in v4
+- 2-sprint product model (4-Week, 90-Day), superseded by the v4 barbell
+- "What's your nervous decision?" CTA, superseded by "Book a call" in v4
+- Builder/Orchestrator ICP split, superseded by AI leaders / AI products in v4
 - Media easter egg components
 - All documentation rewritten
 

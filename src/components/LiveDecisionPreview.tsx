@@ -134,7 +134,7 @@ const LiveDecisionPreview = () => {
                     <span>
                       Quality:{" "}
                       <strong className="text-foreground">
-                        {model.benchmarkScore ?? "—"}
+                        {model.benchmarkScore ?? "n/a"}
                       </strong>
                     </span>
                     <span>
@@ -146,7 +146,7 @@ const LiveDecisionPreview = () => {
                     <span>
                       Speed:{" "}
                       <strong className="text-foreground">
-                        {model.tokensPerSecond ?? "—"} t/s
+                        {model.tokensPerSecond ?? "n/a"} t/s
                       </strong>
                     </span>
                   </div>

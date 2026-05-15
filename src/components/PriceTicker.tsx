@@ -34,8 +34,8 @@ const Chip = ({ model, size }: { model: ModelData; size: "sm" | "lg" }) => {
   );
 };
 
-// Continuous marquee ticker. No horizontal scrollbar — the track
-// translates 0 → -50% in a loop, and we render the list twice so the
+// Continuous marquee ticker. No horizontal scrollbar; the track
+// translates 0 to -50% in a loop, and we render the list twice so the
 // wrap is seamless. Pauses on hover. Disables animation under
 // `prefers-reduced-motion`.
 export const PriceTicker = ({ size = "sm", tone = "dark" }: PriceTickerProps) => {

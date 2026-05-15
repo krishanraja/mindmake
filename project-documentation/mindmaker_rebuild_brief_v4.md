@@ -9,16 +9,16 @@
 
 Moderate addition: the "operator's edge" narrative.
 
-- **New homepage section: "The Operator's Edge"** — positioned between ProofStrip and SignalDeskPreview. One tight section that establishes Krish as a practitioner who runs an actual agentic organization, not a theorist. Typography-only, no scrolling logs or terminal aesthetics. Three specific, extractable proof points that make the Revenue Architecture engagement feel expensive to ignore.
-- **New page: `/operator`** — deeper exploration of the agentic operating system for curious buyers. Links from the homepage section. Becomes the share-in-outbound URL that signals "this advisor is a different class." Spec in §4.5.
-- **Updated Revenue Architecture copy** — now explicitly references operator credential ("informed by someone operating one, not just theorizing about it") in the pitch.
+- **New homepage section: "The Operator's Edge"**. positioned between ProofStrip and SignalDeskPreview. One tight section that establishes Krish as a practitioner who runs an actual agentic organization, not a theorist. Typography-only, no scrolling logs or terminal aesthetics. Three specific, extractable proof points that make the Revenue Architecture engagement feel expensive to ignore.
+- **New page: `/operator`**. deeper exploration of the agentic operating system for curious buyers. Links from the homepage section. Becomes the share-in-outbound URL that signals "this advisor is a different class." Spec in §4.5.
+- **Updated Revenue Architecture copy**. now explicitly references operator credential ("informed by someone operating one, not just theorizing about it") in the pitch.
 - **Sitemap, `/llms.txt`, and schema updated** to include `/operator` page.
 
 ## v5 guard against vanity
 
 The operator narrative only works if it makes the commercial offer more expensive to ignore, not more complex to understand. The test: after reading the homepage section, does a CMO think "I want to hire this person for Revenue Architecture" or "This person is too deep in the weeds for what I need"? Every word in §3.7 and §4.5 should pass that test.
 
-## v4 changes from v3 — THE BARBELL PIVOT
+## v4 changes from v3: THE BARBELL PIVOT
 
 This is a material restructuring. Read carefully.
 
@@ -53,8 +53,8 @@ Do not add features that are not in this brief. Do not preserve components that 
 
 Mindmaker is a barbell business with two distinct offers and no middle:
 
-1. **The AI Decision Cohort ($3,500/seat)** — quarterly cohort-based program for senior leaders wrestling with AI decisions. Runs on content distribution, not sales motions. Target: 10-15 seats per cohort, 4 cohorts per year.
-2. **Enterprise AI Commercialization ($15k - $100k)** — sprint-based engagements with companies commercializing AI products. The Signal Session ($15k) is the entry point. The Revenue Architecture ($60-100k) is the flagship.
+1. **The AI Decision Cohort ($3,500/seat)**. quarterly cohort-based program for senior leaders wrestling with AI decisions. Runs on content distribution, not sales motions. Target: 10-15 seats per cohort, 4 cohorts per year.
+2. **Enterprise AI Commercialization ($15k - $100k)**. sprint-based engagements with companies commercializing AI products. The Signal Session ($15k) is the entry point. The Revenue Architecture ($60-100k) is the flagship.
 
 **The cohort is the flywheel.** It takes content-attracted leaders and turns them into paying customers. Cohort graduates and content readers become the warm-inbound pipeline for enterprise deals.
 
@@ -81,7 +81,7 @@ The primary conversion goal is **(1) cohort seat sales through content, and (2) 
 /                               Homepage (Y-fork: AI leaders vs AI products)
 ├── /cohort                     AI Decision Cohort page (replaces /sprints as primary leader offer)
 ├── /enterprise                 Enterprise index (Signal Session + Revenue Architecture)
-├── /operator                   (v5) How I operate — agentic OS credential page
+├── /operator                   (v5) How I operate, agentic OS credential page
 ├── /signal                     The Signal Desk (editorial content surface)
 ├── /tool                       The Nervous Decision Machine (demo tool)
 ├── /leaders                    Decision Readiness Diagnostic (KEEP as-is)
@@ -110,11 +110,11 @@ The primary conversion goal is **(1) cohort seat sales through content, and (2) 
 
 Top nav, left to right:
 
-1. **Cohort** (direct link to `/cohort`) — the primary leader offer, no dropdown needed
-2. **Enterprise** (dropdown) — The Signal Session, The Revenue Architecture, All Enterprise
+1. **Cohort** (direct link to `/cohort`), the primary leader offer, no dropdown needed
+2. **Enterprise** (dropdown). The Signal Session, The Revenue Architecture, All Enterprise
 3. **Signal** (link to `/signal`)
-4. **Resources** (dropdown) — Decision Readiness Diagnostic, Blog, Builder Economy, Lightning Lessons
-5. **About** (dropdown) — FAQ, Contact, Privacy
+4. **Resources** (dropdown). Decision Readiness Diagnostic, Blog, Builder Economy, Lightning Lessons
+5. **About** (dropdown). FAQ, Contact, Privacy
 
 Primary CTA button (right side of nav): **"Book a call"** on both wide and narrow. No conditional label.
 
@@ -128,16 +128,16 @@ Authoritative source: `src/pages/Index.tsx`.
 
 ### Scroll order (new)
 
-1. **NewHero** (keep, minor changes — see §3.1)
-2. **The Y-fork** (NEW — see §3.2)
-3. **BigProblem** (keep — existential urgency frame)
-4. **TrustSection** (keep — Krish bio, headshot, testimonials)
-5. **FrameworkJourney** (keep — MindSet → MindMap → MindMake animation)
-6. **ProofStrip** (NEW — three anonymized case studies, see §3.4)
-7. **OperatorsEdge** (NEW — v5 — see §3.7)
-8. **SignalDeskPreview** (NEW — 6 cards preview + link to `/signal`, see §3.5)
-9. **NervousDecisionMachine** (NEW — embedded tool surface, see §3.6)
-10. **SimpleCTA** (keep — final CTA)
+1. **NewHero** (keep, minor changes, see §3.1)
+2. **The Y-fork** (NEW, see §3.2)
+3. **BigProblem** (keep, existential urgency frame)
+4. **TrustSection** (keep. Krish bio, headshot, testimonials)
+5. **FrameworkJourney** (keep. MindSet → MindMap → MindMake animation)
+6. **ProofStrip** (NEW, three anonymized case studies, see §3.4)
+7. **OperatorsEdge** (NEW, v5, see §3.7)
+8. **SignalDeskPreview** (NEW, 6 cards preview + link to `/signal`, see §3.5)
+9. **NervousDecisionMachine** (NEW, embedded tool surface, see §3.6)
+10. **SimpleCTA** (keep, final CTA)
 11. **Footer** (keep)
 
 ### Components to DELETE from homepage
@@ -150,20 +150,20 @@ Authoritative source: `src/pages/Index.tsx`.
 
 ### Components explicitly NOT to build on homepage
 
-- **Engine Room / mm-ctrl visualization.** The 14-agent n8n fleet (Zara, Kai, Maya, etc.) is Krish's internal OS, and while it's impressive proof, it signals "this person builds complex systems" to an audience hiring for clarity, not complexity. Wrong buyer fit for the main funnel. If this gets built, it lives on `/builder-economy` as portfolio proof — not on the homepage. Do not add animated agent logs, terminal-style graphics, or "Engine Room" sections to `/`.
+- **Engine Room / mm-ctrl visualization.** The 14-agent n8n fleet (Zara, Kai, Maya, etc.) is Krish's internal OS, and while it's impressive proof, it signals "this person builds complex systems" to an audience hiring for clarity, not complexity. Wrong buyer fit for the main funnel. If this gets built, it lives on `/builder-economy` as portfolio proof, not on the homepage. Do not add animated agent logs, terminal-style graphics, or "Engine Room" sections to `/`.
 
 ### 3.1 NewHero changes
 
 Keep:
-- Rotating headlines array (user explicitly wants this — audience is confused, rotation mirrors that)
+- Rotating headlines array (user explicitly wants this, audience is confused, rotation mirrors that)
 - Looping background video
 - Mint pulse
 - Particle background (keep, drop opacity to 0.4 of current)
 
 Change:
 - Primary CTA label: **"Book a call"** (replaces "Tackle your million dollar decision")
-- Secondary CTA label: **"See how I work"** (replaces "Learn how you can level up") — smooth-scrolls to Y-fork section
-- Add a small label above rotating headline: **"Questions I hear every week"** — reframes rotation as social proof instead of indecision
+- Secondary CTA label: **"See how I work"** (replaces "Learn how you can level up"), smooth-scrolls to Y-fork section
+- Add a small label above rotating headline: **"Questions I hear every week"**. reframes rotation as social proof instead of indecision
 - Philosophical statement stays: "Everyone's selling AI. Nobody's helping you think."
 - Subheadline stays: "Cohorts and enterprise sprints that turn AI chaos into direction."
 
@@ -177,7 +177,7 @@ New component: `src/components/YFork.tsx`.
 
 **Two cards, one row on desktop, stacked on mobile:**
 
-**Card A — For AI leaders**
+**Card A. For AI leaders**
 - Eyebrow: "THE COHORT"
 - Headline: "Make your AI decisions with 15 other senior leaders."
 - Body: "The AI Decision Cohort runs quarterly. 3 weeks async, 3 live sessions, 10-15 senior leaders. You show up with a nervous AI decision and leave with a board-ready position. Small group. Peer pressure. Accountability. Done."
@@ -185,7 +185,7 @@ New component: `src/components/YFork.tsx`.
 - Primary CTA: **"See the cohort"** → `/cohort`
 - Secondary CTA: **"Next cohort starts [DATE]"** → scrolls to enrollment section
 
-**Card B — For AI products**
+**Card B. For AI products**
 - Eyebrow: "ENTERPRISE"
 - Headline: "Your AI capabilities, translated into revenue."
 - Body: "You've built AI capabilities. Great products still need great positioning, pricing, and GTM. I build the commercial strategy that makes your AI investment pay back."
@@ -211,21 +211,21 @@ New component: `src/components/ProofStrip.tsx`.
 
 Each card gets a small mint tag in the top-right indicating which offer tier the engagement maps to: `COHORT-STYLE` or `ENTERPRISE`.
 
-**Card 1 — The publisher SVP** (tag: `COHORT-STYLE`)
+**Card 1. The publisher SVP** (tag: `COHORT-STYLE`)
 - Role: "SVP, Top-10 US Digital Publisher"
 - Context: "14 AI vendors pitched in Q3. Board asking for an AI roadmap."
 - Walked in with: *"I need an AI strategy and I don't know where to start."*
 - Walked out with: Three decisions, ranked. One vendor killed. One built internally. One paused with a re-evaluation date.
 - Shipped in 45 days: Internal editorial-ops AI workflow. **40% faster content ops. No new headcount.**
 
-**Card 2 — The fractional strategist** (tag: `COHORT-STYLE`)
+**Card 2. The fractional strategist** (tag: `COHORT-STYLE`)
 - Role: "Head of Strategy, Legacy Broadcast Business"
 - Context: "Team of 4. $250k budget. No mandate."
 - Walked in with: *"Everyone on my team is using different AI tools. It's chaos."*
 - Walked out with: A one-page AI operating agreement. Three approved tools. Monthly AI review on the exec agenda.
 - Shipped in 90 days: First cross-functional AI project delivered on time. **Fractional role converted to permanent CAIO seat.**
 
-**Card 3 — The founder shipping the wrong thing** (tag: `ENTERPRISE`)
+**Card 3. The founder shipping the wrong thing** (tag: `ENTERPRISE`)
 - Role: "Founder, Series B Adtech"
 - Context: "6 months into a custom AI build. Investors asking hard questions."
 - Walked in with: *"I want to build an AI assistant that knows our business."*
@@ -234,9 +234,9 @@ Each card gets a small mint tag in the top-right indicating which offer tier the
 
 **Card design:** editorial-card utility. Four labeled rows (Role, Context, Walked in with, Walked out with, Shipped). The "Shipped" line uses mint text for the bolded metric.
 
-**Below the three cards:** single line in muted text — *"Cases are composites to preserve client confidentiality. Real numbers, real decisions."*
+**Below the three cards:** single line in muted text, *"Cases are composites to preserve client confidentiality. Real numbers, real decisions."*
 
-**CTA below cards:** Two buttons side-by-side — "Join the next cohort →" (primary, links to `/cohort`) and "Book an enterprise call →" (secondary, opens consult modal).
+**CTA below cards:** Two buttons side-by-side, "Join the next cohort →" (primary, links to `/cohort`) and "Book an enterprise call →" (secondary, opens consult modal).
 
 ### 3.5 SignalDeskPreview (NEW)
 
@@ -261,7 +261,7 @@ Each card is typography-driven, no images. Structure:
 - DECISION: white on dark with mint border
 - TAKE: mint on dark with "K" avatar badge
 
-**Bottom-right of section:** link to `/signal` for full archive — "See the full desk →"
+**Bottom-right of section:** link to `/signal` for full archive, "See the full desk →"
 
 **Data source:** Replace `get-ai-news` edge function output. Extend schema to support `TAKE` cards with an author field, longer body, and optional link-out to Techonomic or Signal & Noise posts.
 
@@ -281,9 +281,9 @@ Homepage treatment: a single prominent input section with a brief intro.
 
 **Generate button:** mint, large, labeled **"Generate my decision card"**
 
-On generate: inline-expands to show the output artifact (see §6 for artifact design). Footer of artifact includes: *"This is the 60-second version. The AI Decision Cohort is where you actually resolve it — with 15 other leaders in the room. [Join the next cohort →]"*
+On generate: inline-expands to show the output artifact (see §6 for artifact design). Footer of artifact includes: *"This is the 60-second version. The AI Decision Cohort is where you actually resolve it, with 15 other leaders in the room. [Join the next cohort →]"*
 
-### 3.7 OperatorsEdge (NEW — v5)
+### 3.7 OperatorsEdge (NEW: v5)
 
 New component: `src/components/OperatorsEdge.tsx`.
 
@@ -318,7 +318,7 @@ Each tile is typography-driven, no icons-as-decoration. Structure:
 **Tile 2:**
 - Label: `OPTIMIZATION`
 - Claim: "Cost patterns running in production across Anthropic, Gemini, and OpenAI."
-- Elaboration: "Model routing, fallback logic, and usage governance — built because the bills forced me to."
+- Elaboration: "Model routing, fallback logic, and usage governance, built because the bills forced me to."
 
 **Tile 3:**
 - Label: `MEMORY`
@@ -357,7 +357,7 @@ Add:
 
 ---
 
-## 4. `/cohort` page — The AI Decision Cohort
+## 4. `/cohort` page: The AI Decision Cohort
 
 New page. Delete `src/pages/Sprints.tsx`, `src/pages/Sprint4Week.tsx`, `src/pages/Sprint90Day.tsx`. Create `src/pages/Cohort.tsx`.
 
@@ -378,12 +378,12 @@ This is the primary conversion surface for the leader audience. It replaces the 
    - Eyebrow: "THE AI DECISION COHORT"
    - Headline: "Make your nervous AI decision with 15 other senior leaders."
    - Subhead: "Three weeks. Mostly async. Three live sessions. You leave with the one decision you've been avoiding, pressure-tested by a room full of people who've been there."
-   - Primary CTA: **"Enroll in the next cohort"** — scrolls to enrollment / opens Stripe checkout
-   - Secondary CTA: **"Download the syllabus"** — triggers email capture + PDF
+   - Primary CTA: **"Enroll in the next cohort"**. scrolls to enrollment / opens Stripe checkout
+   - Secondary CTA: **"Download the syllabus"**. triggers email capture + PDF
    - Above-fold badge: "Next cohort starts [DYNAMIC DATE] · [N] seats remaining"
 
-2. **The problem frame** (short — 2-3 sentences)
-   - "You've been pushed 14 AI vendor decks this quarter. You have a nervous decision about AI that you keep deferring — build vs buy, tool commitment, a clone, a clone's boundaries, vendor lock-in, something. You're tired of thinking alone. You don't have time for a consultant. You want to decide."
+2. **The problem frame** (short, 2-3 sentences)
+   - "You've been pushed 14 AI vendor decks this quarter. You have a nervous decision about AI that you keep deferring, build vs buy, tool commitment, a clone, a clone's boundaries, vendor lock-in, something. You're tired of thinking alone. You don't have time for a consultant. You want to decide."
 
 3. **Who this is for** (3 bullets, specific)
    - "You're a senior operator (VP, SVP, CxO, founder-operator) with budget authority and a real AI decision on your desk."
@@ -392,19 +392,19 @@ This is the primary conversion surface for the leader audience. It replaces the 
 
 4. **The curriculum** (3 weeks, one panel per week)
 
-   **Week 1 — Name the decision.**
+   **Week 1. Name the decision.**
    - You arrive with an AI decision you've been putting off
    - You leave week 1 with the *real* decision underneath it named, scoped, and sharable
    - Async materials: 3 videos, 2 frameworks, 1 worksheet
    - Live session: 90 minutes, peer-guided decision naming
 
-   **Week 2 — Map the paths.**
+   **Week 2. Map the paths.**
    - Structured trade-off analysis on the 3 real options
-   - Build vs buy, now vs wait, this vendor vs that vendor — your actual fork
+   - Build vs buy, now vs wait, this vendor vs that vendor, your actual fork
    - Async materials: 2 videos, 1 framework, 1 scorecard
    - Live session: 90 minutes, peer pressure-testing of the options
 
-   **Week 3 — Make the call.**
+   **Week 3. Make the call.**
    - You commit. Out loud. To the group.
    - You leave with a 1-page decision memo, ready to send to your board, your team, or your manager
    - Async materials: 1 video, the decision memo template
@@ -421,7 +421,7 @@ This is the primary conversion surface for the leader audience. It replaces the 
    - 3-5 short quotes from past participants
    - Placeholder for cohort 1 pre-launch: link to Techonomic pieces and Signal & Noise as proof of Krish's voice and method
 
-7. **The instructor** (Krish bio, abbreviated — this is a cohort, not a course)
+7. **The instructor** (Krish bio, abbreviated, this is a cohort, not a course)
    - 2 paragraphs, more about the *method* than the résumé
    - Headshot, link to fuller bio
 
@@ -430,19 +430,19 @@ This is the primary conversion surface for the leader audience. It replaces the 
    - Pricing: $3,500 per seat
    - Payment: single payment or 2x split
    - Stripe Checkout integration
-   - Below the CTA: "Not ready? [Get notified about future cohorts →]" — email capture for the waitlist
+   - Below the CTA: "Not ready? [Get notified about future cohorts →]", email capture for the waitlist
 
 9. **FAQ**
    - "What if I can't make a live session?" (recorded, can submit async)
-   - "What if I don't have a decision to bring?" (we'll help you name one — but honestly, if you don't, this isn't for you)
-   - "Can I send a colleague instead?" (no — this is peer-group based, requires consistency)
+   - "What if I don't have a decision to bring?" (we'll help you name one, but honestly, if you don't, this isn't for you)
+   - "Can I send a colleague instead?" (no, this is peer-group based, requires consistency)
    - "Is this tax deductible?" (yes for most US buyers as professional development)
    - "What's the refund policy?" (full refund up to 7 days before cohort starts; 50% refund up to day 1; no refund after)
 
 10. **The inquiry-only 1:1 escape hatch** (small, bottom of page, only shown if `?inquiry=1:1` in URL OR at the very bottom of page for anyone)
     - Header: "Want to work with me 1:1?"
     - Body: "I take on a small number of private engagements each year. Scope and pricing by inquiry."
-    - CTA: **"Start a conversation"** — opens consult modal with pre-flagged "1:1 inquiry" flag
+    - CTA: **"Start a conversation"**. opens consult modal with pre-flagged "1:1 inquiry" flag
 
 ### Curriculum delivery platform
 
@@ -475,7 +475,7 @@ Homepage Y-fork and `/cohort` page pull dynamic dates from this table. Claude Co
 
 ---
 
-## 4.5 `/operator` page (NEW — v5)
+## 4.5 `/operator` page (NEW: v5)
 
 New page. Create `src/pages/Operator.tsx`.
 
@@ -492,8 +492,8 @@ This page is the only place on the site where the full depth of the operator nar
 
 2. **The thesis** (2-3 short paragraphs)
    - Opening: "Every AI advisor claims to understand agentic systems. Very few have actually built one and kept it running."
-   - Middle: The portfolio context — 13 ventures, 14 named agents, built on n8n, Supabase, Claude, Gemini, and custom orchestration. Running in production. Cost-optimized. Self-monitoring.
-   - Close: "The commercial strategy, positioning, and GTM work I do for clients is informed by this system. Every framework has been pressure-tested against real operating constraints — cost ceilings, agent handoffs, memory pollution, context drift."
+   - Middle: The portfolio context, 13 ventures, 14 named agents, built on n8n, Supabase, Claude, Gemini, and custom orchestration. Running in production. Cost-optimized. Self-monitoring.
+   - Close: "The commercial strategy, positioning, and GTM work I do for clients is informed by this system. Every framework has been pressure-tested against real operating constraints, cost ceilings, agent handoffs, memory pollution, context drift."
 
 3. **The architecture** (visual section)
 
@@ -517,28 +517,28 @@ This page is the only place on the site where the full depth of the operator nar
 
    **Lesson 2: "Memory is a commercial decision, not a technical one."**
    - Explanation: Most memory architecture conversations get trapped in vector-database tooling debates. The real question is what the business needs the system to remember, for how long, and who owns it.
-   - Example: Krish's private memory webs vs. his organizational memory layer — why they use different storage and different retrieval patterns.
+   - Example: Krish's private memory webs vs. his organizational memory layer, why they use different storage and different retrieval patterns.
 
    **Lesson 3: "Cost optimization is a product feature, not an afterthought."**
    - Explanation: Agent fleets break financially before they break operationally. You have to design for cost from day one, not after the first quarter's invoice.
-   - Example: Specific routing pattern — cheap models for high-volume parse work, expensive models for judgment calls, guardrails at both ends.
+   - Example: Specific routing pattern, cheap models for high-volume parse work, expensive models for judgment calls, guardrails at both ends.
 
    **Lesson 4: "Agent orchestration is where most AI products fail commercially."**
    - Explanation: The reason your enterprise's AI capabilities aren't selling isn't the capabilities themselves. It's that nobody's designed the *system* that turns capability into commercial outcome.
-   - Example: Tie directly to Revenue Architecture — "this is the lesson most of my enterprise engagements start with."
+   - Example: Tie directly to Revenue Architecture, "this is the lesson most of my enterprise engagements start with."
 
 5. **The commercial crossover** (section that bridges back to the offer)
 
    Header: *"What this means if you're commercializing AI."*
 
-   Body (~4 sentences): "If you've built AI capabilities and they're not converting to revenue, the problem is almost never the capabilities. It's the system around them — the positioning, the pricing, the commercial narrative, the agent-to-customer handoff. The Revenue Architecture engagement applies the operating patterns from this page to your commercial architecture. You don't need a consultant explaining agents. You need an operator who's already run the playbook you're about to build."
+   Body (~4 sentences): "If you've built AI capabilities and they're not converting to revenue, the problem is almost never the capabilities. It's the system around them, the positioning, the pricing, the commercial narrative, the agent-to-customer handoff. The Revenue Architecture engagement applies the operating patterns from this page to your commercial architecture. You don't need a consultant explaining agents. You need an operator who's already run the playbook you're about to build."
 
    CTA: **"See Revenue Architecture →"** → `/enterprise#revenue-architecture`
 
 6. **What this page is NOT**
 
    A short muted paragraph at the bottom, in the spirit of radical honesty:
-   *"This page is not a hiring pitch for agentic-system-building consulting. That's not what I sell. What I sell is commercial strategy for companies with AI capabilities. This page exists because the commercial strategy I deliver is shaped by operating one of these systems every day. If you want to talk about the system itself, email me — but the offer is commercial."*
+   *"This page is not a hiring pitch for agentic-system-building consulting. That's not what I sell. What I sell is commercial strategy for companies with AI capabilities. This page exists because the commercial strategy I deliver is shaped by operating one of these systems every day. If you want to talk about the system itself, email me, but the offer is commercial."*
 
 7. **Final CTA block**
    - Primary: **"Book an enterprise call"** → opens `InitialConsultModal`
@@ -555,7 +555,7 @@ This page is the only place on the site where the full depth of the operator nar
 ### SEO treatment
 
 - `title`: "How I operate: the 14-agent OS behind Mindmaker"
-- `description`: "Most AI advisors sell frameworks they've read. I operate the frameworks I sell — a 14-agent operating system managing a 13-venture portfolio. Memory, cost, and orchestration lessons from the system."
+- `description`: "Most AI advisors sell frameworks they've read. I operate the frameworks I sell, a 14-agent operating system managing a 13-venture portfolio. Memory, cost, and orchestration lessons from the system."
 - `ogType`: "article"
 - JSON-LD: `Article` schema with Krish as author, `mentions` linking to Organization and the Revenue Architecture Service schema.
 - Canonical: `https://www.themindmaker.ai/operator`
@@ -564,7 +564,7 @@ This page is added to the sitemap (priority 0.7, monthly) and to `/llms.txt` as 
 
 ---
 
-## 5. `/enterprise` page — consolidated
+## 5. `/enterprise` page: consolidated
 
 New page. Delete `src/pages/WarRoom.tsx`, `src/pages/FractionalCAIO.tsx`, `src/pages/StrategyDay.tsx`. Create `src/pages/Enterprise.tsx`.
 
@@ -579,7 +579,7 @@ New page. Delete `src/pages/WarRoom.tsx`, `src/pages/FractionalCAIO.tsx`, `src/p
 
 2. **Two engagement cards** (stacked vertically on desktop, side-by-side on wide viewports):
 
-   **The Signal Session — $15,000** (anchor id: `#signal-session`)
+   **The Signal Session, $15,000** (anchor id: `#signal-session`)
    - Duration: 1 day intensive (6 hours working session) + 48h async written delivery
    - Pitch: "You've built the AI capabilities. Now nobody knows how to sell them. In one intensive day, we untangle the tech, align your executive team, and build the exact commercial narrative your buyers will actually understand."
    - You walk out with:
@@ -592,7 +592,7 @@ New page. Delete `src/pages/WarRoom.tsx`, `src/pages/FractionalCAIO.tsx`, `src/p
    - CTA: **"Book The Signal Session"**
    - Expand link: **"Tour The Signal Session in 90 seconds"** (SprintTourModal)
 
-   **The Revenue Architecture — $60,000 to $100,000** (anchor id: `#revenue-architecture`)
+   **The Revenue Architecture, $60,000 to $100,000** (anchor id: `#revenue-architecture`)
    - Duration: 30 days intensive (delivered across 4-5 calendar weeks)
    - Pitch: "Turning your AI capabilities into an actual revenue stream. A 30-day intensive to build your pricing models, packaging, go-to-market playbook, and the product marketing architecture that commercializes your AI investment. Informed by someone operating a 14-agent AI business in production, not theorizing about one."
    - You walk out with:
@@ -615,7 +615,7 @@ New page. Delete `src/pages/WarRoom.tsx`, `src/pages/FractionalCAIO.tsx`, `src/p
 4. **Comparison table** (both engagements side-by-side)
    - Rows: Duration, Price, What you walk out with, Best for, Session format
 
-5. **"How this differs from consulting"** — 2-3 sentence section pulled from existing WarRoom FAQ copy
+5. **"How this differs from consulting"**. 2-3 sentence section pulled from existing WarRoom FAQ copy
 
 6. **FAQ** (5 questions max)
 
@@ -625,7 +625,7 @@ Cut ~40% from existing enterprise pages (WarRoom and StrategyDay). Specifically:
 - Collapse multi-phase descriptions (WarRoom currently has 4 phases spelled out) into a single "how it runs" paragraph per offer
 - Keep all pricing, all deliverables lists (these are load-bearing)
 - Remove "pattern recognition from 15 years" language where it repeats; use once, in the hero
-- Cut the "not for" disqualification lists — the scope boundary section (3 above) covers this globally
+- Cut the "not for" disqualification lists, the scope boundary section (3 above) covers this globally
 
 ### Content to DELETE entirely
 
@@ -633,7 +633,7 @@ All content from `FractionalCAIO.tsx`. Do not migrate any of it. The offer does 
 
 ---
 
-## 6. Nervous Decision Machine (NEW — the demo tool)
+## 6. Nervous Decision Machine (NEW: the demo tool)
 
 New component: `src/components/NervousDecisionMachine.tsx`.
 New edge function: `supabase/functions/nervous-decision-machine/index.ts`.
@@ -655,47 +655,47 @@ A one-shot LLM-powered tool that takes a user's AI decision anxiety and returns 
 
 ### Output artifact (the 3 cards)
 
-**Card 1 — The real decision underneath**
+**Card 1. The real decision underneath**
 - Heading: "What you're actually deciding"
-- Body: 2-3 sentences that reframe the user's surface question into the real underlying call they're avoiding. Written in Krish's voice — direct, cynical, unfluffy.
+- Body: 2-3 sentences that reframe the user's surface question into the real underlying call they're avoiding. Written in Krish's voice, direct, cynical, unfluffy.
 
-**Card 2 — The three paths**
+**Card 2. The three paths**
 - Heading: "Three paths you could take"
 - Three sub-sections (Build / Buy / Wait, OR context-appropriate variants):
   - Path name (1-3 words)
   - One-sentence tradeoff
   - Confidence tag: "Defensible" / "Risky" / "Usually wrong"
 
-**Card 3 — The next 14 days**
+**Card 3. The next 14 days**
 - Heading: "What to do in the next 14 days"
-- Three numbered items, each one concrete action (not "think about" — actual steps like "get vendor X on a 30-min technical call before Thursday")
+- Three numbered items, each one concrete action (not "think about", actual steps like "get vendor X on a 30-min technical call before Thursday")
 
 ### Footer of artifact
 
-> "This is the 60-second version of how I'd tackle this. The AI Decision Cohort is where you actually resolve it — three weeks, fifteen other senior leaders, and a peer group that holds you accountable. If this hit, join the next cohort.
+> "This is the 60-second version of how I'd tackle this. The AI Decision Cohort is where you actually resolve it, three weeks, fifteen other senior leaders, and a peer group that holds you accountable. If this hit, join the next cohort.
 > → **See the next cohort**"
 
 ### Edge function spec
 
 - Runtime: Supabase Edge Function (Deno)
-- Model: Claude Haiku 4.5 (`claude-haiku-4-5-20251001`) — fast, cheap, sufficient
+- Model: Claude Haiku 4.5 (`claude-haiku-4-5-20251001`), fast, cheap, sufficient
 - Max tokens: 1500
 - System prompt: See §6.1 below
 - User input: The raw textarea content
 - Output: JSON with three card objects
 - Rate limit: 1 request per IP per hour (anti-abuse)
-- Cost cap: $50/month — circuit-breaker if exceeded, fall back to a "high demand, try again later" state
+- Cost cap: $50/month, circuit-breaker if exceeded, fall back to a "high demand, try again later" state
 
 ### 6.1 System prompt for the edge function
 
 ```
 You are Krish Raja, founder of Mindmaker. A leader has typed a nervous AI decision into a tool on your website. Your job is to produce a sharp, useful one-page artifact that shows them what you'd do.
 
-Voice: Direct. Cynical about AI hype. Practical. No buzzwords. Short sentences. Use "you" — speak to them. No em dashes. No "leverage," "synergy," "ecosystem," "journey," "transformation," "revolutionary."
+Voice: Direct. Cynical about AI hype. Practical. No buzzwords. Short sentences. Use "you", speak to them. No em dashes. No "leverage," "synergy," "ecosystem," "journey," "transformation," "revolutionary."
 
 Reject: Vague surface-level reframes. Generic "consider these factors" output. Motivational language.
 
-Output exactly this JSON schema — no preamble, no markdown fences:
+Output exactly this JSON schema, no preamble, no markdown fences:
 
 {
   "card1_real_decision": {
@@ -726,9 +726,9 @@ If the user's input is not an AI-related decision (e.g., gibberish, a personal q
 ### Guardrails
 
 - Strip output of any mention of competitors' names as endorsements
-- Filter for PII in user input — if detected, refuse and show guidance
+- Filter for PII in user input, if detected, refuse and show guidance
 - Log all generations to Supabase for review and training examples
-- Never save user input to a database unless they opt in via email capture (which this tool should NOT do — no email gate)
+- Never save user input to a database unless they opt in via email capture (which this tool should NOT do, no email gate)
 
 ---
 
@@ -736,7 +736,7 @@ If the user's input is not an AI-related decision (e.g., gibberish, a personal q
 
 Delete `src/components/ChatBot/*` folder and `chat-with-krish` edge function.
 New component: `src/components/PreCallQualifier.tsx`.
-New edge function: `supabase/functions/pre-call-qualifier/index.ts` (optional — form submit may suffice).
+New edge function: `supabase/functions/pre-call-qualifier/index.ts` (optional, form submit may suffice).
 
 ### Purpose
 
@@ -754,7 +754,7 @@ Replace the freeform "Ask Mindmaker" bot with a structured 3-question intake tha
 
 After step 3:
 - Summary card: "Based on this, **[The AI Decision Cohort | The Signal Session | The Revenue Architecture]** is your likely fit. Here's why: [1-2 sentences]."
-- CTA: "Book your intro call →" — opens `InitialConsultModal` with all 3 answers pre-loaded into the modal's existing qualification fields via `SessionDataContext`.
+- CTA: "Book your intro call →", opens `InitialConsultModal` with all 3 answers pre-loaded into the modal's existing qualification fields via `SessionDataContext`.
 - Secondary: "Save my answers, come back later" (writes to localStorage, does NOT email).
 
 ### Recommendation logic
@@ -800,7 +800,7 @@ All pricing appears in three places minimum:
 
 **Display conventions:**
 - No currency symbol on the low end ("$15,000" not "USD 15,000")
-- No "+ tax" or "+ GST" in display — legal copy lives in footer
+- No "+ tax" or "+ GST" in display, legal copy lives in footer
 - Payment terms as small muted text below price: "Full payment or 2x split" (cohort), "Payment on kickoff" (Signal Session), "50/50 at kickoff and delivery" (Revenue Architecture)
 - No strike-through pricing. No "book by X for Y off." Premium positioning requires price confidence.
 
@@ -855,7 +855,7 @@ The current site ships an empty HTML shell to crawlers. The existing `scripts/pr
 
 This is a material business problem, not cosmetic:
 - Google indexes JS-rendered content but with lower priority and slower cadence
-- LinkedIn, Slack, X, iMessage, Discord, WhatsApp, and most email clients do NOT execute JS for link previews — they see the current homepage OG tags on every shared URL, regardless of which page was shared
+- LinkedIn, Slack, X, iMessage, Discord, WhatsApp, and most email clients do NOT execute JS for link previews, they see the current homepage OG tags on every shared URL, regardless of which page was shared
 - Most AI agents and scrapers (including agentic browsers, the exact thing Krish writes about) don't execute JS
 - Reddit, Hacker News, and most discovery surfaces rely on OG metadata
 
@@ -899,10 +899,10 @@ Extend the SEO component to accept and render:
 - `title` (50-60 char target)
 - `description` (150-160 char target)
 - `canonical` (explicit, not inferred)
-- `ogImage` (per-page — see §10.5)
+- `ogImage` (per-page, see §10.5)
 - `ogType` ("website" for marketing pages, "article" for blog posts, "product" for offer pages, "event" for cohort page)
-- `keywords` (drop this — Google ignores them, can actually hurt if seen as keyword stuffing)
-- `jsonLd` (array, not single object — pages often need multiple schemas)
+- `keywords` (drop this. Google ignores them, can actually hurt if seen as keyword stuffing)
+- `jsonLd` (array, not single object, pages often need multiple schemas)
 - `alternateLanguages` (future-proof for i18n)
 - `noindex` (boolean, for staging / thin pages)
 
@@ -917,12 +917,12 @@ The existing `SEO_IMPLEMENTATION.md` references schema for products that no long
 Replace with correctly-scoped schemas:
 
 **Homepage:**
-- `Organization` schema (keep, but update `description` and `knowsAbout` to reflect current positioning — less "no-code AI" keyword-stuffing, more accurate descriptors)
+- `Organization` schema (keep, but update `description` and `knowsAbout` to reflect current positioning, less "no-code AI" keyword-stuffing, more accurate descriptors)
 - `WebSite` schema with SearchAction
 - `Person` schema for Krish (linked via founder on Organization)
 
 **`/cohort` page:**
-- `Event` schema for the next active cohort — `name`, `startDate`, `endDate`, `eventStatus`, `eventAttendanceMode: OnlineEventAttendanceMode`, `organizer` linking to Organization, `offers` → `Offer` with `price: 3500`, `priceCurrency: "USD"`, `availability: "InStock"`, `validFrom`, `url`
+- `Event` schema for the next active cohort, `name`, `startDate`, `endDate`, `eventStatus`, `eventAttendanceMode: OnlineEventAttendanceMode`, `organizer` linking to Organization, `offers` → `Offer` with `price: 3500`, `priceCurrency: "USD"`, `availability: "InStock"`, `validFrom`, `url`
 - `Course` schema describing the cohort curriculum
 - `BreadcrumbList` linking Home → Cohort
 - Update dynamically as each new cohort is scheduled via the `cohort_dates` table
@@ -934,7 +934,7 @@ Replace with correctly-scoped schemas:
 - `BreadcrumbList`
 
 **Blog posts:**
-- `Article` schema (not `BlogPosting` — more broadly supported)
+- `Article` schema (not `BlogPosting`. more broadly supported)
 - `author` → Person (Krish)
 - `datePublished`, `dateModified`
 - `image`
@@ -948,7 +948,7 @@ Replace with correctly-scoped schemas:
 - `Course` schema (no course product exists)
 - Any schema referencing deprecated products
 
-### 10.4 — Canonical URL strategy
+### 10.4: Canonical URL strategy
 
 The current setup has canonical URLs set to the homepage (`https://www.themindmaker.ai/`) on EVERY page's default meta, with per-page overrides from the `SEO` component. Multiple canonicals fighting is a real problem.
 
@@ -959,7 +959,7 @@ Fix:
 
 Canonical format: `https://www.themindmaker.ai/path` (no trailing slash except homepage, no query params except for blog filters).
 
-### 10.5 — Per-page OG images
+### 10.5: Per-page OG images
 
 Every page currently shares the same `og-image.jpg?v=2`. Sharing an offer page in Slack shows the generic brand image. Fix:
 
@@ -969,7 +969,7 @@ Every page currently shares the same `og-image.jpg?v=2`. Sharing an offer page i
 
 **Recommendation:** Option A at launch, Option B for blog and Signal in a later milestone.
 
-### 10.6 — Sitemap & robots.txt
+### 10.6: Sitemap & robots.txt
 
 Keep `scripts/generate-sitemap.mjs` in the build chain. Update it to reflect new IA.
 
@@ -999,7 +999,7 @@ Submit updated sitemap to Google Search Console and Bing Webmaster Tools after l
 
 Continue blocking SEO scrapers: AhrefsBot, SemrushBot, MJ12bot, DotBot.
 
-### 10.7 — Internal linking
+### 10.7: Internal linking
 
 The current site is a conversion funnel with almost no internal linking. SEO-wise, this is leaving traffic on the table.
 
@@ -1014,7 +1014,7 @@ Add contextual internal links on every page:
 
 Build a `<RelatedLinks />` component for the bottom of long-form pages (blog, Signal archive entries, Builder Economy).
 
-### 10.8 — Core Web Vitals
+### 10.8: Core Web Vitals
 
 All new pages must meet:
 - **LCP:** < 2.5s on 4G mobile
@@ -1028,11 +1028,11 @@ Specific fixes based on current issues:
 
 Run Lighthouse in CI on every PR. Fail the build if Performance score drops below 90 on homepage.
 
-### 10.9 — LLM / AI agent discoverability
+### 10.9: LLM / AI agent discoverability
 
 This matters specifically for Mindmaker because:
 1. Krish's ICP increasingly uses AI agents for research
-2. Agentic browsers (Arc, ChatGPT, Perplexity, Claude) are Krish's thesis topic — the site should be a reference implementation
+2. Agentic browsers (Arc, ChatGPT, Perplexity, Claude) are Krish's thesis topic, the site should be a reference implementation
 3. AI-cited traffic is growing faster than organic search traffic in some categories
 
 **Add `llms.txt` at the root** (`https://www.themindmaker.ai/llms.txt`):
@@ -1070,7 +1070,7 @@ Template:
 
 **Ensure structured data is LLM-parseable:** Modern LLMs parse JSON-LD when reasoning about a site. Keeping schemas clean and accurate directly affects how Claude, ChatGPT, and Perplexity represent Mindmaker to their users.
 
-### 10.10 — Analytics for SEO
+### 10.10: Analytics for SEO
 
 Add the following to Plausible custom events or Google Search Console integration:
 - Track which pages receive the most search entries
@@ -1100,8 +1100,8 @@ Monthly SEO review: top 10 landing pages, top 10 search queries, bounce rate by 
   - `pre_call_qualifier_completed`
   - `y_fork_clicked` (leaders | products)
   - `signal_desk_card_clicked` (tag, headline hash)
-  - `operators_edge_cta_clicked` (v5 — tracks whether homepage operator section drives clicks to Revenue Architecture)
-  - `operator_page_cta_clicked` (v5 — tracks whether `/operator` drives Revenue Architecture inquiries)
+  - `operators_edge_cta_clicked` (v5, tracks whether homepage operator section drives clicks to Revenue Architecture)
+  - `operator_page_cta_clicked` (v5, tracks whether `/operator` drives Revenue Architecture inquiries)
   - `cohort_enrollment_started` (funnel entry)
   - `cohort_enrollment_completed` (funnel conversion)
 
@@ -1135,7 +1135,7 @@ Monthly SEO review: top 10 landing pages, top 10 search queries, bounce rate by 
 
 ## 13. Build order & milestones
 
-### Milestone 1 — Foundation (Week 1)
+### Milestone 1: Foundation (Week 1)
 1. Install Vike (`vike` + `vike-react`) and configure SSG
 2. Replace `react-helmet` with `react-helmet-async`
 3. Upgrade `src/components/SEO.tsx` (per §10.2)
@@ -1146,49 +1146,49 @@ Monthly SEO review: top 10 landing pages, top 10 search queries, bounce rate by 
 8. Set up 301 redirects for deleted routes (see §2)
 9. Remove global canonical from `index.html`; enforce per-page canonical
 
-### Milestone 2 — Core pages (Week 2)
-10. **Build `/cohort` page** (the primary revenue page — prioritize this)
+### Milestone 2: Core pages (Week 2)
+10. **Build `/cohort` page** (the primary revenue page, prioritize this)
 11. Build `/enterprise` consolidated page (with per-page SEO + Service schemas)
-12. **Build `/operator` page** (v5 — per §4.5) with static architecture diagram, four lesson tiles, and Article schema
+12. **Build `/operator` page** (v5, per §4.5) with static architecture diagram, four lesson tiles, and Article schema
 13. Delete `/sprint/4-week`, `/sprint/90-day`, `/sprints`, `/war-room`, `/fractional-caio`, `/strategy-day` pages
 14. Verify SSG output for all pages (content must render in HTML response, not just after JS hydration)
 
-### Milestone 3 — Cohort infrastructure (Week 3)
+### Milestone 3: Cohort infrastructure (Week 3)
 15. Create Supabase `cohort_dates` table and `cohort_enrollments` table
 16. Build `/admin/cohorts` password-gated admin page for Krish to manage cohort schedules
 17. Integrate Stripe: create Product "AI Decision Cohort", prices ($3,500 full, $1,800 x 2 split)
 18. Build post-purchase webhook: welcome email, Slack invite, Marcus-agent Telegram notification
-19. Integrate with cohort delivery platform (Maven/Teachable/Circle — Krish's choice)
+19. Integrate with cohort delivery platform (Maven/Teachable/Circle. Krish's choice)
 20. Build cohort enrollment countdown / seats-remaining widget for homepage and `/cohort`
 21. Build waitlist email capture for inactive-cohort periods
 
-### Milestone 4 — Homepage (Week 4)
+### Milestone 4: Homepage (Week 4)
 22. Build Y-fork section (cohort vs enterprise variants)
 23. Build ProofStrip section
-24. **Build OperatorsEdge section** (v5 — per §3.7) — typography-only, no logs/terminal aesthetics; pass the CMO-15-second test
+24. **Build OperatorsEdge section** (v5, per §3.7), typography-only, no logs/terminal aesthetics; pass the CMO-15-second test
 25. Build SignalDeskPreview section (front-end only, using mock data initially)
 26. Update hero CTAs and labels
 27. Remove VendorLandscape, AINewsTicker, TheProblem from homepage
 28. Remove ActionsHub from global mount
 29. Update homepage JSON-LD (Organization, WebSite, Person); DELETE AggregateRating and Course schemas; ADD Event schema for the cohort
 
-### Milestone 5 — Signature features (Week 5)
-### Milestone 5 — Signature features (Week 5)
+### Milestone 5: Signature features (Week 5)
+### Milestone 5: Signature features (Week 5)
 30. Build NervousDecisionMachine component + edge function
 31. Build `/tool` dedicated page
 32. Build PreCallQualifier (replaces chatbot)
 33. Delete ChatBot components and `chat-with-krish` edge function
 34. Build EngagementCard tour modal (reusable for enterprise cards)
 
-### Milestone 6 — Signal Desk (Week 6)
+### Milestone 6: Signal Desk (Week 6)
 35. Extend `get-ai-news` edge function to support TAKE card type
 36. Build `/signal` full archive page (SSG-indexed, one page per TAKE)
 37. Seed initial 20-30 cards across the four tags
 38. Hook up real data to SignalDeskPreview
 39. Generate sitemap entries for all new `/signal/[slug]` pages
 
-### Milestone 7 — SEO hardening (Week 7)
-40. Generate per-tier OG images (homepage, cohort, enterprise, operator, signal, tool, blog) — 7 static images
+### Milestone 7: SEO hardening (Week 7)
+40. Generate per-tier OG images (homepage, cohort, enterprise, operator, signal, tool, blog), 7 static images
 41. Write and publish `/llms.txt` at root (include `/operator` reference)
 42. Update `scripts/generate-sitemap.mjs` to match new IA (including `/operator`)
 43. Update `robots.txt` to explicitly allow GPTBot, ClaudeBot, PerplexityBot, Google-Extended
@@ -1196,7 +1196,7 @@ Monthly SEO review: top 10 landing pages, top 10 search queries, bounce rate by 
 45. Submit updated sitemap to Google Search Console and Bing Webmaster Tools
 46. Verify every page renders correct canonical, OG image, and schema in raw HTML response (curl test)
 
-### Milestone 8 — Launch prep (Week 8)
+### Milestone 8: Launch prep (Week 8)
 47. QA pass: accessibility, performance, cross-browser
 48. Analytics event wiring (cohort signup funnel events, enterprise inquiry events, operator CTA tracking)
 49. Core Web Vitals audit and fixes
@@ -1210,7 +1210,7 @@ Monthly SEO review: top 10 landing pages, top 10 search queries, bounce rate by 
 - Case study permission / legalese for the ProofStrip section (Krish owns this)
 - Calendly workflow configuration
 - Stripe re-activation (noted as paused in current README)
-- Email template redesign (Resend templates — separate effort)
+- Email template redesign (Resend templates, separate effort)
 - `/leaders` Decision Readiness Diagnostic redesign (keep as-is for now)
 - Blog redesign (keep as-is for now)
 - Mobile app / PWA work
@@ -1222,7 +1222,7 @@ Monthly SEO review: top 10 landing pages, top 10 search queries, bounce rate by 
 
 | Decision | Rationale |
 |---|---|
-| Split homepage into Y-fork | Two buyers, two value props — stop pretending they're one menu |
+| Split homepage into Y-fork | Two buyers, two value props, stop pretending they're one menu |
 | Delete 5 separate sprint pages → 2 consolidated | One URL per tier; buyers compare in one view; easier to maintain |
 | Publish all pricing | Anti-consultancy positioning requires transparent pricing |
 | Keep rotating hero headline | Krish's audience is confused; rotation mirrors that accurately |
@@ -1250,7 +1250,7 @@ Monthly SEO review: top 10 landing pages, top 10 search queries, bounce rate by 
 | **v4: Cohort delivery via third-party platform (Maven/Teachable/Circle)** | Do not build custom curriculum hosting. Site is marketing surface; cohort lives on a purpose-built platform. Saves 4-6 weeks of build time. |
 | **v5: Add "Operator's Edge" homepage section** | Krish's 14-agent operating system is a real differentiator most AI advisors can't claim. One tight homepage section establishes the credential without drifting into complexity theater. Passes the CMO-15-second test. |
 | **v5: Create `/operator` deep page** | Provides substantive technical depth for the curious buyer without cluttering the commercial conversion funnel. Becomes Krish's "share in outbound" URL. Strengthens Revenue Architecture close rate by signaling "different class of advisor." |
-| **v5: Operator narrative stays moderate, not heavy** | Heavy operator-first positioning would shift the buyer from "commercial strategist" to "agentic systems consultant" — a less mature market with longer sales cycles. Moderate weight keeps the commercial offers intact while adding a differentiation moat. |
+| **v5: Operator narrative stays moderate, not heavy** | Heavy operator-first positioning would shift the buyer from "commercial strategist" to "agentic systems consultant", a less mature market with longer sales cycles. Moderate weight keeps the commercial offers intact while adding a differentiation moat. |
 | **v5: Reject terminal aesthetics and live agent dashboards on public pages** | Complexity theater alienates commercial buyers. Typography and specific claims do the work instead. Vanity check baked into `/operator` page spec. |
 
 ---

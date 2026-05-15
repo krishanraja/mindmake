@@ -6,10 +6,10 @@
 
 ---
 
-## 2026-04-26 — Documentation refresh + sales-playbook anchor
+## 2026-04-26: Documentation refresh + sales-playbook anchor
 
 - Reconciled all `project-documentation/*` files with the actual codebase as of 2026-04-26
-- Added `project-documentation/SALES_PLAYBOOK.md` — single ground-truth doc for AI sales/marketing agents (ICP signals, pain → offer mapping, ROI math, objection bank, channel templates, routing logic)
+- Added `project-documentation/SALES_PLAYBOOK.md`. single ground-truth doc for AI sales/marketing agents (ICP signals, pain → offer mapping, ROI math, objection bank, channel templates, routing logic)
 - Renamed `/signal` nav label across all docs from "The Brief" → **Live Intel**
 - Corrected Revenue Architecture duration to **30 days (4–5 calendar weeks)**
 - Corrected Signal Session deliverable to **15–20 page Commercial Narrative within 48 hours**
@@ -18,7 +18,7 @@
 - Documented chip-based PreCallQualifier (decision → timeline → stakes)
 - Rewrote root `README.md` and this `CHANGELOG.md` to reflect current state
 
-## 2026-04 — Operator polish wave + new pages
+## 2026-04: Operator polish wave + new pages
 
 - Added `/immersion` and `/new-age-leadership` routes (lazy-loaded)
 - Promoted New Age Leadership into Resources nav, dropped All Enterprise footer link
@@ -30,7 +30,7 @@
 - `send-lead-email` upgraded to Gemini company research with Google Search grounding (3× retry); qualifier Q&A surfaced first in lead email; commitment-level prominent
 - UX audit P0/P1 wave: diagnostic crash, contact storage, console noise, contrast fixes
 
-## 2026-03 — v4 barbell + v5 Operator's Edge
+## 2026-03: v4 barbell + v5 Operator's Edge
 
 - Retired 1:1 sprint products from the public site (4-Week, 90-Day, Builder)
 - Introduced The AI Decision Cohort ($3,500/seat, quarterly)
@@ -42,7 +42,7 @@
 - Retired ChatBot; replaced by `PreCallQualifier`
 - Unified primary CTA to "Book a call" everywhere
 
-## 2026-02 — Brand vision 11/10
+## 2026-02: Brand vision 11/10
 
 - Brand repositioned: "AI advisory" → "anti-consultancy for nervous decisions"
 - Framework established: Mind Set → Mind Map → Mind Make
@@ -50,7 +50,7 @@
 - Two-color system: Ink + Mint
 - All project documentation rewritten to match new brand spec
 
-## 2026-01 — Foundations and polish
+## 2026-01: Foundations and polish
 
 - WCAG AA compliance pass; dark-card text contrast tokens
 - Scroll hijack rewrite (continuous monitoring + snap-to-position); permanent hero scrollbar fix
@@ -59,7 +59,7 @@
 - Lead enrichment via OpenAI company research
 - Stripe $50 hold paused; direct Calendly booking
 
-## 2025-11 / 2025-12 — Initial launch
+## 2025-11 / 2025-12: Initial launch
 
 - Lovable project + Supabase Cloud setup
 - React + Tailwind + shadcn/ui design system

@@ -98,7 +98,7 @@ const fetchModelData = async (apiKey: string): Promise<ModelData[]> => {
       const creator = m.model_creator?.name || m.model_creator || 'Unknown';
       if (!name) return null;
 
-      // Extract benchmark score — check common field patterns
+      // Extract benchmark score, check common field patterns
       const benchmarkScore =
         m.evaluations?.quality_index ??
         m.evaluations?.overall_quality ??

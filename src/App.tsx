@@ -93,14 +93,14 @@ const AppRoutes = () => {
             <Route path="/signal" element={<Brief />} />
             <Route path="/library" element={<Library />} />
 
-            {/* Hidden pages — linked from footer, not nav */}
+            {/* Hidden pages, linked from footer, not nav */}
             <Route path="/immersion" element={<Immersion />} />
             <Route path="/new-age-leadership" element={<NewAgeLeadership />} />
 
-            {/* /tool deleted — decision machine now lives inside Brief at /signal#decision */}
+            {/* /tool deleted. Decision machine now lives inside Brief at /signal#decision */}
             <Route path="/tool" element={<Navigate to="/signal#decision" replace />} />
 
-            {/* /builder-economy deleted — canonical site is thebuildereconomy.com */}
+            {/* /builder-economy deleted. Canonical site is thebuildereconomy.com */}
             <Route
               path="/builder-economy"
               element={<ExternalRedirect to="https://www.thebuildereconomy.com" />}

@@ -29,12 +29,12 @@ const YFork = () => {
             Three doors. Pick yours.
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-            Each one starts a different conversation. The cohort is for senior leaders making one nervous AI decision. Enterprise is for companies translating AI capability into commercial revenue. Capital is for funds and family offices going AI-native at the fund level and across the portfolio.
+            Cohort is for the leader sitting on one nervous AI decision. Enterprise is for the company that needs AI to actually move revenue. Capital is for funds rebuilding the firm itself, then running the same playbook through the portfolio.
           </p>
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-          {/* Card 1 — Cohort */}
+          {/* Card 1: Cohort */}
           <motion.article
             className="glass-card editorial-card p-8 md:p-10 flex flex-col h-full group hover:-translate-y-1 hover:shadow-xl hover:shadow-mint/10 transition-all duration-300 border border-border/50 hover:border-mint/40"
             initial="hidden"
@@ -50,7 +50,7 @@ const YFork = () => {
               Make your AI decisions with 14 other senior leaders.
             </h3>
             <p className="text-muted-foreground mb-6 leading-relaxed flex-grow">
-              The AI Decision Cohort runs quarterly. Three weeks async, three live sessions, 10-15 senior leaders. Show up with a nervous AI decision, leave with a board-ready position. Small group. Peer pressure. Accountability.
+              The AI Decision Cohort runs quarterly. Three weeks async, three live sessions, 10-15 senior leaders. Bring the decision you've been avoiding. Walk out with a position you can defend in front of the board. Fifteen people in the room means nowhere to hide.
             </p>
             <div className="mt-auto">
               <div className="flex items-baseline gap-2 mb-6 pb-6 border-b border-border/50">
@@ -69,7 +69,7 @@ const YFork = () => {
             </div>
           </motion.article>
 
-          {/* Card 2 — Enterprise */}
+          {/* Card 2: Enterprise */}
           <motion.article
             className="glass-card editorial-card p-8 md:p-10 flex flex-col h-full group hover:-translate-y-1 hover:shadow-xl hover:shadow-mint/10 transition-all duration-300 border border-border/50 hover:border-mint/40"
             initial="hidden"
@@ -85,7 +85,7 @@ const YFork = () => {
               Build the engine. Or rebuild it.
             </h3>
             <p className="text-muted-foreground mb-6 leading-relaxed flex-grow">
-              For companies translating AI capability into commercial revenue. 30 days, fixed scope, one person in the room. New ICP, new pricing, new GTM, new content engine, new outbound, running AI-native from day one.
+              For companies whose AI work isn't showing up in revenue yet. 30 days, fixed scope, me in the room. We rewrite ICP, pricing, GTM, content and outbound so the company actually runs on AI instead of just talking about it.
             </p>
             <div className="mt-auto">
               <div className="flex items-baseline gap-2 mb-6 pb-6 border-b border-border/50">
@@ -106,7 +106,7 @@ const YFork = () => {
             </div>
           </motion.article>
 
-          {/* Card 3 — Capital */}
+          {/* Card 3: Capital */}
           <motion.article
             className="glass-card editorial-card p-8 md:p-10 flex flex-col h-full group hover:-translate-y-1 hover:shadow-xl hover:shadow-mint/10 transition-all duration-300 border border-border/50 hover:border-mint/40"
             initial="hidden"
@@ -122,7 +122,7 @@ const YFork = () => {
               Make the fund AI-native. Then the portfolio.
             </h3>
             <p className="text-muted-foreground mb-6 leading-relaxed flex-grow">
-              For Operating Partners, family offices, and funds. Make the fund or family office itself AI-native first. Then deploy the same engine across portfolio companies. Fund-level pricing for repeat engagements.
+              For Operating Partners, family offices, and funds. We rebuild how the firm itself operates first: diligence, ops, reporting. Then run the same playbook through portfolio companies. Repeat-engagement pricing at the fund level.
             </p>
             <div className="mt-auto">
               <div className="flex items-baseline gap-2 mb-6 pb-6 border-b border-border/50">

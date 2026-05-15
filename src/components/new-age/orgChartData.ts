@@ -34,7 +34,7 @@ export const nodeVariantClasses = (kind: NodeKind): string =>
     ? "bg-mint text-ink border-mint"
     : "bg-gradient-to-br from-ink via-ink/95 to-mint/40 text-white border-mint/50";
 
-// Layout constants — we hand-place nodes in a compact hierarchy so the
+// Layout constants. We hand-place nodes in a compact hierarchy so the
 // chart reads cleanly on laptop widths without ReactFlow's auto-layout.
 const COL = 220;
 const ROW = 130;
@@ -138,8 +138,8 @@ const newAgeNodes: OrgNode[] = [
       kind: "human",
       category: "decision-critical",
       decisionPrompt: {
-        headline: "Chief of Staff — Always human",
-        body: "Decision-critical roles stay human. Judgment, discretion, and political capital are not delegable to an agent fleet. But the role's texture changes — your Chief of Staff now orchestrates outputs from a dozen agents, not a dozen people.",
+        headline: "Chief of Staff: Always human",
+        body: "Decision-critical roles stay human. Judgment, discretion, and political capital are not delegable to an agent fleet. But the role's texture changes. Your Chief of Staff now orchestrates outputs from a dozen agents, not a dozen people.",
         decisionLabel: "Decision you'd face",
         decisionBody:
           "Does your current Chief of Staff have the literacy to orchestrate agent outputs? If not, is it a training gap or a hiring gap? The answer changes the next 12 months of your org.",
@@ -151,16 +151,16 @@ const newAgeNodes: OrgNode[] = [
     type: "org",
     position: { x: CENTER + COL, y: ROW },
     data: {
-      label: "Agatha — COO Agent",
+      label: "Agatha, COO Agent",
       subtitle: "Fleet governance",
       kind: "agent",
       category: "emergent",
       decisionPrompt: {
-        headline: "Agatha — COO Agent",
+        headline: "Agatha, COO Agent",
         body: "The agent that orchestrates the other agents. Surfaces strategic tensions, flags drift, and (as you'll see in the story below) identifies capability gaps the fleet didn't know it had.",
         decisionLabel: "Decision you'd face",
         decisionBody:
-          "Who is the human counterpart to your COO-agent? Most orgs haven't named one. The first time your COO-agent surfaces a decision that spans two human VPs, you'll need a human owner of the response — not a meeting to schedule a meeting.",
+          "Who is the human counterpart to your COO-agent? Most orgs haven't named one. The first time your COO-agent surfaces a decision that spans two human VPs, you'll need a human owner of the response, not a meeting to schedule a meeting.",
       },
     },
   },
@@ -174,7 +174,7 @@ const newAgeNodes: OrgNode[] = [
       kind: "hybrid",
       category: "hybrid-team",
       decisionPrompt: {
-        headline: "Marketing / Content — Hybrid team",
+        headline: "Marketing / Content: Hybrid team",
         body: "One human lead (owns voice, judgment, relationships). Three agents (research, draft generation, distribution timing). 80% of the throughput is agent-produced; the judgment on what's shipped stays human.",
         decisionLabel: "Decision you'd face",
         decisionBody:
@@ -192,11 +192,11 @@ const newAgeNodes: OrgNode[] = [
       kind: "agent",
       category: "agent-first",
       decisionPrompt: {
-        headline: "Lead Scoring — Agent-first function",
+        headline: "Lead Scoring: Agent-first function",
         body: "Once a human-default function, now run end-to-end by an agent. A human only gets involved in the exception path: accounts that score ambiguously, enterprise deals over a threshold, or reputational risks.",
         decisionLabel: "Decision you'd face",
         decisionBody:
-          "The people who used to do lead scoring — replace, empower, or redeploy? Each answer has a different timeline and a different political cost. You'll make this call for a dozen functions over the next two years. The first one sets the precedent for the rest.",
+          "The people who used to do lead scoring: replace, empower, or redeploy? Each answer has a different timeline and a different political cost. You'll make this call for a dozen functions over the next two years. The first one sets the precedent for the rest.",
       },
     },
   },
@@ -210,11 +210,11 @@ const newAgeNodes: OrgNode[] = [
       kind: "hybrid",
       category: "hybrid-team",
       decisionPrompt: {
-        headline: "Customer Research — Hybrid team",
-        body: "The interviews are still human. The synthesis, the pattern-matching across hundreds of calls, the drafting of research memos — all agent-assisted. The human role becomes more senior, not less.",
+        headline: "Customer Research: Hybrid team",
+        body: "The interviews are still human. The synthesis, the pattern-matching across hundreds of calls, the drafting of research memos: all agent-assisted. The human role becomes more senior, not less.",
         decisionLabel: "Decision you'd face",
         decisionBody:
-          "Junior research roles get thinner — mid-level and senior roles get more leveraged. What's your pipeline for developing the next generation of senior researchers when the junior rungs have been cut away?",
+          "Junior research roles get thinner while mid-level and senior roles get more leveraged. What's your pipeline for developing the next generation of senior researchers when the junior rungs have been cut away?",
       },
     },
   },
@@ -228,7 +228,7 @@ const newAgeNodes: OrgNode[] = [
       kind: "agent",
       category: "agent-first",
       decisionPrompt: {
-        headline: "Dependency Monitoring — Agent-first function",
+        headline: "Dependency Monitoring: Agent-first function",
         body: "No human watches integration dashboards anymore. An agent (Kai, in our case) monitors every API, every vendor, every cost curve. Escalates to a human when thresholds are breached, not when nothing is wrong.",
         decisionLabel: "Decision you'd face",
         decisionBody:
@@ -246,8 +246,8 @@ const newAgeNodes: OrgNode[] = [
       kind: "agent",
       category: "agent-first",
       decisionPrompt: {
-        headline: "BD Ops — Agent-first function",
-        body: "Prospect research, personalization, cadence, reply triage — all agent-run. The human steps in to close. In our fleet, Marcus handles the first 80% of the funnel before a human ever sees the prospect.",
+        headline: "BD Ops: Agent-first function",
+        body: "Prospect research, personalization, cadence, reply triage: all agent-run. The human steps in to close. In our fleet, Marcus handles the first 80% of the funnel before a human ever sees the prospect.",
         decisionLabel: "Decision you'd face",
         decisionBody:
           "Your SDRs are now your orchestrators, not your outreachers. What's the job you're hiring for, and does the person sitting in that seat today still fit the job description you're about to write?",
@@ -265,8 +265,8 @@ const newAgeNodes: OrgNode[] = [
       category: "emergent",
       featured: true,
       decisionPrompt: {
-        headline: "Intelligence Synthesist — Agent-native role",
-        body: "This role did not exist in our planned org chart. It emerged when Agatha, the COO-agent, flagged that outputs from across the fleet were not being synthesized into coherent executive briefings — each agent was reporting in isolation.\n\nAgatha proposed the role herself and recommended its specification. A new agent (Nova) was created to fulfill it.",
+        headline: "Intelligence Synthesist: Agent-native role",
+        body: "This role did not exist in our planned org chart. It emerged when Agatha, the COO-agent, flagged that outputs from across the fleet were not being synthesized into coherent executive briefings. Each agent was reporting in isolation.\n\nAgatha proposed the role herself and recommended its specification. A new agent (Nova) was created to fulfill it.",
         decisionLabel: "Decision you'd face",
         decisionBody:
           "When an AI teammate identifies a capability gap in your org and proposes a role to fill it, who approves the hire? What's your vetting process? What's the org-chart governance protocol you haven't written yet?",

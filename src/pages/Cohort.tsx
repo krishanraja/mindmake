@@ -39,7 +39,7 @@ const curriculum = [
   {
     week: 1,
     title: "Name the decision.",
-    body: "You arrive with an AI decision you've been putting off. You leave week one with the real decision underneath it named, scoped and shareable.",
+    body: "You arrive with an AI decision you've been putting off. By the end of week one, you've named the real decision sitting under it and scoped it tightly enough to send to someone else.",
     async: "3 videos · 2 frameworks · 1 worksheet",
     live: "90 min peer-guided decision-naming session",
   },
@@ -53,14 +53,14 @@ const curriculum = [
   {
     week: 3,
     title: "Make the call.",
-    body: "You commit. Out loud. To the group. You leave with a one-page decision memo ready to send to your board, your team or your manager.",
+    body: "You commit, out loud, to the group. You leave with a one-page decision memo you can actually send to whoever needs to read it next.",
     async: "1 video · decision memo template",
     live: "90 min memo peer review and commitment",
   },
 ];
 
 const walkOutWith = [
-  "Board-ready decision memo (1 page)",
+  "One-page decision memo you can send up the chain",
   "Trade-off analysis document",
   "Access to the cohort Slack for 90 days post-cohort",
   "Lifetime access to curriculum materials",
@@ -113,13 +113,13 @@ export default function Cohort() {
     <main className="min-h-screen bg-background">
       <SEO
         title="The AI Decision Cohort"
-        description="Make your nervous AI decision with 15 other senior leaders. Three weeks. Mostly async. Three live sessions. $3,500 per seat, quarterly."
+        description="Make your nervous AI decision with 15 other senior leaders. Three weeks, mostly async, with three live sessions. $3,500 per seat, quarterly."
         canonical="/cohort"
         ogType="website"
       />
       <Navigation />
 
-      {/* Inquiry banner — shown only if ?inquiry=1:1 */}
+      {/* Inquiry banner: shown only if ?inquiry=1:1 */}
       {showInquiryBanner && (
         <div className="pt-20">
           <div className="container-width max-w-5xl">
@@ -162,7 +162,7 @@ export default function Cohort() {
               Make your nervous AI decision with <span className="text-mint-dark dark:text-mint">15 other senior leaders.</span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-              Three weeks. Mostly async. Three live sessions. You leave with the one decision you've been avoiding, pressure-tested by a room full of people who've been there.
+              Three weeks, mostly async, with three live sessions in between. You leave with the one decision you've been avoiding, pressure-tested by a room full of people sitting in the same chair you are.
             </p>
 
             <div className="inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm mb-8">
@@ -206,7 +206,7 @@ export default function Cohort() {
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeUp}
           >
-            You've been pitched 14 AI vendor decks this quarter. You have a nervous AI decision you keep deferring: build vs buy, tool commitment, a clone, its boundaries, vendor lock-in, something. You're tired of thinking alone. You don't have time for a consultant. You want to <span className="text-foreground font-bold">decide</span>.
+            You've been pitched 14 AI vendor decks this quarter. You have a nervous AI decision you keep deferring: build vs buy, tool commitment, a clone and its boundaries, vendor lock-in, something. You're tired of thinking alone, you don't have time to hire a consultant, and you want to <span className="text-foreground font-bold">decide</span>.
           </motion.p>
         </div>
       </section>
@@ -290,7 +290,7 @@ export default function Cohort() {
       <section className="section-padding bg-muted/30">
         <div className="container-width max-w-3xl">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}>
-            <h2 className="text-3xl md:text-4xl font-bold mb-10">What you walk out with.</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-10">What you keep.</h2>
           </motion.div>
           <ul className="space-y-3">
             {walkOutWith.map((item, i) => (

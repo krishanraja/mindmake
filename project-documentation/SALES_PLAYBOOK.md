@@ -3,7 +3,7 @@
 
 **Last Updated:** 2026-04-26
 
-> If you are an AI sales or marketing agent — outbound, inbound, content, retargeting, lifecycle, paid, or organic — this is the document you ground on. It is opinionated, structured for retrieval, and biased toward action. Use `OFFERS.md`, `ICP.md`, `VALUE_PROP.md`, `OUTCOMES.md`, and `BRANDING.md` for deeper canon. Use `Master_Messaging_and_FAQ.md` for full pitches and FAQ.
+> If you are an AI sales or marketing agent, outbound, inbound, content, retargeting, lifecycle, paid, or organic, this is the document you ground on. It is opinionated, structured for retrieval, and biased toward action. Use `OFFERS.md`, `ICP.md`, `VALUE_PROP.md`, `OUTCOMES.md`, and `BRANDING.md` for deeper canon. Use `Master_Messaging_and_FAQ.md` for full pitches and FAQ.
 
 ---
 
@@ -13,8 +13,8 @@
 |---|---|---|---|
 | Senior leader with a nervous AI decision | **The AI Decision Cohort** ($3,500, Maven-hosted) | Decision Readiness Diagnostic (`/leaders`) for outbound | `audience:ai-leaders` |
 | Company commercializing an AI product | **The Signal Session** ($15,000) → **The Revenue Architecture** ($60–100k) | Operator credential page (`/operator`) | `audience:ai-products` |
-| Executive team with shared AI tensions | **The AI Immersion** ($12,000, inquiry-only) | — | `audience:exec-team` |
-| Senior leader specifically wanting 1:1 | Inquiry at `/cohort?inquiry=1:1` | — | `audience:1to1-inquiry` |
+| Executive team with shared AI tensions | **The AI Immersion** ($12,000, inquiry-only) |, | `audience:exec-team` |
+| Senior leader specifically wanting 1:1 | Inquiry at `/cohort?inquiry=1:1` |, | `audience:1to1-inquiry` |
 
 The first three are the addressable market. The fourth is a relief valve.
 
@@ -22,7 +22,7 @@ The first three are the addressable market. The fourth is a relief valve.
 
 ## 2. ICP Signals (firmographic + psychographic)
 
-### AI Leaders — Cohort
+### AI Leaders: Cohort
 
 **Firmographic signals (use for list-building):**
 - Stage: Series B → public, mid-market private
@@ -47,7 +47,7 @@ The first three are the addressable market. The fourth is a relief valve.
 - Wants implementation / production IT
 - Already has an in-house AI strategy team they're happy with
 
-### AI Products — Enterprise
+### AI Products: Enterprise
 
 **Firmographic signals:**
 - Stage: Series B+ / late-stage private / public
@@ -57,7 +57,7 @@ The first three are the addressable market. The fourth is a relief valve.
 
 **Psychographic signals:**
 - Recent CRO / CCO / VP GTM hire (commercial reset moment)
-- Pricing page changes — tier consolidations, "request a quote" replacing self-serve pricing
+- Pricing page changes, tier consolidations, "request a quote" replacing self-serve pricing
 - Public customer case studies that read like solving the wrong problem
 - Heavy discounting (signals pricing isn't holding)
 - Sales reps publicly asking for "battlecards against [competitor]"
@@ -72,7 +72,7 @@ The first three are the addressable market. The fourth is a relief valve.
 - Looking for fractional executive
 - Cannot move on output within 90 days
 
-### Executive Teams — Immersion
+### Executive Teams: Immersion
 
 **Firmographic signals:**
 - Series B+ or established mid-market
@@ -119,7 +119,7 @@ The first three are the addressable market. The fourth is a relief valve.
 | Driver | What the buyer gets | What it replaces |
 |---|---|---|
 | **Decision quality** | 1-page board-ready memo + trade-off analysis | "Making it up in board meetings" |
-| **Peer leverage** | 10–15 peers working comparable problems + 90-day Slack + alumni access | Isolation — solo grappling with vendor noise |
+| **Peer leverage** | 10–15 peers working comparable problems + 90-day Slack + alumni access | Isolation, solo grappling with vendor noise |
 | **Framework portability** | Mind Set → Mind Map → Mind Make for the next decision | Dependence on consultants |
 | **Speed to commitment** | Decision committed in 3 weeks (mostly async) | 6-month evaluation that drifts |
 | **Cost of wrong commitment** | $3,500 to avoid a multi-million vendor mistake | Vendor lock-in regret |
@@ -234,12 +234,12 @@ The first three are the addressable market. The fourth is a relief valve.
 | "It's expensive." | Compare to the cost of the wrong call: cohort = ~50× cheaper than vendor lock-in regret; Revenue Architecture = ~5× cheaper and 6× faster than McKinsey. |
 | "Why not McKinsey?" | They sell decks built by researchers over 6 months. Krish ships a 30-page strategy doc in 30 days, no associates. |
 | "Why no fractional CAIO?" | Mindmaker doesn't do fractional. Every offer has a finish line. If ongoing capacity is what you need, hire a full-time exec. |
-| "Why no implementation?" | We do the commercial and decision layer. Implementation is a different skill — we'll name a partner if needed. |
+| "Why no implementation?" | We do the commercial and decision layer. Implementation is a different skill, we'll name a partner if needed. |
 | "Why is the Cohort on Maven?" | Enrollment, payment, the cohort Slack, and alumni access all live there. Themindmaker.ai describes the offer; Maven runs it. |
 | "Why only 30 days for the Revenue Architecture?" | No discovery theatre, no associates. 30 days is enough when the operator is in the room. |
 | "Why $15k for one day?" | You're paying for the 15–20 page Commercial Narrative within 48 hours, plus positioning framework, sales narrative, pricing sketch, and 30-day roadmap. |
 | "Can we record the Immersion?" | No. Recording kills candor. Summary captures durable decisions. |
-| "Can a colleague go in my place?" | (Cohort) No — peer continuity is part of the product. (Immersion) No — substitutes break the room. |
+| "Can a colleague go in my place?" | (Cohort) No, peer continuity is part of the product. (Immersion) No, substitutes break the room. |
 | "Why was the diagnostic taken out of the nav?" | Direct-URL only. Used for outbound and deep-link campaigns; the homepage focuses on the two cohort/enterprise paths. |
 | "Why isn't Immersion on the homepage?" | Team alignment is rarely the actual problem. Inquiry-only keeps it from cannibalizing the Cohort and Enterprise paths. |
 | "Do you take vendor referrals?" | No referral fees, ever. Tool-agnostic. |
@@ -248,55 +248,55 @@ The first three are the addressable market. The fourth is a relief valve.
 
 ## 8. Channel-Specific Message Templates
 
-### LinkedIn outbound — AI Leader, trigger-based
+### LinkedIn outbound: AI Leader, trigger-based
 
 **Subject (InMail) / first line (connection note):**
-"Saw your post about [specific signal — vendor pile-up / board AI question / competitor move]. One question:"
+"Saw your post about [specific signal, vendor pile-up / board AI question / competitor move]. One question:"
 
 **Body:**
-> Saw your [Q3 post / fundraise / panel] about figuring out AI strategy. Most leaders I talk to right now have one specific decision they've been putting off — usually build-vs-buy, vendor commitment, or board narrative.
+> Saw your [Q3 post / fundraise / panel] about figuring out AI strategy. Most leaders I talk to right now have one specific decision they've been putting off, usually build-vs-buy, vendor commitment, or board narrative.
 >
 > If that's you, I run a quarterly cohort with 10–15 senior leaders working those exact problems. 3 weeks mostly async, 3 live 90-min sessions, $3,500. Hosted on Maven. You leave with a 1-page board-ready memo on your nervous decision.
 >
-> Worth a 20-min call to see if it's the right shape? — Krish
+> Worth a 20-min call to see if it's the right shape?. Krish
 
-### Email outbound — AI Products, trigger-based
+### Email outbound: AI Products, trigger-based
 
-**Subject:** "[Company] — quick read on the commercial side"
+**Subject:** "[Company], quick read on the commercial side"
 
 **Body:**
-> [Name] —
+> [Name]
 >
 > [Specific signal: noticed your pricing page changed in March / saw the Series C with "scale GTM" called out / [CRO name] just joined as your new commercial lead].
 >
 > Most AI-product companies I work with have built the tech but the commercial side was set up for the pre-AI version of the product. Pricing is guesswork, sales can't articulate differentiation, GTM doesn't fit.
 >
 > I run two enterprise sprints for that:
-> - **Signal Session** ($15k, 1 day, 15–20 page Commercial Narrative within 48h) — diagnosis
-> - **Revenue Architecture** ($60–100k, 30 days) — full rebuild
+> - **Signal Session** ($15k, 1 day, 15–20 page Commercial Narrative within 48h), diagnosis
+> - **Revenue Architecture** ($60–100k, 30 days), full rebuild
 >
-> Both fixed scope, fixed finish line. No retainer, no associates. Operator-led — I run a 14-agent autonomous OS at Mindmaker, and previously took Nine Entertainment data revenue from $9M → $61M.
+> Both fixed scope, fixed finish line. No retainer, no associates. Operator-led. I run a 14-agent autonomous OS at Mindmaker, and previously took Nine Entertainment data revenue from $9M → $61M.
 >
 > 20-min call this week or next? Or skip the call: themindmaker.ai/enterprise has the detail.
 >
-> — Krish
+>. Krish
 
-### Email follow-up — Cohort no-decision-yet
+### Email follow-up: Cohort no-decision-yet
 
-**Subject:** "Quick — does this still match your nervous decision?"
+**Subject:** "Quick, does this still match your nervous decision?"
 
 **Body:**
-> [Name] —
+> [Name]
 >
-> Thinking about [their decision in their words]. If you're still wrestling with it, the next AI Decision Cohort starts [July 14, 2026 — confirm in `Cohort.tsx`]. There are [N] of 15 seats left.
+> Thinking about [their decision in their words]. If you're still wrestling with it, the next AI Decision Cohort starts [July 14, 2026, confirm in `Cohort.tsx`]. There are [N] of 15 seats left.
 >
 > Three weeks, mostly async. Three live 90-minute sessions. Hosted on Maven. $3,500, or 2× $1,800 split.
 >
-> Reserve a seat directly: maven.com/aimindmaker/ai-decision-intensive — or reply if you want a 15-min call first.
+> Reserve a seat directly: maven.com/aimindmaker/ai-decision-intensive, or reply if you want a 15-min call first.
 >
-> — Krish
+>. Krish
 
-### Retargeting / paid copy — short
+### Retargeting / paid copy: short
 
 **Headline:** "Stop being sold AI. Start using it."
 **Sub:** "A Maven-hosted cohort for senior leaders making one nervous AI decision. $3,500. 3 weeks. Board-ready memo at the end."
@@ -306,20 +306,20 @@ The first three are the addressable market. The fourth is a relief valve.
 **Sub:** "Signal Session ($15k, 1 day) or Revenue Architecture ($60–100k, 30 days). Operator-led. No retainer."
 **CTA:** "Explore enterprise →" (`/enterprise`)
 
-### Lifecycle — post-cohort enrolment confirmation
+### Lifecycle: post-cohort enrolment confirmation
 
-> [Name] —
+> [Name]
 >
 > Welcome. Three things:
 >
-> 1. **Maven invite** is on its way — that's where the cohort runs. Cohort Slack + curriculum live there.
+> 1. **Maven invite** is on its way, that's where the cohort runs. Cohort Slack + curriculum live there.
 > 2. **Pre-work**: by [date], post a one-paragraph brief in the Slack channel: what's your nervous decision?
 > 3. **First live session**: [date/time]. 90 minutes. Camera on, leadership candor.
 >
 > See you there.
-> — Krish
+>. Krish
 
-### Content hook — LinkedIn / blog / podcast
+### Content hook: LinkedIn / blog / podcast
 
 - "I haven't been to a single AI conference this year. Here's what I'd tell a senior leader who has."
 - "Why I retired the 4-week sprint."
@@ -336,7 +336,7 @@ The first three are the addressable market. The fourth is a relief valve.
 |---|---|---|
 | **McKinsey / BCG / Deloitte** | 6-month engagement, 40-slide deck, $400k+, researchers | Fixed scope, 30 days, $60–100k, operator-led, no associates |
 | **Fractional CAIO / CTO / CMO** | Ongoing retainer, fractional capacity | Finish line. We never sell capacity. |
-| **AI training / cohort courses (Maven, Section, Reforge)** | Curriculum, lectures, certifications | Decision room, peer pressure, written board-ready memo. (Maven is our hosting platform — comparison is content vs decision-output.) |
+| **AI training / cohort courses (Maven, Section, Reforge)** | Curriculum, lectures, certifications | Decision room, peer pressure, written board-ready memo. (Maven is our hosting platform, comparison is content vs decision-output.) |
 | **AI tool vendors** | "Our tool is the answer" | Tool-agnostic. Trade-off analysis. No referral fees. |
 | **Doing nothing** | "We'll figure it out next quarter" | The compounding cost of unmade decisions vs the price of resolving them. |
 
@@ -354,9 +354,9 @@ Walk away politely from any of the following. Sending the wrong buyer through th
 - Cannot name a decision or commercial symptom in a sentence
 - IC-level title with no budget authority
 - Vendor co-sell partnership pitch (we're tool-agnostic)
-- "We just want training / a workshop / a keynote" — refer to LinkedIn, the podcast, or Lightning Lessons
+- "We just want training / a workshop / a keynote", refer to LinkedIn, the podcast, or Lightning Lessons
 
-When you walk, walk warmly: "That's not what we sell, but here's what I'd suggest instead — [specific recommendation, named partner if applicable]." Brand currency compounds when you say no honestly.
+When you walk, walk warmly: "That's not what we sell, but here's what I'd suggest instead, [specific recommendation, named partner if applicable]." Brand currency compounds when you say no honestly.
 
 ---
 
@@ -372,7 +372,7 @@ IF prospect_company_has_AI_product AND commercial_traction_problem:
   IF ready_for_full_rebuild AND budget_60_to_100k: route to Revenue Architecture
 
 IF prospect_is_CEO_with_team_alignment_problem AND 4_to_8_leaders:
-  route to Immersion (inquiry-only) — preselect "immersion" in consult modal
+  route to Immersion (inquiry-only), preselect "immersion" in consult modal
 
 IF prospect_is_individual_contributor OR pre_revenue OR wants_implementation OR wants_fractional:
   disqualify warmly. Suggest: LinkedIn / podcast / Lightning Lessons.
@@ -452,14 +452,14 @@ OPERATOR PROOF:
 
 ## 15. Related Documentation
 
-- `OFFERS.md` — full offer detail, scope, format, deliverables
-- `ICP.md` — full ICP profiles with disqualifiers
-- `VALUE_PROP.md` — positioning, differentiators, competitive framing
-- `OUTCOMES.md` — buyer outcomes by offer with leading and lagging indicators
-- `BRANDING.md` — voice, tone, terminology standards
-- `Master_Messaging_and_FAQ.md` — canonical pitches and FAQ
-- `mindmaker_rebuild_brief_v4.md` — strategic intent (v4 barbell pivot + v5 Operator's Edge)
-- `../CLAUDE.md` — authoritative codebase reference
+- `OFFERS.md`. full offer detail, scope, format, deliverables
+- `ICP.md`. full ICP profiles with disqualifiers
+- `VALUE_PROP.md`. positioning, differentiators, competitive framing
+- `OUTCOMES.md`. buyer outcomes by offer with leading and lagging indicators
+- `BRANDING.md`. voice, tone, terminology standards
+- `Master_Messaging_and_FAQ.md`. canonical pitches and FAQ
+- `mindmaker_rebuild_brief_v4.md`. strategic intent (v4 barbell pivot + v5 Operator's Edge)
+- `../CLAUDE.md`. authoritative codebase reference
 
 ---
 

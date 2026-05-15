@@ -33,7 +33,7 @@ const cards: { fate: Face; value: Face }[] = [
     value: {
       icon: Rocket,
       strong: "Ships, not slides.",
-      sub: "Working systems and defensible decisions — built alongside you in real time.",
+      sub: "Working systems and decisions you can defend, built alongside you in real time.",
     },
   },
   {
@@ -49,7 +49,7 @@ const cards: { fate: Face; value: Face }[] = [
     value: {
       icon: KeyRound,
       strong: "Yours to keep.",
-      sub: "A Mindmake roadmap and operating rhythms you'll carry for years.",
+      sub: "A Mindmake roadmap and the working habits to run it. Yours for years.",
     },
   },
 ];
@@ -77,7 +77,7 @@ const MorphCard = ({ index, fate, value, scrollYProgress }: MorphCardProps) => {
 
   return (
     <div className="relative overflow-hidden rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm h-[78px] sm:h-[92px] md:h-[200px]">
-      {/* Fate face — visible in Act 1, wiped away in Act 3 */}
+      {/* Fate face: visible in Act 1, wiped away in Act 3 */}
       <motion.div
         style={{ clipPath: fateClip, WebkitClipPath: fateClip as unknown as string }}
         className="absolute inset-0 flex flex-row md:flex-col items-center md:items-start gap-4 md:gap-0 p-4 md:p-6"
@@ -89,7 +89,7 @@ const MorphCard = ({ index, fate, value, scrollYProgress }: MorphCardProps) => {
         </div>
       </motion.div>
 
-      {/* Value face — wiped in during Act 3 */}
+      {/* Value face: wiped in during Act 3 */}
       <motion.div
         style={{ clipPath: valueClip, WebkitClipPath: valueClip as unknown as string }}
         className="absolute inset-0 flex flex-row md:flex-col items-center md:items-start gap-4 md:gap-0 p-4 md:p-6"
@@ -138,7 +138,7 @@ const StaticFallback = ({ onCTA }: { onCTA: () => void }) => (
       <p className="text-xl md:text-3xl font-bold text-white leading-snug tracking-tight mb-14 max-w-4xl">
         This isn&rsquo;t a technology decision. <span className="text-mint">It&rsquo;s a leadership one.</span>{" "}
         <span className="font-medium text-white/75">
-          The question isn&rsquo;t whether AI will reshape your business — it&rsquo;s whether you&rsquo;ll be the one
+          The question isn&rsquo;t whether AI will reshape your business. It&rsquo;s whether you&rsquo;ll be the one
           holding the pen.
         </span>
       </p>
@@ -201,13 +201,13 @@ const BigProblem = () => {
   const h1Opacity = useTransform(scrollYProgress, [0, 0.04, 0.28, 0.36], [0, 1, 1, 0]);
   const h1Y = useTransform(scrollYProgress, [0, 0.04, 0.36], [40, 0, -28]);
 
-  // Act 2 — the pivot
+  // Act 2: the pivot
   const h2Opacity = useTransform(scrollYProgress, [0.30, 0.40, 0.56, 0.64], [0, 1, 1, 0]);
   const h2Y = useTransform(scrollYProgress, [0.30, 0.40, 0.64], [40, 0, -28]);
-  // Marker-stroke highlight that draws left → right behind "leadership one"
+  // Marker-stroke highlight that draws left to right behind "leadership one"
   const leadHighlight = useTransform(scrollYProgress, [0.43, 0.55], ["0%", "100%"]);
 
-  // Act 3 — the answer
+  // Act 3: the answer
   const h3Opacity = useTransform(scrollYProgress, [0.58, 0.66, 1], [0, 1, 1]);
   const h3Y = useTransform(scrollYProgress, [0.58, 0.66], [40, 0]);
 
@@ -228,7 +228,7 @@ const BigProblem = () => {
     [1, 0.95, 0.95, 1],
   );
 
-  /* Mint hairline beam at the wipe edge — visible only during the morph */
+  /* Mint hairline beam at the wipe edge, visible only during the morph */
   const beamX = useTransform(scrollYProgress, [0.66, 0.84], ["-2%", "102%"]);
   const beamOpacity = useTransform(scrollYProgress, [0.64, 0.68, 0.82, 0.86], [0, 1, 1, 0]);
 
@@ -240,7 +240,7 @@ const BigProblem = () => {
   const glowOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.18, 0.38, 0.22]);
   const glowScale = useTransform(scrollYProgress, [0, 1], [1, 1.25]);
 
-  /* Progress bar — fine left rail signalling how far through the narrative the reader is */
+  /* Progress bar: fine left rail signalling how far through the narrative the reader is */
   const progressScaleY = scrollYProgress;
 
   const scrollToFramework = useCallback(() => {
@@ -273,10 +273,10 @@ const BigProblem = () => {
           />
         </motion.div>
 
-        {/* Vertical progress rail — left side, desktop only */}
+        {/* Vertical progress rail, left side, desktop only */}
         <div className="absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 hidden md:flex flex-col items-center gap-3 z-20">
           <div className="text-[10px] font-bold uppercase tracking-[0.22em] text-mint/60 [writing-mode:vertical-rl] rotate-180">
-            01 — 03
+            01 / 03
           </div>
           <div className="relative h-32 w-px bg-white/10 overflow-hidden">
             <motion.div
@@ -295,7 +295,7 @@ const BigProblem = () => {
             Ten years from now
           </motion.div>
 
-          {/* Headline slot — three acts crossfade in the same space */}
+          {/* Headline slot: three acts crossfade in the same space */}
           <div className="relative min-h-[28vh] sm:min-h-[26vh] md:min-h-[24vh] lg:min-h-[22vh]">
             {/* Act 1 */}
             <motion.h2
@@ -306,7 +306,7 @@ const BigProblem = () => {
               <span className="text-mint">two categories.</span>
             </motion.h2>
 
-            {/* Act 2 — pivot with marker-stroke highlight */}
+            {/* Act 2: pivot with marker-stroke highlight */}
             <motion.h2
               style={{ opacity: h2Opacity, y: h2Y }}
               className="absolute inset-0 text-[clamp(1.375rem,3.8vw,3rem)] font-bold leading-[1.18] tracking-tight text-white"
@@ -321,7 +321,7 @@ const BigProblem = () => {
                 <span className="relative text-mint">It&rsquo;s a leadership one.</span>
               </span>{" "}
               <span className="font-medium text-white/65">
-                The question isn&rsquo;t whether AI will reshape your business — it&rsquo;s whether
+                The question isn&rsquo;t whether AI will reshape your business. It&rsquo;s whether
                 you&rsquo;ll be the one holding the pen.
               </span>
             </motion.h2>
@@ -341,7 +341,7 @@ const BigProblem = () => {
             style={{ opacity: cardsOpacity, y: cardsY, scale: cardsScale }}
             className="relative grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mt-8 md:mt-12"
           >
-            {/* Mint hairline beam — sweeps across the row during the Act 3 wipe */}
+            {/* Mint hairline beam: sweeps across the row during the Act 3 wipe */}
             <motion.div
               aria-hidden
               style={{
@@ -381,7 +381,7 @@ const BigProblem = () => {
         </div>
       </div>
 
-      {/* Section break — sits at the bottom of the tall section, visible as it releases */}
+      {/* Section break: sits at the bottom of the tall section, visible as it releases */}
       <div className="absolute bottom-8 left-0 right-0 flex items-center justify-center gap-4 px-8">
         <div className="flex-1 h-px bg-gradient-to-r from-transparent via-mint/30 to-transparent" />
         <div className="w-1.5 h-1.5 rounded-full bg-mint/40" />

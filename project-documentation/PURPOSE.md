@@ -25,7 +25,7 @@ Mindmaker is a **barbell** with no middle tier. Two primary public offers, plus 
 | High flagship | The Revenue Architecture | $60,000–$100,000 | 30 days | Same, needing a full commercial rebuild |
 | Inquiry-only | The AI Immersion | $12,000 | 4-hour session + 5-day summary | CEO-sponsored exec team needing fast alignment |
 
-The cohort runs on content distribution and turns an audience into paying customers — hosted on Maven for enrollment continuity. Enterprise runs on inbound plus targeted outbound. The Immersion is a request-only fallback for buyers whose need is a team conversation, not an individual decision or a multi-week rebuild. The cohort is the flywheel that feeds the enterprise funnel.
+The cohort runs on content distribution and turns an audience into paying customers, hosted on Maven for enrollment continuity. Enterprise runs on inbound plus targeted outbound. The Immersion is a request-only fallback for buyers whose need is a team conversation, not an individual decision or a multi-week rebuild. The cohort is the flywheel that feeds the enterprise funnel.
 
 ---
 
@@ -59,11 +59,11 @@ A world where senior leaders stop talking about AI and start using it. Where "AI
 ### 2. Turn AI capability into revenue for enterprise buyers
 - The Signal Session (1 day, $15k) surfaces the real commercial problem and delivers a 15–20 page Commercial Narrative within 48 hours
 - The Revenue Architecture (30 days, $60–100k) ships positioning, pricing, packaging, GTM, and the board-ready narrative that makes the AI investment pay back
-- Operator credentials — real P&L experience plus an agentic OS Krish runs every day — make the engagement expensive to ignore
+- Operator credentials, real P&L experience plus an agentic OS Krish runs every day, make the engagement expensive to ignore
 
 ### 3. Resolve executive team alignment in an afternoon, not a quarter
 - The AI Immersion (4 hours, $12k) names the three decisions, names the owners, names the deadlines
-- Inquiry-only — never sold on the homepage; offered when a team conversation is the right shape
+- Inquiry-only, never sold on the homepage; offered when a team conversation is the right shape
 
 ### 4. Preserve the barbell
 - No middle tier. Ever.

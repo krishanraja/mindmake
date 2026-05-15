@@ -23,7 +23,7 @@ const Index = () => {
       {/* 2. The Y-fork */}
       <YFork />
 
-      {/* 3. The Big Problem — existential urgency */}
+      {/* 3. The Big Problem: existential urgency */}
       <BigProblem />
 
       {/* 4. Trust + merged Case Studies (enriched carousel) */}
@@ -35,10 +35,10 @@ const Index = () => {
       {/* 6. Operator's Edge (v5 credential proof) */}
       <OperatorsEdge />
 
-      {/* 7. The Operator's Brief — live prices, cards, essays, decision machine */}
+      {/* 7. The Operator's Brief: live prices, cards, essays, decision machine */}
       <OperatorsBrief />
 
-      {/* 8. MindMaker Live — newsletter subscribe surface */}
+      {/* 8. MindMaker Live: newsletter subscribe surface */}
       <MindMakerLiveSection />
 
       {/* 9. Final CTA */}

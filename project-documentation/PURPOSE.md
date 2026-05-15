@@ -20,7 +20,7 @@ Mindmaker is a **barbell** with no middle tier. Two primary public offers, plus 
 
 | End | Offer | Price | Duration | Buyer |
 |---|---|---|---|---|
-| Low | The AI Decision Cohort | $3,500/seat | 3 weeks + 3 live sessions | Senior leader with a nervous AI decision |
+| Low | The AI-Fluent Executive (Cohort) | $2,500/seat | 4 weeks + 4 live sessions | Senior leader with a nervous AI decision |
 | High entry | The Signal Session | $15,000 | 1 day + 48h delivery | Company commercializing an AI product |
 | High flagship | The Revenue Architecture | $60,000–$100,000 | 30 days | Same, needing a full commercial rebuild |
 | Inquiry-only | The AI Immersion | $12,000 | 4-hour session + 5-day summary | CEO-sponsored exec team needing fast alignment |

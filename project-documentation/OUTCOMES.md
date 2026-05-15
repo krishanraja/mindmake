@@ -12,7 +12,7 @@ Every offer has a defined artefact, a defined finish line, and no retainer attac
 
 ---
 
-## Cohort Outcomes: The AI Decision Cohort
+## Cohort Outcomes: The AI-Fluent Executive (Cohort)
 
 ### Emotional arc
 

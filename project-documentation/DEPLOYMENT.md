@@ -32,15 +32,25 @@ All routes in `src/App.tsx` accessible:
 
 **Live pages:**
 - [ ] `/` (Index). homepage
-- [ ] `/cohort` (Cohort). AI Decision Cohort. "Hosted on Maven" pill + "Reserve my seat on Maven" → `https://maven.com/aimindmaker/ai-decision-intensive`
+- [ ] `/workshops` (Workshops). Mindmaker Workshops index, 5 sub-pages
+- [ ] `/workshops/build-your-ai-chief-of-staff`. Workshop sub-page
+- [ ] `/workshops/map-your-agentic-org-chart`. Workshop sub-page
+- [ ] `/workshops/vibe-coding-for-leaders`. Workshop sub-page
+- [ ] `/workshops/build-an-autonomous-business-function`. Workshop sub-page
+- [ ] `/workshops/give-your-ai-memory`. Workshop sub-page
+- [ ] `/cohort` (Cohort). The AI-Fluent Executive ($2,500/seat, 4 weeks). "Hosted on Maven" pill + "Reserve my seat on Maven" → `https://maven.com/mindmaker/the-ai-fluent-executive`
 - [ ] `/enterprise` (Enterprise). Signal Session ($15k, 1 day + 48h delivery) + Revenue Architecture ($60–100k, **30 days**)
+- [ ] `/capital` (Capital). Third door for funds and operating partners
 - [ ] `/operator` (Operator). v5 credential page; `/ctrl-demo-video.mp4` autoplay-loop verified
 - [ ] `/signal` (Brief). Live Intel
+- [ ] `/library` (Library). Library + FAQ tab
 - [ ] `/immersion` (Immersion). AI Immersion ($12k, inquiry-only)
+- [ ] `/alumni` (Alumni). Alumni Pass ($1,500/year, invitation-only). **MUST be `noindex` and unlinked from nav and footer.** Confirm SEO meta tag.
 - [ ] `/new-age-leadership` (NewAgeLeadership). long-form thought leadership; OrgChart lazy-loaded
 - [ ] `/leaders`, `/leadership-insights` (LeadershipInsights). diagnostic, unlinked from nav
 - [ ] `/blog`, `/blog/:slug`. blog
-- [ ] `/faq`, `/contact`, `/privacy`, `/terms`. support pages
+- [ ] `/contact`, `/privacy`, `/terms`. support pages
+- [ ] `/faq` redirects to `/library?tab=questions`
 
 **Redirects:**
 - [ ] `/tool` → `/signal#decision`
@@ -63,22 +73,30 @@ All routes in `src/App.tsx` accessible:
 - [ ] Cohort `/cohort` page surfaces "Hosted on Maven" pill and "Reserve my seat on Maven" CTA pointing to the canonical Maven URL
 - [ ] All other CTAs route through `InitialConsultModal` via `window.dispatchEvent(new CustomEvent('openConsultModal'))`
 - [ ] Framework language: Mind Set → Mind Map → Mind Make (unchanged)
-- [ ] Offers labelled correctly: **The AI Decision Cohort**, **The Signal Session**, **The Revenue Architecture**, **The AI Immersion**
+- [ ] Offers labelled correctly: **The AI-Fluent Executive (Cohort)**, **The Signal Session**, **The Revenue Architecture**, **The AI Immersion**
 - [ ] No references to retired offers (4-Week Sprint, 90-Day Sprint, Builder Sprint, Leadership Lab, Portfolio Partner, Fractional CAIO)
 - [ ] `/signal` labelled **"Live Intel"** in nav (NOT "The Brief", NOT "Signal Desk")
 - [ ] Taxonomy on `/signal` is **WATCH / SKIP / CALL / TAKE** (not SIGNAL / NOISE / DECISION / TAKE)
 - [ ] Decision Readiness Diagnostic (`/leaders`) is **not** linked from nav or footer
 - [ ] `/immersion` is **not** linked from main nav (inquiry-only)
 - [ ] Pre-Call Qualifier floating pill renders on every page (no ChatBot anywhere). Confirms 3 chip-based stages: decision → timeline → stakes.
-- [ ] Resources dropdown includes **New Age Leadership** at the top, then How I operate, Blog, Builder Economy (external), Lightning Lessons (4 Maven URLs)
+- [ ] **Workshops** is the first item in the nav (slot 1)
+- [ ] Resources dropdown includes How I operate, Library, The Builder Economy (external), Lightning Lessons (5 Maven URLs)
+- [ ] **The five Lightning Lesson URLs** match the canonical set in `LightningLessons.tsx` and the mobile menu in `Navigation.tsx`
+- [ ] **The dead Maven URL `maven.com/aimindmaker/ai-decision-intensive` does not appear anywhere** (codebase, docs, sitemap)
+- [ ] **Stripe price IDs** in `src/lib/stripe-prices.ts` match the canonical set (Cohort full + 2× split, 5 Workshops, Alumni Pass)
 - [ ] No "All Enterprise" link in nav or footer
 
 ### 7. Content verification
 - [ ] Cohort next-cohort date and seats-remaining updated in `Cohort.tsx` `nextCohort` const (literal until Supabase `cohort_dates` wired up)
-- [ ] Pricing shown in context: $3,500 (Cohort), $15,000 (Signal Session), $60,000–$100,000 (Revenue Architecture), $12,000 (Immersion)
+- [ ] Cohort framework is **Diagnose → Decompose → Decide → Deploy** (4 weeks)
+- [ ] Cohort H1 reads **"The AI-Fluent Executive"** (NOT "The AI Decision Cohort")
+- [ ] $500 workshop-credit callout (`code WORKSHOP`) appears on `/cohort` near the price card
+- [ ] CTRL is listed in "What you keep" on `/cohort` and "What's included" on each `/workshops/[slug]`
+- [ ] Pricing shown in context: $599 (Workshops), $2,500 (Cohort), $15,000 (Signal Session), $60,000–$100,000 (Revenue Architecture), $12,000 (Immersion), $1,500/year (Alumni Pass)
 - [ ] **Revenue Architecture duration says "30 days (4–5 calendar weeks)"**. not 8–12 weeks
 - [ ] **Signal Session deliverable says "Commercial Narrative, 15–20 pages, within 48 hours"**. not 5–10 pages, not 5 business days
-- [ ] Payment terms rendered below each price: Cohort = "Full payment or 2× $1,800 split"; Signal Session = "Payment on kickoff"; Revenue Architecture = "50/50 at kickoff and delivery"; Immersion = "Full at booking or 50/50"
+- [ ] Payment terms rendered below each price: Cohort = "Full payment or 2× $1,250 split"; Signal Session = "Payment on kickoff"; Revenue Architecture = "50/50 at kickoff and delivery"; Immersion = "Full at booking or 50/50"
 - [ ] Testimonials in `TrustSection.tsx` tagged COHORT-STYLE or ENTERPRISE
 - [ ] Operator's Edge lead line matches current anti-consultant statement (top-of-file constant in `OperatorsEdge.tsx`)
 - [ ] `/operator` demo video file `public/ctrl-demo-video.mp4` exists and autoplays
@@ -99,7 +117,7 @@ All routes in `src/App.tsx` accessible:
 - [ ] `PriceTicker` renders and scrolls on both `/` and `/signal`
 - [ ] Nervous Decision Machine returns a response on both homepage and `/signal`
 - [ ] `/immersion` and `/new-age-leadership` lazy-load and render correctly
-- [ ] `Cohort` page Maven pill and "Reserve my seat on Maven" CTA both link to `https://maven.com/aimindmaker/ai-decision-intensive`
+- [ ] `Cohort` page Maven pill and "Reserve my seat on Maven" CTA both link to `https://maven.com/mindmaker/the-ai-fluent-executive`
 
 ### 2. Conversion regression check
 - [ ] "Book a call" CTA opens `InitialConsultModal` from every page

@@ -1,10 +1,34 @@
 # Decisions Log
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-15
 
 ---
 
 ## Brand & Product Decisions
+
+### 2026-05-15: v6 ladder restructure (Workshops + Alumni Pass added; Cohort renamed and repriced)
+
+**Decision:** Site restructured from a barbell (Cohort + Enterprise) into a four-rung ladder: free Lightning Lessons → paid Workshops at $599 → AI-Fluent Executive Cohort at $2,500 → Enterprise from $15,000, with the Alumni Pass at $1,500/year as continuity. Cohort renamed from "The AI Decision Cohort" to "The AI-Fluent Executive". Curriculum expanded from "Name → Map → Make" (3 weeks) to "Diagnose → Decompose → Decide → Deploy" (4 weeks). Capital remains a third door for funds but is moved off the homepage tri-fork (still reachable from the Enterprise nav dropdown and `/capital`).
+
+**Sub-decisions:**
+1. **Cohort rename and reprice ($3,500 → $2,500; "AI Decision Cohort" → "The AI-Fluent Executive").** Maven's price gravity for senior-leader cohorts sits at $2,500 (Rohan/Aman/Satya comp set at $2,500); going above that fights gravity. The new name matches the live Maven page and is more outcome-specific.
+2. **Workshops launched at $599.** Maven's average course is ~$500; the operator-led workshop format (Rupa Chaturvedi's $849 comp) sells well to leaders + operators. $599 is the entry price, with room to lift after early traction.
+3. **Alumni Pass launched at $1,500/year.** Retention is the moat the site doesn't currently sell. Group-only, quarterly, alumni-gated, frictionless cancel = continuity not capacity.
+4. **CTRL surfaced as a Cohort and Workshop benefit.** The live Maven Cohort page already includes CTRL; site documentation lagged.
+5. **Duration corrected from 3 weeks to 4 weeks; framework corrected from Name → Map → Make to Diagnose → Decompose → Decide → Deploy.** Matches the live Maven page. Site docs were stale.
+
+**Context:**
+- Maven is a sales channel, not the centre of gravity. The site is the brand. The ladder makes it easy for any cold buyer to find the right rung.
+- The pre-rename Cohort name ("AI Decision Cohort") was internally focused. "The AI-Fluent Executive" reframes it around the buyer outcome.
+- Workshops are deliberately one-day, build-with-me, deployed-on-real-surfaces: the inverse of every "AI for executives" course on the market.
+
+**Impact:**
+- New routes: `/workshops`, `/workshops/[slug]` (×5), `/alumni` (`noindex`, unlinked from nav and footer)
+- Stripe price IDs added in `src/lib/stripe-prices.ts` for all five workshops, the cohort (full + 2× split), and the Alumni Pass. Workshop and Cohort IDs are referential (Maven collects). The Alumni Pass is the only product the site itself charges via Stripe.
+- The dead Maven URL `maven.com/aimindmaker/ai-decision-intensive` has been replaced everywhere with `maven.com/mindmaker/the-ai-fluent-executive`
+- All forward-looking documentation in `project-documentation/` updated; historical entries in `HISTORY.md` and earlier `DECISIONS_LOG.md` entries preserved as-is
+
+---
 
 ### 2026-04-26: Revenue Architecture compresses to 30 days (was 8–12 weeks)
 
@@ -43,7 +67,7 @@
 
 ### 2026-04-26: Cohort enrolment runs on Maven
 
-**Decision:** Cohort enrolment, payment, the cohort Slack, and the alumni network all run on **Maven** at `https://maven.com/aimindmaker/ai-decision-intensive`. The `/cohort` page surfaces a "Hosted on Maven" pill and a "Reserve my seat on Maven" CTA pointing directly at the Maven URL.
+**Decision:** Cohort enrolment, payment, the cohort Slack, and the alumni network all run on **Maven** at `https://maven.com/mindmaker/the-ai-fluent-executive`. The `/cohort` page surfaces a "Hosted on Maven" pill and a "Reserve my seat on Maven" CTA pointing directly at the Maven URL.
 
 **Context:**
 - The cohort's experience-side workflow (community Slack, alumni continuity, payments, repeat enrolment) was being patched together; Maven solves all of these in one place

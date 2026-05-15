@@ -1,15 +1,17 @@
 # The Mindmaker
 
-> Cohort-based and enterprise advisory helping leaders make nervous AI decisions. Founded by Krish Raja.
+> Workshop, cohort-based, and enterprise advisory helping leaders make and ship nervous AI decisions. Founded by Krish Raja.
 
 ## Core offers
 
-- [The AI Decision Cohort](/cohort): $3,500 per seat, 3 weeks, quarterly. For senior leaders with a nervous AI decision to make. 10-15 seats per cohort, mostly async with three 90-minute live sessions.
+- [Workshops](/workshops): $599 per workshop, one day each, hosted on Maven. Five workshops (Build Your AI Chief of Staff, Map Your Agentic Org Chart, Vibe Coding for Leaders, Build an Autonomous Business Function, Give Your AI Memory). You build a real artefact alongside Krish on your real surface. Top-of-funnel paid product.
+- [The AI-Fluent Executive (Cohort)](/cohort): $2,500 per seat, 4 weeks, quarterly. For senior leaders with a nervous AI decision to make. 10 to 15 seats per cohort, mostly async with weekly 90-minute live sessions. Diagnose, decompose, decide, deploy. Hosted on Maven at https://maven.com/mindmaker/the-ai-fluent-executive.
 - [Enterprise](/enterprise): The Signal Session ($15,000, 1 day + 48h delivery). The Revenue Architecture ($60,000-$100,000, 30 days). For companies commercializing AI products.
 
 ## Request-only offers
 
 - [The AI Immersion](/immersion): $12,000 flat. Half-day facilitated session for up to 8 senior leaders. Request-only, not featured in primary navigation. For CEO-level sponsors who need their exec team aligned on AI fast. 2-page board-ready summary within 5 business days.
+- The Alumni Pass: $1,500/year recurring, invitation-only. Annual continuity programme for Mindmaker alumni: re-attendance of any workshop, quarterly state-of-the-market memo, alumni Slack, first-refusal cohort seats, lifetime CTRL access. Not in nav or footer; accessible by direct URL only post-engagement.
 
 ## How I operate
 
@@ -17,7 +19,8 @@
 
 ## Try it
 
-- [The Operator's Brief](/signal): Live model prices, weekly classified reads (WATCH / SKIP / CALL / TAKE), and the Nervous Decision Machine embedded in-page. Free, no email required. Tagged as WATCH, SKIP, CALL, or TAKE.
+- [The Operator's Brief](/signal): Live model prices, weekly classified reads (WATCH / SKIP / CALL / TAKE), and the Nervous Decision Machine embedded in-page. Free, no email required.
+- 5 free Lightning Lessons hosted on Maven (https://maven.com/mindmaker): 45-minute sessions. Top-of-funnel free product.
 
 ## About
 
@@ -37,7 +40,7 @@
 
 ## Positioning
 
-Mindmaker is a barbell: cohort at $3,500/seat for leader decisions, enterprise sprints at $15,000-$100,000 for AI commercialization. No 1:1 sprint product on the public site (inquiry only). No fractional executive roles. No ongoing retainers. No production IT work. Every engagement has a fixed scope and a finish line. The primary conversion goals are cohort seat sales through content and qualified enterprise inbound calls.
+Mindmaker is a ladder, not a single product. Free Lightning Lessons sit at the top. Workshops at $599 are the entry paid product on Maven. The AI-Fluent Executive cohort at $2,500 is the qualifying step. Enterprise sprints from $15,000 to $100,000 are the margin engine. The Alumni Pass at $1,500/year is continuity. No 1:1 sprint product on the public site (inquiry only). No fractional executive roles. No ongoing retainers. No production IT work. Every engagement has a fixed scope and a finish line. Maven is the marketplace Mindmaker lists on; themindmaker.ai is the brand and operating centre.
 
 ## Contact
 

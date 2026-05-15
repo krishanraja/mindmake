@@ -1,26 +1,29 @@
 # Value Proposition
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-15
 
 ---
 
 ## Core Value Proposition
 
-**"Mindmaker is the anti-consultancy for leaders done being sold AI. A Maven-hosted cohort for senior leaders making AI decisions. Enterprise sprints for companies commercializing AI products. An inquiry-only Immersion for exec teams that need fast alignment. No middle tier. Every offer has a finish line."**
+**"Mindmaker is the anti-consultancy for leaders done being sold AI. Free Lightning Lessons at the top. Hands-on Workshops at $599 to build alongside the operator. A Maven-hosted Cohort at $2,500 for the leader sitting on a nervous AI decision. Enterprise sprints from $15k for companies commercializing AI. An inquiry-only Immersion for exec teams that need fast alignment. An Alumni Pass for continuity after the finish line. Every offer has a finish line."**
 
-**Three audiences, no overlap:**
+**Three audiences, no overlap, plus a retention layer:**
 
-1. **AI leaders**. senior operators with a nervous AI decision to make. Answer: **The AI Decision Cohort ($3,500/seat, quarterly, hosted on Maven).**
+1. **AI leaders**. senior operators ready to build (Workshops) or sitting on a nervous decision (Cohort). Answer: **A Mindmaker Workshop ($599)** as the entry rung; **The AI-Fluent Executive Cohort ($2,500/seat, quarterly, hosted on Maven)** as the qualifying step.
 2. **AI products**. companies with AI capability but unclear commercial traction. Answer: **The Signal Session ($15k, 1 day + 48h Commercial Narrative)** and **The Revenue Architecture ($60–100k, 30 days).**
 3. **Executive teams**. CEO-led leadership groups stuck on shared AI tensions. Answer (inquiry-only): **The AI Immersion ($12k, 4 hours, 5-day summary).**
+4. **Alumni** (retention layer). Anyone who completed any of the above. Answer (invitation-only): **The Alumni Pass ($1,500/year)**.
+
+The ladder reads from top to bottom: free → entry-paid → qualifying → margin → continuity. Every rung is short, fixed-scope, and stand-alone, with a clear ramp to the next rung when the buyer is ready.
 
 ---
 
 ## Key Differentiators
 
-### 1. Barbell, not ladder
+### 1. Ladder, not retainer
 **Them:** Discovery → workshop → strategy → implementation → retainer, every step an upsell.
-**Us:** Cohort at the low end. Enterprise at the high end. Nothing in between. Nothing ongoing.
+**Us:** Free lessons. Workshops at $599. Cohort at $2,500. Enterprise from $15k. Alumni at $1,500/year. Each rung stands alone with a clear finish line. Move up only when you want to.
 **Why:** Middle-tier consulting is where scope creeps, outcomes blur, and fees compound. We refuse to sell it.
 
 ### 2. Operator, not advisor
@@ -30,7 +33,7 @@
 
 ### 3. Cohort, not course
 **Them:** Async video courses, certifications, AI literacy quizzes.
-**Us:** 10–15 senior leaders, 3 weeks mostly async plus 3 live 90-min sessions, you show up with a nervous decision and leave with a board-ready position. Hosted on Maven so payment, community, and alumni continuity all live in one place.
+**Us:** 10 to 15 senior leaders, 4 weeks mostly async plus weekly live 90-min sessions, you show up with a nervous decision and leave with a board-ready position. Hosted on Maven so payment, community, and alumni continuity all live in one place.
 **Why:** Peer pressure and accountability do what a curriculum cannot.
 
 ### 4. Revenue, not capability
@@ -70,7 +73,7 @@
 - A peer network of 10–15 senior operators they can pressure-test the next decision against
 - Confidence in board meetings, they're no longer making it up
 
-**Answer:** The AI Decision Cohort. See `/cohort`. Enrolment via Maven.
+**Answer:** The AI-Fluent Executive (Cohort). See `/cohort`. Enrolment via Maven.
 
 ### AI Products (Enterprise buyer)
 
@@ -118,12 +121,22 @@
 
 ## Product Positioning
 
-### The AI Decision Cohort
-**Price:** $3,500 / seat (or 2× $1,800 split)
+### Mindmaker Workshops
+**Price:** $599 per workshop
+**Tagline:** Build alongside me in one day.
+**For:** Senior leaders ready to build a real artefact, not deliberate about one.
+**Format:** ~5 hours live on Maven. Frame (30 min) → drive (90 min, Krish builds) → break → build (parallel, Krish in the room) → show-and-tell.
+**Outcome:** A real artefact deployed on your real surface, plus lifetime CTRL access, session recording, alumni channel, templates and prompts, certificate, and a 14-day Maven Guarantee.
+**The five workshops:** Build Your AI Chief of Staff · Map Your Agentic Org Chart · Vibe Coding for Leaders · Build an Autonomous Business Function · Give Your AI Memory.
+
+### The AI-Fluent Executive (Cohort)
+**Price:** $2,500 / seat (or 2× $1,250 split)
 **Tagline:** Make your nervous AI decision with 15 other senior leaders.
 **For:** Senior leaders with one nervous AI decision.
-**Format:** 3 weeks mostly async + 3 live 90-min sessions. 10–15 seats. Quarterly cohorts. Hosted on Maven.
-**Outcome:** A board-ready 1-page decision memo + trade-off doc + peer network + alumni access.
+**Format:** 4 weeks mostly async + 4 live 90-min sessions. 10 to 15 seats. Quarterly cohorts. Hosted on Maven.
+**Curriculum:** Diagnose → Decompose → Decide → Deploy.
+**Outcome:** A board-ready 1-page decision memo + trade-off doc + lifetime CTRL access + 90-day cohort Slack + lifetime curriculum + alumni network.
+**Workshop credit:** Code `WORKSHOP` at Maven checkout takes $500 off for buyers who completed a Workshop in the last 90 days.
 
 ### The Signal Session
 **Price:** $15,000
@@ -146,13 +159,20 @@
 **Format:** 4-hour facilitated session + 2-page summary within 5 business days. Diagnose → Decompose → Decide → Deploy.
 **Outcome:** Three named decisions with named owners and named deadlines.
 
+### The Alumni Pass (invitation-only)
+**Price:** $1,500 / year recurring (cancel anytime)
+**Tagline:** Continuity after the finish line.
+**For:** Anyone who has completed a Workshop, the Cohort, a Signal Session, the Revenue Architecture, or the AI Immersion.
+**Format:** Annual; not in nav, not in footer; reachable by direct URL only at `/alumni`. Page is `noindex`.
+**Outcome:** Annual access to all five Workshops (re-attend any), quarterly state-of-the-market memo, alumni Slack, first-refusal cohort seats, lifetime CTRL.
+
 ---
 
 ## Positioning Statements
 
 **One-liner:** "The anti-consultancy for leaders done being sold AI."
 
-**Cohort elevator pitch (30s):** "You've got a nervous AI decision you've been avoiding, build vs buy, which vendor, what to tell the board. The AI Decision Cohort puts you in a room with 10–15 other senior leaders working the same problem. Three weeks mostly async. Three live 90-minute sessions. $3,500. Hosted on Maven. You leave with a board-ready position memo, not another deck."
+**Cohort elevator pitch (30s):** "You've got a nervous AI decision you've been avoiding, build vs buy, which vendor, what to tell the board. The AI-Fluent Executive (Cohort) puts you in a room with 10–15 other senior leaders working the same problem. Four weeks mostly async. Four live 90-minute sessions. $2,500. Hosted on Maven. You leave with a board-ready position memo, not another deck."
 
 **Enterprise elevator pitch (30s):** "You've built an AI capability. Great products still need great positioning, pricing, and GTM, and most of yours was built for a non-AI product. The Signal Session is a one-day commercial diagnosis for $15k, you get a 15–20 page Commercial Narrative within 48 hours. The Revenue Architecture is the full 30-day rebuild for $60–100k. Both are fixed scope, fixed outcome, no retainer."
 
@@ -167,11 +187,14 @@
 **"I need 1:1 attention, not a group."**
 → "If 1:1 is the right shape, the cohort isn't for you. I take a handful of private engagements by inquiry, `/cohort?inquiry=1:1`, but that's not the public offer. The cohort exists because peer pressure and shared vocabulary produce better decisions than 1:1 advice."
 
-**"$3,500 is a lot for a course."**
+**"$2,500 is a lot for a course."**
 → "It isn't a course. It's a quarterly decision room with 10–15 other senior leaders, hosted on Maven. You leave with a board-ready position on a nervous decision you've been avoiding. Compare that to the cost of the wrong vendor commitment."
 
-**"I don't have three weeks."**
-→ "Most of the work is async. Two hours of structured async per week + three 90-minute live sessions + one written position memo. If you can't give it four hours a week for three weeks, the decision isn't actually on fire."
+**"I don't have four weeks."**
+→ "Most of the work is async. Roughly two hours of structured async per week, four 90-minute live sessions, one written position memo, and the deploy step. If you can't give it four hours a week for four weeks, the decision isn't actually on fire."
+
+**"What's a Workshop and how is it different?"**
+→ "Workshops are one-day, $599, build-with-me. You leave with a real artefact deployed on your real surface (an AI chief of staff, an internal tool, an autonomous workflow, a memory web, or an agentic org chart). The Cohort is for the leader sitting on a nervous decision; Workshops are for the leader ready to ship something this quarter."
 
 **"Why Maven?"**
 → "Enrollment, payment, the cohort Slack, and the alumni network all live on Maven. It's where the cohort experience runs. Themindmaker.ai is where the offer is described; Maven is where the experience happens."

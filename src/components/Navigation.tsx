@@ -35,6 +35,10 @@ const Navigation = () => {
 
   const navItems: NavItem[] = [
     {
+      label: "Workshops",
+      href: "/workshops",
+    },
+    {
       label: "Cohort",
       href: "/cohort",
     },
@@ -54,16 +58,13 @@ const Navigation = () => {
       wordmark: true,
     },
     {
-      label: "Operator",
+      label: "Resources",
       dropdown: [
         { label: "How I operate", href: "/operator" },
+        { label: "Library", href: "/library" },
         { label: "The Builder Economy (Podcast)", href: "https://www.thebuildereconomy.com", external: true },
         { label: "Lightning Lessons", type: "lessons" },
       ],
-    },
-    {
-      label: "Library",
-      href: "/library",
     },
     {
       label: "About",

@@ -63,7 +63,7 @@ Your smartest, most cynical friend who runs AI transformation every day and genu
 
 No conditional labels. No "What's your nervous decision?" (retired, it tested as too therapist-y for enterprise buyers). No "Start the Conversation". Just "Book a call", which opens `InitialConsultModal` via the global `openConsultModal` event.
 
-**Cohort-specific direct CTA:** **"Reserve my seat on Maven"**, points directly at `https://maven.com/aimindmaker/ai-decision-intensive` for buyers who already know the cohort is the right fit and want to skip the consult call.
+**Cohort-specific direct CTA:** **"Reserve my seat on Maven"**, points directly at `https://maven.com/mindmaker/the-ai-fluent-executive` for buyers who already know the cohort is the right fit and want to skip the consult call.
 
 **Supporting CTAs:**
 - "See the cohort" → `/cohort`
@@ -78,7 +78,7 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 
 ### Headlines
 - **Name the decision or the commercial symptom**, not the abstract benefit
-- **Be specific**. "$3,500 per seat", "10–15 leaders", "30 days", "48 hours"
+- **Be specific**. "$2,500 per seat", "10–15 leaders", "30 days", "48 hours"
 - **Use concrete verbs**. decide, ship, rebuild, cut, filter, commit
 - **Avoid feeling words** as crutches, "calm clarity" is OK once per page, not a refrain
 
@@ -112,7 +112,7 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 - Clarity, direction, confidence, decision, trade-off, board-ready
 - Positioning, pricing, packaging, GTM, commercial, revenue
 - Operator, practitioner, in the room, at the P&L
-- Specific numbers: "$3,500", "$15k", "$60–100k", "$12k", "10–15 leaders", "14-agent OS", "30 days", "48 hours"
+- Specific numbers: "$2,500", "$15k", "$60–100k", "$12k", "10–15 leaders", "14-agent OS", "30 days", "48 hours"
 - Maven (when referring to Cohort enrollment, Slack, alumni community)
 
 ### Never use
@@ -128,7 +128,9 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 
 ## Terminology Standards
 
-- **The AI Decision Cohort**. not "cohort program", "course", "bootcamp"
+- **The AI-Fluent Executive**. the canonical Cohort name; never "AI Decision Cohort" (retired), "cohort program", "course", or "bootcamp". May be parenthesised as "The AI-Fluent Executive (Cohort)" when offer category needs to be obvious in context.
+- **Mindmaker Workshops**. plural; each one is "a Mindmaker Workshop". Five named workshops (Build Your AI Chief of Staff, Map Your Agentic Org Chart, Vibe Coding for Leaders, Build an Autonomous Business Function, Give Your AI Memory). Never "courses", "classes", or "bootcamps".
+- **The Alumni Pass**. the $1,500/year continuity programme; not "membership", "subscription", "club".
 - **The Signal Session**. not "strategy day", "workshop", "discovery"
 - **The Revenue Architecture**. not "sprint", "engagement", "project"
 - **The AI Immersion**. not "team workshop", "leadership offsite", "alignment session"
@@ -138,10 +140,13 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 - **The Nervous Decision Machine**. the embedded tool; no longer on a standalone `/tool` page
 - **Decision Readiness Diagnostic**. the `/leaders` quiz; unlinked from nav but reachable by URL
 - **Pre-Call Qualifier**. the floating pill; replaces the retired ChatBot. 3-step chip-based intake (decision → timeline → stakes)
-- **Book a call**. the primary CTA label, never variant
+- **CTRL**. Mindmaker's flagship memory-web app; included with every Workshop and Cohort seat
+- **Book a call**. the primary global CTA label, never variant
+- **Enrol on Maven**. the Workshop direct-enrolment CTA on each `/workshops/[slug]` page; "Get notified" while a workshop is not yet published
 - **Reserve my seat on Maven**. the Cohort direct-enrolment CTA on `/cohort`
-- **Mind Set → Mind Map → Mind Make**. the framework, always in that order
-- **Hosted on Maven**. the pill on `/cohort` indicating where enrolment happens
+- **Request an invitation**. the Alumni Pass CTA on `/alumni`
+- **Diagnose → Decompose → Decide → Deploy**. the Cohort framework, always in that order
+- **Hosted on Maven**. the pill on `/cohort` and on every `/workshops/[slug]` page indicating where enrolment happens
 
 ---
 
@@ -149,13 +154,19 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 
 | Product | Price | Tagline |
 |---|---|---|
-| The AI Decision Cohort | $3,500 / seat | Make your nervous AI decision with 15 other senior leaders. |
+| Mindmaker Workshops (×5) | $599 / workshop | Build alongside me in one day. |
+| The AI-Fluent Executive (Cohort) | $2,500 / seat | Make your nervous AI decision with 15 other senior leaders. |
 | The Signal Session | $15,000 | One day. One room. One commercial thesis. |
 | The Revenue Architecture | $60,000–$100,000 | Your AI capabilities, translated into revenue. |
 | The AI Immersion (inquiry-only) | $12,000 | Three decisions. One afternoon. Real alignment. |
+| The Alumni Pass (invitation-only) | $1,500 / year | Continuity after the finish line. |
 
-### Retired products (do not reference)
+### Retired products and names (do not reference)
 
+- **The AI Decision Cohort**, retired in v6 (May 2026); replaced by **The AI-Fluent Executive**
+- **Name → Map → Make**, retired Cohort framework; replaced by **Diagnose → Decompose → Decide → Deploy**
+- **3-week Cohort**, retired duration; the Cohort is now 4 weeks
+- **maven.com/aimindmaker/ai-decision-intensive**, dead Maven URL; live URL is **maven.com/mindmaker/the-ai-fluent-executive**
 - 4-Week Sprint / 90-Day Sprint / Extended Sprint, retired from public site in v4 barbell pivot
 - Builder Sprint / Builder Session, retired
 - Leadership Lab, retired as a named product

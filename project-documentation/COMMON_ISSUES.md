@@ -1,23 +1,32 @@
 # Common Issues
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-15
 
 ---
 
 ## Brand & Content Issues
 
-### Issue: Retired product names in copy
-**Symptom:** References to "4-Week Sprint", "90-Day Sprint", "Builder Sprint", "Builder Session", "Leadership Lab", "Portfolio Partner", "Fractional CAIO", "Signal Desk", "Ask Mindmaker" / "Chat with Krish", or `"What's your nervous decision?"` as a CTA button label. References to "The Brief" as a nav label. References to "8–12 week Revenue Architecture" or "5–10 page Signal Session thesis".
+### Issue: Retired product names, prices, or URLs in copy
+**Symptom:** References to "The AI Decision Cohort" (the v6 rename moved this to "The AI-Fluent Executive"), "$3,500" Cohort price (now $2,500), "3 weeks" Cohort duration (now 4 weeks), "Name → Map → Make" Cohort framework (now Diagnose → Decompose → Decide → Deploy), the dead Maven URL `maven.com/aimindmaker/ai-decision-intensive` (live URL is `maven.com/mindmaker/the-ai-fluent-executive`), "4-Week Sprint", "90-Day Sprint", "Builder Sprint", "Builder Session", "Leadership Lab", "Portfolio Partner", "Fractional CAIO", "Signal Desk", "Ask Mindmaker" / "Chat with Krish", `"What's your nervous decision?"` as a CTA button label, "The Brief" as a nav label, "8–12 week Revenue Architecture", or "5–10 page Signal Session thesis".
 
 **Cause:** Legacy copy not updated to current spec.
 
 **Solution:** Replace with current terminology:
-- Offers → **The AI Decision Cohort**, **The Signal Session**, **The Revenue Architecture**, **The AI Immersion**
-- `/signal` nav label → **Live Intel** (NOT "The Brief", NOT "Signal Desk"). Body copy may still use "The Operator's Brief".
+- Cohort name → **The AI-Fluent Executive** (NOT "The AI Decision Cohort")
+- Cohort price → **$2,500** (NOT $3,500). 2× split → **$1,250 × 2** (NOT $1,800 × 2)
+- Cohort duration → **4 weeks** (NOT 3 weeks)
+- Cohort curriculum → **Diagnose → Decompose → Decide → Deploy** (NOT Name → Map → Make)
+- Maven Cohort URL → **`maven.com/mindmaker/the-ai-fluent-executive`** (NOT `maven.com/aimindmaker/ai-decision-intensive`)
+- Workshops → **Mindmaker Workshops** (5 named: Build Your AI Chief of Staff · Map Your Agentic Org Chart · Vibe Coding for Leaders · Build an Autonomous Business Function · Give Your AI Memory)
+- Alumni → **The Alumni Pass** ($1,500/year, invitation-only, `noindex`, unlinked from nav and footer)
+- Other offers → **The Signal Session**, **The Revenue Architecture**, **The AI Immersion**
+- `/signal` nav label → **Mindmaker LIVE** (rendered as a wordmark; body copy may still use "Live Intel" or "The Operator's Brief")
 - Revenue Architecture duration → **30 days (4–5 calendar weeks)**, not 8–12 weeks
 - Signal Session deliverable → **15–20 page Commercial Narrative within 48 hours**, not 5–10 pages within 5 days
 - Primary CTA label → **"Book a call"** (everywhere, no conditional labels)
-- Cohort enrolment CTA → **"Reserve my seat on Maven"** points directly at `https://maven.com/aimindmaker/ai-decision-intensive`
+- Cohort enrolment CTA → **"Reserve my seat on Maven"** points directly at `https://maven.com/mindmaker/the-ai-fluent-executive`
+- Workshop enrolment CTA → **"Enrol on Maven"** when published, **"Get notified"** while a workshop is not yet live on Maven
+- Alumni CTA → **"Request an invitation"** (preselects `'alumni'` in the consult modal)
 - ChatBot surface → retired; replaced by `PreCallQualifier` floating pill (3 chip stages: decision → timeline → stakes)
 
 See `BRANDING.md` and `FEATURES.md` for the complete retired-concepts list.
@@ -50,7 +59,7 @@ Note: the phrase "what's your nervous decision" can still appear in body copy as
 ### Issue: Cohort enrolment routes to consult modal instead of Maven
 **Symptom:** "Reserve my seat" button on `/cohort` opens `InitialConsultModal` rather than going to Maven.
 **Cause:** Maven URL constant missing or button not pointing to it.
-**Solution:** The "Reserve my seat on Maven" CTA in `Cohort.tsx` should point directly to the `MAVEN_COHORT_URL` constant (`https://maven.com/aimindmaker/ai-decision-intensive`). The "Book a call" path remains, but the primary Cohort enrolment CTA is direct-to-Maven.
+**Solution:** The "Reserve my seat on Maven" CTA in `Cohort.tsx` should point directly to the `MAVEN_COHORT_URL` constant (`https://maven.com/mindmaker/the-ai-fluent-executive`). The "Book a call" path remains, but the primary Cohort enrolment CTA is direct-to-Maven.
 
 ---
 

@@ -10,7 +10,7 @@
 
 | Audience | Offer | Price | Duration | Route |
 |---|---|---|---|---|
-| Senior leader with a nervous AI decision | The AI Decision Cohort | $3,500 / seat | 3 weeks (mostly async) + 3 live 90-min sessions | `/cohort` |
+| Senior leader with a nervous AI decision | The AI-Fluent Executive (Cohort) | $2,500 / seat | 4 weeks (mostly async) + 4 live 90-min sessions | `/cohort` |
 | Company commercializing an AI product | The Signal Session | $15,000 | 1 day intensive + 48h written delivery | `/enterprise#signal-session` |
 | Same, flagship engagement | The Revenue Architecture | $60,000–$100,000 | 30 days (4–5 calendar weeks) | `/enterprise#revenue-architecture` |
 | Executive team needing fast alignment | The AI Immersion (inquiry) | $12,000 | 4-hour facilitated session + 5-day summary | `/immersion` |
@@ -109,7 +109,7 @@ For the strategic intent behind the current shape of the business, read `mindmak
 
 | Offer | Price | Duration | Hosting / payment |
 |---|---|---|---|
-| The AI Decision Cohort | $3,500 / seat (or 2× $1,800) | 3 weeks (mostly async) + 3 × 90-min live sessions | Hosted on **Maven** at `maven.com/aimindmaker/ai-decision-intensive` |
+| The AI-Fluent Executive (Cohort) | $2,500 / seat (or 2× $1,250) | 4 weeks (mostly async) + 4 × 90-min live sessions | Hosted on **Maven** at `maven.com/mindmaker/the-ai-fluent-executive` |
 | The Signal Session | $15,000 | 1 day intensive + 48-hour Commercial Narrative delivery (15–20 pages) | Direct invoice; payment on kickoff |
 | The Revenue Architecture | $60,000–$100,000 | 30 days (4–5 calendar weeks), multi-session | Direct invoice; 50/50 at kickoff and delivery |
 | The AI Immersion | $12,000 (flat) | 4-hour facilitated session + 2-page summary within 5 business days | Inquiry-only; full at booking or 50/50 |

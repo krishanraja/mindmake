@@ -4,8 +4,9 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle, Users, Calendar, Info, ExternalLink } from "lucide-react";
+import { ArrowRight, CheckCircle, Users, Calendar, Info, ExternalLink, Tag } from "lucide-react";
 import { SEO } from "@/components/SEO";
+import { MAVEN_COHORT_URL } from "@/lib/stripe-prices";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -16,16 +17,16 @@ const fadeUp = {
   }),
 };
 
-// Dynamic cohort details. In a future pass these come from a Supabase
-// `cohort_dates` table + admin UI; for now they're maintained in this file.
+// Dynamic cohort details. The live Maven page is the source of truth.
+// In a future pass these come from a Supabase `cohort_dates` table; for
+// now they're maintained here.
 const nextCohort = {
-  id: "q3-2026",
-  startLabel: "July 14, 2026",
+  id: "summer-2026",
+  startLabel: "July 21, 2026",
+  endLabel: "August 14, 2026",
   seatsRemaining: 11,
   seatsTotal: 15,
 };
-
-const MAVEN_COHORT_URL = "https://maven.com/aimindmaker/ai-decision-intensive";
 
 const openConsultModal = (detail?: Record<string, unknown>) => {
   window.dispatchEvent(
@@ -38,30 +39,38 @@ const openConsultModal = (detail?: Record<string, unknown>) => {
 const curriculum = [
   {
     week: 1,
-    title: "Name the decision.",
+    title: "Diagnose.",
     body: "You arrive with an AI decision you've been putting off. By the end of week one, you've named the real decision sitting under it and scoped it tightly enough to send to someone else.",
     async: "3 videos · 2 frameworks · 1 worksheet",
-    live: "90 min peer-guided decision-naming session",
+    live: "90 min peer-guided diagnosis session",
   },
   {
     week: 2,
-    title: "Map the paths.",
-    body: "Structured trade-off analysis on the three real options: build vs buy, now vs wait, this vendor vs that vendor. Your actual fork, on the table.",
+    title: "Decompose.",
+    body: "Break the decision into the real trade-offs underneath it: build vs buy, now vs wait, this vendor vs that vendor, what stays human vs what gets agentic. Your actual fork, on the table.",
     async: "2 videos · 1 framework · 1 scorecard",
     live: "90 min peer pressure-test of the options",
   },
   {
     week: 3,
-    title: "Make the call.",
+    title: "Decide.",
     body: "You commit, out loud, to the group. You leave with a one-page decision memo you can actually send to whoever needs to read it next.",
     async: "1 video · decision memo template",
     live: "90 min memo peer review and commitment",
+  },
+  {
+    week: 4,
+    title: "Deploy.",
+    body: "You ship the first concrete step. A briefed vendor, a signed scope, an internal launch note, a kicked-off pilot. The cohort holds you accountable to the date you set.",
+    async: "1 video · deployment checklist",
+    live: "90 min show-and-tell, accountability, alumni onboarding",
   },
 ];
 
 const walkOutWith = [
   "One-page decision memo you can send up the chain",
   "Trade-off analysis document",
+  "Lifetime access to CTRL, Mindmaker's flagship memory-web app",
   "Access to the cohort Slack for 90 days post-cohort",
   "Lifetime access to curriculum materials",
   "Invitation to the cohort alumni network",
@@ -84,7 +93,7 @@ const faqs = [
   },
   {
     q: "Can I send a colleague instead?",
-    a: "No. The cohort runs on peer continuity: the same 10-15 leaders in each session. Substitutions break that.",
+    a: "No. The cohort runs on peer continuity: the same 10 to 15 leaders in each session. Substitutions break that.",
   },
   {
     q: "Is this tax-deductible?",
@@ -112,8 +121,8 @@ export default function Cohort() {
   return (
     <main className="min-h-screen bg-background">
       <SEO
-        title="The AI Decision Cohort"
-        description="Make your nervous AI decision with 15 other senior leaders. Three weeks, mostly async, with three live sessions. $3,500 per seat, quarterly."
+        title="The AI-Fluent Executive"
+        description="Make your nervous AI decision with 15 other senior leaders. Four weeks, mostly async, with weekly live sessions. $2,500 per seat, quarterly. Hosted on Maven."
         canonical="/cohort"
         ogType="website"
       />
@@ -156,18 +165,18 @@ export default function Cohort() {
           <motion.div initial="hidden" animate="show" variants={fadeUp}>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-mint/10 border border-mint/20 text-mint-dark dark:text-mint text-xs font-bold uppercase tracking-[0.18em] mb-6">
               <Users className="w-3.5 h-3.5" />
-              The AI Decision Cohort
+              The AI-Fluent Executive
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-5 leading-tight">
               Make your nervous AI decision with <span className="text-mint-dark dark:text-mint">15 other senior leaders.</span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-              Three weeks, mostly async, with three live sessions in between. You leave with the one decision you've been avoiding, pressure-tested by a room full of people sitting in the same chair you are.
+              Four weeks, mostly async, with weekly live sessions. Diagnose, decompose, decide, deploy. You leave with the one decision you've been avoiding, pressure-tested by a room full of people sitting in the same chair you are.
             </p>
 
             <div className="inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm mb-8">
               <Calendar className="w-4 h-4 text-mint-dark dark:text-mint" />
-              <span className="font-semibold">Next cohort starts {nextCohort.startLabel}</span>
+              <span className="font-semibold">Next cohort: {nextCohort.startLabel} to {nextCohort.endLabel}</span>
               <span className="text-muted-foreground">
                 · {nextCohort.seatsRemaining} of {nextCohort.seatsTotal} seats remaining
               </span>
@@ -241,14 +250,14 @@ export default function Cohort() {
 
       {/* CURRICULUM */}
       <section className="section-padding">
-        <div className="container-width max-w-5xl">
+        <div className="container-width max-w-6xl">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}>
-            <h2 className="text-3xl md:text-4xl font-bold mb-3">The three-week arc.</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-3">The four-week arc: Diagnose, Decompose, Decide, Deploy.</h2>
             <p className="text-muted-foreground text-lg mb-10 max-w-2xl">
-              Mostly async. One 90-minute live session each week. Commit ~4-5 hours a week.
+              Mostly async. One 90-minute live session each week. Commit ~4 to 5 hours a week.
             </p>
           </motion.div>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {curriculum.map((week, i) => (
               <motion.article
                 key={week.week}
@@ -325,15 +334,25 @@ export default function Cohort() {
               Enrollment
             </div>
             <h2 className="text-3xl md:text-4xl font-bold mb-5">
-              Next cohort starts {nextCohort.startLabel}.
+              Next cohort runs {nextCohort.startLabel} to {nextCohort.endLabel}.
             </h2>
             <div className="flex items-baseline gap-3 mb-4">
-              <span className="text-4xl font-bold">$3,500</span>
+              <span className="text-4xl font-bold">$2,500</span>
               <span className="text-muted-foreground">per seat</span>
             </div>
-            <p className="text-sm text-muted-foreground mb-6">
-              Full payment or 2x split ($1,800 × 2). Seats: {nextCohort.seatsRemaining} of {nextCohort.seatsTotal} remaining.
+            <p className="text-sm text-muted-foreground mb-5">
+              Full payment or 2x split ($1,250 × 2). Seats: {nextCohort.seatsRemaining} of {nextCohort.seatsTotal} remaining.
             </p>
+
+            {/* Workshop alumni discount callout */}
+            <div className="mb-5 p-4 rounded-xl border border-mint/30 bg-mint/5 flex items-start gap-3">
+              <Tag className="w-4 h-4 text-mint-dark dark:text-mint mt-0.5 shrink-0" />
+              <p className="text-sm leading-relaxed">
+                <span className="font-bold">Done a Workshop in the last 90 days?</span>{" "}
+                Use code <span className="font-mono font-bold text-foreground">WORKSHOP</span> at Maven checkout for $500 off.
+              </p>
+            </div>
+
             <a
               href={MAVEN_COHORT_URL}
               target="_blank"

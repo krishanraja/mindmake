@@ -394,9 +394,17 @@ const handler = async (req: Request): Promise<Response> => {
       "orchestrate": "Orchestrate AI",
       "team": "Team Alignment",
       "individual": "Individual",
-      "cohort-enrollment": "The AI Decision Cohort",
+      "cohort-enrollment": "The AI-Fluent Executive (Cohort)",
       "signal-session": "The Signal Session",
       "revenue-architecture": "The Revenue Architecture",
+      "workshop": "Mindmaker Workshop (any)",
+      "workshop-chief-of-staff": "Workshop · Build Your AI Chief of Staff",
+      "workshop-org-chart": "Workshop · Map Your Agentic Org Chart",
+      "workshop-vibe-coding": "Workshop · Vibe Coding for Leaders",
+      "workshop-autonomous": "Workshop · Build an Autonomous Business Function",
+      "workshop-memory": "Workshop · Give Your AI Memory",
+      "alumni": "The Alumni Pass (invitation request)",
+      "free-lesson": "Free Lightning Lesson",
     };
 
     // Commitment level labels

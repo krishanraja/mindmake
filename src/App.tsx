@@ -37,6 +37,13 @@ const LeadershipInsights = lazy(() => import("./pages/LeadershipInsights"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
 const Library = lazy(() => import("./pages/Library"));
+const Workshops = lazy(() => import("./pages/Workshops"));
+const Alumni = lazy(() => import("./pages/Alumni"));
+const WorkshopChiefOfStaff = lazy(() => import("./pages/workshops/BuildYourAIChiefOfStaff"));
+const WorkshopOrgChart = lazy(() => import("./pages/workshops/MapYourAgenticOrgChart"));
+const WorkshopVibeCoding = lazy(() => import("./pages/workshops/VibeCodingForLeaders"));
+const WorkshopAutonomous = lazy(() => import("./pages/workshops/BuildAnAutonomousBusinessFunction"));
+const WorkshopMemory = lazy(() => import("./pages/workshops/GiveYourAIMemory"));
 
 const queryClient = new QueryClient();
 
@@ -86,12 +93,21 @@ const AppRoutes = () => {
             <Route path="/" element={<Index />} />
 
             {/* Core consolidated pages */}
+            <Route path="/workshops" element={<Workshops />} />
+            <Route path="/workshops/build-your-ai-chief-of-staff" element={<WorkshopChiefOfStaff />} />
+            <Route path="/workshops/map-your-agentic-org-chart" element={<WorkshopOrgChart />} />
+            <Route path="/workshops/vibe-coding-for-leaders" element={<WorkshopVibeCoding />} />
+            <Route path="/workshops/build-an-autonomous-business-function" element={<WorkshopAutonomous />} />
+            <Route path="/workshops/give-your-ai-memory" element={<WorkshopMemory />} />
             <Route path="/cohort" element={<Cohort />} />
             <Route path="/enterprise" element={<Enterprise />} />
             <Route path="/capital" element={<Capital />} />
             <Route path="/operator" element={<Operator />} />
             <Route path="/signal" element={<Brief />} />
             <Route path="/library" element={<Library />} />
+
+            {/* Alumni Pass: hidden from nav and footer, reachable by direct URL only */}
+            <Route path="/alumni" element={<Alumni />} />
 
             {/* Hidden pages, linked from footer, not nav */}
             <Route path="/immersion" element={<Immersion />} />

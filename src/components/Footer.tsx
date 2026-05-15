@@ -75,7 +75,7 @@ const Footer = () => {
                   href="/signal"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4 inline-flex items-center gap-1.5"
                 >
-                  Mindmaker LIVE
+                  Mindmaker
                   <span className="inline-flex items-center px-1 py-0.5 rounded-full bg-gradient-to-r from-mint to-emerald-400 text-ink text-[8px] font-extrabold tracking-[0.14em] leading-none">
                     LIVE
                   </span>
@@ -106,15 +106,6 @@ const Footer = () => {
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
                   New Age Leadership
-                </a>
-                <a
-                  href="https://live.themindmaker.ai/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4 inline-flex items-center gap-1"
-                >
-                  Live Learnings
-                  <ExternalLink className="h-3 w-3" />
                 </a>
               </nav>
             </div>

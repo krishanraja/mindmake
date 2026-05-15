@@ -32,18 +32,18 @@ const MAX_TOKENS = 1500;
 const rateLimit = new Map<string, number>();
 const RATE_WINDOW_MS = 60 * 60 * 1000; // 1 hour
 
-// Global circuit breaker — refuses new work if the function has served
+// Global circuit breaker, refuses new work if the function has served
 // more than this many successful calls since last cold start.
 let totalServed = 0;
 const REQUEST_CEILING = 2000;
 
 const SYSTEM_PROMPT = `You are Krish Raja, founder of Mindmaker. A leader has typed a nervous AI decision into a tool on your website. Your job is to produce a sharp, useful one-page artifact that shows them what you'd do.
 
-Voice: Direct. Cynical about AI hype. Practical. No buzzwords. Short sentences. Use "you" — speak to them. No em dashes. No "leverage," "synergy," "ecosystem," "journey," "transformation," "revolutionary."
+Voice: Direct. Cynical about AI hype. Practical. No buzzwords. Short sentences. Use "you", speak to them. No em dashes. No "leverage," "synergy," "ecosystem," "journey," "transformation," "revolutionary."
 
 Reject: Vague surface-level reframes. Generic "consider these factors" output. Motivational language.
 
-Output exactly this JSON schema — no preamble, no markdown fences, no prose around the JSON:
+Output exactly this JSON schema, no preamble, no markdown fences, no prose around the JSON:
 
 {
   "card1_real_decision": {
@@ -143,7 +143,7 @@ serve(async (req) => {
 
   if (decision.length < 10) {
     return json(
-      { error: "Give the machine a little more to work with — a sentence or two." },
+      { error: "Give the machine a little more to work with, a sentence or two." },
       400
     );
   }
@@ -154,7 +154,7 @@ serve(async (req) => {
     return json(
       {
         error:
-          "Keep the input PII-free. No names, emails, phone numbers, or card numbers — describe the decision in generic terms.",
+          "Keep the input PII-free. No names, emails, phone numbers, or card numbers, describe the decision in generic terms.",
       },
       400
     );

@@ -15,12 +15,12 @@ Pre-deploy and post-deploy verification for the Mindmaker project.
 
 ### 2. Environment variables
 All required secrets configured in Lovable Cloud / Supabase:
-- [ ] `ANTHROPIC_API_KEY` — required for the Nervous Decision Machine (Claude Haiku 4.5)
-- [ ] `GEMINI_API_KEY` — preferred for `send-lead-email` company research with Google Search grounding
-- [ ] `OPENAI_API_KEY` — market sentiment + lead enrichment fallback
-- [ ] `RESEND_API_KEY` — email delivery
-- [ ] `LOVABLE_API_KEY` — AI gateway (auto-provisioned)
-- [ ] `STRIPE_SECRET_KEY` — optional, currently bypassed (Cohort payment runs via Maven)
+- [ ] `ANTHROPIC_API_KEY`. required for the Nervous Decision Machine (Claude Haiku 4.5)
+- [ ] `GEMINI_API_KEY`. preferred for `send-lead-email` company research with Google Search grounding
+- [ ] `OPENAI_API_KEY`. market sentiment + lead enrichment fallback
+- [ ] `RESEND_API_KEY`. email delivery
+- [ ] `LOVABLE_API_KEY`. AI gateway (auto-provisioned)
+- [ ] `STRIPE_SECRET_KEY`. optional, currently bypassed (Cohort payment runs via Maven)
 
 ### 3. Edge functions
 - [ ] All functions handle OPTIONS preflight + CORS headers
@@ -31,16 +31,16 @@ All required secrets configured in Lovable Cloud / Supabase:
 All routes in `src/App.tsx` accessible:
 
 **Live pages:**
-- [ ] `/` (Index) — homepage
-- [ ] `/cohort` (Cohort) — AI Decision Cohort. "Hosted on Maven" pill + "Reserve my seat on Maven" → `https://maven.com/aimindmaker/ai-decision-intensive`
-- [ ] `/enterprise` (Enterprise) — Signal Session ($15k, 1 day + 48h delivery) + Revenue Architecture ($60–100k, **30 days**)
-- [ ] `/operator` (Operator) — v5 credential page; `/ctrl-demo-video.mp4` autoplay-loop verified
-- [ ] `/signal` (Brief) — Live Intel
-- [ ] `/immersion` (Immersion) — AI Immersion ($12k, inquiry-only)
-- [ ] `/new-age-leadership` (NewAgeLeadership) — long-form thought leadership; OrgChart lazy-loaded
-- [ ] `/leaders`, `/leadership-insights` (LeadershipInsights) — diagnostic, unlinked from nav
-- [ ] `/blog`, `/blog/:slug` — blog
-- [ ] `/faq`, `/contact`, `/privacy`, `/terms` — support pages
+- [ ] `/` (Index). homepage
+- [ ] `/cohort` (Cohort). AI Decision Cohort. "Hosted on Maven" pill + "Reserve my seat on Maven" → `https://maven.com/aimindmaker/ai-decision-intensive`
+- [ ] `/enterprise` (Enterprise). Signal Session ($15k, 1 day + 48h delivery) + Revenue Architecture ($60–100k, **30 days**)
+- [ ] `/operator` (Operator). v5 credential page; `/ctrl-demo-video.mp4` autoplay-loop verified
+- [ ] `/signal` (Brief). Live Intel
+- [ ] `/immersion` (Immersion). AI Immersion ($12k, inquiry-only)
+- [ ] `/new-age-leadership` (NewAgeLeadership). long-form thought leadership; OrgChart lazy-loaded
+- [ ] `/leaders`, `/leadership-insights` (LeadershipInsights). diagnostic, unlinked from nav
+- [ ] `/blog`, `/blog/:slug`. blog
+- [ ] `/faq`, `/contact`, `/privacy`, `/terms`. support pages
 
 **Redirects:**
 - [ ] `/tool` → `/signal#decision`
@@ -55,7 +55,7 @@ All routes in `src/App.tsx` accessible:
 ### 5. Design system compliance
 - [ ] No hardcoded hex colors (use design tokens)
 - [ ] No `text-mint` on white or light backgrounds (WCAG fail)
-- [ ] No `text-white/80` or opacity variants on dark backgrounds — use `.dark-cta-card` or `text-dark-card-*`
+- [ ] No `text-white/80` or opacity variants on dark backgrounds, use `.dark-cta-card` or `text-dark-card-*`
 - [ ] Side drawers / sheets positioned below navbar via `.sheet-navbar-aware`
 
 ### 6. Brand compliance
@@ -76,8 +76,8 @@ All routes in `src/App.tsx` accessible:
 ### 7. Content verification
 - [ ] Cohort next-cohort date and seats-remaining updated in `Cohort.tsx` `nextCohort` const (literal until Supabase `cohort_dates` wired up)
 - [ ] Pricing shown in context: $3,500 (Cohort), $15,000 (Signal Session), $60,000–$100,000 (Revenue Architecture), $12,000 (Immersion)
-- [ ] **Revenue Architecture duration says "30 days (4–5 calendar weeks)"** — not 8–12 weeks
-- [ ] **Signal Session deliverable says "Commercial Narrative, 15–20 pages, within 48 hours"** — not 5–10 pages, not 5 business days
+- [ ] **Revenue Architecture duration says "30 days (4–5 calendar weeks)"**. not 8–12 weeks
+- [ ] **Signal Session deliverable says "Commercial Narrative, 15–20 pages, within 48 hours"**. not 5–10 pages, not 5 business days
 - [ ] Payment terms rendered below each price: Cohort = "Full payment or 2× $1,800 split"; Signal Session = "Payment on kickoff"; Revenue Architecture = "50/50 at kickoff and delivery"; Immersion = "Full at booking or 50/50"
 - [ ] Testimonials in `TrustSection.tsx` tagged COHORT-STYLE or ENTERPRISE
 - [ ] Operator's Edge lead line matches current anti-consultant statement (top-of-file constant in `OperatorsEdge.tsx`)
@@ -160,7 +160,7 @@ All routes in `src/App.tsx` accessible:
 ### Optional
 | Secret | Status |
 |--------|--------|
-| `STRIPE_SECRET_KEY` | Payment holds — currently bypassed (Cohort payment runs through Maven) |
+| `STRIPE_SECRET_KEY` | Payment holds, currently bypassed (Cohort payment runs through Maven) |
 
 ---
 

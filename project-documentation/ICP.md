@@ -16,9 +16,9 @@ Mindmaker is a barbell with a third inquiry-only doorway. There are exactly thre
 
 ---
 
-## ICP 1: AI Leaders — Cohort Buyer
+## ICP 1: AI Leaders: Cohort Buyer
 
-**Who:** Senior operators with budget authority and a nervous AI decision. Not looking to learn AI in the abstract — looking to make one specific call and feel good about it.
+**Who:** Senior operators with budget authority and a nervous AI decision. Not looking to learn AI in the abstract, looking to make one specific call and feel good about it.
 
 **Typical titles:** CEO, COO, CFO, CPO, CCO, CMO, GM, VP of Product, VP of Strategy, Chief of Staff to a C-suite owner, founder-operator running a P&L.
 
@@ -31,7 +31,7 @@ Mindmaker is a barbell with a third inquiry-only doorway. There are exactly thre
 | Stage | Series B to public, or mid-market privately held |
 | Revenue | $10M–$500M (sweet spot $25M–$250M) |
 | Employees | 50–2,000 |
-| Geography | Primarily US, UK, EU, ANZ — English-first cohorts |
+| Geography | Primarily US, UK, EU, ANZ. English-first cohorts |
 | Budget authority | $500k+ for the relevant decision |
 
 ### Psychographic signals
@@ -88,7 +88,7 @@ A senior leader with one defensible AI decision documented (1-page memo), a peer
 
 ---
 
-## ICP 2: AI Products — Enterprise Buyer
+## ICP 2: AI Products: Enterprise Buyer
 
 **Who:** Founders, CEOs, or C-suite operators at companies that have built an AI product or AI-enabled capability and can't translate it into revenue predictably. The tech exists. The pricing, positioning, and GTM were built for a non-AI product, or built fast without a commercial lens.
 
@@ -108,10 +108,10 @@ A senior leader with one defensible AI decision documented (1-page memo), a peer
 ### Psychographic signals
 
 - Tech is real but revenue isn't scaling predictably
-- "Everyone says AI-powered" — they're losing the differentiation game
+- "Everyone says AI-powered", they're losing the differentiation game
 - Investor pressure for the "AI → revenue" story they can't tell confidently
 - Sales team pushing back on positioning ("I can't sell this against [competitor]")
-- Pricing leadership in flux — discounting heavily to close deals
+- Pricing leadership in flux, discounting heavily to close deals
 
 ### Commercial problems we hear every week
 
@@ -153,7 +153,7 @@ A company with a clear commercial thesis for its AI product, pricing that reflec
 
 ---
 
-## ICP 3: Executive Teams — Immersion Buyer (inquiry-only)
+## ICP 3: Executive Teams: Immersion Buyer (inquiry-only)
 
 **Who:** A CEO sponsoring a 4–8 person leadership group that needs rapid alignment on shared AI tensions. Not an individual decision; not a commercial rebuild; a team conversation that needs structure.
 
@@ -172,7 +172,7 @@ A company with a clear commercial thesis for its AI product, pricing that reflec
 
 - Sponsoring CEO can name three specific tensions in a sentence
 - Team meetings circle the same questions without producing decisions
-- Leaders are talking past each other — no shared vocabulary
+- Leaders are talking past each other, no shared vocabulary
 - "We need a strategy day but actually facilitated, not a vendor pitch"
 
 ### Tensions we resolve in the room
@@ -206,20 +206,20 @@ A team genuinely aligned (not performatively aligned) on the three issues addres
 
 ## Anti-ICPs (who we explicitly won't serve)
 
-- **Technical teams without commercial authority** — engineers, data scientists, ML platform leads. They need code or compute, not a decision room.
-- **Early-stage founders with no revenue** — ship product-market fit first; our offers assume you have revenue to reshape.
-- **Individual contributors or aspiring leaders** — we serve decision-makers with budget.
-- **Training buyers** — AI literacy courses, certifications, learning-and-development programmes. Not our shape.
-- **Fractional-role seekers** — fractional CAIO, CTO, CMO, CRO arrangements. We don't do ongoing capacity.
-- **Retainer buyers** — month-to-month advisory. Every Mindmaker offer has a finish line.
-- **Vendor co-sellers** — companies looking for a partner to recommend their tool. We're tool-agnostic.
-- **Production IT buyers** — deployment, integration, managed services. Explicitly out of scope.
+- **Technical teams without commercial authority**. engineers, data scientists, ML platform leads. They need code or compute, not a decision room.
+- **Early-stage founders with no revenue**. ship product-market fit first; our offers assume you have revenue to reshape.
+- **Individual contributors or aspiring leaders**. we serve decision-makers with budget.
+- **Training buyers**. AI literacy courses, certifications, learning-and-development programmes. Not our shape.
+- **Fractional-role seekers**. fractional CAIO, CTO, CMO, CRO arrangements. We don't do ongoing capacity.
+- **Retainer buyers**. month-to-month advisory. Every Mindmaker offer has a finish line.
+- **Vendor co-sellers**. companies looking for a partner to recommend their tool. We're tool-agnostic.
+- **Production IT buyers**. deployment, integration, managed services. Explicitly out of scope.
 
 ---
 
 ## Qualification Signals (use in PreCallQualifier and intake calls)
 
-### Strong fit — Cohort
+### Strong fit: Cohort
 
 - Has one specific AI decision they can name in a sentence
 - Board, peers, or investors are asking about AI
@@ -228,15 +228,15 @@ A team genuinely aligned (not performatively aligned) on the three issues addres
 - 10–15 peers at similar seniority would be useful, not threatening
 - Comfortable with Maven as the platform for cohort enrolment and community
 
-### Strong fit — Signal Session
+### Strong fit: Signal Session
 
 - Has AI product in market, or launching within 90 days
 - Deal sizes or pricing feel wrong, but the team hasn't pinned down why
 - Commercial team (sales, marketing, pricing) is arguing internally about GTM
-- Revenue is real but traction is uneven — "it works for some customers, not consistently"
+- Revenue is real but traction is uneven, "it works for some customers, not consistently"
 - Budget owner willing to spend $15k to get a 15–20 page Commercial Narrative + 30-day roadmap
 
-### Strong fit — Revenue Architecture
+### Strong fit: Revenue Architecture
 
 - Signal Session identified a structural commercial gap worth fixing OR they walk in already knowing the gap
 - Company has $10M+ revenue and AI capability that is meaningfully differentiated
@@ -244,7 +244,7 @@ A team genuinely aligned (not performatively aligned) on the three issues addres
 - Timeline allows 30-day engagement and ability to act on output within 90 days
 - Budget authority for $60–100k with 50/50 payment terms
 
-### Strong fit — Immersion
+### Strong fit: Immersion
 
 - CEO sponsorship + 4–8 senior leaders
 - Three specific tensions named in a sentence

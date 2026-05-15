@@ -482,7 +482,7 @@ const handler = async (req: Request): Promise<Response> => {
       console.warn('Supabase client not available - skipping database insert');
     }
 
-    // Qualifier-driven leads carry three answers. Show them first — this is the
+    // Qualifier-driven leads carry three answers. Show them first, this is the
     // most insightful signal on the call.
     const hasQualifierAnswers = qualifierAnswers && (
       qualifierAnswers.decision.trim() ||
@@ -490,7 +490,7 @@ const handler = async (req: Request): Promise<Response> => {
       qualifierAnswers.stakes.trim()
     );
 
-    // The three questions asked in PreCallQualifier.tsx — kept in sync manually.
+    // The three questions asked in PreCallQualifier.tsx, kept in sync manually.
     const qualifierQuestions = [
       { q: "What's the decision you're wrestling with?", a: qualifierAnswers?.decision },
       { q: "What's your timeline?", a: qualifierAnswers?.tried },
@@ -537,7 +537,7 @@ const handler = async (req: Request): Promise<Response> => {
     <div style="padding: 32px;">
     `;
 
-    // Pre-call qualifier Q&A (top of email — this is the primary signal)
+    // Pre-call qualifier Q&A (top of email, this is the primary signal)
     if (hasQualifierAnswers) {
       emailHtml += `
       <div style="background: #f5f5f7; border-radius: 12px; padding: 24px; margin-bottom: 20px;">
@@ -545,7 +545,7 @@ const handler = async (req: Request): Promise<Response> => {
         <p style="color: #86868b; margin: 0 0 16px 0; font-size: 12px;">Three tappable answers from the pre-call qualifier.</p>
       `;
       qualifierQuestions.forEach(({ q, a }, i) => {
-        const answer = (a || "").trim() || "—";
+        const answer = (a || "").trim() || "(none)";
         const marginBottom = i === qualifierQuestions.length - 1 ? '0' : '12px';
         emailHtml += `
         <div style="background: #ffffff; border-radius: 8px; padding: 16px; margin-bottom: ${marginBottom};">

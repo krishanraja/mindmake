@@ -54,7 +54,7 @@ const phases = [
     bullets: [
       "2-page written summary of the session's outcomes",
       "Named decisions, named owners, named deadlines",
-      "Board-ready format — can be shared upward without redaction",
+      "A format that can be shared up the chain without redaction",
     ],
   },
 ];
@@ -62,7 +62,7 @@ const phases = [
 const faqs = [
   {
     q: "Is this available virtually?",
-    a: "Yes. Remote sessions run over Zoom or Google Meet with a shared working canvas. On-site is preferred where budget allows — the group dynamic is meaningfully different in a physical room — but the written summary is identical either way.",
+    a: "Yes. Remote sessions run over Zoom or Google Meet with a shared working canvas. On-site is preferred where budget allows, since the group dynamic is meaningfully different in a physical room, but the written summary is identical either way.",
   },
   {
     q: "Can we add more than 8 people?",
@@ -112,7 +112,7 @@ export default function Immersion() {
   return (
     <main className="min-h-screen bg-background">
       <SEO
-        title="The AI Immersion — A half-day with your leadership team"
+        title="The AI Immersion: A half-day with your leadership team"
         description="A focused half-day session for executive teams who need to get aligned on AI fast. Up to eight senior leaders, one facilitated conversation, a board-ready summary within five business days. $12,000."
         canonical="/immersion"
         ogType="website"
@@ -261,7 +261,7 @@ export default function Immersion() {
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeUp}
           >
-            Every Immersion is built around three decisions your team needs to resolve together. Common examples include aligning on AI vendor commitments, resolving a build-vs-buy standoff between Product and IT, getting the exec team on the same page before a board presentation, making the replace-vs-empower call about a specific function, or settling internal debate about what your AI strategy actually is. If the tension in your room is more specific than any of those, say so in the intake call — the whole point of the format is that it bends to your actual problem.
+            Every Immersion is built around three decisions your team needs to resolve together. Common examples include aligning on AI vendor commitments, resolving a build-vs-buy standoff between Product and IT, getting the exec team on the same page before a board presentation, making the replace-vs-empower call about a specific function, or settling internal debate about what your AI strategy actually is. If the tension in your room is more specific than any of those, say so in the intake call. The whole point of the format is that it bends to your actual problem.
           </motion.p>
         </div>
       </section>

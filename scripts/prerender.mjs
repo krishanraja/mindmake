@@ -4,7 +4,7 @@
  * For each route, generates a static HTML file with proper meta tags
  * and a loading shell. The SPA hydrates over this on the client.
  *
- * This is NOT full SSR — it gives search engines meta tags and basic
+ * This is NOT full SSR, it gives search engines meta tags and basic
  * content structure without requiring a framework migration.
  *
  * For full SSR/SSG, migrate to Next.js or Astro (separate effort).

@@ -1,4 +1,4 @@
-# Offers — The Full Guide
+# Offers: The Full Guide
 
 **Last Updated:** 2026-04-26
 
@@ -22,10 +22,10 @@ Every offer has a fixed scope, a fixed outcome, and a finish line.
 **Internal floor / ceiling (not public):** Cohort minimum viable enrollment = 8 seats, cap = 15. Revenue Architecture anchor $60k, extended-scope ceiling $125k. Immersion travel charged additional for on-site.
 
 **Payment terms (shown as small muted text on site):**
-- Cohort — "Full payment or 2× $1,800 split" (collected by Maven)
-- Signal Session — "Payment on kickoff"
-- Revenue Architecture — "50/50 at kickoff and delivery"
-- Immersion — "Full at booking or 50/50 at booking + delivery"
+- Cohort, "Full payment or 2× $1,800 split" (collected by Maven)
+- Signal Session, "Payment on kickoff"
+- Revenue Architecture, "50/50 at kickoff and delivery"
+- Immersion, "Full at booking or 50/50 at booking + delivery"
 
 ---
 
@@ -45,7 +45,7 @@ Senior operators (CEO, COO, CFO, CPO, CCO, CMO, GM, VP-level, founder-operator) 
 ### Format
 
 - 10–15 seats per cohort, quarterly cadence
-- 3 weeks elapsed, mostly async — 3 weeks of structured async work + 3 live 90-minute sessions
+- 3 weeks elapsed, mostly async, 3 weeks of structured async work + 3 live 90-minute sessions
 - Live sessions are intimate, Chatham House rules, peer-guided with Krish facilitating
 - Each member picks one nervous decision at the start and must produce a board-ready position memo by the end
 - **Enrolment, payment, and cohort Slack run on Maven** at `maven.com/aimindmaker/ai-decision-intensive`. The `/cohort` page on themindmaker.ai surfaces a "Hosted on Maven" pill and a "Reserve my seat on Maven" CTA pointing directly to the Maven URL.
@@ -54,9 +54,9 @@ Senior operators (CEO, COO, CFO, CPO, CCO, CMO, GM, VP-level, founder-operator) 
 
 | Week | Theme | Async work | Live session |
 |---|---|---|---|
-| **Week 1 — Name the decision** | The real decision underneath the surface decision | 3 videos · 2 frameworks · 1 worksheet | 90-min peer-guided decision-naming session |
-| **Week 2 — Map the paths** | Trade-off analysis on the three real options (build vs buy, now vs wait, this vendor vs that) | 2 videos · 1 framework · 1 scorecard | 90-min peer pressure-test of options |
-| **Week 3 — Make the call** | Commit out loud. Leave with a one-page board-ready memo | 1 video · decision memo template | 90-min memo peer review and commitment |
+| **Week 1. Name the decision** | The real decision underneath the surface decision | 3 videos · 2 frameworks · 1 worksheet | 90-min peer-guided decision-naming session |
+| **Week 2. Map the paths** | Trade-off analysis on the three real options (build vs buy, now vs wait, this vendor vs that) | 2 videos · 1 framework · 1 scorecard | 90-min peer pressure-test of options |
+| **Week 3. Make the call** | Commit out loud. Leave with a one-page board-ready memo | 1 video · decision memo template | 90-min memo peer review and commitment |
 
 ### What you walk out with
 
@@ -106,20 +106,20 @@ Founders, CEOs, CCOs, CROs, CPOs at companies that have shipped AI product or AI
 
 - One intensive day (approximately 6 hours in-session), on-site or fully remote
 - 2 weeks pre-work: questionnaire, document review, commercial data request
-- **Commercial Narrative document delivered within 48 hours** — 15–20 pages
+- **Commercial Narrative document delivered within 48 hours**. 15–20 pages
 - Krish delivers personally, no associates
 
 ### What the day covers
 
-1. **Commercial diagnosis.** Pricing, positioning, packaging, ICP, sales motion — where is the friction?
+1. **Commercial diagnosis.** Pricing, positioning, packaging, ICP, sales motion, where is the friction?
 2. **AI-specific commercial translation.** What does the AI capability enable that the existing GTM isn't built for?
 3. **Prioritisation.** Of everything broken, what matters in the next 90 days?
 4. **Decision gate.** Does the Revenue Architecture engagement make sense? If not, we say so and you leave with the Commercial Narrative.
 
 ### What you walk out with
 
-- **The Commercial Narrative** — 15–20 page document delivered within 48 hours
-- Commercial positioning framework — 2 pages, ready for your team
+- **The Commercial Narrative**. 15–20 page document delivered within 48 hours
+- Commercial positioning framework, 2 pages, ready for your team
 - Sales narrative and objection handling guide
 - Pricing model sketch with 2–3 packaging options
 - 30-day commercial roadmap with owners and milestones
@@ -156,8 +156,8 @@ Enterprise buyers (typically $10M–$1B+ revenue) who have:
 - **30 days (4–5 calendar weeks)** elapsed
 - Structured multi-session engagement; kickoff workshop on-site or remote, then weekly working sessions plus async deliverables
 - Krish-led; no associate model
-- Fixed scope defined at kickoff (or at Signal Session if Signal preceded) — no scope creep
-- Cadence: starts at the next monthly cohort opening — book a call to check current availability
+- Fixed scope defined at kickoff (or at Signal Session if Signal preceded), no scope creep
+- Cadence: starts at the next monthly cohort opening, book a call to check current availability
 
 ### What gets built
 
@@ -185,14 +185,14 @@ Enterprise buyers (typically $10M–$1B+ revenue) who have:
 
 ### Position
 
-A half-day session for executive teams who need to get aligned on AI fast. Inquiry-only — not featured in main navigation. Serves buyers whose need is a team conversation, not an individual decision or a commercial rebuild.
+A half-day session for executive teams who need to get aligned on AI fast. Inquiry-only, not featured in main navigation. Serves buyers whose need is a team conversation, not an individual decision or a commercial rebuild.
 
 ### Tagline
 **Three decisions. One afternoon. Real alignment.**
 
 ### For
 
-CEO-level sponsors with up to 8 senior leaders who need to resolve specific shared tensions about AI — vendor commitments, build-vs-buy, board narrative, replace-vs-empower calls — in one focused session.
+CEO-level sponsors with up to 8 senior leaders who need to resolve specific shared tensions about AI, vendor commitments, build-vs-buy, board narrative, replace-vs-empower calls, in one focused session.
 
 ### Format
 

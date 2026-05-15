@@ -70,14 +70,14 @@ Note: the phrase "what's your nervous decision" can still appear in body copy as
 
 ### Issue: `/tool` page linked internally
 **Symptom:** An internal link points to `/tool`.
-**Cause:** `/tool` was the standalone Nervous Decision Machine page — now deleted.
+**Cause:** `/tool` was the standalone Nervous Decision Machine page, now deleted.
 **Solution:** Link to `/signal#decision` instead. The Nervous Decision Machine is now embedded on the homepage `OperatorsBrief` and on `/signal`.
 
 ---
 
 ### Issue: Decision Readiness Diagnostic linked from nav or footer
 **Symptom:** A link to `/leaders` appears in `Navigation.tsx` or `Footer.tsx`.
-**Cause:** Pre-v4 framing — the diagnostic was a primary lead-gen surface.
+**Cause:** Pre-v4 framing, the diagnostic was a primary lead-gen surface.
 **Solution:** The diagnostic is unlinked from nav and footer by design. It's reachable only by direct URL (`/leaders` or `/leadership-insights`) for deep-link and outbound campaigns. Do not re-add to nav.
 
 ---
@@ -170,7 +170,7 @@ if (req.method === 'OPTIONS') return new Response(null, { headers: corsHeaders }
 
 ### Issue: Hardcoded colors break theme
 **Symptom:** Elements ignore design tokens.
-**Solution:** Use `bg-mint`, `text-ink`, `border-border` — never `bg-[#7ef4c2]` or `text-[#0e1a2b]`.
+**Solution:** Use `bg-mint`, `text-ink`, `border-border`, never `bg-[#7ef4c2]` or `text-[#0e1a2b]`.
 
 ---
 

@@ -17,7 +17,7 @@ async function fetchBlogPosts(): Promise<BlogPost[]> {
       .order("published_at", { ascending: false });
 
     if (error || !data || data.length === 0) {
-      // Table doesn't exist or is empty — use static fallback
+      // Table doesn't exist or is empty, use static fallback
       return staticPosts;
     }
 
@@ -38,7 +38,7 @@ async function fetchBlogPosts(): Promise<BlogPost[]> {
       ogImage: row.og_image as string | undefined,
     }));
   } catch {
-    // Network error or Supabase unavailable — use static fallback
+    // Network error or Supabase unavailable, use static fallback
     return staticPosts;
   }
 }

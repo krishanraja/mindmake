@@ -601,7 +601,7 @@ export const InitialConsultModal = ({
                 id="immersion-attendees"
                 value={immersionAttendees}
                 onChange={(e) => setImmersionAttendees(e.target.value)}
-                placeholder="e.g. 6 — exec team + 2 product leads"
+                placeholder="e.g. 6 (exec team plus 2 product leads)"
                 required
                 className="w-[99%]"
               />
@@ -828,7 +828,7 @@ export const InitialConsultModal = ({
                             id="mobile-immersion-attendees"
                             value={immersionAttendees}
                             onChange={(e) => setImmersionAttendees(e.target.value)}
-                            placeholder="e.g. 6 — exec team + 2 product leads"
+                            placeholder="e.g. 6 (exec team plus 2 product leads)"
                             required
                             className="h-12 text-base"
                           />

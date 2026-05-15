@@ -36,17 +36,17 @@ const categories = [
   {
     icon: Sparkles,
     title: "Hybrid teams",
-    body: "Most existing roles will become hybrid — one human who owns judgment and relationships, a small fleet of agents doing the throughput. The decision you'll face: when most of the work is agent-executed, does the human role become smaller, different, or bigger? Different companies will answer this differently. The answer determines your hiring plan for the next two years.",
+    body: "Most existing roles will become hybrid: one human who owns judgment and relationships, a small fleet of agents doing the throughput. The decision you'll face: when most of the work is agent-executed, does the human role become smaller, different, or bigger? Different companies will answer this differently. The answer determines your hiring plan for the next two years.",
   },
   {
     icon: Bot,
     title: "Agent-first functions",
-    body: "Some functions will stop being human-default. Lead scoring, dependency monitoring, content drafting, customer research synthesis — these will become agent-first, with a human only in the exception path. The decision you'll face: when a function stops being human-default, what happens to the humans who used to do it? Replace, empower, or redeploy — and on what timeline?",
+    body: "Some functions will stop being human-default. Lead scoring, dependency monitoring, content drafting, customer research synthesis: these will become agent-first, with a human only in the exception path. The decision you'll face: when a function stops being human-default, what happens to the humans who used to do it? Replace, empower, or redeploy, and on what timeline?",
   },
   {
     icon: Users,
     title: "Emergent agent-native roles",
-    body: "Some roles will appear that did not exist before. They're not translations of human jobs — they're roles that only make sense because an agent fleet created the need for them. The decision you'll face: how will your org approve the creation of roles that no human ever asked to do? Who has the authority? What's your governance? You probably haven't written this policy yet.",
+    body: "Some roles will appear that did not exist before. They're not translations of human jobs. They're roles that only make sense because an agent fleet created the need for them. The decision you'll face: how will your org approve the creation of roles that no human ever asked to do? Who has the authority? What's your governance? You probably haven't written this policy yet.",
   },
 ];
 
@@ -224,7 +224,7 @@ export default function NewAgeLeadership() {
                   Mind Set <span className="text-mint-dark dark:text-mint">→</span> Mind Map{" "}
                   <span className="text-mint-dark dark:text-mint">→</span> Mind Make
                 </span>
-                . Mind Make is the phase where decisions get committed and deployed. Most of what's above — emergent roles, hybrid teams, agent-proposed hires — is Mind Make territory, and it's territory leaders don't have frameworks for yet.
+                . Mind Make is the phase where decisions get committed and deployed. Most of what's above (emergent roles, hybrid teams, agent-proposed hires) is Mind Make territory, and it's territory leaders don't have frameworks for yet.
               </p>
               <p>
                 You don't need to solve it today. You do need to know it's coming. The leaders who will handle it best aren't the ones who've read the most about AI. They're the ones who've already made a few of these calls, gotten a few wrong, and built the judgment muscle in a room of peers facing the same questions.

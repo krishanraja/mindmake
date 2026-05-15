@@ -12,7 +12,7 @@ Step-by-step instructions to replicate the Mindmaker platform. Follow in order.
 - Node.js 18+
 - npm
 - Git
-- Lovable account (`lovable.dev`) — or Vercel + Supabase if going non-Lovable
+- Lovable account (`lovable.dev`), or Vercel + Supabase if going non-Lovable
 - Calendly account
 - Anthropic, OpenAI, Resend accounts
 
@@ -330,13 +330,13 @@ Verify end-to-end:
 
 ## Support Resources
 
-- Lovable Docs — `docs.lovable.dev`
-- Supabase Docs — `supabase.com/docs`
-- Anthropic API Docs — `docs.anthropic.com`
-- Tailwind Docs — `tailwindcss.com/docs`
-- React Docs — `react.dev`
-- Authoritative codebase reference — `CLAUDE.md` (repo root)
-- Strategic brief — `project-documentation/mindmaker_rebuild_brief_v4.md`
+- Lovable Docs, `docs.lovable.dev`
+- Supabase Docs, `supabase.com/docs`
+- Anthropic API Docs, `docs.anthropic.com`
+- Tailwind Docs, `tailwindcss.com/docs`
+- React Docs, `react.dev`
+- Authoritative codebase reference, `CLAUDE.md` (repo root)
+- Strategic brief, `project-documentation/mindmaker_rebuild_brief_v4.md`
 
 ---
 

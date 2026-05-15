@@ -28,7 +28,7 @@ type StakesTag = "revenue" | "launch" | "board" | "team" | "budget" | "personal"
 type Option<T extends string> = { tag: T; label: string };
 
 const decisionOptions: Option<DecisionTag>[] = [
-  { tag: "build-vs-buy", label: "Build vs. buy — should we build AI or buy it?" },
+  { tag: "build-vs-buy", label: "Build vs. buy: should we build AI or buy it?" },
   { tag: "commercial-stuck", label: "We've built AI but it's not converting to revenue" },
   { tag: "gtm-launch", label: "We're launching an AI product or feature" },
   { tag: "alignment", label: "My team isn't aligned on AI direction" },
@@ -37,20 +37,20 @@ const decisionOptions: Option<DecisionTag>[] = [
 ];
 
 const timelineOptions: Option<TimelineTag>[] = [
-  { tag: "rapid", label: "This week or next — I need rapid alignment" },
-  { tag: "quarter", label: "This quarter — we're moving soon" },
-  { tag: "ninety-day", label: "Next 90 days — we're planning runway" },
-  { tag: "roadmap", label: "6+ months — we're building a long-view roadmap" },
-  { tag: "exploring", label: "Exploring — no firm timeline" },
+  { tag: "rapid", label: "This week or next. I need rapid alignment" },
+  { tag: "quarter", label: "This quarter. We're moving soon" },
+  { tag: "ninety-day", label: "Next 90 days. We're planning runway" },
+  { tag: "roadmap", label: "6+ months. We're building a long-view roadmap" },
+  { tag: "exploring", label: "Exploring. No firm timeline" },
 ];
 
 const stakesOptions: Option<StakesTag>[] = [
-  { tag: "revenue", label: "Revenue — growth is stuck or slipping" },
+  { tag: "revenue", label: "Revenue: growth is stuck or slipping" },
   { tag: "launch", label: "A product launch hanging in the balance" },
   { tag: "board", label: "Board / investor confidence" },
-  { tag: "team", label: "Team going sideways — wasted effort / conflict" },
-  { tag: "budget", label: "Wrong tools — budget wasted on the wrong bets" },
-  { tag: "personal", label: "Personal — I don't want to make the wrong call" },
+  { tag: "team", label: "Team going sideways: wasted effort, conflict" },
+  { tag: "budget", label: "Wrong tools: budget wasted on the wrong bets" },
+  { tag: "personal", label: "Personal: I don't want to make the wrong call" },
 ];
 
 type Selections = {
@@ -95,7 +95,7 @@ const classify = (s: Selections): Recommendation => {
     return {
       title: "The Revenue Architecture is your likely fit.",
       blurb:
-        "This sounds like a full commercial build: pricing, packaging, GTM, board-ready narrative. 30-day intensive, informed by operating an AI business in production. We'd scope fit on the intake call.",
+        "This sounds like a full commercial build covering pricing, packaging, GTM, and a narrative you can take to the board. 30-day intensive, informed by operating an AI business in production. We'd scope fit on the intake call.",
       preselected: "revenue-architecture",
     };
   }
@@ -112,7 +112,7 @@ const classify = (s: Selections): Recommendation => {
   return {
     title: "The AI Decision Cohort is your likely fit.",
     blurb:
-      "You're describing a single nervous AI decision you want resolved. That's what the cohort is for: three weeks with 15 other senior leaders, a peer group that holds you accountable, and a board-ready memo on the way out.",
+      "You're describing a single nervous AI decision you want resolved. That's what the cohort is for. Three weeks with 15 other senior leaders, peers who hold you accountable, and a one-page memo you can take to the board on the way out.",
     preselected: "cohort-enrollment",
   };
 };
@@ -122,7 +122,7 @@ const selectionsToAnswers = (s: Selections): Answers => {
     decisionOptions.find((o) => o.tag === s.decisionTag)?.label || "";
   const decision =
     s.decisionTag === "other" && s.decisionOther.trim()
-      ? `${decisionLabel} — ${s.decisionOther.trim()}`
+      ? `${decisionLabel}: ${s.decisionOther.trim()}`
       : decisionLabel;
   const tried = timelineOptions.find((o) => o.tag === s.timelineTag)?.label || "";
   const stakes = stakesOptions.find((o) => o.tag === s.stakesTag)?.label || "";

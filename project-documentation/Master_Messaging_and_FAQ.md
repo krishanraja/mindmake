@@ -19,7 +19,7 @@ Mindmaker is a barbell. A Maven-hosted quarterly Cohort for senior leaders makin
 Technical operator. 16 years monetizing emerging tech. CEO of a business he runs with a 14-agent autonomous OS.
 
 ### The credential pivot (outbound and sales)
-"I started coding at Microsoft. I've spent my career running commercial P&Ls and building systems. I scaled Captify APAC from $0 to $12M ARR. I took Nine Entertainment's data revenue from $9M to $61M. Today I run Mindmaker with a 14-agent OS that automates the output of a 30-person team. I'm an operator who builds the future live — not a researcher writing about it."
+"I started coding at Microsoft. I've spent my career running commercial P&Ls and building systems. I scaled Captify APAC from $0 to $12M ARR. I took Nine Entertainment's data revenue from $9M to $61M. Today I run Mindmaker with a 14-agent OS that automates the output of a 30-person team. I'm an operator who builds the future live, not a researcher writing about it."
 
 ### Proof points (factual context, never boastful)
 - Built the first global automated media campaigns at Microsoft in 2010.
@@ -39,9 +39,9 @@ I am not an advisor. I am an operator. I do not sell 40-slide decks. I do not se
 **Symptom:** They've been pitched 14 tools this quarter and committed to none. They're presenting AI strategies to boards they can't actually execute. Their teams are using different stacks in secret. Every vendor is selling "transformation"; they need a decision.
 
 **Underlying anxiety:**
-- **Boardroom fear** — looking dumb when asked to defend the AI strategy they just presented
-- **Competitor threat** — AI-native competitors moving faster by default, and the cost of catching up compounds
-- **Vendor paralysis** — fear of committing millions to the wrong platform without the technical literacy to evaluate
+- **Boardroom fear**. looking dumb when asked to defend the AI strategy they just presented
+- **Competitor threat**. AI-native competitors moving faster by default, and the cost of catching up compounds
+- **Vendor paralysis**. fear of committing millions to the wrong platform without the technical literacy to evaluate
 
 **What they need:** A decision room with 10–15 peers working the same problem. A board-ready position memo on one nervous decision. The **AI Decision Cohort**, hosted on Maven.
 
@@ -50,9 +50,9 @@ I am not an advisor. I am an operator. I do not sell 40-slide decks. I do not se
 **Symptom:** They've built AI capability. Pricing is guesswork. Positioning doesn't land. Sales can't articulate differentiation. Deal sizes are erratic. The GTM was built for a non-AI product and doesn't fit anymore.
 
 **Underlying anxiety:**
-- **Commercial gap** — the tech is real but the revenue isn't scaling predictably
-- **Category confusion** — everyone says "AI-powered" and no one can hear them
-- **Investor pressure** — the board wants the "AI → revenue" story and they can't tell it confidently
+- **Commercial gap**. the tech is real but the revenue isn't scaling predictably
+- **Category confusion**. everyone says "AI-powered" and no one can hear them
+- **Investor pressure**. the board wants the "AI → revenue" story and they can't tell it confidently
 
 **What they need:** A commercial diagnosis from an operator, not a deck from a researcher. The **Signal Session** ($15k, 1 day, 15–20 page Commercial Narrative within 48h) for the diagnosis; the **Revenue Architecture** ($60–100k, 30 days) for the rebuild.
 
@@ -61,9 +61,9 @@ I am not an advisor. I am an operator. I do not sell 40-slide decks. I do not se
 **Symptom:** Same three AI conversations have happened in four different leadership meetings without resolution. Vendor commitments stalled. Build-vs-buy unresolved. Replace-vs-empower unresolved. Board narrative unresolved.
 
 **Underlying anxiety:**
-- **Drift** — the team is talking past each other and burning calendar
-- **Politics** — nobody wants to lose face by changing position in a regular meeting
-- **Sponsorship pressure** — the CEO sponsoring the conversation needs decisions, not another follow-up
+- **Drift**. the team is talking past each other and burning calendar
+- **Politics**. nobody wants to lose face by changing position in a regular meeting
+- **Sponsorship pressure**. the CEO sponsoring the conversation needs decisions, not another follow-up
 
 **What they need:** A facilitated 4-hour Immersion run by a neutral operator. Three decisions named, three owners named, three deadlines named. **The AI Immersion** ($12k, inquiry-only).
 
@@ -74,11 +74,11 @@ The big consultancies (McKinsey, BCG, Deloitte, Accenture) sell 6-figure decks b
 
 ## PART 3: THE OFFERS (CANONICAL PITCHES)
 
-### The AI Decision Cohort — $3,500/seat (Maven)
+### The AI Decision Cohort: $3,500/seat (Maven)
 
 **One-line:** A quarterly decision room for senior leaders wrestling with AI decisions, hosted on Maven.
 
-**Pitch (60s):** You've got a nervous AI decision you've been avoiding — build vs buy, which vendor, what to tell the board, what to replace vs empower. The Cohort puts you in a room with 10–15 other senior leaders working the same problem. Three weeks mostly async (videos, frameworks, worksheets), three live 90-minute sessions, and a one-page board-ready decision memo at the end. $3,500 per seat or 2× $1,800 split. Hosted on Maven so payment, the cohort Slack, and alumni continuity all live in one place. No coaching, no deck, no vendor pitch. You leave with a decision you can defend, a peer network you can keep, and 90 days of post-cohort Slack.
+**Pitch (60s):** You've got a nervous AI decision you've been avoiding, build vs buy, which vendor, what to tell the board, what to replace vs empower. The Cohort puts you in a room with 10–15 other senior leaders working the same problem. Three weeks mostly async (videos, frameworks, worksheets), three live 90-minute sessions, and a one-page board-ready decision memo at the end. $3,500 per seat or 2× $1,800 split. Hosted on Maven so payment, the cohort Slack, and alumni continuity all live in one place. No coaching, no deck, no vendor pitch. You leave with a decision you can defend, a peer network you can keep, and 90 days of post-cohort Slack.
 
 **Curriculum at a glance:**
 - Week 1: Name the decision (peer-guided decision-naming session)
@@ -93,9 +93,9 @@ The big consultancies (McKinsey, BCG, Deloitte, Accenture) sell 6-figure decks b
 
 **Route:** `/cohort` (Maven enrolment at `https://maven.com/aimindmaker/ai-decision-intensive`).
 
-### The Signal Session — $15,000
+### The Signal Session: $15,000
 
-**One-line:** One day, one room, one commercial thesis — and a 15–20 page Commercial Narrative within 48 hours.
+**One-line:** One day, one room, one commercial thesis, and a 15–20 page Commercial Narrative within 48 hours.
 
 **Pitch (60s):** You've built AI capability. The commercial side doesn't match. Pricing is guesswork, positioning doesn't land, sales can't articulate why you're different. The Signal Session is one intensive day plus a 15–20 page Commercial Narrative delivered within 48 hours. You also leave with a 2-page positioning framework, a sales narrative + objection handling guide, a pricing model sketch with 2–3 packaging options, and a 30-day commercial roadmap with named owners. $15k, payment at kickoff. If the answer is "you don't need the bigger engagement," that's the answer in writing.
 
@@ -105,23 +105,23 @@ The big consultancies (McKinsey, BCG, Deloitte, Accenture) sell 6-figure decks b
 
 **Route:** `/enterprise#signal-session`.
 
-### The Revenue Architecture — $60,000–$100,000
+### The Revenue Architecture: $60,000–$100,000
 
 **One-line:** Your AI capabilities, translated into revenue, in 30 days.
 
-**Pitch (60s):** The flagship. A commercial rebuild over **30 days (4–5 calendar weeks)**: positioning, pricing, packaging, GTM playbook, ICP refresh, product roadmap, and the board narrative that makes the AI investment pay back. 50% at kickoff, 50% at delivery. Scope is fixed at kickoff — no creep. Krish runs it personally. No associate model. Deployment and production IT are explicitly out of scope — we hand over to your team or to a partner we'll name. 30-day follow-up session included.
+**Pitch (60s):** The flagship. A commercial rebuild over **30 days (4–5 calendar weeks)**: positioning, pricing, packaging, GTM playbook, ICP refresh, product roadmap, and the board narrative that makes the AI investment pay back. 50% at kickoff, 50% at delivery. Scope is fixed at kickoff, no creep. Krish runs it personally. No associate model. Deployment and production IT are explicitly out of scope, we hand over to your team or to a partner we'll name. 30-day follow-up session included.
 
 **Walk-out artefacts:** 30–40 page client-branded commercial strategy doc; product marketing framework (positioning, messaging, competitive differentiation); revenue model with multiple pricing scenarios; 2–3 packaging options; 90-day GTM playbook; product roadmap aligned to commercial milestones; board-ready deck (Krish presents if requested); 30-day follow-up session.
 
-**Who it's for:** Enterprise buyers (usually $10M–$1B+ revenue), differentiated AI capability in market, budget authority for $60–100k, willing to act on the output within 90 days. New engagements start at the next monthly cohort opening — book a call to check current availability.
+**Who it's for:** Enterprise buyers (usually $10M–$1B+ revenue), differentiated AI capability in market, budget authority for $60–100k, willing to act on the output within 90 days. New engagements start at the next monthly cohort opening, book a call to check current availability.
 
 **Route:** `/enterprise#revenue-architecture`.
 
-### The AI Immersion — $12,000 (inquiry-only)
+### The AI Immersion: $12,000 (inquiry-only)
 
 **One-line:** Three decisions. One afternoon. Real alignment.
 
-**Pitch (60s):** A 4-hour facilitated working session for up to 8 senior leaders. CEO sponsors. Pre-session: 45-minute alignment call with the sponsor and a shared doc of the three decisions to resolve, with a pre-brief circulated 48 hours before. The session runs Diagnose → Decompose → Decide → Deploy on each tension. No recording, Chatham House rules. 2-page board-ready summary delivered within 5 business days. Names three decisions, three owners, three deadlines. $12k flat. Travel additional for on-site. Inquiry-only — not a public offer.
+**Pitch (60s):** A 4-hour facilitated working session for up to 8 senior leaders. CEO sponsors. Pre-session: 45-minute alignment call with the sponsor and a shared doc of the three decisions to resolve, with a pre-brief circulated 48 hours before. The session runs Diagnose → Decompose → Decide → Deploy on each tension. No recording, Chatham House rules. 2-page board-ready summary delivered within 5 business days. Names three decisions, three owners, three deadlines. $12k flat. Travel additional for on-site. Inquiry-only, not a public offer.
 
 **Who it's for:** CEO sponsors with up to 8 senior leaders stuck on shared AI tensions: vendor commitments, build-vs-buy at the team level, replace-vs-empower, board narrative.
 
@@ -134,11 +134,11 @@ The big consultancies (McKinsey, BCG, Deloitte, Accenture) sell 6-figure decks b
 - **Homepage Y-fork:** "Two ways I work." Card A = The Cohort ($3,500/seat, `/cohort`). Card B = Enterprise (from $15k, `/enterprise`).
 - **Hero eyebrow:** "Decision blockers I hear every week."
 - **Hero subheadline:** "Cohorts and enterprise sprints that turn AI chaos into direction."
-- **Operator's Edge section:** "Beyond pattern recognition" — positions Krish as a practitioner who runs an actual agentic organization. Links to `/operator`.
+- **Operator's Edge section:** "Beyond pattern recognition", positions Krish as a practitioner who runs an actual agentic organization. Links to `/operator`.
 - **Live Intel (homepage teaser):** Continuous price ticker + rotating plain-English interpretation line + compact Nervous Decision Machine input + muted "Open the full dashboard →" link to `/signal`. Component: `OperatorsBrief.tsx`.
 - **Live Intel (full dashboard at `/signal`):** Extended ticker, 3-card interpretation grid, classified card archive (WATCH/SKIP/CALL/TAKE) with filters and search, blog column, full-size Nervous Decision Machine. Component: `Brief.tsx`.
-- **Decision Readiness Diagnostic:** `/leaders` — unlinked from nav/footer but reachable by URL for deep-links.
-- **New Age Leadership:** `/new-age-leadership` — long-form thought leadership on agent-native org charts; promoted from hidden into the Resources dropdown. Funnels to `/cohort` and `/operator`.
+- **Decision Readiness Diagnostic:** `/leaders`. unlinked from nav/footer but reachable by URL for deep-links.
+- **New Age Leadership:** `/new-age-leadership`. long-form thought leadership on agent-native org charts; promoted from hidden into the Resources dropdown. Funnels to `/cohort` and `/operator`.
 - **Hidden support pages:** `/immersion` (linked via consult modal preselect), `/leaders` (deep-links only).
 - **Primary CTA everywhere:** "Book a call" → opens `InitialConsultModal`.
 
@@ -162,19 +162,19 @@ The second-top-level link is **"Live Intel"** (renamed from "The Brief"). The De
 ## PART 5: MASTER FAQ & OBJECTION HANDLING
 
 ### "Why shouldn't we just hire McKinsey / BCG / Deloitte / Accenture?"
-They sell 6-figure decks built by researchers over 6 months. I'm an operator. I've run P&Ls, scaled revenue from $0 to $12M ARR, taken data revenue from $9M to $61M, and I currently run a live 14-agent OS. I don't hand you research — I hand you a commercial architecture or a board-ready decision, with a finish line. For what you'd pay for one Deloitte workstream, you get the full Revenue Architecture in 30 days.
+They sell 6-figure decks built by researchers over 6 months. I'm an operator. I've run P&Ls, scaled revenue from $0 to $12M ARR, taken data revenue from $9M to $61M, and I currently run a live 14-agent OS. I don't hand you research. I hand you a commercial architecture or a board-ready decision, with a finish line. For what you'd pay for one Deloitte workstream, you get the full Revenue Architecture in 30 days.
 
 ### "Why is the Revenue Architecture only 30 days?"
-Because I'm not running discovery for six months — I'm running pattern recognition on what wins commercially with AI and what doesn't. Krish in the room, no associates. 30 days is enough when there's no associate handover and no committee draft cycle.
+Because I'm not running discovery for six months. I'm running pattern recognition on what wins commercially with AI and what doesn't. Krish in the room, no associates. 30 days is enough when there's no associate handover and no committee draft cycle.
 
 ### "Why is the Signal Session priced at $15k for one day?"
-You're paying for the Commercial Narrative — 15–20 pages delivered within 48 hours — plus the 2-page positioning framework, sales narrative, pricing sketch, and 30-day roadmap. Far more durable than a one-day workshop. The math: one wasted quarter of GTM is worth more than $15k.
+You're paying for the Commercial Narrative, 15–20 pages delivered within 48 hours, plus the 2-page positioning framework, sales narrative, pricing sketch, and 30-day roadmap. Far more durable than a one-day workshop. The math: one wasted quarter of GTM is worth more than $15k.
 
 ### "Can we do a fractional CAIO / CTO / CMO / CRO arrangement?"
 No. Mindmaker doesn't do fractional roles. Every engagement has a fixed scope and a finish line. If ongoing capacity is what you need, hire a full-time executive or a different firm. I'd rather send you elsewhere than take a mandate I can't execute cleanly.
 
 ### "Can we just delegate AI to our IT or RevOps team?"
-You can delegate execution. You can't delegate the decision. Agentic AI isn't a SaaS tool — it changes the shape of workflows and organisation design. If you separate business acumen from AI decision-making, the strategy will fail. That's why the Cohort is for the person on the hook for the decision, not the person deploying the tool.
+You can delegate execution. You can't delegate the decision. Agentic AI isn't a SaaS tool, it changes the shape of workflows and organisation design. If you separate business acumen from AI decision-making, the strategy will fail. That's why the Cohort is for the person on the hook for the decision, not the person deploying the tool.
 
 ### "We're already on ChatGPT Enterprise / Copilot / Gemini. Isn't that enough?"
 A model subscription is not an AI strategy. It's a software commitment that may or may not match your actual commercial problem. The Cohort helps you decide what you're actually committing to and why. The Revenue Architecture rebuilds the commercial layer around the capability, whatever vendor you chose.
@@ -183,28 +183,28 @@ A model subscription is not an AI strategy. It's a software commitment that may 
 Vendor selection is downstream of a clearer question: what decision are you actually making? The Cohort cuts through 14 vendor pitches to the decision the vendors are all dancing around. Once you know that, vendor evaluation takes a week, not a quarter.
 
 ### "Why is the Cohort hosted on Maven?"
-Enrollment, payment, the cohort Slack, and the alumni network all run on Maven. It's the platform that holds the experience. The cohort runs the same way whether you book through `/cohort` or directly via the Maven URL — themindmaker.ai describes the offer; Maven runs it.
+Enrollment, payment, the cohort Slack, and the alumni network all run on Maven. It's the platform that holds the experience. The cohort runs the same way whether you book through `/cohort` or directly via the Maven URL, themindmaker.ai describes the offer; Maven runs it.
 
 ### "$3,500 is expensive for a cohort."
 It isn't a course. It's 10–15 senior leaders working one nervous decision each with structured facilitation over three live sessions and three weeks of mostly-async work. The output is a board-ready position memo, plus 90 days of cohort Slack, plus lifetime curriculum, plus alumni network access. Compared to the cost of the wrong vendor commitment, the Cohort is insurance priced at a rounding error.
 
 ### "$60–100k is steep. What am I really paying for?"
-A commercial architecture — 30–40 page strategy doc, product marketing framework, revenue model with tested pricing scenarios, 2–3 packaging options, 90-day GTM playbook, product roadmap, and the board-ready deck — delivered by an operator inside 30 days. Plus a 30-day follow-up session. Ask a management consultancy for the same scope; the bid comes back at $400k+ with a 9-month timeline and associates doing the work. Krish does it personally and finishes.
+A commercial architecture, 30–40 page strategy doc, product marketing framework, revenue model with tested pricing scenarios, 2–3 packaging options, 90-day GTM playbook, product roadmap, and the board-ready deck, delivered by an operator inside 30 days. Plus a 30-day follow-up session. Ask a management consultancy for the same scope; the bid comes back at $400k+ with a 9-month timeline and associates doing the work. Krish does it personally and finishes.
 
 ### "What's the Immersion and why isn't it on the public site?"
-The Immersion is a 4-hour facilitated session for an executive team stuck on three shared AI tensions. $12k, up to 8 leaders, 2-page board-ready summary within 5 business days. It's inquiry-only because team alignment is rarely the actual problem — usually it's an individual decision (Cohort) or a commercial gap (Enterprise). When team alignment is genuinely the right shape, we book it.
+The Immersion is a 4-hour facilitated session for an executive team stuck on three shared AI tensions. $12k, up to 8 leaders, 2-page board-ready summary within 5 business days. It's inquiry-only because team alignment is rarely the actual problem, usually it's an individual decision (Cohort) or a commercial gap (Enterprise). When team alignment is genuinely the right shape, we book it.
 
 ### "Can Mindmaker build / deploy / integrate for us?"
 No. Explicitly out of scope. We do the commercial and decision layer. Deployment, production IT, managed services, and integration are not services we offer. We'll name the right partner at handover if that's what's needed next.
 
 ### "What's the most sensitive question you get in closed rooms?"
-"Who do I replace versus who do I empower when agents get this good?" It's an organisational design question with career consequences. Navigating it needs someone who's run teams through change, not a researcher. That's the kind of question the Cohort surfaces openly and works through with peers — and one of the most common Immersion tensions.
+"Who do I replace versus who do I empower when agents get this good?" It's an organisational design question with career consequences. Navigating it needs someone who's run teams through change, not a researcher. That's the kind of question the Cohort surfaces openly and works through with peers, and one of the most common Immersion tensions.
 
 ### "What is the Builder Economy?"
-It's my podcast and creator project at `thebuildereconomy.com`. It isn't a Mindmaker product. The creator-era paradigm — where everyone broadcast — is giving way to a builder-era paradigm where everyone ships. The podcast covers that shift. Mindmaker covers the commercial and decision layer for leaders operating in it.
+It's my podcast and creator project at `thebuildereconomy.com`. It isn't a Mindmaker product. The creator-era paradigm, where everyone broadcast, is giving way to a builder-era paradigm where everyone ships. The podcast covers that shift. Mindmaker covers the commercial and decision layer for leaders operating in it.
 
 ### "Why did you retire the 4-Week and 90-Day Sprints?"
-They were 1:1 products priced for an unclear buyer, and the sales motion didn't match a solo operator's capacity. The barbell — Cohort at the low end, Enterprise at the high end — matches both how content distributes and how Krish can actually deliver personally. If 1:1 is genuinely the right shape, we handle it via inquiry at `/cohort?inquiry=1:1`, but it's not a public product.
+They were 1:1 products priced for an unclear buyer, and the sales motion didn't match a solo operator's capacity. The barbell. Cohort at the low end, Enterprise at the high end, matches both how content distributes and how Krish can actually deliver personally. If 1:1 is genuinely the right shape, we handle it via inquiry at `/cohort?inquiry=1:1`, but it's not a public product.
 
 ### "Why renamed Signal Desk → The Brief → Live Intel?"
 "Signal Desk" overlapped with Krish's separate business, Signal & Noise. "The Brief" tested fine internally but read as opaque to first-time visitors. "Live Intel" says exactly what the surface is: live model pricing and live signals about what to act on now. The classified card taxonomy (WATCH/SKIP/CALL/TAKE) is unchanged.
@@ -214,9 +214,9 @@ We do trade-off analysis, not recommendations. The buyer always decides. We don'
 
 ### "What does the Pre-Call Qualifier ask?"
 Three chip-based questions:
-1. **Decision** — what's the decision you're wrestling with? (build-vs-buy, commercial-stuck, GTM launch, alignment, personal clarity, other)
-2. **Timeline** — what's your timeline? (this week, this quarter, next 90 days, 6+ months, exploring)
-3. **Stakes** — what's the real cost of not solving this? (revenue, launch, board confidence, team conflict, wrong tools, personal)
+1. **Decision**. what's the decision you're wrestling with? (build-vs-buy, commercial-stuck, GTM launch, alignment, personal clarity, other)
+2. **Timeline**. what's your timeline? (this week, this quarter, next 90 days, 6+ months, exploring)
+3. **Stakes**. what's the real cost of not solving this? (revenue, launch, board confidence, team conflict, wrong tools, personal)
 
 Answers feed into the consult modal so the call starts with shared context. Stored in `localStorage` under `mindmaker:pre-call-qualifier`. No email capture in the qualifier itself.
 

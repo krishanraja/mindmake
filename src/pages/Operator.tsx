@@ -234,7 +234,7 @@ export default function Operator() {
                 variants={fadeUp}
                 className="text-muted-foreground"
               >
-                Mindmaker sits on top of a 14-agent operating system coordinating a 13-venture portfolio. It runs in production. It's cost-optimised. It's self-monitoring. It makes its own handoffs.
+                Mindmaker sits on top of a 14-agent operating system coordinating a 13-venture portfolio. It runs in production, watches its own cost ceiling, and makes its own handoffs without me in the loop.
               </motion.p>
               <motion.p
                 initial="hidden"
@@ -254,7 +254,7 @@ export default function Operator() {
                 variants={fadeUp}
                 className="text-muted-foreground"
               >
-                Layer that on sixteen years running P&amp;Ls, shaping tech product strategy, and — right now — leading GenAI advisory inside a global media enterprise. That's not a credential line. It's a day job.
+                Layer that on sixteen years running P&amp;Ls, shaping tech product strategy, and, right now, leading GenAI advisory inside a global media enterprise. That's not a credential line. It's a day job.
               </motion.p>
             </div>
           </div>
@@ -372,7 +372,7 @@ export default function Operator() {
               What this means if you're commercializing AI.
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-5">
-              If you've built AI capabilities and they're not converting to revenue, the problem is almost never the capabilities. It's the system around them: the positioning, the pricing, the commercial narrative, the agent-to-customer handoff. The Revenue Architecture engagement applies the operating patterns from this page to your commercial architecture. You don't need a consultant explaining agents. You need an operator who's already run the playbook you're about to build.
+              If you've built AI capabilities and they're not converting to revenue, the problem is almost never the capabilities. It's the system around them: positioning, pricing, commercial narrative, the handoff from agent to customer. The Revenue Architecture engagement applies the operating patterns from this page to your commercial architecture. You don't need a consultant explaining agents. You need an operator who's already run the playbook you're about to build.
             </p>
             <Button
               asChild

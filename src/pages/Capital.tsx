@@ -36,9 +36,9 @@ const capitalProducts: ProductExpandCardData[] = [
       "Either we map the AI strategy for your fund or family office itself, or we run a capital-allocator's read on a specific portfolio company.",
     price: "$15,000",
     trioLine:
-      "What gets mapped together: your fund's product strategy, your team's capability, your own fluency as an allocator. Most engagements skip this because it's invisible until you hit a wall.",
+      "We map three things at once: how your fund actually builds product, what your team can run, and how fluent you are as an allocator. Most engagements skip the third one and find out it mattered later, after the wall.",
     description:
-      "One day with Krish, working through your current state. 48 hours later you receive a 15-20 page Commercial Narrative document. For fund-level engagements: an AI operating model sketch and deal flow signal framework. For portfolio engagements: a capital-allocator's read on the company's commercial state and a repositioning hypothesis. In either case: a written read on whether Revenue Architecture is the right next step.",
+      "One day with Krish, working through your current state. 48 hours later you receive a 15-20 page Commercial Narrative document. For fund-level engagements, that means an AI operating model sketch and a deal flow signal framework. For portfolio engagements, that means a capital-allocator's read on the company's commercial state and a repositioning hypothesis. Either way, you get a written read on whether Revenue Architecture is the right next step.",
     walkOutWith: [
       "Commercial Narrative document (15-20 pages, delivered within 48 hours)",
       "For fund-level: AI operating model sketch, deal flow signal framework",
@@ -47,7 +47,7 @@ const capitalProducts: ProductExpandCardData[] = [
       "Written read on whether Revenue Architecture is warranted",
     ],
     bestFor:
-      "Capital allocators evaluating where to apply AI operating leverage first, at the fund level, or against a specific portfolio company.",
+      "Capital allocators deciding where to put AI to work first: inside the fund itself, or against a specific portfolio company.",
     paymentTerms: "Payment in full at kickoff.",
     primaryCTA: {
       label: "Book The Signal Session",
@@ -63,9 +63,9 @@ const capitalProducts: ProductExpandCardData[] = [
     price: "From $60,000",
     priceDetail: "per portfolio company",
     trioLine:
-      "What gets mapped together: the portfolio company's product strategy, its team capability, the founder's own fluency as an operator. Most consulting engagements skip this because it's invisible until the rebuild hits a wall.",
+      "We map three things at once: how the portfolio company actually builds product, what the team can run, and how fluent the founder is as an operator. Most consulting engagements skip the third one and find out it mattered halfway through the rebuild.",
     description:
-      "30 days inside a portfolio company. New ICP, new pricing architecture, new GTM, new content engine, new outbound. All running AI-native from day one. The deliverable is the engine itself, not a deck. Krish is in the room with the founder, working live, no associates, no partner-shuffles.",
+      "30 days inside a portfolio company. We rewrite ICP, pricing, GTM, the content engine, and outbound, with AI baked into the engine from day one. The deliverable is the engine itself, not a deck. Krish is in the room with the founder, working live, no associates, no partner-shuffles.",
     walkOutWith: [
       "Commercial strategy document (30-40 pages, client-branded)",
       "Product marketing framework: positioning, messaging, competitive differentiation",
@@ -86,10 +86,10 @@ const capitalProducts: ProductExpandCardData[] = [
 ];
 
 const door1Bullets = [
-  "AI-native deal flow evaluation (signal vs noise on AI claims)",
-  "Portfolio thesis stress-tested against AI-native competitive dynamics",
-  "Internal operating model rebuilt with AI as the rails (LP comms, deal memos, IC prep)",
-  "A defensible point of view on AI for the next IC and the next LP meeting",
+  "Deal flow evaluation that filters signal from noise on founder AI claims",
+  "Portfolio thesis stress-tested against where AI is actually changing the competitive picture",
+  "Internal operating model rebuilt with AI inside the work itself: LP comms, deal memos, IC prep",
+  "A defensible point of view on AI you can hold in your next IC and your next LP meeting",
 ];
 
 const door2Bullets = [
@@ -139,8 +139,8 @@ export default function Capital() {
   return (
     <main className="min-h-screen bg-background">
       <SEO
-        title="Capital: AI-native fund and portfolio operations"
-        description="For Operating Partners, family offices, and funds. The Signal Session ($15k) maps the AI strategy for your fund or a portfolio company. The Revenue Architecture ($60-100k per portco) deploys the rebuild. Fund-level pricing available."
+        title="Capital: build the fund's AI engine first, then the portfolio's"
+        description="For Operating Partners, family offices, and funds. The Signal Session ($15k) maps the AI strategy for your fund or a portfolio company. The Revenue Architecture ($60-100k per portco) builds the engine inside it. Fund-level pricing available."
         canonical="/capital"
         ogType="website"
       />
@@ -164,7 +164,7 @@ export default function Capital() {
               <span className="text-mint">deployed.</span>
             </h1>
             <p className="text-lg md:text-xl text-white/70 mb-10 max-w-2xl mx-auto">
-              For Operating Partners, family offices, and funds. Make the fund itself AI-native first. Then deploy the same engine across portfolio companies.
+              For Operating Partners, family offices, and funds. We build the fund's AI engine first, around how you actually run deals. Then we push the same engine into the portfolio companies where it earns the most.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
@@ -201,7 +201,7 @@ export default function Capital() {
               Two doors. One operating system.
             </h2>
             <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Same architecture. Same finish-line model. Same person in the room. The only difference is whether the engine sits inside your fund or inside one of your companies.
+              It's the same architecture, the same fixed scope, and Krish in the room either way. The only thing that changes is whether the engine ends up running inside your fund or inside one of the companies you own.
             </p>
           </motion.div>
 
@@ -218,7 +218,7 @@ export default function Capital() {
                 Door 1
               </div>
               <h3 className="text-xl md:text-2xl font-bold mb-4 leading-tight">
-                Make yourself AI-native.
+                Build the fund's AI engine first.
               </h3>
               <ul className="space-y-3 mb-2 flex-grow">
                 {door1Bullets.map((item, i) => (
@@ -269,7 +269,7 @@ export default function Capital() {
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-3">Engagements.</h2>
             <p className="text-muted-foreground text-lg">
-              Two products. Same engine. Either works for the fund itself or a single portfolio company.
+              Two products running on the same engine. Either one works for the fund itself or for a single portfolio company.
             </p>
           </motion.div>
           <ProductExpandSection products={capitalProducts} />

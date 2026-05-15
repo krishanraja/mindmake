@@ -39,7 +39,7 @@ const tagStyles: Record<BriefTag, string> = {
 
 const tags: (BriefTag | "ALL")[] = ["ALL", "WATCH", "SKIP", "CALL", "TAKE"];
 
-// Interpretation layer — the plain-English read on the ticker. Matches the
+// Interpretation layer: the plain-English read on the ticker. Matches the
 // homepage teaser but fleshed out with supporting context.
 const INTERPRETATIONS: { headline: string; body: string }[] = [
   {
@@ -325,7 +325,7 @@ export default function Brief() {
                 Want this in your inbox?
               </h2>
               <p className="text-sm md:text-base text-white/60 mb-6 max-w-xl">
-                Headlines, resources, and perspectives — same signal, less browser tabs.
+                Headlines, resources, and perspectives. Same signal, less browser tabs.
               </p>
               <SubstackSubscribeForm tone="dark" size="full" source="signal-page" />
             </div>

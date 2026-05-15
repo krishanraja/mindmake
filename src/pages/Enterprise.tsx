@@ -36,7 +36,7 @@ const enterpriseProducts: ProductExpandCardData[] = [
     category: "The Signal Session",
     headline: "Your commercial diagnosis. Shipped in 48 hours.",
     subhead:
-      "One day intensive. 15-20 page Commercial Narrative deliverable. Best entry point if you're not sure whether Revenue Architecture is right for you.",
+      "A one-day intensive that produces a 15-20 page Commercial Narrative. The best place to start if you're not sure whether Revenue Architecture is the right call.",
     price: "$15,000",
     trioLine: ENTERPRISE_TRIO_LINE,
     description:
@@ -50,7 +50,7 @@ const enterpriseProducts: ProductExpandCardData[] = [
       "Written read on whether Revenue Architecture is warranted",
     ],
     bestFor:
-      "Companies with AI capability that haven't translated it into a defensible commercial story yet, or who suspect their pricing and positioning are leaving money on the table.",
+      "Companies sitting on real AI capability without a defensible commercial story, or who suspect their pricing and positioning are leaving money on the table.",
     paymentTerms: "Payment in full at kickoff.",
     primaryCTA: {
       label: "Book The Signal Session",
@@ -62,7 +62,7 @@ const enterpriseProducts: ProductExpandCardData[] = [
     category: "The Revenue Architecture",
     headline: "30-day commercial rebuild. One person in the room.",
     subhead:
-      "New ICP, new pricing, new GTM, new content engine, new outbound. All running AI-native from day one. No associates, no retainer.",
+      "ICP, pricing, GTM, content engine, and outbound, all rebuilt to run on AI from day one. No associates, no retainer.",
     price: "From $60,000",
     priceDetail: "to $100,000, scope-dependent",
     trioLine: ENTERPRISE_TRIO_LINE,
@@ -78,7 +78,7 @@ const enterpriseProducts: ProductExpandCardData[] = [
       "30-day follow-up strategy session included",
     ],
     bestFor:
-      "Companies past the Signal Session stage, or who arrive knowing they need a full commercial rebuild, typically because the category is shifting, the founder is the bottleneck, or the company is pivoting into a new line and needs an AI-native engine from day one.",
+      "Companies past the Signal Session stage, or who arrive knowing they need a full commercial rebuild, typically because the category is shifting, the founder is the bottleneck, or the company is pivoting into a new line and needs the engine built around AI from day one.",
     paymentTerms: "50% deposit at kickoff, 50% at delivery.",
     primaryCTA: {
       label: "Book The Revenue Architecture",
@@ -185,7 +185,7 @@ export default function Enterprise() {
     <main className="min-h-screen bg-background">
       <SEO
         title="Enterprise: AI commercialization sprints"
-        description="Two sprints. Fixed scope. Board-ready output. The Signal Session ($15k) aligns your team fast. The Revenue Architecture ($60-100k) builds the complete commercial strategy."
+        description="Two sprints with a fixed scope and a finish line. The Signal Session ($15k) aligns your team fast. The Revenue Architecture ($60-100k) builds the complete commercial strategy."
         canonical="/enterprise"
         ogType="website"
       />
@@ -209,7 +209,7 @@ export default function Enterprise() {
               <span className="text-mint">translated into revenue.</span>
             </h1>
             <p className="text-lg md:text-xl text-white/70 mb-10 max-w-2xl mx-auto">
-              You have the tech. I give you the story, the pricing, and the go-to-market engine that sells it. Two sprints. Fixed scope. Board-ready output.
+              You have the tech. I give you the story, the pricing, and the go-to-market engine that sells it. Two sprints, each with a fixed scope and a finish line.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
@@ -267,7 +267,7 @@ export default function Enterprise() {
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-3">Side by side.</h2>
             <p className="text-muted-foreground text-lg mb-10">
-              The Signal Session is the starting point. The Revenue Architecture is the full build.
+              Start with The Signal Session if you need a fast read. Go straight to The Revenue Architecture if you already know you need the full build.
             </p>
           </motion.div>
 
@@ -341,10 +341,10 @@ export default function Enterprise() {
               Allocating capital, not running a company?
             </div>
             <h3 className="text-2xl md:text-3xl font-bold mb-3 leading-tight">
-              The same engine, deployed across a portfolio.
+              The same engine, run across a portfolio.
             </h3>
             <p className="text-muted-foreground mb-6 leading-relaxed">
-              For Operating Partners, family offices, and funds. Make the fund itself AI-native first. Then deploy the same engagement across portfolio companies, with fund-level pricing for repeat work.
+              For Operating Partners, family offices, and funds. Rebuild the fund itself around AI first, then run the same engagement across portfolio companies with fund-level pricing for repeat work.
             </p>
             <Button
               asChild

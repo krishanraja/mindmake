@@ -30,7 +30,7 @@
 - Resend (transactional email delivery)
 - Calendly (scheduling, post-consult modal)
 - **Maven** (Cohort enrolment, payment, cohort Slack, alumni network)
-- Stripe (payment holds — currently bypassed; Cohort payment flows through Maven)
+- Stripe (payment holds, currently bypassed; Cohort payment flows through Maven)
 
 **Hosting & deployment:**
 - Lovable Cloud / Vercel (frontend auto-deploy)
@@ -56,7 +56,7 @@ mindmaker/
 │   │   │   ├── OrgChart.tsx          # interactive agent-native org chart (lazy)
 │   │   │   └── AgathaStory.tsx       # embedded narrative + completion beacon
 │   │   ├── NewHero.tsx               # rotating headlines + CTAs
-│   │   ├── YFork.tsx                 # "Two ways I work" — Cohort vs Enterprise
+│   │   ├── YFork.tsx                 # "Two ways I work". Cohort vs Enterprise
 │   │   ├── BigProblem.tsx
 │   │   ├── TrustSection.tsx          # Krish bio + testimonials carousel
 │   │   ├── FrameworkJourney.tsx      # Mind Set → Mind Map → Mind Make
@@ -76,11 +76,11 @@ mindmaker/
 │   │   ├── Index.tsx                 # homepage (eager-loaded)
 │   │   ├── Cohort.tsx                # The AI Decision Cohort (Maven enrolment)
 │   │   ├── Enterprise.tsx            # Signal Session + Revenue Architecture
-│   │   ├── Operator.tsx              # /operator — 14-agent OS credential
-│   │   ├── Brief.tsx                 # Live Intel — /signal
-│   │   ├── Immersion.tsx             # /immersion — AI Immersion ($12k, inquiry-only)
-│   │   ├── NewAgeLeadership.tsx      # /new-age-leadership — long-form thought leadership
-│   │   ├── LeadershipInsights.tsx    # Decision Readiness Diagnostic — /leaders
+│   │   ├── Operator.tsx              # /operator, 14-agent OS credential
+│   │   ├── Brief.tsx                 # Live Intel, /signal
+│   │   ├── Immersion.tsx             # /immersion. AI Immersion ($12k, inquiry-only)
+│   │   ├── NewAgeLeadership.tsx      # /new-age-leadership, long-form thought leadership
+│   │   ├── LeadershipInsights.tsx    # Decision Readiness Diagnostic, /leaders
 │   │   ├── Blog.tsx
 │   │   ├── BlogPost.tsx
 │   │   ├── FAQ.tsx
@@ -113,7 +113,7 @@ mindmaker/
 │   │   ├── send-lead-email/           # Gemini company research + Resend
 │   │   ├── send-contact-email/
 │   │   ├── send-leadership-insights-email/
-│   │   └── create-consultation-hold/  # Stripe — currently bypassed
+│   │   └── create-consultation-hold/  # Stripe, currently bypassed
 │   ├── migrations/
 │   └── config.toml
 ├── public/
@@ -148,11 +148,11 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 | `/` | `Index` | Homepage, eager-loaded |
 | `/cohort` | `Cohort` | The AI Decision Cohort ($3,500/seat). Enrolment on **Maven** at `maven.com/aimindmaker/ai-decision-intensive`. Banner appears on `?inquiry=1:1`. |
 | `/enterprise` | `Enterprise` | The Signal Session ($15k, 1 day + 48h delivery) + The Revenue Architecture ($60–100k, 30 days). Anchors `#signal-session`, `#revenue-architecture`. |
-| `/operator` | `Operator` | (v5) How I operate — 14-agent OS credential page. Looping `/ctrl-demo-video.mp4`. |
-| `/signal` | `Brief` | **Live Intel** — full dashboard. Extended PriceTicker, interpretation grid, classified archive (WATCH/SKIP/CALL/TAKE), blog column, Nervous Decision Machine. |
+| `/operator` | `Operator` | (v5) How I operate, 14-agent OS credential page. Looping `/ctrl-demo-video.mp4`. |
+| `/signal` | `Brief` | **Live Intel**, full dashboard. Extended PriceTicker, interpretation grid, classified archive (WATCH/SKIP/CALL/TAKE), blog column, Nervous Decision Machine. |
 | `/immersion` | `Immersion` | **AI Immersion** ($12k, inquiry-only). 3-phase format: alignment / 4-hour session / 2-page summary in 5 days. |
 | `/new-age-leadership` | `NewAgeLeadership` | Long-form thought leadership: agent-native org chart, hybrid teams, agent-first functions, emergent agent-native roles. Lazy-loaded `OrgChart` + `AgathaStory`. |
-| `/leaders`, `/leadership-insights` | `LeadershipInsights` | Decision Readiness Diagnostic — unlinked from nav, reachable by URL |
+| `/leaders`, `/leadership-insights` | `LeadershipInsights` | Decision Readiness Diagnostic, unlinked from nav, reachable by URL |
 | `/blog`, `/blog/:slug` | `Blog`, `BlogPost` | |
 | `/faq` | `FAQ` | |
 | `/contact` | `Contact` | |
@@ -176,7 +176,7 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 
 On `/cohort?inquiry=1:1`, a banner surfaces the inquiry-only private-engagement path without advertising it on the main page.
 
-No `/pricing` page — pricing lives in context on `/cohort`, `/enterprise`, and `/immersion`.
+No `/pricing` page, pricing lives in context on `/cohort`, `/enterprise`, and `/immersion`.
 
 ---
 
@@ -184,23 +184,23 @@ No `/pricing` page — pricing lives in context on `/cohort`, `/enterprise`, and
 
 Authoritative source: `src/pages/Index.tsx`. Verified 2026-04-26.
 
-1. `Navigation` — fixed top, hides on scroll-down via `useScrollDirection`
-2. `NewHero` — rotating headlines, eyebrow "Decision blockers I hear every week", "Book a call" primary CTA + "See how I work" secondary
-3. `YFork` — "Two ways I work." → `/cohort` ($3,500) vs `/enterprise` (from $15,000)
-4. `BigProblem` — existential urgency frame
-5. `TrustSection` — Krish bio, headshot, testimonials carousel (COHORT-STYLE / ENTERPRISE tagged)
-6. `FrameworkJourney` — three-panel animated MindSet → MindMap → MindMake
-7. `OperatorsEdge` — v5 typography-only credential section ("Beyond pattern recognition")
-8. `OperatorsBrief` — Live Intel homepage teaser (PriceTicker + rotating interpretation + compact Nervous Decision input + muted link to `/signal`)
-9. `SimpleCTA` — final CTA
+1. `Navigation`. fixed top, hides on scroll-down via `useScrollDirection`
+2. `NewHero`. rotating headlines, eyebrow "Decision blockers I hear every week", "Book a call" primary CTA + "See how I work" secondary
+3. `YFork`. "Two ways I work." → `/cohort` ($3,500) vs `/enterprise` (from $15,000)
+4. `BigProblem`. existential urgency frame
+5. `TrustSection`. Krish bio, headshot, testimonials carousel (COHORT-STYLE / ENTERPRISE tagged)
+6. `FrameworkJourney`. three-panel animated MindSet → MindMap → MindMake
+7. `OperatorsEdge`. v5 typography-only credential section ("Beyond pattern recognition")
+8. `OperatorsBrief`. Live Intel homepage teaser (PriceTicker + rotating interpretation + compact Nervous Decision input + muted link to `/signal`)
+9. `SimpleCTA`. final CTA
 10. `Footer`
 
 ### Global overlays (mounted in `src/App.tsx`)
 
-- `InitialConsultModal` — opened via `window.dispatchEvent(new CustomEvent('openConsultModal', { detail: { preselected?, qualifierAnswers? } }))`
-- `PreCallQualifier` — floating pill, 3-step chip intake, pre-loads modal via `SessionDataContext.setQualificationData`
+- `InitialConsultModal`. opened via `window.dispatchEvent(new CustomEvent('openConsultModal', { detail: { preselected?, qualifierAnswers? } }))`
+- `PreCallQualifier`. floating pill, 3-step chip intake, pre-loads modal via `SessionDataContext.setQualificationData`
 - `CookieConsent`
-- `ErrorBoundary` — wraps `<Suspense>` around routes
+- `ErrorBoundary`. wraps `<Suspense>` around routes
 
 ---
 
@@ -285,7 +285,7 @@ Recommendation map (from `classify()`):
 
 ### Nervous Decision Machine Flow
 
-Embedded inside `OperatorsBrief` on homepage and inside `Brief.tsx` at `/signal`. No standalone page — `/tool` redirects to `/signal#decision`.
+Embedded inside `OperatorsBrief` on homepage and inside `Brief.tsx` at `/signal`. No standalone page, `/tool` redirects to `/signal#decision`.
 
 ```
 1. User types a nervous decision prompt (compact or full input)
@@ -365,7 +365,7 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 - Secret: `RESEND_API_KEY`
 
 ### `create-consultation-hold` (bypassed)
-- Stripe authorization hold — currently bypassed; Cohort payment runs entirely through Maven
+- Stripe authorization hold, currently bypassed; Cohort payment runs entirely through Maven
 - Secret: `STRIPE_SECRET_KEY`
 
 ---
@@ -413,8 +413,8 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 - `public/robots.txt` allow-list for GPTBot, ClaudeBot, PerplexityBot, Google-Extended
 - `/operator` OG type set to `article`
 - Plausible events (`window.plausible(...)` if present):
-  - `operator_page_cta_clicked` — Revenue Architecture CTA from `/operator`
-  - `pre_call_qualifier_completed` — when user books a call after completing the qualifier
+  - `operator_page_cta_clicked`. Revenue Architecture CTA from `/operator`
+  - `pre_call_qualifier_completed`. when user books a call after completing the qualifier
 
 ---
 

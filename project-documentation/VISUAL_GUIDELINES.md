@@ -427,7 +427,7 @@ The homepage is a curated vertical scroll. Authoritative source: `src/pages/Inde
 |-------|-----------|------------------|
 | 1. Navigation | `Navigation.tsx` | Fixed top, mint "Book a call" CTA, hides on scroll-down |
 | 2. Hero | `NewHero.tsx` | Full-viewport dark ink, looping `/rising-cities.mp4` background, particle animation, rotating headlines, eyebrow "Decision blockers I hear every week", mint CTA "Book a call", secondary "See how I work" |
-| 3. Y-Fork | `YFork.tsx` | Two-card glass layout — The Cohort ($3,500) vs Enterprise (from $15k) |
+| 3. Y-Fork | `YFork.tsx` | Two-card glass layout. The Cohort ($3,500) vs Enterprise (from $15k) |
 | 4. Big Problem | `BigProblem.tsx` | Existential urgency frame |
 | 5. Trust Anchor | `TrustSection.tsx` | Krish headshot (circular, mint border), bio, testimonials carousel (COHORT-STYLE / ENTERPRISE tagged) |
 | 6. Framework Journey | `FrameworkJourney.tsx` | Three glass-card panels (Mind Set → Mind Map → Mind Make) with scroll-triggered animations |
@@ -439,11 +439,11 @@ The homepage is a curated vertical scroll. Authoritative source: `src/pages/Inde
 ### Global overlays (above-scroll)
 
 Mounted in `src/App.tsx`:
-- `InitialConsultModal` — the single conversion surface
-- `PreCallQualifier` — floating pill bottom-right
+- `InitialConsultModal`. the single conversion surface
+- `PreCallQualifier`. floating pill bottom-right
 - `CookieConsent`
 
-### Operator's Edge (v5) — visual spec
+### Operator's Edge (v5): visual spec
 
 Dark-bg section positioned between `FrameworkJourney` and `OperatorsBrief`. Reads as a clear new section via:
 - `WHO YOU'RE WORKING WITH` eyebrow
@@ -458,11 +458,11 @@ Dark-bg section positioned between `FrameworkJourney` and `OperatorsBrief`. Read
 
 Guardrails: no scrolling logs, no terminal aesthetics, no ASCII art, no interactive dashboards. Every claim passes the CMO-15-second test.
 
-### Live Intel — visual spec
+### Live Intel: visual spec
 
 **Nav label:** **"Live Intel"** (NOT "The Brief", NOT "Signal Desk"). The body-copy term "The Operator's Brief" remains acceptable in editorial copy on `/signal`, but the nav label is "Live Intel".
 
-**Homepage teaser (`OperatorsBrief.tsx`)** — minimal:
+**Homepage teaser (`OperatorsBrief.tsx`)**, minimal:
 - Continuous CSS-marquee `PriceTicker` with the canonical 7 models
 - Rotating plain-English interpretation line underneath (3 takes, 8s cross-fade)
 - Compact Nervous Decision input (`nervous-decision/Input.tsx` at compact size)
@@ -476,7 +476,7 @@ Guardrails: no scrolling logs, no terminal aesthetics, no ASCII art, no interact
 - Blog column
 - Full-size Nervous Decision input with example chips
 
-Taxonomy **WATCH / SKIP / CALL / TAKE** — replaces the previous SIGNAL / NOISE / DECISION / TAKE.
+Taxonomy **WATCH / SKIP / CALL / TAKE**, replaces the previous SIGNAL / NOISE / DECISION / TAKE.
 
 ### `/cohort`, `/enterprise`, and `/immersion` page structure
 
@@ -489,12 +489,12 @@ Pages follow a similar shape:
 
 ### Retired visual patterns (do not build)
 
-- Builder/Orchestrator fork (`TheProblem.tsx`) — replaced by `YFork`
-- 4-Week / 90-Day sprint chooser (`ProductLadder.tsx`) — replaced by `YFork`
-- AI News Ticker (`AINewsTicker.tsx`) with SIGNAL/NOISE/DECISION/TAKE badges — replaced by PriceTicker + Operator's Brief
-- ActionsHub side drawer — unmounted
-- `"What's your nervous decision?"` as a CTA button label — replaced by `"Book a call"` everywhere
-- Engine Room / mm-ctrl agent visualization — never built for homepage per CLAUDE.md guardrails
+- Builder/Orchestrator fork (`TheProblem.tsx`), replaced by `YFork`
+- 4-Week / 90-Day sprint chooser (`ProductLadder.tsx`), replaced by `YFork`
+- AI News Ticker (`AINewsTicker.tsx`) with SIGNAL/NOISE/DECISION/TAKE badges, replaced by PriceTicker + Operator's Brief
+- ActionsHub side drawer, unmounted
+- `"What's your nervous decision?"` as a CTA button label, replaced by `"Book a call"` everywhere
+- Engine Room / mm-ctrl agent visualization, never built for homepage per CLAUDE.md guardrails
 
 ---
 

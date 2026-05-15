@@ -50,7 +50,7 @@ export const MindMakerLiveSection = ({ id = "mindmaker-live" }: MindMakerLiveSec
             The signal, in your inbox.
           </h2>
           <p className="text-base md:text-lg text-white/60 max-w-2xl mx-auto">
-            Headlines, resources, perspectives — plus video walkthroughs and exclusive content. Free. Weekly. No pitch decks.
+            Headlines, resources, perspectives, plus video walkthroughs and exclusive content. Free. Weekly. No pitch decks.
           </p>
         </motion.div>
 

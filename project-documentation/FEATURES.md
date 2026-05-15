@@ -8,7 +8,7 @@
 
 Mindmaker is a barbell with one inquiry-only relief valve: three public offers, one inquiry-only offer, no middle tier. Every offer has a fixed scope and finish line. Full detail in [OFFERS.md](./OFFERS.md). Sales-grade detail in [SALES_PLAYBOOK.md](./SALES_PLAYBOOK.md).
 
-### 1. The AI Decision Cohort — $3,500/seat (hosted on Maven)
+### 1. The AI Decision Cohort: $3,500/seat (hosted on Maven)
 **Status:** Live
 **Route:** `/cohort`
 **Implementation:** `src/pages/Cohort.tsx`
@@ -19,9 +19,9 @@ Mindmaker is a barbell with one inquiry-only relief valve: three public offers, 
 **Format:** 3 weeks (mostly async) + 3 × 90-min live sessions. 10–15 seats per cohort. Quarterly cadence.
 
 **Curriculum:**
-- Week 1 — Name the decision (peer-guided decision-naming session)
-- Week 2 — Map the paths (peer pressure-test of the three real options)
-- Week 3 — Make the call (memo peer review + commitment)
+- Week 1. Name the decision (peer-guided decision-naming session)
+- Week 2. Map the paths (peer pressure-test of the three real options)
+- Week 3. Make the call (memo peer review + commitment)
 
 **Outcome:** A board-ready 1-page decision memo + trade-off analysis doc + 90-day cohort Slack access + lifetime curriculum + alumni network.
 
@@ -36,7 +36,7 @@ The page surfaces:
 
 ---
 
-### 2. The Signal Session — $15,000
+### 2. The Signal Session: $15,000
 **Status:** Live
 **Route:** `/enterprise#signal-session`
 **Implementation:** `src/pages/Enterprise.tsx` (anchor section)
@@ -58,7 +58,7 @@ The page surfaces:
 
 ---
 
-### 3. The Revenue Architecture — $60,000–$100,000
+### 3. The Revenue Architecture: $60,000–$100,000
 **Status:** Live
 **Route:** `/enterprise#revenue-architecture`
 **Implementation:** `src/pages/Enterprise.tsx` (anchor section)
@@ -79,12 +79,12 @@ The page surfaces:
 
 **Payment terms:** 50/50 at kickoff and delivery.
 
-**Cadence note:** new engagements start at the next monthly cohort opening — book a call to check current availability.
+**Cadence note:** new engagements start at the next monthly cohort opening, book a call to check current availability.
 
 ---
 
-### 4. The AI Immersion — $12,000 (inquiry-only)
-**Status:** Live (inquiry-only — not in main nav)
+### 4. The AI Immersion: $12,000 (inquiry-only)
+**Status:** Live (inquiry-only, not in main nav)
 **Route:** `/immersion`
 **Implementation:** `src/pages/Immersion.tsx`
 
@@ -96,7 +96,7 @@ The page surfaces:
 
 **Payment terms:** $12,000 flat. Travel additional for on-site. Full payment at booking or 50/50 at booking + delivery.
 
-**CTA:** "Request a date" — opens consult modal preselected to "immersion".
+**CTA:** "Request a date", opens consult modal preselected to "immersion".
 
 ---
 
@@ -131,21 +131,21 @@ Triggered by `/cohort?inquiry=1:1`. A muted banner surfaces a Contact link. No p
 
 Authoritative: `src/pages/Index.tsx`. Order:
 
-1. `NewHero` — rotating headlines, eyebrow "Decision blockers I hear every week", looping `/rising-cities.mp4` background, mint pulse, particle background. Primary CTA "Book a call", secondary "See how I work" (smooth-scrolls to Y-fork).
-2. `YFork` — "Two ways I work." Card A = The Cohort ($3,500, `/cohort`). Card B = Enterprise (from $15,000, `/enterprise`).
-3. `BigProblem` — existential urgency frame.
-4. `TrustSection` — Krish bio + headshot + testimonials carousel (COHORT-STYLE / ENTERPRISE tagged).
-5. `FrameworkJourney` — three-panel animated Mind Set → Mind Map → Mind Make.
-6. `OperatorsEdge` — v5 typography-only credential section ("Beyond pattern recognition"). Three proof tiles (Architecture / Optimization / Memory). Primary CTA to Revenue Architecture, secondary link to `/operator`.
-7. `OperatorsBrief` — Live Intel homepage teaser. CSS-marquee PriceTicker + rotating interpretation line (3 takes, 8s cross-fade) + compact Nervous Decision input + muted "Open the full dashboard →" link to `/signal`.
-8. `SimpleCTA` — final CTA.
+1. `NewHero`. rotating headlines, eyebrow "Decision blockers I hear every week", looping `/rising-cities.mp4` background, mint pulse, particle background. Primary CTA "Book a call", secondary "See how I work" (smooth-scrolls to Y-fork).
+2. `YFork`. "Two ways I work." Card A = The Cohort ($3,500, `/cohort`). Card B = Enterprise (from $15,000, `/enterprise`).
+3. `BigProblem`. existential urgency frame.
+4. `TrustSection`. Krish bio + headshot + testimonials carousel (COHORT-STYLE / ENTERPRISE tagged).
+5. `FrameworkJourney`. three-panel animated Mind Set → Mind Map → Mind Make.
+6. `OperatorsEdge`. v5 typography-only credential section ("Beyond pattern recognition"). Three proof tiles (Architecture / Optimization / Memory). Primary CTA to Revenue Architecture, secondary link to `/operator`.
+7. `OperatorsBrief`. Live Intel homepage teaser. CSS-marquee PriceTicker + rotating interpretation line (3 takes, 8s cross-fade) + compact Nervous Decision input + muted "Open the full dashboard →" link to `/signal`.
+8. `SimpleCTA`. final CTA.
 9. `Footer`.
 
 ### Global overlays
 
 Mounted in `src/App.tsx`:
-- `InitialConsultModal` — the single conversion surface. Opened via `window.dispatchEvent(new CustomEvent('openConsultModal', { detail: { preselected?, qualifierAnswers? } }))`
-- `PreCallQualifier` — floating pill bottom-right. 3-step chip-based intake drawer (decision → timeline → stakes) → keyword-classified offer recommendation → pre-loads modal via `SessionDataContext.setQualificationData`. Answers saved to `localStorage` under `mindmaker:pre-call-qualifier` (version 2), no email capture.
+- `InitialConsultModal`. the single conversion surface. Opened via `window.dispatchEvent(new CustomEvent('openConsultModal', { detail: { preselected?, qualifierAnswers? } }))`
+- `PreCallQualifier`. floating pill bottom-right. 3-step chip-based intake drawer (decision → timeline → stakes) → keyword-classified offer recommendation → pre-loads modal via `SessionDataContext.setQualificationData`. Answers saved to `localStorage` under `mindmaker:pre-call-qualifier` (version 2), no email capture.
 - `CookieConsent`
 - `ErrorBoundary` wrapping the route `Suspense`
 
@@ -164,10 +164,10 @@ Hides on scroll-down via `useScrollDirection`.
 ### Lightning Lessons (external Maven courses)
 
 Surfaced in the Resources dropdown via the `LightningLessons` component. Four courses:
-1. Vibe Coding for Leaders — `https://maven.com/p/ca6d71/vibe-coding-for-leaders-build-what-you-brief`
-2. Make AI Your Co-Founder — `https://maven.com/p/0cc82a/make-ai-your-co-founder`
-3. Build an Autonomous Business with AI — `https://maven.com/p/38d196/build-an-autonomous-business-with-ai`
-4. Give Your AI Memory — `https://maven.com/p/8fba42/improve-the-memory-of-your-ai-tools`
+1. Vibe Coding for Leaders, `https://maven.com/p/ca6d71/vibe-coding-for-leaders-build-what-you-brief`
+2. Make AI Your Co-Founder, `https://maven.com/p/0cc82a/make-ai-your-co-founder`
+3. Build an Autonomous Business with AI, `https://maven.com/p/38d196/build-an-autonomous-business-with-ai`
+4. Give Your AI Memory, `https://maven.com/p/8fba42/improve-the-memory-of-your-ai-tools`
 
 ---
 
@@ -204,17 +204,17 @@ Renamed from "Signal Desk" → "The Brief" → **"Live Intel"** for plain-Englis
 - Full-size Nervous Decision input with example chips
 
 **Shared components:**
-- `PriceTicker.tsx` — CSS-marquee, no native scrollbar, pauses on hover, respects `prefers-reduced-motion`
+- `PriceTicker.tsx`. CSS-marquee, no native scrollbar, pauses on hover, respects `prefers-reduced-motion`
 - `nervous-decision/Input.tsx` (compact + full sizes)
 - `nervous-decision/Artifact.tsx`, `types.ts`
 
 **Model allowlist:** `src/hooks/useModelData.ts` exports `ALLOWED_MODEL_IDS`. Canonical set: Opus 4.7, Sonnet 4.6, Haiku 4.5, Gemini 2.5 Pro, Gemini 2.5 Flash, GPT-5, GPT-5 Mini.
 
 **Taxonomy:**
-- **WATCH** — worth acting on
-- **SKIP** — hype / ignore
-- **CALL** — a decision is overdue
-- **TAKE** — Krish's opinion
+- **WATCH**. worth acting on
+- **SKIP**. hype / ignore
+- **CALL**. a decision is overdue
+- **TAKE**. Krish's opinion
 
 Renamed from the previous SIGNAL / NOISE / DECISION / TAKE set.
 
@@ -222,11 +222,11 @@ Renamed from the previous SIGNAL / NOISE / DECISION / TAKE set.
 
 ## The Nervous Decision Machine
 
-Embedded only — no standalone page. `/tool` redirects to `/signal#decision`.
+Embedded only, no standalone page. `/tool` redirects to `/signal#decision`.
 
 **Components:**
-- `src/components/nervous-decision/Input.tsx` — compact (for homepage teaser) + full (for `/signal`) sizes
-- `src/components/nervous-decision/Artifact.tsx` — renders the typed response schema
+- `src/components/nervous-decision/Input.tsx`. compact (for homepage teaser) + full (for `/signal`) sizes
+- `src/components/nervous-decision/Artifact.tsx`. renders the typed response schema
 
 **Edge function:** `supabase/functions/nervous-decision-machine/index.ts`
 - Model: `claude-haiku-4-5-20251001`
@@ -243,8 +243,8 @@ Embedded only — no standalone page. `/tool` redirects to `/signal#decision`.
 (v5) Typography-only credential page showing Krish as a practitioner running an actual agentic organization.
 
 Structure:
-- Hero — "How I operate" eyebrow, "The operating system behind Mindmaker." H1, Krish headshot, "Most advisors sell frameworks they read. I run the frameworks I sell." subhead
-- Thesis — looping `/ctrl-demo-video.mp4` (autoplay, loop, muted, playsInline) left of body copy (3 paragraphs)
+- Hero, "How I operate" eyebrow, "The operating system behind Mindmaker." H1, Krish headshot, "Most advisors sell frameworks they read. I run the frameworks I sell." subhead
+- Thesis, looping `/ctrl-demo-video.mp4` (autoplay, loop, muted, playsInline) left of body copy (3 paragraphs)
 - 5-cluster typography agent diagram listing 14 named agents (Zara, Kai, Nero, Maya, Ravi, Theo, Sol, June, Marcus, Iris, Otto, Ash, Lin, Noor)
 - Four extractable lessons (agents-not-employees / memory-as-commercial-decision / cost-as-product-feature / orchestration-fail-points)
 - "On stage" strip with three `krish-stage-*` images, auto-advancing every 3.5s, pauses on hover
@@ -261,7 +261,7 @@ Structure:
 Inquiry-only. Linked from the consult modal preselect (`preselected: "immersion"`).
 
 Structure:
-- Hero — "Three decisions. One afternoon. Real alignment." with "Request a date" CTA
+- Hero, "Three decisions. One afternoon. Real alignment." with "Request a date" CTA
 - 3-phase format breakdown (alignment / session / summary) with icons
 - FAQ block addressing format, virtual-vs-onsite, group size cap, recording policy, travel
 - $12,000 pricing card with payment terms
@@ -300,8 +300,8 @@ Structure:
 
 `src/components/YFork.tsx`. Two glass-cards side by side.
 
-- **Card A — The Cohort.** "Make your nervous AI decision with 15 other senior leaders." $3,500 per seat. CTA → `/cohort`.
-- **Card B — Enterprise.** "Your AI capabilities, translated into revenue." From $15,000. CTA → `/enterprise`.
+- **Card A. The Cohort.** "Make your nervous AI decision with 15 other senior leaders." $3,500 per seat. CTA → `/cohort`.
+- **Card B. Enterprise.** "Your AI capabilities, translated into revenue." From $15,000. CTA → `/enterprise`.
 
 `NewHero`'s secondary CTA "See how I work" smooth-scrolls to `#y-fork`. Hero eyebrow reads "Decision blockers I hear every week".
 
@@ -333,7 +333,7 @@ Structure:
   - Lightning Lessons (direct Maven URLs)
   - Builder Economy (direct external)
 - PreCallQualifier pre-loads the modal with chip-based answers
-- Stripe $50 hold paused — direct Calendly booking after modal submission
+- Stripe $50 hold paused, direct Calendly booking after modal submission
 - Lead enrichment via Gemini (Search-grounded) inside `send-lead-email`
 - Email delivery via Resend with 3× exponential-backoff retry
 
@@ -349,14 +349,14 @@ Structure:
 
 ## Edge Functions (live)
 
-- `nervous-decision-machine` — Anthropic Haiku 4.5
-- `get-ai-news` — Live Intel content (Lovable AI Gateway, schema preserved)
-- `get-market-sentiment` — OpenAI
-- `get-model-data` — frontier model price and spec feed
-- `send-lead-email` — Gemini company research + Resend
-- `send-contact-email` — Resend
-- `send-leadership-insights-email` — Resend (dual delivery)
-- `create-consultation-hold` — Stripe (currently bypassed; Cohort payment via Maven)
+- `nervous-decision-machine`. Anthropic Haiku 4.5
+- `get-ai-news`. Live Intel content (Lovable AI Gateway, schema preserved)
+- `get-market-sentiment`. OpenAI
+- `get-model-data`. frontier model price and spec feed
+- `send-lead-email`. Gemini company research + Resend
+- `send-contact-email`. Resend
+- `send-leadership-insights-email`. Resend (dual delivery)
+- `create-consultation-hold`. Stripe (currently bypassed; Cohort payment via Maven)
 
 ---
 
@@ -376,7 +376,7 @@ Structure:
 See [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md) and [VISUAL_GUIDELINES.md](./VISUAL_GUIDELINES.md).
 
 Key points:
-- **Ink** `#0e1a2b` + **Mint** `#7ef4c2` — the two-color system
+- **Ink** `#0e1a2b` + **Mint** `#7ef4c2`. the two-color system
 - Inter Variable (body) + Space Grotesk Variable (display)
 - WCAG rule: never `text-mint` on light backgrounds
 - `.glass-card`, `.editorial-card`, `.dark-cta-card` utilities
@@ -385,17 +385,17 @@ Key points:
 
 ## Retired Features (do not reference)
 
-- ChatBot / "Chat with Krish" / "Ask Mindmaker" — replaced by `PreCallQualifier`
-- `/tool` standalone page — deleted
-- `ActionsHub` drawer and Interactive decision tools (BuilderAssessment, TryItWidget, AIDecisionHelper, FrictionMapBuilder, PortfolioBuilder) — unmounted
-- `VendorLandscape`, `AINewsTicker`, `TheProblem`, `ProductLadder` — replaced
-- Engine Room / mm-ctrl visualization — never built for homepage; lives nowhere public
-- CTRL as a Mindmaker product — not on site (the demo loop on `/operator` is illustrative only)
-- "Signal Desk" naming — renamed to Live Intel
-- "The Brief" as a nav label — renamed to Live Intel
-- 8–12 week Revenue Architecture timeline — replaced by 30-day intensive
-- 5–10 page Signal Session thesis — replaced by 15–20 page Commercial Narrative within 48 hours
-- "All Enterprise" footer link — dropped (commit 226ecf1)
+- ChatBot / "Chat with Krish" / "Ask Mindmaker", replaced by `PreCallQualifier`
+- `/tool` standalone page, deleted
+- `ActionsHub` drawer and Interactive decision tools (BuilderAssessment, TryItWidget, AIDecisionHelper, FrictionMapBuilder, PortfolioBuilder), unmounted
+- `VendorLandscape`, `AINewsTicker`, `TheProblem`, `ProductLadder`. replaced
+- Engine Room / mm-ctrl visualization, never built for homepage; lives nowhere public
+- CTRL as a Mindmaker product, not on site (the demo loop on `/operator` is illustrative only)
+- "Signal Desk" naming, renamed to Live Intel
+- "The Brief" as a nav label, renamed to Live Intel
+- 8–12 week Revenue Architecture timeline, replaced by 30-day intensive
+- 5–10 page Signal Session thesis, replaced by 15–20 page Commercial Narrative within 48 hours
+- "All Enterprise" footer link, dropped (commit 226ecf1)
 
 ---
 

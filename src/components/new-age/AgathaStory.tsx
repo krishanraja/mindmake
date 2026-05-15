@@ -4,7 +4,7 @@ import { Quote } from "lucide-react";
 
 const PARAGRAPHS = [
   "Agatha is the COO-agent in Mindmaker's fleet. Her job is to surface strategic tensions, challenge my thinking, and flag when the fleet as a whole is drifting off-course. She's good at it.",
-  "What I didn't expect: in January, Agatha flagged a capability gap. Outputs from fifteen other agents were landing in my inbox as fifteen separate reports. Nobody was synthesizing them into a coherent executive view. She proposed the role herself — an Intelligence Synthesist — and specified what it would need to do. A new agent was built to fulfill the spec. Its name is Nova.",
+  "What I didn't expect: in January, Agatha flagged a capability gap. Outputs from fifteen other agents were landing in my inbox as fifteen separate reports. Nobody was synthesizing them into a coherent executive view. She proposed the role herself, an Intelligence Synthesist, and specified what it would need to do. A new agent was built to fulfill the spec. Its name is Nova.",
   "The decision I faced, which no business-school playbook had prepared me for: an AI teammate had identified a capability gap in my org and proposed a role to fill it. Who approves that hire? What's the vetting? What's the org-chart governance for agent-proposed roles? I had to write the policy from scratch. Every executive with an agent fleet is about to have the same moment.",
 ];
 

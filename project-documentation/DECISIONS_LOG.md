@@ -28,7 +28,7 @@
 
 ### 2026-04-26: Signal Session deliverable is the Commercial Narrative (15–20 pages, 48 hours)
 
-**Decision:** The Signal Session output is the **Commercial Narrative** — a 15–20 page document delivered within 48 hours — plus a 2-page positioning framework, sales narrative + objection guide, pricing sketch, and 30-day commercial roadmap. Replaces the older "5–10 page thesis within 5 business days" framing.
+**Decision:** The Signal Session output is the **Commercial Narrative**, a 15–20 page document delivered within 48 hours, plus a 2-page positioning framework, sales narrative + objection guide, pricing sketch, and 30-day commercial roadmap. Replaces the older "5–10 page thesis within 5 business days" framing.
 
 **Rationale:**
 - 48-hour delivery is a forcing function for sharpness; 5 business days made the day feel like a workshop
@@ -62,7 +62,7 @@
 
 ### 2026-04-26: The AI Immersion launched as an inquiry-only fourth offer
 
-**Decision:** Launch a fourth offer — **The AI Immersion** ($12,000, 4-hour facilitated session, 2-page summary within 5 business days, up to 8 senior leaders) — at `/immersion`, **inquiry-only**. Not promoted on the homepage or in the main nav; surfaced only when the buyer's actual need is team alignment rather than an individual decision or commercial rebuild.
+**Decision:** Launch a fourth offer, **The AI Immersion** ($12,000, 4-hour facilitated session, 2-page summary within 5 business days, up to 8 senior leaders), at `/immersion`, **inquiry-only**. Not promoted on the homepage or in the main nav; surfaced only when the buyer's actual need is team alignment rather than an individual decision or commercial rebuild.
 
 **Rationale:**
 - A genuine subset of inbound buyers ask for "a strategy day" or "leadership offsite" where the right shape is a 4-hour facilitated session, not the Cohort and not Enterprise
@@ -126,7 +126,7 @@
 
 ---
 
-### 2026-04-23: Documentation Upgrade — Align all docs with v4/v5 barbell state
+### 2026-04-23: Documentation Upgrade: Align all docs with v4/v5 barbell state
 
 **Decision:** Rewrite all business documentation and surgically update technical documentation to match the v4 barbell pivot and v5 Operator's Edge, as captured in `mindmaker_rebuild_brief_v4.md` and `CLAUDE.md`.
 
@@ -171,7 +171,7 @@
 
 **Rationale:**
 - Sales conversations, onboarding, and content creation all need one reference document
-- Builders and Orchestrators have different nervous decisions and different sprint experiences — this needed to be explicit
+- Builders and Orchestrators have different nervous decisions and different sprint experiences, this needed to be explicit
 - Week-by-week detail builds confidence for prospects evaluating the sprint
 
 **What SPRINTS.md Covers:**
@@ -190,7 +190,7 @@
 
 ---
 
-### 2026-02-25: Brand Vision 11/10 — Complete Brand Repositioning
+### 2026-02-25: Brand Vision 11/10: Complete Brand Repositioning
 
 **Decision:** Reposition Mindmaker from "professional AI advisory site" to "the anti-consultancy for leaders who are done being sold AI and ready to use it."
 
@@ -211,9 +211,9 @@
 - **News Ticker:** Generic AI news → SIGNAL/NOISE/DECISION/TAKE categories
 
 **Products Removed:**
-- Builder Session (1hr) — eliminated
-- Leadership Lab (team) — demoted, mentioned only post-engagement
-- Portfolio Partner — by referral only, no public page
+- Builder Session (1hr), eliminated
+- Leadership Lab (team), demoted, mentioned only post-engagement
+- Portfolio Partner, by referral only, no public page
 
 **Products Added:**
 - 4-Week Sprint detail page (`/sprint/4-week`)
@@ -221,15 +221,15 @@
 - Sprints overview page (`/sprints`)
 
 **New Components:**
-- `FrameworkJourney.tsx` — Mind Set → Mind Map → Mind Make visual performance
-- `MediaEasterEggs/VideoDrawer.tsx` — Slide-out video player
-- `MediaEasterEggs/AudioPlayer.tsx` — Expandable audio player
-- `MediaEasterEggs/ArtifactPreview.tsx` — Hover-to-reveal artifacts
-- `MediaEasterEggs/ExpandableQuote.tsx` — Click-to-expand quotes
+- `FrameworkJourney.tsx`. Mind Set → Mind Map → Mind Make visual performance
+- `MediaEasterEggs/VideoDrawer.tsx`. Slide-out video player
+- `MediaEasterEggs/AudioPlayer.tsx`. Expandable audio player
+- `MediaEasterEggs/ArtifactPreview.tsx`. Hover-to-reveal artifacts
+- `MediaEasterEggs/ExpandableQuote.tsx`. Click-to-expand quotes
 
 **Rationale:**
 - Leaders don't need more AI advice. They need to decide.
-- "Nervous decisions" is the entry point — anxiety drives action
+- "Nervous decisions" is the entry point, anxiety drives action
 - Anti-consultancy positioning differentiates from crowded market
 - Simplicity (2 sprints, 1 framework) is premium
 

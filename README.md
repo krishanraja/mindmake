@@ -1,4 +1,4 @@
-# Mindmaker — The Anti-Consultancy for Leaders Done Being Sold AI
+# Mindmaker: The Anti-Consultancy for Leaders Done Being Sold AI
 
 **Last Updated:** 2026-04-26
 
@@ -95,12 +95,12 @@ mindmaker/
 │   ├── pages/
 │   │   ├── Index.tsx                 # homepage (eager-loaded)
 │   │   ├── Cohort.tsx                # /cohort (Maven enrolment)
-│   │   ├── Enterprise.tsx            # /enterprise — Signal Session + Revenue Architecture
-│   │   ├── Operator.tsx              # /operator — 14-agent OS credential page
-│   │   ├── Brief.tsx                 # /signal — Live Intel
-│   │   ├── Immersion.tsx             # /immersion — AI Immersion (inquiry-only)
-│   │   ├── NewAgeLeadership.tsx      # /new-age-leadership — long-form thought leadership
-│   │   ├── LeadershipInsights.tsx    # /leaders — Decision Readiness Diagnostic
+│   │   ├── Enterprise.tsx            # /enterprise. Signal Session + Revenue Architecture
+│   │   ├── Operator.tsx              # /operator, 14-agent OS credential page
+│   │   ├── Brief.tsx                 # /signal. Live Intel
+│   │   ├── Immersion.tsx             # /immersion. AI Immersion (inquiry-only)
+│   │   ├── NewAgeLeadership.tsx      # /new-age-leadership, long-form thought leadership
+│   │   ├── LeadershipInsights.tsx    # /leaders. Decision Readiness Diagnostic
 │   │   ├── Blog.tsx, BlogPost.tsx
 │   │   ├── FAQ.tsx, Contact.tsx, Privacy.tsx, Terms.tsx
 │   │   └── NotFound.tsx
@@ -145,12 +145,12 @@ mindmaker/
 | Route | Description |
 |---|---|
 | `/` | Homepage (eager-loaded) |
-| `/cohort` | The AI Decision Cohort — Maven enrolment |
+| `/cohort` | The AI Decision Cohort. Maven enrolment |
 | `/enterprise` | Signal Session ($15k) + Revenue Architecture ($60–100k, 30 days) |
-| `/operator` | How I operate — 14-agent OS credential page |
-| `/signal` | **Live Intel** — model price ticker, classified archive (WATCH/SKIP/CALL/TAKE), Nervous Decision Machine |
+| `/operator` | How I operate, 14-agent OS credential page |
+| `/signal` | **Live Intel**, model price ticker, classified archive (WATCH/SKIP/CALL/TAKE), Nervous Decision Machine |
 | `/immersion` | AI Immersion ($12k, inquiry-only) |
-| `/new-age-leadership` | Long-form thought leadership — agent-native org chart |
+| `/new-age-leadership` | Long-form thought leadership, agent-native org chart |
 | `/leaders`, `/leadership-insights` | Decision Readiness Diagnostic (unlinked from nav) |
 | `/blog`, `/blog/:slug` | Blog |
 | `/faq`, `/contact`, `/privacy`, `/terms` | Support pages |
@@ -171,9 +171,9 @@ mindmaker/
 
 | Function | Purpose |
 |---|---|
-| `nervous-decision-machine` | Anthropic Claude Haiku 4.5 — JSON artefact for the Nervous Decision Machine |
+| `nervous-decision-machine` | Anthropic Claude Haiku 4.5. JSON artefact for the Nervous Decision Machine |
 | `get-ai-news` | Live Intel content (taxonomy: WATCH / SKIP / CALL / TAKE) |
-| `get-market-sentiment` | OpenAI — market sentiment |
+| `get-market-sentiment` | OpenAI, market sentiment |
 | `get-model-data` | Frontier-model price + spec feed for the PriceTicker |
 | `send-lead-email` | Gemini company research with Google Search grounding + Resend (3× retry) |
 | `send-contact-email` | Contact form |
@@ -200,24 +200,24 @@ STRIPE_SECRET_KEY    Payments (paused)
 
 Full documentation in [`project-documentation/`](./project-documentation/):
 
-- **[SALES_PLAYBOOK.md](./project-documentation/SALES_PLAYBOOK.md)** — single ground-truth doc for AI sales/marketing agents
-- **[ARCHITECTURE.md](./project-documentation/ARCHITECTURE.md)** — tech stack, routes, edge functions, data flows
-- **[FEATURES.md](./project-documentation/FEATURES.md)** — feature catalogue
-- **[OFFERS.md](./project-documentation/OFFERS.md)** — full offer guide
-- **[ICP.md](./project-documentation/ICP.md)** — ICPs and disqualifiers
-- **[VALUE_PROP.md](./project-documentation/VALUE_PROP.md)** — positioning and competitive framing
-- **[OUTCOMES.md](./project-documentation/OUTCOMES.md)** — buyer outcomes by offer
-- **[BRANDING.md](./project-documentation/BRANDING.md)** — voice, tone, terminology
-- **[PURPOSE.md](./project-documentation/PURPOSE.md)** — mission, vision, anti-goals
-- **[Master_Messaging_and_FAQ.md](./project-documentation/Master_Messaging_and_FAQ.md)** — canonical pitches and FAQ
-- **[DESIGN_SYSTEM.md](./project-documentation/DESIGN_SYSTEM.md)** — tokens, components, contrast rules
-- **[VISUAL_GUIDELINES.md](./project-documentation/VISUAL_GUIDELINES.md)** — layout, cards, animation
-- **[DEPLOYMENT.md](./project-documentation/DEPLOYMENT.md)** — pre/post-deploy checklists
-- **[COMMON_ISSUES.md](./project-documentation/COMMON_ISSUES.md)** — known issues and solutions
-- **[REPLICATION_GUIDE.md](./project-documentation/REPLICATION_GUIDE.md)** — step-by-step replication
-- **[HISTORY.md](./project-documentation/HISTORY.md)** — change history
-- **[DECISIONS_LOG.md](./project-documentation/DECISIONS_LOG.md)** — architectural and product decisions
-- **[mindmaker_rebuild_brief_v4.md](./project-documentation/mindmaker_rebuild_brief_v4.md)** — strategic intent (v4 barbell + v5 Operator's Edge)
+- **[SALES_PLAYBOOK.md](./project-documentation/SALES_PLAYBOOK.md)**. single ground-truth doc for AI sales/marketing agents
+- **[ARCHITECTURE.md](./project-documentation/ARCHITECTURE.md)**. tech stack, routes, edge functions, data flows
+- **[FEATURES.md](./project-documentation/FEATURES.md)**. feature catalogue
+- **[OFFERS.md](./project-documentation/OFFERS.md)**. full offer guide
+- **[ICP.md](./project-documentation/ICP.md)**. ICPs and disqualifiers
+- **[VALUE_PROP.md](./project-documentation/VALUE_PROP.md)**. positioning and competitive framing
+- **[OUTCOMES.md](./project-documentation/OUTCOMES.md)**. buyer outcomes by offer
+- **[BRANDING.md](./project-documentation/BRANDING.md)**. voice, tone, terminology
+- **[PURPOSE.md](./project-documentation/PURPOSE.md)**. mission, vision, anti-goals
+- **[Master_Messaging_and_FAQ.md](./project-documentation/Master_Messaging_and_FAQ.md)**. canonical pitches and FAQ
+- **[DESIGN_SYSTEM.md](./project-documentation/DESIGN_SYSTEM.md)**. tokens, components, contrast rules
+- **[VISUAL_GUIDELINES.md](./project-documentation/VISUAL_GUIDELINES.md)**. layout, cards, animation
+- **[DEPLOYMENT.md](./project-documentation/DEPLOYMENT.md)**. pre/post-deploy checklists
+- **[COMMON_ISSUES.md](./project-documentation/COMMON_ISSUES.md)**. known issues and solutions
+- **[REPLICATION_GUIDE.md](./project-documentation/REPLICATION_GUIDE.md)**. step-by-step replication
+- **[HISTORY.md](./project-documentation/HISTORY.md)**. change history
+- **[DECISIONS_LOG.md](./project-documentation/DECISIONS_LOG.md)**. architectural and product decisions
+- **[mindmaker_rebuild_brief_v4.md](./project-documentation/mindmaker_rebuild_brief_v4.md)**. strategic intent (v4 barbell + v5 Operator's Edge)
 
 For agents working on the codebase, start with **[CLAUDE.md](./CLAUDE.md)** in the repo root.
 
@@ -257,7 +257,7 @@ For agents working on the codebase, start with **[CLAUDE.md](./CLAUDE.md)** in t
 1. Read [CLAUDE.md](./CLAUDE.md) for the codebase reference
 2. Read [BRANDING.md](./project-documentation/BRANDING.md) for voice/tone before writing copy
 3. Check [COMMON_ISSUES.md](./project-documentation/COMMON_ISSUES.md) before debugging
-4. Update documentation alongside code changes — `HISTORY.md` and `DECISIONS_LOG.md` for substantive changes
+4. Update documentation alongside code changes, `HISTORY.md` and `DECISIONS_LOG.md` for substantive changes
 
 ---
 

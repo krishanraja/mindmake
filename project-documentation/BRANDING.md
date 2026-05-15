@@ -24,30 +24,30 @@ Your smartest, most cynical friend who runs AI transformation every day and genu
 - **Cynical**, not negative
 - **Helpful**, not pushy
 - **Premium** through substance, not stiffness
-- **Operator-led**, not advisor-led — Krish has run P&Ls and runs a live 14-agent OS
+- **Operator-led**, not advisor-led. Krish has run P&Ls and runs a live 14-agent OS
 
 ---
 
 ## Tone Attributes
 
 ### What we are
-- **Direct** — name the decision, don't dance around it
-- **Cynical** — we've seen every vendor pitch; we know what's real
-- **Specific** — "10–15 seats", "30 days", "$60–100k", not "enterprise engagements"
-- **Finish-line honest** — every offer has a fixed end, and we say so
-- **Premium without stiffness** — confident prose, no corporate rigor mortis
+- **Direct**. name the decision, don't dance around it
+- **Cynical**. we've seen every vendor pitch; we know what's real
+- **Specific**. "10–15 seats", "30 days", "$60–100k", not "enterprise engagements"
+- **Finish-line honest**. every offer has a fixed end, and we say so
+- **Premium without stiffness**. confident prose, no corporate rigor mortis
 
 ### What we're not
-- **Corporate** — no buzzwords, no "leverage", no "transformation", no "synergy"
-- **Salesy** — no hype, no FOMO, no artificial urgency
-- **Academic** — no jargon, no theoretical frameworks
-- **Fractional** — we never position as fractional capacity
+- **Corporate**. no buzzwords, no "leverage", no "transformation", no "synergy"
+- **Salesy**. no hype, no FOMO, no artificial urgency
+- **Academic**. no jargon, no theoretical frameworks
+- **Fractional**. we never position as fractional capacity
 
 ---
 
 ## Framework Language
 
-**Mind Set → Mind Map → Mind Make** — the core framework, unchanged, used everywhere.
+**Mind Set → Mind Map → Mind Make**, the core framework, unchanged, used everywhere.
 
 | Phase | Meaning | Outcome |
 |---|---|---|
@@ -61,16 +61,16 @@ Your smartest, most cynical friend who runs AI transformation every day and genu
 
 **Primary CTA everywhere:** **"Book a call"**
 
-No conditional labels. No "What's your nervous decision?" (retired — it tested as too therapist-y for enterprise buyers). No "Start the Conversation". Just "Book a call", which opens `InitialConsultModal` via the global `openConsultModal` event.
+No conditional labels. No "What's your nervous decision?" (retired, it tested as too therapist-y for enterprise buyers). No "Start the Conversation". Just "Book a call", which opens `InitialConsultModal` via the global `openConsultModal` event.
 
-**Cohort-specific direct CTA:** **"Reserve my seat on Maven"** — points directly at `https://maven.com/aimindmaker/ai-decision-intensive` for buyers who already know the cohort is the right fit and want to skip the consult call.
+**Cohort-specific direct CTA:** **"Reserve my seat on Maven"**, points directly at `https://maven.com/aimindmaker/ai-decision-intensive` for buyers who already know the cohort is the right fit and want to skip the consult call.
 
 **Supporting CTAs:**
 - "See the cohort" → `/cohort`
 - "Explore enterprise" → `/enterprise`
-- "See how I work" — secondary hero CTA, smooth-scrolls to Y-fork
-- "Open the full dashboard →" — muted link from homepage `OperatorsBrief` to `/signal`
-- "Request a date" — Immersion page CTA, opens consult modal preselected to "immersion"
+- "See how I work", secondary hero CTA, smooth-scrolls to Y-fork
+- "Open the full dashboard →", muted link from homepage `OperatorsBrief` to `/signal`
+- "Request a date". Immersion page CTA, opens consult modal preselected to "immersion"
 
 ---
 
@@ -78,9 +78,9 @@ No conditional labels. No "What's your nervous decision?" (retired — it tested
 
 ### Headlines
 - **Name the decision or the commercial symptom**, not the abstract benefit
-- **Be specific** — "$3,500 per seat", "10–15 leaders", "30 days", "48 hours"
-- **Use concrete verbs** — decide, ship, rebuild, cut, filter, commit
-- **Avoid feeling words** as crutches — "calm clarity" is OK once per page, not a refrain
+- **Be specific**. "$3,500 per seat", "10–15 leaders", "30 days", "48 hours"
+- **Use concrete verbs**. decide, ship, rebuild, cut, filter, commit
+- **Avoid feeling words** as crutches, "calm clarity" is OK once per page, not a refrain
 
 ### Body copy
 - Short sentences, 15–20 words max
@@ -95,7 +95,7 @@ No conditional labels. No "What's your nervous decision?" (retired — it tested
 | "1:1 sprint that turns AI chaos into direction" | "A Maven-hosted cohort for leaders making AI decisions. Enterprise sprints for AI products." |
 | "4-Week or 90-Day Sprint" | "The Cohort, The Signal Session, the Revenue Architecture, or the Immersion" |
 | "What's your nervous decision?" (CTA button) | "Book a call" |
-| "Chat with Krish" / "Ask Mindmaker" | (chatbot retired — replaced by `PreCallQualifier`) |
+| "Chat with Krish" / "Ask Mindmaker" | (chatbot retired, replaced by `PreCallQualifier`) |
 | "AI Leadership Benchmark" | "Decision Readiness Diagnostic" (`/leaders`, unlinked from nav) |
 | "Signal Desk" / "The Brief" / "The Operator's Brief" (as a nav label) | **"Live Intel"** (as the nav label and page H1) |
 | "Builder vs Orchestrator" | "AI leaders vs AI products" (the Y-fork) |
@@ -118,30 +118,30 @@ No conditional labels. No "What's your nervous decision?" (retired — it tested
 ### Never use
 - Transformation, digital, synergy, leverage (as a verb), ecosystem, journey (as a generic noun)
 - Innovative, revolutionary, cutting-edge, next-generation
-- Fractional (we don't do it — don't even use the word to describe what we avoid, unless explicitly handling the objection)
-- "We help you…" — prefer "You will…" or the direct verb
+- Fractional (we don't do it, don't even use the word to describe what we avoid, unless explicitly handling the objection)
+- "We help you…", prefer "You will…" or the direct verb
 - Optimize, enhance, maximize, holistic, paradigm
-- "Chat with Krish", "Sprint 4-Week", "Sprint 90-Day", "Builder Economy" (as a Mindmaker product — it's now an external sister domain)
+- "Chat with Krish", "Sprint 4-Week", "Sprint 90-Day", "Builder Economy" (as a Mindmaker product, it's now an external sister domain)
 - "Signal Desk" or "The Brief" as a nav label (the live label is **"Live Intel"**)
 
 ---
 
 ## Terminology Standards
 
-- **The AI Decision Cohort** — not "cohort program", "course", "bootcamp"
-- **The Signal Session** — not "strategy day", "workshop", "discovery"
-- **The Revenue Architecture** — not "sprint", "engagement", "project"
-- **The AI Immersion** — not "team workshop", "leadership offsite", "alignment session"
-- **The Commercial Narrative** — the 15–20 page Signal Session deliverable; not "thesis", "report", "deliverable"
-- **Live Intel** — the nav label and H1 for the editorial surface at `/signal` (renamed from "Signal Desk" → "The Brief" → "Live Intel" for plain-English clarity)
-- **The Operator's Brief** — body-copy alternative for Live Intel; OK in editorial copy, not as a nav label
-- **The Nervous Decision Machine** — the embedded tool; no longer on a standalone `/tool` page
-- **Decision Readiness Diagnostic** — the `/leaders` quiz; unlinked from nav but reachable by URL
-- **Pre-Call Qualifier** — the floating pill; replaces the retired ChatBot. 3-step chip-based intake (decision → timeline → stakes)
-- **Book a call** — the primary CTA label, never variant
-- **Reserve my seat on Maven** — the Cohort direct-enrolment CTA on `/cohort`
-- **Mind Set → Mind Map → Mind Make** — the framework, always in that order
-- **Hosted on Maven** — the pill on `/cohort` indicating where enrolment happens
+- **The AI Decision Cohort**. not "cohort program", "course", "bootcamp"
+- **The Signal Session**. not "strategy day", "workshop", "discovery"
+- **The Revenue Architecture**. not "sprint", "engagement", "project"
+- **The AI Immersion**. not "team workshop", "leadership offsite", "alignment session"
+- **The Commercial Narrative**. the 15–20 page Signal Session deliverable; not "thesis", "report", "deliverable"
+- **Live Intel**. the nav label and H1 for the editorial surface at `/signal` (renamed from "Signal Desk" → "The Brief" → "Live Intel" for plain-English clarity)
+- **The Operator's Brief**. body-copy alternative for Live Intel; OK in editorial copy, not as a nav label
+- **The Nervous Decision Machine**. the embedded tool; no longer on a standalone `/tool` page
+- **Decision Readiness Diagnostic**. the `/leaders` quiz; unlinked from nav but reachable by URL
+- **Pre-Call Qualifier**. the floating pill; replaces the retired ChatBot. 3-step chip-based intake (decision → timeline → stakes)
+- **Book a call**. the primary CTA label, never variant
+- **Reserve my seat on Maven**. the Cohort direct-enrolment CTA on `/cohort`
+- **Mind Set → Mind Map → Mind Make**. the framework, always in that order
+- **Hosted on Maven**. the pill on `/cohort` indicating where enrolment happens
 
 ---
 
@@ -156,16 +156,16 @@ No conditional labels. No "What's your nervous decision?" (retired — it tested
 
 ### Retired products (do not reference)
 
-- 4-Week Sprint / 90-Day Sprint / Extended Sprint — retired from public site in v4 barbell pivot
-- Builder Sprint / Builder Session — retired
-- Leadership Lab — retired as a named product
-- Portfolio Partner — retired as a named product
-- Fractional CAIO — never existed as an offer; `/fractional-caio` redirects to `/enterprise`
-- War Room / Strategy Day — old names for Revenue Architecture and Signal Session; URLs redirect
+- 4-Week Sprint / 90-Day Sprint / Extended Sprint, retired from public site in v4 barbell pivot
+- Builder Sprint / Builder Session, retired
+- Leadership Lab, retired as a named product
+- Portfolio Partner, retired as a named product
+- Fractional CAIO, never existed as an offer; `/fractional-caio` redirects to `/enterprise`
+- War Room / Strategy Day, old names for Revenue Architecture and Signal Session; URLs redirect
 
 ### Builder Economy
 
-The Builder Economy is **not a Mindmaker product**. It's Krish's podcast / creator project at `thebuildereconomy.com`. Reference it via the Resources dropdown and `/builder-economy` redirect (which points externally). Do not position Mindmaker as "arming the leaders of the Builder Economy" on the main site — that was old framing.
+The Builder Economy is **not a Mindmaker product**. It's Krish's podcast / creator project at `thebuildereconomy.com`. Reference it via the Resources dropdown and `/builder-economy` redirect (which points externally). Do not position Mindmaker as "arming the leaders of the Builder Economy" on the main site, that was old framing.
 
 ---
 
@@ -187,8 +187,8 @@ Default credential line:
 ## Email / Communication Style
 
 ### Subject lines
-- Specific + direct: "Cohort enrolment — next starts July 14, 2026"
-- Outcome-focused: "Signal Session Commercial Narrative — delivered"
+- Specific + direct: "Cohort enrolment, next starts July 14, 2026"
+- Outcome-focused: "Signal Session Commercial Narrative, delivered"
 - No clickbait, no FOMO
 
 ### Email body
@@ -221,9 +221,9 @@ themindmaker.ai
 - Minimum size: 120px width
 
 ### Color application
-- **Mint (#7ef4c2):** sparingly — CTAs, accents, highlights on dark backgrounds
+- **Mint (#7ef4c2):** sparingly. CTAs, accents, highlights on dark backgrounds
 - **Ink (#0e1a2b):** primary for text and structure
-- **Generous white space** — never cramped
+- **Generous white space**. never cramped
 
 ### Contrast rule (critical)
 **Never use `text-mint` on white or light backgrounds.** Use `text-foreground` or `text-ink` on light backgrounds; `text-dark-card-*` utilities on dark backgrounds.
@@ -237,14 +237,14 @@ Mint is an accent, not a text color on light surfaces.
 
 ---
 
-## Live Intel — taxonomy
+## Live Intel: taxonomy
 
 The classified archive on `/signal` uses these four categories:
 
 | Category | Meaning | Example |
 |---|---|---|
 | **WATCH** | Worth acting on | "Long-context workflows just became viable" |
-| **SKIP** | Hype or noise — ignore | "Another AI company raised money" |
+| **SKIP** | Hype or noise, ignore | "Another AI company raised money" |
 | **CALL** | A decision is overdue | "Time to reevaluate your LLM vendor costs" |
 | **TAKE** | Krish's opinion / analysis | "80% using AI ≠ 80% using it well" |
 
@@ -254,19 +254,19 @@ Renamed from the previous SIGNAL / NOISE / DECISION / TAKE set. Do not reference
 
 ## Brand Don'ts
 
-- Don't oversell — let outcomes speak
+- Don't oversell, let outcomes speak
 - Don't use FOMO or artificial urgency
 - Don't use emojis (including in copy on site or in docs unless explicitly requested)
-- Don't use exclamation marks — one per page max
-- Don't be cute — no puns, no clever wordplay
-- Don't apologize — confident in value
+- Don't use exclamation marks, one per page max
+- Don't be cute, no puns, no clever wordplay
+- Don't apologize, confident in value
 - Don't reference retired products (4-Week Sprint, 90-Day Sprint, Leadership Lab, Portfolio Partner, Fractional CAIO)
 - Don't position Mindmaker as fractional capacity of any kind
 - Don't promise ROI numbers without a verifiable case study behind them
 - Don't use "transformation", "synergy", "leverage" (as verb), "journey" (as abstract noun)
-- Don't say "8–12 weeks" for the Revenue Architecture — it's now **30 days**
-- Don't say "5–10 page thesis" for the Signal Session — it's now **15–20 page Commercial Narrative within 48 hours**
-- Don't label `/signal` as "The Brief" or "Signal Desk" in nav — the label is **"Live Intel"**
+- Don't say "8–12 weeks" for the Revenue Architecture, it's now **30 days**
+- Don't say "5–10 page thesis" for the Signal Session, it's now **15–20 page Commercial Narrative within 48 hours**
+- Don't label `/signal` as "The Brief" or "Signal Desk" in nav, the label is **"Live Intel"**
 
 ---
 

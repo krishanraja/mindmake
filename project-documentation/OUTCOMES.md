@@ -12,7 +12,7 @@ Every offer has a defined artefact, a defined finish line, and no retainer attac
 
 ---
 
-## Cohort Outcomes — The AI Decision Cohort
+## Cohort Outcomes: The AI Decision Cohort
 
 ### Emotional arc
 
@@ -36,14 +36,14 @@ Week 3:  Confidence → Board-ready position written, defended, committed (Make 
 
 - Position memo presented to board, peers, or leadership team
 - Follow-up decisions surfacing, now with a framework for them
-- Alumni Slack still active — sparring partners on call
+- Alumni Slack still active, sparring partners on call
 
 ### 90 days post-cohort
 
 - Decision implemented or visibly in motion
 - Second-order decisions being worked with cohort peers as sparring partners
 - ~30% of cohort members refer a peer to the next cohort
-- Maven alumni access continues — repeat-cohort eligibility for next nervous decision
+- Maven alumni access continues, repeat-cohort eligibility for next nervous decision
 
 **Leading indicators we measure:** decision named in week 1, memo drafted by end of week 2, memo defended by end of week 3, peer Slack engagement during the 90-day window.
 
@@ -51,11 +51,11 @@ Week 3:  Confidence → Board-ready position written, defended, committed (Make 
 
 ---
 
-## Signal Session Outcomes — Enterprise Entry
+## Signal Session Outcomes: Enterprise Entry
 
 ### Immediate (within 48 hours)
 
-- **The Commercial Narrative** delivered — 15–20 pages
+- **The Commercial Narrative** delivered, 15–20 pages
 - 2-page commercial positioning framework (ready for the team to use Monday)
 - Sales narrative + objection handling guide
 - Pricing model sketch with 2–3 packaging options
@@ -74,7 +74,7 @@ Week 3:  Confidence → Board-ready position written, defended, committed (Make 
 
 ---
 
-## Revenue Architecture Outcomes — Enterprise Flagship
+## Revenue Architecture Outcomes: Enterprise Flagship
 
 ### Immediate (end of 30-day engagement)
 
@@ -94,7 +94,7 @@ Week 3:  Confidence → Board-ready position written, defended, committed (Make 
 - Sales qualifying against new ICP / framework
 - 90-day GTM playbook in execution
 - First read on pipeline impact (leading indicators: deal size, win rate, sales cycle length)
-- 30-day follow-up session has run — second-order adjustments made
+- 30-day follow-up session has run, second-order adjustments made
 
 ### 6–12 months post-engagement
 
@@ -108,7 +108,7 @@ Week 3:  Confidence → Board-ready position written, defended, committed (Make 
 
 ---
 
-## Immersion Outcomes — Executive Team Alignment (inquiry-only)
+## Immersion Outcomes: Executive Team Alignment (inquiry-only)
 
 ### Immediate (end of 4-hour session)
 
@@ -119,7 +119,7 @@ Week 3:  Confidence → Board-ready position written, defended, committed (Make 
 ### Within 5 business days
 
 - 2-page written summary, board-ready, delivered
-- Summary captures durable decisions and owners — shareable upward without redaction
+- Summary captures durable decisions and owners, shareable upward without redaction
 
 ### 30 days post-Immersion
 
@@ -149,7 +149,7 @@ Week 3:  Confidence → Board-ready position written, defended, committed (Make 
 - No more dreading the next AI or commercial-strategy conversation
 
 ### 4. Independence
-- Framework portable — Mind Set → Mind Map → Mind Make
+- Framework portable. Mind Set → Mind Map → Mind Make
 - Artefacts owned by the buyer, editable, and reusable
 - Success explicitly defined as "you don't need us next quarter"
 
@@ -168,19 +168,19 @@ Week 3:  Confidence → Board-ready position written, defended, committed (Make 
 
 ## Testimonial Patterns
 
-**Pattern 1 — "I stopped dreading..."**
+**Pattern 1, "I stopped dreading..."**
 > "I stopped dreading board AI questions. Before the cohort I was making it up. Now I have a written position I can defend without rehearsing."
 
-**Pattern 2 — "We went from X to Y..."**
+**Pattern 2, "We went from X to Y..."**
 > "We went from pricing guesswork to a tiered architecture with a value metric. Deal sizes doubled in the next two quarters because sales finally had a story."
 
-**Pattern 3 — "No vendor theatre..."**
+**Pattern 3, "No vendor theatre..."**
 > "Krish never pitched a tool. Never tried to extend the engagement. The finish line was real. That's rarer than it should be."
 
-**Pattern 4 — "30 days, not 6 months..."**
+**Pattern 4, "30 days, not 6 months..."**
 > "We thought commercial rebuilds took six months. Krish ran ours in 30 days. Same scope. Better output. No associates to manage."
 
-**Pattern 5 — "Three decisions, one afternoon..."**
+**Pattern 5, "Three decisions, one afternoon..."**
 > "We'd had the same three AI meetings four times. The Immersion got us to three named owners and three deadlines in one afternoon. The board summary was on the deck the same week."
 
 ---

@@ -45,7 +45,7 @@ const usePrefersReducedMotion = () => {
   return reduced;
 };
 
-// Custom node renderer — receives data via ReactFlow's NodeProps
+// Custom node renderer. Receives data via ReactFlow's NodeProps
 const OrgNodeCard = ({ data }: NodeProps<OrgNodeData>) => {
   const { label, subtitle, kind, featured, decisionPrompt } = data;
   const clickable = Boolean(decisionPrompt);

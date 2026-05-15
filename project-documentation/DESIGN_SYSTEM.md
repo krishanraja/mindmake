@@ -461,7 +461,7 @@ On white/light backgrounds, always use `text-foreground`, `text-ink`, or `text-m
 </Button>
 ```
 
-Primary CTA copy is always **"Book a call"** — no conditional labels. The previous `"What's your nervous decision?"` button copy has been retired. All CTAs open the global `InitialConsultModal` via the `openConsultModal` custom event.
+Primary CTA copy is always **"Book a call"**, no conditional labels. The previous `"What's your nervous decision?"` button copy has been retired. All CTAs open the global `InitialConsultModal` via the `openConsultModal` custom event.
 
 ### Y-Fork Cards (homepage 2-card layout)
 Replaces the old `ProductLadder` 4-Week / 90-Day sprint chooser.
@@ -490,7 +490,7 @@ Dark-bg typography-only section matching `FrameworkJourney` header scale exactly
 **Guardrails:** no scrolling logs, no terminal aesthetics, no ASCII art, no interactive dashboards.
 
 ### Price Ticker
-`PriceTicker.tsx` — CSS-marquee, no native scrollbar, pauses on hover, respects `prefers-reduced-motion`. Used on the homepage Live Intel teaser (`OperatorsBrief.tsx`) and on `/signal` (Live Intel dashboard, `Brief.tsx`).
+`PriceTicker.tsx`. CSS-marquee, no native scrollbar, pauses on hover, respects `prefers-reduced-motion`. Used on the homepage Live Intel teaser (`OperatorsBrief.tsx`) and on `/signal` (Live Intel dashboard, `Brief.tsx`).
 
 ### Maven pill (Cohort enrolment)
 On `/cohort`, a small "Hosted on Maven" pill (`Cohort.tsx`) sits above the seat-reservation CTA. It uses `bg-muted/50 border border-border text-muted-foreground` styling, `rounded-full`, and an external-link icon. The pill and the primary CTA both link directly to `https://maven.com/aimindmaker/ai-decision-intensive`.
@@ -500,11 +500,11 @@ On `/cohort`, a small "Hosted on Maven" pill (`Cohort.tsx`) sits above the seat-
 
 ### Retired component patterns (do not reference)
 
-- `TheProblem.tsx` Builder/Orchestrator fork — replaced by `YFork` (AI leaders vs AI products)
-- `ProductLadder.tsx` 4-Week vs 90-Day sprint chooser — replaced by `YFork`
-- `AINewsTicker.tsx` with SIGNAL/NOISE/DECISION/TAKE badges — replaced by `OperatorsBrief` + full dashboard at `/signal` with WATCH/SKIP/CALL/TAKE taxonomy
-- `ActionsHub` side drawer and Interactive decision tools — unmounted
-- Media Easter Egg components (`VideoDrawer`, `AudioPlayer`, `ArtifactPreview`, `ExpandableQuote`) — not in current homepage; kept in `src/components/MediaEasterEggs/` for possible future use
+- `TheProblem.tsx` Builder/Orchestrator fork, replaced by `YFork` (AI leaders vs AI products)
+- `ProductLadder.tsx` 4-Week vs 90-Day sprint chooser, replaced by `YFork`
+- `AINewsTicker.tsx` with SIGNAL/NOISE/DECISION/TAKE badges, replaced by `OperatorsBrief` + full dashboard at `/signal` with WATCH/SKIP/CALL/TAKE taxonomy
+- `ActionsHub` side drawer and Interactive decision tools, unmounted
+- Media Easter Egg components (`VideoDrawer`, `AudioPlayer`, `ArtifactPreview`, `ExpandableQuote`), not in current homepage; kept in `src/components/MediaEasterEggs/` for possible future use
 
 ---
 

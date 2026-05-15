@@ -39,7 +39,7 @@ export async function checkSupabaseHealth(): Promise<SupabaseHealthCheck> {
     }
     
     // Check key by probing a real table that exists. RLS denies anon SELECT
-    // on `leads`, but the request itself succeeds — that's the signal we
+    // on `leads`, but the request itself succeeds, that's the signal we
     // want. Probing a fake table just spams a 404 on every page load.
     try {
       const { error } = await supabase.from('leads').select('id').limit(0);

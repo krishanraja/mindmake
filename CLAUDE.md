@@ -11,7 +11,9 @@ This file is **descriptive**, not prescriptive. For strategic intent, read `proj
 
 Mindmaker is the **anti-consultancy for leaders who are done being sold AI and ready to use it**. The voice is confident, lightly cynical, deeply helpful, premium through substance, not stiffness. Stripe's design sensibility meets Anthony Bourdain's authenticity.
 
-Mindmaker is a **barbell**: cohort at the low end, enterprise at the high end, no middle tier. No 1:1 sprints on the public site. No fractional executive roles. No ongoing retainers. No production IT work. Every offer has a fixed scope, a fixed outcome, and a finish line.
+Mindmaker is structured as **three doors** for three buyer types: the AI Decision Cohort for individual senior leaders, Enterprise for companies, and Capital for funds and family offices. No 1:1 sprints on the public site. No fractional executive roles. No ongoing retainers. No production IT work. Every offer has a fixed scope, a fixed outcome, and a finish line.
+
+(Historical note: the v4 brief in `project-documentation/mindmaker_rebuild_brief_v4.md` describes a two-sided barbell of cohort + enterprise. Capital was added as a third door after that brief was written, sharing the Signal Session and Revenue Architecture engagement formats but priced and positioned for fund-level buyers.)
 
 ---
 
@@ -47,7 +49,7 @@ Authoritative source: `src/pages/Index.tsx`.
 
 1. `Navigation`. fixed top, hides on scroll-down via `useScrollDirection`.
 2. `NewHero`. rotating headlines + "Book a call" + "See how I work" CTAs. Subheadline: "Cohorts and enterprise sprints that turn AI chaos into direction."
-3. `YFork`. "Two ways I work." → `/cohort` ($3,500) vs `/enterprise` (from $15,000).
+3. `YFork`. "Three doors. Pick yours." → `/cohort` ($3,500/seat) vs `/enterprise` (from $15,000) vs `/capital` (from $15,000, fund-level).
 4. `BigProblem`. existential urgency frame.
 5. `TrustSection`. Krish bio, headshot, testimonials carousel.
 6. `FrameworkJourney`. three-panel animated MindSet → MindMap → MindMake.
@@ -75,7 +77,8 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 |---|---|---|
 | `/` | `Index` | Homepage, eager-loaded. |
 | `/cohort` | `Cohort` | The AI Decision Cohort ($3,500/seat, quarterly). Primary leader surface. |
-| `/enterprise` | `Enterprise` | The Signal Session ($15k) + The Revenue Architecture ($60-100k). |
+| `/enterprise` | `Enterprise` | The Signal Session ($15k) + The Revenue Architecture ($60-100k) + The AI Immersion. |
+| `/capital` | `Capital` | The third door. Same Signal Session and Revenue Architecture engagement formats, repositioned for funds, family offices, and operating partners. Signal Session from $15k; Revenue Architecture $60-100k per portfolio company with a fund-level discount for 3+ engagements per 12 months. |
 | `/operator` | `Operator` | (v5) How I operate, 14-agent OS credential page. |
 | `/signal` | `Brief` | Live Intel, the full dashboard: extended live-price ticker, plain-English interpretation grid, classified card archive (WATCH / SKIP / CALL / TAKE with filters + search), blog column, full Nervous Decision Machine. Route preserved for inbound URLs. |
 | `/leaders` | `LeadershipInsights` | Decision Readiness Diagnostic. Unlinked from nav/footer but still reachable by direct URL for deep-links. |
@@ -100,7 +103,7 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 
 On `/cohort?inquiry=1:1`: a banner surfaces the 1:1 inquiry-only path for buyers specifically seeking private engagements, without advertising the offer on the main page.
 
-No `/pricing` page, pricing lives in context on `/cohort` and `/enterprise`.
+No `/pricing` page, pricing lives in context on `/cohort`, `/enterprise`, and `/capital`.
 
 ---
 
@@ -109,12 +112,13 @@ No `/pricing` page, pricing lives in context on `/cohort` and `/enterprise`.
 File: `src/components/Navigation.tsx`. Primary CTA: **"Book a call"** (no conditional label).
 
 - **Cohort** (direct link): `/cohort`.
-- **Enterprise** (dropdown): The Signal Session → `/enterprise#signal-session`, The Revenue Architecture → `/enterprise#revenue-architecture`.
-- **Live Intel** (link): `/signal`.
-- **Resources** (dropdown): How I operate → `/operator`, Blog → `/blog`, The Builder Economy (Podcast) → external `www.thebuildereconomy.com`, Lightning Lessons (external Maven links).
+- **Enterprise** (dropdown): The Signal Session → `/enterprise#signal-session`, The Revenue Architecture → `/enterprise#revenue-architecture`, The AI Immersion → `/enterprise#immersion`, plus a "For funds & operating partners" section linking to Capital → `/capital`.
+- **Mindmaker LIVE** (link, rendered as a wordmark): `/signal`.
+- **Operator** (dropdown): How I operate → `/operator`, The Builder Economy (Podcast) → external `www.thebuildereconomy.com`, Lightning Lessons (external Maven links).
+- **Library** (direct link): `/library`.
+- **About** (dropdown): Contact → `/contact`, Privacy → `/privacy`, Terms → `/terms`.
 
-The second top-level link is labelled **"Live Intel"** and points at `/signal`. The Decision Readiness Diagnostic is no longer linked from nav or footer.
-- **About** (dropdown): FAQ → `/faq`, Contact → `/contact`, Privacy → `/privacy`.
+The Decision Readiness Diagnostic and FAQ pages are no longer linked from nav. Both remain reachable by direct URL.
 
 ---
 
@@ -123,8 +127,10 @@ The second top-level link is labelled **"Live Intel"** and points at `/signal`. 
 | Offer | Price |
 |---|---|
 | The AI Decision Cohort | $3,500 / seat (or 2× $1,800 split) |
-| The Signal Session | $15,000 |
-| The Revenue Architecture | $60,000 – $100,000 (scope-dependent) |
+| The Signal Session (Enterprise) | $15,000 |
+| The Revenue Architecture (Enterprise) | $60,000 to $100,000 (scope-dependent) |
+| The Signal Session (Capital) | From $15,000 (fund-level or per portfolio company) |
+| The Revenue Architecture (Capital) | From $60,000 per portfolio company; fund-level discount for 3+ engagements per 12 months |
 
 Internal (not shown on site): Revenue Architecture floor $60k, ceiling $125k for extended scope; cohort min viable enrollment = 8 seats, cap = 15.
 
@@ -162,9 +168,10 @@ Renamed from "The Operator's Brief" (previously "Signal Desk") for straightforwa
 
 ## Homepage Y-fork
 
-`src/components/YFork.tsx`. Two glass-cards side by side, each with a single full-width CTA:
-- **The Cohort**. "Make your AI decisions with 15 other senior leaders." $3,500 per seat. CTA → `/cohort`.
-- **Enterprise**. "Your AI capabilities, translated into revenue." From $15,000. CTA → `/enterprise`.
+`src/components/YFork.tsx`. Section headline "Three doors. Pick yours." Three glass-cards in a `md:grid-cols-3` row, each with a single full-width CTA:
+- **The Cohort**. "Make your AI decisions with 14 other senior leaders." $3,500 per seat. CTA → `/cohort`.
+- **Enterprise**. "Build the engine. Or rebuild it." From $15,000. CTA → `/enterprise`.
+- **Capital**. "Make the fund AI-native. Then the portfolio." From $15,000. CTA → `/capital`.
 
 `NewHero`'s secondary CTA "See how I work" smooth-scrolls to `#y-fork`. Hero eyebrow reads "DECISION BLOCKERS I HEAR EVERY WEEK".
 
@@ -213,7 +220,7 @@ Your smartest, most cynical friend who runs AI transformation every day and genu
 
 ## Related documentation
 
-- `project-documentation/mindmaker_rebuild_brief_v4.md`. the v4/v5 brief (barbell pivot + Operator's Edge) that shapes the current site.
+- `project-documentation/mindmaker_rebuild_brief_v4.md`. the v4/v5 brief (barbell pivot + Operator's Edge) that shaped the current site. Note: Capital was added as a third door after this brief was written; see the "Pages and routing" and "Pricing" sections above for the live structure.
 - `project-documentation/README.md`. index of all project documentation.
 - `project-documentation/PURPOSE.md`, `VALUE_PROP.md`. mission, positioning, differentiators.
 - `project-documentation/OFFERS.md`. full offer guide (Cohort, Signal Session, Revenue Architecture). Supersedes the deleted `SPRINTS.md`.

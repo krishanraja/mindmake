@@ -83,64 +83,67 @@ export const LightningLessons = () => {
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="text-2xl">Free Lightning Lessons</DialogTitle>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto p-6 sm:p-8">
+          <DialogHeader className="text-left">
+            <DialogTitle className="text-2xl sm:text-3xl">Free Lightning Lessons</DialogTitle>
+            <p className="text-sm text-muted-foreground mt-2">
+              Five 45-minute sessions. Practical, no fluff. Pick one to start.
+            </p>
           </DialogHeader>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mt-4">
+          <div className="flex flex-col gap-4 mt-6">
             {lessons.map((lesson, index) => (
-              <div 
+              <div
                 key={index}
-                className="border border-border rounded-lg overflow-hidden hover:border-mint bg-card flex flex-col h-full hover-lift"
+                className="group border border-border rounded-lg overflow-hidden hover:border-mint bg-card transition-colors"
               >
-                {/* Thumbnail — gradient fallback if image fails to load */}
-                <div className="relative h-24 overflow-hidden flex-shrink-0 bg-gradient-to-br from-ink via-ink/90 to-mint/40 flex items-center justify-center">
-                  <img
-                    src={lesson.image}
-                    alt=""
-                    className="absolute inset-0 w-full h-full object-cover object-center"
-                    onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).style.display = "none";
-                    }}
-                  />
-                  <span className="relative z-10 px-3 text-[11px] font-bold uppercase tracking-[0.14em] text-white/80 text-center">
-                    {lesson.title.split(":")[0]}
-                  </span>
-                  <Badge
-                    variant="secondary"
-                    className="absolute top-2 right-2 bg-mint/90 text-ink border-0 z-20"
-                  >
-                    <Clock className="w-3 h-3 mr-1" />
-                    {lesson.duration}
-                  </Badge>
-                </div>
+                <div className="flex flex-col sm:flex-row">
+                  {/* Thumbnail */}
+                  <div className="relative sm:w-48 sm:flex-shrink-0 aspect-[16/9] sm:aspect-auto sm:min-h-[140px] overflow-hidden bg-gradient-to-br from-ink via-ink/90 to-mint/40">
+                    <img
+                      src={lesson.image}
+                      alt=""
+                      className="absolute inset-0 w-full h-full object-cover object-center"
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).style.display = "none";
+                      }}
+                    />
+                    <Badge
+                      variant="secondary"
+                      className="absolute top-2 left-2 bg-mint/95 text-ink border-0 z-10 text-[10px]"
+                    >
+                      <Clock className="w-3 h-3 mr-1" />
+                      {lesson.duration}
+                    </Badge>
+                  </div>
 
-                {/* Content */}
-                <div className="p-4 flex flex-col flex-grow">
-                  <h3 className="font-semibold text-base leading-tight min-h-[2.5rem] mb-3">
-                    {lesson.title}
-                  </h3>
-                  
-                  <ul className="space-y-1.5 text-sm text-muted-foreground flex-grow mb-3">
-                    {lesson.bullets.map((bullet, i) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <span className="text-mint mt-0.5">•</span>
-                        <span>{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  {/* Content */}
+                  <div className="flex-1 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-base sm:text-lg leading-tight mb-2">
+                        {lesson.title}
+                      </h3>
+                      <ul className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
+                        {lesson.bullets.map((bullet, i) => (
+                          <li key={i} className="flex items-start gap-1.5">
+                            <span className="text-mint mt-0.5 flex-shrink-0">•</span>
+                            <span>{bullet}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
 
-                  <Button 
-                    asChild 
-                    size="sm"
-                    className="w-full bg-mint text-ink hover:bg-mint/90 font-semibold mt-auto"
-                  >
-                    <a href={lesson.url} target="_blank" rel="noopener noreferrer">
-                      {lesson.cta}
-                      <ExternalLink className="ml-2 h-3.5 w-3.5" />
-                    </a>
-                  </Button>
+                    <Button
+                      asChild
+                      size="sm"
+                      className="bg-mint text-ink hover:bg-mint/90 font-semibold sm:flex-shrink-0 w-full sm:w-auto"
+                    >
+                      <a href={lesson.url} target="_blank" rel="noopener noreferrer">
+                        {lesson.cta}
+                        <ExternalLink className="ml-2 h-3.5 w-3.5" />
+                      </a>
+                    </Button>
+                  </div>
                 </div>
               </div>
             ))}

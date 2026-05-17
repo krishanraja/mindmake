@@ -1,10 +1,32 @@
 # Decisions Log
 
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-17
 
 ---
 
 ## Brand & Product Decisions
+
+### 2026-05-17: `/signal` nav label updated from "Live Intel" to "Mindmaker LIVE" (wordmark)
+
+**Decision:** The nav slot for `/signal` is now labelled **"Mindmaker LIVE"** and rendered as a branded wordmark via the `MindMakerWordmark` component. "Live Intel" and "The Operator's Brief" remain acceptable in body copy on `/signal`, but the nav label is exclusively "Mindmaker LIVE".
+
+**Context:** "Live Intel" was accurate but read generically. "Mindmaker LIVE" ties the editorial surface to the Mindmaker brand wordmark, reinforcing the newsletter / Substack identity and the `MindMakerLiveSection` added to the homepage.
+
+**Impact:**
+- `Navigation.tsx`: `label: "Mindmaker LIVE"` with `wordmark: true`
+- All documentation updated. "Live Intel" added to retired-nav-label list in `BRANDING.md` and `COMMON_ISSUES.md`.
+
+---
+
+### 2026-05-17: `MindMakerLiveSection` added to homepage (section 9)
+
+**Decision:** A Substack newsletter subscribe surface (`MindMakerLiveSection.tsx`) is inserted between `OperatorsBrief` and `SimpleCTA` on the homepage. Three-pillar layout (Headlines / Resources / Perspectives) on a dark (`bg-ink`) background with a `SubstackSubscribeForm`.
+
+**Context:** The Mindmaker Live newsletter is a separate top-of-funnel asset from the Live Intel dashboard at `/signal`. The section gives the newsletter its own homepage surface without cannibalising the existing Live Intel teaser (`OperatorsBrief`).
+
+**Impact:** Homepage scroll goes from 10 to 11 sections. `Index.tsx` updated. No route change.
+
+---
 
 ### 2026-05-15: v6 ladder restructure (Workshops + Alumni Pass added; Cohort renamed and repriced)
 

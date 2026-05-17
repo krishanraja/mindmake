@@ -1,6 +1,36 @@
 # History
 
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-17
+
+---
+
+## 2026-05-17: Documentation Reconciliation Pass
+
+**What Changed:**
+- Reconciled all `project-documentation/*` files with the actual codebase as of 2026-05-17 (commits since 2026-05-15 added `MindMakerLiveSection` to the homepage, updated the `/signal` nav label from "Live Intel" to "Mindmaker LIVE" as a wordmark, updated the Lightning Lessons from 4 to 5 with new URLs and names, updated the Resources dropdown to include Library instead of New Age Leadership / Blog, and added The AI Immersion + Capital to the Enterprise nav dropdown).
+- **`ARCHITECTURE.md`**: Nav table corrected (Workshops as slot 1, Mindmaker LIVE label, updated Resources and Enterprise dropdowns). Homepage scroll order updated (YFork is now "Three doors. Pick yours." and `MindMakerLiveSection` added as section 9). Pricing table extended to include Workshops ($599) and Alumni Pass ($1,500/year). Project structure updated (removed stale `FAQ.tsx`, added Workshops pages, Alumni, Capital, Library, `MindMakerLiveSection`, `stripe-prices.ts`). Lightning Lessons count and URLs updated (4 → 5).
+- **`FEATURES.md`**: Nav corrected. Homepage scroll corrected. Y-Fork section updated from 2-card to 3-card. Lightning Lessons list replaced with current 5-lesson set and correct URLs.
+- **`DESIGN_SYSTEM.md`**: Y-Fork Cards example updated from 2-column to 3-column layout.
+- **`BRANDING.md`**: Brand Position updated from "four things, two tiers" to the 6-offer ladder. Nav label terminology updated to "Mindmaker LIVE". "Live Intel" added to retired nav label list.
+- **`OUTCOMES.md`**: Cohort emotional arc extended to Week 4 (Deploy). "Immediate (end of cohort)" corrected to week 4. "Working fluency" now references Diagnose → Decompose → Decide → Deploy. Workshop outcomes section added. Anti-Outcomes "3-week Cohort" corrected to 4 weeks.
+- **`PURPOSE.md`**: Business description updated from "barbell" to "ladder". Offering table extended with Lightning Lessons, Workshops, and Alumni Pass. "Preserve the barbell" objective rewritten.
+- **`DEPLOYMENT.md`**: Nav compliance check updated to "Mindmaker LIVE" wordmark. Post-deploy nav check updated.
+- **`REPLICATION_GUIDE.md`**: Navigation comment updated. YFork comment updated. LightningLessons count updated (4 → 5). `send-lead-email` comment updated to reflect Gemini primary / OpenAI fallback.
+- **`README.md`**: "What Mindmaker Is" rewritten to reflect ladder with all 6 offers. Key Concepts offering table extended. ICPs extended to include Alumni.
+- **`VISUAL_GUIDELINES.md`**: Homepage scroll header updated to "v6 ladder". YFork row updated from 2-card to 3-card. Live Intel nav label spec updated to "Mindmaker LIVE".
+- **`COMMON_ISSUES.md`**: Nav label issue updated to cover "Mindmaker LIVE" as the correct label; "Live Intel" added to the symptom list.
+- **`DECISIONS_LOG.md`**: Two new decision records added (nav label evolution to "Mindmaker LIVE"; `MindMakerLiveSection` homepage addition).
+- **All `Last Updated` dates** bumped to 2026-05-17.
+
+**Why:**
+- Documentation last reconciled at 2026-05-15, but subsequent commits updated the nav label, the homepage scroll, the Lightning Lessons, and several nav dropdown structures. These changes were not reflected in the documentation.
+- AI agents training on these docs would have reported the wrong nav label, wrong Lightning Lesson URLs, wrong homepage scroll order, wrong Y-Fork card count, and wrong product ladder framing.
+
+**Files Updated:**
+- `ARCHITECTURE.md`, `FEATURES.md`, `DESIGN_SYSTEM.md`, `BRANDING.md`, `OUTCOMES.md`, `PURPOSE.md`, `DEPLOYMENT.md`, `REPLICATION_GUIDE.md`, `README.md`, `VISUAL_GUIDELINES.md`, `COMMON_ISSUES.md`, `DECISIONS_LOG.md`, `HISTORY.md`, `OFFERS.md` (Last Updated date only), `ICP.md` (Last Updated date only), `VALUE_PROP.md` (Last Updated date only), `SALES_PLAYBOOK.md` (Last Updated date only), `Master_Messaging_and_FAQ.md` (Last Updated date only)
+
+**Files Left Untouched (research artefacts):**
+- `EXECUTIVE_SUMMARY.md`, `LLM_CRITICAL_THINKING_TRAINING.md`, `mindmaker_rebuild_brief_v4.md`
 
 ---
 

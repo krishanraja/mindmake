@@ -1,6 +1,6 @@
 # Architecture
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-17
 
 ---
 
@@ -56,14 +56,15 @@ mindmaker/
 │   │   │   ├── OrgChart.tsx          # interactive agent-native org chart (lazy)
 │   │   │   └── AgathaStory.tsx       # embedded narrative + completion beacon
 │   │   ├── NewHero.tsx               # rotating headlines + CTAs
-│   │   ├── YFork.tsx                 # "Two ways I work". Cohort vs Enterprise
+│   │   ├── YFork.tsx                 # "Three doors. Pick yours." Workshops · Cohort · Enterprise
 │   │   ├── BigProblem.tsx
 │   │   ├── TrustSection.tsx          # Krish bio + testimonials carousel
 │   │   ├── FrameworkJourney.tsx      # Mind Set → Mind Map → Mind Make
 │   │   ├── OperatorsEdge.tsx         # v5 credential section
 │   │   ├── OperatorsBrief.tsx        # homepage Live Intel teaser
+│   │   ├── MindMakerLiveSection.tsx  # Mindmaker Live newsletter subscribe surface (homepage section 9)
 │   │   ├── PriceTicker.tsx           # CSS-marquee model price ticker
-│   │   ├── LightningLessons.tsx      # 4 Maven Lightning Lesson links
+│   │   ├── LightningLessons.tsx      # 5 free Maven Lightning Lesson links (dialog in Resources dropdown)
 │   │   ├── SimpleCTA.tsx
 │   │   ├── Navigation.tsx
 │   │   ├── Footer.tsx
@@ -74,16 +75,25 @@ mindmaker/
 │   │   └── SEO.tsx
 │   ├── pages/
 │   │   ├── Index.tsx                 # homepage (eager-loaded)
+│   │   ├── Workshops.tsx             # /workshops, Mindmaker Workshops index
+│   │   ├── workshops/                # five workshop sub-pages
+│   │   │   ├── BuildYourAIChiefOfStaff.tsx
+│   │   │   ├── MapYourAgenticOrgChart.tsx
+│   │   │   ├── VibeCodingForLeaders.tsx
+│   │   │   ├── BuildAnAutonomousBusinessFunction.tsx
+│   │   │   └── GiveYourAIMemory.tsx
 │   │   ├── Cohort.tsx                # The AI-Fluent Executive (Cohort) (Maven enrolment)
 │   │   ├── Enterprise.tsx            # Signal Session + Revenue Architecture
+│   │   ├── Capital.tsx               # /capital, third door for funds and operating partners
 │   │   ├── Operator.tsx              # /operator, 14-agent OS credential
 │   │   ├── Brief.tsx                 # Live Intel, /signal
+│   │   ├── Library.tsx               # /library, resources and FAQ tab
+│   │   ├── Alumni.tsx                # /alumni, Alumni Pass ($1,500/yr, noindex, unlinked)
 │   │   ├── Immersion.tsx             # /immersion. AI Immersion ($12k, inquiry-only)
 │   │   ├── NewAgeLeadership.tsx      # /new-age-leadership, long-form thought leadership
 │   │   ├── LeadershipInsights.tsx    # Decision Readiness Diagnostic, /leaders
 │   │   ├── Blog.tsx
 │   │   ├── BlogPost.tsx
-│   │   ├── FAQ.tsx
 │   │   ├── Contact.tsx
 │   │   ├── Privacy.tsx
 │   │   ├── Terms.tsx
@@ -97,6 +107,7 @@ mindmaker/
 │   │   └── SessionDataContext.tsx    # threads qualification data into modal
 │   ├── data/
 │   ├── lib/
+│   │   └── stripe-prices.ts          # canonical Stripe price IDs for all offers
 │   ├── integrations/supabase/
 │   ├── utils/
 │   │   └── calendly.ts
@@ -193,18 +204,19 @@ No `/pricing` page, pricing lives in context on `/cohort`, `/enterprise`, and `/
 
 ## Homepage Scroll Order
 
-Authoritative source: `src/pages/Index.tsx`. Verified 2026-04-26.
+Authoritative source: `src/pages/Index.tsx`. Verified 2026-05-17.
 
 1. `Navigation`. fixed top, hides on scroll-down via `useScrollDirection`
 2. `NewHero`. rotating headlines, eyebrow "Decision blockers I hear every week", "Book a call" primary CTA + "See how I work" secondary
-3. `YFork`. "Two ways I work." → `/cohort` ($2,500) vs `/enterprise` (from $15,000)
+3. `YFork`. "Three doors. Pick yours." → Workshops (from $599) · The AI-Fluent Executive Cohort ($2,500) · Enterprise (from $15,000)
 4. `BigProblem`. existential urgency frame
 5. `TrustSection`. Krish bio, headshot, testimonials carousel (COHORT-STYLE / ENTERPRISE tagged)
 6. `FrameworkJourney`. three-panel animated MindSet → MindMap → MindMake
 7. `OperatorsEdge`. v5 typography-only credential section ("Beyond pattern recognition")
 8. `OperatorsBrief`. Live Intel homepage teaser (PriceTicker + rotating interpretation + compact Nervous Decision input + muted link to `/signal`)
-9. `SimpleCTA`. final CTA
-10. `Footer`
+9. `MindMakerLiveSection`. Mindmaker Live newsletter subscribe surface. Three-pillar (Headlines / Resources / Perspectives) + Substack subscribe form. Dark (`bg-ink`) section.
+10. `SimpleCTA`. final CTA
+11. `Footer`
 
 ### Global overlays (mounted in `src/App.tsx`)
 
@@ -221,14 +233,15 @@ Authoritative source: `src/components/Navigation.tsx`. Primary CTA: **"Book a ca
 
 | Slot | Label | Type | Destination |
 |---|---|---|---|
-| 1 | Cohort | Direct link | `/cohort` |
-| 2 | Enterprise | Dropdown | The Signal Session → `/enterprise#signal-session`, The Revenue Architecture → `/enterprise#revenue-architecture` |
-| 3 | **Live Intel** | Direct link | `/signal` |
-| 4 | Resources | Dropdown | New Age Leadership → `/new-age-leadership`, How I operate → `/operator`, Blog → `/blog`, The Builder Economy (Podcast) → external `thebuildereconomy.com`, Lightning Lessons (4 external Maven URLs via the `LightningLessons` component) |
-| 5 | About | Dropdown | FAQ → `/faq`, Contact → `/contact`, Privacy → `/privacy` |
+| 1 | Workshops | Direct link | `/workshops` |
+| 2 | Cohort | Direct link | `/cohort` |
+| 3 | Enterprise | Dropdown | The Signal Session → `/enterprise#signal-session`, The Revenue Architecture → `/enterprise#revenue-architecture`, The AI Immersion → `/enterprise#immersion`; section header "For funds & operating partners"; Capital → `/capital` |
+| 4 | **Mindmaker LIVE** | Direct link (wordmark) | `/signal` |
+| 5 | Resources | Dropdown | How I operate → `/operator`, Library → `/library`, The Builder Economy (Podcast) → external `thebuildereconomy.com`, Lightning Lessons (5 free Maven lessons via the `LightningLessons` component) |
+| 6 | About | Dropdown | Contact → `/contact`, Privacy → `/privacy`, Terms → `/terms` |
 | CTA | Book a call | Button | Dispatches `openConsultModal` |
 
-Decision Readiness Diagnostic (`/leaders`) is deliberately **not** in nav or footer. The Immersion (`/immersion`) is reachable via the consult modal preselect or direct URL. The four Lightning Lessons are external Maven course links: Vibe Coding for Leaders, Make AI Your Co-Founder, Build an Autonomous Business with AI, Give Your AI Memory.
+Decision Readiness Diagnostic (`/leaders`) is deliberately **not** in nav or footer. The Immersion (`/immersion`) is also reachable by direct URL or via the consult modal preselect. The five Lightning Lessons are free 45-minute Maven sessions: Build Your AI's Permanent Identity, Build an Autonomous Business with AI, Vibe Coding for Leaders: The Unfair Advantage, Build Your Agentic Org Chart, Build Your AI Chief of Staff.
 
 ---
 
@@ -236,10 +249,12 @@ Decision Readiness Diagnostic (`/leaders`) is deliberately **not** in nav or foo
 
 | Offer | Price | Duration |
 |---|---|---|
+| Mindmaker Workshops (×5) | $599 / workshop | One day each, hosted on Maven |
 | The AI-Fluent Executive (Cohort) | $2,500 / seat (or 2× $1,250 split) | 4 weeks (mostly async) + 4 × 90-min live sessions |
 | The Signal Session | $15,000 | 1 day intensive + 48-hour Commercial Narrative (15–20 pages) |
 | The Revenue Architecture | $60,000–$100,000 | **30 days (4–5 calendar weeks)**, multi-session |
 | The AI Immersion (inquiry) | $12,000 (flat; travel additional) | 4-hour session + 2-page summary within 5 business days |
+| The Alumni Pass (invitation-only) | $1,500 / year | Annual, recurring via Stripe, cancel anytime |
 
 Internal floor/ceiling (not on site): Cohort min viable enrollment = 8, cap = 15; Revenue Architecture floor $60k, ceiling $125k for extended scope.
 
@@ -331,6 +346,10 @@ Route unlinked from nav; deep-link only.
 - Classified card archive (WATCH / SKIP / CALL / TAKE) with filter pills + search
 - Blog column (featured posts)
 - Full-size Nervous Decision input with example chips
+
+### MindMakerLiveSection (homepage section 9)
+
+A Substack newsletter subscribe surface embedded on the homepage between `OperatorsBrief` and `SimpleCTA`. Dark (`bg-ink`) section with three pillars (Headlines / Resources / Perspectives) and a `SubstackSubscribeForm` component. Does not replace `/signal`; the newsletter and the Live Intel dashboard are distinct surfaces.
 
 Price and model data flows through `get-model-data` edge function. Editorial cards currently inline; `get-ai-news` schema preserved for future dynamic feed.
 

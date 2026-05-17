@@ -1,13 +1,13 @@
 # Common Issues
 
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-17
 
 ---
 
 ## Brand & Content Issues
 
 ### Issue: Retired product names, prices, or URLs in copy
-**Symptom:** References to "The AI Decision Cohort" (the v6 rename moved this to "The AI-Fluent Executive"), "$3,500" Cohort price (now $2,500), "3 weeks" Cohort duration (now 4 weeks), "Name → Map → Make" Cohort framework (now Diagnose → Decompose → Decide → Deploy), the dead Maven URL `maven.com/aimindmaker/ai-decision-intensive` (live URL is `maven.com/mindmaker/the-ai-fluent-executive`), "4-Week Sprint", "90-Day Sprint", "Builder Sprint", "Builder Session", "Leadership Lab", "Portfolio Partner", "Fractional CAIO", "Signal Desk", "Ask Mindmaker" / "Chat with Krish", `"What's your nervous decision?"` as a CTA button label, "The Brief" as a nav label, "8–12 week Revenue Architecture", or "5–10 page Signal Session thesis".
+**Symptom:** References to "The AI Decision Cohort" (the v6 rename moved this to "The AI-Fluent Executive"), "$3,500" Cohort price (now $2,500), "3 weeks" Cohort duration (now 4 weeks), "Name → Map → Make" Cohort framework (now Diagnose → Decompose → Decide → Deploy), the dead Maven URL `maven.com/aimindmaker/ai-decision-intensive` (live URL is `maven.com/mindmaker/the-ai-fluent-executive`), "4-Week Sprint", "90-Day Sprint", "Builder Sprint", "Builder Session", "Leadership Lab", "Portfolio Partner", "Fractional CAIO", "Signal Desk", "Ask Mindmaker" / "Chat with Krish", `"What's your nervous decision?"` as a CTA button label, "The Brief" or "Live Intel" as a nav label (live nav label is **Mindmaker LIVE** rendered as a wordmark), "8–12 week Revenue Architecture", or "5–10 page Signal Session thesis".
 
 **Cause:** Legacy copy not updated to current spec.
 
@@ -49,10 +49,10 @@ Note: the phrase "what's your nervous decision" can still appear in body copy as
 
 ---
 
-### Issue: Nav label still says "The Brief" or "Signal Desk"
-**Symptom:** Second top-level nav slot reads "The Brief" or "Signal Desk".
-**Cause:** Nav copy not updated to v4/v5 latest.
-**Solution:** Nav label is **"Live Intel"** (`Navigation.tsx`). The body-copy term "The Operator's Brief" is still acceptable in editorial copy on `/signal`, but the nav label is "Live Intel".
+### Issue: Nav label still says "Live Intel", "The Brief", or "Signal Desk"
+**Symptom:** Second top-level nav slot reads "Live Intel", "The Brief", or "Signal Desk".
+**Cause:** Nav copy not updated to current state.
+**Solution:** Nav label is **"Mindmaker LIVE"** rendered as a wordmark via the `MindMakerWordmark` component (`Navigation.tsx`). Body copy on `/signal` may still use "Live Intel" or "The Operator's Brief". The nav label is exclusively "Mindmaker LIVE".
 
 ---
 

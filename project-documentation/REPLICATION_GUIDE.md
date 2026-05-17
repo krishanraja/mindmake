@@ -1,6 +1,6 @@
 # Replication Guide
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-17
 
 ---
 
@@ -70,7 +70,7 @@ Copy files from `src/components/ui/`.
 
 ### Step 8: Layout components
 ```
-src/components/Navigation.tsx          # Cohort / Enterprise / The Brief / Resources / About
+src/components/Navigation.tsx          # Workshops / Cohort / Enterprise / Mindmaker LIVE / Resources / About
 src/components/Footer.tsx
 src/components/InitialConsultModal.tsx # single conversion surface (openConsultModal event listener)
 src/components/PreCallQualifier.tsx    # floating pill, 3-step intake
@@ -95,14 +95,14 @@ src/pages/NotFound.tsx
 ### Step 10: Homepage section components
 ```
 src/components/NewHero.tsx             # rotating headlines + Book a call CTA
-src/components/YFork.tsx               # Cohort vs Enterprise cards
+src/components/YFork.tsx               # "Three doors. Pick yours." — Workshops · Cohort · Enterprise cards
 src/components/BigProblem.tsx          # existential urgency frame
 src/components/TrustSection.tsx        # Krish bio + testimonials carousel
 src/components/FrameworkJourney.tsx    # Mind Set → Mind Map → Mind Make
 src/components/OperatorsEdge.tsx       # v5 credential section
 src/components/OperatorsBrief.tsx      # Live Intel homepage teaser
 src/components/PriceTicker.tsx         # CSS-marquee model price ticker
-src/components/LightningLessons.tsx    # 4 Maven Lightning Lesson links (Resources nav)
+src/components/LightningLessons.tsx    # 5 free Maven Lightning Lesson links (dialog in Resources nav)
 src/components/SimpleCTA.tsx
 ```
 
@@ -147,7 +147,7 @@ supabase/functions/nervous-decision-machine/index.ts
 supabase/functions/get-ai-news/index.ts               # Operator's Brief content
 supabase/functions/get-market-sentiment/index.ts
 supabase/functions/get-model-data/index.ts            # PriceTicker feed
-supabase/functions/send-lead-email/index.ts           # OpenAI enrichment + Resend
+supabase/functions/send-lead-email/index.ts           # Gemini company research (preferred) + OpenAI fallback + Resend
 supabase/functions/send-contact-email/index.ts
 supabase/functions/send-leadership-insights-email/index.ts
 supabase/functions/create-consultation-hold/index.ts  # Stripe (bypassed)

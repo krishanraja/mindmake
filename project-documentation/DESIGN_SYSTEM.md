@@ -1,6 +1,6 @@
 # Design System
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-17
 
 ---
 
@@ -463,20 +463,25 @@ On white/light backgrounds, always use `text-foreground`, `text-ink`, or `text-m
 
 Primary CTA copy is always **"Book a call"**, no conditional labels. The previous `"What's your nervous decision?"` button copy has been retired. All CTAs open the global `InitialConsultModal` via the `openConsultModal` custom event.
 
-### Y-Fork Cards (homepage 2-card layout)
-Replaces the old `ProductLadder` 4-Week / 90-Day sprint chooser.
+### Y-Fork Cards (homepage 3-card layout)
+Replaces the old `ProductLadder` 4-Week / 90-Day sprint chooser. Three cards in a `md:grid-cols-3` row.
 
 ```tsx
-<div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-  <div className="glass-card p-8 hover:border-mint/40 transition-all">
-    <p className="text-xs tracking-widest text-muted-foreground">THE COHORT</p>
-    <h3 className="text-3xl font-bold mb-2">Make your AI decisions with 15 other senior leaders.</h3>
-    <p className="text-xl text-mint">$2,500 per seat</p>
+<div className="grid md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
+  <div className="glass-card editorial-card p-8 hover:border-mint/40 transition-all">
+    <p className="text-xs tracking-widest text-muted-foreground">FROM $599</p>
+    <h3 className="text-2xl font-bold mb-2">Build alongside me in one day.</h3>
+    <a href="/workshops">See the workshops →</a>
   </div>
-  <div className="glass-card p-8 hover:border-mint/40 transition-all">
-    <p className="text-xs tracking-widest text-muted-foreground">ENTERPRISE</p>
-    <h3 className="text-3xl font-bold mb-2">Your AI capabilities, translated into revenue.</h3>
-    <p className="text-xl text-mint">From $15,000</p>
+  <div className="glass-card editorial-card p-8 hover:border-mint/40 transition-all">
+    <p className="text-xs tracking-widest text-muted-foreground">$2,500</p>
+    <h3 className="text-2xl font-bold mb-2">Make your nervous AI decision with 15 senior leaders.</h3>
+    <a href="/cohort">See the Cohort →</a>
+  </div>
+  <div className="glass-card editorial-card p-8 hover:border-mint/40 transition-all">
+    <p className="text-xs tracking-widest text-muted-foreground">FROM $15,000</p>
+    <h3 className="text-2xl font-bold mb-2">Build the engine. Or rebuild it.</h3>
+    <a href="/enterprise">Explore enterprise →</a>
   </div>
 </div>
 ```

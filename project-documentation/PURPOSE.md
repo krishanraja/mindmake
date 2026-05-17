@@ -1,6 +1,6 @@
 # Purpose
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-17
 
 ---
 
@@ -16,16 +16,19 @@ Every offer has a fixed scope, a fixed outcome, and a finish line.
 
 ## The Business
 
-Mindmaker is a **barbell** with no middle tier. Two primary public offers, plus an inquiry-only executive-team offer:
+Mindmaker is a **ladder**. Free Lightning Lessons at the top. Paid Workshops at the first rung. The qualifying Cohort at the second rung. Enterprise as the margin engine. An inquiry-only Immersion for team-alignment needs. The Alumni Pass as continuity.
 
-| End | Offer | Price | Duration | Buyer |
+| Rung | Offer | Price | Duration | Buyer |
 |---|---|---|---|---|
-| Low | The AI-Fluent Executive (Cohort) | $2,500/seat | 4 weeks + 4 live sessions | Senior leader with a nervous AI decision |
-| High entry | The Signal Session | $15,000 | 1 day + 48h delivery | Company commercializing an AI product |
-| High flagship | The Revenue Architecture | $60,000–$100,000 | 30 days | Same, needing a full commercial rebuild |
+| Free top of funnel | Lightning Lessons (5 sessions on Maven) | Free | 45 min each | Cold leaders not yet ready to talk |
+| Entry paid | Mindmaker Workshops (×5, on Maven) | $599 / workshop | 1 day each | Leaders ready to build a real artefact now |
+| Qualifying step | The AI-Fluent Executive (Cohort) | $2,500/seat | 4 weeks + 4 live sessions | Senior leader with a nervous AI decision |
+| Margin engine entry | The Signal Session | $15,000 | 1 day + 48h delivery | Company commercializing an AI product |
+| Margin engine flagship | The Revenue Architecture | $60,000–$100,000 | 30 days | Same, needing a full commercial rebuild |
 | Inquiry-only | The AI Immersion | $12,000 | 4-hour session + 5-day summary | CEO-sponsored exec team needing fast alignment |
+| Continuity | The Alumni Pass | $1,500/year | Annual, recurring | Any Mindmaker alumni post-engagement |
 
-The cohort runs on content distribution and turns an audience into paying customers, hosted on Maven for enrollment continuity. Enterprise runs on inbound plus targeted outbound. The Immersion is a request-only fallback for buyers whose need is a team conversation, not an individual decision or a multi-week rebuild. The cohort is the flywheel that feeds the enterprise funnel.
+The Cohort runs on content distribution and turns an audience into paying customers, hosted on Maven for enrollment continuity. Enterprise runs on inbound plus targeted outbound. The Immersion is a request-only fallback for buyers whose need is a team conversation. The Alumni Pass formalises continuity without retainer dynamics. Every offer has a fixed scope, a fixed outcome, and a finish line.
 
 ---
 
@@ -65,10 +68,10 @@ A world where senior leaders stop talking about AI and start using it. Where "AI
 - The AI Immersion (4 hours, $12k) names the three decisions, names the owners, names the deadlines
 - Inquiry-only, never sold on the homepage; offered when a team conversation is the right shape
 
-### 4. Preserve the barbell
-- No middle tier. Ever.
-- No scope creep into retainers.
-- Every engagement has a finish line.
+### 4. Preserve the finish line
+- No open-ended retainers. No fractional roles. Every offer has a fixed end.
+- No scope creep. Fixed scope is defined at kickoff and does not move.
+- Every rung on the ladder is standalone, with a clear ramp to the next rung when the buyer is ready.
 
 ### 5. Keep the framework portable
 - Mind Set → Mind Map → Mind Make outlives any tool, model, or vendor

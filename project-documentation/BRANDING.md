@@ -1,6 +1,6 @@
 # Branding
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-17
 
 ---
 
@@ -8,7 +8,7 @@
 
 **The anti-consultancy for leaders who are done being sold AI and ready to use it.**
 
-Mindmaker sells exactly four things, in two tiers and one inquiry-only relief valve: a Maven-hosted decision room for senior leaders (the Cohort), enterprise sprints for companies commercializing AI products (the Signal Session and Revenue Architecture), and a half-day team-alignment Immersion (inquiry-only). Nothing in between. Nothing ongoing.
+Mindmaker is a ladder with six rungs: free Lightning Lessons at the top; five one-day, $599 Workshops on Maven for leaders ready to build; the AI-Fluent Executive Cohort at $2,500 for leaders sitting on a nervous decision; The Signal Session ($15k) and The Revenue Architecture ($60–100k) for companies commercializing AI; an inquiry-only AI Immersion ($12k) for executive teams needing fast alignment; and the invitation-only Alumni Pass ($1,500/year) for continuity after the finish line. No ongoing retainers. No fractional roles. Every offer has a fixed scope, a fixed outcome, and a finish line.
 
 **Brand North Star:** If Stripe's design sensibility met Anthony Bourdain's authenticity.
 
@@ -122,7 +122,7 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 - "We help you…", prefer "You will…" or the direct verb
 - Optimize, enhance, maximize, holistic, paradigm
 - "Chat with Krish", "Sprint 4-Week", "Sprint 90-Day", "Builder Economy" (as a Mindmaker product, it's now an external sister domain)
-- "Signal Desk" or "The Brief" as a nav label (the live label is **"Live Intel"**)
+- "Signal Desk", "The Brief", or "Live Intel" as the nav label (the live nav label is **"Mindmaker LIVE"**, rendered as a wordmark)
 
 ---
 
@@ -135,8 +135,8 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 - **The Revenue Architecture**. not "sprint", "engagement", "project"
 - **The AI Immersion**. not "team workshop", "leadership offsite", "alignment session"
 - **The Commercial Narrative**. the 15–20 page Signal Session deliverable; not "thesis", "report", "deliverable"
-- **Live Intel**. the nav label and H1 for the editorial surface at `/signal` (renamed from "Signal Desk" → "The Brief" → "Live Intel" for plain-English clarity)
-- **The Operator's Brief**. body-copy alternative for Live Intel; OK in editorial copy, not as a nav label
+- **Mindmaker LIVE**. the nav label for the editorial surface at `/signal`, rendered as a wordmark (`MindMakerWordmark` component). Renamed "Signal Desk" → "The Brief" → "Live Intel" → **"Mindmaker LIVE"**. In body copy, "Live Intel" and "The Operator's Brief" remain acceptable; the nav label is "Mindmaker LIVE".
+- **The Operator's Brief**. body-copy alternative for the Live Intel surface; OK in editorial copy on `/signal`, never as a nav label
 - **The Nervous Decision Machine**. the embedded tool; no longer on a standalone `/tool` page
 - **Decision Readiness Diagnostic**. the `/leaders` quiz; unlinked from nav but reachable by URL
 - **Pre-Call Qualifier**. the floating pill; replaces the retired ChatBot. 3-step chip-based intake (decision → timeline → stakes)

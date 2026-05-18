@@ -1,29 +1,23 @@
+import { useCallback, useEffect, useState } from "react";
+import { useReducedMotion } from "framer-motion";
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useReducedMotion,
-  type MotionValue,
-} from "framer-motion";
-import { useCallback, useRef } from "react";
-import {
-  ArrowDown,
+  ArrowRight,
   Brain,
   Compass,
   Crown,
   KeyRound,
   Rocket,
+  RotateCw,
   Zap,
   type LucideIcon,
 } from "lucide-react";
-
-/* ─── Content ─────────────────────────────────────────────────────────────
-   Each card holds two faces:
-   - fate: what happens if you don't pick up the pen
-   - value: what working with us looks like
-   The same card frame morphs from face A to face B via a left→right wipe
-   during the final act of the scroll narrative.
-   ──────────────────────────────────────────────────────────────────────── */
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  type CarouselApi,
+} from "@/components/ui/carousel";
+import { cn } from "@/lib/utils";
 
 type Face = { icon: LucideIcon; strong: string; sub: string };
 
@@ -54,338 +48,259 @@ const cards: { fate: Face; value: Face }[] = [
   },
 ];
 
-/* ─── A single card that morphs between its two faces via a clipPath wipe ── */
+const openConsultModal = (preselected?: string) => {
+  window.dispatchEvent(
+    new CustomEvent("openConsultModal", {
+      detail: preselected ? { preselected } : {},
+    }),
+  );
+};
 
-type MorphCardProps = {
+type FlipCardProps = {
   index: number;
   fate: Face;
   value: Face;
-  scrollYProgress: MotionValue<number>;
+  flipped: boolean;
+  onFlip: () => void;
+  reduceMotion: boolean;
 };
 
-const MorphCard = ({ index, fate, value, scrollYProgress }: MorphCardProps) => {
-  // Stagger the wipe per card to create a cascading reveal across the row.
-  const start = 0.66 + index * 0.03;
-  const end = start + 0.12;
-
-  const wipe = useTransform(scrollYProgress, [start, end], [0, 1]);
-  const fateClip = useTransform(wipe, (p) => `inset(0 0 0 ${p * 100}%)`);
-  const valueClip = useTransform(wipe, (p) => `inset(0 ${(1 - p) * 100}% 0 0)`);
-
+const FlipCard = ({ index, fate, value, flipped, onFlip, reduceMotion }: FlipCardProps) => {
   const FateIcon = fate.icon;
   const ValueIcon = value.icon;
+  const number = `0${index + 1} / 03`;
+
+  const handleKey = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onFlip();
+    }
+  };
 
   return (
-    <div className="relative overflow-hidden rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm h-[78px] sm:h-[92px] md:h-[200px]">
-      {/* Fate face: visible in Act 1, wiped away in Act 3 */}
-      <motion.div
-        style={{ clipPath: fateClip, WebkitClipPath: fateClip as unknown as string }}
-        className="absolute inset-0 flex flex-row md:flex-col items-center md:items-start gap-4 md:gap-0 p-4 md:p-6"
+    <div className="[perspective:1400px] w-full">
+      <div
+        role="button"
+        tabIndex={0}
+        aria-pressed={flipped}
+        aria-label={`${fate.strong} — tap to reveal what working with Mindmaker looks like`}
+        onClick={onFlip}
+        onKeyDown={handleKey}
+        className={cn(
+          "relative w-full aspect-square cursor-pointer outline-none",
+          "[transform-style:preserve-3d]",
+          !reduceMotion && "transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]",
+          flipped && !reduceMotion && "[transform:rotateY(180deg)]",
+          "focus-visible:[&>div]:ring-2 focus-visible:[&>div]:ring-mint focus-visible:[&>div]:ring-offset-4 focus-visible:[&>div]:ring-offset-ink",
+        )}
       >
-        <FateIcon className="w-6 h-6 md:w-7 md:h-7 md:mb-3 text-white/60 shrink-0" />
-        <div className="min-w-0">
-          <p className="text-base md:text-xl font-bold text-white leading-tight">{fate.strong}</p>
-          <p className="text-xs md:text-sm text-white/60 leading-snug mt-0.5">{fate.sub}</p>
-        </div>
-      </motion.div>
+        {/* FRONT — fate */}
+        <CardFace
+          hidden={reduceMotion && flipped}
+          className={cn(reduceMotion && flipped && "hidden")}
+        >
+          <CardChrome number={number} variant="fate" />
+          <div className="relative z-10 flex flex-col h-full p-6 md:p-8">
+            <FateIcon
+              className="w-12 h-12 md:w-16 md:h-16 text-mint mb-auto shrink-0"
+              strokeWidth={1.5}
+            />
+            <div className="mt-6">
+              <p className="text-3xl md:text-4xl font-bold text-white leading-[1.05] tracking-tight">
+                {fate.strong}
+              </p>
+              <p className="text-base md:text-lg text-white/55 mt-3 leading-snug">
+                {fate.sub}
+              </p>
+            </div>
+            <div className="mt-6 flex items-center gap-2 self-start px-3 py-1.5 border border-mint/40 text-mint text-[10px] md:text-xs font-bold uppercase tracking-[0.18em]">
+              <RotateCw className="w-3 h-3 md:w-3.5 md:h-3.5" strokeWidth={2.5} />
+              Tap to flip
+            </div>
+          </div>
+        </CardFace>
 
-      {/* Value face: wiped in during Act 3 */}
-      <motion.div
-        style={{ clipPath: valueClip, WebkitClipPath: valueClip as unknown as string }}
-        className="absolute inset-0 flex flex-row md:flex-col items-center md:items-start gap-4 md:gap-0 p-4 md:p-6"
-      >
-        <ValueIcon className="w-6 h-6 md:w-7 md:h-7 md:mb-3 text-mint shrink-0" />
-        <div className="min-w-0">
-          <p className="text-base md:text-xl font-bold text-white leading-tight">{value.strong}</p>
-          <p className="text-xs md:text-sm text-white/70 leading-snug mt-0.5">{value.sub}</p>
-        </div>
-      </motion.div>
+        {/* BACK — value */}
+        <CardFace
+          back
+          hidden={reduceMotion && !flipped}
+          className={cn(reduceMotion && !flipped && "hidden")}
+        >
+          <CardChrome number={number} variant="value" />
+          <div className="relative z-10 flex flex-col h-full p-6 md:p-8">
+            <ValueIcon
+              className="w-12 h-12 md:w-16 md:h-16 text-mint mb-auto shrink-0"
+              strokeWidth={1.5}
+            />
+            <div className="mt-6">
+              <p className="text-3xl md:text-4xl font-bold text-white leading-[1.05] tracking-tight">
+                {value.strong}
+              </p>
+              <p className="text-sm md:text-base text-white/70 mt-3 leading-relaxed">
+                {value.sub}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                openConsultModal(`big-problem-card-${index + 1}`);
+              }}
+              className="mt-6 group/cta inline-flex items-center gap-2 self-start px-4 py-2.5 bg-mint text-ink text-xs md:text-sm font-bold uppercase tracking-[0.14em] hover:bg-white transition-colors"
+            >
+              Build this with me
+              <ArrowRight
+                className="w-4 h-4 group-hover/cta:translate-x-0.5 transition-transform"
+                strokeWidth={2.5}
+              />
+            </button>
+          </div>
+        </CardFace>
+      </div>
     </div>
   );
 };
 
-/* ─── Reduced-motion fallback: stacked, static, accessible ───────────────── */
+type CardFaceProps = {
+  children: React.ReactNode;
+  back?: boolean;
+  hidden?: boolean;
+  className?: string;
+};
 
-const StaticFallback = ({ onCTA }: { onCTA: () => void }) => (
-  <section id="big-problem" className="bg-ink py-20 md:py-28">
-    <div className="container-width max-w-5xl">
-      <div className="text-xs font-bold uppercase tracking-[0.22em] text-mint mb-6">
-        Ten years from now
-      </div>
-
-      <h2 className="text-3xl md:text-5xl font-bold leading-[1.05] text-white mb-12 tracking-tight">
-        Every leader will fall into one of <span className="text-mint">two categories.</span>
-      </h2>
-
-      <div className="grid md:grid-cols-3 gap-3 md:gap-4 mb-14">
-        {cards.map(({ fate }, i) => {
-          const Icon = fate.icon;
-          return (
-            <div
-              key={i}
-              className="rounded-xl border border-white/10 bg-white/[0.03] p-5 md:p-6 flex flex-row md:flex-col items-center md:items-start gap-4 md:gap-0"
-            >
-              <Icon className="w-7 h-7 md:mb-3 text-white/60 shrink-0" />
-              <div>
-                <p className="text-lg md:text-xl font-bold text-white">{fate.strong}</p>
-                <p className="text-sm text-white/60 mt-0.5">{fate.sub}</p>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      <p className="text-xl md:text-3xl font-bold text-white leading-snug tracking-tight mb-14 max-w-4xl">
-        This isn&rsquo;t a technology decision. <span className="text-mint">It&rsquo;s a leadership one.</span>{" "}
-        <span className="font-medium text-white/75">
-          The question isn&rsquo;t whether AI will reshape your business. It&rsquo;s whether you&rsquo;ll be the one
-          holding the pen.
-        </span>
-      </p>
-
-      <h3 className="text-3xl md:text-5xl font-bold text-white mb-10 tracking-tight">
-        Here&rsquo;s how you <span className="text-mint">pick up the pen.</span>
-      </h3>
-
-      <div className="grid md:grid-cols-3 gap-3 md:gap-4 mb-14">
-        {cards.map(({ value }, i) => {
-          const Icon = value.icon;
-          return (
-            <div
-              key={i}
-              className="rounded-xl border border-mint/30 bg-mint/[0.03] p-5 md:p-6 flex flex-row md:flex-col items-center md:items-start gap-4 md:gap-0"
-            >
-              <Icon className="w-7 h-7 md:mb-3 text-mint shrink-0" />
-              <div>
-                <p className="text-lg md:text-xl font-bold text-white">{value.strong}</p>
-                <p className="text-sm text-white/70 mt-0.5 leading-relaxed">{value.sub}</p>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      <button
-        onClick={onCTA}
-        className="group inline-flex items-center gap-3 px-7 py-3.5 rounded-full border border-mint/40 hover:border-mint text-white font-semibold transition-colors"
-      >
-        See how I work
-        <ArrowDown className="w-4 h-4 text-mint group-hover:translate-y-0.5 transition-transform" />
-      </button>
-    </div>
-
-    <div className="mt-20 flex items-center justify-center gap-4 px-8">
-      <div className="flex-1 h-px bg-gradient-to-r from-transparent via-mint/30 to-transparent" />
-      <div className="w-1.5 h-1.5 rounded-full bg-mint/40" />
-      <div className="flex-1 h-px bg-gradient-to-r from-transparent via-mint/30 to-transparent" />
-    </div>
-  </section>
+const CardFace = ({ children, back, hidden, className }: CardFaceProps) => (
+  <div
+    aria-hidden={hidden}
+    className={cn(
+      "absolute inset-0 [backface-visibility:hidden] [-webkit-backface-visibility:hidden]",
+      "bg-ink border-2 border-mint",
+      "shadow-[0_0_0_1px_rgba(126,244,194,0.35),0_0_40px_rgba(126,244,194,0.18),inset_0_0_60px_rgba(126,244,194,0.04)]",
+      "hover:shadow-[0_0_0_1px_rgba(126,244,194,0.7),0_0_60px_rgba(126,244,194,0.4),inset_0_0_60px_rgba(126,244,194,0.06)]",
+      "transition-shadow duration-300",
+      back && "[transform:rotateY(180deg)]",
+      className,
+    )}
+  >
+    {children}
+  </div>
 );
 
-/* ─── Main: pinned, scroll-driven three-act narrative ────────────────────── */
+const CardChrome = ({ number, variant }: { number: string; variant: "fate" | "value" }) => (
+  <>
+    <div className="absolute top-4 right-5 md:top-5 md:right-6 z-10 text-[10px] md:text-xs font-mono font-bold tracking-[0.18em] text-mint/80">
+      {number}
+    </div>
+    {/* corner ticks for trading-card chrome */}
+    <span className="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-mint pointer-events-none" />
+    <span className="absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2 border-mint pointer-events-none" />
+    <span className="absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2 border-mint pointer-events-none" />
+    <span className="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-mint pointer-events-none" />
+    {variant === "value" && (
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_left,rgba(126,244,194,0.10),transparent_55%)]" />
+    )}
+  </>
+);
 
 const BigProblem = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const prefersReducedMotion = useReducedMotion();
+  const reduceMotion = useReducedMotion() ?? false;
+  const [flipped, setFlipped] = useState<boolean[]>([false, false, false]);
+  const [api, setApi] = useState<CarouselApi | null>(null);
+  const [activeSlide, setActiveSlide] = useState(0);
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"],
-  });
+  useEffect(() => {
+    if (!api) return;
+    const onSelect = () => setActiveSlide(api.selectedScrollSnap());
+    onSelect();
+    api.on("select", onSelect);
+    return () => {
+      api.off("select", onSelect);
+    };
+  }, [api]);
 
-  /* Eyebrow: persists across the section */
-  const eyebrowOpacity = useTransform(scrollYProgress, [0, 0.04, 0.92, 1], [0, 1, 1, 0.55]);
-
-  /* Headlines: three states crossfade in the same vertical slot */
-  // Act 1
-  const h1Opacity = useTransform(scrollYProgress, [0, 0.04, 0.28, 0.36], [0, 1, 1, 0]);
-  const h1Y = useTransform(scrollYProgress, [0, 0.04, 0.36], [40, 0, -28]);
-
-  // Act 2: the pivot
-  const h2Opacity = useTransform(scrollYProgress, [0.30, 0.40, 0.56, 0.64], [0, 1, 1, 0]);
-  const h2Y = useTransform(scrollYProgress, [0.30, 0.40, 0.64], [40, 0, -28]);
-  // Marker-stroke highlight that draws left to right behind "leadership one"
-  const leadHighlight = useTransform(scrollYProgress, [0.43, 0.55], ["0%", "100%"]);
-
-  // Act 3: the answer
-  const h3Opacity = useTransform(scrollYProgress, [0.58, 0.66, 1], [0, 1, 1]);
-  const h3Y = useTransform(scrollYProgress, [0.58, 0.66], [40, 0]);
-
-  /* Card grid: present from Act 1, recedes during the typography pivot, returns for Act 3 */
-  const cardsOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.10, 0.30, 0.42, 0.58, 0.66, 1],
-    [0, 1, 1, 0.22, 0.22, 1, 1],
-  );
-  const cardsY = useTransform(
-    scrollYProgress,
-    [0, 0.10, 0.30, 0.42, 0.58, 0.66],
-    [40, 0, 0, 14, 14, 0],
-  );
-  const cardsScale = useTransform(
-    scrollYProgress,
-    [0.30, 0.42, 0.58, 0.66],
-    [1, 0.95, 0.95, 1],
-  );
-
-  /* Mint hairline beam at the wipe edge, visible only during the morph */
-  const beamX = useTransform(scrollYProgress, [0.66, 0.84], ["-2%", "102%"]);
-  const beamOpacity = useTransform(scrollYProgress, [0.64, 0.68, 0.82, 0.86], [0, 1, 1, 0]);
-
-  /* CTA fades in once the wipe completes */
-  const ctaOpacity = useTransform(scrollYProgress, [0.86, 0.95], [0, 1]);
-  const ctaY = useTransform(scrollYProgress, [0.86, 0.95], [16, 0]);
-
-  /* Ambient mint glow breathes with scroll */
-  const glowOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.18, 0.38, 0.22]);
-  const glowScale = useTransform(scrollYProgress, [0, 1], [1, 1.25]);
-
-  /* Progress bar: fine left rail signalling how far through the narrative the reader is */
-  const progressScaleY = scrollYProgress;
-
-  const scrollToFramework = useCallback(() => {
-    document.getElementById("framework-journey")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const toggle = useCallback((index: number) => {
+    setFlipped((prev) => prev.map((v, i) => (i === index ? !v : v)));
   }, []);
 
-  if (prefersReducedMotion) {
-    return <StaticFallback onCTA={scrollToFramework} />;
-  }
-
   return (
-    <section
-      ref={sectionRef}
-      id="big-problem"
-      className="relative bg-ink h-[220vh] sm:h-[240vh] md:h-[280vh]"
-    >
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center">
-        {/* Ambient mint glow */}
-        <motion.div
-          style={{ opacity: glowOpacity, scale: glowScale }}
-          className="absolute inset-0 pointer-events-none"
-          aria-hidden
-        >
-          <div
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] h-[120vw] max-w-[1200px] max-h-[1200px] rounded-full"
-            style={{
-              background:
-                "radial-gradient(circle, hsl(158 82% 73% / 0.22) 0%, hsl(158 82% 73% / 0.05) 35%, transparent 65%)",
-            }}
-          />
-        </motion.div>
-
-        {/* Vertical progress rail, left side, desktop only */}
-        <div className="absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 hidden md:flex flex-col items-center gap-3 z-20">
-          <div className="text-[10px] font-bold uppercase tracking-[0.22em] text-mint/60 [writing-mode:vertical-rl] rotate-180">
-            01 / 03
-          </div>
-          <div className="relative h-32 w-px bg-white/10 overflow-hidden">
-            <motion.div
-              style={{ scaleY: progressScaleY, transformOrigin: "top" }}
-              className="absolute inset-0 bg-mint"
-            />
-          </div>
+    <section id="big-problem" className="relative bg-ink py-20 md:py-32 overflow-hidden">
+      <div className="container-width max-w-6xl">
+        <div className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.22em] text-mint mb-5 sm:mb-7">
+          Ten years from now
         </div>
 
-        <div className="container-width max-w-5xl relative z-10 w-full">
-          {/* Eyebrow */}
-          <motion.div
-            style={{ opacity: eyebrowOpacity }}
-            className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.22em] text-mint mb-5 sm:mb-7"
-          >
-            Ten years from now
-          </motion.div>
+        <h2 className="text-[clamp(1.875rem,5.5vw,4.5rem)] font-bold leading-[1.02] tracking-tight text-white max-w-5xl">
+          Every leader will fall into one of{" "}
+          <span className="text-mint">two categories.</span>
+        </h2>
 
-          {/* Headline slot: three acts crossfade in the same space */}
-          <div className="relative min-h-[28vh] sm:min-h-[26vh] md:min-h-[24vh] lg:min-h-[22vh]">
-            {/* Act 1 */}
-            <motion.h2
-              style={{ opacity: h1Opacity, y: h1Y }}
-              className="absolute inset-0 text-[clamp(1.875rem,5.5vw,4.5rem)] font-bold leading-[1.02] tracking-tight text-white"
-            >
-              Every leader will fall into one of{" "}
-              <span className="text-mint">two categories.</span>
-            </motion.h2>
-
-            {/* Act 2: pivot with marker-stroke highlight */}
-            <motion.h2
-              style={{ opacity: h2Opacity, y: h2Y }}
-              className="absolute inset-0 text-[clamp(1.375rem,3.8vw,3rem)] font-bold leading-[1.18] tracking-tight text-white"
-            >
-              This isn&rsquo;t a technology decision.{" "}
-              <span className="relative inline-block">
-                <motion.span
-                  aria-hidden
-                  style={{ width: leadHighlight }}
-                  className="absolute inset-y-[0.1em] left-0 bg-mint/20 rounded-sm pointer-events-none"
-                />
-                <span className="relative text-mint">It&rsquo;s a leadership one.</span>
-              </span>{" "}
-              <span className="font-medium text-white/65">
-                The question isn&rsquo;t whether AI will reshape your business. It&rsquo;s whether
-                you&rsquo;ll be the one holding the pen.
-              </span>
-            </motion.h2>
-
-            {/* Act 3 */}
-            <motion.h2
-              style={{ opacity: h3Opacity, y: h3Y }}
-              className="absolute inset-0 text-[clamp(1.875rem,5.5vw,4.5rem)] font-bold leading-[1.02] tracking-tight text-white"
-            >
-              Here&rsquo;s how you{" "}
-              <span className="text-mint">pick up the pen.</span>
-            </motion.h2>
-          </div>
-
-          {/* Card grid */}
-          <motion.div
-            style={{ opacity: cardsOpacity, y: cardsY, scale: cardsScale }}
-            className="relative grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mt-8 md:mt-12"
-          >
-            {/* Mint hairline beam: sweeps across the row during the Act 3 wipe */}
-            <motion.div
-              aria-hidden
-              style={{
-                left: beamX,
-                opacity: beamOpacity,
-                background:
-                  "linear-gradient(to bottom, transparent 0%, hsl(158 82% 73%) 50%, transparent 100%)",
-                boxShadow: "0 0 14px hsl(158 82% 73% / 0.7), 0 0 4px hsl(158 82% 73% / 0.9)",
-              }}
-              className="absolute -top-3 -bottom-3 w-px z-30 pointer-events-none hidden md:block"
+        {/* Desktop grid */}
+        <div className="hidden md:grid md:grid-cols-3 gap-6 mt-14">
+          {cards.map((card, i) => (
+            <FlipCard
+              key={i}
+              index={i}
+              fate={card.fate}
+              value={card.value}
+              flipped={flipped[i]}
+              onFlip={() => toggle(i)}
+              reduceMotion={reduceMotion}
             />
+          ))}
+        </div>
 
-            {cards.map((card, i) => (
-              <MorphCard
+        {/* Mobile carousel */}
+        <div className="md:hidden mt-10 -mx-4">
+          <Carousel
+            opts={{ align: "center", containScroll: "trimSnaps", loop: false }}
+            setApi={setApi}
+            className="w-full"
+          >
+            <CarouselContent className="-ml-3">
+              {cards.map((card, i) => (
+                <CarouselItem key={i} className="pl-3 basis-[85%]">
+                  <FlipCard
+                    index={i}
+                    fate={card.fate}
+                    value={card.value}
+                    flipped={flipped[i]}
+                    onFlip={() => toggle(i)}
+                    reduceMotion={reduceMotion}
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+
+          <div className="flex items-center justify-center gap-2 mt-6">
+            {cards.map((_, i) => (
+              <button
                 key={i}
-                index={i}
-                fate={card.fate}
-                value={card.value}
-                scrollYProgress={scrollYProgress}
+                type="button"
+                onClick={() => api?.scrollTo(i)}
+                aria-label={`Go to card ${i + 1}`}
+                className={cn(
+                  "h-1.5 transition-all duration-300",
+                  activeSlide === i ? "w-8 bg-mint" : "w-1.5 bg-white/20",
+                )}
               />
             ))}
-          </motion.div>
-
-          {/* CTA */}
-          <motion.div
-            style={{ opacity: ctaOpacity, y: ctaY }}
-            className="flex justify-center mt-8 md:mt-12"
-          >
-            <button
-              onClick={scrollToFramework}
-              className="group inline-flex items-center gap-3 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full border border-mint/40 hover:border-mint bg-ink/40 backdrop-blur-sm text-white font-semibold text-sm sm:text-base transition-colors"
-            >
-              See how I work
-              <ArrowDown className="w-4 h-4 text-mint group-hover:translate-y-0.5 transition-transform" />
-            </button>
-          </motion.div>
+          </div>
         </div>
-      </div>
 
-      {/* Section break: sits at the bottom of the tall section, visible as it releases */}
-      <div className="absolute bottom-8 left-0 right-0 flex items-center justify-center gap-4 px-8">
-        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-mint/30 to-transparent" />
-        <div className="w-1.5 h-1.5 rounded-full bg-mint/40" />
-        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-mint/30 to-transparent" />
+        {/* CTA */}
+        <div className="flex justify-center mt-14 md:mt-20">
+          <button
+            type="button"
+            onClick={() => openConsultModal("big-problem")}
+            className="group inline-flex items-center gap-3 px-7 py-3.5 border-2 border-mint text-white font-bold text-sm md:text-base uppercase tracking-[0.14em] hover:bg-mint hover:text-ink transition-colors shadow-[0_0_30px_rgba(126,244,194,0.25)] hover:shadow-[0_0_50px_rgba(126,244,194,0.5)]"
+          >
+            Pick up the pen
+            <ArrowRight
+              className="w-4 h-4 group-hover:translate-x-0.5 transition-transform"
+              strokeWidth={2.5}
+            />
+          </button>
+        </div>
       </div>
     </section>
   );

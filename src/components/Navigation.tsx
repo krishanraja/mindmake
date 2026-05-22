@@ -61,6 +61,7 @@ const Navigation = () => {
       label: "Resources",
       dropdown: [
         { label: "How I operate", href: "/operator" },
+        { label: "New Age Leadership", href: "/new-age-leadership" },
         { label: "Library", href: "/library" },
         { label: "The Builder Economy (Podcast)", href: "https://www.thebuildereconomy.com", external: true },
         { label: "Lightning Lessons", type: "lessons" },

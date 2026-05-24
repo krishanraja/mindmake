@@ -1,23 +1,26 @@
 # Mindmaker Project Documentation
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-24
 
 ---
 
 ## What Mindmaker Is
 
-**The anti-consultancy for leaders done being sold AI.** A barbell business with two primary audiences and one inquiry-only executive offer. No middle tier. No retainers. No fractional roles.
+**The anti-consultancy for leaders done being sold AI.** A ladder from free to enterprise, with a finish line at every rung. No retainers. No fractional roles.
 
-| Audience | Offer | Price | Duration | Route |
-|---|---|---|---|---|
-| Senior leader with a nervous AI decision | The AI-Fluent Executive (Cohort) | $2,500 / seat | 4 weeks (mostly async) + 4 live 90-min sessions | `/cohort` |
-| Company commercializing an AI product | The Signal Session | $15,000 | 1 day intensive + 48h written delivery | `/enterprise#signal-session` |
-| Same, flagship engagement | The Revenue Architecture | $60,000–$100,000 | 30 days (4–5 calendar weeks) | `/enterprise#revenue-architecture` |
-| Executive team needing fast alignment | The AI Immersion (inquiry) | $12,000 | 4-hour facilitated session + 5-day summary | `/immersion` |
+| Rung | Audience | Offer | Price | Duration | Route |
+|---|---|---|---|---|---|
+| Entry free | Leader exploring AI | Lightning Lessons (×5) | Free | Per lesson | Maven instructor page |
+| Entry paid | Leader ready to build this quarter | Mindmaker Workshops (×5) | $599 / workshop | 1 day each | `/workshops` (Maven enrolment) |
+| Qualifying | Senior leader with a nervous AI decision | The AI-Fluent Executive (Cohort) | $2,500 / seat | 4 weeks + 4 live 90-min sessions | `/cohort` (Maven enrolment) |
+| Margin entry | Company commercializing an AI product | The Signal Session | $15,000 | 1 day intensive + 48h written delivery | `/enterprise#signal-session` |
+| Margin flagship | Same, full rebuild | The Revenue Architecture | $60,000–$100,000 | 30 days (4–5 calendar weeks) | `/enterprise#revenue-architecture` |
+| Inquiry-only | Executive team needing fast alignment | The AI Immersion | $12,000 | 4-hour facilitated session + 5-day summary | `/immersion` |
+| Continuity | Any Mindmaker alumnus | The Alumni Pass | $1,500 / year | Annual | `/alumni` (invitation-only) |
 
 Every offer has a fixed scope, a fixed outcome, and a finish line.
 
-For the strategic intent behind the current shape of the business, read `mindmaker_rebuild_brief_v4.md` (v4 barbell pivot + v5 Operator's Edge).
+For the strategic intent behind the current shape of the business, read `mindmaker_rebuild_brief_v4.md` (v4 barbell pivot + v5 Operator's Edge). The v6 ladder restructure (May 2026) added Workshops and the Alumni Pass; see `HISTORY.md` and `DECISIONS_LOG.md`.
 
 ---
 
@@ -109,10 +112,12 @@ For the strategic intent behind the current shape of the business, read `mindmak
 
 | Offer | Price | Duration | Hosting / payment |
 |---|---|---|---|
+| Mindmaker Workshops (×5) | $599 / workshop | 1 day each | Hosted on **Maven**; Maven Guarantee (14-day refund) |
 | The AI-Fluent Executive (Cohort) | $2,500 / seat (or 2× $1,250) | 4 weeks (mostly async) + 4 × 90-min live sessions | Hosted on **Maven** at `maven.com/mindmaker/the-ai-fluent-executive` |
 | The Signal Session | $15,000 | 1 day intensive + 48-hour Commercial Narrative delivery (15–20 pages) | Direct invoice; payment on kickoff |
 | The Revenue Architecture | $60,000–$100,000 | 30 days (4–5 calendar weeks), multi-session | Direct invoice; 50/50 at kickoff and delivery |
 | The AI Immersion | $12,000 (flat) | 4-hour facilitated session + 2-page summary within 5 business days | Inquiry-only; full at booking or 50/50 |
+| The Alumni Pass | $1,500 / year | Annual | Invitation-only; Stripe-billed, cancel anytime |
 
 ### ICPs
 

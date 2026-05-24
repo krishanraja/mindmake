@@ -1,6 +1,6 @@
 # Architecture
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-24
 
 ---
 
@@ -63,7 +63,8 @@ mindmaker/
 │   │   ├── OperatorsEdge.tsx         # v5 credential section
 │   │   ├── OperatorsBrief.tsx        # homepage Live Intel teaser
 │   │   ├── PriceTicker.tsx           # CSS-marquee model price ticker
-│   │   ├── LightningLessons.tsx      # 4 Maven Lightning Lesson links
+│   │   ├── LightningLessons.tsx      # 5 Maven Lightning Lesson links
+│   │   ├── MindMakerLiveSection.tsx  # Substack newsletter subscribe surface
 │   │   ├── SimpleCTA.tsx
 │   │   ├── Navigation.tsx
 │   │   ├── Footer.tsx
@@ -83,7 +84,6 @@ mindmaker/
 │   │   ├── LeadershipInsights.tsx    # Decision Readiness Diagnostic, /leaders
 │   │   ├── Blog.tsx
 │   │   ├── BlogPost.tsx
-│   │   ├── FAQ.tsx
 │   │   ├── Contact.tsx
 │   │   ├── Privacy.tsx
 │   │   ├── Terms.tsx
@@ -193,18 +193,19 @@ No `/pricing` page, pricing lives in context on `/cohort`, `/enterprise`, and `/
 
 ## Homepage Scroll Order
 
-Authoritative source: `src/pages/Index.tsx`. Verified 2026-04-26.
+Authoritative source: `src/pages/Index.tsx`. Verified 2026-05-24.
 
 1. `Navigation`. fixed top, hides on scroll-down via `useScrollDirection`
 2. `NewHero`. rotating headlines, eyebrow "Decision blockers I hear every week", "Book a call" primary CTA + "See how I work" secondary
-3. `YFork`. "Two ways I work." → `/cohort` ($2,500) vs `/enterprise` (from $15,000)
-4. `BigProblem`. existential urgency frame
+3. `YFork`. "Three doors. Pick yours." Three glass-cards: Workshops (from $599, `/workshops`), The AI-Fluent Executive Cohort ($2,500, `/cohort`), Enterprise (from $15,000, `/enterprise`)
+4. `BigProblem`. existential urgency frame. Three tap-to-flip interactive cards on desktop, Embla swipe carousel on mobile
 5. `TrustSection`. Krish bio, headshot, testimonials carousel (COHORT-STYLE / ENTERPRISE tagged)
 6. `FrameworkJourney`. three-panel animated MindSet → MindMap → MindMake
 7. `OperatorsEdge`. v5 typography-only credential section ("Beyond pattern recognition")
 8. `OperatorsBrief`. Live Intel homepage teaser (PriceTicker + rotating interpretation + compact Nervous Decision input + muted link to `/signal`)
-9. `SimpleCTA`. final CTA
-10. `Footer`
+9. `MindMakerLiveSection`. dark-ink Substack newsletter subscribe surface (three content pillars + `SubstackSubscribeForm`)
+10. `SimpleCTA`. final CTA
+11. `Footer`
 
 ### Global overlays (mounted in `src/App.tsx`)
 
@@ -221,14 +222,15 @@ Authoritative source: `src/components/Navigation.tsx`. Primary CTA: **"Book a ca
 
 | Slot | Label | Type | Destination |
 |---|---|---|---|
-| 1 | Cohort | Direct link | `/cohort` |
-| 2 | Enterprise | Dropdown | The Signal Session → `/enterprise#signal-session`, The Revenue Architecture → `/enterprise#revenue-architecture` |
-| 3 | **Live Intel** | Direct link | `/signal` |
-| 4 | Resources | Dropdown | New Age Leadership → `/new-age-leadership`, How I operate → `/operator`, Blog → `/blog`, The Builder Economy (Podcast) → external `thebuildereconomy.com`, Lightning Lessons (4 external Maven URLs via the `LightningLessons` component) |
-| 5 | About | Dropdown | FAQ → `/faq`, Contact → `/contact`, Privacy → `/privacy` |
+| 1 | Workshops | Direct link | `/workshops` |
+| 2 | Cohort | Direct link | `/cohort` |
+| 3 | Enterprise | Dropdown | The Signal Session → `/enterprise#signal-session`, The Revenue Architecture → `/enterprise#revenue-architecture`, The AI Immersion → `/enterprise#immersion`, "For funds & operating partners" section divider, Capital → `/capital` |
+| 4 | **Mindmaker LIVE** | Direct link (rendered as `MindMakerWordmark` component) | `/signal` |
+| 5 | Resources | Dropdown | How I operate → `/operator`, New Age Leadership → `/new-age-leadership`, Library → `/library`, The Builder Economy (Podcast) → external `thebuildereconomy.com`, Lightning Lessons (5 external Maven URLs via the `LightningLessons` component) |
+| 6 | About | Dropdown | Contact → `/contact`, Privacy → `/privacy`, Terms → `/terms` |
 | CTA | Book a call | Button | Dispatches `openConsultModal` |
 
-Decision Readiness Diagnostic (`/leaders`) is deliberately **not** in nav or footer. The Immersion (`/immersion`) is reachable via the consult modal preselect or direct URL. The four Lightning Lessons are external Maven course links: Vibe Coding for Leaders, Make AI Your Co-Founder, Build an Autonomous Business with AI, Give Your AI Memory.
+Decision Readiness Diagnostic (`/leaders`) is deliberately **not** in nav or footer. The Immersion (`/immersion`) is reachable via the consult modal preselect, the Enterprise dropdown, or direct URL. The five Lightning Lessons are external Maven course links (authoritative list in `src/components/LightningLessons.tsx`): Build Your AI's Permanent Identity, Build an Autonomous Business with AI, Vibe Coding for Leaders, Build Your Agentic Org Chart, Build Your AI Chief of Staff.
 
 ---
 

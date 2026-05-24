@@ -1,6 +1,6 @@
 # Deployment Checklist
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-24
 
 Pre-deploy and post-deploy verification for the Mindmaker project.
 
@@ -113,7 +113,7 @@ All routes in `src/App.tsx` accessible:
 
 ### 1. Health check
 - [ ] Homepage loads without errors
-- [ ] Navigation works (Cohort / Enterprise / **Live Intel** / Resources / About)
+- [ ] Navigation works (Workshops / Cohort / Enterprise / **Mindmaker LIVE** / Resources / About)
 - [ ] `PriceTicker` renders and scrolls on both `/` and `/signal`
 - [ ] Nervous Decision Machine returns a response on both homepage and `/signal`
 - [ ] `/immersion` and `/new-age-leadership` lazy-load and render correctly

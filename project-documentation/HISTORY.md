@@ -1,6 +1,22 @@
 # History
 
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-24
+
+---
+
+## 2026-05-18 to 2026-05-24: Post-v6 UI and nav updates
+
+**What Changed:**
+- **BigProblem section redesigned** (commit f95387d). Replaced the 220-280vh scroll-pinned three-act narrative (sticky useScroll orchestration, clip-path morph, animated rails) with three tap-to-flip interactive square cards. Desktop shows a 3-up grid; mobile uses an Embla swipe carousel (85vw cards, scroll-snap, dot pagination). Reduced-motion swaps faces without the rotateY animation. Cards front: fate statement; back: value + CTA dispatching `openConsultModal`. Section CTA "Pick up the pen" opens the consult modal.
+- **New Age Leadership promoted to Resources nav** (commit d19b80b). `/new-age-leadership` added to the Resources dropdown between "How I operate" and "Library". Docs previously described the nav item order incorrectly as "New Age Leadership → How I operate → Blog"; correct order is How I operate → New Age Leadership → Library.
+- **MindMakerLiveSection documented**. The `MindMakerLiveSection` component (dark-ink Substack newsletter subscribe surface) has been present on the homepage between `OperatorsBrief` and `SimpleCTA` since commit 3bda6ba; previous doc refresh omitted it from the homepage scroll order.
+
+**Why:**
+- BigProblem flip-card format is more likely to be seen by readers who don't scroll far enough to see the previous pinned narrative resolve.
+- New Age Leadership is long-form thought leadership on agent-native orgs; surfacing it in the nav gives curious senior leaders a direct path without the homepage having to advertise it.
+
+**Files Updated in docs:**
+- `FEATURES.md`, `ARCHITECTURE.md` (homepage scroll order, nav structure, BigProblem description)
 
 ---
 

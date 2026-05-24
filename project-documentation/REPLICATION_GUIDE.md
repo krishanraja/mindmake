@@ -1,6 +1,6 @@
 # Replication Guide
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-24
 
 ---
 
@@ -70,7 +70,7 @@ Copy files from `src/components/ui/`.
 
 ### Step 8: Layout components
 ```
-src/components/Navigation.tsx          # Cohort / Enterprise / The Brief / Resources / About
+src/components/Navigation.tsx          # Workshops / Cohort / Enterprise / Mindmaker LIVE / Resources / About
 src/components/Footer.tsx
 src/components/InitialConsultModal.tsx # single conversion surface (openConsultModal event listener)
 src/components/PreCallQualifier.tsx    # floating pill, 3-step intake

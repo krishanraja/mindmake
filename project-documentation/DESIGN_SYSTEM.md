@@ -1,6 +1,6 @@
 # Design System
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-24
 
 ---
 
@@ -463,11 +463,16 @@ On white/light backgrounds, always use `text-foreground`, `text-ink`, or `text-m
 
 Primary CTA copy is always **"Book a call"**, no conditional labels. The previous `"What's your nervous decision?"` button copy has been retired. All CTAs open the global `InitialConsultModal` via the `openConsultModal` custom event.
 
-### Y-Fork Cards (homepage 2-card layout)
-Replaces the old `ProductLadder` 4-Week / 90-Day sprint chooser.
+### Y-Fork Cards (homepage 3-card layout)
+Replaces the old `ProductLadder` 4-Week / 90-Day sprint chooser. The v6 ladder restructure updated this from 2 cards to 3 cards (Workshops | Cohort | Enterprise). Section headline: "Three doors. Pick yours."
 
 ```tsx
-<div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+<div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+  <div className="glass-card p-8 hover:border-mint/40 transition-all">
+    <p className="text-xs tracking-widest text-muted-foreground">WORKSHOPS</p>
+    <h3 className="text-3xl font-bold mb-2">Build alongside me in one day.</h3>
+    <p className="text-xl text-mint">From $599</p>
+  </div>
   <div className="glass-card p-8 hover:border-mint/40 transition-all">
     <p className="text-xs tracking-widest text-muted-foreground">THE COHORT</p>
     <h3 className="text-3xl font-bold mb-2">Make your AI decisions with 15 other senior leaders.</h3>

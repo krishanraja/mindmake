@@ -1,6 +1,6 @@
 # Decisions Log
 
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-24
 
 ---
 
@@ -115,7 +115,7 @@
 - Article-style content lifts SEO and gives outbound a credible "here's what I think about agent-native orgs" payload
 
 **Impact:**
-- `Navigation.tsx` Resources dropdown reorders: New Age Leadership → How I operate → Blog → Builder Economy (external) → Lightning Lessons
+- `Navigation.tsx` Resources dropdown order (authoritative): How I operate → New Age Leadership → Library → Builder Economy (external) → Lightning Lessons
 - Schema.org `Article` JSON-LD on the page; lazy-loaded `OrgChart` component to keep hero LCP fast
 
 ---

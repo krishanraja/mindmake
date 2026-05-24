@@ -1,6 +1,6 @@
 # Visual Guidelines
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-24
 
 ---
 
@@ -417,7 +417,7 @@ Gaps:            gap-4 -> gap-6
 
 ---
 
-## Homepage Visual Patterns (v4/v5 barbell)
+## Homepage Visual Patterns (v6 ladder)
 
 ### Homepage scroll
 
@@ -427,14 +427,15 @@ The homepage is a curated vertical scroll. Authoritative source: `src/pages/Inde
 |-------|-----------|------------------|
 | 1. Navigation | `Navigation.tsx` | Fixed top, mint "Book a call" CTA, hides on scroll-down |
 | 2. Hero | `NewHero.tsx` | Full-viewport dark ink, looping `/rising-cities.mp4` background, particle animation, rotating headlines, eyebrow "Decision blockers I hear every week", mint CTA "Book a call", secondary "See how I work" |
-| 3. Y-Fork | `YFork.tsx` | Two-card glass layout. The Cohort ($2,500) vs Enterprise (from $15k) |
-| 4. Big Problem | `BigProblem.tsx` | Existential urgency frame |
+| 3. Y-Fork | `YFork.tsx` | Three-card glass layout. "Three doors. Pick yours." Workshops (from $599) | Cohort ($2,500) | Enterprise (from $15k) |
+| 4. Big Problem | `BigProblem.tsx` | Three tap-to-flip neon-bordered square cards (desktop 3-up grid; mobile Embla swipe carousel). Front: fate statement. Back: value + "Build this with me" CTA dispatching `openConsultModal`. |
 | 5. Trust Anchor | `TrustSection.tsx` | Krish headshot (circular, mint border), bio, testimonials carousel (COHORT-STYLE / ENTERPRISE tagged) |
 | 6. Framework Journey | `FrameworkJourney.tsx` | Three glass-card panels (Mind Set → Mind Map → Mind Make) with scroll-triggered animations |
 | 7. Operator's Edge | `OperatorsEdge.tsx` | Dark-bg typography-only credential section, "Beyond pattern recognition", three proof tiles, Revenue Architecture CTA |
 | 8. Live Intel teaser | `OperatorsBrief.tsx` | CSS-marquee `PriceTicker` + rotating plain-English interpretation line + compact Nervous Decision input + muted link to `/signal` (Live Intel dashboard) |
-| 9. Final CTA | `SimpleCTA.tsx` | Dark CTA card, mint "Book a call" button |
-| 10. Footer | `Footer.tsx` | |
+| 9. Mindmaker Live | `MindMakerLiveSection.tsx` | Dark-ink Substack newsletter subscribe. Mindmaker Live logo + three content pillars (Headlines / Resources / Perspectives) + `SubstackSubscribeForm`. |
+| 10. Final CTA | `SimpleCTA.tsx` | Dark CTA card, mint "Book a call" button |
+| 11. Footer | `Footer.tsx` | |
 
 ### Global overlays (above-scroll)
 
@@ -460,7 +461,7 @@ Guardrails: no scrolling logs, no terminal aesthetics, no ASCII art, no interact
 
 ### Live Intel: visual spec
 
-**Nav label:** **"Live Intel"** (NOT "The Brief", NOT "Signal Desk"). The body-copy term "The Operator's Brief" remains acceptable in editorial copy on `/signal`, but the nav label is "Live Intel".
+**Nav label:** **"Mindmaker LIVE"** (rendered as the `MindMakerWordmark` component at `size="nav"`). NOT "The Brief", NOT "Signal Desk", NOT "Live Intel". The body-copy terms "Live Intel" and "The Operator's Brief" remain acceptable in editorial copy on `/signal`, but the nav label is "Mindmaker LIVE".
 
 **Homepage teaser (`OperatorsBrief.tsx`)**, minimal:
 - Continuous CSS-marquee `PriceTicker` with the canonical 7 models

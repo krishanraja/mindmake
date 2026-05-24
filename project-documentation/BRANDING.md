@@ -1,6 +1,6 @@
 # Branding
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-24
 
 ---
 
@@ -8,7 +8,7 @@
 
 **The anti-consultancy for leaders who are done being sold AI and ready to use it.**
 
-Mindmaker sells exactly four things, in two tiers and one inquiry-only relief valve: a Maven-hosted decision room for senior leaders (the Cohort), enterprise sprints for companies commercializing AI products (the Signal Session and Revenue Architecture), and a half-day team-alignment Immersion (inquiry-only). Nothing in between. Nothing ongoing.
+Mindmaker is a ladder with a finish line at every rung. Five one-day Workshops ($599 each, entry paid, Maven-hosted). A quarterly Cohort for senior leaders making AI decisions ($2,500/seat, Maven-hosted). Enterprise sprints for companies commercializing AI products (Signal Session $15k, Revenue Architecture $60-100k). An inquiry-only half-day Immersion ($12k). An invitation-only Alumni Pass ($1,500/year) for continuity. Nothing ongoing. No retainers.
 
 **Brand North Star:** If Stripe's design sensibility met Anthony Bourdain's authenticity.
 
@@ -152,14 +152,15 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 
 ## Product Naming
 
-| Product | Price | Tagline |
-|---|---|---|
-| Mindmaker Workshops (×5) | $599 / workshop | Build alongside me in one day. |
-| The AI-Fluent Executive (Cohort) | $2,500 / seat | Make your nervous AI decision with 15 other senior leaders. |
-| The Signal Session | $15,000 | One day. One room. One commercial thesis. |
-| The Revenue Architecture | $60,000–$100,000 | Your AI capabilities, translated into revenue. |
-| The AI Immersion (inquiry-only) | $12,000 | Three decisions. One afternoon. Real alignment. |
-| The Alumni Pass (invitation-only) | $1,500 / year | Continuity after the finish line. |
+| Rung | Product | Price | Tagline |
+|---|---|---|---|
+| Top of funnel (free) | Lightning Lessons (×5) | Free | Maven instructor page |
+| Entry paid | Mindmaker Workshops (×5) | $599 / workshop | Build alongside me in one day. |
+| Qualifying | The AI-Fluent Executive (Cohort) | $2,500 / seat | Make your nervous AI decision with 15 other senior leaders. |
+| Margin entry | The Signal Session | $15,000 | One day. One room. One commercial thesis. |
+| Margin flagship | The Revenue Architecture | $60,000–$100,000 | Your AI capabilities, translated into revenue. |
+| Inquiry-only | The AI Immersion | $12,000 | Three decisions. One afternoon. Real alignment. |
+| Continuity | The Alumni Pass (invitation-only) | $1,500 / year | Continuity after the finish line. |
 
 ### Retired products and names (do not reference)
 

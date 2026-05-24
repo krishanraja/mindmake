@@ -1,6 +1,6 @@
 # User Outcomes
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-24
 
 ---
 
@@ -162,7 +162,7 @@ Week 3:  Confidence → Board-ready position written, defended, committed (Make 
 - **Not** ongoing retainer or fractional role → Instead: fixed scope, fixed finish line
 - **Not** tool recommendations → Instead: trade-off analysis so the buyer decides
 - **Not** implementation or production IT → Instead: the commercial and decision layer, with clean handover
-- **Not** 6-month engagement → Instead: 30-day Revenue Architecture, 1-day Signal Session, 4-hour Immersion, 3-week Cohort
+- **Not** 6-month engagement → Instead: 30-day Revenue Architecture, 1-day Signal Session, 4-hour Immersion, 4-week Cohort, 1-day Workshop
 
 ---
 

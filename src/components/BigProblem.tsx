@@ -48,10 +48,13 @@ const cards: { fate: Face; value: Face }[] = [
   },
 ];
 
-const openConsultModal = (preselected?: string) => {
+const openScopingModal = (preselected?: string) => {
   window.dispatchEvent(
-    new CustomEvent("openConsultModal", {
-      detail: preselected ? { preselected } : {},
+    new CustomEvent("openScopingModal", {
+      detail: {
+        source_page: "/",
+        ...(preselected ? { preselected } : {}),
+      },
     }),
   );
 };
@@ -144,7 +147,7 @@ const FlipCard = ({ index, fate, value, flipped, onFlip, reduceMotion }: FlipCar
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                openConsultModal(`big-problem-card-${index + 1}`);
+                openScopingModal(`big-problem-card-${index + 1}`);
               }}
               className="mt-6 group/cta inline-flex items-center gap-2 self-start px-4 py-2.5 bg-mint text-ink text-xs md:text-sm font-bold uppercase tracking-[0.14em] hover:bg-white transition-colors"
             >
@@ -291,7 +294,7 @@ const BigProblem = () => {
         <div className="flex justify-center mt-14 md:mt-20">
           <button
             type="button"
-            onClick={() => openConsultModal("big-problem")}
+            onClick={() => openScopingModal("big-problem")}
             className="group inline-flex items-center gap-3 px-7 py-3.5 border-2 border-mint text-white font-bold text-sm md:text-base uppercase tracking-[0.14em] hover:bg-mint hover:text-ink transition-colors shadow-[0_0_30px_rgba(126,244,194,0.25)] hover:shadow-[0_0_50px_rgba(126,244,194,0.5)]"
           >
             Pick up the pen

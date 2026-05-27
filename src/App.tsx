@@ -16,6 +16,7 @@ const ScrollToTop = () => {
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { CookieConsent } from "@/components/CookieConsent";
 import { InitialConsultModal } from "@/components/InitialConsultModal";
+import { ScopingModal } from "@/components/ScopingModal";
 import PreCallQualifier from "@/components/PreCallQualifier";
 
 // Homepage loaded eagerly (critical path)
@@ -60,6 +61,8 @@ const ExternalRedirect = ({ to }: { to: string }) => {
 
 const AppRoutes = () => {
   const [globalConsultModalOpen, setGlobalConsultModalOpen] = useState(false);
+  const [scopingModalOpen, setScopingModalOpen] = useState(false);
+  const [scopingSourcePage, setScopingSourcePage] = useState<string>("/");
   const { sessionData, setQualificationData } = useSessionData();
 
   useEffect(() => {
@@ -79,9 +82,20 @@ const AppRoutes = () => {
       setGlobalConsultModalOpen(true);
     };
 
+    const handleOpenScopingModal = (e: Event) => {
+      const detail = (e as CustomEvent).detail as
+        | { source_page?: string }
+        | undefined;
+      setScopingSourcePage(detail?.source_page || window.location.pathname || "/");
+      setScopingModalOpen(true);
+    };
+
     window.addEventListener("openConsultModal", handleOpenConsultModal);
-    return () =>
+    window.addEventListener("openScopingModal", handleOpenScopingModal);
+    return () => {
       window.removeEventListener("openConsultModal", handleOpenConsultModal);
+      window.removeEventListener("openScopingModal", handleOpenScopingModal);
+    };
   }, [setQualificationData]);
 
   return (
@@ -154,7 +168,7 @@ const AppRoutes = () => {
         </Suspense>
       </ErrorBoundary>
 
-      {/* Global Consult Modal - works on all pages */}
+      {/* Global Consult Modal - legacy, kept mounted while remaining surfaces migrate */}
       <InitialConsultModal
         open={globalConsultModalOpen}
         onOpenChange={setGlobalConsultModalOpen}
@@ -162,6 +176,13 @@ const AppRoutes = () => {
         commitmentLevel={sessionData.qualificationData?.commitmentLevel}
         audienceType={sessionData.qualificationData?.audienceType}
         pathType={sessionData.qualificationData?.pathType}
+      />
+
+      {/* Scoping modal: tier-appropriate path for Signal Session / Revenue Architecture / Immersion */}
+      <ScopingModal
+        open={scopingModalOpen}
+        onOpenChange={setScopingModalOpen}
+        sourcePage={scopingSourcePage}
       />
 
       {/* Pre-call qualifier: floating pill + 3-step drawer */}

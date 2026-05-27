@@ -28,11 +28,32 @@ const nextCohort = {
   seatsTotal: 15,
 };
 
-const openConsultModal = (detail?: Record<string, unknown>) => {
+const trackMavenClick = () => {
+  try {
+    (window as unknown as { plausible?: (e: string, o?: { props?: object }) => void })
+      .plausible?.("maven_redirect_click", { props: { page: "/cohort" } });
+  } catch {
+    /* analytics optional */
+  }
+};
+
+const trackDiagnosticClick = () => {
+  try {
+    (window as unknown as { plausible?: (e: string, o?: { props?: object }) => void })
+      .plausible?.("diagnostic_secondary_click", { props: { page: "/cohort" } });
+  } catch {
+    /* analytics optional */
+  }
+};
+
+const openScopingModal = (preselected?: string) => {
   window.dispatchEvent(
-    new CustomEvent("openConsultModal", {
-      detail: detail || {},
-    })
+    new CustomEvent("openScopingModal", {
+      detail: {
+        source_page: "/cohort",
+        ...(preselected ? { preselected } : {}),
+      },
+    }),
   );
 };
 
@@ -139,9 +160,7 @@ export default function Cohort() {
               <div className="flex items-center gap-2">
                 <Button
                   size="sm"
-                  onClick={() =>
-                    openConsultModal({ preselected: "1-1-inquiry", inquiry: "1:1" })
-                  }
+                  onClick={() => openScopingModal("1-1-inquiry")}
                   className="bg-ink dark:bg-mint text-white dark:text-ink font-bold"
                 >
                   Contact me
@@ -184,21 +203,27 @@ export default function Cohort() {
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Button
+                asChild
                 size="lg"
                 className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold px-8"
-                onClick={() => {
-                  document.getElementById("enroll")?.scrollIntoView({ behavior: "smooth" });
-                }}
+                onClick={trackMavenClick}
               >
-                Enroll in the next cohort <ArrowRight className="ml-2 w-4 h-4" />
+                <a
+                  href={MAVEN_COHORT_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Enroll on Maven <ArrowRight className="ml-2 w-4 h-4" />
+                </a>
               </Button>
               <Button
+                asChild
                 size="lg"
                 variant="outline"
                 className="font-bold"
-                onClick={() => openConsultModal({ preselected: "cohort-syllabus" })}
+                onClick={trackDiagnosticClick}
               >
-                Get the syllabus
+                <a href="/leaders">Or take the free diagnostic first</a>
               </Button>
             </div>
           </motion.div>
@@ -380,7 +405,7 @@ export default function Cohort() {
                 size="lg"
                 variant="outline"
                 className="font-bold"
-                onClick={() => openConsultModal({ preselected: "cohort-waitlist" })}
+                onClick={() => openScopingModal("cohort-waitlist")}
               >
                 Get notified about future cohorts
               </Button>
@@ -390,12 +415,7 @@ export default function Cohort() {
               Enrollment and payment happen on Maven. Questions first?{" "}
               <button
                 type="button"
-                onClick={() =>
-                  openConsultModal({
-                    preselected: "cohort-enrollment",
-                    commitmentLevel: "cohort",
-                  })
-                }
+                onClick={() => openScopingModal("cohort-enrollment")}
                 className="underline underline-offset-2 hover:text-foreground transition-colors"
               >
                 Book an intake call
@@ -463,9 +483,7 @@ export default function Cohort() {
             <Button
               variant="outline"
               className="font-bold"
-              onClick={() =>
-                openConsultModal({ preselected: "1-1-inquiry", inquiry: "1:1" })
-              }
+              onClick={() => openScopingModal("1-1-inquiry")}
             >
               Start a conversation <ArrowRight className="ml-2 w-4 h-4" />
             </Button>

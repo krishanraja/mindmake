@@ -218,8 +218,9 @@ const PreCallQualifier = () => {
     });
     setOpen(false);
     window.dispatchEvent(
-      new CustomEvent("openConsultModal", {
+      new CustomEvent("openScopingModal", {
         detail: {
+          source_page: window.location.pathname,
           preselected: rec.preselected,
           qualifierAnswers: answers,
         },

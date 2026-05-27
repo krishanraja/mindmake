@@ -215,7 +215,11 @@ const Navigation = () => {
               size="sm"
               className="ml-4 relative touch-target"
               onClick={() => {
-                window.dispatchEvent(new CustomEvent("openConsultModal"));
+                window.dispatchEvent(
+                  new CustomEvent("openScopingModal", {
+                    detail: { source_page: window.location.pathname },
+                  }),
+                );
               }}
             >
               <span className="absolute -top-1 -right-1 w-2 h-2 bg-mint rounded-full animate-pulse" />
@@ -361,7 +365,11 @@ const Navigation = () => {
                   size="sm"
                   className="w-fit mx-4 mt-4"
                   onClick={() => {
-                    window.dispatchEvent(new CustomEvent("openConsultModal"));
+                    window.dispatchEvent(
+                      new CustomEvent("openScopingModal", {
+                        detail: { source_page: window.location.pathname },
+                      }),
+                    );
                     setIsOpen(false);
                   }}
                 >

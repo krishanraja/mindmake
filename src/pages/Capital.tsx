@@ -17,14 +17,25 @@ const fadeUp = {
   }),
 };
 
-const openConsultModal = (preselected?: string) => {
-  if (preselected) {
-    window.dispatchEvent(
-      new CustomEvent("openConsultModal", { detail: { preselected } })
-    );
-  } else {
-    window.dispatchEvent(new CustomEvent("openConsultModal"));
+const openScopingModal = (preselected?: string) => {
+  window.dispatchEvent(
+    new CustomEvent("openScopingModal", {
+      detail: {
+        source_page: "/capital",
+        ...(preselected ? { preselected } : {}),
+      },
+    }),
+  );
+};
+
+const goToDiagnostic = () => {
+  try {
+    (window as unknown as { plausible?: (e: string, o?: { props?: object }) => void })
+      .plausible?.("diagnostic_secondary_click", { props: { page: "/capital" } });
+  } catch {
+    /* analytics optional */
   }
+  window.location.href = "/leaders";
 };
 
 const capitalProducts: ProductExpandCardData[] = [
@@ -34,7 +45,9 @@ const capitalProducts: ProductExpandCardData[] = [
     headline: "One day. Two outcomes. The fund itself, or a portfolio company.",
     subhead:
       "Either we map the AI strategy for your fund or family office itself, or we run a capital-allocator's read on a specific portfolio company.",
-    price: "$15,000",
+    price: "From $15,000",
+    outcomeTodo:
+      "[Krish to write: one-line outcome from a past Signal Session, anonymised]",
     trioLine:
       "We map three things at once: how your fund actually builds product, what your team can run, and how fluent you are as an allocator. Most engagements skip the third one and find out it mattered later, after the wall.",
     description:
@@ -62,6 +75,8 @@ const capitalProducts: ProductExpandCardData[] = [
       "Same Krish in the room, no associates, no retainer. Fund-level pricing for 3+ engagements per 12 months.",
     price: "From $60,000",
     priceDetail: "per portfolio company",
+    outcomeTodo:
+      "[Krish to write: one-line outcome from a past Revenue Architecture engagement, anonymised]",
     trioLine:
       "We map three things at once: how the portfolio company actually builds product, what the team can run, and how fluent the founder is as an operator. Most consulting engagements skip the third one and find out it mattered halfway through the rebuild.",
     description:
@@ -170,9 +185,9 @@ export default function Capital() {
               <Button
                 size="lg"
                 className="bg-mint text-ink hover:bg-mint/90 font-bold px-8"
-                onClick={() => openConsultModal("capital")}
+                onClick={() => openScopingModal("capital")}
               >
-                Book a call <ArrowRight className="ml-2 w-4 h-4" />
+                Scope an engagement <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
               <Button
                 asChild
@@ -182,6 +197,15 @@ export default function Capital() {
               >
                 <a href="#engagements">See both engagements</a>
               </Button>
+            </div>
+            <div className="mt-6">
+              <button
+                type="button"
+                onClick={goToDiagnostic}
+                className="text-sm text-white/55 hover:text-mint transition-colors"
+              >
+                Or take the free diagnostic first →
+              </button>
             </div>
           </motion.div>
         </div>
@@ -341,10 +365,19 @@ export default function Capital() {
             <Button
               size="lg"
               className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold px-10 py-6 text-base"
-              onClick={() => openConsultModal("capital")}
+              onClick={() => openScopingModal("capital")}
             >
-              Book a call <ArrowRight className="ml-2 w-4 h-4" />
+              Scope it with me <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
+            <div className="mt-5">
+              <button
+                type="button"
+                onClick={goToDiagnostic}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Or take the free diagnostic first →
+              </button>
+            </div>
           </motion.div>
         </div>
       </section>

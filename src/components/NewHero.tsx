@@ -90,12 +90,12 @@ const NewHero = () => {
 
         {/* Subheadline */}
         <motion.p
-          className="text-base sm:text-lg md:text-xl text-white/70 max-w-2xl mb-10"
+          className="text-base sm:text-lg md:text-xl text-white/70 max-w-2xl mb-10 leading-relaxed"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.6 }}
         >
-          Workshops, cohorts, and enterprise sprints that turn AI chaos into direction.
+          Three different doors into the same operator, depending on whether you want to think more clearly, work through one nervous decision, or rebuild how your business actually makes money with AI.
         </motion.p>
 
         {/* CTAs */}
@@ -108,7 +108,13 @@ const NewHero = () => {
           <Button
             size="lg"
             className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold px-8 py-6 text-base sm:text-lg shadow-lg shadow-mint/25 transition-all duration-300 hover:-translate-y-0.5"
-            onClick={() => window.dispatchEvent(new CustomEvent("openConsultModal"))}
+            onClick={() =>
+              window.dispatchEvent(
+                new CustomEvent("openScopingModal", {
+                  detail: { source_page: "/" },
+                }),
+              )
+            }
           >
             Book a call
           </Button>

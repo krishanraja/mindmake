@@ -17,14 +17,25 @@ const fadeUp = {
   }),
 };
 
-const openConsultModal = (preselected?: string) => {
-  if (preselected) {
-    window.dispatchEvent(
-      new CustomEvent("openConsultModal", { detail: { preselected } })
-    );
-  } else {
-    window.dispatchEvent(new CustomEvent("openConsultModal"));
+const openScopingModal = (preselected?: string) => {
+  window.dispatchEvent(
+    new CustomEvent("openScopingModal", {
+      detail: {
+        source_page: "/enterprise",
+        ...(preselected ? { preselected } : {}),
+      },
+    }),
+  );
+};
+
+const goToDiagnostic = () => {
+  try {
+    (window as unknown as { plausible?: (e: string, o?: { props?: object }) => void })
+      .plausible?.("diagnostic_secondary_click", { props: { page: "/enterprise" } });
+  } catch {
+    /* analytics optional */
   }
+  window.location.href = "/leaders";
 };
 
 const ENTERPRISE_TRIO_LINE =
@@ -37,7 +48,9 @@ const enterpriseProducts: ProductExpandCardData[] = [
     headline: "Your commercial diagnosis. Shipped in 48 hours.",
     subhead:
       "A one-day intensive that produces a 15-20 page Commercial Narrative. The best place to start if you're not sure whether Revenue Architecture is the right call.",
-    price: "$15,000",
+    price: "From $15,000",
+    outcomeTodo:
+      "[Krish to write: one-line outcome from a past Signal Session, anonymised]",
     trioLine: ENTERPRISE_TRIO_LINE,
     description:
       "One day with Krish, on-site or remote, working through your current commercial state. 48 hours later you receive a 15-20 page Commercial Narrative document, a 2-page positioning framework ready for Monday, a sales narrative and objection-handling guide, a pricing model sketch with 2-3 packaging options, and a written read on whether the full Revenue Architecture engagement is warranted.",
@@ -65,6 +78,8 @@ const enterpriseProducts: ProductExpandCardData[] = [
       "ICP, pricing, GTM, content engine, and outbound, all rebuilt to run on AI from day one. No associates, no retainer.",
     price: "From $60,000",
     priceDetail: "to $100,000, scope-dependent",
+    outcomeTodo:
+      "[Krish to write: one-line outcome from a past Revenue Architecture engagement, anonymised]",
     trioLine: ENTERPRISE_TRIO_LINE,
     description:
       "30 days with Krish in the room, fixed scope, no retainer, no partner-shuffles. The work is structurally different from a consulting engagement: when something works there's exactly one person to credit, when something doesn't there's exactly one person to fire. Most consulting engagements are designed the other way, multiple associates, an open-ended timeline, and a partner-shuffle every quarter. Mindmaker is sized small enough that it can't hide behind any of that.",
@@ -92,8 +107,10 @@ const enterpriseProducts: ProductExpandCardData[] = [
       "Half a day, your full leadership team, one shared AI tension named.",
     subhead:
       "Inquiry-only. For executive teams who need fast alignment before a budget cycle, board meeting, or pivot decision.",
-    price: "$12,000",
+    price: "From $12,000",
     priceDetail: "flat fee, plus travel for on-site",
+    outcomeTodo:
+      "[Krish to write: one-line outcome from a past Immersion]",
     trioLine:
       "What gets mapped together: your product strategy, your team's capability, the leadership team's collective fluency. Most off-sites optimise the first two and ignore the third.",
     description:
@@ -123,8 +140,8 @@ const comparisonRows = [
   },
   {
     label: "Price",
-    signal: "$15,000",
-    revenue: "$60,000 to $100,000",
+    signal: "From $15,000",
+    revenue: "From $60,000 to $100,000",
   },
   {
     label: "Format",
@@ -185,7 +202,7 @@ export default function Enterprise() {
     <main className="min-h-screen bg-background">
       <SEO
         title="Enterprise: AI commercialization sprints"
-        description="Two sprints with a fixed scope and a finish line. The Signal Session ($15k) aligns your team fast. The Revenue Architecture ($60-100k) builds the complete commercial strategy."
+        description="Two sprints with a fixed scope and a finish line. The Signal Session from $15k aligns your team fast. The Revenue Architecture from $60k builds the complete commercial strategy."
         canonical="/enterprise"
         ogType="website"
       />
@@ -215,9 +232,9 @@ export default function Enterprise() {
               <Button
                 size="lg"
                 className="bg-mint text-ink hover:bg-mint/90 font-bold px-8"
-                onClick={() => openConsultModal("revenue-architecture")}
+                onClick={() => openScopingModal("enterprise-revenue-architecture")}
               >
-                Book a call <ArrowRight className="ml-2 w-4 h-4" />
+                Scope an engagement <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
               <Button
                 asChild
@@ -227,6 +244,15 @@ export default function Enterprise() {
               >
                 <a href="#engagements">See both engagements</a>
               </Button>
+            </div>
+            <div className="mt-6">
+              <button
+                type="button"
+                onClick={goToDiagnostic}
+                className="text-sm text-white/55 hover:text-mint transition-colors"
+              >
+                Or take the free diagnostic first →
+              </button>
             </div>
           </motion.div>
         </div>
@@ -377,10 +403,19 @@ export default function Enterprise() {
             <Button
               size="lg"
               className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold px-10 py-6 text-base"
-              onClick={() => openConsultModal()}
+              onClick={() => openScopingModal()}
             >
-              Book a call <ArrowRight className="ml-2 w-4 h-4" />
+              Scope it with me <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
+            <div className="mt-5">
+              <button
+                type="button"
+                onClick={goToDiagnostic}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Or take the free diagnostic first →
+              </button>
+            </div>
           </motion.div>
         </div>
       </section>

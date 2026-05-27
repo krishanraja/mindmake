@@ -10,6 +10,7 @@ export interface ProductExpandCardData {
   subhead: string;
   price: string;
   priceDetail?: string;
+  outcomeTodo?: string;
   trioLine: string;
   primaryCTA: {
     label: string;
@@ -27,9 +28,14 @@ export interface ProductExpandCardProps extends ProductExpandCardData {
   onToggle: () => void;
 }
 
-const fireConsultModal = (preselected: string) => {
+const fireScopingModal = (preselected: string) => {
   window.dispatchEvent(
-    new CustomEvent("openConsultModal", { detail: { preselected } })
+    new CustomEvent("openScopingModal", {
+      detail: {
+        source_page: window.location.pathname,
+        preselected,
+      },
+    }),
   );
 };
 
@@ -40,6 +46,7 @@ export const ProductExpandCard = ({
   subhead,
   price,
   priceDetail,
+  outcomeTodo,
   trioLine,
   expanded,
   onToggle,
@@ -109,6 +116,14 @@ export const ProductExpandCard = ({
                 </span>
               )}
             </div>
+            {outcomeTodo && (
+              <p
+                data-todo="outcome-line"
+                className="mt-3 text-sm italic text-mint-dark dark:text-mint leading-relaxed"
+              >
+                {outcomeTodo}
+              </p>
+            )}
           </div>
         </div>
 
@@ -189,7 +204,7 @@ export const ProductExpandCard = ({
             data-stop-toggle
             onClick={(e) => {
               e.stopPropagation();
-              fireConsultModal(primaryCTA.preselected);
+              fireScopingModal(primaryCTA.preselected);
             }}
           >
             {primaryCTA.label}

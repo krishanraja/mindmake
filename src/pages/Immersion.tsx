@@ -14,16 +14,26 @@ const fadeUp = {
   }),
 };
 
-const openConsultModal = (detail?: Record<string, unknown>) => {
+const requestImmersion = () => {
   window.dispatchEvent(
-    new CustomEvent("openConsultModal", {
-      detail: detail || {},
-    })
+    new CustomEvent("openScopingModal", {
+      detail: {
+        source_page: "/immersion",
+        preselected: "immersion",
+      },
+    }),
   );
 };
 
-const requestImmersion = () =>
-  openConsultModal({ preselected: "immersion" });
+const goToDiagnostic = () => {
+  try {
+    (window as unknown as { plausible?: (e: string, o?: { props?: object }) => void })
+      .plausible?.("diagnostic_secondary_click", { props: { page: "/immersion" } });
+  } catch {
+    /* analytics optional */
+  }
+  window.location.href = "/leaders";
+};
 
 const phases = [
   {
@@ -113,7 +123,7 @@ export default function Immersion() {
     <main className="min-h-screen bg-background">
       <SEO
         title="The AI Immersion: A half-day with your leadership team"
-        description="A focused half-day session for executive teams who need to get aligned on AI fast. Up to eight senior leaders, one facilitated conversation, a board-ready summary within five business days. $12,000."
+        description="A focused half-day session for executive teams who need to get aligned on AI fast. Up to eight senior leaders, one facilitated conversation, a board-ready summary within five business days. From $12,000."
         canonical="/immersion"
         ogType="website"
         jsonLd={jsonLd}
@@ -134,7 +144,7 @@ export default function Immersion() {
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
               For executive teams who need to get aligned on AI fast. One session. Up to eight senior leaders. No prep work from them. A written summary for your board within five business days.
             </p>
-            <div className="flex justify-center">
+            <div className="flex flex-col items-center gap-4">
               <Button
                 size="lg"
                 className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold px-8"
@@ -142,6 +152,13 @@ export default function Immersion() {
               >
                 Request a date <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
+              <button
+                type="button"
+                onClick={goToDiagnostic}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Or take the free diagnostic first →
+              </button>
             </div>
           </motion.div>
         </div>
@@ -228,9 +245,16 @@ export default function Immersion() {
               Pricing
             </div>
             <div className="flex items-baseline gap-3 justify-center mb-3">
+              <span className="text-2xl md:text-3xl font-bold text-muted-foreground">From</span>
               <span className="text-5xl md:text-6xl font-bold">$12,000</span>
               <span className="text-muted-foreground">flat</span>
             </div>
+            <p
+              data-todo="outcome-line"
+              className="text-sm italic text-mint-dark dark:text-mint leading-relaxed mb-4 max-w-md mx-auto"
+            >
+              [Krish to write: one-line outcome from a past Immersion]
+            </p>
             <p className="text-sm text-muted-foreground mb-6">
               Up to 8 leaders · On-site or remote · Travel additional if on-site
             </p>

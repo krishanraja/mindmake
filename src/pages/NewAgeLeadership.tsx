@@ -12,8 +12,12 @@ const OrgChart = lazy(() =>
   import("@/components/new-age/OrgChart").then((m) => ({ default: m.OrgChart }))
 );
 
-const openConsultModal = () => {
-  window.dispatchEvent(new CustomEvent("openConsultModal"));
+const openScopingModal = () => {
+  window.dispatchEvent(
+    new CustomEvent("openScopingModal", {
+      detail: { source_page: "/new-age-leadership" },
+    }),
+  );
 };
 
 const HEADLINE_WORDS = [
@@ -266,7 +270,7 @@ export default function NewAgeLeadership() {
             <Button
               size="lg"
               className="bg-ink text-white hover:bg-ink/90 dark:bg-mint dark:text-ink dark:hover:bg-mint/90 font-bold px-8"
-              onClick={openConsultModal}
+              onClick={openScopingModal}
             >
               Book a call <ArrowRight className="ml-2 w-4 h-4" />
             </Button>

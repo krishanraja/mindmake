@@ -14,10 +14,13 @@ const fadeUp = {
   }),
 };
 
-const openConsultModal = (detail?: Record<string, unknown>) => {
-  window.dispatchEvent(
-    new CustomEvent("openConsultModal", { detail: detail || {} })
-  );
+const trackDiagnosticClick = () => {
+  try {
+    (window as unknown as { plausible?: (e: string, o?: { props?: object }) => void })
+      .plausible?.("diagnostic_secondary_click", { props: { page: "/workshops" } });
+  } catch {
+    /* analytics optional */
+  }
 };
 
 const WORKSHOPS = [
@@ -94,12 +97,13 @@ export default function Workshops() {
                 Explore the workshops <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
               <Button
+                asChild
                 size="lg"
                 variant="outline"
                 className="font-bold"
-                onClick={() => openConsultModal({ preselected: "workshop" })}
+                onClick={trackDiagnosticClick}
               >
-                Book a call
+                <a href="/leaders">Or take the free diagnostic first</a>
               </Button>
             </div>
           </motion.div>

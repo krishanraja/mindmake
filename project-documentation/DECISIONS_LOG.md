@@ -1,10 +1,55 @@
 # Decisions Log
 
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-31
 
 ---
 
 ## Brand & Product Decisions
+
+### 2026-05-31: ScopingModal replaces InitialConsultModal as the primary booking surface
+
+**Decision:** The "Book a call" CTA now dispatches `openScopingModal` → `ScopingModal` (a six-field scoping form: name, email, company/role, decision-or-problem, success-in-30-days, notes). Submits to `notify-scoping-request` edge function. `InitialConsultModal` remains mounted in `App.tsx` as a legacy surface while remaining CTAs migrate; it is no longer the primary booking path.
+
+**Context:**
+- The original `InitialConsultModal` was a generic contact form that offered minimal signal before the call. As the offer ladder grew (5 workshops + cohort + 3 enterprise tiers + alumni), a form that asks "what are you trying to solve and what does success look like in 30 days?" is more useful for qualifying intent and reducing zero-signal intro calls.
+- The Scoping Modal collects structured information Krish needs before the call, rather than requiring a live 30-minute call to gather basics.
+
+**Rationale:**
+- Higher signal per submission: knowing the decision and the 30-day success definition before the call means the call is productive from minute one.
+- Reduces no-show and low-fit bookings: prospects who can't answer "what does success look like in 30 days" self-select out.
+- Single inbox path: `notify-scoping-request` delivers a formatted brief to Krish, who replies within 48 hours with either a calendar link or an honest "not a fit yet" note.
+
+**Impact:**
+- All "Book a call" CTAs on all surfaces now dispatch `openScopingModal` (NewHero, YFork, Navigation, SimpleCTA, page-level CTAs).
+- `InitialConsultModal` remains as a legacy surface; do not add new CTAs pointing to it.
+- `notify-scoping-request` edge function added to `supabase/functions/`.
+- Plausible events: `scoping_modal_open` and `scoping_modal_submit`.
+
+---
+
+### 2026-05-31: YFork redesigned from two-door to three-door intent routing
+
+**Decision:** The homepage Y-fork (`YFork.tsx`) is redesigned from two glass-cards ("Two ways I work": Cohort vs Enterprise) to three intent cards ("Start where your question actually is": Sharpen / Resolve / Rebuild) plus a free-entry strip for visitors not ready to book.
+
+**Card destinations:**
+- Sharpen how I think → `/cohort` (body copy also surfaces Workshops at $599 as the entry option)
+- Resolve one decision → `/enterprise#signal-session`
+- Rebuild the commercial layer → `/capital`
+
+**Free-entry strip destinations:**
+- Decision Readiness Diagnostic → `/leaders`
+- CTRL waitlist → `CtrlWaitlistPopover`
+- Sunday brief → `https://mindmakerlive.substack.com/`
+
+**Rationale:**
+- The three-card structure maps to three genuinely distinct buyer intents rather than two. The Capital/portfolio buyer was previously invisible at the Y-fork; this surfaces them at the decision point.
+- Surfacing Workshops inside the "Sharpen" card (with specific price) gives cost-conscious leaders an explicit lower-rung option without adding a fourth card.
+- The free-entry strip captures curiosity-stage visitors who aren't ready to book, without cluttering the main cards.
+
+**Impact:**
+- Third card destination is `/capital`, not `/enterprise` (the previous homepage tri-fork described in v6 docs pointed to `/enterprise` as the third door; the live code routes to `/capital`).
+
+---
 
 ### 2026-05-15: v6 ladder restructure (Workshops + Alumni Pass added; Cohort renamed and repriced)
 

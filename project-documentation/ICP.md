@@ -1,6 +1,6 @@
 # Ideal Customer Profile
 
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-31
 
 ---
 
@@ -277,7 +277,7 @@ A team genuinely aligned (not performatively aligned) on the three issues addres
 
 ## Entry Points
 
-Every public path lands at **"Book a call"** via the global `InitialConsultModal`. The `PreCallQualifier` floating pill helps self-classify before the call so the 30-minute window is spent on the actual decision. The homepage hero also exposes a tertiary "Or start with a free lesson →" link to the Maven instructor page for cold buyers not yet ready to talk.
+Every public path lands at **"Book a call"** via the `ScopingModal` (dispatched via `openScopingModal` event). The `PreCallQualifier` floating pill helps self-classify before the call so the 30-minute window is spent on the actual decision. The homepage hero also exposes a tertiary "Or start with a free lesson →" link to the Maven instructor page for cold buyers not yet ready to talk.
 
 - Workshop-curious leaders land at `/workshops`, browse the five sub-pages, and enrol on Maven (or get notified for unpublished workshops). Workshop alumni get $500 off the Cohort with code `WORKSHOP`.
 - Cohort-curious leaders land at `/cohort` and can either book a call or click straight through to Maven enrolment.

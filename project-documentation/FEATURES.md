@@ -1,6 +1,6 @@
 # Features
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-31
 
 ---
 
@@ -133,19 +133,21 @@ Triggered by `/cohort?inquiry=1:1`. A muted banner surfaces a Contact link. No p
 Authoritative: `src/pages/Index.tsx`. Order:
 
 1. `NewHero`. rotating headlines, eyebrow "Decision blockers I hear every week", looping `/rising-cities.mp4` background, mint pulse, particle background. Primary CTA "Book a call", secondary "See how I work" (smooth-scrolls to Y-fork).
-2. `YFork`. "Two ways I work." Card A = The Cohort ($2,500, `/cohort`). Card B = Enterprise (from $15,000, `/enterprise`).
+2. `YFork`. "Start where your question actually is." Three intent cards: (1) Sharpen how I think → `/cohort` (body mentions Workshops at $599 and Cohort at $2,500); (2) Resolve one decision → `/enterprise#signal-session`; (3) Rebuild the commercial layer → `/capital`. Free-entry strip below cards: Decision Readiness Diagnostic link, CTRL waitlist popover, Substack ("Sunday brief") link.
 3. `BigProblem`. existential urgency frame.
 4. `TrustSection`. Krish bio + headshot + testimonials carousel (COHORT-STYLE / ENTERPRISE tagged).
 5. `FrameworkJourney`. three-panel animated Mind Set → Mind Map → Mind Make.
 6. `OperatorsEdge`. v5 typography-only credential section ("Beyond pattern recognition"). Three proof tiles (Architecture / Optimization / Memory). Primary CTA to Revenue Architecture, secondary link to `/operator`.
 7. `OperatorsBrief`. Live Intel homepage teaser. CSS-marquee PriceTicker + rotating interpretation line (3 takes, 8s cross-fade) + compact Nervous Decision input + muted "Open the full dashboard →" link to `/signal`.
-8. `SimpleCTA`. final CTA.
-9. `Footer`.
+8. `MindMakerLiveSection`. Mindmaker LIVE newsletter subscribe section. Dark bg, three pillar tiles (Headlines / Resources / Perspectives), Substack subscribe form via `SubstackSubscribeForm`.
+9. `SimpleCTA`. final CTA.
+10. `Footer`.
 
 ### Global overlays
 
 Mounted in `src/App.tsx`:
-- `InitialConsultModal`. the single conversion surface. Opened via `window.dispatchEvent(new CustomEvent('openConsultModal', { detail: { preselected?, qualifierAnswers? } }))`
+- `ScopingModal`. the primary conversion surface. Opened via `window.dispatchEvent(new CustomEvent('openScopingModal', { detail: { source_page } }))`. Submits to `notify-scoping-request` edge function. Krish responds within 48 hours.
+- `InitialConsultModal`. legacy; still mounted while remaining surfaces migrate to `ScopingModal`. Opened via `openConsultModal` event.
 - `PreCallQualifier`. floating pill bottom-right. 3-step chip-based intake drawer (decision → timeline → stakes) → keyword-classified offer recommendation → pre-loads modal via `SessionDataContext.setQualificationData`. Answers saved to `localStorage` under `mindmaker:pre-call-qualifier` (version 2), no email capture.
 - `CookieConsent`
 - `ErrorBoundary` wrapping the route `Suspense`
@@ -154,21 +156,23 @@ Mounted in `src/App.tsx`:
 
 File: `src/components/Navigation.tsx`. Primary CTA button: **"Book a call"** with mint pulse dot.
 
+- **Workshops** (direct link, slot 1): `/workshops`
 - **Cohort** (direct link): `/cohort`
-- **Enterprise** (dropdown): The Signal Session, The Revenue Architecture
-- **Live Intel** (direct link): `/signal`
-- **Resources** (dropdown): New Age Leadership, How I operate, Blog, The Builder Economy (Podcast) [external], Lightning Lessons (4 Maven URLs via `LightningLessons` component)
-- **About** (dropdown): FAQ, Contact, Privacy
+- **Enterprise** (dropdown): The Signal Session → `/enterprise#signal-session`, The Revenue Architecture → `/enterprise#revenue-architecture`, The AI Immersion → `/enterprise#immersion`; section divider "For funds & operating partners" → Capital → `/capital`
+- **Mindmaker LIVE** (link, rendered as a wordmark): `/signal`
+- **Resources** (dropdown): How I operate → `/operator`, New Age Leadership → `/new-age-leadership`, Library → `/library`, The Builder Economy (Podcast) → external `thebuildereconomy.com`, Lightning Lessons (5-lesson modal via `LightningLessons` component)
+- **About** (dropdown): Contact → `/contact`, Privacy → `/privacy`, Terms → `/terms`
 
 Hides on scroll-down via `useScrollDirection`.
 
 ### Lightning Lessons (external Maven courses)
 
-Surfaced in the Resources dropdown via the `LightningLessons` component. Four courses:
-1. Vibe Coding for Leaders, `https://maven.com/p/ca6d71/vibe-coding-for-leaders-build-what-you-brief`
-2. Make AI Your Co-Founder, `https://maven.com/p/0cc82a/make-ai-your-co-founder`
-3. Build an Autonomous Business with AI, `https://maven.com/p/38d196/build-an-autonomous-business-with-ai`
-4. Give Your AI Memory, `https://maven.com/p/8fba42/improve-the-memory-of-your-ai-tools`
+Surfaced in the Resources dropdown via the `LightningLessons` component. Five lessons (opened via modal in the Resources dropdown):
+1. Build Your AI's Permanent Identity, `https://maven.com/p/8fba42/build-your-ai-s-permanent-identity`
+2. Build an Autonomous Business with AI, `https://maven.com/p/99a529/build-an-autonomous-business-with-ai`
+3. Vibe Coding for Leaders: The Unfair Advantage, `https://maven.com/p/b118d0/vibe-coding-how-your-competitors-are-pulling-ahead`
+4. Build Your Agentic Org Chart, `https://maven.com/p/48674a/create-your-business-agentic-org-chart`
+5. Build Your AI Chief of Staff, `https://maven.com/p/dd0ebd/build-your-ai-chief-of-staff`
 
 ---
 
@@ -299,12 +303,18 @@ Structure:
 
 ## Homepage Y-Fork
 
-`src/components/YFork.tsx`. Two glass-cards side by side.
+`src/components/YFork.tsx`. Three intent cards plus a free-entry strip.
 
-- **Card A. The Cohort.** "Make your nervous AI decision with 15 other senior leaders." $2,500 per seat. CTA → `/cohort`.
-- **Card B. Enterprise.** "Your AI capabilities, translated into revenue." From $15,000. CTA → `/enterprise`.
+- **Card 1 (Sharpen how I think).** "I want to get clearer about AI." Body mentions Workshops at $599 and Cohort at $2,500. CTA "See programmes" → `/cohort`.
+- **Card 2 (Resolve one decision).** "I have one nervous AI decision to make." CTA "Book a Signal Session" → `/enterprise#signal-session`.
+- **Card 3 (Rebuild the commercial layer).** "We're changing how we make money with AI." CTA "Scope an engagement" → `/capital`.
 
-`NewHero`'s secondary CTA "See how I work" smooth-scrolls to `#y-fork`. Hero eyebrow reads "Decision blockers I hear every week".
+**Free-entry strip** below the cards (for visitors not ready to book):
+- Decision Readiness Diagnostic → `/leaders`
+- CTRL waitlist → `CtrlWaitlistPopover` (fires `notify-ctrl-waitlist` edge function)
+- Read the Sunday brief → `https://mindmakerlive.substack.com/`
+
+`NewHero`'s secondary CTA "See how I work" smooth-scrolls to `#y-fork`.
 
 ---
 
@@ -328,7 +338,7 @@ Structure:
 
 ## Booking Flow
 
-- Single entry point: `InitialConsultModal` opened via `openConsultModal` custom event
+- Primary entry point: "Book a call" dispatches `openScopingModal` → `ScopingModal` opens
 - All public CTAs route through this modal except:
   - Cohort `Reserve my seat on Maven` button (direct Maven URL)
   - Lightning Lessons (direct Maven URLs)

@@ -1,6 +1,6 @@
 # Branding
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-31
 
 ---
 
@@ -8,7 +8,7 @@
 
 **The anti-consultancy for leaders who are done being sold AI and ready to use it.**
 
-Mindmaker sells exactly four things, in two tiers and one inquiry-only relief valve: a Maven-hosted decision room for senior leaders (the Cohort), enterprise sprints for companies commercializing AI products (the Signal Session and Revenue Architecture), and a half-day team-alignment Immersion (inquiry-only). Nothing in between. Nothing ongoing.
+Mindmaker is a ladder with five rungs and a continuity layer: five paid Workshops at $599 each (the entry rung), the AI-Fluent Executive Cohort at $2,500 (the decision room), the Signal Session at $15,000 and the Revenue Architecture at $60,000–$100,000 (the enterprise engine), the AI Immersion at $12,000 (inquiry-only team alignment), and the Alumni Pass at $1,500/year (invitation-only continuity). Nothing ongoing. Nothing fractional. Every offer has a fixed scope and a finish line.
 
 **Brand North Star:** If Stripe's design sensibility met Anthony Bourdain's authenticity.
 
@@ -61,7 +61,7 @@ Your smartest, most cynical friend who runs AI transformation every day and genu
 
 **Primary CTA everywhere:** **"Book a call"**
 
-No conditional labels. No "What's your nervous decision?" (retired, it tested as too therapist-y for enterprise buyers). No "Start the Conversation". Just "Book a call", which opens `InitialConsultModal` via the global `openConsultModal` event.
+No conditional labels. No "What's your nervous decision?" (retired, it tested as too therapist-y for enterprise buyers). No "Start the Conversation". Just "Book a call", which dispatches `openScopingModal` → opens `ScopingModal` (the primary conversion surface). The legacy `InitialConsultModal` remains mounted for surfaces not yet migrated.
 
 **Cohort-specific direct CTA:** **"Reserve my seat on Maven"**, points directly at `https://maven.com/mindmaker/the-ai-fluent-executive` for buyers who already know the cohort is the right fit and want to skip the consult call.
 

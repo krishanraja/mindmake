@@ -1,6 +1,6 @@
 # User Outcomes
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-31
 
 ---
 
@@ -18,19 +18,20 @@ Every offer has a defined artefact, a defined finish line, and no retainer attac
 
 ```
 Week 0:  Relief     → Finally naming the decision out loud to peers
-Week 1:  Clarity    → Cutting through vendor noise to the real question (Name the decision)
-Week 2:  Momentum   → Options mapped, trade-offs visible, path narrowing (Map the paths)
-Week 3:  Confidence → Board-ready position written, defended, committed (Make the call)
+Week 1:  Clarity    → Cutting through vendor noise to the real question (Diagnose)
+Week 2:  Momentum   → Options mapped, trade-offs visible, path narrowing (Decompose)
+Week 3:  Confidence → Board-ready position written, defended, committed (Decide)
+Week 4:  Direction  → First concrete step shipped, accountability in place (Deploy)
 ```
 
-### Immediate (end of cohort, week 3)
+### Immediate (end of cohort, week 4)
 
 - One board-ready position memo (1 page) on one nervous AI decision
 - Trade-off analysis document with options named and rejection reasons documented
 - 90 days of cohort Slack access
 - Lifetime access to curriculum materials
 - Invitation to the cohort alumni network
-- Working fluency with the Mind Set → Mind Map → Mind Make framework
+- Working fluency with the Diagnose → Decompose → Decide → Deploy framework
 
 ### 30 days post-cohort
 
@@ -45,7 +46,7 @@ Week 3:  Confidence → Board-ready position written, defended, committed (Make 
 - ~30% of cohort members refer a peer to the next cohort
 - Maven alumni access continues, repeat-cohort eligibility for next nervous decision
 
-**Leading indicators we measure:** decision named in week 1, memo drafted by end of week 2, memo defended by end of week 3, peer Slack engagement during the 90-day window.
+**Leading indicators we measure:** decision named in week 1, memo drafted by end of week 3, memo defended and first step shipped by end of week 4, peer Slack engagement during the 90-day window.
 
 **Lagging indicators (6–12 months):** decision held up under board scrutiny, no second-guessing, alumni referrals, repeat enrollment for the next nervous decision.
 
@@ -149,7 +150,7 @@ Week 3:  Confidence → Board-ready position written, defended, committed (Make 
 - No more dreading the next AI or commercial-strategy conversation
 
 ### 4. Independence
-- Framework portable. Mind Set → Mind Map → Mind Make
+- Framework portable. Diagnose → Decompose → Decide → Deploy (Cohort); Mind Set → Mind Map → Mind Make (cross-offer lens)
 - Artefacts owned by the buyer, editable, and reusable
 - Success explicitly defined as "you don't need us next quarter"
 
@@ -162,7 +163,7 @@ Week 3:  Confidence → Board-ready position written, defended, committed (Make 
 - **Not** ongoing retainer or fractional role → Instead: fixed scope, fixed finish line
 - **Not** tool recommendations → Instead: trade-off analysis so the buyer decides
 - **Not** implementation or production IT → Instead: the commercial and decision layer, with clean handover
-- **Not** 6-month engagement → Instead: 30-day Revenue Architecture, 1-day Signal Session, 4-hour Immersion, 3-week Cohort
+- **Not** 6-month engagement → Instead: 30-day Revenue Architecture, 1-day Signal Session, 4-hour Immersion, 4-week Cohort
 
 ---
 

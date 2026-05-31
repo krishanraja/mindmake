@@ -1,6 +1,6 @@
 # Deployment Checklist
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-31
 
 Pre-deploy and post-deploy verification for the Mindmaker project.
 
@@ -71,7 +71,7 @@ All routes in `src/App.tsx` accessible:
 ### 6. Brand compliance
 - [ ] Primary CTA everywhere is **"Book a call"** (no conditional labels, not "What's your nervous decision?")
 - [ ] Cohort `/cohort` page surfaces "Hosted on Maven" pill and "Reserve my seat on Maven" CTA pointing to the canonical Maven URL
-- [ ] All other CTAs route through `InitialConsultModal` via `window.dispatchEvent(new CustomEvent('openConsultModal'))`
+- [ ] "Book a call" CTAs dispatch `openScopingModal` → open `ScopingModal`. No CTA should dispatch the legacy `openConsultModal` on new surfaces.
 - [ ] Framework language: Mind Set → Mind Map → Mind Make (unchanged)
 - [ ] Offers labelled correctly: **The AI-Fluent Executive (Cohort)**, **The Signal Session**, **The Revenue Architecture**, **The AI Immersion**
 - [ ] No references to retired offers (4-Week Sprint, 90-Day Sprint, Builder Sprint, Leadership Lab, Portfolio Partner, Fractional CAIO)
@@ -113,14 +113,14 @@ All routes in `src/App.tsx` accessible:
 
 ### 1. Health check
 - [ ] Homepage loads without errors
-- [ ] Navigation works (Cohort / Enterprise / **Live Intel** / Resources / About)
+- [ ] Navigation works (Workshops / Cohort / Enterprise / **Mindmaker LIVE** / Resources / About)
 - [ ] `PriceTicker` renders and scrolls on both `/` and `/signal`
 - [ ] Nervous Decision Machine returns a response on both homepage and `/signal`
 - [ ] `/immersion` and `/new-age-leadership` lazy-load and render correctly
 - [ ] `Cohort` page Maven pill and "Reserve my seat on Maven" CTA both link to `https://maven.com/mindmaker/the-ai-fluent-executive`
 
 ### 2. Conversion regression check
-- [ ] "Book a call" CTA opens `InitialConsultModal` from every page
+- [ ] "Book a call" CTA opens `ScopingModal` from every page (dispatches `openScopingModal` event)
 - [ ] `PreCallQualifier` floating pill opens drawer, completes 3-step intake, pre-loads modal
 - [ ] Modal submission invokes `send-lead-email`; Calendly opens with pre-filled identity
 - [ ] Decision Readiness Diagnostic (`/leaders`) completes end-to-end; unlock form sends `send-leadership-insights-email`
@@ -131,6 +131,8 @@ All routes in `src/App.tsx` accessible:
 - [ ] `get-model-data`: PriceTicker populates with canonical 7 models
 - [ ] `send-lead-email`: (test env) submit lead, verify receipt
 - [ ] `send-leadership-insights-email`: (test env) complete diagnostic + unlock, verify dual email
+- [ ] `notify-scoping-request`: (test env) submit scoping form, verify Krish receives notification email
+- [ ] `notify-ctrl-waitlist`: (test env) submit CTRL waitlist form, verify signup recorded
 
 ### 4. Redirect check
 - [ ] `/tool` redirects to `/signal#decision`

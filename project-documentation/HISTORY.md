@@ -1,6 +1,42 @@
 # History
 
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-31
+
+---
+
+## 2026-05-31: Post-launch site changes (ScopingModal, YFork redesign, MindMakerLiveSection)
+
+**What Changed:**
+- Replaced `InitialConsultModal` as the primary "Book a call" conversion surface with **`ScopingModal`** — a six-field scoping form (name, email, company/role, decision-or-problem, success-in-30-days, notes) that submits to a new `notify-scoping-request` edge function. Krish replies within 48 hours. `InitialConsultModal` remains mounted in `App.tsx` as a legacy surface while remaining CTAs migrate.
+- Redesigned the **homepage Y-fork** (`YFork.tsx`): replaced the two-card "Two ways I work" layout with three intent cards ("Sharpen how I think" → `/cohort`, "Resolve one decision" → `/enterprise#signal-session`, "Rebuild the commercial layer" → `/capital`) plus a free-entry strip (Decision Readiness Diagnostic, CTRL waitlist, Substack subscribe). Section headline is now "Start where your question actually is."
+- Added **`MindMakerLiveSection`** to the homepage scroll (between `OperatorsBrief` and `SimpleCTA`): dark bg, three pillar tiles (Headlines / Resources / Perspectives), Substack subscribe form.
+- Added **`CtrlWaitlistPopover`** component (also used in the YFork free-entry strip): captures email + source page, submits to new `notify-ctrl-waitlist` edge function.
+- Updated **Lightning Lessons** to five lessons with new Maven URLs and a redesigned modal (list layout with thumbnails, bullet points, and direct CTA buttons). Old four-lesson set with old URLs replaced.
+- **Navigation Resources dropdown** now includes "New Age Leadership" between "How I operate" and "Library". Nav CTA "Book a call" dispatches `openScopingModal`.
+- Added two new **edge functions**: `notify-scoping-request` (scoping form submissions) and `notify-ctrl-waitlist` (CTRL app waitlist).
+- NewHero: added a secondary tertiary link "Or grab a free 15-min diagnostic" pointing to `CONCIERGE_CALENDLY_URL` alongside the existing "Or start with a free lesson" link.
+
+**Why:**
+- The scoping form replaces a generic consult modal with a structured brief that lets Krish qualify and prepare before the call — higher signal for both parties.
+- The YFork redesign aligns the homepage fork with the actual three-door structure (sharpen thinking, resolve one decision, rebuild commercial layer) and surfaces `/capital` as a distinct intent, not just an Enterprise variant.
+- The MindMakerLiveSection makes the Substack newsletter a first-class homepage surface rather than burying it in OperatorsBrief.
+- CtrlWaitlistPopover captures interest in CTRL while the app is in pre-launch.
+
+**Files Created:**
+- `src/components/ScopingModal.tsx`
+- `src/components/CtrlWaitlistPopover.tsx`
+- `src/components/MindMakerLiveSection.tsx`
+- `supabase/functions/notify-scoping-request/`
+- `supabase/functions/notify-ctrl-waitlist/`
+
+**Files Updated:**
+- `src/components/YFork.tsx` (redesign, 3 cards + free-entry strip)
+- `src/components/NewHero.tsx` (added 15-min diagnostic tertiary link; "Book a call" → openScopingModal)
+- `src/components/Navigation.tsx` (Workshops slot 1; CTA → openScopingModal; New Age Leadership in Resources; correct About links)
+- `src/components/LightningLessons.tsx` (5 lessons, new URLs, modal list layout)
+- `src/pages/Index.tsx` (added MindMakerLiveSection to scroll order)
+- `src/App.tsx` (ScopingModal mounted as global overlay)
+- All forward-looking docs in `project-documentation/` (ARCHITECTURE, FEATURES, README, BRANDING, OUTCOMES, DEPLOYMENT, ICP, SALES_PLAYBOOK, OFFERS)
 
 ---
 

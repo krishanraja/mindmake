@@ -23,3 +23,6 @@ verify_jwt = false
 
 [functions.nervous-decision-machine]
 verify_jwt = false
+
+[functions.import-audience-csv]
+verify_jwt = false

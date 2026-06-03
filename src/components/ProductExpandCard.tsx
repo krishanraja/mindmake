@@ -10,6 +10,7 @@ export interface ProductExpandCardData {
   subhead: string;
   price: string;
   priceDetail?: string;
+  priceAnchor?: string;
   outcomeTodo?: string;
   trioLine: string;
   primaryCTA: {
@@ -46,6 +47,7 @@ export const ProductExpandCard = ({
   subhead,
   price,
   priceDetail,
+  priceAnchor,
   outcomeTodo,
   trioLine,
   expanded,
@@ -109,13 +111,18 @@ export const ProductExpandCard = ({
               {subhead}
             </p>
             <div className="flex flex-wrap items-baseline gap-2">
-              <span className="text-3xl md:text-4xl font-bold">{price}</span>
+              <span className="text-xl md:text-2xl font-bold">{price}</span>
               {priceDetail && (
                 <span className="text-sm text-muted-foreground">
                   {priceDetail}
                 </span>
               )}
             </div>
+            {priceAnchor && (
+              <p className="mt-2 text-xs text-muted-foreground leading-relaxed">
+                {priceAnchor}
+              </p>
+            )}
             {outcomeTodo && (
               <p
                 data-todo="outcome-line"

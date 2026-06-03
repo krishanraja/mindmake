@@ -1,6 +1,6 @@
 # Branding
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-06-03
 
 ---
 
@@ -97,7 +97,7 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 | "What's your nervous decision?" (CTA button) | "Book a call" |
 | "Chat with Krish" / "Ask Mindmaker" | (chatbot retired, replaced by `PreCallQualifier`) |
 | "AI Leadership Benchmark" | "Decision Readiness Diagnostic" (`/leaders`, unlinked from nav) |
-| "Signal Desk" / "The Brief" / "The Operator's Brief" (as a nav label) | **"Live Intel"** (as the nav label and page H1) |
+| "Signal Desk" / "The Brief" / "The Operator's Brief" (as a nav label) | **"Mindmaker LIVE"** (the nav wordmark); the page itself is titled **"Live Intel"** |
 | "Builder vs Orchestrator" | "AI leaders vs AI products" (the Y-fork) |
 | "8–12 week Revenue Architecture" | "30-day Revenue Architecture (4–5 calendar weeks)" |
 | "5–10 page Signal Session thesis" | "15–20 page Commercial Narrative within 48 hours" |
@@ -122,7 +122,7 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 - "We help you…", prefer "You will…" or the direct verb
 - Optimize, enhance, maximize, holistic, paradigm
 - "Chat with Krish", "Sprint 4-Week", "Sprint 90-Day", "Builder Economy" (as a Mindmaker product, it's now an external sister domain)
-- "Signal Desk" or "The Brief" as a nav label (the live label is **"Live Intel"**)
+- "Signal Desk" or "The Brief" as a nav label (the live nav label is the **"Mindmaker LIVE"** wordmark; the page H1 is **"Live Intel"**)
 
 ---
 
@@ -135,7 +135,8 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 - **The Revenue Architecture**. not "sprint", "engagement", "project"
 - **The AI Immersion**. not "team workshop", "leadership offsite", "alignment session"
 - **The Commercial Narrative**. the 15–20 page Signal Session deliverable; not "thesis", "report", "deliverable"
-- **Live Intel**. the nav label and H1 for the editorial surface at `/signal` (renamed from "Signal Desk" → "The Brief" → "Live Intel" for plain-English clarity)
+- **Live Intel**. the H1 and page title for the editorial surface at `/signal` (renamed from "Signal Desk" → "The Brief" → "Live Intel" for plain-English clarity)
+- **Mindmaker LIVE**. the nav wordmark that links to `/signal` (the Live Intel surface); also the name of the homepage newsletter section (`MindMakerLiveSection`, a Substack embed). Distinct from "Live Intel", which is the page itself
 - **The Operator's Brief**. body-copy alternative for Live Intel; OK in editorial copy, not as a nav label
 - **The Nervous Decision Machine**. the embedded tool; no longer on a standalone `/tool` page
 - **Decision Readiness Diagnostic**. the `/leaders` quiz; unlinked from nav but reachable by URL
@@ -277,7 +278,7 @@ Renamed from the previous SIGNAL / NOISE / DECISION / TAKE set. Do not reference
 - Don't use "transformation", "synergy", "leverage" (as verb), "journey" (as abstract noun)
 - Don't say "8–12 weeks" for the Revenue Architecture, it's now **30 days**
 - Don't say "5–10 page thesis" for the Signal Session, it's now **15–20 page Commercial Narrative within 48 hours**
-- Don't label `/signal` as "The Brief" or "Signal Desk" in nav, the label is **"Live Intel"**
+- Don't label `/signal` as "The Brief" or "Signal Desk" in nav, the nav label is the **"Mindmaker LIVE"** wordmark (the page H1 is **"Live Intel"**)
 
 ---
 

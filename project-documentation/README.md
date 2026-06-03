@@ -1,6 +1,6 @@
 # Mindmaker Project Documentation
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-06-03
 
 ---
 
@@ -140,7 +140,7 @@ For the strategic intent behind the current shape of the business, read `mindmak
 - "Builder vs Orchestrator" ICP framing
 - "Chat with Krish" / "Ask Mindmaker" chatbot (replaced by `PreCallQualifier`)
 - "Signal Desk" naming (renamed to **Live Intel** at `/signal`)
-- "The Brief" / "The Operator's Brief" as a nav label (the nav label is now **"Live Intel"**; "The Operator's Brief" can still appear as a body-copy reference for the editorial taxonomy on `/signal`)
+- "The Brief" / "The Operator's Brief" as a nav label (the nav label is now the **"Mindmaker LIVE"** wordmark; **"Live Intel"** is the page title/H1; "The Operator's Brief" can still appear as a body-copy reference for the editorial taxonomy on `/signal`)
 - SIGNAL / NOISE / DECISION / TAKE taxonomy (renamed to WATCH / SKIP / CALL / TAKE)
 - CTRL (portable context app) as a headline Mindmaker product
 - Builder Economy as a Mindmaker product (now an external sister domain at `thebuildereconomy.com`)

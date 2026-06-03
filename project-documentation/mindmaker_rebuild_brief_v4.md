@@ -5,6 +5,19 @@
 **Version:** 5.0
 **Last Updated:** 2026-04-22
 
+> ⚠️ **HISTORICAL SNAPSHOT — superseded in parts. Do not treat as the current spec.**
+> This is the April 2026 strategic brief that *shaped* the current site. Several specifics below have since changed. For current state, the canonical sources are **`CLAUDE.md`**, **`OFFERS.md`**, **`DECISIONS_LOG.md`**, and **`HISTORY.md`**.
+>
+> Where this brief is now out of date:
+> - **Cohort:** described here as "The AI Decision Cohort" at **$3,500/seat, 3 weeks**. Now **"The AI-Fluent Executive"** at **$2,500/seat (or 2× $1,250), 4 weeks**, framework **Diagnose → Decompose → Decide → Deploy** (v6 restructure, May 2026).
+> - **Ladder:** the barbell (Cohort + Enterprise) here became a four-rung ladder — free Lightning Lessons → **Workshops ($599)** → Cohort ($2,500) → Enterprise ($15k+) → **Alumni Pass ($1,500/yr)** — plus **Capital** as a third door for funds.
+> - **Pricing display (§8):** the "price as the card headline" rule is superseded by a **value-first** treatment (outcome leads, price subordinate, framed against the alternative). See the note at §8 and the 2026-06-03 `DECISIONS_LOG.md` entry.
+> - **`/signal`:** called "The Signal Desk" here; now titled **"Live Intel"**, reached via the **"Mindmaker LIVE"** nav wordmark. Card taxonomy is **WATCH / SKIP / CALL / TAKE** (not SIGNAL / NOISE / DECISION / TAKE).
+> - **Conversion surface:** the primary "Book a call" surface is now **`ScopingModal`** ("Scope it with me"); `InitialConsultModal` is legacy (Alumni only).
+> - **Deleted since:** the standalone `/tool` page (machine now embedded), plus `ProofStrip`, `SignalDeskPreview`, and other components referenced below.
+>
+> The body below is preserved unedited as a record of the April 2026 intent.
+
 ## v5 changes from v4
 
 Moderate addition: the "operator's edge" narrative.
@@ -775,6 +788,8 @@ Modal subheader: "Three quick questions. Takes 90 seconds. Your answers pre-load
 ---
 
 ## 8. Pricing display rules
+
+> **Superseded (2026-06-03).** The site now uses a **value-first** treatment on the high-ticket surfaces: the **outcome headline leads** and the price renders **subordinate beneath it** (smaller than the headline), with a one-line *priceAnchor* framing the number against the alternative (e.g. Revenue Architecture: "a management consultancy bids the same scope at $400k+ over nine months… this is one operator, 30 days, fixed"). The Immersion page leads with worth, not the number, and the `/enterprise` comparison table lists **Price last**. The "Card headline price" rule below is no longer accurate. Prices remain **visible** (transparency is part of the anti-consultancy stance) and there is still **no `/pricing` page**. The cohort figure below ($3,500) is also stale — it is **$2,500**. See the 2026-06-03 `DECISIONS_LOG.md` entry.
 
 All pricing appears in three places minimum:
 

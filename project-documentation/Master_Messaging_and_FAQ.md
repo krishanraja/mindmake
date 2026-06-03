@@ -1,7 +1,7 @@
 # Mindmaker Master Messaging & FAQ Document
 *Core source of truth for product marketing, sales, content, and outbound*
 
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-06-03
 
 **Goal:** One document a salesperson, content writer, or AI agent can open and get every pitch, position, and objection answer right. Supersedes the earlier CTRL / 1:1-sprint-era version. For strategic intent, read `mindmaker_rebuild_brief_v4.md`. For agent-grade sales detail (ICP signals, ROI math, channel templates), read `SALES_PLAYBOOK.md`.
 
@@ -239,7 +239,7 @@ It's my podcast and creator project at `thebuildereconomy.com`. It isn't a Mindm
 They were 1:1 products priced for an unclear buyer, and the sales motion didn't match a solo operator's capacity. The barbell. Cohort at the low end, Enterprise at the high end, matches both how content distributes and how Krish can actually deliver personally. If 1:1 is genuinely the right shape, we handle it via inquiry at `/cohort?inquiry=1:1`, but it's not a public product.
 
 ### "Why renamed Signal Desk → The Brief → Live Intel?"
-"Signal Desk" overlapped with Krish's separate business, Signal & Noise. "The Brief" tested fine internally but read as opaque to first-time visitors. "Live Intel" says exactly what the surface is: live model pricing and live signals about what to act on now. The classified card taxonomy (WATCH/SKIP/CALL/TAKE) is unchanged.
+"Signal Desk" overlapped with Krish's separate business, Signal & Noise. "The Brief" tested fine internally but read as opaque to first-time visitors. "Live Intel" says exactly what the surface is: live model pricing and live signals about what to act on now. (In the top nav, the link to it is the "Mindmaker LIVE" wordmark; the page itself is titled "Live Intel".) The classified card taxonomy (WATCH/SKIP/CALL/TAKE) is unchanged.
 
 ### "Do you ever recommend specific tools?"
 We do trade-off analysis, not recommendations. The buyer always decides. We don't take vendor referral fees. Ever.

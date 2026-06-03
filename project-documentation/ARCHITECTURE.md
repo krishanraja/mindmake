@@ -1,6 +1,6 @@
 # Architecture
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-06-03
 
 ---
 
@@ -188,7 +188,7 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 
 On `/cohort?inquiry=1:1`, a banner surfaces the inquiry-only private-engagement path without advertising it on the main page.
 
-No `/pricing` page, pricing lives in context on `/cohort`, `/enterprise`, and `/immersion`.
+No `/pricing` page, pricing lives in context on the offer pages (`/workshops`, `/cohort`, `/enterprise`, `/capital`, `/immersion`).
 
 ---
 

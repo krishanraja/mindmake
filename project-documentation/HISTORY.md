@@ -4,6 +4,16 @@
 
 ---
 
+## 2026-06-03: Value-first pricing reframe + documentation reconciliation
+
+**What changed (code, then docs):**
+- **Value-first pricing on the high-ticket surfaces.** Prices stay visible, but the outcome now leads and the price renders subordinate. `ProductExpandCard` shrinks the price below the headline and adds an optional `priceAnchor` framing line; `/enterprise` and `/capital` populate those anchors (Revenue Architecture uses the "$400k+ / nine-month consultancy" comparison; the Signal Session frames speed). `/immersion` leads with worth and demotes the `$12,000`; the `/enterprise` comparison table moves Price to the last row. Numbers are unchanged. See the matching `DECISIONS_LOG.md` entry.
+- **Documentation reconciliation.** Nav label for `/signal` corrected to the **"Mindmaker LIVE"** wordmark across BRANDING / FEATURES / VISUAL_GUIDELINES / DEPLOYMENT / README / SALES_PLAYBOOK / COMMON_ISSUES / Master_Messaging ("Live Intel" remains the page title). `mindmaker_rebuild_brief_v4.md` marked as a historical snapshot (banner + §8 note). Fixed a stale "opens InitialConsultModal" reference in SALES_PLAYBOOK and the in-context pricing-page list in ARCHITECTURE. "Last Updated" dates bumped on the touched docs.
+
+**Files updated (docs):** `mindmaker_rebuild_brief_v4.md`, `DECISIONS_LOG.md`, `BRANDING.md`, `FEATURES.md`, `VISUAL_GUIDELINES.md`, `DEPLOYMENT.md`, `README.md`, `SALES_PLAYBOOK.md`, `COMMON_ISSUES.md`, `Master_Messaging_and_FAQ.md`, `REPLICATION_GUIDE.md`, `ARCHITECTURE.md`. Historical entries preserved as-is.
+
+---
+
 ## 2026-06-03: Documentation refresh: homepage re-fork by intent + scoping modal
 
 **What Changed (in the codebase, reconciled into docs):**

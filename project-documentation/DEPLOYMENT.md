@@ -1,6 +1,6 @@
 # Deployment Checklist
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-06-03
 
 Pre-deploy and post-deploy verification for the Mindmaker project.
 
@@ -75,7 +75,7 @@ All routes in `src/App.tsx` accessible:
 - [ ] Framework language: Mind Set → Mind Map → Mind Make (unchanged)
 - [ ] Offers labelled correctly: **The AI-Fluent Executive (Cohort)**, **The Signal Session**, **The Revenue Architecture**, **The AI Immersion**
 - [ ] No references to retired offers (4-Week Sprint, 90-Day Sprint, Builder Sprint, Leadership Lab, Portfolio Partner, Fractional CAIO)
-- [ ] `/signal` labelled **"Live Intel"** in nav (NOT "The Brief", NOT "Signal Desk")
+- [ ] `/signal` nav label is the **"Mindmaker LIVE"** wordmark (NOT "The Brief", NOT "Signal Desk"); the page H1 reads **"Live Intel"**
 - [ ] Taxonomy on `/signal` is **WATCH / SKIP / CALL / TAKE** (not SIGNAL / NOISE / DECISION / TAKE)
 - [ ] Decision Readiness Diagnostic (`/leaders`) is **not** linked from nav or footer
 - [ ] `/immersion` is **not** linked from main nav (inquiry-only)

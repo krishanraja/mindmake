@@ -6,6 +6,34 @@
 
 ## Brand & Product Decisions
 
+### 2026-06-03: Value-first pricing display on the high-ticket surfaces
+
+**Decision:** Prices stay **visible** everywhere (price transparency is part of the anti-consultancy positioning; there is still no `/pricing` page), but the high-ticket surfaces now lead with the **outcome** and render the price **subordinate**, framed against the alternative:
+- On the `/enterprise` and `/capital` engagement cards (`ProductExpandCard`), the outcome headline is the dominant element and the price sits beneath it at a smaller size, with a one-line **`priceAnchor`** that frames the number. Revenue Architecture's anchor uses the existing consultancy comparison ("a management consultancy bids the same scope at $400k+ over nine months, with associates doing the work; this is one operator, 30 days, fixed"); the Signal Session's frames speed ("most teams argue toward this read for a quarter; you get it in 48 hours").
+- The `/immersion` pricing card now **leads with worth** ("keeping eight executives misaligned on AI for two more quarters costs far more than a single afternoon…") and demotes the `$12,000` from a 5xl/6xl headline to a supporting line.
+- The `/enterprise` comparison table lists the **Price row last**, after the value rows.
+
+**Context:**
+- The concern was that a cold visitor hitting "$60,000–$100,000" or a giant "$12,000" before any value is established bounces. The fix is **sequencing and framing**, not hiding the number — hiding prices would revert Mindmaker to the "book a call to discuss pricing" consultancy motion the brand explicitly rejects.
+- Pricing *numbers* are unchanged. This is a display/UX decision.
+
+**Impact:**
+- Code: `src/components/ProductExpandCard.tsx` (price size reduced; optional `priceAnchor` added), `src/pages/Enterprise.tsx`, `src/pages/Capital.tsx`, `src/pages/Immersion.tsx`.
+- **Supersedes** the "Pricing display rules" in `mindmaker_rebuild_brief_v4.md` §8 ("Card headline price: From $60,000"), now annotated as superseded.
+
+---
+
+### 2026-06-03: Documentation reconciliation (nav label; rebuild brief marked historical)
+
+**Decision:** A housekeeping pass to remove stale references and contradictions:
+- **The nav label for `/signal` is the "Mindmaker LIVE" wordmark** (`Navigation.tsx`), not "Live Intel". "Live Intel" remains the page title/H1 and homepage-teaser label; "The Operator's Brief" stays acceptable as editorial body copy; "The Brief" / "Signal Desk" are retired. This supersedes the 2026-04-26 note that the nav slot was labelled "Live Intel" — the label changed in code and the docs lagged. Reconciled across `BRANDING`, `FEATURES`, `VISUAL_GUIDELINES`, `DEPLOYMENT`, `README`, `SALES_PLAYBOOK`, `COMMON_ISSUES`, and `Master_Messaging_and_FAQ`.
+- `mindmaker_rebuild_brief_v4.md` now carries a **"historical snapshot"** banner so its v4/v5-era specifics (cohort $3,500 / 3 weeks, "Signal Desk", `/tool`, price-as-headline) are not mistaken for current spec.
+- Fixed: `SALES_PLAYBOOK.md` said the primary CTA "opens InitialConsultModal" (now the `ScopingModal`); `ARCHITECTURE.md` listed the wrong set of in-context pricing pages.
+
+**Open flag:** if the intended nav label is actually "Live Intel" (i.e. the *code* is what drifted, not the docs), flip `Navigation.tsx:56` back and revert these doc references; the rest of this reconciliation stands either way.
+
+---
+
 ### 2026-06-03: Homepage re-forked by intent; ScopingModal becomes the primary conversion surface
 
 **Decision:** The homepage Y-fork is framed by buyer intent rather than product tier. `YFork.tsx` headline is now "Start where your question actually is." with three intent cards: **Sharpen how I think** → `/cohort`, **Resolve one decision** → `/enterprise#signal-session`, **Rebuild the commercial layer** → `/capital`. Capital returns to the homepage via the "Rebuild" card. CTAs are split into tier-appropriate paths, and a free-entry strip (Diagnostic / CTRL waitlist / Sunday brief) catches visitors not ready to book. The primary "Book a call" conversion surface is now `ScopingModal` (a 6-field scoping intake posting to `notify-scoping-request`); `InitialConsultModal` is retained only for the invitation-only Alumni Pass.
@@ -152,6 +180,8 @@
 ---
 
 ### 2026-04-26: `/signal` nav label is "Live Intel" (was "The Brief")
+
+> **Superseded 2026-06-03** — the nav label is now the **"Mindmaker LIVE"** wordmark; "Live Intel" remains the page title/H1. See the 2026-06-03 reconciliation entry above.
 
 **Decision:** The second-top-level nav slot is labelled **"Live Intel"**. "The Operator's Brief" is acceptable in editorial body copy on `/signal`, but is no longer the nav label.
 

@@ -1,6 +1,6 @@
 # Common Issues
 
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-06-03
 
 ---
 
@@ -52,7 +52,7 @@ Note: the phrase "what's your nervous decision" can still appear in body copy as
 ### Issue: Nav label still says "The Brief" or "Signal Desk"
 **Symptom:** Second top-level nav slot reads "The Brief" or "Signal Desk".
 **Cause:** Nav copy not updated to v4/v5 latest.
-**Solution:** Nav label is **"Live Intel"** (`Navigation.tsx`). The body-copy term "The Operator's Brief" is still acceptable in editorial copy on `/signal`, but the nav label is "Live Intel".
+**Solution:** The nav label is the **"Mindmaker LIVE"** wordmark (`Navigation.tsx`), which links to `/signal`. **"Live Intel"** is the page title/H1 and the homepage-teaser label. "The Operator's Brief" is still acceptable in editorial body copy on `/signal`, but never as the nav label; "The Brief" and "Signal Desk" are fully retired.
 
 ---
 

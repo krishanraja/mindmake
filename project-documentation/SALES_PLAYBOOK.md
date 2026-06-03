@@ -1,7 +1,7 @@
 # Mindmaker Sales Playbook
 *The single ground-truth document for AI sales and marketing agents working the Mindmaker book.*
 
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-06-03
 
 > If you are an AI sales or marketing agent, outbound, inbound, content, retargeting, lifecycle, paid, or organic, this is the document you ground on. It is opinionated, structured for retrieval, and biased toward action. Use `OFFERS.md`, `ICP.md`, `VALUE_PROP.md`, `OUTCOMES.md`, and `BRANDING.md` for deeper canon. Use `Master_Messaging_and_FAQ.md` for full pitches and FAQ.
 
@@ -480,12 +480,12 @@ OFFERS (the ladder):
 
 BRAND FRAMEWORK (homepage FrameworkJourney):  Mind Set → Mind Map → Mind Make
 COHORT CURRICULUM FRAMEWORK:                  Diagnose → Decompose → Decide → Deploy
-PRIMARY CTA:  "Book a call"  (opens InitialConsultModal)
+PRIMARY CTA:  "Book a call"  (opens the global ScopingModal, "Scope it with me")
 WORKSHOP CTA: "Enrol on Maven" (or "Get notified" if not yet published)
 COHORT CTA:   "Reserve my seat on Maven" → maven.com/mindmaker/the-ai-fluent-executive
 ALUMNI CTA:   "Request an invitation" (preselects 'alumni' in modal)
 
-NAV LABEL FOR /signal:  "Live Intel"  (NOT "The Brief", NOT "Signal Desk")
+NAV LABEL FOR /signal:  "Mindmaker LIVE" wordmark  (page title is "Live Intel"; NOT "The Brief", NOT "Signal Desk")
 TAXONOMY ON /signal:    WATCH / SKIP / CALL / TAKE
 
 DO NOT SELL:

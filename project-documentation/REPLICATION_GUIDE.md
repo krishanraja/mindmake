@@ -1,6 +1,6 @@
 # Replication Guide
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-06-03
 
 ---
 
@@ -70,7 +70,7 @@ Copy files from `src/components/ui/`.
 
 ### Step 8: Layout components
 ```
-src/components/Navigation.tsx          # Cohort / Enterprise / The Brief / Resources / About
+src/components/Navigation.tsx          # Workshops / Cohort / Enterprise / Mindmaker LIVE / Resources / About
 src/components/Footer.tsx
 src/components/ScopingModal.tsx        # primary conversion surface "Scope it with me" (openScopingModal event listener)
 src/components/InitialConsultModal.tsx # legacy conversion surface (openConsultModal listener; dispatched only from /alumni)
@@ -145,7 +145,7 @@ supabase/functions/nervous-decision-machine/index.ts
 
 ### Step 14: Create other functions
 ```
-supabase/functions/get-ai-news/index.ts               # Operator's Brief content
+supabase/functions/get-ai-news/index.ts               # Live Intel content (get-ai-news)
 supabase/functions/get-market-sentiment/index.ts
 supabase/functions/get-model-data/index.ts            # PriceTicker feed
 supabase/functions/send-lead-email/index.ts           # OpenAI enrichment + Resend
@@ -303,11 +303,11 @@ Verify end-to-end:
 2. YFork ("Start where your question actually is.") shows three intent cards (Sharpen how I think → /cohort, Resolve one decision → /enterprise#signal-session, Rebuild the commercial layer → /capital) plus the free-entry strip (Decision Readiness Diagnostic, CTRL waitlist, Sunday brief)
 3. Framework Journey animation plays
 4. Operator's Edge renders with "Beyond pattern recognition" at correct scale
-5. Operator's Brief teaser shows PriceTicker + rotating interpretation + compact NDM input
+5. Live Intel teaser (`OperatorsBrief.tsx`) shows PriceTicker + rotating interpretation + compact NDM input
 6. `/cohort` loads with offer detail and inquiry-only banner when `?inquiry=1:1` present
 7. `/enterprise` loads with `#signal-session` and `#revenue-architecture` anchors
 8. `/operator` loads with 14-agent static diagram, no scrolling logs
-9. `/signal` loads full Operator's Brief dashboard with WATCH / SKIP / CALL / TAKE filter pills
+9. `/signal` loads the full Live Intel dashboard with WATCH / SKIP / CALL / TAKE filter pills
 10. Nervous Decision Machine returns typed response on both homepage and `/signal`
 11. "Book a call" CTA opens the global `ScopingModal` via `openScopingModal` from every surface (the legacy `InitialConsultModal` / `openConsultModal` path is now used only by `/alumni`)
 12. `PreCallQualifier` pill opens drawer, completes 3-step intake, pre-loads modal

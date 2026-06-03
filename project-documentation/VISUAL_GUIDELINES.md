@@ -1,6 +1,6 @@
 # Visual Guidelines
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-06-03
 
 ---
 
@@ -462,7 +462,7 @@ Guardrails: no scrolling logs, no terminal aesthetics, no ASCII art, no interact
 
 ### Live Intel: visual spec
 
-**Nav label:** **"Live Intel"** (NOT "The Brief", NOT "Signal Desk"). The body-copy term "The Operator's Brief" remains acceptable in editorial copy on `/signal`, but the nav label is "Live Intel".
+**Nav label:** the **"Mindmaker LIVE"** wordmark links to `/signal` (NOT "The Brief", NOT "Signal Desk"). **"Live Intel"** is the page title/H1 and the homepage-teaser label. "The Operator's Brief" remains acceptable in editorial body copy on `/signal`, never as the nav label.
 
 **Homepage teaser (`OperatorsBrief.tsx`)**, minimal:
 - Continuous CSS-marquee `PriceTicker` with the canonical 7 models

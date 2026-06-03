@@ -1,6 +1,6 @@
 # Features
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-06-03
 
 ---
 
@@ -195,7 +195,7 @@ Surfaced in the Resources dropdown via the `LightningLessons` component. Four co
 
 ## Live Intel (`/signal`)
 
-Renamed from "Signal Desk" → "The Brief" → **"Live Intel"** for plain-English nav clarity. The body-copy term "The Operator's Brief" is still acceptable in editorial copy, but the nav label is "Live Intel".
+Renamed from "Signal Desk" → "The Brief" → **"Live Intel"** for plain-English clarity. "Live Intel" is the page H1 and the homepage-teaser label; the nav wordmark that links to it is **"Mindmaker LIVE"**. "The Operator's Brief" is still acceptable in editorial body copy; "Signal Desk" and "The Brief" are retired.
 
 **Homepage teaser (`OperatorsBrief.tsx`):** minimal. PriceTicker (continuous CSS-marquee) + rotating interpretation line (3 takes, 8s cross-fade) + compact Nervous Decision input + muted "Open the full dashboard →" link.
 
@@ -399,7 +399,7 @@ Key points:
 - Engine Room / mm-ctrl visualization, never built for homepage; lives nowhere public
 - CTRL as a Mindmaker product, not on site (the demo loop on `/operator` is illustrative only)
 - "Signal Desk" naming, renamed to Live Intel
-- "The Brief" as a nav label, renamed to Live Intel
+- "The Brief" / "Signal Desk" as a nav label, replaced by the "Mindmaker LIVE" wordmark (the page itself is titled "Live Intel")
 - 8–12 week Revenue Architecture timeline, replaced by 30-day intensive
 - 5–10 page Signal Session thesis, replaced by 15–20 page Commercial Narrative within 48 hours
 - "All Enterprise" footer link, dropped (commit 226ecf1)

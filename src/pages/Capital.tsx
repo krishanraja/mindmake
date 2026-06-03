@@ -46,6 +46,8 @@ const capitalProducts: ProductExpandCardData[] = [
     subhead:
       "Either we map the AI strategy for your fund or family office itself, or we run a capital-allocator's read on a specific portfolio company.",
     price: "From $15,000",
+    priceAnchor:
+      "Most allocators form this view over months of IC debate. You get it in writing, in 48 hours.",
     outcomeTodo:
       "[Krish to write: one-line outcome from a past Signal Session, anonymised]",
     trioLine:
@@ -75,6 +77,8 @@ const capitalProducts: ProductExpandCardData[] = [
       "Same Krish in the room, no associates, no retainer. Fund-level pricing for 3+ engagements per 12 months.",
     price: "From $60,000",
     priceDetail: "per portfolio company",
+    priceAnchor:
+      "A consultancy bills $400k+ and nine months per company. This is one operator, 30 days, repeatable across the portfolio.",
     outcomeTodo:
       "[Krish to write: one-line outcome from a past Revenue Architecture engagement, anonymised]",
     trioLine:

@@ -49,6 +49,8 @@ const enterpriseProducts: ProductExpandCardData[] = [
     subhead:
       "A one-day intensive that produces a 15-20 page Commercial Narrative. The best place to start if you're not sure whether Revenue Architecture is the right call.",
     price: "From $15,000",
+    priceAnchor:
+      "Most teams argue their way toward this read for a quarter. You get it in writing, in 48 hours.",
     outcomeTodo:
       "[Krish to write: one-line outcome from a past Signal Session, anonymised]",
     trioLine: ENTERPRISE_TRIO_LINE,
@@ -78,6 +80,8 @@ const enterpriseProducts: ProductExpandCardData[] = [
       "ICP, pricing, GTM, content engine, and outbound, all rebuilt to run on AI from day one. No associates, no retainer.",
     price: "From $60,000",
     priceDetail: "to $100,000, scope-dependent",
+    priceAnchor:
+      "A management consultancy bids the same scope at $400k+ over nine months, with associates doing the work. This is one operator, 30 days, fixed.",
     outcomeTodo:
       "[Krish to write: one-line outcome from a past Revenue Architecture engagement, anonymised]",
     trioLine: ENTERPRISE_TRIO_LINE,
@@ -109,6 +113,8 @@ const enterpriseProducts: ProductExpandCardData[] = [
       "Inquiry-only. For executive teams who need fast alignment before a budget cycle, board meeting, or pivot decision.",
     price: "From $12,000",
     priceDetail: "flat fee, plus travel for on-site",
+    priceAnchor:
+      "Cheaper than the off-site that ends in a deck and no decisions — and faster than the months of drift it replaces.",
     outcomeTodo:
       "[Krish to write: one-line outcome from a past Immersion]",
     trioLine:
@@ -134,21 +140,6 @@ const enterpriseProducts: ProductExpandCardData[] = [
 
 const comparisonRows = [
   {
-    label: "Duration",
-    signal: "1 day intensive + 48h delivery",
-    revenue: "30 days (4-5 calendar weeks)",
-  },
-  {
-    label: "Price",
-    signal: "From $15,000",
-    revenue: "From $60,000 to $100,000",
-  },
-  {
-    label: "Format",
-    signal: "1 intensive session, written delivery",
-    revenue: "Structured 30-day engagement, multi-session",
-  },
-  {
     label: "Best for",
     signal: "Rapid executive alignment on commercial positioning",
     revenue: "Complete commercial strategy and board-ready narrative",
@@ -157,6 +148,21 @@ const comparisonRows = [
     label: "Primary output",
     signal: "The Commercial Narrative (15-20 pages)",
     revenue: "Full commercial strategy + GTM playbook + board deck",
+  },
+  {
+    label: "Duration",
+    signal: "1 day intensive + 48h delivery",
+    revenue: "30 days (4-5 calendar weeks)",
+  },
+  {
+    label: "Format",
+    signal: "1 intensive session, written delivery",
+    revenue: "Structured 30-day engagement, multi-session",
+  },
+  {
+    label: "Price",
+    signal: "From $15,000",
+    revenue: "From $60,000 to $100,000",
   },
 ];
 

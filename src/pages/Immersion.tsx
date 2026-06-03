@@ -231,7 +231,7 @@ export default function Immersion() {
         </div>
       </section>
 
-      {/* PRICING */}
+      {/* WHAT IT'S WORTH */}
       <section className="section-padding">
         <div className="container-width max-w-3xl">
           <motion.div
@@ -241,21 +241,26 @@ export default function Immersion() {
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeUp}
           >
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-mint-dark dark:text-mint mb-3">
-              Pricing
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-mint-dark dark:text-mint mb-4">
+              What it's worth
             </div>
-            <div className="flex items-baseline gap-3 justify-center mb-3">
-              <span className="text-2xl md:text-3xl font-bold text-muted-foreground">From</span>
-              <span className="text-5xl md:text-6xl font-bold">$12,000</span>
-              <span className="text-muted-foreground">flat</span>
-            </div>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 leading-tight max-w-xl mx-auto">
+              Keeping eight executives misaligned on AI for two more quarters costs far more than a single afternoon in the right room.
+            </h2>
             <p
               data-todo="outcome-line"
-              className="text-sm italic text-mint-dark dark:text-mint leading-relaxed mb-4 max-w-md mx-auto"
+              className="text-sm italic text-mint-dark dark:text-mint leading-relaxed mb-6 max-w-md mx-auto"
             >
               [Krish to write: one-line outcome from a past Immersion]
             </p>
-            <p className="text-sm text-muted-foreground mb-6">
+            <div className="flex items-baseline gap-2 justify-center">
+              <span className="text-3xl md:text-4xl font-bold">$12,000</span>
+              <span className="text-muted-foreground">flat</span>
+            </div>
+            <p className="text-sm text-muted-foreground mt-2 max-w-md mx-auto">
+              Cheaper than the off-site that ends in a deck and no decisions.
+            </p>
+            <p className="text-sm text-muted-foreground mt-1 mb-6">
               Up to 8 leaders · On-site or remote · Travel additional if on-site
             </p>
             <Button

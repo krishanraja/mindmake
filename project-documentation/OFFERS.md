@@ -269,7 +269,7 @@ Prior 1:1 products (4-Week Sprint, 90-Day Sprint, Builder Sprint, Builder Sessio
 
 ## Entry Point
 
-**Every offer starts with "Book a call."** The global `InitialConsultModal` is the single conversion surface (`src/components/InitialConsultModal.tsx`). The `PreCallQualifier` floating pill helps prospects self-classify before the call via a 3-step chip-based intake (decision → timeline → stakes).
+**Every offer starts with "Book a call."** The global `ScopingModal` is the conversion surface (`src/components/ScopingModal.tsx`, opened via the `openScopingModal` event). `InitialConsultModal` / `openConsultModal` is legacy, retained only for `/alumni`. The `PreCallQualifier` floating pill helps prospects self-classify via a 3-step chip-based intake (decision → timeline → stakes) and feeds the scoping modal.
 
 Cohort enrollment and Workshop enrolment can also flow directly through Maven, bypassing the consult call when the buyer already knows the offer is the right fit. The Cohort page surfaces a "Reserve my seat on Maven" CTA; each Workshop sub-page surfaces "Enrol on Maven" (or "Get notified" when not yet published).
 

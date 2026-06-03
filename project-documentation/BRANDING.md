@@ -61,7 +61,7 @@ Your smartest, most cynical friend who runs AI transformation every day and genu
 
 **Primary CTA everywhere:** **"Book a call"**
 
-No conditional labels. No "What's your nervous decision?" (retired, it tested as too therapist-y for enterprise buyers). No "Start the Conversation". Just "Book a call", which opens `InitialConsultModal` via the global `openConsultModal` event.
+No conditional labels. No "What's your nervous decision?" (retired, it tested as too therapist-y for enterprise buyers). No "Start the Conversation". Just "Book a call", which opens the global `ScopingModal` via the `openScopingModal` event. (`InitialConsultModal` / `openConsultModal` is legacy, retained only for `/alumni`.)
 
 **Cohort-specific direct CTA:** **"Reserve my seat on Maven"**, points directly at `https://maven.com/mindmaker/the-ai-fluent-executive` for buyers who already know the cohort is the right fit and want to skip the consult call.
 
@@ -70,7 +70,7 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 - "Explore enterprise" → `/enterprise`
 - "See how I work", secondary hero CTA, smooth-scrolls to Y-fork
 - "Open the full dashboard →", muted link from homepage `OperatorsBrief` to `/signal`
-- "Request a date". Immersion page CTA, opens consult modal preselected to "immersion"
+- "Request a date". Immersion page CTA, opens the scoping modal preselected to "immersion"
 
 ---
 

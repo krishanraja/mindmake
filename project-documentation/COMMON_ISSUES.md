@@ -36,7 +36,7 @@ See `BRANDING.md` and `FEATURES.md` for the complete retired-concepts list.
 ### Issue: `"What's your nervous decision?"` used as a CTA button
 **Symptom:** Button copy reads "What's your nervous decision?" somewhere.
 **Cause:** Legacy CTA from the pre-v4 branding.
-**Solution:** Replace with `"Book a call"`. All CTAs open the global `InitialConsultModal` via `window.dispatchEvent(new CustomEvent('openConsultModal'))`.
+**Solution:** Replace with `"Book a call"`. CTAs open the global `ScopingModal` ("Scope it with me") via `window.dispatchEvent(new CustomEvent('openScopingModal'))`. The legacy `InitialConsultModal` / `openConsultModal` path is retained only for `/alumni`.
 
 Note: the phrase "what's your nervous decision" can still appear in body copy as a diagnostic question ("What's the nervous decision you've been avoiding?"), but never as a CTA button label.
 
@@ -163,10 +163,10 @@ if (req.method === 'OPTIONS') return new Response(null, { headers: corsHeaders }
 
 ---
 
-### Issue: `InitialConsultModal` doesn't open from a button
+### Issue: `ScopingModal` doesn't open from a button
 **Symptom:** CTA click does nothing.
 **Cause:** Button not dispatching the custom event.
-**Solution:** Use `window.dispatchEvent(new CustomEvent('openConsultModal', { detail: { preselected?: string } }))`. The modal listens globally from `src/App.tsx`.
+**Solution:** Use `window.dispatchEvent(new CustomEvent('openScopingModal', { detail: { source_page, preselected?, qualifierAnswers? } }))`. The modal listens globally from `src/App.tsx`. (The legacy `InitialConsultModal` listens for `openConsultModal` and is now dispatched only from `/alumni`.)
 
 ---
 
@@ -248,7 +248,7 @@ When investigating issues:
 9. Verify correct system prompt on `nervous-decision-machine`
 10. Check Anthropic / OpenAI quota + rate limits
 11. Verify WCAG contrast on dark backgrounds
-12. Confirm `InitialConsultModal` listens for `openConsultModal` custom event
+12. Confirm `ScopingModal` listens for `openScopingModal` custom event (the legacy `InitialConsultModal` / `openConsultModal` path is dispatched only from `/alumni`)
 13. Verify no retired product names in new copy
 14. Verify brand voice compliance (see `BRANDING.md`)
 

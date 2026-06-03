@@ -427,19 +427,21 @@ The homepage is a curated vertical scroll. Authoritative source: `src/pages/Inde
 |-------|-----------|------------------|
 | 1. Navigation | `Navigation.tsx` | Fixed top, mint "Book a call" CTA, hides on scroll-down |
 | 2. Hero | `NewHero.tsx` | Full-viewport dark ink, looping `/rising-cities.mp4` background, particle animation, rotating headlines, eyebrow "Decision blockers I hear every week", mint CTA "Book a call", secondary "See how I work" |
-| 3. Y-Fork | `YFork.tsx` | Two-card glass layout. The Cohort ($2,500) vs Enterprise (from $15k) |
-| 4. Big Problem | `BigProblem.tsx` | Existential urgency frame |
+| 3. Y-Fork | `YFork.tsx` | "Start where your question actually is." Three-intent glass-card layout (Sharpen → `/cohort`, Resolve → `/enterprise#signal-session`, Rebuild → `/capital`) + free-entry strip below (Diagnostic / CTRL waitlist / Sunday brief) |
+| 4. Big Problem | `BigProblem.tsx` | Existential urgency frame (three large interactive flip cards) |
 | 5. Trust Anchor | `TrustSection.tsx` | Krish headshot (circular, mint border), bio, testimonials carousel (COHORT-STYLE / ENTERPRISE tagged) |
 | 6. Framework Journey | `FrameworkJourney.tsx` | Three glass-card panels (Mind Set → Mind Map → Mind Make) with scroll-triggered animations |
 | 7. Operator's Edge | `OperatorsEdge.tsx` | Dark-bg typography-only credential section, "Beyond pattern recognition", three proof tiles, Revenue Architecture CTA |
 | 8. Live Intel teaser | `OperatorsBrief.tsx` | CSS-marquee `PriceTicker` + rotating plain-English interpretation line + compact Nervous Decision input + muted link to `/signal` (Live Intel dashboard) |
-| 9. Final CTA | `SimpleCTA.tsx` | Dark CTA card, mint "Book a call" button |
-| 10. Footer | `Footer.tsx` | |
+| 9. Mindmaker LIVE | `MindMakerLiveSection.tsx` | Substack newsletter subscribe surface |
+| 10. Final CTA | `SimpleCTA.tsx` | Dark CTA card, mint "Book a call" button |
+| 11. Footer | `Footer.tsx` | |
 
 ### Global overlays (above-scroll)
 
 Mounted in `src/App.tsx`:
-- `InitialConsultModal`. the single conversion surface
+- `ScopingModal`. the primary "Book a call" conversion surface (`openScopingModal`)
+- `InitialConsultModal`. legacy conversion surface (`openConsultModal`), retained only for `/alumni`
 - `PreCallQualifier`. floating pill bottom-right
 - `CookieConsent`
 

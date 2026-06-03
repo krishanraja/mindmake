@@ -1,10 +1,25 @@
 # Decisions Log
 
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-06-03
 
 ---
 
 ## Brand & Product Decisions
+
+### 2026-06-03: Homepage re-forked by intent; ScopingModal becomes the primary conversion surface
+
+**Decision:** The homepage Y-fork is framed by buyer intent rather than product tier. `YFork.tsx` headline is now "Start where your question actually is." with three intent cards: **Sharpen how I think** → `/cohort`, **Resolve one decision** → `/enterprise#signal-session`, **Rebuild the commercial layer** → `/capital`. Capital returns to the homepage via the "Rebuild" card. CTAs are split into tier-appropriate paths, and a free-entry strip (Diagnostic / CTRL waitlist / Sunday brief) catches visitors not ready to book. The primary "Book a call" conversion surface is now `ScopingModal` (a 6-field scoping intake posting to `notify-scoping-request`); `InitialConsultModal` is retained only for the invitation-only Alumni Pass.
+
+**Context:**
+- The tier-named tri-fork (Workshops | Cohort | Enterprise) asked cold visitors to classify themselves by product before they understood the products. Intent framing ("sharpen / resolve / rebuild") matches how buyers actually arrive.
+- A structured scoping form (the decision on the table, what success looks like in 30 days) produces a qualified brief routed straight to Krish, which the older path/commitment/contact wizard did not.
+
+**Impact:**
+- New: `src/components/ScopingModal.tsx`, `supabase/functions/notify-scoping-request`, `supabase/functions/notify-ctrl-waitlist`, `src/components/CtrlWaitlistPopover.tsx`. `BigProblem` rebuilt as interactive flip cards. New Age Leadership added to the Resources nav dropdown.
+- `InitialConsultModal` / `openConsultModal` is now legacy (alumni-only); most surfaces dispatch `openScopingModal`.
+- `CLAUDE.md` and the living `project-documentation/` set reconciled to match; historical entries preserved as-is.
+
+---
 
 ### 2026-05-15: v6 ladder restructure (Workshops + Alumni Pass added; Cohort renamed and repriced)
 

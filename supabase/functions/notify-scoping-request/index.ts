@@ -8,6 +8,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { recordSiteAudienceContact } from "../_shared/audience.ts";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
@@ -96,6 +97,20 @@ const handler = async (req: Request): Promise<Response> => {
         console.error(`[ScopingRequest][${requestId}] insert exception:`, (e as Error).message);
       }
     }
+
+    // Unified audience capture (additive, best-effort).
+    await recordSiteAudienceContact({
+      email: data.email,
+      name: data.name,
+      metadata: {
+        capture: "scoping_request",
+        company_role: data.company_role,
+        decision_or_problem: data.decision_or_problem,
+        success_in_30_days: data.success_in_30_days,
+        source_page: data.source_page,
+        source_campaign: data.source_campaign ?? null,
+      },
+    });
 
     const submittedAt = new Date().toISOString();
     const emailHtml = `

@@ -21,6 +21,7 @@
 
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
+import { recordSiteAudienceContact } from "../_shared/audience.ts";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 
@@ -189,6 +190,21 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     const { name, email, department, aiFocus, results } = parseResult.data;
+
+    // Unified audience capture (additive, best-effort). The diagnostic otherwise
+    // stores nothing, so this is the only durable record of a completion.
+    await recordSiteAudienceContact({
+      email,
+      name,
+      metadata: {
+        capture: "leadership_diagnostic",
+        department: department ?? null,
+        ai_focus: aiFocus ?? null,
+        score: results?.score ?? null,
+        tier: results?.tier ?? null,
+        percentile: results?.percentile ?? null,
+      },
+    });
 
     console.log(`[LeadershipEmail][${requestId}] Processing:`, {
       email: email.substring(0, 10) + '...',

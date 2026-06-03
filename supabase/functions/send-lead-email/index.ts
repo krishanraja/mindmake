@@ -25,6 +25,7 @@ import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { createLogger, extractRequestContext } from '../_shared/logger.ts';
 import { fetchWithTimeout } from '../_shared/timeout.ts';
+import { recordSiteAudienceContact } from '../_shared/audience.ts';
 import { extractDomain, validateEnvVars, ensureString } from '../_shared/validation.ts';
 import { researchCompany, getDefaultResearch, type CompanyResearch } from '../_shared/company-research.ts';
 
@@ -489,6 +490,21 @@ const handler = async (req: Request): Promise<Response> => {
     } else {
       console.warn('Supabase client not available - skipping database insert');
     }
+
+    // Unified audience capture (additive, best-effort).
+    await recordSiteAudienceContact({
+      email,
+      name,
+      metadata: {
+        capture: "lead_email",
+        job_title: jobTitle ?? null,
+        selected_program: selectedProgram ?? null,
+        commitment_level: commitmentLevel ?? null,
+        audience_type: audienceType ?? null,
+        path_type: pathType ?? null,
+        engagement_score: engagementScore ?? null,
+      },
+    });
 
     // Qualifier-driven leads carry three answers. Show them first, this is the
     // most insightful signal on the call.

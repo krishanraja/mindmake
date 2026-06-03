@@ -7,6 +7,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { recordSiteAudienceContact } from "../_shared/audience.ts";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
@@ -78,6 +79,13 @@ const handler = async (req: Request): Promise<Response> => {
         console.error(`[CtrlWaitlist][${requestId}] insert exception:`, (e as Error).message);
       }
     }
+
+    // Unified audience capture (additive, best-effort).
+    await recordSiteAudienceContact({
+      email: data.email,
+      name: data.name ?? null,
+      metadata: { capture: "ctrl_waitlist", source_page: data.source_page ?? null },
+    });
 
     const emailHtml = `
 <!DOCTYPE html>

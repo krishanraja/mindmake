@@ -246,6 +246,7 @@ Your smartest, most cynical friend who runs AI transformation every day and genu
 - `project-documentation/PURPOSE.md`, `VALUE_PROP.md`. mission, positioning, differentiators.
 - `project-documentation/OFFERS.md`. full offer guide (Cohort, Signal Session, Revenue Architecture). Supersedes the deleted `SPRINTS.md`.
 - `project-documentation/ICP.md`. the two ICPs (AI leaders / AI products) and anti-ICPs.
+- `project-documentation/ICP_ACCOUNTABLE_DELEGATOR.md`. deep archetype of the cohort/leader buyer ("The Accountable Delegator"), the psychographic + skill-gap depth behind ICP 1.
 - `project-documentation/OUTCOMES.md`. buyer outcomes by offer.
 - `project-documentation/Master_Messaging_and_FAQ.md`. sales pitches and objection handling.
 - `project-documentation/BRANDING.md`, `VISUAL_GUIDELINES.md`, `DESIGN_SYSTEM.md`. brand + visual systems.

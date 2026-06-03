@@ -19,6 +19,8 @@ Mindmaker is a ladder with a third inquiry-only doorway. There are three primary
 
 ## ICP 1: AI Leaders: Cohort Buyer
 
+> **Deep archetype:** the full psychographic, behavioural, and skill-gap profile of this buyer ("The Accountable Delegator") lives in `ICP_ACCOUNTABLE_DELEGATOR.md`. This section is the operational summary.
+
 **Who:** Senior operators with budget authority and a nervous AI decision. Not looking to learn AI in the abstract, looking to make one specific call and feel good about it.
 
 **Typical titles:** CEO, COO, CFO, CPO, CCO, CMO, GM, VP of Product, VP of Strategy, Chief of Staff to a C-suite owner, founder-operator running a P&L.

@@ -1,6 +1,6 @@
 # CLAUDE.md: Mindmaker Repository Guide
 
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-06-03
 **Purpose:** Describe the current state of the Mindmaker codebase so agents and contributors can navigate it without reverse-engineering the tree.
 
 This file is **descriptive**, not prescriptive. For strategic intent, read `project-documentation/mindmaker_rebuild_brief_v4.md` (v4/v5 combined, the barbell pivot + Operator's Edge). The v6 ladder restructure (May 2026) layered Workshops at the entry rung, renamed the Cohort to "The AI-Fluent Executive" and repriced it to $2,500 over 4 weeks, and added the invitation-only Alumni Pass; see `project-documentation/HISTORY.md` and `project-documentation/DECISIONS_LOG.md` for the full reasoning.
@@ -18,19 +18,21 @@ Mindmaker is structured as a **ladder**: free Lightning Lessons at the top, paid
 ## Non-Negotiables
 
 ### Visual systems
-- `src/components/NewHero.tsx`. rotating headline + gradient + looping background video (`/rising-cities.mp4`) + pulsing mint blur. Eyebrow reframe: "Questions I hear every week."
+- `src/components/NewHero.tsx`. rotating headline + gradient + looping background video (`/rising-cities.mp4`) + pulsing mint blur. Eyebrow: "Decision blockers I hear every week."
 - `src/components/Animations/ParticleBackground.tsx`. global particle field mounted in `Index.tsx`.
 - `.glass-card` / `.editorial-card` Tailwind utilities.
-- `src/components/InitialConsultModal.tsx`. the single conversion surface. Opened globally via `window.dispatchEvent(new CustomEvent('openConsultModal', { detail: { preselected?: string } }))`.
+- `src/components/ScopingModal.tsx`. the primary conversion surface. A 6-field "Scope it with me" intake (name, work email, company & role, the AI decision/problem, success in 30 days, optional notes) that posts to the `notify-scoping-request` edge function. Opened globally via `window.dispatchEvent(new CustomEvent('openScopingModal', { detail: { source_page, preselected?, qualifierAnswers? } }))`.
+- `src/components/InitialConsultModal.tsx`. the previous conversion surface, now **legacy**. Still mounted and listening for `openConsultModal`, but only `/alumni` dispatches it while remaining surfaces migrate to the scoping modal.
 - Testimonial structure in `src/components/TrustSection.tsx`.
 
 ### Technical infrastructure
 - Supabase edge functions in `supabase/functions/`:
-  - `nervous-decision-machine` (Claude Haiku 4.5, powers `/tool`)
+  - `nervous-decision-machine` (Claude Haiku 4.5, powers the Nervous Decision Machine)
   - `get-ai-news`, `get-market-sentiment`, `get-model-data`
   - `send-contact-email`, `send-lead-email`, `send-leadership-insights-email`
+  - `notify-scoping-request` (scoping intake → email Krish), `notify-ctrl-waitlist` (CTRL waitlist → email Krish)
   - `create-consultation-hold`
-- `SessionDataContext` (`src/contexts/SessionDataContext.tsx`) threads qualification data into the global consult modal.
+- `SessionDataContext` (`src/contexts/SessionDataContext.tsx`) threads qualification data into the global conversion modal(s).
 - Design system in `tailwind.config.ts` + `src/index.css`.
 
 ### Color WCAG rule (CRITICAL)
@@ -46,21 +48,23 @@ Mindmaker is structured as a **ladder**: free Lightning Lessons at the top, paid
 Authoritative source: `src/pages/Index.tsx`.
 
 1. `Navigation`. fixed top, hides on scroll-down via `useScrollDirection`.
-2. `NewHero`. rotating headlines + "Book a call" + "See how I work" CTAs + tertiary "Or start with a free lesson →" link to the Maven instructor page. Subheadline: "Workshops, cohorts, and enterprise sprints that turn AI chaos into direction."
-3. `YFork`. "Three doors. Pick yours." → `/workshops` (from $599) vs `/cohort` ($2,500/seat) vs `/enterprise` (from $15,000). Capital is no longer surfaced on the homepage tri-fork; it remains in the Enterprise nav dropdown and at `/capital`.
-4. `BigProblem`. existential urgency frame.
+2. `NewHero`. rotating headlines + "Book a call" (opens the scoping modal) + "See how I work" CTAs + tertiary "Or start with a free lesson →" link to the Maven instructor page. Subheadline: "Three different doors into the same operator, depending on whether you want to think more clearly, work through one nervous decision, or rebuild how your business actually makes money with AI."
+3. `YFork`. "Start where your question actually is." Three intent cards: **Sharpen how I think** → `/cohort`, **Resolve one decision** → `/enterprise#signal-session`, **Rebuild the commercial layer** → `/capital`, plus a free-entry strip (Decision Readiness Diagnostic, CTRL waitlist, Substack brief). Capital is surfaced here again via the "Rebuild" card.
+4. `BigProblem`. existential urgency frame, built as three large interactive flip cards (a fate on the front, what Mindmaker does about it on the back).
 5. `TrustSection`. Krish bio, headshot, testimonials carousel.
 6. `FrameworkJourney`. three-panel animated MindSet → MindMap → MindMake.
 7. `OperatorsEdge` (v5). typography-only credential section, dark bg, three proof tiles (Architecture / Optimization / Memory), CTA to Revenue Architecture + secondary link to `/operator`. "BEYOND PATTERN RECOGNITION" now the dominant wordmark.
 8. `OperatorsBrief`. the Live Intel homepage teaser. Minimal on purpose: a continuous CSS-marquee `PriceTicker` with the canonical 7 models, a rotating plain-English interpretation line underneath (3 takes, 8s cross-fade), a compact Nervous Decision input (via `nervous-decision/Input`), and a muted "Open the full dashboard →" link to `/signal`. No card grid, no blog column, those live on `/signal` only.
-9. `SimpleCTA`. final CTA.
-10. `Footer`.
+9. `MindMakerLiveSection`. the Mindmaker LIVE newsletter subscribe surface (Substack embed).
+10. `SimpleCTA`. final CTA.
+11. `Footer`.
 
 Case studies (anonymised, COHORT-STYLE / ENTERPRISE tagged) are merged into `TrustSection`'s carousel. `ProofStrip` and `SignalDeskPreview` are deleted.
 
 Global overlays mounted in `src/App.tsx`:
-- `InitialConsultModal`. opened via the `openConsultModal` custom event.
-- `PreCallQualifier`. floating pill, 3-step intake → pre-loads consult modal.
+- `ScopingModal`. the primary conversion surface, opened via the `openScopingModal` custom event.
+- `InitialConsultModal`. legacy, kept mounted while remaining surfaces migrate; opened via `openConsultModal` only from `/alumni`.
+- `PreCallQualifier`. floating pill, 3-step intake → pre-loads qualification data and opens the scoping modal.
 - `CookieConsent`.
 
 **Not on the homepage:** VendorLandscape, AINewsTicker, ActionsHub, decision-tool launchers, the ChatBot, the Engine Room / mm-ctrl visualization, or the old TheProblem sprint chooser. All removed per rebuild brief v3.
@@ -87,6 +91,8 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 | `/signal` | `Brief` | Live Intel, the full dashboard: extended live-price ticker, plain-English interpretation grid, classified card archive (WATCH / SKIP / CALL / TAKE with filters + search), blog column, full Nervous Decision Machine. Route preserved for inbound URLs. |
 | `/library` | `Library` | Library of resources, includes FAQ tab. |
 | `/alumni` | `Alumni` | The Alumni Pass ($1,500/year, invitation-only). **Hidden from nav and footer.** SEO `noindex`. Reachable by direct URL only, sent post-engagement. |
+| `/immersion` | `Immersion` | The AI Immersion ($12,000 flat, inquiry-only). Hidden from nav; linked in the footer. CTA opens the scoping modal. |
+| `/new-age-leadership` | `NewAgeLeadership` | "New Age Leadership" essay on agentic org design (Agatha narrative + interactive org chart). Linked from the Resources nav dropdown and the footer. |
 | `/leaders` | `LeadershipInsights` | Decision Readiness Diagnostic. Unlinked from nav/footer but still reachable by direct URL for deep-links. |
 | `/leadership-insights` | `LeadershipInsights` | Alias. |
 | `/blog`, `/blog/:slug` | `Blog`, `BlogPost` | Blog index + post. |
@@ -115,13 +121,13 @@ No `/pricing` page, pricing lives in context on `/cohort`, `/enterprise`, and `/
 
 ## Navigation structure
 
-File: `src/components/Navigation.tsx`. Primary CTA: **"Book a call"** (no conditional label).
+File: `src/components/Navigation.tsx`. Primary CTA: **"Book a call"** (no conditional label), which opens the global `ScopingModal` via the `openScopingModal` event.
 
 - **Workshops** (direct link, slot 1): `/workshops`.
 - **Cohort** (direct link): `/cohort`.
 - **Enterprise** (dropdown): The Signal Session → `/enterprise#signal-session`, The Revenue Architecture → `/enterprise#revenue-architecture`, The AI Immersion → `/enterprise#immersion`, plus a "For funds & operating partners" section linking to Capital → `/capital`.
 - **Mindmaker LIVE** (link, rendered as a wordmark): `/signal`.
-- **Resources** (dropdown): How I operate → `/operator`, Library → `/library`, The Builder Economy (Podcast) → external `www.thebuildereconomy.com`, Lightning Lessons (5 external Maven links).
+- **Resources** (dropdown): How I operate → `/operator`, New Age Leadership → `/new-age-leadership`, Library → `/library`, The Builder Economy (Podcast) → external `www.thebuildereconomy.com`, Lightning Lessons (5 external Maven links).
 - **About** (dropdown): Contact → `/contact`, Privacy → `/privacy`, Terms → `/terms`.
 
 The Decision Readiness Diagnostic and FAQ pages are no longer linked from nav. Both remain reachable by direct URL.
@@ -161,7 +167,7 @@ Model: `claude-haiku-4-5-20251001`, max 1500 tokens, system prompt enforces JSON
 
 ## Pre-Call Qualifier
 
-Component: `src/components/PreCallQualifier.tsx`. Replaces the old ChatBot. Floating pill bottom-right on every page ("Warm up before your call"). 3-step drawer → keyword-classified sprint recommendation → pre-loads consult modal via `SessionDataContext.setQualificationData`. Answers can also be saved to `localStorage` under `mindmaker:pre-call-qualifier`, no email capture.
+Component: `src/components/PreCallQualifier.tsx`. Replaces the old ChatBot. Floating pill bottom-right on every page ("Warm up before your call"). 3-step drawer (decision → timeline → stakes) → classified fit recommendation (Workshop / Signal Session / Revenue Architecture / Cohort, or a free Lightning Lesson) → pre-loads qualification data via `SessionDataContext.setQualificationData` and opens the scoping modal via `openScopingModal`. Answers can also be saved to `localStorage` under `mindmaker:pre-call-qualifier`, no email capture.
 
 ---
 
@@ -181,14 +187,14 @@ Renamed from "The Operator's Brief" (previously "Signal Desk") for straightforwa
 
 ## Homepage Y-fork
 
-`src/components/YFork.tsx`. Section headline "Three doors. Pick yours." Three glass-cards in a `md:grid-cols-3` row, each with a single full-width CTA:
-- **Workshops**. "Build alongside me in one day." From $599. CTA → `/workshops`.
-- **The AI-Fluent Executive (Cohort)**. "Make your nervous AI decision with 15 senior leaders." $2,500 per seat. CTA → `/cohort`.
-- **Enterprise**. "Build the engine. Or rebuild it." From $15,000. CTA → `/enterprise`.
+`src/components/YFork.tsx`. Section headline "Start where your question actually is." Three intent cards in a `md:grid-cols-3` row, framed by what the visitor wants rather than by product tier. Each card's full-width CTA links straight to a page (no modal):
+- **Sharpen how I think**. "I want to get clearer about AI." Points at the Workshops ($599) and the AI-Fluent Executive Cohort ($2,500). CTA "See programmes" → `/cohort`.
+- **Resolve one decision**. "I have one nervous AI decision to make." CTA "Book a Signal Session" → `/enterprise#signal-session`.
+- **Rebuild the commercial layer**. "We're changing how we make money with AI." CTA "Scope an engagement" → `/capital`.
 
-Capital is no longer surfaced on the homepage tri-fork; it remains in the Enterprise nav dropdown ("For funds & operating partners") and at `/capital`.
+Below the cards, a free-entry strip ("New here, and not ready to book anything yet?") offers three lighter ways in: the Decision Readiness Diagnostic (`/leaders`), the CTRL waitlist (`CtrlWaitlistPopover`), and the Sunday brief (Substack). Capital is surfaced on the homepage again via the "Rebuild the commercial layer" card → `/capital`.
 
-`NewHero`'s secondary CTA "See how I work" smooth-scrolls to `#y-fork`. Hero eyebrow reads "DECISION BLOCKERS I HEAR EVERY WEEK".
+`NewHero`'s secondary CTA "See how I work" smooth-scrolls to `#y-fork`. Hero eyebrow reads "Decision blockers I hear every week".
 
 The next-cohort date is displayed on `/cohort` only. When Supabase `cohort_dates` is wired up, replace the literal in `Cohort.tsx`.
 
@@ -228,7 +234,7 @@ Your smartest, most cynical friend who runs AI transformation every day and genu
 - State: `@tanstack/react-query` + `SessionDataContext`.
 - Styling: Tailwind + shadcn/ui components in `src/components/ui/`.
 - Theme: `next-themes` with `attribute="class"` (dark mode class-based).
-- All CTAs should route through `InitialConsultModal` via the `openConsultModal` event unless the feature explicitly needs its own flow.
+- "Book a call" CTAs route through `ScopingModal` via the `openScopingModal` event. `InitialConsultModal`/`openConsultModal` is legacy (only `/alumni` uses it). Some surfaces intentionally link straight to a page (e.g. the YFork intent cards) instead of opening a modal.
 - LLM discoverability: `public/llms.txt` + allow-list for GPTBot / ClaudeBot / PerplexityBot / Google-Extended in `public/robots.txt`.
 
 ---

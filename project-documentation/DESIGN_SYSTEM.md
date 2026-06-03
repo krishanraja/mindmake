@@ -455,31 +455,38 @@ On white/light backgrounds, always use `text-foreground`, `text-ink`, or `text-m
 <Button
   size="lg"
   className="bg-mint text-ink hover:bg-mint/90 font-semibold px-8 py-6 text-lg"
-  onClick={() => window.dispatchEvent(new CustomEvent('openConsultModal'))}
+  onClick={() => window.dispatchEvent(new CustomEvent('openScopingModal'))}
 >
   Book a call
 </Button>
 ```
 
-Primary CTA copy is always **"Book a call"**, no conditional labels. The previous `"What's your nervous decision?"` button copy has been retired. All CTAs open the global `InitialConsultModal` via the `openConsultModal` custom event.
+Primary CTA copy is always **"Book a call"**, no conditional labels. The previous `"What's your nervous decision?"` button copy has been retired. "Book a call" CTAs open the global `ScopingModal` via the `openScopingModal` custom event. `InitialConsultModal` / `openConsultModal` is legacy, retained only for `/alumni`.
 
-### Y-Fork Cards (homepage 2-card layout)
-Replaces the old `ProductLadder` 4-Week / 90-Day sprint chooser.
+### Y-Fork Cards (homepage 3-intent-card layout)
+Headline "Start where your question actually is." Three intent cards, each CTA linking directly to a page (no modal). Replaces the old `ProductLadder` 4-Week / 90-Day sprint chooser.
 
 ```tsx
-<div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+<div className="grid md:grid-cols-3 gap-6 md:gap-8">
   <div className="glass-card p-8 hover:border-mint/40 transition-all">
-    <p className="text-xs tracking-widest text-muted-foreground">THE COHORT</p>
-    <h3 className="text-3xl font-bold mb-2">Make your AI decisions with 15 other senior leaders.</h3>
-    <p className="text-xl text-mint">$2,500 per seat</p>
+    <p className="text-xs tracking-widest text-muted-foreground">SHARPEN HOW I THINK</p>
+    <h3 className="text-3xl font-bold mb-2">I want to get clearer about AI.</h3>
+    {/* CTA "See programmes" → /cohort */}
   </div>
   <div className="glass-card p-8 hover:border-mint/40 transition-all">
-    <p className="text-xs tracking-widest text-muted-foreground">ENTERPRISE</p>
-    <h3 className="text-3xl font-bold mb-2">Your AI capabilities, translated into revenue.</h3>
-    <p className="text-xl text-mint">From $15,000</p>
+    <p className="text-xs tracking-widest text-muted-foreground">RESOLVE ONE DECISION</p>
+    <h3 className="text-3xl font-bold mb-2">I have one nervous AI decision to make.</h3>
+    {/* CTA "Book a Signal Session" → /enterprise#signal-session */}
+  </div>
+  <div className="glass-card p-8 hover:border-mint/40 transition-all">
+    <p className="text-xs tracking-widest text-muted-foreground">REBUILD THE COMMERCIAL LAYER</p>
+    <h3 className="text-3xl font-bold mb-2">We're changing how we make money with AI.</h3>
+    {/* CTA "Scope an engagement" → /capital */}
   </div>
 </div>
 ```
+
+A free-entry strip below the cards ("New here, and not ready to book anything yet?") links the Decision Readiness Diagnostic (`/leaders`), the CTRL waitlist (`CtrlWaitlistPopover`), and the Sunday brief (Substack).
 
 ### Framework Journey (Mind Set → Mind Map → Mind Make)
 Three-panel layout with scroll-triggered animations. Each panel uses `glass-card` with animated content inside. See `FrameworkJourney.tsx`.

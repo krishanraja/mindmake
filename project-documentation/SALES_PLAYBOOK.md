@@ -411,7 +411,7 @@ IF prospect_company_has_AI_product AND commercial_traction_problem:
   IF ready_for_full_rebuild AND budget_60_to_100k: route to Revenue Architecture
 
 IF prospect_is_CEO_with_team_alignment_problem AND 4_to_8_leaders:
-  route to Immersion (inquiry-only), preselect "immersion" in consult modal
+  route to Immersion (inquiry-only), preselect "immersion" in the scoping modal
 
 IF prospect_is_alum_post_engagement:
   route to /alumni (invitation-only, $1,500/year Alumni Pass)
@@ -431,7 +431,9 @@ DEFAULT (uncertain):
 
 ## 12. Lead Email Anatomy (what `send-lead-email` produces)
 
-When a prospect submits the consult modal, the `send-lead-email` Supabase edge function produces a lead intelligence email to Krish containing:
+The primary "Book a call" flow now opens the `ScopingModal` ("Scope it with me"), which posts to the `notify-scoping-request` edge function: a structured intake email to Krish with the prospect's name, work email, company & role, the AI decision/problem, what success looks like in 30 days, optional notes, plus any PreCallQualifier answers.
+
+The richer `send-lead-email` lead-intelligence email below is produced by the legacy consult-modal path (now `/alumni` only). It contains:
 
 - Prospect name, email, job title
 - Selected program (preselected from the page, the PreCallQualifier, or the modal dropdown)

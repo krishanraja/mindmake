@@ -126,7 +126,7 @@ For the strategic intent behind the current shape of the business, read `mindmak
 
 ### Primary CTA
 
-**"Book a call"**, everywhere. Opens the global `InitialConsultModal` via the `openConsultModal` event. No conditional labels.
+**"Book a call"**, everywhere. Opens the global `ScopingModal` ("Scope it with me") via the `openScopingModal` event. No conditional labels. The legacy `InitialConsultModal` / `openConsultModal` path is retained only for `/alumni`.
 
 ---
 

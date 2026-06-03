@@ -1,6 +1,24 @@
 # History
 
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-06-03
+
+---
+
+## 2026-06-03: Documentation refresh: homepage re-fork by intent + scoping modal
+
+**What Changed (in the codebase, reconciled into docs):**
+- **Homepage Y-fork rebuilt around buyer intent** (commit "Re-fork homepage by intent, split CTAs into tier-appropriate paths", 2026-05-27). `YFork.tsx` headline changed from "Three doors. Pick yours." to **"Start where your question actually is."** The three tier-named cards (Workshops | Cohort | Enterprise) became three intent cards: **Sharpen how I think** (CTA "See programmes" → `/cohort`), **Resolve one decision** (CTA "Book a Signal Session" → `/enterprise#signal-session`), and **Rebuild the commercial layer** (CTA "Scope an engagement" → `/capital`). A free-entry strip was added underneath (Decision Readiness Diagnostic, CTRL waitlist, Sunday brief). Capital is surfaced on the homepage again via the "Rebuild" card.
+- **`ScopingModal` is now the primary "Book a call" conversion surface.** New `src/components/ScopingModal.tsx`: a 6-field "Scope it with me" intake (name, work email, company & role, the AI decision/problem, success in 30 days, optional notes) that posts to a new `notify-scoping-request` edge function. Opened via the `openScopingModal` event from the nav, hero, `PreCallQualifier`, and the Cohort/Enterprise/Capital/Immersion/New-Age pages. `InitialConsultModal` (and `openConsultModal`) is now legacy, kept mounted but dispatched only from `/alumni`.
+- **`BigProblem` rebuilt as three large interactive flip cards** (a fate on the front, the Mindmaker response on the back).
+- **New Age Leadership added to the Resources nav dropdown** (previously footer-only).
+- Added the `notify-ctrl-waitlist` edge function + `CtrlWaitlistPopover` for the CTRL launch waitlist.
+
+**Why:**
+- The tier-named tri-fork asked cold visitors to self-classify by product before they understood the products. Framing the fork by what the visitor wants ("sharpen / resolve / rebuild") routes them by intent and readiness, and splits the CTAs into tier-appropriate paths.
+- A short, structured scoping intake ("the decision", "success in 30 days") captures a qualified brief routed straight to Krish, replacing the older multi-step consult wizard everywhere except the invitation-only Alumni Pass.
+
+**Files Updated (docs reconciled this pass):**
+- `CLAUDE.md` and the living `project-documentation/` set (ARCHITECTURE, FEATURES, DESIGN_SYSTEM, VISUAL_GUIDELINES, REPLICATION_GUIDE, README, COMMON_ISSUES, DEPLOYMENT, BRANDING, OFFERS, Master_Messaging_and_FAQ, ICP) updated to reflect the scoping modal and the intent-framed homepage. Historical entries preserved as-is.
 
 ---
 

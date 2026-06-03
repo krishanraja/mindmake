@@ -161,17 +161,17 @@ The big consultancies (McKinsey, BCG, Deloitte, Accenture) sell 6-figure decks b
 
 ## PART 4: HOMEPAGE AND SITE NARRATIVE
 
-- **Homepage tri-fork:** "Three doors. Pick yours." Card A = Workshops (from $599, `/workshops`). Card B = The AI-Fluent Executive ($2,500/seat, `/cohort`). Card C = Enterprise (from $15k, `/enterprise`). Capital remains a third door under the Enterprise nav dropdown and at `/capital`.
+- **Homepage intent fork:** "Start where your question actually is." Three intent-framed cards, each linking directly to a page (no modal). Card A = "Sharpen how I think" (Workshops $599 + the AI-Fluent Executive Cohort $2,500), CTA "See programmes" → `/cohort`. Card B = "Resolve one decision", CTA "Book a Signal Session" → `/enterprise#signal-session`. Card C = "Rebuild the commercial layer", CTA "Scope an engagement" → `/capital`. Capital is surfaced on the homepage via the Rebuild card (and also lives in the Enterprise nav dropdown and at `/capital`). Below the cards: a free-entry strip linking the Decision Readiness Diagnostic (`/leaders`), the CTRL waitlist, and the Sunday brief (Substack).
 - **Hero eyebrow:** "Decision blockers I hear every week."
-- **Hero subheadline:** "Workshops, cohorts, and enterprise sprints that turn AI chaos into direction."
+- **Hero subheadline:** "Three different doors into the same operator, depending on whether you want to think more clearly, work through one nervous decision, or rebuild how your business actually makes money with AI."
 - **Hero tertiary CTA:** "Or start with a free lesson →" linking to `https://maven.com/mindmaker` for cold buyers not ready to talk.
 - **Operator's Edge section:** "Beyond pattern recognition", positions Krish as a practitioner who runs an actual agentic organization. Links to `/operator`.
 - **Live Intel (homepage teaser):** Continuous price ticker + rotating plain-English interpretation line + compact Nervous Decision Machine input + muted "Open the full dashboard →" link to `/signal`. Component: `OperatorsBrief.tsx`.
 - **Live Intel (full dashboard at `/signal`):** Extended ticker, 3-card interpretation grid, classified card archive (WATCH/SKIP/CALL/TAKE) with filters and search, blog column, full-size Nervous Decision Machine. Component: `Brief.tsx`.
 - **Decision Readiness Diagnostic:** `/leaders`. unlinked from nav/footer but reachable by URL for deep-links.
 - **New Age Leadership:** `/new-age-leadership`. long-form thought leadership on agent-native org charts; promoted from hidden into the Resources dropdown. Funnels to `/cohort` and `/operator`.
-- **Hidden support pages:** `/immersion` (linked via consult modal preselect), `/leaders` (deep-links only).
-- **Primary CTA everywhere:** "Book a call" → opens `InitialConsultModal`.
+- **Hidden support pages:** `/immersion` (linked via scoping modal preselect), `/leaders` (deep-links only).
+- **Primary CTA everywhere:** "Book a call" → opens the global `ScopingModal` (`InitialConsultModal` is legacy, retained only for `/alumni`).
 
 Case studies are anonymised and tagged COHORT-STYLE or ENTERPRISE inside `TrustSection`.
 
@@ -185,7 +185,7 @@ Case studies are anonymised and tagged COHORT-STYLE or ENTERPRISE inside `TrustS
 | 4 | **Mindmaker LIVE** | Direct link → `/signal` |
 | 5 | Resources | Dropdown → How I operate, Library, The Builder Economy (Podcast) [external], Lightning Lessons (5 Maven URLs) |
 | 6 | About | Dropdown → Contact, Privacy, Terms |
-| CTA | Book a call | Opens `InitialConsultModal` |
+| CTA | Book a call | Opens the global `ScopingModal` (`InitialConsultModal` is legacy, only for `/alumni`) |
 
 The Decision Readiness Diagnostic, FAQ, `/alumni`, and `/immersion` are not linked from nav or footer (still reachable by direct URL).
 
@@ -250,7 +250,7 @@ Three chip-based questions:
 2. **Timeline**. what's your timeline? (this week, this quarter, next 90 days, 6+ months, exploring)
 3. **Stakes**. what's the real cost of not solving this? (revenue, launch, board confidence, team conflict, wrong tools, personal)
 
-Answers feed into the consult modal so the call starts with shared context. Stored in `localStorage` under `mindmaker:pre-call-qualifier`. No email capture in the qualifier itself.
+Answers feed into the scoping modal so the call starts with shared context. Stored in `localStorage` under `mindmaker:pre-call-qualifier`. No email capture in the qualifier itself.
 
 ---
 

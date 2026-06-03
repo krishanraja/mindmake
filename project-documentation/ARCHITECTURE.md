@@ -56,7 +56,7 @@ mindmaker/
 │   │   │   ├── OrgChart.tsx          # interactive agent-native org chart (lazy)
 │   │   │   └── AgathaStory.tsx       # embedded narrative + completion beacon
 │   │   ├── NewHero.tsx               # rotating headlines + CTAs
-│   │   ├── YFork.tsx                 # "Two ways I work". Cohort vs Enterprise
+│   │   ├── YFork.tsx                 # "Start where your question actually is". 3 intent cards
 │   │   ├── BigProblem.tsx
 │   │   ├── TrustSection.tsx          # Krish bio + testimonials carousel
 │   │   ├── FrameworkJourney.tsx      # Mind Set → Mind Map → Mind Make
@@ -67,7 +67,8 @@ mindmaker/
 │   │   ├── SimpleCTA.tsx
 │   │   ├── Navigation.tsx
 │   │   ├── Footer.tsx
-│   │   ├── InitialConsultModal.tsx   # global conversion surface
+│   │   ├── ScopingModal.tsx          # primary "Book a call" conversion surface (openScopingModal)
+│   │   ├── InitialConsultModal.tsx   # legacy conversion surface (openConsultModal); /alumni only
 │   │   ├── PreCallQualifier.tsx      # floating pill, 3-step chip intake
 │   │   ├── CookieConsent.tsx
 │   │   ├── ErrorBoundary.tsx
@@ -197,19 +198,21 @@ Authoritative source: `src/pages/Index.tsx`. Verified 2026-04-26.
 
 1. `Navigation`. fixed top, hides on scroll-down via `useScrollDirection`
 2. `NewHero`. rotating headlines, eyebrow "Decision blockers I hear every week", "Book a call" primary CTA + "See how I work" secondary
-3. `YFork`. "Two ways I work." → `/cohort` ($2,500) vs `/enterprise` (from $15,000)
-4. `BigProblem`. existential urgency frame
+3. `YFork`. "Start where your question actually is." Three intent cards → "Sharpen how I think" → `/cohort`, "Resolve one decision" → `/enterprise#signal-session`, "Rebuild the commercial layer" → `/capital`. Free-entry strip below (Diagnostic / CTRL waitlist / Sunday brief)
+4. `BigProblem`. existential urgency frame (three large interactive flip cards)
 5. `TrustSection`. Krish bio, headshot, testimonials carousel (COHORT-STYLE / ENTERPRISE tagged)
 6. `FrameworkJourney`. three-panel animated MindSet → MindMap → MindMake
 7. `OperatorsEdge`. v5 typography-only credential section ("Beyond pattern recognition")
 8. `OperatorsBrief`. Live Intel homepage teaser (PriceTicker + rotating interpretation + compact Nervous Decision input + muted link to `/signal`)
-9. `SimpleCTA`. final CTA
-10. `Footer`
+9. `MindMakerLiveSection`. Substack newsletter subscribe surface
+10. `SimpleCTA`. final CTA
+11. `Footer`
 
 ### Global overlays (mounted in `src/App.tsx`)
 
-- `InitialConsultModal`. opened via `window.dispatchEvent(new CustomEvent('openConsultModal', { detail: { preselected?, qualifierAnswers? } }))`
-- `PreCallQualifier`. floating pill, 3-step chip intake, pre-loads modal via `SessionDataContext.setQualificationData`
+- `ScopingModal`. the primary "Book a call" conversion surface, opened via `window.dispatchEvent(new CustomEvent('openScopingModal', { detail: { source_page, preselected?, qualifierAnswers? } }))`. 6-field "Scope it with me" intake posting to `notify-scoping-request`
+- `InitialConsultModal`. legacy conversion surface, kept mounted but only `/alumni` still dispatches `openConsultModal`
+- `PreCallQualifier`. floating pill, 3-step chip intake, dispatches `openScopingModal` (pre-loads via `SessionDataContext.setQualificationData`)
 - `CookieConsent`
 - `ErrorBoundary`. wraps `<Suspense>` around routes
 
@@ -224,11 +227,11 @@ Authoritative source: `src/components/Navigation.tsx`. Primary CTA: **"Book a ca
 | 1 | Cohort | Direct link | `/cohort` |
 | 2 | Enterprise | Dropdown | The Signal Session → `/enterprise#signal-session`, The Revenue Architecture → `/enterprise#revenue-architecture` |
 | 3 | **Live Intel** | Direct link | `/signal` |
-| 4 | Resources | Dropdown | New Age Leadership → `/new-age-leadership`, How I operate → `/operator`, Blog → `/blog`, The Builder Economy (Podcast) → external `thebuildereconomy.com`, Lightning Lessons (4 external Maven URLs via the `LightningLessons` component) |
-| 5 | About | Dropdown | FAQ → `/faq`, Contact → `/contact`, Privacy → `/privacy` |
-| CTA | Book a call | Button | Dispatches `openConsultModal` |
+| 4 | Resources | Dropdown | How I operate → `/operator`, New Age Leadership → `/new-age-leadership`, Library → `/library`, The Builder Economy (Podcast) → external `thebuildereconomy.com`, Lightning Lessons (5 external Maven URLs via the `LightningLessons` component) |
+| 5 | About | Dropdown | Contact → `/contact`, Privacy → `/privacy`, Terms → `/terms` |
+| CTA | Book a call | Button | Dispatches `openScopingModal` (opens the `ScopingModal`) |
 
-Decision Readiness Diagnostic (`/leaders`) is deliberately **not** in nav or footer. The Immersion (`/immersion`) is reachable via the consult modal preselect or direct URL. The four Lightning Lessons are external Maven course links: Vibe Coding for Leaders, Make AI Your Co-Founder, Build an Autonomous Business with AI, Give Your AI Memory.
+Decision Readiness Diagnostic (`/leaders`) is deliberately **not** in nav or footer. The Immersion (`/immersion`) is reachable via the scoping modal preselect or direct URL. The four Lightning Lessons are external Maven course links: Vibe Coding for Leaders, Make AI Your Co-Founder, Build an Autonomous Business with AI, Give Your AI Memory.
 
 ---
 
@@ -255,19 +258,19 @@ Stripe $50 hold bypassed. Cohort payment flows entirely through Maven; Enterpris
 
 ```
 1. User clicks "Book a call" anywhere on site
-   └─> window.dispatchEvent('openConsultModal', { detail: { preselected?, qualifierAnswers? } })
-   └─> InitialConsultModal opens
+   └─> window.dispatchEvent('openScopingModal', { detail: { source_page, preselected?, qualifierAnswers? } })
+   └─> ScopingModal opens (6-field "Scope it with me" intake)
 
 2. User fills form; SessionDataContext contributes qualifier data
    └─> Submission invokes edge function
 
-3. supabase.functions.invoke('send-lead-email', { body: {...} })
-   └─> Edge function runs Gemini company research with Google Search grounding (skipped for personal email domains)
-   └─> Pre-Call Qualifier Q&A surfaced first in the email payload
-   └─> Resend API delivers lead intelligence email (3× retry with exponential backoff)
+3. supabase.functions.invoke('notify-scoping-request', { body: {...} })
+   └─> Edge function emails krish@themindmaker.ai via Resend + persists the request
 
-4. User redirected to Calendly with pre-filled identity + selected offer
+4. Confirmation screen shown in-modal (no Calendly redirect)
 ```
+
+The legacy path (now `/alumni` only) dispatches `openConsultModal` → `InitialConsultModal` → `send-lead-email` (Gemini company research with Google Search grounding, skipped for personal email domains) → Calendly redirect with pre-filled identity + selected offer.
 
 Cohort enrolment can also bypass the consult call entirely: the `/cohort` page surfaces a "Hosted on Maven" pill and a "Reserve my seat on Maven" CTA pointing directly to `https://maven.com/mindmaker/the-ai-fluent-executive`.
 
@@ -285,7 +288,7 @@ Component: `src/components/PreCallQualifier.tsx`. Replaces the retired ChatBot.
 4. Step 4 view: recommendation summary + "Book your intro call" + "Save my answers"
 5. localStorage write under `mindmaker:pre-call-qualifier` (version 2)
 6. Plausible event `pre_call_qualifier_completed` fires on book
-7. Triggers openConsultModal with preselected program + qualifierAnswers in detail
+7. Triggers openScopingModal with preselected program + qualifierAnswers in detail
 ```
 
 Recommendation map (from `classify()`):
@@ -375,6 +378,14 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 - Dual email delivery: diagnostic results to user + lead notification to Krish
 - Secret: `RESEND_API_KEY`
 
+### `notify-scoping-request`
+- Powers the primary `ScopingModal` submissions; emails krish@themindmaker.ai via Resend + persists the request
+- Secret: `RESEND_API_KEY`
+
+### `notify-ctrl-waitlist`
+- CTRL waitlist signups (`CtrlWaitlistPopover`); emails krish@themindmaker.ai via Resend
+- Secret: `RESEND_API_KEY`
+
 ### `create-consultation-hold` (bypassed)
 - Stripe authorization hold, currently bypassed; Cohort payment runs entirely through Maven
 - Secret: `STRIPE_SECRET_KEY`
@@ -386,7 +397,7 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 - **Routing / URL state:** React Router v6 (`BrowserRouter` in `App.tsx`)
 - **Server state:** TanStack Query (5-minute stale time)
 - **Form state:** React Hook Form + Zod schemas
-- **Context state:** `SessionDataContext` threads qualifier answers into the consult modal. `ThemeProvider` (next-themes) handles dark mode via class attribute.
+- **Context state:** `SessionDataContext` threads qualifier answers into the scoping modal. `ThemeProvider` (next-themes) handles dark mode via class attribute.
 - **Local storage:** `mindmaker:pre-call-qualifier` key only (PreCallQualifier answers, version 2)
 - **No user authentication:** All bookings via Calendly or Maven; no user accounts
 

@@ -277,12 +277,12 @@ A team genuinely aligned (not performatively aligned) on the three issues addres
 
 ## Entry Points
 
-Every public path lands at **"Book a call"** via the global `InitialConsultModal`. The `PreCallQualifier` floating pill helps self-classify before the call so the 30-minute window is spent on the actual decision. The homepage hero also exposes a tertiary "Or start with a free lesson →" link to the Maven instructor page for cold buyers not yet ready to talk.
+Every public path lands at **"Book a call"** via the global `ScopingModal` (`InitialConsultModal` is legacy, retained only for `/alumni`). The `PreCallQualifier` floating pill helps self-classify before the call so the 30-minute window is spent on the actual decision. The homepage hero also exposes a tertiary "Or start with a free lesson →" link to the Maven instructor page for cold buyers not yet ready to talk.
 
 - Workshop-curious leaders land at `/workshops`, browse the five sub-pages, and enrol on Maven (or get notified for unpublished workshops). Workshop alumni get $500 off the Cohort with code `WORKSHOP`.
 - Cohort-curious leaders land at `/cohort` and can either book a call or click straight through to Maven enrolment.
 - Enterprise-curious buyers land at `/enterprise`.
-- Warm inbound (blog, podcast, LinkedIn, referrals) lands on `/` and forks at the homepage tri-fork (Workshops | Cohort | Enterprise).
+- Warm inbound (blog, podcast, LinkedIn, referrals) lands on `/` and forks at the homepage intent fork (Sharpen / Resolve / Rebuild), routing to `/cohort`, `/enterprise#signal-session`, and `/capital` respectively.
 - Immersion inquiries flow through `Book a call` → modal preselects "immersion".
 - 1:1 inquiry-only path lives at `/cohort?inquiry=1:1` (not advertised on the main page).
 - Alumni invitations: Krish sends invited alumni a direct link to `/alumni`. The page is `noindex` and unlinked from nav and footer.

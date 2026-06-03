@@ -72,7 +72,8 @@ Copy files from `src/components/ui/`.
 ```
 src/components/Navigation.tsx          # Cohort / Enterprise / The Brief / Resources / About
 src/components/Footer.tsx
-src/components/InitialConsultModal.tsx # single conversion surface (openConsultModal event listener)
+src/components/ScopingModal.tsx        # primary conversion surface "Scope it with me" (openScopingModal event listener)
+src/components/InitialConsultModal.tsx # legacy conversion surface (openConsultModal listener; dispatched only from /alumni)
 src/components/PreCallQualifier.tsx    # floating pill, 3-step intake
 src/components/CookieConsent.tsx
 ```
@@ -95,7 +96,7 @@ src/pages/NotFound.tsx
 ### Step 10: Homepage section components
 ```
 src/components/NewHero.tsx             # rotating headlines + Book a call CTA
-src/components/YFork.tsx               # Cohort vs Enterprise cards
+src/components/YFork.tsx               # three intent cards (Sharpen / Resolve / Rebuild) + free-entry strip
 src/components/BigProblem.tsx          # existential urgency frame
 src/components/TrustSection.tsx        # Krish bio + testimonials carousel
 src/components/FrameworkJourney.tsx    # Mind Set → Mind Map → Mind Make
@@ -150,6 +151,8 @@ supabase/functions/get-model-data/index.ts            # PriceTicker feed
 supabase/functions/send-lead-email/index.ts           # OpenAI enrichment + Resend
 supabase/functions/send-contact-email/index.ts
 supabase/functions/send-leadership-insights-email/index.ts
+supabase/functions/notify-scoping-request/index.ts    # ScopingModal intake → emails krish@themindmaker.ai (Resend)
+supabase/functions/notify-ctrl-waitlist/index.ts       # CTRL waitlist signup → emails krish@themindmaker.ai (Resend)
 supabase/functions/create-consultation-hold/index.ts  # Stripe (bypassed)
 ```
 
@@ -177,6 +180,12 @@ verify_jwt = false
 verify_jwt = false
 
 [functions.send-leadership-insights-email]
+verify_jwt = false
+
+[functions.notify-scoping-request]
+verify_jwt = false
+
+[functions.notify-ctrl-waitlist]
 verify_jwt = false
 
 [functions.create-consultation-hold]
@@ -278,7 +287,8 @@ Track `operator_page_cta_clicked` on `/operator` Revenue Architecture CTA, and `
 ### Global overlays
 Mount inside `BrowserRouter` but outside `<Routes>`:
 ```tsx
-<InitialConsultModal />
+<ScopingModal />          {/* primary; listens for openScopingModal */}
+<InitialConsultModal />   {/* legacy; listens for openConsultModal, dispatched only from /alumni */}
 <PreCallQualifier />
 <CookieConsent />
 ```
@@ -290,7 +300,7 @@ Mount inside `BrowserRouter` but outside `<Routes>`:
 ### Step 21: Local test flows
 Verify end-to-end:
 1. Homepage loads with rotating headlines + "Book a call" CTA
-2. YFork (homepage tri-fork) shows Workshops (from $599), The AI-Fluent Executive ($2,500), and Enterprise (from $15k) cards
+2. YFork ("Start where your question actually is.") shows three intent cards (Sharpen how I think → /cohort, Resolve one decision → /enterprise#signal-session, Rebuild the commercial layer → /capital) plus the free-entry strip (Decision Readiness Diagnostic, CTRL waitlist, Sunday brief)
 3. Framework Journey animation plays
 4. Operator's Edge renders with "Beyond pattern recognition" at correct scale
 5. Operator's Brief teaser shows PriceTicker + rotating interpretation + compact NDM input
@@ -299,7 +309,7 @@ Verify end-to-end:
 8. `/operator` loads with 14-agent static diagram, no scrolling logs
 9. `/signal` loads full Operator's Brief dashboard with WATCH / SKIP / CALL / TAKE filter pills
 10. Nervous Decision Machine returns typed response on both homepage and `/signal`
-11. "Book a call" CTA opens `InitialConsultModal` from every surface
+11. "Book a call" CTA opens the global `ScopingModal` via `openScopingModal` from every surface (the legacy `InitialConsultModal` / `openConsultModal` path is now used only by `/alumni`)
 12. `PreCallQualifier` pill opens drawer, completes 3-step intake, pre-loads modal
 13. `/leaders` diagnostic completes end-to-end
 14. All redirects function (see Phase 6)

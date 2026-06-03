@@ -33,7 +33,7 @@ The next-cohort date renders literally on `/cohort` (`nextCohort` const in `Coho
 The page surfaces:
 - A "Hosted on Maven" pill linking to the Maven URL
 - A "Reserve my seat on Maven" CTA pointing directly to the Maven URL (bypasses the consult call when the buyer already knows the cohort is the right fit)
-- A muted "Book a call instead" path via the global `InitialConsultModal`
+- A muted "Book a call instead" path via the global `ScopingModal` (`openScopingModal`)
 
 ---
 
@@ -97,7 +97,7 @@ The page surfaces:
 
 **Payment terms:** $12,000 flat. Travel additional for on-site. Full payment at booking or 50/50 at booking + delivery.
 
-**CTA:** "Request a date", opens consult modal preselected to "immersion".
+**CTA:** "Request a date", opens the scoping modal preselected to "immersion".
 
 ---
 
@@ -133,20 +133,22 @@ Triggered by `/cohort?inquiry=1:1`. A muted banner surfaces a Contact link. No p
 Authoritative: `src/pages/Index.tsx`. Order:
 
 1. `NewHero`. rotating headlines, eyebrow "Decision blockers I hear every week", looping `/rising-cities.mp4` background, mint pulse, particle background. Primary CTA "Book a call", secondary "See how I work" (smooth-scrolls to Y-fork).
-2. `YFork`. "Two ways I work." Card A = The Cohort ($2,500, `/cohort`). Card B = Enterprise (from $15,000, `/enterprise`).
-3. `BigProblem`. existential urgency frame.
+2. `YFork`. "Start where your question actually is." Three intent cards: "Sharpen how I think" → `/cohort` (Workshops $599 + Cohort $2,500), "Resolve one decision" → `/enterprise#signal-session`, "Rebuild the commercial layer" → `/capital`. Free-entry strip below links the Decision Readiness Diagnostic (`/leaders`), the CTRL waitlist, and the Sunday brief (Substack).
+3. `BigProblem`. existential urgency frame (three large interactive flip cards; card CTA opens the `ScopingModal`).
 4. `TrustSection`. Krish bio + headshot + testimonials carousel (COHORT-STYLE / ENTERPRISE tagged).
 5. `FrameworkJourney`. three-panel animated Mind Set → Mind Map → Mind Make.
 6. `OperatorsEdge`. v5 typography-only credential section ("Beyond pattern recognition"). Three proof tiles (Architecture / Optimization / Memory). Primary CTA to Revenue Architecture, secondary link to `/operator`.
 7. `OperatorsBrief`. Live Intel homepage teaser. CSS-marquee PriceTicker + rotating interpretation line (3 takes, 8s cross-fade) + compact Nervous Decision input + muted "Open the full dashboard →" link to `/signal`.
-8. `SimpleCTA`. final CTA.
-9. `Footer`.
+8. `MindMakerLiveSection`. Substack newsletter subscribe surface.
+9. `SimpleCTA`. final CTA.
+10. `Footer`.
 
 ### Global overlays
 
 Mounted in `src/App.tsx`:
-- `InitialConsultModal`. the single conversion surface. Opened via `window.dispatchEvent(new CustomEvent('openConsultModal', { detail: { preselected?, qualifierAnswers? } }))`
-- `PreCallQualifier`. floating pill bottom-right. 3-step chip-based intake drawer (decision → timeline → stakes) → keyword-classified offer recommendation → pre-loads modal via `SessionDataContext.setQualificationData`. Answers saved to `localStorage` under `mindmaker:pre-call-qualifier` (version 2), no email capture.
+- `ScopingModal`. the primary "Book a call" conversion surface. Opened via `window.dispatchEvent(new CustomEvent('openScopingModal', { detail: { source_page, preselected?, qualifierAnswers? } }))`. 6-field "Scope it with me" intake posting to `notify-scoping-request`
+- `InitialConsultModal`. legacy conversion surface, kept mounted but only `/alumni` still dispatches `openConsultModal`
+- `PreCallQualifier`. floating pill bottom-right. 3-step chip-based intake drawer (decision → timeline → stakes) → keyword-classified offer recommendation → dispatches `openScopingModal` and pre-loads via `SessionDataContext.setQualificationData`. Answers saved to `localStorage` under `mindmaker:pre-call-qualifier` (version 2), no email capture.
 - `CookieConsent`
 - `ErrorBoundary` wrapping the route `Suspense`
 
@@ -259,7 +261,7 @@ Structure:
 
 ## The AI Immersion Page (`/immersion`)
 
-Inquiry-only. Linked from the consult modal preselect (`preselected: "immersion"`).
+Inquiry-only. Linked from the scoping modal preselect (`preselected: "immersion"`).
 
 Structure:
 - Hero, "Three decisions. One afternoon. Real alignment." with "Request a date" CTA
@@ -299,10 +301,13 @@ Structure:
 
 ## Homepage Y-Fork
 
-`src/components/YFork.tsx`. Two glass-cards side by side.
+`src/components/YFork.tsx`. Headline "Start where your question actually is." Three intent cards in a `md:grid-cols-3` row, each CTA linking directly to a page (no modal).
 
-- **Card A. The Cohort.** "Make your nervous AI decision with 15 other senior leaders." $2,500 per seat. CTA → `/cohort`.
-- **Card B. Enterprise.** "Your AI capabilities, translated into revenue." From $15,000. CTA → `/enterprise`.
+- **Sharpen how I think.** "I want to get clearer about AI." Workshops ($599) + Cohort ($2,500). CTA "See programmes" → `/cohort`.
+- **Resolve one decision.** "I have one nervous AI decision to make." CTA "Book a Signal Session" → `/enterprise#signal-session`.
+- **Rebuild the commercial layer.** "We're changing how we make money with AI." CTA "Scope an engagement" → `/capital`.
+
+Below the cards, a free-entry strip ("New here, and not ready to book anything yet?") links the Decision Readiness Diagnostic (`/leaders`), the CTRL waitlist (`CtrlWaitlistPopover`), and the Sunday brief (Substack).
 
 `NewHero`'s secondary CTA "See how I work" smooth-scrolls to `#y-fork`. Hero eyebrow reads "Decision blockers I hear every week".
 
@@ -328,15 +333,14 @@ Structure:
 
 ## Booking Flow
 
-- Single entry point: `InitialConsultModal` opened via `openConsultModal` custom event
-- All public CTAs route through this modal except:
+- Primary entry point: the global `ScopingModal` opened via the `openScopingModal` custom event (6-field "Scope it with me" intake → `notify-scoping-request` → emails krish@themindmaker.ai + persists)
+- `InitialConsultModal` (opened via `openConsultModal`) is legacy, now dispatched only by `/alumni`
+- "Book a call" CTAs open the `ScopingModal` except:
   - Cohort `Reserve my seat on Maven` button (direct Maven URL)
   - Lightning Lessons (direct Maven URLs)
   - Builder Economy (direct external)
 - PreCallQualifier pre-loads the modal with chip-based answers
-- Stripe $50 hold paused, direct Calendly booking after modal submission
-- Lead enrichment via Gemini (Search-grounded) inside `send-lead-email`
-- Email delivery via Resend with 3× exponential-backoff retry
+- Email delivery via Resend
 
 ---
 
@@ -357,6 +361,8 @@ Structure:
 - `send-lead-email`. Gemini company research + Resend
 - `send-contact-email`. Resend
 - `send-leadership-insights-email`. Resend (dual delivery)
+- `notify-scoping-request`. powers the `ScopingModal`; emails krish@themindmaker.ai via Resend + persists
+- `notify-ctrl-waitlist`. CTRL waitlist signups (`CtrlWaitlistPopover`); emails krish@themindmaker.ai via Resend
 - `create-consultation-hold`. Stripe (currently bypassed; Cohort payment via Maven)
 
 ---

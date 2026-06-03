@@ -71,7 +71,7 @@ All routes in `src/App.tsx` accessible:
 ### 6. Brand compliance
 - [ ] Primary CTA everywhere is **"Book a call"** (no conditional labels, not "What's your nervous decision?")
 - [ ] Cohort `/cohort` page surfaces "Hosted on Maven" pill and "Reserve my seat on Maven" CTA pointing to the canonical Maven URL
-- [ ] All other CTAs route through `InitialConsultModal` via `window.dispatchEvent(new CustomEvent('openConsultModal'))`
+- [ ] All other CTAs route through the global `ScopingModal` via `window.dispatchEvent(new CustomEvent('openScopingModal'))` (the legacy `InitialConsultModal` / `openConsultModal` path is used only by `/alumni`)
 - [ ] Framework language: Mind Set → Mind Map → Mind Make (unchanged)
 - [ ] Offers labelled correctly: **The AI-Fluent Executive (Cohort)**, **The Signal Session**, **The Revenue Architecture**, **The AI Immersion**
 - [ ] No references to retired offers (4-Week Sprint, 90-Day Sprint, Builder Sprint, Leadership Lab, Portfolio Partner, Fractional CAIO)
@@ -120,9 +120,9 @@ All routes in `src/App.tsx` accessible:
 - [ ] `Cohort` page Maven pill and "Reserve my seat on Maven" CTA both link to `https://maven.com/mindmaker/the-ai-fluent-executive`
 
 ### 2. Conversion regression check
-- [ ] "Book a call" CTA opens `InitialConsultModal` from every page
-- [ ] `PreCallQualifier` floating pill opens drawer, completes 3-step intake, pre-loads modal
-- [ ] Modal submission invokes `send-lead-email`; Calendly opens with pre-filled identity
+- [ ] "Book a call" CTA opens the global `ScopingModal` ("Scope it with me") from every page (legacy `InitialConsultModal` / `openConsultModal` is used only on `/alumni`)
+- [ ] `PreCallQualifier` floating pill opens drawer, completes 3-step intake, pre-loads the ScopingModal via `openScopingModal`
+- [ ] ScopingModal submission invokes `notify-scoping-request` (emails krish@themindmaker.ai + persists)
 - [ ] Decision Readiness Diagnostic (`/leaders`) completes end-to-end; unlock form sends `send-leadership-insights-email`
 
 ### 3. Edge function verification
@@ -131,6 +131,8 @@ All routes in `src/App.tsx` accessible:
 - [ ] `get-model-data`: PriceTicker populates with canonical 7 models
 - [ ] `send-lead-email`: (test env) submit lead, verify receipt
 - [ ] `send-leadership-insights-email`: (test env) complete diagnostic + unlock, verify dual email
+- [ ] `notify-scoping-request`: (test env) submit the ScopingModal, verify krish@themindmaker.ai receipt
+- [ ] `notify-ctrl-waitlist`: (test env) join the CTRL waitlist, verify krish@themindmaker.ai receipt
 
 ### 4. Redirect check
 - [ ] `/tool` redirects to `/signal#decision`

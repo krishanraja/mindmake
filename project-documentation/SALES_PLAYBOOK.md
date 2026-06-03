@@ -27,6 +27,8 @@ The first four are the addressable market. The Alumni Pass is the retention laye
 
 ### AI Leaders: Cohort
 
+> Deep archetype: `ICP_ACCOUNTABLE_DELEGATOR.md` has the full psychographic and skill-gap profile of this buyer ("The Accountable Delegator").
+
 **Firmographic signals (use for list-building):**
 - Stage: Series B → public, mid-market private
 - Revenue: $10M–$500M (sweet spot $25M–$250M)
@@ -507,6 +509,7 @@ OPERATOR PROOF:
 
 - `OFFERS.md`. full offer detail, scope, format, deliverables
 - `ICP.md`. full ICP profiles with disqualifiers
+- `ICP_ACCOUNTABLE_DELEGATOR.md`. deep archetype of the cohort/leader buyer ("The Accountable Delegator")
 - `VALUE_PROP.md`. positioning, differentiators, competitive framing
 - `OUTCOMES.md`. buyer outcomes by offer with leading and lagging indicators
 - `BRANDING.md`. voice, tone, terminology standards

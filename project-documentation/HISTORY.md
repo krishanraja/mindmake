@@ -1,6 +1,24 @@
 # History
 
-**Last Updated:** 2026-06-03
+**Last Updated:** 2026-06-07
+
+---
+
+## 2026-06-07: Documentation reconciliation pass
+
+**What Changed (docs only, no code changes):**
+- Corrected all documentation to match current codebase state.
+- **Nav structure:** Added missing Workshops as slot 1 across all docs (ARCHITECTURE, FEATURES, DEPLOYMENT, REPLICATION_GUIDE). Updated Enterprise dropdown to include The AI Immersion and Capital section. Updated slot count from 5 to 6.
+- **Nav label for `/signal`:** Updated from "Live Intel" to **"Mindmaker LIVE"** in BRANDING, COMMON_ISSUES, SALES_PLAYBOOK, VISUAL_GUIDELINES, DEPLOYMENT, FEATURES, README, Master_Messaging_and_FAQ, REPLICATION_GUIDE. Added superseding entry to DECISIONS_LOG.
+- **Offer framing:** Changed "barbell" to "ladder" in README, PURPOSE, BRANDING, Master_Messaging. Added Workshops and Alumni Pass to every offer table that was missing them (README, PURPOSE).
+- **Lightning Lessons:** Corrected from 4 (stale titles/URLs) to 5 with current titles and URLs in ARCHITECTURE, FEATURES.
+- **Database tables:** Added `blog_posts`, `scoping_requests`, `ctrl_waitlist`, `audience_contacts` to ARCHITECTURE database section.
+- **Edge functions:** Added `import-audience-csv` to ARCHITECTURE and REPLICATION_GUIDE.
+- **FAQ.tsx:** Removed phantom `FAQ.tsx` from ARCHITECTURE project structure tree and REPLICATION_GUIDE (no such file exists; `/faq` is a Navigate redirect to `/library?tab=questions`).
+- **Cohort outcomes:** Corrected emotional arc from 3 to 4 weeks, updated week labels to match Diagnose/Decompose/Decide/Deploy curriculum in OUTCOMES.
+- **Workshop and Alumni Pass outcomes:** Added missing outcome sections to OUTCOMES.
+- **Calendly / booking flow:** Corrected stale "all bookings via Calendly" in COMMON_ISSUES Known Limitations; primary flow is ScopingModal → email Krish, not Calendly.
+- **Date bumps:** All 2026-04-26 and 2026-05-15 dated files updated to 2026-06-07.
 
 ---
 

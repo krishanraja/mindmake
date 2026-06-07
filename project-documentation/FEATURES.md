@@ -1,12 +1,12 @@
 # Features
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-06-07
 
 ---
 
 ## Product Offerings
 
-Mindmaker is a barbell with one inquiry-only relief valve: three public offers, one inquiry-only offer, no middle tier. Every offer has a fixed scope and finish line. Full detail in [OFFERS.md](./OFFERS.md). Sales-grade detail in [SALES_PLAYBOOK.md](./SALES_PLAYBOOK.md).
+Mindmaker is a ladder: free Lightning Lessons at the top of the funnel, paid Workshops at the entry rung, the Cohort as the qualifying step, Enterprise as the margin engine, the Alumni Pass as continuity. Every offer has a fixed scope and finish line. Full detail in [OFFERS.md](./OFFERS.md). Sales-grade detail in [SALES_PLAYBOOK.md](./SALES_PLAYBOOK.md).
 
 ### 1. The AI-Fluent Executive (Cohort): $2,500/seat (hosted on Maven)
 **Status:** Live
@@ -156,21 +156,23 @@ Mounted in `src/App.tsx`:
 
 File: `src/components/Navigation.tsx`. Primary CTA button: **"Book a call"** with mint pulse dot.
 
+- **Workshops** (direct link): `/workshops`
 - **Cohort** (direct link): `/cohort`
-- **Enterprise** (dropdown): The Signal Session, The Revenue Architecture
-- **Live Intel** (direct link): `/signal`
-- **Resources** (dropdown): New Age Leadership, How I operate, Blog, The Builder Economy (Podcast) [external], Lightning Lessons (4 Maven URLs via `LightningLessons` component)
-- **About** (dropdown): FAQ, Contact, Privacy
+- **Enterprise** (dropdown): The Signal Session, The Revenue Architecture, The AI Immersion, [section] For funds & operating partners, Capital
+- **Mindmaker LIVE** (direct link, rendered as `MindMakerWordmark` component): `/signal`
+- **Resources** (dropdown): How I operate, New Age Leadership, Library, The Builder Economy (Podcast) [external], Lightning Lessons (5 Maven URLs via `LightningLessons` dialog component)
+- **About** (dropdown): Contact, Privacy, Terms
 
 Hides on scroll-down via `useScrollDirection`.
 
 ### Lightning Lessons (external Maven courses)
 
-Surfaced in the Resources dropdown via the `LightningLessons` component. Four courses:
-1. Vibe Coding for Leaders, `https://maven.com/p/ca6d71/vibe-coding-for-leaders-build-what-you-brief`
-2. Make AI Your Co-Founder, `https://maven.com/p/0cc82a/make-ai-your-co-founder`
-3. Build an Autonomous Business with AI, `https://maven.com/p/38d196/build-an-autonomous-business-with-ai`
-4. Give Your AI Memory, `https://maven.com/p/8fba42/improve-the-memory-of-your-ai-tools`
+Surfaced in the Resources dropdown via the `LightningLessons` dialog component (`src/components/LightningLessons.tsx`). Five courses, each 45 minutes, free:
+1. Build Your AI's Permanent Identity, `https://maven.com/p/8fba42/build-your-ai-s-permanent-identity`
+2. Build an Autonomous Business with AI, `https://maven.com/p/99a529/build-an-autonomous-business-with-ai`
+3. Vibe Coding for Leaders: The Unfair Advantage, `https://maven.com/p/b118d0/vibe-coding-how-your-competitors-are-pulling-ahead`
+4. Build Your Agentic Org Chart, `https://maven.com/p/48674a/create-your-business-agentic-org-chart`
+5. Build Your AI Chief of Staff, `https://maven.com/p/dd0ebd/build-your-ai-chief-of-staff`
 
 ---
 
@@ -195,7 +197,7 @@ Surfaced in the Resources dropdown via the `LightningLessons` component. Four co
 
 ## Live Intel (`/signal`)
 
-Renamed from "Signal Desk" → "The Brief" → **"Live Intel"** for plain-English nav clarity. The body-copy term "The Operator's Brief" is still acceptable in editorial copy, but the nav label is "Live Intel".
+Renamed from "Signal Desk" → "The Brief" → "Live Intel" → **"Mindmaker LIVE"** (nav label, rendered as a wordmark). "Live Intel" and "The Operator's Brief" remain acceptable in editorial body copy on `/signal`; the nav label is "Mindmaker LIVE".
 
 **Homepage teaser (`OperatorsBrief.tsx`):** minimal. PriceTicker (continuous CSS-marquee) + rotating interpretation line (3 takes, 8s cross-fade) + compact Nervous Decision input + muted "Open the full dashboard →" link.
 

@@ -1,6 +1,6 @@
 # User Outcomes
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-06-07
 
 ---
 
@@ -18,12 +18,13 @@ Every offer has a defined artefact, a defined finish line, and no retainer attac
 
 ```
 Week 0:  Relief     → Finally naming the decision out loud to peers
-Week 1:  Clarity    → Cutting through vendor noise to the real question (Name the decision)
-Week 2:  Momentum   → Options mapped, trade-offs visible, path narrowing (Map the paths)
-Week 3:  Confidence → Board-ready position written, defended, committed (Make the call)
+Week 1:  Clarity    → Cutting through vendor noise to the real question (Diagnose)
+Week 2:  Momentum   → Options mapped, trade-offs visible, path narrowing (Decompose)
+Week 3:  Confidence → Board-ready position written, defended, committed (Decide)
+Week 4:  Momentum   → First concrete step shipped, alumni onboarding complete (Deploy)
 ```
 
-### Immediate (end of cohort, week 3)
+### Immediate (end of cohort, week 4)
 
 - One board-ready position memo (1 page) on one nervous AI decision
 - Trade-off analysis document with options named and rejection reasons documented
@@ -127,6 +128,36 @@ Week 3:  Confidence → Board-ready position written, defended, committed (Make 
 - Sponsor reports back: "We're not having the same three meetings any more"
 
 **Leading indicators we measure:** three decisions resolved in the 4-hour window (not deferred to "next meeting"), candor in the room, written summary delivered on time.
+
+---
+
+## Workshop Outcomes: Build Something Real in One Day
+
+### Immediate (end of workshop day)
+
+- A working artefact deployed on the leader's real surface (inbox, calendar, workflow, or internal tool)
+- Practical fluency with the specific build covered (e.g. agentic org chart, AI chief of staff, n8n workflow)
+- Session recording + templates and prompts used during the day
+- Certificate of completion
+- Lifetime access to CTRL, Mindmaker's flagship memory-web app
+- Access to the Mindmaker alumni channel
+- $500 discount code (`WORKSHOP`) valid 90 days toward the AI-Fluent Executive Cohort
+
+**Leading indicator:** artefact is live and running on the leader's real infrastructure by end of day, not sitting in a prototype.
+
+---
+
+## Alumni Pass Outcomes: Continuity After the Finish Line
+
+### Annual (for active Alumni Pass holders)
+
+- Re-access to any of the five Mindmaker Workshops (one re-attend per year)
+- Quarterly written state-of-the-market memo from Krish
+- Alumni Slack channel access
+- First-refusal seats on the next AI-Fluent Executive cohort
+- Continued lifetime access to CTRL
+
+**Purpose:** keeps alumni current without requiring a new engagement; surfaces next-nervous-decision moments before they become multi-quarter delays.
 
 ---
 

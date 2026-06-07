@@ -1,6 +1,6 @@
 # Common Issues
 
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-06-07
 
 ---
 
@@ -49,10 +49,10 @@ Note: the phrase "what's your nervous decision" can still appear in body copy as
 
 ---
 
-### Issue: Nav label still says "The Brief" or "Signal Desk"
-**Symptom:** Second top-level nav slot reads "The Brief" or "Signal Desk".
-**Cause:** Nav copy not updated to v4/v5 latest.
-**Solution:** Nav label is **"Live Intel"** (`Navigation.tsx`). The body-copy term "The Operator's Brief" is still acceptable in editorial copy on `/signal`, but the nav label is "Live Intel".
+### Issue: Nav label still says "The Brief", "Signal Desk", or "Live Intel"
+**Symptom:** The nav slot for `/signal` reads "The Brief", "Signal Desk", or "Live Intel".
+**Cause:** Nav copy not updated to current label.
+**Solution:** The nav label is **"Mindmaker LIVE"** (`Navigation.tsx`, slot 4), rendered as a `MindMakerWordmark` component. "Live Intel" and "The Operator's Brief" remain acceptable in editorial body copy on `/signal`, but the nav label is "Mindmaker LIVE".
 
 ---
 
@@ -223,7 +223,7 @@ if (req.method === 'OPTIONS') return new Response(null, { headers: corsHeaders }
 ## Known Limitations
 
 ### No user authentication
-No user accounts; all bookings via Calendly. No plan to change unless a client portal is built.
+No user accounts. Primary booking flow is the `ScopingModal` which emails Krish directly via `notify-scoping-request`; no Calendly redirect. The legacy `InitialConsultModal` path (dispatched only from `/alumni`) still redirects to Calendly. No plan to add accounts unless a client portal is built.
 
 ### Stripe authorization hold bypassed
 `create-consultation-hold` exists but is not wired into the booking flow. Direct Calendly booking is live.

@@ -1,6 +1,6 @@
 # Architecture
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-06-07
 
 ---
 
@@ -63,7 +63,7 @@ mindmaker/
 │   │   ├── OperatorsEdge.tsx         # v5 credential section
 │   │   ├── OperatorsBrief.tsx        # homepage Live Intel teaser
 │   │   ├── PriceTicker.tsx           # CSS-marquee model price ticker
-│   │   ├── LightningLessons.tsx      # 4 Maven Lightning Lesson links
+│   │   ├── LightningLessons.tsx      # 5 Maven Lightning Lessons, dialog component
 │   │   ├── SimpleCTA.tsx
 │   │   ├── Navigation.tsx
 │   │   ├── Footer.tsx
@@ -84,7 +84,6 @@ mindmaker/
 │   │   ├── LeadershipInsights.tsx    # Decision Readiness Diagnostic, /leaders
 │   │   ├── Blog.tsx
 │   │   ├── BlogPost.tsx
-│   │   ├── FAQ.tsx
 │   │   ├── Contact.tsx
 │   │   ├── Privacy.tsx
 │   │   ├── Terms.tsx
@@ -114,6 +113,9 @@ mindmaker/
 │   │   ├── send-lead-email/           # Gemini company research + Resend
 │   │   ├── send-contact-email/
 │   │   ├── send-leadership-insights-email/
+│   │   ├── notify-scoping-request/    # ScopingModal intake → email Krish + persist
+│   │   ├── notify-ctrl-waitlist/      # CTRL waitlist signup → email Krish
+│   │   ├── import-audience-csv/       # batch-import Substack CSV → audience_contacts
 │   │   └── create-consultation-hold/  # Stripe, currently bypassed
 │   ├── migrations/
 │   └── config.toml
@@ -188,7 +190,7 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 
 On `/cohort?inquiry=1:1`, a banner surfaces the inquiry-only private-engagement path without advertising it on the main page.
 
-No `/pricing` page, pricing lives in context on `/cohort`, `/enterprise`, and `/immersion`.
+No `/pricing` page, pricing lives in context on `/cohort`, `/enterprise`, `/capital`, and `/immersion`.
 
 ---
 
@@ -224,14 +226,15 @@ Authoritative source: `src/components/Navigation.tsx`. Primary CTA: **"Book a ca
 
 | Slot | Label | Type | Destination |
 |---|---|---|---|
-| 1 | Cohort | Direct link | `/cohort` |
-| 2 | Enterprise | Dropdown | The Signal Session → `/enterprise#signal-session`, The Revenue Architecture → `/enterprise#revenue-architecture` |
-| 3 | **Live Intel** | Direct link | `/signal` |
-| 4 | Resources | Dropdown | How I operate → `/operator`, New Age Leadership → `/new-age-leadership`, Library → `/library`, The Builder Economy (Podcast) → external `thebuildereconomy.com`, Lightning Lessons (5 external Maven URLs via the `LightningLessons` component) |
-| 5 | About | Dropdown | Contact → `/contact`, Privacy → `/privacy`, Terms → `/terms` |
+| 1 | Workshops | Direct link | `/workshops` |
+| 2 | Cohort | Direct link | `/cohort` |
+| 3 | Enterprise | Dropdown | The Signal Session → `/enterprise#signal-session`, The Revenue Architecture → `/enterprise#revenue-architecture`, The AI Immersion → `/enterprise#immersion`, [section] For funds & operating partners, Capital → `/capital` |
+| 4 | **Mindmaker LIVE** | Direct link (rendered as `MindMakerWordmark` component) | `/signal` |
+| 5 | Resources | Dropdown | How I operate → `/operator`, New Age Leadership → `/new-age-leadership`, Library → `/library`, The Builder Economy (Podcast) → external `thebuildereconomy.com`, Lightning Lessons (5 external Maven URLs via the `LightningLessons` component) |
+| 6 | About | Dropdown | Contact → `/contact`, Privacy → `/privacy`, Terms → `/terms` |
 | CTA | Book a call | Button | Dispatches `openScopingModal` (opens the `ScopingModal`) |
 
-Decision Readiness Diagnostic (`/leaders`) is deliberately **not** in nav or footer. The Immersion (`/immersion`) is reachable via the scoping modal preselect or direct URL. The four Lightning Lessons are external Maven course links: Vibe Coding for Leaders, Make AI Your Co-Founder, Build an Autonomous Business with AI, Give Your AI Memory.
+Decision Readiness Diagnostic (`/leaders`) is deliberately **not** in nav or footer. The Immersion (`/immersion`) is accessible from the Enterprise dropdown anchor (`/enterprise#immersion`), the scoping modal preselect, or direct URL. The five Lightning Lessons render in a dialog via the `LightningLessons` component: Build Your AI's Permanent Identity (`maven.com/p/8fba42/...`), Build an Autonomous Business with AI (`maven.com/p/99a529/...`), Vibe Coding for Leaders: The Unfair Advantage (`maven.com/p/b118d0/...`), Build Your Agentic Org Chart (`maven.com/p/48674a/...`), Build Your AI Chief of Staff (`maven.com/p/dd0ebd/...`).
 
 ---
 
@@ -386,6 +389,11 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 - CTRL waitlist signups (`CtrlWaitlistPopover`); emails krish@themindmaker.ai via Resend
 - Secret: `RESEND_API_KEY`
 
+### `import-audience-csv`
+- Batch-imports Substack subscriber CSV exports into the shared `audience_contacts` table with `source = 'mindmaker_live'`
+- Also used to back-populate site leads with `source = 'mindmaker_site'`
+- Internal / admin use only; not called from the frontend
+
 ### `create-consultation-hold` (bypassed)
 - Stripe authorization hold, currently bypassed; Cohort payment runs entirely through Maven
 - Secret: `STRIPE_SECRET_KEY`
@@ -406,8 +414,12 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 ## Database
 
 - Supabase connected, minimal usage
-- Tables: `leads`, `company_research_cache`
+- Tables: `leads`, `company_research_cache`, `blog_posts`, `scoping_requests`, `ctrl_waitlist`
 - RLS policies on all tables
+- `scoping_requests`: captures `notify-scoping-request` submissions (name, email, company_role, decision_or_problem, success_in_30_days, notes, source_page, source_campaign)
+- `ctrl_waitlist`: captures `notify-ctrl-waitlist` submissions (email, name, source_page)
+- `blog_posts`: blog content
+- `audience_contacts`: shared contact table capturing site leads and Substack CSV imports (source field distinguishes `mindmaker_site` vs `mindmaker_live`); managed via the `import-audience-csv` edge function
 
 ---
 

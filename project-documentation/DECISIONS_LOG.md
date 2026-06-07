@@ -1,6 +1,6 @@
 # Decisions Log
 
-**Last Updated:** 2026-06-03
+**Last Updated:** 2026-06-07
 
 ---
 
@@ -151,9 +151,23 @@
 
 ---
 
+### 2026-06-07: `/signal` nav label updated to "Mindmaker LIVE" (was "Live Intel")
+
+**Decision:** The nav slot for `/signal` is now labelled **"Mindmaker LIVE"**, rendered as a `MindMakerWordmark` component. "Live Intel" remains acceptable in body copy and as the page H1; "The Operator's Brief" remains acceptable in editorial copy. The nav label string in `Navigation.tsx` is `"Mindmaker LIVE"`.
+
+**Rationale:** Consistent with the "Mindmaker LIVE" brand surface used in the wordmark component and referenced in `CLAUDE.md`. "Live Intel" was never rendered visually in the nav; the wordmark component always rendered "Mindmaker LIVE".
+
+**Impact:**
+- `Navigation.tsx` label string updated
+- All docs updated: `BRANDING.md`, `COMMON_ISSUES.md`, `SALES_PLAYBOOK.md`, `VISUAL_GUIDELINES.md`, `ARCHITECTURE.md`, `FEATURES.md`, `DEPLOYMENT.md`, `README.md`
+
+---
+
 ### 2026-04-26: `/signal` nav label is "Live Intel" (was "The Brief")
 
 **Decision:** The second-top-level nav slot is labelled **"Live Intel"**. "The Operator's Brief" is acceptable in editorial body copy on `/signal`, but is no longer the nav label.
+
+> **Superseded 2026-06-07:** nav label subsequently renamed to "Mindmaker LIVE". See entry above.
 
 **Rationale:**
 - "The Brief" tested fine internally but read as opaque to first-time visitors

@@ -1,19 +1,21 @@
 # Mindmaker Project Documentation
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-06-07
 
 ---
 
 ## What Mindmaker Is
 
-**The anti-consultancy for leaders done being sold AI.** A barbell business with two primary audiences and one inquiry-only executive offer. No middle tier. No retainers. No fractional roles.
+**The anti-consultancy for leaders done being sold AI.** A ladder of fixed-scope, fixed-outcome offers. No retainers. No fractional roles.
 
 | Audience | Offer | Price | Duration | Route |
 |---|---|---|---|---|
-| Senior leader with a nervous AI decision | The AI-Fluent Executive (Cohort) | $2,500 / seat | 4 weeks (mostly async) + 4 live 90-min sessions | `/cohort` |
+| Leader ready to build a real artefact now | Mindmaker Workshops (×5) | $599 / workshop | 1 day each | `/workshops` (Maven) |
+| Senior leader with a nervous AI decision | The AI-Fluent Executive (Cohort) | $2,500 / seat | 4 weeks + 4 live 90-min sessions | `/cohort` (Maven) |
 | Company commercializing an AI product | The Signal Session | $15,000 | 1 day intensive + 48h written delivery | `/enterprise#signal-session` |
 | Same, flagship engagement | The Revenue Architecture | $60,000–$100,000 | 30 days (4–5 calendar weeks) | `/enterprise#revenue-architecture` |
 | Executive team needing fast alignment | The AI Immersion (inquiry) | $12,000 | 4-hour facilitated session + 5-day summary | `/immersion` |
+| Mindmaker alumni (any engagement) | The Alumni Pass (invitation-only) | $1,500 / year | Annual | `/alumni` (unlinked from nav) |
 
 Every offer has a fixed scope, a fixed outcome, and a finish line.
 
@@ -32,7 +34,7 @@ For the strategic intent behind the current shape of the business, read `mindmak
 | [VALUE_PROP.md](./VALUE_PROP.md) | Positioning, differentiators, competitive framing. |
 | [ICP.md](./ICP.md) | The two primary ICPs (AI leaders, AI products) + the executive-team ICP for Immersion. Anti-ICPs. |
 | [ICP_ACCOUNTABLE_DELEGATOR.md](./ICP_ACCOUNTABLE_DELEGATOR.md) | Deep psychographic and skill-gap archetype of the cohort/leader buyer ("The Accountable Delegator"), the depth behind ICP 1. Research-grounded; cross-refs ICP.md and SALES_PLAYBOOK.md. |
-| [OFFERS.md](./OFFERS.md) | Full detail on Cohort, Signal Session, Revenue Architecture, Immersion. |
+| [OFFERS.md](./OFFERS.md) | Full detail on all offers: Workshops, Cohort, Signal Session, Revenue Architecture, Immersion, Alumni Pass. |
 | [OUTCOMES.md](./OUTCOMES.md) | Buyer outcomes by offer, with leading and lagging indicators. |
 | [BRANDING.md](./BRANDING.md) | Voice, tone, terminology standards, retired products. |
 | [PURPOSE.md](./PURPOSE.md) | Mission, vision, what we do and don't sell. |
@@ -110,10 +112,12 @@ For the strategic intent behind the current shape of the business, read `mindmak
 
 | Offer | Price | Duration | Hosting / payment |
 |---|---|---|---|
+| Mindmaker Workshops (×5) | $599 / workshop | 1 day each | Maven; 14-day Maven Guarantee |
 | The AI-Fluent Executive (Cohort) | $2,500 / seat (or 2× $1,250) | 4 weeks (mostly async) + 4 × 90-min live sessions | Hosted on **Maven** at `maven.com/mindmaker/the-ai-fluent-executive` |
 | The Signal Session | $15,000 | 1 day intensive + 48-hour Commercial Narrative delivery (15–20 pages) | Direct invoice; payment on kickoff |
 | The Revenue Architecture | $60,000–$100,000 | 30 days (4–5 calendar weeks), multi-session | Direct invoice; 50/50 at kickoff and delivery |
 | The AI Immersion | $12,000 (flat) | 4-hour facilitated session + 2-page summary within 5 business days | Inquiry-only; full at booking or 50/50 |
+| The Alumni Pass | $1,500 / year | Annual | Invitation-only; Stripe-billed, cancel anytime |
 
 ### ICPs
 
@@ -139,8 +143,8 @@ For the strategic intent behind the current shape of the business, read `mindmak
 - Fractional CAIO, Fractional CTO, Fractional CMO (we do not sell fractional roles)
 - "Builder vs Orchestrator" ICP framing
 - "Chat with Krish" / "Ask Mindmaker" chatbot (replaced by `PreCallQualifier`)
-- "Signal Desk" naming (renamed to **Live Intel** at `/signal`)
-- "The Brief" / "The Operator's Brief" as a nav label (the nav label is now **"Live Intel"**; "The Operator's Brief" can still appear as a body-copy reference for the editorial taxonomy on `/signal`)
+- "Signal Desk" naming (renamed to **Mindmaker LIVE** as the nav label; **Live Intel** as the page H1 and body-copy term)
+- "The Brief" / "The Operator's Brief" / "Live Intel" as a nav label (the nav label is now **"Mindmaker LIVE"**, rendered as a wordmark; "Live Intel" and "The Operator's Brief" remain acceptable in body copy on `/signal`)
 - SIGNAL / NOISE / DECISION / TAKE taxonomy (renamed to WATCH / SKIP / CALL / TAKE)
 - CTRL (portable context app) as a headline Mindmaker product
 - Builder Economy as a Mindmaker product (now an external sister domain at `thebuildereconomy.com`)

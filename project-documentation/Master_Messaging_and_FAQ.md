@@ -1,7 +1,7 @@
 # Mindmaker Master Messaging & FAQ Document
 *Core source of truth for product marketing, sales, content, and outbound*
 
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-06-07
 
 **Goal:** One document a salesperson, content writer, or AI agent can open and get every pitch, position, and objection answer right. Supersedes the earlier CTRL / 1:1-sprint-era version. For strategic intent, read `mindmaker_rebuild_brief_v4.md`. For agent-grade sales detail (ICP signals, ROI math, channel templates), read `SALES_PLAYBOOK.md`.
 
@@ -236,10 +236,10 @@ No. Explicitly out of scope. We do the commercial and decision layer. Deployment
 It's my podcast and creator project at `thebuildereconomy.com`. It isn't a Mindmaker product. The creator-era paradigm, where everyone broadcast, is giving way to a builder-era paradigm where everyone ships. The podcast covers that shift. Mindmaker covers the commercial and decision layer for leaders operating in it.
 
 ### "Why did you retire the 4-Week and 90-Day Sprints?"
-They were 1:1 products priced for an unclear buyer, and the sales motion didn't match a solo operator's capacity. The barbell. Cohort at the low end, Enterprise at the high end, matches both how content distributes and how Krish can actually deliver personally. If 1:1 is genuinely the right shape, we handle it via inquiry at `/cohort?inquiry=1:1`, but it's not a public product.
+They were 1:1 products priced for an unclear buyer, and the sales motion didn't match a solo operator's capacity. The ladder (Workshops → Cohort → Enterprise) matches both how content distributes and how Krish can actually deliver personally. If 1:1 is genuinely the right shape, we handle it via inquiry at `/cohort?inquiry=1:1`, but it's not a public product.
 
-### "Why renamed Signal Desk → The Brief → Live Intel?"
-"Signal Desk" overlapped with Krish's separate business, Signal & Noise. "The Brief" tested fine internally but read as opaque to first-time visitors. "Live Intel" says exactly what the surface is: live model pricing and live signals about what to act on now. The classified card taxonomy (WATCH/SKIP/CALL/TAKE) is unchanged.
+### "Why renamed Signal Desk → The Brief → Live Intel → Mindmaker LIVE?"
+"Signal Desk" overlapped with Krish's separate business, Signal & Noise. "The Brief" tested fine internally but read as opaque to first-time visitors. "Live Intel" improved clarity. "Mindmaker LIVE" is now the nav label, rendered as a wordmark; it aligns with the editorial brand of the surface. "Live Intel" remains acceptable in body copy. The classified card taxonomy (WATCH/SKIP/CALL/TAKE) is unchanged.
 
 ### "Do you ever recommend specific tools?"
 We do trade-off analysis, not recommendations. The buyer always decides. We don't take vendor referral fees. Ever.

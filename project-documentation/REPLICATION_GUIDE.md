@@ -1,6 +1,6 @@
 # Replication Guide
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-06-07
 
 ---
 
@@ -70,7 +70,7 @@ Copy files from `src/components/ui/`.
 
 ### Step 8: Layout components
 ```
-src/components/Navigation.tsx          # Cohort / Enterprise / The Brief / Resources / About
+src/components/Navigation.tsx          # Workshops / Cohort / Enterprise / Mindmaker LIVE / Resources / About
 src/components/Footer.tsx
 src/components/ScopingModal.tsx        # primary conversion surface "Scope it with me" (openScopingModal event listener)
 src/components/InitialConsultModal.tsx # legacy conversion surface (openConsultModal listener; dispatched only from /alumni)
@@ -89,8 +89,9 @@ src/pages/Immersion.tsx                # AI Immersion ($12k, inquiry-only)
 src/pages/NewAgeLeadership.tsx         # /new-age-leadership thought leadership
 src/pages/LeadershipInsights.tsx       # Decision Readiness Diagnostic (unlinked from nav)
 src/pages/Blog.tsx, BlogPost.tsx
-src/pages/FAQ.tsx, Contact.tsx, Privacy.tsx, Terms.tsx
+src/pages/Contact.tsx, Privacy.tsx, Terms.tsx
 src/pages/NotFound.tsx
+# Note: /faq is a client-side Navigate redirect to /library?tab=questions; no FAQ.tsx page file
 ```
 
 ### Step 10: Homepage section components
@@ -103,7 +104,7 @@ src/components/FrameworkJourney.tsx    # Mind Set → Mind Map → Mind Make
 src/components/OperatorsEdge.tsx       # v5 credential section
 src/components/OperatorsBrief.tsx      # Live Intel homepage teaser
 src/components/PriceTicker.tsx         # CSS-marquee model price ticker
-src/components/LightningLessons.tsx    # 4 Maven Lightning Lesson links (Resources nav)
+src/components/LightningLessons.tsx    # 5 Maven Lightning Lesson links (Resources nav, dialog)
 src/components/SimpleCTA.tsx
 ```
 
@@ -145,7 +146,7 @@ supabase/functions/nervous-decision-machine/index.ts
 
 ### Step 14: Create other functions
 ```
-supabase/functions/get-ai-news/index.ts               # Operator's Brief content
+supabase/functions/get-ai-news/index.ts               # Live Intel content
 supabase/functions/get-market-sentiment/index.ts
 supabase/functions/get-model-data/index.ts            # PriceTicker feed
 supabase/functions/send-lead-email/index.ts           # OpenAI enrichment + Resend
@@ -153,6 +154,7 @@ supabase/functions/send-contact-email/index.ts
 supabase/functions/send-leadership-insights-email/index.ts
 supabase/functions/notify-scoping-request/index.ts    # ScopingModal intake → emails krish@themindmaker.ai (Resend)
 supabase/functions/notify-ctrl-waitlist/index.ts       # CTRL waitlist signup → emails krish@themindmaker.ai (Resend)
+supabase/functions/import-audience-csv/index.ts       # batch-import Substack CSV → audience_contacts (admin only)
 supabase/functions/create-consultation-hold/index.ts  # Stripe (bypassed)
 ```
 

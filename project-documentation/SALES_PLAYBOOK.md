@@ -1,7 +1,7 @@
 # Mindmaker Sales Playbook
 *The single ground-truth document for AI sales and marketing agents working the Mindmaker book.*
 
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-06-07
 
 > If you are an AI sales or marketing agent, outbound, inbound, content, retargeting, lifecycle, paid, or organic, this is the document you ground on. It is opinionated, structured for retrieval, and biased toward action. Use `OFFERS.md`, `ICP.md`, `VALUE_PROP.md`, `OUTCOMES.md`, and `BRANDING.md` for deeper canon. Use `Master_Messaging_and_FAQ.md` for full pitches and FAQ.
 
@@ -453,7 +453,7 @@ When you (an AI sales agent) help craft the prospect's reply or follow-up, mirro
 ## 13. Sales Hygiene Rules
 
 - **Never invent client names or numbers.** Use only the published proof points (Captify $0→$12M, Nine Entertainment $9M→$61M, Microsoft 2010 first global automated campaigns, 14-agent OS).
-- **Never reference retired offers.** No 4-Week Sprint, 90-Day Sprint, Builder Sprint, Builder Session, Leadership Lab, Portfolio Partner, Fractional CAIO. No "Signal Desk" or "The Brief" as a nav label.
+- **Never reference retired offers.** No 4-Week Sprint, 90-Day Sprint, Builder Sprint, Builder Session, Leadership Lab, Portfolio Partner, Fractional CAIO. No "Signal Desk", "The Brief", or "Live Intel" as the nav label for `/signal`.
 - **Never reference outdated specs.** Revenue Architecture is **30 days**, not 8–12 weeks. Signal Session deliverable is **15–20 page Commercial Narrative within 48 hours**, not 5–10 pages within 5 days.
 - **Never use vendor-pitch language.** No "transformation", "synergy", "leverage" (as verb), "journey" (as abstract noun), "innovative", "revolutionary", "cutting-edge".
 - **Always anchor on a finish line.** Every offer has one. Mention it.
@@ -485,7 +485,7 @@ WORKSHOP CTA: "Enrol on Maven" (or "Get notified" if not yet published)
 COHORT CTA:   "Reserve my seat on Maven" → maven.com/mindmaker/the-ai-fluent-executive
 ALUMNI CTA:   "Request an invitation" (preselects 'alumni' in modal)
 
-NAV LABEL FOR /signal:  "Live Intel"  (NOT "The Brief", NOT "Signal Desk")
+NAV LABEL FOR /signal:  "Mindmaker LIVE"  (rendered as a wordmark; NOT "Live Intel", "The Brief", "Signal Desk")
 TAXONOMY ON /signal:    WATCH / SKIP / CALL / TAKE
 
 DO NOT SELL:

@@ -1,6 +1,6 @@
 # Deployment Checklist
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-06-09
 
 Pre-deploy and post-deploy verification for the Mindmaker project.
 
@@ -41,6 +41,8 @@ All routes in `src/App.tsx` accessible:
 - [ ] `/cohort` (Cohort). The AI-Fluent Executive ($2,500/seat, 4 weeks). "Hosted on Maven" pill + "Reserve my seat on Maven" → `https://maven.com/mindmaker/the-ai-fluent-executive`
 - [ ] `/enterprise` (Enterprise). Signal Session ($15k, 1 day + 48h delivery) + Revenue Architecture ($60–100k, **30 days**)
 - [ ] `/capital` (Capital). Third door for funds and operating partners
+- [ ] `/case-studies` (CaseStudies). filterable, anonymised COHORT-STYLE / ENTERPRISE client proof
+- [ ] `/start` (DiagnosisRoom). standalone Diagnosis Room (Mindy)
 - [ ] `/operator` (Operator). v5 credential page; `/ctrl-demo-video.mp4` autoplay-loop verified
 - [ ] `/signal` (Brief). Live Intel
 - [ ] `/library` (Library). Library + FAQ tab
@@ -71,7 +73,8 @@ All routes in `src/App.tsx` accessible:
 ### 6. Brand compliance
 - [ ] Primary CTA everywhere is **"Book a call"** (no conditional labels, not "What's your nervous decision?")
 - [ ] Cohort `/cohort` page surfaces "Hosted on Maven" pill and "Reserve my seat on Maven" CTA pointing to the canonical Maven URL
-- [ ] All other CTAs route through the global `ScopingModal` via `window.dispatchEvent(new CustomEvent('openScopingModal'))` (the legacy `InitialConsultModal` / `openConsultModal` path is used only by `/alumni`)
+- [ ] The primary "Book a call" CTA (nav, hero, `SimpleCTA`) opens the Diagnosis Room (Mindy) via `window.dispatchEvent(new CustomEvent('openDiagnosisRoom', { detail: { mode: 'express' } }))`
+- [ ] The secondary `ScopingModal` opens via `window.dispatchEvent(new CustomEvent('openScopingModal'))` from the offer pages (`/cohort`, `/enterprise`, `/capital`, `/immersion`), the `BigProblem` cards, and `/case-studies` (the legacy `InitialConsultModal` / `openConsultModal` path is used only by `/alumni`)
 - [ ] Framework language: Mind Set → Mind Map → Mind Make (unchanged)
 - [ ] Offers labelled correctly: **The AI-Fluent Executive (Cohort)**, **The Signal Session**, **The Revenue Architecture**, **The AI Immersion**
 - [ ] No references to retired offers (4-Week Sprint, 90-Day Sprint, Builder Sprint, Leadership Lab, Portfolio Partner, Fractional CAIO)
@@ -79,7 +82,7 @@ All routes in `src/App.tsx` accessible:
 - [ ] Taxonomy on `/signal` is **WATCH / SKIP / CALL / TAKE** (not SIGNAL / NOISE / DECISION / TAKE)
 - [ ] Decision Readiness Diagnostic (`/leaders`) is **not** linked from nav or footer
 - [ ] `/immersion` is **not** linked from main nav (inquiry-only)
-- [ ] Pre-Call Qualifier floating pill renders on every page (no ChatBot anywhere). Confirms 3 chip-based stages: decision → timeline → stakes.
+- [ ] No floating Pre-Call Qualifier pill and no homepage Y-fork render anywhere (both retired and unmounted; no ChatBot anywhere). The Diagnosis Room (Mindy) is the single conversion journey.
 - [ ] **Workshops** is the first item in the nav (slot 1)
 - [ ] Resources dropdown includes How I operate, Library, The Builder Economy (external), Lightning Lessons (5 Maven URLs)
 - [ ] **The five Lightning Lesson URLs** match the canonical set in `LightningLessons.tsx` and the mobile menu in `Navigation.tsx`
@@ -120,8 +123,9 @@ All routes in `src/App.tsx` accessible:
 - [ ] `Cohort` page Maven pill and "Reserve my seat on Maven" CTA both link to `https://maven.com/mindmaker/the-ai-fluent-executive`
 
 ### 2. Conversion regression check
-- [ ] "Book a call" CTA opens the global `ScopingModal` ("Scope it with me") from every page (legacy `InitialConsultModal` / `openConsultModal` is used only on `/alumni`)
-- [ ] `PreCallQualifier` floating pill opens drawer, completes 3-step intake, pre-loads the ScopingModal via `openScopingModal`
+- [ ] "Book a call" CTA opens the Diagnosis Room (Mindy) via `openDiagnosisRoom` from the nav, hero, and `SimpleCTA`; the standalone `/start` page loads the same surface
+- [ ] Diagnosis Room (Mindy) diagnoses the decision and forks to three exits (keep chatting, book a free 15-min Calendly call, generate/download a co-branded proposal); the `diagnosis_room_*` Plausible events fire
+- [ ] Secondary `ScopingModal` ("Scope it with me") opens from the offer pages, the `BigProblem` cards, and `/case-studies` (legacy `InitialConsultModal` / `openConsultModal` is used only on `/alumni`)
 - [ ] ScopingModal submission invokes `notify-scoping-request` (emails krish@themindmaker.ai + persists)
 - [ ] Decision Readiness Diagnostic (`/leaders`) completes end-to-end; unlock form sends `send-leadership-insights-email`
 

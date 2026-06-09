@@ -1,10 +1,46 @@
 # Decisions Log
 
-**Last Updated:** 2026-06-03
+**Last Updated:** 2026-06-09
 
 ---
 
 ## Brand & Product Decisions
+
+### 2026-06-09: The Diagnosis Room (Mindy) becomes the one journey; YFork + PreCallQualifier retired
+
+**Decision:** Collapse the funnel into a single guided, on-site experience, **the Diagnosis Room (Mindy)**, and make it the primary "Book a call" surface. The homepage `YFork` second fork and the `PreCallQualifier` floating pill are retired (files kept but unmounted). The nav "Book a call" (express mode), the hero ("Work through your decision with Mindy", full mode), and `SimpleCTA` open the Diagnosis Room via `openDiagnosisRoom`; the room is also a standalone page at `/start`. `ScopingModal` is demoted to the secondary booking surface, still dispatched by the offer pages (`/cohort`, `/enterprise`, `/capital`, `/immersion`), the `BigProblem` cards, and the new `/case-studies`. `InitialConsultModal` remains alumni-only.
+
+**Context:**
+- The static tri-fork plus a passive qualifier pill asked cold visitors to self-classify before they understood the offers, and captured a thin brief. A guided diagnosis reflects the visitor's own business back to them (via live enrichment), reasons through their actual decision in Krish's voice, recommends a rung honestly (including down-selling to a cheaper rung or a free lesson), and only then forks to one of three honest exits.
+- Krish's two missing assets named in the architecture brief, real Krish reasoning and an honest down-sell rubric, are filled by Mindy's Brain Pack (`project-documentation/mindy/`).
+
+**Impact:**
+- New front end: `src/components/diagnosis/` (`DiagnosisRoom`, `Opener`, `Conversation`, `DossierReveal`, `DecisionBrief`, `Fork`, `ProposalView`, `ExpressBooking`, `MicButton`, `MindyAvatar`, `useDiagnosisSession`, `types`). New routes `/start` and `/case-studies`.
+- New edge functions: `mindy-chat`, `enrich-company`, `generate-proposal`, `session-digest`, `transcribe`, plus `import-audience-csv`; shared logic in `_shared/{mindy,enrich,proposal}/`.
+- **Privacy guardrail:** the dossier's `scale.*` routing layer (employeeCount, sizeBand, trancoRank, icp, recommendedMode) is internal only, never surfaced to the visitor and never in the visitor proposal/digest copy; only Krish's internal digest receives the full dossier + transcript.
+- `CLAUDE.md` and the living `project-documentation/` set reconciled; `COMMERCIAL_REFERENCE.md` added; the `mindy/` Brain Pack indexed. Historical entries preserved as-is.
+
+---
+
+### 2026-06-09: Public pricing is ranges only
+
+**Decision:** The live site and any AI-generated proposal show **ranges only**; the exact number is set by Krish on the call. Public range card: Workshops $500–$1,000; Cohort $2,000–$3,000; Signal Session $10,000–$20,000; Revenue Architecture $50,000–$100,000+; Immersion $10,000–$15,000; Alumni Pass ~$1,500/yr; CTRL free, upgrades from $29; bespoke enablement $8,000–$25,000 (pilots from $2,000). Exact figures remain in the docs as internal reasoning aids and on Maven's own checkout for the Cohort/Workshops.
+
+**Context:** Exact public prices anchored the buyer before the value was framed and invited price-shopping against a number set without context. A range is honest and still qualifies, while keeping the exact figure a conversation Krish owns on the call.
+
+**Impact:** `notify-*` intake and `generate-proposal` output convert to the range card; the proposal generator never emits an exact figure; `CANON.md` §2.4 pins the range card as the only client-facing pricing.
+
+---
+
+### 2026-06-09: Cross-offer framework name resolved (Mind Set/Map/Make kept; the four D's = cohort curriculum)
+
+**Decision:** Keep **"Mind Set → Mind Map → Mind Make"** as the canonical cross-offer brand framework (rendered on the homepage by `FrameworkJourney.tsx`), and treat **"Diagnose → Decompose → Decide → Deploy"** as the cohort's week-by-week curriculum only. The two coexist, each in its own lane. This closes the one blocking content tension flagged in `mindy/CANON.md` §5.
+
+**Context:** Both names appeared across the codebase and docs and were being read as competing replacements. They are layered, not in conflict: one is the brand spine that spans every offer; the other is how the Cohort is delivered across its four weeks.
+
+**Impact:** Mindy names the framework "Mind Set → Mind Map → Mind Make" and uses the four D's only when describing the cohort week by week. `CANON.md` §5 records the resolution.
+
+---
 
 ### 2026-06-03: Homepage re-forked by intent; ScopingModal becomes the primary conversion surface
 

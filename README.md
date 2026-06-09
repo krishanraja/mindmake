@@ -1,12 +1,14 @@
 # Mindmaker: The Anti-Consultancy for Leaders Done Being Sold AI
 
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-06-09
 
 ---
 
 ## Overview
 
 Mindmaker is a ladder, not a single product. Free Lightning Lessons at the top of the funnel. Five one-day Workshops at $599 as the paid entry. The AI-Fluent Executive Cohort at $2,500 as the qualifying step. Enterprise sprints from $15,000 to $100,000 as the margin engine. The Alumni Pass at $1,500/year as continuity. No retainers. No fractional roles. Every offer has a fixed scope, a fixed outcome, and a finish line.
+
+The primary on-site conversion surface is **the Diagnosis Room (Mindy)**, a full-screen experience where every "Book a call" CTA lands. Mindy diagnoses the visitor's nervous AI decision and forks to three honest exits (keep chatting, book a free 15-min call, or download a co-branded proposal). Public pricing is **ranges only**; exact figures are set by Krish on the call. See [CLAUDE.md](./CLAUDE.md) for the full codebase reference.
 
 **Brand North Star:** If Stripe's design sensibility met Anthony Bourdain's authenticity.
 
@@ -38,7 +40,9 @@ Workshops and Cohort are hosted and paid through **Maven** (Slack, payment, alum
 | Frontend | React 18.3, TypeScript (strict), Vite 5.x |
 | Styling | TailwindCSS 3.x, shadcn/ui (Radix), Framer Motion |
 | Backend | Supabase Edge Functions (Deno) |
-| AI | Anthropic Claude Haiku 4.5 (Nervous Decision Machine), Google Gemini (lead enrichment with Search grounding), Lovable AI Gateway (Live Intel content), OpenAI (market sentiment + fallback) |
+| AI | Anthropic Claude (Mindy reasoning, proposal prose, Nervous Decision Machine, Haiku 4.5), Google Gemini (company synthesis + lead enrichment with Search grounding), OpenAI Whisper (Diagnosis Room voice input) + OpenAI (market sentiment + fallback), Lovable AI Gateway (Live Intel content) |
+| Enrichment | Brandfetch, People Data Labs, Tranco, BuiltWith, Perplexity, Exa, NewsAPI (the `enrich-company` dossier orchestrator) |
+| Documents | Browserless (proposal HTML → PDF) |
 | Email | Resend (3× retry with exponential backoff) |
 | Cohort enrolment | Maven |
 | Scheduling | Calendly |
@@ -76,44 +80,60 @@ mindmaker/
 ├── src/
 │   ├── components/
 │   │   ├── ui/                       # shadcn/ui base components
+│   │   ├── diagnosis/                # The Diagnosis Room (Mindy): DiagnosisRoom, Opener,
+│   │   │                             #   Conversation, DossierReveal, DecisionBrief, Fork,
+│   │   │                             #   ProposalView, ExpressBooking, MicButton, MindyAvatar,
+│   │   │                             #   useDiagnosisSession, types
 │   │   ├── nervous-decision/         # Nervous Decision Machine (compact + full)
 │   │   ├── new-age/                  # /new-age-leadership components
+│   │   ├── proof/                    # CaseStudyCard (for /case-studies)
 │   │   ├── Animations/
-│   │   ├── NewHero.tsx               # rotating headlines
-│   │   ├── YFork.tsx                 # Cohort vs Enterprise
-│   │   ├── BigProblem.tsx
+│   │   ├── NewHero.tsx               # rotating headlines; CTAs open the Diagnosis Room
+│   │   ├── BigProblem.tsx            # three interactive flip cards
 │   │   ├── TrustSection.tsx
 │   │   ├── FrameworkJourney.tsx      # Mind Set → Mind Map → Mind Make
 │   │   ├── OperatorsEdge.tsx         # v5 credential
 │   │   ├── OperatorsBrief.tsx        # Live Intel homepage teaser
 │   │   ├── PriceTicker.tsx
-│   │   ├── LightningLessons.tsx      # 4 Maven Lightning Lesson links
+│   │   ├── LightningLessons.tsx      # 5 Maven Lightning Lesson links
 │   │   ├── Navigation.tsx
 │   │   ├── Footer.tsx
-│   │   ├── InitialConsultModal.tsx   # global conversion surface
-│   │   ├── PreCallQualifier.tsx      # floating pill, 3-step chip intake
+│   │   ├── ScopingModal.tsx          # retained fallback booking path
+│   │   ├── InitialConsultModal.tsx   # legacy conversion surface (alumni-only)
 │   │   ├── CookieConsent.tsx
 │   │   ├── ErrorBoundary.tsx
 │   │   └── SEO.tsx
+│   │   # NOTE: YFork.tsx and PreCallQualifier.tsx still exist but are no longer mounted.
 │   ├── pages/
 │   │   ├── Index.tsx                 # homepage (eager-loaded)
+│   │   ├── Workshops.tsx + workshops/ # /workshops index + 5 sub-pages
 │   │   ├── Cohort.tsx                # /cohort (Maven enrolment)
-│   │   ├── Enterprise.tsx            # /enterprise. Signal Session + Revenue Architecture
+│   │   ├── Enterprise.tsx            # /enterprise. Signal Session + Revenue Architecture + Immersion
+│   │   ├── Capital.tsx               # /capital (third door for funds)
 │   │   ├── Operator.tsx              # /operator, 14-agent OS credential page
+│   │   ├── CaseStudies.tsx           # /case-studies, filterable anonymised proof
 │   │   ├── Brief.tsx                 # /signal. Live Intel
 │   │   ├── Immersion.tsx             # /immersion. AI Immersion (inquiry-only)
+│   │   ├── Alumni.tsx                # /alumni. Alumni Pass (invitation-only, noindex)
 │   │   ├── NewAgeLeadership.tsx      # /new-age-leadership, long-form thought leadership
 │   │   ├── LeadershipInsights.tsx    # /leaders. Decision Readiness Diagnostic
+│   │   ├── Library.tsx               # /library (includes FAQ tab)
 │   │   ├── Blog.tsx, BlogPost.tsx
-│   │   ├── FAQ.tsx, Contact.tsx, Privacy.tsx, Terms.tsx
+│   │   ├── Contact.tsx, Privacy.tsx, Terms.tsx
 │   │   └── NotFound.tsx
 │   ├── hooks/                        # useModelData (ALLOWED_MODEL_IDS), useScrollDirection, etc.
 │   ├── contexts/SessionDataContext.tsx
 │   ├── integrations/supabase/
-│   ├── lib/, utils/, data/
+│   ├── lib/, utils/, data/           # data/caseStudies.ts, lib/stripe-prices.ts
 │   └── index.css                     # design tokens
 ├── supabase/
 │   └── functions/
+│       ├── _shared/{mindy,enrich,proposal}/  # shared Diagnosis Room logic
+│       ├── mindy-chat/                # Claude, Mindy's reasoning turn
+│       ├── enrich-company/            # company dossier orchestrator (Brandfetch/PDL/Tranco/…)
+│       ├── generate-proposal/         # co-branded one-pager + Browserless PDF
+│       ├── session-digest/            # Resend, intelligence email to Krish + opt-in visitor copy
+│       ├── transcribe/                # OpenAI Whisper (voice input)
 │       ├── nervous-decision-machine/  # Claude Haiku 4.5
 │       ├── get-ai-news/               # Live Intel content
 │       ├── get-market-sentiment/      # OpenAI
@@ -121,8 +141,11 @@ mindmaker/
 │       ├── send-lead-email/           # Gemini company research + Resend
 │       ├── send-contact-email/
 │       ├── send-leadership-insights-email/
+│       ├── notify-scoping-request/    # ScopingModal intake → Krish
+│       ├── notify-ctrl-waitlist/      # CTRL waitlist → Krish
+│       ├── import-audience-csv/       # Substack subscriber CSV → audience_contacts
 │       └── create-consultation-hold/  # Stripe (bypassed)
-├── public/                            # llms.txt, robots.txt, sitemap.xml, rising-cities.mp4, ctrl-demo-video.mp4, Krish-Headshot.png
+├── public/                            # llms.txt, robots.txt, sitemap.xml, rising-cities.mp4, ctrl-demo-video.mp4, mindy.png, Krish-Headshot.png
 ├── scripts/                           # generate-sitemap.mjs, prerender.mjs
 ├── project-documentation/             # full documentation (start here)
 ├── CLAUDE.md                          # authoritative codebase reference
@@ -147,16 +170,22 @@ mindmaker/
 
 | Route | Description |
 |---|---|
-| `/` | Homepage (eager-loaded) |
+| `/` | Homepage (eager-loaded). CTAs open the Diagnosis Room |
+| `/start` | The Diagnosis Room (Mindy) as a standalone page |
+| `/workshops`, `/workshops/:slug` | Five $599 one-day Workshops (Maven) |
 | `/cohort` | The AI-Fluent Executive (Cohort). Maven enrolment |
-| `/enterprise` | Signal Session ($15k) + Revenue Architecture ($60–100k, 30 days) |
+| `/enterprise` | Signal Session ($15k) + Revenue Architecture ($60–100k, 30 days) + AI Immersion |
+| `/capital` | Third door: Signal Session + Revenue Architecture repositioned for funds |
 | `/operator` | How I operate, 14-agent OS credential page |
+| `/case-studies` | Filterable anonymised client case studies |
 | `/signal` | **Live Intel**, model price ticker, classified archive (WATCH/SKIP/CALL/TAKE), Nervous Decision Machine |
-| `/immersion` | AI Immersion ($12k, inquiry-only) |
+| `/immersion` | AI Immersion ($12k, inquiry-only). Footer-linked, not nav |
+| `/alumni` | Alumni Pass ($1,500/yr, invitation-only, noindex). Not linked |
+| `/library` | Library of resources (includes FAQ tab) |
 | `/new-age-leadership` | Long-form thought leadership, agent-native org chart |
 | `/leaders`, `/leadership-insights` | Decision Readiness Diagnostic (unlinked from nav) |
 | `/blog`, `/blog/:slug` | Blog |
-| `/faq`, `/contact`, `/privacy`, `/terms` | Support pages |
+| `/contact`, `/privacy`, `/terms` | Support pages (`/faq` → `/library?tab=questions`) |
 
 ### Redirects
 - `/tool` → `/signal#decision`
@@ -174,6 +203,11 @@ mindmaker/
 
 | Function | Purpose |
 |---|---|
+| `mindy-chat` | Anthropic Claude. Mindy's reasoning turn for the Diagnosis Room (strict-JSON, voice-gated) |
+| `enrich-company` | Company dossier orchestrator (Brandfetch + PDL + Tranco + BuiltWith + Perplexity/Exa/NewsAPI + Gemini/Anthropic synthesis). `scale.*` is internal routing only |
+| `generate-proposal` | On-the-fly co-branded "Mindmaker × [company]" one-pager; HTML + Browserless PDF |
+| `session-digest` | Resend. Full session intelligence to Krish + opt-in proposal copy to the visitor |
+| `transcribe` | OpenAI Whisper. Voice input for the Diagnosis Room mic |
 | `nervous-decision-machine` | Anthropic Claude Haiku 4.5. JSON artefact for the Nervous Decision Machine |
 | `get-ai-news` | Live Intel content (taxonomy: WATCH / SKIP / CALL / TAKE) |
 | `get-market-sentiment` | OpenAI, market sentiment |
@@ -181,20 +215,32 @@ mindmaker/
 | `send-lead-email` | Gemini company research with Google Search grounding + Resend (3× retry) |
 | `send-contact-email` | Contact form |
 | `send-leadership-insights-email` | Diagnostic results dual-email |
+| `notify-scoping-request` | ScopingModal intake → email Krish |
+| `notify-ctrl-waitlist` | CTRL waitlist → email Krish |
+| `import-audience-csv` | Substack subscriber CSV → shared `audience_contacts` table (secret-gated) |
 | `create-consultation-hold` | Stripe (currently bypassed; Cohort payment via Maven) |
 
 ---
 
 ## Environment Variables
 
-Required secrets in Supabase:
+Required / optional secrets in Supabase (a missing enrichment key just disables that tool, the dossier degrades, it does not fail):
 ```
-ANTHROPIC_API_KEY    Nervous Decision Machine
-GEMINI_API_KEY       Lead enrichment (Search-grounded; preferred)
-OPENAI_API_KEY       Market sentiment + lead enrichment fallback
-RESEND_API_KEY       Email delivery
-LOVABLE_API_KEY      AI Gateway (auto-provisioned)
-STRIPE_SECRET_KEY    Payments (paused)
+ANTHROPIC_API_KEY        Mindy reasoning, proposal prose, Nervous Decision Machine
+GOOGLE_AI_API_KEY        Gemini company synthesis (enrich-company)
+GEMINI_API_KEY           Lead enrichment (Search-grounded; preferred)
+OPENAI_API_KEY           Whisper transcription, market sentiment, enrichment fallback
+RESEND_API_KEY           Email delivery (session-digest + the send-* functions)
+BROWSERLESS_API_KEY      Proposal HTML → PDF (generate-proposal)
+BRANDFETCH_API_KEY       Company identity / logo / colours (co-brand)
+PEOPLEDATALABS_API_KEY   Company size / routing signal
+BUILTWITH_API_KEY        Tech-stack signal
+EXA_API_KEY              Proof matching + currency
+PERPLEXITY_API_KEY       Company currency / recent signals
+NEWSAPI_API_KEY          Recent news for the dossier
+AUDIENCE_IMPORT_SECRET   Gate for import-audience-csv
+LOVABLE_API_KEY          AI Gateway (auto-provisioned)
+STRIPE_SECRET_KEY        Payments (paused)
 ```
 
 ---
@@ -204,6 +250,8 @@ STRIPE_SECRET_KEY    Payments (paused)
 Full documentation in [`project-documentation/`](./project-documentation/):
 
 - **[SALES_PLAYBOOK.md](./project-documentation/SALES_PLAYBOOK.md)**. single ground-truth doc for AI sales/marketing agents
+- **[COMMERCIAL_REFERENCE.md](./project-documentation/COMMERCIAL_REFERENCE.md)**. durable commercial reference (the `mindmaker` Claude skill): buyer-journey ladder, three ICPs, CTRL, Substack, Stripe, sales motion, Mindmaker vs Mindmaker OS
+- **[mindy/](./project-documentation/mindy/)**. Mindy's Brain Pack, system prompt, reasoning, fit rubric, pricing-range model, proof bank, CANON, voice-lint for the Diagnosis Room
 - **[ARCHITECTURE.md](./project-documentation/ARCHITECTURE.md)**. tech stack, routes, edge functions, data flows
 - **[FEATURES.md](./project-documentation/FEATURES.md)**. feature catalogue
 - **[OFFERS.md](./project-documentation/OFFERS.md)**. full offer guide

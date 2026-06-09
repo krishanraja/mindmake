@@ -1,12 +1,12 @@
 # Features
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-06-09
 
 ---
 
 ## Product Offerings
 
-Mindmaker is a barbell with one inquiry-only relief valve: three public offers, one inquiry-only offer, no middle tier. Every offer has a fixed scope and finish line. Full detail in [OFFERS.md](./OFFERS.md). Sales-grade detail in [SALES_PLAYBOOK.md](./SALES_PLAYBOOK.md).
+Mindmaker is a **ladder**: free Lightning Lessons → paid Workshops ($599) → the AI-Fluent Executive Cohort ($2,500) → Enterprise sprints ($15k–$100k+) → the Alumni Pass ($1,500/yr) as continuity, with Capital as a third door for funds. Every offer has a fixed scope and finish line. Public pricing is ranges only; exact figures are set on the call. Full detail in [OFFERS.md](./OFFERS.md) and [COMMERCIAL_REFERENCE.md](./COMMERCIAL_REFERENCE.md). Sales-grade detail in [SALES_PLAYBOOK.md](./SALES_PLAYBOOK.md).
 
 ### 1. The AI-Fluent Executive (Cohort): $2,500/seat (hosted on Maven)
 **Status:** Live
@@ -132,51 +132,80 @@ Triggered by `/cohort?inquiry=1:1`. A muted banner surfaces a Contact link. No p
 
 Authoritative: `src/pages/Index.tsx`. Order:
 
-1. `NewHero`. rotating headlines, eyebrow "Decision blockers I hear every week", looping `/rising-cities.mp4` background, mint pulse, particle background. Primary CTA "Book a call", secondary "See how I work" (smooth-scrolls to Y-fork).
-2. `YFork`. "Start where your question actually is." Three intent cards: "Sharpen how I think" → `/cohort` (Workshops $599 + Cohort $2,500), "Resolve one decision" → `/enterprise#signal-session`, "Rebuild the commercial layer" → `/capital`. Free-entry strip below links the Decision Readiness Diagnostic (`/leaders`), the CTRL waitlist, and the Sunday brief (Substack).
-3. `BigProblem`. existential urgency frame (three large interactive flip cards; card CTA opens the `ScopingModal`).
-4. `TrustSection`. Krish bio + headshot + testimonials carousel (COHORT-STYLE / ENTERPRISE tagged).
-5. `FrameworkJourney`. three-panel animated Mind Set → Mind Map → Mind Make.
-6. `OperatorsEdge`. v5 typography-only credential section ("Beyond pattern recognition"). Three proof tiles (Architecture / Optimization / Memory). Primary CTA to Revenue Architecture, secondary link to `/operator`.
-7. `OperatorsBrief`. Live Intel homepage teaser. CSS-marquee PriceTicker + rotating interpretation line (3 takes, 8s cross-fade) + compact Nervous Decision input + muted "Open the full dashboard →" link to `/signal`.
-8. `MindMakerLiveSection`. Substack newsletter subscribe surface.
-9. `SimpleCTA`. final CTA.
-10. `Footer`.
+1. `NewHero`. rotating headlines, eyebrow "Decision blockers I hear every week", looping `/rising-cities.mp4` background, mint pulse, particle background. Primary CTA "Book a call" (Diagnosis Room, express) + secondary "Work through your decision with Mindy" (Diagnosis Room, full) + tertiary "Or start with a free lesson →" / "See how I work →" (`/operator`).
+2. `BigProblem`. existential urgency frame (three large interactive flip cards; card CTA opens the `ScopingModal`).
+3. `TrustSection`. Krish bio + headshot + testimonials carousel (COHORT-STYLE / ENTERPRISE tagged).
+4. `FrameworkJourney`. three-panel animated Mind Set → Mind Map → Mind Make.
+5. `OperatorsEdge`. v5 typography-only credential section ("Beyond pattern recognition"). Three proof tiles (Architecture / Optimization / Memory). Primary CTA to Revenue Architecture, secondary link to `/operator`.
+6. `OperatorsBrief`. Live Intel homepage teaser. CSS-marquee PriceTicker + rotating interpretation line (3 takes, 8s cross-fade) + compact Nervous Decision input + muted "Open the full dashboard →" link to `/signal`.
+7. `MindMakerLiveSection`. Substack newsletter subscribe surface.
+8. `SimpleCTA`. final CTA ("What's your nervous decision?"), opens the Diagnosis Room.
+9. `Footer`.
+
+The retired `YFork` second fork is no longer rendered.
 
 ### Global overlays
 
 Mounted in `src/App.tsx`:
-- `ScopingModal`. the primary "Book a call" conversion surface. Opened via `window.dispatchEvent(new CustomEvent('openScopingModal', { detail: { source_page, preselected?, qualifierAnswers? } }))`. 6-field "Scope it with me" intake posting to `notify-scoping-request`
+- `DiagnosisRoom`. **the primary "Book a call" conversion surface** (the on-site Mindy experience). Opened via `window.dispatchEvent(new CustomEvent('openDiagnosisRoom', { detail: { source_page, seedDecision?, mode } }))` (`mode`: `express` | `full`). Lazy + only mounted when open. Also a standalone page at `/start`. See "The Diagnosis Room (Mindy)" below.
+- `ScopingModal`. secondary booking surface, still dispatched by the offer pages (`/cohort`, `/enterprise`, `/capital`, `/immersion`), the `BigProblem` cards, and `/case-studies` via `openScopingModal`. 6-field "Scope it with me" intake posting to `notify-scoping-request`.
 - `InitialConsultModal`. legacy conversion surface, kept mounted but only `/alumni` still dispatches `openConsultModal`
-- `PreCallQualifier`. floating pill bottom-right. 3-step chip-based intake drawer (decision → timeline → stakes) → keyword-classified offer recommendation → dispatches `openScopingModal` and pre-loads via `SessionDataContext.setQualificationData`. Answers saved to `localStorage` under `mindmaker:pre-call-qualifier` (version 2), no email capture.
 - `CookieConsent`
 - `ErrorBoundary` wrapping the route `Suspense`
+- The retired `PreCallQualifier` floating pill is no longer mounted.
 
 ### Navigation
 
-File: `src/components/Navigation.tsx`. Primary CTA button: **"Book a call"** with mint pulse dot.
+File: `src/components/Navigation.tsx`. Primary CTA button: **"Book a call"** with mint pulse dot (opens the Diagnosis Room in express mode; the mobile menu also offers "Or think it through with Mindy first" → full mode).
 
+- **Workshops** (direct link): `/workshops`
 - **Cohort** (direct link): `/cohort`
-- **Enterprise** (dropdown): The Signal Session, The Revenue Architecture
-- **Live Intel** (direct link): `/signal`
-- **Resources** (dropdown): New Age Leadership, How I operate, Blog, The Builder Economy (Podcast) [external], Lightning Lessons (4 Maven URLs via `LightningLessons` component)
-- **About** (dropdown): FAQ, Contact, Privacy
+- **Enterprise** (dropdown): The Signal Session, The Revenue Architecture, The AI Immersion, and "For funds & operating partners" → Capital
+- **Mindmaker LIVE** (direct link, wordmark): `/signal`
+- **Resources** (dropdown): How I operate, Case studies, New Age Leadership, Library, The Builder Economy (Podcast) [external], Lightning Lessons (5 Maven URLs via `LightningLessons` component)
+- **About** (dropdown): Contact, Privacy, Terms
 
 Hides on scroll-down via `useScrollDirection`.
 
 ### Lightning Lessons (external Maven courses)
 
-Surfaced in the Resources dropdown via the `LightningLessons` component. Four courses:
-1. Vibe Coding for Leaders, `https://maven.com/p/ca6d71/vibe-coding-for-leaders-build-what-you-brief`
-2. Make AI Your Co-Founder, `https://maven.com/p/0cc82a/make-ai-your-co-founder`
-3. Build an Autonomous Business with AI, `https://maven.com/p/38d196/build-an-autonomous-business-with-ai`
-4. Give Your AI Memory, `https://maven.com/p/8fba42/improve-the-memory-of-your-ai-tools`
+Surfaced in the Resources dropdown via the `LightningLessons` component. Five courses:
+1. Build Your AI's Permanent Identity
+2. Build an Autonomous Business with AI
+3. Vibe Coding for Leaders: The Unfair Advantage
+4. Build Your Agentic Org Chart
+5. Build Your AI Chief of Staff
+
+---
+
+## The Diagnosis Room (Mindy)
+
+**Status:** Live (June 2026). The primary on-site conversion surface.
+
+**What it is:** a full-screen immersive experience where **Mindy** (the on-site guide, reasoning in Krish's voice) diagnoses a visitor's nervous AI decision and forks to three honest exits. Replaces the retired `PreCallQualifier` pill and `YFork` second fork.
+
+**Entry:** the `openDiagnosisRoom` event (`detail: { source_page, seedDecision?, mode? }`) from the nav "Book a call", the hero CTAs, and `SimpleCTA`; plus the standalone page at `/start`. Two modes: `express` (rushes to booking) and `full` (runs the full diagnosis).
+
+**Front end** (`src/components/diagnosis/`): `DiagnosisRoom` (orchestrator), `Opener`, `Conversation`, `DossierReveal`, `DecisionBrief`, `Fork`, `ProposalView`, `ExpressBooking`, `MicButton`, `MindyAvatar`, the `useDiagnosisSession` state machine, and `types.ts`. Phases: `opener` → `reading` → `reflect` → `chat` → `brief` → `fork` → `proposal` (plus `express-book`).
+
+**Three honest exits:**
+1. **Keep chatting** (learn).
+2. **Book a free 15-min call** → Calendly.
+3. **Generate / download a co-branded proposal** ("Mindmaker × [company]" one-pager, PDF via Browserless).
+
+**Back end** (4 edge functions + voice): `enrich-company` (company dossier; identity-depth co-brand paint + full-depth synthesis; free-email → graceful degrade), `mindy-chat` (Claude reasoning turn, voice-gated strict JSON), `generate-proposal` (co-branded one-pager + Browserless PDF), `session-digest` (Resend: full intelligence to Krish + opt-in visitor proposal copy), and `transcribe` (Whisper voice input).
+
+**Privacy:** the dossier's `scale.*` (employeeCount, sizeBand, trancoRank, icp, recommendedMode) is internal routing only, never surfaced to the visitor, never in the visitor copy; only Krish's digest gets the full dossier + transcript.
+
+**Knowledge & guardrails:** Mindy's Brain Pack in [`mindy/`](./mindy/), system prompt, reasoning few-shots, fit-and-walkaway rubric, pricing-range model, proof bank, `CANON.md`, voice-lint. Pricing is ranges only; the honest down-sell rubric can recommend a cheaper rung or a free lesson; anything above ~$12k books the call rather than self-serves.
+
+**Analytics:** `diagnosis_room_*` Plausible events across the funnel.
 
 ---
 
 ## The AI-Fluent Executive (Cohort) (`/cohort`)
 
-- Offer detail, curriculum structure (Week 1 / Week 2 / Week 3), enrolment flow
+- Offer detail, curriculum structure (Diagnose → Decompose → Decide → Deploy, Weeks 1–4), enrolment flow
 - "Hosted on Maven" pill + "Reserve my seat on Maven" CTA route directly to `https://maven.com/mindmaker/the-ai-fluent-executive`
 - Next-cohort date currently literal in `Cohort.tsx` (`nextCohort` const); future: Supabase `cohort_dates` table
 - `/cohort?inquiry=1:1` query param surfaces the private-engagement banner
@@ -299,17 +328,9 @@ Structure:
 
 ---
 
-## Homepage Y-Fork
+## Homepage Y-Fork (RETIRED June 2026)
 
-`src/components/YFork.tsx`. Headline "Start where your question actually is." Three intent cards in a `md:grid-cols-3` row, each CTA linking directly to a page (no modal).
-
-- **Sharpen how I think.** "I want to get clearer about AI." Workshops ($599) + Cohort ($2,500). CTA "See programmes" → `/cohort`.
-- **Resolve one decision.** "I have one nervous AI decision to make." CTA "Book a Signal Session" → `/enterprise#signal-session`.
-- **Rebuild the commercial layer.** "We're changing how we make money with AI." CTA "Scope an engagement" → `/capital`.
-
-Below the cards, a free-entry strip ("New here, and not ready to book anything yet?") links the Decision Readiness Diagnostic (`/leaders`), the CTRL waitlist (`CtrlWaitlistPopover`), and the Sunday brief (Substack).
-
-`NewHero`'s secondary CTA "See how I work" smooth-scrolls to `#y-fork`. Hero eyebrow reads "Decision blockers I hear every week".
+`src/components/YFork.tsx` (the second homepage fork, "Start where your question actually is.") was removed from `Index.tsx` so the homepage funnels into the one Diagnosis Room journey. The file remains in the tree but is no longer imported. Its three intents (sharpen / resolve / rebuild) are now served by Mindy's diagnosis and the nav (`/workshops`, `/cohort`, `/enterprise`, `/capital`). `NewHero`'s "See how I work →" now links to `/operator` (it previously smooth-scrolled to the Y-fork).
 
 ---
 
@@ -333,14 +354,11 @@ Below the cards, a free-entry strip ("New here, and not ready to book anything y
 
 ## Booking Flow
 
-- Primary entry point: the global `ScopingModal` opened via the `openScopingModal` custom event (6-field "Scope it with me" intake → `notify-scoping-request` → emails krish@themindmaker.ai + persists)
-- `InitialConsultModal` (opened via `openConsultModal`) is legacy, now dispatched only by `/alumni`
-- "Book a call" CTAs open the `ScopingModal` except:
-  - Cohort `Reserve my seat on Maven` button (direct Maven URL)
-  - Lightning Lessons (direct Maven URLs)
-  - Builder Economy (direct external)
-- PreCallQualifier pre-loads the modal with chip-based answers
-- Email delivery via Resend
+- Primary entry point: **the Diagnosis Room (Mindy)**, opened via `openDiagnosisRoom` from the nav "Book a call" (express), the hero (express + full), and `SimpleCTA`. The session ends in a digest (`session-digest` → Resend) and one of three exits (chat / Calendly / proposal).
+- Secondary: the global `ScopingModal` (`openScopingModal`, 6-field "Scope it with me" intake → `notify-scoping-request` → emails krish@themindmaker.ai + persists). Still dispatched by the offer pages (`/cohort`, `/enterprise`, `/capital`, `/immersion`), the `BigProblem` cards, and `/case-studies`.
+- `InitialConsultModal` (`openConsultModal`) is legacy, now dispatched only by `/alumni`.
+- Direct-link bypasses: Cohort `Reserve my seat on Maven` (Maven URL), Lightning Lessons (Maven URLs), Builder Economy (external).
+- Email delivery via Resend.
 
 ---
 
@@ -354,15 +372,24 @@ Below the cards, a free-entry strip ("New here, and not ready to book anything y
 
 ## Edge Functions (live)
 
+Diagnosis Room (shared logic in `_shared/{mindy,enrich,proposal}/`):
+- `mindy-chat`. Anthropic Claude, Mindy's reasoning turn (strict-JSON, voice-gated)
+- `enrich-company`. company dossier orchestrator (Brandfetch + PDL + Tranco + BuiltWith + Perplexity/Exa/NewsAPI + Gemini/Anthropic synthesis); `scale.*` is internal routing only
+- `generate-proposal`. co-branded "Mindmaker × [company]" one-pager; HTML + Browserless PDF
+- `session-digest`. Resend, full intelligence to Krish + opt-in proposal copy to the visitor
+- `transcribe`. OpenAI Whisper, Diagnosis Room voice input
+
+Other:
 - `nervous-decision-machine`. Anthropic Haiku 4.5
 - `get-ai-news`. Live Intel content (Lovable AI Gateway, schema preserved)
 - `get-market-sentiment`. OpenAI
 - `get-model-data`. frontier model price and spec feed
-- `send-lead-email`. Gemini company research + Resend
+- `send-lead-email`. Gemini company research + Resend (legacy `/alumni` path)
 - `send-contact-email`. Resend
 - `send-leadership-insights-email`. Resend (dual delivery)
 - `notify-scoping-request`. powers the `ScopingModal`; emails krish@themindmaker.ai via Resend + persists
 - `notify-ctrl-waitlist`. CTRL waitlist signups (`CtrlWaitlistPopover`); emails krish@themindmaker.ai via Resend
+- `import-audience-csv`. Substack subscriber CSV → shared `audience_contacts` table (secret-gated)
 - `create-consultation-hold`. Stripe (currently bypassed; Cohort payment via Maven)
 
 ---
@@ -374,7 +401,7 @@ Below the cards, a free-entry strip ("New here, and not ready to book anything y
 - `scripts/generate-sitemap.mjs` + `scripts/prerender.mjs` run during `npm run build`
 - `public/llms.txt` for LLM summaries
 - `public/robots.txt` allow-list for GPTBot, ClaudeBot, PerplexityBot, Google-Extended
-- Plausible events: `operator_page_cta_clicked`, `pre_call_qualifier_completed`
+- Plausible events: `operator_page_cta_clicked`, and the Diagnosis Room funnel `diagnosis_room_*` (start, express_start, switch_to_full, view_brief, fork, book_call, generate_proposal, pdf_downloaded, digest_sent)
 
 ---
 
@@ -392,7 +419,8 @@ Key points:
 
 ## Retired Features (do not reference)
 
-- ChatBot / "Chat with Krish" / "Ask Mindmaker", replaced by `PreCallQualifier`
+- ChatBot / "Chat with Krish" / "Ask Mindmaker", replaced by `PreCallQualifier`, which is itself now retired
+- `PreCallQualifier` floating pill + homepage `YFork` second fork, both retired June 2026 (superseded by the Diagnosis Room). Files remain in the tree but are unmounted.
 - `/tool` standalone page, deleted
 - `ActionsHub` drawer and Interactive decision tools (BuilderAssessment, TryItWidget, AIDecisionHelper, FrictionMapBuilder, PortfolioBuilder), unmounted
 - `VendorLandscape`, `AINewsTicker`, `TheProblem`, `ProductLadder`. replaced

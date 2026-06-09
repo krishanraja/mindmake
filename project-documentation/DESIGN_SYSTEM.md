@@ -1,6 +1,6 @@
 # Design System
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-06-09
 
 ---
 
@@ -455,38 +455,13 @@ On white/light backgrounds, always use `text-foreground`, `text-ink`, or `text-m
 <Button
   size="lg"
   className="bg-mint text-ink hover:bg-mint/90 font-semibold px-8 py-6 text-lg"
-  onClick={() => window.dispatchEvent(new CustomEvent('openScopingModal'))}
+  onClick={() => window.dispatchEvent(new CustomEvent('openDiagnosisRoom', { detail: { source_page, mode: 'express' } }))}
 >
   Book a call
 </Button>
 ```
 
-Primary CTA copy is always **"Book a call"**, no conditional labels. The previous `"What's your nervous decision?"` button copy has been retired. "Book a call" CTAs open the global `ScopingModal` via the `openScopingModal` custom event. `InitialConsultModal` / `openConsultModal` is legacy, retained only for `/alumni`.
-
-### Y-Fork Cards (homepage 3-intent-card layout)
-Headline "Start where your question actually is." Three intent cards, each CTA linking directly to a page (no modal). Replaces the old `ProductLadder` 4-Week / 90-Day sprint chooser.
-
-```tsx
-<div className="grid md:grid-cols-3 gap-6 md:gap-8">
-  <div className="glass-card p-8 hover:border-mint/40 transition-all">
-    <p className="text-xs tracking-widest text-muted-foreground">SHARPEN HOW I THINK</p>
-    <h3 className="text-3xl font-bold mb-2">I want to get clearer about AI.</h3>
-    {/* CTA "See programmes" → /cohort */}
-  </div>
-  <div className="glass-card p-8 hover:border-mint/40 transition-all">
-    <p className="text-xs tracking-widest text-muted-foreground">RESOLVE ONE DECISION</p>
-    <h3 className="text-3xl font-bold mb-2">I have one nervous AI decision to make.</h3>
-    {/* CTA "Book a Signal Session" → /enterprise#signal-session */}
-  </div>
-  <div className="glass-card p-8 hover:border-mint/40 transition-all">
-    <p className="text-xs tracking-widest text-muted-foreground">REBUILD THE COMMERCIAL LAYER</p>
-    <h3 className="text-3xl font-bold mb-2">We're changing how we make money with AI.</h3>
-    {/* CTA "Scope an engagement" → /capital */}
-  </div>
-</div>
-```
-
-A free-entry strip below the cards ("New here, and not ready to book anything yet?") links the Decision Readiness Diagnostic (`/leaders`), the CTRL waitlist (`CtrlWaitlistPopover`), and the Sunday brief (Substack).
+Primary CTA copy is always **"Book a call"**, no conditional labels. The previous `"What's your nervous decision?"` button copy has been retired. The nav/hero "Book a call" CTA opens the **Diagnosis Room (Mindy)**, the primary conversion surface, via the `openDiagnosisRoom` custom event (express mode). The `ScopingModal` (`openScopingModal`) is now the secondary booking surface, used by the offer pages (`/cohort`, `/enterprise`, `/capital`, `/immersion`), the `BigProblem` homepage cards, and `/case-studies`. `InitialConsultModal` / `openConsultModal` is legacy, retained only for `/alumni`.
 
 ### Framework Journey (Mind Set → Mind Map → Mind Make)
 Three-panel layout with scroll-triggered animations. Each panel uses `glass-card` with animated content inside. See `FrameworkJourney.tsx`.
@@ -507,8 +482,10 @@ On `/cohort`, a small "Hosted on Maven" pill (`Cohort.tsx`) sits above the seat-
 
 ### Retired component patterns (do not reference)
 
-- `TheProblem.tsx` Builder/Orchestrator fork, replaced by `YFork` (AI leaders vs AI products)
-- `ProductLadder.tsx` 4-Week vs 90-Day sprint chooser, replaced by `YFork`
+- `TheProblem.tsx` Builder/Orchestrator fork (AI leaders vs AI products), unmounted
+- `ProductLadder.tsx` 4-Week vs 90-Day sprint chooser, unmounted
+- `YFork.tsx` homepage "Start where your question actually is." three intent cards, unmounted (the .tsx file remains in the tree but is no longer imported). The homepage now funnels into the single Diagnosis Room journey.
+- `PreCallQualifier.tsx` floating pill / 3-step chip intake, unmounted (file remains but no longer imported)
 - `AINewsTicker.tsx` with SIGNAL/NOISE/DECISION/TAKE badges, replaced by `OperatorsBrief` + full dashboard at `/signal` with WATCH/SKIP/CALL/TAKE taxonomy
 - `ActionsHub` side drawer and Interactive decision tools, unmounted
 - Media Easter Egg components (`VideoDrawer`, `AudioPlayer`, `ArtifactPreview`, `ExpandableQuote`), not in current homepage; kept in `src/components/MediaEasterEggs/` for possible future use

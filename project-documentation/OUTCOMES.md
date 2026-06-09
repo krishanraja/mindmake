@@ -1,6 +1,6 @@
 # User Outcomes
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-06-09
 
 ---
 
@@ -17,13 +17,15 @@ Every offer has a defined artefact, a defined finish line, and no retainer attac
 ### Emotional arc
 
 ```
-Week 0:  Relief     → Finally naming the decision out loud to peers
-Week 1:  Clarity    → Cutting through vendor noise to the real question (Name the decision)
-Week 2:  Momentum   → Options mapped, trade-offs visible, path narrowing (Map the paths)
-Week 3:  Confidence → Board-ready position written, defended, committed (Make the call)
+Week 1:  Clarity    → Cutting through vendor noise to the real question (Diagnose)
+Week 2:  Momentum   → Options mapped, trade-offs visible, path narrowing (Decompose)
+Week 3:  Confidence → Board-ready position written, defended, committed (Decide)
+Week 4:  Motion     → First concrete step shipped; accountability + alumni onboarding (Deploy)
 ```
 
-### Immediate (end of cohort, week 3)
+(The cohort runs four weeks on the Diagnose → Decompose → Decide → Deploy curriculum; "Mind Set → Mind Map → Mind Make" remains the portable cross-offer brand framework.)
+
+### Immediate (end of cohort, week 4)
 
 - One board-ready position memo (1 page) on one nervous AI decision
 - Trade-off analysis document with options named and rejection reasons documented

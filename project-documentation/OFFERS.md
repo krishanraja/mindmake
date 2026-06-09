@@ -1,6 +1,6 @@
 # Offers: The Full Guide
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-06-09
 
 > Replaces the previous `SPRINTS.md`. The 1:1 sprint products (4-Week and 90-Day Builder / Orchestrator sprints) were retired from the public site in the v4 barbell pivot. The v6 ladder restructure (May 2026) added paid Workshops as the entry product and the Alumni Pass as a continuity layer. See `mindmaker_rebuild_brief_v4.md` for the v4 rationale and `DECISIONS_LOG.md` for the commercial reasoning behind v6.
 
@@ -269,7 +269,7 @@ Prior 1:1 products (4-Week Sprint, 90-Day Sprint, Builder Sprint, Builder Sessio
 
 ## Entry Point
 
-**Every offer starts with "Book a call."** The global `ScopingModal` is the conversion surface (`src/components/ScopingModal.tsx`, opened via the `openScopingModal` event). `InitialConsultModal` / `openConsultModal` is legacy, retained only for `/alumni`. The `PreCallQualifier` floating pill helps prospects self-classify via a 3-step chip-based intake (decision → timeline → stakes) and feeds the scoping modal.
+**Every offer starts with "Book a call."** The primary "Book a call" opens the **Diagnosis Room (Mindy)** (`src/components/diagnosis/`, opened via the `openDiagnosisRoom` event, modes `"express"` and `"full"`, also at `/start`). Mindy diagnoses the visitor's one nervous AI decision in conversation, recommends the right rung (and can honestly down-sell to a cheaper rung or a free lesson), and forks to keep chatting, book a free 15-min Calendly call, or generate a co-branded proposal. The `ScopingModal` (`src/components/ScopingModal.tsx`, opened via `openScopingModal`) is the secondary booking surface still used on the offer pages. `InitialConsultModal` / `openConsultModal` is legacy, retained only for `/alumni`. The old `PreCallQualifier` floating pill is retired; its self-classification job now happens inside the Mindy conversation.
 
 Cohort enrollment and Workshop enrolment can also flow directly through Maven, bypassing the consult call when the buyer already knows the offer is the right fit. The Cohort page surfaces a "Reserve my seat on Maven" CTA; each Workshop sub-page surfaces "Enrol on Maven" (or "Get notified" when not yet published).
 

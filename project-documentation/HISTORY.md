@@ -1,6 +1,27 @@
 # History
 
-**Last Updated:** 2026-06-03
+**Last Updated:** 2026-06-09
+
+---
+
+## 2026-06-09: The Diagnosis Room (Mindy) ships; funnel consolidated into one journey
+
+**What Changed (in the codebase, reconciled into docs):**
+- **The Diagnosis Room (Mindy) is now the primary conversion surface.** A full-screen immersive experience (`src/components/diagnosis/`) where Mindy diagnoses the visitor's nervous AI decision and forks to three honest exits: keep chatting, book a free 15-min call (Calendly), or generate/download a co-branded "Mindmaker × [company]" proposal. Opened via the new `openDiagnosisRoom` event (modes `express` | `full`) and as a standalone page at `/start`. Lazy + only mounted when open so the SSG prerender never instantiates it.
+- **Four new edge functions back the room** (`mindy-chat`, Claude reasoning turn; `enrich-company`, company dossier orchestrator over Brandfetch/PDL/Tranco/BuiltWith/Perplexity/Exa/NewsAPI/Gemini; `generate-proposal`, co-branded one-pager + Browserless PDF; `session-digest`, Resend intelligence email to Krish + opt-in visitor copy) plus `transcribe` (OpenAI Whisper voice input). Shared logic lives in `supabase/functions/_shared/{mindy,enrich,proposal}/`. The dossier's `scale.*` layer is internal routing only and never surfaced to the visitor.
+- **Funnel consolidation (`chore(funnel): retire redundant surfaces`).** Removed the homepage `YFork` second fork and the `PreCallQualifier` floating pill so the homepage funnels into the one Mindy journey (both files remain in the tree but are unmounted). Repointed `SimpleCTA` and the nav/hero "Book a call" to the Diagnosis Room; `NewHero`'s "See how I work" now links to `/operator`. `ScopingModal` remains the booking surface on the offer pages, the `BigProblem` cards, and `/case-studies`.
+- **Pricing stripped to ranges.** The public site and any generated proposal show ranges only; the exact number is set by Krish on the call. Exact figures are retained in docs as internal reasoning aids.
+- **New `/case-studies` page** (filterable, anonymised COHORT-STYLE / ENTERPRISE proof; `src/pages/CaseStudies.tsx` + `data/caseStudies.ts` + `components/proof/CaseStudyCard.tsx`), linked from the Resources nav dropdown and the footer.
+- **Framework tension resolved** (`CANON.md` §5): "Mind Set → Mind Map → Mind Make" is the canonical cross-offer brand framework; "Diagnose → Decompose → Decide → Deploy" is the cohort's week-by-week curriculum. Both coexist.
+- **Added Mindy's Brain Pack** (`project-documentation/mindy/`: system prompt, reasoning few-shots, fit-and-walkaway rubric, pricing-range model, proof bank, `CANON.md`, voice-lint) and stored the durable commercial reference as `project-documentation/COMMERCIAL_REFERENCE.md` (the `mindmaker` Claude skill, reconciled to the live site).
+- Added the `import-audience-csv` edge function (Substack subscriber CSV → shared `audience_contacts` table).
+
+**Why:**
+- A single, guided, on-site diagnosis converts better than a static fork plus a passive pill: it reflects the visitor's business back to them (via enrichment), reasons through their actual decision in Krish's voice, and only then recommends a rung, honestly down-selling to a cheaper rung or a free lesson when that's the right call, and booking the call for anything above the self-serve ceiling.
+- Ranges-only pricing keeps the exact number a conversation Krish owns on the call, while still giving buyers an honest band.
+
+**Files Updated (docs reconciled this pass):**
+- `CLAUDE.md` and the living `project-documentation/` set (README, ARCHITECTURE, FEATURES, plus BRANDING, ICP, OFFERS, DESIGN_SYSTEM, VISUAL_GUIDELINES, REPLICATION_GUIDE, COMMON_ISSUES, DEPLOYMENT, SALES_PLAYBOOK, Master_Messaging_and_FAQ, PURPOSE) updated to reflect the Diagnosis Room, the retired `YFork`/`PreCallQualifier`, the new edge functions, and ranges-only pricing. The repo-root `README.md` was refreshed. New: `COMMERCIAL_REFERENCE.md`; the `mindy/` Brain Pack added to the index. Historical entries preserved as-is.
 
 ---
 

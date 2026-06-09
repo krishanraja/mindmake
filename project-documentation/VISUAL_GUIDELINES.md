@@ -1,6 +1,6 @@
 # Visual Guidelines
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-06-09
 
 ---
 
@@ -417,7 +417,7 @@ Gaps:            gap-4 -> gap-6
 
 ---
 
-## Homepage Visual Patterns (v4/v5 barbell)
+## Homepage Visual Patterns
 
 ### Homepage scroll
 
@@ -425,24 +425,23 @@ The homepage is a curated vertical scroll. Authoritative source: `src/pages/Inde
 
 | Block | Component | Visual treatment |
 |-------|-----------|------------------|
-| 1. Navigation | `Navigation.tsx` | Fixed top, mint "Book a call" CTA, hides on scroll-down |
-| 2. Hero | `NewHero.tsx` | Full-viewport dark ink, looping `/rising-cities.mp4` background, particle animation, rotating headlines, eyebrow "Decision blockers I hear every week", mint CTA "Book a call", secondary "See how I work" |
-| 3. Y-Fork | `YFork.tsx` | "Start where your question actually is." Three-intent glass-card layout (Sharpen → `/cohort`, Resolve → `/enterprise#signal-session`, Rebuild → `/capital`) + free-entry strip below (Diagnostic / CTRL waitlist / Sunday brief) |
-| 4. Big Problem | `BigProblem.tsx` | Existential urgency frame (three large interactive flip cards) |
-| 5. Trust Anchor | `TrustSection.tsx` | Krish headshot (circular, mint border), bio, testimonials carousel (COHORT-STYLE / ENTERPRISE tagged) |
-| 6. Framework Journey | `FrameworkJourney.tsx` | Three glass-card panels (Mind Set → Mind Map → Mind Make) with scroll-triggered animations |
-| 7. Operator's Edge | `OperatorsEdge.tsx` | Dark-bg typography-only credential section, "Beyond pattern recognition", three proof tiles, Revenue Architecture CTA |
-| 8. Live Intel teaser | `OperatorsBrief.tsx` | CSS-marquee `PriceTicker` + rotating plain-English interpretation line + compact Nervous Decision input + muted link to `/signal` (Live Intel dashboard) |
-| 9. Mindmaker LIVE | `MindMakerLiveSection.tsx` | Substack newsletter subscribe surface |
-| 10. Final CTA | `SimpleCTA.tsx` | Dark CTA card, mint "Book a call" button |
-| 11. Footer | `Footer.tsx` | |
+| 1. Navigation | `Navigation.tsx` | Fixed top, mint "Book a call" CTA (opens the Diagnosis Room), hides on scroll-down |
+| 2. Hero | `NewHero.tsx` | Full-viewport dark ink, looping `/rising-cities.mp4` background, particle animation, rotating headlines, eyebrow "Decision blockers I hear every week", mint CTA "Book a call" (opens the Diagnosis Room, express mode), secondary "See how I work" → `/operator` |
+| 3. Big Problem | `BigProblem.tsx` | Existential urgency frame (three large interactive flip cards; cards open the `ScopingModal`) |
+| 4. Trust Anchor | `TrustSection.tsx` | Krish headshot (circular, mint border), bio, testimonials carousel (COHORT-STYLE / ENTERPRISE tagged) |
+| 5. Framework Journey | `FrameworkJourney.tsx` | Three glass-card panels (Mind Set → Mind Map → Mind Make) with scroll-triggered animations |
+| 6. Operator's Edge | `OperatorsEdge.tsx` | Dark-bg typography-only credential section, "Beyond pattern recognition", three proof tiles, Revenue Architecture CTA |
+| 7. Live Intel teaser | `OperatorsBrief.tsx` | CSS-marquee `PriceTicker` + rotating plain-English interpretation line + compact Nervous Decision input + muted link to `/signal` (Live Intel dashboard) |
+| 8. Mindmaker LIVE | `MindMakerLiveSection.tsx` | Substack newsletter subscribe surface |
+| 9. Final CTA | `SimpleCTA.tsx` | Dark CTA card, mint "Book a call" button (opens the Diagnosis Room) |
+| 10. Footer | `Footer.tsx` | |
 
 ### Global overlays (above-scroll)
 
 Mounted in `src/App.tsx`:
-- `ScopingModal`. the primary "Book a call" conversion surface (`openScopingModal`)
+- `DiagnosisRoom`. the primary conversion surface (Mindy), opened via `openDiagnosisRoom` (lazy / SSG-safe); also a standalone page at `/start`
+- `ScopingModal`. secondary booking surface (`openScopingModal`), used by the offer pages, the `BigProblem` cards, and `/case-studies`
 - `InitialConsultModal`. legacy conversion surface (`openConsultModal`), retained only for `/alumni`
-- `PreCallQualifier`. floating pill bottom-right
 - `CookieConsent`
 
 ### Operator's Edge (v5): visual spec
@@ -491,8 +490,10 @@ Pages follow a similar shape:
 
 ### Retired visual patterns (do not build)
 
-- Builder/Orchestrator fork (`TheProblem.tsx`), replaced by `YFork`
-- 4-Week / 90-Day sprint chooser (`ProductLadder.tsx`), replaced by `YFork`
+- Builder/Orchestrator fork (`TheProblem.tsx`), unmounted
+- 4-Week / 90-Day sprint chooser (`ProductLadder.tsx`), unmounted
+- Homepage Y-Fork (`YFork.tsx`) "Start where your question actually is." three intent cards, unmounted (file remains in the tree but is no longer imported; the homepage now funnels into the single Diagnosis Room journey)
+- Pre-Call Qualifier floating pill (`PreCallQualifier.tsx`), unmounted (file remains but no longer imported)
 - AI News Ticker (`AINewsTicker.tsx`) with SIGNAL/NOISE/DECISION/TAKE badges, replaced by PriceTicker + Operator's Brief
 - ActionsHub side drawer, unmounted
 - `"What's your nervous decision?"` as a CTA button label, replaced by `"Book a call"` everywhere

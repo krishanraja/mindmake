@@ -147,14 +147,12 @@ const fetchModelData = async (apiKey: string): Promise<ModelData[]> => {
 // ============================================================
 
 serve(async (req) => {
+  // CORS preflight. Return an explicit 200 with the cors headers so the
+  // browser preflight always has HTTP ok status, matching the working
+  // pattern in nervous-decision-machine.
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
+    return new Response('ok', { status: 200, headers: corsHeaders });
   }
-
-  const { requestId, sessionId } = extractRequestContext(req);
-  const logger = createLogger('get-model-data', requestId, sessionId);
-
-  logger.info('Model data request started');
 
   const respond = (data: ModelDataResponse) =>
     new Response(JSON.stringify(data), {
@@ -163,6 +161,11 @@ serve(async (req) => {
     });
 
   try {
+    const { requestId, sessionId } = extractRequestContext(req);
+    const logger = createLogger('get-model-data', requestId, sessionId);
+
+    logger.info('Model data request started');
+
     // Check in-memory cache
     if (cachedData && (Date.now() - cacheTimestamp) < CACHE_TTL) {
       logger.info('Returning cached model data', { modelCount: cachedData.length });
@@ -214,7 +217,10 @@ serve(async (req) => {
     });
 
   } catch (error) {
-    logger.error('Fatal error', { error: error instanceof Error ? error.message : String(error) });
+    // Never surface a 502. Any unexpected failure (including logger or
+    // context setup) degrades to a 200 with the static fallback so the
+    // homepage price ticker can always render.
+    console.error('[get-model-data] Fatal error', error instanceof Error ? error.message : String(error));
     return respond({
       models: STATIC_FALLBACK,
       timestamp: new Date().toISOString(),

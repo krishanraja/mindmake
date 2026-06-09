@@ -144,11 +144,14 @@ export const DiagnosisRoom = ({
   const progress = phaseStep(phase);
 
   // ---- the persistent "book a call" exit (visible at every step) ----------
-  const persistentBookCall = !showOpener && !isExpressBook && (
+  // Shown on the opener too, since the room hides global nav and the first
+  // screen would otherwise have no escape hatch. Hidden only in express-book,
+  // which has its own booking surface.
+  const persistentBookCall = !isExpressBook && (
     <button
       type="button"
       onClick={() => session.bookCall(CALENDLY_URL)}
-      className="inline-flex items-center gap-1.5 rounded-full border border-mint/30 bg-mint/[0.08] px-3 py-1.5 text-xs font-semibold text-mint transition-colors hover:border-mint/60 hover:bg-mint/15 min-h-[36px]"
+      className="inline-flex items-center gap-1.5 rounded-full border border-mint/30 bg-mint/[0.08] px-3 py-1.5 text-xs font-semibold text-mint transition-colors hover:border-mint/60 hover:bg-mint/15 min-h-[44px]"
     >
       <CalendarClock className="h-3.5 w-3.5" />
       Book a call
@@ -446,7 +449,7 @@ const ArtefactChip = ({
     type="button"
     onClick={onClick}
     className={cn(
-      "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors min-h-[36px]",
+      "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors min-h-[44px]",
       active
         ? "border-mint/50 bg-mint/15 text-mint"
         : "border-white/10 text-white/55 hover:border-white/25 hover:text-white/80",
@@ -469,7 +472,7 @@ const PaneTab = ({
     type="button"
     onClick={onClick}
     className={cn(
-      "flex-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors min-h-[40px]",
+      "flex-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors min-h-[44px]",
       active ? "bg-mint/15 text-mint" : "text-white/55 hover:text-white/80",
     )}
   >

@@ -90,7 +90,7 @@ const QuickReplyPills = ({
         key={opt}
         type="button"
         onClick={() => onPick(opt)}
-        className="rounded-full border border-mint/30 bg-mint/[0.08] px-3.5 py-2 text-[13px] font-medium text-mint/90 transition-colors hover:border-mint/60 hover:bg-mint/15 hover:text-mint min-h-[40px]"
+        className="rounded-full border border-mint/30 bg-mint/[0.08] px-3.5 py-2 text-[13px] font-medium text-mint/90 transition-colors hover:border-mint/60 hover:bg-mint/15 hover:text-mint min-h-[44px]"
       >
         {opt}
       </button>

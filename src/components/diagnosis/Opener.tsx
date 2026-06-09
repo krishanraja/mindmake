@@ -106,7 +106,7 @@ export const Opener = ({
               key={pill}
               type="button"
               onClick={() => setDecision(pill)}
-              className="rounded-full border border-white/15 bg-white/[0.04] px-3.5 py-2 text-left text-[13px] font-medium text-white/70 transition-colors hover:border-mint/50 hover:bg-mint/[0.08] hover:text-mint min-h-[40px]"
+              className="rounded-full border border-white/15 bg-white/[0.04] px-3.5 py-2 text-left text-[13px] font-medium text-white/70 transition-colors hover:border-mint/50 hover:bg-mint/[0.08] hover:text-mint min-h-[44px]"
             >
               {pill}
             </button>

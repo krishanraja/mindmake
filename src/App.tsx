@@ -29,6 +29,7 @@ const Capital = lazy(() => import("./pages/Capital"));
 const Immersion = lazy(() => import("./pages/Immersion"));
 const NewAgeLeadership = lazy(() => import("./pages/NewAgeLeadership"));
 const Operator = lazy(() => import("./pages/Operator"));
+const CaseStudies = lazy(() => import("./pages/CaseStudies"));
 const Brief = lazy(() => import("./pages/Brief"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Privacy = lazy(() => import("./pages/Privacy"));
@@ -117,6 +118,7 @@ const AppRoutes = () => {
             <Route path="/enterprise" element={<Enterprise />} />
             <Route path="/capital" element={<Capital />} />
             <Route path="/operator" element={<Operator />} />
+            <Route path="/case-studies" element={<CaseStudies />} />
             <Route path="/signal" element={<Brief />} />
             <Route path="/library" element={<Library />} />
 

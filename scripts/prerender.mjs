@@ -83,6 +83,12 @@ const pages = [
       "The 14-agent operating system behind Mindmaker. Memory, cost, and orchestration lessons from running a real agentic business in production.",
   },
   {
+    path: "/case-studies",
+    title: "Case studies: Mindmaker",
+    description:
+      "Anonymized proof from real engagements: stalled commercial assets repositioned, founder-led businesses rebuilt, and nervous AI decisions resolved in days. Filter by Cohort, Signal Session, or Revenue Architecture.",
+  },
+  {
     path: "/signal",
     title: "The Operator's Brief: Mindmaker",
     description:

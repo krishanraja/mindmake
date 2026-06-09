@@ -99,6 +99,12 @@ const Footer = () => {
                   How I operate
                 </a>
                 <a
+                  href="/case-studies"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
+                >
+                  Case studies
+                </a>
+                <a
                   href="https://www.thebuildereconomy.com"
                   target="_blank"
                   rel="noopener noreferrer"

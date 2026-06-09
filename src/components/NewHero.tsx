@@ -110,7 +110,7 @@ const NewHero = () => {
             className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold px-8 py-6 text-base sm:text-lg shadow-lg shadow-mint/25 transition-all duration-300 hover:-translate-y-0.5"
             onClick={() =>
               window.dispatchEvent(
-                new CustomEvent("openScopingModal", {
+                new CustomEvent("openDiagnosisRoom", {
                   detail: { source_page: "/" },
                 }),
               )

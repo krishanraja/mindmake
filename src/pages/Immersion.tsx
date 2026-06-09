@@ -87,7 +87,7 @@ const faqs = [
     a: "No. The format depends on genuine candor from your leaders. Recording kills candor. The written summary captures the durable decisions and owners.",
   },
   {
-    q: "Is travel included in the $12,000?",
+    q: "Is travel included in the fee?",
     a: "No. Travel is billed at cost. For on-site sessions outside the northeast US corridor, please confirm the travel budget separately in the intake call.",
   },
   {
@@ -123,7 +123,7 @@ export default function Immersion() {
     <main className="min-h-screen bg-background">
       <SEO
         title="The AI Immersion: A half-day with your leadership team"
-        description="A focused half-day session for executive teams who need to get aligned on AI fast. Up to eight senior leaders, one facilitated conversation, a board-ready summary within five business days. From $12,000."
+        description="A focused half-day session for executive teams who need to get aligned on AI fast. Up to eight senior leaders, one facilitated conversation, a board-ready summary within five business days. From $10,000."
         canonical="/immersion"
         ogType="website"
         jsonLd={jsonLd}
@@ -251,11 +251,10 @@ export default function Immersion() {
               data-todo="outcome-line"
               className="text-sm italic text-mint-dark dark:text-mint leading-relaxed mb-6 max-w-md mx-auto"
             >
-              [Krish to write: one-line outcome from a past Immersion]
+              Eight partners who had never said their AI views out loud left a half day with signed principles and a ninety-day plan.
             </p>
             <div className="flex items-baseline gap-2 justify-center">
-              <span className="text-3xl md:text-4xl font-bold">$12,000</span>
-              <span className="text-muted-foreground">flat</span>
+              <span className="text-3xl md:text-4xl font-bold">$10,000–$15,000</span>
             </div>
             <p className="text-sm text-muted-foreground mt-2 max-w-md mx-auto">
               Cheaper than the off-site that ends in a deck and no decisions.

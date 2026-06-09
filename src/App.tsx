@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { SessionDataProvider, useSessionData } from "@/contexts/SessionDataContext";
 import { useState, useEffect, lazy, Suspense } from "react";
@@ -17,12 +17,16 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { CookieConsent } from "@/components/CookieConsent";
 import { InitialConsultModal } from "@/components/InitialConsultModal";
 import { ScopingModal } from "@/components/ScopingModal";
-import PreCallQualifier from "@/components/PreCallQualifier";
 
 // Homepage loaded eagerly (critical path)
 import Index from "./pages/Index";
 
 // All other pages lazy-loaded for smaller initial bundle
+// Immersive overlay: lazy + client-only so SSG prerender never touches it.
+const DiagnosisRoom = lazy(() =>
+  import("@/components/diagnosis").then((m) => ({ default: m.DiagnosisRoom })),
+);
+
 const Cohort = lazy(() => import("./pages/Cohort"));
 const Enterprise = lazy(() => import("./pages/Enterprise"));
 const Capital = lazy(() => import("./pages/Capital"));
@@ -60,10 +64,29 @@ const ExternalRedirect = ({ to }: { to: string }) => {
   return null;
 };
 
+// The Diagnosis Room as a full page at /start. Same immersive overlay, but
+// "closing" it returns the visitor to the homepage instead of unmounting it.
+const DiagnosisRoomPage = () => {
+  const navigate = useNavigate();
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-ink" />}>
+      <DiagnosisRoom
+        open
+        onOpenChange={(o) => {
+          if (!o) navigate("/");
+        }}
+        sourcePage="/start"
+      />
+    </Suspense>
+  );
+};
+
 const AppRoutes = () => {
   const [globalConsultModalOpen, setGlobalConsultModalOpen] = useState(false);
   const [scopingModalOpen, setScopingModalOpen] = useState(false);
   const [scopingSourcePage, setScopingSourcePage] = useState<string>("/");
+  const [diagnosisRoomOpen, setDiagnosisRoomOpen] = useState(false);
+  const [diagnosisSourcePage, setDiagnosisSourcePage] = useState<string>("/");
   const { sessionData, setQualificationData } = useSessionData();
 
   useEffect(() => {
@@ -91,11 +114,27 @@ const AppRoutes = () => {
       setScopingModalOpen(true);
     };
 
+    const handleOpenDiagnosisRoom = (e: Event) => {
+      const detail = (e as CustomEvent).detail as
+        | {
+            source_page?: string;
+            seedDecision?: string;
+            preselectedMode?: string;
+          }
+        | undefined;
+      setDiagnosisSourcePage(
+        detail?.source_page || window.location.pathname || "/",
+      );
+      setDiagnosisRoomOpen(true);
+    };
+
     window.addEventListener("openConsultModal", handleOpenConsultModal);
     window.addEventListener("openScopingModal", handleOpenScopingModal);
+    window.addEventListener("openDiagnosisRoom", handleOpenDiagnosisRoom);
     return () => {
       window.removeEventListener("openConsultModal", handleOpenConsultModal);
       window.removeEventListener("openScopingModal", handleOpenScopingModal);
+      window.removeEventListener("openDiagnosisRoom", handleOpenDiagnosisRoom);
     };
   }, [setQualificationData]);
 
@@ -106,6 +145,9 @@ const AppRoutes = () => {
         <Suspense fallback={<div className="min-h-screen bg-background" />}>
           <Routes>
             <Route path="/" element={<Index />} />
+
+            {/* The Diagnosis Room as a full page */}
+            <Route path="/start" element={<DiagnosisRoomPage />} />
 
             {/* Core consolidated pages */}
             <Route path="/workshops" element={<Workshops />} />
@@ -187,8 +229,18 @@ const AppRoutes = () => {
         sourcePage={scopingSourcePage}
       />
 
-      {/* Pre-call qualifier: floating pill + 3-step drawer */}
-      <PreCallQualifier />
+      {/* The Diagnosis Room: full-screen immersive Mindy experience. Opened via
+          the openDiagnosisRoom custom event. Lazy + only mounted when open so
+          SSG prerender never instantiates it. */}
+      {diagnosisRoomOpen && (
+        <Suspense fallback={null}>
+          <DiagnosisRoom
+            open={diagnosisRoomOpen}
+            onOpenChange={setDiagnosisRoomOpen}
+            sourcePage={diagnosisSourcePage}
+          />
+        </Suspense>
+      )}
 
       <CookieConsent />
     </BrowserRouter>

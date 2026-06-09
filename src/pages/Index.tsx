@@ -1,6 +1,5 @@
 import Navigation from "@/components/Navigation";
 import NewHero from "@/components/NewHero";
-import YFork from "@/components/YFork";
 import BigProblem from "@/components/BigProblem";
 import TrustSection from "@/components/TrustSection";
 import FrameworkJourney from "@/components/FrameworkJourney";
@@ -20,10 +19,7 @@ const Index = () => {
       {/* 1. Hero */}
       <NewHero />
 
-      {/* 2. The Y-fork */}
-      <YFork />
-
-      {/* 3. The Big Problem: existential urgency */}
+      {/* 2. The Big Problem: existential urgency */}
       <BigProblem />
 
       {/* 4. Trust + merged Case Studies (enriched carousel) */}

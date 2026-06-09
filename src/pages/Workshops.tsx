@@ -66,7 +66,7 @@ export default function Workshops() {
     <main className="min-h-screen bg-background">
       <SEO
         title="Workshops"
-        description="Five one-day workshops on Maven. Build alongside Krish Raja, operator running a 14-agent AI business. From $599."
+        description="Five one-day workshops on Maven. Build alongside Krish Raja, operator running a 14-agent AI business. From $500."
         canonical="/workshops"
         ogType="website"
       />
@@ -133,7 +133,7 @@ export default function Workshops() {
                     <div className="flex-1">
                       <h2 className="text-xl md:text-2xl font-bold leading-tight">{w.title}</h2>
                       <div className="text-xs text-muted-foreground mt-1">
-                        $599 · 1 day · Hosted on Maven
+                        $500–$1,000 · 1 day · Hosted on Maven
                       </div>
                     </div>
                   </div>

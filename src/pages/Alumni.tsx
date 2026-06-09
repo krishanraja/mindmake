@@ -38,7 +38,7 @@ export default function Alumni() {
     <main className="min-h-screen bg-background">
       <SEO
         title="Alumni Pass"
-        description="Annual continuity programme for Mindmaker alumni. $1,500/year."
+        description="Annual continuity programme for Mindmaker alumni. Around $1,500 a year."
         canonical="/alumni"
         ogType="website"
         noindex
@@ -117,8 +117,8 @@ export default function Alumni() {
             variants={fadeUp}
           >
             <div className="flex items-baseline justify-center gap-2 mb-3">
-              <span className="text-4xl md:text-5xl font-bold">$1,500</span>
-              <span className="text-muted-foreground">per year</span>
+              <span className="text-4xl md:text-5xl font-bold">around $1,500</span>
+              <span className="text-muted-foreground">a year</span>
             </div>
             <p className="text-sm text-muted-foreground mb-7">
               Cancel anytime. Billed via Stripe.

@@ -217,7 +217,7 @@ const Navigation = () => {
               className="ml-4 relative touch-target"
               onClick={() => {
                 window.dispatchEvent(
-                  new CustomEvent("openScopingModal", {
+                  new CustomEvent("openDiagnosisRoom", {
                     detail: { source_page: window.location.pathname },
                   }),
                 );
@@ -367,7 +367,7 @@ const Navigation = () => {
                   className="w-fit mx-4 mt-4"
                   onClick={() => {
                     window.dispatchEvent(
-                      new CustomEvent("openScopingModal", {
+                      new CustomEvent("openDiagnosisRoom", {
                         detail: { source_page: window.location.pathname },
                       }),
                     );

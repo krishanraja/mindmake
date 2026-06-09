@@ -48,11 +48,11 @@ const enterpriseProducts: ProductExpandCardData[] = [
     headline: "Your commercial diagnosis. Shipped in 48 hours.",
     subhead:
       "A one-day intensive that produces a 15-20 page Commercial Narrative. The best place to start if you're not sure whether Revenue Architecture is the right call.",
-    price: "From $15,000",
+    price: "From $10,000",
     priceAnchor:
       "Most teams argue their way toward this read for a quarter. You get it in writing, in 48 hours.",
     outcomeTodo:
-      "[Krish to write: one-line outcome from a past Signal Session, anonymised]",
+      "A media company settled a build-versus-buy fight that had run for two quarters in a single day, and saved roughly a year of engineering pointed the wrong way.",
     trioLine: ENTERPRISE_TRIO_LINE,
     description:
       "One day with Krish, on-site or remote, working through your current commercial state. 48 hours later you receive a 15-20 page Commercial Narrative document, a 2-page positioning framework ready for Monday, a sales narrative and objection-handling guide, a pricing model sketch with 2-3 packaging options, and a written read on whether the full Revenue Architecture engagement is warranted.",
@@ -78,12 +78,12 @@ const enterpriseProducts: ProductExpandCardData[] = [
     headline: "30-day commercial rebuild. One person in the room.",
     subhead:
       "ICP, pricing, GTM, content engine, and outbound, all rebuilt to run on AI from day one. No associates, no retainer.",
-    price: "From $60,000",
-    priceDetail: "to $100,000, scope-dependent",
+    price: "$50,000–$100,000+",
+    priceDetail: "scope-dependent",
     priceAnchor:
       "A management consultancy bids the same scope at $400k+ over nine months, with associates doing the work. This is one operator, 30 days, fixed.",
     outcomeTodo:
-      "[Krish to write: one-line outcome from a past Revenue Architecture engagement, anonymised]",
+      "A Series C software team moved an AI feature from a rounding error to about a third of new deals, with the new pricing live inside thirty days.",
     trioLine: ENTERPRISE_TRIO_LINE,
     description:
       "30 days with Krish in the room, fixed scope, no retainer, no partner-shuffles. The work is structurally different from a consulting engagement: when something works there's exactly one person to credit, when something doesn't there's exactly one person to fire. Most consulting engagements are designed the other way, multiple associates, an open-ended timeline, and a partner-shuffle every quarter. Mindmaker is sized small enough that it can't hide behind any of that.",
@@ -111,12 +111,12 @@ const enterpriseProducts: ProductExpandCardData[] = [
       "Half a day, your full leadership team, one shared AI tension named.",
     subhead:
       "Inquiry-only. For executive teams who need fast alignment before a budget cycle, board meeting, or pivot decision.",
-    price: "From $12,000",
+    price: "$10,000–$15,000",
     priceDetail: "flat fee, plus travel for on-site",
     priceAnchor:
       "Cheaper than the off-site that ends in a deck and no decisions — and faster than the months of drift it replaces.",
     outcomeTodo:
-      "[Krish to write: one-line outcome from a past Immersion]",
+      "A twelve-person product team ended a circular roadmap argument in half a day, with three use cases chosen and owners assigned before they left the room.",
     trioLine:
       "What gets mapped together: your product strategy, your team's capability, the leadership team's collective fluency. Most off-sites optimise the first two and ignore the third.",
     description:
@@ -161,8 +161,8 @@ const comparisonRows = [
   },
   {
     label: "Price",
-    signal: "From $15,000",
-    revenue: "From $60,000 to $100,000",
+    signal: "From $10,000",
+    revenue: "$50,000–$100,000+",
   },
 ];
 
@@ -208,7 +208,7 @@ export default function Enterprise() {
     <main className="min-h-screen bg-background">
       <SEO
         title="Enterprise: AI commercialization sprints"
-        description="Two sprints with a fixed scope and a finish line. The Signal Session from $15k aligns your team fast. The Revenue Architecture from $60k builds the complete commercial strategy."
+        description="Two sprints with a fixed scope and a finish line. The Signal Session from $10k aligns your team fast. The Revenue Architecture at $50k–$100k+ builds the complete commercial strategy."
         canonical="/enterprise"
         ogType="website"
       />

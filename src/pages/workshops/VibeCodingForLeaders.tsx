@@ -5,7 +5,7 @@ const config: WorkshopConfig = {
   slug: "vibe-coding-for-leaders",
   title: "Vibe Coding for Leaders",
   seoDescription:
-    "One-day Mindmaker workshop. Ship the internal tool you've been waiting six months for IT to build. Working tool, live URL, deployed by end of day. No coding required. $599 on Maven.",
+    "One-day Mindmaker workshop. Ship the internal tool you've been waiting six months for IT to build. Working tool, live URL, deployed by end of day. No coding required. From $500 on Maven.",
   intro: [
     "There's a tool you've been wanting for months. A dashboard, an internal portal, a workflow your team would actually use. IT can't get to it. Vendors quote $80,000. So it sits.",
     "In this workshop you build it. With me. In a day. Using the same vibe-coding stack I use to ship internal tools at Mindmaker. No engineering team, no procurement cycle, no permission required.",

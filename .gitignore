@@ -35,3 +35,6 @@ audit-artifacts/
 
 # Crash dumps
 core
+
+# Deno lockfile (edge function typechecks)
+deno.lock

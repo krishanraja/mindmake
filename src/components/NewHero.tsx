@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import { CONCIERGE_CALENDLY_URL } from "@/utils/calendly";
 import { MAVEN_INSTRUCTOR_URL } from "@/lib/stripe-prices";
 
 const headlines = [
@@ -122,7 +121,7 @@ const NewHero = () => {
             size="lg"
             variant="outline"
             className="border-2 border-mint/50 text-mint hover:bg-mint/10 font-bold px-8 py-6 text-base sm:text-lg transition-all duration-300"
-            onClick={() => document.getElementById("y-fork")?.scrollIntoView({ behavior: "smooth" })}
+            onClick={() => { window.location.href = "/operator"; }}
           >
             See how I work
           </Button>
@@ -142,15 +141,6 @@ const NewHero = () => {
             className="inline-flex items-center gap-1 text-sm text-white/70 hover:text-mint transition-colors"
           >
             Or start with a free lesson
-            <ArrowUpRight className="h-3.5 w-3.5" />
-          </a>
-          <a
-            href={CONCIERGE_CALENDLY_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-sm text-white/55 hover:text-mint transition-colors"
-          >
-            Or grab a free 15-min diagnostic
             <ArrowUpRight className="h-3.5 w-3.5" />
           </a>
         </motion.div>

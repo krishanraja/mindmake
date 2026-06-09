@@ -128,36 +128,28 @@ These files carry retired facts or are not Mindmaker business content. **They mu
 1. **`mindmaker_rebuild_brief_v4.md`** — v4/v5 strategic brief. Pre-dates the v6 ladder restructure; carries the retired Cohort price/duration/framework and the barbell (no Workshops, no Alumni Pass, no range-only pricing). Strategic-intent archive only.
 2. **`EXECUTIVE_SUMMARY.md`** — research artefact, not current business content.
 3. **`LLM_CRITICAL_THINKING_TRAINING.md`** — research artefact, not Mindmaker business content.
-4. **The old portfolio deck facts** ("FINAL Mindmaker Case Studies" deck and any copy derived from it) — they carry retired numbers: **$3,500 cohort, 3-week duration, the old "Mind Set / Mind Map / Mind Make" cohort framing, 15 seats.** Use the anonymised case bank and the named-case file under the anonymisation rule instead, never the deck's stale facts.
+4. **The old portfolio deck facts** ("FINAL Mindmaker Case Studies" deck and any copy derived from it) — they carry retired numbers: **$3,500 cohort, 3-week duration, 15 seats.** Use the anonymised case bank and the named-case file under the anonymisation rule instead, never the deck's stale facts.
 
 General rule for retrieval: prefer the *living* `project-documentation/` set and CLAUDE.md; treat anything dated before the 2026-05-15 v6 restructure as suspect on price/duration/framework.
 
 ---
 
-## 5. RECONCILE — the one live tension Krish must confirm (do not silently pick one)
+## 5. RESOLVED — the cross-offer framework name (Krish confirmed 2026-06-09)
 
-**The cohort framework name is contradictory across live surfaces. This needs Krish's call.**
+**Krish confirmed 2026-06-09: KEEP "Mind Set → Mind Map → Mind Make" as the canonical cross-offer Mindmaker brand framework (option A, layered). "Diagnose → Decompose → Decide → Deploy" remains only as the cohort's internal week-by-week curriculum detail. Mindy uses Mind Set / Mind Map / Mind Make when naming the framework.**
 
-There are two framework names in play, and **both currently appear in the codebase and docs**:
+The two are layered on purpose, each in its own lane:
 
-- **"Diagnose → Decompose → Decide → Deploy"** — used for the *cohort curriculum weeks* in `OFFERS.md` (the Week 1–4 table), in `VALUE_PROP.md`, and in the Immersion protocol. **`DECISIONS_LOG.md` (2026-05-15, sub-decision 5) and `HISTORY.md` explicitly state this was corrected from the old name "to match the live Maven page,"** and that the site docs had been stale. This makes Diagnose → Decompose → Decide → Deploy the **Maven-canonical** cohort curriculum.
-- **"Mind Set → Mind Map → Mind Make"** — still rendered on the **homepage** by `FrameworkJourney.tsx` (CLAUDE.md homepage scroll order, item 6: "three-panel animated MindSet → MindMap → MindMake"), and still used as the **all-offers framework table** in `OFFERS.md` ("Framework (all offers): Mind Set → Mind Map → Mind Make"), and as the "portable framework" language in `OUTCOMES.md`.
+- **"Mind Set → Mind Map → Mind Make"** — the cross-offer brand framework, the spine that spans every offer. Rendered on the **homepage** by `FrameworkJourney.tsx`, used as the **all-offers framework table** in `OFFERS.md`, and as the "portable framework" language in `OUTCOMES.md`. **This is the name Mindy uses when asked what the Mindmaker framework is.**
+- **"Diagnose → Decompose → Decide → Deploy"** — the *cohort curriculum weeks* only (the Week 1–4 table in `OFFERS.md`, `VALUE_PROP.md`, and the Immersion protocol). It is the Maven-canonical week-by-week delivery detail of the Cohort, not the brand framework. Mindy uses it only when describing how the cohort runs week by week.
 
-So the site is internally inconsistent: the **homepage brand framework** (`FrameworkJourney`) and the **all-offers table** say *Mind Set / Map / Make*, while the **cohort curriculum** and **the Maven page** say *Diagnose / Decompose / Decide / Deploy*.
-
-**This is not Mindy's to resolve.** The two are not obviously the same thing — one reads as a 3-part *brand* framework spanning every offer, the other as a 4-week cohort *curriculum*. They could be intentionally layered (brand spine = Set/Map/Make; cohort delivery = the four D's), or `FrameworkJourney` could simply be stale and need retyping to the four D's.
-
-**Reconciliation Krish must confirm (pick one):**
-- **(A) They are layered on purpose** — keep "Mind Set / Map / Make" as the cross-offer brand framework, keep "Diagnose / Decompose / Decide / Deploy" as the cohort curriculum, and Mindy uses each in its lane.
-- **(B) Set/Map/Make is retired everywhere** — `FrameworkJourney.tsx` and the OFFERS all-offers table are stale; migrate everything to "Diagnose / Decompose / Decide / Deploy" and Mindy never says Set/Map/Make.
-
-Until Krish confirms, **Mindy should describe the cohort curriculum only as "Diagnose → Decompose → Decide → Deploy"** (it is the Maven-canonical, transacting truth) and should **avoid asserting a single named cross-offer brand framework** rather than guess.
+So when Mindy names the Mindmaker framework, it says **Mind Set → Mind Map → Mind Make**. When it describes how the cohort is delivered across its four weeks, it says **Diagnose → Decompose → Decide → Deploy**.
 
 ### Other stale-fact landmines hit during reconciliation
 
 1. **`OUTCOMES.md` "3-week Cohort"** — the Anti-Outcomes list (line ~165) still says *"30-day Revenue Architecture, 1-day Signal Session, 4-hour Immersion, **3-week Cohort**."* This contradicts the canonical **4-week** cohort duration. The fix is settled in DECISIONS_LOG (3→4 weeks); this is a leftover in OUTCOMES. Mindy says **4 weeks**.
 2. **`OUTCOMES.md` emotional arc / "week 3" finish** — the arc and "Immediate (end of cohort, week 3)" framing are written against the old 3-week model. The cohort finishes at **week 4 (Deploy)**. Mindy says the cohort ends at week 4.
-3. **`OUTCOMES.md` "Mind Set → Mind Map → Mind Make" framework references** — same tension as Section 5; treated as brand-framework language pending Krish's call, not cohort curriculum.
+3. **`OUTCOMES.md` "Mind Set → Mind Map → Mind Make" framework references** — these are correct brand-framework language per the Section 5 resolution (the canonical cross-offer framework), not cohort curriculum. No fix needed.
 4. **CTRL pricing absent from the offer docs** — OFFERS/VALUE_PROP/SALES_PLAYBOOK describe CTRL only as a bundled benefit. The $29 one-time / $9-mo product pricing exists *only* in this CANON (Section 2.3) and the mindmaker skill; if a doc later contradicts it, the live CTRL product surface wins.
 5. **Exact prices live throughout the docs** — every doc still carries exact figures ($599, $2,500, $15k, $60–100k, $12k, $1,500). These are **internal reasoning aids only.** Per the range-only policy, Mindy must never surface them as exact numbers to a client; it converts to the range card in Section 2.4.
 

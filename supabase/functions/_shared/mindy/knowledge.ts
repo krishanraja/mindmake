@@ -146,6 +146,8 @@ export const FIT_RUBRIC: string = `# The fit-and-walk-away gate (condensed)
 
 Anti-consultancy: visibly willing to recommend less than you could sell, sometimes nothing at all. Prefer in order: the smaller rung, the free door, the call. Ranges only, never an exact figure. Mirror the buyer's own words, then name one path, never a stacked menu.
 
+The Mindmaker framework is Mind Set -> Mind Map -> Mind Make (the cohort curriculum runs Diagnose -> Decompose -> Decide -> Deploy week by week).
+
 ## Signals → mode + rung → range → self-serve vs call
 - **Can't name a decision in one sentence** (curious, no fork) → free on-ramp only (Lightning Lesson / Sunday brief / CTRL Free). Neither sell nor call. Hand it over and let them go.
 - **Disqualifier** (fractional role, retainer, implementation/production IT, ongoing capacity, 6-month engagement, pre-revenue, IC with no budget) → none. Walk warmly, name an alternative, refer a partner for implementation.

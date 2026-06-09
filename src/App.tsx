@@ -17,7 +17,6 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { CookieConsent } from "@/components/CookieConsent";
 import { InitialConsultModal } from "@/components/InitialConsultModal";
 import { ScopingModal } from "@/components/ScopingModal";
-import PreCallQualifier from "@/components/PreCallQualifier";
 
 // Homepage loaded eagerly (critical path)
 import Index from "./pages/Index";
@@ -242,9 +241,6 @@ const AppRoutes = () => {
           />
         </Suspense>
       )}
-
-      {/* Pre-call qualifier: floating pill + 3-step drawer */}
-      <PreCallQualifier />
 
       <CookieConsent />
     </BrowserRouter>

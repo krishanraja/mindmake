@@ -136,20 +136,26 @@ The Decision Readiness Diagnostic and FAQ pages are no longer linked from nav. B
 
 ## Pricing (canonical)
 
-| Offer | Price |
+Public ranges only. Exact prices are NEVER shown publicly; they are set by Krish on the call.
+
+| Offer | Public range |
 |---|---|
-| Mindmaker Workshops (×5) | $599 / workshop |
-| The AI-Fluent Executive (Cohort) | $2,500 / seat (or 2× $1,250 split) |
-| The Signal Session (Enterprise) | $15,000 |
-| The Revenue Architecture (Enterprise) | $60,000 to $100,000 (scope-dependent) |
-| The Signal Session (Capital) | From $15,000 (fund-level or per portfolio company) |
-| The Revenue Architecture (Capital) | From $60,000 per portfolio company; fund-level discount for 3+ engagements per 12 months |
-| The AI Immersion (inquiry-only) | $12,000 (flat) |
-| The Alumni Pass (invitation-only) | $1,500 / year recurring |
+| Mindmaker Workshops (×5) | $500–$1,000 per workshop |
+| The AI-Fluent Executive (Cohort) | $2,000–$3,000 per seat (or split into two payments) |
+| The Signal Session (Enterprise) | $10,000–$20,000 |
+| The Revenue Architecture (Enterprise) | $50,000–$100,000+ (scope-dependent) |
+| The Signal Session (Capital) | From $10,000 (fund-level or per portfolio company) |
+| The Revenue Architecture (Capital) | $50,000–$100,000+ per portfolio company; fund-level discount for 3+ engagements per 12 months |
+| The AI Immersion (inquiry-only) | $10,000–$15,000 |
+| The Alumni Pass (invitation-only) | around $1,500 a year, recurring |
+| CTRL | Free, upgrades from $29 |
+| Bespoke enablement (SME / founder-led) | $8,000–$25,000 (pilots from $2,000) |
 
-Internal (not shown on site): Revenue Architecture floor $60k, ceiling $125k for extended scope; cohort min viable enrollment = 8 seats, cap = 15.
+Pricing policy (2026-06): the public site and any AI-generated proposal show ranges only; the exact number is set by Krish on the call. Maven still collects the exact Cohort/Workshop price at its own checkout.
 
-Payment terms (small muted text below price): Workshops = paid via Maven with a 14-day Maven Guarantee; Cohort = "Full payment or 2× $1,250 split"; Signal Session = "Payment on kickoff"; Revenue Architecture = "50/50 at kickoff and delivery"; Alumni Pass = $1,500/year recurring via Stripe, cancel anytime.
+**Internal (not shown on site) — exact figures, NEVER shown publicly, set on the call:** Workshops $599; Cohort $2,500/seat (or 2× $1,250 split); Signal Session $15,000; Revenue Architecture floor $60k, ceiling $125k for extended scope; AI Immersion $12,000 flat; Alumni Pass $1,500/year recurring; cohort min viable enrollment = 8 seats, cap = 15.
+
+Payment terms (small muted text below the range): Workshops = paid via Maven with a 14-day Maven Guarantee; Cohort = "Full payment or split into two payments"; Signal Session = "Payment on kickoff"; Revenue Architecture = "50/50 at kickoff and delivery"; Alumni Pass = recurring via Stripe, cancel anytime.
 
 Stripe price IDs for all offers are stored in `src/lib/stripe-prices.ts`. Workshop and Cohort IDs are referential only (Maven collects payment); the Alumni Pass is the only product the site itself charges via Stripe.
 

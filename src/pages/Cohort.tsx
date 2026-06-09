@@ -143,7 +143,7 @@ export default function Cohort() {
     <main className="min-h-screen bg-background">
       <SEO
         title="The AI-Fluent Executive"
-        description="Make your nervous AI decision with 15 other senior leaders. Four weeks, mostly async, with weekly live sessions. $2,500 per seat, quarterly. Hosted on Maven."
+        description="Make your nervous AI decision with 15 other senior leaders. Four weeks, mostly async, with weekly live sessions. $2,000–$3,000 per seat, quarterly. Hosted on Maven."
         canonical="/cohort"
         ogType="website"
       />
@@ -362,11 +362,11 @@ export default function Cohort() {
               Next cohort runs {nextCohort.startLabel} to {nextCohort.endLabel}.
             </h2>
             <div className="flex items-baseline gap-3 mb-4">
-              <span className="text-4xl font-bold">$2,500</span>
+              <span className="text-4xl font-bold">$2,000–$3,000</span>
               <span className="text-muted-foreground">per seat</span>
             </div>
             <p className="text-sm text-muted-foreground mb-5">
-              Full payment or 2x split ($1,250 × 2). Seats: {nextCohort.seatsRemaining} of {nextCohort.seatsTotal} remaining.
+              Full payment or split into two payments. Seats: {nextCohort.seatsRemaining} of {nextCohort.seatsTotal} remaining.
             </p>
 
             {/* Workshop alumni discount callout */}

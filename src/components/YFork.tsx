@@ -46,7 +46,7 @@ const intentCards = [
     eyebrow: "Sharpen how I think",
     title: "I want to get clearer about AI",
     body:
-      "Programmes for individual leaders who want to think better with AI rather than be replaced by it. Workshops at $599 if you have a single concentrated day to spend, or the AI-Fluent Executive Cohort at $2,500 if you want four weeks alongside fifteen other senior leaders working their own decisions in parallel.",
+      "Programmes for individual leaders who want to think better with AI rather than be replaced by it. Workshops from $500 if you have a single concentrated day to spend, or the AI-Fluent Executive Cohort at $2,000–$3,000 if you want four weeks alongside fifteen other senior leaders working their own decisions in parallel.",
     ctaLabel: "See programmes",
     href: "/cohort",
   },

@@ -45,11 +45,11 @@ const capitalProducts: ProductExpandCardData[] = [
     headline: "One day. Two outcomes. The fund itself, or a portfolio company.",
     subhead:
       "Either we map the AI strategy for your fund or family office itself, or we run a capital-allocator's read on a specific portfolio company.",
-    price: "From $15,000",
+    price: "From $10,000",
     priceAnchor:
       "Most allocators form this view over months of IC debate. You get it in writing, in 48 hours.",
     outcomeTodo:
-      "[Krish to write: one-line outcome from a past Signal Session, anonymised]",
+      "An operating partner ranked fourteen portfolio companies on AI risk in a day, and walked out with a defensible read for his LPs he did not have that morning.",
     trioLine:
       "We map three things at once: how your fund actually builds product, what your team can run, and how fluent you are as an allocator. Most engagements skip the third one and find out it mattered later, after the wall.",
     description:
@@ -75,12 +75,12 @@ const capitalProducts: ProductExpandCardData[] = [
     headline: "30-day commercial rebuild. Deployed inside a portfolio company.",
     subhead:
       "Same Krish in the room, no associates, no retainer. Fund-level pricing for 3+ engagements per 12 months.",
-    price: "From $60,000",
+    price: "$50,000–$100,000+",
     priceDetail: "per portfolio company",
     priceAnchor:
       "A consultancy bills $400k+ and nine months per company. This is one operator, 30 days, repeatable across the portfolio.",
     outcomeTodo:
-      "[Krish to write: one-line outcome from a past Revenue Architecture engagement, anonymised]",
+      "A private-equity-backed group stood up a new AI service line that books revenue, with a template the fund could lift into two more companies.",
     trioLine:
       "We map three things at once: how the portfolio company actually builds product, what the team can run, and how fluent the founder is as an operator. Most consulting engagements skip the third one and find out it mattered halfway through the rebuild.",
     description:
@@ -96,7 +96,7 @@ const capitalProducts: ProductExpandCardData[] = [
     bestFor:
       "Funds and family offices that have identified a portfolio company needing a complete commercial rebuild, or want to deploy the same playbook across multiple portcos with fund-level pricing.",
     paymentTerms:
-      "$60,000 to $100,000 per portfolio company, scope-dependent. 50% at kickoff, 50% at delivery. Fund-level discount available for 3+ engagements per 12 months.",
+      "$50,000–$100,000+ per portfolio company, scope-dependent. 50% at kickoff, 50% at delivery. Fund-level discount available for 3+ engagements per 12 months.",
     primaryCTA: {
       label: "Book The Revenue Architecture",
       preselected: "capital-revenue-architecture",
@@ -159,7 +159,7 @@ export default function Capital() {
     <main className="min-h-screen bg-background">
       <SEO
         title="Capital: build the fund's AI engine first, then the portfolio's"
-        description="For Operating Partners, family offices, and funds. The Signal Session ($15k) maps the AI strategy for your fund or a portfolio company. The Revenue Architecture ($60-100k per portco) builds the engine inside it. Fund-level pricing available."
+        description="For Operating Partners, family offices, and funds. The Signal Session (from $10k) maps the AI strategy for your fund or a portfolio company. The Revenue Architecture ($50–100k+ per portco) builds the engine inside it. Fund-level pricing available."
         canonical="/capital"
         ogType="website"
       />

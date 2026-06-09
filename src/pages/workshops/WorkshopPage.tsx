@@ -95,7 +95,7 @@ export const WorkshopPage = ({ config }: { config: WorkshopConfig }) => {
                 Workshop
               </div>
               <div className="flex items-baseline gap-2 mb-1">
-                <span className="text-4xl font-bold">$599</span>
+                <span className="text-4xl font-bold">$500–$1,000</span>
               </div>
               <div className="text-sm text-muted-foreground mb-5">
                 One day · Hosted on Maven

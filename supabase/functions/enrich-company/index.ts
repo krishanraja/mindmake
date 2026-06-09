@@ -128,6 +128,57 @@ function clientIp(req: Request): string {
 }
 
 /**
+ * Best-effort ISO-3166 alpha-2 country for the visitor, used to bias enrichment
+ * toward the visitor's locale (so a US visitor is not handed a regional subsidiary
+ * with the wrong currency). Prefers edge-provided geo headers; falls back to a fast
+ * IP lookup; defaults to 'US' so synthesis always has a locale anchor.
+ *
+ * - Edge geo headers (free, no network): Cloudflare 'cf-ipcountry', Vercel
+ *   'x-vercel-ip-country'.
+ * - Fallback: geolocate the first 'x-forwarded-for' IP via ipapi.co with a tight
+ *   1500ms timeout. Best-effort only; any failure returns the default.
+ */
+async function resolveVisitorCountry(req: Request): Promise<string> {
+  const DEFAULT_COUNTRY = 'US';
+
+  const normalise = (raw: string | null): string | null => {
+    const v = (raw ?? '').trim().toUpperCase();
+    // ISO alpha-2 only; ignore placeholders like 'XX', 'T1' (Tor), 'ZZ'.
+    return /^[A-Z]{2}$/.test(v) && !['XX', 'ZZ', 'T1'].includes(v) ? v : null;
+  };
+
+  const header =
+    normalise(req.headers.get('cf-ipcountry')) ??
+    normalise(req.headers.get('x-vercel-ip-country'));
+  if (header) return header;
+
+  // Fall back to a fast IP geolocation; never let it block enrichment.
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
+  if (ip && ip !== 'unknown') {
+    try {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 1500);
+      try {
+        const res = await fetch(`https://ipapi.co/${encodeURIComponent(ip)}/country/`, {
+          signal: ctrl.signal,
+          headers: { Accept: 'text/plain' },
+        });
+        if (res.ok) {
+          const country = normalise(await res.text());
+          if (country) return country;
+        }
+      } finally {
+        clearTimeout(timer);
+      }
+    } catch {
+      // Swallow: geo is a nice-to-have, the default carries us.
+    }
+  }
+
+  return DEFAULT_COUNTRY;
+}
+
+/**
  * Sliding-window per-IP rate check. Records the hit and returns false if the IP
  * has exceeded the window allowance.
  */
@@ -285,6 +336,10 @@ serve(async (req) => {
   // Depth.
   const depth: 'identity' | 'full' = body.depth === 'identity' ? 'identity' : 'full';
 
+  // Visitor country biases synthesis toward the right entity/locale (best-effort).
+  // Only needed for the synthesis step, so skip the lookup on the identity fast path.
+  const visitorCountry = depth === 'full' ? await resolveVisitorCountry(req) : 'US';
+
   // Cache hit?
   const cacheKey = `${domain}:${depth}`;
   const cached = cache.get(cacheKey);
@@ -343,7 +398,7 @@ serve(async (req) => {
       const elapsed = Date.now() - started;
       const remaining = Math.max(1500, FULL_DEADLINE_MS - elapsed);
       const line = await withDeadline(
-        synthesizeDescriptor(dossier).catch(() => null),
+        synthesizeDescriptor(dossier, visitorCountry).catch(() => null),
         remaining,
         null,
       );
@@ -361,6 +416,7 @@ serve(async (req) => {
     logger.info('dossier assembled', {
       domain,
       depth,
+      visitorCountry,
       ms: dossier.meta.ms,
       tools: dossier.meta.tools,
       name: dossier.identity.name,

@@ -1,30 +1,64 @@
 import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, Loader2, Lock } from "lucide-react";
+import { ArrowRight, CalendarClock, Loader2, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { MindyAvatar } from "./MindyAvatar";
+import { MicButton } from "./MicButton";
+import type { SessionMode } from "./types";
 
 interface OpenerProps {
+  mode: SessionMode;
   onStart: (decision: string, email?: string) => void;
+  /** Express path: collect the one-liner + email, then rush to the booking. */
+  onExpressBook: (decision: string, email?: string) => void;
+  /** From express, drop the visitor into the full diagnosis instead. */
+  onSwitchToFull: () => void;
+  /** Record -> transcribe -> returns text for the input. */
+  onTranscribe: (blob: Blob) => Promise<string>;
   busy?: boolean;
 }
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Predictable decision shapes. Tapping one prefills the box (free text still
+// works). Sentence case, no buzzwords, operator phrasing.
+const TOPIC_PILLS = [
+  "Build our own AI tools or buy off the shelf",
+  "Where AI actually fits in how we make money",
+  "Whether to hire for AI or train the team we have",
+  "One nervous AI decision I keep turning over",
+];
+
 /**
- * The single door. One prompt, one optional gift-framed work-email field, one
- * consent line. No competing CTAs. This replaces the four-CTA hero stack.
+ * The single door. In full mode: one prompt, topic pills, an optional
+ * work-email field, voice input. In express mode: a compact warm line, the
+ * same pills, a work-email field, and a single button that rushes to a call.
  */
-export const Opener = ({ onStart, busy = false }: OpenerProps) => {
+export const Opener = ({
+  mode,
+  onStart,
+  onExpressBook,
+  onSwitchToFull,
+  onTranscribe,
+  busy = false,
+}: OpenerProps) => {
   const reduce = useReducedMotion();
   const [decision, setDecision] = useState("");
   const [email, setEmail] = useState("");
 
-  const canSubmit = decision.trim().length > 2 && !busy;
+  const express = mode === "express";
+  const emailOk = EMAIL_RE.test(email.trim());
+  const canSubmit =
+    decision.trim().length > 2 && !busy && (!express || emailOk);
 
   const submit = () => {
     if (!canSubmit) return;
-    onStart(decision.trim(), email.trim() || undefined);
+    const d = decision.trim();
+    const e = email.trim() || undefined;
+    if (express) onExpressBook(d, e);
+    else onStart(d, e);
   };
 
   const fade = (delay: number) =>
@@ -47,32 +81,53 @@ export const Opener = ({ onStart, busy = false }: OpenerProps) => {
       </motion.div>
 
       <motion.h1
-        className="text-3xl font-bold leading-[1.15] tracking-tight text-white sm:text-4xl md:text-5xl"
+        className="text-[1.7rem] font-bold leading-[1.15] tracking-tight text-white sm:text-4xl md:text-5xl"
         {...fade(0.08)}
       >
-        What is the AI decision on your desk right now?
+        {express
+          ? "Let's get you a time with Krish."
+          : "What is the AI decision on your desk right now?"}
       </motion.h1>
 
       <motion.p
-        className="mt-4 max-w-xl text-base leading-relaxed text-white/70"
+        className="mt-4 max-w-xl text-[15px] leading-relaxed text-white/70 sm:text-base"
         {...fade(0.16)}
       >
-        Bring the one you keep turning over. I will reflect it back, pull it
-        apart, and tell you the honest next step. No deck, no pitch.
+        {express
+          ? "Tell me the decision in a line and drop a work email. I'll set up the call and brief Krish before you arrive."
+          : "Bring the one you keep turning over. I will reflect it back, pull it apart, and tell you the honest next step. No deck, no pitch."}
       </motion.p>
 
-      <motion.div className="mt-7 space-y-4" {...fade(0.24)}>
-        <Textarea
-          value={decision}
-          onChange={(e) => setDecision(e.target.value.slice(0, 600))}
-          onKeyDown={(e) => {
-            if ((e.metaKey || e.ctrlKey) && e.key === "Enter") submit();
-          }}
-          placeholder="e.g. Do we build our own AI tools or buy off the shelf?"
-          rows={3}
-          autoFocus
-          className="resize-none border-white/15 bg-white/5 text-base text-white placeholder:text-white/35 focus-visible:ring-mint/60"
-        />
+      <motion.div className="mt-6 space-y-4" {...fade(0.24)}>
+        {/* topic pills: tap to prefill, free text still works */}
+        <div className="flex flex-wrap gap-2">
+          {TOPIC_PILLS.map((pill) => (
+            <button
+              key={pill}
+              type="button"
+              onClick={() => setDecision(pill)}
+              className="rounded-full border border-white/15 bg-white/[0.04] px-3.5 py-2 text-left text-[13px] font-medium text-white/70 transition-colors hover:border-mint/50 hover:bg-mint/[0.08] hover:text-mint min-h-[40px]"
+            >
+              {pill}
+            </button>
+          ))}
+        </div>
+
+        <div className="relative">
+          <Textarea
+            value={decision}
+            onChange={(e) => setDecision(e.target.value.slice(0, 600))}
+            onKeyDown={(e) => {
+              if ((e.metaKey || e.ctrlKey) && e.key === "Enter") submit();
+            }}
+            placeholder="e.g. Do we build our own AI tools or buy off the shelf?"
+            rows={express ? 2 : 3}
+            className="resize-none border-white/15 bg-white/5 pr-14 text-[15px] text-white placeholder:text-white/35 focus-visible:ring-mint/60 sm:text-base"
+          />
+          <div className="absolute bottom-2.5 right-2.5">
+            <MicButton onTranscribe={onTranscribe} onResult={(t) => setDecision((d) => (d ? `${d} ${t}` : t).slice(0, 600))} />
+          </div>
+        </div>
 
         <div className="space-y-2">
           <Input
@@ -82,12 +137,13 @@ export const Opener = ({ onStart, busy = false }: OpenerProps) => {
             onKeyDown={(e) => {
               if (e.key === "Enter") submit();
             }}
-            placeholder="Work email (optional)"
-            className="border-white/15 bg-white/5 text-base text-white placeholder:text-white/35 focus-visible:ring-mint/60"
+            placeholder={express ? "Work email" : "Work email (optional)"}
+            className="border-white/15 bg-white/5 text-[15px] text-white placeholder:text-white/35 focus-visible:ring-mint/60 sm:text-base"
           />
-          <p className="text-sm leading-relaxed text-white/55">
-            Drop a work email if you want me to read up on your company while we
-            talk. Skip it and just think out loud.
+          <p className="text-[13px] leading-relaxed text-white/55 sm:text-sm">
+            {express
+              ? "Used to set up the call and brief Krish. Nothing else."
+              : "Drop a work email if you want me to read up on your company while we talk. Skip it and just think out loud."}
           </p>
         </div>
 
@@ -99,7 +155,12 @@ export const Opener = ({ onStart, busy = false }: OpenerProps) => {
           {busy ? (
             <>
               <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-              Starting
+              {express ? "Setting up" : "Starting"}
+            </>
+          ) : express ? (
+            <>
+              <CalendarClock className="mr-2 h-5 w-5" />
+              Book the call
             </>
           ) : (
             <>
@@ -109,11 +170,21 @@ export const Opener = ({ onStart, busy = false }: OpenerProps) => {
           )}
         </Button>
 
-        <p className="flex items-center justify-center gap-1.5 text-xs text-white/45">
-          <Lock className="h-3 w-3" />
-          If you share an email I only read your public website to talk straight.
-          Nothing stored beyond this session.
-        </p>
+        {express ? (
+          <button
+            type="button"
+            onClick={onSwitchToFull}
+            className="mx-auto block text-[13px] text-white/55 underline-offset-4 transition-colors hover:text-mint hover:underline sm:text-sm"
+          >
+            Actually, help me think it through first
+          </button>
+        ) : (
+          <p className="flex items-center justify-center gap-1.5 text-xs text-white/45">
+            <Lock className="h-3 w-3" />
+            If you share an email I only read your public website to talk
+            straight. Nothing stored beyond this session.
+          </p>
+        )}
       </motion.div>
     </div>
   );

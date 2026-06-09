@@ -8,7 +8,9 @@ import {
 import { cn } from "@/lib/utils";
 import type { ExitKind, Recommendation } from "./types";
 
-export const CALENDLY_URL = "https://calendly.com/krish-raja/15-min-intro";
+// Single source of truth lives in the session hook; re-exported here so older
+// imports (ProposalView, DiagnosisRoom) keep working.
+export { CALENDLY_URL } from "./useDiagnosisSession";
 
 interface ForkProps {
   recommendation: Recommendation | null;

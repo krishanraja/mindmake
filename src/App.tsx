@@ -87,6 +87,7 @@ const AppRoutes = () => {
   const [scopingSourcePage, setScopingSourcePage] = useState<string>("/");
   const [diagnosisRoomOpen, setDiagnosisRoomOpen] = useState(false);
   const [diagnosisSourcePage, setDiagnosisSourcePage] = useState<string>("/");
+  const [diagnosisMode, setDiagnosisMode] = useState<"express" | "full">("full");
   const { sessionData, setQualificationData } = useSessionData();
 
   useEffect(() => {
@@ -119,12 +120,13 @@ const AppRoutes = () => {
         | {
             source_page?: string;
             seedDecision?: string;
-            preselectedMode?: string;
+            mode?: "express" | "full";
           }
         | undefined;
       setDiagnosisSourcePage(
         detail?.source_page || window.location.pathname || "/",
       );
+      setDiagnosisMode(detail?.mode === "express" ? "express" : "full");
       setDiagnosisRoomOpen(true);
     };
 
@@ -238,6 +240,7 @@ const AppRoutes = () => {
             open={diagnosisRoomOpen}
             onOpenChange={setDiagnosisRoomOpen}
             sourcePage={diagnosisSourcePage}
+            mode={diagnosisMode}
           />
         </Suspense>
       )}

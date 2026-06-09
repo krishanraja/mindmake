@@ -13,7 +13,18 @@ import type {
   ProposalHtmlResponse,
   Recommendation,
   RoomPhase,
+  SessionMode,
 } from "./types";
+
+export const CALENDLY_URL = "https://calendly.com/krish-raja/15-min-intro";
+
+/**
+ * The one line Mindy says when a function fails. Voice-linted: sentence case,
+ * no em dashes, no buzzwords. Never a raw "Edge Function returned a non-2xx"
+ * string. We always offer the call as the fastest fix.
+ */
+const ERROR_REPLY =
+  "Sorry, something went wrong on my end. The quickest fix is a quick call with Krish, he can pick this up live.";
 
 // ---------------------------------------------------------------------------
 // small utilities
@@ -83,12 +94,45 @@ const errMessage = (e: unknown, fallback: string): string => {
   return fallback;
 };
 
+/**
+ * Wrap supabase.functions.invoke so a thrown network error and a non-2xx both
+ * collapse to a single shape: { data, failed }. We never let the raw
+ * "Edge Function returned a non-2xx status code" string escape into the UI.
+ */
+const safeInvoke = async <T,>(
+  fn: string,
+  body: unknown,
+): Promise<{ data: T | null; failed: boolean }> => {
+  try {
+    const { data, error } = await supabase.functions.invoke(fn, { body });
+    if (error) return { data: null, failed: true };
+    return { data: (data as T) ?? null, failed: false };
+  } catch {
+    return { data: null, failed: true };
+  }
+};
+
+/** Read a Blob as a bare base64 string (no data: prefix). */
+const blobToBase64 = (blob: Blob): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("read failed"));
+    reader.onloadend = () => {
+      const result = String(reader.result || "");
+      const comma = result.indexOf(",");
+      resolve(comma >= 0 ? result.slice(comma + 1) : result);
+    };
+    reader.readAsDataURL(blob);
+  });
+
 // ---------------------------------------------------------------------------
 // public hook surface
 // ---------------------------------------------------------------------------
 
 export interface DiagnosisSessionState {
   phase: RoomPhase;
+  /** Conversation intent. Express rushes to the booking. */
+  mode: SessionMode;
   /** View-safe dossier (scale.* already stripped). Null until enriched. */
   dossier: Dossier | null;
   /** True the instant a non-free email starts enriching, drives the gasp. */
@@ -115,10 +159,20 @@ export interface DiagnosisSessionState {
 }
 
 export interface UseDiagnosisSession extends DiagnosisSessionState {
+  /** Set the conversation mode (express vs full). */
+  setMode: (mode: SessionMode) => void;
+  /** Switch a started express session into the full diagnosis. */
+  switchToFull: () => void;
   /** Kick the session off from the opener. */
   start: (decision: string, email?: string) => Promise<void>;
+  /** Express path: collect the minimum and jump straight to the booking. */
+  startExpress: (decision: string, email?: string) => void;
   /** Send a follow-up message into the conversation. */
   send: (text: string) => Promise<void>;
+  /** Transcribe a recorded audio blob via the transcribe edge fn. */
+  transcribeAudio: (blob: Blob) => Promise<string>;
+  /** Retry after a graceful error (drops the error turn, re-sends nothing). */
+  dismissError: () => void;
   /** Jump to the kept one-screen brief (no email wall). */
   viewBrief: () => void;
   /** Open the three honest exits. */
@@ -143,6 +197,7 @@ export interface UseDiagnosisSession extends DiagnosisSessionState {
 
 const INITIAL: DiagnosisSessionState = {
   phase: "opener",
+  mode: "full",
   dossier: null,
   coBranded: false,
   turns: [],
@@ -172,6 +227,7 @@ export function useDiagnosisSession(): UseDiagnosisSession {
   const messagesRef = useRef<ChatMessage[]>([]); // full chat history
   const digestSentRef = useRef<EndedVia | null>(null); // idempotency guard
   const abortRef = useRef<AbortController | null>(null);
+  const modeRef = useRef<SessionMode>("full"); // current mode, no stale closure
 
   const patch = useCallback((p: Partial<DiagnosisSessionState>) => {
     setState((s) => ({ ...s, ...p }));
@@ -180,70 +236,103 @@ export function useDiagnosisSession(): UseDiagnosisSession {
   // -- the transcript that gets attached to a digest (full history) ---------
   const transcript = useCallback((): ChatMessage[] => messagesRef.current, []);
 
+  const setMode = useCallback(
+    (mode: SessionMode) => {
+      modeRef.current = mode;
+      patch({ mode });
+    },
+    [patch],
+  );
+
   // -- background full-depth enrichment (no gasp, just upgrades the dossier) -
   const enrichFull = useCallback(
     async (email?: string, domain?: string) => {
-      try {
-        const { data, error } = await supabase.functions.invoke(
-          "enrich-company",
-          { body: { email, domain, depth: "full" } },
-        );
-        if (error) return; // background; fail silently
-        const res = data as EnrichResponse;
-        if (!res || "skipped" in res || "error" in res) return;
-        const merged: Dossier = { ...(rawDossierRef.current || {}), ...res };
-        rawDossierRef.current = merged;
-        patch({ dossier: toViewDossier(merged) });
-      } catch {
-        /* background enrichment is best-effort */
-      }
+      const { data, failed } = await safeInvoke<EnrichResponse>(
+        "enrich-company",
+        { email, domain, depth: "full" },
+      );
+      if (failed || !data) return; // background; fail silently
+      const res = data;
+      if ("skipped" in res || "error" in res) return;
+      const merged: Dossier = { ...(rawDossierRef.current || {}), ...res };
+      rawDossierRef.current = merged;
+      patch({ dossier: toViewDossier(merged) });
     },
     [patch],
   );
 
   // -- one round-trip to mindy-chat -----------------------------------------
+  // On any failure we never surface a raw error string. Instead the pending
+  // assistant turn becomes a calm apology turn and we flag `error` so the UI
+  // can offer the call as the fastest fix.
   const callMindy = useCallback(
     async (assistantTurnId: string) => {
       patch({ thinking: true, error: null });
-      try {
-        const { data, error } = await supabase.functions.invoke("mindy-chat", {
-          body: {
-            messages: messagesRef.current,
-            dossier: rawDossierRef.current, // raw (with scale) for routing
-            sessionId: sessionIdRef.current,
-          },
-        });
-        if (error) throw new Error(error.message || "mindy-chat failed");
-        const res = data as MindyChatResponse;
 
+      const { data, failed } = await safeInvoke<MindyChatResponse>(
+        "mindy-chat",
+        {
+          messages: messagesRef.current,
+          dossier: rawDossierRef.current, // raw (with scale) for routing
+          sessionId: sessionIdRef.current,
+          mode: modeRef.current,
+        },
+      );
+
+      if (failed || !data || typeof data.reply !== "string" || !data.reply) {
+        // graceful degrade: turn the pending bubble into a friendly apology and
+        // record a non-blocking error flag (used to surface the book-call CTA).
         messagesRef.current = [
           ...messagesRef.current,
-          { role: "assistant", content: res.reply },
+          { role: "assistant", content: ERROR_REPLY },
         ];
-
         setState((s) => ({
           ...s,
           thinking: false,
+          error: ERROR_REPLY,
           turns: s.turns.map((t) =>
             t.id === assistantTurnId
-              ? { ...t, content: res.reply, pending: false }
+              ? { ...t, content: ERROR_REPLY, pending: false, kind: "error" }
               : t,
           ),
-          recommendation: res.recommendation ?? s.recommendation,
-          decisionBrief: res.decisionBrief ?? s.decisionBrief,
-          readyForProposal: res.readyForProposal || s.readyForProposal,
-          readyForCall: res.readyForCall || s.readyForCall,
         }));
-      } catch (e) {
-        const message = errMessage(e, "I lost the thread there. Try once more.");
-        setState((s) => ({
-          ...s,
-          thinking: false,
-          error: message,
-          turns: s.turns.filter((t) => t.id !== assistantTurnId),
-        }));
-        // pull the failed assistant slot back out of history if it was added
+        return;
       }
+
+      const res = data;
+      const quickReplies = Array.isArray(res.quickReplies)
+        ? res.quickReplies
+            .filter((q): q is string => typeof q === "string" && !!q.trim())
+            .map((q) => q.trim())
+            .slice(0, 3)
+        : [];
+
+      messagesRef.current = [
+        ...messagesRef.current,
+        { role: "assistant", content: res.reply },
+      ];
+
+      setState((s) => ({
+        ...s,
+        thinking: false,
+        error: null,
+        // clear pills off every older turn; only the newest carries them
+        turns: s.turns.map((t) =>
+          t.id === assistantTurnId
+            ? {
+                ...t,
+                content: res.reply,
+                pending: false,
+                kind: "normal",
+                quickReplies,
+              }
+            : { ...t, quickReplies: undefined },
+        ),
+        recommendation: res.recommendation ?? s.recommendation,
+        decisionBrief: res.decisionBrief ?? s.decisionBrief,
+        readyForProposal: res.readyForProposal || s.readyForProposal,
+        readyForCall: res.readyForCall || s.readyForCall,
+      }));
     },
     [patch],
   );
@@ -285,29 +374,20 @@ export function useDiagnosisSession(): UseDiagnosisSession {
       if (willEnrich) {
         // fast identity pass for the co-brand gasp, then full in the background
         patch({ phase: "reading", reading: true, error: null });
-        try {
-          const { data, error } = await supabase.functions.invoke(
-            "enrich-company",
-            { body: { email: cleanEmail, domain, depth: "identity" } },
-          );
-          if (error) throw new Error(error.message || "enrich failed");
-          const res = data as EnrichResponse;
-
-          if (res && !("skipped" in res) && !("error" in res)) {
-            rawDossierRef.current = res as Dossier;
-            patch({
-              dossier: toViewDossier(res as Dossier),
-              coBranded: true,
-              contact: {
-                email: cleanEmail,
-                company: (res as Dossier).identity?.name,
-              },
-            });
-            void enrichFull(cleanEmail, domain); // background upgrade
-          }
-          // skipped / error -> no gasp, graceful path, Mindy just proceeds
-        } catch {
-          // enrichment failure is non-fatal; proceed without the co-brand
+        const { data, failed } = await safeInvoke<EnrichResponse>(
+          "enrich-company",
+          { email: cleanEmail, domain, depth: "identity" },
+        );
+        // enrichment failure is non-fatal; we just proceed without the co-brand
+        if (!failed && data && !("skipped" in data) && !("error" in data)) {
+          const res = data as Dossier;
+          rawDossierRef.current = res;
+          patch({
+            dossier: toViewDossier(res),
+            coBranded: true,
+            contact: { email: cleanEmail, company: res.identity?.name },
+          });
+          void enrichFull(cleanEmail, domain); // background upgrade
         }
       }
 
@@ -315,6 +395,36 @@ export function useDiagnosisSession(): UseDiagnosisSession {
       await callMindy(assistantTurnId);
     },
     [patch, callMindy, enrichFull],
+  );
+
+  // -- EXPRESS START ---------------------------------------------------------
+  // Collect only the critical info and rush to the Calendly booking. Enrich in
+  // the background so Krish still gets a brief; never gate the booking on it.
+  const startExpress = useCallback(
+    (decision: string, email?: string) => {
+      const text = decision.trim();
+      const cleanEmail =
+        email && EMAIL_RE.test(email.trim()) ? email.trim() : undefined;
+      const domain = cleanEmail ? domainFromEmail(cleanEmail) : undefined;
+
+      modeRef.current = "express";
+      trackEvent("diagnosis_room_express_start", { hasEmail: !!cleanEmail });
+
+      // seed the transcript so the digest carries the one-line decision
+      messagesRef.current = text ? [{ role: "user", content: text }] : [];
+
+      patch({
+        mode: "express",
+        phase: "express-book",
+        contact: { email: cleanEmail },
+      });
+
+      // background enrichment so the brief Krish receives is still rich
+      if (cleanEmail && !isFreeEmail(cleanEmail)) {
+        void enrichFull(cleanEmail, domain);
+      }
+    },
+    [patch, enrichFull],
   );
 
   // -- SEND ------------------------------------------------------------------
@@ -331,9 +441,13 @@ export function useDiagnosisSession(): UseDiagnosisSession {
       const assistantTurnId = uid();
       setState((s) => ({
         ...s,
+        error: null,
         phase: s.phase === "opener" || s.phase === "reading" ? "chat" : s.phase,
+        // sending answers any open pills; strip them off all prior turns
         turns: [
-          ...s.turns,
+          ...s.turns.map((t) =>
+            t.quickReplies ? { ...t, quickReplies: undefined } : t,
+          ),
           { id: uid(), role: "user", content: t },
           { id: assistantTurnId, role: "assistant", content: "", pending: true },
         ],
@@ -343,6 +457,27 @@ export function useDiagnosisSession(): UseDiagnosisSession {
     },
     [callMindy],
   );
+
+  // -- voice: transcribe a recorded blob via the transcribe edge fn ----------
+  const transcribeAudio = useCallback(async (blob: Blob): Promise<string> => {
+    const audioBase64 = await blobToBase64(blob);
+    const { data, failed } = await safeInvoke<{ text?: string; error?: string }>(
+      "transcribe",
+      { audioBase64, mimeType: blob.type || "audio/webm" },
+    );
+    if (failed || !data || !data.text) {
+      throw new Error("transcribe failed");
+    }
+    return data.text;
+  }, []);
+
+  const dismissError = useCallback(() => {
+    setState((s) => ({
+      ...s,
+      error: null,
+      turns: s.turns.filter((t) => t.kind !== "error"),
+    }));
+  }, []);
 
   // -- navigation between scenes --------------------------------------------
   const viewBrief = useCallback(() => {
@@ -360,6 +495,32 @@ export function useDiagnosisSession(): UseDiagnosisSession {
     void endSessionInternal("chat");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [patch]);
+
+  // -- express -> full: the "help me think it through first" escape hatch ----
+  // From the opener we just flip the door into full mode (stay on the opener so
+  // the visitor can frame the decision). From the express booking pane we have
+  // a seeded one-line decision but no conversation yet, so we kick off the full
+  // diagnosis with that line. Anywhere else, just continue the conversation.
+  const switchToFull = useCallback(() => {
+    modeRef.current = "full";
+    trackEvent("diagnosis_room_switch_to_full");
+    patch({ mode: "full" });
+
+    setState((curr) => {
+      if (curr.phase === "opener") return { ...curr, phase: "opener" };
+
+      // express booking pane: no turns yet but we have the seeded decision
+      if (curr.turns.length === 0 && messagesRef.current.length > 0) {
+        const seeded = messagesRef.current[0]?.content || "";
+        const cleanEmail = curr.contact.email;
+        // defer the network call out of the state updater
+        queueMicrotask(() => void start(seeded, cleanEmail));
+        return { ...curr, phase: "reflect" };
+      }
+
+      return { ...curr, phase: "chat" };
+    });
+  }, [patch, start]);
 
   // -- session digest (idempotent per endedVia) -----------------------------
   const endSessionInternal = useCallback(
@@ -403,10 +564,16 @@ export function useDiagnosisSession(): UseDiagnosisSession {
   );
 
   // -- book-call exit --------------------------------------------------------
+  // The persistent escape hatch. Works from any phase: opens Calendly and fires
+  // the digest with endedVia "book-call" plus whatever is collected so far.
   const bookCall = useCallback(
-    (calendlyUrl: string) => {
+    (calendlyUrl?: string) => {
       trackEvent("diagnosis_room_book_call");
-      window.open(calendlyUrl, "_blank", "noopener,noreferrer");
+      window.open(
+        calendlyUrl || CALENDLY_URL,
+        "_blank",
+        "noopener,noreferrer",
+      );
       void endSessionInternal("book-call");
     },
     [endSessionInternal],
@@ -521,8 +688,13 @@ export function useDiagnosisSession(): UseDiagnosisSession {
     () => ({
       ...state,
       optInCopy,
+      setMode,
+      switchToFull,
       start,
+      startExpress,
       send,
+      transcribeAudio,
+      dismissError,
       viewBrief,
       goToFork,
       keepChatting,
@@ -536,8 +708,13 @@ export function useDiagnosisSession(): UseDiagnosisSession {
     [
       state,
       optInCopy,
+      setMode,
+      switchToFull,
       start,
+      startExpress,
       send,
+      transcribeAudio,
+      dismissError,
       viewBrief,
       goToFork,
       keepChatting,

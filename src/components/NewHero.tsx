@@ -110,7 +110,7 @@ const NewHero = () => {
             onClick={() =>
               window.dispatchEvent(
                 new CustomEvent("openDiagnosisRoom", {
-                  detail: { source_page: "/" },
+                  detail: { source_page: "/", mode: "express" },
                 }),
               )
             }
@@ -121,9 +121,15 @@ const NewHero = () => {
             size="lg"
             variant="outline"
             className="border-2 border-mint/50 text-mint hover:bg-mint/10 font-bold px-8 py-6 text-base sm:text-lg transition-all duration-300"
-            onClick={() => { window.location.href = "/operator"; }}
+            onClick={() =>
+              window.dispatchEvent(
+                new CustomEvent("openDiagnosisRoom", {
+                  detail: { source_page: "/", mode: "full" },
+                }),
+              )
+            }
           >
-            See how I work
+            Work through your decision with Mindy
           </Button>
         </motion.div>
 
@@ -141,6 +147,13 @@ const NewHero = () => {
             className="inline-flex items-center gap-1 text-sm text-white/70 hover:text-mint transition-colors"
           >
             Or start with a free lesson
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </a>
+          <a
+            href="/operator"
+            className="inline-flex items-center gap-1 text-sm text-white/70 hover:text-mint transition-colors"
+          >
+            See how I work
             <ArrowUpRight className="h-3.5 w-3.5" />
           </a>
         </motion.div>

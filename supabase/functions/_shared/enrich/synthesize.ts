@@ -33,17 +33,20 @@ const ANTHROPIC_MODEL = 'claude-haiku-4-5-20251001';
  * and the framing of the descriptor: confident, specific, named to a real fact from the
  * dossier, and explicitly inviting correction.
  */
-const SYSTEM_PROMPT = [
-  'You write one short paragraph that a sharp operator would say to a visitor whose company you just looked up.',
-  'Frame it as "here is what I think you do, tell me if I am wrong". Confident, not hedged. You are showing you did the homework.',
-  'Hard rules:',
-  '- 70 words or fewer. One paragraph. No line breaks, no lists, no headings.',
-  '- Name at least one real, specific fact from the brief below (a product, the industry, a named tool, the scale). Do not invent facts.',
-  '- Sentence case. Active voice. Second person. British-Australian spelling.',
-  '- End by inviting a correction, in your own words (e.g. tell me where I have got this wrong).',
-  '- No em dashes. No buzzwords (transformation, synergy, leverage, ecosystem, journey, unlock, seamless, empower, game-changer, cutting-edge).',
-  'Output only the paragraph. No preamble, no quotation marks, no "Here is".',
-].join('\n');
+function buildSystemPrompt(visitorCountry = 'US'): string {
+  return [
+    'You write one short paragraph that a sharp operator would say to a visitor whose company you just looked up.',
+    'Frame it as "here is what I think you do, tell me if I am wrong". Confident, not hedged. You are showing you did the homework.',
+    'Hard rules:',
+    '- 70 words or fewer. One paragraph. No line breaks, no lists, no headings.',
+    '- Name at least one real, specific fact from the brief below (a product, the industry, a named tool, the scale). Do not invent facts.',
+    '- Sentence case. Active voice. Second person. British-Australian spelling.',
+    `- Describe the company's global or primary (typically US/HQ) entity. The visitor is in ${visitorCountry}; use their locale and US dollars. Never assume a regional subsidiary or local currency unless the company is unambiguously and only regional.`,
+    '- End by inviting a correction, in your own words (e.g. tell me where I have got this wrong).',
+    '- No em dashes. No buzzwords (transformation, synergy, leverage, ecosystem, journey, unlock, seamless, empower, game-changer, cutting-edge).',
+    'Output only the paragraph. No preamble, no quotation marks, no "Here is".',
+  ].join('\n');
+}
 
 /**
  * Builds the compact, factual brief handed to the model. We deliberately omit the
@@ -71,6 +74,25 @@ function buildBrief(d: Dossier): string {
   return lines.join('\n');
 }
 
+/**
+ * Voice scrub: the synthesis line is user-facing, so it must never carry an em
+ * dash (the model is told not to, but is not always obedient). Replaces em/en
+ * dashes and spaced ASCII '--' with sentence-appropriate punctuation, collapses
+ * the whitespace it leaves behind, and guarantees no U+2014 survives.
+ */
+function scrubVoice(input: string): string {
+  let s = input;
+  // Spaced em/en dash or '--' acting as a clause break -> comma.
+  s = s.replace(/\s*[—–]\s*/g, ', ');
+  s = s.replace(/\s+--\s+/g, ', ');
+  // Any remaining bare em/en dash (e.g. word-glued) -> comma.
+  s = s.replace(/[—–]/g, ', ');
+  // Tidy artefacts: doubled commas/spaces, comma butting up to terminal punctuation.
+  s = s.replace(/,\s*,/g, ',').replace(/\s{2,}/g, ' ').replace(/\s+,/g, ',');
+  s = s.replace(/,\s*([.!?])/g, '$1');
+  return s.trim();
+}
+
 /** Normalises model output: strips wrapping quotes, code fences, and stray whitespace. */
 function cleanOutput(raw: string): string {
   let s = raw.trim();
@@ -80,14 +102,15 @@ function cleanOutput(raw: string): string {
   if ((s.startsWith('"') && s.endsWith('"')) || (s.startsWith("'") && s.endsWith("'"))) {
     s = s.slice(1, -1).trim();
   }
-  return s;
+  // Voice-lint: the synthesis output is user-facing and was previously un-scrubbed.
+  return scrubVoice(s);
 }
 
 /**
  * Calls Gemini gemini-2.5-flash. Returns the trimmed paragraph, or null on any failure
  * (missing key, non-2xx, empty candidates, timeout). Logs the error; never throws.
  */
-async function synthesizeWithGemini(brief: string): Promise<string | null> {
+async function synthesizeWithGemini(brief: string, systemPrompt: string): Promise<string | null> {
   const key = Deno.env.get('GOOGLE_AI_API_KEY');
   if (!key) {
     logger.warn('GOOGLE_AI_API_KEY not set; skipping Gemini');
@@ -97,7 +120,7 @@ async function synthesizeWithGemini(brief: string): Promise<string | null> {
   try {
     const url =
       `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${key}`;
-    const prompt = `${SYSTEM_PROMPT}\n\nBrief:\n${brief}`;
+    const prompt = `${systemPrompt}\n\nBrief:\n${brief}`;
 
     const res = await fetchWithTimeout(
       url,
@@ -147,7 +170,7 @@ async function synthesizeWithGemini(brief: string): Promise<string | null> {
  * Calls Anthropic claude-haiku-4-5-20251001 via the Messages API (raw HTTP — Deno edge,
  * no SDK). Returns the trimmed paragraph, or null on any failure. Logs the error; never throws.
  */
-async function synthesizeWithAnthropic(brief: string): Promise<string | null> {
+async function synthesizeWithAnthropic(brief: string, systemPrompt: string): Promise<string | null> {
   const key = Deno.env.get('ANTHROPIC_API_KEY');
   if (!key) {
     logger.warn('ANTHROPIC_API_KEY not set; skipping Anthropic fallback');
@@ -167,7 +190,7 @@ async function synthesizeWithAnthropic(brief: string): Promise<string | null> {
         body: JSON.stringify({
           model: ANTHROPIC_MODEL,
           max_tokens: 300,
-          system: SYSTEM_PROMPT,
+          system: systemPrompt,
           messages: [{ role: 'user', content: `Brief:\n${brief}` }],
         }),
       },
@@ -212,7 +235,10 @@ async function synthesizeWithAnthropic(brief: string): Promise<string | null> {
  * Never throws — every failure path returns null and logs.
  *
  * @param d The assembled {@link Dossier} (name, tagline, industry, products, stack, currency, scale).
- * @returns A clean single-paragraph descriptor, or null.
+ * @param visitorCountry ISO alpha-2 country of the visitor (default 'US'). Biases the
+ *   descriptor toward the global/primary entity and the visitor's locale + US dollars,
+ *   so a US visitor is never handed a regional subsidiary with the wrong currency.
+ * @returns A clean single-paragraph descriptor (never contains an em dash), or null.
  *
  * @example
  * // Smoke test (do NOT ship in the export) — construct a small fake Gong dossier:
@@ -238,14 +264,18 @@ async function synthesizeWithAnthropic(brief: string): Promise<string | null> {
  * //    for software teams, wired into Salesforce and Snowflake. If I have got the angle
  * //    wrong, tell me."
  */
-export async function synthesizeDescriptor(d: Dossier): Promise<string | null> {
+export async function synthesizeDescriptor(
+  d: Dossier,
+  visitorCountry = 'US',
+): Promise<string | null> {
   const brief = buildBrief(d);
+  const systemPrompt = buildSystemPrompt(visitorCountry);
 
-  const primary = await synthesizeWithGemini(brief);
+  const primary = await synthesizeWithGemini(brief, systemPrompt);
   if (primary) return primary;
 
   logger.info('Gemini synthesis unavailable; falling back to Anthropic', { domain: d.domain });
-  const fallback = await synthesizeWithAnthropic(brief);
+  const fallback = await synthesizeWithAnthropic(brief, systemPrompt);
   if (fallback) return fallback;
 
   logger.error('Both synthesis providers failed', { domain: d.domain });

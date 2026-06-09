@@ -105,10 +105,10 @@ const FlipCard = ({ index, fate, value, flipped, onFlip, reduceMotion }: FlipCar
           <CardChrome number={number} variant="fate" />
           <div className="relative z-10 flex flex-col h-full p-6 md:p-8">
             <FateIcon
-              className="w-12 h-12 md:w-16 md:h-16 text-mint mb-auto shrink-0"
+              className="w-12 h-12 md:w-16 md:h-16 text-mint shrink-0"
               strokeWidth={1.5}
             />
-            <div className="mt-6">
+            <div className="mt-6 flex-1 min-h-0 overflow-hidden">
               <p className="text-3xl md:text-4xl font-bold text-white leading-[1.05] tracking-tight">
                 {fate.strong}
               </p>
@@ -116,7 +116,7 @@ const FlipCard = ({ index, fate, value, flipped, onFlip, reduceMotion }: FlipCar
                 {fate.sub}
               </p>
             </div>
-            <div className="mt-6 flex items-center gap-2 self-start px-3 py-1.5 border border-mint/40 text-mint text-[10px] md:text-xs font-bold uppercase tracking-[0.18em]">
+            <div className="mt-4 shrink-0 flex items-center gap-2 self-start px-3 py-1.5 border border-mint/40 text-mint text-[10px] md:text-xs font-bold uppercase tracking-[0.18em]">
               <RotateCw className="w-3 h-3 md:w-3.5 md:h-3.5" strokeWidth={2.5} />
               Tap to flip
             </div>
@@ -132,10 +132,10 @@ const FlipCard = ({ index, fate, value, flipped, onFlip, reduceMotion }: FlipCar
           <CardChrome number={number} variant="value" />
           <div className="relative z-10 flex flex-col h-full p-6 md:p-8">
             <ValueIcon
-              className="w-12 h-12 md:w-16 md:h-16 text-mint mb-auto shrink-0"
+              className="w-12 h-12 md:w-16 md:h-16 text-mint shrink-0"
               strokeWidth={1.5}
             />
-            <div className="mt-6">
+            <div className="mt-6 flex-1 min-h-0 overflow-hidden">
               <p className="text-3xl md:text-4xl font-bold text-white leading-[1.05] tracking-tight">
                 {value.strong}
               </p>
@@ -149,7 +149,7 @@ const FlipCard = ({ index, fate, value, flipped, onFlip, reduceMotion }: FlipCar
                 e.stopPropagation();
                 openScopingModal(`big-problem-card-${index + 1}`);
               }}
-              className="mt-6 group/cta inline-flex items-center gap-2 self-start px-4 py-2.5 bg-mint text-ink text-xs md:text-sm font-bold uppercase tracking-[0.14em] hover:bg-white transition-colors"
+              className="mt-4 shrink-0 group/cta inline-flex items-center gap-2 self-start px-4 py-2.5 bg-mint text-ink text-xs md:text-sm font-bold uppercase tracking-[0.14em] hover:bg-white transition-colors"
             >
               Build this with me
               <ArrowRight

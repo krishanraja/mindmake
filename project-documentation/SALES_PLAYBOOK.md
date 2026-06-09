@@ -1,7 +1,7 @@
 # Mindmaker Sales Playbook
 *The single ground-truth document for AI sales and marketing agents working the Mindmaker book.*
 
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-06-09
 
 > If you are an AI sales or marketing agent, outbound, inbound, content, retargeting, lifecycle, paid, or organic, this is the document you ground on. It is opinionated, structured for retrieval, and biased toward action. Use `OFFERS.md`, `ICP.md`, `VALUE_PROP.md`, `OUTCOMES.md`, and `BRANDING.md` for deeper canon. Use `Master_Messaging_and_FAQ.md` for full pitches and FAQ.
 
@@ -425,28 +425,28 @@ IF prospect_is_individual_contributor OR pre_revenue OR wants_implementation OR 
   disqualify warmly. Suggest: LinkedIn / podcast / Lightning Lessons.
 
 DEFAULT (uncertain):
-  invite to PreCallQualifier (3 chip-based questions: decision → timeline → stakes)
-  classify based on output → recommend offer
+  open the Diagnosis Room (Mindy) via "Book a call"
+  Mindy diagnoses the decision in conversation → recommends the right rung
+  (can down-sell to a cheaper rung or a free lesson; books the call for anything above ~$12k)
 ```
 
 ---
 
 ## 12. Lead Email Anatomy (what `send-lead-email` produces)
 
-The primary "Book a call" flow now opens the `ScopingModal` ("Scope it with me"), which posts to the `notify-scoping-request` edge function: a structured intake email to Krish with the prospect's name, work email, company & role, the AI decision/problem, what success looks like in 30 days, optional notes, plus any PreCallQualifier answers.
+The primary "Book a call" flow now opens the **Diagnosis Room (Mindy)**, where the visitor's nervous decision is diagnosed in conversation. The `ScopingModal` ("Scope it with me") remains the secondary booking surface on the offer pages; it posts to the `notify-scoping-request` edge function: a structured intake email to Krish with the prospect's name, work email, company & role, the AI decision/problem, what success looks like in 30 days, and optional notes.
 
 The richer `send-lead-email` lead-intelligence email below is produced by the legacy consult-modal path (now `/alumni` only). It contains:
 
 - Prospect name, email, job title
-- Selected program (preselected from the page, the PreCallQualifier, or the modal dropdown)
+- Selected program (preselected from the page or the modal dropdown)
 - Commitment level (from the modal)
 - Audience type and path type (derived)
 - Session engagement data
-- **Pre-Call Qualifier Q&A surfaced first** (decision / timeline / stakes)
 - Company research via Gemini with Google Search grounding (skipped for personal email domains)
 - 3× retry with exponential backoff for delivery reliability
 
-When you (an AI sales agent) help craft the prospect's reply or follow-up, mirror the qualifier's framing: "You said your decision is [X], your timeline is [Y], and the stakes are [Z]. Based on that, here's what I'd suggest…"
+When you (an AI sales agent) help craft the prospect's reply or follow-up, mirror the framing Mindy surfaced in the Diagnosis Room: "You said your decision is [X], your timeline is [Y], and the stakes are [Z]. Based on that, here's what I'd suggest…"
 
 ---
 
@@ -480,7 +480,7 @@ OFFERS (the ladder):
 
 BRAND FRAMEWORK (homepage FrameworkJourney):  Mind Set → Mind Map → Mind Make
 COHORT CURRICULUM FRAMEWORK:                  Diagnose → Decompose → Decide → Deploy
-PRIMARY CTA:  "Book a call"  (opens InitialConsultModal)
+PRIMARY CTA:  "Book a call"  (opens the Diagnosis Room / Mindy; ScopingModal is the secondary booking surface on offer pages)
 WORKSHOP CTA: "Enrol on Maven" (or "Get notified" if not yet published)
 COHORT CTA:   "Reserve my seat on Maven" → maven.com/mindmaker/the-ai-fluent-executive
 ALUMNI CTA:   "Request an invitation" (preselects 'alumni' in modal)

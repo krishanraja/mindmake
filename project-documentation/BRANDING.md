@@ -1,6 +1,6 @@
 # Branding
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-06-09
 
 ---
 
@@ -8,7 +8,7 @@
 
 **The anti-consultancy for leaders who are done being sold AI and ready to use it.**
 
-Mindmaker sells exactly four things, in two tiers and one inquiry-only relief valve: a Maven-hosted decision room for senior leaders (the Cohort), enterprise sprints for companies commercializing AI products (the Signal Session and Revenue Architecture), and a half-day team-alignment Immersion (inquiry-only). Nothing in between. Nothing ongoing.
+Mindmaker is a ladder: free Lightning Lessons, paid Workshops ($599) as the entry rung, the AI-Fluent Executive Cohort ($2,500) as the qualifying step, enterprise sprints for companies commercializing AI products (the Signal Session and Revenue Architecture) as the margin engine, and the Alumni Pass ($1,500/year) as continuity, plus a half-day team-alignment Immersion (inquiry-only). Every offer has a fixed scope, a fixed outcome, and a finish line. Nothing ongoing.
 
 **Brand North Star:** If Stripe's design sensibility met Anthony Bourdain's authenticity.
 
@@ -61,14 +61,14 @@ Your smartest, most cynical friend who runs AI transformation every day and genu
 
 **Primary CTA everywhere:** **"Book a call"**
 
-No conditional labels. No "What's your nervous decision?" (retired, it tested as too therapist-y for enterprise buyers). No "Start the Conversation". Just "Book a call", which opens the global `ScopingModal` via the `openScopingModal` event. (`InitialConsultModal` / `openConsultModal` is legacy, retained only for `/alumni`.)
+No conditional labels. No "What's your nervous decision?" (retired, it tested as too therapist-y for enterprise buyers). No "Start the Conversation". Just "Book a call", which opens the **Diagnosis Room (Mindy)** via the `openDiagnosisRoom` event. `ScopingModal` (`openScopingModal`) is the secondary booking surface, still used on the offer pages (`/cohort`, `/enterprise`, `/capital`, `/immersion`), the `BigProblem` homepage cards, and `/case-studies`. (`InitialConsultModal` / `openConsultModal` is legacy, retained only for `/alumni`.)
 
 **Cohort-specific direct CTA:** **"Reserve my seat on Maven"**, points directly at `https://maven.com/mindmaker/the-ai-fluent-executive` for buyers who already know the cohort is the right fit and want to skip the consult call.
 
 **Supporting CTAs:**
 - "See the cohort" → `/cohort`
 - "Explore enterprise" → `/enterprise`
-- "See how I work", secondary hero CTA, smooth-scrolls to Y-fork
+- "See how I work", secondary hero CTA, links to `/operator`
 - "Open the full dashboard →", muted link from homepage `OperatorsBrief` to `/signal`
 - "Request a date". Immersion page CTA, opens the scoping modal preselected to "immersion"
 
@@ -95,10 +95,10 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 | "1:1 sprint that turns AI chaos into direction" | "A Maven-hosted cohort for leaders making AI decisions. Enterprise sprints for AI products." |
 | "4-Week or 90-Day Sprint" | "The Cohort, The Signal Session, the Revenue Architecture, or the Immersion" |
 | "What's your nervous decision?" (CTA button) | "Book a call" |
-| "Chat with Krish" / "Ask Mindmaker" | (chatbot retired, replaced by `PreCallQualifier`) |
+| "Chat with Krish" / "Ask Mindmaker" | (chatbot retired; the `PreCallQualifier` that replaced it is now retired too, superseded by the **Diagnosis Room (Mindy)**) |
 | "AI Leadership Benchmark" | "Decision Readiness Diagnostic" (`/leaders`, unlinked from nav) |
 | "Signal Desk" / "The Brief" / "The Operator's Brief" (as a nav label) | **"Live Intel"** (as the nav label and page H1) |
-| "Builder vs Orchestrator" | "AI leaders vs AI products" (the Y-fork) |
+| "Builder vs Orchestrator" | "AI leaders vs AI products" (the homepage `YFork` that carried this split is now retired, superseded by the Diagnosis Room) |
 | "8–12 week Revenue Architecture" | "30-day Revenue Architecture (4–5 calendar weeks)" |
 | "5–10 page Signal Session thesis" | "15–20 page Commercial Narrative within 48 hours" |
 
@@ -139,7 +139,7 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 - **The Operator's Brief**. body-copy alternative for Live Intel; OK in editorial copy, not as a nav label
 - **The Nervous Decision Machine**. the embedded tool; no longer on a standalone `/tool` page
 - **Decision Readiness Diagnostic**. the `/leaders` quiz; unlinked from nav but reachable by URL
-- **Pre-Call Qualifier**. the floating pill; replaces the retired ChatBot. 3-step chip-based intake (decision → timeline → stakes)
+- **The Diagnosis Room (Mindy)**. the primary on-site conversion surface; a full-screen experience (`src/components/diagnosis/`, opened via `openDiagnosisRoom`, modes `"express"` and `"full"`, also at `/start`). Mindy diagnoses the visitor's one nervous AI decision in conversation, recommends the right rung, and forks to three honest exits: keep chatting, book a free 15-min Calendly call, or generate a co-branded "Mindmaker × [company]" proposal. The old `PreCallQualifier` floating pill and its 3-step chip intake are retired; the self-classification job now happens inside the Mindy conversation
 - **CTRL**. Mindmaker's flagship memory-web app; included with every Workshop and Cohort seat
 - **Book a call**. the primary global CTA label, never variant
 - **Enrol on Maven**. the Workshop direct-enrolment CTA on each `/workshops/[slug]` page; "Get notified" while a workshop is not yet published

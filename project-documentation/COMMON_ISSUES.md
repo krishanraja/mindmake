@@ -1,6 +1,6 @@
 # Common Issues
 
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-06-09
 
 ---
 
@@ -27,7 +27,7 @@
 - Cohort enrolment CTA → **"Reserve my seat on Maven"** points directly at `https://maven.com/mindmaker/the-ai-fluent-executive`
 - Workshop enrolment CTA → **"Enrol on Maven"** when published, **"Get notified"** while a workshop is not yet live on Maven
 - Alumni CTA → **"Request an invitation"** (preselects `'alumni'` in the consult modal)
-- ChatBot surface → retired; replaced by `PreCallQualifier` floating pill (3 chip stages: decision → timeline → stakes)
+- ChatBot surface → retired; replaced by the Diagnosis Room (Mindy), the primary conversion surface (`src/components/diagnosis/`, opened via `openDiagnosisRoom`; also a standalone page at `/start`). The old `PreCallQualifier` floating pill is also retired and no longer mounted.
 
 See `BRANDING.md` and `FEATURES.md` for the complete retired-concepts list.
 
@@ -36,7 +36,7 @@ See `BRANDING.md` and `FEATURES.md` for the complete retired-concepts list.
 ### Issue: `"What's your nervous decision?"` used as a CTA button
 **Symptom:** Button copy reads "What's your nervous decision?" somewhere.
 **Cause:** Legacy CTA from the pre-v4 branding.
-**Solution:** Replace with `"Book a call"`. CTAs open the global `ScopingModal` ("Scope it with me") via `window.dispatchEvent(new CustomEvent('openScopingModal'))`. The legacy `InitialConsultModal` / `openConsultModal` path is retained only for `/alumni`.
+**Solution:** Replace with `"Book a call"`. The primary "Book a call" CTA (nav, hero, `SimpleCTA`) opens the Diagnosis Room (Mindy) via `window.dispatchEvent(new CustomEvent('openDiagnosisRoom', { detail: { source_page, mode: 'express' } }))`. The secondary `ScopingModal` ("Scope it with me") opens via `window.dispatchEvent(new CustomEvent('openScopingModal'))` from the offer pages, the `BigProblem` cards, and `/case-studies`. The legacy `InitialConsultModal` / `openConsultModal` path is retained only for `/alumni`.
 
 Note: the phrase "what's your nervous decision" can still appear in body copy as a diagnostic question ("What's the nervous decision you've been avoiding?"), but never as a CTA button label.
 
@@ -63,10 +63,10 @@ Note: the phrase "what's your nervous decision" can still appear in body copy as
 
 ---
 
-### Issue: Pre-Call Qualifier asks for free-text answers
-**Symptom:** Pre-Call Qualifier shows a textarea for the buyer to type the decision.
-**Cause:** Old text-entry version.
-**Solution:** Current PreCallQualifier is chip-based with 3 stages (decision → timeline → stakes). The decision step has 6 chips + an "Something else" option that reveals a textarea. See `src/components/PreCallQualifier.tsx`.
+### Issue: Floating qualifier pill or homepage Y-fork still renders
+**Symptom:** The old `PreCallQualifier` floating pill or the `YFork` "Start where your question actually is." three intent cards appears on the homepage.
+**Cause:** `PreCallQualifier.tsx` or `YFork.tsx` left mounted. Both are retired.
+**Solution:** Neither component is imported anymore (the .tsx files remain in the tree but are not mounted). The homepage now funnels into the single Diagnosis Room (Mindy) journey. Confirm `App.tsx` and `Index.tsx` do not render `PreCallQualifier` or `YFork`. See `src/components/diagnosis/` for the live conversion surface.
 
 ---
 
@@ -170,10 +170,10 @@ if (req.method === 'OPTIONS') return new Response(null, { headers: corsHeaders }
 
 ---
 
-### Issue: PreCallQualifier doesn't render
-**Symptom:** Floating pill missing.
-**Cause:** Component not mounted.
-**Solution:** Confirm `<PreCallQualifier />` is mounted in `src/App.tsx` alongside the other global overlays.
+### Issue: Diagnosis Room (Mindy) doesn't open from "Book a call"
+**Symptom:** "Book a call" click does nothing, or the standalone `/start` page is blank.
+**Cause:** `DiagnosisRoom` not mounted, or the button not dispatching the custom event.
+**Solution:** Confirm `<DiagnosisRoom />` is mounted in `src/App.tsx` (lazy / SSG-safe) alongside the other global overlays, and that the CTA dispatches `window.dispatchEvent(new CustomEvent('openDiagnosisRoom', { detail: { source_page, seedDecision?, mode: 'express' } }))`. The `/start` route renders the same surface as a standalone page.
 
 ---
 

@@ -1,23 +1,27 @@
 # Mindmaker Project Documentation
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-06-09
 
 ---
 
 ## What Mindmaker Is
 
-**The anti-consultancy for leaders done being sold AI.** A barbell business with two primary audiences and one inquiry-only executive offer. No middle tier. No retainers. No fractional roles.
+**The anti-consultancy for leaders done being sold AI.** A **ladder**, not a single product: free Lightning Lessons → paid Workshops ($599) → the AI-Fluent Executive Cohort ($2,500) → Enterprise sprints ($15k–$100k+) → the Alumni Pass ($1,500/yr) as continuity. Capital is a third door for funds, sharing the Signal Session and Revenue Architecture formats. No retainers. No fractional roles. Public pricing is ranges only; exact figures are set by Krish on the call.
 
-| Audience | Offer | Price | Duration | Route |
+| Audience | Offer | Public range | Duration | Route |
 |---|---|---|---|---|
-| Senior leader with a nervous AI decision | The AI-Fluent Executive (Cohort) | $2,500 / seat | 4 weeks (mostly async) + 4 live 90-min sessions | `/cohort` |
-| Company commercializing an AI product | The Signal Session | $15,000 | 1 day intensive + 48h written delivery | `/enterprise#signal-session` |
-| Same, flagship engagement | The Revenue Architecture | $60,000–$100,000 | 30 days (4–5 calendar weeks) | `/enterprise#revenue-architecture` |
-| Executive team needing fast alignment | The AI Immersion (inquiry) | $12,000 | 4-hour facilitated session + 5-day summary | `/immersion` |
+| Senior leader, getting sharper on AI | Mindmaker Workshops (×5) | $500–$1,000 / workshop | 1 day each, Maven-hosted | `/workshops` |
+| Senior leader with a nervous AI decision | The AI-Fluent Executive (Cohort) | $2,000–$3,000 / seat | 4 weeks (mostly async) + 4 live 90-min sessions | `/cohort` |
+| Company commercializing an AI product | The Signal Session | $10,000–$20,000 | 1 day intensive + 48h written delivery | `/enterprise#signal-session` |
+| Same, flagship engagement | The Revenue Architecture | $50,000–$100,000+ | 30 days (4–5 calendar weeks) | `/enterprise#revenue-architecture` |
+| Executive team needing fast alignment | The AI Immersion (inquiry) | $10,000–$15,000 | 4-hour facilitated session + 5-day summary | `/immersion` |
+| Alumni of any paid offer | The Alumni Pass (invitation-only) | ~$1,500 / year | Annual continuity | `/alumni` |
 
 Every offer has a fixed scope, a fixed outcome, and a finish line.
 
-For the strategic intent behind the current shape of the business, read `mindmaker_rebuild_brief_v4.md` (v4 barbell pivot + v5 Operator's Edge).
+The primary on-site conversion surface is **the Diagnosis Room (Mindy)**, a full-screen experience that diagnoses one nervous AI decision and forks to three honest exits (keep chatting / book a free 15-min call / download a co-branded proposal). Mindy's knowledge and guardrails live in [`mindy/`](./mindy/); the durable commercial reference is [COMMERCIAL_REFERENCE.md](./COMMERCIAL_REFERENCE.md).
+
+For the strategic intent behind the current shape of the business, read `mindmaker_rebuild_brief_v4.md` (v4 barbell pivot + v5 Operator's Edge), then the v6 ladder restructure and the June 2026 Diagnosis Room consolidation in `HISTORY.md` / `DECISIONS_LOG.md`.
 
 ---
 
@@ -33,6 +37,8 @@ For the strategic intent behind the current shape of the business, read `mindmak
 | [ICP.md](./ICP.md) | The two primary ICPs (AI leaders, AI products) + the executive-team ICP for Immersion. Anti-ICPs. |
 | [ICP_ACCOUNTABLE_DELEGATOR.md](./ICP_ACCOUNTABLE_DELEGATOR.md) | Deep psychographic and skill-gap archetype of the cohort/leader buyer ("The Accountable Delegator"), the depth behind ICP 1. Research-grounded; cross-refs ICP.md and SALES_PLAYBOOK.md. |
 | [OFFERS.md](./OFFERS.md) | Full detail on Cohort, Signal Session, Revenue Architecture, Immersion. |
+| [COMMERCIAL_REFERENCE.md](./COMMERCIAL_REFERENCE.md) | The durable commercial reference (the `mindmaker` Claude skill): the full buyer-journey ladder, three ICPs, the CTRL product, the Substack, Stripe, the sales motion, and the Mindmaker vs Mindmaker OS boundary. |
+| [mindy/](./mindy/) | **Mindy's Brain Pack**, the system prompt, reasoning few-shots, fit-and-walkaway rubric, pricing-range model, proof bank, `CANON.md` (de-poison / source of truth), and voice-lint that govern the Diagnosis Room. |
 | [OUTCOMES.md](./OUTCOMES.md) | Buyer outcomes by offer, with leading and lagging indicators. |
 | [BRANDING.md](./BRANDING.md) | Voice, tone, terminology standards, retired products. |
 | [PURPOSE.md](./PURPOSE.md) | Mission, vision, what we do and don't sell. |
@@ -127,7 +133,7 @@ For the strategic intent behind the current shape of the business, read `mindmak
 
 ### Primary CTA
 
-**"Book a call"**, everywhere. Opens the global `ScopingModal` ("Scope it with me") via the `openScopingModal` event. No conditional labels. The legacy `InitialConsultModal` / `openConsultModal` path is retained only for `/alumni`.
+**"Book a call"**, everywhere. Opens **the Diagnosis Room (Mindy)** via the `openDiagnosisRoom` event (express mode from the nav, full mode from the hero secondary). No conditional labels. `ScopingModal` ("Scope it with me", `openScopingModal`) is a retained fallback; the legacy `InitialConsultModal` / `openConsultModal` path is alumni-only.
 
 ---
 
@@ -138,7 +144,8 @@ For the strategic intent behind the current shape of the business, read `mindmak
 - Leadership Lab, Portfolio Partner (as named public products)
 - Fractional CAIO, Fractional CTO, Fractional CMO (we do not sell fractional roles)
 - "Builder vs Orchestrator" ICP framing
-- "Chat with Krish" / "Ask Mindmaker" chatbot (replaced by `PreCallQualifier`)
+- "Chat with Krish" / "Ask Mindmaker" chatbot (retired; the `PreCallQualifier` that replaced it is itself now retired, superseded by the Diagnosis Room)
+- Homepage `YFork` second fork and the `PreCallQualifier` floating pill (both retired June 2026; the homepage now funnels into the Diagnosis Room)
 - "Signal Desk" naming (renamed to **Live Intel** at `/signal`)
 - "The Brief" / "The Operator's Brief" as a nav label (the nav label is now **"Live Intel"**; "The Operator's Brief" can still appear as a body-copy reference for the editorial taxonomy on `/signal`)
 - SIGNAL / NOISE / DECISION / TAKE taxonomy (renamed to WATCH / SKIP / CALL / TAKE)

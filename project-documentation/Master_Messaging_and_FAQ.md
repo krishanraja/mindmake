@@ -1,9 +1,9 @@
 # Mindmaker Master Messaging & FAQ Document
 *Core source of truth for product marketing, sales, content, and outbound*
 
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-06-09
 
-**Goal:** One document a salesperson, content writer, or AI agent can open and get every pitch, position, and objection answer right. Supersedes the earlier CTRL / 1:1-sprint-era version. For strategic intent, read `mindmaker_rebuild_brief_v4.md`. For agent-grade sales detail (ICP signals, ROI math, channel templates), read `SALES_PLAYBOOK.md`.
+**Goal:** One document a salesperson, content writer, or AI agent can open and get every pitch, position, and objection answer right. Supersedes the earlier CTRL / 1:1-sprint-era version. For strategic intent, read `mindmaker_rebuild_brief_v4.md`. For agent-grade sales detail (ICP signals, ROI math, channel templates), read `SALES_PLAYBOOK.md`. For durable commercial reference, read `COMMERCIAL_REFERENCE.md`; for how the Diagnosis Room reasons, read the `mindy/` Brain Pack.
 
 ---
 
@@ -161,7 +161,7 @@ The big consultancies (McKinsey, BCG, Deloitte, Accenture) sell 6-figure decks b
 
 ## PART 4: HOMEPAGE AND SITE NARRATIVE
 
-- **Homepage intent fork:** "Start where your question actually is." Three intent-framed cards, each linking directly to a page (no modal). Card A = "Sharpen how I think" (Workshops $599 + the AI-Fluent Executive Cohort $2,500), CTA "See programmes" → `/cohort`. Card B = "Resolve one decision", CTA "Book a Signal Session" → `/enterprise#signal-session`. Card C = "Rebuild the commercial layer", CTA "Scope an engagement" → `/capital`. Capital is surfaced on the homepage via the Rebuild card (and also lives in the Enterprise nav dropdown and at `/capital`). Below the cards: a free-entry strip linking the Decision Readiness Diagnostic (`/leaders`), the CTRL waitlist, and the Sunday brief (Substack).
+- **Homepage second fork (`YFork`) is retired**, superseded by the Diagnosis Room (Mindy). Capital is still surfaced via the Enterprise nav dropdown and at `/capital`.
 - **Hero eyebrow:** "Decision blockers I hear every week."
 - **Hero subheadline:** "Three different doors into the same operator, depending on whether you want to think more clearly, work through one nervous decision, or rebuild how your business actually makes money with AI."
 - **Hero tertiary CTA:** "Or start with a free lesson →" linking to `https://maven.com/mindmaker` for cold buyers not ready to talk.
@@ -171,7 +171,7 @@ The big consultancies (McKinsey, BCG, Deloitte, Accenture) sell 6-figure decks b
 - **Decision Readiness Diagnostic:** `/leaders`. unlinked from nav/footer but reachable by URL for deep-links.
 - **New Age Leadership:** `/new-age-leadership`. long-form thought leadership on agent-native org charts; promoted from hidden into the Resources dropdown. Funnels to `/cohort` and `/operator`.
 - **Hidden support pages:** `/immersion` (linked via scoping modal preselect), `/leaders` (deep-links only).
-- **Primary CTA everywhere:** "Book a call" → opens the global `ScopingModal` (`InitialConsultModal` is legacy, retained only for `/alumni`).
+- **Primary CTA everywhere:** "Book a call" → opens the **Diagnosis Room (Mindy)** via the `openDiagnosisRoom` event. The `ScopingModal` is the secondary booking surface, still used on the offer pages (`/cohort`, `/enterprise`, `/capital`, `/immersion`), the `BigProblem` homepage cards, and `/case-studies` (`InitialConsultModal` is legacy, retained only for `/alumni`).
 
 Case studies are anonymised and tagged COHORT-STYLE or ENTERPRISE inside `TrustSection`.
 
@@ -185,7 +185,7 @@ Case studies are anonymised and tagged COHORT-STYLE or ENTERPRISE inside `TrustS
 | 4 | **Mindmaker LIVE** | Direct link → `/signal` |
 | 5 | Resources | Dropdown → How I operate, Library, The Builder Economy (Podcast) [external], Lightning Lessons (5 Maven URLs) |
 | 6 | About | Dropdown → Contact, Privacy, Terms |
-| CTA | Book a call | Opens the global `ScopingModal` (`InitialConsultModal` is legacy, only for `/alumni`) |
+| CTA | Book a call | Opens the **Diagnosis Room (Mindy)** via `openDiagnosisRoom` (`ScopingModal` is the secondary booking surface on the offer pages; `InitialConsultModal` is legacy, only for `/alumni`) |
 
 The Decision Readiness Diagnostic, FAQ, `/alumni`, and `/immersion` are not linked from nav or footer (still reachable by direct URL).
 
@@ -244,13 +244,8 @@ They were 1:1 products priced for an unclear buyer, and the sales motion didn't 
 ### "Do you ever recommend specific tools?"
 We do trade-off analysis, not recommendations. The buyer always decides. We don't take vendor referral fees. Ever.
 
-### "What does the Pre-Call Qualifier ask?"
-Three chip-based questions:
-1. **Decision**. what's the decision you're wrestling with? (build-vs-buy, commercial-stuck, GTM launch, alignment, personal clarity, other)
-2. **Timeline**. what's your timeline? (this week, this quarter, next 90 days, 6+ months, exploring)
-3. **Stakes**. what's the real cost of not solving this? (revenue, launch, board confidence, team conflict, wrong tools, personal)
-
-Answers feed into the scoping modal so the call starts with shared context. Stored in `localStorage` under `mindmaker:pre-call-qualifier`. No email capture in the qualifier itself.
+### "How does the Diagnosis Room (Mindy) work?"
+The old Pre-Call Qualifier chip intake is retired; the self-classification job now happens inside the Diagnosis Room. "Book a call" opens a full-screen on-site experience where Mindy diagnoses the visitor's one nervous AI decision in conversation, recommends the right rung (and can honestly down-sell to a cheaper rung or a free lesson), and forks to three honest exits: keep chatting, book a free 15-min Calendly call, or generate a co-branded "Mindmaker × [company]" proposal. For anything above ~$12k it books the call. The conversation carries that shared context forward, so no separate chip questionnaire is needed.
 
 ---
 

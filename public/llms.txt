@@ -6,7 +6,8 @@
 
 - [Workshops](/workshops): $599 per workshop, one day each, hosted on Maven. Five workshops (Build Your AI Chief of Staff, Map Your Agentic Org Chart, Vibe Coding for Leaders, Build an Autonomous Business Function, Give Your AI Memory). You build a real artefact alongside Krish on your real surface. Top-of-funnel paid product.
 - [The AI-Fluent Executive (Cohort)](/cohort): $2,500 per seat, 4 weeks, quarterly. For senior leaders with a nervous AI decision to make. 10 to 15 seats per cohort, mostly async with weekly 90-minute live sessions. Diagnose, decompose, decide, deploy. Hosted on Maven at https://maven.com/mindmaker/the-ai-fluent-executive.
-- [Enterprise](/enterprise): The Signal Session ($15,000, 1 day + 48h delivery). The Revenue Architecture ($60,000-$100,000, 30 days). For companies commercializing AI products.
+- [Enterprise](/enterprise): The Signal Session ($15,000, 1 day + 48h delivery). The Revenue Architecture ($60,000-$100,000, 30 days). For companies commercializing AI products. Public pricing is shown as ranges; the exact number is set by Krish on the call.
+- [Capital](/capital): The same Signal Session and Revenue Architecture engagement formats, repositioned for funds, family offices, and operating partners. A third door alongside Enterprise.
 
 ## Request-only offers
 
@@ -19,7 +20,9 @@
 
 ## Try it
 
-- [The Operator's Brief](/signal): Live model prices, weekly classified reads (WATCH / SKIP / CALL / TAKE), and the Nervous Decision Machine embedded in-page. Free, no email required.
+- [The Diagnosis Room](/start): An on-site guided experience. Mindy works through one nervous AI decision with you and ends in one of three honest exits: keep chatting, book a free 15-minute call, or download a co-branded one-page proposal. Every "Book a call" CTA opens it. Free, no email required.
+- [Mindmaker LIVE](/signal): Live model prices, weekly classified reads (WATCH / SKIP / CALL / TAKE), and the Nervous Decision Machine embedded in-page. Free, no email required.
+- [Case studies](/case-studies): Anonymised client outcomes (cohort-style and enterprise), filterable.
 - 5 free Lightning Lessons hosted on Maven (https://maven.com/mindmaker): 45-minute sessions. Top-of-funnel free product.
 
 ## About
@@ -30,7 +33,7 @@
 
 ## Writing
 
-- [The Operator's Brief](/signal): live model prices + weekly classified reads on AI.
+- [Mindmaker LIVE](/signal): live model prices + weekly classified reads on AI.
 - [The Builder Economy (Podcast)](https://www.thebuildereconomy.com): Krish's podcast + thesis on the post-AI org. Lives on a separate site.
 - [Blog](/blog): long-form analysis.
 

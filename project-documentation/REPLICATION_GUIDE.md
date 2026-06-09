@@ -1,6 +1,6 @@
 # Replication Guide
 
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-06-09
 
 ---
 
@@ -70,11 +70,11 @@ Copy files from `src/components/ui/`.
 
 ### Step 8: Layout components
 ```
-src/components/Navigation.tsx          # Cohort / Enterprise / The Brief / Resources / About
+src/components/Navigation.tsx          # Workshops / Cohort / Enterprise / Mindmaker LIVE / Resources / About
 src/components/Footer.tsx
-src/components/ScopingModal.tsx        # primary conversion surface "Scope it with me" (openScopingModal event listener)
+src/components/diagnosis/              # Diagnosis Room (Mindy), primary conversion surface (openDiagnosisRoom event listener); also a standalone page at /start
+src/components/ScopingModal.tsx        # secondary booking surface "Scope it with me" (openScopingModal event listener)
 src/components/InitialConsultModal.tsx # legacy conversion surface (openConsultModal listener; dispatched only from /alumni)
-src/components/PreCallQualifier.tsx    # floating pill, 3-step intake
 src/components/CookieConsent.tsx
 ```
 
@@ -95,9 +95,8 @@ src/pages/NotFound.tsx
 
 ### Step 10: Homepage section components
 ```
-src/components/NewHero.tsx             # rotating headlines + Book a call CTA
-src/components/YFork.tsx               # three intent cards (Sharpen / Resolve / Rebuild) + free-entry strip
-src/components/BigProblem.tsx          # existential urgency frame
+src/components/NewHero.tsx             # rotating headlines + Book a call CTA (opens the Diagnosis Room) + "See how I work" → /operator
+src/components/BigProblem.tsx          # existential urgency frame (cards open the ScopingModal)
 src/components/TrustSection.tsx        # Krish bio + testimonials carousel
 src/components/FrameworkJourney.tsx    # Mind Set → Mind Map → Mind Make
 src/components/OperatorsEdge.tsx       # v5 credential section
@@ -119,6 +118,12 @@ src/components/nervous-decision/Input.tsx     # compact + full sizes
 src/components/nervous-decision/Artifact.tsx
 src/components/nervous-decision/types.ts
 ```
+
+### Step 11b: Diagnosis Room (Mindy), primary conversion surface
+```
+src/components/diagnosis/                      # full-screen on-site experience; mount globally and open via openDiagnosisRoom (detail: { source_page, seedDecision?, mode: 'express' | 'full' }); also a standalone page at /start
+```
+Mindy diagnoses the visitor's one nervous AI decision and forks to three honest exits: keep chatting, book a free 15-min Calendly call, or generate/download a co-branded "Mindmaker × [company]" proposal. Backed by the `mindy-chat`, `enrich-company`, `generate-proposal`, `session-digest`, and `transcribe` (Whisper voice input) edge functions (see Phase 4).
 
 ### Step 12: Global context + hooks
 ```
@@ -153,6 +158,11 @@ supabase/functions/send-contact-email/index.ts
 supabase/functions/send-leadership-insights-email/index.ts
 supabase/functions/notify-scoping-request/index.ts    # ScopingModal intake → emails krish@themindmaker.ai (Resend)
 supabase/functions/notify-ctrl-waitlist/index.ts       # CTRL waitlist signup → emails krish@themindmaker.ai (Resend)
+supabase/functions/mindy-chat/index.ts                 # Diagnosis Room (Mindy) conversation
+supabase/functions/enrich-company/index.ts             # Diagnosis Room company enrichment
+supabase/functions/generate-proposal/index.ts          # Diagnosis Room co-branded proposal generation
+supabase/functions/session-digest/index.ts             # Diagnosis Room session digest
+supabase/functions/transcribe/index.ts                 # Whisper voice input for the Diagnosis Room
 supabase/functions/create-consultation-hold/index.ts  # Stripe (bypassed)
 ```
 
@@ -226,7 +236,7 @@ verify_jwt = false
 3. The live alumni checkout flow is invitation-gated. The page CTA opens `InitialConsultModal` with `preselected: 'alumni'`; once Krish confirms eligibility, he sends the alum a direct Stripe Payment Link out of band. Building the in-page checkout is a separate task.
 
 ### Step 20: Plausible (optional)
-Track `operator_page_cta_clicked` on `/operator` Revenue Architecture CTA, and `pre_call_qualifier_completed` on the PreCallQualifier book-a-call action.
+Track `operator_page_cta_clicked` on `/operator` Revenue Architecture CTA, and the `diagnosis_room_*` events on the Diagnosis Room (Mindy) journey.
 
 ---
 
@@ -246,6 +256,8 @@ Track `operator_page_cta_clicked` on `/operator` Revenue Architecture CTA, and `
 <Route path="/cohort" element={<Cohort />} />
 <Route path="/enterprise" element={<Enterprise />} />
 <Route path="/capital" element={<Capital />} />
+<Route path="/case-studies" element={<CaseStudies />} /> {/* filterable, anonymised COHORT-STYLE / ENTERPRISE proof */}
+<Route path="/start" element={<DiagnosisRoom />} /> {/* standalone Diagnosis Room (Mindy) */}
 <Route path="/operator" element={<Operator />} />
 <Route path="/signal" element={<Brief />} />
 <Route path="/library" element={<Library />} />
@@ -287,9 +299,9 @@ Track `operator_page_cta_clicked` on `/operator` Revenue Architecture CTA, and `
 ### Global overlays
 Mount inside `BrowserRouter` but outside `<Routes>`:
 ```tsx
-<ScopingModal />          {/* primary; listens for openScopingModal */}
+<DiagnosisRoom />         {/* primary; listens for openDiagnosisRoom; lazy / SSG-safe */}
+<ScopingModal />          {/* secondary; listens for openScopingModal */}
 <InitialConsultModal />   {/* legacy; listens for openConsultModal, dispatched only from /alumni */}
-<PreCallQualifier />
 <CookieConsent />
 ```
 
@@ -300,7 +312,7 @@ Mount inside `BrowserRouter` but outside `<Routes>`:
 ### Step 21: Local test flows
 Verify end-to-end:
 1. Homepage loads with rotating headlines + "Book a call" CTA
-2. YFork ("Start where your question actually is.") shows three intent cards (Sharpen how I think → /cohort, Resolve one decision → /enterprise#signal-session, Rebuild the commercial layer → /capital) plus the free-entry strip (Decision Readiness Diagnostic, CTRL waitlist, Sunday brief)
+2. "Book a call" (nav + hero) opens the Diagnosis Room (Mindy) in express mode via `openDiagnosisRoom`; no Y-fork and no floating pill render on the homepage
 3. Framework Journey animation plays
 4. Operator's Edge renders with "Beyond pattern recognition" at correct scale
 5. Operator's Brief teaser shows PriceTicker + rotating interpretation + compact NDM input
@@ -309,8 +321,8 @@ Verify end-to-end:
 8. `/operator` loads with 14-agent static diagram, no scrolling logs
 9. `/signal` loads full Operator's Brief dashboard with WATCH / SKIP / CALL / TAKE filter pills
 10. Nervous Decision Machine returns typed response on both homepage and `/signal`
-11. "Book a call" CTA opens the global `ScopingModal` via `openScopingModal` from every surface (the legacy `InitialConsultModal` / `openConsultModal` path is now used only by `/alumni`)
-12. `PreCallQualifier` pill opens drawer, completes 3-step intake, pre-loads modal
+11. "Book a call" CTA (nav, hero, `SimpleCTA`) opens the Diagnosis Room (Mindy) via `openDiagnosisRoom`; the secondary `ScopingModal` (`openScopingModal`) opens from the offer pages, the `BigProblem` cards, and `/case-studies` (the legacy `InitialConsultModal` / `openConsultModal` path is now used only by `/alumni`)
+12. Diagnosis Room (Mindy) diagnoses the decision and forks to three exits (keep chatting, book a free 15-min Calendly call, generate/download a co-branded proposal); standalone page at `/start` also loads
 13. `/leaders` diagnostic completes end-to-end
 14. All redirects function (see Phase 6)
 15. Mobile works (375px)

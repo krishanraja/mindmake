@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowUp } from "lucide-react";
+import { ArrowUp, CalendarClock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { MarkdownResponse } from "@/components/ui/markdown-response";
+import { cn } from "@/lib/utils";
 import { MindyAvatar } from "./MindyAvatar";
+import { MicButton } from "./MicButton";
 import type { ConversationTurn } from "./types";
 
 interface ConversationProps {
@@ -12,6 +14,10 @@ interface ConversationProps {
   thinking: boolean;
   error?: string | null;
   onSend: (text: string) => void;
+  /** Tap a pill or the error CTA to book the call. */
+  onBookCall: () => void;
+  /** Record -> transcribe -> returns text for the input. */
+  onTranscribe: (blob: Blob) => Promise<string>;
   /** Disable the input (e.g. while enrichment is still painting). */
   disabled?: boolean;
 }
@@ -35,8 +41,9 @@ const useTypewriter = (full: string, enabled: boolean) => {
     }
     setShown("");
     let i = 0;
-    // step by a few chars per tick so long replies don't crawl
-    const step = Math.max(1, Math.round(full.length / 220));
+    // step by a few chars per tick so long replies don't crawl. Turns are now
+    // short, so this resolves in well under a second.
+    const step = Math.max(1, Math.round(full.length / 160));
     const id = window.setInterval(() => {
       i += step;
       if (i >= full.length) {
@@ -64,16 +71,40 @@ const AssistantTurn = ({
   return (
     <MarkdownResponse
       content={text}
-      className="text-white/85 [&_em]:text-white/70 [&_strong]:text-white"
+      className="text-[15px] leading-relaxed text-white/85 [&_em]:text-white/70 [&_strong]:text-white"
     />
   );
 };
+
+// calm glass pills, mint accent, generous touch target
+const QuickReplyPills = ({
+  options,
+  onPick,
+}: {
+  options: string[];
+  onPick: (text: string) => void;
+}) => (
+  <div className="mt-3 flex flex-wrap gap-2">
+    {options.map((opt) => (
+      <button
+        key={opt}
+        type="button"
+        onClick={() => onPick(opt)}
+        className="rounded-full border border-mint/30 bg-mint/[0.08] px-3.5 py-2 text-[13px] font-medium text-mint/90 transition-colors hover:border-mint/60 hover:bg-mint/15 hover:text-mint min-h-[40px]"
+      >
+        {opt}
+      </button>
+    ))}
+  </div>
+);
 
 export const Conversation = ({
   turns,
   thinking,
   error,
   onSend,
+  onBookCall,
+  onTranscribe,
   disabled = false,
 }: ConversationProps) => {
   const reduce = useReducedMotion();
@@ -91,7 +122,11 @@ export const Conversation = ({
 
   useEffect(() => {
     const el = scrollRef.current;
-    if (el) el.scrollTo({ top: el.scrollHeight, behavior: reduce ? "auto" : "smooth" });
+    if (el)
+      el.scrollTo({
+        top: el.scrollHeight,
+        behavior: reduce ? "auto" : "smooth",
+      });
   }, [turns, thinking, reduce]);
 
   const submit = () => {
@@ -101,12 +136,14 @@ export const Conversation = ({
     onSend(t);
   };
 
+  const pickPill = (text: string) => {
+    if (disabled || thinking) return;
+    onSend(text);
+  };
+
   return (
     <div className="flex h-full flex-col">
-      <div
-        ref={scrollRef}
-        className="flex-1 space-y-5 overflow-y-auto pr-1"
-      >
+      <div ref={scrollRef} className="flex-1 space-y-5 overflow-y-auto pr-1">
         {turns.map((turn) => {
           const isNewestAssistant =
             turn.role === "assistant" &&
@@ -123,12 +160,14 @@ export const Conversation = ({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <p className="max-w-[85%] rounded-2xl rounded-br-sm bg-mint/15 px-4 py-2.5 text-sm leading-relaxed text-white">
+                <p className="max-w-[85%] rounded-2xl rounded-br-sm bg-mint/15 px-4 py-2.5 text-[15px] leading-relaxed text-white">
                   {turn.content}
                 </p>
               </motion.div>
             );
           }
+
+          const isError = turn.kind === "error";
 
           return (
             <motion.div
@@ -138,8 +177,11 @@ export const Conversation = ({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <MindyAvatar size={32} state={turn.pending ? "thinking" : "idle"} />
-              <div className="min-w-0 flex-1 pt-0.5 text-sm">
+              <MindyAvatar
+                size={32}
+                state={turn.pending ? "thinking" : "idle"}
+              />
+              <div className="min-w-0 flex-1 pt-0.5">
                 {turn.pending ? (
                   <span className="inline-flex items-center gap-1 text-white/50">
                     <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-mint" />
@@ -152,50 +194,81 @@ export const Conversation = ({
                       style={{ animationDelay: "0.3s" }}
                     />
                   </span>
+                ) : isError ? (
+                  // graceful error: a calm line + a real book-call button,
+                  // never a raw "non-2xx" string.
+                  <div className="space-y-3">
+                    <p className="text-[15px] leading-relaxed text-white/85">
+                      {turn.content}
+                    </p>
+                    <Button
+                      onClick={onBookCall}
+                      className="bg-gradient-to-r from-mint to-emerald-400 font-bold text-ink hover:opacity-90 min-h-[44px]"
+                    >
+                      <CalendarClock className="mr-2 h-4 w-4" />
+                      Book a call with Krish
+                    </Button>
+                  </div>
                 ) : (
-                  <AssistantTurn
-                    content={turn.content}
-                    animate={!reduce && isNewestAssistant}
-                  />
+                  <>
+                    <AssistantTurn
+                      content={turn.content}
+                      animate={!reduce && isNewestAssistant}
+                    />
+                    {turn.quickReplies && turn.quickReplies.length > 0 && (
+                      <QuickReplyPills
+                        options={turn.quickReplies}
+                        onPick={pickPill}
+                      />
+                    )}
+                  </>
                 )}
               </div>
             </motion.div>
           );
         })}
-
-        {error && (
-          <p className="text-sm text-red-300/90" role="alert">
-            {error}
-          </p>
-        )}
       </div>
 
       {/* input */}
       <div className="mt-4 shrink-0">
-        <div className="relative">
-          <Textarea
-            value={draft}
-            onChange={(e) => setDraft(e.target.value.slice(0, 1000))}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                submit();
-              }
-            }}
-            placeholder={disabled ? "One moment" : "Say a bit more"}
-            rows={1}
+        <div className="relative flex items-end gap-2">
+          <MicButton
+            onTranscribe={onTranscribe}
+            onResult={(text) =>
+              setDraft((d) => (d ? `${d} ${text}` : text).slice(0, 1000))
+            }
             disabled={disabled}
-            className="max-h-32 min-h-[52px] resize-none border-white/15 bg-white/5 pr-14 text-sm text-white placeholder:text-white/35 focus-visible:ring-mint/60"
+            className="mb-1.5"
           />
-          <Button
-            size="icon"
-            onClick={submit}
-            disabled={!draft.trim() || disabled}
-            className="absolute bottom-2 right-2 h-9 w-9 rounded-full bg-mint text-ink hover:bg-mint/90 disabled:opacity-40"
-            aria-label="Send"
-          >
-            <ArrowUp className="h-4 w-4" />
-          </Button>
+          <div className="relative flex-1">
+            <Textarea
+              value={draft}
+              onChange={(e) => setDraft(e.target.value.slice(0, 1000))}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  submit();
+                }
+              }}
+              placeholder={
+                disabled ? "One moment" : "Say a bit more, or tap the mic"
+              }
+              rows={1}
+              disabled={disabled}
+              className="max-h-32 min-h-[52px] resize-none border-white/15 bg-white/5 pr-14 text-[15px] text-white placeholder:text-white/35 focus-visible:ring-mint/60"
+            />
+            <Button
+              size="icon"
+              onClick={submit}
+              disabled={!draft.trim() || disabled}
+              className={cn(
+                "absolute bottom-2 right-2 h-9 w-9 rounded-full bg-mint text-ink hover:bg-mint/90 disabled:opacity-40",
+              )}
+              aria-label="Send"
+            >
+              <ArrowUp className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </div>
     </div>

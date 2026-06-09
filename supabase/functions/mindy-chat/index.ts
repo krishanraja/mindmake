@@ -17,15 +17,17 @@
  * {
  *   messages: { role: 'user' | 'assistant'; content: string }[], // full turn history, oldest first
  *   dossier?: Dossier | null,   // enrichment dossier for the visitor's company, if known
- *   sessionId?: string          // opaque client session id, logged only
+ *   sessionId?: string,         // opaque client session id, logged only
+ *   mode?: 'express' | 'full'   // 'express' rushes to the call (default 'full')
  * }
  * ```
  *
  * ## Response (200, application/json) — the parsed turn object
  * ```
  * {
- *   reply: string,                       // Mindy's next turn, in Krish's voice, usually <=120 words
+ *   reply: string,                       // Mindy's next turn, in Krish's voice, SHORT (2-4 sentences, ~70 words)
  *   phase: 'reflect' | 'diagnose' | 'recommend' | 'fork' | 'chat',
+ *   quickReplies: string[],              // 0-3 short tappable options answering the question just asked
  *   recommendation: {                    // null until Mindy has earned a recommendation
  *     mode: string,                      // e.g. "Mode A (productised)" / "Mode B (bespoke)"
  *     rung: string,                      // a canonical ladder rung name
@@ -128,7 +130,15 @@ interface MindyTurn {
   decisionBrief: DecisionBrief | null;
   readyForProposal: boolean;
   readyForCall: boolean;
+  /**
+   * 0 to 3 short tappable options that directly answer the question Mindy just
+   * asked. Each <=6 words. Empty when the question is genuinely open. The client
+   * renders these as pills so the visitor can tap instead of type.
+   */
+  quickReplies: string[];
 }
+
+type SessionMode = "express" | "full";
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
@@ -163,8 +173,9 @@ const OUTPUT_CONTRACT = `# Your output contract (read carefully)
 Return ONE JSON object and nothing else. No prose before or after, no markdown code fences, no commentary. The object must match this exact schema:
 
 {
-  "reply": string,            // your next turn to the visitor, in voice, usually <=120 words
+  "reply": string,            // your next turn to the visitor, in voice. SHORT: 2 to 4 sentences, hard cap ~70 words. One idea per turn. Never a wall of text.
   "phase": "reflect" | "diagnose" | "recommend" | "fork" | "chat",
+  "quickReplies": string[],   // 0 to 3 short tappable options that directly answer the question you just asked. Each <=6 words. [] when the question is genuinely open.
   "recommendation": {         // null until you have earned a recommendation
     "mode": string,           // the routing mode, e.g. "Mode A (productised)" or "Mode B (bespoke)"
     "rung": string,           // a rung name from the canonical ladder only
@@ -183,11 +194,29 @@ Return ONE JSON object and nothing else. No prose before or after, no markdown c
 
 Rules for the object:
 - "reply" is the ONLY field the visitor sees. It carries your whole turn. Everything else is state for the room.
+- BREVITY IS A HARD RULE. Keep "reply" to 2 to 4 sentences, around 70 words at most. One idea per turn. Ask one question, not three. Do not stack a reflection, a framework, and a question in the same turn. Short declarative, then the one sentence that earns it. If you have more to say, save it for the next turn.
+- QUICK REPLIES: whenever the question you just asked has predictable answers, offer 2 to 3 in "quickReplies" so the visitor can tap instead of type (e.g. ["Build it ourselves", "Buy a tool", "Not sure yet"], or ["This quarter", "Next 6 months", "No timeline yet"]). Keep each under 6 words and make them genuinely answer the question. Use [] only when the answer is truly open (e.g. "what is the decision keeping you up?"). The visitor can always still type instead.
+- CONVERGE FAST. This is a few turns, not an interview. Reflect, then ask the one real question, then reason, then recommend. Reach a decisionBrief and a recommendation within about 3 to 4 user turns. Do not interrogate. As the turn count grows, push toward closing: once you have the decision and enough context, fill in the decisionBrief, name one path, and move to the fork. Give the visitor a sense of progress and an ending, never an endless loop.
 - Keep recommendation and decisionBrief null until you have actually earned them. Reflect, then reason, then recommend. Do not recommend on turn one.
 - "range" is always a band from the public range card, never an exact number. If the situation is above ~$100k, a retainer, implementation, or custom terms, do not quote: set exit to "book-call", set readyForCall true, and leave range as the relevant band only if one honestly applies, otherwise use "set on the call".
 - Set readyForProposal true only when you have a decisionBrief and a recommended self-serve or proposal exit. Set readyForCall true for high-stakes ambiguous fits, any enterprise/capital buyer at $12k+, strong fit with visible hesitation, the Immersion, or anything over the ceiling.
 - Voice rules are hard. No em dashes. No banned buzzwords. Sentence case. Active voice. British-Australian. Second person. At most one exclamation mark, ideally zero. No emoji.
 - Never recite any internal routing number (employee count, size band, rank). Use them silently to pick the door.`;
+
+/**
+ * Extra system instruction injected only in express mode. The visitor clicked
+ * "Book a call" and wants to book, not run a full diagnosis. Collect only what is
+ * needed to brief Krish, then exit to the call fast.
+ */
+const EXPRESS_DIRECTIVE = `# EXPRESS MODE (active for this session)
+
+The visitor came here to book the call, not to be diagnosed. Respect that.
+- Keep it to one or two turns total. Do NOT run a full diagnosis.
+- Collect only what Krish needs to open warm: the one-line decision they want help with, and a quick confirm of who they are (name and company, if not already known from the dossier).
+- Offer quickReplies wherever they help (e.g. ["Build vs buy", "Cut costs with AI", "Commercialise our AI"]).
+- Tell them warmly and plainly that the fastest path is the call, and that you are getting them straight there.
+- As soon as you have the one-line decision and know who they are, set "readyForCall" true and set recommendation.exit to "book-call". Keep "decisionBrief" light or null; a full brief is not required to book.
+- Stay in voice, ranges only, never recite internal routing. Brevity still applies: 2 to 4 sentences.`;
 
 /**
  * Formats the dossier into two clearly-separated blocks for the system context:
@@ -280,8 +309,11 @@ There is no enrichment dossier for this visitor. Do not pretend to know their bu
 }
 
 /** Composes the full system context Mindy reasons with. */
-function buildSystemContext(dossier: Dossier | null | undefined): string {
-  return [
+function buildSystemContext(
+  dossier: Dossier | null | undefined,
+  mode: SessionMode = "full",
+): string {
+  const parts = [
     MINDY_SYSTEM_PROMPT,
     "\n---\n",
     "# Companion layer: reasoning-fewshots\n",
@@ -296,7 +328,11 @@ function buildSystemContext(dossier: Dossier | null | undefined): string {
     formatDossierBlock(dossier),
     "\n---\n",
     OUTPUT_CONTRACT,
-  ].join("\n");
+  ];
+  if (mode === "express") {
+    parts.push("\n---\n", EXPRESS_DIRECTIVE);
+  }
+  return parts.join("\n");
 }
 
 /** Robustly parse the model output into a MindyTurn, NDM-style. */
@@ -374,6 +410,17 @@ function normaliseTurn(o: Record<string, unknown>): MindyTurn | null {
     };
   }
 
+  // quickReplies: 0 to 3 short, tappable options. Coerce to clean strings,
+  // drop empties, clamp length and count, default to [].
+  let quickReplies: string[] = [];
+  if (Array.isArray(o.quickReplies)) {
+    quickReplies = o.quickReplies
+      .map((q) => (typeof q === "string" ? q.trim() : ""))
+      .filter((q) => q.length > 0)
+      .map((q) => (q.length > 40 ? q.slice(0, 40) : q))
+      .slice(0, 3);
+  }
+
   return {
     reply,
     phase,
@@ -381,6 +428,7 @@ function normaliseTurn(o: Record<string, unknown>): MindyTurn | null {
     decisionBrief,
     readyForProposal: o.readyForProposal === true,
     readyForCall: o.readyForCall === true,
+    quickReplies,
   };
 }
 
@@ -474,6 +522,7 @@ serve(async (req) => {
     messages?: unknown;
     dossier?: Dossier | null;
     sessionId?: unknown;
+    mode?: unknown;
   };
   try {
     body = await req.json();
@@ -522,7 +571,8 @@ serve(async (req) => {
   }
 
   const dossier = (body?.dossier as Dossier | null | undefined) ?? null;
-  const system = buildSystemContext(dossier);
+  const mode: SessionMode = body?.mode === "express" ? "express" : "full";
+  const system = buildSystemContext(dossier, mode);
 
   // Primary call, with one model fallback on transport/HTTP error.
   let raw = "";

@@ -102,6 +102,9 @@ export type MindyPhase =
   | "fork"
   | "chat";
 
+/** Conversation length / intent. Express rushes to a booking; full diagnoses. */
+export type SessionMode = "express" | "full";
+
 export type ExitKind = "self-serve" | "book-call" | "learn" | "proposal";
 
 export interface Recommendation {
@@ -127,6 +130,8 @@ export interface MindyChatRequest {
   messages: ChatMessage[];
   dossier?: Dossier | null;
   sessionId?: string;
+  /** "express" rushes to a booking; "full" runs the diagnosis. Default "full". */
+  mode?: SessionMode;
 }
 
 export interface MindyChatResponse {
@@ -136,6 +141,8 @@ export interface MindyChatResponse {
   decisionBrief: DecisionBrief | null;
   readyForProposal: boolean;
   readyForCall: boolean;
+  /** 0-3 tappable answers to the question just asked. Free text still works. */
+  quickReplies?: string[];
 }
 
 // ---------------------------------------------------------------------------
@@ -211,7 +218,8 @@ export type RoomPhase =
   | "chat" // ongoing conversation
   | "brief" // the kept one-screen decision brief
   | "fork" // the three honest exits
-  | "proposal"; // the live proposal artefact
+  | "proposal" // the live proposal artefact
+  | "express-book"; // the express path: straight to the Calendly booking
 
 /** A single turn shown in the conversation transcript view. */
 export interface ConversationTurn {
@@ -220,6 +228,13 @@ export interface ConversationTurn {
   content: string;
   /** True while this assistant turn is still streaming/typing. */
   pending?: boolean;
+  /** Tappable answer pills for the latest Mindy turn (0-3). */
+  quickReplies?: string[];
+  /**
+   * A turn the visitor cannot reply to in the normal way (e.g. a graceful
+   * error). The UI surfaces a "book the call" affordance instead of pills.
+   */
+  kind?: "normal" | "error";
 }
 
 /** The opening details collected at the door. */

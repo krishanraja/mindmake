@@ -218,7 +218,10 @@ const Navigation = () => {
               onClick={() => {
                 window.dispatchEvent(
                   new CustomEvent("openDiagnosisRoom", {
-                    detail: { source_page: window.location.pathname },
+                    detail: {
+                      source_page: window.location.pathname,
+                      mode: "express",
+                    },
                   }),
                 );
               }}
@@ -368,7 +371,10 @@ const Navigation = () => {
                   onClick={() => {
                     window.dispatchEvent(
                       new CustomEvent("openDiagnosisRoom", {
-                        detail: { source_page: window.location.pathname },
+                        detail: {
+                          source_page: window.location.pathname,
+                          mode: "express",
+                        },
                       }),
                     );
                     setIsOpen(false);
@@ -376,6 +382,24 @@ const Navigation = () => {
                 >
                   Book a call
                 </Button>
+                {/* full-mode entry: think it through before booking */}
+                <button
+                  type="button"
+                  className="mx-4 mt-2 w-fit text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+                  onClick={() => {
+                    window.dispatchEvent(
+                      new CustomEvent("openDiagnosisRoom", {
+                        detail: {
+                          source_page: window.location.pathname,
+                          mode: "full",
+                        },
+                      }),
+                    );
+                    setIsOpen(false);
+                  }}
+                >
+                  Or think it through with Mindy first
+                </button>
               </div>
             </ScrollArea>
           </div>

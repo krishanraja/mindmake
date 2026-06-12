@@ -26,3 +26,6 @@ verify_jwt = false
 
 [functions.import-audience-csv]
 verify_jwt = false
+
+[functions.submit-testimonial]
+verify_jwt = false

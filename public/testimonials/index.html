@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Mindmaker · A reflection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#081c1f;--deep:#0c272b;--teal:#2e7d6e;--teal-soft:#3c9182;
+    --mint:#79d6ae;--mint-bright:#92e8bf;--paper:#eef6f1;
+    --muted:rgba(238,246,241,.58);--muted-2:rgba(238,246,241,.4);
+    --line:rgba(146,232,191,.16);--field:rgba(255,255,255,.04);--field-focus:rgba(121,214,174,.06);
+    --grad:linear-gradient(100deg,#3c9182 0%,#79d6ae 60%,#92e8bf 100%);
+    --p:0;--maxw:680px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--paper);background:var(--ink);
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  .bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(120% 90% at 50% -10%, #11343a 0%, #0a2125 45%, #06181b 100%);}
+  .aurora{position:fixed;inset:-20%;z-index:-1;filter:blur(70px);opacity:calc(.22 + var(--p) * .5);transition:opacity 1.1s ease;pointer-events:none;}
+  .aurora b{position:absolute;display:block;border-radius:50%;mix-blend-mode:screen;}
+  .aurora .b1{width:46vw;height:46vw;left:-6vw;top:8vh;background:radial-gradient(circle,#2e7d6e,transparent 65%);animation:drift1 26s ease-in-out infinite;}
+  .aurora .b2{width:52vw;height:52vw;right:-10vw;bottom:-6vh;background:radial-gradient(circle,#79d6ae,transparent 62%);
+    opacity:calc(.35 + var(--p) * .65);transition:opacity 1.1s ease;animation:drift2 31s ease-in-out infinite;}
+  @keyframes drift1{0%,100%{transform:translate(0,0)}50%{transform:translate(6vw,5vh)}}
+  @keyframes drift2{0%,100%{transform:translate(0,0)}50%{transform:translate(-5vw,-4vh)}}
+  .wrap{min-height:100%;display:flex;flex-direction:column;align-items:center;padding:clamp(20px,5vw,48px) 22px 56px;}
+  .topbar{width:100%;max-width:var(--maxw);display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:30px;}
+  .mark{height:30px;width:auto;display:block;}
+  .counter{font-size:12px;letter-spacing:.18em;color:var(--muted-2);font-variant-numeric:tabular-nums;}
+  .track{width:100%;max-width:var(--maxw);height:2px;background:var(--line);border-radius:2px;margin-top:14px;overflow:hidden;}
+  .fill{height:100%;width:calc(var(--p) * 100%);background:var(--grad);transition:width .55s cubic-bezier(.2,.7,.2,1);border-radius:2px;}
+  .stage{width:100%;max-width:var(--maxw);flex:1;display:flex;flex-direction:column;justify-content:center;padding:clamp(28px,7vh,72px) 0;}
+  .card{transition:opacity .42s ease, transform .42s ease;}
+  .card.leaving{opacity:0;transform:translateY(-10px);}
+  .card.entering{opacity:0;transform:translateY(14px);}
+  .eyebrow{font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mint);font-weight:500;margin:0 0 16px;}
+  .eyebrow .stagelabel{color:var(--muted-2);}
+  h1.q{font-family:Fraunces;font-weight:400;font-optical-sizing:auto;font-size:clamp(26px,4.4vw,38px);line-height:1.18;letter-spacing:-.01em;margin:0 0 14px;color:#fbfffd;}
+  .help{font-size:14.5px;line-height:1.5;color:var(--muted);margin:0 0 24px;max-width:34em;}
+
+  .chips{display:flex;flex-wrap:wrap;gap:10px;}
+  .chip{border:1px solid var(--line);background:var(--field);color:var(--paper);border-radius:999px;
+    padding:12px 18px;font-size:15px;font-family:Inter;cursor:pointer;transition:all .16s;line-height:1.2;}
+  .chip:hover{border-color:rgba(121,214,174,.5);transform:translateY(-1px);}
+  .chip.on{background:var(--grad);color:#06181b;border-color:transparent;font-weight:500;}
+  .chip:focus-visible{outline:2px solid var(--mint-bright);outline-offset:2px;}
+
+  .ghost-add{margin-top:20px;background:transparent;border:0;color:var(--mint);font-family:Inter;font-size:14px;cursor:pointer;padding:6px 0;letter-spacing:.01em;}
+  .ghost-add:hover{color:var(--mint-bright);}
+  .more-wrap{margin-top:16px;}
+  .optlabel{font-size:12.5px;color:var(--muted-2);margin:0 0 9px;letter-spacing:.02em;}
+
+  textarea{width:100%;min-height:130px;resize:vertical;color:var(--paper);background:var(--field);border:1px solid var(--line);
+    border-radius:14px;padding:16px 17px;font-family:Inter;font-size:16.5px;line-height:1.55;transition:border-color .2s, background .2s;}
+  textarea::placeholder{color:var(--muted-2);}
+  textarea:focus{outline:none;border-color:rgba(121,214,174,.55);background:var(--field-focus);box-shadow:0 0 0 4px rgba(121,214,174,.07);}
+
+  .mic{margin-top:12px;display:inline-flex;align-items:center;gap:9px;background:transparent;border:1px solid var(--line);
+    border-radius:999px;padding:9px 15px;color:var(--muted);font-family:Inter;font-size:13.5px;cursor:pointer;transition:all .18s;}
+  .mic:hover{color:var(--paper);border-color:rgba(121,214,174,.5);}
+  .mic .dot{width:9px;height:9px;border-radius:50%;background:var(--muted-2);transition:background .2s;}
+  .mic.rec{color:var(--mint-bright);border-color:rgba(121,214,174,.55);}
+  .mic.rec .dot{background:#ff6b6b;animation:pulse 1.1s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.4)}}
+
+  .scale-num{font-family:Fraunces;font-weight:300;font-size:clamp(72px,16vw,124px);line-height:1;background:var(--grad);
+    -webkit-background-clip:text;background-clip:text;color:transparent;text-align:center;margin:4px 0 4px;font-variant-numeric:tabular-nums;}
+  .scale-of{text-align:center;color:var(--muted-2);font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:28px;}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:6px;
+    background:linear-gradient(90deg,var(--mint) 0%,var(--mint) var(--rp,50%),rgba(255,255,255,.09) var(--rp,50%),rgba(255,255,255,.09) 100%);outline:none;cursor:pointer;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#eef6f1;border:0;box-shadow:0 4px 14px rgba(0,0,0,.4),0 0 0 6px rgba(121,214,174,.18);cursor:grab;}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#eef6f1;border:0;box-shadow:0 4px 14px rgba(0,0,0,.4),0 0 0 6px rgba(121,214,174,.18);cursor:grab;}
+  .scale-ends{display:flex;justify-content:space-between;margin-top:14px;font-size:12.5px;color:var(--muted-2);}
+
+  .stars{display:flex;gap:14px;justify-content:center;margin:14px 0 8px;}
+  .star{width:46px;height:46px;border:0;background:transparent;cursor:pointer;color:rgba(255,255,255,.16);transition:transform .14s, color .18s;padding:0;}
+  .star svg{width:100%;height:100%;display:block;fill:currentColor;}
+  .star:hover{transform:scale(1.12);}
+  .star.on{color:var(--mint-bright);}
+  .star:focus-visible{outline:2px solid var(--mint-bright);outline-offset:3px;border-radius:8px;}
+  .stars-hint{text-align:center;color:var(--muted-2);font-size:13px;letter-spacing:.04em;}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .field.full{grid-column:1 / -1}
+  .field label{display:block;font-size:12.5px;letter-spacing:.04em;color:var(--muted);margin:0 0 7px;}
+  input[type=text],input[type=email]{width:100%;color:var(--paper);background:var(--field);border:1px solid var(--line);
+    border-radius:12px;padding:13px 15px;font-family:Inter;font-size:15.5px;transition:border-color .2s,background .2s;}
+  input[type=text]::placeholder,input[type=email]::placeholder{color:var(--muted-2);}
+  input[type=text]:focus,input[type=email]:focus{outline:none;border-color:rgba(121,214,174,.55);background:var(--field-focus);box-shadow:0 0 0 4px rgba(121,214,174,.07);}
+  .emailrow{margin-top:14px;}
+  .perm-label{font-size:12.5px;letter-spacing:.04em;color:var(--muted);margin:24px 0 10px;}
+  .checkrow{display:flex;align-items:flex-start;gap:11px;margin-top:22px;cursor:pointer;font-size:14.5px;color:var(--muted);line-height:1.45;}
+  .checkrow .box{flex:0 0 auto;width:20px;height:20px;border-radius:6px;border:1px solid var(--line);background:var(--field);margin-top:1px;display:grid;place-items:center;transition:all .18s;}
+  .checkrow.on .box{background:var(--grad);border-color:transparent;}
+  .checkrow.on .box::after{content:"";width:6px;height:10px;border:2px solid #06181b;border-top:0;border-left:0;transform:rotate(42deg) translateY(-1px);}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;}
+
+  .nav{display:flex;align-items:center;gap:16px;margin-top:32px;}
+  .btn{font-family:Inter;font-weight:500;font-size:15.5px;border:0;border-radius:12px;cursor:pointer;padding:14px 26px;transition:transform .15s, box-shadow .2s, opacity .2s;}
+  .btn-primary{background:var(--grad);color:#06181b;box-shadow:0 6px 22px rgba(121,214,174,.22);}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 10px 30px rgba(121,214,174,.32);}
+  .btn-ghost{background:transparent;color:var(--muted);padding:14px 6px;}
+  .btn-ghost:hover{color:var(--paper);}
+  .btn:focus-visible{outline:2px solid var(--mint-bright);outline-offset:3px;}
+  .skip{margin-left:auto;font-size:13.5px;color:var(--muted-2);}
+  .skip:hover{color:var(--muted);}
+
+  .welcome .kicker{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--mint);margin:0 0 22px;opacity:0;animation:up .7s .15s forwards;}
+  .welcome h1{font-family:Fraunces;font-weight:400;font-size:clamp(30px,5.4vw,48px);line-height:1.14;letter-spacing:-.015em;margin:0 0 20px;color:#fbfffd;opacity:0;animation:up .7s .28s forwards;}
+  .welcome h1 em{font-style:italic;color:var(--mint-bright);}
+  .welcome p{font-size:16.5px;line-height:1.6;color:var(--muted);max-width:33em;margin:0 0 16px;opacity:0;animation:up .7s .42s forwards;}
+  .welcome .meta{display:flex;gap:22px;flex-wrap:wrap;margin:26px 0 4px;opacity:0;animation:up .7s .56s forwards;}
+  .welcome .meta div{font-size:13.5px;color:var(--muted-2);}
+  .welcome .meta b{display:block;color:var(--paper);font-weight:500;font-size:15px;margin-bottom:2px;}
+  .welcome .start{opacity:0;animation:up .7s .7s forwards;}
+  @keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+  .done .seal{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--mint);margin:0 0 18px;}
+  .done h1{font-family:Fraunces;font-weight:400;font-size:clamp(30px,5vw,44px);line-height:1.15;margin:0 0 18px;color:#fbfffd;}
+  .delta{display:inline-flex;align-items:center;gap:16px;background:var(--field);border:1px solid var(--line);border-radius:16px;padding:18px 24px;margin:8px 0 24px;}
+  .delta .n{font-family:Fraunces;font-weight:300;font-size:46px;line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .delta .arrow{color:var(--muted-2);font-size:22px;}
+  .delta .lab{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);margin-top:6px;}
+  .done .status{font-size:16px;line-height:1.6;color:var(--muted);max-width:34em;margin:0 0 22px;}
+  .done .status b{color:var(--paper);font-weight:500;}
+  .spin{display:inline-block;width:15px;height:15px;border:2px solid rgba(146,232,191,.25);border-top-color:var(--mint);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:9px;}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  .actions{display:flex;flex-wrap:wrap;gap:12px;}
+  .toast{font-size:13.5px;color:var(--mint-bright);margin-top:14px;min-height:18px;opacity:0;transition:opacity .3s;}
+  .toast.show{opacity:1;}
+  .foot{margin-top:40px;font-size:12.5px;color:var(--muted-2);letter-spacing:.02em;}
+
+  @media (max-width:560px){.grid2{grid-template-columns:1fr;}.nav{flex-wrap:wrap;}.skip{margin-left:0;}}
+  @media (prefers-reduced-motion: reduce){
+    .aurora .b1,.aurora .b2{animation:none;}.card,.fill{transition:none;}
+    .welcome *,.done *{animation:none !important;opacity:1 !important;}.spin,.mic.rec .dot{animation:none;}
+  }
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="aurora" aria-hidden="true"><b class="b1"></b><b class="b2"></b></div>
+<div class="wrap">
+  <div class="topbar"><img class="mark" alt="Mindmaker" src="data:image/png;base64,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"><div class="counter" id="counter"></div></div>
+  <div class="track" id="track" style="visibility:hidden"><div class="fill"></div></div>
+  <div class="stage"><div class="card" id="card"></div></div>
+</div>
+
+<script>
+/* ============================================================
+   CONFIG: fill endpoint + anonKey after deploying the function.
+   anonKey is the public/publishable key, safe to ship in the page.
+   ============================================================ */
+const CONFIG = {
+  endpoint: "https://bkyuxvschuwngtcdhsyg.functions.supabase.co/submit-testimonial",
+  anonKey:  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJreXV4dnNjaHV3bmd0Y2Roc3lnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIwMDE2NzgsImV4cCI6MjA2NzU3NzY3OH0.XmOP_W7gUdBuP23p4lH-iryMXPXMI69ZshU8Dwm6ujo",
+  notify:   "krish@themindmaker.ai",
+  source:   "engagement",
+  voiceLang:"en-GB"
+};
+
+const params = new URLSearchParams(location.search);
+const CLIENT = (params.get('name') || 'there').trim();
+const CLIENT_SLUG = (params.get('c') || '').trim();
+const ENGAGEMENT = (params.get('engagement') || 'the work we did together').trim();
+
+const questions = [
+  { stage:"Where you started", eyebrow:"Before we started", type:"multi", allowMore:true,
+    q:"Which of these were true for you before we started?",
+    help:"Tap any that fit. No wrong answers.",
+    options:["Curious but overwhelmed","Knew I should, wasn't sure how","Sceptical it was for me",
+      "Behind, and felt it","Drowning in AI noise","Tried tools, nothing stuck","Excited but scattered","Quietly worried about falling behind"] },
+
+  { stage:"Where you started", eyebrow:"A quick gut check", type:"scale", key:"confidence_before",
+    q:"How confident were you making AI calls for your work back then?",
+    help:"Drag to wherever it really sat.", ends:["Not at all","Completely"] },
+
+  { stage:"The decision", eyebrow:"What almost stopped you", type:"multi", allowMore:true,
+    q:"Did anything make you hesitate before saying yes?",
+    help:"The honest ones help most. Tap any, or skip.",
+    options:["Worried it'd be too technical","Not sure I'd find the time","Burned by AI hype before",
+      "Wasn't sure it fit my role","The cost","Just nervous","Honestly, nothing held me back"] },
+
+  { stage:"Inside the work", eyebrow:"How it felt", type:"multi", allowMore:true,
+    q:"How did the work actually feel?",
+    help:"Pick the words that fit.",
+    options:["Clarifying","Energising","Practical","Challenging, the good kind","Reassuring","Eye-opening","Fun","Personal","Intense"] },
+
+  { stage:"Inside the work", eyebrow:"The moment it clicked", type:"text", optional:true, voice:true,
+    q:"Was there a moment something clicked?",
+    help:"Only if one comes to mind. However it comes out is perfect.",
+    ph:"A session, a build, a single sentence. Or tap the mic and just talk." },
+
+  { stage:"Where you are now", eyebrow:"A quick gut check", type:"scale", key:"confidence_after",
+    q:"And how confident do you feel making AI calls now?",
+    help:"Same scale. No need to be modest.", ends:["Not at all","Completely"] },
+
+  { stage:"Where you are now", eyebrow:"The biggest shift", type:"single", allowMore:true,
+    q:"What's the biggest thing that changed for you?",
+    help:"Pick the one that landed hardest.",
+    options:["Made a call I'd been stuck on","Shipped something real","Got real time back",
+      "Stopped outsourcing something","Can lead AI conversations now","See my own role differently","Feel in control of it now"] },
+
+  { stage:"Telling someone else", eyebrow:"Would you recommend it", type:"nps", key:"nps",
+    q:"How likely are you to recommend this to a peer?",
+    help:"Zero to ten.", ends:["Not likely","Absolutely"] },
+
+  { stage:"Telling someone else", eyebrow:"In your own words", type:"text", optional:true, voice:true,
+    q:"If you summed it up for a peer, what would you say?",
+    help:"Say it the way you'd say it out loud. No need to polish.",
+    ph:"Whatever comes to mind. Type it, or tap the mic and talk." },
+
+  { stage:"Telling someone else", eyebrow:"Overall", type:"rating", key:"rating",
+    q:"And out of five?",
+    help:"Tap to rate." },
+
+  { stage:"Make it count", eyebrow:"How to credit you", type:"credit",
+    q:"Last thing. How should I credit you, and how can I use your words?",
+    help:"So I get your name right, and only ever use this the way you're comfortable with." }
+];
+
+const state = { step:-1, answers:{}, credit:{ perm:"", ref:false } };
+const card = document.getElementById('card');
+const counter = document.getElementById('counter');
+const track = document.getElementById('track');
+const root = document.documentElement;
+const total = questions.length;
+const startedAt = Date.now();
+const pad = n => String(n).padStart(2,'0');
+const idxByEyebrow = e => questions.findIndex(q=>q.eyebrow===e);
+const findKey = k => questions.findIndex(q=>q.key===k);
+const hasSR = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+
+function chipState(i){
+  if(typeof state.answers[i] !== 'object' || state.answers[i]===null){
+    state.answers[i] = { picked: questions[i].type==='multi' ? [] : "", more:"" };
+  }
+  return state.answers[i];
+}
+function setProgress(){
+  let p=0; if(state.step>=0 && state.step<total) p=state.step/total; if(state.step>=total) p=1;
+  root.style.setProperty('--p', p.toFixed(3));
+}
+function show(html){
+  card.classList.add('leaving');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const swap = () => {
+    card.innerHTML = html;
+    card.classList.remove('leaving'); card.classList.add('entering');
+    requestAnimationFrame(()=>requestAnimationFrame(()=>card.classList.remove('entering')));
+    wire();
+    window.scrollTo({top:0,behavior:reduce?'auto':'smooth'});
+  };
+  reduce ? swap() : setTimeout(swap, 300);
+}
+function welcome(){
+  counter.textContent=""; track.style.visibility="hidden"; setProgress();
+  const hi = CLIENT==='there' ? 'Hi there' : escapeHtml(CLIENT);
+  show(`<div class="welcome">
+    <p class="kicker">A reflection · two minutes if you're quick</p>
+    <h1>${hi}, while it's fresh, I want to capture what changed <em>in your words</em>.</h1>
+    <p>We just wrapped ${escapeHtml(ENGAGEMENT)}. This is mostly quick taps, with a couple of optional boxes if you feel like saying more.</p>
+    <p>You can tap your way through in two minutes, or go deeper where you've got something to say. ${hasSR?'Prefer talking? Tap the mic on any box and just speak.':''}</p>
+    <div class="meta">
+      <div><b>Mostly taps</b>A few optional boxes</div>
+      <div><b>Your words</b>Used only with your permission</div>
+      <div><b>Stop anytime</b>Nothing is required</div>
+    </div>
+    <div class="start"><div class="nav"><button class="btn btn-primary" id="begin">Begin</button></div></div>
+  </div>`);
+}
+function render(){
+  if(state.step<0) return welcome();
+  if(state.step>=total) return done();
+  const q = questions[state.step];
+  counter.textContent = `${pad(state.step+1)} / ${pad(total)}`;
+  track.style.visibility="visible"; setProgress();
+  const head = `<p class="eyebrow">${q.eyebrow} <span class="stagelabel">· ${q.stage}</span></p>
+    <h1 class="q">${q.q}</h1>${q.help?`<p class="help">${q.help}</p>`:''}`;
+  let body="";
+
+  if(q.type==="multi" || q.type==="single"){
+    const cs = chipState(state.step);
+    const on = v => q.type==='multi' ? cs.picked.includes(v) : cs.picked===v;
+    body = `<div class="chips">${q.options.map(o=>
+      `<button class="chip ${on(o)?'on':''}" data-val="${escapeAttr(o)}">${o}</button>`).join('')}</div>`;
+    if(q.allowMore){
+      const open = cs.more && cs.more.length;
+      body += `<button class="ghost-add" id="addmore" ${open?'hidden':''}>+ Add your own words</button>
+        <div class="more-wrap" id="morewrap" ${open?'':'hidden'}>
+          <p class="optlabel">In your own words (optional)</p>
+          <textarea id="ta" placeholder="Anything you want to add.">${escapeHtml(cs.more||'')}</textarea>
+          ${hasSR?micHtml():''}
+        </div>`;
+    }
+  } else if(q.type==="scale" || q.type==="nps"){
+    const min = q.type==='nps' ? 0 : 1;
+    const def = q.type==='nps' ? 7 : 5;
+    const v = state.answers[state.step] != null ? state.answers[state.step] : def;
+    body = `<div class="scale-num" id="snum">${v}</div>
+      <div class="scale-of">out of 10</div>
+      <input type="range" id="rng" min="${min}" max="10" step="1" value="${v}">
+      <div class="scale-ends"><span>${q.ends[0]}</span><span>${q.ends[1]}</span></div>`;
+  } else if(q.type==="rating"){
+    const v = state.answers[state.step] || 0;
+    body = `<div class="stars" id="stars">${[1,2,3,4,5].map(n=>
+      `<button class="star ${n<=v?'on':''}" data-n="${n}" aria-label="${n} of 5">${starSvg()}</button>`).join('')}</div>
+      <p class="stars-hint" id="starhint">${v?`${v} out of 5`:'Tap to rate'}</p>`;
+  } else if(q.type==="text"){
+    const v = state.answers[state.step] || "";
+    body = `<textarea id="ta" placeholder="${q.ph||''}">${escapeHtml(v)}</textarea>${hasSR?micHtml():''}`;
+  } else if(q.type==="credit"){
+    const c = state.credit;
+    const chip=(val,label)=>`<button class="chip ${c.perm===val?'on':''}" data-perm="${val}">${label}</button>`;
+    body = `<div class="grid2">
+        <div class="field"><label>Your name</label><input type="text" id="c_name" value="${escapeAttr(c.name)}" placeholder="First and last"></div>
+        <div class="field"><label>Role or title</label><input type="text" id="c_role" value="${escapeAttr(c.role)}" placeholder="Founder, Head of..."></div>
+        <div class="field"><label>Company</label><input type="text" id="c_co" value="${escapeAttr(c.company)}" placeholder="Where you work"></div>
+        <div class="field"><label>LinkedIn or site <span style="color:var(--muted-2)">(optional)</span></label><input type="text" id="c_link" value="${escapeAttr(c.link)}" placeholder="linkedin.com/in/..."></div>
+      </div>
+      <div class="field emailrow"><label>Email <span style="color:var(--muted-2)">(optional, so I can follow up)</span></label><input type="email" id="c_email" value="${escapeAttr(c.email)}" placeholder="you@company.com"></div>
+      <input class="hp" id="hp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" placeholder="Leave empty">
+      <p class="perm-label">How can I use what you've shared?</p>
+      <div class="chips">
+        ${chip('free','Use my words freely')}
+        ${chip('edits','Use them, run edits past me first')}
+        ${chip('private','Keep it private for now')}
+      </div>
+      <div class="checkrow ${c.ref?'on':''}" id="refrow"><span class="box"></span>
+        <span>I'm also happy to be a reference, or record a short video if it helps.</span></div>`;
+  }
+
+  const isLast = state.step === total-1;
+  const backBtn = state.step>0 ? `<button class="btn btn-ghost" id="back">Back</button>` : '';
+  const skip = (q.optional || q.type==='multi' || q.type==='single') ? `<button class="btn btn-ghost skip" id="skip">Skip</button>` : '';
+  const nav = `<div class="nav">${backBtn}<button class="btn btn-primary" id="next">${isLast?'Finish':'Next'}</button>${skip}</div>`;
+  show(`<div class="card-inner">${head}${body}${nav}</div>`);
+}
+function micHtml(){ return `<button class="mic" id="mic"><span class="dot"></span><span class="mlabel">Talk instead</span></button>`; }
+function starSvg(){ return `<svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.26L21.5 9l-5 4.6L17.8 21 12 17.5 6.2 21l1.3-7.4-5-4.6 6.6-.74z"/></svg>`; }
+
+function wire(){
+  const begin = card.querySelector('#begin'); if(begin) begin.onclick=()=>{ state.step=0; render(); };
+  const next = card.querySelector('#next'); if(next) next.onclick=()=>{ capture(); state.step++; render(); };
+  const back = card.querySelector('#back'); if(back) back.onclick=()=>{ capture(); state.step--; render(); };
+  const skip = card.querySelector('#skip'); if(skip) skip.onclick=()=>{ state.step++; render(); };
+
+  card.querySelectorAll('.chip[data-val]').forEach(ch=>{
+    ch.onclick=()=>{ const v=ch.dataset.val; const q=questions[state.step]; const cs=chipState(state.step);
+      if(q.type==='multi'){ const k=cs.picked.indexOf(v); if(k>=0) cs.picked.splice(k,1); else cs.picked.push(v); ch.classList.toggle('on'); }
+      else { cs.picked = cs.picked===v ? "" : v; card.querySelectorAll('.chip[data-val]').forEach(x=>x.classList.toggle('on', x.dataset.val===cs.picked)); }
+    };
+  });
+  const addmore = card.querySelector('#addmore');
+  if(addmore) addmore.onclick=()=>{ const w=card.querySelector('#morewrap'); w.hidden=false; addmore.hidden=true;
+    const t=w.querySelector('#ta'); if(t) t.focus({preventScroll:true}); };
+
+  const rng = card.querySelector('#rng');
+  if(rng){ const num=card.querySelector('#snum'); const min=Number(rng.min), max=Number(rng.max);
+    const paint=()=>{ const pct=((rng.value-min)/(max-min))*100; rng.style.setProperty('--rp',pct+'%'); num.textContent=rng.value;
+      state.answers[state.step]=Number(rng.value); };
+    rng.addEventListener('input', paint); paint(); }
+
+  card.querySelectorAll('.star').forEach(st=>{
+    st.onclick=()=>{ const n=Number(st.dataset.n); state.answers[state.step]=n;
+      card.querySelectorAll('.star').forEach(x=>x.classList.toggle('on', Number(x.dataset.n)<=n));
+      const h=card.querySelector('#starhint'); if(h) h.textContent=`${n} out of 5`; };
+  });
+
+  card.querySelectorAll('.chip[data-perm]').forEach(ch=>{
+    ch.onclick=()=>{ state.credit.perm=ch.dataset.perm; card.querySelectorAll('.chip[data-perm]').forEach(x=>x.classList.toggle('on', x===ch)); };
+  });
+  const refrow = card.querySelector('#refrow');
+  if(refrow) refrow.onclick=()=>{ state.credit.ref=!state.credit.ref; refrow.classList.toggle('on', state.credit.ref); };
+
+  const mic = card.querySelector('#mic'); const ta = card.querySelector('#ta');
+  if(mic && ta) attachVoice(ta, mic);
+  if(questions[state.step] && questions[state.step].type==='text' && ta && state.step>0)
+    setTimeout(()=>ta.focus({preventScroll:true}),120);
+}
+function capture(){
+  const q=questions[state.step]; if(!q) return;
+  if(q.type==='text'){ const ta=card.querySelector('#ta'); if(ta) state.answers[state.step]=ta.value.trim(); }
+  if((q.type==='multi'||q.type==='single') && q.allowMore){ const ta=card.querySelector('#ta'); if(ta) chipState(state.step).more=ta.value.trim(); }
+  if(q.type==='scale'||q.type==='nps'){ const rng=card.querySelector('#rng'); if(rng) state.answers[state.step]=Number(rng.value); }
+  if(q.type==='credit'){
+    const g=id=>{const el=card.querySelector(id);return el?el.value.trim():"";};
+    state.credit.name=g('#c_name'); state.credit.role=g('#c_role'); state.credit.company=g('#c_co');
+    state.credit.link=g('#c_link'); state.credit.email=g('#c_email'); state.credit.hp=g('#hp');
+  }
+}
+function attachVoice(ta, btn){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ btn.style.display='none'; return; }
+  let rec=null, recording=false, base='';
+  const label = btn.querySelector('.mlabel');
+  const stopUi=()=>{ recording=false; btn.classList.remove('rec'); label.textContent='Talk instead'; };
+  btn.onclick=()=>{
+    if(recording){ try{rec.stop();}catch(e){} return; }
+    rec = new SR(); rec.continuous=true; rec.interimResults=true; rec.lang=CONFIG.voiceLang;
+    base = ta.value ? ta.value.trim()+' ' : '';
+    let finalText='';
+    rec.onresult=(e)=>{ let interim='';
+      for(let i=e.resultIndex;i<e.results.length;i++){ const t=e.results[i][0].transcript;
+        if(e.results[i].isFinal) finalText+=t+' '; else interim+=t; }
+      ta.value = base + finalText + interim; };
+    rec.onend=()=>{ base=ta.value.trim()+' '; stopUi(); };
+    rec.onerror=()=>stopUi();
+    try{ rec.start(); recording=true; btn.classList.add('rec'); label.textContent='Listening… tap to stop'; }
+    catch(e){ stopUi(); }
+  };
+}
+
+function done(){
+  counter.textContent="Done"; setProgress();
+  const before = state.answers[findKey('confidence_before')];
+  const after  = state.answers[findKey('confidence_after')];
+  const who = state.credit.name ? state.credit.name : (CLIENT==='there'?'':escapeHtml(CLIENT));
+  let deltaBlock="";
+  if(before!=null && after!=null){
+    deltaBlock = `<div class="delta">
+      <div><div class="n">${before}</div><div class="lab">Before</div></div>
+      <div class="arrow">&rarr;</div>
+      <div><div class="n">${after}</div><div class="lab">Now</div></div></div>`;
+  }
+  show(`<div class="done">
+    <p class="seal">That's everything</p>
+    <h1>Thank you${who?`, ${escapeHtml(who)}`:''}.</h1>
+    ${deltaBlock}
+    <p class="status" id="status"></p>
+    <div class="actions" id="actions"></div>
+    <div class="toast" id="toast"></div>
+    <p class="foot">Mindmaker · clarity for leaders</p>
+  </div>`);
+  const configured = !CONFIG.endpoint.includes("PROJECT_REF") && !CONFIG.anonKey.includes("ANON");
+  if(configured) submit(); else manualMode("You're all done. Send this back to Krish below.");
+}
+function setStatus(html){ const s=card.querySelector('#status'); if(s) s.innerHTML=html; }
+function setActions(html){ const a=card.querySelector('#actions'); if(a) a.innerHTML=html; }
+function toast(m){ const t=card.querySelector('#toast'); if(!t) return; t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2800); }
+
+async function submit(){
+  setStatus(`<span class="spin"></span>Sending your reflection to Krish...`); setActions("");
+  try{
+    const res = await fetch(CONFIG.endpoint, {
+      method:"POST",
+      headers:{ "Content-Type":"application/json", "apikey":CONFIG.anonKey, "Authorization":"Bearer "+CONFIG.anonKey },
+      body: JSON.stringify(buildPayload())
+    });
+    if(!res.ok) throw new Error("status "+res.status);
+    setStatus(`Your reflection is with Krish. <b>Thank you.</b> A copy has been emailed to him.`);
+    setActions(`<button class="btn btn-ghost" id="dl">Download a copy for yourself</button>`); bindDownload();
+  }catch(e){
+    setStatus(`I couldn't reach the server just now, but <b>nothing you shared is lost.</b> Send it to Krish below.`);
+    manualButtons();
+  }
+}
+function manualMode(msg){ setStatus(msg); manualButtons(); }
+function manualButtons(){
+  setActions(`<button class="btn btn-primary" id="copy">Copy my answers</button>
+    <button class="btn btn-ghost" id="dl">Download as a file</button>
+    <button class="btn btn-ghost" id="mail">Open an email to Krish</button>`);
+  const copy=card.querySelector('#copy');
+  if(copy) copy.onclick=async()=>{ const t=buildTranscript();
+    try{ await navigator.clipboard.writeText(t); }catch(e){ fallbackCopy(t); } toast("Copied. Paste it into a message or email to Krish."); };
+  bindDownload();
+  const mail=card.querySelector('#mail');
+  if(mail) mail.onclick=()=>{ const c=state.credit;
+    const subj=encodeURIComponent(`Mindmaker reflection${c.name?` from ${c.name}`:''}`);
+    window.location.href=`mailto:${CONFIG.notify}?subject=${subj}&body=${encodeURIComponent(buildTranscript())}`;
+    toast("If your email opens blank or cut off, use Copy instead."); };
+}
+function bindDownload(){ const dl=card.querySelector('#dl'); if(!dl) return;
+  dl.onclick=()=>{ const c=state.credit; const blob=new Blob([buildTranscript()],{type:'text/plain'});
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+    a.download=`mindmaker-reflection-${(c.name||CLIENT||'client').toLowerCase().replace(/[^a-z0-9]+/g,'-')}.txt`;
+    a.click(); toast("Downloaded."); }; }
+
+function buildPayload(){
+  const c=state.credit; const responses=[];
+  questions.forEach((q,i)=>{
+    if(q.type==='credit') return;
+    const a=state.answers[i];
+    let entry={ stage:q.stage, eyebrow:q.eyebrow, question:q.q, type:q.type };
+    if(q.type==='multi'||q.type==='single'){ const cs=chipState(i); entry.picked=cs.picked; entry.more=cs.more||""; }
+    else if(q.type==='scale'||q.type==='nps'||q.type==='rating'){ entry.value=(a!=null?a:null); }
+    else if(q.type==='text'){ entry.value=a||""; }
+    responses.push(entry);
+  });
+  return {
+    source:CONFIG.source, client_slug:CLIENT_SLUG||null,
+    name:c.name||null, role:c.role||null, company:c.company||null, link:c.link||null, email:c.email||null,
+    permission:c.perm||null, willing_reference:!!c.ref,
+    confidence_before: state.answers[findKey('confidence_before')] ?? null,
+    confidence_after: state.answers[findKey('confidence_after')] ?? null,
+    nps: state.answers[findKey('nps')] ?? null,
+    rating: state.answers[findKey('rating')] ?? null,
+    summary_line: state.answers[idxByEyebrow("In your own words")] || null,
+    responses, website: c.hp || "",
+    meta: { user_agent:navigator.userAgent, submitted_at:new Date().toISOString(), duration_ms:Date.now()-startedAt, engagement:ENGAGEMENT }
+  };
+}
+function buildTranscript(){
+  const c=state.credit; const L=[];
+  L.push("MINDMAKER reflection");
+  if(c.name) L.push(`From: ${c.name}${c.role?`, ${c.role}`:''}${c.company?` (${c.company})`:''}`);
+  if(c.email) L.push(`Email: ${c.email}`); if(c.link) L.push(`Link: ${c.link}`);
+  L.push(new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'})); L.push("");
+  const b=state.answers[findKey('confidence_before')], af=state.answers[findKey('confidence_after')];
+  if(b!=null&&af!=null) L.push(`Confidence: ${b} to ${af} (out of 10)`);
+  const nps=state.answers[findKey('nps')], rt=state.answers[findKey('rating')];
+  if(nps!=null) L.push(`Would recommend: ${nps}/10`);
+  if(rt) L.push(`Overall: ${rt}/5`);
+  L.push("");
+  questions.forEach((q,i)=>{
+    if(q.type==='credit'||q.type==='scale'||q.type==='nps'||q.type==='rating') return;
+    L.push(q.eyebrow.toUpperCase()); L.push(q.q);
+    if(q.type==='multi'||q.type==='single'){ const cs=chipState(i);
+      const picked = Array.isArray(cs.picked)? cs.picked : (cs.picked?[cs.picked]:[]);
+      L.push(picked.length?picked.join(', '):"(none picked)");
+      if(cs.more) L.push(`Added: ${cs.more}`);
+    } else { const v=state.answers[i]; L.push(v&&v.length?v:"(skipped)"); }
+    L.push("");
+  });
+  const permMap={free:"Use freely",edits:"Use, run edits past me first",private:"Keep private",'':"(not set)"};
+  L.push("HOW TO CREDIT");
+  L.push(`Name: ${c.name||'(not given)'}`); L.push(`Role: ${c.role||'(not given)'}`);
+  L.push(`Company: ${c.company||'(not given)'}`); L.push(`Permission: ${permMap[c.perm]}`);
+  L.push(`Open to reference / short video: ${c.ref?'Yes':'No'}`);
+  return L.join("\n");
+}
+function fallbackCopy(text){ const t=document.createElement('textarea'); t.value=text; document.body.appendChild(t);
+  t.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(t); }
+function escapeHtml(s){return (s||"").replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));}
+function escapeAttr(s){return (s||"").replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+
+welcome(); wire();
+</script>
+</body>
+</html>

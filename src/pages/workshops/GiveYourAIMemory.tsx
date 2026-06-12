@@ -5,10 +5,10 @@ const config: WorkshopConfig = {
   slug: "give-your-ai-memory",
   title: "Give Your AI Memory",
   seoDescription:
-    "One-day Mindmaker workshop. Build the memory web that makes your AI worth using. Stop re-explaining your business every Monday. Private, portable, deployed by end of day. From $500 on Maven.",
+    "One-day Mindmaker workshop. Build the memory web that makes your AI worth using, so you stop re-explaining your business every Monday. Private, portable, and deployed by end of day. From $500 on Maven.",
   intro: [
     "Every Monday you re-brief your AI on your business. The deals, the people, the priorities, the why-we-don't-do-that. By Friday it's blank again. The memory is the missing layer.",
-    "In this workshop you build the memory web that makes your AI worth using. Private. Portable. Yours. The same architecture I use to make a 14-agent fleet remember everything that matters at Mindmaker.",
+    "In this workshop you build the memory web that makes your AI worth using, and it's private, portable, and yours to keep. The same architecture I use to make a 14-agent fleet remember everything that matters at Mindmaker.",
     "By end of day your AI knows your business the way a chief of staff would after six months on the job, and that memory survives every model change, every tool switch, every Monday.",
   ],
   mavenUrl: WORKSHOP_MAVEN_URLS.memory,

@@ -43,7 +43,7 @@ const WORKSHOPS = [
     title: "Vibe Coding for Leaders",
     icon: Code2,
     blurb:
-      "Ship the internal tool you've been waiting six months for IT to build. Working tool, live URL, deployed by end of day. No coding required.",
+      "Ship the internal tool you've waited six months for IT to build. A working tool at a live URL, deployed by end of day, no coding required.",
   },
   {
     slug: "build-an-autonomous-business-function",
@@ -57,7 +57,7 @@ const WORKSHOPS = [
     title: "Give Your AI Memory",
     icon: Brain,
     blurb:
-      "Build the memory web that makes your AI worth using. Stop re-explaining your business every Monday. Private, portable, deployed by end of day.",
+      "Build the memory web that makes your AI worth using, so you stop re-explaining your business every Monday. Private, portable, and deployed by end of day.",
   },
 ];
 

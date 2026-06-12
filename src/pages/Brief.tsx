@@ -391,7 +391,7 @@ export default function Brief() {
               The Nervous Decision Machine
             </h2>
             <p className="text-white/60 max-w-xl mx-auto">
-              The AI call you keep putting off? Paste it. 60 seconds, one 3-card artifact. No email required.
+              Paste the AI call you keep putting off. In about 60 seconds you'll get a 3-card artifact, no email required.
             </p>
           </div>
           <NervousDecisionInput size="full" tone="dark" examples={EXAMPLES} />

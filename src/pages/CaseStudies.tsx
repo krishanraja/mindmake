@@ -99,7 +99,7 @@ const CaseStudies = () => {
     <div className="min-h-screen bg-background">
       <SEO
         title="Case studies"
-        description="Anonymized proof from real engagements — repositionings, rebuilds and nervous AI decisions resolved. Filter by how you'd work with Krish: the Cohort, a Signal Session, or a Revenue Architecture."
+        description="Anonymized proof from real engagements: repositionings, rebuilds and nervous AI decisions resolved. Filter by how you'd work with Krish: the Cohort, a Signal Session, or a Revenue Architecture."
         canonical="/case-studies"
         jsonLd={jsonLd}
       />

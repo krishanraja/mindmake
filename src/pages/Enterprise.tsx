@@ -114,7 +114,7 @@ const enterpriseProducts: ProductExpandCardData[] = [
     price: "$10,000–$15,000",
     priceDetail: "flat fee, plus travel for on-site",
     priceAnchor:
-      "Cheaper than the off-site that ends in a deck and no decisions — and faster than the months of drift it replaces.",
+      "Cheaper than the off-site that ends in a deck and no decisions, and faster than the months of drift it replaces.",
     outcomeTodo:
       "A twelve-person product team ended a circular roadmap argument in half a day, with three use cases chosen and owners assigned before they left the room.",
     trioLine:

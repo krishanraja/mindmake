@@ -88,7 +88,7 @@ export const CaseStudyCard = ({ caseStudy }: { caseStudy: CaseStudy }) => {
               <blockquote className="pt-2 border-t border-border/30 italic text-foreground/90">
                 &ldquo;{caseStudy.quote.text}&rdquo;
                 <footer className="not-italic text-[10px] text-muted-foreground mt-1">
-                  — {caseStudy.quote.attribution}
+                  {caseStudy.quote.attribution}
                 </footer>
               </blockquote>
             )}

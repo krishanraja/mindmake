@@ -37,7 +37,7 @@ const OperatorsBrief = () => {
             Live Intel
           </div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-4">
-            Live prices. Sharp takes. One nervous decision at a time.
+            Live model prices, read like a P&L.
           </h2>
           <p className="text-base md:text-lg text-white/60 max-w-2xl mx-auto">
             The desk I read every morning, condensed. Full dashboard one click away.

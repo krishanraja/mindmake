@@ -15,7 +15,7 @@ const Footer = () => {
                 Weekly signal in your inbox.
               </p>
               <p className="text-sm text-muted-foreground">
-                Headlines, resources, perspectives. No pitch decks. Unsubscribe anytime.
+                Headlines, resources and perspectives worth keeping. No pitch decks, unsubscribe anytime.
               </p>
             </div>
             <SubstackSubscribeForm tone="light" size="compact" source="footer" />

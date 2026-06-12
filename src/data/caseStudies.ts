@@ -76,30 +76,6 @@ export const ENGAGEMENT_META: Record<
 export const caseStudies: CaseStudy[] = [
   // ---- Rich cases ----
   {
-    id: "identity-infra-reposition",
-    engagement: "Revenue Architecture",
-    theme: "Reposition",
-    clientLabel: "CRO · Identity & data infrastructure",
-    sector: "Identity & data infrastructure",
-    variant: "case",
-    headline: "Repositioned a collapsing category from defence to offence",
-    metrics: [
-      { value: "$254K", label: "POC contracted" },
-      { value: "4", label: "major publishers back in pipeline" },
-      { value: "43", label: "outbound campaigns, three regions" },
-    ],
-    situation:
-      "Patented identity tech and a strong APAC pipeline — but the category was collapsing. Buyers in the US and EMEA had stopped paying for cookie-replacement tools and started asking what comes next for the open web.",
-    theCall:
-      "Reposition the entire commercial surface. Move the lens from third-party-cookie defence to first-party publisher infrastructure for an AI-mediated internet — new pitch, personas, partner story and price point.",
-    theWork:
-      "A new ICP, messaging and sales-enablement workflows, with a central AI brain feeding every seller. 43 outbound campaigns across the US, EMEA and APAC against four distinct personas, a publisher POC scoped around addressability and conversion measurement, and a new thought-leadership cadence on agentic browsing. The work of at least ten people, done by two.",
-    quote: {
-      text: "Krish set up an AI-native GTM system that makes us think differently about who we need to hire and what they'll be doing. He works experimentally yet transparently. We trusted he would deliver.",
-      attribution: "CRO, identity-data infrastructure",
-    },
-  },
-  {
     id: "us-publisher-roadmap",
     engagement: "Signal Session",
     theme: "Decide",
@@ -161,13 +137,13 @@ export const caseStudies: CaseStudy[] = [
       { value: "$2K–$8K", label: "productized offer ladder" },
     ],
     situation:
-      "A senior operator running a coaching and corporate-consulting practice on the side. Outdated website, no CRM, no content cadence — inbox-zero in her corporate role and 6,500 unread emails in her own business. The forcing function was missing.",
+      "A senior operator running a coaching and corporate-consulting practice on the side. Outdated website, no CRM, no content cadence. Inbox-zero in her corporate role and 6,500 unread emails in her own business. The forcing function was missing.",
     theCall:
-      "AI is the forcing function. Rebuild the entire commercial stack in eight weeks — brand, site, productized offers, lead capture, content engine and outbound — on a reusable writing OS so context never has to be re-explained.",
+      "AI is the forcing function. Rebuild the entire commercial stack in eight weeks (brand, site, productized offers, lead capture, content engine and outbound) on a reusable writing OS so context never has to be re-explained.",
     theWork:
       "A new brand and production-ready site concepts shipped one prompt each. A productized coaching ladder ($2K–$8K) and a corporate workshop, lead capture, an L&D outbound system, and reusable projects for voice, video scripts and outreach.",
     quote: {
-      text: "The reason I'm loving Krish's sprints is the unique approach — he uses his incredible knowledge of AI and tech to help me with really human problems. I'd had an AI mentor before who was way too technical. Krish thinks about me and the results I need.",
+      text: "The reason I'm loving Krish's sprints is the unique approach. He uses his incredible knowledge of AI and tech to help me with really human problems. I'd had an AI mentor before who was way too technical. Krish thinks about me and the results I need.",
       attribution: "Founder & CEO, executive coaching practice",
     },
   },
@@ -187,33 +163,13 @@ export const caseStudies: CaseStudy[] = [
     situation:
       "A founder pivoting to a research-led content brand. Privacy-conscious, energy-managed, and no appetite for autonomy until the human-in-the-loop system was proven. They needed a content engine that compounds without burning them out.",
     theCall:
-      "Build a low-cost, voice-first content engine the founder owns. Manual first, automated only after the system worked end-to-end — phased so the founder kept enjoying it.",
+      "Build a low-cost, voice-first content engine the founder owns. Manual first, automated only after the system worked end-to-end, phased so the founder kept enjoying it.",
     theWork:
       "A three-phase roadmap: a voice-to-research engine producing research-backed posts in under 45 minutes, then seeding and outreach, then a publishing pipeline, evidence library and SEO flywheel.",
     quote: {
-      text: "Since working with Krish I've learnt to push through basic barriers I didn't realise I could — and he set up systems that make me more effective and more motivated. I used to post once a month; now it's most days. It's helping me be seen by my customers.",
+      text: "Since working with Krish I've learnt to push through basic barriers I didn't realise I could, and he set up systems that make me more effective and more motivated. I used to post once a month; now it's most days. It's helping me be seen by my customers.",
       attribution: "Founder, research & content brand",
     },
-  },
-  {
-    id: "tmt-advisory-productized",
-    engagement: "Revenue Architecture",
-    theme: "Rebuild",
-    clientLabel: "Managing Partner · Global TMT advisory & ventures",
-    sector: "Advisory & ventures",
-    variant: "case",
-    headline: "Turned a speaking brand into AI products clients can buy",
-    metrics: [
-      { value: "Fund One", label: "launched under the ventures arm" },
-      { value: "2 offers", label: "productized advisory + ventures" },
-      { value: "1st product", label: "AI podcasts launched" },
-    ],
-    situation:
-      "A global TMT advisory with deep boardroom relationships and a sharp newsletter brand — but the commercial surface was speaking, not selling. No productized AI offer for clients, and no formal investment thesis to deploy alongside its venture bets.",
-    theCall:
-      "Turn the firm's expertise into AI products clients can buy. Codify Strategic Product Development as the core advisory wedge and, in parallel, write the ventures thesis: who the firm backs, why, and at what stage.",
-    theWork:
-      "AI-powered CX transformation packaged as a sellable engagement, not a keynote. A productized advisory ladder, a ventures thesis stood up and focused on CTO-led founders, and the newsletter rewired as distribution for both.",
   },
   {
     id: "series-b-build-vs-buy",
@@ -258,7 +214,7 @@ export const caseStudies: CaseStudy[] = [
     headline: "We went from 14 tools to 3 systems that actually work.",
     metrics: [{ value: "14 → 3", label: "AI tools that actually work" }],
     quote: {
-      text: "Everyone on the team was experimenting with AI — ChatGPT for this, Claude for that, some random automation tool from LinkedIn. It was chaos. The cohort forced us to decide what's actually strategic and what's just noise.",
+      text: "Everyone on the team was experimenting with AI: ChatGPT for this, Claude for that, some random automation tool from LinkedIn. It was chaos. The cohort forced us to decide what's actually strategic and what's just noise.",
       attribution: "VP of Operations",
     },
   },
@@ -310,7 +266,7 @@ export const caseStudies: CaseStudy[] = [
     headline: "I built two workflows that I now use every day.",
     metrics: [{ value: "2", label: "workflows I now use every single day" }],
     quote: {
-      text: "I actually built two workflows in the session that I now use every day. Not experiments — real systems that made my week calmer almost immediately.",
+      text: "I actually built two workflows in the session that I now use every day. Not experiments, real systems that made my week calmer almost immediately.",
       attribution: "Head of Ops, scale-up",
     },
   },
@@ -330,12 +286,12 @@ export interface Endorsement {
 export const endorsements: Endorsement[] = [
   {
     quote:
-      "An outstanding leader with a clear vision and a knack for driving innovation — a true professional at the forefront of the digital tech industry.",
+      "An outstanding leader with a clear vision and a knack for driving innovation, a true professional at the forefront of the digital tech industry.",
     attribution: "Talent Director, global ad-tech",
   },
   {
     quote:
-      "A respected senior leader with deep expertise in digital media and data — a great communicator of complexity, with a warm nature that brings people together.",
+      "A respected senior leader with deep expertise in digital media and data, a great communicator of complexity, with a warm nature that brings people together.",
     attribution: "Chief Executive, national audio industry body",
   },
   {
@@ -350,7 +306,7 @@ export const endorsements: Endorsement[] = [
   },
   {
     quote:
-      "A leading thinker in programmatic and data — he concisely articulates the problems and solutions that matter now and next.",
+      "A leading thinker in programmatic and data, who concisely articulates the problems and solutions that matter now and next.",
     attribution: "Business Development Director, programmatic media",
   },
   {
@@ -360,17 +316,17 @@ export const endorsements: Endorsement[] = [
   },
   {
     quote:
-      "Articulate, engaging and entertaining — he breaks down the barriers advertisers face with data and tech and presents clear solutions.",
+      "Articulate, engaging and entertaining. He breaks down the barriers advertisers face with data and tech and presents clear solutions.",
     attribution: "Country Manager ANZ, marketing-technology platform",
   },
   {
     quote:
-      "Intelligent and hardworking, with a deep understanding of data and tech — always good for a straight answer and willing to get his hands dirty.",
+      "Intelligent and hardworking, with a deep understanding of data and tech, always good for a straight answer and willing to get his hands dirty.",
     attribution: "Digital Commerce Director, retail-media agency",
   },
   {
     quote:
-      "A unique ability to make programmatic and data accessible to everyone in the room — not just the 'digital' people.",
+      "A unique ability to make programmatic and data accessible to everyone in the room, not just the 'digital' people.",
     attribution: "National Sales Director, digital marketplace",
   },
   {
@@ -382,7 +338,6 @@ export const endorsements: Endorsement[] = [
 
 /** Aggregate proof for the results band. */
 export const RESULTS_BAND: CaseMetric[] = [
-  { value: "$254K", label: "POC contracted from a repositioning" },
   { value: "22%", label: "revenue lift on affected inventory" },
   { value: "40%", label: "faster production ops, no new headcount" },
   { value: "90 days", label: "to a defensible production workflow" },

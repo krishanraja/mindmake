@@ -108,7 +108,7 @@ export const NervousDecisionInput = ({
                 Got a nervous decision?
               </p>
               <p className={`text-[12px] leading-relaxed mb-3 ${mutedClass}`}>
-                Type the AI call you keep putting off. Get a 3-card artifact in 60 seconds. No email required.
+                Type the AI call you keep putting off. You'll get a 3-card artifact in about 60 seconds, no email required.
               </p>
               <div className="flex flex-col sm:flex-row gap-2 sm:items-end">
                 <textarea

@@ -87,7 +87,7 @@ export const LightningLessons = () => {
           <DialogHeader className="text-left">
             <DialogTitle className="text-2xl sm:text-3xl">Free Lightning Lessons</DialogTitle>
             <p className="text-sm text-muted-foreground mt-2">
-              Five 45-minute sessions. Practical, no fluff. Pick one to start.
+              Five 45-minute sessions, practical and free of fluff. Pick one to start.
             </p>
           </DialogHeader>
 

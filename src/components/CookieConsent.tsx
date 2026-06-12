@@ -20,7 +20,7 @@ export const CookieConsent = () => {
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-[200] bg-ink/95 backdrop-blur-md border-t border-white/10 p-4 md:p-6">
+    <div className="fixed bottom-0 left-0 right-0 z-[150] bg-ink/95 backdrop-blur-md border-t border-white/10 p-4 md:p-6">
       <div className="container-width flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <p className="text-sm text-white/80 max-w-2xl">
           We use privacy-friendly analytics (no cookies) and store session data locally to improve your experience.

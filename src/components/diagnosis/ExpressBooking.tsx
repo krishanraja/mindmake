@@ -47,6 +47,10 @@ export const ExpressBooking = ({
   const widgetRef = useRef<HTMLDivElement>(null);
   const [widgetReady, setWidgetReady] = useState(false);
 
+  // Don't let the visitor advance to the call with no decision on record. The
+  // opener gates this too, but guard here so an empty line can never book.
+  const hasDecision = decision.trim().length > 0;
+
   useEffect(() => {
     let cancelled = false;
     const url = prefilledUrl(contact);
@@ -134,13 +138,19 @@ export const ExpressBooking = ({
       <motion.div className="mt-4 shrink-0 space-y-3" {...reveal(0.16)}>
         <Button
           onClick={onBookCall}
+          disabled={!hasDecision}
           variant="outline"
-          className="w-full border-mint/40 text-mint hover:bg-mint/10 min-h-[44px]"
+          className="w-full border-mint/40 text-mint hover:bg-mint/10 disabled:opacity-40 min-h-[44px]"
         >
           <CalendarClock className="mr-2 h-4 w-4" />
           Open the calendar in a new tab
           <ExternalLink className="ml-2 h-3.5 w-3.5" />
         </Button>
+        {!hasDecision && (
+          <p className="text-center text-[13px] leading-relaxed text-white/55">
+            Add your decision first, then pick a time.
+          </p>
+        )}
         <button
           type="button"
           onClick={onSwitchToFull}

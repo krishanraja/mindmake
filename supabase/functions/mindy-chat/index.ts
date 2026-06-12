@@ -89,7 +89,7 @@ const corsHeaders = {
 const ANTHROPIC_API_KEY = Deno.env.get("ANTHROPIC_API_KEY") || "";
 const PRIMARY_MODEL = "claude-sonnet-4-6";
 const FALLBACK_MODEL = "claude-haiku-4-5-20251001";
-const MAX_TOKENS = 900;
+const MAX_TOKENS = 2000;
 const ANTHROPIC_VERSION = "2023-06-01";
 
 // In-memory abuse controls (per cold start, best-effort). This is a chat, so the
@@ -196,7 +196,9 @@ Rules for the object:
 - "reply" is the ONLY field the visitor sees. It carries your whole turn. Everything else is state for the room.
 - BREVITY IS A HARD RULE. Keep "reply" to 2 to 4 sentences, around 70 words at most. One idea per turn. Ask one question, not three. Do not stack a reflection, a framework, and a question in the same turn. Short declarative, then the one sentence that earns it. If you have more to say, save it for the next turn.
 - QUICK REPLIES: whenever the question you just asked has predictable answers, offer 2 to 3 in "quickReplies" so the visitor can tap instead of type (e.g. ["Build it ourselves", "Buy a tool", "Not sure yet"], or ["This quarter", "Next 6 months", "No timeline yet"]). Keep each under 6 words and make them genuinely answer the question. Use [] only when the answer is truly open (e.g. "what is the decision keeping you up?"). The visitor can always still type instead.
-- CONVERGE FAST. This is a few turns, not an interview. Reflect, then ask the one real question, then reason, then recommend. Reach a decisionBrief and a recommendation within about 3 to 4 user turns. Do not interrogate. As the turn count grows, push toward closing: once you have the decision and enough context, fill in the decisionBrief, name one path, and move to the fork. Give the visitor a sense of progress and an ending, never an endless loop.
+- CONVERGE FAST. This is a few turns, not an interview. Reflect, then ask the one real question, then reason, then recommend. One sharp question per turn, then converge. Do not interrogate. Give the visitor a sense of progress and an ending, never an endless loop.
+- HARD CONVERGENCE RULE. By the user's third substantive turn you MUST produce a decisionBrief (the real decision, 2 to 3 paths with trade-offs, the weak assumption, the next 14 days) AND a recommendation, set the matching readyForProposal or readyForCall, and move to the fork. Do not keep probing past that. One sharp question per turn, then converge.
+- KEEP THE JSON COMPACT. decisionBrief fields are concise: one line each, at most 3 paths, each path name and trade-off short. This is a hard rule, it keeps the object from truncating.
 - Keep recommendation and decisionBrief null until you have actually earned them. Reflect, then reason, then recommend. Do not recommend on turn one.
 - "range" is always a band from the public range card, never an exact number. If the situation is above ~$100k, a retainer, implementation, or custom terms, do not quote: set exit to "book-call", set readyForCall true, and leave range as the relevant band only if one honestly applies, otherwise use "set on the call".
 - Set readyForProposal true only when you have a decisionBrief and a recommended self-serve or proposal exit. Set readyForCall true for high-stakes ambiguous fits, any enterprise/capital buyer at $12k+, strong fit with visible hesitation, the Immersion, or anything over the ceiling.
@@ -352,6 +354,41 @@ function parseTurn(raw: string): MindyTurn | null {
   }
   if (!parsed || typeof parsed !== "object") return null;
   return normaliseTurn(parsed as Record<string, unknown>);
+}
+
+/**
+ * Last-resort salvage when the model output is not usable JSON (most commonly a
+ * mid-JSON truncation on a deep turn carrying a full decisionBrief). Rather than
+ * 502 the whole turn, try to recover at least the "reply" string with a tolerant
+ * regex and return a minimal valid turn so the visitor keeps moving. Returns null
+ * only when no reply text at all can be recovered.
+ */
+function salvageTurn(raw: string): MindyTurn | null {
+  const m = raw.match(/"reply"\s*:\s*"((?:[^"\\]|\\.)*)"/);
+  if (!m) return null;
+  let reply = "";
+  try {
+    // JSON-unescape the captured fragment by wrapping it back into a string.
+    reply = JSON.parse(`"${m[1]}"`);
+  } catch {
+    // If the fragment itself is malformed, fall back to a naive unescape.
+    reply = m[1]
+      .replace(/\\"/g, '"')
+      .replace(/\\n/g, "\n")
+      .replace(/\\t/g, "\t")
+      .replace(/\\\\/g, "\\");
+  }
+  reply = reply.trim();
+  if (!reply) return null;
+  return {
+    reply,
+    phase: "chat",
+    recommendation: null,
+    decisionBrief: null,
+    readyForProposal: false,
+    readyForCall: false,
+    quickReplies: [],
+  };
 }
 
 /**
@@ -572,7 +609,17 @@ serve(async (req) => {
 
   const dossier = (body?.dossier as Dossier | null | undefined) ?? null;
   const mode: SessionMode = body?.mode === "express" ? "express" : "full";
-  const system = buildSystemContext(dossier, mode);
+  let system = buildSystemContext(dossier, mode);
+
+  // Convergence nudge. Count the visitor's substantive turns from the (already
+  // assistant-stripped, length-clamped) history. By the third user turn Mindy
+  // must stop probing and produce the decisionBrief and recommendation, then
+  // move to the fork. Express mode rushes to the call already, so skip it there.
+  const userTurnCount = messages.filter((m) => m.role === "user").length;
+  if (mode !== "express" && userTurnCount >= 3) {
+    system +=
+      "\n---\n# Convergence nudge (this turn)\nThe visitor has given you enough. Produce the decisionBrief and recommendation in THIS turn and move to the fork; do not ask another open question. Keep the reply short, ranges only, never recite the internal routing numbers.";
+  }
 
   // Primary call, with one model fallback on transport/HTTP error.
   let raw = "";
@@ -589,6 +636,11 @@ serve(async (req) => {
   }
 
   let turn = parseTurn(raw);
+  if (!turn) {
+    // The JSON was unusable (most often a deep-turn truncation mid-object).
+    // Salvage at least the reply rather than hard-failing the turn.
+    turn = salvageTurn(raw);
+  }
   if (!turn) {
     return json({ error: "Mindy gave an unusable answer. Try again." }, 502);
   }
@@ -611,7 +663,7 @@ serve(async (req) => {
         },
       ];
       const rawFix = await callAnthropic(PRIMARY_MODEL, system, correction);
-      const fixed = parseTurn(rawFix);
+      const fixed = parseTurn(rawFix) ?? salvageTurn(rawFix);
       if (fixed) {
         const fixedLint = lintVoice(fixed.reply);
         if (fixedLint.ok) {

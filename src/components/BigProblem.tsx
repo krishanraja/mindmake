@@ -81,7 +81,7 @@ const FlipCard = ({ index, fate, value, flipped, onFlip, reduceMotion }: FlipCar
   };
 
   return (
-    <div className="[perspective:1400px] w-full">
+    <div className="[perspective:1400px] [container-type:inline-size] w-full">
       <div
         role="button"
         tabIndex={0}
@@ -103,21 +103,21 @@ const FlipCard = ({ index, fate, value, flipped, onFlip, reduceMotion }: FlipCar
           className={cn(reduceMotion && flipped && "hidden")}
         >
           <CardChrome number={number} variant="fate" />
-          <div className="relative z-10 flex flex-col h-full p-6 md:p-8">
+          <div className="relative z-10 flex flex-col h-full p-[6.5cqw]">
             <FateIcon
-              className="w-12 h-12 md:w-16 md:h-16 text-mint shrink-0"
+              className="w-[15cqw] h-[15cqw] text-mint shrink-0"
               strokeWidth={1.5}
             />
-            <div className="mt-6 flex-1 min-h-0 overflow-hidden">
-              <p className="text-3xl md:text-4xl font-bold text-white leading-[1.05] tracking-tight">
+            <div className="mt-[6cqw] flex-1">
+              <p className="text-[8.5cqw] min-h-[2.1em] font-bold text-white leading-[1.05] tracking-tight">
                 {fate.strong}
               </p>
-              <p className="text-base md:text-lg text-white/55 mt-3 leading-snug">
+              <p className="text-[4.5cqw] text-white/55 mt-[3cqw] leading-snug">
                 {fate.sub}
               </p>
             </div>
-            <div className="mt-4 shrink-0 flex items-center gap-2 self-start px-3 py-1.5 border border-mint/40 text-mint text-[10px] md:text-xs font-bold uppercase tracking-[0.18em]">
-              <RotateCw className="w-3 h-3 md:w-3.5 md:h-3.5" strokeWidth={2.5} />
+            <div className="mt-[4cqw] shrink-0 flex items-center gap-[1.5cqw] self-start px-[3cqw] py-[1.5cqw] border border-mint/40 text-mint text-[3.2cqw] font-bold uppercase tracking-[0.18em]">
+              <RotateCw className="w-[3.5cqw] h-[3.5cqw]" strokeWidth={2.5} />
               Tap to flip
             </div>
           </div>
@@ -130,16 +130,16 @@ const FlipCard = ({ index, fate, value, flipped, onFlip, reduceMotion }: FlipCar
           className={cn(reduceMotion && !flipped && "hidden")}
         >
           <CardChrome number={number} variant="value" />
-          <div className="relative z-10 flex flex-col h-full p-6 md:p-8">
+          <div className="relative z-10 flex flex-col h-full p-[6.5cqw]">
             <ValueIcon
-              className="w-12 h-12 md:w-16 md:h-16 text-mint shrink-0"
+              className="w-[15cqw] h-[15cqw] text-mint shrink-0"
               strokeWidth={1.5}
             />
-            <div className="mt-6 flex-1 min-h-0 overflow-hidden">
-              <p className="text-3xl md:text-4xl font-bold text-white leading-[1.05] tracking-tight">
+            <div className="mt-[6cqw] flex-1">
+              <p className="text-[8.5cqw] min-h-[2.1em] font-bold text-white leading-[1.05] tracking-tight">
                 {value.strong}
               </p>
-              <p className="text-sm md:text-base text-white/70 mt-3 leading-relaxed">
+              <p className="text-[4.5cqw] text-white/70 mt-[3cqw] leading-snug">
                 {value.sub}
               </p>
             </div>
@@ -149,11 +149,11 @@ const FlipCard = ({ index, fate, value, flipped, onFlip, reduceMotion }: FlipCar
                 e.stopPropagation();
                 openScopingModal(`big-problem-card-${index + 1}`);
               }}
-              className="mt-4 shrink-0 group/cta inline-flex items-center gap-2 self-start px-4 py-2.5 bg-mint text-ink text-xs md:text-sm font-bold uppercase tracking-[0.14em] hover:bg-white transition-colors"
+              className="mt-[4cqw] shrink-0 group/cta inline-flex items-center gap-[1.5cqw] self-start px-[4cqw] py-[2.5cqw] bg-mint text-ink text-[3.2cqw] font-bold uppercase tracking-[0.14em] hover:bg-white transition-colors"
             >
               Build this with me
               <ArrowRight
-                className="w-4 h-4 group-hover/cta:translate-x-0.5 transition-transform"
+                className="w-[3.8cqw] h-[3.8cqw] group-hover/cta:translate-x-0.5 transition-transform"
                 strokeWidth={2.5}
               />
             </button>
@@ -190,14 +190,14 @@ const CardFace = ({ children, back, hidden, className }: CardFaceProps) => (
 
 const CardChrome = ({ number, variant }: { number: string; variant: "fate" | "value" }) => (
   <>
-    <div className="absolute top-4 right-5 md:top-5 md:right-6 z-10 text-[10px] md:text-xs font-mono font-bold tracking-[0.18em] text-mint/80">
+    <div className="absolute top-[4.5cqw] right-[5cqw] z-10 text-[3cqw] font-mono font-bold tracking-[0.18em] text-mint/80">
       {number}
     </div>
     {/* corner ticks for trading-card chrome */}
-    <span className="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-mint pointer-events-none" />
-    <span className="absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2 border-mint pointer-events-none" />
-    <span className="absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2 border-mint pointer-events-none" />
-    <span className="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-mint pointer-events-none" />
+    <span className="absolute top-[2cqw] left-[2cqw] w-[3.5cqw] h-[3.5cqw] border-t-2 border-l-2 border-mint pointer-events-none" />
+    <span className="absolute top-[2cqw] right-[2cqw] w-[3.5cqw] h-[3.5cqw] border-t-2 border-r-2 border-mint pointer-events-none" />
+    <span className="absolute bottom-[2cqw] left-[2cqw] w-[3.5cqw] h-[3.5cqw] border-b-2 border-l-2 border-mint pointer-events-none" />
+    <span className="absolute bottom-[2cqw] right-[2cqw] w-[3.5cqw] h-[3.5cqw] border-b-2 border-r-2 border-mint pointer-events-none" />
     {variant === "value" && (
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_left,rgba(126,244,194,0.10),transparent_55%)]" />
     )}

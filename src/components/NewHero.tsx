@@ -84,17 +84,17 @@ const NewHero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
         >
-          Everyone's selling AI. Nobody's helping you think.
+          Everyone's selling AI. Nobody's helping you take control of it.
         </motion.p>
 
         {/* Subheadline */}
         <motion.p
-          className="text-base sm:text-lg md:text-xl text-white/70 max-w-2xl mb-10 leading-relaxed"
+          className="text-sm sm:text-base md:text-lg text-white/70 max-w-2xl mb-10 leading-relaxed"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.6 }}
         >
-          Three different doors into the same operator, depending on whether you want to think more clearly, work through one nervous decision, or rebuild how your business actually makes money with AI.
+          Consultants, LLMs and the next hyped tool sell you point solutions built to extract your judgment, not build it. We do the opposite: rebuild how <span className="text-white font-semibold">you</span> decide with AI, so you get sharper as the tools get better.
         </motion.p>
 
         {/* CTAs */}
@@ -106,7 +106,7 @@ const NewHero = () => {
         >
           <Button
             size="lg"
-            className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold px-8 py-6 text-base sm:text-lg shadow-lg shadow-mint/25 transition-all duration-300 hover:-translate-y-0.5 [&_svg]:size-5"
+            className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold px-8 py-6 text-base sm:text-lg shadow-lg shadow-mint/25 transition-all duration-300 hover:-translate-y-0.5 justify-start sm:justify-center [&_svg]:size-5"
             onClick={() =>
               window.dispatchEvent(
                 new CustomEvent("openDiagnosisRoom", {
@@ -121,7 +121,7 @@ const NewHero = () => {
           <Button
             size="lg"
             variant="outline"
-            className="border-2 border-mint/50 text-mint hover:bg-mint/10 font-bold px-8 py-6 text-base sm:text-lg transition-all duration-300 [&_svg]:size-5"
+            className="border-2 border-mint/50 text-mint hover:bg-mint/10 font-bold px-8 py-6 text-base sm:text-lg transition-all duration-300 justify-start sm:justify-center [&_svg]:size-5"
             onClick={() =>
               window.dispatchEvent(
                 new CustomEvent("openDiagnosisRoom", {

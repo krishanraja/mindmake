@@ -27,7 +27,7 @@ const cards: { fate: Face; value: Face }[] = [
     value: {
       icon: Rocket,
       strong: "Ships, not slides.",
-      sub: "Working systems and decisions you can defend, built alongside you in real time.",
+      sub: "The information you really need, designed and contextualized to anchor against your decisions and sharpen your mind.",
     },
   },
   {
@@ -35,7 +35,7 @@ const cards: { fate: Face; value: Face }[] = [
     value: {
       icon: Compass,
       strong: "You lead, not watch.",
-      sub: "Hands-on fluency in your actual workflows. Not a training course.",
+      sub: "Decide which bricks of your work AI takes, one at a time. Then prepare to lead a hybrid-species org chart, part human, part agent.",
     },
   },
   {
@@ -43,7 +43,7 @@ const cards: { fate: Face; value: Face }[] = [
     value: {
       icon: KeyRound,
       strong: "Yours to keep.",
-      sub: "A Mindmake roadmap and the working habits to run it. Yours for years.",
+      sub: "Side-by-side builds on things that matter to you, with the mental models which will last you a lifetime.",
     },
   },
 ];

@@ -292,3 +292,105 @@ export async function fetchBrandfetch(domain: string): Promise<DossierPartial | 
     return null;
   }
 }
+
+/** Hard ceiling for the Brandfetch search round-trip. */
+const BRANDFETCH_SEARCH_TIMEOUT_MS = 4000;
+
+/** One result row from the Brandfetch Search API. */
+interface BrandfetchSearchHit {
+  brandId?: string;
+  domain?: string;
+  name?: string;
+  icon?: string;
+  qualityScore?: number;
+  verified?: boolean;
+  claimed?: boolean;
+  _score?: number;
+}
+
+/**
+ * Resolve a company NAME to a registrable domain via the Brandfetch Search API.
+ *
+ * This is what lets the dossier light up when a visitor only ever says their
+ * company name in conversation (no work email). The caller passes the resolved
+ * domain back into the normal `fetchBrandfetch(domain)` + BuiltWith + PDL fan-out
+ * to get the real logo, colours, stack and firmographics.
+ *
+ * Never throws. Returns null when no key/client-id is configured, the request
+ * fails, or nothing usable comes back.
+ *
+ * Auth: the Search API authenticates by client id (`?c=`) when `BRANDFETCH_CLIENT_ID`
+ * is set; otherwise the Brand API bearer key is used.
+ *
+ * @param query A company name as a human would say it (e.g. "Gong", "Acme Health").
+ */
+export async function searchBrandDomain(
+  query: string,
+): Promise<{ domain: string; name?: string; iconUrl?: string } | null> {
+  const logger = createLogger('enrich:brandfetch-search');
+
+  const q = (query || '').trim();
+  if (!q || q.length < 2) return null;
+
+  const apiKey = Deno.env.get('BRANDFETCH_API_KEY');
+  const clientId = Deno.env.get('BRANDFETCH_CLIENT_ID');
+  if (!apiKey && !clientId) {
+    logger.error('no BRANDFETCH_API_KEY / BRANDFETCH_CLIENT_ID; skipping brand search');
+    return null;
+  }
+
+  const base = `https://api.brandfetch.io/v2/search/${encodeURIComponent(q)}`;
+  const url = clientId ? `${base}?c=${encodeURIComponent(clientId)}` : base;
+  const headers: Record<string, string> = { Accept: 'application/json' };
+  if (!clientId && apiKey) headers.Authorization = `Bearer ${apiKey}`;
+
+  try {
+    const res = await fetchWithTimeout(
+      url,
+      { method: 'GET', headers },
+      BRANDFETCH_SEARCH_TIMEOUT_MS,
+    );
+    if (!res.ok) {
+      logger.warn('brand search non-ok response', { q, status: res.status });
+      return null;
+    }
+
+    const data = (await res.json()) as BrandfetchSearchHit[];
+    if (!Array.isArray(data) || data.length === 0) return null;
+
+    // Results come back best-first. Prefer a verified / claimed / high-quality
+    // hit with a usable domain; otherwise take the first hit that has a domain.
+    const usable = data.filter(
+      (h) => typeof h.domain === 'string' && h.domain.includes('.'),
+    );
+    if (usable.length === 0) return null;
+    const best =
+      usable.find(
+        (h) => h.verified || h.claimed || (h.qualityScore ?? 0) >= 0.3,
+      ) ?? usable[0];
+
+    const domain = (best.domain as string).trim().toLowerCase();
+    const iconUrl =
+      typeof best.icon === 'string' && /^https?:\/\//.test(best.icon)
+        ? best.icon
+        : undefined;
+    const name =
+      typeof best.name === 'string' ? best.name.trim() || undefined : undefined;
+
+    logger.info('brand search ok', {
+      q,
+      domain,
+      name,
+      verified: best.verified,
+      qualityScore: best.qualityScore,
+    });
+
+    return { domain, name, iconUrl };
+  } catch (err) {
+    logger.error('brand search failed', {
+      q,
+      error: err instanceof Error ? err.message : String(err),
+    });
+    return null;
+  }
+}

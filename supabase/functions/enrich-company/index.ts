@@ -11,10 +11,12 @@
  *   {
  *     "domain"?: string,   // e.g. "gong.io" — accepted raw, normalised internally
  *     "email"?:  string,   // e.g. "ceo@gong.io" — domain is lifted from the address
+ *     "name"?:   string,   // e.g. "Gong" — resolved to a domain via Brandfetch search
  *     "depth"?:  "identity" | "full"   // default "full"
  *   }
- *   Provide at least one of `domain` / `email`. `email` takes precedence when both
- *   are present and it resolves to a usable domain.
+ *   Provide at least one of `domain` / `email` / `name`. `email`/`domain` win; a
+ *   bare `name` is resolved to a domain via Brandfetch search (so a company named
+ *   only in conversation still enriches).
  *
  *   depth "identity"  → Brandfetch + Tranco only. The fast (~1s) co-brand paint.
  *   depth "full"      → adds PDL + BuiltWith + Currency, then Gemini/Anthropic synthesis.
@@ -60,7 +62,7 @@ import {
   toDomain,
   FREE_EMAIL_DOMAINS,
 } from '../_shared/enrich/types.ts';
-import { fetchBrandfetch } from '../_shared/enrich/brandfetch.ts';
+import { fetchBrandfetch, searchBrandDomain } from '../_shared/enrich/brandfetch.ts';
 import { fetchPDL } from '../_shared/enrich/pdl.ts';
 import { fetchTranco } from '../_shared/enrich/tranco.ts';
 import { fetchBuiltWith } from '../_shared/enrich/builtwith.ts';
@@ -315,17 +317,27 @@ serve(async (req) => {
   }
 
   // Parse body.
-  let body: { domain?: unknown; email?: unknown; depth?: unknown };
+  let body: { domain?: unknown; email?: unknown; name?: unknown; depth?: unknown };
   try {
     body = await req.json();
   } catch {
     return json({ error: 'Invalid request body.' }, 400);
   }
 
-  // Resolve domain.
-  const domain = resolveDomain(body);
+  // Resolve domain. Email/domain win; otherwise resolve a bare company NAME to a
+  // domain via Brandfetch search so the dossier still lights up when the visitor
+  // only ever said their company name in conversation (no work email).
+  let domain = resolveDomain(body);
+  let searched: { domain: string; name?: string; iconUrl?: string } | null = null;
+  if (!domain && typeof body.name === 'string' && body.name.trim()) {
+    searched = await searchBrandDomain(body.name.trim());
+    if (searched) domain = searched.domain;
+  }
   if (!domain) {
-    return json({ error: 'Give me a work email or a company domain.' }, 400);
+    return json(
+      { error: 'Give me a work email, a company domain, or a company name.' },
+      400,
+    );
   }
 
   // Free-email domains: degrade gracefully, no gasp.
@@ -364,6 +376,22 @@ serve(async (req) => {
       identityCalls.push(fetchPDL(domain).then((p) => mergeDossier(dossier, p)));
     }
     await Promise.allSettled(identityCalls);
+
+    // Seed from the name-search hit when Brandfetch-by-domain left gaps (e.g. the
+    // brand record is thin): a name and a CDN icon are better than nothing and
+    // keep the co-brand alive.
+    if (searched) {
+      if (!dossier.identity.name && searched.name) {
+        dossier.identity.name = searched.name;
+      }
+      if (
+        !dossier.identity.logoUrl &&
+        !dossier.identity.iconUrl &&
+        searched.iconUrl
+      ) {
+        dossier.identity.iconUrl = searched.iconUrl;
+      }
+    }
 
     // Hard miss on the fast path: identity depth with nothing to show.
     if (depth === 'identity' && !hasIdentity(dossier)) {

@@ -161,13 +161,16 @@ function renderHero(payload: ProposalPayload): string {
     ? `<img class="logo-client" src="${esc(logo)}" alt="${client}">`
     : `<span class="wordmark-client">${client}</span>`;
 
+  // The eyebrow sits on its OWN row above the lockup. Putting it inside the
+  // wrapping lockup (with margin-left:auto) made it reflow to a second line on
+  // narrow widths, leaving the headline visually detached below it.
   return `
   <header class="hero">
+    <div class="cobrand-eyebrow">${eyebrowLabel}</div>
     <div class="cobrand">
       <span class="wordmark-mm">Mindmaker</span>
-      <span class="cobrand-x">x</span>
+      <span class="cobrand-x">&times;</span>
       ${clientMark}
-      <span class="cobrand-label">${eyebrowLabel}</span>
     </div>
     <h1>${headline}</h1>
     <p class="lead">${lead}</p>
@@ -180,6 +183,81 @@ function safeUrl(url?: string): string | null {
   const u = url.trim();
   if (/^https?:\/\//i.test(u) || /^data:image\//i.test(u)) return u;
   return null;
+}
+
+/**
+ * "What I already know about you" — the intelligence strip that proves Mindmaker
+ * did the homework. Surfaces the public research the dossier pulled (sector, what
+ * they do, the visible stack from BuiltWith, products, recent signals) and the
+ * one-paragraph operator read. NEVER renders scale.* (headcount, rank, ICP):
+ * that is internal routing only. Renders nothing when there is no usable
+ * understanding, so a thin dossier degrades to silence rather than an empty box.
+ */
+function renderIntel(payload: ProposalPayload): string {
+  const d = payload.dossier;
+  if (!d) return '';
+
+  const u = d.understanding || {};
+  const id = d.identity || {};
+  const client = esc(payload.clientName || 'your business');
+
+  const rows: { k: string; v: string }[] = [];
+  const whatTheyDo = (u.descriptor || u.tagline || '').trim();
+  if (whatTheyDo) rows.push({ k: 'What you do', v: whatTheyDo });
+  if (u.industry) rows.push({ k: 'Sector', v: u.industry });
+  if (id.founded) rows.push({ k: 'Founded', v: String(id.founded) });
+  if (u.products?.length) {
+    rows.push({ k: 'Products', v: u.products.slice(0, 6).join(', ') });
+  }
+  if (u.stack?.length) {
+    rows.push({ k: 'Stack I can see', v: u.stack.slice(0, 10).join(', ') });
+  }
+
+  const currency = Array.isArray(d.currency) ? d.currency.slice(0, 3) : [];
+  const synthesis = (d.synthesis || '').trim();
+
+  if (rows.length === 0 && currency.length === 0 && !synthesis) return '';
+
+  const rowsHtml = rows
+    .map(
+      (r) =>
+        `<div class="intel-row"><span class="intel-k">${esc(r.k)}</span><span class="intel-v">${esc(
+          r.v,
+        )}</span></div>`,
+    )
+    .join('');
+
+  const signalsHtml =
+    currency.length > 0
+      ? `<div class="intel-signals">
+        <div class="intel-signals-label">Recent signals</div>
+        <ul>${currency
+          .map((c) => {
+            const date = c.date
+              ? ` <span class="intel-date">${esc(c.date)}</span>`
+              : '';
+            const href = safeUrl(c.sourceUrl);
+            const src = href
+              ? ` <a href="${esc(href)}" class="intel-src">source</a>`
+              : '';
+            return `<li>${esc(c.text)}${date}${src}</li>`;
+          })
+          .join('')}</ul>
+      </div>`
+      : '';
+
+  const synthHtml = synthesis
+    ? `<p class="intel-read">${esc(synthesis)}</p>`
+    : '';
+
+  return `
+  <section class="intel">
+    <div class="label">Before we start</div>
+    <h2>What I already know about ${client}.</h2>
+    ${synthHtml}
+    ${rows.length > 0 ? `<div class="intel-grid">${rowsHtml}</div>` : ''}
+    ${signalsHtml}
+  </section>`;
 }
 
 function renderWhatIHeard(payload: ProposalPayload): string {
@@ -639,12 +717,27 @@ function buildStyles(accent: string, accentDeep: string): string {
   .hero .lead b{color:var(--paper);font-weight:600;}
 
   /* CO-BRAND */
-  .cobrand{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+  .cobrand-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mint);margin-bottom:18px;}
+  .cobrand{display:flex;align-items:center;gap:14px 16px;flex-wrap:wrap;}
   .wordmark-mm{font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:-.01em;color:var(--paper);line-height:1;}
-  .wordmark-client{font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:-.01em;color:var(--paper);line-height:1;}
-  .logo-client{height:40px;width:auto;max-width:180px;display:block;object-fit:contain;}
-  .cobrand-x{color:#5E6863;font-family:var(--mono);font-size:15px;}
-  .cobrand-label{margin-left:auto;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mint);}
+  .wordmark-client{font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:-.01em;color:var(--paper);line-height:1.1;}
+  .logo-client{height:38px;width:auto;max-width:200px;display:block;object-fit:contain;}
+  .cobrand-x{color:#5E6863;font-family:var(--mono);font-size:16px;}
+
+  /* INTEL — "what I already know about you" */
+  .intel .intel-read{font-size:15px;color:var(--text);margin-bottom:16px;max-width:72ch;}
+  .intel-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+  .intel-row{background:var(--paper);padding:12px 14px;display:flex;flex-direction:column;gap:3px;min-width:0;}
+  .intel-k{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+  .intel-v{font-size:14px;color:var(--text);line-height:1.4;overflow-wrap:anywhere;}
+  .intel-signals{margin-top:16px;}
+  .intel-signals-label{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+  .intel-signals ul{list-style:none;margin:0;padding:0;}
+  .intel-signals li{font-size:13.5px;color:var(--text);padding-left:16px;position:relative;margin-top:7px;line-height:1.45;}
+  .intel-signals li::before{content:"";position:absolute;left:0;top:8px;width:6px;height:6px;background:var(--mint);border-radius:50%;}
+  .intel-date{color:var(--muted);font-size:12px;}
+  .intel-src{color:var(--mint-deep);text-decoration:none;border-bottom:1px solid currentColor;font-size:12px;}
+  @media (max-width:560px){ .intel-grid{grid-template-columns:1fr;} }
 
   /* SECTIONS */
   .body{padding:40px 52px 16px;}
@@ -818,6 +911,7 @@ export function renderProposalHtml(payload: ProposalPayload): string {
   const sheet = [
     renderHero(payload),
     `  <div class="body">`,
+    renderIntel(payload),
     renderWhatIHeard(payload),
     renderEngagement(payload),
     renderKeep(payload),

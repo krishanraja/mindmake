@@ -136,6 +136,13 @@ interface MindyTurn {
    * renders these as pills so the visitor can tap instead of type.
    */
   quickReplies: string[];
+  /**
+   * The visitor's company, when they name it in conversation and no dossier was
+   * supplied up front. The client uses this to enrich in the background (logo,
+   * brand, stack, recent signals) so the co-brand appears even without an email.
+   * Null once known or when no company has been mentioned.
+   */
+  extractedCompany: { name?: string; domain?: string } | null;
 }
 
 type SessionMode = "express" | "full";
@@ -189,7 +196,11 @@ Return ONE JSON object and nothing else. No prose before or after, no markdown c
     "next14Days": string      // one concrete instruction they can act on by Monday
   } | null,
   "readyForProposal": boolean,// true only once a proposal artefact would be honest
-  "readyForCall": boolean     // true only once booking the free call is the right door
+  "readyForCall": boolean,    // true only once booking the free call is the right door
+  "extractedCompany": {       // the visitor's company, ONLY when they name it and you were not already given one. Else null.
+    "name": string,           // the company name as they said it
+    "domain": string          // their website domain if you can confidently infer it (e.g. "acme.com"), else omit
+  } | null
 }
 
 Rules for the object:
@@ -202,6 +213,7 @@ Rules for the object:
 - Keep recommendation and decisionBrief null until you have actually earned them. Reflect, then reason, then recommend. Do not recommend on turn one.
 - "range" is always a band from the public range card, never an exact number. If the situation is above ~$100k, a retainer, implementation, or custom terms, do not quote: set exit to "book-call", set readyForCall true, and leave range as the relevant band only if one honestly applies, otherwise use "set on the call".
 - Set readyForProposal true only when you have a decisionBrief and a recommended self-serve or proposal exit. Set readyForCall true for high-stakes ambiguous fits, any enterprise/capital buyer at $12k+, strong fit with visible hesitation, the Immersion, or anything over the ceiling.
+- EXTRACTED COMPANY: if the visitor names their company or website and you were NOT already given a dossier (no company is shown to you below), set "extractedCompany" with their company name (and the website domain if you can confidently infer it). This lets me quietly pull their logo and public context to ground the conversation. Set it the first turn you learn it, then null on later turns. Never ask for a company you have already been told. If a company is already known to you, or none has been mentioned, set extractedCompany to null. Do not announce that you are looking them up.
 - Voice rules are hard. No em dashes. No banned buzzwords. Sentence case. Active voice. British-Australian. Second person. At most one exclamation mark, ideally zero. No emoji.
 - Never recite any internal routing number (employee count, size band, rank). Use them silently to pick the door.`;
 
@@ -388,6 +400,7 @@ function salvageTurn(raw: string): MindyTurn | null {
     readyForProposal: false,
     readyForCall: false,
     quickReplies: [],
+    extractedCompany: null,
   };
 }
 
@@ -458,6 +471,20 @@ function normaliseTurn(o: Record<string, unknown>): MindyTurn | null {
       .slice(0, 3);
   }
 
+  // extractedCompany: a name (and optional domain) the visitor revealed. Coerce
+  // to clean strings, drop empties, cap length, default to null.
+  let extractedCompany: { name?: string; domain?: string } | null = null;
+  const ec = o.extractedCompany as Record<string, unknown> | null | undefined;
+  if (ec && typeof ec === "object") {
+    const name = typeof ec.name === "string" ? ec.name.trim() : "";
+    const domain = typeof ec.domain === "string" ? ec.domain.trim() : "";
+    if (name || domain) {
+      extractedCompany = {};
+      if (name) extractedCompany.name = name.slice(0, 120);
+      if (domain) extractedCompany.domain = domain.slice(0, 120);
+    }
+  }
+
   return {
     reply,
     phase,
@@ -466,6 +493,7 @@ function normaliseTurn(o: Record<string, unknown>): MindyTurn | null {
     readyForProposal: o.readyForProposal === true,
     readyForCall: o.readyForCall === true,
     quickReplies,
+    extractedCompany,
   };
 }
 

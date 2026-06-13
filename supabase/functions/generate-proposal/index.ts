@@ -591,8 +591,10 @@ function buildPayload(
   const scaffold = getModeScaffold(rec.mode);
   const clientName = resolveClientName(dossier, contact);
 
-  // Co-brand from the dossier identity, with fallbacks.
-  const clientLogoUrl = dossier?.identity?.logoUrl;
+  // Co-brand from the dossier identity, with fallbacks. Fall back to the icon /
+  // symbol when no full logo resolved, so the lockup still paints a real mark.
+  const clientLogoUrl =
+    dossier?.identity?.logoUrl || dossier?.identity?.iconUrl;
   const accentHex = dossier?.identity?.colors?.[0];
 
   // Proof: SELECTED, never written. Mode (hard) -> icp (strong) -> industry (soft).

@@ -171,6 +171,18 @@ export const DiagnosisRoom = ({
     lastPhase.current = phase;
   }, [phase, open]);
 
+  // Follow the auto-advance on mobile: when the room reaches the brief / three
+  // exits / proposal, bring that pane forward so the payoff is actually seen
+  // (otherwise it stays buried behind the "Your brief" tab). "Keep chatting"
+  // returns the visitor to the conversation.
+  useEffect(() => {
+    if (phase === "brief" || phase === "fork" || phase === "proposal") {
+      setMobilePane("brief");
+    } else if (phase === "chat") {
+      setMobilePane("talk");
+    }
+  }, [phase]);
+
   // when the artefact first appears on mobile, nudge attention to it
   const hasArtefact =
     coBranded ||

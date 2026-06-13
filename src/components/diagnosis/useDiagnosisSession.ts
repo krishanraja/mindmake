@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type {
   ChatMessage,
@@ -229,9 +229,22 @@ export function useDiagnosisSession(): UseDiagnosisSession {
   const abortRef = useRef<AbortController | null>(null);
   const modeRef = useRef<SessionMode>("full"); // current mode, no stale closure
 
+  // Auto-advance guards: surface the brief, then the three exits, exactly once
+  // each, so a visitor who chose to "keep chatting" is never yanked back.
+  const briefSurfacedRef = useRef(false);
+  const forkSurfacedRef = useRef(false);
+  // Current phase, mirrored into a ref so async callbacks read it without a
+  // stale closure (and without putting phase in their dependency arrays).
+  const phaseRef = useRef<RoomPhase>("opener");
+
   const patch = useCallback((p: Partial<DiagnosisSessionState>) => {
     setState((s) => ({ ...s, ...p }));
   }, []);
+
+  // keep the phase ref in step with committed state for async callbacks
+  useEffect(() => {
+    phaseRef.current = state.phase;
+  }, [state.phase]);
 
   // -- the transcript that gets attached to a digest (full history) ---------
   const transcript = useCallback((): ChatMessage[] => messagesRef.current, []);
@@ -333,6 +346,33 @@ export function useDiagnosisSession(): UseDiagnosisSession {
         readyForProposal: res.readyForProposal || s.readyForProposal,
         readyForCall: res.readyForCall || s.readyForCall,
       }));
+
+      // Auto-advance the room to its payoff. The conversation can otherwise
+      // stall forever: mindy-chat signals readiness (res.phase === "fork" or the
+      // ready flags) but nothing acted on it, so the brief, the three honest
+      // exits, and the co-branded proposal stayed buried behind a tab. Done
+      // imperatively (not inside the updater) so it is StrictMode-safe; the
+      // refs surface each milestone once, so a "keep chatting" visitor is never
+      // yanked back to the fork.
+      const fromPhase = phaseRef.current;
+      const canAutoAdvance =
+        fromPhase === "reflect" ||
+        fromPhase === "chat" ||
+        fromPhase === "brief";
+      if (canAutoAdvance) {
+        const ready =
+          res.readyForProposal || res.readyForCall || res.phase === "fork";
+        if (ready && !forkSurfacedRef.current) {
+          forkSurfacedRef.current = true;
+          briefSurfacedRef.current = true;
+          trackEvent("diagnosis_room_auto_fork");
+          patch({ phase: "fork" });
+        } else if (res.decisionBrief && !briefSurfacedRef.current) {
+          briefSurfacedRef.current = true;
+          trackEvent("diagnosis_room_auto_brief");
+          patch({ phase: "brief" });
+        }
+      }
     },
     [patch],
   );
@@ -680,6 +720,8 @@ export function useDiagnosisSession(): UseDiagnosisSession {
     rawDossierRef.current = null;
     messagesRef.current = [];
     digestSentRef.current = null;
+    briefSurfacedRef.current = false;
+    forkSurfacedRef.current = false;
     setOptInCopyState(false);
     setState(INITIAL);
   }, []);

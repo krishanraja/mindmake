@@ -54,7 +54,7 @@ export const DecisionBrief = ({ brief, dossier, forming }: DecisionBriefProps) =
 
       {/* the real decision */}
       <motion.div
-        className="rounded-xl border border-white/10 bg-white/[0.03] p-5"
+        className="glass-panel rounded-2xl border-l-2 border-l-mint/70 p-5"
         {...reveal(0.08)}
       >
         <div className="mb-2 flex items-center gap-2">
@@ -81,7 +81,7 @@ export const DecisionBrief = ({ brief, dossier, forming }: DecisionBriefProps) =
             {brief.paths.map((p, i) => (
               <motion.div
                 key={`${p.name}-${i}`}
-                className="rounded-xl border border-white/10 p-4"
+                className="glass-panel rounded-xl p-4"
                 {...reveal(0.2 + i * 0.06)}
               >
                 <p className="text-sm font-semibold text-white">{p.name}</p>
@@ -98,7 +98,7 @@ export const DecisionBrief = ({ brief, dossier, forming }: DecisionBriefProps) =
       {/* weak assumption */}
       {brief.weakAssumption && (
         <motion.div
-          className="rounded-xl border border-amber-300/20 bg-amber-300/[0.04] p-5"
+          className="rounded-2xl border border-amber-300/25 border-l-2 border-l-amber-300/70 bg-amber-300/[0.05] p-5 backdrop-blur-md"
           {...reveal(0.32)}
         >
           <div className="mb-2 flex items-center gap-2">
@@ -116,7 +116,7 @@ export const DecisionBrief = ({ brief, dossier, forming }: DecisionBriefProps) =
       {/* next 14 days */}
       {brief.next14Days && (
         <motion.div
-          className="rounded-xl border border-mint/20 bg-mint/[0.05] p-5"
+          className="rounded-2xl border border-mint/25 border-l-2 border-l-mint bg-mint/[0.06] p-5 backdrop-blur-md"
           {...reveal(0.4)}
         >
           <div className="mb-2 flex items-center gap-2">

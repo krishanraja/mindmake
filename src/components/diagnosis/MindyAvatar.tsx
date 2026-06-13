@@ -14,9 +14,10 @@ interface MindyAvatarProps {
 
 /**
  * Mindy: a warm, executive female AI guide. The image lives at /mindy.png.
- * Presence is conveyed with a soft mint halo (idle) that quickens into a
- * slow breathing ring while she is thinking. Reduced-motion users get a
- * static, equally calm portrait.
+ * Presence is conveyed with a slowly-rotating mint gradient ring and a soft
+ * breathing halo (idle) that quickens while she is thinking, plus a faint
+ * specular highlight so the portrait reads as lit, not flat. Reduced-motion
+ * users get a static, equally calm portrait.
  */
 export const MindyAvatar = ({
   state = "idle",
@@ -51,6 +52,27 @@ export const MindyAvatar = ({
           />
         )}
 
+        {/* slowly-rotating conic gradient ring */}
+        {!reduce && (
+          <motion.span
+            className="absolute -inset-[2px] rounded-full"
+            style={{
+              background:
+                "conic-gradient(from 0deg, transparent, rgba(126,244,194,0.7), transparent 55%, rgba(52,211,153,0.5), transparent)",
+              maskImage:
+                "radial-gradient(closest-side, transparent calc(100% - 3px), #000 calc(100% - 2px))",
+              WebkitMaskImage:
+                "radial-gradient(closest-side, transparent calc(100% - 3px), #000 calc(100% - 2px))",
+            }}
+            animate={{ rotate: 360 }}
+            transition={{
+              duration: thinking ? 3 : 9,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          />
+        )}
+
         {/* thin ring */}
         <span
           className={cn(
@@ -66,6 +88,16 @@ export const MindyAvatar = ({
           height={size}
           className="relative h-full w-full rounded-full object-cover"
           draggable={false}
+        />
+
+        {/* specular highlight so she reads as lit */}
+        <span
+          className="pointer-events-none absolute inset-0 rounded-full"
+          style={{
+            background:
+              "radial-gradient(circle at 32% 26%, rgba(255,255,255,0.28), transparent 42%)",
+          }}
+          aria-hidden
         />
 
         {/* thinking dots, bottom-right */}

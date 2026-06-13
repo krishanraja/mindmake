@@ -1,7 +1,25 @@
-import { useCallback, useEffect, useLayoutEffect, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { CalendarClock, X } from "lucide-react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  AnimatePresence,
+  animate,
+  motion,
+  useDragControls,
+  useMotionValue,
+  useReducedMotion,
+  useTransform,
+  type PanInfo,
+} from "framer-motion";
+import {
+  CalendarClock,
+  GripHorizontal,
+  Volume2,
+  VolumeX,
+  X,
+} from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useKeyboardInset } from "@/hooks/useKeyboardInset";
+import { haptics } from "@/lib/haptics";
+import { sound } from "@/lib/sound";
 import { cn } from "@/lib/utils";
 import { useDiagnosisSession, CALENDLY_URL } from "./useDiagnosisSession";
 import { Opener } from "./Opener";
@@ -46,9 +64,14 @@ const phaseStep = (phase: string): { step: number; total: number } | null => {
  * A full-screen, permanently-dark immersive overlay (above the navbar) that
  * composes the scenes via the session state machine in useDiagnosisSession.
  *
+ * Mobile is the first-class surface: a drifting mint aurora, a real in-flow
+ * header (with a drag grabber, mute toggle, and the persistent book-call exit),
+ * keyboard-aware content that floats the composer above the soft keyboard, and
+ * a grabber-only drag-to-dismiss that never fights the inner scroll regions.
+ *
  * Open it by mounting it once near ScopingModal in App.tsx and toggling `open`,
  * driven by a window CustomEvent("openDiagnosisRoom", { detail: { mode } }).
- * Close with Esc or the X. A persistent "Book a call" exit is always visible.
+ * Close with Esc, the X, or a downward pull on the grabber.
  */
 export const DiagnosisRoom = ({
   open,
@@ -60,6 +83,15 @@ export const DiagnosisRoom = ({
   const session = useDiagnosisSession();
   // mobile: which pane is showing, the talk or the artefact
   const [mobilePane, setMobilePane] = useState<"talk" | "brief">("talk");
+  const [muted, setMuted] = useState(true);
+
+  // keyboard avoidance (mobile only attaches listeners)
+  const { keyboardHeight } = useKeyboardInset(isMobile && open);
+
+  // drag-to-dismiss (mobile only; started from the grabber)
+  const dragControls = useDragControls();
+  const y = useMotionValue(0);
+  const auroraOpacity = useTransform(y, [0, 300], [1, 0.35]);
 
   const {
     phase,
@@ -89,6 +121,10 @@ export const DiagnosisRoom = ({
     if (open) setMode(mode);
   }, [open, mode, setMode]);
 
+  // reflect the persisted sound preference into the header toggle on mount
+  useEffect(() => {
+    setMuted(sound.isMuted());
+  }, []);
 
   // lock body scroll while the room is open
   useEffect(() => {
@@ -116,10 +152,24 @@ export const DiagnosisRoom = ({
     const t = setTimeout(() => {
       session.reset();
       setMobilePane("talk");
+      y.set(0);
     }, 300);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
+
+  // a subtle cue as the room moves between phases (skips the first paint)
+  const lastPhase = useRef<string | null>(null);
+  useEffect(() => {
+    if (!open) {
+      lastPhase.current = null;
+      return;
+    }
+    if (lastPhase.current && lastPhase.current !== phase && phase !== "opener") {
+      sound.play("tick");
+    }
+    lastPhase.current = phase;
+  }, [phase, open]);
 
   // when the artefact first appears on mobile, nudge attention to it
   const hasArtefact =
@@ -137,26 +187,49 @@ export const DiagnosisRoom = ({
     onOpenChange(false);
   }, [turns.length, phase, session, onOpenChange]);
 
+  // every booking exit gets a small reward (haptic + chime) before it fires
+  const handleBookCall = useCallback(() => {
+    haptics.success();
+    sound.play("chime");
+    session.bookCall(CALENDLY_URL);
+  }, [session]);
+
+  const toggleMute = useCallback(() => {
+    const nowMuted = sound.toggleMuted();
+    setMuted(nowMuted);
+    haptics.tap();
+    if (!nowMuted) sound.play("tick"); // confirm un-mute audibly
+  }, []);
+
+  const switchPane = useCallback((pane: "talk" | "brief") => {
+    haptics.select();
+    sound.play("tick");
+    setMobilePane(pane);
+  }, []);
+
+  const handleDragEnd = useCallback(
+    (_e: PointerEvent | MouseEvent | TouchEvent, info: PanInfo) => {
+      const shouldClose = info.offset.y > 120 || info.velocity.y > 600;
+      if (shouldClose) {
+        haptics.impact();
+        sound.play("swoosh");
+        animate(y, window.innerHeight, {
+          duration: 0.24,
+          ease: [0.4, 0, 1, 1],
+        }).then(() => handleClose());
+      } else {
+        animate(y, 0, { type: "spring", stiffness: 500, damping: 40 });
+      }
+    },
+    [y, handleClose],
+  );
+
   if (!open) return null;
 
   const showOpener = phase === "opener";
   const isExpressBook = phase === "express-book";
   const progress = phaseStep(phase);
-
-  // ---- the persistent "book a call" exit (visible at every step) ----------
-  // Shown on the opener too, since the room hides global nav and the first
-  // screen would otherwise have no escape hatch. Hidden only in express-book,
-  // which has its own booking surface.
-  const persistentBookCall = !isExpressBook && (
-    <button
-      type="button"
-      onClick={() => session.bookCall(CALENDLY_URL)}
-      className="inline-flex items-center gap-1.5 rounded-full border border-mint/30 bg-mint/[0.08] px-3 py-1.5 text-xs font-semibold text-mint transition-colors hover:border-mint/60 hover:bg-mint/15 min-h-[44px]"
-    >
-      <CalendarClock className="h-3.5 w-3.5" />
-      Book a call
-    </button>
-  );
+  const dragEnabled = isMobile && !reduce;
 
   // ---- the left rail: Mindy + the conversation ----------------------------
   const leftRail = (
@@ -185,9 +258,10 @@ export const DiagnosisRoom = ({
           thinking={thinking}
           error={error}
           onSend={session.send}
-          onBookCall={() => session.bookCall(CALENDLY_URL)}
+          onBookCall={handleBookCall}
           onTranscribe={session.transcribeAudio}
           disabled={reading}
+          keyboardHeight={keyboardHeight}
         />
       </div>
     </div>
@@ -200,7 +274,7 @@ export const DiagnosisRoom = ({
         <ExpressBooking
           contact={contact}
           decision={turns.find((t) => t.role === "user")?.content || ""}
-          onBookCall={() => session.bookCall(CALENDLY_URL)}
+          onBookCall={handleBookCall}
           onSwitchToFull={session.switchToFull}
         />
       );
@@ -218,7 +292,7 @@ export const DiagnosisRoom = ({
           optInCopy={optInCopy}
           onOptInChange={session.setOptInCopy}
           onDownloadPdf={session.downloadProposalPdf}
-          onBookCall={() => session.bookCall(CALENDLY_URL)}
+          onBookCall={handleBookCall}
         />
       );
     }
@@ -230,7 +304,7 @@ export const DiagnosisRoom = ({
           readyForProposal={readyForProposal}
           readyForCall={readyForCall}
           onKeepChatting={session.keepChatting}
-          onBookCall={() => session.bookCall(CALENDLY_URL)}
+          onBookCall={handleBookCall}
           onGenerateProposal={session.generateProposal}
         />
       );
@@ -255,7 +329,10 @@ export const DiagnosisRoom = ({
 
     return (
       <div className="flex h-full flex-col items-center justify-center gap-4 px-8 text-center">
-        <div className="h-12 w-12 rounded-full bg-mint/10 ring-1 ring-mint/20" />
+        <div className="relative h-14 w-14">
+          <span className="absolute inset-0 rounded-full bg-mint/15 blur-xl motion-safe:animate-pulse" />
+          <span className="absolute inset-0 rounded-full bg-mint/10 ring-1 ring-mint/25" />
+        </div>
         <p className="max-w-xs text-sm leading-relaxed text-white/45">
           Your decision brief will build here as we talk. Nothing is asked
           twice.
@@ -271,21 +348,30 @@ export const DiagnosisRoom = ({
       {coBranded && (
         <ArtefactChip
           active={phase === "reflect" || phase === "chat"}
-          onClick={() => session.keepChatting()}
+          onClick={() => {
+            haptics.tap();
+            session.keepChatting();
+          }}
           label="What I heard"
         />
       )}
       {hasBrief && (
         <ArtefactChip
           active={phase === "brief"}
-          onClick={session.viewBrief}
+          onClick={() => {
+            haptics.tap();
+            session.viewBrief();
+          }}
           label="Decision brief"
         />
       )}
       {hasBrief && (
         <ArtefactChip
           active={phase === "fork"}
-          onClick={session.goToFork}
+          onClick={() => {
+            haptics.tap();
+            session.goToFork();
+          }}
           label="Next step"
         />
       )}
@@ -314,7 +400,7 @@ export const DiagnosisRoom = ({
 
   return (
     <motion.div
-      className="fixed inset-0 z-[200] bg-ink text-white"
+      className="fixed inset-0 z-[200] overflow-hidden bg-ink text-white"
       initial={reduce ? false : { opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={reduce ? undefined : { opacity: 0 }}
@@ -328,113 +414,219 @@ export const DiagnosisRoom = ({
         if (e.target === e.currentTarget) handleClose();
       }}
     >
-      {/* layered room backgrounds (always dark, theme-independent) */}
+      {/* base room gradient (always dark, theme-independent) */}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-ink-900 via-ink to-ink-700/50" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-900/80 via-transparent to-mint/5" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-900/85 via-transparent to-mint/[0.04]" />
+
+      {/* drifting mint aurora — fades as the room is pulled away */}
       {!reduce && (
-        <div
-          className="pointer-events-none absolute right-1/4 top-1/4 h-[500px] w-[500px] rounded-full bg-mint/10 blur-3xl"
-          style={{ animation: "pulse 6s ease-in-out infinite" }}
-        />
+        <motion.div
+          className="pointer-events-none absolute inset-0 overflow-hidden"
+          style={{ opacity: auroraOpacity }}
+        >
+          <span
+            className="aurora-blob bg-mint/15"
+            style={{ top: "-12%", right: "-10%", height: 460, width: 460 }}
+          />
+          <span
+            className="aurora-blob bg-emerald-400/10"
+            style={{
+              bottom: "-18%",
+              left: "-12%",
+              height: 520,
+              width: 520,
+              animationDelay: "-7s",
+            }}
+          />
+          <span
+            className="aurora-blob bg-cyan-300/[0.07]"
+            style={{
+              top: "32%",
+              left: "38%",
+              height: 360,
+              width: 360,
+              animationDelay: "-14s",
+            }}
+          />
+        </motion.div>
       )}
 
-      {/* fixed room header: persistent book-call exit + close, safe-area aware */}
-      <div
-        className="absolute inset-x-0 top-0 z-10 flex items-center justify-end gap-2 px-4 pt-3 sm:px-6"
-        style={{ paddingTop: "max(0.75rem, env(safe-area-inset-top))" }}
+      {/* the draggable shell (mobile) — header + content move together; the
+          grabber is the only drag initiator so inner scroll never dismisses. */}
+      <motion.div
+        className="relative z-[1] flex h-full flex-col"
+        style={dragEnabled ? { y } : undefined}
+        drag={dragEnabled ? "y" : false}
+        dragControls={dragControls}
+        dragListener={false}
+        dragConstraints={{ top: 0, bottom: 0 }}
+        dragElastic={{ top: 0, bottom: 0.6 }}
+        onDragEnd={handleDragEnd}
       >
-        {persistentBookCall}
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={handleClose}
-          className="h-10 w-10 shrink-0 rounded-full text-white/60 hover:bg-white/10 hover:text-white"
-          aria-label="Close the room"
-        >
-          <X className="h-5 w-5" />
-        </Button>
-      </div>
+        <RoomHeader
+          showGrabber={dragEnabled}
+          showBookCall={!isExpressBook}
+          muted={muted}
+          onToggleMute={toggleMute}
+          onBookCall={handleBookCall}
+          onClose={handleClose}
+          onGrab={(e) => dragControls.start(e)}
+        />
 
-      {/* content */}
-      <div className="relative z-[1] h-full">
-        {showOpener ? (
-          <Opener
-            mode={session.mode}
-            onStart={session.start}
-            onExpressBook={session.startExpress}
-            onSwitchToFull={session.switchToFull}
-            onTranscribe={session.transcribeAudio}
-            busy={reading}
-          />
-        ) : isMobile ? (
-          // mobile: single column with a talk/artefact tab switch. The talk
-          // leads; the artefact is one tap away. Express jumps straight to the
-          // booking pane.
-          <div
-            className="flex h-full flex-col px-4 pb-4"
-            style={{
-              paddingTop: "max(4rem, calc(env(safe-area-inset-top) + 3.5rem))",
-              paddingBottom: "max(1rem, env(safe-area-inset-bottom))",
-            }}
-          >
-            {isExpressBook ? (
-              <div className="min-h-0 flex-1">{rightRailContent()}</div>
-            ) : (
-              <>
-                {hasArtefact && (
-                  <div className="mb-3 flex shrink-0 gap-1 rounded-full border border-white/10 bg-white/[0.03] p-1">
-                    <PaneTab
-                      active={mobilePane === "talk"}
-                      onClick={() => setMobilePane("talk")}
-                      label="Talk"
-                    />
-                    <PaneTab
-                      active={mobilePane === "brief"}
-                      onClick={() => setMobilePane("brief")}
-                      label="Your brief"
-                    />
-                  </div>
-                )}
-                <div className="min-h-0 flex-1">
-                  {mobilePane === "talk" || !hasArtefact ? (
-                    leftRail
-                  ) : (
-                    <div className="h-full overflow-y-auto rounded-2xl border border-white/10 bg-white/[0.02] p-4">
-                      {rightRailNav}
-                      <AnimatePresence mode="wait">
-                        <motion.div
-                          key={phase}
-                          initial={reduce ? false : { opacity: 0, y: 8 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={reduce ? undefined : { opacity: 0, y: -6 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          {rightRailContent()}
-                        </motion.div>
-                      </AnimatePresence>
+        <div className="min-h-0 flex-1">
+          {showOpener ? (
+            <Opener
+              mode={session.mode}
+              onStart={session.start}
+              onExpressBook={session.startExpress}
+              onSwitchToFull={session.switchToFull}
+              onTranscribe={session.transcribeAudio}
+              busy={reading}
+              keyboardHeight={keyboardHeight}
+            />
+          ) : isMobile ? (
+            // mobile: single column with a talk/artefact tab switch. The talk
+            // leads; the artefact is one tap away. Express jumps straight to
+            // the booking pane.
+            <div
+              className="flex h-full flex-col px-4 pt-1"
+              style={{
+                paddingBottom: `max(1rem, env(safe-area-inset-bottom), ${keyboardHeight}px)`,
+              }}
+            >
+              {isExpressBook ? (
+                <div className="min-h-0 flex-1">{rightRailContent()}</div>
+              ) : (
+                <>
+                  {hasArtefact && (
+                    <div className="mb-3 flex shrink-0 gap-1 rounded-full border border-white/10 bg-white/[0.04] p-1 backdrop-blur-md">
+                      <PaneTab
+                        active={mobilePane === "talk"}
+                        onClick={() => switchPane("talk")}
+                        label="Talk"
+                      />
+                      <PaneTab
+                        active={mobilePane === "brief"}
+                        onClick={() => switchPane("brief")}
+                        label="Your brief"
+                      />
                     </div>
                   )}
-                </div>
-              </>
-            )}
-          </div>
-        ) : (
-          // desktop: split screen
-          <div className="grid h-full grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
-            <div className="h-full overflow-hidden border-r border-white/10 px-8 pb-8 pt-16 lg:px-12">
-              <div className="mx-auto h-full max-w-xl">{leftRail}</div>
+                  <div className="min-h-0 flex-1">
+                    {mobilePane === "talk" || !hasArtefact ? (
+                      leftRail
+                    ) : (
+                      <div className="glass-panel h-full overflow-y-auto rounded-2xl p-4">
+                        {rightRailNav}
+                        <AnimatePresence mode="wait">
+                          <motion.div
+                            key={phase}
+                            initial={reduce ? false : { opacity: 0, y: 8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={reduce ? undefined : { opacity: 0, y: -6 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            {rightRailContent()}
+                          </motion.div>
+                        </AnimatePresence>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
             </div>
-            <div className="h-full overflow-hidden px-8 pb-8 pt-16 lg:px-12">
-              <div className="mx-auto h-full max-w-xl">
-                {isExpressBook ? rightRailContent() : rightRail}
+          ) : (
+            // desktop: split screen
+            <div className="grid h-full grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
+              <div className="h-full overflow-hidden border-r border-white/10 px-8 pb-8 pt-6 lg:px-12">
+                <div className="mx-auto h-full max-w-xl">{leftRail}</div>
+              </div>
+              <div className="h-full overflow-hidden px-8 pb-8 pt-6 lg:px-12">
+                <div className="mx-auto h-full max-w-xl">
+                  {isExpressBook ? rightRailContent() : rightRail}
+                </div>
               </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      </motion.div>
     </motion.div>
   );
 };
+
+// ---------------------------------------------------------------------------
+// The in-flow room header. Reserves its own layout height (so the Opener
+// headline can never sit under it), is safe-area aware, and carries the drag
+// grabber, the sound toggle, the persistent book-call exit, and close.
+// ---------------------------------------------------------------------------
+const RoomHeader = ({
+  showGrabber,
+  showBookCall,
+  muted,
+  onToggleMute,
+  onBookCall,
+  onClose,
+  onGrab,
+}: {
+  showGrabber: boolean;
+  showBookCall: boolean;
+  muted: boolean;
+  onToggleMute: () => void;
+  onBookCall: () => void;
+  onClose: () => void;
+  onGrab: (e: React.PointerEvent) => void;
+}) => (
+  <div
+    className="relative z-10 shrink-0"
+    style={{ paddingTop: "max(0.5rem, env(safe-area-inset-top))" }}
+  >
+    {showGrabber && (
+      <button
+        type="button"
+        aria-label="Drag down to close"
+        onPointerDown={onGrab}
+        className="mx-auto flex h-7 w-full max-w-[120px] cursor-grab touch-none items-center justify-center active:cursor-grabbing"
+      >
+        <span className="h-1.5 w-10 rounded-full bg-white/25 transition-colors hover:bg-white/40" />
+      </button>
+    )}
+    <div className="flex items-center gap-2 px-3 pb-2 pt-1 sm:px-6">
+      <button
+        type="button"
+        onClick={onToggleMute}
+        aria-pressed={!muted}
+        aria-label={muted ? "Turn sound on" : "Turn sound off"}
+        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white/45 transition-colors hover:bg-white/10 hover:text-white/80"
+      >
+        {muted ? (
+          <VolumeX className="h-4 w-4" />
+        ) : (
+          <Volume2 className="h-4 w-4 text-mint" />
+        )}
+      </button>
+      <div className="flex-1" />
+      {showBookCall && (
+        <button
+          type="button"
+          onClick={onBookCall}
+          className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-mint/30 bg-mint/[0.08] px-3.5 py-1.5 text-xs font-semibold text-mint transition-all hover:border-mint/60 hover:bg-mint/15 active:scale-[0.97]"
+        >
+          <CalendarClock className="h-3.5 w-3.5" />
+          Book a call
+        </button>
+      )}
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={onClose}
+        className="h-10 w-10 shrink-0 rounded-full text-white/60 hover:bg-white/10 hover:text-white"
+        aria-label="Close the room"
+      >
+        <X className="h-5 w-5" />
+      </Button>
+    </div>
+  </div>
+);
 
 const ArtefactChip = ({
   active,
@@ -449,13 +641,20 @@ const ArtefactChip = ({
     type="button"
     onClick={onClick}
     className={cn(
-      "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors min-h-[44px]",
+      "relative min-h-[44px] rounded-full border px-3.5 py-1.5 text-xs font-medium transition-colors",
       active
-        ? "border-mint/50 bg-mint/15 text-mint"
+        ? "border-mint/50 text-ink"
         : "border-white/10 text-white/55 hover:border-white/25 hover:text-white/80",
     )}
   >
-    {label}
+    {active && (
+      <motion.span
+        layoutId="artefactChipIndicator"
+        className="absolute inset-0 rounded-full bg-mint"
+        transition={{ type: "spring", stiffness: 400, damping: 32 }}
+      />
+    )}
+    <span className="relative z-[1]">{label}</span>
   </button>
 );
 
@@ -472,11 +671,18 @@ const PaneTab = ({
     type="button"
     onClick={onClick}
     className={cn(
-      "flex-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors min-h-[44px]",
-      active ? "bg-mint/15 text-mint" : "text-white/55 hover:text-white/80",
+      "relative min-h-[44px] flex-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors",
+      active ? "text-ink" : "text-white/55 hover:text-white/80",
     )}
   >
-    {label}
+    {active && (
+      <motion.span
+        layoutId="paneTabIndicator"
+        className="absolute inset-0 rounded-full bg-mint shadow-[0_2px_16px_-4px_rgba(126,244,194,0.5)]"
+        transition={{ type: "spring", stiffness: 400, damping: 32 }}
+      />
+    )}
+    <span className="relative z-[1]">{label}</span>
   </button>
 );
 

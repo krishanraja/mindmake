@@ -116,22 +116,24 @@ export const ExpressBooking = ({
         </p>
       </motion.div>
 
-      {/* live Calendly inline widget */}
+      {/* live Calendly inline widget — white paper floating on a glass frame */}
       <motion.div
-        className="relative min-h-0 flex-1 overflow-hidden rounded-xl border border-white/10 bg-white"
+        className="glass-panel relative min-h-0 flex-1 overflow-hidden rounded-2xl p-1.5"
         {...reveal(0.08)}
       >
-        <div
-          ref={widgetRef}
-          className="h-full min-h-[420px] w-full"
-          style={{ minWidth: "280px" }}
-        />
-        {!widgetReady && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-white text-center">
-            <div className="h-9 w-9 rounded-full border-2 border-mint/40 border-t-mint motion-safe:animate-spin" />
-            <p className="text-sm text-ink/60">Loading the calendar</p>
-          </div>
-        )}
+        <div className="relative h-full w-full overflow-hidden rounded-xl bg-white">
+          <div
+            ref={widgetRef}
+            className="h-full min-h-[420px] w-full"
+            style={{ minWidth: "280px" }}
+          />
+          {!widgetReady && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-white text-center">
+              <div className="h-9 w-9 rounded-full border-2 border-mint/40 border-t-mint motion-safe:animate-spin" />
+              <p className="text-sm text-ink/60">Loading the calendar</p>
+            </div>
+          )}
+        </div>
       </motion.div>
 
       {/* guaranteed fallback + escape hatch */}

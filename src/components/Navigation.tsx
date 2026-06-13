@@ -106,7 +106,7 @@ const Navigation = () => {
           <div className="flex items-center mr-8 lg:mr-12">
             <a
               href="/"
-              className="flex items-center gap-2 sm:gap-2.5 transition-opacity hover:opacity-80"
+              className="flex items-end gap-2 sm:gap-2.5 transition-opacity hover:opacity-80"
               aria-label="Mindmaker home"
             >
               <img

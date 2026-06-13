@@ -171,9 +171,10 @@ export default {
           "15%": { opacity: "0.1" },
           "19%": { opacity: "1", filter: "brightness(2.2) drop-shadow(0 0 14px hsl(158 82% 73% / 1))" },
           "22%": { opacity: "0.3" },
-          "26%": { opacity: "1", filter: "brightness(1.7) drop-shadow(0 0 10px hsl(158 82% 73% / 0.7))" },
-          "55%": { opacity: "1", filter: "brightness(1.2) drop-shadow(0 0 5px hsl(158 82% 73% / 0.35))" },
-          "100%": { opacity: "1", filter: "brightness(1)" },
+          // Last recovery snap, then the glow fades out in one smooth motion (ease-out on this
+          // segment only) so there are no extra stepped flickers during the settle.
+          "26%": { opacity: "1", filter: "brightness(2) drop-shadow(0 0 12px hsl(158 82% 73% / 0.85))", animationTimingFunction: "ease-out" },
+          "100%": { opacity: "1", filter: "brightness(1) drop-shadow(0 0 0 hsl(158 82% 73% / 0))" },
         },
       },
       animation: {

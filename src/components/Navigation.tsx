@@ -4,8 +4,10 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Menu, X, Sun, Moon, ChevronDown, ExternalLink } from "lucide-react";
 import { useTheme } from "next-themes";
 import mindmakerIcon from "@/assets/mindmaker-icon.png";
+import mindmakerWordmarkOnLight from "@/assets/Mindmaker-Wordmark-onlight.png";
+import mindmakerWordmarkOnDark from "@/assets/Mindmaker-Wordmark-ondark.png";
+import mindmakerLivePill from "@/assets/mindmaker-live-pill.png";
 import { LightningLessons } from "@/components/LightningLessons";
-import { MindMakerWordmark } from "@/components/MindMakerWordmark";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
 
 type NavSubItem = {
@@ -102,14 +104,37 @@ const Navigation = () => {
       <div className="container-width">
         <div className="flex items-center justify-between h-16 sm:h-18 md:h-20">
           <div className="flex items-center mr-8 lg:mr-12">
-            <a href="/" className="transition-opacity hover:opacity-80" aria-label="Mindmaker home">
+            <a
+              href="/"
+              className="flex items-center gap-2 sm:gap-2.5 transition-opacity hover:opacity-80"
+              aria-label="Mindmaker home"
+            >
               <img
                 src={mindmakerIcon}
-                alt="Mindmaker"
+                alt=""
+                aria-hidden="true"
                 loading="eager"
                 fetchpriority="high"
                 decoding="sync"
                 className="h-8 sm:h-9 md:h-10 w-auto object-contain"
+              />
+              {/* Wordmark flickers on like an old tube light, then settles to its normal color.
+                  Theme-swapped: dark/navy art on light bg, light/mint art on dark bg. */}
+              <img
+                src={mindmakerWordmarkOnLight}
+                alt="Mindmaker"
+                loading="eager"
+                fetchpriority="high"
+                decoding="sync"
+                className="h-5 sm:h-6 md:h-7 w-auto object-contain dark:hidden animate-wordmark-flicker"
+              />
+              <img
+                src={mindmakerWordmarkOnDark}
+                alt="Mindmaker"
+                loading="eager"
+                fetchpriority="high"
+                decoding="sync"
+                className="h-5 sm:h-6 md:h-7 w-auto object-contain hidden dark:block animate-wordmark-flicker"
               />
             </a>
           </div>
@@ -124,7 +149,15 @@ const Navigation = () => {
                     aria-label={item.wordmark ? item.label : undefined}
                     className="text-sm font-semibold py-2 px-3 rounded-md text-ink dark:text-white hover:text-mint hover:bg-mint/5 transition-all duration-200 inline-flex items-center gap-1.5"
                   >
-                    {item.wordmark ? <MindMakerWordmark size="nav" /> : item.label}
+                    {item.wordmark ? (
+                      <img
+                        src={mindmakerLivePill}
+                        alt="Mindmaker Live"
+                        className="h-5 sm:h-6 w-auto object-contain"
+                      />
+                    ) : (
+                      item.label
+                    )}
                     {item.badge && (
                       <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-gradient-to-r from-mint to-emerald-400 text-ink text-[9px] font-extrabold tracking-[0.14em] leading-none">
                         {item.badge}
@@ -256,7 +289,15 @@ const Navigation = () => {
                         className="min-h-[44px] flex items-center gap-2 px-4 py-3 text-base font-semibold text-ink dark:text-white hover:bg-mint/10 rounded-md transition-colors"
                         onClick={() => setIsOpen(false)}
                       >
-                        {item.wordmark ? <MindMakerWordmark size="nav" /> : item.label}
+                        {item.wordmark ? (
+                      <img
+                        src={mindmakerLivePill}
+                        alt="Mindmaker Live"
+                        className="h-5 sm:h-6 w-auto object-contain"
+                      />
+                    ) : (
+                      item.label
+                    )}
                         {item.badge && (
                           <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-gradient-to-r from-mint to-emerald-400 text-ink text-[9px] font-extrabold tracking-[0.14em] leading-none">
                             {item.badge}

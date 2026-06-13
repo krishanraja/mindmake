@@ -3,8 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Menu, X, Sun, Moon, ChevronDown, ExternalLink } from "lucide-react";
 import { useTheme } from "next-themes";
-import mindmakerLogoDark from "@/assets/mindmaker-logo-dark.png";
-import mindmakerLogoLight from "@/assets/mindmaker-logo-light.png";
+import mindmakerIcon from "@/assets/mindmaker-icon.png";
 import { LightningLessons } from "@/components/LightningLessons";
 import { MindMakerWordmark } from "@/components/MindMakerWordmark";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
@@ -103,22 +102,14 @@ const Navigation = () => {
       <div className="container-width">
         <div className="flex items-center justify-between h-16 sm:h-18 md:h-20">
           <div className="flex items-center mr-8 lg:mr-12">
-            <a href="/" className="transition-opacity hover:opacity-80">
+            <a href="/" className="transition-opacity hover:opacity-80" aria-label="Mindmaker home">
               <img
-                src={mindmakerLogoDark}
+                src={mindmakerIcon}
                 alt="Mindmaker"
                 loading="eager"
                 fetchpriority="high"
                 decoding="sync"
-                className="h-7 sm:h-8 md:h-[24px] w-auto max-w-[150px] sm:max-w-[180px] object-contain dark:hidden"
-              />
-              <img
-                src={mindmakerLogoLight}
-                alt="Mindmaker"
-                loading="eager"
-                fetchpriority="high"
-                decoding="sync"
-                className="h-7 sm:h-8 md:h-[24px] w-auto max-w-[150px] sm:max-w-[180px] object-contain hidden dark:block"
+                className="h-8 sm:h-9 md:h-10 w-auto object-contain"
               />
             </a>
           </div>

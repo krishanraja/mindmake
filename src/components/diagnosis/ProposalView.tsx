@@ -1,8 +1,11 @@
+import { useEffect, useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { CalendarClock, Download, ExternalLink, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { haptics } from "@/lib/haptics";
+import { sound } from "@/lib/sound";
 import { cn } from "@/lib/utils";
 import type { Recommendation } from "./types";
 
@@ -79,6 +82,16 @@ export const ProposalView = ({
 }: ProposalViewProps) => {
   const reduce = useReducedMotion();
 
+  // a small reward the first time the finished one-pager paints
+  const announced = useRef(false);
+  useEffect(() => {
+    if (html && !loading && !announced.current) {
+      announced.current = true;
+      haptics.success();
+      sound.play("chime");
+    }
+  }, [html, loading]);
+
   return (
     <div className="flex h-full flex-col">
       <div className="mb-4 shrink-0">
@@ -92,8 +105,8 @@ export const ProposalView = ({
         </h3>
       </div>
 
-      {/* A4-feel scrollable frame */}
-      <div className="relative min-h-0 flex-1 overflow-hidden rounded-xl border border-white/10 bg-white/[0.02]">
+      {/* A4-feel scrollable frame: the white sheet floats on a glass desk */}
+      <div className="glass-panel relative min-h-0 flex-1 overflow-hidden rounded-2xl">
         {loading || !html ? (
           <div className="flex h-full min-h-[320px] flex-col items-center justify-center gap-3 px-6 text-center">
             <Loader2 className="h-8 w-8 animate-spin text-mint" />
@@ -125,7 +138,7 @@ export const ProposalView = ({
       </div>
 
       {/* controls */}
-      <div className="mt-4 shrink-0 space-y-4">
+      <div className="glass-panel mt-4 shrink-0 space-y-4 rounded-2xl p-4">
         {error && !loading && html && (
           <p className="text-sm text-red-300/90" role="alert">
             {error}

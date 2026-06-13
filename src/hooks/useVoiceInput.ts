@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { haptics } from '@/lib/haptics';
 
 // TypeScript declarations for Web Speech API
 interface SpeechRecognitionEvent extends Event {
@@ -165,11 +166,9 @@ export const useVoiceInput = (options: UseVoiceInputOptions = {}): UseVoiceInput
 
     setError(null);
     setInterimTranscript('');
-    
+
     // Trigger haptic feedback on mobile
-    if ('vibrate' in navigator) {
-      navigator.vibrate(50);
-    }
+    haptics.select();
 
     try {
       recognitionRef.current.start();

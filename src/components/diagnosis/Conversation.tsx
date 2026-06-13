@@ -4,6 +4,8 @@ import { ArrowUp, CalendarClock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { MarkdownResponse } from "@/components/ui/markdown-response";
+import { haptics } from "@/lib/haptics";
+import { sound } from "@/lib/sound";
 import { cn } from "@/lib/utils";
 import { MindyAvatar } from "./MindyAvatar";
 import { MicButton } from "./MicButton";
@@ -20,6 +22,8 @@ interface ConversationProps {
   onTranscribe: (blob: Blob) => Promise<string>;
   /** Disable the input (e.g. while enrichment is still painting). */
   disabled?: boolean;
+  /** Pixels the soft keyboard covers, so we re-pin the latest turn. */
+  keyboardHeight?: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -76,6 +80,25 @@ const AssistantTurn = ({
   );
 };
 
+// a soft 3-dot wave while Mindy composes a turn
+const ThinkingDots = () => (
+  <span className="inline-flex items-center gap-1">
+    {[0, 1, 2].map((i) => (
+      <motion.span
+        key={i}
+        className="h-1.5 w-1.5 rounded-full bg-mint"
+        animate={{ opacity: [0.3, 1, 0.3], y: [0, -2, 0] }}
+        transition={{
+          duration: 0.9,
+          repeat: Infinity,
+          delay: i * 0.15,
+          ease: "easeInOut",
+        }}
+      />
+    ))}
+  </span>
+);
+
 // calm glass pills, mint accent, generous touch target
 const QuickReplyPills = ({
   options,
@@ -83,20 +106,24 @@ const QuickReplyPills = ({
 }: {
   options: string[];
   onPick: (text: string) => void;
-}) => (
-  <div className="mt-3 flex flex-wrap gap-2">
-    {options.map((opt) => (
-      <button
-        key={opt}
-        type="button"
-        onClick={() => onPick(opt)}
-        className="rounded-full border border-mint/30 bg-mint/[0.08] px-3.5 py-2 text-[13px] font-medium text-mint/90 transition-colors hover:border-mint/60 hover:bg-mint/15 hover:text-mint min-h-[44px]"
-      >
-        {opt}
-      </button>
-    ))}
-  </div>
-);
+}) => {
+  const reduce = useReducedMotion();
+  return (
+    <div className="mt-3 flex flex-wrap gap-2">
+      {options.map((opt) => (
+        <motion.button
+          key={opt}
+          type="button"
+          onClick={() => onPick(opt)}
+          whileTap={reduce ? undefined : { scale: 0.96 }}
+          className="min-h-[44px] rounded-full border border-mint/30 bg-mint/[0.08] px-3.5 py-2 text-[13px] font-medium text-mint/90 transition-colors hover:border-mint/60 hover:bg-mint/15 hover:text-mint"
+        >
+          {opt}
+        </motion.button>
+      ))}
+    </div>
+  );
+};
 
 export const Conversation = ({
   turns,
@@ -106,6 +133,7 @@ export const Conversation = ({
   onBookCall,
   onTranscribe,
   disabled = false,
+  keyboardHeight = 0,
 }: ConversationProps) => {
   const reduce = useReducedMotion();
   const [draft, setDraft] = useState("");
@@ -120,6 +148,28 @@ export const Conversation = ({
     lastAssistantId.current = finishedAssistant.id;
   }
 
+  // fire a receive cue when a new finished assistant turn lands (skip the first)
+  const seenAssistantId = useRef<string | null>(null);
+  useEffect(() => {
+    const latest = [...turns]
+      .reverse()
+      .find((t) => t.role === "assistant" && !t.pending);
+    if (!latest) return;
+    if (seenAssistantId.current === null) {
+      seenAssistantId.current = latest.id;
+      return;
+    }
+    if (seenAssistantId.current !== latest.id) {
+      seenAssistantId.current = latest.id;
+      if (latest.kind === "error") {
+        haptics.warn();
+      } else {
+        haptics.tap();
+        sound.play("receive");
+      }
+    }
+  }, [turns]);
+
   useEffect(() => {
     const el = scrollRef.current;
     if (el)
@@ -127,17 +177,21 @@ export const Conversation = ({
         top: el.scrollHeight,
         behavior: reduce ? "auto" : "smooth",
       });
-  }, [turns, thinking, reduce]);
+  }, [turns, thinking, reduce, keyboardHeight]);
 
   const submit = () => {
     const t = draft.trim();
     if (!t || disabled) return;
+    haptics.send();
+    sound.play("send");
     setDraft("");
     onSend(t);
   };
 
   const pickPill = (text: string) => {
     if (disabled || thinking) return;
+    haptics.send();
+    sound.play("send");
     onSend(text);
   };
 
@@ -160,7 +214,7 @@ export const Conversation = ({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <p className="max-w-[85%] rounded-2xl rounded-br-sm bg-mint/15 px-4 py-2.5 text-[15px] leading-relaxed text-white">
+                <p className="max-w-[85%] rounded-2xl rounded-br-sm bg-mint/15 px-4 py-2.5 text-[15px] leading-relaxed text-white shadow-[0_2px_12px_-4px_rgba(126,244,194,0.25)]">
                   {turn.content}
                 </p>
               </motion.div>
@@ -183,17 +237,7 @@ export const Conversation = ({
               />
               <div className="min-w-0 flex-1 pt-0.5">
                 {turn.pending ? (
-                  <span className="inline-flex items-center gap-1 text-white/50">
-                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-mint" />
-                    <span
-                      className="h-1.5 w-1.5 animate-pulse rounded-full bg-mint"
-                      style={{ animationDelay: "0.15s" }}
-                    />
-                    <span
-                      className="h-1.5 w-1.5 animate-pulse rounded-full bg-mint"
-                      style={{ animationDelay: "0.3s" }}
-                    />
-                  </span>
+                  <ThinkingDots />
                 ) : isError ? (
                   // graceful error: a calm line + a real book-call button,
                   // never a raw "non-2xx" string.
@@ -203,7 +247,7 @@ export const Conversation = ({
                     </p>
                     <Button
                       onClick={onBookCall}
-                      className="bg-gradient-to-r from-mint to-emerald-400 font-bold text-ink hover:opacity-90 min-h-[44px]"
+                      className="min-h-[44px] bg-gradient-to-r from-mint to-emerald-400 font-bold text-ink hover:opacity-90"
                     >
                       <CalendarClock className="mr-2 h-4 w-4" />
                       Book a call with Krish
@@ -229,16 +273,16 @@ export const Conversation = ({
         })}
       </div>
 
-      {/* input */}
+      {/* composer: a glass dock that rides above the keyboard */}
       <div className="mt-4 shrink-0">
-        <div className="relative flex items-end gap-2">
+        <div className="glass-panel flex items-end gap-2 rounded-2xl p-2">
           <MicButton
             onTranscribe={onTranscribe}
             onResult={(text) =>
               setDraft((d) => (d ? `${d} ${text}` : text).slice(0, 1000))
             }
             disabled={disabled}
-            className="mb-1.5"
+            className="mb-1"
           />
           <div className="relative flex-1">
             <Textarea
@@ -255,19 +299,27 @@ export const Conversation = ({
               }
               rows={1}
               disabled={disabled}
-              className="max-h-32 min-h-[52px] resize-none border-white/15 bg-white/5 pr-14 text-[15px] text-white placeholder:text-white/35 focus-visible:ring-mint/60"
+              className="max-h-32 min-h-[44px] resize-none border-0 bg-transparent px-1 pr-12 text-[15px] text-white placeholder:text-white/35 focus-visible:ring-0"
             />
-            <Button
-              size="icon"
-              onClick={submit}
-              disabled={!draft.trim() || disabled}
-              className={cn(
-                "absolute bottom-2 right-2 h-9 w-9 rounded-full bg-mint text-ink hover:bg-mint/90 disabled:opacity-40",
-              )}
-              aria-label="Send"
+            <motion.div
+              className="absolute bottom-1 right-1"
+              whileTap={reduce || !draft.trim() ? undefined : { scale: 0.9 }}
             >
-              <ArrowUp className="h-4 w-4" />
-            </Button>
+              <Button
+                size="icon"
+                onClick={submit}
+                disabled={!draft.trim() || disabled}
+                className={cn(
+                  "h-9 w-9 rounded-full bg-mint text-ink transition-all hover:bg-mint/90 disabled:opacity-40",
+                  draft.trim() &&
+                    !disabled &&
+                    "shadow-[0_2px_14px_-2px_rgba(126,244,194,0.6)]",
+                )}
+                aria-label="Send"
+              >
+                <ArrowUp className="h-4 w-4" />
+              </Button>
+            </motion.div>
           </div>
         </div>
       </div>

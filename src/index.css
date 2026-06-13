@@ -821,6 +821,54 @@ a:hover {
     min-width: 44px;
   }
 
+  /* ---------------------------------------------------------------------- */
+  /* DIAGNOSIS ROOM — 2027 immersive surface                                 */
+  /* ---------------------------------------------------------------------- */
+
+  /* The shared dark-glass panel: frosted fill, hairline border, layered drop
+     shadow, plus an inner top-highlight so the surface catches light like
+     real glass. For use on the dark ink room only (never on white sheets). */
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.04);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    box-shadow:
+      0 8px 40px -12px rgba(0, 0, 0, 0.55),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+  }
+
+  /* A slow-drifting mint/emerald aurora blob. Pair with the keyframes below
+     and stagger delays/positions per blob. Pauses entirely under reduced
+     motion (see the global killswitch at the bottom of this file). */
+  .aurora-blob {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(64px);
+    pointer-events: none;
+    will-change: transform, opacity;
+    animation: aurora-drift 22s ease-in-out infinite;
+  }
+
+  @keyframes aurora-drift {
+    0%, 100% {
+      transform: translate3d(0, 0, 0) scale(1);
+      opacity: 0.55;
+    }
+    33% {
+      transform: translate3d(6%, -5%, 0) scale(1.15);
+      opacity: 0.8;
+    }
+    66% {
+      transform: translate3d(-5%, 4%, 0) scale(0.92);
+      opacity: 0.45;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .aurora-blob { animation: none; }
+  }
+
   /* ANIMATIONS */
   .fade-in-up {
     animation: fade-in-up 0.6s ease-out forwards;

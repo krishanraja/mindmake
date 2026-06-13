@@ -62,15 +62,20 @@ export const DossierReveal = ({ dossier, onCorrect }: DossierRevealProps) => {
     <div className="space-y-6">
       {/* co-brand hero */}
       <motion.div
-        className="relative overflow-hidden rounded-2xl border border-white/10 p-6"
+        className="glass-panel relative overflow-hidden rounded-2xl p-6"
         style={{
-          background: `linear-gradient(135deg, ${tint}1f, transparent 70%)`,
+          background: `linear-gradient(135deg, ${tint}26, transparent 70%)`,
         }}
         {...reveal(0)}
       >
         <span
           className="absolute -right-10 -top-10 h-40 w-40 rounded-full blur-3xl"
-          style={{ background: `${tint}33` }}
+          style={{ background: `${tint}40` }}
+          aria-hidden
+        />
+        <span
+          className="absolute -bottom-12 -left-8 h-36 w-36 rounded-full blur-3xl"
+          style={{ background: `${tint}24` }}
           aria-hidden
         />
         <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-white/45">
@@ -141,7 +146,7 @@ export const DossierReveal = ({ dossier, onCorrect }: DossierRevealProps) => {
         {/* currency: dated, sourced, never faked */}
         {currency && currency.length > 0 && (
           <motion.div
-            className="rounded-xl border border-white/10 bg-white/[0.03] p-4"
+            className="glass-panel rounded-xl p-4"
             {...reveal(0.45)}
           >
             <p className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-white/45">

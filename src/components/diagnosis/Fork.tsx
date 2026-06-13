@@ -5,6 +5,8 @@ import {
   FileText,
   MessageCircle,
 } from "lucide-react";
+import { haptics } from "@/lib/haptics";
+import { sound } from "@/lib/sound";
 import { cn } from "@/lib/utils";
 import type { ExitKind, Recommendation } from "./types";
 
@@ -126,15 +128,27 @@ export const Fork = (props: ForkProps) => {
             <motion.button
               key={id}
               type="button"
-              onClick={() => exit.onClick(props)}
+              onClick={() => {
+                haptics.impact();
+                sound.play("tick");
+                exit.onClick(props);
+              }}
+              whileHover={reduce ? undefined : { y: -2 }}
+              whileTap={reduce ? undefined : { scale: 0.985 }}
               className={cn(
-                "group flex w-full items-start gap-4 rounded-xl border p-5 text-left transition-all",
+                "group relative flex w-full items-start gap-4 overflow-hidden rounded-2xl border p-5 text-left transition-all",
                 isPrimary
-                  ? "border-mint/40 bg-mint/[0.06] hover:border-mint/70 hover:bg-mint/[0.1]"
+                  ? "glass-panel border-mint/40 hover:border-mint/70"
                   : "border-white/10 bg-white/[0.02] hover:border-white/25 hover:bg-white/[0.05]",
               )}
               {...reveal(0.08 + i * 0.07)}
             >
+              {isPrimary && (
+                <span
+                  className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-mint/20 blur-3xl"
+                  aria-hidden
+                />
+              )}
               <span
                 className={cn(
                   "mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full",

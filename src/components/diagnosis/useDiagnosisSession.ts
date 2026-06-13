@@ -233,6 +233,8 @@ export function useDiagnosisSession(): UseDiagnosisSession {
   // each, so a visitor who chose to "keep chatting" is never yanked back.
   const briefSurfacedRef = useRef(false);
   const forkSurfacedRef = useRef(false);
+  // Fire the chat-detected enrichment at most once per session.
+  const mentionEnrichedRef = useRef(false);
   // Current phase, mirrored into a ref so async callbacks read it without a
   // stale closure (and without putting phase in their dependency arrays).
   const phaseRef = useRef<RoomPhase>("opener");
@@ -272,6 +274,39 @@ export function useDiagnosisSession(): UseDiagnosisSession {
       patch({ dossier: toViewDossier(merged) });
     },
     [patch],
+  );
+
+  // -- enrich from a company NAMED in conversation (no email needed) ---------
+  // Mindy returns an extractedCompany when she spots the visitor's company in
+  // chat. We resolve it (name -> Brandfetch search -> domain) at identity depth
+  // for the co-brand gasp, then upgrade to the full dossier in the background.
+  const enrichFromMention = useCallback(
+    async (name?: string, domain?: string) => {
+      if (rawDossierRef.current) return; // already have a dossier
+      if (!name && !domain) return;
+
+      const { data, failed } = await safeInvoke<EnrichResponse>(
+        "enrich-company",
+        { name, domain, depth: "identity" },
+      );
+      if (failed || !data) return;
+      if ("skipped" in data || "error" in data) return;
+
+      const res = data as Dossier;
+      rawDossierRef.current = res;
+      setState((s) => ({
+        ...s,
+        dossier: toViewDossier(res),
+        coBranded: true,
+        contact: {
+          ...s.contact,
+          company: res.identity?.name || s.contact.company,
+        },
+      }));
+      // deep upgrade (PDL + BuiltWith + currency + synthesis) in the background
+      void enrichFull(undefined, res.domain || domain);
+    },
+    [enrichFull],
   );
 
   // -- one round-trip to mindy-chat -----------------------------------------
@@ -373,8 +408,23 @@ export function useDiagnosisSession(): UseDiagnosisSession {
           patch({ phase: "brief" });
         }
       }
+
+      // If Mindy detected the visitor's company in conversation and we have no
+      // dossier yet, enrich from it in the background so the co-brand, logo, and
+      // business intelligence appear even though no work email was ever given.
+      const ec = res.extractedCompany;
+      if (
+        ec &&
+        (ec.name || ec.domain) &&
+        !rawDossierRef.current &&
+        !mentionEnrichedRef.current
+      ) {
+        mentionEnrichedRef.current = true;
+        trackEvent("diagnosis_room_enrich_from_mention");
+        void enrichFromMention(ec.name, ec.domain);
+      }
     },
-    [patch],
+    [patch, enrichFromMention],
   );
 
   // -- START -----------------------------------------------------------------
@@ -722,6 +772,7 @@ export function useDiagnosisSession(): UseDiagnosisSession {
     digestSentRef.current = null;
     briefSurfacedRef.current = false;
     forkSurfacedRef.current = false;
+    mentionEnrichedRef.current = false;
     setOptInCopyState(false);
     setState(INITIAL);
   }, []);

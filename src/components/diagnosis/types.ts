@@ -143,6 +143,12 @@ export interface MindyChatResponse {
   readyForCall: boolean;
   /** 0-3 tappable answers to the question just asked. Free text still works. */
   quickReplies?: string[];
+  /**
+   * The visitor's company when Mindy detects it mid-conversation and no dossier
+   * was supplied at the door. The client enriches from this in the background so
+   * the co-brand, logo, and business intelligence appear without a work email.
+   */
+  extractedCompany?: { name?: string; domain?: string } | null;
 }
 
 // ---------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Bot, User } from "lucide-react";
 import { MAVEN_INSTRUCTOR_URL } from "@/lib/stripe-prices";
 
 const headlines = [
@@ -106,7 +106,7 @@ const NewHero = () => {
         >
           <Button
             size="lg"
-            className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold px-8 py-6 text-base sm:text-lg shadow-lg shadow-mint/25 transition-all duration-300 hover:-translate-y-0.5"
+            className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold px-8 py-6 text-base sm:text-lg shadow-lg shadow-mint/25 transition-all duration-300 hover:-translate-y-0.5 [&_svg]:size-5"
             onClick={() =>
               window.dispatchEvent(
                 new CustomEvent("openDiagnosisRoom", {
@@ -115,12 +115,13 @@ const NewHero = () => {
               )
             }
           >
+            <User strokeWidth={1.75} />
             Book a call
           </Button>
           <Button
             size="lg"
             variant="outline"
-            className="border-2 border-mint/50 text-mint hover:bg-mint/10 font-bold px-8 py-6 text-base sm:text-lg transition-all duration-300"
+            className="border-2 border-mint/50 text-mint hover:bg-mint/10 font-bold px-8 py-6 text-base sm:text-lg transition-all duration-300 [&_svg]:size-5"
             onClick={() =>
               window.dispatchEvent(
                 new CustomEvent("openDiagnosisRoom", {
@@ -129,7 +130,8 @@ const NewHero = () => {
               )
             }
           >
-            Work through your decision with Mindy
+            <Bot strokeWidth={1.75} />
+            Run a trained decision simulation
           </Button>
         </motion.div>
 

@@ -161,6 +161,21 @@ export default {
           "70%": { transform: "scale(0.95) translateY(2px)", opacity: "1" },
           "100%": { transform: "scale(1) translateY(0)", opacity: "1" },
         },
+        // Old-tube-light "flicker on": stutters, snaps to a bright mint glow, then settles
+        // to its normal color. drop-shadow runs on the PNG alpha so the letters glow, not a box.
+        "wordmark-flicker": {
+          "0%": { opacity: "0", filter: "brightness(1)" },
+          "4%": { opacity: "0.1" },
+          "8%": { opacity: "0", filter: "brightness(1)" },
+          "12%": { opacity: "0.7", filter: "brightness(1.8) drop-shadow(0 0 6px hsl(158 82% 73% / 0.8))" },
+          "15%": { opacity: "0.1" },
+          "19%": { opacity: "1", filter: "brightness(2.2) drop-shadow(0 0 14px hsl(158 82% 73% / 1))" },
+          "22%": { opacity: "0.3" },
+          // Last recovery snap, then the glow fades out in one smooth motion (ease-out on this
+          // segment only) so there are no extra stepped flickers during the settle.
+          "26%": { opacity: "1", filter: "brightness(2) drop-shadow(0 0 12px hsl(158 82% 73% / 0.85))", animationTimingFunction: "ease-out" },
+          "100%": { opacity: "1", filter: "brightness(1) drop-shadow(0 0 0 hsl(158 82% 73% / 0))" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -171,6 +186,7 @@ export default {
         "scale-in": "scale-in 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards",
         "glow-pulse": "glow-pulse 3s ease-in-out infinite",
         "sonar-ping": "sonar-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite",
+        "wordmark-flicker": "wordmark-flicker 1.8s steps(1, end) 0.15s both",
       },
     },
   },

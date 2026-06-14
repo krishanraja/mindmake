@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { haptics } from "@/lib/haptics";
 import { sound } from "@/lib/sound";
 import { cn } from "@/lib/utils";
+import { BrushPainter } from "./BrushPainter";
 import type { Recommendation } from "./types";
 
 interface ProposalViewProps {
@@ -108,12 +109,18 @@ export const ProposalView = ({
       {/* A4-feel scrollable frame: the white sheet floats on a glass desk */}
       <div className="glass-panel relative min-h-0 flex-1 overflow-hidden rounded-2xl">
         {loading || !html ? (
-          <div className="flex h-full min-h-[320px] flex-col items-center justify-center gap-3 px-6 text-center">
-            <Loader2 className="h-8 w-8 animate-spin text-mint" />
-            <p className="text-sm text-white/55">
-              Painting your one-pager. The shell lands first, the prose follows.
-            </p>
-            {error && <p className="text-sm text-red-300/90">{error}</p>}
+          <div className="relative h-full min-h-[340px] overflow-hidden">
+            <BrushPainter className="absolute inset-0" reduce={!!reduce} />
+            <div className="absolute inset-x-0 bottom-0 flex flex-col items-center gap-2 p-6 text-center">
+              <p className="max-w-sm rounded-xl bg-ink/45 px-4 py-2.5 text-sm text-white/80 backdrop-blur-sm">
+                Painting your one-pager. The shell lands first, the prose follows.
+              </p>
+              {error && (
+                <p className="rounded-lg bg-ink/45 px-3 py-1.5 text-sm text-red-300/90 backdrop-blur-sm">
+                  {error}
+                </p>
+              )}
+            </div>
           </div>
         ) : (
           <motion.div

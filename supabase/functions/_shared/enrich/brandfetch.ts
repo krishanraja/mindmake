@@ -127,36 +127,48 @@ function largestRaster(logo: BrandfetchLogo): string | undefined {
 }
 
 /**
- * Pick the best primary logo URL. Restricts to `type === 'logo'`, prefers a
- * dark-theme SVG (crisp on Mindy's light surface), then any SVG, then the
- * largest PNG/JPEG across the logo entries.
+ * Pick the best primary logo URL. Restricts to `type === 'logo'`.
+ *
+ * Every Mindmaker co-brand surface (the proposal hero, the Diagnosis Room) paints
+ * the client logo on a WHITE plate, because that is the only background on which an
+ * arbitrary brand mark is reliably legible (most company logos are dark/coloured,
+ * and Brandfetch's `theme` tag is not a trustworthy signal of artwork colour:
+ * a `theme:"dark"` logo may be a white mark for one brand and a black wordmark for
+ * the next). So we prefer the artwork INTENDED for light backgrounds
+ * (`theme === 'light'`), which is the dark/coloured mark that reads correctly on a
+ * white plate, then fall back across themes and formats. SVG beats raster in every
+ * tier.
  */
 function pickLogoUrl(logos: BrandfetchLogo[] | undefined): string | undefined {
   if (!Array.isArray(logos)) return undefined;
   const candidates = logos.filter((l) => l.type === 'logo');
   if (candidates.length === 0) return undefined;
 
-  // 1) dark-theme SVG.
-  const darkSvg = candidates.find((l) => l.theme === 'dark' && formatOfType(l, 'svg'));
-  if (darkSvg) return formatOfType(darkSvg, 'svg')!.src;
+  // Theme preference for a white plate: light-background artwork first, then
+  // dark-background artwork, then anything untagged.
+  const themeRank = (t?: string): number => (t === 'light' ? 0 : t === 'dark' ? 1 : 2);
 
-  // 2) any SVG.
-  for (const l of candidates) {
-    const svg = formatOfType(l, 'svg');
-    if (svg) return svg.src;
-  }
-
-  // 3) largest raster across all logo entries.
-  let best: { src: string; area: number } | undefined;
-  for (const l of candidates) {
-    for (const f of l.formats ?? []) {
-      if ((f.format === 'png' || f.format === 'jpeg') && typeof f.src === 'string' && f.src) {
-        const a = area(f);
-        if (!best || a > best.area) best = { src: f.src, area: a };
+  for (const tier of [0, 1, 2]) {
+    const inTier = candidates.filter((l) => themeRank(l.theme) === tier);
+    if (inTier.length === 0) continue;
+    // SVG within this theme tier.
+    for (const l of inTier) {
+      const svg = formatOfType(l, 'svg');
+      if (svg) return svg.src;
+    }
+    // Largest raster within this theme tier.
+    let best: { src: string; area: number } | undefined;
+    for (const l of inTier) {
+      for (const f of l.formats ?? []) {
+        if ((f.format === 'png' || f.format === 'jpeg') && typeof f.src === 'string' && f.src) {
+          const a = area(f);
+          if (!best || a > best.area) best = { src: f.src, area: a };
+        }
       }
     }
+    if (best) return best.src;
   }
-  return best?.src;
+  return undefined;
 }
 
 /**

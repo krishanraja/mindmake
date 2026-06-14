@@ -83,10 +83,8 @@ export const DossierReveal = ({ dossier, onCorrect }: DossierRevealProps) => {
         </p>
         <div className="flex flex-wrap items-center gap-3">
           {logo && (
-            <motion.img
-              src={logo}
-              alt={company}
-              className="h-9 max-w-[160px] object-contain"
+            <motion.span
+              className="inline-flex items-center justify-center rounded-lg bg-white px-2.5 py-1.5 shadow-sm ring-1 ring-black/5"
               {...(reduce
                 ? {}
                 : {
@@ -94,10 +92,20 @@ export const DossierReveal = ({ dossier, onCorrect }: DossierRevealProps) => {
                     animate: { opacity: 1, scale: 1 },
                     transition: { delay: 0.15, duration: 0.5 },
                   })}
-              onError={(e) => {
-                (e.currentTarget as HTMLImageElement).style.display = "none";
-              }}
-            />
+            >
+              {/* The logo sits on a white plate so an arbitrary (usually dark)
+                  brand mark stays legible against the dark room. */}
+              <img
+                src={logo}
+                alt={company}
+                className="h-6 max-w-[150px] object-contain"
+                onError={(e) => {
+                  const plate = (e.currentTarget as HTMLImageElement)
+                    .parentElement;
+                  if (plate) plate.style.display = "none";
+                }}
+              />
+            </motion.span>
           )}
           {logo && <span className="text-xl font-light text-white/30">×</span>}
           <span className="font-display text-xl font-bold text-white">

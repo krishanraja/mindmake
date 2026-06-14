@@ -321,34 +321,32 @@ interface BrandfetchSearchHit {
 }
 
 /**
- * Resolve a company NAME to a registrable domain via the Brandfetch Search API.
+ * Search Brandfetch for companies matching a NAME, returning a ranked list of
+ * candidates (each with a registrable domain, display name, and CDN icon). This
+ * powers the opener's company typeahead: the visitor picks their company from the
+ * list, which hands us the exact DOMAIN (a precise enrichment key, as good as a
+ * work email) instead of a fuzzy free-typed name.
  *
- * This is what lets the dossier light up when a visitor only ever says their
- * company name in conversation (no work email). The caller passes the resolved
- * domain back into the normal `fetchBrandfetch(domain)` + BuiltWith + PDL fan-out
- * to get the real logo, colours, stack and firmographics.
- *
- * Never throws. Returns null when no key/client-id is configured, the request
+ * Never throws. Returns [] when no key/client-id is configured, the request
  * fails, or nothing usable comes back.
  *
- * Auth: the Search API authenticates by client id (`?c=`) when `BRANDFETCH_CLIENT_ID`
- * is set; otherwise the Brand API bearer key is used.
- *
- * @param query A company name as a human would say it (e.g. "Gong", "Acme Health").
+ * Auth: the Search API authenticates by client id (`?c=`) when
+ * `BRANDFETCH_CLIENT_ID` is set; otherwise the Brand API bearer key is used.
  */
-export async function searchBrandDomain(
+export async function searchBrands(
   query: string,
-): Promise<{ domain: string; name?: string; iconUrl?: string } | null> {
+  limit = 6,
+): Promise<Array<{ domain: string; name?: string; iconUrl?: string }>> {
   const logger = createLogger('enrich:brandfetch-search');
 
   const q = (query || '').trim();
-  if (!q || q.length < 2) return null;
+  if (!q || q.length < 2) return [];
 
   const apiKey = Deno.env.get('BRANDFETCH_API_KEY');
   const clientId = Deno.env.get('BRANDFETCH_CLIENT_ID');
   if (!apiKey && !clientId) {
     logger.error('no BRANDFETCH_API_KEY / BRANDFETCH_CLIENT_ID; skipping brand search');
-    return null;
+    return [];
   }
 
   const base = `https://api.brandfetch.io/v2/search/${encodeURIComponent(q)}`;
@@ -364,45 +362,53 @@ export async function searchBrandDomain(
     );
     if (!res.ok) {
       logger.warn('brand search non-ok response', { q, status: res.status });
-      return null;
+      return [];
     }
 
     const data = (await res.json()) as BrandfetchSearchHit[];
-    if (!Array.isArray(data) || data.length === 0) return null;
+    if (!Array.isArray(data)) return [];
 
-    // Results come back best-first. Prefer a verified / claimed / high-quality
-    // hit with a usable domain; otherwise take the first hit that has a domain.
-    const usable = data.filter(
-      (h) => typeof h.domain === 'string' && h.domain.includes('.'),
-    );
-    if (usable.length === 0) return null;
-    const best =
-      usable.find(
-        (h) => h.verified || h.claimed || (h.qualityScore ?? 0) >= 0.3,
-      ) ?? usable[0];
-
-    const domain = (best.domain as string).trim().toLowerCase();
-    const iconUrl =
-      typeof best.icon === 'string' && /^https?:\/\//.test(best.icon)
-        ? best.icon
-        : undefined;
-    const name =
-      typeof best.name === 'string' ? best.name.trim() || undefined : undefined;
-
-    logger.info('brand search ok', {
-      q,
-      domain,
-      name,
-      verified: best.verified,
-      qualityScore: best.qualityScore,
-    });
-
-    return { domain, name, iconUrl };
+    const out: Array<{ domain: string; name?: string; iconUrl?: string }> = [];
+    const seen = new Set<string>();
+    for (const h of data) {
+      const domain =
+        typeof h.domain === 'string' && h.domain.includes('.')
+          ? h.domain.trim().toLowerCase()
+          : '';
+      if (!domain || seen.has(domain)) continue;
+      seen.add(domain);
+      out.push({
+        domain,
+        name: typeof h.name === 'string' ? h.name.trim() || undefined : undefined,
+        iconUrl:
+          typeof h.icon === 'string' && /^https?:\/\//.test(h.icon)
+            ? h.icon
+            : undefined,
+      });
+      if (out.length >= limit) break;
+    }
+    return out;
   } catch (err) {
     logger.error('brand search failed', {
       q,
       error: err instanceof Error ? err.message : String(err),
     });
-    return null;
+    return [];
   }
+}
+
+/**
+ * Resolve a company NAME to a single best registrable domain via the Brandfetch
+ * Search API. Thin wrapper over {@link searchBrands} that applies a confidence
+ * preference (verified / claimed / high quality) then falls back to the top hit.
+ *
+ * Never throws. Returns null when nothing usable comes back.
+ *
+ * @param query A company name as a human would say it (e.g. "Gong", "Acme Health").
+ */
+export async function searchBrandDomain(
+  query: string,
+): Promise<{ domain: string; name?: string; iconUrl?: string } | null> {
+  const results = await searchBrands(query, 6);
+  return results.length > 0 ? results[0] : null;
 }

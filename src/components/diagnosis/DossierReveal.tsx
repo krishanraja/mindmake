@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Check, ExternalLink, Pencil } from "lucide-react";
+import { cn } from "@/lib/utils";
 import type { Dossier } from "./types";
 
 interface DossierRevealProps {
@@ -36,6 +37,9 @@ export const DossierReveal = ({ dossier, onCorrect }: DossierRevealProps) => {
   const { identity, understanding, currency, synthesis } = dossier;
   const company = identity.name || "your company";
   const logo = identity.logoUrl || identity.iconUrl;
+  // Adaptive contrast: a light/white mark goes straight on the dark glass; a
+  // dark/coloured mark (or one we haven't measured yet) sits on a white plate.
+  const onLightPlate = identity.logoBg !== "light";
 
   const reveal = (delay: number) =>
     reduce
@@ -84,7 +88,11 @@ export const DossierReveal = ({ dossier, onCorrect }: DossierRevealProps) => {
         <div className="flex flex-wrap items-center gap-3">
           {logo && (
             <motion.span
-              className="inline-flex items-center justify-center rounded-lg bg-white px-2.5 py-1.5 shadow-sm ring-1 ring-black/5"
+              className={cn(
+                "inline-flex items-center justify-center",
+                onLightPlate &&
+                  "rounded-lg bg-white px-2.5 py-1.5 shadow-sm ring-1 ring-black/5",
+              )}
               {...(reduce
                 ? {}
                 : {
@@ -93,12 +101,13 @@ export const DossierReveal = ({ dossier, onCorrect }: DossierRevealProps) => {
                     transition: { delay: 0.15, duration: 0.5 },
                   })}
             >
-              {/* The logo sits on a white plate so an arbitrary (usually dark)
-                  brand mark stays legible against the dark room. */}
               <img
                 src={logo}
                 alt={company}
-                className="h-6 max-w-[150px] object-contain"
+                className={cn(
+                  "object-contain",
+                  onLightPlate ? "h-6 max-w-[150px]" : "h-7 max-w-[160px]",
+                )}
                 onError={(e) => {
                   const plate = (e.currentTarget as HTMLImageElement)
                     .parentElement;

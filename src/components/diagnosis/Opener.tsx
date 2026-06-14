@@ -9,13 +9,22 @@ import { sound } from "@/lib/sound";
 import { cn } from "@/lib/utils";
 import { MindyAvatar } from "./MindyAvatar";
 import { MicButton } from "./MicButton";
+import { CompanyField, type PickedCompany } from "./CompanyField";
 import type { SessionMode } from "./types";
 
 interface OpenerProps {
   mode: SessionMode;
-  onStart: (decision: string, email?: string) => void;
-  /** Express path: collect the one-liner + email, then rush to the booking. */
-  onExpressBook: (decision: string, email?: string) => void;
+  onStart: (
+    decision: string,
+    email?: string,
+    company?: PickedCompany,
+  ) => void;
+  /** Express path: collect the one-liner + company/email, then rush to booking. */
+  onExpressBook: (
+    decision: string,
+    email?: string,
+    company?: PickedCompany,
+  ) => void;
   /** From express, drop the visitor into the full diagnosis instead. */
   onSwitchToFull: () => void;
   /** Record -> transcribe -> returns text for the input. */
@@ -56,12 +65,16 @@ export const Opener = ({
   const reduce = useReducedMotion();
   const [decision, setDecision] = useState("");
   const [email, setEmail] = useState("");
+  const [company, setCompany] = useState<PickedCompany | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const express = mode === "express";
   const emailOk = EMAIL_RE.test(email.trim());
+  // Express still needs a way to reach them — a work email OR a picked company
+  // (whose domain we can enrich and brief Krish from).
+  const expressIdentityOk = emailOk || !!company?.domain;
   const canSubmit =
-    decision.trim().length > 2 && !busy && (!express || emailOk);
+    decision.trim().length > 2 && !busy && (!express || expressIdentityOk);
   const kbOpen = keyboardHeight > 100;
 
   const submit = () => {
@@ -70,8 +83,9 @@ export const Opener = ({
     sound.play("send");
     const d = decision.trim();
     const e = email.trim() || undefined;
-    if (express) onExpressBook(d, e);
-    else onStart(d, e);
+    const c = company ?? undefined;
+    if (express) onExpressBook(d, e, c);
+    else onStart(d, e, c);
   };
 
   const pickPill = (pill: string) => {
@@ -183,7 +197,12 @@ export const Opener = ({
                 />
               </div>
             </div>
+            {/* Identity: company first (a picked result gives an exact domain,
+                the richest signal), email as the optional secondary. */}
             <div className="mt-2 border-t border-white/10 pt-2">
+              <CompanyField onChange={setCompany} onFocus={onFieldFocus} />
+            </div>
+            <div className="mt-1 border-t border-white/10 pt-2">
               <Input
                 type="email"
                 value={email}
@@ -192,7 +211,11 @@ export const Opener = ({
                 onKeyDown={(e) => {
                   if (e.key === "Enter") submit();
                 }}
-                placeholder={express ? "Work email" : "Work email (optional)"}
+                placeholder={
+                  express && !company?.domain
+                    ? "Work email"
+                    : "Work email (optional)"
+                }
                 className="border-0 bg-transparent px-1 text-[15px] text-white placeholder:text-white/35 focus-visible:ring-0 sm:text-base"
               />
             </div>
@@ -200,8 +223,8 @@ export const Opener = ({
 
           <p className="text-[13px] leading-relaxed text-white/55 sm:text-sm">
             {express
-              ? "Used to set up the call and brief Krish. Nothing else."
-              : "Drop a work email if you want me to read up on your company while we talk. Skip it and just think out loud."}
+              ? "Pick your company so I can brief Krish before the call. A work email works too."
+              : "Pick your company and I'll read up on you before we talk, it makes every answer sharper. Email is optional."}
           </p>
 
           <motion.div whileTap={reduce || !canSubmit ? undefined : { scale: 0.99 }}>

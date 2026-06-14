@@ -16,6 +16,12 @@ export interface DossierIdentity {
   iconUrl?: string;
   colors?: string[];
   founded?: string | number;
+  /**
+   * Client-detected brightness of the logo artwork: 'dark' = dark/coloured mark
+   * (render on a light plate), 'light' = light/white mark (render on a dark
+   * surface). Absent until detected.
+   */
+  logoBg?: "light" | "dark";
 }
 
 export interface DossierUnderstanding {

@@ -28,6 +28,12 @@ export interface Dossier {
     iconUrl?: string;
     colors?: string[]; // hex, brand-ordered
     founded?: number;
+    /**
+     * Brightness of the logo artwork, detected client-side (canvas luminance):
+     * 'dark' = dark/coloured mark (needs a light plate), 'light' = light/white
+     * mark (render directly on a dark surface). Absent until detected.
+     */
+    logoBg?: 'light' | 'dark';
   };
   understanding: {
     tagline?: string;

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { detectLogoBg } from "./logoLuminance";
 import type {
   ChatMessage,
   Contact,
@@ -164,9 +165,17 @@ export interface UseDiagnosisSession extends DiagnosisSessionState {
   /** Switch a started express session into the full diagnosis. */
   switchToFull: () => void;
   /** Kick the session off from the opener. */
-  start: (decision: string, email?: string) => Promise<void>;
+  start: (
+    decision: string,
+    email?: string,
+    company?: { name?: string; domain?: string },
+  ) => Promise<void>;
   /** Express path: collect the minimum and jump straight to the booking. */
-  startExpress: (decision: string, email?: string) => void;
+  startExpress: (
+    decision: string,
+    email?: string,
+    company?: { name?: string; domain?: string },
+  ) => void;
   /** Send a follow-up message into the conversation. */
   send: (text: string) => Promise<void>;
   /** Transcribe a recorded audio blob via the transcribe edge fn. */
@@ -269,9 +278,36 @@ export function useDiagnosisSession(): UseDiagnosisSession {
       if (failed || !data) return; // background; fail silently
       const res = data;
       if ("skipped" in res || "error" in res) return;
-      const merged: Dossier = { ...(rawDossierRef.current || {}), ...res };
+      const prev = rawDossierRef.current;
+      const merged: Dossier = { ...(prev || {}), ...res };
+      // Preserve a client-detected logo brightness across the upgrade when the
+      // logo URL is unchanged, so the adaptive plate decision doesn't reset.
+      const prevUrl = prev?.identity?.logoUrl || prev?.identity?.iconUrl;
+      const nextUrl = merged.identity?.logoUrl || merged.identity?.iconUrl;
+      if (prev?.identity?.logoBg && prevUrl && prevUrl === nextUrl) {
+        merged.identity = { ...merged.identity, logoBg: prev.identity.logoBg };
+      }
       rawDossierRef.current = merged;
       patch({ dossier: toViewDossier(merged) });
+    },
+    [patch],
+  );
+
+  // -- detect logo brightness so co-brand surfaces pick the right background --
+  // A dark/coloured mark needs a light plate; a light/white mark goes straight
+  // on the dark surface. We sample the actual artwork (canvas luminance) rather
+  // than trusting Brandfetch's unreliable theme tag, then patch the live dossier.
+  const primeLogoBg = useCallback(
+    async (logoUrl?: string) => {
+      if (!logoUrl) return;
+      const bg = await detectLogoBg(logoUrl);
+      if (!bg) return;
+      const cur = rawDossierRef.current;
+      if (!cur) return;
+      const curUrl = cur.identity?.logoUrl || cur.identity?.iconUrl;
+      if (curUrl !== logoUrl) return; // dossier/logo changed under us
+      cur.identity = { ...cur.identity, logoBg: bg };
+      patch({ dossier: toViewDossier(cur) });
     },
     [patch],
   );
@@ -303,10 +339,11 @@ export function useDiagnosisSession(): UseDiagnosisSession {
           company: res.identity?.name || s.contact.company,
         },
       }));
+      void primeLogoBg(res.identity?.logoUrl || res.identity?.iconUrl);
       // deep upgrade (PDL + BuiltWith + currency + synthesis) in the background
       void enrichFull(undefined, res.domain || domain);
     },
-    [enrichFull],
+    [enrichFull, primeLogoBg],
   );
 
   // -- one round-trip to mindy-chat -----------------------------------------
@@ -429,16 +466,30 @@ export function useDiagnosisSession(): UseDiagnosisSession {
 
   // -- START -----------------------------------------------------------------
   const start = useCallback(
-    async (decision: string, email?: string) => {
+    async (
+      decision: string,
+      email?: string,
+      company?: { name?: string; domain?: string },
+    ) => {
       const text = decision.trim();
       if (!text) return;
 
       const cleanEmail =
         email && EMAIL_RE.test(email.trim()) ? email.trim() : undefined;
+      const emailEnriches = !!cleanEmail && !isFreeEmail(cleanEmail);
       const domain = cleanEmail ? domainFromEmail(cleanEmail) : undefined;
-      const willEnrich = !!cleanEmail && !isFreeEmail(cleanEmail);
 
-      trackEvent("diagnosis_room_start", { hasEmail: !!cleanEmail, willEnrich });
+      // Enrichment key, most precise first: a work-email domain, then a company
+      // the visitor PICKED from search (exact domain), then a free-typed name.
+      const companyDomain = company?.domain?.trim() || undefined;
+      const companyName = company?.name?.trim() || undefined;
+      const willEnrich = emailEnriches || !!companyDomain || !!companyName;
+
+      trackEvent("diagnosis_room_start", {
+        hasEmail: !!cleanEmail,
+        hasCompany: !!(companyDomain || companyName),
+        willEnrich,
+      });
 
       // seed the conversation with the opening decision
       messagesRef.current = [{ role: "user", content: text }];
@@ -464,9 +515,12 @@ export function useDiagnosisSession(): UseDiagnosisSession {
       if (willEnrich) {
         // fast identity pass for the co-brand gasp, then full in the background
         patch({ phase: "reading", reading: true, error: null });
+        const enrichBody = emailEnriches
+          ? { email: cleanEmail, domain, depth: "identity" }
+          : { domain: companyDomain, name: companyName, depth: "identity" };
         const { data, failed } = await safeInvoke<EnrichResponse>(
           "enrich-company",
-          { email: cleanEmail, domain, depth: "identity" },
+          enrichBody,
         );
         // enrichment failure is non-fatal; we just proceed without the co-brand
         if (!failed && data && !("skipped" in data) && !("error" in data)) {
@@ -475,30 +529,44 @@ export function useDiagnosisSession(): UseDiagnosisSession {
           patch({
             dossier: toViewDossier(res),
             coBranded: true,
-            contact: { email: cleanEmail, company: res.identity?.name },
+            contact: {
+              email: cleanEmail,
+              company: res.identity?.name || companyName,
+            },
           });
-          void enrichFull(cleanEmail, domain); // background upgrade
+          void primeLogoBg(res.identity?.logoUrl || res.identity?.iconUrl);
+          void enrichFull(cleanEmail, res.domain || domain || companyDomain); // background upgrade
         }
       }
 
       patch({ phase: "reflect", reading: false });
       await callMindy(assistantTurnId);
     },
-    [patch, callMindy, enrichFull],
+    [patch, callMindy, enrichFull, primeLogoBg],
   );
 
   // -- EXPRESS START ---------------------------------------------------------
   // Collect only the critical info and rush to the Calendly booking. Enrich in
   // the background so Krish still gets a brief; never gate the booking on it.
   const startExpress = useCallback(
-    (decision: string, email?: string) => {
+    (
+      decision: string,
+      email?: string,
+      company?: { name?: string; domain?: string },
+    ) => {
       const text = decision.trim();
       const cleanEmail =
         email && EMAIL_RE.test(email.trim()) ? email.trim() : undefined;
+      const emailEnriches = !!cleanEmail && !isFreeEmail(cleanEmail);
       const domain = cleanEmail ? domainFromEmail(cleanEmail) : undefined;
+      const companyDomain = company?.domain?.trim() || undefined;
+      const companyName = company?.name?.trim() || undefined;
 
       modeRef.current = "express";
-      trackEvent("diagnosis_room_express_start", { hasEmail: !!cleanEmail });
+      trackEvent("diagnosis_room_express_start", {
+        hasEmail: !!cleanEmail,
+        hasCompany: !!(companyDomain || companyName),
+      });
 
       // seed the transcript so the digest carries the one-line decision
       messagesRef.current = text ? [{ role: "user", content: text }] : [];
@@ -506,15 +574,18 @@ export function useDiagnosisSession(): UseDiagnosisSession {
       patch({
         mode: "express",
         phase: "express-book",
-        contact: { email: cleanEmail },
+        contact: { email: cleanEmail, company: companyName },
       });
 
-      // background enrichment so the brief Krish receives is still rich
-      if (cleanEmail && !isFreeEmail(cleanEmail)) {
+      // background enrichment so the brief Krish receives is still rich. Prefer
+      // the email domain; otherwise enrich from the company the visitor picked.
+      if (emailEnriches) {
         void enrichFull(cleanEmail, domain);
+      } else if (companyDomain || companyName) {
+        void enrichFromMention(companyName, companyDomain);
       }
     },
-    [patch, enrichFull],
+    [patch, enrichFull, enrichFromMention],
   );
 
   // -- SEND ------------------------------------------------------------------

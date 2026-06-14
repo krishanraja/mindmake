@@ -1,6 +1,6 @@
 # CLAUDE.md: Mindmaker Repository Guide
 
-**Last Updated:** 2026-06-09
+**Last Updated:** 2026-06-14
 **Purpose:** Describe the current state of the Mindmaker codebase so agents and contributors can navigate it without reverse-engineering the tree.
 
 This file is **descriptive**, not prescriptive. For strategic intent, read `project-documentation/mindmaker_rebuild_brief_v4.md` (v4/v5 combined, the barbell pivot + Operator's Edge). The v6 ladder restructure (May 2026) layered Workshops at the entry rung, renamed the Cohort to "The AI-Fluent Executive" and repriced it to $2,500 over 4 weeks, and added the invitation-only Alumni Pass; see `project-documentation/HISTORY.md` and `project-documentation/DECISIONS_LOG.md` for the full reasoning.
@@ -30,12 +30,13 @@ Mindmaker is structured as a **ladder**: free Lightning Lessons at the top, paid
 
 ### Technical infrastructure
 - Supabase edge functions in `supabase/functions/`:
-  - **Diagnosis Room (Mindy):** `mindy-chat` (Claude reasoning turn), `enrich-company` (company dossier orchestrator), `generate-proposal` (co-branded one-pager + Browserless PDF), `session-digest` (Resend intelligence email to Krish + opt-in visitor copy), `transcribe` (OpenAI Whisper voice input). Shared logic lives in `supabase/functions/_shared/{mindy,enrich,proposal}/`.
+  - **Diagnosis Room (Mindy):** `mindy-chat` (Claude reasoning turn), `enrich-company` (company dossier orchestrator), `company-search` (company-name typeahead via Brandfetch Search, feeds `CompanyField.tsx` in the opener), `generate-proposal` (co-branded one-pager + Browserless PDF), `session-digest` (Resend intelligence email to Krish + opt-in visitor copy), `transcribe` (OpenAI Whisper voice input). Shared logic lives in `supabase/functions/_shared/{mindy,enrich,proposal}/`.
   - `nervous-decision-machine` (Claude Haiku 4.5, powers the Nervous Decision Machine)
   - `get-ai-news`, `get-market-sentiment`, `get-model-data`
   - `send-contact-email`, `send-lead-email`, `send-leadership-insights-email`
   - `notify-scoping-request` (scoping intake → email Krish), `notify-ctrl-waitlist` (CTRL waitlist → email Krish)
   - `import-audience-csv` (Substack subscriber CSV → shared `audience_contacts` table; gated by `AUDIENCE_IMPORT_SECRET`)
+  - `submit-testimonial` (public testimonial capture → `testimonials` table + email Krish; honeypot-guarded)
   - `create-consultation-hold`
 - `SessionDataContext` (`src/contexts/SessionDataContext.tsx`) threads qualification data into the global conversion modal(s).
 - Design system in `tailwind.config.ts` + `src/index.css`.
@@ -53,7 +54,7 @@ Mindmaker is structured as a **ladder**: free Lightning Lessons at the top, paid
 Authoritative source: `src/pages/Index.tsx`.
 
 1. `Navigation`. fixed top, hides on scroll-down via `useScrollDirection`.
-2. `NewHero`. rotating headlines + primary "Book a call" (opens the Diagnosis Room in **express** mode) + secondary "Work through your decision with Mindy" (opens the Diagnosis Room in **full** mode) + tertiary "Or start with a free lesson →" (Maven instructor page) and "See how I work →" (`/operator`) links. Subheadline: "Three different doors into the same operator, depending on whether you want to think more clearly, work through one nervous decision, or rebuild how your business actually makes money with AI."
+2. `NewHero`. rotating headlines + primary "Book a call" (opens the Diagnosis Room in **express** mode) + secondary "Run a trained decision simulation" (opens the Diagnosis Room in **full** mode) + tertiary "Or start with a free lesson →" (Maven instructor page) and "See how I work →" (`/operator`) links.
 3. `BigProblem`. existential urgency frame, built as three large interactive flip cards (a fate on the front, what Mindmaker does about it on the back).
 4. `TrustSection`. Krish bio, headshot, testimonials carousel.
 5. `FrameworkJourney`. three-panel animated MindSet → MindMap → MindMake.
@@ -132,7 +133,7 @@ File: `src/components/Navigation.tsx`. Primary CTA: **"Book a call"** (no condit
 - **Workshops** (direct link, slot 1): `/workshops`.
 - **Cohort** (direct link): `/cohort`.
 - **Enterprise** (dropdown): The Signal Session → `/enterprise#signal-session`, The Revenue Architecture → `/enterprise#revenue-architecture`, The AI Immersion → `/enterprise#immersion`, plus a "For funds & operating partners" section linking to Capital → `/capital`.
-- **Mindmaker LIVE** (link, rendered as a wordmark): `/signal`.
+- **Mindmaker LIVE** (link, rendered as the `mindmaker-live-pill` image asset from `src/assets/`): `/signal`.
 - **Resources** (dropdown): How I operate → `/operator`, Case studies → `/case-studies`, New Age Leadership → `/new-age-leadership`, Library → `/library`, The Builder Economy (Podcast) → external `www.thebuildereconomy.com`, Lightning Lessons (5 external Maven links).
 - **About** (dropdown): Contact → `/contact`, Privacy → `/privacy`, Terms → `/terms`.
 
@@ -183,15 +184,16 @@ The primary conversion surface (June 2026). A full-screen immersive experience w
 
 **Entry points:** the `openDiagnosisRoom` custom event (`detail: { source_page, seedDecision?, mode? }`), dispatched by the nav "Book a call", the hero CTAs, and `SimpleCTA`; plus the standalone page at `/start`. Lazy-loaded and only mounted when open, so the SSG prerender never instantiates it.
 
-**Two modes** (`SessionMode`): `express` rushes to the booking (nav "Book a call" defaults here); `full` runs the complete diagnosis (the hero's "Work through your decision with Mindy" and the mobile "think it through with Mindy first"). A started express session can switch to full mid-flight.
+**Two modes** (`SessionMode`): `express` rushes to the booking (nav "Book a call" defaults here); `full` runs the complete diagnosis (the hero's "Run a trained decision simulation" and the mobile "think it through with Mindy first"). A started express session can switch to full mid-flight.
 
 **Front end**, `src/components/diagnosis/`:
-- `DiagnosisRoom.tsx`. the orchestrator/overlay. `Opener`, `Conversation`, `DossierReveal`, `DecisionBrief`, `Fork`, `ProposalView`, `ExpressBooking`, `MicButton`, `MindyAvatar` are the scenes/controls; `useDiagnosisSession.ts` is the state machine; `types.ts` holds the edge-function contracts.
+- `DiagnosisRoom.tsx`. the orchestrator/overlay. `Opener`, `Conversation`, `DossierReveal`, `DecisionBrief`, `Fork`, `ProposalView`, `ExpressBooking`, `MicButton`, `MindyAvatar`, `CompanyField` (company-name typeahead in the opener), `BrushPainter` (brush-stroke animation during proposal generation), and `logoLuminance` (adaptive logo contrast for co-brand surfaces) are the scenes/controls/helpers; `useDiagnosisSession.ts` is the state machine; `types.ts` holds the edge-function contracts.
 - Phases (`RoomPhase`): `opener` → `reading` (enrichment in flight) → `reflect` (dossier reveal + Mindy's first reflection) → `chat` → `brief` (the kept one-screen decision brief) → `fork` (the three exits) → `proposal`; `express-book` is the express shortcut straight to Calendly.
 - Three honest exits: **keep chatting** (learn), **book a free 15-min call** (`CALENDLY_URL` = `https://calendly.com/krish-raja/15-min-intro`), and **generate/download a co-branded proposal** (PDF).
 
-**Back end**, four edge functions (plus voice):
+**Back end**, five edge functions (plus voice):
 - `enrich-company`. turns a work email/domain into a company **dossier**. `depth: "identity"` is the fast (~1s) co-brand paint (Brandfetch + Tranco); `depth: "full"` adds PDL + BuiltWith + currency, then a Gemini/Anthropic synthesis in Krish's voice. Free-email domains (gmail, etc.) return `{ skipped: "free-email" }` so the UI degrades gracefully (no co-brand "gasp").
+- `company-search`. company-name typeahead (Brandfetch Search): given a partial company name, returns up to 6 ranked results (name, domain, CDN icon). The visitor picks their company; the client receives the precise domain for `enrich-company` without requiring a work email.
 - `mindy-chat`. Mindy's reasoning turn. Composes the Brain Pack + a formatted dossier block, calls Claude, returns a strict-JSON turn (`reply`, `phase`, `quickReplies`, `recommendation`, `decisionBrief`, `readyForProposal`, `readyForCall`) run through a runtime voice gate.
 - `generate-proposal`. the on-the-fly co-branded "Mindmaker × [company]" one-pager. Deterministic shell + dossier + selected proof, with reflective prose generated in one Claude call and voice-linted. `format: "pdf"` renders via Browserless; on Browserless failure it returns HTML + `pdfFallback: true` so the client prints to PDF.
 - `session-digest`. fires on a meaningful end (`chat` / `book-call` / `proposal`). Emails Krish the FULL session intelligence; if the visitor opted in and a proposal exists, emails them ONLY their proposal (Resend).

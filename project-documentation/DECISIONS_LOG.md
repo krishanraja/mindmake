@@ -1,6 +1,38 @@
 # Decisions Log
 
-**Last Updated:** 2026-06-09
+**Last Updated:** 2026-06-14
+
+---
+
+## Brand & Product Decisions
+
+### 2026-06-14: Hero secondary CTA renamed to "Run a trained decision simulation"
+
+**Decision:** The hero's full-mode entry point ("Work through your decision with Mindy") was renamed to **"Run a trained decision simulation"**.
+
+**Context:** "Work through your decision with Mindy" read as conversational / therapeutic. "Run a trained decision simulation" signals a structured tool, which matches the Diagnosis Room's actual character and resonates better with the executive buyer segment.
+
+**Impact:** `src/components/NewHero.tsx` CTA label. No change to the underlying event or mode (`openDiagnosisRoom`, `full`). Docs updated: ARCHITECTURE.md, FEATURES.md, CLAUDE.md.
+
+---
+
+### 2026-06-14: Company-name typeahead replaces work-email-only enrichment entry
+
+**Decision:** The Diagnosis Room opener now accepts a company name via a live typeahead (`company-search` edge function, Brandfetch Search) as an alternative to, or in combination with, a work email. The visitor picks their company from a ranked list; the client receives the precise domain for the `enrich-company` call.
+
+**Context:** Requiring a work email as the sole enrichment trigger was a friction point. Many visitors use personal email addresses but have no objection to naming their company. The typeahead supplies the domain (the actual enrichment key) with lower friction and higher accuracy than parsing an email domain.
+
+**Impact:** New `company-search` edge function; new `CompanyField.tsx` component wired into `Opener.tsx`. `enrich-company` now accepts a domain directly (not only an email).
+
+---
+
+### 2026-06-14: Testimonial capture formalised via submit-testimonial function
+
+**Decision:** A dedicated `submit-testimonial` edge function and corresponding testimonial capture page replace ad-hoc manual proof collection.
+
+**Context:** Proof collection was previously manual (Krish reaching out post-engagement). A structured capture page with a `testimonials` Supabase table makes it scalable and auditable; the RESEND notification ensures no submission goes unnoticed.
+
+**Impact:** New `submit-testimonial` edge function; new `testimonials` Supabase table; honeypot anti-bot guard.
 
 ---
 

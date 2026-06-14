@@ -1,6 +1,6 @@
 # Replication Guide
 
-**Last Updated:** 2026-06-09
+**Last Updated:** 2026-06-14
 
 ---
 
@@ -123,7 +123,7 @@ src/components/nervous-decision/types.ts
 ```
 src/components/diagnosis/                      # full-screen on-site experience; mount globally and open via openDiagnosisRoom (detail: { source_page, seedDecision?, mode: 'express' | 'full' }); also a standalone page at /start
 ```
-Mindy diagnoses the visitor's one nervous AI decision and forks to three honest exits: keep chatting, book a free 15-min Calendly call, or generate/download a co-branded "Mindmaker × [company]" proposal. Backed by the `mindy-chat`, `enrich-company`, `generate-proposal`, `session-digest`, and `transcribe` (Whisper voice input) edge functions (see Phase 4).
+Mindy diagnoses the visitor's one nervous AI decision and forks to three honest exits: keep chatting, book a free 15-min Calendly call, or generate/download a co-branded "Mindmaker × [company]" proposal. Key components: `CompanyField.tsx` (company-name typeahead, calls `company-search`), `BrushPainter.tsx` (brush-stroke animation during proposal generation), `logoLuminance.ts` (adaptive logo contrast for co-brand surfaces). Backed by the `mindy-chat`, `enrich-company`, `company-search`, `generate-proposal`, `session-digest`, and `transcribe` (Whisper voice input) edge functions (see Phase 4).
 
 ### Step 12: Global context + hooks
 ```
@@ -163,6 +163,8 @@ supabase/functions/enrich-company/index.ts             # Diagnosis Room company 
 supabase/functions/generate-proposal/index.ts          # Diagnosis Room co-branded proposal generation
 supabase/functions/session-digest/index.ts             # Diagnosis Room session digest
 supabase/functions/transcribe/index.ts                 # Whisper voice input for the Diagnosis Room
+supabase/functions/company-search/index.ts             # company-name typeahead (Brandfetch Search) for the Diagnosis Room opener
+supabase/functions/submit-testimonial/index.ts         # public testimonial capture → testimonials table + email Krish
 supabase/functions/create-consultation-hold/index.ts  # Stripe (bypassed)
 ```
 

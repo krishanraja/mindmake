@@ -1,6 +1,6 @@
 # Deployment Checklist
 
-**Last Updated:** 2026-06-09
+**Last Updated:** 2026-06-14
 
 Pre-deploy and post-deploy verification for the Mindmaker project.
 
@@ -26,6 +26,8 @@ All required secrets configured in Lovable Cloud / Supabase:
 - [ ] All functions handle OPTIONS preflight + CORS headers
 - [ ] All functions return 200 on error with fallback data (anti-fragile design)
 - [ ] `nervous-decision-machine` rate limiter configured (1-hour per IP + global ceiling)
+- [ ] `company-search` rate limiter configured (80 requests / IP / 5 min in-memory)
+- [ ] `submit-testimonial` `testimonials` table exists in Supabase with the correct schema
 
 ### 4. Frontend routes
 All routes in `src/App.tsx` accessible:
@@ -137,6 +139,8 @@ All routes in `src/App.tsx` accessible:
 - [ ] `send-leadership-insights-email`: (test env) complete diagnostic + unlock, verify dual email
 - [ ] `notify-scoping-request`: (test env) submit the ScopingModal, verify krish@themindmaker.ai receipt
 - [ ] `notify-ctrl-waitlist`: (test env) join the CTRL waitlist, verify krish@themindmaker.ai receipt
+- [ ] `company-search`: partial company name returns ranked list of (name, domain, icon); empty/short query returns `{ results: [] }`
+- [ ] `submit-testimonial`: (test env) submit a testimonial form, verify row inserted in `testimonials` and receipt at krish@themindmaker.ai
 
 ### 4. Redirect check
 - [ ] `/tool` redirects to `/signal#decision`

@@ -1,6 +1,6 @@
 # Features
 
-**Last Updated:** 2026-06-09
+**Last Updated:** 2026-06-14
 
 ---
 
@@ -132,7 +132,7 @@ Triggered by `/cohort?inquiry=1:1`. A muted banner surfaces a Contact link. No p
 
 Authoritative: `src/pages/Index.tsx`. Order:
 
-1. `NewHero`. rotating headlines, eyebrow "Decision blockers I hear every week", looping `/rising-cities.mp4` background, mint pulse, particle background. Primary CTA "Book a call" (Diagnosis Room, express) + secondary "Work through your decision with Mindy" (Diagnosis Room, full) + tertiary "Or start with a free lesson →" / "See how I work →" (`/operator`).
+1. `NewHero`. rotating headlines, eyebrow "Decision blockers I hear every week", looping `/rising-cities.mp4` background, mint pulse, particle background. Primary CTA "Book a call" (Diagnosis Room, express) + secondary "Run a trained decision simulation" (Diagnosis Room, full) + tertiary "Or start with a free lesson →" / "See how I work →" (`/operator`).
 2. `BigProblem`. existential urgency frame (three large interactive flip cards; card CTA opens the `ScopingModal`).
 3. `TrustSection`. Krish bio + headshot + testimonials carousel (COHORT-STYLE / ENTERPRISE tagged).
 4. `FrameworkJourney`. three-panel animated Mind Set → Mind Map → Mind Make.
@@ -186,14 +186,14 @@ Surfaced in the Resources dropdown via the `LightningLessons` component. Five co
 
 **Entry:** the `openDiagnosisRoom` event (`detail: { source_page, seedDecision?, mode? }`) from the nav "Book a call", the hero CTAs, and `SimpleCTA`; plus the standalone page at `/start`. Two modes: `express` (rushes to booking) and `full` (runs the full diagnosis).
 
-**Front end** (`src/components/diagnosis/`): `DiagnosisRoom` (orchestrator), `Opener`, `Conversation`, `DossierReveal`, `DecisionBrief`, `Fork`, `ProposalView`, `ExpressBooking`, `MicButton`, `MindyAvatar`, the `useDiagnosisSession` state machine, and `types.ts`. Phases: `opener` → `reading` → `reflect` → `chat` → `brief` → `fork` → `proposal` (plus `express-book`).
+**Front end** (`src/components/diagnosis/`): `DiagnosisRoom` (orchestrator), `Opener`, `Conversation`, `DossierReveal`, `DecisionBrief`, `Fork`, `ProposalView`, `ExpressBooking`, `MicButton`, `MindyAvatar`, `CompanyField` (company-name typeahead in the opener, calls `company-search`), `BrushPainter` (brush-stroke animation during proposal generation), `logoLuminance` (adaptive logo contrast for co-brand surfaces), the `useDiagnosisSession` state machine, and `types.ts`. Phases: `opener` → `reading` → `reflect` → `chat` → `brief` → `fork` → `proposal` (plus `express-book`).
 
 **Three honest exits:**
 1. **Keep chatting** (learn).
 2. **Book a free 15-min call** → Calendly.
 3. **Generate / download a co-branded proposal** ("Mindmaker × [company]" one-pager, PDF via Browserless).
 
-**Back end** (4 edge functions + voice): `enrich-company` (company dossier; identity-depth co-brand paint + full-depth synthesis; free-email → graceful degrade), `mindy-chat` (Claude reasoning turn, voice-gated strict JSON), `generate-proposal` (co-branded one-pager + Browserless PDF), `session-digest` (Resend: full intelligence to Krish + opt-in visitor proposal copy), and `transcribe` (Whisper voice input).
+**Back end** (5 edge functions + voice): `enrich-company` (company dossier; identity-depth co-brand paint + full-depth synthesis; free-email → graceful degrade), `company-search` (company-name typeahead via Brandfetch Search; visitor picks company without typing a work email, providing a precise domain for enrichment), `mindy-chat` (Claude reasoning turn, voice-gated strict JSON), `generate-proposal` (co-branded one-pager + Browserless PDF), `session-digest` (Resend: full intelligence to Krish + opt-in visitor proposal copy), and `transcribe` (Whisper voice input).
 
 **Privacy:** the dossier's `scale.*` (employeeCount, sizeBand, trancoRank, icp, recommendedMode) is internal routing only, never surfaced to the visitor, never in the visitor copy; only Krish's digest gets the full dossier + transcript.
 
@@ -375,6 +375,7 @@ Structure:
 Diagnosis Room (shared logic in `_shared/{mindy,enrich,proposal}/`):
 - `mindy-chat`. Anthropic Claude, Mindy's reasoning turn (strict-JSON, voice-gated)
 - `enrich-company`. company dossier orchestrator (Brandfetch + PDL + Tranco + BuiltWith + Perplexity/Exa/NewsAPI + Gemini/Anthropic synthesis); `scale.*` is internal routing only
+- `company-search`. thin typeahead: partial company name → ranked list of (name, domain, icon) via Brandfetch Search; visitor picks company without needing a work email
 - `generate-proposal`. co-branded "Mindmaker × [company]" one-pager; HTML + Browserless PDF
 - `session-digest`. Resend, full intelligence to Krish + opt-in proposal copy to the visitor
 - `transcribe`. OpenAI Whisper, Diagnosis Room voice input
@@ -390,6 +391,7 @@ Other:
 - `notify-scoping-request`. powers the `ScopingModal`; emails krish@themindmaker.ai via Resend + persists
 - `notify-ctrl-waitlist`. CTRL waitlist signups (`CtrlWaitlistPopover`); emails krish@themindmaker.ai via Resend
 - `import-audience-csv`. Substack subscriber CSV → shared `audience_contacts` table (secret-gated)
+- `submit-testimonial`. public unauthenticated endpoint for the testimonial capture page; inserts into `testimonials` table, emails krish@themindmaker.ai; honeypot-guarded against bots
 - `create-consultation-hold`. Stripe (currently bypassed; Cohort payment via Maven)
 
 ---

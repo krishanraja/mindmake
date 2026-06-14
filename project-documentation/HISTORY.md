@@ -1,6 +1,46 @@
 # History
 
-**Last Updated:** 2026-06-09
+**Last Updated:** 2026-06-14
+
+---
+
+## 2026-06-14: Diagnosis Room mobile redesign; company-search typeahead; nav lockup; hero CTA rename; testimonial capture
+
+**What Changed (in the codebase):**
+
+- **Diagnosis Room redesigned as a 2027 mobile-first immersive experience.** The overlay was rebuilt for mobile-first usage: swipe-to-dismiss, haptic feedback, keyboard-inset handling, sound layer (`src/lib/sound.ts`, `src/lib/haptics.ts`), drag controls, and a progress indicator (rough step out of 3, never an exact bar). The room now auto-advances through the brief, fork, and proposal phases rather than waiting for explicit user action.
+- **Company-name typeahead in the opener.** `src/components/diagnosis/CompanyField.tsx` gives the visitor a live typeahead (Brandfetch Search via the new `company-search` edge function, 80 req/IP/5 min). The visitor picks their company by name instead of typing a work email, handing the client a precise domain for `enrich-company`. This lowers friction and increases co-brand enrichment quality.
+- **Enrichment from chat-named company.** The Diagnosis Room can now enrich a company named in the chat conversation (not only from the opener's email/typeahead fields). Proposal header and intelligence surface updated accordingly.
+- **`BrushPainter.tsx` replaces the proposal loading spinner.** A brush-stroke animated painter (`src/components/diagnosis/BrushPainter.tsx`) runs while `generate-proposal` is in flight, replacing the generic spinner.
+- **Adaptive logo contrast for co-brand surfaces.** `src/components/diagnosis/logoLuminance.ts` detects whether a client logo is light or dark and adjusts the overlay so dark logos do not vanish on dark co-brand backgrounds.
+- **Hero secondary CTA renamed.** `NewHero.tsx` secondary CTA changed from "Work through your decision with Mindy" to **"Run a trained decision simulation"** (still dispatches `openDiagnosisRoom` in `full` mode).
+- **Navigation wordmark lockup.** The nav now renders the Mindmaker icon and wordmark side-by-side with a tube-light flicker animation (`animate-wordmark-flicker`). The public wordmark images were moved from `public/` to `src/assets/` and the old `public/Mindmaker-Wordmark-*.png` and `public/mindmaker-live-pill.png` were deleted. The "Mindmaker LIVE" nav item renders the live-pill image (`mindmakerLivePill`) rather than plain text.
+- **Testimonial capture page + `submit-testimonial` edge function.** A new public endpoint inserts structured testimonial responses into a `testimonials` Supabase table and emails krish@themindmaker.ai via Resend. Honeypot field guards against bots. Email delivery is best-effort (a failed email does not roll back the saved row). Secrets: `SUPABASE_SERVICE_ROLE_KEY` (auto), `RESEND_API_KEY`.
+- **Quick reply reliability fix.** Mindy's quick-reply pills (including the opening question) were made reliable; they now render consistently even when the turn returns before the client-side animation completes.
+- **Two case studies removed** from `src/data/caseStudies.ts` as part of a copy rewrite ("Rewrite AI-speak copy in Krish's voice; remove two case studies").
+
+**Why:**
+- A mobile-first redesign ensures the conversion surface works on the devices most visitors use.
+- Company-name typeahead removes the work-email friction while still supplying the domain key the enrichment pipeline needs.
+- The hero CTA rename makes the full-mode entry point sound like a tool ("decision simulation") rather than a therapy session.
+- Testimonial capture formalises proof collection without relying on manual outreach.
+
+**Files Created:**
+- `src/components/diagnosis/CompanyField.tsx`
+- `src/components/diagnosis/BrushPainter.tsx`
+- `src/components/diagnosis/logoLuminance.ts`
+- `supabase/functions/company-search/index.ts`
+- `supabase/functions/submit-testimonial/index.ts`
+- `src/lib/haptics.ts`, `src/lib/sound.ts`
+
+**Files Updated:**
+- `src/components/diagnosis/DiagnosisRoom.tsx` (mobile-first redesign, drag/haptics/sound layer)
+- `src/components/diagnosis/Opener.tsx` (CompanyField integration)
+- `src/components/diagnosis/ProposalView.tsx` (BrushPainter, logoLuminance)
+- `src/components/diagnosis/useDiagnosisSession.ts` (auto-advance, chat-named company enrichment)
+- `src/components/NewHero.tsx` (secondary CTA copy; icon imports)
+- `src/components/Navigation.tsx` (icon + wordmark lockup with flicker; live-pill image render)
+- `src/data/caseStudies.ts` (two case studies removed)
 
 ---
 

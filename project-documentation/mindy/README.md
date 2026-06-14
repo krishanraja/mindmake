@@ -58,18 +58,13 @@ The generator builds the existing 11-section *Mindmaker x [Client]* one-pager, ~
 
 The six authors flagged the following. Items 1–2 are real internal contradictions in the live surfaces. Items 3–8 are gaps or confirmations Krish owns from the architecture brief §8. None should be silently resolved by Mindy.
 
-### A. The contradiction the authors most want resolved
+### A. ~~The contradiction the authors most want resolved~~ (RESOLVED 2026-06-09)
 
-**1. The cohort framework-name tension (CANON.md §5).** Two framework names both currently appear in the codebase and docs, and they are not obviously the same thing:
-- **"Diagnose → Decompose → Decide → Deploy"** — the cohort *curriculum* (Week 1–4), confirmed in `DECISIONS_LOG` and `HISTORY` as corrected "to match the live Maven page." This is Maven-canonical and the transacting truth.
-- **"Mind Set → Mind Map → Mind Make"** — still rendered on the homepage by `FrameworkJourney.tsx` and used as the all-offers framework table in `OFFERS.md`, as a 3-part cross-offer brand framework.
-- **Krish must pick:** (A) they are layered on purpose (Set/Map/Make = brand spine, the four D's = cohort delivery, Mindy uses each in its lane), or (B) Set/Map/Make is retired everywhere and migrated to the four D's. Until he confirms, the system prompt has Mindy describe the cohort curriculum only as "Diagnose → Decompose → Decide → Deploy" and avoid asserting any single cross-offer brand-framework name. **This is the single blocking content decision.**
+**1. ~~The cohort framework-name tension (CANON.md §5).~~** **RESOLVED.** Krish confirmed option A on 2026-06-09 (see `DECISIONS_LOG.md`): the two names are layered, not competing. **"Mind Set → Mind Map → Mind Make"** is the canonical cross-offer brand framework (homepage, `FrameworkJourney.tsx`). **"Diagnose → Decompose → Decide → Deploy"** is the cohort's week-by-week curriculum only. Mindy uses each in its own lane. `CANON.md` §5 records the resolution.
 
 ### B. Pricing and offer reconciliations
 
-**2. Two number reconciliations the docs disagree on (brief §6 gap 4, §8.6).**
-   - Workshop→Cohort credit is documented as both **"$500 / code WORKSHOP"** (four canonical docs) and "$499" (grounding brief). The pack uses **$500 / code WORKSHOP**. Confirm canonical.
-   - CTRL's **$29 Diagnostic (one-time) / $9-mo Edge Pro (recurring)** is real but absent from `OFFERS.md`. Confirm the labels and ordering are exactly right in Mindy's mouth (do not invert), and approve adding them to `OFFERS.md`.
+**2. ~~Two number reconciliations~~ (RESOLVED 2026-06-09).** Workshop→Cohort credit is confirmed as **$500 with code `WORKSHOP`** (valid 90 days post-workshop). The "$499" figure in the grounding brief was a typo. CTRL pricing (`$29 one-time Diagnostic` / `$9/month Edge Pro`) is now canonised in `CANON.md` §2.3.
 
 **3. Exact prices vs ranges — a deliberate divergence to confirm.** The architecture brief and CANON still carry exact pinned figures ($599 Workshop, $2,500 Cohort, $12,000 Immersion, $15,000 Signal Session, $60,000–$100,000 Revenue Architecture). Per Krish's standing ranges-only instruction, this pack shows the *wider public range card* instead ($500–$1,000; $2,000–$3,000; $10,000–$15,000; $10,000–$20,000; $50,000–$100,000+). The exact figures are retained only as internal reasoning aids. **Confirm the range card is the only client-facing pricing and the brief's exact-number map is now superseded for client output.** Note one genuine band gap: the brief anchors Revenue Architecture at $60k, the range card floor is $50k. Confirm the $50k floor.
 
@@ -97,4 +92,4 @@ The six authors flagged the following. Items 1–2 are real internal contradicti
 
 ---
 
-*Phase 0 of the build (reconcile and de-poison) is what this pack delivers. The headline experience stays gated on item 1 (the framework-name call) and item 5 (the proof-anonymisation call). Everything else is confirmation, not construction.*
+*Phase 0 of the build (reconcile and de-poison) is what this pack delivers. Items 1 and 2 below were resolved on 2026-06-09 and are no longer blocking. Item 5 (proof-anonymisation call) is the remaining content gate. Item 9 (EU consent) remains an infrastructure gate outside this pack.*

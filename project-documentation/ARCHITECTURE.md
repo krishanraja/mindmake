@@ -1,6 +1,6 @@
 # Architecture
 
-**Last Updated:** 2026-06-09
+**Last Updated:** 2026-06-14
 
 ---
 
@@ -55,6 +55,9 @@ mindmaker/
 │   │   │   ├── Opener.tsx, Conversation.tsx, DossierReveal.tsx, DecisionBrief.tsx
 │   │   │   ├── Fork.tsx, ProposalView.tsx, ExpressBooking.tsx
 │   │   │   ├── MicButton.tsx, MindyAvatar.tsx
+│   │   │   ├── CompanyField.tsx      # company-name typeahead in the opener (calls company-search)
+│   │   │   ├── BrushPainter.tsx      # brush-stroke loading animation during proposal generation
+│   │   │   ├── logoLuminance.ts      # adaptive logo contrast for co-brand surfaces
 │   │   │   ├── useDiagnosisSession.ts # the room state machine
 │   │   │   └── types.ts              # edge-function contracts (scale.* is internal-only)
 │   │   ├── nervous-decision/         # Nervous Decision Machine
@@ -220,7 +223,7 @@ No `/pricing` page, pricing lives in context on `/cohort`, `/enterprise`, and `/
 Authoritative source: `src/pages/Index.tsx`. Verified 2026-06-09.
 
 1. `Navigation`. fixed top, hides on scroll-down via `useScrollDirection`
-2. `NewHero`. rotating headlines, eyebrow "Decision blockers I hear every week", primary "Book a call" (opens the Diagnosis Room in express mode) + secondary "Work through your decision with Mindy" (full mode) + tertiary "Or start with a free lesson →" / "See how I work →" (`/operator`) links
+2. `NewHero`. rotating headlines, eyebrow "Decision blockers I hear every week", primary "Book a call" (opens the Diagnosis Room in express mode) + secondary "Run a trained decision simulation" (full mode) + tertiary "Or start with a free lesson →" / "See how I work →" (`/operator`) links
 3. `BigProblem`. existential urgency frame (three large interactive flip cards)
 4. `TrustSection`. Krish bio, headshot, testimonials carousel (COHORT-STYLE / ENTERPRISE tagged)
 5. `FrameworkJourney`. three-panel animated MindSet → MindMap → MindMake
@@ -385,6 +388,18 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 - Server-side voice transcription for the mic input. Base64 audio → OpenAI Whisper (`whisper-1`) → `{ text }`. ~8MB cap, per-IP rate limit
 - Secret: `OPENAI_API_KEY`
 
+### `company-search` (Diagnosis Room)
+- Thin, fast typeahead for the Diagnosis Room opener. Given a partial company name (2+ chars), returns up to 6 matching companies (display name, registrable domain, CDN icon) via the Brandfetch Search API
+- The visitor picks their company, handing the client the exact domain for a precise `enrich-company` call without requiring a work email
+- On any upstream failure returns `{ results: [] }` (200) so the typeahead degrades gracefully
+- Per-IP rate limit: 80 requests / 5 min (in-memory, best-effort)
+- Secret: `BRANDFETCH_API_KEY` (or `BRANDFETCH_CLIENT_ID`); optional — missing key returns empty results
+
+### `submit-testimonial`
+- Public, unauthenticated endpoint for the Mindmaker testimonial capture page. Inserts a structured row into the `testimonials` table and emails krish@themindmaker.ai via Resend
+- Honeypot field guards against bot submissions. Email delivery is best-effort (a failed email does not roll back the saved row)
+- Secrets: `SUPABASE_SERVICE_ROLE_KEY` (auto), `RESEND_API_KEY`
+
 ### `import-audience-csv`
 - Ingests a Substack subscriber CSV export into the shared `audience_contacts` table (`source='mindmaker_live'`); paid subscribers flagged. Upserts on (email, source)
 - Gated by `AUDIENCE_IMPORT_SECRET` (x-import-secret header). Secrets: `SUPABASE_SERVICE_ROLE_KEY`, `AUDIENCE_IMPORT_SECRET`
@@ -451,7 +466,7 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 ## Database
 
 - Supabase connected, minimal usage
-- Tables: `leads`, `company_research_cache`
+- Tables: `leads`, `company_research_cache`, `testimonials`, `audience_contacts`
 - RLS policies on all tables
 
 ---

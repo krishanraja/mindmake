@@ -54,15 +54,15 @@ const EXITS: Record<ExitId, ExitDef> = {
   proposal: {
     id: "proposal",
     icon: FileText,
-    title: "See it as a proposal",
-    body: "I'll turn your brief into a one-pager you can keep, scoped to the honest next step. Download it as a PDF.",
-    cta: "Build the proposal",
+    title: "See your tailored proposal",
+    body: "I'll draft a one-page brief on this exact decision, scoped and costed for your situation, not a template. Yours to keep as a PDF, ready in under a minute.",
+    cta: "Generate my proposal",
     onClick: (h) => h.onGenerateProposal(),
   },
 };
 
-/** Map the recommendation's exit kind to which door is primary. */
-const primaryFor = (
+/** Map the recommendation's exit kind to the door Mindy honestly recommends. */
+const recommendedFor = (
   exit: ExitKind | undefined,
   readyForProposal: boolean,
   readyForCall: boolean,
@@ -80,17 +80,17 @@ export const Fork = (props: ForkProps) => {
   const { recommendation, readyForProposal, readyForCall } = props;
   const reduce = useReducedMotion();
 
-  const primaryId = primaryFor(
+  // The proposal leads: it's the most immediate, impulsive thing to reach for,
+  // and the artefact people most want to see. It's always the visual hero and
+  // sits on top. The honest recommendation still floats its "Recommended" badge
+  // to whichever door Mindy actually points at (which may be a cheaper rung).
+  const heroId: ExitId = "proposal";
+  const recommendedId = recommendedFor(
     recommendation?.exit,
     readyForProposal,
     readyForCall,
   );
-  const order: ExitId[] = [
-    primaryId,
-    ...(["learn", "book-call", "proposal"] as ExitId[]).filter(
-      (id) => id !== primaryId,
-    ),
-  ];
+  const order: ExitId[] = ["proposal", "book-call", "learn"];
 
   const reveal = (delay: number) =>
     reduce
@@ -123,7 +123,8 @@ export const Fork = (props: ForkProps) => {
         {order.map((id, i) => {
           const exit = EXITS[id];
           const Icon = exit.icon;
-          const isPrimary = id === primaryId;
+          const isPrimary = id === heroId;
+          const isRecommended = id === recommendedId;
           return (
             <motion.button
               key={id}
@@ -162,7 +163,7 @@ export const Fork = (props: ForkProps) => {
                   <span className="text-base font-semibold text-white">
                     {exit.title}
                   </span>
-                  {isPrimary && (
+                  {isRecommended && (
                     <span className="rounded-full bg-mint/20 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-mint">
                       Recommended
                     </span>

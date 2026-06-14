@@ -82,6 +82,7 @@ export const ProposalView = ({
   onBookCall,
 }: ProposalViewProps) => {
   const reduce = useReducedMotion();
+  const painterRef = useRef<HTMLDivElement>(null);
 
   // a small reward the first time the finished one-pager paints
   const announced = useRef(false);
@@ -92,6 +93,19 @@ export const ProposalView = ({
       sound.play("chime");
     }
   }, [html, loading]);
+
+  // While it's painting, pull the animation fully into view so the visitor can
+  // actually watch it (on mobile the pane can otherwise open scrolled mid-way).
+  useEffect(() => {
+    if (!loading && html) return;
+    const t = window.setTimeout(() => {
+      painterRef.current?.scrollIntoView({
+        behavior: reduce ? "auto" : "smooth",
+        block: "center",
+      });
+    }, 60);
+    return () => window.clearTimeout(t);
+  }, [loading, html, reduce]);
 
   return (
     <div className="flex h-full flex-col">
@@ -109,7 +123,10 @@ export const ProposalView = ({
       {/* A4-feel scrollable frame: the white sheet floats on a glass desk */}
       <div className="glass-panel relative min-h-0 flex-1 overflow-hidden rounded-2xl">
         {loading || !html ? (
-          <div className="relative h-full min-h-[340px] overflow-hidden">
+          <div
+            ref={painterRef}
+            className="relative h-full min-h-[340px] overflow-hidden"
+          >
             <BrushPainter className="absolute inset-0" reduce={!!reduce} />
             <div className="absolute inset-x-0 bottom-0 flex flex-col items-center gap-2 p-6 text-center">
               <p className="max-w-sm rounded-xl bg-ink/45 px-4 py-2.5 text-sm text-white/80 backdrop-blur-sm">

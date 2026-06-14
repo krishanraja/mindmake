@@ -43,6 +43,16 @@ function esc(input: unknown): string {
     .replace(/'/g, '&#39;');
 }
 
+/**
+ * Like esc(), but preserves intentional <b>…</b> emphasis from our own trusted
+ * copy (the proof bank's `worth` and guarantee lines). Everything else stays
+ * escaped, so even if model-derived text ever reached this path it could only
+ * introduce bold, never arbitrary markup.
+ */
+function escRich(input: unknown): string {
+  return esc(input).replace(/&lt;(\/?)b&gt;/g, '<$1>');
+}
+
 /** Validate and normalise a hex colour; returns null if it is not a safe hex. */
 function safeHex(hex?: string): string | null {
   if (!hex || typeof hex !== 'string') return null;
@@ -197,77 +207,63 @@ function safeUrl(url?: string): string | null {
 }
 
 /**
- * "What I already know about you" — the intelligence strip that proves Mindmaker
- * did the homework. Surfaces the public research the dossier pulled (sector, what
- * they do, the visible stack from BuiltWith, products, recent signals) and the
- * one-paragraph operator read. NEVER renders scale.* (headcount, rank, ICP):
- * that is internal routing only. Renders nothing when there is no usable
- * understanding, so a thin dossier degrades to silence rather than an empty box.
+ * The tailoring touch — ONE classy, perceptive read that proves this sheet was
+ * written for them, not pulled from a template. Deliberately NOT a research
+ * dump: we do not catalogue their technology stack, their products, their
+ * partners or a founding year. Listing what we scraped reads as intrusive and
+ * junior. The operator's one-paragraph read (or a single composed line) carries
+ * it, with at most one recent signal as a light "and I noticed" touch. NEVER
+ * renders scale.* (headcount, rank, ICP): that is internal routing only.
+ * Renders nothing when there is no usable read, so a thin dossier degrades to
+ * silence rather than an empty box.
  */
 function renderIntel(payload: ProposalPayload): string {
   const d = payload.dossier;
   if (!d) return '';
 
   const u = d.understanding || {};
-  const id = d.identity || {};
   const client = esc(payload.clientName || 'your business');
 
-  const rows: { k: string; v: string }[] = [];
-  const whatTheyDo = (u.descriptor || u.tagline || '').trim();
-  if (whatTheyDo) rows.push({ k: 'What you do', v: whatTheyDo });
-  if (u.industry) rows.push({ k: 'Sector', v: u.industry });
-  if (id.founded) rows.push({ k: 'Founded', v: String(id.founded) });
-  if (u.products?.length) {
-    rows.push({ k: 'Products', v: u.products.slice(0, 6).join(', ') });
+  // The single tailored read: prefer the operator synthesis, else a plain
+  // one-line fallback from what they do / their sector. One line, never a grid.
+  let read = (d.synthesis || '').trim();
+  if (!read) {
+    const whatTheyDo = (u.descriptor || u.tagline || '').trim();
+    if (whatTheyDo) {
+      read = u.industry ? `${whatTheyDo}, in ${u.industry}.` : whatTheyDo;
+    } else if (u.industry) {
+      read = u.industry;
+    }
   }
-  if (u.stack?.length) {
-    rows.push({ k: 'Stack I can see', v: u.stack.slice(0, 10).join(', ') });
-  }
 
-  const currency = Array.isArray(d.currency) ? d.currency.slice(0, 3) : [];
-  const synthesis = (d.synthesis || '').trim();
+  // At most ONE recent signal, surfaced as a single line, not a list.
+  const signal =
+    Array.isArray(d.currency) && d.currency[0] ? d.currency[0] : null;
 
-  if (rows.length === 0 && currency.length === 0 && !synthesis) return '';
+  if (!read && !signal) return '';
 
-  const rowsHtml = rows
-    .map(
-      (r) =>
-        `<div class="intel-row"><span class="intel-k">${esc(r.k)}</span><span class="intel-v">${esc(
-          r.v,
-        )}</span></div>`,
-    )
-    .join('');
+  const readHtml = read ? `<p class="intel-read">${esc(read)}</p>` : '';
 
-  const signalsHtml =
-    currency.length > 0
-      ? `<div class="intel-signals">
-        <div class="intel-signals-label">Recent signals</div>
-        <ul>${currency
-          .map((c) => {
-            const date = c.date
-              ? ` <span class="intel-date">${esc(c.date)}</span>`
-              : '';
-            const href = safeUrl(c.sourceUrl);
-            const src = href
-              ? ` <a href="${esc(href)}" class="intel-src">source</a>`
-              : '';
-            return `<li>${esc(c.text)}${date}${src}</li>`;
-          })
-          .join('')}</ul>
-      </div>`
+  let signalHtml = '';
+  if (signal) {
+    const date = signal.date
+      ? ` <span class="intel-date">${esc(signal.date)}</span>`
       : '';
-
-  const synthHtml = synthesis
-    ? `<p class="intel-read">${esc(synthesis)}</p>`
-    : '';
+    const href = safeUrl(signal.sourceUrl);
+    const src = href
+      ? ` <a href="${esc(href)}" class="intel-src">source</a>`
+      : '';
+    signalHtml = `<p class="intel-signal"><span class="intel-signal-k">Recently</span> ${esc(
+      signal.text,
+    )}${date}${src}</p>`;
+  }
 
   return `
   <section class="intel">
     <div class="label">Before we start</div>
-    <h2>What I already know about ${client}.</h2>
-    ${synthHtml}
-    ${rows.length > 0 ? `<div class="intel-grid">${rowsHtml}</div>` : ''}
-    ${signalsHtml}
+    <h2>What I'm seeing about ${client}.</h2>
+    ${readHtml}
+    ${signalHtml}
   </section>`;
 }
 
@@ -376,7 +372,7 @@ function renderKeep(payload: ProposalPayload): string {
           <div class="role">${esc(c.role)}</div>
           <h4>${esc(c.title)}</h4>
           <p>${esc(c.body)}</p>
-          <div class="worth">${esc(c.worth)}</div>
+          <div class="worth">${escRich(c.worth)}</div>
         </div>`,
     )
     .join('');
@@ -540,7 +536,7 @@ function renderGuarantee(payload: ProposalPayload): string {
       'The work is done when the decision is made in writing, the use cases are live, and the roadmap is delivered.',
   );
   const title = esc(g.title || 'The results guarantee');
-  const body = esc(
+  const body = escRich(
     g.body ||
       'I budget the hours up front. If I am not on track to land all of it inside the budget, I keep going at no extra cost. The fee does not move. I carry the overrun, not you. The only thing I ask in return is that you show up to the sessions and give me the access to do the work.',
   );
@@ -739,19 +735,12 @@ function buildStyles(accent: string, accentDeep: string): string {
   .cobrand-x{color:#5E6863;font-family:var(--mono);font-size:16px;}
 
   /* INTEL — "what I already know about you" */
-  .intel .intel-read{font-size:15px;color:var(--text);margin-bottom:16px;max-width:72ch;}
-  .intel-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;}
-  .intel-row{background:var(--paper);padding:12px 14px;display:flex;flex-direction:column;gap:3px;min-width:0;}
-  .intel-k{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
-  .intel-v{font-size:14px;color:var(--text);line-height:1.4;overflow-wrap:anywhere;}
-  .intel-signals{margin-top:16px;}
-  .intel-signals-label{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
-  .intel-signals ul{list-style:none;margin:0;padding:0;}
-  .intel-signals li{font-size:13.5px;color:var(--text);padding-left:16px;position:relative;margin-top:7px;line-height:1.45;}
-  .intel-signals li::before{content:"";position:absolute;left:0;top:8px;width:6px;height:6px;background:var(--mint);border-radius:50%;}
+  .intel .intel-read{font-size:15.5px;color:var(--text);margin-bottom:14px;max-width:72ch;line-height:1.55;}
+  .intel-signal{font-size:13.5px;color:var(--text);line-height:1.5;padding-left:16px;position:relative;max-width:72ch;}
+  .intel-signal::before{content:"";position:absolute;left:0;top:8px;width:6px;height:6px;background:var(--mint);border-radius:50%;}
+  .intel-signal-k{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:6px;}
   .intel-date{color:var(--muted);font-size:12px;}
   .intel-src{color:var(--mint-deep);text-decoration:none;border-bottom:1px solid currentColor;font-size:12px;}
-  @media (max-width:560px){ .intel-grid{grid-template-columns:1fr;} }
 
   /* SECTIONS */
   .body{padding:40px 52px 16px;}

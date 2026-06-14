@@ -213,7 +213,12 @@ function buildProseSystem(): string {
 
 You write ONLY the reflective slots that wrap an already-built proposal. The numbered deliverables, the value cards, the proof tiles, the guarantee, the price band and the phase-2 tracks are already written and locked. Do not restate them. Your job is the human framing: the hero line, the lead, the "what I heard" reflection, the engagement intro, and the "what you keep" hero and foot.
 
-Ground every line in the dossier and the decision brief you are given. Name one real, specific fact from their world where it lands naturally (their company, their sector, the actual decision, the actual trade-off). Reflect their decision back sharper than they said it. Never flatter, never hype.
+Ground the prose in the dossier and the decision brief, but tailoring is not surveillance. Reflect their decision back sharper than they said it. Never flatter, never hype.
+
+TAILORING, NOT A RESEARCH DUMP (read twice):
+- Make exactly ONE precise, classy observation that proves this was written for them, and place it once, early (the hero lead or the "what I heard" intro). One concrete detail, chosen for how well it lands, not for how much you know.
+- After that single tailored touch, speak to the DECISION, not to company trivia. The rest of the prose is about their choice and its trade-off, in plain terms.
+- NEVER catalogue their business. Do not list or name their technology stack, their tools, their integrations, their vendors or partners, their product line, or a string of things they do or sell. Naming three specifics is worse than naming one; reciting their stack or their products reads as tacky, intrusive, and junior. A CEO should finish the line feeling understood, not audited.
 
 HARD RULES (these are not style preferences):
 - RANGES ONLY. Never write an exact price figure. If you reference cost at all, it is qualitative ("the band", "costed", "set on the call"). The price block handles the number; you do not.
@@ -231,7 +236,7 @@ Return ONE JSON object and nothing else. No prose before or after, no markdown c
   "whatIHeardIntro": string,     // 1-2 sentences. The surface ask vs the real decision underneath, in their world.
   "whatIHeardBullets": string[], // 3-5 short lines. The real decision, the weak assumption, the honest paths with the trade-off named, the next 14 days. One fact each. End each with a full stop.
   "engagementIntro": string,     // 1-2 sentences framing the shape of the work for THEIR decision. Do not list deliverables.
-  "whatYouKeepHero": string,     // 1-2 sentences. What stays when you leave, for them specifically. May use real specifics.
+  "whatYouKeepHero": string,     // 1-2 sentences. What stays when you leave, framed for their decision. No list of their tools or products.
   "whatYouKeepFoot": string      // 1 sentence. The closing note under the value cards. Operator tone.
 }`;
 }
@@ -255,25 +260,19 @@ function buildProseUser(
     if (dossier.domain) lines.push(`Domain: ${dossier.domain}`);
     if (id.founded) lines.push(`Founded: ${id.founded}`);
     if (u.descriptor) lines.push(`What they do: ${u.descriptor}`);
-    if (u.tagline) lines.push(`Tagline: ${u.tagline}`);
     if (u.industry) lines.push(`Industry: ${u.industry}`);
-    if (u.products?.length) {
-      lines.push(`Products: ${u.products.slice(0, 6).join(", ")}`);
-    }
-    if (u.stack?.length) {
-      lines.push(`Notable stack: ${u.stack.slice(0, 8).join(", ")}`);
-    }
     if (dossier.synthesis) {
       lines.push(`Working read of them: ${dossier.synthesis}`);
     }
     if (dossier.currency?.length) {
-      lines.push("Recent and current:");
-      for (const c of dossier.currency.slice(0, 4)) {
-        lines.push(`  - ${c.text}${c.date ? ` (${c.date})` : ""}`);
-      }
+      // One recent signal, as optional colour for the single tailored line.
+      const c = dossier.currency[0];
+      lines.push(`Recent signal (optional colour): ${c.text}${c.date ? ` (${c.date})` : ""}`);
     }
-    // scale.* is internal routing only: NEVER reflected back, so it is not
-    // included in the prose brief at all.
+    // Deliberately NOT included: the technology stack, the product list, the
+    // tagline. They tempt the model into a tacky "here is everything I found"
+    // recital. The descriptor, industry and synthesis are enough to land one
+    // precise, classy observation. scale.* is internal routing, never reflected.
   } else {
     lines.push(
       "No enrichment dossier. Do not invent a company, a sector, or numbers. Ground the prose in the decision brief alone, and keep the co-brand to the client name.",

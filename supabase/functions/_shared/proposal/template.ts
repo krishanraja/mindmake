@@ -157,8 +157,10 @@ function renderHero(payload: ProposalPayload): string {
   );
 
   const logo = safeUrl(payload.clientLogoUrl);
+  // The logo sits on a white plate: the only background on which an arbitrary
+  // brand mark (usually dark/coloured) stays legible against the dark hero.
   const clientMark = logo
-    ? `<img class="logo-client" src="${esc(logo)}" alt="${client}">`
+    ? `<span class="logo-plate"><img class="logo-client" src="${esc(logo)}" alt="${client}"></span>`
     : `<span class="wordmark-client">${client}</span>`;
 
   // The eyebrow sits on its OWN row above the lockup. Putting it inside the
@@ -721,7 +723,8 @@ function buildStyles(accent: string, accentDeep: string): string {
   .cobrand{display:flex;align-items:center;gap:14px 16px;flex-wrap:wrap;}
   .wordmark-mm{font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:-.01em;color:var(--paper);line-height:1;}
   .wordmark-client{font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:-.01em;color:var(--paper);line-height:1.1;}
-  .logo-client{height:38px;width:auto;max-width:200px;display:block;object-fit:contain;}
+  .logo-plate{display:inline-flex;align-items:center;justify-content:center;background:#fff;border-radius:9px;padding:8px 12px;box-shadow:0 1px 2px rgba(0,0,0,.18),inset 0 0 0 1px rgba(14,21,18,.06);}
+  .logo-client{height:26px;width:auto;max-width:172px;display:block;object-fit:contain;}
   .cobrand-x{color:#5E6863;font-family:var(--mono);font-size:16px;}
 
   /* INTEL — "what I already know about you" */

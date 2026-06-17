@@ -1,11 +1,20 @@
 {
   "headers": [
     {
-      "source": "/(.*)",
+      "source": "/((?!testimonials|intake).*)",
       "headers": [
         {
           "key": "X-Robots-Tag",
           "value": "index, follow"
+        }
+      ]
+    },
+    {
+      "source": "/(testimonials|intake)(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
         }
       ]
     }
@@ -16,7 +25,11 @@
       "destination": "/testimonials/index.html"
     },
     {
-      "source": "/((?!assets/|testimonials).*)",
+      "source": "/intake",
+      "destination": "/intake/index.html"
+    },
+    {
+      "source": "/((?!assets/|testimonials|intake).*)",
       "destination": "/index.html"
     }
   ]

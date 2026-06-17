@@ -19,6 +19,14 @@ function pickedList(entry: any): string {
   return p.length ? p.join(", ") : "(skipped)";
 }
 
+function pickedByKey(b: any, key: string): string | null {
+  const resp = Array.isArray(b.responses) ? b.responses : [];
+  const e = resp.find((r: any) => r.key === key);
+  if (!e) return null;
+  const v = pickedList(e);
+  return v === "(skipped)" ? null : v;
+}
+
 function buildBrief(b: any): string {
   const L: string[] = [];
   const who = [b.name, b.role].filter(Boolean).join(", ");
@@ -27,17 +35,22 @@ function buildBrief(b: any): string {
   if (b.email) L.push(`Email: ${b.email}`);
   if (b.link) L.push(`Link: ${b.link}`);
   L.push("");
+  const aspiration = pickedByKey(b, "aspiration");
   L.push("SNAPSHOT");
   if (b.seat) L.push(`Seat: ${b.seat}`);
   if (b.confidence_now != null) L.push(`AI confidence today: ${b.confidence_now}/10`);
   if (b.value_frame) L.push(`"Worth it" looks like: ${b.value_frame}`);
+  if (aspiration) L.push(`Where they want to be in a year: ${aspiration}`);
   L.push("");
   if (b.business_oneliner) { L.push("WHAT THEY DO"); L.push(b.business_oneliner); L.push(""); }
   if (b.north_star) { L.push("THE ONE THING THIS HAS TO NAIL"); L.push(b.north_star); L.push(""); }
+  const handoff = pickedByKey(b, "handoff");
+  if (handoff) { L.push("WHAT ONLY THEY SHOULD BE DOING (role-aware)"); L.push(handoff); L.push(""); }
   if (b.wish) { L.push("WISH THEY COULD DO BUT CAN'T"); L.push(b.wish); L.push(""); }
 
+  // The picture: remaining chip answers (aspiration + handoff are featured above).
   const resp = Array.isArray(b.responses) ? b.responses : [];
-  const chipQs = resp.filter((e: any) => e.type === "multi" || e.type === "single");
+  const chipQs = resp.filter((e: any) => (e.type === "multi" || e.type === "single") && e.key !== "aspiration" && e.key !== "handoff");
   if (chipQs.length) {
     L.push("THE PICTURE");
     for (const e of chipQs) {

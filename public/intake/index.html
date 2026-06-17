@@ -58,6 +58,8 @@
   .ghost-add:hover{color:#7df0cd;}
   .more-wrap{margin-top:16px;}
   .optlabel{font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted-2);margin:0 0 9px;}
+  .enrich-note{font-size:13.5px;line-height:1.5;color:var(--muted);margin:11px 0 0;}
+  .enter-hint{display:block;margin-top:10px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--muted-2);}
 
   textarea{width:100%;min-height:128px;resize:vertical;color:var(--paper);background:var(--field);border:1px solid var(--line);border-radius:14px;padding:16px 17px;font-family:var(--body);font-size:16.5px;line-height:1.55;transition:border-color .2s, background .2s;}
   textarea.short{min-height:84px;}
@@ -158,13 +160,54 @@ const CLIENT = (params.get('name') || 'there').trim();
 const CLIENT_SLUG = (params.get('c') || '').trim();
 const ENGAGEMENT = (params.get('engagement') || 'your sprint').trim();
 
+// Q4 is role-aware: the options shown depend on the seat picked in Q1.
+// Each bank leads with high-leverage "only you can do this" work and ends with one or
+// two genuinely dull tasks worth shedding. No inbox-clearing anywhere.
+const SEAT_TASK_BANK = {
+  "Founder or CEO":[
+    "Turning a board deck into a defensible AI position","Pressure-testing strategy before I commit the company",
+    "Drafting the investor and board narrative","Sizing a market or a bet before I back it",
+    "Modelling scenarios I'd normally take to a consultant","Briefing and prepping for every meeting",
+    "Chasing the status updates I need to run the week","Turning my scattered thinking into a written plan"],
+  "Exec or department lead":[
+    "Building the board or leadership update for my function","Turning team noise into a decision I can defend",
+    "Drafting the strategy memo I keep putting off","Pulling numbers from five places into one view",
+    "Prepping for the cross-functional meetings","Reviewing and editing the team's work",
+    "Reporting up the chain every week","Researching a vendor or option before I rule on it"],
+  "Team lead or manager":[
+    "Coaching and giving feedback that actually lands","Turning my plan into briefs the team can run with",
+    "Spotting where the team's about to get stuck","Pulling the weekly status together",
+    "Writing the reports nobody reads but everyone needs","Chasing updates and stitching them into one picture",
+    "Onboarding docs and process write-ups","Prepping one-to-ones and reviews"],
+  "Operator or individual contributor":[
+    "The deep work I'm best at, with the grind stripped out","Turning research into something I can act on",
+    "First-pass analysis I'd normally do by hand","Pulling and cleaning data before I can use it",
+    "Writing up what I did so others can follow","The repetitive production work in my role",
+    "Formatting, tidying, and version-wrangling","Keeping trackers and docs current"],
+  "Consultant or solo":[
+    "Sharpening the thinking I actually sell","Turning a messy client brief into a clear scope",
+    "Research and diligence on a new client or market","Drafting proposals and statements of work",
+    "Building the deliverable from my notes","Pulling case studies and proof together",
+    "Chasing the admin that eats billable time","Repackaging old work for a new client"],
+  "Something else":[
+    "The work only I can really do, with the busywork removed","Turning rough thinking into something finished",
+    "Research and summarising before I decide","Pulling scattered information into one view",
+    "Drafting the things I keep putting off","The repetitive parts of my week",
+    "Reporting and status updates","Formatting, cleanup, and admin"]
+};
+
 const questions = [
+  { stage:"Your world", eyebrow:"Where to reach you", type:"email_capture", key:"work_email", optional:true,
+    q:"What's your work email?",
+    help:"So Krish can reach you before you meet. Use your work address and I'll do some homework on the company while you finish the rest.",
+    ph:"you@company.com" },
+
   { stage:"Your world", eyebrow:"Your seat", type:"single", key:"seat", allowMore:true,
     q:"Which of these sounds most like you?",
     help:"Pick the closest. It just helps me pitch this at the right level.",
     options:["Founder or CEO","Exec or department lead","Team lead or manager","Operator or individual contributor","Consultant or solo","Something else"] },
 
-  { stage:"Your world", eyebrow:"What you do", type:"text", key:"business", voice:true,
+  { stage:"Your world", eyebrow:"What you do", type:"text", key:"business", voice:true, prefillFromDossier:true,
     q:"In a line, what does the business actually do?",
     help:"Plain words beat polished ones. One line is plenty, or tap the mic and just say it.",
     ph:"We help X do Y. However you'd say it to a stranger at dinner." },
@@ -174,14 +217,14 @@ const questions = [
     help:"Tap the big ones. The honest picture, not the tidy one.",
     options:["Email and comms","Meetings","Writing and content","Proposals and decks","Research","Admin and ops","Reporting and data","Sales and BD","Client delivery","Hiring and people","Planning and strategy","Putting out fires"] },
 
-  { stage:"Your world", eyebrow:"The stuff you'd hand over", type:"multi", key:"handoff", allowMore:true,
-    q:"What would you hand to a machine tomorrow if you trusted it?",
-    help:"The work you'd happily never do again.",
-    options:["The repetitive stuff","First drafts","Formatting and cleanup","Research and summarising","Scheduling and chasing","Data wrangling","Reporting","Anything in my inbox","Honestly, most of it"] },
+  { stage:"Your world", eyebrow:"What only you should be doing", type:"multi", key:"handoff", allowMore:true, dynamicBySeat:true,
+    q:"What could you stop doing if a machine did it well?",
+    help:"Two kinds of work to flag: the dull stuff that eats your day, and the high-value work you'd do more of if the busywork vanished.",
+    options:[] },
 
   { stage:"Where AI sits now", eyebrow:"A quick gut check", type:"scale", key:"confidence_now",
-    q:"How confident are you using AI for real work today?",
-    help:"Drag to wherever it honestly sits. No need to flatter yourself.", ends:["Not at all","Completely"] },
+    q:"How confident are you making AI calls for your work today?",
+    help:"Same scale Krish uses afterwards, so you can see how far you've come. Drag to wherever it honestly sits.", ends:["Not at all","Completely"] },
 
   { stage:"Where AI sits now", eyebrow:"What's in the stack", type:"multi", key:"stack", allowMore:true,
     q:"What tools are you already in most days?",
@@ -203,6 +246,11 @@ const questions = [
     help:"Pick the one that matters most right now.",
     options:["Hours back every week","Shipping more without more people","A system my team owns","Finally visible and consistent","Confidence to lead AI calls","One painful process gone for good","A roadmap I actually trust"] },
 
+  { stage:"What you want", eyebrow:"A year from now", type:"multi", key:"aspiration", allowMore:true,
+    q:"A year from now, where do you want to be with AI?",
+    help:"Pick the ones that sound like the version of you you're after. This is the target Krish measures the work against.",
+    options:["Making the call myself, not outsourcing the judgment","Leading the AI conversation, not sitting through it","Board-ready, with a position I can defend","Faster at the high-value work only I can do","Building my own tools instead of waiting on IT","A team that runs on AI by default","A whole category of work, gone for good","Not the bottleneck for every AI decision"] },
+
   { stage:"What you want", eyebrow:"The blue-sky one", type:"text", key:"wish", voice:true, optional:true,
     q:"Anything you wish you could do but can't today?",
     help:"Optional. The thing you'd do if the constraint vanished. Skip if nothing comes to mind.",
@@ -218,18 +266,13 @@ const questions = [
     help:"Better I know now. Tap any that apply.",
     options:["Time, I'm slammed","Worried it's too technical","Team buy-in","Data or privacy nerves","Burned before","Tools locked down by IT","Just nervous","Nothing, I'm ready"] },
 
-  { stage:"Sound like you", eyebrow:"Your voice", type:"multi", key:"voice_style", allowMore:true,
-    moreLabel:"A link that sounds like you (optional)", morePh:"Paste a post, talk, or doc. The fastest way for me to capture how you sound.",
-    q:"When AI writes as you, what should it sound like?",
-    help:"Tap the words that fit. If you've got a link to something you wrote or said, drop it in the box.",
-    options:["Direct","Warm","Plainspoken","Punchy","Funny","Detailed","Considered","Irreverent","Formal when it counts"] },
-
   { stage:"Last thing", eyebrow:"Where to reach you", type:"contact",
     q:"Last thing. Who am I prepping for?",
-    help:"So I get your name right and can reach you before we meet." }
+    help:"I've got your email. Just confirm your name and a couple of details." }
 ];
 
-const state = { step:-1, answers:{}, contact:{ name:"",role:"",company:"",email:"",link:"",note:"",hp:"" } };
+const state = { step:-1, answers:{}, contact:{ name:"",role:"",company:"",email:"",link:"",note:"",hp:"" },
+  enrich:{ status:"idle", started:false, domain:null, company:null, descriptor:null } };
 const card = document.getElementById('card');
 const counter = document.getElementById('counter');
 const track = document.getElementById('track');
@@ -297,6 +340,11 @@ function render(){
   let body="";
 
   if(q.type==="multi" || q.type==="single"){
+    if(q.dynamicBySeat){
+      q.options = SEAT_TASK_BANK[valByKey('seat')] || SEAT_TASK_BANK["Something else"];
+      const cs0 = chipState(state.step);
+      if(Array.isArray(cs0.picked)) cs0.picked = cs0.picked.filter(v=>q.options.includes(v));
+    }
     const cs = chipState(state.step);
     const on = v => q.type==='multi' ? cs.picked.includes(v) : cs.picked===v;
     body = `<div class="chips">${q.options.map(o=>
@@ -316,9 +364,23 @@ function render(){
       <div class="scale-of">out of 10</div>
       <input type="range" id="rng" min="1" max="10" step="1" value="${v}">
       <div class="scale-ends"><span>${q.ends[0]}</span><span>${q.ends[1]}</span></div>`;
+  } else if(q.type==="email_capture"){
+    body = `<div class="field"><input type="email" id="c_email_early" value="${escapeAttr(state.contact.email)}" placeholder="${escapeAttr(q.ph||'you@company.com')}"></div>
+      <span class="enter-hint">↵ to continue</span>`;
   } else if(q.type==="text"){
-    const v = state.answers[state.step] || "";
-    body = `<textarea id="ta" placeholder="${escapeAttr(q.ph||'')}">${escapeHtml(v)}</textarea>${hasSR?micHtml():''}`;
+    let v = state.answers[state.step] || "";
+    let noteHtml = "";
+    if(q.prefillFromDossier){
+      if(!v && state.enrich.status==="ready" && state.enrich.descriptor){
+        v = state.enrich.descriptor; state.answers[state.step] = v;
+      }
+      if(!v && state.enrich.status==="loading"){
+        noteHtml = `<p class="enrich-note" id="enrich-note"><span class="spin"></span>Reading ${escapeHtml(state.enrich.company||state.enrich.domain||'the company')}…</p>`;
+      } else if(state.enrich.status==="ready" && state.enrich.descriptor && v===state.enrich.descriptor){
+        noteHtml = `<p class="enrich-note" id="enrich-note">I pulled this from ${escapeHtml(state.enrich.domain||'your domain')} — fix anything I got wrong.</p>`;
+      }
+    }
+    body = `<textarea id="ta" placeholder="${escapeAttr(q.ph||'')}">${escapeHtml(v)}</textarea>${noteHtml}<span class="enter-hint">↵ to continue · ⇧↵ for a new line</span>${hasSR?micHtml():''}`;
   } else if(q.type==="contact"){
     const c = state.contact;
     body = `<div class="grid2">
@@ -341,15 +403,69 @@ function render(){
 }
 function micHtml(){ return `<button class="mic" id="mic"><span class="dot"></span><span class="mlabel">Talk instead</span></button>`; }
 
+function advance(){
+  capture();
+  const q = questions[state.step];
+  if(q && q.type==='email_capture') kickEnrichment(state.contact.email);
+  if(q && q.type==='contact' && !state.contact.name){
+    toast("Just your name, so I know who I'm prepping for."); const n=card.querySelector('#c_name'); if(n) n.focus(); return;
+  }
+  state.step++; render();
+}
+
+// Mirrors the Diagnosis Room's enrichment: turn a work email into a one-line company
+// descriptor to prefill Q2. Reads only identity.name + understanding.descriptor/tagline;
+// never reads dossier.scale.* (internal routing). Free-email / errors skip silently.
+function kickEnrichment(email){
+  if(state.enrich.started) return;
+  const m = (email||"").trim().toLowerCase();
+  if(!m.includes('@')) return;
+  const domain = m.split('@')[1] || '';
+  if(!domain) return;
+  state.enrich.started = true; state.enrich.status = "loading"; state.enrich.domain = domain;
+  const url = CONFIG.endpoint.replace('submit-intake','enrich-company');
+  fetch(url, { method:"POST",
+    headers:{ "Content-Type":"application/json", "apikey":CONFIG.anonKey, "Authorization":"Bearer "+CONFIG.anonKey },
+    body: JSON.stringify({ email:m, depth:"identity" }) })
+    .then(r=>r.json())
+    .then(d=>{
+      const u = d && d.understanding;
+      if(!d || d.skipped || d.error || !u){ state.enrich.status="skipped"; if(state.step===findKey('business')) applyDossierPrefill(); return; }
+      state.enrich.company = (d.identity && d.identity.name) || domain;
+      state.enrich.descriptor = u.descriptor || u.tagline || null;
+      state.enrich.status = state.enrich.descriptor ? "ready" : "skipped";
+      if(state.step===findKey('business')) applyDossierPrefill();
+    })
+    .catch(()=>{ state.enrich.status="error"; if(state.step===findKey('business')) applyDossierPrefill(); });
+}
+// Late arrival: enrichment finished while the user is already on the business step.
+function applyDossierPrefill(){
+  const q = questions[state.step]; if(!q || !q.prefillFromDossier) return;
+  const ta = card.querySelector('#ta'); const note = card.querySelector('#enrich-note');
+  if(state.enrich.status==="ready" && state.enrich.descriptor){
+    if(ta && ta.value.trim()===''){ ta.value = state.enrich.descriptor; state.answers[state.step] = state.enrich.descriptor; }
+    if(note) note.innerHTML = `I pulled this from ${escapeHtml(state.enrich.domain||'your domain')} — fix anything I got wrong.`;
+  } else if(note){ note.remove(); }
+}
+// Enter advances the form. Shift+Enter is a newline in textareas; a focused chip/button
+// keeps its native behaviour (toggle/click); welcome Enter begins.
+function onKeydown(e){
+  if(e.key!=='Enter') return;
+  const el = e.target;
+  if(state.step<0){ if(el && el.tagName==='BUTTON') return; const b=card.querySelector('#begin'); if(b){ e.preventDefault(); b.click(); } return; }
+  if(state.step>=total) return;
+  if(el && el.tagName==='BUTTON') return;
+  if(el && el.tagName==='TEXTAREA'){
+    // The contact step's notes box is free-form — let Enter be a newline there.
+    if(questions[state.step] && questions[state.step].type==='contact') return;
+    if(e.shiftKey) return; e.preventDefault(); advance(); return;
+  }
+  e.preventDefault(); advance();
+}
+
 function wire(){
   const begin = card.querySelector('#begin'); if(begin) begin.onclick=()=>{ state.step=0; render(); };
-  const next = card.querySelector('#next');
-  if(next) next.onclick=()=>{ capture();
-    const q=questions[state.step];
-    if(q && q.type==='contact' && !state.contact.name){
-      toast("Just your name, so I know who I'm prepping for."); const n=card.querySelector('#c_name'); if(n) n.focus(); return;
-    }
-    state.step++; render(); };
+  const next = card.querySelector('#next'); if(next) next.onclick=advance;
   const back = card.querySelector('#back'); if(back) back.onclick=()=>{ capture(); state.step--; render(); };
   const skip = card.querySelector('#skip'); if(skip) skip.onclick=()=>{ state.step++; render(); };
 
@@ -373,9 +489,12 @@ function wire(){
   if(mic && ta) attachVoice(ta, mic);
   if(questions[state.step] && questions[state.step].type==='text' && ta && state.step>0)
     setTimeout(()=>ta.focus({preventScroll:true}),120);
+  if(questions[state.step] && questions[state.step].type==='email_capture'){
+    const ee=card.querySelector('#c_email_early'); if(ee) setTimeout(()=>ee.focus({preventScroll:true}),120); }
 }
 function capture(){
   const q=questions[state.step]; if(!q) return;
+  if(q.type==='email_capture'){ const el=card.querySelector('#c_email_early'); if(el) state.contact.email=el.value.trim(); }
   if(q.type==='text'){ const ta=card.querySelector('#ta'); if(ta) state.answers[state.step]=ta.value.trim(); }
   if((q.type==='multi'||q.type==='single') && q.allowMore){ const ta=card.querySelector('#ta'); if(ta) chipState(state.step).more=ta.value.trim(); }
   if(q.type==='scale'){ const rng=card.querySelector('#rng'); if(rng) state.answers[state.step]=Number(rng.value); }
@@ -469,7 +588,7 @@ function bindDownload(){ const dl=card.querySelector('#dl'); if(!dl) return;
 function buildPayload(){
   const c=state.contact; const responses=[];
   questions.forEach((q,i)=>{
-    if(q.type==='contact') return;
+    if(q.type==='contact' || q.type==='email_capture') return;
     let entry={ stage:q.stage, eyebrow:q.eyebrow, question:q.q, type:q.type, key:q.key||null };
     if(q.type==='multi'||q.type==='single'){ const cs=chipState(i); entry.picked=cs.picked; entry.more=cs.more||""; }
     else if(q.type==='scale'){ entry.value=(state.answers[i]!=null?state.answers[i]:null); }
@@ -499,7 +618,7 @@ function buildTranscript(){
   const cf=valByKey('confidence_now'); if(cf!=null) L.push(`AI confidence today: ${cf}/10`);
   L.push("");
   questions.forEach((q,i)=>{
-    if(q.type==='contact'||q.type==='scale') return;
+    if(q.type==='contact'||q.type==='scale'||q.type==='email_capture') return;
     L.push(q.eyebrow.toUpperCase()); L.push(q.q);
     if(q.type==='multi'||q.type==='single'){ const cs=chipState(i);
       const picked = Array.isArray(cs.picked)? cs.picked : (cs.picked?[cs.picked]:[]);
@@ -516,7 +635,7 @@ function fallbackCopy(text){ const t=document.createElement('textarea'); t.value
 function escapeHtml(s){return (s||"").replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));}
 function escapeAttr(s){return (s||"").replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 
-welcome(); wire();
+card.addEventListener('keydown', onKeydown); welcome(); wire();
 </script>
 </body>
 </html>

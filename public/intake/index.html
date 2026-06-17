@@ -268,7 +268,7 @@ const questions = [
 
   { stage:"Last thing", eyebrow:"Where to reach you", type:"contact",
     q:"Last thing. Who am I prepping for?",
-    help:"I've got your email. Just confirm your name and a couple of details." }
+    help:"I've filled in what I can from your email — just check it over and fix anything." }
 ];
 
 const state = { step:-1, answers:{}, contact:{ name:"",role:"",company:"",email:"",link:"",note:"",hp:"" },
@@ -383,13 +383,18 @@ function render(){
     body = `<textarea id="ta" placeholder="${escapeAttr(q.ph||'')}">${escapeHtml(v)}</textarea>${noteHtml}<span class="enter-hint">↵ to continue · ⇧↵ for a new line</span>${hasSR?micHtml():''}`;
   } else if(q.type==="contact"){
     const c = state.contact;
+    const seat = valByKey('seat');
+    const nameV = c.name || guessNameFromEmail(c.email);
+    const roleV = c.role || (seat && seat!=='Something else' ? seat : '');
+    const coV   = c.company || state.enrich.company || '';
+    const linkV = c.link || state.enrich.domain || '';
     body = `<div class="grid2">
-        <div class="field"><label>Your name</label><input type="text" id="c_name" value="${escapeAttr(c.name)}" placeholder="First and last"></div>
-        <div class="field"><label>Role or title</label><input type="text" id="c_role" value="${escapeAttr(c.role)}" placeholder="Founder, Head of..."></div>
-        <div class="field"><label>Company</label><input type="text" id="c_co" value="${escapeAttr(c.company)}" placeholder="Where you work"></div>
+        <div class="field"><label>Your name</label><input type="text" id="c_name" value="${escapeAttr(nameV)}" placeholder="First and last"></div>
+        <div class="field"><label>Role or title</label><input type="text" id="c_role" value="${escapeAttr(roleV)}" placeholder="Founder, Head of..."></div>
+        <div class="field"><label>Company</label><input type="text" id="c_co" value="${escapeAttr(coV)}" placeholder="Where you work"></div>
         <div class="field"><label>Email</label><input type="email" id="c_email" value="${escapeAttr(c.email)}" placeholder="you@company.com"></div>
       </div>
-      <div class="field emailrow"><label>A link that shows your world <span class="opt">(optional)</span></label><input type="text" id="c_link" value="${escapeAttr(c.link)}" placeholder="Site, LinkedIn, or a talk, so I can do my homework"></div>
+      <div class="field emailrow"><label>A link that shows your world <span class="opt">(optional)</span></label><input type="text" id="c_link" value="${escapeAttr(linkV)}" placeholder="Site, LinkedIn, or a talk, so I can do my homework"></div>
       <div class="field morebox"><label>Anything else I should know <span class="opt">(optional)</span></label><textarea id="c_note" class="short" placeholder="Context, sensitivities, a person to loop in, a hard no. Or leave it blank.">${escapeHtml(c.note)}</textarea></div>
       <input class="hp" id="hp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" placeholder="Leave empty">
       <div class="toast" id="toast"></div>`;
@@ -429,9 +434,9 @@ function kickEnrichment(email){
     body: JSON.stringify({ email:m, depth:"identity" }) })
     .then(r=>r.json())
     .then(d=>{
-      const u = d && d.understanding;
-      if(!d || d.skipped || d.error || !u){ state.enrich.status="skipped"; if(state.step===findKey('business')) applyDossierPrefill(); return; }
-      state.enrich.company = (d.identity && d.identity.name) || domain;
+      if(!d || d.skipped || d.error){ state.enrich.status="skipped"; if(state.step===findKey('business')) applyDossierPrefill(); return; }
+      if(d.identity && d.identity.name) state.enrich.company = d.identity.name;
+      const u = d.understanding || {};
       state.enrich.descriptor = u.descriptor || u.tagline || null;
       state.enrich.status = state.enrich.descriptor ? "ready" : "skipped";
       if(state.step===findKey('business')) applyDossierPrefill();
@@ -446,6 +451,16 @@ function applyDossierPrefill(){
     if(ta && ta.value.trim()===''){ ta.value = state.enrich.descriptor; state.answers[state.step] = state.enrich.descriptor; }
     if(note) note.innerHTML = `I pulled this from ${escapeHtml(state.enrich.domain||'your domain')} — fix anything I got wrong.`;
   } else if(note){ note.remove(); }
+}
+// Best-effort first/last name from a work email's local part. Conservative: only when it
+// clearly looks like first.last (two+ alpha parts), and never for shared mailboxes.
+function guessNameFromEmail(email){
+  const local = (email||"").trim().toLowerCase().split('@')[0] || '';
+  if(!local) return '';
+  if(/^(info|hello|hi|hey|team|admin|sales|support|contact|founder|founders|office|mail|enquiries|inquiries|press|pr|jobs|careers|hr|account|accounts|billing|noreply|no-reply)$/.test(local)) return '';
+  const parts = local.split(/[._-]+/).filter(p=>/^[a-z]{2,}$/.test(p));
+  if(parts.length < 2 || parts.length > 3) return '';
+  return parts.map(p=>p[0].toUpperCase()+p.slice(1)).join(' ');
 }
 // Enter advances the form. Shift+Enter is a newline in textareas; a focused chip/button
 // keeps its native behaviour (toggle/click); welcome Enter begins.

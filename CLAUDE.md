@@ -1,6 +1,6 @@
 # CLAUDE.md: Mindmaker Repository Guide
 
-**Last Updated:** 2026-06-09
+**Last Updated:** 2026-06-21
 **Purpose:** Describe the current state of the Mindmaker codebase so agents and contributors can navigate it without reverse-engineering the tree.
 
 This file is **descriptive**, not prescriptive. For strategic intent, read `project-documentation/mindmaker_rebuild_brief_v4.md` (v4/v5 combined, the barbell pivot + Operator's Edge). The v6 ladder restructure (May 2026) layered Workshops at the entry rung, renamed the Cohort to "The AI-Fluent Executive" and repriced it to $2,500 over 4 weeks, and added the invitation-only Alumni Pass; see `project-documentation/HISTORY.md` and `project-documentation/DECISIONS_LOG.md` for the full reasoning.
@@ -37,6 +37,9 @@ Mindmaker is structured as a **ladder**: free Lightning Lessons at the top, paid
   - `notify-scoping-request` (scoping intake → email Krish), `notify-ctrl-waitlist` (CTRL waitlist → email Krish)
   - `import-audience-csv` (Substack subscriber CSV → shared `audience_contacts` table; gated by `AUDIENCE_IMPORT_SECRET`)
   - `create-consultation-hold`
+  - `company-search` (Brandfetch-powered company name typeahead for the Diagnosis Room Opener; POST `{ query }`, returns `{ results: [{ name?, domain, iconUrl? }] }`; per-IP rate limit 80 req/5min; uses `BRANDFETCH_API_KEY` or `BRANDFETCH_CLIENT_ID`)
+  - `submit-intake` (pre-session intake form → inserts into `intake_submissions` table + emails Krish via Resend; honeypot-gated)
+  - `submit-testimonial` (testimonial capture → inserts into `public.testimonials` + emails Krish via Resend; returns `{ ok: true, id }`)
 - `SessionDataContext` (`src/contexts/SessionDataContext.tsx`) threads qualification data into the global conversion modal(s).
 - Design system in `tailwind.config.ts` + `src/index.css`.
 

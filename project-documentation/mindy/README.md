@@ -60,10 +60,11 @@ The six authors flagged the following. Items 1–2 are real internal contradicti
 
 ### A. The contradiction the authors most want resolved
 
-**1. The cohort framework-name tension (CANON.md §5).** Two framework names both currently appear in the codebase and docs, and they are not obviously the same thing:
-- **"Diagnose → Decompose → Decide → Deploy"** — the cohort *curriculum* (Week 1–4), confirmed in `DECISIONS_LOG` and `HISTORY` as corrected "to match the live Maven page." This is Maven-canonical and the transacting truth.
-- **"Mind Set → Mind Map → Mind Make"** — still rendered on the homepage by `FrameworkJourney.tsx` and used as the all-offers framework table in `OFFERS.md`, as a 3-part cross-offer brand framework.
-- **Krish must pick:** (A) they are layered on purpose (Set/Map/Make = brand spine, the four D's = cohort delivery, Mindy uses each in its lane), or (B) Set/Map/Make is retired everywhere and migrated to the four D's. Until he confirms, the system prompt has Mindy describe the cohort curriculum only as "Diagnose → Decompose → Decide → Deploy" and avoid asserting any single cross-offer brand-framework name. **This is the single blocking content decision.**
+**1. ~~The cohort framework-name tension (CANON.md §5).~~ RESOLVED 2026-06-09.**
+Krish confirmed option A: the two names are layered on purpose and each stays in its lane.
+- **"Mind Set → Mind Map → Mind Make"** is the canonical **cross-offer brand framework**. Mindy uses this name when asked what the Mindmaker framework is.
+- **"Diagnose → Decompose → Decide → Deploy"** is the **cohort's week-by-week curriculum only** (the Week 1–4 delivery detail on Maven). Mindy uses it only when describing how the cohort runs week by week.
+The system prompt and CANON.md §5 have both been updated to reflect this resolution.
 
 ### B. Pricing and offer reconciliations
 
@@ -97,4 +98,4 @@ The six authors flagged the following. Items 1–2 are real internal contradicti
 
 ---
 
-*Phase 0 of the build (reconcile and de-poison) is what this pack delivers. The headline experience stays gated on item 1 (the framework-name call) and item 5 (the proof-anonymisation call). Everything else is confirmation, not construction.*
+*Phase 0 of the build (reconcile and de-poison) is what this pack delivers. Item 1 (framework-name) is now resolved. The headline experience is gated on item 5 (the proof-anonymisation call) and item 9 (EU/consent posture). Everything else is confirmation, not construction.*

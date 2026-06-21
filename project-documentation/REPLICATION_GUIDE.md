@@ -1,6 +1,6 @@
 # Replication Guide
 
-**Last Updated:** 2026-06-09
+**Last Updated:** 2026-06-21
 
 ---
 
@@ -164,6 +164,9 @@ supabase/functions/generate-proposal/index.ts          # Diagnosis Room co-brand
 supabase/functions/session-digest/index.ts             # Diagnosis Room session digest
 supabase/functions/transcribe/index.ts                 # Whisper voice input for the Diagnosis Room
 supabase/functions/create-consultation-hold/index.ts  # Stripe (bypassed)
+supabase/functions/company-search/index.ts            # Diagnosis Room Opener company typeahead (Brandfetch; BRANDFETCH_API_KEY or BRANDFETCH_CLIENT_ID)
+supabase/functions/submit-intake/index.ts             # pre-session intake form → intake_submissions table + emails Krish (Resend)
+supabase/functions/submit-testimonial/index.ts        # testimonial capture → testimonials table + emails Krish (Resend)
 ```
 
 ### Step 15: Configure functions
@@ -199,6 +202,15 @@ verify_jwt = false
 verify_jwt = false
 
 [functions.create-consultation-hold]
+verify_jwt = false
+
+[functions.company-search]
+verify_jwt = false
+
+[functions.submit-intake]
+verify_jwt = false
+
+[functions.submit-testimonial]
 verify_jwt = false
 ```
 

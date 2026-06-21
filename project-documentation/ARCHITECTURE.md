@@ -1,6 +1,6 @@
 # Architecture
 
-**Last Updated:** 2026-06-09
+**Last Updated:** 2026-06-21
 
 ---
 
@@ -55,6 +55,9 @@ mindmaker/
 │   │   │   ├── Opener.tsx, Conversation.tsx, DossierReveal.tsx, DecisionBrief.tsx
 │   │   │   ├── Fork.tsx, ProposalView.tsx, ExpressBooking.tsx
 │   │   │   ├── MicButton.tsx, MindyAvatar.tsx
+│   │   │   ├── CompanyField.tsx      # company name typeahead (calls company-search edge function)
+│   │   │   ├── BrushPainter.tsx      # brush-stroke loading animation for proposal generation
+│   │   │   ├── logoLuminance.ts      # logo luminance helper for co-brand contrast
 │   │   │   ├── useDiagnosisSession.ts # the room state machine
 │   │   │   └── types.ts              # edge-function contracts (scale.* is internal-only)
 │   │   ├── nervous-decision/         # Nervous Decision Machine
@@ -125,6 +128,9 @@ mindmaker/
 │   │   ├── generate-proposal/         # co-branded one-pager + Browserless PDF
 │   │   ├── session-digest/            # Resend, intelligence email to Krish + opt-in visitor copy
 │   │   ├── transcribe/                # OpenAI Whisper (voice input)
+│   │   ├── company-search/            # Brandfetch typeahead for Opener company field
+│   │   ├── submit-intake/             # pre-session intake form → intake_submissions + Krish email
+│   │   ├── submit-testimonial/        # testimonial capture → testimonials table + Krish email
 │   │   ├── nervous-decision-machine/  # Anthropic Haiku 4.5
 │   │   ├── get-ai-news/               # Live Intel content (Lovable AI Gateway)
 │   │   ├── get-market-sentiment/
@@ -287,7 +293,9 @@ Stripe $50 hold bypassed. Cohort payment flows entirely through Maven; Enterpris
    └─> window.dispatchEvent('openDiagnosisRoom', { detail: { source_page, seedDecision?, mode } })
    └─> DiagnosisRoom opens (lazy). mode 'express' rushes to booking; 'full' runs the diagnosis.
 
-2. Opener: visitor states one nervous AI decision (+ optional work email; mic input via `transcribe`)
+2. Opener: visitor states one nervous AI decision + optional work email + optional company name
+   - Company name typeahead via `CompanyField.tsx` → `company-search` edge function (Brandfetch)
+   - Mic input for the decision text via `transcribe` (OpenAI Whisper)
    └─> if a non-free work email: supabase.functions.invoke('enrich-company', { email, depth:'identity' })
        └─> fast Brandfetch + Tranco dossier → the co-brand "gasp"; full depth enriches in the background
        └─> free-email (gmail, etc.) → { skipped:'free-email' } → graceful degrade, no gasp
@@ -385,6 +393,21 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 - Server-side voice transcription for the mic input. Base64 audio → OpenAI Whisper (`whisper-1`) → `{ text }`. ~8MB cap, per-IP rate limit
 - Secret: `OPENAI_API_KEY`
 
+### `company-search` (Diagnosis Room Opener)
+- Brandfetch company name typeahead for `CompanyField.tsx` in the Opener. Accepts `{ query: string }` (2+ chars); returns `{ results: [ { name?, domain, iconUrl? } ] }`. Per-IP sliding-window rate limit (80 req / 5 min). Degrades gracefully on empty/short query or missing key.
+- Secrets: `BRANDFETCH_API_KEY` or `BRANDFETCH_CLIENT_ID`
+
+### `submit-intake`
+- Captures pre-session intake form responses and emails Krish a readable brief. Inserts into `intake_submissions` table. Honeypot field (`website`) silently discards bots. Resend email is non-fatal (failure does not block the insert).
+- Fields: name, role, company, email, link, seat, confidence, business one-liner, north star, value frame, wish, chip answers, meta.
+- Secret: `RESEND_API_KEY`
+
+### `submit-testimonial`
+- Public unauthenticated testimonial submission. Honeypot field silently discards bots. Inserts into `public.testimonials` table; emails Krish a transcript via Resend (non-fatal).
+- Fields: name, role, company, email, link, permission level, NPS, rating, summary line, chip responses, meta.
+- Returns `{ ok: true, id }` or `{ ok: false, error }`.
+- Secret: `RESEND_API_KEY`
+
 ### `import-audience-csv`
 - Ingests a Substack subscriber CSV export into the shared `audience_contacts` table (`source='mindmaker_live'`); paid subscribers flagged. Upserts on (email, source)
 - Gated by `AUDIENCE_IMPORT_SECRET` (x-import-secret header). Secrets: `SUPABASE_SERVICE_ROLE_KEY`, `AUDIENCE_IMPORT_SECRET`
@@ -451,7 +474,7 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 ## Database
 
 - Supabase connected, minimal usage
-- Tables: `leads`, `company_research_cache`
+- Tables: `leads`, `company_research_cache`, `intake_submissions`, `testimonials`
 - RLS policies on all tables
 
 ---

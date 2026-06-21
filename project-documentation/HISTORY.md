@@ -1,6 +1,47 @@
 # History
 
-**Last Updated:** 2026-06-09
+**Last Updated:** 2026-06-21
+
+---
+
+## 2026-06-21: Post-launch mobile redesign and Diagnosis Room enhancements
+
+**What Changed (in the codebase):**
+- **Mobile-first redesign of the Diagnosis Room** (PRs #121–#126). Full UX overhaul for a 2027-era mobile-first immersive experience: keyboard-aware CTA positioning, haptics, sound effects, reduced-motion support, and per-phase scroll management throughout the room.
+- **Navigation lockup redesign.** Icon + wordmark lockup with tube-light flicker animation on load; the Mindmaker LIVE pill replaces the wordmark in the nav bar.
+- **Company name typeahead in the Opener** (`src/components/diagnosis/CompanyField.tsx`). A Brandfetch-powered typeahead lets visitors search for their company by name instead of only supplying a work email. Returns domain + logo for enrichment. Backed by the new `company-search` edge function (Supabase, per-IP rate limit).
+- **Enrich from a chat-named company.** When a visitor names their company mid-conversation (before supplying an email), Mindy can now trigger enrichment from that company name, not only from the email domain.
+- **Auto-advance behavior.** The Diagnosis Room auto-advances through `brief`, `fork`, and `proposal` phases when Mindy signals readiness, without requiring a manual click-through at each transition.
+- **Brush-stroke painter for proposal loading** (`src/components/diagnosis/BrushPainter.tsx`). The loading spinner during proposal generation is replaced by an animated brush-stroke painter.
+- **Logo luminance helper** (`src/components/diagnosis/logoLuminance.ts`). Calculates logo luminance at paint time so dark client logos don't vanish on dark co-brand surfaces.
+- **Pre-session intake form.** A new form presented before the Opener session, capturing: name, role, company, email, one-liner, north star, value frame, wish, and chip-answer responses. Data is autofilled from email context where available; Q4 is role-aware. Captured by the new `submit-intake` edge function → `intake_submissions` table + Resend email to Krish.
+- **Testimonial capture.** New `submit-testimonial` edge function → `public.testimonials` table + Resend email to Krish. Public, unauthenticated, honeypot-gated.
+- **Mindy quick-replies reliability fix.** Quick reply chips now render reliably, including the opening question.
+- **Proposal improvements.** Header fixes and surface-intelligence improvements in the co-branded proposal.
+
+**New edge functions added:**
+- `company-search` — Brandfetch typeahead for the Opener company field
+- `submit-intake` — pre-session intake form capture
+- `submit-testimonial` — testimonial submission capture
+
+**New components added:**
+- `src/components/diagnosis/CompanyField.tsx` — company name typeahead
+- `src/components/diagnosis/BrushPainter.tsx` — brush-stroke proposal loading animation
+- `src/components/diagnosis/logoLuminance.ts` — logo luminance utility
+
+**New database tables:**
+- `intake_submissions` — pre-session intake responses
+- `testimonials` — public testimonial submissions
+
+**Why:**
+- The mobile redesign reflects that the Diagnosis Room's primary surface is a phone, not a desktop. The company typeahead removes friction for visitors who don't have their work email on hand. Auto-advance and the brush-stroke painter reduce the perceived latency of the proposal path. The intake form gives Krish a richer brief before a call.
+
+**Files Updated (docs reconciled this pass):**
+- `ARCHITECTURE.md`, `FEATURES.md`, `DEPLOYMENT.md`, `HISTORY.md`: new edge functions, components, and DB tables added.
+- `OUTCOMES.md`: "3-week Cohort" corrected to "4-week Cohort" in the Anti-Outcomes list.
+- `mindy/mindy-system-prompt.md`: stale "unresolved fact" note updated to reflect the framework resolution confirmed 2026-06-09.
+- `mindy/README.md`: item 1 (framework-name tension) marked as resolved.
+- All dated 2026-06-09 docs bumped to 2026-06-21.
 
 ---
 

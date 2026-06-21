@@ -1,6 +1,6 @@
 # Deployment Checklist
 
-**Last Updated:** 2026-06-09
+**Last Updated:** 2026-06-21
 
 Pre-deploy and post-deploy verification for the Mindmaker project.
 
@@ -137,6 +137,9 @@ All routes in `src/App.tsx` accessible:
 - [ ] `send-leadership-insights-email`: (test env) complete diagnostic + unlock, verify dual email
 - [ ] `notify-scoping-request`: (test env) submit the ScopingModal, verify krish@themindmaker.ai receipt
 - [ ] `notify-ctrl-waitlist`: (test env) join the CTRL waitlist, verify krish@themindmaker.ai receipt
+- [ ] `company-search`: (test) submit 3+ char company query in Diagnosis Room Opener, verify typeahead results return
+- [ ] `submit-intake`: (test env) complete pre-session intake form, verify `intake_submissions` row inserted + krish@themindmaker.ai receipt
+- [ ] `submit-testimonial`: (test env) submit testimonial form, verify `testimonials` row inserted + krish@themindmaker.ai receipt
 
 ### 4. Redirect check
 - [ ] `/tool` redirects to `/signal#decision`
@@ -185,6 +188,8 @@ All routes in `src/App.tsx` accessible:
 | Secret | Status |
 |--------|--------|
 | `STRIPE_SECRET_KEY` | Payment holds, currently bypassed (Cohort payment runs through Maven) |
+| `BRANDFETCH_API_KEY` / `BRANDFETCH_CLIENT_ID` | Company typeahead (`company-search`) and identity enrichment (`enrich-company`). Either key works; degrades gracefully if absent. |
+| `BRANDFETCH_CLIENT_ID` | Alternative to `BRANDFETCH_API_KEY` for `company-search` specifically |
 
 ---
 

@@ -1,6 +1,6 @@
 # Features
 
-**Last Updated:** 2026-06-09
+**Last Updated:** 2026-06-21
 
 ---
 
@@ -184,9 +184,9 @@ Surfaced in the Resources dropdown via the `LightningLessons` component. Five co
 
 **What it is:** a full-screen immersive experience where **Mindy** (the on-site guide, reasoning in Krish's voice) diagnoses a visitor's nervous AI decision and forks to three honest exits. Replaces the retired `PreCallQualifier` pill and `YFork` second fork.
 
-**Entry:** the `openDiagnosisRoom` event (`detail: { source_page, seedDecision?, mode? }`) from the nav "Book a call", the hero CTAs, and `SimpleCTA`; plus the standalone page at `/start`. Two modes: `express` (rushes to booking) and `full` (runs the full diagnosis).
+**Entry:** the `openDiagnosisRoom` event (`detail: { source_page, seedDecision?, mode? }`) from the nav "Book a call", the hero CTAs, and `SimpleCTA`; plus the standalone page at `/start`. Two modes: `express` (rushes to booking) and `full` (runs the full diagnosis). A pre-session intake form can be presented before the Opener; responses are captured by the `submit-intake` edge function and emailed to Krish.
 
-**Front end** (`src/components/diagnosis/`): `DiagnosisRoom` (orchestrator), `Opener`, `Conversation`, `DossierReveal`, `DecisionBrief`, `Fork`, `ProposalView`, `ExpressBooking`, `MicButton`, `MindyAvatar`, the `useDiagnosisSession` state machine, and `types.ts`. Phases: `opener` → `reading` → `reflect` → `chat` → `brief` → `fork` → `proposal` (plus `express-book`).
+**Front end** (`src/components/diagnosis/`): `DiagnosisRoom` (orchestrator), `Opener`, `Conversation`, `DossierReveal`, `DecisionBrief`, `Fork`, `ProposalView`, `ExpressBooking`, `MicButton`, `MindyAvatar`, `CompanyField` (company name typeahead, calls `company-search`), `BrushPainter` (brush-stroke loading animation for proposal generation), `logoLuminance.ts` (co-brand contrast helper), the `useDiagnosisSession` state machine, and `types.ts`. Phases: `opener` → `reading` → `reflect` → `chat` → `brief` → `fork` → `proposal` (plus `express-book`). The room auto-advances through phases (brief, fork, proposal) when Mindy signals readiness, without requiring the visitor to click through manually.
 
 **Three honest exits:**
 1. **Keep chatting** (learn).
@@ -391,6 +391,9 @@ Other:
 - `notify-ctrl-waitlist`. CTRL waitlist signups (`CtrlWaitlistPopover`); emails krish@themindmaker.ai via Resend
 - `import-audience-csv`. Substack subscriber CSV → shared `audience_contacts` table (secret-gated)
 - `create-consultation-hold`. Stripe (currently bypassed; Cohort payment via Maven)
+- `company-search`. Brandfetch typeahead for the company name field in the Diagnosis Room Opener. Returns `{ results: [ { name?, domain, iconUrl? } ] }` for queries 2+ characters. Per-IP rate limit.
+- `submit-intake`. pre-session intake form → inserts into `intake_submissions` table + emails Krish via Resend. Honeypot field discards bots silently.
+- `submit-testimonial`. public testimonial capture → inserts into `testimonials` table + emails Krish via Resend. Honeypot field discards bots silently.
 
 ---
 

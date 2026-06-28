@@ -1,6 +1,6 @@
 # Features
 
-**Last Updated:** 2026-06-09
+**Last Updated:** 2026-06-28
 
 ---
 
@@ -186,7 +186,7 @@ Surfaced in the Resources dropdown via the `LightningLessons` component. Five co
 
 **Entry:** the `openDiagnosisRoom` event (`detail: { source_page, seedDecision?, mode? }`) from the nav "Book a call", the hero CTAs, and `SimpleCTA`; plus the standalone page at `/start`. Two modes: `express` (rushes to booking) and `full` (runs the full diagnosis).
 
-**Front end** (`src/components/diagnosis/`): `DiagnosisRoom` (orchestrator), `Opener`, `Conversation`, `DossierReveal`, `DecisionBrief`, `Fork`, `ProposalView`, `ExpressBooking`, `MicButton`, `MindyAvatar`, the `useDiagnosisSession` state machine, and `types.ts`. Phases: `opener` → `reading` → `reflect` → `chat` → `brief` → `fork` → `proposal` (plus `express-book`).
+**Front end** (`src/components/diagnosis/`): `DiagnosisRoom` (orchestrator), `Opener`, `Conversation`, `DossierReveal`, `DecisionBrief`, `Fork`, `ProposalView`, `ExpressBooking`, `MicButton`, `MindyAvatar`, `CompanyField` (company search typeahead), `BrushPainter` (opener aurora visual effect), `logoLuminance.ts` (logo contrast helper), the `useDiagnosisSession` state machine, `types.ts`, and `index.ts`. Phases: `opener` → `reading` → `reflect` → `chat` → `brief` → `fork` → `proposal` (plus `express-book`).
 
 **Three honest exits:**
 1. **Keep chatting** (learn).
@@ -198,6 +198,12 @@ Surfaced in the Resources dropdown via the `LightningLessons` component. Five co
 **Privacy:** the dossier's `scale.*` (employeeCount, sizeBand, trancoRank, icp, recommendedMode) is internal routing only, never surfaced to the visitor, never in the visitor copy; only Krish's digest gets the full dossier + transcript.
 
 **Knowledge & guardrails:** Mindy's Brain Pack in [`mindy/`](./mindy/), system prompt, reasoning few-shots, fit-and-walkaway rubric, pricing-range model, proof bank, `CANON.md`, voice-lint. Pricing is ranges only; the honest down-sell rubric can recommend a cheaper rung or a free lesson; anything above ~$12k books the call rather than self-serves.
+
+**Company search typeahead:** the `CompanyField` component in `Opener.tsx` calls `company-search` as the user types a company name. Results come from Brandfetch Search API and include logo + domain. The selected company pre-fills enrichment so `enrich-company` can run on domain rather than waiting for an email address. Adaptive logo contrast via `logoLuminance.ts` ensures the co-brand paint is legible against the dark room background.
+
+**Pre-session intake form:** a static HTML form at `/public/intake/index.html` collects structured pre-session context (seat, AI confidence, value frame, aspiration, business context, north star, role-aware handoff) before a confirmed engagement. Posts to the `submit-intake` edge function which emails Krish a formatted brief and persists the row.
+
+**Testimonial collection:** a static HTML form at `/public/testimonials/index.html` accepts public testimonial submissions. Posts to `submit-testimonial`, which inserts into `public.testimonials` and emails Krish. Includes a honeypot field and validates permission level (free / edits / private).
 
 **Analytics:** `diagnosis_room_*` Plausible events across the funnel.
 
@@ -391,6 +397,9 @@ Other:
 - `notify-ctrl-waitlist`. CTRL waitlist signups (`CtrlWaitlistPopover`); emails krish@themindmaker.ai via Resend
 - `import-audience-csv`. Substack subscriber CSV → shared `audience_contacts` table (secret-gated)
 - `create-consultation-hold`. Stripe (currently bypassed; Cohort payment via Maven)
+- `company-search`. Brandfetch Search API typeahead for the Diagnosis Room opener (name → domain + icon; rate-limited; degrades gracefully)
+- `submit-intake`. pre-session intake form handler → inserts row + emails Krish a formatted SNAPSHOT brief
+- `submit-testimonial`. public testimonial submission → inserts into `testimonials` table + emails Krish; honeypot bot protection
 
 ---
 

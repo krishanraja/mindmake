@@ -1,10 +1,30 @@
 # Decisions Log
 
-**Last Updated:** 2026-06-09
+**Last Updated:** 2026-06-28
 
 ---
 
 ## Brand & Product Decisions
+
+### 2026-06-28: Company search typeahead added to Diagnosis Room opener
+
+**Decision:** Add a company name typeahead (`CompanyField`) to the Diagnosis Room opener backed by the Brandfetch Search API (`company-search` edge function). The visitor can find their company by name rather than supplying a work email first, removing the cold-start friction for visitors without a work email ready.
+
+**Context:** The enrichment co-brand "gasp" was gated behind a work email. Many visitors arrive without one to hand; the typeahead lets them select their company directly, pre-seeding the dossier domain so `enrich-company` fires on identity depth immediately. Free-email gate still applies to email input; typeahead bypasses it entirely since the domain is known.
+
+**Impact:** New `CompanyField.tsx`, `BrushPainter.tsx`, and `logoLuminance.ts` in `src/components/diagnosis/`. New `company-search` edge function (Brandfetch Search API, 80/IP/5 min rate limit, graceful degrade).
+
+---
+
+### 2026-06-28: Pre-session intake form and testimonial collection added
+
+**Decision:** Introduce two new lightweight public forms: a structured pre-session intake (for confirmed engagements) and a testimonial submission form (post-engagement). Both are static HTML pages in `/public/` posting to new edge functions.
+
+**Context:** Pre-session context was collected ad hoc over email, creating overhead for both Krish and the client. A structured intake form (AI confidence, value frame, aspiration, north star, role-aware handoff) standardizes the brief Krish receives. Testimonial collection had no self-serve path; the new form lets clients submit at any time with a controlled permission model.
+
+**Impact:** New edge functions `submit-intake` and `submit-testimonial`; new static pages `public/intake/index.html` and `public/testimonials/index.html`.
+
+---
 
 ### 2026-06-09: The Diagnosis Room (Mindy) becomes the one journey; YFork + PreCallQualifier retired
 

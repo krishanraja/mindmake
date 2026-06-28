@@ -1,6 +1,6 @@
 # Replication Guide
 
-**Last Updated:** 2026-06-09
+**Last Updated:** 2026-06-28
 
 ---
 
@@ -102,7 +102,7 @@ src/components/FrameworkJourney.tsx    # Mind Set → Mind Map → Mind Make
 src/components/OperatorsEdge.tsx       # v5 credential section
 src/components/OperatorsBrief.tsx      # Live Intel homepage teaser
 src/components/PriceTicker.tsx         # CSS-marquee model price ticker
-src/components/LightningLessons.tsx    # 4 Maven Lightning Lesson links (Resources nav)
+src/components/LightningLessons.tsx    # 5 Maven Lightning Lesson links (Resources nav)
 src/components/SimpleCTA.tsx
 ```
 
@@ -164,6 +164,9 @@ supabase/functions/generate-proposal/index.ts          # Diagnosis Room co-brand
 supabase/functions/session-digest/index.ts             # Diagnosis Room session digest
 supabase/functions/transcribe/index.ts                 # Whisper voice input for the Diagnosis Room
 supabase/functions/create-consultation-hold/index.ts  # Stripe (bypassed)
+supabase/functions/company-search/index.ts             # Brandfetch Search API typeahead (Diagnosis Room opener)
+supabase/functions/submit-intake/index.ts              # pre-session intake form → row + email brief to Krish
+supabase/functions/submit-testimonial/index.ts         # public testimonial submission → testimonials table + email Krish
 ```
 
 ### Step 15: Configure functions
@@ -199,6 +202,12 @@ verify_jwt = false
 verify_jwt = false
 
 [functions.create-consultation-hold]
+verify_jwt = false
+
+[functions.submit-intake]
+verify_jwt = false
+
+[functions.submit-testimonial]
 verify_jwt = false
 ```
 

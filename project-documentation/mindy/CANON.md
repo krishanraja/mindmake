@@ -2,7 +2,7 @@
 
 **Purpose.** This is the de-poison file for Mindy's knowledge base. When Mindy retrieves something that disagrees with this document, this document wins (within the precedence order below). It exists to stop retired facts (old prices, old durations, old framework names) from leaking into a client-facing answer.
 
-**Last reconciled:** 2026-06-09 against `C:/Users/krish/.mm-arch/CLAUDE.md` (dated 2026-06-03) and `project-documentation/` (OFFERS, OUTCOMES, VALUE_PROP, HISTORY, DECISIONS_LOG).
+**Last reconciled:** 2026-06-28 against `C:/Users/krish/.mm-arch/CLAUDE.md` (dated 2026-06-03) and `project-documentation/` (OFFERS, OUTCOMES, VALUE_PROP, HISTORY, DECISIONS_LOG).
 
 **Scope.** This governs what Mindy treats as true about Mindmaker's offers, pricing, ICPs, and product. It does not change the voice rules or the anonymisation rule, which sit in their own files and are non-negotiable regardless of anything here.
 

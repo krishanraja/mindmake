@@ -1,6 +1,6 @@
 # Mindy Brain Pack
 
-*The knowledge pack that makes Mindy reason like Krish, recommend honestly, price in ranges, and sound like the operator and not the model. Built 2026-06-09 against `MINDY-ONE-JOURNEY-ARCHITECTURE.md` (the Diagnosis Room brief). This README is the index and the wiring diagram. It also carries the consistency and open-questions list Krish must clear before go-live.*
+*The knowledge pack that makes Mindy reason like Krish, recommend honestly, price in ranges, and sound like the operator and not the model. Built 2026-06-09 against `MINDY-ONE-JOURNEY-ARCHITECTURE.md` (the Diagnosis Room brief); last reconciled 2026-06-28. This README is the index and the wiring diagram. It also carries the consistency and open-questions list; items resolved as of 2026-06-09 are marked.*
 
 ---
 
@@ -60,10 +60,10 @@ The six authors flagged the following. Items 1–2 are real internal contradicti
 
 ### A. The contradiction the authors most want resolved
 
-**1. The cohort framework-name tension (CANON.md §5).** Two framework names both currently appear in the codebase and docs, and they are not obviously the same thing:
-- **"Diagnose → Decompose → Decide → Deploy"** — the cohort *curriculum* (Week 1–4), confirmed in `DECISIONS_LOG` and `HISTORY` as corrected "to match the live Maven page." This is Maven-canonical and the transacting truth.
-- **"Mind Set → Mind Map → Mind Make"** — still rendered on the homepage by `FrameworkJourney.tsx` and used as the all-offers framework table in `OFFERS.md`, as a 3-part cross-offer brand framework.
-- **Krish must pick:** (A) they are layered on purpose (Set/Map/Make = brand spine, the four D's = cohort delivery, Mindy uses each in its lane), or (B) Set/Map/Make is retired everywhere and migrated to the four D's. Until he confirms, the system prompt has Mindy describe the cohort curriculum only as "Diagnose → Decompose → Decide → Deploy" and avoid asserting any single cross-offer brand-framework name. **This is the single blocking content decision.**
+**1. The cohort framework-name tension — RESOLVED 2026-06-09 (CANON.md §5, DECISIONS_LOG).** Krish confirmed Option A: the two names are layered on purpose and coexist.
+- **"Mind Set → Mind Map → Mind Make"** is the canonical cross-offer brand framework (rendered on the homepage by `FrameworkJourney.tsx`). Mindy uses this when describing the overall Mindmaker method.
+- **"Diagnose → Decompose → Decide → Deploy"** is the cohort's week-by-week curriculum only. Mindy uses this when describing how the cohort is structured across four weeks.
+- Mindy never conflates the two. CANON.md §5 records the resolution.
 
 ### B. Pricing and offer reconciliations
 
@@ -71,7 +71,7 @@ The six authors flagged the following. Items 1–2 are real internal contradicti
    - Workshop→Cohort credit is documented as both **"$500 / code WORKSHOP"** (four canonical docs) and "$499" (grounding brief). The pack uses **$500 / code WORKSHOP**. Confirm canonical.
    - CTRL's **$29 Diagnostic (one-time) / $9-mo Edge Pro (recurring)** is real but absent from `OFFERS.md`. Confirm the labels and ordering are exactly right in Mindy's mouth (do not invert), and approve adding them to `OFFERS.md`.
 
-**3. Exact prices vs ranges — a deliberate divergence to confirm.** The architecture brief and CANON still carry exact pinned figures ($599 Workshop, $2,500 Cohort, $12,000 Immersion, $15,000 Signal Session, $60,000–$100,000 Revenue Architecture). Per Krish's standing ranges-only instruction, this pack shows the *wider public range card* instead ($500–$1,000; $2,000–$3,000; $10,000–$15,000; $10,000–$20,000; $50,000–$100,000+). The exact figures are retained only as internal reasoning aids. **Confirm the range card is the only client-facing pricing and the brief's exact-number map is now superseded for client output.** Note one genuine band gap: the brief anchors Revenue Architecture at $60k, the range card floor is $50k. Confirm the $50k floor.
+**3. Exact prices vs ranges — CONFIRMED 2026-06-09 (DECISIONS_LOG).** The range card is the only client-facing pricing. Exact figures ($599, $2,500, $15,000, $60,000–$100,000, $12,000) are retained in docs as internal reasoning aids; Mindy never emits them to a visitor. Revenue Architecture public floor is $50,000 (not $60,000); the $60,000 figure is the internal floor and is never shown publicly.
 
 **4. "Bespoke enablement" is a new ladder entry not in the brief's offer map.** The brief's decision-type→offer table has no bespoke row; bespoke buyers (DoThinkDo / coaching-practice / TMT-advisory class) were folded into the productised rungs. This pack adds **Bespoke enablement ($8,000–$25,000, pilots from $2,000)** as a distinct Mode B with its own scoping engine. Confirm this is the intended model and that it sits on the public range card. Also confirm the non-canonical 8-week / six-stream sprint in the proposal mockup is retired or formally re-priced as bespoke (brief §6 gap 6, §8 — still flagged unresolved).
 
@@ -97,4 +97,4 @@ The six authors flagged the following. Items 1–2 are real internal contradicti
 
 ---
 
-*Phase 0 of the build (reconcile and de-poison) is what this pack delivers. The headline experience stays gated on item 1 (the framework-name call) and item 5 (the proof-anonymisation call). Everything else is confirmation, not construction.*
+*Phase 0 of the build (reconcile and de-poison) is what this pack delivers. Items 1 and 3 are now resolved. Outstanding items: 2 (CTRL pricing label confirmation and OFFERS.md addition), 4 (bespoke enablement lane confirmation), 5 (proof anonymisation approval), 6 (Calendly event confirmation — current assumption is 15-min intro at `calendly.com/krish-raja/15-min-intro`), 7 (email-capture posture confirmation), 8 (CTRL routing and self-serve ceiling confirmation), 9 (EU consent posture — flagged as a launch blocker).*

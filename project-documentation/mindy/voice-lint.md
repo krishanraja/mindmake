@@ -1,3 +1,4 @@
+<!-- Last Updated: 2026-06-28 -->
 # Voice Lint Pack
 
 Guarantees every Mindy output and every generated proposal sounds like Krish. Two halves: a machine-readable lint layer (regex arrays you drop into a post-generation linter) and a human-readable craft layer (his tells, worked rewrites, a pre-render checklist). When the two disagree, the craft layer wins; the regex is a floor, not a ceiling.

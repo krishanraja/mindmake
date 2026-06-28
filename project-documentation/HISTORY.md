@@ -1,6 +1,23 @@
 # History
 
-**Last Updated:** 2026-06-09
+**Last Updated:** 2026-06-28
+
+---
+
+## 2026-06-28: Diagnosis Room redesigned as 2027 mobile-first experience; intake, company search, and testimonial collection added
+
+**What Changed (in the codebase, reconciled into docs):**
+- **Diagnosis Room redesigned** ("2027 mobile-first immersive experience"). Full visual and UX overhaul of `src/components/diagnosis/`. New components added: `CompanyField.tsx` (company search typeahead in the opener using the Brandfetch Search API), `BrushPainter.tsx` (opener aurora visual layer), `logoLuminance.ts` (logo contrast helper for adaptive dark/light logo selection against the room's dark background). Barrel `index.ts` added. The room enriches from a chat-named company in addition to email, surfaces dossier intelligence more prominently, and fixes the co-branded proposal header.
+- **Company search typeahead in the opener** (`company-search` edge function). Visitors can type a company name directly in the opener; `CompanyField` queries `company-search` (Brandfetch Search API, rate-limited 80/IP/5 min) and returns ranked matches with name, domain, and icon. The selected company pre-fills enrichment so the co-brand paint fires without requiring a work email. Degrades gracefully to empty results on failure.
+- **Pre-session intake form** (`submit-intake` edge function + `public/intake/index.html`). A structured static HTML form collects pre-session context (AI confidence, value frame, aspiration, business context, north star, role-aware handoff) before a confirmed engagement. Posts to `submit-intake`, which inserts a row and emails Krish a formatted SNAPSHOT brief.
+- **Testimonial collection** (`submit-testimonial` edge function + `public/testimonials/index.html`). A public static form for testimonial submissions. Posts to `submit-testimonial`, which inserts into `public.testimonials`, emails Krish a notification, and validates permission level (free / edits / private). Honeypot field prevents bot submissions.
+- **Autofill intake** from already-collected session data (contact step auto-populated where possible). Intake questions are role-aware (Q4 adapts based on earlier answers).
+- **Docs reconciled this pass**: ARCHITECTURE.md, FEATURES.md, REPLICATION_GUIDE.md updated to reflect the three new edge functions (`company-search`, `submit-intake`, `submit-testimonial`), new diagnosis components, and new static pages. All "Last Updated" dates bumped to 2026-06-28 across the living documentation set. Historical entries preserved as-is.
+
+**Why:**
+- The redesigned Diagnosis Room opener was the primary friction point; company-name typeahead eliminates the cold-start gap for visitors without a work email ready, and reduces the enrichment latency by pre-seeding the dossier from a named company.
+- The intake form gives Krish structured pre-session context for confirmed engagements, replacing unstructured email back-and-forth.
+- The testimonial form closes the feedback loop from clients post-engagement without manual Krish intervention.
 
 ---
 

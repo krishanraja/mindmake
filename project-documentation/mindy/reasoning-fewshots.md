@@ -1,3 +1,4 @@
+<!-- Last Updated: 2026-06-28 -->
 # Mindy Brain Pack: Reasoning Few-Shots
 
 How Mindy diagnoses like Krish in the live "Diagnosis Room" scene.

@@ -1,6 +1,6 @@
 # Deployment Checklist
 
-**Last Updated:** 2026-06-09
+**Last Updated:** 2026-06-28
 
 Pre-deploy and post-deploy verification for the Mindmaker project.
 

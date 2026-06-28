@@ -1,6 +1,6 @@
 # Architecture
 
-**Last Updated:** 2026-06-09
+**Last Updated:** 2026-06-28
 
 ---
 
@@ -55,8 +55,12 @@ mindmaker/
 │   │   │   ├── Opener.tsx, Conversation.tsx, DossierReveal.tsx, DecisionBrief.tsx
 │   │   │   ├── Fork.tsx, ProposalView.tsx, ExpressBooking.tsx
 │   │   │   ├── MicButton.tsx, MindyAvatar.tsx
+│   │   │   ├── CompanyField.tsx      # company search typeahead (Brandfetch Search API)
+│   │   │   ├── BrushPainter.tsx      # visual effect layer (opener aurora)
+│   │   │   ├── logoLuminance.ts      # logo contrast helper (dark/light logo selection)
 │   │   │   ├── useDiagnosisSession.ts # the room state machine
-│   │   │   └── types.ts              # edge-function contracts (scale.* is internal-only)
+│   │   │   ├── types.ts              # edge-function contracts (scale.* is internal-only)
+│   │   │   └── index.ts              # barrel exports
 │   │   ├── nervous-decision/         # Nervous Decision Machine
 │   │   │   ├── Input.tsx             # compact + full sizes
 │   │   │   ├── Artifact.tsx
@@ -119,7 +123,7 @@ mindmaker/
 │   └── main.tsx
 ├── supabase/
 │   ├── functions/
-│   │   ├── _shared/                   # incl. mindy/, enrich/, proposal/ (Diagnosis Room logic)
+│   │   ├── _shared/                   # incl. mindy/, enrich/, proposal/ (Diagnosis Room logic); also vertex-client.ts, company-research.ts, audience.ts, retry.ts, timeout.ts, validation.ts, logger.ts
 │   │   ├── mindy-chat/                # Claude, Mindy's reasoning turn
 │   │   ├── enrich-company/            # company dossier orchestrator
 │   │   ├── generate-proposal/         # co-branded one-pager + Browserless PDF
@@ -135,7 +139,10 @@ mindmaker/
 │   │   ├── notify-scoping-request/    # ScopingModal intake → Krish
 │   │   ├── notify-ctrl-waitlist/      # CTRL waitlist → Krish
 │   │   ├── import-audience-csv/       # Substack subscriber CSV → audience_contacts
-│   │   └── create-consultation-hold/  # Stripe, currently bypassed
+│   │   ├── create-consultation-hold/  # Stripe, currently bypassed
+│   │   ├── company-search/            # Brandfetch Search API typeahead for the Diagnosis Room opener
+│   │   ├── submit-intake/             # pre-session intake form → inserts row + emails Krish a brief
+│   │   └── submit-testimonial/        # public testimonial submission form → inserts row + emails Krish
 │   ├── migrations/
 │   └── config.toml
 ├── public/
@@ -146,6 +153,8 @@ mindmaker/
 │   ├── ctrl-demo-video.mp4            # /operator demo loop
 │   ├── Krish-Headshot.png             # /operator + TrustSection
 │   ├── krish-stage-{1,2,3}.{jpg,png}  # /operator stage carousel
+│   ├── intake/index.html              # static pre-session intake form (posts to submit-intake)
+│   ├── testimonials/index.html        # static testimonial submission form (posts to submit-testimonial)
 │   └── ...
 ├── scripts/
 │   ├── generate-sitemap.mjs
@@ -435,6 +444,21 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 - Stripe authorization hold, currently bypassed; Cohort payment runs entirely through Maven
 - Secret: `STRIPE_SECRET_KEY`
 
+### `company-search`
+- Thin, fast typeahead for the Diagnosis Room opener. Takes a partial company name, queries the Brandfetch Search API, and returns ranked matches with name, registrable domain, and CDN icon URL
+- Empty or very short queries degrade gracefully to empty results (200). Per-IP rate limit: 80 requests / 5 min
+- Secrets: `BRANDFETCH_API_KEY` or `BRANDFETCH_CLIENT_ID` (either works)
+
+### `submit-intake`
+- Receives pre-session intake form submissions. Inserts a row into the intake table and emails Krish a formatted brief (SNAPSHOT section: seat, AI confidence, value frame, aspiration, business one-liner, north star, role-aware handoff, remaining chip answers)
+- Deployed with `verify_jwt = false` (public form). Mirrors the `submit-testimonial` structure
+- Secrets: `RESEND_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
+
+### `submit-testimonial`
+- Public testimonial submission endpoint. Inserts a row into `public.testimonials` and emails Krish a notification. Includes a honeypot field for bot prevention
+- Deployed with `verify_jwt = false`. Validates permission level (free / edits / private)
+- Secrets: `RESEND_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
+
 ---
 
 ## State Management
@@ -451,7 +475,7 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 ## Database
 
 - Supabase connected, minimal usage
-- Tables: `leads`, `company_research_cache`
+- Tables: `leads`, `company_research_cache`, `audience_contacts` (Substack CSV import, upserted on email + source), `testimonials` (public submissions via `submit-testimonial`)
 - RLS policies on all tables
 
 ---
@@ -507,7 +531,8 @@ Push to GitHub triggers Lovable / Vercel auto-deploy. Edge functions auto-deploy
 | `OPENAI_API_KEY` | Whisper transcription, market sentiment, enrichment fallback | Yes |
 | `RESEND_API_KEY` | Email delivery (`session-digest` + `send-*`) | Yes |
 | `BROWSERLESS_API_KEY` | Proposal HTML → PDF (`generate-proposal`) | Recommended |
-| `BRANDFETCH_API_KEY` | Company identity / logo / colours (co-brand) | Optional* |
+| `BRANDFETCH_API_KEY` | Company identity / logo / colours (`enrich-company`); typeahead search (`company-search`) | Optional* |
+| `BRANDFETCH_CLIENT_ID` | Alternative credential for Brandfetch (`company-search` accepts either) | Optional* |
 | `PEOPLEDATALABS_API_KEY` | Company size / routing signal | Optional* |
 | `BUILTWITH_API_KEY` | Tech-stack signal | Optional* |
 | `EXA_API_KEY` | Proof matching + currency | Optional* |

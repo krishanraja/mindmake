@@ -1,6 +1,6 @@
 # Branding
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-06-29
 
 ---
 
@@ -232,14 +232,16 @@ themindmaker.ai
 - Minimum size: 120px width
 
 ### Color application
-- **Mint (#7ef4c2):** sparingly. CTAs, accents, highlights on dark backgrounds
+- **Emerald (#00D9B6, HSL `171 100% 43%`):** the signature accent, used sparingly. CTAs, accents, highlights on dark backgrounds. (The legacy `mint` token/`#7ef4c2` is retained only as an alias to emerald.)
 - **Ink (#0e1a2b):** primary for text and structure
 - **Generous white space**. never cramped
 
-### Contrast rule (critical)
-**Never use `text-mint` on white or light backgrounds.** Use `text-foreground` or `text-ink` on light backgrounds; `text-dark-card-*` utilities on dark backgrounds.
+The signature accent changed from mint to **portfolio emerald** on 2026-06-29: Mindmaker adopted CTRL's emerald in a brand-cohesion pass so the three sibling products (Mindmaker, CTRL, Make Your Mind Up) read as one house over one MindmakerOS token contract. WHY + full WCAG derivation: `prototypes/brand-emerald-proof.{html,md}`.
 
-Mint is an accent, not a text color on light surfaces.
+### Contrast rule (critical)
+**Never use bright emerald (`text-mint` / `text-emerald`) as text on white or light backgrounds** - it fails WCAG, exactly as mint did. For accent text/links on light backgrounds use **`text-emerald-deep`** (`#06746d`, full AA 5.21), or `text-foreground` / `text-ink`; `text-dark-card-*` utilities on dark backgrounds.
+
+Bright emerald is an accent (fills, CTA backgrounds, dark-bg accents, focus ring), not a text color on light surfaces.
 
 ### Photography
 - Real people, not stock

@@ -1,6 +1,6 @@
 # Mindmaker: The Anti-Consultancy for Leaders Done Being Sold AI
 
-**Last Updated:** 2026-06-09
+**Last Updated:** 2026-06-29
 
 ---
 
@@ -279,14 +279,16 @@ For agents working on the codebase, start with **[CLAUDE.md](./CLAUDE.md)** in t
 | Element | Value |
 |---|---|
 | Primary Dark (Ink) | `#0e1a2b` |
-| Primary Accent (Mint) | `#7ef4c2` |
+| Primary Accent (Emerald) | `#00D9B6` (HSL `171 100% 43%`) |
 | Display Font | Space Grotesk Variable |
 | Body Font | Inter Variable |
 
+The signature accent is **portfolio emerald** as of 2026-06-29. Mindmaker adopted CTRL's emerald in a brand-cohesion pass so the three sibling products (Mindmaker, CTRL, Make Your Mind Up) read as one house over one shared MindmakerOS token contract. The legacy `--mint*` CSS tokens and the Tailwind `mint` key are kept as **aliases** to emerald (zero-churn migration), so `bg-mint` / `shadow-mint-*` / `text-mint` still work and now render emerald; prefer the new `emerald*` keys in new code. WHY + the full WCAG derivation: `prototypes/brand-emerald-proof.{html,md}`.
+
 ### Critical Rules
-- **Never** use `text-mint` on white/light backgrounds (fails WCAG)
+- **Never** use bright emerald (`text-mint` / `text-emerald`) on white/light backgrounds (fails WCAG, exactly like mint did). For text/links on light backgrounds use **`text-emerald-deep`** (`#06746d`, full AA 5.21), or `text-foreground` / `text-ink`.
 - Use `.dark-cta-card` class or `text-dark-card-*` utilities on dark backgrounds
-- Mint is for highlights and CTAs only
+- Bright emerald is for fills, CTA backgrounds, dark-bg accents, shadows, and the focus ring only
 
 ---
 

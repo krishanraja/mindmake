@@ -1,10 +1,29 @@
 # Decisions Log
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-06-29
 
 ---
 
 ## Brand & Product Decisions
+
+### 2026-06-29: Signature accent moves from Mint to portfolio Emerald (brand cohesion)
+
+**Decision:** Change Mindmaker's signature accent from **mint** (`#7ef4c2`, HSL `158 82% 73%`) to **portfolio emerald** (`#00D9B6`, HSL `171 100% 43%`), CTRL's emerald, now the shared signature across the three sibling products: **Mindmaker, CTRL, and Make Your Mind Up**. Ink (`#0e1a2b`), neutrals, and every other colour are unchanged. The migration is **zero-churn**: the legacy `--mint*` CSS tokens and the Tailwind `mint` colour key are retained as **aliases** that now resolve to emerald, so existing `bg-mint` / `text-mint` / `shadow-mint-*` keep working and render emerald. New code should prefer the `emerald*` keys.
+
+**Emerald scale:** `emerald-50` `171 100% 97%`, `emerald-300` `171 90% 80%`, `emerald` `171 100% 43%`, `emerald-deep` `176 90% 24%` (`#06746d`), `emerald-900` `180 85% 16%`.
+
+**Context:**
+- The three products were drifting apart visually while sharing one buyer and one underlying MindmakerOS token contract. A single signature accent makes them read as one house.
+- CTRL's emerald was the natural anchor: it was already the live signature on the flagship app, so adopting it portfolio-wide cost the least and looked most current.
+- Keeping the `mint` tokens as aliases avoided a repo-wide find-and-replace and the regression risk that comes with it; the rename is a docs/new-code convention, not a forced code migration.
+
+**WCAG contract (unchanged in spirit, re-derived for emerald):** bright emerald (`#00D9B6`) must NEVER be text on white/light backgrounds (≈1.7:1, fails), exactly as mint failed (1.9:1) - it is for fills, CTA backgrounds (ink on emerald = AAA), dark-bg accents, shadows, and the focus ring only. For accent text/links on light backgrounds, use **`text-emerald-deep`** (`#06746d`, HSL `176 90% 24%`), which passes full AA at 5.21 (an upgrade over the old under-spec `mint-dark`, which was AA-large only). The full derivation and proof live in `prototypes/brand-emerald-proof.{html,md}`.
+
+**Impact:**
+- `src/index.css` + `tailwind.config.ts` carry the emerald tokens; `mint*` retained as aliases (literal `#7ef4c2` kept only as a CSS fallback so motifs render byte-identical where exact literals matter).
+- Docs updated: `README.md`, `DESIGN_SYSTEM.md`, `BRANDING.md`, `VISUAL_GUIDELINES.md`, `FEATURES.md`, and this entry. The historical 2025-11-24 "Ink + Mint" decision below is preserved as-is.
+
+---
 
 ### 2026-06-28: Company search typeahead added to Diagnosis Room opener
 

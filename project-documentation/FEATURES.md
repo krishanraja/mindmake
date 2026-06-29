@@ -1,6 +1,6 @@
 # Features
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-06-29
 
 ---
 
@@ -132,7 +132,7 @@ Triggered by `/cohort?inquiry=1:1`. A muted banner surfaces a Contact link. No p
 
 Authoritative: `src/pages/Index.tsx`. Order:
 
-1. `NewHero`. rotating headlines, eyebrow "Decision blockers I hear every week", looping `/rising-cities.mp4` background, mint pulse, particle background. Primary CTA "Book a call" (Diagnosis Room, express) + secondary "Work through your decision with Mindy" (Diagnosis Room, full) + tertiary "Or start with a free lesson →" / "See how I work →" (`/operator`).
+1. `NewHero`. rotating headlines, eyebrow "Decision blockers I hear every week", looping `/rising-cities.mp4` background, emerald pulse, particle background. Primary CTA "Book a call" (Diagnosis Room, express) + secondary "Work through your decision with Mindy" (Diagnosis Room, full) + tertiary "Or start with a free lesson →" / "See how I work →" (`/operator`).
 2. `BigProblem`. existential urgency frame (three large interactive flip cards; card CTA opens the `ScopingModal`).
 3. `TrustSection`. Krish bio + headshot + testimonials carousel (COHORT-STYLE / ENTERPRISE tagged).
 4. `FrameworkJourney`. three-panel animated Mind Set → Mind Map → Mind Make.
@@ -156,7 +156,7 @@ Mounted in `src/App.tsx`:
 
 ### Navigation
 
-File: `src/components/Navigation.tsx`. Primary CTA button: **"Book a call"** with mint pulse dot (opens the Diagnosis Room in express mode; the mobile menu also offers "Or think it through with Mindy first" → full mode).
+File: `src/components/Navigation.tsx`. Primary CTA button: **"Book a call"** with emerald pulse dot (opens the Diagnosis Room in express mode; the mobile menu also offers "Or think it through with Mindy first" → full mode).
 
 - **Workshops** (direct link): `/workshops`
 - **Cohort** (direct link): `/cohort`
@@ -324,7 +324,7 @@ Structure:
 
 `src/components/OperatorsEdge.tsx`. Dark-bg section between `FrameworkJourney` and `OperatorsBrief`.
 
-- Heading "Beyond *pattern* recognition" (partial-mint treatment on "pattern" only)
+- Heading "Beyond *pattern* recognition" (partial-emerald treatment on "pattern" only)
 - Heading scale matches `FrameworkJourney` exactly: `text-[1.35rem] sm:text-3xl md:text-4xl lg:text-5xl font-bold`
 - Eyebrow "WHO YOU'RE WORKING WITH"
 - Three glass tiles: Architecture / Optimization / Memory
@@ -419,9 +419,9 @@ Other:
 See [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md) and [VISUAL_GUIDELINES.md](./VISUAL_GUIDELINES.md).
 
 Key points:
-- **Ink** `#0e1a2b` + **Mint** `#7ef4c2`. the two-color system
+- **Ink** `#0e1a2b` + **Emerald** `#00D9B6` (HSL `171 100% 43%`). the two-color system. Signature accent moved from mint to portfolio emerald on 2026-06-29 for three-product brand cohesion (Mindmaker + CTRL + Make Your Mind Up); the legacy `mint` tokens/classes are retained as aliases to emerald (prefer `emerald*` in new code). WHY + WCAG proof: `prototypes/brand-emerald-proof.{html,md}`
 - Inter Variable (body) + Space Grotesk Variable (display)
-- WCAG rule: never `text-mint` on light backgrounds
+- WCAG rule: never bright emerald (`text-mint` / `text-emerald`) as text on light backgrounds; use `text-emerald-deep` (`#06746d`, full AA 5.21) for accent text/links on light
 - `.glass-card`, `.editorial-card`, `.dark-cta-card` utilities
 
 ---

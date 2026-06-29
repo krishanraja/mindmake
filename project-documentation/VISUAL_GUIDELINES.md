@@ -1,6 +1,8 @@
 # Visual Guidelines
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-06-29
+
+> **Signature accent (2026-06-29):** the accent is now **portfolio emerald** `#00D9B6` (HSL `171 100% 43%`), CTRL's emerald, shared across the three sibling products (Mindmaker, CTRL, Make Your Mind Up) over one MindmakerOS token contract. The legacy `mint` tokens/classes (`bg-mint`, `text-mint`, `shadow-mint-*`, "mint" used loosely below) are retained as **aliases** to emerald; read every "mint" reference below as emerald, and prefer the `emerald*` keys in new code. For accent text/links on light backgrounds use **`text-emerald-deep`** (`#06746d`, full AA 5.21), never bright emerald. WHY + WCAG derivation: `prototypes/brand-emerald-proof.{html,md}`.
 
 ---
 
@@ -54,7 +56,7 @@ XLarge:   80px+      (hero, major dividers)
   {/* Content */}
   <div className="container-width relative z-10">
     <Logo />
-    <h1 className="font-display">Large headline with <span className="text-mint">mint highlight</span></h1>
+    <h1 className="font-display">Large headline with <span className="text-mint">emerald highlight</span></h1>  {/* text-mint = emerald alias; the hero sits on dark ink so bright emerald is fine here */}
     <p>Supporting copy</p>
     <CTAs />
   </div>
@@ -65,7 +67,7 @@ XLarge:   80px+      (hero, major dividers)
 - Particle/dot GIF background (20% opacity)
 - Gradient overlays (dark to darker)
 - Animated grid pattern
-- Glowing orbs (mint, blurred, animated pulse)
+- Glowing orbs (emerald, blurred, animated pulse)
 
 ### Hero Text Sizing
 ```css
@@ -117,17 +119,17 @@ shadow: 2xl
 
 ### Editorial Card (Default)
 ```css
-background: subtle mint tint gradient
+background: subtle emerald tint gradient
 border: 2px solid ink/15
 shadow: sm
-hover: mint border, lift
+hover: emerald border, lift
 ```
 
 **Use for:** Standard content grid items
 
 ### Minimal Card
 ```css
-background: subtle mint tint
+background: subtle emerald tint
 border: 2px solid ink/15
 shadow: xs
 ```
@@ -138,16 +140,16 @@ shadow: xs
 ```css
 background: off-white
 border-left: 4px solid ink
-border-top: 2px mint line
+border-top: 2px emerald line
 ```
 
 **Use for:** Callouts, important notes
 
 ### Premium Card (Featured)
 ```css
-background: mint tint gradient
-border: 2px solid mint/40
-shadow: md + mint glow
+background: emerald tint gradient
+border: 2px solid emerald/40
+shadow: md + emerald glow
 ```
 
 **Use for:** Recommended products, highlighted content
@@ -166,7 +168,8 @@ text-muted: softer white (75%)
 
 ## Button Styles
 
-### Primary CTA (Mint)
+### Primary CTA (Emerald)
+`bg-mint` is the alias; renders emerald (ink text on emerald = AAA). New code may use `bg-emerald`.
 ```tsx
 <Button className="bg-mint text-ink hover:bg-mint/90 
                    shadow-lg hover:shadow-xl 
@@ -180,7 +183,7 @@ text-muted: softer white (75%)
 ```
 **Use for:** Supporting actions
 
-### Outline CTA
+### Outline CTA — emerald border + emerald fill on hover (alias classes shown)
 ```tsx
 <Button variant="outline" 
         className="border-mint text-mint hover:bg-mint/20">
@@ -193,7 +196,7 @@ text-muted: softer white (75%)
 
 ### Page Hierarchy
 ```
-H1 (Hero):     clamp(40-72px) bold, Space Grotesk, mint accent
+H1 (Hero):     clamp(40-72px) bold, Space Grotesk, emerald accent
 H2 (Section):  clamp(32-48px) semibold, Space Grotesk, ink
 H3 (Card):     clamp(24-30px) semibold, Space Grotesk, ink
 Body:          16px regular, Inter, foreground
@@ -218,7 +221,7 @@ Primary text:    text-foreground (ink)
 Secondary text:  text-muted-foreground (mid-grey)
 Tertiary text:   text-muted-foreground/70
 Headings:        text-foreground (ink)
-Hero headings:   text-white with mint <span>
+Hero headings:   text-white with emerald <span> (on dark ink)
 ```
 
 ### Dark Background Text (Critical)
@@ -236,14 +239,14 @@ Page background:     bg-background (off-white)
 Card background:     bg-card (white)
 Muted sections:      bg-muted (light grey)
 Dark sections:       bg-ink
-Accent areas:        bg-mint/10 (10% mint tint)
+Accent areas:        bg-emerald/10 (10% emerald tint; bg-mint/10 alias is equivalent)
 ```
 
 ### Border Usage
 ```
 Default:         border-border (light grey)
 Subtle:          border-border/50
-Emphasized:      border-mint
+Emphasized:      border-emerald (border-mint alias is equivalent)
 Dark mode:       border-border (adjusted in dark mode)
 ```
 
@@ -254,8 +257,8 @@ Dark mode:       border-border (adjusted in dark mode)
 ### Hover Effects (Desktop Only)
 ```css
 Buttons:    scale-105, shadow increase
-Cards:      scale-1.01, translateY(-2px), mint border
-Links:      underline, mint color
+Cards:      scale-1.01, translateY(-2px), emerald border
+Links:      underline, emerald color (use emerald-deep for link text on light backgrounds)
 Icons:      translateX(4px) for arrows
 ```
 
@@ -263,7 +266,7 @@ Icons:      translateX(4px) for arrows
 
 ### Focus States
 ```css
-All interactive: ring-2 ring-mint ring-offset-2
+All interactive: ring-2 ring-emerald ring-offset-2   /* ring-mint alias is equivalent */
 Visible only:    focus-visible: modifier
 ```
 
@@ -321,7 +324,7 @@ CTAs:          group-hover:animate-pulse (on icon)
 - Lucide React library
 - 20px (h-5 w-5) standard
 - 24px (h-6 w-6) for emphasis
-- Mint color for positive actions
+- Emerald for positive actions (use emerald-deep if the icon carries meaning as text on a light background)
 - Ink/foreground for neutral
 
 ### Logos
@@ -376,7 +379,9 @@ Gaps:            gap-4 -> gap-6
 - AA standard minimum (4.5:1 for body text)
 - AAA preferred (7:1)
 - Test: Ink on Off-White = 12.6:1 ✅
-- Test: Mint on White = 1.9:1 ❌ (accent only, not text)
+- Test: bright Emerald (#00D9B6) on White ≈ 1.7:1 ❌ (accent / fill only, never text on light)
+- Test: Emerald-deep (#06746d) on White = 5.21:1 ✅ (use this for accent text/links on light)
+- Test: Ink on Emerald fill = AAA ✅ (CTA pattern)
 - Test: dark-card-body on Ink = ~14:1 ✅
 
 ### Visual Hierarchy
@@ -386,7 +391,7 @@ Gaps:            gap-4 -> gap-6
 
 ### Focus Indicators
 - Visible on all interactive elements
-- Mint ring (2px) with 2px offset
+- Emerald ring (2px) with 2px offset
 - Never remove focus styles
 
 ### Dark Background Rules
@@ -425,15 +430,15 @@ The homepage is a curated vertical scroll. Authoritative source: `src/pages/Inde
 
 | Block | Component | Visual treatment |
 |-------|-----------|------------------|
-| 1. Navigation | `Navigation.tsx` | Fixed top, mint "Book a call" CTA (opens the Diagnosis Room), hides on scroll-down |
-| 2. Hero | `NewHero.tsx` | Full-viewport dark ink, looping `/rising-cities.mp4` background, particle animation, rotating headlines, eyebrow "Decision blockers I hear every week", mint CTA "Book a call" (opens the Diagnosis Room, express mode), secondary "See how I work" → `/operator` |
+| 1. Navigation | `Navigation.tsx` | Fixed top, emerald "Book a call" CTA (opens the Diagnosis Room), hides on scroll-down |
+| 2. Hero | `NewHero.tsx` | Full-viewport dark ink, looping `/rising-cities.mp4` background, particle animation, rotating headlines, eyebrow "Decision blockers I hear every week", emerald CTA "Book a call" (opens the Diagnosis Room, express mode), secondary "See how I work" → `/operator` |
 | 3. Big Problem | `BigProblem.tsx` | Existential urgency frame (three large interactive flip cards; cards open the `ScopingModal`) |
-| 4. Trust Anchor | `TrustSection.tsx` | Krish headshot (circular, mint border), bio, testimonials carousel (COHORT-STYLE / ENTERPRISE tagged) |
+| 4. Trust Anchor | `TrustSection.tsx` | Krish headshot (circular, emerald border), bio, testimonials carousel (COHORT-STYLE / ENTERPRISE tagged) |
 | 5. Framework Journey | `FrameworkJourney.tsx` | Three glass-card panels (Mind Set → Mind Map → Mind Make) with scroll-triggered animations |
 | 6. Operator's Edge | `OperatorsEdge.tsx` | Dark-bg typography-only credential section, "Beyond pattern recognition", three proof tiles, Revenue Architecture CTA |
 | 7. Live Intel teaser | `OperatorsBrief.tsx` | CSS-marquee `PriceTicker` + rotating plain-English interpretation line + compact Nervous Decision input + muted link to `/signal` (Live Intel dashboard) |
 | 8. Mindmaker LIVE | `MindMakerLiveSection.tsx` | Substack newsletter subscribe surface |
-| 9. Final CTA | `SimpleCTA.tsx` | Dark CTA card, mint "Book a call" button (opens the Diagnosis Room) |
+| 9. Final CTA | `SimpleCTA.tsx` | Dark CTA card, emerald "Book a call" button (opens the Diagnosis Room) |
 | 10. Footer | `Footer.tsx` | |
 
 ### Global overlays (above-scroll)
@@ -451,7 +456,7 @@ Dark-bg section positioned between `FrameworkJourney` and `OperatorsBrief`. Read
 - Hairline top border
 - Gradient background tonal shift
 - Heading "Beyond *pattern* recognition" at exact `FrameworkJourney` scale: `text-[1.35rem] sm:text-3xl md:text-4xl lg:text-5xl font-bold`
-- Partial-mint treatment on "pattern" only, no drop-shadow glow
+- Partial-emerald treatment on "pattern" only, no drop-shadow glow
 - Three glass tiles: Architecture / Optimization / Memory
 - Primary CTA → `/enterprise#revenue-architecture`
 - Secondary muted link → `/operator`
@@ -482,7 +487,7 @@ Taxonomy **WATCH / SKIP / CALL / TAKE**, replaces the previous SIGNAL / NOISE / 
 ### `/cohort`, `/enterprise`, and `/immersion` page structure
 
 Pages follow a similar shape:
-1. Full-width header with eyebrow + title + price (mint accent)
+1. Full-width header with eyebrow + title + price (emerald accent)
 2. "What you get" glass-card block with CheckCircle list
 3. Format / cadence block (Cohort: 4 weeks + 4 live sessions; Signal Session: 1 day + 48h delivery; Revenue Architecture: 30 days; Immersion: 4 hours + 5-day summary)
 4. Example decisions, commercial problems, or shared tensions grid (2-column, bg-ink/5 cards)

@@ -25,6 +25,76 @@ interface NewsHeadline {
 }
 
 // ============================================================
+// PLAN A0: CTRL shared pool ("one brain, one pool")
+// ------------------------------------------------------------
+// Portfolio cohesion: Mindmaker /signal and CTRL's Home read the SAME
+// corroborated, AI-native pool. CTRL's `live-headlines` function gathers +
+// cross-verifies + caches it once/day in `live_headlines_cache` on this same
+// Supabase project. Here we just READ the freshest pool and map CTRL's nine
+// AI-native categories onto Mindmaker's editorial taxonomy (a thin mapper, not
+// a second gather). If the cache is empty/unreachable we fall through to the
+// Perplexity -> Brave -> static ladder below, so this is purely additive.
+// ============================================================
+interface SharedCard {
+  headline?: string;
+  say?: string;
+  source?: string;
+  url?: string;
+  category?: string;
+  sourceCount?: number;
+}
+
+// CTRL's 9 AI-native categories -> Mindmaker's SIGNAL/NOISE/DECISION/TAKE lens.
+// economics + governance force a build-vs-buy / compliance decision -> DECISION
+// TRIGGER; the rest are worth-acting-on SIGNAL. (The corroborated pool is
+// pre-filtered, so NOISE is intentionally rare here.)
+const CATEGORY_TO_LABEL: Record<string, string> = {
+  economics: "DECISION TRIGGER",
+  governance: "DECISION TRIGGER",
+  model: "SIGNAL",
+  tools: "SIGNAL",
+  orchestration: "SIGNAL",
+  product: "SIGNAL",
+  proof: "SIGNAL",
+  security: "SIGNAL",
+  org: "SIGNAL",
+};
+
+const prettySource = (s?: string): string => {
+  if (!s) return "Mindmaker";
+  const d = s.replace(/^https?:\/\//, "").replace(/^www\./, "").split("/")[0];
+  return d || s;
+};
+
+const fetchFromSharedPool = async (): Promise<NewsHeadline[]> => {
+  const url = Deno.env.get("SUPABASE_URL");
+  const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  if (!url || !key) return [];
+  try {
+    // Take the freshest cached pool (avoids UTC-midnight date-boundary misses).
+    const res = await fetch(
+      `${url}/rest/v1/live_headlines_cache?select=payload&order=created_at.desc&limit=1`,
+      { headers: { apikey: key, Authorization: `Bearer ${key}` } },
+    );
+    if (!res.ok) return [];
+    const rows = await res.json();
+    const payload = Array.isArray(rows) ? rows[0]?.payload : null;
+    if (!Array.isArray(payload) || payload.length === 0) return [];
+    const headlines: NewsHeadline[] = (payload as SharedCard[])
+      .filter((c) => c?.headline)
+      .map((c) => ({
+        title: `[${CATEGORY_TO_LABEL[c.category ?? ""] ?? "SIGNAL"}] ${c.headline}`,
+        source: prettySource(c.source),
+      }));
+    console.log(`✅ Shared pool: ${headlines.length} cards from CTRL live_headlines_cache`);
+    return headlines;
+  } catch (e) {
+    console.warn("Shared pool fetch failed:", e);
+    return [];
+  }
+};
+
+// ============================================================
 // PERPLEXITY PROMPT: real-time search + curation in one call
 // ============================================================
 

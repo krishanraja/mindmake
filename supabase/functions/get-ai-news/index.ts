@@ -22,6 +22,12 @@ const corsHeaders = {
 interface NewsHeadline {
   title: string;
   source: string;
+  // Optional richer fields, populated only on the shared-pool path so /signal
+  // can render a body line + a corroboration ("+N sources") chip under Krish's
+  // editorial tag. The Perplexity/Brave/static plans leave these undefined.
+  say?: string;
+  url?: string;
+  sourceCount?: number;
 }
 
 // ============================================================
@@ -85,6 +91,9 @@ const fetchFromSharedPool = async (): Promise<NewsHeadline[]> => {
       .map((c) => ({
         title: `[${CATEGORY_TO_LABEL[c.category ?? ""] ?? "SIGNAL"}] ${c.headline}`,
         source: prettySource(c.source),
+        say: c.say,
+        url: c.url,
+        sourceCount: c.sourceCount,
       }));
     console.log(`✅ Shared pool: ${headlines.length} cards from CTRL live_headlines_cache`);
     return headlines;

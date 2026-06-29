@@ -34,6 +34,15 @@ export default {
           50: "hsl(var(--mint-50))",
           dark: "hsl(var(--mint-dark))",
         },
+        // PORTFOLIO SIGNATURE — emerald (CTRL #00D9B6). The `mint` keys above
+        // are now aliases to these same primitives; prefer `emerald*` in new
+        // code. Use `emerald-deep` for text/links on light (full AA).
+        emerald: {
+          DEFAULT: "hsl(var(--emerald))",
+          deep: "hsl(var(--emerald-deep))",
+          300: "hsl(var(--emerald-300))",
+          50: "hsl(var(--emerald-50))",
+        },
         "off-white": "hsl(var(--off-white))",
         "light-grey": "hsl(var(--light-grey))",
         "mid-grey": "hsl(var(--mid-grey))",
@@ -98,6 +107,10 @@ export default {
         "mint-sm": "var(--shadow-mint-sm)",
         "mint-md": "var(--shadow-mint-md)",
         "mint-lg": "var(--shadow-mint-lg)",
+        // emerald shadows alias the same vars (mint shadows are now emerald-hued)
+        "emerald-sm": "var(--shadow-mint-sm)",
+        "emerald-md": "var(--shadow-mint-md)",
+        "emerald-lg": "var(--shadow-mint-lg)",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -167,14 +180,14 @@ export default {
           "0%": { opacity: "0", filter: "brightness(1)" },
           "4%": { opacity: "0.1" },
           "8%": { opacity: "0", filter: "brightness(1)" },
-          "12%": { opacity: "0.7", filter: "brightness(1.8) drop-shadow(0 0 6px hsl(158 82% 73% / 0.8))" },
+          "12%": { opacity: "0.7", filter: "brightness(1.8) drop-shadow(0 0 6px hsl(171 100% 43% / 0.8))" },
           "15%": { opacity: "0.1" },
-          "19%": { opacity: "1", filter: "brightness(2.2) drop-shadow(0 0 14px hsl(158 82% 73% / 1))" },
+          "19%": { opacity: "1", filter: "brightness(2.2) drop-shadow(0 0 14px hsl(171 100% 43% / 1))" },
           "22%": { opacity: "0.3" },
           // Last recovery snap, then the glow fades out in one smooth motion (ease-out on this
           // segment only) so there are no extra stepped flickers during the settle.
-          "26%": { opacity: "1", filter: "brightness(2) drop-shadow(0 0 12px hsl(158 82% 73% / 0.85))", animationTimingFunction: "ease-out" },
-          "100%": { opacity: "1", filter: "brightness(1) drop-shadow(0 0 0 hsl(158 82% 73% / 0))" },
+          "26%": { opacity: "1", filter: "brightness(2) drop-shadow(0 0 12px hsl(171 100% 43% / 0.85))", animationTimingFunction: "ease-out" },
+          "100%": { opacity: "1", filter: "brightness(1) drop-shadow(0 0 0 hsl(171 100% 43% / 0))" },
         },
       },
       animation: {

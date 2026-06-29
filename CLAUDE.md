@@ -41,10 +41,11 @@ Mindmaker is structured as a **ladder**: free Lightning Lessons at the top, paid
 - Design system in `tailwind.config.ts` + `src/index.css`.
 
 ### Color WCAG rule (CRITICAL)
-- **Never** use `text-mint` on white/light backgrounds.
-- Use `text-foreground` / `text-ink` on light backgrounds.
+- **Signature accent is now portfolio EMERALD `#00D9B6` (`171 100% 43%`), not mint.** Mindmaker adopted CTRL's emerald in the 2026-06-29 brand-cohesion pass so the three sibling products (Mindmaker, CTRL, Make Your Mind Up) read as one house over one MindmakerOS token contract. The legacy `--mint*` CSS tokens + the Tailwind `mint` colour key are kept as ALIASES to emerald (zero-churn migration), so existing `text-mint`/`bg-mint`/`shadow-mint-*` still work and now render emerald; prefer the new `emerald*` keys in new code. WHY + the full WCAG derivation: `prototypes/brand-emerald-proof.{html,md}`.
+- **Never** use bright emerald (`text-mint`/`text-emerald`) on white/light backgrounds - it fails contrast on light exactly like mint did.
+- For text/links on light backgrounds use **`text-emerald-deep`** (`#06746d`, `176 90% 24%`): full AA (5.21), an upgrade over the old under-spec `mint-dark` (AA-large only). Or use `text-foreground` / `text-ink`.
 - Use `text-dark-card-*` utilities on dark backgrounds.
-- Mint (`#7ef4c2`) is for highlights and CTAs only.
+- Bright emerald (`#00D9B6`) is for fills, CTA backgrounds (ink text on emerald = AAA), dark-bg accents, shadows, and the focus ring only.
 
 ---
 

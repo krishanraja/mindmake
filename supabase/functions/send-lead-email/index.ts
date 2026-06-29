@@ -546,7 +546,7 @@ const handler = async (req: Request): Promise<Response> => {
       <p style="color: #a1a1a6; margin: 8px 0 0 0; font-size: 17px; font-weight: 400;">${escapeHtml(jobTitle || 'Role not specified')}</p>
       ${likelyFitLabel ? `
       <p style="margin: 14px 0 0 0;">
-        <span style="display: inline-block; background: rgba(126, 244, 194, 0.15); color: #7ef4c2; padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; letter-spacing: 0.3px;">Likely fit · ${escapeHtml(likelyFitLabel)}</span>
+        <span style="display: inline-block; background: rgba(0, 217, 182, 0.15); color: #00D9B6; padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; letter-spacing: 0.3px;">Likely fit · ${escapeHtml(likelyFitLabel)}</span>
       </p>
       ` : ''}
     </div>

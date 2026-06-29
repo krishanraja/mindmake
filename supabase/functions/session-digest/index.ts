@@ -213,7 +213,7 @@ function buildKrishHtml(req: DigestRequest): string {
     blocks.push(`
       <div style="margin-top:18px;">
         <p style="margin:0 0 6px 0;font-weight:700;color:#0e1a2b;">Decision brief</p>
-        ${decisionBrief.realDecision ? `<p style="margin:6px 0 2px 0;font-weight:600;">Real decision</p><div style="background:#fafafa;border-left:4px solid #7ef4c2;padding:10px 14px;font-size:14px;white-space:pre-wrap;">${esc(decisionBrief.realDecision)}</div>` : ""}
+        ${decisionBrief.realDecision ? `<p style="margin:6px 0 2px 0;font-weight:600;">Real decision</p><div style="background:#fafafa;border-left:4px solid #00D9B6;padding:10px 14px;font-size:14px;white-space:pre-wrap;">${esc(decisionBrief.realDecision)}</div>` : ""}
         ${pathRows ? `<p style="margin:12px 0 2px 0;font-weight:600;">Paths</p><ul style="margin:4px 0 0 0;padding-left:20px;font-size:14px;">${pathRows}</ul>` : ""}
         ${decisionBrief.weakAssumption ? `<p style="margin:12px 0 2px 0;font-weight:600;">Weak assumption</p><div style="background:#fafafa;border-left:4px solid #e5e5e3;padding:10px 14px;font-size:14px;white-space:pre-wrap;">${esc(decisionBrief.weakAssumption)}</div>` : ""}
         ${decisionBrief.next14Days ? `<p style="margin:12px 0 2px 0;font-weight:600;">Next 14 days</p><div style="font-size:14px;">${next14DaysToHtml(decisionBrief.next14Days)}</div>` : ""}
@@ -263,7 +263,7 @@ function buildKrishHtml(req: DigestRequest): string {
         ${identityRows ? `<table style="width:100%;border-collapse:collapse;font-size:14px;">${identityRows}</table>` : ""}
         ${understandingBits}
         ${currencyItems ? `<p style="margin:12px 0 2px 0;font-weight:600;">Currency</p><ul style="margin:4px 0 0 0;padding-left:20px;font-size:14px;">${currencyItems}</ul>` : ""}
-        ${dossier.synthesis ? `<p style="margin:12px 0 2px 0;font-weight:600;">Synthesis</p><div style="background:#fafafa;border-left:4px solid #7ef4c2;padding:10px 14px;font-size:14px;white-space:pre-wrap;">${esc(dossier.synthesis)}</div>` : ""}
+        ${dossier.synthesis ? `<p style="margin:12px 0 2px 0;font-weight:600;">Synthesis</p><div style="background:#fafafa;border-left:4px solid #00D9B6;padding:10px 14px;font-size:14px;white-space:pre-wrap;">${esc(dossier.synthesis)}</div>` : ""}
         ${
           routingRows
             ? `<div style="margin-top:14px;background:#fff7e6;border:1px solid #f0d9a8;border-radius:6px;padding:12px 16px;">
@@ -280,7 +280,7 @@ function buildKrishHtml(req: DigestRequest): string {
     .filter((t) => t && typeof t.content === "string" && t.content.trim())
     .map((t) => {
       const who = t.role === "assistant" ? "Mindy" : "Visitor";
-      const accent = t.role === "assistant" ? "#7ef4c2" : "#9cb3ff";
+      const accent = t.role === "assistant" ? "#00D9B6" : "#9cb3ff";
       return `<div style="margin:8px 0;padding:10px 14px;background:#fafafa;border-left:4px solid ${accent};font-size:14px;">
                 <span style="font-weight:700;color:#0e1a2b;">${who}</span>
                 <div style="margin-top:4px;white-space:pre-wrap;">${esc(t.content)}</div>
@@ -297,7 +297,7 @@ function buildKrishHtml(req: DigestRequest): string {
   if (proposalId || req.proposalHtml) {
     blocks.push(`
       <div style="margin-top:18px;padding:12px 16px;background:#0e1a2b;border-radius:6px;color:#fff;font-size:14px;">
-        A proposal was generated for this session${proposalId ? ` (id <code style="color:#7ef4c2;">${esc(proposalId)}</code>)` : ""}.
+        A proposal was generated for this session${proposalId ? ` (id <code style="color:#00D9B6;">${esc(proposalId)}</code>)` : ""}.
         ${req.proposalHtml ? "It is attached to this email as an HTML file." : ""}
       </div>`);
   }
@@ -308,7 +308,7 @@ function buildKrishHtml(req: DigestRequest): string {
 <html><body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6;color:#1a1a1a;max-width:680px;margin:0 auto;padding:0;background:#f7f7f5;">
   <div style="background:linear-gradient(135deg,#0e1a2b 0%,#1a2b3d 100%);padding:32px 24px;">
     <h1 style="color:#fff;margin:0 0 6px 0;font-size:22px;">Diagnosis Room digest</h1>
-    <p style="color:#7ef4c2;margin:0;font-size:13px;">${heading} — ${esc(endedVia || "session")}</p>
+    <p style="color:#00D9B6;margin:0;font-size:13px;">${heading} — ${esc(endedVia || "session")}</p>
   </div>
   <div style="background:#fff;padding:24px;">
     ${blocks.join("")}

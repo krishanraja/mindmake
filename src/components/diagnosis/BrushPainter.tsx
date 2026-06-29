@@ -67,7 +67,7 @@ export const BrushPainter = ({
       >
         <defs>
           <linearGradient id={gid} x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="#7ef4c2" />
+            <stop offset="0" stopColor="#00D9B6" />
             <stop offset="0.55" stopColor="#46e0b0" />
             <stop offset="1" stopColor="#23a886" />
           </linearGradient>
@@ -176,7 +176,7 @@ export const BrushPainter = ({
               }
             >
               {/* wet glow under the tip */}
-              <circle cx="0" cy="0" r="13" fill="#7ef4c2" opacity="0.35">
+              <circle cx="0" cy="0" r="13" fill="#00D9B6" opacity="0.35">
                 {!reduce && (
                   <animate
                     attributeName="r"

@@ -118,7 +118,7 @@ const handler = async (req: Request): Promise<Response> => {
 <html><body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6;color:#1a1a1a;max-width:640px;margin:0 auto;padding:0;background:#f7f7f5;">
   <div style="background:linear-gradient(135deg,#0e1a2b 0%,#1a2b3d 100%);padding:32px 24px;">
     <h1 style="color:#fff;margin:0 0 6px 0;font-size:22px;">New scoping request</h1>
-    <p style="color:#7ef4c2;margin:0;font-size:13px;">${escapeHtml(data.source_page)}</p>
+    <p style="color:#00D9B6;margin:0;font-size:13px;">${escapeHtml(data.source_page)}</p>
   </div>
   <div style="background:#fff;padding:28px 24px;">
     <table style="width:100%;border-collapse:collapse;font-size:14px;">
@@ -130,11 +130,11 @@ const handler = async (req: Request): Promise<Response> => {
     </table>
     <div style="margin-top:20px;">
       <p style="margin:0 0 6px 0;font-weight:700;color:#0e1a2b;">Decision or problem to resolve</p>
-      <div style="background:#fafafa;border-left:4px solid #7ef4c2;padding:14px 18px;font-size:14px;white-space:pre-wrap;">${escapeHtml(data.decision_or_problem)}</div>
+      <div style="background:#fafafa;border-left:4px solid #00D9B6;padding:14px 18px;font-size:14px;white-space:pre-wrap;">${escapeHtml(data.decision_or_problem)}</div>
     </div>
     <div style="margin-top:18px;">
       <p style="margin:0 0 6px 0;font-weight:700;color:#0e1a2b;">What success looks like in 30 days</p>
-      <div style="background:#fafafa;border-left:4px solid #7ef4c2;padding:14px 18px;font-size:14px;white-space:pre-wrap;">${escapeHtml(data.success_in_30_days)}</div>
+      <div style="background:#fafafa;border-left:4px solid #00D9B6;padding:14px 18px;font-size:14px;white-space:pre-wrap;">${escapeHtml(data.success_in_30_days)}</div>
     </div>
     <div style="margin-top:18px;">
       <p style="margin:0 0 6px 0;font-weight:700;color:#0e1a2b;">Notes</p>

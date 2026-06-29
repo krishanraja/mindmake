@@ -110,7 +110,7 @@ const nodeTypes = { org: OrgNodeCard };
 const defaultEdgeOptions = {
   animated: false,
   style: {
-    stroke: "hsl(158 82% 73% / 0.5)",
+    stroke: "hsl(171 100% 43% / 0.5)",
     strokeWidth: 1.5,
   },
 };

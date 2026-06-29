@@ -160,7 +160,7 @@ const FrameworkJourney = () => {
           translateX: "-50%",
           translateY: "-50%",
           background:
-            "radial-gradient(circle, rgba(126,244,194,0.10) 0%, rgba(126,244,194,0.04) 35%, transparent 70%)",
+            "radial-gradient(circle, rgba(0,217,182,0.10) 0%, rgba(0,217,182,0.04) 35%, transparent 70%)",
           opacity: torchVisible ? 1 : 0,
           transition: "opacity 0.3s ease",
         }}
@@ -278,8 +278,8 @@ const Card = ({
         className="absolute inset-0 rounded-2xl pointer-events-none"
         style={{
           opacity: isHovered ? 0.35 : isMobile ? (isActive ? 0.35 : (inView ? 0.1 : 0)) : glowOpacity,
-          background: "radial-gradient(ellipse at center, rgba(126, 244, 194, 0.15) 0%, transparent 70%)",
-          boxShadow: "0 0 80px rgba(126, 244, 194, 0.08)",
+          background: "radial-gradient(ellipse at center, rgba(0, 217, 182, 0.15) 0%, transparent 70%)",
+          boxShadow: "0 0 80px rgba(0, 217, 182, 0.08)",
         }}
       />
 
@@ -361,7 +361,7 @@ const MindMapContent = () => {
               key={`conn-${i}`}
               x1={nodes[from].x} y1={nodes[from].y}
               x2={nodes[to].x} y2={nodes[to].y}
-              stroke="#7ef4c2"
+              stroke="#00D9B6"
               strokeWidth="1.5"
               strokeLinecap="round"
               initial={{ pathLength: 0, opacity: 0 }}
@@ -375,8 +375,8 @@ const MindMapContent = () => {
             <g key={`node-${i}`}>
               <motion.circle
                 cx={node.x} cy={node.y} r="16"
-                fill="rgba(126, 244, 194, 0.12)"
-                stroke="#7ef4c2"
+                fill="rgba(0, 217, 182, 0.12)"
+                stroke="#00D9B6"
                 strokeWidth="1.5"
                 initial={{ scale: 0, opacity: 0 }}
                 animate={isInView ? { scale: 1, opacity: 1 } : {}}
@@ -398,7 +398,7 @@ const MindMapContent = () => {
               <motion.circle
                 cx={node.x} cy={node.y} r="16"
                 fill="none"
-                stroke="#7ef4c2"
+                stroke="#00D9B6"
                 strokeWidth="1"
                 initial={{ scale: 1, opacity: 0.6 }}
                 animate={isInView ? { scale: 2.2, opacity: 0 } : {}}
@@ -415,7 +415,7 @@ const MindMapContent = () => {
               r="2.5"
               cx={nodes[0].x}
               cy={nodes[0].y}
-              fill="#7ef4c2"
+              fill="#00D9B6"
               initial={{ opacity: 0, cx: nodes[0].x, cy: nodes[0].y }}
               animate={{
                 opacity: [0, 0.8, 0.8, 0],
@@ -468,7 +468,7 @@ const MindMakeContent = () => {
               initial={{ opacity: 0, y: 5 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.2 + i * 0.3 }}
-              style={{ color: i === 0 ? "rgba(251, 146, 60, 0.7)" : i === 1 ? "rgba(255,255,255,0.5)" : "#7ef4c2" }}
+              style={{ color: i === 0 ? "rgba(251, 146, 60, 0.7)" : i === 1 ? "rgba(255,255,255,0.5)" : "#00D9B6" }}
             >
               {stage.label}
             </motion.span>
@@ -481,7 +481,7 @@ const MindMakeContent = () => {
           <motion.div
             className="absolute inset-y-0 left-0 rounded-full"
             style={{
-              background: "linear-gradient(to right, rgba(251,146,60,0.6) 0%, rgba(255,255,255,0.4) 50%, #7ef4c2 100%)",
+              background: "linear-gradient(to right, rgba(251,146,60,0.6) 0%, rgba(255,255,255,0.4) 50%, #00D9B6 100%)",
             }}
             initial={{ width: "0%" }}
             animate={isInView ? { width: "100%" } : {}}
@@ -491,7 +491,7 @@ const MindMakeContent = () => {
           <motion.div
             className="absolute inset-y-0 w-6 rounded-full"
             style={{
-              background: "radial-gradient(circle, rgba(126,244,194,0.6) 0%, transparent 70%)",
+              background: "radial-gradient(circle, rgba(0,217,182,0.6) 0%, transparent 70%)",
             }}
             initial={{ left: "0%" }}
             animate={isInView ? { left: "calc(100% - 12px)" } : {}}
@@ -505,7 +505,7 @@ const MindMakeContent = () => {
             <motion.div
               key={i}
               className="w-px h-2"
-              style={{ backgroundColor: i === 0 ? "rgba(251,146,60,0.4)" : i === 1 ? "rgba(255,255,255,0.2)" : "rgba(126,244,194,0.5)" }}
+              style={{ backgroundColor: i === 0 ? "rgba(251,146,60,0.4)" : i === 1 ? "rgba(255,255,255,0.2)" : "rgba(0,217,182,0.5)" }}
               initial={{ scaleY: 0 }}
               animate={isInView ? { scaleY: 1 } : {}}
               transition={{ delay: 0.5 + i * 0.8 }}

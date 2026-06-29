@@ -164,7 +164,7 @@ export const Opener = ({
                   className={cn(
                     "min-h-[44px] rounded-full border px-3.5 py-2 text-left text-[13px] font-medium transition-colors",
                     selected
-                      ? "border-mint/60 bg-mint/15 text-mint shadow-[0_0_24px_-6px_rgba(126,244,194,0.5)]"
+                      ? "border-mint/60 bg-mint/15 text-mint shadow-[0_0_24px_-6px_rgba(0,217,182,0.5)]"
                       : "border-white/15 bg-white/[0.04] text-white/70 hover:border-mint/50 hover:bg-mint/[0.08] hover:text-mint",
                   )}
                 >

@@ -690,7 +690,7 @@ const PaneTab = ({
     {active && (
       <motion.span
         layoutId="paneTabIndicator"
-        className="absolute inset-0 rounded-full bg-mint shadow-[0_2px_16px_-4px_rgba(126,244,194,0.5)]"
+        className="absolute inset-0 rounded-full bg-mint shadow-[0_2px_16px_-4px_rgba(0,217,182,0.5)]"
         transition={{ type: "spring", stiffness: 400, damping: 32 }}
       />
     )}

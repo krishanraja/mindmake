@@ -491,6 +491,21 @@ serve(async (req) => {
     // Fetch market pulse in parallel (non-blocking, best-effort)
     const marketPulsePromise = generateMarketPulseHeadlines().catch(() => [] as NewsHeadline[]);
 
+    // ── PLAN A0: CTRL shared pool ("one brain, one pool") ──
+    // Mindmaker /signal and CTRL Home read the SAME corroborated pool. If
+    // today's pool has real depth, serve it (mapped to the editorial lens);
+    // otherwise fall through to the live Perplexity/Brave/static ladder.
+    try {
+      const pool = await fetchFromSharedPool();
+      if (pool.length >= 6) {
+        console.log(`✅ Serving from CTRL shared pool (${pool.length} cards)`);
+        const marketPulse = await marketPulsePromise;
+        return respond([...pool, ...marketPulse], 'ctrl-shared-pool', false);
+      }
+    } catch (e) {
+      console.error('Shared pool plan failed:', e);
+    }
+
     // ── PLAN A: Perplexity (real-time search + curation, one call) ──
     if (perplexityKey) {
       try {

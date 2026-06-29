@@ -9,16 +9,21 @@ import { NervousDecisionInput } from "@/components/nervous-decision/Input";
 import { SubstackSubscribeForm } from "@/components/SubstackSubscribeForm";
 import { MindMakerWordmark } from "@/components/MindMakerWordmark";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
+import { useLiveBrief } from "@/hooks/useLiveBrief";
 import { CONCIERGE_CALENDLY_URL } from "@/utils/calendly";
 
 export type BriefTag = "WATCH" | "SKIP" | "CALL" | "TAKE";
 
 export type BriefCard = {
   tag: BriefTag;
-  timestamp: string;
+  timestamp?: string;
   headline: string;
   body: string;
   takeLink?: string;
+  // Populated on the live (shared-pool) path: corroboration-under-opinion.
+  source?: string;
+  sourceCount?: number;
+  url?: string;
 };
 
 const fadeUp = {
@@ -125,9 +130,18 @@ export default function Brief() {
   const [filter, setFilter] = useState<BriefTag | "ALL">("ALL");
   const [query, setQuery] = useState("");
   const { data: blogPosts } = useBlogPosts();
+  // Live shared-pool archive when available; the inlined samples are the floor.
+  // Corroboration-under-opinion: the neutral pool supplies the corroborated
+  // WATCH/CALL stories, but Krish's SKIP (hype-filtering) and TAKE (opinion)
+  // are sovereign editorial a neutral pool cannot produce, so we keep those
+  // hand-written cards interleaved with the live feed rather than dropping them.
+  const liveCards = useLiveBrief();
+  const archive: BriefCard[] = liveCards
+    ? [...liveCards, ...sampleArchive.filter((c) => c.tag === "TAKE" || c.tag === "SKIP")]
+    : sampleArchive;
 
   const filtered = useMemo(() => {
-    return sampleArchive.filter((c) => {
+    return archive.filter((c) => {
       if (filter !== "ALL" && c.tag !== filter) return false;
       if (query.trim()) {
         const q = query.toLowerCase();
@@ -138,7 +152,7 @@ export default function Brief() {
       }
       return true;
     });
-  }, [filter, query]);
+  }, [filter, query, archive]);
 
   const featuredPosts = useMemo(() => (blogPosts || []).slice(0, 6), [blogPosts]);
 
@@ -289,13 +303,25 @@ export default function Brief() {
                       {card.tag}
                     </span>
                     <span className="text-[11px] text-muted-foreground font-medium">
-                      {card.timestamp}
+                      {card.sourceCount && card.sourceCount >= 2
+                        ? `+${card.sourceCount} sources`
+                        : card.timestamp}
                     </span>
                   </div>
                   <h3 className="font-bold text-base mb-2 leading-snug">{card.headline}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed flex-1">
                     {card.body}
                   </p>
+                  {card.url && (
+                    <a
+                      href={card.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 mt-4 text-sm font-semibold text-mint-dark dark:text-mint hover:underline"
+                    >
+                      {card.source ?? "Read"} <ArrowUpRight className="w-3.5 h-3.5" />
+                    </a>
+                  )}
                   {card.takeLink && (
                     <a
                       href={card.takeLink}

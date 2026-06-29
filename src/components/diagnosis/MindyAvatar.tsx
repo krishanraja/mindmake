@@ -58,7 +58,7 @@ export const MindyAvatar = ({
             className="absolute -inset-[2px] rounded-full"
             style={{
               background:
-                "conic-gradient(from 0deg, transparent, rgba(126,244,194,0.7), transparent 55%, rgba(52,211,153,0.5), transparent)",
+                "conic-gradient(from 0deg, transparent, rgba(0,217,182,0.7), transparent 55%, rgba(52,211,153,0.5), transparent)",
               maskImage:
                 "radial-gradient(closest-side, transparent calc(100% - 3px), #000 calc(100% - 2px))",
               WebkitMaskImage:

@@ -177,8 +177,8 @@ const CardFace = ({ children, back, hidden, className }: CardFaceProps) => (
     className={cn(
       "absolute inset-0 [backface-visibility:hidden] [-webkit-backface-visibility:hidden]",
       "bg-ink border-2 border-mint",
-      "shadow-[0_0_0_1px_rgba(126,244,194,0.35),0_0_40px_rgba(126,244,194,0.18),inset_0_0_60px_rgba(126,244,194,0.04)]",
-      "hover:shadow-[0_0_0_1px_rgba(126,244,194,0.7),0_0_60px_rgba(126,244,194,0.4),inset_0_0_60px_rgba(126,244,194,0.06)]",
+      "shadow-[0_0_0_1px_rgba(0,217,182,0.35),0_0_40px_rgba(0,217,182,0.18),inset_0_0_60px_rgba(0,217,182,0.04)]",
+      "hover:shadow-[0_0_0_1px_rgba(0,217,182,0.7),0_0_60px_rgba(0,217,182,0.4),inset_0_0_60px_rgba(0,217,182,0.06)]",
       "transition-shadow duration-300",
       back && "[transform:rotateY(180deg)]",
       className,
@@ -199,7 +199,7 @@ const CardChrome = ({ number, variant }: { number: string; variant: "fate" | "va
     <span className="absolute bottom-[2cqw] left-[2cqw] w-[3.5cqw] h-[3.5cqw] border-b-2 border-l-2 border-mint pointer-events-none" />
     <span className="absolute bottom-[2cqw] right-[2cqw] w-[3.5cqw] h-[3.5cqw] border-b-2 border-r-2 border-mint pointer-events-none" />
     {variant === "value" && (
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_left,rgba(126,244,194,0.10),transparent_55%)]" />
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_left,rgba(0,217,182,0.10),transparent_55%)]" />
     )}
   </>
 );
@@ -295,7 +295,7 @@ const BigProblem = () => {
           <button
             type="button"
             onClick={() => openScopingModal("big-problem")}
-            className="group inline-flex items-center gap-3 px-7 py-3.5 border-2 border-mint text-white font-bold text-sm md:text-base uppercase tracking-[0.14em] hover:bg-mint hover:text-ink transition-colors shadow-[0_0_30px_rgba(126,244,194,0.25)] hover:shadow-[0_0_50px_rgba(126,244,194,0.5)]"
+            className="group inline-flex items-center gap-3 px-7 py-3.5 border-2 border-mint text-white font-bold text-sm md:text-base uppercase tracking-[0.14em] hover:bg-mint hover:text-ink transition-colors shadow-[0_0_30px_rgba(0,217,182,0.25)] hover:shadow-[0_0_50px_rgba(0,217,182,0.5)]"
           >
             Pick up the pen
             <ArrowRight

@@ -207,7 +207,7 @@ const handler = async (req: Request): Promise<Response> => {
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif; line-height: 1.6; color: #1a1a1a; max-width: 600px; margin: 0 auto; padding: 0; background-color: #f7f7f5;">
   <div style="background: linear-gradient(135deg, #0e1a2b 0%, #1a2b3d 100%); padding: 32px 24px; text-align: center;">
     <h1 style="color: #ffffff; margin: 0 0 8px 0; font-size: 24px; font-weight: 700;">New Contact Form Submission</h1>
-    <p style="color: #7ef4c2; margin: 0; font-size: 14px;">themindmaker.ai/contact</p>
+    <p style="color: #00D9B6; margin: 0; font-size: 14px;">themindmaker.ai/contact</p>
   </div>
 
   <div style="background: #ffffff; padding: 32px 24px; border-radius: 0 0 8px 8px;">
@@ -237,7 +237,7 @@ const handler = async (req: Request): Promise<Response> => {
         ${interest ? `
         <tr>
           <td style="padding: 8px 0; color: #666; font-size: 14px;">Interest</td>
-          <td style="padding: 8px 0; color: #0e1a2b; font-size: 14px;"><span style="background: #7ef4c2; color: #0e1a2b; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">${escapeHtml(interest)}</span></td>
+          <td style="padding: 8px 0; color: #0e1a2b; font-size: 14px;"><span style="background: #00D9B6; color: #0e1a2b; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">${escapeHtml(interest)}</span></td>
         </tr>
         ` : ''}
       </table>
@@ -245,7 +245,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     <div style="margin-bottom: 24px;">
       <h2 style="color: #0e1a2b; margin: 0 0 12px 0; font-size: 18px; font-weight: 600;">Message</h2>
-      <div style="background: #fafafa; border-left: 4px solid #7ef4c2; padding: 16px 20px; border-radius: 0 8px 8px 0;">
+      <div style="background: #fafafa; border-left: 4px solid #00D9B6; padding: 16px 20px; border-radius: 0 8px 8px 0;">
         <p style="margin: 0; color: #333; font-size: 14px; white-space: pre-wrap;">${escapeHtml(message).replace(/\n/g, '<br>')}</p>
       </div>
     </div>

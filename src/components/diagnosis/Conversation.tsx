@@ -214,7 +214,7 @@ export const Conversation = ({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <p className="max-w-[85%] rounded-2xl rounded-br-sm bg-mint/15 px-4 py-2.5 text-[15px] leading-relaxed text-white shadow-[0_2px_12px_-4px_rgba(126,244,194,0.25)]">
+                <p className="max-w-[85%] rounded-2xl rounded-br-sm bg-mint/15 px-4 py-2.5 text-[15px] leading-relaxed text-white shadow-[0_2px_12px_-4px_rgba(0,217,182,0.25)]">
                   {turn.content}
                 </p>
               </motion.div>
@@ -313,7 +313,7 @@ export const Conversation = ({
                   "h-9 w-9 rounded-full bg-mint text-ink transition-all hover:bg-mint/90 disabled:opacity-40",
                   draft.trim() &&
                     !disabled &&
-                    "shadow-[0_2px_14px_-2px_rgba(126,244,194,0.6)]",
+                    "shadow-[0_2px_14px_-2px_rgba(0,217,182,0.6)]",
                 )}
                 aria-label="Send"
               >

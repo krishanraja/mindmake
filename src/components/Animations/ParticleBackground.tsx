@@ -69,7 +69,7 @@ export const ParticleBackground = () => {
         }
 
         // Draw particle
-        ctx.fillStyle = `rgba(126, 244, 194, ${particle.opacity})`;
+        ctx.fillStyle = `rgba(0, 217, 182, ${particle.opacity})`;
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
         ctx.fill();
@@ -81,7 +81,7 @@ export const ParticleBackground = () => {
           const distance = Math.sqrt(dx * dx + dy * dy);
 
           if (distance < 120) {
-            ctx.strokeStyle = `rgba(126, 244, 194, ${0.1 * (1 - distance / 120)})`;
+            ctx.strokeStyle = `rgba(0, 217, 182, ${0.1 * (1 - distance / 120)})`;
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(particle.x, particle.y);

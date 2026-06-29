@@ -15,7 +15,7 @@ const MINDMAKER_WORDMARK = "Mindmaker";
 /** Pick a brand tint, falling back to mint, and keep it readable on dark. */
 const tintFrom = (colors?: string[]): string => {
   const first = colors?.find((c) => /^#?[0-9a-f]{3,8}$/i.test(c.replace("#", "")));
-  return first ? (first.startsWith("#") ? first : `#${first}`) : "#7ef4c2";
+  return first ? (first.startsWith("#") ? first : `#${first}`) : "#00D9B6";
 };
 
 /**

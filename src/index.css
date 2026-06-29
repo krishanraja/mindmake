@@ -110,10 +110,20 @@
 /* MINDMAKER 2.0 DESIGN SYSTEM - INK + MINT */
 @layer base {
   :root {
-    /* INK + MINT PRIMARY PALETTE */
+    /* INK + EMERALD PRIMARY PALETTE
+       Portfolio signature is CTRL's emerald #00D9B6 (171 100% 43%). The legacy
+       `--mint*` token names are kept as ALIASES so every existing call-site
+       (text-mint, shadow-mint, the 5 card variants) flips to emerald with zero
+       churn. WCAG-verified derivation in prototypes/brand-emerald-proof.*.
+       The rule is unchanged: bright emerald is fills/dark-bg/shadows only and
+       NEVER text on a light bg; text/links on light use --emerald-deep (AA). */
     --ink: 210 58% 11%;           /* #0e1a2b - Main structure, typography */
-    --mint: 158 82% 73%;          /* #7ef4c2 - Highlights, sparingly */
-    --mint-dark: 158 60% 35%;     /* Darker mint for text on light backgrounds */
+    --emerald: 171 100% 43%;      /* #00D9B6 - signature: fills/CTA-bg/dark-bg/shadows */
+    --emerald-deep: 176 90% 24%;  /* #06746d - text/links on light, full AA (5.21) */
+    --emerald-300: 171 90% 80%;   /* #9efaec - lighter */
+    --emerald-50: 171 100% 97%;   /* #f0fffd - subtle tint */
+    --mint: var(--emerald);       /* legacy alias -> emerald (portfolio signature) */
+    --mint-dark: var(--emerald-deep); /* legacy alias -> emerald-deep */
     
     /* INK VARIATIONS - Derived from existing --ink */
     --ink-900: 210 58% 8%;        /* Darkest ink for depth */
@@ -121,11 +131,11 @@
     --ink-700: 210 58% 15%;       /* Lighter ink */
     --ink-50: 210 58% 98%;       /* Lightest ink tint */
     
-    /* MINT VARIATIONS - Derived from existing --mint */
-    --mint-900: 158 60% 35%;      /* Darker mint (uses existing --mint-dark) */
-    --mint-500: 158 82% 73%;      /* Current mint (unchanged) */
-    --mint-300: 158 82% 85%;     /* Lighter mint */
-    --mint-50: 158 82% 97%;      /* Subtle mint tint */
+    /* EMERALD SCALE (legacy --mint-* names kept as aliases) */
+    --mint-900: var(--emerald-deep);  /* darkest text variant */
+    --mint-500: var(--emerald);       /* signature */
+    --mint-300: var(--emerald-300);   /* lighter */
+    --mint-50: var(--emerald-50);     /* subtle tint */
     
     /* NEUTRALS */
     --off-white: 60 9% 96%;       /* #F7F7F5 - Background */
@@ -234,20 +244,24 @@
 
   .dark {
     --ink: 210 58% 11%;
-    --mint: 158 82% 73%;
-    
+    --emerald: 171 100% 43%;
+    --emerald-deep: 176 90% 24%;
+    --emerald-300: 171 90% 80%;
+    --emerald-50: 171 100% 97%;
+    --mint: var(--emerald);
+
     /* INK VARIATIONS - Dark mode */
     --ink-900: 210 58% 6%;        /* Darker for depth in dark mode */
     --ink-800: 210 58% 11%;       /* Current ink */
     --ink-700: 210 58% 15%;       /* Lighter ink */
     --ink-50: 210 58% 95%;        /* Lightest ink tint for dark mode */
-    
-    /* MINT VARIATIONS - Dark mode */
-    --mint-dark: 158 82% 73%;     /* In dark mode, mint-dark = bright mint (dark bg provides contrast) */
-    --mint-900: 158 60% 35%;      /* Darker mint */
-    --mint-500: 158 82% 73%;      /* Current mint */
-    --mint-300: 158 82% 85%;     /* Lighter mint */
-    --mint-50: 158 82% 95%;      /* Subtle mint tint for dark mode */
+
+    /* EMERALD VARIATIONS - Dark mode (legacy --mint-* aliases) */
+    --mint-dark: var(--emerald);      /* dark mode: bright emerald (dark bg gives contrast) */
+    --mint-900: var(--emerald-deep);  /* darker emerald */
+    --mint-500: var(--emerald);       /* signature */
+    --mint-300: var(--emerald-300);   /* lighter */
+    --mint-50: var(--emerald-50);     /* subtle tint */
     
     --off-white: 210 58% 8%;
     --light-grey: 210 20% 15%;

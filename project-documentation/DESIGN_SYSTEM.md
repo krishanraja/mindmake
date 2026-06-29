@@ -1,6 +1,6 @@
 # Design System
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-06-29
 
 ---
 
@@ -8,9 +8,11 @@
 
 ### Primary Palette
 ```
-Ink:  #0e1a2b (HSL: 210 58% 11%)  - Main structure, typography
-Mint: #7ef4c2 (HSL: 158 82% 73%) - Highlights, sparingly
+Ink:     #0e1a2b (HSL: 210 58% 11%)  - Main structure, typography
+Emerald: #00D9B6 (HSL: 171 100% 43%) - Signature accent, highlights, sparingly
 ```
+
+**Signature accent change (2026-06-29):** the accent moved from mint (`#7ef4c2`) to **portfolio emerald** (`#00D9B6`), CTRL's emerald, now the shared signature across the three sibling products (Mindmaker, CTRL, Make Your Mind Up) over one MindmakerOS token contract. The legacy `--mint*` CSS tokens and the Tailwind `mint` colour key are retained as **aliases** to emerald (zero-churn migration), so `bg-mint`, `shadow-mint-*`, and `text-mint` still resolve and now render emerald. **Prefer the new `emerald*` keys in new code.** WHY + full WCAG derivation: `prototypes/brand-emerald-proof.{html,md}`.
 
 ### Ink Variations
 ```
@@ -20,13 +22,16 @@ ink-700:  HSL 210 58% 15%  - Lighter ink
 ink-50:   HSL 210 58% 98%  - Lightest ink tint
 ```
 
-### Mint Variations
+### Emerald Variations
 ```
-mint-900: HSL 158 60% 35%  - Darker mint (text on light backgrounds)
-mint-500: HSL 158 82% 73%  - Current mint (default)
-mint-300: HSL 158 82% 85%  - Lighter mint
-mint-50:  HSL 158 82% 97%  - Subtle mint tint
+emerald-50:    HSL 171 100% 97%  - Subtle emerald tint
+emerald-300:   HSL 171 90% 80%   - Lighter emerald
+emerald:       HSL 171 100% 43%  - Signature emerald (default, #00D9B6)
+emerald-deep:  HSL 176 90% 24%   - Text/links on light backgrounds (#06746d, full AA 5.21)
+emerald-900:   HSL 180 85% 16%   - Darkest emerald for depth
 ```
+
+The legacy `mint-*` keys remain as aliases to these emerald values (e.g. `mint-500` now resolves to emerald). Prefer the `emerald*` keys in new code; reach for `emerald-deep` for any accent text on a light surface.
 
 ### Neutrals
 ```
@@ -50,8 +55,8 @@ Graphite:    #333639 (HSL: 200 5% 21%) - Strong text
 --muted: var(--light-grey)
 --muted-foreground: var(--mid-grey)
 --primary: var(--ink)
---accent: var(--mint)
---ring: var(--mint)
+--accent: var(--mint)   /* --mint is now an alias to emerald (#00D9B6); equivalent to var(--emerald) */
+--ring: var(--mint)     /* focus ring = emerald via the alias */
 ```
 
 ---
@@ -158,7 +163,7 @@ touch-target:       min-h-[44px] (mobile buttons)
 
 ### Buttons
 
-**Primary (Mint)**
+**Primary (Emerald)** — `bg-mint` is the alias; renders emerald. New code may use `bg-emerald`.
 ```tsx
 <Button className="bg-mint text-ink hover:bg-mint/90">
 ```
@@ -168,7 +173,7 @@ touch-target:       min-h-[44px] (mobile buttons)
 <Button className="bg-ink text-white hover:bg-ink/90">
 ```
 
-**Outline**
+**Outline** — emerald border + emerald fill on hover (alias classes shown)
 ```tsx
 <Button variant="outline" className="border-mint text-mint">
 ```
@@ -185,7 +190,7 @@ touch-target:       min-h-[44px] (mobile buttons)
 **Editorial Card** (default content cards)
 ```tsx
 <div className="editorial-card">
-  // Subtle mint tint + ink border
+  // Subtle emerald tint + ink border
 </div>
 ```
 
@@ -199,14 +204,14 @@ touch-target:       min-h-[44px] (mobile buttons)
 **Accent Card** (with ink left border)
 ```tsx
 <div className="accent-card">
-  // Ink left border + mint top line
+  // Ink left border + emerald top line
 </div>
 ```
 
 **Premium Card** (featured content)
 ```tsx
 <div className="premium-card">
-  // Strong mint presence, featured
+  // Strong emerald presence, featured
 </div>
 ```
 
@@ -289,7 +294,8 @@ className="scale-in"
 --shadow-2xl: 0 24px 64px hsl(var(--ink) / 0.2)
 ```
 
-### Colored Shadows (Mint)
+### Colored Shadows (Emerald)
+The `--shadow-mint-*` token names are retained as aliases; `var(--mint)` resolves to emerald, so these glows now render emerald.
 ```css
 --shadow-mint-sm: 0 2px 8px hsl(var(--mint) / 0.15)
 --shadow-mint-md: 0 4px 16px hsl(var(--mint) / 0.2)
@@ -346,7 +352,7 @@ Base styles = mobile, use `md:`, `lg:` for larger screens
 
 ```tsx
 import { ArrowRight, CheckCircle } from "lucide-react"
-<CheckCircle className="h-5 w-5 text-mint" />
+<CheckCircle className="h-5 w-5 text-mint" />   {/* text-mint is the alias; renders emerald. On a LIGHT bg use text-emerald-deep instead */}
 ```
 
 ---
@@ -403,19 +409,20 @@ Always use `.dark-cta-card` or `text-dark-card-*` utilities on dark backgrounds 
 All colors, spacing, typography defined as CSS variables and Tailwind extensions.
 
 **Never hardcode colors** - always use tokens:
-- ✅ `bg-mint`, `text-ink`, `border-muted`
-- ❌ `bg-[#7ef4c2]`, `text-[#0e1a2b]`
+- ✅ `bg-emerald` (or the `bg-mint` alias), `text-ink`, `border-muted`
+- ❌ `bg-[#00D9B6]`, `text-[#0e1a2b]`
 
 ### Critical Contrast Rules
 
-- **NEVER use `text-mint` on white/light backgrounds** - insufficient contrast
+- **NEVER use bright emerald as text on white/light backgrounds** (`text-mint` / `text-emerald`) - insufficient contrast, exactly like mint failed. Use **`text-emerald-deep`** (`#06746d`, full AA 5.21) for accent text/links on light surfaces.
 - **NEVER use `text-white/80` on dark backgrounds** - fails WCAG AA
 
-**Mint usage:**
-- ✅ Background color for CTAs (`bg-mint`)
-- ✅ Text color on dark backgrounds (`text-mint` on `bg-ink`)
+**Emerald usage** (`bg-mint` / `text-mint` are aliases that render emerald; new code may use `bg-emerald` / `text-emerald`):
+- ✅ Background color for CTAs (`bg-emerald`); ink text on emerald = AAA
+- ✅ Bright emerald text on dark backgrounds (`text-emerald` on `bg-ink`)
 - ✅ Accent elements on dark surfaces
-- ❌ Text on white/light backgrounds
+- ✅ `text-emerald-deep` for accent text/links on light backgrounds (full AA)
+- ❌ Bright emerald as text on white/light backgrounds
 
 **Dark background text:**
 - ✅ Use `.dark-cta-card` class
@@ -435,7 +442,7 @@ On white/light backgrounds, always use `text-foreground`, `text-ink`, or `text-m
 
 ### Voice Button States
 ```css
-.voice-button-active { /* Mint gradient with glow */ }
+.voice-button-active { /* Emerald gradient with glow */ }
 .voice-button-idle { /* Subtle ink background */ }
 ```
 
@@ -451,6 +458,7 @@ On white/light backgrounds, always use `text-foreground`, `text-ink`, or `text-m
 ## Brand-Specific Patterns
 
 ### CTA Buttons (Primary)
+`bg-mint` is the alias; it renders emerald (ink text on emerald = AAA). New code may use `bg-emerald`.
 ```tsx
 <Button
   size="lg"
@@ -467,7 +475,7 @@ Primary CTA copy is always **"Book a call"**, no conditional labels. The previou
 Three-panel layout with scroll-triggered animations. Each panel uses `glass-card` with animated content inside. See `FrameworkJourney.tsx`.
 
 ### Operator's Edge (v5)
-Dark-bg typography-only section matching `FrameworkJourney` header scale exactly (`text-[1.35rem] sm:text-3xl md:text-4xl lg:text-5xl font-bold`). Partial-mint on the word "pattern" only, no drop-shadow glow. Three glass tiles (Architecture / Optimization / Memory). See `OperatorsEdge.tsx`.
+Dark-bg typography-only section matching `FrameworkJourney` header scale exactly (`text-[1.35rem] sm:text-3xl md:text-4xl lg:text-5xl font-bold`). Partial-emerald on the word "pattern" only, no drop-shadow glow. Three glass tiles (Architecture / Optimization / Memory). See `OperatorsEdge.tsx`.
 
 **Guardrails:** no scrolling logs, no terminal aesthetics, no ASCII art, no interactive dashboards.
 

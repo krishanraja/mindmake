@@ -162,6 +162,20 @@ export const USE_VOCABULARY: string[] = [
   'leverage audit',
   'next 14 days',
   'monday',
+  // The judgment-economy register: execution is free, judgment is the moat.
+  // Additive soft signal only - rewards on-direction copy, never blocks.
+  'judgment',
+  'taste',
+  'the say-do gap',
+  'non-linear',
+  'coordination',
+  'verification',
+  'credibility',
+  'monetize your judgment',
+  'the easy button',
+  'owns the context',
+  'good enough',
+  'expertise',
 ];
 
 const EM_DASH = '—';

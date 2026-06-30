@@ -10,6 +10,7 @@ import { SubstackSubscribeForm } from "@/components/SubstackSubscribeForm";
 import { MindMakerWordmark } from "@/components/MindMakerWordmark";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
 import { useLiveBrief } from "@/hooks/useLiveBrief";
+import { PortfolioPulse } from "@/components/PortfolioPulse";
 import { CONCIERGE_CALENDLY_URL } from "@/utils/calendly";
 
 export type BriefTag = "WATCH" | "SKIP" | "CALL" | "TAKE";
@@ -231,6 +232,9 @@ export default function Brief() {
           </div>
         </div>
       </section>
+
+      {/* The cohort signal - anonymised portfolio-pulse aggregate (self-hides when thin) */}
+      <PortfolioPulse />
 
       {/* Classified cards grid */}
       <section className="section-padding bg-background">

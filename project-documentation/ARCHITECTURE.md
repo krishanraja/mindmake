@@ -1,6 +1,6 @@
 # Architecture
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-05
 
 ---
 
@@ -28,7 +28,7 @@
 - OpenAI API (Whisper voice transcription for the Diagnosis Room; market sentiment; legacy lead-enrichment helper)
 - Company-enrichment vendors for the `enrich-company` dossier: Brandfetch (identity/logo/colours), People Data Labs (size), Tranco (rank), BuiltWith (stack), Perplexity / Exa / NewsAPI (currency + proof matching)
 - Browserless (proposal HTML → PDF in `generate-proposal`)
-- Lovable AI Gateway (Operator's Brief / Live Intel content)
+- CTRL's shared `live_headlines_cache` (primary source for `get-ai-news`, "one brain, one pool"), with Perplexity, then Brave Search + OpenAI, then a static list as fallbacks; Artificial Analysis (live model speed/price/quality for the market-pulse headlines)
 - Resend (transactional email delivery)
 - Calendly (scheduling: the Diagnosis Room "book a call" exit + the legacy consult modal)
 - **Maven** (Cohort enrolment, payment, cohort Slack, alumni network)
@@ -130,7 +130,7 @@ mindmaker/
 │   │   ├── session-digest/            # Resend, intelligence email to Krish + opt-in visitor copy
 │   │   ├── transcribe/                # OpenAI Whisper (voice input)
 │   │   ├── nervous-decision-machine/  # Anthropic Haiku 4.5
-│   │   ├── get-ai-news/               # Live Intel content (Lovable AI Gateway)
+│   │   ├── get-ai-news/               # Live Intel content: CTRL shared pool -> Perplexity -> Brave+OpenAI -> static fallback
 │   │   ├── get-market-sentiment/
 │   │   ├── get-model-data/            # frontier-model price and spec feed
 │   │   ├── send-lead-email/           # Gemini company research + Resend
@@ -358,11 +358,12 @@ Route unlinked from nav; deep-link only.
 
 - Extended `PriceTicker` using canonical `ALLOWED_MODEL_IDS` from `src/hooks/useModelData.ts` (current set: Opus 4.7, Sonnet 4.6, Haiku 4.5, Gemini 2.5 Pro, Gemini 2.5 Flash, GPT-5, GPT-5 Mini)
 - 3-card plain-English interpretation grid
+- `PortfolioPulse` ("The Cohort Signal"): anonymised distribution of the AI decisions leaders are stuck on, sourced from the `portfolio-pulse` edge function (lives in the CTRL repo, reads the shared cross-product pool). Self-hides below 12 respondents and on fetch failure; no PII reaches the client
 - Classified card archive (WATCH / SKIP / CALL / TAKE) with filter pills + search
 - Blog column (featured posts)
 - Full-size Nervous Decision input with example chips
 
-Price and model data flows through `get-model-data` edge function. Editorial cards currently inline; `get-ai-news` schema preserved for future dynamic feed.
+Price and model data flows through `get-model-data` edge function. The classified archive is live: `useLiveBrief` (`src/hooks/useLiveBrief.ts`) calls `get-ai-news`, which now serves CTRL's corroborated shared pool first (mapped onto the WATCH/SKIP/CALL/TAKE taxonomy, with a "+N sources" corroboration chip), falling through to Perplexity, then Brave+OpenAI, then a static list. Live WATCH/CALL cards replace the inlined samples; the hand-written SKIP and TAKE cards (Krish's editorial opinion, which a neutral pool can't produce) stay interleaved regardless. The homepage teaser (`OperatorsBrief`) does not use `useLiveBrief`; only `/signal` does.
 
 ---
 
@@ -406,9 +407,13 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 - Secret: `ANTHROPIC_API_KEY`
 
 ### `get-ai-news`
-- Powers Live Intel editorial feed (taxonomy: WATCH / SKIP / CALL / TAKE)
-- Currently archive cards inline in `Brief.tsx`; schema preserved for future dynamic feed
-- Secret: `LOVABLE_API_KEY` (auto-provisioned)
+- Powers the live Live Intel archive (taxonomy: WATCH / SKIP / CALL / TAKE), consumed by `useLiveBrief` on `/signal`
+- Plan A0 (primary): reads CTRL's corroborated `live_headlines_cache` (the shared "one brain, one pool"), maps CTRL's 9 AI-native categories onto the WATCH/SKIP/CALL/TAKE lens, and carries a `sourceCount` for the "+N sources" chip. Falls through to Plan A if the pool has fewer than 6 cards
+- Plan A: Perplexity real-time search + curation in one call
+- Plan B: Brave Search results curated by OpenAI
+- Plan C: static fallback headlines
+- A separate, always-on "market pulse" pass (Artificial Analysis) appends 1-4 live price/speed/quality headlines to whichever plan responds
+- Secrets: `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` (Plan A0, auto-configured), `PERPLEXITY_API_KEY` (Plan A), `BRAVE_SEARCH_API` + `OPENAI_API_KEY` (Plan B), `ARTIFICIALANALYSIS_API_KEY` (market pulse, optional)
 
 ### `get-market-sentiment`
 - Market sentiment analysis (OpenAI)
@@ -417,12 +422,13 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 ### `get-model-data`
 - Frontier-model price and spec feed for `PriceTicker` and `/signal` interpretation grid
 - Allowlist lives in `src/hooks/useModelData.ts` as `ALLOWED_MODEL_IDS`
+- Secret: `ARTIFICIALANALYSIS_API_KEY`
 
 ### `send-lead-email`
-- Captures and enriches lead data (Gemini company research with Google Search grounding; OpenAI as fallback). Used by the legacy `/alumni` consult path
+- Captures and enriches lead data (Gemini company research with Google Search grounding). Used by the legacy `/alumni` consult path
 - Resend API for delivery, 3× retry with exponential backoff
-- Personal email domains skip the company-research step
-- Secrets: `RESEND_API_KEY`, `GEMINI_API_KEY` (preferred), `OPENAI_API_KEY` (fallback)
+- Personal email domains skip the company-research step; if Gemini is unavailable the function falls back to a default (non-AI) research template, not another model
+- Secrets: `RESEND_API_KEY`, `GOOGLE_AI_API_KEY` (same key `enrich-company` uses for dossier synthesis)
 
 ### `send-contact-email`
 - Contact form submissions
@@ -457,7 +463,7 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 ### `submit-testimonial`
 - Public testimonial submission endpoint. Inserts a row into `public.testimonials` and emails Krish a notification. Includes a honeypot field for bot prevention
 - Deployed with `verify_jwt = false`. Validates permission level (free / edits / private)
-- Secrets: `RESEND_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
+- Secrets: `RESEND_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY`; optional `NOTIFY_EMAIL` / `FROM_EMAIL` override the default notify/from addresses
 
 ---
 
@@ -526,9 +532,8 @@ Push to GitHub triggers Lovable / Vercel auto-deploy. Edge functions auto-deploy
 | Secret | Purpose | Required |
 |---|---|---|
 | `ANTHROPIC_API_KEY` | Mindy reasoning, proposal prose, Nervous Decision Machine | Yes |
-| `GOOGLE_AI_API_KEY` | Gemini company synthesis (`enrich-company`) | Recommended |
-| `GEMINI_API_KEY` | Lead enrichment with Google Search grounding (`send-lead-email`) | Yes (preferred) |
-| `OPENAI_API_KEY` | Whisper transcription, market sentiment, enrichment fallback | Yes |
+| `GOOGLE_AI_API_KEY` | Gemini company synthesis (`enrich-company`) and lead enrichment with Google Search grounding (`send-lead-email`); one key, both functions | Recommended |
+| `OPENAI_API_KEY` | Whisper transcription, market sentiment, `get-ai-news` Plan B curation | Yes |
 | `RESEND_API_KEY` | Email delivery (`session-digest` + `send-*`) | Yes |
 | `BROWSERLESS_API_KEY` | Proposal HTML → PDF (`generate-proposal`) | Recommended |
 | `BRANDFETCH_API_KEY` | Company identity / logo / colours (`enrich-company`); typeahead search (`company-search`) | Optional* |
@@ -536,12 +541,14 @@ Push to GitHub triggers Lovable / Vercel auto-deploy. Edge functions auto-deploy
 | `PEOPLEDATALABS_API_KEY` | Company size / routing signal | Optional* |
 | `BUILTWITH_API_KEY` | Tech-stack signal | Optional* |
 | `EXA_API_KEY` | Proof matching + currency | Optional* |
-| `PERPLEXITY_API_KEY` | Company currency / recent signals | Optional* |
+| `PERPLEXITY_API_KEY` | Company currency / recent signals (`enrich-company`); real-time news search fallback (`get-ai-news` Plan A) | Optional* |
 | `NEWSAPI_API_KEY` | Recent news for the dossier | Optional* |
+| `BRAVE_SEARCH_API` | News search, `get-ai-news` Plan B | Optional* |
+| `ARTIFICIALANALYSIS_API_KEY` | Live model speed/price/quality headlines (`get-model-data`, `get-ai-news` market pulse) | Optional |
 | `AUDIENCE_IMPORT_SECRET` | Gate for `import-audience-csv` | Optional |
-| `LOVABLE_API_KEY` | AI Gateway (auto-provisioned by Lovable Cloud) | Auto |
+| `NOTIFY_EMAIL` / `FROM_EMAIL` | Override default notify/from addresses for `submit-testimonial` | Optional |
 | `STRIPE_SECRET_KEY` | Payment holds (bypassed; Cohort payment via Maven) | Optional |
-| `SUPABASE_*` | Auto-configured by Lovable Cloud | Auto |
+| `SUPABASE_*` | Auto-configured by Lovable Cloud; `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` also read directly by `get-ai-news` to fetch CTRL's shared headlines pool | Auto |
 
 \* Each missing `enrich-company` key just disables that one tool; the dossier degrades but does not fail.
 

@@ -1,6 +1,6 @@
 # Features
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-07-05
 
 ---
 
@@ -237,9 +237,12 @@ Renamed from "Signal Desk" → "The Brief" → **"Live Intel"** for plain-Englis
 **Full dashboard (`Brief.tsx`):**
 - Extended PriceTicker
 - 3-card plain-English interpretation grid
-- Classified card archive with filter pills (WATCH / SKIP / CALL / TAKE) + search
+- `PortfolioPulse` ("The Cohort Signal"): anonymised bar-chart distribution of the AI decision leaders say they keep not making, sourced from the cross-product `portfolio-pulse` aggregate. Self-hides below 12 respondents so a thin room never reads as weakness; renders nothing during SSG and on fetch failure
+- Classified card archive with filter pills (WATCH / SKIP / CALL / TAKE) + search, live-sourced via `useLiveBrief`
 - Blog column (featured posts)
 - Full-size Nervous Decision input with example chips
+
+**The classified archive is live, not static.** `useLiveBrief` (`src/hooks/useLiveBrief.ts`) calls the `get-ai-news` edge function, which now serves CTRL's corroborated shared headlines pool first (mapped onto WATCH/SKIP/CALL/TAKE, with a "+N sources" corroboration chip shown under Krish's tag), falling through to Perplexity, then Brave+OpenAI, then a static list if all else fails. The live WATCH/CALL cards replace the inlined sample cards; the hand-written SKIP and TAKE cards stay interleaved (a neutral pool can't produce Krish's hype-filtering or opinion, so those remain sovereign editorial). The homepage teaser (`OperatorsBrief`) still shows only the inline rotating interpretation line, not the live archive.
 
 **Shared components:**
 - `PriceTicker.tsx`. CSS-marquee, no native scrollbar, pauses on hover, respects `prefers-reduced-motion`
@@ -387,7 +390,7 @@ Diagnosis Room (shared logic in `_shared/{mindy,enrich,proposal}/`):
 
 Other:
 - `nervous-decision-machine`. Anthropic Haiku 4.5
-- `get-ai-news`. Live Intel content (Lovable AI Gateway, schema preserved)
+- `get-ai-news`. Live Intel content: CTRL shared pool first, then Perplexity, then Brave+OpenAI curation, then a static list; Artificial Analysis market-pulse headlines appended regardless of which plan serves
 - `get-market-sentiment`. OpenAI
 - `get-model-data`. frontier model price and spec feed
 - `send-lead-email`. Gemini company research + Resend (legacy `/alumni` path)

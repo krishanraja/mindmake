@@ -1,10 +1,20 @@
 # Decisions Log
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-07-05
 
 ---
 
 ## Brand & Product Decisions
+
+### 2026-06-30: `/signal` reads CTRL's shared headlines pool ("one brain, one pool")
+
+**Decision:** `get-ai-news` now reads CTRL's corroborated `live_headlines_cache` first, mapping CTRL's nine AI-native categories onto Mindmaker's WATCH/SKIP/CALL/TAKE taxonomy and carrying a `sourceCount` for a "+N sources" corroboration chip. It falls through to the existing Perplexity, then Brave+OpenAI, then static-list ladder only if the shared pool has fewer than 6 cards. `useLiveBrief` (`src/hooks/useLiveBrief.ts`) wires the live result into `/signal`'s classified archive; Krish's hand-written SKIP (hype-filtering) and TAKE (opinion) cards stay interleaved regardless, since a neutral pool can't produce editorial opinion.
+
+**Context:** Mindmaker and CTRL share one Supabase project and one buyer base. Gathering AI headlines twice (once per product) was redundant; reading the same corroborated pool gives `/signal` fresher, cross-verified content for free and reinforces the "one house" positioning from the emerald rebrand.
+
+**Impact:** `supabase/functions/get-ai-news/index.ts`, `src/hooks/useLiveBrief.ts` (new), `src/pages/Brief.tsx`. The companion `PortfolioPulse.tsx` ("The Cohort Signal") ships the same day, reading a separate `portfolio-pulse` edge function (lives in the CTRL repo) for the anonymised "what leaders are stuck on" distribution.
+
+---
 
 ### 2026-06-29: Signature accent moves from Mint to portfolio Emerald (brand cohesion)
 

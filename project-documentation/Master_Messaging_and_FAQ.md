@@ -1,9 +1,11 @@
 # Mindmaker Master Messaging & FAQ Document
 *Core source of truth for product marketing, sales, content, and outbound*
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-05
 
 **Goal:** One document a salesperson, content writer, or AI agent can open and get every pitch, position, and objection answer right. Supersedes the earlier CTRL / 1:1-sprint-era version. For strategic intent, read `mindmaker_rebuild_brief_v4.md`. For agent-grade sales detail (ICP signals, ROI math, channel templates), read `SALES_PLAYBOOK.md`. For durable commercial reference, read `COMMERCIAL_REFERENCE.md`; for how the Diagnosis Room reasons, read the `mindy/` Brain Pack.
+
+**Pricing note:** the exact figures in this document ($599, $2,500, $15,000, $60-100k, $12,000, $1,500/yr) are internal, useful for ROI math and objection handling. The live site and any generated proposal show **ranges only**; the exact number is set by Krish on the call. Do not paste an exact figure into public-facing copy.
 
 ---
 
@@ -183,7 +185,7 @@ Case studies are anonymised and tagged COHORT-STYLE or ENTERPRISE inside `TrustS
 | 2 | Cohort | Direct link → `/cohort` |
 | 3 | Enterprise | Dropdown → Signal Session, Revenue Architecture, AI Immersion, Capital (under "For funds & operating partners") |
 | 4 | **Mindmaker LIVE** | Direct link → `/signal` |
-| 5 | Resources | Dropdown → How I operate, Library, The Builder Economy (Podcast) [external], Lightning Lessons (5 Maven URLs) |
+| 5 | Resources | Dropdown → How I operate, Case studies, New Age Leadership, Library, The Builder Economy (Podcast) [external], Lightning Lessons (5 Maven URLs) |
 | 6 | About | Dropdown → Contact, Privacy, Terms |
 | CTA | Book a call | Opens the **Diagnosis Room (Mindy)** via `openDiagnosisRoom` (`ScopingModal` is the secondary booking surface on the offer pages; `InitialConsultModal` is legacy, only for `/alumni`) |
 

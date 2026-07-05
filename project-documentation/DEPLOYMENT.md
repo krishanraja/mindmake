@@ -1,6 +1,6 @@
 # Deployment Checklist
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-05
 
 Pre-deploy and post-deploy verification for the Mindmaker project.
 
@@ -16,10 +16,12 @@ Pre-deploy and post-deploy verification for the Mindmaker project.
 ### 2. Environment variables
 All required secrets configured in Lovable Cloud / Supabase:
 - [ ] `ANTHROPIC_API_KEY`. required for the Nervous Decision Machine (Claude Haiku 4.5)
-- [ ] `GEMINI_API_KEY`. preferred for `send-lead-email` company research with Google Search grounding
-- [ ] `OPENAI_API_KEY`. market sentiment + lead enrichment fallback
+- [ ] `GOOGLE_AI_API_KEY`. Gemini company synthesis (`enrich-company`) and lead enrichment with Google Search grounding (`send-lead-email`); one key, both functions
+- [ ] `OPENAI_API_KEY`. Whisper transcription, market sentiment, `get-ai-news` Plan B curation
 - [ ] `RESEND_API_KEY`. email delivery
-- [ ] `LOVABLE_API_KEY`. AI gateway (auto-provisioned)
+- [ ] `PERPLEXITY_API_KEY`. optional, real-time news search (`get-ai-news` Plan A; also `enrich-company` currency layer)
+- [ ] `BRAVE_SEARCH_API`. optional, news search fallback (`get-ai-news` Plan B)
+- [ ] `ARTIFICIALANALYSIS_API_KEY`. optional, live model speed/price/quality headlines (`get-ai-news` market pulse)
 - [ ] `STRIPE_SECRET_KEY`. optional, currently bypassed (Cohort payment runs via Maven)
 
 ### 3. Edge functions
@@ -66,7 +68,7 @@ All routes in `src/App.tsx` accessible:
 
 ### 5. Design system compliance
 - [ ] No hardcoded hex colors (use design tokens)
-- [ ] No `text-mint` on white or light backgrounds (WCAG fail)
+- [ ] No `text-mint` / `text-emerald` on white or light backgrounds (WCAG fail; `mint` is now an alias for the portfolio emerald signature, `#00D9B6`). Use `text-emerald-deep` or `text-foreground` on light
 - [ ] No `text-white/80` or opacity variants on dark backgrounds, use `.dark-cta-card` or `text-dark-card-*`
 - [ ] Side drawers / sheets positioned below navbar via `.sheet-navbar-aware`
 
@@ -169,22 +171,24 @@ All routes in `src/App.tsx` accessible:
 | Secret | Purpose | Provider |
 |--------|---------|----------|
 | `ANTHROPIC_API_KEY` | Nervous Decision Machine | Anthropic |
-| `GEMINI_API_KEY` | Lead enrichment with Google Search grounding (preferred) | Google AI |
-| `OPENAI_API_KEY` | Market sentiment + lead enrichment fallback | OpenAI |
+| `GOOGLE_AI_API_KEY` | Gemini company synthesis (`enrich-company`) and lead enrichment with Google Search grounding (`send-lead-email`) | Google AI |
+| `OPENAI_API_KEY` | Whisper transcription, market sentiment, `get-ai-news` Plan B curation | OpenAI |
 | `RESEND_API_KEY` | Email delivery | Resend |
 
 ### Auto-provisioned (Lovable Cloud)
 | Secret | Purpose |
 |--------|---------|
-| `LOVABLE_API_KEY` | AI gateway |
-| `SUPABASE_URL` | Database connection |
+| `SUPABASE_URL` | Database connection; also read directly by `get-ai-news` to fetch CTRL's shared headlines pool |
 | `SUPABASE_PUBLISHABLE_KEY` | Client API key |
-| `SUPABASE_SERVICE_ROLE_KEY` | Admin API key |
+| `SUPABASE_SERVICE_ROLE_KEY` | Admin API key; also read directly by `get-ai-news` |
 
 ### Optional
 | Secret | Status |
 |--------|--------|
 | `STRIPE_SECRET_KEY` | Payment holds, currently bypassed (Cohort payment runs through Maven) |
+| `PERPLEXITY_API_KEY` | Real-time news search (`get-ai-news` Plan A); company currency signals (`enrich-company`) |
+| `BRAVE_SEARCH_API` | News search fallback (`get-ai-news` Plan B) |
+| `ARTIFICIALANALYSIS_API_KEY` | Live model speed/price/quality headlines (`get-ai-news` market pulse) |
 
 ---
 

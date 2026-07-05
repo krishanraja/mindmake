@@ -1,4 +1,4 @@
-<!-- Last Updated: 2026-06-28 -->
+<!-- Last Updated: 2026-07-05 -->
 # Pricing and Range Spec
 
 Machine-usable formalisation of the Mindmaker pricing model for Mindy and the proposal generator. This document encodes the model exactly as set; it invents no new numbers. Every figure here comes from the canonical ladder or the bespoke scoping rules already in force.
@@ -133,7 +133,7 @@ The engine returns three things, all as ranges:
 
 ## 3. Public site range card
 
-The site renders this table. Ranges only. No exact figure is shown anywhere on the public surface.
+Ranges only, no exact figure shown anywhere on the public surface, this is the reference Mindy and the proposal generator quote from. Each row (bar Bespoke enablement) is rendered on its own offer page (`/workshops`, `/cohort`, `/enterprise`, `/immersion`, `/alumni`, CTRL's own site); there is no single page that renders this table as one card. **Bespoke enablement never appears on the live site at all** (verified: no "Bespoke" string anywhere in `src/`); it exists only as Mindy's internal reasoning range for the DoThinkDo/coaching-practice/TMT-advisory class of buyer, quoted in conversation or a proposal, never as a public rung.
 
 | Offer | Range |
 |---|---|

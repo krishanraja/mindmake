@@ -1,6 +1,6 @@
 # Replication Guide
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-05
 
 ---
 
@@ -52,7 +52,8 @@ npm install @supabase/supabase-js
 npm install zod react-hook-form
 npm install sonner
 npm install next-themes
-npm install react-helmet-async
+npm install react-helmet
+npm install reactflow react-markdown pdfmake embla-carousel-react
 ```
 
 ### Step 5: Configure Tailwind
@@ -150,10 +151,10 @@ supabase/functions/nervous-decision-machine/index.ts
 
 ### Step 14: Create other functions
 ```
-supabase/functions/get-ai-news/index.ts               # Operator's Brief content
+supabase/functions/get-ai-news/index.ts               # Live Intel content
 supabase/functions/get-market-sentiment/index.ts
 supabase/functions/get-model-data/index.ts            # PriceTicker feed
-supabase/functions/send-lead-email/index.ts           # OpenAI enrichment + Resend
+supabase/functions/send-lead-email/index.ts           # Gemini enrichment + Resend
 supabase/functions/send-contact-email/index.ts
 supabase/functions/send-leadership-insights-email/index.ts
 supabase/functions/notify-scoping-request/index.ts    # ScopingModal intake → emails krish@themindmaker.ai (Resend)
@@ -204,12 +205,32 @@ verify_jwt = false
 [functions.create-consultation-hold]
 verify_jwt = false
 
+[functions.mindy-chat]
+verify_jwt = false
+
+[functions.enrich-company]
+verify_jwt = false
+
+[functions.generate-proposal]
+verify_jwt = false
+
+[functions.session-digest]
+verify_jwt = false
+
+[functions.transcribe]
+verify_jwt = false
+
+[functions.company-search]
+verify_jwt = false
+
 [functions.submit-intake]
 verify_jwt = false
 
 [functions.submit-testimonial]
 verify_jwt = false
 ```
+
+Check the live `supabase/config.toml` before copying this sample; it is the deploy-time source of truth and may have drifted from this guide (or vice versa) since this pass.
 
 ---
 

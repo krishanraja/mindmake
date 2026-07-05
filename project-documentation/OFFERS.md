@@ -1,6 +1,6 @@
 # Offers: The Full Guide
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-05
 
 > Replaces the previous `SPRINTS.md`. The 1:1 sprint products (4-Week and 90-Day Builder / Orchestrator sprints) were retired from the public site in the v4 barbell pivot. The v6 ladder restructure (May 2026) added paid Workshops as the entry product and the Alumni Pass as a continuity layer. See `mindmaker_rebuild_brief_v4.md` for the v4 rationale and `DECISIONS_LOG.md` for the commercial reasoning behind v6.
 
@@ -17,6 +17,7 @@ Mindmaker is a ladder, not a single product. Free Lightning Lessons sit at the t
 | **The Signal Session** | $15,000 | 1 day intensive + 48-hour Commercial Narrative delivery (15–20 pages) | AI products buyer seeking commercial diagnosis | `/enterprise#signal-session` |
 | **The Revenue Architecture** | $60,000–$100,000 | 30 days (4–5 calendar weeks), multi-session | AI products buyer ready for commercial rebuild | `/enterprise#revenue-architecture` |
 | **The AI Immersion** (inquiry-only) | $12,000 (flat) | 4-hour facilitated session + 2-page summary within 5 business days | Executive team needing fast alignment on shared AI tensions | `/immersion` |
+| **Capital** (third door) | Same Signal Session ($15,000, fund-native framing) + Revenue Architecture ($60,000–$100,000 per portfolio company, fund-level discount at 3+ engagements/12mo) | Same formats as above | PE/VC operating partners, GPs, family offices | `/capital` |
 | **The Alumni Pass** (invitation-only) | $1,500 / year | Annual | Mindmaker alumni post any engagement | `/alumni` (unlinked from nav and footer) |
 
 Every offer has a fixed scope, a fixed outcome, and a finish line.

@@ -1,9 +1,9 @@
-<!-- Last Updated: 2026-06-28 -->
+<!-- Last Updated: 2026-07-05 -->
 # Voice Lint Pack
 
 Guarantees every Mindy output and every generated proposal sounds like Krish. Two halves: a machine-readable lint layer (regex arrays you drop into a post-generation linter) and a human-readable craft layer (his tells, worked rewrites, a pre-render checklist). When the two disagree, the craft layer wins; the regex is a floor, not a ceiling.
 
-Source of truth: `mindy-part-2-operator-intelligence.md` section 2d, and `BRANDING.md` (Brand Voice, Word Choices, Brand Don'ts).
+Source of truth: this file (mirrored verbatim into `supabase/functions/_shared/mindy/voice-lint.ts`), and `BRANDING.md` (Brand Voice, Word Choices, Brand Don'ts).
 
 ---
 
@@ -162,10 +162,15 @@ A passing output should naturally hit several of these. They are not mandatory w
     "context layer", "the moat", "compounds", "compounding", "audit layer",
     "board-ready", "the call", "the fork", "the nervous decision",
     "scar tissue", "the scar", "the management layer", "the management apparatus",
-    "fleet", "the brick", "leverage audit", "next 14 days", "Monday"
+    "fleet", "the brick", "leverage audit", "next 14 days", "Monday",
+    "judgment", "taste", "the say-do gap", "non-linear", "coordination",
+    "verification", "credibility", "monetize your judgment", "the easy button",
+    "owns the context", "good enough", "expertise"
   ]
 }
 ```
+
+The last twelve terms (`judgment` through `expertise`) are the judgment-economy register added 2026-06-30: execution is getting cheap, judgment/taste/coordination/credibility are the moat. Same soft-signal rule as the rest of the list, rewards on-direction copy, never blocks.
 
 ```json
 {

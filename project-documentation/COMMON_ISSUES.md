@@ -1,6 +1,6 @@
 # Common Issues
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-05
 
 ---
 
@@ -91,9 +91,9 @@ Note: the phrase "what's your nervous decision" can still appear in body copy as
 
 ---
 
-### Issue: Mint text on light backgrounds (WCAG fail)
-**Symptom:** `text-mint` used on `bg-background` or any white/light surface.
-**Solution:** Never `text-mint` on light. Use `text-foreground` or `text-ink` on light; `text-dark-card-*` on dark.
+### Issue: Mint/emerald text on light backgrounds (WCAG fail)
+**Symptom:** `text-mint` (or `text-emerald`) used on `bg-background` or any white/light surface. `mint` is now an alias for the portfolio emerald signature (`#00D9B6`), so both class names fail the same contrast check.
+**Solution:** Never `text-mint` / `text-emerald` on light. Use `text-emerald-deep` (`#06746d`, full AA) or `text-foreground`/`text-ink` on light; `text-dark-card-*` on dark.
 
 ---
 
@@ -240,7 +240,7 @@ When investigating issues:
 1. Check browser console for errors
 2. Check network tab for failed requests
 3. Check Lovable Cloud / Supabase logs for edge function errors
-4. Verify secrets (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `RESEND_API_KEY`, `LOVABLE_API_KEY`)
+4. Verify secrets (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `RESEND_API_KEY`, `PERPLEXITY_API_KEY`)
 5. Test on mobile viewport (375px width)
 6. Hard refresh to clear cache
 7. Verify edge functions deployed (check timestamp, 30–60s propagation)

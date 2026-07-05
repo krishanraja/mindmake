@@ -1,18 +1,19 @@
 # Ideal Customer Profile
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-05
 
 ---
 
-## Three Audiences, No Overlap
+## Three Audiences, a Third Door, No Overlap
 
-Mindmaker is a ladder with a third inquiry-only doorway. There are three primary ICPs and a retention layer (the Alumni Pass). The old "Builder vs Orchestrator" split was a 1:1 sprint framing and has been retired along with the public 1:1 sprint product.
+Mindmaker is a ladder with a third inquiry-only doorway, plus Capital: a fourth door serving fund-level buyers with the same two engagement formats as the Enterprise ICP, repositioned for their book rather than their own business. There are three primary ICPs, the Capital door, and a retention layer (the Alumni Pass). The old "Builder vs Orchestrator" split was a 1:1 sprint framing and has been retired along with the public 1:1 sprint product.
 
 | ICP | Primary entry | Primary depth offer | Doorway |
 |---|---|---|---|
 | **AI Leaders** (senior operators making AI decisions) | A Mindmaker Workshop ($599) for technical-curious leaders ready to build; The AI-Fluent Executive Cohort ($2,500) for leaders sitting on a nervous decision | The AI-Fluent Executive (Cohort) | `/workshops`, `/cohort` (Maven enrolment) |
 | **AI Products** (companies commercializing AI capability) | The Signal Session ($15,000) | Signal Session → Revenue Architecture ($60–100k) | `/enterprise` |
 | **Executive Teams** (CEO-sponsored leadership groups) | The AI Immersion (inquiry-only, $12,000) | The AI Immersion | `/immersion` |
+| **Capital** (PE/VC operating partners, GPs, family offices) | The Signal Session (fund-native framing) | Signal Session → Revenue Architecture (per portfolio company, fund-level discount at 3+ engagements/12mo) | `/capital` |
 | **Alumni** (retention layer, not a primary acquisition path) | The Alumni Pass ($1,500/year) | The Alumni Pass | `/alumni` (invitation-only, unlinked) |
 
 ---
@@ -168,6 +169,29 @@ A company with a clear commercial thesis for its AI product, pricing that reflec
 
 ---
 
+## ICP 2b: Capital: Fund-Level Buyer (the third door, `/capital`)
+
+**Who:** Operating Partners, Managing/General Partners, Principals at PE/VC firms, family offices, and wealth allocators. Not buying for their own company; buying for the fund itself or for a portfolio company they're accountable for.
+
+**Typical titles:** Operating Partner, Managing Partner, General Partner, Principal, family office principal, portfolio operations lead.
+
+**Firmographic context:** a fund with 3+ portfolio companies (for fund-level pricing), or a single portfolio company evaluating a commercial rebuild around AI. Same revenue and stage ranges as ICP 2 apply at the portfolio-company level.
+
+**Psychographic signals:**
+- The fund's own operating model is not AI-native (deal flow evaluation, IC prep, LP comms still manual)
+- A specific portfolio company is exposed on AI positioning relative to category peers
+- Wants a repeatable playbook to run across multiple portfolio companies, not a bespoke one-off
+
+**What they want:** The same two engagements as ICP 2 (Signal Session, Revenue Architecture), reframed: fund-native strategy work for the fund itself, or a per-portfolio-company deployment. A fund-level discount for running Revenue Architecture 3+ times in 12 months.
+
+**What they become:** A fund (or portfolio company) with the same clear commercial thesis, pricing, and GTM rebuild that ICP 2 gets, run at fund scale where it applies.
+
+**Buying triggers:** same category as ICP 2 (new AI product launch inside a portco, CRO/CCO hire, pricing/GTM disarray), surfaced through the fund's own portfolio-ops relationship rather than direct outbound to the portco.
+
+**Disqualifiers:** same as ICP 2, plus a single portfolio company with no fund-level relationship (route that lead to `/enterprise` instead of `/capital`).
+
+---
+
 ## ICP 3: Executive Teams: Immersion Buyer (inquiry-only)
 
 **Who:** A CEO sponsoring a 4–8 person leadership group that needs rapid alignment on shared AI tensions. Not an individual decision; not a commercial rebuild; a team conversation that needs structure.
@@ -283,7 +307,7 @@ The primary **"Book a call"** path opens the **Diagnosis Room (Mindy)**, the ful
 
 - Workshop-curious leaders land at `/workshops`, browse the five sub-pages, and enrol on Maven (or get notified for unpublished workshops). Workshop alumni get $500 off the Cohort with code `WORKSHOP`.
 - Cohort-curious leaders land at `/cohort` and can either book a call or click straight through to Maven enrolment.
-- Enterprise-curious buyers land at `/enterprise`.
+- Enterprise-curious buyers land at `/enterprise`. Fund-level buyers (PE/VC, family offices) land at `/capital` instead, the same Signal Session and Revenue Architecture formats reframed for fund-level pricing.
 - Warm inbound (blog, podcast, LinkedIn, referrals) lands on `/` and enters the Diagnosis Room via "Book a call", where Mindy diagnoses the decision and routes to the right rung (Workshop, Cohort, Signal Session, Revenue Architecture, or a free lesson). The offer pages at `/cohort`, `/enterprise#signal-session`, and `/capital` remain direct entry points.
 - Immersion inquiries flow through `Book a call` → modal preselects "immersion".
 - 1:1 inquiry-only path lives at `/cohort?inquiry=1:1` (not advertised on the main page).

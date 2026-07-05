@@ -1,9 +1,11 @@
 # Mindmaker Sales Playbook
 *The single ground-truth document for AI sales and marketing agents working the Mindmaker book.*
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-05
 
 > If you are an AI sales or marketing agent, outbound, inbound, content, retargeting, lifecycle, paid, or organic, this is the document you ground on. It is opinionated, structured for retrieval, and biased toward action. Use `OFFERS.md`, `ICP.md`, `VALUE_PROP.md`, `OUTCOMES.md`, and `BRANDING.md` for deeper canon. Use `Master_Messaging_and_FAQ.md` for full pitches and FAQ.
+>
+> **Pricing note:** every price below is Mindmaker's internal, exact figure, useful for ROI math and deal-sizing. The live site and any AI-generated proposal show **ranges only** (see `CLAUDE.md`'s "Pricing (canonical)" table); the exact number is set by Krish on the call. Do not paste an exact figure into public-facing copy, an outbound message, or a proposal, quote the public range instead.
 
 ---
 
@@ -15,11 +17,12 @@
 | Senior leader with a nervous AI decision | **The AI-Fluent Executive (Cohort)** ($2,500, Maven-hosted) | Workshops as warm-up; Enterprise as next step if they're commercialising AI | `audience:ai-leaders` |
 | Company commercializing an AI product | **The Signal Session** ($15,000) → **The Revenue Architecture** ($60–100k) | Operator credential page (`/operator`) | `audience:ai-products` |
 | Executive team with shared AI tensions | **The AI Immersion** ($12,000, inquiry-only) | — | `audience:exec-team` |
+| PE/VC operating partner, GP, or family office (the third door, `/capital`) | **The Signal Session** ($15,000, framed fund-native or per-portco) → **The Revenue Architecture** ($60–100k per portfolio company; fund-level discount for 3+ engagements per 12 months) | Same engagement formats as Enterprise, repositioned for fund-level buyers | `audience:capital` |
 | Mindmaker alumni (any of the above) | **The Alumni Pass** ($1,500/year, invitation-only) | — | `audience:alumni` |
 | Senior leader specifically wanting 1:1 | Inquiry at `/cohort?inquiry=1:1` | — | `audience:1to1-inquiry` |
 | Cold prospect not yet ready to talk | 5 free Lightning Lessons on Maven | Warm to a Workshop or the Cohort | `audience:cold` |
 
-The first four are the addressable market. The Alumni Pass is the retention layer. The 1:1 inquiry is a relief valve. The free lessons are the top-of-funnel warmup.
+The first five are the addressable market. The Alumni Pass is the retention layer. The 1:1 inquiry is a relief valve. The free lessons are the top-of-funnel warmup.
 
 ---
 
@@ -76,6 +79,21 @@ The first four are the addressable market. The Alumni Pass is the retention laye
 - Wants 6-month engagement (we don't sell that)
 - Looking for fractional executive
 - Cannot move on output within 90 days
+
+### Capital: Funds, Family Offices, Operating Partners (the third door, `/capital`)
+
+**Firmographic signals:**
+- PE/VC operating partner, Managing/General Partner, Principal, family office, or wealth allocator
+- Fund with 3+ portfolio companies, or a single portco evaluating an AI commercial rebuild
+
+**Psychographic signals:**
+- The fund itself is not AI-native (deal flow evaluation, IC prep, LP comms still manual)
+- A portfolio company is exposed on AI positioning relative to category peers
+- Interest in a repeatable playbook across multiple portfolio companies, not a one-off engagement
+
+**Same products, different framing:** the Signal Session and Revenue Architecture are the same engagement formats sold on `/enterprise`, reframed for a fund-level buyer (fund-native strategy, or a per-portco deployment). A fund-level discount applies at 3+ Revenue Architecture engagements per 12 months.
+
+**Disqualify if:** same as AI Products: Enterprise, plus a single portco with no fund-level relationship (route to `/enterprise` instead of `/capital`).
 
 ### Executive Teams: Immersion
 
@@ -412,6 +430,9 @@ IF prospect_company_has_AI_product AND commercial_traction_problem:
   IF timeline_short OR diagnostic_first: route to Signal Session
   IF ready_for_full_rebuild AND budget_60_to_100k: route to Revenue Architecture
 
+IF prospect_is_PE_VC_operating_partner OR GP OR family_office:
+  route to /capital (same Signal Session / Revenue Architecture formats, fund-level framing)
+
 IF prospect_is_CEO_with_team_alignment_problem AND 4_to_8_leaders:
   route to Immersion (inquiry-only), preselect "immersion" in the scoping modal
 
@@ -469,7 +490,7 @@ COMPANY:    Mindmaker (themindmaker.ai)
 FOUNDER:    Krish Raja
 POSITION:   The anti-consultancy for leaders done being sold AI.
 
-OFFERS (the ladder):
+OFFERS (the ladder, exact internal figures; public copy shows RANGES ONLY, see CLAUDE.md):
   - 5 free Lightning Lessons              free          Maven instructor page (top-of-funnel)
   - Mindmaker Workshops (×5)              $599 each     1 day on Maven (build-with-me)
   - The AI-Fluent Executive (Cohort)      $2,500/seat   Maven-hosted   4wk async + 4 live 90min
@@ -477,6 +498,7 @@ OFFERS (the ladder):
   - The Revenue Architecture              $60-100k      30 days (4-5 weeks), multi-session
   - The AI Immersion (inquiry-only)       $12,000       4 hours + 5-day 2pp summary
   - The Alumni Pass (invitation-only)     $1,500/yr     Annual continuity, Stripe-billed
+  - Capital (/capital, third door)        Same Signal Session + Revenue Architecture formats, fund-level framing + fund-level discount at 3+ engagements/12mo
 
 BRAND FRAMEWORK (homepage FrameworkJourney):  Mind Set → Mind Map → Mind Make
 COHORT CURRICULUM FRAMEWORK:                  Diagnose → Decompose → Decide → Deploy

@@ -1,6 +1,6 @@
 # Mindmaker: The Anti-Consultancy for Leaders Done Being Sold AI
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-07-05
 
 ---
 
@@ -40,7 +40,7 @@ Workshops and Cohort are hosted and paid through **Maven** (Slack, payment, alum
 | Frontend | React 18.3, TypeScript (strict), Vite 5.x |
 | Styling | TailwindCSS 3.x, shadcn/ui (Radix), Framer Motion |
 | Backend | Supabase Edge Functions (Deno) |
-| AI | Anthropic Claude (Mindy reasoning, proposal prose, Nervous Decision Machine, Haiku 4.5), Google Gemini (company synthesis + lead enrichment with Search grounding), OpenAI Whisper (Diagnosis Room voice input) + OpenAI (market sentiment + fallback), Lovable AI Gateway (Live Intel content) |
+| AI | Anthropic Claude (Mindy reasoning, proposal prose, Nervous Decision Machine, Haiku 4.5), Google Gemini (company synthesis + lead enrichment with Search grounding, one `GOOGLE_AI_API_KEY` shared by both), OpenAI Whisper (Diagnosis Room voice input) + OpenAI (market sentiment + Live Intel curation fallback), Perplexity + Artificial Analysis (Live Intel real-time search + market-pulse headlines) |
 | Enrichment | Brandfetch, People Data Labs, Tranco, BuiltWith, Perplexity, Exa, NewsAPI (the `enrich-company` dossier orchestrator) |
 | Documents | Browserless (proposal HTML → PDF) |
 | Email | Resend (3× retry with exponential backoff) |
@@ -135,16 +135,19 @@ mindmaker/
 │       ├── session-digest/            # Resend, intelligence email to Krish + opt-in visitor copy
 │       ├── transcribe/                # OpenAI Whisper (voice input)
 │       ├── nervous-decision-machine/  # Claude Haiku 4.5
-│       ├── get-ai-news/               # Live Intel content
+│       ├── get-ai-news/               # Live Intel content: CTRL shared pool -> Perplexity -> Brave+OpenAI -> static fallback
 │       ├── get-market-sentiment/      # OpenAI
-│       ├── get-model-data/            # frontier-model price feed
+│       ├── get-model-data/            # frontier-model price feed (Artificial Analysis)
 │       ├── send-lead-email/           # Gemini company research + Resend
 │       ├── send-contact-email/
 │       ├── send-leadership-insights-email/
 │       ├── notify-scoping-request/    # ScopingModal intake → Krish
 │       ├── notify-ctrl-waitlist/      # CTRL waitlist → Krish
 │       ├── import-audience-csv/       # Substack subscriber CSV → audience_contacts
-│       └── create-consultation-hold/  # Stripe (bypassed)
+│       ├── create-consultation-hold/  # Stripe (bypassed)
+│       ├── company-search/            # Brandfetch Search API typeahead for the Diagnosis Room opener
+│       ├── submit-intake/             # pre-session intake form → inserts row + emails Krish a brief
+│       └── submit-testimonial/        # public testimonial submission form → inserts row + emails Krish
 ├── public/                            # llms.txt, robots.txt, sitemap.xml, rising-cities.mp4, ctrl-demo-video.mp4, mindy.png, Krish-Headshot.png
 ├── scripts/                           # generate-sitemap.mjs, prerender.mjs
 ├── project-documentation/             # full documentation (start here)
@@ -209,9 +212,9 @@ mindmaker/
 | `session-digest` | Resend. Full session intelligence to Krish + opt-in proposal copy to the visitor |
 | `transcribe` | OpenAI Whisper. Voice input for the Diagnosis Room mic |
 | `nervous-decision-machine` | Anthropic Claude Haiku 4.5. JSON artefact for the Nervous Decision Machine |
-| `get-ai-news` | Live Intel content (taxonomy: WATCH / SKIP / CALL / TAKE) |
+| `get-ai-news` | Live Intel content (taxonomy: WATCH / SKIP / CALL / TAKE). Reads CTRL's shared `live_headlines_cache` first ("one brain, one pool"), then Perplexity, then Brave Search + OpenAI curation, then a static list; Artificial Analysis market-pulse headlines appended regardless of which plan serves |
 | `get-market-sentiment` | OpenAI, market sentiment |
-| `get-model-data` | Frontier-model price + spec feed for the PriceTicker |
+| `get-model-data` | Frontier-model price + spec feed for the PriceTicker (Artificial Analysis) |
 | `send-lead-email` | Gemini company research with Google Search grounding + Resend (3× retry) |
 | `send-contact-email` | Contact form |
 | `send-leadership-insights-email` | Diagnostic results dual-email |
@@ -219,6 +222,9 @@ mindmaker/
 | `notify-ctrl-waitlist` | CTRL waitlist → email Krish |
 | `import-audience-csv` | Substack subscriber CSV → shared `audience_contacts` table (secret-gated) |
 | `create-consultation-hold` | Stripe (currently bypassed; Cohort payment via Maven) |
+| `company-search` | Brandfetch Search API typeahead for the Diagnosis Room opener |
+| `submit-intake` | Pre-session intake form → inserts row + emails Krish a formatted brief |
+| `submit-testimonial` | Public testimonial submission → inserts row + emails Krish (honeypot bot protection) |
 
 ---
 
@@ -227,19 +233,20 @@ mindmaker/
 Required / optional secrets in Supabase (a missing enrichment key just disables that tool, the dossier degrades, it does not fail):
 ```
 ANTHROPIC_API_KEY        Mindy reasoning, proposal prose, Nervous Decision Machine
-GOOGLE_AI_API_KEY        Gemini company synthesis (enrich-company)
-GEMINI_API_KEY           Lead enrichment (Search-grounded; preferred)
-OPENAI_API_KEY           Whisper transcription, market sentiment, enrichment fallback
+GOOGLE_AI_API_KEY        Gemini company synthesis (enrich-company) + lead enrichment (send-lead-email), one key, both functions
+OPENAI_API_KEY           Whisper transcription, market sentiment, get-ai-news Plan B curation
 RESEND_API_KEY           Email delivery (session-digest + the send-* functions)
 BROWSERLESS_API_KEY      Proposal HTML → PDF (generate-proposal)
-BRANDFETCH_API_KEY       Company identity / logo / colours (co-brand)
+BRANDFETCH_API_KEY       Company identity / logo / colours (co-brand); alt credential BRANDFETCH_CLIENT_ID works for company-search
 PEOPLEDATALABS_API_KEY   Company size / routing signal
 BUILTWITH_API_KEY        Tech-stack signal
 EXA_API_KEY              Proof matching + currency
-PERPLEXITY_API_KEY       Company currency / recent signals
+PERPLEXITY_API_KEY       Company currency / recent signals (enrich-company); real-time news search (get-ai-news Plan A)
 NEWSAPI_API_KEY          Recent news for the dossier
+BRAVE_SEARCH_API         News search fallback (get-ai-news Plan B)
+ARTIFICIALANALYSIS_API_KEY  Live model speed/price/quality feed (get-model-data, get-ai-news market pulse)
 AUDIENCE_IMPORT_SECRET   Gate for import-audience-csv
-LOVABLE_API_KEY          AI Gateway (auto-provisioned)
+FROM_EMAIL / NOTIFY_EMAIL  Sender + notify addresses for submit-testimonial
 STRIPE_SECRET_KEY        Payments (paused)
 ```
 

@@ -1,6 +1,22 @@
 # History
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-05
+
+---
+
+## 2026-07-05: Live Intel goes live (CTRL shared pool); Cohort Signal widget; judgment-economy voice register; full docs reconciliation pass
+
+**What Changed (in the codebase, reconciled into docs):**
+- **`/signal`'s classified archive is now live, not static.** `useLiveBrief` (`src/hooks/useLiveBrief.ts`) calls the `get-ai-news` edge function, which now reads CTRL's corroborated `live_headlines_cache` first ("one brain, one pool"), falling through to Perplexity, then Brave Search + OpenAI curation, then a static list. Live WATCH/CALL cards replace the inlined samples; the hand-written SKIP and TAKE cards (Krish's editorial opinion) stay interleaved. The homepage teaser (`OperatorsBrief`) still shows only the rotating interpretation line, not the live archive.
+- **The Cohort Signal (`PortfolioPulse.tsx`) added to `/signal`.** An anonymised bar-chart distribution of the AI decision leaders keep not making, sourced from the cross-product `portfolio-pulse` aggregate. Self-hides below 12 respondents; renders nothing during SSG or on fetch failure. No PII reaches the client.
+- **Mint migrated to portfolio emerald** (`#00D9B6`) across the site for three-product brand cohesion (Mindmaker, CTRL, Make Your Mind Up); `mint` CSS tokens and the Tailwind `mint` key are kept as aliases. Reconciled into docs the prior pass (2026-06-29); noted here for completeness since several technical docs still referenced the old `text-mint` framing without the alias note.
+- **Judgment-economy voice register added to Mindy's voice-lint.** `USE_VOCABULARY` in `supabase/functions/_shared/mindy/voice-lint.ts` gained twelve soft-signal terms (judgment, taste, the say-do gap, non-linear, coordination, verification, credibility, monetize your judgment, the easy button, owns the context, good enough, expertise) biasing generated copy toward "execution is cheap, judgment is the moat" without changing any hard guardrail. The `nervous-decision-machine` system prompt gained one matching "Lens:" paragraph.
+- **Full documentation reconciliation pass.** Every file in `project-documentation/`, plus `CLAUDE.md` and the root `README.md`, checked against the live code. Corrected: a stale "Lovable AI Gateway" / `LOVABLE_API_KEY` claim for `get-ai-news` across five files (the function has never used that gateway; it reads `PERPLEXITY_API_KEY`, `BRAVE_SEARCH_API`, `OPENAI_API_KEY`, `ARTIFICIALANALYSIS_API_KEY`, and the shared-pool Supabase credentials); a fabricated `GEMINI_API_KEY` secret name (the real var is `GOOGLE_AI_API_KEY`, shared by `enrich-company` and `send-lead-email`); several undocumented secrets (`BRAVE_SEARCH_API`, `ARTIFICIALANALYSIS_API_KEY`, `NOTIFY_EMAIL`/`FROM_EMAIL`); a wrong architectural claim in `mindy-system-prompt.md` and `mindy/README.md` (call-booking rides to Krish via `session-digest`, not `notify-scoping-request`); an inaccurate "the site renders this table" claim about Bespoke enablement pricing (it never appears on the live site); a dead file reference in `voice-lint.md`; and added Capital (the third door, `/capital`) to `ICP.md`, `OFFERS.md`, `PURPOSE.md`, and `SALES_PLAYBOOK.md`, which covered it thinly or not at all despite it being live since before the v4 brief.
+
+**Why:**
+- Live Intel and the Cohort Signal are a real architecture change (static sample data to a shared, cross-product live pool); the docs previously described `get-ai-news` as inline/static, which would mislead anyone debugging or extending it.
+- The Lovable/Gemini secret-name errors would send a developer chasing a Supabase secret that does nothing while the real one goes unconfigured.
+- Capital has been a live, revenue-bearing doorway since before this pass; the sales-facing docs not covering it meant an agent grounding on `SALES_PLAYBOOK.md` or `ICP.md` alone had no path to correctly qualify a fund-level buyer.
 
 ---
 

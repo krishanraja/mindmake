@@ -1,6 +1,6 @@
 # Mindmaker Project Documentation
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-05
 
 ---
 
@@ -34,7 +34,7 @@ For the strategic intent behind the current shape of the business, read `mindmak
 | [SALES_PLAYBOOK.md](./SALES_PLAYBOOK.md) | The single document an AI sales/marketing agent should ground on. ICP signals, pain narratives, ROI math, objection bank, channel-specific message templates, qualifying questions, disqualifiers, competitive grid. |
 | [Master_Messaging_and_FAQ.md](./Master_Messaging_and_FAQ.md) | Canonical pitches by offer + master FAQ + objection handling. |
 | [VALUE_PROP.md](./VALUE_PROP.md) | Positioning, differentiators, competitive framing. |
-| [ICP.md](./ICP.md) | The two primary ICPs (AI leaders, AI products) + the executive-team ICP for Immersion. Anti-ICPs. |
+| [ICP.md](./ICP.md) | The three primary ICPs (AI leaders, AI products, executive teams) + Capital, the fund-level third door. Anti-ICPs. |
 | [ICP_ACCOUNTABLE_DELEGATOR.md](./ICP_ACCOUNTABLE_DELEGATOR.md) | Deep psychographic and skill-gap archetype of the cohort/leader buyer ("The Accountable Delegator"), the depth behind ICP 1. Research-grounded; cross-refs ICP.md and SALES_PLAYBOOK.md. |
 | [OFFERS.md](./OFFERS.md) | Full detail on Cohort, Signal Session, Revenue Architecture, Immersion. |
 | [COMMERCIAL_REFERENCE.md](./COMMERCIAL_REFERENCE.md) | The durable commercial reference (the `mindmaker` Claude skill): the full buyer-journey ladder, three ICPs, the CTRL product, the Substack, Stripe, the sales motion, and the Mindmaker vs Mindmaker OS boundary. |
@@ -126,6 +126,7 @@ For the strategic intent behind the current shape of the business, read `mindmak
 - **AI leaders**. senior operators making AI decisions (Cohort buyer)
 - **AI products**. companies commercializing AI capability (Signal Session → Revenue Architecture buyer)
 - **Executive teams**. CEO-sponsored leadership groups needing fast alignment (Immersion buyer)
+- **Capital**. PE/VC operating partners, GPs, family offices (Signal Session → Revenue Architecture, fund-level framing, the third door at `/capital`)
 
 ### Brand voice
 

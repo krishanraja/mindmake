@@ -1,6 +1,6 @@
 # Mindy Brain Pack
 
-*The knowledge pack that makes Mindy reason like Krish, recommend honestly, price in ranges, and sound like the operator and not the model. Built 2026-06-09 against `MINDY-ONE-JOURNEY-ARCHITECTURE.md` (the Diagnosis Room brief); last reconciled 2026-06-28. This README is the index and the wiring diagram. It also carries the consistency and open-questions list; items resolved as of 2026-06-09 are marked.*
+*The knowledge pack that makes Mindy reason like Krish, recommend honestly, price in ranges, and sound like the operator and not the model. Built 2026-06-09 against `MINDY-ONE-JOURNEY-ARCHITECTURE.md` (the Diagnosis Room brief); last reconciled 2026-07-05. This README is the index and the wiring diagram. It also carries the consistency and open-questions list; items resolved as of 2026-06-09 are marked.*
 
 ---
 
@@ -81,7 +81,7 @@ The six authors flagged the following. Items 1–2 are real internal contradicti
 
 ### D. Mechanism and posture confirmations (brief §8)
 
-**6. Live-call booking mechanism (§8.1).** Which single Calendly event/duration replaces the dual-intake mess, and the behaviour when slots run dry for $12k+ fits. The pack assumes one Calendly handoff carrying the diagnosis via `notify-scoping-request`; confirm the event and the dry-slot fallback.
+**6. Live-call booking mechanism (§8.1) — RESOLVED.** One Calendly event (`calendly.com/krish-raja/15-min-intro`) carries the diagnosis to Krish via `session-digest`, not `notify-scoping-request` (that function powers the unrelated `ScopingModal` secondary surface). `session-digest` fires on any meaningful end (`chat` / `book-call` / `proposal`) and emails Krish the full session intelligence. Note: `mindy-system-prompt.md` and the deployed `knowledge.ts` system prompt still name `notify-scoping-request` here; that reads as a copy-paste error carried into the live prompt rather than a design decision, and needs a code fix outside this docs pass.
 
 **7. Email capture posture (§8.2).** The pack assumes work email stays optional, framed as a gift, with a graceful degraded path (one human question, no co-brand gasp) for personal-Gmail/no-email visitors. Confirm.
 
@@ -91,10 +91,10 @@ The six authors flagged the following. Items 1–2 are real internal contradicti
 
 ### E. Smaller cross-file notes
 
-- **Filename reference drift.** `reasoning-fewshots.md` points to `case-bank.md` and `walkaway-rubric.md`; the shipped filenames are `proof-bank.md` and `fit-and-walkaway-rubric.md`. Cosmetic, but fix the in-file references so retrieval citations resolve.
+- **Filename reference drift — RESOLVED.** `reasoning-fewshots.md` now correctly cites `proof-bank.md` and `fit-and-walkaway-rubric.md` throughout; verified 2026-07-05, no stale filenames remain.
 - **`reasoning-fewshots.md` is RAG, the system prompt calls it "Layer 2."** Confirmed consistent with the brief; flagged only so no one re-classifies it as a pinned Layer 1 asset and bloats the prompt.
 - **Voice-lint vs numeric ranges.** The em-dash/en-dash ban explicitly allows the en dash inside numeric ranges (e.g. $2,000–$3,000). Ensure the linter's `en_dash_as_dash` rule whitelists the range-card strings so the public pricing does not hard-fail its own gate.
 
 ---
 
-*Phase 0 of the build (reconcile and de-poison) is what this pack delivers. Items 1 and 3 are now resolved. Outstanding items: 2 (CTRL pricing label confirmation and OFFERS.md addition), 4 (bespoke enablement lane confirmation), 5 (proof anonymisation approval), 6 (Calendly event confirmation — current assumption is 15-min intro at `calendly.com/krish-raja/15-min-intro`), 7 (email-capture posture confirmation), 8 (CTRL routing and self-serve ceiling confirmation), 9 (EU consent posture — flagged as a launch blocker).*
+*Phase 0 of the build (reconcile and de-poison) is what this pack delivers. Items 1, 3, and 6 are now resolved. Outstanding items: 2 (CTRL pricing label confirmation and OFFERS.md addition), 4 (bespoke enablement lane confirmation), 5 (proof anonymisation approval), 7 (email-capture posture confirmation), 8 (CTRL routing and self-serve ceiling confirmation), 9 (EU consent posture — flagged as a launch blocker).*

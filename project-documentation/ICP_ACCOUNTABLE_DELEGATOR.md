@@ -1,6 +1,6 @@
 # The Accountable Delegator (ICP Archetype)
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-05
 
 This is the deep psychographic, behavioural, and skill-gap profile of the buyer behind **ICP 1: AI Leaders / Cohort Buyer** in `ICP.md`. It is the primary archetype for **The AI-Fluent Executive** ($2,500 cohort) and the entry-rung Workshops, and the human at the centre of every Signal Session and Immersion sponsor conversation.
 

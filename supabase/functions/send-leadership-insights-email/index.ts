@@ -58,13 +58,13 @@ function buildVisitorResultsHtml(name: string, results: Results): string {
 <!DOCTYPE html>
 <html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif; line-height: 1.6; color: #1a1a1a; max-width: 600px; margin: 0 auto; padding: 0; background-color: #f7f7f5;">
-  <div style="background: linear-gradient(135deg, #0e1a2b 0%, #1a2b3d 100%); padding: 40px 24px; text-align: center;">
+  <div style="background-color: #0e1a2b; background-image: linear-gradient(135deg, #0e1a2b 0%, #1a2b3d 100%); padding: 40px 24px; text-align: center;">
     <p style="color: #00D9B6; margin: 0 0 8px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 2px;">AI Leadership Benchmark</p>
     <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700;">Your Results Are In</h1>
     <p style="color: rgba(255,255,255,0.8); margin: 12px 0 0 0; font-size: 16px;">Personalized for ${esc(name)}</p>
   </div>
   <div style="background: #ffffff; padding: 32px 24px;">
-    <div style="background: linear-gradient(135deg, #f7f7f5 0%, #e8f5f0 100%); border-radius: 16px; padding: 32px; text-align: center; margin-bottom: 32px;">
+    <div style="background-color: #f7f7f5; background-image: linear-gradient(135deg, #f7f7f5 0%, #e8f5f0 100%); border-radius: 16px; padding: 32px; text-align: center; margin-bottom: 32px;">
       <p style="color: #666; margin: 0 0 8px 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Your AI Leadership Score</p>
       <div style="font-size: 72px; font-weight: 800; color: #0e1a2b; margin: 0; line-height: 1;">${results.score}</div>
       <p style="color: #666; margin: 4px 0 16px 0; font-size: 14px;">out of 100</p>
@@ -92,7 +92,7 @@ function buildVisitorResultsHtml(name: string, results: Results): string {
       <h2 style="color: #0e1a2b; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">Your 90-Day Action Plan</h2>
       ${results.actionPlan.map((action, i) => `<div style="display: flex; align-items: flex-start; margin-bottom: 12px; padding: 12px; background: ${i % 2 === 0 ? "#fafafa" : "#fff"}; border-radius: 8px;"><div style="width: 24px; height: 24px; border: 2px solid #00D9B6; border-radius: 50%; margin-right: 12px; flex-shrink: 0;"></div><p style="margin: 0; color: #333; font-size: 14px;">${esc(action)}</p></div>`).join("")}
     </div>
-    <div style="background: linear-gradient(135deg, #0e1a2b 0%, #1a2b3d 100%); color: white; padding: 32px 24px; border-radius: 12px; text-align: center;">
+    <div style="background-color: #0e1a2b; background-image: linear-gradient(135deg, #0e1a2b 0%, #1a2b3d 100%); color: white; padding: 32px 24px; border-radius: 12px; text-align: center;">
       <h3 style="margin: 0 0 12px 0; font-size: 20px; font-weight: 600;">Ready to Accelerate Your AI Journey?</h3>
       <p style="margin: 0 0 20px 0; opacity: 0.9; font-size: 14px;">Book a free consultation with Krish to make your first nervous decision with confidence.</p>
       <a href="https://www.themindmaker.ai/#book" style="display: inline-block; background: #00D9B6; color: #0e1a2b; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 14px;">What's your nervous decision? &rarr;</a>

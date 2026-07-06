@@ -107,18 +107,24 @@ function renderGroup(g: LeadFieldGroup): string {
 function heroBlock(event: LeadEvent, dossier: Dossier | null): string {
   const id = dossier?.identity;
   const heading = esc(event.contact.company || id?.name || event.contact.name || "New lead");
-  const accent = (id?.colors && id.colors[0]) || EMERALD;
   const logo = id?.logoUrl || id?.iconUrl;
   const logoImg = logo
-    ? `<div style="display:inline-block;background:#fff;border-radius:8px;padding:6px 10px;margin-bottom:12px;">
+    ? `<div style="display:inline-block;background:#ffffff;border-radius:8px;padding:6px 10px;margin-bottom:12px;">
          <img src="${esc(logo)}" alt="${heading}" style="max-height:34px;max-width:180px;vertical-align:middle;" />
        </div><br/>`
     : "";
-  return `<div style="background:linear-gradient(135deg,${INK} 0%,#1a2b3d 100%);padding:32px 24px;">
-    ${logoImg}
-    <p style="color:${esc(accent)};margin:0 0 6px 0;font-size:12px;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;">${esc(event.sourceLabel)}</p>
-    <h1 style="color:#fff;margin:0;font-size:22px;font-weight:700;">${heading}</h1>
-  </div>`;
+  // Bulletproof dark hero: a solid background-color (+ bgcolor attr for Outlook) ALWAYS
+  // renders, so the white heading + emerald eyebrow stay legible even in clients that strip
+  // the gradient. The gradient rides on background-image as a progressive enhancement.
+  // The eyebrow is a fixed high-contrast emerald (never an arbitrary brand colour, which could
+  // itself be dark and vanish on the dark hero).
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${INK}" style="background-color:${INK};background-image:linear-gradient(135deg,${INK} 0%,#1a2b3d 100%);">
+    <tr><td style="padding:32px 24px;">
+      ${logoImg}
+      <p style="color:${EMERALD};margin:0 0 6px 0;font-size:12px;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;">${esc(event.sourceLabel)}</p>
+      <h1 style="color:#ffffff;margin:0;font-size:22px;font-weight:700;">${heading}</h1>
+    </td></tr>
+  </table>`;
 }
 
 function operatorReadBlock(read: string | null): string {
@@ -221,7 +227,7 @@ function transcriptBlock(transcript?: TranscriptTurn[]): string {
 
 function proposalBlock(proposal?: LeadEvent["proposal"]): string {
   if (!proposal || (!proposal.id && !proposal.html)) return "";
-  return `<div style="margin-top:18px;padding:12px 16px;background:${INK};border-radius:6px;color:#fff;font-size:14px;">
+  return `<div style="margin-top:18px;padding:12px 16px;background-color:${INK};border-radius:6px;color:#ffffff;font-size:14px;">
     A proposal was generated for this session${proposal.id ? ` (id <code style="color:${EMERALD};">${esc(proposal.id)}</code>)` : ""}.
     ${proposal.html ? "It is attached to this email as an HTML file." : ""}
   </div>`;
@@ -231,7 +237,7 @@ function ctaBlock(event: LeadEvent): string {
   if (!looksLikeEmail(event.contact.email)) return "";
   const first = (event.contact.name || "").trim().split(/\s+/)[0] || "them";
   return `<div style="text-align:center;padding-top:20px;margin-top:24px;border-top:1px solid #e5e5e3;">
-    <a href="mailto:${esc(event.contact.email)}" style="display:inline-block;background:${INK};color:#fff;padding:10px 22px;border-radius:6px;text-decoration:none;font-weight:600;font-size:14px;">Reply to ${esc(first)}</a>
+    <a href="mailto:${esc(event.contact.email)}" style="display:inline-block;background-color:${INK};color:#ffffff;padding:10px 22px;border-radius:6px;text-decoration:none;font-weight:600;font-size:14px;">Reply to ${esc(first)}</a>
   </div>`;
 }
 

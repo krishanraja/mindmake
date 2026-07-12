@@ -1,6 +1,6 @@
 # User Outcomes
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-12
 
 ---
 
@@ -52,6 +52,8 @@ Week 4:  Motion     → First concrete step shipped; accountability + alumni onb
 **Lagging indicators (6–12 months):** decision held up under board scrutiny, no second-guessing, alumni referrals, repeat enrollment for the next nervous decision.
 
 ---
+
+*The Signal Session and Revenue Architecture outcomes below apply identically when either engagement is sold through Capital (`/capital`) to a fund, family office, or per-portfolio-company buyer; only the framing changes, not the deliverable.*
 
 ## Signal Session Outcomes: Enterprise Entry
 
@@ -164,7 +166,7 @@ Week 4:  Motion     → First concrete step shipped; accountability + alumni onb
 - **Not** ongoing retainer or fractional role → Instead: fixed scope, fixed finish line
 - **Not** tool recommendations → Instead: trade-off analysis so the buyer decides
 - **Not** implementation or production IT → Instead: the commercial and decision layer, with clean handover
-- **Not** 6-month engagement → Instead: 30-day Revenue Architecture, 1-day Signal Session, 4-hour Immersion, 3-week Cohort
+- **Not** 6-month engagement → Instead: 30-day Revenue Architecture, 1-day Signal Session, 4-hour Immersion, 4-week Cohort
 
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: mindmaker
-description: Canonical reference for Mindmaker, Krish Raja's AI advisory and product business. Use whenever work touches Mindmaker offers, pricing, ICPs, sales, the website (themindmaker.ai), Maven, the Substack, or the CTRL product. NOT Mindmaker OS, which is the autonomous operating system that runs Mindmaker internally. Mindmaker is sold; Mindmaker OS is run. Trigger on any of: "Mindmaker", "CTRL", "mm-ctrl", "ctrl.themindmaker.ai", "Memory Web", "Edge", "Daily Briefing", "Edge Pro", "/cohort", "/enterprise", "/capital", "/immersion", "/workshops", "/alumni", "AI-Fluent Executive", "Signal Session", "Revenue Architecture", "themindmaker.ai", "Maven cohort", "Mindmaker Substack", "ICP", "offer ladder", or any reference to the four-offer architecture, three-ICP framing, CTRL product, or commercial surface. Last reviewed 2026-06-28. Rule: this document captures what is durable. Anything in flux is flagged so the agent does not treat motion as truth.
+description: Canonical reference for Mindmaker, Krish Raja's AI advisory and product business. Use whenever work touches Mindmaker offers, pricing, ICPs, sales, the website (themindmaker.ai), Maven, the Substack, or the CTRL product. NOT Mindmaker OS, which is the autonomous operating system that runs Mindmaker internally. Mindmaker is sold; Mindmaker OS is run. Trigger on any of: "Mindmaker", "CTRL", "mm-ctrl", "ctrl.themindmaker.ai", "Memory Web", "Edge", "Daily Briefing", "Edge Pro", "/cohort", "/enterprise", "/capital", "/immersion", "/workshops", "/alumni", "AI-Fluent Executive", "Signal Session", "Revenue Architecture", "themindmaker.ai", "Maven cohort", "Mindmaker Substack", "ICP", "offer ladder", or any reference to the four-offer architecture, three-ICP framing, CTRL product, or commercial surface. Last reviewed 2026-07-12. Rule: this document captures what is durable. Anything in flux is flagged so the agent does not treat motion as truth.
 ---
 
 # Mindmaker: Commercial Reference
@@ -11,6 +11,8 @@ description: Canonical reference for Mindmaker, Krish Raja's AI advisory and pro
 > - **The cohort framework tension is resolved** (§2.6): *Mind Set → Mind Map → Mind Make* is the canonical cross-offer brand framework; *Diagnose → Decompose → Decide → Deploy* is the cohort's week-by-week curriculum. Both coexist.
 > - **`/signal` is "Mindmaker LIVE" / Live Intel**, not "The Signal Desk" (retired name). `/tool` and `/builder-economy` now redirect.
 > - **Workshop→Cohort credit is $500 with code `WORKSHOP`** (90-day validity), not $499.
+> - **Signature accent is now portfolio emerald (`#00D9B6`), not mint** (2026-06-29 brand-cohesion pass). Legacy `--mint*` tokens and the Tailwind `mint` key are kept as aliases to emerald, so nothing broke, but new work should use the `emerald*` keys. See §4.2.
+> - **Every lead-capture surface (contact, lead, leadership-insights, scoping request, CTRL waitlist, intake, testimonial, session-digest) now routes through one shared pipeline** (`supabase/functions/_shared/lead/pipeline.ts` `dispatchLead`), which auto-researches the company and sends Krish ONE consistently formatted digest with an AI-generated "operator's read." Endpoint URLs and response shapes are unchanged. See `CLAUDE.md` → "Technical infrastructure" → "Unified lead pipeline."
 
 This is the durable reference for Mindmaker the business: its service offers, its product (CTRL), its ICPs, its website, its distribution. For the autonomous operating system that runs the company internally (n8n fleet, Supabase, 13 agents, the dogfood layer), use the `mindmaker-os` skill instead. The two are related but distinct: Mindmaker is sold. Mindmaker OS is run.
 
@@ -155,13 +157,13 @@ Redirects: /tool → /signal#decision · /builder-economy → thebuildereconomy.
 **Sibling subdomain:** `ctrl.themindmaker.ai` hosts CTRL, the Mindmaker product. Different repo (`mm-ctrl`), different stack details, different design language (light mode, warm off-white, executive-grade). It shares the Mindmaker brand but has its own visual system. See §7.
 
 ### 4.2 Design language
-- Mint accent colour
+- Signature accent is portfolio **emerald** (`#00D9B6`), not mint. Mindmaker adopted CTRL's emerald in the 2026-06-29 brand-cohesion pass so Mindmaker, CTRL, and Make Your Mind Up read as one house over one MindmakerOS token contract. The legacy `--mint*` tokens and the Tailwind `mint` colour key are kept as **aliases** to emerald for zero-churn migration (`text-mint`/`bg-mint` still work, now render emerald); prefer the `emerald*` keys in new work.
 - Glass cards (`editorial-card` class)
 - `fadeUp` animation primitive
 - Dark-bg hero (`bg-ink`) on offer pages
 - Same SEO component, Navigation, Footer across pages
 - Event-driven CTAs (not Stripe direct, except Alumni Pass): primary "Book a call" dispatches `openDiagnosisRoom` (the Diagnosis Room); `openScopingModal` is a retained fallback; `openConsultModal` is legacy, alumni-only
-- WCAG: no `text-mint` on light backgrounds
+- WCAG: never bright emerald (`text-mint`/`text-emerald`) on light backgrounds, it fails contrast exactly like mint did. Use `text-emerald-deep` (`#06746d`) for text/links on light backgrounds, full AA.
 
 ### 4.3 Voice and copy rules (non-negotiable)
 - No em dashes anywhere, including code comments

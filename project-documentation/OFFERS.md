@@ -1,6 +1,6 @@
 # Offers: The Full Guide
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-12 (verified against `src/App.tsx`, `src/lib/stripe-prices.ts`, and CLAUDE.md; no drift found. Capital (`/capital`) intentionally not listed as a separate rung here, it reuses the Signal Session / Revenue Architecture formats above for fund-level buyers rather than adding a new offer; see `ICP.md` ICP 2b and `COMMERCIAL_REFERENCE.md` §3.3 for the buyer-side framing.)
 
 > Replaces the previous `SPRINTS.md`. The 1:1 sprint products (4-Week and 90-Day Builder / Orchestrator sprints) were retired from the public site in the v4 barbell pivot. The v6 ladder restructure (May 2026) added paid Workshops as the entry product and the Alumni Pass as a continuity layer. See `mindmaker_rebuild_brief_v4.md` for the v4 rationale and `DECISIONS_LOG.md` for the commercial reasoning behind v6.
 

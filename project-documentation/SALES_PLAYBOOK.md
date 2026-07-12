@@ -1,7 +1,7 @@
 # Mindmaker Sales Playbook
 *The single ground-truth document for AI sales and marketing agents working the Mindmaker book.*
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-12
 
 > If you are an AI sales or marketing agent, outbound, inbound, content, retargeting, lifecycle, paid, or organic, this is the document you ground on. It is opinionated, structured for retrieval, and biased toward action. Use `OFFERS.md`, `ICP.md`, `VALUE_PROP.md`, `OUTCOMES.md`, and `BRANDING.md` for deeper canon. Use `Master_Messaging_and_FAQ.md` for full pitches and FAQ.
 
@@ -15,11 +15,12 @@
 | Senior leader with a nervous AI decision | **The AI-Fluent Executive (Cohort)** ($2,500, Maven-hosted) | Workshops as warm-up; Enterprise as next step if they're commercialising AI | `audience:ai-leaders` |
 | Company commercializing an AI product | **The Signal Session** ($15,000) → **The Revenue Architecture** ($60–100k) | Operator credential page (`/operator`) | `audience:ai-products` |
 | Executive team with shared AI tensions | **The AI Immersion** ($12,000, inquiry-only) | — | `audience:exec-team` |
+| Fund, family office, or operating partner | **The Signal Session** (fund-native framing) → **The Revenue Architecture** (per-portco) at `/capital` | Same engagement formats as Enterprise, repriced/reframed for fund-level or portfolio-company buyers; fund-level discount for 3+ engagements per 12 months | `audience:capital` |
 | Mindmaker alumni (any of the above) | **The Alumni Pass** ($1,500/year, invitation-only) | — | `audience:alumni` |
 | Senior leader specifically wanting 1:1 | Inquiry at `/cohort?inquiry=1:1` | — | `audience:1to1-inquiry` |
 | Cold prospect not yet ready to talk | 5 free Lightning Lessons on Maven | Warm to a Workshop or the Cohort | `audience:cold` |
 
-The first four are the addressable market. The Alumni Pass is the retention layer. The 1:1 inquiry is a relief valve. The free lessons are the top-of-funnel warmup.
+The first five are the addressable market. **Capital is not a fifth offer**, it is the same Signal Session and Revenue Architecture formats sold to funds, family offices, and operating partners; the buyer pre-qualifies by which page they land on (`/enterprise` vs `/capital`). The Alumni Pass is the retention layer. The 1:1 inquiry is a relief valve. The free lessons are the top-of-funnel warmup.
 
 ---
 
@@ -94,6 +95,24 @@ The first four are the addressable market. The Alumni Pass is the retention laye
 - Recording is a hard requirement
 - Substitute participants expected
 
+### Capital: Funds, family offices, operating partners
+
+**Firmographic signals:**
+- Operating Partners, Managing/General Partners, Principals at PE/VC firms; family offices; wealth allocators
+- Portfolio companies with AI capability that is under-commercialised or unaudited across the fund
+
+**Psychographic signals:**
+- Fund is not AI-native; portfolio companies are exposed to AI-native competitors
+- LP pressure for an "AI thesis" the fund can't yet articulate across the portfolio
+- Operating partner asking "which of our portcos actually has an AI story?"
+
+**Disqualify if:**
+- Not a fund/family-office/operating-partner buyer (route founder-led AI-product companies to Enterprise instead)
+- Wants a single portco engagement without fund-level context (still fine, just route to Enterprise-style framing)
+- Pre-revenue portfolio companies only, no AI capability to diagnose
+
+**Route:** `/capital`, same Signal Session and Revenue Architecture engagement formats as Enterprise, reframed for fund-level or per-portfolio-company delivery. See `COMMERCIAL_REFERENCE.md` §3.3.
+
 ---
 
 ## 3. Pain → Offer Mapping (for AI agents to route inbound)
@@ -119,6 +138,8 @@ The first four are the addressable market. The Alumni Pass is the retention laye
 | "Pricing, packaging, GTM all need rebuilding" | **Revenue Architecture** |
 | "Our exec team can't agree on three things" | **Immersion** |
 | "We need a strategy day" | **Immersion** |
+| "Our fund doesn't have an AI thesis" / "Is our portfolio AI-native?" | **Capital** → Signal Session (fund-level) |
+| "We need AI diligence across the portfolio" | **Capital** → Revenue Architecture (per-portco) |
 | "I'm just exploring AI, no firm timeline" | **Free Lightning Lesson** (Maven instructor page) |
 | "I want to keep working with you after [engagement]" | **Alumni Pass** (invitation-only) |
 | "I want a fractional CAIO" | Decline. Disqualify. |
@@ -415,6 +436,9 @@ IF prospect_company_has_AI_product AND commercial_traction_problem:
 IF prospect_is_CEO_with_team_alignment_problem AND 4_to_8_leaders:
   route to Immersion (inquiry-only), preselect "immersion" in the scoping modal
 
+IF prospect_is_fund_or_family_office_or_operating_partner:
+  route to /capital: Signal Session (fund-level) or Revenue Architecture (per-portco)
+
 IF prospect_is_alum_post_engagement:
   route to /alumni (invitation-only, $1,500/year Alumni Pass)
 
@@ -432,21 +456,20 @@ DEFAULT (uncertain):
 
 ---
 
-## 12. Lead Email Anatomy (what `send-lead-email` produces)
+## 12. Lead Email Anatomy (the unified lead pipeline)
 
-The primary "Book a call" flow now opens the **Diagnosis Room (Mindy)**, where the visitor's nervous decision is diagnosed in conversation. The `ScopingModal` ("Scope it with me") remains the secondary booking surface on the offer pages; it posts to the `notify-scoping-request` edge function: a structured intake email to Krish with the prospect's name, work email, company & role, the AI decision/problem, what success looks like in 30 days, and optional notes.
+The primary "Book a call" flow now opens the **Diagnosis Room (Mindy)**, where the visitor's nervous decision is diagnosed in conversation. The `ScopingModal` ("Scope it with me") remains the secondary booking surface on the offer pages; it posts to the `notify-scoping-request` edge function with the prospect's name, work email, company & role, the AI decision/problem, what success looks like in 30 days, and optional notes.
 
-The richer `send-lead-email` lead-intelligence email below is produced by the legacy consult-modal path (now `/alumni` only). It contains:
+As of the July 2026 unification, **every lead-capture surface is a thin adapter over one shared pipeline** (`supabase/functions/_shared/lead/pipeline.ts` `dispatchLead`), not a bespoke email builder each. This covers `send-contact-email`, `send-lead-email` (the legacy consult-modal path, now `/alumni` only), `send-leadership-insights-email`, `notify-scoping-request`, `notify-ctrl-waitlist`, `submit-intake`, `submit-testimonial`, and the Diagnosis Room's `session-digest`. For each submission, the pipeline:
 
-- Prospect name, email, job title
-- Selected program (preselected from the page or the modal dropdown)
-- Commitment level (from the modal)
-- Audience type and path type (derived)
-- Session engagement data
-- Company research via Gemini with Google Search grounding (skipped for personal email domains)
-- 3× retry with exponential backoff for delivery reliability
+- resolves a company dossier in-process via the shared enrichment orchestrator (work-email domain, or the self-reported company name for personal-email leads; skipped for free-email domains with no company name given),
+- generates an AI "operator's read" (who this is, what they want, the recommended next move),
+- renders ONE consistent Krish-only digest (hero → operator's read → contact → company dossier + internal routing → what they submitted → transcript, if any → reply CTA),
+- sends it via a shared Resend helper, backgrounded so the form returns instantly.
 
-When you (an AI sales agent) help craft the prospect's reply or follow-up, mirror the framing Mindy surfaced in the Diagnosis Room: "You said your decision is [X], your timeline is [Y], and the stakes are [Z]. Based on that, here's what I'd suggest…"
+Endpoint URLs, DB writes, and response shapes are unchanged; only the backend implementation and the email Krish receives are unified. Visitor-facing emails (the `/leaders` score card, the session-digest opt-in proposal copy) are preserved on their own separate templates, never routed through the internal Krish digest.
+
+When you (an AI sales agent) help craft the prospect's reply or follow-up, mirror the framing Mindy surfaced in the Diagnosis Room, or the operator's read from the digest: "You said your decision is [X], your timeline is [Y], and the stakes are [Z]. Based on that, here's what I'd suggest…"
 
 ---
 
@@ -476,6 +499,7 @@ OFFERS (the ladder):
   - The Signal Session                    $15,000       1 day + 48h Commercial Narrative (15-20pp)
   - The Revenue Architecture              $60-100k      30 days (4-5 weeks), multi-session
   - The AI Immersion (inquiry-only)       $12,000       4 hours + 5-day 2pp summary
+  - Capital (Signal Session/Rev Arch)     same prices   `/capital`, same formats reframed for funds
   - The Alumni Pass (invitation-only)     $1,500/yr     Annual continuity, Stripe-billed
 
 BRAND FRAMEWORK (homepage FrameworkJourney):  Mind Set → Mind Map → Mind Make

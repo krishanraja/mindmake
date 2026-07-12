@@ -1,7 +1,7 @@
 # Mindmaker Master Messaging & FAQ Document
 *Core source of truth for product marketing, sales, content, and outbound*
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-12
 
 **Goal:** One document a salesperson, content writer, or AI agent can open and get every pitch, position, and objection answer right. Supersedes the earlier CTRL / 1:1-sprint-era version. For strategic intent, read `mindmaker_rebuild_brief_v4.md`. For agent-grade sales detail (ICP signals, ROI math, channel templates), read `SALES_PLAYBOOK.md`. For durable commercial reference, read `COMMERCIAL_REFERENCE.md`; for how the Diagnosis Room reasons, read the `mindy/` Brain Pack.
 
@@ -127,6 +127,16 @@ The big consultancies (McKinsey, BCG, Deloitte, Accenture) sell 6-figure decks b
 **Who it's for:** CEO sponsors with up to 8 senior leaders stuck on shared AI tensions: vendor commitments, build-vs-buy at the team level, replace-vs-empower, board narrative.
 
 **Route:** `/immersion`.
+
+### Capital: Signal Session / Revenue Architecture for funds
+
+**One-line:** The same commercial diagnosis and rebuild, priced and framed for a fund instead of a single company.
+
+**Pitch (30s):** Your portfolio isn't AI-native and you can't yet tell LPs a coherent AI thesis across it. Capital is the Signal Session and the Revenue Architecture, the same engagement formats sold on `/enterprise`, reframed fund-native. Signal Session from $15k, fund-level or per portfolio company. Revenue Architecture $60–100k per portfolio company, with a fund-level discount for 3+ engagements in a 12-month window. Not a fifth offer, the same operator, the same deliverables, priced for how a fund actually buys.
+
+**Who it's for:** Operating Partners, Managing/General Partners, Principals at PE/VC firms, family offices, and wealth allocators.
+
+**Route:** `/capital`, linked from the Enterprise nav dropdown under "For funds & operating partners."
 
 ### Mindmaker Workshops: $599 each (entry-paid, on Maven)
 

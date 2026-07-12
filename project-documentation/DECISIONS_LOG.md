@@ -1,10 +1,50 @@
 # Decisions Log
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-07-12
 
 ---
 
 ## Brand & Product Decisions
+
+### 2026-07-06: Lead-capture back end unified into one researched, well-formatted pipeline
+
+**Decision:** Collapse every lead-capture edge function (`send-contact-email`, `send-lead-email`, `send-leadership-insights-email`, `notify-scoping-request`, `notify-ctrl-waitlist`, `submit-intake`, `submit-testimonial`, and the Diagnosis Room's `session-digest`) onto one shared pipeline. Each function becomes a thin adapter: it validates its payload, persists its own DB row, maps the payload to a canonical `LeadEvent`, and hands off to `_shared/lead/pipeline.ts` `dispatchLead`, which researches the company in-process, generates an AI "operator's read," renders one consistent HTML/text digest, and sends it via a shared Resend helper.
+
+**Context:** Each lead-capture surface had re-implemented its own CORS handling, Resend call, and HTML/text builder from scratch, producing wildly inconsistent notifications (from a styled HTML digest down to a plain-text monospace intake dump) and no company research on most paths. `enrich-company`'s orchestration logic already existed for the Diagnosis Room; extracting it into `_shared/enrich/orchestrate.ts` let the lead pipeline reuse it in-process instead of making a cross-function HTTP hop.
+
+**Impact:**
+- New shared modules: `_shared/http/{cors,resend}.ts`; `_shared/lead/{types,escape,render,operator-read,pipeline,adapters}.ts`; `_shared/enrich/{llm,orchestrate}.ts` (the Gemini→Anthropic completion fallback, `completeText`, now lives in `_shared/enrich/llm.ts` and is shared by both the lead pipeline's operator's read and `enrich-company`'s full-depth synthesis).
+- `enrich-company` becomes a thin HTTP wrapper over the shared orchestrator; its response contract is unchanged.
+- Email send is backgrounded (`EdgeRuntime.waitUntil`, with an awaited fallback) so forms return instantly. Endpoint URLs, DB writes, honeypots, and 200 response shapes are unchanged; `/intake` and `/testimonials` keep working untouched.
+- `send-lead-email` now stores an enrichment `Dossier` in `leads.company_research`. Visitor-facing emails (the `/leaders` score card, the session-digest opt-in proposal copy) stay on their own templates, not the shared internal-digest template.
+- `CLAUDE.md`, `ARCHITECTURE.md`, `FEATURES.md`, `DEPLOYMENT.md`, `REPLICATION_GUIDE.md`, `COMMON_ISSUES.md`, and `SALES_PLAYBOOK.md` reconciled to describe the unified pipeline instead of the retired per-function implementations.
+
+---
+
+### 2026-06-29: Public Cohort Signal widget ships on `/signal` (portfolio hive mind)
+
+**Decision:** Surface the anonymised `portfolio-pulse` aggregate publicly on `/signal` via a new `PortfolioPulse.tsx` component, "what leaders are actually wrestling with", the nine AI-native lanes ranked by how many leaders named that as the decision they keep not making. This is the public face of the cross-product hive mind, the one signal no single Mindmaker-family product can see alone (data originates from Make Your Mind Up's q5, "the decision you keep not making").
+
+**Context:** `get-ai-news` already reads CTRL's shared pool internally; this decision exposes an aggregate view of that same pool directly to Mindmaker site visitors as social proof and a live-intelligence hook, without exposing any individual's data.
+
+**Guardrails:**
+- No PII reaches the client, counts and shares only, categorised server-side.
+- Volume-guarded: self-hides below 12 leaders so a thin room never reads as weakness.
+- Prerender-safe: renders null during SSG.
+
+**Impact:** New `src/components/PortfolioPulse.tsx`, mounted in `src/pages/Brief.tsx` between the interpretation grid and the classified archive. Canonical data-contract record lives in the sibling `mm-ctrl` repo at `mm-ctrl/docs/PORTFOLIO-HIVE-MIND.md` (not in this repo). `ARCHITECTURE.md`, `FEATURES.md`, and `VISUAL_GUIDELINES.md` reconciled to describe it.
+
+---
+
+### 2026-06-30: Krish-voiced surfaces sharpened toward the judgment economy
+
+**Decision:** Add an additive, in-voice nudge to every Krish-voiced surface (Mindy diagnosis, proposals, the Nervous Decision Machine) toward the direction that execution is free and judgment, taste, coordination, and credibility are the actual moat. Implemented as a soft positive-signal vocabulary addition to `voice-lint.ts`'s `USE_VOCABULARY` (judgment, taste, the say-do gap, non-linear, coordination, verification, credibility, the easy button, owns the context, ...) and one new "Lens:" paragraph in the `nervous-decision-machine` system prompt.
+
+**Context:** The shift rewards on-direction copy without blocking or changing any existing rule, banned-token list, or JSON schema. It sharpens Mindmaker's point of view without touching pricing, offers, or the fit-and-walkaway rubric.
+
+**Impact:** `supabase/functions/_shared/mindy/voice-lint.ts` and `supabase/functions/nervous-decision-machine/index.ts`. `project-documentation/mindy/voice-lint.md` reconciled to list the judgment-economy register alongside the existing USE vocabulary.
+
+---
 
 ### 2026-06-29: Signature accent moves from Mint to portfolio Emerald (brand cohesion)
 

@@ -1,6 +1,6 @@
 # Mindmaker Project Documentation
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-12
 
 ---
 
@@ -126,6 +126,7 @@ For the strategic intent behind the current shape of the business, read `mindmak
 - **AI leaders**. senior operators making AI decisions (Cohort buyer)
 - **AI products**. companies commercializing AI capability (Signal Session → Revenue Architecture buyer)
 - **Executive teams**. CEO-sponsored leadership groups needing fast alignment (Immersion buyer)
+- **Capital allocators**. funds, family offices, and operating partners buying the Signal Session / Revenue Architecture formats fund-side (`/capital`); see `ICP.md` ICP 2b
 
 ### Brand voice
 
@@ -147,7 +148,7 @@ For the strategic intent behind the current shape of the business, read `mindmak
 - "Chat with Krish" / "Ask Mindmaker" chatbot (retired; the `PreCallQualifier` that replaced it is itself now retired, superseded by the Diagnosis Room)
 - Homepage `YFork` second fork and the `PreCallQualifier` floating pill (both retired June 2026; the homepage now funnels into the Diagnosis Room)
 - "Signal Desk" naming (renamed to **Live Intel** at `/signal`)
-- "The Brief" / "The Operator's Brief" as a nav label (the nav label is now **"Live Intel"**; "The Operator's Brief" can still appear as a body-copy reference for the editorial taxonomy on `/signal`)
+- "The Brief" / "The Operator's Brief" as a nav label (the nav item is now the **"Mindmaker LIVE"** wordmark; the `/signal` page itself is titled **"Live Intel"**; "The Operator's Brief" can still appear as a body-copy reference for the editorial taxonomy on `/signal`)
 - SIGNAL / NOISE / DECISION / TAKE taxonomy (renamed to WATCH / SKIP / CALL / TAKE)
 - CTRL (portable context app) as a headline Mindmaker product
 - Builder Economy as a Mindmaker product (now an external sister domain at `thebuildereconomy.com`)

@@ -1,6 +1,22 @@
 # History
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-12
+
+---
+
+## 2026-07-12: Brand cohesion (mint→emerald), unified lead pipeline, and public Cohort Signal widget reconciled into docs
+
+**What Changed (in the codebase, reconciled into docs; 21 commits since the 2026-06-28/29 pass):**
+- **Signature accent migrated from mint to portfolio emerald** (`#00D9B6`), CTRL's emerald, now the shared signature across Mindmaker, CTRL, and Make Your Mind Up. Done as a token migration, not a find-replace: `--mint*` CSS tokens and the Tailwind `mint` colour key are retained as aliases that resolve to emerald, so existing `bg-mint`/`text-mint`/`shadow-mint-*` usage keeps working. New `--emerald`, `--emerald-deep` (`#06746d`, full AA on light), `--emerald-300`, `--emerald-50` tokens added to both `:root` and `.dark`. See `DECISIONS_LOG.md` 2026-06-29.
+- **Unified lead-capture pipeline.** Every lead-capture edge function is now a thin adapter over a shared `dispatchLead` pipeline that researches the company in-process, generates an AI "operator's read," and sends Krish one consistent digest. See `DECISIONS_LOG.md` 2026-07-06.
+- **Public Cohort Signal widget** (`src/components/PortfolioPulse.tsx`) ships on `/signal`, the public face of the cross-product portfolio hive mind. See `DECISIONS_LOG.md` 2026-06-29 (Cohort Signal entry).
+- **Krish-voiced surfaces sharpened toward the judgment economy** (additive vocabulary in `voice-lint.ts` + a new "Lens:" paragraph in the Nervous Decision Machine). See `DECISIONS_LOG.md` 2026-06-30.
+- **Email rendering hardened.** The lead-pipeline digest's dark hero block and the leadership-insights results/CTA blocks now carry a solid `background-color` + `bgcolor` fallback (not gradient-only), so Outlook and CSS-stripping Gmail/Yahoo states don't drop white text onto a white body.
+- **Docs reconciled this pass:** every file in `project-documentation/` (and `mindy/`) checked against the current code. Fixed: a pre-existing, previously-unnoticed contradiction across `BRANDING.md`, `VISUAL_GUIDELINES.md`, `DEPLOYMENT.md`, and `COMMON_ISSUES.md` calling the `/signal` nav item "Live Intel" (it's the "Mindmaker LIVE" wordmark; "Live Intel" is the page H1 only); dead `GEMINI_API_KEY` references replaced with the live `GOOGLE_AI_API_KEY` secret; Capital added as a distinct ICP to `ICP.md`, `VALUE_PROP.md`, `SALES_PLAYBOOK.md`, `Master_Messaging_and_FAQ.md`, and `README.md` (it was routable via `/capital` in code but absent from GTM docs); a self-contradicting "3-week Cohort" line fixed in `OUTCOMES.md` (4 weeks everywhere else in the file); `voice-lint.md`'s USE vocabulary synced to the judgment-economy register already shipped in code; a stale "unresolved" framework-naming note in `mindy-system-prompt.md` corrected to match `CANON.md`'s recorded resolution. All "Last Updated" dates bumped to 2026-07-12 across the living documentation set, including the repo-root `CLAUDE.md`. Historical entries preserved as-is.
+
+**Why:**
+- Twenty-one commits had landed since the last reconciliation pass without a corresponding docs pass, and several (the lead-pipeline rewrite, the Cohort Signal widget) changed architecture that `ARCHITECTURE.md` and `FEATURES.md` are supposed to describe authoritatively.
+- The "Live Intel" vs. "Mindmaker LIVE" contradiction and the missing Capital ICP were both pre-existing drift, not caused by the 21 new commits, surfaced only because this pass read every file against the code instead of only the diff.
 
 ---
 

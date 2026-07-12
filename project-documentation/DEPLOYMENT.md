@@ -1,6 +1,6 @@
 # Deployment Checklist
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-12
 
 Pre-deploy and post-deploy verification for the Mindmaker project.
 
@@ -15,10 +15,10 @@ Pre-deploy and post-deploy verification for the Mindmaker project.
 
 ### 2. Environment variables
 All required secrets configured in Lovable Cloud / Supabase:
-- [ ] `ANTHROPIC_API_KEY`. required for the Nervous Decision Machine (Claude Haiku 4.5)
-- [ ] `GEMINI_API_KEY`. preferred for `send-lead-email` company research with Google Search grounding
-- [ ] `OPENAI_API_KEY`. market sentiment + lead enrichment fallback
-- [ ] `RESEND_API_KEY`. email delivery
+- [ ] `ANTHROPIC_API_KEY`. required for the Nervous Decision Machine (Claude Haiku 4.5), Mindy reasoning, proposal prose, and the fallback leg of the shared `completeText` helper
+- [ ] `GOOGLE_AI_API_KEY`. Gemini (`gemini-2.5-flash`), the primary leg of `completeText`: dossier synthesis (`enrich-company`) and every unified-lead-pipeline digest's operator's read
+- [ ] `OPENAI_API_KEY`. Whisper transcription + market sentiment
+- [ ] `RESEND_API_KEY`. email delivery (every lead-capture function + `session-digest`)
 - [ ] `LOVABLE_API_KEY`. AI gateway (auto-provisioned)
 - [ ] `STRIPE_SECRET_KEY`. optional, currently bypassed (Cohort payment runs via Maven)
 
@@ -78,7 +78,7 @@ All routes in `src/App.tsx` accessible:
 - [ ] Framework language: Mind Set → Mind Map → Mind Make (unchanged)
 - [ ] Offers labelled correctly: **The AI-Fluent Executive (Cohort)**, **The Signal Session**, **The Revenue Architecture**, **The AI Immersion**
 - [ ] No references to retired offers (4-Week Sprint, 90-Day Sprint, Builder Sprint, Leadership Lab, Portfolio Partner, Fractional CAIO)
-- [ ] `/signal` labelled **"Live Intel"** in nav (NOT "The Brief", NOT "Signal Desk")
+- [ ] `/signal` page H1 is **"Live Intel"** (NOT "The Brief", NOT "Signal Desk"); the nav item that links there is the **"Mindmaker LIVE"** wordmark, not a "Live Intel" text label
 - [ ] Taxonomy on `/signal` is **WATCH / SKIP / CALL / TAKE** (not SIGNAL / NOISE / DECISION / TAKE)
 - [ ] Decision Readiness Diagnostic (`/leaders`) is **not** linked from nav or footer
 - [ ] `/immersion` is **not** linked from main nav (inquiry-only)
@@ -116,9 +116,10 @@ All routes in `src/App.tsx` accessible:
 
 ### 1. Health check
 - [ ] Homepage loads without errors
-- [ ] Navigation works (Cohort / Enterprise / **Live Intel** / Resources / About)
+- [ ] Navigation works (Cohort / Enterprise / **Mindmaker LIVE** / Resources / About)
 - [ ] `PriceTicker` renders and scrolls on both `/` and `/signal`
 - [ ] Nervous Decision Machine returns a response on both homepage and `/signal`
+- [ ] The Cohort Signal (`PortfolioPulse`) either renders on `/signal` with the nine AI-native lanes, or is silently absent (self-hides below 12 respondents / on fetch failure) — never a visible error
 - [ ] `/immersion` and `/new-age-leadership` lazy-load and render correctly
 - [ ] `Cohort` page Maven pill and "Reserve my seat on Maven" CTA both link to `https://maven.com/mindmaker/the-ai-fluent-executive`
 
@@ -135,8 +136,9 @@ All routes in `src/App.tsx` accessible:
 - [ ] `get-model-data`: PriceTicker populates with canonical 7 models
 - [ ] `send-lead-email`: (test env) submit lead, verify receipt
 - [ ] `send-leadership-insights-email`: (test env) complete diagnostic + unlock, verify dual email
-- [ ] `notify-scoping-request`: (test env) submit the ScopingModal, verify krish@themindmaker.ai receipt
-- [ ] `notify-ctrl-waitlist`: (test env) join the CTRL waitlist, verify krish@themindmaker.ai receipt
+- [ ] `notify-scoping-request`: (test env) submit the ScopingModal, verify krish@themindmaker.ai receipt via the unified lead pipeline
+- [ ] `notify-ctrl-waitlist`: (test env) join the CTRL waitlist, verify krish@themindmaker.ai receipt via the unified lead pipeline
+- [ ] Unified lead pipeline: spot-check one digest email renders the hero (with a solid dark background that survives Outlook/Gmail dark-mode stripping), the operator's read, contact, dossier, and submitted fields correctly
 
 ### 4. Redirect check
 - [ ] `/tool` redirects to `/signal#decision`
@@ -168,10 +170,10 @@ All routes in `src/App.tsx` accessible:
 ### Required
 | Secret | Purpose | Provider |
 |--------|---------|----------|
-| `ANTHROPIC_API_KEY` | Nervous Decision Machine | Anthropic |
-| `GEMINI_API_KEY` | Lead enrichment with Google Search grounding (preferred) | Google AI |
-| `OPENAI_API_KEY` | Market sentiment + lead enrichment fallback | OpenAI |
-| `RESEND_API_KEY` | Email delivery | Resend |
+| `ANTHROPIC_API_KEY` | Nervous Decision Machine, Mindy, proposal prose, `completeText` fallback | Anthropic |
+| `GOOGLE_AI_API_KEY` | Gemini, primary leg of `completeText` (dossier synthesis + lead-digest operator's read) | Google AI |
+| `OPENAI_API_KEY` | Whisper transcription + market sentiment | OpenAI |
+| `RESEND_API_KEY` | Email delivery (unified lead pipeline + `session-digest`) | Resend |
 
 ### Auto-provisioned (Lovable Cloud)
 | Secret | Purpose |

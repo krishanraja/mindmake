@@ -1,6 +1,6 @@
 # Features
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-07-12
 
 ---
 
@@ -230,13 +230,14 @@ Surfaced in the Resources dropdown via the `LightningLessons` component. Five co
 
 ## Live Intel (`/signal`)
 
-Renamed from "Signal Desk" → "The Brief" → **"Live Intel"** for plain-English nav clarity. The body-copy term "The Operator's Brief" is still acceptable in editorial copy, but the nav label is "Live Intel".
+Renamed from "Signal Desk" → "The Brief" → **"Live Intel"**, the H1 and page title for `/signal` (`Brief.tsx`). The nav item that links to `/signal` is a separate wordmark labelled **"Mindmaker LIVE"** (`Navigation.tsx`, `wordmark: true`); the body-copy term "The Operator's Brief" is also still acceptable in editorial copy. Do not conflate the two: "Live Intel" is what the page calls itself, "Mindmaker LIVE" is what the nav calls the link to it.
 
 **Homepage teaser (`OperatorsBrief.tsx`):** minimal. PriceTicker (continuous CSS-marquee) + rotating interpretation line (3 takes, 8s cross-fade) + compact Nervous Decision input + muted "Open the full dashboard →" link.
 
 **Full dashboard (`Brief.tsx`):**
 - Extended PriceTicker
 - 3-card plain-English interpretation grid
+- **The Cohort Signal** (`src/components/PortfolioPulse.tsx`), between the interpretation grid and the archive. The public face of the cross-product "hive mind": renders the anonymised `portfolio-pulse` aggregate, the nine AI-native lanes ranked by how many leaders named that as the decision they keep not making, sourced server-side from Make Your Mind Up's intake with no PII reaching the client. Self-hides below 12 respondents and on fetch failure so a thin room never reads as weakness; prerender-safe (null during SSG)
 - Classified card archive with filter pills (WATCH / SKIP / CALL / TAKE) + search
 - Blog column (featured posts)
 - Full-size Nervous Decision input with example chips
@@ -380,26 +381,29 @@ Structure:
 
 Diagnosis Room (shared logic in `_shared/{mindy,enrich,proposal}/`):
 - `mindy-chat`. Anthropic Claude, Mindy's reasoning turn (strict-JSON, voice-gated)
-- `enrich-company`. company dossier orchestrator (Brandfetch + PDL + Tranco + BuiltWith + Perplexity/Exa/NewsAPI + Gemini/Anthropic synthesis); `scale.*` is internal routing only
+- `enrich-company`. thin HTTP wrapper (CORS, rate limit, geo) over the shared `_shared/enrich/orchestrate.ts` dossier orchestrator (Brandfetch + PDL + Tranco + BuiltWith + Perplexity/Exa/NewsAPI + Gemini/Anthropic synthesis); `scale.*` is internal routing only. The orchestrator is also called in-process by the unified lead pipeline below
 - `generate-proposal`. co-branded "Mindmaker × [company]" one-pager; HTML + Browserless PDF
-- `session-digest`. Resend, full intelligence to Krish + opt-in proposal copy to the visitor
+- `session-digest`. Krish digest via the unified lead pipeline (no re-enrichment, dossier already built client-side) + opt-in proposal copy to the visitor
 - `transcribe`. OpenAI Whisper, Diagnosis Room voice input
+
+**The unified lead pipeline** (`_shared/lead/`, `_shared/http/`): every lead-capture function below is a thin adapter that maps its payload to a canonical `LeadEvent` and hands off to the shared `dispatchLead`/`processLead` core, which enriches the company (reusing the `enrich-company` orchestrator in-process), generates a Krish-voiced "operator's read", and sends ONE consistently formatted digest via the shared Resend helper. Endpoint URLs, DB writes, and response shapes are unchanged; the send itself is backgrounded (`EdgeRuntime.waitUntil`, with an awaited fallback). See `ARCHITECTURE.md` for the module breakdown.
+
+- `send-lead-email`. unified pipeline, full-depth enrichment; legacy `/alumni` consult path; writes the resolved dossier back into `leads.company_research`
+- `send-contact-email`. unified pipeline
+- `send-leadership-insights-email`. unified pipeline (dual delivery: user results + Krish notification)
+- `notify-scoping-request`. powers the `ScopingModal`; persists to `scoping_requests`, unified pipeline for the Krish digest
+- `notify-ctrl-waitlist`. CTRL waitlist signups (`CtrlWaitlistPopover`); persists to `ctrl_waitlist`, unified pipeline for the Krish digest
+- `submit-intake`. pre-session intake form handler → inserts into `intake_submissions`, unified pipeline emails Krish a formatted Snapshot brief
+- `submit-testimonial`. public testimonial submission → inserts into `testimonials`, unified pipeline (identity-depth only); honeypot bot protection
 
 Other:
 - `nervous-decision-machine`. Anthropic Haiku 4.5
-- `get-ai-news`. Live Intel content (Lovable AI Gateway, schema preserved)
+- `get-ai-news`. Live Intel content; reads CTRL's shared, pre-corroborated headline pool first (mapped onto the WATCH/SKIP/CALL/TAKE taxonomy), falls through to Perplexity → Brave Search → static headlines
 - `get-market-sentiment`. OpenAI
 - `get-model-data`. frontier model price and spec feed
-- `send-lead-email`. Gemini company research + Resend (legacy `/alumni` path)
-- `send-contact-email`. Resend
-- `send-leadership-insights-email`. Resend (dual delivery)
-- `notify-scoping-request`. powers the `ScopingModal`; emails krish@themindmaker.ai via Resend + persists
-- `notify-ctrl-waitlist`. CTRL waitlist signups (`CtrlWaitlistPopover`); emails krish@themindmaker.ai via Resend
 - `import-audience-csv`. Substack subscriber CSV → shared `audience_contacts` table (secret-gated)
 - `create-consultation-hold`. Stripe (currently bypassed; Cohort payment via Maven)
 - `company-search`. Brandfetch Search API typeahead for the Diagnosis Room opener (name → domain + icon; rate-limited; degrades gracefully)
-- `submit-intake`. pre-session intake form handler → inserts row + emails Krish a formatted SNAPSHOT brief
-- `submit-testimonial`. public testimonial submission → inserts into `testimonials` table + emails Krish; honeypot bot protection
 
 ---
 
@@ -435,8 +439,8 @@ Key points:
 - `VendorLandscape`, `AINewsTicker`, `TheProblem`, `ProductLadder`. replaced
 - Engine Room / mm-ctrl visualization, never built for homepage; lives nowhere public
 - CTRL as a Mindmaker product, not on site (the demo loop on `/operator` is illustrative only)
-- "Signal Desk" naming, renamed to Live Intel
-- "The Brief" as a nav label, renamed to Live Intel
+- "Signal Desk" naming, the page is now "Live Intel" (H1); the nav link itself is the "Mindmaker LIVE" wordmark
+- "The Brief" as a page name, superseded by "Live Intel"
 - 8–12 week Revenue Architecture timeline, replaced by 30-day intensive
 - 5–10 page Signal Session thesis, replaced by 15–20 page Commercial Narrative within 48 hours
 - "All Enterprise" footer link, dropped (commit 226ecf1)

@@ -1,6 +1,6 @@
 # Design System
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-07-12 (verified against `src/index.css` and `tailwind.config.ts`; no drift found since the 2026-06-29 emerald migration)
 
 ---
 

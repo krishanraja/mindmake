@@ -1,6 +1,6 @@
 # Mindy Brain Pack
 
-*The knowledge pack that makes Mindy reason like Krish, recommend honestly, price in ranges, and sound like the operator and not the model. Built 2026-06-09 against `MINDY-ONE-JOURNEY-ARCHITECTURE.md` (the Diagnosis Room brief); last reconciled 2026-06-28. This README is the index and the wiring diagram. It also carries the consistency and open-questions list; items resolved as of 2026-06-09 are marked.*
+*The knowledge pack that makes Mindy reason like Krish, recommend honestly, price in ranges, and sound like the operator and not the model. Built 2026-06-09 against `MINDY-ONE-JOURNEY-ARCHITECTURE.md` (the Diagnosis Room brief); last reconciled 2026-07-12. This README is the index and the wiring diagram. It also carries the consistency and open-questions list; items resolved as of 2026-06-09 are marked.*
 
 ---
 
@@ -20,7 +20,7 @@ Mindy is the on-site guide for the Mindmaker Diagnosis Room: one door, one nervo
 | `pricing-range-model.md` | **Layer 1 pin + cross-cutting guardrail** | The two-mode router, the bespoke scoping math (hours × rate, ±25%, floors, value cross-check), the public range card, the four hard rules, three worked examples. | Pinned pricing logic. The proposal generator executes the engine; Mindy reads the range card. Numbers come from here, never from retrieval or the model. |
 | `proof-bank.md` | **Layer 2 — retrieval (selection only)** | 9 anonymised real engagements (R-01–R-09, verified numbers) + 26 illustrative per-offer entries (B-01–B-26), keyed by `mode` / `icp` / `industry`. | Selected, never generated. The proposal's Proof section pulls three entries keyed to (offer, ICP, nearest industry), Exa-matched. Role-only, numbers OK, never a named client. |
 | `CANON.md` | **Cross-cutting guardrail (de-poison)** | Precedence order, canonical current facts, settled corrections, the do-not-index blocklist, and the one live tension (cohort framework name). | The de-poison file. When retrieval disagrees with canon, canon wins within its precedence order. Stops retired facts (old prices, durations, framework names) leaking into client-facing output. |
-| `voice-lint.md` | **Cross-cutting guardrail (output gate)** | Machine-readable lint arrays (banned tokens/phrases/patterns, use-vocabulary) plus the craft layer (Krish's tells, before/after rewrites, pre-render checklist). | Runs as a post-generation pass on every Mindy output and every proposal. Hard fail on any banned token, em dash, or buzzword: block and regenerate. |
+| `voice-lint.md` | **Cross-cutting guardrail (output gate)** | Machine-readable lint arrays (banned tokens/phrases/patterns, use-vocabulary, incl. the judgment-economy register added 2026-06-30) plus the craft layer (Krish's tells, before/after rewrites, pre-render checklist). | Runs as a post-generation pass on every Mindy output and every proposal. Hard fail on any banned token, em dash, or buzzword: block and regenerate. Soft signal rewards on-direction copy (execution is cheap, judgment is the moat) without ever blocking. |
 
 ---
 

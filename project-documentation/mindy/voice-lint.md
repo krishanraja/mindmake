@@ -1,4 +1,4 @@
-<!-- Last Updated: 2026-06-28 -->
+<!-- Last Updated: 2026-07-12 -->
 # Voice Lint Pack
 
 Guarantees every Mindy output and every generated proposal sounds like Krish. Two halves: a machine-readable lint layer (regex arrays you drop into a post-generation linter) and a human-readable craft layer (his tells, worked rewrites, a pre-render checklist). When the two disagree, the craft layer wins; the regex is a floor, not a ceiling.
@@ -162,10 +162,15 @@ A passing output should naturally hit several of these. They are not mandatory w
     "context layer", "the moat", "compounds", "compounding", "audit layer",
     "board-ready", "the call", "the fork", "the nervous decision",
     "scar tissue", "the scar", "the management layer", "the management apparatus",
-    "fleet", "the brick", "leverage audit", "next 14 days", "Monday"
+    "fleet", "the brick", "leverage audit", "next 14 days", "Monday",
+    "judgment", "taste", "the say-do gap", "non-linear", "coordination",
+    "verification", "credibility", "monetize your judgment", "the easy button",
+    "owns the context", "good enough", "expertise"
   ]
 }
 ```
+
+**The judgment-economy register (added 2026-06-30).** The last twelve entries above (`judgment` through `expertise`) are an additive soft-signal nudge, added directly to the runtime lint (`supabase/functions/_shared/mindy/voice-lint.ts`) so Mindmaker's live Krish-voiced surfaces (Mindy diagnosis, generated proposals, the Nervous Decision Machine) lean toward one direction without changing any hard rule: execution is getting cheap, judgment/taste/coordination/credibility are the moat. It rewards on-direction copy; it never blocks a render. The Nervous Decision Machine's system prompt (`supabase/functions/nervous-decision-machine/index.ts`) carries the same lens as one explicit paragraph ("Lens: Execution is getting cheap; judgment, taste, coordination and credibility are the moat...").
 
 ```json
 {

@@ -1,6 +1,6 @@
 # Replication Guide
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-12
 
 ---
 
@@ -150,23 +150,40 @@ supabase/functions/nervous-decision-machine/index.ts
 
 ### Step 14: Create other functions
 ```
-supabase/functions/get-ai-news/index.ts               # Operator's Brief content
+supabase/functions/get-ai-news/index.ts               # Live Intel content; reads CTRL's shared headline pool first
 supabase/functions/get-market-sentiment/index.ts
 supabase/functions/get-model-data/index.ts            # PriceTicker feed
-supabase/functions/send-lead-email/index.ts           # OpenAI enrichment + Resend
-supabase/functions/send-contact-email/index.ts
-supabase/functions/send-leadership-insights-email/index.ts
-supabase/functions/notify-scoping-request/index.ts    # ScopingModal intake → emails krish@themindmaker.ai (Resend)
-supabase/functions/notify-ctrl-waitlist/index.ts       # CTRL waitlist signup → emails krish@themindmaker.ai (Resend)
+supabase/functions/send-lead-email/index.ts           # unified lead pipeline: dossier enrichment + Resend digest
+supabase/functions/send-contact-email/index.ts        # unified lead pipeline
+supabase/functions/send-leadership-insights-email/index.ts  # unified lead pipeline (dual delivery)
+supabase/functions/notify-scoping-request/index.ts    # ScopingModal intake → scoping_requests row + unified lead pipeline digest
+supabase/functions/notify-ctrl-waitlist/index.ts       # CTRL waitlist signup → ctrl_waitlist row + unified lead pipeline digest
 supabase/functions/mindy-chat/index.ts                 # Diagnosis Room (Mindy) conversation
-supabase/functions/enrich-company/index.ts             # Diagnosis Room company enrichment
+supabase/functions/enrich-company/index.ts             # thin HTTP wrapper over the shared enrich orchestrator
 supabase/functions/generate-proposal/index.ts          # Diagnosis Room co-branded proposal generation
-supabase/functions/session-digest/index.ts             # Diagnosis Room session digest
+supabase/functions/session-digest/index.ts             # Diagnosis Room session digest, via the unified lead pipeline
 supabase/functions/transcribe/index.ts                 # Whisper voice input for the Diagnosis Room
 supabase/functions/create-consultation-hold/index.ts  # Stripe (bypassed)
 supabase/functions/company-search/index.ts             # Brandfetch Search API typeahead (Diagnosis Room opener)
-supabase/functions/submit-intake/index.ts              # pre-session intake form → row + email brief to Krish
-supabase/functions/submit-testimonial/index.ts         # public testimonial submission → testimonials table + email Krish
+supabase/functions/submit-intake/index.ts              # pre-session intake form → intake_submissions row + unified lead pipeline digest
+supabase/functions/submit-testimonial/index.ts         # public testimonial submission → testimonials row + unified lead pipeline digest
+```
+
+### Step 14b: Unified lead pipeline shared modules
+
+Every function in Step 14 that captures a lead is a thin adapter over one shared pipeline core, rather than eight copy-pasted enrichment/email implementations:
+
+```
+supabase/functions/_shared/lead/types.ts        # the canonical LeadEvent shape + makeLeadEvent()
+supabase/functions/_shared/lead/adapters.ts     # one pure mapper per source (fromContact, fromLead, fromScoping, ...)
+supabase/functions/_shared/lead/pipeline.ts     # processLead() / dispatchLead(): enrich -> operator's read -> render -> send
+supabase/functions/_shared/lead/operator-read.ts # Krish-voiced 2-3 sentence read at the top of every digest
+supabase/functions/_shared/lead/render.ts       # the single HTML digest renderer (hero, dossier, transcript, proposal, CTA)
+supabase/functions/_shared/lead/escape.ts       # HTML escaping + email-looks-valid guard
+supabase/functions/_shared/http/resend.ts       # shared Resend sender (retry + base64 attachment encoder)
+supabase/functions/_shared/http/cors.ts         # shared CORS headers + preflight/json helpers
+supabase/functions/_shared/enrich/orchestrate.ts # assembleDossier(), called both over HTTP (enrich-company) and in-process (the pipeline)
+supabase/functions/_shared/enrich/llm.ts        # completeText(): shared Gemini -> Anthropic completion fallback
 ```
 
 ### Step 15: Configure functions
@@ -222,6 +239,10 @@ verify_jwt = false
 ### Step 17: OpenAI
 1. `platform.openai.com` → API keys
 2. Supabase: add `OPENAI_API_KEY`
+
+### Step 17b: Google AI (Gemini)
+1. `aistudio.google.com` → API keys
+2. Supabase: add `GOOGLE_AI_API_KEY`. Powers the primary leg of the shared `completeText` helper (`_shared/enrich/llm.ts`): the `enrich-company` dossier synthesis line and every unified-lead-pipeline digest's operator's read. Falls back to `ANTHROPIC_API_KEY` on failure; recommended but not strictly required (each caller degrades gracefully to a null synthesis/read on total failure)
 
 ### Step 18: Resend
 1. `resend.com` → API keys

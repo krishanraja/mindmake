@@ -1,6 +1,6 @@
 # Visual Guidelines
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-07-12
 
 > **Signature accent (2026-06-29):** the accent is now **portfolio emerald** `#00D9B6` (HSL `171 100% 43%`), CTRL's emerald, shared across the three sibling products (Mindmaker, CTRL, Make Your Mind Up) over one MindmakerOS token contract. The legacy `mint` tokens/classes (`bg-mint`, `text-mint`, `shadow-mint-*`, "mint" used loosely below) are retained as **aliases** to emerald; read every "mint" reference below as emerald, and prefer the `emerald*` keys in new code. For accent text/links on light backgrounds use **`text-emerald-deep`** (`#06746d`, full AA 5.21), never bright emerald. WHY + WCAG derivation: `prototypes/brand-emerald-proof.{html,md}`.
 
@@ -466,7 +466,7 @@ Guardrails: no scrolling logs, no terminal aesthetics, no ASCII art, no interact
 
 ### Live Intel: visual spec
 
-**Nav label:** **"Live Intel"** (NOT "The Brief", NOT "Signal Desk"). The body-copy term "The Operator's Brief" remains acceptable in editorial copy on `/signal`, but the nav label is "Live Intel".
+**Page H1:** **"Live Intel"** (NOT "The Brief", NOT "Signal Desk"). The body-copy term "The Operator's Brief" remains acceptable in editorial copy on `/signal`. **Nav link:** a separate wordmark labelled **"Mindmaker LIVE"** (`Navigation.tsx`, rendered as a logo-style wordmark, not plain text) — do not describe the nav item itself as reading "Live Intel".
 
 **Homepage teaser (`OperatorsBrief.tsx`)**, minimal:
 - Continuous CSS-marquee `PriceTicker` with the canonical 7 models
@@ -478,6 +478,7 @@ Guardrails: no scrolling logs, no terminal aesthetics, no ASCII art, no interact
 **Full dashboard (`Brief.tsx` at `/signal`):**
 - Extended PriceTicker
 - 3-card plain-English interpretation grid
+- **The Cohort Signal** (`PortfolioPulse.tsx`), a dark full-bleed section between the interpretation grid and the archive: eyebrow "The cohort signal", H2 "What leaders are actually wrestling with", up to six anonymised lanes rendered as animated horizontal share bars (emerald fill on a white/5 track, staggered `whileInView` reveal), a percentage readout per lane. Self-hides entirely below 12 respondents or on fetch failure — no skeleton, no error state, the section just does not render
 - Classified card archive with filter pills (WATCH / SKIP / CALL / TAKE) + search
 - Blog column
 - Full-size Nervous Decision input with example chips

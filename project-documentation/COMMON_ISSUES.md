@@ -1,6 +1,6 @@
 # Common Issues
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-12
 
 ---
 
@@ -49,10 +49,10 @@ Note: the phrase "what's your nervous decision" can still appear in body copy as
 
 ---
 
-### Issue: Nav label still says "The Brief" or "Signal Desk"
-**Symptom:** Second top-level nav slot reads "The Brief" or "Signal Desk".
-**Cause:** Nav copy not updated to v4/v5 latest.
-**Solution:** Nav label is **"Live Intel"** (`Navigation.tsx`). The body-copy term "The Operator's Brief" is still acceptable in editorial copy on `/signal`, but the nav label is "Live Intel".
+### Issue: Nav label still says "The Brief" or "Signal Desk", or "Live Intel" is used as the nav label
+**Symptom:** Second top-level nav slot reads "The Brief" or "Signal Desk", or a doc/PR describes the `/signal` nav item as reading "Live Intel".
+**Cause:** Nav copy not updated to v4/v5 latest, or the page H1 ("Live Intel") getting confused with the nav item.
+**Solution:** The nav item that links to `/signal` is the **"Mindmaker LIVE"** wordmark (`Navigation.tsx`, `wordmark: true`), not text reading "Live Intel". **"Live Intel"** is the `/signal` page H1 and title (`Brief.tsx`), not the nav label. The body-copy term "The Operator's Brief" is also still acceptable in editorial copy on `/signal`. All three names are correct in their own place; do not conflate the page H1 with the nav label.
 
 ---
 
@@ -124,7 +124,15 @@ Note: the phrase "what's your nervous decision" can still appear in body copy as
 **Solution:**
 1. Check Resend dashboard for delivery status
 2. Verify sending domain is verified (not using Resend test domain)
-3. Check edge function logs for retry backoff (3 attempts)
+3. Check edge function logs for retry backoff (3 attempts, in `_shared/http/resend.ts`, shared by every lead-capture function and `session-digest`)
+4. Every lead-capture function backgrounds its send via `dispatchLead` (`EdgeRuntime.waitUntil`, with an awaited fallback when unavailable). If a send silently never fires, confirm the runtime supports `EdgeRuntime.waitUntil`; the awaited fallback path should still complete the work even without it, so a missing digest points at a Resend/domain issue, not the backgrounding itself
+
+---
+
+### Issue: Krish's lead digest heading or eyebrow is unreadable (looks like white-on-white)
+**Symptom:** The dark hero block at the top of a Krish lead-digest email renders with no visible dark background, so the white heading and emerald eyebrow lose contrast.
+**Cause:** Some email clients (Outlook, Gmail dark mode) strip CSS `background-image` gradients from rendered HTML email.
+**Solution:** `_shared/lead/render.ts`'s `heroBlock()` sets a solid `background-color` (plus the `bgcolor` HTML attribute for Outlook) as the base layer, with the gradient riding on `background-image` as a progressive enhancement on top. If a new email template is added, follow the same pattern: solid `background-color`/`bgcolor` first, gradient second, never gradient-only for a dark section that carries readable text.
 
 ---
 
@@ -240,7 +248,7 @@ When investigating issues:
 1. Check browser console for errors
 2. Check network tab for failed requests
 3. Check Lovable Cloud / Supabase logs for edge function errors
-4. Verify secrets (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `RESEND_API_KEY`, `LOVABLE_API_KEY`)
+4. Verify secrets (`ANTHROPIC_API_KEY`, `GOOGLE_AI_API_KEY`, `OPENAI_API_KEY`, `RESEND_API_KEY`, `LOVABLE_API_KEY`)
 5. Test on mobile viewport (375px width)
 6. Hard refresh to clear cache
 7. Verify edge functions deployed (check timestamp, 30–60s propagation)

@@ -1,4 +1,4 @@
-<!-- Last Updated: 2026-06-28 -->
+<!-- Last Updated: 2026-07-19 -->
 # Voice Lint Pack
 
 Guarantees every Mindy output and every generated proposal sounds like Krish. Two halves: a machine-readable lint layer (regex arrays you drop into a post-generation linter) and a human-readable craft layer (his tells, worked rewrites, a pre-render checklist). When the two disagree, the craft layer wins; the regex is a floor, not a ceiling.
@@ -163,6 +163,18 @@ A passing output should naturally hit several of these. They are not mandatory w
     "board-ready", "the call", "the fork", "the nervous decision",
     "scar tissue", "the scar", "the management layer", "the management apparatus",
     "fleet", "the brick", "leverage audit", "next 14 days", "Monday"
+  ]
+}
+```
+
+**Judgment-economy register (added 2026-06-30).** Additive soft signal only, layered onto the list above; rewards on-direction copy toward "execution is free, judgment is the moat" without changing any scoring rule or blocking anything:
+
+```json
+{
+  "use_vocabulary_judgment_economy": [
+    "judgment", "taste", "the say-do gap", "non-linear", "coordination",
+    "verification", "credibility", "monetize your judgment", "the easy button",
+    "owns the context", "good enough", "expertise"
   ]
 }
 ```

@@ -1,4 +1,4 @@
-<!-- Last Updated: 2026-06-28 -->
+<!-- Last Updated: 2026-07-19 -->
 # Mindy — Master System Prompt (Layer 1)
 
 *The deployable system prompt for Mindy, the on-site guide for the Mindmaker Diagnosis Room. This file is Layer 1 of the Brain Pack: small, hand-curated, never RAG. The five other files in this folder are her retrieval and guardrail layers and are referenced, not inlined. Everything between the two `=====` markers is the production block. Notes outside the markers are for the operator, not the model.*

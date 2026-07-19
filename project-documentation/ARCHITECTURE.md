@@ -1,6 +1,6 @@
 # Architecture
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-19
 
 ---
 
@@ -23,12 +23,13 @@
 - Supabase Edge Functions (Deno runtime)
 
 **Third-party services:**
-- Anthropic Claude API (Mindy's reasoning in `mindy-chat`, proposal prose in `generate-proposal`, and the Nervous Decision Machine, Haiku 4.5)
-- Google Gemini (company synthesis in `enrich-company`; lead enrichment via Google Search grounding inside `send-lead-email`)
-- OpenAI API (Whisper voice transcription for the Diagnosis Room; market sentiment; legacy lead-enrichment helper)
-- Company-enrichment vendors for the `enrich-company` dossier: Brandfetch (identity/logo/colours), People Data Labs (size), Tranco (rank), BuiltWith (stack), Perplexity / Exa / NewsAPI (currency + proof matching)
+- Anthropic Claude API (Mindy's reasoning in `mindy-chat`, proposal prose in `generate-proposal`, the Nervous Decision Machine Haiku 4.5, and the Anthropic fallback leg of the shared Gemini→Anthropic text helper, `_shared/enrich/llm.ts`)
+- Google Gemini (`gemini-2.5-flash`, via `_shared/enrich/llm.ts`): the dossier synthesis paragraph in `enrich-company`/the lead pipeline, and every lead digest's "operator's read". Falls back to Anthropic Haiku 4.5 on any failure
+- OpenAI API (Whisper voice transcription for the Diagnosis Room; market sentiment; `get-ai-news` fallback). No longer used for lead enrichment
+- Company-enrichment vendors behind the shared dossier orchestrator (`_shared/enrich/orchestrate.ts`, used by both `enrich-company` and every lead-capture surface): Brandfetch (identity/logo/colours), People Data Labs (size), Tranco (rank), BuiltWith (stack), Perplexity / Exa / NewsAPI (currency + proof matching)
 - Browserless (proposal HTML → PDF in `generate-proposal`)
-- Lovable AI Gateway (Operator's Brief / Live Intel content)
+- Lovable AI Gateway (Live Intel content, `get-ai-news` fallback path)
+- **CTRL shared pool** (`live_headlines_cache`, read by `get-ai-news`; `portfolio-pulse`, read by `PortfolioPulse.tsx`): cross-product infrastructure shared with CTRL and Make Your Mind Up. Implementation lives outside this repo; canonical record is the `mm-ctrl` repo's `docs/PORTFOLIO-HIVE-MIND.md`
 - Resend (transactional email delivery)
 - Calendly (scheduling: the Diagnosis Room "book a call" exit + the legacy consult modal)
 - **Maven** (Cohort enrolment, payment, cohort Slack, alumni network)
@@ -76,6 +77,7 @@ mindmaker/
 │   │   ├── OperatorsEdge.tsx         # v5 credential section
 │   │   ├── OperatorsBrief.tsx        # homepage Live Intel teaser
 │   │   ├── PriceTicker.tsx           # CSS-marquee model price ticker
+│   │   ├── PortfolioPulse.tsx        # The Cohort Signal, /signal only; anonymised cross-product hive-mind widget
 │   │   ├── LightningLessons.tsx      # 5 Maven Lightning Lesson links
 │   │   ├── SimpleCTA.tsx             # final CTA; opens the Diagnosis Room
 │   │   ├── Navigation.tsx
@@ -123,26 +125,31 @@ mindmaker/
 │   └── main.tsx
 ├── supabase/
 │   ├── functions/
-│   │   ├── _shared/                   # incl. mindy/, enrich/, proposal/ (Diagnosis Room logic); also vertex-client.ts, company-research.ts, audience.ts, retry.ts, timeout.ts, validation.ts, logger.ts
+│   │   ├── _shared/
+│   │   │   ├── lead/                  # unified lead pipeline: types.ts (LeadEvent), adapters.ts (per-source mappers), pipeline.ts (dispatchLead/processLead), render.ts (one digest renderer), operator-read.ts, escape.ts
+│   │   │   ├── http/                  # cors.ts, resend.ts (shared Resend send helper)
+│   │   │   ├── enrich/                # orchestrate.ts (assembleDossier, shared by enrich-company + the lead pipeline), llm.ts (Gemini→Anthropic completeText), synthesize.ts, types.ts, + vendor clients
+│   │   │   ├── mindy/, proposal/      # Diagnosis Room reasoning + proposal-generation logic
+│   │   │   └── vertex-client.ts, company-research.ts, audience.ts, retry.ts, timeout.ts, validation.ts, logger.ts
 │   │   ├── mindy-chat/                # Claude, Mindy's reasoning turn
-│   │   ├── enrich-company/            # company dossier orchestrator
+│   │   ├── enrich-company/            # thin HTTP wrapper over _shared/enrich/orchestrate.ts
 │   │   ├── generate-proposal/         # co-branded one-pager + Browserless PDF
-│   │   ├── session-digest/            # Resend, intelligence email to Krish + opt-in visitor copy
+│   │   ├── session-digest/            # unified lead pipeline (dossier already built client-side, enrich.skip); visitor proposal copy sent independently
 │   │   ├── transcribe/                # OpenAI Whisper (voice input)
 │   │   ├── nervous-decision-machine/  # Anthropic Haiku 4.5
 │   │   ├── get-ai-news/               # Live Intel content (Lovable AI Gateway)
 │   │   ├── get-market-sentiment/
 │   │   ├── get-model-data/            # frontier-model price and spec feed
-│   │   ├── send-lead-email/           # Gemini company research + Resend
-│   │   ├── send-contact-email/
-│   │   ├── send-leadership-insights-email/
-│   │   ├── notify-scoping-request/    # ScopingModal intake → Krish
-│   │   ├── notify-ctrl-waitlist/      # CTRL waitlist → Krish
+│   │   ├── send-lead-email/           # unified lead pipeline (dispatchLead + fromLead); persists the resolved dossier into leads.company_research
+│   │   ├── send-contact-email/        # unified lead pipeline (dispatchLead + fromContact)
+│   │   ├── send-leadership-insights-email/  # visitor score-card (own template, unchanged) + Krish notification via the unified lead pipeline
+│   │   ├── notify-scoping-request/    # ScopingModal intake → unified lead pipeline
+│   │   ├── notify-ctrl-waitlist/      # CTRL waitlist → unified lead pipeline
 │   │   ├── import-audience-csv/       # Substack subscriber CSV → audience_contacts
 │   │   ├── create-consultation-hold/  # Stripe, currently bypassed
 │   │   ├── company-search/            # Brandfetch Search API typeahead for the Diagnosis Room opener
-│   │   ├── submit-intake/             # pre-session intake form → inserts row + emails Krish a brief
-│   │   └── submit-testimonial/        # public testimonial submission form → inserts row + emails Krish
+│   │   ├── submit-intake/             # pre-session intake form → inserts row + unified lead pipeline digest
+│   │   └── submit-testimonial/        # public testimonial submission form → inserts row + unified lead pipeline digest
 │   ├── migrations/
 │   └── config.toml
 ├── public/
@@ -313,10 +320,32 @@ Stripe $50 hold bypassed. Cohort payment flows entirely through Maven; Enterpris
        └─> "Mindmaker × [company]" one-pager; PDF via Browserless (print-fallback on failure)
 
 5. On a meaningful end: supabase.functions.invoke('session-digest', { ...transcript, endedVia })
-   └─> emails Krish the FULL intelligence; if opted in + proposal exists, emails the visitor their copy
+   └─> Krish digest via the unified lead pipeline (dossier already built client-side, no re-enrichment);
+       if opted in + valid email + proposal exists, a separate visitor-facing email sends their proposal copy
 ```
 
-The legacy path (now `/alumni` only) dispatches `openConsultModal` → `InitialConsultModal` → `send-lead-email` (Gemini company research with Google Search grounding, skipped for personal email domains) → Calendly redirect. The `ScopingModal` fallback dispatches `openScopingModal` → `notify-scoping-request` (emails Krish). Cohort enrolment can bypass the call entirely via the `/cohort` "Reserve my seat on Maven" CTA → `https://maven.com/mindmaker/the-ai-fluent-executive`.
+The legacy path (now `/alumni` only) dispatches `openConsultModal` → `InitialConsultModal` → `send-lead-email` → Calendly redirect. The `ScopingModal` fallback dispatches `openScopingModal` → `notify-scoping-request`. Cohort enrolment can bypass the call entirely via the `/cohort` "Reserve my seat on Maven" CTA → `https://maven.com/mindmaker/the-ai-fluent-executive`.
+
+### Lead capture flow (unified pipeline, every non-Diagnosis-Room surface)
+
+Every other lead-capture surface (`send-lead-email`, `send-contact-email`, `notify-scoping-request`, `notify-ctrl-waitlist`, `submit-intake`, `submit-testimonial`, and `send-leadership-insights-email`'s Krish-side notification) used to be its own bespoke edge function reimplementing CORS, Resend, and an HTML/text builder, with no company research on most paths. As of 2026-07-06 they are thin adapters over one shared pipeline:
+
+```
+1. Edge function validates the request + persists its own DB row (leads / intake / testimonial / etc.)
+2. It maps its payload to a canonical LeadEvent (adapters.ts: fromLead / fromContact / fromScoping /
+   fromCtrlWaitlist / fromIntake / fromTestimonial / fromLeadershipInsights / fromSessionDigest)
+3. dispatchLead(event) — backgrounded via EdgeRuntime.waitUntil (awaited fallback if unavailable),
+   so the form response returns instantly. Inside, processLead():
+   a. resolveDossier — reuses assembleDossier() in-process (no HTTP hop): prebuilt dossier (Diagnosis
+      Room) → work-email domain → self-reported company name (Brandfetch name search) → null
+   b. generateOperatorRead — 2-3 sentence Krish-voice note (who / what they want / next move),
+      Gemini→Anthropic, best-effort, Krish-only (may reference dossier scale/ICP)
+   c. renderLeadDigest — one consistent HTML shell for every source, with the proposal attached if present
+   d. sendResendEmail → krish@themindmaker.ai; failures are logged and never surface to the caller
+4. Optional onComplete callback (e.g. send-lead-email patches leads.company_research + email_sent)
+```
+
+This never throws back to the caller: a lead capture must not 5xx because enrichment or email hiccuped. `send-lead-email` no longer does its own Gemini-with-Google-Search-grounding research or OpenAI fallback; that bespoke path was retired in favour of the shared orchestrator.
 
 ### Diagnosis Room phases & privacy contract
 
@@ -362,13 +391,13 @@ Route unlinked from nav; deep-link only.
 - Blog column (featured posts)
 - Full-size Nervous Decision input with example chips
 
-Price and model data flows through `get-model-data` edge function. Editorial cards currently inline; `get-ai-news` schema preserved for future dynamic feed.
+Price and model data flows through `get-model-data` edge function. Editorial cards render from the CTRL shared pool via `get-ai-news`/`useLiveBrief` when available, with the inlined samples as a floor. The Cohort Signal widget (`PortfolioPulse.tsx`, between the interpretation grid and the archive) surfaces the anonymised cross-product portfolio pulse via the `portfolio-pulse` function.
 
 ---
 
 ## Edge Functions
 
-Location: `supabase/functions/[function-name]/index.ts`. All functions set `verify_jwt = false` in `supabase/config.toml`. Shared Diagnosis Room logic lives in `_shared/{mindy,enrich,proposal}/`.
+Location: `supabase/functions/[function-name]/index.ts`. All functions set `verify_jwt = false` in `supabase/config.toml`. Shared Diagnosis Room logic lives in `_shared/{mindy,enrich,proposal}/`; the shared lead-capture back end lives in `_shared/{lead,http}/`.
 
 ### `mindy-chat` (Diagnosis Room)
 - Mindy's conversational reasoning turn. Composes the Brain Pack (system prompt + reasoning guide + fit rubric + pricing card) + a formatted dossier block, calls Claude, parses a strict-JSON turn, runs the runtime voice gate
@@ -376,9 +405,9 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 - Secret: `ANTHROPIC_API_KEY`
 
 ### `enrich-company` (Diagnosis Room)
-- The dossier orchestrator. Fans out to enrichment clients, merges partials, derives an internal ICP routing signal, and (full depth) writes a one-paragraph synthesis in Krish's voice
+- Thin HTTP wrapper over `_shared/enrich/orchestrate.ts` (`assembleDossier`), the shared dossier orchestrator also used in-process by the unified lead pipeline. Fans out to enrichment clients, merges partials, derives an internal ICP routing signal, and (full depth) writes a one-paragraph synthesis in Krish's voice via `_shared/enrich/llm.ts`
 - `depth:'identity'` → Brandfetch + Tranco (fast co-brand paint); `depth:'full'` → adds PDL + BuiltWith + currency, then Gemini/Anthropic synthesis. Free-email domains → `{ skipped:'free-email' }`
-- In-memory result cache (1h TTL), per-IP rate limit, global ceiling. A missing key just disables that tool (dossier degrades, never fails)
+- This function keeps the HTTP concerns: CORS, per-IP rate limiting, global request ceiling, visitor-country geo resolution, in-memory result cache (1h TTL). A missing vendor key just disables that one tool (dossier degrades, never fails)
 - Secrets (all optional): `BRANDFETCH_API_KEY`, `PEOPLEDATALABS_API_KEY`, `BUILTWITH_API_KEY`, `EXA_API_KEY`, `PERPLEXITY_API_KEY`, `NEWSAPI_API_KEY`, `GOOGLE_AI_API_KEY`, `ANTHROPIC_API_KEY`
 
 ### `generate-proposal` (Diagnosis Room)
@@ -387,8 +416,9 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 - Secrets: `ANTHROPIC_API_KEY`, `BROWSERLESS_API_KEY`
 
 ### `session-digest` (Diagnosis Room)
-- Fires on a meaningful end (`chat` / `book-call` / `proposal`). Emails Krish the FULL session (contact, recommendation, decision brief, full dossier incl. `scale`, transcript, proposal HTML attachment); if the visitor opted in + supplied a valid email + a proposal exists, emails them ONLY their proposal. The two sends are independent
-- Secret: `RESEND_API_KEY`
+- Fires on a meaningful end (`chat` / `book-call` / `proposal`). The Krish digest now flows through the unified lead pipeline (`processLead` + the `fromSessionDigest` adapter) so it matches every other lead notification: same shell, same dossier + internal-routing block, same transcript styling, proposal attached. The dossier is already built client-side, so the pipeline does not re-enrich (`enrich.skip`)
+- If the visitor opted in + supplied a valid email + a proposal exists, a separate, independent send emails them ONLY their proposal (never the routing block, never the transcript)
+- Secret: `RESEND_API_KEY` (+ the pipeline's enrichment/LLM secrets, though enrichment is skipped here)
 
 ### `transcribe` (Diagnosis Room)
 - Server-side voice transcription for the mic input. Base64 audio → OpenAI Whisper (`whisper-1`) → `{ text }`. ~8MB cap, per-IP rate limit
@@ -407,8 +437,9 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 
 ### `get-ai-news`
 - Powers Live Intel editorial feed (taxonomy: WATCH / SKIP / CALL / TAKE)
-- Currently archive cards inline in `Brief.tsx`; schema preserved for future dynamic feed
-- Secret: `LOVABLE_API_KEY` (auto-provisioned)
+- As of 2026-06-29 ("Hive A'"), tries the CTRL shared pool first: reads CTRL's corroborated `live_headlines_cache` (the same pool CTRL's own Home reads, "one brain, one pool") and maps CTRL's nine AI-native categories onto WATCH/SKIP/CALL/TAKE. Falls back to Perplexity real-time curation, then OpenAI-curated Brave Search results, then static headlines
+- `Brief.tsx` renders this live pool via the `useLiveBrief` hook when available, with the inlined sample cards as the floor
+- Secrets: `PERPLEXITY_API_KEY` (primary fallback), `BRAVE_SEARCH_API`, `OPENAI_API_KEY`, `LOVABLE_API_KEY` (auto-provisioned)
 
 ### `get-market-sentiment`
 - Market sentiment analysis (OpenAI)
@@ -419,26 +450,25 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 - Allowlist lives in `src/hooks/useModelData.ts` as `ALLOWED_MODEL_IDS`
 
 ### `send-lead-email`
-- Captures and enriches lead data (Gemini company research with Google Search grounding; OpenAI as fallback). Used by the legacy `/alumni` consult path
-- Resend API for delivery, 3× retry with exponential backoff
-- Personal email domains skip the company-research step
-- Secrets: `RESEND_API_KEY`, `GEMINI_API_KEY` (preferred), `OPENAI_API_KEY` (fallback)
+- Lead submissions from the consult modal (legacy `/alumni` path). Persists a `leads` row + audience contact, then hands off to the unified lead pipeline (`dispatchLead` + `fromLead`), which researches the company in-process and emails Krish one consistent digest. The resolved dossier is written back into `leads.company_research`; `email_sent`/`email_sent_at` are patched once the send completes
+- Personal email domains fall back to Brandfetch name search on the self-reported company, not to no research at all
+- Secrets: `RESEND_API_KEY`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, + the shared enrichment/LLM keys (`GOOGLE_AI_API_KEY`, `ANTHROPIC_API_KEY`, and the `enrich-company` vendor keys)
 
 ### `send-contact-email`
-- Contact form submissions
-- Secret: `RESEND_API_KEY`
+- Contact form submissions. Same unified lead pipeline (`dispatchLead` + `fromContact`); response contract `{ success, leadId }` unchanged
+- Secrets: `RESEND_API_KEY` + the shared enrichment/LLM keys
 
 ### `send-leadership-insights-email`
-- Dual email delivery: diagnostic results to user + lead notification to Krish
-- Secret: `RESEND_API_KEY`
+- Decision Readiness Diagnostic (`/leaders`) unlock. Sends TWO emails: the visitor's styled score-card (own template, unchanged) and a Krish notification now routed through the unified lead pipeline (`fromLeadershipInsights`), so it carries company research + an operator's read like every other lead digest
+- Secrets: `RESEND_API_KEY` + the shared enrichment/LLM keys
 
 ### `notify-scoping-request`
-- Powers the `ScopingModal` submissions (the secondary booking surface); emails krish@themindmaker.ai via Resend + persists the request
-- Secret: `RESEND_API_KEY`
+- Powers the `ScopingModal` submissions (the secondary booking surface); persists the request, then notifies Krish via the unified lead pipeline (`fromScoping`)
+- Secrets: `RESEND_API_KEY` + the shared enrichment/LLM keys
 
 ### `notify-ctrl-waitlist`
-- CTRL waitlist signups (`CtrlWaitlistPopover`); emails krish@themindmaker.ai via Resend
-- Secret: `RESEND_API_KEY`
+- CTRL waitlist signups (`CtrlWaitlistPopover`); persists the signup, then notifies Krish via the unified lead pipeline (`fromCtrlWaitlist`) so even a bare email gets researched into a real digest
+- Secrets: `RESEND_API_KEY` + the shared enrichment/LLM keys
 
 ### `create-consultation-hold` (bypassed)
 - Stripe authorization hold, currently bypassed; Cohort payment runs entirely through Maven
@@ -450,14 +480,14 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 - Secrets: `BRANDFETCH_API_KEY` or `BRANDFETCH_CLIENT_ID` (either works)
 
 ### `submit-intake`
-- Receives pre-session intake form submissions. Inserts a row into the intake table and emails Krish a formatted brief (SNAPSHOT section: seat, AI confidence, value frame, aspiration, business one-liner, north star, role-aware handoff, remaining chip answers)
+- Receives pre-session intake form submissions. Inserts a row into the intake table, then emails Krish a researched digest via the unified lead pipeline (`fromIntake`) — previously a plain-text monospace brief
 - Deployed with `verify_jwt = false` (public form). Mirrors the `submit-testimonial` structure
-- Secrets: `RESEND_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
+- Secrets: `RESEND_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY` + the shared enrichment/LLM keys
 
 ### `submit-testimonial`
-- Public testimonial submission endpoint. Inserts a row into `public.testimonials` and emails Krish a notification. Includes a honeypot field for bot prevention
+- Public testimonial submission endpoint. Inserts a row into `public.testimonials`, then emails Krish a researched digest via the unified lead pipeline (`fromTestimonial`) — previously a plain-text transcript. Includes a honeypot field for bot prevention
 - Deployed with `verify_jwt = false`. Validates permission level (free / edits / private)
-- Secrets: `RESEND_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
+- Secrets: `RESEND_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY` + the shared enrichment/LLM keys
 
 ---
 
@@ -475,7 +505,7 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 ## Database
 
 - Supabase connected, minimal usage
-- Tables: `leads`, `company_research_cache`, `audience_contacts` (Substack CSV import, upserted on email + source), `testimonials` (public submissions via `submit-testimonial`)
+- Tables: `leads` (`company_research` now stores an enrichment `Dossier`, previously a `CompanyResearch` shape; jsonb tolerates the change), `company_research_cache` (legacy table; the current orchestrator caches in-memory instead — not confirmed dead, flagged for cleanup), `audience_contacts` (Substack CSV import, upserted on email + source), `testimonials` (public submissions via `submit-testimonial`)
 - RLS policies on all tables
 
 ---
@@ -525,11 +555,10 @@ Push to GitHub triggers Lovable / Vercel auto-deploy. Edge functions auto-deploy
 
 | Secret | Purpose | Required |
 |---|---|---|
-| `ANTHROPIC_API_KEY` | Mindy reasoning, proposal prose, Nervous Decision Machine | Yes |
-| `GOOGLE_AI_API_KEY` | Gemini company synthesis (`enrich-company`) | Recommended |
-| `GEMINI_API_KEY` | Lead enrichment with Google Search grounding (`send-lead-email`) | Yes (preferred) |
-| `OPENAI_API_KEY` | Whisper transcription, market sentiment, enrichment fallback | Yes |
-| `RESEND_API_KEY` | Email delivery (`session-digest` + `send-*`) | Yes |
+| `ANTHROPIC_API_KEY` | Mindy reasoning, proposal prose, Nervous Decision Machine, and the fallback leg of the shared Gemini→Anthropic text helper (dossier synthesis + every lead digest's operator's read) | Yes |
+| `GOOGLE_AI_API_KEY` | Gemini (`gemini-2.5-flash`) dossier synthesis and lead-digest operator's read, via `_shared/enrich/llm.ts`. Shared by `enrich-company` and every lead-capture edge function | Recommended |
+| `OPENAI_API_KEY` | Whisper transcription (`transcribe`), market sentiment, `get-ai-news` fallback. No longer used for lead enrichment | Yes |
+| `RESEND_API_KEY` | Email delivery, all lead-capture functions + `session-digest`, via the shared `_shared/http/resend.ts` helper | Yes |
 | `BROWSERLESS_API_KEY` | Proposal HTML → PDF (`generate-proposal`) | Recommended |
 | `BRANDFETCH_API_KEY` | Company identity / logo / colours (`enrich-company`); typeahead search (`company-search`) | Optional* |
 | `BRANDFETCH_CLIENT_ID` | Alternative credential for Brandfetch (`company-search` accepts either) | Optional* |

@@ -1,6 +1,6 @@
 # Features
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-07-19
 
 ---
 
@@ -256,6 +256,10 @@ Renamed from "Signal Desk" → "The Brief" → **"Live Intel"** for plain-Englis
 
 Renamed from the previous SIGNAL / NOISE / DECISION / TAKE set.
 
+**Editorial archive data source (2026-06-29+):** `get-ai-news` now tries the CTRL shared pool first ("one brain, one pool" — `/signal` and CTRL's own Home read the same corroborated `live_headlines_cache`, mapping CTRL's nine AI-native categories onto WATCH/SKIP/CALL/TAKE), falling back to Perplexity real-time curation, then OpenAI-curated Brave Search results, then static headlines if all else fails.
+
+**The Cohort Signal (`PortfolioPulse.tsx`, between the interpretation grid and the archive):** the public face of the cross-product "hive mind". Calls the shared `portfolio-pulse` function (implementation outside this repo — canonical record in the `mm-ctrl` repo's `docs/PORTFOLIO-HIVE-MIND.md`), which server-side categorises the anxieties leaders admit at the top of the funnel (sourced from Make Your Mind Up's "the decision you keep not making" question) into nine AI-native lanes and returns only the anonymised distribution — counts and shares, never PII. Self-hides below 12 leaders (`MIN_VISIBLE`) so a thin room doesn't read as weakness; renders nothing during SSG (client-fetched).
+
 ---
 
 ## The Nervous Decision Machine
@@ -270,7 +274,7 @@ Embedded only, no standalone page. `/tool` redirects to `/signal#decision`.
 - Model: `claude-haiku-4-5-20251001`
 - Max 1500 tokens
 - JSON output schema enforced in system prompt
-- Krish's voice enforced in system prompt
+- Krish's voice enforced in system prompt; since 2026-06-30 the prompt also carries one "Lens:" paragraph biasing the artifact toward the judgment-economy direction (execution is free, judgment/taste/coordination/credibility are the moat) — schema and voice rules unchanged
 - 1-hour per-IP rate limit + global request ceiling as a soft circuit breaker
 - Requires `ANTHROPIC_API_KEY`
 
@@ -380,26 +384,28 @@ Structure:
 
 Diagnosis Room (shared logic in `_shared/{mindy,enrich,proposal}/`):
 - `mindy-chat`. Anthropic Claude, Mindy's reasoning turn (strict-JSON, voice-gated)
-- `enrich-company`. company dossier orchestrator (Brandfetch + PDL + Tranco + BuiltWith + Perplexity/Exa/NewsAPI + Gemini/Anthropic synthesis); `scale.*` is internal routing only
+- `enrich-company`. thin HTTP wrapper over the shared dossier orchestrator (`_shared/enrich/orchestrate.ts`, also used in-process by the lead pipeline): Brandfetch + PDL + Tranco + BuiltWith + Perplexity/Exa/NewsAPI + Gemini/Anthropic synthesis; `scale.*` is internal routing only
 - `generate-proposal`. co-branded "Mindmaker × [company]" one-pager; HTML + Browserless PDF
-- `session-digest`. Resend, full intelligence to Krish + opt-in proposal copy to the visitor
+- `session-digest`. Krish digest via the unified lead pipeline (dossier already built client-side, no re-enrichment) + opt-in proposal-only copy to the visitor (independent send)
 - `transcribe`. OpenAI Whisper, Diagnosis Room voice input
+
+**Unified lead pipeline** (2026-07-06): every other lead-capture function below is a thin adapter over `_shared/lead/{types,adapters,pipeline,render,operator-read}.ts` + `_shared/http/{cors,resend}.ts`. Each one validates, persists its own DB row, maps its payload to a canonical `LeadEvent`, and calls `dispatchLead`, which researches the company in-process (reusing the enrichment orchestrator), generates a Krish-voice "operator's read" (Gemini→Anthropic), and sends one consistent HTML digest to krish@themindmaker.ai via the shared Resend helper. Backgrounded (`EdgeRuntime.waitUntil`, awaited fallback) so every form returns instantly; a lead capture never 5xxs on an enrichment or email failure. Endpoint URLs, DB writes, and response shapes are unchanged.
+- `send-lead-email`. unified lead pipeline; persists the resolved dossier into `leads.company_research`. Legacy `/alumni` consult path
+- `send-contact-email`. unified lead pipeline
+- `send-leadership-insights-email`. visitor score-card (own template) + Krish notification via the unified lead pipeline
+- `notify-scoping-request`. powers the `ScopingModal`; unified lead pipeline + persists the request
+- `notify-ctrl-waitlist`. CTRL waitlist signups (`CtrlWaitlistPopover`); unified lead pipeline
+- `import-audience-csv`. Substack subscriber CSV → shared `audience_contacts` table (secret-gated)
+- `create-consultation-hold`. Stripe (currently bypassed; Cohort payment via Maven)
+- `company-search`. Brandfetch Search API typeahead for the Diagnosis Room opener (name → domain + icon; rate-limited; degrades gracefully)
+- `submit-intake`. pre-session intake form handler → inserts row + unified lead pipeline digest (previously a plain-text brief)
+- `submit-testimonial`. public testimonial submission → inserts into `testimonials` table + unified lead pipeline digest; honeypot bot protection
 
 Other:
 - `nervous-decision-machine`. Anthropic Haiku 4.5
 - `get-ai-news`. Live Intel content (Lovable AI Gateway, schema preserved)
 - `get-market-sentiment`. OpenAI
 - `get-model-data`. frontier model price and spec feed
-- `send-lead-email`. Gemini company research + Resend (legacy `/alumni` path)
-- `send-contact-email`. Resend
-- `send-leadership-insights-email`. Resend (dual delivery)
-- `notify-scoping-request`. powers the `ScopingModal`; emails krish@themindmaker.ai via Resend + persists
-- `notify-ctrl-waitlist`. CTRL waitlist signups (`CtrlWaitlistPopover`); emails krish@themindmaker.ai via Resend
-- `import-audience-csv`. Substack subscriber CSV → shared `audience_contacts` table (secret-gated)
-- `create-consultation-hold`. Stripe (currently bypassed; Cohort payment via Maven)
-- `company-search`. Brandfetch Search API typeahead for the Diagnosis Room opener (name → domain + icon; rate-limited; degrades gracefully)
-- `submit-intake`. pre-session intake form handler → inserts row + emails Krish a formatted SNAPSHOT brief
-- `submit-testimonial`. public testimonial submission → inserts into `testimonials` table + emails Krish; honeypot bot protection
 
 ---
 

@@ -1,6 +1,23 @@
 # Decisions Log
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-07-19
+
+---
+
+## Technical Decisions
+
+### 2026-07-06: Collapse nine lead-capture edge functions onto one pipeline
+
+**Decision:** Retire the per-function research/render/send logic in `send-lead-email`, `send-contact-email`, `notify-scoping-request`, `notify-ctrl-waitlist`, `submit-intake`, `submit-testimonial`, and `send-leadership-insights-email`'s Krish-side notification. Each becomes a thin adapter mapping its payload to a canonical `LeadEvent`, handed to a shared `dispatchLead` pipeline (`_shared/lead/`) that researches the company (reusing the `enrich-company` orchestrator in-process), writes a Krish-voice operator's read, renders one consistent digest, and sends via a shared Resend helper (`_shared/http/`).
+
+**Context:** Each lead-capture surface had organically grown its own bespoke email builder, from styled HTML to a plain-text monospace intake dump, and only `send-lead-email` researched the company at all (with its own Gemini-with-Google-Search-grounding + OpenAI-fallback path, now removed). A bug or design change had to be applied N times. `enrich-company`'s dossier logic was already a self-contained orchestrator; extracting it to `_shared/enrich/orchestrate.ts` let the lead pipeline call it directly instead of an HTTP round-trip to another edge function.
+
+**Impact:**
+- New shared modules: `_shared/lead/{types,adapters,pipeline,render,operator-read,escape}.ts`, `_shared/http/{cors,resend}.ts`, `_shared/enrich/{llm,orchestrate}.ts`.
+- `GEMINI_API_KEY` is dead; the shared Gemini→Anthropic helper uses `GOOGLE_AI_API_KEY` (recommended) falling back to `ANTHROPIC_API_KEY`.
+- `send-lead-email` now writes an enrichment `Dossier` (not the old `CompanyResearch` shape) into `leads.company_research`.
+- Every lead notification — not just Diagnosis Room sessions — now includes company research and an operator's read.
+- Docs updated: `ARCHITECTURE.md`, `FEATURES.md`, `DEPLOYMENT.md`, `REPLICATION_GUIDE.md`, and this entry.
 
 ---
 

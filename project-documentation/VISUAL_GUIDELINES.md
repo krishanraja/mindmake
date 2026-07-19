@@ -1,6 +1,6 @@
 # Visual Guidelines
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-07-19
 
 > **Signature accent (2026-06-29):** the accent is now **portfolio emerald** `#00D9B6` (HSL `171 100% 43%`), CTRL's emerald, shared across the three sibling products (Mindmaker, CTRL, Make Your Mind Up) over one MindmakerOS token contract. The legacy `mint` tokens/classes (`bg-mint`, `text-mint`, `shadow-mint-*`, "mint" used loosely below) are retained as **aliases** to emerald; read every "mint" reference below as emerald, and prefer the `emerald*` keys in new code. For accent text/links on light backgrounds use **`text-emerald-deep`** (`#06746d`, full AA 5.21), never bright emerald. WHY + WCAG derivation: `prototypes/brand-emerald-proof.{html,md}`.
 

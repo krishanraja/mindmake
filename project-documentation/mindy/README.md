@@ -1,6 +1,6 @@
 # Mindy Brain Pack
 
-*The knowledge pack that makes Mindy reason like Krish, recommend honestly, price in ranges, and sound like the operator and not the model. Built 2026-06-09 against `MINDY-ONE-JOURNEY-ARCHITECTURE.md` (the Diagnosis Room brief); last reconciled 2026-06-28. This README is the index and the wiring diagram. It also carries the consistency and open-questions list; items resolved as of 2026-06-09 are marked.*
+*The knowledge pack that makes Mindy reason like Krish, recommend honestly, price in ranges, and sound like the operator and not the model. Built 2026-06-09 against `MINDY-ONE-JOURNEY-ARCHITECTURE.md` (the Diagnosis Room brief); last reconciled 2026-07-19. This README is the index and the wiring diagram. It also carries the consistency and open-questions list; items resolved as of 2026-06-09 are marked.*
 
 ---
 

@@ -1,7 +1,7 @@
 # Mindmaker Sales Playbook
 *The single ground-truth document for AI sales and marketing agents working the Mindmaker book.*
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-19
 
 > If you are an AI sales or marketing agent, outbound, inbound, content, retargeting, lifecycle, paid, or organic, this is the document you ground on. It is opinionated, structured for retrieval, and biased toward action. Use `OFFERS.md`, `ICP.md`, `VALUE_PROP.md`, `OUTCOMES.md`, and `BRANDING.md` for deeper canon. Use `Master_Messaging_and_FAQ.md` for full pitches and FAQ.
 
@@ -434,17 +434,16 @@ DEFAULT (uncertain):
 
 ## 12. Lead Email Anatomy (what `send-lead-email` produces)
 
-The primary "Book a call" flow now opens the **Diagnosis Room (Mindy)**, where the visitor's nervous decision is diagnosed in conversation. The `ScopingModal` ("Scope it with me") remains the secondary booking surface on the offer pages; it posts to the `notify-scoping-request` edge function: a structured intake email to Krish with the prospect's name, work email, company & role, the AI decision/problem, what success looks like in 30 days, and optional notes.
+The primary "Book a call" flow now opens the **Diagnosis Room (Mindy)**, where the visitor's nervous decision is diagnosed in conversation. The `ScopingModal` ("Scope it with me") remains the secondary booking surface on the offer pages; it posts to the `notify-scoping-request` edge function, which (like every other lead-capture surface) now routes through the shared lead pipeline described below.
 
-The richer `send-lead-email` lead-intelligence email below is produced by the legacy consult-modal path (now `/alumni` only). It contains:
+Every lead-capture surface (the legacy consult-modal path now `/alumni`-only via `send-lead-email`, the `ScopingModal`, the CTRL waitlist, the intake and testimonial forms, and the Decision Readiness Diagnostic unlock) sends Krish ONE consistently formatted digest, built by the shared lead pipeline (`_shared/lead/`). It contains:
 
-- Prospect name, email, job title
-- Selected program (preselected from the page or the modal dropdown)
-- Commitment level (from the modal)
-- Audience type and path type (derived)
-- Session engagement data
-- Company research via Gemini with Google Search grounding (skipped for personal email domains)
-- 3× retry with exponential backoff for delivery reliability
+- The prospect's name, email, and whatever source-specific fields that surface collects (job title / selected program / commitment level for `send-lead-email`; the AI decision, 30-day success criteria, and notes for the ScopingModal; etc.)
+- A 2-3 sentence "operator's read" in Krish's voice: who this is, what they seem to want, and the sharpest next move
+- Company research: resolves a work-email domain first, then falls back to a Brandfetch name search on the self-reported company name if no work email is present (so a Gmail lead who typed a company still gets researched); only skipped entirely if neither is available
+- 3× retry with exponential backoff for delivery reliability (shared Resend helper)
+
+`send-lead-email` specifically also persists the resolved dossier into `leads.company_research`.
 
 When you (an AI sales agent) help craft the prospect's reply or follow-up, mirror the framing Mindy surfaced in the Diagnosis Room: "You said your decision is [X], your timeline is [Y], and the stakes are [Z]. Based on that, here's what I'd suggest…"
 

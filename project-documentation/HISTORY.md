@@ -1,6 +1,23 @@
 # History
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-19
+
+---
+
+## 2026-07-06: Lead-capture back end unified into one researched pipeline
+
+**What Changed (in the codebase, reconciled into docs):**
+- **Every lead-capture edge function collapsed onto one shared pipeline.** `send-lead-email`, `send-contact-email`, `notify-scoping-request`, `notify-ctrl-waitlist`, `submit-intake`, `submit-testimonial`, and `send-leadership-insights-email`'s Krish-side notification each used to reimplement their own CORS handling, Resend send, and HTML/text builder, producing inconsistent notifications (styled HTML down to a plain-text monospace dump) with no company research on most paths. Each is now a thin adapter: validate, persist its own DB row, map the payload to a canonical `LeadEvent` (`_shared/lead/adapters.ts`), and hand off to `dispatchLead` (`_shared/lead/pipeline.ts`).
+- **The pipeline researches the company in-process.** The `enrich-company` fan-out logic moved into `_shared/enrich/orchestrate.ts` (`assembleDossier`), so `enrich-company` is now a thin HTTP wrapper over the same function the lead pipeline calls directly, no HTTP hop between edge functions.
+- **A new "operator's read"** (2-3 sentences, Krish's voice: who this is, what they want, the next move) is generated per lead via the shared Gemini→Anthropic helper `_shared/enrich/llm.ts`, reused from the dossier-synthesis code path.
+- **One consistent digest renderer** (`_shared/lead/render.ts`, generalised from `session-digest`'s previous HTML builder) replaces each function's bespoke template, including the Krish-only internal-routing block.
+- **Email sends are backgrounded** (`EdgeRuntime.waitUntil`, with an awaited fallback when unavailable) so every form returns instantly. Endpoint URLs, DB writes, honeypots, and response shapes are unchanged; `/intake` and `/testimonials` keep working untouched.
+- **`send-lead-email` now stores an enrichment `Dossier`** in `leads.company_research` (previously a bespoke `CompanyResearch` shape; the column is `jsonb` so this is a non-breaking shape change for anything reading it).
+- **`send-lead-email` no longer does its own research.** The previous Gemini-with-Google-Search-grounding + OpenAI-fallback research path inside `send-lead-email` was removed; `GEMINI_API_KEY` is dead (the shared helper uses `GOOGLE_AI_API_KEY` → `ANTHROPIC_API_KEY` instead).
+- Follow-up same day: dark-hero + eyebrow colour-contrast fix in the shared digest renderer for email clients that strip CSS gradients (Outlook, some Gmail/Yahoo).
+- **Docs reconciled this pass** (2026-07-19): `ARCHITECTURE.md`, `FEATURES.md`, `DEPLOYMENT.md`, `REPLICATION_GUIDE.md` updated to describe the unified pipeline, the retired `GEMINI_API_KEY`, and the new `_shared/{lead,http}/` modules. `DECISIONS_LOG.md` gets a matching entry.
+
+**Why:** Nine separate lead-capture surfaces meant nine different (and mostly research-free) notification emails, and a bug fix to one didn't fix the others. One pipeline means one thing to maintain, and every lead, not just Diagnosis Room sessions, now gets researched before it hits Krish's inbox.
 
 ---
 

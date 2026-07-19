@@ -1,6 +1,6 @@
 # CLAUDE.md: Mindmaker Repository Guide
 
-**Last Updated:** 2026-06-09
+**Last Updated:** 2026-07-19
 **Purpose:** Describe the current state of the Mindmaker codebase so agents and contributors can navigate it without reverse-engineering the tree.
 
 This file is **descriptive**, not prescriptive. For strategic intent, read `project-documentation/mindmaker_rebuild_brief_v4.md` (v4/v5 combined, the barbell pivot + Operator's Edge). The v6 ladder restructure (May 2026) layered Workshops at the entry rung, renamed the Cohort to "The AI-Fluent Executive" and repriced it to $2,500 over 4 weeks, and added the invitation-only Alumni Pass; see `project-documentation/HISTORY.md` and `project-documentation/DECISIONS_LOG.md` for the full reasoning.
@@ -214,7 +214,7 @@ Renamed from "The Operator's Brief" (previously "Signal Desk") for straightforwa
 - Archive page: `src/pages/Brief.tsx` at route `/signal` (URL preserved for inbound). Filter pills for WATCH / SKIP / CALL / TAKE plus search.
 - Taxonomy: **WATCH** (worth acting on), **SKIP** (hype / ignore), **CALL** (a decision is overdue), **TAKE** (Krish's opinion). Renamed from the previous SIGNAL / NOISE / DECISION / TAKE set.
 - **The Cohort Signal** (`src/components/PortfolioPulse.tsx`, on `/signal` between the interpretation grid and the archive): the public face of the cross-product hive mind. Renders the anonymised `portfolio-pulse` aggregate - "what leaders are actually wrestling with", the nine AI-native lanes as share bars, from Make Your Mind Up's q5 ("the decision you keep not making"). No PII reaches the client (counts + shares only, categorised server-side); volume-guarded (self-hides below 12 leaders so a thin room never reads as weakness); prerender-safe (null during SSG). Canonical record: `mm-ctrl/docs/PORTFOLIO-HIVE-MIND.md`.
-- Data source: still inlined sample cards for now. `get-ai-news` edge function schema remains in place for eventual dynamic feed.
+- Data source: `get-ai-news` tries the CTRL shared pool first (`live_headlines_cache`, "one brain, one pool" with CTRL's own Home, mapping CTRL's nine AI-native categories onto WATCH/SKIP/CALL/TAKE), falling back to Perplexity, then OpenAI-curated Brave Search, then static headlines. `Brief.tsx` renders the live pool via `useLiveBrief` when available, with the inlined sample cards as the floor.
 
 ---
 

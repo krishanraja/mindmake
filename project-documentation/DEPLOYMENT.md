@@ -1,6 +1,6 @@
 # Deployment Checklist
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-19
 
 Pre-deploy and post-deploy verification for the Mindmaker project.
 
@@ -15,10 +15,10 @@ Pre-deploy and post-deploy verification for the Mindmaker project.
 
 ### 2. Environment variables
 All required secrets configured in Lovable Cloud / Supabase:
-- [ ] `ANTHROPIC_API_KEY`. required for the Nervous Decision Machine (Claude Haiku 4.5)
-- [ ] `GEMINI_API_KEY`. preferred for `send-lead-email` company research with Google Search grounding
-- [ ] `OPENAI_API_KEY`. market sentiment + lead enrichment fallback
-- [ ] `RESEND_API_KEY`. email delivery
+- [ ] `ANTHROPIC_API_KEY`. required for the Nervous Decision Machine (Claude Haiku 4.5), Mindy, proposal prose, and the fallback leg of the shared Gemini→Anthropic helper used by every lead digest
+- [ ] `GOOGLE_AI_API_KEY`. Gemini dossier synthesis + every lead digest's operator's read (shared `_shared/enrich/llm.ts`); recommended, not required (falls back to Anthropic)
+- [ ] `OPENAI_API_KEY`. Whisper transcription + market sentiment + `get-ai-news` fallback (no longer used for lead enrichment)
+- [ ] `RESEND_API_KEY`. email delivery for every lead-capture function + `session-digest`
 - [ ] `LOVABLE_API_KEY`. AI gateway (auto-provisioned)
 - [ ] `STRIPE_SECRET_KEY`. optional, currently bypassed (Cohort payment runs via Maven)
 
@@ -168,10 +168,10 @@ All routes in `src/App.tsx` accessible:
 ### Required
 | Secret | Purpose | Provider |
 |--------|---------|----------|
-| `ANTHROPIC_API_KEY` | Nervous Decision Machine | Anthropic |
-| `GEMINI_API_KEY` | Lead enrichment with Google Search grounding (preferred) | Google AI |
-| `OPENAI_API_KEY` | Market sentiment + lead enrichment fallback | OpenAI |
-| `RESEND_API_KEY` | Email delivery | Resend |
+| `ANTHROPIC_API_KEY` | Nervous Decision Machine, Mindy, proposal prose, Gemini→Anthropic fallback | Anthropic |
+| `GOOGLE_AI_API_KEY` | Dossier synthesis + lead-digest operator's read (recommended, not hard-required) | Google AI |
+| `OPENAI_API_KEY` | Whisper transcription + market sentiment | OpenAI |
+| `RESEND_API_KEY` | Email delivery (unified lead pipeline + `session-digest`) | Resend |
 
 ### Auto-provisioned (Lovable Cloud)
 | Secret | Purpose |

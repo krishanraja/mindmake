@@ -196,6 +196,31 @@ const SEAT_TASK_BANK = {
     "Reporting and status updates","Formatting, cleanup, and admin"]
 };
 
+// Q7 (ai_this_week) is role-aware. The first three chips are concrete, seat-specific AI
+// behaviours; the last four are IDENTICAL across every seat so deriveAiPosture() can match
+// on them ("didn't mention" / "leaned on it" = heavy; "didn't touch it" = none). Keep those
+// four verbatim if you edit this bank.
+const AI_WEEK_SHARED = ["Used it and didn't mention it to anyone","Leaned on it more than I'd admit in a meeting","Pasted something in and hoped the output was right","Didn't touch it once"];
+const AI_WEEK_BANK = {
+  "Founder or CEO":["Used it to sketch a strategy or board narrative","Had it model a scenario or a number","Had it brief me on something so I didn't have to",...AI_WEEK_SHARED],
+  "Exec or department lead":["Drafted a memo or an update with it","Had it pull several sources into one view","Had it read or summarise something so I didn't have to",...AI_WEEK_SHARED],
+  "Team lead or manager":["Used it to prep feedback or a one-to-one","Had it turn my notes into a brief the team can run","Had it read or summarise something so I didn't have to",...AI_WEEK_SHARED],
+  "Operator or individual contributor":["Used it on the actual analysis, not just email","Had it clean or wrangle data before I used it","Asked it to draft or reword something",...AI_WEEK_SHARED],
+  "Consultant or solo":["Used it to shape a client deliverable","Had it research a client or a market","Drafted or reworded something with it",...AI_WEEK_SHARED],
+  "Something else":["Asked it to draft or reword something","Used it to pressure-test my own thinking","Had it read or summarise something so I didn't have to",...AI_WEEK_SHARED]
+};
+
+// Q9 (value_frame): same seven outcomes for every seat, just re-ordered so the one that
+// tends to matter most for that seat sits first. A pick stays valid across seat changes.
+const VALUE_FRAME_BANK = {
+  "Founder or CEO":["A roadmap I actually trust","Confidence to lead AI calls","Shipping more without more people","One painful process gone for good","A system my team owns","Hours back every week","Finally visible and consistent"],
+  "Exec or department lead":["A system my team owns","Confidence to lead AI calls","A roadmap I actually trust","Shipping more without more people","One painful process gone for good","Hours back every week","Finally visible and consistent"],
+  "Team lead or manager":["A system my team owns","Hours back every week","One painful process gone for good","Shipping more without more people","Confidence to lead AI calls","A roadmap I actually trust","Finally visible and consistent"],
+  "Operator or individual contributor":["Hours back every week","One painful process gone for good","Shipping more without more people","Confidence to lead AI calls","A system my team owns","Finally visible and consistent","A roadmap I actually trust"],
+  "Consultant or solo":["Hours back every week","Shipping more without more people","Finally visible and consistent","One painful process gone for good","A roadmap I actually trust","Confidence to lead AI calls","A system my team owns"],
+  "Something else":["Hours back every week","Shipping more without more people","A system my team owns","Finally visible and consistent","Confidence to lead AI calls","One painful process gone for good","A roadmap I actually trust"]
+};
+
 const questions = [
   { stage:"Your world", eyebrow:"Where to reach you", type:"email_capture", key:"work_email", optional:true,
     q:"What's your work email?",
@@ -210,45 +235,45 @@ const questions = [
   { stage:"Your world", eyebrow:"What you do", type:"text", key:"business", voice:true, prefillFromDossier:true,
     q:"In a line, what does the business actually do?",
     help:"Plain words beat polished ones. One line is plenty, or tap the mic and just say it.",
-    ph:"We help X do Y. However you'd say it to a stranger at dinner." },
+    ph: ctx => ctx.company ? "How you'd describe {company} to a stranger at dinner." : "We help X do Y. However you'd say it to a stranger at dinner." },
 
   { stage:"Your world", eyebrow:"Where the time goes", type:"multi", key:"time_goes", allowMore:true,
     q:"Where does your week actually go?",
     help:"Tap the big ones. The honest picture, not the tidy one.",
     options:["Email and comms","Meetings","Writing and content","Proposals and decks","Research","Admin and ops","Reporting and data","Sales and BD","Client delivery","Hiring and people","Planning and strategy","Putting out fires"] },
 
-  { stage:"Your world", eyebrow:"What only you should be doing", type:"multi", key:"handoff", allowMore:true, dynamicBySeat:true,
+  { stage:"Your world", eyebrow:"What only you should be doing", type:"multi", key:"handoff", allowMore:true,
     q:"What could you stop doing if a machine did it well?",
-    help:"Two kinds of work to flag: the dull stuff that eats your day, and the high-value work you'd do more of if the busywork vanished.",
-    options:[] },
+    help: ctx => ctx.has('time_goes') ? "A lot of your week goes to {topTimeSink}. What here could a machine carry?" : "Two kinds of work to flag: the dull stuff that eats your day, and the high-value work you'd do more of if the busywork vanished.",
+    options: ctx => SEAT_TASK_BANK[ctx.seat] || SEAT_TASK_BANK["Something else"] },
 
   { stage:"Where AI sits now", eyebrow:"A quick gut check", type:"scale", key:"confidence_now",
     q:"How confident are you making AI calls for your work today?",
     help:"Same scale Krish uses afterwards, so you can see how far you've come. Most people start a sprint around a four, that's the whole reason we do this. Drag to wherever it honestly sits.", ends:["Not at all","Completely"] },
 
   { stage:"Where AI sits now", eyebrow:"This week", type:"multi", key:"ai_this_week", allowMore:true,
-    q:"Which of these actually happened?",
+    q:"What did you actually do with AI this week?",
     help:"Tap whatever's true, even the ones you'd rather not.",
-    options:["Asked it to draft or reword something","Checked my own thinking against it","Had it read something so I didn't have to","Used it and didn't mention it to anyone","Leaned on it more than I'd say in a meeting","Pasted something in and hoped it was right","Didn't touch it once"] },
+    options: ctx => AI_WEEK_BANK[ctx.seat] || AI_WEEK_BANK["Something else"] },
 
   { stage:"Where AI sits now", eyebrow:"What hasn't stuck", type:"multi", key:"didnt_stick", allowMore:true,
     q:"Tried anything with AI that didn't stick?",
-    help:"No judgement. This tells me what to do differently.",
+    help: ctx => ctx.aiPosture==='heavy' ? "You're clearly already using it. Anything you tried that didn't stick?" : (ctx.aiPosture==='none' ? "Even if this week was quiet, anything you tried before that fizzled?" : "No judgement. This tells me what to do differently."),
     options:["Prompts I copied off someone","A tool everyone raved about","An automation that broke","A course I didn't finish","Building my own GPT","Nothing's really stuck","Haven't properly tried yet"] },
 
   { stage:"What you want", eyebrow:"The one thing", type:"text", key:"north_star", voice:true,
     q:"If this nails one thing, what is it?",
-    help:"The thing that would make it worth your time. One sentence or a ramble, both work. Tap the mic if it's easier to say.",
+    help: ctx => ctx.has('handoff') ? "You've flagged a few things you'd hand off. If this nails one thing, what is it?" : "The thing that would make it worth your time. One sentence or a ramble, both work. Tap the mic if it's easier to say.",
     ph:"Say it the way you'd say it to a friend, not a board." },
 
   { stage:"What you want", eyebrow:"What 'worth it' looks like", type:"single", key:"value_frame", allowMore:true,
     q:"What would make you say it paid for itself?",
     help:"Pick the one that matters most right now.",
-    options:["Hours back every week","Shipping more without more people","A system my team owns","Finally visible and consistent","Confidence to lead AI calls","One painful process gone for good","A roadmap I actually trust"] },
+    options: ctx => VALUE_FRAME_BANK[ctx.seat] || VALUE_FRAME_BANK["Something else"] },
 
   { stage:"What you want", eyebrow:"A year from now", type:"multi", key:"aspiration", allowMore:true,
     q:"A year from now, where do you want to be with AI?",
-    help:"Pick the ones that sound like the version of you you're after. This is the target Krish measures the work against.",
+    help: ctx => (ctx.northStar && ctx.northStar.length<=90) ? 'You said the one thing is "{northStar}". A year out, where do you want to be with AI?' : ((ctx.llm && ctx.llm.aspiration_nudge) ? ctx.llm.aspiration_nudge : "Pick the ones that sound like the version of you you're after. This is the target Krish measures the work against."),
     options:["Making the call myself, not outsourcing the judgment","Clear on where it's worth it, and where it's just hype","Leading the AI conversation, not sitting through it","Board-ready, with a position I can defend","Faster at the high-value work only I can do","Building my own tools instead of waiting on IT","A team that runs on AI by default","A whole category of work, gone for good","Not the bottleneck for every AI decision"] },
 
   { stage:"What you want", eyebrow:"The blue-sky one", type:"text", key:"wish", voice:true, optional:true,
@@ -264,7 +289,7 @@ const questions = [
   { stage:"How you work", eyebrow:"What might get in the way", type:"multi", key:"blockers", allowMore:true,
     q:"What could trip this up?",
     help:"Better I know now. Tap any that apply.",
-    options:["Time, I'm slammed","Worried it's too technical","Team buy-in","Data or privacy nerves","Burned before","Tools locked down by IT","Just nervous","Nothing, I'm ready"] },
+    options: ctx => { const base=["Time, I'm slammed","Worried it's too technical","Team buy-in","Data or privacy nerves","Burned before","Tools locked down by IT","Just nervous","Nothing, I'm ready"]; if(ctx.aiPosture==='none') return ["Just nervous",...base.filter(x=>x!=="Just nervous")]; if(ctx.stack) return ["Tools locked down by IT",...base.filter(x=>x!=="Tools locked down by IT")]; return base; } },
 
   { stage:"Last thing", eyebrow:"Where to reach you", type:"contact",
     q:"Last thing. Who am I prepping for?",
@@ -272,7 +297,8 @@ const questions = [
 ];
 
 const state = { step:-1, answers:{}, contact:{ name:"",role:"",company:"",email:"",link:"",note:"",hp:"" },
-  enrich:{ status:"idle", started:false, domain:null, company:null, descriptor:null } };
+  enrich:{ status:"idle", started:false, fullStarted:false, personalized:false, domain:null,
+    company:null, industry:null, tagline:null, descriptor:null, stack:null, news:null, llm:null } };
 const card = document.getElementById('card');
 const counter = document.getElementById('counter');
 const track = document.getElementById('track');
@@ -296,6 +322,69 @@ function valByKey(k){
   if(q.type==='multi'){ const p=chipState(i).picked; return (p&&p.length)?p:null; }
   if(q.type==='scale') return state.answers[i]!=null?state.answers[i]:null;
   return null;
+}
+// ── Context resolver ───────────────────────────────────────────────────────
+// Any question field (q / help / ph / options) may be a plain value or a function of
+// ctx. ctx blends the dossier (safe fields only, never scale.*) with the user's own
+// earlier answers. fill() interpolates {tokens} and is a safety net only: a resolver
+// that needs a fact must branch on its presence and return fully generic copy when it
+// is missing, so nothing ever renders half-personalised.
+function fill(str,ctx){ return (str||"").replace(/\{(\w+)\}/g,(_,k)=>escapeHtml(ctx[k]!=null?String(ctx[k]):'')); }
+function resolve(field,ctx){
+  const v = (typeof field==='function') ? field(ctx) : field;
+  if(v==null) return v;
+  return Array.isArray(v) ? v : fill(String(v),ctx);
+}
+function deriveFirstName(){
+  if(CLIENT!=='there') return CLIENT.split(/\s+/)[0];
+  const g = guessNameFromEmail(state.contact.email);
+  return g ? g.split(' ')[0] : null;
+}
+// heavy = admits hidden/heavy use; none = only "didn't touch it"; light = some use.
+// Matches the anchor lanes kept verbatim across every AI_WEEK_BANK seat variant.
+function deriveAiPosture(){
+  const p = valByKey('ai_this_week'); if(!p || !p.length) return null;
+  const didnt = p.some(x=>/didn.t touch/i.test(x));
+  const heavy = p.some(x=>/didn.t mention|leaned on it/i.test(x));
+  const others = p.filter(x=>!/didn.t touch/i.test(x));
+  if(didnt && others.length===0) return 'none';
+  if(heavy || others.length>=3) return 'heavy';
+  return 'light';
+}
+function buildCtx(){
+  const e = state.enrich;
+  const tg = valByKey('time_goes');
+  return {
+    company:e.company, industry:e.industry, tagline:e.tagline,
+    descriptor:e.descriptor, stack:(e.stack&&e.stack.length?e.stack:null), news:e.news, domain:e.domain,
+    firstName:deriveFirstName(),
+    seat:valByKey('seat'),
+    topTimeSink:(tg&&tg.length?tg[0]:null),
+    aiPosture:deriveAiPosture(),
+    northStar:valByKey('north_star'),
+    get:k=>valByKey(k),
+    has:k=>valByKey(k)!=null,
+    llm:e.llm||null
+  };
+}
+// Copy ONLY the view-safe allowlist off an enrichment response. dossier.scale.* (employee
+// count, size band, rank, icp, mode) is internal routing and is never read into state.
+function copySafe(d){
+  if(!d) return;
+  const id=d.identity||{}, u=d.understanding||{};
+  if(id.name) state.enrich.company=id.name;
+  if(u.industry) state.enrich.industry=u.industry;
+  if(u.tagline) state.enrich.tagline=u.tagline;
+  if(u.descriptor) state.enrich.descriptor=u.descriptor;
+  if(Array.isArray(u.stack)&&u.stack.length) state.enrich.stack=u.stack;
+  if(Array.isArray(d.currency)&&d.currency[0]&&d.currency[0].text) state.enrich.news=d.currency[0].text;
+}
+// The reflective note under the business textarea: the generated one-liner when the
+// personalise call produced one, else the plain "pulled from your domain" line.
+function dossierNote(){
+  const llm = state.enrich.llm;
+  if(llm && llm.business_reflect) return `<p class="enrich-note" id="enrich-note">${escapeHtml(llm.business_reflect)}</p>`;
+  return `<p class="enrich-note" id="enrich-note">I pulled this from ${escapeHtml(state.enrich.domain||'your domain')}. Fix anything I got wrong.</p>`;
 }
 function setProgress(){
   let p=0; if(state.step>=0 && state.step<total) p=state.step/total; if(state.step>=total) p=1;
@@ -330,26 +419,27 @@ function welcome(){
     <div class="start"><div class="nav"><button class="btn btn-primary" id="begin">Begin</button></div></div>
   </div>`);
 }
-function render(){
+function render(inPlace){
   if(state.step<0) return welcome();
   if(state.step>=total) return done();
   const q = questions[state.step];
+  const ctx = buildCtx();
+  const qText = resolve(q.q, ctx);
+  const helpText = resolve(q.help, ctx);
   counter.textContent = `${pad(state.step+1)} / ${pad(total)}`;
   track.style.visibility="visible"; setProgress();
-  const head = `<p class="eyebrow">${q.eyebrow} <span class="stagelabel">· ${q.stage}</span></p>
-    <h1 class="q">${q.q}</h1>${q.help?`<p class="help">${q.help}</p>`:''}`;
+  const head = `<p class="eyebrow">${escapeHtml(q.eyebrow)} <span class="stagelabel">· ${escapeHtml(q.stage)}</span></p>
+    <h1 class="q">${qText}</h1>${helpText?`<p class="help">${helpText}</p>`:''}`;
   let body="";
 
   if(q.type==="multi" || q.type==="single"){
-    if(q.dynamicBySeat){
-      q.options = SEAT_TASK_BANK[valByKey('seat')] || SEAT_TASK_BANK["Something else"];
-      const cs0 = chipState(state.step);
-      if(Array.isArray(cs0.picked)) cs0.picked = cs0.picked.filter(v=>q.options.includes(v));
-    }
+    const options = resolve(q.options, ctx) || [];
     const cs = chipState(state.step);
+    if(Array.isArray(cs.picked)) cs.picked = cs.picked.filter(v=>options.includes(v));
+    else if(cs.picked && !options.includes(cs.picked)) cs.picked = "";
     const on = v => q.type==='multi' ? cs.picked.includes(v) : cs.picked===v;
-    body = `<div class="chips">${q.options.map(o=>
-      `<button class="chip ${on(o)?'on':''}" data-val="${escapeAttr(o)}">${o}</button>`).join('')}</div>`;
+    body = `<div class="chips">${options.map(o=>
+      `<button class="chip ${on(o)?'on':''}" data-val="${escapeAttr(o)}">${escapeHtml(o)}</button>`).join('')}</div>`;
     if(q.allowMore){
       const open = cs.more && cs.more.length;
       body += `<button class="ghost-add" id="addmore" ${open?'hidden':''}>+ ${q.moreLabel?escapeHtml(q.moreLabel):'Add your own words'}</button>
@@ -366,22 +456,23 @@ function render(){
       <input type="range" id="rng" min="1" max="10" step="1" value="${v}">
       <div class="scale-ends"><span>${q.ends[0]}</span><span>${q.ends[1]}</span></div>`;
   } else if(q.type==="email_capture"){
-    body = `<div class="field"><input type="email" id="c_email_early" value="${escapeAttr(state.contact.email)}" placeholder="${escapeAttr(q.ph||'you@company.com')}"></div>
+    body = `<div class="field"><input type="email" id="c_email_early" value="${escapeAttr(state.contact.email)}" placeholder="${escapeAttr(resolve(q.ph, ctx)||'you@company.com')}"></div>
       <span class="enter-hint">↵ to continue</span>`;
   } else if(q.type==="text"){
     let v = state.answers[state.step] || "";
     let noteHtml = "";
     if(q.prefillFromDossier){
-      if(!v && state.enrich.status==="ready" && state.enrich.descriptor){
-        v = state.enrich.descriptor; state.answers[state.step] = v;
+      const desc = state.enrich.descriptor || state.enrich.tagline;
+      if(!v && state.enrich.status==="ready" && desc){
+        v = desc; state.answers[state.step] = v;
       }
       if(!v && state.enrich.status==="loading"){
         noteHtml = `<p class="enrich-note" id="enrich-note"><span class="spin"></span>Reading ${escapeHtml(state.enrich.company||state.enrich.domain||'the company')}…</p>`;
-      } else if(state.enrich.status==="ready" && state.enrich.descriptor && v===state.enrich.descriptor){
-        noteHtml = `<p class="enrich-note" id="enrich-note">I pulled this from ${escapeHtml(state.enrich.domain||'your domain')}. Fix anything I got wrong.</p>`;
+      } else if(state.enrich.status==="ready" && desc && v===desc){
+        noteHtml = dossierNote();
       }
     }
-    body = `<textarea id="ta" placeholder="${escapeAttr(q.ph||'')}">${escapeHtml(v)}</textarea>${noteHtml}<span class="enter-hint">↵ to continue · ⇧↵ for a new line</span>${hasSR?micHtml():''}`;
+    body = `<textarea id="ta" placeholder="${escapeAttr(resolve(q.ph, ctx)||'')}">${escapeHtml(v)}</textarea>${noteHtml}<span class="enter-hint">↵ to continue · ⇧↵ for a new line</span>${hasSR?micHtml():''}`;
   } else if(q.type==="contact"){
     const c = state.contact;
     const seat = valByKey('seat');
@@ -405,8 +496,10 @@ function render(){
   const backBtn = state.step>0 ? `<button class="btn btn-ghost" id="back">Back</button>` : '';
   const skip = (q.optional || q.type==='multi' || q.type==='single') ? `<button class="btn btn-ghost skip" id="skip">Skip</button>` : '';
   const nav = `<div class="nav">${backBtn}<button class="btn btn-primary" id="next">${isLast?'Send it to Krish':'Next'}</button>${skip}</div>`;
-  show(`<div class="card-inner">${head}${body}${nav}</div>`);
+  const html = `<div class="card-inner">${head}${body}${nav}</div>`;
+  inPlace ? swapInPlace(html) : show(html);
 }
+function swapInPlace(html){ card.innerHTML = html; wire(); }
 function micHtml(){ return `<button class="mic" id="mic"><span class="dot"></span><span class="mlabel">Talk instead</span></button>`; }
 
 function advance(){
@@ -429,28 +522,76 @@ function kickEnrichment(email){
   const domain = m.split('@')[1] || '';
   if(!domain) return;
   state.enrich.started = true; state.enrich.status = "loading"; state.enrich.domain = domain;
-  const url = CONFIG.endpoint.replace('submit-intake','enrich-company');
-  fetch(url, { method:"POST",
+  fetch(enrichUrl(), { method:"POST",
     headers:{ "Content-Type":"application/json", "apikey":CONFIG.anonKey, "Authorization":"Bearer "+CONFIG.anonKey },
     body: JSON.stringify({ email:m, depth:"identity" }) })
     .then(r=>r.json())
     .then(d=>{
-      if(!d || d.skipped || d.error){ state.enrich.status="skipped"; if(state.step===findKey('business')) applyDossierPrefill(); return; }
-      if(d.identity && d.identity.name) state.enrich.company = d.identity.name;
-      const u = d.understanding || {};
-      state.enrich.descriptor = u.descriptor || u.tagline || null;
-      state.enrich.status = state.enrich.descriptor ? "ready" : "skipped";
-      if(state.step===findKey('business')) applyDossierPrefill();
+      if(!d || d.skipped || d.error){ state.enrich.status="skipped"; reResolveStep(); return; }
+      copySafe(d);
+      state.enrich.status = (state.enrich.descriptor||state.enrich.tagline) ? "ready" : "skipped";
+      reResolveStep();
+      kickEnrichFull(domain);
+      kickPersonalize();
     })
-    .catch(()=>{ state.enrich.status="error"; if(state.step===findKey('business')) applyDossierPrefill(); });
+    .catch(()=>{ state.enrich.status="error"; reResolveStep(); });
 }
-// Late arrival: enrichment finished while the user is already on the business step.
+function enrichUrl(){ return CONFIG.endpoint.replace('submit-intake','enrich-company'); }
+// Background upgrade to the full dossier (~9s): descriptor, stack, recent news, for the later
+// "Where AI sits" / "What you want" questions. Fails silently; the identity copy stands.
+function kickEnrichFull(domain){
+  if(state.enrich.fullStarted || !domain) return;
+  state.enrich.fullStarted = true;
+  fetch(enrichUrl(), { method:"POST",
+    headers:{ "Content-Type":"application/json", "apikey":CONFIG.anonKey, "Authorization":"Bearer "+CONFIG.anonKey },
+    body: JSON.stringify({ domain, depth:"full" }) })
+    .then(r=>r.json())
+    .then(d=>{ if(!d || d.skipped || d.error) return; copySafe(d);
+      if(state.enrich.status!=="ready" && (state.enrich.descriptor||state.enrich.tagline)) state.enrich.status="ready";
+      reResolveStep(); })
+    .catch(()=>{});
+}
+// One up-front generative pass: turns the safe dossier into a couple of bespoke, voice-linted
+// fragments (a business reflection, an aspiration nudge). Sends ONLY safe fields, never scale.*.
+// Fire-and-forget: any failure or off-voice fragment leaves the deterministic copy in place.
+function kickPersonalize(){
+  if(state.enrich.personalized) return;
+  const e = state.enrich;
+  if(!e.company && !e.industry && !e.descriptor && !e.tagline) return;
+  state.enrich.personalized = true;
+  const safe = { company:e.company, industry:e.industry, tagline:e.tagline, descriptor:e.descriptor, stack:e.stack, news:e.news };
+  fetch(CONFIG.endpoint.replace('submit-intake','personalize-intake'), { method:"POST",
+    headers:{ "Content-Type":"application/json", "apikey":CONFIG.anonKey, "Authorization":"Bearer "+CONFIG.anonKey },
+    body: JSON.stringify({ safe, seat: valByKey('seat')||null }) })
+    .then(r=>r.json())
+    .then(d=>{ if(!d || d.error || !d.fragments) return; state.enrich.llm = d.fragments; reResolveStep(); })
+    .catch(()=>{});
+}
+// Async dossier / fragment arrival: refresh whatever the current step shows without clobbering
+// anything the user is typing. Text steps patch in place (focus/caret safe); chip steps
+// re-render from state (picks live in chipState, so they survive).
+function reResolveStep(){
+  if(state.step<0 || state.step>=total) return;
+  const q = questions[state.step]; if(!q) return;
+  if(q.type==='text'){ applyDossierPrefill(); return; }
+  const ae = document.activeElement;
+  if(ae && (ae.tagName==='TEXTAREA' || ae.tagName==='INPUT') && card.contains(ae)) return;
+  capture();
+  render(true);
+}
+// Late arrival on the business step: prefill the empty textarea and patch the reflective note.
 function applyDossierPrefill(){
   const q = questions[state.step]; if(!q || !q.prefillFromDossier) return;
   const ta = card.querySelector('#ta'); const note = card.querySelector('#enrich-note');
-  if(state.enrich.status==="ready" && state.enrich.descriptor){
-    if(ta && ta.value.trim()===''){ ta.value = state.enrich.descriptor; state.answers[state.step] = state.enrich.descriptor; }
-    if(note) note.innerHTML = `I pulled this from ${escapeHtml(state.enrich.domain||'your domain')}. Fix anything I got wrong.`;
+  const desc = state.enrich.descriptor || state.enrich.tagline;
+  if(state.enrich.status==="ready" && desc){
+    if(ta && ta.value.trim()===''){ ta.value = desc; state.answers[state.step] = desc; }
+    const llm = state.enrich.llm;
+    const inner = (llm && llm.business_reflect)
+      ? escapeHtml(llm.business_reflect)
+      : `I pulled this from ${escapeHtml(state.enrich.domain||'your domain')}. Fix anything I got wrong.`;
+    if(note){ note.innerHTML = inner; }
+    else if(ta){ ta.insertAdjacentHTML('afterend', `<p class="enrich-note" id="enrich-note">${inner}</p>`); }
   } else if(note){ note.remove(); }
 }
 // Best-effort first/last name from a work email's local part. Conservative: only when it

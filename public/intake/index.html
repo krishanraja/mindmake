@@ -224,12 +224,12 @@ const questions = [
 
   { stage:"Where AI sits now", eyebrow:"A quick gut check", type:"scale", key:"confidence_now",
     q:"How confident are you making AI calls for your work today?",
-    help:"Same scale Krish uses afterwards, so you can see how far you've come. Drag to wherever it honestly sits.", ends:["Not at all","Completely"] },
+    help:"Same scale Krish uses afterwards, so you can see how far you've come. Most people start a sprint around a four, that's the whole reason we do this. Drag to wherever it honestly sits.", ends:["Not at all","Completely"] },
 
-  { stage:"Where AI sits now", eyebrow:"What's in the stack", type:"multi", key:"stack", allowMore:true,
-    q:"What tools are you already in most days?",
-    help:"Tap what you use. Add anything I've missed.",
-    options:["Claude","ChatGPT","Gemini","Copilot","Notion","Google Workspace","Microsoft 365","Slack","HubSpot or Salesforce","Canva","Zapier or Make","Not sure, honestly"] },
+  { stage:"Where AI sits now", eyebrow:"This week", type:"multi", key:"ai_this_week", allowMore:true,
+    q:"Which of these actually happened?",
+    help:"Tap whatever's true, even the ones you'd rather not.",
+    options:["Asked it to draft or reword something","Checked my own thinking against it","Had it read something so I didn't have to","Used it and didn't mention it to anyone","Leaned on it more than I'd say in a meeting","Pasted something in and hoped it was right","Didn't touch it once"] },
 
   { stage:"Where AI sits now", eyebrow:"What hasn't stuck", type:"multi", key:"didnt_stick", allowMore:true,
     q:"Tried anything with AI that didn't stick?",
@@ -249,7 +249,7 @@ const questions = [
   { stage:"What you want", eyebrow:"A year from now", type:"multi", key:"aspiration", allowMore:true,
     q:"A year from now, where do you want to be with AI?",
     help:"Pick the ones that sound like the version of you you're after. This is the target Krish measures the work against.",
-    options:["Making the call myself, not outsourcing the judgment","Leading the AI conversation, not sitting through it","Board-ready, with a position I can defend","Faster at the high-value work only I can do","Building my own tools instead of waiting on IT","A team that runs on AI by default","A whole category of work, gone for good","Not the bottleneck for every AI decision"] },
+    options:["Making the call myself, not outsourcing the judgment","Clear on where it's worth it, and where it's just hype","Leading the AI conversation, not sitting through it","Board-ready, with a position I can defend","Faster at the high-value work only I can do","Building my own tools instead of waiting on IT","A team that runs on AI by default","A whole category of work, gone for good","Not the bottleneck for every AI decision"] },
 
   { stage:"What you want", eyebrow:"The blue-sky one", type:"text", key:"wish", voice:true, optional:true,
     q:"Anything you wish you could do but can't today?",
@@ -268,7 +268,7 @@ const questions = [
 
   { stage:"Last thing", eyebrow:"Where to reach you", type:"contact",
     q:"Last thing. Who am I prepping for?",
-    help:"I've filled in what I can from your email — just check it over and fix anything." }
+    help:"I've filled in what I can from your email. Just check it over and fix anything." }
 ];
 
 const state = { step:-1, answers:{}, contact:{ name:"",role:"",company:"",email:"",link:"",note:"",hp:"" },
@@ -321,10 +321,11 @@ function welcome(){
     <h1>${hi}, before ${escapeHtml(ENGAGEMENT)} starts, I want to <em>understand your world</em>.</h1>
     <p>The sharper my picture of you going in, the less of our time we spend on setup and the more we spend on real work. Think of this as where your working brain starts.</p>
     <p>It's mostly quick taps, with a few optional boxes if you feel like saying more. ${hasSR?'Prefer talking? Tap the mic on any box and just speak.':''}</p>
+    <p>There are no wrong answers here. The messier and more honest, the more useful it is to me.</p>
     <div class="meta">
       <div><b>Mostly taps</b>A few optional boxes</div>
       <div><b>About four minutes</b>Faster if you skip the deep ones</div>
-      <div><b>Nothing wasted</b>I read every word before we meet</div>
+      <div><b>Nothing wasted</b>I read it to prep, not to grade</div>
     </div>
     <div class="start"><div class="nav"><button class="btn btn-primary" id="begin">Begin</button></div></div>
   </div>`);
@@ -377,7 +378,7 @@ function render(){
       if(!v && state.enrich.status==="loading"){
         noteHtml = `<p class="enrich-note" id="enrich-note"><span class="spin"></span>Reading ${escapeHtml(state.enrich.company||state.enrich.domain||'the company')}…</p>`;
       } else if(state.enrich.status==="ready" && state.enrich.descriptor && v===state.enrich.descriptor){
-        noteHtml = `<p class="enrich-note" id="enrich-note">I pulled this from ${escapeHtml(state.enrich.domain||'your domain')} — fix anything I got wrong.</p>`;
+        noteHtml = `<p class="enrich-note" id="enrich-note">I pulled this from ${escapeHtml(state.enrich.domain||'your domain')}. Fix anything I got wrong.</p>`;
       }
     }
     body = `<textarea id="ta" placeholder="${escapeAttr(q.ph||'')}">${escapeHtml(v)}</textarea>${noteHtml}<span class="enter-hint">↵ to continue · ⇧↵ for a new line</span>${hasSR?micHtml():''}`;
@@ -449,7 +450,7 @@ function applyDossierPrefill(){
   const ta = card.querySelector('#ta'); const note = card.querySelector('#enrich-note');
   if(state.enrich.status==="ready" && state.enrich.descriptor){
     if(ta && ta.value.trim()===''){ ta.value = state.enrich.descriptor; state.answers[state.step] = state.enrich.descriptor; }
-    if(note) note.innerHTML = `I pulled this from ${escapeHtml(state.enrich.domain||'your domain')} — fix anything I got wrong.`;
+    if(note) note.innerHTML = `I pulled this from ${escapeHtml(state.enrich.domain||'your domain')}. Fix anything I got wrong.`;
   } else if(note){ note.remove(); }
 }
 // Best-effort first/last name from a work email's local part. Conservative: only when it

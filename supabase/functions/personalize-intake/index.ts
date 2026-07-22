@@ -29,7 +29,7 @@ You are writing one or two tiny pieces of microcopy for a pre-session intake for
 Return STRICT JSON and nothing else (no prose, no code fence):
 {
   "business_reflect": string,  // <= 18 words. A sharp one-line reflection of what this company does, ending by inviting a correction (for example: "Fix anything I got wrong."). Reflect only the given facts. Use "" if you cannot say something specific and true.
-  "aspiration_nudge": string   // <= 16 words. A grounded nudge for the question "a year from now, where do you want to be with AI?", tuned to their world. Use "" if you have nothing specific and true to add.
+  "aspiration_nudge": string   // <= 18 words. For the question "a year from now, where do you want to be with AI?": a provocative nudge about where AI could take a company like theirs, grounded in what they actually do. Keep it about their AI ambition, not general product strategy. Use "" if you have nothing specific and true to add.
 }
 
 Rules: sentence case, never title case. No em dashes. No exclamation marks. Do not name or address the visitor. Never mention or imply company size, employee count, headcount, revenue, or web rank (you are not given these and must never guess them). Avoid these words: transformation, synergy, ecosystem, journey, unlock, seamless, empower, optimize, enhance, elevate, robust, cutting-edge, revolutionary, leverage as a verb. If a fragment cannot be written cleanly and truthfully, return "" for it.`;

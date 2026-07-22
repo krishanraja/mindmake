@@ -244,7 +244,7 @@ const questions = [
 
   { stage:"Your world", eyebrow:"What only you should be doing", type:"multi", key:"handoff", allowMore:true,
     q:"What could you stop doing if a machine did it well?",
-    help: ctx => ctx.has('time_goes') ? "A lot of your week goes to {topTimeSink}. What here could a machine carry?" : "Two kinds of work to flag: the dull stuff that eats your day, and the high-value work you'd do more of if the busywork vanished.",
+    help: ctx => ctx.has('time_goes') ? "You said a lot of your week goes to {topTimeSink}. Which of these would you hand a machine first?" : "Two kinds of work to flag: the dull stuff that eats your day, and the high-value work you'd do more of if the busywork vanished.",
     options: ctx => SEAT_TASK_BANK[ctx.seat] || SEAT_TASK_BANK["Something else"] },
 
   { stage:"Where AI sits now", eyebrow:"A quick gut check", type:"scale", key:"confidence_now",
@@ -263,17 +263,17 @@ const questions = [
 
   { stage:"What you want", eyebrow:"The one thing", type:"text", key:"north_star", voice:true,
     q:"If this nails one thing, what is it?",
-    help: ctx => ctx.has('handoff') ? "You've flagged a few things you'd hand off. If this nails one thing, what is it?" : "The thing that would make it worth your time. One sentence or a ramble, both work. Tap the mic if it's easier to say.",
+    help:"The thing that would make it worth your time. One sentence or a ramble, both work. Tap the mic if it's easier to say.",
     ph:"Say it the way you'd say it to a friend, not a board." },
 
   { stage:"What you want", eyebrow:"What 'worth it' looks like", type:"single", key:"value_frame", allowMore:true,
     q:"What would make you say it paid for itself?",
-    help:"Pick the one that matters most right now.",
+    help: ctx => ctx.company ? "Pick the one that matters most for {company} right now." : "Pick the one that matters most right now.",
     options: ctx => VALUE_FRAME_BANK[ctx.seat] || VALUE_FRAME_BANK["Something else"] },
 
   { stage:"What you want", eyebrow:"A year from now", type:"multi", key:"aspiration", allowMore:true,
     q:"A year from now, where do you want to be with AI?",
-    help: ctx => (ctx.northStar && ctx.northStar.length<=90) ? 'You said the one thing is "{northStar}". A year out, where do you want to be with AI?' : ((ctx.llm && ctx.llm.aspiration_nudge) ? ctx.llm.aspiration_nudge : "Pick the ones that sound like the version of you you're after. This is the target Krish measures the work against."),
+    help: ctx => (ctx.llm && ctx.llm.aspiration_nudge) ? ctx.llm.aspiration_nudge : "Pick the ones that sound like the version of you you're after. This is the target Krish measures the work against.",
     options:["Making the call myself, not outsourcing the judgment","Clear on where it's worth it, and where it's just hype","Leading the AI conversation, not sitting through it","Board-ready, with a position I can defend","Faster at the high-value work only I can do","Building my own tools instead of waiting on IT","A team that runs on AI by default","A whole category of work, gone for good","Not the bottleneck for every AI decision"] },
 
   { stage:"What you want", eyebrow:"The blue-sky one", type:"text", key:"wish", voice:true, optional:true,

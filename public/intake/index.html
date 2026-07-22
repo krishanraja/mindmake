@@ -379,6 +379,19 @@ function copySafe(d){
   if(Array.isArray(u.stack)&&u.stack.length) state.enrich.stack=u.stack;
   if(Array.isArray(d.currency)&&d.currency[0]&&d.currency[0].text) state.enrich.news=d.currency[0].text;
 }
+// Guardrail for auto-pulled company copy. Enrichment often hands back a full marketing
+// blurb or an SEO description with a "Discover how we..." CTA tail. The business field asks
+// for one line, so prefill at most the first real sentence, drop an obvious CTA tail, and if
+// it still is not a line (>160 chars), prefill nothing rather than dump a truncated paragraph.
+function cleanDescriptor(s){
+  if(!s) return '';
+  let t = String(s).replace(/\s+/g,' ').trim();
+  const m = t.match(/^.*?[.!?](?=\s|$)/);
+  if(m && m[0].trim().length >= 40) t = m[0].trim();
+  t = t.replace(/\s+(discover|learn more|find out|explore|contact us|get in touch|read more|see how|sign up|book a|start your|join us)\b.*$/i, '').trim();
+  t = t.replace(/[\s,;:.–—-]+$/,'').trim();
+  return t.length > 160 ? '' : t;
+}
 // The reflective note under the business textarea: the generated one-liner when the
 // personalise call produced one, else the plain "pulled from your domain" line.
 function dossierNote(){
@@ -462,7 +475,7 @@ function render(inPlace){
     let v = state.answers[state.step] || "";
     let noteHtml = "";
     if(q.prefillFromDossier){
-      const desc = state.enrich.descriptor || state.enrich.tagline;
+      const desc = cleanDescriptor(state.enrich.descriptor || state.enrich.tagline);
       if(!v && state.enrich.status==="ready" && desc){
         v = desc; state.answers[state.step] = v;
       }
@@ -583,7 +596,7 @@ function reResolveStep(){
 function applyDossierPrefill(){
   const q = questions[state.step]; if(!q || !q.prefillFromDossier) return;
   const ta = card.querySelector('#ta'); const note = card.querySelector('#enrich-note');
-  const desc = state.enrich.descriptor || state.enrich.tagline;
+  const desc = cleanDescriptor(state.enrich.descriptor || state.enrich.tagline);
   if(state.enrich.status==="ready" && desc){
     if(ta && ta.value.trim()===''){ ta.value = desc; state.answers[state.step] = desc; }
     const llm = state.enrich.llm;

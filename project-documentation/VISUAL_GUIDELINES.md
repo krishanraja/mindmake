@@ -1,6 +1,6 @@
 # Visual Guidelines
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-07-26
 
 > **Signature accent (2026-06-29):** the accent is now **portfolio emerald** `#00D9B6` (HSL `171 100% 43%`), CTRL's emerald, shared across the three sibling products (Mindmaker, CTRL, Make Your Mind Up) over one MindmakerOS token contract. The legacy `mint` tokens/classes (`bg-mint`, `text-mint`, `shadow-mint-*`, "mint" used loosely below) are retained as **aliases** to emerald; read every "mint" reference below as emerald, and prefer the `emerald*` keys in new code. For accent text/links on light backgrounds use **`text-emerald-deep`** (`#06746d`, full AA 5.21), never bright emerald. WHY + WCAG derivation: `prototypes/brand-emerald-proof.{html,md}`.
 
@@ -478,7 +478,8 @@ Guardrails: no scrolling logs, no terminal aesthetics, no ASCII art, no interact
 **Full dashboard (`Brief.tsx` at `/signal`):**
 - Extended PriceTicker
 - 3-card plain-English interpretation grid
-- Classified card archive with filter pills (WATCH / SKIP / CALL / TAKE) + search
+- **The Cohort Signal** (`PortfolioPulse.tsx`, added 2026-06-29), between the interpretation grid and the archive: a dark `bg-ink` band, "The cohort signal" eyebrow, nine-lane share-bar chart of the anonymised cross-product portfolio-pulse aggregate. Self-hides below 12 leaders in the pool (volume guard) and renders `null` during SSG prerender — its absence on a given render is expected behavior, not a bug
+- Classified card archive with filter pills (WATCH / SKIP / CALL / TAKE) + search, fed live by `useLiveBrief.ts` → `get-ai-news` (inline sample cards are the failure-path fallback only)
 - Blog column
 - Full-size Nervous Decision input with example chips
 

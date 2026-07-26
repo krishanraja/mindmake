@@ -1,6 +1,22 @@
 # History
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-26
+
+---
+
+## 2026-07-26: Documentation reconciliation pass (4 weeks of drift)
+
+**What Changed (in the codebase, reconciled into docs):**
+- **Adaptive, generative pre-session intake** (2026-07-21/22). New `personalize-intake` edge function generates bespoke, voice-linted microcopy for the pre-session intake form from the visitor's company dossier; `public/intake/index.html` made adaptive to seat/prior answers, with a guardrail against parroting auto-pulled marketing copy.
+- **Unified lead pipeline** (2026-07-06). Every lead-capture function (`send-contact-email`, `send-lead-email`, `send-leadership-insights-email`, `notify-scoping-request`, `notify-ctrl-waitlist`, `submit-intake`, `submit-testimonial`, `session-digest`) now routes through one shared core (`_shared/lead/`, `_shared/http/`), replacing per-function research/template code. Same-day fix: dark-hero/emerald-eyebrow email colour contrast bug (some clients strip CSS gradients).
+- **Voice sharpened toward "the judgment economy"** (2026-06-30). Additive vocabulary in Mindy's voice-lint gate plus a new "Lens" paragraph in the Nervous Decision Machine's system prompt; execution is getting cheap, judgment/taste/coordination/credibility are the moat.
+- **`get-ai-news` reads CTRL's shared headline pool** (2026-06-29), before falling through to Perplexity, then Brave + OpenAI curation, then a static fallback. `src/hooks/useLiveBrief.ts` (new) feeds `/signal` from this; the previously inline sample archive is now the failure-path fallback, not the primary source.
+- **The Cohort Signal / `PortfolioPulse.tsx`** (2026-06-29). New public widget on `/signal` (between the interpretation grid and the classified archive) rendering the anonymised cross-product "portfolio pulse" aggregate from Make Your Mind Up's intake — counts and shares only, server-categorised, self-hides below 12 leaders. Backing `portfolio-pulse` edge function lives in the sibling `mm-ctrl` repo, not this one.
+- **Brand signature migrated mint → portfolio emerald** (2026-06-29, already reconciled into most docs same-day; this pass caught two files that were missed: `COMMERCIAL_REFERENCE.md` still said "mint accent," and both `DESIGN_SYSTEM.md` and `DECISIONS_LOG.md` carried a fabricated `emerald-900` value that doesn't exist in code — corrected).
+- **Docs reconciled this pass**: every file in `project-documentation/` and `project-documentation/mindy/` was read against current code. Corrected: stale/non-existent env vars (`GEMINI_API_KEY`, `LOVABLE_API_KEY` — neither is referenced anywhere in `supabase/functions/`) and missing ones (`SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `BRAVE_SEARCH_API`, `ARTIFICIALANALYSIS_API_KEY`, etc.) across `ARCHITECTURE.md`/`DEPLOYMENT.md`; a stale "unresolved framework" note in `mindy/mindy-system-prompt.md` that `mindy/CANON.md` had already resolved; a `mindy/voice-lint.md` doc that hadn't been synced with the judgment-economy vocabulary added to the actual `voice-lint.ts` code; an internal 3-week-vs-4-week Cohort duration contradiction in `OUTCOMES.md`; a wrong Alumni Pass "live Stripe Checkout" claim in `COMMERCIAL_REFERENCE.md` (there is no live self-serve checkout); and Capital's near-total absence from `ICP.md`, `VALUE_PROP.md`, and `SALES_PLAYBOOK.md` despite being a live third door. All "Last Updated" dates bumped to 2026-07-26. Historical entries preserved as-is.
+
+**Why:**
+- A month of shipped features (adaptive intake, the unified lead pipeline, the CTRL shared-signal integration, the judgment-economy voice register) had accumulated with no doc coverage, and several existing docs had drifted into actively wrong claims (dead env vars, a fabricated colour token, a resolved-but-still-flagged "open question").
 
 ---
 

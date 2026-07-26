@@ -1,6 +1,6 @@
 ---
 name: mindmaker
-description: Canonical reference for Mindmaker, Krish Raja's AI advisory and product business. Use whenever work touches Mindmaker offers, pricing, ICPs, sales, the website (themindmaker.ai), Maven, the Substack, or the CTRL product. NOT Mindmaker OS, which is the autonomous operating system that runs Mindmaker internally. Mindmaker is sold; Mindmaker OS is run. Trigger on any of: "Mindmaker", "CTRL", "mm-ctrl", "ctrl.themindmaker.ai", "Memory Web", "Edge", "Daily Briefing", "Edge Pro", "/cohort", "/enterprise", "/capital", "/immersion", "/workshops", "/alumni", "AI-Fluent Executive", "Signal Session", "Revenue Architecture", "themindmaker.ai", "Maven cohort", "Mindmaker Substack", "ICP", "offer ladder", or any reference to the four-offer architecture, three-ICP framing, CTRL product, or commercial surface. Last reviewed 2026-06-28. Rule: this document captures what is durable. Anything in flux is flagged so the agent does not treat motion as truth.
+description: Canonical reference for Mindmaker, Krish Raja's AI advisory and product business. Use whenever work touches Mindmaker offers, pricing, ICPs, sales, the website (themindmaker.ai), Maven, the Substack, or the CTRL product. NOT Mindmaker OS, which is the autonomous operating system that runs Mindmaker internally. Mindmaker is sold; Mindmaker OS is run. Trigger on any of: "Mindmaker", "CTRL", "mm-ctrl", "ctrl.themindmaker.ai", "Memory Web", "Edge", "Daily Briefing", "Edge Pro", "/cohort", "/enterprise", "/capital", "/immersion", "/workshops", "/alumni", "AI-Fluent Executive", "Signal Session", "Revenue Architecture", "themindmaker.ai", "Maven cohort", "Mindmaker Substack", "ICP", "offer ladder", or any reference to the four-offer architecture, three-ICP framing, CTRL product, or commercial surface. Last reviewed 2026-07-26. Rule: this document captures what is durable. Anything in flux is flagged so the agent does not treat motion as truth.
 ---
 
 # Mindmaker: Commercial Reference
@@ -120,6 +120,8 @@ Operating Partners, Managing/General Partners, Principals at PE/VC, family offic
 
 **Same products, different framing.** Signal Session and Revenue Architecture appear on both `/enterprise` and `/capital`. The buyer pre-qualifies themselves by which page they land on (typically via outbound that targets the right ICP).
 
+**Note on ICP.md:** this section's "three ICPs" are route-level commercial surfaces. `ICP.md` carries the deeper firmographic/psychographic ICP definitions (AI Leaders, AI Products, Executive Teams, plus the Alumni retention layer) and now includes Capital allocators as its own profile too — read both; they describe the same buyers at different levels of depth, not two competing counts.
+
 ---
 
 ## 4. The Website (themindmaker.ai)
@@ -155,7 +157,7 @@ Redirects: /tool → /signal#decision · /builder-economy → thebuildereconomy.
 **Sibling subdomain:** `ctrl.themindmaker.ai` hosts CTRL, the Mindmaker product. Different repo (`mm-ctrl`), different stack details, different design language (light mode, warm off-white, executive-grade). It shares the Mindmaker brand but has its own visual system. See §7.
 
 ### 4.2 Design language
-- Mint accent colour
+- Portfolio emerald accent colour (`#00D9B6`, migrated from mint 2026-06-29 for cross-product brand cohesion with CTRL and Make Your Mind Up); the legacy `mint` Tailwind key and `--mint*` CSS tokens are kept as zero-churn aliases to emerald
 - Glass cards (`editorial-card` class)
 - `fadeUp` animation primitive
 - Dark-bg hero (`bg-ink`) on offer pages
@@ -345,7 +347,7 @@ Stripe products that should exist on the Mindmaker account:
 | The Signal Session | $15,000 | Active. Direct invoicing. |
 | The Revenue Architecture | $60,000 - $100,000 (custom prices) | Active. Direct invoicing. |
 | The AI Immersion | $12,000 | Active. Direct invoicing. |
-| The Alumni Pass | $1,500/year recurring | Active. Stripe Checkout on `/alumni`. |
+| The Alumni Pass | $1,500/year recurring | Referential Stripe product. No live self-serve checkout on `/alumni` — Krish confirms eligibility post-engagement and sends a direct Stripe Payment Link out of band. |
 | CTRL: Full Diagnostic | $49 one-time | Active. Stripe Checkout on `ctrl.themindmaker.ai`. |
 | CTRL: Deep Context Upgrade | $29 one-time | Active. Stripe Checkout on `ctrl.themindmaker.ai`. |
 | CTRL: Diagnostic + Deep Context Bundle | $69 one-time | Active. Stripe Checkout on `ctrl.themindmaker.ai`. |

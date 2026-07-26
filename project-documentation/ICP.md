@@ -1,18 +1,19 @@
 # Ideal Customer Profile
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-26
 
 ---
 
-## Three Audiences, No Overlap
+## Four ICPs, No Overlap, Plus a Retention Layer
 
-Mindmaker is a ladder with a third inquiry-only doorway. There are three primary ICPs and a retention layer (the Alumni Pass). The old "Builder vs Orchestrator" split was a 1:1 sprint framing and has been retired along with the public 1:1 sprint product.
+Mindmaker is a ladder with a third inquiry-only doorway and a fourth door for capital. There are four primary ICPs and a retention layer (the Alumni Pass). The old "Builder vs Orchestrator" split was a 1:1 sprint framing and has been retired along with the public 1:1 sprint product.
 
 | ICP | Primary entry | Primary depth offer | Doorway |
 |---|---|---|---|
 | **AI Leaders** (senior operators making AI decisions) | A Mindmaker Workshop ($599) for technical-curious leaders ready to build; The AI-Fluent Executive Cohort ($2,500) for leaders sitting on a nervous decision | The AI-Fluent Executive (Cohort) | `/workshops`, `/cohort` (Maven enrolment) |
 | **AI Products** (companies commercializing AI capability) | The Signal Session ($15,000) | Signal Session → Revenue Architecture ($60–100k) | `/enterprise` |
 | **Executive Teams** (CEO-sponsored leadership groups) | The AI Immersion (inquiry-only, $12,000) | The AI Immersion | `/immersion` |
+| **Capital Allocators** (PE/VC operating partners, family offices) | The Signal Session (from $15,000, fund-native or per portfolio company) | Signal Session → Revenue Architecture ($60–100k+ per portco, fund-level discount at 3+) | `/capital` |
 | **Alumni** (retention layer, not a primary acquisition path) | The Alumni Pass ($1,500/year) | The Alumni Pass | `/alumni` (invitation-only, unlinked) |
 
 ---
@@ -216,6 +217,53 @@ A team genuinely aligned (not performatively aligned) on the three issues addres
 - Wants the session recorded (recording kills candor)
 - Sponsor cannot name three specific tensions to resolve
 - Substitute participants expected (the format depends on the actual leaders being in the room)
+
+---
+
+## ICP 4: Capital Allocators (`/capital`)
+
+**Who:** Operating Partners, Managing/General Partners, Principals at PE/VC firms, family offices, and wealth allocators who need either the fund itself or its portfolio companies to get AI-native. Same buyer sophistication as the Enterprise ICP, but the P&L math and the decision-maker are one layer removed — they're deciding on behalf of a portfolio, not a single company.
+
+**Typical titles:** Operating Partner, Managing Partner, General Partner, Principal, Head of Portfolio Operations, Family Office CIO.
+
+**Experience:** Runs or advises a portfolio of companies, several of which have an unresolved AI question (build vs. buy, GTM around an AI feature, internal AI adoption) that no single portfolio company has the internal expertise to resolve alone.
+
+### Firmographic context
+
+| Attribute | Range |
+|---|---|
+| Structure | PE/VC fund, family office, or operating-partner practice inside one |
+| Scope | Fund-level engagement, or per-portfolio-company deployment (discount applies at 3+ engagements per 12 months) |
+| AI context | At least one portfolio company shipping or considering an AI capability; fund itself often not AI-native in its own operations |
+| Symptom | Portfolio companies each solving the same AI question independently, inconsistently, and slowly; no shared point of view the fund can bring to bear across the portfolio |
+
+### Psychographic signals
+
+- Wants one operator's judgment applied consistently across several portfolio companies, not a different consultant's opinion at each one
+- Thinks in fund economics (discount for volume, standardized deliverable) as much as in any single company's P&L
+- Skeptical of "AI strategy" decks; wants the same operator-led, decision-first format Mindmaker already runs for direct enterprise buyers
+
+### What they want
+
+- The same Signal Session / Revenue Architecture formats Enterprise buyers get, explicitly framed as fund-native or per-portfolio-company deployable
+- A discount structure that rewards bringing Mindmaker to more than one portfolio company
+- A single point of view they can carry into board meetings across multiple portfolio companies
+
+### What they become
+
+A fund (or its portfolio companies) with the same commercial clarity on AI that a direct enterprise engagement produces, repeatable across as many portfolio companies as the fund chooses to bring in.
+
+### Buying triggers (signals to watch for in outbound)
+
+- Fund raises a dedicated AI-focused vehicle or names an AI-focused operating partner
+- Multiple portfolio companies in the same fund independently reach out about AI GTM or productization within a short window
+- Public commentary from a GP/OP about "getting the portfolio AI-ready"
+
+### Disqualifiers
+
+- Wants Mindmaker to run diligence or investment-decision work (that's not the offer; the offer is post-investment operating support)
+- A single portfolio company inquiring alone with no fund-level context — route to the Enterprise ICP and `/enterprise` instead
+- Expects an ongoing fund-level retainer (Mindmaker doesn't sell retainers; each engagement is fixed-scope)
 
 ---
 

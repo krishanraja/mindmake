@@ -1,4 +1,4 @@
-<!-- Last Updated: 2026-06-28 -->
+<!-- Last Updated: 2026-07-26 -->
 # Pricing and Range Spec
 
 Machine-usable formalisation of the Mindmaker pricing model for Mindy and the proposal generator. This document encodes the model exactly as set; it invents no new numbers. Every figure here comes from the canonical ladder or the bespoke scoping rules already in force.

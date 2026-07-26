@@ -1,7 +1,7 @@
 # Mindmaker Sales Playbook
 *The single ground-truth document for AI sales and marketing agents working the Mindmaker book.*
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-26
 
 > If you are an AI sales or marketing agent, outbound, inbound, content, retargeting, lifecycle, paid, or organic, this is the document you ground on. It is opinionated, structured for retrieval, and biased toward action. Use `OFFERS.md`, `ICP.md`, `VALUE_PROP.md`, `OUTCOMES.md`, and `BRANDING.md` for deeper canon. Use `Master_Messaging_and_FAQ.md` for full pitches and FAQ.
 
@@ -15,11 +15,14 @@
 | Senior leader with a nervous AI decision | **The AI-Fluent Executive (Cohort)** ($2,500, Maven-hosted) | Workshops as warm-up; Enterprise as next step if they're commercialising AI | `audience:ai-leaders` |
 | Company commercializing an AI product | **The Signal Session** ($15,000) → **The Revenue Architecture** ($60–100k) | Operator credential page (`/operator`) | `audience:ai-products` |
 | Executive team with shared AI tensions | **The AI Immersion** ($12,000, inquiry-only) | — | `audience:exec-team` |
+| PE/VC operating partner, family office | **The Signal Session** (from $15,000, fund-native or per portco) → **The Revenue Architecture** ($60–100k+ per portco, fund-level discount at 3+) | Same formats as Enterprise, reframed for funds | `audience:capital` |
 | Mindmaker alumni (any of the above) | **The Alumni Pass** ($1,500/year, invitation-only) | — | `audience:alumni` |
 | Senior leader specifically wanting 1:1 | Inquiry at `/cohort?inquiry=1:1` | — | `audience:1to1-inquiry` |
 | Cold prospect not yet ready to talk | 5 free Lightning Lessons on Maven | Warm to a Workshop or the Cohort | `audience:cold` |
 
-The first four are the addressable market. The Alumni Pass is the retention layer. The 1:1 inquiry is a relief valve. The free lessons are the top-of-funnel warmup.
+The first five are the addressable market. The Alumni Pass is the retention layer. The 1:1 inquiry is a relief valve. The free lessons are the top-of-funnel warmup.
+
+**Routing a capital-allocator inbound:** a lead from a PE/VC operating partner or family office routes to `/capital`, not `/enterprise` — same Signal Session / Revenue Architecture deliverables, but frame the pitch around the fund or portfolio, not a single company's P&L, and lead with the fund-level discount at 3+ engagements per 12 months. A single portfolio company reaching out alone with no fund-level context routes to `/enterprise` (the `audience:ai-products` row) instead — see `ICP.md`'s Capital ICP disqualifiers.
 
 ---
 
@@ -415,6 +418,9 @@ IF prospect_company_has_AI_product AND commercial_traction_problem:
 IF prospect_is_CEO_with_team_alignment_problem AND 4_to_8_leaders:
   route to Immersion (inquiry-only), preselect "immersion" in the scoping modal
 
+IF prospect_is_PE_VC_operating_partner OR family_office AND fund_or_portfolio_level_context:
+  route to /capital (Signal Session / Revenue Architecture, reframed for funds)
+
 IF prospect_is_alum_post_engagement:
   route to /alumni (invitation-only, $1,500/year Alumni Pass)
 
@@ -443,10 +449,12 @@ The richer `send-lead-email` lead-intelligence email below is produced by the le
 - Commitment level (from the modal)
 - Audience type and path type (derived)
 - Session engagement data
-- Company research via Gemini with Google Search grounding (skipped for personal email domains)
-- 3× retry with exponential backoff for delivery reliability
+- Company research via the shared enrichment orchestrator (Brandfetch, Tranco, PDL, BuiltWith, plus a Gemini/Anthropic text-completion synthesis — not Google Search grounding), skipped for personal email domains
+- As of 2026-07-06, `send-lead-email` is a thin adapter over the same shared lead pipeline every other lead-capture function uses (`_shared/lead/pipeline.ts`), backgrounded for delivery reliability rather than retried inline
 
 When you (an AI sales agent) help craft the prospect's reply or follow-up, mirror the framing Mindy surfaced in the Diagnosis Room: "You said your decision is [X], your timeline is [Y], and the stakes are [Z]. Based on that, here's what I'd suggest…"
+
+**Pre-session intake (a distinct step, added 2026-07-21):** once an engagement is confirmed but before the session itself, the prospect fills out an adaptive pre-session intake form (`/intake`, backed by `submit-intake` + `personalize-intake`). This is not the Diagnosis Room and not the retired `PreCallQualifier` — it's a bespoke, dossier-personalized prep step that gives Krish structured context (seat, AI confidence, value frame, aspiration, business context, north star) before the call. Nothing for an AI agent to route here; it's sent directly by Krish once a date is set.
 
 ---
 
@@ -476,6 +484,7 @@ OFFERS (the ladder):
   - The Signal Session                    $15,000       1 day + 48h Commercial Narrative (15-20pp)
   - The Revenue Architecture              $60-100k      30 days (4-5 weeks), multi-session
   - The AI Immersion (inquiry-only)       $12,000       4 hours + 5-day 2pp summary
+  - Capital (third door, funds/PE/VC)     Signal Session from $15k / Rev. Architecture $60-100k+ per portco (fund-level discount at 3+) — same formats as Enterprise, reframed for funds
   - The Alumni Pass (invitation-only)     $1,500/yr     Annual continuity, Stripe-billed
 
 BRAND FRAMEWORK (homepage FrameworkJourney):  Mind Set → Mind Map → Mind Make

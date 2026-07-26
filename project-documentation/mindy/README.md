@@ -1,6 +1,6 @@
 # Mindy Brain Pack
 
-*The knowledge pack that makes Mindy reason like Krish, recommend honestly, price in ranges, and sound like the operator and not the model. Built 2026-06-09 against `MINDY-ONE-JOURNEY-ARCHITECTURE.md` (the Diagnosis Room brief); last reconciled 2026-06-28. This README is the index and the wiring diagram. It also carries the consistency and open-questions list; items resolved as of 2026-06-09 are marked.*
+*The knowledge pack that makes Mindy reason like Krish, recommend honestly, price in ranges, and sound like the operator and not the model. Built 2026-06-09 against `MINDY-ONE-JOURNEY-ARCHITECTURE.md` (the Diagnosis Room brief); last reconciled 2026-07-26. This README is the index and the wiring diagram. It also carries the consistency and open-questions list; items resolved are marked with the date/source of resolution.*
 
 ---
 
@@ -20,7 +20,7 @@ Mindy is the on-site guide for the Mindmaker Diagnosis Room: one door, one nervo
 | `pricing-range-model.md` | **Layer 1 pin + cross-cutting guardrail** | The two-mode router, the bespoke scoping math (hours × rate, ±25%, floors, value cross-check), the public range card, the four hard rules, three worked examples. | Pinned pricing logic. The proposal generator executes the engine; Mindy reads the range card. Numbers come from here, never from retrieval or the model. |
 | `proof-bank.md` | **Layer 2 — retrieval (selection only)** | 9 anonymised real engagements (R-01–R-09, verified numbers) + 26 illustrative per-offer entries (B-01–B-26), keyed by `mode` / `icp` / `industry`. | Selected, never generated. The proposal's Proof section pulls three entries keyed to (offer, ICP, nearest industry), Exa-matched. Role-only, numbers OK, never a named client. |
 | `CANON.md` | **Cross-cutting guardrail (de-poison)** | Precedence order, canonical current facts, settled corrections, the do-not-index blocklist, and the one live tension (cohort framework name). | The de-poison file. When retrieval disagrees with canon, canon wins within its precedence order. Stops retired facts (old prices, durations, framework names) leaking into client-facing output. |
-| `voice-lint.md` | **Cross-cutting guardrail (output gate)** | Machine-readable lint arrays (banned tokens/phrases/patterns, use-vocabulary) plus the craft layer (Krish's tells, before/after rewrites, pre-render checklist). | Runs as a post-generation pass on every Mindy output and every proposal. Hard fail on any banned token, em dash, or buzzword: block and regenerate. |
+| `voice-lint.md` | **Cross-cutting guardrail (output gate)** | Machine-readable lint arrays (banned tokens/phrases/patterns, use-vocabulary) plus the craft layer (Krish's tells, before/after rewrites, pre-render checklist). | Runs as a post-generation pass on every Mindy output and every proposal. Hard fail on any banned token, em dash, or buzzword: block and regenerate. As of 2026-07-21, the same gate also runs on a third surface outside the Diagnosis Room: `personalize-intake`'s microcopy for the pre-session intake form. |
 
 ---
 
@@ -81,11 +81,11 @@ The six authors flagged the following. Items 1–2 are real internal contradicti
 
 ### D. Mechanism and posture confirmations (brief §8)
 
-**6. Live-call booking mechanism (§8.1).** Which single Calendly event/duration replaces the dual-intake mess, and the behaviour when slots run dry for $12k+ fits. The pack assumes one Calendly handoff carrying the diagnosis via `notify-scoping-request`; confirm the event and the dry-slot fallback.
+**6. Live-call booking mechanism (§8.1) — CONFIRMED.** The single Calendly handoff is `https://calendly.com/krish-raja/15-min-intro` (15-min intro), carrying the diagnosis via `notify-scoping-request`/the unified lead pipeline. This is live in code (`CALENDLY_URL` in the Diagnosis Room) and documented in the repo's root `CLAUDE.md`. Dry-slot fallback behavior is not separately implemented; Calendly's own booking UI handles availability.
 
 **7. Email capture posture (§8.2).** The pack assumes work email stays optional, framed as a gift, with a graceful degraded path (one human question, no co-brand gasp) for personal-Gmail/no-email visitors. Confirm.
 
-**8. CTRL routing and the self-checkout ceiling (§8.5, §8.6).** Confirm CTRL-curious users route straight to the live product (waitlist retired), the $29/$9 labels are exact, and there is **no in-site split-pay** for the Cohort (Maven collects). The pack also pins a hard rule that nothing above ~$12k runs to self-checkout; confirm $12k is the right self-serve ceiling.
+**8. CTRL routing and the self-checkout ceiling (§8.5, §8.6) — CONFIRMED.** `_shared/mindy/knowledge.ts` pins both: CTRL-curious users route Free → $29 one-time Diagnostic → $9/mo Edge Pro, self-serve, no call, never inverted; and nothing above ~$12k runs to self-checkout — above that line the path is always the free call. Both are live in the deployed system prompt, not open questions.
 
 **9. EU/consent posture (§8.8) — flagged as a launch blocker.** Person-level enrichment (PDL resolving a role from a work email) on EU visitors needs more than a UX "let me read up" gesture, especially given the prior CTRL cross-tenant PII incident. Decide on a real consent affordance and a no-person-level-storage-beyond-session rule before this touches live traffic. This pack governs Mindy's *words*, not the enrichment plumbing, so this one sits outside the pack and must be resolved separately.
 
@@ -97,4 +97,4 @@ The six authors flagged the following. Items 1–2 are real internal contradicti
 
 ---
 
-*Phase 0 of the build (reconcile and de-poison) is what this pack delivers. Items 1 and 3 are now resolved. Outstanding items: 2 (CTRL pricing label confirmation and OFFERS.md addition), 4 (bespoke enablement lane confirmation), 5 (proof anonymisation approval), 6 (Calendly event confirmation — current assumption is 15-min intro at `calendly.com/krish-raja/15-min-intro`), 7 (email-capture posture confirmation), 8 (CTRL routing and self-serve ceiling confirmation), 9 (EU consent posture — flagged as a launch blocker).*
+*Phase 0 of the build (reconcile and de-poison) is what this pack delivers. Items 1, 3, 6, and 8 are now resolved and live in code. Outstanding items: 2 (CTRL pricing label confirmation and OFFERS.md addition), 4 (bespoke enablement lane confirmation), 5 (proof anonymisation approval), 7 (email-capture posture confirmation), 9 (EU consent posture — flagged as a launch blocker).*

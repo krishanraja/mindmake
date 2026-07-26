@@ -1,7 +1,9 @@
-<!-- Last Updated: 2026-06-28 -->
+<!-- Last Updated: 2026-07-26 -->
 # Voice Lint Pack
 
 Guarantees every Mindy output and every generated proposal sounds like Krish. Two halves: a machine-readable lint layer (regex arrays you drop into a post-generation linter) and a human-readable craft layer (his tells, worked rewrites, a pre-render checklist). When the two disagree, the craft layer wins; the regex is a floor, not a ceiling.
+
+As of 2026-07-21, the same gate (`_shared/mindy/voice-lint.ts`'s `lintVoice()`) also runs on a third surface outside the Diagnosis Room entirely: `personalize-intake`, which generates two bespoke microcopy fragments for the pre-session intake form (`public/intake/index.html`) from the visitor's company dossier. Same rules, same anti-bluff discipline (empty string beats an unconfident claim).
 
 Source of truth: `mindy-part-2-operator-intelligence.md` section 2d, and `BRANDING.md` (Brand Voice, Word Choices, Brand Don'ts).
 
@@ -162,10 +164,15 @@ A passing output should naturally hit several of these. They are not mandatory w
     "context layer", "the moat", "compounds", "compounding", "audit layer",
     "board-ready", "the call", "the fork", "the nervous decision",
     "scar tissue", "the scar", "the management layer", "the management apparatus",
-    "fleet", "the brick", "leverage audit", "next 14 days", "Monday"
+    "fleet", "the brick", "leverage audit", "next 14 days", "Monday",
+    "judgment", "taste", "the say-do gap", "non-linear", "coordination",
+    "verification", "credibility", "monetize your judgment", "the easy button",
+    "owns the context", "good enough", "expertise"
   ]
 }
 ```
+
+The last block (`judgment` through `expertise`) is the judgment-economy register added 2026-06-30: execution is getting cheap, judgment/taste/coordination/credibility are the moat. Additive soft signal only — it rewards on-direction copy, it never blocks a render. See `DECISIONS_LOG.md`'s 2026-06-30 entry.
 
 ```json
 {

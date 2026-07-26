@@ -1,6 +1,6 @@
 # Design System
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-07-26
 
 ---
 
@@ -28,10 +28,9 @@ emerald-50:    HSL 171 100% 97%  - Subtle emerald tint
 emerald-300:   HSL 171 90% 80%   - Lighter emerald
 emerald:       HSL 171 100% 43%  - Signature emerald (default, #00D9B6)
 emerald-deep:  HSL 176 90% 24%   - Text/links on light backgrounds (#06746d, full AA 5.21)
-emerald-900:   HSL 180 85% 16%   - Darkest emerald for depth
 ```
 
-The legacy `mint-*` keys remain as aliases to these emerald values (e.g. `mint-500` now resolves to emerald). Prefer the `emerald*` keys in new code; reach for `emerald-deep` for any accent text on a light surface.
+There is no separate `emerald-900` token — `tailwind.config.ts`'s `emerald` color object has exactly four keys (`DEFAULT`, `deep`, `300`, `50`). The legacy `mint-900` alias resolves straight to `--emerald-deep` (176 90% 24%), not to a distinct darker value. The legacy `mint-*` keys remain as aliases to the emerald values above (e.g. `mint-500` now resolves to emerald, `mint-900` to emerald-deep). Prefer the `emerald*` keys in new code; reach for `emerald-deep` for any accent text on a light surface.
 
 ### Neutrals
 ```

@@ -1,6 +1,6 @@
 # CLAUDE.md: Mindmaker Repository Guide
 
-**Last Updated:** 2026-06-09
+**Last Updated:** 2026-07-26
 **Purpose:** Describe the current state of the Mindmaker codebase so agents and contributors can navigate it without reverse-engineering the tree.
 
 This file is **descriptive**, not prescriptive. For strategic intent, read `project-documentation/mindmaker_rebuild_brief_v4.md` (v4/v5 combined, the barbell pivot + Operator's Edge). The v6 ladder restructure (May 2026) layered Workshops at the entry rung, renamed the Cohort to "The AI-Fluent Executive" and repriced it to $2,500 over 4 weeks, and added the invitation-only Alumni Pass; see `project-documentation/HISTORY.md` and `project-documentation/DECISIONS_LOG.md` for the full reasoning.
@@ -36,6 +36,8 @@ Mindmaker is structured as a **ladder**: free Lightning Lessons at the top, paid
   - **Unified lead pipeline:** every lead-capture function (`send-contact-email`, `send-lead-email`, `send-leadership-insights-email`, `notify-scoping-request`, `notify-ctrl-waitlist`, `submit-intake`, `submit-testimonial`, and the Diagnosis Room's `session-digest`) is now a thin adapter that maps its payload to a canonical `LeadEvent` and hands off to the shared core in `supabase/functions/_shared/lead/` (`adapters.ts` → `pipeline.ts` `dispatchLead`). The pipeline auto-researches the company (reusing the enrichment orchestrator in-process), generates an AI "operator's read", and sends Krish ONE consistent, well-formatted digest via the shared Resend helper. Endpoint URLs, DB writes, and response shapes are unchanged; the email send is backgrounded (`EdgeRuntime.waitUntil`, with an awaited fallback). Shared modules: `_shared/lead/{types,escape,render,operator-read,pipeline,adapters}.ts` and `_shared/http/{cors,resend}.ts`. `send-lead-email` now stores an enrichment `Dossier` in `leads.company_research`. Visitor-facing emails (the `/leaders` score card, the session-digest opt-in proposal copy) are preserved on their own templates.
   - `import-audience-csv` (Substack subscriber CSV → shared `audience_contacts` table; gated by `AUDIENCE_IMPORT_SECRET`)
   - `create-consultation-hold`
+  - `company-search` (Brandfetch Search API typeahead for the Diagnosis Room opener)
+  - `personalize-intake` (generates two voice-linted microcopy fragments for the adaptive pre-session intake form at `public/intake/index.html` from the visitor's dossier; degrades to `{ fragments: {} }` on any failure; reuses `_shared/mindy/voice-lint.ts` on a surface outside the Diagnosis Room)
 - `SessionDataContext` (`src/contexts/SessionDataContext.tsx`) threads qualification data into the global conversion modal(s).
 - Design system in `tailwind.config.ts` + `src/index.css`.
 
@@ -214,7 +216,7 @@ Renamed from "The Operator's Brief" (previously "Signal Desk") for straightforwa
 - Archive page: `src/pages/Brief.tsx` at route `/signal` (URL preserved for inbound). Filter pills for WATCH / SKIP / CALL / TAKE plus search.
 - Taxonomy: **WATCH** (worth acting on), **SKIP** (hype / ignore), **CALL** (a decision is overdue), **TAKE** (Krish's opinion). Renamed from the previous SIGNAL / NOISE / DECISION / TAKE set.
 - **The Cohort Signal** (`src/components/PortfolioPulse.tsx`, on `/signal` between the interpretation grid and the archive): the public face of the cross-product hive mind. Renders the anonymised `portfolio-pulse` aggregate - "what leaders are actually wrestling with", the nine AI-native lanes as share bars, from Make Your Mind Up's q5 ("the decision you keep not making"). No PII reaches the client (counts + shares only, categorised server-side); volume-guarded (self-hides below 12 leaders so a thin room never reads as weakness); prerender-safe (null during SSG). Canonical record: `mm-ctrl/docs/PORTFOLIO-HIVE-MIND.md`.
-- Data source: still inlined sample cards for now. `get-ai-news` edge function schema remains in place for eventual dynamic feed.
+- Data source: the classified archive is live, fed by `src/hooks/useLiveBrief.ts` calling `get-ai-news`. `get-ai-news` reads CTRL's shared `live_headlines_cache` first (Plan A0, same Supabase project), then falls through to Perplexity (Plan A), Brave Search + OpenAI curation (Plan B), then a static set (Plan C); the previously inline sample archive is now only the failure-path fallback, not the primary source.
 
 ---
 

@@ -1,6 +1,6 @@
 # Purpose
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-26
 
 ---
 
@@ -25,9 +25,10 @@ Mindmaker is a **ladder**: free Lightning Lessons at the top, paid Workshops ($5
 | Enterprise entry | The Signal Session | $15,000 | 1 day + 48h delivery | Company commercializing an AI product |
 | Enterprise flagship | The Revenue Architecture | $60,000–$100,000 | 30 days | Same, needing a full commercial rebuild |
 | Inquiry-only | The AI Immersion | $12,000 | 4-hour session + 5-day summary | CEO-sponsored exec team needing fast alignment |
+| Third door | Capital (Signal Session / Revenue Architecture, reframed for funds) | From $15,000 / $60,000–$100,000+ per portco | Same formats as Enterprise | PE/VC operating partners, family offices |
 | Continuity | The Alumni Pass | $1,500/year | Annual | Mindmaker alumni post any engagement |
 
-The cohort runs on content distribution and turns an audience into paying customers, hosted on Maven for enrollment continuity. Enterprise runs on inbound plus targeted outbound. The Immersion is a request-only fallback for buyers whose need is a team conversation, not an individual decision or a multi-week rebuild. The cohort is the flywheel that feeds the enterprise funnel.
+The cohort runs on content distribution and turns an audience into paying customers, hosted on Maven for enrollment continuity. Enterprise runs on inbound plus targeted outbound. The Immersion is a request-only fallback for buyers whose need is a team conversation, not an individual decision or a multi-week rebuild. Capital reuses the Enterprise engagement formats for fund-level buyers rather than being a distinct product. The cohort is the flywheel that feeds the enterprise funnel.
 
 ---
 

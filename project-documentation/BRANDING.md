@@ -1,6 +1,6 @@
 # Branding
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-07-26
 
 ---
 
@@ -114,6 +114,7 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 - Operator, practitioner, in the room, at the P&L
 - Specific numbers: "$2,500", "$15k", "$60–100k", "$12k", "10–15 leaders", "14-agent OS", "30 days", "48 hours"
 - Maven (when referring to Cohort enrollment, Slack, alumni community)
+- **The judgment-economy register** (added 2026-06-30): judgment, taste, coordination, verification, credibility, "the say-do gap," "the easy button," "owns the context," "monetize your judgment," non-linear, "good enough," expertise. The thesis: execution is getting cheap; judgment, taste, coordination, and credibility are the moat. Point AI at the repeatable middle; spend judgment on the call no model can make. Live today in Mindy's voice-lint gate and the Nervous Decision Machine's system prompt (see `DECISIONS_LOG.md`'s 2026-06-30 entry); not yet folded into static site copy or the other strategy docs — a deliberate next step, not an oversight.
 
 ### Never use
 - Transformation, digital, synergy, leverage (as a verb), ecosystem, journey (as a generic noun)

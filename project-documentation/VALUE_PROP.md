@@ -1,6 +1,6 @@
 # Value Proposition
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-26
 
 ---
 
@@ -8,12 +8,13 @@
 
 **"Mindmaker is the anti-consultancy for leaders done being sold AI. Free Lightning Lessons at the top. Hands-on Workshops at $599 to build alongside the operator. A Maven-hosted Cohort at $2,500 for the leader sitting on a nervous AI decision. Enterprise sprints from $15k for companies commercializing AI. An inquiry-only Immersion for exec teams that need fast alignment. An Alumni Pass for continuity after the finish line. Every offer has a finish line."**
 
-**Three audiences, no overlap, plus a retention layer:**
+**Four audiences, no overlap, plus a retention layer:**
 
 1. **AI leaders**. senior operators ready to build (Workshops) or sitting on a nervous decision (Cohort). Answer: **A Mindmaker Workshop ($599)** as the entry rung; **The AI-Fluent Executive Cohort ($2,500/seat, quarterly, hosted on Maven)** as the qualifying step.
 2. **AI products**. companies with AI capability but unclear commercial traction. Answer: **The Signal Session ($15k, 1 day + 48h Commercial Narrative)** and **The Revenue Architecture ($60–100k, 30 days).**
 3. **Executive teams**. CEO-led leadership groups stuck on shared AI tensions. Answer (inquiry-only): **The AI Immersion ($12k, 4 hours, 5-day summary).**
-4. **Alumni** (retention layer). Anyone who completed any of the above. Answer (invitation-only): **The Alumni Pass ($1,500/year)**.
+4. **Capital allocators** (`/capital`). PE/VC operating partners, family offices needing the fund itself or its portfolio companies to get AI-native. Answer: the same **Signal Session** (from $15k, fund-native or per portfolio company) and **Revenue Architecture** ($60–100k+ per portco, fund-level discount at 3+ engagements per 12 months) — not a separate product, a different framing of the Enterprise formats.
+5. **Alumni** (retention layer). Anyone who completed any of the above. Answer (invitation-only): **The Alumni Pass ($1,500/year)**.
 
 The ladder reads from top to bottom: free → entry-paid → qualifying → margin → continuity. Every rung is short, fixed-scope, and stand-alone, with a clear ramp to the next rung when the buyer is ready.
 

@@ -2,7 +2,7 @@
 
 **Purpose.** This is the de-poison file for Mindy's knowledge base. When Mindy retrieves something that disagrees with this document, this document wins (within the precedence order below). It exists to stop retired facts (old prices, old durations, old framework names) from leaking into a client-facing answer.
 
-**Last reconciled:** 2026-06-28 against `C:/Users/krish/.mm-arch/CLAUDE.md` (dated 2026-06-03) and `project-documentation/` (OFFERS, OUTCOMES, VALUE_PROP, HISTORY, DECISIONS_LOG).
+**Last reconciled:** 2026-07-26 against the repo's root `CLAUDE.md` and `project-documentation/` (OFFERS, OUTCOMES, VALUE_PROP, HISTORY, DECISIONS_LOG). Verified against the current codebase: no pricing, offer, or ICP fact changed since the prior reconciliation — the intervening month's changes (brand colour, CTRL shared-signal, unified lead pipeline, adaptive intake, judgment-economy voice register) are all outside this file's scope.
 
 **Scope.** This governs what Mindy treats as true about Mindmaker's offers, pricing, ICPs, and product. It does not change the voice rules or the anonymisation rule, which sit in their own files and are non-negotiable regardless of anything here.
 
@@ -147,8 +147,8 @@ So when Mindy names the Mindmaker framework, it says **Mind Set → Mind Map →
 
 ### Other stale-fact landmines hit during reconciliation
 
-1. **`OUTCOMES.md` "3-week Cohort"** — the Anti-Outcomes list (line ~165) still says *"30-day Revenue Architecture, 1-day Signal Session, 4-hour Immersion, **3-week Cohort**."* This contradicts the canonical **4-week** cohort duration. The fix is settled in DECISIONS_LOG (3→4 weeks); this is a leftover in OUTCOMES. Mindy says **4 weeks**.
-2. **`OUTCOMES.md` emotional arc / "week 3" finish** — the arc and "Immediate (end of cohort, week 3)" framing are written against the old 3-week model. The cohort finishes at **week 4 (Deploy)**. Mindy says the cohort ends at week 4.
+1. **`OUTCOMES.md` "3-week Cohort" — FIXED 2026-07-26.** The Anti-Outcomes list now correctly reads "4-week Cohort," matching the canonical 4-week duration. Mindy says **4 weeks**.
+2. **`OUTCOMES.md` emotional arc / cohort finish — already correct.** The arc reads "Immediate (end of cohort, week 4)"; no drift found here on the 2026-07-26 pass. Mindy says the cohort ends at week 4 (Deploy).
 3. **`OUTCOMES.md` "Mind Set → Mind Map → Mind Make" framework references** — these are correct brand-framework language per the Section 5 resolution (the canonical cross-offer framework), not cohort curriculum. No fix needed.
 4. **CTRL pricing absent from the offer docs** — OFFERS/VALUE_PROP/SALES_PLAYBOOK describe CTRL only as a bundled benefit. The $29 one-time / $9-mo product pricing exists *only* in this CANON (Section 2.3) and the mindmaker skill; if a doc later contradicts it, the live CTRL product surface wins.
 5. **Exact prices live throughout the docs** — every doc still carries exact figures ($599, $2,500, $15k, $60–100k, $12k, $1,500). These are **internal reasoning aids only.** Per the range-only policy, Mindy must never surface them as exact numbers to a client; it converts to the range card in Section 2.4.

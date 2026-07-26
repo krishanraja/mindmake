@@ -1,6 +1,6 @@
 # Common Issues
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-26
 
 ---
 
@@ -91,9 +91,9 @@ Note: the phrase "what's your nervous decision" can still appear in body copy as
 
 ---
 
-### Issue: Mint text on light backgrounds (WCAG fail)
-**Symptom:** `text-mint` used on `bg-background` or any white/light surface.
-**Solution:** Never `text-mint` on light. Use `text-foreground` or `text-ink` on light; `text-dark-card-*` on dark.
+### Issue: Mint/emerald text on light backgrounds (WCAG fail)
+**Symptom:** `text-mint` or bright `text-emerald` used on `bg-background` or any white/light surface (`mint` is now an alias for emerald; both fail the same way — bright emerald is ≈1.7:1 on white).
+**Solution:** Never bright `text-mint`/`text-emerald` on light. For accent-colored text/links on light, use **`text-emerald-deep`** (full AA, 5.21:1). Use `text-foreground`/`text-ink` for body text on light; `text-dark-card-*` on dark.
 
 ---
 
@@ -118,13 +118,45 @@ Note: the phrase "what's your nervous decision" can still appear in body copy as
 
 ---
 
+### Issue: `/signal`'s classified archive looks stale or falls back to sample cards
+**Symptom:** The card archive on `/signal` shows the same handful of cards regardless of the day, or reads noticeably out of date.
+**Cause:** As of 2026-06-29, `src/hooks/useLiveBrief.ts` calls `get-ai-news` live; the inline sample archive is now only the failure-path fallback, not the primary source. `get-ai-news` itself tries CTRL's shared `live_headlines_cache` first, then Perplexity, then Brave + OpenAI, then a static set.
+**Solution:**
+1. Check `get-ai-news` logs to see which plan (A0/A/B/C) actually served the response
+2. If it's stuck on Plan A0, confirm `SUPABASE_URL`/`SUPABASE_SERVICE_ROLE_KEY` can reach CTRL's shared pool
+3. If it's on the static Plan C fallback, check `PERPLEXITY_API_KEY` and `BRAVE_SEARCH_API`/`OPENAI_API_KEY`
+
+---
+
+### Issue: The Cohort Signal (`PortfolioPulse`) doesn't render on `/signal`
+**Symptom:** No "The cohort signal" section between the interpretation grid and the classified archive.
+**Cause:** This is very likely expected behavior, not a bug — the widget self-hides below 12 leaders in the shared pool (volume guard, so a thin room never reads as weakness) and is intentionally `null` during SSG prerender.
+**Solution:** Check the `portfolio-pulse` edge function's actual leader count before treating this as broken. That function is deployed from the sibling `mm-ctrl` repo, not this one — a missing widget could also mean that function isn't deployed to this Supabase project.
+
+---
+
+### Issue: Pre-session intake shows generic copy instead of a personalized reflection
+**Symptom:** `/intake` doesn't show a bespoke one-line business reflection or aspiration nudge.
+**Cause:** This is progressive enhancement by design. `personalize-intake` returns `{ fragments: {} }` on any failure, missing dossier signal, LLM failure, or voice-lint rejection (including the anti-bluff rule: an unconfident claim returns an empty string rather than guessing) — the static page's own deterministic copy is the intended fallback, not a bug.
+**Solution:** Only investigate if the fallback copy itself is missing or broken. Otherwise this is working as designed.
+
+---
+
 ### Issue: Email send failures (Resend)
 **Symptom:** Leads not receiving emails, Krish not receiving notifications.
-**Cause:** Resend API failure, rate limiting, or domain not verified.
+**Cause:** Resend API failure, rate limiting, domain not verified, or (since the 2026-07-06 unification) a problem in the shared `_shared/lead/pipeline.ts` dispatch that all eight lead-capture functions now share.
 **Solution:**
 1. Check Resend dashboard for delivery status
 2. Verify sending domain is verified (not using Resend test domain)
 3. Check edge function logs for retry backoff (3 attempts)
+4. Since the unification, also check: is `SUPABASE_URL`/`SUPABASE_SERVICE_ROLE_KEY` present (every lead-pipeline function needs it now, even ones that previously didn't)? Did the backgrounded `EdgeRuntime.waitUntil` send silently fail? A single bug in `_shared/lead/pipeline.ts` now affects all eight functions at once, not just one
+
+---
+
+### Issue: Lead notification emails render with invisible text (Outlook / some Gmail-Yahoo states)
+**Symptom:** The dark hero band or the emerald eyebrow in a Krish-facing lead email renders as white-on-white.
+**Cause:** Some email clients strip CSS gradients entirely, and the shared email templates (`_shared/lead/render.ts`) previously relied on a gradient background for those elements.
+**Solution:** Fixed 2026-07-06 by adding an explicit `bgcolor` attribute + `background-color` CSS fallback alongside the gradient. If this regresses, check `heroBlock()` in `_shared/lead/render.ts` for a reintroduced gradient-only background.
 
 ---
 
@@ -229,7 +261,12 @@ No user accounts; all bookings via Calendly. No plan to change unless a client p
 `create-consultation-hold` exists but is not wired into the booking flow. Direct Calendly booking is live.
 
 ### Cohort date hardcoded
-The next-cohort date is a literal in `Cohort.tsx`. When Supabase `cohort_dates` is wired up, replace the literal. Until then, update on each cohort release.
+The next-cohort date is a literal in `Cohort.tsx` (`startLabel`/`endLabel`). When Supabase `cohort_dates` is wired up, replace the literal. Until then, update on each cohort release.
+
+**Live as of 2026-07-26: this literal is stale.** `Cohort.tsx` currently shows "Next cohort: July 21, 2026 to August 14, 2026" — a cohort that started 5 days before today's date — still labeled "Next cohort" on the live page. This is a site-content bug, not a documentation bug (out of scope for this reconciliation pass, which is docs-only), but it should be fixed in `Cohort.tsx` on its own commit as soon as the actual next cohort date is known.
+
+### Dead enrichment code from the 2026-07-06 lead-pipeline unification
+`_shared/company-research.ts` and `_shared/vertex-client.ts` are no longer imported by anything — the old per-function Gemini-with-Google-Search-grounding research path they implemented was replaced by `_shared/enrich/orchestrate.ts`. They're harmless (unreferenced Deno modules don't ship in any bundle a function actually invokes), but don't copy a pattern from either file into new code, and consider deleting them in a future cleanup pass.
 
 ---
 
@@ -240,7 +277,7 @@ When investigating issues:
 1. Check browser console for errors
 2. Check network tab for failed requests
 3. Check Lovable Cloud / Supabase logs for edge function errors
-4. Verify secrets (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `RESEND_API_KEY`, `LOVABLE_API_KEY`)
+4. Verify secrets (`ANTHROPIC_API_KEY`, `GOOGLE_AI_API_KEY`, `OPENAI_API_KEY`, `RESEND_API_KEY`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`)
 5. Test on mobile viewport (375px width)
 6. Hard refresh to clear cache
 7. Verify edge functions deployed (check timestamp, 30–60s propagation)

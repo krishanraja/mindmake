@@ -1,6 +1,6 @@
 # Offers: The Full Guide
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-26
 
 > Replaces the previous `SPRINTS.md`. The 1:1 sprint products (4-Week and 90-Day Builder / Orchestrator sprints) were retired from the public site in the v4 barbell pivot. The v6 ladder restructure (May 2026) added paid Workshops as the entry product and the Alumni Pass as a continuity layer. See `mindmaker_rebuild_brief_v4.md` for the v4 rationale and `DECISIONS_LOG.md` for the commercial reasoning behind v6.
 
@@ -20,6 +20,8 @@ Mindmaker is a ladder, not a single product. Free Lightning Lessons sit at the t
 | **The Alumni Pass** (invitation-only) | $1,500 / year | Annual | Mindmaker alumni post any engagement | `/alumni` (unlinked from nav and footer) |
 
 Every offer has a fixed scope, a fixed outcome, and a finish line.
+
+**Capital, the third door:** `/capital` repositions the same Signal Session and Revenue Architecture engagement formats above for funds, family offices, and operating partners — Signal Session from $15k (fund-level or per portfolio company), Revenue Architecture $60,000–$100,000+ per portfolio company with a fund-level discount for 3+ engagements per 12 months. Not a separate product; see `ICP.md` for the Capital allocator profile.
 
 **Internal floor / ceiling (not public):** Cohort minimum viable enrollment = 8 seats, cap = 15. Revenue Architecture anchor $60k, extended-scope ceiling $125k. Immersion travel charged additional for on-site. Workshop max = 30 seats per session, run as small-group cohort even at scale.
 

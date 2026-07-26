@@ -1,6 +1,6 @@
 # Deployment Checklist
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-26
 
 Pre-deploy and post-deploy verification for the Mindmaker project.
 
@@ -14,12 +14,17 @@ Pre-deploy and post-deploy verification for the Mindmaker project.
 - [ ] `npm run lint` passes with no warnings
 
 ### 2. Environment variables
-All required secrets configured in Lovable Cloud / Supabase:
-- [ ] `ANTHROPIC_API_KEY`. required for the Nervous Decision Machine (Claude Haiku 4.5)
-- [ ] `GEMINI_API_KEY`. preferred for `send-lead-email` company research with Google Search grounding
-- [ ] `OPENAI_API_KEY`. market sentiment + lead enrichment fallback
-- [ ] `RESEND_API_KEY`. email delivery
-- [ ] `LOVABLE_API_KEY`. AI gateway (auto-provisioned)
+All required secrets configured in Supabase. This list is the actual set referenced by `Deno.env.get(...)` across `supabase/functions/` as of 2026-07-26 — `GEMINI_API_KEY` and `LOVABLE_API_KEY` (both previously listed here) are **not referenced anywhere in the codebase** and can be dropped from a fresh deploy:
+- [ ] `ANTHROPIC_API_KEY`. Mindy reasoning, proposal prose, Nervous Decision Machine, `enrich`/`personalize-intake` LLM fallback
+- [ ] `GOOGLE_AI_API_KEY`. Gemini company synthesis (shared enrichment orchestrator)
+- [ ] `OPENAI_API_KEY`. Whisper transcription, market sentiment, `get-ai-news` Brave-curation fallback
+- [ ] `RESEND_API_KEY`. email delivery (shared `_shared/http/resend.ts` helper)
+- [ ] `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`. required by every lead-pipeline function (in-process enrichment) and `get-ai-news`'s CTRL shared-pool read
+- [ ] `BROWSERLESS_API_KEY`. proposal HTML → PDF
+- [ ] `BRANDFETCH_API_KEY` / `BRANDFETCH_CLIENT_ID`. company identity/logo/colours; `company-search` typeahead
+- [ ] `PEOPLEDATALABS_API_KEY`, `BUILTWITH_API_KEY`, `EXA_API_KEY`, `PERPLEXITY_API_KEY`, `NEWSAPI_API_KEY`. dossier enrichment (each optional; missing key just disables that tool)
+- [ ] `BRAVE_SEARCH_API`, `ARTIFICIALANALYSIS_API_KEY`. `get-ai-news` fallback plan + model context
+- [ ] `AUDIENCE_IMPORT_SECRET`. gates `import-audience-csv`
 - [ ] `STRIPE_SECRET_KEY`. optional, currently bypassed (Cohort payment runs via Maven)
 
 ### 3. Edge functions
@@ -161,6 +166,11 @@ All routes in `src/App.tsx` accessible:
 - [ ] Focus states visible on all interactive elements
 - [ ] `PriceTicker` respects `prefers-reduced-motion`
 
+### 8. New surfaces added since 2026-06-28 reconciliation
+- [ ] `/signal`'s classified archive loads live from `get-ai-news` (check network tab; the inline sample archive should only appear as a failure fallback)
+- [ ] The Cohort Signal (`PortfolioPulse`) either renders on `/signal` with real share bars, or is absent because the pool is under 12 leaders — a missing widget is not itself a bug, don't chase it as one
+- [ ] `/intake` prefills the business-description question from `enrich-company` and shows a personalized reflection/aspiration line when `personalize-intake` succeeds (both are progressive enhancement; a working fallback with generic copy is not a failure)
+
 ---
 
 ## Secrets Reference
@@ -168,23 +178,29 @@ All routes in `src/App.tsx` accessible:
 ### Required
 | Secret | Purpose | Provider |
 |--------|---------|----------|
-| `ANTHROPIC_API_KEY` | Nervous Decision Machine | Anthropic |
-| `GEMINI_API_KEY` | Lead enrichment with Google Search grounding (preferred) | Google AI |
-| `OPENAI_API_KEY` | Market sentiment + lead enrichment fallback | OpenAI |
-| `RESEND_API_KEY` | Email delivery | Resend |
+| `ANTHROPIC_API_KEY` | Mindy, proposals, Nervous Decision Machine, enrichment/personalize-intake LLM fallback | Anthropic |
+| `GOOGLE_AI_API_KEY` | Gemini company synthesis (shared enrichment orchestrator) | Google AI |
+| `OPENAI_API_KEY` | Whisper transcription, market sentiment, `get-ai-news` Brave-curation fallback | OpenAI |
+| `RESEND_API_KEY` | Email delivery (shared `_shared/http/resend.ts`) | Resend |
+| `SUPABASE_URL` | DB connection; required in-process by every lead-pipeline function and `get-ai-news`'s CTRL shared-pool read | Supabase |
+| `SUPABASE_SERVICE_ROLE_KEY` | Admin API key; same call sites as above | Supabase |
 
-### Auto-provisioned (Lovable Cloud)
+### Optional (dossier enrichment — each degrades gracefully if missing)
 | Secret | Purpose |
 |--------|---------|
-| `LOVABLE_API_KEY` | AI gateway |
-| `SUPABASE_URL` | Database connection |
-| `SUPABASE_PUBLISHABLE_KEY` | Client API key |
-| `SUPABASE_SERVICE_ROLE_KEY` | Admin API key |
-
-### Optional
-| Secret | Status |
-|--------|--------|
+| `BROWSERLESS_API_KEY` | Proposal HTML → PDF |
+| `BRANDFETCH_API_KEY` / `BRANDFETCH_CLIENT_ID` | Company identity/logo/colours; `company-search` typeahead |
+| `PEOPLEDATALABS_API_KEY` | Company size / routing signal |
+| `BUILTWITH_API_KEY` | Tech-stack signal |
+| `EXA_API_KEY` | Proof matching + currency |
+| `PERPLEXITY_API_KEY` | Company currency/recent signals; `get-ai-news` Plan A |
+| `NEWSAPI_API_KEY` | Recent news for the dossier |
+| `BRAVE_SEARCH_API` | `get-ai-news` Plan B curation source |
+| `ARTIFICIALANALYSIS_API_KEY` | `get-ai-news` model-performance context |
+| `AUDIENCE_IMPORT_SECRET` | Gates `import-audience-csv` |
 | `STRIPE_SECRET_KEY` | Payment holds, currently bypassed (Cohort payment runs through Maven) |
+
+**Note:** `GEMINI_API_KEY` and `LOVABLE_API_KEY`, both previously listed as required/auto-provisioned here, are referenced nowhere in the current codebase — drop them from a fresh deploy.
 
 ---
 

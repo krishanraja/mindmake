@@ -1,16 +1,62 @@
 # Decisions Log
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-07-26
 
 ---
 
 ## Brand & Product Decisions
 
+### 2026-07-21: Adaptive, generative pre-session intake
+
+**Decision:** Make the static pre-session intake form (`public/intake/index.html`) adaptive and generative instead of one fixed question set. Question copy, options, and help text now resolve from the visitor's seat and prior answers (`SEAT_TASK_BANK`, `AI_WEEK_BANK`, `VALUE_FRAME_BANK`, `deriveAiPosture()`); the form calls `enrich-company` (identity then full depth) to prefill the business-description question from the company dossier, and a new `personalize-intake` edge function generates two bespoke, voice-linted microcopy fragments (a one-line reflection of the business, an aspiration nudge) from that dossier.
+
+**Context:** A single fixed intake form read as generic busywork before a confirmed engagement. Reflecting back what Mindmaker already knows about the visitor's company — accurately, and only when confident — makes the pre-session step feel bespoke rather than like paperwork, without ever inventing a fact about the visitor's business.
+
+**Guardrail added 2026-07-22:** the generated `business_reflect` fragment was occasionally parroting the company's own marketing/CTA language verbatim when auto-pulled from a website descriptor. Added `cleanDescriptor()` to strip marketing/CTA tails ("Discover how we...") before the fragment reaches the visitor, plus the existing anti-bluff rule (empty string over any unconfident claim) and the Mindy voice-lint gate.
+
+**Impact:** New `supabase/functions/personalize-intake/index.ts` (calls `_shared/enrich/llm.ts` + `_shared/mindy/voice-lint.ts`; degrades to `{ fragments: {} }` on any failure so the form always has a deterministic fallback). `public/intake/index.html` substantially rewritten for adaptivity, dossier prefill, and voice input (Web Speech API).
+
+---
+
+### 2026-07-06: Unify every lead-capture email into one pipeline
+
+**Decision:** Collapse eight independent lead-capture implementations (`send-contact-email`, `send-lead-email`, `send-leadership-insights-email`, `notify-scoping-request`, `notify-ctrl-waitlist`, `submit-intake`, `submit-testimonial`, `session-digest`) into thin adapters over one shared core: `supabase/functions/_shared/lead/{types,escape,render,operator-read,pipeline,adapters}.ts` and `_shared/http/{cors,resend}.ts`. Each function now maps its own payload to a canonical `LeadEvent` and calls `dispatchLead`/`processLead`, which auto-researches the company (reusing the `enrich-company` orchestrator in-process), generates an AI "operator's read," and sends Krish one consistently-formatted digest via a shared Resend helper.
+
+**Context:** Each lead-capture function had drifted into its own bespoke research mechanism and email template (some still on the old Gemini-with-Google-Search-grounding pattern, some plain-text). Krish was getting inconsistent, differently-formatted notifications depending on which form a lead came through. One pipeline means one format, one enrichment mechanism, and one place to improve the "operator's read" for every surface at once.
+
+**Impact:** Endpoint URLs, DB writes, and response shapes are unchanged (backward compatible). The email send is backgrounded (`EdgeRuntime.waitUntil`, with an awaited fallback). `send-lead-email` now stores the enrichment `Dossier` in `leads.company_research`. The old per-function Gemini-with-tools research path (`_shared/company-research.ts`, `_shared/vertex-client.ts`) is no longer imported by anything and is dead code pending removal. A follow-up commit (5b95c81) fixed a colour-contrast bug in the shared email templates: the dark hero band and emerald eyebrow used a CSS gradient that some email clients (Outlook, some Gmail/Yahoo states) strip, leaving white text invisible on a white background — fixed with an explicit `bgcolor`/`background-color` fallback.
+
+---
+
+### 2026-06-30: Sharpen Mindmaker's voice toward "the judgment economy"
+
+**Decision:** Add a directional vocabulary register — judgment, taste, coordination, credibility, "the say-do gap," "the easy button," "owns the context" — as an additive, non-blocking positive signal in Mindy's voice-lint gate (`_shared/mindy/voice-lint.ts` `USE_VOCABULARY`), and add a "Lens" paragraph to the `nervous-decision-machine` system prompt naming the same thesis: execution is getting cheap; judgment, taste, coordination, and credibility are the moat.
+
+**Context:** Krish's live point of view was that AI is commoditizing execution, which raises rather than lowers the value of human judgment on the calls a model can't make. This sharpens Mindmaker's positioning without changing pricing, offers, or ICPs — it's a register shift that should read consistently across every Krish-voice surface (Mindy diagnosis, generated proposals, the Nervous Decision Machine).
+
+**Impact:** `_shared/mindy/voice-lint.ts` and `nervous-decision-machine/index.ts` only — no schema or pricing change. Static site copy and the strategy docs have not yet been rewritten in this register; that's a deliberate follow-on, not an oversight.
+
+---
+
+### 2026-06-29: Get-ai-news reads CTRL's shared headline pool; Cohort Signal exposes it publicly
+
+**Decision:** Two related changes to Live Intel (`/signal`), both part of the same "one brain, one pool" cross-product hive-mind effort with CTRL and Make Your Mind Up:
+1. `get-ai-news` now reads a shared `live_headlines_cache` table (written by CTRL) as its first source, before falling through to Perplexity, then Brave Search + OpenAI curation, then a static fallback.
+2. A new public widget, `src/components/PortfolioPulse.tsx` ("The Cohort Signal"), renders the anonymised cross-product "portfolio pulse" aggregate — what leaders across the whole hive are actually wrestling with, as nine AI-native lanes with share bars — sourced from Make Your Mind Up's intake question 5. It sits on `/signal` between the interpretation grid and the classified archive.
+
+**Context:** The three sibling products already shared one buyer base and one MindmakerOS token contract; sharing signal (not just a colour system) makes the live intelligence on `/signal` genuinely richer than what Mindmaker could source alone, and gives visitors real evidence Mindmaker sees more of the market than a single-product site would.
+
+**Privacy guardrail:** no PII reaches the client — the Cohort Signal shows counts and shares only, categorised server-side, and self-hides below 12 leaders so a thin room never reads as weakness. The widget is null during SSG prerender (no false "0 leaders" flash).
+
+**Impact:** `src/hooks/useLiveBrief.ts` (new) feeds `src/pages/Brief.tsx` from `get-ai-news`, falling back to the inline sample archive on failure. `PortfolioPulse.tsx`'s backing `portfolio-pulse` edge function is deployed from the sibling `mm-ctrl` repo against the same Supabase project, not from this repo. Canonical record: `mm-ctrl/docs/PORTFOLIO-HIVE-MIND.md`.
+
+---
+
 ### 2026-06-29: Signature accent moves from Mint to portfolio Emerald (brand cohesion)
 
 **Decision:** Change Mindmaker's signature accent from **mint** (`#7ef4c2`, HSL `158 82% 73%`) to **portfolio emerald** (`#00D9B6`, HSL `171 100% 43%`), CTRL's emerald, now the shared signature across the three sibling products: **Mindmaker, CTRL, and Make Your Mind Up**. Ink (`#0e1a2b`), neutrals, and every other colour are unchanged. The migration is **zero-churn**: the legacy `--mint*` CSS tokens and the Tailwind `mint` colour key are retained as **aliases** that now resolve to emerald, so existing `bg-mint` / `text-mint` / `shadow-mint-*` keep working and render emerald. New code should prefer the `emerald*` keys.
 
-**Emerald scale:** `emerald-50` `171 100% 97%`, `emerald-300` `171 90% 80%`, `emerald` `171 100% 43%`, `emerald-deep` `176 90% 24%` (`#06746d`), `emerald-900` `180 85% 16%`.
+**Emerald scale:** `emerald-50` `171 100% 97%`, `emerald-300` `171 90% 80%`, `emerald` `171 100% 43%`, `emerald-deep` `176 90% 24%` (`#06746d`). There is no separate `emerald-900` — the legacy `mint-900` alias resolves straight to `emerald-deep`.
 
 **Context:**
 - The three products were drifting apart visually while sharing one buyer and one underlying MindmakerOS token contract. A single signature accent makes them read as one house.

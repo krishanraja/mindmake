@@ -1,6 +1,6 @@
 # Replication Guide
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-07-26
 
 ---
 
@@ -101,6 +101,7 @@ src/components/TrustSection.tsx        # Krish bio + testimonials carousel
 src/components/FrameworkJourney.tsx    # Mind Set → Mind Map → Mind Make
 src/components/OperatorsEdge.tsx       # v5 credential section
 src/components/OperatorsBrief.tsx      # Live Intel homepage teaser
+src/components/PortfolioPulse.tsx      # "The Cohort Signal" - cross-product hive-mind widget, on /signal only
 src/components/PriceTicker.tsx         # CSS-marquee model price ticker
 src/components/LightningLessons.tsx    # 5 Maven Lightning Lesson links (Resources nav)
 src/components/SimpleCTA.tsx
@@ -131,6 +132,7 @@ src/contexts/SessionDataContext.tsx     # threads qualifier data into modal
 src/hooks/useModelData.ts               # ALLOWED_MODEL_IDS allowlist
 src/hooks/useScrollDirection.ts         # navbar hide/show
 src/hooks/useLeadershipInsights.ts
+src/hooks/useLiveBrief.ts               # feeds Brief.tsx from get-ai-news; falls back to inline sample archive
 ```
 
 ---
@@ -150,32 +152,34 @@ supabase/functions/nervous-decision-machine/index.ts
 
 ### Step 14: Create other functions
 ```
-supabase/functions/get-ai-news/index.ts               # Operator's Brief content
+supabase/functions/get-ai-news/index.ts               # Live Intel classified archive: CTRL shared pool → Perplexity → Brave/OpenAI → static
 supabase/functions/get-market-sentiment/index.ts
 supabase/functions/get-model-data/index.ts            # PriceTicker feed
-supabase/functions/send-lead-email/index.ts           # OpenAI enrichment + Resend
-supabase/functions/send-contact-email/index.ts
-supabase/functions/send-leadership-insights-email/index.ts
-supabase/functions/notify-scoping-request/index.ts    # ScopingModal intake → emails krish@themindmaker.ai (Resend)
-supabase/functions/notify-ctrl-waitlist/index.ts       # CTRL waitlist signup → emails krish@themindmaker.ai (Resend)
+supabase/functions/send-lead-email/index.ts           # thin lead-pipeline adapter (see _shared/lead/)
+supabase/functions/send-contact-email/index.ts        # thin lead-pipeline adapter
+supabase/functions/send-leadership-insights-email/index.ts  # Krish notification via lead pipeline; visitor email unchanged
+supabase/functions/notify-scoping-request/index.ts    # ScopingModal intake → thin lead-pipeline adapter
+supabase/functions/notify-ctrl-waitlist/index.ts       # CTRL waitlist signup → thin lead-pipeline adapter
 supabase/functions/mindy-chat/index.ts                 # Diagnosis Room (Mindy) conversation
-supabase/functions/enrich-company/index.ts             # Diagnosis Room company enrichment
+supabase/functions/enrich-company/index.ts             # thin wrapper over _shared/enrich/orchestrate.ts
 supabase/functions/generate-proposal/index.ts          # Diagnosis Room co-branded proposal generation
-supabase/functions/session-digest/index.ts             # Diagnosis Room session digest
+supabase/functions/session-digest/index.ts             # Diagnosis Room session digest; thin lead-pipeline adapter
 supabase/functions/transcribe/index.ts                 # Whisper voice input for the Diagnosis Room
 supabase/functions/create-consultation-hold/index.ts  # Stripe (bypassed)
 supabase/functions/company-search/index.ts             # Brandfetch Search API typeahead (Diagnosis Room opener)
-supabase/functions/submit-intake/index.ts              # pre-session intake form → row + email brief to Krish
-supabase/functions/submit-testimonial/index.ts         # public testimonial submission → testimonials table + email Krish
+supabase/functions/submit-intake/index.ts              # thin lead-pipeline adapter; inserts into intake_submissions
+supabase/functions/submit-testimonial/index.ts         # thin lead-pipeline adapter; inserts into testimonials
+supabase/functions/personalize-intake/index.ts         # generates 2 voice-linted microcopy fragments for public/intake
 ```
 
+Also copy the shared modules these all depend on: `_shared/lead/{types,escape,render,operator-read,pipeline,adapters}.ts`, `_shared/http/{cors,resend}.ts`, `_shared/enrich/{orchestrate,llm}.ts` (plus their `brandfetch/builtwith/currency/pdl/synthesize/tranco/types` siblings), and `_shared/mindy/voice-lint.ts` (used by both the Diagnosis Room and `personalize-intake`).
+
 ### Step 15: Configure functions
+
+The live `supabase/config.toml` only declares `verify_jwt = false` for a subset of functions (mostly the ones taking anonymous public POSTs); functions invoked from the authenticated frontend context don't need an entry. Mirror the live file rather than assuming every function needs a block:
 ```toml
 # supabase/config.toml
 project_id = "your-project-id"
-
-[functions.nervous-decision-machine]
-verify_jwt = false
 
 [functions.get-ai-news]
 verify_jwt = false
@@ -183,7 +187,7 @@ verify_jwt = false
 [functions.get-market-sentiment]
 verify_jwt = false
 
-[functions.get-model-data]
+[functions.create-consultation-hold]
 verify_jwt = false
 
 [functions.send-lead-email]
@@ -195,19 +199,19 @@ verify_jwt = false
 [functions.send-leadership-insights-email]
 verify_jwt = false
 
-[functions.notify-scoping-request]
+[functions.nervous-decision-machine]
 verify_jwt = false
 
-[functions.notify-ctrl-waitlist]
+[functions.import-audience-csv]
 verify_jwt = false
 
-[functions.create-consultation-hold]
+[functions.submit-testimonial]
 verify_jwt = false
 
 [functions.submit-intake]
 verify_jwt = false
 
-[functions.submit-testimonial]
+[functions.personalize-intake]
 verify_jwt = false
 ```
 
@@ -328,14 +332,15 @@ Verify end-to-end:
 6. `/cohort` loads with offer detail and inquiry-only banner when `?inquiry=1:1` present
 7. `/enterprise` loads with `#signal-session` and `#revenue-architecture` anchors
 8. `/operator` loads with 14-agent static diagram, no scrolling logs
-9. `/signal` loads full Operator's Brief dashboard with WATCH / SKIP / CALL / TAKE filter pills
+9. `/signal` loads full Operator's Brief dashboard with WATCH / SKIP / CALL / TAKE filter pills; the classified archive is live from `get-ai-news` (`useLiveBrief`), not the static fallback; the Cohort Signal (`PortfolioPulse`) renders between the interpretation grid and the archive once 12+ leaders are in the pool (self-hides below that)
 10. Nervous Decision Machine returns typed response on both homepage and `/signal`
 11. "Book a call" CTA (nav, hero, `SimpleCTA`) opens the Diagnosis Room (Mindy) via `openDiagnosisRoom`; the secondary `ScopingModal` (`openScopingModal`) opens from the offer pages, the `BigProblem` cards, and `/case-studies` (the legacy `InitialConsultModal` / `openConsultModal` path is now used only by `/alumni`)
 12. Diagnosis Room (Mindy) diagnoses the decision and forks to three exits (keep chatting, book a free 15-min Calendly call, generate/download a co-branded proposal); standalone page at `/start` also loads
 13. `/leaders` diagnostic completes end-to-end
 14. All redirects function (see Phase 6)
 15. Mobile works (375px)
-16. No `text-mint` on light backgrounds anywhere
+16. No `text-mint` on light backgrounds anywhere (prefer `text-emerald-deep`)
+17. Pre-session intake (`/intake`) adapts its questions to the seat/prior answers, prefills the business description from `enrich-company`, and (when `personalize-intake` succeeds) shows a bespoke one-line reflection and aspiration nudge; on any failure it falls back to its own deterministic copy
 
 ---
 

@@ -1,6 +1,6 @@
 # Value Proposition
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-02
 
 ---
 
@@ -137,6 +137,13 @@ The ladder reads from top to bottom: free → entry-paid → qualifying → marg
 **Curriculum:** Diagnose → Decompose → Decide → Deploy.
 **Outcome:** A board-ready 1-page decision memo + trade-off doc + lifetime CTRL access + 90-day cohort Slack + lifetime curriculum + alumni network.
 **Workshop credit:** Code `WORKSHOP` at Maven checkout takes $500 off for buyers who completed a Workshop in the last 90 days.
+
+### Bespoke Enablement (Mindy-scoped, no public page)
+**Price:** $8,000–$25,000, pilots from $2,000
+**Tagline:** AI embedded across your own functions, not taught.
+**For:** SME / founder-led teams that fail the fit test for the four productised rungs because the work spans several functions at once.
+**Format:** Scoped live with Mindy in the Diagnosis Room. Pilot (~6 hours, one stream) credits fully toward a full engagement; a Phase 2 is scoped together, never pre-priced.
+**Outcome:** Whatever needs building for that business, priced by deliverable hours × a business-size rate band, floored and cross-checked against the value at stake.
 
 ### The Signal Session
 **Price:** $15,000

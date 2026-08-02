@@ -1,9 +1,9 @@
-<!-- Last Updated: 2026-06-28 -->
+<!-- Last Updated: 2026-08-02 -->
 # Voice Lint Pack
 
 Guarantees every Mindy output and every generated proposal sounds like Krish. Two halves: a machine-readable lint layer (regex arrays you drop into a post-generation linter) and a human-readable craft layer (his tells, worked rewrites, a pre-render checklist). When the two disagree, the craft layer wins; the regex is a floor, not a ceiling.
 
-Source of truth: `mindy-part-2-operator-intelligence.md` section 2d, and `BRANDING.md` (Brand Voice, Word Choices, Brand Don'ts).
+Source of truth: `mindy-system-prompt.md` and `reasoning-fewshots.md` (Krish's tells, worked rewrites), and `BRANDING.md` (Brand Voice, Word Choices, Brand Don'ts). [Note: this line previously cited a `mindy-part-2-operator-intelligence.md` file that does not exist anywhere in this repo — confirm with Krish whether that content was ever checked in elsewhere, or if the citation above is the correct successor.]
 
 ---
 

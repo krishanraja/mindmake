@@ -1,10 +1,40 @@
 # Decisions Log
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-08-02
 
 ---
 
 ## Brand & Product Decisions
+
+### 2026-07-21/22: Pre-session intake made adaptive and dossier-personalized
+
+**Decision:** Rebuild the static pre-session intake form (`public/intake/index.html`) so question wording, help text, and chip options are functions of the enrichment dossier (safe fields only, never `dossier.scale.*`) and the visitor's own prior answers, instead of one fixed script for everyone. Add a new `personalize-intake` edge function that generates up to two bespoke, voice-linted microcopy fragments from the safe dossier + the visitor's picked seat.
+
+**Context:** A 1:1, named pre-session briefing doesn't need anonymity-based survey design, and a single fixed script wastes the enrichment context the Diagnosis Room already gathers. Two failure modes were observed in the old fixed tool-list question: the AI-skeptic who has kept tools at arm's length (no honest lane to say so) and the embarrassed heavy user who reclassifies real use as "not really AI." The rewritten behavioral-check question ("What did you actually do with AI this week?") names the hidden behaviour directly so admitting it feels normal, and gives the refuser a neutral "Didn't touch it once" lane.
+
+**Impact:** New `supabase/functions/personalize-intake/index.ts` (`verify_jwt = false`, reuses the shared `completeText()` Gemini→Anthropic fallback and `lintVoice()` gate; any failure, empty input, or off-voice output returns `{ fragments: {} }` so the page always falls back to deterministic copy). `public/intake/index.html` rewritten with a `fill()`/`resolve()` context resolver, a two-depth enrichment call (fast identity, then background full), and seat/industry-tailored option banks. A follow-up guardrail (`cleanDescriptor()`) was added after enrichment-sourced marketing copy overflowed the one-line business-description prefill.
+
+---
+
+### 2026-07-06: Lead-capture back end unified into one pipeline
+
+**Decision:** Consolidate eight separate lead-capture edge functions (`send-contact-email`, `send-lead-email`, `send-leadership-insights-email`, `notify-scoping-request`, `notify-ctrl-waitlist`, `submit-intake`, `submit-testimonial`, and the Diagnosis Room's `session-digest`) into thin adapters over one shared core: a canonical `LeadEvent` type, mapped per-source by `_shared/lead/adapters.ts`, and dispatched through `_shared/lead/pipeline.ts`'s `dispatchLead()`.
+
+**Context:** Each lead surface had independently re-implemented company research, formatting, and email delivery, producing inconsistent digests to Krish and duplicated enrichment logic. The Diagnosis Room's `enrich-company` orchestrator already did company research well; reusing it in-process for every lead surface meant one enrichment code path instead of many, and one consistently formatted digest regardless of which form or surface the lead came from.
+
+**Impact:** New `_shared/lead/{types,escape,render,operator-read,pipeline,adapters}.ts` and `_shared/http/{cors,resend}.ts`. Endpoint URLs, DB writes, and response shapes are unchanged for every affected function. `send-lead-email` now stores the enrichment `Dossier` in `leads.company_research`. Email send is backgrounded via `EdgeRuntime.waitUntil` with an awaited fallback. Visitor-facing emails (the `/leaders` score card, the session-digest opt-in proposal copy) stay on their own templates, outside the pipeline.
+
+---
+
+### 2026-06-29/30: The Cohort Signal (portfolio hive-mind widget) exposed publicly on `/signal`
+
+**Decision:** Give `get-ai-news` a Plan A0 that reads CTRL's shared, cross-verified headline pool (`live_headlines_cache`) before falling through to Perplexity/Brave/static, and add `PortfolioPulse.tsx` to `/signal` to publicly render an anonymised aggregate of "the decision you keep not making" (sourced from Make Your Mind Up's q5), bucketed into nine AI-native lanes.
+
+**Context:** Mindmaker, CTRL, and Make Your Mind Up share one buyer and one underlying data layer; showing the cross-product hive mind publicly on `/signal` makes that shared intelligence visible as proof rather than keeping it internal-only. A volume guard (self-hide below 12 respondents) protects against a thin sample reading as weakness, and only counts/shares reach the client, never raw text or names.
+
+**Impact:** `get-ai-news` gains the Plan A0 path (mapped via `src/hooks/useLiveBrief.ts`). New `PortfolioPulse.tsx` renders between the interpretation grid and the archive on `Brief.tsx`. The `portfolio-pulse` edge function itself is owned and deployed by the sibling CTRL/`mm-ctrl` repo on the same Supabase project; canonical record is `mm-ctrl/docs/PORTFOLIO-HIVE-MIND.md`.
+
+---
 
 ### 2026-06-29: Signature accent moves from Mint to portfolio Emerald (brand cohesion)
 

@@ -1,6 +1,6 @@
 # Purpose
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-02
 
 ---
 
@@ -22,6 +22,7 @@ Mindmaker is a **ladder**: free Lightning Lessons at the top, paid Workshops ($5
 |---|---|---|---|---|
 | Entry | Mindmaker Workshops (×5) | $599/workshop | 1 day each | Leader ready to build a real artefact alongside Krish |
 | Qualifying | The AI-Fluent Executive (Cohort) | $2,500/seat | 4 weeks + 4 live sessions | Senior leader with a nervous AI decision |
+| Mindy-only, no page | Bespoke Enablement | $8,000–$25,000, pilots from $2,000 | Scoped live | SME / founder-led team wanting AI embedded across its own functions |
 | Enterprise entry | The Signal Session | $15,000 | 1 day + 48h delivery | Company commercializing an AI product |
 | Enterprise flagship | The Revenue Architecture | $60,000–$100,000 | 30 days | Same, needing a full commercial rebuild |
 | Inquiry-only | The AI Immersion | $12,000 | 4-hour session + 5-day summary | CEO-sponsored exec team needing fast alignment |

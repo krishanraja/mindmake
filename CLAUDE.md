@@ -1,6 +1,6 @@
 # CLAUDE.md: Mindmaker Repository Guide
 
-**Last Updated:** 2026-06-09
+**Last Updated:** 2026-08-02
 **Purpose:** Describe the current state of the Mindmaker codebase so agents and contributors can navigate it without reverse-engineering the tree.
 
 This file is **descriptive**, not prescriptive. For strategic intent, read `project-documentation/mindmaker_rebuild_brief_v4.md` (v4/v5 combined, the barbell pivot + Operator's Edge). The v6 ladder restructure (May 2026) layered Workshops at the entry rung, renamed the Cohort to "The AI-Fluent Executive" and repriced it to $2,500 over 4 weeks, and added the invitation-only Alumni Pass; see `project-documentation/HISTORY.md` and `project-documentation/DECISIONS_LOG.md` for the full reasoning.
@@ -30,12 +30,14 @@ Mindmaker is structured as a **ladder**: free Lightning Lessons at the top, paid
 
 ### Technical infrastructure
 - Supabase edge functions in `supabase/functions/`:
-  - **Diagnosis Room (Mindy):** `mindy-chat` (Claude reasoning turn), `enrich-company` (thin HTTP wrapper over the shared `_shared/enrich/orchestrate.ts` dossier orchestrator; the fan-out logic now lives there so the lead pipeline can enrich in-process), `generate-proposal` (co-branded one-pager + Browserless PDF), `session-digest` (Krish digest now via the unified lead pipeline + opt-in visitor copy), `transcribe` (OpenAI Whisper voice input). Shared logic lives in `supabase/functions/_shared/{mindy,enrich,proposal,lead,http}/`. The Gemini→Anthropic completion fallback is shared via `_shared/enrich/llm.ts`.
+  - **Diagnosis Room (Mindy):** `mindy-chat` (Claude reasoning turn), `enrich-company` (thin HTTP wrapper over the shared `_shared/enrich/orchestrate.ts` dossier orchestrator; the fan-out logic now lives there so the lead pipeline can enrich in-process), `company-search` (Brandfetch Search API typeahead for the opener's company field), `generate-proposal` (co-branded one-pager + Browserless PDF), `session-digest` (Krish digest now via the unified lead pipeline + opt-in visitor copy), `transcribe` (OpenAI Whisper voice input). Shared logic lives in `supabase/functions/_shared/{mindy,enrich,proposal,lead,http}/`. The Gemini→Anthropic completion fallback is shared via `_shared/enrich/llm.ts`.
   - `nervous-decision-machine` (Claude Haiku 4.5, powers the Nervous Decision Machine)
   - `get-ai-news`, `get-market-sentiment`, `get-model-data`
   - **Unified lead pipeline:** every lead-capture function (`send-contact-email`, `send-lead-email`, `send-leadership-insights-email`, `notify-scoping-request`, `notify-ctrl-waitlist`, `submit-intake`, `submit-testimonial`, and the Diagnosis Room's `session-digest`) is now a thin adapter that maps its payload to a canonical `LeadEvent` and hands off to the shared core in `supabase/functions/_shared/lead/` (`adapters.ts` → `pipeline.ts` `dispatchLead`). The pipeline auto-researches the company (reusing the enrichment orchestrator in-process), generates an AI "operator's read", and sends Krish ONE consistent, well-formatted digest via the shared Resend helper. Endpoint URLs, DB writes, and response shapes are unchanged; the email send is backgrounded (`EdgeRuntime.waitUntil`, with an awaited fallback). Shared modules: `_shared/lead/{types,escape,render,operator-read,pipeline,adapters}.ts` and `_shared/http/{cors,resend}.ts`. `send-lead-email` now stores an enrichment `Dossier` in `leads.company_research`. Visitor-facing emails (the `/leaders` score card, the session-digest opt-in proposal copy) are preserved on their own templates.
+  - `personalize-intake` (turns the safe company dossier + picked seat into up to two bespoke, voice-linted microcopy fragments for the pre-session intake form at `public/intake/index.html`; empty/failed/off-voice output silently falls back to the form's deterministic copy)
   - `import-audience-csv` (Substack subscriber CSV → shared `audience_contacts` table; gated by `AUDIENCE_IMPORT_SECRET`)
   - `create-consultation-hold`
+- `public/intake/index.html`. static, adaptive pre-session intake form sent to a visitor after a call books. Question wording/options/help text are functions of the enrichment dossier (safe fields only, never `scale.*`) and the visitor's own prior answers; pulls a live company enrichment on work-email entry and a personalization pass from `personalize-intake`; posts to `submit-intake` → the unified lead pipeline. Voice input via the browser's `SpeechRecognition` API (separate from the Diagnosis Room's server-side Whisper `transcribe`). Degrades to fully deterministic copy and a manual copy/download/mailto fallback if enrichment or personalization is unavailable.
 - `SessionDataContext` (`src/contexts/SessionDataContext.tsx`) threads qualification data into the global conversion modal(s).
 - Design system in `tailwind.config.ts` + `src/index.css`.
 
@@ -53,7 +55,7 @@ Mindmaker is structured as a **ladder**: free Lightning Lessons at the top, paid
 Authoritative source: `src/pages/Index.tsx`.
 
 1. `Navigation`. fixed top, hides on scroll-down via `useScrollDirection`.
-2. `NewHero`. rotating headlines + primary "Book a call" (opens the Diagnosis Room in **express** mode) + secondary "Work through your decision with Mindy" (opens the Diagnosis Room in **full** mode) + tertiary "Or start with a free lesson →" (Maven instructor page) and "See how I work →" (`/operator`) links. Subheadline: "Three different doors into the same operator, depending on whether you want to think more clearly, work through one nervous decision, or rebuild how your business actually makes money with AI."
+2. `NewHero`. rotating headlines + philosophical line ("Everyone's selling AI. Nobody's helping you take control of it.") + subheadline ("Consultants, LLMs and the next hyped tool sell you point solutions built to extract your judgment, not build it. We do the opposite: rebuild how you decide with AI, so you get sharper as the tools get better.") + primary "Book a call" (opens the Diagnosis Room in **express** mode) + secondary "Run a trained decision simulation" (opens the Diagnosis Room in **full** mode) + tertiary "Or start with a free lesson →" (Maven instructor page) and "See how I work →" (`/operator`) links.
 3. `BigProblem`. existential urgency frame, built as three large interactive flip cards (a fate on the front, what Mindmaker does about it on the back).
 4. `TrustSection`. Krish bio, headshot, testimonials carousel.
 5. `FrameworkJourney`. three-panel animated MindSet → MindMap → MindMake.
@@ -183,7 +185,7 @@ The primary conversion surface (June 2026). A full-screen immersive experience w
 
 **Entry points:** the `openDiagnosisRoom` custom event (`detail: { source_page, seedDecision?, mode? }`), dispatched by the nav "Book a call", the hero CTAs, and `SimpleCTA`; plus the standalone page at `/start`. Lazy-loaded and only mounted when open, so the SSG prerender never instantiates it.
 
-**Two modes** (`SessionMode`): `express` rushes to the booking (nav "Book a call" defaults here); `full` runs the complete diagnosis (the hero's "Work through your decision with Mindy" and the mobile "think it through with Mindy first"). A started express session can switch to full mid-flight.
+**Two modes** (`SessionMode`): `express` rushes to the booking (nav "Book a call" defaults here); `full` runs the complete diagnosis (the hero's "Run a trained decision simulation" and the mobile "think it through with Mindy first"). A started express session can switch to full mid-flight.
 
 **Front end**, `src/components/diagnosis/`:
 - `DiagnosisRoom.tsx`. the orchestrator/overlay. `Opener`, `Conversation`, `DossierReveal`, `DecisionBrief`, `Fork`, `ProposalView`, `ExpressBooking`, `MicButton`, `MindyAvatar` are the scenes/controls; `useDiagnosisSession.ts` is the state machine; `types.ts` holds the edge-function contracts.
@@ -214,7 +216,7 @@ Renamed from "The Operator's Brief" (previously "Signal Desk") for straightforwa
 - Archive page: `src/pages/Brief.tsx` at route `/signal` (URL preserved for inbound). Filter pills for WATCH / SKIP / CALL / TAKE plus search.
 - Taxonomy: **WATCH** (worth acting on), **SKIP** (hype / ignore), **CALL** (a decision is overdue), **TAKE** (Krish's opinion). Renamed from the previous SIGNAL / NOISE / DECISION / TAKE set.
 - **The Cohort Signal** (`src/components/PortfolioPulse.tsx`, on `/signal` between the interpretation grid and the archive): the public face of the cross-product hive mind. Renders the anonymised `portfolio-pulse` aggregate - "what leaders are actually wrestling with", the nine AI-native lanes as share bars, from Make Your Mind Up's q5 ("the decision you keep not making"). No PII reaches the client (counts + shares only, categorised server-side); volume-guarded (self-hides below 12 leaders so a thin room never reads as weakness); prerender-safe (null during SSG). Canonical record: `mm-ctrl/docs/PORTFOLIO-HIVE-MIND.md`.
-- Data source: still inlined sample cards for now. `get-ai-news` edge function schema remains in place for eventual dynamic feed.
+- Data source: `get-ai-news` is live. Plan A0 reads CTRL's shared, cross-verified `live_headlines_cache` pool first (one brain, one pool with CTRL's Home — mapped from CTRL's nine AI-native categories onto WATCH/SKIP/CALL/TAKE via `src/hooks/useLiveBrief.ts`); if that pool is thin it falls through to Plan A (Perplexity), Plan B (OpenAI curation of Brave Search), then Plan C (static fallback headlines). Secrets: `PERPLEXITY_API_KEY` (primary), `BRAVE_SEARCH_API`, `OPENAI_API_KEY`.
 
 ---
 

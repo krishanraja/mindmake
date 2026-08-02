@@ -1,6 +1,6 @@
 # Features
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-08-02
 
 ---
 
@@ -132,7 +132,7 @@ Triggered by `/cohort?inquiry=1:1`. A muted banner surfaces a Contact link. No p
 
 Authoritative: `src/pages/Index.tsx`. Order:
 
-1. `NewHero`. rotating headlines, eyebrow "Decision blockers I hear every week", looping `/rising-cities.mp4` background, emerald pulse, particle background. Primary CTA "Book a call" (Diagnosis Room, express) + secondary "Work through your decision with Mindy" (Diagnosis Room, full) + tertiary "Or start with a free lesson →" / "See how I work →" (`/operator`).
+1. `NewHero`. rotating headlines, eyebrow "Decision blockers I hear every week", philosophical line ("Everyone's selling AI. Nobody's helping you take control of it.") + subheadline, looping `/rising-cities.mp4` background, emerald pulse, particle background. Primary CTA "Book a call" (Diagnosis Room, express) + secondary "Run a trained decision simulation" (Diagnosis Room, full) + tertiary "Or start with a free lesson →" / "See how I work →" (`/operator`).
 2. `BigProblem`. existential urgency frame (three large interactive flip cards; card CTA opens the `ScopingModal`).
 3. `TrustSection`. Krish bio + headshot + testimonials carousel (COHORT-STYLE / ENTERPRISE tagged).
 4. `FrameworkJourney`. three-panel animated Mind Set → Mind Map → Mind Make.
@@ -201,7 +201,7 @@ Surfaced in the Resources dropdown via the `LightningLessons` component. Five co
 
 **Company search typeahead:** the `CompanyField` component in `Opener.tsx` calls `company-search` as the user types a company name. Results come from Brandfetch Search API and include logo + domain. The selected company pre-fills enrichment so `enrich-company` can run on domain rather than waiting for an email address. Adaptive logo contrast via `logoLuminance.ts` ensures the co-brand paint is legible against the dark room background.
 
-**Pre-session intake form:** a static HTML form at `/public/intake/index.html` collects structured pre-session context (seat, AI confidence, value frame, aspiration, business context, north star, role-aware handoff) before a confirmed engagement. Posts to the `submit-intake` edge function which emails Krish a formatted brief and persists the row.
+**Pre-session intake form:** an adaptive HTML form at `/public/intake/index.html`, sent to a visitor after a call books. A ~14-question flow (seat, business, time allocation, handoff, AI-confidence gut-check, this-week AI usage, what hasn't stuck, north star, value frame, aspiration, wish, learning style, blockers) named and addressed to that person rather than run as an anonymous survey, since a 1:1 briefing doesn't need anonymity-based question design. Question wording, help text, and chip options are functions of the company dossier (safe fields only, never `dossier.scale.*`) and the visitor's own prior answers — e.g. the "what could you stop doing" question references the top time-sink named earlier. On work-email entry it calls `enrich-company` directly (fast `depth:'identity'`, then a background `depth:'full'`) to prefill the business one-liner and pull industry/stack/news, then calls `personalize-intake` to generate up to two bespoke, voice-linted microcopy fragments. The behavioral-check question ("What did you actually do with AI this week?") replaced a low-signal tool-list question specifically to defuse under-reporting in both directions: the skeptic who's kept AI at arm's length, and the embarrassed heavy user who reclassifies real use as "not really AI." Captures a pre-normalised baseline confidence score used as the pre/post metric in testimonials. Supports voice input via the browser's `SpeechRecognition` API (separate from the Diagnosis Room's server-side Whisper `transcribe`). Degrades to fully deterministic copy and a manual copy/download/mailto fallback if enrichment or personalization is unavailable. Posts to `submit-intake`, which now routes through the unified lead pipeline (a full-researched digest, not a plain-text brief) — see "Edge Functions" below.
 
 **Testimonial collection:** a static HTML form at `/public/testimonials/index.html` accepts public testimonial submissions. Posts to `submit-testimonial`, which inserts into `public.testimonials` and emails Krish. Includes a honeypot field and validates permission level (free / edits / private).
 
@@ -237,6 +237,7 @@ Renamed from "Signal Desk" → "The Brief" → **"Live Intel"** for plain-Englis
 **Full dashboard (`Brief.tsx`):**
 - Extended PriceTicker
 - 3-card plain-English interpretation grid
+- **The Cohort Signal** (`PortfolioPulse.tsx`), between the interpretation grid and the archive: the public face of the cross-product hive mind, an anonymised aggregate of "the decision you keep not making" (sourced from Make Your Mind Up's q5), bucketed server-side into nine AI-native lanes as counts + share bars. No PII reaches the client. Self-hides below 12 respondents so a thin sample never reads as weakness. Sourced from a `portfolio-pulse` edge function owned by the sibling CTRL/`mm-ctrl` repo on the same Supabase project (not in this repo). Canonical record: `mm-ctrl/docs/PORTFOLIO-HIVE-MIND.md`
 - Classified card archive with filter pills (WATCH / SKIP / CALL / TAKE) + search
 - Blog column (featured posts)
 - Full-size Nervous Decision input with example chips
@@ -381,25 +382,28 @@ Structure:
 Diagnosis Room (shared logic in `_shared/{mindy,enrich,proposal}/`):
 - `mindy-chat`. Anthropic Claude, Mindy's reasoning turn (strict-JSON, voice-gated)
 - `enrich-company`. company dossier orchestrator (Brandfetch + PDL + Tranco + BuiltWith + Perplexity/Exa/NewsAPI + Gemini/Anthropic synthesis); `scale.*` is internal routing only
+- `company-search`. Brandfetch Search API typeahead for the Diagnosis Room opener (name → domain + icon; rate-limited; degrades gracefully)
 - `generate-proposal`. co-branded "Mindmaker × [company]" one-pager; HTML + Browserless PDF
-- `session-digest`. Resend, full intelligence to Krish + opt-in proposal copy to the visitor
+- `session-digest`. full intelligence to Krish (now via the unified lead pipeline, see below) + opt-in proposal copy to the visitor (own template)
 - `transcribe`. OpenAI Whisper, Diagnosis Room voice input
+
+**Unified lead pipeline:** `send-lead-email`, `send-contact-email`, `send-leadership-insights-email`, `notify-scoping-request`, `notify-ctrl-waitlist`, `submit-intake`, `submit-testimonial`, and `session-digest` are thin adapters that map their payload to a canonical `LeadEvent` and hand off to `dispatchLead()` (`_shared/lead/pipeline.ts`). The pipeline auto-researches the company (reusing the `enrich-company` orchestrator in-process), generates an AI "operator's read," and sends Krish ONE consistent digest via a shared Resend helper. `send-lead-email` stores the enrichment dossier in `leads.company_research`.
 
 Other:
 - `nervous-decision-machine`. Anthropic Haiku 4.5
-- `get-ai-news`. Live Intel content (Lovable AI Gateway, schema preserved)
+- `get-ai-news`. Live Intel content: reads CTRL's shared, cross-verified headline pool first, then falls through to Perplexity → Brave/OpenAI → static fallback
 - `get-market-sentiment`. OpenAI
 - `get-model-data`. frontier model price and spec feed
-- `send-lead-email`. Gemini company research + Resend (legacy `/alumni` path)
-- `send-contact-email`. Resend
-- `send-leadership-insights-email`. Resend (dual delivery)
-- `notify-scoping-request`. powers the `ScopingModal`; emails krish@themindmaker.ai via Resend + persists
-- `notify-ctrl-waitlist`. CTRL waitlist signups (`CtrlWaitlistPopover`); emails krish@themindmaker.ai via Resend
+- `send-lead-email`. unified lead pipeline adapter (legacy `/alumni` path)
+- `send-contact-email`. unified lead pipeline adapter
+- `send-leadership-insights-email`. unified lead pipeline adapter (dual delivery)
+- `notify-scoping-request`. unified lead pipeline adapter for the `ScopingModal`
+- `notify-ctrl-waitlist`. unified lead pipeline adapter for CTRL waitlist signups (`CtrlWaitlistPopover`)
 - `import-audience-csv`. Substack subscriber CSV → shared `audience_contacts` table (secret-gated)
 - `create-consultation-hold`. Stripe (currently bypassed; Cohort payment via Maven)
-- `company-search`. Brandfetch Search API typeahead for the Diagnosis Room opener (name → domain + icon; rate-limited; degrades gracefully)
-- `submit-intake`. pre-session intake form handler → inserts row + emails Krish a formatted SNAPSHOT brief
-- `submit-testimonial`. public testimonial submission → inserts into `testimonials` table + emails Krish; honeypot bot protection
+- `personalize-intake`. safe dossier + seat → up to two bespoke, voice-linted microcopy fragments for the pre-session intake form; falls back to `{ fragments: {} }` on any failure
+- `submit-intake`. unified lead pipeline adapter for the adaptive pre-session intake form → inserts row + full-researched Krish digest
+- `submit-testimonial`. unified lead pipeline adapter for public testimonial submission → inserts into `testimonials` table + emails Krish; honeypot bot protection
 
 ---
 

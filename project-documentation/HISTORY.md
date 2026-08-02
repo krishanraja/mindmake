@@ -1,6 +1,21 @@
 # History
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-02
+
+---
+
+## 2026-08-02: Doc reconciliation pass — four undocumented changes from June/July caught up
+
+**What Changed (in the codebase, reconciled into docs on this pass; none of the four had a HISTORY.md entry before this one):**
+- **Signature accent: mint → portfolio emerald** (2026-06-29, commits `e8fbf89`/`2be4572`/`736016d`/`4ea427e`). `src/index.css` + `tailwind.config.ts` migrated the signature accent to emerald `#00D9B6` so Mindmaker, CTRL, and Make Your Mind Up read as one house over one MindmakerOS token contract. Legacy `mint` CSS tokens and the Tailwind `mint` key kept as zero-churn aliases to emerald. This was logged in `DECISIONS_LOG.md` at the time but never got a matching `HISTORY.md` entry — added here to close that gap.
+- **The Cohort Signal / portfolio hive-mind widget ships on `/signal`** (2026-06-29/30, commits `da6d466`/`6fc7348`/`8a11716`/`271d228`). `get-ai-news` now has a Plan A0 that reads CTRL's shared, cross-verified `live_headlines_cache` pool first (mapping CTRL's nine AI-native categories onto WATCH/SKIP/CALL/TAKE), falling through to Perplexity/Brave/static only when that pool is thin. `PortfolioPulse.tsx` renders the anonymised "what leaders are actually wrestling with" aggregate between the interpretation grid and the archive on `/signal`, sourced from a cross-repo `portfolio-pulse` function owned by the sibling CTRL/`mm-ctrl` repo. Self-hides below 12 respondents.
+- **Unified lead pipeline** (2026-07-06, commit `19d1b3a`). `send-contact-email`, `send-lead-email`, `send-leadership-insights-email`, `notify-scoping-request`, `notify-ctrl-waitlist`, `submit-intake`, `submit-testimonial`, and `session-digest` were consolidated into thin adapters over one shared core (`_shared/lead/{types,escape,render,operator-read,pipeline,adapters}.ts`, `_shared/http/{cors,resend}.ts`). The pipeline auto-researches the company in-process, generates an AI "operator's read," and sends Krish one consistent digest per lead, regardless of source surface.
+- **Adaptive, dossier-personalized pre-session intake** (2026-07-21/22, commits `5439910`/`76cb3cb`/`ec80f2b`/`9801c85`/`ca49db2`). `public/intake/index.html`'s question wording, help text, and chip options became functions of the enrichment dossier and the visitor's own prior answers. New `personalize-intake` edge function generates up to two bespoke, voice-linted microcopy fragments from the safe dossier + seat, falling back silently to deterministic copy on any failure. The behavioral-check question was rewritten to defuse AI-usage under-reporting in both directions (the skeptic and the embarrassed heavy user). A guardrail (`cleanDescriptor()`) was added to stop enrichment-sourced marketing copy from overflowing the one-line business-description prefill.
+- **Docs reconciled this pass**: `ARCHITECTURE.md`, `FEATURES.md`, `DEPLOYMENT.md`, `REPLICATION_GUIDE.md`, `OFFERS.md`, `ICP.md`, `COMMERCIAL_REFERENCE.md`, `Master_Messaging_and_FAQ.md`, `SALES_PLAYBOOK.md`, `PURPOSE.md`, `VALUE_PROP.md`, `OUTCOMES.md` (fixed a "3-week Cohort" leftover to 4 weeks), `mindy/mindy-system-prompt.md` (removed a stale "unresolved" note already settled in `CANON.md` §5), `mindy/voice-lint.md` (fixed a dead file citation), `mindy/README.md` (retired a resolved filename-drift note), and root `CLAUDE.md` (header date was a month stale relative to its own content; hero copy quotes updated to match the live `NewHero.tsx`). Also added the previously undocumented **Bespoke Enablement** offer ($8,000–$25,000, pilots from $2,000, Mindy-scoped, no public page) to `OFFERS.md`, `ICP.md` (as ICP 4), `COMMERCIAL_REFERENCE.md`, `Master_Messaging_and_FAQ.md`, `SALES_PLAYBOOK.md`, `PURPOSE.md`, and `VALUE_PROP.md` — it was already priced in `COMMERCIAL_REFERENCE.md`'s range card and in `CLAUDE.md`, but absent from every other offer/ICP doc.
+
+**Why:**
+- Four real, shipped changes went five weeks without a matching documentation pass; this entry and the corresponding file edits close that gap so the doc set reflects what actually shipped, not just what shipped by 2026-06-28.
+- Bespoke Enablement is a live, quoted offer (Mindy prices it today); leaving it undocumented in the ladder/ICP docs meant an agent reading only those files would undercount Mindmaker's offer architecture.
 
 ---
 

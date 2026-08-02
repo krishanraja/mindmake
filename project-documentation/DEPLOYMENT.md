@@ -1,6 +1,6 @@
 # Deployment Checklist
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-02
 
 Pre-deploy and post-deploy verification for the Mindmaker project.
 
@@ -12,20 +12,23 @@ Pre-deploy and post-deploy verification for the Mindmaker project.
 - [ ] `npm run build` passes with no errors (runs Vite → `scripts/generate-sitemap.mjs` → `scripts/prerender.mjs`)
 - [ ] TypeScript compilation succeeds in strict mode
 - [ ] `npm run lint` passes with no warnings
+- [ ] `npm run test` (vitest) passes, incl. the `enrich-company` Dossier contract test
 
 ### 2. Environment variables
 All required secrets configured in Lovable Cloud / Supabase:
-- [ ] `ANTHROPIC_API_KEY`. required for the Nervous Decision Machine (Claude Haiku 4.5)
-- [ ] `GEMINI_API_KEY`. preferred for `send-lead-email` company research with Google Search grounding
-- [ ] `OPENAI_API_KEY`. market sentiment + lead enrichment fallback
+- [ ] `ANTHROPIC_API_KEY`. required for the Nervous Decision Machine (Claude Haiku 4.5), Mindy's reasoning turn, and the shared Gemini→Anthropic completion fallback used by `enrich-company`, `personalize-intake`, and the unified lead pipeline's "operator's read"
+- [ ] `GEMINI_API_KEY`. preferred for company enrichment (Google Search grounding), now shared in-process by `enrich-company`, `personalize-intake`, and every unified-lead-pipeline adapter (`send-lead-email`, `send-contact-email`, `send-leadership-insights-email`, `notify-scoping-request`, `notify-ctrl-waitlist`, `submit-intake`, `submit-testimonial`, `session-digest`) — not just `send-lead-email`
+- [ ] `OPENAI_API_KEY`. market sentiment, lead enrichment fallback, and `get-ai-news` Plan B curation
+- [ ] `PERPLEXITY_API_KEY`, `BRAVE_SEARCH_API`. `get-ai-news` Plan A / Plan B fallback chain
 - [ ] `RESEND_API_KEY`. email delivery
-- [ ] `LOVABLE_API_KEY`. AI gateway (auto-provisioned)
 - [ ] `STRIPE_SECRET_KEY`. optional, currently bypassed (Cohort payment runs via Maven)
 
 ### 3. Edge functions
 - [ ] All functions handle OPTIONS preflight + CORS headers
 - [ ] All functions return 200 on error with fallback data (anti-fragile design)
 - [ ] `nervous-decision-machine` rate limiter configured (1-hour per IP + global ceiling)
+- [ ] `personalize-intake` returns `{ fragments: {} }` (not an error) on missing/invalid input, so `/intake` never shows a broken personalization state
+- [ ] `/intake` and `/testimonials` static forms load, submit, and (for `/intake`) run enrichment + personalization without blocking submission if either fails
 
 ### 4. Frontend routes
 All routes in `src/App.tsx` accessible:
@@ -168,23 +171,28 @@ All routes in `src/App.tsx` accessible:
 ### Required
 | Secret | Purpose | Provider |
 |--------|---------|----------|
-| `ANTHROPIC_API_KEY` | Nervous Decision Machine | Anthropic |
-| `GEMINI_API_KEY` | Lead enrichment with Google Search grounding (preferred) | Google AI |
-| `OPENAI_API_KEY` | Market sentiment + lead enrichment fallback | OpenAI |
+| `ANTHROPIC_API_KEY` | Nervous Decision Machine, Mindy's reasoning turn, shared completion fallback (`enrich-company`, `personalize-intake`, unified lead pipeline's operator's read) | Anthropic |
+| `GEMINI_API_KEY` | Company enrichment synthesis with Google Search grounding (preferred), shared by `enrich-company`, `personalize-intake`, and every unified-lead-pipeline adapter | Google AI |
+| `OPENAI_API_KEY` | Market sentiment, lead enrichment fallback, `transcribe` (Whisper), `get-ai-news` Plan B curation | OpenAI |
+| `PERPLEXITY_API_KEY` | `get-ai-news` Plan A (primary) | Perplexity |
 | `RESEND_API_KEY` | Email delivery | Resend |
 
-### Auto-provisioned (Lovable Cloud)
+### Auto-provisioned (Supabase)
 | Secret | Purpose |
 |--------|---------|
-| `LOVABLE_API_KEY` | AI gateway |
 | `SUPABASE_URL` | Database connection |
 | `SUPABASE_PUBLISHABLE_KEY` | Client API key |
 | `SUPABASE_SERVICE_ROLE_KEY` | Admin API key |
 
-### Optional
+### Optional (enrichment/analysis degrades gracefully if unset)
 | Secret | Status |
 |--------|--------|
 | `STRIPE_SECRET_KEY` | Payment holds, currently bypassed (Cohort payment runs through Maven) |
+| `BRANDFETCH_API_KEY` / `BRANDFETCH_CLIENT_ID` | Company co-brand paint + `company-search` typeahead (either works) |
+| `PEOPLEDATALABS_API_KEY`, `BUILTWITH_API_KEY`, `EXA_API_KEY`, `NEWSAPI_API_KEY` | Full-depth company enrichment (`enrich-company`) |
+| `BRAVE_SEARCH_API` | `get-ai-news` Plan B fallback |
+| `BROWSERLESS_API_KEY` | `generate-proposal` PDF rendering; falls back to client-side print on failure |
+| `AUDIENCE_IMPORT_SECRET` | Gates `import-audience-csv` |
 
 ---
 

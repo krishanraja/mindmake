@@ -1,7 +1,7 @@
 # Mindmaker Master Messaging & FAQ Document
 *Core source of truth for product marketing, sales, content, and outbound*
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-02
 
 **Goal:** One document a salesperson, content writer, or AI agent can open and get every pitch, position, and objection answer right. Supersedes the earlier CTRL / 1:1-sprint-era version. For strategic intent, read `mindmaker_rebuild_brief_v4.md`. For agent-grade sales detail (ICP signals, ROI math, channel templates), read `SALES_PLAYBOOK.md`. For durable commercial reference, read `COMMERCIAL_REFERENCE.md`; for how the Diagnosis Room reasons, read the `mindy/` Brain Pack.
 
@@ -94,6 +94,16 @@ The big consultancies (McKinsey, BCG, Deloitte, Accenture) sell 6-figure decks b
 
 **Route:** `/cohort` (Maven enrolment at `https://maven.com/mindmaker/the-ai-fluent-executive`).
 
+### Bespoke Enablement: $8,000–$25,000, pilots from $2,000 (Mindy-scoped, no public page)
+
+**One-line:** For an SME or founder-led team that wants AI embedded across their own functions, not a fixed rung.
+
+**Pitch (60s):** Not everyone fits a productised offer. If you run a smaller, founder-led business and need AI built into how you actually work, your content, your onboarding, your sales process, not taught in a cohort or diagnosed in a day, this is scoped live with Mindy in the Diagnosis Room. She reads what needs building, prices a pilot (~6 hours, one stream) and a full engagement, and whatever you pay for the pilot credits toward the full. No public page, no fixed menu; the price reflects the work.
+
+**Who it's for:** SME or founder-led teams below enterprise scale that fail the fit test for the four public offers because their engagement spans several functions at once.
+
+**Route:** Diagnosis Room only. Not linked from nav or any offer page.
+
 ### The Signal Session: $15,000
 
 **One-line:** One day, one room, one commercial thesis, and a 15–20 page Commercial Narrative within 48 hours.
@@ -163,7 +173,9 @@ The big consultancies (McKinsey, BCG, Deloitte, Accenture) sell 6-figure decks b
 
 - **Homepage second fork (`YFork`) is retired**, superseded by the Diagnosis Room (Mindy). Capital is still surfaced via the Enterprise nav dropdown and at `/capital`.
 - **Hero eyebrow:** "Decision blockers I hear every week."
-- **Hero subheadline:** "Three different doors into the same operator, depending on whether you want to think more clearly, work through one nervous decision, or rebuild how your business actually makes money with AI."
+- **Hero philosophical line:** "Everyone's selling AI. Nobody's helping you take control of it."
+- **Hero subheadline:** "Consultants, LLMs and the next hyped tool sell you point solutions built to extract your judgment, not build it. We do the opposite: rebuild how you decide with AI, so you get sharper as the tools get better."
+- **Hero secondary CTA:** "Run a trained decision simulation" → opens the Diagnosis Room in full mode.
 - **Hero tertiary CTA:** "Or start with a free lesson →" linking to `https://maven.com/mindmaker` for cold buyers not ready to talk.
 - **Operator's Edge section:** "Beyond pattern recognition", positions Krish as a practitioner who runs an actual agentic organization. Links to `/operator`.
 - **Live Intel (homepage teaser):** Continuous price ticker + rotating plain-English interpretation line + compact Nervous Decision Machine input + muted "Open the full dashboard →" link to `/signal`. Component: `OperatorsBrief.tsx`.
@@ -183,7 +195,7 @@ Case studies are anonymised and tagged COHORT-STYLE or ENTERPRISE inside `TrustS
 | 2 | Cohort | Direct link → `/cohort` |
 | 3 | Enterprise | Dropdown → Signal Session, Revenue Architecture, AI Immersion, Capital (under "For funds & operating partners") |
 | 4 | **Mindmaker LIVE** | Direct link → `/signal` |
-| 5 | Resources | Dropdown → How I operate, Library, The Builder Economy (Podcast) [external], Lightning Lessons (5 Maven URLs) |
+| 5 | Resources | Dropdown → How I operate, Case studies, New Age Leadership, Library, The Builder Economy (Podcast) [external], Lightning Lessons (5 Maven URLs) |
 | 6 | About | Dropdown → Contact, Privacy, Terms |
 | CTA | Book a call | Opens the **Diagnosis Room (Mindy)** via `openDiagnosisRoom` (`ScopingModal` is the secondary booking surface on the offer pages; `InitialConsultModal` is legacy, only for `/alumni`) |
 

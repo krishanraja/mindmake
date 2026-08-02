@@ -1,6 +1,6 @@
 ---
 name: mindmaker
-description: Canonical reference for Mindmaker, Krish Raja's AI advisory and product business. Use whenever work touches Mindmaker offers, pricing, ICPs, sales, the website (themindmaker.ai), Maven, the Substack, or the CTRL product. NOT Mindmaker OS, which is the autonomous operating system that runs Mindmaker internally. Mindmaker is sold; Mindmaker OS is run. Trigger on any of: "Mindmaker", "CTRL", "mm-ctrl", "ctrl.themindmaker.ai", "Memory Web", "Edge", "Daily Briefing", "Edge Pro", "/cohort", "/enterprise", "/capital", "/immersion", "/workshops", "/alumni", "AI-Fluent Executive", "Signal Session", "Revenue Architecture", "themindmaker.ai", "Maven cohort", "Mindmaker Substack", "ICP", "offer ladder", or any reference to the four-offer architecture, three-ICP framing, CTRL product, or commercial surface. Last reviewed 2026-06-28. Rule: this document captures what is durable. Anything in flux is flagged so the agent does not treat motion as truth.
+description: Canonical reference for Mindmaker, Krish Raja's AI advisory and product business. Use whenever work touches Mindmaker offers, pricing, ICPs, sales, the website (themindmaker.ai), Maven, the Substack, or the CTRL product. NOT Mindmaker OS, which is the autonomous operating system that runs Mindmaker internally. Mindmaker is sold; Mindmaker OS is run. Trigger on any of: "Mindmaker", "CTRL", "mm-ctrl", "ctrl.themindmaker.ai", "Memory Web", "Edge", "Daily Briefing", "Edge Pro", "/cohort", "/enterprise", "/capital", "/immersion", "/workshops", "/alumni", "AI-Fluent Executive", "Signal Session", "Revenue Architecture", "themindmaker.ai", "Maven cohort", "Mindmaker Substack", "ICP", "offer ladder", or any reference to the five-offer architecture (four public + Bespoke Enablement), four-ICP framing, CTRL product, or commercial surface. Last reviewed 2026-08-02. Rule: this document captures what is durable. Anything in flux is flagged so the agent does not treat motion as truth.
 ---
 
 # Mindmaker: Commercial Reference
@@ -11,6 +11,7 @@ description: Canonical reference for Mindmaker, Krish Raja's AI advisory and pro
 > - **The cohort framework tension is resolved** (§2.6): *Mind Set → Mind Map → Mind Make* is the canonical cross-offer brand framework; *Diagnose → Decompose → Decide → Deploy* is the cohort's week-by-week curriculum. Both coexist.
 > - **`/signal` is "Mindmaker LIVE" / Live Intel**, not "The Signal Desk" (retired name). `/tool` and `/builder-economy` now redirect.
 > - **Workshop→Cohort credit is $500 with code `WORKSHOP`** (90-day validity), not $499.
+> - **Reconciled again 2026-08-02.** Added the fifth offer, **Bespoke Enablement** ($8,000–$25,000, pilots from $2,000), Mindy's "Mode B" for SME/founder-led buyers — no public page, scoped live in the Diagnosis Room only. Signature accent is now **emerald** (`#00D9B6`), not mint (mint tokens are aliases). The pre-session intake form (`public/intake/index.html`) is now adaptive and dossier-personalized (see `ARCHITECTURE.md`), and every lead-capture surface now routes through one unified lead pipeline for a single consistent Krish digest.
 
 This is the durable reference for Mindmaker the business: its service offers, its product (CTRL), its ICPs, its website, its distribution. For the autonomous operating system that runs the company internally (n8n fleet, Supabase, 13 agents, the dogfood layer), use the `mindmaker-os` skill instead. The two are related but distinct: Mindmaker is sold. Mindmaker OS is run.
 
@@ -39,7 +40,7 @@ Public surface:
 
 Mindmaker has two distinct commercial surfaces: **services** (the four canonical paid offers, plus two supporting service layers), and **product** (CTRL, a standalone SaaS-style offering). Together they form the full commercial spine.
 
-### 2.1 The four canonical service offers
+### 2.1 The four canonical service offers, plus one Mindy-only offer
 
 | Offer | Buyer | Format | Price | Notes |
 |---|---|---|---|---|
@@ -47,6 +48,7 @@ Mindmaker has two distinct commercial surfaces: **services** (the four canonical
 | **The Signal Session** | Enterprise leadership team or capital allocator | 1-day operator-led intensive | $15,000 | The wedge for enterprise and capital work. Often the path into Revenue Architecture. |
 | **The Revenue Architecture** | Enterprise or PE/VC portfolio | 30-day sprint, deliverable is a commercial engine | $60,000 to $100,000 | Margin engine. Re-framed per ICP (Enterprise = your business; Capital = the fund or per-portco). |
 | **The AI Immersion** | Enterprise team | Half-day team session, inquiry-only | $12,000 | Team-level fast-start. Sits alongside Enterprise as a related product. |
+| **Bespoke Enablement** | SME / founder-led team | Scoped live, pilot + full engagement | $8,000–$25,000 (pilots from $2,000) | Mindy's "Mode B." No public page or nav entry — reachable only through the Diagnosis Room, when the buyer fails the fit test for the four productised rungs above. Priced live from a business-size rate band × deliverable hours, floored, cross-checked against value at stake. Detail: `project-documentation/mindy/pricing-range-model.md` §2. |
 
 ### 2.2 Supporting service layers
 
@@ -155,13 +157,13 @@ Redirects: /tool → /signal#decision · /builder-economy → thebuildereconomy.
 **Sibling subdomain:** `ctrl.themindmaker.ai` hosts CTRL, the Mindmaker product. Different repo (`mm-ctrl`), different stack details, different design language (light mode, warm off-white, executive-grade). It shares the Mindmaker brand but has its own visual system. See §7.
 
 ### 4.2 Design language
-- Mint accent colour
+- Emerald accent colour (`#00D9B6`), adopted from CTRL in the 2026-06-29 brand-cohesion pass so Mindmaker, CTRL, and Make Your Mind Up read as one house. Legacy `mint` CSS tokens and the Tailwind `mint` key are kept as zero-churn aliases to emerald, so `text-mint`/`bg-mint` still work and now render emerald; new code should prefer the `emerald*` keys
 - Glass cards (`editorial-card` class)
 - `fadeUp` animation primitive
 - Dark-bg hero (`bg-ink`) on offer pages
 - Same SEO component, Navigation, Footer across pages
 - Event-driven CTAs (not Stripe direct, except Alumni Pass): primary "Book a call" dispatches `openDiagnosisRoom` (the Diagnosis Room); `openScopingModal` is a retained fallback; `openConsultModal` is legacy, alumni-only
-- WCAG: no `text-mint` on light backgrounds
+- WCAG: no bright emerald / `text-mint` on light backgrounds (fails contrast); use `text-emerald-deep` (full AA) for text/links on light backgrounds
 
 ### 4.3 Voice and copy rules (non-negotiable)
 - No em dashes anywhere, including code comments
@@ -414,9 +416,8 @@ Retired names (do not use):
 These are live operational items, not durable architecture. Listed so the agent does not treat in-progress work as settled.
 
 - Outbound sequences in Instantly being rebuilt across three ICPs (Leaders, Capital, Businesses)
-- GitHub repo and Stripe products being aligned to the current four-offer architecture
+- GitHub repo and Stripe products being aligned to the current five-offer architecture (four public + Bespoke Enablement)
 - The Diagnosis Room (Mindy) shipped June 2026 as the primary conversion surface; the `mindy/` Brain Pack still carries a short go-live confirmation list (proof anonymisation, EU consent posture) for Krish to clear, see `project-documentation/mindy/README.md`
-- Case study carousel for AI accelerator partnership pitch (ten-card, Reposition/Rebuild/Dogfood); the on-site filterable version is live at `/case-studies`
 - Substack tier migration (legacy $80/year to current $120/year) to be confirmed against live state
 
 Any work touching these areas should check the live state before committing, not assume the skill is current.
@@ -428,7 +429,7 @@ Any work touching these areas should check the live state before committing, not
 When working on Mindmaker:
 
 1. **Always confirm Maven and the website are the system of record** for cohort and workshop pricing, names, and framework. For CTRL, the `mm-ctrl` repo's `project-documentation/` folder is the source of truth. User memory and older documentation may lag.
-2. **Default to the three-ICP, four-offer architecture plus CTRL as a separate product line.** Do not invent new product categories without explicit instruction. CTRL is a product, not a service offer; do not list it among Cohort/Signal Session/Revenue Architecture/Immersion.
+2. **Default to the four-ICP, five-offer architecture (four public rungs plus the Mindy-only Bespoke Enablement) plus CTRL as a separate product line.** Do not invent new product categories without explicit instruction. CTRL is a product, not a service offer; do not list it among Cohort/Signal Session/Revenue Architecture/Immersion/Bespoke Enablement.
 3. **Substack feeds the website, never competes with it.** Apply this filter to all editorial decisions.
 4. **No em dashes, no buzzwords, operator voice.** Voice rules are non-negotiable. Cross-check the `krish-voice` skill before publishing.
 5. **Do not confuse Mindmaker with Mindmaker OS.** Use the boundary in §10 to route the work. CTRL is inside Mindmaker, not a sibling venture of the OS.

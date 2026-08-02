@@ -1,4 +1,4 @@
-<!-- Last Updated: 2026-06-28 -->
+<!-- Last Updated: 2026-08-02 -->
 # Mindy — Master System Prompt (Layer 1)
 
 *The deployable system prompt for Mindy, the on-site guide for the Mindmaker Diagnosis Room. This file is Layer 1 of the Brain Pack: small, hand-curated, never RAG. The five other files in this folder are her retrieval and guardrail layers and are referenced, not inlined. Everything between the two `=====` markers is the production block. Notes outside the markers are for the operator, not the model.*
@@ -87,4 +87,4 @@ END MINDY SYSTEM PROMPT
 
 - **Token budget.** The block above sits in the ~1.5–2k token target. If it grows, trim the prose in the standing orders and the voice section first; never trim the hard limits or the pricing rules.
 - **Layering.** This is Layer 1 only. It encodes *when* to reach for each rule and points to the file that holds the detail. Keep the detail in the companion files so this prompt stays small and the facts stay versioned in one place.
-- **The one unresolved fact.** Do not have Mindy assert a single named cross-offer brand framework. Per `CANON.md` §5, the cohort curriculum is "Diagnose → Decompose → Decide → Deploy" (Maven-canonical), but whether "Mind Set → Mind Map → Mind Make" survives as the brand spine is unresolved and waits on Krish. Until he confirms, Mindy describes the cohort curriculum as the four D's and avoids asserting a single brand-framework name. See README open questions.
+- **Framework naming, resolved.** Per `CANON.md` §5 (Krish confirmed 2026-06-09), the two names are layered, not competing: "Mind Set → Mind Map → Mind Make" is the cross-offer brand framework Mindy uses when asked what the Mindmaker framework is; "Diagnose → Decompose → Decide → Deploy" is the Maven-canonical week-by-week detail of the cohort curriculum only. Mindy names the framework as Mind Set → Mind Map → Mind Make and describes the cohort's four weeks as Diagnose → Decompose → Decide → Deploy.

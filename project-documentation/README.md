@@ -1,17 +1,18 @@
 # Mindmaker Project Documentation
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-02
 
 ---
 
 ## What Mindmaker Is
 
-**The anti-consultancy for leaders done being sold AI.** A **ladder**, not a single product: free Lightning Lessons → paid Workshops ($599) → the AI-Fluent Executive Cohort ($2,500) → Enterprise sprints ($15k–$100k+) → the Alumni Pass ($1,500/yr) as continuity. Capital is a third door for funds, sharing the Signal Session and Revenue Architecture formats. No retainers. No fractional roles. Public pricing is ranges only; exact figures are set by Krish on the call.
+**The anti-consultancy for leaders done being sold AI.** A **ladder**, not a single product: free Lightning Lessons → paid Workshops ($599) → the AI-Fluent Executive Cohort ($2,500) → Enterprise sprints ($15k–$100k+) → the Alumni Pass ($1,500/yr) as continuity, plus Bespoke Enablement ($8k–$25k) scoped live by Mindy for SME/founder-led buyers who don't fit a fixed rung. Capital is a third door for funds, sharing the Signal Session and Revenue Architecture formats. No retainers. No fractional roles. Public pricing is ranges only; exact figures are set by Krish on the call.
 
 | Audience | Offer | Public range | Duration | Route |
 |---|---|---|---|---|
 | Senior leader, getting sharper on AI | Mindmaker Workshops (×5) | $500–$1,000 / workshop | 1 day each, Maven-hosted | `/workshops` |
 | Senior leader with a nervous AI decision | The AI-Fluent Executive (Cohort) | $2,000–$3,000 / seat | 4 weeks (mostly async) + 4 live 90-min sessions | `/cohort` |
+| SME / founder-led team wanting AI built into their own functions | Bespoke Enablement | $8,000–$25,000 (pilots from $2,000) | Scoped live per engagement | Diagnosis Room only, no public page |
 | Company commercializing an AI product | The Signal Session | $10,000–$20,000 | 1 day intensive + 48h written delivery | `/enterprise#signal-session` |
 | Same, flagship engagement | The Revenue Architecture | $50,000–$100,000+ | 30 days (4–5 calendar weeks) | `/enterprise#revenue-architecture` |
 | Executive team needing fast alignment | The AI Immersion (inquiry) | $10,000–$15,000 | 4-hour facilitated session + 5-day summary | `/immersion` |
@@ -34,9 +35,9 @@ For the strategic intent behind the current shape of the business, read `mindmak
 | [SALES_PLAYBOOK.md](./SALES_PLAYBOOK.md) | The single document an AI sales/marketing agent should ground on. ICP signals, pain narratives, ROI math, objection bank, channel-specific message templates, qualifying questions, disqualifiers, competitive grid. |
 | [Master_Messaging_and_FAQ.md](./Master_Messaging_and_FAQ.md) | Canonical pitches by offer + master FAQ + objection handling. |
 | [VALUE_PROP.md](./VALUE_PROP.md) | Positioning, differentiators, competitive framing. |
-| [ICP.md](./ICP.md) | The two primary ICPs (AI leaders, AI products) + the executive-team ICP for Immersion. Anti-ICPs. |
+| [ICP.md](./ICP.md) | The four ICPs: AI leaders, AI products, executive teams (Immersion), and SME/founder-led builders (Bespoke Enablement, Mindy-only). Anti-ICPs. |
 | [ICP_ACCOUNTABLE_DELEGATOR.md](./ICP_ACCOUNTABLE_DELEGATOR.md) | Deep psychographic and skill-gap archetype of the cohort/leader buyer ("The Accountable Delegator"), the depth behind ICP 1. Research-grounded; cross-refs ICP.md and SALES_PLAYBOOK.md. |
-| [OFFERS.md](./OFFERS.md) | Full detail on Cohort, Signal Session, Revenue Architecture, Immersion. |
+| [OFFERS.md](./OFFERS.md) | Full detail on Cohort, Bespoke Enablement, Signal Session, Revenue Architecture, Immersion. |
 | [COMMERCIAL_REFERENCE.md](./COMMERCIAL_REFERENCE.md) | The durable commercial reference (the `mindmaker` Claude skill): the full buyer-journey ladder, three ICPs, the CTRL product, the Substack, Stripe, the sales motion, and the Mindmaker vs Mindmaker OS boundary. |
 | [mindy/](./mindy/) | **Mindy's Brain Pack**, the system prompt, reasoning few-shots, fit-and-walkaway rubric, pricing-range model, proof bank, `CANON.md` (de-poison / source of truth), and voice-lint that govern the Diagnosis Room. |
 | [OUTCOMES.md](./OUTCOMES.md) | Buyer outcomes by offer, with leading and lagging indicators. |
@@ -117,6 +118,7 @@ For the strategic intent behind the current shape of the business, read `mindmak
 | Offer | Price | Duration | Hosting / payment |
 |---|---|---|---|
 | The AI-Fluent Executive (Cohort) | $2,500 / seat (or 2× $1,250) | 4 weeks (mostly async) + 4 × 90-min live sessions | Hosted on **Maven** at `maven.com/mindmaker/the-ai-fluent-executive` |
+| Bespoke Enablement | $8,000–$25,000 (pilots from $2,000) | Scoped live per engagement | Diagnosis Room only, no public page |
 | The Signal Session | $15,000 | 1 day intensive + 48-hour Commercial Narrative delivery (15–20 pages) | Direct invoice; payment on kickoff |
 | The Revenue Architecture | $60,000–$100,000 | 30 days (4–5 calendar weeks), multi-session | Direct invoice; 50/50 at kickoff and delivery |
 | The AI Immersion | $12,000 (flat) | 4-hour facilitated session + 2-page summary within 5 business days | Inquiry-only; full at booking or 50/50 |
@@ -126,6 +128,7 @@ For the strategic intent behind the current shape of the business, read `mindmak
 - **AI leaders**. senior operators making AI decisions (Cohort buyer)
 - **AI products**. companies commercializing AI capability (Signal Session → Revenue Architecture buyer)
 - **Executive teams**. CEO-sponsored leadership groups needing fast alignment (Immersion buyer)
+- **SME / founder-led builders**. want AI embedded across their own functions, not taught (Bespoke Enablement buyer, Mindy-only, no public page)
 
 ### Brand voice
 

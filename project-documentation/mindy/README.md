@@ -1,6 +1,6 @@
 # Mindy Brain Pack
 
-*The knowledge pack that makes Mindy reason like Krish, recommend honestly, price in ranges, and sound like the operator and not the model. Built 2026-06-09 against `MINDY-ONE-JOURNEY-ARCHITECTURE.md` (the Diagnosis Room brief); last reconciled 2026-06-28. This README is the index and the wiring diagram. It also carries the consistency and open-questions list; items resolved as of 2026-06-09 are marked.*
+*The knowledge pack that makes Mindy reason like Krish, recommend honestly, price in ranges, and sound like the operator and not the model. Built 2026-06-09 against `MINDY-ONE-JOURNEY-ARCHITECTURE.md` (the Diagnosis Room brief); last reconciled 2026-08-02. This README is the index and the wiring diagram. It also carries the consistency and open-questions list; items resolved as of 2026-06-09 are marked.*
 
 ---
 
@@ -91,7 +91,7 @@ The six authors flagged the following. Items 1–2 are real internal contradicti
 
 ### E. Smaller cross-file notes
 
-- **Filename reference drift.** `reasoning-fewshots.md` points to `case-bank.md` and `walkaway-rubric.md`; the shipped filenames are `proof-bank.md` and `fit-and-walkaway-rubric.md`. Cosmetic, but fix the in-file references so retrieval citations resolve.
+- ~~**Filename reference drift.**~~ Resolved — `reasoning-fewshots.md` now correctly cites `proof-bank.md` and `fit-and-walkaway-rubric.md` throughout; no stale `case-bank.md`/`walkaway-rubric.md` references remain (verified 2026-08-02).
 - **`reasoning-fewshots.md` is RAG, the system prompt calls it "Layer 2."** Confirmed consistent with the brief; flagged only so no one re-classifies it as a pinned Layer 1 asset and bloats the prompt.
 - **Voice-lint vs numeric ranges.** The em-dash/en-dash ban explicitly allows the en dash inside numeric ranges (e.g. $2,000–$3,000). Ensure the linter's `en_dash_as_dash` rule whitelists the range-card strings so the public pricing does not hard-fail its own gate.
 

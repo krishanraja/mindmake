@@ -1,18 +1,19 @@
 # Ideal Customer Profile
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-02
 
 ---
 
-## Three Audiences, No Overlap
+## Three Public Audiences, Plus One Mindy-Only Doorway
 
-Mindmaker is a ladder with a third inquiry-only doorway. There are three primary ICPs and a retention layer (the Alumni Pass). The old "Builder vs Orchestrator" split was a 1:1 sprint framing and has been retired along with the public 1:1 sprint product.
+Mindmaker is a ladder with a third inquiry-only doorway. There are three primary ICPs with dedicated public pages, a fourth ICP reachable only through Mindy (no page, no nav entry), and a retention layer (the Alumni Pass). The old "Builder vs Orchestrator" split was a 1:1 sprint framing and has been retired along with the public 1:1 sprint product.
 
 | ICP | Primary entry | Primary depth offer | Doorway |
 |---|---|---|---|
 | **AI Leaders** (senior operators making AI decisions) | A Mindmaker Workshop ($599) for technical-curious leaders ready to build; The AI-Fluent Executive Cohort ($2,500) for leaders sitting on a nervous decision | The AI-Fluent Executive (Cohort) | `/workshops`, `/cohort` (Maven enrolment) |
 | **AI Products** (companies commercializing AI capability) | The Signal Session ($15,000) | Signal Session → Revenue Architecture ($60–100k) | `/enterprise` |
 | **Executive Teams** (CEO-sponsored leadership groups) | The AI Immersion (inquiry-only, $12,000) | The AI Immersion | `/immersion` |
+| **SME / Founder-Led Builders** (want AI embedded across their own functions, not taught) | Bespoke Enablement ($8,000–$25,000, pilots from $2,000) | Bespoke Enablement | Diagnosis Room only (Mindy's Mode B) — no public page |
 | **Alumni** (retention layer, not a primary acquisition path) | The Alumni Pass ($1,500/year) | The Alumni Pass | `/alumni` (invitation-only, unlinked) |
 
 ---
@@ -216,6 +217,38 @@ A team genuinely aligned (not performatively aligned) on the three issues addres
 - Wants the session recorded (recording kills candor)
 - Sponsor cannot name three specific tensions to resolve
 - Substitute participants expected (the format depends on the actual leaders being in the room)
+
+---
+
+## ICP 4: SME / Founder-Led Builders: Bespoke Enablement Buyer (Mindy-only, no public page)
+
+### Firmographic context
+
+SME or founder-led business with real customers and a broken operating model, where the founder or a small leadership team is the bottleneck. Example classes: a coaching or breathwork practice, a small advisory firm, a founder-led services business. Below enterprise scale; doesn't have a dedicated department to hand AI work to.
+
+### Psychographic signals
+
+Wants something *built* into how the business actually runs, not a decision taught or a course completed. Talks in terms of their own named functions or streams ("our content engine," "our client onboarding," "our sales process"), not abstract AI strategy. Has tried point tools and found them additive, not transformative, because nothing connects.
+
+### What they ask for
+
+- "Scope the whole thing for my business."
+- "I need this built into how we actually work, not another course."
+- "The full roadmap across the business, not one function."
+
+### Why they don't fit the productised ladder
+
+They fail the "single fixed rung" test: the engagement spans several functions or streams at once, and the deliverables depend on their specific business rather than a repeatable curriculum or a company-level commercial narrative. Not an AI Leader (they want something built, not a decision made); not an AI Products buyer (too small for a commercial-narrative engagement); not an Executive Team (there's real building to do, not just alignment).
+
+### How they're routed
+
+Never quoted a price on the public site — no dedicated page exists for this offer. Reachable only by talking to Mindy in the Diagnosis Room, who scopes live: business-size band sets an hourly rate floor, the deliverables that need building set the hour count, and a value cross-check keeps the fee honest. Full detail in `project-documentation/mindy/fit-and-walkaway-rubric.md` and `pricing-range-model.md`.
+
+### Disqualifiers
+
+- Pre-revenue with no operating model to rebuild
+- Wants only a tool recommendation, not embedded work (route to CTRL free instead)
+- Wants an ongoing retainer rather than a scoped, finish-lined engagement
 
 ---
 

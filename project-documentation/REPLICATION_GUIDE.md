@@ -1,6 +1,6 @@
 # Replication Guide
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-02
 
 ---
 
@@ -150,23 +150,27 @@ supabase/functions/nervous-decision-machine/index.ts
 
 ### Step 14: Create other functions
 ```
-supabase/functions/get-ai-news/index.ts               # Operator's Brief content
+supabase/functions/get-ai-news/index.ts               # Live Intel content: CTRL shared pool, then Perplexity/Brave/OpenAI fallback
 supabase/functions/get-market-sentiment/index.ts
 supabase/functions/get-model-data/index.ts            # PriceTicker feed
-supabase/functions/send-lead-email/index.ts           # OpenAI enrichment + Resend
-supabase/functions/send-contact-email/index.ts
-supabase/functions/send-leadership-insights-email/index.ts
-supabase/functions/notify-scoping-request/index.ts    # ScopingModal intake → emails krish@themindmaker.ai (Resend)
-supabase/functions/notify-ctrl-waitlist/index.ts       # CTRL waitlist signup → emails krish@themindmaker.ai (Resend)
+supabase/functions/send-lead-email/index.ts           # unified lead pipeline adapter (legacy /alumni path)
+supabase/functions/send-contact-email/index.ts        # unified lead pipeline adapter
+supabase/functions/send-leadership-insights-email/index.ts  # unified lead pipeline adapter
+supabase/functions/notify-scoping-request/index.ts    # unified lead pipeline adapter (ScopingModal intake → Krish)
+supabase/functions/notify-ctrl-waitlist/index.ts       # unified lead pipeline adapter (CTRL waitlist → Krish)
 supabase/functions/mindy-chat/index.ts                 # Diagnosis Room (Mindy) conversation
 supabase/functions/enrich-company/index.ts             # Diagnosis Room company enrichment
+supabase/functions/company-search/index.ts             # Brandfetch Search API typeahead (Diagnosis Room opener)
 supabase/functions/generate-proposal/index.ts          # Diagnosis Room co-branded proposal generation
-supabase/functions/session-digest/index.ts             # Diagnosis Room session digest
+supabase/functions/session-digest/index.ts             # Diagnosis Room session digest (unified lead pipeline)
 supabase/functions/transcribe/index.ts                 # Whisper voice input for the Diagnosis Room
 supabase/functions/create-consultation-hold/index.ts  # Stripe (bypassed)
-supabase/functions/company-search/index.ts             # Brandfetch Search API typeahead (Diagnosis Room opener)
-supabase/functions/submit-intake/index.ts              # pre-session intake form → row + email brief to Krish
-supabase/functions/submit-testimonial/index.ts         # public testimonial submission → testimonials table + email Krish
+supabase/functions/import-audience-csv/index.ts        # Substack subscriber CSV → audience_contacts (secret-gated)
+supabase/functions/personalize-intake/index.ts         # dossier + seat → bespoke, voice-linted microcopy for /intake
+supabase/functions/submit-intake/index.ts              # unified lead pipeline adapter (adaptive pre-session intake form)
+supabase/functions/submit-testimonial/index.ts         # unified lead pipeline adapter (public testimonial submission)
+supabase/functions/_shared/lead/                       # unified lead pipeline core (types, escape, render, operator-read, pipeline, adapters)
+supabase/functions/_shared/http/                       # shared cors + resend helpers
 ```
 
 ### Step 15: Configure functions
@@ -183,9 +187,6 @@ verify_jwt = false
 [functions.get-market-sentiment]
 verify_jwt = false
 
-[functions.get-model-data]
-verify_jwt = false
-
 [functions.send-lead-email]
 verify_jwt = false
 
@@ -195,21 +196,23 @@ verify_jwt = false
 [functions.send-leadership-insights-email]
 verify_jwt = false
 
-[functions.notify-scoping-request]
-verify_jwt = false
-
-[functions.notify-ctrl-waitlist]
-verify_jwt = false
-
 [functions.create-consultation-hold]
+verify_jwt = false
+
+[functions.import-audience-csv]
 verify_jwt = false
 
 [functions.submit-intake]
 verify_jwt = false
 
+[functions.personalize-intake]
+verify_jwt = false
+
 [functions.submit-testimonial]
 verify_jwt = false
 ```
+
+Note: `get-model-data`, `notify-scoping-request`, and `notify-ctrl-waitlist` have no `verify_jwt` entry in the live `config.toml` (default applies), and neither do the Diagnosis Room's own core functions (`mindy-chat`, `enrich-company`, `company-search`, `generate-proposal`, `session-digest`, `transcribe`). Only set `verify_jwt = false` for the functions actually called anonymously from a public page or client.
 
 ---
 
@@ -335,7 +338,9 @@ Verify end-to-end:
 13. `/leaders` diagnostic completes end-to-end
 14. All redirects function (see Phase 6)
 15. Mobile works (375px)
-16. No `text-mint` on light backgrounds anywhere
+16. No `text-mint` / bright emerald on light backgrounds anywhere
+17. `/intake` loads, adapts question copy/options to a test dossier and prior answers, and submits even if enrichment or `personalize-intake` fails (deterministic fallback copy renders instead)
+18. `npm run test` (vitest) passes
 
 ---
 

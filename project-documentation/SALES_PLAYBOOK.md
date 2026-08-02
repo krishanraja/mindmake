@@ -1,7 +1,7 @@
 # Mindmaker Sales Playbook
 *The single ground-truth document for AI sales and marketing agents working the Mindmaker book.*
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-02
 
 > If you are an AI sales or marketing agent, outbound, inbound, content, retargeting, lifecycle, paid, or organic, this is the document you ground on. It is opinionated, structured for retrieval, and biased toward action. Use `OFFERS.md`, `ICP.md`, `VALUE_PROP.md`, `OUTCOMES.md`, and `BRANDING.md` for deeper canon. Use `Master_Messaging_and_FAQ.md` for full pitches and FAQ.
 
@@ -13,6 +13,7 @@
 |---|---|---|---|
 | Senior leader ready to *build* this quarter | **A Mindmaker Workshop** ($599, on Maven) | The AI-Fluent Executive Cohort ($2,500) | `audience:workshop` |
 | Senior leader with a nervous AI decision | **The AI-Fluent Executive (Cohort)** ($2,500, Maven-hosted) | Workshops as warm-up; Enterprise as next step if they're commercialising AI | `audience:ai-leaders` |
+| SME / founder-led team wanting AI built into their own functions, not taught | **Bespoke Enablement** ($8,000–$25,000, pilots from $2,000, scoped live) | No public page — Diagnosis Room only (Mindy's Mode B) | `audience:bespoke-sme` |
 | Company commercializing an AI product | **The Signal Session** ($15,000) → **The Revenue Architecture** ($60–100k) | Operator credential page (`/operator`) | `audience:ai-products` |
 | Executive team with shared AI tensions | **The AI Immersion** ($12,000, inquiry-only) | — | `audience:exec-team` |
 | Mindmaker alumni (any of the above) | **The Alumni Pass** ($1,500/year, invitation-only) | — | `audience:alumni` |
@@ -119,6 +120,8 @@ The first four are the addressable market. The Alumni Pass is the retention laye
 | "Pricing, packaging, GTM all need rebuilding" | **Revenue Architecture** |
 | "Our exec team can't agree on three things" | **Immersion** |
 | "We need a strategy day" | **Immersion** |
+| "I need AI built into how my business actually works, not another course" | **Bespoke Enablement** (Diagnosis Room only, no public page) |
+| "Scope the whole thing for my business" / "the full roadmap across the business" | **Bespoke Enablement** |
 | "I'm just exploring AI, no firm timeline" | **Free Lightning Lesson** (Maven instructor page) |
 | "I want to keep working with you after [engagement]" | **Alumni Pass** (invitation-only) |
 | "I want a fractional CAIO" | Decline. Disqualify. |
@@ -432,19 +435,19 @@ DEFAULT (uncertain):
 
 ---
 
-## 12. Lead Email Anatomy (what `send-lead-email` produces)
+## 12. Lead Email Anatomy (the unified lead pipeline)
 
 The primary "Book a call" flow now opens the **Diagnosis Room (Mindy)**, where the visitor's nervous decision is diagnosed in conversation. The `ScopingModal` ("Scope it with me") remains the secondary booking surface on the offer pages; it posts to the `notify-scoping-request` edge function: a structured intake email to Krish with the prospect's name, work email, company & role, the AI decision/problem, what success looks like in 30 days, and optional notes.
 
-The richer `send-lead-email` lead-intelligence email below is produced by the legacy consult-modal path (now `/alumni` only). It contains:
+Every lead-capture surface — `send-lead-email` (legacy `/alumni` path), `send-contact-email`, `send-leadership-insights-email`, `notify-scoping-request`, `notify-ctrl-waitlist`, `submit-intake`, `submit-testimonial`, and the Diagnosis Room's `session-digest` — is now a thin adapter over one unified lead pipeline (`dispatchLead`, see `ARCHITECTURE.md`). Each produces the same consistent, researched digest to Krish:
 
-- Prospect name, email, job title
-- Selected program (preselected from the page or the modal dropdown)
-- Commitment level (from the modal)
-- Audience type and path type (derived)
-- Session engagement data
-- Company research via Gemini with Google Search grounding (skipped for personal email domains)
-- 3× retry with exponential backoff for delivery reliability
+- Prospect name, email, job title / seat
+- Offer / program context (preselected, derived, or diagnosed)
+- Company research (auto, reusing the shared enrichment orchestrator; skipped for personal email domains)
+- An AI-generated "operator's read" on the lead
+- Backgrounded send (`EdgeRuntime.waitUntil`) so the visitor-facing flow never blocks on email delivery
+
+**Pre-session intake (`/intake`, post-booking):** after a call books, a named, adaptive ~14-question briefing goes to the visitor before the session (seat, business, time allocation, handoff, AI-confidence gut-check, this week's actual AI usage, what hasn't stuck, north star, value frame, aspiration, wish, learning style, blockers). It pulls the enrichment dossier to tailor question wording and a `personalize-intake` pass to generate two bespoke microcopy fragments, degrading silently to deterministic copy if either is unavailable. It captures a pre-normalised baseline confidence score used as the pre/post metric in testimonials, and its behavioral-check question is designed to defuse under-reporting in both directions (the AI-skeptic and the embarrassed heavy user). Submission routes through the unified pipeline via `submit-intake`.
 
 When you (an AI sales agent) help craft the prospect's reply or follow-up, mirror the framing Mindy surfaced in the Diagnosis Room: "You said your decision is [X], your timeline is [Y], and the stakes are [Z]. Based on that, here's what I'd suggest…"
 

@@ -1,6 +1,6 @@
 # Offers: The Full Guide
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-02
 
 > Replaces the previous `SPRINTS.md`. The 1:1 sprint products (4-Week and 90-Day Builder / Orchestrator sprints) were retired from the public site in the v4 barbell pivot. The v6 ladder restructure (May 2026) added paid Workshops as the entry product and the Alumni Pass as a continuity layer. See `mindmaker_rebuild_brief_v4.md` for the v4 rationale and `DECISIONS_LOG.md` for the commercial reasoning behind v6.
 
@@ -14,6 +14,7 @@ Mindmaker is a ladder, not a single product. Free Lightning Lessons sit at the t
 |---|---|---|---|---|
 | **Workshops** (×5) | $599 / workshop | 1 day each | Leaders ready to build a real artefact alongside Krish | `/workshops` (enrolment on Maven) |
 | **The AI-Fluent Executive (Cohort)** | $2,500 / seat | 4 weeks (mostly async) + 4 × 90-min live sessions | AI leaders making a nervous decision | `/cohort` (enrolment on Maven) |
+| **Bespoke Enablement** (Mindy-scoped, no public page) | $8,000–$25,000 (pilots from $2,000) | Scoped live per engagement | SME / founder-led teams that need AI embedded across their own functions, not a fixed rung | Diagnosis Room only (Mode B) |
 | **The Signal Session** | $15,000 | 1 day intensive + 48-hour Commercial Narrative delivery (15–20 pages) | AI products buyer seeking commercial diagnosis | `/enterprise#signal-session` |
 | **The Revenue Architecture** | $60,000–$100,000 | 30 days (4–5 calendar weeks), multi-session | AI products buyer ready for commercial rebuild | `/enterprise#revenue-architecture` |
 | **The AI Immersion** (inquiry-only) | $12,000 (flat) | 4-hour facilitated session + 2-page summary within 5 business days | Executive team needing fast alignment on shared AI tensions | `/immersion` |
@@ -95,7 +96,31 @@ Full refund up to 7 days before the cohort starts. 50% refund up to day one. No 
 
 ---
 
-## 2. The Signal Session
+## 2. Bespoke Enablement
+
+### Position
+
+The offer with no public page — scoped live, only inside the Diagnosis Room (Mindy). Where the four productised rungs sell a fixed scope, Bespoke Enablement is for an SME or founder-led team that wants AI embedded across its own named functions and streams, not a course or a fixed product. Mindy calls this "Mode B" internally; the buyer never sees that label.
+
+### Who it's for
+
+An SME or founder-led team asking to "scope the whole thing for my business" or "rebuild how we work with AI" at a team level below enterprise scale, where the deliverables depend on the client's specific streams and there's real building to do, not only teaching. Doesn't map to a single ladder rung because the engagement spans several functions at once.
+
+### How it's priced
+
+Scoped live, not published. Mindy runs a scoping calculation from three inputs — business-size band (sets an hourly rate floor), the deliverables that need building (sets the hour count), and a value cross-check — then shows a pilot band and a full band; the exact fee is set on the call. The pilot (~6 hours, one stream) credits in full toward the full engagement, so there's no wrong place to begin. A second phase, if any, is scoped together off the first phase's momentum and is never pre-priced.
+
+### Price (public range)
+
+$8,000–$25,000, pilots from $2,000. Internal reasoning detail lives in `project-documentation/mindy/pricing-range-model.md` (not shown publicly).
+
+### Where it lives
+
+No dedicated page or nav entry. Reachable only by talking to Mindy in the Diagnosis Room; she routes here after the productised-ladder fit test fails. Governed by `project-documentation/mindy/pricing-range-model.md` §2 and `fit-and-walkaway-rubric.md`.
+
+---
+
+## 3. The Signal Session
 
 ### Position
 
@@ -140,7 +165,7 @@ Founders, CEOs, CCOs, CROs, CPOs at companies that have shipped AI product or AI
 
 ---
 
-## 3. The Revenue Architecture
+## 4. The Revenue Architecture
 
 ### Position
 
@@ -187,7 +212,7 @@ Enterprise buyers (typically $10M–$1B+ revenue) who have:
 
 ---
 
-## 4. The AI Immersion (inquiry-only)
+## 5. The AI Immersion (inquiry-only)
 
 ### Position
 

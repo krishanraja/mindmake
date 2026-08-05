@@ -26,55 +26,7 @@ const pages = [
     path: "/cohort",
     title: "The AI-Fluent Executive: Mindmaker",
     description:
-      "Make your nervous AI decision with 15 other senior leaders. Four weeks. Mostly async. Weekly live sessions. Diagnose, decompose, decide, deploy. $2,500 per seat, quarterly. Hosted on Maven.",
-  },
-  {
-    path: "/workshops",
-    title: "Workshops: Mindmaker",
-    description:
-      "Five one-day workshops on Maven. Build alongside Krish Raja, operator running a 14-agent AI business. From $599.",
-  },
-  {
-    path: "/workshops/build-your-ai-chief-of-staff",
-    title: "Build Your AI Chief of Staff: Mindmaker",
-    description:
-      "One-day workshop on Maven. Build the AI assistant that actually shows up to work, connected to your real inbox, calendar, and chat channels. $599.",
-  },
-  {
-    path: "/workshops/map-your-agentic-org-chart",
-    title: "Map Your Agentic Org Chart: Mindmaker",
-    description:
-      "One-day workshop on Maven. Design the agent fleet your business actually needs. Walk out with a complete agent-native org chart and a 90-day build sequence. $599.",
-  },
-  {
-    path: "/workshops/vibe-coding-for-leaders",
-    title: "Vibe Coding for Leaders: Mindmaker",
-    description:
-      "One-day workshop on Maven. Ship the internal tool you've been waiting six months for IT to build. Working tool, live URL, deployed by end of day. $599.",
-  },
-  {
-    path: "/workshops/build-an-autonomous-business-function",
-    title: "Build an Autonomous Business Function: Mindmaker",
-    description:
-      "One-day workshop on Maven. Build the workflow that runs without you. Real n8n or Make workflow, deployed on your real business by end of session. $599.",
-  },
-  {
-    path: "/workshops/give-your-ai-memory",
-    title: "Give Your AI Memory: Mindmaker",
-    description:
-      "One-day workshop on Maven. Build the memory web that makes your AI worth using. Stop re-explaining your business every Monday. Private, portable, deployed by end of day. $599.",
-  },
-  {
-    path: "/enterprise",
-    title: "Enterprise: Mindmaker",
-    description:
-      "Your AI capabilities, translated into revenue. The Signal Session ($15k) aligns your team fast. The Revenue Architecture ($60-100k) builds the complete commercial strategy.",
-  },
-  {
-    path: "/capital",
-    title: "Capital: Mindmaker",
-    description:
-      "For Operating Partners, family offices, and funds. The Signal Session ($15k) maps the AI strategy for your fund or a portfolio company. The Revenue Architecture ($60-100k per portco) deploys the rebuild. Fund-level pricing available.",
+      "Make your nervous AI decision with 15 other senior leaders. Four weeks. Mostly async. Weekly live sessions. Diagnose, decompose, decide, deploy. $2,000 to $3,000 per seat, quarterly. Hosted on Maven.",
   },
   {
     path: "/operator",
@@ -93,12 +45,6 @@ const pages = [
     title: "The Operator's Brief: Mindmaker",
     description:
       "The live sandbox. Model prices, classified reads (WATCH / SKIP / CALL / TAKE), and a decision machine for leaders making AI calls.",
-  },
-  {
-    path: "/immersion",
-    title: "The AI Immersion: Mindmaker",
-    description:
-      "A focused half-day session for executive teams who need to get aligned on AI fast. Up to eight senior leaders, one facilitated conversation, a board-ready summary within five business days. $12,000.",
   },
   {
     path: "/new-age-leadership",

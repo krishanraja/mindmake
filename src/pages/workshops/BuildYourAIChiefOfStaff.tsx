@@ -5,7 +5,7 @@ const config: WorkshopConfig = {
   slug: "build-your-ai-chief-of-staff",
   title: "Build Your AI Chief of Staff",
   seoDescription:
-    "One-day Mindmaker workshop. Build the AI assistant that actually shows up to work, connected to your real inbox, calendar, and chat channels. Deployed live during the session. From $500 on Maven.",
+    "One-day Mindmaker workshop. Build the AI assistant that actually shows up to work, connected to your real inbox, calendar, and chat channels. Deployed live during the session. Hosted on Maven.",
   intro: [
     "Your inbox doesn't need another tool. It needs a chief of staff. Most senior leaders try to bolt AI onto their workflow and end up with a chatbot that knows nothing about their actual day.",
     "In this workshop you build the assistant that actually shows up to work. Connected to your real inbox, your real calendar, your real chat channels. Briefed on your priorities. Deployed live during the session, not in some sandbox.",

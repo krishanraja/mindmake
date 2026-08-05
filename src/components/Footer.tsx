@@ -39,34 +39,10 @@ const Footer = () => {
               </h4>
               <nav className="flex flex-col gap-3">
                 <a
-                  href="/workshops"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
-                >
-                  Workshops
-                </a>
-                <a
                   href="/cohort"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
                   The AI-Fluent Executive
-                </a>
-                <a
-                  href="/enterprise#signal-session"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
-                >
-                  The Signal Session
-                </a>
-                <a
-                  href="/enterprise#revenue-architecture"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
-                >
-                  The Revenue Architecture
-                </a>
-                <a
-                  href="/immersion"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
-                >
-                  The AI Immersion
                 </a>
               </nav>
             </div>

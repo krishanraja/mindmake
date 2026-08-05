@@ -187,7 +187,8 @@ const CaseStudies = () => {
             >
               <div className="flex-1">
                 <div className="text-sm font-bold text-foreground">
-                  {activeOffer.label} · {activeOffer.price}
+                  {activeOffer.label}
+                  {activeOffer.price ? ` · ${activeOffer.price}` : ""}
                 </div>
                 <div className="text-sm text-muted-foreground">{activeOffer.blurb}</div>
               </div>

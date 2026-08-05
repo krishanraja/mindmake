@@ -48,7 +48,7 @@ const enterpriseProducts: ProductExpandCardData[] = [
     headline: "Your commercial diagnosis. Shipped in 48 hours.",
     subhead:
       "A one-day intensive that produces a 15-20 page Commercial Narrative. The best place to start if you're not sure whether Revenue Architecture is the right call.",
-    price: "From $10,000",
+    price: "",
     priceAnchor:
       "Most teams argue their way toward this read for a quarter. You get it in writing, in 48 hours.",
     outcomeTodo:
@@ -78,8 +78,7 @@ const enterpriseProducts: ProductExpandCardData[] = [
     headline: "30-day commercial rebuild. One person in the room.",
     subhead:
       "ICP, pricing, GTM, content engine, and outbound, all rebuilt to run on AI from day one. No associates, no retainer.",
-    price: "$50,000–$100,000+",
-    priceDetail: "scope-dependent",
+    price: "",
     priceAnchor:
       "A management consultancy bids the same scope at $400k+ over nine months, with associates doing the work. This is one operator, 30 days, fixed.",
     outcomeTodo:
@@ -111,8 +110,8 @@ const enterpriseProducts: ProductExpandCardData[] = [
       "Half a day, your full leadership team, one shared AI tension named.",
     subhead:
       "Inquiry-only. For executive teams who need fast alignment before a budget cycle, board meeting, or pivot decision.",
-    price: "$10,000–$15,000",
-    priceDetail: "flat fee, plus travel for on-site",
+    price: "",
+    priceDetail: "Flat fee, plus travel for on-site.",
     priceAnchor:
       "Cheaper than the off-site that ends in a deck and no decisions, and faster than the months of drift it replaces.",
     outcomeTodo:
@@ -161,8 +160,8 @@ const comparisonRows = [
   },
   {
     label: "Price",
-    signal: "From $10,000",
-    revenue: "$50,000–$100,000+",
+    signal: "Scoped on the call",
+    revenue: "Scoped on the call",
   },
 ];
 
@@ -208,7 +207,7 @@ export default function Enterprise() {
     <main className="min-h-screen bg-background">
       <SEO
         title="Enterprise: AI commercialization sprints"
-        description="Two sprints with a fixed scope and a finish line. The Signal Session from $10k aligns your team fast. The Revenue Architecture at $50k–$100k+ builds the complete commercial strategy."
+        description="Two sprints with a fixed scope and a finish line. The Signal Session aligns your team fast. The Revenue Architecture builds the complete commercial strategy."
         canonical="/enterprise"
         ogType="website"
       />

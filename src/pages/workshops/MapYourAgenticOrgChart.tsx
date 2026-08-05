@@ -5,7 +5,7 @@ const config: WorkshopConfig = {
   slug: "map-your-agentic-org-chart",
   title: "Map Your Agentic Org Chart",
   seoDescription:
-    "One-day Mindmaker workshop. Design the agent fleet your business actually needs. Walk out with a complete agent-native org chart, named roles, and a 90-day build sequence. From $500 on Maven.",
+    "One-day Mindmaker workshop. Design the agent fleet your business actually needs. Walk out with a complete agent-native org chart, named roles, and a 90-day build sequence. Hosted on Maven.",
   intro: [
     "Most leaders are buying AI agents the way they used to buy SaaS. One per problem. The result is a graveyard of unused subscriptions and no clarity on which agents actually belong in the business.",
     "In this workshop you stop buying and start designing. We treat your business the way you'd staff a team: which roles need a human, which need an agent, which need a hybrid, and which roles don't need to exist at all.",

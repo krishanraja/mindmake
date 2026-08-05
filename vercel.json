@@ -1,7 +1,7 @@
 {
   "headers": [
     {
-      "source": "/((?!testimonials|intake).*)",
+      "source": "/((?!testimonials|intake|workshops|enterprise|capital|immersion|alumni).*)",
       "headers": [
         {
           "key": "X-Robots-Tag",
@@ -10,7 +10,7 @@
       ]
     },
     {
-      "source": "/(testimonials|intake)(.*)",
+      "source": "/(testimonials|intake|workshops|enterprise|capital|immersion|alumni)(.*)",
       "headers": [
         {
           "key": "X-Robots-Tag",

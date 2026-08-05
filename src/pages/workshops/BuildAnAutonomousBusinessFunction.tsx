@@ -5,7 +5,7 @@ const config: WorkshopConfig = {
   slug: "build-an-autonomous-business-function",
   title: "Build an Autonomous Business Function",
   seoDescription:
-    "One-day Mindmaker workshop. Build the workflow that runs without you. Real n8n or Make workflow, deployed on your real business, running by end of session. From $500 on Maven.",
+    "One-day Mindmaker workshop. Build the workflow that runs without you. Real n8n or Make workflow, deployed on your real business, running by end of session. Hosted on Maven.",
   intro: [
     "Most leaders talk about automation in the abstract. Then they go back to copying numbers between tabs on a Tuesday afternoon. The gap between the conversation and the keyboard is where the value sits.",
     "In this workshop you pick one function in your business, lead-routing, billing reconciliation, content distribution, customer onboarding, and you build the workflow that runs it without you. Real n8n or Make pipeline, real triggers, real outputs.",

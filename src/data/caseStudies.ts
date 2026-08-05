@@ -51,21 +51,21 @@ export const ENGAGEMENT_META: Record<
 > = {
   "Signal Session": {
     label: "The Signal Session",
-    price: "From $10,000",
+    price: "",
     blurb: "One nervous AI decision, resolved fast.",
     href: "/enterprise#signal-session",
     cta: "Book a Signal Session",
   },
   "Revenue Architecture": {
     label: "The Revenue Architecture",
-    price: "$50,000–$100,000+",
+    price: "",
     blurb: "Rebuild how the business makes money with AI.",
     href: "/enterprise#revenue-architecture",
     cta: "Scope a Revenue Architecture",
   },
   Cohort: {
     label: "The AI-Fluent Executive",
-    price: "$2,000–$3,000",
+    price: "",
     blurb: "Get clear alongside 15 other senior leaders. Four weeks.",
     href: "/cohort",
     cta: "See the cohort",

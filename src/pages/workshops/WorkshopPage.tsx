@@ -94,9 +94,6 @@ export const WorkshopPage = ({ config }: { config: WorkshopConfig }) => {
               <div className="text-xs font-bold uppercase tracking-[0.18em] text-mint-dark dark:text-mint mb-3">
                 Workshop
               </div>
-              <div className="flex items-baseline gap-2 mb-1">
-                <span className="text-4xl font-bold">$500–$1,000</span>
-              </div>
               <div className="text-sm text-muted-foreground mb-5">
                 One day · Hosted on Maven
               </div>

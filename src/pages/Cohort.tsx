@@ -4,7 +4,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle, Users, Calendar, Info, ExternalLink, Tag } from "lucide-react";
+import { ArrowRight, CheckCircle, Users, Calendar, Info, ExternalLink } from "lucide-react";
 import { SEO } from "@/components/SEO";
 import { MAVEN_COHORT_URL } from "@/lib/stripe-prices";
 
@@ -21,11 +21,14 @@ const fadeUp = {
 // In a future pass these come from a Supabase `cohort_dates` table; for
 // now they're maintained here.
 const nextCohort = {
-  id: "summer-2026",
-  startLabel: "July 21, 2026",
-  endLabel: "August 14, 2026",
-  seatsRemaining: 11,
+  id: "winter-2026",
+  startLabel: "November 19, 2026",
+  endLabel: "December 13, 2026",
+  seatsRemaining: 0,
   seatsTotal: 15,
+  // Maven currently shows this cohort as sold out, with a waitlist. Flip to
+  // false (and set seatsRemaining) when Maven reopens enrolment.
+  soldOut: true,
 };
 
 const trackMavenClick = () => {
@@ -143,7 +146,7 @@ export default function Cohort() {
     <main className="min-h-screen bg-background">
       <SEO
         title="The AI-Fluent Executive"
-        description="Make your nervous AI decision with 15 other senior leaders. Four weeks, mostly async, with weekly live sessions. $2,000–$3,000 per seat, quarterly. Hosted on Maven."
+        description="Make your nervous AI decision with 15 other senior leaders. Four weeks, mostly async, with weekly live sessions. $2,000 to $3,000 per seat, quarterly. Hosted on Maven."
         canonical="/cohort"
         ogType="website"
       />
@@ -197,7 +200,9 @@ export default function Cohort() {
               <Calendar className="w-4 h-4 text-mint-dark dark:text-mint" />
               <span className="font-semibold">Next cohort: {nextCohort.startLabel} to {nextCohort.endLabel}</span>
               <span className="text-muted-foreground">
-                · {nextCohort.seatsRemaining} of {nextCohort.seatsTotal} seats remaining
+                {nextCohort.soldOut
+                  ? "· Sold out"
+                  : `· ${nextCohort.seatsRemaining} of ${nextCohort.seatsTotal} seats remaining`}
               </span>
             </div>
 
@@ -366,17 +371,11 @@ export default function Cohort() {
               <span className="text-muted-foreground">per seat</span>
             </div>
             <p className="text-sm text-muted-foreground mb-5">
-              Full payment or split into two payments. Seats: {nextCohort.seatsRemaining} of {nextCohort.seatsTotal} remaining.
+              Full payment or split into two payments.{" "}
+              {nextCohort.soldOut
+                ? "Sold out on Maven. Join the waitlist for the next one."
+                : `Seats: ${nextCohort.seatsRemaining} of ${nextCohort.seatsTotal} remaining.`}
             </p>
-
-            {/* Workshop alumni discount callout */}
-            <div className="mb-5 p-4 rounded-xl border border-mint/30 bg-mint/5 flex items-start gap-3">
-              <Tag className="w-4 h-4 text-mint-dark dark:text-mint mt-0.5 shrink-0" />
-              <p className="text-sm leading-relaxed">
-                <span className="font-bold">Done a Workshop in the last 90 days?</span>{" "}
-                Use code <span className="font-mono font-bold text-foreground">WORKSHOP</span> at Maven checkout for $500 off.
-              </p>
-            </div>
 
             <a
               href={MAVEN_COHORT_URL}

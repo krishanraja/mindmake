@@ -45,7 +45,7 @@ const capitalProducts: ProductExpandCardData[] = [
     headline: "One day. Two outcomes. The fund itself, or a portfolio company.",
     subhead:
       "Either we map the AI strategy for your fund or family office itself, or we run a capital-allocator's read on a specific portfolio company.",
-    price: "From $10,000",
+    price: "",
     priceAnchor:
       "Most allocators form this view over months of IC debate. You get it in writing, in 48 hours.",
     outcomeTodo:
@@ -75,8 +75,7 @@ const capitalProducts: ProductExpandCardData[] = [
     headline: "30-day commercial rebuild. Deployed inside a portfolio company.",
     subhead:
       "Same Krish in the room, no associates, no retainer. Fund-level pricing for 3+ engagements per 12 months.",
-    price: "$50,000–$100,000+",
-    priceDetail: "per portfolio company",
+    price: "",
     priceAnchor:
       "A consultancy bills $400k+ and nine months per company. This is one operator, 30 days, repeatable across the portfolio.",
     outcomeTodo:
@@ -96,7 +95,7 @@ const capitalProducts: ProductExpandCardData[] = [
     bestFor:
       "Funds and family offices that have identified a portfolio company needing a complete commercial rebuild, or want to deploy the same playbook across multiple portcos with fund-level pricing.",
     paymentTerms:
-      "$50,000–$100,000+ per portfolio company, scope-dependent. 50% at kickoff, 50% at delivery. Fund-level discount available for 3+ engagements per 12 months.",
+      "50% at kickoff, 50% at delivery. Fund-level discount available for 3+ engagements per 12 months.",
     primaryCTA: {
       label: "Book The Revenue Architecture",
       preselected: "capital-revenue-architecture",
@@ -159,7 +158,7 @@ export default function Capital() {
     <main className="min-h-screen bg-background">
       <SEO
         title="Capital: build the fund's AI engine first, then the portfolio's"
-        description="For Operating Partners, family offices, and funds. The Signal Session (from $10k) maps the AI strategy for your fund or a portfolio company. The Revenue Architecture ($50–100k+ per portco) builds the engine inside it. Fund-level pricing available."
+        description="For Operating Partners, family offices, and funds. The Signal Session maps the AI strategy for your fund or a portfolio company. The Revenue Architecture builds the engine inside it. Fund-level pricing available."
         canonical="/capital"
         ogType="website"
       />

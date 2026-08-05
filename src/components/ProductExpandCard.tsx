@@ -8,7 +8,7 @@ export interface ProductExpandCardData {
   category: string;
   headline: string;
   subhead: string;
-  price: string;
+  price?: string;
   priceDetail?: string;
   priceAnchor?: string;
   outcomeTodo?: string;
@@ -110,14 +110,16 @@ export const ProductExpandCard = ({
             <p className="text-muted-foreground leading-relaxed mb-4">
               {subhead}
             </p>
-            <div className="flex flex-wrap items-baseline gap-2">
-              <span className="text-xl md:text-2xl font-bold">{price}</span>
-              {priceDetail && (
-                <span className="text-sm text-muted-foreground">
-                  {priceDetail}
-                </span>
-              )}
-            </div>
+            {price && (
+              <div className="flex flex-wrap items-baseline gap-2">
+                <span className="text-xl md:text-2xl font-bold">{price}</span>
+                {priceDetail && (
+                  <span className="text-sm text-muted-foreground">
+                    {priceDetail}
+                  </span>
+                )}
+              </div>
+            )}
             {priceAnchor && (
               <p className="mt-2 text-xs text-muted-foreground leading-relaxed">
                 {priceAnchor}

@@ -36,22 +36,8 @@ const Navigation = () => {
 
   const navItems: NavItem[] = [
     {
-      label: "Workshops",
-      href: "/workshops",
-    },
-    {
       label: "Cohort",
       href: "/cohort",
-    },
-    {
-      label: "Enterprise",
-      dropdown: [
-        { label: "The Signal Session", href: "/enterprise#signal-session" },
-        { label: "The Revenue Architecture", href: "/enterprise#revenue-architecture" },
-        { label: "The AI Immersion", href: "/enterprise#immersion" },
-        { type: "section", label: "For funds & operating partners" },
-        { label: "Capital", href: "/capital" },
-      ],
     },
     {
       label: "Mindmaker LIVE",

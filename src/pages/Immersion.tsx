@@ -123,7 +123,7 @@ export default function Immersion() {
     <main className="min-h-screen bg-background">
       <SEO
         title="The AI Immersion: A half-day with your leadership team"
-        description="A focused half-day session for executive teams who need to get aligned on AI fast. Up to eight senior leaders, one facilitated conversation, a board-ready summary within five business days. From $10,000."
+        description="A focused half-day session for executive teams who need to get aligned on AI fast. Up to eight senior leaders, one facilitated conversation, a board-ready summary within five business days."
         canonical="/immersion"
         ogType="website"
         jsonLd={jsonLd}
@@ -253,9 +253,6 @@ export default function Immersion() {
             >
               Eight partners who had never said their AI views out loud left a half day with signed principles and a ninety-day plan.
             </p>
-            <div className="flex items-baseline gap-2 justify-center">
-              <span className="text-3xl md:text-4xl font-bold">$10,000–$15,000</span>
-            </div>
             <p className="text-sm text-muted-foreground mt-2 max-w-md mx-auto">
               Cheaper than the off-site that ends in a deck and no decisions.
             </p>

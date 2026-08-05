@@ -66,7 +66,7 @@ export default function Workshops() {
     <main className="min-h-screen bg-background">
       <SEO
         title="Workshops"
-        description="Five one-day workshops on Maven. Build alongside Krish Raja, operator running a 14-agent AI business. From $500."
+        description="Five one-day workshops on Maven. Build alongside Krish Raja, operator running a 14-agent AI business."
         canonical="/workshops"
         ogType="website"
       />
@@ -133,7 +133,7 @@ export default function Workshops() {
                     <div className="flex-1">
                       <h2 className="text-xl md:text-2xl font-bold leading-tight">{w.title}</h2>
                       <div className="text-xs text-muted-foreground mt-1">
-                        $500–$1,000 · 1 day · Hosted on Maven
+                        1 day · Hosted on Maven
                       </div>
                     </div>
                   </div>
@@ -182,7 +182,7 @@ export default function Workshops() {
               Done a workshop and ready for the next step?
             </h3>
             <p className="text-muted-foreground mb-6 leading-relaxed">
-              Workshop alumni get $500 off the AI-Fluent Executive cohort. The cohort is where the deeper, peer-validated decision work happens, in a small group of senior operators over four weeks.
+              Workshop alumni get a discount on the AI-Fluent Executive cohort. The cohort is where the deeper, peer-validated decision work happens, in a small group of senior operators over four weeks.
             </p>
             <Button
               asChild

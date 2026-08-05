@@ -6,6 +6,7 @@ import { SEO } from "@/components/SEO";
 import { motion } from "framer-motion";
 import { ArrowRight, Users, Bot, Sparkles } from "lucide-react";
 import { AgathaStory, PageCompletionBeacon } from "@/components/new-age/AgathaStory";
+import FrameworkJourney from "@/components/FrameworkJourney";
 
 // Lazy-load the chart so it doesn't block the hero's LCP
 const OrgChart = lazy(() =>
@@ -254,6 +255,34 @@ export default function NewAgeLeadership() {
         </div>
       </section>
 
+      {/* HOW YOU GET THERE: the framework, moved here from the homepage so it
+          sits with the org-design idea it actually serves. */}
+      <section className="section-padding">
+        <div className="container-width max-w-3xl text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-mint-dark dark:text-mint mb-3">
+              How you get there
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
+              Running a hybrid species business is a skill, not a tool purchase.
+            </h2>
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              An org chart with agents in it needs a leader who can actually direct them.
+              That is the job: not buying AI, but becoming the person who can run a
+              business where humans and agents both do the work. Three phases, and most
+              nervous decisions resolve in the first.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      <FrameworkJourney />
+
       {/* FINAL SOFT CTA */}
       <section className="section-padding bg-muted/30">
         <div className="container-width max-w-3xl">
@@ -272,7 +301,7 @@ export default function NewAgeLeadership() {
               className="bg-ink text-white hover:bg-ink/90 dark:bg-mint dark:text-ink dark:hover:bg-mint/90 font-bold px-8"
               onClick={openScopingModal}
             >
-              Book a call <ArrowRight className="ml-2 w-4 h-4" />
+              Bring me one real decision <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
           </motion.div>
           <PageCompletionBeacon />

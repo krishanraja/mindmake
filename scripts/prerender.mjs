@@ -51,6 +51,8 @@ const navBlock = `
     <nav aria-label="Mindmaker">
       <a href="/">Home</a>
       <a href="/start">The Diagnosis Room</a>
+      <a href="/teardown">The Teardown</a>
+      <a href="/handover">The Handover</a>
       <a href="/cohort">The AI-Fluent Executive</a>
       <a href="/operator">How I operate</a>
       <a href="/case-studies">Case studies</a>
@@ -83,8 +85,8 @@ const pages = [
     <p>The <a href="/start">Diagnosis Room</a> is a guided on-site session. Mindy works through one nervous AI decision with you and ends in one of three honest exits: keep talking it through, book a free 15-minute call, or take away a one-page proposal. Free, no email required.</p>
     <h2>Who you're working with</h2>
     <p>Krish Raja is an operator-advisor, not a consultant: no training, no decks, no demos, just decisions. He runs a 14-agent AI operating system across his own portfolio every day, so the commercial work comes out of production rather than out of a deck. See <a href="/operator">how he operates</a> and the <a href="/case-studies">work it has moved</a>.</p>
-    <h2>The framework</h2>
-    <p>Mind Set, then Mind Map, then Mind Make. Get clear on the decision, map the real trade-offs underneath it, then commit and deploy.</p>`,
+    <h2>Two ways in</h2>
+    <p>One method: your context, held properly, and anchored to the decisions you are actually making this week. Run it yourself with <a href="https://ctrl.themindmaker.ai/">CTRL</a>, an AI-native chief of staff that is free to start. Or run it with me: <a href="/teardown">The Teardown</a>, ten days on one real decision at $3,500, and if that goes well <a href="/handover">The Handover</a>, six weeks rebuilding how the business decides and sells, from $30,000.</p>`,
   },
   {
     path: "/start",
@@ -103,6 +105,50 @@ const pages = [
     <h2>What you get</h2>
     <p>A named fork, the paths available with the trade-off on each, the weak assumption worth testing first, and a concrete next step. Yours to keep. It will recommend a cheaper option, or none at all, when that is the honest answer.</p>
     <p>Free. No email required to start.</p>`,
+  },
+  {
+    path: "/teardown",
+    title: "The Teardown: Mindmaker",
+    description:
+      "Ten business days. One real decision, taken apart into the claims it rests on, each checked against live evidence and cross-examined across four models. Under two hours of your time. $3,500.",
+    body: `
+    <h1>Bring the decision you keep not making.</h1>
+    <p>Ten business days. Under two hours of your time. You get back the decision taken apart: what it actually rests on, which of those parts survive contact with evidence, and which are yours alone to call.</p>
+    <h2>What actually happens</h2>
+    <ul>
+      <li>Your decision comes apart into the claims it is resting on. Most rest on four or five, and most people have never written them down.</li>
+      <li>Every claim is tested against live evidence and comes back with a reliability tier, so you can see which parts are load-bearing and which are just repeated.</li>
+      <li>Every consideration is classed External (the world decides), Only you (no amount of research will help), or Nobody yet (the answer does not exist and waiting will not produce it).</li>
+      <li>Four models cross-examine it, and where they disagree you see the disagreement rather than an average that hides it.</li>
+    </ul>
+    <h2>What you keep</h2>
+    <p>A one-page memo you can send on, your decision mapped to its load-bearing claims, every consideration classed, the four-model cross-examination with disagreements preserved, and three claims placed under a 90-day watch so you know what would change your mind. Plus a CTRL workspace with your decision map in it and 30 days of Edge Pro.</p>
+    <h2>Price</h2>
+    <p>$3,500 fixed, one decision, ten business days from kickoff. 20% off if you let me write about the work, with you approving how you are portrayed.</p>
+    <p>A Teardown is also the gate for <a href="/handover">The Handover</a>. Nobody buys six weeks without us both seeing how one decision goes first.</p>`,
+  },
+  {
+    path: "/handover",
+    title: "The Handover: Mindmaker",
+    description:
+      "Six weeks. We rebuild how your business decides and sells with AI, then I leave and you keep it. Week five I don't attend. Day 90 recheck included. $30,000 under 250 people, $50,000 up to 5,000.",
+    body: `
+    <h1>Six weeks. Then I leave and you keep it.</h1>
+    <p>Consultants are built so the engagement never ends. This one is built to end, on a date you know at the start. In week five I don't attend at all, because a system that only runs when I'm in the room is not a system.</p>
+    <h2>The six weeks</h2>
+    <ul>
+      <li>Week 1. Load and correct your context. Most of it is discovering what the org believes that is no longer true.</li>
+      <li>Week 2. Adversarial pre-mortem. We assume the plan failed and work backwards to why.</li>
+      <li>Week 3. The fork. If you are not AI-native we rebuild GTM, pricing and positioning. If you are, we set the build order instead.</li>
+      <li>Week 4. You drive. You run it, I watch and correct.</li>
+      <li>Week 5. I don't attend. If it only works when I'm in the room, we both find that out while there is still time to fix it.</li>
+      <li>Week 6. Exit. You keep the system, the context, and the way of deciding. A Day 90 recheck is included.</li>
+    </ul>
+    <h2>Who it's for</h2>
+    <p>Companies of 50 to 5,000 people, sweet spot 100 to 1,000. The buyer is the CEO, CRO or VP Product: the seat accountable for whether it sells. Not the CTO, because this is commercial work and engineering and commercial are different problems.</p>
+    <h2>Price and the gate</h2>
+    <p>$30,000 under 250 people. $50,000 for 250 to 5,000. 20% off if you let me write about the work, with you approving how you are portrayed. I take six of these a year, which is the honest number for work I do personally.</p>
+    <p>Every Handover starts with <a href="/teardown">a Teardown</a>, ten days and $3,500. It has talked people out of this as often as into it.</p>`,
   },
   {
     path: "/cohort",

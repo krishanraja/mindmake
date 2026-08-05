@@ -28,6 +28,8 @@ const DiagnosisRoom = lazy(() =>
 );
 
 const Cohort = lazy(() => import("./pages/Cohort"));
+const Teardown = lazy(() => import("./pages/Teardown"));
+const Handover = lazy(() => import("./pages/Handover"));
 const Enterprise = lazy(() => import("./pages/Enterprise"));
 const Capital = lazy(() => import("./pages/Capital"));
 const Immersion = lazy(() => import("./pages/Immersion"));
@@ -159,6 +161,8 @@ const AppRoutes = () => {
             <Route path="/workshops/build-an-autonomous-business-function" element={<WorkshopAutonomous />} />
             <Route path="/workshops/give-your-ai-memory" element={<WorkshopMemory />} />
             <Route path="/cohort" element={<Cohort />} />
+            <Route path="/teardown" element={<Teardown />} />
+            <Route path="/handover" element={<Handover />} />
             <Route path="/enterprise" element={<Enterprise />} />
             <Route path="/capital" element={<Capital />} />
             <Route path="/operator" element={<Operator />} />

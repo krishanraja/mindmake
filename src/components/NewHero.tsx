@@ -116,7 +116,7 @@ const NewHero = () => {
             }
           >
             <User strokeWidth={1.75} />
-            Book a call
+            Bring me one real decision
           </Button>
           <Button
             size="lg"

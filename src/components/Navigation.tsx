@@ -36,6 +36,13 @@ const Navigation = () => {
 
   const navItems: NavItem[] = [
     {
+      label: "Work with me",
+      dropdown: [
+        { label: "The Teardown", href: "/teardown" },
+        { label: "The Handover", href: "/handover" },
+      ],
+    },
+    {
       label: "Cohort",
       href: "/cohort",
     },
@@ -237,7 +244,7 @@ const Navigation = () => {
               }}
             >
               <span className="absolute -top-1 -right-1 w-2 h-2 bg-mint rounded-full animate-pulse" />
-              Book a call
+              Bring me one real decision
             </Button>
           </div>
 
@@ -398,7 +405,7 @@ const Navigation = () => {
                     setIsOpen(false);
                   }}
                 >
-                  Book a call
+                  Bring me one real decision
                 </Button>
                 {/* full-mode entry: think it through before booking */}
                 <button

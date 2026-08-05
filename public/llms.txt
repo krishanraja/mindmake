@@ -4,8 +4,10 @@
 
 ## Core offers
 
+- [The Teardown](/teardown): $3,500 fixed, ten business days, one decision, under two hours of client time. The decision comes apart into the claims it rests on; each is checked against live evidence with a reliability tier; each consideration is classed External, Only you, or Nobody yet; four models cross-examine it with disagreements preserved rather than averaged. Ends in a one-page memo plus three claims under a 90-day watch, and includes a CTRL workspace and 30 days of Edge Pro. This is the entry rung and the gate for The Handover.
+- [The Handover](/handover): $30,000 under 250 people, $50,000 for 250 to 5,000. Six weeks, and a completed Teardown is required first. Week 1 load and correct context, week 2 adversarial pre-mortem, week 3 the fork (rebuild GTM, pricing and positioning, or set the build order if already AI-native), week 4 the client drives, week 5 Krish does not attend, week 6 exit. Day 90 recheck included. Capped at six a year. Sold to the CEO, CRO or VP Product, never the CTO.
+- Both rungs: 20% off in exchange for permission to write about the work, with the client approving how they are portrayed.
 - [The AI-Fluent Executive (Cohort)](/cohort): $2,000 to $3,000 per seat, 4 weeks, quarterly. For senior leaders with a nervous AI decision to make. 10 to 15 seats per cohort, mostly async with weekly 90-minute live sessions. Diagnose, decompose, decide, deploy. Hosted on Maven at https://maven.com/mindmaker/the-ai-fluent-executive. The next cohort is sold out; Maven holds the waitlist.
-- Advisory engagements are scoped directly with Krish on a call. Pricing is set on that call and is not published.
 
 ## How I operate
 
@@ -36,7 +38,7 @@
 
 ## Positioning
 
-Mindmaker is the anti-consultancy for leaders done being sold AI. Krish is an operator-advisor who runs a 14-agent AI business on his own P&L, so the commercial work comes out of production rather than out of a deck. No fractional executive roles. No ongoing retainers. No production IT work. Every engagement has a fixed scope and a finish line. Maven is the marketplace Mindmaker lists on; themindmaker.ai is the brand and operating centre.
+Mindmaker is the anti-consultancy for leaders done being sold AI. The method is one thing sold two ways: build the brain that holds your business, anchored to the decisions you are actually making. Do it yourself with CTRL (https://ctrl.themindmaker.ai, free tier, Edge Pro at $49/month), or do it with Krish through The Teardown and then The Handover. Krish is an operator-advisor who runs a 14-agent AI business on his own P&L, so the commercial work comes out of production rather than out of a deck. No fractional executive roles. No ongoing retainers. No production IT work. Every engagement has a fixed scope and a finish line. Maven is the marketplace Mindmaker lists on; themindmaker.ai is the brand and operating centre.
 
 ## Contact
 

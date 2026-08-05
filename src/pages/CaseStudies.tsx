@@ -270,7 +270,7 @@ const CaseStudies = () => {
             onClick={openScoping}
             className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-foreground text-background font-semibold hover:bg-foreground/90 transition-colors"
           >
-            Book a call <ArrowRight className="w-4 h-4" />
+            Bring me one real decision <ArrowRight className="w-4 h-4" />
           </button>
         </div>
       </section>

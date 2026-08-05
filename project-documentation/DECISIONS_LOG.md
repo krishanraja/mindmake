@@ -1,10 +1,26 @@
 # Decisions Log
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-08-05
 
 ---
 
 ## Brand & Product Decisions
+
+### 2026-08-05: "Anti-consultant" stays. Krish is an operator-advisor.
+
+**Decision:** The anti-consultancy positioning is retained. The lead line at `src/components/OperatorsEdge.tsx:14` stays exactly as written: *"I'm the anti-consultant. I don't deliver slides, I deliver systems."* No change to `mindy-system-prompt.md`, `fit-and-walkaway-rubric.md`, `BRANDING.md`, `PURPOSE.md` or `VALUE_PROP.md`.
+
+**Context:**
+- The August 2026 site overhaul brief argued this becomes a contradiction once paid advisory is sold again, and proposed replacing it with "the engagement ends and you keep the system."
+- Krish resolved it directly: he is an **operator-advisor**, so there is no contradiction to fix. Anti-consultancy was never a claim that he does not advise. It is a claim about what he delivers and how the engagement ends.
+- This is already the settled language elsewhere in the canon. `COMMERCIAL_REFERENCE.md:21` positions him as "an operator-advisor who builds commercial engines for businesses using AI, not a consultant who delivers decks." `mindy-system-prompt.md:22` instructs Mindy that she is "an executive-grade operator-advisor, not a chatbot."
+- `krish-voice` lists "Anti-consultancy" as the Gear A vibe for Mindmaker. Removing it would have put the site at odds with the voice skill.
+
+**Impact:**
+- No code change. The line is a named constant, so this decision costs nothing to hold.
+- Any future session working from the overhaul brief should treat the "resolve this tension" instruction as **already resolved, and declined**. Do not strip the anti-consultant framing.
+
+---
 
 ### 2026-06-29: Signature accent moves from Mint to portfolio Emerald (brand cohesion)
 

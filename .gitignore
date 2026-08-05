@@ -32,6 +32,8 @@ audit-artifacts/
 
 # Environment
 .env
+.env.local
+.env.*.local
 
 # Crash dumps
 core

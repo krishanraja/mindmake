@@ -2,13 +2,6 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { ArrowLeft, Send, Calendar, ExternalLink, Linkedin, Mail, MapPin, Building, User, Briefcase, CheckCircle2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -31,7 +24,6 @@ const Contact = () => {
     email: "",
     company: "",
     role: "",
-    interest: "",
     message: "",
   });
 
@@ -53,7 +45,6 @@ const Contact = () => {
           message: formData.message,
           company: formData.company || undefined,
           role: formData.role || undefined,
-          interest: formData.interest || undefined,
         },
       });
 
@@ -65,7 +56,7 @@ const Contact = () => {
 
       setIsSubmitted(true);
       toast.success("Message sent successfully! Krish will get back to you soon.");
-      setFormData({ name: "", email: "", company: "", role: "", interest: "", message: "" });
+      setFormData({ name: "", email: "", company: "", role: "", message: "" });
     } catch (error) {
       console.error("Error sending message:", error);
       toast.error("Failed to send message. Please try again or email krish@themindmaker.ai directly.");
@@ -73,12 +64,6 @@ const Contact = () => {
       setIsSubmitting(false);
     }
   };
-
-  const interestOptions = [
-    { value: "4-week-sprint", label: "4-Week Decision Sprint" },
-    { value: "90-day-sprint", label: "90-Day Concierge Sprint" },
-    { value: "not-sure", label: "Not sure yet" },
-  ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -356,28 +341,6 @@ const Contact = () => {
                           onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                         />
                       </div>
-                    </div>
-
-                    {/* Interest */}
-                    <div>
-                      <label htmlFor="interest" className="block text-sm font-medium text-foreground mb-2">
-                        Which sprint interests you?
-                      </label>
-                      <Select
-                        value={formData.interest}
-                        onValueChange={(value) => setFormData({ ...formData, interest: value })}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Choose one..." />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {interestOptions.map((option) => (
-                            <SelectItem key={option.value} value={option.value}>
-                              {option.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
                     </div>
 
                     {/* Message */}

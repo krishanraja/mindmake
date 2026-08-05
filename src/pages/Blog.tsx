@@ -185,17 +185,23 @@ const Blog = () => {
           <div className="mt-16 p-8 md:p-12 rounded-2xl bg-gradient-to-br from-mint/10 to-mint/5 border border-mint/20">
             <div className="max-w-2xl mx-auto text-center">
               <h2 className="text-2xl md:text-3xl font-bold mb-4">
-                Ready to Build Your AI Literacy?
+                Got a decision you keep not making?
               </h2>
               <p className="text-muted-foreground mb-6">
-                Stop reading about AI and start building with it. Book a Builder Session 
-                to create your first working AI systems in 60 minutes.
+                Stop reading about AI and work one real decision through instead.
+                Mindy takes it apart with you in the Diagnosis Room. Free, no email.
               </p>
-              <Button 
+              <Button
                 size="lg"
-                onClick={() => window.open('https://calendly.com/krish-raja/mindmaker-meeting', '_blank')}
+                onClick={() =>
+                  window.dispatchEvent(
+                    new CustomEvent("openDiagnosisRoom", {
+                      detail: { source_page: "/blog", mode: "full" },
+                    }),
+                  )
+                }
               >
-                Book a Builder Session
+                Open the Diagnosis Room
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>

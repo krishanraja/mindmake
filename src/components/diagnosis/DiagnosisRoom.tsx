@@ -430,7 +430,7 @@ export const DiagnosisRoom = ({
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-ink-900 via-ink to-ink-700/50" />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-900/85 via-transparent to-mint/[0.04]" />
 
-      {/* drifting mint aurora — fades as the room is pulled away */}
+      {/* drifting mint aurora, fades as the room is pulled away */}
       {!reduce && (
         <motion.div
           className="pointer-events-none absolute inset-0 overflow-hidden"
@@ -463,7 +463,7 @@ export const DiagnosisRoom = ({
         </motion.div>
       )}
 
-      {/* the draggable shell (mobile) — header + content move together; the
+      {/* the draggable shell (mobile), header + content move together; the
           grabber is the only drag initiator so inner scroll never dismisses. */}
       <motion.div
         className="relative z-[1] flex h-full flex-col"

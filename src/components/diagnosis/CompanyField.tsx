@@ -31,7 +31,7 @@ interface CompanyFieldProps {
  * The opener's company typeahead. As the visitor types their company name, it
  * queries the `company-search` edge function and shows matching companies with
  * their real logo and domain. Picking one hands the session an exact domain,
- * which is the richest, most reliable enrichment key — lower friction than a
+ * which is the richest, most reliable enrichment key, lower friction than a
  * work email and instantly confirmatory ("it already knows us").
  */
 export const CompanyField = ({ onChange, onFocus }: CompanyFieldProps) => {

@@ -1,6 +1,6 @@
 // Synthesized UI sound for the Diagnosis Room.
 //
-// Soft, sub-100ms cues generated on the fly with the Web Audio API — no asset
+// Soft, sub-100ms cues generated on the fly with the Web Audio API, no asset
 // files, no network, no autoplay. The AudioContext is created lazily on the
 // first user-gesture-driven `play()` so it never trips browser autoplay policy.
 //
@@ -112,7 +112,7 @@ const render = (ac: AudioContext, name: SoundName) => {
       tone(ac, 660, t, 0.06, 0.035, "sine");
       break;
     case "chime":
-      // a small mint arpeggio — the reward
+      // a small mint arpeggio, the reward
       tone(ac, 784, t, 0.12, 0.04, "sine"); // G5
       tone(ac, 1047, t + 0.07, 0.14, 0.035, "sine"); // C6
       tone(ac, 1319, t + 0.15, 0.18, 0.03, "sine"); // E6

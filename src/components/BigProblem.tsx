@@ -97,7 +97,7 @@ const FlipCard = ({ index, fate, value, flipped, onFlip, reduceMotion }: FlipCar
           "focus-visible:[&>div]:ring-2 focus-visible:[&>div]:ring-mint focus-visible:[&>div]:ring-offset-4 focus-visible:[&>div]:ring-offset-ink",
         )}
       >
-        {/* FRONT — fate */}
+        {/* FRONT: fate */}
         <CardFace
           hidden={reduceMotion && flipped}
           className={cn(reduceMotion && flipped && "hidden")}
@@ -123,7 +123,7 @@ const FlipCard = ({ index, fate, value, flipped, onFlip, reduceMotion }: FlipCar
           </div>
         </CardFace>
 
-        {/* BACK — value */}
+        {/* BACK: value */}
         <CardFace
           back
           hidden={reduceMotion && !flipped}

@@ -288,27 +288,27 @@ export const InitialConsultModal = ({
     {
       value: "workshop",
       label: "A Mindmaker Workshop",
-      helper: "$599 per workshop. One day on Maven. You build a real artefact alongside me on your real surface. Five workshops to choose from.",
+      helper: "One day on Maven. You build a real artefact alongside me on your real surface. Five workshops to choose from.",
     },
     {
       value: "cohort-enrollment",
       label: "The AI-Fluent Executive (Cohort)",
-      helper: "$2,500 per seat. Four weeks with 15 other senior leaders, mostly async plus weekly live sessions. Diagnose, decompose, decide, deploy.",
+      helper: "Four weeks with 15 other senior leaders, mostly async plus weekly live sessions. Diagnose, decompose, decide, deploy.",
     },
     {
       value: "signal-session",
       label: "The Signal Session",
-      helper: "$15,000. One intensive day plus a 48h Commercial Narrative. For teams needing rapid alignment on how to sell an AI capability.",
+      helper: "One intensive day plus a 48h Commercial Narrative. For teams needing rapid alignment on how to sell an AI capability.",
     },
     {
       value: "revenue-architecture",
       label: "The Revenue Architecture",
-      helper: "$60,000 to $100,000, scope-dependent. A 30-day build of pricing, positioning, packaging, and GTM for companies commercializing AI.",
+      helper: "A 30-day build of pricing, positioning, packaging, and GTM for companies commercializing AI.",
     },
     {
       value: "immersion",
       label: "The AI Immersion",
-      helper: "$12,000 flat. A half-day working session with up to 8 of your senior leaders. Board-ready summary within 5 business days.",
+      helper: "A half-day working session with up to 8 of your senior leaders. Board-ready summary within 5 business days.",
     },
     {
       value: "1-1-inquiry",
@@ -741,35 +741,35 @@ export const InitialConsultModal = ({
                     selected={selectedPath === "workshop"}
                     icon={Zap}
                     title="A Mindmaker Workshop"
-                    subtitle="$599. One day on Maven. Build a real artefact."
+                    subtitle="One day on Maven. Build a real artefact."
                     onClick={() => handlePathSelect("workshop")}
                   />
                   <SelectionCard
                     selected={selectedPath === "cohort-enrollment"}
                     icon={Users}
                     title="The AI-Fluent Executive (Cohort)"
-                    subtitle="$2,500. Four weeks with 15 senior leaders."
+                    subtitle="Four weeks with 15 senior leaders."
                     onClick={() => handlePathSelect("cohort-enrollment")}
                   />
                   <SelectionCard
                     selected={selectedPath === "signal-session"}
                     icon={Zap}
                     title="The Signal Session"
-                    subtitle="$15,000. One intensive day. Rapid commercial alignment."
+                    subtitle="One intensive day. Rapid commercial alignment."
                     onClick={() => handlePathSelect("signal-session")}
                   />
                   <SelectionCard
                     selected={selectedPath === "revenue-architecture"}
                     icon={Compass}
                     title="The Revenue Architecture"
-                    subtitle="$60k to $100k. 30-day commercial build."
+                    subtitle="30-day commercial build."
                     onClick={() => handlePathSelect("revenue-architecture")}
                   />
                   <SelectionCard
                     selected={selectedPath === "immersion"}
                     icon={Users}
                     title="The AI Immersion"
-                    subtitle="$12,000. Half-day with your leadership team."
+                    subtitle="Half-day with your leadership team."
                     onClick={() => handlePathSelect("immersion")}
                   />
                   <SelectionCard

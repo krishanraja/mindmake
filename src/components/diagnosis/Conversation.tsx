@@ -27,7 +27,7 @@ interface ConversationProps {
 }
 
 // ---------------------------------------------------------------------------
-// Typewriter — types a finished assistant reply out once, respects reduced
+// Typewriter: types a finished assistant reply out once, respects reduced
 // motion (instant), and never re-types the same content.
 // ---------------------------------------------------------------------------
 const useTypewriter = (full: string, enabled: boolean) => {

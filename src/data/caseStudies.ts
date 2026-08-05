@@ -51,21 +51,21 @@ export const ENGAGEMENT_META: Record<
 > = {
   "Signal Session": {
     label: "The Signal Session",
-    price: "$15,000",
+    price: "From $10,000",
     blurb: "One nervous AI decision, resolved fast.",
     href: "/enterprise#signal-session",
     cta: "Book a Signal Session",
   },
   "Revenue Architecture": {
     label: "The Revenue Architecture",
-    price: "$60–100k",
+    price: "$50,000–$100,000+",
     blurb: "Rebuild how the business makes money with AI.",
     href: "/enterprise#revenue-architecture",
     cta: "Scope a Revenue Architecture",
   },
   Cohort: {
     label: "The AI-Fluent Executive",
-    price: "$2,500",
+    price: "$2,000–$3,000",
     blurb: "Get clear alongside 15 other senior leaders. Four weeks.",
     href: "/cohort",
     cta: "See the cohort",
@@ -280,7 +280,7 @@ export interface Endorsement {
 
 /**
  * Senior-peer endorsements (career references), anonymized to role + sector.
- * These speak to translating complexity, leadership and teaching — distinct
+ * These speak to translating complexity, leadership and teaching, distinct
  * from the client-outcome case studies above.
  */
 export const endorsements: Endorsement[] = [

@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 export interface KeyboardInset {
   /** Pixels the soft keyboard currently covers at the bottom. 0 when closed. */
   keyboardHeight: number;
-  /** visualViewport.height — the usable height under the keyboard. */
+  /** visualViewport.height, the usable height under the keyboard. */
   viewportHeight: number;
-  /** visualViewport.offsetTop — iOS Safari shifts this while focused. */
+  /** visualViewport.offsetTop, iOS Safari shifts this while focused. */
   offsetTop: number;
   /** True once the keyboard meaningfully covers the screen (>100px). */
   isOpen: boolean;
@@ -22,7 +22,7 @@ const EMPTY: KeyboardInset = {
  * Track the on-screen keyboard via `window.visualViewport`.
  *
  * The Diagnosis Room is `position: fixed; inset: 0`, which on iOS Safari does
- * NOT shrink when the soft keyboard opens — the layout viewport stays full
+ * NOT shrink when the soft keyboard opens, the layout viewport stays full
  * height while only the *visual* viewport shrinks. `100dvh` tracks this
  * inconsistently, so the reliable signal is `visualViewport`. We return the
  * covered height so the room can pad its content column upward and float the

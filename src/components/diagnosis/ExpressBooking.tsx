@@ -116,7 +116,7 @@ export const ExpressBooking = ({
         </p>
       </motion.div>
 
-      {/* live Calendly inline widget — white paper floating on a glass frame */}
+      {/* live Calendly inline widget, white paper floating on a glass frame */}
       <motion.div
         className="glass-panel relative min-h-0 flex-1 overflow-hidden rounded-2xl p-1.5"
         {...reveal(0.08)}

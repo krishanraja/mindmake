@@ -2,7 +2,7 @@ import { useId } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * BrushPainter — the Diagnosis Room's proposal loading state.
+ * BrushPainter: the Diagnosis Room's proposal loading state.
  *
  * Instead of a spinner, an artist's paintbrush sweeps in vertical strokes (down,
  * up, down, up) marching left → right, progressively washing the card in mint

@@ -29,7 +29,7 @@
       "destination": "/intake/index.html"
     },
     {
-      "source": "/((?!assets/|testimonials|intake).*)",
+      "source": "/((?!assets/|testimonials|intake|agent\\.json|\\.well-known/).*)",
       "destination": "/index.html"
     }
   ]

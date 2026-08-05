@@ -70,7 +70,7 @@ export const Opener = ({
 
   const express = mode === "express";
   const emailOk = EMAIL_RE.test(email.trim());
-  // Express still needs a way to reach them — a work email OR a picked company
+  // Express still needs a way to reach them, a work email OR a picked company
   // (whose domain we can enrich and brief Krish from).
   const expressIdentityOk = emailOk || !!company?.domain;
   const canSubmit =

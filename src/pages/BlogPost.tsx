@@ -245,6 +245,25 @@ const BlogPost = () => {
                   em: ({ children }) => (
                     <em className="text-muted-foreground italic">{children}</em>
                   ),
+                  a: ({ href, children }) => {
+                    const internal = href?.startsWith("/");
+                    const className =
+                      "text-emerald-deep dark:text-mint font-semibold underline underline-offset-4 hover:opacity-80 transition-opacity";
+                    return internal ? (
+                      <Link to={href!} className={className}>
+                        {children}
+                      </Link>
+                    ) : (
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={className}
+                      >
+                        {children}
+                      </a>
+                    );
+                  },
                 }}
               >
                 {post.content}

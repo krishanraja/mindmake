@@ -226,7 +226,7 @@ Within 30 days of focused practice, you can build 3-5 working AI systems and dev
 
 ---
 
-*Ready to accelerate your AI literacy journey? Book a Builder Session to identify your highest-impact opportunities and build your first working systems.*
+*Work one nervous AI decision through the [Diagnosis Room](/start). Free, no email.*
     `
   },
   {
@@ -316,7 +316,7 @@ If you want guidance, that's what Builder Sessions are for: 60 minutes to identi
 
 ---
 
-*Ready to build instead of train? Book a Builder Session to create your first working AI systems in 60 minutes.*
+*Work one nervous AI decision through the [Diagnosis Room](/start). Free, no email.*
     `
   },
   {
@@ -428,7 +428,7 @@ Ask your teams what they've figured out. Learn from their experiments. Then buil
 
 ---
 
-*Need help assessing your organization's AI readiness and building strategic adoption? The Leadership Lab brings your executive team together to create a shared framework and 90-day pilot charter.*
+*Work one nervous AI decision through the [Diagnosis Room](/start). Free, no email.*
     `
   },
   {
@@ -575,7 +575,7 @@ Whether you do this independently or with guidance, the principles are the same.
 
 ---
 
-*Ready to find your 10-20x opportunities? Book a Builder Session to map your highest-impact use cases and build your first systems.*
+*Work one nervous AI decision through the [Diagnosis Room](/start). Free, no email.*
     `
   },
   {
@@ -713,7 +713,7 @@ The good news: building is a learnable skill. It doesn't require technical backg
 
 ---
 
-*Ready to develop your builder mindset? The Builder Sprint is a 30-day intensive where you build 3-5 working AI systems and develop the capability to keep building independently.*
+*Work one nervous AI decision through the [Diagnosis Room](/start). Free, no email.*
     `
   },
   {
@@ -870,7 +870,7 @@ And most importantly: develop enough AI literacy to evaluate vendors on your own
 
 ---
 
-*Want to build the literacy to evaluate AI investments confidently? Book a Builder Session to develop your AI assessment capabilities.*
+*Work one nervous AI decision through the [Diagnosis Room](/start). Free, no email.*
     `
   },
   {
@@ -1054,7 +1054,7 @@ If the Sprint isn't right for you, the Builder Session still delivers: you leave
 
 ---
 
-*Ready to build working AI systems in 30 days? Book a Builder Session to kick off your Sprint and create your first system.*
+*Work one nervous AI decision through the [Diagnosis Room](/start). Free, no email.*
     `
   },
   {
@@ -1243,7 +1243,7 @@ The Lab creates this multiplier effect in a single intensive engagement.
 
 ---
 
-*Ready to align your executive team on AI? Contact us to discuss how a Leadership Lab could accelerate your organization's AI adoption.*
+*Work one nervous AI decision through the [Diagnosis Room](/start). Free, no email.*
     `
   },
   {
@@ -1391,7 +1391,7 @@ Start with one strategic challenge where you feel stuck. Use AI to generate mult
 
 Creative leadership focuses on generating breakthrough ideas and seeing new possibilities. Strategic planning focuses on organizing and executing those ideas. AI amplifies both, but creative leadership comes first. You need vision before you can plan execution.
 
-*Ready to increase your creative leadership with AI? Book a Builder Session to explore how AI can amplify your strategic thinking and unlock new possibilities.*
+*Work one nervous AI decision through the [Diagnosis Room](/start). Free, no email.*
     `
   },
   {
@@ -1584,7 +1584,7 @@ AI control is about strategic leadership, not technical expertise. You need to s
 
 The biggest mistake is trying to control AI without building organizational capability. You can't govern what people don't understand. Effective control requires both clear direction and the skills to execute it. Invest in AI literacy alongside governance.
 
-*Ready to establish effective control over AI in your organization? Book a Builder Session to develop your AI governance framework and control systems.*
+*Work one nervous AI decision through the [Diagnosis Room](/start). Free, no email.*
     `
   }
 ];

@@ -1,6 +1,8 @@
 # Visual Guidelines
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-08-09
+
+> **Status (August 2026 overhaul):** the homepage section order changed — `TwoDoors.tsx` (new) replaces `FrameworkJourney` in the scroll, which now renders only on `/new-age-leadership`; `OperatorsEdge` sits between `TrustSection` and `OperatorsBrief` on the live homepage, not "between `FrameworkJourney` and `OperatorsBrief`" as below. The primary nav CTA label is now "Bring me one real decision" (was "Book a call"; "Book a call" persists in body copy and on unsold-offer surfaces). The Cohort/Signal Session/Revenue Architecture/Immersion format-block example further down describes the pre-August offer set — Signal Session, Revenue Architecture, and Immersion are unsold as of 2026-08-05/06; The Teardown and The Handover are the current Krish-delivered offers. See `CLAUDE.md` → "Homepage scroll order" and `OFFERS.md` for current state.
 
 > **Signature accent (2026-06-29):** the accent is now **portfolio emerald** `#00D9B6` (HSL `171 100% 43%`), CTRL's emerald, shared across the three sibling products (Mindmaker, CTRL, Make Your Mind Up) over one MindmakerOS token contract. The legacy `mint` tokens/classes (`bg-mint`, `text-mint`, `shadow-mint-*`, "mint" used loosely below) are retained as **aliases** to emerald; read every "mint" reference below as emerald, and prefer the `emerald*` keys in new code. For accent text/links on light backgrounds use **`text-emerald-deep`** (`#06746d`, full AA 5.21), never bright emerald. WHY + WCAG derivation: `prototypes/brand-emerald-proof.{html,md}`.
 

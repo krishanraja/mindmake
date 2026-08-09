@@ -1,10 +1,31 @@
 # Decisions Log
 
-**Last Updated:** 2026-08-05
+**Last Updated:** 2026-08-09
 
 ---
 
 ## Brand & Product Decisions
+
+### 2026-08-05/06: The Teardown and The Handover launch; Workshops, Enterprise, Capital, Immersion, and the Alumni Pass unsold; the Cohort corrected to match Maven
+
+**Decision:** Ship two new Krish-delivered offers, **The Teardown** ($3,500 fixed, `/teardown`, ten business days, one decision) and **The Handover** ($30,000 under 250 people / $50,000 for 250–5,000, `/handover`, six weeks, gated on a completed Teardown, capped at 6/year). Both publish an exact/banded price on-site and carry a 20% publicity discount, and both route their single CTA to the Diagnosis Room. At the same time, **unsell** (Krish's term, not delete) Workshops (×5), The Signal Session, The Revenue Architecture, The AI Immersion, and The Alumni Pass: the route files stay in the repo and stay reachable by direct URL, but are removed from `Navigation.tsx` and `Footer.tsx`, `noindex`'d via `vercel.json`, dropped from the sitemap (`scripts/generate-sitemap.mjs`) and prerender list, and (where they carried one) stripped of their price. The Cohort is corrected from a flat $2,500 to a **$2,000–$3,000/seat range** to match the live Maven page, which had gone sold out. The nav's primary CTA changes from "Book a call" to **"Bring me one real decision"**; the nav dropdown structure changes from Workshops-link/Cohort-link/Enterprise-dropdown/Mindmaker-LIVE/Resources/About to **Work-with-me-dropdown (Teardown, Handover) / Cohort / Mindmaker LIVE / Resources / About**. `public/llms.txt` is rewritten to describe only what is actually for sale.
+
+**Context:**
+- A price and claim truth audit (`PRICE_TRUTH_AUDIT.md`, compiled 2026-08-05) found eight contradictory price lists across the codebase, three phantom products still published in `index.html` JSON-LD (Builder Session $348, 30-Day Builder Sprint $2,098, AI Leadership Lab $7,000, none sold anywhere), and the single most damaging finding: `InitialConsultModal.tsx`, reachable from `/alumni`, rendered all five internal exact prices publicly, directly contradicting the site's own stated "internal, never shown publicly" pricing policy.
+- The same audit found nothing in the estate was actually purchasable: the Maven cohort page read "sold out," the Workshops had no live Maven product behind them, and the crawler-visible body of every prerendered page was empty (`<div id="root">` plus a script tag), so AI crawlers and answer engines saw a 20KB page with zero visible text.
+- Krish's resolution: stop selling five offers that weren't converting or weren't purchasable rather than keep publishing dead prices and phantom products; replace them with two offers built around a claims-based method (the Teardown) and a bounded, capped implementation engagement (the Handover); fix the crawler-visibility gap by serving real body content per route; correct the Cohort to what Maven actually charges.
+- Separately, Krish confirmed (this same session) that the anti-consultancy positioning stays as-is — see the entry immediately below, which predates this one by hours on the same day.
+
+**Impact:**
+- New files: `src/lib/offers.ts` (canonical Teardown/Handover pricing constants), `src/pages/Teardown.tsx`, `src/pages/Handover.tsx`, `src/components/TwoDoors.tsx` (new homepage section, "do it yourself with CTRL" vs. "do it with me" via Teardown/Handover, replaces `FrameworkJourney`'s homepage slot; `FrameworkJourney.tsx` itself is not deleted and still renders on `/new-age-leadership`).
+- `Navigation.tsx` and `Footer.tsx` rebuilt: Workshops link, Enterprise dropdown, and Capital link removed; "Work with me" dropdown (Teardown, Handover) added; CTA label changed.
+- `vercel.json` noindex list extended to cover the five unsold routes; `scripts/generate-sitemap.mjs` and `scripts/prerender.mjs` updated to exclude them and include the two new routes.
+- `index.html` JSON-LD: the three phantom-product `Service` entries and their FAQ entry removed. `InitialConsultModal.tsx` had its exact-price rendering stripped (descriptive copy kept).
+- `public/llms.txt` fully rewritten around the current offer set.
+- **Not done in this pass, flagged as an open gap:** `supabase/functions/_shared/mindy/knowledge.ts` (Mindy's deployed reasoning) was not updated. Mindy still recommends and prices the retired Cohort/Signal Session/Revenue Architecture/Immersion ladder and doesn't know the Teardown or the Handover exist. `src/data/caseStudies.ts` was not updated either — no case study is tagged to either new offer, and the existing ones link to the now-unsold `/enterprise#signal-session`. `OperatorsEdge`'s homepage CTA still points to `/enterprise#revenue-architecture`, unrepointed.
+- **Documentation reconciliation:** this 2026-08-09 pass is the first to bring `CLAUDE.md` and the `project-documentation/` set into alignment with this decision; between 2026-08-06 and 2026-08-09 the living docs described the pre-overhaul state. See `PROOF_INVENTORY.md` (added 2026-08-05, a separate working document for the proof rebuild Krish was doing in parallel, not directly part of this decision but from the same session).
+
+---
 
 ### 2026-08-05: "Anti-consultant" stays. Krish is an operator-advisor.
 

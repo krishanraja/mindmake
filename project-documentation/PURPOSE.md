@@ -1,8 +1,10 @@
 # Purpose
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-09
 
 ---
+
+> **Status (August 2026 overhaul):** the offer table below describes the pre-August 2026 ladder. As of 2026-08-05/06, Workshops, the enterprise sprints, the Immersion, and the Alumni Pass are unsold (routes exist, no longer priced or discoverable); Krish launched **The Teardown** ($3,500) and **The Handover** ($30k/$50k, gated on a completed Teardown) in their place, alongside the Cohort (corrected to a $2,000–$3,000/seat range, currently sold out). See `OFFERS.md` and `COMMERCIAL_REFERENCE.md` for the current architecture; the mission and brand north star below are unaffected by the offer change.
 
 ## Mission
 
@@ -14,9 +16,9 @@ Every offer has a fixed scope, a fixed outcome, and a finish line.
 
 ---
 
-## The Business
+## The Business (historical table below — see status note above for current offers)
 
-Mindmaker is a **ladder**: free Lightning Lessons at the top, paid Workshops ($599) as the entry rung, the AI-Fluent Executive Cohort ($2,500) as the qualifying step, enterprise sprints ($15k–$100k+) as the margin engine, and the Alumni Pass ($1,500/year) as continuity, plus an inquiry-only executive-team offer and Capital as a third door for funds:
+Mindmaker was a **ladder**: free Lightning Lessons at the top, paid Workshops ($599) as the entry rung, the AI-Fluent Executive Cohort ($2,500) as the qualifying step, enterprise sprints ($15k–$100k+) as the margin engine, and the Alumni Pass ($1,500/year) as continuity, plus an inquiry-only executive-team offer and Capital as a third door for funds:
 
 | Rung | Offer | Price | Duration | Buyer |
 |---|---|---|---|---|

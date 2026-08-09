@@ -1,14 +1,18 @@
-<!-- Last Updated: 2026-06-28 -->
+<!-- Last Updated: 2026-08-09 -->
 # Pricing and Range Spec
 
-Machine-usable formalisation of the Mindmaker pricing model for Mindy and the proposal generator. This document encodes the model exactly as set; it invents no new numbers. Every figure here comes from the canonical ladder or the bespoke scoping rules already in force.
+> **CORRECTION BANNER, added 2026-08-09.** The "two hard facts" below were true from June 2026 to August 2026 and no longer are. On 2026-08-05/06 Krish launched **The Teardown** ($3,500 fixed) and **The Handover** ($30,000 under 250 people / $50,000 for 250-5,000), both published as an exact or banded price directly on-site and in `public/llms.txt` — a deliberate reversal of the ranges-only policy for these two offers specifically. At the same time, Workshops, The Signal Session, The Revenue Architecture, and The AI Immersion (the offers this spec's Mode A/Mode B routing and worked examples are built around) were unsold — still routed in the app, no longer priced or discoverable. The Cohort still shows a range ($2,000-$3,000/seat), so "never an exact figure" remains true there specifically, just not universally.
+>
+> **This document has not been rewritten to reflect that change**, because doing so requires product decisions (how the Teardown/Handover fit the Mode A/Mode B router, whether bespoke enablement still applies against the current ladder, what a proposal should render for a Teardown/Handover-shaped request) that are Krish's calls to make, not something a documentation-reconciliation pass should infer or invent. Treat everything below §0 as **describing the pre-August pricing model**, useful for the underlying bespoke-scoping mechanics (§2) but **not currently an accurate account of what Mindy should quote for the Teardown, the Handover, or any of the unsold offers.** See `CANON.md` §0 and §2.4/§2.4a for the current state and the open question. This is also moot in practice until `supabase/functions/_shared/mindy/knowledge.ts` (Mindy's deployed reasoning) is resynced — see `CANON.md` §0 for why the live product doesn't yet reflect any of this either way.
 
-**Two hard facts that govern everything below.**
+Machine-usable formalisation of the Mindmaker pricing model for Mindy and the proposal generator, **as designed prior to the August 2026 offer change.** This document encodes the model exactly as set; it invents no new numbers. Every figure here comes from the canonical ladder or the bespoke scoping rules already in force at the time it was written.
 
-1. Mindy never quotes an exact figure to a client. Client-facing output is always a range. The exact number is set by Krish on the call.
-2. Pricing has been removed from the live site and from generated proposals. Only ranges are shown. The proposal renders a band, never a single price.
+**Two hard facts that governed everything below, current for the Cohort only as of August 2026:**
 
-This spec is the source of truth for the `the hours and the price` section of the proposal and for any price language Mindy speaks. If a request falls outside what this spec covers, the answer is not a guess. The answer is "book the call".
+1. Mindy never quotes an exact figure to a client **for the Cohort**. Client-facing output for the Cohort is always a range. For the Teardown and the Handover, the exact/banded price is now published directly (see correction banner above).
+2. Pricing was removed from the live site and from generated proposals for the pre-August ladder. This remains true for the Cohort and for the now-unsold offers (which show no price at all); it does not apply to the Teardown or the Handover.
+
+This spec was the source of truth for the `the hours and the price` section of the proposal and for any price language Mindy spoke, for the pre-August offer set. If a request falls outside what this spec covers, the answer is not a guess. The answer is "book the call".
 
 ---
 
@@ -131,21 +135,21 @@ The engine returns three things, all as ranges:
 
 ---
 
-## 3. Public site range card
+## 3. Public site range card (pre-August 2026 — see correction banner at top of this file)
 
-The site renders this table. Ranges only. No exact figure is shown anywhere on the public surface.
+**This table is stale.** The site no longer renders it. As of 2026-08-05/06 the live public price surface is: The Teardown $3,500 fixed; The Handover $30,000/$50,000 banded by headcount; AI-Fluent Executive $2,000-$3,000 (still a range, still accurate below); everything else in this table is unsold and shows no price at all. Kept below for historical reference only.
 
-| Offer | Range |
+| Offer | Range (historical) |
 |---|---|
 | Lightning Lessons | Free |
-| Workshops | $500 - $1,000 |
-| AI-Fluent Executive | $2,000 - $3,000 |
-| Bespoke enablement | $8,000 - $25,000 (pilots from $2,000) |
-| Signal Session | $10,000 - $20,000 |
-| AI Immersion | $10,000 - $15,000 |
-| Revenue Architecture | $50,000 - $100,000+ |
-| Alumni Pass | ~$1,500 / year |
-| CTRL | Free, upgrades from $29 |
+| Workshops | $500 - $1,000 — unsold, no longer shown |
+| AI-Fluent Executive | $2,000 - $3,000 — still accurate |
+| Bespoke enablement | $8,000 - $25,000 (pilots from $2,000) — fit against current offers unverified |
+| Signal Session | $10,000 - $20,000 — unsold, no longer shown |
+| AI Immersion | $10,000 - $15,000 — unsold, no longer shown |
+| Revenue Architecture | $50,000 - $100,000+ — unsold, no longer shown |
+| Alumni Pass | ~$1,500 / year — unsold, no longer shown |
+| CTRL | Free, upgrades from $29 — price unreconciled, see `CANON.md` §2.3 |
 
 Render notes for the site:
 

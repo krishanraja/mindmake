@@ -1,8 +1,8 @@
 # The Accountable Delegator (ICP Archetype)
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-09
 
-This is the deep psychographic, behavioural, and skill-gap profile of the buyer behind **ICP 1: AI Leaders / Cohort Buyer** in `ICP.md`. It is the primary archetype for **The AI-Fluent Executive** ($2,500 cohort) and the entry-rung Workshops, and the human at the centre of every Signal Session and Immersion sponsor conversation.
+This is the deep psychographic, behavioural, and skill-gap profile of the buyer behind **ICP 1: AI Leaders** in `ICP.md`. It is the primary archetype for **The Teardown / The Handover** and **The AI-Fluent Executive** (Cohort, now a $2,000–$3,000/seat range, corrected 2026-08-05). It was also the primary archetype for the now-unsold entry-rung Workshops and the human at the centre of every Signal Session and Immersion sponsor conversation — those two offers are unsold as of 2026-08-05/06; the underlying psychographic profile below is unaffected by that change and still applies to whoever ends up buying whatever routes those buyers to now.
 
 This doc deliberately does not repeat what already lives elsewhere. For firmographic ranges, qualification signals, and disqualifiers see `ICP.md`. For the objection bank, routing logic, ROI math, and channel templates see `SALES_PLAYBOOK.md`. For canonical pitches and objection-handling FAQ see `Master_Messaging_and_FAQ.md`. What follows is the part those docs assume but never spell out: who this buyer actually is underneath, and the exact skill they are missing.
 

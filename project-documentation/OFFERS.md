@@ -1,39 +1,97 @@
 # Offers: The Full Guide
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-09
 
-> Replaces the previous `SPRINTS.md`. The 1:1 sprint products (4-Week and 90-Day Builder / Orchestrator sprints) were retired from the public site in the v4 barbell pivot. The v6 ladder restructure (May 2026) added paid Workshops as the entry product and the Alumni Pass as a continuity layer. See `mindmaker_rebuild_brief_v4.md` for the v4 rationale and `DECISIONS_LOG.md` for the commercial reasoning behind v6.
+> Replaces the previous `SPRINTS.md`. The v6 ladder restructure (May 2026) added paid Workshops as the entry product and the Alumni Pass as a continuity layer; see `mindmaker_rebuild_brief_v4.md` and `DECISIONS_LOG.md` for that era. **The August 2026 overhaul (commits `c85d984` through `b44e18e`, 2026-08-05/06) superseded most of this document.** Krish's decisions, recorded in `DECISIONS_LOG.md`: unsell Workshops/Enterprise/Capital/Immersion/Alumni rather than delete them (route files stay in the repo, reachable by direct link, but stop selling, stop being discoverable, and stop publishing a price); launch two new Krish-delivered offers, The Teardown and The Handover, with the Diagnosis Room as the door and exact/banded prices published on-site; correct the Cohort's price to match the live Maven page. Sections 1–2 below are the two new offers. Sections 3–6 (Cohort onward) are retained for detail but reordered/flagged per their current sale status.
 
 ---
 
-## The Ladder
+## The Ladder (current, August 2026)
 
-Mindmaker is a ladder, not a single product. Free Lightning Lessons sit at the top of the funnel. Workshops are the paid entry. The Cohort is the qualifying step. Enterprise is the margin engine. The Alumni Pass is continuity.
+One method, sold two ways: **The Teardown** then **The Handover** are the Krish-delivered path; **CTRL** is the self-serve path; **the Cohort** is the peer-decision-room option. Free Lightning Lessons remain the top-of-funnel wedge.
 
 | Offer | Price | Duration | Audience | Route |
 |---|---|---|---|---|
-| **Workshops** (×5) | $599 / workshop | 1 day each | Leaders ready to build a real artefact alongside Krish | `/workshops` (enrolment on Maven) |
-| **The AI-Fluent Executive (Cohort)** | $2,500 / seat | 4 weeks (mostly async) + 4 × 90-min live sessions | AI leaders making a nervous decision | `/cohort` (enrolment on Maven) |
-| **The Signal Session** | $15,000 | 1 day intensive + 48-hour Commercial Narrative delivery (15–20 pages) | AI products buyer seeking commercial diagnosis | `/enterprise#signal-session` |
-| **The Revenue Architecture** | $60,000–$100,000 | 30 days (4–5 calendar weeks), multi-session | AI products buyer ready for commercial rebuild | `/enterprise#revenue-architecture` |
-| **The AI Immersion** (inquiry-only) | $12,000 (flat) | 4-hour facilitated session + 2-page summary within 5 business days | Executive team needing fast alignment on shared AI tensions | `/immersion` |
-| **The Alumni Pass** (invitation-only) | $1,500 / year | Annual | Mindmaker alumni post any engagement | `/alumni` (unlinked from nav and footer) |
+| **The Teardown** | $3,500 fixed | 10 business days | One real decision, taken apart properly | `/teardown` |
+| **The Handover** (gated on a completed Teardown) | $30,000 under 250 people / $50,000 for 250–5,000 | 6 weeks; capped 6/year | CEO, CRO, or VP Product ready to rebuild how the business runs on the decision | `/handover` |
+| **The AI-Fluent Executive (Cohort)** | $2,000–$3,000 / seat (range) | 4 weeks (mostly async) + 4 × 90-min live sessions | AI leaders making a nervous decision | `/cohort` (enrolment on Maven; currently sold out) |
+| **CTRL** | Free; Edge Pro $49/month | Ongoing | Self-serve path, do-it-yourself | `ctrl.themindmaker.ai` |
 
-Every offer has a fixed scope, a fixed outcome, and a finish line.
+Both Teardown and Handover carry a 20% discount for permission to write about the work, with the client approving how they're portrayed (`PUBLICITY_DISCOUNT` in `src/lib/offers.ts`). Every live offer has a fixed scope, a fixed outcome, and a finish line.
 
-**Internal floor / ceiling (not public):** Cohort minimum viable enrollment = 8 seats, cap = 15. Revenue Architecture anchor $60k, extended-scope ceiling $125k. Immersion travel charged additional for on-site. Workshop max = 30 seats per session, run as small-group cohort even at scale.
+**UNSOLD as of 2026-08-05/06 (routes still exist, no longer priced, discoverable, or linked from nav/footer):** Workshops (×5), The Signal Session, The Revenue Architecture, The AI Immersion, The Alumni Pass. Sections 4–6 below describe them as they were designed; treat every price in those sections as historical, not current. If any of these is reactivated, this is a one-commit revert per the original unselling decision.
+
+**Internal floor / ceiling (not public):** Cohort minimum viable enrollment = 8 seats, cap = 15; next cohort (Nov 19–Dec 13, 2026) is sold out. Handover capped at 6 engagements/year, stated publicly on the page. Historical, unsold-offer floors/ceilings (Revenue Architecture $60k anchor / $125k extended, Workshop 30-seat max) are preserved in their sections below for reference.
 
 **Payment terms (shown as small muted text on site):**
-- Workshops, paid in full at Maven checkout. Maven Guarantee (14-day refund) applies.
-- Cohort, "Full payment or 2× $1,250 split" (collected by Maven)
-- Signal Session, "Payment on kickoff"
-- Revenue Architecture, "50/50 at kickoff and delivery"
-- Immersion, "Full at booking or 50/50 at booking + delivery"
-- Alumni Pass, $1,500 / year recurring via Stripe, cancel anytime
+- The Teardown / The Handover, invoiced directly (no Stripe checkout wired for either; see `src/lib/stripe-prices.ts`, which only covers Cohort/Workshops/Alumni).
+- Cohort, "Full payment or 2× $1,250 split" (collected by Maven).
+- Unsold offers (Workshops, Signal Session, Revenue Architecture, Immersion, Alumni Pass): payment terms below are historical.
 
 ---
 
-## 1. The AI-Fluent Executive (Cohort)
+## 1. The Teardown
+
+**Status: live, launched 2026-08-06.**
+
+### Position
+The entry rung and the gate for The Handover. Ten business days on one real decision, taken apart properly, for under two hours of the client's time.
+
+### Price
+$3,500 fixed (`TEARDOWN_PRICE`, `src/lib/offers.ts`). 20% off with publicity permission.
+
+### Method
+The decision is decomposed into the load-bearing claims it rests on. Each claim is checked against live evidence and assigned a reliability tier. Each consideration is classed **External**, **Only you**, or **Nobody yet**. Four models cross-examine the decision, and disagreements between them are preserved rather than averaged away.
+
+### What you walk out with
+- A one-page memo
+- A decision-to-claims map
+- The classed considerations (External / Only you / Nobody yet)
+- The four-model cross-examination output
+- Three claims placed under a 90-day watch
+- A CTRL workspace + 30 days of Edge Pro
+
+### CTA
+Single button, "Bring me one real decision," opens the Diagnosis Room in `full` mode. No separate booking or contact form on the page.
+
+### What it is not
+- Not a fit for someone who has already decided, or hasn't yet named a decision (both discouraged in the page's "when not to buy" section)
+
+---
+
+## 2. The Handover
+
+**Status: live, launched 2026-08-06. Gated: every Handover starts with a completed Teardown.**
+
+### Position
+Six weeks to rebuild how the business runs on the decision the Teardown surfaced. Capped at six a year, stated publicly on purpose, the cap is part of the offer.
+
+### Price
+$30,000 for companies under 250 people; $50,000 for 250–5,000 people (`HANDOVER_PRICE_SMALL` / `HANDOVER_PRICE_LARGE`, `src/lib/offers.ts`). 20% off with publicity permission.
+
+### For
+CEO, CRO, or VP Product. Never the CTO. Company size 50–5,000, sweet spot 100–1,000.
+
+### Format, week by week
+| Week | Focus |
+|---|---|
+| 1 | Load and correct context |
+| 2 | Adversarial pre-mortem |
+| 3 | The fork: rebuild GTM/pricing/positioning if not yet AI-native, or set the build order if already AI-native |
+| 4 | The client drives |
+| 5 | Krish does not attend, because a system that only runs when he's in the room isn't a system |
+| 6 | Exit |
+
+Day-90 recheck included.
+
+### CTA
+Same single "Bring me one real decision" button, opens the Diagnosis Room, `source_page: "/handover"`.
+
+---
+
+## 3. The AI-Fluent Executive (Cohort)
+
+**Status: live. Price corrected 2026-08-05 from a flat $2,500 to a $2,000–$3,000 range to match the live Maven page. Next cohort (Nov 19–Dec 13, 2026) is hardcoded sold out in `Cohort.tsx`; CTAs route to Maven's waitlist.**
 
 ### Position
 
@@ -95,7 +153,9 @@ Full refund up to 7 days before the cohort starts. 50% refund up to day one. No 
 
 ---
 
-## 2. The Signal Session
+## 4. The Signal Session (UNSOLD, 2026-08-05)
+
+**Status: route file still exists at `/enterprise#signal-session`, still works if visited directly. No longer priced, no longer in nav/footer, `noindex`'d, dropped from the sitemap. `OperatorsEdge`'s homepage CTA still points here, unrepointed as of this pass. Everything below is retained detail, not a current offer.**
 
 ### Position
 
@@ -140,7 +200,9 @@ Founders, CEOs, CCOs, CROs, CPOs at companies that have shipped AI product or AI
 
 ---
 
-## 3. The Revenue Architecture
+## 5. The Revenue Architecture (UNSOLD, 2026-08-05)
+
+**Status: route file still exists at `/enterprise#revenue-architecture`, no longer priced, no longer in nav/footer, `noindex`'d, dropped from the sitemap. Everything below is retained detail, not a current offer.**
 
 ### Position
 
@@ -187,7 +249,9 @@ Enterprise buyers (typically $10M–$1B+ revenue) who have:
 
 ---
 
-## 4. The AI Immersion (inquiry-only)
+## 6. The AI Immersion (UNSOLD, 2026-08-05)
+
+**Status: route file still exists at `/immersion`, no longer priced, no longer in footer (App.tsx's code comment still claims it's footer-linked; that comment is stale), `noindex`'d, dropped from the sitemap. Everything below is retained detail, not a current offer.**
 
 ### Position
 
@@ -269,17 +333,19 @@ Prior 1:1 products (4-Week Sprint, 90-Day Sprint, Builder Sprint, Builder Sessio
 
 ## Entry Point
 
-**Every offer starts with "Book a call."** The primary "Book a call" opens the **Diagnosis Room (Mindy)** (`src/components/diagnosis/`, opened via the `openDiagnosisRoom` event, modes `"express"` and `"full"`, also at `/start`). Mindy diagnoses the visitor's one nervous AI decision in conversation, recommends the right rung (and can honestly down-sell to a cheaper rung or a free lesson), and forks to keep chatting, book a free 15-min Calendly call, or generate a co-branded proposal. The `ScopingModal` (`src/components/ScopingModal.tsx`, opened via `openScopingModal`) is the secondary booking surface still used on the offer pages. `InitialConsultModal` / `openConsultModal` is legacy, retained only for `/alumni`. The old `PreCallQualifier` floating pill is retired; its self-classification job now happens inside the Mindy conversation.
+**Every live offer starts with the Diagnosis Room.** The nav's primary CTA ("Bring me one real decision," changed from "Book a call" in the August 2026 nav rebuild) opens the **Diagnosis Room (Mindy)** (`src/components/diagnosis/`, opened via the `openDiagnosisRoom` event, modes `"express"` and `"full"`, also at `/start`). Mindy diagnoses the visitor's one nervous AI decision in conversation and forks to keep chatting, book a free 15-min Calendly call, or generate a co-branded proposal — confirmed still a real 3-way fork in `Fork.tsx`. **Gap:** Mindy's own reasoning/pricing knowledge has not been updated for the Teardown or the Handover and still recommends the retired Cohort/Signal Session/Revenue Architecture/Immersion ladder; see `mindy/CANON.md` §0. The `ScopingModal` (`src/components/ScopingModal.tsx`, opened via `openScopingModal`) is the secondary booking surface still used on the unsold offer pages and directly by `Cohort.tsx`. `InitialConsultModal` / `openConsultModal` is used by `/alumni`, `/contact`, and every blog post, not alumni-only. The old `PreCallQualifier` floating pill is retired; its self-classification job now happens inside the Mindy conversation.
 
-Cohort enrollment and Workshop enrolment can also flow directly through Maven, bypassing the consult call when the buyer already knows the offer is the right fit. The Cohort page surfaces a "Reserve my seat on Maven" CTA; each Workshop sub-page surfaces "Enrol on Maven" (or "Get notified" when not yet published).
+Cohort enrollment can also flow directly through Maven, bypassing the consult call when the buyer already knows it's the right fit. The Cohort page surfaces a "Reserve my seat on Maven" CTA (currently pointing to Maven's waitlist, cohort sold out).
 
 First conversation is free. If you're not a fit, we say so.
 
 ---
 
-## Workshops (entry-paid, hosted on Maven)
+## Workshops (UNSOLD, 2026-08-05, historical detail below)
 
-Five one-day workshops, each $599, hosted on Maven. The format is build-with-me, not watch-me-build: the leader walks out with a real artefact deployed on their real surface.
+**Status: five route files still exist under `/workshops`, still work if visited directly. No longer priced anywhere the site itself surfaces, out of nav/footer, `noindex`'d, dropped from the sitemap.**
+
+Five one-day workshops, each $599 historically, hosted on Maven. The format is build-with-me, not watch-me-build: the leader walks out with a real artefact deployed on their real surface.
 
 | Workshop | Slug | What you build |
 |---|---|---|
@@ -303,9 +369,11 @@ Five one-day workshops, each $599, hosted on Maven. The format is build-with-me,
 
 ---
 
-## The Alumni Pass (invitation-only)
+## The Alumni Pass (UNSOLD, 2026-08-05, historical detail below)
 
-$1,500/year recurring. Annual continuity programme for Mindmaker alumni. Not in nav, not in footer; reachable by direct URL only at `/alumni`. Page is `noindex` so it doesn't show up in search.
+**Status: route still exists at `/alumni`, still worked pre-August (already `noindex`, unlinked from nav/footer); as of August 2026 it's additionally dropped from the sitemap. Historical detail below.**
+
+$1,500/year recurring, historically. Annual continuity programme for Mindmaker alumni. Not in nav, not in footer; reachable by direct URL only at `/alumni`. Page is `noindex` so it doesn't show up in search.
 
 **Eligibility:** Anyone who has completed a Workshop, the AI-Fluent Executive Cohort, a Signal Session, the Revenue Architecture, or the AI Immersion. Krish issues invitations directly post-engagement.
 

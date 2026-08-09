@@ -1,6 +1,8 @@
 # Common Issues
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-09
+
+> **Status (August 2026 overhaul):** the "check these values" list further down references the pre-August Cohort price ($2,500, now a $2,000–$3,000 range) and durations for Signal Session/Revenue Architecture, both now unsold. The primary CTA label is "Bring me one real decision" (was "Book a call"; "Book a call" still appears in body copy). See `CLAUDE.md` and `OFFERS.md` for current state before treating any specific figure below as live.
 
 ---
 

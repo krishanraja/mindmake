@@ -1,6 +1,6 @@
 # Branding
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-08-09
 
 ---
 
@@ -141,7 +141,7 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 - **Decision Readiness Diagnostic**. the `/leaders` quiz; unlinked from nav but reachable by URL
 - **The Diagnosis Room (Mindy)**. the primary on-site conversion surface; a full-screen experience (`src/components/diagnosis/`, opened via `openDiagnosisRoom`, modes `"express"` and `"full"`, also at `/start`). Mindy diagnoses the visitor's one nervous AI decision in conversation, recommends the right rung, and forks to three honest exits: keep chatting, book a free 15-min Calendly call, or generate a co-branded "Mindmaker × [company]" proposal. The old `PreCallQualifier` floating pill and its 3-step chip intake are retired; the self-classification job now happens inside the Mindy conversation
 - **CTRL**. Mindmaker's flagship memory-web app; included with every Workshop and Cohort seat
-- **Book a call**. the primary global CTA label, never variant
+- **Bring me one real decision**. the primary nav CTA label as of the August 2026 nav rebuild (was "Book a call," which now only appears in body copy and on the unsold offer pages)
 - **Enrol on Maven**. the Workshop direct-enrolment CTA on each `/workshops/[slug]` page; "Get notified" while a workshop is not yet published
 - **Reserve my seat on Maven**. the Cohort direct-enrolment CTA on `/cohort`
 - **Request an invitation**. the Alumni Pass CTA on `/alumni`
@@ -150,12 +150,19 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 
 ---
 
-## Product Naming
+## Product Naming (current, August 2026)
 
 | Product | Price | Tagline |
 |---|---|---|
+| The Teardown | $3,500 fixed | (page copy: "Bring me one real decision") |
+| The Handover (gated on a completed Teardown) | $30,000 (<250 people) / $50,000 (250–5,000) | (not yet drafted by Krish) |
+| The AI-Fluent Executive (Cohort) | $2,000–$3,000 / seat (range; corrected 2026-08-05) | Make your nervous AI decision with 15 other senior leaders. |
+
+**Unsold as of 2026-08-05/06** (name/tagline still correct for historical reference; not currently sold):
+
+| Product | Price (historical) | Tagline |
+|---|---|---|
 | Mindmaker Workshops (×5) | $599 / workshop | Build alongside me in one day. |
-| The AI-Fluent Executive (Cohort) | $2,500 / seat | Make your nervous AI decision with 15 other senior leaders. |
 | The Signal Session | $15,000 | One day. One room. One commercial thesis. |
 | The Revenue Architecture | $60,000–$100,000 | Your AI capabilities, translated into revenue. |
 | The AI Immersion (inquiry-only) | $12,000 | Three decisions. One afternoon. Real alignment. |
@@ -166,13 +173,17 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 - **The AI Decision Cohort**, retired in v6 (May 2026); replaced by **The AI-Fluent Executive**
 - **Name → Map → Make**, retired Cohort framework; replaced by **Diagnose → Decompose → Decide → Deploy**
 - **3-week Cohort**, retired duration; the Cohort is now 4 weeks
+- **Flat $2,500 Cohort price**, corrected 2026-08-05 to a **$2,000–$3,000/seat range** to match Maven
 - **maven.com/aimindmaker/ai-decision-intensive**, dead Maven URL; live URL is **maven.com/mindmaker/the-ai-fluent-executive**
 - 4-Week Sprint / 90-Day Sprint / Extended Sprint, retired from public site in v4 barbell pivot
 - Builder Sprint / Builder Session, retired
 - Leadership Lab, retired as a named product
 - Portfolio Partner, retired as a named product
-- Fractional CAIO, never existed as an offer; `/fractional-caio` redirects to `/enterprise`
-- War Room / Strategy Day, old names for Revenue Architecture and Signal Session; URLs redirect
+- Fractional CAIO, never existed as an offer; `/fractional-caio` redirects to `/enterprise` (itself unsold, see below)
+- War Room / Strategy Day, old names for Revenue Architecture and Signal Session; URLs redirect (both target pages are themselves unsold)
+- **"Ranges only" as a universal pricing rule**, retired 2026-08-05/06 for the Teardown and the Handover, which publish exact/banded prices on-site; still true for the Cohort
+- **`FrameworkJourney` on the homepage**, moved off the homepage in August 2026, replaced there by `TwoDoors`; the component still renders on `/new-age-leadership`
+- **Workshops, Enterprise, Capital nav entries**, removed from `Navigation.tsx` and `Footer.tsx` in the August 2026 unselling (see table above); replaced by a "Work with me" dropdown (Teardown, Handover)
 
 ### Builder Economy
 

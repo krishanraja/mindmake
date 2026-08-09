@@ -1,4 +1,5 @@
-<!-- Last Updated: 2026-06-28 -->
+<!-- Last Updated: 2026-08-09 -->
+<!-- CORRECTION, added 2026-08-09: the `mode` keys below (workshop, signal-session, revenue-architecture, immersion) are the pre-August 2026 ladder. Workshops, the Signal Session, the Revenue Architecture, and the AI Immersion are unsold as of 2026-08-05/06; there are no `teardown` or `handover` mode keys yet for the two offers that replaced them. This mirrors the same gap in `_shared/mindy/knowledge.ts` and `proof-index.ts` (their own header cites this file as source of truth) — see CANON.md §0. Not rewritten in this pass because selecting/writing new proof entries for the Teardown and Handover is Krish's call, not something to infer. -->
 # Proof Bank
 
 Anonymized, keyed proof for the Mindy proposal generator. Every entry is a real or illustrative engagement reduced to sector and role only. The numbers are kept; the names are gone.

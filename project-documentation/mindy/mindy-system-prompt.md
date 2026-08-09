@@ -1,5 +1,7 @@
-<!-- Last Updated: 2026-06-28 -->
+<!-- Last Updated: 2026-08-09 -->
 # Mindy — Master System Prompt (Layer 1)
+
+> **Correction, added 2026-08-09 — see `CANON.md` §0 for the full account.** Krish launched The Teardown ($3,500) and The Handover ($30k/$50k, gated) on 2026-08-05/06 and unsold Workshops, the Signal Session, the Revenue Architecture, and the AI Immersion. This system prompt still reasons and prices against the retired ladder, as does the deployed `supabase/functions/_shared/mindy/knowledge.ts` that's meant to mirror it. **Neither has been resynced** — this is a functional gap, not just a documentation gap, and closing it requires product decisions (how Teardown/Handover fit the diagnosis flow, walk-away rubric, and pricing model) that are Krish's to make. Treat this file as describing what Mindy currently, actually says in production — which is now out of date with the live offer set.
 
 *The deployable system prompt for Mindy, the on-site guide for the Mindmaker Diagnosis Room. This file is Layer 1 of the Brain Pack: small, hand-curated, never RAG. The five other files in this folder are her retrieval and guardrail layers and are referenced, not inlined. Everything between the two `=====` markers is the production block. Notes outside the markers are for the operator, not the model.*
 

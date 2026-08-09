@@ -1,19 +1,21 @@
 # Ideal Customer Profile
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-09
 
 ---
 
-## Three Audiences, No Overlap
+## Three Audiences, No Overlap — with a live-offer caveat (August 2026)
 
-Mindmaker is a ladder with a third inquiry-only doorway. There are three primary ICPs and a retention layer (the Alumni Pass). The old "Builder vs Orchestrator" split was a 1:1 sprint framing and has been retired along with the public 1:1 sprint product.
+Mindmaker was a ladder with a third inquiry-only doorway through mid-2026. On 2026-08-05/06 Krish unsold the offers that anchored ICP 2 (AI Products) and ICP 3 (Executive Teams) — the route files still exist and still work by direct URL, but carry no price and are out of nav/footer/sitemap. In their place, two new Krish-delivered offers launched for ICP 1: **The Teardown** ($3,500) and **The Handover** ($30k/$50k, gated on a completed Teardown). The psychographic and firmographic profiles below are still accurate descriptions of who these buyers are; the "primary depth offer" column is what's actually live now. **Where the previous column said Signal Session, Revenue Architecture, or the AI Immersion, that offer is unsold and this file's ICP 2/3 sections have not been re-routed to a confirmed replacement — flag to Krish before asserting where those buyers go now.**
 
 | ICP | Primary entry | Primary depth offer | Doorway |
 |---|---|---|---|
-| **AI Leaders** (senior operators making AI decisions) | A Mindmaker Workshop ($599) for technical-curious leaders ready to build; The AI-Fluent Executive Cohort ($2,500) for leaders sitting on a nervous decision | The AI-Fluent Executive (Cohort) | `/workshops`, `/cohort` (Maven enrolment) |
-| **AI Products** (companies commercializing AI capability) | The Signal Session ($15,000) | Signal Session → Revenue Architecture ($60–100k) | `/enterprise` |
-| **Executive Teams** (CEO-sponsored leadership groups) | The AI Immersion (inquiry-only, $12,000) | The AI Immersion | `/immersion` |
-| **Alumni** (retention layer, not a primary acquisition path) | The Alumni Pass ($1,500/year) | The Alumni Pass | `/alumni` (invitation-only, unlinked) |
+| **AI Leaders** (senior operators making AI decisions) | The Diagnosis Room, `full` mode | The Teardown ($3,500) → The Handover ($30k/$50k, gated); The AI-Fluent Executive Cohort ($2,000–$3,000/seat) as a parallel peer-cohort option, currently sold out | `/teardown`, `/handover`, `/cohort` |
+| **AI Products** (companies commercializing AI capability) | *Unsold; was The Signal Session ($15,000)* | *Unsold; was Signal Session → Revenue Architecture ($60–100k). No confirmed current routing — plausibly The Handover if under 5,000 people, unverified.* | `/enterprise` (unsold, still reachable) |
+| **Executive Teams** (CEO-sponsored leadership groups) | *Unsold; was The AI Immersion (inquiry-only, $12,000)* | *Unsold, same gap as ICP 2* | `/immersion` (unsold, still reachable) |
+| **Alumni** (retention layer, not a primary acquisition path) | *Unsold; was The Alumni Pass ($1,500/year)* | *Unsold* | `/alumni` (unsold, still reachable) |
+
+Workshops (×5, $599, the previous entry rung ahead of the Cohort) are also unsold as of 2026-08-05.
 
 ---
 
@@ -45,9 +47,9 @@ Mindmaker is a ladder with a third inquiry-only doorway. There are three primary
 - Watches AI-native competitors moving faster and feels the cost of catching up compounding
 - Trusts peers more than vendors
 
-### Workshop-buyer signal (sub-segment of AI Leaders)
+### Workshop-buyer signal (sub-segment of AI Leaders) — UNSOLD, 2026-08-05
 
-A subset of AI Leaders are technical-curious and ready to build something this quarter. They don't yet have a singular nervous decision; they want to *do* in order to *understand*. Workshops at $599 are the right entry rung. Indicators:
+**Workshops are currently unsold; the routing below describes the pre-August offer, not a live path.** A subset of AI Leaders are technical-curious and ready to build something this quarter. They don't yet have a singular nervous decision; they want to *do* in order to *understand*. Workshops at $599 were the entry rung for this signal. Indicators:
 
 - "I've watched AI from the sidelines long enough; I want to ship something with it"
 - "I want a chief of staff that actually shows up to work"
@@ -103,7 +105,9 @@ A senior leader with one defensible AI decision documented (1-page memo), a peer
 
 ---
 
-## ICP 2: AI Products: Enterprise Buyer
+## ICP 2: AI Products: Enterprise Buyer — offers UNSOLD, 2026-08-05
+
+**Status: the Signal Session and Revenue Architecture, this ICP's dedicated offers, were unsold on 2026-08-05. `/enterprise` still exists and works by direct URL but carries no price and isn't in nav/footer/sitemap. The profile below is still an accurate description of this buyer; there is no confirmed current offer to route them to. Flag to Krish rather than assume a routing.**
 
 **Who:** Founders, CEOs, or C-suite operators at companies that have built an AI product or AI-enabled capability and can't translate it into revenue predictably. The tech exists. The pricing, positioning, and GTM were built for a non-AI product, or built fast without a commercial lens.
 
@@ -168,7 +172,9 @@ A company with a clear commercial thesis for its AI product, pricing that reflec
 
 ---
 
-## ICP 3: Executive Teams: Immersion Buyer (inquiry-only)
+## ICP 3: Executive Teams: Immersion Buyer (inquiry-only) — offer UNSOLD, 2026-08-05
+
+**Status: the AI Immersion, this ICP's dedicated offer, was unsold on 2026-08-05. `/immersion` still exists and works by direct URL but carries no price and isn't in nav/footer/sitemap. The profile below is still an accurate description of this buyer; there is no confirmed current offer to route them to.**
 
 **Who:** A CEO sponsoring a 4–8 person leadership group that needs rapid alignment on shared AI tensions. Not an individual decision; not a commercial rebuild; a team conversation that needs structure.
 
@@ -234,6 +240,8 @@ A team genuinely aligned (not performatively aligned) on the three issues addres
 
 ## Qualification Signals (use in the Diagnosis Room and intake calls)
 
+**Note: the Diagnosis Room's actual deployed reasoning has not been updated for the August 2026 offer change (see `mindy/CANON.md` §0) and does not currently route to the Teardown or the Handover at all.** The "Strong fit: Signal Session / Revenue Architecture / Immersion" signals below describe unsold offers; they're retained as buyer-recognition patterns, not live routing.
+
 ### Strong fit: Cohort
 
 - Has one specific AI decision they can name in a sentence
@@ -277,17 +285,14 @@ A team genuinely aligned (not performatively aligned) on the three issues addres
 
 ---
 
-## Entry Points
+## Entry Points (current, August 2026)
 
-The primary **"Book a call"** path opens the **Diagnosis Room (Mindy)**, the full-screen on-site experience where Mindy diagnoses the visitor's one nervous AI decision in conversation, recommends the right rung, and forks to keep chatting, book a free 15-min Calendly call, or generate a co-branded proposal. The `ScopingModal` remains the secondary booking surface on the offer pages (`InitialConsultModal` is legacy, retained only for `/alumni`). The retired `PreCallQualifier` floating pill no longer ships; its self-classification job now happens inside the Mindy conversation. The homepage hero also exposes a tertiary "Or start with a free lesson →" link to the Maven instructor page for cold buyers not yet ready to talk.
+The primary nav CTA, **"Bring me one real decision"** (changed from "Book a call" in the August 2026 nav rebuild), opens the **Diagnosis Room (Mindy)**, the full-screen on-site experience where Mindy diagnoses the visitor's one nervous AI decision in conversation and forks to keep chatting, book a free 15-min Calendly call, or generate a co-branded proposal (still a real 3-way fork, confirmed in `Fork.tsx`). **Mindy's actual recommendation logic has not been updated for the current offer set — see `mindy/CANON.md` §0.** The `ScopingModal` remains the secondary booking surface on the unsold offer pages and on `Cohort.tsx` directly. `InitialConsultModal` opens from `/alumni`, `/contact`, and every blog post, not alumni-only. The retired `PreCallQualifier` floating pill no longer ships; its self-classification job now happens inside the Mindy conversation.
 
-- Workshop-curious leaders land at `/workshops`, browse the five sub-pages, and enrol on Maven (or get notified for unpublished workshops). Workshop alumni get $500 off the Cohort with code `WORKSHOP`.
-- Cohort-curious leaders land at `/cohort` and can either book a call or click straight through to Maven enrolment.
-- Enterprise-curious buyers land at `/enterprise`.
-- Warm inbound (blog, podcast, LinkedIn, referrals) lands on `/` and enters the Diagnosis Room via "Book a call", where Mindy diagnoses the decision and routes to the right rung (Workshop, Cohort, Signal Session, Revenue Architecture, or a free lesson). The offer pages at `/cohort`, `/enterprise#signal-session`, and `/capital` remain direct entry points.
-- Immersion inquiries flow through `Book a call` → modal preselects "immersion".
+- Leaders with a real decision to work through land at `/teardown` or `/handover` (nav "Work with me" dropdown), or arrive via the homepage `TwoDoors` section, and click straight to the Diagnosis Room.
+- Cohort-curious leaders land at `/cohort`; the cohort is currently sold out, so the CTA routes to Maven's waitlist.
+- **Unsold, reachable by direct URL only, no longer advertised anywhere on the site:** Workshop-curious leaders (`/workshops`), Enterprise-curious buyers (`/enterprise`), Capital-curious allocators (`/capital`), Immersion inquiries (`/immersion`), Alumni (`/alumni`, still invitation-only and `noindex` as it was before, now additionally out of the sitemap).
 - 1:1 inquiry-only path lives at `/cohort?inquiry=1:1` (not advertised on the main page).
-- Alumni invitations: Krish sends invited alumni a direct link to `/alumni`. The page is `noindex` and unlinked from nav and footer.
 
 ---
 

@@ -1,8 +1,10 @@
 # Design System
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-08-09
 
 ---
+
+> **Status (August 2026 overhaul):** the primary nav CTA label changed from "Book a call" to **"Bring me one real decision"**; every other CTA-label reference in this document to "Book a call" describes body-copy/secondary surfaces and is still accurate. `FrameworkJourney.tsx` left the homepage scroll (replaced by a new `TwoDoors.tsx` section) and now renders only on `/new-age-leadership`; its component pattern spec below is unchanged, only its homepage position moved. `OperatorsEdge`'s described position "between `FrameworkJourney` and `OperatorsBrief`" is now between `TwoDoors`-adjacent `TrustSection` and `OperatorsBrief` on the live homepage. See `CLAUDE.md` → "Homepage scroll order" for the current section order.
 
 ## Color System
 

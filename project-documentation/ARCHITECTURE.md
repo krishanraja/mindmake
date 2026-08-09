@@ -1,6 +1,6 @@
 # Architecture
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-09
 
 ---
 
@@ -72,7 +72,8 @@ mindmaker/
 │   │   ├── NewHero.tsx               # rotating headlines; CTAs open the Diagnosis Room
 │   │   ├── BigProblem.tsx            # three interactive flip cards
 │   │   ├── TrustSection.tsx          # Krish bio + testimonials carousel
-│   │   ├── FrameworkJourney.tsx      # Mind Set → Mind Map → Mind Make
+│   │   ├── FrameworkJourney.tsx      # Mind Set → Mind Map → Mind Make; off the homepage since Aug 2026, renders only on /new-age-leadership
+│   │   ├── TwoDoors.tsx              # NEW Aug 2026. Homepage: CTRL (do it yourself) vs Teardown/Handover (do it with me). Takes FrameworkJourney's old homepage slot
 │   │   ├── OperatorsEdge.tsx         # v5 credential section
 │   │   ├── OperatorsBrief.tsx        # homepage Live Intel teaser
 │   │   ├── PriceTicker.tsx           # CSS-marquee model price ticker
@@ -88,13 +89,16 @@ mindmaker/
 │   │   # YFork.tsx + PreCallQualifier.tsx still exist but are no longer imported/mounted.
 │   ├── pages/
 │   │   ├── Index.tsx                 # homepage (eager-loaded)
-│   │   ├── Workshops.tsx + workshops/ # /workshops index + 5 sub-pages
-│   │   ├── Cohort.tsx                # The AI-Fluent Executive (Cohort) (Maven enrolment)
-│   │   ├── Enterprise.tsx            # Signal Session + Revenue Architecture + Immersion
-│   │   ├── Capital.tsx               # /capital (third door for funds)
+│   │   ├── Teardown.tsx              # /teardown. NEW Aug 2026. $3,500 fixed
+│   │   ├── Handover.tsx              # /handover. NEW Aug 2026. $30k/$50k, gated on Teardown
+│   │   ├── Cohort.tsx                # The AI-Fluent Executive (Cohort) (Maven enrolment, sold out)
 │   │   ├── Operator.tsx              # /operator, 14-agent OS credential
 │   │   ├── CaseStudies.tsx           # /case-studies, filterable anonymised proof
 │   │   ├── Brief.tsx                 # Live Intel, /signal
+│   │   │   # UNSOLD as of 2026-08-05/06, route files present, no longer in nav/footer/sitemap:
+│   │   ├── Workshops.tsx + workshops/ # /workshops index + 5 sub-pages
+│   │   ├── Enterprise.tsx            # Signal Session + Revenue Architecture + Immersion
+│   │   ├── Capital.tsx               # /capital (third door for funds)
 │   │   ├── Immersion.tsx             # /immersion. AI Immersion ($12k, inquiry-only)
 │   │   ├── Alumni.tsx                # /alumni. Alumni Pass (invitation-only, noindex)
 │   │   ├── Library.tsx               # /library (includes FAQ tab)
@@ -178,22 +182,14 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 |---|---|---|
 | `/` | `Index` | Homepage, eager-loaded. CTAs open the Diagnosis Room |
 | `/start` | `DiagnosisRoom` (full page) | The Diagnosis Room (Mindy) as a standalone page; closing it navigates to `/` |
-| `/workshops` | `Workshops` | Mindmaker Workshops index. Five $599 one-day workshops on Maven. |
-| `/workshops/build-your-ai-chief-of-staff` | `workshops/BuildYourAIChiefOfStaff` | Workshop sub-page. CTA: "Enrol on Maven" or "Get notified". |
-| `/workshops/map-your-agentic-org-chart` | `workshops/MapYourAgenticOrgChart` | Workshop sub-page. |
-| `/workshops/vibe-coding-for-leaders` | `workshops/VibeCodingForLeaders` | Workshop sub-page. |
-| `/workshops/build-an-autonomous-business-function` | `workshops/BuildAnAutonomousBusinessFunction` | Workshop sub-page. |
-| `/workshops/give-your-ai-memory` | `workshops/GiveYourAIMemory` | Workshop sub-page. |
-| `/cohort` | `Cohort` | The AI-Fluent Executive (Cohort) ($2,500/seat, 4 weeks). Enrolment on **Maven** at `maven.com/mindmaker/the-ai-fluent-executive`. Banner appears on `?inquiry=1:1`. |
-| `/enterprise` | `Enterprise` | The Signal Session ($15k, 1 day + 48h delivery) + The Revenue Architecture ($60–100k, 30 days). Anchors `#signal-session`, `#revenue-architecture`. |
-| `/capital` | `Capital` | Third door for funds and operating partners. Same Signal Session and Revenue Architecture engagement formats, repositioned for fund-level buyers. |
+| `/teardown` | `Teardown` | **New, August 2026.** $3,500 fixed, 10 business days. Pricing constants in `src/lib/offers.ts`. Single CTA opens the Diagnosis Room in `full` mode. In nav ("Work with me" dropdown) and footer. |
+| `/handover` | `Handover` | **New, August 2026.** $30k (<250 people) / $50k (250-5,000), gated on a completed Teardown, capped 6/year. Pricing constants in `src/lib/offers.ts`. In nav and footer. |
+| `/cohort` | `Cohort` | The AI-Fluent Executive (Cohort), **$2,000-$3,000/seat range** (corrected 2026-08-05 from a flat $2,500), 4 weeks. Enrolment on **Maven** at `maven.com/mindmaker/the-ai-fluent-executive`. **Hardcoded sold out** (`soldOut: true`, next cohort Nov 19-Dec 13, 2026); CTAs route to Maven's waitlist. Banner appears on `?inquiry=1:1`. |
 | `/operator` | `Operator` | (v5) How I operate, 14-agent OS credential page. Looping `/ctrl-demo-video.mp4`. |
-| `/case-studies` | `CaseStudies` | Filterable anonymised client case studies (COHORT-STYLE / ENTERPRISE). Linked from Resources nav + footer. |
+| `/case-studies` | `CaseStudies` | Filterable anonymised client case studies (COHORT-STYLE / ENTERPRISE — not yet updated for Teardown/Handover). Linked from Resources nav + footer. |
 | `/signal` | `Brief` | **Live Intel**, full dashboard. Extended PriceTicker, interpretation grid, classified archive (WATCH/SKIP/CALL/TAKE), blog column, Nervous Decision Machine. |
 | `/library` | `Library` | Library of resources, FAQ, etc. |
-| `/immersion` | `Immersion` | **AI Immersion** ($12k, inquiry-only). 3-phase format: alignment / 4-hour session / 2-page summary in 5 days. |
-| `/alumni` | `Alumni` | **The Alumni Pass** ($1,500/year, invitation-only). Hidden from nav and footer; reachable by direct URL only. SEO `noindex`. |
-| `/new-age-leadership` | `NewAgeLeadership` | Long-form thought leadership: agent-native org chart, hybrid teams, agent-first functions, emergent agent-native roles. Lazy-loaded `OrgChart` + `AgathaStory`. |
+| `/new-age-leadership` | `NewAgeLeadership` | Long-form thought leadership: agent-native org chart, hybrid teams, agent-first functions, emergent agent-native roles. Lazy-loaded `OrgChart` + `AgathaStory` + `FrameworkJourney` (the only place this component still renders since it left the homepage in August 2026). |
 | `/leaders`, `/leadership-insights` | `LeadershipInsights` | Decision Readiness Diagnostic, unlinked from nav, reachable by URL |
 | `/blog`, `/blog/:slug` | `Blog`, `BlogPost` | |
 | `/faq` | `Library` (redirect via Navigate) | Aliased to `/library?tab=questions`. |
@@ -201,7 +197,17 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 | `/privacy`, `/terms` | `Privacy`, `Terms` | |
 | `*` | `NotFound` | Catch-all |
 
-**Stripe price constants** are stored in `src/lib/stripe-prices.ts`. The Workshop and Cohort price IDs are referential only (Maven collects payment for those). The Alumni Pass is the only product the site itself charges via Stripe; the live checkout flow is invitation-gated and not shipped from the page.
+**Unsold as of 2026-08-05/06** (route files present and functional by direct URL; removed from `Navigation.tsx`/`Footer.tsx`, `noindex`'d via `vercel.json`, dropped from the sitemap):
+
+| Route | Page | Notes |
+|---|---|---|
+| `/workshops` (+5 sub-pages) | `Workshops`, `workshops/*` | Was five $599 one-day workshops on Maven. No longer priced or discoverable. |
+| `/enterprise` | `Enterprise` | Was The Signal Session ($15k) + The Revenue Architecture ($60-100k). `OperatorsEdge`'s homepage CTA still targets `#revenue-architecture`, unrepointed. |
+| `/capital` | `Capital` | Was the third door for funds/operating partners. |
+| `/immersion` | `Immersion` | Was the AI Immersion ($12k, inquiry-only). App.tsx's own code comment still claims it's footer-linked; `Footer.tsx` no longer links it, so treat that comment as stale. |
+| `/alumni` | `Alumni` | Was The Alumni Pass ($1,500/year, invitation-only). Already hidden from nav/footer and `noindex` pre-August; now also out of the sitemap. |
+
+**Stripe price constants** are stored in `src/lib/stripe-prices.ts` and cover only the Cohort, the (unsold) Workshops, and the Alumni Pass. **The Teardown and The Handover have no Stripe product** — both invoiced directly. The Cohort's `priceFull` comment in that file still reads `$2,500`, the pre-correction figure; Maven, not Stripe, is the live checkout, so this is stale metadata, not a live discrepancy.
 
 ### Client-side redirects (via `<Navigate replace />` / `<HashRedirect />` / `<ExternalRedirect />`)
 
@@ -218,34 +224,33 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 | `/fractional-caio` | `/enterprise` | HashRedirect |
 | `/individual`, `/team`, `/builder`, `/builder-session`, `/leadership-lab`, `/portfolio-program` | `/` | Navigate |
 
-On `/cohort?inquiry=1:1`, a banner surfaces the inquiry-only private-engagement path without advertising it on the main page.
+On `/cohort?inquiry=1:1`, a banner surfaces the inquiry-only private-engagement path without advertising it on the main page. `/war-room` and `/strategy-day` redirect to anchors on the now-unsold `/enterprise`.
 
-No `/pricing` page, pricing lives in context on `/cohort`, `/enterprise`, and `/immersion`.
+No `/pricing` page. `/teardown` and `/handover` show fixed/banded exact prices in-page; `/cohort` shows a range; the unsold pages carry no price.
 
 ---
 
 ## Homepage Scroll Order
 
-Authoritative source: `src/pages/Index.tsx`. Verified 2026-06-09.
+Authoritative source: `src/pages/Index.tsx`. Verified 2026-08-09 (previously verified 2026-06-09; the August 2026 overhaul changed section 4).
 
 1. `Navigation`. fixed top, hides on scroll-down via `useScrollDirection`
-2. `NewHero`. rotating headlines, eyebrow "Decision blockers I hear every week", primary "Book a call" (opens the Diagnosis Room in express mode) + secondary "Work through your decision with Mindy" (full mode) + tertiary "Or start with a free lesson →" / "See how I work →" (`/operator`) links
+2. `NewHero`. rotating headlines, eyebrow "Decision blockers I hear every week", CTAs opening the Diagnosis Room
 3. `BigProblem`. existential urgency frame (three large interactive flip cards)
-4. `TrustSection`. Krish bio, headshot, testimonials carousel (COHORT-STYLE / ENTERPRISE tagged)
-5. `FrameworkJourney`. three-panel animated MindSet → MindMap → MindMake
-6. `OperatorsEdge`. v5 typography-only credential section ("Beyond pattern recognition")
+4. `TwoDoors` (**new, August 2026**, `src/components/TwoDoors.tsx`). "The two doors. One method, sold two ways." Two cards: do it yourself (CTRL, external link with UTM tags) and do it with me (Teardown, then Handover; CTA opens the Diagnosis Room in `full` mode). Takes the homepage slot previously held by `FrameworkJourney`.
+5. `TrustSection`. Krish bio, headshot, testimonials carousel (COHORT-STYLE / ENTERPRISE tagged; not yet updated for Teardown/Handover)
+6. `OperatorsEdge`. v5 typography-only credential section ("Beyond pattern recognition"); primary CTA still targets `/enterprise#revenue-architecture`, one of the unsold pages, unrepointed as of this pass
 7. `OperatorsBrief`. Live Intel homepage teaser (PriceTicker + rotating interpretation + compact Nervous Decision input + muted link to `/signal`)
-8. `MindMakerLiveSection`. Substack newsletter subscribe surface
-9. `SimpleCTA`. final CTA ("What's your nervous decision?"), opens the Diagnosis Room
-10. `Footer`
+8. `SimpleCTA`. final CTA ("What's your nervous decision?"), opens the Diagnosis Room
+9. `Footer`
 
-The retired `YFork` second fork is no longer rendered (the homepage funnels into the one Diagnosis Room journey).
+`FrameworkJourney` (three-panel animated Mind Set → Mind Map → Mind Make) left the homepage in August 2026; it still renders on `/new-age-leadership`. `MindMakerLiveSection` (the old Substack-embed homepage section) is confirmed not imported anywhere in the codebase — dead code. The retired `YFork` second fork is no longer rendered (the homepage funnels into the one Diagnosis Room journey).
 
 ### Global overlays (mounted in `src/App.tsx`)
 
-- `DiagnosisRoom`. **the primary conversion surface**, opened via `window.dispatchEvent(new CustomEvent('openDiagnosisRoom', { detail: { source_page, seedDecision?, mode? } }))` (`mode`: `express` | `full`). Lazy + only mounted when open so SSG prerender never instantiates it. Also a standalone page at `/start`.
-- `ScopingModal`. secondary booking surface, still dispatched by the offer pages (`/cohort`, `/enterprise`, `/capital`, `/immersion`), the `BigProblem` cards, and `/case-studies` via `openScopingModal` (6-field "Scope it with me" intake posting to `notify-scoping-request`)
-- `InitialConsultModal`. legacy conversion surface, kept mounted but only `/alumni` still dispatches `openConsultModal`
+- `DiagnosisRoom`. **the primary conversion surface**, opened via `window.dispatchEvent(new CustomEvent('openDiagnosisRoom', { detail: { source_page, seedDecision?, mode? } }))` (`mode`: `express` | `full`). Lazy + only mounted when open so SSG prerender never instantiates it. Also a standalone page at `/start`. **Gap:** its deployed reasoning (`_shared/mindy/knowledge.ts`) has not been updated for the Teardown/Handover offer change — see `mindy/CANON.md` §0.
+- `ScopingModal`. secondary booking surface, still dispatched by the unsold offer pages (`/cohort`, `/enterprise`, `/capital`, `/immersion`), `Cohort.tsx` directly (1:1-inquiry, enrollment, waitlist asks), the `BigProblem` cards, and `/case-studies` via `openScopingModal` (6-field "Scope it with me" intake posting to `notify-scoping-request`)
+- `InitialConsultModal`. opened via `openConsultModal` from `/alumni`, and directly from local state on `/contact` and every blog post — **not alumni-only**, correcting a prior claim in this document
 - `CookieConsent`
 - `ErrorBoundary`. wraps `<Suspense>` around routes
 - The retired `PreCallQualifier` floating pill is no longer mounted.
@@ -254,19 +259,20 @@ The retired `YFork` second fork is no longer rendered (the homepage funnels into
 
 ## Navigation Structure
 
-Authoritative source: `src/components/Navigation.tsx`. Primary CTA: **"Book a call"** with mint pulse dot.
+Authoritative source: `src/components/Navigation.tsx`. **Rebuilt August 2026.** Primary CTA: **"Bring me one real decision"** (was "Book a call").
 
 | Slot | Label | Type | Destination |
 |---|---|---|---|
-| 1 | Workshops | Direct link | `/workshops` |
+| 1 | Work with me | Dropdown | The Teardown → `/teardown`, The Handover → `/handover` |
 | 2 | Cohort | Direct link | `/cohort` |
-| 3 | Enterprise | Dropdown | The Signal Session → `/enterprise#signal-session`, The Revenue Architecture → `/enterprise#revenue-architecture`, The AI Immersion → `/enterprise#immersion`, "For funds & operating partners" → Capital → `/capital` |
-| 4 | **Mindmaker LIVE** | Direct link (wordmark) | `/signal` |
-| 5 | Resources | Dropdown | How I operate → `/operator`, Case studies → `/case-studies`, New Age Leadership → `/new-age-leadership`, Library → `/library`, The Builder Economy (Podcast) → external `thebuildereconomy.com`, Lightning Lessons (5 external Maven URLs via the `LightningLessons` component) |
-| 6 | About | Dropdown | Contact → `/contact`, Privacy → `/privacy`, Terms → `/terms` |
-| CTA | Book a call | Button | Dispatches `openDiagnosisRoom` (express mode); the mobile menu also offers "Or think it through with Mindy first" (full mode) |
+| 3 | **Mindmaker LIVE** | Direct link (icon+wordmark lockup) | `/signal` |
+| 4 | Resources | Dropdown | How I operate → `/operator`, Case studies → `/case-studies`, New Age Leadership → `/new-age-leadership`, Library → `/library`, The Builder Economy (Podcast) → external `thebuildereconomy.com`, Lightning Lessons (5 external Maven URLs via the `LightningLessons` component) |
+| 5 | About | Dropdown | Contact → `/contact`, Privacy → `/privacy`, Terms → `/terms` |
+| CTA | Bring me one real decision | Button | Dispatches `openDiagnosisRoom` (express mode); the mobile menu also offers "Or think it through with Mindy first" (full mode) |
 
-Decision Readiness Diagnostic (`/leaders`) is deliberately **not** in nav or footer. The Immersion (`/immersion`) is reachable via the Enterprise dropdown, the footer, or direct URL.
+There is no Enterprise dropdown, Capital link, or Workshops link in `navItems` — confirmed by direct read of the file. `Footer.tsx` mirrors this: "Work with me" (Teardown, Handover, Cohort), "Resources" (Mindmaker LIVE, Library, How I operate, Case studies, The Builder Economy, New Age Leadership), "Company" (FAQ, Contact, Privacy, Terms). No Enterprise, Capital, Workshops, Immersion, or Alumni link anywhere in the footer.
+
+Decision Readiness Diagnostic (`/leaders`) is deliberately **not** in nav or footer. The Immersion (`/immersion`) is unsold as of 2026-08-05 and reachable only by direct URL (App.tsx's code comment claiming it's footer-linked is stale).
 
 ---
 
@@ -371,8 +377,9 @@ Price and model data flows through `get-model-data` edge function. Editorial car
 Location: `supabase/functions/[function-name]/index.ts`. All functions set `verify_jwt = false` in `supabase/config.toml`. Shared Diagnosis Room logic lives in `_shared/{mindy,enrich,proposal}/`.
 
 ### `mindy-chat` (Diagnosis Room)
-- Mindy's conversational reasoning turn. Composes the Brain Pack (system prompt + reasoning guide + fit rubric + pricing card) + a formatted dossier block, calls Claude, parses a strict-JSON turn, runs the runtime voice gate
+- Mindy's conversational reasoning turn. Composes the Brain Pack (system prompt + reasoning guide + fit rubric + pricing card, deployed via `_shared/mindy/knowledge.ts`) + a formatted dossier block, calls Claude, parses a strict-JSON turn, runs the runtime voice gate
 - Returns `reply`, `phase`, `quickReplies`, `recommendation`, `decisionBrief`, `readyForProposal`, `readyForCall`. The dossier's `scale.*` is fenced as INTERNAL ROUTING and never returned
+- **Gap:** `knowledge.ts` has not been updated for the August 2026 offer change. It still reasons and prices from the retired Cohort/Signal Session/Revenue Architecture/Immersion ladder and has no knowledge of The Teardown or The Handover. See `mindy/CANON.md` §0.
 - Secret: `ANTHROPIC_API_KEY`
 
 ### `enrich-company` (Diagnosis Room)
@@ -458,6 +465,10 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 - Public testimonial submission endpoint. Inserts a row into `public.testimonials` and emails Krish a notification. Includes a honeypot field for bot prevention
 - Deployed with `verify_jwt = false`. Validates permission level (free / edits / private)
 - Secrets: `RESEND_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
+
+### `personalize-intake` (new, undocumented until this pass)
+- Powers the adaptive generative pass on `public/intake/index.html` — questions build on the URL and prior answers rather than being static.
+- Confirmed present in `supabase/functions/` directory listing; not previously listed in this document.
 
 ---
 

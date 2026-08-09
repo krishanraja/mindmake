@@ -1,6 +1,8 @@
 # Replication Guide
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-09
+
+> **Status (August 2026 overhaul):** this step-by-step guide (routes, nav structure, pricing, CTA copy) describes the pre-August 2026 site. Corrections: nav slot 1 is now a "Work with me" dropdown (Teardown `/teardown`, Handover `/handover`), not a Workshops link; there is no Enterprise dropdown or Capital link in nav; the primary CTA label is "Bring me one real decision" (was "Book a call"); `/enterprise`, `/capital`, `/immersion`, `/workshops`, `/alumni` are unsold (still routed, no longer priced/discoverable) rather than live priced pages; the Cohort is a $2,000–$3,000/seat range, not a flat $2,500, and is currently sold out. Anyone replicating this build should follow `CLAUDE.md` and `OFFERS.md` for current routes/pricing/nav and use this document only for the general build sequence and QA-pass structure.
 
 ---
 

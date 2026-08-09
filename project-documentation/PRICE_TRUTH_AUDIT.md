@@ -1,6 +1,7 @@
 # Price and claim truth audit
 
 **Compiled:** 2026-08-05
+**Status, added 2026-08-09:** resolved. The findings below drove the commits that shipped within a day of this audit: `b6bf27b` (removed the phantom-product JSON-LD and the exact prices in `InitialConsultModal.tsx`), `feee8dc` (unsold Workshops/Enterprise/Capital/Immersion/Alumni, corrected the Cohort price), `d3b88ce` (crawler-visible body content), and `7c76f66` (launched The Teardown and The Handover). See `DECISIONS_LOG.md` (2026-08-05/06 entry) and `HISTORY.md` for the full account of what shipped. This document is kept as-is below as the point-in-time audit record; do not treat any price or claim described here as current — see `OFFERS.md` and `COMMERCIAL_REFERENCE.md` for live state.
 **Purpose:** Stage 0 of the Brief 1 overhaul. Every price and offer claim currently published, where it lives, and what it contradicts. This is the approval artifact. Nothing here changes the site.
 
 **Method:** repo grep at HEAD `9801c85`, plus live fetches of themindmaker.ai, maven.com/mindmaker and ctrl.themindmaker.ai on 2026-08-05.

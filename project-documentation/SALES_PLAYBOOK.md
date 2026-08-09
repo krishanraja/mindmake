@@ -1,25 +1,25 @@
 # Mindmaker Sales Playbook
 *The single ground-truth document for AI sales and marketing agents working the Mindmaker book.*
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-09
 
 > If you are an AI sales or marketing agent, outbound, inbound, content, retargeting, lifecycle, paid, or organic, this is the document you ground on. It is opinionated, structured for retrieval, and biased toward action. Use `OFFERS.md`, `ICP.md`, `VALUE_PROP.md`, `OUTCOMES.md`, and `BRANDING.md` for deeper canon. Use `Master_Messaging_and_FAQ.md` for full pitches and FAQ.
 
+> **Status (August 2026 overhaul):** Krish unsold Workshops, the Signal Session, the Revenue Architecture, the AI Immersion, and the Alumni Pass on 2026-08-05/06 — routes still exist and work by direct URL, but carry no price and aren't in nav/footer/sitemap. Do not run outbound, retargeting, or lifecycle campaigns against these offers or their prices below; they are not currently bookable. In their place: **The Teardown** ($3,500 fixed) and **The Handover** ($30k/$50k banded, gated on a completed Teardown). The Cohort remains live, corrected to a $2,000–$3,000/seat range, currently sold out. Sections past §1 in this document have not been rewritten for the new offers as of this pass — read them as describing the pre-August playbook and confirm against `OFFERS.md`/`COMMERCIAL_REFERENCE.md` before using any specific price or CTA in live outbound.
+
 ---
 
-## 1. The Audiences and the Ladder
+## 1. The Audiences and the Ladder (current, August 2026)
 
 | Audience | Entry rung | Depth offer | Tag |
 |---|---|---|---|
-| Senior leader ready to *build* this quarter | **A Mindmaker Workshop** ($599, on Maven) | The AI-Fluent Executive Cohort ($2,500) | `audience:workshop` |
-| Senior leader with a nervous AI decision | **The AI-Fluent Executive (Cohort)** ($2,500, Maven-hosted) | Workshops as warm-up; Enterprise as next step if they're commercialising AI | `audience:ai-leaders` |
-| Company commercializing an AI product | **The Signal Session** ($15,000) → **The Revenue Architecture** ($60–100k) | Operator credential page (`/operator`) | `audience:ai-products` |
-| Executive team with shared AI tensions | **The AI Immersion** ($12,000, inquiry-only) | — | `audience:exec-team` |
-| Mindmaker alumni (any of the above) | **The Alumni Pass** ($1,500/year, invitation-only) | — | `audience:alumni` |
+| Senior leader with one real decision, wants Krish's method directly | **The Teardown** ($3,500 fixed) | The Handover ($30k/$50k, gated on Teardown) | `audience:teardown` |
+| Senior leader wanting a peer decision room | **The AI-Fluent Executive (Cohort)** ($2,000–$3,000/seat range, Maven-hosted, currently sold out) | — | `audience:ai-leaders` |
+| Anyone wanting to try the method themselves first | **CTRL** (free to start) | — | `audience:self-serve` |
 | Senior leader specifically wanting 1:1 | Inquiry at `/cohort?inquiry=1:1` | — | `audience:1to1-inquiry` |
-| Cold prospect not yet ready to talk | 5 free Lightning Lessons on Maven | Warm to a Workshop or the Cohort | `audience:cold` |
+| Cold prospect not yet ready to talk | 5 free Lightning Lessons on Maven | Warm to the Teardown or the Cohort | `audience:cold` |
 
-The first four are the addressable market. The Alumni Pass is the retention layer. The 1:1 inquiry is a relief valve. The free lessons are the top-of-funnel warmup.
+**Unsold as of 2026-08-05/06, do not target in live outbound:** the former "senior leader ready to build" audience (was a $599 Workshop entry rung), "company commercializing an AI product" (was Signal Session → Revenue Architecture), "executive team with shared AI tensions" (was the $12,000 Immersion), and "Mindmaker alumni" (was the $1,500/year Alumni Pass). No confirmed current offer exists for the enterprise/AI-products or executive-team audiences — flag to Krish rather than substitute the Teardown/Handover without confirmation, since those are individually-scoped, not company- or team-scoped, offers.
 
 ---
 

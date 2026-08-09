@@ -1,9 +1,11 @@
 # Mindmaker Master Messaging & FAQ Document
 *Core source of truth for product marketing, sales, content, and outbound*
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-09
 
 **Goal:** One document a salesperson, content writer, or AI agent can open and get every pitch, position, and objection answer right. Supersedes the earlier CTRL / 1:1-sprint-era version. For strategic intent, read `mindmaker_rebuild_brief_v4.md`. For agent-grade sales detail (ICP signals, ROI math, channel templates), read `SALES_PLAYBOOK.md`. For durable commercial reference, read `COMMERCIAL_REFERENCE.md`; for how the Diagnosis Room reasons, read the `mindy/` Brain Pack.
+
+> **Status (August 2026 overhaul):** Krish unsold Workshops, the Signal Session, the Revenue Architecture, the AI Immersion, and the Alumni Pass on 2026-08-05/06 — routes still exist and work by direct URL, but carry no price and aren't in nav/footer/sitemap. In their place: **The Teardown** ($3,500) and **The Handover** ($30k/$50k, gated on a completed Teardown). The Cohort remains live at a corrected $2,000–$3,000/seat range, currently sold out. Sections below covering the unsold offers are marked and retained for historical/positioning value; treat their pitches and prices as not currently bookable. Krish has not yet authored Teardown/Handover-specific FAQ answers or objection handling as of this pass — flagged where a gap exists.
 
 ---
 
@@ -12,8 +14,10 @@
 ### Mindmaker one-liner
 **The anti-consultancy for leaders done being sold AI.**
 
-### Mindmaker in a paragraph
-Mindmaker is a ladder. Free Lightning Lessons at the top. Five one-day, $599 Workshops on Maven where you build a real artefact alongside Krish. A Maven-hosted quarterly Cohort, The AI-Fluent Executive, for senior leaders making AI decisions ($2,500/seat, 4 weeks). Enterprise sprints for companies commercializing AI products ($15k Signal Session → $60–100k Revenue Architecture). An inquiry-only AI Immersion ($12k, 4 hours) for executive teams that need to align on three shared AI tensions in an afternoon. An invitation-only Alumni Pass ($1,500/year) for continuity after the finish line. No 1:1 sprint product on the public site. No fractional executive roles. No retainers. No production IT. Every engagement has a fixed scope, a fixed outcome, and a finish line.
+### Mindmaker in a paragraph (current, August 2026)
+Mindmaker is one method, sold two ways. Do it yourself with CTRL, free to start. Do it with Krish: The Teardown, ten business days on one real decision for $3,500, then The Handover, a six-week rebuild for $30,000 (under 250 people) or $50,000 (250–5,000), gated on a completed Teardown and capped at six a year. The AI-Fluent Executive Cohort ($2,000–$3,000/seat, 4 weeks, quarterly, Maven-hosted, currently sold out) runs alongside as a peer-cohort option. No 1:1 sprint product on the public site. No fractional executive roles. No retainers. No production IT. Every engagement has a fixed scope, a fixed outcome, and a finish line.
+
+*(Historical, unsold as of 2026-08-05/06 — still described in later sections of this document, no longer bookable: five one-day $599 Workshops on Maven; enterprise sprints, $15k Signal Session → $60–100k Revenue Architecture; an inquiry-only $12k AI Immersion; an invitation-only $1,500/year Alumni Pass.)*
 
 ### Krish one-liner
 Technical operator. 16 years monetizing emerging tech. CEO of a business he runs with a 14-agent autonomous OS.
@@ -28,7 +32,7 @@ Technical operator. 16 years monetizing emerging tech. CEO of a business he runs
 - Currently runs Mindmaker with a custom 14-agent OS. See `/operator`.
 
 ### The positioning vs the market
-I am not an advisor. I am an operator. I do not sell 40-slide decks. I do not sell ongoing retainers. I do not run fractional-executive gigs. I sell two public things and one inquiry-only thing: a Maven-hosted Cohort for senior leaders with an AI decision to make, enterprise sprints for companies translating AI capability into revenue, and a half-day Immersion for exec teams that need fast alignment. Every offer has a finish line.
+I am not an advisor. I am an operator. I do not sell 40-slide decks. I do not sell ongoing retainers. I do not run fractional-executive gigs. I sell two things directly, The Teardown and, gated on it, The Handover, plus a Maven-hosted Cohort for senior leaders who want a peer decision room. Everything else on the ladder (Workshops, enterprise sprints, the Immersion, the Alumni Pass) is currently unsold, not deleted. Every offer has a finish line.
 
 ---
 

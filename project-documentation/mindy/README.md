@@ -1,6 +1,8 @@
 # Mindy Brain Pack
 
-*The knowledge pack that makes Mindy reason like Krish, recommend honestly, price in ranges, and sound like the operator and not the model. Built 2026-06-09 against `MINDY-ONE-JOURNEY-ARCHITECTURE.md` (the Diagnosis Room brief); last reconciled 2026-06-28. This README is the index and the wiring diagram. It also carries the consistency and open-questions list; items resolved as of 2026-06-09 are marked.*
+*The knowledge pack that makes Mindy reason like Krish, recommend honestly, price in ranges, and sound like the operator and not the model. Built 2026-06-09 against `MINDY-ONE-JOURNEY-ARCHITECTURE.md` (the Diagnosis Room brief); last reconciled 2026-08-09. This README is the index and the wiring diagram. It also carries the consistency and open-questions list; items resolved as of 2026-06-09 are marked.*
+
+> **New open item, added 2026-08-09 — the most urgent one in this pack.** Krish unsold Workshops, the Signal Session, the Revenue Architecture, and the AI Immersion on 2026-08-05/06, and launched The Teardown ($3,500) and The Handover ($30k/$50k, gated on a completed Teardover) in their place, both with exact/banded prices published on-site (a deliberate exception to "ranges only," which still holds for the Cohort). **Nothing in this pack — not the system prompt, not the fit rubric, not the pricing model, not the deployed `_shared/mindy/knowledge.ts`— has been updated for this.** Mindy currently recommends and prices offers that are no longer sold and has no knowledge of the two offers that are. This is a pre-existing-pack gap that a documentation pass can describe but can't close; it needs Krish's product decisions on how the Teardown/Handover fit the diagnosis flow, the walk-away rubric, and the pricing model. See `CANON.md` §0 for the full account. Treat this as blocking, above items 1-9 below.
 
 ---
 

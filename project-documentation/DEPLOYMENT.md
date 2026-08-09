@@ -1,6 +1,8 @@
 # Deployment Checklist
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-09
+
+> **Status (August 2026 overhaul):** several checklist items below still reference the pre-August offer set and CTA label. Corrections: the primary nav CTA is now **"Bring me one real decision"** (was "Book a call"); nav slot 1 is a "Work with me" dropdown (Teardown, Handover), not a direct Workshops link; `/enterprise`, `/capital`, `/immersion`, `/workshops`, `/alumni` are unsold (no longer priced, `noindex`'d, out of the sitemap) rather than live priced pages; the Cohort is $2,000–$3,000/seat (range, not a flat $2,500) and currently sold out; add `/teardown` ($3,500 fixed) and `/handover` ($30k/$50k banded) to any route/pricing verification pass. Use `CLAUDE.md` and `OFFERS.md` as the current-state reference when running this checklist, not the line items below where they conflict.
 
 Pre-deploy and post-deploy verification for the Mindmaker project.
 

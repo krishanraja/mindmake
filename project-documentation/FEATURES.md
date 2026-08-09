@@ -1,15 +1,33 @@
 # Features
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-08-09
 
 ---
 
 ## Product Offerings
 
-Mindmaker is a **ladder**: free Lightning Lessons → paid Workshops ($599) → the AI-Fluent Executive Cohort ($2,500) → Enterprise sprints ($15k–$100k+) → the Alumni Pass ($1,500/yr) as continuity, with Capital as a third door for funds. Every offer has a fixed scope and finish line. Public pricing is ranges only; exact figures are set on the call. Full detail in [OFFERS.md](./OFFERS.md) and [COMMERCIAL_REFERENCE.md](./COMMERCIAL_REFERENCE.md). Sales-grade detail in [SALES_PLAYBOOK.md](./SALES_PLAYBOOK.md).
+> **Status (August 2026 overhaul):** Krish unsold Workshops, Enterprise (Signal Session/Revenue Architecture), Capital, the AI Immersion, and the Alumni Pass on 2026-08-05/06 — route files stay in the repo and stay reachable by direct URL, but are out of nav/footer/sitemap and carry no price. In their place: **The Teardown** ($3,500 fixed, `/teardown`) and **The Handover** ($30k/$50k banded, `/handover`, gated on a completed Teardown), documented in new subsections below the Cohort. Sections further down this document describing Workshops/Enterprise/Immersion feature detail are retained for reference but describe unsold surfaces — this pass added status flags at each section header rather than rewriting their full feature catalogue; verify against the live route before treating any of it as current.
 
-### 1. The AI-Fluent Executive (Cohort): $2,500/seat (hosted on Maven)
+Mindmaker is now **one method, sold two ways**: self-serve via CTRL, or with Krish through The Teardown then The Handover, plus the AI-Fluent Executive Cohort as a parallel peer-cohort option (currently sold out). Every live offer has a fixed scope and finish line. The Teardown and Handover publish exact/banded prices on-site (not ranges); the Cohort still shows a range. Full detail in [OFFERS.md](./OFFERS.md) and [COMMERCIAL_REFERENCE.md](./COMMERCIAL_REFERENCE.md). Sales-grade detail in [SALES_PLAYBOOK.md](./SALES_PLAYBOOK.md).
+
+### 0a. The Teardown: $3,500 fixed (new, August 2026)
 **Status:** Live
+**Route:** `/teardown`
+**Implementation:** `src/pages/Teardown.tsx`, pricing constants in `src/lib/offers.ts`
+**Format:** 10 business days, one decision, <2h client time. Decision decomposes into evidence-checked claims (each classed External/Only you/Nobody yet), cross-examined by four models with disagreements preserved.
+**Outcome:** One-page memo, decision-to-claims map, three claims under a 90-day watch, CTRL workspace + 30 days Edge Pro. Gate for The Handover.
+**CTA:** Single button, "Bring me one real decision," opens the Diagnosis Room in `full` mode. No separate form.
+
+### 0b. The Handover: $30,000 (<250 people) / $50,000 (250-5,000) (new, August 2026)
+**Status:** Live. Gated on a completed Teardown.
+**Route:** `/handover`
+**Implementation:** `src/pages/Handover.tsx`, pricing constants in `src/lib/offers.ts`
+**Format:** 6 weeks (load context, adversarial pre-mortem, the fork, client drives, Krish absent by design, exit). Capped at 6/year, stated publicly.
+**Outcome:** Business rebuilt around the decision; Day-90 recheck.
+**For:** CEO, CRO, or VP Product. Never the CTO.
+
+### 1. The AI-Fluent Executive (Cohort): $2,000-$3,000/seat range (hosted on Maven, currently sold out)
+**Status:** Live. Price corrected 2026-08-05 from a flat $2,500 to match Maven. Next cohort (Nov 19-Dec 13, 2026) hardcoded sold out in `Cohort.tsx`; CTAs route to Maven's waitlist.
 **Route:** `/cohort`
 **Implementation:** `src/pages/Cohort.tsx`
 **Maven URL (canonical enrolment):** `https://maven.com/mindmaker/the-ai-fluent-executive`
@@ -37,8 +55,8 @@ The page surfaces:
 
 ---
 
-### 2. The Signal Session: $15,000
-**Status:** Live
+### 2. The Signal Session: $15,000 (historical figure)
+**Status:** UNSOLD as of 2026-08-05. Route still exists and works by direct URL; no longer priced, in nav/footer, or in the sitemap.
 **Route:** `/enterprise#signal-session`
 **Implementation:** `src/pages/Enterprise.tsx` (anchor section)
 
@@ -59,8 +77,8 @@ The page surfaces:
 
 ---
 
-### 3. The Revenue Architecture: $60,000–$100,000
-**Status:** Live
+### 3. The Revenue Architecture: $60,000–$100,000 (historical figure)
+**Status:** UNSOLD as of 2026-08-05. Route still exists and works by direct URL; no longer priced, in nav/footer, or in the sitemap. `OperatorsEdge`'s homepage CTA still targets this anchor, unrepointed as of this pass.
 **Route:** `/enterprise#revenue-architecture`
 **Implementation:** `src/pages/Enterprise.tsx` (anchor section)
 
@@ -84,8 +102,8 @@ The page surfaces:
 
 ---
 
-### 4. The AI Immersion: $12,000 (inquiry-only)
-**Status:** Live (inquiry-only, not in main nav)
+### 4. The AI Immersion: $12,000 (inquiry-only) (historical figure)
+**Status:** UNSOLD as of 2026-08-05. Route still exists and works by direct URL; no longer priced or in the sitemap. Not footer-linked either, despite `App.tsx`'s stale code comment claiming otherwise.
 **Route:** `/immersion`
 **Implementation:** `src/pages/Immersion.tsx`
 
@@ -132,23 +150,22 @@ Triggered by `/cohort?inquiry=1:1`. A muted banner surfaces a Contact link. No p
 
 Authoritative: `src/pages/Index.tsx`. Order:
 
-1. `NewHero`. rotating headlines, eyebrow "Decision blockers I hear every week", looping `/rising-cities.mp4` background, emerald pulse, particle background. Primary CTA "Book a call" (Diagnosis Room, express) + secondary "Work through your decision with Mindy" (Diagnosis Room, full) + tertiary "Or start with a free lesson →" / "See how I work →" (`/operator`).
+1. `NewHero`. rotating headlines, eyebrow "Decision blockers I hear every week", looping `/rising-cities.mp4` background, emerald pulse, particle background. CTAs open the Diagnosis Room.
 2. `BigProblem`. existential urgency frame (three large interactive flip cards; card CTA opens the `ScopingModal`).
-3. `TrustSection`. Krish bio + headshot + testimonials carousel (COHORT-STYLE / ENTERPRISE tagged).
-4. `FrameworkJourney`. three-panel animated Mind Set → Mind Map → Mind Make.
-5. `OperatorsEdge`. v5 typography-only credential section ("Beyond pattern recognition"). Three proof tiles (Architecture / Optimization / Memory). Primary CTA to Revenue Architecture, secondary link to `/operator`.
+3. `TwoDoors` (**new, August 2026**). "The two doors. One method, sold two ways." CTRL (do it yourself) vs. Teardown/Handover (do it with me). Takes the slot previously held by `FrameworkJourney`.
+4. `TrustSection`. Krish bio + headshot + testimonials carousel (COHORT-STYLE / ENTERPRISE tagged; not yet updated for Teardown/Handover).
+5. `OperatorsEdge`. v5 typography-only credential section ("Beyond pattern recognition"). Three proof tiles (Architecture / Optimization / Memory). Primary CTA to `/enterprise#revenue-architecture` (one of the unsold pages, unrepointed), secondary link to `/operator`.
 6. `OperatorsBrief`. Live Intel homepage teaser. CSS-marquee PriceTicker + rotating interpretation line (3 takes, 8s cross-fade) + compact Nervous Decision input + muted "Open the full dashboard →" link to `/signal`.
-7. `MindMakerLiveSection`. Substack newsletter subscribe surface.
-8. `SimpleCTA`. final CTA ("What's your nervous decision?"), opens the Diagnosis Room.
-9. `Footer`.
+7. `SimpleCTA`. final CTA ("What's your nervous decision?"), opens the Diagnosis Room.
+8. `Footer`.
 
-The retired `YFork` second fork is no longer rendered.
+`FrameworkJourney` (Mind Set → Mind Map → Mind Make) left the homepage in August 2026, replaced there by `TwoDoors`; it still renders on `/new-age-leadership`. `MindMakerLiveSection` is confirmed not imported anywhere — dead code. The retired `YFork` second fork is no longer rendered.
 
 ### Global overlays
 
 Mounted in `src/App.tsx`:
-- `DiagnosisRoom`. **the primary "Book a call" conversion surface** (the on-site Mindy experience). Opened via `window.dispatchEvent(new CustomEvent('openDiagnosisRoom', { detail: { source_page, seedDecision?, mode } }))` (`mode`: `express` | `full`). Lazy + only mounted when open. Also a standalone page at `/start`. See "The Diagnosis Room (Mindy)" below.
-- `ScopingModal`. secondary booking surface, still dispatched by the offer pages (`/cohort`, `/enterprise`, `/capital`, `/immersion`), the `BigProblem` cards, and `/case-studies` via `openScopingModal`. 6-field "Scope it with me" intake posting to `notify-scoping-request`.
+- `DiagnosisRoom`. **the primary conversion surface** (the on-site Mindy experience). Opened via `window.dispatchEvent(new CustomEvent('openDiagnosisRoom', { detail: { source_page, seedDecision?, mode } }))` (`mode`: `express` | `full`). Lazy + only mounted when open. Also a standalone page at `/start`. See "The Diagnosis Room (Mindy)" below. **Gap:** deployed reasoning not synced to the Teardown/Handover offer change, see `mindy/CANON.md` §0.
+- `ScopingModal`. secondary booking surface, still dispatched by the unsold offer pages (`/cohort`, `/enterprise`, `/capital`, `/immersion`), `Cohort.tsx` directly, the `BigProblem` cards, and `/case-studies` via `openScopingModal`. 6-field "Scope it with me" intake posting to `notify-scoping-request`.
 - `InitialConsultModal`. legacy conversion surface, kept mounted but only `/alumni` still dispatches `openConsultModal`
 - `CookieConsent`
 - `ErrorBoundary` wrapping the route `Suspense`
@@ -156,14 +173,15 @@ Mounted in `src/App.tsx`:
 
 ### Navigation
 
-File: `src/components/Navigation.tsx`. Primary CTA button: **"Book a call"** with emerald pulse dot (opens the Diagnosis Room in express mode; the mobile menu also offers "Or think it through with Mindy first" → full mode).
+File: `src/components/Navigation.tsx`. **Rebuilt August 2026.** Primary CTA button: **"Bring me one real decision"** (was "Book a call"; opens the Diagnosis Room in express mode; the mobile menu also offers "Or think it through with Mindy first" → full mode).
 
-- **Workshops** (direct link): `/workshops`
+- **Work with me** (dropdown): The Teardown → `/teardown`, The Handover → `/handover`
 - **Cohort** (direct link): `/cohort`
-- **Enterprise** (dropdown): The Signal Session, The Revenue Architecture, The AI Immersion, and "For funds & operating partners" → Capital
-- **Mindmaker LIVE** (direct link, wordmark): `/signal`
+- **Mindmaker LIVE** (direct link, icon+wordmark lockup): `/signal`
 - **Resources** (dropdown): How I operate, Case studies, New Age Leadership, Library, The Builder Economy (Podcast) [external], Lightning Lessons (5 Maven URLs via `LightningLessons` component)
 - **About** (dropdown): Contact, Privacy, Terms
+
+No Workshops link, Enterprise dropdown, or Capital link — confirmed removed from `navItems`.
 
 Hides on scroll-down via `useScrollDirection`.
 

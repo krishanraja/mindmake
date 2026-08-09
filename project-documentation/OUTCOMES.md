@@ -1,8 +1,10 @@
 # User Outcomes
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-09
 
 ---
+
+> **Status (August 2026 overhaul):** the Signal Session, Revenue Architecture, and Immersion outcome sections below describe offers unsold as of 2026-08-05/06 (routes exist, no longer priced or discoverable). Krish launched The Teardown ($3,500) and The Handover ($30k/$50k, gated on a completed Teardown) in their place; outcome documentation for those two has not been authored yet. The Cohort outcomes below remain live but note: the "3-week Cohort" reference later in this document is already a known stale landmine (the Cohort is 4 weeks) per `mindy/CANON.md` §5, predating this pass.
 
 ## Outcome Framework
 

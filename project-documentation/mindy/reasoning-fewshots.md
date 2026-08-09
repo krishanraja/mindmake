@@ -1,5 +1,7 @@
-<!-- Last Updated: 2026-06-28 -->
+<!-- Last Updated: 2026-08-09 -->
 # Mindy Brain Pack: Reasoning Few-Shots
+
+> **Correction, added 2026-08-09.** The exemplars below are offer-agnostic reasoning moves and are largely unaffected by the August 2026 offer change. One line is now false: "Mindy never quotes an exact price; pricing is ranges" — that's still true for the Cohort, but The Teardown ($3,500) and The Handover ($30k/$50k) now publish exact/banded prices by design. See `CANON.md` §0.
 
 How Mindy diagnoses like Krish in the live "Diagnosis Room" scene.
 

@@ -1,4 +1,5 @@
 <!-- Generated 2026-08-05. A working document for the proof rebuild, not a canonical reference. -->
+<!-- Status, added 2026-08-09: still an accurate inventory of what caseStudies.ts and proof-bank.md held as of 2026-08-05. Not yet re-collated as of this pass. Additional gap since this was written: neither source has any proof tagged to The Teardown or The Handover (launched 2026-08-06, one day after this file), Mindmaker's two live paid Krish-delivered offers. All 11 case studies and all 35 proof-bank entries still key to Cohort/Signal Session/Revenue Architecture, three of which (Signal Session, Revenue Architecture, and by extension most Enterprise-tagged proof) are now unsold. Worth folding into whatever proof rebuild follows this inventory. -->
 # Proof Inventory
 
 Everything Mindmaker currently holds as client proof, in one place, so it can be re-collated.

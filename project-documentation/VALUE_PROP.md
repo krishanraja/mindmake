@@ -1,29 +1,30 @@
 # Value Proposition
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-09
 
 ---
 
-## Core Value Proposition
+> **Status (August 2026 overhaul):** Krish unsold Workshops, the Signal Session, the Revenue Architecture, the AI Immersion, and the Alumni Pass on 2026-08-05/06 — the pages still exist and work by direct URL, but carry no price and aren't in nav/footer/sitemap. In their place: **The Teardown** ($3,500) and **The Handover** ($30k/$50k, gated on a completed Teardown), both new. The Cohort remains live at a corrected $2,000–$3,000/seat range, currently sold out. Everything below describing Workshops/Enterprise/Immersion/Alumni is retained as positioning language that's still substantively true about those *kinds* of problems, but should not be presented as a currently-bookable offer. New Teardown/Handover-specific pitches and objection handling have not been authored by Krish as of this reconciliation pass — flagged where relevant below.
 
-**"Mindmaker is the anti-consultancy for leaders done being sold AI. Free Lightning Lessons at the top. Hands-on Workshops at $599 to build alongside the operator. A Maven-hosted Cohort at $2,500 for the leader sitting on a nervous AI decision. Enterprise sprints from $15k for companies commercializing AI. An inquiry-only Immersion for exec teams that need fast alignment. An Alumni Pass for continuity after the finish line. Every offer has a finish line."**
+## Core Value Proposition (current)
 
-**Three audiences, no overlap, plus a retention layer:**
+**"Mindmaker is the anti-consultancy for leaders done being sold AI. One method, sold two ways: build the brain that holds your business, self-serve via CTRL or with Krish through The Teardown ($3,500, ten days, one decision) then The Handover ($30-50k, six weeks, gated on the Teardown). The AI-Fluent Executive Cohort ($2,000-$3,000/seat) runs alongside as a peer-cohort option. Every offer has a finish line."**
 
-1. **AI leaders**. senior operators ready to build (Workshops) or sitting on a nervous decision (Cohort). Answer: **A Mindmaker Workshop ($599)** as the entry rung; **The AI-Fluent Executive Cohort ($2,500/seat, quarterly, hosted on Maven)** as the qualifying step.
-2. **AI products**. companies with AI capability but unclear commercial traction. Answer: **The Signal Session ($15k, 1 day + 48h Commercial Narrative)** and **The Revenue Architecture ($60–100k, 30 days).**
-3. **Executive teams**. CEO-led leadership groups stuck on shared AI tensions. Answer (inquiry-only): **The AI Immersion ($12k, 4 hours, 5-day summary).**
-4. **Alumni** (retention layer). Anyone who completed any of the above. Answer (invitation-only): **The Alumni Pass ($1,500/year)**.
+**Live audiences, August 2026:**
 
-The ladder reads from top to bottom: free → entry-paid → qualifying → margin → continuity. Every rung is short, fixed-scope, and stand-alone, with a clear ramp to the next rung when the buyer is ready.
+1. **AI leaders with one real decision**. Answer: **The Teardown ($3,500)**, gate to **The Handover ($30-50k)**.
+2. **AI leaders wanting a peer decision room**. Answer: **The AI-Fluent Executive Cohort ($2,000-$3,000/seat, quarterly, hosted on Maven)**, currently sold out.
+3. **Anyone wanting to try the method themselves first**. Answer: **CTRL**, free to start.
+
+**Unsold as of 2026-08-05/06, no longer a live answer to route a buyer to:** AI products / enterprise buyers (was Signal Session + Revenue Architecture), executive teams (was the AI Immersion), workshop-curious leaders (was the five Workshops), alumni (was the Alumni Pass). The historical positioning for each is preserved below for reference, not as a current pitch.
 
 ---
 
 ## Key Differentiators
 
-### 1. Ladder, not retainer
+### 1. One method, two doors, not a ladder of upsells
 **Them:** Discovery → workshop → strategy → implementation → retainer, every step an upsell.
-**Us:** Free lessons. Workshops at $599. Cohort at $2,500. Enterprise from $15k. Alumni at $1,500/year. Each rung stands alone with a clear finish line. Move up only when you want to.
+**Us:** Do it yourself with CTRL, free to start. Do it with Krish: The Teardown at $3,500, gate to The Handover at $30-50k. The Cohort at $2,000-$3,000/seat runs alongside as a peer-cohort option. Each stands alone with a clear finish line. (Historical, unsold as of August 2026: Free lessons, Workshops at $599, Enterprise from $15k, Alumni at $1,500/year — same "no upsell trap" principle applied to the pre-August ladder.)
 **Why:** Middle-tier consulting is where scope creeps, outcomes blur, and fees compound. We refuse to sell it.
 
 ### 2. Operator, not advisor
@@ -73,9 +74,9 @@ The ladder reads from top to bottom: free → entry-paid → qualifying → marg
 - A peer network of 10–15 senior operators they can pressure-test the next decision against
 - Confidence in board meetings, they're no longer making it up
 
-**Answer:** The AI-Fluent Executive (Cohort). See `/cohort`. Enrolment via Maven.
+**Answer:** The Teardown ($3,500) → The Handover ($30-50k, gated), for a leader who wants Krish's method directly on their one decision. The AI-Fluent Executive (Cohort), currently sold out, remains the peer-cohort answer. See `/teardown`, `/handover`, `/cohort`.
 
-### AI Products (Enterprise buyer)
+### AI Products (Enterprise buyer) — UNSOLD, 2026-08-05
 
 **Who:** Founders, CEOs, Chief Product Officers, Chief Commercial Officers at companies that have built AI capability but can't translate it into revenue predictably.
 
@@ -104,9 +105,9 @@ The ladder reads from top to bottom: free → entry-paid → qualifying → marg
 - Product roadmap aligned to commercial milestones
 - 30-day follow-up session included
 
-**Answer:** The Signal Session or The Revenue Architecture. See `/enterprise`.
+**Answer, historical:** The Signal Session or The Revenue Architecture, both unsold as of 2026-08-05. No confirmed current offer for this buyer — flag to Krish rather than route them anywhere with confidence. `/enterprise` still exists but carries no price.
 
-### Executive Teams (Immersion buyer, inquiry-only)
+### Executive Teams (Immersion buyer, inquiry-only) — UNSOLD, 2026-08-05
 
 **Who:** A CEO sponsoring a 4–8 person leadership group needing rapid alignment on shared AI decisions: vendor commitments, build-vs-buy, replace-vs-empower, board narrative.
 
@@ -115,13 +116,27 @@ The ladder reads from top to bottom: free → entry-paid → qualifying → marg
 - A 2-page board-ready summary within 5 business days
 - A team genuinely aligned (not performatively aligned)
 
-**Answer:** The AI Immersion. See `/immersion`. Inquiry-only.
+**Answer, historical:** The AI Immersion, unsold as of 2026-08-05. `/immersion` still exists but carries no price.
 
 ---
 
 ## Product Positioning
 
-### Mindmaker Workshops
+### The Teardown (new, August 2026)
+**Price:** $3,500 fixed
+**Tagline:** (not yet drafted by Krish as of this pass; the page copy is "Bring me one real decision")
+**For:** A leader with one real decision, wants Krish's method directly.
+**Format:** 10 business days, <2 hours of client time. The decision decomposes into evidence-checked claims, each classed External/Only you/Nobody yet, cross-examined by four models with disagreements preserved.
+**Outcome:** One-page memo, decision-to-claims map, three claims under a 90-day watch, a CTRL workspace + 30 days of Edge Pro. Gate for The Handover.
+
+### The Handover (new, August 2026)
+**Price:** $30,000 under 250 people / $50,000 for 250–5,000, gated on a completed Teardown
+**Tagline:** (not yet drafted by Krish as of this pass)
+**For:** CEO, CRO, or VP Product ready to rebuild how the business runs on the decision. Never the CTO.
+**Format:** 6 weeks. Week 5: Krish does not attend, by design. Capped at 6/year.
+**Outcome:** The business rebuilt around the decision; Day-90 recheck included.
+
+### Mindmaker Workshops — UNSOLD, 2026-08-05, historical
 **Price:** $599 per workshop
 **Tagline:** Build alongside me in one day.
 **For:** Senior leaders ready to build a real artefact, not deliberate about one.
@@ -129,41 +144,41 @@ The ladder reads from top to bottom: free → entry-paid → qualifying → marg
 **Outcome:** A real artefact deployed on your real surface, plus lifetime CTRL access, session recording, alumni channel, templates and prompts, certificate, and a 14-day Maven Guarantee.
 **The five workshops:** Build Your AI Chief of Staff · Map Your Agentic Org Chart · Vibe Coding for Leaders · Build an Autonomous Business Function · Give Your AI Memory.
 
-### The AI-Fluent Executive (Cohort)
-**Price:** $2,500 / seat (or 2× $1,250 split)
+### The AI-Fluent Executive (Cohort) — live, price corrected 2026-08-05
+**Price:** $2,000–$3,000 / seat range (was a flat $2,500; Maven sets the exact figure)
 **Tagline:** Make your nervous AI decision with 15 other senior leaders.
 **For:** Senior leaders with one nervous AI decision.
-**Format:** 4 weeks mostly async + 4 live 90-min sessions. 10 to 15 seats. Quarterly cohorts. Hosted on Maven.
+**Format:** 4 weeks mostly async + 4 live 90-min sessions. 10 to 15 seats. Quarterly cohorts. Hosted on Maven. **Currently sold out** (next cohort Nov 19–Dec 13, 2026); CTAs route to Maven's waitlist.
 **Curriculum:** Diagnose → Decompose → Decide → Deploy.
 **Outcome:** A board-ready 1-page decision memo + trade-off doc + lifetime CTRL access + 90-day cohort Slack + lifetime curriculum + alumni network.
-**Workshop credit:** Code `WORKSHOP` at Maven checkout takes $500 off for buyers who completed a Workshop in the last 90 days.
+**Workshop credit:** inert while Workshops are unsold (see below).
 
-### The Signal Session
-**Price:** $15,000
+### The Signal Session — UNSOLD, 2026-08-05, historical
+**Price:** $15,000 (historical; no longer published)
 **Tagline:** One day. One room. One commercial thesis.
 **For:** Enterprise buyers commercializing an AI product.
 **Format:** One intensive day (on-site or remote) + 2 weeks pre-work + Commercial Narrative within 48 hours.
 **Outcome:** 15–20 page Commercial Narrative + 2-page positioning + sales narrative + pricing sketch + 30-day roadmap.
 
-### The Revenue Architecture
-**Price:** $60,000–$100,000 (50/50 at kickoff and delivery)
+### The Revenue Architecture — UNSOLD, 2026-08-05, historical
+**Price:** $60,000–$100,000 (historical; no longer published)
 **Tagline:** Your AI capabilities, translated into revenue.
 **For:** Enterprise buyers who need to rebuild positioning, pricing, and GTM around the AI capability.
 **Format:** 30 days (4–5 calendar weeks). Fixed scope, fixed deliverables, multi-session.
 **Outcome:** 30–40 page commercial strategy + revenue model + packaging + 90-day GTM playbook + product roadmap + board deck + 30-day follow-up.
 
-### The AI Immersion (inquiry-only)
-**Price:** $12,000 (flat; travel additional for on-site)
+### The AI Immersion (inquiry-only) — UNSOLD, 2026-08-05, historical
+**Price:** $12,000 flat (historical; no longer published)
 **Tagline:** Three decisions. One afternoon. Real alignment.
 **For:** CEO sponsors with up to 8 senior leaders.
 **Format:** 4-hour facilitated session + 2-page summary within 5 business days. Diagnose → Decompose → Decide → Deploy.
 **Outcome:** Three named decisions with named owners and named deadlines.
 
-### The Alumni Pass (invitation-only)
-**Price:** $1,500 / year recurring (cancel anytime)
+### The Alumni Pass (invitation-only) — UNSOLD, 2026-08-05, historical
+**Price:** $1,500 / year recurring (historical; no longer published)
 **Tagline:** Continuity after the finish line.
 **For:** Anyone who has completed a Workshop, the Cohort, a Signal Session, the Revenue Architecture, or the AI Immersion.
-**Format:** Annual; not in nav, not in footer; reachable by direct URL only at `/alumni`. Page is `noindex`.
+**Format:** Annual; not in nav, not in footer, and (as of August 2026) also dropped from the sitemap; reachable by direct URL only at `/alumni`. Page is `noindex`.
 **Outcome:** Annual access to all five Workshops (re-attend any), quarterly state-of-the-market memo, alumni Slack, first-refusal cohort seats, lifetime CTRL.
 
 ---
@@ -172,11 +187,13 @@ The ladder reads from top to bottom: free → entry-paid → qualifying → marg
 
 **One-liner:** "The anti-consultancy for leaders done being sold AI."
 
+**Teardown/Handover elevator pitch:** not yet drafted by Krish as of this pass. The page copy for both offers is factual/method-first rather than pitch-style (see `OFFERS.md` §1–2); a 30-second version should be written before these are used in outbound.
+
 **Cohort elevator pitch (30s):** "You've got a nervous AI decision you've been avoiding, build vs buy, which vendor, what to tell the board. The AI-Fluent Executive (Cohort) puts you in a room with 10–15 other senior leaders working the same problem. Four weeks mostly async. Four live 90-minute sessions. $2,500. Hosted on Maven. You leave with a board-ready position memo, not another deck."
 
-**Enterprise elevator pitch (30s):** "You've built an AI capability. Great products still need great positioning, pricing, and GTM, and most of yours was built for a non-AI product. The Signal Session is a one-day commercial diagnosis for $15k, you get a 15–20 page Commercial Narrative within 48 hours. The Revenue Architecture is the full 30-day rebuild for $60–100k. Both are fixed scope, fixed outcome, no retainer."
+**Enterprise elevator pitch (30s, UNSOLD — Signal Session/Revenue Architecture retired 2026-08-05, kept for historical reference only):** "You've built an AI capability. Great products still need great positioning, pricing, and GTM, and most of yours was built for a non-AI product. The Signal Session is a one-day commercial diagnosis for $15k, you get a 15–20 page Commercial Narrative within 48 hours. The Revenue Architecture is the full 30-day rebuild for $60–100k. Both are fixed scope, fixed outcome, no retainer."
 
-**Immersion elevator pitch (when asked):** "If your exec team is stuck on three AI decisions and you need real alignment in an afternoon, I run a 4-hour facilitated Immersion for $12k. Up to 8 leaders. You leave with three decisions named, three owners named, three deadlines named, and a 2-page summary within five days. Inquiry-only, not on the main site."
+**Immersion elevator pitch (UNSOLD, historical):** "If your exec team is stuck on three AI decisions and you need real alignment in an afternoon, I run a 4-hour facilitated Immersion for $12k. Up to 8 leaders. You leave with three decisions named, three owners named, three deadlines named, and a 2-page summary within five days. Inquiry-only, not on the main site."
 
 ---
 
@@ -199,7 +216,7 @@ The ladder reads from top to bottom: free → entry-paid → qualifying → marg
 **"Why Maven?"**
 → "Enrollment, payment, the cohort Slack, and the alumni network all live on Maven. It's where the cohort experience runs. Themindmaker.ai is where the offer is described; Maven is where the experience happens."
 
-### Enterprise objections
+### Enterprise objections (UNSOLD — retained for historical reference; Signal Session and Revenue Architecture no longer sold as of 2026-08-05)
 
 **"Why not McKinsey / BCG / Deloitte?"**
 → "They sell 6-figure decks built by researchers. I'm an operator. P&L experience plus a live 14-agent OS I run every day. You're paying for operational certainty from someone doing this, not someone advising about it."
@@ -216,7 +233,7 @@ The ladder reads from top to bottom: free → entry-paid → qualifying → marg
 **"Can you build/deploy/implement it for us?"**
 → "No. I do positioning, pricing, packaging, GTM and the commercial roadmap. Deployment and production IT are explicitly out of scope. I'll name the right partners if that's what you need next."
 
-### Immersion objections
+### Immersion objections (UNSOLD, historical)
 
 **"Why is this not on the public site?"**
 → "Because team alignment is rarely the actual problem. Usually it's an individual decision (Cohort) or a commercial gap (Enterprise). Immersion is the relief valve for genuine team-alignment work, when that's truly what's needed, we'll book it."

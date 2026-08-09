@@ -2,9 +2,22 @@
 
 **Purpose.** This is the de-poison file for Mindy's knowledge base. When Mindy retrieves something that disagrees with this document, this document wins (within the precedence order below). It exists to stop retired facts (old prices, old durations, old framework names) from leaking into a client-facing answer.
 
-**Last reconciled:** 2026-06-28 against `C:/Users/krish/.mm-arch/CLAUDE.md` (dated 2026-06-03) and `project-documentation/` (OFFERS, OUTCOMES, VALUE_PROP, HISTORY, DECISIONS_LOG).
+**Last reconciled:** 2026-08-09 against the live `krishanraja/mindmaker` codebase (`App.tsx`, `Navigation.tsx`, `Footer.tsx`, `src/lib/offers.ts`, `Teardown.tsx`, `Handover.tsx`, `Cohort.tsx`, `public/llms.txt`) and `project-documentation/` (`OFFERS.md`, `COMMERCIAL_REFERENCE.md`, `HISTORY.md`, `DECISIONS_LOG.md`).
 
-**Scope.** This governs what Mindy treats as true about Mindmaker's offers, pricing, ICPs, and product. It does not change the voice rules or the anonymisation rule, which sit in their own files and are non-negotiable regardless of anything here.
+**Scope.** This governs what Mindy *should* treat as true about Mindmaker's offers, pricing, ICPs, and product. It does not change the voice rules or the anonymisation rule, which sit in their own files and are non-negotiable regardless of anything here.
+
+---
+
+## 0. URGENT — this document describes the target state, not what Mindy currently does
+
+This reconciliation pass (2026-08-09) updated §2 below to match the live site's commercial architecture as of the August 2026 overhaul. **It did not, and could not, update the deployed reasoning Mindy actually runs on** (`supabase/functions/_shared/mindy/knowledge.ts`), because that's application source code, out of scope for a docs-only pass. That file has its own header claiming it mirrors this Brain Pack verbatim; as of this reconciliation, it does not.
+
+**Concretely, right now, Mindy in production:**
+- Still recommends and prices The Signal Session, The Revenue Architecture, The AI Immersion, and Workshops — four offers that were unsold from the live site on 2026-08-05/06 and carry no public price anymore.
+- Has no knowledge that The Teardown ($3,500 fixed) or The Handover ($30k/$50k banded) exist, even though `public/llms.txt`, the nav, the footer, and the homepage `TwoDoors` section all now lead with them as the two Krish-delivered offers.
+- Still treats pricing as ranges-only everywhere, when the live site now publishes exact/banded prices for the Teardown and the Handover by design.
+
+This means the site's primary conversion surface is currently telling visitors about a product line Krish stopped selling, and staying silent about the one he's actually selling. **This is a functional gap requiring an engineering change (resyncing `knowledge.ts` to this file), not something a documentation pass can close.** Flag it to Krish before treating any Mindy transcript, proposal, or session-digest as representative of the current offer set. The facts below are what `knowledge.ts` should be updated to say.
 
 ---
 
@@ -25,33 +38,27 @@ Rule of thumb for Mindy: **prices and the exact cohort curriculum come from Mave
 
 ## 2. Canonical current facts
 
-### 2.1 The offer architecture (a ladder, not a single product)
+### 2.1 The offer architecture (current, August 2026 — see §0 for the sync gap)
 
-Free at the top, continuity at the bottom. Every rung is fixed-scope with a finish line.
+One method, sold two ways, plus a peer-cohort option. Every live rung is fixed-scope with a finish line.
 
 | Rung | Offer | What it is | Route | Sold via |
 |---|---|---|---|---|
 | Free | **Lightning Lessons** | Free entry lessons (Maven instructor page) | external Maven links | Maven |
-| Entry-paid | **Workshops** (×5) | One-day, build-with-me; walk out with a real artefact deployed on your real surface | `/workshops` (+ 5 sub-pages) | Maven |
-| Qualifying | **The AI-Fluent Executive (Cohort)** | Quarterly peer decision room; leave with a board-ready memo | `/cohort` | **Maven** |
-| Margin (Enterprise) | **The Signal Session** | One-day commercial diagnosis + Commercial Narrative within 48h | `/enterprise#signal-session` | Site / book a call |
-| Margin (Enterprise) | **The Revenue Architecture** | 30-day commercial rebuild | `/enterprise#revenue-architecture` | Site / book a call |
-| Margin (Enterprise, inquiry-only) | **The AI Immersion** | 4-hour exec-team alignment + 2-page summary | `/immersion` | Inquiry only |
-| Capital (third door) | **Signal Session / Revenue Architecture, repositioned for funds** | Same formats, fund-level framing | `/capital` | Book a call |
-| Continuity | **The Alumni Pass** | Annual continuity, invitation-only, `noindex`, unlinked | `/alumni` | Direct Stripe link from Krish |
+| Entry, do-it-with-Krish | **The Teardown** | 10 business days, one decision decomposed into evidence-checked claims | `/teardown` | Direct, $3,500 fixed |
+| Margin, do-it-with-Krish (gated on Teardown) | **The Handover** | 6-week rebuild, capped 6/year | `/handover` | Direct, $30k (<250 people) / $50k (250-5,000) |
+| Qualifying, peer format | **The AI-Fluent Executive (Cohort)** | Quarterly peer decision room; leave with a board-ready memo | `/cohort` | **Maven** ($2,000-$3,000/seat range; sold out) |
+| Self-serve | **CTRL** | Free to start, portable AI context | `ctrl.themindmaker.ai` | Free / Edge Pro subscription |
 
-The five Workshops: Build Your AI Chief of Staff · Map Your Agentic Org Chart · Vibe Coding for Leaders · Build an Autonomous Business Function · Give Your AI Memory.
+**Unsold as of 2026-08-05/06** — route files exist, still work by direct URL, no longer priced, discoverable, or in nav/footer/sitemap: Workshops (×5, Build Your AI Chief of Staff · Map Your Agentic Org Chart · Vibe Coding for Leaders · Build an Autonomous Business Function · Give Your AI Memory), The Signal Session (`/enterprise#signal-session`), The Revenue Architecture (`/enterprise#revenue-architecture`), The AI Immersion (`/immersion`), Capital (`/capital`, same Signal Session/Revenue Architecture formats for funds), The Alumni Pass (`/alumni`). **If Mindy is ever asked about any of these, the honest answer is that Mindmaker isn't currently selling it — never quote their old prices as live.**
 
-**The "four-offer architecture"** people refer to is the commercial spine: **Cohort + Signal Session + Revenue Architecture + (Immersion)**, with **Workshops** as the paid entry rung, **CTRL** as the product, and the **Alumni Pass** as continuity. Capital is not a fifth offer — it is the same Signal Session and Revenue Architecture formats sold to funds and family offices.
+**The retired "four-offer architecture / three-ICP" framing** (Cohort + Signal Session + Revenue Architecture + Immersion, with Workshops as entry and Alumni Pass as continuity) described the pre-August ladder. It is no longer the live offer set.
 
-### 2.2 The three ICPs (plus a retention layer)
+### 2.2 The ICPs (current, August 2026)
 
-Three audiences, no overlap, plus alumni.
-
-1. **AI Leaders** — senior operators (CEO/COO/CFO/CPO/CCO/CMO/GM/VP/founder-operator) either ready to build (→ Workshops) or sitting on one nervous AI decision (→ Cohort). Deep archetype: "The Accountable Delegator."
-2. **AI Products** — companies that have shipped AI capability but can't translate it into revenue predictably (→ Signal Session → Revenue Architecture).
-3. **Executive Teams** — a CEO sponsoring a 4–8 person leadership group stuck on shared AI tensions (→ AI Immersion, inquiry-only).
-4. **Alumni** (retention layer, not an acquisition path) — anyone who completed any of the above (→ Alumni Pass, invitation-only).
+1. **AI Leaders** — senior operators (CEO/COO/CFO/CPO/CCO/CMO/GM/VP/founder-operator, and for The Handover specifically CEO/CRO/VP Product) with one nervous AI decision. → The Teardown, then The Handover, or the Cohort. Deep archetype: "The Accountable Delegator."
+2. **AI Products / Capital allocators** — companies that have shipped AI capability but can't translate it into revenue predictably, or funds wanting portfolio companies AI-ready. This ICP's dedicated offers (Signal Session, Revenue Architecture, Capital's fund-level framing) are **unsold**. There's no confirmed current routing for this buyer — the plausible path is The Handover if the company is under 5,000 people, but this is unverified. If a visitor's signals match this ICP, be honest that the enterprise/capital-specific offers aren't currently for sale rather than quoting a retired price; don't invent a routing.
+3. **Executive Teams** — previously the AI Immersion buyer; `/immersion` is unsold, same gap as #2.
 
 The old "Builder vs Orchestrator" split is **retired** along with the public 1:1 sprint product. 1:1 work is inquiry-only via `/cohort?inquiry=1:1`.
 
@@ -61,31 +68,32 @@ OFFERS.md, VALUE_PROP.md, and SALES_PLAYBOOK.md only ever describe CTRL as a *be
 
 - **CTRL is free to start.** Upgrades are paid.
 - **Diagnostic: $29 one-time** (a one-off paid upgrade).
-- **Edge Pro: $9 / month recurring** (the recurring tier).
+- **Edge Pro: recurring tier, price unreconciled** — this section previously said $9/month; `public/llms.txt` (rewritten 2026-08-05) says $49/month. Confirm against the live CTRL product or the `mm-ctrl` repo before quoting either figure to a client.
 - CTRL is bundled as **lifetime access** with Workshops, the Cohort, and the Alumni Pass — that bundle is a benefit, not a separate purchase.
 - A CTRL waitlist exists on the marketing site (`CtrlWaitlistPopover` → `notify-ctrl-waitlist`).
 
 (If the live CTRL product surface ever shows different numbers, the live product wins and this entry is updated.)
 
-### 2.4 Pricing is RANGES ONLY — this is the live policy
+### 2.4 Pricing: ranges for the Cohort, exact/banded for the Teardown and the Handover — "ranges only" is retired as a universal rule
 
-Exact prices have been **removed from the live site and from generated proposals.** Mindy shows **ranges only** and **never quotes an exact figure to a client.** The exact number is set by Krish on the call. The internal exact prices still exist in the docs (e.g. $599, $2,500, $15,000) and are useful for Mindy's own reasoning, but they are **not for client output.**
+From June 2026 to August 2026 the live site showed ranges only, never an exact figure, and this section said so unconditionally. **That changed 2026-08-05/06.** The Teardown ($3,500 fixed) and The Handover ($30,000 under 250 people / $50,000 for 250-5,000) now publish an exact or banded price directly on their pages and in `public/llms.txt`, on Krish's explicit decision to "publish both prices with the Diagnosis Room as the door." The Cohort still shows a range ($2,000-$3,000/seat) because Maven, not the site, sets its exact per-seat figure. **Once `knowledge.ts` is resynced to this file, Mindy should state the Teardown and Handover prices exactly as published, and continue showing the Cohort as a range.**
 
-**Public range card (the only pricing Mindy shows a client):**
+**Public price card (once resynced — what Mindy should show a client):**
 
-| Offer | Range shown |
+| Offer | Price shown |
 |---|---|
 | Lightning Lessons | Free |
-| Workshops | $500–$1,000 |
-| AI-Fluent Executive (Cohort) | $2,000–$3,000 |
-| Bespoke enablement | $8,000–$25,000 (pilots from $2,000) |
-| Signal Session | $10,000–$20,000 |
-| AI Immersion | $10,000–$15,000 |
-| Revenue Architecture | $50,000–$100,000+ |
-| Alumni Pass | ~$1,500 / year |
-| CTRL | Free; upgrades from $29 |
+| The Teardown | $3,500 fixed |
+| The Handover | $30,000 (under 250 people) / $50,000 (250-5,000), gated on a completed Teardown |
+| AI-Fluent Executive (Cohort) | $2,000-$3,000 range (sold out; Maven waitlist) |
+| CTRL | Free; upgrades unreconciled, see §2.3 |
+| Bespoke enablement | $8,000-$25,000 (pilots from $2,000) — this mode's fit against the current offer set is unverified, see §2.4a |
 
-**Two pricing modes by buyer:**
+**Unsold, no live price to show:** Workshops, Signal Session, AI Immersion, Revenue Architecture, Alumni Pass. If a visitor asks about any of these, be honest that they're not currently sold rather than quoting a stale range.
+
+### 2.4a Two pricing modes by buyer — unverified against the August 2026 architecture
+
+The two-mode framework below (productised ladder vs. bespoke enablement) was designed around the pre-August offer set. Whether "Mode A, productised" should now mean the Teardown/Handover/Cohort specifically, and how the bespoke-enablement mode (§2 of `pricing-range-model.md`) interacts with a Teardown-gated Handover, has not been decided by Krish as part of this documentation pass — flag it rather than assume. The mechanics as designed:
 - **Productized ladder** for individuals + enterprise/capital (the range card above).
 - **Bespoke enablement** for SMEs / founder-led teams (the DoThinkDo / coaching-practice / TMT-advisory class), scoped live.
 
@@ -93,10 +101,11 @@ Exact prices have been **removed from the live site and from generated proposals
 
 ### 2.5 Maven, payment, and the Workshop credit
 
-- The **Cohort is Maven-collected.** Enrolment, payment, the cohort Slack, and the alumni community all run on Maven. **There is no in-site split-pay** — any payment split (e.g. the historical 2× instalment) is handled by Maven at checkout, not by the Mindmaker site. The site describes the offer; Maven runs the transaction.
-- **Workshops** are also paid on Maven (14-day Maven Guarantee).
-- The **Alumni Pass** is the **only** product the site itself charges, via a direct Stripe link Krish sends post-engagement (no live checkout on the page).
-- **Workshop credit:** Workshop alumni get **$500 off the AI-Fluent Executive Cohort** with code **`WORKSHOP`** at Maven checkout, valid **90 days** post-workshop. (Mindy may name the credit and the code; it does not quote the resulting net price as an exact figure.)
+- The **Cohort is Maven-collected**, and currently **sold out** (next cohort Nov 19-Dec 13, 2026; CTAs route to Maven's waitlist). Enrolment, payment, the cohort Slack, and the alumni community all run on Maven. **There is no in-site split-pay** — any payment split (e.g. the historical 2× instalment) is handled by Maven at checkout, not by the Mindmaker site. The site describes the offer; Maven runs the transaction.
+- **The Teardown and The Handover are invoiced directly.** Neither has a Stripe product (`src/lib/stripe-prices.ts` covers only Cohort, Workshops, and Alumni Pass).
+- **Workshops** (unsold as of 2026-08-05, see §2.1) were paid on Maven (14-day Maven Guarantee) when live.
+- The **Alumni Pass** (unsold as of 2026-08-05) was the only product the site itself charged, via a direct Stripe link Krish sent post-engagement.
+- **Workshop credit** ($500 off the Cohort with code `WORKSHOP`, valid 90 days post-workshop) is inert while Workshops are unsold — don't offer it.
 
 ### 2.6 Things Mindmaker does NOT sell (hard guardrails)
 
@@ -106,18 +115,21 @@ No public 1:1 sprint product (inquiry-only). No fractional executive roles (CAIO
 
 ## 3. Settled corrections (do not regress to these)
 
-These were already reconciled in `DECISIONS_LOG.md` (2026-05-15 v6 restructure) and `HISTORY.md`. They are settled; the *old* value on the left is a stale-fact landmine.
+These were already reconciled in `DECISIONS_LOG.md` (2026-05-15 v6 restructure, 2026-08-05/06 commercial overhaul) and `HISTORY.md`. They are settled; the *old* value on the left is a stale-fact landmine.
 
 | Retired fact | Current fact |
 |---|---|
 | Cohort name "The AI Decision Cohort" | **The AI-Fluent Executive** |
-| Cohort price **$3,500** | **$2,500** (shown to clients as the **$2,000–$3,000 range**) |
+| Cohort price flat **$2,500** | **$2,000–$3,000 range** (corrected 2026-08-05 to match Maven; a flat $2,500 was itself a correction of the earlier $3,500) |
 | Cohort duration **3 weeks** | **4 weeks** (mostly async + 4 × 90-min live) |
-| Cohort seats **15** (as a fixed number) | **10–15 seats** (min viable 8, cap 15) |
-| Revenue Architecture **8–12 weeks** | **30 days (4–5 calendar weeks)** |
+| Cohort seats **15** (as a fixed number) | **10–15 seats** (min viable 8, cap 15); currently sold out |
+| Revenue Architecture **8–12 weeks** | **30 days (4–5 calendar weeks)** — historical; The Revenue Architecture is itself unsold as of 2026-08-05 |
 | Maven URL `maven.com/aimindmaker/ai-decision-intensive` | `maven.com/mindmaker/the-ai-fluent-executive` |
 | "Builder vs Orchestrator" ICP split + public 1:1 sprints | Retired; 1:1 is inquiry-only at `/cohort?inquiry=1:1` |
 | Diagnostic name "AI Leadership Benchmark" | **Decision Readiness Diagnostic** (`/leaders`) |
+| **"Ranges only" as a universal client-facing pricing rule** | **Retired for the Teardown and the Handover** (exact/banded prices published on-site since 2026-08-05/06); still true for the Cohort |
+| **Workshops, Signal Session, Revenue Architecture, Immersion, Alumni Pass as sold/live offers** | **Unsold as of 2026-08-05/06.** Routes exist, reachable by direct URL, no longer priced, discoverable, or in nav/footer/sitemap. Replaced in the live ladder by **The Teardown** ($3,500) and **The Handover** ($30k/$50k, gated on Teardown) |
+| Nav CTA **"Book a call"** | **"Bring me one real decision"** (nav label, changed August 2026; "Book a call" still appears in body copy elsewhere) |
 
 ---
 
@@ -140,7 +152,7 @@ General rule for retrieval: prefer the *living* `project-documentation/` set and
 
 The two are layered on purpose, each in its own lane:
 
-- **"Mind Set → Mind Map → Mind Make"** — the cross-offer brand framework, the spine that spans every offer. Rendered on the **homepage** by `FrameworkJourney.tsx`, used as the **all-offers framework table** in `OFFERS.md`, and as the "portable framework" language in `OUTCOMES.md`. **This is the name Mindy uses when asked what the Mindmaker framework is.**
+- **"Mind Set → Mind Map → Mind Make"** — the cross-offer brand framework, the spine that spans every offer. Previously rendered on the **homepage** by `FrameworkJourney.tsx`; that component moved off the homepage in the August 2026 overhaul (replaced there by `TwoDoors.tsx`) and now renders only on `/new-age-leadership`. Also used as the **all-offers framework table** in `OFFERS.md`, and as the "portable framework" language in `OUTCOMES.md`. **This is still the name Mindy uses when asked what the Mindmaker framework is.**
 - **"Diagnose → Decompose → Decide → Deploy"** — the *cohort curriculum weeks* only (the Week 1–4 table in `OFFERS.md`, `VALUE_PROP.md`, and the Immersion protocol). It is the Maven-canonical week-by-week delivery detail of the Cohort, not the brand framework. Mindy uses it only when describing how the cohort runs week by week.
 
 So when Mindy names the Mindmaker framework, it says **Mind Set → Mind Map → Mind Make**. When it describes how the cohort is delivered across its four weeks, it says **Diagnose → Decompose → Decide → Deploy**.

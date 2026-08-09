@@ -1,6 +1,33 @@
 # History
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-09
+
+---
+
+## 2026-08-05/06: Commercial architecture overhaul — The Teardown and The Handover launch, five offers unsold, crawler-visible content, phantom prices removed
+
+**What Changed (in the codebase, reconciled into docs this pass, 2026-08-09):**
+- **Price and claim truth audit** (`PRICE_TRUTH_AUDIT.md`, 2026-08-05, Stage 0, no site changes): found eight contradictory price lists across rendered pages, `llms.txt`, crawler meta, JSON-LD, `/contact`, the Diagnosis Room, `YFork.tsx`, and `InitialConsultModal.tsx`; three phantom products in `index.html` JSON-LD (Builder Session $348, 30-Day Builder Sprint $2,098, AI Leadership Lab $7,000); confirmed nothing in the estate was purchasable (Cohort sold out on Maven, Workshops had no live Maven product); confirmed prerendered pages served zero visible body text to AI crawlers despite a working prerender pipeline.
+- **Subtractive price removal** (commit `b6bf27b`): dropped the four phantom-product JSON-LD `Service` nodes and their FAQ entry from `index.html`; stripped exact internal prices from `InitialConsultModal.tsx` (previously publicly reachable via `/alumni`); removed inflated case-study price claims from `src/data/caseStudies.ts`.
+- **Anti-consultancy positioning confirmed unchanged** (commit `b42269a`, see `DECISIONS_LOG.md` 2026-08-05 entry): Krish resolved he's an operator-advisor, no contradiction to fix.
+- **Unselling** (commit `feee8dc`): Workshops (+5 detail pages), Enterprise, Capital, Immersion, and Alumni removed from `Navigation.tsx` and `Footer.tsx`, `noindex`'d via `vercel.json`, dropped from the sitemap (32→23 URLs) and prerender (17→8 pages). Route files untouched, reachable by direct link. `public/llms.txt` rewritten to list only what's actually for sale. Cohort price corrected to a $2,000–$3,000/seat range against the live (sold-out) Maven page.
+- **Crawler-visible body content** (commit `d3b88ce`): AI crawlers previously received a 20KB page with zero visible text (`<div id="root">` plus a script tag) because `scripts/prerender.mjs` only injects meta, not body content. Fixed by serving real body content per route.
+- **Blog CTAs repointed** (commit `5726aff`) from the newly-unsold offers to the Diagnosis Room.
+- **The Teardown and The Handover launch** (commit `7c76f66`): two new Krish-delivered offers with the Diagnosis Room as the single entry point. `src/lib/offers.ts` centralises pricing (`TEARDOWN_PRICE` $3,500; `HANDOVER_PRICE_SMALL`/`HANDOVER_PRICE_LARGE` $30k/$50k; `HANDOVER_ANNUAL_CAP` 6; `PUBLICITY_DISCOUNT` 20%). New `src/pages/Teardown.tsx`, `src/pages/Handover.tsx`, and a new homepage section `src/components/TwoDoors.tsx` ("do it yourself with CTRL" vs. "do it with me") which takes the homepage slot previously held by `FrameworkJourney` (still rendered on `/new-age-leadership`, just no longer on the homepage). `Navigation.tsx` and `Footer.tsx` rebuilt around Teardown/Handover/Cohort; nav CTA relabelled "Bring me one real decision."
+- **Proof inventory compiled** (`PROOF_INVENTORY.md`, 2026-08-05, a working document, not a canonical reference): merged `src/data/caseStudies.ts` and `mindy/proof-bank.md` into one file ahead of a proof rebuild; found five real engagements with verified numbers that had never appeared on the site, and that the proof bank is 74% illustrative rather than real.
+
+**Why:**
+- Documentation and the live site had accumulated price contradictions across eight separate surfaces, three of them for products that no longer existed anywhere on the public site.
+- Nothing across the Cohort/Workshops/Enterprise/Capital/Immersion ladder was actually purchasable at the time of the audit; continuing to publish exact prices and CTAs for a sold-out cohort and undiscoverable workshops was actively misleading.
+- A claims-based, capped-scope method (Teardown → Handover) gave Krish two offers he could sell immediately, invoiced directly, without waiting on Maven's cohort cadence.
+
+**Known gaps this pass did not close (see `DECISIONS_LOG.md` 2026-08-05/06 entry for the full list):**
+- `supabase/functions/_shared/mindy/knowledge.ts` (the Diagnosis Room's deployed reasoning) was not updated. Mindy still reasons and prices from the retired Cohort/Signal Session/Revenue Architecture/Immersion ladder.
+- `src/data/caseStudies.ts` has no proof tagged to the Teardown or the Handover.
+- `OperatorsEdge`'s homepage CTA still targets the now-unsold `/enterprise#revenue-architecture`.
+
+**Files Updated (docs reconciled 2026-08-09, three days after the code shipped):**
+- `CLAUDE.md` and the living `project-documentation/` set (`README`, `OFFERS`, `COMMERCIAL_REFERENCE`, `DECISIONS_LOG`, `ICP`, `VALUE_PROP`, `Master_Messaging_and_FAQ`, `SALES_PLAYBOOK`, `BRANDING`, `ARCHITECTURE`, `FEATURES`, `mindy/CANON`, `mindy/pricing-range-model`) updated to reflect the new offers, the unselling, the corrected Cohort price, and the flagged Mindy sync gap. Historical entries preserved as-is.
 
 ---
 

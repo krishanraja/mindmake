@@ -403,7 +403,8 @@ function renderProof(proof: ProofEntry[]): string {
 
   const tiles = proof
     .map((p) => {
-      const { quote, attr } = splitQuote(p.quote);
+      const quote = p.quote;
+      const attr = p.attribution ?? '';
       return `
         <div class="pf">
           <div class="pf-k">${esc(titleizeMode(p.mode))}</div>
@@ -670,15 +671,12 @@ function initialsOf(name: string): string {
   return (first + last).toUpperCase();
 }
 
-/** Pull a trailing " — Role, sector" attribution off a proof quote, if present. */
-function splitQuote(raw: string): { quote: string; attr: string } {
-  const s = String(raw ?? '').trim();
-  const idx = s.lastIndexOf(' — ');
-  if (idx === -1) {
-    return { quote: s, attr: '' };
-  }
-  return { quote: s.slice(0, idx).trim(), attr: s.slice(idx + 3).trim() };
-}
+/*
+ * splitQuote() was removed in August 2026. It recovered a proof quote's
+ * attribution by scanning for the last " — " inside the quote text, which made
+ * the rendered attribution depend on punctuation inside a client's own words.
+ * ProofEntry now carries `attribution` as its own field.
+ */
 
 /** Turn a proof-bank mode key into a short, capitalised tile kicker. */
 function titleizeMode(mode: string): string {
@@ -796,7 +794,10 @@ function buildStyles(accent: string, accentDeep: string): string {
   .keep-foot b{font-weight:600;}
 
   /* PROOF */
-  .proof{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:6px;}
+  /* auto-fit, not a hard 1fr 1fr 1fr. The proof bank is small and verified-only,
+     so selectProof legitimately returns 1 or 2 tiles for some modes. A fixed
+     3-column grid left those hanging in a two-thirds-empty row. */
+  .proof{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:6px;}
   .pf{border:1px solid var(--line);background:#fff;padding:22px 20px;display:flex;flex-direction:column;}
   .pf .pf-k{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint-deep);}
   .pf .pf-out{font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:-.01em;margin:10px 0 14px;line-height:1.34;}

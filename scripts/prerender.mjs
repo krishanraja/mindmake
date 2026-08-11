@@ -117,7 +117,7 @@ const pages = [
     <h2>Who you're working with</h2>
     <p>Krish Raja is an operator-advisor, not a consultant: no training, no decks, no demos, just decisions. He runs a 14-agent AI operating system across his own portfolio every day, so the commercial work comes out of production rather than out of a deck. See <a href="/operator">how he operates</a> and the <a href="/case-studies">work it has moved</a>.</p>
     <h2>Two ways in</h2>
-    <p>One method: your context, held properly, and anchored to the decisions you are actually making this week. Run it yourself with <a href="https://ctrl.themindmaker.ai/">CTRL</a>, an AI-native chief of staff that is free to start. Or run it with me: <a href="/handover">The Handover</a>, six weeks rebuilding how the business decides and sells, from ${p(HANDOVER, "under-100")}, which always starts with <a href="/teardown">The Teardown</a>, ten business days on one real decision at ${p(TEARDOWN)}.</p>`,
+    <p>One method: your context, held properly, and anchored to the decisions you are actually making this week. Run it yourself with <a href="https://ctrl.themindmaker.ai/">CTRL</a>, an AI-native chief of staff. Or run it with me: <a href="/handover">The Handover</a>, six weeks rebuilding how the business decides and sells, from ${p(HANDOVER, "under-100")}, which always starts with <a href="/teardown">The Teardown</a>, ten business days on one real decision at ${p(TEARDOWN)}.</p>`,
   },
   {
     path: "/start",

@@ -56,7 +56,7 @@ const walkOutWith = [
   "Every consideration classed External, Only you, or Nobody yet",
   "The four-model cross-examination with disagreements preserved, not averaged",
   "Three claims placed under a 90-day watch, so you know what would change your mind",
-  "A CTRL workspace with your decision map in it, plus 30 days of Edge Pro",
+  "A CTRL workspace with your decision map in it",
 ];
 
 export default function Teardown() {

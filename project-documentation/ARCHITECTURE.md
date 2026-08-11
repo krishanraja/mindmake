@@ -76,7 +76,6 @@ mindmaker/
 │   │   ├── OperatorsEdge.tsx         # v5 credential section
 │   │   ├── OperatorsBrief.tsx        # homepage Live Intel teaser
 │   │   ├── PriceTicker.tsx           # CSS-marquee model price ticker
-│   │   ├── LightningLessons.tsx      # 5 Maven Lightning Lesson links
 │   │   ├── SimpleCTA.tsx             # final CTA; opens the Diagnosis Room
 │   │   ├── Navigation.tsx
 │   │   ├── Footer.tsx
@@ -85,11 +84,13 @@ mindmaker/
 │   │   ├── CookieConsent.tsx
 │   │   ├── ErrorBoundary.tsx
 │   │   └── SEO.tsx
-│   │   # YFork.tsx + PreCallQualifier.tsx still exist but are no longer imported/mounted.
+│   │   # YFork.tsx, PreCallQualifier.tsx, ModuleExplorer.tsx and LightningLessons.tsx
+│   │   # moved to src/_archive/components/ in August 2026. See its README.
 │   ├── pages/
 │   │   ├── Index.tsx                 # homepage (eager-loaded)
-│   │   ├── Workshops.tsx + workshops/ # /workshops index + 5 sub-pages
-│   │   ├── Cohort.tsx                # The AI-Fluent Executive (Cohort) (Maven enrolment)
+│   │   # Workshops.tsx + workshops/, Cohort.tsx, Enterprise.tsx, Immersion.tsx and
+│   │   # LeadershipInsights.tsx moved to src/_archive/pages/ in August 2026. Their
+│   │   # routes are real 301s in vercel.json. See src/_archive/README.md.
 │   │   ├── Handover.tsx              # /handover. Three price bands by headcount
 │   │   ├── Capital.tsx               # /capital (third door for funds)
 │   │   ├── Operator.tsx              # /operator, 14-agent OS credential
@@ -194,14 +195,14 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 | `/start` | `DiagnosisRoom` | The Diagnosis Room as a standalone page. |
 | `/alumni` | `Alumni` | **The Alumni Pass** ($1,500/year, invitation-only). Hidden from nav and footer; reachable by direct URL only. SEO `noindex`. |
 | `/new-age-leadership` | `NewAgeLeadership` | Long-form thought leadership: agent-native org chart, hybrid teams, agent-first functions, emergent agent-native roles. Lazy-loaded `OrgChart` + `AgathaStory`. |
-| `/leaders`, `/leadership-insights` | `LeadershipInsights` | Decision Readiness Diagnostic, unlinked from nav, reachable by URL |
+| `/leaders`, `/leadership-insights` | 301 to `/start` | Archived August 2026. See `src/_archive/README.md`. |
 | `/blog`, `/blog/:slug` | `Blog`, `BlogPost` | |
 | `/faq` | `Library` (redirect via Navigate) | Aliased to `/library?tab=questions`. |
 | `/contact` | `Contact` | |
 | `/privacy`, `/terms` | `Privacy`, `Terms` | |
 | `*` | `NotFound` | Catch-all |
 
-**Stripe price constants** are stored in `src/lib/stripe-prices.ts`. The Workshop and Cohort price IDs are referential only (Maven collects payment for those). The Alumni Pass is the only product the site itself charges via Stripe; the live checkout flow is invitation-gated and not shipped from the page.
+**Stripe identifiers** are stored in `src/lib/stripe-prices.ts`, which holds identifiers and never prices (prices live in `src/lib/offers.ts`, and a test enforces that). The Alumni Pass is the only entry left in it, and the only thing the site itself charges via Stripe. Even that is invitation-gated rather than a live checkout. The Workshop and Cohort identifiers were removed in August 2026 with the six-rung ladder.
 
 ### Client-side redirects (via `<Navigate replace />` / `<HashRedirect />` / `<ExternalRedirect />`)
 
@@ -239,7 +240,7 @@ Authoritative source: `src/pages/Index.tsx`. Verified 2026-06-09.
 9. `SimpleCTA`. final CTA ("What's your nervous decision?"), opens the Diagnosis Room
 10. `Footer`
 
-The retired `YFork` second fork is no longer rendered (the homepage funnels into the one Diagnosis Room journey).
+The retired `YFork` second fork is no longer rendered (the homepage funnels into the one Diagnosis Room journey). The component is in `src/_archive/components/`.
 
 ### Global overlays (mounted in `src/App.tsx`)
 
@@ -248,7 +249,7 @@ The retired `YFork` second fork is no longer rendered (the homepage funnels into
 - `InitialConsultModal`. legacy conversion surface, kept mounted but only `/alumni` still dispatches `openConsultModal`
 - `CookieConsent`
 - `ErrorBoundary`. wraps `<Suspense>` around routes
-- The retired `PreCallQualifier` floating pill is no longer mounted.
+- The retired `PreCallQualifier` floating pill is no longer mounted. The component is in `src/_archive/components/`.
 
 ---
 
@@ -262,7 +263,7 @@ Authoritative source: `src/components/Navigation.tsx`. Primary CTA: **"Book a ca
 | 2 | Cohort | Direct link | `/cohort` |
 | 1 | Work with me | Dropdown | The Handover → `/handover`, The Teardown → `/teardown`, For funds and portfolio companies → `/capital` |
 | 4 | **Mindmaker LIVE** | Direct link (wordmark) | `/signal` |
-| 5 | Resources | Dropdown | How I operate → `/operator`, Case studies → `/case-studies`, New Age Leadership → `/new-age-leadership`, Library → `/library`, The Builder Economy (Podcast) → external `thebuildereconomy.com`, Lightning Lessons (5 external Maven URLs via the `LightningLessons` component) |
+| 5 | Resources | Dropdown | How I operate → `/operator`, Case studies → `/case-studies`, New Age Leadership → `/new-age-leadership`, Library → `/library`, The Builder Economy (Podcast) → external `thebuildereconomy.com` |
 | 6 | About | Dropdown | Contact → `/contact`, Privacy → `/privacy`, Terms → `/terms` |
 | CTA | Book a call | Button | Dispatches `openDiagnosisRoom` (express mode); the mobile menu also offers "Or think it through with Mindy first" (full mode) |
 
@@ -468,7 +469,7 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 - **Server state:** TanStack Query (5-minute stale time)
 - **Form state:** React Hook Form + Zod schemas
 - **Context state:** `SessionDataContext` threads qualifier answers into the conversion modals. The Diagnosis Room holds its own session in `useDiagnosisSession` (dossier, transcript, recommendation, decision brief, proposal). `ThemeProvider` (next-themes) handles dark mode via class attribute.
-- **Local storage:** none required by the Diagnosis Room (session is in-memory; digests are server-side). The retired `PreCallQualifier` used `mindmaker:pre-call-qualifier`.
+- **Local storage:** none required by the Diagnosis Room (session is in-memory; digests are server-side). The retired `PreCallQualifier`, now archived, used `mindmaker:pre-call-qualifier`.
 - **No user authentication:** All bookings via Calendly or Maven; no user accounts
 
 ---

@@ -237,10 +237,10 @@ verify_jwt = false
 1. Create the cohort offering on Maven (or use the existing `https://maven.com/mindmaker/the-ai-fluent-executive`)
 2. Update `MAVEN_COHORT_URL` constant in `src/lib/stripe-prices.ts`
 3. Verify the "Hosted on Maven" pill and the "Reserve my seat on Maven" CTA both link to the URL
-4. Create each Workshop on Maven as it's launched. Update the corresponding key in `WORKSHOP_MAVEN_URLS` in `src/lib/stripe-prices.ts`. Until a workshop is published, leave the URL pointing to the Maven instructor page (`https://maven.com/mindmaker`) and toggle the workshop's `mavenPublished` config flag to `false` so the CTA reads "Get notified" instead of "Enrol on Maven".
+4. Nothing to do. The workshops and the Maven integration were retired in August 2026, and `WORKSHOP_MAVEN_URLS` no longer exists.
 
 ### Step 19c: Stripe (Alumni Pass + referential IDs)
-1. Workshop and Cohort price IDs in `src/lib/stripe-prices.ts` are referential only. Maven collects payment for those.
+1. `src/lib/stripe-prices.ts` holds one entry. The Workshop and Cohort identifiers were removed in August 2026 with the six-rung ladder.
 2. The Alumni Pass is the only product the site itself charges via Stripe. Price ID `price_1TXOzcHGqJqsGEJLjN7P4ddi` ($1,500/year recurring, product `prod_UWRtT59kvz7mk6`).
 3. The live alumni checkout flow is invitation-gated. The page CTA opens `InitialConsultModal` with `preselected: 'alumni'`; once Krish confirms eligibility, he sends the alum a direct Stripe Payment Link out of band. Building the in-page checkout is a separate task.
 

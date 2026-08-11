@@ -49,7 +49,7 @@ All routes in `src/App.tsx` accessible:
 - [ ] `/capital`. The same two engagements, per portfolio company, fund terms on the call
 - [ ] `/alumni` (Alumni). Alumni Pass ($1,500/year, invitation-only). **MUST be `noindex` and unlinked from nav and footer.** Confirm SEO meta tag.
 - [ ] `/new-age-leadership` (NewAgeLeadership). long-form thought leadership; OrgChart lazy-loaded
-- [ ] `/leaders`, `/leadership-insights` (LeadershipInsights). diagnostic, unlinked from nav
+- [ ] `/leaders`, `/leadership-insights` both 301 to `/start`. The page component is archived.
 - [ ] `/blog`, `/blog/:slug`. blog
 - [ ] `/contact`, `/privacy`, `/terms`. support pages
 - [ ] `/faq` redirects to `/library?tab=questions`
@@ -85,13 +85,11 @@ All routes in `src/App.tsx` accessible:
 - [ ] No floating Pre-Call Qualifier pill and no homepage Y-fork render anywhere (both retired and unmounted; no ChatBot anywhere). The Diagnosis Room (Mindy) is the single conversion journey.
 - [ ] **Workshops** is the first item in the nav (slot 1)
 - [ ] Resources dropdown includes How I operate, Library, The Builder Economy (external), Lightning Lessons (5 Maven URLs)
-- [ ] **The five Lightning Lesson URLs** match the canonical set in `LightningLessons.tsx` and the mobile menu in `Navigation.tsx`
 - [ ] **The dead Maven URL `maven.com/aimindmaker/ai-decision-intensive` does not appear anywhere** (codebase, docs, sitemap)
-- [ ] **Stripe price IDs** in `src/lib/stripe-prices.ts` match the canonical set (Cohort full + 2× split, 5 Workshops, Alumni Pass)
+- [ ] **Stripe price IDs** in `src/lib/stripe-prices.ts` hold the Alumni Pass and nothing else. The Workshop and Cohort IDs went with the six-rung ladder in August 2026.
 - [ ] No "All Enterprise" link in nav or footer
 
 ### 7. Content verification
-- [ ] Cohort next-cohort date and seats-remaining updated in `Cohort.tsx` `nextCohort` const (literal until Supabase `cohort_dates` wired up)
 - [ ] Cohort framework is **Diagnose → Decompose → Decide → Deploy** (4 weeks)
 - [ ] Cohort H1 reads **"The AI-Fluent Executive"** (NOT "The AI Decision Cohort")
 - [ ] $500 workshop-credit callout (`code WORKSHOP`) appears on `/cohort` near the price card

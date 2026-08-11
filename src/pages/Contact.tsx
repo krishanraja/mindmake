@@ -2,7 +2,13 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, Send, Calendar, ExternalLink, Linkedin, Mail, MapPin, Building, User, Briefcase, CheckCircle2 } from "lucide-react";
+// A "Global Offices" block used to sit under the email, listing Brooklyn,
+// London and Sydney. Mindmaker is a capped one-person advisory practice with no
+// offices in three cities, so the block was a false claim, and it stated a set
+// of geographic markets the positioning deliberately does not make. Removed
+// 2026-08-11. The three currencies exist because the practice sells
+// internationally, which is a different thing from having premises.
+import { ArrowLeft, Send, Calendar, ExternalLink, Linkedin, Mail, Building, User, Briefcase, CheckCircle2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -212,36 +218,6 @@ const Contact = () => {
                   <a href="mailto:krish@themindmaker.ai" className="text-foreground hover:text-mint transition-colors">
                     krish@themindmaker.ai
                   </a>
-                </div>
-                
-                {/* Global Offices */}
-                <div className="pt-2">
-                  <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
-                    Global Offices
-                  </h4>
-                  <div className="grid gap-3">
-                    <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/50 border border-border/50">
-                      <MapPin className="h-4 w-4 text-mint-dark dark:text-mint mt-0.5 shrink-0" />
-                      <div>
-                        <p className="text-sm font-medium text-foreground">Brooklyn, New York</p>
-                        <p className="text-xs text-muted-foreground">United States</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/50 border border-border/50">
-                      <MapPin className="h-4 w-4 text-mint-dark dark:text-mint mt-0.5 shrink-0" />
-                      <div>
-                        <p className="text-sm font-medium text-foreground">London</p>
-                        <p className="text-xs text-muted-foreground">England</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/50 border border-border/50">
-                      <MapPin className="h-4 w-4 text-mint-dark dark:text-mint mt-0.5 shrink-0" />
-                      <div>
-                        <p className="text-sm font-medium text-foreground">Sydney</p>
-                        <p className="text-xs text-muted-foreground">Australia</p>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

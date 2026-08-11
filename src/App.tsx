@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { SessionDataProvider, useSessionData } from "@/contexts/SessionDataContext";
+import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import { useState, useEffect, lazy, Suspense } from "react";
 
 const ScrollToTop = () => {
@@ -258,9 +259,18 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <SessionDataProvider>
-          <AppRoutes />
-        </SessionDataProvider>
+        {/*
+          CurrencyProvider sits ABOVE SessionDataProvider, which updates on a
+          1Hz interval; nesting inside it would recompute this context every
+          second for nothing. It also sits above BrowserRouter (inside
+          AppRoutes), so route changes never remount it. That is what makes a
+          currency chosen on /teardown survive the walk to /handover.
+        */}
+        <CurrencyProvider>
+          <SessionDataProvider>
+            <AppRoutes />
+          </SessionDataProvider>
+        </CurrencyProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );

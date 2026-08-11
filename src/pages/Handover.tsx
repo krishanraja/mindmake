@@ -5,11 +5,17 @@ import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle, Lock } from "lucide-react";
 import { SEO } from "@/components/SEO";
 import {
+  HANDOVER,
   HANDOVER_ANNUAL_CAP,
-  HANDOVER_PRICE_LARGE,
-  HANDOVER_PRICE_SMALL,
-  PUBLICITY_DISCOUNT,
+  TEARDOWN,
+  displayPrice,
+  offerJsonLd,
 } from "@/lib/offers";
+import { useCurrency, useOfferPrice } from "@/contexts/CurrencyContext";
+import { CurrencySwitcher } from "@/components/CurrencySwitcher";
+import { cn } from "@/lib/utils";
+
+const SITE = "https://www.themindmaker.ai";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -69,13 +75,17 @@ const forWho = [
 ];
 
 export default function Handover() {
+  const { currency } = useCurrency();
+  const teardownPrice = useOfferPrice(TEARDOWN);
+
   return (
     <main className="min-h-screen bg-background">
       <SEO
         title="The Handover"
-        description="Six weeks. We rebuild how your business decides and sells with AI, then I leave and you keep it. Week five I don't attend. Day 90 recheck included. $30,000 under 250 people, $50,000 up to 5,000."
+        description="Six weeks. We rebuild how your business decides and sells with AI, then I leave and you keep it. Week five I don't attend. Day 90 recheck included. Priced by company size."
         canonical="/handover"
         ogType="website"
+        jsonLd={offerJsonLd(HANDOVER, SITE)}
       />
       <Navigation />
 
@@ -96,17 +106,34 @@ export default function Handover() {
               because a system that only runs when I'm in the room is not a system.
             </p>
 
-            <div className="flex flex-wrap items-baseline gap-3 mb-2">
-              <span className="text-4xl font-bold">{HANDOVER_PRICE_SMALL}</span>
-              <span className="text-muted-foreground">under 250 people</span>
+            {/* One switcher for the whole ladder. Three controls for one piece
+                of state would just be three ways to do the same thing. */}
+            <div className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2">
+              <span className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
+                Prices in
+              </span>
+              <CurrencySwitcher idPrefix="handover-currency" />
             </div>
-            <div className="flex flex-wrap items-baseline gap-3 mb-2">
-              <span className="text-2xl font-bold">{HANDOVER_PRICE_LARGE}</span>
-              <span className="text-muted-foreground">250 to 5,000 people</span>
-            </div>
+
+            <dl className="mb-2 space-y-1.5">
+              {HANDOVER.tiers.map((tier, i) => (
+                <div key={tier.id} className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
+                  <dd
+                    data-price
+                    className={cn(
+                      "min-w-[7ch] whitespace-nowrap font-bold tabular-nums",
+                      i === 0 ? "text-3xl sm:text-4xl" : "text-xl sm:text-2xl",
+                    )}
+                  >
+                    {displayPrice(HANDOVER, currency, tier.id)}
+                  </dd>
+                  <dt className="min-w-0 text-muted-foreground">{tier.label}</dt>
+                </div>
+              ))}
+            </dl>
             <p className="text-sm text-muted-foreground mb-8">
-              {PUBLICITY_DISCOUNT} I take {HANDOVER_ANNUAL_CAP} of these a year, which is
-              the honest number for work I do personally.
+              I take {HANDOVER_ANNUAL_CAP} of these a year, which is the honest number for
+              work I do personally.
             </p>
 
             <Button
@@ -143,7 +170,10 @@ export default function Handover() {
                 a Teardown
               </a>
               . Ten days, one decision, {""}
-              <span className="whitespace-nowrap">$3,500</span>. It is how we both find
+              <span data-price className="whitespace-nowrap tabular-nums">
+                {teardownPrice}
+              </span>
+              . It is how we both find
               out whether six weeks together is a good idea, and it has talked people out
               of this as often as into it.
             </p>

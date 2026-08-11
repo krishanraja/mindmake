@@ -322,6 +322,38 @@
     }
     </script>
 
+    <!--
+      Currency preference, read before first paint.
+
+      The prerendered crawler body states USD, and Vercel serves that static
+      file to everyone. A returning visitor who chose GBP would otherwise see
+      the USD number flash before React mounts and replaces it. This reads
+      only the visitor's own explicit choice: no geolocation, no locale
+      sniffing, no IP lookup.
+
+      Crawlers have neither cookie nor param, so they resolve to "usd", match
+      nothing below, and read the real price in the static body.
+    -->
+    <script>
+      (function () {
+        try {
+          var param = new URLSearchParams(location.search).get('currency');
+          var cookie = document.cookie.match(/(?:^|;\s*)mm_currency=([^;]*)/);
+          var c = String(param || (cookie && cookie[1]) || 'usd').toLowerCase();
+          if (c !== 'usd' && c !== 'gbp' && c !== 'aud') c = 'usd';
+          document.documentElement.setAttribute('data-currency', c);
+        } catch (e) {
+          document.documentElement.setAttribute('data-currency', 'usd');
+        }
+      })();
+    </script>
+    <style>
+      /* Hide only the stale number, never the sentence around it, and only
+         for a visitor who actively chose something other than the default. */
+      html:not([data-currency='usd']) #prerendered-content [data-price] {
+        visibility: hidden;
+      }
+    </style>
   </head>
 
   <body>

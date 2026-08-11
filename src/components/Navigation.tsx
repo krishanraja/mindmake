@@ -38,13 +38,12 @@ const Navigation = () => {
     {
       label: "Work with me",
       dropdown: [
-        { label: "The Teardown", href: "/teardown" },
+        // Largest first, so the dropdown says the bigger number's offer before
+        // the smaller one, the same way every other surface does.
         { label: "The Handover", href: "/handover" },
+        { label: "The Teardown", href: "/teardown" },
+        { label: "For funds and portfolio companies", href: "/capital" },
       ],
-    },
-    {
-      label: "Cohort",
-      href: "/cohort",
     },
     {
       label: "Mindmaker LIVE",

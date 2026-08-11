@@ -14,9 +14,10 @@ import { chromium } from "playwright";
 import { startServer } from "./serve-dist.mjs";
 
 const PORT = 4180;
-const B = `http://127.0.0.1:${PORT}`;
 
 const server = await startServer(PORT);
+// The server may have walked to the next free port if PORT was taken.
+const B = `http://127.0.0.1:${server.address().port}`;
 const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium" });
 
 let failures = 0;

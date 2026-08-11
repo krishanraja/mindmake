@@ -51,10 +51,10 @@ const Footer = () => {
                   The Handover
                 </a>
                 <a
-                  href="/cohort"
+                  href="/capital"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
-                  The AI-Fluent Executive
+                  For funds and portfolio companies
                 </a>
               </nav>
             </div>

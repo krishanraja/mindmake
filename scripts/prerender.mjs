@@ -84,7 +84,7 @@ const navBlock = `
       <a href="/start">The Diagnosis Room</a>
       <a href="/teardown">The Teardown</a>
       <a href="/handover">The Handover</a>
-      <a href="/cohort">The AI-Fluent Executive</a>
+      <a href="/capital">For funds and portfolio companies</a>
       <a href="/operator">How I operate</a>
       <a href="/case-studies">Case studies</a>
       <a href="/signal">Live Intel</a>
@@ -135,6 +135,8 @@ const pages = [
     </ul>
     <h2>What you get</h2>
     <p>A named fork, the paths available with the trade-off on each, the weak assumption worth testing first, and a concrete next step. Yours to keep. It will recommend a cheaper option, or none at all, when that is the honest answer.</p>
+    <h2>Who is on the other side of it</h2>
+    <p>Krish Raja. Sixteen years commercialising content, media and IP businesses, now building the AI systems that run them. A $254K POC contracted with a major US publisher came out of this work. See <a href="/operator">how he operates</a>.</p>
     <p>Free. No email required to start.</p>`,
   },
   {
@@ -181,28 +183,28 @@ const pages = [
     <p>Companies of 50 to 5,000 people, sweet spot 100 to 1,000. The buyer is the CEO, CRO or VP Product: the seat accountable for whether it sells. Not the CTO, because this is commercial work and engineering and commercial are different problems.</p>
     <h2>Price and the gate</h2>
     <p>${p(HANDOVER, "under-100")} ${lb(HANDOVER, "under-100")}. ${p(HANDOVER, "100-250")} ${lb(HANDOVER, "100-250")}. ${p(HANDOVER, "250-5000")} ${lb(HANDOVER, "250-5000")}. I take ${HANDOVER_ANNUAL_CAP} of these a year, which is the honest number for work I do personally.</p>
-    <p>Every Handover starts with <a href="/teardown">a Teardown</a>, ten days and ${p(TEARDOWN)}. It has talked people out of this as often as into it.</p>`,
+    <p>Every Handover starts with <a href="/teardown">a Teardown</a>, ten days and ${p(TEARDOWN)}. It has talked people out of this as often as into it.</p>
+    <h2>Proof</h2>
+    <p>A $254K POC contracted with a major US publisher came out of this work: a first-party identity business repositioned for an AI-mediated web, with the pipeline rebuilt behind it. More at <a href="/case-studies">case studies</a>.</p>`,
   },
   {
-    path: "/cohort",
-    title: "The AI-Fluent Executive: Mindmaker",
+    path: "/capital",
+    title: "For funds and portfolio companies: Mindmaker",
     description:
-      "Make your nervous AI decision with 15 other senior leaders. Four weeks, mostly async, with weekly live sessions. Diagnose, decompose, decide, deploy. $2,000 to $3,000 per seat, quarterly. Hosted on Maven.",
+      "The same two engagements, bought by a fund, family office or operating partner for a portfolio company. The Teardown on one decision. The Handover on how the company decides and sells. Priced per portfolio company.",
     body: `
-    <h1>Make your nervous AI decision with 15 other senior leaders.</h1>
-    <p>Four weeks, mostly async, with weekly live sessions. Diagnose, decompose, decide, deploy. You leave with the one decision you've been avoiding, pressure-tested by a room full of people sitting in the same chair you are.</p>
-    <h2>The four-week arc</h2>
+    <h1>You already know which one is stuck.</h1>
+    <p>Usually it is not the product. It is that nobody can explain what the company sells, to whom, at what price, and the deck has been rewritten four times without anyone saying that out loud.</p>
+    <h2>The same two engagements</h2>
+    <p>Nothing here is a fund-specific product. The difference is who is holding the invoice, and that you are watching a pattern across a portfolio rather than one company's quarter.</p>
     <ul>
-      <li>Week 1, Diagnose. Name the real decision sitting under the one you arrived with, and scope it tightly.</li>
-      <li>Week 2, Decompose. Break it into the actual trade-offs: build or buy, now or wait, what stays human and what goes agentic.</li>
-      <li>Week 3, Decide. Commit out loud to the group, and leave with a one-page decision memo you can send on.</li>
-      <li>Week 4, Deploy. Ship the first concrete step, with the cohort holding you to the date you set.</li>
+      <li><a href="/handover">The Handover</a>. Six weeks rebuilding how the company decides and sells, then it ends. Week five I do not attend. A Day 90 recheck is included. ${p(HANDOVER, "under-100")} ${lb(HANDOVER, "under-100")}, ${p(HANDOVER, "100-250")} ${lb(HANDOVER, "100-250")}, ${p(HANDOVER, "250-5000")} ${lb(HANDOVER, "250-5000")}, per portfolio company.</li>
+      <li><a href="/teardown">The Teardown</a>. Ten business days on one real decision, under two hours of the company's time, ${p(TEARDOWN)} per portfolio company. Every Handover starts here.</li>
     </ul>
-    <h2>The shape of it</h2>
-    <p>Mostly async, with one 90-minute live session each week. Around four to five hours a week. Ten to fifteen seats, so every participant presents live. For senior operators with budget authority and a real AI decision on the desk, who want peers rather than a consultant lecturing them.</p>
-    <h2>Price and dates</h2>
-    <p>$2,000 to $3,000 per seat, quarterly, hosted on Maven. Full payment or split into two payments. The next cohort runs November 19 to December 13, 2026 and is currently sold out on Maven, which holds the waitlist.</p>
-    <p>Not sure it's the right rung? Work the decision through in the <a href="/start">Diagnosis Room</a> first.</p>`,
+    <h2>Fund-level terms</h2>
+    <p>Engagements across more than one portfolio company are set on the call. The shape changes with how many companies, over what window, and who inside the fund carries the work between engagements, and none of that is knowable from a page.</p>
+    <h2>When it does not fit</h2>
+    <p>You want a fractional operator inside the company; this ends on a date. The company needs engineering delivery; this is commercial work. Nobody at the company owns the outcome. Or there is no decision anyone can name in a sentence.</p>`,
   },
   {
     path: "/operator",
@@ -378,6 +380,10 @@ const PRICE_REQUIRED = {
   ],
   "/teardown": [displayPrice(TEARDOWN, DEFAULT_CURRENCY)],
   "/handover": HANDOVER.tiers.map((t) => displayPrice(HANDOVER, DEFAULT_CURRENCY, t.id)),
+  "/capital": [
+    displayPrice(TEARDOWN, DEFAULT_CURRENCY),
+    ...HANDOVER.tiers.map((t) => displayPrice(HANDOVER, DEFAULT_CURRENCY, t.id)),
+  ],
 };
 
 function prerender() {

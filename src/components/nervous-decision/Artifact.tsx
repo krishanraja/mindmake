@@ -94,10 +94,10 @@ export const Artifact = ({ artifact, onReset, tone = "dark" }: ArtifactProps) =>
       </div>
 
       <a
-        href="/cohort"
+        href="/teardown"
         className="block text-center text-[12px] font-bold text-ink bg-mint rounded py-2 hover:opacity-90 transition-opacity"
       >
-        Resolve it in the cohort <ArrowRight className="inline w-3 h-3 ml-1" />
+        Take it apart properly <ArrowRight className="inline w-3 h-3 ml-1" />
       </a>
     </motion.div>
   );

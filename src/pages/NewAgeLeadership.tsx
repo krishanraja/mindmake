@@ -243,7 +243,7 @@ export default function NewAgeLeadership() {
                 size="lg"
                 className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold px-8"
               >
-                <a href="/cohort">
+                <a href="/teardown">
                   See the Cohort <ArrowRight className="ml-2 w-4 h-4" />
                 </a>
               </Button>

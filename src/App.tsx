@@ -28,12 +28,9 @@ const DiagnosisRoom = lazy(() =>
   import("@/components/diagnosis").then((m) => ({ default: m.DiagnosisRoom })),
 );
 
-const Cohort = lazy(() => import("./pages/Cohort"));
 const Teardown = lazy(() => import("./pages/Teardown"));
 const Handover = lazy(() => import("./pages/Handover"));
-const Enterprise = lazy(() => import("./pages/Enterprise"));
 const Capital = lazy(() => import("./pages/Capital"));
-const Immersion = lazy(() => import("./pages/Immersion"));
 const NewAgeLeadership = lazy(() => import("./pages/NewAgeLeadership"));
 const Operator = lazy(() => import("./pages/Operator"));
 const CaseStudies = lazy(() => import("./pages/CaseStudies"));
@@ -42,17 +39,10 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Terms = lazy(() => import("./pages/Terms"));
 const Contact = lazy(() => import("./pages/Contact"));
-const LeadershipInsights = lazy(() => import("./pages/LeadershipInsights"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
 const Library = lazy(() => import("./pages/Library"));
-const Workshops = lazy(() => import("./pages/Workshops"));
 const Alumni = lazy(() => import("./pages/Alumni"));
-const WorkshopChiefOfStaff = lazy(() => import("./pages/workshops/BuildYourAIChiefOfStaff"));
-const WorkshopOrgChart = lazy(() => import("./pages/workshops/MapYourAgenticOrgChart"));
-const WorkshopVibeCoding = lazy(() => import("./pages/workshops/VibeCodingForLeaders"));
-const WorkshopAutonomous = lazy(() => import("./pages/workshops/BuildAnAutonomousBusinessFunction"));
-const WorkshopMemory = lazy(() => import("./pages/workshops/GiveYourAIMemory"));
 
 const queryClient = new QueryClient();
 
@@ -155,16 +145,8 @@ const AppRoutes = () => {
             <Route path="/start" element={<DiagnosisRoomPage />} />
 
             {/* Core consolidated pages */}
-            <Route path="/workshops" element={<Workshops />} />
-            <Route path="/workshops/build-your-ai-chief-of-staff" element={<WorkshopChiefOfStaff />} />
-            <Route path="/workshops/map-your-agentic-org-chart" element={<WorkshopOrgChart />} />
-            <Route path="/workshops/vibe-coding-for-leaders" element={<WorkshopVibeCoding />} />
-            <Route path="/workshops/build-an-autonomous-business-function" element={<WorkshopAutonomous />} />
-            <Route path="/workshops/give-your-ai-memory" element={<WorkshopMemory />} />
-            <Route path="/cohort" element={<Cohort />} />
             <Route path="/teardown" element={<Teardown />} />
             <Route path="/handover" element={<Handover />} />
-            <Route path="/enterprise" element={<Enterprise />} />
             <Route path="/capital" element={<Capital />} />
             <Route path="/operator" element={<Operator />} />
             <Route path="/case-studies" element={<CaseStudies />} />
@@ -175,7 +157,6 @@ const AppRoutes = () => {
             <Route path="/alumni" element={<Alumni />} />
 
             {/* Hidden pages, linked from footer, not nav */}
-            <Route path="/immersion" element={<Immersion />} />
             <Route path="/new-age-leadership" element={<NewAgeLeadership />} />
 
             {/* /tool deleted. Decision machine now lives inside Brief at /signal#decision */}
@@ -188,8 +169,6 @@ const AppRoutes = () => {
             />
 
             {/* Preserved pages */}
-            <Route path="/leaders" element={<LeadershipInsights />} />
-            <Route path="/leadership-insights" element={<LeadershipInsights />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/faq" element={<Navigate to="/library?tab=questions" replace />} />
@@ -198,13 +177,32 @@ const AppRoutes = () => {
             <Route path="/terms" element={<Terms />} />
 
             {/* 301 redirects (client-side) for deleted routes */}
-            <Route path="/sprints" element={<HashRedirect to="/cohort" />} />
-            <Route path="/sprint/4-week" element={<HashRedirect to="/cohort?inquiry=1:1" />} />
-            <Route path="/sprint/90-day" element={<HashRedirect to="/cohort?inquiry=1:1" />} />
-            <Route path="/builder-sprint" element={<HashRedirect to="/cohort?inquiry=1:1" />} />
-            <Route path="/war-room" element={<HashRedirect to="/enterprise#revenue-architecture" />} />
-            <Route path="/strategy-day" element={<HashRedirect to="/enterprise#signal-session" />} />
-            <Route path="/fractional-caio" element={<HashRedirect to="/enterprise" />} />
+            {/*
+              Retired offers. The real 301s live in vercel.json; these are the
+              client-side fallback for an in-app navigation, which never hits
+              the edge. Both exist on purpose: a <Navigate> alone returns 200
+              with the SPA shell, which is not a redirect as far as a crawler
+              or a link checker is concerned.
+
+              The page components are in src/_archive/. See its README.
+            */}
+            <Route path="/workshops" element={<HashRedirect to="/teardown" />} />
+            <Route path="/workshops/:slug" element={<HashRedirect to="/teardown" />} />
+            <Route path="/enterprise" element={<HashRedirect to="/handover" />} />
+            <Route path="/immersion" element={<HashRedirect to="/handover" />} />
+            <Route path="/cohort" element={<HashRedirect to="/start" />} />
+            <Route path="/leaders" element={<HashRedirect to="/start" />} />
+            <Route path="/leadership-insights" element={<HashRedirect to="/start" />} />
+
+            <Route path="/sprints" element={<HashRedirect to="/teardown" />} />
+            <Route path="/sprint/4-week" element={<HashRedirect to="/teardown" />} />
+            <Route path="/sprint/90-day" element={<HashRedirect to="/handover" />} />
+            <Route path="/builder-sprint" element={<HashRedirect to="/teardown" />} />
+            {/* Repointed straight at /handover rather than through /enterprise,
+                which was itself orphaned and is now a redirect. */}
+            <Route path="/war-room" element={<HashRedirect to="/handover" />} />
+            <Route path="/strategy-day" element={<HashRedirect to="/teardown" />} />
+            <Route path="/fractional-caio" element={<HashRedirect to="/handover" />} />
 
             {/* Legacy redirects (preserved) */}
             <Route path="/individual" element={<Navigate to="/" replace />} />

@@ -70,9 +70,29 @@ export function startServer(port = 4180) {
     res.end(readFileSync(file));
   });
 
-  return new Promise((done) => {
-    // 127.0.0.1 explicitly: this container has no IPv6, and binding :: fails.
-    server.listen(port, "127.0.0.1", () => done(server));
+  // Walk up to the next port if one is taken. A previous run that was killed
+  // mid-flight can leave its listener behind, and a QA script failing with
+  // EADDRINUSE looks exactly like the thing under test failing.
+  return new Promise((done, fail) => {
+    let attempt = 0;
+    const tryListen = (p) => {
+      server.removeAllListeners("error");
+      server.once("error", (err) => {
+        if (err.code === "EADDRINUSE" && attempt < 20) {
+          attempt++;
+          tryListen(p + 1);
+        } else {
+          fail(err);
+        }
+      });
+      // 127.0.0.1 explicitly: this container has no IPv6, and binding :: fails.
+      server.listen(p, "127.0.0.1", () => {
+        server.removeAllListeners("error");
+        if (p !== port) console.log(`(port ${port} was busy, using ${p})`);
+        done(server);
+      });
+    };
+    tryListen(port);
   });
 }
 

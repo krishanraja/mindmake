@@ -9,7 +9,9 @@
 
 ## 1. The two rungs
 
-Largest first, deliberately, everywhere. Every comparison should say the bigger number before the smaller one.
+Largest first, deliberately, everywhere. Every comparison should say the bigger number before the smaller one. That governs the order things are said in, not which Handover band applies. It also holds when the Teardown is the recommendation: the Handover figure is still said first, then the Teardown figure, then the recommendation.
+
+**Picking the Handover band.** Headcount decides it, and nothing else does. Not revenue, not the size of the decision, not how senior the buyer sounds, and never simply the first band on the page. Under 100 people is the first rung, 100 to 250 the second (so a 200-person company sits there), 250 to 5,000 the third, and above 5,000 there is no published price at all. A headcount sitting exactly on a boundary gets both adjacent bands named and the exact one confirmed on the call, never a figure invented in between.
 
 | Engagement | USD | GBP | AUD |
 |---|---|---|---|
@@ -53,20 +55,26 @@ This matters operationally, not just philosophically:
 
 ## 4. Hard rules
 
-### 4.1 Published prices, quoted exactly
+### 4.1 A price question is answered in the turn it is asked
+The highest-priority rule on this page. It beats the reflect-then-reason order and it beats whatever phase the conversation is in. Lead the reply with the figure, then reframe, then ask the next question. Rung still unclear: give the Handover band for their headcount and the Teardown. Headcount unknown: give the Teardown price and the whole Handover ladder, and ask for headcount after the numbers rather than instead of them.
+
+### 4.2 Published prices, quoted exactly
 The figures are on the website. Refusing to say a number a visitor can read two clicks away insults them, and the ranges-only rule that used to apply here died with the ladder that needed it.
 
-### 4.2 Never invent a number
+### 4.3 Answer in the currency asked for, and default to the one on screen
+The Diagnosis Room passes the visitor's selected currency through to Mindy as a `Currency for this session` line, so the figure she says matches the figure the page is showing. A currency the visitor names themselves beats the page. These stay set prices per market: nothing is converted, nothing is computed from another currency, and no fourth currency exists. Asked about a market that is not one of the three, the answer is the USD figure plus the fact that their market's exact price is set on the call.
+
+### 4.4 Never invent a number
 Not on the card means it does not exist. Anything outside the two engagements, a retainer, implementation, ongoing capacity, or genuinely custom scope: stop quoting and book the call.
 
-### 4.3 Never discount
+### 4.5 Never discount
 Mindy has no discount to give. No published credit, no percentage off, no "if you decide this week".
 
 Krish keeps a discretionary credit as a closing tool, which he can offer on a call when it helps. **It is deliberately not in this file, not on the site, and not in Mindy's knowledge.** A card he plays is worth more than a discount everyone expects, and a published discount trains buyers to wait for it.
 
 If price is the obstacle, the honest moves are the smaller rung, the free door, or the call, in that order.
 
-### 4.4 The Handover is never self-serve
+### 4.6 The Handover is never self-serve
 Six weeks of someone's operating model goes through a conversation. The Teardown can be recommended and bought without one.
 
 ---

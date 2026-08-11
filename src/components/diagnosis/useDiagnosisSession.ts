@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useCurrency } from "@/contexts/CurrencyContext";
+import type { Currency } from "@/lib/offers";
 import { detectLogoBg } from "./logoLuminance";
 import type {
   ChatMessage,
@@ -237,6 +239,13 @@ export function useDiagnosisSession(): UseDiagnosisSession {
   const digestSentRef = useRef<EndedVia | null>(null); // idempotency guard
   const abortRef = useRef<AbortController | null>(null);
   const modeRef = useRef<SessionMode>("full"); // current mode, no stale closure
+  // The currency the visitor is actually looking at. Mindy quotes published
+  // prices, so she has to quote them in the same currency the page is showing,
+  // otherwise a visitor reading pounds gets answered in dollars. Mirrored into
+  // a ref for the same stale-closure reason as mode.
+  const { currency } = useCurrency();
+  const currencyRef = useRef<Currency>(currency);
+  currencyRef.current = currency;
 
   // Auto-advance guards: surface the brief, then the three exits, exactly once
   // each, so a visitor who chose to "keep chatting" is never yanked back.
@@ -361,6 +370,7 @@ export function useDiagnosisSession(): UseDiagnosisSession {
           dossier: rawDossierRef.current, // raw (with scale) for routing
           sessionId: sessionIdRef.current,
           mode: modeRef.current,
+          currency: currencyRef.current,
         },
       );
 

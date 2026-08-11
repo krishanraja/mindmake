@@ -322,10 +322,20 @@ There is no enrichment dossier for this visitor. Do not pretend to know their bu
   return lines.join("\n");
 }
 
+/** The three currencies the ladder is priced in. USD is canonical. */
+type Currency = "USD" | "GBP" | "AUD";
+
+const CURRENCY_DIRECTIVE: Record<Currency, string> = {
+  USD: "The visitor is viewing prices in US dollars. Quote USD unless they ask in another currency by name.",
+  GBP: "The visitor is viewing prices in pounds sterling. Quote the GBP figures unless they ask in another currency by name. These are the set prices for that market, not conversions of the USD ones.",
+  AUD: "The visitor is viewing prices in Australian dollars. Quote the AUD figures unless they ask in another currency by name. These are the set prices for that market, not conversions of the USD ones.",
+};
+
 /** Composes the full system context Mindy reasons with. */
 function buildSystemContext(
   dossier: Dossier | null | undefined,
   mode: SessionMode = "full",
+  currency: Currency = "USD",
 ): string {
   const parts = [
     MINDY_SYSTEM_PROMPT,
@@ -338,6 +348,7 @@ function buildSystemContext(
     "\n---\n",
     "# Companion layer: pricing\n",
     PRICING_CARD,
+    `\n**Currency for this session.** ${CURRENCY_DIRECTIVE[currency]}`,
     "\n---\n",
     formatDossierBlock(dossier),
     "\n---\n",
@@ -588,6 +599,7 @@ serve(async (req) => {
     dossier?: Dossier | null;
     sessionId?: unknown;
     mode?: unknown;
+    currency?: unknown;
   };
   try {
     body = await req.json();
@@ -637,7 +649,11 @@ serve(async (req) => {
 
   const dossier = (body?.dossier as Dossier | null | undefined) ?? null;
   const mode: SessionMode = body?.mode === "express" ? "express" : "full";
-  let system = buildSystemContext(dossier, mode);
+  // Which currency the page is showing. Anything unrecognised falls back to USD,
+  // which is what the site itself falls back to, so Mindy and the page agree.
+  const currency: Currency =
+    body?.currency === "GBP" || body?.currency === "AUD" ? body.currency : "USD";
+  let system = buildSystemContext(dossier, mode, currency);
 
   // Convergence nudge. Count the visitor's substantive turns from the (already
   // assistant-stripped, length-clamped) history. By the third user turn Mindy

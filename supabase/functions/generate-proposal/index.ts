@@ -57,9 +57,9 @@
  *
  * ## Critical contracts (mirrored from the proposal types + knowledge layer)
  * - The price block shows recommendation.price, the published figure for the
- *   recommended rung. If exit==='book-call', or the scope falls outside the two
- *   engagements, the fee reads "set on the call" instead. (Enforced here AND in
- *   the renderer's resolveFee().)
+ *   recommended rung, verbatim. Only the absence of a real figure (scope outside
+ *   the two engagements) makes the fee read "set on the call". The book-call exit
+ *   does NOT hide the price. (Enforced here AND in the renderer's resolveFee().)
  * - PROOF is SELECTED via selectProof(), never written.
  * - VOICE. Every LLM-generated prose slot clears lintVoice() before it is placed
  *   on the payload. One corrective re-call, then a soft em-dash scrub.
@@ -602,14 +602,12 @@ function buildPayload(
   const industry = dossier?.understanding?.industry;
   const proof = selectProof(rec.mode, icp, industry, 3);
 
-  // Fee band: the recommendation.price, unless book-call or no honest band, in
-  // which case the renderer shows "set on the call". We pass the range through;
-  // resolveFee() in the template makes the final call. We also surface an honest
-  // rate note so the page reads right either way.
-  const feeBand =
-    rec.exit === "book-call" || !isHonestBand(rec.price)
-      ? "set on the call"
-      : rec.price;
+  // Fee: the recommendation.price, passed straight through. resolveFee() in the
+  // template makes the final call. The only thing that turns into "set on the
+  // call" is the absence of a real figure, NOT the book-call exit: the Handover
+  // is bought through a conversation, and its price is still published, so a
+  // proposal must not withhold a number the prospect just read on /handover.
+  const feeBand = isHonestBand(rec.price) ? rec.price : "set on the call";
 
   // The phase-2 panel from the scaffold (rendered as tracks).
   const ph2 = scaffold.phase2;
@@ -652,7 +650,7 @@ function buildPayload(
     proof,
 
     price: {
-      // feeBand carries the band; the renderer forces the fee cell to a range or
+      // feeBand carries the figure; the renderer forces the fee cell to it or to
       // the set-on-call line. We do not synthesise specs (window/time/rate) here
       // since they are mode-specific and live with Krish; the renderer renders a
       // clean single fee cell when none are supplied.
@@ -683,9 +681,9 @@ function buildPayload(
     format,
   };
 
-  // The renderer reads recommendation.price for the fee. If we resolved a
-  // set-on-call band, reflect that into the recommendation copy it sees so the
-  // renderer's resolveFee shows the set-on-call line consistently.
+  // The renderer reads recommendation.price for the fee. If there was no real
+  // figure, reflect that into the recommendation copy it sees so the renderer's
+  // resolveFee shows the set-on-call line consistently.
   if (feeBand === "set on the call") {
     payload.recommendation = { ...rec, price: feeBand };
   }

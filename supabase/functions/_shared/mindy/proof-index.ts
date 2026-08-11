@@ -58,7 +58,7 @@ export const PROOF_BANK: ProofEntry[] = [
     situation:
       'A first-party identity and data-infrastructure company with patented identity tech and a strong APAC pipeline, but stuck in a collapsing cookie-replacement category as buyers asked what comes next for the open web.',
     outcome:
-      '$254K POC contracted with a major US media publisher, pipeline rebuilt with three further major publishers and a large classifieds marketplace, and the category narrative shifted from defence to offence.',
+      '$254K POC contracted with a major US publisher, pipeline rebuilt with three further major publishers and a large classifieds marketplace, and the category narrative shifted from defence to offence.',
     quote:
       '"He set up an AI-native go-to-market system that made us rethink who we hire and what they do. He works experimentally yet transparently. We trusted he would deliver."',
     attribution: 'CRO, data-infrastructure company',

@@ -9,10 +9,10 @@
  * already-clean.
  *
  * Hard contracts mirrored here so the template never has to reach for them:
- *   - The price block shows recommendation.price (the published figure for
- *     "$8,000–$25,000"), never an exact figure. If exit is 'book-call' or the
- *     band reads "set on the call", the price block says the number is set on
- *     the call. En dashes in numeric ranges.
+ *   - The price block shows recommendation.price verbatim. Prices are published,
+ *     so the exact figure is the point, and the book-call exit does not hide it:
+ *     the call is how the Handover is bought, not a gate on knowing the price.
+ *     The set-on-call line appears only when there is no figure to show.
  *   - PROOF is SELECTED via selectProof(), never written. The three chosen
  *     ProofEntry tiles ride in on `proof`.
  *   - VOICE. Every LLM-generated prose slot (whatIHeard, the keep hero, etc.)

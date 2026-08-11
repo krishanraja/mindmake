@@ -298,9 +298,9 @@ Nine entries, verified numbers, currently used only by Mindy's proposal generato
 
 **The Call.** Reposition the entire commercial surface. Move the lens from third-party-cookie defence to first-party publisher infrastructure for an AI-mediated internet. Rewrite the pitch, the personas, the partner story, and the price point.
 
-**The Work.** New ICP, messaging, and sales-enablement workflows. Taught the team to vibe-code and built a central AI brain that feeds every seller so they build their own enablement tools instead of needing an enablement team to exist. 43 outbound campaigns across US, EMEA, and APAC with four distinct personas. Partnership architecture with a major creative-and-media services group. A POC scope built for a major US media publisher around Safari addressability and conversion-API measurement. A new thought-leadership cadence on agentic browsing and open-web monetisation. The work of at least 10 people, done by one operator plus one supporting resource.
+**The Work.** New ICP, messaging, and sales-enablement workflows. Taught the team to vibe-code and built a central AI brain that feeds every seller so they build their own enablement tools instead of needing an enablement team to exist. 43 outbound campaigns across US, EMEA, and APAC with four distinct personas. Partnership architecture with a major creative-and-media services group. A POC scope built for a major US publisher around Safari addressability and conversion-API measurement. A new thought-leadership cadence on agentic browsing and open-web monetisation. The work of at least 10 people, done by one operator plus one supporting resource.
 
-**Outcome.** **$254K POC contracted** with a major US media publisher. Pipeline rebuilt with three further major publishers and a large classifieds marketplace. Category narrative shifted from defence to offence.
+**Outcome.** **$254K POC contracted** with a major US publisher. Pipeline rebuilt with three further major publishers and a large classifieds marketplace. Category narrative shifted from defence to offence.
 
 > "He set up an AI-native go-to-market system that made us rethink who we hire and what they do. He works experimentally yet transparently. We trusted he would deliver."
 > *CRO, data-infrastructure company*

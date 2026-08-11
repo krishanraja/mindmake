@@ -10,7 +10,7 @@
  * PHASE 2 tracks, NEXT STEPS, and the signature.
  *
  * Contracts honoured here:
- *   - The fee cell and every ladder price render recommendation.price
+ *   - The fee cell and every ladder price render recommendation.price verbatim
  *     or a ladder band. If exit is 'book-call', or the band reads "set on the
  *     call" / sits over the ~$100k ceiling, the price block says the number is
  *     set on the call. En dashes preserved in numeric ranges.
@@ -57,12 +57,16 @@ function safeHex(hex?: string): string | null {
 const SET_ON_CALL = 'Set on the call';
 
 /**
- * Decide what the price block should display. Prices are published, so the
- * figure is shown verbatim. If the recommendation says book-call, or the value
- * reads as a "set on the call" sentinel, we show the set-on-call line instead.
+ * Decide what the price block should display. Prices are published, so a real
+ * figure is shown verbatim and the set-on-call line is only a fallback for when
+ * there is no figure to show.
+ *
+ * The book-call exit deliberately does NOT suppress a published figure. The
+ * Handover is bought through a conversation, which is a rule about how you buy
+ * it, not about whether the price is a secret. A prospect who just read the
+ * band on /handover must not open their proposal and find the fee withheld.
  */
 function resolveFee(payload: ProposalPayload): { onCall: boolean; band: string } {
-  const exit = payload.recommendation?.exit;
   const raw = (payload.recommendation?.price || '').trim();
   const lower = raw.toLowerCase();
 
@@ -72,8 +76,8 @@ function resolveFee(payload: ProposalPayload): { onCall: boolean; band: string }
     lower.includes('scoped') ||
     lower === 'tbd';
 
-  if (exit === 'book-call' || looksSetOnCall) {
-    return { onCall: true, band: raw && !looksSetOnCall ? raw : SET_ON_CALL };
+  if (looksSetOnCall) {
+    return { onCall: true, band: SET_ON_CALL };
   }
   return { onCall: false, band: raw };
 }
@@ -429,13 +433,13 @@ function renderPrice(payload: ProposalPayload): string {
   const heading = esc(p.heading || 'What it costs, and what it does not.');
   const intro = esc(
     p.intro ||
-      'I price against the value of the decision, not my hours. So this is the band it sits inside; the exact number is set on the call. Whatever you pay rolls forward, so there is no wrong place to begin.',
+      'I price against the value of the decision, not my hours. The price is published, so here it is, fixed and capped rather than a running meter. Whatever you pay rolls forward, so there is no wrong place to begin.',
   );
 
   const fee = resolveFee(payload);
 
   // Spec row: caller-supplied window/time/rate cells, plus a forced fee cell
-  // that is always a RANGE or the set-on-call line.
+  // carrying the published figure, or the set-on-call line when there is none.
   const baseSpecs: SpecItem[] = p.specs && p.specs.length > 0
     ? p.specs.slice(0, 3)
     : [];
@@ -453,9 +457,9 @@ function renderPrice(payload: ProposalPayload): string {
     ? `<p class="rate-note">The exact figure is <b>set on the call</b>, against the value of the decision, not a running meter. ${esc(
         p.rateNote || '',
       )}</p>`
-    : `<p class="rate-note">The fee sits in the <b>${esc(
+    : `<p class="rate-note">The fee is <b>${esc(
         fee.band,
-      )}</b> band. Capped and fixed, not a running meter, and the exact number is set on the call.${
+      )}</b>. That is the published price, capped and fixed, not a running meter.${
         p.rateNote ? ` ${esc(p.rateNote)}` : ''
       }</p>`;
 

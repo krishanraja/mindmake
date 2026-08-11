@@ -185,6 +185,11 @@ const AppRoutes = () => {
               or a link checker is concerned.
 
               The page components are in src/_archive/. See its README.
+
+              TODO(krish): archiving LeadershipInsights orphans the
+              send-leadership-insights-email edge function and the
+              useLeadershipInsights hook. Both are left deployed rather than
+              deleted, since removing a deployed function is a separate call.
             */}
             <Route path="/workshops" element={<HashRedirect to="/teardown" />} />
             <Route path="/workshops/:slug" element={<HashRedirect to="/teardown" />} />

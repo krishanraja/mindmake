@@ -232,6 +232,14 @@ const CaseStudies = () => {
 
       {/* Endorsements strip */}
       {/*
+        TODO(krish): the testimonials table holds exactly two rows, both
+        consented, both from the same client. One is a test submission with
+        swapped fields (the length floor on the view keeps it off the site, but
+        it should be deleted). The other is real: Performance Coach, Legacy
+        Ascend, rating 5, NPS 10, willing to be a reference. So this renders one
+        entry, and it is named. Publish it named, or anonymise it to role and
+        sector like everything else on this page?
+
         Client testimonials with recorded consent.
         Renders nothing when nothing has consent, which is the correct
         outcome rather than an empty state to design around. The gate is in

@@ -1,6 +1,6 @@
 /**
  * @file notify-scoping-request Edge Function
- * @description Persists a scoping request (Signal Session / Revenue Architecture / Immersion)
+ * @description Persists a scoping request (The Teardown / The Handover)
  *   and notifies Krish via the unified lead pipeline (research + one consistent digest).
  *   The email is backgrounded so the modal returns instantly. Response `{ success, rowId }`.
  * @secrets RESEND_API_KEY, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, + enrichment keys

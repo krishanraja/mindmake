@@ -116,7 +116,7 @@ export type ExitKind = "self-serve" | "book-call" | "learn" | "proposal";
 export interface Recommendation {
   mode: string;
   rung: string;
-  range: string;
+  price: string;
   exit: ExitKind;
 }
 

@@ -114,7 +114,7 @@ export const Fork = (props: ForkProps) => {
           <p className="mt-1 text-sm text-white/55">
             Based on what you told me, the smallest thing that resolves this is{" "}
             <span className="text-white/80">{recommendation.rung}</span>
-            {recommendation.range ? ` (${recommendation.range}).` : "."}
+            {recommendation.price ? ` (${recommendation.price}).` : "."}
           </p>
         )}
       </motion.div>

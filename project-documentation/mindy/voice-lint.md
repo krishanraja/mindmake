@@ -240,7 +240,7 @@ Worked examples for the model and the reviewer. The BEFORE is generic-AI default
 - AFTER: "This does not transform anything. It collapses the repeatable middle of one workflow you run every week, the one closest to revenue, and hands it to a system you can audit. Faster business, not faster slideware."
 
 **2. Em dash + eager close.**
-- BEFORE: "We'd love to partner with you on this journey — I'm so excited to explore how we can empower your team!"
+- BEFORE: "We'd love to partner with you on this journey, I'm so excited to explore how we can empower your team!"
 - AFTER: "Here's the honest framing. You do not need a partner for a journey. You need one decision made, in writing, board-ready. If that is the thing in front of you, book the call."
 
 **3. Salesbot dodge.**
@@ -290,7 +290,7 @@ A proposal does not render until every box is ticked. Run section 1 first as the
 - [ ] British-Australian register, active voice, second person, sentence case throughout.
 
 **Commercial-truth gate (blocking)**
-- [ ] No exact price quoted to the client. Ranges only; the number is set on the call.
+- [ ] Any price quoted is the published figure for that rung, in the currency asked for. No invented number, no conversion, no discount.
 - [ ] Any case study is fully anonymised to sector plus role. No named company or person. Real metrics are allowed; a named client is not.
 - [ ] No ROI figure stated without a verifiable case behind it.
 - [ ] No artificial scarcity, no fear-mongering, no FOMO.

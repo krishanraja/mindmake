@@ -23,7 +23,7 @@
  *   recommendation: {                     // REQUIRED
  *     mode: string,                       // routing mode, e.g. "Mode B (bespoke)" or a scaffold key
  *     rung: string,                       // a canonical ladder rung name
- *     range: string,                      // a public range card band, NEVER an exact figure
+ *     price: string,                      // the published price for the recommended rung
  *     exit: 'self-serve' | 'book-call' | 'learn' | 'proposal'
  *   },
  *   contact?: { name?: string; email?: string; company?: string },
@@ -56,10 +56,10 @@
  * second request. Raw `application/pdf` bytes would force a separate transport.
  *
  * ## Critical contracts (mirrored from the proposal types + knowledge layer)
- * - RANGES ONLY. The price block shows recommendation.range, never an exact
- *   figure. If exit==='book-call', or no honest band exists, the fee reads as
- *   "set on the call". En dashes in numeric ranges. (Enforced here AND in the
- *   renderer's resolveFee().)
+ * - The price block shows recommendation.price, the published figure for the
+ *   recommended rung. If exit==='book-call', or the scope falls outside the two
+ *   engagements, the fee reads "set on the call" instead. (Enforced here AND in
+ *   the renderer's resolveFee().)
  * - PROOF is SELECTED via selectProof(), never written.
  * - VOICE. Every LLM-generated prose slot clears lintVoice() before it is placed
  *   on the payload. One corrective re-call, then a soft em-dash scrub.
@@ -216,7 +216,7 @@ You write ONLY the reflective slots that wrap an already-built proposal. The num
 Ground every line in the dossier and the decision brief you are given. Name one real, specific fact from their world where it lands naturally (their company, their sector, the actual decision, the actual trade-off). Reflect their decision back sharper than they said it. Never flatter, never hype.
 
 HARD RULES (these are not style preferences):
-- RANGES ONLY. Never write an exact price figure. If you reference cost at all, it is qualitative ("the band", "costed", "set on the call"). The price block handles the number; you do not.
+- DO NOT WRITE A PRICE IN PROSE. The price block already renders the number. If you reference cost at all, keep it qualitative ("what it costs", "set on the call"). Never invent a figure and never offer a discount.
 - VOICE. No em dashes, ever. No spaced double-hyphen, no word-joining en dash (numeric ranges like $8,000-$25,000 are fine). No buzzwords (transformation, synergy, ecosystem, journey, unlock, seamless, empower, game-changer, cutting-edge, revolutionary, leverage-as-a-verb, optimise, enhance, maximise, robust, holistic, and the rest of the banned list). Active voice. Sentence case. British-Australian spelling. Second person. At most one exclamation mark, ideally zero. No emoji.
 - Short declarative sentences, then a longer one that earns it. Real specifics over adjectives. Concede the honest other side before you land a point.
 - Do not invent a client outcome, a named customer, a duration, or an offer name. If a fact is not in the dossier, do not assert it.
@@ -301,13 +301,13 @@ function buildProseUser(
   lines.push(`Routing mode: ${rec.mode}`);
   lines.push(`Recommended rung: ${rec.rung}`);
   lines.push(
-    `Price band (ranges only, do not restate as a number in prose): ${rec.range || "set on the call"}`,
+    `Price for the recommended rung (rendered separately, do not restate it in prose): ${rec.price || "set on the call"}`,
   );
   lines.push(`Exit: ${rec.exit}`);
 
   lines.push("");
   lines.push(
-    "Write the seven prose slots now. Name a real fact from their world where it lands. Ranges only. No em dashes. Return the JSON object and nothing else.",
+    "Write the seven prose slots now. Name a real fact from their world where it lands. No price figures in prose. No em dashes. Return the JSON object and nothing else.",
   );
 
   return lines.join("\n");
@@ -472,7 +472,7 @@ async function generateProse(
           content:
             "Some slots broke the voice rules: " +
             violations.join("; ") +
-            ". Rewrite ONLY the JSON, keeping every slot's meaning and the same fields, but fix the flagged slots so there are no em dashes, no banned buzzwords, at most one exclamation mark, sentence case, active voice, second person, British-Australian. Ranges only, never an exact price figure. Return the JSON object and nothing else.",
+            ". Rewrite ONLY the JSON, keeping every slot's meaning and the same fields, but fix the flagged slots so there are no em dashes, no banned buzzwords, at most one exclamation mark, sentence case, active voice, second person, British-Australian. No price figures in prose. Return the JSON object and nothing else.",
         },
       ];
       const rawFix = await callAnthropic(PRIMARY_MODEL, system, correction);
@@ -541,8 +541,8 @@ function normaliseRecommendation(input: unknown): Recommendation | null {
   const mode = str(r.mode);
   // Mode is the one field the scaffold genuinely needs. Range may legitimately be
   // empty (it resolves to "set on the call"); rung is cosmetic.
-  if (!mode && !str(r.rung) && !str(r.range)) return null;
-  return { mode, rung: str(r.rung), range: str(r.range), exit };
+  if (!mode && !str(r.rung) && !str(r.price)) return null;
+  return { mode, rung: str(r.rung), price: str(r.price), exit };
 }
 
 /** Optional contact. */
@@ -561,9 +561,9 @@ function normaliseContact(input: unknown): ProposalContact | undefined {
 }
 
 /**
- * Whether the recommendation's range is an honest, displayable band. If not, the
- * fee block reads "set on the call" (also re-checked by the renderer's
- * resolveFee, this is the orchestrator-side mirror of the same rule).
+ * Whether the recommendation carries a real, displayable price. If not, the fee
+ * block reads "set on the call" (also re-checked by the renderer's resolveFee,
+ * this is the orchestrator-side mirror of the same rule).
  */
 function isHonestBand(range: string): boolean {
   const raw = (range || "").trim();
@@ -602,14 +602,14 @@ function buildPayload(
   const industry = dossier?.understanding?.industry;
   const proof = selectProof(rec.mode, icp, industry, 3);
 
-  // Fee band: the recommendation.range, unless book-call or no honest band, in
+  // Fee band: the recommendation.price, unless book-call or no honest band, in
   // which case the renderer shows "set on the call". We pass the range through;
   // resolveFee() in the template makes the final call. We also surface an honest
   // rate note so the page reads right either way.
   const feeBand =
-    rec.exit === "book-call" || !isHonestBand(rec.range)
+    rec.exit === "book-call" || !isHonestBand(rec.price)
       ? "set on the call"
-      : rec.range;
+      : rec.price;
 
   // The phase-2 panel from the scaffold (rendered as tracks).
   const ph2 = scaffold.phase2;
@@ -683,11 +683,11 @@ function buildPayload(
     format,
   };
 
-  // The renderer reads recommendation.range for the fee. If we resolved a
+  // The renderer reads recommendation.price for the fee. If we resolved a
   // set-on-call band, reflect that into the recommendation copy it sees so the
   // renderer's resolveFee shows the set-on-call line consistently.
   if (feeBand === "set on the call") {
-    payload.recommendation = { ...rec, range: feeBand };
+    payload.recommendation = { ...rec, price: feeBand };
   }
 
   return payload;

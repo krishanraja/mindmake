@@ -10,7 +10,7 @@
  * PHASE 2 tracks, NEXT STEPS, and the signature.
  *
  * Contracts honoured here:
- *   - RANGES ONLY. The fee cell and every ladder price render recommendation.range
+ *   - The fee cell and every ladder price render recommendation.price
  *     or a ladder band. If exit is 'book-call', or the band reads "set on the
  *     call" / sits over the ~$100k ceiling, the price block says the number is
  *     set on the call. En dashes preserved in numeric ranges.
@@ -52,19 +52,18 @@ function safeHex(hex?: string): string | null {
   return null;
 }
 
-// ── pricing helpers (ranges only) ────────────────────────────────────────────
+// Pricing helpers.
 
 const SET_ON_CALL = 'Set on the call';
 
 /**
- * Decide what the price block should display. Never an exact figure: if the
- * recommendation says book-call, or the band reads as a "set on the call"
- * sentinel, or it carries the over-ceiling "+" marker, we show the set-on-call
- * line. Otherwise we show the band verbatim.
+ * Decide what the price block should display. Prices are published, so the
+ * figure is shown verbatim. If the recommendation says book-call, or the value
+ * reads as a "set on the call" sentinel, we show the set-on-call line instead.
  */
 function resolveFee(payload: ProposalPayload): { onCall: boolean; band: string } {
   const exit = payload.recommendation?.exit;
-  const raw = (payload.recommendation?.range || '').trim();
+  const raw = (payload.recommendation?.price || '').trim();
   const lower = raw.toLowerCase();
 
   const looksSetOnCall =
@@ -678,20 +677,20 @@ function initialsOf(name: string): string {
  * ProofEntry now carries `attribution` as its own field.
  */
 
-/** Turn a proof-bank mode key into a short, capitalised tile kicker. */
+/**
+ * Turn a proof-bank mode key into a short, capitalised tile kicker.
+ *
+ * Keyed on work shapes, matching ProofEntry.mode. Offer names are deliberately
+ * absent: these label what the work was, and the ladder can be renamed without
+ * this map going stale.
+ */
 function titleizeMode(mode: string): string {
   const map: Record<string, string> = {
+    decide: 'One decision',
     reposition: 'Repositioned',
     rebuild: 'Rebuilt',
     os: 'Operating system',
-    'signal-session': 'One decision',
-    'revenue-architecture': 'Commercial rebuild',
-    'bespoke-enablement': 'Built, not taught',
-    cohort: 'Made the call',
-    workshop: 'Shipped a tool',
-    immersion: 'Team aligned',
     ctrl: 'Context that sticks',
-    alumni: 'Unblocked',
   };
   return map[mode] ?? 'The result';
 }

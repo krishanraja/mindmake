@@ -98,41 +98,35 @@ function sizeBandToCount(band: string | undefined): number | undefined {
 function deriveRouting(dossier: Dossier): void {
   const s = dossier.scale;
 
-  if (s.icp === "capital") {
-    if (!s.recommendedMode) s.recommendedMode = "signal-session";
-    return;
-  }
-  if (s.icp && s.recommendedMode) return;
-
-  let icp: Icp | undefined = s.icp;
-  let mode: string | undefined = s.recommendedMode;
-
   const headcount =
     typeof s.employeeCount === "number" ? s.employeeCount : sizeBandToCount(s.sizeBand);
 
-  if (typeof headcount === "number") {
-    if (headcount < 50) {
-      icp ??= "founder";
-      mode ??= "bespoke-enablement";
-    } else if (headcount <= 1000) {
-      icp ??= "sme";
-      mode ??= "bespoke-enablement";
-    } else {
-      icp ??= "enterprise";
-      mode ??= "signal-session";
-    }
-  } else if (typeof s.trancoRank === "number") {
-    if (s.trancoRank > 0 && s.trancoRank <= 30000) {
-      icp ??= "enterprise";
-      mode ??= "signal-session";
-    } else {
-      icp ??= "sme";
-      mode ??= "bespoke-enablement";
+  // ICP, from size. Coarse on purpose.
+  if (!s.icp) {
+    if (typeof headcount === "number") {
+      s.icp = headcount < 50 ? "founder" : headcount <= 1000 ? "sme" : "enterprise";
+    } else if (typeof s.trancoRank === "number") {
+      s.icp = s.trancoRank > 0 && s.trancoRank <= 30000 ? "enterprise" : "sme";
     }
   }
 
-  if (icp) s.icp = icp;
-  if (mode) s.recommendedMode = mode;
+  // The rung is always the Teardown.
+  //
+  // This used to guess a rung from headcount, which was never a sound inference:
+  // company size tells you nothing about whether someone has a decision to make.
+  // Every engagement starts with a Teardown regardless, and it is the gate for
+  // the Handover, so the honest default from enrichment alone is the entry rung.
+  // Mindy decides the actual recommendation from the conversation, which is the
+  // only place the decision itself is visible.
+  s.recommendedMode ??= "teardown";
+
+  // Which Handover band applies IF the conversation goes there, so Mindy can
+  // quote the right one without asking a question she can already answer.
+  // Bands mirror src/lib/offers.ts. Internal routing, never recited.
+  if (!s.handoverBand && typeof headcount === "number") {
+    s.handoverBand =
+      headcount < 100 ? "under-100" : headcount <= 250 ? "100-250" : headcount <= 5000 ? "250-5000" : "above-band";
+  }
 
   if (typeof s.trancoRank === "number" && s.trancoRank > 0 && s.trancoRank <= 50000) {
     const cur = dossier.confidence.scale ?? 0;
@@ -253,6 +247,7 @@ export async function assembleDossier(input: AssembleInput): Promise<AssembleRes
       name: dossier.identity.name,
       icp: dossier.scale.icp,
       recommendedMode: dossier.scale.recommendedMode,
+      handoverBand: dossier.scale.handoverBand,
       hasSynthesis: Boolean(dossier.synthesis),
     });
 

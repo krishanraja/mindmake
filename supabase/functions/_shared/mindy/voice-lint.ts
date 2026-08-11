@@ -178,8 +178,11 @@ export const USE_VOCABULARY: string[] = [
   'expertise',
 ];
 
-const EM_DASH = '—';
-const EN_DASH = '–';
+// The characters this linter exists to catch, as escapes rather than literals.
+// Written literally, this file would be the one place in the repo that fails
+// its own rule, and the repo-wide check would need an exception for it.
+const EM_DASH = '\u2014';
+const EN_DASH = '\u2013';
 
 /**
  * Spaced double-hyphen used as an em dash, e.g. "the model -- the cheap part".
@@ -188,9 +191,8 @@ const SPACED_DOUBLE_HYPHEN = /\s--\s/;
 
 /**
  * En dash standing in for a dash BETWEEN LETTERS, e.g. "operator–model".
- * Numeric ranges are explicitly whitelisted: 60–100, $2,000–$3,000,
- * $50,000–$100,000 all PASS because at least one side is a digit, so this
- * only fires when a letter sits on BOTH sides of the en dash.
+ * Numeric ranges are explicitly whitelisted: a digit on either side passes,
+ * so this only fires when a letter sits on BOTH sides of the en dash.
  */
 const EN_DASH_BETWEEN_LETTERS = new RegExp(`[A-Za-z]${EN_DASH}[A-Za-z]`);
 

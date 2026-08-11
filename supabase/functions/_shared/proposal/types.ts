@@ -9,7 +9,7 @@
  * already-clean.
  *
  * Hard contracts mirrored here so the template never has to reach for them:
- *   - RANGES ONLY. The price block shows recommendation.range (a band such as
+ *   - The price block shows recommendation.price (the published figure for
  *     "$8,000–$25,000"), never an exact figure. If exit is 'book-call' or the
  *     band reads "set on the call", the price block says the number is set on
  *     the call. En dashes in numeric ranges.
@@ -37,7 +37,7 @@ export interface Recommendation {
   /** A rung name from the canonical ladder. */
   rung: string;
   /** A public range-card band, e.g. "$8,000–$25,000". NEVER an exact figure. */
-  range: string;
+  price: string;
   exit: 'self-serve' | 'book-call' | 'learn' | 'proposal';
 }
 

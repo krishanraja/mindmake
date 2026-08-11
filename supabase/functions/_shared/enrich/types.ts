@@ -47,7 +47,8 @@ export interface Dossier {
     sizeBand?: string; // e.g. "1001-5000"
     trancoRank?: number;
     icp?: Icp;
-    recommendedMode?: string; // a mode key from the proof bank / pricing model
+    recommendedMode?: string; // scaffold key: "teardown" (the default and the gate) or "handover"
+    handoverBand?: string;    // which Handover price band applies if it goes there: "under-100" | "100-250" | "250-5000" | "above-band"
   };
   currency: CurrencyItem[];
   synthesis?: string; // one-paragraph "here's what I think you do, correct me"

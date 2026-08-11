@@ -19,20 +19,22 @@ const PROGRAM_LABELS: Record<string, string> = {
   orchestrate: "Orchestrate AI",
   team: "Team Alignment",
   individual: "Individual",
-  "cohort-enrollment": "The AI-Fluent Executive (Cohort)",
-  "signal-session": "The Signal Session",
-  "revenue-architecture": "The Revenue Architecture",
-  workshop: "Mindmaker Workshop (any)",
-  "workshop-chief-of-staff": "Workshop · Build Your AI Chief of Staff",
-  "workshop-org-chart": "Workshop · Map Your Agentic Org Chart",
-  "workshop-vibe-coding": "Workshop · Vibe Coding for Leaders",
-  "workshop-autonomous": "Workshop · Build an Autonomous Business Function",
-  "workshop-memory": "Workshop · Give Your AI Memory",
-  alumni: "The Alumni Pass (invitation request)",
-  "free-lesson": "Free Lightning Lesson",
-  immersion: "The AI Immersion",
+  teardown: "The Teardown",
+  handover: "The Handover",
+  capital: "Capital (for a portfolio company)",
   "1-1-inquiry": "1:1 inquiry",
 };
+
+/*
+ * The retired ladder's keys (cohort-enrollment, signal-session,
+ * revenue-architecture, the five workshop keys, alumni, free-lesson,
+ * immersion) were removed in August 2026 along with the offers themselves.
+ *
+ * They are not mapped to a replacement on purpose. label() falls back to the
+ * raw key, so a lead captured under the old ladder still renders something
+ * readable in Krish's digest, and reads unambiguously as a historical record
+ * rather than as a live offer someone can still buy.
+ */
 
 const COMMITMENT_LABELS: Record<string, string> = {
   "1hr": "1 Hour Session",

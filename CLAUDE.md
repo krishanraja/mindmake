@@ -15,7 +15,7 @@ Read this before adding anything. Each of these was removed on purpose, and each
 
 | Do not re-add | Why | Enforced by |
 |---|---|---|
-| `aggregateRating` in structured data | It claimed 4.9 from 50 reviews. There are not 50 reviews anywhere in this estate | `grep -rn "aggregateRating"` returns nothing |
+| An aggregate rating in the structured data | It claimed 4.9 from 50 reviews. There are not 50 reviews anywhere in this estate | A repo-wide grep for the schema property returns nothing |
 | Illustrative proof entries (`B-*`) | 26 of 35 entries were invented, and Mindy used them to write client proposals | `src/test/mindy-knowledge.test.ts` |
 | Any retired offer name | The six-rung ladder is gone. Names are in `DECISIONS_LOG.md`, deliberately nowhere else, because most docs are indexed for retrieval | `src/test/mindy-knowledge.test.ts` |
 | A price outside `src/lib/offers.ts` | Prices used to be typed by hand into nine files and the crawler copy kept the old ones | `src/test/price-single-source.test.ts` |

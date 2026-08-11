@@ -129,7 +129,7 @@
 
 **Decision:** Remove all three, as separate commits, before any other work.
 
-1. **The fabricated `aggregateRating`.** `index.html` published Organization schema claiming 4.9 from 50 reviews. There are not 50 reviews anywhere in the estate. Deleted outright, not replaced with a smaller number, because a smaller invented number is no more verifiable.
+1. **The fabricated aggregate rating.** `index.html` published Organization schema claiming 4.9 from 50 reviews. There are not 50 reviews anywhere in the estate. Deleted outright, not replaced with a smaller number, because a smaller invented number is no more verifiable.
 2. **The fabricated proof bank.** 26 of 35 proof entries were illustrative, and Mindy drew on them to generate co-branded client proposals. A prospect could have received a document citing an engagement that never happened. All 26 deleted; the nine verified entries remain.
 3. **Advisory declared dead.** No instance of this exists in this repo, which is worth recording: the false statement lives in `mm-ctrl`'s `product.json`, which is out of scope.
 

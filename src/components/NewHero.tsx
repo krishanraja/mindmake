@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Bot, User } from "lucide-react";
-import { MAVEN_INSTRUCTOR_URL } from "@/lib/stripe-prices";
 
 const headlines = [
   "If there were 3 of me, I'd be able to get everything done.",

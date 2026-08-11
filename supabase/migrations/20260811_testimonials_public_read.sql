@@ -65,3 +65,12 @@ grant select on public.publishable_testimonials to anon, authenticated;
 revoke select on public.testimonials from anon, authenticated;
 grant select (id, created_at, role, company, summary_line, rating, nps)
   on public.testimonials to anon, authenticated;
+
+-- `permission` is in the grant list on purpose, and it is the one column here
+-- that is not rendered. The view is security_invoker, so its WHERE clause is
+-- evaluated as the calling role, which means anon has to be able to read the
+-- column the clause tests or the view returns 42501 instead of rows. This
+-- exposes nothing new: the RLS policy above already restricts anon to rows
+-- where permission = 'free', so the only value anon can ever read back is the
+-- one it had to satisfy to see the row at all.
+grant select (permission) on public.testimonials to anon, authenticated;

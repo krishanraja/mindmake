@@ -1,12 +1,28 @@
-import { useEffect } from "react";
+/**
+ * The third door: the same two engagements, bought by a fund, family office or
+ * operating partner on behalf of a portfolio company.
+ *
+ * Not a separate offer. The mistake this page used to make was describing
+ * fund-specific products, which meant maintaining a second ladder that drifted
+ * from the first one. There is one ladder. This page changes who is holding
+ * the invoice and what they are optimising for, not what gets delivered.
+ *
+ * Prices come from src/lib/offers.ts like everywhere else, per portfolio
+ * company. Fund-level and multi-company terms are deliberately NOT published:
+ * they are set on the call. A published volume discount would be a published
+ * discount, which is the thing that was just removed from the rest of the site.
+ */
+
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle } from "lucide-react";
+import { ArrowRight, Building2, CheckCircle } from "lucide-react";
 import { SEO } from "@/components/SEO";
-import ProductExpandSection from "@/components/ProductExpandSection";
-import type { ProductExpandCardData } from "@/components/ProductExpandCard";
+import { HANDOVER, HANDOVER_ANNUAL_CAP, TEARDOWN, displayPrice } from "@/lib/offers";
+import { useCurrency, useOfferPrice } from "@/contexts/CurrencyContext";
+import { CurrencySwitcher } from "@/components/CurrencySwitcher";
+import { cn } from "@/lib/utils";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -17,342 +33,255 @@ const fadeUp = {
   }),
 };
 
-const openScopingModal = (preselected?: string) => {
+const openDiagnosisRoom = () => {
   window.dispatchEvent(
-    new CustomEvent("openScopingModal", {
-      detail: {
-        source_page: "/capital",
-        ...(preselected ? { preselected } : {}),
-      },
+    new CustomEvent("openDiagnosisRoom", {
+      detail: { source_page: "/capital", mode: "full" },
     }),
   );
 };
 
-const goToDiagnostic = () => {
-  try {
-    (window as unknown as { plausible?: (e: string, o?: { props?: object }) => void })
-      .plausible?.("diagnostic_secondary_click", { props: { page: "/capital" } });
-  } catch {
-    /* analytics optional */
-  }
-  window.location.href = "/leaders";
-};
-
-const capitalProducts: ProductExpandCardData[] = [
-  {
-    id: "signal-session",
-    category: "The Signal Session",
-    headline: "One day. Two outcomes. The fund itself, or a portfolio company.",
-    subhead:
-      "Either we map the AI strategy for your fund or family office itself, or we run a capital-allocator's read on a specific portfolio company.",
-    price: "",
-    priceAnchor:
-      "Most allocators form this view over months of IC debate. You get it in writing, in 48 hours.",
-    outcomeTodo:
-      "An operating partner ranked fourteen portfolio companies on AI risk in a day, and walked out with a defensible read for his LPs he did not have that morning.",
-    trioLine:
-      "We map three things at once: how your fund actually builds product, what your team can run, and how fluent you are as an allocator. Most engagements skip the third one and find out it mattered later, after the wall.",
-    description:
-      "One day with Krish, working through your current state. 48 hours later you receive a 15-20 page Commercial Narrative document. For fund-level engagements, that means an AI operating model sketch and a deal flow signal framework. For portfolio engagements, that means a capital-allocator's read on the company's commercial state and a repositioning hypothesis. Either way, you get a written read on whether Revenue Architecture is the right next step.",
-    walkOutWith: [
-      "Commercial Narrative document (15-20 pages, delivered within 48 hours)",
-      "For fund-level: AI operating model sketch, deal flow signal framework",
-      "For portfolio: capital-allocator's read on commercial state, repositioning hypothesis",
-      "30-day roadmap with named owners and milestones",
-      "Written read on whether Revenue Architecture is warranted",
-    ],
-    bestFor:
-      "Capital allocators deciding where to put AI to work first: inside the fund itself, or against a specific portfolio company.",
-    paymentTerms: "Payment in full at kickoff.",
-    primaryCTA: {
-      label: "Book The Signal Session",
-      preselected: "capital-signal-session",
-    },
-  },
-  {
-    id: "revenue-architecture",
-    category: "The Revenue Architecture",
-    headline: "30-day commercial rebuild. Deployed inside a portfolio company.",
-    subhead:
-      "Same Krish in the room, no associates, no retainer. Fund-level pricing for 3+ engagements per 12 months.",
-    price: "",
-    priceAnchor:
-      "A consultancy bills $400k+ and nine months per company. This is one operator, 30 days, repeatable across the portfolio.",
-    outcomeTodo:
-      "A private-equity-backed group stood up a new AI service line that books revenue, with a template the fund could lift into two more companies.",
-    trioLine:
-      "We map three things at once: how the portfolio company actually builds product, what the team can run, and how fluent the founder is as an operator. Most consulting engagements skip the third one and find out it mattered halfway through the rebuild.",
-    description:
-      "30 days inside a portfolio company. We rewrite ICP, pricing, GTM, the content engine, and outbound, with AI baked into the engine from day one. The deliverable is the engine itself, not a deck. Krish is in the room with the founder, working live, no associates, no partner-shuffles.",
-    walkOutWith: [
-      "Commercial strategy document (30-40 pages, client-branded)",
-      "Product marketing framework: positioning, messaging, competitive differentiation",
-      "Revenue model with multiple pricing scenarios",
-      "90-day GTM playbook: channels, sales process, enablement materials",
-      "Board-ready deck (for the portfolio company's board, not the fund's IC)",
-      "30-day follow-up strategy session included",
-    ],
-    bestFor:
-      "Funds and family offices that have identified a portfolio company needing a complete commercial rebuild, or want to deploy the same playbook across multiple portcos with fund-level pricing.",
-    paymentTerms:
-      "50% at kickoff, 50% at delivery. Fund-level discount available for 3+ engagements per 12 months.",
-    primaryCTA: {
-      label: "Book The Revenue Architecture",
-      preselected: "capital-revenue-architecture",
-    },
-  },
+const whenItFits = [
+  "A portfolio company whose product works and whose commercial story does not.",
+  "A board paper that keeps getting rewritten because nobody agrees what the company sells.",
+  "An operating partner being asked to have an opinion on an AI decision they did not make.",
+  "The same conversation happening at three companies, where you suspect it is one problem.",
 ];
 
-const door1Bullets = [
-  "Deal flow evaluation that filters signal from noise on founder AI claims",
-  "Portfolio thesis stress-tested against where AI is actually changing the competitive picture",
-  "Internal operating model rebuilt with AI inside the work itself: LP comms, deal memos, IC prep",
-  "A defensible point of view on AI you can hold in your next IC and your next LP meeting",
-];
-
-const door2Bullets = [
-  "Reposition portfolio companies whose category is collapsing",
-  "Rebuild portfolio companies whose founders are the bottleneck",
-  "Build new commercial engines into ventures starting from zero",
-  "Same Mindmaker engagement, applied to one portfolio company at a time",
-];
-
-const faqs = [
-  {
-    q: "We have an in-house operating partner. Why would we hire you?",
-    a: "Operating partners are full-time generalists. Mindmaker is a fixed-scope specialist who builds and leaves. Both can coexist. Most of my Capital buyers use me to scale across multiple portfolio engagements without growing internal headcount.",
-  },
-  {
-    q: "Our portfolio companies have their own CTOs. What do you actually do?",
-    a: "Mindmaker doesn't replace the CTO. It builds the commercial engine the CTO can't (positioning, pricing, GTM, content, outbound). Engineering and commercial are different problems. The CTO ships the product. I make sure the right buyers pay the right price for it.",
-  },
-  {
-    q: "Why no retainer? Wouldn't a multi-portco engagement work better as ongoing work?",
-    a: "Every engagement has a finish line because that's the only credible way to prove the work was about outcomes, not hours. Fund-level pricing exists for repeat engagements (3+ per 12 months get a discount), but each individual engagement is still 30 days fixed scope.",
-  },
-  {
-    q: "How does this work if we want it for the fund itself, not a portfolio company?",
-    a: "Same Signal Session entry, different focus. Instead of mapping a portfolio company's commercial layer, we map the fund's operating model: deal flow evaluation, IC prep, LP comms, portfolio thesis. Revenue Architecture in that context becomes a fund-internal rebuild rather than a portfolio company rebuild.",
-  },
-  {
-    q: "How fast can we start?",
-    a: "Signal Session typically books within 2-3 weeks. Revenue Architecture starts at the next monthly slot. For fund-level engagements with multiple portcos in scope, the intake call defines sequencing.",
-  },
+const whenItDoesNot = [
+  "You want a fractional operator inside the company. This ends on a date.",
+  "The company needs engineering delivery. This is commercial work.",
+  "Nobody at the company owns the outcome. A sponsor who is not accountable cannot carry it.",
+  "Pre-revenue, or no decision anyone can name in a sentence.",
 ];
 
 export default function Capital() {
-  useEffect(() => {
-    const productIds = capitalProducts.map((p) => p.id);
-    if (window.location.hash) {
-      const id = window.location.hash.slice(1);
-      if (!productIds.includes(id)) {
-        const el = document.getElementById(id);
-        if (el) {
-          setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 100);
-        }
-      }
-    }
-  }, []);
+  const { currency } = useCurrency();
+  const teardownPrice = useOfferPrice(TEARDOWN);
 
   return (
     <main className="min-h-screen bg-background">
       <SEO
-        title="Capital: build the fund's AI engine first, then the portfolio's"
-        description="For Operating Partners, family offices, and funds. The Signal Session maps the AI strategy for your fund or a portfolio company. The Revenue Architecture builds the engine inside it. Fund-level pricing available."
+        title="For funds and portfolio companies"
+        description="The same two engagements, bought by a fund, family office or operating partner for a portfolio company. The Teardown on one decision. The Handover on how the company decides and sells. Priced per portfolio company."
         canonical="/capital"
         ogType="website"
       />
       <Navigation />
 
       {/* HERO */}
-      <section className="section-padding pt-32 bg-ink">
+      <section className="section-padding pt-32">
         <div className="container-width max-w-4xl">
-          <motion.div
-            className="text-center"
-            initial="hidden"
-            animate="show"
-            variants={fadeUp}
-          >
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-mint/10 border border-mint/20 text-mint text-xs font-bold uppercase tracking-[0.18em] mb-6">
-              Capital
+          <motion.div initial="hidden" animate="show" variants={fadeUp}>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-mint/10 border border-mint/20 text-mint-dark dark:text-mint text-xs font-bold uppercase tracking-[0.18em] mb-6">
+              <Building2 className="w-3.5 h-3.5" />
+              For funds and portfolio companies
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white text-balance">
-              AI-native capital,
-              <br />
-              <span className="text-mint">deployed.</span>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-5 leading-tight">
+              You already know which one is stuck.
             </h1>
-            <p className="text-lg md:text-xl text-white/70 mb-10 max-w-2xl mx-auto">
-              For Operating Partners, family offices, and funds. We build the fund's AI engine first, around how you actually run deals. Then we push the same engine into the portfolio companies where it earns the most.
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-6 leading-relaxed">
+              Usually it is not the product. It is that nobody can explain what the
+              company sells, to whom, at what price, and the deck has been rewritten four
+              times without anyone saying that out loud.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                size="lg"
-                className="bg-mint text-ink hover:bg-mint/90 font-bold px-8"
-                onClick={() => openScopingModal("capital")}
-              >
-                Scope an engagement <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="border-white/20 text-white hover:bg-white/10 font-bold px-8"
-              >
-                <a href="#engagements">See both engagements</a>
-              </Button>
-            </div>
-            <div className="mt-6">
-              <button
-                type="button"
-                onClick={goToDiagnostic}
-                className="text-sm text-white/55 hover:text-mint transition-colors"
-              >
-                Or take the free diagnostic first →
-              </button>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* TWO DOORS */}
-      <section className="section-padding">
-        <div className="container-width max-w-5xl">
-          <motion.div
-            className="text-center mb-12 md:mb-16"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeUp}
-          >
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 tracking-tight">
-              Two doors. One operating system.
-            </h2>
-            <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              It's the same architecture, the same fixed scope, and Krish in the room either way. The only thing that changes is whether the engine ends up running inside your fund or inside one of the companies you own.
+            <p className="text-base text-muted-foreground max-w-2xl mb-8 leading-relaxed">
+              Same two engagements as everyone else gets. The difference is who is holding
+              the invoice, and that you are watching a pattern across a portfolio rather
+              than one company's quarter.
             </p>
-          </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-6 md:gap-8">
-            <motion.article
-              className="glass-card editorial-card p-8 md:p-10 flex flex-col h-full border border-border/50 hover:border-mint/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-mint/10 transition-all duration-300"
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-50px" }}
-              custom={0}
-              variants={fadeUp}
+            <Button
+              size="lg"
+              onClick={openDiagnosisRoom}
+              className="bg-ink dark:bg-mint text-white dark:text-ink hover:opacity-90 font-bold"
             >
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-mint-dark dark:text-mint mb-3">
-                Door 1
-              </div>
-              <h3 className="text-xl md:text-2xl font-bold mb-4 leading-tight">
-                Build the fund's AI engine first.
-              </h3>
-              <ul className="space-y-3 mb-2 flex-grow">
-                {door1Bullets.map((item, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <CheckCircle className="w-4 h-4 text-mint shrink-0 mt-1" />
-                    <span className="text-sm">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.article>
-
-            <motion.article
-              className="glass-card editorial-card p-8 md:p-10 flex flex-col h-full border border-border/50 hover:border-mint/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-mint/10 transition-all duration-300"
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-50px" }}
-              custom={1}
-              variants={fadeUp}
-            >
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-mint-dark dark:text-mint mb-3">
-                Door 2
-              </div>
-              <h3 className="text-xl md:text-2xl font-bold mb-4 leading-tight">
-                Deploy across your portfolio.
-              </h3>
-              <ul className="space-y-3 mb-2 flex-grow">
-                {door2Bullets.map((item, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <CheckCircle className="w-4 h-4 text-mint shrink-0 mt-1" />
-                    <span className="text-sm">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.article>
-          </div>
-        </div>
-      </section>
-
-      {/* ENGAGEMENTS */}
-      <section id="engagements" className="section-padding scroll-mt-24 bg-muted/20">
-        <div className="container-width max-w-5xl">
-          <motion.div
-            className="mb-10"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeUp}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-3">Engagements.</h2>
-            <p className="text-muted-foreground text-lg">
-              Two products running on the same engine. Either one works for the fund itself or for a single portfolio company.
-            </p>
+              Bring me one real decision
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
           </motion.div>
-          <ProductExpandSection products={capitalProducts} />
         </div>
       </section>
 
-      {/* SCOPE BOUNDARY */}
-      <section className="section-padding bg-mint/5 border-y border-mint/20">
+      {/* THE TWO ENGAGEMENTS */}
+      <section className="section-padding border-t border-border/40">
         <div className="container-width max-w-4xl">
-          <motion.div
+          <motion.h2
+            className="text-3xl md:text-4xl font-bold mb-3"
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeUp}
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">What I do, and what I don't.</h2>
-            <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-3xl">
-              I build the commercial strategy, positioning, and GTM architecture for funds and portfolio companies. I deliver the blueprint, the pricing, and the narrative. I don't run your sales team, I don't embed as a fractional Operating Partner, and I don't do ongoing retainer work. Every engagement has a fixed scope and a finish line. If your fund needs a permanent in-house operating partner, we'll talk about who that should be, but it won't be me on payroll.
-            </p>
+            Priced per portfolio company.
+          </motion.h2>
+          <motion.p
+            className="text-muted-foreground mb-8 max-w-2xl leading-relaxed"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeUp}
+          >
+            The same figures anyone else pays. Nothing is marked up because a fund is
+            asking, and nothing is discounted for volume on a public page.
+          </motion.p>
+
+          <motion.div
+            className="mb-4 flex flex-wrap items-center gap-x-3 gap-y-2"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeUp}
+          >
+            <span className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
+              Prices in
+            </span>
+            <CurrencySwitcher idPrefix="capital-currency" />
           </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-5">
+            <motion.div
+              className="glass-card editorial-card p-6 border border-mint/30"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={fadeUp}
+            >
+              <h3 className="text-lg font-bold mb-1">The Handover</h3>
+              <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                Six weeks rebuilding how the company decides and sells, then it ends. In
+                week five I do not attend, which is when you find out whether it holds. A
+                Day 90 recheck is included.
+              </p>
+              <dl className="space-y-1.5">
+                {HANDOVER.tiers.map((tier, i) => (
+                  <div key={tier.id} className="flex flex-wrap items-baseline gap-x-3">
+                    <dd
+                      data-price
+                      className={cn(
+                        "min-w-[7ch] whitespace-nowrap font-bold tabular-nums",
+                        i === 0 ? "text-2xl" : "text-lg",
+                      )}
+                    >
+                      {displayPrice(HANDOVER, currency, tier.id)}
+                    </dd>
+                    <dt className="min-w-0 text-sm text-muted-foreground">{tier.label}</dt>
+                  </div>
+                ))}
+              </dl>
+              <p className="text-xs text-muted-foreground mt-4">
+                {HANDOVER_ANNUAL_CAP} a year in total, across every client. The cap is not
+                a scarcity device, it is the honest number for work done personally.
+              </p>
+            </motion.div>
+
+            <motion.div
+              className="glass-card editorial-card p-6 border border-border/50"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={fadeUp}
+              custom={1}
+            >
+              <h3 className="text-lg font-bold mb-1">The Teardown</h3>
+              <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                Ten business days on one real decision, under two hours of the company's
+                time. Ends in a one-page memo the board can read, and three claims placed
+                under a 90-day watch.
+              </p>
+              <div className="flex flex-wrap items-baseline gap-x-3">
+                <span
+                  data-price
+                  className="min-w-[7ch] whitespace-nowrap text-2xl font-bold tabular-nums"
+                >
+                  {teardownPrice}
+                </span>
+                <span className="text-sm text-muted-foreground">
+                  {TEARDOWN.tiers[0].label}
+                </span>
+              </div>
+              <p className="text-xs text-muted-foreground mt-4">
+                Every Handover starts here. It is also the cheapest way to find out that a
+                company does not need the six weeks, which happens often enough to be the
+                point rather than a disclaimer.
+              </p>
+            </motion.div>
+          </div>
+
+          <motion.p
+            className="text-sm text-muted-foreground mt-6 max-w-2xl leading-relaxed"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeUp}
+          >
+            Fund-level engagements, and terms across more than one portfolio company, are
+            set on the call. That is not a coyness about price. It is that the shape
+            changes with how many companies, over what window, and who inside the fund
+            carries the work between engagements, and none of that is knowable from a page.
+          </motion.p>
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="section-padding bg-muted/30">
-        <div className="container-width max-w-3xl">
-          <motion.div
+      {/* FIT */}
+      <section className="section-padding border-t border-border/40">
+        <div className="container-width max-w-4xl">
+          <motion.h2
+            className="text-3xl md:text-4xl font-bold mb-8"
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeUp}
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-10">Questions.</h2>
-          </motion.div>
-          <div className="space-y-5">
-            {faqs.map((q, i) => (
-              <motion.div
-                key={i}
-                className="glass-card editorial-card p-6 border border-border/50"
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                custom={i}
-                variants={fadeUp}
-              >
-                <p className="font-bold mb-3">{q.q}</p>
-                <p className="text-muted-foreground text-sm leading-relaxed">{q.a}</p>
-              </motion.div>
-            ))}
+            When this is the right call.
+          </motion.h2>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={fadeUp}
+            >
+              <h3 className="text-sm font-bold uppercase tracking-[0.18em] text-mint-dark dark:text-mint mb-4">
+                It fits
+              </h3>
+              <ul className="space-y-3">
+                {whenItFits.map((item) => (
+                  <li key={item} className="flex gap-3 text-sm text-muted-foreground leading-relaxed">
+                    <CheckCircle className="w-4 h-4 mt-0.5 shrink-0 text-mint-dark dark:text-mint" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={fadeUp}
+              custom={1}
+            >
+              <h3 className="text-sm font-bold uppercase tracking-[0.18em] text-muted-foreground mb-4">
+                It does not
+              </h3>
+              <ul className="space-y-3">
+                {whenItDoesNot.map((item) => (
+                  <li key={item} className="flex gap-3 text-sm text-muted-foreground leading-relaxed">
+                    <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-muted-foreground/60" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* FINAL CTA */}
-      <section className="section-padding">
-        <div className="container-width max-w-3xl text-center">
+      {/* CTA */}
+      <section className="section-padding border-t border-border/40">
+        <div className="container-width max-w-2xl text-center">
           <motion.div
             initial="hidden"
             whileInView="show"
@@ -360,27 +289,20 @@ export default function Capital() {
             variants={fadeUp}
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Not sure which door is yours?
+              Bring the company you keep arguing about.
             </h2>
-            <p className="text-muted-foreground text-lg mb-8">
-              Book a 30-minute intake call. We'll scope fit, decide whether it's a fund-level or portfolio engagement, and confirm price and start date in one conversation.
+            <p className="text-muted-foreground mb-7 leading-relaxed">
+              Work the decision through first. It costs nothing, and it will tell you
+              plainly if neither engagement is the right spend for that company.
             </p>
             <Button
               size="lg"
-              className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold px-10 py-6 text-base"
-              onClick={() => openScopingModal("capital")}
+              onClick={openDiagnosisRoom}
+              className="bg-ink dark:bg-mint text-white dark:text-ink hover:opacity-90 font-bold"
             >
-              Scope it with me <ArrowRight className="ml-2 w-4 h-4" />
+              Bring me one real decision
+              <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
-            <div className="mt-5">
-              <button
-                type="button"
-                onClick={goToDiagnostic}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Or take the free diagnostic first →
-              </button>
-            </div>
           </motion.div>
         </div>
       </section>

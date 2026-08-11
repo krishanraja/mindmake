@@ -19,13 +19,44 @@
  * Keep every `body` below faithful to what the live page renders. This is a
  * text-only summary of the real page, never a different pitch, or it becomes
  * cloaking. When a page's positioning changes, change it here too.
+ *
+ * On currency. The offer pages carry a switcher, so a visitor can see a price
+ * here that differs from what this file states. That is not cloaking: the
+ * default state matches exactly, the difference is user-initiated in their own
+ * browser, and it is a different rendering of the same offer rather than a
+ * different pitch. Two rules keep it that way. Every price below is
+ * interpolated from src/lib/offers.ts in DEFAULT_CURRENCY, never typed by
+ * hand, and no non-default currency may appear in a static file, since these
+ * bytes are served identically to everyone. Both are asserted at the bottom
+ * of this script.
  */
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
+import { loadOffers } from "./lib/offers-loader.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const {
+  TEARDOWN,
+  HANDOVER,
+  DEFAULT_CURRENCY,
+  HANDOVER_ANNUAL_CAP,
+  displayPrice,
+  offerJsonLd,
+} = await loadOffers();
+
+/**
+ * A price for the crawler body, always in the default currency, wrapped so
+ * the pre-paint style in index.html can hide a stale number from a visitor
+ * who has chosen a different currency. Never hard-code a price below.
+ */
+const p = (offer, tierId) =>
+  `<span data-price>${displayPrice(offer, DEFAULT_CURRENCY, tierId)}</span>`;
+
+/** A tier's label ("under 100 people"). A headcount, never a price. */
+const lb = (offer, tierId) => offer.tiers.find((t) => t.id === tierId).label;
 const distDir = resolve(__dirname, "../dist");
 
 // Read the built index.html as the template. `vite build` empties dist first,
@@ -86,7 +117,7 @@ const pages = [
     <h2>Who you're working with</h2>
     <p>Krish Raja is an operator-advisor, not a consultant: no training, no decks, no demos, just decisions. He runs a 14-agent AI operating system across his own portfolio every day, so the commercial work comes out of production rather than out of a deck. See <a href="/operator">how he operates</a> and the <a href="/case-studies">work it has moved</a>.</p>
     <h2>Two ways in</h2>
-    <p>One method: your context, held properly, and anchored to the decisions you are actually making this week. Run it yourself with <a href="https://ctrl.themindmaker.ai/">CTRL</a>, an AI-native chief of staff that is free to start. Or run it with me: <a href="/teardown">The Teardown</a>, ten days on one real decision at $3,500, and if that goes well <a href="/handover">The Handover</a>, six weeks rebuilding how the business decides and sells, from $30,000.</p>`,
+    <p>One method: your context, held properly, and anchored to the decisions you are actually making this week. Run it yourself with <a href="https://ctrl.themindmaker.ai/">CTRL</a>, an AI-native chief of staff that is free to start. Or run it with me: <a href="/handover">The Handover</a>, six weeks rebuilding how the business decides and sells, from ${p(HANDOVER, "under-100")}, which always starts with <a href="/teardown">The Teardown</a>, ten business days on one real decision at ${p(TEARDOWN)}.</p>`,
   },
   {
     path: "/start",
@@ -108,9 +139,10 @@ const pages = [
   },
   {
     path: "/teardown",
+    jsonLd: offerJsonLd(TEARDOWN, SITE),
     title: "The Teardown: Mindmaker",
     description:
-      "Ten business days. One real decision, taken apart into the claims it rests on, each checked against live evidence and cross-examined across four models. Under two hours of your time. $3,500.",
+      "Ten business days. One real decision, taken apart into the claims it rests on, each checked against live evidence and cross-examined across four models. Under two hours of your time.",
     body: `
     <h1>Bring the decision you keep not making.</h1>
     <p>Ten business days. Under two hours of your time. You get back the decision taken apart: what it actually rests on, which of those parts survive contact with evidence, and which are yours alone to call.</p>
@@ -122,16 +154,17 @@ const pages = [
       <li>Four models cross-examine it, and where they disagree you see the disagreement rather than an average that hides it.</li>
     </ul>
     <h2>What you keep</h2>
-    <p>A one-page memo you can send on, your decision mapped to its load-bearing claims, every consideration classed, the four-model cross-examination with disagreements preserved, and three claims placed under a 90-day watch so you know what would change your mind. Plus a CTRL workspace with your decision map in it and 30 days of Edge Pro.</p>
+    <p>A one-page memo you can send on, your decision mapped to its load-bearing claims, every consideration classed, the four-model cross-examination with disagreements preserved, and three claims placed under a 90-day watch so you know what would change your mind. Plus a CTRL workspace with your decision map in it.</p>
     <h2>Price</h2>
-    <p>$3,500 fixed, one decision, ten business days from kickoff. 20% off if you let me write about the work, with you approving how you are portrayed.</p>
+    <p>${p(TEARDOWN)} ${lb(TEARDOWN, "flat")} Ten business days from kickoff.</p>
     <p>A Teardown is also the gate for <a href="/handover">The Handover</a>. Nobody buys six weeks without us both seeing how one decision goes first.</p>`,
   },
   {
     path: "/handover",
+    jsonLd: offerJsonLd(HANDOVER, SITE),
     title: "The Handover: Mindmaker",
     description:
-      "Six weeks. We rebuild how your business decides and sells with AI, then I leave and you keep it. Week five I don't attend. Day 90 recheck included. $30,000 under 250 people, $50,000 up to 5,000.",
+      "Six weeks. We rebuild how your business decides and sells with AI, then I leave and you keep it. Week five I don't attend. Day 90 recheck included. Priced by company size.",
     body: `
     <h1>Six weeks. Then I leave and you keep it.</h1>
     <p>Consultants are built so the engagement never ends. This one is built to end, on a date you know at the start. In week five I don't attend at all, because a system that only runs when I'm in the room is not a system.</p>
@@ -147,8 +180,8 @@ const pages = [
     <h2>Who it's for</h2>
     <p>Companies of 50 to 5,000 people, sweet spot 100 to 1,000. The buyer is the CEO, CRO or VP Product: the seat accountable for whether it sells. Not the CTO, because this is commercial work and engineering and commercial are different problems.</p>
     <h2>Price and the gate</h2>
-    <p>$30,000 under 250 people. $50,000 for 250 to 5,000. 20% off if you let me write about the work, with you approving how you are portrayed. I take six of these a year, which is the honest number for work I do personally.</p>
-    <p>Every Handover starts with <a href="/teardown">a Teardown</a>, ten days and $3,500. It has talked people out of this as often as into it.</p>`,
+    <p>${p(HANDOVER, "under-100")} ${lb(HANDOVER, "under-100")}. ${p(HANDOVER, "100-250")} ${lb(HANDOVER, "100-250")}. ${p(HANDOVER, "250-5000")} ${lb(HANDOVER, "250-5000")}. I take ${HANDOVER_ANNUAL_CAP} of these a year, which is the honest number for work I do personally.</p>
+    <p>Every Handover starts with <a href="/teardown">a Teardown</a>, ten days and ${p(TEARDOWN)}. It has talked people out of this as often as into it.</p>`,
   },
   {
     path: "/cohort",
@@ -317,15 +350,40 @@ function buildHtml(page) {
 
   // Inject the crawlable body. React clears #root on mount (createRoot), so
   // this is replaced the moment the bundle runs.
-  const content = `<div id="prerendered-content">${page.body}\n${navBlock}\n  </div>`;
+  // Structured data goes INSIDE #root, not <head>. React clears #root on
+  // mount, so the static node and the Helmet-rendered node can never both be
+  // in the DOM. Exactly one Offer node exists at any moment, always in the
+  // default currency, whether or not JavaScript runs.
+  const ld = page.jsonLd
+    ? `\n    <script type="application/ld+json">${JSON.stringify(page.jsonLd)}</script>`
+    : "";
+  const content = `<div id="prerendered-content">${page.body}${ld}\n${navBlock}\n  </div>`;
   html = html.replace('<div id="root"></div>', `<div id="root">${content}</div>`);
 
   return html;
 }
 
+/**
+ * Prices that MUST appear in a given route's crawler body.
+ *
+ * The bodies interpolate from offers.ts, so a broken import or a renamed tier
+ * would produce "undefined" or an empty span rather than a number. A crawler
+ * body that states no price is worse than no body at all: it is an indexed
+ * claim that the price is unknown. Assert the real ones landed.
+ */
+const PRICE_REQUIRED = {
+  "/": [
+    displayPrice(HANDOVER, DEFAULT_CURRENCY, "under-100"),
+    displayPrice(TEARDOWN, DEFAULT_CURRENCY),
+  ],
+  "/teardown": [displayPrice(TEARDOWN, DEFAULT_CURRENCY)],
+  "/handover": HANDOVER.tiers.map((t) => displayPrice(HANDOVER, DEFAULT_CURRENCY, t.id)),
+};
+
 function prerender() {
   let count = 0;
   let missingRoot = 0;
+  let priceProblems = 0;
 
   for (const page of pages) {
     const html = buildHtml(page);
@@ -337,6 +395,26 @@ function prerender() {
     if (!html.includes(fingerprint)) {
       missingRoot++;
       console.warn(`  ! ${page.path}: body was not injected`);
+    }
+
+    for (const needle of PRICE_REQUIRED[page.path] ?? []) {
+      if (!html.includes(needle)) {
+        priceProblems++;
+        console.warn(`  ! ${page.path}: expected price ${needle} missing from crawler body`);
+      }
+    }
+
+    // A non-default currency must never reach a static file. Every visitor and
+    // crawler is served the same prerendered bytes, so a GBP price baked in
+    // here would be shown to everyone regardless of what they chose.
+    if (/£/.test(html)) {
+      priceProblems++;
+      console.warn(`  ! ${page.path}: a non-default currency leaked into static HTML`);
+    }
+
+    if (/\$undefined|>undefined<|NaN/.test(html)) {
+      priceProblems++;
+      console.warn(`  ! ${page.path}: an interpolation produced undefined or NaN`);
     }
 
     if (page.path === "/") {
@@ -356,6 +434,10 @@ function prerender() {
   console.log(`Prerendered ${count} pages with per-page meta tags and crawlable body content`);
   if (missingRoot > 0) {
     console.error(`ERROR: ${missingRoot} page(s) had no body injected. The root div selector has drifted.`);
+    process.exit(1);
+  }
+  if (priceProblems > 0) {
+    console.error(`ERROR: ${priceProblems} price assertion(s) failed in the crawler body.`);
     process.exit(1);
   }
 }

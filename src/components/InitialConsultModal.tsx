@@ -286,29 +286,14 @@ export const InitialConsultModal = ({
 
   const pathOptions = [
     {
-      value: "workshop",
-      label: "A Mindmaker Workshop",
-      helper: "One day on Maven. You build a real artefact alongside me on your real surface. Five workshops to choose from.",
+      value: "handover",
+      label: "The Handover",
+      helper: "Six weeks rebuilding how the business decides and sells, then it ends. Week five I do not attend. A Day 90 recheck is included.",
     },
     {
-      value: "cohort-enrollment",
-      label: "The AI-Fluent Executive (Cohort)",
-      helper: "Four weeks with 15 other senior leaders, mostly async plus weekly live sessions. Diagnose, decompose, decide, deploy.",
-    },
-    {
-      value: "signal-session",
-      label: "The Signal Session",
-      helper: "One intensive day plus a 48h Commercial Narrative. For teams needing rapid alignment on how to sell an AI capability.",
-    },
-    {
-      value: "revenue-architecture",
-      label: "The Revenue Architecture",
-      helper: "A 30-day build of pricing, positioning, packaging, and GTM for companies commercializing AI.",
-    },
-    {
-      value: "immersion",
-      label: "The AI Immersion",
-      helper: "A half-day working session with up to 8 of your senior leaders. Board-ready summary within 5 business days.",
+      value: "teardown",
+      label: "The Teardown",
+      helper: "Ten business days on one real decision, under two hours of your time. It is also the gate for The Handover.",
     },
     {
       value: "1-1-inquiry",
@@ -738,39 +723,18 @@ export const InitialConsultModal = ({
 
                 <div className="space-y-3">
                   <SelectionCard
-                    selected={selectedPath === "workshop"}
-                    icon={Zap}
-                    title="A Mindmaker Workshop"
-                    subtitle="One day on Maven. Build a real artefact."
-                    onClick={() => handlePathSelect("workshop")}
-                  />
-                  <SelectionCard
-                    selected={selectedPath === "cohort-enrollment"}
-                    icon={Users}
-                    title="The AI-Fluent Executive (Cohort)"
-                    subtitle="Four weeks with 15 senior leaders."
-                    onClick={() => handlePathSelect("cohort-enrollment")}
-                  />
-                  <SelectionCard
-                    selected={selectedPath === "signal-session"}
-                    icon={Zap}
-                    title="The Signal Session"
-                    subtitle="One intensive day. Rapid commercial alignment."
-                    onClick={() => handlePathSelect("signal-session")}
-                  />
-                  <SelectionCard
-                    selected={selectedPath === "revenue-architecture"}
+                    selected={selectedPath === "handover"}
                     icon={Compass}
-                    title="The Revenue Architecture"
-                    subtitle="30-day commercial build."
-                    onClick={() => handlePathSelect("revenue-architecture")}
+                    title="The Handover"
+                    subtitle="Six weeks. Then I leave and you keep it."
+                    onClick={() => handlePathSelect("handover")}
                   />
                   <SelectionCard
-                    selected={selectedPath === "immersion"}
-                    icon={Users}
-                    title="The AI Immersion"
-                    subtitle="Half-day with your leadership team."
-                    onClick={() => handlePathSelect("immersion")}
+                    selected={selectedPath === "teardown"}
+                    icon={Zap}
+                    title="The Teardown"
+                    subtitle="Ten business days on one real decision."
+                    onClick={() => handlePathSelect("teardown")}
                   />
                   <SelectionCard
                     selected={selectedPath === "1-1-inquiry"}

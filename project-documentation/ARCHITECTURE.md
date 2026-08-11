@@ -90,12 +90,12 @@ mindmaker/
 │   │   ├── Index.tsx                 # homepage (eager-loaded)
 │   │   ├── Workshops.tsx + workshops/ # /workshops index + 5 sub-pages
 │   │   ├── Cohort.tsx                # The AI-Fluent Executive (Cohort) (Maven enrolment)
-│   │   ├── Enterprise.tsx            # Signal Session + Revenue Architecture + Immersion
+│   │   ├── Handover.tsx              # /handover. Three price bands by headcount
 │   │   ├── Capital.tsx               # /capital (third door for funds)
 │   │   ├── Operator.tsx              # /operator, 14-agent OS credential
 │   │   ├── CaseStudies.tsx           # /case-studies, filterable anonymised proof
 │   │   ├── Brief.tsx                 # Live Intel, /signal
-│   │   ├── Immersion.tsx             # /immersion. AI Immersion ($12k, inquiry-only)
+│   │   ├── Capital.tsx               # /capital. The same two, per portfolio company
 │   │   ├── Alumni.tsx                # /alumni. Alumni Pass (invitation-only, noindex)
 │   │   ├── Library.tsx               # /library (includes FAQ tab)
 │   │   ├── NewAgeLeadership.tsx      # /new-age-leadership, long-form thought leadership
@@ -178,20 +178,20 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 |---|---|---|
 | `/` | `Index` | Homepage, eager-loaded. CTAs open the Diagnosis Room |
 | `/start` | `DiagnosisRoom` (full page) | The Diagnosis Room (Mindy) as a standalone page; closing it navigates to `/` |
-| `/workshops` | `Workshops` | Mindmaker Workshops index. Five $599 one-day workshops on Maven. |
+| `/teardown` | `Teardown` | The Teardown. One price, currency switcher, the four-step method. |
 | `/workshops/build-your-ai-chief-of-staff` | `workshops/BuildYourAIChiefOfStaff` | Workshop sub-page. CTA: "Enrol on Maven" or "Get notified". |
 | `/workshops/map-your-agentic-org-chart` | `workshops/MapYourAgenticOrgChart` | Workshop sub-page. |
 | `/workshops/vibe-coding-for-leaders` | `workshops/VibeCodingForLeaders` | Workshop sub-page. |
 | `/workshops/build-an-autonomous-business-function` | `workshops/BuildAnAutonomousBusinessFunction` | Workshop sub-page. |
 | `/workshops/give-your-ai-memory` | `workshops/GiveYourAIMemory` | Workshop sub-page. |
 | `/cohort` | `Cohort` | The AI-Fluent Executive (Cohort) ($2,500/seat, 4 weeks). Enrolment on **Maven** at `maven.com/mindmaker/the-ai-fluent-executive`. Banner appears on `?inquiry=1:1`. |
-| `/enterprise` | `Enterprise` | The Signal Session ($15k, 1 day + 48h delivery) + The Revenue Architecture ($60–100k, 30 days). Anchors `#signal-session`, `#revenue-architecture`. |
-| `/capital` | `Capital` | Third door for funds and operating partners. Same Signal Session and Revenue Architecture engagement formats, repositioned for fund-level buyers. |
+| `/handover` | `Handover` | The Handover. Three price bands by headcount, the six weeks, the Teardown gate, the $254K POC. |
+| `/capital` | `Capital` | Third door for funds and operating partners. The same two engagements, priced per portfolio company; fund terms on the call. |
 | `/operator` | `Operator` | (v5) How I operate, 14-agent OS credential page. Looping `/ctrl-demo-video.mp4`. |
 | `/case-studies` | `CaseStudies` | Filterable anonymised client case studies (COHORT-STYLE / ENTERPRISE). Linked from Resources nav + footer. |
 | `/signal` | `Brief` | **Live Intel**, full dashboard. Extended PriceTicker, interpretation grid, classified archive (WATCH/SKIP/CALL/TAKE), blog column, Nervous Decision Machine. |
 | `/library` | `Library` | Library of resources, FAQ, etc. |
-| `/immersion` | `Immersion` | **AI Immersion** ($12k, inquiry-only). 3-phase format: alignment / 4-hour session / 2-page summary in 5 days. |
+| `/start` | `DiagnosisRoom` | The Diagnosis Room as a standalone page. |
 | `/alumni` | `Alumni` | **The Alumni Pass** ($1,500/year, invitation-only). Hidden from nav and footer; reachable by direct URL only. SEO `noindex`. |
 | `/new-age-leadership` | `NewAgeLeadership` | Long-form thought leadership: agent-native org chart, hybrid teams, agent-first functions, emergent agent-native roles. Lazy-loaded `OrgChart` + `AgathaStory`. |
 | `/leaders`, `/leadership-insights` | `LeadershipInsights` | Decision Readiness Diagnostic, unlinked from nav, reachable by URL |
@@ -260,7 +260,7 @@ Authoritative source: `src/components/Navigation.tsx`. Primary CTA: **"Book a ca
 |---|---|---|---|
 | 1 | Workshops | Direct link | `/workshops` |
 | 2 | Cohort | Direct link | `/cohort` |
-| 3 | Enterprise | Dropdown | The Signal Session → `/enterprise#signal-session`, The Revenue Architecture → `/enterprise#revenue-architecture`, The AI Immersion → `/enterprise#immersion`, "For funds & operating partners" → Capital → `/capital` |
+| 1 | Work with me | Dropdown | The Handover → `/handover`, The Teardown → `/teardown`, For funds and portfolio companies → `/capital` |
 | 4 | **Mindmaker LIVE** | Direct link (wordmark) | `/signal` |
 | 5 | Resources | Dropdown | How I operate → `/operator`, Case studies → `/case-studies`, New Age Leadership → `/new-age-leadership`, Library → `/library`, The Builder Economy (Podcast) → external `thebuildereconomy.com`, Lightning Lessons (5 external Maven URLs via the `LightningLessons` component) |
 | 6 | About | Dropdown | Contact → `/contact`, Privacy → `/privacy`, Terms → `/terms` |
@@ -272,16 +272,17 @@ Decision Readiness Diagnostic (`/leaders`) is deliberately **not** in nav or foo
 
 ## Pricing (canonical)
 
-| Offer | Price | Duration |
+| Engagement | Price (USD) | Duration |
 |---|---|---|
-| The AI-Fluent Executive (Cohort) | $2,500 / seat (or 2× $1,250 split) | 4 weeks (mostly async) + 4 × 90-min live sessions |
-| The Signal Session | $15,000 | 1 day intensive + 48-hour Commercial Narrative (15–20 pages) |
-| The Revenue Architecture | $60,000–$100,000 | **30 days (4–5 calendar weeks)**, multi-session |
-| The AI Immersion (inquiry) | $12,000 (flat; travel additional) | 4-hour session + 2-page summary within 5 business days |
+| The Handover | $18,000 / $30,000 / $50,000 by headcount | Six weeks + a Day 90 recheck |
+| The Teardown | $9,500 | Ten business days, under two hours of client time |
 
-Internal floor/ceiling (not on site): Cohort min viable enrollment = 8, cap = 15; Revenue Architecture floor $60k, ceiling $125k for extended scope.
+Also published in GBP and AUD as set prices per market. Canonical source: `src/lib/offers.ts`. A test fails the build if a price string appears anywhere else in the web surface.
 
-Payment terms (small muted text below price on each page): Cohort = "Full payment or 2× split" (Maven collects); Signal Session = "Payment on kickoff"; Revenue Architecture = "50/50 at kickoff and delivery"; Immersion = "Full at booking or 50/50 at booking + delivery".
+
+The Handover is capped at six a year, and the cap is stated publicly because it is part of the offer.
+
+Payment: The Teardown on kickoff. The Handover 50/50 at kickoff and delivery. **No discounts are published anywhere.**
 
 ---
 
@@ -504,7 +505,7 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 - `public/robots.txt` allow-list for GPTBot, ClaudeBot, PerplexityBot, Google-Extended
 - `/operator` OG type set to `article`
 - Plausible events (`window.plausible(...)` if present):
-  - `operator_page_cta_clicked`. Revenue Architecture CTA from `/operator`
+  - `operator_page_cta_clicked`. The commercial crossover CTA from `/operator`
   - `diagnosis_room_*`. the Diagnosis Room funnel: `diagnosis_room_start`, `diagnosis_room_express_start`, `diagnosis_room_switch_to_full`, `diagnosis_room_view_brief`, `diagnosis_room_fork`, `diagnosis_room_book_call`, `diagnosis_room_generate_proposal`, `diagnosis_room_pdf_downloaded`, `diagnosis_room_digest_sent`
 
 ---

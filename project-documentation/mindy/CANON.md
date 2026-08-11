@@ -118,7 +118,7 @@ These carry retired facts or are not Mindmaker business content. **They must not
 3. **Any published discount.** The 20% publicity discount and the proposed credit escalator were both removed. A retrieved mention of either is stale.
 4. **Any CTRL price.** CTRL is not sold on this site.
 5. **`mindmaker_rebuild_brief_v4.md`**, the v4/v5 strategic brief. Strategic-intent archive only.
-6. **`EXECUTIVE_SUMMARY.md`** (now `research/LLM_CHAIN_OF_THOUGHT.md`) and **`LLM_CRITICAL_THINKING_TRAINING.md`**, research artefacts rather than business content.
+6. **`research/LLM_CHAIN_OF_THOUGHT.md`** (now `research/LLM_CHAIN_OF_THOUGHT.md`) and **`research/LLM_CRITICAL_THINKING_TRAINING.md`**, research artefacts rather than business content.
 7. **The old portfolio deck facts**, which carry retired numbers.
 
 General rule for retrieval: prefer the living `project-documentation/` set, `CLAUDE.md`, and `src/lib/offers.ts`. Treat anything dated before 2026-08-11 as suspect on price, offer name, and format.

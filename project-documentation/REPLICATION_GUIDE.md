@@ -82,10 +82,10 @@ src/components/CookieConsent.tsx
 ```
 src/pages/Index.tsx                    # homepage (eager-loaded)
 src/pages/Cohort.tsx                   # The AI-Fluent Executive (Cohort) (Maven enrolment)
-src/pages/Enterprise.tsx               # Signal Session + Revenue Architecture (30 days)
+src/pages/Handover.tsx                 # The Handover, three price bands by headcount
 src/pages/Operator.tsx                 # 14-agent OS credential page (autoplay /ctrl-demo-video.mp4)
 src/pages/Brief.tsx                    # Live Intel (/signal)
-src/pages/Immersion.tsx                # AI Immersion ($12k, inquiry-only)
+src/pages/Capital.tsx                  # The same two engagements, per portfolio company
 src/pages/NewAgeLeadership.tsx         # /new-age-leadership thought leadership
 src/pages/LeadershipInsights.tsx       # Decision Readiness Diagnostic (unlinked from nav)
 src/pages/Blog.tsx, BlogPost.tsx
@@ -245,7 +245,7 @@ verify_jwt = false
 3. The live alumni checkout flow is invitation-gated. The page CTA opens `InitialConsultModal` with `preselected: 'alumni'`; once Krish confirms eligibility, he sends the alum a direct Stripe Payment Link out of band. Building the in-page checkout is a separate task.
 
 ### Step 20: Plausible (optional)
-Track `operator_page_cta_clicked` on `/operator` Revenue Architecture CTA, and the `diagnosis_room_*` events on the Diagnosis Room (Mindy) journey.
+Track `operator_page_cta_clicked` on the `/operator` crossover CTA, and the `diagnosis_room_*` events on the Diagnosis Room (Mindy) journey.
 
 ---
 

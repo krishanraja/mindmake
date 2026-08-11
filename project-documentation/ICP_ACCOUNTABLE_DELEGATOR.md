@@ -2,7 +2,7 @@
 
 **Last Updated:** 2026-06-28
 
-This is the deep psychographic, behavioural, and skill-gap profile of the buyer behind **ICP 1: AI Leaders / Cohort Buyer** in `ICP.md`. It is the primary archetype for **The AI-Fluent Executive** ($2,500 cohort) and the entry-rung Workshops, and the human at the centre of every Signal Session and Immersion sponsor conversation.
+This is the deep psychographic, behavioural and skill-gap profile of the buyer described in `ICP.md`. It is the archetype behind both engagements, and the human at the centre of every conversation that starts with a nervous decision.
 
 This doc deliberately does not repeat what already lives elsewhere. For firmographic ranges, qualification signals, and disqualifiers see `ICP.md`. For the objection bank, routing logic, ROI math, and channel templates see `SALES_PLAYBOOK.md`. For canonical pitches and objection-handling FAQ see `Master_Messaging_and_FAQ.md`. What follows is the part those docs assume but never spell out: who this buyer actually is underneath, and the exact skill they are missing.
 
@@ -151,9 +151,9 @@ Any offer for this buyer must navigate the gap between their **stated need** (AI
 
 **What does not work:** technology-first framing (they delegate it to IT); training-only interventions (they send the team, not themselves); abstract frameworks with no P&L anchor; certifications (the credential is not the problem); anything positioned as "beginner" AI literacy (identity threat too high).
 
-**What works:** frame it as leadership design, not AI training; start from the commercial outcome (speed to market, product clarity, revenue per employee) and work back to the human-AI structure required to deliver it; create peer safety (a cohort where senior leaders build literacy without audience risk); give them a language upgrade (autonomous org design, tiered delegation, human-AI workflow architecture); build in personal experimentation as a leadership act; name the impostor dynamic as accurate.
+**What works:** frame it as leadership design, not AI training; start from the commercial outcome (speed to market, product clarity, revenue per employee) and work back to the human-AI structure required to deliver it; create safety to not know (the work happens on their decision, in private, without an audience of their own reports); give them a language upgrade (autonomous org design, tiered delegation, human-AI workflow architecture); build in personal experimentation as a leadership act; name the impostor dynamic as accurate.
 
-**The one-sentence pitch:** Most consultants help your business. Mindmaker teaches you to operate your business with AI, so you stop delegating the decision you were hired to make.
+**The one-sentence pitch:** Most consultants hand you an answer you cannot defend. Mindmaker takes the decision apart in front of you, and rebuilds how the business makes the next one, so you stop delegating the call you were hired to make.
 
 ---
 

@@ -134,7 +134,7 @@
 - `DESIGN_SYSTEM.md`, `VISUAL_GUIDELINES.md`, `DEPLOYMENT.md`, `COMMON_ISSUES.md`, `REPLICATION_GUIDE.md`, `HISTORY.md`, `DECISIONS_LOG.md`
 
 **Files Untouched (research artefacts, intentionally preserved):**
-- `EXECUTIVE_SUMMARY.md`, `LLM_CRITICAL_THINKING_TRAINING.md`, `mindmaker_rebuild_brief_v4.md`
+- `research/LLM_CHAIN_OF_THOUGHT.md`, `research/LLM_CRITICAL_THINKING_TRAINING.md`, `mindmaker_rebuild_brief_v4.md`
 
 ---
 
@@ -171,7 +171,7 @@
 - `DESIGN_SYSTEM.md` (CTA + card + retired patterns), `VISUAL_GUIDELINES.md` (homepage scroll + retired patterns), `HISTORY.md`, `DECISIONS_LOG.md`
 
 **Files Unchanged (research, not business content):**
-- `EXECUTIVE_SUMMARY.md`, `LLM_CRITICAL_THINKING_TRAINING.md`. noted in `README.md` as research artefacts
+- `research/LLM_CHAIN_OF_THOUGHT.md`, `research/LLM_CRITICAL_THINKING_TRAINING.md`. noted in `README.md` as research artefacts
 
 ---
 

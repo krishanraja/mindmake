@@ -7,29 +7,20 @@
 ## Brand & Content Issues
 
 ### Issue: Retired product names, prices, or URLs in copy
-**Symptom:** References to "The AI Decision Cohort" (the v6 rename moved this to "The AI-Fluent Executive"), "$3,500" Cohort price (now $2,500), "3 weeks" Cohort duration (now 4 weeks), "Name → Map → Make" Cohort framework (now Diagnose → Decompose → Decide → Deploy), the dead Maven URL `maven.com/aimindmaker/ai-decision-intensive` (live URL is `maven.com/mindmaker/the-ai-fluent-executive`), "4-Week Sprint", "90-Day Sprint", "Builder Sprint", "Builder Session", "Leadership Lab", "Portfolio Partner", "Fractional CAIO", "Signal Desk", "Ask Mindmaker" / "Chat with Krish", `"What's your nervous decision?"` as a CTA button label, "The Brief" as a nav label, "8–12 week Revenue Architecture", or "5–10 page Signal Session thesis".
+**Symptom:** Copy anywhere that names an offer other than The Teardown or The Handover, quotes a price that is not in `src/lib/offers.ts`, mentions a discount, or implies a geographic market.
 
-**Cause:** Legacy copy not updated to current spec.
+**Cause:** The six-rung ladder was retired in July and August 2026 and the estate is large. Anything written before 2026-08-11 is suspect on offer name, price and format.
 
-**Solution:** Replace with current terminology:
-- Cohort name → **The AI-Fluent Executive** (NOT "The AI Decision Cohort")
-- Cohort price → **$2,500** (NOT $3,500). 2× split → **$1,250 × 2** (NOT $1,800 × 2)
-- Cohort duration → **4 weeks** (NOT 3 weeks)
-- Cohort curriculum → **Diagnose → Decompose → Decide → Deploy** (NOT Name → Map → Make)
-- Maven Cohort URL → **`maven.com/mindmaker/the-ai-fluent-executive`** (NOT `maven.com/aimindmaker/ai-decision-intensive`)
-- Workshops → **Mindmaker Workshops** (5 named: Build Your AI Chief of Staff · Map Your Agentic Org Chart · Vibe Coding for Leaders · Build an Autonomous Business Function · Give Your AI Memory)
-- Alumni → **The Alumni Pass** ($1,500/year, invitation-only, `noindex`, unlinked from nav and footer)
-- Other offers → **The Signal Session**, **The Revenue Architecture**, **The AI Immersion**
-- `/signal` nav label → **Mindmaker LIVE** (rendered as a wordmark; body copy may still use "Live Intel" or "The Operator's Brief")
-- Revenue Architecture duration → **30 days (4–5 calendar weeks)**, not 8–12 weeks
-- Signal Session deliverable → **15–20 page Commercial Narrative within 48 hours**, not 5–10 pages within 5 days
-- Primary CTA label → **"Book a call"** (everywhere, no conditional labels)
-- Cohort enrolment CTA → **"Reserve my seat on Maven"** points directly at `https://maven.com/mindmaker/the-ai-fluent-executive`
-- Workshop enrolment CTA → **"Enrol on Maven"** when published, **"Get notified"** while a workshop is not yet live on Maven
-- Alumni CTA → **"Request an invitation"** (preselects `'alumni'` in the consult modal)
-- ChatBot surface → retired; replaced by the Diagnosis Room (Mindy), the primary conversion surface (`src/components/diagnosis/`, opened via `openDiagnosisRoom`; also a standalone page at `/start`). The old `PreCallQualifier` floating pill is also retired and no longer mounted.
+**Fix:** The canonical names and prices are:
 
-See `BRANDING.md` and `FEATURES.md` for the complete retired-concepts list.
+- **The Handover.** USD $18,000 / $30,000 / $50,000 by headcount. Six weeks plus a Day 90 recheck. Capped at six a year. Always via the call.
+- **The Teardown.** USD $9,500. Ten business days, under two hours of client time. Self-serve, price published. The gate for The Handover.
+- Also GBP and AUD, as **set prices per market, not conversions**.
+- **No discounts.** No credit, no percentage off, no urgency offer.
+- **No geographic market claim** anywhere, including meta tags and structured data.
+- **CTRL** is a separate product on its own site and is not sold here. Quote no CTRL price.
+
+The build enforces most of this. `npm test` fails if a price string appears outside `src/lib/offers.ts`, if a retired offer name appears under `_shared/mindy/` or in the proposal scaffolds, or if Mindy states a price that does not exist.
 
 ---
 

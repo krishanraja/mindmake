@@ -1,5 +1,12 @@
 # Price and claim truth audit
 
+> **HISTORICAL RECORD, superseded 2026-08-11.**
+>
+> This audit documents the state of the estate *before* the August 2026 reprice, when six offers were quoted at inconsistent figures across eight surfaces. It is kept because it is the evidence behind the single-source-of-truth work, not because anything in it is current.
+>
+> **Every price and offer named below is retired.** The live ladder is two engagements, priced in `src/lib/offers.ts`, with a test that fails the build if a price string appears anywhere else. Do not read this file for current pricing, and do not index it for retrieval.
+
+
 **Compiled:** 2026-08-05
 **Purpose:** Stage 0 of the Brief 1 overhaul. Every price and offer claim currently published, where it lives, and what it contradicts. This is the approval artifact. Nothing here changes the site.
 

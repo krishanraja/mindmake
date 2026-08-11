@@ -153,7 +153,7 @@ const AppRoutes = () => {
             <Route path="/signal" element={<Brief />} />
             <Route path="/library" element={<Library />} />
 
-            {/* Alumni Pass: hidden from nav and footer, reachable by direct URL only */}
+            {/* Invitation-only, hidden from nav and footer, reachable by direct URL only */}
             <Route path="/alumni" element={<Alumni />} />
 
             {/* Hidden pages, linked from footer, not nav */}
@@ -227,7 +227,7 @@ const AppRoutes = () => {
         pathType={sessionData.qualificationData?.pathType}
       />
 
-      {/* Scoping modal: tier-appropriate path for Signal Session / Revenue Architecture / Immersion */}
+      {/* Scoping modal: the secondary booking surface, behind the Diagnosis Room */}
       <ScopingModal
         open={scopingModalOpen}
         onOpenChange={setScopingModalOpen}

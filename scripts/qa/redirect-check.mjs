@@ -50,8 +50,15 @@ try {
   const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
 
   for (const [from, to] of Object.entries(EXPECTED)) {
-    await page.goto(B + from, { waitUntil: "networkidle" });
-    await page.waitForTimeout(150);
+    // domcontentloaded, not networkidle. The pages load a Calendly script and
+    // looping background video, so the network never goes idle and the wait
+    // hangs until the timeout on every route.
+    await page.goto(B + from, { waitUntil: "domcontentloaded" });
+    // The redirect is a client-side <Navigate>, so it happens once React
+    // mounts. Wait for the URL to actually change rather than guessing.
+    await page
+      .waitForFunction((expected) => window.location.pathname === expected, to, { timeout: 8000 })
+      .catch(() => {});
     const landed = new URL(page.url()).pathname;
     const ok = landed === to;
     if (!ok) failures++;
@@ -59,14 +66,16 @@ try {
   }
 
   // /alumni is unlinked and noindex, but must still render rather than redirect.
-  await page.goto(B + "/alumni", { waitUntil: "networkidle" });
+  await page.goto(B + "/alumni", { waitUntil: "domcontentloaded" });
+  await page.waitForTimeout(1200);
   const alumni = new URL(page.url()).pathname;
   const alumniOk = alumni === "/alumni";
   if (!alumniOk) failures++;
   console.log(`${alumniOk ? "PASS" : "FAIL"}  /alumni still reachable by direct URL -> ${alumni}`);
 
   // /capital stays live rather than redirecting.
-  await page.goto(B + "/capital", { waitUntil: "networkidle" });
+  await page.goto(B + "/capital", { waitUntil: "domcontentloaded" });
+  await page.waitForTimeout(1200);
   const capital = new URL(page.url()).pathname;
   const capitalOk = capital === "/capital";
   if (!capitalOk) failures++;

@@ -1,4 +1,6 @@
-<!-- Generated 2026-08-05. A working document for the proof rebuild, not a canonical reference. -->
+<!-- Generated 2026-08-05. Updated 2026-08-11. A working document for the proof rebuild, not a canonical reference. -->
+
+> **Status, 2026-08-11.** Three of the findings below were acted on. The 26 illustrative proof entries are deleted. R-01 (the $254K POC with a major US publisher) is published on `/case-studies`, `/handover` and `/start`. Testimonials are now gated on the `permission` column via a consent-scoped database view. The case-study tags below are updated to the two live engagements. What remains open is which of the two consented rows to publish, and whether to publish it named. See `DECISIONS_LOG.md`.
 # Proof Inventory
 
 Everything Mindmaker currently holds as client proof, in one place, so it can be re-collated.
@@ -54,7 +56,7 @@ These render as full Situation → The Call → The Work cards.
 ### CS-1 · `us-publisher-roadmap`
 **Overlaps proof bank R-02.**
 
-- **Tagged:** Signal Session · Decide
+- **Tagged:** Teardown · Decide
 - **Attribution:** Head of Operations · Top-10 US digital publisher
 - **Sector label:** Digital publishing
 - **Headline:** 14 AI vendors, one board mandate, three decisions
@@ -80,7 +82,7 @@ These render as full Situation → The Call → The Work cards.
 ### CS-2 · `broadcast-operating-agreement`
 **Overlaps proof bank R-03.**
 
-- **Tagged:** Cohort · Reposition
+- **Tagged:** Teardown · Reposition
 - **Attribution:** President · Legacy broadcast business
 - **Sector label:** Broadcast media
 - **Headline:** From 14 tools and a threatened budget to a one-page operating agreement
@@ -106,7 +108,7 @@ These render as full Situation → The Call → The Work cards.
 ### CS-3 · `coaching-practice-rebuild`
 **Overlaps proof bank R-04.**
 
-- **Tagged:** Revenue Architecture · Rebuild
+- **Tagged:** Handover · Rebuild
 - **Attribution:** Founder & CEO · Executive coaching practice
 - **Sector label:** Coaching & advisory
 - **Headline:** A full commercial stack rebuilt in eight weeks
@@ -132,7 +134,7 @@ These render as full Situation → The Call → The Work cards.
 ### CS-4 · `content-engine-founder-owned`
 **Overlaps proof bank R-05.**
 
-- **Tagged:** Revenue Architecture · Rebuild
+- **Tagged:** Handover · Rebuild
 - **Attribution:** Founder · Research & content brand
 - **Sector label:** Research & content
 - **Headline:** A founder-owned content engine for about $20 a month
@@ -158,7 +160,7 @@ These render as full Situation → The Call → The Work cards.
 ### CS-5 · `series-b-build-vs-buy`
 **No proof-bank counterpart. Site-only.**
 
-- **Tagged:** Signal Session · Decide
+- **Tagged:** Teardown · Decide
 - **Attribution:** Founder · Series B adtech
 - **Sector label:** Build vs buy
 - **Headline:** Proof the build was the wrong decision
@@ -186,7 +188,7 @@ Short cards. Each carries a single headline metric. **None has a proof-bank coun
 ---
 
 ### CS-6 · `q-board-questions`
-- **Tagged:** Cohort · Board confidence
+- **Tagged:** Teardown · Board confidence
 - **Attribution:** GTM Leader · Series C SaaS
 - **Headline:** I stopped dreading board AI questions.
 - **Metric:** 0, board AI questions I now dread
@@ -197,7 +199,7 @@ Short cards. Each carries a single headline metric. **None has a proof-bank coun
 ---
 
 ### CS-7 · `q-14-to-3`
-- **Tagged:** Cohort · Tool sprawl
+- **Tagged:** Teardown · Tool sprawl
 - **Attribution:** VP of Operations
 - **Headline:** We went from 14 tools to 3 systems that actually work.
 - **Metric:** 14 → 3, AI tools that actually work
@@ -208,7 +210,7 @@ Short cards. Each carries a single headline metric. **None has a proof-bank coun
 ---
 
 ### CS-8 · `q-build-vs-buy`
-- **Tagged:** Signal Session · Build vs buy
+- **Tagged:** Teardown · Build vs buy
 - **Attribution:** Founder · Early-stage FinTech
 - **Headline:** I finally knew what to build versus buy.
 - **Metric:** 6mo, of going in circles, resolved
@@ -219,7 +221,7 @@ Short cards. Each carries a single headline metric. **None has a proof-bank coun
 ---
 
 ### CS-9 · `q-board-confidence`
-- **Tagged:** Signal Session · Board confidence
+- **Tagged:** Teardown · Board confidence
 - **Attribution:** CEO · Mid-market services
 - **Headline:** For the first time I wasn't guessing in a board conversation on AI.
 - **Metric:** ✓, board confidence, first time
@@ -230,7 +232,7 @@ Short cards. Each carries a single headline metric. **None has a proof-bank coun
 ---
 
 ### CS-10 · `q-vendor-kill`
-- **Tagged:** Signal Session · Vendor decisions
+- **Tagged:** Teardown · Vendor decisions
 - **Attribution:** COO · B2B technology
 - **Headline:** We killed a vendor proposal in ten minutes.
 - **Metric:** 10 min, to kill a bad vendor proposal
@@ -241,7 +243,7 @@ Short cards. Each carries a single headline metric. **None has a proof-bank coun
 ---
 
 ### CS-11 · `q-two-workflows`
-- **Tagged:** Cohort · Execution
+- **Tagged:** Teardown · Execution
 - **Attribution:** Head of Ops · Scale-up
 - **Headline:** I built two workflows that I now use every day.
 - **Metric:** 2, workflows I now use every single day
@@ -457,13 +459,8 @@ They are deliberately **not reproduced here**, so that copying out of this docum
 
 Distribution by offer:
 
-| Offer | Entries |
-|---|---|
-| Cohort, the AI-Fluent Executive | B-01 to B-06 |
-| Signal Session | B-07 to B-11 |
-| Revenue Architecture | B-12 to B-16 |
-| AI Immersion | B-17 to B-20 |
-| Remainder (workshop / bespoke / CTRL / alumni) | B-21 to B-26 |
+The 26 illustrative `B-` entries were deleted from both the proof index and the proof bank in August 2026. Only the nine verified `R-` engagements remain. See the header of `supabase/functions/_shared/mindy/proof-index.ts`.
+
 
 **Worth deciding during the rebuild:** with nine real engagements documented, whether the illustrative bank still earns its place. Its only job is to guarantee the generator has three matches per mode. Nine real entries plus a widened match rule may cover that, and every illustrative entry retired is one less way for fiction to leak into a proposal.
 
@@ -473,7 +470,7 @@ Distribution by offer:
 
 Ordered by how much they cost if decided late.
 
-**1. The tagging dimension.** Every case study is tagged `engagement: Cohort | Signal Session | Revenue Architecture`. Those are no longer the front door. The Teardown and The Handover are. There is already an unused `theme: Reposition | Rebuild | Decide` field. Themes describe what the work did and survive repricing; offer names do not. Decide before writing, because it determines the slots.
+**1. The tagging dimension. DONE 2026-08-11.** Case studies are retagged to `engagement: Teardown | Handover`, with each record noting inline what it was retagged from. The unused `theme: Reposition | Rebuild | Decide` field remains, and is the better long-term dimension for the reason this note originally gave: themes describe what the work did and survive a reprice, offer names do not. The proof bank went further and now tags work *shapes* (decide, reposition, rebuild, os) rather than SKUs, with the rungs mapped on top.
 
 **2. Named or anonymous, per entry.** Nothing on the site is named and no consent is recorded in the repo. Check the `testimonials` table's `permission` column first, then route new requests through the existing `submit-testimonial` form rather than email so consent is captured structurally.
 

@@ -6,123 +6,64 @@
 
 ## Product Offerings
 
-Mindmaker is a **ladder**: free Lightning Lessons → paid Workshops ($599) → the AI-Fluent Executive Cohort ($2,500) → Enterprise sprints ($15k–$100k+) → the Alumni Pass ($1,500/yr) as continuity, with Capital as a third door for funds. Every offer has a fixed scope and finish line. Public pricing is ranges only; exact figures are set on the call. Full detail in [OFFERS.md](./OFFERS.md) and [COMMERCIAL_REFERENCE.md](./COMMERCIAL_REFERENCE.md). Sales-grade detail in [SALES_PLAYBOOK.md](./SALES_PLAYBOOK.md).
+Mindmaker is a **capped advisory practice** with two engagements: The Handover (six weeks, priced by headcount) and The Teardown (ten business days, $9,500 USD), plus a third door at `/capital` for funds buying on behalf of a portfolio company. Every engagement has a fixed scope, a published price and a finish line. Prices are published in three currencies as set prices per market, and come from `src/lib/offers.ts`. Full detail in [OFFERS.md](./OFFERS.md). Sales-grade detail in [SALES_PLAYBOOK.md](./SALES_PLAYBOOK.md).
 
-### 1. The AI-Fluent Executive (Cohort): $2,500/seat (hosted on Maven)
-**Status:** Live
-**Route:** `/cohort`
-**Implementation:** `src/pages/Cohort.tsx`
-**Maven URL (canonical enrolment):** `https://maven.com/mindmaker/the-ai-fluent-executive`
+### 1. The Handover
 
-**For:** Senior leaders (CEO/COO/CFO/CPO/CCO/CMO/GM/VP-level/founder-operator) wrestling with one nervous AI decision.
+**Price:** USD $18,000 (under 100 people) / $30,000 (100 to 250) / $50,000 (250 to 5,000). Also GBP and AUD, as set prices per market. Canonical source: `src/lib/offers.ts`.
+**Duration:** Six weeks, plus a Day 90 recheck.
+**Cap:** Six a year, across every client. Stated publicly.
+**Gate:** A completed Teardown, always.
+**Route:** `/handover`. Always via the call, never self-serve.
 
-**Format:** 4 weeks (mostly async) + 4 × 90-min live sessions. 10–15 seats per cohort. Quarterly cadence.
+**The six weeks:** load and correct context, adversarial pre-mortem, the fork (rebuild GTM/pricing/positioning, or set the build order), the client drives, **Krish does not attend in week five**, exit.
 
-**Curriculum:** Diagnose → Decompose → Decide → Deploy.
-- Week 1. Diagnose. Name the real decision (peer-guided diagnosis session)
-- Week 2. Decompose. Surface the real trade-offs (peer pressure-test of the options)
-- Week 3. Decide. Commit out loud (memo peer review and commitment)
-- Week 4. Deploy. Ship the first concrete step (show-and-tell, accountability, alumni onboarding)
+**Buyer:** the CEO, CRO or VP Product at a company of 50 to 5,000 people. Never the CTO.
 
-**Outcome:** A board-ready 1-page decision memo + trade-off analysis doc + lifetime access to CTRL (Mindmaker's flagship memory-web app) + 90-day cohort Slack access + lifetime curriculum + alumni network.
+### 2. The Teardown
 
-**Payment terms:** Full payment or 2× $1,250 split. Collected by Maven.
+**Price:** USD $9,500. Also GBP and AUD.
+**Duration:** Ten business days. Under two hours of the client's time.
+**Route:** `/teardown`. Self-serve; the price is published.
 
-The next-cohort date renders literally on `/cohort` (`nextCohort` const in `Cohort.tsx`). Cohort dates are managed in code for now; a future Supabase `cohort_dates` table will replace the literal.
+**Method:** the decision comes apart into its load-bearing claims; each is checked against live evidence with a reliability tier; each consideration is classed External / Only you / Nobody yet; four models cross-examine it with disagreements preserved rather than averaged.
 
-The page surfaces:
-- A "Hosted on Maven" pill linking to the Maven URL
-- A "Reserve my seat on Maven" CTA pointing directly to the Maven URL (bypasses the consult call when the buyer already knows the cohort is the right fit)
-- A muted "Book a call instead" path via the global `ScopingModal` (`openScopingModal`)
+**Output:** a one-page memo, the claim map, the classed considerations, the cross-examination, three claims under a 90-day watch, and a CTRL workspace with the decision map in it.
 
----
+**It is also the gate**, and it has talked people out of the Handover as often as into it.
 
-### 2. The Signal Session: $15,000
-**Status:** Live
-**Route:** `/enterprise#signal-session`
-**Implementation:** `src/pages/Enterprise.tsx` (anchor section)
+### 3. Funds and portfolio companies
 
-**For:** Founders / CEOs / CCOs / CROs / CPOs at companies commercializing AI product or AI-enabled capability.
+The same two engagements, priced per portfolio company, at `/capital`. Fund-level and multi-company terms are set on the call and never published.
 
-**Format:** One intensive day (on-site or remote) + 2 weeks pre-work + **15–20 page Commercial Narrative delivered within 48 hours**.
+### 4. CTRL
 
-**Outcome:**
-- The Commercial Narrative (15–20 pages, 48-hour delivery)
-- Commercial positioning framework (2 pages, ready for the team)
-- Sales narrative + objection handling guide
-- Pricing model sketch with 2–3 packaging options
-- 30-day commercial roadmap with named owners and milestones
-
-**Payment terms:** Payment on kickoff.
-
-**Best for:** Teams with AI capabilities needing rapid alignment before committing to a larger build. Often used as the entry point before a Revenue Architecture engagement. Books typically within 2–3 weeks.
+A separate product with its own site and its own pricing. Not sold here. Appears as a Teardown deliverable and as a link.
 
 ---
 
-### 3. The Revenue Architecture: $60,000–$100,000
-**Status:** Live
-**Route:** `/enterprise#revenue-architecture`
-**Implementation:** `src/pages/Enterprise.tsx` (anchor section)
+## Retired offers (do not reference)
 
-**For:** Enterprise buyers ready for a commercial rebuild. Typically $10M–$1B+ revenue.
+Every route below is a real 301 in `vercel.json`, with a client-side fallback in `App.tsx`. Page components live in `src/_archive/`.
 
-**Format:** **30 days (4–5 calendar weeks)**, multi-session. Kickoff workshop on-site or remote; weekly working sessions + async deliverables. Krish-led, no associate model.
-
-**Outcome:**
-- 30–40 page client-branded commercial strategy document
-- Product marketing framework (positioning, messaging, competitive differentiation)
-- Revenue model with multiple pricing scenarios, tested against business reality
-- Packaging and tiering structure (2–3 ship-ready options)
-- 90-day GTM playbook (channels, sales process, enablement materials)
-- Product roadmap aligned to commercial milestones
-- Board-ready presentation deck (Krish presents if requested)
-- 30-day post-engagement follow-up session included
-
-**Payment terms:** 50/50 at kickoff and delivery.
-
-**Cadence note:** new engagements start at the next monthly cohort opening, book a call to check current availability.
-
----
-
-### 4. The AI Immersion: $12,000 (inquiry-only)
-**Status:** Live (inquiry-only, not in main nav)
-**Route:** `/immersion`
-**Implementation:** `src/pages/Immersion.tsx`
-
-**For:** CEO sponsors with up to 8 senior leaders who need to resolve specific shared AI tensions in a single afternoon.
-
-**Format:** 4-hour facilitated session (on-site or remote) + 45-minute pre-alignment call with the sponsor + pre-session brief 48 hours before + 2-page board-ready summary within 5 business days. Diagnose → Decompose → Decide → Deploy protocol. Private, no recording, Chatham House rules.
-
-**Outcome:** Three named decisions, three named owners, three named deadlines. 2-page summary that's board-ready and shareable upward without redaction.
-
-**Payment terms:** $12,000 flat. Travel additional for on-site. Full payment at booking or 50/50 at booking + delivery.
-
-**CTA:** "Request a date", opens the scoping modal preselected to "immersion".
-
----
-
-### Inquiry-Only: 1:1 Engagements
-
-Triggered by `/cohort?inquiry=1:1`. A muted banner surfaces a Contact link. No public pricing, no public page, not promoted. Handled per engagement.
-
----
-
-## Retired Offers (do not reference)
-
-| Retired | Redirect |
+| Retired route | Redirects to |
 |---|---|
-| 4-Week Sprint | `/sprint/4-week` → `/cohort?inquiry=1:1` |
-| 90-Day Sprint | `/sprint/90-day` → `/cohort?inquiry=1:1` |
-| Sprints overview | `/sprints` → `/cohort` |
-| Builder Sprint | `/builder-sprint` → `/cohort?inquiry=1:1` |
-| Builder Session | `/builder-session` → `/` |
-| Leadership Lab | `/leadership-lab` → `/` |
-| Portfolio Partner | `/portfolio-program` → `/` |
-| War Room | `/war-room` → `/enterprise#revenue-architecture` |
-| Strategy Day | `/strategy-day` → `/enterprise#signal-session` |
-| Fractional CAIO | `/fractional-caio` → `/enterprise` |
-| `/tool` (standalone Nervous Decision Machine) | `/signal#decision` |
-| `/builder-economy` | external `https://www.thebuildereconomy.com` |
+| `/workshops` and its five children | `/teardown` |
+| `/enterprise` | `/handover` |
+| `/immersion` | `/handover` |
+| `/cohort` | `/start` |
+| `/leaders`, `/leadership-insights` | `/start` |
+| `/sprints`, `/sprint/4-week`, `/builder-sprint` | `/teardown` |
+| `/sprint/90-day` | `/handover` |
+| `/war-room`, `/fractional-caio` | `/handover` |
+| `/strategy-day` | `/teardown` |
+| `/builder-session`, `/leadership-lab`, `/portfolio-program`, `/individual`, `/team`, `/builder` | `/` |
+| `/tool` | `/signal` |
+| `/builder-economy` | `https://www.thebuildereconomy.com` |
+
+`/alumni` is **not** retired. It is invitation-only, noindex and unlinked, reachable by direct URL.
+
+The offer names behind these routes are deliberately not written out here. `DECISIONS_LOG.md` holds the record. If an engagement is not The Teardown or The Handover, it does not exist.
 
 ---
 
@@ -136,7 +77,7 @@ Authoritative: `src/pages/Index.tsx`. Order:
 2. `BigProblem`. existential urgency frame (three large interactive flip cards; card CTA opens the `ScopingModal`).
 3. `TrustSection`. Krish bio + headshot + testimonials carousel (COHORT-STYLE / ENTERPRISE tagged).
 4. `FrameworkJourney`. three-panel animated Mind Set → Mind Map → Mind Make.
-5. `OperatorsEdge`. v5 typography-only credential section ("Beyond pattern recognition"). Three proof tiles (Architecture / Optimization / Memory). Primary CTA to Revenue Architecture, secondary link to `/operator`.
+5. `OperatorsEdge`. Typography-only credential section ("Beyond pattern recognition"). Three proof tiles (Architecture / Optimization / Memory). Primary CTA to `/handover`, secondary link to `/operator`.
 6. `OperatorsBrief`. Live Intel homepage teaser. CSS-marquee PriceTicker + rotating interpretation line (3 takes, 8s cross-fade) + compact Nervous Decision input + muted "Open the full dashboard →" link to `/signal`.
 7. `MindMakerLiveSection`. Substack newsletter subscribe surface.
 8. `SimpleCTA`. final CTA ("What's your nervous decision?"), opens the Diagnosis Room.
@@ -148,7 +89,7 @@ The retired `YFork` second fork is no longer rendered.
 
 Mounted in `src/App.tsx`:
 - `DiagnosisRoom`. **the primary "Book a call" conversion surface** (the on-site Mindy experience). Opened via `window.dispatchEvent(new CustomEvent('openDiagnosisRoom', { detail: { source_page, seedDecision?, mode } }))` (`mode`: `express` | `full`). Lazy + only mounted when open. Also a standalone page at `/start`. See "The Diagnosis Room (Mindy)" below.
-- `ScopingModal`. secondary booking surface, still dispatched by the offer pages (`/cohort`, `/enterprise`, `/capital`, `/immersion`), the `BigProblem` cards, and `/case-studies` via `openScopingModal`. 6-field "Scope it with me" intake posting to `notify-scoping-request`.
+- `ScopingModal`. Secondary booking surface, dispatched by the `BigProblem` cards and `/case-studies` via `openScopingModal`. 6-field "Scope it with me" intake posting to `notify-scoping-request`.
 - `InitialConsultModal`. legacy conversion surface, kept mounted but only `/alumni` still dispatches `openConsultModal`
 - `CookieConsent`
 - `ErrorBoundary` wrapping the route `Suspense`
@@ -159,8 +100,7 @@ Mounted in `src/App.tsx`:
 File: `src/components/Navigation.tsx`. Primary CTA button: **"Book a call"** with emerald pulse dot (opens the Diagnosis Room in express mode; the mobile menu also offers "Or think it through with Mindy first" → full mode).
 
 - **Workshops** (direct link): `/workshops`
-- **Cohort** (direct link): `/cohort`
-- **Enterprise** (dropdown): The Signal Session, The Revenue Architecture, The AI Immersion, and "For funds & operating partners" → Capital
+- **Work with me** (dropdown, largest first): The Handover, The Teardown, For funds and portfolio companies
 - **Mindmaker LIVE** (direct link, wordmark): `/signal`
 - **Resources** (dropdown): How I operate, Case studies, New Age Leadership, Library, The Builder Economy (Podcast) [external], Lightning Lessons (5 Maven URLs via `LightningLessons` component)
 - **About** (dropdown): Contact, Privacy, Terms
@@ -209,24 +149,26 @@ Surfaced in the Resources dropdown via the `LightningLessons` component. Five co
 
 ---
 
-## The AI-Fluent Executive (Cohort) (`/cohort`)
+## The Handover (`/handover`)
 
-- Offer detail, curriculum structure (Diagnose → Decompose → Decide → Deploy, Weeks 1–4), enrolment flow
-- "Hosted on Maven" pill + "Reserve my seat on Maven" CTA route directly to `https://maven.com/mindmaker/the-ai-fluent-executive`
-- Next-cohort date currently literal in `Cohort.tsx` (`nextCohort` const); future: Supabase `cohort_dates` table
-- `/cohort?inquiry=1:1` query param surfaces the private-engagement banner
-- Refund policy: full refund up to 7 days before start; 50% refund up to day one; no refund after day one
+- H1: "Six weeks. Then I leave and you keep it." Do not rewrite this.
+- Three price bands by headcount, with one currency switcher for the whole ladder.
+- The six weeks, with week five (Krish does not attend) given its own emphasis.
+- The Teardown gate stated plainly, with the Teardown's price interpolated.
+- The $254K POC with a major US publisher, under the hero. The client is never named.
+- Structured data: one `AggregateOffer`, USD only.
 
----
+## The Teardown (`/teardown`)
 
-## Enterprise (`/enterprise`)
+- H1: "Bring the decision you keep not making."
+- One price, one currency switcher, the four-step method, and what the client keeps.
+- Structured data: one `Offer`, USD only.
 
-- Entry point (Signal Session, $15k, 1 day + 48h delivery) and flagship (Revenue Architecture, $60–100k, 30 days) detailed on one page
-- Anchor links `#signal-session`, `#revenue-architecture` for deep-links and redirects
-- Comparison table (duration / price / format / best-for / primary output) at the bottom
-- "Informed by someone operating one, not just theorizing about it" credential line links to `/operator`
+## Capital (`/capital`)
 
----
+- The same two engagements, priced per portfolio company, with its own currency switcher.
+- Fund-level terms stated as set on the call, never published.
+- A fit section that says plainly when this is the wrong call.
 
 ## Live Intel (`/signal`)
 
@@ -286,23 +228,11 @@ Structure:
 - 5-cluster typography agent diagram listing 14 named agents (Zara, Kai, Nero, Maya, Ravi, Theo, Sol, June, Marcus, Iris, Otto, Ash, Lin, Noor)
 - Four extractable lessons (agents-not-employees / memory-as-commercial-decision / cost-as-product-feature / orchestration-fail-points)
 - "On stage" strip with three `krish-stage-*` images, auto-advancing every 3.5s, pauses on hover
-- Commercial crossover CTA → `/enterprise#revenue-architecture`. Tracked via `plausible('operator_page_cta_clicked')`.
+- Commercial crossover CTA → `/handover`. Tracked via `plausible('operator_page_cta_clicked')`.
 
 **Design guardrails:** no scrolling logs, no terminal aesthetics, no ASCII art, no interactive dashboards. Every claim passes the CMO-15-second test.
 
 **SEO:** OG type `article`.
-
----
-
-## The AI Immersion Page (`/immersion`)
-
-Inquiry-only. Linked from the scoping modal preselect (`preselected: "immersion"`).
-
-Structure:
-- Hero, "Three decisions. One afternoon. Real alignment." with "Request a date" CTA
-- 3-phase format breakdown (alignment / session / summary) with icons
-- FAQ block addressing format, virtual-vs-onsite, group size cap, recording policy, travel
-- $12,000 pricing card with payment terms
 
 ---
 
@@ -437,8 +367,7 @@ Key points:
 - CTRL as a Mindmaker product, not on site (the demo loop on `/operator` is illustrative only)
 - "Signal Desk" naming, renamed to Live Intel
 - "The Brief" as a nav label, renamed to Live Intel
-- 8–12 week Revenue Architecture timeline, replaced by 30-day intensive
-- 5–10 page Signal Session thesis, replaced by 15–20 page Commercial Narrative within 48 hours
+- The entire six-rung ladder retired in July and August 2026. Names are in `DECISIONS_LOG.md`, not here
 - "All Enterprise" footer link, dropped (commit 226ecf1)
 
 ---

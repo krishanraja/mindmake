@@ -39,14 +39,14 @@ All routes in `src/App.tsx` accessible:
 - [ ] `/workshops/build-an-autonomous-business-function`. Workshop sub-page
 - [ ] `/workshops/give-your-ai-memory`. Workshop sub-page
 - [ ] `/cohort` (Cohort). The AI-Fluent Executive ($2,500/seat, 4 weeks). "Hosted on Maven" pill + "Reserve my seat on Maven" → `https://maven.com/mindmaker/the-ai-fluent-executive`
-- [ ] `/enterprise` (Enterprise). Signal Session ($15k, 1 day + 48h delivery) + Revenue Architecture ($60–100k, **30 days**)
+- [ ] `/handover` (The Handover). Three price bands by headcount, currency switcher, week five, Day 90 recheck, the Teardown gate
 - [ ] `/capital` (Capital). Third door for funds and operating partners
 - [ ] `/case-studies` (CaseStudies). filterable, anonymised COHORT-STYLE / ENTERPRISE client proof
 - [ ] `/start` (DiagnosisRoom). standalone Diagnosis Room (Mindy)
 - [ ] `/operator` (Operator). v5 credential page; `/ctrl-demo-video.mp4` autoplay-loop verified
 - [ ] `/signal` (Brief). Live Intel
 - [ ] `/library` (Library). Library + FAQ tab
-- [ ] `/immersion` (Immersion). AI Immersion ($12k, inquiry-only)
+- [ ] `/capital`. The same two engagements, per portfolio company, fund terms on the call
 - [ ] `/alumni` (Alumni). Alumni Pass ($1,500/year, invitation-only). **MUST be `noindex` and unlinked from nav and footer.** Confirm SEO meta tag.
 - [ ] `/new-age-leadership` (NewAgeLeadership). long-form thought leadership; OrgChart lazy-loaded
 - [ ] `/leaders`, `/leadership-insights` (LeadershipInsights). diagnostic, unlinked from nav
@@ -76,7 +76,7 @@ All routes in `src/App.tsx` accessible:
 - [ ] The primary "Book a call" CTA (nav, hero, `SimpleCTA`) opens the Diagnosis Room (Mindy) via `window.dispatchEvent(new CustomEvent('openDiagnosisRoom', { detail: { mode: 'express' } }))`
 - [ ] The secondary `ScopingModal` opens via `window.dispatchEvent(new CustomEvent('openScopingModal'))` from the offer pages (`/cohort`, `/enterprise`, `/capital`, `/immersion`), the `BigProblem` cards, and `/case-studies` (the legacy `InitialConsultModal` / `openConsultModal` path is used only by `/alumni`)
 - [ ] Framework language: Mind Set → Mind Map → Mind Make (unchanged)
-- [ ] Offers labelled correctly: **The AI-Fluent Executive (Cohort)**, **The Signal Session**, **The Revenue Architecture**, **The AI Immersion**
+- [ ] Offers labelled correctly: **The Handover**, **The Teardown**. Nothing else exists
 - [ ] No references to retired offers (4-Week Sprint, 90-Day Sprint, Builder Sprint, Leadership Lab, Portfolio Partner, Fractional CAIO)
 - [ ] `/signal` labelled **"Live Intel"** in nav (NOT "The Brief", NOT "Signal Desk")
 - [ ] Taxonomy on `/signal` is **WATCH / SKIP / CALL / TAKE** (not SIGNAL / NOISE / DECISION / TAKE)
@@ -96,10 +96,12 @@ All routes in `src/App.tsx` accessible:
 - [ ] Cohort H1 reads **"The AI-Fluent Executive"** (NOT "The AI Decision Cohort")
 - [ ] $500 workshop-credit callout (`code WORKSHOP`) appears on `/cohort` near the price card
 - [ ] CTRL is listed in "What you keep" on `/cohort` and "What's included" on each `/workshops/[slug]`
-- [ ] Pricing shown in context: $599 (Workshops), $2,500 (Cohort), $15,000 (Signal Session), $60,000–$100,000 (Revenue Architecture), $12,000 (Immersion), $1,500/year (Alumni Pass)
-- [ ] **Revenue Architecture duration says "30 days (4–5 calendar weeks)"**. not 8–12 weeks
-- [ ] **Signal Session deliverable says "Commercial Narrative, 15–20 pages, within 48 hours"**. not 5–10 pages, not 5 business days
-- [ ] Payment terms rendered below each price: Cohort = "Full payment or 2× $1,250 split"; Signal Session = "Payment on kickoff"; Revenue Architecture = "50/50 at kickoff and delivery"; Immersion = "Full at booking or 50/50"
+- [ ] Every price interpolated from `src/lib/offers.ts`. `npm test` fails if a price string appears anywhere else
+- [ ] Currency switcher present on `/teardown`, `/handover` and `/capital`; choice persists across navigation and reload
+- [ ] No price overflows its container at 390px in AUD, which has the longest strings
+- [ ] Prerendered crawler bodies state real USD prices, never a loading state
+- [ ] Exactly one Offer node per offer page in the structured data, in USD only
+- [ ] No discount, credit or urgency offer anywhere on the site or in Mindy's knowledge
 - [ ] Testimonials in `TrustSection.tsx` tagged COHORT-STYLE or ENTERPRISE
 - [ ] Operator's Edge lead line matches current anti-consultant statement (top-of-file constant in `OperatorsEdge.tsx`)
 - [ ] `/operator` demo video file `public/ctrl-demo-video.mp4` exists and autoplays

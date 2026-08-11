@@ -15,8 +15,8 @@
 /**
  * Which live engagement a case study maps to.
  *
- * Retagged August 2026 from the retired ladder (Cohort, Signal Session,
- * Revenue Architecture). Where an old engagement does not map cleanly, it is
+ * Retagged August 2026 off the retired six-rung ladder. Where an old
+ * engagement does not map cleanly, it is
  * tagged by what it most resembles in shape, and the original tag is noted in a
  * comment on the record. Nothing about the work itself changed; only the label
  * a reader filters by.
@@ -80,7 +80,7 @@ export const caseStudies: CaseStudy[] = [
   // ---- Rich cases ----
   {
     id: "us-publisher-roadmap",
-    engagement: "Teardown", // was tagged Signal Session
+    engagement: "Teardown", // retagged from the retired one-day commercial diagnosis
     theme: "Decide",
     clientLabel: "Head of Operations · Top-10 US digital publisher",
     sector: "Digital publishing",
@@ -104,7 +104,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     id: "broadcast-operating-agreement",
-    engagement: "Teardown", // was tagged Cohort
+    engagement: "Teardown", // retagged from the retired executive cohort
     theme: "Reposition",
     clientLabel: "President · Legacy broadcast business",
     sector: "Broadcast media",
@@ -128,7 +128,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     id: "coaching-practice-rebuild",
-    engagement: "Handover", // was tagged Revenue Architecture
+    engagement: "Handover", // retagged from the retired 30-day commercial rebuild
     theme: "Rebuild",
     clientLabel: "Founder & CEO · Executive coaching practice",
     sector: "Coaching & advisory",
@@ -152,7 +152,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     id: "content-engine-founder-owned",
-    engagement: "Handover", // was tagged Revenue Architecture
+    engagement: "Handover", // retagged from the retired 30-day commercial rebuild
     theme: "Rebuild",
     clientLabel: "Founder · Research & content brand",
     sector: "Research & content",
@@ -176,7 +176,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     id: "series-b-build-vs-buy",
-    engagement: "Teardown", // was tagged Signal Session
+    engagement: "Teardown", // retagged from the retired one-day commercial diagnosis
     theme: "Decide",
     clientLabel: "Founder · Series B adtech",
     sector: "Build vs buy",
@@ -197,7 +197,7 @@ export const caseStudies: CaseStudy[] = [
   // ---- Quote-only cards ----
   {
     id: "q-board-questions",
-    engagement: "Teardown", // was tagged Cohort
+    engagement: "Teardown", // retagged from the retired executive cohort
     clientLabel: "GTM Leader · Series C SaaS",
     sector: "Board confidence",
     variant: "quote",
@@ -210,7 +210,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     id: "q-14-to-3",
-    engagement: "Teardown", // was tagged Cohort
+    engagement: "Teardown", // retagged from the retired executive cohort
     clientLabel: "VP of Operations",
     sector: "Tool sprawl",
     variant: "quote",
@@ -223,7 +223,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     id: "q-build-vs-buy",
-    engagement: "Teardown", // was tagged Signal Session
+    engagement: "Teardown", // retagged from the retired one-day commercial diagnosis
     clientLabel: "Founder · Early-stage FinTech",
     sector: "Build vs buy",
     variant: "quote",
@@ -236,7 +236,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     id: "q-board-confidence",
-    engagement: "Teardown", // was tagged Signal Session
+    engagement: "Teardown", // retagged from the retired one-day commercial diagnosis
     clientLabel: "CEO · Mid-market services",
     sector: "Board confidence",
     variant: "quote",
@@ -249,7 +249,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     id: "q-vendor-kill",
-    engagement: "Teardown", // was tagged Signal Session
+    engagement: "Teardown", // retagged from the retired one-day commercial diagnosis
     clientLabel: "COO · B2B technology",
     sector: "Vendor decisions",
     variant: "quote",
@@ -262,7 +262,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     id: "q-two-workflows",
-    engagement: "Teardown", // was tagged Cohort
+    engagement: "Teardown", // retagged from the retired executive cohort
     clientLabel: "Head of Ops · Scale-up",
     sector: "Execution",
     variant: "quote",

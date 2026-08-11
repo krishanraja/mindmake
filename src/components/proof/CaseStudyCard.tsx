@@ -6,8 +6,8 @@ import type { CaseStudy, Engagement } from "@/data/caseStudies";
 /** Subtle, WCAG-safe engagement pills (never text-mint on light backgrounds). */
 const engagementPill: Record<Engagement, string> = {
   Cohort: "border-mint/30 bg-mint/10 text-mint-dark dark:text-mint",
-  "Signal Session": "border-ink/15 bg-ink/5 text-ink dark:border-mint/20 dark:bg-white/5 dark:text-foreground",
-  "Revenue Architecture": "border-mint/40 bg-mint/15 text-mint-dark dark:text-mint",
+  Handover: "border-mint/40 bg-mint/15 text-mint-dark dark:text-mint",
+  Teardown: "border-ink/15 bg-ink/5 text-ink dark:border-mint/20 dark:bg-white/5 dark:text-foreground",
 };
 
 const Detail = ({ label, children }: { label: string; children: ReactNode }) => (

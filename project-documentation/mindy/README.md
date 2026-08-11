@@ -28,7 +28,7 @@ Mindy is the on-site guide for the Mindmaker Diagnosis Room: one door, one nervo
 
 **Layer 1 (system prompt)** is the spine. It encodes *when* to reach for each rule and defers the detail to the companion files, so the prompt stays small and the facts stay versioned in one place.
 
-**Layer 2 (retrieval)** is the RAG body: the reasoning exemplars, the fit rubric, the proof bank, and the cleaned grounding KB (`SALES_PLAYBOOK`, `VALUE_PROP`, `OFFERS`, the ICP docs, `OUTCOMES`). Every chunk tagged with offer + ICP + last-updated. The do-not-index blocklist in `CANON.md` §4 keeps the RAG-poison files (`mindmaker_rebuild_brief_v4`, `EXECUTIVE_SUMMARY`, the raw critical-thinking manual, the old deck) out of the store.
+**Layer 2 (retrieval)** is the RAG body: the reasoning exemplars, the fit rubric, the proof bank, and the cleaned grounding KB (`SALES_PLAYBOOK`, `VALUE_PROP`, `OFFERS`, the ICP docs, `OUTCOMES`). Every chunk tagged with offer + ICP + last-updated. The do-not-index blocklist in `CANON.md` §4 keeps the RAG-poison files (`mindmaker_rebuild_brief_v4`, everything under `research/`, `PRICE_TRUTH_AUDIT`, the old deck) out of the store.
 
 **Layer 3 (live enrichment)** is tools, not training: the dossier from brief §3 (Brandfetch for the co-brand gasp, Tranco + PDL for silent routing, Brandfetch context + BuiltWith for understanding, Perplexity / NewsAPI / Exa for currency). Not held in this pack; this pack governs what Mindy is allowed to *say* about what those tools return.
 

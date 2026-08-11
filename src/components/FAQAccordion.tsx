@@ -67,9 +67,9 @@ export const faqItems: FAQItem[] = [
   },
   {
     category: "ai-literacy",
-    question: "What's The Builder Economy?",
+    question: "What's Mindmaker LIVE?",
     answer:
-      "The Builder Economy is our upcoming community platform featuring podcast episodes, live sessions, and insights on what's working in real portfolios, not vendor hype. Coming soon at thebuildereconomy.com.",
+      "Mindmaker LIVE is the publication: what's actually working in real portfolios, not vendor hype. Two formats. Paid follows the money on a shift and asks who pays. Built is conversations with people who have really built something with AI. Read it at live.themindmaker.ai.",
   },
 ];
 

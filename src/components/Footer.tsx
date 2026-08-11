@@ -109,12 +109,12 @@ const Footer = () => {
                   Case studies
                 </a>
                 <a
-                  href="https://www.thebuildereconomy.com"
+                  href="https://live.themindmaker.ai"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4 inline-flex items-center gap-1"
                 >
-                  The Builder Economy (Podcast)
+                  Mindmaker LIVE
                   <ExternalLink className="h-3 w-3" />
                 </a>
                 <a

@@ -18,7 +18,7 @@
 
     { "source": "/tool", "destination": "/signal", "permanent": true },
     { "source": "/faq", "destination": "/library?tab=questions", "permanent": true },
-    { "source": "/builder-economy", "destination": "https://www.thebuildereconomy.com", "permanent": true },
+    { "source": "/builder-economy", "destination": "https://live.themindmaker.ai", "permanent": true },
 
     { "source": "/individual", "destination": "/", "permanent": true },
     { "source": "/team", "destination": "/", "permanent": true },

@@ -55,7 +55,7 @@ const Navigation = () => {
         { label: "Case studies", href: "/case-studies" },
         { label: "New Age Leadership", href: "/new-age-leadership" },
         { label: "Library", href: "/library" },
-        { label: "The Builder Economy (Podcast)", href: "https://www.thebuildereconomy.com", external: true },
+        { label: "Mindmaker LIVE", href: "https://live.themindmaker.ai", external: true },
       ],
     },
     {

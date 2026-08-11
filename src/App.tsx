@@ -162,10 +162,12 @@ const AppRoutes = () => {
             {/* /tool deleted. Decision machine now lives inside Brief at /signal#decision */}
             <Route path="/tool" element={<Navigate to="/signal#decision" replace />} />
 
-            {/* /builder-economy deleted. Canonical site is thebuildereconomy.com */}
+            {/* Builder Economy was fully retired 2026-08-11 and thebuildereconomy.com
+                now 404s. Its thesis lives on as the Built format inside Mindmaker LIVE,
+                so that is where the old URL points. */}
             <Route
               path="/builder-economy"
-              element={<ExternalRedirect to="https://www.thebuildereconomy.com" />}
+              element={<ExternalRedirect to="https://live.themindmaker.ai" />}
             />
 
             {/* Preserved pages */}

@@ -22,7 +22,7 @@
  *   - Free-email domain (gmail etc): { "skipped": "free-email", "dossier": null }
  * ERRORS: 400 no usable domain · 404 identity hard miss · 405 non-POST · 429 rate/ceiling.
  *
- * INTERNAL-ONLY FIELDS — NEVER RECITED TO THE USER: `dossier.scale.*`.
+ * INTERNAL-ONLY FIELDS, NEVER RECITED TO THE USER: `dossier.scale.*`.
  *
  * @env BRANDFETCH_API_KEY, PEOPLEDATALABS_API_KEY, BUILTWITH_API_KEY, EXA_API_KEY,
  *      PERPLEXITY_API_KEY, NEWSAPI_API_KEY, GOOGLE_AI_API_KEY, ANTHROPIC_API_KEY.

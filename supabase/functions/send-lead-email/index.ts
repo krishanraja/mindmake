@@ -105,7 +105,7 @@ serve(async (req: Request): Promise<Response> => {
     const { name, email, jobTitle, selectedProgram, commitmentLevel, audienceType, pathType, qualifierAnswers, sessionData } =
       parseResult.data;
 
-    // Engagement score (same weighting as before) — used for the DB row + the digest.
+    // Engagement score (same weighting as before), used for the DB row + the digest.
     const engagementFactors = [
       sessionData.frictionMap ? 25 : 0,
       sessionData.portfolioBuilder && sessionData.portfolioBuilder.selectedTasks.length > 0 ? 25 : 0,

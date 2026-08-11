@@ -6,14 +6,14 @@
  *   their proposal.
  *
  *   The Krish digest now flows through the unified lead pipeline (`processLead` +
- *   `fromSessionDigest`) so it matches every other lead notification — same shell, same
+ *   `fromSessionDigest`) so it matches every other lead notification, same shell, same
  *   dossier + internal-routing block, same transcript styling, proposal attached. The dossier
  *   is already built client-side, so the pipeline does NOT re-enrich (`enrich.skip`).
  *
  * ## Privacy split (IMPORTANT)
  * - KRISH: the full digest (contact, recommendation, decision brief, dossier INCLUDING the
  *   internal routing layer, transcript, proposal attachment). Rendered Krish-only.
- * - VISITOR: only when opted in + valid email + a proposal exists — a short warm note plus
+ * - VISITOR: only when opted in + valid email + a proposal exists, a short warm note plus
  *   the proposal attachment. NEVER the routing block, NEVER the transcript. Sent independently:
  *   a visitor-copy failure must not fail the Krish digest.
  *
@@ -123,7 +123,7 @@ serve(async (req: Request): Promise<Response> => {
 
   const contact: Contact = body.contact && typeof body.contact === "object" ? body.contact : {};
 
-  // ── 1) Krish digest (primary) — through the unified pipeline (no re-enrichment). ──
+  // ── 1) Krish digest (primary), through the unified pipeline (no re-enrichment). ──
   let krishEmailSent = false;
   try {
     const { sent } = await processLead(fromSessionDigest({ ...body, transcript, contact }));

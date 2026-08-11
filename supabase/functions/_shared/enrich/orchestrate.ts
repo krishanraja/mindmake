@@ -258,7 +258,7 @@ export async function assembleDossier(input: AssembleInput): Promise<AssembleRes
       depth,
       error: err instanceof Error ? err.message : String(err),
     });
-    // Degrade to "no dossier" rather than throwing — callers treat null as "skip the block".
+    // Degrade to "no dossier" rather than throwing, callers treat null as "skip the block".
     return { dossier: null };
   }
 }

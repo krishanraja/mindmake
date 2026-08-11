@@ -7,14 +7,13 @@ import mindmakerIcon from "@/assets/mindmaker-icon.png";
 import mindmakerWordmarkOnLight from "@/assets/Mindmaker-Wordmark-onlight.png";
 import mindmakerWordmarkOnDark from "@/assets/Mindmaker-Wordmark-ondark.png";
 import mindmakerLivePill from "@/assets/mindmaker-live-pill.png";
-import { LightningLessons } from "@/components/LightningLessons";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
 
 type NavSubItem = {
   label: string;
   href?: string;
   external?: boolean;
-  type?: "lessons" | "section";
+  type?: "section";
 };
 
 type NavItem = {
@@ -29,7 +28,6 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { theme, setTheme } = useTheme();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [lessonsExpanded, setLessonsExpanded] = useState(false);
   const dropdownRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
   const { isHidden } = useScrollDirection({ disabled: isOpen });
@@ -58,7 +56,6 @@ const Navigation = () => {
         { label: "New Age Leadership", href: "/new-age-leadership" },
         { label: "Library", href: "/library" },
         { label: "The Builder Economy (Podcast)", href: "https://www.thebuildereconomy.com", external: true },
-        { label: "Lightning Lessons", type: "lessons" },
       ],
     },
     {
@@ -191,13 +188,6 @@ const Navigation = () => {
                       aria-label={`${item.label} menu`}
                     >
                       {item.dropdown.map((subItem) => {
-                        if (subItem.type === "lessons") {
-                          return (
-                            <div key={subItem.label} className="px-2">
-                              <LightningLessons />
-                            </div>
-                          );
-                        }
                         if (subItem.type === "section") {
                           return (
                             <div
@@ -310,61 +300,6 @@ const Navigation = () => {
                                   className="mx-4 mt-3 pt-3 border-t border-border/50 text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground"
                                 >
                                   {subItem.label}
-                                </div>
-                              );
-                            }
-                            if (subItem.type === "lessons") {
-                              return (
-                                <div key={subItem.label} className="py-2">
-                                  <button
-                                    onClick={() => setLessonsExpanded(!lessonsExpanded)}
-                                    className="w-full min-h-[44px] flex items-center justify-between px-4 py-3 text-base font-medium text-ink dark:text-white hover:bg-mint/10 rounded-md transition-colors"
-                                  >
-                                    Lightning Lessons
-                                    <ChevronDown
-                                      className={`h-4 w-4 transition-transform ${
-                                        lessonsExpanded ? "rotate-180" : ""
-                                      }`}
-                                    />
-                                  </button>
-                                  {lessonsExpanded && (
-                                    <div className="flex flex-col space-y-1 mt-2 ml-4">
-                                      {[
-                                        {
-                                          label: "Build Your AI's Permanent Identity",
-                                          url: "https://maven.com/p/8fba42/build-your-ai-s-permanent-identity",
-                                        },
-                                        {
-                                          label: "Build an Autonomous Business with AI",
-                                          url: "https://maven.com/p/99a529/build-an-autonomous-business-with-ai",
-                                        },
-                                        {
-                                          label: "Vibe Coding for Leaders: The Unfair Advantage",
-                                          url: "https://maven.com/p/b118d0/vibe-coding-how-your-competitors-are-pulling-ahead",
-                                        },
-                                        {
-                                          label: "Build Your Agentic Org Chart",
-                                          url: "https://maven.com/p/48674a/create-your-business-agentic-org-chart",
-                                        },
-                                        {
-                                          label: "Build Your AI Chief of Staff",
-                                          url: "https://maven.com/p/dd0ebd/build-your-ai-chief-of-staff",
-                                        },
-                                      ].map((lesson) => (
-                                        <a
-                                          key={lesson.url}
-                                          href={lesson.url}
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                          className="min-h-[44px] flex items-center justify-between px-4 py-3 text-sm font-medium text-ink dark:text-white hover:bg-mint/10 rounded-md transition-colors"
-                                          onClick={() => setIsOpen(false)}
-                                        >
-                                          <span>{lesson.label}</span>
-                                          <ExternalLink className="h-3 w-3 flex-shrink-0 ml-2" />
-                                        </a>
-                                      ))}
-                                    </div>
-                                  )}
                                 </div>
                               );
                             }

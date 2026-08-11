@@ -163,7 +163,7 @@ touch-target:       min-h-[44px] (mobile buttons)
 
 ### Buttons
 
-**Primary (Emerald)** — `bg-mint` is the alias; renders emerald. New code may use `bg-emerald`.
+**Primary (Emerald)**, `bg-mint` is the alias; renders emerald. New code may use `bg-emerald`.
 ```tsx
 <Button className="bg-mint text-ink hover:bg-mint/90">
 ```
@@ -173,7 +173,7 @@ touch-target:       min-h-[44px] (mobile buttons)
 <Button className="bg-ink text-white hover:bg-ink/90">
 ```
 
-**Outline** — emerald border + emerald fill on hover (alias classes shown)
+**Outline**, emerald border + emerald fill on hover (alias classes shown)
 ```tsx
 <Button variant="outline" className="border-mint text-mint">
 ```

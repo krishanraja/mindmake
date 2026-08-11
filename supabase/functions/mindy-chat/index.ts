@@ -22,7 +22,7 @@
  * }
  * ```
  *
- * ## Response (200, application/json) — the parsed turn object
+ * ## Response (200, application/json), the parsed turn object
  * ```
  * {
  *   reply: string,                       // Mindy's next turn, in Krish's voice, SHORT (2-4 sentences, ~70 words)
@@ -206,7 +206,7 @@ Return ONE JSON object and nothing else. No prose before or after, no markdown c
 Rules for the object:
 - "reply" is the ONLY field the visitor sees. It carries your whole turn. Everything else is state for the room.
 - BREVITY IS A HARD RULE. Keep "reply" to 2 to 4 sentences, around 70 words at most. One idea per turn. Ask one question, not three. Do not stack a reflection, a framework, and a question in the same turn. Short declarative, then the one sentence that earns it. If you have more to say, save it for the next turn.
-- QUICK REPLIES (IMPORTANT — almost every turn needs these): the visitor is usually on a phone and wants to tap, not type. Whenever you ASK a question, put 2 to 4 tappable options in "quickReplies". This includes the OPENING "what is the decision?" turn: there you offer decision STARTERS that help them pick a lane, not canned answers (e.g. ["Build vs buy an AI tool", "Where do we even start", "Cut cost or add capability", "Commercialise our own AI"]). For follow-ups, offer the genuinely likely answers (e.g. ["Build it ourselves", "Buy a tool", "Not sure yet"], or ["This quarter", "Longer horizon", "No timeline yet"]). Keep each under ~6 words and make them real, tappable answers or starters. The visitor can always still type instead. Use [] ONLY on a turn where you are NOT asking a question at all (a pure statement on the way to the fork).
+- QUICK REPLIES (IMPORTANT, almost every turn needs these): the visitor is usually on a phone and wants to tap, not type. Whenever you ASK a question, put 2 to 4 tappable options in "quickReplies". This includes the OPENING "what is the decision?" turn: there you offer decision STARTERS that help them pick a lane, not canned answers (e.g. ["Build vs buy an AI tool", "Where do we even start", "Cut cost or add capability", "Commercialise our own AI"]). For follow-ups, offer the genuinely likely answers (e.g. ["Build it ourselves", "Buy a tool", "Not sure yet"], or ["This quarter", "Longer horizon", "No timeline yet"]). Keep each under ~6 words and make them real, tappable answers or starters. The visitor can always still type instead. Use [] ONLY on a turn where you are NOT asking a question at all (a pure statement on the way to the fork).
 - CONVERGE FAST. This is a few turns, not an interview. Reflect, then ask the one real question, then reason, then recommend. One sharp question per turn, then converge. Do not interrogate. Give the visitor a sense of progress and an ending, never an endless loop.
 - HARD CONVERGENCE RULE. By the user's third substantive turn you MUST produce a decisionBrief (the real decision, 2 to 3 paths with trade-offs, the weak assumption, the next 14 days) AND a recommendation, set the matching readyForProposal or readyForCall, and move to the fork. Do not keep probing past that. One sharp question per turn, then converge.
 - KEEP THE JSON COMPACT. decisionBrief fields are concise: one line each, at most 3 paths, each path name and trade-off short. This is a hard rule, it keeps the object from truncating.
@@ -295,7 +295,7 @@ There is no enrichment dossier for this visitor. Do not pretend to know their bu
   const s = dossier.scale || {};
   lines.push("");
   lines.push(
-    "## INTERNAL ROUTING — never recite these numbers to the user; use them only to choose the right door/mode",
+    "## INTERNAL ROUTING, never recite these numbers to the user; use them only to choose the right door/mode",
   );
   lines.push(
     "These are private signals. Do not say the employee count, size band, or rank out loud, and do not paraphrase them ('a company your size', 'a few hundred people'). Use them silently to route to the right mode and rung.",
@@ -540,7 +540,7 @@ async function callAnthropic(
  */
 function softScrub(text: string): string {
   let out = text
-    .replace(/—/g, ", ") // em dash -> comma
+    .replace(/, /g, ", ") // em dash -> comma
     .replace(/\s--\s/g, ", "); // spaced double-hyphen -> comma
   // Collapse multiple exclamation marks down to one.
   let seenBang = false;

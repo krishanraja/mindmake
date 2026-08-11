@@ -190,7 +190,7 @@ function dossierBlock(dossier: Dossier | null): string {
   ].join("");
 
   return `<div style="margin-top:18px;">
-    <p style="margin:0 0 6px 0;font-weight:700;color:${INK};">Company dossier${dossier.domain ? ` — ${esc(dossier.domain)}` : ""}</p>
+    <p style="margin:0 0 6px 0;font-weight:700;color:${INK};">Company dossier${dossier.domain ? `, ${esc(dossier.domain)}` : ""}</p>
     ${identityRows ? `<table style="width:100%;border-collapse:collapse;font-size:14px;">${identityRows}</table>` : ""}
     ${understandingBits}
     ${currencyItems ? `<p style="margin:12px 0 2px 0;font-weight:600;">Recent activity</p><ul style="margin:4px 0 0 0;padding-left:20px;font-size:14px;">${currencyItems}</ul>` : ""}

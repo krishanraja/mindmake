@@ -146,8 +146,11 @@ describe("Mindy's knowledge layer matches the live ladder", () => {
   });
 
   it("carries no em dashes", () => {
+    // The character as an escape, not a literal, so this file does not fail its
+    // own rule and the repo-wide check needs no exception for it.
+    const EM_DASH = "\u2014";
     const offenders = mindyFiles
-      .filter((f) => read(f).includes("—"))
+      .filter((f) => read(f).includes(EM_DASH))
       .map((f) => relative(ROOT, f));
     expect(offenders).toEqual([]);
   });

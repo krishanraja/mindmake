@@ -4,7 +4,7 @@
  *
  *   Historically every function declared its own inline `corsHeaders`. This is the
  *   one place that set now lives. The header set is a SUPERSET of every function's
- *   previous headers — critically it includes `Access-Control-Allow-Methods`, which
+ *   previous headers, critically it includes `Access-Control-Allow-Methods`, which
  *   only the two static-page functions (submit-intake / submit-testimonial) used to
  *   send, so migrating those functions here keeps the hardcoded `/intake` and
  *   `/testimonials` pages working unchanged.

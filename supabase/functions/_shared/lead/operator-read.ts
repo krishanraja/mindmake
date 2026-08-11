@@ -3,7 +3,7 @@
  * @description The "intelligent" line at the top of every lead digest. Two-to-three
  *   sentences in Krish's operator voice answering: who is this, what do they seem to
  *   want, and what is the sharp next move. Grounded in the company dossier (identity,
- *   what-they-do, recent activity, synthesis AND the internal scale/routing — allowed
+ *   what-they-do, recent activity, synthesis AND the internal scale/routing, allowed
  *   here because the digest is Krish-only) plus the fields the lead actually submitted.
  *
  *   KRISH-ONLY. It may reference size / ICP, so it must never appear on any

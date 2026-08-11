@@ -9,7 +9,7 @@
  *   `dispatchLead` wraps that in a background task so a form submission returns instantly:
  *   it uses `EdgeRuntime.waitUntil` when available; otherwise it awaits (so the promise is
  *   not dropped on worker teardown). Everything here is best-effort and never throws to
- *   the caller — a lead capture must never 5xx because enrichment or email hiccuped.
+ *   the caller, a lead capture must never 5xx because enrichment or email hiccuped.
  */
 
 import { assembleDossier } from "../enrich/orchestrate.ts";
@@ -109,7 +109,7 @@ export async function processLead(event: LeadEvent, opts: ProcessOptions = {}): 
 /**
  * Dispatch the pipeline. When the Edge Runtime supports background tasks, schedule it
  * with `waitUntil` and return immediately so the form response is instant. Otherwise
- * await it (never float a post-response promise — the worker can be torn down once the
+ * await it (never float a post-response promise, the worker can be torn down once the
  * Response is sent, dropping the work). Either way this never throws.
  *
  * @param onComplete optional callback with the send result (e.g. to flag `email_sent`).

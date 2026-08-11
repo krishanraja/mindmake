@@ -183,7 +183,7 @@ text-muted: softer white (75%)
 ```
 **Use for:** Supporting actions
 
-### Outline CTA — emerald border + emerald fill on hover (alias classes shown)
+### Outline CTA, emerald border + emerald fill on hover (alias classes shown)
 ```tsx
 <Button variant="outline" 
         className="border-mint text-mint hover:bg-mint/20">

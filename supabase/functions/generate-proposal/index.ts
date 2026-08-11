@@ -394,7 +394,7 @@ function normaliseProse(o: Record<string, unknown>): ProseSlots | null {
  * (rewriting risks nonsense); the re-call is the real guard. Mirrors mindy-chat.
  */
 function softScrub(text: string): string {
-  let out = text.replace(/—/g, ", ").replace(/\s--\s/g, ", ");
+  let out = text.replace(/, /g, ", ").replace(/\s--\s/g, ", ");
   let seenBang = false;
   out = out.replace(/!/g, () => {
     if (seenBang) return ".";

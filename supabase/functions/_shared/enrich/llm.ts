@@ -5,9 +5,9 @@
  *   "operator's read" use one battle-tested code path (same model ids, same
  *   thinking-budget workaround, same voice scrub).
  *
- *   Primary model:  Gemini gemini-2.5-flash (thinkingBudget: 0 — see note below).
+ *   Primary model:  Gemini gemini-2.5-flash (thinkingBudget: 0, see note below).
  *   Fallback model: Anthropic claude-haiku-4-5-20251001.
- *   On any failure (either provider), returns null and logs — never throws.
+ *   On any failure (either provider), returns null and logs, never throws.
  *
  * @env GOOGLE_AI_API_KEY, ANTHROPIC_API_KEY
  */
@@ -24,7 +24,7 @@ const ANTHROPIC_MODEL = "claude-haiku-4-5-20251001";
 export interface CompleteTextInput {
   /** System / instruction guidance (voice, rules, framing). */
   system: string;
-  /** The user turn — the brief / data the model reasons over. */
+  /** The user turn, the brief / data the model reasons over. */
   user: string;
   maxTokens?: number;
   temperature?: number;
@@ -38,9 +38,9 @@ export interface CompleteTextInput {
  */
 export function scrubVoice(input: string): string {
   let s = input;
-  s = s.replace(/\s*[—–]\s*/g, ", ");
+  s = s.replace(/\s*[, –]\s*/g, ", ");
   s = s.replace(/\s+--\s+/g, ", ");
-  s = s.replace(/[—–]/g, ", ");
+  s = s.replace(/[, –]/g, ", ");
   s = s.replace(/,\s*,/g, ",").replace(/\s{2,}/g, " ").replace(/\s+,/g, ",");
   s = s.replace(/,\s*([.!?])/g, "$1");
   return s.trim();

@@ -2,7 +2,7 @@
  * @file send-leadership-insights-email Edge Function
  * @description Decision Readiness Diagnostic (/leaders). Sends TWO emails:
  *   1. the VISITOR their styled score-card results (unchanged, visitor-facing), and
- *   2. Krish a notification — now routed through the unified lead pipeline so it matches
+ *   2. Krish a notification, now routed through the unified lead pipeline so it matches
  *      every other lead digest and carries company research + an operator's read.
  *   Response `{ success, userEmailSent }` is unchanged.
  * @secrets RESEND_API_KEY, + enrichment keys
@@ -142,7 +142,7 @@ serve(async (req: Request): Promise<Response> => {
       },
     });
 
-    // 1) Visitor results email — visitor-facing, sent inline (best-effort).
+    // 1) Visitor results email, visitor-facing, sent inline (best-effort).
     const userEmail = await sendResendEmail(
       {
         from: "Mindmaker AI Insights <insights@themindmaker.ai>",
@@ -156,7 +156,7 @@ serve(async (req: Request): Promise<Response> => {
       console.error(`[LeadershipEmail][${requestId}] Visitor email failed (non-blocking):`, userEmail.error);
     }
 
-    // 2) Krish notification — routed through the unified pipeline (research + operator's read).
+    // 2) Krish notification, routed through the unified pipeline (research + operator's read).
     await dispatchLead(fromLeadershipInsights({ name, email, department, aiFocus, results }), { depth: "full" });
 
     return json({ success: true, userEmailSent: userEmail.ok });

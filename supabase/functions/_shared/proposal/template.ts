@@ -196,7 +196,7 @@ function safeUrl(url?: string): string | null {
 }
 
 /**
- * "What I already know about you" — the intelligence strip that proves Mindmaker
+ * "What I already know about you", the intelligence strip that proves Mindmaker
  * did the homework. Surfaces the public research the dossier pulled (sector, what
  * they do, the visible stack from BuiltWith, products, recent signals) and the
  * one-paragraph operator read. NEVER renders scale.* (headcount, rank, ICP):
@@ -672,7 +672,7 @@ function initialsOf(name: string): string {
 
 /*
  * splitQuote() was removed in August 2026. It recovered a proof quote's
- * attribution by scanning for the last " — " inside the quote text, which made
+ * attribution by scanning for the last ", " inside the quote text, which made
  * the rendered attribution depend on punctuation inside a client's own words.
  * ProofEntry now carries `attribution` as its own field.
  */
@@ -735,7 +735,7 @@ function buildStyles(accent: string, accentDeep: string): string {
   .logo-client{height:26px;width:auto;max-width:172px;display:block;object-fit:contain;}
   .cobrand-x{color:#5E6863;font-family:var(--mono);font-size:16px;}
 
-  /* INTEL — "what I already know about you" */
+  /* INTEL, "what I already know about you" */
   .intel .intel-read{font-size:15px;color:var(--text);margin-bottom:16px;max-width:72ch;}
   .intel-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;}
   .intel-row{background:var(--paper);padding:12px 14px;display:flex;flex-direction:column;gap:3px;min-width:0;}
@@ -918,7 +918,7 @@ export function renderProposalHtml(payload: ProposalPayload): string {
   const accentDeep = '#147A5E'; // deep mint kept for on-light text contrast (WCAG).
 
   const client = esc(payload.clientName || payload.contact?.company || 'Your company');
-  const title = `Mindmaker x ${client} — Proposal`;
+  const title = `Mindmaker x ${client}, Proposal`;
 
   const styles = buildStyles(accent, accentDeep);
 

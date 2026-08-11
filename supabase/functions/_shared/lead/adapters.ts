@@ -1,7 +1,7 @@
 /**
  * @file adapters.ts
  * @description One pure mapper per lead-capture source: raw (already-validated) payload
- *   → the canonical `LeadEvent`. No I/O, no side effects — trivially unit-testable. Each
+ *   → the canonical `LeadEvent`. No I/O, no side effects, trivially unit-testable. Each
  *   edge function calls its adapter, then hands the event to `dispatchLead`.
  */
 
@@ -133,11 +133,11 @@ export function fromLead(
     ],
   });
 
-  // Session activity (best-effort — only what's present).
+  // Session activity (best-effort, only what's present).
   const activity: LeadFieldGroup["fields"] = [];
   const friction = sd.frictionMap as { problem?: string; timeSaved?: number } | undefined;
   if (friction) {
-    activity.push({ label: "Friction map — problem", longform: friction.problem ?? null });
+    activity.push({ label: "Friction map, problem", longform: friction.problem ?? null });
     if (typeof friction.timeSaved === "number") activity.push({ label: "Potential time saved", value: `${friction.timeSaved}h/week` });
   }
   const portfolio = sd.portfolioBuilder as { totalTimeSaved?: number; totalCostSavings?: number; selectedTasks?: unknown[] } | undefined;

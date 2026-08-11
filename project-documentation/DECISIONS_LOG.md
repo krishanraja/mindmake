@@ -133,7 +133,31 @@
 2. **The fabricated proof bank.** 26 of 35 proof entries were illustrative, and Mindy drew on them to generate co-branded client proposals. A prospect could have received a document citing an engagement that never happened. All 26 deleted; the nine verified entries remain.
 3. **Advisory declared dead.** No instance of this exists in this repo, which is worth recording: the false statement lives in `mm-ctrl`'s `product.json`, which is out of scope.
 
-**Also removed, not in the brief but the same category:** fabricated San Francisco geo coordinates in `index.html` (while `llms.txt` claimed Brooklyn), and a `FAQPage` and `serviceType` schema selling "AI Training" and "AI Literacy Education" on a business that does not sell training.
+**Also removed, not in the brief but the same category:** fabricated San Francisco geo coordinates in `index.html` (while `llms.txt` claimed Brooklyn), a `FAQPage` and `serviceType` schema selling "AI Training" and "AI Literacy Education" on a business that does not sell training, and a **"Global Offices"** block on `/contact` listing Brooklyn, London and Sydney. A capped one-person practice does not have premises in three cities. It was also a geographic market claim, which the positioning does not make. The three currencies exist because the practice sells internationally, which is a different thing.
+
+---
+
+### 2026-08-11: Mindy answers a price question in the turn it is asked
+
+**Decision:** A direct question about price overrides the reflect-then-reason-then-recommend order and whatever phase the conversation is in. The figure leads the reply, then the reframe, then the next question.
+
+**Context:** Found by putting real questions through the deployed function after the knowledge rewrite, not by the test suite, which was green throughout. Asked "how much does this cost, in pounds," Mindy returned another diagnostic question and no number. Standing order 1 was outranking the pricing card.
+
+**Rationale:** The prices are published. Deferring one to a later turn reads as a sales tactic, which is the thing this practice is against, and the visitor can read the number two clicks away regardless.
+
+**Two defects fell out of the same check.** She then quoted the top Handover band to a 180-person company, because the card lists bands largest first for anchoring and she read row one. Largest-first is now stated as governing the order the two figures are said in, never which band applies. And she had no idea which currency the page was showing, because the Diagnosis Room never sent it: the hook now passes the selected currency and `mindy-chat` falls back to USD exactly as the site does.
+
+**Review trigger:** Any reprice, any new rung, or a fourth currency.
+
+---
+
+### 2026-08-11: A published price is never withheld in a generated proposal
+
+**Decision:** The `book-call` exit no longer suppresses the fee in the co-branded one-pager. Only the genuine absence of a figure, meaning scope outside the two engagements, renders "set on the call".
+
+**Context:** Both `generate-proposal` and the renderer treated a book-call recommendation as a reason to hide the number, which was correct under the old ranges model and survived the reprice. A Handover proposal showed no price at all.
+
+**Rationale:** The call is how the Handover is bought, not a gate on knowing what it costs. A prospect who has just read the band on `/handover` must not open their own proposal and find the fee withheld.
 
 ---
 

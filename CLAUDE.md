@@ -22,6 +22,7 @@ Read this before adding anything. Each of these was removed on purpose, and each
 | Currency conversion or an FX lookup | Prices are SET PER MARKET. A converter makes a published price a function of the morning's spot rate | `src/test/price-single-source.test.ts` |
 | A published discount, credit or urgency offer | It trains every buyer to wait for it. Krish keeps a discretionary credit for a live call only | `DECISIONS_LOG.md` 2026-08-11 |
 | A geographic market claim, in copy, meta or structured data | The practice sells internationally, which is why it carries three currencies | Removed from `index.html` and `llms.txt` |
+| An office, a location or a "Global Offices" block | `/contact` claimed Brooklyn, London and Sydney. This is one person | Removed from `Contact.tsx` |
 | A CTRL price on this site | CTRL is a separate product on its own site. This site carried three contradictory CTRL prices at once | `DECISIONS_LOG.md` 2026-08-11 |
 | Em dashes, anywhere, including code | House rule. Commas, periods or parentheses | `src/test/mindy-knowledge.test.ts` for the Mindy layer |
 | The client name behind the $254K POC | "A major US publisher" is the approved wording and the only wording | Comments at each publication site |
@@ -187,6 +188,10 @@ The primary conversion surface. A full-screen experience where **Mindy**, reason
 **Back end:** `mindy-chat` (the reasoning turn), `enrich-company` (the dossier), `generate-proposal` (the co-branded one-pager and PDF), `session-digest` (Krish's digest), `transcribe` (voice).
 
 **Pricing behaviour, rewritten August 2026.** Prices are published, so Mindy quotes them **exactly**, in the currency the visitor asks in. She never converts between currencies, never invents a figure and never discounts. The Handover always routes to the call. The recommendation contract's field is `price`, not `range`.
+
+Three rules exist because the live agent broke them while the suite stayed green. **A direct price question is answered in the turn it is asked**, ahead of the reflect-then-reason order and whatever phase she is in. **The Handover band is a function of headcount alone**, and the largest-first ordering governs which figure is said first, never which band applies. **The visitor's currency is sent, not guessed:** `useDiagnosisSession` passes it from `CurrencyContext` and `mindy-chat` falls back to USD exactly as the site does, so the number she says matches the number on screen. A currency the visitor names still wins.
+
+The same rule holds in the generated proposal: `book-call` does not hide a published fee. Only the genuine absence of a figure renders "set on the call".
 
 **Privacy contract (critical):** the dossier's `scale.*` fields (`employeeCount`, `sizeBand`, `trancoRank`, `icp`, `recommendedMode`, `handoverBand`) are **internal routing only**. The hook strips them before handing anything to a view, Mindy must never recite them, and the visitor-facing proposal and digest never contain the routing layer or the raw transcript.
 

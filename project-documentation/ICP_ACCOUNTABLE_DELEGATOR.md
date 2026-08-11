@@ -1,6 +1,6 @@
 # The Accountable Delegator (ICP Archetype)
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-11
 
 This is the deep psychographic, behavioural and skill-gap profile of the buyer described in `ICP.md`. It is the archetype behind both engagements, and the human at the centre of every conversation that starts with a nervous decision.
 
@@ -165,11 +165,11 @@ The Accountable Delegator is held back by the very capabilities that made them s
 
 ## Where this connects in the docs
 
-- **Firmographics, qualification signals, disqualifiers, buying triggers, voice-of-customer:** `ICP.md` (ICP 1: AI Leaders / Cohort Buyer).
+- **Firmographics, qualification signals, disqualifiers, buying triggers, voice-of-customer:** `ICP.md`.
 - **Routing this buyer to the right offer:** `ICP.md` (Entry Points) and `SALES_PLAYBOOK.md` (§11 Routing Logic, §3 Pain to Offer Mapping).
 - **Objection handling:** `Master_Messaging_and_FAQ.md` (Part 5) and `SALES_PLAYBOOK.md` (§7 Objection Bank). The "can't we just delegate AI to IT?" objection is this archetype's core belief, addressed there.
 - **Channels, ROI math, discovery questions:** `SALES_PLAYBOOK.md`.
-- **The offer this archetype maps to:** `OFFERS.md` (The AI-Fluent Executive) and `OUTCOMES.md`.
+- **The offers this archetype maps to:** `OFFERS.md` (The Teardown first, then The Handover) and `OUTCOMES.md`.
 
 ---
 

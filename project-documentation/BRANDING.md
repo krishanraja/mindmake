@@ -1,6 +1,6 @@
 # Branding
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-08-11
 
 ---
 
@@ -33,7 +33,7 @@ Your smartest, most cynical friend who runs AI transformation every day and genu
 ### What we are
 - **Direct**. name the decision, don't dance around it
 - **Cynical**. we've seen every vendor pitch; we know what's real
-- **Specific**. "10–15 seats", "30 days", "$60–100k", not "enterprise engagements"
+- **Specific**. "ten business days", "six weeks", "under two hours of your time", "six a year", not "enterprise engagements"
 - **Finish-line honest**. every offer has a fixed end, and we say so
 - **Premium without stiffness**. confident prose, no corporate rigor mortis
 
@@ -59,15 +59,15 @@ Your smartest, most cynical friend who runs AI transformation every day and genu
 
 ## CTA Language
 
-**Primary CTA everywhere:** **"Book a call"**
+**Primary CTA everywhere:** **"Bring me one real decision"**
 
-No conditional labels. No "What's your nervous decision?" (retired, it tested as too therapist-y for enterprise buyers). No "Start the Conversation". Just "Book a call", which opens the **Diagnosis Room (Mindy)** via the `openDiagnosisRoom` event. `ScopingModal` (`openScopingModal`) is the secondary booking surface, still used on the offer pages (`/cohort`, `/enterprise`, `/capital`, `/immersion`), the `BigProblem` homepage cards, and `/case-studies`. (`InitialConsultModal` / `openConsultModal` is legacy, retained only for `/alumni`.)
-
-**Cohort-specific direct CTA:** **"Reserve my seat on Maven"**, points directly at `https://maven.com/mindmaker/the-ai-fluent-executive` for buyers who already know the cohort is the right fit and want to skip the consult call.
+No conditional labels. No "What's your nervous decision?" (retired, it tested as too therapist-y for enterprise buyers). No "Start the Conversation". The primary CTA opens the **Diagnosis Room (Mindy)** via the `openDiagnosisRoom` event, and `/start` is the same surface as a page. `ScopingModal` (`openScopingModal`) is the secondary booking surface, dispatched by the `BigProblem` homepage cards and `/case-studies`. (`InitialConsultModal` / `openConsultModal` is legacy, retained only for `/alumni`.)
 
 **Supporting CTAs:**
-- "See the cohort" → `/cohort`
-- "Explore enterprise" → `/enterprise`
+- "See The Handover" → `/handover`
+- "See The Teardown" → `/teardown`
+- "For funds and portfolio companies" → `/capital`
+- "Book a call" is still the right label for the call itself, once the visitor has chosen it as an exit
 - "See how I work", secondary hero CTA, links to `/operator`
 - "Open the full dashboard →", muted link from homepage `OperatorsBrief` to `/signal`
 - "Request a date". Immersion page CTA, opens the scoping modal preselected to "immersion"
@@ -78,7 +78,7 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 
 ### Headlines
 - **Name the decision or the commercial symptom**, not the abstract benefit
-- **Be specific**. "$2,500 per seat", "10–15 leaders", "30 days", "48 hours"
+- **Be specific**. "ten business days", "six weeks", "one real decision", "under two hours"
 - **Use concrete verbs**. decide, ship, rebuild, cut, filter, commit
 - **Avoid feeling words** as crutches, "calm clarity" is OK once per page, not a refrain
 
@@ -92,11 +92,11 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 
 | OLD | NEW |
 |---|---|
-| "1:1 sprint that turns AI chaos into direction" | "A Maven-hosted cohort for leaders making AI decisions. Enterprise sprints for AI products." |
+| "1:1 sprint that turns AI chaos into direction" | "Six weeks rebuilding how the business decides and sells, and ten business days on one real decision." |
 | Any retired offer name | "The Handover" or "The Teardown". Nothing else exists |
-| "What's your nervous decision?" (CTA button) | "Book a call" |
+| "What's your nervous decision?" or "Book a call" (primary CTA button) | "Bring me one real decision" |
 | "Chat with Krish" / "Ask Mindmaker" | (chatbot retired; the `PreCallQualifier` that replaced it is now retired too, superseded by the **Diagnosis Room (Mindy)**) |
-| "AI Leadership Benchmark" | "Decision Readiness Diagnostic" (`/leaders`, unlinked from nav) |
+| "AI Leadership Benchmark" / "Decision Readiness Diagnostic" | Retired. `/leaders` 301s to `/start`, and the Diagnosis Room does this job now |
 | "Signal Desk" / "The Brief" / "The Operator's Brief" (as a nav label) | **"Live Intel"** (as the nav label and page H1) |
 | "Builder vs Orchestrator" | "AI leaders vs AI products" (the homepage `YFork` that carried this split is now retired, superseded by the Diagnosis Room) |
 | A price not in `src/lib/offers.ts` | The published price for that rung, in the currency asked for |
@@ -112,8 +112,7 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 - Clarity, direction, confidence, decision, trade-off, board-ready
 - Positioning, pricing, packaging, GTM, commercial, revenue
 - Operator, practitioner, in the room, at the P&L
-- Specific numbers: "$2,500", "$15k", "$60–100k", "$12k", "10–15 leaders", "14-agent OS", "30 days", "48 hours"
-- Maven (when referring to Cohort enrollment, Slack, alumni community)
+- Specific numbers: "ten business days", "six weeks", "Day 90", "six a year", "14-agent OS", "under two hours". Actual fees come from `src/lib/offers.ts` and are never typed by hand
 
 ### Never use
 - Transformation, digital, synergy, leverage (as a verb), ecosystem, journey (as a generic noun)
@@ -148,10 +147,8 @@ Also GBP and AUD, as set prices per market. Canonical source: `src/lib/offers.ts
 
 ### Retired products and names (do not reference)
 
-- **The AI Decision Cohort**, retired in v6 (May 2026); replaced by **The AI-Fluent Executive**
-- **Name → Map → Make**, retired Cohort framework; replaced by **Diagnose → Decompose → Decide → Deploy**
-- **3-week Cohort**, retired duration; the Cohort is now 4 weeks
-- **maven.com/aimindmaker/ai-decision-intensive**, dead Maven URL; live URL is **maven.com/mindmaker/the-ai-fluent-executive**
+- The entire six-rung ladder, retired in July and August 2026. The named record is in `DECISIONS_LOG.md`, deliberately nowhere else, because most of these docs are indexed for retrieval
+- The third-party course platform that used to collect payment, and every URL pointing at it
 - 4-Week Sprint / 90-Day Sprint / Extended Sprint, retired from public site in v4 barbell pivot
 - Builder Sprint / Builder Session, retired
 - Leadership Lab, retired as a named product

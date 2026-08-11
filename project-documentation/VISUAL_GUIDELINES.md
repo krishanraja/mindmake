@@ -1,6 +1,6 @@
 # Visual Guidelines
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-08-11
 
 > **Signature accent (2026-06-29):** the accent is now **portfolio emerald** `#00D9B6` (HSL `171 100% 43%`), CTRL's emerald, shared across the three sibling products (Mindmaker, CTRL, Make Your Mind Up) over one MindmakerOS token contract. The legacy `mint` tokens/classes (`bg-mint`, `text-mint`, `shadow-mint-*`, "mint" used loosely below) are retained as **aliases** to emerald; read every "mint" reference below as emerald, and prefer the `emerald*` keys in new code. For accent text/links on light backgrounds use **`text-emerald-deep`** (`#06746d`, full AA 5.21), never bright emerald. WHY + WCAG derivation: `prototypes/brand-emerald-proof.{html,md}`.
 
@@ -491,17 +491,17 @@ Pages follow a similar shape:
 2. "What you get" glass-card block with CheckCircle list
 3. Format / cadence block (The Handover: six weeks plus a Day 90 recheck; The Teardown: ten business days, under two hours of client time)
 4. Example decisions, commercial problems, or shared tensions grid (2-column, bg-ink/5 cards)
-5. Bottom CTA glass-card with **"Book a call"** button (Cohort additionally has a "Hosted on Maven" pill and a "Reserve my seat on Maven" CTA pointing directly at the canonical Maven URL; Immersion CTA reads "Request a date")
+5. Bottom CTA glass-card. The Teardown is self-serve, so its CTA opens the Diagnosis Room; the Handover always routes to a call. A `CurrencySwitcher` sits next to the price, never buried in the footer
 
 ### Retired visual patterns (do not build)
 
 - Builder/Orchestrator fork (`TheProblem.tsx`), unmounted
 - 4-Week / 90-Day sprint chooser (`ProductLadder.tsx`), unmounted
-- Homepage Y-Fork (`YFork.tsx`) "Start where your question actually is." three intent cards, unmounted (file remains in the tree but is no longer imported; the homepage now funnels into the single Diagnosis Room journey)
-- Pre-Call Qualifier floating pill (`PreCallQualifier.tsx`), unmounted (file remains but no longer imported)
+- Homepage Y-Fork (`YFork.tsx`) "Start where your question actually is." three intent cards. The homepage funnels into the single Diagnosis Room journey; the component is in `src/_archive/components/`
+- Pre-Call Qualifier floating pill (`PreCallQualifier.tsx`), in `src/_archive/components/`
 - AI News Ticker (`AINewsTicker.tsx`) with SIGNAL/NOISE/DECISION/TAKE badges, replaced by PriceTicker + Operator's Brief
 - ActionsHub side drawer, unmounted
-- `"What's your nervous decision?"` as a CTA button label, replaced by `"Book a call"` everywhere
+- `"What's your nervous decision?"` and `"Book a call"` as the primary CTA label. The primary label is **"Bring me one real decision"**
 - Engine Room / mm-ctrl agent visualization, never built for homepage per CLAUDE.md guardrails
 
 ---

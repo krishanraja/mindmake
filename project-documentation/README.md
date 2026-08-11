@@ -1,6 +1,6 @@
 # Mindmaker Project Documentation
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-11
 
 ---
 
@@ -31,12 +31,13 @@ CTRL is a separate product with its own site and its own pricing, and is not sol
 | [SALES_PLAYBOOK.md](./SALES_PLAYBOOK.md) | The single document an AI sales/marketing agent should ground on. ICP signals, pain narratives, ROI math, objection bank, channel-specific message templates, qualifying questions, disqualifiers, competitive grid. |
 | [Master_Messaging_and_FAQ.md](./Master_Messaging_and_FAQ.md) | Canonical pitches by offer + master FAQ + objection handling. |
 | [VALUE_PROP.md](./VALUE_PROP.md) | Positioning, differentiators, competitive framing. |
-| [ICP.md](./ICP.md) | The two primary ICPs (AI leaders, AI products) + the executive-team ICP for Immersion. Anti-ICPs. |
-| [ICP_ACCOUNTABLE_DELEGATOR.md](./ICP_ACCOUNTABLE_DELEGATOR.md) | Deep psychographic and skill-gap archetype of the cohort/leader buyer ("The Accountable Delegator"), the depth behind ICP 1. Research-grounded; cross-refs ICP.md and SALES_PLAYBOOK.md. |
+| [ICP.md](./ICP.md) | One ICP: companies of 50 to 5,000 people, sweet spot 100 to 1,000, buyer is the CEO, CRO or VP Product. Plus the anti-ICPs. |
+| [ICP_ACCOUNTABLE_DELEGATOR.md](./ICP_ACCOUNTABLE_DELEGATOR.md) | The psychographic depth behind `ICP.md`: what the buyer is actually feeling, including why the fraud feeling is rational rather than neurotic. |
 | [OFFERS.md](./OFFERS.md) | Full detail on both engagements, and what each one collects. |
 | [COMMERCIAL_REFERENCE.md](./COMMERCIAL_REFERENCE.md) | The durable commercial reference (the `mindmaker` Claude skill): the full buyer-journey ladder, three ICPs, the CTRL product, the Substack, Stripe, the sales motion, and the Mindmaker vs Mindmaker OS boundary. |
-| [mindy/](./mindy/) | **Mindy's Brain Pack**, the system prompt, reasoning few-shots, fit-and-walkaway rubric, pricing-range model, proof bank, `CANON.md` (de-poison / source of truth), and voice-lint that govern the Diagnosis Room. |
-| [OUTCOMES.md](./OUTCOMES.md) | Buyer outcomes by offer, with leading and lagging indicators. |
+| [mindy/](./mindy/) | **Mindy's Brain Pack**: the system prompt, reasoning few-shots, fit-and-walkaway rubric, pricing model, proof bank, `CANON.md` (de-poison / source of truth), and voice-lint that govern the Diagnosis Room. |
+| [OUTCOMES.md](./OUTCOMES.md) | Buyer outcomes by engagement, with leading and lagging indicators. Aspirational figures are labelled inline. |
+| [PROOF_INVENTORY.md](./PROOF_INVENTORY.md) | Every case study and testimonial, with its consent state. The nine verified engagements, and what may be said about each. |
 | [BRANDING.md](./BRANDING.md) | Voice, tone, terminology standards, retired products. |
 | [PURPOSE.md](./PURPOSE.md) | Mission, vision, what we do and don't sell. |
 
@@ -57,17 +58,17 @@ CTRL is a separate product with its own site and its own pricing, and is not sol
 | Document | What it gives you |
 |---|---|
 | [HISTORY.md](./HISTORY.md) | Chronological change history. |
-| [DECISIONS_LOG.md](./DECISIONS_LOG.md) | Architecture and design decision records. |
-| [mindmaker_rebuild_brief_v4.md](./mindmaker_rebuild_brief_v4.md) | Authoritative strategic brief (v4 barbell pivot + v5 Operator's Edge). |
+| [DECISIONS_LOG.md](./DECISIONS_LOG.md) | Every material decision with its reasoning and review trigger. **The only file that names the retired offers.** Start here when something looks odd. |
+| [mindmaker_rebuild_brief_v4.md](./mindmaker_rebuild_brief_v4.md) | **Historical archive, superseded 2026-08-11.** The v4/v5 strategic brief. The positioning in it largely survives; every offer, price and duration in it does not. |
+| [PRICE_TRUTH_AUDIT.md](./PRICE_TRUTH_AUDIT.md) | **Historical record.** The state of the estate before the August 2026 reprice, when six offers were quoted at inconsistent figures across eight surfaces. The evidence behind the single-source-of-truth work. |
 
 ### Research artefacts (not Mindmaker business content)
 
 | Document | What it gives you |
 |---|---|
-| [research/LLM_CHAIN_OF_THOUGHT.md](./research/LLM_CHAIN_OF_THOUGHT.md) | LLM critical-thinking framework synthesis (research, not Mindmaker positioning). |
-| [research/LLM_CRITICAL_THINKING_TRAINING.md](./research/LLM_CRITICAL_THINKING_TRAINING.md) | AI reasoning training manual (research). |
+| [research/](./research/) | Two long documents on training language models to reason well. **Not Mindmaker business content, and on `CANON.md`'s do-not-index blocklist.** See [research/README.md](./research/README.md). |
 
-> Research files are kept for reference. They are not authoritative descriptions of the Mindmaker business. Use `PURPOSE.md` + `VALUE_PROP.md` + `OFFERS.md` + `SALES_PLAYBOOK.md` for that.
+> Research files are kept for reference. They are not authoritative descriptions of the Mindmaker business, and grounding a commercial answer on them is the single easiest way to produce confident nonsense. Use `PURPOSE.md` + `VALUE_PROP.md` + `OFFERS.md` + `SALES_PLAYBOOK.md` for that.
 
 ---
 
@@ -78,7 +79,7 @@ CTRL is a separate product with its own site and its own pricing, and is not sol
 2. [BRANDING.md](./BRANDING.md), voice, terminology, retired products
 3. [VALUE_PROP.md](./VALUE_PROP.md), positioning and objections
 4. [ICP.md](./ICP.md), the audiences
-5. [OFFERS.md](./OFFERS.md), pricing, scope, format, outcomes
+5. [OFFERS.md](./OFFERS.md), scope, format and outcomes. Actual prices come from `src/lib/offers.ts`, never from a document
 6. [Master_Messaging_and_FAQ.md](./Master_Messaging_and_FAQ.md), canonical pitches and FAQ
 7. [PURPOSE.md](./PURPOSE.md), mission and anti-goals
 
@@ -141,7 +142,7 @@ CTRL is a separate product with its own site and its own pricing, and is not sol
 - Fractional CAIO, Fractional CTO, Fractional CMO (we do not sell fractional roles)
 - "Builder vs Orchestrator" ICP framing
 - "Chat with Krish" / "Ask Mindmaker" chatbot (retired; the `PreCallQualifier` that replaced it is itself now retired, superseded by the Diagnosis Room)
-- Homepage `YFork` second fork and the `PreCallQualifier` floating pill (both retired June 2026; the homepage now funnels into the Diagnosis Room)
+- Homepage `YFork` second fork and the `PreCallQualifier` floating pill (both retired June 2026, archived to `src/_archive/components/` in August 2026; the homepage funnels into the Diagnosis Room)
 - "Signal Desk" naming (renamed to **Live Intel** at `/signal`)
 - "The Brief" / "The Operator's Brief" as a nav label (the nav label is now **"Live Intel"**; "The Operator's Brief" can still appear as a body-copy reference for the editorial taxonomy on `/signal`)
 - SIGNAL / NOISE / DECISION / TAKE taxonomy (renamed to WATCH / SKIP / CALL / TAKE)

@@ -1,6 +1,6 @@
 # Architecture
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-11
 
 ---
 
@@ -31,8 +31,7 @@
 - Lovable AI Gateway (Operator's Brief / Live Intel content)
 - Resend (transactional email delivery)
 - Calendly (scheduling: the Diagnosis Room "book a call" exit + the legacy consult modal)
-- **Maven** (Cohort enrolment, payment, cohort Slack, alumni network)
-- Stripe (payment holds, currently bypassed; Cohort payment flows through Maven)
+- Stripe (the Alumni Pass only, invitation-gated, no live checkout on the page)
 
 **Hosting & deployment:**
 - Lovable Cloud / Vercel (frontend auto-deploy)
@@ -92,15 +91,13 @@ mindmaker/
 │   │   # LeadershipInsights.tsx moved to src/_archive/pages/ in August 2026. Their
 │   │   # routes are real 301s in vercel.json. See src/_archive/README.md.
 │   │   ├── Handover.tsx              # /handover. Three price bands by headcount
-│   │   ├── Capital.tsx               # /capital (third door for funds)
+│   │   ├── Capital.tsx               # /capital. The same two, per portfolio company
 │   │   ├── Operator.tsx              # /operator, 14-agent OS credential
 │   │   ├── CaseStudies.tsx           # /case-studies, filterable anonymised proof
 │   │   ├── Brief.tsx                 # Live Intel, /signal
-│   │   ├── Capital.tsx               # /capital. The same two, per portfolio company
-│   │   ├── Alumni.tsx                # /alumni. Alumni Pass (invitation-only, noindex)
+│   │   ├── Alumni.tsx                # /alumni. Invitation-only continuity, noindex
 │   │   ├── Library.tsx               # /library (includes FAQ tab)
 │   │   ├── NewAgeLeadership.tsx      # /new-age-leadership, long-form thought leadership
-│   │   ├── LeadershipInsights.tsx    # Decision Readiness Diagnostic, /leaders
 │   │   ├── Blog.tsx
 │   │   ├── BlogPost.tsx
 │   │   ├── Contact.tsx
@@ -177,27 +174,18 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 
 | Route | Page | Notes |
 |---|---|---|
-| `/` | `Index` | Homepage, eager-loaded. CTAs open the Diagnosis Room |
-| `/start` | `DiagnosisRoom` (full page) | The Diagnosis Room (Mindy) as a standalone page; closing it navigates to `/` |
+| `/` | `Index` | Homepage, eager-loaded. CTAs open the Diagnosis Room. |
+| `/start` | `DiagnosisRoom` (full page) | The Diagnosis Room (Mindy) as a standalone page. |
 | `/teardown` | `Teardown` | The Teardown. One price, currency switcher, the four-step method. |
-| `/workshops/build-your-ai-chief-of-staff` | `workshops/BuildYourAIChiefOfStaff` | Workshop sub-page. CTA: "Enrol on Maven" or "Get notified". |
-| `/workshops/map-your-agentic-org-chart` | `workshops/MapYourAgenticOrgChart` | Workshop sub-page. |
-| `/workshops/vibe-coding-for-leaders` | `workshops/VibeCodingForLeaders` | Workshop sub-page. |
-| `/workshops/build-an-autonomous-business-function` | `workshops/BuildAnAutonomousBusinessFunction` | Workshop sub-page. |
-| `/workshops/give-your-ai-memory` | `workshops/GiveYourAIMemory` | Workshop sub-page. |
-| `/cohort` | `Cohort` | The AI-Fluent Executive (Cohort) ($2,500/seat, 4 weeks). Enrolment on **Maven** at `maven.com/mindmaker/the-ai-fluent-executive`. Banner appears on `?inquiry=1:1`. |
-| `/handover` | `Handover` | The Handover. Three price bands by headcount, the six weeks, the Teardown gate, the $254K POC. |
-| `/capital` | `Capital` | Third door for funds and operating partners. The same two engagements, priced per portfolio company; fund terms on the call. |
-| `/operator` | `Operator` | (v5) How I operate, 14-agent OS credential page. Looping `/ctrl-demo-video.mp4`. |
-| `/case-studies` | `CaseStudies` | Filterable anonymised client case studies (COHORT-STYLE / ENTERPRISE). Linked from Resources nav + footer. |
-| `/signal` | `Brief` | **Live Intel**, full dashboard. Extended PriceTicker, interpretation grid, classified archive (WATCH/SKIP/CALL/TAKE), blog column, Nervous Decision Machine. |
-| `/library` | `Library` | Library of resources, FAQ, etc. |
-| `/start` | `DiagnosisRoom` | The Diagnosis Room as a standalone page. |
-| `/alumni` | `Alumni` | **The Alumni Pass** ($1,500/year, invitation-only). Hidden from nav and footer; reachable by direct URL only. SEO `noindex`. |
-| `/new-age-leadership` | `NewAgeLeadership` | Long-form thought leadership: agent-native org chart, hybrid teams, agent-first functions, emergent agent-native roles. Lazy-loaded `OrgChart` + `AgathaStory`. |
-| `/leaders`, `/leadership-insights` | 301 to `/start` | Archived August 2026. See `src/_archive/README.md`. |
+| `/handover` | `Handover` | The Handover. Three bands by headcount, the six weeks, the Teardown gate, the $254K POC. |
+| `/capital` | `Capital` | The third door. The same two engagements, priced per portfolio company; fund terms on the call. |
+| `/operator` | `Operator` | How I operate. The 14-agent OS credential page. Looping `/ctrl-demo-video.mp4`. |
+| `/case-studies` | `CaseStudies` | Filterable anonymised proof, by Teardown / Handover. Consent-gated testimonials. |
+| `/signal` | `Brief` | **Live Intel**, full dashboard. PriceTicker, interpretation grid, classified archive (WATCH/SKIP/CALL/TAKE), Nervous Decision Machine. |
+| `/library` | `Library` | Resources, including the FAQ tab. |
+| `/new-age-leadership` | `NewAgeLeadership` | Essay on agentic org design. Lazy-loaded `OrgChart` + `AgathaStory`. |
+| `/alumni` | `Alumni` | Invitation-only continuity. Hidden from nav and footer, `noindex`, direct URL only. |
 | `/blog`, `/blog/:slug` | `Blog`, `BlogPost` | |
-| `/faq` | `Library` (redirect via Navigate) | Aliased to `/library?tab=questions`. |
 | `/contact` | `Contact` | |
 | `/privacy`, `/terms` | `Privacy`, `Terms` | |
 | `*` | `NotFound` | Catch-all |
@@ -208,48 +196,41 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 
 | Old path | Redirects to | Mechanism |
 |---|---|---|
-| `/tool` | `/signal#decision` | Navigate (page deleted; machine now embedded on homepage + `/signal`) |
-| `/builder-economy` | `https://www.thebuildereconomy.com` | `ExternalRedirect` (Builder Economy is a separate sister domain) |
-| `/sprints` | `/cohort` | HashRedirect |
-| `/sprint/4-week` | `/cohort?inquiry=1:1` | HashRedirect |
-| `/sprint/90-day` | `/cohort?inquiry=1:1` | HashRedirect |
-| `/builder-sprint` | `/cohort?inquiry=1:1` | HashRedirect |
-| `/war-room` | `/enterprise#revenue-architecture` | HashRedirect |
-| `/strategy-day` | `/enterprise#signal-session` | HashRedirect |
-| `/fractional-caio` | `/enterprise` | HashRedirect |
+| `/tool` | `/signal#decision` | Navigate |
+| `/builder-economy` | `https://www.thebuildereconomy.com` | `ExternalRedirect`, a separate sister domain |
+| `/faq` | `/library?tab=questions` | Navigate |
+| `/workshops`, `/workshops/:slug` | `/teardown` | HashRedirect |
+| `/enterprise`, `/immersion` | `/handover` | HashRedirect |
+| `/cohort`, `/leaders`, `/leadership-insights` | `/start` | HashRedirect |
+| `/sprints`, `/sprint/4-week`, `/builder-sprint`, `/strategy-day` | `/teardown` | HashRedirect |
+| `/sprint/90-day`, `/war-room`, `/fractional-caio` | `/handover` | HashRedirect |
 | `/individual`, `/team`, `/builder`, `/builder-session`, `/leadership-lab`, `/portfolio-program` | `/` | Navigate |
 
-On `/cohort?inquiry=1:1`, a banner surfaces the inquiry-only private-engagement path without advertising it on the main page.
+**These are the client-side fallback only.** The real 301s live in `vercel.json` `redirects`, which is what a crawler and a cold visitor hit. The React Router entries exist so in-app navigation to a retired path still lands somewhere sensible, and they return HTTP 200 with the SPA shell rather than a redirect status. `src/test/redirects.test.ts` asserts the two layers agree, that every edge redirect is permanent, and that nothing redirects to a path that is itself redirected.
 
-No `/pricing` page, pricing lives in context on `/cohort`, `/enterprise`, and `/immersion`.
+No `/pricing` page. Pricing lives in context on `/teardown`, `/handover` and `/capital`, each with a `CurrencySwitcher`.
 
 ---
 
 ## Homepage Scroll Order
 
-Authoritative source: `src/pages/Index.tsx`. Verified 2026-06-09.
+Authoritative source: `src/pages/Index.tsx`. Verified 2026-08-11.
 
-1. `Navigation`. fixed top, hides on scroll-down via `useScrollDirection`
-2. `NewHero`. rotating headlines, eyebrow "Decision blockers I hear every week", primary "Book a call" (opens the Diagnosis Room in express mode) + secondary "Work through your decision with Mindy" (full mode) + tertiary "Or start with a free lesson →" / "See how I work →" (`/operator`) links
-3. `BigProblem`. existential urgency frame (three large interactive flip cards)
-4. `TrustSection`. Krish bio, headshot, testimonials carousel (COHORT-STYLE / ENTERPRISE tagged)
-5. `FrameworkJourney`. three-panel animated MindSet → MindMap → MindMake
-6. `OperatorsEdge`. v5 typography-only credential section ("Beyond pattern recognition")
-7. `OperatorsBrief`. Live Intel homepage teaser (PriceTicker + rotating interpretation + compact Nervous Decision input + muted link to `/signal`)
-8. `MindMakerLiveSection`. Substack newsletter subscribe surface
-9. `SimpleCTA`. final CTA ("What's your nervous decision?"), opens the Diagnosis Room
-10. `Footer`
+1. `Navigation`. Fixed top, hides on scroll-down via `useScrollDirection`.
+2. `NewHero`. Rotating headlines, looping `/rising-cities.mp4`, primary CTA "Bring me one real decision" (opens the Diagnosis Room).
+3. `BigProblem`. Three large interactive flip cards. The cards dispatch `ScopingModal`.
+4. `TwoDoors`. Do it yourself with CTRL, or do it with Krish. No CTRL price on this site.
+5. `TrustSection`. Krish bio, headshot, testimonials carousel.
+6. `OperatorsEdge`. Dark-background typography-only credential section. CTA to `/handover`.
+7. `OperatorsBrief`. Live Intel teaser: marquee `PriceTicker`, rotating interpretation line, compact Nervous Decision input, link to `/signal`.
+8. `SimpleCTA`. Final CTA, opens the Diagnosis Room.
+9. `Footer`.
 
-The retired `YFork` second fork is no longer rendered (the homepage funnels into the one Diagnosis Room journey). The component is in `src/_archive/components/`.
+`ParticleBackground` is mounted behind all of it.
 
-### Global overlays (mounted in `src/App.tsx`)
+**Not on the homepage:** `FrameworkJourney` (moved to `/new-age-leadership`), `MindMakerLiveSection`, `VendorLandscape`, `AINewsTicker`, `ActionsHub`, the ChatBot, and the retired `YFork` / `PreCallQualifier` (both in `src/_archive/components/`).
 
-- `DiagnosisRoom`. **the primary conversion surface**, opened via `window.dispatchEvent(new CustomEvent('openDiagnosisRoom', { detail: { source_page, seedDecision?, mode? } }))` (`mode`: `express` | `full`). Lazy + only mounted when open so SSG prerender never instantiates it. Also a standalone page at `/start`.
-- `ScopingModal`. secondary booking surface, still dispatched by the offer pages (`/cohort`, `/enterprise`, `/capital`, `/immersion`), the `BigProblem` cards, and `/case-studies` via `openScopingModal` (6-field "Scope it with me" intake posting to `notify-scoping-request`)
-- `InitialConsultModal`. legacy conversion surface, kept mounted but only `/alumni` still dispatches `openConsultModal`
-- `CookieConsent`
-- `ErrorBoundary`. wraps `<Suspense>` around routes
-- The retired `PreCallQualifier` floating pill is no longer mounted. The component is in `src/_archive/components/`.
+Global overlays mounted in `src/App.tsx`: `DiagnosisRoom` (lazy, only mounted when open so the prerender never instantiates it), `ScopingModal`, `InitialConsultModal`, `CookieConsent`.
 
 ---
 
@@ -291,7 +272,7 @@ Payment: The Teardown on kickoff. The Handover 50/50 at kickoff and delivery. **
 
 ### Booking / conversion flow (current), the Diagnosis Room
 
-Stripe $50 hold bypassed. Cohort payment flows entirely through Maven; Enterprise / Immersion payment is invoiced direct. Every "Book a call" CTA opens the Diagnosis Room (Mindy); `ScopingModal` is a retained fallback.
+Nothing on this site takes a payment. The Teardown price is published and self-serve in the sense that the buyer knows the number before they talk to anyone, but the transaction itself is invoiced direct. The Handover always goes through a call. Every primary CTA opens the Diagnosis Room (Mindy); `ScopingModal` is a retained fallback dispatched by the `BigProblem` cards and `/case-studies`.
 
 ```
 1. User clicks "Book a call" / "Work through your decision with Mindy" anywhere on site
@@ -318,7 +299,7 @@ Stripe $50 hold bypassed. Cohort payment flows entirely through Maven; Enterpris
    └─> emails Krish the FULL intelligence; if opted in + proposal exists, emails the visitor their copy
 ```
 
-The legacy path (now `/alumni` only) dispatches `openConsultModal` → `InitialConsultModal` → `send-lead-email` (Gemini company research with Google Search grounding, skipped for personal email domains) → Calendly redirect. The `ScopingModal` fallback dispatches `openScopingModal` → `notify-scoping-request` (emails Krish). Cohort enrolment can bypass the call entirely via the `/cohort` "Reserve my seat on Maven" CTA → `https://maven.com/mindmaker/the-ai-fluent-executive`.
+The legacy path (now `/alumni` only) dispatches `openConsultModal` → `InitialConsultModal` → `send-lead-email` (company research, skipped for personal email domains) → Calendly redirect. The `ScopingModal` fallback dispatches `openScopingModal` → `notify-scoping-request` (emails Krish).
 
 ### Diagnosis Room phases & privacy contract
 
@@ -443,7 +424,7 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 - Secret: `RESEND_API_KEY`
 
 ### `create-consultation-hold` (bypassed)
-- Stripe authorization hold, currently bypassed; Cohort payment runs entirely through Maven
+- Stripe authorization hold, currently bypassed. Nothing on the site charges through it.
 - Secret: `STRIPE_SECRET_KEY`
 
 ### `company-search`
@@ -470,7 +451,7 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 - **Form state:** React Hook Form + Zod schemas
 - **Context state:** `SessionDataContext` threads qualifier answers into the conversion modals. The Diagnosis Room holds its own session in `useDiagnosisSession` (dossier, transcript, recommendation, decision brief, proposal). `ThemeProvider` (next-themes) handles dark mode via class attribute.
 - **Local storage:** none required by the Diagnosis Room (session is in-memory; digests are server-side). The retired `PreCallQualifier`, now archived, used `mindmaker:pre-call-qualifier`.
-- **No user authentication:** All bookings via Calendly or Maven; no user accounts
+- **No user authentication:** all bookings via Calendly; no user accounts
 
 ---
 
@@ -542,7 +523,7 @@ Push to GitHub triggers Lovable / Vercel auto-deploy. Edge functions auto-deploy
 | `NEWSAPI_API_KEY` | Recent news for the dossier | Optional* |
 | `AUDIENCE_IMPORT_SECRET` | Gate for `import-audience-csv` | Optional |
 | `LOVABLE_API_KEY` | AI Gateway (auto-provisioned by Lovable Cloud) | Auto |
-| `STRIPE_SECRET_KEY` | Payment holds (bypassed; Cohort payment via Maven) | Optional |
+| `STRIPE_SECRET_KEY` | Payment holds, bypassed. Nothing on the site charges through it | Optional |
 | `SUPABASE_*` | Auto-configured by Lovable Cloud | Auto |
 
 \* Each missing `enrich-company` key just disables that one tool; the dossier degrades but does not fail.

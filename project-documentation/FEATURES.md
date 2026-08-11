@@ -1,6 +1,6 @@
 # Features
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-08-11
 
 ---
 
@@ -83,7 +83,7 @@ Authoritative: `src/pages/Index.tsx`. Order:
 8. `SimpleCTA`. final CTA ("What's your nervous decision?"), opens the Diagnosis Room.
 9. `Footer`.
 
-The retired `YFork` second fork is no longer rendered.
+The retired `YFork` second fork is no longer rendered. The component is in `src/_archive/components/`.
 
 ### Global overlays
 
@@ -93,28 +93,20 @@ Mounted in `src/App.tsx`:
 - `InitialConsultModal`. legacy conversion surface, kept mounted but only `/alumni` still dispatches `openConsultModal`
 - `CookieConsent`
 - `ErrorBoundary` wrapping the route `Suspense`
-- The retired `PreCallQualifier` floating pill is no longer mounted.
+- The retired `PreCallQualifier` floating pill is no longer mounted. The component is in `src/_archive/components/`.
 
 ### Navigation
 
-File: `src/components/Navigation.tsx`. Primary CTA button: **"Book a call"** with emerald pulse dot (opens the Diagnosis Room in express mode; the mobile menu also offers "Or think it through with Mindy first" → full mode).
+File: `src/components/Navigation.tsx`. Primary CTA button: **"Bring me one real decision"**, which opens the Diagnosis Room.
 
-- **Workshops** (direct link): `/workshops`
 - **Work with me** (dropdown, largest first): The Handover, The Teardown, For funds and portfolio companies
-- **Mindmaker LIVE** (direct link, wordmark): `/signal`
-- **Resources** (dropdown): How I operate, Case studies, New Age Leadership, Library, The Builder Economy (Podcast) [external], Lightning Lessons (5 Maven URLs via `LightningLessons` component)
+- **Mindmaker LIVE** (direct link, rendered as a wordmark): `/signal`
+- **Resources** (dropdown): How I operate, Case studies, New Age Leadership, Library, The Builder Economy (external)
 - **About** (dropdown): Contact, Privacy, Terms
 
+The footer carries the same three "Work with me" links.
+
 Hides on scroll-down via `useScrollDirection`.
-
-### Lightning Lessons (external Maven courses)
-
-Surfaced in the Resources dropdown via the `LightningLessons` component. Five courses:
-1. Build Your AI's Permanent Identity
-2. Build an Autonomous Business with AI
-3. Vibe Coding for Leaders: The Unfair Advantage
-4. Build Your Agentic Org Chart
-5. Build Your AI Chief of Staff
 
 ---
 
@@ -122,7 +114,7 @@ Surfaced in the Resources dropdown via the `LightningLessons` component. Five co
 
 **Status:** Live (June 2026). The primary on-site conversion surface.
 
-**What it is:** a full-screen immersive experience where **Mindy** (the on-site guide, reasoning in Krish's voice) diagnoses a visitor's nervous AI decision and forks to three honest exits. Replaces the retired `PreCallQualifier` pill and `YFork` second fork.
+**What it is:** a full-screen immersive experience where **Mindy** (the on-site guide, reasoning in Krish's voice) diagnoses a visitor's nervous AI decision and forks to three honest exits. Replaces the retired `PreCallQualifier` pill and `YFork` second fork, both now in `src/_archive/components/`.
 
 **Entry:** the `openDiagnosisRoom` event (`detail: { source_page, seedDecision?, mode? }`) from the nav "Book a call", the hero CTAs, and `SimpleCTA`; plus the standalone page at `/start`. Two modes: `express` (rushes to booking) and `full` (runs the full diagnosis).
 
@@ -137,7 +129,7 @@ Surfaced in the Resources dropdown via the `LightningLessons` component. Five co
 
 **Privacy:** the dossier's `scale.*` (employeeCount, sizeBand, trancoRank, icp, recommendedMode) is internal routing only, never surfaced to the visitor, never in the visitor copy; only Krish's digest gets the full dossier + transcript.
 
-**Knowledge & guardrails:** Mindy's Brain Pack in [`mindy/`](./mindy/), system prompt, reasoning few-shots, fit-and-walkaway rubric, pricing-range model, proof bank, `CANON.md`, voice-lint. Pricing is ranges only; the honest down-sell rubric can recommend a cheaper rung or a free lesson; anything above ~$12k books the call rather than self-serves.
+**Knowledge & guardrails:** Mindy's Brain Pack in [`mindy/`](./mindy/): system prompt, reasoning few-shots, fit-and-walkaway rubric, pricing model, proof bank, `CANON.md`, voice-lint. Prices are published, so she quotes the exact figure, in the currency the page is showing unless the visitor names another, and she answers a price question in the turn it is asked. She never converts between currencies and never discounts. The Handover always routes to the call. `src/test/mindy-knowledge.test.ts` fails the build if her layer names a retired offer or states a price that is not in `offers.ts`.
 
 **Company search typeahead:** the `CompanyField` component in `Opener.tsx` calls `company-search` as the user types a company name. Results come from Brandfetch Search API and include logo + domain. The selected company pre-fills enrichment so `enrich-company` can run on domain rather than waiting for an email address. Adaptive logo contrast via `logoLuminance.ts` ensures the co-brand paint is legible against the dark room background.
 
@@ -266,7 +258,7 @@ Structure:
 
 ## Homepage Y-Fork (RETIRED June 2026)
 
-`src/components/YFork.tsx` (the second homepage fork, "Start where your question actually is.") was removed from `Index.tsx` so the homepage funnels into the one Diagnosis Room journey. The file remains in the tree but is no longer imported. Its three intents (sharpen / resolve / rebuild) are now served by Mindy's diagnosis and the nav (`/workshops`, `/cohort`, `/enterprise`, `/capital`). `NewHero`'s "See how I work →" now links to `/operator` (it previously smooth-scrolled to the Y-fork).
+`YFork.tsx` (the second homepage fork, "Start where your question actually is.") was removed from `Index.tsx` so the homepage funnels into the one Diagnosis Room journey, and moved to `src/_archive/components/` in August 2026. Its three intents are now served by Mindy's diagnosis and by the "Work with me" nav (`/handover`, `/teardown`, `/capital`).
 
 ---
 
@@ -290,10 +282,10 @@ Structure:
 
 ## Booking Flow
 
-- Primary entry point: **the Diagnosis Room (Mindy)**, opened via `openDiagnosisRoom` from the nav "Book a call" (express), the hero (express + full), and `SimpleCTA`. The session ends in a digest (`session-digest` → Resend) and one of three exits (chat / Calendly / proposal).
-- Secondary: the global `ScopingModal` (`openScopingModal`, 6-field "Scope it with me" intake → `notify-scoping-request` → emails krish@themindmaker.ai + persists). Still dispatched by the offer pages (`/cohort`, `/enterprise`, `/capital`, `/immersion`), the `BigProblem` cards, and `/case-studies`.
+- Primary entry point: **the Diagnosis Room (Mindy)**, opened via `openDiagnosisRoom` from the nav, the hero and `SimpleCTA`, and reachable directly at `/start`. The session ends in a digest (`session-digest` → Resend) and one of three exits (chat / Calendly / proposal).
+- Secondary: the global `ScopingModal` (`openScopingModal`, six-field intake → `notify-scoping-request` → emails krish@themindmaker.ai + persists). Dispatched by the `BigProblem` cards and `/case-studies`.
 - `InitialConsultModal` (`openConsultModal`) is legacy, now dispatched only by `/alumni`.
-- Direct-link bypasses: Cohort `Reserve my seat on Maven` (Maven URL), Lightning Lessons (Maven URLs), Builder Economy (external).
+- Direct-link bypasses: The Builder Economy (external sister domain), CTRL (`ctrl.themindmaker.ai`).
 - Email delivery via Resend.
 
 ---
@@ -326,7 +318,7 @@ Other:
 - `notify-scoping-request`. powers the `ScopingModal`; emails krish@themindmaker.ai via Resend + persists
 - `notify-ctrl-waitlist`. CTRL waitlist signups (`CtrlWaitlistPopover`); emails krish@themindmaker.ai via Resend
 - `import-audience-csv`. Substack subscriber CSV → shared `audience_contacts` table (secret-gated)
-- `create-consultation-hold`. Stripe (currently bypassed; Cohort payment via Maven)
+- `create-consultation-hold`. Stripe, currently bypassed. Nothing on the site charges through it
 - `company-search`. Brandfetch Search API typeahead for the Diagnosis Room opener (name → domain + icon; rate-limited; degrades gracefully)
 - `submit-intake`. pre-session intake form handler → inserts row + emails Krish a formatted SNAPSHOT brief
 - `submit-testimonial`. public testimonial submission → inserts into `testimonials` table + emails Krish; honeypot bot protection
@@ -359,7 +351,7 @@ Key points:
 ## Retired Features (do not reference)
 
 - ChatBot / "Chat with Krish" / "Ask Mindmaker", replaced by `PreCallQualifier`, which is itself now retired
-- `PreCallQualifier` floating pill + homepage `YFork` second fork, both retired June 2026 (superseded by the Diagnosis Room). Files remain in the tree but are unmounted.
+- `PreCallQualifier` floating pill + homepage `YFork` second fork, both retired June 2026 (superseded by the Diagnosis Room) and moved to `src/_archive/components/` in August 2026.
 - `/tool` standalone page, deleted
 - `ActionsHub` drawer and Interactive decision tools (BuilderAssessment, TryItWidget, AIDecisionHelper, FrictionMapBuilder, PortfolioBuilder), unmounted
 - `VendorLandscape`, `AINewsTicker`, `TheProblem`, `ProductLadder`. replaced

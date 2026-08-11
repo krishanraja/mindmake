@@ -1,7 +1,7 @@
 # Mindmaker Master Messaging & FAQ Document
 *Core source of truth for product marketing, sales, content, and outbound*
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-11
 
 **Goal:** One document a salesperson, content writer, or AI agent can open and get every pitch, position, and objection answer right. Supersedes the earlier CTRL / 1:1-sprint-era version. For strategic intent, read `mindmaker_rebuild_brief_v4.md`. For agent-grade sales detail (ICP signals, ROI math, channel templates), read `SALES_PLAYBOOK.md`. For durable commercial reference, read `COMMERCIAL_REFERENCE.md`; for how the Diagnosis Room reasons, read the `mindy/` Brain Pack.
 

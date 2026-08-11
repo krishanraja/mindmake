@@ -1,6 +1,6 @@
 # Common Issues
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-11
 
 ---
 
@@ -47,17 +47,17 @@ Note: the phrase "what's your nervous decision" can still appear in body copy as
 
 ---
 
-### Issue: Cohort enrolment routes to consult modal instead of Maven
-**Symptom:** "Reserve my seat" button on `/cohort` opens `InitialConsultModal` rather than going to Maven.
-**Cause:** Maven URL constant missing or button not pointing to it.
-**Solution:** The "Reserve my seat on Maven" CTA in `Cohort.tsx` should point directly to the `MAVEN_COHORT_URL` constant (`https://maven.com/mindmaker/the-ai-fluent-executive`). The "Book a call" path remains, but the primary Cohort enrolment CTA is direct-to-Maven.
+### Issue: a retired route renders a page instead of redirecting
+**Symptom:** `/cohort`, `/workshops`, `/enterprise` or `/immersion` shows content rather than landing on `/start`, `/teardown` or `/handover`.
+**Cause:** The page component was restored from `src/_archive/`, or the `redirects` block in `vercel.json` was edited without the matching `<HashRedirect>` in `App.tsx`.
+**Solution:** Both layers have to agree, and `src/test/redirects.test.ts` fails if they do not. The real 301 lives in `vercel.json` and is only exercised by Vercel's edge; the React Router entry is the in-app fallback and returns 200 with the SPA shell, which is expected and not the bug. Archived components are excluded from `tsconfig.app.json` and eslint, so restoring one means undoing that too. See `src/_archive/README.md`.
 
 ---
 
 ### Issue: Floating qualifier pill or homepage Y-fork still renders
 **Symptom:** The old `PreCallQualifier` floating pill or the `YFork` "Start where your question actually is." three intent cards appears on the homepage.
 **Cause:** `PreCallQualifier.tsx` or `YFork.tsx` left mounted. Both are retired.
-**Solution:** Neither component is imported anymore (the .tsx files remain in the tree but are not mounted). The homepage now funnels into the single Diagnosis Room (Mindy) journey. Confirm `App.tsx` and `Index.tsx` do not render `PreCallQualifier` or `YFork`. See `src/components/diagnosis/` for the live conversion surface.
+**Solution:** Both components moved to `src/_archive/components/` in August 2026 and neither is imported. The homepage funnels into the single Diagnosis Room (Mindy) journey. Confirm `App.tsx` and `Index.tsx` do not render them, and see `src/components/diagnosis/` for the live conversion surface.
 
 ---
 
@@ -219,8 +219,8 @@ No user accounts; all bookings via Calendly. No plan to change unless a client p
 ### Stripe authorization hold bypassed
 `create-consultation-hold` exists but is not wired into the booking flow. Direct Calendly booking is live.
 
-### Cohort date hardcoded
-The next-cohort date is a literal in `Cohort.tsx`. When Supabase `cohort_dates` is wired up, replace the literal. Until then, update on each cohort release.
+### Prices live in exactly one file
+`src/lib/offers.ts` is the only place a price may appear, and `src/test/price-single-source.test.ts` fails the build if a figure shows up anywhere in `src/`, `public/`, `scripts/` or `index.html`. That includes the prerendered crawler bodies and `llms.txt`, both of which are generated from it at build time. If a price looks wrong on the site, change `offers.ts` and rebuild; do not patch the surface.
 
 ---
 

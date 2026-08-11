@@ -230,7 +230,7 @@ CTRL went through a six-week production-hardening audit in April 2026 covering r
 CTRL plays three commercial roles inside Mindmaker:
 
 1. **Standalone product line.** Self-serve, freemium-to-paid, no service engagement required. This is its primary commercial identity.
-2. **Bundled benefit in service offers.** Included with the Cohort and the Workshops. Surfaces the product to leaders going through the cohort experience, creates downstream Edge Pro conversions.
+2. **Bundled benefit in a service offer.** A CTRL workspace with the decision map in it is a Teardown deliverable. That is the only bundling that survives the August 2026 reprice, and it is a deliverable rather than an upsell: no CTRL price is quoted on this site.
 3. **Product-led acquisition wedge.** A CTRL user is a Mindmaker lead. The habit it creates demonstrates the methodology, which pre-sells the advisory. CTRL's own pricing lives on its own site and is never quoted here.
 
 CTRL is the only piece of the Mindmaker commercial spine that is technically Mindmaker-built software (not a service or an editorial product). It is the closest thing Mindmaker has to a SaaS revenue line.
@@ -346,9 +346,9 @@ Any work touching these areas should check the live state before committing, not
 
 When working on Mindmaker:
 
-1. **Always confirm Maven and the website are the system of record** for cohort and workshop pricing, names, and framework. For CTRL, the `mm-ctrl` repo's `project-documentation/` folder is the source of truth. User memory and older documentation may lag.
+1. **`src/lib/offers.ts` is the system of record for every price, in every currency.** Not this file, not Stripe, not the live page, which is interpolated from it. For CTRL, the `mm-ctrl` repo's `project-documentation/` folder is the source of truth. User memory and older documentation may lag.
 2. **Default to one ICP and two engagements.** Do not invent product categories. CTRL is a separate product on its own site, not a rung, and is never quoted with a price here. If an engagement is not The Teardown or The Handover, it does not exist.
 3. **Substack feeds the website, never competes with it.** Apply this filter to all editorial decisions.
 4. **No em dashes, no buzzwords, operator voice.** Voice rules are non-negotiable. Cross-check the `krish-voice` skill before publishing.
 5. **Do not confuse Mindmaker with Mindmaker OS.** Use the boundary in §10 to route the work. CTRL is inside Mindmaker, not a sibling venture of the OS.
-6. **When in doubt about live state**, check the Maven page, the live website, the Substack, the `ctrl.themindmaker.ai` product, and the relevant repo's `project-documentation/` folder in that order.
+6. **When in doubt about live state**, check `src/lib/offers.ts` and `src/App.tsx` first, then the live website, then the publication at `live.themindmaker.ai`, then the `ctrl.themindmaker.ai` product, then the relevant repo's `project-documentation/` folder. Code before documentation, in that order, because documentation is what goes stale.

@@ -1,4 +1,4 @@
-<!-- Last Updated: 2026-06-28 -->
+<!-- Last Updated: 2026-08-11 -->
 # Proof Bank
 
 Anonymized, keyed proof for the Mindy proposal generator. **Every entry is a real engagement that happened**, reduced to sector and role only. The numbers are kept; the names are gone.

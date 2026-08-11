@@ -34,11 +34,11 @@ Mindy is the on-site guide for the Mindmaker Diagnosis Room: one door, one nervo
 
 **Cross-cutting guardrails** sit over all three layers and run on every turn:
 - `CANON.md` resolves fact conflicts before output (de-poison).
-- `pricing-range-model.md` pins every number and enforces ranges-only and the ~$100k ceiling.
+- `pricing-range-model.md` pins every number, and enforces that a price question is answered in the turn it is asked, in the currency on screen, with no conversion and no discount.
 - `fit-and-walkaway-rubric.md` is the honest-recommendation gate before any paid suggestion.
 - `voice-lint.md` is the blocking lint after generation.
 
-A single turn flows: enrich (L3) → reflect → reason (L2 exemplars) → gate (rubric) → price (range model) → de-poison check (CANON) → draft → lint (voice-lint) → one of three exits.
+A single turn flows: enrich (L3) → reflect → reason (L2 exemplars) → gate (rubric) → price (pricing model) → de-poison check (CANON) → draft → lint (voice-lint) → one of three exits.
 
 ## How the proposal generator consumes the pack
 
@@ -60,16 +60,16 @@ The six authors flagged the following. Items 1–2 are real internal contradicti
 
 ### A. The contradiction the authors most want resolved
 
-**1. The cohort framework-name tension, RESOLVED 2026-06-09 (CANON.md §5, DECISIONS_LOG).** Krish confirmed Option A: the two names are layered on purpose and coexist.
-- **"Mind Set → Mind Map → Mind Make"** is the canonical cross-offer brand framework (rendered on the homepage by `FrameworkJourney.tsx`). Mindy uses this when describing the overall Mindmaker method.
-- **"Diagnose → Decompose → Decide → Deploy"** is the cohort's week-by-week curriculum only. Mindy uses this when describing how the cohort is structured across four weeks.
-- Mindy never conflates the two. CANON.md §5 records the resolution.
+**1. The framework-name tension, RESOLVED 2026-06-09, then MOOTED 2026-08-11.** The tension was between a cross-offer brand framework and a curriculum framework belonging to an offer that no longer exists.
+- **"Mind Set → Mind Map → Mind Make"** remains the cross-offer brand framework. `FrameworkJourney.tsx` now renders on `/new-age-leadership` rather than the homepage.
+- **"Diagnose → Decompose → Decide → Deploy"** belonged to the retired cohort curriculum. There is nothing left for it to describe, so Mindy does not use it.
+- The named frameworks she does reach for are the five-brick chain, the Leverage Audit, redeploy-not-replace and find-the-brick.
 
 ### B. Pricing and offer reconciliations
 
-**2. Two number reconciliations the docs disagree on (brief §6 gap 4, §8.6).**
-   - Workshop→Cohort credit is documented as both **"$500 / code WORKSHOP"** (four canonical docs) and "$499" (grounding brief). The pack uses **$500 / code WORKSHOP**. Confirm canonical.
-   - CTRL pricing is no longer quoted anywhere on this site. It is a separate product on its own site. RESOLVED 2026-08-11.
+**2. Number reconciliations. RESOLVED 2026-08-11.**
+   - The cross-offer credit went with the ladder that needed it. There is no published discount, credit or urgency offer of any kind, and Mindy does not have one to give.
+   - CTRL pricing is no longer quoted anywhere on this site. It is a separate product on its own site.
 
 **3. Prices are published, not ranges. RESOLVED 2026-08-11 (DECISIONS_LOG).** The ranges-only policy is retired along with the ladder that needed it. Both figures are on the website in three currencies and Mindy quotes them exactly. Canonical source: `src/lib/offers.ts`.
 
@@ -78,11 +78,11 @@ The six authors flagged the following. Items 1–2 are real internal contradicti
 
 ### C. Proof and anonymisation
 
-**5. How anonymised the proof can be (brief §8.4, gap 5).** This pack ships nine anonymised *real* engagements (R-01–R-09) with verified numbers, reduced to sector + role. That is more than the brief's fallback ("four founder credentials + fictional bank only"). **Confirm Mindy may surface these real-but-anonymised outcomes** (e.g. "$254K POC at a data-infrastructure company"), and confirm the role-only attributions are acceptable. If not, Mindy falls back to the founder credentials plus the illustrative B-bank only.
+**5. How anonymised the proof can be (brief §8.4, gap 5).** This pack ships nine anonymised *real* engagements (R-01–R-09) with verified numbers, reduced to sector + role. That is more than the brief's fallback ("four founder credentials + fictional bank only"). **Confirm Mindy may surface these real-but-anonymised outcomes** (e.g. "$254K POC at a data-infrastructure company"), and confirm the role-only attributions are acceptable. If not, Mindy falls back to the founder credentials only. The illustrative B-bank was deleted in August 2026 and is not a fallback.
 
 ### D. Mechanism and posture confirmations (brief §8)
 
-**6. Live-call booking mechanism (§8.1).** Which single Calendly event/duration replaces the dual-intake mess, and the behaviour when slots run dry for $12k+ fits. The pack assumes one Calendly handoff carrying the diagnosis via `notify-scoping-request`; confirm the event and the dry-slot fallback.
+**6. Live-call booking mechanism (§8.1).** Which single Calendly event and duration replaces the dual-intake mess, and the behaviour when slots run dry. The pack assumes one Calendly handoff carrying the diagnosis via `notify-scoping-request`; confirm the event and the dry-slot fallback.
 
 **7. Email capture posture (§8.2).** The pack assumes work email stays optional, framed as a gift, with a graceful degraded path (one human question, no co-brand gasp) for personal-Gmail/no-email visitors. Confirm.
 
@@ -94,7 +94,7 @@ The six authors flagged the following. Items 1–2 are real internal contradicti
 
 - **Filename reference drift.** `reasoning-fewshots.md` points to `case-bank.md` and `walkaway-rubric.md`; the shipped filenames are `proof-bank.md` and `fit-and-walkaway-rubric.md`. Cosmetic, but fix the in-file references so retrieval citations resolve.
 - **`reasoning-fewshots.md` is RAG, the system prompt calls it "Layer 2."** Confirmed consistent with the brief; flagged only so no one re-classifies it as a pinned Layer 1 asset and bloats the prompt.
-- **Voice-lint vs numeric ranges.** The em-dash/en-dash ban explicitly allows the en dash inside numeric ranges (e.g. $2,000–$3,000). Ensure the linter's `en_dash_as_dash` rule whitelists the range-card strings so the public pricing does not hard-fail its own gate.
+- **Voice-lint vs numeric ranges.** The em-dash/en-dash ban allows the en dash inside a genuine numeric range. The published fees are single figures rather than ranges, so the pricing card no longer needs the exemption, but proof entries still carry client-side ranges and do.
 
 ---
 

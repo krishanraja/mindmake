@@ -25,5 +25,8 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src"],
+  // Retired offer pages. Kept for reference, excluded from the build and the
+  // type-check so a dead SKU cannot be imported back onto the site by accident.
+  "exclude": ["src/_archive"]
 }

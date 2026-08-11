@@ -1,50 +1,101 @@
 # CLAUDE.md: Mindmaker Repository Guide
 
-**Last Updated:** 2026-06-09
+**Last Updated:** 2026-08-11
 **Purpose:** Describe the current state of the Mindmaker codebase so agents and contributors can navigate it without reverse-engineering the tree.
 
-This file is **descriptive**, not prescriptive. For strategic intent, read `project-documentation/mindmaker_rebuild_brief_v4.md` (v4/v5 combined, the barbell pivot + Operator's Edge). The v6 ladder restructure (May 2026) layered Workshops at the entry rung, renamed the Cohort to "The AI-Fluent Executive" and repriced it to $2,500 over 4 weeks, and added the invitation-only Alumni Pass; see `project-documentation/HISTORY.md` and `project-documentation/DECISIONS_LOG.md` for the full reasoning.
+This file is **descriptive, not prescriptive**, and it is written against the actual code rather than against intent. Where it disagrees with the code, the code is right and this file is stale.
 
-The June 2026 update collapsed the funnel into **one journey: the Diagnosis Room (Mindy)**. Every "Book a call" CTA now opens an immersive on-site experience where Mindy diagnoses the visitor's nervous AI decision and forks to three honest exits (keep chatting, book a free 15-min call, or download a co-branded proposal). The second homepage fork (`YFork`) and the `PreCallQualifier` floating pill were retired; pricing was stripped to ranges only. The Diagnosis Room's knowledge and guardrails ("Mindy's Brain Pack") live in `project-documentation/mindy/`.
-
----
-
-## Brand North Star
-
-Mindmaker is the **anti-consultancy for leaders who are done being sold AI and ready to use it**. The voice is confident, lightly cynical, deeply helpful, premium through substance, not stiffness. Stripe's design sensibility meets Anthony Bourdain's authenticity.
-
-Mindmaker is structured as a **ladder**: free Lightning Lessons at the top, paid Workshops at $599 as the entry rung, the AI-Fluent Executive Cohort at $2,500 as the qualifying step, Enterprise sprints from $15,000 as the margin engine, and the Alumni Pass at $1,500/year as continuity. Capital is a third door for funds and family offices, sharing the Signal Session and Revenue Architecture engagement formats but priced and positioned for fund-level buyers. No 1:1 sprints on the public site. No fractional executive roles. No ongoing retainers. No production IT work. Every offer has a fixed scope, a fixed outcome, and a finish line.
+**August 2026 in one paragraph.** Advisory was retired in July in anticipation of a full-time role. The Teardown and Handover storefront shipped anyway in early August. The role then fell through on an immigration technicality rather than on the work, so advisory is the primary cash engine again as of 11 August 2026. This pass made the estate agree with the storefront: two engagements, published prices in three currencies, ten orphaned routes redirected, and three false claims removed. Full reasoning in `project-documentation/DECISIONS_LOG.md`.
 
 ---
 
-## Non-Negotiables
+## Deliberately absent
+
+Read this before adding anything. Each of these was removed on purpose, and each has a test or a documented decision behind it.
+
+| Do not re-add | Why | Enforced by |
+|---|---|---|
+| An aggregate rating in the structured data | It claimed 4.9 from 50 reviews. There are not 50 reviews anywhere in this estate | A repo-wide grep for the schema property returns nothing |
+| Illustrative proof entries (`B-*`) | 26 of 35 entries were invented, and Mindy used them to write client proposals | `src/test/mindy-knowledge.test.ts` |
+| Any retired offer name | The six-rung ladder is gone. Names are in `DECISIONS_LOG.md`, deliberately nowhere else, because most docs are indexed for retrieval | `src/test/mindy-knowledge.test.ts` |
+| A price outside `src/lib/offers.ts` | Prices used to be typed by hand into nine files and the crawler copy kept the old ones | `src/test/price-single-source.test.ts` |
+| Currency conversion or an FX lookup | Prices are SET PER MARKET. A converter makes a published price a function of the morning's spot rate | `src/test/price-single-source.test.ts` |
+| A published discount, credit or urgency offer | It trains every buyer to wait for it. Krish keeps a discretionary credit for a live call only | `DECISIONS_LOG.md` 2026-08-11 |
+| A geographic market claim, in copy, meta or structured data | The practice sells internationally, which is why it carries three currencies | Removed from `index.html` and `llms.txt` |
+| An office, a location or a "Global Offices" block | `/contact` claimed Brooklyn, London and Sydney. This is one person | Removed from `Contact.tsx` |
+| A CTRL price on this site | CTRL is a separate product on its own site. This site carried three contradictory CTRL prices at once | `DECISIONS_LOG.md` 2026-08-11 |
+| Em dashes, anywhere, including code | House rule. Commas, periods or parentheses | `src/test/mindy-knowledge.test.ts` for the Mindy layer |
+| The client name behind the $254K POC | "A major US publisher" is the approved wording and the only wording | Comments at each publication site |
+
+---
+
+## Brand north star
+
+Mindmaker is the **anti-consultancy for leaders who are done being sold AI and ready to use it**. Confident, lightly cynical, deeply helpful, premium through substance rather than stiffness.
+
+**Mindmaker is a capped advisory practice. A small number of engagements a year.**
+
+The enemy statement, which is the sharpest line on the site and does not change:
+
+> Consultants, LLMs and the next hyped tool sell you point solutions built to extract your judgment, not build it.
+
+The spine sentence, which nothing on the site may contradict:
+
+> Sixteen years commercialising content, media and IP businesses. Now I build the AI systems that run them.
+
+The cluster `content, media and IP businesses` appears word for word.
+
+---
+
+## The offers
+
+Two paid engagements, presented largest first everywhere.
+
+| | The Handover | The Teardown |
+|---|---|---|
+| What | Six weeks rebuilding how the business decides and sells | Ten business days on one real decision |
+| Client time | Real. A stream lead carries work between sessions | Under two hours, total |
+| USD | $18,000 / $30,000 / $50,000 by headcount | $9,500 |
+| GBP | £14,000 / £23,500 / £39,000 | £7,500 |
+| AUD | $27,500 / $45,500 / $76,000 | $14,500 |
+| Bought | Always through a call | Self-serve. The price is published |
+| Cap | Six a year | None |
+
+**`src/lib/offers.ts` is canonical.** Everything on the site, in the prerendered crawler bodies and in `llms.txt` is interpolated from it. GBP and AUD are set prices per market, not conversions.
+
+`TODO(krish): confirm all twelve figures. USD is canonical; GBP and AUD are proposals.`
+
+Funds and operating partners buying for a portfolio company are a **third door** into the same two engagements at `/capital`. CTRL is a separate product on its own site and is not sold here.
+
+---
+
+## Non-negotiables
 
 ### Visual systems
-- `src/components/NewHero.tsx`. rotating headline + gradient + looping background video (`/rising-cities.mp4`) + pulsing mint blur. Eyebrow: "Decision blockers I hear every week."
-- `src/components/Animations/ParticleBackground.tsx`. global particle field mounted in `Index.tsx`.
+- `src/components/NewHero.tsx`. Rotating headline, gradient, looping background video (`/rising-cities.mp4`), pulsing blur.
+- `src/components/Animations/ParticleBackground.tsx`. Global particle field mounted in `Index.tsx`.
 - `.glass-card` / `.editorial-card` Tailwind utilities.
-- `src/components/diagnosis/`. **the Diagnosis Room (Mindy)**, the primary conversion surface. A full-screen immersive experience opened globally via `window.dispatchEvent(new CustomEvent('openDiagnosisRoom', { detail: { source_page, seedDecision?, mode? } }))` (`mode` is `"express"` or `"full"`). Also a standalone page at `/start`. See "The Diagnosis Room (Mindy)" below.
-- `src/components/ScopingModal.tsx`. the **secondary** conversion surface, still the active booking path on the offer pages (`/cohort`, `/enterprise`, `/capital`, `/immersion`), the `BigProblem` cards, and `/case-studies`. The nav/hero/final-CTA "Book a call" now opens the Diagnosis Room instead. A 6-field "Scope it with me" intake (name, work email, company & role, the AI decision/problem, success in 30 days, optional notes) that posts to the `notify-scoping-request` edge function. Opened via `window.dispatchEvent(new CustomEvent('openScopingModal', { detail: { source_page, preselected?, qualifierAnswers? } }))`.
-- `src/components/InitialConsultModal.tsx`. the original conversion surface, now **legacy**. Still mounted and listening for `openConsultModal`, but only `/alumni` dispatches it.
-- Testimonial structure in `src/components/TrustSection.tsx`.
+- `src/components/diagnosis/`. **The Diagnosis Room (Mindy)**, the primary conversion surface. Opened via `window.dispatchEvent(new CustomEvent('openDiagnosisRoom', { detail: { source_page, seedDecision?, mode? } }))`, and at `/start`.
+- `src/components/CurrencySwitcher.tsx`. A native radio fieldset, one per page carrying prices.
+- `src/components/ScopingModal.tsx`. Secondary booking surface, dispatched by the `BigProblem` cards and `/case-studies`.
+- `src/components/InitialConsultModal.tsx`. Legacy. Mounted and listening for `openConsultModal`, but only `/alumni` dispatches it.
 
 ### Technical infrastructure
-- Supabase edge functions in `supabase/functions/`:
-  - **Diagnosis Room (Mindy):** `mindy-chat` (Claude reasoning turn), `enrich-company` (thin HTTP wrapper over the shared `_shared/enrich/orchestrate.ts` dossier orchestrator; the fan-out logic now lives there so the lead pipeline can enrich in-process), `generate-proposal` (co-branded one-pager + Browserless PDF), `session-digest` (Krish digest now via the unified lead pipeline + opt-in visitor copy), `transcribe` (OpenAI Whisper voice input). Shared logic lives in `supabase/functions/_shared/{mindy,enrich,proposal,lead,http}/`. The Gemini→Anthropic completion fallback is shared via `_shared/enrich/llm.ts`.
-  - `nervous-decision-machine` (Claude Haiku 4.5, powers the Nervous Decision Machine)
-  - `get-ai-news`, `get-market-sentiment`, `get-model-data`
-  - **Unified lead pipeline:** every lead-capture function (`send-contact-email`, `send-lead-email`, `send-leadership-insights-email`, `notify-scoping-request`, `notify-ctrl-waitlist`, `submit-intake`, `submit-testimonial`, and the Diagnosis Room's `session-digest`) is now a thin adapter that maps its payload to a canonical `LeadEvent` and hands off to the shared core in `supabase/functions/_shared/lead/` (`adapters.ts` → `pipeline.ts` `dispatchLead`). The pipeline auto-researches the company (reusing the enrichment orchestrator in-process), generates an AI "operator's read", and sends Krish ONE consistent, well-formatted digest via the shared Resend helper. Endpoint URLs, DB writes, and response shapes are unchanged; the email send is backgrounded (`EdgeRuntime.waitUntil`, with an awaited fallback). Shared modules: `_shared/lead/{types,escape,render,operator-read,pipeline,adapters}.ts` and `_shared/http/{cors,resend}.ts`. `send-lead-email` now stores an enrichment `Dossier` in `leads.company_research`. Visitor-facing emails (the `/leaders` score card, the session-digest opt-in proposal copy) are preserved on their own templates.
-  - `import-audience-csv` (Substack subscriber CSV → shared `audience_contacts` table; gated by `AUDIENCE_IMPORT_SECRET`)
-  - `create-consultation-hold`
-- `SessionDataContext` (`src/contexts/SessionDataContext.tsx`) threads qualification data into the global conversion modal(s).
-- Design system in `tailwind.config.ts` + `src/index.css`.
+- **Pricing:** `src/lib/offers.ts`, imported by the app, by vitest, and by plain Node in the build scripts (via `scripts/lib/offers-loader.mjs`, which uses native type stripping with an esbuild fallback). That third consumer is why the file has no imports, no `@/` alias and only erasable TypeScript.
+- **Currency:** `src/contexts/CurrencyContext.tsx`, mounted above `SessionDataProvider` and above `BrowserRouter` in `App.tsx`. Precedence `?currency=` then the `mm_currency` cookie then USD. Nothing auto-detects.
+- **Build:** `vite build` then `generate-sitemap.mjs` then `generate-llms.mjs` then `prerender.mjs`. The last two both read `offers.ts`.
+- **Supabase edge functions** in `supabase/functions/`:
+  - Diagnosis Room: `mindy-chat`, `enrich-company`, `generate-proposal`, `session-digest`, `transcribe`. Shared logic in `_shared/{mindy,enrich,proposal,lead,http}/`.
+  - `nervous-decision-machine`, `get-ai-news`, `get-market-sentiment`, `get-model-data`.
+  - Unified lead pipeline: every lead-capture function is a thin adapter onto `_shared/lead/` (`adapters.ts` then `pipeline.ts`).
+- `SessionDataContext` threads qualification data into the conversion modals.
+- Design system in `tailwind.config.ts` and `src/index.css`.
 
-### Color WCAG rule (CRITICAL)
-- **Signature accent is now portfolio EMERALD `#00D9B6` (`171 100% 43%`), not mint.** Mindmaker adopted CTRL's emerald in the 2026-06-29 brand-cohesion pass so the three sibling products (Mindmaker, CTRL, Make Your Mind Up) read as one house over one MindmakerOS token contract. The legacy `--mint*` CSS tokens + the Tailwind `mint` colour key are kept as ALIASES to emerald (zero-churn migration), so existing `text-mint`/`bg-mint`/`shadow-mint-*` still work and now render emerald; prefer the new `emerald*` keys in new code. WHY + the full WCAG derivation: `prototypes/brand-emerald-proof.{html,md}`.
-- **Never** use bright emerald (`text-mint`/`text-emerald`) on white/light backgrounds - it fails contrast on light exactly like mint did.
-- For text/links on light backgrounds use **`text-emerald-deep`** (`#06746d`, `176 90% 24%`): full AA (5.21), an upgrade over the old under-spec `mint-dark` (AA-large only). Or use `text-foreground` / `text-ink`.
-- Use `text-dark-card-*` utilities on dark backgrounds.
-- Bright emerald (`#00D9B6`) is for fills, CTA backgrounds (ink text on emerald = AAA), dark-bg accents, shadows, and the focus ring only.
+### Colour WCAG rule (CRITICAL)
+- Signature accent is portfolio **emerald `#00D9B6`** (`171 100% 43%`). The legacy `--mint*` tokens and the Tailwind `mint` key are kept as aliases to emerald, so existing `text-mint` / `bg-mint` still work and now render emerald. Prefer the `emerald*` keys in new code.
+- **Never** use bright emerald on white or light backgrounds.
+- On light backgrounds use **`text-emerald-deep`** (`#06746d`), full AA at 5.21. Or `text-foreground` / `text-ink`.
+- Use `text-dark-card-*` on dark backgrounds. Bright emerald is for fills, CTA backgrounds, dark-bg accents, shadows and the focus ring.
 
 ---
 
@@ -52,202 +103,126 @@ Mindmaker is structured as a **ladder**: free Lightning Lessons at the top, paid
 
 Authoritative source: `src/pages/Index.tsx`.
 
-1. `Navigation`. fixed top, hides on scroll-down via `useScrollDirection`.
-2. `NewHero`. rotating headlines + primary "Book a call" (opens the Diagnosis Room in **express** mode) + secondary "Work through your decision with Mindy" (opens the Diagnosis Room in **full** mode) + tertiary "Or start with a free lesson →" (Maven instructor page) and "See how I work →" (`/operator`) links. Subheadline: "Three different doors into the same operator, depending on whether you want to think more clearly, work through one nervous decision, or rebuild how your business actually makes money with AI."
-3. `BigProblem`. existential urgency frame, built as three large interactive flip cards (a fate on the front, what Mindmaker does about it on the back).
-4. `TrustSection`. Krish bio, headshot, testimonials carousel.
-5. `FrameworkJourney`. three-panel animated MindSet → MindMap → MindMake.
-6. `OperatorsEdge` (v5). typography-only credential section, dark bg, three proof tiles (Architecture / Optimization / Memory), CTA to Revenue Architecture + secondary link to `/operator`. "BEYOND PATTERN RECOGNITION" now the dominant wordmark.
-7. `OperatorsBrief`. the Live Intel homepage teaser. Minimal on purpose: a continuous CSS-marquee `PriceTicker` with the canonical 7 models, a rotating plain-English interpretation line underneath (3 takes, 8s cross-fade), a compact Nervous Decision input (via `nervous-decision/Input`), and a muted "Open the full dashboard →" link to `/signal`. No card grid, no blog column, those live on `/signal` only.
-8. `MindMakerLiveSection`. the Mindmaker LIVE newsletter subscribe surface (Substack embed).
-9. `SimpleCTA`. final CTA ("What's your nervous decision?"), opens the Diagnosis Room.
-10. `Footer`.
+1. `Navigation`. Fixed top, hides on scroll-down.
+2. `NewHero`. Rotating headlines, primary CTA "Bring me one real decision".
+3. `BigProblem`. Three large interactive flip cards.
+4. `TwoDoors`. Do it yourself with CTRL, or do it with Krish. No CTRL price.
+5. `TrustSection`. Krish bio, headshot, testimonials carousel.
+6. `OperatorsEdge`. Dark-bg typography-only credential section. CTA to `/handover`.
+7. `OperatorsBrief`. The Live Intel teaser: marquee `PriceTicker`, rotating interpretation line, compact Nervous Decision input, link to `/signal`.
+8. `SimpleCTA`. Final CTA, opens the Diagnosis Room.
+9. `Footer`.
 
-Case studies (anonymised, COHORT-STYLE / ENTERPRISE tagged) are merged into `TrustSection`'s carousel, and have a dedicated filterable page at `/case-studies`. `ProofStrip` and `SignalDeskPreview` are deleted.
+`ParticleBackground` is mounted behind all of it.
 
-Global overlays mounted in `src/App.tsx`:
-- `DiagnosisRoom`. **the primary conversion surface**, opened via the `openDiagnosisRoom` custom event. Lazy + only mounted when open so the SSG prerender never instantiates it.
-- `ScopingModal`. secondary booking surface, still dispatched by the offer pages (`/cohort`, `/enterprise`, `/capital`, `/immersion`), the `BigProblem` cards, and `/case-studies` via `openScopingModal`.
-- `InitialConsultModal`. legacy, kept mounted; opened via `openConsultModal` only from `/alumni`.
-- `CookieConsent`.
+**Not on the homepage:** `FrameworkJourney` (now on `/new-age-leadership`), `MindMakerLiveSection`, `VendorLandscape`, `AINewsTicker`, `ActionsHub`, the ChatBot, and the retired `YFork` / `PreCallQualifier` (both now in `src/_archive/components/`).
 
-**Not on the homepage:** VendorLandscape, AINewsTicker, ActionsHub, decision-tool launchers, the ChatBot, the Engine Room / mm-ctrl visualization, the old TheProblem sprint chooser, the retired `YFork` second fork, and the retired `PreCallQualifier` floating pill. (`YFork.tsx` and `PreCallQualifier.tsx` still exist in the tree but are no longer imported or mounted.)
+Global overlays mounted in `src/App.tsx`: `DiagnosisRoom` (lazy, only mounted when open so the prerender never instantiates it), `ScopingModal`, `InitialConsultModal`, `CookieConsent`.
 
 ---
 
 ## Pages and routing
 
-Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `React.lazy`.
+Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded.
 
 | Route | Page | Notes |
 |---|---|---|
-| `/` | `Index` | Homepage, eager-loaded. |
-| `/start` | `DiagnosisRoom` (full page) | The Diagnosis Room (Mindy) as a standalone page. Same immersive overlay; closing it navigates back to `/`. |
-| `/workshops` | `Workshops` | Index of the five $599 one-day Workshops, hosted on Maven. |
-| `/workshops/build-your-ai-chief-of-staff` | `workshops/BuildYourAIChiefOfStaff` | Workshop sub-page. |
-| `/workshops/map-your-agentic-org-chart` | `workshops/MapYourAgenticOrgChart` | Workshop sub-page. |
-| `/workshops/vibe-coding-for-leaders` | `workshops/VibeCodingForLeaders` | Workshop sub-page. |
-| `/workshops/build-an-autonomous-business-function` | `workshops/BuildAnAutonomousBusinessFunction` | Workshop sub-page. |
-| `/workshops/give-your-ai-memory` | `workshops/GiveYourAIMemory` | Workshop sub-page. |
-| `/cohort` | `Cohort` | The AI-Fluent Executive ($2,500/seat, 4 weeks, quarterly). Primary leader surface. Maven URL: `https://maven.com/mindmaker/the-ai-fluent-executive`. |
-| `/enterprise` | `Enterprise` | The Signal Session ($15k) + The Revenue Architecture ($60-100k) + The AI Immersion. |
-| `/capital` | `Capital` | The third door. Same Signal Session and Revenue Architecture engagement formats, repositioned for funds, family offices, and operating partners. Signal Session from $15k; Revenue Architecture $60-100k per portfolio company with a fund-level discount for 3+ engagements per 12 months. |
-| `/operator` | `Operator` | (v5) How I operate, 14-agent OS credential page. |
-| `/case-studies` | `CaseStudies` | Filterable, anonymised client case studies (COHORT-STYLE / ENTERPRISE tagged). Linked from the Resources nav dropdown and the footer. |
-| `/signal` | `Brief` | Live Intel, the full dashboard: extended live-price ticker, plain-English interpretation grid, classified card archive (WATCH / SKIP / CALL / TAKE with filters + search), blog column, full Nervous Decision Machine. Route preserved for inbound URLs. |
-| `/library` | `Library` | Library of resources, includes FAQ tab. |
-| `/alumni` | `Alumni` | The Alumni Pass ($1,500/year, invitation-only). **Hidden from nav and footer.** SEO `noindex`. Reachable by direct URL only, sent post-engagement. |
-| `/immersion` | `Immersion` | The AI Immersion ($12,000 flat, inquiry-only). Hidden from nav; linked in the footer. CTA opens the scoping modal. |
-| `/new-age-leadership` | `NewAgeLeadership` | "New Age Leadership" essay on agentic org design (Agatha narrative + interactive org chart). Linked from the Resources nav dropdown and the footer. |
-| `/leaders` | `LeadershipInsights` | Decision Readiness Diagnostic. Unlinked from nav/footer but still reachable by direct URL for deep-links. |
-| `/leadership-insights` | `LeadershipInsights` | Alias. |
-| `/blog`, `/blog/:slug` | `Blog`, `BlogPost` | Blog index + post. |
-| `/faq` | redirects to `/library?tab=questions` | |
-| `/contact` | `Contact` | |
-| `/privacy`, `/terms` | `Privacy`, `Terms` | |
-| `*` | `NotFound` | Catch-all. |
+| `/` | `Index` | Eager-loaded. |
+| `/start` | `DiagnosisRoom` | The Diagnosis Room as a standalone page. |
+| `/teardown` | `Teardown` | One price, currency switcher, the four-step method. |
+| `/handover` | `Handover` | Three bands, the six weeks, the Teardown gate, the $254K POC. |
+| `/capital` | `Capital` | The same two engagements, per portfolio company. |
+| `/operator` | `Operator` | How Krish operates. The 14-agent OS credential page. |
+| `/case-studies` | `CaseStudies` | Filterable by Teardown / Handover. Consent-gated testimonials. |
+| `/signal` | `Brief` | Live Intel. Ticker, interpretation grid, classified archive, Nervous Decision Machine. |
+| `/library` | `Library` | Resources, includes the FAQ tab. |
+| `/new-age-leadership` | `NewAgeLeadership` | Essay on agentic org design. |
+| `/alumni` | `Alumni` | Invitation-only. **Hidden from nav and footer**, `noindex`, direct URL only. |
+| `/blog`, `/blog/:slug` | `Blog`, `BlogPost` | |
+| `/contact`, `/privacy`, `/terms` | | |
+| `*` | `NotFound` | |
 
-**Client-side redirects (301-equivalent via `<Navigate replace />`):**
-- `/tool` → `/signal#decision` (page deleted; decision machine now lives inside the Live Intel dashboard)
-- `/builder-economy` → `https://www.thebuildereconomy.com` via `ExternalRedirect` (page deleted; canonical site is the separate domain)
-- `/sprints` → `/cohort`
-- `/sprint/4-week` → `/cohort?inquiry=1:1`
-- `/sprint/90-day` → `/cohort?inquiry=1:1`
-- `/builder-sprint` → `/cohort?inquiry=1:1`
-- `/war-room` → `/enterprise#revenue-architecture`
-- `/strategy-day` → `/enterprise#signal-session`
-- `/fractional-caio` → `/enterprise`
-- Legacy: `/individual`, `/team`, `/builder`, `/builder-session`, `/leadership-lab`, `/portfolio-program` → `/`.
+**Redirects.** Real 301s live in `vercel.json`; `App.tsx` carries a client-side `<Navigate>` fallback for in-app navigation, which never touches the edge. Both layers are asserted by `src/test/redirects.test.ts`.
 
-On `/cohort?inquiry=1:1`: a banner surfaces the 1:1 inquiry-only path for buyers specifically seeking private engagements, without advertising the offer on the main page.
-
-No `/pricing` page, pricing lives in context on `/cohort`, `/enterprise`, and `/capital`.
-
----
-
-## Navigation structure
-
-File: `src/components/Navigation.tsx`. Primary CTA: **"Book a call"** (no conditional label), which opens the **Diagnosis Room** in `express` mode via the `openDiagnosisRoom` event. The mobile menu adds a secondary "Or think it through with Mindy first" link that opens the room in `full` mode.
-
-- **Workshops** (direct link, slot 1): `/workshops`.
-- **Cohort** (direct link): `/cohort`.
-- **Enterprise** (dropdown): The Signal Session → `/enterprise#signal-session`, The Revenue Architecture → `/enterprise#revenue-architecture`, The AI Immersion → `/enterprise#immersion`, plus a "For funds & operating partners" section linking to Capital → `/capital`.
-- **Mindmaker LIVE** (link, rendered as a wordmark): `/signal`.
-- **Resources** (dropdown): How I operate → `/operator`, Case studies → `/case-studies`, New Age Leadership → `/new-age-leadership`, Library → `/library`, The Builder Economy (Podcast) → external `www.thebuildereconomy.com`, Lightning Lessons (5 external Maven links).
-- **About** (dropdown): Contact → `/contact`, Privacy → `/privacy`, Terms → `/terms`.
-
-The Decision Readiness Diagnostic and FAQ pages are no longer linked from nav. Both remain reachable by direct URL.
-
----
-
-## Pricing (canonical)
-
-Public ranges only. Exact prices are NEVER shown publicly; they are set by Krish on the call.
-
-| Offer | Public range |
+| From | To |
 |---|---|
-| Mindmaker Workshops (×5) | $500–$1,000 per workshop |
-| The AI-Fluent Executive (Cohort) | $2,000–$3,000 per seat (or split into two payments) |
-| The Signal Session (Enterprise) | $10,000–$20,000 |
-| The Revenue Architecture (Enterprise) | $50,000–$100,000+ (scope-dependent) |
-| The Signal Session (Capital) | From $10,000 (fund-level or per portfolio company) |
-| The Revenue Architecture (Capital) | $50,000–$100,000+ per portfolio company; fund-level discount for 3+ engagements per 12 months |
-| The AI Immersion (inquiry-only) | $10,000–$15,000 |
-| The Alumni Pass (invitation-only) | around $1,500 a year, recurring |
-| CTRL | Free, upgrades from $29 |
-| Bespoke enablement (SME / founder-led) | $8,000–$25,000 (pilots from $2,000) |
+| `/workshops` and its five children | `/teardown` |
+| `/enterprise`, `/immersion` | `/handover` |
+| `/cohort`, `/leaders`, `/leadership-insights` | `/start` |
+| `/sprints`, `/sprint/4-week`, `/builder-sprint`, `/strategy-day` | `/teardown` |
+| `/sprint/90-day`, `/war-room`, `/fractional-caio` | `/handover` |
+| `/tool` | `/signal` |
+| `/faq` | `/library?tab=questions` |
+| `/builder-economy` | `https://www.thebuildereconomy.com` |
+| `/individual`, `/team`, `/builder`, `/builder-session`, `/leadership-lab`, `/portfolio-program` | `/` |
 
-Pricing policy (2026-06): the public site and any AI-generated proposal show ranges only; the exact number is set by Krish on the call. Maven still collects the exact Cohort/Workshop price at its own checkout.
+The archived page components are in `src/_archive/`, excluded from `tsconfig.app.json` and eslint. See its README.
 
-**Internal (not shown on site), exact figures, NEVER shown publicly, set on the call:** Workshops $599; Cohort $2,500/seat (or 2× $1,250 split); Signal Session $15,000; Revenue Architecture floor $60k, ceiling $125k for extended scope; AI Immersion $12,000 flat; Alumni Pass $1,500/year recurring; cohort min viable enrollment = 8 seats, cap = 15.
-
-Payment terms (small muted text below the range): Workshops = paid via Maven with a 14-day Maven Guarantee; Cohort = "Full payment or split into two payments"; Signal Session = "Payment on kickoff"; Revenue Architecture = "50/50 at kickoff and delivery"; Alumni Pass = recurring via Stripe, cancel anytime.
-
-Stripe price IDs for all offers are stored in `src/lib/stripe-prices.ts`. Workshop and Cohort IDs are referential only (Maven collects payment); the Alumni Pass is the only product the site itself charges via Stripe.
-
-**Workshop credit:** Workshop alumni get $500 off the AI-Fluent Executive Cohort with code `WORKSHOP` at Maven checkout, valid 90 days post-workshop.
+No `/pricing` page. Pricing lives in context on `/teardown`, `/handover` and `/capital`.
 
 ---
 
-## The Nervous Decision Machine
+## Navigation
 
-Components: `src/components/nervous-decision/Input.tsx` (compact + full sizes) and `src/components/nervous-decision/Artifact.tsx`. Embedded inside `OperatorsBrief` on the homepage and inside `Brief.tsx` at `/signal`. No standalone page, `/tool` has been deleted.
-Edge function: `supabase/functions/nervous-decision-machine/index.ts`.
-Model: `claude-haiku-4-5-20251001`, max 1500 tokens, system prompt enforces JSON output schema + Krish's voice. 1-hour per-IP rate limit + global request ceiling as a soft circuit breaker. Requires `ANTHROPIC_API_KEY` on the Supabase project.
+File: `src/components/Navigation.tsx`. Primary CTA: **"Bring me one real decision"**, which opens the Diagnosis Room.
+
+- **Work with me** (dropdown, largest first): The Handover, The Teardown, For funds and portfolio companies.
+- **Mindmaker LIVE** (rendered as a wordmark): `/signal`.
+- **Resources** (dropdown): How I operate, Case studies, New Age Leadership, Library, The Builder Economy (external).
+- **About** (dropdown): Contact, Privacy, Terms.
+
+Footer carries the same three "Work with me" links.
 
 ---
 
 ## The Diagnosis Room (Mindy)
 
-The primary conversion surface (June 2026). A full-screen immersive experience where **Mindy**, the on-site guide reasoning in Krish's voice, diagnoses a visitor's nervous AI decision and forks to three honest exits. It replaces both the `PreCallQualifier` pill and the `YFork` second fork.
+The primary conversion surface. A full-screen experience where **Mindy**, reasoning in Krish's voice, diagnoses a visitor's nervous AI decision and forks to three honest exits.
 
-**Entry points:** the `openDiagnosisRoom` custom event (`detail: { source_page, seedDecision?, mode? }`), dispatched by the nav "Book a call", the hero CTAs, and `SimpleCTA`; plus the standalone page at `/start`. Lazy-loaded and only mounted when open, so the SSG prerender never instantiates it.
+**Entry points:** the `openDiagnosisRoom` event, plus `/start`. Lazy and only mounted when open.
 
-**Two modes** (`SessionMode`): `express` rushes to the booking (nav "Book a call" defaults here); `full` runs the complete diagnosis (the hero's "Work through your decision with Mindy" and the mobile "think it through with Mindy first"). A started express session can switch to full mid-flight.
+**Two modes:** `express` rushes to the booking; `full` runs the complete diagnosis.
 
-**Front end**, `src/components/diagnosis/`:
-- `DiagnosisRoom.tsx`. the orchestrator/overlay. `Opener`, `Conversation`, `DossierReveal`, `DecisionBrief`, `Fork`, `ProposalView`, `ExpressBooking`, `MicButton`, `MindyAvatar` are the scenes/controls; `useDiagnosisSession.ts` is the state machine; `types.ts` holds the edge-function contracts.
-- Phases (`RoomPhase`): `opener` → `reading` (enrichment in flight) → `reflect` (dossier reveal + Mindy's first reflection) → `chat` → `brief` (the kept one-screen decision brief) → `fork` (the three exits) → `proposal`; `express-book` is the express shortcut straight to Calendly.
-- Three honest exits: **keep chatting** (learn), **book a free 15-min call** (`CALENDLY_URL` = `https://calendly.com/krish-raja/15-min-intro`), and **generate/download a co-branded proposal** (PDF).
+**Front end**, `src/components/diagnosis/`: `DiagnosisRoom.tsx` is the orchestrator; `useDiagnosisSession.ts` is the state machine; `types.ts` holds the edge-function contracts. Phases: `opener` → `reading` → `reflect` → `chat` → `brief` → `fork` → `proposal`, with `express-book` as the shortcut.
 
-**Back end**, four edge functions (plus voice):
-- `enrich-company`. turns a work email/domain into a company **dossier**. `depth: "identity"` is the fast (~1s) co-brand paint (Brandfetch + Tranco); `depth: "full"` adds PDL + BuiltWith + currency, then a Gemini/Anthropic synthesis in Krish's voice. Free-email domains (gmail, etc.) return `{ skipped: "free-email" }` so the UI degrades gracefully (no co-brand "gasp").
-- `mindy-chat`. Mindy's reasoning turn. Composes the Brain Pack + a formatted dossier block, calls Claude, returns a strict-JSON turn (`reply`, `phase`, `quickReplies`, `recommendation`, `decisionBrief`, `readyForProposal`, `readyForCall`) run through a runtime voice gate.
-- `generate-proposal`. the on-the-fly co-branded "Mindmaker × [company]" one-pager. Deterministic shell + dossier + selected proof, with reflective prose generated in one Claude call and voice-linted. `format: "pdf"` renders via Browserless; on Browserless failure it returns HTML + `pdfFallback: true` so the client prints to PDF.
-- `session-digest`. fires on a meaningful end (`chat` / `book-call` / `proposal`). Emails Krish the FULL session intelligence; if the visitor opted in and a proposal exists, emails them ONLY their proposal (Resend).
-- `transcribe`. server-side voice transcription for the mic input (OpenAI Whisper).
+**Back end:** `mindy-chat` (the reasoning turn), `enrich-company` (the dossier), `generate-proposal` (the co-branded one-pager and PDF), `session-digest` (Krish's digest), `transcribe` (voice).
 
-**Privacy contract (critical):** the dossier's `scale.*` fields (`employeeCount`, `sizeBand`, `trancoRank`, `icp`, `recommendedMode`) are **internal routing only**. The hook strips them out of everything it hands to a view, Mindy must never recite them, and the visitor proposal/digest copy never contains the routing layer or the raw transcript. Only Krish's internal digest receives the full dossier.
+**Pricing behaviour, rewritten August 2026.** Prices are published, so Mindy quotes them **exactly**, in the currency the visitor asks in. She never converts between currencies, never invents a figure and never discounts. The Handover always routes to the call. The recommendation contract's field is `price`, not `range`.
 
-**Knowledge & guardrails:** Mindy's Brain Pack lives in `project-documentation/mindy/`, `mindy-system-prompt.md`, `reasoning-fewshots.md`, `fit-and-walkaway-rubric.md`, `pricing-range-model.md`, `proof-bank.md`, `CANON.md` (de-poison / source of truth), and `voice-lint.md` (post-generation gate). Pricing is **ranges only**; the honest down-sell rubric can recommend a cheaper rung or a free lesson; anything above ~$12k books the call rather than self-serves.
+Three rules exist because the live agent broke them while the suite stayed green. **A direct price question is answered in the turn it is asked**, ahead of the reflect-then-reason order and whatever phase she is in. **The Handover band is a function of headcount alone**, and the largest-first ordering governs which figure is said first, never which band applies. **The visitor's currency is sent, not guessed:** `useDiagnosisSession` passes it from `CurrencyContext` and `mindy-chat` falls back to USD exactly as the site does, so the number she says matches the number on screen. A currency the visitor names still wins.
+
+The same rule holds in the generated proposal: `book-call` does not hide a published fee. Only the genuine absence of a figure renders "set on the call".
+
+**Privacy contract (critical):** the dossier's `scale.*` fields (`employeeCount`, `sizeBand`, `trancoRank`, `icp`, `recommendedMode`, `handoverBand`) are **internal routing only**. The hook strips them before handing anything to a view, Mindy must never recite them, and the visitor-facing proposal and digest never contain the routing layer or the raw transcript.
+
+**Knowledge and guardrails:** the Brain Pack in `project-documentation/mindy/`. `knowledge.ts` is the deployable distillation, and `src/test/mindy-knowledge.test.ts` fails the build if it names a retired offer, states a price not in `offers.ts`, or is missing any current price in any currency.
 
 ---
 
 ## Live Intel
 
-Renamed from "The Operator's Brief" (previously "Signal Desk") for straightforward nav clarity, this is live model pricing and weekly calls.
+Live model pricing and weekly calls.
 
-- Homepage teaser: `src/components/OperatorsBrief.tsx`. Minimal, continuous marquee `PriceTicker` + rotating interpretation line + compact Nervous Decision input + footer link to the dashboard. No cards, no blog column.
-- Full dashboard: `src/pages/Brief.tsx` at `/signal`. Extended ticker, 3-card interpretation grid, the full classified archive with filter pills + search, a blog column, and the full-size Nervous Decision input with example chips.
-- Shared: `src/components/PriceTicker.tsx` (CSS-marquee, no native scrollbar, pauses on hover, respects `prefers-reduced-motion`). `src/components/nervous-decision/` has `Input.tsx`, `Artifact.tsx`, `types.ts`.
-- Model allowlist lives inside `src/hooks/useModelData.ts` as `ALLOWED_MODEL_IDS`. Current canonical set: Opus 4.7, Sonnet 4.6, Haiku 4.5, Gemini 2.5 Pro, Gemini 2.5 Flash, GPT-5, GPT-5 Mini. Update here when a new frontier model is worth surfacing.
-- Archive page: `src/pages/Brief.tsx` at route `/signal` (URL preserved for inbound). Filter pills for WATCH / SKIP / CALL / TAKE plus search.
-- Taxonomy: **WATCH** (worth acting on), **SKIP** (hype / ignore), **CALL** (a decision is overdue), **TAKE** (Krish's opinion). Renamed from the previous SIGNAL / NOISE / DECISION / TAKE set.
-- **The Cohort Signal** (`src/components/PortfolioPulse.tsx`, on `/signal` between the interpretation grid and the archive): the public face of the cross-product hive mind. Renders the anonymised `portfolio-pulse` aggregate - "what leaders are actually wrestling with", the nine AI-native lanes as share bars, from Make Your Mind Up's q5 ("the decision you keep not making"). No PII reaches the client (counts + shares only, categorised server-side); volume-guarded (self-hides below 12 leaders so a thin room never reads as weakness); prerender-safe (null during SSG). Canonical record: `mm-ctrl/docs/PORTFOLIO-HIVE-MIND.md`.
-- Data source: still inlined sample cards for now. `get-ai-news` edge function schema remains in place for eventual dynamic feed.
+- Homepage teaser: `src/components/OperatorsBrief.tsx`.
+- Full dashboard: `src/pages/Brief.tsx` at `/signal`.
+- Shared: `src/components/PriceTicker.tsx`, `src/components/nervous-decision/`.
+- Model allowlist: `ALLOWED_MODEL_IDS` in `src/hooks/useModelData.ts`.
+- Taxonomy: **WATCH** (worth acting on), **SKIP** (hype), **CALL** (a decision is overdue), **TAKE** (Krish's opinion).
+- `src/components/PortfolioPulse.tsx` renders the anonymised cross-product aggregate. No PII reaches the client, volume-guarded, prerender-safe.
 
----
-
-## Homepage Y-fork (RETIRED)
-
-The second homepage fork (`src/components/YFork.tsx`, "Start where your question actually is.") was **removed from the homepage in June 2026** so the funnel collapses into the one Diagnosis Room journey. The file still exists in the tree but is no longer imported in `Index.tsx`. Its three intents (sharpen / resolve / rebuild) are now handled by Mindy's diagnosis and the existing nav (`/workshops`, `/cohort`, `/enterprise`, `/capital`). The CTRL waitlist (`CtrlWaitlistPopover`) and the Sunday brief remain reachable via other surfaces.
-
-`NewHero`'s "See how I work →" link now points to `/operator` (it previously smooth-scrolled to the Y-fork). Hero eyebrow reads "Decision blockers I hear every week".
-
-The next-cohort date is displayed on `/cohort` only. When Supabase `cohort_dates` is wired up, replace the literal in `Cohort.tsx`.
+**Mindmaker LIVE** is the publication at `live.themindmaker.ai`. Two formats: **Built** and **Paid**. It has paid tiers, so never describe it as free. Always link the branded domain, never the underlying Substack URL.
 
 ---
 
-## Operator's Edge (v5)
-
-Homepage section: `src/components/OperatorsEdge.tsx`. Dark-bg section between `FrameworkJourney` and `OperatorsBrief`. The heading "Beyond *pattern* recognition" is retypeset to match the FrameworkJourney header scale exactly, `text-[1.35rem] sm:text-3xl md:text-4xl lg:text-5xl font-bold`, partial-mint treatment on "pattern" only, no drop-shadow glow. Reads as a clear new section via the `WHO YOU'RE WORKING WITH` eyebrow, hairline top border, and gradient background tonal shift. Lead line is the anti-consultant statement (pulled from a top-of-file constant so Krish can edit in one place). Three glass tiles (Architecture / Optimization / Memory) follow. Primary CTA to `/enterprise#revenue-architecture`, secondary muted link to `/operator`.
-
-Dedicated page: `src/pages/Operator.tsx` at `/operator`. Hero (text + `Krish-Headshot.png`) → thesis (looping `ctrl-demo-video.mp4` left of text, no tool names listed) → 5-cluster static agent diagram (14 named agents) → four extractable lessons → `On stage` strip with three `krish-stage-*` images → commercial crossover. Page ends at the crossover CTA. OG type `article`. Tracked via `plausible('operator_page_cta_clicked')` on the Revenue Architecture CTA.
-
-**Design guardrails:** no scrolling logs, no terminal aesthetics, no ASCII art, no interactive dashboards. Every claim must pass the CMO-15-second test.
-
----
-
-## Voice & tone
+## Voice and tone
 
 ### Use
-- Build, systems, working, deploy, literacy, decision, sprint, friction.
-- Concrete verbs: ship, decide, make, cut, filter.
-- Second person, specific numbers.
+Build, systems, working, deploy, decision, claim, evidence, finish line, capped. Concrete verbs: ship, decide, make, cut, filter. Second person, specific numbers.
 
 ### Avoid
-- Transformation, synergy, leverage, ecosystem, journey (as a noun), revolutionary, cutting-edge.
-- Passive voice, vague benefit words ("optimize", "enhance", "maximize").
+Transformation, synergy, leverage, ecosystem, journey (as a noun), revolutionary, cutting-edge, seamless, empower, unlock, game-changer, best-in-class, solutions, robust, elevate, harness, delve, deep dive. Passive voice. Vague benefit words.
+
+**No em dashes, anywhere, including code and commit messages.** Commas, periods or parentheses.
 
 ### Archetype
 Your smartest, most cynical friend who runs AI transformation every day and genuinely loves building things. Confident, not arrogant. Cynical, not negative. Helpful, not pushy.
@@ -256,32 +231,29 @@ Your smartest, most cynical friend who runs AI transformation every day and genu
 
 ## Development notes
 
-- Package manager / build: `npm` + Vite (`vite.config.ts`).
-- Lint: `npm run lint`. Build: `npm run build` (runs Vite → `scripts/generate-sitemap.mjs` → `scripts/prerender.mjs`).
-- Routing: React Router v6 (`BrowserRouter` in `App.tsx`).
-- State: `@tanstack/react-query` + `SessionDataContext`.
-- Styling: Tailwind + shadcn/ui components in `src/components/ui/`.
-- Theme: `next-themes` with `attribute="class"` (dark mode class-based).
-- "Book a call" CTAs open the **Diagnosis Room** via the `openDiagnosisRoom` event (express mode from the nav, full mode from the hero secondary). `ScopingModal`/`openScopingModal` is a retained fallback; `InitialConsultModal`/`openConsultModal` is legacy (only `/alumni` uses it).
-- LLM discoverability: `public/llms.txt` + allow-list for GPTBot / ClaudeBot / PerplexityBot / Google-Extended in `public/robots.txt`.
+- **Package manager / build:** `npm` + Vite. `npm run build` runs Vite, then the sitemap, llms.txt and prerender scripts.
+- **Node:** `>=22.18.0` (pinned in `engines`, and in `.nvmrc`). The build scripts import `offers.ts` directly via native type stripping.
+- **Lint:** `npm run lint`. **Test:** `npm test` (vitest).
+  - **Known pre-existing:** 43 eslint errors, 39 of them `no-explicit-any` across 17 files, mostly in live edge functions. Present before this work and not introduced by it. `tsc --noEmit` is not a project gate and has never passed.
+- **QA:** `scripts/qa/` holds browser checks for the currency switcher and the redirects, served through a Vercel-accurate static server. See its README for the env vars a local build needs.
+- **Routing:** React Router v6.
+- **State:** `@tanstack/react-query`, `SessionDataContext`, `CurrencyContext`.
+- **Styling:** Tailwind + shadcn/ui in `src/components/ui/`.
+- **LLM discoverability:** `public/llms.txt` (generated) plus the allow-list in `public/robots.txt`.
 
 ---
 
 ## Related documentation
 
-- `project-documentation/mindmaker_rebuild_brief_v4.md`. the v4/v5 brief (barbell pivot + Operator's Edge) that shaped the current site. Note: Capital was added as a third door after this brief was written; see the "Pages and routing" and "Pricing" sections above for the live structure.
-- `project-documentation/README.md`. index of all project documentation.
-- `project-documentation/mindy/`. **Mindy's Brain Pack**, the system prompt, reasoning few-shots, fit-and-walkaway rubric, pricing-range model, proof bank, `CANON.md` (de-poison / source of truth), and voice-lint that govern the Diagnosis Room.
-- `project-documentation/COMMERCIAL_REFERENCE.md`. durable commercial reference (the `mindmaker` Claude skill): the full buyer-journey ladder, three ICPs, CTRL product, Substack, Stripe, the sales motion, and the Mindmaker vs Mindmaker OS boundary. Reconciled to the live site on 2026-06-09.
-- `project-documentation/PURPOSE.md`, `VALUE_PROP.md`. mission, positioning, differentiators.
-- `project-documentation/OFFERS.md`. full offer guide (Cohort, Signal Session, Revenue Architecture). Supersedes the deleted `SPRINTS.md`.
-- `project-documentation/ICP.md`. the two ICPs (AI leaders / AI products) and anti-ICPs.
-- `project-documentation/ICP_ACCOUNTABLE_DELEGATOR.md`. deep archetype of the cohort/leader buyer ("The Accountable Delegator"), the psychographic + skill-gap depth behind ICP 1.
-- `project-documentation/OUTCOMES.md`. buyer outcomes by offer.
-- `project-documentation/Master_Messaging_and_FAQ.md`. sales pitches and objection handling.
-- `project-documentation/BRANDING.md`, `VISUAL_GUIDELINES.md`, `DESIGN_SYSTEM.md`. brand + visual systems.
-- `project-documentation/ARCHITECTURE.md`, `FEATURES.md`, `DEPLOYMENT.md`. technical architecture, feature catalogue, and deploy flow.
-- `project-documentation/EXECUTIVE_SUMMARY.md`, `LLM_CRITICAL_THINKING_TRAINING.md`. research artefacts (not Mindmaker business content).
+- `project-documentation/DECISIONS_LOG.md`. **Start here.** Every decision in the August 2026 pass, with its reasoning and review trigger. The only file that names the retired offers.
+- `project-documentation/OFFERS.md`. The full offer guide, including what each engagement collects.
+- `project-documentation/ICP.md` and `ICP_ACCOUNTABLE_DELEGATOR.md`. Who this is for, and what they are actually feeling.
+- `project-documentation/SALES_PLAYBOOK.md`. Routing, objections, channel templates, the agent quick-reference card.
+- `project-documentation/mindy/`. Mindy's Brain Pack, including `CANON.md` (the de-poison file).
+- `project-documentation/PROOF_INVENTORY.md`. Every case study and testimonial, with its consent state.
+- `project-documentation/COMMERCIAL_REFERENCE.md`. The durable commercial reference.
+- `project-documentation/ARCHITECTURE.md`, `FEATURES.md`, `DEPLOYMENT.md`. Technical architecture, feature catalogue, deploy checklist.
+- `project-documentation/research/`. Research artefacts, not Mindmaker business content. Do not index for retrieval.
 
 ---
 

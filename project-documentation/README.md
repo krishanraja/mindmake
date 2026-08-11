@@ -1,29 +1,26 @@
 # Mindmaker Project Documentation
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-11
 
 ---
 
-## What Mindmaker Is
+## What Mindmaker is
 
-**The anti-consultancy for leaders done being sold AI.** A **ladder**, not a single product: free Lightning Lessons → paid Workshops ($599) → the AI-Fluent Executive Cohort ($2,500) → Enterprise sprints ($15k–$100k+) → the Alumni Pass ($1,500/yr) as continuity. Capital is a third door for funds, sharing the Signal Session and Revenue Architecture formats. No retainers. No fractional roles. Public pricing is ranges only; exact figures are set by Krish on the call.
+**The anti-consultancy for leaders done being sold AI.** A **capped advisory practice**: a small number of engagements a year.
 
-| Audience | Offer | Public range | Duration | Route |
+Two paid engagements, presented largest first:
+
+| Buyer situation | Engagement | USD | Duration | Route |
 |---|---|---|---|---|
-| Senior leader, getting sharper on AI | Mindmaker Workshops (×5) | $500–$1,000 / workshop | 1 day each, Maven-hosted | `/workshops` |
-| Senior leader with a nervous AI decision | The AI-Fluent Executive (Cohort) | $2,000–$3,000 / seat | 4 weeks (mostly async) + 4 live 90-min sessions | `/cohort` |
-| Company commercializing an AI product | The Signal Session | $10,000–$20,000 | 1 day intensive + 48h written delivery | `/enterprise#signal-session` |
-| Same, flagship engagement | The Revenue Architecture | $50,000–$100,000+ | 30 days (4–5 calendar weeks) | `/enterprise#revenue-architecture` |
-| Executive team needing fast alignment | The AI Immersion (inquiry) | $10,000–$15,000 | 4-hour facilitated session + 5-day summary | `/immersion` |
-| Alumni of any paid offer | The Alumni Pass (invitation-only) | ~$1,500 / year | Annual continuity | `/alumni` |
+| The decision is made; how the business decides and sells is what is broken | **The Handover** | $18,000 / $30,000 / $50,000 by headcount | Six weeks + a Day 90 recheck | `/handover` |
+| One nameable decision, unresolved, real cost of getting it wrong | **The Teardown** | $9,500 | Ten business days, under two hours of client time | `/teardown` |
+| A fund or operating partner asking for a portfolio company | The same two, per portfolio company | Same | Same | `/capital` |
 
-Every offer has a fixed scope, a fixed outcome, and a finish line.
+Also published in GBP and AUD, as **set prices per market, not conversions**. Canonical source: `src/lib/offers.ts`.
 
-The primary on-site conversion surface is **the Diagnosis Room (Mindy)**, a full-screen experience that diagnoses one nervous AI decision and forks to three honest exits (keep chatting / book a free 15-min call / download a co-branded proposal). Mindy's knowledge and guardrails live in [`mindy/`](./mindy/); the durable commercial reference is [COMMERCIAL_REFERENCE.md](./COMMERCIAL_REFERENCE.md).
+Every Handover starts with a Teardown. The Handover is capped at six a year and always goes through a call. No retainers, no fractional roles, no implementation, no training, and **no published discounts**.
 
-For the strategic intent behind the current shape of the business, read `mindmaker_rebuild_brief_v4.md` (v4 barbell pivot + v5 Operator's Edge), then the v6 ladder restructure and the June 2026 Diagnosis Room consolidation in `HISTORY.md` / `DECISIONS_LOG.md`.
-
----
+CTRL is a separate product with its own site and its own pricing, and is not sold here.
 
 ## Documentation Index
 
@@ -34,12 +31,13 @@ For the strategic intent behind the current shape of the business, read `mindmak
 | [SALES_PLAYBOOK.md](./SALES_PLAYBOOK.md) | The single document an AI sales/marketing agent should ground on. ICP signals, pain narratives, ROI math, objection bank, channel-specific message templates, qualifying questions, disqualifiers, competitive grid. |
 | [Master_Messaging_and_FAQ.md](./Master_Messaging_and_FAQ.md) | Canonical pitches by offer + master FAQ + objection handling. |
 | [VALUE_PROP.md](./VALUE_PROP.md) | Positioning, differentiators, competitive framing. |
-| [ICP.md](./ICP.md) | The two primary ICPs (AI leaders, AI products) + the executive-team ICP for Immersion. Anti-ICPs. |
-| [ICP_ACCOUNTABLE_DELEGATOR.md](./ICP_ACCOUNTABLE_DELEGATOR.md) | Deep psychographic and skill-gap archetype of the cohort/leader buyer ("The Accountable Delegator"), the depth behind ICP 1. Research-grounded; cross-refs ICP.md and SALES_PLAYBOOK.md. |
-| [OFFERS.md](./OFFERS.md) | Full detail on Cohort, Signal Session, Revenue Architecture, Immersion. |
+| [ICP.md](./ICP.md) | One ICP: companies of 50 to 5,000 people, sweet spot 100 to 1,000, buyer is the CEO, CRO or VP Product. Plus the anti-ICPs. |
+| [ICP_ACCOUNTABLE_DELEGATOR.md](./ICP_ACCOUNTABLE_DELEGATOR.md) | The psychographic depth behind `ICP.md`: what the buyer is actually feeling, including why the fraud feeling is rational rather than neurotic. |
+| [OFFERS.md](./OFFERS.md) | Full detail on both engagements, and what each one collects. |
 | [COMMERCIAL_REFERENCE.md](./COMMERCIAL_REFERENCE.md) | The durable commercial reference (the `mindmaker` Claude skill): the full buyer-journey ladder, three ICPs, the CTRL product, the Substack, Stripe, the sales motion, and the Mindmaker vs Mindmaker OS boundary. |
-| [mindy/](./mindy/) | **Mindy's Brain Pack**, the system prompt, reasoning few-shots, fit-and-walkaway rubric, pricing-range model, proof bank, `CANON.md` (de-poison / source of truth), and voice-lint that govern the Diagnosis Room. |
-| [OUTCOMES.md](./OUTCOMES.md) | Buyer outcomes by offer, with leading and lagging indicators. |
+| [mindy/](./mindy/) | **Mindy's Brain Pack**: the system prompt, reasoning few-shots, fit-and-walkaway rubric, pricing model, proof bank, `CANON.md` (de-poison / source of truth), and voice-lint that govern the Diagnosis Room. |
+| [OUTCOMES.md](./OUTCOMES.md) | Buyer outcomes by engagement, with leading and lagging indicators. Aspirational figures are labelled inline. |
+| [PROOF_INVENTORY.md](./PROOF_INVENTORY.md) | Every case study and testimonial, with its consent state. The nine verified engagements, and what may be said about each. |
 | [BRANDING.md](./BRANDING.md) | Voice, tone, terminology standards, retired products. |
 | [PURPOSE.md](./PURPOSE.md) | Mission, vision, what we do and don't sell. |
 
@@ -60,17 +58,17 @@ For the strategic intent behind the current shape of the business, read `mindmak
 | Document | What it gives you |
 |---|---|
 | [HISTORY.md](./HISTORY.md) | Chronological change history. |
-| [DECISIONS_LOG.md](./DECISIONS_LOG.md) | Architecture and design decision records. |
-| [mindmaker_rebuild_brief_v4.md](./mindmaker_rebuild_brief_v4.md) | Authoritative strategic brief (v4 barbell pivot + v5 Operator's Edge). |
+| [DECISIONS_LOG.md](./DECISIONS_LOG.md) | Every material decision with its reasoning and review trigger. **The only file that names the retired offers.** Start here when something looks odd. |
+| [mindmaker_rebuild_brief_v4.md](./mindmaker_rebuild_brief_v4.md) | **Historical archive, superseded 2026-08-11.** The v4/v5 strategic brief. The positioning in it largely survives; every offer, price and duration in it does not. |
+| [PRICE_TRUTH_AUDIT.md](./PRICE_TRUTH_AUDIT.md) | **Historical record.** The state of the estate before the August 2026 reprice, when six offers were quoted at inconsistent figures across eight surfaces. The evidence behind the single-source-of-truth work. |
 
 ### Research artefacts (not Mindmaker business content)
 
 | Document | What it gives you |
 |---|---|
-| [EXECUTIVE_SUMMARY.md](./EXECUTIVE_SUMMARY.md) | LLM critical-thinking framework synthesis (research, not Mindmaker positioning). |
-| [LLM_CRITICAL_THINKING_TRAINING.md](./LLM_CRITICAL_THINKING_TRAINING.md) | AI reasoning training manual (research). |
+| [research/](./research/) | Two long documents on training language models to reason well. **Not Mindmaker business content, and on `CANON.md`'s do-not-index blocklist.** See [research/README.md](./research/README.md). |
 
-> Research files are kept for reference. They are not authoritative descriptions of the Mindmaker business. Use `PURPOSE.md` + `VALUE_PROP.md` + `OFFERS.md` + `SALES_PLAYBOOK.md` for that.
+> Research files are kept for reference. They are not authoritative descriptions of the Mindmaker business, and grounding a commercial answer on them is the single easiest way to produce confident nonsense. Use `PURPOSE.md` + `VALUE_PROP.md` + `OFFERS.md` + `SALES_PLAYBOOK.md` for that.
 
 ---
 
@@ -81,7 +79,7 @@ For the strategic intent behind the current shape of the business, read `mindmak
 2. [BRANDING.md](./BRANDING.md), voice, terminology, retired products
 3. [VALUE_PROP.md](./VALUE_PROP.md), positioning and objections
 4. [ICP.md](./ICP.md), the audiences
-5. [OFFERS.md](./OFFERS.md), pricing, scope, format, outcomes
+5. [OFFERS.md](./OFFERS.md), scope, format and outcomes. Actual prices come from `src/lib/offers.ts`, never from a document
 6. [Master_Messaging_and_FAQ.md](./Master_Messaging_and_FAQ.md), canonical pitches and FAQ
 7. [PURPOSE.md](./PURPOSE.md), mission and anti-goals
 
@@ -114,17 +112,16 @@ For the strategic intent behind the current shape of the business, read `mindmak
 
 ### Offers (canonical pricing and duration)
 
-| Offer | Price | Duration | Hosting / payment |
+| Engagement | Price (USD) | Duration | Payment |
 |---|---|---|---|
-| The AI-Fluent Executive (Cohort) | $2,500 / seat (or 2× $1,250) | 4 weeks (mostly async) + 4 × 90-min live sessions | Hosted on **Maven** at `maven.com/mindmaker/the-ai-fluent-executive` |
-| The Signal Session | $15,000 | 1 day intensive + 48-hour Commercial Narrative delivery (15–20 pages) | Direct invoice; payment on kickoff |
-| The Revenue Architecture | $60,000–$100,000 | 30 days (4–5 calendar weeks), multi-session | Direct invoice; 50/50 at kickoff and delivery |
-| The AI Immersion | $12,000 (flat) | 4-hour facilitated session + 2-page summary within 5 business days | Inquiry-only; full at booking or 50/50 |
+| The Handover | $18,000 / $30,000 / $50,000 by headcount | Six weeks + Day 90 recheck | Direct invoice, 50/50 at kickoff and delivery |
+| The Teardown | $9,500 | Ten business days | Direct invoice, on kickoff |
+
 
 ### ICPs
 
 - **AI leaders**. senior operators making AI decisions (Cohort buyer)
-- **AI products**. companies commercializing AI capability (Signal Session → Revenue Architecture buyer)
+- **One ICP**: companies of 50 to 5,000 people, sweet spot 100 to 1,000, where the buyer is the CEO, CRO or VP Product
 - **Executive teams**. CEO-sponsored leadership groups needing fast alignment (Immersion buyer)
 
 ### Brand voice
@@ -145,16 +142,17 @@ For the strategic intent behind the current shape of the business, read `mindmak
 - Fractional CAIO, Fractional CTO, Fractional CMO (we do not sell fractional roles)
 - "Builder vs Orchestrator" ICP framing
 - "Chat with Krish" / "Ask Mindmaker" chatbot (retired; the `PreCallQualifier` that replaced it is itself now retired, superseded by the Diagnosis Room)
-- Homepage `YFork` second fork and the `PreCallQualifier` floating pill (both retired June 2026; the homepage now funnels into the Diagnosis Room)
+- Homepage `YFork` second fork and the `PreCallQualifier` floating pill (both retired June 2026, archived to `src/_archive/components/` in August 2026; the homepage funnels into the Diagnosis Room)
 - "Signal Desk" naming (renamed to **Live Intel** at `/signal`)
 - "The Brief" / "The Operator's Brief" as a nav label (the nav label is now **"Live Intel"**; "The Operator's Brief" can still appear as a body-copy reference for the editorial taxonomy on `/signal`)
 - SIGNAL / NOISE / DECISION / TAKE taxonomy (renamed to WATCH / SKIP / CALL / TAKE)
 - CTRL (portable context app) as a headline Mindmaker product
 - Builder Economy as a Mindmaker product (now an external sister domain at `thebuildereconomy.com`)
 - `/tool` standalone page (deleted; Nervous Decision Machine now lives inside `/signal` and embedded on the homepage)
-- War Room, Strategy Day (old names for Revenue Architecture and Signal Session; URLs redirect)
-- 8–12 week Revenue Architecture timeline (replaced by 30-day intensive)
-- 5–10 page Signal Session thesis (replaced by 15–20 page Commercial Narrative within 48 hours)
+- War Room, Strategy Day, Fractional CAIO (URLs redirect to the current engagements)
+- **The entire six-rung ladder retired in July and August 2026.** The names are deliberately not repeated here, because this file is indexed for retrieval and writing them is the most likely way one reaches a client. The record is in [DECISIONS_LOG.md](./DECISIONS_LOG.md). The operative rule is simpler than a list: if an engagement is not The Teardown or The Handover, it does not exist.
+- Ranges-only pricing (prices are published now, in three currencies)
+- Any published discount, credit or urgency offer
 
 See [BRANDING.md](./BRANDING.md) for complete terminology standards.
 
@@ -165,7 +163,8 @@ See [BRANDING.md](./BRANDING.md) for complete terminology standards.
 - **Last Updated** date at the top of each document
 - Technical decisions live in [DECISIONS_LOG.md](./DECISIONS_LOG.md)
 - Changes live chronologically in [HISTORY.md](./HISTORY.md)
-- All brand decisions reference [../CLAUDE.md](../CLAUDE.md) and `mindmaker_rebuild_brief_v4.md` as source of truth
+- Prices come from `src/lib/offers.ts`, never from a document
+- All brand decisions reference [../CLAUDE.md](../CLAUDE.md) as source of truth
 
 ---
 

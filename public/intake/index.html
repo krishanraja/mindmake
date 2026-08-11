@@ -389,7 +389,7 @@ function cleanDescriptor(s){
   const m = t.match(/^.*?[.!?](?=\s|$)/);
   if(m && m[0].trim().length >= 40) t = m[0].trim();
   t = t.replace(/\s+(discover|learn more|find out|explore|contact us|get in touch|read more|see how|sign up|book a|start your|join us)\b.*$/i, '').trim();
-  t = t.replace(/[\s,;:.–—-]+$/,'').trim();
+  t = t.replace(/[\s,;:.–, -]+$/,'').trim();
   return t.length > 160 ? '' : t;
 }
 // The reflective note under the business textarea: the generated one-liner when the
@@ -626,7 +626,7 @@ function onKeydown(e){
   if(state.step>=total) return;
   if(el && el.tagName==='BUTTON') return;
   if(el && el.tagName==='TEXTAREA'){
-    // The contact step's notes box is free-form — let Enter be a newline there.
+    // The contact step's notes box is free-form, let Enter be a newline there.
     if(questions[state.step] && questions[state.step].type==='contact') return;
     if(e.shiftKey) return; e.preventDefault(); advance(); return;
   }

@@ -3,9 +3,12 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=22.18.0"
+  },
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/generate-sitemap.mjs && node scripts/prerender.mjs",
+    "build": "vite build && node scripts/generate-sitemap.mjs && node scripts/generate-llms.mjs && node scripts/prerender.mjs",
     "build:vite": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
@@ -70,6 +73,7 @@
     "@vitejs/plugin-react": "^5.1.2",
     "autoprefixer": "^10.4.21",
     "canvas": "^3.2.2",
+    "esbuild": "^0.25.12",
     "eslint": "^9.32.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",

@@ -8,9 +8,8 @@
  * these scaffolds supply the spine so the shell always renders, even with a
  * null dossier and no LLM output.
  *
- * Modes mirror the proof bank / pricing-range model:
- *   cohort, workshop, signal-session, revenue-architecture, immersion,
- *   bespoke-enablement, ctrl.
+ * Two paid engagements, plus CTRL as a product rather than an engagement:
+ *   handover, teardown, ctrl.
  *
  * Voice rules baked in (these strings are NOT re-linted at runtime, so they must
  * pass cleanly on sight): no em dashes, sentence case, British-Australian,
@@ -19,9 +18,16 @@
  * cost reference in copy is qualitative ("costed", "scoped together", "set on
  * the call"), never a figure.
  *
- * `bespoke-enablement` is the canonical full shape, lifted from the DoThinkDo
- * one-pager: a six-deliverable engagement with a pilot -> full -> phase-2 ladder.
- * `getModeScaffold()` falls back to it for any unknown mode.
+ * `teardown` is the fallback for any unknown mode, deliberately. It is the
+ * entry rung and the gate, so a misrouted proposal lands on the smaller, more
+ * honest recommendation rather than pitching six weeks at someone the router
+ * could not read.
+ *
+ * The seven scaffolds that used to live here (cohort, workshop, signal-session,
+ * revenue-architecture, immersion, bespoke-enablement) were removed in August
+ * 2026. They described a ladder that no longer exists, and this file builds the
+ * PDF a prospect downloads, so they were selling retired engagements in a
+ * document that leaves the building.
  */
 
 import type {
@@ -54,619 +60,195 @@ export interface ModeScaffold {
   nextSteps: string[];
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// bespoke-enablement — the canonical full shape (DoThinkDo template).
-// ─────────────────────────────────────────────────────────────────────────────
-const BESPOKE_ENABLEMENT: ModeScaffold = {
-  mode: 'bespoke-enablement',
-  engagementLabel: 'Phase 1 / The engagement',
-  engagementHeading: 'An enablement sprint, built into your real work.',
+
+// Handover. Six weeks, then it ends. The larger rung, stated first.
+const HANDOVER: ModeScaffold = {
+  mode: 'handover',
+  engagementLabel: 'The engagement / Six weeks',
+  engagementHeading: 'Six weeks. Then I leave and you keep it.',
   deliverables: [
     {
-      title: 'Discovery and net-new opportunity mapping',
+      title: 'Week 1. Your context, loaded and corrected',
       desc:
-        'Per stream: the tasks eating the most time, and the things AI could do that the stream does not do today but that move a real business goal. New ways to package what you sell, faster paths from idea to client-ready, not busywork.',
+        'Most of week one is discovering what the organisation believes that is no longer true. We load how the business actually decides and sells, and fix the parts that are out of date before anything gets built on top of them.',
     },
     {
-      title: 'A working brain per stream',
+      title: 'Week 2. An adversarial pre-mortem',
       desc:
-        'A context base behind every prompt the stream runs, so AI knows their world, their voice and their clients without being re-briefed each time. Owned by you, not rented from a platform.',
+        'We assume the plan already failed and work backwards to why. It is faster to find the fatal assumption now than to discover it in month four, and it is the cheapest week of the six.',
     },
     {
-      title: 'Two to three live use cases per stream',
+      title: 'Week 3. The fork',
       desc:
-        'Built in your own tools, with a one-page playbook each, coached until the owner runs them without me in the room.',
+        'If you are not AI-native yet, we rebuild go-to-market, pricing and positioning. If you already are, we set the build order instead. One of those two, chosen on the evidence rather than on preference.',
     },
     {
-      title: 'A company AI usage policy',
+      title: 'Week 4. You drive',
       desc:
-        'One agreed page on which tools you use, what is allowed, where the guardrails sit, and how people should work with AI. So adoption scales without becoming a free-for-all.',
+        'You run it and I watch and correct. The point is not that it works when I do it. The point is that it works when you do.',
     },
     {
-      title: 'Systems-thinking coaching across the sprint',
+      title: 'Week 5. I do not attend',
       desc:
-        'Recurring sessions with stream leads so the habit sticks and becomes muscle memory, plus how to keep improving the AI rather than delegating to it and walking away.',
+        'The load-bearing week. If the system only runs when I am in the room, we both find that out while there is still time to fix it, rather than after the invoice.',
     },
     {
-      title: 'The AI roadmap',
+      title: 'Week 6. Exit, and a Day 90 recheck',
       desc:
-        'Everything learned pulled into one prioritised plan for where AI goes next, including a recommended shape for the build that follows.',
+        'You keep the system, the context and the way of deciding. Ninety days later we check whether it held, because a handover that decays quietly is not a handover.',
     },
   ],
   keepHero:
-    "After the sprint, what stays when I leave: the working brains, the AI usage policy, the roadmap, a playbook for every use case, and teams that operate differently. That is the return, and it does not expire when the sprint ends.",
+    'You keep a business that decides and sells differently, run by your own people, with the context layer that makes it repeatable. Not a deck describing one.',
   keepCards: [
     {
-      role: 'Marketing',
-      title: 'Throughput',
+      role: 'The org',
+      title: 'A way of deciding',
       body:
-        'AI drafts, repurposes and schedules the first 80% of content and campaigns, powered by the marketing brain.',
-      worth: '<b>A content engine</b> that ships more every week, run by the same people.',
+        'Your team runs the decision method themselves, on their own decisions, without waiting for an outside opinion to arrive.',
+      worth: '<b>Decisions that do not queue</b> behind one person.',
     },
     {
-      role: 'Founder',
-      title: 'Visibility',
+      role: 'The commercial layer',
+      title: 'A rebuilt go-to-market',
       body:
-        'A system that turns your thinking, client sessions and talks into published posts and talk material in minutes.',
-      worth: '<b>A market presence that runs</b>, instead of one you keep meaning to start.',
+        'Positioning, pricing and the sales motion rebuilt around what your buyer actually responds to, with the reasoning written down rather than held in someone\'s head.',
+      worth: '<b>A story that sells</b> without you in the room.',
     },
     {
-      role: 'Leadership',
-      title: 'Leverage',
+      role: 'The system',
+      title: 'Context you own',
       body:
-        'Research, proposals and planning drafted and structured with AI. You own the roadmap and the policy.',
-      worth: '<b>Your scarcest hours freed</b>, plus a roadmap you would otherwise commission.',
+        'The context layer lives in your systems, in plain text and version control, model-agnostic and not rented from a platform.',
+      worth: '<b>Your IP stays yours</b>, and stays portable.',
     },
   ],
   keepFoot:
-    'The other streams follow the same logic: more out the door, and a brain that keeps doing it. And we go looking for what AI can do that your streams do not do today, pointed at the business goal, not at busywork.',
+    'Everything here survives the end of the engagement. That is the test it is built to pass.',
   guarantee: {
-    title: 'The results guarantee',
-    intro:
-      'The sprint is done when every stream is live on its use cases, the brains are built, the policy is agreed, and the roadmap is delivered.',
+    title: 'Week five',
+    intro: 'The engagement is built to end, on a date you know at the start.',
     body:
-      'I budget a fixed number of hours. <b>If I am not on track to land all of it inside the budget, I keep going at no extra cost.</b> The fee does not move. I carry the overrun, not you. The only thing I ask in return is that each stream shows up to its sessions and gives me the access to do the work.',
+      'In week five I do not attend at all. <b>A system that only runs when I am in the room is not a system</b>, and week five is where that stops being a claim and becomes something you can watch happen. The Day 90 recheck is included for the same reason.',
   },
   phase2: {
-    heading: 'Phase 1 teaches the people. Phase 2 builds the systems.',
+    heading: 'What comes after is yours to run.',
     intro:
-      'Phase 1 gets your teams using AI on their own work. Phase 2 is the second sprint that builds the machines behind it, recommends and costs the stack to run them, and turns the roadmap into systems the business owns. The result is a lean company that runs like one several times its size.',
-    cap:
-      'Scoped together from the Phase 1 roadmap. These are the directions on the table now. Phase 1 will sharpen them, and surface more.',
+      'There is no phase two by default, and no retainer. If something genuinely new shows up later, it starts the same way anything else does: with one decision.',
+    cap: 'Optional, and only if a real decision shows up. Nothing here is part of the engagement.',
     tracks: [
       {
-        kicker: 'Track 01 / The internal brain',
-        title: 'A central bot, running the company around the clock',
+        kicker: 'Later / One decision at a time',
+        title: 'When the next fork arrives',
         desc:
-          'A central operating brain, with agents that do the work your teams only touched in Phase 1, day and night.',
+          'A Teardown on the new decision, the same ten days as the first one. Most people do not need anything more than that, and I would rather they did not buy it.',
         chips: [
-          { label: 'A 24/7 ops bot', key: true },
-          { label: 'Live business intelligence' },
-          { label: 'An outbound engine' },
-          { label: 'A content and marketing engine' },
-          { label: 'An always-on EA' },
-        ],
-      },
-      {
-        kicker: 'Track 02 / The stack, costed',
-        title: 'The right tools, priced and sequenced to your budget',
-        desc:
-          'Clear recommendations on which tools to bring on, what each costs, and the order to do it in, plus the shared context layer that feeds every one of them.',
-        chips: [
-          { label: 'Tool recommendations, costed', key: true },
-          { label: 'Sequenced to your budget' },
-          { label: 'A shared context layer' },
-          { label: 'Owned and documented' },
-        ],
-      },
-      {
-        kicker: 'Track 03 / The systems build',
-        title: 'The roadmap, turned into permanent systems',
-        desc:
-          'The second sprint that turns the prioritised roadmap into the systems the business runs on, owned by you and documented.',
-        chips: [
-          { label: 'Systems the business owns', key: true },
-          { label: 'Built on the Phase 1 foundation' },
-          { label: 'Documented and handed over' },
-          { label: 'Improvable without me' },
+          { label: 'One decision', key: true },
+          { label: 'Ten business days' },
+          { label: 'Only if it is real' },
         ],
       },
     ],
     commercial:
-      'This is the same kind of autonomous system I run across my own ventures: a fleet of agents handling research, outbound, content and ops while I make the calls. I am not theorising it, I live in it. We shape Phase 2 together when you are ready, off the roadmap and the data Phase 1 has already produced.',
+      'No pressure to continue. The engagement is designed so you do not need me afterwards, and the referral comes from the result rather than the invoice.',
   },
   nextSteps: [
-    'A free 30-minute discovery with each team. No commitment.',
-    'We pick the streams and a start date.',
-    'I send the calendar and the access I need.',
-    'First use case live by the end of week two.',
+    'Book the call. First conversation is free.',
+    'We confirm the decision, the timeline and who owns the work between sessions.',
+    'A Teardown first, always, so we both see how one decision goes.',
+    'Six weeks from kickoff, on dates fixed at the start.',
   ],
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// cohort — The AI-Fluent Executive (productised, leader buyer).
-// ─────────────────────────────────────────────────────────────────────────────
-const COHORT: ModeScaffold = {
-  mode: 'cohort',
-  engagementLabel: 'The engagement',
-  engagementHeading: 'Four weeks to decide, then run AI yourself.',
+// Teardown. The entry rung, the gate, and the fallback for an unknown mode.
+const TEARDOWN: ModeScaffold = {
+  mode: 'teardown',
+  engagementLabel: 'The engagement / Ten business days',
+  engagementHeading: 'Bring the decision you keep not making.',
   deliverables: [
     {
-      title: 'The decision, named and decomposed',
+      title: 'Your decision comes apart',
       desc:
-        'We take the one nervous AI decision you walked in with, name the real question underneath it, and lay out the honest paths with the trade-off on each. You leave able to decide, not still gathering opinions.',
+        'Whatever you bring gets broken into the claims it is actually resting on. Most decisions turn out to rest on four or five, and most people have never written them down.',
     },
     {
-      title: 'The frameworks, applied to your own work',
+      title: 'Every claim gets checked',
       desc:
-        'The five-brick chain, redeploy-not-replace, find-the-brick, and the audit that scores where your hours actually go. Not taught as theory, run live against your function so you can use them again the week after.',
+        'Each one is tested against live evidence and comes back with a reliability tier, so you can see which parts of your thinking are load-bearing and which are just repeated.',
     },
     {
-      title: 'One working automation you build yourself',
+      title: 'Every consideration gets classed',
       desc:
-        'By the end you have shipped one real thing in your own tools, with you driving and me coaching. The point is that you can do it again without me.',
+        'External, meaning the world decides. Only you, meaning no amount of research will help. Or nobody yet, meaning the answer does not exist and waiting will not produce it.',
     },
     {
-      title: 'A written evaluation standard',
+      title: 'Four models cross-examine it',
       desc:
-        'A short, reusable way to judge the next AI tool or pitch that lands on your desk, so the team stops bringing every decision back to you.',
+        'Where they disagree, you see the disagreement. Averaging four models into one confident answer hides exactly the part you needed to look at.',
     },
   ],
   keepHero:
-    'After four weeks, what stays: a decision made and in writing, the frameworks to make the next one, one automation you built, and the confidence to run AI yourself instead of waiting to feel ready.',
+    'A one-page memo you can send to whoever reads it next, with the decision mapped to what it actually rests on and three claims placed under a 90-day watch.',
   keepCards: [
     {
       role: 'The decision',
-      title: 'Clarity',
+      title: 'One page, sendable',
       body:
-        'The fork you came in stuck on, resolved, with the trade-off on each path named and the recommended next move written down.',
-      worth: '<b>A decision you can act on Monday</b>, not a folder of notes.',
+        'The decision, its load-bearing claims, the evidence behind each, and the recommendation. Written to be forwarded rather than presented.',
+      worth: '<b>A decision in writing</b>, not a folder of notes.',
     },
     {
-      role: 'The method',
-      title: 'Repeatability',
+      role: 'The reasoning',
+      title: 'Disagreement preserved',
       body:
-        'The same frameworks that cracked this decision, now yours to run against the next one without me in the room.',
-      worth: '<b>A filter for every AI call after this one</b>, owned by you.',
+        'Where the models disagreed, you see the disagreement rather than an average that hides it. The uncertainty is the useful part.',
+      worth: '<b>You see the soft spot</b>, not a confident blur.',
     },
     {
-      role: 'The build',
-      title: 'Proof',
+      role: 'The next 90 days',
+      title: 'What would change your mind',
       body:
-        'One working automation in your own tools, shipped by you, so the capability is demonstrated rather than promised.',
-      worth: '<b>Evidence you can build</b>, not just brief someone who can.',
+        'Three claims under a 90-day watch, so you know in advance which new fact should reopen this and which should not.',
+      worth: '<b>You stop relitigating</b> a settled decision.',
     },
   ],
   keepFoot:
-    'You leave able to make the AI decisions in front of you and the ones coming next, without paying for the learning curve twice.',
+    'Under two hours of your time across the ten days. The rest is not your problem.',
   guarantee: {
-    title: 'The decision guarantee',
-    intro:
-      'The cohort is done when your decision is made and in writing, the frameworks are yours, and you have shipped one working thing.',
+    title: 'It might talk you out of it',
+    intro: 'A Teardown is the cheap way to find out whether more is worth it.',
     body:
-      "If you finish the four weeks and you still cannot name your decision and the path you are taking, <b>I will keep working with you until you can.</b> The point of the room is a decision, not a certificate.",
+      'This is the gate for the six-week engagement, and <b>it has talked people out of that as often as into it</b>. If the honest answer is that you do not need me, the memo will say so, which is the whole reason it is worth reading.',
   },
   phase2: {
-    heading: 'The cohort sharpens the operator. The build comes next.',
+    heading: 'If the decision points at something bigger.',
     intro:
-      'The cohort gets you deciding and building for yourself. What comes after, when the decision points at something bigger, is a scoped build or a company-level engagement, shaped off what you learned here.',
-    cap: 'Optional, and only if a real build shows up. Nothing here is part of the cohort fee.',
+      'Some decisions turn out to be a symptom of how the business decides and sells. If yours is, that is a six-week engagement, and the Teardown is what tells us.',
+    cap: 'Optional, and only if the decision genuinely points there. Most do not.',
     tracks: [
       {
-        kicker: 'Track 01 / Take it to the team',
-        title: 'The same method, run across your function',
+        kicker: 'Later / The Handover',
+        title: 'When one decision was not the problem',
         desc:
-          'An immersion that gets your leadership team to the same agreed view you reached, so the decisions stop restarting every Monday.',
+          'Six weeks rebuilding how the business decides and sells, ending on a date fixed at the start, with a week where I do not attend and a Day 90 recheck.',
         chips: [
-          { label: 'Shared vocabulary', key: true },
-          { label: 'Agreed use boundaries' },
-          { label: 'Owners assigned' },
-        ],
-      },
-      {
-        kicker: 'Track 02 / Build the real thing',
-        title: 'A scoped build, when the decision points at one',
-        desc:
-          'When the decision you made needs something built rather than taught, a bespoke enablement sprint embeds it into the real work and leaves the systems with you.',
-        chips: [
-          { label: 'Built in your tools', key: true },
-          { label: 'A working brain' },
-          { label: 'Coached until you own it' },
+          { label: 'Six weeks', key: true },
+          { label: 'Week five I am not there' },
+          { label: 'Capped at six a year' },
         ],
       },
     ],
     commercial:
-      'No pressure to climb. Most people leave the cohort able to do the next thing themselves, and I would rather you did. The build is there only if the decision you made genuinely needs one.',
+      'No push. The Teardown stands on its own and most people stop there, which is the correct outcome.',
   },
   nextSteps: [
-    'Enrol on the next cohort via Maven.',
-    'Bring the one decision keeping you up at night.',
-    'We decide it together in week one, then build.',
-    'You leave able to make the next one without me.',
+    'Confirm the one decision to take apart.',
+    'A short kickoff, then under two hours of your time across ten business days.',
+    'The memo lands, and it may tell you not to spend anything else.',
   ],
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// workshop — one-day, one working thing (feeder rung).
-// ─────────────────────────────────────────────────────────────────────────────
-const WORKSHOP: ModeScaffold = {
-  mode: 'workshop',
-  engagementLabel: 'The session',
-  engagementHeading: 'One day. One working thing you keep.',
-  deliverables: [
-    {
-      title: 'One real AI tool, built live',
-      desc:
-        'We pick the single thing that would help you most and build it together in your own tools, in the room, in one day. You drive, I coach.',
-    },
-    {
-      title: 'A one-page playbook for it',
-      desc:
-        'How to run it, how to improve it, and how to know it is trustworthy, on a page you keep.',
-    },
-    {
-      title: 'A way to judge the next one',
-      desc:
-        'A short, repeatable test for whether the next AI idea is worth your time, so you stop guessing.',
-    },
-  ],
-  keepHero:
-    'After one day, what stays: one working tool used the next morning, a one-page playbook for it, and a way to judge the next idea. No decks, no oversell.',
-  keepCards: [
-    {
-      role: 'The tool',
-      title: 'Something that works',
-      body:
-        'A single AI tool built for your real work, in your own stack, that you use the day after the session.',
-      worth: '<b>One thing that works</b>, not a strategy you have to go implement.',
-    },
-    {
-      role: 'The playbook',
-      title: 'A way to run it',
-      body:
-        'The one page that tells you how to run the tool, improve it, and trust its output.',
-      worth: '<b>Repeatable without me</b>, from day one.',
-    },
-    {
-      role: 'The filter',
-      title: 'A way to choose',
-      body:
-        'A short test for the next AI idea, so the second tool is your call, made well.',
-      worth: '<b>Better choices after this one</b>, owned by you.',
-    },
-  ],
-  keepFoot:
-    'A workshop is the cheap way to find out whether the approach works for you before you commit to more. Whatever you pay rolls forward if you climb.',
-  guarantee: {
-    title: 'The working-tool guarantee',
-    intro: 'The day is done when you have one working tool and the playbook to run it.',
-    body:
-      'You walk out with one thing that works, or you do not pay. <b>I would rather you left with a tool than a feeling.</b>',
-  },
-  phase2: {
-    heading: 'The workshop proves it. The cohort compounds it.',
-    intro:
-      'The workshop gets you one working tool. If the approach lands, the AI-Fluent Executive cohort takes you from one tool to running AI across your work, and your workshop fee credits toward it.',
-    cap: 'Optional. The workshop stands on its own.',
-    tracks: [
-      {
-        kicker: 'Track 01 / Go deeper',
-        title: 'From one tool to running AI yourself',
-        desc:
-          'The cohort applies the same frameworks across your function over four weeks, with your workshop credit applied.',
-        chips: [
-          { label: 'Workshop credit applied', key: true },
-          { label: 'Four weeks' },
-          { label: 'A decision in writing' },
-        ],
-      },
-    ],
-    commercial:
-      'No push. The workshop is designed to stand alone. The credit is there only if you decide the deeper room is worth it.',
-  },
-  nextSteps: [
-    'Book the next workshop via Maven.',
-    'Bring the one task you want AI to take off your plate.',
-    'Leave with it working, and a playbook to run it.',
-    'Climb to the cohort with your credit if it lands.',
-  ],
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
-// signal-session — one day, one company-level go/no-go decision.
-// ─────────────────────────────────────────────────────────────────────────────
-const SIGNAL_SESSION: ModeScaffold = {
-  mode: 'signal-session',
-  engagementLabel: 'The session',
-  engagementHeading: 'One day. One decision. No more Monday debates.',
-  deliverables: [
-    {
-      title: 'The real question, isolated',
-      desc:
-        'We strip the company-level AI question down to the actual fork: build or partner, ship or kill, price it this way or that. The thing two quarters of meetings have been circling.',
-    },
-    {
-      title: 'The honest paths, each costed in time and risk',
-      desc:
-        'Two or three real options with the trade-off named on each, including the cost of doing nothing. No deck, the working in the open.',
-    },
-    {
-      title: 'A clear go or no-go, in writing',
-      desc:
-        'A defensible decision you can take to the board or the team the same week, with the reasoning attached.',
-    },
-    {
-      title: 'A reusable way to make the next one',
-      desc:
-        'The scoring method we used, written down, so the next company-level AI call does not need another two quarters.',
-    },
-  ],
-  keepHero:
-    'After one day, what stays: a clear decision in writing, the reasoning behind it, and the scoring method to make the next one. The internal stalemate, broken.',
-  keepCards: [
-    {
-      role: 'The decision',
-      title: 'A straight answer',
-      body:
-        'The go or no-go your team has been circling, made and documented, with the trade-off on each path named.',
-      worth: '<b>A decision the board can stand behind</b>, the same week.',
-    },
-    {
-      role: 'The time',
-      title: 'A year not wasted',
-      body:
-        'Engineering and exec time no longer spent debating the wrong thing or building down the wrong path.',
-      worth: '<b>The expensive months you do not spend</b>, recovered.',
-    },
-    {
-      role: 'The method',
-      title: 'A repeatable score',
-      body:
-        'The way we ranked the options, written down and yours to reuse on the next company-level call.',
-      worth: '<b>A scoring method you keep</b>, not a one-off opinion.',
-    },
-  ],
-  keepFoot:
-    'One day, one decision. It is also the diagnostic gate for a bigger engagement, if the decision turns out to need a build behind it.',
-  guarantee: {
-    title: 'The decision guarantee',
-    intro:
-      'The session is done when you have a clear go or no-go in writing, with the reasoning and the trade-offs attached.',
-    body:
-      'If you leave the day without a decision you can defend, <b>the session has not done its job, and I will say so before you pay for anything more.</b> The whole point is one decision, not another round of debate.',
-  },
-  phase2: {
-    heading: 'The session decides it. The architecture builds it.',
-    intro:
-      'The session resolves the question. If the answer is to build, the Revenue Architecture turns the decision into the commercial engine that runs it, scoped together off the day.',
-    cap: 'Only if the decision points at a build. The session stands on its own.',
-    tracks: [
-      {
-        kicker: 'Track 01 / Build the commercial layer',
-        title: 'The decision, turned into a revenue engine',
-        desc:
-          'When the go decision needs positioning, pricing and a sales motion built behind it, the Revenue Architecture sprint builds it, scoped off the session.',
-        chips: [
-          { label: 'Positioning and pricing', key: true },
-          { label: 'A sales motion the team runs' },
-          { label: 'Scoped off the session' },
-        ],
-      },
-    ],
-    commercial:
-      'The session credits toward the architecture if you go that way. If the decision was no-go, the session has already paid for itself in the year you do not waste.',
-  },
-  nextSteps: [
-    'Book the free 15-minute call to confirm fit.',
-    'We set the date and the question to be decided.',
-    'One day in the room, one decision out.',
-    'You take the go or no-go to the board the same week.',
-  ],
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
-// revenue-architecture — full commercial rebuild (enterprise / capital).
-// ─────────────────────────────────────────────────────────────────────────────
-const REVENUE_ARCHITECTURE: ModeScaffold = {
-  mode: 'revenue-architecture',
-  engagementLabel: 'Phase 1 / The engagement',
-  engagementHeading: 'A shipped AI capability, made sellable.',
-  deliverables: [
-    {
-      title: 'Positioning that a buyer understands',
-      desc:
-        'The capability you built, reframed from a technical feature into something a buyer can grasp, want, and pay for. The story your sales team can actually tell.',
-    },
-    {
-      title: 'Pricing set against value, not guessed',
-      desc:
-        'A pricing model built off the value at stake for the buyer, not a number you picked because it felt right. Bands, anchors, and the logic behind them.',
-    },
-    {
-      title: 'A go-to-market motion the team runs',
-      desc:
-        'A single, repeatable sales motion the team executes without you in the room, so the win rate stops reflecting who happened to pitch it.',
-    },
-    {
-      title: 'The first pilots signed inside the window',
-      desc:
-        'Not a strategy deck. We aim to land the first one or two deals during the sprint, so the engine is proven before I leave.',
-    },
-    {
-      title: 'A playbook the business owns',
-      desc:
-        'The whole motion written down: positioning, pricing, the pitch, the objection handling, so it runs without the founder present.',
-    },
-  ],
-  keepHero:
-    'After the sprint, what stays: positioning a buyer understands, pricing set against value, a sales motion the team runs without you, the first pilots signed, and a playbook the business owns. A product nobody could buy, turned into one they can.',
-  keepCards: [
-    {
-      role: 'Commercial',
-      title: 'A sellable product',
-      body:
-        'The capability repositioned and priced so the sales team stops treating it as a footnote and starts attaching it to deals.',
-      worth: '<b>Revenue that books</b>, not a feature buried in the base plan.',
-    },
-    {
-      role: 'Sales',
-      title: 'A motion that runs',
-      body:
-        'One go-to-market motion the team executes consistently, with the win rate to match, no founder required.',
-      worth: '<b>A team that stops winging it</b>, on a playbook they own.',
-    },
-    {
-      role: 'Leadership',
-      title: 'A line you can explain',
-      body:
-        'A clear story for the product you can take to the board, the buyer, or the next round, in language they understand.',
-      worth: '<b>A product you can finally explain</b>, including to yourself.',
-    },
-  ],
-  keepFoot:
-    'You leave with a revenue line that did not exist before the sprint, and a playbook the sales team runs without me or you in the room.',
-  guarantee: {
-    title: 'The results guarantee',
-    intro:
-      'The sprint is done when the positioning is set, the pricing is live, the motion is documented, and we have gone after the first deals.',
-    body:
-      'I price against the value of the decision, not my hours, and I carry the scoping risk. <b>The motion is built to run without me, or it has not landed.</b> A playbook only I can run is a failure, not a deliverable.',
-  },
-  phase2: {
-    heading: 'Phase 1 builds the engine. Phase 2 scales it.',
-    intro:
-      'Phase 1 makes one capability sellable and proves the motion. Phase 2 templates it across the rest of the portfolio or the product line, and builds the systems that run the motion at scale.',
-    cap: 'Scoped together off the Phase 1 playbook. For funds, the template carries across portfolio companies.',
-    tracks: [
-      {
-        kicker: 'Track 01 / Template it across the portfolio',
-        title: 'One motion, reused across companies',
-        desc:
-          'For funds and groups, the engine built in one company, turned into a template the others run, with a fund-level shape.',
-        chips: [
-          { label: 'A reusable template', key: true },
-          { label: 'Run across portcos' },
-          { label: 'Fund-level scope' },
-        ],
-      },
-      {
-        kicker: 'Track 02 / Build the systems behind it',
-        title: 'The motion, run by systems',
-        desc:
-          'The outbound, the content, and the commercial intelligence behind the motion, built as systems the business owns and improves.',
-        chips: [
-          { label: 'An outbound engine', key: true },
-          { label: 'Commercial intelligence' },
-          { label: 'Owned and documented' },
-        ],
-      },
-    ],
-    commercial:
-      'This is the kind of commercial engine I run across my own ventures: positioning, pricing and an outbound fleet that books while I make the calls. We shape Phase 2 off what Phase 1 already proved, not off a guess.',
-  },
-  nextSteps: [
-    'Book the call to scope the engagement.',
-    'We confirm the capability and the value at stake.',
-    'A 30-day sprint to positioning, pricing, and the first pilots.',
-    'You keep a motion the team runs without us.',
-  ],
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
-// immersion — team alignment, 4-8 senior leaders, CEO sponsor.
-// ─────────────────────────────────────────────────────────────────────────────
-const IMMERSION: ModeScaffold = {
-  mode: 'immersion',
-  engagementLabel: 'The session',
-  engagementHeading: 'Your leadership team, to one agreed view.',
-  deliverables: [
-    {
-      title: 'Every private view, surfaced',
-      desc:
-        'Each leader has a quiet opinion on AI and none have said it out loud. We get them on the table, so the disagreement is visible and can finally be resolved.',
-    },
-    {
-      title: 'Agreed use boundaries, on the record',
-      desc:
-        'Where AI is acceptable in your work and where it is not, decided together, so the contentious calls are ruled in or out with the whole team behind them.',
-    },
-    {
-      title: 'A short list of prioritised use cases',
-      desc:
-        'Three use cases with owners assigned and the rest parked with a reason, so the roadmap argument stops restarting.',
-    },
-    {
-      title: 'Written principles the team signs',
-      desc:
-        'A page of AI principles the leaders actually agree to, and a consistent answer when a client or the board asks where the firm stands.',
-    },
-  ],
-  keepHero:
-    'After the immersion, what stays: written principles the team signed, agreed use boundaries, three prioritised use cases with owners, and a shared vocabulary that survives the next planning cycle.',
-  keepCards: [
-    {
-      role: 'The team',
-      title: 'Alignment',
-      body:
-        'Eight private views turned into one agreed position, with the contentious calls resolved on the record rather than left to fester.',
-      worth: '<b>A leadership team that agrees</b>, and can say so out loud.',
-    },
-    {
-      role: 'The work',
-      title: 'A short list',
-      body:
-        'Three prioritised use cases with named owners, and the rest parked with a reason, so planning stops going in circles.',
-      worth: '<b>Owners and a reason</b>, instead of a circular roadmap.',
-    },
-    {
-      role: 'The firm',
-      title: 'A position',
-      body:
-        'Written principles the leaders signed, and a consistent answer when clients ask what the firm thinks about AI.',
-      worth: '<b>A position you can stand behind</b>, signed.',
-    },
-  ],
-  keepFoot:
-    'Getting a leadership team to agree on anything is hard. You leave with signed principles, owned use cases, and a vocabulary that outlasts the room.',
-  guarantee: {
-    title: 'The alignment guarantee',
-    intro:
-      'The immersion is done when the principles are signed, the boundaries are agreed, and three use cases have owners.',
-    body:
-      'If the team leaves without an agreed position, <b>the day has not done its job, and I will tell you so.</b> The point is alignment the team will stand behind, not a workshop everyone forgets by Friday.',
-  },
-  phase2: {
-    heading: 'The immersion aligns the team. The build follows.',
-    intro:
-      'The immersion gets your leaders to one view and three owned use cases. What follows, if you want it, is building those use cases into the real work, scoped off the day.',
-    cap: 'Optional, and only for the use cases the team chose to own.',
-    tracks: [
-      {
-        kicker: 'Track 01 / Build the agreed use cases',
-        title: 'The three you chose, made real',
-        desc:
-          'A bespoke enablement sprint that takes the prioritised use cases and embeds them into the teams that own them.',
-        chips: [
-          { label: 'Built in your tools', key: true },
-          { label: 'Owned by the named leads' },
-          { label: 'Coached until it sticks' },
-        ],
-      },
-    ],
-    commercial:
-      'No pressure to build. The alignment is the deliverable. The build is there only for the use cases the team genuinely committed to.',
-  },
-  nextSteps: [
-    'Book the call with "immersion" preselected.',
-    'We confirm the leaders in the room and the questions to settle.',
-    'A session that ends in signed principles and owned use cases.',
-    'Build the chosen use cases next, if the team wants to.',
-  ],
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
-// ctrl — the product. Free -> Diagnostic -> Edge Pro. Tooling, not an engagement.
-// ─────────────────────────────────────────────────────────────────────────────
+// CTRL. The product, not an engagement, and not sold on this site.
 const CTRL: ModeScaffold = {
   mode: 'ctrl',
   engagementLabel: 'The product',
@@ -714,24 +296,24 @@ const CTRL: ModeScaffold = {
     },
   ],
   keepFoot:
-    'CTRL is the tool, not an engagement. Start free, and upgrade only when the context layer is already earning its place.',
+    'CTRL is a separate product with its own pricing, and it is not sold here.',
   guarantee: {
-    title: 'The free door',
-    intro: 'CTRL starts free. You see the value before you pay anything.',
+    title: 'A tool, not an engagement',
+    intro: 'CTRL stands on its own and asks nothing of you first.',
     body:
-      'Start on the free tier and use it. <b>Upgrade only when the context layer has already proven it gives you the time back.</b> There is no engagement to commit to, and no call to sit through first.',
+      'There is no engagement to commit to and <b>no call to sit through first</b>. Its pricing lives on its own site, because it is a product rather than something I sell you.',
   },
   phase2: {
     heading: 'The tool gives you time back. The systems compound it.',
     intro:
-      'CTRL holds your context and gives you the time back. If you decide you want a faster business rather than just faster outputs, that is a build, and a different conversation.',
+      'CTRL holds your context and gives you the time back. If you decide you want a faster business rather than just faster outputs, that is a decision, and decisions start with a Teardown.',
     cap: 'Only if you want to go from a tool to a system. CTRL stands on its own.',
     tracks: [
       {
-        kicker: 'Track 01 / From tool to system',
+        kicker: 'Later / From tool to system',
         title: 'When faster outputs are not enough',
         desc:
-          'If the time CTRL gives back gets reinvested into systems and loops, a bespoke enablement sprint builds the engine behind it.',
+          'If the time CTRL gives back gets reinvested into systems and loops rather than pocketed, that is worth one real decision taken apart properly.',
         chips: [
           { label: 'A faster business', key: true },
           { label: 'Systems you own' },
@@ -740,63 +322,72 @@ const CTRL: ModeScaffold = {
       },
     ],
     commercial:
-      'Not everyone needs a fleet, and I will say so even though I sell it. If you just want faster outputs, CTRL is the whole answer. Build only when you will reinvest the time.',
+      'Not everyone needs a fleet, and I will say so even though I sell it. If you just want faster outputs, CTRL is the whole answer.',
   },
   nextSteps: [
-    'Start free at ctrl.themindmaker.ai.',
+    'Open CTRL at ctrl.themindmaker.ai.',
     'Load your context once.',
     'Use it across every AI tool you already run.',
-    'Upgrade only when it has earned its place.',
   ],
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Registry + selector.
-// ─────────────────────────────────────────────────────────────────────────────
 
 /** All canonical mode scaffolds, keyed by mode. */
 export const MODE_SCAFFOLDS: Record<string, ModeScaffold> = {
-  'bespoke-enablement': BESPOKE_ENABLEMENT,
-  cohort: COHORT,
-  workshop: WORKSHOP,
-  'signal-session': SIGNAL_SESSION,
-  'revenue-architecture': REVENUE_ARCHITECTURE,
-  immersion: IMMERSION,
+  handover: HANDOVER,
+  teardown: TEARDOWN,
   ctrl: CTRL,
 };
 
 /**
  * Normalise a loosely-formatted mode key to a canonical scaffold key.
- * Lower-cases, trims, and maps common aliases / spacing variants onto the seven
- * canonical modes. Returns undefined for anything unrecognised so the caller can
- * fall back deterministically.
+ *
+ * The alias list carries the work-shape keys the proof bank uses, and the
+ * retired offer names, so a stale caller or a cached session still resolves to
+ * a live scaffold instead of falling through. `reposition`, `rebuild` and `os`
+ * are Handover-shaped; `decide` is Teardown-shaped.
  */
 function canonicalMode(mode: string): string | undefined {
   const m = (mode || '').toLowerCase().trim().replace(/[\s_]+/g, '-');
   if (MODE_SCAFFOLDS[m]) return m;
   const ALIASES: Record<string, string> = {
-    'signal': 'signal-session',
-    'signalsession': 'signal-session',
-    'revenue': 'revenue-architecture',
-    'revenue-arch': 'revenue-architecture',
-    'architecture': 'revenue-architecture',
-    'bespoke': 'bespoke-enablement',
-    'enablement': 'bespoke-enablement',
-    'rebuild': 'bespoke-enablement',
-    'cohort-ai-fluent-executive': 'cohort',
-    'ai-fluent-executive': 'cohort',
-    'workshops': 'workshop',
-    'immersions': 'immersion',
+    // Work shapes, as tagged in the proof bank.
+    decide: 'teardown',
+    reposition: 'handover',
+    rebuild: 'handover',
+    os: 'handover',
+    // Retired offer names, mapped by what the work actually was.
+    'signal-session': 'teardown',
+    signal: 'teardown',
+    signalsession: 'teardown',
+    workshop: 'teardown',
+    workshops: 'teardown',
+    cohort: 'teardown',
+    'ai-fluent-executive': 'teardown',
+    'cohort-ai-fluent-executive': 'teardown',
+    'revenue-architecture': 'handover',
+    revenue: 'handover',
+    'revenue-arch': 'handover',
+    architecture: 'handover',
+    'bespoke-enablement': 'handover',
+    bespoke: 'handover',
+    enablement: 'handover',
+    immersion: 'handover',
+    immersions: 'handover',
     'ctrl-free': 'ctrl',
   };
   return ALIASES[m];
 }
 
 /**
- * Return the deterministic scaffold for a mode. Unknown or empty modes fall back
- * to `bespoke-enablement`, the canonical full shape, so the shell always renders.
+ * Return the deterministic scaffold for a mode.
+ *
+ * Unknown or empty modes fall back to `teardown`, the entry rung. A misrouted
+ * proposal should land on the smaller, more honest recommendation rather than
+ * pitch six weeks at someone the router could not read.
  */
 export function getModeScaffold(mode: string): ModeScaffold {
   const key = canonicalMode(mode);
-  return (key && MODE_SCAFFOLDS[key]) || BESPOKE_ENABLEMENT;
+  return (key && MODE_SCAFFOLDS[key]) || TEARDOWN;
 }

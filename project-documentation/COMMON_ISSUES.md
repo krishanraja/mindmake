@@ -1,35 +1,26 @@
 # Common Issues
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-11
 
 ---
 
 ## Brand & Content Issues
 
 ### Issue: Retired product names, prices, or URLs in copy
-**Symptom:** References to "The AI Decision Cohort" (the v6 rename moved this to "The AI-Fluent Executive"), "$3,500" Cohort price (now $2,500), "3 weeks" Cohort duration (now 4 weeks), "Name → Map → Make" Cohort framework (now Diagnose → Decompose → Decide → Deploy), the dead Maven URL `maven.com/aimindmaker/ai-decision-intensive` (live URL is `maven.com/mindmaker/the-ai-fluent-executive`), "4-Week Sprint", "90-Day Sprint", "Builder Sprint", "Builder Session", "Leadership Lab", "Portfolio Partner", "Fractional CAIO", "Signal Desk", "Ask Mindmaker" / "Chat with Krish", `"What's your nervous decision?"` as a CTA button label, "The Brief" as a nav label, "8–12 week Revenue Architecture", or "5–10 page Signal Session thesis".
+**Symptom:** Copy anywhere that names an offer other than The Teardown or The Handover, quotes a price that is not in `src/lib/offers.ts`, mentions a discount, or implies a geographic market.
 
-**Cause:** Legacy copy not updated to current spec.
+**Cause:** The six-rung ladder was retired in July and August 2026 and the estate is large. Anything written before 2026-08-11 is suspect on offer name, price and format.
 
-**Solution:** Replace with current terminology:
-- Cohort name → **The AI-Fluent Executive** (NOT "The AI Decision Cohort")
-- Cohort price → **$2,500** (NOT $3,500). 2× split → **$1,250 × 2** (NOT $1,800 × 2)
-- Cohort duration → **4 weeks** (NOT 3 weeks)
-- Cohort curriculum → **Diagnose → Decompose → Decide → Deploy** (NOT Name → Map → Make)
-- Maven Cohort URL → **`maven.com/mindmaker/the-ai-fluent-executive`** (NOT `maven.com/aimindmaker/ai-decision-intensive`)
-- Workshops → **Mindmaker Workshops** (5 named: Build Your AI Chief of Staff · Map Your Agentic Org Chart · Vibe Coding for Leaders · Build an Autonomous Business Function · Give Your AI Memory)
-- Alumni → **The Alumni Pass** ($1,500/year, invitation-only, `noindex`, unlinked from nav and footer)
-- Other offers → **The Signal Session**, **The Revenue Architecture**, **The AI Immersion**
-- `/signal` nav label → **Mindmaker LIVE** (rendered as a wordmark; body copy may still use "Live Intel" or "The Operator's Brief")
-- Revenue Architecture duration → **30 days (4–5 calendar weeks)**, not 8–12 weeks
-- Signal Session deliverable → **15–20 page Commercial Narrative within 48 hours**, not 5–10 pages within 5 days
-- Primary CTA label → **"Book a call"** (everywhere, no conditional labels)
-- Cohort enrolment CTA → **"Reserve my seat on Maven"** points directly at `https://maven.com/mindmaker/the-ai-fluent-executive`
-- Workshop enrolment CTA → **"Enrol on Maven"** when published, **"Get notified"** while a workshop is not yet live on Maven
-- Alumni CTA → **"Request an invitation"** (preselects `'alumni'` in the consult modal)
-- ChatBot surface → retired; replaced by the Diagnosis Room (Mindy), the primary conversion surface (`src/components/diagnosis/`, opened via `openDiagnosisRoom`; also a standalone page at `/start`). The old `PreCallQualifier` floating pill is also retired and no longer mounted.
+**Fix:** The canonical names and prices are:
 
-See `BRANDING.md` and `FEATURES.md` for the complete retired-concepts list.
+- **The Handover.** USD $18,000 / $30,000 / $50,000 by headcount. Six weeks plus a Day 90 recheck. Capped at six a year. Always via the call.
+- **The Teardown.** USD $9,500. Ten business days, under two hours of client time. Self-serve, price published. The gate for The Handover.
+- Also GBP and AUD, as **set prices per market, not conversions**.
+- **No discounts.** No credit, no percentage off, no urgency offer.
+- **No geographic market claim** anywhere, including meta tags and structured data.
+- **CTRL** is a separate product on its own site and is not sold here. Quote no CTRL price.
+
+The build enforces most of this. `npm test` fails if a price string appears outside `src/lib/offers.ts`, if a retired offer name appears under `_shared/mindy/` or in the proposal scaffolds, or if Mindy states a price that does not exist.
 
 ---
 
@@ -56,17 +47,17 @@ Note: the phrase "what's your nervous decision" can still appear in body copy as
 
 ---
 
-### Issue: Cohort enrolment routes to consult modal instead of Maven
-**Symptom:** "Reserve my seat" button on `/cohort` opens `InitialConsultModal` rather than going to Maven.
-**Cause:** Maven URL constant missing or button not pointing to it.
-**Solution:** The "Reserve my seat on Maven" CTA in `Cohort.tsx` should point directly to the `MAVEN_COHORT_URL` constant (`https://maven.com/mindmaker/the-ai-fluent-executive`). The "Book a call" path remains, but the primary Cohort enrolment CTA is direct-to-Maven.
+### Issue: a retired route renders a page instead of redirecting
+**Symptom:** `/cohort`, `/workshops`, `/enterprise` or `/immersion` shows content rather than landing on `/start`, `/teardown` or `/handover`.
+**Cause:** The page component was restored from `src/_archive/`, or the `redirects` block in `vercel.json` was edited without the matching `<HashRedirect>` in `App.tsx`.
+**Solution:** Both layers have to agree, and `src/test/redirects.test.ts` fails if they do not. The real 301 lives in `vercel.json` and is only exercised by Vercel's edge; the React Router entry is the in-app fallback and returns 200 with the SPA shell, which is expected and not the bug. Archived components are excluded from `tsconfig.app.json` and eslint, so restoring one means undoing that too. See `src/_archive/README.md`.
 
 ---
 
 ### Issue: Floating qualifier pill or homepage Y-fork still renders
 **Symptom:** The old `PreCallQualifier` floating pill or the `YFork` "Start where your question actually is." three intent cards appears on the homepage.
 **Cause:** `PreCallQualifier.tsx` or `YFork.tsx` left mounted. Both are retired.
-**Solution:** Neither component is imported anymore (the .tsx files remain in the tree but are not mounted). The homepage now funnels into the single Diagnosis Room (Mindy) journey. Confirm `App.tsx` and `Index.tsx` do not render `PreCallQualifier` or `YFork`. See `src/components/diagnosis/` for the live conversion surface.
+**Solution:** Both components moved to `src/_archive/components/` in August 2026 and neither is imported. The homepage funnels into the single Diagnosis Room (Mindy) journey. Confirm `App.tsx` and `Index.tsx` do not render them, and see `src/components/diagnosis/` for the live conversion surface.
 
 ---
 
@@ -228,8 +219,8 @@ No user accounts; all bookings via Calendly. No plan to change unless a client p
 ### Stripe authorization hold bypassed
 `create-consultation-hold` exists but is not wired into the booking flow. Direct Calendly booking is live.
 
-### Cohort date hardcoded
-The next-cohort date is a literal in `Cohort.tsx`. When Supabase `cohort_dates` is wired up, replace the literal. Until then, update on each cohort release.
+### Prices live in exactly one file
+`src/lib/offers.ts` is the only place a price may appear, and `src/test/price-single-source.test.ts` fails the build if a figure shows up anywhere in `src/`, `public/`, `scripts/` or `index.html`. That includes the prerendered crawler bodies and `llms.txt`, both of which are generated from it at build time. If a price looks wrong on the site, change `offers.ts` and rebuild; do not patch the surface.
 
 ---
 

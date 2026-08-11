@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Bot, User } from "lucide-react";
-import { MAVEN_INSTRUCTOR_URL } from "@/lib/stripe-prices";
 
 const headlines = [
   "If there were 3 of me, I'd be able to get everything done.",
@@ -143,12 +142,10 @@ const NewHero = () => {
           transition={{ delay: 0.9, duration: 0.6 }}
         >
           <a
-            href={MAVEN_INSTRUCTOR_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/teardown"
             className="inline-flex items-center gap-1 text-sm text-white/70 hover:text-mint transition-colors"
           >
-            Or start with a free lesson
+            Or read what a Teardown actually is
             <ArrowUpRight className="h-3.5 w-3.5" />
           </a>
           <a

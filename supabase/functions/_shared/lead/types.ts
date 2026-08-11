@@ -6,7 +6,7 @@
  *   payload to a `LeadEvent` via a small adapter, then hands it to `processLead`. That is
  *   what "collapse the back end onto one pipeline" means: one shape, one renderer, one send.
  *
- *   Pure types only — no I/O.
+ *   Pure types only, no I/O.
  */
 
 import type { Dossier } from "../enrich/types.ts";
@@ -43,7 +43,7 @@ export interface LeadFieldGroup {
   fields: LeadField[];
 }
 
-/** Rich transcript turns — Diagnosis Room only. */
+/** Rich transcript turns, Diagnosis Room only. */
 export interface TranscriptTurn {
   role: "user" | "assistant";
   content: string;

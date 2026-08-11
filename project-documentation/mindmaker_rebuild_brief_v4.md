@@ -1,5 +1,12 @@
 # Mindmaker Site Rebuild Brief
 
+> **HISTORICAL ARCHIVE, superseded 2026-08-11.**
+>
+> This is the v4/v5 strategic brief that shaped the site through mid-2026. The positioning in it largely survives; **the offer architecture in it does not.** Every offer, price and duration named below was retired in July and August 2026.
+>
+> Kept for strategic intent only. Do not read it for current offers or pricing, and do not index it for retrieval. Current offers: `OFFERS.md`. Current prices: `src/lib/offers.ts`.
+
+
 **For:** Claude Code
 **Prepared by:** Krish (with Claude sparring)
 **Version:** 5.0

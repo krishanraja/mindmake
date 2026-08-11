@@ -4,7 +4,11 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle, Clock, FileText, Layers, Search } from "lucide-react";
 import { SEO } from "@/components/SEO";
-import { PUBLICITY_DISCOUNT } from "@/lib/offers";
+import { TEARDOWN, offerJsonLd } from "@/lib/offers";
+import { useOfferPrice } from "@/contexts/CurrencyContext";
+import { CurrencySwitcher } from "@/components/CurrencySwitcher";
+
+const SITE = "https://www.themindmaker.ai";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -52,17 +56,20 @@ const walkOutWith = [
   "Every consideration classed External, Only you, or Nobody yet",
   "The four-model cross-examination with disagreements preserved, not averaged",
   "Three claims placed under a 90-day watch, so you know what would change your mind",
-  "A CTRL workspace with your decision map in it, plus 30 days of Edge Pro",
+  "A CTRL workspace with your decision map in it",
 ];
 
 export default function Teardown() {
+  const price = useOfferPrice(TEARDOWN);
+
   return (
     <main className="min-h-screen bg-background">
       <SEO
         title="The Teardown"
-        description="Ten business days. One real decision, taken apart into the claims it rests on, each checked against live evidence and cross-examined across four models. Under two hours of your time. $3,500."
+        description="Ten business days. One real decision, taken apart into the claims it rests on, each checked against live evidence and cross-examined across four models. Under two hours of your time."
         canonical="/teardown"
         ogType="website"
+        jsonLd={offerJsonLd(TEARDOWN, SITE)}
       />
       <Navigation />
 
@@ -83,12 +90,23 @@ export default function Teardown() {
               with evidence, and which are yours alone to call.
             </p>
 
-            <div className="flex flex-wrap items-baseline gap-3 mb-2">
-              <span className="text-4xl font-bold">$3,500</span>
-              <span className="text-muted-foreground">fixed. One decision.</span>
+            {/*
+              tabular-nums plus a reserved min-width so switching currency
+              does not reflow the row: AUD carries the longest strings and
+              would otherwise shove the label around on every click.
+            */}
+            <div className="mb-2 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-baseline sm:gap-3">
+              <span
+                data-price
+                className="min-w-[7ch] whitespace-nowrap text-3xl sm:text-4xl font-bold tabular-nums"
+              >
+                {price}
+              </span>
+              <span className="text-muted-foreground">{TEARDOWN.tiers[0].label}</span>
+              <CurrencySwitcher idPrefix="teardown-currency" className="sm:ml-1" />
             </div>
             <p className="text-sm text-muted-foreground mb-8">
-              Ten business days from kickoff. {PUBLICITY_DISCOUNT}
+              Ten business days from kickoff.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3">
@@ -220,7 +238,11 @@ export default function Teardown() {
             variants={fadeUp}
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Name the decision. I'll tell you if it's worth $3,500.
+              Name the decision. I'll tell you if it's worth{" "}
+              <span data-price className="whitespace-nowrap tabular-nums">
+                {price}
+              </span>
+              .
             </h2>
             <p className="text-muted-foreground mb-7 max-w-xl mx-auto leading-relaxed">
               Work it through with Mindy first. It takes a few minutes, costs nothing, and

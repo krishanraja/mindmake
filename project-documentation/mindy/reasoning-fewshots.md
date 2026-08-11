@@ -1,4 +1,4 @@
-<!-- Last Updated: 2026-06-28 -->
+<!-- Last Updated: 2026-08-11 -->
 # Mindy Brain Pack: Reasoning Few-Shots
 
 How Mindy diagnoses like Krish in the live "Diagnosis Room" scene.
@@ -98,7 +98,7 @@ Two rules that override everything below:
 
 **Trigger signal:** "Send the prospect everything so we can get this signed." Eagerness to be thorough with a buyer who has given a soft yes. Often the user is on the selling side here, not the buying side, asking how to close.
 
-> Documented analogue: a major US media publisher POC, contracted off a single clean ask after a verbal yes. The thoroughness instinct would have stalled it. Reference only; never present as the named client.
+> Documented analogue: a major US publisher POC, contracted off a single clean ask after a verbal yes. The thoroughness instinct would have stalled it. Reference only; never present as the named client.
 
 **The real question underneath:** How engaged is this buyer actually, and am I about to kill the deal by treating a soft yes like a committed partner? A minimally engaged buyer who gave a verbal yes cannot carry homework. Load them up and they go quiet.
 

@@ -9,10 +9,10 @@
  * already-clean.
  *
  * Hard contracts mirrored here so the template never has to reach for them:
- *   - RANGES ONLY. The price block shows recommendation.range (a band such as
- *     "$8,000–$25,000"), never an exact figure. If exit is 'book-call' or the
- *     band reads "set on the call", the price block says the number is set on
- *     the call. En dashes in numeric ranges.
+ *   - The price block shows recommendation.price verbatim. Prices are published,
+ *     so the exact figure is the point, and the book-call exit does not hide it:
+ *     the call is how the Handover is bought, not a gate on knowing the price.
+ *     The set-on-call line appears only when there is no figure to show.
  *   - PROOF is SELECTED via selectProof(), never written. The three chosen
  *     ProofEntry tiles ride in on `proof`.
  *   - VOICE. Every LLM-generated prose slot (whatIHeard, the keep hero, etc.)
@@ -37,7 +37,7 @@ export interface Recommendation {
   /** A rung name from the canonical ladder. */
   rung: string;
   /** A public range-card band, e.g. "$8,000–$25,000". NEVER an exact figure. */
-  range: string;
+  price: string;
   exit: 'self-serve' | 'book-call' | 'learn' | 'proposal';
 }
 
@@ -69,7 +69,7 @@ export interface ValueCard {
 /** A single rung in THE HOURS AND THE PRICE ladder. price is a band or label. */
 export interface LadderRung {
   step: string; // e.g. "Step 1 / Pilot"
-  price: string; // a BAND or a label like "Scoped together" — never an exact figure
+  price: string; // a BAND or a label like "Scoped together", never an exact figure
   title: string;
   desc: string;
   bullets?: string[];
@@ -115,7 +115,7 @@ export interface ProposalPayload {
   /** Hero copy. headline + lead must be voice-linted if LLM-generated. */
   eyebrowLabel?: string; // co-brand row label, e.g. "AI Enablement Proposal"
   headline?: string;
-  lead?: string; // may contain a single <b> emphasis span (already-escaped by caller? no — see template)
+  lead?: string; // may contain a single <b> emphasis span (already-escaped by caller? no, see template)
 
   /** WHAT I HEARD. heading + intro are prose; bullets are short voice-linted lines. */
   whatIHeard?: {
@@ -142,7 +142,7 @@ export interface ProposalPayload {
     foot?: string;
   };
 
-  /** PROOF — the three SELECTED tiles. Selected via selectProof(), never written. */
+  /** PROOF, the three SELECTED tiles. Selected via selectProof(), never written. */
   proof: ProofEntry[];
 
   /** THE HOURS AND THE PRICE. specs + the range + an optional ladder. */
@@ -150,7 +150,7 @@ export interface ProposalPayload {
     label?: string;
     heading?: string;
     intro?: string;
-    specs?: SpecItem[]; // window / time / rate — the FEE cell is forced to the range
+    specs?: SpecItem[]; // window / time / rate, the FEE cell is forced to the range
     rateNote?: string;
     free?: string; // the free on-ramp bar copy
     ladder?: LadderRung[];

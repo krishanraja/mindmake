@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { SessionDataProvider, useSessionData } from "@/contexts/SessionDataContext";
+import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import { useState, useEffect, lazy, Suspense } from "react";
 
 const ScrollToTop = () => {
@@ -27,12 +28,9 @@ const DiagnosisRoom = lazy(() =>
   import("@/components/diagnosis").then((m) => ({ default: m.DiagnosisRoom })),
 );
 
-const Cohort = lazy(() => import("./pages/Cohort"));
 const Teardown = lazy(() => import("./pages/Teardown"));
 const Handover = lazy(() => import("./pages/Handover"));
-const Enterprise = lazy(() => import("./pages/Enterprise"));
 const Capital = lazy(() => import("./pages/Capital"));
-const Immersion = lazy(() => import("./pages/Immersion"));
 const NewAgeLeadership = lazy(() => import("./pages/NewAgeLeadership"));
 const Operator = lazy(() => import("./pages/Operator"));
 const CaseStudies = lazy(() => import("./pages/CaseStudies"));
@@ -41,17 +39,10 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Terms = lazy(() => import("./pages/Terms"));
 const Contact = lazy(() => import("./pages/Contact"));
-const LeadershipInsights = lazy(() => import("./pages/LeadershipInsights"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
 const Library = lazy(() => import("./pages/Library"));
-const Workshops = lazy(() => import("./pages/Workshops"));
 const Alumni = lazy(() => import("./pages/Alumni"));
-const WorkshopChiefOfStaff = lazy(() => import("./pages/workshops/BuildYourAIChiefOfStaff"));
-const WorkshopOrgChart = lazy(() => import("./pages/workshops/MapYourAgenticOrgChart"));
-const WorkshopVibeCoding = lazy(() => import("./pages/workshops/VibeCodingForLeaders"));
-const WorkshopAutonomous = lazy(() => import("./pages/workshops/BuildAnAutonomousBusinessFunction"));
-const WorkshopMemory = lazy(() => import("./pages/workshops/GiveYourAIMemory"));
 
 const queryClient = new QueryClient();
 
@@ -154,27 +145,18 @@ const AppRoutes = () => {
             <Route path="/start" element={<DiagnosisRoomPage />} />
 
             {/* Core consolidated pages */}
-            <Route path="/workshops" element={<Workshops />} />
-            <Route path="/workshops/build-your-ai-chief-of-staff" element={<WorkshopChiefOfStaff />} />
-            <Route path="/workshops/map-your-agentic-org-chart" element={<WorkshopOrgChart />} />
-            <Route path="/workshops/vibe-coding-for-leaders" element={<WorkshopVibeCoding />} />
-            <Route path="/workshops/build-an-autonomous-business-function" element={<WorkshopAutonomous />} />
-            <Route path="/workshops/give-your-ai-memory" element={<WorkshopMemory />} />
-            <Route path="/cohort" element={<Cohort />} />
             <Route path="/teardown" element={<Teardown />} />
             <Route path="/handover" element={<Handover />} />
-            <Route path="/enterprise" element={<Enterprise />} />
             <Route path="/capital" element={<Capital />} />
             <Route path="/operator" element={<Operator />} />
             <Route path="/case-studies" element={<CaseStudies />} />
             <Route path="/signal" element={<Brief />} />
             <Route path="/library" element={<Library />} />
 
-            {/* Alumni Pass: hidden from nav and footer, reachable by direct URL only */}
+            {/* Invitation-only, hidden from nav and footer, reachable by direct URL only */}
             <Route path="/alumni" element={<Alumni />} />
 
             {/* Hidden pages, linked from footer, not nav */}
-            <Route path="/immersion" element={<Immersion />} />
             <Route path="/new-age-leadership" element={<NewAgeLeadership />} />
 
             {/* /tool deleted. Decision machine now lives inside Brief at /signal#decision */}
@@ -187,8 +169,6 @@ const AppRoutes = () => {
             />
 
             {/* Preserved pages */}
-            <Route path="/leaders" element={<LeadershipInsights />} />
-            <Route path="/leadership-insights" element={<LeadershipInsights />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/faq" element={<Navigate to="/library?tab=questions" replace />} />
@@ -197,13 +177,37 @@ const AppRoutes = () => {
             <Route path="/terms" element={<Terms />} />
 
             {/* 301 redirects (client-side) for deleted routes */}
-            <Route path="/sprints" element={<HashRedirect to="/cohort" />} />
-            <Route path="/sprint/4-week" element={<HashRedirect to="/cohort?inquiry=1:1" />} />
-            <Route path="/sprint/90-day" element={<HashRedirect to="/cohort?inquiry=1:1" />} />
-            <Route path="/builder-sprint" element={<HashRedirect to="/cohort?inquiry=1:1" />} />
-            <Route path="/war-room" element={<HashRedirect to="/enterprise#revenue-architecture" />} />
-            <Route path="/strategy-day" element={<HashRedirect to="/enterprise#signal-session" />} />
-            <Route path="/fractional-caio" element={<HashRedirect to="/enterprise" />} />
+            {/*
+              Retired offers. The real 301s live in vercel.json; these are the
+              client-side fallback for an in-app navigation, which never hits
+              the edge. Both exist on purpose: a <Navigate> alone returns 200
+              with the SPA shell, which is not a redirect as far as a crawler
+              or a link checker is concerned.
+
+              The page components are in src/_archive/. See its README.
+
+              TODO(krish): archiving LeadershipInsights orphans the
+              send-leadership-insights-email edge function and the
+              useLeadershipInsights hook. Both are left deployed rather than
+              deleted, since removing a deployed function is a separate call.
+            */}
+            <Route path="/workshops" element={<HashRedirect to="/teardown" />} />
+            <Route path="/workshops/:slug" element={<HashRedirect to="/teardown" />} />
+            <Route path="/enterprise" element={<HashRedirect to="/handover" />} />
+            <Route path="/immersion" element={<HashRedirect to="/handover" />} />
+            <Route path="/cohort" element={<HashRedirect to="/start" />} />
+            <Route path="/leaders" element={<HashRedirect to="/start" />} />
+            <Route path="/leadership-insights" element={<HashRedirect to="/start" />} />
+
+            <Route path="/sprints" element={<HashRedirect to="/teardown" />} />
+            <Route path="/sprint/4-week" element={<HashRedirect to="/teardown" />} />
+            <Route path="/sprint/90-day" element={<HashRedirect to="/handover" />} />
+            <Route path="/builder-sprint" element={<HashRedirect to="/teardown" />} />
+            {/* Repointed straight at /handover rather than through /enterprise,
+                which was itself orphaned and is now a redirect. */}
+            <Route path="/war-room" element={<HashRedirect to="/handover" />} />
+            <Route path="/strategy-day" element={<HashRedirect to="/teardown" />} />
+            <Route path="/fractional-caio" element={<HashRedirect to="/handover" />} />
 
             {/* Legacy redirects (preserved) */}
             <Route path="/individual" element={<Navigate to="/" replace />} />
@@ -228,7 +232,7 @@ const AppRoutes = () => {
         pathType={sessionData.qualificationData?.pathType}
       />
 
-      {/* Scoping modal: tier-appropriate path for Signal Session / Revenue Architecture / Immersion */}
+      {/* Scoping modal: the secondary booking surface, behind the Diagnosis Room */}
       <ScopingModal
         open={scopingModalOpen}
         onOpenChange={setScopingModalOpen}
@@ -258,9 +262,18 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <SessionDataProvider>
-          <AppRoutes />
-        </SessionDataProvider>
+        {/*
+          CurrencyProvider sits ABOVE SessionDataProvider, which updates on a
+          1Hz interval; nesting inside it would recompute this context every
+          second for nothing. It also sits above BrowserRouter (inside
+          AppRoutes), so route changes never remount it. That is what makes a
+          currency chosen on /teardown survive the walk to /handover.
+        */}
+        <CurrencyProvider>
+          <SessionDataProvider>
+            <AppRoutes />
+          </SessionDataProvider>
+        </CurrencyProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );

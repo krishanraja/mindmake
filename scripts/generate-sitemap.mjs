@@ -25,18 +25,19 @@ const staticRoutes = [
   { path: "/start", changefreq: "weekly", priority: "0.9" },
   { path: "/teardown", changefreq: "weekly", priority: "0.9" },
   { path: "/handover", changefreq: "weekly", priority: "0.9" },
-  { path: "/cohort", changefreq: "weekly", priority: "0.9" },
+  { path: "/capital", changefreq: "monthly", priority: "0.8" },
   { path: "/operator", changefreq: "monthly", priority: "0.7" },
   { path: "/case-studies", changefreq: "monthly", priority: "0.8" },
   { path: "/signal", changefreq: "daily", priority: "0.8" },
   { path: "/new-age-leadership", changefreq: "weekly", priority: "0.8" },
   { path: "/blog", changefreq: "daily", priority: "0.8" },
   { path: "/library", changefreq: "weekly", priority: "0.7" },
-  { path: "/leaders", changefreq: "monthly", priority: "0.7" },
   { path: "/contact", changefreq: "yearly", priority: "0.5" },
   { path: "/privacy", changefreq: "yearly", priority: "0.3" },
   { path: "/terms", changefreq: "yearly", priority: "0.3" },
   // /alumni intentionally excluded: invitation-only, noindex.
+  // /workshops, /cohort, /enterprise, /immersion and /leaders are 301s now.
+  // A redirected URL does not belong in a sitemap.
 ];
 
 // Extract blog slugs from the static data file

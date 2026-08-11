@@ -22,7 +22,7 @@
  * }
  * ```
  *
- * ## Response (200, application/json) — the parsed turn object
+ * ## Response (200, application/json), the parsed turn object
  * ```
  * {
  *   reply: string,                       // Mindy's next turn, in Krish's voice, SHORT (2-4 sentences, ~70 words)
@@ -31,7 +31,7 @@
  *   recommendation: {                    // null until Mindy has earned a recommendation
  *     mode: string,                      // e.g. "Mode A (productised)" / "Mode B (bespoke)"
  *     rung: string,                      // a canonical ladder rung name
- *     range: string,                     // a public range card band, NEVER an exact figure
+ *     price: string,                     // the published price for the recommended rung
  *     exit: 'self-serve' | 'book-call' | 'learn' | 'proposal'
  *   } | null,
  *   decisionBrief: {                     // null until the decision is decomposed
@@ -59,7 +59,7 @@
  * surfaced client-side.
  *
  * ## Pricing contract
- * Mindy quotes ranges only, never an exact figure. Above ~$100k or any
+ * Mindy quotes the published price exactly. Outside the two engagements or any
  * retainer/implementation/custom-terms request she stops quoting and books the
  * call. Enforced in the system context (PRICING_CARD) and reinforced here.
  *
@@ -112,7 +112,7 @@ const MAX_TOTAL_CHARS = 24000; // across the whole transcript
 interface Recommendation {
   mode: string;
   rung: string;
-  range: string;
+  price: string;
   exit: "self-serve" | "book-call" | "learn" | "proposal";
 }
 
@@ -184,9 +184,9 @@ Return ONE JSON object and nothing else. No prose before or after, no markdown c
   "phase": "reflect" | "diagnose" | "recommend" | "fork" | "chat",
   "quickReplies": string[],   // 0 to 3 short tappable options that directly answer the question you just asked. Each <=6 words. [] when the question is genuinely open.
   "recommendation": {         // null until you have earned a recommendation
-    "mode": string,           // the routing mode, e.g. "Mode A (productised)" or "Mode B (bespoke)"
-    "rung": string,           // a rung name from the canonical ladder only
-    "range": string,          // a band from the public range card, e.g. "$2,000-$3,000". NEVER an exact figure
+    "mode": string,           // the scaffold key: "teardown", "handover", or "ctrl"
+    "rung": string,           // "The Teardown" or "The Handover" only
+    "price": string,          // the published price for that rung, in the currency the visitor used
     "exit": "self-serve" | "book-call" | "learn" | "proposal"
   } | null,
   "decisionBrief": {          // null until you have decomposed the decision
@@ -206,13 +206,13 @@ Return ONE JSON object and nothing else. No prose before or after, no markdown c
 Rules for the object:
 - "reply" is the ONLY field the visitor sees. It carries your whole turn. Everything else is state for the room.
 - BREVITY IS A HARD RULE. Keep "reply" to 2 to 4 sentences, around 70 words at most. One idea per turn. Ask one question, not three. Do not stack a reflection, a framework, and a question in the same turn. Short declarative, then the one sentence that earns it. If you have more to say, save it for the next turn.
-- QUICK REPLIES (IMPORTANT — almost every turn needs these): the visitor is usually on a phone and wants to tap, not type. Whenever you ASK a question, put 2 to 4 tappable options in "quickReplies". This includes the OPENING "what is the decision?" turn: there you offer decision STARTERS that help them pick a lane, not canned answers (e.g. ["Build vs buy an AI tool", "Where do we even start", "Cut cost or add capability", "Commercialise our own AI"]). For follow-ups, offer the genuinely likely answers (e.g. ["Build it ourselves", "Buy a tool", "Not sure yet"], or ["This quarter", "Longer horizon", "No timeline yet"]). Keep each under ~6 words and make them real, tappable answers or starters. The visitor can always still type instead. Use [] ONLY on a turn where you are NOT asking a question at all (a pure statement on the way to the fork).
+- QUICK REPLIES (IMPORTANT, almost every turn needs these): the visitor is usually on a phone and wants to tap, not type. Whenever you ASK a question, put 2 to 4 tappable options in "quickReplies". This includes the OPENING "what is the decision?" turn: there you offer decision STARTERS that help them pick a lane, not canned answers (e.g. ["Build vs buy an AI tool", "Where do we even start", "Cut cost or add capability", "Commercialise our own AI"]). For follow-ups, offer the genuinely likely answers (e.g. ["Build it ourselves", "Buy a tool", "Not sure yet"], or ["This quarter", "Longer horizon", "No timeline yet"]). Keep each under ~6 words and make them real, tappable answers or starters. The visitor can always still type instead. Use [] ONLY on a turn where you are NOT asking a question at all (a pure statement on the way to the fork).
 - CONVERGE FAST. This is a few turns, not an interview. Reflect, then ask the one real question, then reason, then recommend. One sharp question per turn, then converge. Do not interrogate. Give the visitor a sense of progress and an ending, never an endless loop.
 - HARD CONVERGENCE RULE. By the user's third substantive turn you MUST produce a decisionBrief (the real decision, 2 to 3 paths with trade-offs, the weak assumption, the next 14 days) AND a recommendation, set the matching readyForProposal or readyForCall, and move to the fork. Do not keep probing past that. One sharp question per turn, then converge.
 - KEEP THE JSON COMPACT. decisionBrief fields are concise: one line each, at most 3 paths, each path name and trade-off short. This is a hard rule, it keeps the object from truncating.
 - Keep recommendation and decisionBrief null until you have actually earned them. Reflect, then reason, then recommend. Do not recommend on turn one.
-- "range" is always a band from the public range card, never an exact number. If the situation is above ~$100k, a retainer, implementation, or custom terms, do not quote: set exit to "book-call", set readyForCall true, and leave range as the relevant band only if one honestly applies, otherwise use "set on the call".
-- Set readyForProposal true only when you have a decisionBrief and a recommended self-serve or proposal exit. Set readyForCall true for high-stakes ambiguous fits, any enterprise/capital buyer at $12k+, strong fit with visible hesitation, the Immersion, or anything over the ceiling.
+- "price" is the published figure for the recommended rung, quoted exactly, in the currency the visitor asked in. Prices are on the website, so state them. If the scope falls outside the two engagements (a retainer, implementation, ongoing capacity, above 5,000 people), do not quote: set exit to "book-call", set readyForCall true, and set price to "set on the call". Never discount, never convert between currencies, never invent a figure.
+- Set readyForProposal true only when you have a decisionBrief and a recommended self-serve or proposal exit. Set readyForCall true for the Handover always, for high-stakes ambiguous fits, for strong fit with visible hesitation, for any fund or operating partner, and for anything outside the two engagements.
 - EXTRACTED COMPANY: if the visitor names their company or website and you were NOT already given a dossier (no company is shown to you below), set "extractedCompany" with their company name (and the website domain if you can confidently infer it). This lets me quietly pull their logo and public context to ground the conversation. Set it the first turn you learn it, then null on later turns. Never ask for a company you have already been told. If a company is already known to you, or none has been mentioned, set extractedCompany to null. Do not announce that you are looking them up.
 - Voice rules are hard. No em dashes. No banned buzzwords. Sentence case. Active voice. British-Australian. Second person. At most one exclamation mark, ideally zero. No emoji.
 - Never recite any internal routing number (employee count, size band, rank). Use them silently to pick the door.`;
@@ -230,7 +230,7 @@ The visitor came here to book the call, not to be diagnosed. Respect that.
 - Offer quickReplies wherever they help (e.g. ["Build vs buy", "Cut costs with AI", "Commercialise our AI"]).
 - Tell them warmly and plainly that the fastest path is the call, and that you are getting them straight there.
 - As soon as you have the one-line decision and know who they are, set "readyForCall" true and set recommendation.exit to "book-call". Keep "decisionBrief" light or null; a full brief is not required to book.
-- Stay in voice, ranges only, never recite internal routing. Brevity still applies: 2 to 4 sentences.`;
+- Stay in voice and never recite internal routing. Brevity still applies: 2 to 4 sentences.`;
 
 /**
  * Formats the dossier into two clearly-separated blocks for the system context:
@@ -295,7 +295,7 @@ There is no enrichment dossier for this visitor. Do not pretend to know their bu
   const s = dossier.scale || {};
   lines.push("");
   lines.push(
-    "## INTERNAL ROUTING — never recite these numbers to the user; use them only to choose the right door/mode",
+    "## INTERNAL ROUTING, never recite these numbers to the user; use them only to choose the right door/mode",
   );
   lines.push(
     "These are private signals. Do not say the employee count, size band, or rank out loud, and do not paraphrase them ('a company your size', 'a few hundred people'). Use them silently to route to the right mode and rung.",
@@ -322,10 +322,20 @@ There is no enrichment dossier for this visitor. Do not pretend to know their bu
   return lines.join("\n");
 }
 
+/** The three currencies the ladder is priced in. USD is canonical. */
+type Currency = "USD" | "GBP" | "AUD";
+
+const CURRENCY_DIRECTIVE: Record<Currency, string> = {
+  USD: "The visitor is viewing prices in US dollars. Quote USD unless they ask in another currency by name.",
+  GBP: "The visitor is viewing prices in pounds sterling. Quote the GBP figures unless they ask in another currency by name. These are the set prices for that market, not conversions of the USD ones.",
+  AUD: "The visitor is viewing prices in Australian dollars. Quote the AUD figures unless they ask in another currency by name. These are the set prices for that market, not conversions of the USD ones.",
+};
+
 /** Composes the full system context Mindy reasons with. */
 function buildSystemContext(
   dossier: Dossier | null | undefined,
   mode: SessionMode = "full",
+  currency: Currency = "USD",
 ): string {
   const parts = [
     MINDY_SYSTEM_PROMPT,
@@ -336,8 +346,9 @@ function buildSystemContext(
     "# Companion layer: fit-and-walkaway-rubric\n",
     FIT_RUBRIC,
     "\n---\n",
-    "# Companion layer: pricing-range-model\n",
+    "# Companion layer: pricing\n",
     PRICING_CARD,
+    `\n**Currency for this session.** ${CURRENCY_DIRECTIVE[currency]}`,
     "\n---\n",
     formatDossierBlock(dossier),
     "\n---\n",
@@ -432,7 +443,7 @@ function normaliseTurn(o: Record<string, unknown>): MindyTurn | null {
     recommendation = {
       mode: typeof r.mode === "string" ? r.mode : "",
       rung: typeof r.rung === "string" ? r.rung : "",
-      range: typeof r.range === "string" ? r.range : "",
+      price: typeof r.price === "string" ? r.price : "",
       exit,
     };
   }
@@ -540,7 +551,7 @@ async function callAnthropic(
  */
 function softScrub(text: string): string {
   let out = text
-    .replace(/—/g, ", ") // em dash -> comma
+    .replace(/, /g, ", ") // em dash -> comma
     .replace(/\s--\s/g, ", "); // spaced double-hyphen -> comma
   // Collapse multiple exclamation marks down to one.
   let seenBang = false;
@@ -588,6 +599,7 @@ serve(async (req) => {
     dossier?: Dossier | null;
     sessionId?: unknown;
     mode?: unknown;
+    currency?: unknown;
   };
   try {
     body = await req.json();
@@ -637,7 +649,11 @@ serve(async (req) => {
 
   const dossier = (body?.dossier as Dossier | null | undefined) ?? null;
   const mode: SessionMode = body?.mode === "express" ? "express" : "full";
-  let system = buildSystemContext(dossier, mode);
+  // Which currency the page is showing. Anything unrecognised falls back to USD,
+  // which is what the site itself falls back to, so Mindy and the page agree.
+  const currency: Currency =
+    body?.currency === "GBP" || body?.currency === "AUD" ? body.currency : "USD";
+  let system = buildSystemContext(dossier, mode, currency);
 
   // Convergence nudge. Count the visitor's substantive turns from the (already
   // assistant-stripped, length-clamped) history. By the third user turn Mindy
@@ -646,7 +662,7 @@ serve(async (req) => {
   const userTurnCount = messages.filter((m) => m.role === "user").length;
   if (mode !== "express" && userTurnCount >= 3) {
     system +=
-      "\n---\n# Convergence nudge (this turn)\nThe visitor has given you enough. Produce the decisionBrief and recommendation in THIS turn and move to the fork; do not ask another open question. Keep the reply short, ranges only, never recite the internal routing numbers.";
+      "\n---\n# Convergence nudge (this turn)\nThe visitor has given you enough. Produce the decisionBrief and recommendation in THIS turn and move to the fork; do not ask another open question. Keep the reply short and never recite the internal routing numbers.";
   }
 
   // Primary call, with one model fallback on transport/HTTP error.

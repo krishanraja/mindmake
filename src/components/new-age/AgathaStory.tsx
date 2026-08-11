@@ -62,12 +62,12 @@ export const AgathaStory = () => {
           className="mt-10 pt-6 border-t border-border/60"
         >
           <p className="text-sm text-muted-foreground">
-            This is one of the role-design questions the Cohort works through.{" "}
+            This is one of the role-design questions a Teardown takes apart.{" "}
             <a
-              href="/cohort"
+              href="/teardown"
               className="font-semibold text-mint-dark dark:text-mint hover:underline"
             >
-              See the Cohort →
+              See The Teardown →
             </a>
           </p>
         </motion.div>

@@ -101,7 +101,7 @@ const lessons = [
     headline: "Agent orchestration is where most AI products fail commercially.",
     body: "The reason your enterprise's AI capabilities aren't selling isn't the capabilities themselves. It's that nobody's designed the system that turns capability into commercial outcome.",
     example:
-      "Example: this is the lesson most Revenue Architecture engagements start with. The commercial failure is an orchestration failure, not a model failure.",
+      "Example: this is the lesson most Handover engagements start with. The commercial failure is an orchestration failure, not a model failure.",
   },
 ];
 
@@ -372,7 +372,7 @@ export default function Operator() {
               What this means if you're commercializing AI.
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-5">
-              If you've built AI capabilities and they're not converting to revenue, the problem is almost never the capabilities. It's the system around them: positioning, pricing, commercial narrative, the handoff from agent to customer. The Revenue Architecture engagement applies the operating patterns from this page to your commercial architecture. You don't need a consultant explaining agents. You need an operator who's already run the playbook you're about to build.
+              If you've built AI capabilities and they're not converting to revenue, the problem is almost never the capabilities. It's the system around them: positioning, pricing, commercial narrative, the handoff from agent to customer. The Handover applies the operating patterns from this page to your commercial architecture. You don't need a consultant explaining agents. You need an operator who's already run the playbook you're about to build.
             </p>
             <Button
               asChild
@@ -380,8 +380,8 @@ export default function Operator() {
               className="bg-ink dark:bg-mint text-white dark:text-ink hover:opacity-90 font-bold"
               onClick={trackCta}
             >
-              <a href="/enterprise#revenue-architecture">
-                See Revenue Architecture <ArrowRight className="ml-2 w-4 h-4" />
+              <a href="/handover">
+                See The Handover <ArrowRight className="ml-2 w-4 h-4" />
               </a>
             </Button>
           </motion.div>

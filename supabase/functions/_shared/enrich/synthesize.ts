@@ -41,7 +41,7 @@ function buildSystemPrompt(visitorCountry = "US"): string {
 
 /**
  * Builds the compact, factual brief handed to the model. We deliberately omit the
- * internal `scale` routing layer (employee counts / rank) — those route ICP silently
+ * internal `scale` routing layer (employee counts / rank), those route ICP silently
  * and are never recited back at the user.
  */
 function buildBrief(d: Dossier): string {

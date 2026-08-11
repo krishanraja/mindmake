@@ -131,13 +131,13 @@ const OperatorsEdge = () => {
           variants={fadeUp}
         >
           <p className="text-sm md:text-base text-white/75">
-            Want the architectural playbook? It's the core of the Revenue Architecture engagement.{" "}
+            Want the architectural playbook? It is the core of what The Handover rebuilds.{" "}
             <a
-              href="/enterprise#revenue-architecture"
+              href="/handover"
               onClick={() => trackCta("revenue-architecture")}
               className="font-bold text-mint hover:underline underline-offset-4 inline-flex items-center gap-1.5"
             >
-              See Revenue Architecture <ArrowRight className="w-4 h-4" />
+              See The Handover <ArrowRight className="w-4 h-4" />
             </a>
           </p>
           <p className="text-xs text-white/50">

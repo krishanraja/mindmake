@@ -1,19 +1,19 @@
 # Mindmaker mint → emerald: colour-system migration spec (Phase 0 gate)
 
-**Status:** PROPOSED — awaiting sign-off. Nothing in the live app changes until approved.
+**Status:** PROPOSED, awaiting sign-off. Nothing in the live app changes until approved.
 **Visual proof:** open `prototypes/brand-emerald-proof.html` in a browser.
 **Why:** the three sibling products (Make Your Mind Up, Mindmaker, CTRL) are consolidating on ONE portfolio signature accent. The signature is CTRL's **emerald `#00D9B6`**. Mindmaker today uses **mint `#7ef4c2`**. This spec migrates Mindmaker as a *system*, not a find-and-replace, because mint is a subsystem (signature + text variant + shadows + 5 card-variant tints, 556 uses across 76 files).
 
 ## The one rule (unchanged)
-Bright emerald `#00D9B6` (171 100% 43%) must **never** be text on a light background — it fails WCAG (1.64:1), exactly like mint did. Text/links on light use **emerald-deep**.
+Bright emerald `#00D9B6` (171 100% 43%) must **never** be text on a light background, it fails WCAG (1.64:1), exactly like mint did. Text/links on light use **emerald-deep**.
 
 ## Derived emerald scale (mirrors the mint scale 1:1)
 | Token | HSL | Hex | Role | Contrast on off-white #F7F7F5 |
 |---|---|---|---|---|
-| `--emerald` (DEFAULT) | `171 100% 43%` | `#00D9B6` | signature: fills, CTA bg (ink text), dark-bg accent, ring, borders, shadows | 1.64 — dark-bg/fill only |
+| `--emerald` (DEFAULT) | `171 100% 43%` | `#00D9B6` | signature: fills, CTA bg (ink text), dark-bg accent, ring, borders, shadows | 1.64, dark-bg/fill only |
 | `--emerald-deep` | `176 90% 24%` | `#06746d` | **text/links on light** (replaces `mint-dark`) | **5.21 AA** |
-| `--emerald-50` | `171 100% 97%` | `#f0fffd` | subtle tint | — |
-| `--emerald-300` | `171 90% 80%` | `#9efaec` | lighter | — |
+| `--emerald-50` | `171 100% 97%` | `#f0fffd` | subtle tint |, |
+| `--emerald-300` | `171 90% 80%` | `#9efaec` | lighter |, |
 | `--emerald-900` | `180 85% 16%` | `#064b4b` | strong/dense text on light | 9.17 AAA |
 
 **Accessibility upgrade:** Mindmaker's current `mint-dark` only reaches AA-large (3.73) for body text; `emerald-deep` reaches full AA (5.21). The migration improves contrast.

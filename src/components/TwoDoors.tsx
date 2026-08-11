@@ -68,7 +68,7 @@ const TwoDoors = () => {
             <p className="text-sm md:text-base text-muted-foreground leading-relaxed mb-5 flex-grow">
               An AI-native chief of staff for the calls only you can make. It holds your
               live context, tests decisions against real evidence, and gives your own AI
-              agents the version of you that is current. Free to start.
+              agents the version of you that is current.
             </p>
             <a
               href={CTRL_URL}

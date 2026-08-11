@@ -1,6 +1,6 @@
 # Replication Guide
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-11
 
 ---
 
@@ -81,28 +81,26 @@ src/components/CookieConsent.tsx
 ### Step 9: Page components
 ```
 src/pages/Index.tsx                    # homepage (eager-loaded)
-src/pages/Cohort.tsx                   # The AI-Fluent Executive (Cohort) (Maven enrolment)
-src/pages/Enterprise.tsx               # Signal Session + Revenue Architecture (30 days)
+src/pages/Teardown.tsx                 # The Teardown, one price, currency switcher
+src/pages/Handover.tsx                 # The Handover, three bands by headcount
 src/pages/Operator.tsx                 # 14-agent OS credential page (autoplay /ctrl-demo-video.mp4)
 src/pages/Brief.tsx                    # Live Intel (/signal)
-src/pages/Immersion.tsx                # AI Immersion ($12k, inquiry-only)
+src/pages/Capital.tsx                  # The same two engagements, per portfolio company
 src/pages/NewAgeLeadership.tsx         # /new-age-leadership thought leadership
-src/pages/LeadershipInsights.tsx       # Decision Readiness Diagnostic (unlinked from nav)
 src/pages/Blog.tsx, BlogPost.tsx
-src/pages/FAQ.tsx, Contact.tsx, Privacy.tsx, Terms.tsx
+src/pages/Library.tsx, CaseStudies.tsx, Alumni.tsx, Contact.tsx, Privacy.tsx, Terms.tsx
 src/pages/NotFound.tsx
 ```
 
 ### Step 10: Homepage section components
 ```
-src/components/NewHero.tsx             # rotating headlines + Book a call CTA (opens the Diagnosis Room) + "See how I work" → /operator
+src/components/NewHero.tsx             # rotating headlines + "Bring me one real decision" (opens the Diagnosis Room)
 src/components/BigProblem.tsx          # existential urgency frame (cards open the ScopingModal)
 src/components/TrustSection.tsx        # Krish bio + testimonials carousel
-src/components/FrameworkJourney.tsx    # Mind Set → Mind Map → Mind Make
-src/components/OperatorsEdge.tsx       # v5 credential section
+src/components/TwoDoors.tsx            # do it yourself with CTRL, or do it with Krish
+src/components/OperatorsEdge.tsx       # dark-bg typography-only credential section
 src/components/OperatorsBrief.tsx      # Live Intel homepage teaser
 src/components/PriceTicker.tsx         # CSS-marquee model price ticker
-src/components/LightningLessons.tsx    # 5 Maven Lightning Lesson links (Resources nav)
 src/components/SimpleCTA.tsx
 ```
 
@@ -233,19 +231,13 @@ verify_jwt = false
 2. 30–45 minutes
 3. Set redirect URL in `InitialConsultModal` flow
 
-### Step 19b: Maven (Cohort and Workshops enrolment)
-1. Create the cohort offering on Maven (or use the existing `https://maven.com/mindmaker/the-ai-fluent-executive`)
-2. Update `MAVEN_COHORT_URL` constant in `src/lib/stripe-prices.ts`
-3. Verify the "Hosted on Maven" pill and the "Reserve my seat on Maven" CTA both link to the URL
-4. Create each Workshop on Maven as it's launched. Update the corresponding key in `WORKSHOP_MAVEN_URLS` in `src/lib/stripe-prices.ts`. Until a workshop is published, leave the URL pointing to the Maven instructor page (`https://maven.com/mindmaker`) and toggle the workshop's `mavenPublished` config flag to `false` so the CTA reads "Get notified" instead of "Enrol on Maven".
+### Step 19b: Payments
+There is no checkout to build. Neither engagement transacts on the site: the Teardown price is published and the deal is invoiced direct, and the Handover always goes through a call. The third-party course platform that used to collect payment went with the six-rung ladder in August 2026.
 
-### Step 19c: Stripe (Alumni Pass + referential IDs)
-1. Workshop and Cohort price IDs in `src/lib/stripe-prices.ts` are referential only. Maven collects payment for those.
-2. The Alumni Pass is the only product the site itself charges via Stripe. Price ID `price_1TXOzcHGqJqsGEJLjN7P4ddi` ($1,500/year recurring, product `prod_UWRtT59kvz7mk6`).
-3. The live alumni checkout flow is invitation-gated. The page CTA opens `InitialConsultModal` with `preselected: 'alumni'`; once Krish confirms eligibility, he sends the alum a direct Stripe Payment Link out of band. Building the in-page checkout is a separate task.
+`src/lib/stripe-prices.ts` holds identifiers and never prices (prices live in `src/lib/offers.ts`, and a test enforces that). One entry remains, for the invitation-only continuity product on `/alumni`, and even that has no in-page checkout: eligibility is confirmed first and a payment link is sent out of band.
 
 ### Step 20: Plausible (optional)
-Track `operator_page_cta_clicked` on `/operator` Revenue Architecture CTA, and the `diagnosis_room_*` events on the Diagnosis Room (Mindy) journey.
+Track `operator_page_cta_clicked` on the `/operator` crossover CTA, and the `diagnosis_room_*` events on the Diagnosis Room (Mindy) journey.
 
 ---
 
@@ -369,7 +361,6 @@ Verify end-to-end:
 - [ ] Uptime monitoring
 - [ ] Email deliverability monitoring (Resend dashboard)
 - [ ] CRM integration (lead pipeline)
-- [ ] Cohort dates → Supabase table (replace `Cohort.tsx` literal)
 
 ---
 

@@ -5,7 +5,7 @@
  *   (display name + registrable domain + CDN icon) via the Brandfetch Search API.
  *
  *   The visitor picks their company from this list, which hands the client the
- *   exact DOMAIN — a precise enrichment key, as reliable as a work email and far
+ *   exact DOMAIN, a precise enrichment key, as reliable as a work email and far
  *   lower friction. The client then calls `enrich-company` with that domain.
  *
  * ## Request (POST, application/json)

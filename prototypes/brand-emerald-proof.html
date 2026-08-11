@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
 <style>
   /* ===========================================================
-     PORTFOLIO COHESION — Phase 0 gate
+     PORTFOLIO COHESION, Phase 0 gate
      Signature accent is migrating from Mindmaker's MINT to the
      portfolio emerald (CTRL's #00D9B6). This is a SYSTEM swap,
      proven against WCAG on Mindmaker's real backgrounds, not a
@@ -23,16 +23,16 @@
     --light-grey: 60 5% 90%;
     --mid-grey: 210 7% 62%;
 
-    /* CURRENT — mint system */
+    /* CURRENT, mint system */
     --mint: 158 82% 73%;        /* #7ef4c2 signature */
     --mint-dark: 158 60% 35%;   /* text-on-light (only AA-large today) */
 
-    /* PROPOSED — emerald system (CTRL family, hue 171) */
+    /* PROPOSED, emerald system (CTRL family, hue 171) */
     --emerald: 171 100% 43%;        /* #00D9B6 signature: fills, CTA bg, dark-bg accent, ring, borders, shadows. NEVER text on light. */
-    --emerald-deep: 176 90% 24%;    /* #06746d text/links on light — full AA (replaces mint-dark) */
+    --emerald-deep: 176 90% 24%;    /* #06746d text/links on light, full AA (replaces mint-dark) */
     --emerald-50: 171 100% 97%;     /* #f0fffd subtle tint */
     --emerald-300: 171 90% 80%;     /* #9efaec lighter */
-    --emerald-900: 180 85% 16%;     /* #064b4b darkest — AAA on light */
+    --emerald-900: 180 85% 16%;     /* #064b4b darkest, AAA on light */
   }
 
   * { box-sizing: border-box; }
@@ -90,7 +90,7 @@
   .now .accent { background: #fff; border: 1px solid hsl(var(--light-grey)); border-left: 4px solid hsl(var(--ink)); position: relative; }
   .now .accent::before { content:''; position:absolute; inset: 0 0 auto 0; height: 2px; background: hsl(var(--mint)); border-radius: 8px 8px 0 0; }
 
-  /* NEXT (emerald) variants — identical structure, emerald primitives */
+  /* NEXT (emerald) variants, identical structure, emerald primitives */
   .next .editorial { background: linear-gradient(to bottom, #fff, hsl(var(--emerald) / 0.02)); border: 2px solid hsl(var(--ink) / 0.15); box-shadow: 0 2px 4px hsl(var(--ink) / 0.08); }
   .next .premium { background: linear-gradient(135deg, #fff, hsl(var(--emerald) / 0.05)); border: 2px solid hsl(var(--emerald) / 0.4); box-shadow: 0 4px 12px hsl(var(--ink) / 0.1), 0 4px 16px hsl(var(--emerald) / 0.22); }
   .next .accent { background: #fff; border: 1px solid hsl(var(--light-grey)); border-left: 4px solid hsl(var(--ink)); position: relative; }
@@ -116,7 +116,7 @@
   .badge.warn { background: hsl(38 92% 50% / 0.18); color: hsl(30 80% 30%); }
   .badge.fail { background: hsl(0 84% 60% / 0.15); color: hsl(0 70% 38%); }
 
-  /* dark strip — dark-mode + ink-cta mint usages */
+  /* dark strip, dark-mode + ink-cta mint usages */
   .dark-strip { background: hsl(var(--ink)); border-radius: 14px; padding: 26px; color: #fff; }
   .dark-strip h3 { color: rgba(255,255,255,0.7); font-size: 13px; text-transform: uppercase; letter-spacing: .1em; margin:0 0 16px; }
   .dark-grid { display:grid; grid-template-columns: 1fr 1fr; gap: 22px; }
@@ -145,15 +145,15 @@
   <header class="page">
     <div class="eyebrow">Portfolio cohesion · Phase 0 gate · Mindmaker</div>
     <h1>Mint → Emerald: the colour as a <span style="color:hsl(var(--emerald-deep))">system</span>, not a swap</h1>
-    <p>The portfolio signature is consolidating on CTRL's emerald <code>#00D9B6</code>. Mindmaker's mint is not one value — it is a system (a signature, a darker text variant, mint shadows, and tints baked into five card variants). This page proves a <b>derived emerald scale</b> against WCAG on Mindmaker's real backgrounds before any token is touched. Nothing in the live app changes until this is approved.</p>
+    <p>The portfolio signature is consolidating on CTRL's emerald <code>#00D9B6</code>. Mindmaker's mint is not one value, it is a system (a signature, a darker text variant, mint shadows, and tints baked into five card variants). This page proves a <b>derived emerald scale</b> against WCAG on Mindmaker's real backgrounds before any token is touched. Nothing in the live app changes until this is approved.</p>
     <div class="rule-callout">
-      <b>The one rule survives.</b> Just like mint, bright emerald <code>#00D9B6</code> must NEVER be text on a light background (it fails contrast). Text/links on light use <b>emerald-deep</b> <code>#06746d</code> — which lands full AA, an <b>upgrade</b> over today's <code>mint-dark</code> (only AA-large).
+      <b>The one rule survives.</b> Just like mint, bright emerald <code>#00D9B6</code> must NEVER be text on a light background (it fails contrast). Text/links on light use <b>emerald-deep</b> <code>#06746d</code>, which lands full AA, an <b>upgrade</b> over today's <code>mint-dark</code> (only AA-large).
     </div>
   </header>
 
   <!-- 1. The proof: contrast table -->
   <section>
-    <h2>1 · The proof — WCAG contrast on Mindmaker's real backgrounds</h2>
+    <h2>1 · The proof, WCAG contrast on Mindmaker's real backgrounds</h2>
     <p class="sub">Computed (sRGB relative luminance). AA = 4.5:1 body / 3:1 large. AAA = 7:1.</p>
     <table>
       <thead><tr><th>Token</th><th>HSL</th><th>on off-white #F7F7F5</th><th>on card #FFFFFF</th><th>on ink #0e1a2b</th><th>Role</th></tr></thead>
@@ -163,10 +163,10 @@
         <tr><td colspan="6" style="border:0;height:8px"></td></tr>
         <tr><td><b>emerald</b> #00D9B6</td><td><code>171 100% 43%</code></td><td class="r-fail">1.64 FAIL</td><td class="r-fail">1.77 FAIL</td><td class="r-pass">9.72 AAA</td><td>signature / fills / dark-bg accent</td></tr>
         <tr><td><b>emerald-deep</b> #06746d</td><td><code>176 90% 24%</code></td><td class="r-pass">5.21 AA</td><td class="r-pass">5.63 AA</td><td class="r-large">3.06 AA-large</td><td><b>text/links on light</b></td></tr>
-        <tr><td><b>emerald-900</b> #064b4b</td><td><code>180 85% 16%</code></td><td class="r-pass">9.17 AAA</td><td class="r-pass">9.93 AAA</td><td class="r-fail">1.74 —</td><td>strong text / dense copy</td></tr>
+        <tr><td><b>emerald-900</b> #064b4b</td><td><code>180 85% 16%</code></td><td class="r-pass">9.17 AAA</td><td class="r-pass">9.93 AAA</td><td class="r-fail">1.74,</td><td>strong text / dense copy</td></tr>
       </tbody>
     </table>
-    <p class="note" style="margin-top:14px"><b>CTA fills:</b> emerald <code>#00D9B6</code> + <b>ink</b> text = 9.72 AAA (the hero button, and it matches CTRL's dark-on-emerald convention). Where white text is required on an emerald fill, use <b>emerald-deep</b> (5.63 AA). White on bright emerald fails — never do it.</p>
+    <p class="note" style="margin-top:14px"><b>CTA fills:</b> emerald <code>#00D9B6</code> + <b>ink</b> text = 9.72 AAA (the hero button, and it matches CTRL's dark-on-emerald convention). Where white text is required on an emerald fill, use <b>emerald-deep</b> (5.63 AA). White on bright emerald fails, never do it.</p>
   </section>
 
   <!-- 2. The scale -->
@@ -185,7 +185,7 @@
   <!-- 3. Side by side: cards + CTAs + text -->
   <section>
     <h2>3 · Side-by-side on Mindmaker's light surface</h2>
-    <p class="sub">Same components, same structure — only the accent primitives differ.</p>
+    <p class="sub">Same components, same structure, only the accent primitives differ.</p>
     <div class="compare">
       <div class="pane now">
         <h3>Now · mint</h3>
@@ -223,7 +223,7 @@
   <!-- 4. Dark strip -->
   <section>
     <h2>4 · Dark surfaces (dark-mode cards, the wordmark glow, voice glow)</h2>
-    <p class="sub">On ink, both greens pass easily — emerald reads slightly more luminous/modern.</p>
+    <p class="sub">On ink, both greens pass easily, emerald reads slightly more luminous/modern.</p>
     <div class="dark-strip">
       <div class="dark-grid">
         <div class="now">

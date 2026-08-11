@@ -1,6 +1,6 @@
 # Branding
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-08-11
 
 ---
 
@@ -8,7 +8,7 @@
 
 **The anti-consultancy for leaders who are done being sold AI and ready to use it.**
 
-Mindmaker is a ladder: free Lightning Lessons, paid Workshops ($599) as the entry rung, the AI-Fluent Executive Cohort ($2,500) as the qualifying step, enterprise sprints for companies commercializing AI products (the Signal Session and Revenue Architecture) as the margin engine, and the Alumni Pass ($1,500/year) as continuity, plus a half-day team-alignment Immersion (inquiry-only). Every offer has a fixed scope, a fixed outcome, and a finish line. Nothing ongoing.
+Mindmaker is a capped advisory practice: a small number of engagements a year. Two of them. The Handover rebuilds how a business decides and sells over six weeks, then ends. The Teardown takes one real decision apart in ten business days, and is the gate for the Handover. Every engagement has a fixed scope, a published price and a finish line. Nothing ongoing.
 
 **Brand North Star:** If Stripe's design sensibility met Anthony Bourdain's authenticity.
 
@@ -33,7 +33,7 @@ Your smartest, most cynical friend who runs AI transformation every day and genu
 ### What we are
 - **Direct**. name the decision, don't dance around it
 - **Cynical**. we've seen every vendor pitch; we know what's real
-- **Specific**. "10–15 seats", "30 days", "$60–100k", not "enterprise engagements"
+- **Specific**. "ten business days", "six weeks", "under two hours of your time", "six a year", not "enterprise engagements"
 - **Finish-line honest**. every offer has a fixed end, and we say so
 - **Premium without stiffness**. confident prose, no corporate rigor mortis
 
@@ -59,15 +59,15 @@ Your smartest, most cynical friend who runs AI transformation every day and genu
 
 ## CTA Language
 
-**Primary CTA everywhere:** **"Book a call"**
+**Primary CTA everywhere:** **"Bring me one real decision"**
 
-No conditional labels. No "What's your nervous decision?" (retired, it tested as too therapist-y for enterprise buyers). No "Start the Conversation". Just "Book a call", which opens the **Diagnosis Room (Mindy)** via the `openDiagnosisRoom` event. `ScopingModal` (`openScopingModal`) is the secondary booking surface, still used on the offer pages (`/cohort`, `/enterprise`, `/capital`, `/immersion`), the `BigProblem` homepage cards, and `/case-studies`. (`InitialConsultModal` / `openConsultModal` is legacy, retained only for `/alumni`.)
-
-**Cohort-specific direct CTA:** **"Reserve my seat on Maven"**, points directly at `https://maven.com/mindmaker/the-ai-fluent-executive` for buyers who already know the cohort is the right fit and want to skip the consult call.
+No conditional labels. No "What's your nervous decision?" (retired, it tested as too therapist-y for enterprise buyers). No "Start the Conversation". The primary CTA opens the **Diagnosis Room (Mindy)** via the `openDiagnosisRoom` event, and `/start` is the same surface as a page. `ScopingModal` (`openScopingModal`) is the secondary booking surface, dispatched by the `BigProblem` homepage cards and `/case-studies`. (`InitialConsultModal` / `openConsultModal` is legacy, retained only for `/alumni`.)
 
 **Supporting CTAs:**
-- "See the cohort" → `/cohort`
-- "Explore enterprise" → `/enterprise`
+- "See The Handover" → `/handover`
+- "See The Teardown" → `/teardown`
+- "For funds and portfolio companies" → `/capital`
+- "Book a call" is still the right label for the call itself, once the visitor has chosen it as an exit
 - "See how I work", secondary hero CTA, links to `/operator`
 - "Open the full dashboard →", muted link from homepage `OperatorsBrief` to `/signal`
 - "Request a date". Immersion page CTA, opens the scoping modal preselected to "immersion"
@@ -78,7 +78,7 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 
 ### Headlines
 - **Name the decision or the commercial symptom**, not the abstract benefit
-- **Be specific**. "$2,500 per seat", "10–15 leaders", "30 days", "48 hours"
+- **Be specific**. "ten business days", "six weeks", "one real decision", "under two hours"
 - **Use concrete verbs**. decide, ship, rebuild, cut, filter, commit
 - **Avoid feeling words** as crutches, "calm clarity" is OK once per page, not a refrain
 
@@ -92,28 +92,27 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 
 | OLD | NEW |
 |---|---|
-| "1:1 sprint that turns AI chaos into direction" | "A Maven-hosted cohort for leaders making AI decisions. Enterprise sprints for AI products." |
-| "4-Week or 90-Day Sprint" | "The Cohort, The Signal Session, the Revenue Architecture, or the Immersion" |
-| "What's your nervous decision?" (CTA button) | "Book a call" |
+| "1:1 sprint that turns AI chaos into direction" | "Six weeks rebuilding how the business decides and sells, and ten business days on one real decision." |
+| Any retired offer name | "The Handover" or "The Teardown". Nothing else exists |
+| "What's your nervous decision?" or "Book a call" (primary CTA button) | "Bring me one real decision" |
 | "Chat with Krish" / "Ask Mindmaker" | (chatbot retired; the `PreCallQualifier` that replaced it is now retired too, superseded by the **Diagnosis Room (Mindy)**) |
-| "AI Leadership Benchmark" | "Decision Readiness Diagnostic" (`/leaders`, unlinked from nav) |
+| "AI Leadership Benchmark" / "Decision Readiness Diagnostic" | Retired. `/leaders` 301s to `/start`, and the Diagnosis Room does this job now |
 | "Signal Desk" / "The Brief" / "The Operator's Brief" (as a nav label) | **"Live Intel"** (as the nav label and page H1) |
 | "Builder vs Orchestrator" | "AI leaders vs AI products" (the homepage `YFork` that carried this split is now retired, superseded by the Diagnosis Room) |
-| "8–12 week Revenue Architecture" | "30-day Revenue Architecture (4–5 calendar weeks)" |
-| "5–10 page Signal Session thesis" | "15–20 page Commercial Narrative within 48 hours" |
+| A price not in `src/lib/offers.ts` | The published price for that rung, in the currency asked for |
+| Any discount, credit or "X% off" | Nothing. There is no published discount |
 
 ---
 
 ## Word Choices
 
 ### Use
-- Cohort, enterprise, sprint (only for Signal Session / Revenue Architecture), Immersion, finish line
+- Teardown, Handover, decision, claim, evidence, finish line, capped
 - Build, systems, working, deploy, decide, ship, commit, cut, filter
 - Clarity, direction, confidence, decision, trade-off, board-ready
 - Positioning, pricing, packaging, GTM, commercial, revenue
 - Operator, practitioner, in the room, at the P&L
-- Specific numbers: "$2,500", "$15k", "$60–100k", "$12k", "10–15 leaders", "14-agent OS", "30 days", "48 hours"
-- Maven (when referring to Cohort enrollment, Slack, alumni community)
+- Specific numbers: "ten business days", "six weeks", "Day 90", "six a year", "14-agent OS", "under two hours". Actual fees come from `src/lib/offers.ts` and are never typed by hand
 
 ### Never use
 - Transformation, digital, synergy, leverage (as a verb), ecosystem, journey (as a generic noun)
@@ -128,51 +127,34 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 
 ## Terminology Standards
 
-- **The AI-Fluent Executive**. the canonical Cohort name; never "AI Decision Cohort" (retired), "cohort program", "course", or "bootcamp". May be parenthesised as "The AI-Fluent Executive (Cohort)" when offer category needs to be obvious in context.
-- **Mindmaker Workshops**. plural; each one is "a Mindmaker Workshop". Five named workshops (Build Your AI Chief of Staff, Map Your Agentic Org Chart, Vibe Coding for Leaders, Build an Autonomous Business Function, Give Your AI Memory). Never "courses", "classes", or "bootcamps".
-- **The Alumni Pass**. the $1,500/year continuity programme; not "membership", "subscription", "club".
-- **The Signal Session**. not "strategy day", "workshop", "discovery"
-- **The Revenue Architecture**. not "sprint", "engagement", "project"
-- **The AI Immersion**. not "team workshop", "leadership offsite", "alignment session"
-- **The Commercial Narrative**. the 15–20 page Signal Session deliverable; not "thesis", "report", "deliverable"
-- **Live Intel**. the nav label and H1 for the editorial surface at `/signal` (renamed from "Signal Desk" → "The Brief" → "Live Intel" for plain-English clarity)
-- **The Operator's Brief**. body-copy alternative for Live Intel; OK in editorial copy, not as a nav label
-- **The Nervous Decision Machine**. the embedded tool; no longer on a standalone `/tool` page
-- **Decision Readiness Diagnostic**. the `/leaders` quiz; unlinked from nav but reachable by URL
-- **The Diagnosis Room (Mindy)**. the primary on-site conversion surface; a full-screen experience (`src/components/diagnosis/`, opened via `openDiagnosisRoom`, modes `"express"` and `"full"`, also at `/start`). Mindy diagnoses the visitor's one nervous AI decision in conversation, recommends the right rung, and forks to three honest exits: keep chatting, book a free 15-min Calendly call, or generate a co-branded "Mindmaker × [company]" proposal. The old `PreCallQualifier` floating pill and its 3-step chip intake are retired; the self-classification job now happens inside the Mindy conversation
-- **CTRL**. Mindmaker's flagship memory-web app; included with every Workshop and Cohort seat
-- **Book a call**. the primary global CTA label, never variant
-- **Enrol on Maven**. the Workshop direct-enrolment CTA on each `/workshops/[slug]` page; "Get notified" while a workshop is not yet published
-- **Reserve my seat on Maven**. the Cohort direct-enrolment CTA on `/cohort`
-- **Request an invitation**. the Alumni Pass CTA on `/alumni`
-- **Diagnose → Decompose → Decide → Deploy**. the Cohort framework, always in that order
-- **Hosted on Maven**. the pill on `/cohort` and on every `/workshops/[slug]` page indicating where enrolment happens
+- **The Handover**. Capital H, definite article. Not "the handover engagement", not "the six-week programme".
+- **The Teardown**. Capital T, definite article. Not "the audit", not "the diagnostic", not "the assessment".
+- **CTRL**. All caps. A separate product on its own site, never a Mindmaker tier and never quoted with a price here.
+- **Mindmaker LIVE**. The publication, at `live.themindmaker.ai`. Two formats: **Built** and **Paid**. It has paid tiers, so never describe it as free.
+- Never "course", "class", "programme" or "training". Mindmaker does not sell training.
 
 ---
 
 ## Product Naming
 
-| Product | Price | Tagline |
+| Engagement | Price (USD) | One-liner |
 |---|---|---|
-| Mindmaker Workshops (×5) | $599 / workshop | Build alongside me in one day. |
-| The AI-Fluent Executive (Cohort) | $2,500 / seat | Make your nervous AI decision with 15 other senior leaders. |
-| The Signal Session | $15,000 | One day. One room. One commercial thesis. |
-| The Revenue Architecture | $60,000–$100,000 | Your AI capabilities, translated into revenue. |
-| The AI Immersion (inquiry-only) | $12,000 | Three decisions. One afternoon. Real alignment. |
-| The Alumni Pass (invitation-only) | $1,500 / year | Continuity after the finish line. |
+| The Handover | $18,000 / $30,000 / $50,000 by headcount | Six weeks. Then I leave and you keep it. |
+| The Teardown | $9,500 | Bring the decision you keep not making. |
+
+Also GBP and AUD, as set prices per market. Canonical source: `src/lib/offers.ts`.
+
 
 ### Retired products and names (do not reference)
 
-- **The AI Decision Cohort**, retired in v6 (May 2026); replaced by **The AI-Fluent Executive**
-- **Name → Map → Make**, retired Cohort framework; replaced by **Diagnose → Decompose → Decide → Deploy**
-- **3-week Cohort**, retired duration; the Cohort is now 4 weeks
-- **maven.com/aimindmaker/ai-decision-intensive**, dead Maven URL; live URL is **maven.com/mindmaker/the-ai-fluent-executive**
+- The entire six-rung ladder, retired in July and August 2026. The named record is in `DECISIONS_LOG.md`, deliberately nowhere else, because most of these docs are indexed for retrieval
+- The third-party course platform that used to collect payment, and every URL pointing at it
 - 4-Week Sprint / 90-Day Sprint / Extended Sprint, retired from public site in v4 barbell pivot
 - Builder Sprint / Builder Session, retired
 - Leadership Lab, retired as a named product
 - Portfolio Partner, retired as a named product
 - Fractional CAIO, never existed as an offer; `/fractional-caio` redirects to `/enterprise`
-- War Room / Strategy Day, old names for Revenue Architecture and Signal Session; URLs redirect
+- War Room, Strategy Day, Fractional CAIO, and every offer name from the retired six-rung ladder. URLs redirect; the names are in `DECISIONS_LOG.md`
 
 ### Builder Economy
 
@@ -199,7 +181,7 @@ Default credential line:
 
 ### Subject lines
 - Specific + direct: "Cohort enrolment, next starts July 14, 2026"
-- Outcome-focused: "Signal Session Commercial Narrative, delivered"
+- Outcome-focused: "the decision, in writing, with its reasoning attached"
 - No clickbait, no FOMO
 
 ### Email body
@@ -277,8 +259,8 @@ Renamed from the previous SIGNAL / NOISE / DECISION / TAKE set. Do not reference
 - Don't position Mindmaker as fractional capacity of any kind
 - Don't promise ROI numbers without a verifiable case study behind them
 - Don't use "transformation", "synergy", "leverage" (as verb), "journey" (as abstract noun)
-- Don't say "8–12 weeks" for the Revenue Architecture, it's now **30 days**
-- Don't say "5–10 page thesis" for the Signal Session, it's now **15–20 page Commercial Narrative within 48 hours**
+- Don't quote a price that is not in `src/lib/offers.ts`, and never convert between currencies
+- Don't mention a discount. There is no published one
 - Don't label `/signal` as "The Brief" or "Signal Desk" in nav, the label is **"Live Intel"**
 
 ---

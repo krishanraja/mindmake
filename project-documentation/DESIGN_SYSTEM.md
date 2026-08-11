@@ -1,6 +1,6 @@
 # Design System
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-08-11
 
 ---
 
@@ -163,7 +163,7 @@ touch-target:       min-h-[44px] (mobile buttons)
 
 ### Buttons
 
-**Primary (Emerald)** — `bg-mint` is the alias; renders emerald. New code may use `bg-emerald`.
+**Primary (Emerald)**, `bg-mint` is the alias; renders emerald. New code may use `bg-emerald`.
 ```tsx
 <Button className="bg-mint text-ink hover:bg-mint/90">
 ```
@@ -173,7 +173,7 @@ touch-target:       min-h-[44px] (mobile buttons)
 <Button className="bg-ink text-white hover:bg-ink/90">
 ```
 
-**Outline** — emerald border + emerald fill on hover (alias classes shown)
+**Outline**, emerald border + emerald fill on hover (alias classes shown)
 ```tsx
 <Button variant="outline" className="border-mint text-mint">
 ```
@@ -482,8 +482,8 @@ Dark-bg typography-only section matching `FrameworkJourney` header scale exactly
 ### Price Ticker
 `PriceTicker.tsx`. CSS-marquee, no native scrollbar, pauses on hover, respects `prefers-reduced-motion`. Used on the homepage Live Intel teaser (`OperatorsBrief.tsx`) and on `/signal` (Live Intel dashboard, `Brief.tsx`).
 
-### Maven pill (Cohort enrolment)
-On `/cohort`, a small "Hosted on Maven" pill (`Cohort.tsx`) sits above the seat-reservation CTA. It uses `bg-muted/50 border border-border text-muted-foreground` styling, `rounded-full`, and an external-link icon. The pill and the primary CTA both link directly to `https://maven.com/mindmaker/the-ai-fluent-executive`.
+### Currency switcher
+`CurrencySwitcher.tsx` is a native radio `fieldset`, not three buttons, so arrow-key navigation and roving focus come from the platform for free. One instance per page that carries prices (`/teardown`, `/handover`, `/capital`), and `idPrefix` is required so two instances can never share a radio `name`. The accessible name sits on the `<input>`; the visible `<label>` is `aria-hidden`. One `role="status"` announcement per change, rather than `aria-live` on every price. AUD carries the longest strings, so price cells use `tabular-nums`, a `min-w` floor and `whitespace-nowrap`, and the row stacks below `sm`.
 
 ### Nervous Decision Input
 `nervous-decision/Input.tsx` renders compact (homepage teaser) or full (`/signal`) sizes. `nervous-decision/Artifact.tsx` renders the typed response.
@@ -492,8 +492,8 @@ On `/cohort`, a small "Hosted on Maven" pill (`Cohort.tsx`) sits above the seat-
 
 - `TheProblem.tsx` Builder/Orchestrator fork (AI leaders vs AI products), unmounted
 - `ProductLadder.tsx` 4-Week vs 90-Day sprint chooser, unmounted
-- `YFork.tsx` homepage "Start where your question actually is." three intent cards, unmounted (the .tsx file remains in the tree but is no longer imported). The homepage now funnels into the single Diagnosis Room journey.
-- `PreCallQualifier.tsx` floating pill / 3-step chip intake, unmounted (file remains but no longer imported)
+- `YFork.tsx` homepage "Start where your question actually is." three intent cards. The homepage funnels into the single Diagnosis Room journey; the component is in `src/_archive/components/`.
+- `PreCallQualifier.tsx` floating pill / 3-step chip intake, in `src/_archive/components/`
 - `AINewsTicker.tsx` with SIGNAL/NOISE/DECISION/TAKE badges, replaced by `OperatorsBrief` + full dashboard at `/signal` with WATCH/SKIP/CALL/TAKE taxonomy
 - `ActionsHub` side drawer and Interactive decision tools, unmounted
 - Media Easter Egg components (`VideoDrawer`, `AudioPlayer`, `ArtifactPreview`, `ExpandableQuote`), not in current homepage; kept in `src/components/MediaEasterEggs/` for possible future use

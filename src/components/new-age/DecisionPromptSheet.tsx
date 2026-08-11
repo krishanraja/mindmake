@@ -105,8 +105,8 @@ const PromptBody = ({ data }: { data: OrgNodeData }) => {
           asChild
           className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold"
         >
-          <a href="/cohort">
-            Work through decisions like this in the Cohort
+          <a href="/teardown">
+            Take a decision like this apart properly
             <ArrowRight className="ml-2 w-4 h-4" />
           </a>
         </Button>

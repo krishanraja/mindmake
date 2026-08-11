@@ -12,10 +12,26 @@ const Footer = () => {
             <div>
               <MindMakerWordmark size="section" className="mb-3" />
               <p className="text-base font-semibold text-foreground mb-1">
-                Weekly signal in your inbox.
+                Two formats. Built, and Paid.
               </p>
               <p className="text-sm text-muted-foreground">
-                Headlines, resources and perspectives worth keeping. No pitch decks, unsubscribe anytime.
+                <span className="font-semibold text-foreground">Built</span>, on why someone
+                built the thing they built.{" "}
+                <span className="font-semibold text-foreground">Paid</span>, on who is
+                actually getting paid in a shift, and by what mechanism. Free and paid
+                tiers, unsubscribe anytime.{" "}
+                {/*
+                  Always the branded domain, never the underlying Substack URL, so the
+                  redirect can be repointed without chasing links.
+                */}
+                <a
+                  href="https://live.themindmaker.ai"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-emerald-deep dark:text-mint font-semibold underline underline-offset-4"
+                >
+                  Read it at live.themindmaker.ai
+                </a>
               </p>
             </div>
             <SubstackSubscribeForm tone="light" size="compact" source="footer" />
@@ -51,10 +67,10 @@ const Footer = () => {
                   The Handover
                 </a>
                 <a
-                  href="/cohort"
+                  href="/capital"
                   className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 ease-out hover:underline underline-offset-4"
                 >
-                  The AI-Fluent Executive
+                  For funds and portfolio companies
                 </a>
               </nav>
             </div>

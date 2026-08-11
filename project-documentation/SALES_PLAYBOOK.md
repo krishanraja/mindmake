@@ -1,228 +1,109 @@
 # Mindmaker Sales Playbook
 *The single ground-truth document for AI sales and marketing agents working the Mindmaker book.*
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-11
 
 > If you are an AI sales or marketing agent, outbound, inbound, content, retargeting, lifecycle, paid, or organic, this is the document you ground on. It is opinionated, structured for retrieval, and biased toward action. Use `OFFERS.md`, `ICP.md`, `VALUE_PROP.md`, `OUTCOMES.md`, and `BRANDING.md` for deeper canon. Use `Master_Messaging_and_FAQ.md` for full pitches and FAQ.
 
 ---
 
-## 1. The Audiences and the Ladder
+## 1. The ladder
 
-| Audience | Entry rung | Depth offer | Tag |
-|---|---|---|---|
-| Senior leader ready to *build* this quarter | **A Mindmaker Workshop** ($599, on Maven) | The AI-Fluent Executive Cohort ($2,500) | `audience:workshop` |
-| Senior leader with a nervous AI decision | **The AI-Fluent Executive (Cohort)** ($2,500, Maven-hosted) | Workshops as warm-up; Enterprise as next step if they're commercialising AI | `audience:ai-leaders` |
-| Company commercializing an AI product | **The Signal Session** ($15,000) → **The Revenue Architecture** ($60–100k) | Operator credential page (`/operator`) | `audience:ai-products` |
-| Executive team with shared AI tensions | **The AI Immersion** ($12,000, inquiry-only) | — | `audience:exec-team` |
-| Mindmaker alumni (any of the above) | **The Alumni Pass** ($1,500/year, invitation-only) | — | `audience:alumni` |
-| Senior leader specifically wanting 1:1 | Inquiry at `/cohort?inquiry=1:1` | — | `audience:1to1-inquiry` |
-| Cold prospect not yet ready to talk | 5 free Lightning Lessons on Maven | Warm to a Workshop or the Cohort | `audience:cold` |
+Two engagements. Nothing else is for sale. **A capped advisory practice: a small number of engagements a year.**
 
-The first four are the addressable market. The Alumni Pass is the retention layer. The 1:1 inquiry is a relief valve. The free lessons are the top-of-funnel warmup.
+| | The Handover | The Teardown |
+|---|---|---|
+| Duration | Six weeks plus a Day 90 recheck | Ten business days |
+| Client time | Real. A stream lead carries work between sessions | Under two hours, total |
+| USD | $18,000 / $30,000 / $50,000 by headcount | $9,500 |
+| GBP | £14,000 / £23,500 / £39,000 | £7,500 |
+| AUD | $27,500 / $45,500 / $76,000 | $14,500 |
+| Bought | Always through a call | Self-serve. The price is published |
+| Cap | Six a year, across every client | None |
 
----
+Canonical prices are in `src/lib/offers.ts`. **Quote them exactly**, in the currency the buyer uses. They are set prices per market, never conversions, so never compute one from another.
 
-## 2. ICP Signals (firmographic + psychographic)
+**The Teardown is the gate.** Every Handover starts with one.
 
-### AI Leaders: Cohort
-
-> Deep archetype: `ICP_ACCOUNTABLE_DELEGATOR.md` has the full psychographic and skill-gap profile of this buyer ("The Accountable Delegator").
-
-**Firmographic signals (use for list-building):**
-- Stage: Series B → public, mid-market private
-- Revenue: $10M–$500M (sweet spot $25M–$250M)
-- Employees: 50–2,000
-- Geography: US, UK, EU, ANZ (English-first)
-- Title: CEO, COO, CFO, CPO, CCO, CMO, GM, VP of Product/Strategy, Chief of Staff, founder-operator
-- Tenure in current role: 6 months → 5 years (board pressure phase)
-
-**Psychographic signals (use for trigger-based outbound):**
-- Public LinkedIn post about "we're figuring out AI" or "AI is on our agenda"
-- Repost of a McKinsey/BCG AI report (signals they're trying to figure it out)
-- Job posting for "Head of AI" with no clear scope
-- Recent fundraise PR mentioning AI
-- Conference attendance (AI summits, board education events)
-- AI-native competitor announcement in their category
-- Public CEO commentary on AI being a top priority
-
-**Disqualify if:**
-- Pre-revenue
-- IC-level title (no budget authority)
-- Wants implementation / production IT
-- Already has an in-house AI strategy team they're happy with
-
-### AI Products: Enterprise
-
-**Firmographic signals:**
-- Stage: Series B+ / late-stage private / public
-- Revenue: $10M–$1B+ (Signal Session at lower end, Revenue Architecture at higher)
-- AI context: shipped AI product or AI-enabled capability in last 12 months
-- Title: Founder/CEO, President, CCO, CRO, CPO, VP GTM, Head of Commercial Strategy
-
-**Psychographic signals:**
-- Recent CRO / CCO / VP GTM hire (commercial reset moment)
-- Pricing page changes, tier consolidations, "request a quote" replacing self-serve pricing
-- Public customer case studies that read like solving the wrong problem
-- Heavy discounting (signals pricing isn't holding)
-- Sales reps publicly asking for "battlecards against [competitor]"
-- Recent Series B/C/D announcement with "scale GTM" in the press release
-- New product launch in the last 6 months
-- Public commentary from CEO that "we need to nail the commercial story"
-
-**Disqualify if:**
-- Pre-product or pre-revenue
-- Wants implementation/deployment
-- Wants 6-month engagement (we don't sell that)
-- Looking for fractional executive
-- Cannot move on output within 90 days
-
-### Executive Teams: Immersion
-
-**Firmographic signals:**
-- Series B+ or established mid-market
-- 4–8 senior leaders (C-suite + key VPs) on the team
-
-**Psychographic signals (rare; usually surfaced in conversation, not outbound):**
-- CEO names three specific tensions in a sentence
-- "We've had the same three meetings four times"
-- Sponsor asks for a "strategy day" or "facilitated offsite"
-
-**Disqualify if:**
-- More than 8 attendees
-- Sponsor wants a multi-session engagement
-- Recording is a hard requirement
-- Substitute participants expected
+Funds and operating partners buying for a portfolio company are a **third door** into the same two engagements at the same prices. Fund-level terms are set on the call, never published.
 
 ---
 
-## 3. Pain → Offer Mapping (for AI agents to route inbound)
+## 2. ICP signals
 
-| Pain phrase the prospect uses | Most likely offer |
+**One ICP: companies of 50 to 5,000 people, sweet spot 100 to 1,000. The buyer is the CEO, CRO or VP Product.** The seat accountable for whether it sells, not the seat accountable for whether it ships.
+
+### Firmographic
+
+| Attribute | Range |
 |---|---|
-| "I want to actually build something with AI this quarter" | **Workshop** (pick the one that matches the artefact) |
-| "I want a chief of staff that actually shows up to work" | **Workshop** · Build Your AI Chief of Staff |
-| "We need an agent strategy / map our agents" | **Workshop** · Map Your Agentic Org Chart |
-| "I want to ship the internal tool IT can't get to" | **Workshop** · Vibe Coding for Leaders |
-| "I want one workflow to run without me" | **Workshop** · Build an Autonomous Business Function |
-| "My AI doesn't remember anything between sessions" | **Workshop** · Give Your AI Memory |
-| "I have a nervous AI decision I've been putting off" | **Cohort** |
-| "Build vs buy" | **Cohort** (or Signal Session if they have AI capability already shipped) |
-| "Which AI vendor do we commit to?" | **Cohort** |
-| "How do I tell the board what our AI strategy is?" | **Cohort** |
-| "What do I replace vs empower?" | **Cohort** (or **Immersion** if it's a team disagreement) |
-| "We have AI tech but we can't sell it" | **Signal Session** → **Revenue Architecture** |
-| "Our pricing is guesswork" | **Signal Session** (diagnose) → **Revenue Architecture** (rebuild) |
-| "Sales can't articulate why we're different" | **Signal Session** |
-| "We're launching an AI product / feature soon" | **Signal Session** (rapid alignment) |
-| "We need a full commercial rebuild" | **Revenue Architecture** |
-| "Pricing, packaging, GTM all need rebuilding" | **Revenue Architecture** |
-| "Our exec team can't agree on three things" | **Immersion** |
-| "We need a strategy day" | **Immersion** |
-| "I'm just exploring AI, no firm timeline" | **Free Lightning Lesson** (Maven instructor page) |
-| "I want to keep working with you after [engagement]" | **Alumni Pass** (invitation-only) |
-| "I want a fractional CAIO" | Decline. Disqualify. |
-| "Can you implement / deploy this?" | Decline. Refer to a partner. |
+| Employees | 50 to 5,000, sweet spot 100 to 1,000 |
+| Stage | Series B to public, or mid-market privately held |
+| Revenue | $10M to $500M, sweet spot $25M to $250M |
+| Budget authority | Can sign for the relevant decision without a committee |
+
+**Geography is not a qualifier.** The site sells internationally, which is why it carries three currencies. Do not add a market qualifier to any copy, meta tag or structured-data field.
+
+### Psychographic
+
+- Pitched fourteen AI tools this quarter, committed to none.
+- Says some version of "I should understand this but I don't."
+- Presents AI strategies to boards they cannot execute.
+- Watches an AI-native competitor moving faster.
+- Trusts peers more than vendors.
+- Can name the decision in one sentence when pushed, and has been avoiding writing it down.
+
+### The buying trigger worth watching for
+The same decision appearing on a third consecutive leadership agenda. That is the moment a Teardown becomes obvious to them, and before it they will tell you they are "still gathering input".
 
 ---
 
-## 4. Value Driver Matrix (use in copy and on calls)
+## 3. Pain to rung mapping (for routing inbound)
 
-### Mindmaker Workshops
-| Driver | What the buyer gets | What it replaces |
-|---|---|---|
-| **Real artefact** | A working chief of staff, internal tool, autonomous workflow, agent org chart, or memory web deployed on the buyer's real surface | Slides about AI, courses on AI, "AI literacy" programmes |
-| **Operator workflow** | 90 minutes watching Krish build live, then building in parallel with him in the room | Watching pre-recorded courses where you never see the operator's screen |
-| **CTRL access** | Lifetime access to Mindmaker's flagship memory-web app | Re-explaining your business to your AI every Monday |
-| **Maven Guarantee** | 14-day refund, no questions | Sunk-cost course purchases |
-| **Cohort ramp** | $500 off the AI-Fluent Executive Cohort with code `WORKSHOP` | Paying full price after deciding the build needs more strategy |
+Two questions, in this order: **how formed is the decision**, and **how big is the company**.
 
-### The AI-Fluent Executive (Cohort)
-| Driver | What the buyer gets | What it replaces |
+| What they say | Rung | Route |
 |---|---|---|
-| **Decision quality** | 1-page board-ready memo + trade-off analysis | "Making it up in board meetings" |
-| **Peer leverage** | 10 to 15 peers working comparable problems + 90-day Slack + alumni access | Isolation, solo grappling with vendor noise |
-| **Framework portability** | Diagnose → Decompose → Decide → Deploy for the next decision | Dependence on consultants |
-| **Speed to commitment** | Decision committed in 4 weeks (mostly async) | 6-month evaluation that drifts |
-| **Memory infrastructure** | Lifetime access to CTRL | AI assistants that forget your business between sessions |
-| **Cost of wrong commitment** | $2,500 to avoid a multi-million vendor mistake | Vendor lock-in regret |
+| "We can't decide whether to build or buy." | Teardown | Self-serve. Price is published |
+| "The board wants an AI roadmap by quarter-end." | Teardown | Self-serve |
+| "I've been pitched fourteen tools and committed to none." | Teardown | Self-serve |
+| "We shipped it and we can't sell it." | Handover, band by headcount | Always the call |
+| "Nobody can explain what we sell any more." | Handover | Always the call |
+| "Our pricing is guesswork and the pipeline is empty." | Handover | Always the call |
+| "One of our portfolio companies is stuck." | Same two, per portfolio company | The call, at `/capital` |
+| "We want someone in the business a few days a month." | None | Walk. No fractional roles |
+| "We need this built and deployed." | None | Walk, and name a partner |
+| "We should do some AI stuff." | None | Free on-ramp. Come back with a decision |
 
-### Signal Session
-| Driver | What the buyer gets | What it replaces |
-|---|---|---|
-| **Commercial Narrative** | 15–20 page narrative within 48 hours | A workshop that produces "next steps" not output |
-| **Positioning framework** | 2-page framework Sales can use Monday | Endless internal positioning debate |
-| **Pricing sketch** | 2–3 packaging options | Discounting to close deals |
-| **Sales narrative + objection guide** | Talkable differentiation | "I can't sell this against [competitor]" |
-| **Honest read** | Yes/no on Revenue Architecture in writing | Consultant upsell theatre |
-
-### Revenue Architecture
-| Driver | What the buyer gets | What it replaces |
-|---|---|---|
-| **30-day timeline** | Full rebuild in 4–5 weeks, Krish in the room | 6-month McKinsey engagement with associates |
-| **Strategy doc** | 30–40 page client-branded commercial strategy | A 40-slide deck nobody acts on |
-| **Tested revenue model** | Pricing scenarios stress-tested against business reality | Pricing changes that fail in market |
-| **90-day GTM playbook** | Sales process + enablement materials | Sales team building enablement themselves |
-| **Board deck** | Board-ready, Krish presents if requested | CEO ghost-writing the AI narrative |
-| **Follow-up included** | 30-day post-engagement session | Engagement-end cliff |
-
-### Immersion
-| Driver | What the buyer gets | What it replaces |
-|---|---|---|
-| **Three named decisions** | Names + owners + deadlines | "We'll come back to this" |
-| **Real candor** | No recording, Chatham House rules | Politicized leadership meetings |
-| **Board-ready summary** | 2-page summary in 5 business days | A meeting recap nobody reads |
-| **Neutral facilitator** | Operator-led, not vendor-led | Strategy day theatre |
+**The default is the Teardown.** It is the honest first spend for almost everyone, and it is the gate. Routing someone straight to six weeks because the company is large is the most common way to get this wrong.
 
 ---
 
-## 5. ROI Math (for sales decks and proposals)
+## 4. Value drivers
 
-### Workshop ROI math (for the buyer)
-- Cost of a single internal-tool build via a vendor or contractor: $20k–$80k for a v1
-- Cost of waiting six months for IT to ship the same thing: pure opportunity cost, often the project never ships
-- Cost of a Mindmaker Workshop: $599
-- Time cost: ~5 hours live, plus a few hours of prep
-- Output durability: a deployed artefact (chief of staff, internal tool, autonomous workflow, agent org chart, memory web) that runs starting Monday
-- Comparator: an executive AI training course at $2k–$5k where you watch slides
+### The Teardown
+- **Speed.** Ten business days against a decision that has been open for months.
+- **Cost of their time.** Under two hours. This is the driver most buyers respond to and most sellers under-use.
+- **Defensibility.** A written position with the reasoning attached, which is what they actually need for the board conversation.
+- **Honesty.** It will tell them not to spend more. Say this early; it is the most persuasive thing about it.
 
-**Sales line:** "$599 for one day, and you walk out with the thing built and running. Compare that to one quarter of waiting on IT, or $20k for a vendor v1 you'll still need to maintain."
+### The Handover
+- **A finish line.** A date fixed before it starts, in a category where nothing ends.
+- **Week five.** Non-dependency made falsifiable rather than claimed. Lead with this.
+- **The cap.** Six a year. Not scarcity theatre: it is what one person can do personally, and it explains why the person they met is the person they get.
+- **Ownership.** The context layer is theirs, in plain text and version control, not rented.
 
-### Cohort ROI math (for the buyer)
-- Average cost of a wrong AI vendor commitment in mid-market: $200k–$2M (annual contract + integration cost + opportunity cost)
-- Cost of the Cohort: $2,500
-- Effective insurance ratio: 80× to 800× the cost
-- Time cost: ~16 hours total over 4 weeks (4 hrs/week)
-- Workshop alumni discount: $500 off via code `WORKSHOP` at Maven (valid 90 days post-workshop)
-- Comparator: a single board-prep consulting session from a Big 4 firm: $25k–$50k
+---
 
-**Sales line:** "$2,500 to make sure you don't waste $1.5M on the wrong vendor commitment. The math works even if you're only 1% likely to be wrong."
+## 5. ROI framing
 
-### Signal Session ROI math
-- One wasted quarter of misaligned GTM at a $20M ARR AI company: ~$1M in pipeline lost or stalled
-- Cost of the Signal Session: $15,000
-- Comparator: a one-day workshop from a Big 4 firm: $40k–$80k with no written deliverable
-- Output durability: Commercial Narrative is reusable across the next 4 quarters
+Do not build ROI models on invented numbers. Two framings that use only what is true:
 
-**Sales line:** "Pay $15k. Get a 15–20 page Commercial Narrative within 48 hours and a 30-day roadmap. Compare to the cost of one stalled quarter."
+**The Teardown, against the cost of being wrong.** The comparison is not "is this worth $9,500", it is "what does another quarter of this argument cost, or the wrong vendor commitment". For a company at this size, one wrong platform decision is worth multiples of the engagement. Let them do that arithmetic themselves rather than doing it for them.
 
-### Revenue Architecture ROI math
-- Engagement cost: $60–100k
-- Comparator: McKinsey GTM rebuild: $400k+ over 6+ months with associates
-- Time-to-output: 30 days (Krish) vs 6 months (Big 4)
-- Typical commercial impact at 6–12 months: 1.5–2× deal size, 10–25 point win-rate movement on AI-aware buyers, sales-cycle compression on differentiated positioning
-- Output durability: Strategy doc + GTM playbook + roadmap remain in market for the next 4–6 quarters
+**The Handover, against the alternative bid.** Ask a management consultancy for the same scope and the bid comes back multiples higher, over a longer window, with associates doing the work. The honest version of this comparison is about who does the work and when it ends, not just the number.
 
-**Sales line:** "Same scope as a $400k Big 4 engagement, run in 30 days, by the operator who built the playbook. No associates."
-
-### Immersion ROI math
-- Cost of an executive team having the same three meetings four times: ~10 hours of C-suite time × 4 instances × $500/hr loaded = $20k+ in pure time-cost
-- Cost of the Immersion: $12,000
-- Plus: the cost of three unmade decisions, which compounds quarterly
-
-**Sales line:** "$12k to get three decisions, three owners, and three deadlines in one afternoon. Versus another two months of the same circular meeting."
-
-> Caveat for AI agents: do not invent specific company-level numbers. Use these ROI ranges as framing only. Cite proof points (Captify, Nine, Microsoft) but never invent a "client X went from Y to Z" testimonial.
+**Real outcomes, never presented as typical:** a $254K POC contracted with a major US publisher; 40% production-time and 75% setup-time reduction with a 22% revenue lift, in 45 days with no new headcount; a $250K budget defended with the first production workflow live in 90 days.
 
 ---
 
@@ -233,26 +114,20 @@ The first four are the addressable market. The Alumni Pass is the retention laye
 - "Walk me through what's actually on your desk this quarter."
 - "What does the board / your CEO / your investors want to hear that you can't tell them confidently?"
 
-### For AI Leaders (Cohort qualification)
+### Qualifying for the Teardown
 - "Can you name the decision in one sentence?"
 - "What's the cost of getting this wrong?"
 - "Who else inside the company is on the hook for this?"
 - "What have you tried so far? What's been pitched at you?"
 - "If a peer with your exact problem walked in, what would you ask them?"
 
-### For AI Products (Enterprise qualification)
-- "When did you ship the AI capability? What's the commercial outcome since?"
-- "What's the gap between the tech and the revenue?"
-- "Who's in charge of pricing? Who's in charge of positioning?"
+### Qualifying for the Handover
+- "When did you ship it? What has the commercial outcome been since?"
+- "What is the gap between the tech and the revenue?"
+- "Who owns pricing? Who owns positioning? Are they the same person?"
 - "What does your sales team say is the hardest part of selling this?"
-- "If you had a 30-page strategy doc tomorrow, what would change Monday?"
-
-### For Executive Teams (Immersion qualification)
-- "Who's the sponsor? Who's in the room?"
-- "Can you name the three tensions in a sentence each?"
-- "Has the team had this conversation before? How many times?"
-- "Will the leaders actually attend, or are substitutes likely?"
-- "What does success look like at the end of the afternoon?"
+- "Who inside the company will carry the work between our sessions?" (If nobody can be named, this is not ready.)
+- "How many people are in the company?" (This sets the band. Ask it plainly; it is the difference between two real numbers.)
 
 ### Disqualification probes
 - "Are you looking for ongoing capacity, or a defined engagement with a finish line?" (Disqualify if ongoing)
@@ -261,110 +136,46 @@ The first four are the addressable market. The Alumni Pass is the retention laye
 
 ---
 
-## 7. Objection Bank (snapshot answers, channel-agnostic)
+## 8. Channel templates
 
-| Objection | One-line snap answer |
-|---|---|
-| "It's expensive." | Compare to the cost of the wrong call: cohort = ~50× cheaper than vendor lock-in regret; Revenue Architecture = ~5× cheaper and 6× faster than McKinsey. |
-| "Why not McKinsey?" | They sell decks built by researchers over 6 months. Krish ships a 30-page strategy doc in 30 days, no associates. |
-| "Why no fractional CAIO?" | Mindmaker doesn't do fractional. Every offer has a finish line. If ongoing capacity is what you need, hire a full-time exec. |
-| "Why no implementation?" | We do the commercial and decision layer. Implementation is a different skill, we'll name a partner if needed. |
-| "Why is the Cohort on Maven?" | Enrollment, payment, the cohort Slack, and alumni access all live there. Themindmaker.ai describes the offer; Maven runs it. |
-| "Why only 30 days for the Revenue Architecture?" | No discovery theatre, no associates. 30 days is enough when the operator is in the room. |
-| "Why $15k for one day?" | You're paying for the 15–20 page Commercial Narrative within 48 hours, plus positioning framework, sales narrative, pricing sketch, and 30-day roadmap. |
-| "Can we record the Immersion?" | No. Recording kills candor. Summary captures durable decisions. |
-| "Can a colleague go in my place?" | (Cohort) No, peer continuity is part of the product. (Immersion) No, substitutes break the room. |
-| "Why was the diagnostic taken out of the nav?" | Direct-URL only. Used for outbound and deep-link campaigns; the homepage focuses on the two cohort/enterprise paths. |
-| "Why isn't Immersion on the homepage?" | Team alignment is rarely the actual problem. Inquiry-only keeps it from cannibalizing the Cohort and Enterprise paths. |
-| "Do you take vendor referrals?" | No referral fees, ever. Tool-agnostic. |
+Rewritten August 2026. Every one of these previously sold an offer that no longer exists.
 
----
+### Email outbound: trigger-based
 
-## 8. Channel-Specific Message Templates
-
-### LinkedIn outbound: AI Leader, trigger-based
-
-**Subject (InMail) / first line (connection note):**
-"Saw your post about [specific signal, vendor pile-up / board AI question / competitor move]. One question:"
-
-**Body:**
-> Saw your [Q3 post / fundraise / panel] about figuring out AI strategy. Most leaders I talk to right now have one specific decision they've been putting off, usually build-vs-buy, vendor commitment, or board narrative.
+> Subject: the [decision] you keep not making
 >
-> If that's you, I run a quarterly cohort with 10–15 senior leaders working those exact problems. 4 weeks mostly async, 4 live 90-min sessions, $2,500. Hosted on Maven. You leave with a 1-page board-ready memo on your nervous decision.
+> Saw [trigger: the funding round, the launch, the hire, the board deck]. Usually right about now the question stops being technical and starts being commercial.
 >
-> Worth a 20-min call to see if it's the right shape?. Krish
-
-### Email outbound: AI Products, trigger-based
-
-**Subject:** "[Company], quick read on the commercial side"
-
-**Body:**
-> [Name]
+> I take one real decision apart in ten business days. Yours comes back as the claims it is actually resting on, each checked against evidence, with the parts only you can decide separated from the parts the world decides. Under two hours of your time. $9,500, and the price is on the site.
 >
-> [Specific signal: noticed your pricing page changed in March / saw the Series C with "scale GTM" called out / [CRO name] just joined as your new commercial lead].
->
-> Most AI-product companies I work with have built the tech but the commercial side was set up for the pre-AI version of the product. Pricing is guesswork, sales can't articulate differentiation, GTM doesn't fit.
->
-> I run two enterprise sprints for that:
-> - **Signal Session** ($15k, 1 day, 15–20 page Commercial Narrative within 48h), diagnosis
-> - **Revenue Architecture** ($60–100k, 30 days), full rebuild
->
-> Both fixed scope, fixed finish line. No retainer, no associates. Operator-led. I run a 14-agent autonomous OS at Mindmaker, and previously took Nine Entertainment data revenue from $9M → $61M.
->
-> 20-min call this week or next? Or skip the call: themindmaker.ai/enterprise has the detail.
->
->. Krish
+> It regularly ends with me telling people not to spend anything else. If that is useful, reply and I will send the one page it produces.
 
-### Email follow-up: Cohort no-decision-yet
+### Email follow-up: no decision yet
 
-**Subject:** "Quick, does this still match your nervous decision?"
-
-**Body:**
-> [Name]
+> Subject: still gathering input?
 >
-> Thinking about [their decision in their words]. If you're still wrestling with it, the next AI-Fluent Executive cohort runs [July 21 to August 14, 2026, confirm in `Cohort.tsx`]. There are [N] of 15 seats left.
+> Thinking about [their decision in their words]. The tell that it is ready is usually that it has appeared on a third leadership agenda without moving.
 >
-> Four weeks, mostly async. Four live 90-minute sessions. Hosted on Maven. $2,500, or 2× $1,250 split.
->
-> Reserve a seat directly: maven.com/mindmaker/the-ai-fluent-executive, or reply if you want a 15-min call first.
->
->. Krish
+> When it gets there, ten business days and under two hours of your time settles it. No rush from me: it is a worse purchase when the decision is not real yet.
 
-### Retargeting / paid copy: short
+### Retargeting and paid, short
 
-**Headline:** "Stop being sold AI. Start using it."
-**Sub:** "A Maven-hosted cohort for senior leaders making one nervous AI decision. $2,500. 4 weeks. Board-ready memo at the end."
-**CTA:** "See the cohort →" (`/cohort`)
+**Headline:** "Bring the decision you keep not making."
+**Sub:** "Ten business days. Under two hours of your time. A one-page memo you can send on. $9,500."
 
-**Headline (Workshops variant):** "Build it with me. In a day."
-**Sub:** "Five one-day workshops on Maven. $599. You walk out with a real artefact deployed on your real surface."
-**CTA:** "See the workshops →" (`/workshops`)
+**Headline (Handover variant):** "Six weeks. Then I leave and you keep it."
+**Sub:** "Week five I don't attend, because a system that only runs when I'm in the room is not a system. Six a year."
 
-**Headline (Enterprise variant):** "AI capability ≠ AI revenue."
-**Sub:** "Signal Session ($15k, 1 day) or Revenue Architecture ($60–100k, 30 days). Operator-led. No retainer."
-**CTA:** "Explore enterprise →" (`/enterprise`)
+### Lifecycle: after a Teardown is booked
 
-### Lifecycle: post-cohort enrolment confirmation
+> 1. A short kickoff to confirm the one decision. Fifteen minutes.
+> 2. Then nothing from you for a while. That is intentional.
+> 3. The memo lands inside ten business days, with three claims under a 90-day watch.
+> 4. If it says you do not need anything else, that is the honest answer and there is no follow-up sell.
 
-> [Name]
->
-> Welcome. Three things:
->
-> 1. **Maven invite** is on its way, that's where the cohort runs. Cohort Slack + curriculum live there.
-> 2. **Pre-work**: by [date], post a one-paragraph brief in the Slack channel: what's your nervous decision?
-> 3. **First live session**: [date/time]. 90 minutes. Camera on, leadership candor.
->
-> See you there.
->. Krish
+### Content hook: LinkedIn, blog, podcast
 
-### Content hook: LinkedIn / blog / podcast
-
-- "I haven't been to a single AI conference this year. Here's what I'd tell a senior leader who has."
-- "Why I retired the 4-week sprint."
-- "The decision underneath the decision: how senior leaders get AI vendor commitments wrong."
-- "30 days is enough. Why I rebuilt commercial strategy in less time than McKinsey runs discovery."
-- "What I learned running a 14-agent OS for the last 12 months."
-- "Three meetings four times: why your exec team can't decide on AI."
+The durable angle is the method, not the offer: decisions rest on claims nobody writes down; averaging four models into one confident answer hides the part worth looking at; the difference between what the world decides and what only you can decide.
 
 ---
 
@@ -374,7 +185,7 @@ The first four are the addressable market. The Alumni Pass is the retention laye
 |---|---|---|
 | **McKinsey / BCG / Deloitte** | 6-month engagement, 40-slide deck, $400k+, researchers | Fixed scope, 30 days, $60–100k, operator-led, no associates |
 | **Fractional CAIO / CTO / CMO** | Ongoing retainer, fractional capacity | Finish line. We never sell capacity. |
-| **AI training / cohort courses (Maven, Section, Reforge)** | Curriculum, lectures, certifications | Decision room, peer pressure, written board-ready memo. (Maven is our hosting platform, comparison is content vs decision-output.) |
+| **AI training and cohort courses** | Curriculum, lectures, certifications | Mindmaker does not sell training. The output is a decision in writing, or a rebuilt commercial layer. |
 | **AI tool vendors** | "Our tool is the answer" | Tool-agnostic. Trade-off analysis. No referral fees. |
 | **Doing nothing** | "We'll figure it out next quarter" | The compounding cost of unmade decisions vs the price of resolving them. |
 
@@ -392,43 +203,47 @@ Walk away politely from any of the following. Sending the wrong buyer through th
 - Cannot name a decision or commercial symptom in a sentence
 - IC-level title with no budget authority
 - Vendor co-sell partnership pitch (we're tool-agnostic)
-- "We just want training / a workshop / a keynote", refer to LinkedIn, the podcast, or Lightning Lessons
+- "We just want training, a workshop or a keynote", refer to the podcast or Mindmaker LIVE. Mindmaker does not sell training.
 
 When you walk, walk warmly: "That's not what we sell, but here's what I'd suggest instead, [specific recommendation, named partner if applicable]." Brand currency compounds when you say no honestly.
 
 ---
 
-## 11. Routing Logic (for AI agents handling inbound)
+## 11. Routing logic (for AI agents handling inbound)
 
 ```
-IF prospect_wants_to_build_this_quarter AND not_a_specific_nervous_decision:
-  route to /workshops (pick Workshop matching the artefact)
+IF wants_ongoing_capacity OR fractional_role OR retainer:
+  walk warmly. name an alternative. no price.
 
-IF prospect_named_specific_decision AND budget_authority:
-  IF wants_1to1: route to /cohort?inquiry=1:1
-  ELSE: route to /cohort (Cohort)
+ELSE IF wants_implementation OR production_IT:
+  walk. refer a partner.
 
-IF prospect_company_has_AI_product AND commercial_traction_problem:
-  IF timeline_short OR diagnostic_first: route to Signal Session
-  IF ready_for_full_rebuild AND budget_60_to_100k: route to Revenue Architecture
+ELSE IF cannot_name_a_decision:
+  free on-ramp only (the Diagnosis Room, the Sunday brief).
+  no paid push. tell them to come back when a real fork shows up.
 
-IF prospect_is_CEO_with_team_alignment_problem AND 4_to_8_leaders:
-  route to Immersion (inquiry-only), preselect "immersion" in the scoping modal
+ELSE IF wants_a_product_not_an_engagement:
+  route to CTRL at ctrl.themindmaker.ai.
+  quote NO price: separate product, separate site.
 
-IF prospect_is_alum_post_engagement:
-  route to /alumni (invitation-only, $1,500/year Alumni Pass)
+ELSE IF decision_is_made AND commercial_machine_is_broken:
+  route to The Handover, band by headcount.
+  ALWAYS book the call. never self-serve.
+  still starts with a Teardown; frame as the sequence.
 
-IF prospect_is_exploring AND no_firm_timeline:
-  route to maven.com/mindmaker (free Lightning Lessons), warm to Workshop later
+ELSE IF fund OR operating_partner OR family_office:
+  same two engagements, per portfolio company. route to /capital.
+  fund-level terms set on the call, never quoted.
 
-IF prospect_is_individual_contributor OR pre_revenue OR wants_implementation OR wants_fractional:
-  disqualify warmly. Suggest: LinkedIn / podcast / Lightning Lessons.
+ELSE IF headcount > 5000:
+  no published price. book the call.
 
-DEFAULT (uncertain):
-  open the Diagnosis Room (Mindy) via "Book a call"
-  Mindy diagnoses the decision in conversation → recommends the right rung
-  (can down-sell to a cheaper rung or a free lesson; books the call for anything above ~$12k)
+ELSE:
+  route to The Teardown. this is the default.
+  price is published; self-serve is fine.
 ```
+
+**Never** invent a price, convert between currencies, or offer a discount.
 
 ---
 
@@ -454,53 +269,71 @@ When you (an AI sales agent) help craft the prospect's reply or follow-up, mirro
 
 - **Never invent client names or numbers.** Use only the published proof points (Captify $0→$12M, Nine Entertainment $9M→$61M, Microsoft 2010 first global automated campaigns, 14-agent OS).
 - **Never reference retired offers.** No 4-Week Sprint, 90-Day Sprint, Builder Sprint, Builder Session, Leadership Lab, Portfolio Partner, Fractional CAIO. No "Signal Desk" or "The Brief" as a nav label.
-- **Never reference outdated specs.** Revenue Architecture is **30 days**, not 8–12 weeks. Signal Session deliverable is **15–20 page Commercial Narrative within 48 hours**, not 5–10 pages within 5 days.
+- **Never reference a retired offer.** The six-rung ladder is gone. If it is not the Teardown or the Handover, it does not exist.
 - **Never use vendor-pitch language.** No "transformation", "synergy", "leverage" (as verb), "journey" (as abstract noun), "innovative", "revolutionary", "cutting-edge".
 - **Always anchor on a finish line.** Every offer has one. Mention it.
-- **Always mention Maven for Cohort enrolment.** That's where the actual experience lives.
-- **Always close with a single CTA.** "Book a call" by default, "Reserve my seat on Maven" if Cohort is the obvious fit, "Request a date" for Immersion.
+- **Never quote a price that is not in `src/lib/offers.ts`,** and never convert between currencies.
+- **Always close with a single CTA.** "Bring me one real decision" by default. The Handover always routes to the call.
 
 ---
 
-## 14. Quick Reference Card (paste this into agent prompts)
+## 14. Quick reference card (paste this into agent prompts)
 
 ```
 COMPANY:    Mindmaker (themindmaker.ai)
 FOUNDER:    Krish Raja
 POSITION:   The anti-consultancy for leaders done being sold AI.
+SHAPE:      A capped advisory practice. A small number of engagements a year.
 
-OFFERS (the ladder):
-  - 5 free Lightning Lessons              free          Maven instructor page (top-of-funnel)
-  - Mindmaker Workshops (×5)              $599 each     1 day on Maven (build-with-me)
-  - The AI-Fluent Executive (Cohort)      $2,500/seat   Maven-hosted   4wk async + 4 live 90min
-  - The Signal Session                    $15,000       1 day + 48h Commercial Narrative (15-20pp)
-  - The Revenue Architecture              $60-100k      30 days (4-5 weeks), multi-session
-  - The AI Immersion (inquiry-only)       $12,000       4 hours + 5-day 2pp summary
-  - The Alumni Pass (invitation-only)     $1,500/yr     Annual continuity, Stripe-billed
+OFFERS (two, largest first):
+  The Handover   USD $18,000 / $30,000 / $50,000    by headcount: <100, 100-250, 250-5000
+                 GBP  £14,000 /  £23,500 /  £39,000
+                 AUD  $27,500 /  $45,500 /  $76,000
+                 6 weeks + Day 90 recheck. Week 5 Krish does not attend.
+                 Capped at 6 a year. ALWAYS via the call. Starts with a Teardown.
 
-BRAND FRAMEWORK (homepage FrameworkJourney):  Mind Set → Mind Map → Mind Make
-COHORT CURRICULUM FRAMEWORK:                  Diagnose → Decompose → Decide → Deploy
-PRIMARY CTA:  "Book a call"  (opens the Diagnosis Room / Mindy; ScopingModal is the secondary booking surface on offer pages)
-WORKSHOP CTA: "Enrol on Maven" (or "Get notified" if not yet published)
-COHORT CTA:   "Reserve my seat on Maven" → maven.com/mindmaker/the-ai-fluent-executive
-ALUMNI CTA:   "Request an invitation" (preselects 'alumni' in modal)
+  The Teardown   USD $9,500   GBP £7,500   AUD $14,500
+                 10 business days, under 2 hours of client time.
+                 One-page memo + 3 claims under a 90-day watch.
+                 The entry rung AND the gate. Self-serve; price is published.
 
-NAV LABEL FOR /signal:  "Live Intel"  (NOT "The Brief", NOT "Signal Desk")
-TAXONOMY ON /signal:    WATCH / SKIP / CALL / TAKE
+  /capital       Same two, per portfolio company, for funds and operating
+                 partners. Fund-level terms set on the call, never quoted.
+
+  CTRL           Separate product, own site, own pricing. NOT sold here.
+                 Quote no CTRL price.
+
+PRICES: set per market, NOT conversions. Quote exactly, in the currency asked
+        for. Never convert. Never invent. NEVER DISCOUNT.
+        Canonical source: src/lib/offers.ts
+
+ICP:    50 to 5,000 people, sweet spot 100 to 1,000.
+        Buyer is the CEO, CRO or VP Product. Never the CTO.
+        No geographic qualifier, ever. Three currencies is why.
+
+BRAND FRAMEWORK:  Mind Set -> Mind Map -> Mind Make
+PRIMARY CTA:      "Bring me one real decision" (opens the Diagnosis Room)
 
 DO NOT SELL:
   - Fractional roles
   - Retainers
   - Implementation / production IT
+  - Training, courses, certifications
   - Tool recommendations without trade-off analysis
-  - 6-month engagements
-  - 40-slide decks
+  - Anything without a finish line
 
-OPERATOR PROOF:
-  - 14-agent autonomous OS (Mindmaker)
-  - Captify APAC: $0 → $12M ARR
-  - Nine Entertainment data: $9M → $61M
-  - Microsoft 2010 first global automated media campaigns
+DO NOT PUBLISH:
+  - Any discount, credit or urgency offer
+  - Any price not in src/lib/offers.ts
+  - Any geographic market claim
+  - Any client name. The POC is "a major US publisher", always
+
+PROOF:
+  - $254K POC contracted with a major US publisher
+  - Nine Entertainment: data and automation revenue $9M -> $61M in 3 years
+  - Captify APAC: $0 -> $12M ARR at 22% EBITDA as first hire
+  - Nexxen (SingTel): APAC platform revenue $4M -> $38M across 12 markets
+  - Mindmaker OS: 14 agents, 45 workflows, in production, licensed to 3 businesses
 ```
 
 ---
@@ -509,7 +342,7 @@ OPERATOR PROOF:
 
 - `OFFERS.md`. full offer detail, scope, format, deliverables
 - `ICP.md`. full ICP profiles with disqualifiers
-- `ICP_ACCOUNTABLE_DELEGATOR.md`. deep archetype of the cohort/leader buyer ("The Accountable Delegator")
+- `ICP_ACCOUNTABLE_DELEGATOR.md`. deep archetype of the buyer ("The Accountable Delegator")
 - `VALUE_PROP.md`. positioning, differentiators, competitive framing
 - `OUTCOMES.md`. buyer outcomes by offer with leading and lagging indicators
 - `BRANDING.md`. voice, tone, terminology standards

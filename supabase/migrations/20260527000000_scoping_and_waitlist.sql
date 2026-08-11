@@ -1,4 +1,6 @@
--- Scoping requests for high-value engagements (Signal Session, Revenue Architecture, Immersion)
+-- Scoping requests for high-value engagements. Comment updated August 2026:
+-- the offers named here were retired. The table is unchanged and still serves
+-- the current ladder.
 create table if not exists scoping_requests (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),

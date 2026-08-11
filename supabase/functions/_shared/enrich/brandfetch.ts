@@ -14,7 +14,7 @@
  *                                                         // type: logo|icon|symbol; theme: light|dark
  *        company?: { industries?: [{ name }], foundedYear?, employees?, location? } }
  *
- * @returns Promise<DossierPartial | null> — partial identity layer, or null on any failure.
+ * @returns Promise<DossierPartial | null>, partial identity layer, or null on any failure.
  */
 
 import type { DossierPartial } from './types.ts';
@@ -81,7 +81,7 @@ function pickColors(colors: BrandfetchColor[] | undefined): string[] {
   const rank: Record<string, number> = { accent: 0, brand: 1, dark: 2 };
   const ordered = colors
     .filter((c) => typeof c?.hex === 'string' && /^#?[0-9a-fA-F]{3,8}$/.test(c.hex))
-    // Exclude 'light' swatches — they read as background, not as a brand accent.
+    // Exclude 'light' swatches, they read as background, not as a brand accent.
     .filter((c) => c.type !== 'light')
     .map((c) => ({ hex: normHex(c.hex as string), weight: rank[c.type ?? ''] ?? 9 }))
     .sort((a, b) => a.weight - b.weight);
@@ -251,7 +251,7 @@ export async function fetchBrandfetch(domain: string): Promise<DossierPartial | 
     });
 
     if (!res.ok) {
-      // 401/403/404 etc. are terminal for this domain — log and bail, no throw.
+      // 401/403/404 etc. are terminal for this domain, log and bail, no throw.
       logger.warn('brandfetch non-ok response', { domain, status: res.status });
       return null;
     }

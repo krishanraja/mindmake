@@ -167,7 +167,7 @@ Deno.test('a captured full-depth Dossier satisfies the type + key contract', () 
       sizeBand: '1001-5000',
       trancoRank: 241,
       icp: 'enterprise',
-      recommendedMode: 'signal-session',
+      recommendedMode: 'teardown',
     },
     currency: [{ text: 'Shipped a new product', source: 'exa', date: '2026-06-01' }],
     synthesis: 'Here is what I think you do, correct me.',

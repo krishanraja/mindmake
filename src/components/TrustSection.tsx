@@ -159,17 +159,22 @@ const TrustSection = () => {
           {/* Desktop: wider container, full text */}
           <div className="hidden md:block">
             <p className="text-2xl font-bold mb-4 max-w-5xl mx-auto leading-snug">
-              I work with AI every single day - building, breaking, and shipping real systems. I&rsquo;ve run and restructured businesses, P&amp;Ls and teams with automation, and I&rsquo;m here to make sure you can too: without the jargon, without the judgement, and without pretending you should already know this stuff.
+              Sixteen years commercialising content, media and IP businesses. Now I build
+              the AI systems that run them.
             </p>
             <p className="text-muted-foreground max-w-3xl mx-auto mb-8">
-              This is a safe space to ask the &ldquo;silly&rdquo; questions, get honest answers, and walk away with the skills and confidence to future-proof yourself for the next decade. That&rsquo;s what I&rsquo;m passionate about.
+              I work with AI every day, building, breaking and shipping real systems, and
+              I run a 14-agent operating system across my own portfolio. Mindmaker is a
+              capped advisory practice: a small number of engagements a year, because I do
+              the work. You can ask the questions you have been avoiding asking out loud.
             </p>
           </div>
 
           {/* Mobile: collapsible bio */}
           <div className="md:hidden mb-8">
             <p className="text-lg font-bold leading-snug">
-              I work with AI every single day - building, breaking, and shipping real systems.
+              Sixteen years commercialising content, media and IP businesses. Now I build
+              the AI systems that run them.
             </p>
             <motion.div
               initial={false}
@@ -178,10 +183,13 @@ const TrustSection = () => {
               className="overflow-hidden"
             >
               <p className="text-lg font-bold leading-snug mt-2">
-                I&rsquo;ve run and restructured businesses, P&amp;Ls and teams with automation, and I&rsquo;m here to make sure you can too: without the jargon, without the judgement, and without pretending you should already know this stuff.
+                I work with AI every day, building, breaking and shipping real systems, and
+                I run a 14-agent operating system across my own portfolio.
               </p>
               <p className="text-muted-foreground mt-4">
-                This is a safe space to ask the &ldquo;silly&rdquo; questions, get honest answers, and walk away with the skills and confidence to future-proof yourself for the next decade. That&rsquo;s what I&rsquo;m passionate about.
+                Mindmaker is a capped advisory practice: a small number of engagements a
+                year, because I do the work. You can ask the questions you have been
+                avoiding asking out loud.
               </p>
             </motion.div>
             <button

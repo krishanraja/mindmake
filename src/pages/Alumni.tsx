@@ -100,7 +100,7 @@ export default function Alumni() {
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}>
             <h2 className="text-2xl md:text-3xl font-bold mb-5">Eligibility.</h2>
             <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-              If you've completed a Mindmaker Workshop, the AI-Fluent Executive cohort, a Signal Session, the Revenue Architecture, or the AI Immersion, you're eligible. Invitations are sent post-engagement. If you're not yet an alum and you'd like to be, the right starting point is a Workshop or the Cohort.
+              If you've completed any Mindmaker engagement, you're eligible. Invitations are sent after the work finishes. If you're not yet an alum and you'd like to be, the right starting point is The Teardown.
             </p>
           </motion.div>
         </div>

@@ -10,7 +10,7 @@
  * PHASE 2 tracks, NEXT STEPS, and the signature.
  *
  * Contracts honoured here:
- *   - RANGES ONLY. The fee cell and every ladder price render recommendation.range
+ *   - The fee cell and every ladder price render recommendation.price verbatim
  *     or a ladder band. If exit is 'book-call', or the band reads "set on the
  *     call" / sits over the ~$100k ceiling, the price block says the number is
  *     set on the call. En dashes preserved in numeric ranges.
@@ -52,19 +52,22 @@ function safeHex(hex?: string): string | null {
   return null;
 }
 
-// ── pricing helpers (ranges only) ────────────────────────────────────────────
+// Pricing helpers.
 
 const SET_ON_CALL = 'Set on the call';
 
 /**
- * Decide what the price block should display. Never an exact figure: if the
- * recommendation says book-call, or the band reads as a "set on the call"
- * sentinel, or it carries the over-ceiling "+" marker, we show the set-on-call
- * line. Otherwise we show the band verbatim.
+ * Decide what the price block should display. Prices are published, so a real
+ * figure is shown verbatim and the set-on-call line is only a fallback for when
+ * there is no figure to show.
+ *
+ * The book-call exit deliberately does NOT suppress a published figure. The
+ * Handover is bought through a conversation, which is a rule about how you buy
+ * it, not about whether the price is a secret. A prospect who just read the
+ * band on /handover must not open their proposal and find the fee withheld.
  */
 function resolveFee(payload: ProposalPayload): { onCall: boolean; band: string } {
-  const exit = payload.recommendation?.exit;
-  const raw = (payload.recommendation?.range || '').trim();
+  const raw = (payload.recommendation?.price || '').trim();
   const lower = raw.toLowerCase();
 
   const looksSetOnCall =
@@ -73,8 +76,8 @@ function resolveFee(payload: ProposalPayload): { onCall: boolean; band: string }
     lower.includes('scoped') ||
     lower === 'tbd';
 
-  if (exit === 'book-call' || looksSetOnCall) {
-    return { onCall: true, band: raw && !looksSetOnCall ? raw : SET_ON_CALL };
+  if (looksSetOnCall) {
+    return { onCall: true, band: SET_ON_CALL };
   }
   return { onCall: false, band: raw };
 }
@@ -197,7 +200,7 @@ function safeUrl(url?: string): string | null {
 }
 
 /**
- * "What I already know about you" — the intelligence strip that proves Mindmaker
+ * "What I already know about you", the intelligence strip that proves Mindmaker
  * did the homework. Surfaces the public research the dossier pulled (sector, what
  * they do, the visible stack from BuiltWith, products, recent signals) and the
  * one-paragraph operator read. NEVER renders scale.* (headcount, rank, ICP):
@@ -403,7 +406,8 @@ function renderProof(proof: ProofEntry[]): string {
 
   const tiles = proof
     .map((p) => {
-      const { quote, attr } = splitQuote(p.quote);
+      const quote = p.quote;
+      const attr = p.attribution ?? '';
       return `
         <div class="pf">
           <div class="pf-k">${esc(titleizeMode(p.mode))}</div>
@@ -429,13 +433,13 @@ function renderPrice(payload: ProposalPayload): string {
   const heading = esc(p.heading || 'What it costs, and what it does not.');
   const intro = esc(
     p.intro ||
-      'I price against the value of the decision, not my hours. So this is the band it sits inside; the exact number is set on the call. Whatever you pay rolls forward, so there is no wrong place to begin.',
+      'I price against the value of the decision, not my hours. The price is published, so here it is, fixed and capped rather than a running meter. Whatever you pay rolls forward, so there is no wrong place to begin.',
   );
 
   const fee = resolveFee(payload);
 
   // Spec row: caller-supplied window/time/rate cells, plus a forced fee cell
-  // that is always a RANGE or the set-on-call line.
+  // carrying the published figure, or the set-on-call line when there is none.
   const baseSpecs: SpecItem[] = p.specs && p.specs.length > 0
     ? p.specs.slice(0, 3)
     : [];
@@ -453,9 +457,9 @@ function renderPrice(payload: ProposalPayload): string {
     ? `<p class="rate-note">The exact figure is <b>set on the call</b>, against the value of the decision, not a running meter. ${esc(
         p.rateNote || '',
       )}</p>`
-    : `<p class="rate-note">The fee sits in the <b>${esc(
+    : `<p class="rate-note">The fee is <b>${esc(
         fee.band,
-      )}</b> band. Capped and fixed, not a running meter, and the exact number is set on the call.${
+      )}</b>. That is the published price, capped and fixed, not a running meter.${
         p.rateNote ? ` ${esc(p.rateNote)}` : ''
       }</p>`;
 
@@ -670,30 +674,27 @@ function initialsOf(name: string): string {
   return (first + last).toUpperCase();
 }
 
-/** Pull a trailing " — Role, sector" attribution off a proof quote, if present. */
-function splitQuote(raw: string): { quote: string; attr: string } {
-  const s = String(raw ?? '').trim();
-  const idx = s.lastIndexOf(' — ');
-  if (idx === -1) {
-    return { quote: s, attr: '' };
-  }
-  return { quote: s.slice(0, idx).trim(), attr: s.slice(idx + 3).trim() };
-}
+/*
+ * splitQuote() was removed in August 2026. It recovered a proof quote's
+ * attribution by scanning for the last ", " inside the quote text, which made
+ * the rendered attribution depend on punctuation inside a client's own words.
+ * ProofEntry now carries `attribution` as its own field.
+ */
 
-/** Turn a proof-bank mode key into a short, capitalised tile kicker. */
+/**
+ * Turn a proof-bank mode key into a short, capitalised tile kicker.
+ *
+ * Keyed on work shapes, matching ProofEntry.mode. Offer names are deliberately
+ * absent: these label what the work was, and the ladder can be renamed without
+ * this map going stale.
+ */
 function titleizeMode(mode: string): string {
   const map: Record<string, string> = {
+    decide: 'One decision',
     reposition: 'Repositioned',
     rebuild: 'Rebuilt',
     os: 'Operating system',
-    'signal-session': 'One decision',
-    'revenue-architecture': 'Commercial rebuild',
-    'bespoke-enablement': 'Built, not taught',
-    cohort: 'Made the call',
-    workshop: 'Shipped a tool',
-    immersion: 'Team aligned',
     ctrl: 'Context that sticks',
-    alumni: 'Unblocked',
   };
   return map[mode] ?? 'The result';
 }
@@ -738,7 +739,7 @@ function buildStyles(accent: string, accentDeep: string): string {
   .logo-client{height:26px;width:auto;max-width:172px;display:block;object-fit:contain;}
   .cobrand-x{color:#5E6863;font-family:var(--mono);font-size:16px;}
 
-  /* INTEL — "what I already know about you" */
+  /* INTEL, "what I already know about you" */
   .intel .intel-read{font-size:15px;color:var(--text);margin-bottom:16px;max-width:72ch;}
   .intel-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;}
   .intel-row{background:var(--paper);padding:12px 14px;display:flex;flex-direction:column;gap:3px;min-width:0;}
@@ -796,7 +797,10 @@ function buildStyles(accent: string, accentDeep: string): string {
   .keep-foot b{font-weight:600;}
 
   /* PROOF */
-  .proof{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:6px;}
+  /* auto-fit, not a hard 1fr 1fr 1fr. The proof bank is small and verified-only,
+     so selectProof legitimately returns 1 or 2 tiles for some modes. A fixed
+     3-column grid left those hanging in a two-thirds-empty row. */
+  .proof{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:6px;}
   .pf{border:1px solid var(--line);background:#fff;padding:22px 20px;display:flex;flex-direction:column;}
   .pf .pf-k{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint-deep);}
   .pf .pf-out{font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:-.01em;margin:10px 0 14px;line-height:1.34;}
@@ -918,7 +922,7 @@ export function renderProposalHtml(payload: ProposalPayload): string {
   const accentDeep = '#147A5E'; // deep mint kept for on-light text contrast (WCAG).
 
   const client = esc(payload.clientName || payload.contact?.company || 'Your company');
-  const title = `Mindmaker x ${client} — Proposal`;
+  const title = `Mindmaker x ${client}, Proposal`;
 
   const styles = buildStyles(accent, accentDeep);
 

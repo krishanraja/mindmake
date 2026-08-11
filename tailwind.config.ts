@@ -34,7 +34,7 @@ export default {
           50: "hsl(var(--mint-50))",
           dark: "hsl(var(--mint-dark))",
         },
-        // PORTFOLIO SIGNATURE — emerald (CTRL #00D9B6). The `mint` keys above
+        // PORTFOLIO SIGNATURE, emerald (CTRL #00D9B6). The `mint` keys above
         // are now aliases to these same primitives; prefer `emerald*` in new
         // code. Use `emerald-deep` for text/links on light (full AA).
         emerald: {

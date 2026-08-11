@@ -1,39 +1,45 @@
 # Purpose
 
-**Last Updated:** 2026-06-28
+<!-- Last Updated: 2026-08-11 -->
 
 ---
 
 ## Mission
 
-Mindmaker is **the anti-consultancy for leaders who are done being sold AI and ready to use it.** We turn AI chaos into direction for senior leaders wrestling with AI decisions, companies commercializing AI products, and executive teams that need fast alignment.
+Mindmaker is **the anti-consultancy for leaders who are done being sold AI and ready to use it.**
 
-Every offer has a fixed scope, a fixed outcome, and a finish line.
+Consultants, LLMs and the next hyped tool sell point solutions built to extract your judgment, not build it. Mindmaker does the opposite: it takes the decision apart in front of you, and rebuilds how the business makes the next one, so you get sharper as the tools get better.
+
+**Mindmaker is a capped advisory practice. A small number of engagements a year.** Every engagement has a fixed scope, a fixed price and a date it ends.
 
 **Brand North Star:** Stripe's design sensibility meets Anthony Bourdain's authenticity.
 
 ---
 
-## The Business
+## The business
 
-Mindmaker is a **ladder**: free Lightning Lessons at the top, paid Workshops ($599) as the entry rung, the AI-Fluent Executive Cohort ($2,500) as the qualifying step, enterprise sprints ($15k–$100k+) as the margin engine, and the Alumni Pass ($1,500/year) as continuity, plus an inquiry-only executive-team offer and Capital as a third door for funds:
+Two paid engagements, one ICP, three currencies.
 
-| Rung | Offer | Price | Duration | Buyer |
-|---|---|---|---|---|
-| Entry | Mindmaker Workshops (×5) | $599/workshop | 1 day each | Leader ready to build a real artefact alongside Krish |
-| Qualifying | The AI-Fluent Executive (Cohort) | $2,500/seat | 4 weeks + 4 live sessions | Senior leader with a nervous AI decision |
-| Enterprise entry | The Signal Session | $15,000 | 1 day + 48h delivery | Company commercializing an AI product |
-| Enterprise flagship | The Revenue Architecture | $60,000–$100,000 | 30 days | Same, needing a full commercial rebuild |
-| Inquiry-only | The AI Immersion | $12,000 | 4-hour session + 5-day summary | CEO-sponsored exec team needing fast alignment |
-| Continuity | The Alumni Pass | $1,500/year | Annual | Mindmaker alumni post any engagement |
+| Rung | Engagement | Duration | Buyer |
+|---|---|---|---|
+| The rebuild | The Handover | Six weeks, plus a Day 90 recheck | A company of 50 to 5,000 people where the commercial machine is what is broken |
+| The gate | The Teardown | Ten business days, under two hours of client time | Anyone with one nameable decision they keep not making |
 
-The cohort runs on content distribution and turns an audience into paying customers, hosted on Maven for enrollment continuity. Enterprise runs on inbound plus targeted outbound. The Immersion is a request-only fallback for buyers whose need is a team conversation, not an individual decision or a multi-week rebuild. The cohort is the flywheel that feeds the enterprise funnel.
+Prices are published, in USD, GBP and AUD, and live in `src/lib/offers.ts`. They are set prices per market, not conversions.
+
+The Teardown is the entry rung and the gate: every Handover starts with one. The Handover is capped at six a year, which is the honest number for work done personally.
+
+Funds, family offices and operating partners are a **third door** into the same two engagements, priced per portfolio company, at `/capital`.
+
+CTRL is a separate product with its own site and its own pricing. It is not sold here.
+
+**Advisory was retired in July 2026** in anticipation of a full-time role, and **reinstated on 11 August 2026** when that role fell through on an immigration technicality rather than on the work. Advisory is the primary cash engine. See `DECISIONS_LOG.md`.
 
 ---
 
 ## What We Do Not Sell
 
-- No 1:1 sprint products on the public site (inquiry-only if specifically requested)
+- No training. Mindmaker does not sell training, courses or certifications
 - No fractional executive roles (no fractional CAIO, CTO, CMO, CRO)
 - No ongoing retainers or month-to-month work
 - No production IT, deployment, or implementation services
@@ -41,73 +47,59 @@ The cohort runs on content distribution and turns an audience into paying custom
 - No 40-slide strategy decks
 - No tool recommendations without trade-off analysis
 - No vendor referral fees
+- **No published discounts.** No credit, no percentage off, no urgency offer
 
 ---
 
 ## Vision
 
-A world where senior leaders stop talking about AI and start using it. Where "AI strategy" means a deployed system and a defensible decision, not a slide deck and vendor theatre. Where companies commercializing AI stop confusing capability with revenue and learn to translate one into the other. Where executive teams resolve their three biggest AI tensions in an afternoon, not over six months of meetings.
+A world where senior leaders stop talking about AI and start using it. Where "AI strategy" means a deployed system and a decision someone can defend, not a slide deck and vendor theatre. Where companies stop confusing capability with revenue and learn to translate one into the other. Where the test of good advisory is whether the client needs you afterwards, and the answer is no.
 
 ---
 
-## Core Objectives
+## Core objectives
 
-### 1. Make the cohort the default room for senior AI decisions
-- 10–15 seats per cohort, quarterly cadence
-- Members show up with a nervous decision and leave with a board-ready position
-- Peer pressure and accountability do what a deck cannot
-- Hosted on Maven so enrollment, payment, and alumni community live in one place
+### 1. Make the Teardown the default first spend
+It is the honest first purchase for almost everyone, it is the gate for the larger engagement, and it is cheap enough that a wrong answer costs the buyer very little. Volume here is what makes the practice legible.
 
-### 2. Turn AI capability into revenue for enterprise buyers
-- The Signal Session (1 day, $15k) surfaces the real commercial problem and delivers a 15–20 page Commercial Narrative within 48 hours
-- The Revenue Architecture (30 days, $60–100k) ships positioning, pricing, packaging, GTM, and the board-ready narrative that makes the AI investment pay back
-- Operator credentials, real P&L experience plus an agentic OS Krish runs every day, make the engagement expensive to ignore
+### 2. Convert Teardowns into Handovers only when the decision genuinely points there
+Most should not. A Teardown that ends with "you do not need the six weeks" is the product working, and it is what makes the recommendation worth anything when it does point the other way.
 
-### 3. Resolve executive team alignment in an afternoon, not a quarter
-- The AI Immersion (4 hours, $12k) names the three decisions, names the owners, names the deadlines
-- Inquiry-only, never sold on the homepage; offered when a team conversation is the right shape
+### 3. Collect what nobody else can assemble
+Every engagement captures how the client priced and packaged, what converted, what had to change, and what the commercial constraint turned out to be. Advisory that produces only fees is a day rate with extra steps. See `OFFERS.md`.
 
-### 4. Preserve the ladder
-- A clear rung at every level, no scope creep into retainers.
-- Every engagement has a finish line.
+### 4. Keep the cap
+Six Handovers a year. The constraint is the product: it is what makes "Krish does the work" true rather than aspirational.
 
-### 5. Keep the framework portable
-- Mind Set → Mind Map → Mind Make outlives any tool, model, or vendor
-- Success = you don't need us anymore
 
 ---
 
-## What Success Looks Like
+## What success looks like
 
-**For a Cohort seat holder:**
-- One nervous AI decision resolved with a board-ready 1-page memo
-- Trade-off analysis with options named and rejection reasons documented
-- Peer network of 10–15 senior leaders working comparable problems
-- 90 days of post-cohort Slack access + lifetime curriculum access + alumni network
-- A framework for the next decision, not dependence on us
+**For a Teardown buyer:**
+- One decision resolved, in writing, on a page they can forward without editing.
+- The decision mapped to its load-bearing claims, each with a reliability tier, so they can see which parts of their own thinking were just repeated.
+- Every consideration classed External, Only you, or Nobody yet, so they stop researching things that research cannot settle.
+- Three claims under a 90-day watch, so they know in advance what should reopen this and what should not.
+- Roughly two hours of their time spent, total.
+- Sometimes: a memo telling them not to spend anything else. That is a success, not a refund.
 
-**For a Signal Session buyer:**
-- A 15–20 page Commercial Narrative delivered within 48 hours
-- A 2-page positioning framework ready for the team to use Monday
-- Sales narrative + objection handling guide
-- Pricing model sketch with 2–3 packaging options
-- A 30-day commercial roadmap with named owners and milestones
-- A clear read on whether the Revenue Architecture is warranted
+**For a Handover buyer:**
+- A commercial layer that works: positioning, pricing and the sales motion rebuilt around what their buyer actually responds to.
+- Their own people running it, with the reasoning written down rather than held in one person's head.
+- A context layer they own, in plain text and version control, model-agnostic and not rented from a platform.
+- Week five behind them, where the system ran without Krish in the room and they watched it hold.
+- A Day 90 recheck that confirms it did not decay quietly.
+- No dependency to unwind, because there is nothing ongoing to cancel.
 
-**For a Revenue Architecture buyer:**
-- A 30–40 page client-branded commercial strategy document
-- Product marketing framework: positioning, messaging, competitive differentiation
-- Revenue model with multiple pricing scenarios, tested against business reality
-- Packaging and tiering structure (2–3 ship-ready options)
-- 90-day GTM playbook: channels, sales process, enablement materials
-- Product roadmap aligned to commercial milestones (not just technical milestones)
-- Board-ready presentation deck (Krish presents if requested)
-- 30-day post-engagement follow-up session included
+**For a fund or operating partner:**
+- A read on a portfolio company that is not the founder's own account of it.
+- A company that can run the new motion without an ongoing dependency the fund now owns.
+- Across several engagements: a pattern they can act on at the portfolio level.
 
-**For an Immersion sponsor (CEO-level):**
-- Three named decisions with named owners and named deadlines
-- A 2-page board-ready summary delivered within 5 business days
-- A team genuinely aligned, not performatively aligned, on the three issues addressed
+**For Mindmaker:**
+- Referrals that come from the result rather than from the invoice.
+- A retained, structured record of how comparable companies priced, packaged and converted, which is the part that compounds.
 
 ---
 

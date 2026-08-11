@@ -40,3 +40,4 @@ core
 
 # Deno lockfile (edge function typechecks)
 deno.lock
+.qa-screenshots/

@@ -1,10 +1,165 @@
 # Decisions Log
 
-**Last Updated:** 2026-08-05
+**Last Updated:** 2026-08-11
 
 ---
 
 ## Brand & Product Decisions
+
+### 2026-08-11: Advisory reinstated as the primary cash engine
+
+**Decision:** Advisory is the primary cash engine again, effective immediately.
+
+**Context:** Advisory was retired in July 2026 in anticipation of a full-time role (see the entry below). That role fell through **on an immigration technicality, not on the work or the candidate**. The Teardown and Handover storefront had already shipped in early August regardless, so the storefront was correct and everything behind it was selling a business that had been wound down.
+
+**Rationale:** There is no other engine. The storefront exists, the positioning is good, and the estate needed to agree with the storefront rather than the other way round.
+
+**Review trigger:** A signed offer for a full-time seat.
+
+---
+
+### 2026-07: Advisory retired (SUPERSEDED 2026-08-11)
+
+**Decision:** Wind down the advisory business.
+
+**Rationale:** An expected full-time role. Documentation, the sales agent's knowledge base and a machine-readable product file were all updated to say advisory was dead.
+
+**Status:** **Superseded on 2026-08-11.** Anything asserting that advisory is retired is now false. The one instance that still exists is in `mm-ctrl`'s `public/.well-known/product.json`, which is out of scope for this repo and needs routing to whoever owns it. That file is what answer engines read.
+
+---
+
+### 2026-08-11: Repositioned to two engagements, The Teardown and The Handover
+
+**Decision:** The six-rung ladder is retired in full. Two engagements remain: The Teardown (the entry rung and the gate) and The Handover (the rebuild). Funds are a third *door* into the same two, not a third offer.
+
+**Retired, and not to be quoted anywhere:** Lightning Lessons, the five one-day Workshops, The AI-Fluent Executive (Cohort), The Signal Session, The Revenue Architecture, The AI Immersion, and bespoke enablement.
+
+**This is the one file where those names are written down on purpose.** Every other document describes them without naming them, because most are indexed for Mindy's retrieval and writing a retired offer name into a retrieval source is the most likely way one reaches a client. This file is not indexed.
+
+**The Alumni Pass survives**, unchanged: invitation-only, `noindex`, unlinked from nav and footer. It was never a public rung.
+
+**Where the page components went:** `src/_archive/`, excluded from the build and lint. Every route is a real 301 in `vercel.json`.
+
+---
+
+### 2026-08-11: The Teardown repriced to $9,500; a $950 entry rung rejected
+
+**Decision:** The Teardown goes from $3,500 to $9,500. A proposed third rung at $950 is rejected outright.
+
+**Rationale:**
+- At $3,500 the Teardown sat **below the floor of its own category** while taking ten business days to deliver. Observed 2026 assessment pricing is $5,000 to $15,000 for comprehensive work and $15,000 to $50,000+ for strategic.
+- The $950 rung fails on arithmetic. Against an income floor above $20,000 a month, it needs 21 sales a month, and the only sales motion that is actually sustained is warm introductions. It would have consumed attention and contributed almost nothing.
+- Repricing the Teardown upward also closes the gap to the Handover from 8.6x to under 2x, which removes the need for the credit escalator (see below).
+
+**Review trigger:** Two Teardowns lost on price.
+
+---
+
+### 2026-08-11: Three currencies, as set prices per market
+
+**Decision:** Publish USD, GBP and AUD. Each figure is a deliberate round number **in its own market**, not a conversion.
+
+**Rationale:** The site sells internationally. A converted price is a function of the morning's spot rate, which is not what was sold and would silently change a number a client is already holding a proposal for.
+
+**Enforcement:** No FX logic exists anywhere in the estate and a test fails the build if any appears. `src/lib/offers.ts` is the single source of truth, and a second test fails the build if a price string appears anywhere else in the web surface.
+
+**Open:** `TODO(krish)` on all twelve figures. USD is canonical; GBP and AUD are proposals and need sanity checking as numbers a buyer in those markets would find normal.
+
+---
+
+### 2026-08-11: No published discounts
+
+**Decision:** Remove both published discounts. Krish keeps a discretionary credit as a closing tool for a live call, and it is deliberately absent from the site, the documentation and Mindy's knowledge base.
+
+**What was removed:**
+- The **credit escalator** (each rung coming off the price of the next), which was proposed and never shipped. It existed to bridge the 8.6x gap the reprice closed.
+- The **20% publicity discount** ("20% off if you let me write about the work"), which *was* live on both rungs. At the new prices that was up to a fifth of a Handover, advertised before any conversation.
+
+**Rationale:** A published discount trains every buyer to wait for it. A card Krish plays is worth more than a discount everyone expects.
+
+**Note on the publicity discount specifically:** it bought case-study rights, which the thin proof bank genuinely needs. That trade is still available; it just happens on a call now rather than on a page.
+
+---
+
+### 2026-08-11: /cohort dies rather than becoming a waitlist
+
+**Decision:** `/cohort` 301s to `/start`. The page is archived.
+
+**Rationale:** It was the only surface on the site saying "sold out", which reads as scarcity to some visitors and as a dead end to others. Sending that traffic into the Diagnosis Room lets Mindy route it honestly instead of the site guessing a rung for it.
+
+---
+
+### 2026-08-11: /capital stays live, repointed at portfolio companies
+
+**Decision:** Contrary to the upgrade brief, which called for 301ing `/capital` to `/handover`, the page stays and is rewritten.
+
+**Rationale (Krish):** One offering, but Capital should be for portfolio companies.
+
+**Shape:** The same two engagements at the same twelve prices, stated as per portfolio company. Fund-level and multi-company terms are set on the call and **not published**, since a published volume discount would reinstate the discount that was just removed everywhere else. It also stops being orphaned: it now sits in the nav, the footer, the sitemap and the prerendered bodies.
+
+---
+
+### 2026-08-11: CTRL removed as a separate purchase on themindmaker.ai
+
+**Decision:** No CTRL price, tier or upgrade path anywhere on this site. CTRL stays as a Teardown deliverable and a product link.
+
+**Rationale:** CTRL is the mechanism, not a P&L line. AI-native SaaS retention by price point, across roughly 200 companies, puts under $50 a month at 23% gross revenue retention, which is the worst band there is.
+
+**Also resolved by deletion:** the site carried three contradictory CTRL prices simultaneously ($49/month in `llms.txt`, a $29 one-time plus $9/month in Mindy's knowledge, "upgrades from $29" in the repo guide). Removing the pricing resolves that rather than picking a winner.
+
+**Note:** this removes a revenue line from this site. CTRL's own site and pricing are untouched and out of scope.
+
+---
+
+### 2026-08-11: Every engagement must collect something structured
+
+**Decision:** Each offer defines, in the offer definition itself, one structured thing the engagement captures and retains: how the client priced and packaged, what converted, what had to change, and the commercial constraint.
+
+**Rationale (from Krish's own portfolio analysis):** *"If you run the diagnostic without systematically capturing the data, you have bought yourself a day rate contracting job."* Advisory that produces only fees scores 3 out of 10 on becoming a saleable asset.
+
+**Why in `src/lib/offers.ts` rather than a process document:** a process document does not get read. Every engagement page, proposal and internal handoff resolves through the offer object, so the requirement travels with the offer.
+
+**Shape:** typed columns in `public.engagement_intelligence`, not a memo per engagement, so it can be queried across clients. Internal only; a test fails the build if any of it reaches the DOM.
+
+**Open:** `TODO(krish)` on the engagement terms. A confidentiality and consent clause covering aggregated, anonymised retention needs sign-off and probably a lawyer before a real row is written. The schema shipped; the terms change did not.
+
+---
+
+### 2026-08-11: Three false claims removed
+
+**Decision:** Remove all three, as separate commits, before any other work.
+
+1. **The fabricated aggregate rating.** `index.html` published Organization schema claiming 4.9 from 50 reviews. There are not 50 reviews anywhere in the estate. Deleted outright, not replaced with a smaller number, because a smaller invented number is no more verifiable.
+2. **The fabricated proof bank.** 26 of 35 proof entries were illustrative, and Mindy drew on them to generate co-branded client proposals. A prospect could have received a document citing an engagement that never happened. All 26 deleted; the nine verified entries remain.
+3. **Advisory declared dead.** No instance of this exists in this repo, which is worth recording: the false statement lives in `mm-ctrl`'s `product.json`, which is out of scope.
+
+**Also removed, not in the brief but the same category:** fabricated San Francisco geo coordinates in `index.html` (while `llms.txt` claimed Brooklyn), a `FAQPage` and `serviceType` schema selling "AI Training" and "AI Literacy Education" on a business that does not sell training, and a **"Global Offices"** block on `/contact` listing Brooklyn, London and Sydney. A capped one-person practice does not have premises in three cities. It was also a geographic market claim, which the positioning does not make. The three currencies exist because the practice sells internationally, which is a different thing.
+
+---
+
+### 2026-08-11: Mindy answers a price question in the turn it is asked
+
+**Decision:** A direct question about price overrides the reflect-then-reason-then-recommend order and whatever phase the conversation is in. The figure leads the reply, then the reframe, then the next question.
+
+**Context:** Found by putting real questions through the deployed function after the knowledge rewrite, not by the test suite, which was green throughout. Asked "how much does this cost, in pounds," Mindy returned another diagnostic question and no number. Standing order 1 was outranking the pricing card.
+
+**Rationale:** The prices are published. Deferring one to a later turn reads as a sales tactic, which is the thing this practice is against, and the visitor can read the number two clicks away regardless.
+
+**Two defects fell out of the same check.** She then quoted the top Handover band to a 180-person company, because the card lists bands largest first for anchoring and she read row one. Largest-first is now stated as governing the order the two figures are said in, never which band applies. And she had no idea which currency the page was showing, because the Diagnosis Room never sent it: the hook now passes the selected currency and `mindy-chat` falls back to USD exactly as the site does.
+
+**Review trigger:** Any reprice, any new rung, or a fourth currency.
+
+---
+
+### 2026-08-11: A published price is never withheld in a generated proposal
+
+**Decision:** The `book-call` exit no longer suppresses the fee in the co-branded one-pager. Only the genuine absence of a figure, meaning scope outside the two engagements, renders "set on the call".
+
+**Context:** Both `generate-proposal` and the renderer treated a book-call recommendation as a reason to hide the number, which was correct under the old ranges model and survived the reprice. A Handover proposal showed no price at all.
+
+**Rationale:** The call is how the Handover is bought, not a gate on knowing what it costs. A prospect who has just read the band on `/handover` must not open their own proposal and find the fee withheld.
+
+---
 
 ### 2026-08-05: "Anti-consultant" stays. Krish is an operator-advisor.
 
@@ -285,7 +440,7 @@
 **Files deleted:** `SPRINTS.md`
 **Files rewritten:** `README.md`, `PURPOSE.md`, `VALUE_PROP.md`, `ICP.md`, `OUTCOMES.md`, `BRANDING.md`, `Master_Messaging_and_FAQ.md`, `ARCHITECTURE.md`, `FEATURES.md`, `DEPLOYMENT.md`, `COMMON_ISSUES.md`, `REPLICATION_GUIDE.md`
 **Files surgically updated:** `DESIGN_SYSTEM.md`, `VISUAL_GUIDELINES.md`, `HISTORY.md`, `DECISIONS_LOG.md`
-**Files left untouched:** `EXECUTIVE_SUMMARY.md`, `LLM_CRITICAL_THINKING_TRAINING.md`, `mindmaker_rebuild_brief_v4.md` (flagged as research / authoritative source respectively)
+**Files left untouched:** `research/LLM_CHAIN_OF_THOUGHT.md`, `research/LLM_CRITICAL_THINKING_TRAINING.md`, `mindmaker_rebuild_brief_v4.md` (flagged as research / authoritative source respectively)
 
 ---
 

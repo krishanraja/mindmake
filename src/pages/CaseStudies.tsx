@@ -1,5 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useTestimonials } from "@/hooks/useTestimonials";
 import { motion } from "framer-motion";
 import { Search, ArrowRight } from "lucide-react";
 import { SEO } from "@/components/SEO";
@@ -24,14 +25,18 @@ const fadeUp = {
 };
 
 type Filter = Engagement | "All";
-const FILTERS: Filter[] = ["All", "Cohort", "Signal Session", "Revenue Architecture"];
+const FILTERS: Filter[] = ["All", "Handover", "Teardown"];
 
 // Map the ?engagement= deep-link slug to a filter value.
 const SLUG_TO_FILTER: Record<string, Filter> = {
-  cohort: "Cohort",
-  "signal-session": "Signal Session",
-  "revenue-architecture": "Revenue Architecture",
+  handover: "Handover",
+  teardown: "Teardown",
   all: "All",
+  // Retired ladder slugs, kept so an old deep link still lands on something
+  // sensible rather than silently falling back to "All".
+  cohort: "Teardown",
+  "signal-session": "Teardown",
+  "revenue-architecture": "Handover",
 };
 
 const openScoping = () =>
@@ -43,6 +48,7 @@ const CaseStudies = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [filter, setFilter] = useState<Filter>("All");
   const [query, setQuery] = useState("");
+  const { data: consented = [] } = useTestimonials();
 
   // Honour ?engagement= on mount / when it changes externally.
   useEffect(() => {
@@ -99,7 +105,7 @@ const CaseStudies = () => {
     <div className="min-h-screen bg-background">
       <SEO
         title="Case studies"
-        description="Anonymized proof from real engagements: repositionings, rebuilds and nervous AI decisions resolved. Filter by how you'd work with Krish: the Cohort, a Signal Session, or a Revenue Architecture."
+        description="Anonymised proof from real engagements: repositionings, rebuilds and nervous AI decisions resolved. Filter by how you would work with Krish: The Handover or The Teardown."
         canonical="/case-studies"
         jsonLd={jsonLd}
       />
@@ -225,15 +231,56 @@ const CaseStudies = () => {
       </section>
 
       {/* Endorsements strip */}
+      {/*
+        Client testimonials with recorded consent.
+        Renders nothing when nothing has consent, which is the correct
+        outcome rather than an empty state to design around. The gate is in
+        the database (publishable_testimonials), so it holds regardless of
+        what this component does.
+      */}
+      {consented.length > 0 && (
+        <section className="section-padding border-t border-border/50">
+          <div className="container-width max-w-6xl">
+            <div className="mb-8">
+              <div className="text-xs font-bold uppercase tracking-[0.22em] text-mint-dark dark:text-mint mb-3">
+                In their words
+              </div>
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
+                What clients said afterwards.
+              </h2>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {consented.map((c) => (
+                <blockquote
+                  key={c.id}
+                  className="rounded-2xl border border-border/50 bg-background p-5 flex flex-col"
+                >
+                  <p className="text-sm leading-relaxed text-foreground/90">
+                    &ldquo;{c.summary_line}&rdquo;
+                  </p>
+                  <footer className="mt-3 pt-3 border-t border-border/30 text-[11px] font-semibold text-muted-foreground">
+                    {[c.role, c.company].filter(Boolean).join(", ")}
+                  </footer>
+                </blockquote>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       <section className="section-padding bg-muted border-t border-border/50">
         <div className="container-width max-w-6xl">
           <div className="mb-8">
-            <div className="text-xs font-bold uppercase tracking-[0.22em] text-mint-dark dark:text-mint mb-3">
-              From the people who've worked with me
+            <div className="text-xs font-bold uppercase tracking-[0.22em] text-muted-foreground mb-3">
+              About Krish
             </div>
             <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
-              What senior leaders say.
+              What people who have worked alongside him say.
             </h2>
+            <p className="mt-3 max-w-2xl text-sm text-muted-foreground leading-relaxed">
+              These are career references from colleagues and peers, not client
+              outcomes. They speak to how he works. The engagement results are above.
+            </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {endorsements.map((e, i) => (

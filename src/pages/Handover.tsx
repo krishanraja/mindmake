@@ -144,6 +144,19 @@ export default function Handover() {
               Bring me one real decision
               <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
+
+            {/*
+              R-01. The largest contracted number Mindmaker holds, and it was
+              nowhere on the site until August 2026. The client is never named:
+              "a major US publisher" is the approved wording and the only one.
+            */}
+            <p className="mt-8 border-t border-border/40 pt-6 text-sm text-muted-foreground leading-relaxed">
+              <span className="font-bold text-foreground">
+                A $254K POC contracted with a major US publisher
+              </span>{" "}
+              came out of this work: a first-party identity business repositioned for an
+              AI-mediated web, with the pipeline rebuilt behind it.
+            </p>
           </motion.div>
         </div>
       </section>

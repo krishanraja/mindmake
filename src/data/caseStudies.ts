@@ -12,7 +12,16 @@
  *  - src/components/TrustSection.tsx  (homepage teaser carousel)
  */
 
-export type Engagement = "Cohort" | "Signal Session" | "Revenue Architecture";
+/**
+ * Which live engagement a case study maps to.
+ *
+ * Retagged August 2026 from the retired ladder (Cohort, Signal Session,
+ * Revenue Architecture). Where an old engagement does not map cleanly, it is
+ * tagged by what it most resembles in shape, and the original tag is noted in a
+ * comment on the record. Nothing about the work itself changed; only the label
+ * a reader filters by.
+ */
+export type Engagement = "Teardown" | "Handover";
 
 export type CaseTheme = "Reposition" | "Rebuild" | "Decide";
 
@@ -49,26 +58,20 @@ export const ENGAGEMENT_META: Record<
   Engagement,
   { label: string; price: string; blurb: string; href: string; cta: string }
 > = {
-  "Signal Session": {
-    label: "The Signal Session",
+  // Largest first, matching every other surface.
+  Handover: {
+    label: "The Handover",
     price: "",
-    blurb: "One nervous AI decision, resolved fast.",
-    href: "/enterprise#signal-session",
-    cta: "Book a Signal Session",
+    blurb: "Six weeks rebuilding how the business decides and sells. Then it ends.",
+    href: "/handover",
+    cta: "See The Handover",
   },
-  "Revenue Architecture": {
-    label: "The Revenue Architecture",
+  Teardown: {
+    label: "The Teardown",
     price: "",
-    blurb: "Rebuild how the business makes money with AI.",
-    href: "/enterprise#revenue-architecture",
-    cta: "Scope a Revenue Architecture",
-  },
-  Cohort: {
-    label: "The AI-Fluent Executive",
-    price: "",
-    blurb: "Get clear alongside 15 other senior leaders. Four weeks.",
-    href: "/cohort",
-    cta: "See the cohort",
+    blurb: "Ten business days on one real decision, taken apart.",
+    href: "/teardown",
+    cta: "See The Teardown",
   },
 };
 
@@ -77,7 +80,7 @@ export const caseStudies: CaseStudy[] = [
   // ---- Rich cases ----
   {
     id: "us-publisher-roadmap",
-    engagement: "Signal Session",
+    engagement: "Teardown", // was tagged Signal Session
     theme: "Decide",
     clientLabel: "Head of Operations · Top-10 US digital publisher",
     sector: "Digital publishing",
@@ -101,7 +104,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     id: "broadcast-operating-agreement",
-    engagement: "Cohort",
+    engagement: "Teardown", // was tagged Cohort
     theme: "Reposition",
     clientLabel: "President · Legacy broadcast business",
     sector: "Broadcast media",
@@ -125,7 +128,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     id: "coaching-practice-rebuild",
-    engagement: "Revenue Architecture",
+    engagement: "Handover", // was tagged Revenue Architecture
     theme: "Rebuild",
     clientLabel: "Founder & CEO · Executive coaching practice",
     sector: "Coaching & advisory",
@@ -149,7 +152,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     id: "content-engine-founder-owned",
-    engagement: "Revenue Architecture",
+    engagement: "Handover", // was tagged Revenue Architecture
     theme: "Rebuild",
     clientLabel: "Founder · Research & content brand",
     sector: "Research & content",
@@ -173,7 +176,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     id: "series-b-build-vs-buy",
-    engagement: "Signal Session",
+    engagement: "Teardown", // was tagged Signal Session
     theme: "Decide",
     clientLabel: "Founder · Series B adtech",
     sector: "Build vs buy",
@@ -194,7 +197,7 @@ export const caseStudies: CaseStudy[] = [
   // ---- Quote-only cards ----
   {
     id: "q-board-questions",
-    engagement: "Cohort",
+    engagement: "Teardown", // was tagged Cohort
     clientLabel: "GTM Leader · Series C SaaS",
     sector: "Board confidence",
     variant: "quote",
@@ -207,7 +210,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     id: "q-14-to-3",
-    engagement: "Cohort",
+    engagement: "Teardown", // was tagged Cohort
     clientLabel: "VP of Operations",
     sector: "Tool sprawl",
     variant: "quote",
@@ -220,7 +223,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     id: "q-build-vs-buy",
-    engagement: "Signal Session",
+    engagement: "Teardown", // was tagged Signal Session
     clientLabel: "Founder · Early-stage FinTech",
     sector: "Build vs buy",
     variant: "quote",
@@ -233,7 +236,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     id: "q-board-confidence",
-    engagement: "Signal Session",
+    engagement: "Teardown", // was tagged Signal Session
     clientLabel: "CEO · Mid-market services",
     sector: "Board confidence",
     variant: "quote",
@@ -246,7 +249,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     id: "q-vendor-kill",
-    engagement: "Signal Session",
+    engagement: "Teardown", // was tagged Signal Session
     clientLabel: "COO · B2B technology",
     sector: "Vendor decisions",
     variant: "quote",
@@ -259,7 +262,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     id: "q-two-workflows",
-    engagement: "Cohort",
+    engagement: "Teardown", // was tagged Cohort
     clientLabel: "Head of Ops · Scale-up",
     sector: "Execution",
     variant: "quote",
@@ -336,8 +339,16 @@ export const endorsements: Endorsement[] = [
   },
 ];
 
-/** Aggregate proof for the results band. */
+/**
+ * Aggregate proof for the results band.
+ *
+ * Leads with the $254K POC (proof bank R-01), which is the largest contracted
+ * number Mindmaker holds and was nowhere on the site until August 2026. The
+ * client is never named: "a major US publisher" is the approved wording and the
+ * only wording.
+ */
 export const RESULTS_BAND: CaseMetric[] = [
+  { value: "$254K", label: "POC contracted with a major US publisher" },
   { value: "22%", label: "revenue lift on affected inventory" },
   { value: "40%", label: "faster production ops, no new headcount" },
   { value: "90 days", label: "to a defensible production workflow" },

@@ -393,7 +393,7 @@ Nine entries, verified numbers, currently used only by Mindy's proposal generato
 **Outcome.** Advisory repositioned from thought leadership to productized strategic product development, with AI podcasts as the first product launched. Fund One launched with a defined CTO-led thesis, now focused on application-layer AI ventures built around compounding data assets.
 
 > "We had expertise everyone respected and nothing they could buy. He turned the talking into something sellable."
-> *Managing Partner, TMT advisory*
+> *Partner, Venture Capital Firm*
 
 ---
 

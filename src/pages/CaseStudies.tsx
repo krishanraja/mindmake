@@ -53,7 +53,7 @@ export default function CaseStudies() {
           <div className="container-width max-w-4xl">
             <blockquote>
               <p className="text-2xl font-bold leading-relaxed text-white md:text-4xl">“What's unique about Krish is that he never lets you become reliant on him. He puts you in the driver's seat, explains AI fundamentals in plain language, and empowers you to own the skills that actually move your business forward.”</p>
-              <footer className="mt-6 text-sm font-bold text-mint">Steph Darmanin, Performance Coach, Legacy Ascend</footer>
+              <footer className="mt-6 text-sm font-bold text-mint">Steph Darmanin, Performance Coach</footer>
             </blockquote>
           </div>
         </section>

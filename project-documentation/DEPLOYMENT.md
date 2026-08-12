@@ -36,7 +36,7 @@ All routes in `src/App.tsx` accessible:
 - [ ] `/teardown` (Teardown). One price, currency switcher, the four-step method
 - [ ] `/handover` (Handover). Three bands by headcount, currency switcher, week five, Day 90 recheck, the Teardown gate
 - [ ] `/capital` (Capital). The same two engagements, per portfolio company, fund terms on the call
-- [ ] `/operator` (Operator). Credential page; `/ctrl-demo-video.mp4` autoplay-loop verified
+- [ ] Homepage and `/operator`: `/CTRL-demo-aug-26.mp4` loads, plays muted, pauses and resumes, and fails gracefully
 - [ ] `/case-studies` (CaseStudies). Filterable by Teardown / Handover; consent-gated testimonials
 - [ ] `/signal` (Brief). Live Intel
 - [ ] `/library` (Library). Library + FAQ tab

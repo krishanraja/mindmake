@@ -29,7 +29,7 @@ export const clientStories: ClientStory[] = [
     title: "Turn expertise into something clients can buy",
     outcome: "A respected advisory firm turned its ideas into a clear offer and a plan to launch it.",
     quote: "We had expertise everyone respected and nothing they could buy. He turned the talking into something sellable.",
-    attribution: "Managing Partner, TMT advisory",
+    attribution: "Partner, Venture Capital Firm",
   },
   {
     id: "simple-product",

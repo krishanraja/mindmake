@@ -216,7 +216,7 @@ Embedded only, no standalone page. `/tool` redirects to `/signal#decision`.
 
 Structure:
 - Hero, "How I operate" eyebrow, "The operating system behind Mindmaker." H1, Krish headshot, "Most advisors sell frameworks they read. I run the frameworks I sell." subhead
-- Thesis, looping `/ctrl-demo-video.mp4` (autoplay, loop, muted, playsInline) left of body copy (3 paragraphs)
+- Thesis, looping `/CTRL-demo-aug-26.mp4` in the shared accessible player left of body copy (3 paragraphs)
 - 5-cluster typography agent diagram listing 14 named agents (Zara, Kai, Nero, Maya, Ravi, Theo, Sol, June, Marcus, Iris, Otto, Ash, Lin, Noor)
 - Four extractable lessons (agents-not-employees / memory-as-commercial-decision / cost-as-product-feature / orchestration-fail-points)
 - "On stage" strip with three `krish-stage-*` images, auto-advancing every 3.5s, pauses on hover

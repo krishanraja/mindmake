@@ -1,5 +1,7 @@
 # Architecture
 
+> The route, offer and conversion sections below describe the pre-rebuild system and are kept only as technical history. For the current public contract, use `README.md`, `CLAUDE.md`, `REBUILD_STATE.md` and `CTA_PATH_AUDIT.md`. Active truth is one 21-day Sprint, one shared fit-call action, and no mounted Diagnosis Room.
+
 **Last Updated:** 2026-08-11
 
 ---

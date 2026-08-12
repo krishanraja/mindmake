@@ -108,7 +108,7 @@ export default function Sprint() {
       <section className="section-padding bg-ink text-center text-white">
         <div className="container-width max-w-3xl">
           <h2 className="text-3xl font-bold text-white md:text-5xl">Start with the decision.</h2>
-          <p className="mx-auto mt-5 max-w-xl text-lg text-white/70">Use the 15-minute call to check whether the decision is clear enough, important enough and a fit for the Sprint.</p>
+          <p className="mx-auto mt-5 max-w-xl text-lg text-white/70">Use the fit call to check whether the decision is clear enough, important enough and a fit for the Sprint.</p>
           <BookFitCall source="sprint-final" className="mt-8" />
         </div>
       </section>

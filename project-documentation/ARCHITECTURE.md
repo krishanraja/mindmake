@@ -293,7 +293,7 @@ Nothing on this site takes a payment. The Teardown price is published and self-s
 
 4. Fork → one of three honest exits:
    ├── keep chatting (learn)
-   ├── book a free 15-min call → Calendly (CALENDLY_URL) → endSession('book-call')
+   ├── book a fit call → Calendly (CALENDLY_URL) → endSession('book-call')
    └── generate a co-branded proposal → invoke('generate-proposal', { ..., format:'html'|'pdf' })
        └─> "Mindmaker × [company]" one-pager; PDF via Browserless (print-fallback on failure)
 

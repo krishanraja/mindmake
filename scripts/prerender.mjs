@@ -10,26 +10,26 @@ const template = readFileSync(resolve(distDir, "index.html"), "utf8").replace(
   '<div id="root"></div>',
 );
 
-const nav = `<nav aria-label="Mindmaker"><a href="/sprint">The Sprint</a><a href="/case-studies">Results</a><a href="https://live.themindmaker.ai">Mindmaker Live</a><a href="https://calendly.com/krish-raja/mindmaker-concierge">Book a fit call</a></nav>`;
+const nav = `<nav aria-label="Mindmaker"><a href="/sprint">The Sprint</a><a href="/case-studies">Results</a><a href="https://live.themindmaker.ai">Mindmaker Live</a><a href="https://calendly.com/krish-raja/mindmaker-meeting">Book a fit call</a></nav>`;
 
 const pages = [
   {
     path: "/",
     title: "Commercial decisions shaped by AI | The Mindmaker",
     description: "Mindmaker helps founders and business leaders make hard product, price, go-to-market and company decisions as AI changes the market.",
-    body: `<h1>Make the right call as AI changes your business.</h1><p>Mindmaker helps founders and business leaders decide what to build, how to price it, how to sell it and how the team should work. Then we help put the decision into action.</p><h2>One decision. 21 days.</h2><p>The Sprint ends with the decision made, the reason kept and the first material action under way.</p><p><a href="/sprint">See the Sprint</a> or <a href="https://calendly.com/krish-raja/mindmaker-concierge">book a fit call</a>.</p>`,
+    body: `<h1>Make the right call as AI changes your business.</h1><p>Mindmaker helps founders and business leaders decide what to build, how to price it, how to sell it and how the team should work. Then we help put the decision into action.</p><h2>One decision. 21 days.</h2><p>The Sprint ends with the decision made, the reason kept and the first material action under way.</p><p><a href="/sprint">See the Sprint</a> or <a href="https://calendly.com/krish-raja/mindmaker-meeting">book a fit call</a>.</p>`,
   },
   {
     path: "/sprint",
     title: "The Sprint | The Mindmaker",
     description: "A 21-day Sprint with Krish Raja to resolve one hard product, price, go-to-market or company decision shaped by AI.",
-    body: `<h1>One hard business decision. Settled in 21 days.</h1><p>Krish researches it, challenges it, models the choices and makes the call with you. You give decisions and introductions. There is no homework.</p><h2>What you keep</h2><p>The decision, the evidence and reasoning in a private CTRL workspace, and the first material action already under way.</p><p><a href="https://calendly.com/krish-raja/mindmaker-concierge">Book a fit call</a>.</p>`,
+    body: `<h1>One hard business decision. Settled in 21 days.</h1><p>Krish researches it, challenges it, models the choices and makes the call with you. You give decisions and introductions. There is no homework.</p><h2>What you keep</h2><p>The decision, the evidence and reasoning in a private CTRL workspace, and the first material action already under way.</p><p><a href="https://calendly.com/krish-raja/mindmaker-meeting">Book a fit call</a>.</p>`,
   },
   {
     path: "/case-studies",
     title: "Client results | The Mindmaker",
     description: "Eight verified stories about the business decisions Mindmaker helped clients make and what happened next.",
-    body: `<h1>The decision, and what changed next.</h1><p>Eight real engagements. The clients stay anonymous. The work and results do not.</p><p><a href="https://calendly.com/krish-raja/mindmaker-concierge">Book a fit call</a>.</p>`,
+    body: `<h1>The decision, and what changed next.</h1><p>Eight real engagements. The clients stay anonymous. The work and results do not.</p><p><a href="https://calendly.com/krish-raja/mindmaker-meeting">Book a fit call</a>.</p>`,
   },
   {
     path: "/operator",
@@ -59,7 +59,7 @@ const pages = [
     path: "/contact",
     title: "Contact | The Mindmaker",
     description: "Send Krish Raja a general message or book a short fit call about a commercial decision shaped by AI.",
-    body: `<h1>Contact</h1><p>Use this page for a general message. For work, <a href="https://calendly.com/krish-raja/mindmaker-concierge">book a fit call</a>.</p>`,
+    body: `<h1>Contact</h1><p>Use this page for a general message. For work, <a href="https://calendly.com/krish-raja/mindmaker-meeting">book a fit call</a>.</p>`,
   },
 ];
 

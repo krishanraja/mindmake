@@ -5,6 +5,7 @@ import { resolve } from "node:path";
 const ROOT = resolve(process.cwd());
 const PUBLIC_SURFACES = ["src", "scripts", "public", "index.html"];
 const BLOCKED_RESULT = /\$\s*254(?:,?000|K)\b|22\s*%\s*(?:revenue|lift)/i;
+const RETIRED_BOOKING_ROUTES = /mindmaker-concierge|15-min-intro/i;
 
 const collectFiles = (relativePath: string): string[] => {
   const absolutePath = resolve(ROOT, relativePath);
@@ -29,6 +30,15 @@ describe("public disclosure guard", () => {
     const leaks = PUBLIC_SURFACES.flatMap(collectFiles).flatMap((file) => {
       const content = readFileSync(file, "utf8");
       return BLOCKED_RESULT.test(content) ? [file.replace(`${ROOT}\\`, "")] : [];
+    });
+
+    expect(leaks).toEqual([]);
+  });
+
+  it("keeps retired Calendly events out of public and generated surfaces", () => {
+    const leaks = PUBLIC_SURFACES.flatMap(collectFiles).flatMap((file) => {
+      const content = readFileSync(file, "utf8");
+      return RETIRED_BOOKING_ROUTES.test(content) ? [file.replace(`${ROOT}\\`, "")] : [];
     });
 
     expect(leaks).toEqual([]);

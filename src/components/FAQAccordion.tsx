@@ -27,7 +27,7 @@ export const faqItems: FAQItem[] = [
     category: "getting-started",
     question: "How do I start?",
     answer:
-      "Book a 15-minute fit call. Bring the problem as you see it today. You do not need a finished brief. Krish will tell you if a Sprint is the right next step.",
+      "Book a fit call. Bring the problem as you see it today. You do not need a finished brief. Krish will tell you if a Sprint is the right next step.",
   },
   {
     category: "the-sprint",

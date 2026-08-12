@@ -20,8 +20,8 @@
     { "source": "/fractional-caio", "destination": "/sprint", "permanent": true },
 
     { "source": "/tool", "destination": "/sprint", "permanent": true },
-    { "source": "/start", "destination": "https://calendly.com/krish-raja/mindmaker-concierge", "permanent": false },
-    { "source": "/decision", "destination": "https://calendly.com/krish-raja/mindmaker-concierge", "permanent": false },
+    { "source": "/start", "destination": "https://calendly.com/krish-raja/mindmaker-meeting", "permanent": false },
+    { "source": "/decision", "destination": "https://calendly.com/krish-raja/mindmaker-meeting", "permanent": false },
     { "source": "/signal", "destination": "https://live.themindmaker.ai", "permanent": true },
     { "source": "/faq", "destination": "/library?tab=questions", "permanent": true },
     { "source": "/builder-economy", "destination": "https://live.themindmaker.ai", "permanent": true },

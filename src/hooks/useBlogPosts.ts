@@ -4,7 +4,7 @@ import { blogPosts as staticPosts, type BlogPost } from "@/data/blogPosts";
 import { BOOKING_URL } from "@/lib/publicLinks";
 
 const RETIRED_ARTICLE_CTA = "*Work one nervous AI decision through the [Diagnosis Room](/start). Free, no email.*";
-const CURRENT_ARTICLE_CTA = `*If this has become a real business decision, [book a 15-minute fit call](${BOOKING_URL}?utm_source=article&utm_medium=website).*`;
+const CURRENT_ARTICLE_CTA = `*If this has become a real business decision, [book a fit call](${BOOKING_URL}?utm_source=article&utm_medium=website).*`;
 
 const withCurrentCta = (post: BlogPost): BlogPost => ({
   ...post,

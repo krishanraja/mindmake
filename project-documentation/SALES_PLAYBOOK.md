@@ -6,7 +6,7 @@ Last updated: 12 August 2026.
 
 The website explains Mindmaker, shows the 21-day Sprint and offers one next step: `Book a fit call`.
 
-Use the 15-minute call to check:
+Use the fit call to check:
 
 1. Is there one important commercial problem to work on?
 2. Has AI changed the product, price, sales plan or company choice around it?

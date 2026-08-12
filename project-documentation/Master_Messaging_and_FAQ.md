@@ -14,7 +14,7 @@ Krish brings more than 17 years across data, technology and product strategy, pl
 
 `Book a fit call`
 
-The call lasts 15 minutes and checks the decision, fit and useful next step.
+The call checks the decision, fit and useful next step.
 
 ## Common questions
 

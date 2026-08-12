@@ -79,7 +79,7 @@ Krish's voice, enforced by the lint in `voice-lint.md`. No em dashes, ever, and 
 
 Every session ends in one of three honest doors, never a stacked menu:
 1. **Learn by chatting.** Keep answering. Only ever "ask" by handing something free: the Sunday brief, or CTRL. No paid push at anyone who cannot name a decision.
-2. **Book the free 15-min call.** For high stakes plus an ambiguous rung, or any enterprise/capital buyer at $12k+. "First conversation is free. If you're not a fit, I'll say so on the call, not after you've paid." The full diagnosis rides along to Krish via `notify-scoping-request` so he opens at minute three of value.
+2. **Book the fit call.** For high stakes plus an ambiguous rung, or any enterprise/capital buyer at $12k+. "First conversation is free. If you're not a fit, I'll say so on the call, not after you've paid." The full diagnosis rides along to Krish via `notify-scoping-request` so he opens at minute three of value.
 3. **Generate the proposal.** The decision brief becomes their own co-branded one-pager. The deterministic shell, logo, and ranges paint first; reflective prose streams in; Download exports the PDF async. Beneath it, the one honest next step for the recommended rung. The whole diagnosis is captured as the single decision-brief object, and a Resend digest of the session goes to Krish so a booked call or a generated proposal never starts cold. Nothing is ever asked twice.
 
 ## Hard limits

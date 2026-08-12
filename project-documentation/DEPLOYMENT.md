@@ -104,7 +104,7 @@ All routes in `src/App.tsx` accessible:
 
 ### 2. Conversion regression check
 - [ ] The "Bring me one real decision" CTA opens the Diagnosis Room (Mindy) via `openDiagnosisRoom` from the nav, hero and `SimpleCTA`; the standalone `/start` page loads the same surface
-- [ ] Diagnosis Room (Mindy) diagnoses the decision and forks to three exits (keep chatting, book a free 15-min Calendly call, generate/download a co-branded proposal); the `diagnosis_room_*` Plausible events fire
+- [ ] Diagnosis Room (Mindy) diagnoses the decision and forks to three exits (keep chatting, book a fit call, generate/download a co-branded proposal); the `diagnosis_room_*` Plausible events fire
 - [ ] Secondary `ScopingModal` opens from the `BigProblem` cards and `/case-studies` (legacy `InitialConsultModal` / `openConsultModal` is used only on `/alumni`)
 - [ ] ScopingModal submission invokes `notify-scoping-request` (emails krish@themindmaker.ai + persists)
 

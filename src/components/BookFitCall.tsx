@@ -27,7 +27,7 @@ export function BookFitCall({ className, source = "website" }: BookFitCallProps)
       target="_blank"
       rel="noopener noreferrer"
       onClick={trackClick}
-      aria-label="Book a 15-minute fit call. Opens in a new tab."
+      aria-label="Book a fit call. Opens in a new tab."
       className={cn(
         "inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-mint px-6 py-3 text-sm font-bold text-ink shadow-lg shadow-mint/20 transition duration-300 hover:-translate-y-0.5 hover:text-ink hover:no-underline hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-ink",
         className,

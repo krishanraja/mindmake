@@ -11,7 +11,7 @@ Replace the skill's commercial core with the following rules:
 + Mindmaker is Krish Raja's commercial decision practice.
 + Mindmaker sells one flexible, scoped 21-day Sprint.
 + The Sprint price is not public. Scope and fee are agreed after a fit call.
-+ Every main sales action says "Book a fit call" and reaches the same 15-minute Calendly event.
++ Every main sales action says "Book a fit call" and reaches the same Calendly event.
 + The Diagnosis Room and homepage AI demonstration are paused.
 + CTRL by Mindmaker is the living Sprint deliverable, not a second public offer.
 + Retired offer routes redirect straight to /sprint.

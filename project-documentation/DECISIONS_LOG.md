@@ -843,7 +843,7 @@
 **Public contract:**
 
 - Every main sales action says `Book a fit call`.
-- Every main sales action reaches the same verified 15-minute Calendly page.
+- Every main sales action reaches the same verified Calendly page.
 - CTRL is the living Sprint deliverable, not a second purchase.
 - Prices are not public.
 - The Diagnosis Room and homepage AI demonstration are paused.

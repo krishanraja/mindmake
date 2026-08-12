@@ -121,7 +121,7 @@ src/components/nervous-decision/types.ts
 ```
 src/components/diagnosis/                      # full-screen on-site experience; mount globally and open via openDiagnosisRoom (detail: { source_page, seedDecision?, mode: 'express' | 'full' }); also a standalone page at /start
 ```
-Mindy diagnoses the visitor's one nervous AI decision and forks to three honest exits: keep chatting, book a free 15-min Calendly call, or generate/download a co-branded "Mindmaker × [company]" proposal. Backed by the `mindy-chat`, `enrich-company`, `generate-proposal`, `session-digest`, and `transcribe` (Whisper voice input) edge functions (see Phase 4).
+Mindy diagnoses the visitor's one nervous AI decision and forks to three honest exits: keep chatting, book a fit call, or generate/download a co-branded "Mindmaker × [company]" proposal. Backed by the `mindy-chat`, `enrich-company`, `generate-proposal`, `session-digest`, and `transcribe` (Whisper voice input) edge functions (see Phase 4).
 
 ### Step 12: Global context + hooks
 ```
@@ -323,7 +323,7 @@ Verify end-to-end:
 9. `/signal` loads full Operator's Brief dashboard with WATCH / SKIP / CALL / TAKE filter pills
 10. Nervous Decision Machine returns typed response on both homepage and `/signal`
 11. "Book a call" CTA (nav, hero, `SimpleCTA`) opens the Diagnosis Room (Mindy) via `openDiagnosisRoom`; the secondary `ScopingModal` (`openScopingModal`) opens from the offer pages, the `BigProblem` cards, and `/case-studies` (the legacy `InitialConsultModal` / `openConsultModal` path is now used only by `/alumni`)
-12. Diagnosis Room (Mindy) diagnoses the decision and forks to three exits (keep chatting, book a free 15-min Calendly call, generate/download a co-branded proposal); standalone page at `/start` also loads
+12. Diagnosis Room (Mindy) diagnoses the decision and forks to three exits (keep chatting, book a fit call, generate/download a co-branded proposal); standalone page at `/start` also loads
 13. `/leaders` diagnostic completes end-to-end
 14. All redirects function (see Phase 6)
 15. Mobile works (375px)

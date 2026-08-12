@@ -17,7 +17,7 @@ There is one public paid engagement: a focused 21-day Sprint.
 
 The client brings an important problem. It may still be unclear. Krish studies the business, interviews the right people, checks outside facts, separates facts from guesses and works with the team on the first real action.
 
-The scope and fee are agreed after a 15-minute fit call. No price is published on the website.
+The scope and fee are agreed after a fit call. No price is published on the website.
 
 CTRL is the private workspace that holds the decision, evidence and reasoning. The client keeps it. CTRL is not sold as a separate offer on this site.
 
@@ -35,7 +35,7 @@ Krish has deep experience in data, technology, media, publishing, content and in
 1. Homepage explains the business and shows proof.
 2. `/sprint` explains the one engagement.
 3. Every main sales action says `Book a fit call`.
-4. Every sales action reaches the same 15-minute Calendly page.
+4. Every sales action reaches the same Calendly page.
 
 Contact is for general messages. Mindmaker Live is the external publication. The interactive Diagnosis Room and AI demonstration are paused.
 

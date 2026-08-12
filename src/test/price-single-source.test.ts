@@ -44,7 +44,7 @@ describe("the public offer stays simple", () => {
     const nav = read("src/components/Navigation.tsx");
 
     expect(button).toContain("Book a fit call");
-    expect(links).toContain("https://calendly.com/krish-raja/mindmaker-concierge");
+    expect(links).toContain("https://calendly.com/krish-raja/mindmaker-meeting");
     expect(nav).toContain("<BookFitCall");
   });
 });

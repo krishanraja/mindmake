@@ -6,7 +6,7 @@
 
 ## What this pack is
 
-Mindy is the on-site guide for the Mindmaker Diagnosis Room: one door, one nervous AI decision, three honest exits (learn by chat, book a free 15-min call, download a co-branded proposal). The architecture brief rated readiness 6/10 and named the two missing assets that gate the headline experience: *real Krish reasoning* and *an honest down-sell rubric*. This pack fills those plus the surrounding guardrails, organised into the three-layer knowledge architecture from brief §6.
+Mindy is the on-site guide for the Mindmaker Diagnosis Room: one door, one nervous AI decision, three honest exits (learn by chat, book a fit call, download a co-branded proposal). The architecture brief rated readiness 6/10 and named the two missing assets that gate the headline experience: *real Krish reasoning* and *an honest down-sell rubric*. This pack fills those plus the surrounding guardrails, organised into the three-layer knowledge architecture from brief §6.
 
 ---
 
@@ -98,4 +98,4 @@ The six authors flagged the following. Items 1–2 are real internal contradicti
 
 ---
 
-*Phase 0 of the build (reconcile and de-poison) is what this pack delivers. Items 1 and 3 are now resolved. Outstanding items: 2 (CTRL pricing label confirmation and OFFERS.md addition), 4 (bespoke enablement lane confirmation), 5 (proof anonymisation approval), 6 (Calendly event confirmation, current assumption is 15-min intro at `calendly.com/krish-raja/15-min-intro`), 7 (email-capture posture confirmation), 8 (CTRL routing and self-serve ceiling confirmation), 9 (EU consent posture, flagged as a launch blocker).*
+*Phase 0 of the build (reconcile and de-poison) is what this pack delivers. Items 1, 3 and 6 are now resolved. The confirmed booking event is `calendly.com/krish-raja/mindmaker-meeting`. Outstanding items: 2 (CTRL pricing label confirmation and OFFERS.md addition), 4 (bespoke enablement lane confirmation), 5 (proof anonymisation approval), 7 (email-capture posture confirmation), 8 (CTRL routing and self-serve ceiling confirmation), 9 (EU consent posture, flagged as a launch blocker).*

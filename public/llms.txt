@@ -34,5 +34,5 @@ CTRL is the private workspace left with the client. It holds the business contex
 
 ## Contact
 
-- Book a 15-minute fit call: https://calendly.com/krish-raja/mindmaker-concierge
+- Book a fit call: https://calendly.com/krish-raja/mindmaker-meeting
 - General messages: https://www.themindmaker.ai/contact

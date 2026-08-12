@@ -3,6 +3,8 @@
  * Standardized Calendly URL generation and popup widget integration
  */
 
+import { BOOKING_URL } from "@/lib/publicLinks";
+
 declare global {
   interface Window {
     Calendly?: {
@@ -12,10 +14,9 @@ declare global {
 }
 
 /**
- * Free 15-minute concierge diagnostic. A lower-friction door than the
- * 45-minute consult flow, used as a secondary CTA across the site.
+ * Shared public fit-call destination, kept as an alias for older callers.
  */
-export const CONCIERGE_CALENDLY_URL = "https://calendly.com/krish-raja/mindmaker-concierge";
+export const CONCIERGE_CALENDLY_URL = BOOKING_URL;
 
 export type CalendlySource =
   | 'builder-assessment'
@@ -91,7 +92,7 @@ export const openCalendlyPopup = async (params: CalendlyParams): Promise<void> =
     urlParams.set('a2', params.commitmentLevel);
   }
   
-  const calendlyUrl = `https://calendly.com/krish-raja/mindmaker-meeting?${urlParams.toString()}`;
+  const calendlyUrl = `${BOOKING_URL}?${urlParams.toString()}`;
 
   try {
     // Wait for Calendly script to load (max 5 seconds)

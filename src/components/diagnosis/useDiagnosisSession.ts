@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import type { Currency } from "@/lib/offers";
 import { detectLogoBg } from "./logoLuminance";
+import { BOOKING_URL } from "@/lib/publicLinks";
 import type {
   ChatMessage,
   Contact,
@@ -19,7 +20,7 @@ import type {
   SessionMode,
 } from "./types";
 
-export const CALENDLY_URL = "https://calendly.com/krish-raja/15-min-intro";
+export const CALENDLY_URL = BOOKING_URL;
 
 /**
  * The one line Mindy says when a function fails. Voice-linted: sentence case,

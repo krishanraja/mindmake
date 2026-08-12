@@ -122,7 +122,7 @@ Hides on scroll-down via `useScrollDirection`.
 
 **Three honest exits:**
 1. **Keep chatting** (learn).
-2. **Book a free 15-min call** → Calendly.
+2. **Book a fit call** → Calendly.
 3. **Generate / download a co-branded proposal** ("Mindmaker × [company]" one-pager, PDF via Browserless).
 
 **Back end** (4 edge functions + voice): `enrich-company` (company dossier; identity-depth co-brand paint + full-depth synthesis; free-email → graceful degrade), `mindy-chat` (Claude reasoning turn, voice-gated strict JSON), `generate-proposal` (co-branded one-pager + Browserless PDF), `session-digest` (Resend: full intelligence to Krish + opt-in visitor proposal copy), and `transcribe` (Whisper voice input).

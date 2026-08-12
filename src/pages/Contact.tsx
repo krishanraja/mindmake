@@ -174,7 +174,7 @@ const Contact = () => {
                   <h3 className="font-semibold">Want to discuss the Sprint?</h3>
                 </div>
                 <p className="text-sm text-muted-foreground mb-4">
-                  The 15-minute call checks the decision, fit and useful next step.
+                  The fit call checks the decision, fit and useful next step.
                 </p>
                 <BookFitCall source="contact-card" className="w-full" />
               </div>

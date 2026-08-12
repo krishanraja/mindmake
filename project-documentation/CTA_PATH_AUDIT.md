@@ -19,7 +19,7 @@ Status: complete for the local production build
 - Write authority: read-only audit, followed by the already authorised repository implementation
 - Stop points: do not submit forms, book a meeting, send messages, run paid AI work or change production data
 - Evidence location: this file and redacted screenshots under `C:\Users\krish\.scratch\mindmaker-cta-audit`
-- Pass signal: every public buying route reaches one clear Sprint explanation or the same verified 15-minute booking page, with no retired offer, price, duplicate destination, hidden modal gate or AI detour competing with the call
+- Pass signal: every public buying route reaches one clear Sprint explanation or the same verified booking page, with no retired offer, price, duplicate destination, hidden modal gate or AI detour competing with the call
 
 ## High-value tasks
 
@@ -32,9 +32,9 @@ Status: complete for the local production build
 
 ## Verified transaction destination
 
-The current source defines `https://calendly.com/krish-raja/mindmaker-concierge` as the 15-minute public entry point. A live read on 12 August 2026 confirmed that the page resolves to a 15-minute Calendly event owned by Krish Raja and titled `Mindmaker Concierge`. No booking was made.
+Krish confirmed `https://calendly.com/krish-raja/mindmaker-meeting` as the public entry point on 12 August 2026. A live read that day confirmed that the page resolves to a 30-minute Calendly event owned by Krish Raja and titled `MindMaker`. No booking was made.
 
-The event description still frames the call as free help with using AI. That does not match the new commercial-decision position and is an external copy correction, not a repository change.
+The event description currently says that Mindmaker builds AI-forward leaders and businesses. The destination is correct, but the copy is broader than the site's commercial-decision position. Any Calendly copy change sits outside this repository.
 
 ## Current route and CTA findings
 
@@ -49,7 +49,7 @@ The event description still frames the call as free help with using AI. That doe
   - Live Intel links straight to Calendly under `Free 15-min diagnostic`.
   - The old `/start` route opens a full-screen AI conversation.
 - Consequence: the visitor must decide how to begin before they understand what they are buying. Tracking and intent are split across different mechanisms.
-- Repair: use `Book a fit call` for every main sales action and send each one to the same verified 15-minute page. Keep Contact for general messages only.
+- Repair: use `Book a fit call` for every main sales action and send each one to the same verified page. Keep Contact for general messages only.
 
 ### P1: The live sales path sells offers that the current brief retired
 
@@ -83,13 +83,13 @@ The event description still frames the call as free help with using AI. That doe
 - Consequence: proof looks like a product catalogue and conflicts with the approved proof source.
 - Repair: publish the eight approved stories in a static result-led grid. Keep attendee brands, client outcomes and career references clearly separate.
 
-### P2: The verified booking event carries the old position
+### P2: The verified booking event uses broader positioning
 
 - Status: verified at the Calendly landing page. No booking was made.
-- Destination: `https://calendly.com/krish-raja/mindmaker-concierge`
-- Observed: the event is 15 minutes, but its title is `Mindmaker Concierge` and its description offers free help with frustrations or confusion in using AI better.
+- Destination: `https://calendly.com/krish-raja/mindmaker-meeting`
+- Observed: the event is 30 minutes. Its title is `MindMaker` and its description says Mindmaker builds AI-forward leaders and businesses.
 - Consequence: the final step can undo the site's commercial-decision position and attract the wrong call.
-- Repair outside this repository: rename it to `Mindmaker fit call` and describe it as a short check on the decision, fit and useful next step.
+- Repair outside this repository: consider naming it `Mindmaker fit call` and describing it as a short check on the decision, fit and useful next step.
 
 ### P2: CTA labels describe mechanisms instead of one next step
 
@@ -103,7 +103,7 @@ The event description still frames the call as free help with using AI. That doe
 1. The homepage explains Mindmaker and the buyer's stuck moment.
 2. The Sprint section and `/sprint` page explain the one paid engagement.
 3. Proof appears before the final ask and uses only the approved source.
-4. Every main sales action says `Book a fit call` and opens the same verified 15-minute destination.
+4. Every main sales action says `Book a fit call` and opens the same verified destination.
 5. Contact stays available for a general message but leaves the main buying path.
 6. Mindmaker Live always opens the branded publication.
 7. CTRL is shown only as the private workspace left with the client, not as another purchase.

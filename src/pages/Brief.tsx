@@ -432,7 +432,7 @@ export default function Brief() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-sm text-white/55 hover:text-mint transition-colors"
             >
-              Want a human to weigh in? Free 15-min diagnostic
+              Want a human to weigh in? Book a fit call
               <ArrowUpRight className="h-3.5 w-3.5" />
             </a>
           </div>

@@ -9,7 +9,7 @@ Last verified: 2026-08-12
 - `PRODUCT_TRUTH`: Mindmaker helps leaders make consequential commercial decisions shaped by AI. The work protects and builds their expertise, judgement, and taste, then uses AI to make those strengths more useful. There is one public paid engagement, a focused Sprint. CTRL by Mindmaker is the living deliverable that helps the work endure, not a separate headline product.
 - `NON_GOALS`: Do not position Mindmaker as an automation consultancy. Do not publish the Sprint price. Do not change Supabase, the control centre, or the CTRL repository. Do not promote to production. Do not discard Mindmaker's strongest visual identity, motion, owl, imagery, or interaction patterns without evidence.
 - `SURFACE_DEPENDENCIES`: current-truth and product audit -> positioning interrogation -> offer, page journey, and copy lock -> Relume exploration -> code-faithful mock -> visual approval -> implementation -> preview verification -> merge.
-- `VERTICAL_SLICE`: A first-time visitor understands that Krish helps resolve an important commercial decision shaped by AI, sees evidence that the work goes beyond a consulting deck, understands the 21-day Sprint and can book a 15-minute fit call.
+- `VERTICAL_SLICE`: A first-time visitor understands that Krish helps resolve an important commercial decision shaped by AI, sees evidence that the work goes beyond a consulting deck, understands the 21-day Sprint and can book a fit call.
 - `FIRST_SURFACE`: homepage.
 
 ## Current truth

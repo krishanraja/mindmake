@@ -53,7 +53,7 @@ describe("public route contract", () => {
 
   it("uses the one booking destination for old start links", () => {
     for (const source of ["/start", "/decision"]) {
-      expect(bySource.get(source)?.destination).toBe("https://calendly.com/krish-raja/mindmaker-concierge");
+      expect(bySource.get(source)?.destination).toBe("https://calendly.com/krish-raja/mindmaker-meeting");
       expect(bySource.get(source)?.permanent).toBe(false);
     }
   });

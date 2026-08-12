@@ -1,371 +1,77 @@
-import { useState, useRef, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Menu, X, Sun, Moon, ChevronDown, ExternalLink } from "lucide-react";
+import { useState } from "react";
+import { Menu, Moon, Sun, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import mindmakerIcon from "@/assets/mindmaker-icon.png";
 import mindmakerWordmarkOnLight from "@/assets/Mindmaker-Wordmark-onlight.png";
 import mindmakerWordmarkOnDark from "@/assets/Mindmaker-Wordmark-ondark.png";
 import mindmakerLivePill from "@/assets/mindmaker-live-pill.png";
+import { BookFitCall } from "@/components/BookFitCall";
+import { MINDMAKER_LIVE_URL } from "@/lib/publicLinks";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
 
-type NavSubItem = {
-  label: string;
-  href?: string;
-  external?: boolean;
-  type?: "section";
-};
+const links = [
+  { label: "The Sprint", href: "/sprint" },
+  { label: "Results", href: "/case-studies" },
+];
 
-type NavItem = {
-  label: string;
-  href?: string;
-  badge?: string;
-  wordmark?: boolean;
-  dropdown?: NavSubItem[];
-};
-
-const Navigation = () => {
-  const [isOpen, setIsOpen] = useState(false);
+export default function Navigation() {
+  const [open, setOpen] = useState(false);
   const { theme, setTheme } = useTheme();
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const dropdownRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-
-  const { isHidden } = useScrollDirection({ disabled: isOpen });
-
-  const navItems: NavItem[] = [
-    {
-      label: "Work with me",
-      dropdown: [
-        // Largest first, so the dropdown says the bigger number's offer before
-        // the smaller one, the same way every other surface does.
-        { label: "The Handover", href: "/handover" },
-        { label: "The Teardown", href: "/teardown" },
-        { label: "For funds and portfolio companies", href: "/capital" },
-      ],
-    },
-    {
-      label: "Mindmaker LIVE",
-      href: "/signal",
-      wordmark: true,
-    },
-    {
-      label: "Resources",
-      dropdown: [
-        { label: "How I operate", href: "/operator" },
-        { label: "Case studies", href: "/case-studies" },
-        { label: "New Age Leadership", href: "/new-age-leadership" },
-        { label: "Library", href: "/library" },
-        { label: "Mindmaker LIVE", href: "https://live.themindmaker.ai", external: true },
-      ],
-    },
-    {
-      label: "About",
-      dropdown: [
-        { label: "Contact", href: "/contact" },
-        { label: "Privacy", href: "/privacy" },
-        { label: "Terms", href: "/terms" },
-      ],
-    },
-  ];
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (openDropdown) {
-        const currentRef = dropdownRefs.current[openDropdown];
-        if (currentRef && !currentRef.contains(event.target as Node)) {
-          setOpenDropdown(null);
-        }
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [openDropdown]);
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Escape") setOpenDropdown(null);
-  };
+  const { isHidden } = useScrollDirection({ disabled: open });
 
   return (
     <nav
-      className="fixed top-0 w-full z-[100] bg-background/80 backdrop-blur-md border-b border-border/50 shadow-md pt-safe-top transition-all duration-300 ease-out"
+      className="fixed top-0 z-[100] w-full border-b border-border/50 bg-background/90 pt-safe-top shadow-sm backdrop-blur-md transition-transform duration-300"
       style={{ transform: isHidden ? "translateY(-100%)" : "translateY(0)" }}
+      aria-label="Main navigation"
     >
       <div className="container-width">
-        <div className="flex items-center justify-between h-16 sm:h-18 md:h-20">
-          <div className="flex items-center mr-8 lg:mr-12">
-            <a
-              href="/"
-              className="flex items-end gap-2 sm:gap-2.5 transition-opacity hover:opacity-80"
-              aria-label="Mindmaker home"
-            >
-              <img
-                src={mindmakerIcon}
-                alt=""
-                aria-hidden="true"
-                loading="eager"
-                fetchpriority="high"
-                decoding="sync"
-                className="h-8 sm:h-9 md:h-10 w-auto object-contain"
-              />
-              {/* Wordmark flickers on like an old tube light, then settles to its normal color.
-                  Theme-swapped: dark/navy art on light bg, light/mint art on dark bg. */}
-              <img
-                src={mindmakerWordmarkOnLight}
-                alt="Mindmaker"
-                loading="eager"
-                fetchpriority="high"
-                decoding="sync"
-                className="h-5 sm:h-6 md:h-7 w-auto object-contain dark:hidden animate-wordmark-flicker"
-              />
-              <img
-                src={mindmakerWordmarkOnDark}
-                alt="Mindmaker"
-                loading="eager"
-                fetchpriority="high"
-                decoding="sync"
-                className="h-5 sm:h-6 md:h-7 w-auto object-contain hidden dark:block animate-wordmark-flicker"
-              />
+        <div className="flex h-16 items-center justify-between sm:h-18 md:h-20">
+          <a href="/" className="flex items-end gap-2 hover:no-underline" aria-label="Mindmaker home">
+            <img src={mindmakerIcon} alt="" className="h-8 w-auto sm:h-9 md:h-10" />
+            <img src={mindmakerWordmarkOnLight} alt="Mindmaker" className="h-5 w-auto dark:hidden sm:h-6 md:h-7" />
+            <img src={mindmakerWordmarkOnDark} alt="Mindmaker" className="hidden h-5 w-auto dark:block sm:h-6 md:h-7" />
+          </a>
+
+          <div className="hidden items-center gap-1 lg:flex">
+            {links.map((link) => (
+              <a key={link.href} href={link.href} className="rounded-md px-3 py-2 text-sm font-semibold hover:bg-mint/10 hover:text-foreground hover:no-underline">
+                {link.label}
+              </a>
+            ))}
+            <a href={MINDMAKER_LIVE_URL} target="_blank" rel="noopener noreferrer" className="rounded-md px-3 py-2 hover:bg-mint/10 hover:no-underline" aria-label="Mindmaker Live">
+              <img src={mindmakerLivePill} alt="Mindmaker Live" className="h-6 w-auto" />
             </a>
+            <BookFitCall source="navigation" className="ml-3 min-h-10 px-4 py-2" />
           </div>
 
-          <div className="hidden lg:flex items-center gap-6 xl:gap-8">
-            {navItems.map((item) => {
-              if (!item.dropdown && item.href) {
-                return (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    aria-label={item.wordmark ? item.label : undefined}
-                    className="text-sm font-semibold py-2 px-3 rounded-md text-ink dark:text-white hover:text-mint hover:bg-mint/5 transition-all duration-200 inline-flex items-center gap-1.5"
-                  >
-                    {item.wordmark ? (
-                      <img
-                        src={mindmakerLivePill}
-                        alt="Mindmaker Live"
-                        className="h-5 sm:h-6 w-auto object-contain"
-                      />
-                    ) : (
-                      item.label
-                    )}
-                    {item.badge && (
-                      <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-gradient-to-r from-mint to-emerald-400 text-ink text-[9px] font-extrabold tracking-[0.14em] leading-none">
-                        {item.badge}
-                      </span>
-                    )}
-                  </a>
-                );
-              }
-              return (
-                <div
-                  key={item.label}
-                  className="relative"
-                  ref={(el) => {
-                    dropdownRefs.current[item.label] = el;
-                  }}
-                  onKeyDown={handleKeyDown}
-                >
-                  <button
-                    onClick={() => setOpenDropdown(openDropdown === item.label ? null : item.label)}
-                    className={`text-sm font-semibold transition-all duration-200 ease-out flex items-center gap-1.5 py-2 px-3 rounded-md ${
-                      openDropdown === item.label
-                        ? "text-mint-dark dark:text-mint bg-mint/10 shadow-sm"
-                        : "text-ink dark:text-white hover:text-mint hover:bg-mint/5"
-                    }`}
-                    aria-expanded={openDropdown === item.label}
-                    aria-haspopup="true"
-                  >
-                    {item.label}
-                    <ChevronDown
-                      className={`h-4 w-4 transition-transform duration-200 ${
-                        openDropdown === item.label ? "rotate-180" : ""
-                      }`}
-                    />
-                  </button>
-                  {openDropdown === item.label && item.dropdown && (
-                    <div
-                      className="absolute top-full left-0 mt-2 bg-card/95 backdrop-blur-md border border-border/50 rounded-lg shadow-lg py-3 min-w-[240px] z-50 animate-in fade-in slide-in-from-top-2 duration-200"
-                      role="menu"
-                      aria-label={`${item.label} menu`}
-                    >
-                      {item.dropdown.map((subItem) => {
-                        if (subItem.type === "section") {
-                          return (
-                            <div
-                              key={subItem.label}
-                              className="mx-2 mt-2 pt-2 border-t border-border/50 px-4 pb-1 text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground"
-                            >
-                              {subItem.label}
-                            </div>
-                          );
-                        }
-                        return (
-                          <a
-                            key={subItem.label}
-                            href={subItem.href}
-                            target={subItem.external ? "_blank" : undefined}
-                            rel={subItem.external ? "noopener noreferrer" : undefined}
-                            role="menuitem"
-                            className="flex items-center justify-between px-4 py-2.5 text-sm font-medium rounded-md mx-2 text-ink dark:text-white hover:bg-mint/10 transition-colors"
-                          >
-                            <span>{subItem.label}</span>
-                            {subItem.external && <ExternalLink className="h-3 w-3 ml-2" />}
-                          </a>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-
-            <Button
-              size="sm"
-              className="ml-4 relative touch-target"
-              onClick={() => {
-                window.dispatchEvent(
-                  new CustomEvent("openDiagnosisRoom", {
-                    detail: {
-                      source_page: window.location.pathname,
-                      mode: "express",
-                    },
-                  }),
-                );
-              }}
-            >
-              <span className="absolute -top-1 -right-1 w-2 h-2 bg-mint rounded-full animate-pulse" />
-              Bring me one real decision
-            </Button>
-          </div>
-
-          <div className="flex items-center gap-3 ml-6">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="touch-target"
-            >
-              <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsOpen(!isOpen)}
-              className="lg:hidden touch-target"
-            >
-              {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </Button>
+          <div className="flex items-center gap-1">
+            <button type="button" onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="relative grid h-11 w-11 place-items-center rounded-md hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint" aria-label="Change colour theme">
+              <Sun className="h-4 w-4 scale-100 dark:scale-0" />
+              <Moon className="absolute h-4 w-4 scale-0 dark:scale-100" />
+            </button>
+            <button type="button" onClick={() => setOpen((value) => !value)} className="grid h-11 w-11 place-items-center rounded-md hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint lg:hidden" aria-expanded={open} aria-controls="mobile-navigation" aria-label={open ? "Close menu" : "Open menu"}>
+              {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
           </div>
         </div>
 
-        {isOpen && (
-          <div className="lg:hidden border-t border-border pb-safe-bottom">
-            <ScrollArea className="h-[calc(100vh-5rem)] py-4">
-              <div className="flex flex-col space-y-1">
-                {navItems.map((item, index) => (
-                  <div key={item.label}>
-                    {!item.dropdown && item.href ? (
-                      <a
-                        href={item.href}
-                        aria-label={item.wordmark ? item.label : undefined}
-                        className="min-h-[44px] flex items-center gap-2 px-4 py-3 text-base font-semibold text-ink dark:text-white hover:bg-mint/10 rounded-md transition-colors"
-                        onClick={() => setIsOpen(false)}
-                      >
-                        {item.wordmark ? (
-                      <img
-                        src={mindmakerLivePill}
-                        alt="Mindmaker Live"
-                        className="h-5 sm:h-6 w-auto object-contain"
-                      />
-                    ) : (
-                      item.label
-                    )}
-                        {item.badge && (
-                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-gradient-to-r from-mint to-emerald-400 text-ink text-[9px] font-extrabold tracking-[0.14em] leading-none">
-                            {item.badge}
-                          </span>
-                        )}
-                      </a>
-                    ) : (
-                      <div className="py-2">
-                        <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3 px-4">
-                          {item.label}
-                        </div>
-                        <div className="flex flex-col space-y-1">
-                          {item.dropdown?.map((subItem) => {
-                            if (subItem.type === "section") {
-                              return (
-                                <div
-                                  key={subItem.label}
-                                  className="mx-4 mt-3 pt-3 border-t border-border/50 text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground"
-                                >
-                                  {subItem.label}
-                                </div>
-                              );
-                            }
-                            return (
-                              <a
-                                key={subItem.label}
-                                href={subItem.href}
-                                target={subItem.external ? "_blank" : undefined}
-                                rel={subItem.external ? "noopener noreferrer" : undefined}
-                                className="min-h-[44px] flex items-center justify-between px-4 py-3 text-base font-medium text-ink dark:text-white hover:bg-mint/10 rounded-md transition-colors"
-                                onClick={() => setIsOpen(false)}
-                              >
-                                <span>{subItem.label}</span>
-                                {subItem.external && <ExternalLink className="h-3 w-3" />}
-                              </a>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
-                    {index < navItems.length - 1 && <div className="h-px bg-border my-2" />}
-                  </div>
-                ))}
-
-                <Button
-                  size="sm"
-                  className="w-fit mx-4 mt-4"
-                  onClick={() => {
-                    window.dispatchEvent(
-                      new CustomEvent("openDiagnosisRoom", {
-                        detail: {
-                          source_page: window.location.pathname,
-                          mode: "express",
-                        },
-                      }),
-                    );
-                    setIsOpen(false);
-                  }}
-                >
-                  Bring me one real decision
-                </Button>
-                {/* full-mode entry: think it through before booking */}
-                <button
-                  type="button"
-                  className="mx-4 mt-2 w-fit text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-                  onClick={() => {
-                    window.dispatchEvent(
-                      new CustomEvent("openDiagnosisRoom", {
-                        detail: {
-                          source_page: window.location.pathname,
-                          mode: "full",
-                        },
-                      }),
-                    );
-                    setIsOpen(false);
-                  }}
-                >
-                  Or think it through with Mindy first
-                </button>
-              </div>
-            </ScrollArea>
+        {open && (
+          <div id="mobile-navigation" className="border-t border-border/50 py-4 lg:hidden">
+            <div className="flex flex-col">
+              {links.map((link) => (
+                <a key={link.href} href={link.href} onClick={() => setOpen(false)} className="flex min-h-12 items-center rounded-md px-3 text-base font-semibold hover:bg-mint/10 hover:no-underline">
+                  {link.label}
+                </a>
+              ))}
+              <a href={MINDMAKER_LIVE_URL} target="_blank" rel="noopener noreferrer" className="flex min-h-12 items-center rounded-md px-3 hover:bg-mint/10 hover:no-underline">
+                <img src={mindmakerLivePill} alt="Mindmaker Live" className="h-6 w-auto" />
+              </a>
+              <BookFitCall source="mobile-navigation" className="mt-3 w-full" />
+            </div>
           </div>
         )}
       </div>
     </nav>
   );
-};
-
-export default Navigation;
+}

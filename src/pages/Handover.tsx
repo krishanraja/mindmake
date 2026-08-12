@@ -152,10 +152,9 @@ export default function Handover() {
             */}
             <p className="mt-8 border-t border-border/40 pt-6 text-sm text-muted-foreground leading-relaxed">
               <span className="font-bold text-foreground">
-                A $254K POC contracted with a major US publisher
+                A paid test with a major US publisher came out of this work.
               </span>{" "}
-              came out of this work: a first-party identity business repositioned for an
-              AI-mediated web, with the pipeline rebuilt behind it.
+              A data company changed how it sold as AI changed the web.
             </p>
           </motion.div>
         </div>

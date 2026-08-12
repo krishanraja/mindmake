@@ -62,12 +62,12 @@ export const AgathaStory = () => {
           className="mt-10 pt-6 border-t border-border/60"
         >
           <p className="text-sm text-muted-foreground">
-            This is one of the role-design questions a Teardown takes apart.{" "}
+            This is one of the role design questions a Sprint can take apart.{" "}
             <a
-              href="/teardown"
+              href="/sprint"
               className="font-semibold text-mint-dark dark:text-mint hover:underline"
             >
-              See The Teardown →
+              See the Sprint →
             </a>
           </p>
         </motion.div>

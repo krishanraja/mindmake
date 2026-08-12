@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { ArrowLeft, Calendar, Clock, User, Tag, ArrowRight, Share2, Linkedin, Twitter } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,8 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { SEO } from "@/components/SEO";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { InitialConsultModal } from "@/components/InitialConsultModal";
-import { useSessionData } from "@/contexts/SessionDataContext";
+import { BookFitCall } from "@/components/BookFitCall";
 import { useBlogPost, useBlogPosts } from "@/hooks/useBlogPosts";
 import ReactMarkdown from 'react-markdown';
 
@@ -28,10 +26,9 @@ const categoryColors: Record<string, string> = {
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const { sessionData } = useSessionData();
-  const [consultModalOpen, setConsultModalOpen] = useState(false);
   
   const { data: post } = useBlogPost(slug);
+  const { data: allPosts = [] } = useBlogPosts();
   
   if (!post) {
     return (
@@ -49,7 +46,6 @@ const BlogPost = () => {
   }
 
   // Get related posts (same category, excluding current)
-  const { data: allPosts = [] } = useBlogPosts();
   const relatedPosts = allPosts
     .filter(p => p.category === post.category && p.slug !== post.slug)
     .slice(0, 3);
@@ -72,7 +68,7 @@ const BlogPost = () => {
   };
 
   const seoData = {
-    title: `${post.title} - Mindmaker`,
+    title: post.title,
     description: post.metaDescription,
     canonical: `/blog/${post.slug}`,
     jsonLd: {
@@ -286,10 +282,7 @@ const BlogPost = () => {
                   <h3 className="text-lg font-bold mb-1">Krish Raja</h3>
                   <p className="text-sm text-muted-foreground mb-3">Founder, Mindmaker</p>
                   <p className="text-sm text-foreground leading-relaxed">
-                    Krish helps senior business leaders become AI-literate by building working AI systems 
-                    around their real work. With 16+ years scaling businesses from zero to multi-million 
-                    dollar revenue across the UK, USA, and Australia, he brings operator experience to 
-                    AI transformation.
+                    Krish helps business leaders make hard product, price, go-to-market and company decisions as AI changes the market. He brings more than 17 years of work across data, technology and product strategy.
                   </p>
                   <a 
                     href="https://www.krishraja.com" 
@@ -310,20 +303,12 @@ const BlogPost = () => {
           <div className="max-w-3xl">
             <div className="dark-cta-card">
               <h2 className="text-2xl md:text-3xl font-bold mb-4">
-                Ready to Build Your AI Literacy?
+                Have a hard commercial decision?
               </h2>
               <p className="mb-6">
-                Stop reading about AI and start building with it. Book a Builder Session 
-                to create your first working AI systems in 60 minutes.
+                Use the fit call to see whether a 21-day Sprint is the right shape for it.
               </p>
-              <Button 
-                size="lg"
-                variant="mint"
-                onClick={() => setConsultModalOpen(true)}
-              >
-                Book a Builder Session
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              <BookFitCall source="blog-post" />
             </div>
           </div>
         </section>
@@ -362,15 +347,6 @@ const BlogPost = () => {
       
       <Footer />
       
-      {/* Consult Modal */}
-      <InitialConsultModal
-        open={consultModalOpen}
-        onOpenChange={setConsultModalOpen}
-        preselectedProgram={sessionData.qualificationData?.preselectedProgram || "build"}
-        commitmentLevel={sessionData.qualificationData?.commitmentLevel}
-        audienceType={sessionData.qualificationData?.audienceType}
-        pathType={sessionData.qualificationData?.pathType || "build"}
-      />
     </div>
   );
 };

@@ -1,10 +1,11 @@
 import { Suspense, lazy } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { BookFitCall } from "@/components/BookFitCall";
 import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/SEO";
 import { motion } from "framer-motion";
-import { ArrowRight, Users, Bot, Sparkles } from "lucide-react";
+import { Users, Bot, Sparkles } from "lucide-react";
 import { AgathaStory, PageCompletionBeacon } from "@/components/new-age/AgathaStory";
 import FrameworkJourney from "@/components/FrameworkJourney";
 
@@ -12,14 +13,6 @@ import FrameworkJourney from "@/components/FrameworkJourney";
 const OrgChart = lazy(() =>
   import("@/components/new-age/OrgChart").then((m) => ({ default: m.OrgChart }))
 );
-
-const openScopingModal = () => {
-  window.dispatchEvent(
-    new CustomEvent("openScopingModal", {
-      detail: { source_page: "/new-age-leadership" },
-    }),
-  );
-};
 
 const HEADLINE_WORDS = [
   "Your",
@@ -224,29 +217,16 @@ export default function NewAgeLeadership() {
 
             <div className="space-y-5 text-lg text-muted-foreground leading-relaxed mb-8">
               <p>
-                Mindmaker's framework is{" "}
-                <span className="font-semibold text-foreground">
-                  Mind Set <span className="text-mint-dark dark:text-mint">→</span> Mind Map{" "}
-                  <span className="text-mint-dark dark:text-mint">→</span> Mind Make
-                </span>
-                . Mind Make is the phase where decisions get committed and deployed. Most of what's above (emergent roles, hybrid teams, agent-proposed hires) is Mind Make territory, and it's territory leaders don't have frameworks for yet.
+                This is not only a technology change. It changes who does the work, who checks it and who owns the result. A good plan must cover all three.
               </p>
               <p>
-                You don't need to solve it today. You do need to know it's coming. The leaders who will handle it best aren't the ones who've read the most about AI. They're the ones who've already made a few of these calls, gotten a few wrong, and built the judgment muscle in a room of peers facing the same questions.
+                You do not need every answer today. You do need a sound way to make each call. The best prepared leaders learn by making real decisions, checking what happened and improving the next one.
               </p>
-              <p className="text-foreground font-medium">That's what the Cohort is for.</p>
+              <p className="text-foreground font-medium">That is the work a Mindmaker Sprint is built to support.</p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3">
-              <Button
-                asChild
-                size="lg"
-                className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold px-8"
-              >
-                <a href="/teardown">
-                  See the Cohort <ArrowRight className="ml-2 w-4 h-4" />
-                </a>
-              </Button>
+              <BookFitCall source="new-age-leadership-mid" />
               <Button asChild size="lg" variant="outline" className="font-bold">
                 <a href="/operator">See how I operate</a>
               </Button>
@@ -296,13 +276,7 @@ export default function NewAgeLeadership() {
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-8 max-w-2xl mx-auto">
               The New Age org chart isn't a prediction. It's already happening in my business and in a growing number of my clients'. If yours is next, let's talk before you design it alone.
             </p>
-            <Button
-              size="lg"
-              className="bg-ink text-white hover:bg-ink/90 dark:bg-mint dark:text-ink dark:hover:bg-mint/90 font-bold px-8"
-              onClick={openScopingModal}
-            >
-              Bring me one real decision <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
+            <BookFitCall source="new-age-leadership" />
           </motion.div>
           <PageCompletionBeacon />
         </div>

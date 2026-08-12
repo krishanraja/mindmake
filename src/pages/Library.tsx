@@ -19,12 +19,12 @@ const TAB_META: Record<TabKey, { title: string; description: string; canonical: 
   posts: {
     title: "Library: Posts",
     description:
-      "Practical writing for leaders building AI capability. No vendor theatre, just frameworks from real implementations.",
+      "Clear writing for leaders making product, price, sales and company decisions as AI changes their market.",
     canonical: "/library",
   },
   questions: {
     title: "Library: Questions",
-    description: "Frequently asked questions about Mindmaker, programs, AI literacy, and getting started.",
+    description: "Clear answers about the Mindmaker Sprint, who it helps, what happens and how to start.",
     canonical: "/library?tab=questions",
   },
   manifesto: {

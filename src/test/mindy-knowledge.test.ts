@@ -99,7 +99,7 @@ describe("Mindy's knowledge layer matches the live ladder", () => {
 
     for (const file of mindyFiles) {
       // Match money-shaped strings: a symbol, then comma-grouped thousands.
-      // Bare figures like "$254K" or "40%" are proof points, not prices, and
+      // Bare figures such as percentages are proof points, not prices, and
       // are matched by neither this nor the set.
       const found = read(file).match(/[$£][\d]{1,3}(?:,\d{3})+/g) ?? [];
       for (const price of new Set(found)) {

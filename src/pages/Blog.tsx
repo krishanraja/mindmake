@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { SEO } from "@/components/SEO";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { BookFitCall } from "@/components/BookFitCall";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
 import { BlogPostCard, categoryLabels } from "@/components/BlogPostCard";
 
@@ -32,14 +33,14 @@ const Blog = () => {
   const regularPosts = filteredPosts.filter(post => !post.featured || post !== featuredPost);
 
   const seoData = {
-    title: "AI Literacy Blog - Mindmaker",
-    description: "Expert insights on AI literacy for business leaders. Learn how to build AI systems, evaluate vendors, and lead AI transformation in your organization.",
+    title: "Ideas for Better AI Decisions",
+    description: "Clear ideas for leaders making product, price, sales and company decisions as AI changes their market.",
     canonical: "/blog",
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "Blog",
-      "name": "Mindmaker AI Literacy Blog",
-      "description": "Expert insights on AI literacy for business leaders",
+      "name": "Mindmaker Ideas",
+      "description": "Clear ideas for leaders making important business decisions as AI changes their market",
       "url": "https://themindmaker.ai/blog",
       "author": {
         "@type": "Person",
@@ -68,11 +69,10 @@ const Blog = () => {
             
             <div className="max-w-3xl">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-display">
-                AI Literacy <span className="text-mint-dark dark:text-mint">Insights</span>
+                Ideas for <span className="text-mint-dark dark:text-mint">better decisions</span>
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground">
-                Practical frameworks and strategies for leaders building AI capability. 
-                No vendor theatre, just real insights from real implementations.
+                Clear lessons from real work with leaders, products and teams. No vendor theatre.
               </p>
             </div>
           </div>
@@ -185,25 +185,12 @@ const Blog = () => {
           <div className="mt-16 p-8 md:p-12 rounded-2xl bg-gradient-to-br from-mint/10 to-mint/5 border border-mint/20">
             <div className="max-w-2xl mx-auto text-center">
               <h2 className="text-2xl md:text-3xl font-bold mb-4">
-                Got a decision you keep not making?
+                Reading has done its job. Now make the call.
               </h2>
               <p className="text-muted-foreground mb-6">
-                Stop reading about AI and work one real decision through instead.
-                Mindy takes it apart with you in the Diagnosis Room. Free, no email.
+                If AI has changed an important product, price, sales or company decision, use the fit call to see whether a 21-day Sprint is the right shape.
               </p>
-              <Button
-                size="lg"
-                onClick={() =>
-                  window.dispatchEvent(
-                    new CustomEvent("openDiagnosisRoom", {
-                      detail: { source_page: "/blog", mode: "full" },
-                    }),
-                  )
-                }
-              >
-                Open the Diagnosis Room
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              <BookFitCall source="blog-index" />
             </div>
           </div>
         </div>

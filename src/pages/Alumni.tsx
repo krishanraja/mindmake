@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle, Lock } from "lucide-react";
 import { SEO } from "@/components/SEO";
+import { BOOKING_URL } from "@/lib/publicLinks";
 // The Alumni Pass is the only product on the site that takes a direct
 // Stripe charge. The price is configured via STRIPE_PRODUCTS.alumniPass
 // in src/lib/stripe-prices.ts. Krish confirms eligibility post-engagement
@@ -17,12 +18,6 @@ const fadeUp = {
     y: 0,
     transition: { delay: i * 0.08, duration: 0.5, ease: "easeOut" },
   }),
-};
-
-const openConsultModal = (detail?: Record<string, unknown>) => {
-  window.dispatchEvent(
-    new CustomEvent("openConsultModal", { detail: detail || {} })
-  );
 };
 
 const benefits = [
@@ -100,7 +95,7 @@ export default function Alumni() {
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}>
             <h2 className="text-2xl md:text-3xl font-bold mb-5">Eligibility.</h2>
             <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-              If you've completed any Mindmaker engagement, you're eligible. Invitations are sent after the work finishes. If you're not yet an alum and you'd like to be, the right starting point is The Teardown.
+              If you've completed a Mindmaker engagement, you're eligible. Invitations are sent after the work finishes. If you're not yet an alum, the right starting point is the Sprint.
             </p>
           </motion.div>
         </div>
@@ -122,9 +117,11 @@ export default function Alumni() {
             <Button
               size="lg"
               className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold"
-              onClick={() => openConsultModal({ preselected: "alumni" })}
+              asChild
             >
-              Request an invitation <ArrowRight className="ml-2 w-4 h-4" />
+              <a href={`${BOOKING_URL}?utm_source=alumni&utm_medium=website&utm_campaign=mindmaker-rebuild`} target="_blank" rel="noopener noreferrer">
+                Request an invitation <ArrowRight className="ml-2 w-4 h-4" />
+              </a>
             </Button>
           </motion.div>
         </div>

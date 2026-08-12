@@ -105,7 +105,7 @@ const PromptBody = ({ data }: { data: OrgNodeData }) => {
           asChild
           className="bg-gradient-to-r from-mint to-emerald-400 text-ink hover:opacity-90 font-bold"
         >
-          <a href="/teardown">
+          <a href="/sprint">
             Take a decision like this apart properly
             <ArrowRight className="ml-2 w-4 h-4" />
           </a>

@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mindmaker inline business read</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #0d1c2c;
+      --ink-deep: #07131f;
+      --ink-soft: #182a3c;
+      --paper: #f4f4ef;
+      --white: #fbfcf8;
+      --mint: #68e4bd;
+      --mint-strong: #32d7a9;
+      --mint-faint: rgba(104, 228, 189, .12);
+      --line: rgba(104, 228, 189, .32);
+      --display: "Space Grotesk", "Inter", system-ui, sans-serif;
+      --body: "Inter", system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { background: var(--paper); }
+    body { margin: 0; min-width: 320px; color: var(--white); background: var(--paper); font-family: var(--body); }
+    button, input { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 3px solid var(--mint); outline-offset: 4px; }
+
+    .nav {
+      height: 76px;
+      padding: 0 clamp(20px, 4vw, 60px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 26px;
+      color: var(--ink);
+      background: rgba(244,244,239,.97);
+      position: relative;
+      z-index: 20;
+    }
+    .brand { display: inline-flex; align-items: center; gap: 12px; color: inherit; text-decoration: none; }
+    .brand-mark { width: 34px; height: 34px; display: grid; grid-template-columns: repeat(3,1fr); align-items: end; gap: 2px; }
+    .brand-mark i { display: block; background: linear-gradient(180deg, var(--mint), #2e877b); border-radius: 12px 12px 1px 1px; }
+    .brand-mark i:nth-child(1) { height: 48%; }
+    .brand-mark i:nth-child(2) { height: 72%; }
+    .brand-mark i:nth-child(3) { height: 100%; }
+    .brand-name { font-family: var(--display); font-size: 19px; font-weight: 650; letter-spacing: .18em; }
+    .nav-links { display: flex; align-items: center; gap: clamp(18px, 2.5vw, 36px); font-size: 13px; font-weight: 650; }
+    .nav-links a { color: inherit; text-decoration: none; }
+    .nav-cta { min-height: 42px; padding: 0 18px; display: inline-flex; align-items: center; color: var(--white) !important; background: var(--ink); }
+
+    .hero {
+      min-height: 790px;
+      padding: clamp(48px, 6vw, 86px) clamp(20px, 4vw, 60px) 70px;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      background:
+        radial-gradient(circle at 76% 19%, rgba(56, 216, 173, .18), transparent 26%),
+        linear-gradient(145deg, #0c1d2c 0%, #091725 57%, #07131f 100%);
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      opacity: .45;
+      background-image:
+        radial-gradient(circle at 18% 22%, rgba(104,228,189,.62) 0 1px, transparent 1.6px),
+        radial-gradient(circle at 72% 38%, rgba(104,228,189,.48) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 46% 82%, rgba(104,228,189,.44) 0 1px, transparent 1.5px);
+      background-size: 210px 190px, 270px 230px, 330px 290px;
+      animation: drift 24s linear infinite;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 58vw;
+      height: 58vw;
+      right: -24vw;
+      top: -18vw;
+      z-index: -1;
+      border: 1px solid rgba(104,228,189,.14);
+      border-radius: 50%;
+      box-shadow: 0 0 0 8vw rgba(104,228,189,.025), 0 0 0 16vw rgba(104,228,189,.018);
+    }
+    .hero-inner { max-width: 1320px; margin: 0 auto; }
+    .hero-copy { max-width: 970px; }
+    .eyebrow { margin-bottom: 17px; display: flex; align-items: center; gap: 11px; color: var(--mint); font-size: 11px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 24px; height: 1px; background: currentColor; }
+    h1 { margin: 0; max-width: 900px; font-family: var(--display); font-size: clamp(48px, 6vw, 82px); line-height: .98; letter-spacing: -.05em; text-wrap: balance; }
+    .hero-copy > p { margin: 23px 0 0; max-width: 720px; color: rgba(251,252,248,.68); font-size: clamp(16px, 1.45vw, 20px); line-height: 1.55; }
+    .hero-copy > p strong { color: var(--white); font-weight: 650; }
+
+    .demo-wrap { max-width: 1200px; margin-top: 40px; }
+    .demo-label { margin-bottom: 10px; color: rgba(251,252,248,.48); font-size: 10px; font-weight: 750; letter-spacing: .13em; text-transform: uppercase; }
+    .demo {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(104,228,189,.46);
+      background: rgba(7,19,31,.84);
+      box-shadow: 0 28px 85px rgba(0,0,0,.3), inset 0 0 60px rgba(104,228,189,.025);
+    }
+    .corner { width: 15px; height: 15px; position: absolute; z-index: 7; pointer-events: none; }
+    .corner.tl { top: 9px; left: 9px; border-top: 2px solid var(--mint); border-left: 2px solid var(--mint); }
+    .corner.tr { top: 9px; right: 9px; border-top: 2px solid var(--mint); border-right: 2px solid var(--mint); }
+    .corner.bl { bottom: 9px; left: 9px; border-bottom: 2px solid var(--mint); border-left: 2px solid var(--mint); }
+    .corner.br { bottom: 9px; right: 9px; border-bottom: 2px solid var(--mint); border-right: 2px solid var(--mint); }
+
+    .domain-row {
+      min-height: 74px;
+      padding: 14px 18px 14px 22px;
+      display: grid;
+      grid-template-columns: auto minmax(180px, 1fr) auto auto;
+      align-items: center;
+      gap: 13px;
+      position: relative;
+      z-index: 4;
+    }
+    .domain-label { color: var(--mint); font-size: 10px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
+    .domain-input {
+      width: 100%;
+      height: 44px;
+      padding: 0 13px;
+      border: 0;
+      border-bottom: 1px solid rgba(255,255,255,.3);
+      border-radius: 0;
+      color: var(--white);
+      background: transparent;
+      font-family: var(--display);
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .domain-input::placeholder { color: rgba(255,255,255,.35); }
+    .read-button {
+      min-height: 44px;
+      padding: 0 18px;
+      border: 0;
+      color: var(--ink);
+      background: var(--mint);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 800;
+      transition: transform .2s ease, background .2s ease;
+    }
+    .read-button:hover { transform: translateY(-2px); background: var(--white); }
+    .quiet-book { color: rgba(255,255,255,.64); font-size: 12px; font-weight: 650; text-decoration: none; white-space: nowrap; }
+    .quiet-book:hover { color: var(--mint); }
+
+    .readout {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      border-top: 1px solid transparent;
+      transition: max-height .7s cubic-bezier(.2,.8,.2,1), opacity .35s ease, border-color .35s ease;
+    }
+    .demo[data-state="reading"] .readout,
+    .demo[data-state="ready"] .readout,
+    .demo[data-state="confirmed"] .readout,
+    .demo[data-state="correcting"] .readout {
+      max-height: 520px;
+      opacity: 1;
+      border-color: rgba(255,255,255,.09);
+    }
+    .scan {
+      height: 2px;
+      position: absolute;
+      left: 0;
+      right: 100%;
+      top: 73px;
+      z-index: 10;
+      opacity: 0;
+      background: var(--mint);
+      box-shadow: 0 0 24px var(--mint), 0 0 70px rgba(104,228,189,.42);
+    }
+    .demo[data-state="reading"] .scan { animation: read-scan 1.35s cubic-bezier(.2,.8,.2,1) both; }
+
+    .read-shell { min-height: 238px; display: grid; grid-template-columns: 210px minmax(0,1.45fr) minmax(300px,.9fr); }
+    .identity {
+      padding: 24px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid rgba(255,255,255,.09);
+      background: rgba(255,255,255,.025);
+    }
+    .identity-top { display: flex; align-items: center; gap: 12px; }
+    .company-mark { width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid var(--mint); color: var(--mint); font-family: var(--display); font-size: 14px; font-weight: 800; letter-spacing: .05em; }
+    .company-name { font-family: var(--display); font-size: 18px; font-weight: 700; }
+    .company-domain { margin-top: 3px; color: rgba(255,255,255,.42); font-size: 10px; }
+    .identity-foot { color: rgba(255,255,255,.42); font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .identity-foot strong { display: block; margin-top: 6px; color: var(--mint); font-family: var(--display); font-size: 12px; letter-spacing: 0; text-transform: none; }
+
+    .fingerprint { padding: 21px 24px; }
+    .section-label { margin-bottom: 10px; color: rgba(255,255,255,.4); font-size: 9px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    .facts { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid rgba(255,255,255,.1); }
+    .fact { min-height: 145px; padding: 17px; position: relative; border-right: 1px solid rgba(255,255,255,.1); }
+    .fact:last-child { border-right: 0; }
+    .fact small { display: block; margin-bottom: 13px; color: var(--mint); font-size: 9px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .fact strong { display: block; max-width: 210px; font-family: var(--display); font-size: 16px; line-height: 1.28; }
+    .source { position: absolute; left: 17px; bottom: 14px; color: rgba(255,255,255,.32); font-size: 9px; }
+
+    .prediction { padding: 21px 22px; color: var(--ink); background: var(--paper); position: relative; }
+    .prediction .section-label { color: #2d7766; }
+    .pressure { margin: 0 0 17px; font-family: var(--display); font-size: clamp(20px, 2vw, 27px); line-height: 1.08; letter-spacing: -.03em; }
+    .confirm-copy { margin: 0 0 9px; color: rgba(13,28,44,.56); font-size: 11px; }
+    .confirm-row { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+    .confirm-button { min-height: 42px; padding: 0 10px; border: 1px solid rgba(13,28,44,.18); color: var(--ink); background: transparent; cursor: pointer; font-size: 11px; font-weight: 750; }
+    .confirm-button.primary { border-color: var(--ink); color: var(--white); background: var(--ink); }
+    .confirm-button:hover { border-color: var(--mint-strong); background: rgba(104,228,189,.36); color: var(--ink); }
+
+    .reading-mask { display: none; min-height: 238px; padding: 30px; place-items: center; text-align: center; }
+    .demo[data-state="reading"] .read-shell { display: none; }
+    .demo[data-state="reading"] .reading-mask { display: grid; }
+    .reading-mark { width: 58px; height: 58px; margin: 0 auto 15px; display: grid; place-items: center; border: 1px solid var(--mint); color: var(--mint); font-family: var(--display); font-weight: 800; animation: breathe 1.1s ease-in-out infinite; }
+    .reading-title { font-family: var(--display); font-size: 20px; font-weight: 650; }
+    .reading-note { margin-top: 7px; color: rgba(255,255,255,.46); font-size: 11px; }
+
+    .decision-row {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0,1fr) auto;
+      gap: 24px;
+      align-items: center;
+      border-top: 1px solid transparent;
+      background: var(--mint);
+      color: var(--ink);
+      transition: max-height .5s cubic-bezier(.2,.8,.2,1), opacity .3s ease, border-color .3s ease;
+    }
+    .demo[data-state="confirmed"] .decision-row { max-height: 180px; opacity: 1; border-color: rgba(13,28,44,.16); padding: 17px 22px; }
+    .decision-label { margin-bottom: 5px; font-size: 9px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
+    .decision-text { max-width: 800px; font-family: var(--display); font-size: clamp(17px, 1.7vw, 22px); font-weight: 700; line-height: 1.2; }
+    .decision-action { min-height: 42px; padding: 0 17px; display: inline-flex; align-items: center; color: var(--white); background: var(--ink); text-decoration: none; font-size: 11px; font-weight: 800; white-space: nowrap; }
+
+    .correction {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      border-top: 1px solid transparent;
+      transition: max-height .45s ease, opacity .3s ease, border-color .3s ease;
+    }
+    .demo[data-state="correcting"] .correction { max-height: 150px; opacity: 1; padding: 16px 22px 20px; border-color: rgba(255,255,255,.09); }
+    .correction-label { margin-bottom: 10px; color: rgba(255,255,255,.56); font-size: 11px; }
+    .correction-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .correction-button { min-height: 39px; padding: 0 13px; border: 1px solid rgba(104,228,189,.35); color: var(--white); background: transparent; cursor: pointer; font-size: 11px; font-weight: 650; }
+    .correction-button:hover { color: var(--ink); background: var(--mint); }
+
+    .next-section { height: 180px; padding: 50px clamp(20px,4vw,60px); color: var(--ink); background: var(--paper); }
+    .next-section div { max-width: 1320px; margin: auto; font-family: var(--display); font-size: 26px; font-weight: 650; }
+
+    @keyframes drift { to { background-position: 210px 190px, -270px 230px, 330px -290px; } }
+    @keyframes read-scan { 0% { right: 100%; opacity: 0; } 12% { opacity: 1; } 76% { right: 0; opacity: 1; } 100% { right: 0; opacity: 0; } }
+    @keyframes breathe { 50% { background: var(--mint); color: var(--ink); box-shadow: 0 0 38px rgba(104,228,189,.3); } }
+
+    @media (max-width: 980px) {
+      .read-shell { grid-template-columns: 190px 1fr; }
+      .prediction { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: center; }
+      .prediction .section-label { grid-column: 1 / -1; margin-bottom: -10px; }
+      .pressure { margin: 0; }
+      .confirm-box { min-width: 230px; }
+    }
+
+    @media (max-width: 720px) {
+      .nav { height: 64px; padding-inline: 16px; }
+      .brand-mark { width: 29px; height: 29px; }
+      .brand-name { font-size: 15px; letter-spacing: .14em; }
+      .nav-links a:not(.nav-cta) { display: none; }
+      .nav-cta { min-height: 38px; padding-inline: 12px; font-size: 11px; }
+      .hero { min-height: 0; padding: 40px 15px 48px; }
+      h1 { max-width: 540px; font-size: clamp(41px, 12vw, 58px); }
+      .hero-copy > p { margin-top: 18px; font-size: 15px; }
+      .demo-wrap { margin-top: 30px; }
+      .domain-row { padding: 16px; grid-template-columns: 1fr auto; gap: 8px; }
+      .domain-label { grid-column: 1 / -1; }
+      .domain-input { height: 42px; font-size: 16px; }
+      .quiet-book { grid-column: 1 / -1; padding-top: 5px; }
+      .read-shell { grid-template-columns: 1fr; }
+      .identity { min-height: 94px; padding: 17px; flex-direction: row; align-items: center; border-right: 0; border-bottom: 1px solid rgba(255,255,255,.09); }
+      .identity-foot { text-align: right; }
+      .fingerprint { padding: 17px; }
+      .facts { grid-template-columns: 1fr; }
+      .fact { min-height: 92px; border-right: 0; border-bottom: 1px solid rgba(255,255,255,.1); }
+      .fact:last-child { border-bottom: 0; }
+      .fact small { margin-bottom: 8px; }
+      .source { left: auto; right: 14px; bottom: 12px; }
+      .prediction { grid-column: auto; padding: 20px 17px; display: block; }
+      .prediction .section-label { margin-bottom: 10px; }
+      .pressure { margin-bottom: 17px; font-size: 25px; }
+      .confirm-box { min-width: 0; }
+      .decision-row { grid-template-columns: 1fr; gap: 12px; }
+      .demo[data-state="confirmed"] .decision-row { padding: 17px; }
+      .decision-action { justify-self: start; }
+      .correction-options { display: grid; }
+      .correction-button { width: 100%; }
+      .next-section { height: 140px; }
+    }
+
+    @media (max-width: 390px) {
+      .brand-name { letter-spacing: .1em; }
+      .nav-cta { padding-inline: 10px; }
+      .read-button { padding-inline: 13px; }
+      .confirm-row { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <a href="#top" class="brand" aria-label="Mindmaker home">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="brand-name">MINDMAKER</span>
+    </a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#work">Work with me</a>
+      <a href="#results">Results</a>
+      <a href="#live">Mindmaker Live</a>
+      <a href="#book" class="nav-cta">Book a fit call</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <div class="eyebrow">Commercial decisions shaped by AI</div>
+          <h1>Find the business decision AI has changed.</h1>
+          <p><strong>Mindmaker helps leaders see what AI changes in the product, price, position or team.</strong> Then we make the call and put it to work.</p>
+        </div>
+
+        <div class="demo-wrap">
+          <div class="demo-label">Try the homepage demo</div>
+          <section class="demo" id="demo" data-state="idle" aria-label="Business read demo">
+            <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+            <div class="scan" aria-hidden="true"></div>
+            <form class="domain-row" id="domain-form">
+              <label class="domain-label" for="domain">Start with your website</label>
+              <input class="domain-input" id="domain" name="domain" value="themindmaker.ai" autocomplete="url" inputmode="url" />
+              <button class="read-button" type="submit">Read the business</button>
+              <a class="quiet-book" href="#book">or book a fit call</a>
+            </form>
+
+            <div class="readout">
+              <div class="reading-mask" aria-live="polite">
+                <div>
+                  <div class="reading-mark">MM</div>
+                  <div class="reading-title">Building a business read</div>
+                  <div class="reading-note">Worked example: Mindmaker</div>
+                </div>
+              </div>
+
+              <div class="read-shell">
+                <aside class="identity">
+                  <div class="identity-top">
+                    <div class="company-mark">MM</div>
+                    <div><div class="company-name">Mindmaker</div><div class="company-domain">themindmaker.ai</div></div>
+                  </div>
+                  <div class="identity-foot">Worked example<strong>Built from the current site and brief</strong></div>
+                </aside>
+
+                <div class="fingerprint">
+                  <div class="section-label">What the business appears to be</div>
+                  <div class="facts">
+                    <div class="fact"><small>Sells</small><strong>Help with hard commercial AI decisions</strong><span class="source">Source: current site</span></div>
+                    <div class="fact"><small>Earns through</small><strong>Focused work, software and learning</strong><span class="source">Source: offer records</span></div>
+                    <div class="fact"><small>Useful edge</small><strong>17 years in data and product strategy, plus deep AI build work</strong><span class="source">Source: supplied brief</span></div>
+                  </div>
+                </div>
+
+                <div class="prediction">
+                  <div class="section-label">Our first read</div>
+                  <p class="pressure" id="pressure">The proof is strong. The offer is harder to grasp than the work itself.</p>
+                  <div class="confirm-box">
+                    <p class="confirm-copy">Is that close?</p>
+                    <div class="confirm-row">
+                      <button class="confirm-button primary" type="button" id="confirm">That’s close</button>
+                      <button class="confirm-button" type="button" id="correct">Not quite</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="correction" id="correction">
+              <div class="correction-label">Which pressure is closer?</div>
+              <div class="correction-options">
+                <button class="correction-button" type="button" data-pressure="The right buyers do not see themselves quickly enough.">The right buyers do not see themselves</button>
+                <button class="correction-button" type="button" data-pressure="The proof is split across too many parts of the story.">The proof is split across the story</button>
+                <button class="correction-button" type="button" data-pressure="The first step feels bigger than it needs to be.">The first step feels too big</button>
+              </div>
+            </div>
+
+            <div class="decision-row" id="decision-row" aria-live="polite">
+              <div>
+                <div class="decision-label">The decision to test</div>
+                <div class="decision-text" id="decision-text">What should Mindmaker lead with so a good buyer understands the value before seeing all the proof?</div>
+              </div>
+              <a href="#book" class="decision-action">Talk it through with Krish ↗</a>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="next-section" aria-label="Next homepage section"><div>When to call Mindmaker</div></section>
+  </main>
+
+  <script>
+    const demo = document.getElementById("demo");
+    const form = document.getElementById("domain-form");
+    const domain = document.getElementById("domain");
+    const confirmButton = document.getElementById("confirm");
+    const correctButton = document.getElementById("correct");
+    const pressure = document.getElementById("pressure");
+    const decisionText = document.getElementById("decision-text");
+    const correctionButtons = [...document.querySelectorAll(".correction-button")];
+    let timer;
+
+    function pulse() {
+      if (navigator.vibrate) navigator.vibrate(12);
+    }
+
+    function buildRead() {
+      clearTimeout(timer);
+      const value = domain.value.trim().toLowerCase().replace(/^https?:\/\//, "").replace(/\/$/, "");
+      if (!value) {
+        domain.focus();
+        return;
+      }
+      if (value !== "themindmaker.ai" && value !== "www.themindmaker.ai") {
+        domain.setCustomValidity("This local worked example uses themindmaker.ai. Live company research comes in the next build.");
+        domain.reportValidity();
+        domain.setCustomValidity("");
+        return;
+      }
+      demo.dataset.state = "reading";
+      pulse();
+      timer = setTimeout(() => {
+        demo.dataset.state = "ready";
+        pulse();
+      }, 1450);
+    }
+
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      buildRead();
+    });
+
+    confirmButton.addEventListener("click", () => {
+      demo.dataset.state = "confirmed";
+      decisionText.textContent = "What should Mindmaker lead with so a good buyer understands the value before seeing all the proof?";
+      pulse();
+    });
+
+    correctButton.addEventListener("click", () => {
+      demo.dataset.state = "correcting";
+      pulse();
+    });
+
+    correctionButtons.forEach(button => button.addEventListener("click", () => {
+      pressure.textContent = button.dataset.pressure;
+      const map = {
+        "The right buyers do not see themselves quickly enough.": "Which buyer should Mindmaker make feel seen first, without making the work look narrow?",
+        "The proof is split across too many parts of the story.": "Which proof should Mindmaker show first so the rest of the story becomes easier to believe?",
+        "The first step feels bigger than it needs to be.": "What is the smallest first step that proves value without making the work feel small?"
+      };
+      decisionText.textContent = map[button.dataset.pressure];
+      demo.dataset.state = "confirmed";
+      pulse();
+    }));
+
+    window.addEventListener("load", () => {
+      timer = setTimeout(buildRead, 600);
+    });
+  </script>
+</body>
+</html>

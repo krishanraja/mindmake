@@ -16,15 +16,12 @@ import krishHeadshot from "@/assets/krish-headshot.png";
 import { SEO } from "@/components/SEO";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { InitialConsultModal } from "@/components/InitialConsultModal";
-import { useSessionData } from "@/contexts/SessionDataContext";
+import { BookFitCall } from "@/components/BookFitCall";
 
 const Contact = () => {
   const navigate = useNavigate();
-  const { sessionData } = useSessionData();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [consultModalOpen, setConsultModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -34,8 +31,8 @@ const Contact = () => {
   });
 
   const seoData = {
-    title: "Contact Us - Mindmaker",
-    description: "Get in touch with Mindmaker. Have a nervous decision about AI? We'd love to hear from you.",
+    title: "Contact",
+    description: "Send Krish Raja a general message or book a short fit call about a commercial decision shaped by AI.",
     canonical: "/contact",
   };
 
@@ -100,11 +97,10 @@ const Contact = () => {
               </div>
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-display">
-                Let's <span className="text-mint dark:text-mint">Talk</span>
+                Contact <span className="text-mint dark:text-mint">Krish</span>
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground">
-                Have a nervous decision about AI or want to explore working together? 
-                I'd love to hear from you.
+                Use the form for a general message. If you want to talk about the Sprint, book a fit call instead.
               </p>
             </div>
           </div>
@@ -136,14 +132,11 @@ const Contact = () => {
                 </div>
                 
                 <p className="text-sm text-foreground leading-relaxed mb-4">
-                  I help senior business leaders become AI-literate by building working AI systems 
-                  around their real work, not through vendor theatre or theoretical training.
+                  I help business leaders make hard product, price, go-to-market and company decisions as AI changes the market.
                 </p>
                 
                 <p className="text-sm text-foreground leading-relaxed mb-6">
-                  With 16+ years scaling businesses from zero to multi-million dollar revenue 
-                  across the UK, USA, and Australia, I bring operator experience to AI transformation. 
-                  I've worked with Microsoft, Nine, BBC, and Singtel on data and tech monetization strategies.
+                  I bring more than 17 years of work across data, technology and product strategy, plus the last two years working deep inside AI.
                 </p>
 
                 <div className="flex items-center gap-3">
@@ -174,38 +167,16 @@ const Contact = () => {
                 </div>
               </div>
 
-              {/* Mission Statement */}
-              <div className="dark-cta-card !p-6">
-                <h3 className="text-lg font-bold mb-3">Why This Mission Matters</h3>
-                <p className="text-sm leading-relaxed mb-4">
-                  AI literacy will be the defining skill of the next decade. Yet most leaders 
-                  are stuck between vendor hype and technical jargon. They need practical 
-                  capability, not more theory.
-                </p>
-                <p className="text-sm leading-relaxed">
-                  My mission is to ensure senior leaders can confidently integrate AI into 
-                  their work, making informed strategic decisions and leading their organizations 
-                  through the AI transformation with clarity.
-                </p>
-              </div>
-
               {/* Quick Book CTA */}
               <div className="p-6 rounded-2xl border border-mint/30 bg-mint/5">
                 <div className="flex items-center gap-3 mb-4">
                   <Calendar className="h-5 w-5 text-mint-dark dark:text-mint" />
-                  <h3 className="font-semibold">Ready to Start?</h3>
+                  <h3 className="font-semibold">Want to discuss the Sprint?</h3>
                 </div>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Start with a free conversation. No decks, no demos, just clarity on your nervous decision.
+                  The 15-minute call checks the decision, fit and useful next step.
                 </p>
-                <Button 
-                  variant="mint"
-                  className="w-full"
-                  onClick={() => setConsultModalOpen(true)}
-                >
-                  <Calendar className="h-4 w-4 mr-2" />
-                  What's your nervous decision?
-                </Button>
+                <BookFitCall source="contact-card" className="w-full" />
               </div>
 
               {/* Direct Contact */}
@@ -232,7 +203,7 @@ const Contact = () => {
                   <h2 className="text-2xl font-bold mb-3">Message Received!</h2>
                   <p className="text-muted-foreground mb-6">
                     Thanks for reaching out. I typically respond within 24-48 hours. 
-                    In the meantime, feel free to explore the blog or book a session directly.
+                    In the meantime, you can read the articles or book a fit call.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-3 justify-center">
                     <Button 
@@ -241,11 +212,7 @@ const Contact = () => {
                     >
                       Send Another Message
                     </Button>
-                    <Button 
-                      onClick={() => setConsultModalOpen(true)}
-                    >
-                      Start the Conversation
-                    </Button>
+                    <BookFitCall source="contact-success" />
                   </div>
                 </div>
               ) : (
@@ -327,7 +294,7 @@ const Contact = () => {
                       <Textarea
                         id="message"
                         name="message"
-                        placeholder="What's your nervous decision? Tell me what you're working through..."
+                        placeholder="What would you like to ask?"
                         required
                         rows={6}
                         value={formData.message}
@@ -365,15 +332,6 @@ const Contact = () => {
       
       <Footer />
       
-      {/* Consult Modal */}
-      <InitialConsultModal
-        open={consultModalOpen}
-        onOpenChange={setConsultModalOpen}
-        preselectedProgram={sessionData.qualificationData?.preselectedProgram}
-        commitmentLevel={sessionData.qualificationData?.commitmentLevel}
-        audienceType={sessionData.qualificationData?.audienceType}
-        pathType={sessionData.qualificationData?.pathType}
-      />
     </div>
   );
 };

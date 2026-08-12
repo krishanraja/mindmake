@@ -834,4 +834,24 @@
 
 ---
 
+### 2026-08-12: One 21-day Sprint and one fit-call path
+
+**Decision:** Retire The Teardown and The Handover from the public site. Mindmaker now sells one flexible, scoped 21-day Sprint.
+
+**Reason:** The practice is strongest when it helps a leader resolve one important commercial problem as AI changes the market. The old two-offer ladder and several booking flows made the visitor choose a mechanism before they understood the work.
+
+**Public contract:**
+
+- Every main sales action says `Book a fit call`.
+- Every main sales action reaches the same verified 15-minute Calendly page.
+- CTRL is the living Sprint deliverable, not a second purchase.
+- Prices are not public.
+- The Diagnosis Room and homepage AI demonstration are paused.
+- Old offer routes redirect straight to `/sprint`.
+- Mindmaker Live uses its branded external URL.
+
+**Release boundary:** Do not change Supabase, CTRL, the control centre or production promotion in this pass.
+
+---
+
 **End of DECISIONS_LOG**

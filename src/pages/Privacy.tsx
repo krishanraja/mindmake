@@ -23,11 +23,11 @@ const privacySections: PrivacySection[] = [
           Mindmaker LLC ("we," "our," or "us") collects information you provide directly to us, such as when you:
         </p>
         <ul className="list-disc pl-6 mb-4 space-y-2">
-          <li>Sign up for our AI literacy programs</li>
+          <li>Ask about or take part in a Mindmaker Sprint</li>
           <li>Contact us through our website or email</li>
-          <li>Participate in our assessments or coaching sessions</li>
+          <li>Take part in interviews or working sessions</li>
           <li>Subscribe to our newsletters or content hub</li>
-          <li>Book a consultation or session through our platform</li>
+          <li>Book a fit call through our booking provider</li>
         </ul>
         <p className="mb-4">
           <strong>Types of information collected may include:</strong>
@@ -49,9 +49,9 @@ const privacySections: PrivacySection[] = [
       <>
         <p className="mb-4">We use the information we collect to:</p>
         <ul className="list-disc pl-6 space-y-2">
-          <li>Provide, maintain, and improve our AI literacy services</li>
-          <li>Communicate with you about our programs and services</li>
-          <li>Personalize your learning experience and recommendations</li>
+          <li>Provide, maintain, and improve our advisory services</li>
+          <li>Communicate with you about our Sprint and other services</li>
+          <li>Tailor our work and recommendations to your business</li>
           <li>Send you educational content, updates, and marketing communications (with your consent)</li>
           <li>Analyze usage patterns to improve our offerings</li>
           <li>Process payments and prevent fraud</li>

@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 export interface FAQItem {
   question: string;
   answer: string;
-  category: "programs" | "ai-literacy" | "getting-started";
+  category: "the-sprint" | "fit" | "getting-started";
 }
 
 export const faqItems: FAQItem[] = [
@@ -15,58 +15,58 @@ export const faqItems: FAQItem[] = [
     category: "getting-started",
     question: "What is Mindmaker?",
     answer:
-      "Mindmaker turns non-technical leaders into no-code AI builders. We help CEOs, GMs, and executives build working AI systems around their real work, without writing code or waiting for IT.",
+      "Mindmaker helps business leaders make hard calls as AI changes their market. The work can cover products, prices, sales plans and how a team is set up.",
   },
   {
     category: "getting-started",
     question: "Who is this for?",
     answer:
-      "CEO, GM, CCO, CPO, CMO, CRO, COO. Leaders with P&L responsibility who need to design the future, not delegate it. If you're tired of vendor theatre and want to build real systems, this is for you.",
+      "It is for a leader who owns an important business result. You may feel that new rivals are moving faster, or that your own growth is stuck because your product, price, message or team no longer fits the market.",
   },
   {
     category: "getting-started",
     question: "How do I start?",
     answer:
-      "Start with the 4-Week Decision Sprint. Bring one real problem, leave with systems. From there, you can dive into the 90-Day Concierge Sprint for deeper work. No pressure, just clarity.",
+      "Book a 15-minute fit call. Bring the problem as you see it today. You do not need a finished brief. Krish will tell you if a Sprint is the right next step.",
   },
   {
-    category: "programs",
-    question: "What's the 4-Week Decision Sprint?",
+    category: "the-sprint",
+    question: "What is the 21-day Sprint?",
     answer:
-      "A 4-week program where you bring one nervous decision about AI. Week 1: clarity on what actually matters. Week 2: options and trade-offs. Week 3: you make the call. Week 4: board-ready decision memo. You leave with a defensible decision and ROI framework.",
+      "It is focused work on one important business problem. Over 21 days, Krish finds what is really causing it, tests the strongest options and helps your team start the right action.",
   },
   {
-    category: "programs",
-    question: "What's the 90-Day Concierge Sprint?",
+    category: "the-sprint",
+    question: "What happens during the Sprint?",
     answer:
-      "A 90-day program for senior leaders: Mind Set (Month 1), Mind Map (Month 2), Mind Make (Month 3). You build 3-5 deployed AI systems, resolve 2-3 strategic decisions, and leave with a 12-month roadmap and Builder Dossier.",
+      "Krish studies the business, speaks with the right people and checks outside facts. He separates facts from guesses, shows what each cause adds to the problem and works with you on the first real step.",
   },
   {
-    category: "programs",
-    question: "How is the Mindmaker Sprint for teams different?",
+    category: "the-sprint",
+    question: "What do we keep at the end?",
     answer:
-      "Mindmaker Sprints for teams bring executive groups of 6-12 through the same framework in an intensive format. You run real decisions through a new AI-enabled way of working and leave with a 90-day pilot charter to implement across your team.",
+      "You keep a clear decision record, the evidence behind it and the work started during the Sprint. This lives in a CTRL space so your team can keep using it after Krish leaves.",
   },
   {
-    category: "ai-literacy",
-    question: "How is this different from AI training?",
+    category: "fit",
+    question: "How is this different from an AI automation consultant?",
     answer:
-      "Training fades. Consulting tells you what to do. Tools do it for you. We build the system with you so you can think for yourself: design systems, run decisions, and stop wasting money on vendor theatre.",
+      "The goal is not to automate a list of small tasks. Krish protects the expertise, judgement and taste already in your business, then uses AI to make it more useful. The aim is a better business decision and a team that can carry it on.",
   },
   {
-    category: "ai-literacy",
-    question: "What do I actually get?",
+    category: "fit",
+    question: "Do we need to know the answer before we call?",
     answer:
-      "Working systems you can use tomorrow. Not slides, not theory. Prompts, workflows, and frameworks built around your real work. Each engagement includes concrete deliverables you can implement immediately.",
+      "No. An unclear problem is a valid place to start. Krish uses careful questions and outside evidence to find the real decision underneath it.",
   },
   {
-    category: "ai-literacy",
-    question: "I'm not technical. Is this for me?",
+    category: "fit",
+    question: "Do I need to be technical?",
     answer:
-      "Absolutely. This is designed specifically for non-technical leaders. You won't write code. You'll learn to think with AI, not program it. The Four Modes framework makes AI accessible to anyone.",
+      "No. The work is built for business leaders. Technical detail is used only when it helps you make or carry out the decision.",
   },
   {
-    category: "ai-literacy",
+    category: "getting-started",
     question: "What's Mindmaker LIVE?",
     answer:
       "Mindmaker LIVE is the publication: what's actually working in real portfolios, not vendor hype. Two formats. Paid follows the money on a shift and asks who pays. Built is conversations with people who have really built something with AI. Read it at live.themindmaker.ai.",
@@ -81,15 +81,15 @@ export const categoryConfig = {
     bgColor: "bg-mint/10",
     borderColor: "border-mint/30",
   },
-  programs: {
-    label: "Programs",
+  "the-sprint": {
+    label: "The Sprint",
     icon: Users,
     color: "text-blue-600 dark:text-blue-400",
     bgColor: "bg-blue-100 dark:bg-blue-900/30",
     borderColor: "border-blue-200 dark:border-blue-800",
   },
-  "ai-literacy": {
-    label: "AI Literacy",
+  fit: {
+    label: "Is it a fit?",
     icon: Lightbulb,
     color: "text-purple-600 dark:text-purple-400",
     bgColor: "bg-purple-100 dark:bg-purple-900/30",

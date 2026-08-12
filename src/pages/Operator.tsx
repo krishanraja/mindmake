@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { Button } from "@/components/ui/button";
+import { BookFitCall } from "@/components/BookFitCall";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 import { SEO } from "@/components/SEO";
 import {
   Carousel,
@@ -19,16 +18,6 @@ const fadeUp = {
     y: 0,
     transition: { delay: i * 0.08, duration: 0.5, ease: "easeOut" },
   }),
-};
-
-const trackCta = () => {
-  try {
-    (window as unknown as { plausible?: (e: string) => void }).plausible?.(
-      "operator_page_cta_clicked"
-    );
-  } catch {
-    /* analytics optional */
-  }
 };
 
 // 14 agents arranged by function. Drives the static diagram below.
@@ -77,31 +66,31 @@ const agentGroups = [
 const lessons = [
   {
     id: 1,
-    headline: "Agents are not employees. Stop treating them like it.",
-    body: "The 'AI teammate' metaphor leads to over-scoped, under-monitored agents that produce garbage at scale. Every broken fleet I've inspected starts with role-titles instead of verbs.",
+    headline: "Give each AI worker one clear job.",
+    body: "An AI worker fails when its job is too wide and nobody checks it. The strongest systems start with a small, clear action.",
     example:
-      "Example: I scope agent responsibilities as verbs (score, route, validate, classify) rather than roles (analyst, researcher, assistant). Verbs bound the work. Roles bound nothing.",
+      "Example: I define the job with words such as score, route, check or sort. That is much clearer than calling it an analyst or assistant.",
   },
   {
     id: 2,
-    headline: "Memory is a commercial decision, not a technical one.",
-    body: "Most memory architecture conversations die in vector-database debates. The real question is what the business needs the system to remember, for how long, and who owns the decision to forget.",
+    headline: "Choose what AI should remember.",
+    body: "The useful question is not which database to buy. It is what the business needs the system to remember, for how long and who can tell it to forget.",
     example:
-      "Example: my private memory webs (per-operator context) and organizational memory layer (institutional knowledge) use different storage and different retrieval patterns on purpose. Different accountabilities.",
+      "Example: private notes for one person and shared company knowledge are kept apart on purpose. Different people are responsible for each one.",
   },
   {
     id: 3,
-    headline: "Cost optimization is a product feature, not an afterthought.",
-    body: "Agent fleets break financially before they break operationally. You have to design for cost ceilings on day one or the first quarterly invoice ends the project.",
+    headline: "Set a cost limit from day one.",
+    body: "A useful AI system can still fail because it costs too much to run. The cost limit must be part of the design from the start.",
     example:
-      "Example: cheap models for high-volume parse work, expensive models for judgment calls, hard caps at both ends with an escalation path to a human when the cap trips.",
+      "Example: I use lower-cost AI for simple work and stronger AI for hard judgement calls. A person steps in when the limit is reached.",
   },
   {
     id: 4,
-    headline: "Agent orchestration is where most AI products fail commercially.",
-    body: "The reason your enterprise's AI capabilities aren't selling isn't the capabilities themselves. It's that nobody's designed the system that turns capability into commercial outcome.",
+    headline: "Good AI tools still need a path into the business.",
+    body: "A strong AI tool will not create a business result on its own. The team still needs a clear path from what the tool can do to what a customer will pay for.",
     example:
-      "Example: this is the lesson most Handover engagements start with. The commercial failure is an orchestration failure, not a model failure.",
+      "Example: this is a common Sprint starting point. The AI may work well, but the product, price or sales handoff around it does not.",
   },
 ];
 
@@ -165,8 +154,8 @@ export default function Operator() {
   return (
     <main className="min-h-screen bg-background">
       <SEO
-        title="How I operate: the 14-agent OS behind Mindmaker"
-        description="Most AI advisors sell frameworks they've read. I operate the frameworks I sell. A 14-agent operating system managing a 13-venture portfolio. Memory, cost, and orchestration lessons from the system."
+        title="How Mindmaker Works Behind the Scenes"
+        description="See the real AI system Krish uses to run Mindmaker, manage cost and keep useful company knowledge."
         canonical="/operator"
         ogType="article"
       />
@@ -180,7 +169,7 @@ export default function Operator() {
               How I operate
             </div>
             <h1 className="order-2 sm:order-3 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 md:mb-5 leading-tight tracking-tight text-white">
-              The operating system behind Mindmaker.
+              How Mindmaker works behind the scenes.
             </h1>
             <div className="order-3 sm:contents flex items-center gap-4">
               <motion.img
@@ -224,7 +213,7 @@ export default function Operator() {
             </motion.div>
             <div className="space-y-5 text-base md:text-lg leading-relaxed">
               <motion.p initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}>
-                Every AI advisor claims to understand agentic systems. Very few have actually built one and kept it running.
+                Many AI advisers talk about systems made of AI workers. Very few have built one and kept it running.
               </motion.p>
               <motion.p
                 initial="hidden"
@@ -234,7 +223,7 @@ export default function Operator() {
                 variants={fadeUp}
                 className="text-muted-foreground"
               >
-                Mindmaker sits on top of a 14-agent operating system coordinating a 13-venture portfolio. It runs in production, watches its own cost ceiling, and makes its own handoffs without me in the loop.
+                Mindmaker uses 14 small AI workers across a group of 13 ventures. The system runs every day, watches its own cost limit and passes work from one job to the next.
               </motion.p>
               <motion.p
                 initial="hidden"
@@ -244,7 +233,7 @@ export default function Operator() {
                 variants={fadeUp}
                 className="text-muted-foreground"
               >
-                The commercial strategy, positioning, and GTM work I do for clients is informed by this system. Every framework has been pressure-tested against real operating constraints: cost ceilings, agent handoffs, memory pollution, context drift.
+                The product, position and sales work I do for clients is shaped by this system. Every method has been tested against real limits such as cost, poor handoffs and out-of-date knowledge.
               </motion.p>
               <motion.p
                 initial="hidden"
@@ -254,7 +243,7 @@ export default function Operator() {
                 variants={fadeUp}
                 className="text-muted-foreground"
               >
-                Layer that on sixteen years running P&amp;Ls, shaping tech product strategy, and, right now, leading GenAI advisory inside a global media enterprise. That's not a credential line. It's a day job.
+                Add more than 17 years running businesses and shaping technology products. This is not a line on a slide. It is work I do every day.
               </motion.p>
             </div>
           </div>
@@ -265,9 +254,9 @@ export default function Operator() {
       <section className="section-padding bg-muted/30">
         <div className="container-width max-w-5xl">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}>
-            <h2 className="text-3xl md:text-4xl font-bold mb-2">The architecture.</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-2">How it fits together.</h2>
             <p className="text-muted-foreground mb-10">
-              14 agents, five functional clusters, one shared memory web.
+              14 AI workers, five job groups and one shared memory.
             </p>
           </motion.div>
 
@@ -369,21 +358,12 @@ export default function Operator() {
         <div className="container-width max-w-3xl">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}>
             <h2 className="text-2xl md:text-3xl font-bold mb-5">
-              What this means if you're commercializing AI.
+              What this means for a commercial decision.
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-5">
-              If you've built AI capabilities and they're not converting to revenue, the problem is almost never the capabilities. It's the system around them: positioning, pricing, commercial narrative, the handoff from agent to customer. The Handover applies the operating patterns from this page to your commercial architecture. You don't need a consultant explaining agents. You need an operator who's already run the playbook you're about to build.
+              If the work is not turning into revenue, the problem is often around it: the position, price, story or handoff to the customer. The Sprint uses the operating lessons on this page to resolve one decision and start the first real action.
             </p>
-            <Button
-              asChild
-              size="lg"
-              className="bg-ink dark:bg-mint text-white dark:text-ink hover:opacity-90 font-bold"
-              onClick={trackCta}
-            >
-              <a href="/handover">
-                See The Handover <ArrowRight className="ml-2 w-4 h-4" />
-              </a>
-            </Button>
+            <BookFitCall source="operator-final" />
           </motion.div>
         </div>
       </section>

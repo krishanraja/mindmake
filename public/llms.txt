@@ -1,54 +1,38 @@
-# The Mindmaker
+# Mindmaker
 
-<!-- GENERATED FILE. Do not edit by hand. Source: src/lib/offers.ts via scripts/generate-llms.mjs -->
+> Krish Raja's commercial decision practice.
 
-> Krish Raja helps senior leaders make and ship nervous AI decisions. Operator-advisor, not a consultant: no training, no decks, no demos, just decisions.
+Mindmaker helps founders, CEOs, CROs and strategy leaders resolve hard product, price, go-to-market and company decisions as AI changes the market.
 
-Mindmaker is a capped advisory practice. A small number of engagements a year.
+## The Sprint
 
-## Core offers
+- [The Sprint](/sprint): one decision over 21 days.
+- Krish researches, challenges, models, coordinates and makes the call with the client.
+- The client gives decisions and introductions. There is no homework.
+- The work ends with the decision made, the reason kept and the first material action under way.
+- Price is set on the fit call and is not published.
 
-Presented largest first. Every engagement has a fixed scope, a fixed price and a finish line.
+## CTRL by Mindmaker
 
-- [The Handover](/handover): $18,000 under 100 people, $30,000 100 to 250 people, $50,000 250 to 5,000 people. Six weeks, and a completed Teardown is required first. Week 1 load and correct context, week 2 adversarial pre-mortem, week 3 the fork (rebuild GTM, pricing and positioning, or set the build order if already AI-native), week 4 the client drives, week 5 Krish does not attend, week 6 exit. Day 90 recheck included. Capped at 6 a year. Sold to the CEO, CRO or VP Product, never the CTO.
-- [The Teardown](/teardown): $9,500 fixed. One decision. Ten business days, under two hours of client time. The decision comes apart into the claims it rests on; each is checked against live evidence with a reliability tier; each consideration is classed External, Only you, or Nobody yet; four models cross-examine it with disagreements preserved rather than averaged. Ends in a one-page memo plus three claims under a 90-day watch, and includes a CTRL workspace with the decision map in it. This is the entry rung and the gate for The Handover.
-- [For funds and portfolio companies](/capital): the same two engagements, priced per portfolio company. Fund-level and multi-company terms are set on a call.
+CTRL is the private workspace left with the client. It holds the business context, decision, evidence and reasoning. It is the deliverable, not a separate purchase on this site.
 
-Prices above are USD. The site also publishes GBP and AUD via a currency switcher on each offer page. Those are set prices per market, not conversions, so do not convert between them.
+## Proof
 
-## Who it is for
+- [Client results](/case-studies): eight verified, anonymous stories organised by the decision and result.
+- Mindmaker has helped over 4000 leaders with what is next in AI.
+- Organisation logos on the site are attendance proof, not client claims.
 
-Companies of 50 to 5,000 people, sweet spot 100 to 1,000. The buyer is the CEO, CRO or VP Product: the seat accountable for whether it sells.
+## How Krish works
 
-## How I operate
+- [How I operate](/operator): evidence from the systems Krish builds and runs himself.
+- More than 17 years across data, technology and product strategy, plus two years working deep inside AI.
 
-- [The operating system behind Mindmaker](/operator): a 14-agent fleet running 45 workflows in production, licensed to three businesses. The operational foundation the commercial advice is built on.
+## Mindmaker Live
 
-## Try it
-
-- [The Diagnosis Room](/start): an on-site guided experience. Mindy works through one nervous AI decision with you and ends in one of three honest exits: keep chatting, book a free 15-minute call, or download a co-branded one-page proposal. Free, no email required.
-- [Mindmaker LIVE](/signal): live model prices, weekly classified reads (WATCH / SKIP / CALL / TAKE), and the Nervous Decision Machine embedded in-page.
-- [Case studies](/case-studies): anonymised client outcomes, filterable.
-
-## About
-
-- [Krish Raja, Founder](/)
-- Sixteen years commercialising content, media and IP businesses. Now he builds the AI systems that run them.
-
-## Writing
-
-- [Mindmaker LIVE](https://live.themindmaker.ai): two formats. Built, on why someone built the thing they built. Paid, on who is actually getting paid in a shift and by what mechanism. Free and paid tiers.
-- [Blog](/blog): long-form analysis.
-
-## Thought leadership
-
-- [New Age Leadership](/new-age-leadership): how org charts change when AI agents become teammates. Interactive demonstration of human / hybrid / agent-first / emergent roles, with the role-design decisions leaders will face.
-
-## Positioning
-
-Mindmaker is the anti-consultancy for leaders done being sold AI. Consultants, LLMs and the next hyped tool sell point solutions built to extract your judgment, not build it. The method is one thing: build the brain that holds your business, anchored to the decisions you are actually making. Run it yourself with CTRL (https://ctrl.themindmaker.ai), or run it with Krish through The Teardown and then The Handover. Krish runs a 14-agent AI business on his own P&L, so the commercial work comes out of production rather than out of a deck. No fractional executive roles. No ongoing retainers. No production IT work.
+- [Mindmaker Live](https://live.themindmaker.ai): the publication.
+- Paid follows where the money is moving. Built shows how operators respond. These are article types, not payment plans.
 
 ## Contact
 
-- Book: https://www.themindmaker.ai (Bring me one real decision, from any page)
-- Email: krish@themindmaker.ai
+- Book a 15-minute fit call: https://calendly.com/krish-raja/mindmaker-concierge
+- General messages: https://www.themindmaker.ai/contact

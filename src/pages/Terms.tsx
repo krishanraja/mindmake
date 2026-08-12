@@ -39,12 +39,12 @@ const Terms = () => {
           <section className="mb-8">
           <h2 className="text-xl font-semibold mb-4">2. Description of Services</h2>
             <p className="mb-4">
-              Mindmaker LLC provides AI literacy training, coaching, and educational services including:
+              Mindmaker LLC provides business and AI advisory services, including:
             </p>
             <ul className="list-disc pl-6 mb-4">
-              <li>AI literacy assessments and evaluations</li>
-              <li>Educational seminars and workshops</li>
-              <li>AI strategy consulting</li>
+              <li>Time-limited business decision Sprints</li>
+              <li>Product, pricing, sales and company strategy advice</li>
+              <li>Research, interviews and practical working sessions</li>
               <li>Digital content and resources</li>
               <li>Coaching and advisory services</li>
             </ul>

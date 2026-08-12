@@ -83,7 +83,7 @@ src/components/CookieConsent.tsx
 src/pages/Index.tsx                    # homepage (eager-loaded)
 src/pages/Teardown.tsx                 # The Teardown, one price, currency switcher
 src/pages/Handover.tsx                 # The Handover, three bands by headcount
-src/pages/Operator.tsx                 # 14-agent OS credential page (autoplay /ctrl-demo-video.mp4)
+src/pages/Operator.tsx                 # 14-agent OS credential page (shared /CTRL-demo-aug-26.mp4 player)
 src/pages/Brief.tsx                    # Live Intel (/signal)
 src/pages/Capital.tsx                  # The same two engagements, per portfolio company
 src/pages/NewAgeLeadership.tsx         # /new-age-leadership thought leadership

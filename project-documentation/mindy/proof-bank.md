@@ -121,7 +121,7 @@ These are reduced to sector and role. Every entry (R-01 to R-09) carries verifie
 - **the-work:** AI-powered customer-experience work packaged as a sellable engagement, not a keynote. A productized advisory ladder under the firm's advisory brand. A ventures thesis written and stood up under a new ventures arm, focused on CTO-led founders. The newsletter and creative arm rewired as distribution for both.
 - **outcome:** Advisory repositioned from thought leadership to productized strategic product development, with AI podcasts as the first product launched. Fund One launched with a defined CTO-led thesis, now focused on application-layer AI ventures built around compounding data assets.
 - **pull-quote:** "We had expertise everyone respected and nothing they could buy. He turned the talking into something sellable."
-- **attribution:** Managing Partner, TMT advisory
+- **attribution:** Partner, Venture Capital Firm
 
 ### R-07
 

@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import { BookFitCall } from "@/components/BookFitCall";
 import { motion } from "framer-motion";
 import { SEO } from "@/components/SEO";
+import { CtrlDemoVideo } from "@/components/CtrlDemoVideo";
 import {
   Carousel,
   CarouselContent,
@@ -201,15 +202,7 @@ export default function Operator() {
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="flex justify-center md:justify-start"
             >
-              <video
-                src="/ctrl-demo-video.mp4"
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="auto"
-                className="w-full max-w-[280px] rounded-xl shadow-lg"
-              />
+              <CtrlDemoVideo className="w-full max-w-xl shadow-lg" />
             </motion.div>
             <div className="space-y-5 text-base md:text-lg leading-relaxed">
               <motion.p initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}>

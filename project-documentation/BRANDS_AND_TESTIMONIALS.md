@@ -65,7 +65,7 @@ A respected advisory firm moved from ideas to a clear offer clients could buy an
 
 > “We had expertise everyone respected and nothing they could buy. He turned the talking into something sellable.”
 >
-> Managing Partner, TMT advisory
+> Partner, Venture Capital Firm
 
 ### 3. Make the product simple enough to sell
 
@@ -125,25 +125,25 @@ Place the excerpts where they support the surrounding message. Never group all o
 
 > “What's unique about Krish is that he never lets you become reliant on him. He puts you in the driver's seat, explains AI fundamentals in plain language, and empowers you to own the skills that actually move your business forward.”
 >
-> Steph Darmanin, Performance Coach, Legacy Ascend
+> Steph Darmanin, Performance Coach
 
 ### Contrast with old outsourced support
 
 > “I have invested thousands before that resulted in terribly disappointing outcomes. The website support came to a halt once the paid engagement ended and ultimately I had to pull the plug and start over. With Mindmaker, I was empowered to own the skills.”
 >
-> Steph Darmanin, Performance Coach, Legacy Ascend
+> Steph Darmanin, Performance Coach
 
 ### Beside the price
 
 > “In 10 years of group and private mentorships, this has been the most valuable investment I have made in myself and my business.”
 >
-> Steph Darmanin, Performance Coach, Legacy Ascend
+> Steph Darmanin, Performance Coach
 
 ### Beside the rebuild story
 
 > “By week 4, I realised I was overdelivering for clients with less effort, and that clarity led me to create new offers with tiered pricing that accurately reflects the value of the service I provide.”
 >
-> Steph Darmanin, Performance Coach, Legacy Ascend
+> Steph Darmanin, Performance Coach
 
 ## Approved named career references, exactly 6
 

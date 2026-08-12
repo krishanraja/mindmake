@@ -126,7 +126,7 @@ export const PROOF_BANK: ProofEntry[] = [
       'Advisory repositioned from thought leadership to productized strategic product development with AI podcasts as the first product, and Fund One launched with a defined CTO-led thesis focused on application-layer AI ventures.',
     quote:
       '"We had expertise everyone respected and nothing they could buy. He turned the talking into something sellable."',
-    attribution: 'Managing Partner, TMT advisory',
+    attribution: 'Partner, Venture Capital Firm',
   },
   {
     id: 'R-07',

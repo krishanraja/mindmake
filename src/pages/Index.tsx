@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { BookFitCall } from "@/components/BookFitCall";
 import { SEO } from "@/components/SEO";
 import { ParticleBackground } from "@/components/Animations/ParticleBackground";
+import { CtrlDemoVideo } from "@/components/CtrlDemoVideo";
 import { useTestimonials } from "@/hooks/useTestimonials";
 import { attendeeBrands, clientStories } from "@/data/rebuildProof";
 
@@ -146,7 +147,7 @@ export default function Index() {
       <section className="section-padding bg-background" aria-labelledby="ctrl-title">
         <div className="container-width grid gap-12 lg:grid-cols-2 lg:items-center">
           <motion.div className="relative overflow-hidden rounded-2xl border border-border/60 bg-ink p-2 shadow-2xl" initial={{ opacity: 0, scale: 0.97 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, amount: 0.25 }}>
-            <video src="/ctrl-demo-video.mp4" autoPlay loop muted playsInline className="aspect-video w-full rounded-xl object-cover" aria-label="A redacted view of CTRL by Mindmaker" />
+            <CtrlDemoVideo className="w-full" />
             <div className="absolute bottom-5 left-5 rounded-md bg-ink/90 px-3 py-2 text-xs font-bold text-mint backdrop-blur">CTRL by Mindmaker</div>
           </motion.div>
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.25 }} variants={reveal}>
@@ -162,7 +163,7 @@ export default function Index() {
             {canShowSteph && (
               <blockquote className="mt-8 border-l-2 border-mint pl-5">
                 <p className="text-sm leading-relaxed">“What's unique about Krish is that he never lets you become reliant on him. He puts you in the driver's seat, explains AI fundamentals in plain language, and empowers you to own the skills that actually move your business forward.”</p>
-                <footer className="mt-3 text-xs font-bold text-muted-foreground">Steph Darmanin, Performance Coach, Legacy Ascend</footer>
+                <footer className="mt-3 text-xs font-bold text-muted-foreground">Steph Darmanin, Performance Coach</footer>
               </blockquote>
             )}
           </motion.div>
@@ -195,7 +196,7 @@ export default function Index() {
 
       <section className="section-padding bg-background" aria-labelledby="krish-title">
         <div className="container-width grid gap-12 lg:grid-cols-[.75fr_1.25fr] lg:items-center">
-          <img src="/Krish-Headshot.png" alt="Krish Raja" className="mx-auto aspect-[4/5] w-full max-w-md rounded-2xl object-cover shadow-xl" />
+          <img src="/Krish-Headshot.png" alt="Krish Raja" className="mx-auto aspect-square w-full max-w-md rounded-2xl object-contain shadow-xl" />
           <div>
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-mint-dark dark:text-mint">Why Krish</p>
             <h2 id="krish-title" className="text-3xl font-bold md:text-5xl">Built in business, not in a slide deck.</h2>
@@ -215,7 +216,11 @@ export default function Index() {
 
       <section className="section-padding bg-ink text-white">
         <div className="container-width max-w-4xl text-center">
-          <h2 className="text-3xl font-bold text-white md:text-5xl">One hard decision. One clear place to start.</h2>
+          <h2 className="text-3xl font-bold text-white md:text-5xl">
+            <span className="block">One hard decision.</span>
+            {" "}
+            <span className="block">One clear place to start.</span>
+          </h2>
           <p className="mx-auto mt-5 max-w-2xl text-lg text-white/70">If AI has changed an important product, price, sales or company decision, use the fit call to see whether the Sprint is the right shape.</p>
           <BookFitCall source="homepage-final" className="mt-8" />
         </div>

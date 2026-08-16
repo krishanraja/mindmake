@@ -1,6 +1,6 @@
 # Purpose
 
-<!-- Last Updated: 2026-08-11 -->
+<!-- Last Updated: 2026-08-16 -->
 
 ---
 
@@ -10,7 +10,7 @@ Mindmaker is **the anti-consultancy for leaders who are done being sold AI and r
 
 Consultants, LLMs and the next hyped tool sell point solutions built to extract your judgment, not build it. Mindmaker does the opposite: it takes the decision apart in front of you, and rebuilds how the business makes the next one, so you get sharper as the tools get better.
 
-**Mindmaker is a capped advisory practice. A small number of engagements a year.** Every engagement has a fixed scope, a fixed price and a date it ends.
+**Mindmaker sells one engagement: a flexible, scoped 21-day Sprint,** bought through a fit call, delivered personally by Krish, for a founder, CEO, CRO or strategy leader with a stuck product, price, sales or company decision as AI changes their market. There is no public price.
 
 **Brand North Star:** Stripe's design sensibility meets Anthony Bourdain's authenticity.
 
@@ -18,22 +18,28 @@ Consultants, LLMs and the next hyped tool sell point solutions built to extract 
 
 ## The business
 
-Two paid engagements, one ICP, three currencies.
+One public paid offer: the 21-day Sprint.
 
-| Rung | Engagement | Duration | Buyer |
-|---|---|---|---|
-| The rebuild | The Handover | Six weeks, plus a Day 90 recheck | A company of 50 to 5,000 people where the commercial machine is what is broken |
-| The gate | The Teardown | Ten business days, under two hours of client time | Anyone with one nameable decision they keep not making |
+| | |
+|---|---|
+| Buyer | Founder, CEO, CRO or strategy leader |
+| Trigger | An important product, price, sales or company decision is stuck as AI changes the market |
+| Krish's work | Research, challenge, model, coordinate and make the call with the client |
+| Client time | Decisions and introductions. No homework |
+| Finish | The decision is made, its reason and evidence are kept, and the first material action is under way |
+| Format | A private CTRL workspace, not a deck |
+| Bought | Through a fit call |
+| Public price | None |
 
-Prices are published, in USD, GBP and AUD, and live in `src/lib/offers.ts`. They are set prices per market, not conversions.
+The exact scope bends around the decision. It does not become an open-ended retainer, a training course or production information technology work.
 
-The Teardown is the entry rung and the gate: every Handover starts with one. The Handover is capped at six a year, which is the honest number for work done personally.
+CTRL by Mindmaker is the living Sprint deliverable, not a second product sold on this site. It has its own site and its own pricing, out of scope here. See `OFFERS.md`.
 
-Funds, family offices and operating partners are a **third door** into the same two engagements, priced per portfolio company, at `/capital`.
+**The Teardown and The Handover are retired**, effective 12 August 2026. They have no live page, price, sales path or role in current routing beyond redirects to `/sprint`. Do not describe them as current engagements. See `DECISIONS_LOG.md`.
 
-CTRL is a separate product with its own site and its own pricing. It is not sold here.
+**Advisory was retired in July 2026** in anticipation of a full-time role, and **reinstated on 11 August 2026** when that role fell through on an immigration technicality rather than on the work. Advisory, sold as the Sprint, is the primary cash engine. See `DECISIONS_LOG.md`.
 
-**Advisory was retired in July 2026** in anticipation of a full-time role, and **reinstated on 11 August 2026** when that role fell through on an immigration technicality rather than on the work. Advisory is the primary cash engine. See `DECISIONS_LOG.md`.
+Every main sales action says `Book a fit call` and reaches the same verified destination. There is no second booking flow, sales modal or AI gate before it. The Diagnosis Room and homepage AI demonstration are paused and unmounted.
 
 ---
 
@@ -47,7 +53,7 @@ CTRL is a separate product with its own site and its own pricing. It is not sold
 - No 40-slide strategy decks
 - No tool recommendations without trade-off analysis
 - No vendor referral fees
-- **No published discounts.** No credit, no percentage off, no urgency offer
+- **No published prices, discounts or currency switching.** The Sprint is bought through a fit call; the price is not public
 
 ---
 
@@ -59,47 +65,32 @@ A world where senior leaders stop talking about AI and start using it. Where "AI
 
 ## Core objectives
 
-### 1. Make the Teardown the default first spend
-It is the honest first purchase for almost everyone, it is the gate for the larger engagement, and it is cheap enough that a wrong answer costs the buyer very little. Volume here is what makes the practice legible.
+### 1. Make the Sprint the one clear next step for a stuck decision
+Every main sales action leads to a single, honest path: `Book a fit call`. The visitor should never have to choose between offers, mechanisms or booking flows before they understand the work.
 
-### 2. Convert Teardowns into Handovers only when the decision genuinely points there
-Most should not. A Teardown that ends with "you do not need the six weeks" is the product working, and it is what makes the recommendation worth anything when it does point the other way.
+### 2. Keep the Sprint's shape honest
+A flexible, scoped 21-day engagement, not an open-ended retainer, a training course or production IT work. The scope bends around the client's decision; the format does not drift into something else.
 
-### 3. Collect what nobody else can assemble
-Every engagement captures how the client priced and packaged, what converted, what had to change, and what the commercial constraint turned out to be. Advisory that produces only fees is a day rate with extra steps. See `OFFERS.md`.
+### 3. Leave the client with something that outlives the engagement
+The decision made, its reason and evidence kept in CTRL, and the first material action under way with clear ownership inside the client's own team, not held in Krish's head. See `OUTCOMES.md`.
 
-### 4. Keep the cap
-Six Handovers a year. The constraint is the product: it is what makes "Krish does the work" true rather than aspirational.
-
+### 4. Keep CTRL a deliverable, not a second product
+CTRL is what the Sprint produces and lives in. It is not priced, tiered or sold on themindmaker.ai.
 
 ---
 
 ## What success looks like
 
-**For a Teardown buyer:**
-- One decision resolved, in writing, on a page they can forward without editing.
-- The decision mapped to its load-bearing claims, each with a reliability tier, so they can see which parts of their own thinking were just repeated.
-- Every consideration classed External, Only you, or Nobody yet, so they stop researching things that research cannot settle.
-- Three claims under a 90-day watch, so they know in advance what should reopen this and what should not.
-- Roughly two hours of their time spent, total.
-- Sometimes: a memo telling them not to spend anything else. That is a success, not a refund.
-
-**For a Handover buyer:**
-- A commercial layer that works: positioning, pricing and the sales motion rebuilt around what their buyer actually responds to.
-- Their own people running it, with the reasoning written down rather than held in one person's head.
-- A context layer they own, in plain text and version control, model-agnostic and not rented from a platform.
-- Week five behind them, where the system ran without Krish in the room and they watched it hold.
-- A Day 90 recheck that confirms it did not decay quietly.
-- No dependency to unwind, because there is nothing ongoing to cancel.
-
-**For a fund or operating partner:**
-- A read on a portfolio company that is not the founder's own account of it.
-- A company that can run the new motion without an ongoing dependency the fund now owns.
-- Across several engagements: a pattern they can act on at the portfolio level.
+**For a Sprint buyer:**
+- One important decision made, not just discussed.
+- Facts, guesses and open questions clearly separated.
+- The reason and evidence kept in CTRL.
+- The first material action already under way.
+- Clear ownership inside the client's own team.
+- Less dependence on Krish after the work ends, not more.
 
 **For Mindmaker:**
 - Referrals that come from the result rather than from the invoice.
-- A retained, structured record of how comparable companies priced, packaged and converted, which is the part that compounds.
 
 ---
 
@@ -113,8 +104,9 @@ Six Handovers a year. The constraint is the product: it is what makes "Krish doe
 - Run ongoing retainers or fractional roles
 - Create dependency (success = you don't need us)
 - Pitch vendors or recommend tools without trade-off analysis
-- Promote a 1:1 sprint product on the public site
-- Promote the Immersion publicly (it's an inquiry-only relief valve, not a headline product)
+- Publish a price, a discount or a currency switcher
+- Reintroduce the Teardown, the Handover or any earlier offer ladder
+- Add a second booking flow, sales modal or AI gate before the fit call
 
 ---
 

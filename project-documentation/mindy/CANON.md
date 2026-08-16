@@ -1,5 +1,7 @@
 # CANON.md: Mindy's source-of-truth and de-poison file
 
+> **Status, 2026-08-16: dormant, not live.** The Diagnosis Room is paused and unmounted (`CLAUDE.md`, `DECISIONS_LOG.md` 2026-08-12); nothing in `src/App.tsx` mounts it. This file's "canonical current facts" predate the 2026-08-12 pivot to one Sprint with no public price, and are themselves now stale (they still assume the two-rung Handover/Teardown model). Treat this file as a record of Mindy's design for a paused feature, not current commercial truth. For that, use `OFFERS.md` and `CLAUDE.md`.
+
 **Purpose.** This is the de-poison file for Mindy's knowledge base. When Mindy retrieves something that disagrees with this document, this document wins (within the precedence order below). It exists to stop retired facts (old prices, old durations, old framework names) from leaking into a client-facing answer.
 
 **Last reconciled:** 2026-08-11, against `src/lib/offers.ts` and the live site, after the reprice to two rungs in three currencies.

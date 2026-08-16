@@ -1,6 +1,8 @@
 <!-- Last Updated: 2026-08-11 -->
 # Proof Bank
 
+> **Status, 2026-08-16: dormant, not live.** The Diagnosis Room and its proposal generator are paused and unmounted (`CLAUDE.md`, `DECISIONS_LOG.md` 2026-08-12). The current public proof source is `project-documentation/BRANDS_AND_TESTIMONIALS.md` and `src/data/rebuildProof.ts`. The verified R-01 to R-09 entries below still carry real, useful detail (see `PROOF_INVENTORY.md`), but this file is not what the live site draws on.
+
 Anonymized, keyed proof for the Mindy proposal generator. **Every entry is a real engagement that happened**, reduced to sector and role only. The numbers are kept; the names are gone.
 
 **Only verified engagements belong in this file.** In August 2026 the 26 illustrative `B-` entries were deleted. They were 74% of the bank, they were labelled as illustrative only inside this one file, and Mindy draws on the bank to generate co-branded proposals a prospect reads and may forward. That meant a prospect could receive a document citing an engagement that never happened. If you cannot point at the invoice, it does not go in, and a shorter bank is the correct outcome rather than a problem to solve by topping it back up.

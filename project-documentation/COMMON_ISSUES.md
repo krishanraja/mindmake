@@ -1,84 +1,85 @@
 # Common Issues
 
-**Last Updated:** 2026-08-11
+**Last Updated:** 2026-08-16
 
 ---
 
 ## Brand & Content Issues
 
 ### Issue: Retired product names, prices, or URLs in copy
-**Symptom:** Copy anywhere that names an offer other than The Teardown or The Handover, quotes a price that is not in `src/lib/offers.ts`, mentions a discount, or implies a geographic market.
+**Symptom:** Copy anywhere that names The Teardown, The Handover, or any other offer besides the Sprint; quotes a public price or currency conversion; mentions a discount; or implies CTRL is a second purchase.
 
-**Cause:** The six-rung ladder was retired in July and August 2026 and the estate is large. Anything written before 2026-08-11 is suspect on offer name, price and format.
+**Cause:** The repo pivoted on 2026-08-12 from a two-offer ladder (The Handover / The Teardown, sold via the Diagnosis Room) to one public offer. Anything written before 2026-08-12 is suspect on offer name, price and CTA. See `project-documentation/DECISIONS_LOG.md` (2026-08-12 entry) and root `CLAUDE.md`.
 
-**Fix:** The canonical names and prices are:
+**Fix:** The canonical commercial contract is now:
 
-- **The Handover.** USD $18,000 / $30,000 / $50,000 by headcount. Six weeks plus a Day 90 recheck. Capped at six a year. Always via the call.
-- **The Teardown.** USD $9,500. Ten business days, under two hours of client time. Self-serve, price published. The gate for The Handover.
-- Also GBP and AUD, as **set prices per market, not conversions**.
-- **No discounts.** No credit, no percentage off, no urgency offer.
-- **No geographic market claim** anywhere, including meta tags and structured data.
-- **CTRL** is a separate product on its own site and is not sold here. Quote no CTRL price.
+- **One public paid offer:** a focused **21-day Sprint**, at `/sprint` (`src/pages/Sprint.tsx`).
+- **The price is not public.** No price, discount, currency conversion, or currency switcher may appear in live copy.
+- **CTRL** is a Sprint deliverable, not a second offer. Do not quote a CTRL price or sell it as a standalone plan.
+- **The Handover and The Teardown are retired.** `src/pages/Handover.tsx`, `src/pages/Teardown.tsx`, `src/pages/Capital.tsx`, and `src/components/CurrencySwitcher.tsx` still exist in the tree but are not imported by `src/App.tsx` — they are dormant, not live. Do not link to them, and do not treat their presence in the repo as evidence they're current.
+- Every legacy offer route (`/teardown`, `/handover`, `/capital`, `/workshops`, `/enterprise`, `/cohort`, `/immersion`, `/leaders`, `/leadership-insights`, `/sprints`, `/sprint/4-week`, `/sprint/90-day`, `/builder-sprint`, `/war-room`, `/strategy-day`, `/fractional-caio`, and more) now redirects straight to `/sprint`, both at the edge (`vercel.json`) and in-app (`src/App.tsx`, the `ToSprint` fallback).
 
-The build enforces most of this. `npm test` fails if a price string appears outside `src/lib/offers.ts`, if a retired offer name appears under `_shared/mindy/` or in the proposal scaffolds, or if Mindy states a price that does not exist.
-
----
-
-### Issue: `"What's your nervous decision?"` used as a CTA button
-**Symptom:** Button copy reads "What's your nervous decision?" somewhere.
-**Cause:** Legacy CTA from the pre-v4 branding.
-**Solution:** Replace with `"Book a call"`. The primary "Book a call" CTA (nav, hero, `SimpleCTA`) opens the Diagnosis Room (Mindy) via `window.dispatchEvent(new CustomEvent('openDiagnosisRoom', { detail: { source_page, mode: 'express' } }))`. The secondary `ScopingModal` ("Scope it with me") opens via `window.dispatchEvent(new CustomEvent('openScopingModal'))` from the offer pages, the `BigProblem` cards, and `/case-studies`. The legacy `InitialConsultModal` / `openConsultModal` path is retained only for `/alumni`.
-
-Note: the phrase "what's your nervous decision" can still appear in body copy as a diagnostic question ("What's the nervous decision you've been avoiding?"), but never as a CTA button label.
+The build still enforces price hygiene: `src/test/price-single-source.test.ts` fails if a price string appears outside `src/lib/offers.ts` (which now holds only dormant legacy figures, not a public Sprint price), and `src/test/public-disclosure.test.ts` guards against other sensitive leaks. Verify against the current test suite rather than assuming the old six-rung price table still applies.
 
 ---
 
-### Issue: Wrong Live Intel taxonomy
-**Symptom:** Cards labelled SIGNAL / NOISE / DECISION / TAKE.
-**Cause:** Old taxonomy.
-**Solution:** Use WATCH / SKIP / CALL / TAKE. This is enforced in `src/pages/Brief.tsx` filter pills and card badges.
+### Issue: Wrong CTA copy, or a CTA wired to a modal instead of the fit call
+**Symptom:** A main sales action reads `"Book a call"`, `"What's your nervous decision?"`, "Scope it with me", or any other label; or a button dispatches `openDiagnosisRoom`, `openScopingModal`, or `openConsultModal`.
+**Cause:** Legacy CTA/wiring from before the 2026-08-12 pivot, when the site sold two offers through the Diagnosis Room (Mindy), `ScopingModal`, and `InitialConsultModal`.
+**Solution:** The one canonical CTA is **`"Book a fit call"`**, rendered by `src/components/BookFitCall.tsx`. Every main sales action across the live site (nav, hero, `/sprint`) must render `<BookFitCall />`, not a custom button. It links directly to `BOOKING_URL` from `src/lib/publicLinks.ts` (a Calendly URL) with a `?utm_source=<source>` param, opens in a new tab, and fires a `fit_call_clicked` Plausible event — it does not open any in-page modal.
+
+**The Diagnosis Room (Mindy), `ScopingModal`, and `InitialConsultModal` are paused and unmounted.** Their components (`src/components/diagnosis/`, `src/components/ScopingModal.tsx`, `src/components/InitialConsultModal.tsx`) still exist in the tree and are still referenced from dormant pages/components (`BigProblem.tsx`, `TwoDoors.tsx`, `NewHero.tsx`, `SimpleCTA.tsx`, `ProductExpandCard.tsx`, `Teardown.tsx`, `Handover.tsx`, `Capital.tsx`), but none of those dormant components are imported by `src/pages/Index.tsx` or mounted in `src/App.tsx`, and the `openDiagnosisRoom` / `openScopingModal` / `openConsultModal` custom events have no live listener. Treat any code path that dispatches them as dead, not as a bug to route traffic through.
+
+Note: the phrase "the nervous decision you've been avoiding" may still be fine as body copy on a dormant/archived page, but must never be the live CTA button label.
 
 ---
 
-### Issue: Nav label still says "The Brief" or "Signal Desk"
-**Symptom:** Second top-level nav slot reads "The Brief" or "Signal Desk".
-**Cause:** Nav copy not updated to v4/v5 latest.
-**Solution:** Nav label is **"Live Intel"** (`Navigation.tsx`). The body-copy term "The Operator's Brief" is still acceptable in editorial copy on `/signal`, but the nav label is "Live Intel".
+### Issue: `/signal` expected to render an in-app dashboard
+**Symptom:** A link or test expects `/signal` to show a WATCH / SKIP / CALL / TAKE (or SIGNAL / NOISE / DECISION / TAKE) taxonomy, filter pills, or any in-app Live Intel page.
+**Cause:** `/signal` used to route to `src/pages/Brief.tsx`, an in-app "Live Intel" dashboard with that card taxonomy. That routing was removed in the 2026-08-12 pivot.
+**Solution:** `/signal` is now a **permanent external redirect** straight to `https://live.themindmaker.ai` (`MINDMAKER_LIVE_URL` in `src/lib/publicLinks.ts`), configured both in `vercel.json` and as an `ExternalRedirect` route in `src/App.tsx`. `/builder-economy` redirects to the same external URL. `src/pages/Brief.tsx` and its WATCH/SKIP/CALL/TAKE taxonomy still exist in the source tree but are not routed to from `App.tsx` — grep confirms the taxonomy string only appears in that dormant file and in `src/components/OperatorsBrief.tsx` (also unreferenced from any live page). Treat both as dead code, not as the current `/signal` behaviour.
+
+---
+
+### Issue: Nav label expected to say "Live Intel", "The Brief", or "Signal Desk"
+**Symptom:** A link or test looks for a "Live Intel" (or older) text label in `Navigation.tsx`.
+**Cause:** Same pre-pivot Live Intel dashboard concept.
+**Solution:** The live nav (`src/components/Navigation.tsx`) has no "Live Intel" text label. It shows two text links ("The Sprint", "Results"), an image-only "Mindmaker Live" pill linking externally to `MINDMAKER_LIVE_URL`, and the `BookFitCall` button — matching root `CLAUDE.md`'s "four-choice main navigation".
 
 ---
 
 ### Issue: a retired route renders a page instead of redirecting
-**Symptom:** `/cohort`, `/workshops`, `/enterprise` or `/immersion` shows content rather than landing on `/start`, `/teardown` or `/handover`.
-**Cause:** The page component was restored from `src/_archive/`, or the `redirects` block in `vercel.json` was edited without the matching `<HashRedirect>` in `App.tsx`.
-**Solution:** Both layers have to agree, and `src/test/redirects.test.ts` fails if they do not. The real 301 lives in `vercel.json` and is only exercised by Vercel's edge; the React Router entry is the in-app fallback and returns 200 with the SPA shell, which is expected and not the bug. Archived components are excluded from `tsconfig.app.json` and eslint, so restoring one means undoing that too. See `src/_archive/README.md`.
+**Symptom:** `/cohort`, `/workshops`, `/enterprise`, `/immersion`, `/teardown`, `/handover`, `/capital`, `/leaders`, `/tool`, etc. shows content rather than landing on `/sprint`.
+**Cause:** A legacy page component was wired back into a `<Route>` in `src/App.tsx`, or the `redirects` block in `vercel.json` was edited without the matching in-app fallback.
+**Solution:** Both layers have to agree, and `src/test/redirects.test.ts` checks this. The real 301 lives in `vercel.json` (destination `/sprint` for internal legacy routes; the Calendly URL for `/start` and `/decision`; `https://live.themindmaker.ai` for `/signal` and `/builder-economy`) and is only exercised by Vercel's edge. The React Router entry in `src/App.tsx` is the in-app fallback — most legacy paths map to a shared `ToSprint` component (`<Navigate to="/sprint" replace />`), and it returns 200 with the SPA shell, which is expected and not the bug. `src/pages/Teardown.tsx`, `Handover.tsx`, and `Capital.tsx` still exist as files but are not referenced by any `<Route>` in `App.tsx` — they are dormant, not archived-and-excluded, so a careless re-add is a real risk. Confirm `App.tsx` before assuming a route is live.
 
 ---
 
-### Issue: Floating qualifier pill or homepage Y-fork still renders
-**Symptom:** The old `PreCallQualifier` floating pill or the `YFork` "Start where your question actually is." three intent cards appears on the homepage.
-**Cause:** `PreCallQualifier.tsx` or `YFork.tsx` left mounted. Both are retired.
-**Solution:** Both components moved to `src/_archive/components/` in August 2026 and neither is imported. The homepage funnels into the single Diagnosis Room (Mindy) journey. Confirm `App.tsx` and `Index.tsx` do not render them, and see `src/components/diagnosis/` for the live conversion surface.
+### Issue: Floating qualifier pill, homepage Y-fork, or Diagnosis Room journey still renders
+**Symptom:** The old `PreCallQualifier` floating pill, the `YFork` three-intent-card layout, or any Diagnosis Room (Mindy) overlay appears on the homepage.
+**Cause:** A retired or paused component left mounted.
+**Solution:** `PreCallQualifier.tsx` / `YFork.tsx` were archived in August 2026 and are not imported. The Diagnosis Room (`src/components/diagnosis/`) is a separate, later pause (2026-08-12): it is not archived, but it is not mounted in `src/App.tsx` or imported by `src/pages/Index.tsx` either. The homepage's only live sales action is the `BookFitCall` button — confirm `Index.tsx` and `App.tsx` render neither the old fork/pill nor the Diagnosis Room.
 
 ---
 
-### Issue: Builder Economy positioned as a Mindmaker product
-**Symptom:** Copy says "Mindmaker arms the leaders of the Builder Economy" or similar, or links `/builder-economy` internally.
-**Cause:** Pre-v4 framing.
-**Solution:** Builder Economy is now a **separate sister domain** at `thebuildereconomy.com`. `/builder-economy` route redirects externally via `ExternalRedirect`. Reference it only in the Resources dropdown as "The Builder Economy (Podcast)".
+### Issue: Builder Economy positioned as a Mindmaker product, or linked to the wrong domain
+**Symptom:** Copy says "Mindmaker arms the leaders of the Builder Economy" or similar, or `/builder-economy` links to `thebuildereconomy.com`.
+**Cause:** Pre-pivot framing/destination.
+**Solution:** `/builder-economy` now redirects to **`https://live.themindmaker.ai`** (`MINDMAKER_LIVE_URL`), the same destination as `/signal` — not to a separate `thebuildereconomy.com` domain. Verify current wording/destination against `src/lib/publicLinks.ts`, `src/App.tsx`, and `vercel.json` before writing copy about it; do not assume the old sister-domain framing still holds.
 
 ---
 
-### Issue: `/tool` page linked internally
-**Symptom:** An internal link points to `/tool`.
-**Cause:** `/tool` was the standalone Nervous Decision Machine page, now deleted.
-**Solution:** Link to `/signal#decision` instead. The Nervous Decision Machine is now embedded on the homepage `OperatorsBrief` and on `/signal`.
+### Issue: `/tool` page linked internally, or expected to lead to a live decision tool
+**Symptom:** An internal link points to `/tool` or `/signal#decision` expecting a working Nervous Decision Machine.
+**Cause:** `/tool` was the standalone Nervous Decision Machine page; the machine was also embedded on the homepage and on the old `/signal` dashboard. Both are gone.
+**Solution:** `/tool` now redirects to `/sprint` (`ToSprint` in `src/App.tsx`). The Nervous Decision Machine (`src/components/nervous-decision/`, the `OperatorsBrief` teaser, the `get-model-data`/`nervous-decision-machine` edge functions) is not imported by any live page — `Index.tsx` does not render it. Do not link to it or promise it live; if it needs to come back, that's a product decision, not a link fix.
 
 ---
 
-### Issue: Decision Readiness Diagnostic linked from nav or footer
-**Symptom:** A link to `/leaders` appears in `Navigation.tsx` or `Footer.tsx`.
-**Cause:** Pre-v4 framing, the diagnostic was a primary lead-gen surface.
-**Solution:** The diagnostic is unlinked from nav and footer by design. It's reachable only by direct URL (`/leaders` or `/leadership-insights`) for deep-link and outbound campaigns. Do not re-add to nav.
+### Issue: Decision Readiness Diagnostic linked from nav or footer, or expected at a direct URL
+**Symptom:** A link to `/leaders` or `/leadership-insights` appears in `Navigation.tsx`/`Footer.tsx`, or is expected to render a standalone diagnostic page.
+**Cause:** Pre-pivot framing, when the diagnostic was a deep-link lead-gen surface reachable by direct URL.
+**Solution:** `src/pages/LeadershipInsights.tsx` no longer exists in the codebase. `/leaders` and `/leadership-insights` now redirect straight to `/sprint` (both at the `vercel.json` edge and via `ToSprint` in `src/App.tsx`). Do not re-add either as a standalone route or link to it as a diagnostic; direct visitors to `/sprint` instead.
 
 ---
 

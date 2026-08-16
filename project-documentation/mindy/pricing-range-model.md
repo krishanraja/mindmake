@@ -1,6 +1,8 @@
 <!-- Last Updated: 2026-08-11 -->
 # Pricing Spec
 
+> **Status, 2026-08-16: dormant, not live.** The Diagnosis Room is paused and unmounted (`CLAUDE.md`, `DECISIONS_LOG.md` 2026-08-12). This file's "two engagements, prices on the website" model was itself retired on 2026-08-12: there is now one Sprint and no public price (`OFFERS.md`). `src/lib/offers.ts` remains in the codebase as dormant/legacy code used only by the unrouted `/teardown`, `/handover` and `/capital` pages. Not a description of the current live site.
+
 *Layer 1 pin and cross-cutting guardrail. The prices Mindy is allowed to say, and the rules that stop her inventing, converting, or discounting one. The deployable copy of this file is `PRICING_CARD` in `supabase/functions/_shared/mindy/knowledge.ts`, and the canonical source for the figures themselves is `src/lib/offers.ts`.*
 
 **This replaced a two-mode range model in August 2026.** The old spec routed buyers between a productised ladder and a bespoke scoping engine (hours times a rate band, floors, a value cross-check), and published ranges only because the ladder had six rungs with negotiable scope. Both are gone. There are two engagements, their prices are on the website, and Mindy quotes them exactly.

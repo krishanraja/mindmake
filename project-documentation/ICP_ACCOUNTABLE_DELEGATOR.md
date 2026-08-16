@@ -1,8 +1,8 @@
 # The Accountable Delegator (ICP Archetype)
 
-**Last Updated:** 2026-08-11
+**Last Updated:** 2026-08-16
 
-This is the deep psychographic, behavioural and skill-gap profile of the buyer described in `ICP.md`. It is the archetype behind both engagements, and the human at the centre of every conversation that starts with a nervous decision.
+This is the deep psychographic, behavioural and skill-gap profile of the buyer described in `ICP.md`. It is the archetype behind the Sprint, and the human at the centre of every conversation that starts with a nervous decision.
 
 This doc deliberately does not repeat what already lives elsewhere. For firmographic ranges, qualification signals, and disqualifiers see `ICP.md`. For the objection bank, routing logic, ROI math, and channel templates see `SALES_PLAYBOOK.md`. For canonical pitches and objection-handling FAQ see `Master_Messaging_and_FAQ.md`. What follows is the part those docs assume but never spell out: who this buyer actually is underneath, and the exact skill they are missing.
 
@@ -169,7 +169,7 @@ The Accountable Delegator is held back by the very capabilities that made them s
 - **Routing this buyer to the right offer:** `ICP.md` (Entry Points) and `SALES_PLAYBOOK.md` (§11 Routing Logic, §3 Pain to Offer Mapping).
 - **Objection handling:** `Master_Messaging_and_FAQ.md` (Part 5) and `SALES_PLAYBOOK.md` (§7 Objection Bank). The "can't we just delegate AI to IT?" objection is this archetype's core belief, addressed there.
 - **Channels, ROI math, discovery questions:** `SALES_PLAYBOOK.md`.
-- **The offers this archetype maps to:** `OFFERS.md` (The Teardown first, then The Handover) and `OUTCOMES.md`.
+- **The offer this archetype maps to:** `OFFERS.md` (the one 21-day Sprint) and `OUTCOMES.md`.
 
 ---
 

@@ -1,8 +1,36 @@
 # History
 
-**Last Updated:** 2026-08-11
+**Last Updated:** 2026-08-16
 
 > This is a changelog. Entries are written at the time and left alone afterwards, so **everything below the top entry describes a state the codebase has since moved past.** Offers, prices, routes and component names in older entries are historical by definition. For what is true now, read `CLAUDE.md` and the code it points at; for why a thing is the way it is, read `DECISIONS_LOG.md`.
+
+---
+
+## 2026-08-12: One 21-day Sprint replaces the two-engagement storefront
+
+**Context.** The Teardown / Handover storefront built the day before (see the entry below) held for about one day. Krish decided the two-offer ladder still made a visitor choose a buying mechanism before they understood the work, and that a single flexible Sprint, sold through one call, was the stronger position. `DECISIONS_LOG.md` (2026-08-12, "One 21-day Sprint and one fit-call path") has the reasoning.
+
+**What changed:**
+- **One public paid offer.** A flexible, scoped 21-day Sprint at `/sprint` (`src/pages/Sprint.tsx`), replacing The Handover and The Teardown. No public price. CTRL by Mindmaker is the Sprint's living deliverable, not a second purchase.
+- **One booking path.** Every main sales action now says `Book a fit call` (`src/components/BookFitCall.tsx`) and opens the same verified Calendly page (`BOOKING_URL` in `src/lib/publicLinks.ts`). The Diagnosis Room (Mindy), `ScopingModal` and `InitialConsultModal` were unmounted from `src/App.tsx`; their component code remains in the repository as dormant, not live.
+- **Navigation cut to four choices.** The Sprint, Results, Mindmaker LIVE and Book a fit call (`src/components/Navigation.tsx`). Contact, How I operate, Library and legal pages moved to the footer.
+- **Real 301s for every retired route.** `/teardown`, `/handover`, `/capital`, `/workshops` and its children, `/enterprise`, `/immersion`, `/cohort`, `/leaders`, `/leadership-insights`, `/sprints`, the old sprint-length paths, `/war-room`, `/strategy-day`, `/fractional-caio`, `/tool` and more now redirect straight to `/sprint` in `vercel.json`, with a client-side fallback in `App.tsx`. `/start` and `/decision` redirect straight to Calendly. `/signal` and `/builder-economy` now redirect straight to `https://live.themindmaker.ai`, replacing the in-app Live Intel dashboard (`src/pages/Brief.tsx`, now dormant) and the external podcast-only destination.
+- **Proof rebuilt around `src/data/rebuildProof.ts`** and `project-documentation/BRANDS_AND_TESTIMONIALS.md`: eight verified, anonymised client stories, three approved homepage brand logos (BBC, Hearst, Condé Nast) of sixteen total approved attendance brands, six career references. `src/data/caseStudies.ts` and `src/components/proof/CaseStudyCard.tsx` were deleted; `/case-studies` (`src/pages/CaseStudies.tsx`) was rewritten against the new data.
+- **CTRL demo media restored** the same day after a same-day rename/delete/re-add cycle; the canonical asset is `public/CTRL-demo-aug-26.mp4` (`CTRL_DEMO_VIDEO_URL` in `src/lib/publicLinks.ts`), used on `/operator` and the homepage CTRL section.
+- **Calendly event corrected** to the verified public entry point, `https://calendly.com/krish-raja/mindmaker-meeting`.
+- **Documentation reconciliation started but left incomplete.** `CLAUDE.md`, `README.md`, `REBUILD_STATE.md`, `DECISIONS_LOG.md`, `OFFERS.md`, `ICP.md`, `VALUE_PROP.md`, `SALES_PLAYBOOK.md`, `Master_Messaging_and_FAQ.md`, `COMMERCIAL_REFERENCE.md`, `OUTCOMES.md`, `CTA_PATH_AUDIT.md`, `BRANDS_AND_TESTIMONIALS.md` and the homepage/CTA audit docs were rewritten against the new contract. `FEATURES.md`, `BRANDING.md`, `PURPOSE.md`, `ARCHITECTURE.md`, `DEPLOYMENT.md`, `COMMON_ISSUES.md`, `PROOF_INVENTORY.md`, the `mindy/` Brain Pack and this file's own index were not touched in this pass and continued describing the retired two-offer, Diagnosis-Room-primary model for four more days.
+
+**Release boundary:** no change to Supabase, CTRL, the control centre or production promotion.
+
+---
+
+## 2026-08-16: Documentation set reconciled to the one-Sprint codebase
+
+**Context.** A scheduled documentation-reconciliation pass found that most of `project-documentation/` still described the two-engagement, Diagnosis-Room-primary model retired on 2026-08-12 (see the entry above), four days after the code, `CLAUDE.md`, the root `README.md` and about half of `project-documentation/` had already moved on. The remaining files were checked against the live code and rewritten or verified.
+
+**What changed:** `FEATURES.md`, `BRANDING.md`, `PURPOSE.md`, `ARCHITECTURE.md`, `DEPLOYMENT.md`, `COMMON_ISSUES.md`, `REPLICATION_GUIDE.md`, `PROOF_INVENTORY.md`, `README.md` (the documentation index), the `mindy/` Brain Pack and `ICP_ACCOUNTABLE_DELEGATOR.md` were checked against `src/App.tsx`, `src/pages/Index.tsx`, `src/components/Navigation.tsx`, `vercel.json` and the deployed edge functions, and updated to match. `DESIGN_SYSTEM.md` and `VISUAL_GUIDELINES.md` were verified against `src/index.css` unchanged. A new, previously undocumented edge function, `personalize-intake`, was found and recorded. Full detail in the drift report for this pass.
+
+**Why:** so an AI agent grounding on `project-documentation/` describes the site a visitor actually sees, not the storefront that existed for one day in mid-August.
 
 ---
 

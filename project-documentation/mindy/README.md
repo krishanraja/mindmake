@@ -1,5 +1,7 @@
 # Mindy Brain Pack
 
+> **Status, 2026-08-16: dormant, not live.** The Diagnosis Room is paused and unmounted (`CLAUDE.md`, `DECISIONS_LOG.md` 2026-08-12). `src/App.tsx` does not import or mount `DiagnosisRoom`, and nothing in the live route tree opens it. The one-Sprint public site sells through `Book a fit call` (`src/components/BookFitCall.tsx`) only. This pack still describes the Diagnosis Room design and Mindy's knowledge architecture for if and when it resumes; it also still quotes the retired two-rung Handover/Teardown pricing model throughout, which predates the 2026-08-12 one-Sprint pivot. Do not treat anything below as a description of the current live site, and do not let it ground a public-facing answer about what Mindmaker sells today. For that, use `OFFERS.md`, `SALES_PLAYBOOK.md` and `CLAUDE.md`.
+
 *The knowledge pack that makes Mindy reason like Krish, recommend honestly, price in ranges, and sound like the operator and not the model. Built 2026-06-09 against `MINDY-ONE-JOURNEY-ARCHITECTURE.md` (the Diagnosis Room brief); last reconciled 2026-06-28. This README is the index and the wiring diagram. It also carries the consistency and open-questions list; items resolved as of 2026-06-09 are marked.*
 
 ---

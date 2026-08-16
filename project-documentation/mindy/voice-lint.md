@@ -1,6 +1,8 @@
 <!-- Last Updated: 2026-08-11 -->
 # Voice Lint Pack
 
+> **Status, 2026-08-16: dormant, not live.** The Diagnosis Room and its proposal generator are paused and unmounted (`CLAUDE.md`, `DECISIONS_LOG.md` 2026-08-12). This file's word lists still target retired offer names alongside `BRANDING.md`'s current voice rules, which still apply to the live site regardless of this file's status.
+
 Guarantees every Mindy output and every generated proposal sounds like Krish. Two halves: a machine-readable lint layer (regex arrays you drop into a post-generation linter) and a human-readable craft layer (his tells, worked rewrites, a pre-render checklist). When the two disagree, the craft layer wins; the regex is a floor, not a ceiling.
 
 Source of truth: `mindy-part-2-operator-intelligence.md` section 2d, and `BRANDING.md` (Brand Voice, Word Choices, Brand Don'ts).

@@ -1,6 +1,6 @@
 # Branding
 
-**Last Updated:** 2026-08-11
+**Last Updated:** 2026-08-16
 
 ---
 
@@ -8,7 +8,7 @@
 
 **The anti-consultancy for leaders who are done being sold AI and ready to use it.**
 
-Mindmaker is a capped advisory practice: a small number of engagements a year. Two of them. The Handover rebuilds how a business decides and sells over six weeks, then ends. The Teardown takes one real decision apart in ten business days, and is the gate for the Handover. Every engagement has a fixed scope, a published price and a finish line. Nothing ongoing.
+Mindmaker helps leaders make hard commercial decisions as AI changes their market. There is one public paid offer: a focused, flexible, scoped 21-day Sprint, bought through a fit call. The price is not public. CTRL by Mindmaker is the living Sprint deliverable, not a second offer. Nothing ongoing.
 
 **Brand North Star:** If Stripe's design sensibility met Anthony Bourdain's authenticity.
 
@@ -33,8 +33,8 @@ Your smartest, most cynical friend who runs AI transformation every day and genu
 ### What we are
 - **Direct**. name the decision, don't dance around it
 - **Cynical**. we've seen every vendor pitch; we know what's real
-- **Specific**. "ten business days", "six weeks", "under two hours of your time", "six a year", not "enterprise engagements"
-- **Finish-line honest**. every offer has a fixed end, and we say so
+- **Specific**. "21 days", "no homework", not "enterprise engagements"
+- **Finish-line honest**. the Sprint has a fixed end, and we say so
 - **Premium without stiffness**. confident prose, no corporate rigor mortis
 
 ### What we're not
@@ -59,18 +59,16 @@ Your smartest, most cynical friend who runs AI transformation every day and genu
 
 ## CTA Language
 
-**Primary CTA everywhere:** **"Bring me one real decision"**
+**Primary CTA everywhere:** **"Book a fit call"**
 
-No conditional labels. No "What's your nervous decision?" (retired, it tested as too therapist-y for enterprise buyers). No "Start the Conversation". The primary CTA opens the **Diagnosis Room (Mindy)** via the `openDiagnosisRoom` event, and `/start` is the same surface as a page. `ScopingModal` (`openScopingModal`) is the secondary booking surface, dispatched by the `BigProblem` homepage cards and `/case-studies`. (`InitialConsultModal` / `openConsultModal` is legacy, retained only for `/alumni`.)
+No conditional labels. No "Bring me one real decision" (retired with the old offer ladder). Every main sales action renders the shared `BookFitCall` component (`src/components/BookFitCall.tsx`), which links straight to `BOOKING_URL` from `src/lib/publicLinks.ts` (a Calendly page), opens in a new tab, and fires a `fit_call_clicked` click event. There is no modal, gate or chat surface in front of it. `/start` and `/decision` redirect straight to the same booking URL as pages.
 
-**Supporting CTAs:**
-- "See The Handover" → `/handover`
-- "See The Teardown" → `/teardown`
-- "For funds and portfolio companies" → `/capital`
-- "Book a call" is still the right label for the call itself, once the visitor has chosen it as an exit
-- "See how I work", secondary hero CTA, links to `/operator`
-- "Open the full dashboard →", muted link from homepage `OperatorsBrief` to `/signal`
-- "Request a date". Immersion page CTA, opens the scoping modal preselected to "immersion"
+The **Diagnosis Room (Mindy)** is paused and unmounted. Its code may still exist outside the active route tree; do not describe any live CTA as opening it, and do not reference `openDiagnosisRoom`, `ScopingModal`/`openScopingModal`, or `InitialConsultModal`/`openConsultModal` as part of the current buying journey.
+
+**Supporting language:**
+- Contact (`/contact`) is for general messages. It does not replace the fit call and should never be worded as an alternative purchase path.
+- Mindmaker Live is referenced by its own pill/link to `https://live.themindmaker.ai`, never bundled into fit-call copy.
+- Any other supporting CTA copy (e.g. an `/operator` link) must be verified against the live page before use; do not restate retired labels like "See The Handover", "See The Teardown", "For funds and portfolio companies" or "Request a date" — their routes now redirect to `/sprint`.
 
 ---
 
@@ -78,7 +76,7 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 
 ### Headlines
 - **Name the decision or the commercial symptom**, not the abstract benefit
-- **Be specific**. "ten business days", "six weeks", "one real decision", "under two hours"
+- **Be specific**. "21 days", "one decision", "no homework"
 - **Use concrete verbs**. decide, ship, rebuild, cut, filter, commit
 - **Avoid feeling words** as crutches, "calm clarity" is OK once per page, not a refrain
 
@@ -92,14 +90,12 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 
 | OLD | NEW |
 |---|---|
-| "1:1 sprint that turns AI chaos into direction" | "Six weeks rebuilding how the business decides and sells, and ten business days on one real decision." |
-| Any retired offer name | "The Handover" or "The Teardown". Nothing else exists |
-| "What's your nervous decision?" or "Book a call" (primary CTA button) | "Bring me one real decision" |
-| "Chat with Krish" / "Ask Mindmaker" | (chatbot retired; the `PreCallQualifier` that replaced it is now retired too, superseded by the **Diagnosis Room (Mindy)**) |
-| "AI Leadership Benchmark" / "Decision Readiness Diagnostic" | Retired. `/leaders` 301s to `/start`, and the Diagnosis Room does this job now |
-| "Signal Desk" / "The Brief" / "The Operator's Brief" (as a nav label) | **"Live Intel"** (as the nav label and page H1) |
-| "Builder vs Orchestrator" | "AI leaders vs AI products" (the homepage `YFork` that carried this split is now retired, superseded by the Diagnosis Room) |
-| A price not in `src/lib/offers.ts` | The published price for that rung, in the currency asked for |
+| "1:1 sprint that turns AI chaos into direction" | "A focused 21-day Sprint on the one decision that's stuck." |
+| Any retired offer name ("The Handover", "The Teardown") | "The Sprint". Nothing else exists as a public paid offer |
+| "Bring me one real decision" or "Book a call" (any primary CTA button) | "Book a fit call" |
+| "Chat with Krish" / "Ask Mindmaker" / any CTA described as opening the Diagnosis Room | The Diagnosis Room (Mindy) is paused and unmounted. Route the CTA to `BookFitCall` instead |
+| "Signal Desk" / "The Brief" / "The Operator's Brief" (as a nav label) | **"Live Intel"** *(unverified for 2026-08-16: `/signal` now redirects externally to Mindmaker Live rather than to an internal Live Intel page, and Navigation.tsx carries no "Live Intel" text label. Flagged for Krish, not changed here as it is outside this pass's offer/CTA scope.)* |
+| A published price, a currency switcher, or any figure "in `src/lib/offers.ts`" | Nothing. There is no public price. `src/lib/offers.ts` is legacy and outside the active route tree |
 | Any discount, credit or "X% off" | Nothing. There is no published discount |
 
 ---
@@ -107,12 +103,12 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 ## Word Choices
 
 ### Use
-- Teardown, Handover, decision, claim, evidence, finish line, capped
+- Sprint, decision, claim, evidence, finish line, fit call
 - Build, systems, working, deploy, decide, ship, commit, cut, filter
 - Clarity, direction, confidence, decision, trade-off, board-ready
 - Positioning, pricing, packaging, GTM, commercial, revenue
 - Operator, practitioner, in the room, at the P&L
-- Specific numbers: "ten business days", "six weeks", "Day 90", "six a year", "14-agent OS", "under two hours". Actual fees come from `src/lib/offers.ts` and are never typed by hand
+- Specific numbers: "21 days", "no homework", "14-agent OS". There is no public price, so no fee figure is ever typed by hand
 
 ### Never use
 - Transformation, digital, synergy, leverage (as a verb), ecosystem, journey (as a generic noun)
@@ -120,45 +116,45 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 - Fractional (we don't do it, don't even use the word to describe what we avoid, unless explicitly handling the objection)
 - "We help you…", prefer "You will…" or the direct verb
 - Optimize, enhance, maximize, holistic, paradigm
-- "Chat with Krish", "Sprint 4-Week", "Sprint 90-Day", "Builder Economy" (as a Mindmaker product, it's now an external sister domain)
-- "Signal Desk" or "The Brief" as a nav label (the live label is **"Live Intel"**)
+- "Bring me one real decision" as a CTA (retired), "Chat with Krish", "Sprint 4-Week", "Sprint 90-Day", "Builder Economy" (as a Mindmaker product, it's now an external sister domain)
+- "Signal Desk" or "The Brief" as a nav label (the live label is **"Live Intel"**) — *see the flag on the Live Intel row above; unverified whether this label is still live on any current page*
 
 ---
 
 ## Terminology Standards
 
-- **The Handover**. Capital H, definite article. Not "the handover engagement", not "the six-week programme".
-- **The Teardown**. Capital T, definite article. Not "the audit", not "the diagnostic", not "the assessment".
-- **CTRL**. All caps. A separate product on its own site, never a Mindmaker tier and never quoted with a price here.
+- **The Sprint**. Capital S when naming the offer. The one public paid engagement, at `/sprint`. No public price; bought through a fit call.
+- **CTRL** (also "CTRL by Mindmaker"). All caps. The living Sprint deliverable, not a second offer and never quoted with a price here.
 - **Mindmaker LIVE**. The publication, at `live.themindmaker.ai`. Two formats: **Built** and **Paid**. It has paid tiers, so never describe it as free.
 - Never "course", "class", "programme" or "training". Mindmaker does not sell training.
+- **The Handover** and **The Teardown** are retired. See "Retired products and names" below; do not use these as current terminology.
 
 ---
 
 ## Product Naming
 
-| Engagement | Price (USD) | One-liner |
+| Engagement | Public price | One-liner |
 |---|---|---|
-| The Handover | $18,000 / $30,000 / $50,000 by headcount | Six weeks. Then I leave and you keep it. |
-| The Teardown | $9,500 | Bring the decision you keep not making. |
+| The Sprint | None. Bought through a fit call | A focused, flexible, scoped 21-day engagement on the one decision that's stuck. |
 
-Also GBP and AUD, as set prices per market. Canonical source: `src/lib/offers.ts`.
-
+There is no price table on the public site. Do not quote a figure, a currency, a range or a headcount-based tier anywhere in public copy. `src/lib/offers.ts` still holds the old Handover/Teardown price literals but is legacy code outside the active route tree; it is not a source for current copy.
 
 ### Retired products and names (do not reference)
 
-- The entire six-rung ladder, retired in July and August 2026. The named record is in `DECISIONS_LOG.md`, deliberately nowhere else, because most of these docs are indexed for retrieval
+- **The Handover** and **The Teardown**, and the two-offer ladder they formed, retired 2026-08-12 in favour of the single 21-day Sprint (see `DECISIONS_LOG.md`, 2026-08-12 entry). Their old prices and durations (six weeks, ten business days, headcount tiers) are not current and must not be quoted as live. Their routes (`/handover`, `/teardown`, `/capital`) redirect to `/sprint`.
+- The entire six-rung ladder that preceded the Handover/Teardown pair, retired in July and August 2026. The named record is in `DECISIONS_LOG.md`, deliberately nowhere else, because most of these docs are indexed for retrieval
 - The third-party course platform that used to collect payment, and every URL pointing at it
 - 4-Week Sprint / 90-Day Sprint / Extended Sprint, retired from public site in v4 barbell pivot
 - Builder Sprint / Builder Session, retired
 - Leadership Lab, retired as a named product
 - Portfolio Partner, retired as a named product
-- Fractional CAIO, never existed as an offer; `/fractional-caio` redirects to `/enterprise`
-- War Room, Strategy Day, Fractional CAIO, and every offer name from the retired six-rung ladder. URLs redirect; the names are in `DECISIONS_LOG.md`
+- Fractional CAIO, never existed as an offer; `/fractional-caio` redirects to `/sprint`
+- War Room, Strategy Day, and every offer name from the retired six-rung ladder. URLs redirect; the names are in `DECISIONS_LOG.md`
+- The Diagnosis Room (Mindy) and the homepage AI demonstration are paused and unmounted, not retired outright; do not describe either as the current conversion surface
 
 ### Builder Economy
 
-The Builder Economy is **not a Mindmaker product**. It's Krish's podcast / creator project at `thebuildereconomy.com`. Reference it via the Resources dropdown and `/builder-economy` redirect (which points externally). Do not position Mindmaker as "arming the leaders of the Builder Economy" on the main site, that was old framing.
+The Builder Economy is **not a Mindmaker product**. It's Krish's podcast / creator project at `thebuildereconomy.com`. Reference it via the `/builder-economy` redirect, which points externally to Mindmaker Live. *(Flagged: the previous "Resources dropdown" no longer exists in `Navigation.tsx` — current nav is "The Sprint", "Results", the Mindmaker Live link and Book a fit call, with no dropdown. Confirm with Krish where Builder Economy should be surfaced, if at all, before writing copy that assumes a nav placement.)* Do not position Mindmaker as "arming the leaders of the Builder Economy" on the main site, that was old framing.
 
 ---
 
@@ -180,9 +176,10 @@ Default credential line:
 ## Email / Communication Style
 
 ### Subject lines
-- Specific + direct: "Cohort enrolment, next starts July 14, 2026"
+- Specific + direct: "Your Sprint fit call, confirmed"
 - Outcome-focused: "the decision, in writing, with its reasoning attached"
 - No clickbait, no FOMO
+- No "cohort" language. Mindmaker does not run cohorts; `/cohort` redirects to `/sprint`
 
 ### Email body
 ```
@@ -234,7 +231,9 @@ Bright emerald is an accent (fills, CTA backgrounds, dark-bg accents, focus ring
 
 ## Live Intel: taxonomy
 
-The classified archive on `/signal` uses these four categories:
+*Flagged for Krish: `/signal` now redirects externally to `https://live.themindmaker.ai` (`src/App.tsx`), and the component that renders this taxonomy (`src/pages/Brief.tsx`) is not registered in the current route tree. Treat the table below as describing dormant code, not a live page, until confirmed otherwise; left unchanged here because it is outside this pass's offer/CTA scope.*
+
+The classified archive on `/signal` (when live) uses these four categories:
 
 | Category | Meaning | Example |
 |---|---|---|
@@ -255,13 +254,14 @@ Renamed from the previous SIGNAL / NOISE / DECISION / TAKE set. Do not reference
 - Don't use exclamation marks, one per page max
 - Don't be cute, no puns, no clever wordplay
 - Don't apologize, confident in value
-- Don't reference retired products (4-Week Sprint, 90-Day Sprint, Leadership Lab, Portfolio Partner, Fractional CAIO)
+- Don't reference retired products (The Handover, The Teardown, 4-Week Sprint, 90-Day Sprint, Leadership Lab, Portfolio Partner, Fractional CAIO) as current
+- Don't reintroduce the Handover/Teardown offer ladder, a second booking flow, a sales modal, or an AI gate before the fit-call link
+- Don't describe any CTA as opening the Diagnosis Room; it is paused and unmounted
 - Don't position Mindmaker as fractional capacity of any kind
 - Don't promise ROI numbers without a verifiable case study behind them
 - Don't use "transformation", "synergy", "leverage" (as verb), "journey" (as abstract noun)
-- Don't quote a price that is not in `src/lib/offers.ts`, and never convert between currencies
-- Don't mention a discount. There is no published one
-- Don't label `/signal` as "The Brief" or "Signal Desk" in nav, the label is **"Live Intel"**
+- Don't quote a public price, a discount, or a currency switch for the Sprint. There is no public price and none of these exist
+- Don't label `/signal` as "The Brief" or "Signal Desk" in nav, the label is **"Live Intel"** *(see flag above)*
 
 ---
 

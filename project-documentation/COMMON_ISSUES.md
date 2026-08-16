@@ -91,22 +91,24 @@ Note: the phrase "the nervous decision you've been avoiding" may still be fine a
 
 ## Edge Function Issues
 
+**Note:** Both issues below concern features that are dormant on the live site as of 2026-08-12 — neither `nervous-decision/`, `PriceTicker.tsx`, nor `OperatorsBrief.tsx` (which wires them together) is imported by `src/pages/Index.tsx` or routed to from `src/App.tsx` (`/signal` is now an external redirect, not `Brief.tsx`). Treat these as backend troubleshooting for a paused feature, not as a live-site bug, unless the feature has been explicitly remounted.
+
 ### Issue: Nervous Decision Machine returns no response
-**Symptom:** `/signal` or homepage machine returns fallback or nothing.
+**Symptom:** The (currently unmounted) machine returns fallback or nothing when exercised directly against the edge function.
 **Cause:** Missing `ANTHROPIC_API_KEY` or rate limit hit.
 **Solution:**
 1. Verify `ANTHROPIC_API_KEY` set in Supabase secrets
 2. Check `nervous-decision-machine` logs for 429 (per-IP rate limit is 1 hour) or global ceiling trip
-3. Verify model ID `claude-haiku-4-5-20251001` still valid
+3. Verify the configured model ID is still valid
 
 ---
 
 ### Issue: PriceTicker shows empty / stale data
-**Symptom:** `PriceTicker.tsx` renders blank or old models.
+**Symptom:** `PriceTicker.tsx` renders blank or old models (only reachable today via dormant `OperatorsBrief.tsx` / `Brief.tsx`, not the live site).
 **Cause:** `get-model-data` edge function failure or `ALLOWED_MODEL_IDS` allowlist drift.
 **Solution:**
 1. Check `get-model-data` logs
-2. Verify `ALLOWED_MODEL_IDS` in `src/hooks/useModelData.ts` matches current canonical set (Opus 4.7, Sonnet 4.6, Haiku 4.5, Gemini 2.5 Pro, Gemini 2.5 Flash, GPT-5, GPT-5 Mini)
+2. Verify `ALLOWED_MODEL_IDS` in `src/hooks/useModelData.ts` matches the current canonical model set
 
 ---
 
@@ -144,28 +146,28 @@ if (req.method === 'OPTIONS') return new Response(null, { headers: corsHeaders }
 ### Issue: Old URLs return 404
 **Symptom:** `/sprint/4-week`, `/war-room`, `/fractional-caio` etc. show 404.
 **Cause:** Redirect not configured.
-**Solution:** Redirects are defined in `src/App.tsx` via `<HashRedirect />` and `<Navigate />`. See `ARCHITECTURE.md` for the full redirect map. If 404 still appears, verify `App.tsx` has the correct `<Route>` entry.
+**Solution:** Redirects are defined in `src/App.tsx` — most legacy paths map through the shared `ToSprint` component (`<Navigate to="/sprint" replace />`); `/start`, `/decision`, `/signal`, and `/builder-economy` use `ExternalRedirect` instead. There is no `HashRedirect` component in the current tree — if you find a stale reference to one, it predates the 2026-08-12 pivot. If 404 still appears, verify `App.tsx` has the correct `<Route>` entry, and cross-check `vercel.json`.
 
 ---
 
 ### Issue: Builder Economy link returns internal 404 or loops
 **Symptom:** `/builder-economy` not redirecting externally.
 **Cause:** `ExternalRedirect` component missing or misconfigured.
-**Solution:** Verify `ExternalRedirect` is used: `<Route path="/builder-economy" element={<ExternalRedirect to="https://www.thebuildereconomy.com" />} />`.
+**Solution:** Verify `src/App.tsx` has `<Route path="/builder-economy" element={<ExternalRedirect to={MINDMAKER_LIVE_URL} />} />` (destination `https://live.themindmaker.ai`, imported from `src/lib/publicLinks.ts` — not `thebuildereconomy.com`).
 
 ---
 
-### Issue: `ScopingModal` doesn't open from a button
-**Symptom:** CTA click does nothing.
-**Cause:** Button not dispatching the custom event.
-**Solution:** Use `window.dispatchEvent(new CustomEvent('openScopingModal', { detail: { source_page, preselected?, qualifierAnswers? } }))`. The modal listens globally from `src/App.tsx`. (The legacy `InitialConsultModal` listens for `openConsultModal` and is now dispatched only from `/alumni`.)
+### Issue: `ScopingModal` expected to open from a button
+**Symptom:** A CTA is expected to dispatch `openScopingModal` and open a modal, but nothing happens.
+**Cause:** `ScopingModal` is paused as of 2026-08-12. `src/App.tsx` does not mount `<ScopingModal />` (or `<InitialConsultModal />`) as a global overlay, so no listener exists for `openScopingModal` or `openConsultModal` anywhere in the live app.
+**Solution:** This is expected, not a bug. The only live sales action is `BookFitCall` (a plain link, no event dispatch). If a scoping/consult flow needs to come back, that is a product decision requiring the components to be remounted in `App.tsx`, not a wiring fix.
 
 ---
 
-### Issue: Diagnosis Room (Mindy) doesn't open from "Book a call"
-**Symptom:** "Book a call" click does nothing, or the standalone `/start` page is blank.
-**Cause:** `DiagnosisRoom` not mounted, or the button not dispatching the custom event.
-**Solution:** Confirm `<DiagnosisRoom />` is mounted in `src/App.tsx` (lazy / SSG-safe) alongside the other global overlays, and that the CTA dispatches `window.dispatchEvent(new CustomEvent('openDiagnosisRoom', { detail: { source_page, seedDecision?, mode: 'express' } }))`. The `/start` route renders the same surface as a standalone page.
+### Issue: "Book a fit call" doesn't open a modal, or `/start` doesn't render a page
+**Symptom:** Clicking "Book a fit call" doesn't open an in-page Diagnosis Room, or navigating to `/start` shows a redirect instead of a page.
+**Cause:** Expecting pre-pivot behaviour. Both are correct as designed post-2026-08-12.
+**Solution:** `BookFitCall` (`src/components/BookFitCall.tsx`) is a plain `<a>` tag that opens `BOOKING_URL` (Calendly, from `src/lib/publicLinks.ts`) in a new tab — it does not dispatch any event or open a modal. `DiagnosisRoom` is not mounted in `src/App.tsx`. `/start` and `/decision` are both `ExternalRedirect`s straight to `BOOKING_URL`, not routes that render a page component; that's expected, not a blank-page bug.
 
 ---
 
@@ -220,8 +222,8 @@ No user accounts; all bookings via Calendly. No plan to change unless a client p
 ### Stripe authorization hold bypassed
 `create-consultation-hold` exists but is not wired into the booking flow. Direct Calendly booking is live.
 
-### Prices live in exactly one file
-`src/lib/offers.ts` is the only place a price may appear, and `src/test/price-single-source.test.ts` fails the build if a figure shows up anywhere in `src/`, `public/`, `scripts/` or `index.html`. That includes the prerendered crawler bodies and `llms.txt`, both of which are generated from it at build time. If a price looks wrong on the site, change `offers.ts` and rebuild; do not patch the surface.
+### Prices live in exactly one file, and the Sprint has none there
+`src/lib/offers.ts` is the only place a price may appear, and `src/test/price-single-source.test.ts` fails the build if a figure shows up anywhere in `src/`, `public/`, `scripts/` or `index.html`. That includes the prerendered crawler bodies and `llms.txt`, both of which are generated from it at build time. As of 2026-08-12 the live Sprint offer has **no public price at all** — `offers.ts` still holds the dormant legacy Teardown/Handover figures used only by the unmounted `Teardown.tsx`/`Handover.tsx` pages. Do not add a Sprint price to `offers.ts` (or anywhere else) without an explicit product decision to make pricing public; if a price looks wrong on the live site, the fix is almost always to remove it, not to update a figure.
 
 ---
 
@@ -237,11 +239,11 @@ When investigating issues:
 6. Hard refresh to clear cache
 7. Verify edge functions deployed (check timestamp, 30–60s propagation)
 8. Check for TypeScript errors in build
-9. Verify correct system prompt on `nervous-decision-machine`
+9. If touching the dormant Nervous Decision Machine, verify its system prompt in `nervous-decision-machine` still matches current positioning before any future remount
 10. Check Anthropic / OpenAI quota + rate limits
 11. Verify WCAG contrast on dark backgrounds
-12. Confirm `ScopingModal` listens for `openScopingModal` custom event (the legacy `InitialConsultModal` / `openConsultModal` path is dispatched only from `/alumni`)
-13. Verify no retired product names in new copy
+12. Confirm every main sales action renders `<BookFitCall />` and not a dispatch of `openDiagnosisRoom` / `openScopingModal` / `openConsultModal`
+13. Verify no retired offer names (The Handover, The Teardown), public prices, or currency switching in new copy
 14. Verify brand voice compliance (see `BRANDING.md`)
 
 ---

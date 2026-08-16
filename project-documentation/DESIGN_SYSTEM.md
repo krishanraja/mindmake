@@ -1,6 +1,6 @@
 # Design System
 
-**Last Updated:** 2026-08-11
+**Last Updated:** 2026-08-16
 
 ---
 
@@ -458,45 +458,33 @@ On white/light backgrounds, always use `text-foreground`, `text-ink`, or `text-m
 ## Brand-Specific Patterns
 
 ### CTA Buttons (Primary)
-`bg-mint` is the alias; it renders emerald (ink text on emerald = AAA). New code may use `bg-emerald`.
+There is one sales action on the site: **"Book a fit call"**. Always use the shared component, not a hand-rolled button, so the href, UTM source, click tracking and accessible label stay consistent.
 ```tsx
-<Button
-  size="lg"
-  className="bg-mint text-ink hover:bg-mint/90 font-semibold px-8 py-6 text-lg"
-  onClick={() => window.dispatchEvent(new CustomEvent('openDiagnosisRoom', { detail: { source_page, mode: 'express' } }))}
->
-  Book a call
-</Button>
+import { BookFitCall } from "@/components/BookFitCall";
+
+<BookFitCall source="homepage-hero" className="px-7 py-3.5 text-base" />
 ```
+Renders `bg-mint text-ink` (alias for emerald; ink text on emerald = AAA), label **"Book a fit call"** with a trailing `ArrowUpRight` icon. It links to `BOOKING_URL` (`src/lib/publicLinks.ts`, currently a Calendly page) with `?utm_source=<source>` appended, opens in a new tab, and fires a `fit_call_clicked` Plausible event that fails silently if analytics are blocked. `source` is a short slug identifying the placement (`navigation`, `homepage-hero`, `sprint-final`, etc.).
 
-Primary CTA copy is always **"Book a call"**, no conditional labels. The previous `"What's your nervous decision?"` button copy has been retired. The nav/hero "Book a call" CTA opens the **Diagnosis Room (Mindy)**, the primary conversion surface, via the `openDiagnosisRoom` custom event (express mode). The `ScopingModal` (`openScopingModal`) is now the secondary booking surface, used by the offer pages (`/cohort`, `/enterprise`, `/capital`, `/immersion`), the `BigProblem` homepage cards, and `/case-studies`. `InitialConsultModal` / `openConsultModal` is legacy, retained only for `/alumni`.
+The previous copy **"Book a call"** / **"What's your nervous decision?"**, and the `openDiagnosisRoom` / `openScopingModal` / `openConsultModal` custom-event pattern, are retired. There is one booking surface, the fit-call link, not a modal or an in-page conversational flow.
 
-### Framework Journey (Mind Set → Mind Map → Mind Make)
-Three-panel layout with scroll-triggered animations. Each panel uses `glass-card` with animated content inside. See `FrameworkJourney.tsx`.
+### Retired component patterns (do not build against)
+The site was rebuilt for the 2026-08-12 one-Sprint pivot. The active route tree (`src/App.tsx`) is now just `Index`, `Sprint`, `CaseStudies`, `Operator`, plus utility pages; the homepage, `/sprint`, `/operator` and `/case-studies` are single-file layouts with no separate section components. None of the following are imported by any routed page — treat them as dormant source, not current product truth:
 
-### Operator's Edge (v5)
-Dark-bg typography-only section matching `FrameworkJourney` header scale exactly (`text-[1.35rem] sm:text-3xl md:text-4xl lg:text-5xl font-bold`). Partial-emerald on the word "pattern" only, no drop-shadow glow. Three glass tiles (Architecture / Optimization / Memory). See `OperatorsEdge.tsx`.
-
-**Guardrails:** no scrolling logs, no terminal aesthetics, no ASCII art, no interactive dashboards.
-
-### Price Ticker
-`PriceTicker.tsx`. CSS-marquee, no native scrollbar, pauses on hover, respects `prefers-reduced-motion`. Used on the homepage Live Intel teaser (`OperatorsBrief.tsx`) and on `/signal` (Live Intel dashboard, `Brief.tsx`).
-
-### Currency switcher
-`CurrencySwitcher.tsx` is a native radio `fieldset`, not three buttons, so arrow-key navigation and roving focus come from the platform for free. One instance per page that carries prices (`/teardown`, `/handover`, `/capital`), and `idPrefix` is required so two instances can never share a radio `name`. The accessible name sits on the `<input>`; the visible `<label>` is `aria-hidden`. One `role="status"` announcement per change, rather than `aria-live` on every price. AUD carries the longest strings, so price cells use `tabular-nums`, a `min-w` floor and `whitespace-nowrap`, and the row stacks below `sm`.
-
-### Nervous Decision Input
-`nervous-decision/Input.tsx` renders compact (homepage teaser) or full (`/signal`) sizes. `nervous-decision/Artifact.tsx` renders the typed response.
-
-### Retired component patterns (do not reference)
-
+- `DiagnosisRoom.tsx` / `openDiagnosisRoom`, `ScopingModal.tsx` / `openScopingModal`, `InitialConsultModal.tsx` / `openConsultModal`, the paused conversion surfaces
+- `FrameworkJourney.tsx` (Mind Set → Mind Map → Mind Make three-panel homepage section)
+- `OperatorsEdge.tsx` (v5 dark-bg credential section, "Beyond pattern recognition")
+- `BigProblem.tsx`, `TrustSection.tsx`, `MindMakerLiveSection.tsx`, `SimpleCTA.tsx` (former homepage blocks)
+- `PriceTicker.tsx`, `OperatorsBrief.tsx`, `Brief.tsx` (former Live Intel / `/signal` dashboard; `/signal` now redirects externally to Mindmaker Live)
+- `CurrencySwitcher.tsx` (no public price to switch; `/teardown`, `/handover`, `/capital` all redirect to `/sprint`)
+- `nervous-decision/Input.tsx`, `nervous-decision/Artifact.tsx`
 - `TheProblem.tsx` Builder/Orchestrator fork (AI leaders vs AI products), unmounted
 - `ProductLadder.tsx` 4-Week vs 90-Day sprint chooser, unmounted
-- `YFork.tsx` homepage "Start where your question actually is." three intent cards. The homepage funnels into the single Diagnosis Room journey; the component is in `src/_archive/components/`.
+- `YFork.tsx` homepage "Start where your question actually is." three intent cards, in `src/_archive/components/`
 - `PreCallQualifier.tsx` floating pill / 3-step chip intake, in `src/_archive/components/`
-- `AINewsTicker.tsx` with SIGNAL/NOISE/DECISION/TAKE badges, replaced by `OperatorsBrief` + full dashboard at `/signal` with WATCH/SKIP/CALL/TAKE taxonomy
-- `ActionsHub` side drawer and Interactive decision tools, unmounted
-- Media Easter Egg components (`VideoDrawer`, `AudioPlayer`, `ArtifactPreview`, `ExpandableQuote`), not in current homepage; kept in `src/components/MediaEasterEggs/` for possible future use
+- `AINewsTicker.tsx` with SIGNAL/NOISE/DECISION/TAKE badges
+- `ActionsHub` side drawer and interactive decision tools, unmounted
+- Media Easter Egg components (`VideoDrawer`, `AudioPlayer`, `ArtifactPreview`, `ExpandableQuote`), kept in `src/components/MediaEasterEggs/` for possible future use
 
 ---
 

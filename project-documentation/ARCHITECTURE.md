@@ -1,8 +1,8 @@
 # Architecture
 
-> The route, offer and conversion sections below describe the pre-rebuild system and are kept only as technical history. For the current public contract, use `README.md`, `CLAUDE.md`, `REBUILD_STATE.md` and `CTA_PATH_AUDIT.md`. Active truth is one 21-day Sprint, one shared fit-call action, and no mounted Diagnosis Room.
+> Companion docs: `README.md` and `CLAUDE.md` hold the short public-contract summary; this file is the fuller technical map. `project-documentation/REBUILD_STATE.md` holds the rebuild's working state and authority log.
 
-**Last Updated:** 2026-08-11
+**Last Updated:** 2026-08-16
 
 ---
 
@@ -24,21 +24,24 @@
 **Backend:**
 - Supabase Edge Functions (Deno runtime)
 
-**Third-party services:**
-- Anthropic Claude API (Mindy's reasoning in `mindy-chat`, proposal prose in `generate-proposal`, and the Nervous Decision Machine, Haiku 4.5)
-- Google Gemini (company synthesis in `enrich-company`; lead enrichment via Google Search grounding inside `send-lead-email`)
-- OpenAI API (Whisper voice transcription for the Diagnosis Room; market sentiment; legacy lead-enrichment helper)
-- Company-enrichment vendors for the `enrich-company` dossier: Brandfetch (identity/logo/colours), People Data Labs (size), Tranco (rank), BuiltWith (stack), Perplexity / Exa / NewsAPI (currency + proof matching)
-- Browserless (proposal HTML → PDF in `generate-proposal`)
-- Lovable AI Gateway (Operator's Brief / Live Intel content)
-- Resend (transactional email delivery)
-- Calendly (scheduling: the Diagnosis Room "book a call" exit + the legacy consult modal)
-- Stripe (the Alumni Pass only, invitation-gated, no live checkout on the page)
+**Third-party services actually reachable from the live site:**
+- Resend (`send-contact-email` on `/contact`; `submit-intake` and `submit-testimonial` on the two static forms below)
+- Anthropic Claude (`personalize-intake`, optional microcopy for the static `/intake` form)
+- Brandfetch (`enrich-company`, called by `/intake` for company identity lookup)
+- Calendly (`BOOKING_URL` in `src/lib/publicLinks.ts` — the destination of every "Book a fit call" action, site-wide)
+- Plausible (`window.plausible`, loaded externally; see SEO section for the events actually fired from live pages)
+
+**Third-party services wired only into dormant code** (present in the repo, deployed as edge functions in some cases, but not reachable from any live route — see "Dormant code" below and the Edge Functions section):
+- Google Gemini / OpenAI (`enrich-company` full-depth synthesis, `send-lead-email`, `get-market-sentiment`, `transcribe`)
+- People Data Labs, Tranco, BuiltWith, Perplexity, Exa, NewsAPI (`enrich-company` dossier enrichment)
+- Browserless (`generate-proposal` PDF rendering)
+- Lovable AI Gateway (`get-ai-news`)
+- Stripe (`create-consultation-hold`; also `src/lib/stripe-prices.ts`, referenced only in a code comment on `/alumni`, not imported there)
 
 **Hosting & deployment:**
-- Lovable Cloud / Vercel (frontend auto-deploy)
-- Supabase Cloud (edge functions)
-- GitHub integration (bidirectional sync)
+- Vercel (frontend build and hosting; `vercel.json` holds redirects, headers and rewrites)
+- Supabase Cloud (edge functions, Postgres)
+- GitHub (source of truth; the repo also mentions a Lovable Cloud / GitHub sync in its history — not re-verified here)
 
 ---
 
@@ -50,114 +53,97 @@ mindmaker/
 │   ├── components/
 │   │   ├── ui/                       # shadcn/ui base components
 │   │   ├── Animations/
-│   │   │   └── ParticleBackground.tsx  # global particle field
-│   │   ├── diagnosis/                # The Diagnosis Room (Mindy), primary conversion surface
-│   │   │   ├── DiagnosisRoom.tsx     # orchestrator/overlay (lazy, SSG-safe)
-│   │   │   ├── Opener.tsx, Conversation.tsx, DossierReveal.tsx, DecisionBrief.tsx
-│   │   │   ├── Fork.tsx, ProposalView.tsx, ExpressBooking.tsx
-│   │   │   ├── MicButton.tsx, MindyAvatar.tsx
-│   │   │   ├── CompanyField.tsx      # company search typeahead (Brandfetch Search API)
-│   │   │   ├── BrushPainter.tsx      # visual effect layer (opener aurora)
-│   │   │   ├── logoLuminance.ts      # logo contrast helper (dark/light logo selection)
-│   │   │   ├── useDiagnosisSession.ts # the room state machine
-│   │   │   ├── types.ts              # edge-function contracts (scale.* is internal-only)
-│   │   │   └── index.ts              # barrel exports
-│   │   ├── nervous-decision/         # Nervous Decision Machine
-│   │   │   ├── Input.tsx             # compact + full sizes
-│   │   │   ├── Artifact.tsx
-│   │   │   └── types.ts
-│   │   ├── new-age/                  # /new-age-leadership components
+│   │   │   └── ParticleBackground.tsx  # global particle field, mounted on Index
+│   │   ├── new-age/                  # /new-age-leadership components (live)
 │   │   │   ├── OrgChart.tsx          # interactive agent-native org chart (lazy)
-│   │   │   └── AgathaStory.tsx       # embedded narrative + completion beacon
-│   │   ├── proof/                    # CaseStudyCard (for /case-studies)
-│   │   ├── NewHero.tsx               # rotating headlines; CTAs open the Diagnosis Room
-│   │   ├── BigProblem.tsx            # three interactive flip cards
-│   │   ├── TrustSection.tsx          # Krish bio + testimonials carousel
-│   │   ├── FrameworkJourney.tsx      # Mind Set → Mind Map → Mind Make
-│   │   ├── OperatorsEdge.tsx         # v5 credential section
-│   │   ├── OperatorsBrief.tsx        # homepage Live Intel teaser
-│   │   ├── PriceTicker.tsx           # CSS-marquee model price ticker
-│   │   ├── SimpleCTA.tsx             # final CTA; opens the Diagnosis Room
-│   │   ├── Navigation.tsx
+│   │   │   └── AgathaStory.tsx       # embedded narrative + `page_completed` beacon
+│   │   ├── Navigation.tsx            # 4-choice nav, no dropdowns
 │   │   ├── Footer.tsx
-│   │   ├── ScopingModal.tsx          # retained fallback booking path (openScopingModal)
-│   │   ├── InitialConsultModal.tsx   # legacy conversion surface (openConsultModal); /alumni only
+│   │   ├── BookFitCall.tsx           # shared sales action -> BOOKING_URL, `fit_call_clicked`
+│   │   ├── SEO.tsx
+│   │   ├── CtrlDemoVideo.tsx         # looping CTRL demo, used on Index + Operator
+│   │   ├── FrameworkJourney.tsx      # Mind Set -> Mind Map -> Mind Make, used on /new-age-leadership
+│   │   ├── BlogPostCard.tsx, FAQAccordion.tsx, MindMakerWordmark.tsx  # small shared pieces
 │   │   ├── CookieConsent.tsx
 │   │   ├── ErrorBoundary.tsx
-│   │   └── SEO.tsx
-│   │   # YFork.tsx, PreCallQualifier.tsx, ModuleExplorer.tsx and LightningLessons.tsx
-│   │   # moved to src/_archive/components/ in August 2026. See its README.
+│   │   ├── diagnosis/                # Diagnosis Room (Mindy). Not imported by any live route.
+│   │   ├── nervous-decision/         # Nervous Decision Machine. Not imported by any live route.
+│   │   ├── NewHero.tsx, BigProblem.tsx, TwoDoors.tsx, SimpleCTA.tsx, OperatorsEdge.tsx,
+│   │   │   OperatorsBrief.tsx, PriceTicker.tsx, LiveDecisionPreview.tsx, ProductExpandCard.tsx,
+│   │   │   ProductExpandSection.tsx, MindMakerLiveSection.tsx, ScopingModal.tsx,
+│   │   │   InitialConsultModal.tsx, CtrlWaitlistPopover.tsx, CurrencySwitcher.tsx,
+│   │   │   JourneyInfoCarousel.tsx, PortfolioPulse.tsx, WhitepaperPromo.tsx,
+│   │   │   SubstackSubscribeForm.tsx, MediaEasterEggs/
+│   │   │   # Old two-offer-ladder and Diagnosis Room UI. Not imported by App.tsx, Index.tsx,
+│   │   │   # or any live page. Dormant, not current truth (see note below).
 │   ├── pages/
-│   │   ├── Index.tsx                 # homepage (eager-loaded)
-│   │   # Workshops.tsx + workshops/, Cohort.tsx, Enterprise.tsx, Immersion.tsx and
-│   │   # LeadershipInsights.tsx moved to src/_archive/pages/ in August 2026. Their
-│   │   # routes are real 301s in vercel.json. See src/_archive/README.md.
-│   │   ├── Handover.tsx              # /handover. Three price bands by headcount
-│   │   ├── Capital.tsx               # /capital. The same two, per portfolio company
-│   │   ├── Operator.tsx              # /operator, 14-agent OS credential
-│   │   ├── CaseStudies.tsx           # /case-studies, filterable anonymised proof
-│   │   ├── Brief.tsx                 # Live Intel, /signal
-│   │   ├── Alumni.tsx                # /alumni. Invitation-only continuity, noindex
-│   │   ├── Library.tsx               # /library (includes FAQ tab)
-│   │   ├── NewAgeLeadership.tsx      # /new-age-leadership, long-form thought leadership
-│   │   ├── Blog.tsx
-│   │   ├── BlogPost.tsx
-│   │   ├── Contact.tsx
-│   │   ├── Privacy.tsx
-│   │   ├── Terms.tsx
-│   │   └── NotFound.tsx
+│   │   ├── Index.tsx                 # / — homepage, eager-loaded
+│   │   ├── Sprint.tsx                # /sprint — the one paid offer
+│   │   ├── CaseStudies.tsx           # /case-studies — approved proof archive
+│   │   ├── Operator.tsx              # /operator — 14-agent OS credential page
+│   │   ├── Blog.tsx, BlogPost.tsx    # /blog, /blog/:slug
+│   │   ├── Library.tsx               # /library (includes the FAQ tab)
+│   │   ├── NewAgeLeadership.tsx      # /new-age-leadership
+│   │   ├── Alumni.tsx                # /alumni — invitation-only, noindex
+│   │   ├── Contact.tsx               # /contact — general messages, not a sales action
+│   │   ├── Privacy.tsx, Terms.tsx
+│   │   ├── NotFound.tsx              # catch-all
+│   │   ├── Teardown.tsx, Handover.tsx, Capital.tsx, Brief.tsx
+│   │   │   # Old offer pages + the old /signal dashboard page. Not routed in App.tsx.
+│   │   │   # /teardown, /handover, /capital now redirect to /sprint; /signal now redirects
+│   │   │   # externally to Mindmaker Live. These files are dormant, not current truth.
 │   ├── hooks/
-│   │   ├── useModelData.ts           # ALLOWED_MODEL_IDS allowlist
-│   │   ├── useLeadershipInsights.ts
-│   │   ├── useScrollDirection.ts     # navbar hide/show
-│   │   └── ...
+│   │   ├── useTestimonials.ts        # reads the `publishable_testimonials` view (consent-gated)
+│   │   ├── useBlogPosts.ts, useScrollDirection.ts, use-mobile.tsx, use-toast.ts, ...
+│   │   ├── useLiveBrief.ts, useOpenAIContext.ts, useModelData.ts, useRealisticCounters.ts
+│   │   │   # Power the dormant Live Intel dashboard / Nervous Decision Machine. Not imported
+│   │   │   # from any live page.
 │   ├── contexts/
-│   │   └── SessionDataContext.tsx    # threads qualification data into modal
+│   │   ├── SessionDataContext.tsx    # threads qualifier answers into InitialConsultModal — dormant
+│   │   └── CurrencyContext.tsx       # dormant, used only by Teardown/Handover/Capital + CurrencySwitcher
 │   ├── data/
+│   │   ├── rebuildProof.ts           # attendee brands, client stories — used by Index + CaseStudies
+│   │   └── blogPosts.ts
 │   ├── lib/
+│   │   ├── publicLinks.ts            # BOOKING_URL, MINDMAKER_LIVE_URL, SPRINT_PATH — canonical destinations
+│   │   ├── utils.ts, haptics.ts, sound.ts
+│   │   ├── offers.ts, stripe-prices.ts  # dormant. Old per-offer USD/GBP/AUD prices and Stripe ids.
 │   ├── integrations/supabase/
 │   ├── utils/
 │   │   └── calendly.ts
 │   ├── index.css                     # design tokens
-│   ├── App.tsx                       # routing + global overlays
-│   └── main.tsx
+│   ├── App.tsx                       # routing + global overlays (ErrorBoundary, CookieConsent only)
+│   ├── main.tsx
+│   └── _archive/                     # explicitly archived pages/components (August 2026), see its README
+│       ├── pages/  Cohort.tsx, Enterprise.tsx, Immersion.tsx, LeadershipInsights.tsx, Workshops.tsx, workshops/
+│       └── components/  LightningLessons.tsx, ModuleExplorer.tsx, PreCallQualifier.tsx, YFork.tsx
 ├── supabase/
-│   ├── functions/
-│   │   ├── _shared/                   # incl. mindy/, enrich/, proposal/ (Diagnosis Room logic); also vertex-client.ts, company-research.ts, audience.ts, retry.ts, timeout.ts, validation.ts, logger.ts
-│   │   ├── mindy-chat/                # Claude, Mindy's reasoning turn
-│   │   ├── enrich-company/            # company dossier orchestrator
-│   │   ├── generate-proposal/         # co-branded one-pager + Browserless PDF
-│   │   ├── session-digest/            # Resend, intelligence email to Krish + opt-in visitor copy
-│   │   ├── transcribe/                # OpenAI Whisper (voice input)
-│   │   ├── nervous-decision-machine/  # Anthropic Haiku 4.5
-│   │   ├── get-ai-news/               # Live Intel content (Lovable AI Gateway)
-│   │   ├── get-market-sentiment/
-│   │   ├── get-model-data/            # frontier-model price and spec feed
-│   │   ├── send-lead-email/           # Gemini company research + Resend
-│   │   ├── send-contact-email/
-│   │   ├── send-leadership-insights-email/
-│   │   ├── notify-scoping-request/    # ScopingModal intake → Krish
-│   │   ├── notify-ctrl-waitlist/      # CTRL waitlist → Krish
-│   │   ├── import-audience-csv/       # Substack subscriber CSV → audience_contacts
-│   │   ├── create-consultation-hold/  # Stripe, currently bypassed
-│   │   ├── company-search/            # Brandfetch Search API typeahead for the Diagnosis Room opener
-│   │   ├── submit-intake/             # pre-session intake form → inserts row + emails Krish a brief
-│   │   └── submit-testimonial/        # public testimonial submission form → inserts row + emails Krish
+│   ├── functions/                    # see "Edge Functions" below for live vs dormant-but-deployed
+│   │   ├── _shared/                  # incl. mindy/, enrich/, proposal/ (Diagnosis Room logic, dormant)
+│   │   ├── mindy-chat/, enrich-company/, generate-proposal/, session-digest/, transcribe/,
+│   │   │   company-search/           # Diagnosis Room support functions
+│   │   ├── nervous-decision-machine/, get-ai-news/, get-market-sentiment/, get-model-data/
+│   │   ├── send-lead-email/, send-leadership-insights-email/, notify-scoping-request/,
+│   │   │   notify-ctrl-waitlist/, create-consultation-hold/, import-audience-csv/
+│   │   ├── send-contact-email/       # live — called from /contact
+│   │   ├── submit-intake/, submit-testimonial/, personalize-intake/  # live — called from the static forms
+│   │   └── (config.toml also references a `chat-with-krish` function that has no directory here — flagged below)
 │   ├── migrations/
 │   └── config.toml
 ├── public/
 │   ├── llms.txt                       # LLM discoverability
 │   ├── robots.txt                     # allow-list for GPTBot / ClaudeBot / PerplexityBot / Google-Extended
 │   ├── sitemap.xml                    # generated by scripts/generate-sitemap.mjs
-│   ├── rising-cities.mp4              # hero background video
-│   ├── CTRL-demo-aug-26.mp4            # Shared CTRL demo loop
-│   ├── Krish-Headshot.png             # /operator + TrustSection
-│   ├── krish-stage-{1,2,3}.{jpg,png}  # /operator stage carousel
-│   ├── intake/index.html              # static pre-session intake form (posts to submit-intake)
-│   ├── testimonials/index.html        # static testimonial submission form (posts to submit-testimonial)
+│   ├── rising-cities.mp4              # homepage hero background video
+│   ├── CTRL-demo-aug-26.mp4           # CTRL demo loop, Index + Operator
+│   ├── Krish-Headshot.png, krish-stage-{1,2,3}.{jpg,png}
+│   ├── intake/index.html              # static pre-session intake form (live, noindex, direct URL only)
+│   │                                  # posts to submit-intake; also calls enrich-company + personalize-intake
+│   ├── testimonials/index.html        # static testimonial submission form (live, noindex, direct URL only)
 │   └── ...
 ├── scripts/
 │   ├── generate-sitemap.mjs
+│   ├── generate-llms.mjs
 │   └── prerender.mjs
 ├── project-documentation/
 ├── CLAUDE.md                          # authoritative codebase reference
@@ -166,293 +152,210 @@ mindmaker/
 └── package.json
 ```
 
+**Dormant code, not in the active route tree.** Per root `CLAUDE.md`: legacy offer and AI-flow code may still exist in `src/` outside the routes actually mounted in `src/App.tsx`. Treat it as technical history, not current product truth, and do not build on it without confirming with Krish first. This includes: `src/pages/Teardown.tsx`, `Handover.tsx`, `Capital.tsx`, `Brief.tsx`; all of `src/components/diagnosis/*` (`DiagnosisRoom`, `Opener`, `Conversation`, `DossierReveal`, `DecisionBrief`, `Fork`, `ProposalView`, `ExpressBooking`, `MicButton`, `MindyAvatar`, `CompanyField`, `BrushPainter`, `logoLuminance.ts`, `useDiagnosisSession.ts`); all of `src/components/nervous-decision/*`; `ScopingModal.tsx`, `InitialConsultModal.tsx`, `BigProblem.tsx`, `TwoDoors.tsx`, `SimpleCTA.tsx`, `NewHero.tsx`, `ProductExpandCard.tsx`, `ProductExpandSection.tsx`, `OperatorsEdge.tsx`, `OperatorsBrief.tsx`, `PriceTicker.tsx`, `LiveDecisionPreview.tsx`, `CtrlWaitlistPopover.tsx`, `MindMakerLiveSection.tsx`, `CurrencySwitcher.tsx`; `src/contexts/CurrencyContext.tsx`, `SessionDataContext.tsx`; `src/lib/offers.ts`, `stripe-prices.ts`; `src/hooks/useLiveBrief.ts`, `useOpenAIContext.ts`, `useModelData.ts`, `useRealisticCounters.ts`; everything under `src/_archive/`.
+
+One exception worth flagging: `FrameworkJourney.tsx` is imported by both the dormant `OperatorsEdge.tsx` **and** the live `NewAgeLeadership.tsx` page, so the component itself is live (via `/new-age-leadership`) even though one of its two call sites is dormant.
+
 ---
 
 ## Application Routes
 
-Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `React.lazy`.
+Authoritative source: `src/App.tsx`, verified 2026-08-16. Non-homepage live pages are lazy-loaded via `React.lazy`.
 
 ### Live pages
 
 | Route | Page | Notes |
 |---|---|---|
-| `/` | `Index` | Homepage, eager-loaded. CTAs open the Diagnosis Room. |
-| `/start` | `DiagnosisRoom` (full page) | The Diagnosis Room (Mindy) as a standalone page. |
-| `/teardown` | `Teardown` | The Teardown. One price, currency switcher, the four-step method. |
-| `/handover` | `Handover` | The Handover. Three bands by headcount, the six weeks, the Teardown gate, the $254K POC. |
-| `/capital` | `Capital` | The third door. The same two engagements, priced per portfolio company; fund terms on the call. |
-| `/operator` | `Operator` | How I operate. The 14-agent OS credential page. Looping `/CTRL-demo-aug-26.mp4`. |
-| `/case-studies` | `CaseStudies` | Filterable anonymised proof, by Teardown / Handover. Consent-gated testimonials. |
-| `/signal` | `Brief` | **Live Intel**, full dashboard. PriceTicker, interpretation grid, classified archive (WATCH/SKIP/CALL/TAKE), Nervous Decision Machine. |
+| `/` | `Index` | Homepage, eager-loaded. Primary CTA is `BookFitCall` throughout. |
+| `/sprint` | `Sprint` | The one public paid offer, the 21-day Sprint. |
+| `/case-studies` | `CaseStudies` | Approved proof archive. |
+| `/operator` | `Operator` | How Krish operates. 14-agent OS credential page. Looping `/CTRL-demo-aug-26.mp4`. |
+| `/blog`, `/blog/:slug` | `Blog`, `BlogPost` | |
 | `/library` | `Library` | Resources, including the FAQ tab. |
 | `/new-age-leadership` | `NewAgeLeadership` | Essay on agentic org design. Lazy-loaded `OrgChart` + `AgathaStory`. |
-| `/alumni` | `Alumni` | Invitation-only continuity. Hidden from nav and footer, `noindex`, direct URL only. |
-| `/blog`, `/blog/:slug` | `Blog`, `BlogPost` | |
-| `/contact` | `Contact` | |
+| `/contact` | `Contact` | General messages. Calls `send-contact-email`. Not a sales action. |
 | `/privacy`, `/terms` | `Privacy`, `Terms` | |
+| `/alumni` | `Alumni` | Invitation-only continuity. Hidden from nav and footer, `noindex`, direct URL only. |
 | `*` | `NotFound` | Catch-all |
 
-**Stripe identifiers** are stored in `src/lib/stripe-prices.ts`, which holds identifiers and never prices (prices live in `src/lib/offers.ts`, and a test enforces that). The Alumni Pass is the only entry left in it, and the only thing the site itself charges via Stripe. Even that is invitation-gated rather than a live checkout. The Workshop and Cohort identifiers were removed in August 2026 with the six-rung ladder.
+Two additional live pages are static HTML, not part of the React app, and are only reachable by direct URL (both `noindex, nofollow` per `vercel.json` headers):
 
-### Client-side redirects (via `<Navigate replace />` / `<HashRedirect />` / `<ExternalRedirect />`)
-
-| Old path | Redirects to | Mechanism |
+| Path | File | Notes |
 |---|---|---|
-| `/tool` | `/signal#decision` | Navigate |
-| `/builder-economy` | `https://www.thebuildereconomy.com` | `ExternalRedirect`, a separate sister domain |
-| `/faq` | `/library?tab=questions` | Navigate |
-| `/workshops`, `/workshops/:slug` | `/teardown` | HashRedirect |
-| `/enterprise`, `/immersion` | `/handover` | HashRedirect |
-| `/cohort`, `/leaders`, `/leadership-insights` | `/start` | HashRedirect |
-| `/sprints`, `/sprint/4-week`, `/builder-sprint`, `/strategy-day` | `/teardown` | HashRedirect |
-| `/sprint/90-day`, `/war-room`, `/fractional-caio` | `/handover` | HashRedirect |
-| `/individual`, `/team`, `/builder`, `/builder-session`, `/leadership-lab`, `/portfolio-program` | `/` | Navigate |
+| `/intake` | `public/intake/index.html` | Pre-session intake form. Calls `submit-intake`, and optionally `enrich-company` + `personalize-intake` for company-aware microcopy. |
+| `/testimonials` | `public/testimonials/index.html` | Public testimonial submission form. Calls `submit-testimonial`. |
 
-**These are the client-side fallback only.** The real 301s live in `vercel.json` `redirects`, which is what a crawler and a cold visitor hit. The React Router entries exist so in-app navigation to a retired path still lands somewhere sensible, and they return HTTP 200 with the SPA shell rather than a redirect status. `src/test/redirects.test.ts` asserts the two layers agree, that every edge redirect is permanent, and that nothing redirects to a path that is itself redirected.
+### Redirect-only routes (in `src/App.tsx`)
 
-No `/pricing` page. Pricing lives in context on `/teardown`, `/handover` and `/capital`, each with a `CurrencySwitcher`.
+| Route(s) | Destination | Mechanism |
+|---|---|---|
+| `/start`, `/decision` | `BOOKING_URL` (Calendly) | `ExternalRedirect` (client-side `window.location.replace`) |
+| `/signal`, `/builder-economy` | `MINDMAKER_LIVE_URL` (`https://live.themindmaker.ai`) | `ExternalRedirect` |
+| `/teardown`, `/handover`, `/capital`, `/tool` | `/sprint` | `<Navigate replace />` |
+| `/faq` | `/library?tab=questions` | `<Navigate replace />` |
+| `/workshops`, `/workshops/:slug`, `/enterprise`, `/immersion`, `/cohort`, `/leaders`, `/leadership-insights`, `/sprints`, `/sprint/4-week`, `/sprint/90-day`, `/builder-sprint`, `/war-room`, `/strategy-day`, `/fractional-caio`, `/individual`, `/team`, `/builder`, `/builder-session`, `/leadership-lab`, `/portfolio-program` | `/sprint` | `<Navigate replace />` |
+
+**These React Router entries are the client-side fallback only** — they exist so in-app navigation to a retired path still lands somewhere sensible, and they return HTTP 200 with the SPA shell. The real redirects a crawler or a cold visitor hits are the ones in `vercel.json` `redirects`, which are **not all identical in kind**:
+
+- `/start` and `/decision` → `https://calendly.com/krish-raja/mindmaker-meeting` — **non-permanent (302)**, straight to Calendly (not to `/sprint` and not routed through `BOOKING_URL`'s UTM tagging).
+- `/signal` → `https://live.themindmaker.ai`, `/builder-economy` → `https://live.themindmaker.ai` — **permanent (301)**.
+- Every other listed legacy path → `/sprint` — **permanent (301)**.
+
+No `/pricing` page and no `/pricing`-style route anywhere in `src/App.tsx` or `vercel.json`.
 
 ---
 
 ## Homepage Scroll Order
 
-Authoritative source: `src/pages/Index.tsx`. Verified 2026-08-11.
+Authoritative source: `src/pages/Index.tsx`, verified 2026-08-16. The page hand-rolls its sections directly rather than composing named section components.
 
-1. `Navigation`. Fixed top, hides on scroll-down via `useScrollDirection`.
-2. `NewHero`. Rotating headlines, looping `/rising-cities.mp4`, primary CTA "Bring me one real decision" (opens the Diagnosis Room).
-3. `BigProblem`. Three large interactive flip cards. The cards dispatch `ScopingModal`.
-4. `TwoDoors`. Do it yourself with CTRL, or do it with Krish. No CTRL price on this site.
-5. `TrustSection`. Krish bio, headshot, testimonials carousel.
-6. `OperatorsEdge`. Dark-background typography-only credential section. CTA to `/handover`.
-7. `OperatorsBrief`. Live Intel teaser: marquee `PriceTicker`, rotating interpretation line, compact Nervous Decision input, link to `/signal`.
-8. `SimpleCTA`. Final CTA, opens the Diagnosis Room.
-9. `Footer`.
+1. `Navigation`. Fixed top.
+2. Hero. Ink background, looping `/rising-cities.mp4` at low opacity, headline "Make the right call as AI changes your business." Primary CTA `BookFitCall` (`source="homepage-hero"`) plus a secondary link to `/sprint`.
+3. `#reach-title`. "Mindmaker has helped over 4000 leaders with what's next in AI," with the three attendee-brand logos from `attendeeBrands` (`src/data/rebuildProof.ts`).
+4. `#call-title`. "The problem is commercial. AI has changed the answer." Two static editorial cards (no flip interaction, no `BigProblem`).
+5. `#sprint-title` (`id="work-with-me"`). "One decision. 21 days." The Sprint pitch: four decision types (Product, Price, Go to market, Company), three outcome chips, `BookFitCall` (`source="homepage-sprint"`), and a link to `/sprint`.
+6. `#ctrl-title`. "You keep the thinking, not just the answer." `CtrlDemoVideo`, CTRL explanation. Steph Darmanin's testimonial renders here only if `useTestimonials()` returns a consented row matching "legacy ascend" — otherwise the quote is omitted, not shown unattributed.
+7. `#results-title`. "Decisions that changed the work." First four `clientStories` from `rebuildProof.ts`, with a link to `/case-studies`.
+8. `#krish-title`. "Built in business, not in a slide deck." Krish's headshot, bio, and Ashley Wales-Brown's testimonial (static, no consent gate — it is a career reference, not a client quote).
+9. Final CTA section. "One hard decision. One clear place to start." `BookFitCall` (`source="homepage-final"`).
+10. `Footer`.
 
-`ParticleBackground` is mounted behind all of it.
+`ParticleBackground` is mounted behind the whole page.
 
-**Not on the homepage:** `FrameworkJourney` (moved to `/new-age-leadership`), `MindMakerLiveSection`, `VendorLandscape`, `AINewsTicker`, `ActionsHub`, the ChatBot, and the retired `YFork` / `PreCallQualifier` (both in `src/_archive/components/`).
+**Not on the homepage:** `NewHero`, `BigProblem`, `TwoDoors`, `TrustSection`, `FrameworkJourney`, `OperatorsEdge`, `OperatorsBrief`, `SimpleCTA`, `MindMakerLiveSection` — none of these named components are imported by `Index.tsx`. It is hand-authored JSX with its own ids, not a composition of the old section components.
 
-Global overlays mounted in `src/App.tsx`: `DiagnosisRoom` (lazy, only mounted when open so the prerender never instantiates it), `ScopingModal`, `InitialConsultModal`, `CookieConsent`.
+No global overlays are mounted in `src/App.tsx` besides `ErrorBoundary` and `CookieConsent`. There is no `DiagnosisRoom`, `ScopingModal`, or `InitialConsultModal` mounted anywhere reachable from a live route.
 
 ---
 
 ## Navigation Structure
 
-Authoritative source: `src/components/Navigation.tsx`. Primary CTA: **"Book a call"** with mint pulse dot.
+Authoritative source: `src/components/Navigation.tsx`, verified 2026-08-16. Four choices, no dropdowns.
 
-| Slot | Label | Type | Destination |
-|---|---|---|---|
-| 1 | Workshops | Direct link | `/workshops` |
-| 2 | Cohort | Direct link | `/cohort` |
-| 1 | Work with me | Dropdown | The Handover → `/handover`, The Teardown → `/teardown`, For funds and portfolio companies → `/capital` |
-| 4 | **Mindmaker LIVE** | Direct link (wordmark) | `/signal` |
-| 5 | Resources | Dropdown | How I operate → `/operator`, Case studies → `/case-studies`, New Age Leadership → `/new-age-leadership`, Library → `/library`, The Builder Economy (Podcast) → external `thebuildereconomy.com` |
-| 6 | About | Dropdown | Contact → `/contact`, Privacy → `/privacy`, Terms → `/terms` |
-| CTA | Book a call | Button | Dispatches `openDiagnosisRoom` (express mode); the mobile menu also offers "Or think it through with Mindy first" (full mode) |
+| Slot | Label | Destination |
+|---|---|---|
+| 1 | The Sprint | `/sprint` |
+| 2 | Results | `/case-studies` |
+| 3 | Mindmaker LIVE (wordmark pill) | External, `MINDMAKER_LIVE_URL`, opens in a new tab |
+| 4 (CTA) | Book a fit call | `BookFitCall` (`source="navigation"`), opens `BOOKING_URL` in a new tab |
 
-Decision Readiness Diagnostic (`/leaders`) is deliberately **not** in nav or footer. The Immersion (`/immersion`) is reachable via the Enterprise dropdown, the footer, or direct URL.
+Mobile menu repeats the same four items in the same order (`source="mobile-navigation"` on the CTA). `Footer.tsx` repeats the same links plus Operator, Library, Articles, New Age Leadership, Contact, Privacy, Terms, and its own `BookFitCall` (`source="footer"`).
+
+`/operator`, `/alumni`, `/intake`, `/testimonials`, `/privacy`, and `/terms` are reachable but are **not** in the primary nav; `/alumni`, `/intake` and `/testimonials` are also excluded from the footer and are `noindex`.
 
 ---
 
-## Pricing (canonical)
+## Pricing
 
-| Engagement | Price (USD) | Duration |
-|---|---|---|
-| The Handover | $18,000 / $30,000 / $50,000 by headcount | Six weeks + a Day 90 recheck |
-| The Teardown | $9,500 | Ten business days, under two hours of client time |
+No public price anywhere on the site. The Sprint is bought through a fit call, not a listed number. Per root `CLAUDE.md`: the removed private amount and the removed 22 percent result must not be reintroduced, and there is no currency switching in the live app (`CurrencySwitcher.tsx` and `CurrencyContext.tsx` are dormant, used only by the retired `Teardown`/`Handover`/`Capital` pages). `src/lib/offers.ts` and `src/lib/stripe-prices.ts` still hold the old per-engagement USD/GBP/AUD figures and Stripe identifiers, but nothing in the live route tree imports them for display.
 
-Also published in GBP and AUD as set prices per market. Canonical source: `src/lib/offers.ts`. A test fails the build if a price string appears anywhere else in the web surface.
-
-
-The Handover is capped at six a year, and the cap is stated publicly because it is part of the offer.
-
-Payment: The Teardown on kickoff. The Handover 50/50 at kickoff and delivery. **No discounts are published anywhere.**
+The canonical statement of the current commercial contract is `project-documentation/OFFERS.md` (confirmed present in this repository). `CLAUDE.md`'s "Current commercial contract" section and `README.md`'s "Public journey" section are the short public-facing summaries of the same contract.
 
 ---
 
 ## Data Flows
 
-### Booking / conversion flow (current), the Diagnosis Room
+### Booking / conversion flow (current)
 
-Nothing on this site takes a payment. The Teardown price is published and self-serve in the sense that the buyer knows the number before they talk to anyone, but the transaction itself is invoiced direct. The Handover always goes through a call. Every primary CTA opens the Diagnosis Room (Mindy); `ScopingModal` is a retained fallback dispatched by the `BigProblem` cards and `/case-studies`.
-
-```
-1. User clicks "Book a call" / "Work through your decision with Mindy" anywhere on site
-   └─> window.dispatchEvent('openDiagnosisRoom', { detail: { source_page, seedDecision?, mode } })
-   └─> DiagnosisRoom opens (lazy). mode 'express' rushes to booking; 'full' runs the diagnosis.
-
-2. Opener: visitor states one nervous AI decision (+ optional work email; mic input via `transcribe`)
-   └─> if a non-free work email: supabase.functions.invoke('enrich-company', { email, depth:'identity' })
-       └─> fast Brandfetch + Tranco dossier → the co-brand "gasp"; full depth enriches in the background
-       └─> free-email (gmail, etc.) → { skipped:'free-email' } → graceful degrade, no gasp
-
-3. Conversation: supabase.functions.invoke('mindy-chat', { messages, dossier, sessionId, mode })
-   └─> Claude reasons in Krish's voice; returns reply, phase, quickReplies, recommendation,
-       decisionBrief, readyForProposal, readyForCall (strict JSON, voice-gated)
-   └─> the dossier's scale.* routing layer is NEVER surfaced client-side
-
-4. Fork → one of three honest exits:
-   ├── keep chatting (learn)
-   ├── book a fit call → Calendly (CALENDLY_URL) → endSession('book-call')
-   └── generate a co-branded proposal → invoke('generate-proposal', { ..., format:'html'|'pdf' })
-       └─> "Mindmaker × [company]" one-pager; PDF via Browserless (print-fallback on failure)
-
-5. On a meaningful end: supabase.functions.invoke('session-digest', { ...transcript, endedVia })
-   └─> emails Krish the FULL intelligence; if opted in + proposal exists, emails the visitor their copy
-```
-
-The legacy path (now `/alumni` only) dispatches `openConsultModal` → `InitialConsultModal` → `send-lead-email` (company research, skipped for personal email domains) → Calendly redirect. The `ScopingModal` fallback dispatches `openScopingModal` → `notify-scoping-request` (emails Krish).
-
-### Diagnosis Room phases & privacy contract
-
-Room phases (`RoomPhase` in `diagnosis/types.ts`): `opener` → `reading` (enrichment) → `reflect` (dossier reveal) → `chat` → `brief` (kept one-screen decision brief) → `fork` → `proposal`; `express-book` is the express shortcut. The session state machine is `useDiagnosisSession.ts`.
-
-**Privacy:** `dossier.scale.*` (`employeeCount`, `sizeBand`, `trancoRank`, `icp`, `recommendedMode`) is **internal routing only**, stripped from every view, never recited by Mindy, never in the visitor proposal/digest copy. Only Krish's internal digest receives the full dossier + transcript. Mindy's knowledge/guardrails live in `project-documentation/mindy/` (Brain Pack).
-
-### Nervous Decision Machine Flow
-
-Embedded inside `OperatorsBrief` on homepage and inside `Brief.tsx` at `/signal`. No standalone page, `/tool` redirects to `/signal#decision`.
+Every primary sales action on every live page is the same component, `BookFitCall.tsx`:
 
 ```
-1. User types a nervous decision prompt (compact or full input)
-2. supabase.functions.invoke('nervous-decision-machine', { prompt })
-3. Edge function calls Anthropic API
-   └─> Model: claude-haiku-4-5-20251001, max 1500 tokens
-   └─> System prompt enforces JSON schema + Krish's voice
-   └─> 1-hour per-IP rate limit + global request ceiling (soft circuit breaker)
-   └─> Requires ANTHROPIC_API_KEY
-4. Response renders via Artifact.tsx (typed schema in types.ts)
+1. Visitor clicks "Book a fit call" (Navigation, Footer, Index, Sprint, Operator,
+   CaseStudies, Blog, BlogPost, NewAgeLeadership, or Alumni's own link to BOOKING_URL)
+   └─> <a href={`${BOOKING_URL}?utm_source=${source}`} target="_blank">
+   └─> onClick fires window.plausible?.('fit_call_clicked', { props: { source } })
+       (best-effort; booking still works if analytics is blocked)
+2. Calendly opens in a new tab. Nothing on this site itself takes the booking;
+   there is no in-app booking modal, gate, or qualifying step before Calendly.
 ```
 
-### Decision Readiness Diagnostic Flow (`/leaders`)
+`source` values seen in the live code: `homepage-hero`, `homepage-sprint`, `homepage-final`, `navigation`, `mobile-navigation`, `footer`. Individual pages (Sprint, Operator, CaseStudies, etc.) pass their own `source` string to the same component — each page's exact string was not individually re-verified for this pass.
 
-Route unlinked from nav; deep-link only.
+`/start` and `/decision` are a second, separate booking entry point: they redirect straight to the same Calendly URL (see Application Routes above), but as a **direct edge redirect** in `vercel.json`, not through `BookFitCall`, so a visitor arriving that way does not get the `utm_source` tag or the `fit_call_clicked` event.
+
+### Contact flow
 
 ```
-1. Intro → 6 Likert-scale questions (auto-advance)
-2. Optional: 5 personalization questions, or skip
-3. Generation phase with progress animation (never regresses)
-4. Results (calculated client-side):
-   ├── Decision Readiness Score + tier
-   ├── Top 3 nervous decisions (curated from answer patterns)
-   └── Collapsible unlock form → send-leadership-insights-email
-5. Edge function delivers user results + lead notification to Krish
+1. Visitor fills the /contact form
+2. supabase.functions.invoke('send-contact-email', { ...formFields })
+3. Edge function sends via Resend
+```
+Contact is explicitly for general messages; per `CLAUDE.md` it does not replace the fit call.
+
+### Static intake / testimonial forms
+
+These are outside the React app (`public/intake/index.html`, `public/testimonials/index.html`), reachable only by direct URL, and excluded from index/nav/footer:
+
+```
+/intake:
+  1. Optional company-aware personalisation:
+     fetch(enrich-company) with depth:'identity' -> Brandfetch/Tranco dossier
+     fetch(personalize-intake) with the resulting SAFE dossier fields (never dossier.scale.*)
+       -> { fragments: { business_reflect?, aspiration_nudge? } }, each voice-linted;
+          on any failure, empty input, or off-voice output the page falls back to its
+          own static copy — this is progressive enhancement, not a required step.
+  2. fetch(submit-intake) on submit -> inserts a row + emails Krish a formatted brief
+
+/testimonials:
+  1. fetch(submit-testimonial) on submit -> inserts a row into public.testimonials
+     + emails Krish a notification. Honeypot field for bot prevention.
 ```
 
-### Live Intel (`/signal`) Flow
+### Diagnosis Room, Nervous Decision Machine, Live Intel — dormant
 
-- Extended `PriceTicker` using canonical `ALLOWED_MODEL_IDS` from `src/hooks/useModelData.ts` (current set: Opus 4.7, Sonnet 4.6, Haiku 4.5, Gemini 2.5 Pro, Gemini 2.5 Flash, GPT-5, GPT-5 Mini)
-- 3-card plain-English interpretation grid
-- Classified card archive (WATCH / SKIP / CALL / TAKE) with filter pills + search
-- Blog column (featured posts)
-- Full-size Nervous Decision input with example chips
+`src/components/diagnosis/*`, `src/components/nervous-decision/*`, and the old `/signal` dashboard (`src/pages/Brief.tsx`) are fully wired end to end (session state machine, edge functions, Plausible events) but **not reachable from any live route**. `DiagnosisRoom` is not mounted in `App.tsx`; nothing imports `Brief.tsx`; `OperatorsBrief`/`PriceTicker`/`LiveDecisionPreview` (the components that embedded the Nervous Decision Machine) are not imported by `Index.tsx` or any live page. Treat their internal data-flow documentation, if needed again, as historical rather than re-documenting it here — see git history for the prior version of this file if the mechanics need to be resumed.
 
-Price and model data flows through `get-model-data` edge function. Editorial cards currently inline; `get-ai-news` schema preserved for future dynamic feed.
+### New Age Leadership org chart
+
+```
+Live, on /new-age-leadership only:
+- OrgChart.tsx fires trackEvent('chart_node_clicked', { node }) and
+  trackEvent('chart_toggle_flipped', { to }) via window.plausible
+- AgathaStory.tsx fires window.plausible?.('page_completed') on story completion
+```
 
 ---
 
 ## Edge Functions
 
-Location: `supabase/functions/[function-name]/index.ts`. All functions set `verify_jwt = false` in `supabase/config.toml`. Shared Diagnosis Room logic lives in `_shared/{mindy,enrich,proposal}/`.
+Location: `supabase/functions/[function-name]/index.ts`.
 
-### `mindy-chat` (Diagnosis Room)
-- Mindy's conversational reasoning turn. Composes the Brain Pack (system prompt + reasoning guide + fit rubric + pricing card) + a formatted dossier block, calls Claude, parses a strict-JSON turn, runs the runtime voice gate
-- Returns `reply`, `phase`, `quickReplies`, `recommendation`, `decisionBrief`, `readyForProposal`, `readyForCall`. The dossier's `scale.*` is fenced as INTERNAL ROUTING and never returned
-- Secret: `ANTHROPIC_API_KEY`
+**Flag for Krish:** `supabase/config.toml` only sets `verify_jwt = false` for 12 functions (`chat-with-krish`, `get-ai-news`, `get-market-sentiment`, `create-consultation-hold`, `send-lead-email`, `send-contact-email`, `send-leadership-insights-email`, `nervous-decision-machine`, `import-audience-csv`, `submit-testimonial`, `submit-intake`, `personalize-intake`). It also references a `chat-with-krish` function that has **no corresponding directory** in `supabase/functions/` — likely a stale config entry for a renamed or removed function, not re-verified further here. The remaining functions below (`mindy-chat`, `enrich-company`, `generate-proposal`, `session-digest`, `transcribe`, `get-model-data`, `notify-scoping-request`, `notify-ctrl-waitlist`, `company-search`) have no entry in `config.toml`, which on Supabase normally defaults to `verify_jwt = true` (anonymous calls rejected) rather than the previous version of this document's blanket claim that all functions have `verify_jwt = false`. This needs Krish or whoever owns the Supabase project to confirm actual deployed settings — it wasn't re-derived from anything other than reading this file.
 
-### `enrich-company` (Diagnosis Room)
-- The dossier orchestrator. Fans out to enrichment clients, merges partials, derives an internal ICP routing signal, and (full depth) writes a one-paragraph synthesis in Krish's voice
-- `depth:'identity'` → Brandfetch + Tranco (fast co-brand paint); `depth:'full'` → adds PDL + BuiltWith + currency, then Gemini/Anthropic synthesis. Free-email domains → `{ skipped:'free-email' }`
-- In-memory result cache (1h TTL), per-IP rate limit, global ceiling. A missing key just disables that tool (dossier degrades, never fails)
-- Secrets (all optional): `BRANDFETCH_API_KEY`, `PEOPLEDATALABS_API_KEY`, `BUILTWITH_API_KEY`, `EXA_API_KEY`, `PERPLEXITY_API_KEY`, `NEWSAPI_API_KEY`, `GOOGLE_AI_API_KEY`, `ANTHROPIC_API_KEY`
+### Called from a live page or a live static form
 
-### `generate-proposal` (Diagnosis Room)
-- Builds the co-branded "Mindmaker × [company]" one-pager. Deterministic shell + dossier + selected proof, with reflective prose in one Claude call, voice-linted
-- `format:'html'` (default) returns `{ html, payload, proposalId }`; `format:'pdf'` renders via Browserless → `{ pdfBase64, proposalId }`, or on failure `{ html, …, pdfFallback:true }` for client print
-- Secrets: `ANTHROPIC_API_KEY`, `BROWSERLESS_API_KEY`
+- **`send-contact-email`** — `/contact` form submissions. Secret: `RESEND_API_KEY`.
+- **`submit-intake`** — `/intake` static form. Inserts a row + emails Krish a formatted brief. Secrets: `RESEND_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY`.
+- **`submit-testimonial`** — `/testimonials` static form. Inserts a row into `public.testimonials` + emails Krish. Secrets: `RESEND_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY`.
+- **`enrich-company`** — called by `/intake` (`depth:'identity'`) for a fast Brandfetch/Tranco company lookup, and separately by the dormant Diagnosis Room (`depth:'full'`, which also uses PDL/BuiltWith/Gemini/Anthropic — that deeper path is not reachable from `/intake`). Secrets (all optional, degrade gracefully): `BRANDFETCH_API_KEY`, `PEOPLEDATALABS_API_KEY`, `BUILTWITH_API_KEY`, `EXA_API_KEY`, `PERPLEXITY_API_KEY`, `NEWSAPI_API_KEY`, `GOOGLE_AI_API_KEY`, `ANTHROPIC_API_KEY`.
+- **`personalize-intake`** — called by `/intake` for two small voice-linted microcopy fragments (`business_reflect`, `aspiration_nudge`), built from the same SAFE dossier fields `enrich-company` returned (never `dossier.scale.*`). Fails closed to `{ fragments: {} }` on any error, empty input, or off-voice output, and the page has its own static copy either way. Secret: whatever `_shared/enrich/llm.ts`'s `completeText` requires (not independently re-verified — likely `ANTHROPIC_API_KEY`, shared with `mindy-chat`).
 
-### `session-digest` (Diagnosis Room)
-- Fires on a meaningful end (`chat` / `book-call` / `proposal`). Emails Krish the FULL session (contact, recommendation, decision brief, full dossier incl. `scale`, transcript, proposal HTML attachment); if the visitor opted in + supplied a valid email + a proposal exists, emails them ONLY their proposal. The two sends are independent
-- Secret: `RESEND_API_KEY`
+### Deployed but not called from the live site (dormant)
 
-### `transcribe` (Diagnosis Room)
-- Server-side voice transcription for the mic input. Base64 audio → OpenAI Whisper (`whisper-1`) → `{ text }`. ~8MB cap, per-IP rate limit
-- Secret: `OPENAI_API_KEY`
-
-### `import-audience-csv`
-- Ingests a Substack subscriber CSV export into the shared `audience_contacts` table (`source='mindmaker_live'`); paid subscribers flagged. Upserts on (email, source)
-- Gated by `AUDIENCE_IMPORT_SECRET` (x-import-secret header). Secrets: `SUPABASE_SERVICE_ROLE_KEY`, `AUDIENCE_IMPORT_SECRET`
-
-### `nervous-decision-machine`
-- Powers the Nervous Decision Machine embedded on homepage + `/signal`
-- Anthropic Claude (`claude-haiku-4-5-20251001`)
-- 1500 token max, JSON output schema, Krish's voice enforced in system prompt
-- 1-hour per-IP rate limit + global request ceiling (soft circuit breaker)
-- Secret: `ANTHROPIC_API_KEY`
-
-### `get-ai-news`
-- Powers Live Intel editorial feed (taxonomy: WATCH / SKIP / CALL / TAKE)
-- Currently archive cards inline in `Brief.tsx`; schema preserved for future dynamic feed
-- Secret: `LOVABLE_API_KEY` (auto-provisioned)
-
-### `get-market-sentiment`
-- Market sentiment analysis (OpenAI)
-- Secret: `OPENAI_API_KEY`
-
-### `get-model-data`
-- Frontier-model price and spec feed for `PriceTicker` and `/signal` interpretation grid
-- Allowlist lives in `src/hooks/useModelData.ts` as `ALLOWED_MODEL_IDS`
-
-### `send-lead-email`
-- Captures and enriches lead data (Gemini company research with Google Search grounding; OpenAI as fallback). Used by the legacy `/alumni` consult path
-- Resend API for delivery, 3× retry with exponential backoff
-- Personal email domains skip the company-research step
-- Secrets: `RESEND_API_KEY`, `GEMINI_API_KEY` (preferred), `OPENAI_API_KEY` (fallback)
-
-### `send-contact-email`
-- Contact form submissions
-- Secret: `RESEND_API_KEY`
-
-### `send-leadership-insights-email`
-- Dual email delivery: diagnostic results to user + lead notification to Krish
-- Secret: `RESEND_API_KEY`
-
-### `notify-scoping-request`
-- Powers the `ScopingModal` submissions (the secondary booking surface); emails krish@themindmaker.ai via Resend + persists the request
-- Secret: `RESEND_API_KEY`
-
-### `notify-ctrl-waitlist`
-- CTRL waitlist signups (`CtrlWaitlistPopover`); emails krish@themindmaker.ai via Resend
-- Secret: `RESEND_API_KEY`
-
-### `create-consultation-hold` (bypassed)
-- Stripe authorization hold, currently bypassed. Nothing on the site charges through it.
-- Secret: `STRIPE_SECRET_KEY`
-
-### `company-search`
-- Thin, fast typeahead for the Diagnosis Room opener. Takes a partial company name, queries the Brandfetch Search API, and returns ranked matches with name, registrable domain, and CDN icon URL
-- Empty or very short queries degrade gracefully to empty results (200). Per-IP rate limit: 80 requests / 5 min
-- Secrets: `BRANDFETCH_API_KEY` or `BRANDFETCH_CLIENT_ID` (either works)
-
-### `submit-intake`
-- Receives pre-session intake form submissions. Inserts a row into the intake table and emails Krish a formatted brief (SNAPSHOT section: seat, AI confidence, value frame, aspiration, business one-liner, north star, role-aware handoff, remaining chip answers)
-- Deployed with `verify_jwt = false` (public form). Mirrors the `submit-testimonial` structure
-- Secrets: `RESEND_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
-
-### `submit-testimonial`
-- Public testimonial submission endpoint. Inserts a row into `public.testimonials` and emails Krish a notification. Includes a honeypot field for bot prevention
-- Deployed with `verify_jwt = false`. Validates permission level (free / edits / private)
-- Secrets: `RESEND_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
+- **`mindy-chat`** — Mindy's Diagnosis Room reasoning turn. Only caller is `useDiagnosisSession.ts`. Secret: `ANTHROPIC_API_KEY`.
+- **`generate-proposal`** — Diagnosis Room co-branded proposal + PDF. Only caller is `useDiagnosisSession.ts`. Secrets: `ANTHROPIC_API_KEY`, `BROWSERLESS_API_KEY`.
+- **`session-digest`** — Diagnosis Room end-of-session email to Krish. Only caller is `useDiagnosisSession.ts`. Secret: `RESEND_API_KEY`.
+- **`transcribe`** — Diagnosis Room mic input (OpenAI Whisper). Only called from `diagnosis/*` components. Secret: `OPENAI_API_KEY`.
+- **`company-search`** — Diagnosis Room opener typeahead (Brandfetch Search API). Only caller is `diagnosis/CompanyField.tsx`. Secrets: `BRANDFETCH_API_KEY` or `BRANDFETCH_CLIENT_ID`.
+- **`nervous-decision-machine`** — powers `nervous-decision/Input.tsx`, itself only used by the dormant `OperatorsBrief.tsx` and the dormant `Brief.tsx` page. Secret: `ANTHROPIC_API_KEY`.
+- **`get-ai-news`** — powers `useLiveBrief.ts`, only used by the dormant `Brief.tsx` page. Secret: `LOVABLE_API_KEY`.
+- **`get-market-sentiment`** — powers `useOpenAIContext.ts`, only used by the dormant `useRealisticCounters.ts`, which itself is not imported anywhere. Secret: `OPENAI_API_KEY`.
+- **`get-model-data`** — powers `useModelData.ts`, only used by the dormant `PriceTicker.tsx` / `LiveDecisionPreview.tsx`.
+- **`send-lead-email`** — only caller is the dormant `InitialConsultModal.tsx` (plus a dead helper `src/utils/emailNotification.ts` that nothing imports). Secrets: `RESEND_API_KEY`, `GEMINI_API_KEY` (preferred), `OPENAI_API_KEY` (fallback).
+- **`send-leadership-insights-email`** — only caller is `src/_archive/pages/LeadershipInsights.tsx`, explicitly archived. Secret: `RESEND_API_KEY`.
+- **`notify-scoping-request`** — only caller is the dormant `ScopingModal.tsx`. Secret: `RESEND_API_KEY`.
+- **`notify-ctrl-waitlist`** — only caller is `CtrlWaitlistPopover.tsx`, which itself is only imported by the archived `src/_archive/components/YFork.tsx`. Secret: `RESEND_API_KEY`.
+- **`create-consultation-hold`** — Stripe authorization hold. No caller found anywhere in `src/`. Secret: `STRIPE_SECRET_KEY`.
+- **`import-audience-csv`** — no caller found in `src/` or `public/`; presumably invoked out-of-band (an admin script or manual call), not part of any page flow. Gated by `AUDIENCE_IMPORT_SECRET`. Secrets: `SUPABASE_SERVICE_ROLE_KEY`, `AUDIENCE_IMPORT_SECRET`.
 
 ---
 
 ## State Management
 
 - **Routing / URL state:** React Router v6 (`BrowserRouter` in `App.tsx`)
-- **Server state:** TanStack Query (5-minute stale time)
-- **Form state:** React Hook Form + Zod schemas
-- **Context state:** `SessionDataContext` threads qualifier answers into the conversion modals. The Diagnosis Room holds its own session in `useDiagnosisSession` (dossier, transcript, recommendation, decision brief, proposal). `ThemeProvider` (next-themes) handles dark mode via class attribute.
-- **Local storage:** none required by the Diagnosis Room (session is in-memory; digests are server-side). The retired `PreCallQualifier`, now archived, used `mindmaker:pre-call-qualifier`.
+- **Server state:** TanStack Query (`useTestimonials`, `useBlogPosts`, etc.)
+- **Form state:** React Hook Form + Zod schemas where used (e.g. `/contact`)
+- **Context state:** `ThemeProvider` (next-themes) handles dark mode via class attribute — this is the only context provider mounted in `App.tsx`. `SessionDataContext` and `CurrencyContext` still exist in `src/contexts/` but are dormant: nothing in the live route tree wraps a provider around them (their only consumers are the dormant `InitialConsultModal.tsx`/`useDiagnosisSession.ts` and `CurrencySwitcher.tsx`/`Teardown`/`Handover`/`Capital`, respectively).
 - **No user authentication:** all bookings via Calendly; no user accounts
 
 ---
@@ -460,37 +363,36 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 ## Database
 
 - Supabase connected, minimal usage
-- Tables: `leads`, `company_research_cache`, `audience_contacts` (Substack CSV import, upserted on email + source), `testimonials` (public submissions via `submit-testimonial`)
-- RLS policies on all tables
+- Migrations present: `leads`, `company_research_cache`, `blog_posts`, a scoping-and-waitlist migration, `testimonials` (plus a later `testimonials_public_read` migration adding the `publishable_testimonials` view), `intake_submissions`, and an `engagement_intelligence` migration (2026-08-11) — the last one's exact table/column shape was not opened for this pass.
+- `useTestimonials.ts` reads `publishable_testimonials`, a view that exposes only consent-gated (`permission = 'free'`) rows — this is the mechanism behind the Steph Darmanin quote's conditional rendering on the homepage.
+- RLS policies expected on all tables; not individually re-verified here.
 
 ---
 
 ## Performance
 
-- Route-based code splitting via React Router + `React.lazy` (everything except Index)
+- Route-based code splitting via React Router + `React.lazy` (everything except `Index`)
 - Vite automatic chunking
-- Variable fonts (Inter Variable, Space Grotesk Variable), preloaded
-- Lucide React icons (SVG, tree-shakeable)
-- TanStack Query 5-min stale time
-- Hero background video (`/rising-cities.mp4`) preloaded
-- CTRL demo video (`/CTRL-demo-aug-26.mp4`) inline, muted and responsive, with play/pause and a load-error fallback
-- CSS-marquee `PriceTicker` (no native scrollbar, pauses on hover, respects `prefers-reduced-motion`)
-- `OrgChart` on `/new-age-leadership` is `Suspense`-lazy-loaded so it doesn't block hero LCP
+- Hero background video (`/rising-cities.mp4`) on Index
+- CTRL demo video (`CtrlDemoVideo.tsx`, `/CTRL-demo-aug-26.mp4`) inline, muted and responsive, on Index and Operator
+- `OrgChart` on `/new-age-leadership` is lazy-loaded so it doesn't block hero LCP
+- Not independently re-verified for this pass: specific font-loading and icon-library claims from the prior version of this document (Inter Variable / Space Grotesk Variable, Lucide React, TanStack Query stale time). `lucide-react` and TanStack Query are both still real dependencies per `package.json`.
 
 ---
 
 ## SEO & LLM Discoverability
 
-- Meta + Open Graph across all pages via `SEO.tsx`
-- Structured data (Schema.org JSON-LD); `/new-age-leadership` ships `Article` schema with `mainEntityOfPage`
+- `SEO.tsx` used across live pages for meta + Open Graph
 - `scripts/generate-sitemap.mjs` generates `public/sitemap.xml` during build
+- `scripts/generate-llms.mjs` generates `public/llms.txt` during build
 - `scripts/prerender.mjs` prerenders key routes post-build
-- `public/llms.txt` for LLM summaries
 - `public/robots.txt` allow-list for GPTBot, ClaudeBot, PerplexityBot, Google-Extended
-- `/operator` OG type set to `article`
-- Plausible events (`window.plausible(...)` if present):
-  - `operator_page_cta_clicked`. The commercial crossover CTA from `/operator`
-  - `diagnosis_room_*`. the Diagnosis Room funnel: `diagnosis_room_start`, `diagnosis_room_express_start`, `diagnosis_room_switch_to_full`, `diagnosis_room_view_brief`, `diagnosis_room_fork`, `diagnosis_room_book_call`, `diagnosis_room_generate_proposal`, `diagnosis_room_pdf_downloaded`, `diagnosis_room_digest_sent`
+- `vercel.json` sets `X-Robots-Tag: noindex, nofollow` on `/testimonials`, `/intake`, `/alumni`, and `index, follow` everywhere else
+- Plausible events actually fired from live code:
+  - `fit_call_clicked` (`BookFitCall.tsx`, with a `source` prop identifying where it was clicked) — the one conversion event on the live buying path
+  - `chart_node_clicked`, `chart_toggle_flipped` (`new-age/OrgChart.tsx`, on `/new-age-leadership`)
+  - `page_completed` (`new-age/AgathaStory.tsx`, on `/new-age-leadership`)
+  - All `diagnosis_room_*` and `operator_page_cta_clicked` events referenced in the prior version of this document belong to dormant code and are not fired from any live route today.
 
 ---
 
@@ -499,36 +401,29 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 ```bash
 npm run dev     # Vite dev server
 npm run lint    # ESLint
-npm run build   # Vite build → generate-sitemap.mjs → prerender.mjs → dist/
+npm run build   # vite build -> generate-sitemap.mjs -> generate-llms.mjs -> prerender.mjs -> dist/
+npm test        # Vitest
 ```
 
-Push to GitHub triggers Lovable / Vercel auto-deploy. Edge functions auto-deploy (30–60s propagation).
+Deployment mechanics (auto-deploy trigger, propagation time) were not re-verified for this pass; `README.md` states work happens on a working branch with a preview required before merge, and that production promotion is manual and not authorised by the rebuild in progress. See `project-documentation/REBUILD_STATE.md` for the current authority state.
 
 ---
 
 ## Secrets Reference
 
-| Secret | Purpose | Required |
+| Secret | Purpose | Status |
 |---|---|---|
-| `ANTHROPIC_API_KEY` | Mindy reasoning, proposal prose, Nervous Decision Machine | Yes |
-| `GOOGLE_AI_API_KEY` | Gemini company synthesis (`enrich-company`) | Recommended |
-| `GEMINI_API_KEY` | Lead enrichment with Google Search grounding (`send-lead-email`) | Yes (preferred) |
-| `OPENAI_API_KEY` | Whisper transcription, market sentiment, enrichment fallback | Yes |
-| `RESEND_API_KEY` | Email delivery (`session-digest` + `send-*`) | Yes |
-| `BROWSERLESS_API_KEY` | Proposal HTML → PDF (`generate-proposal`) | Recommended |
-| `BRANDFETCH_API_KEY` | Company identity / logo / colours (`enrich-company`); typeahead search (`company-search`) | Optional* |
-| `BRANDFETCH_CLIENT_ID` | Alternative credential for Brandfetch (`company-search` accepts either) | Optional* |
-| `PEOPLEDATALABS_API_KEY` | Company size / routing signal | Optional* |
-| `BUILTWITH_API_KEY` | Tech-stack signal | Optional* |
-| `EXA_API_KEY` | Proof matching + currency | Optional* |
-| `PERPLEXITY_API_KEY` | Company currency / recent signals | Optional* |
-| `NEWSAPI_API_KEY` | Recent news for the dossier | Optional* |
-| `AUDIENCE_IMPORT_SECRET` | Gate for `import-audience-csv` | Optional |
-| `LOVABLE_API_KEY` | AI Gateway (auto-provisioned by Lovable Cloud) | Auto |
-| `STRIPE_SECRET_KEY` | Payment holds, bypassed. Nothing on the site charges through it | Optional |
-| `SUPABASE_*` | Auto-configured by Lovable Cloud | Auto |
-
-\* Each missing `enrich-company` key just disables that one tool; the dossier degrades but does not fail.
+| `RESEND_API_KEY` | Email delivery: `send-contact-email` (live), `submit-intake`/`submit-testimonial` (live), plus `session-digest`/`send-lead-email`/`send-leadership-insights-email`/`notify-scoping-request`/`notify-ctrl-waitlist` (all dormant) | **Required for live site** |
+| `SUPABASE_SERVICE_ROLE_KEY` | `submit-intake`, `submit-testimonial`, also `import-audience-csv` | **Required for live site** |
+| `ANTHROPIC_API_KEY` | `personalize-intake` (live, optional enhancement); also `mindy-chat`, `generate-proposal`, `nervous-decision-machine` (dormant) | Required for the live `/intake` personalisation to work; `/intake` degrades gracefully without it |
+| `BRANDFETCH_API_KEY` / `BRANDFETCH_CLIENT_ID` | `enrich-company` (live, via `/intake`, `depth:'identity'`); `company-search` (dormant) | Recommended for live — `/intake` degrades gracefully without it |
+| `GOOGLE_AI_API_KEY`, `PEOPLEDATALABS_API_KEY`, `BUILTWITH_API_KEY`, `EXA_API_KEY`, `PERPLEXITY_API_KEY`, `NEWSAPI_API_KEY` | `enrich-company` full-depth synthesis | Only reached via the dormant Diagnosis Room path, not via `/intake`'s `identity`-depth call — effectively dormant for the live site |
+| `GEMINI_API_KEY`, `OPENAI_API_KEY` | `send-lead-email`, `get-market-sentiment`, `transcribe` | Dormant-only |
+| `BROWSERLESS_API_KEY` | `generate-proposal` | Dormant-only |
+| `LOVABLE_API_KEY` | `get-ai-news` | Dormant-only |
+| `STRIPE_SECRET_KEY` | `create-consultation-hold` | Dormant-only, no caller found |
+| `AUDIENCE_IMPORT_SECRET` | Gate for `import-audience-csv` | Only relevant if that function is still invoked out-of-band |
+| `SUPABASE_*` (URL, anon key) | General Supabase client config | **Required for live site** |
 
 ---
 

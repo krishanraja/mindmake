@@ -1,12 +1,14 @@
 # Replication Guide
 
-**Last Updated:** 2026-08-11
+**Last Updated:** 2026-08-16
 
 ---
 
 ## Overview
 
 Step-by-step instructions to replicate the Mindmaker platform. Follow in order.
+
+**Read this before following any step below.** The repo pivoted its commercial model on 2026-08-12 (see root `CLAUDE.md` and `project-documentation/DECISIONS_LOG.md`) from a two-offer ladder sold through the Diagnosis Room, `ScopingModal`, and `InitialConsultModal` to **one public offer** (a 21-day Sprint at `/sprint`, no public price) sold through a single **"Book a fit call"** CTA (`src/components/BookFitCall.tsx`). Verified against `src/App.tsx`: none of the Diagnosis Room, `ScopingModal`, `InitialConsultModal`, `Brief.tsx` (Live Intel / `/signal`), `Teardown.tsx`, `Handover.tsx`, or `Capital.tsx` components are imported or routed to any more. Their source files still exist in the repo, and several steps below still describe setting them up — those steps are marked **"Optional — dormant feature set"** and are not required to stand up the current live site. Skip them for a baseline replication unless you are deliberately reviving a paused feature.
 
 **Prerequisites:**
 - Node.js 18+
@@ -52,8 +54,10 @@ npm install @supabase/supabase-js
 npm install zod react-hook-form
 npm install sonner
 npm install next-themes
-npm install react-helmet-async
+npm install react-helmet
 ```
+
+Verified against `package.json` (2026-08-16): the live dependency is **`react-helmet`** (`^6.1.0`), not `react-helmet-async` as this step previously said. `package.json` also carries several dependencies this list doesn't mention (`date-fns`, `embla-carousel-react`, `react-markdown`, `reactflow`, `vaul`, `pdfmake`, `@tailwindcss/typography`, `canvas`, `playwright`, among others) — treat this list as a minimum, not exhaustive, set and cross-check `package.json` directly before a real install.
 
 ### Step 5: Configure Tailwind
 Copy `tailwind.config.ts` from the repo. See `DESIGN_SYSTEM.md` for tokens.

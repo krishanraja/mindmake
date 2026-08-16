@@ -15,8 +15,9 @@ Step-by-step instructions to replicate the Mindmaker platform. Follow in order.
 - npm
 - Git
 - Lovable account (`lovable.dev`), or Vercel + Supabase if going non-Lovable
-- Calendly account
-- Anthropic, OpenAI, Resend accounts
+- Calendly account (required — every live sales action links here via `BOOKING_URL`)
+- Resend account (required, for the live contact/testimonial/intake emails)
+- Anthropic and OpenAI accounts (optional — only needed if reviving the paused Diagnosis Room / Nervous Decision Machine feature set; see Phase 5)
 
 **Note:** Stripe integration exists (`create-consultation-hold`) but is currently bypassed. Not required for initial setup.
 
@@ -72,104 +73,129 @@ Copy `src/index.css` from the repo. See `DESIGN_SYSTEM.md`.
 ### Step 7: shadcn/ui components
 Copy files from `src/components/ui/`.
 
-### Step 8: Layout components
+### Step 8: Layout components (required)
 ```
-src/components/Navigation.tsx          # Workshops / Cohort / Enterprise / Mindmaker LIVE / Resources / About
+src/components/Navigation.tsx          # "The Sprint" / "Results" links + external Mindmaker Live pill + BookFitCall
 src/components/Footer.tsx
-src/components/diagnosis/              # Diagnosis Room (Mindy), primary conversion surface (openDiagnosisRoom event listener); also a standalone page at /start
-src/components/ScopingModal.tsx        # secondary booking surface "Scope it with me" (openScopingModal event listener)
-src/components/InitialConsultModal.tsx # legacy conversion surface (openConsultModal listener; dispatched only from /alumni)
+src/components/BookFitCall.tsx         # the one live sales-action button (links to Calendly, no modal)
 src/components/CookieConsent.tsx
 ```
 
+**Optional — dormant feature set, not mounted in `src/App.tsx`:**
+```
+src/components/diagnosis/              # Diagnosis Room (Mindy); paused 2026-08-12, unmounted
+src/components/ScopingModal.tsx        # secondary "Scope it with me" surface; paused, unmounted
+src/components/InitialConsultModal.tsx # legacy surface; paused, unmounted (previously dispatched from /alumni)
+```
+These still exist in the tree and are still referenced by other dormant components, but `App.tsx` mounts none of them. Only build these if you are deliberately reviving the paused conversion surfaces.
+
 ### Step 9: Page components
+**Required — matches the live route tree in `src/App.tsx` (verified 2026-08-16):**
 ```
 src/pages/Index.tsx                    # homepage (eager-loaded)
-src/pages/Teardown.tsx                 # The Teardown, one price, currency switcher
-src/pages/Handover.tsx                 # The Handover, three bands by headcount
-src/pages/Operator.tsx                 # 14-agent OS credential page (shared /CTRL-demo-aug-26.mp4 player)
-src/pages/Brief.tsx                    # Live Intel (/signal)
-src/pages/Capital.tsx                  # The same two engagements, per portfolio company
-src/pages/NewAgeLeadership.tsx         # /new-age-leadership thought leadership
-src/pages/Blog.tsx, BlogPost.tsx
-src/pages/Library.tsx, CaseStudies.tsx, Alumni.tsx, Contact.tsx, Privacy.tsx, Terms.tsx
-src/pages/NotFound.tsx
+src/pages/Sprint.tsx                   # /sprint — the one public offer
+src/pages/CaseStudies.tsx              # /case-studies — approved proof archive
+src/pages/Operator.tsx                 # /operator
+src/pages/Blog.tsx, BlogPost.tsx       # /blog, /blog/:slug
+src/pages/Library.tsx                  # /library
+src/pages/NewAgeLeadership.tsx         # /new-age-leadership
+src/pages/Contact.tsx                  # /contact
+src/pages/Privacy.tsx, Terms.tsx       # /privacy, /terms
+src/pages/Alumni.tsx                   # /alumni
+src/pages/NotFound.tsx                 # catch-all
 ```
+
+**Optional — dormant, not referenced by any `<Route>` in `App.tsx`:**
+```
+src/pages/Teardown.tsx                 # The Handover / Teardown ladder retired 2026-08-12
+src/pages/Handover.tsx
+src/pages/Capital.tsx
+src/pages/Brief.tsx                    # old in-app Live Intel dashboard; /signal is now an external redirect
+```
+`/leaders`, `/leadership-insights`, `/workshops`, `/enterprise`, `/cohort`, `/immersion`, and other legacy paths have no page component at all any more — they resolve to a shared `<Navigate to="/sprint" replace />` fallback in `App.tsx`, not a dedicated page.
 
 ### Step 10: Homepage section components
+**As of 2026-08-16, `src/pages/Index.tsx` does not import any of the components previously listed here** (`NewHero`, `BigProblem`, `TrustSection`, `TwoDoors`, `OperatorsEdge`, `OperatorsBrief`, `PriceTicker`, `SimpleCTA` are all unreferenced from the live homepage). Its actual imports are:
 ```
-src/components/NewHero.tsx             # rotating headlines + "Bring me one real decision" (opens the Diagnosis Room)
-src/components/BigProblem.tsx          # existential urgency frame (cards open the ScopingModal)
-src/components/TrustSection.tsx        # Krish bio + testimonials carousel
-src/components/TwoDoors.tsx            # do it yourself with CTRL, or do it with Krish
-src/components/OperatorsEdge.tsx       # dark-bg typography-only credential section
-src/components/OperatorsBrief.tsx      # Live Intel homepage teaser
-src/components/PriceTicker.tsx         # CSS-marquee model price ticker
-src/components/SimpleCTA.tsx
+src/components/Navigation.tsx
+src/components/Footer.tsx
+src/components/BookFitCall.tsx
+src/components/SEO.tsx
+src/components/Animations/ParticleBackground.tsx
+src/components/CtrlDemoVideo.tsx           # shared /CTRL-demo-aug-26.mp4 player
+src/hooks/useTestimonials.ts
+src/data/rebuildProof.ts                   # proof data used by the rebuild
 ```
+The older component list above is **optional — dormant feature set**: useful only if reviving the pre-pivot homepage build, and even then, verify each component still compiles against the current design tokens before relying on this list.
 
-### Step 10b: New Age Leadership components
+### Step 10b: New Age Leadership components (required)
 ```
 src/components/new-age/OrgChart.tsx    # interactive agent-native org chart (lazy-loaded)
 src/components/new-age/AgathaStory.tsx # embedded narrative + completion beacon
 ```
+Both are imported by the live `src/pages/NewAgeLeadership.tsx`.
 
-### Step 11: Nervous Decision Machine components
+### Step 11: Nervous Decision Machine components — Optional, dormant feature set
 ```
 src/components/nervous-decision/Input.tsx     # compact + full sizes
 src/components/nervous-decision/Artifact.tsx
 src/components/nervous-decision/types.ts
 ```
+Not imported by any live page (its only referrers are `OperatorsBrief.tsx` and `Brief.tsx`, both dormant). Skip for a baseline replication of the current site.
 
-### Step 11b: Diagnosis Room (Mindy), primary conversion surface
+### Step 11b: Diagnosis Room (Mindy) — Optional, dormant feature set, paused 2026-08-12
 ```
-src/components/diagnosis/                      # full-screen on-site experience; mount globally and open via openDiagnosisRoom (detail: { source_page, seedDecision?, mode: 'express' | 'full' }); also a standalone page at /start
+src/components/diagnosis/                      # full-screen on-site experience; not mounted in App.tsx as of 2026-08-12
 ```
-Mindy diagnoses the visitor's one nervous AI decision and forks to three honest exits: keep chatting, book a fit call, or generate/download a co-branded "Mindmaker × [company]" proposal. Backed by the `mindy-chat`, `enrich-company`, `generate-proposal`, `session-digest`, and `transcribe` (Whisper voice input) edge functions (see Phase 4).
+When it was live, Mindy diagnosed the visitor's one nervous AI decision and forked to three exits: keep chatting, book a call, or generate/download a co-branded "Mindmaker × [company]" proposal, backed by the `mindy-chat`, `enrich-company`, `generate-proposal`, `session-digest`, and `transcribe` edge functions (see Phase 4). None of that is reachable on the live site today. Build this only if explicitly reviving the paused journey.
 
 ### Step 12: Global context + hooks
+**Required:**
 ```
-src/contexts/SessionDataContext.tsx     # threads qualifier data into modal
-src/hooks/useModelData.ts               # ALLOWED_MODEL_IDS allowlist
-src/hooks/useScrollDirection.ts         # navbar hide/show
-src/hooks/useLeadershipInsights.ts
+src/hooks/useScrollDirection.ts         # navbar hide/show; used by the live Navigation.tsx
+src/hooks/useTestimonials.ts            # used by Index.tsx and CaseStudies.tsx
+```
+
+**Optional — dormant, only referenced from unmounted components:**
+```
+src/contexts/SessionDataContext.tsx     # only consumed by the dormant InitialConsultModal.tsx
+src/hooks/useModelData.ts               # ALLOWED_MODEL_IDS allowlist; only consumed by dormant PriceTicker.tsx / LiveDecisionPreview.tsx
+src/hooks/useLeadershipInsights.ts      # only consumed by the archived src/_archive/pages/LeadershipInsights.tsx
 ```
 
 ---
 
 ## Phase 4: Edge Functions
 
-### Step 13: Create Nervous Decision Machine function
-```
-supabase/functions/nervous-decision-machine/index.ts
-```
-- Model: `claude-haiku-4-5-20251001`
-- Max 1500 tokens
-- JSON output schema in system prompt
-- Krish's voice enforced
-- 1-hour per-IP rate limit + global ceiling (soft circuit breaker)
-- Secret: `ANTHROPIC_API_KEY`
+**Note (2026-08-16):** Root `CLAUDE.md` says not to edit Supabase, the CTRL repository, or the control centre as part of the website rebuild. Treat this whole phase as reference for what exists, not a to-do list to reproduce wholesale — build only the functions the pages you're actually standing up call.
 
-### Step 14: Create other functions
+**Required for the live site (still reachable from `src/` or the static `/testimonials` and `/intake` pages under `public/`, per `vercel.json` rewrites):**
 ```
-supabase/functions/get-ai-news/index.ts               # Operator's Brief content
+supabase/functions/send-contact-email/index.ts         # Contact.tsx (/contact)
+supabase/functions/submit-testimonial/index.ts         # testimonial submission (public /testimonials page + CaseStudies/Index carousel)
+supabase/functions/submit-intake/index.ts               # public /intake page
+```
+
+**Optional — dormant, only reachable from unmounted components or edge functions with no live caller (verify current need before building):**
+```
+supabase/functions/nervous-decision-machine/index.ts  # Nervous Decision Machine; not imported by any live page
+supabase/functions/get-ai-news/index.ts                # Operator's Brief content; OperatorsBrief.tsx is dormant
 supabase/functions/get-market-sentiment/index.ts
-supabase/functions/get-model-data/index.ts            # PriceTicker feed
-supabase/functions/send-lead-email/index.ts           # OpenAI enrichment + Resend
-supabase/functions/send-contact-email/index.ts
-supabase/functions/send-leadership-insights-email/index.ts
-supabase/functions/notify-scoping-request/index.ts    # ScopingModal intake → emails krish@themindmaker.ai (Resend)
-supabase/functions/notify-ctrl-waitlist/index.ts       # CTRL waitlist signup → emails krish@themindmaker.ai (Resend)
-supabase/functions/mindy-chat/index.ts                 # Diagnosis Room (Mindy) conversation
-supabase/functions/enrich-company/index.ts             # Diagnosis Room company enrichment
-supabase/functions/generate-proposal/index.ts          # Diagnosis Room co-branded proposal generation
-supabase/functions/session-digest/index.ts             # Diagnosis Room session digest
-supabase/functions/transcribe/index.ts                 # Whisper voice input for the Diagnosis Room
-supabase/functions/create-consultation-hold/index.ts  # Stripe (bypassed)
-supabase/functions/company-search/index.ts             # Brandfetch Search API typeahead (Diagnosis Room opener)
-supabase/functions/submit-intake/index.ts              # pre-session intake form → row + email brief to Krish
-supabase/functions/submit-testimonial/index.ts         # public testimonial submission → testimonials table + email Krish
+supabase/functions/get-model-data/index.ts             # PriceTicker feed; PriceTicker.tsx is dormant
+supabase/functions/send-lead-email/index.ts            # OpenAI enrichment + Resend
+supabase/functions/send-leadership-insights-email/index.ts  # only used by the archived LeadershipInsights.tsx
+supabase/functions/notify-scoping-request/index.ts     # ScopingModal intake; ScopingModal is unmounted
+supabase/functions/notify-ctrl-waitlist/index.ts       # CtrlWaitlistPopover; only referenced from an archived component
+supabase/functions/mindy-chat/index.ts                 # Diagnosis Room (Mindy) conversation; paused
+supabase/functions/enrich-company/index.ts             # Diagnosis Room company enrichment; paused
+supabase/functions/generate-proposal/index.ts          # Diagnosis Room co-branded proposal generation; paused
+supabase/functions/session-digest/index.ts             # Diagnosis Room session digest; paused
+supabase/functions/transcribe/index.ts                 # Whisper voice input for the Diagnosis Room; paused
+supabase/functions/create-consultation-hold/index.ts   # Stripe (bypassed; not wired into any live flow)
+supabase/functions/company-search/index.ts              # Brandfetch typeahead for the Diagnosis Room opener; paused
 ```
+
+If a step below (Anthropic, OpenAI) exists only to support functions in the optional list, it is itself optional for a baseline replication of the current live site.
 
 ### Step 15: Configure functions
 ```toml
@@ -217,121 +243,107 @@ verify_jwt = false
 
 ## Phase 5: Integrations
 
-### Step 16: Anthropic
+### Step 16: Anthropic — Optional, only needed for the dormant AI feature set
+Needed only if reviving the Nervous Decision Machine or Diagnosis Room (Mindy), which call Anthropic per `supabase/functions/nervous-decision-machine`, `mindy-chat`, and the `_shared/enrich/` helpers. Not required for a baseline replication of the current live site.
 1. `console.anthropic.com` → API Keys → create key
 2. Supabase: Settings → Secrets → add `ANTHROPIC_API_KEY`
 
-### Step 17: OpenAI
+### Step 17: OpenAI — Optional, only needed for the dormant AI/lead-enrichment feature set
+Needed only for `send-lead-email` and the Diagnosis Room enrichment functions. Not required for the live site's contact, testimonial, or intake forms.
 1. `platform.openai.com` → API keys
 2. Supabase: add `OPENAI_API_KEY`
 
-### Step 18: Resend
+### Step 18: Resend — Required
+Backs the live `send-contact-email`, `submit-testimonial`, and `submit-intake` functions.
 1. `resend.com` → API keys
 2. Verify sending domain
 3. Supabase: add `RESEND_API_KEY`
 
-### Step 19: Calendly
-1. Create event type: "Mindmaker Initial Consultation"
-2. 30–45 minutes
-3. Set redirect URL in `InitialConsultModal` flow
+### Step 19: Calendly — Required
+1. Create the fit-call event type in Calendly.
+2. Set its URL as `BOOKING_URL` in `src/lib/publicLinks.ts` — this is the single verified destination every `BookFitCall` click opens directly (no redirect URL to configure on a modal; there is no modal in the live flow).
 
 ### Step 19b: Payments
-There is no checkout to build. Neither engagement transacts on the site: the Teardown price is published and the deal is invoiced direct, and the Handover always goes through a call. The third-party course platform that used to collect payment went with the six-rung ladder in August 2026.
+There is no checkout to build. As of 2026-08-12 the Sprint is the one public engagement, its price is not public, and it does not transact on the site — every path to booking runs through the `BookFitCall` CTA to Calendly. (The old note about the Teardown's published price and the Handover's call-only path describes the retired two-offer ladder and no longer applies; The Handover and The Teardown are retired and unrouted.)
 
 `src/lib/stripe-prices.ts` holds identifiers and never prices (prices live in `src/lib/offers.ts`, and a test enforces that). One entry remains, for the invitation-only continuity product on `/alumni`, and even that has no in-page checkout: eligibility is confirmed first and a payment link is sent out of band.
 
 ### Step 20: Plausible (optional)
-Track `operator_page_cta_clicked` on the `/operator` crossover CTA, and the `diagnosis_room_*` events on the Diagnosis Room (Mindy) journey.
+The one verified live event is **`fit_call_clicked`**, fired by `src/components/BookFitCall.tsx` with a `source` prop (nav, hero, `/sprint`, etc.) on every "Book a fit call" click. The previously documented `operator_page_cta_clicked` event no longer appears in `src/pages/Operator.tsx` — verify against the current source before relying on it. The `diagnosis_room_*` events belong to the paused Diagnosis Room journey and are not fired by any mounted component.
 
 ---
 
 ## Phase 6: Routing
 
-`src/App.tsx`:
+**Rewritten 2026-08-16 to match the live `src/App.tsx` exactly** (the block previously here — `Workshops`, `Cohort`, `Enterprise`, `Immersion`, `LeadershipInsights`, `HashRedirect`, standalone `/start` Diagnosis Room, `/signal` → `Brief` — described the pre-2026-08-12 route tree and no components with those names remain wired into `App.tsx`; several, like `Workshops`/`Cohort`/`Enterprise`/`Immersion`/`LeadershipInsights`, have no page component in `src/pages/` at all any more):
 
 ```tsx
-// Live routes
+// Live pages
 <Route path="/" element={<Index />} />
-<Route path="/workshops" element={<Workshops />} />
-<Route path="/workshops/build-your-ai-chief-of-staff" element={<WorkshopChiefOfStaff />} />
-<Route path="/workshops/map-your-agentic-org-chart" element={<WorkshopOrgChart />} />
-<Route path="/workshops/vibe-coding-for-leaders" element={<WorkshopVibeCoding />} />
-<Route path="/workshops/build-an-autonomous-business-function" element={<WorkshopAutonomous />} />
-<Route path="/workshops/give-your-ai-memory" element={<WorkshopMemory />} />
-<Route path="/cohort" element={<Cohort />} />
-<Route path="/enterprise" element={<Enterprise />} />
-<Route path="/capital" element={<Capital />} />
-<Route path="/case-studies" element={<CaseStudies />} /> {/* filterable, anonymised COHORT-STYLE / ENTERPRISE proof */}
-<Route path="/start" element={<DiagnosisRoom />} /> {/* standalone Diagnosis Room (Mindy) */}
+<Route path="/sprint" element={<Sprint />} />              {/* the one public offer */}
+<Route path="/case-studies" element={<CaseStudies />} />
 <Route path="/operator" element={<Operator />} />
-<Route path="/signal" element={<Brief />} />
-<Route path="/library" element={<Library />} />
-<Route path="/immersion" element={<Immersion />} />
-<Route path="/alumni" element={<Alumni />} /> {/* unlinked from nav and footer; SEO noindex */}
-<Route path="/new-age-leadership" element={<NewAgeLeadership />} />
-<Route path="/leaders" element={<LeadershipInsights />} />
-<Route path="/leadership-insights" element={<LeadershipInsights />} />
+
+// External redirects — ExternalRedirect calls window.location.replace()
+<Route path="/start" element={<ExternalRedirect to={BOOKING_URL} />} />
+<Route path="/decision" element={<ExternalRedirect to={BOOKING_URL} />} />
+<Route path="/signal" element={<ExternalRedirect to={MINDMAKER_LIVE_URL} />} />
+<Route path="/builder-economy" element={<ExternalRedirect to={MINDMAKER_LIVE_URL} />} />
+
 <Route path="/blog" element={<Blog />} />
 <Route path="/blog/:slug" element={<BlogPost />} />
+<Route path="/library" element={<Library />} />
+<Route path="/new-age-leadership" element={<NewAgeLeadership />} />
 <Route path="/contact" element={<Contact />} />
 <Route path="/privacy" element={<Privacy />} />
 <Route path="/terms" element={<Terms />} />
+<Route path="/alumni" element={<Alumni />} />
 
-// Internal redirects (HashRedirect preserves query + hash)
-<Route path="/tool" element={<Navigate to="/signal#decision" replace />} />
-<Route path="/sprints" element={<HashRedirect to="/cohort" />} />
-<Route path="/sprint/4-week" element={<HashRedirect to="/cohort?inquiry=1:1" />} />
-<Route path="/sprint/90-day" element={<HashRedirect to="/cohort?inquiry=1:1" />} />
-<Route path="/builder-sprint" element={<HashRedirect to="/cohort?inquiry=1:1" />} />
-<Route path="/war-room" element={<HashRedirect to="/enterprise#revenue-architecture" />} />
-<Route path="/strategy-day" element={<HashRedirect to="/enterprise#signal-session" />} />
-<Route path="/fractional-caio" element={<HashRedirect to="/enterprise" />} />
+// Internal redirects to /sprint — const ToSprint = () => <Navigate to="/sprint" replace />
+<Route path="/teardown" element={<ToSprint />} />
+<Route path="/handover" element={<ToSprint />} />
+<Route path="/capital" element={<ToSprint />} />
+<Route path="/tool" element={<ToSprint />} />
+<Route path="/faq" element={<Navigate to="/library?tab=questions" replace />} />
 
-// External redirect
-<Route path="/builder-economy" element={<ExternalRedirect to="https://www.thebuildereconomy.com" />} />
-
-// Legacy cleanup
-<Route path="/individual" element={<Navigate to="/" replace />} />
-<Route path="/team" element={<Navigate to="/" replace />} />
-<Route path="/builder" element={<Navigate to="/" replace />} />
-<Route path="/builder-session" element={<Navigate to="/" replace />} />
-<Route path="/leadership-lab" element={<Navigate to="/" replace />} />
-<Route path="/portfolio-program" element={<Navigate to="/" replace />} />
+// Legacy paths, all mapped to ToSprint via a single .map() over this array:
+// "/workshops", "/enterprise", "/immersion", "/cohort", "/leaders", "/leadership-insights",
+// "/sprints", "/sprint/4-week", "/sprint/90-day", "/builder-sprint", "/war-room",
+// "/strategy-day", "/fractional-caio", "/individual", "/team", "/builder",
+// "/builder-session", "/leadership-lab", "/portfolio-program"
+<Route path="/workshops/:slug" element={<ToSprint />} />
 
 <Route path="*" element={<NotFound />} />
 ```
 
+`BOOKING_URL` and `MINDMAKER_LIVE_URL` come from `src/lib/publicLinks.ts`. Only `Index` is eager-loaded; every other page is `lazy()`-loaded.
+
 ### Global overlays
-Mount inside `BrowserRouter` but outside `<Routes>`:
+Mount inside `BrowserRouter`, outside `<Routes>`:
 ```tsx
-<DiagnosisRoom />         {/* primary; listens for openDiagnosisRoom; lazy / SSG-safe */}
-<ScopingModal />          {/* secondary; listens for openScopingModal */}
-<InitialConsultModal />   {/* legacy; listens for openConsultModal, dispatched only from /alumni */}
 <CookieConsent />
 ```
+That's the only one. `DiagnosisRoom`, `ScopingModal`, and `InitialConsultModal` are **not** mounted as global overlays as of 2026-08-12 — do not add them back without an explicit product decision to revive the paused journeys.
 
 ---
 
 ## Phase 7: Testing
 
 ### Step 21: Local test flows
-Verify end-to-end:
-1. Homepage loads with rotating headlines + "Book a call" CTA
-2. "Book a call" (nav + hero) opens the Diagnosis Room (Mindy) in express mode via `openDiagnosisRoom`; no Y-fork and no floating pill render on the homepage
-3. Framework Journey animation plays
-4. Operator's Edge renders with "Beyond pattern recognition" at correct scale
-5. Operator's Brief teaser shows PriceTicker + rotating interpretation + compact NDM input
-6. `/cohort` loads with offer detail and inquiry-only banner when `?inquiry=1:1` present
-7. `/enterprise` loads with `#signal-session` and `#revenue-architecture` anchors
-8. `/operator` loads with 14-agent static diagram, no scrolling logs
-9. `/signal` loads full Operator's Brief dashboard with WATCH / SKIP / CALL / TAKE filter pills
-10. Nervous Decision Machine returns typed response on both homepage and `/signal`
-11. "Book a call" CTA (nav, hero, `SimpleCTA`) opens the Diagnosis Room (Mindy) via `openDiagnosisRoom`; the secondary `ScopingModal` (`openScopingModal`) opens from the offer pages, the `BigProblem` cards, and `/case-studies` (the legacy `InitialConsultModal` / `openConsultModal` path is now used only by `/alumni`)
-12. Diagnosis Room (Mindy) diagnoses the decision and forks to three exits (keep chatting, book a fit call, generate/download a co-branded proposal); standalone page at `/start` also loads
-13. `/leaders` diagnostic completes end-to-end
-14. All redirects function (see Phase 6)
-15. Mobile works (375px)
-16. No `text-mint` on light backgrounds anywhere
+**Rewritten 2026-08-16 to test the live route tree and CTA contract; the previous list tested the pre-2026-08-12 two-offer ladder and Diagnosis Room journey, none of which is reachable any more.** Root `CLAUDE.md`'s "Required checks" section is the authoritative current test contract — run the focused route and disclosure tests, the production build, lint comparison, and desktop/390px browser checks. As a baseline, verify end-to-end:
+1. Homepage (`/`) loads and every main sales action renders `<BookFitCall />`, labelled "Book a fit call"
+2. "Book a fit call" (nav, mobile nav, hero) opens Calendly (`BOOKING_URL` from `publicLinks.ts`) in a new tab with the expected `?utm_source=<source>` param — it does not open any in-page modal
+3. `/sprint` loads and its own "Book a fit call" CTA works the same way
+4. `/case-studies` loads with the approved proof archive; no offer labels on case studies, no attendee brands described as clients
+5. `/operator` loads
+6. `/start` and `/decision` redirect straight to Calendly; `/signal` and `/builder-economy` redirect straight to `https://live.themindmaker.ai` — none of the three renders an in-app page
+7. All legacy routes (`/teardown`, `/handover`, `/capital`, `/tool`, `/workshops`, `/enterprise`, `/cohort`, `/immersion`, `/leaders`, `/leadership-insights`, `/sprints`, `/sprint/4-week`, `/sprint/90-day`, `/builder-sprint`, `/war-room`, `/strategy-day`, `/fractional-caio`, `/individual`, `/team`, `/builder`, `/builder-session`, `/leadership-lab`, `/portfolio-program`) redirect to `/sprint`; `/faq` redirects to `/library?tab=questions`
+8. No public price, discount, or currency switcher appears anywhere on the live site
+9. No Diagnosis Room, `ScopingModal`, or `InitialConsultModal` UI renders anywhere, and no button dispatches `openDiagnosisRoom` / `openScopingModal` / `openConsultModal`
+10. `/blog`, `/blog/:slug`, `/library`, `/new-age-leadership`, `/contact`, `/privacy`, `/terms`, `/alumni` all load
+11. Mobile works (390px, per root `CLAUDE.md`'s required checks) and desktop works
+12. No `text-mint` on light backgrounds anywhere
+13. Visible focus states, reduced-motion support, no layout overflow, no browser console errors, and one-hop redirects (per root `CLAUDE.md`)
 
 ---
 
@@ -347,7 +359,7 @@ Verify end-to-end:
 - All redirects work, including `/builder-economy` → external
 - Edge functions respond (check Lovable logs)
 - No console errors on any page
-- Analytics (Plausible) recording `operator_page_cta_clicked`
+- Analytics (Plausible) recording `fit_call_clicked` on "Book a fit call" clicks
 
 ---
 

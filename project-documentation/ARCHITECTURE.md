@@ -1,8 +1,8 @@
 # Architecture
 
-> The route, offer and conversion sections below describe the pre-rebuild system and are kept only as technical history. For the current public contract, use `README.md`, `CLAUDE.md`, `REBUILD_STATE.md` and `CTA_PATH_AUDIT.md`. Active truth is one 21-day Sprint, one shared fit-call action, and no mounted Diagnosis Room.
+> This file now leads with the **current** architecture: real routes, real navigation, the one Sprint offer, and the actual booking flow (visitor → `BookFitCall` → Calendly). Sections explicitly marked **Historical (pre-rebuild)** describe the earlier Diagnosis Room / Nervous Decision Machine / ladder-of-offers system. That code is largely still in the repo but is dormant and unrouted — treat it as technical history, not current product truth. For the current public contract, also see `README.md`, `CLAUDE.md`, `REBUILD_STATE.md` and `CTA_PATH_AUDIT.md`.
 
-**Last Updated:** 2026-08-11
+**Last Updated:** 2026-08-23
 
 ---
 
@@ -69,7 +69,6 @@ mindmaker/
 │   │   ├── new-age/                  # /new-age-leadership components
 │   │   │   ├── OrgChart.tsx          # interactive agent-native org chart (lazy)
 │   │   │   └── AgathaStory.tsx       # embedded narrative + completion beacon
-│   │   ├── proof/                    # CaseStudyCard (for /case-studies)
 │   │   ├── NewHero.tsx               # rotating headlines; CTAs open the Diagnosis Room
 │   │   ├── BigProblem.tsx            # three interactive flip cards
 │   │   ├── TrustSection.tsx          # Krish bio + testimonials carousel
@@ -92,8 +91,9 @@ mindmaker/
 │   │   # Workshops.tsx + workshops/, Cohort.tsx, Enterprise.tsx, Immersion.tsx and
 │   │   # LeadershipInsights.tsx moved to src/_archive/pages/ in August 2026. Their
 │   │   # routes are real 301s in vercel.json. See src/_archive/README.md.
-│   │   ├── Handover.tsx              # /handover. Three price bands by headcount
-│   │   ├── Capital.tsx               # /capital. The same two, per portfolio company
+│   │   ├── Sprint.tsx                # /sprint, the one public paid offer
+│   │   ├── Handover.tsx              # dormant, /handover now redirects to /sprint
+│   │   ├── Capital.tsx               # dormant, /capital now redirects to /sprint
 │   │   ├── Operator.tsx              # /operator, 14-agent OS credential
 │   │   ├── CaseStudies.tsx           # /case-studies, filterable anonymised proof
 │   │   ├── Brief.tsx                 # Live Intel, /signal
@@ -114,7 +114,9 @@ mindmaker/
 │   ├── contexts/
 │   │   └── SessionDataContext.tsx    # threads qualification data into modal
 │   ├── data/
+│   │   └── rebuildProof.ts           # attendeeBrands + clientStories proof data
 │   ├── lib/
+│   │   └── publicLinks.ts            # verified public destinations (BOOKING_URL, MINDMAKER_LIVE_URL)
 │   ├── integrations/supabase/
 │   ├── utils/
 │   │   └── calendly.ts
@@ -172,109 +174,108 @@ mindmaker/
 
 Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `React.lazy`.
 
-### Live pages
+### Direct pages
 
 | Route | Page | Notes |
 |---|---|---|
-| `/` | `Index` | Homepage, eager-loaded. CTAs open the Diagnosis Room. |
-| `/start` | `DiagnosisRoom` (full page) | The Diagnosis Room (Mindy) as a standalone page. |
-| `/teardown` | `Teardown` | The Teardown. One price, currency switcher, the four-step method. |
-| `/handover` | `Handover` | The Handover. Three bands by headcount, the six weeks, the Teardown gate, the $254K POC. |
-| `/capital` | `Capital` | The third door. The same two engagements, priced per portfolio company; fund terms on the call. |
-| `/operator` | `Operator` | How I operate. The 14-agent OS credential page. Looping `/CTRL-demo-aug-26.mp4`. |
-| `/case-studies` | `CaseStudies` | Filterable anonymised proof, by Teardown / Handover. Consent-gated testimonials. |
-| `/signal` | `Brief` | **Live Intel**, full dashboard. PriceTicker, interpretation grid, classified archive (WATCH/SKIP/CALL/TAKE), Nervous Decision Machine. |
-| `/library` | `Library` | Resources, including the FAQ tab. |
-| `/new-age-leadership` | `NewAgeLeadership` | Essay on agentic org design. Lazy-loaded `OrgChart` + `AgathaStory`. |
-| `/alumni` | `Alumni` | Invitation-only continuity. Hidden from nav and footer, `noindex`, direct URL only. |
+| `/` | `Index` | Homepage, eager-loaded. |
+| `/sprint` | `Sprint` | The one public paid offer. 21-day Sprint, price not public. |
+| `/case-studies` | `CaseStudies` | Approved proof archive. |
+| `/operator` | `Operator` | "How I operate." 14-agent OS credential page, looping CTRL demo video. |
 | `/blog`, `/blog/:slug` | `Blog`, `BlogPost` | |
-| `/contact` | `Contact` | |
+| `/library` | `Library` | Resources, including the FAQ/questions tab. |
+| `/new-age-leadership` | `NewAgeLeadership` | Essay on agentic org design. |
+| `/contact` | `Contact` | General messages. Does not replace the fit call. |
 | `/privacy`, `/terms` | `Privacy`, `Terms` | |
-| `*` | `NotFound` | Catch-all |
+| `/alumni` | `Alumni` | Invitation-only continuity. Hidden from nav and footer, `noindex`, direct URL only. |
+| `*` | `NotFound` | Catch-all 404. |
 
-**Stripe identifiers** are stored in `src/lib/stripe-prices.ts`, which holds identifiers and never prices (prices live in `src/lib/offers.ts`, and a test enforces that). The Alumni Pass is the only entry left in it, and the only thing the site itself charges via Stripe. Even that is invitation-gated rather than a live checkout. The Workshop and Cohort identifiers were removed in August 2026 with the six-rung ladder.
+### External redirects (`ExternalRedirect`, via `window.location.replace`)
 
-### Client-side redirects (via `<Navigate replace />` / `<HashRedirect />` / `<ExternalRedirect />`)
+| Route | Destination |
+|---|---|
+| `/start` | `BOOKING_URL` (Calendly) |
+| `/decision` | `BOOKING_URL` (Calendly) |
+| `/signal` | `MINDMAKER_LIVE_URL` (`https://live.themindmaker.ai`) |
+| `/builder-economy` | `MINDMAKER_LIVE_URL` (`https://live.themindmaker.ai`) |
 
-| Old path | Redirects to | Mechanism |
-|---|---|---|
-| `/tool` | `/signal#decision` | Navigate |
-| `/builder-economy` | `https://www.thebuildereconomy.com` | `ExternalRedirect`, a separate sister domain |
-| `/faq` | `/library?tab=questions` | Navigate |
-| `/workshops`, `/workshops/:slug` | `/teardown` | HashRedirect |
-| `/enterprise`, `/immersion` | `/handover` | HashRedirect |
-| `/cohort`, `/leaders`, `/leadership-insights` | `/start` | HashRedirect |
-| `/sprints`, `/sprint/4-week`, `/builder-sprint`, `/strategy-day` | `/teardown` | HashRedirect |
-| `/sprint/90-day`, `/war-room`, `/fractional-caio` | `/handover` | HashRedirect |
-| `/individual`, `/team`, `/builder`, `/builder-session`, `/leadership-lab`, `/portfolio-program` | `/` | Navigate |
+### In-app redirects (`<Navigate replace />`)
 
-**These are the client-side fallback only.** The real 301s live in `vercel.json` `redirects`, which is what a crawler and a cold visitor hit. The React Router entries exist so in-app navigation to a retired path still lands somewhere sensible, and they return HTTP 200 with the SPA shell rather than a redirect status. `src/test/redirects.test.ts` asserts the two layers agree, that every edge redirect is permanent, and that nothing redirects to a path that is itself redirected.
+| Route | Redirects to |
+|---|---|
+| `/faq` | `/library?tab=questions` |
 
-No `/pricing` page. Pricing lives in context on `/teardown`, `/handover` and `/capital`, each with a `CurrencySwitcher`.
+### Retired paths → `/sprint`
+
+All render `<ToSprint />` (`<Navigate to="/sprint" replace />`): `/teardown`, `/handover`, `/capital`, `/tool`, `/workshops`, `/workshops/:slug`, `/enterprise`, `/immersion`, `/cohort`, `/leaders`, `/leadership-insights`, `/sprints`, `/sprint/4-week`, `/sprint/90-day`, `/builder-sprint`, `/war-room`, `/strategy-day`, `/fractional-caio`, `/individual`, `/team`, `/builder`, `/builder-session`, `/leadership-lab`, `/portfolio-program` — roughly 22 paths in total.
+
+No `/pricing` page. There is one public paid offer (see Pricing below).
 
 ---
 
 ## Homepage Scroll Order
 
-Authoritative source: `src/pages/Index.tsx`. Verified 2026-08-11.
+Authoritative source: `src/pages/Index.tsx`. Verified 2026-08-23. Everything renders inline in the page file — there are no separate `NewHero` / `BigProblem` / `TrustSection` / `FrameworkJourney` / `OperatorsEdge` / `OperatorsBrief` / `MindMakerLiveSection` / `SimpleCTA` section components on this page.
 
 1. `Navigation`. Fixed top, hides on scroll-down via `useScrollDirection`.
-2. `NewHero`. Rotating headlines, looping `/rising-cities.mp4`, primary CTA "Bring me one real decision" (opens the Diagnosis Room).
-3. `BigProblem`. Three large interactive flip cards. The cards dispatch `ScopingModal`.
-4. `TwoDoors`. Do it yourself with CTRL, or do it with Krish. No CTRL price on this site.
-5. `TrustSection`. Krish bio, headshot, testimonials carousel.
-6. `OperatorsEdge`. Dark-background typography-only credential section. CTA to `/handover`.
-7. `OperatorsBrief`. Live Intel teaser: marquee `PriceTicker`, rotating interpretation line, compact Nervous Decision input, link to `/signal`.
-8. `SimpleCTA`. Final CTA, opens the Diagnosis Room.
-9. `Footer`.
+2. Hero. Dark (`bg-ink`) section with a looping `/rising-cities.mp4` background, eyebrow, H1 ("Make the right call as AI changes your business."), primary `BookFitCall` + a secondary link to `/sprint`, and a stage-photo collage.
+3. Attendee-brands strip. "Mindmaker has helped over 4000 leaders…" heading + a row of attendee logos from `attendeeBrands` (`src/data/rebuildProof.ts`).
+4. Problem-framing section. Two-card grid ("Faster startups are taking your market." / "You can grow, but something is holding you back.").
+5. Sprint pitch section (`#work-with-me`, dark). "One decision. 21 days." copy, a `BookFitCall`, a 4-up grid of decision types (Product / Price / Go to market / Company), a 3-up outcome list, and a link to `/sprint`.
+6. CTRL demo section. `CtrlDemoVideo` component in a framed card, plus copy on keeping the thinking (not just the answer) and a consent-gated Steph Darmanin quote (hidden unless her testimonial consent is present via `useTestimonials`).
+7. Client-results carousel. First four `clientStories` (`src/data/rebuildProof.ts`) in a horizontally-scrolling card row, with a link to `/case-studies`.
+8. Krish bio section. Headshot, "Built in business, not in a slide deck." copy, and an Ashley Wales-Brown quote.
+9. Final CTA section (dark). Closing copy + `BookFitCall`.
+10. `Footer`.
 
-`ParticleBackground` is mounted behind all of it.
-
-**Not on the homepage:** `FrameworkJourney` (moved to `/new-age-leadership`), `MindMakerLiveSection`, `VendorLandscape`, `AINewsTicker`, `ActionsHub`, the ChatBot, and the retired `YFork` / `PreCallQualifier` (both in `src/_archive/components/`).
-
-Global overlays mounted in `src/App.tsx`: `DiagnosisRoom` (lazy, only mounted when open so the prerender never instantiates it), `ScopingModal`, `InitialConsultModal`, `CookieConsent`.
+`ParticleBackground` is mounted behind all of it. There are no global overlays mounted in `App.tsx` — no Diagnosis Room, no `ScopingModal`, no `InitialConsultModal`.
 
 ---
 
 ## Navigation Structure
 
-Authoritative source: `src/components/Navigation.tsx`. Primary CTA: **"Book a call"** with mint pulse dot.
+Authoritative source: `src/components/Navigation.tsx`. No dropdowns.
 
-| Slot | Label | Type | Destination |
+| Element | Label | Type | Destination |
 |---|---|---|---|
-| 1 | Workshops | Direct link | `/workshops` |
-| 2 | Cohort | Direct link | `/cohort` |
-| 1 | Work with me | Dropdown | The Handover → `/handover`, The Teardown → `/teardown`, For funds and portfolio companies → `/capital` |
-| 4 | **Mindmaker LIVE** | Direct link (wordmark) | `/signal` |
-| 5 | Resources | Dropdown | How I operate → `/operator`, Case studies → `/case-studies`, New Age Leadership → `/new-age-leadership`, Library → `/library`, The Builder Economy (Podcast) → external `thebuildereconomy.com` |
-| 6 | About | Dropdown | Contact → `/contact`, Privacy → `/privacy`, Terms → `/terms` |
-| CTA | Book a call | Button | Dispatches `openDiagnosisRoom` (express mode); the mobile menu also offers "Or think it through with Mindy first" (full mode) |
+| Logo | Mindmaker | Direct link | `/` |
+| 1 | The Sprint | Direct link | `/sprint` |
+| 2 | Results | Direct link | `/case-studies` |
+| 3 | Mindmaker Live (wordmark pill) | External link | `MINDMAKER_LIVE_URL`, new tab |
+| CTA | **Book a fit call** | `BookFitCall` component | `BOOKING_URL` (Calendly), new tab, `utm_source` per placement |
 
-Decision Readiness Diagnostic (`/leaders`) is deliberately **not** in nav or footer. The Immersion (`/immersion`) is reachable via the Enterprise dropdown, the footer, or direct URL.
+The mobile menu (`lg:hidden`, hamburger toggle) mirrors the same two links, the Live pill and the `BookFitCall` CTA. A separate button toggles light/dark theme. The nav hides on scroll-down via `useScrollDirection`. There is no `openDiagnosisRoom` dispatch anywhere in this component.
+
+The footer (`src/components/Footer.tsx`) groups links as **Work** (The Sprint / Results / How I operate), **Read** (Mindmaker Live / Library / Articles / New Age Leadership), **Company** (Contact / Privacy / Terms), plus its own `BookFitCall`.
 
 ---
 
-## Pricing (canonical)
+## Pricing
 
-| Engagement | Price (USD) | Duration |
-|---|---|---|
-| The Handover | $18,000 / $30,000 / $50,000 by headcount | Six weeks + a Day 90 recheck |
-| The Teardown | $9,500 | Ten business days, under two hours of client time |
-
-Also published in GBP and AUD as set prices per market. Canonical source: `src/lib/offers.ts`. A test fails the build if a price string appears anywhere else in the web surface.
-
-
-The Handover is capped at six a year, and the cap is stated publicly because it is part of the offer.
-
-Payment: The Teardown on kickoff. The Handover 50/50 at kickoff and delivery. **No discounts are published anywhere.**
+There is **one** public paid offer: the 21-day Sprint at `/sprint`. The price is not public — it is agreed on the fit call. CTRL is a deliverable produced during the Sprint, not a second offer or a separately priced product on this site. `src/lib/offers.ts` (Handover/Teardown price data) still exists in the repo but is dormant — nothing in the live route tree reads from it.
 
 ---
 
 ## Data Flows
 
-### Booking / conversion flow (current), the Diagnosis Room
+### Current flow: fit call booking
 
-Nothing on this site takes a payment. The Teardown price is published and self-serve in the sense that the buyer knows the number before they talk to anyone, but the transaction itself is invoiced direct. The Handover always goes through a call. Every primary CTA opens the Diagnosis Room (Mindy); `ScopingModal` is a retained fallback dispatched by the `BigProblem` cards and `/case-studies`.
+Nothing on this site takes a payment and there is no on-site qualification, gate, chat, or modal in front of booking. Every primary CTA across the live route tree is the same `BookFitCall` component (`src/components/BookFitCall.tsx`), placed with a `source` string (hero, sprint pitch, results, final CTA, nav, footer, operator page, etc.) and pointed at `BOOKING_URL` (Calendly, from `src/lib/publicLinks.ts`).
+
+```
+1. Visitor clicks "Book a fit call" anywhere on the site
+   └─> plausible('fit_call_clicked', { props: { source } }) fires if analytics are present
+       (booking still works if analytics are blocked — the try/catch never blocks the link)
+   └─> new tab opens to `${BOOKING_URL}?utm_source=<source>` (Calendly)
+
+2. Visitor books directly on Calendly. No dossier, no session, no digest email pipeline.
+```
+
+`/start` and `/decision` also resolve straight to `BOOKING_URL` via `ExternalRedirect`. `/signal` and `/builder-economy` resolve to `MINDMAKER_LIVE_URL` (`https://live.themindmaker.ai`) the same way — external redirects, not internal pages.
+
+### Historical (pre-rebuild): Diagnosis Room booking flow
+
+The Diagnosis Room, `ScopingModal`, and `InitialConsultModal` described below are **not mounted anywhere in the current route tree**. Their component files and edge functions still exist in the repo (dormant, unrouted) and are documented here only as technical history of the earlier conversion system.
 
 ```
 1. User clicks "Book a call" / "Work through your decision with Mindy" anywhere on site
@@ -301,17 +302,17 @@ Nothing on this site takes a payment. The Teardown price is published and self-s
    └─> emails Krish the FULL intelligence; if opted in + proposal exists, emails the visitor their copy
 ```
 
-The legacy path (now `/alumni` only) dispatches `openConsultModal` → `InitialConsultModal` → `send-lead-email` (company research, skipped for personal email domains) → Calendly redirect. The `ScopingModal` fallback dispatches `openScopingModal` → `notify-scoping-request` (emails Krish).
+The legacy path (formerly `/alumni` only) dispatched `openConsultModal` → `InitialConsultModal` → `send-lead-email` (company research, skipped for personal email domains) → Calendly redirect. The `ScopingModal` fallback dispatched `openScopingModal` → `notify-scoping-request` (emails Krish).
 
-### Diagnosis Room phases & privacy contract
+#### Diagnosis Room phases & privacy contract (historical)
 
 Room phases (`RoomPhase` in `diagnosis/types.ts`): `opener` → `reading` (enrichment) → `reflect` (dossier reveal) → `chat` → `brief` (kept one-screen decision brief) → `fork` → `proposal`; `express-book` is the express shortcut. The session state machine is `useDiagnosisSession.ts`.
 
 **Privacy:** `dossier.scale.*` (`employeeCount`, `sizeBand`, `trancoRank`, `icp`, `recommendedMode`) is **internal routing only**, stripped from every view, never recited by Mindy, never in the visitor proposal/digest copy. Only Krish's internal digest receives the full dossier + transcript. Mindy's knowledge/guardrails live in `project-documentation/mindy/` (Brain Pack).
 
-### Nervous Decision Machine Flow
+#### Nervous Decision Machine flow (historical)
 
-Embedded inside `OperatorsBrief` on homepage and inside `Brief.tsx` at `/signal`. No standalone page, `/tool` redirects to `/signal#decision`.
+Was embedded inside `OperatorsBrief` on the homepage and inside `Brief.tsx` at `/signal`, when `/signal` was still an internal page rather than an external redirect.
 
 ```
 1. User types a nervous decision prompt (compact or full input)
@@ -324,9 +325,9 @@ Embedded inside `OperatorsBrief` on homepage and inside `Brief.tsx` at `/signal`
 4. Response renders via Artifact.tsx (typed schema in types.ts)
 ```
 
-### Decision Readiness Diagnostic Flow (`/leaders`)
+#### Decision Readiness Diagnostic flow (historical, `/leaders`)
 
-Route unlinked from nav; deep-link only.
+`/leaders` and `/leadership-insights` are now retired paths that redirect to `/sprint` (see Application Routes). This flow describes the page as it existed before the redirect.
 
 ```
 1. Intro → 6 Likert-scale questions (auto-advance)
@@ -339,15 +340,17 @@ Route unlinked from nav; deep-link only.
 5. Edge function delivers user results + lead notification to Krish
 ```
 
-### Live Intel (`/signal`) Flow
+#### Live Intel dashboard flow (historical, `/signal`)
 
-- Extended `PriceTicker` using canonical `ALLOWED_MODEL_IDS` from `src/hooks/useModelData.ts` (current set: Opus 4.7, Sonnet 4.6, Haiku 4.5, Gemini 2.5 Pro, Gemini 2.5 Flash, GPT-5, GPT-5 Mini)
+`/signal` is now an external redirect to `MINDMAKER_LIVE_URL` (`https://live.themindmaker.ai`), not an internal dashboard. This describes the internal `Brief.tsx` page as it existed before the redirect.
+
+- Extended `PriceTicker` using canonical `ALLOWED_MODEL_IDS` from `src/hooks/useModelData.ts`
 - 3-card plain-English interpretation grid
 - Classified card archive (WATCH / SKIP / CALL / TAKE) with filter pills + search
 - Blog column (featured posts)
 - Full-size Nervous Decision input with example chips
 
-Price and model data flows through `get-model-data` edge function. Editorial cards currently inline; `get-ai-news` schema preserved for future dynamic feed.
+Price and model data flowed through the `get-model-data` edge function. Editorial cards were inline; `get-ai-news` schema was preserved for a future dynamic feed.
 
 ---
 
@@ -439,6 +442,12 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 - Deployed with `verify_jwt = false` (public form). Mirrors the `submit-testimonial` structure
 - Secrets: `RESEND_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
 
+### `personalize-intake`
+- Progressive enhancement for the static `/intake` form. Given a SAFE company dossier (never `dossier.scale.*`) plus the visitor's seat, generates one or two tiny voice-linted microcopy fragments (`business_reflect`, `aspiration_nudge`)
+- Deterministic fallback always exists on the page; any failure, empty input, or off-voice output returns `{ fragments: {} }` and the static copy is used instead
+- Deployed with `verify_jwt = false` (called from the static page with the anon key)
+- Secret: `ANTHROPIC_API_KEY` (via the shared `enrich/llm.ts` client)
+
 ### `submit-testimonial`
 - Public testimonial submission endpoint. Inserts a row into `public.testimonials` and emails Krish a notification. Includes a honeypot field for bot prevention
 - Deployed with `verify_jwt = false`. Validates permission level (free / edits / private)
@@ -488,9 +497,7 @@ Location: `supabase/functions/[function-name]/index.ts`. All functions set `veri
 - `public/llms.txt` for LLM summaries
 - `public/robots.txt` allow-list for GPTBot, ClaudeBot, PerplexityBot, Google-Extended
 - `/operator` OG type set to `article`
-- Plausible events (`window.plausible(...)` if present):
-  - `operator_page_cta_clicked`. The commercial crossover CTA from `/operator`
-  - `diagnosis_room_*`. the Diagnosis Room funnel: `diagnosis_room_start`, `diagnosis_room_express_start`, `diagnosis_room_switch_to_full`, `diagnosis_room_view_brief`, `diagnosis_room_fork`, `diagnosis_room_book_call`, `diagnosis_room_generate_proposal`, `diagnosis_room_pdf_downloaded`, `diagnosis_room_digest_sent`
+- Plausible events (`window.plausible(...)` if present): `fit_call_clicked`, fired by `BookFitCall` everywhere it's used, tagged with a `source` placement string. The historical `operator_page_cta_clicked` and `diagnosis_room_*` funnel events are no longer fired — that tracking code is dormant along with the Diagnosis Room.
 
 ---
 

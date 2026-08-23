@@ -1,5 +1,7 @@
-<!-- Last Updated: 2026-08-11 -->
+<!-- Last Updated: 2026-08-23 -->
 # Voice Lint Pack
+
+> **Paused feature.** Mindy and the proposal generator this lint gates are unmounted from the live site (CLAUDE.md, 12 Aug 2026); nothing here is currently running as a blocking gate on any output. The lint arrays and craft rules describe Krish's voice generally and may still apply to other Krish-voiced copy on the site, but any "commercial-truth gate" item that assumes the retired published-price model should be re-read against the current unpublished Sprint price before reuse.
 
 Guarantees every Mindy output and every generated proposal sounds like Krish. Two halves: a machine-readable lint layer (regex arrays you drop into a post-generation linter) and a human-readable craft layer (his tells, worked rewrites, a pre-render checklist). When the two disagree, the craft layer wins; the regex is a floor, not a ceiling.
 

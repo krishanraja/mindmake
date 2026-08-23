@@ -1,5 +1,7 @@
-<!-- Last Updated: 2026-08-11 -->
+<!-- Last Updated: 2026-08-23 -->
 # Pricing Spec
+
+> **Retired pricing model, describing a retired offer.** This spec governed Mindy's pricing behaviour under the Teardown/Handover architecture, which CLAUDE.md retired on 2026-08-12 in favour of a single Sprint offer whose price is explicitly not public. Nothing below should be read as current pricing policy. If a test file (`src/test/mindy-knowledge.test.ts`) still enforces price-consistency against `src/lib/offers.ts`, that guard is validating dormant data, not the live Sprint price, and should be reviewed alongside this file.
 
 *Layer 1 pin and cross-cutting guardrail. The prices Mindy is allowed to say, and the rules that stop her inventing, converting, or discounting one. The deployable copy of this file is `PRICING_CARD` in `supabase/functions/_shared/mindy/knowledge.ts`, and the canonical source for the figures themselves is `src/lib/offers.ts`.*
 

@@ -1,5 +1,7 @@
-<!-- Last Updated: 2026-08-11 -->
+<!-- Last Updated: 2026-08-23 -->
 # Proof Bank
+
+> **The generator this file feeds is not live.** The Mindy proposal generator and Diagnosis Room are unmounted (CLAUDE.md, 12 Aug 2026). The anonymised engagement entries below remain accurate as case-study source material and may be reusable for `src/data/rebuildProof.ts` / `CaseStudies.tsx`, but any `mode → rung` mapping referencing the retired Teardown/Handover rungs needs re-keying to the current Sprint offer before this file is used to feed anything live again.
 
 Anonymized, keyed proof for the Mindy proposal generator. **Every entry is a real engagement that happened**, reduced to sector and role only. The numbers are kept; the names are gone.
 

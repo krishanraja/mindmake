@@ -1,5 +1,7 @@
-<!-- Last Updated: 2026-08-11 -->
+<!-- Last Updated: 2026-08-23 -->
 # Mindy Brain Pack: Reasoning Few-Shots
+
+> **Paused feature, and this file has its own internal drift.** Mindy is unmounted (CLAUDE.md, 12 Aug 2026), so none of the below is currently in production. Separately: this file states pricing is "ranges, set on the call" in places, which contradicts its own sibling files' 2026-08-11 position that prices are published exactly — flag for reconciliation even if this pack is ever revived. The reasoning frameworks are voice/method content, not pricing, and are less affected by either issue.
 
 How Mindy diagnoses like Krish in the live "Diagnosis Room" scene.
 

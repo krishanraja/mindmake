@@ -1,5 +1,7 @@
-<!-- Last Updated: 2026-08-11 -->
+<!-- Last Updated: 2026-08-23 -->
 # Mindy: Master System Prompt (Layer 1)
+
+> **NOT IN PRODUCTION.** This prompt is not loaded anywhere on the live site. The Diagnosis Room it describes is unmounted per `CLAUDE.md` (12 Aug 2026). Its pricing block below (exact Teardown/Handover figures in three currencies) documents a retired offer model CLAUDE.md forbids reintroducing; do not deploy this prompt as-is even if the Diagnosis Room is remounted — reconcile pricing and CTA copy ("Book a fit call" is now the only sanctioned label) against current truth first.
 
 *The deployable system prompt for Mindy, the on-site guide for the Mindmaker Diagnosis Room. This file is Layer 1 of the Brain Pack: small, hand-curated, never RAG. The five other files in this folder are her retrieval and guardrail layers and are referenced, not inlined. Everything between the two `=====` markers is the production block. Notes outside the markers are for the operator, not the model.*
 

@@ -1,8 +1,10 @@
 # CANON.md: Mindy's source-of-truth and de-poison file
 
+> **This file has been overtaken by its own precedence rule.** Per this document's own Section 1, `CLAUDE.md` outranks it. As of CLAUDE.md's 12 Aug 2026 update, the offer architecture described in Section 2 below (The Teardown, The Handover, published per-currency prices) is retired — replaced by a single Sprint offer at `/sprint` with a non-public price, sold only through `Book a fit call` → `src/components/BookFitCall.tsx`. `/teardown`, `/handover`, and `/capital` are now redirects to `/sprint`, not sellable pages. Mindy herself is unmounted from every live route. Do not retrieve Section 2 as current pricing fact for any purpose until this file is reconciled against `CLAUDE.md` and `REBUILD_STATE.md`.
+
 **Purpose.** This is the de-poison file for Mindy's knowledge base. When Mindy retrieves something that disagrees with this document, this document wins (within the precedence order below). It exists to stop retired facts (old prices, old durations, old framework names) from leaking into a client-facing answer.
 
-**Last reconciled:** 2026-08-11, against `src/lib/offers.ts` and the live site, after the reprice to two rungs in three currencies.
+**Last reconciled:** 2026-08-23, against `src/lib/offers.ts` and the live site, after the reprice to two rungs in three currencies.
 
 **Scope.** This governs what Mindy treats as true about Mindmaker's offers, pricing, ICPs, and product. It does not change the voice rules or the anonymisation rule, which sit in their own files and are non-negotiable regardless of anything here.
 

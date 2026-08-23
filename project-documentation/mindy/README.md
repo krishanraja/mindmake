@@ -1,6 +1,8 @@
 # Mindy Brain Pack
 
-*The knowledge pack that makes Mindy reason like Krish, recommend honestly, price in ranges, and sound like the operator and not the model. Built 2026-06-09 against `MINDY-ONE-JOURNEY-ARCHITECTURE.md` (the Diagnosis Room brief); last reconciled 2026-06-28. This README is the index and the wiring diagram. It also carries the consistency and open-questions list; items resolved as of 2026-06-09 are marked.*
+> **STATUS: PAUSED, NOT LIVE.** The Diagnosis Room and Mindy are unmounted from every routed page as of the CLAUDE.md rebuild (12 Aug 2026). This entire pack, including every "RESOLVED" item below, describes the commercial model in force on 2026-08-11 (published Teardown/Handover pricing) — a model CLAUDE.md has since retired in favour of a single Sprint offer whose price is explicitly not public. Nothing in this file should be read as, or fed to a model as, current site truth. Before this pack governs a live Mindy again, it must be re-reconciled against `CLAUDE.md` and `project-documentation/REBUILD_STATE.md`.
+
+*The knowledge pack that makes Mindy reason like Krish, recommend honestly, price in ranges, and sound like the operator and not the model. Built 2026-06-09 against `MINDY-ONE-JOURNEY-ARCHITECTURE.md` (the Diagnosis Room brief); last reconciled 2026-08-23. This README is the index and the wiring diagram. It also carries the consistency and open-questions list; items resolved as of 2026-06-09 are marked.*
 
 ---
 

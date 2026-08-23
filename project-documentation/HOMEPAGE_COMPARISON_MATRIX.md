@@ -1,6 +1,6 @@
 # Mindmaker Homepage Comparison Matrix
 
-Status: active design gate
+Status: paused — the intelligent-entry workstream this gate governs was paused on 12 August 2026 (see REBUILD_STATE.md); the shipped homepage bypassed this gate by removing the demo rather than passing it. Reopen this gate only if the demonstration work resumes.
 
 Baseline checked: 2026-08-12
 

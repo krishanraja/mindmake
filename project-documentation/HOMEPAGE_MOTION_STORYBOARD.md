@@ -1,6 +1,6 @@
 # Mindmaker Homepage Motion Storyboard
 
-Status: proposed for homepage mock V3
+Status: proposed motion language, originally scoped for homepage mock V3. V3 itself was rejected on 12 August 2026 and frozen as negative evidence (see HOMEPAGE_COMPARISON_MATRIX.md, REBUILD_STATE.md). The three signature builds below remain candidate motion ideas for any future mock, not tied to V3 specifically.
 
 ## Motion rule
 

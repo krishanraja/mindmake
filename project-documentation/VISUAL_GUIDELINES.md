@@ -1,6 +1,6 @@
 # Visual Guidelines
 
-**Last Updated:** 2026-08-11
+**Last Updated:** 2026-08-23
 
 > **Signature accent (2026-06-29):** the accent is now **portfolio emerald** `#00D9B6` (HSL `171 100% 43%`), CTRL's emerald, shared across the three sibling products (Mindmaker, CTRL, Make Your Mind Up) over one MindmakerOS token contract. The legacy `mint` tokens/classes (`bg-mint`, `text-mint`, `shadow-mint-*`, "mint" used loosely below) are retained as **aliases** to emerald; read every "mint" reference below as emerald, and prefer the `emerald*` keys in new code. For accent text/links on light backgrounds use **`text-emerald-deep`** (`#06746d`, full AA 5.21), never bright emerald. WHY + WCAG derivation: `prototypes/brand-emerald-proof.{html,md}`.
 
@@ -426,32 +426,30 @@ Gaps:            gap-4 -> gap-6
 
 ### Homepage scroll
 
-The homepage is a curated vertical scroll. Authoritative source: `src/pages/Index.tsx`.
+The homepage is a curated vertical scroll. Authoritative source: `src/pages/Index.tsx`. Only `Navigation.tsx` and `Footer.tsx` are separate reusable components, mounted at the top and bottom; every section in between is written inline as JSX blocks directly in `Index.tsx`, not composed from separate named section components.
 
-| Block | Component | Visual treatment |
-|-------|-----------|------------------|
-| 1. Navigation | `Navigation.tsx` | Fixed top, emerald "Book a call" CTA (opens the Diagnosis Room), hides on scroll-down |
-| 2. Hero | `NewHero.tsx` | Full-viewport dark ink, looping `/rising-cities.mp4` background, particle animation, rotating headlines, eyebrow "Decision blockers I hear every week", emerald CTA "Book a call" (opens the Diagnosis Room, express mode), secondary "See how I work" → `/operator` |
-| 3. Big Problem | `BigProblem.tsx` | Existential urgency frame (three large interactive flip cards; cards open the `ScopingModal`) |
-| 4. Trust Anchor | `TrustSection.tsx` | Krish headshot (circular, emerald border), bio, testimonials carousel (COHORT-STYLE / ENTERPRISE tagged) |
-| 5. Framework Journey | `FrameworkJourney.tsx` | Three glass-card panels (Mind Set → Mind Map → Mind Make) with scroll-triggered animations |
-| 6. Operator's Edge | `OperatorsEdge.tsx` | Dark-bg typography-only credential section, "Beyond pattern recognition", three proof tiles, CTA to `/handover` |
-| 7. Live Intel teaser | `OperatorsBrief.tsx` | CSS-marquee `PriceTicker` + rotating plain-English interpretation line + compact Nervous Decision input + muted link to `/signal` (Live Intel dashboard) |
-| 8. Mindmaker LIVE | `MindMakerLiveSection.tsx` | Substack newsletter subscribe surface |
-| 9. Final CTA | `SimpleCTA.tsx` | Dark CTA card, emerald "Book a call" button (opens the Diagnosis Room) |
-| 10. Footer | `Footer.tsx` | |
+Current section order in `Index.tsx`:
+
+| Block | Visual treatment |
+|-------|------------------|
+| 1. Navigation (`Navigation.tsx`) | Fixed top nav with the "Book a fit call" CTA |
+| 2. Hero | Full-viewport dark ink section, looping `/rising-cities.mp4` background at low opacity, headline "Make the right call as AI changes your business.", `BookFitCall` CTA plus a secondary link to `/sprint`, supporting stage photography and a "17+ years" stat card |
+| 3. Attendee-brand strip | "Mindmaker has helped over 4000 leaders with what's next in AI." with a row of attendee logos from `attendeeBrands` (`src/data/rebuildProof.ts`) |
+| 4. Problem framing | "The problem is commercial. AI has changed the answer." — two editorial cards on faster competitors and internal blockers |
+| 5. Sprint pitch (`id="work-with-me"`) | Dark ink section, "One decision. 21 days.", the four decision types (Product / Price / Go to market / Company), a `BookFitCall` CTA, and a link to `/sprint` |
+| 6. CTRL demo | `CtrlDemoVideo` component, "You keep the thinking, not just the answer.", with the Steph Darmanin quote shown only when consented testimonial data confirms it |
+| 7. Client results carousel | Horizontal-scroll carousel of the first four `clientStories` from `src/data/rebuildProof.ts`, "Decisions that changed the work.", with a link to `/case-studies` |
+| 8. Krish bio | Headshot, "Built in business, not in a slide deck.", bio copy, and an Ashley Wales-Brown testimonial |
+| 9. Final CTA | Dark ink section, "One hard decision. One clear place to start.", `BookFitCall` CTA |
+| 10. Footer (`Footer.tsx`) | |
 
 ### Global overlays (above-scroll)
 
-Mounted in `src/App.tsx`:
-- `DiagnosisRoom`. the primary conversion surface (Mindy), opened via `openDiagnosisRoom` (lazy / SSG-safe); also a standalone page at `/start`
-- `ScopingModal`. secondary booking surface (`openScopingModal`), used by the offer pages, the `BigProblem` cards, and `/case-studies`
-- `InitialConsultModal`. legacy conversion surface (`openConsultModal`), retained only for `/alumni`
-- `CookieConsent`
+Mounted in `src/App.tsx`: only `CookieConsent`, as a global overlay alongside `ErrorBoundary`, `Suspense`, and the route table. There is no `DiagnosisRoom`, `ScopingModal`, or `InitialConsultModal` mounted anywhere in the live app — the Diagnosis Room and homepage AI demonstration are paused and unmounted, and a second booking flow or gate before Calendly must not be reintroduced (see CLAUDE.md).
 
-### Operator's Edge (v5): visual spec
+### Operator's Edge (v5): visual spec — historical, component dormant
 
-Dark-bg section positioned between `FrameworkJourney` and `OperatorsBrief`. Reads as a clear new section via:
+`OperatorsEdge.tsx` is dormant and not mounted in the live route tree. The spec below is kept only as historical reference and must not be used to justify rebuilding the component:
 - `WHO YOU'RE WORKING WITH` eyebrow
 - Hairline top border
 - Gradient background tonal shift
@@ -460,49 +458,30 @@ Dark-bg section positioned between `FrameworkJourney` and `OperatorsBrief`. Read
 - Three glass tiles: Architecture / Optimization / Memory
 - Primary CTA → `/enterprise#revenue-architecture`
 - Secondary muted link → `/operator`
-- Lead line (the anti-consultant statement) is a top-of-file constant in the component
 
-Guardrails: no scrolling logs, no terminal aesthetics, no ASCII art, no interactive dashboards. Every claim passes the CMO-15-second test.
+Guardrails (still active for any future dark credential section): no scrolling logs, no terminal aesthetics, no ASCII art, no interactive dashboards. Every claim passes the CMO-15-second test.
 
-### Live Intel: visual spec
+### Live Intel
 
-**Nav label:** **"Live Intel"** (NOT "The Brief", NOT "Signal Desk"). The body-copy term "The Operator's Brief" remains acceptable in editorial copy on `/signal`, but the nav label is "Live Intel".
+Live Intel now lives entirely at the external `https://live.themindmaker.ai` (`MINDMAKER_LIVE_URL` in `src/lib/publicLinks.ts`). The internal `/signal` route in `src/App.tsx` is an `ExternalRedirect` straight to that URL; it is not an internal page and has no visual spec of its own to maintain here. `/builder-economy` redirects to the same external URL.
 
-**Homepage teaser (`OperatorsBrief.tsx`)**, minimal:
-- Continuous CSS-marquee `PriceTicker` with the canonical 7 models
-- Rotating plain-English interpretation line underneath (3 takes, 8s cross-fade)
-- Compact Nervous Decision input (`nervous-decision/Input.tsx` at compact size)
-- Muted "Open the full dashboard →" link to `/signal`
-- No card grid, no blog column
+### `/cohort`, `/enterprise`, and `/immersion` — not live routes
 
-**Full dashboard (`Brief.tsx` at `/signal`):**
-- Extended PriceTicker
-- 3-card plain-English interpretation grid
-- Classified card archive with filter pills (WATCH / SKIP / CALL / TAKE) + search
-- Blog column
-- Full-size Nervous Decision input with example chips
-
-Taxonomy **WATCH / SKIP / CALL / TAKE**, replaces the previous SIGNAL / NOISE / DECISION / TAKE.
-
-### `/cohort`, `/enterprise`, and `/immersion` page structure
-
-Pages follow a similar shape:
-1. Full-width header with eyebrow + title + price (emerald accent)
-2. "What you get" glass-card block with CheckCircle list
-3. Format / cadence block (The Handover: six weeks plus a Day 90 recheck; The Teardown: ten business days, under two hours of client time)
-4. Example decisions, commercial problems, or shared tensions grid (2-column, bg-ink/5 cards)
-5. Bottom CTA glass-card. The Teardown is self-serve, so its CTA opens the Diagnosis Room; the Handover always routes to a call. A `CurrencySwitcher` sits next to the price, never buried in the footer
+These paths exist in `src/App.tsx` only as redirects to `/sprint` (part of the `ToSprint` catch-all group for the retired offer ladder). They are not live content pages and have no visual spec of their own; do not build or reference page structure for them.
 
 ### Retired visual patterns (do not build)
 
 - Builder/Orchestrator fork (`TheProblem.tsx`), unmounted
 - 4-Week / 90-Day sprint chooser (`ProductLadder.tsx`), unmounted
-- Homepage Y-Fork (`YFork.tsx`) "Start where your question actually is." three intent cards. The homepage funnels into the single Diagnosis Room journey; the component is in `src/_archive/components/`
+- Homepage Y-Fork (`YFork.tsx`) "Start where your question actually is." three intent cards. The homepage funnels into the single Sprint / fit-call journey; the component is in `src/_archive/components/`
 - Pre-Call Qualifier floating pill (`PreCallQualifier.tsx`), in `src/_archive/components/`
-- AI News Ticker (`AINewsTicker.tsx`) with SIGNAL/NOISE/DECISION/TAKE badges, replaced by PriceTicker + Operator's Brief
+- AI News Ticker (`AINewsTicker.tsx`) with SIGNAL/NOISE/DECISION/TAKE badges
 - ActionsHub side drawer, unmounted
-- `"What's your nervous decision?"` and `"Book a call"` as the primary CTA label. The primary label is **"Bring me one real decision"**
 - Engine Room / mm-ctrl agent visualization, never built for homepage per CLAUDE.md guardrails
+- `NewHero.tsx`, `BigProblem.tsx`, `TrustSection.tsx`, `FrameworkJourney.tsx`, `OperatorsEdge.tsx`, `OperatorsBrief.tsx`, dormant; `Index.tsx` now writes its sections inline rather than composing from these
+- `ScopingModal.tsx`, `InitialConsultModal.tsx`, `TwoDoors.tsx`, `PriceTicker.tsx`, `CurrencySwitcher.tsx`, dormant
+- `src/components/diagnosis/` directory, dormant; the Diagnosis Room is paused and unmounted
+- Any second booking flow, sales modal, or AI gate before Calendly. "Book a fit call" (via `BookFitCall.tsx`, direct to Calendly) is the one correct, current primary CTA label everywhere in this file — earlier "Book a call" copy samples above are superseded
 
 ---
 

@@ -1,6 +1,6 @@
 # Branding
 
-**Last Updated:** 2026-08-11
+**Last Updated:** 2026-08-23
 
 ---
 
@@ -8,7 +8,7 @@
 
 **The anti-consultancy for leaders who are done being sold AI and ready to use it.**
 
-Mindmaker is a capped advisory practice: a small number of engagements a year. Two of them. The Handover rebuilds how a business decides and sells over six weeks, then ends. The Teardown takes one real decision apart in ten business days, and is the gate for the Handover. Every engagement has a fixed scope, a published price and a finish line. Nothing ongoing.
+Mindmaker has one public paid offer: a focused 21-day Sprint. Krish studies one important commercial decision, challenges the current view, checks the evidence and makes the call with the client. The client keeps the decision and its reasoning in CTRL, a deliverable the Sprint produces, not a deck that goes stale and not a second product. The scope and fee are agreed after a fit call; the price is not public.
 
 **Brand North Star:** If Stripe's design sensibility met Anthony Bourdain's authenticity.
 
@@ -59,18 +59,14 @@ Your smartest, most cynical friend who runs AI transformation every day and genu
 
 ## CTA Language
 
-**Primary CTA everywhere:** **"Bring me one real decision"**
+**Primary CTA everywhere:** **"Book a fit call"**
 
-No conditional labels. No "What's your nervous decision?" (retired, it tested as too therapist-y for enterprise buyers). No "Start the Conversation". The primary CTA opens the **Diagnosis Room (Mindy)** via the `openDiagnosisRoom` event, and `/start` is the same surface as a page. `ScopingModal` (`openScopingModal`) is the secondary booking surface, dispatched by the `BigProblem` homepage cards and `/case-studies`. (`InitialConsultModal` / `openConsultModal` is legacy, retained only for `/alumni`.)
+Every main sales action uses `src/components/BookFitCall.tsx`, which links directly to the verified Calendly destination held in `src/lib/publicLinks.ts` (`BOOKING_URL`). There is no `openDiagnosisRoom` event live in the route tree, and no `ScopingModal` / `openScopingModal` secondary booking surface. There is no second booking flow, sales modal or AI gate before Calendly. The Diagnosis Room (Mindy) and the homepage AI demonstration are paused and unmounted.
 
 **Supporting CTAs:**
-- "See The Handover" → `/handover`
-- "See The Teardown" → `/teardown`
-- "For funds and portfolio companies" → `/capital`
-- "Book a call" is still the right label for the call itself, once the visitor has chosen it as an exit
+- Contact is for general messages. It does not replace the fit call.
 - "See how I work", secondary hero CTA, links to `/operator`
 - "Open the full dashboard →", muted link from homepage `OperatorsBrief` to `/signal`
-- "Request a date". Immersion page CTA, opens the scoping modal preselected to "immersion"
 
 ---
 
@@ -129,7 +125,7 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 
 - **The Handover**. Capital H, definite article. Not "the handover engagement", not "the six-week programme".
 - **The Teardown**. Capital T, definite article. Not "the audit", not "the diagnostic", not "the assessment".
-- **CTRL**. All caps. A separate product on its own site, never a Mindmaker tier and never quoted with a price here.
+- **CTRL**. All caps. A deliverable of the Sprint that the client keeps, not a separate product and not a second offer. Never quoted with a price on its own.
 - **Mindmaker LIVE**. The publication, at `live.themindmaker.ai`. Two formats: **Built** and **Paid**. It has paid tiers, so never describe it as free.
 - Never "course", "class", "programme" or "training". Mindmaker does not sell training.
 
@@ -137,16 +133,15 @@ No conditional labels. No "What's your nervous decision?" (retired, it tested as
 
 ## Product Naming
 
-| Engagement | Price (USD) | One-liner |
-|---|---|---|
-| The Handover | $18,000 / $30,000 / $50,000 by headcount | Six weeks. Then I leave and you keep it. |
-| The Teardown | $9,500 | Bring the decision you keep not making. |
+**The Sprint.** The one public paid offer. 21 days, judgement-led, one important commercial decision. Price is agreed after the fit call and never published. Canonical source: `src/pages/Sprint.tsx`.
 
-Also GBP and AUD, as set prices per market. Canonical source: `src/lib/offers.ts`.
-
+CTRL is a deliverable the Sprint produces, kept by the client. It is not a separately named or separately priced product on the public site.
 
 ### Retired products and names (do not reference)
 
+- The Teardown and The Handover, the former two-offer ladder with published USD/GBP/AUD prices. Retired 12 August 2026 and unified into the single 21-day Sprint. `/teardown` and `/handover` redirect to `/sprint`.
+- Capital, the former "third door" for funds and portfolio companies. Retired 12 August 2026. `/capital` redirects to `/sprint`.
+- The Diagnosis Room (Mindy) as the primary CTA, its `openDiagnosisRoom` event, and `ScopingModal` (`openScopingModal`) as a live secondary booking surface. Both are paused and unmounted; the single CTA everywhere is "Book a fit call" via `BookFitCall.tsx`.
 - The entire six-rung ladder, retired in July and August 2026. The named record is in `DECISIONS_LOG.md`, deliberately nowhere else, because most of these docs are indexed for retrieval
 - The third-party course platform that used to collect payment, and every URL pointing at it
 - 4-Week Sprint / 90-Day Sprint / Extended Sprint, retired from public site in v4 barbell pivot

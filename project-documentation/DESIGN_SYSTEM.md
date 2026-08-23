@@ -1,6 +1,6 @@
 # Design System
 
-**Last Updated:** 2026-08-11
+**Last Updated:** 2026-08-23
 
 ---
 
@@ -458,18 +458,12 @@ On white/light backgrounds, always use `text-foreground`, `text-ink`, or `text-m
 ## Brand-Specific Patterns
 
 ### CTA Buttons (Primary)
-`bg-mint` is the alias; it renders emerald (ink text on emerald = AAA). New code may use `bg-emerald`.
-```tsx
-<Button
-  size="lg"
-  className="bg-mint text-ink hover:bg-mint/90 font-semibold px-8 py-6 text-lg"
-  onClick={() => window.dispatchEvent(new CustomEvent('openDiagnosisRoom', { detail: { source_page, mode: 'express' } }))}
->
-  Book a call
-</Button>
-```
+Primary CTA copy is always "Book a fit call", rendered by the shared
+`BookFitCall` component (`src/components/BookFitCall.tsx`), which links
+directly to Calendly (`BOOKING_URL` in `src/lib/publicLinks.ts`) in a new
+tab — there is no in-page modal or gate before Calendly.
 
-Primary CTA copy is always **"Book a call"**, no conditional labels. The previous `"What's your nervous decision?"` button copy has been retired. The nav/hero "Book a call" CTA opens the **Diagnosis Room (Mindy)**, the primary conversion surface, via the `openDiagnosisRoom` custom event (express mode). The `ScopingModal` (`openScopingModal`) is now the secondary booking surface, used by the offer pages (`/cohort`, `/enterprise`, `/capital`, `/immersion`), the `BigProblem` homepage cards, and `/case-studies`. `InitialConsultModal` / `openConsultModal` is legacy, retained only for `/alumni`.
+<BookFitCall source="homepage-hero" />
 
 ### Framework Journey (Mind Set → Mind Map → Mind Make)
 Three-panel layout with scroll-triggered animations. Each panel uses `glass-card` with animated content inside. See `FrameworkJourney.tsx`.
@@ -492,11 +486,14 @@ Dark-bg typography-only section matching `FrameworkJourney` header scale exactly
 
 - `TheProblem.tsx` Builder/Orchestrator fork (AI leaders vs AI products), unmounted
 - `ProductLadder.tsx` 4-Week vs 90-Day sprint chooser, unmounted
-- `YFork.tsx` homepage "Start where your question actually is." three intent cards. The homepage funnels into the single Diagnosis Room journey; the component is in `src/_archive/components/`.
+- `YFork.tsx` homepage "Start where your question actually is." three intent cards. The homepage funnels into the single Sprint / fit-call journey; the component is in `src/_archive/components/`.
 - `PreCallQualifier.tsx` floating pill / 3-step chip intake, in `src/_archive/components/`
 - `AINewsTicker.tsx` with SIGNAL/NOISE/DECISION/TAKE badges, replaced by `OperatorsBrief` + full dashboard at `/signal` with WATCH/SKIP/CALL/TAKE taxonomy
 - `ActionsHub` side drawer and Interactive decision tools, unmounted
 - Media Easter Egg components (`VideoDrawer`, `AudioPlayer`, `ArtifactPreview`, `ExpandableQuote`), not in current homepage; kept in `src/components/MediaEasterEggs/` for possible future use
+- `NewHero.tsx`, `BigProblem.tsx`, `TrustSection.tsx`, `FrameworkJourney.tsx`, `OperatorsEdge.tsx`, `OperatorsBrief.tsx`, dormant; `Index.tsx` now writes its sections inline rather than composing from these
+- `ScopingModal.tsx`, `InitialConsultModal.tsx`, `TwoDoors.tsx`, `PriceTicker.tsx`, `CurrencySwitcher.tsx`, dormant; there is no in-page modal or gate before Calendly (see CTA Buttons above)
+- `src/components/diagnosis/` directory, dormant; the Diagnosis Room is paused and unmounted
 
 ---
 

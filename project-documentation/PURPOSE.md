@@ -1,6 +1,6 @@
 # Purpose
 
-<!-- Last Updated: 2026-08-11 -->
+<!-- Last Updated: 2026-08-23 -->
 
 ---
 
@@ -18,22 +18,17 @@ Consultants, LLMs and the next hyped tool sell point solutions built to extract 
 
 ## The business
 
-Two paid engagements, one ICP, three currencies.
+One public paid offer, one ICP.
 
-| Rung | Engagement | Duration | Buyer |
-|---|---|---|---|
-| The rebuild | The Handover | Six weeks, plus a Day 90 recheck | A company of 50 to 5,000 people where the commercial machine is what is broken |
-| The gate | The Teardown | Ten business days, under two hours of client time | Anyone with one nameable decision they keep not making |
+| Offer | Duration | Buyer |
+|---|---|---|
+| The Sprint | 21 days, judgement-led | A leader who owns, or can move, one important commercial decision that AI has changed |
 
-Prices are published, in USD, GBP and AUD, and live in `src/lib/offers.ts`. They are set prices per market, not conversions.
+The price is not public. Scope and fee are agreed after a fit call (`Book a fit call`, via `src/components/BookFitCall.tsx`, to the verified destination in `src/lib/publicLinks.ts`).
 
-The Teardown is the entry rung and the gate: every Handover starts with one. The Handover is capped at six a year, which is the honest number for work done personally.
+CTRL is a deliverable of the Sprint, the workspace the client keeps the decision and its reasoning in. It is not a second product and not sold separately.
 
-Funds, family offices and operating partners are a **third door** into the same two engagements, priced per portfolio company, at `/capital`.
-
-CTRL is a separate product with its own site and its own pricing. It is not sold here.
-
-**Advisory was retired in July 2026** in anticipation of a full-time role, and **reinstated on 11 August 2026** when that role fell through on an immigration technicality rather than on the work. Advisory is the primary cash engine. See `DECISIONS_LOG.md`.
+**Advisory was retired in July 2026** in anticipation of a full-time role, **reinstated on 11 August 2026** when that role fell through on an immigration technicality rather than on the work, and **further unified on 12 August 2026** into the single public Sprint offer. Advisory is the primary cash engine. See `DECISIONS_LOG.md`.
 
 ---
 
@@ -59,11 +54,11 @@ A world where senior leaders stop talking about AI and start using it. Where "AI
 
 ## Core objectives
 
-### 1. Make the Teardown the default first spend
-It is the honest first purchase for almost everyone, it is the gate for the larger engagement, and it is cheap enough that a wrong answer costs the buyer very little. Volume here is what makes the practice legible.
+### 1. Make the fit call the default first step
+The website explains Mindmaker, shows the Sprint, and offers one next step: `Book a fit call`. The call checks whether there is one important commercial problem, whether AI has changed it, whether the right people can decide in the next 21 days, and whether the Sprint is the right shape. An unclear problem is a valid reason to book, not a reason to wait.
 
-### 2. Convert Teardowns into Handovers only when the decision genuinely points there
-Most should not. A Teardown that ends with "you do not need the six weeks" is the product working, and it is what makes the recommendation worth anything when it does point the other way.
+### 2. Keep CTRL as the enduring deliverable
+The Sprint's real output is not a deck that goes stale. It is a decision, its evidence, and the reasoning behind it, kept in a private CTRL workspace the client owns after the 21 days end.
 
 ### 3. Collect what nobody else can assemble
 Every engagement captures how the client priced and packaged, what converted, what had to change, and what the commercial constraint turned out to be. Advisory that produces only fees is a day rate with extra steps. See `OFFERS.md`.
@@ -113,7 +108,6 @@ Six Handovers a year. The constraint is the product: it is what makes "Krish doe
 - Run ongoing retainers or fractional roles
 - Create dependency (success = you don't need us)
 - Pitch vendors or recommend tools without trade-off analysis
-- Promote a 1:1 sprint product on the public site
 - Promote the Immersion publicly (it's an inquiry-only relief valve, not a headline product)
 
 ---

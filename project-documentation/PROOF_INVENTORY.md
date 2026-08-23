@@ -1,7 +1,9 @@
-<!-- Generated 2026-08-05. Updated 2026-08-11. A working document for the proof rebuild, not a canonical reference. -->
+<!-- Generated 2026-08-05. Updated 2026-08-11. Reconciled (status banner added) 2026-08-23. A working document for the proof rebuild, not a canonical reference. -->
 
 > **Status, 2026-08-11.** Three of the findings below were acted on. The 26 illustrative proof entries are deleted. R-01 (the $254K POC with a major US publisher) is published on `/case-studies`, `/handover` and `/start`. Testimonials are now gated on the `permission` column via a consent-scoped database view. The case-study tags below are updated to the two live engagements. What remains open is which of the two consented rows to publish, and whether to publish it named. See `DECISIONS_LOG.md`.
 # Proof Inventory
+
+> **STATUS: HISTORICAL / NON-ACTIONABLE, reconciled 2026-08-23.** This file's Part 1 (case studies keyed to `src/data/caseStudies.ts`) describes a data source that no longer exists — that file was deleted in the 12 August 2026 rebuild. Two of this file's stated findings/recommendations are now permanently foreclosed and must never be acted on: the "22% revenue lift" figure and the "$254K POC" figure are both on `CLAUDE.md`'s "Do not reintroduce" list, and `src/test/public-disclosure.test.ts` fails the build if either appears on any public surface. The "Teardown"/"Handover" tagging scheme throughout is also retired — CLAUDE.md forbids offer labels on case studies. The only current source for public client outcomes is `BRANDS_AND_TESTIMONIALS.md` / `src/data/rebuildProof.ts`. Part 2's verified source quotes (R-01 through R-09) remain accurate as raw provenance and were used to build the current 8 verified client stories, but nothing in this file should be treated as a live to-do list or current recommendation.
 
 Everything Mindmaker currently holds as client proof, in one place, so it can be re-collated.
 

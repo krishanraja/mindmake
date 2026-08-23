@@ -1,8 +1,31 @@
 # History
 
-**Last Updated:** 2026-08-11
+**Last Updated:** 2026-08-23
 
 > This is a changelog. Entries are written at the time and left alone afterwards, so **everything below the top entry describes a state the codebase has since moved past.** Offers, prices, routes and component names in older entries are historical by definition. For what is true now, read `CLAUDE.md` and the code it points at; for why a thing is the way it is, read `DECISIONS_LOG.md`.
+
+---
+
+## 2026-08-12: One Sprint, one fit call
+
+**Context.** The two-offer storefront (The Teardown, The Handover) shipped 11 August. One day later it was retired in favor of a single flexible, scoped 21-day Sprint with one sales action everywhere on the site.
+
+**What changed:**
+- **One offer, no public price.** The Teardown and The Handover are gone from the public site; the Sprint replaces both. Scope and fee are agreed on the fit call. `src/test/price-single-source.test.ts` and the public-disclosure test now guard against any price string appearing on a public surface.
+- **One CTA everywhere.** Every main sales action says `Book a fit call` via `src/components/BookFitCall.tsx`, and every one reaches the same verified Calendly destination, held in `src/lib/publicLinks.ts`.
+- **CTRL repositioned.** CTRL is now framed as a Sprint deliverable the client keeps, not a second purchase.
+- **Old routes redirected** straight to `/sprint`.
+- **Diagnosis Room and homepage AI demonstration paused and unmounted.**
+- **Nine new audit/reference docs added** to `project-documentation/`: `CTA_PATH_AUDIT.md`, `INTELLIGENCE_AUDIT.md`, `SIGNATURE_INTERACTION_DIVERGENCE.md`, `HOMEPAGE_COMPARISON_MATRIX.md`, `HOMEPAGE_MAGIC_MOMENT.md`, `HOMEPAGE_MOTION_STORYBOARD.md`, `BRANDS_AND_TESTIMONIALS.md`, `INTAKE_REPLACEMENT_SCOPE.md`, `REBUILD_STATE.md`, plus a review-only `PROPOSED_MINDMAKER_SKILL_UPDATE.md` that was not applied.
+- **`PRICE_TRUTH_AUDIT.md` gutted to a short historical marker**; `mindmaker_rebuild_brief_v4.md` and `COMMERCIAL_REFERENCE.md` re-flagged as retired/superseded.
+
+Full reasoning, with the release boundary, in `DECISIONS_LOG.md`.
+
+## 2026-08-12: Calendly destination corrected, CTRL demo restored
+
+**What changed:**
+- **Wrong Calendly event replaced.** The verified destination was a 15-minute `Mindmaker Concierge` event; the actual public entry point is the 30-minute `MindMaker` event at `calendly.com/krish-raja/mindmaker-meeting`. Every "15-minute" claim removed from code, tests and docs; a regression test added (`src/test/public-disclosure.test.ts`) so a retired event URL can't silently return.
+- **CTRL demo video restored** on the homepage and `/operator` through a new shared, accessible `CtrlDemoVideo.tsx` player (play/pause, reduced-motion aware, graceful failure state), after two same-day delete/restore/rename cycles on the demo video asset. Public proof labels corrected to match, and heading/portrait crop issues fixed across breakpoints.
 
 ---
 

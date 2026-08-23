@@ -1,10 +1,10 @@
 # The Accountable Delegator (ICP Archetype)
 
-**Last Updated:** 2026-08-11
+**Last Updated:** 2026-08-23
 
-This is the deep psychographic, behavioural and skill-gap profile of the buyer described in `ICP.md`. It is the archetype behind both engagements, and the human at the centre of every conversation that starts with a nervous decision.
+This is the deep psychographic, behavioural and skill-gap profile of the buyer described in `ICP.md`. It is the archetype behind the Sprint, and the human at the centre of every conversation that starts with a nervous decision.
 
-This doc deliberately does not repeat what already lives elsewhere. For firmographic ranges, qualification signals, and disqualifiers see `ICP.md`. For the objection bank, routing logic, ROI math, and channel templates see `SALES_PLAYBOOK.md`. For canonical pitches and objection-handling FAQ see `Master_Messaging_and_FAQ.md`. What follows is the part those docs assume but never spell out: who this buyer actually is underneath, and the exact skill they are missing.
+This doc deliberately does not repeat what already lives elsewhere. For the buyer groups, best-fit moment, and poor-fit signals see `ICP.md`. For the fit-call route, best-fit signals, and how to explain the Sprint see `SALES_PLAYBOOK.md`. For the one-line pitch and common-question answers see `Master_Messaging_and_FAQ.md`. What follows is the part those docs assume but never spell out: who this buyer actually is underneath, and the exact skill they are missing.
 
 > Internally this archetype has also been called "the Mindmaker" (the leader Mindmaker exists to serve). We use **"The Accountable Delegator"** as the canonical name so it never collides with the Mindmaker brand.
 
@@ -130,7 +130,7 @@ Negative definition keeps the message sharp. This is a different cut from the `I
 | The Overwhelmed Operator (no strategy) | They have a strategy. They lack the structural literacy to execute it. |
 | The Disengaged | Highly engaged at the narrative level, disengaged at the execution level. |
 
-The genuine non-buyer is the trailblazer CEO already across the divide, spending real hours upskilling with outsized budget (WEF/BCG, 2026). They do not need the on-ramp. See `ICP.md` anti-ICPs for the full list.
+The genuine non-buyer is the trailblazer CEO already across the divide, spending real hours upskilling with outsized budget (WEF/BCG, 2026). They do not need the on-ramp. See `ICP.md`'s "Poor fit" section for the full list.
 
 ---
 
@@ -165,11 +165,10 @@ The Accountable Delegator is held back by the very capabilities that made them s
 
 ## Where this connects in the docs
 
-- **Firmographics, qualification signals, disqualifiers, buying triggers, voice-of-customer:** `ICP.md`.
-- **Routing this buyer to the right offer:** `ICP.md` (Entry Points) and `SALES_PLAYBOOK.md` (§11 Routing Logic, §3 Pain to Offer Mapping).
-- **Objection handling:** `Master_Messaging_and_FAQ.md` (Part 5) and `SALES_PLAYBOOK.md` (§7 Objection Bank). The "can't we just delegate AI to IT?" objection is this archetype's core belief, addressed there.
-- **Channels, ROI math, discovery questions:** `SALES_PLAYBOOK.md`.
-- **The offers this archetype maps to:** `OFFERS.md` (The Teardown first, then The Handover) and `OUTCOMES.md`.
+- **Buyer groups, best-fit moment, poor fit:** `ICP.md`.
+- **The one route to a sale, fit-call qualifying questions, and how to explain the Sprint:** `SALES_PLAYBOOK.md`. The "can't we just delegate AI to IT?" belief is exactly what the fit call has to surface and this archetype's core resistance to it.
+- **The one-line pitch and common-question answers (price, training, automation, what's kept):** `Master_Messaging_and_FAQ.md`.
+- **The offer this archetype maps to:** `OFFERS.md` (the 21-day Sprint) and `OUTCOMES.md`.
 
 ---
 

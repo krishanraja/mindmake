@@ -1,6 +1,6 @@
 # Decisions Log
 
-**Last Updated:** 2026-08-11
+**Last Updated:** 2026-08-23
 
 ---
 

@@ -1,6 +1,6 @@
 # Replication Guide
 
-**Last Updated:** 2026-08-11
+**Last Updated:** 2026-08-23
 
 ---
 
@@ -9,7 +9,7 @@
 Step-by-step instructions to replicate the Mindmaker platform. Follow in order.
 
 **Prerequisites:**
-- Node.js 18+
+- Node.js >=22.18.0 (see `package.json` `engines`)
 - npm
 - Git
 - Lovable account (`lovable.dev`), or Vercel + Supabase if going non-Lovable
@@ -52,7 +52,7 @@ npm install @supabase/supabase-js
 npm install zod react-hook-form
 npm install sonner
 npm install next-themes
-npm install react-helmet-async
+npm install react-helmet
 ```
 
 ### Step 5: Configure Tailwind
@@ -70,39 +70,30 @@ Copy files from `src/components/ui/`.
 
 ### Step 8: Layout components
 ```
-src/components/Navigation.tsx          # Workshops / Cohort / Enterprise / Mindmaker LIVE / Resources / About
+src/components/Navigation.tsx          # two links, "The Sprint" (/sprint) and "Results" (/case-studies), plus a Mindmaker Live image pill (external, https://live.themindmaker.ai) and the BookFitCall CTA. No dropdowns.
 src/components/Footer.tsx
-src/components/diagnosis/              # Diagnosis Room (Mindy), primary conversion surface (openDiagnosisRoom event listener); also a standalone page at /start
-src/components/ScopingModal.tsx        # secondary booking surface "Scope it with me" (openScopingModal event listener)
-src/components/InitialConsultModal.tsx # legacy conversion surface (openConsultModal listener; dispatched only from /alumni)
+src/components/BookFitCall.tsx         # the single shared sales action, links straight to Calendly (BOOKING_URL in src/lib/publicLinks.ts)
 src/components/CookieConsent.tsx
 ```
+Note: `src/components/diagnosis/` (the Diagnosis Room), `src/components/ScopingModal.tsx` and `src/components/InitialConsultModal.tsx` still exist in the repo but are dormant — none is mounted by the current `App.tsx`. Do not replicate them as part of the live conversion path; see Step 11b.
 
 ### Step 9: Page components
 ```
 src/pages/Index.tsx                    # homepage (eager-loaded)
-src/pages/Teardown.tsx                 # The Teardown, one price, currency switcher
-src/pages/Handover.tsx                 # The Handover, three bands by headcount
+src/pages/Sprint.tsx                   # /sprint, the one public paid offer (the 21-day Sprint), no public price
+src/pages/CaseStudies.tsx              # /case-studies, approved proof archive
 src/pages/Operator.tsx                 # 14-agent OS credential page (shared /CTRL-demo-aug-26.mp4 player)
-src/pages/Brief.tsx                    # Live Intel (/signal)
-src/pages/Capital.tsx                  # The same two engagements, per portfolio company
 src/pages/NewAgeLeadership.tsx         # /new-age-leadership thought leadership
 src/pages/Blog.tsx, BlogPost.tsx
-src/pages/Library.tsx, CaseStudies.tsx, Alumni.tsx, Contact.tsx, Privacy.tsx, Terms.tsx
+src/pages/Library.tsx, Alumni.tsx, Contact.tsx, Privacy.tsx, Terms.tsx
 src/pages/NotFound.tsx
 ```
+Note: `src/pages/Teardown.tsx`, `Handover.tsx`, `Capital.tsx` and `Brief.tsx` still exist as files but are dormant/legacy — not imported or routed by the current `App.tsx`. Do not treat them as core pages to replicate; they document the pre-rebuild offer ladder and the old internal Live Intel page.
 
-### Step 10: Homepage section components
-```
-src/components/NewHero.tsx             # rotating headlines + "Bring me one real decision" (opens the Diagnosis Room)
-src/components/BigProblem.tsx          # existential urgency frame (cards open the ScopingModal)
-src/components/TrustSection.tsx        # Krish bio + testimonials carousel
-src/components/TwoDoors.tsx            # do it yourself with CTRL, or do it with Krish
-src/components/OperatorsEdge.tsx       # dark-bg typography-only credential section
-src/components/OperatorsBrief.tsx      # Live Intel homepage teaser
-src/components/PriceTicker.tsx         # CSS-marquee model price ticker
-src/components/SimpleCTA.tsx
-```
+### Step 10: Homepage sections
+`src/pages/Index.tsx` builds the homepage as inline JSX sections rather than importing separate section components: a hero with `BookFitCall` and a link to `/sprint`; an attendee-logos strip (`src/data/rebuildProof.ts`); a "when to call Mindmaker" problem frame; a Sprint pitch section (`#work-with-me`) with a second `BookFitCall`; a CTRL section using `src/components/CtrlDemoVideo.tsx`, gated by `useTestimonials`; a client-results carousel pulling from `clientStories`; a Krish bio section; and a closing CTA with a third `BookFitCall`.
+
+Note: `src/components/NewHero.tsx`, `BigProblem.tsx`, `TwoDoors.tsx`, `OperatorsEdge.tsx`, `OperatorsBrief.tsx`, `PriceTicker.tsx` and `SimpleCTA.tsx` still exist as files but are dormant — none is imported by `Index.tsx` or any other routed page. Do not replicate them as the current homepage structure; they document an earlier version of the site.
 
 ### Step 10b: New Age Leadership components
 ```
@@ -110,26 +101,21 @@ src/components/new-age/OrgChart.tsx    # interactive agent-native org chart (laz
 src/components/new-age/AgathaStory.tsx # embedded narrative + completion beacon
 ```
 
-### Step 11: Nervous Decision Machine components
+### Step 11: Dormant AI-surface components (do not build these first)
 ```
-src/components/nervous-decision/Input.tsx     # compact + full sizes
-src/components/nervous-decision/Artifact.tsx
-src/components/nervous-decision/types.ts
+src/components/nervous-decision/       # Nervous Decision Machine input + artifact rendering
+src/components/diagnosis/              # Diagnosis Room (Mindy)
+src/components/ScopingModal.tsx
+src/components/InitialConsultModal.tsx
 ```
-
-### Step 11b: Diagnosis Room (Mindy), primary conversion surface
-```
-src/components/diagnosis/                      # full-screen on-site experience; mount globally and open via openDiagnosisRoom (detail: { source_page, seedDecision?, mode: 'express' | 'full' }); also a standalone page at /start
-```
-Mindy diagnoses the visitor's one nervous AI decision and forks to three honest exits: keep chatting, book a fit call, or generate/download a co-branded "Mindmaker × [company]" proposal. Backed by the `mindy-chat`, `enrich-company`, `generate-proposal`, `session-digest`, and `transcribe` (Whisper voice input) edge functions (see Phase 4).
+All of the above still exist in the repo and are functional in isolation, but none is mounted anywhere in the current `src/App.tsx` — the Diagnosis Room and the homepage AI demonstration are explicitly paused and unmounted. Skip this step for a faithful replication of the live site; only build it if the goal is to resurrect one of these surfaces on purpose. The Diagnosis Room was backed by the `mindy-chat`, `enrich-company`, `generate-proposal`, `session-digest`, and `transcribe` (Whisper voice input) edge functions (see Phase 4) and forked to three exits (keep chatting, book a fit call, generate/download a co-branded proposal).
 
 ### Step 12: Global context + hooks
 ```
-src/contexts/SessionDataContext.tsx     # threads qualifier data into modal
-src/hooks/useModelData.ts               # ALLOWED_MODEL_IDS allowlist
-src/hooks/useScrollDirection.ts         # navbar hide/show
-src/hooks/useLeadershipInsights.ts
+src/hooks/useScrollDirection.ts         # navbar hide/show, used live by Navigation.tsx
+src/hooks/useTestimonials.ts            # reads the consent-gated publishable_testimonials Supabase view
 ```
+`src/contexts/SessionDataContext.tsx`, `src/hooks/useModelData.ts` and `src/hooks/useLeadershipInsights.ts` still exist but back the dormant Diagnosis Room / PriceTicker / `/leaders` surfaces respectively — not required for the live route tree.
 
 ---
 
@@ -243,68 +229,65 @@ Track `operator_page_cta_clicked` on the `/operator` crossover CTA, and the `dia
 
 ## Phase 6: Routing
 
-`src/App.tsx`:
+`src/App.tsx` (transcribed from the actual current file; verify against it directly before relying on this):
 
 ```tsx
-// Live routes
-<Route path="/" element={<Index />} />
-<Route path="/workshops" element={<Workshops />} />
-<Route path="/workshops/build-your-ai-chief-of-staff" element={<WorkshopChiefOfStaff />} />
-<Route path="/workshops/map-your-agentic-org-chart" element={<WorkshopOrgChart />} />
-<Route path="/workshops/vibe-coding-for-leaders" element={<WorkshopVibeCoding />} />
-<Route path="/workshops/build-an-autonomous-business-function" element={<WorkshopAutonomous />} />
-<Route path="/workshops/give-your-ai-memory" element={<WorkshopMemory />} />
-<Route path="/cohort" element={<Cohort />} />
-<Route path="/enterprise" element={<Enterprise />} />
-<Route path="/capital" element={<Capital />} />
-<Route path="/case-studies" element={<CaseStudies />} /> {/* filterable, anonymised COHORT-STYLE / ENTERPRISE proof */}
-<Route path="/start" element={<DiagnosisRoom />} /> {/* standalone Diagnosis Room (Mindy) */}
-<Route path="/operator" element={<Operator />} />
-<Route path="/signal" element={<Brief />} />
-<Route path="/library" element={<Library />} />
-<Route path="/immersion" element={<Immersion />} />
-<Route path="/alumni" element={<Alumni />} /> {/* unlinked from nav and footer; SEO noindex */}
-<Route path="/new-age-leadership" element={<NewAgeLeadership />} />
-<Route path="/leaders" element={<LeadershipInsights />} />
-<Route path="/leadership-insights" element={<LeadershipInsights />} />
-<Route path="/blog" element={<Blog />} />
-<Route path="/blog/:slug" element={<BlogPost />} />
-<Route path="/contact" element={<Contact />} />
-<Route path="/privacy" element={<Privacy />} />
-<Route path="/terms" element={<Terms />} />
+const ToSprint = () => <Navigate to="/sprint" replace />;
 
-// Internal redirects (HashRedirect preserves query + hash)
-<Route path="/tool" element={<Navigate to="/signal#decision" replace />} />
-<Route path="/sprints" element={<HashRedirect to="/cohort" />} />
-<Route path="/sprint/4-week" element={<HashRedirect to="/cohort?inquiry=1:1" />} />
-<Route path="/sprint/90-day" element={<HashRedirect to="/cohort?inquiry=1:1" />} />
-<Route path="/builder-sprint" element={<HashRedirect to="/cohort?inquiry=1:1" />} />
-<Route path="/war-room" element={<HashRedirect to="/enterprise#revenue-architecture" />} />
-<Route path="/strategy-day" element={<HashRedirect to="/enterprise#signal-session" />} />
-<Route path="/fractional-caio" element={<HashRedirect to="/enterprise" />} />
+<Routes>
+  {/* Direct routes */}
+  <Route path="/" element={<Index />} />
+  <Route path="/sprint" element={<Sprint />} />
+  <Route path="/case-studies" element={<CaseStudies />} />
+  <Route path="/operator" element={<Operator />} />
 
-// External redirect
-<Route path="/builder-economy" element={<ExternalRedirect to="https://www.thebuildereconomy.com" />} />
+  {/* External redirects, via ExternalRedirect (window.location.replace) */}
+  <Route path="/start" element={<ExternalRedirect to={BOOKING_URL} />} />
+  <Route path="/decision" element={<ExternalRedirect to={BOOKING_URL} />} />
+  <Route path="/signal" element={<ExternalRedirect to={MINDMAKER_LIVE_URL} />} />
+  <Route path="/builder-economy" element={<ExternalRedirect to={MINDMAKER_LIVE_URL} />} />
+  {/* BOOKING_URL and MINDMAKER_LIVE_URL both come from src/lib/publicLinks.ts */}
 
-// Legacy cleanup
-<Route path="/individual" element={<Navigate to="/" replace />} />
-<Route path="/team" element={<Navigate to="/" replace />} />
-<Route path="/builder" element={<Navigate to="/" replace />} />
-<Route path="/builder-session" element={<Navigate to="/" replace />} />
-<Route path="/leadership-lab" element={<Navigate to="/" replace />} />
-<Route path="/portfolio-program" element={<Navigate to="/" replace />} />
+  {/* More direct routes */}
+  <Route path="/blog" element={<Blog />} />
+  <Route path="/blog/:slug" element={<BlogPost />} />
+  <Route path="/library" element={<Library />} />
+  <Route path="/new-age-leadership" element={<NewAgeLeadership />} />
+  <Route path="/contact" element={<Contact />} />
+  <Route path="/privacy" element={<Privacy />} />
+  <Route path="/terms" element={<Terms />} />
+  <Route path="/alumni" element={<Alumni />} /> {/* unlinked from nav and footer; SEO noindex */}
 
-<Route path="*" element={<NotFound />} />
+  {/* A few retired paths get their own explicit route */}
+  <Route path="/teardown" element={<ToSprint />} />
+  <Route path="/handover" element={<ToSprint />} />
+  <Route path="/capital" element={<ToSprint />} />
+  <Route path="/tool" element={<ToSprint />} />
+  <Route path="/faq" element={<Navigate to="/library?tab=questions" replace />} />
+
+  {/* The rest of the retired paths are generated from an array */}
+  {[
+    "/workshops", "/enterprise", "/immersion", "/cohort", "/leaders",
+    "/leadership-insights", "/sprints", "/sprint/4-week", "/sprint/90-day",
+    "/builder-sprint", "/war-room", "/strategy-day", "/fractional-caio",
+    "/individual", "/team", "/builder", "/builder-session",
+    "/leadership-lab", "/portfolio-program",
+  ].map((path) => <Route key={path} path={path} element={<ToSprint />} />)}
+  <Route path="/workshops/:slug" element={<ToSprint />} />
+
+  <Route path="*" element={<NotFound />} />
+</Routes>
 ```
+
+`vercel.json`'s `redirects` block mirrors this same retired-path list as real 301s (302 for `/start` and `/decision`, since those go to a booking link rather than a permanent destination), exercised at Vercel's edge rather than in the SPA. Keep the two in sync; `src/test/redirects.test.ts` checks this.
 
 ### Global overlays
 Mount inside `BrowserRouter` but outside `<Routes>`:
 ```tsx
-<DiagnosisRoom />         {/* primary; listens for openDiagnosisRoom; lazy / SSG-safe */}
-<ScopingModal />          {/* secondary; listens for openScopingModal */}
-<InitialConsultModal />   {/* legacy; listens for openConsultModal, dispatched only from /alumni */}
+<ScrollToTop />
 <CookieConsent />
 ```
+There is no modal or overlay in front of the booking flow — `BookFitCall` links straight out to Calendly. `src/components/diagnosis/`, `ScopingModal.tsx` and `InitialConsultModal.tsx` are not mounted here or anywhere else in `App.tsx`.
 
 ---
 
@@ -312,22 +295,18 @@ Mount inside `BrowserRouter` but outside `<Routes>`:
 
 ### Step 21: Local test flows
 Verify end-to-end:
-1. Homepage loads with rotating headlines + "Book a call" CTA
-2. "Book a call" (nav + hero) opens the Diagnosis Room (Mindy) in express mode via `openDiagnosisRoom`; no Y-fork and no floating pill render on the homepage
-3. Framework Journey animation plays
-4. Operator's Edge renders with "Beyond pattern recognition" at correct scale
-5. Operator's Brief teaser shows PriceTicker + rotating interpretation + compact NDM input
-6. `/cohort` loads with offer detail and inquiry-only banner when `?inquiry=1:1` present
-7. `/enterprise` loads with `#signal-session` and `#revenue-architecture` anchors
-8. `/operator` loads with 14-agent static diagram, no scrolling logs
-9. `/signal` loads full Operator's Brief dashboard with WATCH / SKIP / CALL / TAKE filter pills
-10. Nervous Decision Machine returns typed response on both homepage and `/signal`
-11. "Book a call" CTA (nav, hero, `SimpleCTA`) opens the Diagnosis Room (Mindy) via `openDiagnosisRoom`; the secondary `ScopingModal` (`openScopingModal`) opens from the offer pages, the `BigProblem` cards, and `/case-studies` (the legacy `InitialConsultModal` / `openConsultModal` path is now used only by `/alumni`)
-12. Diagnosis Room (Mindy) diagnoses the decision and forks to three exits (keep chatting, book a fit call, generate/download a co-branded proposal); standalone page at `/start` also loads
-13. `/leaders` diagnostic completes end-to-end
-14. All redirects function (see Phase 6)
-15. Mobile works (375px)
-16. No `text-mint` on light backgrounds anywhere
+1. `/sprint` renders the Sprint page with no public price string anywhere on it
+2. Homepage loads and every `BookFitCall` instance (hero, Sprint section, closing CTA, nav, mobile nav) renders **"Book a fit call"** and links to the same Calendly URL (`BOOKING_URL` in `src/lib/publicLinks.ts`), opening in a new tab
+3. No second booking flow, sales modal, or AI gate intercepts a `BookFitCall` click before Calendly loads
+4. Every retired path (see the array in Phase 6) redirects client-side to `/sprint`; `/faq` redirects to `/library?tab=questions`
+5. `/start` and `/decision` redirect externally to the Calendly URL; `/signal` and `/builder-economy` redirect externally to `https://live.themindmaker.ai`
+6. `/case-studies` renders the approved proof archive with no offer label (no "Teardown"/"Handover") on any case
+7. `/operator` loads
+8. `/alumni` is reachable directly, returns `noindex`, and is not linked from `Navigation.tsx` or `Footer.tsx`
+9. Testimonials on the homepage render only consent-gated quotes from `publishable_testimonials`; with no consented rows, the section renders nothing rather than an error
+10. Mobile works (390px and 375px)
+11. No `text-mint` on light backgrounds anywhere
+12. No em dash anywhere in public copy (`git grep -In "—"` over `src/`)
 
 ---
 
@@ -340,10 +319,10 @@ Verify end-to-end:
 
 ### Step 23: Final smoke tests
 - All navigation links work
-- All redirects work, including `/builder-economy` → external
-- Edge functions respond (check Lovable logs)
+- All redirects work, including `/builder-economy` and `/signal` to `https://live.themindmaker.ai`, and `/start`/`/decision` to Calendly
+- `send-contact-email` responds (check Lovable logs)
 - No console errors on any page
-- Analytics (Plausible) recording `operator_page_cta_clicked`
+- Analytics (Plausible) recording `fit_call_clicked` on every `BookFitCall` click
 
 ---
 

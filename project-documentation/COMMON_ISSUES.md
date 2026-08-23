@@ -1,84 +1,77 @@
 # Common Issues
 
-**Last Updated:** 2026-08-11
+**Last Updated:** 2026-08-23
 
 ---
 
 ## Brand & Content Issues
 
 ### Issue: Retired product names, prices, or URLs in copy
-**Symptom:** Copy anywhere that names an offer other than The Teardown or The Handover, quotes a price that is not in `src/lib/offers.ts`, mentions a discount, or implies a geographic market.
+**Symptom:** Copy anywhere that names an offer other than the Sprint, quotes any price at all, mentions a discount, or implies a geographic market.
 
-**Cause:** The six-rung ladder was retired in July and August 2026 and the estate is large. Anything written before 2026-08-11 is suspect on offer name, price and format.
+**Cause:** The old offer ladder (The Teardown, The Handover, The Capital track) was retired in July and August 2026 and the estate is large. Anything written before 2026-08-11 is suspect on offer name, price and format.
 
-**Fix:** The canonical names and prices are:
+**Fix:** The canonical fact is now much simpler:
 
-- **The Handover.** USD $18,000 / $30,000 / $50,000 by headcount. Six weeks plus a Day 90 recheck. Capped at six a year. Always via the call.
-- **The Teardown.** USD $9,500. Ten business days, under two hours of client time. Self-serve, price published. The gate for The Handover.
-- Also GBP and AUD, as **set prices per market, not conversions**.
+- **One public paid offer: the 21-day Sprint**, at `/sprint`.
+- **The price is not public.** It is agreed on the fit call. No figure, currency symbol or "starting at" phrasing should appear anywhere on the live site.
 - **No discounts.** No credit, no percentage off, no urgency offer.
 - **No geographic market claim** anywhere, including meta tags and structured data.
-- **CTRL** is a separate product on its own site and is not sold here. Quote no CTRL price.
+- **CTRL** is a Sprint deliverable, not a second offer, and is never quoted with its own price on this site.
+- `src/lib/offers.ts` (the old Handover/Teardown pricing) still exists in the repo but is dormant, not imported by any routed page, and not a live price source.
 
-The build enforces most of this. `npm test` fails if a price string appears outside `src/lib/offers.ts`, if a retired offer name appears under `_shared/mindy/` or in the proposal scaffolds, or if Mindy states a price that does not exist.
+The build enforces most of this. `src/test/price-single-source.test.ts` fails if a blocked price or old-offer-name pattern appears on any file in its `ACTIVE_BUYING_SURFACES` list (`Index.tsx`, `Sprint.tsx`, `CaseStudies.tsx`, `Operator.tsx`, `Contact.tsx`, `Navigation.tsx`, `Footer.tsx`, `scripts/generate-llms.mjs`, `scripts/prerender.mjs`, `index.html`).
 
 ---
 
 ### Issue: `"What's your nervous decision?"` used as a CTA button
 **Symptom:** Button copy reads "What's your nervous decision?" somewhere.
 **Cause:** Legacy CTA from the pre-v4 branding.
-**Solution:** Replace with `"Book a call"`. The primary "Book a call" CTA (nav, hero, `SimpleCTA`) opens the Diagnosis Room (Mindy) via `window.dispatchEvent(new CustomEvent('openDiagnosisRoom', { detail: { source_page, mode: 'express' } }))`. The secondary `ScopingModal` ("Scope it with me") opens via `window.dispatchEvent(new CustomEvent('openScopingModal'))` from the offer pages, the `BigProblem` cards, and `/case-studies`. The legacy `InitialConsultModal` / `openConsultModal` path is retained only for `/alumni`.
+**Solution:** Replace with **"Book a fit call"**, rendered via the shared `src/components/BookFitCall.tsx` component. It links straight to Calendly (`BOOKING_URL` in `src/lib/publicLinks.ts`), opens in a new tab, and fires the `fit_call_clicked` Plausible event. There is no second booking flow, `ScopingModal`, or Diagnosis Room step in front of it; every main sales action on the site should use this one component rather than a bespoke button.
 
 Note: the phrase "what's your nervous decision" can still appear in body copy as a diagnostic question ("What's the nervous decision you've been avoiding?"), but never as a CTA button label.
 
 ---
 
-### Issue: Wrong Live Intel taxonomy
-**Symptom:** Cards labelled SIGNAL / NOISE / DECISION / TAKE.
-**Cause:** Old taxonomy.
-**Solution:** Use WATCH / SKIP / CALL / TAKE. This is enforced in `src/pages/Brief.tsx` filter pills and card badges.
-
----
-
-### Issue: Nav label still says "The Brief" or "Signal Desk"
-**Symptom:** Second top-level nav slot reads "The Brief" or "Signal Desk".
-**Cause:** Nav copy not updated to v4/v5 latest.
-**Solution:** Nav label is **"Live Intel"** (`Navigation.tsx`). The body-copy term "The Operator's Brief" is still acceptable in editorial copy on `/signal`, but the nav label is "Live Intel".
+### Issue: Wrong Live Intel taxonomy / nav label still says "The Brief" or "Live Intel"
+**Symptom:** Cards labelled SIGNAL / NOISE / DECISION / TAKE, or a nav slot reading "The Brief", "Signal Desk", or "Live Intel".
+**Cause:** Stale reference to `src/pages/Brief.tsx`, an old internal page that predates the current build.
+**Solution:** Mindmaker Live is now fully external, at `https://live.themindmaker.ai` (`MINDMAKER_LIVE_URL` in `src/lib/publicLinks.ts`). There is no internal Live Intel page, no `/signal` content, and no `Brief.tsx` route mounted in `src/App.tsx` — `/signal` and `/builder-economy` are both `ExternalRedirect`s straight to that domain. `Navigation.tsx` links to it only as an image pill (`mindmaker-live-pill.png`), not a text nav label, alongside the two real nav links, **"The Sprint"** (`/sprint`) and **"Results"** (`/case-studies`). `src/pages/Brief.tsx` still exists as a file but is not imported by `App.tsx` — treat it as dead code, not a page to fix taxonomy on.
 
 ---
 
 ### Issue: a retired route renders a page instead of redirecting
-**Symptom:** `/cohort`, `/workshops`, `/enterprise` or `/immersion` shows content rather than landing on `/start`, `/teardown` or `/handover`.
-**Cause:** The page component was restored from `src/_archive/`, or the `redirects` block in `vercel.json` was edited without the matching `<HashRedirect>` in `App.tsx`.
-**Solution:** Both layers have to agree, and `src/test/redirects.test.ts` fails if they do not. The real 301 lives in `vercel.json` and is only exercised by Vercel's edge; the React Router entry is the in-app fallback and returns 200 with the SPA shell, which is expected and not the bug. Archived components are excluded from `tsconfig.app.json` and eslint, so restoring one means undoing that too. See `src/_archive/README.md`.
+**Symptom:** `/cohort`, `/workshops`, `/teardown`, `/handover`, `/capital` or any other retired path shows content rather than landing on `/sprint` (or, for `/start`, `/decision`, `/signal`, `/builder-economy`, on their external destination).
+**Cause:** The page component was restored from `src/_archive/` or imported into `App.tsx` directly, or the `redirects` block in `vercel.json` was edited without a matching `<Route>` in `App.tsx`.
+**Solution:** Every retired path (the ~22-entry array in `src/App.tsx`, e.g. `/teardown`, `/handover`, `/capital`, `/tool`, `/workshops`, `/cohort`, `/enterprise`, etc.) is mapped to the shared `ToSprint` component (`const ToSprint = () => <Navigate to="/sprint" replace />;`). Three other routes are not "retired" but do redirect: `/start` and `/decision` go to Calendly, and `/signal` and `/builder-economy` go to `https://live.themindmaker.ai`, all four via `ExternalRedirect`; `/faq` redirects in-app to `/library?tab=questions`. `vercel.json`'s `redirects` block must agree with all of this so the real 301 (exercised only at Vercel's edge, not locally) matches the in-app fallback. `src/test/redirects.test.ts` asserts the config. `src/pages/Teardown.tsx`, `Handover.tsx` and `Capital.tsx` still exist as files in `src/pages/` but are dead code, not imported or routed by `App.tsx` — a stray import of one of them into `App.tsx` is the bug to look for. `src/_archive/` holds a separate set of retired components (see `src/_archive/README.md`); those are excluded from `tsconfig.app.json` and eslint.
 
 ---
 
 ### Issue: Floating qualifier pill or homepage Y-fork still renders
 **Symptom:** The old `PreCallQualifier` floating pill or the `YFork` "Start where your question actually is." three intent cards appears on the homepage.
 **Cause:** `PreCallQualifier.tsx` or `YFork.tsx` left mounted. Both are retired.
-**Solution:** Both components moved to `src/_archive/components/` in August 2026 and neither is imported. The homepage funnels into the single Diagnosis Room (Mindy) journey. Confirm `App.tsx` and `Index.tsx` do not render them, and see `src/components/diagnosis/` for the live conversion surface.
+**Solution:** Both components moved to `src/_archive/components/` in August 2026 and neither is imported. The homepage funnels into the single **"Book a fit call"** action (`src/components/BookFitCall.tsx` → Calendly). `src/components/diagnosis/` (the Diagnosis Room) still exists as a file tree but is paused and unmounted, not the live conversion surface — confirm `App.tsx` and `Index.tsx` do not render it either.
 
 ---
 
 ### Issue: Builder Economy positioned as a Mindmaker product
 **Symptom:** Copy says "Mindmaker arms the leaders of the Builder Economy" or similar, or links `/builder-economy` internally.
 **Cause:** Pre-v4 framing.
-**Solution:** Builder Economy is now a **separate sister domain** at `thebuildereconomy.com`. `/builder-economy` route redirects externally via `ExternalRedirect`. Reference it only in the Resources dropdown as "The Builder Economy (Podcast)".
+**Solution:** Mindmaker Live has one external home, `https://live.themindmaker.ai` (`MINDMAKER_LIVE_URL` in `src/lib/publicLinks.ts`). Both `/builder-economy` and `/signal` redirect there via `ExternalRedirect` in `src/App.tsx`. There is no separate `thebuildereconomy.com` domain and no internal Resources dropdown — the nav is just "The Sprint" / "Results" plus the Mindmaker Live pill and `BookFitCall`.
 
 ---
 
 ### Issue: `/tool` page linked internally
 **Symptom:** An internal link points to `/tool`.
-**Cause:** `/tool` was the standalone Nervous Decision Machine page, now deleted.
-**Solution:** Link to `/signal#decision` instead. The Nervous Decision Machine is now embedded on the homepage `OperatorsBrief` and on `/signal`.
+**Cause:** `/tool` was the standalone Nervous Decision Machine page, now deleted; that page is dormant/unrouted.
+**Solution:** `/tool` redirects to `/sprint` (it's in the retired-paths list in `App.tsx` and `vercel.json`). Link internally to `/sprint` directly rather than to `/tool`.
 
 ---
 
-### Issue: Decision Readiness Diagnostic linked from nav or footer
-**Symptom:** A link to `/leaders` appears in `Navigation.tsx` or `Footer.tsx`.
-**Cause:** Pre-v4 framing, the diagnostic was a primary lead-gen surface.
-**Solution:** The diagnostic is unlinked from nav and footer by design. It's reachable only by direct URL (`/leaders` or `/leadership-insights`) for deep-link and outbound campaigns. Do not re-add to nav.
+### Issue: Decision Readiness Diagnostic (`/leaders`) linked from nav, footer, or copy
+**Symptom:** A link to `/leaders` or `/leadership-insights` appears anywhere on the live site.
+**Cause:** Pre-rebuild framing, when the diagnostic was a lead-gen surface reachable by direct URL.
+**Solution:** `/leaders` and `/leadership-insights` are both now in the retired-paths list in `App.tsx` and `vercel.json` and redirect to `/sprint`. There is no live diagnostic page to deep-link to; remove any link or campaign URL that still targets `/leaders`.
 
 ---
 
@@ -90,22 +83,10 @@ Note: the phrase "what's your nervous decision" can still appear in body copy as
 
 ## Edge Function Issues
 
-### Issue: Nervous Decision Machine returns no response
-**Symptom:** `/signal` or homepage machine returns fallback or nothing.
-**Cause:** Missing `ANTHROPIC_API_KEY` or rate limit hit.
-**Solution:**
-1. Verify `ANTHROPIC_API_KEY` set in Supabase secrets
-2. Check `nervous-decision-machine` logs for 429 (per-IP rate limit is 1 hour) or global ceiling trip
-3. Verify model ID `claude-haiku-4-5-20251001` still valid
-
----
-
-### Issue: PriceTicker shows empty / stale data
-**Symptom:** `PriceTicker.tsx` renders blank or old models.
-**Cause:** `get-model-data` edge function failure or `ALLOWED_MODEL_IDS` allowlist drift.
-**Solution:**
-1. Check `get-model-data` logs
-2. Verify `ALLOWED_MODEL_IDS` in `src/hooks/useModelData.ts` matches current canonical set (Opus 4.7, Sonnet 4.6, Haiku 4.5, Gemini 2.5 Pro, Gemini 2.5 Flash, GPT-5, GPT-5 Mini)
+### Issue: Nervous Decision Machine / PriceTicker return no response or stale data
+**Symptom:** The Nervous Decision Machine returns a fallback, or `PriceTicker.tsx` renders blank or old models.
+**Cause:** Both surfaces are dormant. Neither the Nervous Decision Machine component nor `PriceTicker` is rendered by anything in the current live route tree in `src/App.tsx` — they back unrouted pages (`Brief.tsx`, the homepage's old `OperatorsBrief` section, etc.).
+**Solution:** This is expected behaviour, not a bug, unless one of those surfaces has been deliberately remounted. If it has, check `ANTHROPIC_API_KEY` / `nervous-decision-machine` logs for the machine, and `get-model-data` logs plus `ALLOWED_MODEL_IDS` in `src/hooks/useModelData.ts` for the ticker.
 
 ---
 
@@ -141,30 +122,25 @@ if (req.method === 'OPTIONS') return new Response(null, { headers: corsHeaders }
 ## Frontend Issues
 
 ### Issue: Old URLs return 404
-**Symptom:** `/sprint/4-week`, `/war-room`, `/fractional-caio` etc. show 404.
+**Symptom:** `/sprint/4-week`, `/war-room`, `/fractional-caio` etc. show 404 instead of landing on `/sprint`.
 **Cause:** Redirect not configured.
-**Solution:** Redirects are defined in `src/App.tsx` via `<HashRedirect />` and `<Navigate />`. See `ARCHITECTURE.md` for the full redirect map. If 404 still appears, verify `App.tsx` has the correct `<Route>` entry.
+**Solution:** In-app redirects are defined in `src/App.tsx`: the retired-paths array is mapped to `<Route key={path} path={path} element={<ToSprint />} />`, where `const ToSprint = () => <Navigate to="/sprint" replace />;`. `/faq` uses its own `<Navigate>` to `/library?tab=questions`. The real 301s live in `vercel.json` and only fire at Vercel's edge. If 404 still appears, verify the path is actually present in both the `App.tsx` array and `vercel.json`'s `redirects` block — a path present in only one will 404 depending on how it's reached.
 
 ---
 
-### Issue: Builder Economy link returns internal 404 or loops
-**Symptom:** `/builder-economy` not redirecting externally.
-**Cause:** `ExternalRedirect` component missing or misconfigured.
-**Solution:** Verify `ExternalRedirect` is used: `<Route path="/builder-economy" element={<ExternalRedirect to="https://www.thebuildereconomy.com" />} />`.
+### Issue: Builder Economy or Mindmaker Live link returns internal 404 or loops
+**Symptom:** `/builder-economy` or `/signal` not redirecting externally.
+**Cause:** `ExternalRedirect` component missing or misconfigured, or pointed at the wrong URL.
+**Solution:** Verify `ExternalRedirect` is used and points at `MINDMAKER_LIVE_URL` from `src/lib/publicLinks.ts` (`https://live.themindmaker.ai`): `<Route path="/builder-economy" element={<ExternalRedirect to={MINDMAKER_LIVE_URL} />} />` and the same for `/signal`.
 
 ---
 
-### Issue: `ScopingModal` doesn't open from a button
-**Symptom:** CTA click does nothing.
-**Cause:** Button not dispatching the custom event.
-**Solution:** Use `window.dispatchEvent(new CustomEvent('openScopingModal', { detail: { source_page, preselected?, qualifierAnswers? } }))`. The modal listens globally from `src/App.tsx`. (The legacy `InitialConsultModal` listens for `openConsultModal` and is now dispatched only from `/alumni`.)
+### Issue: `BookFitCall` link doesn't open Calendly correctly
+**Symptom:** Clicking "Book a fit call" does nothing, opens a blank tab, or lands somewhere other than Calendly.
+**Cause:** A page rendered its own ad hoc CTA instead of the shared `src/components/BookFitCall.tsx` component, or `publicLinks.ts`'s `BOOKING_URL` was edited without updating the test that pins it.
+**Solution:** Every main sales action should render `<BookFitCall source="..." />`, never a bespoke `<a>` or button. It builds its `href` from `BOOKING_URL` in `src/lib/publicLinks.ts` (`https://calendly.com/krish-raja/mindmaker-meeting`) plus a `utm_source` from the `source` prop, opens in a new tab (`target="_blank" rel="noopener noreferrer"`), and fires the `fit_call_clicked` Plausible event before navigating (wrapped in try/catch so a blocked analytics script can't break the link). `src/test/price-single-source.test.ts` asserts the button text and `publicLinks.ts` URL stay in sync — check that test if the link target legitimately needs to change.
 
----
-
-### Issue: Diagnosis Room (Mindy) doesn't open from "Book a call"
-**Symptom:** "Book a call" click does nothing, or the standalone `/start` page is blank.
-**Cause:** `DiagnosisRoom` not mounted, or the button not dispatching the custom event.
-**Solution:** Confirm `<DiagnosisRoom />` is mounted in `src/App.tsx` (lazy / SSG-safe) alongside the other global overlays, and that the CTA dispatches `window.dispatchEvent(new CustomEvent('openDiagnosisRoom', { detail: { source_page, seedDecision?, mode: 'express' } }))`. The `/start` route renders the same surface as a standalone page.
+Note: `/start` and `/decision` also route to `BOOKING_URL`, but via `ExternalRedirect` in `App.tsx` (a full-page `window.location.replace`), not via `BookFitCall`. If one of those routes fails to redirect, the fix is in `App.tsx`'s `ExternalRedirect`, not the button component.
 
 ---
 
@@ -219,8 +195,8 @@ No user accounts; all bookings via Calendly. No plan to change unless a client p
 ### Stripe authorization hold bypassed
 `create-consultation-hold` exists but is not wired into the booking flow. Direct Calendly booking is live.
 
-### Prices live in exactly one file
-`src/lib/offers.ts` is the only place a price may appear, and `src/test/price-single-source.test.ts` fails the build if a figure shows up anywhere in `src/`, `public/`, `scripts/` or `index.html`. That includes the prerendered crawler bodies and `llms.txt`, both of which are generated from it at build time. If a price looks wrong on the site, change `offers.ts` and rebuild; do not patch the surface.
+### No price is published anywhere
+There is one public paid offer, the 21-day Sprint, and its price is agreed on the fit call, not published on the site. `src/lib/offers.ts` (the old Handover/Teardown price data) still exists in the repo but is dormant — nothing routed imports it, and it is not a live price source. The actual enforcement mechanism is `src/test/price-single-source.test.ts`, which fails the build if a blocked price pattern (a dollar figure, or an old offer name) shows up on any file in its `ACTIVE_BUYING_SURFACES` list, which includes `scripts/generate-llms.mjs` and `scripts/prerender.mjs` — so the prerendered crawler bodies and `llms.txt` are covered too, since both are generated at build time. If a price shows up on the live site, it is a regression to remove, not a figure to correct.
 
 ---
 
@@ -231,17 +207,15 @@ When investigating issues:
 1. Check browser console for errors
 2. Check network tab for failed requests
 3. Check Lovable Cloud / Supabase logs for edge function errors
-4. Verify secrets (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `RESEND_API_KEY`, `LOVABLE_API_KEY`)
+4. Verify secrets (`RESEND_API_KEY`, `LOVABLE_API_KEY`; `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` only matter if a dormant AI surface is remounted)
 5. Test on mobile viewport (375px width)
 6. Hard refresh to clear cache
 7. Verify edge functions deployed (check timestamp, 30–60s propagation)
 8. Check for TypeScript errors in build
-9. Verify correct system prompt on `nervous-decision-machine`
-10. Check Anthropic / OpenAI quota + rate limits
-11. Verify WCAG contrast on dark backgrounds
-12. Confirm `ScopingModal` listens for `openScopingModal` custom event (the legacy `InitialConsultModal` / `openConsultModal` path is dispatched only from `/alumni`)
-13. Verify no retired product names in new copy
-14. Verify brand voice compliance (see `BRANDING.md`)
+9. Verify WCAG contrast on dark backgrounds
+10. Confirm `BookFitCall` links to `BOOKING_URL` from `src/lib/publicLinks.ts` and fires `fit_call_clicked`
+11. Verify no retired product names in new copy
+12. Verify brand voice compliance (see `BRANDING.md`)
 
 ---
 

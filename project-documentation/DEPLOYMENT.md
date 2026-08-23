@@ -1,6 +1,6 @@
 # Deployment Checklist
 
-**Last Updated:** 2026-08-11
+**Last Updated:** 2026-08-23
 
 Pre-deploy and post-deploy verification for the Mindmaker project.
 
@@ -14,45 +14,49 @@ Pre-deploy and post-deploy verification for the Mindmaker project.
 - [ ] `npm run lint` passes with no warnings
 
 ### 2. Environment variables
-All required secrets configured in Lovable Cloud / Supabase:
-- [ ] `ANTHROPIC_API_KEY`. required for the Nervous Decision Machine (Claude Haiku 4.5)
-- [ ] `GEMINI_API_KEY`. preferred for `send-lead-email` company research with Google Search grounding
-- [ ] `OPENAI_API_KEY`. market sentiment + lead enrichment fallback
-- [ ] `RESEND_API_KEY`. email delivery
+See **Secrets Reference** below for the full breakdown. At minimum for the current route tree:
+- [ ] `RESEND_API_KEY`. email delivery, required for `send-contact-email`
 - [ ] `LOVABLE_API_KEY`. AI gateway (auto-provisioned)
+- [ ] `ANTHROPIC_API_KEY`, `GEMINI_API_KEY`, `OPENAI_API_KEY`. only needed if a dormant AI surface (Nervous Decision Machine, Diagnosis Room, `InitialConsultModal`) is deliberately remounted
 - [ ] `STRIPE_SECRET_KEY`. Optional, currently bypassed. Nothing on the site charges through it
 
 ### 3. Edge functions
 - [ ] All functions handle OPTIONS preflight + CORS headers
 - [ ] All functions return 200 on error with fallback data (anti-fragile design)
-- [ ] `nervous-decision-machine` rate limiter configured (1-hour per IP + global ceiling)
+- [ ] `send-contact-email` (the one live edge function) works end to end
 
 ### 4. Frontend routes
-All routes in `src/App.tsx` accessible:
+All routes in `src/App.tsx` accessible (cross-check against `vercel.json`):
 
 **Live pages:**
 - [ ] `/` (Index). Homepage
-- [ ] `/start` (DiagnosisRoom). Standalone Diagnosis Room (Mindy)
-- [ ] `/teardown` (Teardown). One price, currency switcher, the four-step method
-- [ ] `/handover` (Handover). Three bands by headcount, currency switcher, week five, Day 90 recheck, the Teardown gate
-- [ ] `/capital` (Capital). The same two engagements, per portfolio company, fund terms on the call
-- [ ] Homepage and `/operator`: `/CTRL-demo-aug-26.mp4` loads, plays muted, pauses and resumes, and fails gracefully
-- [ ] `/case-studies` (CaseStudies). Filterable by Teardown / Handover; consent-gated testimonials
-- [ ] `/signal` (Brief). Live Intel
-- [ ] `/library` (Library). Library + FAQ tab
-- [ ] `/new-age-leadership` (NewAgeLeadership). Essay; `OrgChart` lazy-loaded
-- [ ] `/alumni` (Alumni). Invitation-only continuity. **MUST be `noindex` and unlinked from nav and footer.** Confirm the SEO meta tag.
-- [ ] `/blog`, `/blog/:slug`, `/contact`, `/privacy`, `/terms`
+- [ ] `/sprint` (Sprint). The one public paid offer, the 21-day Sprint. No public price
+- [ ] `/case-studies` (CaseStudies). Approved proof archive
+- [ ] `/operator` (Operator)
+- [ ] `/blog`, `/blog/:slug` (Blog, BlogPost)
+- [ ] `/library` (Library)
+- [ ] `/new-age-leadership` (NewAgeLeadership)
+- [ ] `/contact` (Contact). General messages only, does not replace the fit call
+- [ ] `/privacy`, `/terms`
+- [ ] `/alumni` (Alumni). Invitation-only continuity. **MUST be `noindex` and unlinked from nav and footer.** Confirm the SEO meta tag
 - [ ] `*` (NotFound)
 
-**Retired routes must 301, not 404 and not render:**
-- [ ] `/workshops` and `/workshops/:slug` → `/teardown`
-- [ ] `/enterprise`, `/immersion` → `/handover`
-- [ ] `/cohort`, `/leaders`, `/leadership-insights` → `/start`
-- [ ] `/sprints`, `/sprint/4-week`, `/builder-sprint`, `/strategy-day` → `/teardown`
-- [ ] `/sprint/90-day`, `/war-room`, `/fractional-caio` → `/handover`
-- [ ] `/individual`, `/team`, `/builder`, `/builder-session`, `/leadership-lab`, `/portfolio-program` → `/`
-- [ ] `/faq` → `/library?tab=questions`, `/tool` → `/signal#decision`, `/builder-economy` → the external domain
+**External redirects (`ExternalRedirect`, client-side `window.location.replace`):**
+- [ ] `/start` → Calendly (`BOOKING_URL` in `src/lib/publicLinks.ts`)
+- [ ] `/decision` → Calendly (`BOOKING_URL`)
+- [ ] `/signal` → `https://live.themindmaker.ai` (`MINDMAKER_LIVE_URL`)
+- [ ] `/builder-economy` → `https://live.themindmaker.ai` (`MINDMAKER_LIVE_URL`)
+
+**In-app redirect:**
+- [ ] `/faq` → `/library?tab=questions`
+
+**Retired routes must 301 at the Vercel edge (`vercel.json`) and not render app content:**
+- [ ] `/teardown`, `/handover`, `/capital`, `/tool` → `/sprint`
+- [ ] `/workshops` and `/workshops/:path*` → `/sprint`
+- [ ] `/enterprise`, `/immersion`, `/cohort`, `/leaders`, `/leadership-insights` → `/sprint`
+- [ ] `/sprints`, `/sprint/4-week`, `/sprint/90-day`, `/builder-sprint`, `/war-room`, `/strategy-day`, `/fractional-caio` → `/sprint`
+- [ ] `/individual`, `/team`, `/builder`, `/builder-session`, `/leadership-lab`, `/portfolio-program` → `/sprint`
+- [ ] Every path in the retired list is a permanent (301) redirect in `vercel.json` and also has a matching in-app `<Route ... element={<ToSprint />} />` (or `<ExternalRedirect />`/`<Navigate />` for `/start`, `/decision`, `/signal`, `/faq`, `/builder-economy`) in `src/App.tsx`, so a client-side navigation lands correctly even without hitting the edge
 
 ### 5. Design system compliance
 - [ ] No hardcoded hex colors (use design tokens)
@@ -61,29 +65,24 @@ All routes in `src/App.tsx` accessible:
 - [ ] Side drawers / sheets positioned below navbar via `.sheet-navbar-aware`
 
 ### 6. Brand compliance
-- [ ] Primary CTA everywhere is **"Bring me one real decision"**, and it opens the Diagnosis Room via `window.dispatchEvent(new CustomEvent('openDiagnosisRoom', { detail: { source_page } }))`
-- [ ] The secondary `ScopingModal` opens via `openScopingModal` from the `BigProblem` cards and `/case-studies`. The legacy `InitialConsultModal` / `openConsultModal` path is used only by `/alumni`
-- [ ] Offers labelled correctly: **The Handover**, **The Teardown**. Nothing else is for sale, and the Handover is always presented first
-- [ ] No retired offer name anywhere outside `DECISIONS_LOG.md` and `src/_archive/`. `npm test` enforces this for Mindy's layer
-- [ ] Nav is **Work with me** (Handover, Teardown, funds), **Mindmaker LIVE** → `/signal`, **Resources**, **About**
-- [ ] `/signal` labelled **"Live Intel"** on the page, **Mindmaker LIVE** in the nav (NOT "The Brief", NOT "Signal Desk")
-- [ ] Taxonomy on `/signal` is **WATCH / SKIP / CALL / TAKE**
+- [ ] The single main sales action everywhere is **"Book a fit call"**, rendered only via the shared `src/components/BookFitCall.tsx` (links straight to Calendly, `BOOKING_URL` in `src/lib/publicLinks.ts`; fires the `fit_call_clicked` Plausible event)
+- [ ] No `ScopingModal`, no second booking flow, no sales modal or AI gate before Calendly, anywhere in the routed app
+- [ ] There is one public paid offer: the 21-day Sprint at `/sprint`. No Handover / Teardown labels appear anywhere live. `CTRL` appears only as a Sprint deliverable, never as a second offer
+- [ ] No retired offer name (The Handover, The Teardown) on a live buying surface. `src/test/price-single-source.test.ts` enforces this against `ACTIVE_BUYING_SURFACES`
+- [ ] Nav (`Navigation.tsx`) is exactly two links, **"The Sprint"** to `/sprint` and **"Results"** to `/case-studies`, plus a Mindmaker Live pill linking externally to `https://live.themindmaker.ai` and the `BookFitCall` CTA. No dropdowns
+- [ ] Mindmaker Live has one external home, `https://live.themindmaker.ai`; there is no internal `/signal` or `/builder-economy` content, both are `ExternalRedirect`
 - [ ] `/alumni` is not linked from nav or footer
-- [ ] No floating Pre-Call Qualifier pill, no homepage Y-fork, no ChatBot. The Diagnosis Room is the single conversion journey
-- [ ] **Stripe identifiers** in `src/lib/stripe-prices.ts` hold the Alumni Pass and nothing else
+- [ ] The Diagnosis Room (`src/components/diagnosis/`) and the homepage AI demonstration are paused and unmounted; confirm neither renders anywhere in the routed app
 - [ ] No em dash anywhere. `git grep -In "\u2014"` returns nothing
+- [ ] No unexplained business or technical term in public copy
 - [ ] No geographic market claim in copy, meta or structured data, and no office or location block
 
 ### 7. Content verification
-- [ ] Every price interpolated from `src/lib/offers.ts`. `npm test` fails if a price string appears anywhere else
-- [ ] All twelve figures correct in all three currencies on `/teardown`, `/handover` and `/capital`
-- [ ] Currency switcher present on `/teardown`, `/handover` and `/capital`; the choice persists across navigation and reload
-- [ ] No currency conversion anywhere. These are set prices per market
-- [ ] CTRL appears as a Teardown deliverable and a product link, with no price on this site
-- [ ] The $254K POC is attributed to **"a major US publisher"** and the client is never named
-- [ ] `PriceTicker` renders and scrolls on both `/` and `/signal`
-- [ ] Nervous Decision Machine returns a response on both the homepage and `/signal`
-- [ ] Testimonials render only from `publishable_testimonials`, the consent-gated view
+- [ ] No price string appears anywhere public. The price is agreed on the fit call, not published. `src/test/price-single-source.test.ts` fails the build if a blocked price/offer pattern appears on any file in `ACTIVE_BUYING_SURFACES` (`Index.tsx`, `Sprint.tsx`, `CaseStudies.tsx`, `Operator.tsx`, `Contact.tsx`, `Navigation.tsx`, `Footer.tsx`, `scripts/generate-llms.mjs`, `scripts/prerender.mjs`, `index.html`)
+- [ ] `src/lib/offers.ts` (old Handover/Teardown pricing) is dormant, not imported by any routed page, and not a live price source
+- [ ] No currency switcher or currency conversion anywhere on the site
+- [ ] CTRL appears as a Sprint deliverable, with no price on this site
+- [ ] Testimonials render only from `publishable_testimonials`, the consent-gated Supabase view (`src/hooks/useTestimonials.ts`); missing or failed consent data hides the testimonial, it does not fall back to an unconsented quote
 
 ### 8. SEO & LLM discoverability
 - [ ] `public/sitemap.xml` regenerated by build
@@ -97,25 +96,19 @@ All routes in `src/App.tsx` accessible:
 
 ### 1. Health check
 - [ ] Homepage loads without errors
-- [ ] Navigation works (Work with me / **Mindmaker LIVE** / Resources / About)
-- [ ] `PriceTicker` renders and scrolls on both `/` and `/signal`
-- [ ] Nervous Decision Machine returns a response on both homepage and `/signal`
-- [ ] `/new-age-leadership`, `/signal` and the other lazy routes render correctly
+- [ ] Navigation works (**The Sprint** / **Results** / Mindmaker Live pill / `BookFitCall`)
+- [ ] `/new-age-leadership`, `/sprint` and the other lazy routes render correctly
+- [ ] `/signal` and `/builder-economy` land on `https://live.themindmaker.ai`
 
 ### 2. Conversion regression check
-- [ ] The "Bring me one real decision" CTA opens the Diagnosis Room (Mindy) via `openDiagnosisRoom` from the nav, hero and `SimpleCTA`; the standalone `/start` page loads the same surface
-- [ ] Diagnosis Room (Mindy) diagnoses the decision and forks to three exits (keep chatting, book a fit call, generate/download a co-branded proposal); the `diagnosis_room_*` Plausible events fire
-- [ ] Secondary `ScopingModal` opens from the `BigProblem` cards and `/case-studies` (legacy `InitialConsultModal` / `openConsultModal` is used only on `/alumni`)
-- [ ] ScopingModal submission invokes `notify-scoping-request` (emails krish@themindmaker.ai + persists)
+- [ ] `BookFitCall` renders as **"Book a fit call"** everywhere it appears (nav, mobile nav, and every in-page CTA) and every instance links to the same Calendly URL (`BOOKING_URL` in `src/lib/publicLinks.ts`)
+- [ ] The link opens in a new tab, carries a `utm_source` matching its `source` prop, and fires the `fit_call_clicked` Plausible event on click
+- [ ] No second booking flow, sales modal, or AI gate intercepts the click before Calendly loads
 
 ### 3. Edge function verification
-- [ ] `nervous-decision-machine`: valid prompt returns typed JSON artefact
-- [ ] `get-ai-news`: `/signal` editorial archive populates
-- [ ] `get-model-data`: PriceTicker populates with canonical 7 models
-- [ ] `send-lead-email`: (test env) submit lead, verify receipt
-- [ ] `send-leadership-insights-email`: (test env) complete diagnostic + unlock, verify dual email
-- [ ] `notify-scoping-request`: (test env) submit the ScopingModal, verify krish@themindmaker.ai receipt
-- [ ] `notify-ctrl-waitlist`: (test env) join the CTRL waitlist, verify krish@themindmaker.ai receipt
+- [ ] `send-contact-email`: (test env) submit `/contact`, verify receipt
+
+Most other functions under `supabase/functions/` (`nervous-decision-machine`, `get-ai-news`, `get-model-data`, `notify-scoping-request`, `notify-ctrl-waitlist`, `send-lead-email`, `send-leadership-insights-email`, the Diagnosis Room functions, etc.) back dormant, unrouted components (`Brief.tsx`, `ScopingModal.tsx`, `CtrlWaitlistPopover.tsx`, `InitialConsultModal.tsx`, the Diagnosis Room, `src/_archive/`) — none is called from anything in the live route tree in `src/App.tsx`. Nothing there needs to pass for a deploy; verify only if one of those surfaces is deliberately remounted.
 
 ### 4. Redirect check
 Real 301s live in `vercel.json` and are only exercised by Vercel's edge, so this is a post-deploy check and cannot be done locally. `src/test/redirects.test.ts` asserts the config; this confirms the edge honours it.
@@ -127,7 +120,6 @@ Real 301s live in `vercel.json` and are only exercised by Vercel's edge, so this
 ### 5. Log scan
 - [ ] Check Lovable Cloud logs for errors
 - [ ] No 500s in edge function logs
-- [ ] No Anthropic rate-limit errors from Nervous Decision Machine
 
 ### 6. Performance
 - [ ] Page load under 3s on desktop
@@ -136,9 +128,9 @@ Real 301s live in `vercel.json` and are only exercised by Vercel's edge, so this
 - [ ] No horizontal scrollbar on hero (regression check)
 
 ### 7. Accessibility
-- [ ] Text contrast passes WCAG AA on every page (check dark sections especially: Hero, Operator's Edge, SimpleCTA, `/operator`)
+- [ ] Text contrast passes WCAG AA on every page (check the dark (`bg-ink`) sections on the homepage especially: hero, the Sprint pitch section, and the closing CTA)
 - [ ] Focus states visible on all interactive elements
-- [ ] `PriceTicker` respects `prefers-reduced-motion`
+- [ ] Reduced motion respected on every animated element on the live route tree
 
 ---
 
@@ -147,17 +139,21 @@ Real 301s live in `vercel.json` and are only exercised by Vercel's edge, so this
 ### Required
 | Secret | Purpose | Provider |
 |--------|---------|----------|
-| `ANTHROPIC_API_KEY` | Nervous Decision Machine | Anthropic |
-| `GEMINI_API_KEY` | Lead enrichment with Google Search grounding (preferred) | Google AI |
-| `OPENAI_API_KEY` | Market sentiment + lead enrichment fallback | OpenAI |
-| `RESEND_API_KEY` | Email delivery | Resend |
+| `RESEND_API_KEY` | Email delivery for `send-contact-email` (the one live edge function on the current route tree) | Resend |
+
+### Only needed if a dormant surface is remounted
+| Secret | Purpose | Provider |
+|--------|---------|----------|
+| `ANTHROPIC_API_KEY` | Nervous Decision Machine, Diagnosis Room (Mindy) — both dormant | Anthropic |
+| `GEMINI_API_KEY` | Lead enrichment with Google Search grounding — dormant (`InitialConsultModal.tsx`) | Google AI |
+| `OPENAI_API_KEY` | Market sentiment + lead enrichment fallback — dormant | OpenAI |
 
 ### Auto-provisioned (Lovable Cloud)
 | Secret | Purpose |
 |--------|---------|
 | `LOVABLE_API_KEY` | AI gateway |
-| `SUPABASE_URL` | Database connection |
-| `SUPABASE_PUBLISHABLE_KEY` | Client API key |
+| `SUPABASE_URL` | Database connection; also read client-side by `src/hooks/useTestimonials.ts` to query the `publishable_testimonials` consent-gated view |
+| `SUPABASE_PUBLISHABLE_KEY` | Client API key; same testimonials read path |
 | `SUPABASE_SERVICE_ROLE_KEY` | Admin API key |
 
 ### Optional

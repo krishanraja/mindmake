@@ -1,6 +1,6 @@
 # Proposed Mindmaker harness update
 
-Status: proposal only. Do not apply from this repository.
+Status: proposal only, still pending a decision — this repo cannot confirm whether it has been applied to the live mindmaker skill. Route through harness-maintainer to check/apply. Re-verified 2026-08-23: the diff below still matches current commercial truth (one Sprint, price not public, Book a fit call + one Calendly event, Diagnosis Room/homepage AI demo paused, CTRL as Sprint deliverable, proof/consent rules).
 
 Replace the skill's commercial core with the following rules:
 

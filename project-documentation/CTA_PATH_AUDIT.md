@@ -2,6 +2,8 @@
 
 Status: complete for the local production build
 
+Last verified: 2026-08-23 — re-confirmed against current App.tsx/Navigation.tsx/Footer.tsx/rebuildProof.ts, no drift.
+
 ## QA target
 
 - Repository: `C:\Users\krish\dev\mindmaker`

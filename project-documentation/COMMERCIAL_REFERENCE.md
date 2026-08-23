@@ -1,6 +1,6 @@
 ---
 name: mindmaker
-description: Current commercial reference for the Mindmaker advisory practice and themindmaker.ai. Last reviewed 2026-08-12.
+description: Current commercial reference for the Mindmaker advisory practice and themindmaker.ai. Last reviewed 2026-08-23.
 ---
 
 # Mindmaker commercial reference

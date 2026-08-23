@@ -1,6 +1,6 @@
 # Mindmaker value proposition
 
-Last updated: 12 August 2026.
+Last updated: 23 August 2026.
 
 Mindmaker is Krish Raja's commercial decision practice.
 

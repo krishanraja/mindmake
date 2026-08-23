@@ -2,6 +2,8 @@
 
 Status: current public-proof source. Proof permissions approved 2026-08-11. Homepage selection updated by Krish 2026-08-12.
 
+Last verified: 2026-08-23 — re-confirmed against current code, no drift.
+
 This file is the single project source for attendee brands, client outcomes, Steph Darmanin's consent-gated excerpts, and named career references. Other project documents must point here rather than copy these lists.
 
 ## Public framing

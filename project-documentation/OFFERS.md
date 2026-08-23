@@ -1,6 +1,6 @@
 # Mindmaker offer
 
-Last updated: 12 August 2026.
+Last updated: 23 August 2026.
 
 Mindmaker sells one paid engagement: a flexible, scoped 21-day Sprint.
 

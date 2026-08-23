@@ -1,6 +1,6 @@
 # Mindmaker messaging and FAQ
 
-Last updated: 12 August 2026.
+Last updated: 23 August 2026.
 
 ## One line
 

@@ -2,6 +2,8 @@
 
 Status: proposed scope only. Not approved for implementation in the current homepage rebuild.
 
+Current-state note (2026-08-23): the "current /intake" referenced below is public/intake/index.html, still deployed via a Vercel rewrite (see vercel.json) and NOT redirected to /sprint like other retired routes — it is unlinked from the live site's nav/footer but reachable by direct URL. See REBUILD_STATE.md's "Next action" section for the open decision on whether to redirect it.
+
 ## Purpose
 
 Help a leader who starts with an unclear problem uncover the decision underneath it. Give Krish a much better place to begin without making the leader complete a long consulting form.

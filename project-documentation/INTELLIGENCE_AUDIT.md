@@ -2,6 +2,8 @@
 
 Status: working product audit, 2026-08-12.
 
+Last verified: 2026-08-23 — /intake still exists at public/intake/index.html via a vercel.json rewrite, unlinked from nav/footer, not part of the retired-route redirect list in src/App.tsx.
+
 This file separates the useful intelligence already built from the retired offers and old public journeys wrapped around it.
 
 ## The useful system that already exists

@@ -2,7 +2,7 @@
 
 Status: Decision X-ray visual language accepted; first interaction rejected
 
-Date: 2026-08-12
+Date: 2026-08-23
 
 ## Design contract
 

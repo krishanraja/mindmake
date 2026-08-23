@@ -1,6 +1,6 @@
 # Mindmaker outcomes
 
-Last updated: 12 August 2026.
+Last updated: 23 August 2026.
 
 The Sprint is judged by whether it changes a real business decision and starts the right action.
 

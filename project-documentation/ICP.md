@@ -1,6 +1,6 @@
 # Mindmaker buyer
 
-Last updated: 12 August 2026.
+Last updated: 23 August 2026.
 
 The four buyer groups are:
 

@@ -2,6 +2,8 @@
 
 Status: product premise and editorial decision-plate visual direction approved by Krish on 12 August 2026. The company-to-pressure flow mock is ready for visual review. Implementation remains gated.
 
+Last verified: 2026-08-23 — still an unimplemented proposal; Index.tsx has no Decision Underneath tool.
+
 ## The call
 
 Build a two-input **Decision Underneath** demonstration.

@@ -11,8 +11,6 @@ const ACTIVE_BUYING_SURFACES = [
   "src/pages/Contact.tsx",
   "src/components/mindmake/LeadBrief.tsx",
   "src/components/mindmake/MindmakeShell.tsx",
-  "src/components/Navigation.tsx",
-  "src/components/Footer.tsx",
   "scripts/generate-llms.mjs",
   "scripts/prerender.mjs",
   "index.html",
@@ -41,13 +39,11 @@ describe("the public offer stays simple", () => {
   });
 
   it("uses the private starting point instead of a public diary", () => {
-    const button = read("src/components/BookFitCall.tsx");
     const links = read("src/lib/publicLinks.ts");
-    const nav = read("src/components/Navigation.tsx");
+    const shell = read("src/components/mindmake/MindmakeShell.tsx");
 
-    expect(button).toContain("Start here");
+    expect(shell).toContain("Start here");
     expect(links).toContain('SPRINT_PATH = "/?start=1"');
     expect(links).not.toContain("calendly.com");
-    expect(nav).toContain("<BookFitCall");
   });
 });

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createHash } from "node:crypto";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { buildPrivateBriefHtml } from "@/components/mindmake/privateBriefHtml";
 import {
@@ -28,7 +28,6 @@ const ACTIVE_SURFACES = [
   "src/pages/Terms.tsx",
   "src/pages/NotFound.tsx",
   "src/components/BlogPostCard.tsx",
-  "src/components/BookFitCall.tsx",
   "src/components/CookieConsent.tsx",
   "src/components/mindmake/LeadBrief.tsx",
   "src/components/mindmake/leadDelivery.ts",
@@ -53,7 +52,6 @@ const ACTIVE_SURFACES = [
   "src/App.tsx",
   "vercel.json",
   "scripts/generate-llms.mjs",
-  "scripts/generate-og-image.cjs",
   "scripts/generate-sitemap.mjs",
   "scripts/prerender.mjs",
   "public/llms.txt",
@@ -83,12 +81,10 @@ describe("Mindmake public product contract", () => {
     expect(leaks).toEqual([]);
   });
 
-  it("keeps the generated social card on the current brand and offer", () => {
-    const generator = read("scripts/generate-og-image.cjs");
-    expect(generator).toContain("mindmake.co");
-    expect(generator).toContain("Build Your AI Brain");
-    expect(generator).toContain("Build Your AI GTM");
-    expect(generator).not.toMatch(/themindmaker\.ai|1:1 sprints|Mind Set\s+→/i);
+  it("keeps the social card asset in place for the published meta tags", () => {
+    const indexHtml = read("index.html");
+    expect(indexHtml).toContain('property="og:image" content="https://mindmake.co/og-image.jpg');
+    expect(existsSync(resolve(ROOT, "public/og-image.jpg"))).toBe(true);
   });
 
   it("keeps the new public copy free of em dashes", () => {
@@ -164,7 +160,6 @@ describe("Mindmake public product contract", () => {
       "src/pages/Index.tsx",
       "src/pages/AiBrain.tsx",
       "src/pages/AiGtm.tsx",
-      "src/components/BookFitCall.tsx",
       "src/components/mindmake/MindmakeOpeningAct.tsx",
       "src/components/mindmake/MindmakeShell.tsx",
       "scripts/generate-llms.mjs",

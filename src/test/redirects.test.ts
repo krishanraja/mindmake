@@ -1,13 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 const ROOT = resolve(__dirname, "../..");
 const vercel = JSON.parse(readFileSync(resolve(ROOT, "vercel.json"), "utf8"));
 const app = readFileSync(resolve(ROOT, "src/App.tsx"), "utf8");
-const emailHarness = readFileSync(resolve(ROOT, "public/test-email-flows.html"), "utf8");
-const privateIntake = readFileSync(resolve(ROOT, "public/intake/index.html"), "utf8");
-const privateTestimonials = readFileSync(resolve(ROOT, "public/testimonials/index.html"), "utf8");
+const retiredToolPaths = [
+  "public/test-email-flows.html",
+  "public/intake/index.html",
+  "public/testimonials/index.html",
+];
 const bySource = new Map<string, { destination: string; permanent?: boolean }>(
   vercel.redirects.map((route: { source: string; destination: string; permanent?: boolean }) => [route.source, route]),
 );
@@ -107,13 +109,10 @@ describe("public route contract", () => {
       header.source.includes("test-email-flows") && header.headers.some((value) => value.value.includes("noindex")),
     );
     expect(noindex).toBeTruthy();
-    expect(emailHarness).toContain('<meta name="robots" content="noindex, nofollow">');
-    expect(emailHarness).toContain("Never auto-send");
-    expect(emailHarness).not.toContain("Auto-sending all test emails");
   });
 
-  it("keeps private legacy tools hidden even outside Vercel", () => {
-    expect(privateIntake).toContain('<meta name="robots" content="noindex, nofollow"');
-    expect(privateTestimonials).toContain('<meta name="robots" content="noindex, nofollow"');
+  it("keeps the retired static tools deleted", () => {
+    const returned = retiredToolPaths.filter((path) => existsSync(resolve(ROOT, path)));
+    expect(returned).toEqual([]);
   });
 });

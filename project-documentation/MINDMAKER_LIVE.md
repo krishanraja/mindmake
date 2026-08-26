@@ -1,3 +1,9 @@
+# SUPERSEDED. Historical record only.
+
+This file describes earlier offers, routes, domains or brands that are no longer the product. Current truth lives in `project-documentation/MINDMAKE_CANON.md` and `project-documentation/REBUILD_STATE.md`. Superseded on 26 August 2026 during the Mindmake launch pass.
+
+---
+
 # Mindmaker Live
 
 Mindmaker Live is Mindmaker's publication and distribution arm. It is not a service offer or a second buying path on themindmaker.ai.

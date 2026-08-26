@@ -1,3 +1,9 @@
+# Rewrite pending. Contains superseded material.
+
+Parts of this file describe earlier routes, domains, email flows or offers. Trust `project-documentation/MINDMAKE_CANON.md` and `project-documentation/REBUILD_STATE.md` first. This file is rewritten from the deployed end state at launch closure (see HANDOVER/06 outcome 1).
+
+---
+
 # Architecture
 
 > **Current authority, 26 August 2026.** The current architecture is summarised below and governed by `MINDMAKE_CANON.md`, `MINDMAKE_LEAD_DELIVERY_SPEC.md`, `REBUILD_STATE.md` and `DEPLOYMENT.md`. Everything from `Historical pre-rebuild architecture, superseded` onward records the old Mindmaker system. Its Sprint, Teardown, Handover, Mindy, Diagnosis Room, Calendly, public price and route statements are technical history only.

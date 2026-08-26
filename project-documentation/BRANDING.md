@@ -1,3 +1,9 @@
+# SUPERSEDED. Historical record only.
+
+This file describes earlier offers, routes, domains or brands that are no longer the product. Current truth lives in `project-documentation/MINDMAKE_CANON.md` and `project-documentation/REBUILD_STATE.md`. Superseded on 26 August 2026 during the Mindmake launch pass.
+
+---
+
 # Branding
 
 **Last Updated:** 2026-08-11

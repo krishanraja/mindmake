@@ -1,3 +1,9 @@
+# SUPERSEDED for public work.
+
+Mindy, its knowledge files and the Diagnosis Room are not part of the current public product. Do not use anything here as public copy, pricing, route or product truth. Current truth lives in `project-documentation/MINDMAKE_CANON.md`. The retired private money disclosure in the deferred knowledge files must not reach any public answer.
+
+---
+
 # Mindy Brain Pack
 
 *The knowledge pack that makes Mindy reason like Krish, recommend honestly, price in ranges, and sound like the operator and not the model. Built 2026-06-09 against `MINDY-ONE-JOURNEY-ARCHITECTURE.md` (the Diagnosis Room brief); last reconciled 2026-06-28. This README is the index and the wiring diagram. It also carries the consistency and open-questions list; items resolved as of 2026-06-09 are marked.*

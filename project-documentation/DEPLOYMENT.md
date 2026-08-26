@@ -1,3 +1,9 @@
+# Rewrite pending. Contains superseded material.
+
+Parts of this file describe earlier routes, domains, email flows or offers. Trust `project-documentation/MINDMAKE_CANON.md` and `project-documentation/REBUILD_STATE.md` first. This file is rewritten from the deployed end state at launch closure (see HANDOVER/06 outcome 1).
+
+---
+
 # Deployment Checklist
 
 **Last Updated:** 2026-08-26

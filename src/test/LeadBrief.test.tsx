@@ -408,7 +408,7 @@ describe("Mindmake private brief journey", () => {
     await confirmCode();
     expect(await screen.findByRole("heading", { name: "Keep this. Your brief is still ready." })).toBeInTheDocument();
     expect(screen.getByRole("alert")).toHaveTextContent(/neither hand-off was confirmed/i);
-    expect(screen.getByRole("link", { name: /email krish directly/i })).toHaveAttribute("href", expect.stringContaining("mailto:krish@mindmake.co"));
+    expect(screen.getByRole("link", { name: /email krish directly/i })).toHaveAttribute("href", expect.stringContaining("mailto:krish@themindmaker.ai"));
     expect(screen.queryByText(/email was queued|Krish's copy was queued/i)).not.toBeInTheDocument();
   });
 

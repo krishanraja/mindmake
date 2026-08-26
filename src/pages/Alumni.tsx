@@ -49,7 +49,7 @@ export default function Alumni() {
             <h2>Already worked together?</h2>
             <div>
               <p>Send Krish the decision or system you want to revisit. A short note is enough because the earlier context should already exist.</p>
-              <p><a href="mailto:krish@mindmake.co?subject=Mindmake%20alumni%20request">Email Krish about the next step <ArrowRight aria-hidden="true" /></a></p>
+              <p><a href="mailto:krish@themindmaker.ai?subject=Mindmake%20alumni%20request">Email Krish about the next step <ArrowRight aria-hidden="true" /></a></p>
             </div>
           </section>
         </div>

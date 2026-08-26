@@ -7,7 +7,7 @@ import "@/styles/mindmake.css";
 const sections = [
   {
     title: "1. Who we are",
-    body: <><p>Mindmake is the public brand of Mindmaker LLC. You can contact Krish Raja at <a href="mailto:krish@mindmake.co">krish@mindmake.co</a>.</p></>,
+    body: <><p>Mindmake is the public brand of Mindmaker LLC. You can contact Krish Raja at <a href="mailto:krish@themindmaker.ai">krish@themindmaker.ai</a>.</p></>,
   },
   {
     title: "2. What we collect",
@@ -27,11 +27,11 @@ const sections = [
   },
   {
     title: "6. How long we keep it",
-    body: <><p>A private-brief code works for ten minutes. Five failed tries stop it. The code itself is not stored. Code expiry does not by itself delete the request record.</p><p>We keep information only while it is needed for the reason it was collected, an active customer relationship, security, normal business records or a legal duty. The exact time depends on the record. Automatic deletion is not active for private-brief records in this release. You can ask what is held, why it is held or for deletion where the law allows it.</p></>,
+    body: <><p>A private-brief code works for ten minutes. Five failed tries stop it. The code itself is not stored.</p><p>Private-brief records are deleted on a schedule. A request that is never confirmed is deleted 7 days after it was made. The one-way abuse-limit records are deleted after 48 hours. A confirmed request, together with its consent and delivery records, is deleted 12 months after it last changed. You can ask for earlier deletion at any time. We first check the request really comes from you, then delete the record unless a legal duty requires part of it to be kept elsewhere.</p><p>Other information is kept only while it is needed for the reason it was collected, an active customer relationship, security, normal business records or a legal duty. You can ask what is held and why it is held.</p></>,
   },
   {
     title: "7. Your choices and rights",
-    body: <><p>Depending on where you live, you may be able to ask for a copy, correction, deletion, restriction or transfer of your personal information. You may also object to some uses.</p><p>You can leave the publication at any time through its unsubscribe link. Email <a href="mailto:krish@mindmake.co">krish@mindmake.co</a> for any other request. If you are in the UK and remain unhappy, you may complain to the Information Commissioner's Office. People elsewhere may contact their local data authority.</p></>,
+    body: <><p>Depending on where you live, you may be able to ask for a copy, correction, deletion, restriction or transfer of your personal information. You may also object to some uses.</p><p>You can leave the publication at any time through its unsubscribe link. Email <a href="mailto:krish@themindmaker.ai">krish@themindmaker.ai</a> for any other request. If you are in the UK and remain unhappy, you may complain to the Information Commissioner's Office. People elsewhere may contact their local data authority.</p></>,
   },
   {
     title: "8. Security",

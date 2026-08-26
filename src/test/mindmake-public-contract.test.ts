@@ -252,7 +252,7 @@ describe("Mindmake public product contract", () => {
 
   it("keeps general contact honest and outside the retired lead pipeline", () => {
     const contact = read("src/pages/Contact.tsx");
-    expect(contact).toContain("mailto:krish@mindmake.co");
+    expect(contact).toContain("mailto:krish@themindmaker.ai");
     expect(contact).toContain("Nothing is sent until you press Send there.");
     expect(contact).toContain('href="/privacy"');
     expect(contact).not.toContain("send-contact-email");

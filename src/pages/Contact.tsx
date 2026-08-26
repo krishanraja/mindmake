@@ -55,7 +55,7 @@ export default function Contact() {
       "",
       message,
     ].filter(Boolean).join("\n"));
-    window.location.href = `mailto:krish@mindmake.co?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:krish@themindmaker.ai?subject=${subject}&body=${body}`;
   };
 
   return (

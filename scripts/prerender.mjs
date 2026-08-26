@@ -77,13 +77,13 @@ const staticPages = [
     path: "/privacy",
     title: "Privacy policy",
     description: "How Mindmake collects, uses and protects information.",
-    body: `<h1>Privacy policy.</h1><p>This page explains what Mindmake collects, why it is needed and the choices you have.</p><h2>A private starting brief</h2><p>Mindmake uses the company website, the problem you choose, what you would do with more time and your work email to create the brief you asked for and send the same facts to Krish. The newsletter choice is separate and unticked.</p><h2>Your choices</h2><p>You can ask for a copy, correction or deletion of your personal information by emailing <a href="mailto:krish@mindmake.co">krish@mindmake.co</a>.</p>`,
+    body: `<h1>Privacy policy.</h1><p>This page explains what Mindmake collects, why it is needed and the choices you have.</p><h2>A private starting brief</h2><p>Mindmake uses the company website, the problem you choose, what you would do with more time and your work email to create the brief you asked for and send the same facts to Krish. The newsletter choice is separate and unticked.</p><h2>Your choices</h2><p>You can ask for a copy, correction or deletion of your personal information by emailing <a href="mailto:krish@themindmaker.ai">krish@themindmaker.ai</a>.</p>`,
   },
   {
     path: "/terms",
     title: "Terms and conditions",
     description: "Terms for using the Mindmake website and services.",
-    body: `<h1>Terms and conditions.</h1><p>Use the site lawfully, and agree the details of paid work in writing before it starts.</p><h2>Paid work</h2><p>Each piece of paid work has its own written agreement. It sets the scope, timing, price, payment dates, ownership, confidentiality, cancellation terms and any agreed result.</p><h2>Questions</h2><p>Email <a href="mailto:krish@mindmake.co">krish@mindmake.co</a>.</p>`,
+    body: `<h1>Terms and conditions.</h1><p>Use the site lawfully, and agree the details of paid work in writing before it starts.</p><h2>Paid work</h2><p>Each piece of paid work has its own written agreement. It sets the scope, timing, price, payment dates, ownership, confidentiality, cancellation terms and any agreed result.</p><h2>Questions</h2><p>Email <a href="mailto:krish@themindmaker.ai">krish@themindmaker.ai</a>.</p>`,
   },
 ];
 

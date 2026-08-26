@@ -604,7 +604,7 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
     : visitorEmailQueued && operatorHasContext
       ? "The email was queued. Download a copy now too. Krish can reply if there is a useful fit or thought to add."
       : visitorEmailQueued
-        ? "The email was queued. Krish was not given the context. Email krish@mindmake.co if you also want him to see it."
+        ? "The email was queued. Krish was not given the context. Email krish@themindmaker.ai if you also want him to see it."
         : operatorHasContext
           ? "Krish's copy was queued. Your email was not, so download your copy now."
           : "The hand-off was not confirmed. Your download is still ready.";
@@ -780,7 +780,7 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
             <div className="mm-success-actions">
               <button className="mm-button" type="button" onClick={downloadBrief}><Download aria-hidden="true" /> Download my brief</button>
               {handoffEnabled && !handoffResult && email && (
-                <a className="mm-text-button" href="mailto:krish@mindmake.co?subject=My%20Mindmake%20brief">Email Krish directly</a>
+                <a className="mm-text-button" href="mailto:krish@themindmaker.ai?subject=My%20Mindmake%20brief">Email Krish directly</a>
               )}
               <button className="mm-text-button" type="button" onClick={onClose}>Return to the site</button>
             </div>

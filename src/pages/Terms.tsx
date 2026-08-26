@@ -43,7 +43,7 @@ const sections = [
   },
   {
     title: "10. Contact",
-    body: <><p>Questions can be sent to <a href="mailto:krish@mindmake.co">krish@mindmake.co</a>.</p><p>Mindmaker LLC<br />Mindmake<br />mindmake.co</p></>,
+    body: <><p>Questions can be sent to <a href="mailto:krish@themindmaker.ai">krish@themindmaker.ai</a>.</p><p>Mindmaker LLC<br />Mindmake<br />mindmake.co</p></>,
   },
 ] as const;
 

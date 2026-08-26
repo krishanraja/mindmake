@@ -2,23 +2,31 @@
 
 ## Current snapshot
 
-Verified: 26 August 2026
+Verified: 26 August 2026, after the production launch pass.
 
 This snapshot is the current delivery truth. The preserved rebuild chronicle below records how the work changed over time. It intentionally includes earlier names, offers, routes, visual directions and test results that no longer describe the product.
 
-- Repository: `C:\Users\krish\dev\mindmaker`
-- Branch: `codex/mindmake-homepage-mock`
-- Starting revision for this local pass: `2dfc7121969280c705925f3db2fc4e40a83197de`
+### Launch state
+
+- Status: **LAUNCH COMPLETE, STABILITY CHECK PENDING.** The rebuilt site is live at `https://mindmake.co`.
+- Merged commit: `e520952a182d29312fa2878dd3f963740c1dccb7` via pull request #141 on `krishanraja/mindmake`.
+- Production deployment: `dpl_7KNTh3AhLsRKCbxUbq6oGeQ7EiH6` on Vercel project `mindmake`. Rollback target: `dpl_8on1i3DsoG2FY7ikYwU1GYAu3svx` (the prior site).
+- Domains: `mindmake.co` serves the site (Vercel DNS, Let's Encrypt). `www.mindmake.co`, `themindmaker.ai` and `www.themindmaker.ai` redirect permanently (308, one hop, path and query preserved) to the apex.
+- Publication: stays at `https://mindmakerlive.substack.com` by owner decision on 26 August 2026. `/signal` and `/builder-economy` redirect there. `content.mindmake.co` is not in use.
+- CTRL: `ctrl.mindmake.co` serves the CTRL product (Vercel project `mm-ctrl`) alongside `makeyourmindup.ai`. `ctrl.themindmaker.ai` still redirects to `makeyourmindup.ai` until one authenticated CTRL login on the new host is confirmed.
+- Lead backend: brief and retention migrations applied to Supabase project `bkyuxvschuwngtcdhsyg`; `submit-mindmake-brief` v1 and `enrich-company` v26 deployed; sender `Mindmake <briefs@mindmake.co>` verified in Resend with SPF, DKIM and DMARC passing; operator mailbox `krish@themindmaker.ai` with a confirmed controlled receipt; origins locked to `https://mindmake.co,https://www.mindmake.co`.
+- The V2 hand-off flag stays **off** in production. Gate E was withheld and stays a separate approval.
+- Retention runs daily: unverified requests purge after 7 days, rate-limit hashes after 48 hours, verified records 12 months after last update. The privacy notice states the same schedule.
+- Repository: `https://github.com/krishanraja/mindmake`, launch branch `claude/mindmake-homepage-launch-giww0a` merged to `main`.
 - Current business source: `MINDMAKE_CANON.md`
 - Approved visual and interaction floor for the opening sequence, judgement thread and first CTRL proof: `prototypes/mindmake-judgement-thread-motion-study-v5.html`, SHA-256 `DE09D75C46EB660AD6148C1D7F5DD61E4F82031B48FCFE931CC3AE05C8126C81`.
 - Frozen Brain and GTM gateway: `prototypes/mindmake-brain-gtm-gateway-candidate-7-v2.html`, `src/components/mindmake/BrainGtmGateway.tsx` and `src/styles/mindmake-gateway.css`. Its wording, composition and door-separation motion must not be reinterpreted during later work.
 - V8 remains the production breadth reference for routes, testimonial range and proof outside the V5 study. Where both artifacts cover the same surface, V5 wins.
 - Public model: two doors, Build Your AI Brain and Build Your AI GTM, which both lead into one privately priced 30-day proof.
 - Main action: `Start here`. There is no public diary or public price.
-- Lead path: company website, honest company read, one problem choice, one returned-time choice, useful preview and private download. The version-two work-email hand-off exists in source and remains fail-closed until its migration, Edge Function, security boundary and both email paths are proved in preview.
+- Lead path: company website, honest company read, one problem choice, one returned-time choice, useful preview and private download. The version-two work-email hand-off is fully proven against the production backend (request, verification, both deliveries, abuse controls and idempotency) but remains publicly off until Gate E is separately approved.
 - Newsletter permission is separate and unticked. There is no automated nurture series.
 - CTRL remains Mindmake's product and proof layer, not a third public offer.
-- Production promotion is not authorised.
 
 ### Local implementation state
 
@@ -53,19 +61,16 @@ The build, route and browser counts below are the last complete integrated front
 - V5 SHA-256 was rechecked after integration and remains `DE09D75C46EB660AD6148C1D7F5DD61E4F82031B48FCFE931CC3AE05C8126C81`.
 - Full evidence: `MINDMAKE_REBUILD_QA_2026-08-23.md`.
 
-### Remaining gates
+### Remaining items after launch
 
-1. Apply the private-brief migration to preview; run database lint and security advisers; prove browser roles cannot read the private schema or call its RPC; deploy the version-two Edge Function; and exercise the complete request, verification and independent-delivery matrix with synthetic inboxes.
-2. Agree the retention schedule and implement any promised cleanup before changing the hand-off flag. Confirm the current privacy, separate publication-interest and terms wording.
-3. Physical iOS Safari and Android Chrome checks.
-4. Publication URL and subscription decision.
-5. Rebrand, archive or delete decision for the retained old intake and testimonial source.
-6. Exact approval for legacy code and asset cleanup.
-7. Preview deployment with real HTTP 404, sitemap and lead-flow verification.
-8. Separate merge, domain and production-promotion approvals.
-9. Preview enrichment smoke test with the intended environment. Local enrichment currently fails closed because `VITE_SUPABASE_URL` is not set. Configure exact allowed origins, sender, operator email and symbolic secret references without recording their values in documentation.
-10. Remove the retired private money disclosure from deferred Supabase knowledge before that path can answer publicly.
-11. Decide whether frozen V5 copy may keep the unexplained `ROI` short form or needs a separately approved plain-language change.
+1. **24-hour stability closure**: confirm a full stable day of normal site use plus the recorded synthetic lead, rerun the operational checks, then mark the launch `STABILITY CLOSED`. Tracked in the dated GitHub issue.
+2. **Gate E (separate approval)**: enable the production V2 hand-off by rebuilding with `VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED=true`, promoting, and submitting one synthetic lead from `mindmake.co`.
+3. **Physical device checks**: the owner amended the launch gate to emulation-only evidence; the four-part physical checklist (iOS Safari, Android Chrome, VoiceOver, TalkBack) remains a post-launch task.
+4. **CTRL old-host repoint**: after one confirmed authenticated login at `ctrl.mindmake.co`, change the `ctrl.themindmaker.ai` redirect target from `makeyourmindup.ai` to `https://ctrl.mindmake.co`.
+5. **Post-cutover hygiene batch**: remove the retired Supabase function sources that only the previous site used, and rework the price-guard tests so `src/lib/offers.ts` can go (see `scripts/cleanup-legacy.sh` notes).
+6. **Credential rotation**: rotate the GitHub, Vercel, Supabase and Resend credentials used during the launch session.
+7. The `themindmaker.ai` Resend domain shows a failed verification; legacy senders on that domain stay unreliable until its DNS records are repaired in Cloudflare or the domain is retired from Resend.
+8. The retired private money disclosure lives only in superseded, banner-marked material; keep it out of any future public answer path.
 
 ## Preserved rebuild chronicle
 

@@ -34,6 +34,7 @@ git rm -q \
   src/components/PortfolioPulse.tsx src/components/PriceTicker.tsx \
   src/components/ProductExpandCard.tsx src/components/ProductExpandSection.tsx \
   src/components/ScopingModal.tsx src/components/SimpleCTA.tsx \
+  src/components/ui/markdown-response.tsx \
   src/components/SubstackSubscribeForm.tsx src/components/TwoDoors.tsx \
   src/components/WhitepaperPromo.tsx \
   src/contexts/CurrencyContext.tsx src/contexts/SessionDataContext.tsx \
@@ -71,3 +72,12 @@ git rm -q \
   "public/solution 1.mp4" "public/solution 2.mp4" "public/solution 3.mp4" \
   "public/problem 1.mp4" "public/problem 2.mp4" "public/problem 3.mp4" \
   "public/orgchart.png" "public/mindmaker-favicon.png"
+
+# Post-cutover follow-ups (do NOT run before the domain cutover):
+# - supabase function sources for the retired site (send-contact-email,
+#   mindy-chat, notify-*, submit-intake, generate-proposal, ...): the prior
+#   production deployment calls them until mindmake.co serves the new site.
+# - src/lib/offers.ts and the legacy guard tests that import it
+#   (offers-collects-internal.test.tsx, mindy-knowledge.test.ts,
+#   price-single-source.test.ts): rework the no-public-price protection
+#   without the offers module before removing it.

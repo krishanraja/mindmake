@@ -1,3 +1,9 @@
+# SUPERSEDED. Historical record only.
+
+This file describes the retired Teardown and Handover ladder, published prices and the old Mindmaker brand. None of it is current. The current purpose, offer and conversion truth is `project-documentation/MINDMAKE_CANON.md`. Superseded on 26 August 2026 during the Mindmake launch pass.
+
+---
+
 # Purpose
 
 <!-- Last Updated: 2026-08-26 -->

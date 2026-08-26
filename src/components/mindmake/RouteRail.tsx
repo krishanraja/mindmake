@@ -85,7 +85,19 @@ export function RouteRail({ children, className, label }: RouteRailProps) {
         {children}
       </div>
       <div className="mm-route-rail-controls">
-        <span aria-live="polite">{String(activeIndex + 1).padStart(2, "0")} / {String(itemCount).padStart(2, "0")}</span>
+        <span className="mm-rail-count" aria-live="polite">{String(activeIndex + 1).padStart(2, "0")} / {String(itemCount).padStart(2, "0")}</span>
+        <div className="mm-rail-dots">
+          {Array.from({ length: itemCount }, (_, dotIndex) => (
+            <button
+              key={dotIndex}
+              type="button"
+              className={dotIndex === activeIndex ? "is-active" : ""}
+              onClick={() => moveTo(dotIndex)}
+              aria-label={`Go to item ${dotIndex + 1} of ${itemCount} in ${label}`}
+              aria-current={dotIndex === activeIndex || undefined}
+            />
+          ))}
+        </div>
         <div>
           <button type="button" onClick={() => moveTo(activeIndex - 1)} disabled={activeIndex === 0} aria-label={`Previous item in ${label}`}>
             <ArrowLeft aria-hidden="true" />

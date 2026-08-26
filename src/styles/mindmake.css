@@ -710,7 +710,7 @@
   .mm-quote-deck > footer button { width: 46px; height: 46px; }
   .mm-about .mm-voices { grid-area: voices; margin-top: 0; }
   .mm-about .mm-button { grid-area: action; justify-self: start; margin-top: 0; }
-  .mm-media-grid { grid-template-columns: 1fr; }.mm-media-grid h2 { max-width: none; }.mm-media-covers { display: flex; gap: 12px; overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: x mandatory; scrollbar-width: thin; }.mm-media-covers article { width: min(calc(100vw - 64px - var(--mm-safe-left) - var(--mm-safe-right)), 330px); min-width: min(calc(100vw - 64px - var(--mm-safe-left) - var(--mm-safe-right)), 330px); min-height: 290px; padding: 26px; transform: none; scroll-snap-align: start; }.mm-media-covers article + article { transform: none; }.mm-final-grid { grid-template-columns: 1fr; }.mm-final img { justify-self: end; }
+  .mm-media-grid { grid-template-columns: 1fr; }.mm-media-grid h2 { max-width: none; }.mm-media-covers { display: flex; gap: 12px; overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: x mandatory; scrollbar-width: thin; }.mm-media-covers article { width: min(calc(100vw - 64px - var(--mm-safe-left) - var(--mm-safe-right)), 330px); min-width: min(calc(100vw - 64px - var(--mm-safe-left) - var(--mm-safe-right)), 330px); min-height: 184px; padding: 20px; transform: none; scroll-snap-align: start; }.mm-media-covers article + article { transform: none; }.mm-final-grid { grid-template-columns: 1fr; }.mm-final img { justify-self: end; }
   .mm-results .mm-route-rail-controls,
   .mm-media-section .mm-route-rail-controls {
     min-height: 48px;
@@ -850,7 +850,25 @@
 .mm-route-page .mm-route-hero-media video { aspect-ratio: 4 / 3; object-fit: contain; }
 .mm-route-page .mm-route-hero-media .mm-media-caption { color: white; }
 .mm-route-rail-controls { display: none; }
+.mm-rail-dots, .mm-quote-deck > footer .mm-rail-dots { display: none; }
 .mm-route-rail-track:focus-visible { outline: 3px solid currentColor; outline-offset: 6px; }
+
+/* On touch widths a rail is swipe-first: the next card peeks, the dots read
+   position, and the arrows stay as the secondary path. */
+@media (max-width: 900px) {
+  .mm-rail-dots, .mm-quote-deck > footer .mm-rail-dots { display: flex; align-items: center; }
+  .mm-rail-dots > button,
+  .mm-route-rail-controls .mm-rail-dots > button,
+  .mm-quote-deck > footer .mm-rail-dots > button { width: auto; min-width: 26px; height: 44px; display: grid; place-items: center; border: 0; padding: 0; background: transparent; color: inherit; cursor: pointer; touch-action: manipulation; }
+  .mm-rail-dots > button::before { content: ""; width: 15px; height: 3px; background: currentColor; opacity: .32; transition: opacity .2s ease, height .2s ease; }
+  .mm-rail-dots > button.is-active::before { height: 4px; opacity: 1; }
+  .mm-route-rail-controls .mm-rail-count,
+  .mm-quote-deck > footer .mm-rail-count { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+  .mm-quote-stack { display: flex; align-items: stretch; overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .mm-quote-stack::-webkit-scrollbar { display: none; }
+  .mm-quote-stack blockquote { flex: 0 0 100%; grid-area: auto; visibility: visible; opacity: 1; scroll-snap-align: start; }
+  .mm-quote-stack blockquote + blockquote { padding-left: 18px; }
+}
 .mm-route-rail-controls > span { font-variant-numeric: tabular-nums; font-size: 13px; font-weight: 750; }
 .mm-route-rail-controls > div { display: flex; gap: 8px; }
 .mm-route-rail-controls button {
@@ -1455,14 +1473,22 @@
 
 /* On phones, privacy consent is part of the top chrome instead of an overlay.
    The measured reserve keeps the opening canvas intact at every viewport and
-   disappears as soon as the visitor accepts. */
+   disappears as soon as the visitor accepts. --mm-stage-chrome is the single
+   source for how much top chrome a pinned scene must respect: header plus
+   consent on tablets, consent only on phones (the header steps back there
+   while the story plays). */
 @media (max-width: 900px) {
+  :root { --mm-stage-chrome: var(--mm-header-height); }
+  .mm-cookie-visible { --mm-stage-chrome: calc(var(--mm-header-height) + var(--mm-cookie-reserve)); }
   .mm-cookie-visible .mm-cookie-notice {
     top: 0;
     bottom: auto;
     border-top: 0;
     border-bottom: 1px solid rgba(255, 255, 255, .1);
   }
+  .mm-cookie-notice p { max-width: none; }
+  .mm-cookie-notice p a { display: inline; min-width: 0; min-height: 0; padding: 2px; }
+  .mm-cookie-visible .mm-cookie-notice { padding-top: max(4px, var(--mm-safe-top)); }
   .mm-cookie-visible .mm-site { padding-top: var(--mm-cookie-reserve); }
   .mm-cookie-visible .mm-header { top: var(--mm-cookie-reserve); }
   .mm-cookie-visible .mm-mobile-nav {
@@ -1474,10 +1500,14 @@
     height: calc(100svh - var(--mm-cookie-reserve));
     min-height: calc(100svh - var(--mm-cookie-reserve));
   }
-  .mm-cookie-visible .mm-gateway-runway {
-    --mm-gateway-frame: calc(100svh - var(--mm-header-height) - var(--mm-cookie-reserve));
-  }
-  .mm-cookie-visible .mm-gateway-stage {
-    top: calc(var(--mm-header-height) + var(--mm-cookie-reserve));
-  }
+}
+
+/* On phones the header steps back while the visitor reads downwards and
+   returns on the first upward scroll, so the story scenes keep the whole
+   screen. Focus inside the header always brings it back. */
+@media (max-width: 560px) {
+  :root { --mm-stage-chrome: 0px; }
+  .mm-cookie-visible { --mm-stage-chrome: var(--mm-cookie-reserve); }
+  .mm-header { transition: background .25s ease, border-color .25s ease, transform .3s ease; }
+  .mm-header.is-tucked:not(:focus-within) { transform: translateY(-101%); }
 }

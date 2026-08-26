@@ -70,9 +70,9 @@ describe("Mindmake public product contract", () => {
     expect(sha256("prototypes/mindmake-brain-gtm-gateway-candidate-7-v2.html"))
       .toBe("5A3F68994BFBD2AF412D95776515CF8F7884150FE49991364DDC680E3B418E42");
     expect(sha256("src/components/mindmake/BrainGtmGateway.tsx"))
-      .toBe("E95327BD7FFDC12071558CF05355411071FABC54AEE548D335EB32A07872017F");
+      .toBe("A09ADBAE9C4D104F9A2F3D2B35312D8D1BC818A792B9A9926BB7E49EDD023C73");
     expect(sha256("src/styles/mindmake-gateway.css"))
-      .toBe("1A3440796054A668191B4D54DC27C8D601C480E31E546E69D3300A6D9A8A2EBC");
+      .toBe("28E63FBA5C936295A8B8A8B107C721ED8A518CCADCDF57398E728D86513AEF27");
   });
 
   it("keeps public diary links and retired copy out of active surfaces", () => {

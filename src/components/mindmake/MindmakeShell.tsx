@@ -24,6 +24,7 @@ export function MindmakeShell({
   mainClassName = "",
 }: MindmakeShellProps) {
   const [scrolled, setScrolled] = useState(false);
+  const [tucked, setTucked] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const mobileNavRef = useRef<HTMLElement>(null);
@@ -32,10 +33,27 @@ export function MindmakeShell({
   const location = useLocation();
 
   useEffect(() => {
-    const update = () => setScrolled(window.scrollY > 24);
+    const phone = window.matchMedia("(max-width: 560px)");
+    let lastY = window.scrollY;
+    const update = () => {
+      const y = window.scrollY;
+      setScrolled(y > 24);
+      if (!phone.matches || y <= 96) {
+        setTucked(false);
+      } else if (y - lastY > 6) {
+        setTucked(true);
+      } else if (lastY - y > 6) {
+        setTucked(false);
+      }
+      lastY = y;
+    };
     update();
     window.addEventListener("scroll", update, { passive: true });
-    return () => window.removeEventListener("scroll", update);
+    phone.addEventListener?.("change", update);
+    return () => {
+      window.removeEventListener("scroll", update);
+      phone.removeEventListener?.("change", update);
+    };
   }, []);
 
   useEffect(() => setMenuOpen(false), [location.pathname, location.hash, location.search]);
@@ -114,7 +132,7 @@ export function MindmakeShell({
   return (
     <div className="mm-site">
       <a className="mm-skip" href="#main">Skip to content</a>
-      <header className={`mm-header${scrolled ? " is-scrolled" : ""}${headerLight ? " is-light" : ""}${paperHeader ? " is-paper" : ""}`}>
+      <header className={`mm-header${scrolled ? " is-scrolled" : ""}${headerLight ? " is-light" : ""}${paperHeader ? " is-paper" : ""}${tucked && !menuOpen ? " is-tucked" : ""}`}>
         <div className="mm-container mm-nav">
           <MindmakeBrand light={headerLight} />
           <nav className="mm-nav-links" aria-label="Main navigation">

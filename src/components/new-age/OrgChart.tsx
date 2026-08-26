@@ -4,11 +4,10 @@ import ReactFlow, {
   Handle,
   Position,
   type NodeProps,
-  type NodeMouseHandler,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import { motion, AnimatePresence } from "framer-motion";
-import { Bot, User, Sparkles, Star } from "lucide-react";
+import { motion, AnimatePresence, useReducedMotion as useFramerReducedMotion } from "framer-motion";
+import { Bot, User, Sparkles } from "lucide-react";
 import {
   traditionalChart,
   newAgeChart,
@@ -46,19 +45,36 @@ const usePrefersReducedMotion = () => {
 };
 
 // Custom node renderer. Receives data via ReactFlow's NodeProps
-const OrgNodeCard = ({ data }: NodeProps<OrgNodeData>) => {
-  const { label, subtitle, kind, featured, decisionPrompt } = data;
+type InteractiveOrgNodeData = OrgNodeData & {
+  onActivate?: () => void;
+};
+
+const OrgNodeCard = ({ data }: NodeProps<InteractiveOrgNodeData>) => {
+  const { label, subtitle, kind, decisionPrompt, onActivate } = data;
   const clickable = Boolean(decisionPrompt);
+  const reduceMotion = useFramerReducedMotion();
 
   const base =
-    "relative px-4 py-3 rounded-xl border transition-all duration-200 shadow-sm w-[176px] select-none text-center";
+    "relative px-4 py-3 rounded-xl border transition-all duration-200 motion-reduce:transition-none shadow-sm w-[176px] select-none text-center";
   const variant = nodeVariantClasses(kind);
 
   const hover = clickable
-    ? "hover:-translate-y-0.5 hover:shadow-lg hover:shadow-mint/30 cursor-pointer"
+    ? `${reduceMotion ? "" : "hover:-translate-y-0.5"} hover:shadow-lg hover:shadow-mint/30 cursor-pointer`
     : "";
 
   const Icon = kind === "agent" ? Bot : kind === "hybrid" ? Sparkles : User;
+
+  const content = (
+    <>
+      <div className="flex items-center justify-center gap-2 mb-1">
+        <Icon className="w-3.5 h-3.5 opacity-80" />
+        <span className="font-bold text-sm leading-tight">{label}</span>
+      </div>
+      {subtitle && (
+        <div className="text-[11px] opacity-75 leading-tight">{subtitle}</div>
+      )}
+    </>
+  );
 
   return (
     <>
@@ -67,35 +83,31 @@ const OrgNodeCard = ({ data }: NodeProps<OrgNodeData>) => {
         position={Position.Top}
         className="!bg-mint/60 !border-0 !w-2 !h-2"
       />
-      <motion.div
-        layout
-        initial={false}
-        className={`${base} ${variant} ${hover}`}
-      >
-        {featured && (
-          <motion.span
-            className="absolute -top-2 -right-2 inline-flex items-center gap-0.5 bg-mint text-ink px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider border border-ink/20"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.6, type: "spring", stiffness: 200 }}
-          >
-            <Star className="w-2.5 h-2.5 fill-ink" />
-            Featured
-          </motion.span>
-        )}
-        <div className="flex items-center justify-center gap-2 mb-1">
-          <Icon className="w-3.5 h-3.5 opacity-80" />
-          <span className="font-bold text-sm leading-tight">{label}</span>
-        </div>
-        {subtitle && (
-          <div className="text-[11px] opacity-75 leading-tight">{subtitle}</div>
-        )}
-        {clickable && (
-          <div className="text-[10px] mt-1.5 uppercase tracking-wider opacity-60">
-            Click for decision
-          </div>
-        )}
-      </motion.div>
+      {clickable ? (
+        <motion.button
+          type="button"
+          layout={!reduceMotion}
+          initial={false}
+          transition={reduceMotion ? { duration: 0 } : undefined}
+          aria-label={`Open the question for ${label}`}
+          onClick={(event) => {
+            event.stopPropagation();
+            onActivate?.();
+          }}
+          className={`${base} ${variant} ${hover} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-background`}
+        >
+          {content}
+        </motion.button>
+      ) : (
+        <motion.div
+          layout={!reduceMotion}
+          initial={false}
+          transition={reduceMotion ? { duration: 0 } : undefined}
+          className={`${base} ${variant}`}
+        >
+          {content}
+        </motion.div>
+      )}
       <Handle
         type="source"
         position={Position.Bottom}
@@ -117,9 +129,10 @@ const defaultEdgeOptions = {
 
 interface OrgChartProps {
   className?: string;
+  onStart: () => void;
 }
 
-export const OrgChart = ({ className }: OrgChartProps) => {
+export const OrgChart = ({ className, onStart }: OrgChartProps) => {
   const [state, setState] = useState<ChartState>("traditional");
   const [hasAutoToggled, setHasAutoToggled] = useState(false);
   const [selectedNode, setSelectedNode] = useState<OrgNodeData | null>(null);
@@ -149,11 +162,6 @@ export const OrgChart = ({ className }: OrgChartProps) => {
     []
   );
 
-  const onNodeClick: NodeMouseHandler = useCallback(
-    (_, node) => openDecision(node.data as OrgNodeData, node.id),
-    [openDecision]
-  );
-
   const handleToggle = (next: ChartState) => {
     if (next === state) return;
     setState(next);
@@ -162,7 +170,19 @@ export const OrgChart = ({ className }: OrgChartProps) => {
   };
 
   // Memoize to avoid remount warnings on ReactFlow
-  const nodes = useMemo(() => chart.nodes as OrgNode[], [chart]);
+  const nodes = useMemo(
+    () =>
+      (chart.nodes as OrgNode[]).map((node) => ({
+        ...node,
+        data: {
+          ...node.data,
+          onActivate: node.data.decisionPrompt
+            ? () => openDecision(node.data, node.id)
+            : undefined,
+        },
+      })),
+    [chart, openDecision]
+  );
   const edges = useMemo(() => chart.edges, [chart]);
 
   return (
@@ -173,7 +193,8 @@ export const OrgChart = ({ className }: OrgChartProps) => {
           <button
             type="button"
             onClick={() => handleToggle("traditional")}
-            className={`px-5 py-2 rounded-full text-sm font-bold transition-colors ${
+            aria-pressed={state === "traditional"}
+            className={`min-h-11 px-5 py-2 rounded-full text-sm font-bold transition-colors motion-reduce:transition-none ${
               state === "traditional"
                 ? "bg-ink text-white dark:bg-white dark:text-ink"
                 : "text-muted-foreground hover:text-foreground"
@@ -184,17 +205,18 @@ export const OrgChart = ({ className }: OrgChartProps) => {
           <button
             type="button"
             onClick={() => handleToggle("new-age")}
-            className={`px-5 py-2 rounded-full text-sm font-bold transition-colors ${
+            aria-pressed={state === "new-age"}
+            className={`min-h-11 px-5 py-2 rounded-full text-sm font-bold transition-colors motion-reduce:transition-none ${
               state === "new-age"
                 ? "bg-mint text-ink"
                 : "text-muted-foreground hover:text-foreground"
             }`}
           >
-            New Age
+            People + AI
           </button>
         </div>
         <p className="text-xs text-muted-foreground text-center">
-          Click any node to see the decision a leader has to make about it.
+          Switch to People + AI, then open a role to see the human call behind it.
         </p>
       </div>
 
@@ -211,17 +233,16 @@ export const OrgChart = ({ className }: OrgChartProps) => {
             <motion.div
               key={state}
               className="absolute inset-0"
-              initial={{ opacity: 0 }}
+              initial={reducedMotion ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: reducedMotion ? 0.15 : 0.5 }}
+              exit={reducedMotion ? undefined : { opacity: 0 }}
+              transition={{ duration: reducedMotion ? 0 : 0.5 }}
             >
               <ReactFlow
                 nodes={nodes}
                 edges={edges}
                 nodeTypes={nodeTypes}
                 defaultEdgeOptions={defaultEdgeOptions}
-                onNodeClick={onNodeClick}
                 fitView
                 fitViewOptions={{ padding: 0.2, duration: reducedMotion ? 0 : 600 }}
                 minZoom={0.3}
@@ -229,6 +250,8 @@ export const OrgChart = ({ className }: OrgChartProps) => {
                 proOptions={{ hideAttribution: true }}
                 nodesDraggable={false}
                 nodesConnectable={false}
+                nodesFocusable={false}
+                edgesFocusable={false}
                 panOnScroll={false}
                 zoomOnScroll={false}
                 zoomOnPinch
@@ -242,7 +265,15 @@ export const OrgChart = ({ className }: OrgChartProps) => {
         </div>
       )}
 
-      <DecisionPromptSheet open={sheetOpen} onOpenChange={setSheetOpen} data={selectedNode} />
+      <DecisionPromptSheet
+        open={sheetOpen}
+        onOpenChange={setSheetOpen}
+        data={selectedNode}
+        onStart={() => {
+          setSheetOpen(false);
+          onStart();
+        }}
+      />
     </div>
   );
 };

@@ -2,15 +2,13 @@ import { useState } from "react";
 import { Menu, Moon, Sun, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import mindmakerIcon from "@/assets/mindmaker-icon.png";
-import mindmakerWordmarkOnLight from "@/assets/Mindmaker-Wordmark-onlight.png";
-import mindmakerWordmarkOnDark from "@/assets/Mindmaker-Wordmark-ondark.png";
-import mindmakerLivePill from "@/assets/mindmaker-live-pill.png";
+import mindmakeWordmark from "../../prototypes/assets/mindmake-wordmark.png";
 import { BookFitCall } from "@/components/BookFitCall";
 import { MINDMAKER_LIVE_URL } from "@/lib/publicLinks";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
 
 const links = [
-  { label: "The Sprint", href: "/sprint" },
+  { label: "How I Help", href: "/#work" },
   { label: "Results", href: "/case-studies" },
 ];
 
@@ -27,10 +25,9 @@ export default function Navigation() {
     >
       <div className="container-width">
         <div className="flex h-16 items-center justify-between sm:h-18 md:h-20">
-          <a href="/" className="flex items-end gap-2 hover:no-underline" aria-label="Mindmaker home">
+          <a href="/" className="flex items-center gap-2 hover:no-underline" aria-label="Mindmake home">
             <img src={mindmakerIcon} alt="" className="h-8 w-auto sm:h-9 md:h-10" />
-            <img src={mindmakerWordmarkOnLight} alt="Mindmaker" className="h-5 w-auto dark:hidden sm:h-6 md:h-7" />
-            <img src={mindmakerWordmarkOnDark} alt="Mindmaker" className="hidden h-5 w-auto dark:block sm:h-6 md:h-7" />
+            <img src={mindmakeWordmark} alt="Mindmake" className="h-5 w-auto dark:brightness-0 dark:invert sm:h-6 md:h-7" />
           </a>
 
           <div className="hidden items-center gap-1 lg:flex">
@@ -39,8 +36,8 @@ export default function Navigation() {
                 {link.label}
               </a>
             ))}
-            <a href={MINDMAKER_LIVE_URL} target="_blank" rel="noopener noreferrer" className="rounded-md px-3 py-2 hover:bg-mint/10 hover:no-underline" aria-label="Mindmaker Live">
-              <img src={mindmakerLivePill} alt="Mindmaker Live" className="h-6 w-auto" />
+            <a href={MINDMAKER_LIVE_URL} target="_blank" rel="noopener noreferrer" className="rounded-md px-3 py-2 text-sm font-semibold hover:bg-mint/10 hover:no-underline">
+              Media
             </a>
             <BookFitCall source="navigation" className="ml-3 min-h-10 px-4 py-2" />
           </div>
@@ -64,8 +61,8 @@ export default function Navigation() {
                   {link.label}
                 </a>
               ))}
-              <a href={MINDMAKER_LIVE_URL} target="_blank" rel="noopener noreferrer" className="flex min-h-12 items-center rounded-md px-3 hover:bg-mint/10 hover:no-underline">
-                <img src={mindmakerLivePill} alt="Mindmaker Live" className="h-6 w-auto" />
+              <a href={MINDMAKER_LIVE_URL} target="_blank" rel="noopener noreferrer" className="flex min-h-12 items-center rounded-md px-3 text-base font-semibold hover:bg-mint/10 hover:no-underline">
+                Media
               </a>
               <BookFitCall source="mobile-navigation" className="mt-3 w-full" />
             </div>

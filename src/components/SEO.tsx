@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import { useEffect } from "react";
 
 interface SEOProps {
   title: string;
@@ -11,55 +11,78 @@ interface SEOProps {
   noindex?: boolean;
 }
 
+const setMeta = (selector: string, attribute: "name" | "property", key: string, content: string) => {
+  let element = document.head.querySelector<HTMLMetaElement>(selector);
+  if (!element) {
+    element = document.createElement("meta");
+    element.setAttribute(attribute, key);
+    document.head.appendChild(element);
+  }
+  element.content = content;
+};
+
 export const SEO = ({
   title,
   description,
   canonical,
-  ogImage = "https://www.themindmaker.ai/og-image.jpg?v=2",
+  ogImage = "https://mindmake.co/og-image.jpg?v=2",
   ogType = "website",
   keywords,
   jsonLd,
   noindex = false,
 }: SEOProps) => {
-  const fullTitle = `${title} | The Mindmaker`;
-  const siteUrl = "https://www.themindmaker.ai";
-  const canonicalUrl = canonical ? `${siteUrl}${canonical}` : siteUrl;
+  useEffect(() => {
+    const fullTitle = `${title} | Mindmake`;
+    const canonicalUrl = `https://mindmake.co${canonical || ""}`;
+    document.title = fullTitle;
 
-  return (
-    <Helmet>
-      {/* Primary Meta Tags */}
-      <title>{fullTitle}</title>
-      <meta name="title" content={fullTitle} />
-      <meta name="description" content={description} />
-      {keywords && <meta name="keywords" content={keywords} />}
-      {noindex && <meta name="robots" content="noindex, nofollow" />}
+    setMeta('meta[name="title"]', "name", "title", fullTitle);
+    setMeta('meta[name="description"]', "name", "description", description);
+    setMeta('meta[name="robots"]', "name", "robots", noindex ? "noindex, nofollow" : "index, follow");
+    if (keywords) setMeta('meta[name="keywords"]', "name", "keywords", keywords);
 
-      {/* Canonical URL */}
-      <link rel="canonical" href={canonicalUrl} />
-      
-      {/* Open Graph / Facebook */}
-      <meta property="og:type" content={ogType} />
-      <meta property="og:url" content={canonicalUrl} />
-      <meta property="og:title" content={fullTitle} />
-      <meta property="og:description" content={description} />
-      <meta property="og:image" content={ogImage} />
-      <meta property="og:image:secure_url" content={ogImage} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
-      
-      {/* Twitter */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:url" content={canonicalUrl} />
-      <meta name="twitter:title" content={fullTitle} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={ogImage} />
-      
-      {/* JSON-LD Structured Data */}
-      {jsonLd && (
-        <script type="application/ld+json">
-          {JSON.stringify(jsonLd)}
-        </script>
-      )}
-    </Helmet>
-  );
+    let canonicalElement = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (!canonicalElement) {
+      canonicalElement = document.createElement("link");
+      canonicalElement.rel = "canonical";
+      document.head.appendChild(canonicalElement);
+    }
+    canonicalElement.href = canonicalUrl;
+
+    const openGraph: Record<string, string> = {
+      "og:type": ogType,
+      "og:url": canonicalUrl,
+      "og:title": fullTitle,
+      "og:description": description,
+      "og:image": ogImage,
+      "og:image:secure_url": ogImage,
+      "og:image:width": "1200",
+      "og:image:height": "630",
+    };
+    Object.entries(openGraph).forEach(([property, content]) => {
+      setMeta(`meta[property="${property}"]`, "property", property, content);
+    });
+
+    const twitter: Record<string, string> = {
+      "twitter:card": "summary_large_image",
+      "twitter:url": canonicalUrl,
+      "twitter:title": fullTitle,
+      "twitter:description": description,
+      "twitter:image": ogImage,
+    };
+    Object.entries(twitter).forEach(([name, content]) => {
+      setMeta(`meta[name="${name}"]`, "name", name, content);
+    });
+
+    document.getElementById("mindmake-page-jsonld")?.remove();
+    if (jsonLd) {
+      const script = document.createElement("script");
+      script.id = "mindmake-page-jsonld";
+      script.type = "application/ld+json";
+      script.textContent = JSON.stringify(jsonLd);
+      document.head.appendChild(script);
+    }
+  }, [canonical, description, jsonLd, keywords, noindex, ogImage, ogType, title]);
+
+  return null;
 };

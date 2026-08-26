@@ -1,365 +1,89 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- CRITICAL: Prevent horizontal scrollbar flash before any CSS loads -->
-    <!-- This MUST be first to ensure overflow is hidden from first paint -->
-    <style>
-      html, body { overflow-x: hidden !important; max-width: 100vw !important; }
-      #root { overflow-x: hidden; max-width: 100vw; }
-      /* Prevent hero content from causing scrollbar during CSS/font loading race */
-      #hero { overflow: hidden !important; max-width: 100vw !important; }
-      #hero * { max-width: 100%; }
-      
-      /* SCROLL HIJACK LAYER 1: Critical containment before React loads */
-      /* v3 FIX: NO position:fixed on body - it caused blank screen bug */
-      /* Scroll-locked state - prevents native scrolling via overflow:hidden */
-      html.scroll-hijack-locked {
-        overflow: hidden !important;
-        overscroll-behavior: none !important;
-        touch-action: none !important;
-        -webkit-overflow-scrolling: auto !important;
-      }
-      html.scroll-hijack-locked body {
-        overflow: hidden !important;
-        /* REMOVED: position: fixed - THIS CAUSED BLANK SCREEN */
-        overscroll-behavior: none !important;
-        touch-action: none !important;
-      }
-      /* Scroll hijack sections - contain overflow from first paint */
-      .scroll-hijack-section {
-        overflow: hidden !important;
-        contain: layout style paint !important;
-        max-width: 100vw !important;
-      }
-      .scroll-hijack-section * {
-        max-width: 100%;
-      }
-      /* Sentinel elements for anticipatory detection */
-      .scroll-hijack-sentinel {
-        position: absolute;
-        top: -100px;
-        left: 0;
-        right: 0;
-        height: 1px;
-        pointer-events: none;
-        visibility: hidden;
-      }
-    </style>
-    
-    <!-- Primary Meta Tags -->
-    <title>Commercial decisions shaped by AI | The Mindmaker</title>
-    <meta name="title" content="Commercial decisions shaped by AI | The Mindmaker" />
-    <meta name="description" content="Mindmaker helps founders and business leaders make hard product, price, go-to-market and company decisions as AI changes the market." />
-    <meta name="keywords" content="AI advisory, AI decision making, commercial strategy, AI go-to-market, AI pricing strategy, AI for executives, operator advisor, agentic systems, AI positioning, build versus buy AI" />
-    <meta name="author" content="Krish Raja, The Mindmaker" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="googlebot" content="index, follow" />
-    <meta name="language" content="English" />
-    <meta name="revisit-after" content="7 days" />
-    
-    <!--
-      Geographic targeting removed August 2026. It declared a US market with
-      San Francisco coordinates, while llms.txt separately claimed Brooklyn.
-      The coordinates were invented. Mindmaker sells internationally, which is
-      why the site carries three currencies, so no market is stated anywhere.
-      areaServed in the structured data below says Worldwide, which is true.
-    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <style>html,body{margin:0;overflow-x:hidden;max-width:100vw;background:#f4f0e8}#root{max-width:100vw}</style>
 
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://www.themindmaker.ai/" />
-    
-    <!-- Open Graph / Facebook -->
+    <title>Put your best judgement to work with AI | Mindmake</title>
+    <meta name="title" content="Put your best judgement to work with AI | Mindmake" />
+    <meta name="description" content="Mindmake helps leaders turn their judgement into useful AI systems and make better product, price, message and team decisions." />
+    <meta name="author" content="Krish Raja, Mindmake" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://mindmake.co/" />
+
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.themindmaker.ai/" />
-    <meta property="og:site_name" content="The Mindmaker" />
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:title" content="Commercial decisions shaped by AI | The Mindmaker" />
-    <meta property="og:description" content="Make one hard business decision with Krish Raja, keep the reasoning and start the first real action." />
-    <meta property="og:image" content="https://www.themindmaker.ai/og-image.jpg?v=2" />
-    <meta property="og:image:secure_url" content="https://www.themindmaker.ai/og-image.jpg?v=2" />
+    <meta property="og:url" content="https://mindmake.co/" />
+    <meta property="og:site_name" content="Mindmake" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:title" content="Put your best judgement to work with AI | Mindmake" />
+    <meta property="og:description" content="Build your AI brain or improve what the business sells. Start with a private company read." />
+    <meta property="og:image" content="https://mindmake.co/og-image.jpg?v=3" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Mindmaker  - Mind Set, Mind Map, Mind Make" />
-    <meta property="og:image:type" content="image/jpeg" />
-    
-    <!-- Twitter -->
+    <meta property="og:image:alt" content="Mindmake" />
+
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content="https://www.themindmaker.ai/" />
-    <meta name="twitter:site" content="@themindmaker" />
-    <meta name="twitter:creator" content="@themindmaker" />
-    <meta name="twitter:title" content="Commercial decisions shaped by AI | The Mindmaker" />
-    <meta name="twitter:description" content="Make one hard business decision with Krish Raja, keep the reasoning and start the first real action." />
-    <meta name="twitter:image" content="https://www.themindmaker.ai/og-image.jpg?v=2" />
-    <meta name="twitter:image:alt" content="Mindmaker  - Mind Set, Mind Map, Mind Make" />
-    
-    <!-- Additional Meta Tags -->
-    <meta name="application-name" content="The Mindmaker" />
-    <meta name="theme-color" content="#00D9B6" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="The Mindmaker" />
-    
-    <!-- Favicon and Icons - Complete cross-browser/device support -->
-    <!-- Primary: SVG favicon (modern browsers - scales perfectly, transparent) -->
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" color="#00D9B6">
-    <!-- Fallback: PNG favicons for various sizes (transparent backgrounds) -->
-    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32">
-    <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16">
-    <link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96">
-    <!-- Legacy: ICO fallback for older browsers -->
-    <link rel="icon" href="/favicon.ico" sizes="48x48">
-    <link rel="shortcut icon" href="/favicon.ico">
-    <!-- Apple Touch Icon (iOS home screen) - must be PNG with no transparency for iOS -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/favicon-192x192.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/favicon-144x144.png">
-    <!-- Android/Chrome PWA -->
-    <link rel="manifest" href="/site.webmanifest">
-    <!-- Windows Tiles -->
-    <meta name="msapplication-TileColor" content="#00D9B6">
-    <meta name="msapplication-TileImage" content="/favicon-144x144.png">
-    <meta name="msapplication-config" content="/browserconfig.xml">
-    <!-- Safari Pinned Tab (monochrome SVG) -->
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#00D9B6">
-    
-    <!-- Preconnect for Performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="dns-prefetch" href="https://calendly.com">
+    <meta name="twitter:title" content="Put your best judgement to work with AI | Mindmake" />
+    <meta name="twitter:description" content="Build your AI brain or improve what the business sells. Start with a private company read." />
+    <meta name="twitter:image" content="https://mindmake.co/og-image.jpg?v=3" />
 
-    <!-- Analytics: Plausible (privacy-first, no cookies, GDPR-compliant) -->
-    <script defer data-domain="themindmaker.ai" src="https://plausible.io/js/script.js"></script>
-    
-    <!-- Preload Critical Assets -->
-    <link rel="preload" href="/og-image.jpg" as="image">
+    <meta name="application-name" content="Mindmake" />
+    <meta name="theme-color" content="#06251f" />
+    <meta name="apple-mobile-web-app-title" content="Mindmake" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="preload" href="/krish-stage-2-hero.webp" as="image" fetchpriority="high" />
 
-    <!-- Modern Variable Fonts - Load asynchronously to avoid render blocking -->
-    <!-- Inter Variable: Primary UI and body text -->
-    <link 
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" 
-      rel="stylesheet"
-      media="print"
-      onload="this.media='all'"
-    />
-    <!-- Space Grotesk Variable: Display and headlines -->
-    <link 
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" 
-      rel="stylesheet"
-      media="print"
-      onload="this.media='all'"
-    />
-    <noscript>
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-      <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
-    </noscript>
-
-    <!-- Structured Data / JSON-LD -->
+    <script>
+      if (!["localhost", "127.0.0.1"].includes(window.location.hostname)) {
+        const analytics = document.createElement("script");
+        analytics.defer = true;
+        analytics.dataset.domain = "mindmake.co";
+        analytics.src = "https://plausible.io/js/script.js";
+        document.head.appendChild(analytics);
+      }
+    </script>
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "Organization",
-          "@id": "https://www.themindmaker.ai/#organization",
-          "name": "The Mindmaker",
-          "alternateName": "Mindmaker",
-          "url": "https://www.themindmaker.ai/",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://www.themindmaker.ai/favicon-512x512.png",
-            "width": 512,
-            "height": 512
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://mindmake.co/#organization",
+            "name": "Mindmake",
+            "url": "https://mindmake.co/",
+            "logo": "https://mindmake.co/favicon-512x512.png",
+            "description": "Mindmake helps leaders turn their judgement into useful AI systems and make better product, price, message and team decisions.",
+            "founder": { "@id": "https://mindmake.co/#founder" },
+            "areaServed": "Worldwide"
           },
-          "image": {
-            "@type": "ImageObject",
-            "url": "https://www.themindmaker.ai/og-image.jpg",
-            "width": 1200,
-            "height": 630
+          {
+            "@type": "WebSite",
+            "@id": "https://mindmake.co/#website",
+            "url": "https://mindmake.co/",
+            "name": "Mindmake",
+            "publisher": { "@id": "https://mindmake.co/#organization" },
+            "inLanguage": "en-GB"
           },
-          "description": "Krish Raja's commercial decision practice. Mindmaker helps business leaders make hard product, price, go-to-market and company decisions as AI changes the market.",
-          "foundingDate": "2023",
-          "founder": {
+          {
             "@type": "Person",
+            "@id": "https://mindmake.co/#founder",
             "name": "Krish Raja",
             "jobTitle": "Founder",
-            "description": "More than 17 years across data, technology and product strategy, plus deep work inside AI.",
-            "sameAs": [
-              "https://www.linkedin.com/in/krish-raja/"
-            ]
-          },
-          "slogan": "Commercial decisions shaped by AI",
-          "knowsAbout": [
-            "AI Strategy",
-            "Commercial Strategy",
-            "Product Strategy",
-            "AI Decision Making",
-            "Go-To-Market Strategy",
-            "Pricing Strategy",
-            "Agentic Systems"
-          ],
-          "areaServed": {
-            "@type": "Place",
-            "name": "Worldwide"
-          },
-          "serviceType": [
-            "AI Advisory",
-            "Commercial Strategy",
-            "Product Strategy"
-          ],
-          "email": "krish@themindmaker.ai",
-          "sameAs": [
-            "https://twitter.com/themindmaker",
-            "https://linkedin.com/company/themindmaker"
-          ]
-        },
-        {
-          "@type": "WebSite",
-          "@id": "https://www.themindmaker.ai/#website",
-          "url": "https://www.themindmaker.ai/",
-          "name": "The Mindmaker",
-          "description": "Commercial decision work for business leaders as AI changes the market.",
-          "publisher": {
-            "@id": "https://www.themindmaker.ai/#organization"
-          },
-          "inLanguage": "en-GB",
-          "potentialAction": {
-            "@type": "SearchAction",
-            "target": {
-              "@type": "EntryPoint",
-              "urlTemplate": "https://www.themindmaker.ai/?s={search_term_string}"
-            },
-            "query-input": "required name=search_term_string"
+            "worksFor": { "@id": "https://mindmake.co/#organization" },
+            "description": "Data and technology product strategist who builds useful AI systems with leaders.",
+            "sameAs": ["https://www.linkedin.com/in/krish-raja/"]
           }
-        },
-        {
-          "@type": "WebPage",
-          "@id": "https://www.themindmaker.ai/#webpage",
-          "url": "https://www.themindmaker.ai/",
-          "name": "Commercial decisions shaped by AI | The Mindmaker",
-          "isPartOf": {
-            "@id": "https://www.themindmaker.ai/#website"
-          },
-          "about": {
-            "@id": "https://www.themindmaker.ai/#organization"
-          },
-          "description": "Mindmaker helps founders and business leaders make hard product, price, go-to-market and company decisions as AI changes the market.",
-          "inLanguage": "en-GB",
-          "breadcrumb": {
-            "@id": "https://www.themindmaker.ai/#breadcrumb"
-          }
-        },
-        {
-          "@type": "FAQPage",
-          "@id": "https://www.themindmaker.ai/#faq",
-          "mainEntity": [
-            {
-              "@type": "Question",
-              "name": "What does Mindmaker actually sell?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "One 21-day Sprint. Krish researches, challenges, models, coordinates and makes one hard commercial decision with the client. The work ends with the decision made, the reason kept and the first material action under way. Price is set on the fit call."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Is this AI training?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "No. Mindmaker does not sell training, courses or certifications. The output is a decision you can defend, in writing, or a rebuilt commercial layer your own team runs. If what you want is a curriculum, this is the wrong place."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Who is it for?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Founders, CEOs, CROs and strategy leaders making a hard product, price, go-to-market or company decision as AI changes the market."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Do engagements ever end, or is this a retainer?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "The Sprint ends after 21 days. Mindmaker does not sell retainers, fractional executive roles, production IT work or open-ended support."
-              }
-            }
-          ]
-                },
-        {
-          "@type": "BreadcrumbList",
-          "@id": "https://www.themindmaker.ai/#breadcrumb",
-          "itemListElement": [
-            {
-              "@type": "ListItem",
-              "position": 1,
-              "name": "Home",
-              "item": "https://www.themindmaker.ai/"
-            }
-          ]
-        },
-        {
-          "@type": "Person",
-          "@id": "https://www.themindmaker.ai/#founder",
-          "name": "Krish Raja",
-          "givenName": "Krish",
-          "familyName": "Raja",
-          "jobTitle": "Founder",
-          "worksFor": {
-            "@id": "https://www.themindmaker.ai/#organization"
-          },
-          "description": "Commercial decision practitioner with more than 17 years across data, technology and product strategy, plus deep work inside AI.",
-          "url": "https://www.themindmaker.ai/",
-          "sameAs": [
-            "https://www.linkedin.com/in/krish-raja/"
-          ]
-        }
-      ]
-    }
-    </script>
-
-    <!--
-      Currency preference, read before first paint.
-
-      The prerendered crawler body states USD, and Vercel serves that static
-      file to everyone. A returning visitor who chose GBP would otherwise see
-      the USD number flash before React mounts and replaces it. This reads
-      only the visitor's own explicit choice: no geolocation, no locale
-      sniffing, no IP lookup.
-
-      Crawlers have neither cookie nor param, so they resolve to "usd", match
-      nothing below, and read the real price in the static body.
-    -->
-    <script>
-      (function () {
-        try {
-          var param = new URLSearchParams(location.search).get('currency');
-          var cookie = document.cookie.match(/(?:^|;\s*)mm_currency=([^;]*)/);
-          var c = String(param || (cookie && cookie[1]) || 'usd').toLowerCase();
-          if (c !== 'usd' && c !== 'gbp' && c !== 'aud') c = 'usd';
-          document.documentElement.setAttribute('data-currency', c);
-        } catch (e) {
-          document.documentElement.setAttribute('data-currency', 'usd');
-        }
-      })();
-    </script>
-    <style>
-      /* Hide only the stale number, never the sentence around it, and only
-         for a visitor who actively chose something other than the default. */
-      html:not([data-currency='usd']) #prerendered-content [data-price] {
-        visibility: hidden;
+        ]
       }
-    </style>
+    </script>
   </head>
-
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <!-- Calendly Popup Widget -->
-    <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
   </body>
 </html>

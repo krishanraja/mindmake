@@ -60,7 +60,6 @@ const OperatorsEdge = () => {
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeUp}
         >
-          {/* Section eyebrow, matches other homepage sections */}
           <motion.div
             className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.24em] text-mint/80 mb-5"
             variants={fadeUp}

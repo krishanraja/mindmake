@@ -46,7 +46,6 @@ const NewHero = () => {
 
       {/* Content */}
       <div className="relative z-10 container-width pt-32 sm:pt-36 md:pt-40 pb-16 sm:pb-20 md:pb-24 min-h-screen flex flex-col justify-center">
-        {/* Small eyebrow label reframing the rotation as social proof */}
         <motion.div
           className="mb-4"
           initial={{ opacity: 0, y: 10 }}
@@ -93,7 +92,7 @@ const NewHero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.6 }}
         >
-          Consultants, LLMs and the next hyped tool sell you point solutions built to extract your judgment, not build it. We do the opposite: rebuild how <span className="text-white font-semibold">you</span> decide with AI, so you get sharper as the tools get better.
+          Consultants, LLMs and the next hyped tool sell you point solutions built to extract your judgement, not build it. We do the opposite: rebuild how <span className="text-white font-semibold">you</span> decide with AI, so you get sharper as the tools get better.
         </motion.p>
 
         {/* CTAs */}

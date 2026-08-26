@@ -92,7 +92,7 @@ const FlipCard = ({ index, fate, value, flipped, onFlip, reduceMotion }: FlipCar
         className={cn(
           "relative w-full aspect-square cursor-pointer outline-none",
           "[transform-style:preserve-3d]",
-          !reduceMotion && "transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]",
+          !reduceMotion && "transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)]",
           flipped && !reduceMotion && "[transform:rotateY(180deg)]",
           "focus-visible:[&>div]:ring-2 focus-visible:[&>div]:ring-mint focus-visible:[&>div]:ring-offset-4 focus-visible:[&>div]:ring-offset-ink",
         )}

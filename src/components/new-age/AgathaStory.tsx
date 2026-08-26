@@ -1,108 +1,89 @@
 import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
-import { Quote } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 
 const PARAGRAPHS = [
-  "Agatha is the COO-agent in Mindmaker's fleet. Her job is to surface strategic tensions, challenge my thinking, and flag when the fleet as a whole is drifting off-course. She's good at it.",
-  "What I didn't expect: in January, Agatha flagged a capability gap. Outputs from fifteen other agents were landing in my inbox as fifteen separate reports. Nobody was synthesizing them into a coherent executive view. She proposed the role herself, an Intelligence Synthesist, and specified what it would need to do. A new agent was built to fulfill the spec. Its name is Nova.",
-  "The decision I faced, which no business-school playbook had prepared me for: an AI teammate had identified a capability gap in my org and proposed a role to fill it. Who approves that hire? What's the vetting? What's the org-chart governance for agent-proposed roles? I had to write the policy from scratch. Every executive with an agent fleet is about to have the same moment.",
+  "Agatha is an AI operations agent in Krish's system. It checks work from the other agents, looks for gaps and brings important questions back to him.",
+  "It noticed a simple problem. Fifteen useful reports were arriving as fifteen separate files. No one was turning them into one clear view for a leader. Agatha described the missing job and the checks it would need. Krish then built Nova to do that job.",
+  "The useful part was not that AI had invented a job. It had made a missing hand-off visible. Krish still had to decide whether the job was needed, what good work looked like and when Nova should ask for help.",
 ];
 
-export const AgathaStory = () => {
+interface AgathaStoryProps {
+  onStart: () => void;
+}
+
+export function AgathaStory({ onStart }: AgathaStoryProps) {
+  const reduceMotion = useReducedMotion();
+
   return (
-    <section
-      className="section-padding bg-gradient-to-b from-background to-muted/30"
-      aria-label="The Intelligence Synthesist story"
-    >
-      <div className="container-width max-w-3xl">
-        <motion.div
-          className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-mint-dark dark:text-mint mb-6"
-          initial={{ opacity: 0, y: 8 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.4 }}
-        >
-          <span className="h-1 w-1 rounded-full bg-mint" />
-          A story from the fleet
-        </motion.div>
-
+    <section className="section-padding" aria-labelledby="agatha-story-title">
+      <div className="container-width max-w-4xl">
         <motion.h2
-          className="text-3xl md:text-5xl font-bold mb-8 leading-tight"
-          initial={{ opacity: 0, y: 12 }}
+          id="agatha-story-title"
+          className="max-w-[14ch] text-4xl font-bold leading-[1.02] md:text-6xl"
+          initial={reduceMotion ? false : { opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ delay: 0.1, duration: 0.5 }}
+          transition={reduceMotion ? { duration: 0 } : { delay: 0.08, duration: 0.5 }}
         >
-          Agatha hired herself a teammate.
+          Fifteen reports exposed one missing job.
         </motion.h2>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-          className="mb-6"
-        >
-          <Quote className="w-8 h-8 text-mint" />
-        </motion.div>
-
-        <div className="space-y-6">
-          {PARAGRAPHS.map((p, i) => (
-            <p key={i} className="text-lg md:text-xl text-foreground leading-relaxed">
-              {p}
-            </p>
+        <div className="mt-10 space-y-6 border-l-2 border-mint pl-6 md:mt-14 md:pl-10">
+          {PARAGRAPHS.map((paragraph, index) => (
+            <motion.p
+              key={paragraph}
+              className="text-lg leading-relaxed text-foreground md:text-xl"
+              initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-70px" }}
+              transition={reduceMotion ? { duration: 0 } : { delay: index * 0.08, duration: 0.42 }}
+            >
+              {paragraph}
+            </motion.p>
           ))}
         </div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ delay: 0.6, duration: 0.5 }}
-          className="mt-10 pt-6 border-t border-border/60"
-        >
-          <p className="text-sm text-muted-foreground">
-            This is one of the role design questions a Sprint can take apart.{" "}
-            <a
-              href="/sprint"
-              className="font-semibold text-mint-dark dark:text-mint hover:underline"
-            >
-              See the Sprint →
-            </a>
+        <div className="mt-10 border-t border-border/60 pt-7">
+          <p className="max-w-2xl text-muted-foreground">
+            A useful starting point can be this small: find the work that is falling between
+            good people and good tools, then design the hand-off.
           </p>
-        </motion.div>
+          <button className="mm-text-link mt-5 inline-flex min-h-11 items-center py-2" type="button" onClick={onStart}>
+            Start here
+          </button>
+        </div>
       </div>
     </section>
   );
-};
+}
 
 interface PageCompletionBeaconProps {
   enabled?: boolean;
 }
 
-export const PageCompletionBeacon = ({ enabled = true }: PageCompletionBeaconProps) => {
+export function PageCompletionBeacon({ enabled = true }: PageCompletionBeaconProps) {
   const ref = useRef<HTMLDivElement>(null);
   const firedRef = useRef(false);
 
   useEffect(() => {
     if (!enabled) return;
-    const el = ref.current;
-    if (!el) return;
+    const element = ref.current;
+    if (!element) return;
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting && !firedRef.current) {
           firedRef.current = true;
           try {
-            (window as unknown as { plausible?: (e: string) => void }).plausible?.("page_completed");
+            (window as unknown as { plausible?: (event: string) => void }).plausible?.(
+              "page_completed",
+            );
           } catch {
-            /* analytics optional */
+            // Analytics are optional.
           }
         }
       });
     }, { threshold: 0.5 });
-    observer.observe(el);
+    observer.observe(element);
     return () => observer.disconnect();
   }, [enabled]);
 
   return <div ref={ref} aria-hidden="true" />;
-};
+}

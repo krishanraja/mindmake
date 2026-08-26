@@ -1,10 +1,11 @@
 import { BookFitCall } from "@/components/BookFitCall";
-import { MindMakerWordmark } from "@/components/MindMakerWordmark";
+import { MindmakeBrand } from "@/components/mindmake/MindmakeBrand";
 import { MINDMAKER_LIVE_URL } from "@/lib/publicLinks";
+import "@/styles/mindmake.css";
 
 const groups = [
-  { title: "Work", links: [["The Sprint", "/sprint"], ["Results", "/case-studies"], ["How I operate", "/operator"]] },
-  { title: "Read", links: [["Mindmaker Live", MINDMAKER_LIVE_URL], ["Library", "/library"], ["Articles", "/blog"], ["New Age Leadership", "/new-age-leadership"]] },
+  { title: "How I help", links: [["Build Your AI Brain", "/ai-brain"], ["Build Your AI GTM", "/ai-gtm"], ["Results", "/case-studies"]] },
+  { title: "Read", links: [["Media", MINDMAKER_LIVE_URL], ["Library", "/library"], ["Articles", "/blog"], ["New Age Leadership", "/new-age-leadership"]] },
   { title: "Company", links: [["Contact", "/contact"], ["Privacy", "/privacy"], ["Terms", "/terms"]] },
 ] as const;
 
@@ -14,9 +15,9 @@ export default function Footer() {
       <div className="container-width">
         <div className="grid gap-12 border-b border-border/50 pb-14 lg:grid-cols-[1.3fr_2fr]">
           <div>
-            <MindMakerWordmark size="section" className="mb-4" />
+            <MindmakeBrand />
             <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
-              Krish Raja's commercial decision practice. For leaders making a hard product, price, go-to-market or company decision as AI changes the market.
+              Krish Raja helps leaders put their best judgement to work with AI.
             </p>
             <BookFitCall source="footer" className="mt-6" />
           </div>
@@ -34,8 +35,8 @@ export default function Footer() {
           </div>
         </div>
         <div className="flex flex-col gap-2 pt-8 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <p>&copy; 2026 Mindmaker LLC.</p>
-          <p>Paid and Built are article types inside Mindmaker Live.</p>
+          <p>&copy; 2026 Mindmake. Operated by Mindmaker LLC.</p>
+          <p>Building with AI and The Money of AI are the two Media themes.</p>
         </div>
       </div>
     </footer>

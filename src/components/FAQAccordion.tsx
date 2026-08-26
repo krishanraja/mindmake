@@ -7,51 +7,51 @@ import { cn } from "@/lib/utils";
 export interface FAQItem {
   question: string;
   answer: string;
-  category: "the-sprint" | "fit" | "getting-started";
+  category: "the-work" | "fit" | "getting-started";
 }
 
 export const faqItems: FAQItem[] = [
   {
     category: "getting-started",
-    question: "What is Mindmaker?",
+    question: "What is Mindmake?",
     answer:
-      "Mindmaker helps business leaders make hard calls as AI changes their market. The work can cover products, prices, sales plans and how a team is set up.",
+      "Mindmake helps leaders use AI to improve their own work and the business they lead. The work can build an AI brain around a person, improve what a company sells, or connect both.",
   },
   {
     category: "getting-started",
     question: "Who is this for?",
     answer:
-      "It is for a leader who owns an important business result. You may feel that new rivals are moving faster, or that your own growth is stuck because your product, price, message or team no longer fits the market.",
+      "It is for a leader who owns an important result. You may run one business, several ventures or a portfolio. You may need more of your best time back, a stronger product or price, or a better way for your team to use what it knows.",
   },
   {
     category: "getting-started",
     question: "How do I start?",
     answer:
-      "Book a fit call. Bring the problem as you see it today. You do not need a finished brief. Krish will tell you if a Sprint is the right next step.",
+      "Use the guided starting point. Mindmake reads the company first, then asks two short questions. You get a private brief and Krish gets the same useful context. There is no public diary link.",
   },
   {
-    category: "the-sprint",
-    question: "What is the 21-day Sprint?",
+    category: "the-work",
+    question: "What is the first month for?",
     answer:
-      "It is focused work on one important business problem. Over 21 days, Krish finds what is really causing it, tests the strongest options and helps your team start the right action.",
+      "It is proof of work on one important result. Krish learns only what is needed, builds a useful first version and tests it on real work. If it works and there is more value to create, the work can continue.",
   },
   {
-    category: "the-sprint",
-    question: "What happens during the Sprint?",
+    category: "the-work",
+    question: "What happens during the work?",
     answer:
-      "Krish studies the business, speaks with the right people and checks outside facts. He separates facts from guesses, shows what each cause adds to the problem and works with you on the first real step.",
+      "Krish studies the business, speaks with the right people, checks outside facts and builds a working system around the result. The work can cover your own AI brain, your product, price, message, sales work or the team behind it.",
   },
   {
-    category: "the-sprint",
+    category: "the-work",
     question: "What do we keep at the end?",
     answer:
-      "You keep a clear decision record, the evidence behind it and the work started during the Sprint. This lives in a CTRL space so your team can keep using it after Krish leaves.",
+      "You keep the working system, its useful memory and a clear record of the choices behind it. The aim is to make the work more useful over time, not make you dependent on Mindmake.",
   },
   {
     category: "fit",
     question: "How is this different from an AI automation consultant?",
     answer:
-      "The goal is not to automate a list of small tasks. Krish protects the expertise, judgement and taste already in your business, then uses AI to make it more useful. The aim is a better business decision and a team that can carry it on.",
+      "The goal is not a longer list of small automations. Krish protects the expertise, judgement and taste that make you valuable, then uses AI to make those strengths go further. Time saved matters because of what you can put it back into.",
   },
   {
     category: "fit",
@@ -67,9 +67,9 @@ export const faqItems: FAQItem[] = [
   },
   {
     category: "getting-started",
-    question: "What's Mindmaker LIVE?",
+    question: "What is Media?",
     answer:
-      "Mindmaker LIVE is the publication: what's actually working in real portfolios, not vendor hype. Two formats. Paid follows the money on a shift and asks who pays. Built is conversations with people who have really built something with AI. Read it at live.themindmaker.ai.",
+      "Media is Mindmake's public writing. Building with AI looks at what people are making. The Money of AI looks at what buyers value and who gets paid. It is hosted on Substack for now.",
   },
 ];
 
@@ -81,8 +81,8 @@ export const categoryConfig = {
     bgColor: "bg-mint/10",
     borderColor: "border-mint/30",
   },
-  "the-sprint": {
-    label: "The Sprint",
+  "the-work": {
+    label: "The work",
     icon: Users,
     color: "text-blue-600 dark:text-blue-400",
     bgColor: "bg-blue-100 dark:bg-blue-900/30",

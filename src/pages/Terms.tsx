@@ -1,156 +1,69 @@
-import { ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { SEO } from "@/components/SEO";
+import { LeadBrief } from "@/components/mindmake/LeadBrief";
+import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
+import "@/styles/mindmake.css";
 
-const Terms = () => {
-  const navigate = useNavigate();
+const sections = [
+  {
+    title: "1. Using this website",
+    body: <><p>Mindmake is the public brand of Mindmaker LLC. By using this website, you agree to use it lawfully and not damage, copy or disrupt it.</p><p>The public starting brief is an early view based on limited information. It is not a promise, a full diagnosis or professional legal, financial or tax advice.</p></>,
+  },
+  {
+    title: "2. Paid work",
+    body: <><p>Paid work may include a time-limited proof, product and company advice, research, working sessions, coaching, systems or longer advisory work.</p><p>Each piece of paid work has its own written agreement. That agreement sets the scope, timing, price, payment dates, ownership, confidentiality, cancellation terms and any result Mindmake has agreed to deliver. If it differs from this page, the written agreement takes priority.</p></>,
+  },
+  {
+    title: "3. Your part",
+    body: <><p>You agree to give accurate information, keep account details safe, respect other people's rights and use the work lawfully. You remain responsible for the business decisions you make and for checking advice where another professional is needed.</p></>,
+  },
+  {
+    title: "4. Payment and cancellation",
+    body: <><p>Prices and payment dates are agreed before paid work starts. Late payment may pause the work. Refunds, cancellation rights and notice periods are set in the written agreement for that work.</p></>,
+  },
+  {
+    title: "5. Ownership and permission",
+    body: <><p>Mindmake keeps its existing brand, methods, tools, templates and general know-how. You keep the business information and material you bring to the work. The written agreement explains who owns new customer-specific work and what each side may keep using.</p><p>You may not use the Mindmake name, logo or website material without written permission.</p></>,
+  },
+  {
+    title: "6. Confidentiality and privacy",
+    body: <><p>Private business information is handled under the written agreement for paid work. The <a href="/privacy">privacy policy</a> explains how personal information is handled on this site.</p></>,
+  },
+  {
+    title: "7. Availability and limits",
+    body: <><p>We try to keep the website accurate and available, but public content may change and the site may sometimes be unavailable.</p><p>Any limit on liability for paid work is set in its written agreement and applies only as far as the law allows. Nothing on this page removes a right that the law does not allow us to remove.</p></>,
+  },
+  {
+    title: "8. Ending access",
+    body: <><p>We may block website access that is unlawful, harmful or abusive. Either side may end paid work only under its written agreement.</p></>,
+  },
+  {
+    title: "9. Law and changes",
+    body: <><p>The law and dispute process for paid work are set in its written agreement. We may update these website terms. The latest date will appear at the top of this page.</p></>,
+  },
+  {
+    title: "10. Contact",
+    body: <><p>Questions can be sent to <a href="mailto:krish@themindmaker.ai">krish@themindmaker.ai</a>.</p><p>Mindmaker LLC<br />Mindmake<br />mindmake.co</p></>,
+  },
+] as const;
 
-  const seoData = {
-    title: "Terms & Conditions - Mindmaker",
-    description: "Terms and conditions for using Mindmaker LLC services. Read our service agreement and policies.",
-    canonical: "/terms",
-  };
+export default function Terms() {
+  const [briefOpen, setBriefOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background">
-      <SEO {...seoData} />
-      <div className="container-width py-8">
-        <Button 
-          variant="ghost" 
-          onClick={() => navigate('/')}
-          className="mb-8 p-2"
-        >
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Home
-        </Button>
-
-        <div className="max-w-4xl mx-auto prose prose-gray dark:prose-invert">
-          <h1 className="text-3xl font-bold mb-8">Terms & Conditions</h1>
-          <p className="text-muted-foreground mb-8">Effective Date: January 1, 2025</p>
-
-          <section className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">1. Acceptance of Terms</h2>
-            <p className="mb-4">
-              By accessing or using Mindmaker LLC's services, website, or programs, you agree to be bound by these Terms & Conditions ("Terms"). If you do not agree to these Terms, please do not use our services.
-            </p>
-          </section>
-
-          <section className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">2. Description of Services</h2>
-            <p className="mb-4">
-              Mindmaker LLC provides business and AI advisory services, including:
-            </p>
-            <ul className="list-disc pl-6 mb-4">
-              <li>Time-limited business decision Sprints</li>
-              <li>Product, pricing, sales and company strategy advice</li>
-              <li>Research, interviews and practical working sessions</li>
-              <li>Digital content and resources</li>
-              <li>Coaching and advisory services</li>
-            </ul>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="text-xl font-semibold mb-4">3. User Responsibilities</h2>
-            <p className="mb-4">You agree to:</p>
-            <ul className="list-disc pl-6 mb-4">
-              <li>Provide accurate and complete information</li>
-              <li>Use our services for lawful purposes only</li>
-              <li>Respect intellectual property rights</li>
-              <li>Maintain the confidentiality of your account information</li>
-              <li>Not interfere with or disrupt our services</li>
-            </ul>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="text-xl font-semibold mb-4">4. Payment Terms</h2>
-            <p className="mb-4">
-              Payment terms for our services are as follows:
-            </p>
-            <ul className="list-disc pl-6 mb-4">
-              <li>Payment is due as specified in your service agreement</li>
-              <li>All fees are non-refundable unless otherwise stated</li>
-              <li>We reserve the right to change our fees with 30 days notice</li>
-              <li>Late payments may result in suspension of services</li>
-            </ul>
-          </section>
-
-          <section className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">5. Intellectual Property</h2>
-            <p className="mb-4">
-              All content, materials, and intellectual property provided through Mindmaker LLC services are owned by us or our licensors. You may not:
-            </p>
-            <ul className="list-disc pl-6 mb-4">
-              <li>Copy, distribute, or reproduce our materials without permission</li>
-              <li>Use our trademarks or logos without authorization</li>
-              <li>Reverse engineer or attempt to extract source code</li>
-              <li>Create derivative works based on our content</li>
-            </ul>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="text-xl font-semibold mb-4">6. Cancellation and Refunds</h2>
-            <p className="mb-4">
-              Cancellation policies vary by service type:
-            </p>
-            <ul className="list-disc pl-6 mb-4">
-              <li>Individual sessions: 24-hour cancellation notice required</li>
-              <li>Program enrollments: Refunds available within 7 days of purchase</li>
-              <li>Ongoing coaching: 30-day notice required for cancellation</li>
-              <li>Digital content: No refunds after access is granted</li>
-            </ul>
-          </section>
-
-          <section className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">7. Limitation of Liability</h2>
-            <p className="mb-4">
-              To the maximum extent permitted by law, Mindmaker LLC shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of our services. Our total liability shall not exceed the amount you paid for the specific service.
-            </p>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="text-xl font-semibold mb-4">8. Privacy</h2>
-            <p className="mb-4">
-              Your privacy is important to us. Please review our Privacy Policy to understand how we collect, use, and protect your information.
-            </p>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="text-xl font-semibold mb-4">9. Modifications</h2>
-            <p className="mb-4">
-              We reserve the right to modify these Terms at any time. Changes will be effective immediately upon posting on our website. Your continued use of our services constitutes acceptance of the modified Terms.
-            </p>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="text-xl font-semibold mb-4">10. Termination</h2>
-            <p className="mb-4">
-              We may terminate or suspend your access to our services immediately, without prior notice, for any breach of these Terms or for any other reason we deem appropriate.
-            </p>
-          </section>
-
-          <section className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">11. Governing Law</h2>
-            <p className="mb-4">
-              These Terms shall be governed by and construed in accordance with the laws of the jurisdiction where Mindmaker LLC operates, without regard to its conflict of law provisions.
-            </p>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="text-xl font-semibold mb-4">12. Contact Information</h2>
-            <p className="mb-4">
-              If you have any questions about these Terms & Conditions, please contact us at:
-            </p>
-            <div className="bg-muted p-4 rounded-lg">
-              <p><strong>Mindmaker LLC</strong></p>
-              <p>Email: legal@themindmaker.ai</p>
-              <p>Website: https://www.themindmaker.ai</p>
-            </div>
-          </section>
+    <MindmakeShell onStart={() => setBriefOpen(true)} darkHeader={false}>
+      <SEO title="Terms and conditions" description="Terms for using the Mindmake website and services." canonical="/terms" />
+      <article className="mm-legal-page">
+        <header className="mm-container mm-legal-hero">
+          <h1>Terms and conditions.</h1>
+          <p>The short version is simple: use the site lawfully, and agree the details of paid work in writing before it starts.</p>
+          <small>Last updated: 26 August 2026</small>
+        </header>
+        <div className="mm-container mm-legal-sections">
+          {sections.map((section) => <section key={section.title}><h2>{section.title}</h2><div>{section.body}</div></section>)}
         </div>
-      </div>
-    </div>
+      </article>
+      <LeadBrief open={briefOpen} onClose={() => setBriefOpen(false)} />
+    </MindmakeShell>
   );
-};
-
-export default Terms;
+}

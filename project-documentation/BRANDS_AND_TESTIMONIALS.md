@@ -188,7 +188,7 @@ Regional Managing Director, Channel Factory
 ## Homepage proof stack
 
 1. The approved reach headline.
-2. The attendance qualifier and 16-brand grid.
+2. The attendance qualifier and the current three-logo media strip: BBC, Hearst and Condé Nast. The full 16-brand set remains approved for other attendance-proof uses.
 3. The “Settle the expensive decision” outcome.
 4. The “Turn expertise into something clients can buy” outcome.
 5. Steph's ownership excerpt, only when consent is confirmed.

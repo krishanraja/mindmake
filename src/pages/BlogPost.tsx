@@ -1,353 +1,149 @@
-import { useParams, useNavigate, Link } from "react-router-dom";
-import { ArrowLeft, Calendar, Clock, User, Tag, ArrowRight, Share2, Linkedin, Twitter } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { ArrowLeft, ArrowRight, Linkedin, Share2, Twitter } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 import { SEO } from "@/components/SEO";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
-import { BookFitCall } from "@/components/BookFitCall";
+import { BlogPostCard, categoryLabels } from "@/components/BlogPostCard";
+import { LeadBrief } from "@/components/mindmake/LeadBrief";
+import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { useBlogPost, useBlogPosts } from "@/hooks/useBlogPosts";
-import ReactMarkdown from 'react-markdown';
-
-const categoryLabels: Record<string, string> = {
-  "ai-literacy": "AI Literacy",
-  "leadership": "Leadership",
-  "implementation": "Implementation",
-  "strategy": "Strategy",
-};
-
-const categoryColors: Record<string, string> = {
-  "ai-literacy": "bg-mint/20 text-mint-dark dark:text-mint border-mint/30",
-  "leadership": "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border-blue-200 dark:border-blue-800",
-  "implementation": "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300 border-amber-200 dark:border-amber-800",
-  "strategy": "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300 border-purple-200 dark:border-purple-800",
-};
+import "@/styles/mindmake.css";
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
-  const navigate = useNavigate();
-  
+  const [briefOpen, setBriefOpen] = useState(false);
+  const [shareStatus, setShareStatus] = useState<"" | "shared" | "copied" | "manual">("");
   const { data: post } = useBlogPost(slug);
   const { data: allPosts = [] } = useBlogPosts();
-  
+
   if (!post) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Article Not Found</h1>
-          <p className="text-muted-foreground mb-6">The article you're looking for doesn't exist.</p>
-          <Button onClick={() => navigate('/blog')}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Blog
-          </Button>
-        </div>
-      </div>
+      <MindmakeShell onStart={() => setBriefOpen(true)} darkHeader={false}>
+        <SEO title="Article not found" description="This Mindmake idea could not be found." canonical="/blog" noindex />
+        <section className="mm-article-missing">
+          <h1>This idea is no longer here.</h1>
+          <Link className="mm-button" to="/blog">See every idea <ArrowRight aria-hidden="true" /></Link>
+        </section>
+        <LeadBrief open={briefOpen} onClose={() => setBriefOpen(false)} />
+      </MindmakeShell>
     );
   }
 
-  // Get related posts (same category, excluding current)
-  const relatedPosts = allPosts
-    .filter(p => p.category === post.category && p.slug !== post.slug)
-    .slice(0, 3);
-
-  const shareUrl = `https://themindmaker.ai/blog/${post.slug}`;
-  const shareText = `${post.title} - by Krish Raja`;
+  const relatedPosts = allPosts.filter((candidate) => candidate.category === post.category && candidate.slug !== post.slug).slice(0, 3);
+  const shareUrl = `https://mindmake.co/blog/${post.slug}`;
+  const shareText = `${post.title} by Krish Raja`;
 
   const handleShare = async () => {
+    setShareStatus("");
+
     if (navigator.share) {
       try {
-        await navigator.share({
-          title: post.title,
-          text: post.excerpt,
-          url: shareUrl,
-        });
-      } catch (err) {
-        // User cancelled or error
+        await navigator.share({ title: post.title, text: post.excerpt, url: shareUrl });
+        setShareStatus("shared");
+        return;
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") return;
       }
     }
-  };
 
-  const seoData = {
-    title: post.title,
-    description: post.metaDescription,
-    canonical: `/blog/${post.slug}`,
-    jsonLd: {
-      "@context": "https://schema.org",
-      "@type": "Article",
-      "headline": post.title,
-      "description": post.metaDescription,
-      "author": {
-        "@type": "Person",
-        "name": post.author,
-        "url": "https://www.krishraja.com"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "Mindmaker",
-        "url": "https://themindmaker.ai"
-      },
-      "datePublished": post.publishedAt,
-      "dateModified": post.updatedAt,
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": `https://themindmaker.ai/blog/${post.slug}`
-      }
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setShareStatus("copied");
+    } catch {
+      setShareStatus("manual");
     }
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <SEO {...seoData} />
-      <Navigation />
-      
-      <main className="pt-24 pb-16">
-        {/* Article Header */}
-        <header className="container-width mb-12">
-          <Button 
-            variant="ghost" 
-            onClick={() => navigate('/blog')}
-            className="mb-6 -ml-2"
-          >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Blog
-          </Button>
-          
-          <div className="max-w-3xl">
-            {/* Category & Tags */}
-            <div className="flex flex-wrap items-center gap-2 mb-4">
-              <Badge 
-                variant="outline" 
-                className={categoryColors[post.category]}
-              >
-                {categoryLabels[post.category]}
-              </Badge>
-              {post.tags.slice(0, 3).map(tag => (
-                <Badge key={tag} variant="secondary" className="text-xs">
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-            
-            {/* Title */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 font-display leading-tight">
-              {post.title}
-            </h1>
-            
-            {/* Excerpt */}
-            <p className="text-lg md:text-xl text-muted-foreground mb-8">
-              {post.excerpt}
+    <MindmakeShell onStart={() => setBriefOpen(true)} darkHeader={false}>
+      <SEO
+        title={post.title}
+        description={post.metaDescription}
+        canonical={`/blog/${post.slug}`}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: post.title,
+          description: post.metaDescription,
+          author: { "@type": "Person", name: post.author },
+          publisher: { "@type": "Organization", name: "Mindmake", url: "https://mindmake.co" },
+          datePublished: post.publishedAt,
+          dateModified: post.updatedAt,
+          mainEntityOfPage: { "@type": "WebPage", "@id": shareUrl },
+        }}
+      />
+
+      <article className="mm-article-page">
+        <header className="mm-container mm-article-hero">
+          <Link className="mm-article-back" to="/blog"><ArrowLeft aria-hidden="true" /> All ideas</Link>
+          <h1>{post.title}</h1>
+          <p className="mm-article-excerpt">{post.excerpt}</p>
+          <div className="mm-article-meta">
+            <span>{categoryLabels[post.category]}</span>
+            <span>{post.author}</span>
+            <span>{new Date(post.publishedAt).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</span>
+            <span>{post.readingTime} min read</span>
+            <nav aria-label="Share this idea">
+              <button type="button" onClick={handleShare} aria-label="Share this idea"><Share2 aria-hidden="true" /></button>
+              <a href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(post.title)}`} target="_blank" rel="noopener noreferrer" aria-label="Share this idea on LinkedIn"><Linkedin aria-hidden="true" /></a>
+              <a href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`} target="_blank" rel="noopener noreferrer" aria-label="Share this idea on X"><Twitter aria-hidden="true" /></a>
+            </nav>
+            <p className="mm-share-status" role="status" aria-live="polite">
+              {shareStatus === "shared" && "Shared."}
+              {shareStatus === "copied" && "Link copied."}
+              {shareStatus === "manual" && <>Copy or open this link: <a href={shareUrl}>{shareUrl}</a></>}
             </p>
-            
-            {/* Meta */}
-            <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground pb-8 border-b border-border">
-              <span className="flex items-center gap-2">
-                <User className="h-4 w-4" />
-                {post.author}
-              </span>
-              <span className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
-                {new Date(post.publishedAt).toLocaleDateString('en-US', { 
-                  month: 'long', 
-                  day: 'numeric', 
-                  year: 'numeric' 
-                })}
-              </span>
-              <span className="flex items-center gap-2">
-                <Clock className="h-4 w-4" />
-                {post.readingTime} min read
-              </span>
-              
-              {/* Share Buttons */}
-              <div className="flex items-center gap-2 ml-auto">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8"
-                  onClick={handleShare}
-                >
-                  <Share2 className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8"
-                  asChild
-                >
-                  <a 
-                    href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(post.title)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Linkedin className="h-4 w-4" />
-                  </a>
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8"
-                  asChild
-                >
-                  <a 
-                    href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Twitter className="h-4 w-4" />
-                  </a>
-                </Button>
-              </div>
-            </div>
           </div>
         </header>
 
-        {/* Article Content */}
-        <article className="container-width">
-          <div className="max-w-3xl">
-            <div className="prose prose-lg dark:prose-invert max-w-none
-              prose-headings:font-display prose-headings:font-bold
-              prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4
-              prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
-              prose-p:text-foreground prose-p:leading-relaxed
-              prose-strong:text-foreground prose-strong:font-semibold
-              prose-ul:my-4 prose-li:my-1
-              prose-a:text-mint-dark dark:prose-a:text-mint prose-a:no-underline hover:prose-a:underline
-            ">
-              <ReactMarkdown
-                components={{
-                  h2: ({ children }) => (
-                    <h2 className="text-2xl font-bold mt-12 mb-4 font-display">{children}</h2>
-                  ),
-                  h3: ({ children }) => (
-                    <h3 className="text-xl font-bold mt-8 mb-3 font-display">{children}</h3>
-                  ),
-                  p: ({ children }) => (
-                    <p className="text-foreground leading-relaxed mb-4">{children}</p>
-                  ),
-                  strong: ({ children }) => (
-                    <strong className="font-semibold text-foreground">{children}</strong>
-                  ),
-                  ul: ({ children }) => (
-                    <ul className="list-disc pl-6 my-4 space-y-2">{children}</ul>
-                  ),
-                  ol: ({ children }) => (
-                    <ol className="list-decimal pl-6 my-4 space-y-2">{children}</ol>
-                  ),
-                  li: ({ children }) => (
-                    <li className="text-foreground">{children}</li>
-                  ),
-                  hr: () => (
-                    <hr className="my-12 border-border" />
-                  ),
-                  em: ({ children }) => (
-                    <em className="text-muted-foreground italic">{children}</em>
-                  ),
-                  a: ({ href, children }) => {
-                    const internal = href?.startsWith("/");
-                    const className =
-                      "text-emerald-deep dark:text-mint font-semibold underline underline-offset-4 hover:opacity-80 transition-opacity";
-                    return internal ? (
-                      <Link to={href!} className={className}>
-                        {children}
-                      </Link>
-                    ) : (
-                      <a
-                        href={href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={className}
-                      >
-                        {children}
-                      </a>
-                    );
-                  },
-                }}
-              >
-                {post.content}
-              </ReactMarkdown>
-            </div>
-          </div>
-        </article>
+        <div className="mm-container mm-article-body">
+          <ReactMarkdown
+            components={{
+              h2: ({ children }) => <h2>{children}</h2>,
+              h3: ({ children }) => <h3>{children}</h3>,
+              p: ({ children }) => <p>{children}</p>,
+              strong: ({ children }) => <strong>{children}</strong>,
+              ul: ({ children }) => <ul>{children}</ul>,
+              ol: ({ children }) => <ol>{children}</ol>,
+              li: ({ children }) => <li>{children}</li>,
+              hr: () => <hr />,
+              em: ({ children }) => <em>{children}</em>,
+              a: ({ href, children }) => href?.startsWith("/")
+                ? <Link to={href}>{children}</Link>
+                : <a href={href} target="_blank" rel="noopener noreferrer">{children}</a>,
+            }}
+          >
+            {post.content}
+          </ReactMarkdown>
+        </div>
+      </article>
 
-        {/* Author Bio */}
-        <section className="container-width mt-16">
-          <div className="max-w-3xl">
-            <div className="p-8 rounded-2xl bg-card border border-border">
-              <div className="flex items-start gap-6">
-                <div className="shrink-0">
-                  <div className="w-16 h-16 rounded-full bg-mint/20 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-mint-dark dark:text-mint">KR</span>
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold mb-1">Krish Raja</h3>
-                  <p className="text-sm text-muted-foreground mb-3">Founder, Mindmaker</p>
-                  <p className="text-sm text-foreground leading-relaxed">
-                    Krish helps business leaders make hard product, price, go-to-market and company decisions as AI changes the market. He brings more than 17 years of work across data, technology and product strategy.
-                  </p>
-                  <a 
-                    href="https://www.krishraja.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="inline-block mt-3 text-sm text-mint-dark dark:text-mint hover:underline"
-                  >
-                    Learn more about Krish →
-                  </a>
-                </div>
-              </div>
-            </div>
+      <aside className="mm-container mm-article-author" aria-label="About the author">
+        <div aria-hidden="true">KR</div>
+        <div>
+          <p>Krish Raja · Mindmake</p>
+          <p>Krish helps leaders put their judgement to work with AI, then builds the parts that help the work continue.</p>
+          <Link to="/#about">About Krish <ArrowRight aria-hidden="true" /></Link>
+        </div>
+      </aside>
+
+      <aside className="mm-container mm-article-next" aria-labelledby="article-next-title">
+        <h2 id="article-next-title">See what changes when the company is known.</h2>
+        <p>Mindmake reads the business first, gives you a likely problem and shows a useful first move before asking for your email.</p>
+        <button className="mm-button" type="button" onClick={() => setBriefOpen(true)}>Start here <ArrowRight aria-hidden="true" /></button>
+      </aside>
+
+      {relatedPosts.length > 0 && (
+        <section className="mm-container mm-related-ideas" aria-labelledby="related-title">
+          <h2 id="related-title">Related ideas.</h2>
+          <div className="mm-blog-grid">
+            {relatedPosts.map((relatedPost) => <BlogPostCard key={relatedPost.slug} post={relatedPost} />)}
           </div>
         </section>
+      )}
 
-        {/* CTA Section */}
-        <section className="container-width mt-16">
-          <div className="max-w-3xl">
-            <div className="dark-cta-card">
-              <h2 className="text-2xl md:text-3xl font-bold mb-4">
-                Have a hard commercial decision?
-              </h2>
-              <p className="mb-6">
-                Use the fit call to see whether a 21-day Sprint is the right shape for it.
-              </p>
-              <BookFitCall source="blog-post" />
-            </div>
-          </div>
-        </section>
-
-        {/* Related Posts */}
-        {relatedPosts.length > 0 && (
-          <section className="container-width mt-16">
-            <div className="max-w-5xl">
-              <h2 className="text-2xl font-bold mb-8">Related Articles</h2>
-              <div className="grid md:grid-cols-3 gap-6">
-                {relatedPosts.map(relatedPost => (
-                  <Link 
-                    key={relatedPost.slug}
-                    to={`/blog/${relatedPost.slug}`}
-                    className="group block p-6 rounded-xl border border-border bg-card hover:border-mint/50 transition-all"
-                  >
-                    <Badge 
-                      variant="outline" 
-                      className={`text-xs mb-3 ${categoryColors[relatedPost.category]}`}
-                    >
-                      {categoryLabels[relatedPost.category]}
-                    </Badge>
-                    <h3 className="font-bold mb-2 group-hover:text-mint transition-colors line-clamp-2">
-                      {relatedPost.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground line-clamp-2">
-                      {relatedPost.excerpt}
-                    </p>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
-      </main>
-      
-      <Footer />
-      
-    </div>
+      <LeadBrief open={briefOpen} onClose={() => setBriefOpen(false)} />
+    </MindmakeShell>
   );
 };
 

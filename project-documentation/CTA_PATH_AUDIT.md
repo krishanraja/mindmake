@@ -1,11 +1,32 @@
+# SUPERSEDED. Historical record only.
+
+This file describes earlier offers, routes, domains or brands that are no longer the product. Current truth lives in `project-documentation/MINDMAKE_CANON.md` and `project-documentation/REBUILD_STATE.md`. Superseded on 26 August 2026 during the Mindmake launch pass.
+
+---
+
 # CTA and Path Audit
 
-Status: complete for the local production build
+Status: superseded baseline audit, reconciled 26 August 2026
+
+## Current conversion contract
+
+- The two public routes are `Build Your AI Brain` and `Build Your AI GTM`.
+- The only primary action is `Start here`.
+- The visitor gives a company website and receives a useful company read and recommendation before contact is requested.
+- After one easy question, the visitor may request a full private brief by email. Krish receives a richer private fit summary.
+- There is no public diary, fit-call button or direct Calendly path.
+- The browser may send only the email, company domain and allowlisted choice identifiers. Research, recommendation assembly, verification codes, visitor delivery and the operator summary are server-owned.
+- Publication interest is separate and unticked. It is not a subscription or an import instruction.
+- The version-two hand-off is source-only and fail-closed. The public flag stays off until preview migration, security, retention, origin, secret and full delivery checks pass.
+
+The audit below records the 12 August production baseline and the conversion choice made at that time. It is retained as dated evidence only. Its Sprint, Diagnosis Room, `Book a fit call` and Calendly recommendations are superseded and must not be implemented.
+
+## Historical 12 August audit, superseded
 
 ## QA target
 
 - Repository: `C:\Users\krish\dev\mindmaker`
-- Remote: `https://github.com/krishanraja/mindmaker`
+- Remote: `https://github.com/krishanraja/mindmake`
 - Source branch: `codex/mindmaker-rebuild`
 - Source revision: `3bee2b3ec0a5973f62c0f325514d98eb8ee3d877`, plus uncommitted rebuild work kept separate during diagnosis
 - Deployment: `https://www.themindmaker.ai`

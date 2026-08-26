@@ -1,8 +1,25 @@
-# Mindmaker Intelligence Audit
+# Mindmake intelligence audit
 
-Status: working product audit, 2026-08-12.
+Status: historical product audit, reconciled 2026-08-26.
 
-This file separates the useful intelligence already built from the retired offers and old public journeys wrapped around it.
+## Current intelligence contract
+
+The current journey is value-first and deliberately small in the browser:
+
+1. The visitor chooses `Start here` and gives a company website.
+2. Mindmake gives a useful company read and recommendation before asking for contact details.
+3. The visitor answers one easy question and may request the full private brief by email.
+4. Krish receives a richer private fit summary. There is no public diary or direct Calendly path.
+
+The browser may send only the visitor email, company domain and allowlisted choice identifiers. Company research, recommendation assembly, verification codes, visitor delivery and Krish's fit summary are server-owned. Publication interest is separate and unticked.
+
+The version-two private hand-off exists in source only and remains fail-closed. Until the preview migration, private-schema security checks, complete email matrix, retention cleanup, exact allowed origins and symbolic secret configuration pass, the public flag stays off. The safe path asks for no email, sends nothing and keeps the complete local download.
+
+The old Diagnosis Room and Mindy flow are retired. The two public routes are `Build Your AI Brain` and `Build Your AI GTM`.
+
+## Historical 12 August audit, superseded
+
+The remainder separates useful intelligence that existed in the earlier system from the retired offers and journeys wrapped around it. Its Sprint, fit-call, Mindy, Diagnosis Room and intake recommendations are historical evidence, not current product guidance.
 
 ## The useful system that already exists
 

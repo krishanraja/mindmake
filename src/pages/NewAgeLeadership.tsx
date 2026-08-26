@@ -1,193 +1,125 @@
-import { Suspense, lazy } from "react";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
-import { BookFitCall } from "@/components/BookFitCall";
-import { Button } from "@/components/ui/button";
+import { Suspense, lazy, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { Bot, Sparkles, Users } from "lucide-react";
 import { SEO } from "@/components/SEO";
-import { motion } from "framer-motion";
-import { Users, Bot, Sparkles } from "lucide-react";
+import { LeadBrief } from "@/components/mindmake/LeadBrief";
+import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { AgathaStory, PageCompletionBeacon } from "@/components/new-age/AgathaStory";
-import FrameworkJourney from "@/components/FrameworkJourney";
+import "@/styles/mindmake.css";
 
-// Lazy-load the chart so it doesn't block the hero's LCP
 const OrgChart = lazy(() =>
-  import("@/components/new-age/OrgChart").then((m) => ({ default: m.OrgChart }))
+  import("@/components/new-age/OrgChart").then((module) => ({ default: module.OrgChart })),
 );
 
-const HEADLINE_WORDS = [
-  "Your",
-  "next",
-  "org",
-  "chart",
-  "has",
-  "agents",
-  "on",
-  "it.",
-  "Here's",
-  "what",
-  "that",
-  "looks",
-  "like.",
-];
-
-const categories = [
+const checks = [
   {
-    icon: Sparkles,
-    title: "Hybrid teams",
-    body: "Most existing roles will become hybrid: one human who owns judgment and relationships, a small fleet of agents doing the throughput. The decision you'll face: when most of the work is agent-executed, does the human role become smaller, different, or bigger? Different companies will answer this differently. The answer determines your hiring plan for the next two years.",
+    icon: Users,
+    title: "Keep a person on the calls that need trust.",
+    body: "Name the work where taste, care, privacy or a hard trade-off still needs a person. AI can prepare the ground without making the final call.",
   },
   {
     icon: Bot,
-    title: "Agent-first functions",
-    body: "Some functions will stop being human-default. Lead scoring, dependency monitoring, content drafting, customer research synthesis: these will become agent-first, with a human only in the exception path. The decision you'll face: when a function stops being human-default, what happens to the humans who used to do it? Replace, empower, or redeploy, and on what timeline?",
+    title: "Let AI carry work that has a clear rule.",
+    body: "Research, checking and first drafts can move without waiting. Set the rule, the limit and the point where a person must step in.",
   },
   {
-    icon: Users,
-    title: "Emergent agent-native roles",
-    body: "Some roles will appear that did not exist before. They're not translations of human jobs. They're roles that only make sense because an agent fleet created the need for them. The decision you'll face: how will your org approve the creation of roles that no human ever asked to do? Who has the authority? What's your governance? You probably haven't written this policy yet.",
+    icon: Sparkles,
+    title: "Design the hand-off, not only the agent.",
+    body: "The useful question is not how many agents you have. It is what each one hands back, who checks it and what happens when it is unsure.",
   },
 ];
+
+const description =
+  "Explore a working org chart from Krish Raja's own AI system and see the human decisions behind each role.";
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
-  headline: "New Age Leadership: What your org chart looks like when AI agents are teammates",
-  description:
-    "Most leadership content about AI is theoretical. This is the org chart of a business already running a 14-agent fleet, with the decisions every leader will need to make as their organization becomes AI-native.",
-  author: {
-    "@type": "Person",
-    name: "Krish Raja",
-    url: "https://www.themindmaker.ai",
-  },
-  publisher: {
-    "@type": "Organization",
-    name: "Mindmaker",
-    url: "https://www.themindmaker.ai",
-  },
+  headline: "See people and AI agents share the work",
+  description,
+  author: { "@type": "Person", name: "Krish Raja", url: "https://mindmake.co" },
+  publisher: { "@type": "Organization", name: "Mindmake", url: "https://mindmake.co" },
   mainEntityOfPage: {
     "@type": "WebPage",
-    "@id": "https://www.themindmaker.ai/new-age-leadership",
+    "@id": "https://mindmake.co/new-age-leadership",
   },
-  about: [
-    "AI org chart",
-    "agentic organization design",
-    "AI teammates",
-    "agent-native roles",
-    "future of leadership",
-  ],
 };
 
-const ChartFallback = () => (
-  <div className="rounded-2xl border border-border/60 bg-muted/30 h-[520px] md:h-[600px] flex items-center justify-center">
-    <div className="text-sm text-muted-foreground">Loading chart…</div>
-  </div>
-);
+function ChartFallback() {
+  return (
+    <div className="h-[520px] border border-border/60 bg-muted/30 md:h-[600px] flex items-center justify-center">
+      <div className="text-sm text-muted-foreground">Loading the working chart...</div>
+    </div>
+  );
+}
 
 export default function NewAgeLeadership() {
+  const [briefOpen, setBriefOpen] = useState(false);
+  const reduceMotion = useReducedMotion();
+
   return (
-    <main className="min-h-screen bg-background">
+    <MindmakeShell onStart={() => setBriefOpen(true)} darkHeader={false}>
       <SEO
-        title="New Age Leadership: What your org chart looks like when AI agents are teammates"
-        description="Most leadership content about AI is theoretical. This is the org chart of a business already running a 14-agent fleet, with the decisions every leader will need to make as their organization becomes AI-native."
+        title="A working AI org chart"
+        description={description}
         canonical="/new-age-leadership"
         ogType="article"
-        keywords="AI org chart, agentic organization design, AI teammates, agent-native roles, future of leadership"
+        keywords="AI org chart, AI agents, organisation design, human judgement"
         jsonLd={jsonLd}
       />
-      <Navigation />
 
-      {/* HERO */}
-      <section className="section-padding pt-32 pb-16">
-        <div className="container-width max-w-4xl">
-          <motion.div
-            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.24em] text-mint-dark dark:text-mint mb-6"
-            initial={{ opacity: 0, y: 6 }}
+      <section className="section-padding pt-32 pb-14 md:pt-40 md:pb-20">
+        <div className="container-width max-w-5xl">
+          <motion.h1
+            className="max-w-[15ch] text-[clamp(3rem,7vw,6.7rem)] leading-[0.95]"
+            initial={reduceMotion ? false : { opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
+            transition={reduceMotion ? { duration: 0 } : { delay: 0.08, duration: 0.55 }}
           >
-            <span className="h-1 w-1 rounded-full bg-mint" />
-            New Age Leadership
-          </motion.div>
-
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-            {HEADLINE_WORDS.map((word, i) => (
-              <motion.span
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  delay: 0.15 + i * 0.06,
-                  duration: 0.5,
-                  type: "spring",
-                  damping: 15,
-                  stiffness: 200,
-                }}
-                className={`inline-block mr-[0.2em] ${
-                  word.startsWith("agents") ? "text-mint-dark dark:text-mint" : ""
-                }`}
-              >
-                {word}
-              </motion.span>
-            ))}
-          </h1>
-
+            See people and AI agents share the work.
+          </motion.h1>
           <motion.p
-            className="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed"
-            initial={{ opacity: 0, y: 10 }}
+            className="mt-8 max-w-3xl text-lg leading-relaxed text-muted-foreground md:text-xl"
+            initial={reduceMotion ? false : { opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.05, duration: 0.6 }}
+            transition={reduceMotion ? { duration: 0 } : { delay: 0.2, duration: 0.45 }}
           >
-            Most leadership content about AI is theoretical. This is what it actually looks like in an organization already running it. Toggle the chart. Click the roles. See the decisions you're going to have to make.
+            This is a working org chart from Krish's own AI system. Switch views, open a role
+            and inspect the decision it creates. Use it to notice what your own chart may need.
           </motion.p>
         </div>
       </section>
 
-      {/* INTERACTIVE CHART */}
-      <section className="section-padding pt-0">
+      <section className="section-padding pt-0" aria-label="Interactive AI organisation chart">
         <div className="container-width max-w-6xl">
           <Suspense fallback={<ChartFallback />}>
-            <OrgChart />
+            <OrgChart onStart={() => setBriefOpen(true)} />
           </Suspense>
         </div>
       </section>
 
-      {/* THREE CATEGORIES */}
-      <section className="section-padding bg-muted/30">
+      <section className="section-padding bg-muted/30" aria-labelledby="org-chart-checks">
         <div className="container-width max-w-6xl">
-          <motion.div
-            className="max-w-2xl mb-12"
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-3">
-              The three categories of role you didn't have to manage before.
+          <div className="max-w-3xl mb-12 md:mb-16">
+            <h2 id="org-chart-checks" className="text-3xl font-bold leading-tight md:text-5xl">
+              Three choices to make before you add an AI agent.
             </h2>
-            <p className="text-muted-foreground text-lg">
-              Each one comes with its own governance question you probably haven't answered yet.
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {categories.map((cat, i) => {
-              const Icon = cat.icon;
+          </div>
+          <div className="grid border-y border-border/70 md:grid-cols-3">
+            {checks.map((check, index) => {
+              const Icon = check.icon;
               return (
                 <motion.article
-                  key={cat.title}
-                  className="group glass-card editorial-card p-7 border border-border/50 flex flex-col relative overflow-hidden"
-                  initial={{ opacity: 0, y: 20 }}
+                  key={check.title}
+                  className="py-9 md:min-h-[340px] md:px-8 md:py-10 md:first:pl-0 md:last:pr-0 md:[&+article]:border-l md:[&+article]:border-border/70"
+                  initial={reduceMotion ? false : { opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ delay: i * 0.18, duration: 0.5 }}
-                  whileHover={{ y: -4 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={reduceMotion ? { duration: 0 } : { delay: index * 0.1, duration: 0.45 }}
                 >
-                  <div className="absolute left-0 top-0 bottom-0 w-0 bg-mint transition-all duration-300 group-hover:w-1" />
-                  <div className="w-11 h-11 rounded-lg bg-mint/10 border border-mint/20 flex items-center justify-center mb-4">
-                    <Icon className="w-5 h-5 text-mint-dark dark:text-mint" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-3 leading-tight">{cat.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{cat.body}</p>
+                  <Icon className="h-6 w-6 text-mint-dark dark:text-mint" aria-hidden="true" />
+                  <h3 className="mt-16 text-2xl font-bold leading-tight md:text-3xl">{check.title}</h3>
+                  <p className="mt-5 leading-relaxed text-muted-foreground">{check.body}</p>
                 </motion.article>
               );
             })}
@@ -195,94 +127,29 @@ export default function NewAgeLeadership() {
         </div>
       </section>
 
-      {/* AGATHA STORY */}
-      <AgathaStory />
+      <AgathaStory onStart={() => setBriefOpen(true)} />
 
-      {/* MIND MAKE CLOSING */}
-      <section className="section-padding">
-        <div className="container-width max-w-3xl">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-mint-dark dark:text-mint mb-5">
-              <span className="h-1 w-1 rounded-full bg-mint" />
-              Mind Make
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">
-              The future leaders don't have frameworks for yet.
+      <section className="section-padding bg-ink text-white" aria-labelledby="org-chart-next-step">
+        <div className="container-width max-w-5xl grid gap-10 md:grid-cols-[1.2fr_.8fr] md:items-end">
+          <div>
+            <h2 id="org-chart-next-step" className="max-w-[13ch] text-4xl font-bold leading-[1.02] md:text-6xl">
+              Find one hand-off worth improving first.
             </h2>
-
-            <div className="space-y-5 text-lg text-muted-foreground leading-relaxed mb-8">
-              <p>
-                This is not only a technology change. It changes who does the work, who checks it and who owns the result. A good plan must cover all three.
-              </p>
-              <p>
-                You do not need every answer today. You do need a sound way to make each call. The best prepared leaders learn by making real decisions, checking what happened and improving the next one.
-              </p>
-              <p className="text-foreground font-medium">That is the work a Mindmaker Sprint is built to support.</p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-3">
-              <BookFitCall source="new-age-leadership-mid" />
-              <Button asChild size="lg" variant="outline" className="font-bold">
-                <a href="/operator">See how I operate</a>
-              </Button>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* HOW YOU GET THERE: the framework, moved here from the homepage so it
-          sits with the org-design idea it actually serves. */}
-      <section className="section-padding">
-        <div className="container-width max-w-3xl text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-mint-dark dark:text-mint mb-3">
-              How you get there
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
-              Running a hybrid species business is a skill, not a tool purchase.
-            </h2>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              An org chart with agents in it needs a leader who can actually direct them.
-              That is the job: not buying AI, but becoming the person who can run a
-              business where humans and agents both do the work. Three phases, and most
-              nervous decisions resolve in the first.
+          </div>
+          <div>
+            <p className="mb-7 text-lg leading-relaxed text-white/70">
+              Mindmake can read the company and show one useful starting point. You see the
+              brief before you choose whether to share it.
             </p>
-          </motion.div>
+            <button className="mm-button" type="button" onClick={() => setBriefOpen(true)}>
+              Start here
+            </button>
+          </div>
         </div>
+        <PageCompletionBeacon />
       </section>
 
-      <FrameworkJourney />
-
-      {/* FINAL SOFT CTA */}
-      <section className="section-padding bg-muted/30">
-        <div className="container-width max-w-3xl">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
-            className="text-center"
-          >
-            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-8 max-w-2xl mx-auto">
-              The New Age org chart isn't a prediction. It's already happening in my business and in a growing number of my clients'. If yours is next, let's talk before you design it alone.
-            </p>
-            <BookFitCall source="new-age-leadership" />
-          </motion.div>
-          <PageCompletionBeacon />
-        </div>
-      </section>
-
-      <Footer />
-    </main>
+      <LeadBrief open={briefOpen} onClose={() => setBriefOpen(false)} />
+    </MindmakeShell>
   );
 }

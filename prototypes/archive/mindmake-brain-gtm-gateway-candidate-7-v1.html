@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mindmake Brain and GTM gateway</title>
+  <meta name="description" content="Standalone approval mock for the Mindmake AI Brain and AI GTM gateway.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,650&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0d1929;
+      --forest: #06251f;
+      --forest-deep: #031d18;
+      --mint: #6ee1c0;
+      --mint-bright: #8af0d2;
+      --paper: #f4f0e8;
+      --muted: #bcc8c4;
+      --line: rgba(255, 255, 255, .18);
+      --display: "Source Serif 4", Charter, "Bitstream Charter", Georgia, serif;
+      --body: "Source Sans 3", "Segoe UI", Arial, sans-serif;
+      --ease: cubic-bezier(.2, .75, .2, 1);
+      --door-open: 0px;
+      --door-open-mobile: 0px;
+      --seam-opacity: .32;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      min-width: 320px;
+      background: var(--ink);
+      color-scheme: dark;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      overflow-x: clip;
+      color: white;
+      background: var(--ink);
+      font-family: var(--body);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a { color: inherit; }
+
+    .gateway-runway {
+      position: relative;
+      min-height: 180svh;
+      background:
+        linear-gradient(90deg, transparent calc(50% - .5px), rgba(110, 225, 192, .07) 50%, transparent calc(50% + .5px)),
+        var(--ink);
+    }
+
+    .gateway-stage {
+      position: sticky;
+      top: 0;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      overflow: clip;
+      padding: clamp(14px, 3svh, 32px) 0;
+    }
+
+    .gateway-stage::before {
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 1px;
+      background: linear-gradient(transparent 2%, rgba(110, 225, 192, .78) 23%, rgba(110, 225, 192, .78) 77%, transparent 98%);
+      opacity: var(--seam-opacity);
+      content: "";
+      pointer-events: none;
+    }
+
+    .gateway-inner {
+      position: relative;
+      z-index: 1;
+      width: min(calc(100% - clamp(32px, 7vw, 120px)), 1510px);
+      height: min(780px, calc(100svh - clamp(28px, 6svh, 64px)));
+      min-height: 520px;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: clamp(22px, 4svh, 44px);
+      align-items: center;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: clamp(24px, 4svh, 44px) 0;
+    }
+
+    .start-label {
+      margin: 0;
+      color: var(--mint);
+      font-size: clamp(18px, 1.45vw, 22px);
+      font-weight: 700;
+      letter-spacing: .075em;
+      line-height: 1.15;
+      text-transform: uppercase;
+    }
+
+    .gateway-title {
+      width: 100%;
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(52px, 6.35vw, 96px);
+      font-weight: 600;
+      letter-spacing: -.055em;
+      line-height: .82;
+      text-wrap: balance;
+    }
+
+    .gateway-title span {
+      display: block;
+      white-space: nowrap;
+    }
+
+    .gateway-title .accent {
+      margin-left: clamp(28px, 7.8vw, 124px);
+      color: var(--mint);
+    }
+
+    .gateway-doors {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1px;
+      border: 1px solid var(--line);
+      background: var(--line);
+    }
+
+    .gateway-door {
+      position: relative;
+      min-height: clamp(168px, 23svh, 214px);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 24px;
+      overflow: hidden;
+      border: 0;
+      padding: clamp(24px, 2.5vw, 36px);
+      color: white;
+      background: var(--forest);
+      text-decoration: none;
+      transition: color .28s var(--ease), background .28s var(--ease), transform .12s linear;
+      will-change: transform;
+    }
+
+    .gateway-door:first-child { transform: translate3d(calc(-1 * var(--door-open)), 0, 0); }
+    .gateway-door:last-child { transform: translate3d(var(--door-open), 0, 0); }
+
+    .gateway-door::before {
+      position: absolute;
+      top: -42px;
+      right: 22px;
+      color: rgba(255, 255, 255, .036);
+      font-family: var(--display);
+      font-size: clamp(130px, 14vw, 204px);
+      font-weight: 600;
+      line-height: 1;
+      content: attr(data-door-number);
+      transition: color .28s var(--ease), transform .35s var(--ease);
+      pointer-events: none;
+    }
+
+    .door-copy {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 14px;
+      align-content: end;
+    }
+
+    .door-copy h2 {
+      max-width: 12ch;
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(34px, 3.25vw, 50px);
+      font-weight: 600;
+      letter-spacing: -.045em;
+      line-height: .9;
+      text-wrap: balance;
+    }
+
+    .door-copy p {
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(16px, 1.25vw, 19px);
+      line-height: 1.3;
+    }
+
+    .door-arrow {
+      position: relative;
+      z-index: 1;
+      align-self: center;
+      color: var(--mint);
+      font-size: 30px;
+      font-weight: 500;
+      line-height: 1;
+      transition: color .28s var(--ease), transform .28s var(--ease);
+    }
+
+    .gateway-door:hover,
+    .gateway-door:focus-visible {
+      color: var(--ink);
+      background: var(--mint);
+      outline: none;
+    }
+
+    .gateway-door:hover::before,
+    .gateway-door:focus-visible::before {
+      color: rgba(13, 25, 41, .08);
+      transform: translateY(-8px);
+    }
+
+    .gateway-door:hover .door-copy p,
+    .gateway-door:focus-visible .door-copy p,
+    .gateway-door:hover .door-arrow,
+    .gateway-door:focus-visible .door-arrow { color: var(--ink); }
+
+    .gateway-door:hover .door-arrow,
+    .gateway-door:focus-visible .door-arrow { transform: translateX(6px); }
+
+    .gateway-door:focus-visible { box-shadow: inset 0 0 0 3px var(--paper); }
+
+    @media (max-width: 720px) {
+      .gateway-runway { min-height: 155svh; }
+
+      .gateway-stage { padding: 12px 0; }
+
+      .gateway-stage::before {
+        top: 50%;
+        right: 0;
+        bottom: auto;
+        left: 0;
+        width: auto;
+        height: 1px;
+        background: linear-gradient(90deg, transparent 2%, rgba(110, 225, 192, .65) 25%, rgba(110, 225, 192, .65) 75%, transparent 98%);
+      }
+
+      .gateway-inner {
+        width: min(calc(100% - 28px), 580px);
+        height: calc(100svh - 24px);
+        min-height: 560px;
+        gap: clamp(16px, 2.6svh, 24px);
+        padding: clamp(18px, 2.8svh, 26px) 0;
+      }
+
+      .start-label {
+        font-size: clamp(17px, 4.7vw, 20px);
+        letter-spacing: .055em;
+      }
+
+      .gateway-title {
+        font-size: clamp(36px, 10.25vw, 44px);
+        line-height: .88;
+      }
+
+      .gateway-title .accent { margin-left: clamp(12px, 5.5vw, 24px); }
+
+      .gateway-doors {
+        grid-template-columns: 1fr;
+        align-self: end;
+      }
+
+      .gateway-door {
+        min-height: clamp(122px, 16.5svh, 148px);
+        padding: 20px 22px;
+      }
+
+      .gateway-door:first-child { transform: translate3d(0, calc(-1 * var(--door-open-mobile)), 0); }
+      .gateway-door:last-child { transform: translate3d(0, var(--door-open-mobile), 0); }
+
+      .gateway-door::before {
+        top: -24px;
+        font-size: 122px;
+      }
+
+      .door-copy { gap: 8px; }
+      .door-copy h2 { max-width: 14ch; font-size: clamp(28px, 8.2vw, 36px); }
+      .door-copy p { font-size: clamp(15px, 4.1vw, 17px); }
+      .door-arrow { font-size: 25px; }
+    }
+
+    @media (max-height: 620px) and (min-width: 721px) {
+      .gateway-inner {
+        height: calc(100svh - 20px);
+        min-height: 0;
+        gap: 16px;
+        padding: 18px 0;
+      }
+
+      .start-label { font-size: 18px; }
+      .gateway-title { font-size: clamp(48px, 8.6svh, 70px); }
+      .gateway-door { min-height: 145px; padding: 22px 28px; }
+      .door-copy { gap: 8px; }
+      .door-copy h2 { font-size: clamp(31px, 5.8svh, 42px); }
+      .door-copy p { font-size: 16px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .gateway-runway { min-height: auto; }
+      .gateway-stage { position: relative; }
+      .gateway-door { transform: none !important; transition: none; }
+      .door-arrow, .gateway-door::before { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="gateway-runway" data-gateway-runway aria-labelledby="gateway-title">
+      <div class="gateway-stage">
+        <div class="gateway-inner">
+          <p class="start-label">Pick your starting point</p>
+
+          <h1 class="gateway-title" id="gateway-title">
+            <span>Encode Your Vision</span>
+            <span class="accent">Define How You Sell</span>
+          </h1>
+
+          <nav class="gateway-doors" aria-label="Ways to begin with Mindmake">
+            <a class="gateway-door" href="/ai-brain" data-door-number="01">
+              <span class="door-copy">
+                <h2>Build Your AI Brain</h2>
+                <p>Decide faster. Lead with confidence.</p>
+              </span>
+              <span class="door-arrow" aria-hidden="true">→</span>
+            </a>
+
+            <a class="gateway-door" href="/ai-gtm" data-door-number="02">
+              <span class="door-copy">
+                <h2>Build Your AI GTM</h2>
+                <p>Product, price, message or team.</p>
+              </span>
+              <span class="door-arrow" aria-hidden="true">→</span>
+            </a>
+          </nav>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const runway = document.querySelector('[data-gateway-runway]');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let frame = 0;
+
+      const clamp = (value) => Math.min(1, Math.max(0, value));
+      const smooth = (value) => value * value * (3 - (2 * value));
+
+      function updateGateway() {
+        frame = 0;
+
+        if (reduceMotion.matches || !runway) {
+          root.style.setProperty('--door-open', '0px');
+          root.style.setProperty('--door-open-mobile', '0px');
+          root.style.setProperty('--seam-opacity', '.48');
+          return;
+        }
+
+        const travel = Math.max(1, runway.offsetHeight - window.innerHeight);
+        const raw = clamp((window.scrollY - runway.offsetTop) / Math.max(1, travel * .58));
+        const progress = smooth(raw);
+        const desktopDistance = Math.min(28, window.innerWidth * .02) * progress;
+        const mobileDistance = Math.min(8, window.innerHeight * .01) * progress;
+
+        root.style.setProperty('--door-open', `${desktopDistance.toFixed(2)}px`);
+        root.style.setProperty('--door-open-mobile', `${mobileDistance.toFixed(2)}px`);
+        root.style.setProperty('--seam-opacity', String((.32 + progress * .5).toFixed(3)));
+      }
+
+      function requestUpdate() {
+        if (!frame) frame = window.requestAnimationFrame(updateGateway);
+      }
+
+      updateGateway();
+      window.addEventListener('scroll', requestUpdate, { passive: true });
+      window.addEventListener('resize', requestUpdate, { passive: true });
+      reduceMotion.addEventListener?.('change', requestUpdate);
+    })();
+  </script>
+</body>
+</html>

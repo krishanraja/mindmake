@@ -1,8 +1,18 @@
-# Features
+# Rewrite pending. Contains superseded material.
 
-**Last Updated:** 2026-08-11
+Parts of this file describe earlier routes, domains, email flows or offers. Trust `project-documentation/MINDMAKE_CANON.md` and `project-documentation/REBUILD_STATE.md` first. This file is rewritten from the deployed end state at launch closure (see HANDOVER/06 outcome 1).
 
 ---
+
+# Features
+
+**Last Updated:** 2026-08-26
+
+> **Current authority.** The active public product has two doors, `Build Your AI Brain` and `Build Your AI GTM`, one action, `Start here`, and no public diary. Either door may lead to one privately priced 30-day proof. The version-two private hand-off is source-only and fail-closed until the gates in `DEPLOYMENT.md` pass. The feature catalogue below records the superseded 11 August system and is retained only as technical history.
+
+---
+
+## Historical 11 August feature catalogue, superseded
 
 ## Product Offerings
 
@@ -147,7 +157,7 @@ Hides on scroll-down via `useScrollDirection`.
 - Three price bands by headcount, with one currency switcher for the whole ladder.
 - The six weeks, with week five (Krish does not attend) given its own emphasis.
 - The Teardown gate stated plainly, with the Teardown's price interpolated.
-- The $254K POC with a major US publisher, under the hero. The client is never named.
+- A now-retired private proof disclosure, under the hero. This is historical and must not return publicly.
 - Structured data: one `AggregateOffer`, USD only.
 
 ## The Teardown (`/teardown`)

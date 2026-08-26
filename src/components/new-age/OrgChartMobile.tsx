@@ -1,6 +1,6 @@
 import { Fragment, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Bot, Sparkles, Star, User } from "lucide-react";
+import { Bot, Sparkles, User } from "lucide-react";
 import {
   traditionalChart,
   newAgeChart,
@@ -22,33 +22,30 @@ const iconForKind = (kind: OrgNodeData["kind"]) =>
 interface CardProps {
   node: OrgNode;
   parentLabel?: string;
+  reducedMotion: boolean;
   onSelect: (data: OrgNodeData, nodeId: string) => void;
 }
 
-const Card = ({ node, parentLabel, onSelect }: CardProps) => {
+const Card = ({ node, parentLabel, reducedMotion, onSelect }: CardProps) => {
   const { id, data } = node;
-  const { label, subtitle, kind, featured, decisionPrompt } = data;
+  const { label, subtitle, kind, decisionPrompt } = data;
   const clickable = Boolean(decisionPrompt);
   const Icon = iconForKind(kind);
   const variant = nodeVariantClasses(kind);
 
   return (
     <motion.button
-      layout
+      layout={!reducedMotion}
       type="button"
       onClick={clickable ? () => onSelect(data, id) : undefined}
       disabled={!clickable}
-      whileTap={clickable ? { scale: 0.98 } : undefined}
-      className={`relative w-full text-left px-4 py-3 rounded-xl border shadow-sm select-none min-h-[64px] ${variant} ${
+      aria-label={clickable ? `Open the question for ${label}` : undefined}
+      whileTap={!reducedMotion && clickable ? { scale: 0.98 } : undefined}
+      transition={reducedMotion ? { duration: 0 } : undefined}
+      className={`relative w-full text-left px-4 py-3 rounded-xl border shadow-sm select-none min-h-[64px] motion-reduce:transition-none ${variant} ${
         clickable ? "cursor-pointer active:shadow-md active:shadow-mint/30" : "cursor-default"
       }`}
     >
-      {featured && (
-        <span className="absolute -top-2 -right-2 inline-flex items-center gap-0.5 bg-mint text-ink px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider border border-ink/20">
-          <Star className="w-2.5 h-2.5 fill-ink" />
-          Featured
-        </span>
-      )}
       <div className="flex items-center gap-2">
         <Icon className="w-3.5 h-3.5 opacity-80 shrink-0" />
         <span className="font-bold text-sm leading-tight">{label}</span>
@@ -59,11 +56,6 @@ const Card = ({ node, parentLabel, onSelect }: CardProps) => {
       {parentLabel && (
         <div className="text-[11px] opacity-65 leading-tight mt-1">↳ Reports to {parentLabel}</div>
       )}
-      {clickable && (
-        <div className="text-[10px] mt-1.5 uppercase tracking-wider opacity-60">
-          Tap for decision
-        </div>
-      )}
     </motion.button>
   );
 };
@@ -71,11 +63,12 @@ const Card = ({ node, parentLabel, onSelect }: CardProps) => {
 interface TierRowProps {
   tier: OrgNode[];
   tierIdx: number;
+  reducedMotion: boolean;
   parentLabelById: Map<string, string>;
   onNodeSelect: (data: OrgNodeData, nodeId: string) => void;
 }
 
-const TierRow = ({ tier, tierIdx, parentLabelById, onNodeSelect }: TierRowProps) => {
+const TierRow = ({ tier, tierIdx, reducedMotion, parentLabelById, onNodeSelect }: TierRowProps) => {
   const showParentLabel = tierIdx >= 2;
 
   // Tier 0: single root, centered, ~two-thirds width
@@ -84,7 +77,7 @@ const TierRow = ({ tier, tierIdx, parentLabelById, onNodeSelect }: TierRowProps)
     return (
       <div className="flex justify-center">
         <div className="w-2/3">
-          <Card node={node} onSelect={onNodeSelect} />
+          <Card node={node} reducedMotion={reducedMotion} onSelect={onNodeSelect} />
         </div>
       </div>
     );
@@ -96,6 +89,7 @@ const TierRow = ({ tier, tierIdx, parentLabelById, onNodeSelect }: TierRowProps)
     return (
       <Card
         node={node}
+        reducedMotion={reducedMotion}
         parentLabel={showParentLabel ? parentLabelById.get(node.id) : undefined}
         onSelect={onNodeSelect}
       />
@@ -121,6 +115,7 @@ const TierRow = ({ tier, tierIdx, parentLabelById, onNodeSelect }: TierRowProps)
           <div key={node.id} className={wrapper}>
             <Card
               node={node}
+              reducedMotion={reducedMotion}
               parentLabel={showParentLabel ? parentLabelById.get(node.id) : undefined}
               onSelect={onNodeSelect}
             />
@@ -170,10 +165,10 @@ export const OrgChartMobile = ({
       <AnimatePresence mode="wait">
         <motion.div
           key={state}
-          initial={{ opacity: 0, y: 8 }}
+          initial={reducedMotion ? false : { opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: reducedMotion ? 0.15 : 0.45 }}
+          exit={reducedMotion ? undefined : { opacity: 0 }}
+          transition={{ duration: reducedMotion ? 0 : 0.45 }}
           className="flex flex-col items-stretch gap-3"
         >
           {tiers.map((tier, tierIdx) => (
@@ -181,6 +176,7 @@ export const OrgChartMobile = ({
               <TierRow
                 tier={tier}
                 tierIdx={tierIdx}
+                reducedMotion={reducedMotion}
                 parentLabelById={parentLabelById}
                 onNodeSelect={onNodeSelect}
               />

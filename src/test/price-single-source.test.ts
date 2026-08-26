@@ -5,12 +5,12 @@ import { resolve } from "node:path";
 const ROOT = resolve(__dirname, "../..");
 const ACTIVE_BUYING_SURFACES = [
   "src/pages/Index.tsx",
-  "src/pages/Sprint.tsx",
+  "src/pages/AiBrain.tsx",
+  "src/pages/AiGtm.tsx",
   "src/pages/CaseStudies.tsx",
-  "src/pages/Operator.tsx",
   "src/pages/Contact.tsx",
-  "src/components/Navigation.tsx",
-  "src/components/Footer.tsx",
+  "src/components/mindmake/LeadBrief.tsx",
+  "src/components/mindmake/MindmakeShell.tsx",
   "scripts/generate-llms.mjs",
   "scripts/prerender.mjs",
   "index.html",
@@ -38,13 +38,12 @@ describe("the public offer stays simple", () => {
     expect(leaks).toEqual([]);
   });
 
-  it("keeps one exact commercial call to action", () => {
-    const button = read("src/components/BookFitCall.tsx");
+  it("uses the private starting point instead of a public diary", () => {
     const links = read("src/lib/publicLinks.ts");
-    const nav = read("src/components/Navigation.tsx");
+    const shell = read("src/components/mindmake/MindmakeShell.tsx");
 
-    expect(button).toContain("Book a fit call");
-    expect(links).toContain("https://calendly.com/krish-raja/mindmaker-meeting");
-    expect(nav).toContain("<BookFitCall");
+    expect(shell).toContain("Start here");
+    expect(links).toContain('SPRINT_PATH = "/?start=1"');
+    expect(links).not.toContain("calendly.com");
   });
 });

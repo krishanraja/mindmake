@@ -8,6 +8,12 @@ export type ClientStory = {
   outcome: string;
   quote: string;
   attribution: string;
+  homepage?: {
+    sector: string;
+    title: string;
+    body: string;
+    visual: "time" | "offer" | "pilots";
+  };
 };
 
 export const attendeeBrands = [
@@ -22,7 +28,13 @@ export const clientStories: ClientStory[] = [
     title: "Settle the expensive decision",
     outcome: "One day to a clear build-or-partner decision. This avoided about a year of work on the wrong path.",
     quote: "One day. One decision. No more Monday debates. That's the entire review.",
-    attribution: "CRO, media company",
+    attribution: "Chief Revenue Officer, media company",
+    homepage: {
+      sector: "Media company",
+      title: "One day to stop a year of the wrong build.",
+      body: "A clear build-or-partner choice ended months of debate and avoided roughly a year of work on the wrong path.",
+      visual: "time",
+    },
   },
   {
     id: "sellable-expertise",
@@ -30,6 +42,12 @@ export const clientStories: ClientStory[] = [
     outcome: "A respected advisory firm turned its ideas into a clear offer and a plan to launch it.",
     quote: "We had expertise everyone respected and nothing they could buy. He turned the talking into something sellable.",
     attribution: "Partner, Venture Capital Firm",
+    homepage: {
+      sector: "Investment firm",
+      title: "Expertise became an offer people could buy.",
+      body: "A respected advice business moved from good ideas to one clear offer and a defined investment plan.",
+      visual: "offer",
+    },
   },
   {
     id: "simple-product",
@@ -37,6 +55,12 @@ export const clientStories: ClientStory[] = [
     outcome: "The position and price were rebuilt in 30 days. The first two pilots were signed during the work.",
     quote: "We had a brilliant product nobody could buy, because nobody could explain it. Now they can. Including me.",
     attribution: "Founder, adtech firm",
+    homepage: {
+      sector: "Advertising technology",
+      title: "Two pilots signed during the work.",
+      body: "The product, price and message became clear in 30 days. The first two pilots signed before the work ended.",
+      visual: "pilots",
+    },
   },
   {
     id: "hand-back",
@@ -71,15 +95,19 @@ export const clientStories: ClientStory[] = [
     title: "Change direction before the market moves",
     outcome: "A data company changed how it sold as AI changed the web. The work led to a paid test with a major US publisher.",
     quote: "He set up an AI-native go-to-market system that made us rethink who we hire and what they do. He works experimentally yet transparently. We trusted he would deliver.",
-    attribution: "CRO, data-infrastructure company",
+    attribution: "Chief Revenue Officer, data-infrastructure company",
   },
 ];
 
 export const careerReferences = [
   { name: "Lizzie Young", role: "Chief Executive, Commercial Radio & Audio", quote: "A respected senior leader with deep expertise in digital media and data, a great communicator of complexity, with a warm nature that brings people together." },
-  { name: "Melinda Heffernan", role: "Ad Channel Partnerships Director APAC, Taboola", quote: "He explains complex technical set-ups simply and is a true problem solver. I learnt a huge amount about finding solutions for clients from him." },
+  { name: "Melinda Heffernan", role: "Ad Channel Partnerships Director, Asia-Pacific, Taboola", quote: "He explains complex technical set-ups simply and is a true problem solver. I learnt a huge amount about finding solutions for clients from him." },
   { name: "Chris Spencer", role: "Lead Account Executive, Enterprise, Culture Amp", quote: "An industry expert who turns knowledge into actionable plans and crafted solutions for clients." },
   { name: "Ashley Wales-Brown", role: "Digital Commerce Director, Mars United Commerce", quote: "Intelligent and hardworking, with a deep understanding of data and tech, always good for a straight answer and willing to get his hands dirty." },
   { name: "Matt Paine", role: "Managing Partner, Lamington Digital", quote: "Adept at translating complex scenarios into simple, easy-to-grasp language that moves the conversation forward." },
   { name: "Vincent Pelillo", role: "Regional Managing Director, Channel Factory", quote: "Outstanding leadership, consistently driving results in a challenging market. Where 'get it done' is valued, I'd rehire him 100%." },
 ] as const;
+
+export const homepageResultStories = clientStories.flatMap((story) =>
+  story.homepage ? [{ id: story.id, ...story.homepage }] : [],
+);

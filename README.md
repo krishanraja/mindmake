@@ -1,49 +1,83 @@
-# Mindmaker website
+# Mindmake website
 
-Mindmaker is Krish Raja's commercial decision practice. It helps founders and business leaders make hard product, price, sales and company decisions as AI changes their market, then put the decision into action.
+Mindmake is Krish Raja's principal-led AI and commercial strategy practice. It helps leaders extend their judgment with AI, then use that stronger ability to improve the person, product, price, message or company around them.
 
-The public offer is one focused, 21-day Sprint. CTRL is the private workspace the client keeps. It is evidence and a deliverable, not a second offer.
+The public site has two clear doors:
+
+- **Build Your AI Brain**: turn useful judgment, memory, standards and trusted context into a working system.
+- **Build Your AI GTM**: make better product, price, message and team choices as AI changes the market.
+
+Either door may lead to the other. Work begins with one privately priced 30-day proof. There is no public diary or public price.
+
+## Start with the current truth
+
+Read these files in order before changing a public offer, route, CTA, proof claim or lead path:
+
+1. [`project-documentation/MINDMAKE_CANON.md`](project-documentation/MINDMAKE_CANON.md)
+2. [`project-documentation/REBUILD_STATE.md`](project-documentation/REBUILD_STATE.md)
+3. [`project-documentation/BRANDS_AND_TESTIMONIALS.md`](project-documentation/BRANDS_AND_TESTIMONIALS.md)
+4. [`project-documentation/MINDMAKE_REBUILD_QA_2026-08-23.md`](project-documentation/MINDMAKE_REBUILD_QA_2026-08-23.md)
+5. [`project-documentation/DECISIONS_LOG.md`](project-documentation/DECISIONS_LOG.md)
+
+Other project documents may describe retired Mindmaker offers and are historical unless the current canon confirms them.
 
 ## Public journey
 
-The buying path is deliberately short:
+The main action is `Start here`.
 
-1. Understand the problem Mindmaker solves.
-2. See the one Sprint and the proof behind it.
-3. Book a 15-minute fit call.
+1. The visitor gives a company website.
+2. Mindmake shows an honest company read.
+3. The visitor chooses the pressure that feels closest.
+4. They choose where better use of their time or judgment would create value.
+5. Mindmake shows a useful starting brief.
+6. The current local build lets the visitor download it without giving an email.
 
-Every main sales action says `Book a fit call` and uses the URL in `src/lib/publicLinks.ts`. Contact is for general messages. Mindmaker Live always uses `https://live.themindmaker.ai`.
+The intended live hand-off then asks for a work email, verifies the address, delivers the brief and queues a separate fit summary for Krish. The version-two endpoint and email templates exist in source, but this step remains disabled until the preview database, Edge Function, retention process and both email paths are deployed and verified. It never reuses the old contact-form pipeline.
 
-The interactive Diagnosis Room and homepage AI demonstration are paused. Their code may remain for future work, but neither is mounted in the public buying journey.
+Newsletter permission is separate and unticked. There is no automated nurture series. The current visitor email boundary is documented in [`project-documentation/MINDMAKE_LEAD_DELIVERY_SPEC.md`](project-documentation/MINDMAKE_LEAD_DELIVERY_SPEC.md).
 
 ## Main routes
 
 | Route | Purpose |
 |---|---|
-| `/` | Clear position, proof, Sprint, CTRL evidence and final action |
-| `/sprint` | The single paid engagement |
-| `/case-studies` | Eight approved client stories and separate career references |
-| `/operator` | How Krish uses AI in real work |
-| `/blog`, `/library` | Background reading outside the buying path |
+| `/` | Position, mechanisms, two doors, proof, Media and the starting-point path |
+| `/ai-brain` | Full AI Brain outcome route |
+| `/ai-gtm` | Full commercial outcome route |
+| `/case-studies` | Eight verified customer stories |
+| `/blog` | Checked public ideas archive |
+| `/blog/:slug` | One static article |
+| `/faq` | Practical answers about fit, work and what the client keeps |
+| `/new-age-leadership` | Worked people-and-agent org chart example |
 | `/contact` | General messages |
+| `/privacy`, `/terms` | Current website policies |
+| `/alumni` | Unlisted, noindex page for past clients |
 
-Old offer routes redirect straight to `/sprint`. `/start` and `/decision` redirect to the 15-minute calendar. `/signal` redirects to Mindmaker Live.
+Retired offer URLs remain as compatibility redirects. `/library` redirects to `/blog`. `/signal` redirects to the current Media publication.
 
-## Proof rules
+## Main code surfaces
 
-- Attendee brands are never called clients.
-- Client results come from `src/data/rebuildProof.ts` and `project-documentation/BRANDS_AND_TESTIMONIALS.md`.
-- Career references stay separate from client outcomes.
-- Steph's quote renders only when the existing consent record is present. Missing data means no quote.
-- Removed private or unsupported figures are blocked by tests.
+- `src/App.tsx`: active routes and client-side redirects.
+- `src/pages/`: public page compositions.
+- `src/components/mindmake/`: shared shell, proof, motion and lead components.
+- `src/styles/mindmake.css`: the canonical public design system.
+- `src/data/blogPosts.ts`: public article source.
+- `scripts/generate-sitemap.mjs`: indexed route list.
+- `scripts/prerender.mjs`: crawler HTML and sitemap parity gate.
+- `scripts/generate-llms.mjs`: crawler text.
 
-## Design rules
+## Proof and language rules
 
-Keep the Mindmaker identity: ink and mint, the owl, real-world images, dark and light pacing, useful motion and visible CTRL evidence. New work must use the existing tokens and shared components rather than creating a second design system.
-
-Public copy uses British English, short sentences, common words and no em dashes. Approved quotes stay verbatim.
+- Attendee brands are never called customers.
+- Customer outcomes and testimonials remain separate.
+- Approved quotes stay verbatim.
+- Consent-gated proof disappears when consent is missing or unavailable.
+- Public copy uses British English, common words and no em dashes.
+- Do not publish a public price, public booking link, unsupported result or retired offer.
+- Every section must teach, prove or help the visitor choose.
 
 ## Development
+
+The repository requires Node 22.18 or later.
 
 ```bash
 npm install
@@ -53,13 +87,12 @@ npm run lint
 npm run build
 ```
 
-Copy `.env.example` to a private local environment file and provide the public Supabase URL and publishable key before running a browser preview. Never commit environment values.
+Copy `.env.example` to a private local environment file when a local browser check needs the public Supabase URL and publishable key. Never commit environment values. Keep `VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED=false` unless the dedicated versioned endpoint is available in a safe test environment.
 
-The build also generates the sitemap, crawler text and prerendered public pages.
+`npm run build` creates the production bundle, sitemap, crawler text and dedicated prerendered HTML for every indexed route. The build fails when the sitemap and prerender route sets differ.
 
-## Release gate
+## Release boundary
 
-Work happens on `codex/mindmaker-rebuild`. A matching preview must pass before merge. Production promotion is manual and is not authorised by this rebuild.
+Local implementation is complete on `codex/mindmake-homepage-mock`. The private-brief migration and endpoint exist in source only. Preview deployment, private-schema checks, real visitor and operator email tests, retention approval, legal approval, physical iOS and Android checks, publication migration, merge, domain changes and production promotion remain separate gates.
 
-Current product and release state: `project-documentation/REBUILD_STATE.md`.
-Conversion audit: `project-documentation/CTA_PATH_AUDIT.md`.
+Do not deploy, merge, change live Supabase, send real email, delete legacy assets or promote production without the matching approval.

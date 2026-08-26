@@ -1,32 +1,36 @@
-# Mindmaker value proposition
+# Mindmake value proposition
 
-Last updated: 12 August 2026.
+Last updated: 26 August 2026.
 
-Mindmaker is Krish Raja's commercial decision practice.
+Mindmake helps leaders put their best judgement to work with AI.
 
-It helps founders and business leaders make hard product, price, sales and company decisions as AI changes their market. The work protects the expertise, judgement and taste already inside the business, then uses AI to make those strengths more useful.
+It keeps what they know close, brings the right facts and past choices into view, and turns hard choices into working tools their team can use.
 
 ## The problem
 
-The buyer often sees one of two signs:
+The buyer often sees one of these signs:
 
-- Faster startups are taking the market.
-- Growth is possible, but the product, price, position or team is holding it back.
+- They have handed the `AI thing` to someone else and are losing the working understanding a leader now needs.
+- Their time is being spent below its highest value.
+- Their standards, memory and judgement are hard for AI or their team to use.
+- They want AI to fill a weak spot, show a blind spot or help them act on a bigger vision.
+- AI has changed what customers can do, what they will pay for or how the business should sell.
+- A high-growth AI business needs sharper product, price, position, sales or team choices.
 
-The stated problem may be unclear. That is a valid starting point. Krish uses careful interviews, business evidence and outside facts to find the decision underneath it.
+The stated problem may be unclear. That is a valid starting point. Krish combines careful questions, business evidence, outside facts and hands-on building to find a useful place to begin.
 
-## The offer
+## The two public doors
 
-One focused 21-day Sprint. Krish researches the problem, challenges the current view, models the choices and makes the call with the client. The client gives decisions and introductions, not homework.
+`Build Your AI Brain` helps a leader make their judgement, standards, memory and trusted context easier to use. `Build Your AI GTM` helps a business rework product, price, position, sales and team choices as AI changes the market.
 
-The Sprint ends with:
+Either may lead to one privately priced 30-day proof. The proof ends with:
 
-- the decision made;
-- the reason and evidence kept;
-- the first material action under way;
-- a private CTRL workspace the client can keep using.
+- a useful result the client says is working;
+- the judgement, evidence and reasons kept;
+- a working first version in the client's hands;
+- a private CTRL-backed system that can keep improving.
 
-No public price. No deck. No retainer. No second offer.
+No public price. No deck. No public diary. No third offer.
 
 ## Why Krish
 
@@ -36,4 +40,6 @@ The proof is not that he can produce an AI answer. It is that he can combine bus
 
 ## Buyer feeling
 
-The buyer should leave thinking: I can see what comes next, make the call and keep building my own judgement as AI changes the market.
+The visitor should get value before being asked for contact details. They should leave thinking: I can see what comes next, make a better call and keep building my own judgement as AI changes the market.
+
+The public action is `Start here`. The version-two private hand-off remains source-only and fail-closed until the preview release gates pass.

@@ -1,6 +1,6 @@
 <!-- Generated 2026-08-05. Updated 2026-08-11. A working document for the proof rebuild, not a canonical reference. -->
 
-> **Status, 2026-08-11.** Three of the findings below were acted on. The 26 illustrative proof entries are deleted. R-01 (the $254K POC with a major US publisher) is published on `/case-studies`, `/handover` and `/start`. Testimonials are now gated on the `permission` column via a consent-scoped database view. The case-study tags below are updated to the two live engagements. What remains open is which of the two consented rows to publish, and whether to publish it named. See `DECISIONS_LOG.md`.
+> **Status, 2026-08-11, superseded.** Three findings were acted on at that checkpoint. The private money disclosure referenced in the original record has now been removed and is not approved for public use. Current proof authority is `BRANDS_AND_TESTIMONIALS.md` and `MINDMAKE_CANON.md`.
 # Proof Inventory
 
 Everything Mindmaker currently holds as client proof, in one place, so it can be re-collated.
@@ -25,7 +25,7 @@ The proof bank holds nine real engagements with verified numbers. Only four of t
 
 | ID | What it was | The number |
 |---|---|---|
-| R-01 | Repositioned a first-party identity business for an AI-mediated web | **$254K POC contracted** with a major US publisher |
+| R-01 | Repositioned a first-party identity business for an AI-mediated web | **Retired private money disclosure removed** |
 | R-06 | Turned a TMT advisory's expertise into products clients could buy | Fund One launched with a defined thesis |
 | R-07 | Built a 14-agent autonomous operating system | 37+ workflows, one operator, multiple ventures |
 | R-08 | Settled build-versus-buy for a major media publisher | ~1 year of engineering not spent wrong |
@@ -300,7 +300,7 @@ Nine entries, verified numbers, currently used only by Mindy's proposal generato
 
 **The Work.** New ICP, messaging, and sales-enablement workflows. Taught the team to vibe-code and built a central AI brain that feeds every seller so they build their own enablement tools instead of needing an enablement team to exist. 43 outbound campaigns across US, EMEA, and APAC with four distinct personas. Partnership architecture with a major creative-and-media services group. A POC scope built for a major US publisher around Safari addressability and conversion-API measurement. A new thought-leadership cadence on agentic browsing and open-web monetisation. The work of at least 10 people, done by one operator plus one supporting resource.
 
-**Outcome.** **$254K POC contracted** with a major US publisher. Pipeline rebuilt with three further major publishers and a large classifieds marketplace. Category narrative shifted from defence to offence.
+**Outcome.** Retired private money disclosure removed. This record is not approved for public use.
 
 > "He set up an AI-native go-to-market system that made us rethink who we hire and what they do. He works experimentally yet transparently. We trusted he would deliver."
 > *CRO, data-infrastructure company*
@@ -474,10 +474,10 @@ Ordered by how much they cost if decided late.
 
 **2. Named or anonymous, per entry.** Nothing on the site is named and no consent is recorded in the repo. Check the `testimonials` table's `permission` column first, then route new requests through the existing `submit-testimonial` form rather than email so consent is captured structurally.
 
-**3. Publish the five unpublished.** R-01, R-06, R-07, R-08 and R-09 are real, carry verified numbers, and are invisible. R-01's $254K is the strongest single proof point in the business.
+**3. Historical recommendation, superseded.** The earlier recommendation to publish R-01 is withdrawn. Its private money disclosure has been removed.
 
 **4. Reconcile the four overlaps.** R-02 through R-05 exist in two places that have already drifted. Pick one as canonical or they will drift again.
 
 **5. Retire or keep the illustrative bank.** See Part 3.
 
-**6. Refresh the results band.** All four numbers come from CS-1 to CS-4. If R-01 goes public, the band should probably lead with $254K.
+**6. Historical recommendation, superseded.** Do not lead the results band with the retired private money disclosure.

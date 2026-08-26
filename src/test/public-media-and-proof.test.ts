@@ -18,10 +18,9 @@ describe("public media and proof contracts", () => {
   it("keeps retired CTRL video paths out of active and prototype surfaces", () => {
     const surfaces = [
       "src/pages/Index.tsx",
-      "src/pages/Operator.tsx",
-      "prototypes/mindmaker-homepage-component-led-v2.html",
-      "prototypes/mindmaker-homepage-v3.html",
-      "prototypes/mindmaker-typography-test-v1.html",
+      "prototypes/archive/mindmaker-homepage-component-led-v2.html",
+      "prototypes/archive/mindmaker-homepage-v3.html",
+      "prototypes/archive/mindmaker-typography-test-v1.html",
     ];
 
     expect(surfaces.filter((file) => read(file).includes("ctrl-demo-video.mp4"))).toEqual([]);

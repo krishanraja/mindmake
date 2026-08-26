@@ -1,3 +1,9 @@
+# SUPERSEDED for public work.
+
+Mindy, its knowledge files and the Diagnosis Room are not part of the current public product. Do not use anything here as public copy, pricing, route or product truth. Current truth lives in `project-documentation/MINDMAKE_CANON.md`. The retired private money disclosure in the deferred knowledge files must not reach any public answer.
+
+---
+
 # Mindy Brain Pack
 
 *The knowledge pack that makes Mindy reason like Krish, recommend honestly, price in ranges, and sound like the operator and not the model. Built 2026-06-09 against `MINDY-ONE-JOURNEY-ARCHITECTURE.md` (the Diagnosis Room brief); last reconciled 2026-06-28. This README is the index and the wiring diagram. It also carries the consistency and open-questions list; items resolved as of 2026-06-09 are marked.*
@@ -78,7 +84,7 @@ The six authors flagged the following. Items 1–2 are real internal contradicti
 
 ### C. Proof and anonymisation
 
-**5. How anonymised the proof can be (brief §8.4, gap 5).** This pack ships nine anonymised *real* engagements (R-01–R-09) with verified numbers, reduced to sector + role. That is more than the brief's fallback ("four founder credentials + fictional bank only"). **Confirm Mindy may surface these real-but-anonymised outcomes** (e.g. "$254K POC at a data-infrastructure company"), and confirm the role-only attributions are acceptable. If not, Mindy falls back to the founder credentials only. The illustrative B-bank was deleted in August 2026 and is not a fallback.
+**5. Historical proof question, superseded.** The retired private money disclosure has been removed and may not be surfaced. This Mindy pack belongs to a retired public flow and does not override the current Mindmake proof source or consent rules.
 
 ### D. Mechanism and posture confirmations (brief §8)
 

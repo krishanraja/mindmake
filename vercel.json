@@ -1,41 +1,50 @@
 {
   "redirects": [
-    { "source": "/teardown", "destination": "/sprint", "permanent": true },
-    { "source": "/handover", "destination": "/sprint", "permanent": true },
-    { "source": "/capital", "destination": "/sprint", "permanent": true },
-    { "source": "/workshops", "destination": "/sprint", "permanent": true },
-    { "source": "/workshops/:path*", "destination": "/sprint", "permanent": true },
-    { "source": "/enterprise", "destination": "/sprint", "permanent": true },
-    { "source": "/immersion", "destination": "/sprint", "permanent": true },
-    { "source": "/cohort", "destination": "/sprint", "permanent": true },
-    { "source": "/leaders", "destination": "/sprint", "permanent": true },
-    { "source": "/leadership-insights", "destination": "/sprint", "permanent": true },
+    { "source": "/test-email-flows.html", "destination": "/", "permanent": false },
+    { "source": "/intake", "destination": "/?start=1", "permanent": false },
+    { "source": "/intake/index.html", "destination": "/?start=1", "permanent": false },
+    { "source": "/testimonials", "destination": "/case-studies", "permanent": false },
+    { "source": "/testimonials/index.html", "destination": "/case-studies", "permanent": false },
+    { "source": "/blog/10-20x-roi-what-real-ai-implementation-looks-like", "destination": "/blog/measuring-ai-work-that-pays-back", "permanent": true },
+    { "source": "/blog/building-ai-systems-in-30-days-sprint-approach", "destination": "/blog/a-useful-first-30-days-building-with-ai", "permanent": true },
+    { "source": "/operator", "destination": "/ai-brain", "permanent": true },
+    { "source": "/teardown", "destination": "/?start=1", "permanent": true },
+    { "source": "/handover", "destination": "/?start=1", "permanent": true },
+    { "source": "/capital", "destination": "/?start=1", "permanent": true },
+    { "source": "/workshops", "destination": "/?start=1", "permanent": true },
+    { "source": "/workshops/:path*", "destination": "/?start=1", "permanent": true },
+    { "source": "/enterprise", "destination": "/?start=1", "permanent": true },
+    { "source": "/immersion", "destination": "/?start=1", "permanent": true },
+    { "source": "/cohort", "destination": "/?start=1", "permanent": true },
+    { "source": "/leaders", "destination": "/?start=1", "permanent": true },
+    { "source": "/leadership-insights", "destination": "/?start=1", "permanent": true },
 
-    { "source": "/sprints", "destination": "/sprint", "permanent": true },
-    { "source": "/sprint/4-week", "destination": "/sprint", "permanent": true },
-    { "source": "/sprint/90-day", "destination": "/sprint", "permanent": true },
-    { "source": "/builder-sprint", "destination": "/sprint", "permanent": true },
-    { "source": "/war-room", "destination": "/sprint", "permanent": true },
-    { "source": "/strategy-day", "destination": "/sprint", "permanent": true },
-    { "source": "/fractional-caio", "destination": "/sprint", "permanent": true },
+    { "source": "/sprint", "destination": "/?start=1", "permanent": true },
+    { "source": "/sprints", "destination": "/?start=1", "permanent": true },
+    { "source": "/sprint/4-week", "destination": "/?start=1", "permanent": true },
+    { "source": "/sprint/90-day", "destination": "/?start=1", "permanent": true },
+    { "source": "/builder-sprint", "destination": "/?start=1", "permanent": true },
+    { "source": "/war-room", "destination": "/?start=1", "permanent": true },
+    { "source": "/strategy-day", "destination": "/?start=1", "permanent": true },
+    { "source": "/fractional-caio", "destination": "/?start=1", "permanent": true },
 
-    { "source": "/tool", "destination": "/sprint", "permanent": true },
-    { "source": "/start", "destination": "https://calendly.com/krish-raja/mindmaker-meeting", "permanent": false },
-    { "source": "/decision", "destination": "https://calendly.com/krish-raja/mindmaker-meeting", "permanent": false },
-    { "source": "/signal", "destination": "https://live.themindmaker.ai", "permanent": true },
-    { "source": "/faq", "destination": "/library?tab=questions", "permanent": true },
-    { "source": "/builder-economy", "destination": "https://live.themindmaker.ai", "permanent": true },
+    { "source": "/tool", "destination": "/ai-brain", "permanent": true },
+    { "source": "/start", "destination": "/?start=1", "permanent": false },
+    { "source": "/decision", "destination": "/?start=1", "permanent": false },
+    { "source": "/signal", "destination": "https://mindmakerlive.substack.com", "permanent": true },
+    { "source": "/library", "destination": "/blog", "permanent": true },
+    { "source": "/builder-economy", "destination": "https://mindmakerlive.substack.com", "permanent": true },
 
-    { "source": "/individual", "destination": "/sprint", "permanent": true },
-    { "source": "/team", "destination": "/sprint", "permanent": true },
-    { "source": "/builder", "destination": "/sprint", "permanent": true },
-    { "source": "/builder-session", "destination": "/sprint", "permanent": true },
-    { "source": "/leadership-lab", "destination": "/sprint", "permanent": true },
-    { "source": "/portfolio-program", "destination": "/sprint", "permanent": true }
+    { "source": "/individual", "destination": "/?start=1", "permanent": true },
+    { "source": "/team", "destination": "/?start=1", "permanent": true },
+    { "source": "/builder", "destination": "/?start=1", "permanent": true },
+    { "source": "/builder-session", "destination": "/?start=1", "permanent": true },
+    { "source": "/leadership-lab", "destination": "/?start=1", "permanent": true },
+    { "source": "/portfolio-program", "destination": "/?start=1", "permanent": true }
   ],
   "headers": [
     {
-      "source": "/((?!testimonials|intake|alumni).*)",
+      "source": "/((?!alumni|test-email-flows\\.html).*)",
       "headers": [
         {
           "key": "X-Robots-Tag",
@@ -44,7 +53,7 @@
       ]
     },
     {
-      "source": "/(testimonials|intake|alumni)(.*)",
+      "source": "/(alumni|test-email-flows\\.html)(.*)",
       "headers": [
         {
           "key": "X-Robots-Tag",
@@ -55,15 +64,7 @@
   ],
   "rewrites": [
     {
-      "source": "/testimonials",
-      "destination": "/testimonials/index.html"
-    },
-    {
-      "source": "/intake",
-      "destination": "/intake/index.html"
-    },
-    {
-      "source": "/((?!assets/|testimonials|intake|agent\\.json|\\.well-known/).*)",
+      "source": "/alumni",
       "destination": "/index.html"
     }
   ]

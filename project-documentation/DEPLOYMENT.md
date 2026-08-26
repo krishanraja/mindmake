@@ -1,12 +1,40 @@
-# Deployment Checklist
+# Rewrite pending. Contains superseded material.
 
-**Last Updated:** 2026-08-11
-
-Pre-deploy and post-deploy verification for the Mindmaker project.
+Parts of this file describe earlier routes, domains, email flows or offers. Trust `project-documentation/MINDMAKE_CANON.md` and `project-documentation/REBUILD_STATE.md` first. This file is rewritten from the deployed end state at launch closure (see HANDOVER/06 outcome 1).
 
 ---
 
-## Pre-Deploy Checklist
+# Deployment Checklist
+
+**Last Updated:** 2026-08-26
+
+Pre-deploy and post-deploy verification for the Mindmake project.
+
+## Current Mindmake release contract
+
+The checklist below this section records the superseded 11 August Mindmaker architecture. It is retained as history and must not be used to release the current Mindmake rebuild.
+
+- [ ] `prototypes/mindmake-judgement-thread-motion-study-v5.html` still matches SHA-256 `DE09D75C46EB660AD6148C1D7F5DD61E4F82031B48FCFE931CC3AE05C8126C81`.
+- [ ] The candidate 7 V2 prototype, React component and stylesheet still match the three hashes recorded in `MINDMAKE_CANON.md`. Their copy, composition and door-separation motion are unchanged.
+- [ ] No public eyebrow exists outside the frozen gateway's approved `Pick your starting point` label.
+- [ ] Header, wordmark and every homepage section share one measured content edge. Desktop, phone, tablet and short landscape show no clipped copy, hidden action, document-width overflow or sub-44-pixel control.
+- [ ] Every scroll-linked movement explains a change in meaning, reverses with scroll and has an equally clear reduced-motion state.
+- [ ] Customer outcomes, attendance proof and career testimonials appear once each and remain clearly distinguished.
+- [ ] The primary action is `Start here`; there is no public diary, Calendly link or public price.
+- [ ] The visitor receives a useful company read and recommendation before contact is requested.
+- [ ] With `VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED=false`, the journey asks for no email, sends nothing and preserves the complete local download.
+- [ ] The preview migration is applied and database lint, advisers, grants and private-RPC boundaries pass. Anonymous and signed-in browsers cannot read the private schema.
+- [ ] The version-two Edge Function uses exact allowed origins and configured secret references, accepts only identifier fields and owns research, verification and brief assembly.
+- [ ] Request, resend, changed-email, valid, invalid, expired and locked-code paths pass. Visitor and operator email successes and failures are tested independently with synthetic inboxes and retries do not duplicate a lead or message.
+- [ ] Publication interest is separate and unticked, remains interest only and never creates a manual or automatic subscription.
+- [ ] The retention schedule is agreed and any deletion process promised publicly is implemented and verified before the hand-off flag changes.
+- [ ] Physical iOS Safari and Android Chrome checks pass, including keyboard, safe-area, download, video, VoiceOver or TalkBack and reduced-motion behaviour.
+- [ ] Preview route, crawler, sitemap, accessibility, mobile, email and real HTTP 404 checks pass.
+- [ ] Merge, domain change, flag enablement and production promotion each receive their own explicit approval.
+
+---
+
+## Historical pre-deploy checklist, superseded
 
 ### 1. Build & type checks
 - [ ] `npm run build` passes with no errors (runs Vite → `scripts/generate-sitemap.mjs` → `scripts/prerender.mjs`)
@@ -80,7 +108,7 @@ All routes in `src/App.tsx` accessible:
 - [ ] Currency switcher present on `/teardown`, `/handover` and `/capital`; the choice persists across navigation and reload
 - [ ] No currency conversion anywhere. These are set prices per market
 - [ ] CTRL appears as a Teardown deliverable and a product link, with no price on this site
-- [ ] The $254K POC is attributed to **"a major US publisher"** and the client is never named
+- [ ] The retired private money disclosure is absent. This historical checklist no longer authorises publishing it
 - [ ] `PriceTicker` renders and scrolls on both `/` and `/signal`
 - [ ] Nervous Decision Machine returns a response on both the homepage and `/signal`
 - [ ] Testimonials render only from `publishable_testimonials`, the consent-gated view
@@ -93,7 +121,7 @@ All routes in `src/App.tsx` accessible:
 
 ---
 
-## Post-Deploy Checklist
+## Historical post-deploy checklist, superseded
 
 ### 1. Health check
 - [ ] Homepage loads without errors

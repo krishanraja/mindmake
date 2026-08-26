@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="robots" content="noindex, nofollow" />
 <title>Mindmaker · Before we begin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -274,7 +275,7 @@ const questions = [
   { stage:"What you want", eyebrow:"A year from now", type:"multi", key:"aspiration", allowMore:true,
     q:"A year from now, where do you want to be with AI?",
     help: ctx => (ctx.llm && ctx.llm.aspiration_nudge) ? ctx.llm.aspiration_nudge : "Pick the ones that sound like the version of you you're after. This is the target Krish measures the work against.",
-    options:["Making the call myself, not outsourcing the judgment","Clear on where it's worth it, and where it's just hype","Leading the AI conversation, not sitting through it","Board-ready, with a position I can defend","Faster at the high-value work only I can do","Building my own tools instead of waiting on IT","A team that runs on AI by default","A whole category of work, gone for good","Not the bottleneck for every AI decision"] },
+    options:["Making the call myself, not outsourcing the judgement","Clear on where it's worth it, and where it's just hype","Leading the AI conversation, not sitting through it","Board-ready, with a position I can defend","Faster at the high-value work only I can do","Building my own tools instead of waiting on IT","A team that runs on AI by default","A whole category of work, gone for good","Not the bottleneck for every AI decision"] },
 
   { stage:"What you want", eyebrow:"The blue-sky one", type:"text", key:"wish", voice:true, optional:true,
     q:"Anything you wish you could do but can't today?",

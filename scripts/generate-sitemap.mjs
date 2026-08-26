@@ -9,51 +9,38 @@
  * noindex issues with non-production Vercel deployments.
  */
 
-import { readFileSync, writeFileSync } from "fs";
+import { writeFileSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
+import { loadBlogPosts } from "./lib/blog-posts-loader.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const rootDir = resolve(__dirname, "..");
 
 const DOMAINS = [
-  "https://www.themindmaker.ai",
+  "https://mindmake.co",
 ];
 
 // Static routes with their change frequency and priority
 const staticRoutes = [
   { path: "/", changefreq: "daily", priority: "1.0" },
-  { path: "/sprint", changefreq: "weekly", priority: "0.9" },
-  { path: "/operator", changefreq: "monthly", priority: "0.7" },
+  { path: "/ai-brain", changefreq: "weekly", priority: "0.9" },
+  { path: "/ai-gtm", changefreq: "weekly", priority: "0.9" },
   { path: "/case-studies", changefreq: "monthly", priority: "0.8" },
-  { path: "/new-age-leadership", changefreq: "weekly", priority: "0.8" },
+  { path: "/new-age-leadership", changefreq: "monthly", priority: "0.5" },
   { path: "/blog", changefreq: "daily", priority: "0.8" },
-  { path: "/library", changefreq: "weekly", priority: "0.7" },
+  { path: "/faq", changefreq: "monthly", priority: "0.5" },
   { path: "/contact", changefreq: "yearly", priority: "0.5" },
   { path: "/privacy", changefreq: "yearly", priority: "0.3" },
   { path: "/terms", changefreq: "yearly", priority: "0.3" },
-  // /alumni intentionally excluded: invitation-only, noindex.
+  // /alumni intentionally excluded: unlisted and noindex.
   // /workshops, /cohort, /enterprise, /immersion and /leaders are 301s now.
   // A redirected URL does not belong in a sitemap.
 ];
 
-// Extract blog slugs from the static data file
-function getBlogSlugs() {
-  try {
-    const blogFile = readFileSync(
-      resolve(__dirname, "../src/data/blogPosts.ts"),
-      "utf-8"
-    );
-    const slugMatches = blogFile.matchAll(/slug:\s*"([^"]+)"/g);
-    return [...slugMatches].map((m) => m[1]);
-  } catch {
-    console.warn("Warning: Could not read blogPosts.ts for sitemap generation");
-    return [];
-  }
-}
-
-function generateSitemap() {
+async function generateSitemap() {
   const today = new Date().toISOString().split("T")[0];
-  const blogSlugs = getBlogSlugs();
+  const blogPosts = await loadBlogPosts(rootDir);
 
   const urls = [];
 
@@ -69,10 +56,10 @@ function generateSitemap() {
     }
 
     // Blog posts
-    for (const slug of blogSlugs) {
+    for (const post of blogPosts) {
       urls.push(`  <url>
-    <loc>${domain}/blog/${slug}</loc>
-    <lastmod>${today}</lastmod>
+    <loc>${domain}/blog/${post.slug}</loc>
+    <lastmod>${post.updatedAt || today}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>`);
@@ -96,8 +83,8 @@ ${urls.join("\n")}
   const totalUrls = urls.length;
   const domainsCount = DOMAINS.length;
   console.log(
-    `Sitemap generated: ${staticRoutes.length} pages + ${blogSlugs.length} blog posts across ${domainsCount} domains (${totalUrls} total URLs)`
+    `Sitemap generated: ${staticRoutes.length} pages + ${blogPosts.length} blog posts across ${domainsCount} domains (${totalUrls} total URLs)`
   );
 }
 
-generateSitemap();
+await generateSitemap();

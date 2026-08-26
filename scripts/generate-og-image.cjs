@@ -1,105 +1,63 @@
-const { createCanvas } = require('canvas');
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
+const sharp = require("sharp");
 
 const WIDTH = 1200;
 const HEIGHT = 630;
+const root = path.join(__dirname, "..");
+const outputPath = path.join(root, "public", "og-image.jpg");
 
-const canvas = createCanvas(WIDTH, HEIGHT);
-const ctx = canvas.getContext('2d');
+const gridLines = [
+  ...Array.from({ length: 14 }, (_, index) => `<line x1="${index * 80}" y1="0" x2="${index * 80}" y2="630" />`),
+  ...Array.from({ length: 8 }, (_, index) => `<line x1="0" y1="${index * 80}" x2="1200" y2="${index * 80}" />`),
+].join("");
 
-// Background - dark ink color
-ctx.fillStyle = '#0e1a2b';
-ctx.fillRect(0, 0, WIDTH, HEIGHT);
+const background = Buffer.from(`
+  <svg width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="glow" cx="86%" cy="8%" r="65%">
+        <stop offset="0" stop-color="#67e0be" stop-opacity="0.2" />
+        <stop offset="0.55" stop-color="#67e0be" stop-opacity="0.04" />
+        <stop offset="1" stop-color="#67e0be" stop-opacity="0" />
+      </radialGradient>
+    </defs>
+    <rect width="1200" height="630" fill="#06251f" />
+    <rect width="1200" height="630" fill="url(#glow)" />
+    <g stroke="#fffdf8" stroke-opacity="0.055" stroke-width="1">${gridLines}</g>
+    <rect width="1200" height="8" fill="#67e0be" />
+    <rect x="56" y="48" width="500" height="102" rx="4" fill="#f4f0e8" />
+    <text x="72" y="282" fill="#fffdf8" font-family="Georgia, serif" font-size="66" font-weight="700">Put your best judgement</text>
+    <text x="72" y="358" fill="#fffdf8" font-family="Georgia, serif" font-size="66" font-weight="700">to work with AI.</text>
+    <text x="76" y="432" fill="#fffdf8" fill-opacity="0.78" font-family="Arial, sans-serif" font-size="24">Build Your AI Brain  ·  Build Your AI GTM</text>
+    <line x1="76" y1="474" x2="1124" y2="474" stroke="#67e0be" stroke-opacity="0.75" stroke-width="3" />
+    <text x="76" y="550" fill="#fffdf8" fill-opacity="0.66" font-family="Arial, sans-serif" font-size="20">mindmake.co</text>
+    <circle cx="1114" cy="542" r="10" fill="#67e0be" />
+  </svg>
+`);
 
-// Subtle gradient overlay
-const gradient = ctx.createLinearGradient(0, 0, WIDTH, HEIGHT);
-gradient.addColorStop(0, 'rgba(0, 217, 182, 0.08)');
-gradient.addColorStop(0.5, 'rgba(0, 217, 182, 0.02)');
-gradient.addColorStop(1, 'rgba(0, 217, 182, 0.06)');
-ctx.fillStyle = gradient;
-ctx.fillRect(0, 0, WIDTH, HEIGHT);
+async function drawCover() {
+  const wordmark = await sharp(path.join(root, "prototypes", "assets", "mindmake-wordmark.png"))
+    .resize({ width: 338 })
+    .png()
+    .toBuffer();
+  const icon = await sharp(path.join(root, "src", "assets", "mindmaker-icon.png"))
+    .resize(64, 64, { fit: "contain" })
+    .png()
+    .toBuffer();
 
-// Subtle particle dots (brand element)
-ctx.fillStyle = 'rgba(0, 217, 182, 0.15)';
-const dots = [
-  [120, 80, 3], [340, 150, 2], [900, 100, 4], [1050, 200, 2.5],
-  [180, 400, 2], [500, 500, 3], [750, 450, 2], [1100, 480, 3.5],
-  [60, 250, 2.5], [400, 60, 2], [650, 120, 3], [980, 380, 2],
-  [200, 550, 2], [850, 550, 2.5], [1150, 100, 2],
-];
-dots.forEach(([x, y, r]) => {
-  ctx.beginPath();
-  ctx.arc(x, y, r, 0, Math.PI * 2);
-  ctx.fill();
+  await sharp(background)
+    .composite([
+      { input: icon, left: 72, top: 67 },
+      { input: wordmark, left: 156, top: 73 },
+    ])
+    .jpeg({ quality: 94, progressive: true })
+    .toFile(outputPath);
+
+  const size = fs.statSync(outputPath).size;
+  console.log(`OG image written to ${outputPath} (${(size / 1024).toFixed(1)}KB)`);
+}
+
+drawCover().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
 });
-
-// Connecting lines between some dots (subtle network effect)
-ctx.strokeStyle = 'rgba(0, 217, 182, 0.06)';
-ctx.lineWidth = 1;
-const connections = [[0, 2], [2, 3], [4, 5], [6, 7], [8, 10], [11, 13]];
-connections.forEach(([a, b]) => {
-  ctx.beginPath();
-  ctx.moveTo(dots[a][0], dots[a][1]);
-  ctx.lineTo(dots[b][0], dots[b][1]);
-  ctx.stroke();
-});
-
-// Mint accent line at top
-const topLine = ctx.createLinearGradient(0, 0, WIDTH, 0);
-topLine.addColorStop(0, 'rgba(0, 217, 182, 0)');
-topLine.addColorStop(0.2, 'rgba(0, 217, 182, 0.8)');
-topLine.addColorStop(0.8, 'rgba(0, 217, 182, 0.8)');
-topLine.addColorStop(1, 'rgba(0, 217, 182, 0)');
-ctx.fillStyle = topLine;
-ctx.fillRect(0, 0, WIDTH, 3);
-
-// "mindmaker" text - main brand
-ctx.fillStyle = '#ffffff';
-ctx.font = 'bold 72px sans-serif';
-ctx.textAlign = 'left';
-ctx.fillText('Mindmaker', 80, 220);
-
-// Mint underline accent under brand name
-const underline = ctx.createLinearGradient(80, 0, 420, 0);
-underline.addColorStop(0, '#00D9B6');
-underline.addColorStop(1, 'rgba(0, 217, 182, 0.3)');
-ctx.fillStyle = underline;
-ctx.fillRect(80, 235, 340, 3);
-
-// Tagline
-ctx.fillStyle = '#00D9B6';
-ctx.font = 'bold 32px sans-serif';
-ctx.fillText('Mind Set  →  Mind Map  →  Mind Make', 80, 300);
-
-// Description
-ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
-ctx.font = '24px sans-serif';
-ctx.fillText('1:1 sprints that turn AI chaos into calm,', 80, 380);
-ctx.fillText('clear, executable direction.', 80, 415);
-
-// Bottom tagline
-ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-ctx.font = '18px sans-serif';
-ctx.fillText('themindmaker.ai', 80, 560);
-
-// Mint accent dot before URL
-ctx.fillStyle = '#00D9B6';
-ctx.beginPath();
-ctx.arc(65, 555, 4, 0, Math.PI * 2);
-ctx.fill();
-
-// Bottom mint line
-const bottomLine = ctx.createLinearGradient(0, 0, WIDTH, 0);
-bottomLine.addColorStop(0, 'rgba(0, 217, 182, 0)');
-bottomLine.addColorStop(0.2, 'rgba(0, 217, 182, 0.6)');
-bottomLine.addColorStop(0.8, 'rgba(0, 217, 182, 0.6)');
-bottomLine.addColorStop(1, 'rgba(0, 217, 182, 0)');
-ctx.fillStyle = bottomLine;
-ctx.fillRect(0, 627, WIDTH, 3);
-
-// Write to file
-const buffer = canvas.toBuffer('image/jpeg', { quality: 0.92 });
-const outputPath = path.join(__dirname, '..', 'public', 'og-image.jpg');
-fs.writeFileSync(outputPath, buffer);
-console.log(`OG image written to ${outputPath} (${(buffer.length / 1024).toFixed(1)}KB)`);

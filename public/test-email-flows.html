@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
   <title>Email Flow Test Suite</title>
   <style>
     body {
@@ -119,7 +120,8 @@
     import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
     // Get Supabase credentials from environment or use defaults
-    const SUPABASE_URL = window.location.hostname === 'localhost' 
+    const localHarness = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+    const SUPABASE_URL = localHarness
       ? 'http://localhost:54321' 
       : 'https://your-project.supabase.co';
     const SUPABASE_ANON_KEY = 'your-anon-key'; // Replace with actual key
@@ -458,6 +460,13 @@
 
       const btn = document.getElementById(`btn-${id}`);
       const statusDiv = document.getElementById(`status-${id}`);
+
+      if (!localHarness) {
+        statusDiv.style.display = 'block';
+        statusDiv.className = 'status error';
+        statusDiv.textContent = 'This internal test harness is disabled outside localhost.';
+        return;
+      }
       
       btn.disabled = true;
       statusDiv.style.display = 'block';
@@ -497,16 +506,7 @@
 
     updateStats();
 
-    // Auto-send all emails on page load
-    window.addEventListener('load', async () => {
-      console.log('Auto-sending all test emails...');
-      for (const scenario of testScenarios) {
-        await window.testScenario(scenario.id);
-        // Delay between emails
-        await new Promise(resolve => setTimeout(resolve, 1500));
-      }
-      console.log('All test emails sent!');
-    });
+    // Tests run only after an explicit local button press. Never auto-send.
   </script>
 </body>
 </html>

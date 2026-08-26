@@ -1,10 +1,23 @@
 # Architecture
 
-> The route, offer and conversion sections below describe the pre-rebuild system and are kept only as technical history. For the current public contract, use `README.md`, `CLAUDE.md`, `REBUILD_STATE.md` and `CTA_PATH_AUDIT.md`. Active truth is one 21-day Sprint, one shared fit-call action, and no mounted Diagnosis Room.
+> **Current authority, 26 August 2026.** The current architecture is summarised below and governed by `MINDMAKE_CANON.md`, `MINDMAKE_LEAD_DELIVERY_SPEC.md`, `REBUILD_STATE.md` and `DEPLOYMENT.md`. Everything from `Historical pre-rebuild architecture, superseded` onward records the old Mindmaker system. Its Sprint, Teardown, Handover, Mindy, Diagnosis Room, Calendly, public price and route statements are technical history only.
 
-**Last Updated:** 2026-08-11
+**Last Updated:** 2026-08-26
 
 ---
+
+## Current Mindmake architecture
+
+- Public routes present two doors: `Build Your AI Brain` and `Build Your AI GTM`.
+- The only primary action is `Start here`. There is no public diary, fit-call button or direct Calendly path.
+- The conversion journey is value-first: company website, useful company read and recommendation, one easy question, then an optional private brief by email.
+- The browser contract is identifier-only. It may send the visitor email, company domain and allowlisted choice identifiers. The server owns company research, recommendation assembly, verification codes, the visitor brief, Krish's private fit summary and independent delivery attempts.
+- Publication interest is a separate, unticked field. It records interest only and never subscribes or imports a person.
+- The version-two private hand-off exists in source only and remains fail-closed. With its public flag off, the journey asks for no email, sends nothing and preserves the complete local download.
+- The hand-off flag stays off until the preview migration, private-schema grants and advisers, complete request and email matrix, retention cleanup, exact allowed origins and symbolic secret configuration pass.
+- The V5 artifact is the visual and interaction floor. The candidate 7 V2 Brain and GTM gateway is an exact frozen contract. Their paths and hashes are recorded in `MINDMAKE_CANON.md`.
+
+## Historical pre-rebuild architecture, superseded
 
 ## Tech Stack
 
@@ -179,7 +192,7 @@ Authoritative source: `src/App.tsx`. Non-homepage pages are lazy-loaded via `Rea
 | `/` | `Index` | Homepage, eager-loaded. CTAs open the Diagnosis Room. |
 | `/start` | `DiagnosisRoom` (full page) | The Diagnosis Room (Mindy) as a standalone page. |
 | `/teardown` | `Teardown` | The Teardown. One price, currency switcher, the four-step method. |
-| `/handover` | `Handover` | The Handover. Three bands by headcount, the six weeks, the Teardown gate, the $254K POC. |
+| `/handover` | `Handover` | The Handover. Three bands by headcount, the six weeks, the Teardown gate and a now-retired private proof disclosure. |
 | `/capital` | `Capital` | The third door. The same two engagements, priced per portfolio company; fund terms on the call. |
 | `/operator` | `Operator` | How I operate. The 14-agent OS credential page. Looping `/CTRL-demo-aug-26.mp4`. |
 | `/case-studies` | `CaseStudies` | Filterable anonymised proof, by Teardown / Handover. Consent-gated testimonials. |

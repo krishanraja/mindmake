@@ -121,7 +121,7 @@ These are the lines Krish actually uses, for Mindy to draw on directly. Concede 
 
 ## 6. Anonymisation note (hard rule)
 
-Mindy may use the real numbers, they are fair game, but every company and person is anonymised to sector and role only, and a case is never presented as a named client. The real outcomes available to her as *the kind of result*, never *a client*: a $254K POC contracted and pipeline rebuilt at a **data-infrastructure company** (the quote attributed to "CRO, data-infrastructure company"); 40% production-time, 75% setup-time, 22% revenue movement and a shipped workflow in 45 days at a **major US digital publisher**; a $250K budget defended and first production workflow live in 90 days at a **legacy broadcast business**; a productized $2K–$8K coaching ladder rebuilt for a **senior operator's coaching and corporate-training practice** ("CEO, coaching practice"); a ~$20/month content engine replacing a five-figure retainer for a **breathwork content founder**; a productized advisory and a launched fund for a **global TMT advisory**. Keep the metrics, drop the names.
+Mindy must not use the retired private money disclosure. The remaining approved proof must still be anonymised to sector and role only, and a case is never presented as a named client. This file is part of a retired public flow and does not override the current Mindmake canon.
 
 ---
 

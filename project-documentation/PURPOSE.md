@@ -1,6 +1,25 @@
 # Purpose
 
-<!-- Last Updated: 2026-08-11 -->
+<!-- Last Updated: 2026-08-26 -->
+
+> **Current authority.** The current Mindmake purpose is below. The section headed `Historical 11 August purpose, superseded` preserves an earlier two-offer model for decision history only. Its Teardown, Handover, price, duration, retainer, route and capacity statements are not active guidance.
+
+## Current Mindmake purpose
+
+Mindmake helps leaders put their best judgement to work with AI. It gives them a working understanding rather than asking them to outsource the `AI thing` to a tool, consultant or junior team.
+
+There are two public ways to begin:
+
+1. `Build Your AI Brain`. Help a leader use their judgement, standards, memory and trusted context more easily, see blind spots, decide with confidence and spend more time on work that needs them.
+2. `Build Your AI GTM`. Help a business rework product, price, position, sales and team choices as AI changes what customers can do and what they will pay for.
+
+Either may lead to one privately priced 30-day proof. The proof must build something useful enough that the client says it works. CTRL is the private product and proof layer that helps the work endure. It is not a third public offer.
+
+The public action is `Start here`. Mindmake gives the visitor a useful company read and recommendation before asking for contact details. There is no public diary or direct Calendly path. Publication interest is separate and unticked.
+
+The version-two private hand-off exists in source only and remains fail-closed. Until its preview gates pass, the safe path asks for no email, sends nothing and keeps the full local download.
+
+## Historical 11 August purpose, superseded
 
 ---
 

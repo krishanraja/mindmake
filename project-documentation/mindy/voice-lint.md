@@ -227,7 +227,7 @@ This is what the regex cannot catch. The model reads this before drafting; the h
 
 **The signature reframe.** Return to it wherever it fits: it is not a tech problem, it is a management problem wearing a technical costume. The engineer can build the agent; they cannot tell you which of your people is quietly the strongest hire for a role that does not exist yet. That call is human, and it is the good part of the job.
 
-**Numbers over adjectives.** "Ninety workflows, sixty-seven tables, 167 rules from failures", not "a large system". "$254K POC", "45 days", "~$20/mo", not "significant" or "fast" or "cheap". When a real number is available, it replaces the adjective.
+**Numbers over adjectives.** Use only numbers approved by the current proof source. The retired private money disclosure must not be used as an example or public proof.
 
 ---
 

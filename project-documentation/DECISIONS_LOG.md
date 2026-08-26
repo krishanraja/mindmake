@@ -1,6 +1,6 @@
 # Decisions Log
 
-**Last Updated:** 2026-08-11
+**Last Updated:** 2026-08-26
 
 ---
 
@@ -63,7 +63,7 @@
 
 **Enforcement:** No FX logic exists anywhere in the estate and a test fails the build if any appears. `src/lib/offers.ts` is the single source of truth, and a second test fails the build if a price string appears anywhere else in the web surface.
 
-**Open:** `TODO(krish)` on all twelve figures. USD is canonical; GBP and AUD are proposals and need sanity checking as numbers a buyer in those markets would find normal.
+**Launch gate, owner: Krish.** USD is canonical. Treat the published GBP and AUD figures as proposals until Krish explicitly approves all twelve market prices. Do not silently convert them, invent replacement figures or publish a changed price. If approval is absent, stop the price release and report the exact figures awaiting a decision.
 
 ---
 
@@ -121,7 +121,7 @@
 
 **Shape:** typed columns in `public.engagement_intelligence`, not a memo per engagement, so it can be queried across clients. Internal only; a test fails the build if any of it reaches the DOM.
 
-**Open:** `TODO(krish)` on the engagement terms. A confidentiality and consent clause covering aggregated, anonymised retention needs sign-off and probably a lawyer before a real row is written. The schema shipped; the terms change did not.
+**Data-use gate, owner: Krish or counsel.** Before writing a real row, obtain approval for the confidentiality and consent clause covering aggregated, anonymised retention. The schema shipped; the terms change did not. If approval is absent, keep collection disabled and report the missing legal decision rather than assuming consent.
 
 ---
 
@@ -851,6 +851,420 @@
 - Mindmaker Live uses its branded external URL.
 
 **Release boundary:** Do not change Supabase, CTRL, the control centre or production promotion in this pass.
+
+---
+
+### 2026-08-19: Mindmake public brand and simplified offer
+
+**Decision:** Replace the public Mindmaker and Mindmaker Live names with one public brand, `Mindmake`.
+
+**Public identity:**
+
+- `mindmake.co` is the canonical site.
+- `content.mindmake.co` is the Mindmake publication, presented as `Useful ideas by email`.
+- `ctrl.mindmake.co` is `CTRL, a Mindmake product`.
+- `themindmaker.ai` will later redirect path by path to the matching Mindmake URL.
+- The supplied Mindmake wordmark is the approved visual source. The owl icon and favicons remain unchanged.
+
+**Public offer:** Show two outcomes only: `Build your AI brain` and `Use AI to improve what you sell`. Do not publish the six-package grid or larger commercial bands.
+
+**Public price:** Show only `Work starts at $1,500. You receive a fixed price before work begins.` The entry price applies only to a tightly capped Brain starting engagement.
+
+**Buying path:** Every primary commercial action says `Book a fit call` and opens the same short qualification state. Ask for company domain, work email and one of three intentions. Do not open Calendly automatically. Krish sends the booking link to good-fit leads.
+
+**Design direction:** Preserve the strongest current imagery, motion, dark-light rhythm and operating-system proof. Remove generic AI-site typography, blank media states, repeated card grids and decorative interaction. The homepage mock may show CTRL as proof, never as a third offer.
+
+**Authority:** Approved for a local homepage mock only. Production implementation, domain changes, deployment, redirects and asset deletion require later approval.
+
+---
+
+### 2026-08-19: Show value before asking for email
+
+**Decision:** Keep the approved Mindmake homepage spine. Put the strongest intelligence moment inside the fit-call drawer after a visitor enters a company website.
+
+**Interaction contract:**
+
+- Ask for the company website first.
+- Show a short starting read before asking for email.
+- Keep facts, possible decision areas and open questions visibly separate.
+- Ask one tap-friendly question to sharpen the read.
+- Ask for email only after the visitor has received useful value.
+- Keep the prototype honest when live company research is not connected.
+- Use CTRL as inspectable proof of inputs, checks and the human decision. Do not turn it into a third offer or a public chatbot.
+
+**Design contract:** Use motion to explain assembly and cause. Do not add 3D spectacle, hidden navigation, gamification, generic AI chat or decorative animation.
+
+**Authority:** Approved for the local interaction mock. Production research, storage, email submission and deployment remain unapproved.
+
+---
+
+### 2026-08-19: Make the two outcome pages specific, human and current
+
+**Decision:** Treat `Build your AI brain` and `Use AI to improve what you sell` as deep outcome territories, not generic pages about helping leaders make decisions.
+
+**AI Brain contract:**
+
+- Show how a leader becomes more capable while staying recognisably themselves.
+- Use personified examples: getting better at work they hate and avoid, becoming accountable to work they need to do, encoding their judgment and taste, building a useful AI Chief of Staff, and filling their gaps without giving away the human spark that put them in the seat.
+- Position AI as an amplifier of expertise, judgment and taste. Do not make the work look like generic automation consulting or outsourced thinking.
+
+**AI GTM contract:**
+
+- Show the largest current commercial problems created by AI for internet, software and media businesses.
+- Use specific, real-world decision scenes across product, pricing, positioning, sales, routes to market and the company structure that supports them.
+- Make the time break visible: knowledge that worked a year ago may no longer be enough because AI has changed cost, speed, buyer expectations, product scope and competitive pressure.
+- Research and verify the examples at page-build time. Do not publish remembered market claims as current truth.
+
+**Homepage consequence:** The current problem and solution statements are provisional. They are too close to `I help you make a decision on things`. The later homepage pass must carry the human promise of AI Brain and the commercial urgency of AI GTM without making the opening screen dense.
+
+**Design contract:** Use recognisable people, pressures, actions and artifacts. The reader should see themselves in each example and feel what becomes possible. Avoid abstract card grids, generic AI imagery and show-off technology theatre. Build enough recognition and value before presenting one clear contact action.
+
+**Open for the detailed page interrogation:** Whether `AI GTM` is a public name or internal shorthand; which personal gaps are most valuable to dramatise; which current commercial shifts have the strongest evidence; which examples Krish can support with direct experience; and what each page should reveal before asking the visitor to get in touch.
+
+**Authority:** Approved as a deferred positioning and page-design constraint only. It does not authorise new mocks, homepage copy changes, research spend, production implementation or publication.
+
+---
+
+### 2026-08-19: Use current product video without drawn annotations
+
+**Decision:** Use current video selected by Krish to prove the agentic operating system, CTRL brain and decision engine. Do not draw circles, arrows, handwriting or explanatory marks over product screenshots or product video frames.
+
+**Reason:** Product interfaces will change as the core build continues. An annotated frame turns a temporary interface into the visual anchor, dates the site and implies certainty about a product view that has not been selected. The archived Battle Test image had no approved role in this proof treatment.
+
+**Design contract:** Hand-drawn marks may explain abstract client results and decision diagrams. Product footage remains clean and replaceable. Its component must accept new clips, poster frames and crops without forcing a page redesign.
+
+**Voice contract:** Product proof should be calm and factual. Retire `We do not need fake images`, `not a deck, two real buyers` and `more than an AI answer`. The site does not need to belittle decks, other images or AI answers to make the work credible.
+
+**Open:** Krish will later identify the current source clips and approve their order, poster frames and captions.
+
+**Authority:** Approved for the local proof-motion correction and future page-design constraint. It does not authorise selection, editing, upload or publication of product video, homepage implementation or deployment.
+
+---
+
+### 2026-08-19: Build around seven named videos with finished launch fallbacks
+
+**Decision:** Proceed on the assumption that four films and three CTRL clips will be produced. The four films are `Half Past Six`, `Three Times Is A Rule`, `Two Conversations` and `Ask Me Anything I Did`. The three product clips show a decision getting sharper, the brain learning the leader's judgment, and the leader taking their context into another AI tool.
+
+**Reason:** The planned films give the site real-world aspiration while the CTRL clips provide real product proof. Designing the page around empty video boxes would make the launch depend on a separate production schedule and would recreate the blank-state problem already rejected.
+
+**Media contract:** Every video surface has a complete poster or abstract fallback that works without the video. No `coming soon` label, blank frame or broken poster is public. A delivered clip replaces the fallback inside the same component without changing its size, copy, mobile order or controls. Product media stays clean and receives no circles, arrows or handwritten overlays.
+
+**Proof boundary:** Client-result motion shows verified outcomes. CTRL recordings show real product behaviour. Agent and division films explain or dramatise how a system can work and must not be presented as client proof or live operating footage when their figures are illustrative.
+
+**Temporary source:** `CTRL-demo-aug-26.mp4` may support the local mock inside a cropped portrait frame. It is not the final public asset because it contains a landscape black canvas, a Recordify mark and a retired brand reference. Final use requires a clean native portrait capture.
+
+**Local implementation:** The homepage mock removes the archived Battle Test screenshot from the hero, adds finished abstract states for the personal and business routes, and places the current CTRL recording behind an accessible play and pause control with a no-video fallback.
+
+**Authority:** Approved for local mock design and replaceable media scaffolding. It does not authorise final film production, editing, upload, production implementation, publication, merge or deployment.
+
+---
+
+### 2026-08-19: Make the homepage problem section type-led
+
+**Decision:** Approve the type-led problem-section direction for the local mock. Move the two-person stage image into the hero, remove photography and the movement control from the problem section, and let three full-width editorial statements carry the recognition work.
+
+**Copy status:** The current heading, supporting sentence and three statements are provisional. Krish expects to hard-write the final wording after the page is complete. Treat this approval as a hierarchy and layout lock, not a final copy lock.
+
+**Mobile contract:** Recompose the section rather than merely stacking the desktop treatment. The heading, supporting sentence and first numbered symptom must arrive before a fixed-height media block can consume the first mobile viewport.
+
+**Local implementation:** `prototypes/mindmake-homepage-mock-v2.html` preserves V1 and implements the approved direction. The hero uses `krish-stage-2.png` with separate desktop and mobile focal positions. The problem section contains no photograph, media control or decorative motion.
+
+**Authority:** Approved for the local mock only. Production implementation, merge and deployment remain unapproved.
+
+---
+
+### 2026-08-19: Sharpen the problem and treat mobile as its own journey
+
+**Observed failure:** The stage photograph explained that Krish speaks with leaders, but it did not explain the costly business moment in the problem section. The three original lines described broad AI problems that could belong to almost any consultancy. A phone audit also found that responsive stacking alone produced a long page and exposed a heading collision, a transparent-header overlap and undersized footer link targets.
+
+**Local direction:** Keep the two-person stage image in the hero. Make the next section type-led and organise it around three distinct pressures: what customers will pay for has changed; the team can build faster than it can choose; and the leader's best judgment leaves the room with them. Give each pressure one plain explanation so the commercial, team and personal stakes are visible without another image.
+
+**Mobile correction:** Collapse the problem heading to one column below 1050px, change the fixed header after 24px of scroll, and give every visible footer link a 44px minimum touch height. The 390px browser regression now shows no overlap, horizontal overflow, clipped headings, broken images, duplicate IDs or undersized visible controls.
+
+**Open:** The full 390px page remains about 14,340px tall. This is responsive, but it is not yet a world-class on-the-go journey. A separate mobile compression mock, followed by physical iOS Safari and Android Chrome checks, is required before mobile approval. The new problem copy is a sharper working draft, not Krish's final hard-write.
+
+**Authority:** Approved for local V2 mock correction and evidence collection only. It does not authorise production implementation, merge, deployment or publication.
+
+---
+
+### 2026-08-19: Replace decorative offer animation with visible business reasoning
+
+**Observed failure:** The type-led problem section improved the copy but stayed visually static. The AI Brain fallback looked like four boxes producing one worksheet. The AI GTM fallback looked like moving dots and blank paper with no clear commercial meaning. Repeated narrow text measures also caused display headings to break into short fragments.
+
+**Decision:** Reject that visual spine. Show one market change moving through product, price, message and team. Compare what the business believes with what the buyer now sees. Carry the same visible evidence into a durable AI Brain and then into linked AI GTM choices.
+
+**Meaning of the motion:**
+
+- The problem section shows cause and disagreement, not a list entering the page.
+- The AI Brain keeps memory, standards, context, judgement, sources and the human call visible. It is not one document and does not promise an automatic answer.
+- AI GTM revises linked commercial choices and keeps a plain reason beside each change. The result is ready to test, not presented as certain.
+- Light interaction may emphasise the inside or buyer view. The complete story remains available through normal scroll.
+- Product footage stays clean. Working marks may appear only on abstract decision material.
+
+**Typography decision:** Display headings are now governed by a rendered line-count contract: two lines at 768 pixels and above, three lines on a phone. Narrow character measures that create stacks of fragments are not allowed.
+
+**Evidence:** Three independent concept specs were generated. Two fresh-context judges independently selected the comparison-led concept and preserved the same minority risk: it must not become invented software, a worksheet or a static consulting table. The selected render passes the wrap, overflow, control-size, asset, console, ordered scroll-state and reduced-motion checks recorded in `REBUILD_STATE.md`.
+
+**Local artifact:** `prototypes/mindmake-mechanism-motion-study-v1.html` at SHA-256 `AA7F6B07002BE1FC486F36E71C3AFBB079D9B43A078CE6B8F28DFCAED444490D`.
+
+**Authority:** Local focused study only. Production implementation, full-homepage integration, merge and deployment remain unapproved.
+
+---
+
+### 2026-08-19: Approve the mechanism and integrate it into homepage V3
+
+**Approval:** Krish approved the focused mechanism study with `I love it`.
+
+**Decision:** Use `Both Sides of the Call` as the homepage's visible reasoning spine. Show one market change separating the business view from the buyer view, then show how Mindmake keeps the leader's judgment alive and links it to product, price, message and team choices.
+
+**Full-page integration:** Preserve V1, V2 and the focused study. Create `prototypes/mindmake-homepage-mock-v3.html` as the new local full-page proposal. Carry only the strongest mechanism beats into it rather than copying the entire focused study.
+
+**Mobile decision:** Do not reproduce the long sticky build on a phone. Open the comparison in its complete state, keep the inside and buyer controls usable, and place three compact explanations directly after it. Finished abstract states remain visible before any future video arrives.
+
+**Typography correction:** Apply the rendered heading contract to every visible display heading on the page. Widen older V2 headline measures, shorten one heading where needed and move tablet layouts to one or two columns before words break into fragments.
+
+**Evidence:** V3 passes rendered checks at 1440, 1280, 1024, 768, 390 and 320 pixels. It has no horizontal overflow, broken image, duplicate ID, heading-line failure, console error or page error. Scroll states advance in order, the view switch works, offer examples expand, the fit panel manages focus and Escape correctly, CTRL video plays, reduced motion reaches the complete state and 390-pixel controls meet the 44-pixel target.
+
+**Artifact:** `prototypes/mindmake-homepage-mock-v3.html` at SHA-256 `BB468B02888278B10F414DC8E90931A26D9202D3426C46E1434F6EEF3A7E5D88`.
+
+**Open:** The page is still a local visual mock. Final copy, seven replacement videos, deletion of any remaining unnecessary homepage material, physical mobile browser checks and the production component map remain separate gates.
+
+**Authority:** Approved local full-homepage mock only. No commit, merge, deployment, publication, production route change, email send, Supabase change or CTRL change is authorised.
+
+---
+
+### 2026-08-20: Lock V8 as the production visual floor and use full outcome routes
+
+**Approval:** Krish confirmed the proposed route architecture with `yep`.
+
+**Visual floor:** `prototypes/mindmake-homepage-mock-v8.html` is the exact production baseline. Its SHA-256 is `CD58CE4B7FDCA9C49003F4AFE30158B7BDA78F16B62D9FADEEA871CAB311CA74`. V8 preserves the approved V7 visual and interaction spine and adds the later navigation, direct booking, proof-layout and testimonial range fixes. Production implementation may improve the system, but it may not fall below V8 in page rhythm, interaction quality, responsive behaviour, content range or visual finish.
+
+**Mechanism reference:** The approved interaction source remains `prototypes/mindmake-mechanism-motion-study-v1.html` at SHA-256 `AA7F6B07002BE1FC486F36E71C3AFBB079D9B43A078CE6B8F28DFCAED444490D`.
+
+**Route decision:** `Build your AI brain` and the commercial AI outcome will each receive a full route inside the shared Mindmake shell. They will not be modal or overlay pages. Entry may use a continuous visual transition, and returning to the homepage should restore the visitor's prior context.
+
+**Reason:** Full routes give each outcome enough room for progressive recognition, real mechanisms, proof, qualification and conversion. They also provide stable mobile behaviour, accessibility, browser history, shareable links and search visibility without making an overlay carry page-level complexity.
+
+**Carry-forward conditions:**
+
+- The homepage keeps concise, high-impact previews of both outcomes.
+- Each route must feel like the current site opening out, not like a separate microsite.
+- Shared navigation, footer, typography, motion, proof, media and CTA components come from one deduplicated design system.
+- Ordinary back navigation restores the homepage position and state where the platform supports it.
+- Reduced motion shows complete static meaning without requiring animation.
+- This approval does not lock route slugs, final copy, pricing, lead storage, public intelligence scope, publication wiring or production release.
+
+**Authority:** Product architecture and local production planning only. No deployment, public route mutation, external account change or deletion is authorised by this decision.
+
+
+---
+
+### 2026-08-20: Remove the public price and state the paid 30-day starting point
+
+**Approval:** Krish agreed that the public site should show no monetary price.
+
+**Decision:** Remove the `$1,500` starting-price statement from the production specification and public implementation. State clearly that work begins with a paid 30-day proof. The exact amount is set after scope, client size, strategic value and any approved participation terms are understood.
+
+**Reason:** A low public anchor damages the premium relationship and a single high anchor misstates work that may involve a principal, one company or several businesses. The paid commitment remains visible, while qualification and the fit call establish the correct commercial shape.
+
+**Boundary:** No public price does not mean an unpriced service. Mindmake still needs an internal cash floor, workload envelope and continuation model before lead qualification can be implemented honestly.
+
+**Authority:** Product and public-copy direction only. This decision does not set or change a live price, proposal, checkout, Calendly field or billing configuration.
+
+
+---
+
+### 2026-08-20: Cap first-month delivery to protect judgment and compounding work
+
+**Approval:** Krish approved the proposed delivery ceiling.
+
+**Decision:** Run no more than two new 30-day proofs at the same time. Each proof may consume no more than 24 to 30 hours of Krish's time. A third paying customer must already be in a lighter continuation phase.
+
+**Reason:** The model must protect Krish's scarce judgment and leave room for content, relationships, shared intelligence and owned assets. Research, capture, synthesis and first drafts should be automated or delegated to the delivery system where quality permits.
+
+**Qualification consequence:** A lead that requires broad unmanaged implementation, daily embedded availability or more than the first-month time envelope is not a standard proof. It needs a higher custom scope, a delivery partner or a polite refusal.
+
+**Authority:** Internal product and capacity planning only. This decision does not create availability, promise a start date or set a live price.
+
+---
+
+### 2026-08-23: Return valuable capacity, then extend what the leader can do
+
+**Decision:** Position premium Mindmake value above task automation and basic time saving. The public and sales model uses three levels: help me do the task, bring me what matters, and extend what I can do. Mindmake is built for the third level.
+
+**Reason:** The better commercial question is not only how many hours AI saves. It is whose scarce time comes back, what they put it into and whether the person gains a capability that keeps compounding. A founder may put the time into the company. A portfolio owner may put it into several companies. A curious principal may use it to build their own AI skill and become less dependent on outside help.
+
+**Public consequence:** Do not shame people as beginners or experts. Show increasing levels of value in plain language. Keep the positive case for healthy and high-growth AI businesses beside the competitive-pressure case.
+
+**Proof consequence:** Krish's personal relationship system is a strong AI Brain artifact. It may show that years of relationships become usable through natural search while Krish keeps the human call. Public media must not expose private contacts, raw records, unverified counts or unapproved vendor names.
+
+**Authority:** Internal positioning, local copy and a privacy-safe film brief only. It does not authorise publication of personal data, vendor claims or operating counts.
+
+---
+
+### 2026-08-23: Replace public booking with an earned private brief
+
+**Decision:** Remove the public diary path from the new Mindmake journey. The main conversion starts with a company website, shows a useful company-specific read, asks one low-cost choice, then asks for email so the visitor can keep the full private brief.
+
+**Lead contract:**
+
+- The visitor sees value before email.
+- The strongest second question is `If you got more of your best time back, where would you put it?`
+- The result separates what AI can carry, what stays human, where the returned capacity goes and what a 30-day proof could test.
+- Krish receives the same answers plus company and fit context.
+- Krish chooses whether to reply and may offer a private conversation.
+- Newsletter consent is separate, optional and unticked.
+- There is no recurring personalised watch or automated nurture sequence in the current build.
+
+**Reason:** Direct diary access makes the work feel less selective and creates a lower-information lead. The private brief earns the email ask, demonstrates Mindmake's intelligence and gives Krish a warmer, richer starting point.
+
+**Technical boundary:** Existing visitor-email functions use retired Mindmaker copy and a proposal/call path. The local front end builds and downloads the brief, but no existing lead endpoint is approved for this journey. The work-email step stays disabled until the dedicated `submit-mindmake-brief` endpoint, current visitor template and operator digest are implemented and verified under separate backend authority.
+
+**Authority:** Local route, component and conversion implementation. No live email, Supabase mutation, account change or deployment.
+
+---
+
+### 2026-08-23: Lock one paid proof with compounding continuation
+
+**Decision:** Public work begins with a paid 30-day proof. The proof uses no more than 24 to 30 hours of Krish's time and no more than two new proofs run at once. There is no public price.
+
+**Continuation:** Strong work may continue for three months or longer. The standalone first month costs more than one third of a three-month relationship. When the client continues, the proof is treated as month one and the longer relationship recognises the lower multi-month unit rate.
+
+**Success signal:** The proof works when the client says it is useful in practice and is willing to stand behind that view. A cleared testimonial or case study is the strongest supporting evidence. A continuation is likely when the work is genuinely useful, not because the client has become dependent.
+
+**Compounding constraint:** Hands-on building should also strengthen reusable methods, anonymised trend data, relationships, content or another Mindmake-owned asset. Commodity agent libraries are not the long-term asset. The preferred data asset tracks benchmarks, trends, shifts and comparisons over time in AI use and monetisation.
+
+**Commercial flexibility:** Terms may flex for a rare opportunity with meaningful equity, network access, content or case-study value. Any trade is explicit and opportunity-specific.
+
+**Open:** The private cash floor, exact multi-month amounts, intellectual-property clauses and anonymised-data consent language remain to be set before sale.
+
+**Authority:** Internal offer and capacity canon. No live price, proposal, availability or billing change.
+
+---
+
+### 2026-08-23: Make value visible before asking for belief or contact
+
+**Decision:** Treat `genuinely value-adding` as an interaction rule across the whole product. Each screen must teach a useful distinction, show credible evidence or help the visitor make a clearer choice. Copy whose only job is to convince does not earn space.
+
+**Conversion consequence:** The personalised starting brief reads the business before asking the visitor to explain it. The company evidence, chosen pressure and intended use of returned time all change the preview, download and Krish's lead digest. Email appears only after the useful preview. Newsletter permission remains separate and unticked.
+
+**Tone consequence:** Experienced visitors are addressed at their level. The site shows the trade-off and evidence, then lets them judge. It does not preach, manufacture urgency, shame a lower level of AI use or claim that technology can make the human call.
+
+**Verification at the time:** The local build passed its production build, 147-case responsive matrix and 42-case full-sitemap browser audit. The 13 Mindmake contract tests passed. The full suite still had four baseline `localStorage` environment failures at this point. Those failures were fixed in the later release-hardening entry below.
+
+**Boundary:** This verifies the local front end. It does not approve live email, Supabase changes, deployment, legal wording, domain changes or production promotion.
+
+---
+
+### 2026-08-23: Complete local release hardening without crossing the release boundary
+
+**Decision:** Treat the local Mindmake front end as complete enough for preview review, while keeping visitor email, production configuration, legal approval, physical devices, preview deployment, cleanup, merge and production promotion as separate gates.
+
+**Reliability:** The test setup now supplies deterministic in-memory browser storage, which repairs the Node 25 test-environment defect without changing runtime behaviour. Company research has a 10-second limit, an honest fallback and retry. Closing the starting brief clears private state and aborts old work so late results cannot enter a later journey.
+
+**Access and route consequence:** The worked org chart uses native buttons with Enter and Space support. Focus remains visible on light and dark surfaces. Reduced-motion visitors retain the full meaning. Featured article search, hash scrolling, sharing fallbacks, blocked storage and unknown-route behaviour now fail safely. `/alumni` is unlisted and noindex, not access-controlled or described as private.
+
+**Crawler consequence:** The sitemap and prerender lists share one source. Ten fixed pages and eleven articles now produce 21 dedicated crawler pages with real article content and metadata. The build fails on route-set drift.
+
+**Lead safety:** The default starting brief is download-only, asks for no email and says that nothing was sent. The optional browser adapter is pinned to `submit-mindmake-brief`, sends a versioned structured request with a stable journey ID and explicit consent record, and makes claims only for independently confirmed delivery states. It never falls back to `send-contact-email`. General contact opens a prefilled email draft and never claims delivery.
+
+**Public-surface safety:** Former `/intake` and `/testimonials` URLs now redirect to current Mindmake journeys while their old source remains recoverable for an approval-gated cleanup. Two article addresses containing an unsupported figure or retired offer name were replaced with plain canonical slugs; old saved links redirect.
+
+**Verification:** `npm test` passes 74 of 74 tests across 13 files. `npm run build` passes with 2,503 modules and 21 prerendered routes. The 147-case responsive matrix and 42-case desktop/mobile sitemap audit both pass completely. Lint remains at 41 errors and 19 warnings against the earlier 41-error, 20-warning baseline; the active hardening changes lint cleanly. Browser hand-off checks used the enabled adapter with intercepted requests and did not create live data.
+
+**Open gates:** A preview must prove real HTTP 404 behaviour and repeat the route and lead checks. The dedicated backend and both emails, legal wording, physical devices, publication move, retained legacy source and exact cleanup batch remain owner decisions. About 73 MiB of unused public media still enters the build until cleanup is approved.
+
+**Boundary:** No deployment, merge, real email, Supabase mutation, domain change, deletion or production promotion was authorised or performed.
+
+---
+
+### 2026-08-24: Make motion carry the argument
+
+**Decision:** Treat movement as part of the explanation, not decoration. The current opening-act candidate uses one persistent judgement thread. AI opens more paths; product, price, message and team separate; evidence joins; Krish's client makes the human call; the line forks to AI Brain and Improve what you sell; the same line becomes the edge and playhead of real CTRL proof.
+
+**Reason:** The rejected hybrid used movement without enough consequence. It felt generic, entered at the wrong moments and weakened the message. A visitor should understand more because an object moved. If the still frames say the same thing before and after, the motion does not earn its place.
+
+**Interaction consequence:** Scroll controls the pace and reverses the sequence. Names do not change while objects move. Mobile keeps the same cause-and-effect story. Reduced motion shows every state in natural order. Invisible choices are removed from the keyboard path.
+
+**Visual consequence:** Keep the V8 identity, stage image, colour system, icon and wordmark. Do not copy Pear, Tenex, Wavespace or a component library's surface style. Use their strongest structural lessons only: causal scenes, a stable claim and dense proof.
+
+**Status:** Candidate direction only. `prototypes/mindmake-judgement-thread-motion-study-v1.html` is verified locally but still requires Krish's visual approval before production use. It does not authorise a full-page rebuild, merge or deployment.
+
+---
+
+### 2026-08-25: Approve judgement-thread V5 and ban eyebrows system-wide
+
+**Approval:** Krish reviewed `prototypes/mindmake-judgement-thread-motion-study-v5.html` and said, `I'm finally happy with this, do not regress from here`. He then clarified that his rejection applies to all eyebrows everywhere, not to a growing list of isolated examples.
+
+**Visual-floor decision:** Use `prototypes/mindmake-judgement-thread-motion-study-v5.html` as the approved visual and interaction floor for the homepage opening, working-understanding act, judgement thread, two-route gateway and first CTRL proof. Its SHA-256 is `DE09D75C46EB660AD6148C1D7F5DD61E4F82031B48FCFE931CC3AE05C8126C81`. V8 remains the breadth reference for full routes, testimonial range and proof not represented in V5. Where the two overlap, V5 is the stronger authority.
+
+**System rule:** Do not use eyebrows anywhere in the public design system. The rule covers kickers, overlines, chapter numbers, decorative counters, status straps, proof badges and small pre-headings above or beside real headings. It applies regardless of class name, text case, component, viewport or motion state. A compact label survives only when it directly names an object, control, value or axis and is required for use or understanding.
+
+**Reason:** Eyebrows create a redundant reading step, weaken the real heading and make the interface feel templated and AI-generated. Fixing instances one by one failed because the same visual function kept returning under different names. The correct unit of correction is the underlying pattern, not the selector or line of copy.
+
+**Broader method learned:** Krish's feedback often names a local symptom before exposing a system rule. Once the same objection appears more than once, the work must search sideways across the entire artifact, identify the shared function and turn the correction into a global regression contract. A technically correct local edit is still a failure if its design logic survives elsewhere.
+
+**Accepted trade-off:** Removing these labels means the hierarchy must carry more meaning through the real heading, layout and motion. Necessary context cannot be hidden in decorative microcopy. This requires harder editing but produces a simpler and more ownable system.
+
+**Verification:** The approved artifact and live DOM returned zero matches for the forbidden pattern family. Hero pause and resume, reversible gateway motion, desktop and mobile overflow and browser console checks passed. The exact verification record is in the 25 August 2026 entry in `REBUILD_STATE.md`.
+
+**Revisit:** None planned. Reopen only if Krish explicitly changes this cross-surface design preference, not because a template or component library includes the pattern.
+
+**Authority:** Local design canon, prototype correction and future implementation guard. No deployment, merge, publication or external mutation is authorised.
+
+---
+
+### 2026-08-25: Integrate the approved floor through contracts, not imitation
+
+**Decision:** Move the approved V5 opening act into the current production shell without redesigning it from memory. Treat its frozen component, exact hash, route names, no-eyebrow rule, plain `Start here` action and causal motion as implementation contracts.
+
+**Reason:** The previous failure came from treating approved work as loose inspiration, then replacing its hierarchy, copy and interaction logic with generic patterns. The safer method is to preserve the approved source, extract its cross-surface rules, guard those rules in tests and change only the surrounding system needed to carry it.
+
+**System consequence:** A repeated owner objection is a design-system signal. Fix the shared component, generator and regression check before fixing examples. This pass applies that rule to eyebrows, aggressive wrapping, visitor-facing jargon, attendee proof, moving testimonial controls, media controls, menu focus and copy generated for crawlers.
+
+**Proof consequence:** The homepage uses BBC, Hearst and Condé Nast as clearly labelled attendance proof. Customer outcomes and testimonials remain separate. No active public source or crawler output contains the retired private money disclosure.
+
+**Verification:** V5 remains byte-stable at SHA-256 `DE09D75C46EB660AD6148C1D7F5DD61E4F82031B48FCFE931CC3AE05C8126C81`. The full suite passes 85 of 85 tests across 14 files. TypeScript and changed-surface lint pass. The production build transforms 2,504 modules and creates 21 indexed and prerendered URLs. Browser checks pass at desktop, tablet, mobile and short landscape sizes, including reversible motion, reduced motion, stable quote controls, CTRL playback, media captions, the private brief fallback and mobile-menu focus containment.
+
+**Open gates:** Live company enrichment still needs a preview with production environment variables. The dedicated brief backend and both email paths, legal wording, physical devices, publication move, legacy source cleanup, deferred Supabase disclosure, frozen `ROI` wording, merge and release all remain separately gated.
+
+**Authority:** Local implementation, verification and internal canon only. No deployment, merge, email, Supabase mutation, deletion, domain change or production promotion.
+
+---
+
+### 2026-08-25: Repair the integrated homepage as one measured composition
+
+**Observed failure:** The first integrated pass let local fixes recreate system problems. The wordmark and sections used different left edges, the Brain and GTM gateway gained decorative diagram noise, customer proof was split across overlapping sections, several scenes exceeded the visible canvas and hand-drawn marks floated without a clear target.
+
+**Composition decision:** Use one shared shell width, gutter and fixed-header height for the whole homepage. The wordmark is the alignment reference. Fit-screen scenes are measured against the remaining canvas below the header. A short or narrow screen may change the layout or expose a horizontal snap deck, but it may not hide substantive copy, remove an action or reduce a control below 44 pixels to manufacture a pass.
+
+**Gateway decision:** Keep the exact heading `Ways to get started on your AI journey` and the exact route names `Build Your AI Brain` and `Build Your AI GTM`. Use the real CTRL Brain and Decisions clips as the visual evidence. The two routes meet at the centre and separate with reversible scroll movement. Remove the abstract diagram, grid and unrelated decoration behind the choices.
+
+**Proof decision:** Keep one homepage customer-results section with three previews and one link to all eight stories. Attendance proof lives inside that section and remains clearly labelled. Career testimonials live once in About, where all six remain reachable through controls whose position does not change with quote length. Do not add a second section to restate what the work felt like.
+
+**Annotation decision:** Keep one causal hand-drawn mark around the stable `1 day` result. Its stroke follows scroll in both directions and respects reduced motion. Do not circle temporary product screens or scatter squiggles merely to make the page move.
+
+**Responsive consequence:** Phone Results and Media use horizontal snap decks so the page stays concise without losing content. Short landscape Results places its explanation beside the result deck; About separates portrait, story and testimonial into three readable areas. This is progressive composition, not content deletion.
+
+**Verification:** TypeScript and changed-surface lint pass. The full suite passes 86 of 86 tests across 14 files. The production build transforms 2,505 modules and creates 21 indexed and prerendered URLs. A rendered pass at 1440 by 900, 1280 by 720, 1024 by 768, 844 by 390 and 390 by 844 finds exact shared left edges, no horizontal overflow, no browser errors, no clipped result cards and stable testimonial controls across all six quotes. At 844 by 390, Results, About and Media all fit the 320-pixel canvas below the fixed header while retaining their copy and actions.
+
+**Boundary:** This authorises and records the local repair only. It does not authorise deployment, merge, live email, Supabase mutation, domain change, asset deletion or production promotion.
+
+---
+
+### 2026-08-26: Freeze candidate 7 V2 and keep private-brief V2 fail-closed
+
+**Visual decision:** Treat `prototypes/mindmake-brain-gtm-gateway-candidate-7-v2.html`, `src/components/mindmake/BrainGtmGateway.tsx` and `src/styles/mindmake-gateway.css` as one exact approved gateway contract. Do not recreate it from memory, substitute a newer interpretation or change its copy, composition or door-separation movement while repairing another surface. V5 remains the visual and interaction floor around it.
+
+**System consequence:** Eyebrows remain banned across every public route and viewport, with only the frozen gateway's approved `Pick your starting point` label excepted. The wordmark and sections use one measured content edge. A scene must fit the usable device canvas through purposeful recomposition. Motion must make the message clearer. Customer outcomes, attendance proof and career testimonials keep one distinct home each rather than being restyled into duplicate proof sections.
+
+**Conversion decision:** `Start here` remains the main action and there is no public diary. The visitor gets a useful read before contact is requested. The browser sends only the email, domain and allowlisted choice IDs; server-owned code researches the company, assembles both briefs, verifies the address and attempts visitor and operator delivery independently. Publication interest remains separate and unticked and never becomes an automatic or manual subscription from this flow.
+
+**Current status:** The version-two private migration, Edge Function and two email templates exist in source only. The hand-off flag remains off until the preview migration and database boundary pass, exact origins and symbolic secrets are configured, the full request and code matrix passes, both emails are tested independently with synthetic inboxes, and the retention schedule and any promised cleanup are in place. Provider acceptance is not inbox delivery.
+
+**Reason:** The repeated regressions came from treating approved artifacts as inspiration and from letting local fixes reintroduce rejected system patterns elsewhere. The corrective unit is the frozen contract plus cross-route regression rule. The private hand-off uses the same standard: valuable and inspectable first, then contact, with no success claim stronger than the observed delivery state.
+
+**Authority:** Internal canon, source implementation and preview planning only. No migration, deployment, flag change, email, merge, publication, domain change, deletion or production promotion is authorised.
 
 ---
 

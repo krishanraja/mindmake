@@ -1,22 +1,29 @@
-# Mindmaker offer
+# Mindmake offer
 
-Last updated: 12 August 2026.
+Last updated: 26 August 2026.
 
-Mindmaker sells one paid engagement: a flexible, scoped 21-day Sprint.
+Mindmake has two public ways to begin:
+
+1. `Build Your AI Brain`.
+2. `Build Your AI GTM`.
+
+They meet people where they are. They are not separate offer ladders. Either may lead to one privately priced 30-day proof.
 
 | | |
 |---|---|
-| Buyer | Founder, CEO, CRO or strategy leader |
-| Trigger | An important product, price, sales or company decision is stuck as AI changes the market |
-| Krish's work | Research, challenge, model, coordinate and make the call with the client |
-| Client time | Decisions and introductions. No homework |
-| Finish | The decision is made, its reason and evidence are kept, and the first material action is under way |
-| Format | A private CTRL workspace, not a deck |
-| Bought | Through a fit call |
+| Buyer | A leader whose judgement, time or business choices need to become more useful with AI |
+| Trigger | A personal capability gap or an important product, price, position, sales or team choice |
+| Krish's work | Research, challenge, build, test and transfer a useful working system |
+| Client time | Decisions, trusted context and introductions. No performative homework |
+| Finish | The first proof works well enough that the client says it works and can keep using it |
+| Format | A private CTRL-backed working system, not a deck |
+| Bought | After the value-first private brief and Krish's fit review |
 | Public price | None |
 
-The exact scope bends around the decision. It does not become an open-ended retainer, a training course or production information technology work.
+The exact scope bends around the useful proof. The first month has sharp boundaries and repeatable deliverables. Longer work is discussed privately only when the proof earns it.
 
-The Teardown and The Handover are retired. They have no live page, price, sales path or role in current routing beyond redirects to `/sprint`.
+The old 21-day Sprint, Teardown and Handover are retired. They have no active public page, price or sales path.
 
-CTRL by Mindmaker is the living engagement deliverable. It is not a second offer on themindmaker.ai.
+CTRL is Mindmake's product and proof layer. It is not a third public offer.
+
+The public action is `Start here`. There is no public diary or direct Calendly path. The visitor gets a useful read before contact is requested. The version-two email hand-off remains source-only, fail-closed and off until the deployment gates in `DEPLOYMENT.md` pass.

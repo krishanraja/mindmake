@@ -44,10 +44,11 @@ Ask once for access or login help, not for product decisions. The required bundl
 3. DNS access for `mindmake.co` and `themindmaker.ai`, wherever their authoritative nameservers resolve.
 4. Supabase access to the linked production project and permission to create or use a separate non-production project or database branch.
 5. Resend access for `mindmake.co` sender verification and transactional logs.
-6. Access to the launch-default operator mailbox `krish@mindmake.co`, or authority to create/route it, plus two synthetic test inboxes. If it cannot receive mail, pause at Gate B for alias creation or confirmation of another recipient.
+6. Access to the launch-default operator mailbox `krish@mindmake.co`, or authority to create or route it, plus two synthetic test inboxes. If it cannot receive mail, pause at Gate B1 for alias creation or confirmation of another recipient.
 7. Substack publication-owner access for `mindmakerlive.substack.com` and its custom-domain settings.
 8. Access to the hosting project that currently serves CTRL and DNS access for both CTRL hostnames.
 9. API keys already required by the selected company-enrichment providers. Missing optional providers must degrade to the tested safe read, not block a submission.
+10. BrowserStack or equivalent real-device-lab access for iOS Safari, Android Chrome, VoiceOver and TalkBack. If that access is unavailable, Krish is the named human verifier and must return the single four-part physical-device checklist before Gate A.
 
 Never paste credentials into Markdown, source, screenshots, shell history or provider support tickets. Store Vercel values in the correct Preview or Production environment and Edge Function values in the correct Supabase project. Keep an out-of-band inventory recording only each secret name, owner, environment and rotation date.
 
@@ -60,7 +61,7 @@ Never paste credentials into Markdown, source, screenshots, shell history or pro
 | Production staged | Production Supabase migration and function deployed, public flag still off | Linked production project | Controlled synthetic operator inbox, then one controlled receipt at the approved operator mailbox | Existing public domain unchanged |
 | Production live | Immutable promoted Vercel deployment, then a second immutable deployment with V2 enabled | Linked production project | Verified visitor plus approved operator mailbox | Final topology in the table above |
 
-For strict CORS, use the stable branch-preview origin, not an ephemeral deployment URL that changes every build. Configure exact origins only. Production allowed origins are `https://mindmake.co` and `https://www.mindmake.co`; the latter is included because a browser can reach it before redirect completion. Do not allow `*.vercel.app` or `*`.
+For strict CORS, use the stable branch-preview origin, not an ephemeral deployment URL that changes every build. Configure exact origins only. Production values are `MINDMAKE_PUBLIC_URL=https://mindmake.co` and `MINDMAKE_ALLOWED_ORIGINS=https://mindmake.co,https://www.mindmake.co`. The function parses `MINDMAKE_ALLOWED_ORIGINS` as a comma-separated list and trims each value. The `www` origin is included because a browser can reach it before redirect completion. Do not allow `*.vercel.app` or `*`.
 
 ### Exact environment contract
 
@@ -118,25 +119,38 @@ Resolve-DnsName ctrl.mindmake.co
 
 Use `vercel --help`, `vercel domains --help`, `vercel dns --help` and `supabase --help` before issuing a mutating CLI command. Provider CLIs change; do not guess a flag from memory.
 
-### 1. Create an isolated backend preview
-
-1. Use an existing isolated non-production Supabase project if one is found. Otherwise create `mindmake-preview` in organisation `pqsqsonazzxmkqajbwpk` only after access and any provider cost are approved. Never use the linked production project for preview evidence or rely on a short-lived database branch for release evidence.
-2. Apply all repository migrations in order, including `20260826123007_mindmake_brief_requests.sql`.
-3. Deploy the browser-invoked `enrich-company` function and `submit-mindmake-brief`; confirm their local `_shared` imports are bundled. Do not deploy unrelated legacy functions.
-4. Configure only preview secrets and a preview-only operator inbox. Set `MINDMAKE_PUBLIC_URL=https://<stable-preview-alias>` and `MINDMAKE_ALLOWED_ORIGINS=https://<stable-preview-alias>` using the real stable preview alias.
-5. Run database lint and security advisers.
-6. Prove anon and authenticated browser roles cannot read the private lead table or call private RPCs.
-7. Preserve a machine-readable record of migration version, function version and adviser results.
-
-### 2. Create the immutable front-end preview
+### 1. Establish the isolated preview identities
 
 1. Push the checkpoint branch after reviewing the staged files and secret scan.
-2. Create a Vercel branch preview linked to project `mindmake`.
-3. Assign or use one stable branch alias and add only that exact origin to preview `MINDMAKE_ALLOWED_ORIGINS`.
-4. Keep `VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED=false` for the first preview.
-5. Complete the flag-off front-end checks from files 04 and 05.
+2. Use an existing isolated non-production Supabase project if one is found. Otherwise create `mindmake-preview` in organisation `pqsqsonazzxmkqajbwpk` only after access and any provider cost are approved. Never use the linked production project for preview evidence or rely on a short-lived database branch for release evidence.
+3. Apply all repository migrations in order, including `20260826123007_mindmake_brief_requests.sql`. Do not deploy browser-invoked functions yet.
+4. Configure the preview front end with the isolated Supabase URL, publishable key and project ref. Keep `VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED=false`.
+5. Create an immutable Vercel branch preview linked to project `mindmake` and assign one stable branch alias. Record the exact `https://` origin. This first deployment establishes the origin; full Start here testing follows after the browser functions are connected.
 
-### 3. Verify private lead V2 in preview
+### 2. Connect and verify the preview backend
+
+1. Configure only preview Edge secrets and a preview-only operator inbox.
+2. Set `MINDMAKE_PUBLIC_URL=https://<stable-preview-alias>` and `MINDMAKE_ALLOWED_ORIGINS=https://<stable-preview-alias>` using the recorded stable alias, not an ephemeral deployment URL.
+3. Deploy the browser-invoked `enrich-company` and `submit-mindmake-brief` functions; confirm their local `_shared` imports are bundled. Do not deploy unrelated legacy functions.
+4. Run database lint and security advisers.
+5. Prove anon and authenticated browser roles cannot read the private lead table or call private RPCs.
+6. Complete the flag-off front-end checks from files 04 and 05, including the company-domain enrichment that remains active while V2 is off.
+7. Preserve a machine-readable record of migration version, function version, exact alias, origin and adviser results.
+
+### 3. Prepare email identity without disrupting normal mail
+
+The launch default, subject to mailbox access and Resend-domain verification, is:
+
+- sender: `Mindmake <briefs@mindmake.co>`;
+- Reply-To for verification and visitor emails: `krish@mindmake.co`;
+- operator email To: `krish@mindmake.co`, with the verified visitor email as Reply-To;
+- visitor recipient: the verified address supplied in the brief.
+
+First verify that the operator mailbox exists or create or route it without disrupting existing mail. Then verify `mindmake.co` in Resend with the exact current provider-issued records. Preserve existing MX and the current DMARC policy. Do not silently weaken or strengthen DMARC. Add only provider-issued DKIM, return-path and required SPF values. Never create a second SPF record at the same owner. If no DMARC record exists, propose `p=none` for separate email-admin approval. Test SPF, DKIM and DMARC alignment in a synthetic inbox before the V2 delivery matrix.
+
+Update `.env.example` and deployment documentation so the symbolic operator default is `krish@mindmake.co`, not `operator@mindmake.co`. Do not commit the real API key.
+
+### 4. Verify private lead V2 in preview
 
 After the flag-off preview passes:
 
@@ -168,9 +182,13 @@ Verify in preview whether the platform supplies and sanitises `x-forwarded-for`.
 
 The function may remain unauthenticated at the Supabase gateway only because its own browser-origin isolation, payload, honeypot, rate-limit, verification and private-RPC controls are all tested. CORS does not authenticate a non-browser client, so rate limits, verification and private database boundaries remain mandatory. Do not weaken those controls to make preview work.
 
-### 4. Implement retention and deletion before enabling production V2
+### Approval gate B1: privacy, retention and mailbox contract
 
-Use this proposed release default, pending explicit privacy and legal approval at Gate B. Do not publish these periods or enable the purge job until approved:
+Before release-candidate approval, obtain explicit approval for the proposed retention periods, private purge mechanism, deletion process, launch mailbox and matching privacy wording. Krish may grant B1 in the same reply as the other named gates, but Claude must record and execute B1 here, before Phase 5. If B1 is withheld or amended, keep V2 off and update the configuration, tests and copy before proceeding.
+
+### 5. Implement retention and deletion before release-candidate approval
+
+Use this proposed release default, pending explicit privacy and legal approval at Gate B1. Do not publish these periods or enable the purge job until approved:
 
 - unverified requests: delete after 7 days;
 - rate-limit event hashes: delete after 48 hours;
@@ -178,19 +196,6 @@ Use this proposed release default, pending explicit privacy and legal approval a
 - valid deletion request: delete earlier after identity verification, except any record separately retained under a documented legal obligation outside this lead table.
 
 After approval, implement a private, idempotent scheduled database or Edge routine using the currently supported Supabase scheduling mechanism. It must not accept public browser invocation. Test boundary dates, retries and partial failure. At launch, deletion requests use the published email address and a manually verified private admin process. Do not build a public deletion endpoint unless separately scoped. Update the privacy notice to state the approved periods and real deletion process. A required shorter period changes configuration and copy, not the product flow.
-
-### 5. Prepare email identity without disrupting normal mail
-
-The launch default, subject to mailbox access and Resend-domain verification, is:
-
-- sender: `Mindmake <briefs@mindmake.co>`;
-- Reply-To for verification and visitor emails: `krish@mindmake.co`;
-- operator email To: `krish@mindmake.co`, with the verified visitor email as Reply-To;
-- visitor recipient: the verified address supplied in the brief.
-
-First verify that the operator mailbox exists or create/route it without disrupting existing mail. Then verify `mindmake.co` in Resend with the exact current provider-issued records. Preserve existing MX and the current DMARC policy. Do not silently weaken or strengthen DMARC. Add only provider-issued DKIM, return-path and required SPF values. Never create a second SPF record at the same owner. If no DMARC record exists, propose `p=none` for separate email-admin approval. Test SPF, DKIM and DMARC alignment in a synthetic inbox before any customer mail.
-
-Update `.env.example` and deployment documentation so the symbolic operator default is `krish@mindmake.co`, not `operator@mindmake.co`. Do not commit the real API key.
 
 ### 6. Prepare source, crawler and redirects for the final publication domain
 
@@ -217,13 +222,15 @@ The release candidate is ready only when:
 - V2 preview is proven but the production flag remains off;
 - rollback identifiers have been recorded.
 
+For physical evidence, use the real-device-lab access from the initial bundle. If it was unavailable, Krish must complete and return the single checklist covering: iOS Safari full journey; Android Chrome full journey; VoiceOver journey; TalkBack journey. Each check includes keyboard, safe-area, download, video, menu, navigation and browser Back behaviour where relevant. Gate A cannot pass without one of these two evidence paths.
+
 ### Approval gate A: merge
 
 Present the preview URL, commit, tests, device evidence, V2 evidence and cleanup diff. Obtain explicit approval to merge to `main`. Merge only the reviewed branch.
 
-### Approval gate B: production backend
+### Approval gate B2: production backend
 
-Obtain explicit approval to apply the production migration, configure production secrets and deploy the production Edge Function. Gate B also approves or amends the proposed retention periods, private purge mechanism, deletion process, launch mailbox and matching privacy wording. Keep the public V2 flag off.
+After Gate A, obtain explicit approval to apply the production migration, configure production secrets and deploy the production Edge Function. Privacy, retention, deletion and mailbox approval was already resolved at Gate B1. Keep the public V2 flag off.
 
 Then:
 
@@ -231,7 +238,7 @@ Then:
 2. Back up the affected schema and record current migration/function state.
 3. Apply only reviewed, forward-compatible migrations.
 4. Deploy the exact preview-tested function commit.
-5. Configure production secrets and exact origins.
+5. Configure production secrets with `MINDMAKE_PUBLIC_URL=https://mindmake.co` and `MINDMAKE_ALLOWED_ORIGINS=https://mindmake.co,https://www.mindmake.co`. The delimiter is a comma. Do not add spaces, wildcards or provider preview hosts.
 6. Run direct synthetic production tests from an allowed origin without exposing the flow publicly. Initially use a controlled synthetic operator inbox. After that passes, set `MINDMAKE_OPERATOR_EMAIL` to the approved operator mailbox, redeploy and confirm one final controlled operator receipt before V2 can be enabled.
 7. Do not drop the new table during rollback; disable entry and preserve evidence.
 8. Configure an operational alert or documented daily check for function failures, rate-limit spikes, Resend bounces and failed operator delivery. A provider-accepted `queued` result is not proof of inbox delivery. A delivery webhook is not required for launch; use Resend logs and the documented daily check initially, then scope webhook-driven delivery state separately if it becomes useful.
@@ -336,22 +343,31 @@ Record the action, time, operator, provider response and verification result for
 
 `VITE_` values are build-time settings. Changing an environment value alone does not disable V2. Promote the known flag-off build, or rebuild and verify it, before claiming that rollback is complete.
 
-## Final cleanup and documentation closure
+## Immediate launch cleanup and scheduled stability closure
 
-After at least 24 stable hours covering a complete synthetic lead and normal site use:
+The launch pass has two explicit outcomes. Do not pretend a 24-hour observation can complete inside one uninterrupted Claude process.
 
-1. Run the hygiene plan in file 05.
+### Outcome 1: launch pass complete
+
+Immediately after the production and cutover matrices pass:
+
+1. Run every immediately safe part of the hygiene plan in file 05.
 2. Replace contradictory active domain, brand, booking, offer, publication and CTRL instructions with the current topology.
-3. Archive historical files that still explain rejected choices; remove only proven-dead code and assets.
+3. Archive historical files that still explain rejected choices; remove only proven-dead code and assets. Retain rollback identifiers and any asset still needed by the prior deployment.
 4. Regenerate all crawler and social files.
 5. Update `MINDMAKE_CANON.md`, `REBUILD_STATE.md`, `DEPLOYMENT.md`, `ARCHITECTURE.md`, `MINDMAKE_LEAD_DELIVERY_SPEC.md`, QA evidence and project README.
 6. Record final deployment IDs, migration version, function version and DNS topology without secrets.
 7. Run the contradiction scan, route crawl, tests, typecheck, build and lint comparison again.
-8. Leave the repository clean and the final status report explicit about any legacy lint debt.
+8. Leave the repository clean and publish a report marked `LAUNCH COMPLETE, STABILITY CHECK PENDING`, with the exact earliest closure time 24 hours after the successful synthetic lead.
+9. Create one dated GitHub issue called `Mindmake 24-hour stability closure` containing the checklist below, the earliest execution time, owner and links to the launch evidence. If GitHub issue creation is unavailable, commit the same dated task at `project-documentation/launch-closure-pending.md` and tell Krish exactly how to resume it.
+
+### Outcome 2: 24-hour stability closure
+
+At or after the recorded time, Claude or the named operator resumes only the dated closure task. Confirm a full 24 stable hours covering a complete synthetic lead and normal site use, rerun the operational checks, resolve or assign any new defect, remove the pending task and update the report to `STABILITY CLOSED`. This is a time-dependent follow-up to the same runbook, not a new design or product decision.
 
 ## Completion report
 
-The handover is complete only when the final report includes:
+The launch-pass report must include:
 
 - merged commit and GitHub review link;
 - preview and production deployment IDs;
@@ -365,3 +381,5 @@ The handover is complete only when the final report includes:
 - cleanup diff and archive index;
 - rollback identifiers;
 - remaining issues, each with owner and severity.
+
+It must also state either `STABILITY CLOSED` with the 24-hour evidence or `LAUNCH COMPLETE, STABILITY CHECK PENDING` with the dated GitHub issue or repository task. The latter is an honest completed launch pass, not permission to omit the scheduled closure.

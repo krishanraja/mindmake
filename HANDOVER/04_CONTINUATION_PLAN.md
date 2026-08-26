@@ -182,6 +182,8 @@ Before production:
 
 Do not replace these gates with resized desktop Chrome screenshots.
 
+Resolve this through the access bundle, not through an improvised exception. Preferred route: use BrowserStack or an equivalent real-device lab with iOS Safari, Android Chrome, VoiceOver and TalkBack access. If no device-lab access is available, generate one checklist for Krish covering those four named checks and have him return the completed results before Gate A. Automated mobile emulation remains useful supporting evidence, but it is not the physical-device pass.
+
 ## Phase 6: final content and proof check
 
 1. Verify every quote against `BRANDS_AND_TESTIMONIALS.md`.
@@ -212,26 +214,27 @@ Present:
 
 Then use file 06 as the continuous production and domain runbook. It defines separate approvals for:
 
-1. merge to `main`;
-2. production backend configuration;
-3. public-site promotion and core-domain routing;
-4. publication and CTRL subdomains;
-5. enabling production V2.
+1. privacy, retention, deletion and launch-mailbox contract before release-candidate approval;
+2. merge to `main`;
+3. production backend configuration;
+4. public-site promotion and core-domain routing;
+5. publication and CTRL subdomains;
+6. enabling production V2.
 
-Do not bundle those approvals.
+Do not execute the gates as one undifferentiated mutation. Krish may approve them together, but Claude must execute and verify each gate sequentially.
 
 ## Phase 9: execute the one-pass launch runbook
 
 Continue with `06_ONE_PASS_LAUNCH_DOMAIN_AND_LEAD_RUNBOOK.md`. Complete its access preflight, preview backend, preview front end, V2 email matrix, retention implementation, email authentication, source reconciliation, release-candidate QA, production rollout, domain cutover, rollback verification and final repository hygiene.
 
-Do not ask Krish to choose between already settled destinations. The topology and rollback rules are fixed in file 06. The sender, mailbox and retention periods are explicit launch defaults, not hidden assumptions: confirm them at Gate B together with provider access and privacy wording. The only route resolved through evidence rather than preference is `/builder-economy`, using file 06's ownership check.
+Do not ask Krish to choose between already settled destinations. The topology and rollback rules are fixed in file 06. The sender, mailbox and retention periods are explicit launch defaults, not hidden assumptions: confirm them at Gate B1 before release-candidate approval. The only route resolved through evidence rather than preference is `/builder-economy`, using file 06's ownership check.
 
 Krish may grant every named gate in one explicit approval. Even then, execute the gates sequentially, preserve the evidence at each boundary and stop on any failed check.
 
 ## Safe Git practices
 
 - Do not use `git add .` or `git add -A` in the current dirty repository.
-- Never stage the accidental zero-byte file `x.name)`.
+- The accidental zero-byte file `x.name)` was moved out of the repository before this checkpoint. If it reappears, investigate the creating command and keep it out of Git.
 - Do not use `git reset --hard` or checkout to discard changes.
 - Preserve user and prior-agent changes unless their removal is explicitly part of the reviewed cleanup batch.
 - Inspect `git diff --cached --stat` and `git diff --cached --check` before every commit.

@@ -60,7 +60,7 @@ This does not replace preview, physical-device or V2 provider testing.
 
 ### Email identity and retention
 
-- [ ] Gate B explicitly approves the proposed periods, purge mechanism and matching privacy wording before they are published or enabled.
+- [ ] Gate B1 explicitly approves the proposed periods, purge mechanism and matching privacy wording before they are published or enabled.
 - [ ] Launch-default sender `Mindmake <briefs@mindmake.co>` is verified in Resend, or an explicitly approved replacement is configured.
 - [ ] `krish@mindmake.co` can receive operator mail, or an explicitly approved alias/recipient is configured.
 - [ ] Verification and visitor emails use `krish@mindmake.co` as Reply-To. Operator emails are sent To the operator mailbox and use the verified visitor email as Reply-To.
@@ -271,7 +271,7 @@ Do not purge old brand assets until the new wordmark, owl icon, favicon, social 
 
 ### Accidental and local-only files
 
-- Never stage `x.name)`. It is an accidental zero-byte file.
+- The accidental zero-byte file `x.name)` was moved to `C:\Users\krish\AppData\Local\Temp\mindmake-checkpoint-excluded-20260826` before handoff. If it reappears, trace the creating command and keep it out of Git.
 - Do not commit local QA screenshots, browser profiles, provider inbox data or secrets.
 - Keep scratch evidence under the configured scratch or visualisation directory, not the repository.
 - Review `_corpus/` separately. It is internal evidence and must not leak client data or become public build input.

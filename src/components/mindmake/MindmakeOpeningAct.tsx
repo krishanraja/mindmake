@@ -13,7 +13,7 @@ const heroThoughts = [
   "Should we build our own AI tools or buy off the shelf?",
   "Everyone on my team is using different AI tools. It's chaos.",
   "I want AI doing the boring work so my team does the real work.",
-  "How do I know if AI is delivering ROI or just hype?",
+  "How do I know if AI is paying off, or just hype?",
   "I keep imagining what my company looks like with AI embedded everywhere.",
   "I'm nervous about getting locked into the wrong vendor.",
   "I should probably understand this better than I do.",

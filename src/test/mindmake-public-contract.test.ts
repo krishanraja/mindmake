@@ -109,6 +109,8 @@ describe("Mindmake public product contract", () => {
     expect(homepage).toContain("<MindmakeOpeningAct />");
     expect(openingAct).toContain("Put your best");
     expect(openingAct).toContain("judgement to work");
+    expect(openingAct).toContain("How do I know if AI is paying off, or just hype?");
+    expect(openingAct).not.toContain("delivering ROI");
     expect(openingAct).toContain('href="#judgement-thread">Start here');
     expect(openingAct).toContain("<BrainGtmGateway />");
     expect(gateway).toContain("Pick your starting point");

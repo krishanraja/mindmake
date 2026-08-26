@@ -38,9 +38,8 @@ export interface CompleteTextInput {
  */
 export function scrubVoice(input: string): string {
   let s = input;
-  s = s.replace(/\s*[, –]\s*/g, ", ");
+  s = s.replace(/\s*[\u2013\u2014]\s*/g, ", ");
   s = s.replace(/\s+--\s+/g, ", ");
-  s = s.replace(/[, –]/g, ", ");
   s = s.replace(/,\s*,/g, ",").replace(/\s{2,}/g, " ").replace(/\s+,/g, ",");
   s = s.replace(/,\s*([.!?])/g, "$1");
   return s.trim();

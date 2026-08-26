@@ -24,7 +24,7 @@ The audit-time local query for `mindmake.co` failed. Gate C is blocked until NS 
 
 ## Known non-secret project identity
 
-- Repository: `https://github.com/krishanraja/mindmaker.git`
+- Repository: `https://github.com/krishanraja/mindmake.git`
 - Release branch: `codex/mindmake-homepage-mock`
 - Public Vercel project: `mindmake`
 - Vercel project ID: `prj_GqamX3psD0cGpGCDXRu0ljET7zap`
@@ -39,7 +39,7 @@ The linked Supabase project is not a preview sandbox. Treat it as production unt
 
 Ask once for access or login help, not for product decisions. The required bundle is:
 
-1. GitHub push and pull-request access to `krishanraja/mindmaker`.
+1. GitHub push and pull-request access to `krishanraja/mindmake`.
 2. Vercel access to team `team_iXZBozK4Ss7NHuyNk8L9wmO6` and project `mindmake`.
 3. DNS access for `mindmake.co` and `themindmaker.ai`, wherever their authoritative nameservers resolve.
 4. Supabase access to the linked production project and permission to create or use a separate non-production project or database branch.

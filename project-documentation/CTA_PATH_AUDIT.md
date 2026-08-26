@@ -20,7 +20,7 @@ The audit below records the 12 August production baseline and the conversion cho
 ## QA target
 
 - Repository: `C:\Users\krish\dev\mindmaker`
-- Remote: `https://github.com/krishanraja/mindmaker`
+- Remote: `https://github.com/krishanraja/mindmake`
 - Source branch: `codex/mindmaker-rebuild`
 - Source revision: `3bee2b3ec0a5973f62c0f325514d98eb8ee3d877`, plus uncommitted rebuild work kept separate during diagnosis
 - Deployment: `https://www.themindmaker.ai`

@@ -85,7 +85,7 @@ Last verified: 2026-08-26
 
 ## Current truth
 
-- Repository: `https://github.com/krishanraja/mindmaker`
+- Repository: `https://github.com/krishanraja/mindmake`
 - Local checkout: `C:\Users\krish\dev\mindmaker`
 - Branch: `codex/mindmaker-rebuild`
 - Starting revision: `3bee2b3ec0a5973f62c0f325514d98eb8ee3d877`

@@ -25,15 +25,15 @@ export function BrainGtmGateway() {
         return;
       }
 
-      const styles = getComputedStyle(runway);
-      const headerHeight = Number.parseFloat(styles.getPropertyValue("--mm-header-height")) || 0;
+      const stage = runway.firstElementChild as HTMLElement | null;
+      const stickyTop = stage ? Number.parseFloat(getComputedStyle(stage).top) || 0 : 0;
       const rect = runway.getBoundingClientRect();
-      const visibleHeight = Math.max(1, window.innerHeight - headerHeight);
+      const visibleHeight = Math.max(1, window.innerHeight - stickyTop);
       const travel = Math.max(1, runway.offsetHeight - visibleHeight);
-      const raw = clamp((headerHeight - rect.top) / Math.max(1, travel * .58));
+      const raw = clamp((stickyTop - rect.top) / Math.max(1, travel * .58));
       const progress = smooth(raw);
       const desktopDistance = Math.min(28, window.innerWidth * .02) * progress;
-      const mobileDistance = Math.min(8, window.innerHeight * .01) * progress;
+      const mobileDistance = Math.min(16, window.innerHeight * .022) * progress;
 
       runway.style.setProperty("--mm-gateway-door-open", `${desktopDistance.toFixed(2)}px`);
       runway.style.setProperty("--mm-gateway-door-open-mobile", `${mobileDistance.toFixed(2)}px`);

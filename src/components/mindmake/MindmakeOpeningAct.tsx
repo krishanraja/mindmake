@@ -57,12 +57,46 @@ const judgementChapters = [
   },
 ];
 
-const finalNodes = [[250, 150], [455, 155], [565, 280], [235, 505], [440, 540], [590, 445]];
-const startNode = [390, 340];
 const categoryCuts = [.24, .48, .72];
 const chapterCuts = [.24, .49, .74];
 const categoryEntryOffsets = [[-78, -50], [88, -52], [-82, 58], [92, 62]];
 const categoryExitOffsets = [[-34, -24], [36, -26], [-38, 28], [40, 30]];
+/* Portrait cards enter vertically so nothing clips the narrow canvas. */
+const categoryEntryOffsetsPhone = [[0, -30], [0, -30], [0, 30], [0, 30]];
+const categoryExitOffsetsPhone = [[0, -14], [0, -14], [0, 14], [0, 14]];
+
+/* The judgement thread has one choreography and two stage geometries: the
+   approved landscape constellation for wide screens and a portrait
+   constellation composed for phones. Both are applied from here so the
+   scroll story stays identical. */
+const threadGeometries = {
+  wide: {
+    viewBox: "0 0 900 680",
+    start: [390, 340],
+    nodes: [[250, 150], [455, 155], [565, 280], [235, 505], [440, 540], [590, 445]],
+    coreRadii: [72, 84],
+    timePath: "M235 505C300 625 470 640 590 445",
+    timeRect: [355, 605, 148, 36],
+    timeText: [429, 628],
+    evidenceTags: [[720, 170], [730, 510]],
+    optionCircles: [[650, 105], [725, 142], [790, 225], [760, 355], [815, 420], [702, 560]],
+    optionRect: [638, 67, 178, 34],
+    optionText: [727, 89],
+  },
+  portrait: {
+    viewBox: "0 0 460 560",
+    start: [230, 320],
+    nodes: [[118, 84], [342, 84], [352, 208], [108, 208], [118, 450], [342, 450]],
+    coreRadii: [52, 62],
+    timePath: "M118 500C160 536 300 536 342 500",
+    timeRect: [156, 512, 148, 36],
+    timeText: [230, 535],
+    evidenceTags: [[112, 146], [348, 146]],
+    optionCircles: [[52, 278], [408, 266], [58, 364], [402, 358], [230, 186], [230, 400]],
+    optionRect: [141, 8, 178, 34],
+    optionText: [230, 30],
+  },
+} as const;
 const brainVideoStart = .15;
 const brainVideoEnd = 2.75;
 
@@ -168,18 +202,61 @@ export function MindmakeOpeningAct() {
     if (!root || !category || !thread || !proof || !proofMedia) return;
 
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const phone = window.matchMedia("(max-width: 560px)");
     const categoryChapterElements = [...category.querySelectorAll<HTMLElement>("[data-mm-category-chapter]")];
     const categoryOffers = [...category.querySelectorAll<HTMLElement>("[data-mm-category-offer]")];
     const chapterElements = [...thread.querySelectorAll<HTMLElement>("[data-mm-thread-chapter]")];
     const nodes = [...thread.querySelectorAll<SVGGElement>("[data-mm-node]")];
     const strands = [...thread.querySelectorAll<SVGPathElement>("[data-mm-strand]")];
+    const canvas = thread.querySelector<SVGSVGElement>(".mm-act-thread-canvas");
+    const core = thread.querySelector<SVGGElement>(".mm-act-judgement-core");
+    const coreDisc = thread.querySelector<SVGCircleElement>(".mm-act-core-disc");
+    const corePressure = thread.querySelector<SVGCircleElement>(".mm-act-core-pressure");
+    const timeReturn = thread.querySelector<SVGGElement>(".mm-act-time-return");
+    const evidenceTags = [...thread.querySelectorAll<SVGGElement>(".mm-act-evidence-tag")];
+    const optionField = thread.querySelector<SVGGElement>(".mm-act-option-field");
+    let geometry: (typeof threadGeometries)[keyof typeof threadGeometries] = threadGeometries.wide;
     let frame = 0;
 
+    const applyThreadGeometry = () => {
+      geometry = phone.matches ? threadGeometries.portrait : threadGeometries.wide;
+      canvas?.setAttribute("viewBox", geometry.viewBox);
+      core?.setAttribute("transform", `translate(${geometry.start[0]} ${geometry.start[1]})`);
+      coreDisc?.setAttribute("r", String(geometry.coreRadii[0]));
+      corePressure?.setAttribute("r", String(geometry.coreRadii[1]));
+      const timePath = timeReturn?.querySelector("path");
+      const timeRect = timeReturn?.querySelector("rect");
+      const timeText = timeReturn?.querySelector("text");
+      timePath?.setAttribute("d", geometry.timePath);
+      timeRect?.setAttribute("x", String(geometry.timeRect[0]));
+      timeRect?.setAttribute("y", String(geometry.timeRect[1]));
+      timeText?.setAttribute("x", String(geometry.timeText[0]));
+      timeText?.setAttribute("y", String(geometry.timeText[1]));
+      evidenceTags.forEach((tag, index) => {
+        const spot = geometry.evidenceTags[index];
+        if (spot) tag.setAttribute("transform", `translate(${spot[0]} ${spot[1]})`);
+      });
+      if (optionField) {
+        [...optionField.querySelectorAll("circle")].forEach((dot, index) => {
+          const spot = geometry.optionCircles[index];
+          if (!spot) return;
+          dot.setAttribute("cx", String(spot[0]));
+          dot.setAttribute("cy", String(spot[1]));
+        });
+        const optionRect = optionField.querySelector("rect");
+        const optionText = optionField.querySelector("text");
+        optionRect?.setAttribute("x", String(geometry.optionRect[0]));
+        optionRect?.setAttribute("y", String(geometry.optionRect[1]));
+        optionText?.setAttribute("x", String(geometry.optionText[0]));
+        optionText?.setAttribute("y", String(geometry.optionText[1]));
+      }
+    };
+
     const progressFor = (element: HTMLElement) => {
-      const header = parseFloat(getComputedStyle(root).getPropertyValue("--mm-header-height")) || 0;
+      const stage = (element.firstElementChild as HTMLElement | null) ?? element;
+      const stickyTop = Number.parseFloat(getComputedStyle(stage).top) || 0;
       const rect = element.getBoundingClientRect();
-      const visibleHeight = window.innerHeight - header;
-      return clamp((header - rect.top) / Math.max(1, rect.height - visibleHeight));
+      return clamp((stickyTop - rect.top) / Math.max(1, rect.height - stage.offsetHeight));
     };
 
     const viewportProgress = (element: HTMLElement) => {
@@ -205,17 +282,15 @@ export function MindmakeOpeningAct() {
       category.style.setProperty("--mm-act-category-tabs", tabs.toFixed(4));
       category.style.setProperty("--mm-act-leader-left", `${mix(26, 43.3, own).toFixed(2)}%`);
 
-      const mobile = window.innerWidth <= 560;
-      const mobileOfferIndex = progress < .52 ? Math.min(3, Math.floor(range(progress, .02, .31) * 3.999)) : -1;
+      const entryOffsets = phone.matches ? categoryEntryOffsetsPhone : categoryEntryOffsets;
+      const exitOffsets = phone.matches ? categoryExitOffsetsPhone : categoryExitOffsets;
       categoryOffers.forEach((offer, index) => {
         const offerProgress = isReduced ? 1 : range(progress, .025 + index * .035, .16 + index * .035);
-        const entry = categoryEntryOffsets[index];
-        const exit = categoryExitOffsets[index];
+        const entry = entryOffsets[index];
+        const exit = exitOffsets[index];
         offer.style.setProperty("--mm-act-offer-progress", offerProgress.toFixed(4));
         offer.style.setProperty("--mm-act-offer-shift-x", `${(mix(entry[0], 0, offerProgress) + mix(0, exit[0], own)).toFixed(1)}px`);
         offer.style.setProperty("--mm-act-offer-shift-y", `${(mix(entry[1], 0, offerProgress) + mix(0, exit[1], own)).toFixed(1)}px`);
-        offer.classList.toggle("is-current", mobile && index === mobileOfferIndex);
-        offer.classList.toggle("is-past", mobile && (mobileOfferIndex === -1 || index < mobileOfferIndex));
       });
 
       let activeIndex = isReduced ? categoryChapterElements.length - 1 : 0;
@@ -254,15 +329,15 @@ export function MindmakeOpeningAct() {
       thread.style.setProperty("--mm-act-resolve", resolve.toFixed(4));
       thread.style.setProperty("--mm-act-pressure", pressure.toFixed(4));
       nodes.forEach((node, index) => {
-        const target = finalNodes[index];
+        const target = geometry.nodes[index];
         const nodePhase = node.dataset.mmNode;
         const phase = nodePhase === "gap" ? evidence : nodePhase === "value" ? resolve : split;
-        const x = mix(startNode[0], target[0], phase);
-        const y = mix(startNode[1], target[1], phase);
+        const x = mix(geometry.start[0], target[0], phase);
+        const y = mix(geometry.start[1], target[1], phase);
         node.style.setProperty("--mm-act-node-progress", phase.toFixed(4));
         node.setAttribute("transform", `translate(${x.toFixed(2)} ${y.toFixed(2)})`);
         strands[index]?.style.setProperty("--mm-act-strand-progress", phase.toFixed(4));
-        strands[index]?.setAttribute("d", curvePath(startNode, [x, y], .48));
+        strands[index]?.setAttribute("d", curvePath([geometry.start[0], geometry.start[1]], [x, y], .48));
       });
 
       let activeIndex = isReduced ? chapterElements.length - 1 : 0;
@@ -293,15 +368,22 @@ export function MindmakeOpeningAct() {
       if (frame) return;
       frame = window.requestAnimationFrame(update);
     };
+    const relayout = () => {
+      applyThreadGeometry();
+      schedule();
+    };
+    applyThreadGeometry();
     update();
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule, { passive: true });
     media.addEventListener?.("change", schedule);
+    phone.addEventListener?.("change", relayout);
     return () => {
       window.cancelAnimationFrame(frame);
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
       media.removeEventListener?.("change", schedule);
+      phone.removeEventListener?.("change", relayout);
     };
   }, []);
 
@@ -366,6 +448,10 @@ export function MindmakeOpeningAct() {
                 <svg className="mm-act-category-lines" viewBox="0 0 900 680" preserveAspectRatio="none" focusable="false">
                   <path className="mm-act-category-work-line" pathLength="1" d="M520 130C555 175 610 235 650 340" /><path className="mm-act-category-work-line" pathLength="1" d="M760 145C730 205 688 260 650 340" /><path className="mm-act-category-work-line" pathLength="1" d="M515 550C555 495 610 440 650 340" /><path className="mm-act-category-work-line" pathLength="1" d="M760 535C730 485 685 420 650 340" />
                   <path className="mm-act-category-gap-line" d="M318 340C420 340 520 340 575 340" /><path className="mm-act-category-own-line" pathLength="1" d="M235 340C285 340 338 340 390 340" />
+                </svg>
+                <svg className="mm-act-category-lines is-portrait" viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false">
+                  <path className="mm-act-category-work-line" pathLength="1" d="M28 20C28 36 38 46 46 52" /><path className="mm-act-category-work-line" pathLength="1" d="M72 20C72 36 62 46 54 52" /><path className="mm-act-category-work-line" pathLength="1" d="M28 42C30 48 40 52 47 55" /><path className="mm-act-category-work-line" pathLength="1" d="M72 42C70 48 60 52 53 55" />
+                  <path className="mm-act-category-gap-line" d="M50 67C50 69.5 50 72.5 50 75" /><path className="mm-act-category-own-line" pathLength="1" d="M50 86C50 78 50 70 50 62" />
                 </svg>
                 <div className="mm-act-category-leader"><div className="mm-act-category-leader-copy is-initial"><strong>You</strong><span>Ready to judge the work</span></div><div className="mm-act-category-leader-copy is-owned"><strong>What matters</strong><span>to you</span></div></div>
                 <div className="mm-act-category-team"><div><strong>The Work</strong><span>Plans, answers and tools</span></div></div>

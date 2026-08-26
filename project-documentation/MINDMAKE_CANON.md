@@ -146,7 +146,7 @@ The newsletter choice is separate, optional and unticked. There is no automated 
 
 ## Media and publication
 
-The public brand is **Mindmake**. The main URL is `mindmake.co`. `themindmaker.ai` will redirect to it. The publication appears in the site as **Media** or a plain subscription section rather than as a second brand. Its intended home is `content.mindmake.co`; until that move is verified, use the current first-party publication destination.
+The public brand is **Mindmake**. The main URL is `mindmake.co`, and `themindmaker.ai` redirects to it. The publication appears in the site as **Media** or a plain subscription section rather than as a second brand. It stays at `https://mindmakerlive.substack.com` by owner decision (26 August 2026); a later move to a custom domain is a separate choice, not an open task.
 
 The two editorial pillars are **Building with AI** and **The Money of AI**. Editorial credibility and customer nurture should share one subscriber relationship rather than create two competing lists.
 
@@ -201,22 +201,17 @@ Mobile is a recomposed experience, not a smaller desktop page.
 
 ## Current open gates
 
-These do not block the local front-end build, but they block release of the full conversion promise:
+The site launched at `https://mindmake.co` on 26 August 2026. `REBUILD_STATE.md` holds the launch identifiers. What remains open:
 
-1. Approve the privacy, consent and proposed data-retention terms for the personalised brief, then implement the matching private purge and manually verified deletion process.
-2. Apply the private-brief migration in preview, configure exact secrets and allowed origins, deploy `enrich-company` plus the version-two `submit-mindmake-brief` Edge Function, and prove the verification, visitor-email and operator-email paths end to end with synthetic inboxes. The source implementation is complete enough for preview testing; it is not live proof.
-3. Verify `content.mindmake.co` on the existing Substack publication and the site's plain `Read and subscribe` link. Do not add a second embedded form or list.
-4. Complete current-source evidence research before publishing any new AI GTM market claim. Existing evidence-safe copy does not require invented statistics to launch.
-5. Complete physical iOS Safari and Android Chrome checks before production promotion.
-6. After preview proof, remove the retained old intake and testimonial static source if dependency checks confirm their final redirects are sufficient. Keep the redirects and archive the rationale, not two dormant public tools.
-7. Approve the exact legacy code and asset cleanup batch.
-8. Verify the complete journey on a preview, including a real HTTP 404 for unknown direct URLs, request and confirmation retries, changed email, resend, invalid, expired and locked codes, independent email failures and non-duplicating delivery.
-9. Remove the retired private money disclosure from the deferred Supabase knowledge files before those files can serve any public answer.
-10. Replace the production opening line `How do I know if AI is delivering ROI or just hype?` with `How do I know if AI is paying off, or just hype?` and add a public-copy regression test. Do not edit the frozen V5 prototype file or its hash.
+1. **Gate E**: enabling the public email hand-off in production is a separate approval. The pipeline is fully proven against the production backend, but `VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED` stays off until Krish approves the switch.
+2. **24-hour stability closure**: confirm a stable first day, then mark the launch closed. Tracked in the dated GitHub issue.
+3. **Physical device checks**: the owner accepted emulation evidence for launch; the four-part physical checklist (iOS Safari, Android Chrome, VoiceOver, TalkBack) remains a post-launch task.
+4. **CTRL old host**: repoint `ctrl.themindmaker.ai` to `https://ctrl.mindmake.co` after one confirmed authenticated CTRL login on the new host.
+5. Complete current-source evidence research before publishing any new AI GTM market claim.
 
 The private cash floor and exact multi-month pricing model remain important commercial work, but they do not block the website because no public price or automatic checkout exists.
 
-The local visitor and operator delivery contract is specified in `MINDMAKE_LEAD_DELIVERY_SPEC.md`. The version-two implementation remains source-only and fail-closed. It does not authorise a migration, function deployment, flag change, live email or production wiring.
+The visitor and operator delivery contract is specified in `MINDMAKE_LEAD_DELIVERY_SPEC.md`. The version-two implementation is deployed and live-proven (verification, both deliveries, abuse controls, retention) with the public flag off.
 
 ## Authority
 
@@ -228,4 +223,4 @@ The observed week-long collaboration method is captured at `_corpus/mindmake-col
 
 ---
 
-**Current next action:** review the repaired local build against the V5 floor and frozen Brain and GTM gateway. The software-level mobile matrix is clean, but physical iOS Safari and Android Chrome checks remain. After separate authority, implement and verify the dedicated brief endpoint and both email paths, review the legal wording, production environment and publication destination, then verify the full journey on a preview. The local shell, two outcome routes, crawler output and privacy-safe download journey are built and verified. Stop before live wiring, deletion, merge, domain changes or release.
+**Current next action:** complete the 24-hour stability closure, return the four-part physical device checklist, confirm one authenticated CTRL login at `ctrl.mindmake.co` so the old CTRL host can be repointed, and decide separately whether to enable the production email hand-off (Gate E). The site, backend, sender identity and retention schedule are live and verified.

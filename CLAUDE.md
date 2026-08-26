@@ -15,7 +15,7 @@ This file is a contributor guard. Read `project-documentation/MINDMAKE_CANON.md`
 - The only primary action is `Start here`.
 - The primary path starts with a company website, gives the visitor a useful read and recommendation, asks one easy question, then offers the private brief by email.
 - Newsletter consent is separate and unticked.
-- The version-two private hand-off exists in source only and remains fail-closed. Do not present it as live until the preview migration, security checks, complete email matrix, retention cleanup, exact origins and symbolic secret configuration pass.
+- The version-two private hand-off is deployed and live-proven (migration, security boundary, complete email matrix, retention purge, exact origins), but its public flag stays off. Enabling it in production is Gate E, a separate explicit approval from Krish.
 - The browser may send only the visitor email, company domain and allowlisted choice identifiers. Company research, recommendation assembly, verification codes, visitor delivery and Krish's private fit summary are server-owned.
 - `prototypes/mindmake-judgement-thread-motion-study-v5.html` is the approved visual and interaction floor for the opening sequence, working-understanding act, judgement thread, two-route gateway and first CTRL proof. Its locked SHA-256 is `DE09D75C46EB660AD6148C1D7F5DD61E4F82031B48FCFE931CC3AE05C8126C81`.
 - The Brain and GTM gateway is the exact frozen candidate 7 V2 contract recorded in `project-documentation/MINDMAKE_CANON.md`. Its wording, composition and door-separation motion are not a suggestion to reinterpret.

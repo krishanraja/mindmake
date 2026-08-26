@@ -2,7 +2,7 @@
 
 Last updated: 26 August 2026.
 
-Status: the V2 browser, server-core, Edge Function and database migration source are implemented locally. The public feature flag remains off. The migration has not been run, the function has not been deployed and no real email has been sent. This document does not authorise production promotion.
+Status: launched 26 August 2026. The migration and retention purge are applied to the production database, the Edge Function is deployed, the sender `Mindmake <briefs@mindmake.co>` is verified with SPF, DKIM and DMARC passing, and the full verification and delivery matrix passed against the live backend with synthetic inboxes. The public feature flag remains off; enabling it in production is Gate E, a separate explicit approval.
 
 ## Product boundary
 
@@ -167,7 +167,7 @@ The operator email must never tell Krish to chase the visitor or import the addr
 
 ## Retention truth
 
-The code works for ten minutes and five failed tries lock it. Expiry stops the code but does not delete the request record. No automatic deletion job is implemented in this release. The public privacy notice must not promise automatic deletion. A written deletion schedule and any required cleanup job need separate approval before the hand-off flag is enabled.
+The code works for ten minutes and five failed tries lock it. Expiry stops the code but does not delete the request record. The approved retention schedule runs as a private daily purge (Gate B1, 26 August 2026): unverified requests delete 7 days after creation, rate-limit event hashes after 48 hours, and verified request, consent and delivery records 12 months after their last update. Earlier deletion happens through the published contact address and a manually verified private process. The public privacy notice states the same schedule.
 
 ## Release gate
 

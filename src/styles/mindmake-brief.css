@@ -124,6 +124,10 @@
 }
 .mm-brief-path button:disabled { cursor: default; }
 .mm-brief-path button:focus-visible { outline: 3px solid currentColor; outline-offset: -3px; }
+@media (max-width: 560px) {
+  .mm-brief-path { top: calc(58px + var(--mm-safe-top)); }
+  .mm-brief-path button { font-size: 10.5px; letter-spacing: 0; padding-inline: 2px; }
+}
 
 /* Step arrival: one fast settled entrance per step change. */
 @media (prefers-reduced-motion: no-preference) {

@@ -619,7 +619,7 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
     { label: "Website", target: "domain", steps: ["domain", "reading"] },
     { label: "Problem", target: "pressure", steps: ["pressure"] },
     { label: "Time", target: "capacity", steps: ["capacity"] },
-    { label: "Recommendation", target: "preview", steps: ["preview"] },
+    { label: "Brief", target: "preview", steps: ["preview"] },
     ...(handoffEnabled
       ? [
         { label: "Email", target: "contact" as Step, steps: ["contact"] as Step[] },

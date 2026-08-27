@@ -332,7 +332,7 @@ describe("Mindmake public product contract", () => {
     const homepage = read("src/pages/Index.tsx");
 
     expect(clientStories).toHaveLength(8);
-    expect(careerReferences).toHaveLength(6);
+    expect(careerReferences).toHaveLength(9);
     expect(homepageResultStories.map(({ id }) => id)).toEqual([
       "expensive-decision",
       "sellable-expertise",

@@ -1,14 +1,14 @@
 # Mindmake canon
 
-Last updated: 27 August 2026.
+Last updated: 27 August 2026, after the Round D intelligence and cleanse pass.
 
-This is the current internal source of truth for the Mindmake business and public website. It supersedes older offer, positioning, CTA and naming guidance wherever they conflict. `DECISIONS_LOG.md` keeps the history. `REBUILD_STATE.md` keeps the current delivery state. `MINDMAKE_PROPOSITION_LOCK.md` holds the locked two-door value propositions, page ladders and private pricing model.
+This is the current internal source of truth for the Mindmake business and public website. It supersedes older offer, positioning, CTA and naming guidance wherever they conflict. `DECISIONS_LOG.md` keeps the history. `CURRENT_STATE.md` keeps the current delivery state. `MINDMAKE_PROPOSITION_LOCK.md` holds the locked two-door value propositions, page ladders and private pricing model.
 
 ## The business
 
 Mindmake is a principal-led AI and commercial strategy practice run by Krish Raja.
 
-It helps a leader use AI to extend their judgment, taste and expertise, then turn that stronger capability into a better business result. The work may improve the leader, the product, the price, the positioning, the people, the route to market or the company structure that supports them.
+It helps a leader use AI to extend their judgement, taste and expertise, then turn that stronger capability into a better business result. The work may improve the leader, the product, the price, the positioning, the people, the route to market or the company structure that supports them.
 
 Mindmake is not an automation consultancy. It does not start with a list of repetitive tasks. It starts with the value of a leader's time, the decisions only they can make and the capability the business should retain after the work.
 
@@ -54,7 +54,7 @@ Strong situations include:
 - a healthy or fast-growing AI company whose product, price, positioning, people or company design needs to keep up with its market;
 - an established internet, software, media, data, content, coaching or advisory business whose old commercial rules have stopped working;
 - a well-connected principal whose scarce time is spread across several ventures, relationships or decisions;
-- a leader who wants an AI chief of staff or durable AI brain that makes their own judgment easier to use;
+- a leader who wants an AI chief of staff or durable AI brain that makes their own judgement easier to use;
 - a portfolio owner who wants more high-value time for companies, relationships and decisions, not simply a smaller inbox.
 
 Do not write only for businesses in decline. Ambition, speed and the chance to build a stronger company are as important as competitive pressure.
@@ -70,7 +70,7 @@ The first month must be:
 - tightly bounded;
 - useful on its own;
 - built from repeatable research, capture and synthesis;
-- honest about what still needs human judgment;
+- honest about what still needs human judgement;
 - strong enough for the client to decide whether a longer relationship is worth it.
 
 The proof counts as working when the client says it is useful in practice and is willing to stand behind that view. A strong testimonial or case study is the clearest supporting evidence, subject to consent.
@@ -121,19 +121,19 @@ There is no public diary link and no `Book a fit call` CTA.
 
 The main public action is `Start here`.
 
-The intended live path is:
+The live path (Gate E approved and closed, 27 August 2026):
 
 1. The visitor gives a company website.
-2. Mindmake shows what it can establish and suggests a few likely problems.
-3. The visitor makes one easy choice.
-4. Mindmake shows a useful preview, including what AI can carry, what should remain human and what a 30-day proof could test.
-5. The visitor gives their email to keep the full private brief.
-6. The visitor receives the designed brief. Krish receives the same inputs plus the richer company and fit context.
+2. Mindmake shows a declarative outside read of the business and, when the read is strong enough, two or three pressure choices tailored to that company, each server-signed and anchored to one of the locked lenses. `Something else` always reveals the locked list.
+3. The visitor makes one easy choice, then chooses where returned time would matter most.
+4. Mindmake shows the recommendation: what AI can carry, what stays with the leader and what a 30-day proof could test.
+5. The visitor gives their email to keep the brief, confirms a six-digit code, and receives the branded proposal on screen, by email and as a self-contained attached document.
+6. Krish receives a private fit digest with the same inputs plus the richer company and fit context. Replying to it reaches the visitor directly.
 7. Krish decides whether to reply and, if useful, invites the person to a private conversation.
 
-The safe default is deliberately narrower than the intended live path. It stops after the useful preview and lets the visitor download the full brief without giving an email. The version-two private hand-off now exists in source behind `VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED=true`, but it is not deployed or preview-verified. The browser sends only the email, company domain and allowlisted choice IDs. The server owns the company research, recommendation, visitor brief, Krish's fit summary, verification code and delivery attempts. The old contact endpoint is never a fallback.
+The browser sends only the email, company domain, allowlisted choice IDs and the server-signed tailored-choice pair. The server owns the company research, tailored choices, recommendation, proposal, Krish's fit digest, verification codes and delivery attempts. The old contact endpoint is never a fallback. The visitor can always download the brief locally, whether or not either email succeeds.
 
-The flag stays off until the preview database migration, Edge Function, visitor email, operator email, origin rules, secret configuration, privacy wording and retention process have passed the complete release contract. Source code and passing local tests are not evidence that a private brief was delivered.
+Every read and recommendation carries the honesty framing: it is an illustrative example of how the Mindmake brain reads a business from the outside, it is not advice, and it is something to test against the real business rather than a finished answer. The read is written as a statement in the Mindmake voice; it never asks the visitor anything or invites a correction.
 
 The preferred second question is: **If you got more of your best time back, where would you put it?**
 
@@ -167,7 +167,8 @@ The two editorial pillars are **Building with AI** and **The Money of AI**. Edit
 - Every answer in the personalised brief must change the read, recommendation or hand-off. Do not hide lead qualification inside questions that produce no visitor value.
 - `prototypes/mindmake-judgement-thread-motion-study-v5.html` is the approved visual and interaction floor for the homepage opening, working-understanding sequence, judgement thread and first CTRL proof. Later work may improve it but may not regress in clarity, rhythm, causal motion, mobile composition or finish. Its approved SHA-256 is `DE09D75C46EB660AD6148C1D7F5DD61E4F82031B48FCFE931CC3AE05C8126C81`.
 - The approved Brain and GTM gateway is a frozen contract, not a visual reference. Its source files are `prototypes/mindmake-brain-gtm-gateway-candidate-7-v2.html`, `src/components/mindmake/BrainGtmGateway.tsx` and `src/styles/mindmake-gateway.css`; their approved SHA-256 values are `5A3F68994BFBD2AF412D95776515CF8F7884150FE49991364DDC680E3B418E42`, `AD664DA3A6FEB99D959C193ED3D79AD8DA9C59EC99041F28BA89BED2990ADF72` and `5D5F559BB93C489326792F2B62B0A06D27CF4C778BB7A5C7A29DB3AA92B2CC45`. Keep its wording, composition and door-separation motion exactly as approved. Do not reinterpret it while changing another section or breakpoint. On 26 August 2026 Krish approved amendments and re-pins to the two source files' small-screen blocks for the phone rebuild: the stage respects the shared chrome variable, the inner column sizes to its content instead of holding an empty band, the door motion reads at phone scale, and, after his live phone review, the gateway holds the screen longer, the doors part to reveal the path line instead of a grey band, and the standing doors breathe a quiet invitation glow that stops on first touch and honours reduced motion. Desktop wording, composition and door-separation motion are unchanged; the desktop-width rules are byte-identical to the previously approved version.
-- V8 remains the production breadth reference for complete routes, testimonial range and proof that have not yet been rebuilt through the approved V5 direction. It is no longer the stronger visual authority where V5 covers the same surface.
+- V8 remains the breadth reference only for homepage proof and testimonial range not yet rebuilt through the approved V5 direction. The door pages are rebuilt as stepped, numbered journeys (see `DESIGN_CONTRACT.md`) and no longer draw on V8. It is never the stronger visual authority where V5 covers the same surface.
+- `/ai-brain` and `/ai-gtm` are stepped, numbered scroll journeys: a hero, five pinned step scenes with full-bleed background numerals, the compounding timeline, the working-understanding comparison and the 30-day proof close. Their locked promise lines render verbatim as the page anchors, and the journey system's rules live in `DESIGN_CONTRACT.md`.
 - Eyebrows are prohibited across the whole public design system. Do not place kickers, overlines, chapter numbers, decorative counters, status straps, proof badges or small pre-headings above or beside a real heading. Do not recreate the same pattern under another class name or in sentence case. If the information matters, make it the heading, normal copy or a functional label attached directly to the object or control it names. Otherwise remove it. This applies to desktop, mobile, diagrams, motion states, fallbacks and future routes. The only approved exception is the `Pick your starting point` label inside the frozen gateway. A full-bleed background numeral marking a numbered section is a second approved exception, permitted only where the numbered sections form a real sequence of steps; it must never shrink into a small label, kicker or counter.
 - Display headings must not create orphan words or narrow, accidental stacks. Deliberate editorial headings may use up to four balanced lines when the words remain easy to scan. The two-door gateway uses no more than four lines on desktop and three on a phone.
 - The header, opening act and every later homepage section use one shared content edge. A new section may change colour or composition, but it may not invent a new left alignment.
@@ -203,17 +204,17 @@ Mobile is a recomposed experience, not a smaller desktop page.
 
 ## Current open gates
 
-The site launched at `https://mindmake.co` on 26 August 2026. `REBUILD_STATE.md` holds the launch identifiers. What remains open:
+The site launched at `https://mindmake.co` on 26 August 2026 and the private email hand-off went live on 27 August 2026 (Gate E approved by Krish and closed with a full synthetic-lead proof). `CURRENT_STATE.md` holds the live identifiers. What remains open:
 
-1. **Gate E**: enabling the public email hand-off in production is a separate approval. The pipeline is fully proven against the production backend, but `VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED` stays off until Krish approves the switch.
-2. **24-hour stability closure**: confirm a stable first day, then mark the launch closed. Tracked in the dated GitHub issue.
-3. **Physical device checks**: the owner accepted emulation evidence for launch; the four-part physical checklist (iOS Safari, Android Chrome, VoiceOver, TalkBack) remains a post-launch task.
-4. **CTRL old host**: repoint `ctrl.themindmaker.ai` to `https://ctrl.mindmake.co` after one confirmed authenticated CTRL login on the new host.
+1. **24-hour stability closure**: confirm a stable first day, then mark the launch closed. Tracked in the dated GitHub issue.
+2. **Physical device checks**: the owner accepted emulation evidence for launch; the four-part physical checklist (iOS Safari, Android Chrome, VoiceOver, TalkBack) remains a post-launch task.
+3. **CTRL old host**: repoint `ctrl.themindmaker.ai` to `https://ctrl.mindmake.co` after one confirmed authenticated CTRL login on the new host.
+4. **Flow videos**: Krish will supply films of Brain and GTM flows in action; they slot into the existing step-film sources as asset swaps.
 5. Complete current-source evidence research before publishing any new AI GTM market claim.
 
 The private cash floor and exact multi-month pricing model remain important commercial work, but they do not block the website because no public price or automatic checkout exists.
 
-The visitor and operator delivery contract is specified in `MINDMAKE_LEAD_DELIVERY_SPEC.md`. The version-two implementation is deployed and live-proven (verification, both deliveries, abuse controls, retention) with the public flag off.
+The visitor and operator delivery contract is specified in `MINDMAKE_LEAD_DELIVERY_SPEC.md`. The version-two implementation is live in production: verification, both deliveries, the tailored-choice signature contract, abuse controls and retention are all proven against the live backend.
 
 ## Authority
 
@@ -225,4 +226,4 @@ The observed week-long collaboration method is captured at `_corpus/mindmake-col
 
 ---
 
-**Current next action:** complete the 24-hour stability closure, return the four-part physical device checklist, confirm one authenticated CTRL login at `ctrl.mindmake.co` so the old CTRL host can be repointed, and decide separately whether to enable the production email hand-off (Gate E). The site, backend, sender identity and retention schedule are live and verified.
+**Current next action:** complete the 24-hour stability closure, return the four-part physical device checklist, confirm one authenticated CTRL login at `ctrl.mindmake.co` so the old CTRL host can be repointed, and supply the Brain and GTM flow films for their step-film slots. The site, lead capture, backend, sender identity and retention schedule are live and verified.

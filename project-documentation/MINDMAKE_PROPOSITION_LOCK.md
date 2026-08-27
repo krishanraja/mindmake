@@ -124,17 +124,17 @@ Revisit trigger for the whole pricing lock: ten Start here briefs or three sent 
 
 ---
 
-## 8. Amendments this lock requires elsewhere
+## 8. Amendments this lock requires elsewhere (all applied)
 
-Each is a separate, explicit edit for Krish to approve; none happens by virtue of this document existing.
+Every amendment was approved and applied on 27 August 2026:
 
-1. **`MINDMAKE_CANON.md`, levers.** Replace message and team with positioning and people wherever the four GTM levers are named. The live `/ai-gtm` quadrants (Product, Price, Message, Team) diverge from the locked promise and are corrected in the page rebuild.
-2. **`MINDMAKE_CANON.md`, eyebrow rule.** Append: a full-bleed background numeral marking a numbered section is a second approved exception, permitted only where the numbered sections form a real sequence of steps; it must never shrink into a small label, kicker or counter.
-3. **`MINDMAKE_CANON.md`, promises.** Record the two locked promise lines verbatim as the doors' value propositions.
-4. **`DECISIONS_LOG.md` entry, paste-ready.** 27 August 2026: locked the two-door value propositions (verbatim above), the promise-spine and model-spine page ladders, the two-altitude private rate card ($15k/$36k principal, $25k/$60k company), the $12k floor with written-trade flex, and the full-bleed step numeral. Basis: ranked decision pass against market anchors and canon constraints. Revisit: ten briefs or three proposals.
+1. **`MINDMAKE_CANON.md`, levers.** Applied. The four GTM levers are product, price, positioning and people everywhere they are named; the byte-frozen gateway keeps its approved wording. The rebuilt `/ai-gtm` uses the locked levers.
+2. **`MINDMAKE_CANON.md`, eyebrow rule.** Applied. The full-bleed background numeral is recorded as the second approved exception.
+3. **`MINDMAKE_CANON.md`, promises.** Applied. The two locked promise lines are recorded verbatim as the doors' value propositions and render verbatim on the pages.
+4. **`DECISIONS_LOG.md` entry.** Recorded on 27 August 2026 under Business Decisions.
 
 ---
 
-## 9. What happens next
+## 9. Shipped state
 
-The lock is complete. The next surface is the cold mock: both pages rendered as one artifact, numerals and ladders in place, presented for first reaction without rationale. Page implementation, canon edits and deployment each remain separate approvals.
+The lock is implemented and live. `/ai-brain` and `/ai-gtm` shipped as stepped, numbered journeys carrying the locked promises, ladders and numerals (pull request #146), followed by the intelligence lead journey and branded proposal (Gate E closed, 27 August 2026). The claim control in section 2 is applied: public copy names no count of leaders helped until the section 6 evidence trail is compiled and approved. The private rate card remains private and unchanged. Current delivery identifiers live in `CURRENT_STATE.md`.

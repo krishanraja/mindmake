@@ -1,8 +1,8 @@
 # Mindmake private brief delivery
 
-Last updated: 26 August 2026.
+Last updated: 27 August 2026.
 
-Status: launched 26 August 2026. The migration and retention purge are applied to the production database, the Edge Function is deployed, the sender `Mindmake <briefs@mindmake.co>` is verified with SPF, DKIM and DMARC passing, and the full verification and delivery matrix passed against the live backend with synthetic inboxes. The public feature flag remains off; enabling it in production is Gate E, a separate explicit approval.
+Status: **live**. The backend launched 26 August 2026 and Krish approved Gate E on 27 August 2026, so the public flag is on and the full journey runs in production: the migration and retention purge are applied, `submit-mindmake-brief` v11 and `enrich-company` v35 are deployed, the sender `Mindmake <briefs@mindmake.co>` is verified with SPF, DKIM and DMARC passing, and the complete verification, delivery and tailored-choice matrix passed against the live backend with synthetic inboxes.
 
 ## Product boundary
 
@@ -20,21 +20,21 @@ The release rules are:
 ## Visitor journey
 
 1. The visitor gives a company website.
-2. Mindmake shows a public-company read and labels a safe fallback honestly when live research does not answer.
-3. The visitor chooses one pressure.
+2. Mindmake shows a declarative public-company read and labels a safe fallback honestly when live research does not answer. The read never asks the visitor anything or invites a correction; any sentence that does is dropped server-side and client-side before display.
+3. The visitor chooses one pressure. When the read was strong enough, the choices are two or three statements tailored to that company, generated and HMAC-signed by the server, each anchored to one locked lens; `Something else` reveals the locked list, which is also the guaranteed path whenever generation fails or runs out of time.
 4. The visitor chooses where better use of their time would matter.
-5. Mindmake shows a private starting recommendation.
+5. Mindmake shows a private starting recommendation, framed as an illustrative example of how the Mindmake brain reads a business from the outside, with the explicit line that none of it is advice.
 6. Only then does the visitor choose whether to keep it by email.
 7. The visitor enters a work email and may separately tick an unticked publication-interest box.
 8. Mindmake sends a six-digit code. The code works for ten minutes and locks after five failed tries.
-9. Only after the code is confirmed does Mindmake try the two final deliveries independently.
+9. Only after the code is confirmed does Mindmake try the two final deliveries independently, and the branded proposal renders on screen.
 10. The visitor can download the private HTML brief whether or not either email succeeds.
 
 Changing the email or asking for a new code creates a fresh request. A network retry of the same request keeps the same request ID so it cannot create duplicate delivery work.
 
 ## Browser contract
 
-The browser sends identifiers and choices only. It never sends the recommendation, company narrative, research evidence, email HTML or operator copy.
+The browser sends identifiers and choices only. It never sends the recommendation, company narrative, research evidence, email HTML or operator copy. The one piece of prose it may carry is a tailored-choice label the server itself authored and signed; the server verifies that signature against the domain and lens before trusting the label.
 
 Request action:
 
@@ -49,6 +49,7 @@ interface MindmakeBriefRequestActionV2 {
     pressureId: MindmakePressureId;
     returnedTimeId: MindmakeReturnedTimeId;
     entryRoute: "home" | "brain" | "gtm";
+    tailored?: { id: string; label: string };
   };
   consent: {
     publicationRequested: boolean;
@@ -67,10 +68,13 @@ interface MindmakeBriefConfirmActionV2 {
   requestId: string;
   contact: { email: string };
   code: string;
+  tailored?: { id: string; label: string };
 }
 ```
 
 The `website` field is a bot trap and must remain empty.
+
+Tailored-choice rules: `id` is an HMAC-SHA256 signature over the domain, lens and label using the server's verification secret, created by `enrich-company` and carried back unchanged. On the request action an invalid pair is rejected with 400 `tailored_choice_invalid`. On the confirm action the pair is verified against the stored row's domain and lens; a mismatch falls back gracefully to the lens label rather than failing the confirmed lead. Nothing tailored is persisted; the lens keeps owning the recommendation content and the tailored label only changes what the pressure is called in the proposal, the emails and the digest.
 
 The browser accepts only these response states:
 
@@ -116,28 +120,29 @@ The private schema is not readable by public or signed-in browser roles. The pub
 
 ## What the visitor receives
 
-The visitor email contains:
+The visitor email is set in the proposal design language (paper ground, emerald cover rule, Mindmake × company cover, serif pressure headline, labelled cards) and contains:
 
-- the chosen pressure;
+- the chosen pressure (the tailored label when one was verified);
 - the public company read and its source label;
 - the evidence used;
 - what AI may carry;
 - what should stay with the leader;
 - one useful 30-day proof;
 - where the returned time could create more value;
-- the same brief as a self-contained HTML attachment.
+- the branded proposal document as a self-contained HTML attachment (system fonts, no scripts, no external requests, printable);
+- the honesty foot: the read is an illustrative example and is not advice.
 
-It contains no diary link and no automatic sales promise. It does not claim that Krish received his separate email. After the server returns `operatorDelivery: "queued"`, the UI may say only that Krish's copy was queued.
+It contains no diary link and no automatic sales promise. It does not claim that Krish received his separate email. After the server returns `operatorDelivery: "queued"`, the UI may say only that Krish's copy was queued. The line "No sales emails will follow automatically" stays, and Reply-To is the operator mailbox so "reply to this email" is honest.
 
 ## What Krish receives
 
-Krish's server-made fit summary contains:
+Krish's server-made fit digest shares the proposal design language and is ordered for a fast scan:
 
-- the verified email and company;
-- the route the visitor used;
-- the chosen pressure and use of returned time;
-- the public company read and evidence;
-- the server-owned AI, human and 30-day proof recommendation;
+- the tailored or lens pressure as the headline;
+- the leader: verified email (Reply-To reaches them directly), company and domain;
+- the public company read, its source and evidence;
+- what they chose: the pressure (naming the lens behind a tailored choice) and the returned time;
+- the brief they received: the server-owned AI, human and 30-day proof recommendation;
 - a route-specific note about where a useful first proof may sit;
 - the exact publication-interest state and wording version;
 - a reply rule: reply only with a useful thought, a strong fit or a clear question worth testing.
@@ -169,20 +174,8 @@ The operator email must never tell Krish to chase the visitor or import the addr
 
 The code works for ten minutes and five failed tries lock it. Expiry stops the code but does not delete the request record. The approved retention schedule runs as a private daily purge (Gate B1, 26 August 2026): unverified requests delete 7 days after creation, rate-limit event hashes after 48 hours, and verified request, consent and delivery records 12 months after their last update. Earlier deletion happens through the published contact address and a manually verified private process. The public privacy notice states the same schedule.
 
-## Release gate
+## Release gate (closed 27 August 2026)
 
-`VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED` stays `false` until all of these pass in a preview environment:
+Every item of the release contract passed before the flag went on, and Krish gave the explicit Gate E approval on 27 August 2026: migration and security advisers, private-schema isolation from anonymous and signed-in roles, service-role wrapper boundaries, exact origins and secret configuration, the full request, resend, change-email and code matrix, both independent deliveries with synthetic inboxes, idempotent retries, inspected email output, publication-interest boundaries and the retention schedule with its manual deletion process.
 
-1. run the migration against preview PostgreSQL;
-2. run database lint and security advisers;
-3. prove anonymous and signed-in clients cannot read the private schema or call the private RPC;
-4. prove the Edge Function service role can use only the intended public wrapper;
-5. set and validate exact allowed origins, the fixed public URL, Resend sender, operator email, verification secret and rate-limit salt;
-6. deploy the Edge Function to preview;
-7. test request, resend, change-email, valid, invalid, expired and locked code paths;
-8. test both independent email successes and failures with synthetic inboxes;
-9. prove retries do not create duplicate leads or messages;
-10. inspect mobile and desktop email output and the downloaded HTML;
-11. prove publication interest remains interest only;
-12. agree the retention schedule and implement any promised deletion process;
-13. receive explicit approval before enabling the flag or promoting production.
+Any future change to the pipeline re-runs the relevant part of that contract before deploying, and a synthetic end-to-end lead from `https://mindmake.co` (code read from the provider's synthetic inbox, all three sends `delivered`) is the minimum proof after every function deploy. A provider `queued` response is never claimed as inbox delivery.

@@ -1,49 +1,26 @@
-<!-- Last Updated: 2026-08-11 -->
-# Proof Bank
+# Proof bank
 
-Anonymized, keyed proof for the Mindy proposal generator. **Every entry is a real engagement that happened**, reduced to sector and role only. The numbers are kept; the names are gone.
+Last updated: 27 August 2026.
 
-**Only verified engagements belong in this file.** In August 2026 the 26 illustrative `B-` entries were deleted. They were 74% of the bank, they were labelled as illustrative only inside this one file, and Mindy draws on the bank to generate co-branded proposals a prospect reads and may forward. That meant a prospect could receive a document citing an engagement that never happened. If you cannot point at the invoice, it does not go in, and a shorter bank is the correct outcome rather than a problem to solve by topping it back up.
+Internal, anonymised records of real Mindmake engagements. **Every entry is a real engagement that happened**, reduced to sector and role only. The numbers are kept; the names are gone. Only verified engagements belong in this file: if you cannot point at the invoice, it does not go in, and a shorter bank is the correct outcome rather than a problem to solve by topping it back up. (In August 2026 the 26 illustrative entries that once padded this bank were deleted for exactly that reason.)
 
-## How the generator selects
+This file is internal proof context for briefs, proposals and case-study work. It is not public copy. The public renderings of this material are the eight client outcome stories in `BRANDS_AND_TESTIMONIALS.md` and `src/data/rebuildProof.ts`; those files control wording, attribution and consent. Public use of anything here that is not already in those files needs a fresh evidence check and Krish's approval.
 
-The proposal generator pulls **up to three** entries and never writes its own. With a verified-only bank it may legitimately return fewer, and the proposal template renders one to three tiles. Two real entries is a correct result. It keys on, in priority order:
+## Public-use rules
 
-1. **`mode`**, the engagement shape, mapped to the live rung the visitor is being routed toward.
-2. **`icp`**, who the buyer is. One of: `leader` (an individual executive), `enterprise` (a company team or function), `capital` (a fund, family office, or operating partner), `sme` (a small or founder-led company buying bespoke enablement), `founder` (a solo operator or very small team).
-3. **`industry`**, the nearest sector. Exa finds structurally similar companies; the generator matches on this tag last, as a tie-breaker, not a gate.
+- Pull quotes are verbatim and map to the approved quotes in `BRANDS_AND_TESTIMONIALS.md`; do not restate them loosely.
+- Attributions stay at role and sector. No entry is ever presented as a named client.
+- R-01's outcome carries a retired private money disclosure and is **not approved for public use**.
+- R-02's percentage outcomes (including the 22 percent revenue figure) are **retired from public use**; the story may be told publicly only in the approved wording of the case-study archive.
+- No prices from these records appear in public copy. The private rate card lives in `MINDMAKE_PROPOSITION_LOCK.md`.
 
-Selection rule of thumb: match `mode` first (hard), `icp` second (strong), `industry` third (soft, nearest-neighbour). If fewer than three entries share a `mode`, widen to the adjacent modes in the same family, in the order the family lists them. If that still comes up short, the last resort is the whole bank, so an unrecognised mode degrades to the best general proof rather than to an empty proof section.
+## Field schema
 
-### Field schema
-
-Each entry carries: `id`, `mode`, `icp`, `industry`, `situation`, `the-call`, `the-work`, `outcome` (numbers kept), a one-line `pull-quote`, and an `attribution` of role and sector only.
-
-### `mode` values
-
-`mode` describes the **shape of the work**, never the SKU. Offer names change; the shape of the work does not. That separation is deliberate: when the ladder was repriced in August 2026, the entries did not have to be re-tagged, only the two rung rows below.
-
-| mode | engagement shape |
-|---|---|
-| `decide` | one commercial question taken apart and settled |
-| `reposition` | sharpen the commercial story, ICP, pricing, buyer |
-| `rebuild` | replace cost and rebuild the operating model |
-| `os` | stand up an autonomous multi-agent operating system |
-
-The two live rungs map onto those shapes rather than carrying entries of their own:
-
-| rung | reaches for, in order |
-|---|---|
-| `teardown` | `decide`, then `reposition` |
-| `handover` | `reposition`, then `rebuild`, then `os` |
-
-### Anonymization note
-
-These are reduced to sector and role. Every entry (R-01 to R-09) carries verified numbers from work on record. Mindy may quote the numbers; Mindy never re-attaches a name. No entry is ever presented as a named client.
+Each entry carries: `id`, `mode` (the shape of the work, never a SKU: `decide` settles one commercial question, `reposition` sharpens the commercial story, `rebuild` replaces cost and rebuilds the operating model, `os` stands up an autonomous multi-agent operating system), `icp` (who the buyer is: `leader`, `enterprise`, `capital`, `sme`, `founder`), `industry` (nearest sector), `situation`, `the-call`, `the-work`, `outcome` (numbers kept), a one-line `pull-quote`, and an `attribution` of role and sector only.
 
 ---
 
-## Real engagements (anonymized, verified numbers)
+## Real engagements (anonymised, verified numbers)
 
 ### R-01
 
@@ -67,7 +44,7 @@ These are reduced to sector and role. Every entry (R-01 to R-09) carries verifie
 - **situation:** A top-10 US digital publisher. An SVP-level operator with a board mandate to deliver an AI roadmap by end of quarter. 14 AI vendors on the calendar, every internal team running a different tool, and no defensible position to take to the board.
 - **the-call:** Stop the vendor cycle. Build the roadmap inside-out from the actual editorial and ad-operations P&L, not from the vendor decks. Kill, build, or pause every option on the table with a written rationale.
 - **the-work:** A three-decision board memo. One vendor killed, one workflow built internally, one vendor paused with a re-evaluation date. An AI editorial-ops pipeline shipped by their own team in 45 days, zero new headcount. Two of the paused vendors agreed to build bespoke automations so the planned headcount reduction landed with minimal disruption to customers.
-- **outcome:** 40% production-time reduction on syndicated content. 75% reduction in campaign setup time downstream. 22% revenue lift across the affected ad inventory. Built by the in-house team, not a vendor.
+- **outcome:** 40% production-time reduction on syndicated content. 75% reduction in campaign setup time downstream. 22% revenue lift across the affected ad inventory. Built by the in-house team, not a vendor. These percentages are retired from public use; see the public-use rules above.
 - **pull-quote:** "We started with immersive AI sessions, which led to a broader project where our team took ownership and accountability. He led it and landed it."
 - **attribution:** Head of Operations, digital publisher
 

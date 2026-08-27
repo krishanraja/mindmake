@@ -1,6 +1,6 @@
 # Mindmake messaging and FAQ
 
-Last updated: 26 August 2026.
+Last updated: 27 August 2026.
 
 ## One line
 
@@ -16,7 +16,7 @@ There are two public ways to begin: `Build Your AI Brain` and `Build Your AI GTM
 
 `Start here`
 
-The visitor gives a company website. Mindmake gives a useful read and recommendation before asking for contact details. After one easy question, the visitor may request the full private brief by email. There is no public diary or direct Calendly path.
+The visitor gives a company website. Mindmake gives a useful read, tailored pressure choices and a recommendation before asking for contact details. After one easy question, the visitor may request the full private brief by email and receives the branded proposal once a six-digit code confirms the address. There is no public diary or direct Calendly path.
 
 ## Common questions
 
@@ -50,7 +50,7 @@ No. Publication interest is a separate, unticked choice. It records interest onl
 
 ### Is the private brief email live?
 
-Not yet. The version-two hand-off exists in source only and remains fail-closed. Until its preview release gates pass, the safe path asks for no email, sends nothing and keeps the complete local download.
+Yes. Gate E closed on 27 August 2026. A verified work email receives the branded proposal with the brief attached, and every failure path keeps the complete local download. No sales emails follow automatically.
 
 ## Words to avoid
 

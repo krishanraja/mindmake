@@ -1,17 +1,17 @@
 # Mindmake sales playbook
 
-Last updated: 26 August 2026.
+Last updated: 27 August 2026.
 
 ## One route to a sale
 
 The website explains Mindmake, shows `Build Your AI Brain` and `Build Your AI GTM`, and offers one next step: `Start here`.
 
-The visitor gives a company website. Mindmake gives them a useful company read and recommendation before asking for contact details. After one easy question, the visitor may request a full private brief by email. Krish receives a richer private fit summary and decides the useful next step. There is no public diary or direct Calendly path.
+The visitor gives a company website. Mindmake gives them a useful company read, tailored pressure choices and a recommendation before asking for contact details. After one easy question, the visitor may request the full private brief by email, confirmed with a six-digit code. They receive the branded proposal; Krish receives a richer private fit digest and decides the useful next step. There is no public diary or direct Calendly path.
 
-Use the private fit summary to check:
+Use the private fit digest to check:
 
 1. Is there one important personal or business result to improve?
-2. Would the work strengthen the leader's judgement, raise the value of their time or improve a material product, price, position, sales or team choice?
+2. Would the work strengthen the leader's judgement, raise the value of their time or improve a material product, price, positioning or people choice?
 3. Can the right people provide trusted context, decisions and introductions during a focused 30-day proof?
 4. Can the first proof be bounded, useful, repeatable and valuable enough to earn longer work?
 
@@ -24,7 +24,7 @@ Do not ask the buyer to diagnose the problem before Mindmake has added value. An
 - Important standards, choices or context are trapped in one person's head.
 - They want AI to fill a weak spot, show a blind spot or carry their vision across several businesses.
 - AI has changed what customers can do, what they will pay for or how the company should sell.
-- A fast-growing AI business needs sharper product, price, position, sales or organisation choices.
+- A fast-growing AI business needs sharper product, price, positioning or people choices.
 
 ## How to explain the first proof
 
@@ -54,4 +54,4 @@ Every follow-up must add value. Reflect the buyer's own words, state the result 
 
 Publication interest is a separate, unticked choice. It records interest only. It does not subscribe or import anyone. Do not mix publication consent with the private brief.
 
-The version-two hand-off remains source-only and fail-closed. Until the preview gates pass, the safe path asks for no email, sends nothing and keeps the complete local download.
+The hand-off is live and fail-closed on every error; the visitor always keeps the complete local download. Replying to the fit digest reaches the visitor directly.

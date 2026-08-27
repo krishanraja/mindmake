@@ -2,12 +2,12 @@
 
 > Put your best judgement to work with AI.
 
-Mindmake helps leaders turn their judgement into useful AI systems and make better product, price, message and team decisions.
+Mindmake helps leaders turn their judgement into useful AI systems and make better product, price, positioning and people decisions.
 
 ## Ways to get started on your AI journey
 
-- [Build Your AI Brain](/ai-brain): turn the way a leader judges, remembers and chooses into a working system.
-- [Build Your AI GTM](/ai-gtm): decide what should change across product, price, message and team, then test it with real buyers.
+- [Build Your AI Brain](/ai-brain): encode a leader's taste and judgement into a working system that amplifies their strengths and uncovers their blind spots.
+- [Build Your AI GTM](/ai-gtm): create an AI-native GTM model across product, price, positioning or people, then test it with real buyers.
 - The two routes can connect. They are not separate payment plans.
 
 ## How paid work begins

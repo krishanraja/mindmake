@@ -18,20 +18,20 @@ const staticPages = [
   {
     path: "/",
     title: "Put your best judgement to work with AI",
-    description: "Mindmake helps leaders turn their judgement into useful AI systems and make better product, price, message and team decisions.",
+    description: "Mindmake helps leaders turn their judgement into useful AI systems and make better product, price, positioning and people decisions.",
     body: `<h1>Put your best judgement to work with AI.</h1><p>Mindmake helps leaders use AI to do more. It keeps what they know close, brings the right facts into view and turns hard choices into tools their team can use.</p><h2>Ways to get started on your AI journey</h2><p><a href="/ai-brain">Build Your AI Brain</a> or <a href="/ai-gtm">Build Your AI GTM</a>. Begin with the one that feels most useful now.</p><p><a href="/?start=1">Start here</a>.</p>`,
   },
   {
     path: "/ai-brain",
     title: "Build Your AI Brain",
-    description: "Build an AI system that remembers what matters, prepares useful work and helps other people meet your standard.",
-    body: `<h1>Build an AI that knows how you work.</h1><p>Not a pile of prompts. A working system that remembers what matters, prepares the work and brings the hard calls back to you.</p><h2>A 30-day proof</h2><p>Prove one part of your AI brain on live work, then leave it in your hands.</p><p><a href="/?start=1">Start here</a>.</p>`,
+    description: "An AI brain is a working system that holds your taste, judgement, standards, memory and trusted context, and uses them on your real work. Built with you in 30 days.",
+    body: `<h1>Encode your taste and judgement, amplify your strengths, uncover your blind spots.</h1><p>An AI brain is a working system that holds your taste, judgement, standards, memory and trusted context, and uses them on your real work.</p><h2>Five steps</h2><ul><li>Capture. We pull out the taste, judgement and standards that make you good.</li><li>Encode. That thinking becomes a working system in CTRL: memory, sources, rules and checks.</li><li>Amplify. The system prepares work your way and brings what matters before you ask.</li><li>Uncover. It shows you the calls you avoid and the blind spots nobody tells you about.</li><li>Keep. The system, the evidence and the reasons stay with you. It compounds without Krish.</li></ul><h2>A 30-day proof</h2><p>Work starts with the 30-day proof. The best work continues for three months or longer, and it has to earn that.</p><p><a href="/?start=1">Start here</a>.</p>`,
   },
   {
     path: "/ai-gtm",
     title: "Build Your AI GTM",
-    description: "Use AI to make better product, price, message and team decisions, then test the answer with real buyers.",
-    body: `<h1>Build the offer your market needs now.</h1><p>AI changes what customers can do, what they will pay for and how quickly a new company can move.</p><h2>A 30-day proof</h2><p>Make one product, price or offer change real and test it with real buyers.</p><p><a href="/?start=1">Start here</a>.</p>`,
+    description: "Create an AI-native GTM model across product, price, positioning or people, then prove it with real buyers inside 30 days.",
+    body: `<h1>Create an AI-native GTM model across product, price, positioning or people.</h1><p>GTM is short for go to market: what you sell, what it costs, how you stand out and who does the selling.</p><h2>Five steps</h2><ul><li>Read. We find what changed and what customers will still pay for.</li><li>Choose the lever. Product, price, positioning or people. One lever carries the month.</li><li>Build the model. A working model you can question, with sources attached.</li><li>Prove with buyers. The model meets real buyers before the month ends.</li><li>Run it. The model, the data and the reasons stay with your team.</li></ul><h2>A 30-day proof</h2><p>Test one big business decision in 30 days, then leave the model with your team.</p><p><a href="/?start=1">Start here</a>.</p>`,
   },
   {
     path: "/case-studies",

@@ -190,6 +190,21 @@ const usesCoarseInteraction = () => {
   return coarsePointer || navigator.maxTouchPoints > 0;
 };
 
+/* The read is a written brief, not a conversation: any sentence that asks the
+   visitor something, or invites a correction, is dropped before display. The
+   server applies the same rule before the read is stored or emailed. */
+const declarativeOnly = (text: string): string => {
+  const sentences = text.match(/[^.!?]+[.!?]+["')\]]*\s*|[^.!?]+$/g) ?? [];
+  return sentences
+    .map((sentence) => sentence.trim())
+    .filter((sentence) =>
+      sentence.length > 0
+      && !sentence.includes("?")
+      && !/\b(tell me|let me know|correct me|if I(?:'| a)m (?:wrong|off))\b/i.test(sentence))
+    .join(" ")
+    .trim();
+};
+
 const readableText = (value: unknown): string => {
   const text = typeof value === "string"
     ? value.trim()
@@ -204,14 +219,14 @@ const readableText = (value: unknown): string => {
   const words = text.split(/\s+/).filter(Boolean);
   const commaEndedWords = words.filter((word) => word.endsWith(",")).length;
   if (words.length >= 12 && commaEndedWords / words.length >= 0.5) {
-    return text
+    return declarativeOnly(text
       .replace(/(\d),\s+(?=\d{3}\b)/g, "$1,")
       .replace(/,\s+/g, " ")
       .replace(/\s{2,}/g, " ")
-      .trim();
+      .trim());
   }
 
-  return text;
+  return declarativeOnly(text);
 };
 
 export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {

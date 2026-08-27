@@ -1,8 +1,8 @@
 /**
- * @file Currency enrichment client for the Mindy dossier pipeline.
+ * @file Currency enrichment client for the company dossier pipeline.
  * @description Gathers up to 3 recent, dated, sourced "what they shipped lately"
- *   items for a company's currency layer. This is what lets Mindy reference a
- *   visitor's actual recent launches instead of generic flattery.
+ *   items for a company's currency layer. This is what lets the company read
+ *   reference a visitor's actual recent launches instead of generic flattery.
  *
  *   Strategy (all best-effort, never throws):
  *     - Perplexity (primary):   one tight summary item with a citation URL.
@@ -36,6 +36,27 @@ function tidy(text: string): string {
   const collapsed = text.replace(/\s+/g, ' ').trim();
   if (collapsed.length <= MAX_TEXT_LEN) return collapsed;
   return collapsed.slice(0, MAX_TEXT_LEN - 1).trimEnd() + '…';
+}
+
+/** Strip the markdown emphasis and numbered citation markers chat models emit. */
+function stripModelMarkup(text: string): string {
+  return text
+    .replace(/\*\*([^*]*)\*\*/g, '$1')
+    .replace(/\*([^*]*)\*/g, '$1')
+    .replace(/\[\d+\]/g, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
+
+/**
+ * A usable currency signal states a fact about the company. When the model
+ * finds nothing it narrates its search instead ("I couldn't verify any
+ * launch in the provided results"); that meta-talk must never reach a
+ * visitor or the operator digest, so the item is dropped entirely.
+ */
+function isUsableSignal(text: string): boolean {
+  if (!text || text.includes('?')) return false;
+  return !/\b(I could(?: not|n't)|I can(?:not|'t| not)|I was unable|unable to (?:find|verify|confirm)|could(?: not|n't) (?:find|verify|confirm)|no (?:specific |verifiable |public )?(?:information|results|evidence|announcements?)|provided (?:search )?results|search results|as an AI)\b/i.test(text);
 }
 
 /**
@@ -79,9 +100,15 @@ async function fetchPerplexity(company: string, domain: string): Promise<Currenc
     const content: string | undefined = data?.choices?.[0]?.message?.content;
     if (!content || !content.trim()) return null;
 
+    const cleaned = stripModelMarkup(content);
+    if (!isUsableSignal(cleaned)) {
+      logger.info('perplexity returned meta-talk, dropping item', { company });
+      return null;
+    }
+
     const citations: string[] | undefined = data?.citations;
     return {
-      text: tidy(content),
+      text: tidy(cleaned),
       sourceUrl: Array.isArray(citations) ? citations[0] : undefined,
       source: 'perplexity',
     };

@@ -576,28 +576,46 @@ const singleLine = (value: string): string =>
   value.replace(/[\r\n\t]+/g, " ").replace(/\s{2,}/g, " ").trim();
 
 const evidenceHtml = (items: string[]): string => items.length
-  ? `<ul style="margin:8px 0 0;padding-left:20px;">${items.map((item) => `<li style="margin:4px 0;">${esc(item)}</li>`).join("")}</ul>`
-  : '<p style="margin:8px 0 0;color:#626964;">No extra company evidence was available.</p>';
+  ? `<ul style="margin:10px 0 0;padding-left:20px;color:#5d6562;font-size:13.5px;">${items.map((item) => `<li style="margin:4px 0;">${esc(item)}</li>`).join("")}</ul>`
+  : '<p style="margin:10px 0 0;color:#5d6562;font-size:13.5px;">No extra company evidence was available.</p>';
 
 const evidenceText = (items: string[]): string => items.length
   ? items.map((item) => `- ${item}`).join("\n")
   : "- No extra company evidence was available.";
 
-const htmlDocument = (title: string, body: string): string => `<!doctype html>
+/* Email bodies share the proposal document's design language: paper ground,
+   emerald cover rule, serif statements, labelled cards, rust for the time
+   sections. Everything stays single-column and inline-styled with no flex,
+   images or external requests, because email clients honour little else. */
+
+const emailLabel = (text: string, colour = "#0b756c"): string =>
+  `<p style="margin:0 0 8px;color:${colour};font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;">${esc(text)}</p>`;
+
+const emailCard = (inner: string): string =>
+  `<div style="margin-top:18px;border:1px solid rgba(13,25,41,.24);background:#fffdf8;padding:22px;box-shadow:6px 6px 0 rgba(13,25,41,.1);">${inner}</div>`;
+
+const emailBlock = (label: string, innerHtml: string): string =>
+  emailCard(`${emailLabel(label)}${innerHtml}`);
+
+const emailAside = (label: string, innerHtml: string, colour = "#b96743"): string =>
+  `<div style="margin-top:24px;border-left:4px solid ${colour};padding-left:16px;">${emailLabel(label, colour)}${innerHtml}</div>`;
+
+const wordmarkCover =
+  '<p style="margin:0;font-size:14px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;">Mindmake</p>';
+
+const companyCover = (company: string, metaLine: string): string =>
+  `<p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:20px;letter-spacing:-.02em;"><b style="font-family:'Segoe UI',Arial,sans-serif;font-size:14px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;">Mindmake</b> &#215; ${esc(company)}</p>
+  <p style="margin:6px 0 0;color:#5d6562;font-size:13px;">${esc(metaLine)}</p>`;
+
+const htmlDocument = (title: string, body: string, cover: string = wordmarkCover): string => `<!doctype html>
 <html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title></head>
-<body style="margin:0;background:#f4f0e8;color:#0d1929;font-family:Arial,'Segoe UI',sans-serif;line-height:1.55;">
-<main style="max-width:720px;margin:0 auto;padding:32px 18px 56px;">
-  <div style="border-top:8px solid #6ee1c0;padding-top:20px;font-weight:800;letter-spacing:.12em;">MINDMAKE</div>
-  ${body}
-  <p style="margin:48px 0 0;padding-top:16px;border-top:1px solid #c9c5bc;color:#626964;font-size:12px;">mindmake.co</p>
-</main></body></html>`;
-
-const block = (heading: string, content: string, strong = false): string =>
-  `<section style="margin-top:18px;border:1px solid #c9c5bc;background:#fffdf8;padding:20px;">
-    <h2 style="margin:0 0 8px;font-family:Georgia,serif;font-size:22px;">${esc(heading)}</h2>
-    <${strong ? "strong" : "p"} style="display:block;margin:0;font-size:${strong ? "18px" : "15px"};">${esc(content)}</${strong ? "strong" : "p"}>
-  </section>`;
+<body style="margin:0;padding:0;background:#f4f0e8;">
+<div style="max-width:680px;margin:0 auto;padding:36px 20px 56px;color:#0d1929;font-family:'Segoe UI',Arial,sans-serif;font-size:16px;line-height:1.55;">
+<div style="border-top:10px solid #6ee1c0;padding-top:22px;">${cover}</div>
+${body}
+<p style="margin:52px 0 0;padding-top:16px;border-top:1px solid rgba(13,25,41,.22);color:#5d6562;font-size:12.5px;">mindmake.co</p>
+</div></body></html>`;
 
 /** Render the fixed verification message. Only the server-created code changes. */
 export function renderVerificationEmail(code: string): ServerEmail {
@@ -606,10 +624,10 @@ export function renderVerificationEmail(code: string): ServerEmail {
   }
   const subject = "Your Mindmake verification code";
   const body = `
-  <h1 style="margin:44px 0 16px;font-family:Georgia,serif;font-size:38px;line-height:1.08;">Confirm your email</h1>
-  <p>Use this code to finish your private brief:</p>
-  <p style="margin:24px 0;padding:18px;border:1px solid #c9c5bc;background:#fffdf8;font-size:34px;font-weight:800;letter-spacing:.18em;text-align:center;">${code}</p>
-  <p>The code expires in 10 minutes. If you did not ask for it, ignore this email.</p>`;
+  <h1 style="margin:40px 0 0;font-family:Georgia,'Times New Roman',serif;font-size:36px;line-height:1.06;letter-spacing:-.03em;">Confirm your email.</h1>
+  <p style="margin:16px 0 0;">Use this code to finish your private brief:</p>
+  <div style="margin:24px 0 0;border:1px solid rgba(13,25,41,.24);background:#fffdf8;padding:22px;box-shadow:6px 6px 0 rgba(13,25,41,.1);font-family:Georgia,'Times New Roman',serif;font-size:34px;font-weight:700;letter-spacing:.18em;text-align:center;">${code}</div>
+  <p style="margin:24px 0 0;color:#5d6562;font-size:14px;">The code expires in 10 minutes. If you did not ask for it, ignore this email.</p>`;
   const text = [
     "MINDMAKE",
     "",
@@ -643,6 +661,10 @@ const CANNOT_KNOW_BY_PRESSURE: Partial<Record<PressureId, string>> = {
 const cannotKnowLine = (pressureId: PressureId): string =>
   `What I cannot know from the outside: ${CANNOT_KNOW_BY_PRESSURE[pressureId]
     ?? "the one private constraint that would most change this read"}.`;
+
+/** The honesty line every read carries, on screen, in the emails and in the document. */
+export const ILLUSTRATIVE_LINE =
+  "This read is an illustrative example of how the Mindmake brain reads a business from the outside. It is not advice.";
 
 /** The branded proposal document attached to the visitor email. It mirrors
  *  the on-screen proposal: self-contained, system fonts, no scripts, no
@@ -680,42 +702,43 @@ ${card(`${label("A useful 30-day proof")}<strong style="display:block;font-famil
 <div style="margin-top:26px;border:1px solid #0b756c;background:#fffdf8;padding:18px 20px;">${label("The next step")}<p style="margin:0;">If this reads worth a conversation, reply to the email this brief came with. Krish reads every reply.</p></div>
 <div style="margin-top:56px;padding-top:16px;border-top:1px solid rgba(13,25,41,.22);color:#5d6562;font-size:13px;">
   <p style="margin:0 0 6px;">This is a useful first view, not a promise or final answer. Mindmake uses the real business, the leader's judgement and real work to test what holds up.</p>
-  <p style="margin:0;">This read is an illustrative example of how the Mindmake brain reads a business from the outside. It is not advice.</p>
+  <p style="margin:0;">${esc(ILLUSTRATIVE_LINE)}</p>
 </div>
 </main></body></html>`;
 }
 
 /** The visitor receives the server-owned brief they confirmed. */
 export function renderVisitorEmail(brief: StoredBrief): ServerEmail & { attachmentHtml: string } {
-  const subject = `Your Mindmake brief for ${singleLine(brief.company.name)}`;
+  const companyName = singleLine(brief.company.name);
+  const subject = `Your Mindmake brief for ${companyName}`;
   const source = brief.company.readSource === "live"
     ? "This came from the live company read."
     : "This is the safe read based on the website.";
   const opening = "You chose one business pressure and where better use of your time could matter most. Treat this as something to test against the real business, not a finished answer.";
+  const attachmentLine = "Your full brief is attached as a document you can keep or print.";
+  const boundary = "No sales emails will follow automatically. If you hear from Krish, it will be because he has a useful next move, a strong fit or something worth questioning.";
 
   const body = `
-  <h1 style="max-width:16ch;margin:44px 0 16px;font-family:Georgia,serif;font-size:40px;line-height:1.05;">${esc(brief.choices.pressure)}</h1>
-  <p style="font-size:17px;">${esc(opening)}</p>
-  <section style="margin-top:22px;border:1px solid #c9c5bc;background:#fffdf8;padding:20px;">
-    <h2 style="margin:0 0 8px;font-family:Georgia,serif;font-size:22px;">What Mindmake found</h2>
-    <p style="margin:0;">${esc(brief.company.read)}</p>
-    <p style="margin:8px 0 0;color:#626964;font-size:13px;">${esc(source)}</p>
-    ${evidenceHtml(brief.company.evidence)}
-  </section>
-  ${block("What AI can carry", brief.recommendation.aiCarries)}
-  ${block("What stays with you", brief.recommendation.humanKeeps)}
-  ${block("What to test in 30 days", brief.recommendation.proofForThirtyDays, true)}
-  ${block("Where your time could go", brief.choices.returnedTimeValue)}
-  <p style="margin:28px 0 0;">No sales emails will follow automatically. If you hear from Krish, it will be because he has a useful next move, a strong fit or something worth questioning.</p>`;
+  <h1 style="max-width:16ch;margin:40px 0 0;font-family:Georgia,'Times New Roman',serif;font-size:38px;line-height:1.04;letter-spacing:-.03em;">${esc(brief.choices.pressure)}.</h1>
+  <p style="margin:18px 0 0;font-size:17px;">${esc(opening)}</p>
+  ${emailBlock(`What Mindmake saw at ${companyName}`, `<p style="margin:0;">${esc(brief.company.read)}</p><p style="margin:10px 0 0;color:#5d6562;font-size:13.5px;">${esc(source)}</p>${evidenceHtml(brief.company.evidence)}`)}
+  ${emailBlock("What AI can carry", `<p style="margin:0;">${esc(brief.recommendation.aiCarries)}</p>`)}
+  ${emailBlock("What stays with you", `<p style="margin:0;">${esc(brief.recommendation.humanKeeps)}</p>`)}
+  ${emailBlock("A useful 30-day proof", `<strong style="display:block;font-family:Georgia,'Times New Roman',serif;font-size:24px;line-height:1.18;letter-spacing:-.02em;">${esc(brief.recommendation.proofForThirtyDays)}</strong>`)}
+  ${emailAside("Where the returned time goes", `<p style="margin:0;">${esc(brief.choices.returnedTimeValue)}</p>`)}
+  <p style="margin:26px 0 0;">${esc(attachmentLine)}</p>
+  <p style="margin:14px 0 0;">${esc(boundary)}</p>
+  <p style="margin:26px 0 0;color:#5d6562;font-size:13px;">${esc(ILLUSTRATIVE_LINE)}</p>`;
 
   const text = [
-    "MINDMAKE",
+    `MINDMAKE × ${companyName}`,
+    `Private brief · ${brief.company.domain}`,
     "",
-    brief.choices.pressure,
+    `${brief.choices.pressure}.`,
     "",
     opening,
     "",
-    "WHAT MINDMAKE FOUND",
+    `WHAT MINDMAKE SAW AT ${companyName.toUpperCase()}`,
     brief.company.read,
     source,
     evidenceText(brief.company.evidence),
@@ -726,18 +749,23 @@ export function renderVisitorEmail(brief: StoredBrief): ServerEmail & { attachme
     "WHAT STAYS WITH YOU",
     brief.recommendation.humanKeeps,
     "",
-    "WHAT TO TEST IN 30 DAYS",
+    "A USEFUL 30-DAY PROOF",
     brief.recommendation.proofForThirtyDays,
     "",
-    "WHERE YOUR TIME COULD GO",
+    "WHERE THE RETURNED TIME GOES",
     brief.choices.returnedTimeValue,
     "",
-    "No sales emails will follow automatically. If you hear from Krish, it will be because he has a useful next move, a strong fit or something worth questioning.",
+    attachmentLine,
+    "",
+    boundary,
+    "",
+    ILLUSTRATIVE_LINE,
     "",
     "mindmake.co",
   ].join("\n");
 
-  const html = htmlDocument(subject, body);
+  const cover = companyCover(companyName, `${brief.company.domain} · Private brief`);
+  const html = htmlDocument(subject, body, cover);
   return { subject, html, text, attachmentHtml: renderProposalDocument(brief) };
 }
 
@@ -757,58 +785,61 @@ const publicationRead = (requested: boolean): string => requested
 
 /** Krish receives the private fit digest, built only from the stored brief. */
 export function renderOperatorEmail(brief: StoredBrief): ServerEmail {
-  const subject = `Mindmake brief: ${singleLine(brief.company.name)} | ${singleLine(brief.choices.pressure)}`;
+  const companyName = singleLine(brief.company.name);
+  const subject = `Mindmake brief: ${companyName} | ${singleLine(brief.choices.pressure)}`;
   const publicationChoice = publicationRead(brief.consent.publicationRequested);
   const replyHref = esc(`mailto:${brief.contact.email}`);
 
+  /* When the pressure was tailored to the company, the stored label differs
+     from the locked lens it routes through; the digest names both. */
+  const lensLabel = PRESSURE_DEFINITIONS[brief.choices.pressureId]?.label;
+  const tailoredLens = lensLabel && lensLabel !== brief.choices.pressure ? lensLabel : null;
+  const pressureLine = tailoredLens
+    ? `${brief.choices.pressure}. A tailored choice, read through the lens: ${tailoredLens}.`
+    : `${brief.choices.pressure}.`;
+
   const body = `
-  <h1 style="margin:42px 0 8px;font-family:Georgia,serif;font-size:34px;">${esc(brief.company.name)}</h1>
-  <p style="margin:0;"><a href="${replyHref}" style="color:#0b756c;">${esc(brief.contact.email)}</a> | ${esc(brief.company.domain)}</p>
-  ${block("Why this may matter now", brief.choices.pressure, true)}
-  <section style="margin-top:18px;border:1px solid #c9c5bc;background:#fffdf8;padding:20px;">
-    <h2 style="margin:0 0 8px;font-family:Georgia,serif;font-size:22px;">Company read</h2>
-    <p style="margin:0;">${esc(brief.company.read)}</p>
-    <p style="margin:8px 0 0;color:#626964;font-size:13px;">Read source: ${esc(brief.company.readSource)}</p>
-    ${evidenceHtml(brief.company.evidence)}
-  </section>
-  ${block("What AI can carry", brief.recommendation.aiCarries)}
-  ${block("What the leader keeps", brief.recommendation.humanKeeps)}
-  ${block("First proof to test", brief.recommendation.proofForThirtyDays, true)}
-  ${block("Where they would use the time", `${brief.choices.returnedTimeChoice}. ${brief.choices.returnedTimeValue}`)}
-  ${block("Route read", routeRead(brief.choices.entryRoute))}
-  <section style="margin-top:18px;border:1px solid #c9c5bc;background:#fffdf8;padding:20px;">
-    <h2 style="margin:0 0 8px;font-family:Georgia,serif;font-size:22px;">Publication interest</h2>
-    <p style="margin:0;">${esc(publicationChoice)}</p>
-    <p style="margin:8px 0 0;color:#626964;font-size:13px;">Wording: ${esc(brief.consent.wordingVersion)}</p>
-  </section>
-  <p style="margin:28px 0 0;"><strong>Reply only when useful:</strong> share a useful thought, a strong fit or a clear question worth testing. Do not chase the visitor.</p>`;
+  <h1 style="max-width:18ch;margin:40px 0 0;font-family:Georgia,'Times New Roman',serif;font-size:32px;line-height:1.08;letter-spacing:-.03em;">${esc(brief.choices.pressure)}.</h1>
+  ${emailBlock("The leader", `
+    <p style="margin:0;font-size:17px;"><a href="${replyHref}" style="color:#0b756c;font-weight:600;">${esc(brief.contact.email)}</a></p>
+    <p style="margin:6px 0 0;color:#5d6562;font-size:14px;">${esc(companyName)} &#183; ${esc(brief.company.domain)}</p>
+    <p style="margin:6px 0 0;color:#5d6562;font-size:14px;">Replying to this email goes straight to them.</p>`)}
+  ${emailBlock("Company read", `<p style="margin:0;">${esc(brief.company.read)}</p><p style="margin:10px 0 0;color:#5d6562;font-size:13.5px;">Read source: ${esc(brief.company.readSource)}</p>${evidenceHtml(brief.company.evidence)}`)}
+  ${emailBlock("What they chose", `
+    <p style="margin:0;"><b>The pressure.</b> ${esc(brief.choices.pressure)}.${tailoredLens ? ` <span style="color:#5d6562;">A tailored choice, read through the lens: ${esc(tailoredLens)}.</span>` : ""}</p>
+    <p style="margin:12px 0 0;"><b>The returned time.</b> ${esc(brief.choices.returnedTimeChoice)}. ${esc(brief.choices.returnedTimeValue)}</p>`)}
+  ${emailBlock("The brief they received", `
+    <p style="margin:0;"><b>AI carries.</b> ${esc(brief.recommendation.aiCarries)}</p>
+    <p style="margin:12px 0 0;"><b>The leader keeps.</b> ${esc(brief.recommendation.humanKeeps)}</p>
+    <p style="margin:12px 0 0;"><b>First proof.</b> ${esc(brief.recommendation.proofForThirtyDays)}</p>`)}
+  ${emailAside("Route read", `<p style="margin:0;">${esc(routeRead(brief.choices.entryRoute))}</p>`)}
+  ${emailAside("Publication interest", `<p style="margin:0;">${esc(publicationChoice)}</p><p style="margin:6px 0 0;color:#5d6562;font-size:13px;">Wording: ${esc(brief.consent.wordingVersion)}</p>`, "#5d6562")}
+  <div style="margin-top:26px;border:1px solid #0b756c;background:#fffdf8;padding:18px 20px;">${emailLabel("Reply only when useful")}<p style="margin:0;">Share a useful thought, a strong fit or a clear question worth testing. Do not chase the visitor.</p></div>`;
 
   const text = [
-    "MINDMAKE PRIVATE BRIEF",
+    `MINDMAKE × ${companyName}`,
+    `Private fit digest · ${brief.company.domain}`,
     "",
-    `Contact: ${brief.contact.email}`,
-    `Company: ${brief.company.name} (${brief.company.domain})`,
-    `Entry route: ${brief.choices.entryRoute}`,
+    `${brief.choices.pressure}.`,
     "",
-    "WHY THIS MAY MATTER NOW",
-    brief.choices.pressure,
+    "THE LEADER",
+    brief.contact.email,
+    `${brief.company.name} (${brief.company.domain})`,
+    "Replying to this email goes straight to them.",
     "",
     "COMPANY READ",
     brief.company.read,
     `Read source: ${brief.company.readSource}`,
     evidenceText(brief.company.evidence),
     "",
-    "WHAT AI CAN CARRY",
-    brief.recommendation.aiCarries,
+    "WHAT THEY CHOSE",
+    `The pressure: ${pressureLine}`,
+    `The returned time: ${brief.choices.returnedTimeChoice}. ${brief.choices.returnedTimeValue}`,
     "",
-    "WHAT THE LEADER KEEPS",
-    brief.recommendation.humanKeeps,
-    "",
-    "FIRST PROOF TO TEST",
-    brief.recommendation.proofForThirtyDays,
-    "",
-    "WHERE THEY WOULD USE THE TIME",
-    `${brief.choices.returnedTimeChoice}. ${brief.choices.returnedTimeValue}`,
+    "THE BRIEF THEY RECEIVED",
+    `AI carries: ${brief.recommendation.aiCarries}`,
+    `The leader keeps: ${brief.recommendation.humanKeeps}`,
+    `First proof: ${brief.recommendation.proofForThirtyDays}`,
     "",
     "ROUTE READ",
     routeRead(brief.choices.entryRoute),
@@ -821,7 +852,8 @@ export function renderOperatorEmail(brief: StoredBrief): ServerEmail {
     "Share a useful thought, a strong fit or a clear question worth testing. Do not chase the visitor.",
   ].join("\n");
 
-  return { subject, html: htmlDocument(subject, body), text };
+  const cover = companyCover(companyName, `${brief.company.domain} · Private fit digest`);
+  return { subject, html: htmlDocument(subject, body, cover), text };
 }
 
 const bytesToHex = (bytes: ArrayBuffer): string =>

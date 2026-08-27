@@ -34,12 +34,14 @@ export interface CompleteTextInput {
 /**
  * Voice scrub: model output is often user- or Krish-facing and must never carry an em
  * dash (models are told not to, but are not always obedient). Replaces em/en dashes and
- * spaced ASCII '--' with sentence-appropriate punctuation and tidies the artefacts.
+ * spaced ASCII '--' with sentence-appropriate punctuation, normalises the American
+ * "judgment" to the British "judgement" the whole site uses, and tidies the artefacts.
  */
 export function scrubVoice(input: string): string {
   let s = input;
   s = s.replace(/\s*[\u2013\u2014]\s*/g, ", ");
   s = s.replace(/\s+--\s+/g, ", ");
+  s = s.replace(/\bjudgment(al|s)?\b/g, "judgement$1").replace(/\bJudgment(al|s)?\b/g, "Judgement$1");
   s = s.replace(/,\s*,/g, ",").replace(/\s{2,}/g, " ").replace(/\s+,/g, ",");
   s = s.replace(/,\s*([.!?])/g, "$1");
   return s.trim();

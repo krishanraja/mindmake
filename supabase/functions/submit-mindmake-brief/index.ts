@@ -303,14 +303,31 @@ const fallbackCompanyName = (domain: string): string => {
   return root.replace(/\b\w/g, (letter) => letter.toUpperCase()).slice(0, 160);
 };
 
+/* The read must land as a written statement. The synthesis prompt already
+   forbids questions and invitations to correct, but models drift; any
+   sentence that asks the visitor something is dropped rather than sent. */
+const declarativeOnly = (value: string | null): string | null => {
+  if (!value) return null;
+  const sentences = value.match(/[^.!?]+[.!?]+["')\]]*\s*|[^.!?]+$/g) ?? [];
+  const kept = sentences
+    .map((sentence) => sentence.trim())
+    .filter((sentence) =>
+      sentence.length > 0
+      && !sentence.includes("?")
+      && !/\b(tell me|let me know|correct me|if I(?:'| a)m (?:wrong|off))\b/i.test(sentence)
+    );
+  const joined = kept.join(" ").trim();
+  return joined.length ? joined : null;
+};
+
 function researchFromDossier(domain: string, dossier: Dossier | null): StoredCompanyResearch {
   const name = cleanResearchText(dossier?.identity.name, 160) ?? fallbackCompanyName(domain);
-  const liveRead = cleanResearchText(
+  const liveRead = declarativeOnly(cleanResearchText(
     dossier?.synthesis
       ?? dossier?.understanding.descriptor
       ?? dossier?.understanding.tagline,
     3000,
-  );
+  ));
   const read = liveRead
     ?? "Mindmake could not verify enough public company detail, so this brief starts with the choices you made about the work.";
 

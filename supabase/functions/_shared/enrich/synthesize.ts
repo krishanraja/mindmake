@@ -1,9 +1,10 @@
 /**
  * @file synthesize.ts
  * @description Final synthesis step of the company-enrichment pipeline. Takes the
- *   assembled {@link Dossier} and produces one short, confident "here is what I think
- *   you do, tell me if I am wrong" paragraph in Krish's operator voice. This is the line
- *   Mindy uses to make a visitor feel known from just their work email/domain.
+ *   assembled {@link Dossier} and produces one short, declarative outside read of the
+ *   company in the Mindmake voice. The paragraph appears on the site's company-read
+ *   card, in the private brief and in both delivery emails, so it must land as a
+ *   confident statement: no questions, no invitation to correct, British spelling.
  *
  *   The provider fallback (Gemini gemini-2.5-flash → Anthropic claude-haiku-4-5) and the
  *   voice scrub now live in the shared `./llm.ts` (`completeText`), used here and by the
@@ -20,20 +21,21 @@ import type { Dossier } from "./types.ts";
 const logger = createLogger("enrich/synthesize");
 
 /**
- * System/instruction guidance shared by both providers. Encodes Krish's operator voice
- * and the framing of the descriptor: confident, specific, named to a real fact from the
- * dossier, and explicitly inviting correction.
+ * System/instruction guidance shared by both providers. Encodes the Mindmake voice:
+ * a confident, declarative outside read of the business, named to a real fact from
+ * the dossier, written as a statement the reader can test rather than a conversation.
  */
 function buildSystemPrompt(visitorCountry = "US"): string {
   return [
-    "You write one short paragraph that a sharp operator would say to a visitor whose company you just looked up.",
-    'Frame it as "here is what I think you do, tell me if I am wrong". Confident, not hedged. You are showing you did the homework.',
+    "You write one short paragraph: a sharp outside read of a company, addressed to its leader.",
+    "It is a written brief, not a conversation. State what the business does and where it stands. Confident, not hedged.",
     "Hard rules:",
-    "- 70 words or fewer. One paragraph. No line breaks, no lists, no headings.",
+    "- 60 words or fewer. One paragraph. No line breaks, no lists, no headings.",
     "- Name at least one real, specific fact from the brief below (a product, the industry, a named tool, the scale). Do not invent facts.",
-    "- Sentence case. Active voice. Second person. British-Australian spelling.",
+    "- Declarative sentences only. Never ask the reader anything. Never invite a correction or a reply. Never write tell me, let me know, correct me or if I am wrong.",
+    "- End on a plain statement about the business.",
+    "- Sentence case. Active voice. Second person. British spelling (judgement, organisation, not judgment or organization).",
     `- Describe the company's global or primary (typically US/HQ) entity. The visitor is in ${visitorCountry}; use their locale and US dollars. Never assume a regional subsidiary or local currency unless the company is unambiguously and only regional.`,
-    "- End by inviting a correction, in your own words (e.g. tell me where I have got this wrong).",
     "- No em dashes. No buzzwords (transformation, synergy, leverage, ecosystem, journey, unlock, seamless, empower, game-changer, cutting-edge).",
     'Output only the paragraph. No preamble, no quotation marks, no "Here is".',
   ].join("\n");
@@ -66,8 +68,8 @@ function buildBrief(d: Dossier): string {
 }
 
 /**
- * Produce the one-paragraph "here is what I think you do, tell me if I am wrong" descriptor
- * from an assembled dossier. Delegates the provider fallback + voice scrub to `completeText`.
+ * Produce the one-paragraph declarative company read from an assembled dossier.
+ * Delegates the provider fallback + voice scrub to `completeText`.
  * Returns the clean single-paragraph descriptor (never contains an em dash), or null.
  *
  * @param d The assembled {@link Dossier}.

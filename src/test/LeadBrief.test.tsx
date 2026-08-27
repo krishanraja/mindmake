@@ -425,7 +425,7 @@ describe("Mindmake private brief journey", () => {
     expect(screen.queryByText(/Example Company,helps teams,do useful work/)).not.toBeInTheDocument();
   });
 
-  it("repairs a pathologically comma-separated live company read without changing ordinary prose", async () => {
+  it("repairs a comma-separated live read and drops sentences that ask the visitor anything", async () => {
     vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "false");
     invoke.mockResolvedValue({
       data: {
@@ -438,8 +438,27 @@ describe("Mindmake private brief journey", () => {
     fireEvent.change(screen.getByLabelText("Company website"), { target: { value: "bbc.com" } });
     fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
 
-    expect(await screen.findByText("You're the BBC a public broadcaster reaching people across TV radio and digital platforms. Tell me if this is wrong.")).toBeInTheDocument();
+    expect(await screen.findByText("You're the BBC a public broadcaster reaching people across TV radio and digital platforms.")).toBeInTheDocument();
     expect(screen.queryByText(/You're, the, BBC/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Tell me/)).not.toBeInTheDocument();
+  });
+
+  it("drops question and invite sentences from an otherwise ordinary company read", async () => {
+    vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "false");
+    invoke.mockResolvedValue({
+      data: {
+        ...dossier,
+        synthesis: "Example Company builds useful software. Is that read fair? Let me know if I have got this wrong.",
+      },
+      error: null,
+    });
+    render(<LeadBrief open onClose={() => undefined} />);
+    fireEvent.change(screen.getByLabelText("Company website"), { target: { value: "example.com" } });
+    fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
+
+    expect(await screen.findByText("Example Company builds useful software.")).toBeInTheDocument();
+    expect(screen.queryByText(/Let me know/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Is that read fair/)).not.toBeInTheDocument();
   });
 
   it("waits before revoking a downloaded brief URL", async () => {

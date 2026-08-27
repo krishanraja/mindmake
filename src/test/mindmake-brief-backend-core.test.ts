@@ -62,7 +62,7 @@ const parsedRequest = (): MindmakeBriefRequestActionV2 => {
 };
 
 describe("Mindmake brief V2 backend core", () => {
-  it("preserves ordinary prose while replacing only dash punctuation", () => {
+  it("preserves ordinary prose while normalising dashes and spelling", () => {
     expect(scrubVoice("You're the BBC, the world's public service broadcaster.")).toBe(
       "You're the BBC, the world's public service broadcaster.",
     );
@@ -71,6 +71,9 @@ describe("Mindmake brief V2 backend core", () => {
     );
     expect(scrubVoice("Evidence \u2013 then judgement.")).toBe(
       "Evidence, then judgement.",
+    );
+    expect(scrubVoice("Sound judgment builds trust. Judgments compound.")).toBe(
+      "Sound judgement builds trust. Judgements compound.",
     );
   });
 
@@ -171,7 +174,9 @@ describe("Mindmake brief V2 backend core", () => {
     expect(visitor.attachmentHtml).not.toContain("@import");
     expect(visitor.text).toContain("No sales emails will follow automatically.");
     expect(visitor.text).not.toContain("Krish has the same brief");
+    expect(visitor.text).toContain("It is not advice.");
     expect(operator.text).toContain("Never import this address directly.");
+    expect(operator.text).not.toContain("read through the lens");
   });
 
   it("keeps a positive publication choice as unverified interest", () => {
@@ -265,5 +270,10 @@ describe("Mindmake brief V2 backend core", () => {
     expect(visitor.subject).toContain("Example");
     expect(visitor.attachmentHtml).toContain(label);
     expect(visitor.attachmentHtml).toContain("It is not advice.");
+
+    const operator = renderOperatorEmail(brief);
+    expect(operator.text).toContain(
+      "A tailored choice, read through the lens: Our product is moving faster than our message.",
+    );
   });
 });

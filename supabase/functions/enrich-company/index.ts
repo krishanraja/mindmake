@@ -1,8 +1,8 @@
 /**
  * @file enrich-company Edge Function (thin HTTP wrapper over the shared orchestrator)
  * @description Turns a visitor's work email / domain / company name into a company Dossier
- *   so the on-site guide ("Mindy") can show she already understands the business before
- *   asking a single question.
+ *   so the Start-here journey can show a declarative outside read of the business, and
+ *   offer tailored, server-signed pressure choices, before asking a single question.
  *
  *   The actual fan-out / merge / routing / synthesis now lives in
  *   `../_shared/enrich/orchestrate.ts` (`assembleDossier`), so the unified lead pipeline can

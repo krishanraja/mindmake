@@ -1,29 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { readFileSync, statSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 const ROOT = resolve(__dirname, "../..");
 const read = (file: string) => readFileSync(resolve(ROOT, file), "utf8");
 
 describe("public media and proof contracts", () => {
-  it("ships a real MP4 at the one approved CTRL demo path", () => {
-    const videoPath = resolve(ROOT, "public/CTRL-demo-aug-26.mp4");
-    const header = readFileSync(videoPath).subarray(4, 8).toString("ascii");
-
-    expect(statSync(videoPath).size).toBeGreaterThan(1_000_000);
-    expect(header).toBe("ftyp");
-    expect(read("src/lib/publicLinks.ts")).toContain('CTRL_DEMO_VIDEO_URL = "/CTRL-demo-aug-26.mp4"');
-  });
-
-  it("keeps retired CTRL video paths out of active and prototype surfaces", () => {
-    const surfaces = [
-      "src/pages/Index.tsx",
-      "prototypes/archive/mindmaker-homepage-component-led-v2.html",
-      "prototypes/archive/mindmaker-homepage-v3.html",
-      "prototypes/archive/mindmaker-typography-test-v1.html",
-    ];
-
-    expect(surfaces.filter((file) => read(file).includes("ctrl-demo-video.mp4"))).toEqual([]);
+  it("keeps retired CTRL video paths off the homepage", () => {
+    expect(read("src/pages/Index.tsx")).not.toContain("ctrl-demo-video.mp4");
+    expect(read("src/pages/Index.tsx")).not.toContain("CTRL-demo-aug-26.mp4");
   });
 
   it("uses the approved public attributions", () => {

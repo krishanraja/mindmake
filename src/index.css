@@ -114,7 +114,7 @@
        Portfolio signature is CTRL's emerald #00D9B6 (171 100% 43%). The legacy
        `--mint*` token names are kept as ALIASES so every existing call-site
        (text-mint, shadow-mint, the 5 card variants) flips to emerald with zero
-       churn. WCAG-verified derivation in prototypes/brand-emerald-proof.*.
+       churn. The derivation was WCAG-verified when the palette was adopted.
        The rule is unchanged: bright emerald is fills/dark-bg/shadows only and
        NEVER text on a light bg; text/links on light use --emerald-deep (AA). */
     --ink: 210 58% 11%;           /* #0e1a2b - Main structure, typography */

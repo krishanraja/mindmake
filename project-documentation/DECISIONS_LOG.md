@@ -1268,4 +1268,12 @@
 
 ---
 
+### 2026-08-27: Lock the two-door propositions, page ladders, private rate card and step numeral
+
+27 August 2026: locked the two-door value propositions (verbatim above), the promise-spine and model-spine page ladders, the two-altitude private rate card ($15k/$36k principal, $25k/$60k company), the $12k floor with written-trade flex, and the full-bleed step numeral. Basis: ranked decision pass against market anchors and canon constraints. Revisit: ten briefs or three proposals.
+
+The full lock, including the verbatim promise lines, the step ladders, the altitude rule, the assumption ledger and the amendments it requires, lives in `MINDMAKE_PROPOSITION_LOCK.md`. The rate card is internal only and never appears on a public surface.
+
+---
+
 **End of DECISIONS_LOG**

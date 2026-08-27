@@ -1,14 +1,14 @@
 # Mindmake canon
 
-Last updated: 26 August 2026.
+Last updated: 27 August 2026.
 
-This is the current internal source of truth for the Mindmake business and public website. It supersedes older offer, positioning, CTA and naming guidance wherever they conflict. `DECISIONS_LOG.md` keeps the history. `REBUILD_STATE.md` keeps the current delivery state.
+This is the current internal source of truth for the Mindmake business and public website. It supersedes older offer, positioning, CTA and naming guidance wherever they conflict. `DECISIONS_LOG.md` keeps the history. `REBUILD_STATE.md` keeps the current delivery state. `MINDMAKE_PROPOSITION_LOCK.md` holds the locked two-door value propositions, page ladders and private pricing model.
 
 ## The business
 
 Mindmake is a principal-led AI and commercial strategy practice run by Krish Raja.
 
-It helps a leader use AI to extend their judgment, taste and expertise, then turn that stronger capability into a better business result. The work may improve the leader, the product, the price, the message, the route to market or the company structure that supports them.
+It helps a leader use AI to extend their judgment, taste and expertise, then turn that stronger capability into a better business result. The work may improve the leader, the product, the price, the positioning, the people, the route to market or the company structure that supports them.
 
 Mindmake is not an automation consultancy. It does not start with a list of repetitive tasks. It starts with the value of a leader's time, the decisions only they can make and the capability the business should retain after the work.
 
@@ -16,8 +16,10 @@ Mindmake is not an automation consultancy. It does not start with a list of repe
 
 The site uses two doors because they meet non-technical buyers in language they already understand:
 
-1. **Build Your AI Brain.** Make your judgement, standards, memory and trusted context easier to use. Fill a real gap without giving away the human spark that put you in the seat.
-2. **Build Your AI GTM.** Rework product, price, position, sales and team choices as AI changes what customers can do and what they will pay for.
+1. **Build Your AI Brain.** Encode your taste and judgement, amplify your strengths, uncover your blind spots. Make your judgement, standards, memory and trusted context easier to use. Fill a real gap without giving away the human spark that put you in the seat.
+2. **Build Your AI GTM.** Create an AI-native GTM model across product, price, positioning or people. Rework those choices as AI changes what customers can do and what they will pay for.
+
+The first sentence of each door is its locked value proposition, recorded verbatim from `MINDMAKE_PROPOSITION_LOCK.md`. The four GTM levers are product, price, positioning and people; the earlier message and team framing is retired wherever the levers are named, except the byte-frozen gateway door line, which keeps its approved wording.
 
 These are not two unrelated products. Either may be the hook, and either may lead to the other when the work calls for it.
 
@@ -49,7 +51,7 @@ The strongest buyer is a founder, principal, portfolio owner, investor or senior
 
 Strong situations include:
 
-- a healthy or fast-growing AI company whose product, price, position or company design needs to keep up with its market;
+- a healthy or fast-growing AI company whose product, price, positioning, people or company design needs to keep up with its market;
 - an established internet, software, media, data, content, coaching or advisory business whose old commercial rules have stopped working;
 - a well-connected principal whose scarce time is spread across several ventures, relationships or decisions;
 - a leader who wants an AI chief of staff or durable AI brain that makes their own judgment easier to use;
@@ -166,7 +168,7 @@ The two editorial pillars are **Building with AI** and **The Money of AI**. Edit
 - `prototypes/mindmake-judgement-thread-motion-study-v5.html` is the approved visual and interaction floor for the homepage opening, working-understanding sequence, judgement thread and first CTRL proof. Later work may improve it but may not regress in clarity, rhythm, causal motion, mobile composition or finish. Its approved SHA-256 is `DE09D75C46EB660AD6148C1D7F5DD61E4F82031B48FCFE931CC3AE05C8126C81`.
 - The approved Brain and GTM gateway is a frozen contract, not a visual reference. Its source files are `prototypes/mindmake-brain-gtm-gateway-candidate-7-v2.html`, `src/components/mindmake/BrainGtmGateway.tsx` and `src/styles/mindmake-gateway.css`; their approved SHA-256 values are `5A3F68994BFBD2AF412D95776515CF8F7884150FE49991364DDC680E3B418E42`, `AD664DA3A6FEB99D959C193ED3D79AD8DA9C59EC99041F28BA89BED2990ADF72` and `5D5F559BB93C489326792F2B62B0A06D27CF4C778BB7A5C7A29DB3AA92B2CC45`. Keep its wording, composition and door-separation motion exactly as approved. Do not reinterpret it while changing another section or breakpoint. On 26 August 2026 Krish approved amendments and re-pins to the two source files' small-screen blocks for the phone rebuild: the stage respects the shared chrome variable, the inner column sizes to its content instead of holding an empty band, the door motion reads at phone scale, and, after his live phone review, the gateway holds the screen longer, the doors part to reveal the path line instead of a grey band, and the standing doors breathe a quiet invitation glow that stops on first touch and honours reduced motion. Desktop wording, composition and door-separation motion are unchanged; the desktop-width rules are byte-identical to the previously approved version.
 - V8 remains the production breadth reference for complete routes, testimonial range and proof that have not yet been rebuilt through the approved V5 direction. It is no longer the stronger visual authority where V5 covers the same surface.
-- Eyebrows are prohibited across the whole public design system. Do not place kickers, overlines, chapter numbers, decorative counters, status straps, proof badges or small pre-headings above or beside a real heading. Do not recreate the same pattern under another class name or in sentence case. If the information matters, make it the heading, normal copy or a functional label attached directly to the object or control it names. Otherwise remove it. This applies to desktop, mobile, diagrams, motion states, fallbacks and future routes. The only approved exception is the `Pick your starting point` label inside the frozen gateway.
+- Eyebrows are prohibited across the whole public design system. Do not place kickers, overlines, chapter numbers, decorative counters, status straps, proof badges or small pre-headings above or beside a real heading. Do not recreate the same pattern under another class name or in sentence case. If the information matters, make it the heading, normal copy or a functional label attached directly to the object or control it names. Otherwise remove it. This applies to desktop, mobile, diagrams, motion states, fallbacks and future routes. The only approved exception is the `Pick your starting point` label inside the frozen gateway. A full-bleed background numeral marking a numbered section is a second approved exception, permitted only where the numbered sections form a real sequence of steps; it must never shrink into a small label, kicker or counter.
 - Display headings must not create orphan words or narrow, accidental stacks. Deliberate editorial headings may use up to four balanced lines when the words remain easy to scan. The two-door gateway uses no more than four lines on desktop and three on a phone.
 - The header, opening act and every later homepage section use one shared content edge. A new section may change colour or composition, but it may not invent a new left alignment.
 - A fit-screen scene uses the visible canvas below the fixed header. On a short or narrow screen, change the composition or use a clear horizontal snap deck. Do not hide useful copy, remove an action or shrink a control merely to make a section look shorter.

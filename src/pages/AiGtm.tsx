@@ -1,15 +1,21 @@
 import { ArrowRight } from "lucide-react";
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
-import { MediaFrame } from "@/components/mindmake/MediaFrame";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
-import { RouteRail } from "@/components/mindmake/RouteRail";
+import { StepJourney } from "@/components/mindmake/StepJourney";
+import { StepScene } from "@/components/mindmake/StepScene";
+import { CompoundingTimeline } from "@/components/mindmake/CompoundingTimeline";
+import {
+  GtmTimelinePanel,
+  LeverVisual,
+  ModelVisual,
+  ProveVisual,
+  ReadVisual,
+  RunVisual,
+} from "@/components/mindmake/GtmStepVisuals";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
-import headlinesFilm from "@/assets/CTRL - Demo 3 - Headlines.mp4";
-import decisionsFilm from "@/assets/CTRL - Demo 4 - Decisions.mp4";
-import headlinesPoster from "@/assets/ctrl-headlines-poster.webp";
-import decisionsPoster from "@/assets/ctrl-decisions-poster.webp";
 import "@/styles/mindmake.css";
+import "@/styles/mindmake-journey.css";
 
 export default function AiGtm() {
   const { briefOpen, openBrief, closeBrief } = useLeadBriefHistory();
@@ -18,63 +24,99 @@ export default function AiGtm() {
     <MindmakeShell onStart={openBrief} mainClassName="mm-route-page mm-route-gtm">
       <SEO
         title="Build Your AI GTM"
-        description="Use AI to make better product, price, message and team decisions, then test the answer with real buyers."
+        description="Create an AI-native GTM model across product, price, positioning or people, then prove it with real buyers inside 30 days."
         canonical="/ai-gtm"
       />
 
-      <section className="mm-subhero is-gtm" aria-labelledby="gtm-title">
-        <div className="mm-container mm-subhero-grid">
-          <div>
-            <h1 id="gtm-title">Build the offer your market needs now.</h1>
-            <p className="mm-lead">AI changes what customers can do, what they will pay for and how quickly a new company can move. Mindmake helps you make the next product, price, message and team call.</p>
-            <button className="mm-button" type="button" onClick={openBrief}>Start here <ArrowRight aria-hidden="true" /></button>
+      <StepJourney>
+        <section className="mm-journey-hero" data-tone="paper" aria-labelledby="gtm-title">
+          <h1 id="gtm-title">Create an AI-native GTM model across product, price, positioning or people.</h1>
+          <p className="mm-journey-definition">GTM is short for go to market: <strong>what you sell, what it costs, how you stand out and who does the selling</strong>. AI-native means built for what AI just changed, not patched around it.</p>
+          <div className="mm-journey-moments">
+            <article>
+              <h2>You lead an established business.</h2>
+              <p>Customers can now do part of it alone. Your price and your promise no longer line up. The model needs rework.</p>
+            </article>
+            <article>
+              <h2>You are building something new.</h2>
+              <p>An AI-native digital business has a model that must be invented, not repaired. Speed without a model is just burn.</p>
+            </article>
           </div>
-          <MediaFrame
-            src={decisionsFilm}
-            poster={decisionsPoster}
-            title="CTRL breaking down a live product, price, message and team decision"
-            label="See the evidence, the choice and the next move."
-            className="mm-route-hero-media"
-          />
-        </div>
-      </section>
+          <p className="mm-journey-moment">Krish has spent fifteen years turning data and AI into customer experience and ways to make money. Both leaders get the same month: read what changed, choose the lever, build the model, prove it with buyers, run it.</p>
+          <div className="mm-journey-hero-actions">
+            <button className="mm-button" type="button" onClick={openBrief}>Start here <ArrowRight aria-hidden="true" /></button>
+            <p className="mm-journey-refusals"><span>Not a fractional hire.</span> <span>Not an automation shop.</span></p>
+          </div>
+        </section>
 
-      <section className="mm-section mm-two-markets" aria-labelledby="two-markets-title">
-        <div className="mm-container">
-          <header className="mm-split-heading"><div><h2 id="two-markets-title">Growth creates hard choices too.</h2></div><p>Mindmake is for businesses trying to lead the change as well as those trying to catch it.</p></header>
-          <RouteRail className="mm-market-columns" label="AI GTM situations">
-            <article><h3>The old reason to buy may be getting weaker.</h3><p><strong>For an established business.</strong> Customers can start more work alone. A feature can be copied faster. The old price and promise no longer line up.</p><strong>Find what remains worth paying for.</strong></article>
-            <article><h3>The market moves before the old rules can catch up.</h3><p><strong>For an AI company growing fast.</strong> The product changes each week. You are still finding the right buyer. Your price, proof and team roles cannot wait for the old rules to catch up.</p><strong>Turn speed into a business that can keep growing.</strong></article>
-          </RouteRail>
-        </div>
-      </section>
+        <StepScene
+          index={1}
+          name="Read"
+          title="Read"
+          tone="ink"
+          body="We find what changed: what customers can now do alone, what they will still pay for, where your numbers disagree with your story. For the builder: what buyers will pay for that did not exist a year ago."
+          note="The read folds into week one."
+          visual={<ReadVisual />}
+        />
 
-      <section className="mm-section mm-gtm-decisions" aria-labelledby="gtm-decisions-title">
-        <div className="mm-container">
-          <header className="mm-main-event mm-left-event"><h2 id="gtm-decisions-title">A new message cannot save an old offer.</h2></header>
-          <RouteRail className="mm-decision-quadrants" label="The four parts of an AI GTM decision">
-            <article><span>Product</span><h3>What should AI make possible now?</h3><p>The useful job may change when a customer can do more alone.</p></article>
-            <article><span>Price</span><h3>What is the result worth now?</h3><p>The buyer may pay for a different gain than the effort you used to sell.</p></article>
-            <article><span>Message</span><h3>What can only you promise?</h3><p>A useful promise says what changed, who it is for and what the buyer can now do.</p></article>
-            <article><span>Team</span><h3>Who should own the whole decision?</h3><p>The right owner follows the work that remains, not job lines written for the old model.</p></article>
-          </RouteRail>
-        </div>
-      </section>
+        <StepScene
+          index={2}
+          name="Choose the lever"
+          title="Choose the lever"
+          tone="paper"
+          body="Product, price, positioning or people. One lever carries the month. The model covers all four."
+          note="One lever deep, the whole model mapped."
+          visual={<LeverVisual />}
+        />
 
-      <section className="mm-section mm-film-pair" aria-labelledby="gtm-proof-title">
-        <div className="mm-container">
-          <header className="mm-split-heading"><div><h2 id="gtm-proof-title">See what changed. Make a decision you can explain.</h2></div><p>CTRL keeps what is changing in the market next to the reasons behind the call.</p></header>
-          <RouteRail className="mm-film-grid" label="Real CTRL views">
-            <MediaFrame src={headlinesFilm} poster={headlinesPoster} title="CTRL bringing live market headlines into the work" label="What changed outside" />
-            <MediaFrame src={decisionsFilm} poster={decisionsPoster} title="CTRL breaking down and checking a business decision" label="What the business should do" />
-          </RouteRail>
-        </div>
-      </section>
+        <StepScene
+          index={3}
+          name="Build the model"
+          title="Build the model"
+          tone="forest"
+          body="An AI-native model of how you sell, built so you can question it and see the sources behind every answer."
+          note="It has to run, not read well."
+          visual={<ModelVisual />}
+        />
+
+        <StepScene
+          index={4}
+          name="Prove with buyers"
+          title="Prove with buyers"
+          tone="ink"
+          body="The model meets real buyers before the month ends. What they do and what they say goes back into the model."
+          note="Evidence beats opinion."
+          visual={<ProveVisual />}
+        />
+
+        <StepScene
+          index={5}
+          name="Run it"
+          title="Run it"
+          tone="paper"
+          body="The model, the data and the reasons stay with your team. They can run the motion without waiting on Krish."
+          note="The next call starts sharper."
+          visual={<RunVisual />}
+        />
+
+        <CompoundingTimeline
+          tone="ink"
+          title="Day thirty is a beginning."
+          intro="Work starts with the 30-day proof. The best work continues for three months or longer, and it has to earn that."
+          ariaLabel="How the model compounds after day thirty"
+          states={[
+            { day: 30, standing: "The proof", body: "One lever deep, the whole model mapped, tested with real buyers." },
+            { day: 60, standing: "Earned", body: "The second lever is built in. Your team runs the motion." },
+            { day: 90, standing: "Earned", body: "The model runs across product, price, positioning and people. The next call starts from evidence, not debate." },
+          ]}
+          visual={<GtmTimelinePanel />}
+        />
+      </StepJourney>
 
       <section className="mm-section mm-proof-offer is-gtm" aria-labelledby="gtm-proof-offer">
         <div className="mm-container mm-proof-offer-grid">
           <div><h2 id="gtm-proof-offer">Test one big business decision in 30 days.</h2></div>
-          <div><p>Mindmake starts with one costly question about the product, price or offer. It finds what changed, helps you make the hard choice and builds enough to test it with real buyers.</p><ul><li>One clear business question</li><li>Market and company evidence</li><li>A first version you can use</li><li>A real test before the month ends</li></ul><button className="mm-button" type="button" onClick={openBrief}>Start here <ArrowRight aria-hidden="true" /></button></div>
+          <div><p>Mindmake starts with one costly question about the product, the price, the positioning or the people. It finds what changed, helps you make the hard choice and builds enough to test it with real buyers.</p><ul><li>One clear business question</li><li>Market and company evidence</li><li>A first version you can use</li><li>A real test before the month ends</li></ul><button className="mm-button" type="button" onClick={openBrief}>Start here <ArrowRight aria-hidden="true" /></button></div>
         </div>
       </section>
 

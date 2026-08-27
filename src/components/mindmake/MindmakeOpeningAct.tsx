@@ -124,6 +124,22 @@ const mix = (from: number, to: number, amount: number) => from + (to - from) * a
 const ease = (value: number) => value < .5 ? 4 * value * value * value : 1 - Math.pow(-2 * value + 2, 3) / 2;
 const range = (value: number, start: number, end: number) => ease(clamp((value - start) / Math.max(.0001, end - start)));
 
+/* SVG text cannot wrap or shrink to its container, so every label is measured
+   against the shape drawn around it and stepped down until it fits. */
+function fitSvgText(text: SVGTextElement, available: number) {
+  /* Clear any earlier fit first so the stylesheet size is always the
+     starting point and repeated fits cannot ratchet the label smaller. */
+  text.style.removeProperty("font-size");
+  if (typeof text.getComputedTextLength !== "function" || available <= 0) return;
+  let size = Number.parseFloat(getComputedStyle(text).fontSize) || 16;
+  for (let step = 0; step < 12; step += 1) {
+    const width = text.getComputedTextLength();
+    if (!width || width <= available) return;
+    size = Math.max(7, size * Math.min(.94, available / width));
+    text.style.fontSize = `${size.toFixed(2)}px`;
+  }
+}
+
 function curvePath(from: number[], to: number[], bend = .5) {
   const controlX = mix(from[0], to[0], bend);
   return `M${from[0].toFixed(1)} ${from[1].toFixed(1)}C${controlX.toFixed(1)} ${from[1].toFixed(1)} ${controlX.toFixed(1)} ${to[1].toFixed(1)} ${to[0].toFixed(1)} ${to[1].toFixed(1)}`;
@@ -250,6 +266,24 @@ export function MindmakeOpeningAct() {
         optionText?.setAttribute("x", String(geometry.optionText[0]));
         optionText?.setAttribute("y", String(geometry.optionText[1]));
       }
+      fitThreadText();
+    };
+
+    const fitThreadText = () => {
+      nodes.forEach((node) => {
+        const rect = node.querySelector("rect");
+        if (!rect) return;
+        const available = Number.parseFloat(rect.getAttribute("width") || "0") - 18;
+        node.querySelectorAll<SVGTextElement>("text").forEach((text) => fitSvgText(text, available));
+      });
+      const coreWidth = geometry.coreRadii[0] * 1.72;
+      core?.querySelectorAll<SVGTextElement>("text").forEach((text) => fitSvgText(text, coreWidth));
+      [timeReturn, optionField, ...evidenceTags].forEach((group) => {
+        const rect = group?.querySelector("rect");
+        const text = group?.querySelector<SVGTextElement>("text");
+        if (!rect || !text) return;
+        fitSvgText(text, Number.parseFloat(rect.getAttribute("width") || "0") - 12);
+      });
     };
 
     const progressFor = (element: HTMLElement) => {

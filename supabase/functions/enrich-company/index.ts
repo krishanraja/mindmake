@@ -1,8 +1,8 @@
 /**
  * @file enrich-company Edge Function (thin HTTP wrapper over the shared orchestrator)
  * @description Turns a visitor's work email / domain / company name into a company Dossier
- *   so the on-site guide ("Mindy") can show she already understands the business before
- *   asking a single question.
+ *   so the Start-here journey can show a declarative outside read of the business, and
+ *   offer tailored, server-signed pressure choices, before asking a single question.
  *
  *   The actual fan-out / merge / routing / synthesis now lives in
  *   `../_shared/enrich/orchestrate.ts` (`assembleDossier`), so the unified lead pipeline can
@@ -30,6 +30,7 @@
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { assembleDossier } from "../_shared/enrich/orchestrate.ts";
+import { generateTailoredChoices } from "../_shared/enrich/choices.ts";
 import { createLogger } from "../_shared/logger.ts";
 
 // --- CORS / response helpers ------------------------------------------------
@@ -171,10 +172,21 @@ serve(async (req) => {
   }
 
   totalServed += 1;
+
+  /* Tailored pressure choices, signed server-side. Only attempted on the
+     full read, only while the time budget allows, and never allowed to
+     fail the read: on any miss the journey falls back to the locked list. */
+  let choices: Awaited<ReturnType<typeof generateTailoredChoices>> = [];
+  const choiceSecret = Deno.env.get("MINDMAKE_VERIFICATION_SECRET");
+  if (depth === "full" && choiceSecret && result.dossier.meta.ms < 6_500) {
+    choices = await generateTailoredChoices(result.dossier, result.dossier.domain, choiceSecret);
+  }
+
   logger.info("served dossier", {
     domain: result.dossier.domain,
     depth,
     ms: result.dossier.meta.ms,
+    tailoredChoices: choices.length,
   });
-  return json(result.dossier);
+  return json(choices.length ? { ...result.dossier, choices } : result.dossier);
 });

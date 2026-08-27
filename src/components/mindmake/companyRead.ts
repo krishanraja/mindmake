@@ -7,4 +7,7 @@ export interface CompanyDossier {
   currency?: { text?: string }[];
   synthesis?: string | string[];
   scale?: unknown;
+  /* Server-signed tailored pressure choices; the browser can carry them
+     but can never author one. */
+  choices?: { id?: string; label?: string; lensId?: string }[];
 }

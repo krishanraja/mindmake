@@ -36,6 +36,7 @@ export interface MindmakeBriefRequestV2 {
     pressureId: (typeof PRESSURE_IDS)[keyof typeof PRESSURE_IDS];
     returnedTimeId: (typeof RETURNED_TIME_IDS)[keyof typeof RETURNED_TIME_IDS];
     entryRoute: BriefRoute;
+    tailored?: TailoredChoiceRef;
   };
   consent: {
     publicationRequested: boolean;
@@ -44,12 +45,20 @@ export interface MindmakeBriefRequestV2 {
   website: "";
 }
 
+/* A server-authored tailored pressure the browser carries back unchanged;
+   the server verifies its signature before trusting the label. */
+export interface TailoredChoiceRef {
+  id: string;
+  label: string;
+}
+
 export interface MindmakeBriefConfirmV2 {
   version: 2;
   action: "confirm";
   requestId: string;
   contact: { email: string };
   code: string;
+  tailored?: TailoredChoiceRef;
 }
 
 export interface MindmakeVerificationResponseV2 {
@@ -79,12 +88,14 @@ interface MindmakeBriefRequestInputV2 {
   publicationRequested: boolean;
   requestId: string;
   route: BriefRoute;
+  tailored?: TailoredChoiceRef;
 }
 
 interface MindmakeBriefConfirmInputV2 {
   code: string;
   email: string;
   requestId: string;
+  tailored?: TailoredChoiceRef;
 }
 
 export const buildMindmakeBriefRequestV2 = ({
@@ -95,6 +106,7 @@ export const buildMindmakeBriefRequestV2 = ({
   publicationRequested,
   requestId,
   route,
+  tailored,
 }: MindmakeBriefRequestInputV2): MindmakeBriefRequestV2 => ({
   version: 2,
   action: "request",
@@ -105,6 +117,7 @@ export const buildMindmakeBriefRequestV2 = ({
     pressureId: PRESSURE_IDS[pressure],
     returnedTimeId: RETURNED_TIME_IDS[capacityChoice],
     entryRoute: route,
+    ...(tailored ? { tailored } : {}),
   },
   consent: {
     publicationRequested,
@@ -117,12 +130,14 @@ export const buildMindmakeBriefConfirmV2 = ({
   code,
   email,
   requestId,
+  tailored,
 }: MindmakeBriefConfirmInputV2): MindmakeBriefConfirmV2 => ({
   version: 2,
   action: "confirm",
   requestId,
   contact: { email },
   code: code.trim(),
+  ...(tailored ? { tailored } : {}),
 });
 
 export const isMindmakeBriefResponseV2 = (value: unknown): value is MindmakeBriefResponseV2 => {

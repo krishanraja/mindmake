@@ -172,6 +172,7 @@ Deno.test("stored-brief templates escape research and set the publication bounda
   assert(!visitor.attachmentHtml.includes("@import"), "Attachment must not import styles");
   assert(visitor.text.includes("No sales emails will follow automatically."), "Visitor boundary must be clear");
   assert(!visitor.text.includes("Krish has the same brief"), "Visitor email must not claim operator delivery");
+  assert(visitor.text.includes("It is not advice."), "Visitor email must carry the illustrative honesty line");
   assert(operator.text.includes("Never import this address directly."), "Operator import boundary must be clear");
 });
 

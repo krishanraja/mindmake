@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { scrubVoice } from "../../supabase/functions/_shared/enrich/llm";
 import {
+  signTailoredChoice,
+  verifyTailoredChoice,
+} from "../../supabase/functions/_shared/lead/choiceSignature";
+import {
   BriefValidationError,
   CONSENT_WORDING_VERSION,
   confirmedBriefResponse,
@@ -58,7 +62,7 @@ const parsedRequest = (): MindmakeBriefRequestActionV2 => {
 };
 
 describe("Mindmake brief V2 backend core", () => {
-  it("preserves ordinary prose while replacing only dash punctuation", () => {
+  it("preserves ordinary prose while normalising dashes and spelling", () => {
     expect(scrubVoice("You're the BBC, the world's public service broadcaster.")).toBe(
       "You're the BBC, the world's public service broadcaster.",
     );
@@ -67,6 +71,9 @@ describe("Mindmake brief V2 backend core", () => {
     );
     expect(scrubVoice("Evidence \u2013 then judgement.")).toBe(
       "Evidence, then judgement.",
+    );
+    expect(scrubVoice("Sound judgment builds trust. Judgments compound.")).toBe(
+      "Sound judgement builds trust. Judgements compound.",
     );
   });
 
@@ -167,7 +174,9 @@ describe("Mindmake brief V2 backend core", () => {
     expect(visitor.attachmentHtml).not.toContain("@import");
     expect(visitor.text).toContain("No sales emails will follow automatically.");
     expect(visitor.text).not.toContain("Krish has the same brief");
+    expect(visitor.text).toContain("It is not advice.");
     expect(operator.text).toContain("Never import this address directly.");
+    expect(operator.text).not.toContain("read through the lens");
   });
 
   it("keeps a positive publication choice as unverified interest", () => {
@@ -213,5 +222,58 @@ describe("Mindmake brief V2 backend core", () => {
     });
     expect(isMindmakeBriefResponseV2({ ...pending, surprise: true })).toBe(false);
     expect(safeAttachmentName("Example.COM")).toBe("mindmake-example.com-private-brief.html");
+  });
+
+  it("carries a tailored pressure only with a valid server signature", async () => {
+    const secret = "test-secret";
+    const label = "AI search may weaken the traffic that feeds our current model";
+    const id = await signTailoredChoice(secret, "example.com", "product-moving-faster-than-message", label);
+
+    expect(await verifyTailoredChoice(secret, "example.com", "product-moving-faster-than-message", label, id)).toBe(true);
+    expect(await verifyTailoredChoice(secret, "another.com", "product-moving-faster-than-message", label, id)).toBe(false);
+    expect(await verifyTailoredChoice(secret, "example.com", "price-still-reflects-old-work", label, id)).toBe(false);
+    expect(await verifyTailoredChoice(secret, "example.com", "product-moving-faster-than-message", label + "!", id)).toBe(false);
+
+    const withTailored = {
+      ...validRequest(),
+      choices: { ...validRequest().choices, tailored: { id, label } },
+    };
+    const parsed = parseMindmakeBriefRequest(withTailored);
+    if (parsed.action !== "request") throw new Error("expected request action");
+    expect(parsed.choices.tailored).toEqual({ id, label });
+
+    expect(() => parseMindmakeBriefRequest({
+      ...validRequest(),
+      choices: { ...validRequest().choices, tailored: { id: "short", label } },
+    })).toThrow(BriefValidationError);
+    expect(() => parseMindmakeBriefRequest({
+      ...validRequest(),
+      choices: { ...validRequest().choices, tailored: { id, label: "too short" } },
+    })).toThrow(BriefValidationError);
+
+    const confirmWithTailored = parseMindmakeBriefRequest({
+      ...validConfirm(),
+      tailored: { id, label },
+    });
+    if (confirmWithTailored.action !== "confirm") throw new Error("expected confirm action");
+    expect(confirmWithTailored.tailored).toEqual({ id, label });
+
+    const brief = createStoredBrief(parsed, {
+      name: "Example",
+      read: "A short read.",
+      evidence: [],
+      readSource: "fallback",
+    }, label);
+    expect(brief.choices.pressure).toBe(label);
+    expect(brief.recommendation.aiCarries.length).toBeGreaterThan(0);
+    const visitor = renderVisitorEmail(brief);
+    expect(visitor.subject).toContain("Example");
+    expect(visitor.attachmentHtml).toContain(label);
+    expect(visitor.attachmentHtml).toContain("It is not advice.");
+
+    const operator = renderOperatorEmail(brief);
+    expect(operator.text).toContain(
+      "A tailored choice, read through the lens: Our product is moving faster than our message.",
+    );
   });
 });

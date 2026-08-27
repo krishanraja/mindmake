@@ -23,12 +23,16 @@ export function StepJourney({ children }: { children: ReactNode }) {
       const viewport = window.innerHeight;
 
       sections.forEach((section) => {
-        const progress = isReduced ? 1 : pinProgress(section);
+        /* A stage standing in flow (reduced motion, short landscape) shows
+           its complete scene instead of a scroll build. */
+        const stage = section.firstElementChild as HTMLElement | null;
+        const unpinned = !stage || getComputedStyle(stage).position !== "sticky";
+        const progress = isReduced || unpinned ? 1 : pinProgress(section);
         const rect = section.getBoundingClientRect();
         const state = rect.top > viewport ? "ahead" : rect.bottom < 0 ? "passed" : "active";
         /* Arrival begins while the section is still approaching the screen,
            so no scene ever sits empty waiting for its pin to start. */
-        const arrive = isReduced ? 1 : ease(clamp((viewport - rect.top) / Math.max(1, viewport * .55)));
+        const arrive = isReduced || unpinned ? 1 : ease(clamp((viewport - rect.top) / Math.max(1, viewport * .55)));
 
         section.style.setProperty("--mm-step-progress", progress.toFixed(4));
         section.style.setProperty("--mm-step-p1", arrive.toFixed(4));

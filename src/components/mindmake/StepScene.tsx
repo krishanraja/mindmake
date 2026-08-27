@@ -22,12 +22,12 @@ export function StepScene({ index, name, title, body, note, tone, visual, id }: 
         <div className="mm-step-numeral" aria-hidden="true">
           <span data-glyph={index}>{index}</span>
         </div>
-        <div className="mm-step-visual">{visual}</div>
         <div className="mm-step-copy">
           <h2>{title}</h2>
           <p>{body}</p>
           {note ? <strong className="mm-step-note">{note}</strong> : null}
         </div>
+        <div className="mm-step-visual">{visual}</div>
       </div>
     </section>
   );

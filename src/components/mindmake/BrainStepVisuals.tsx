@@ -36,7 +36,7 @@ export function EncodeVisual() {
       src={brainFilm}
       poster={brainPoster}
       title="CTRL holding a leader's memory, sources, rules and checks around live work"
-      caption="A working system, not a folder of notes."
+      caption="CTRL holding memory, sources, rules and checks."
       labels={["Memory", "Sources", "Rules and checks"]}
     />
   );

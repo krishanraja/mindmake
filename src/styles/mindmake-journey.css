@@ -13,6 +13,12 @@
 
 .mm-journey { min-width: 0; }
 
+/* The legacy global stylesheet colours every heading directly, so tone
+   inheritance is not enough: journey headings state their colour. */
+.mm-journey h1,
+.mm-journey h2,
+.mm-journey h3 { color: var(--mm-step-fg, var(--mm-ink)); }
+
 /* Tones. Consecutive sections alternate so no two neighbouring numerals
    share a treatment. */
 .mm-journey [data-tone="ink"] {
@@ -703,8 +709,11 @@
 }
 
 @media (max-width: 560px) {
+  .mm-journey-hero { gap: clamp(14px, 2.4svh, 24px); }
   .mm-journey-hero h1 { font-size: clamp(29px, 8vw, 38px); }
   .mm-journey-moments { grid-template-columns: minmax(0, 1fr); }
+  .mm-journey-moments article { padding: 14px 16px; }
+  .mm-journey-moment { font-size: 14px; }
   .mm-journey .mm-step { --mm-journey-runway: 158svh; }
   .mm-journey .mm-step-stage,
   .mm-journey .mm-timeline-stage { padding-block: clamp(12px, 2.4svh, 22px); }
@@ -729,12 +738,20 @@
   .mm-journey .mm-timeline-stage { position: static; height: auto; min-height: 0; padding-block: clamp(40px, 7svh, 64px); }
 }
 
-/* Short landscape screens: put the copy and the visual side by side so the
-   scene stays a designed composition instead of a squashed column. */
+/* Short landscape screens: a purposeful two-pane composition, standing in
+   flow as complete scenes. A pinned canvas this short cannot hold a whole
+   scene without clipping copy, so the pin is released and the engine leaves
+   every scene finished. */
 @media (max-height: 520px) and (orientation: landscape) {
+  .mm-journey .mm-step,
+  .mm-journey .mm-timeline { height: auto; }
   .mm-journey .mm-step-stage,
   .mm-journey .mm-timeline-stage {
+    position: static;
+    height: auto;
+    min-height: calc(100svh - var(--mm-stage-chrome, var(--mm-header-height)));
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: none;
     align-items: center;
     align-content: center;
   }

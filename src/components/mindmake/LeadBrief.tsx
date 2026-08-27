@@ -79,6 +79,18 @@ const PRESSURES = {
   ],
 } as const;
 
+/* Lens label lookup for tailored choices: the server anchors every tailored
+   pressure to one generic lens, whose id maps back to a locked label. */
+const LENS_LABELS = Object.fromEntries(
+  Object.entries(PRESSURE_IDS).map(([label, id]) => [id, label]),
+) as Record<string, keyof typeof PRESSURE_IDS>;
+
+interface TailoredPressure {
+  id: string;
+  label: string;
+  lensId: string;
+}
+
 const CAPACITY_CHOICES = [
   "Grow this business",
   "Help more companies",
@@ -209,6 +221,8 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
   const [dossier, setDossier] = useState<Dossier | null>(null);
   const [liveRead, setLiveRead] = useState(false);
   const [pressure, setPressure] = useState("");
+  const [tailoredChoice, setTailoredChoice] = useState<TailoredPressure | null>(null);
+  const [showGenericChoices, setShowGenericChoices] = useState(false);
   const [capacity, setCapacity] = useState("");
   const [email, setEmail] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
@@ -234,7 +248,10 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
     || readableText(dossier?.understanding?.tagline)
     ||
     `We can use ${domain} as the start, then check the offer, the market and the work that still needs a human call.`;
-  const detail = useMemo(() => pressureDetail(pressure), [pressure]);
+  const detail = useMemo(
+    () => pressureDetail(tailoredChoice ? LENS_LABELS[tailoredChoice.lensId] : pressure),
+    [pressure, tailoredChoice],
+  );
   const timeValue = useMemo(() => capacityDetail(capacity), [capacity]);
   const evidence = useMemo(() => {
     const products = dossier?.understanding?.products?.filter(Boolean).slice(0, 3) ?? [];
@@ -244,6 +261,16 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
     return items;
   }, [dossier]);
   const choices = PRESSURES[route] ?? PRESSURES.default;
+
+  /* Server-signed tailored pressures, kept only when their shape is clean
+     and their lens serves this door. */
+  const tailoredChoices = useMemo(() => (dossier?.choices ?? [])
+    .filter((item): item is TailoredPressure =>
+      typeof item?.id === "string" && /^[0-9a-f]{64}$/.test(item.id)
+      && typeof item?.label === "string" && item.label.length >= 12 && item.label.length <= 120
+      && typeof item?.lensId === "string" && LENS_LABELS[item.lensId] !== undefined
+      && (choices as readonly string[]).includes(LENS_LABELS[item.lensId]))
+    .slice(0, 3), [choices, dossier]);
 
   const brief = useMemo<PrivateBriefContent>(() => ({
     company,
@@ -267,6 +294,8 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
     setDossier(null);
     setLiveRead(false);
     setPressure("");
+    setTailoredChoice(null);
+    setShowGenericChoices(false);
     setCapacity("");
     setEmail("");
     setVerificationCode("");
@@ -407,6 +436,12 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
     setDomain(nextDomain);
     setDossier(null);
     setLiveRead(false);
+    /* A tailored choice is signed for one domain; a fresh read clears it. */
+    setTailoredChoice((previous) => {
+      if (previous) setPressure("");
+      return null;
+    });
+    setShowGenericChoices(false);
     setStep("reading");
     try {
       const { supabase } = await import("@/integrations/supabase/client");
@@ -468,10 +503,11 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
       domain,
       capacityChoice: capacity as keyof typeof RETURNED_TIME_IDS,
       email,
-      pressure: pressure as keyof typeof PRESSURE_IDS,
+      pressure: (tailoredChoice ? LENS_LABELS[tailoredChoice.lensId] : pressure) as keyof typeof PRESSURE_IDS,
       publicationRequested: newsletter,
       requestId: requestIdRef.current,
       route,
+      tailored: tailoredChoice ? { id: tailoredChoice.id, label: tailoredChoice.label } : undefined,
     });
     handoffAbortRef.current?.abort();
     const controller = new AbortController();
@@ -508,6 +544,7 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
       code: verificationCode,
       email,
       requestId: requestIdRef.current,
+      tailored: tailoredChoice ? { id: tailoredChoice.id, label: tailoredChoice.label } : undefined,
     });
     handoffAbortRef.current?.abort();
     const controller = new AbortController();
@@ -736,11 +773,37 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
             )}
             <fieldset>
               <legend>Which problem feels closest?</legend>
-              <div className="mm-choice-grid">
-                {choices.map((item) => (
-                  <button key={item} type="button" aria-pressed={pressure === item} onClick={() => setPressure(item)}>{item}</button>
-                ))}
-              </div>
+              {tailoredChoices.length >= 2 && !showGenericChoices ? (
+                <>
+                  <div className="mm-choice-grid">
+                    {tailoredChoices.map((item) => (
+                      <button
+                        key={item.id}
+                        type="button"
+                        aria-pressed={tailoredChoice?.id === item.id}
+                        onClick={() => { setTailoredChoice(item); setPressure(item.label); }}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                  <p className="mm-honesty-note">Read from the outside as an illustrative example of how the Mindmake brain works. None of this is advice.</p>
+                  <button className="mm-text-button" type="button" onClick={() => setShowGenericChoices(true)}>Something else</button>
+                </>
+              ) : (
+                <div className="mm-choice-grid">
+                  {choices.map((item) => (
+                    <button
+                      key={item}
+                      type="button"
+                      aria-pressed={!tailoredChoice && pressure === item}
+                      onClick={() => { setPressure(item); setTailoredChoice(null); }}
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+              )}
             </fieldset>
             <button className="mm-button" type="button" disabled={!pressure} onClick={() => setStep("capacity")}>Use this problem <span aria-hidden="true">→</span></button>
           </section>

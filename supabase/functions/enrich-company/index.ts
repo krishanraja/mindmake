@@ -30,6 +30,7 @@
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { assembleDossier } from "../_shared/enrich/orchestrate.ts";
+import { generateTailoredChoices } from "../_shared/enrich/choices.ts";
 import { createLogger } from "../_shared/logger.ts";
 
 // --- CORS / response helpers ------------------------------------------------
@@ -171,10 +172,21 @@ serve(async (req) => {
   }
 
   totalServed += 1;
+
+  /* Tailored pressure choices, signed server-side. Only attempted on the
+     full read, only while the time budget allows, and never allowed to
+     fail the read: on any miss the journey falls back to the locked list. */
+  let choices: Awaited<ReturnType<typeof generateTailoredChoices>> = [];
+  const choiceSecret = Deno.env.get("MINDMAKE_VERIFICATION_SECRET");
+  if (depth === "full" && choiceSecret && result.dossier.meta.ms < 6_500) {
+    choices = await generateTailoredChoices(result.dossier, result.dossier.domain, choiceSecret);
+  }
+
   logger.info("served dossier", {
     domain: result.dossier.domain,
     depth,
     ms: result.dossier.meta.ms,
+    tailoredChoices: choices.length,
   });
-  return json(result.dossier);
+  return json(choices.length ? { ...result.dossier, choices } : result.dossier);
 });

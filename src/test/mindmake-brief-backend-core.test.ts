@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { scrubVoice } from "../../supabase/functions/_shared/enrich/llm";
 import {
+  signTailoredChoice,
+  verifyTailoredChoice,
+} from "../../supabase/functions/_shared/lead/choiceSignature";
+import {
   BriefValidationError,
   CONSENT_WORDING_VERSION,
   confirmedBriefResponse,
@@ -213,5 +217,53 @@ describe("Mindmake brief V2 backend core", () => {
     });
     expect(isMindmakeBriefResponseV2({ ...pending, surprise: true })).toBe(false);
     expect(safeAttachmentName("Example.COM")).toBe("mindmake-example.com-private-brief.html");
+  });
+
+  it("carries a tailored pressure only with a valid server signature", async () => {
+    const secret = "test-secret";
+    const label = "AI search may weaken the traffic that feeds our current model";
+    const id = await signTailoredChoice(secret, "example.com", "product-moving-faster-than-message", label);
+
+    expect(await verifyTailoredChoice(secret, "example.com", "product-moving-faster-than-message", label, id)).toBe(true);
+    expect(await verifyTailoredChoice(secret, "another.com", "product-moving-faster-than-message", label, id)).toBe(false);
+    expect(await verifyTailoredChoice(secret, "example.com", "price-still-reflects-old-work", label, id)).toBe(false);
+    expect(await verifyTailoredChoice(secret, "example.com", "product-moving-faster-than-message", label + "!", id)).toBe(false);
+
+    const withTailored = {
+      ...validRequest(),
+      choices: { ...validRequest().choices, tailored: { id, label } },
+    };
+    const parsed = parseMindmakeBriefRequest(withTailored);
+    if (parsed.action !== "request") throw new Error("expected request action");
+    expect(parsed.choices.tailored).toEqual({ id, label });
+
+    expect(() => parseMindmakeBriefRequest({
+      ...validRequest(),
+      choices: { ...validRequest().choices, tailored: { id: "short", label } },
+    })).toThrow(BriefValidationError);
+    expect(() => parseMindmakeBriefRequest({
+      ...validRequest(),
+      choices: { ...validRequest().choices, tailored: { id, label: "too short" } },
+    })).toThrow(BriefValidationError);
+
+    const confirmWithTailored = parseMindmakeBriefRequest({
+      ...validConfirm(),
+      tailored: { id, label },
+    });
+    if (confirmWithTailored.action !== "confirm") throw new Error("expected confirm action");
+    expect(confirmWithTailored.tailored).toEqual({ id, label });
+
+    const brief = createStoredBrief(parsed, {
+      name: "Example",
+      read: "A short read.",
+      evidence: [],
+      readSource: "fallback",
+    }, label);
+    expect(brief.choices.pressure).toBe(label);
+    expect(brief.recommendation.aiCarries.length).toBeGreaterThan(0);
+    const visitor = renderVisitorEmail(brief);
+    expect(visitor.subject).toContain("Example");
+    expect(visitor.attachmentHtml).toContain(label);
+    expect(visitor.attachmentHtml).toContain("It is not advice.");
   });
 });

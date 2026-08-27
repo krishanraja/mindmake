@@ -10,6 +10,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { assembleDossier } from "../_shared/enrich/orchestrate.ts";
 import type { Dossier } from "../_shared/enrich/types.ts";
 import { sendResendEmail, toBase64 } from "../_shared/http/resend.ts";
+import { verifyTailoredChoice } from "../_shared/lead/choiceSignature.ts";
 import {
   BODY_LIMIT_BYTES,
   BriefValidationError,
@@ -344,7 +345,7 @@ async function assembleResearch(request: MindmakeBriefRequestActionV2): Promise<
   return researchFromDossier(request.company.domain, result.dossier);
 }
 
-function storedBriefFromRow(row: BriefRow): StoredBrief {
+function storedBriefFromRow(row: BriefRow, tailoredLabel?: string): StoredBrief {
   if (!row.company_research) throw new StorageError();
   const reconstructed = parseMindmakeBriefRequest({
     version: 2,
@@ -364,7 +365,7 @@ function storedBriefFromRow(row: BriefRow): StoredBrief {
     website: "",
   });
   if (reconstructed.action !== "request") throw new StorageError();
-  return createStoredBrief(reconstructed, row.company_research);
+  return createStoredBrief(reconstructed, row.company_research, tailoredLabel);
 }
 
 async function finishDelivery(
@@ -489,8 +490,9 @@ async function deliverConfirmedBrief(
   admin: AdminClient,
   row: BriefRow,
   config: RuntimeConfig,
+  tailoredLabel?: string,
 ): Promise<BriefRow> {
-  const brief = storedBriefFromRow(row);
+  const brief = storedBriefFromRow(row, tailoredLabel);
   await Promise.all([
     deliverBrief(admin, row, "visitor", brief, config),
     deliverBrief(admin, row, "operator", brief, config),
@@ -512,6 +514,19 @@ async function handleRequestAction(
   const userAgentHash = rawUserAgent
     ? await hmacIdentifier(config.rateLimitSalt, rawUserAgent.slice(0, 500))
     : null;
+  if (parsed.choices.tailored) {
+    const tailoredValid = await verifyTailoredChoice(
+      config.verificationSecret,
+      parsed.company.domain,
+      parsed.choices.pressureId,
+      parsed.choices.tailored.label,
+      parsed.choices.tailored.id,
+    );
+    if (!tailoredValid) {
+      return responseJson({ success: false, error: "tailored_choice_invalid" }, 400, origin);
+    }
+  }
+
   const proposedNonce = crypto.randomUUID();
   const proposedCode = await deriveVerificationCode(
     config.verificationSecret,
@@ -650,7 +665,20 @@ async function handleConfirmAction(
     throw new StorageError();
   }
 
-  const row = await deliverConfirmedBrief(admin, requireRow(envelope), config);
+  const verifiedRow = requireRow(envelope);
+  let tailoredLabel: string | undefined;
+  if (parsed.tailored) {
+    const tailoredValid = await verifyTailoredChoice(
+      config.verificationSecret,
+      verifiedRow.company_domain,
+      verifiedRow.pressure_id,
+      parsed.tailored.label,
+      parsed.tailored.id,
+    );
+    if (tailoredValid) tailoredLabel = parsed.tailored.label;
+    else console.warn("[mindmake-brief] tailored choice signature failed; using the lens label");
+  }
+  const row = await deliverConfirmedBrief(admin, verifiedRow, config, tailoredLabel);
   return responseJson(confirmedBriefResponse(row), 200, origin);
 }
 

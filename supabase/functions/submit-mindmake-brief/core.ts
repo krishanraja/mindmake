@@ -145,12 +145,20 @@ export interface MindmakeBriefRequestActionV2 {
     pressureId: PressureId;
     returnedTimeId: ReturnedTimeId;
     entryRoute: BriefEntryRoute;
+    tailored?: TailoredChoiceRef;
   };
   consent: {
     publicationRequested: boolean;
     wordingVersion: typeof CONSENT_WORDING_VERSION;
   };
   website: "";
+}
+
+/** A server-authored tailored pressure, carried by the browser and proven
+ *  by its HMAC id before any label is trusted. */
+export interface TailoredChoiceRef {
+  id: string;
+  label: string;
 }
 
 export interface MindmakeBriefConfirmActionV2 {
@@ -161,6 +169,7 @@ export interface MindmakeBriefConfirmActionV2 {
     email: string;
   };
   code: string;
+  tailored?: TailoredChoiceRef;
 }
 
 export type MindmakeBriefRequestV2 = MindmakeBriefRequestActionV2 | MindmakeBriefConfirmActionV2;
@@ -248,13 +257,14 @@ const exactKeys = (
   allowed: readonly string[],
   path: string,
   issues: string[],
+  optional: readonly string[] = [],
 ): value is Record<string, unknown> => {
   if (!isRecord(value)) {
     issues.push(`${path} must be an object`);
     return false;
   }
   const keys = Object.keys(value);
-  const allowedSet = new Set(allowed);
+  const allowedSet = new Set([...allowed, ...optional]);
   if (keys.some((key) => !allowedSet.has(key))) issues.push(`${path} has unexpected fields`);
   if (allowed.some((key) => !Object.prototype.hasOwnProperty.call(value, key))) {
     issues.push(`${path} is missing fields`);
@@ -359,6 +369,7 @@ const parseRequestAction = (input: unknown): MindmakeBriefRequestActionV2 => {
     ["pressureId", "returnedTimeId", "entryRoute"],
     "choices",
     issues,
+    ["tailored"],
   );
   const choices: Record<string, unknown> = choicesOk && isRecord(root.choices) ? root.choices : {};
   const pressureId = enumField(
@@ -382,6 +393,7 @@ const parseRequestAction = (input: unknown): MindmakeBriefRequestActionV2 => {
   if (!(PRESSURE_DEFINITIONS[pressureId].routes as readonly BriefEntryRoute[]).includes(entryRoute)) {
     issues.push("choices.pressureId is not available for this entry route");
   }
+  const tailored = parseTailoredRef(choices.tailored, "choices.tailored", issues);
 
   const consentOk = exactKeys(
     root.consent,
@@ -406,13 +418,36 @@ const parseRequestAction = (input: unknown): MindmakeBriefRequestActionV2 => {
     requestId,
     contact,
     company: { domain },
-    choices: { pressureId, returnedTimeId, entryRoute },
+    choices: tailored
+      ? { pressureId, returnedTimeId, entryRoute, tailored }
+      : { pressureId, returnedTimeId, entryRoute },
     consent: {
       publicationRequested: consent.publicationRequested as boolean,
       wordingVersion: CONSENT_WORDING_VERSION,
     },
     website: "",
   };
+};
+
+/** Validate an optional tailored-choice reference; the HMAC itself is
+ *  verified by the caller, which holds the secret. */
+const parseTailoredRef = (
+  value: unknown,
+  path: string,
+  issues: string[],
+): TailoredChoiceRef | undefined => {
+  if (value === undefined) return undefined;
+  const ok = exactKeys(value, ["id", "label"], path, issues);
+  if (!ok) return undefined;
+  const record = value as Record<string, unknown>;
+  const id = typeof record.id === "string" && /^[0-9a-f]{64}$/.test(record.id) ? record.id : "";
+  const label = typeof record.label === "string" ? record.label : "";
+  if (!id) issues.push(`${path}.id is not valid`);
+  if (label.length < 12 || label.length > 120 || /[\r\n\t<>]/.test(label) || label.trim() !== label) {
+    issues.push(`${path}.label is not valid`);
+  }
+  if (!id || !label) return undefined;
+  return { id, label };
 };
 
 const parseConfirmAction = (input: unknown): MindmakeBriefConfirmActionV2 => {
@@ -422,8 +457,10 @@ const parseConfirmAction = (input: unknown): MindmakeBriefConfirmActionV2 => {
     ["version", "action", "requestId", "contact", "code"],
     "request",
     issues,
+    ["tailored"],
   );
   const root = rootOk ? input : {};
+  const tailored = parseTailoredRef(root.tailored, "tailored", issues);
 
   if (root.version !== 2) issues.push("version must be 2");
   if (root.action !== "confirm") issues.push("action must be confirm");
@@ -445,6 +482,7 @@ const parseConfirmAction = (input: unknown): MindmakeBriefConfirmActionV2 => {
     requestId,
     contact,
     code: root.code as string,
+    ...(tailored ? { tailored } : {}),
   };
 };
 
@@ -456,10 +494,13 @@ export function parseMindmakeBriefRequest(input: unknown): MindmakeBriefRequestV
   throw new BriefValidationError(["action is not supported"]);
 }
 
-/** Build a renderer-safe brief from a parsed choice request and server research. */
+/** Build a renderer-safe brief from a parsed choice request and server research.
+ *  A verified tailored label replaces the lens label in everything the
+ *  visitor and operator read; the lens still owns the recommendation. */
 export function createStoredBrief(
   request: MindmakeBriefRequestActionV2,
   researchInput: StoredCompanyResearch,
+  tailoredLabel?: string,
 ): StoredBrief {
   const issues: string[] = [];
   const researchOk = exactKeys(
@@ -506,7 +547,7 @@ export function createStoredBrief(
     },
     choices: {
       pressureId: request.choices.pressureId,
-      pressure: pressure.label,
+      pressure: tailoredLabel ?? pressure.label,
       returnedTimeId: request.choices.returnedTimeId,
       returnedTimeChoice: returnedTime.label,
       returnedTimeValue: returnedTime.value,
@@ -584,6 +625,66 @@ export function renderVerificationEmail(code: string): ServerEmail {
   return { subject, html: htmlDocument(subject, body), text };
 }
 
+/* The one private fact that would most change each read, named per pressure
+   so the proposal shows where the outside read ends. */
+const CANNOT_KNOW_BY_PRESSURE: Partial<Record<PressureId, string>> = {
+  "important-context-lives-in-my-head": "how much of what lives in your head your team can already reach without you",
+  "searching-for-things-i-should-know": "how much of what lives in your head your team can already reach without you",
+  "avoid-work-that-needs-my-judgement": "which piece of avoided work is really about taste and which is about time",
+  "need-room-for-important-decisions": "which decision is waiting on you right now, and what it costs each week it waits",
+  "customers-can-do-more-without-us": "what your best customers still ask you for that they could not get elsewhere",
+  "price-no-longer-matches-value": "what your last three renewals actually argued about",
+  "price-still-reflects-old-work": "what your last three renewals actually argued about",
+  "product-moving-faster-than-message": "which promise your sales conversations already make that the website does not",
+  "team-building-faster-than-it-can-choose": "which option your team privately believes in and has not said out loud",
+  "team-has-too-many-possible-moves": "which option your team privately believes in and has not said out loud",
+};
+
+const cannotKnowLine = (pressureId: PressureId): string =>
+  `What I cannot know from the outside: ${CANNOT_KNOW_BY_PRESSURE[pressureId]
+    ?? "the one private constraint that would most change this read"}.`;
+
+/** The branded proposal document attached to the visitor email. It mirrors
+ *  the on-screen proposal: self-contained, system fonts, no scripts, no
+ *  external requests, printable to a clean A4, no prices, no diary links. */
+export function renderProposalDocument(brief: StoredBrief): string {
+  const source = brief.company.readSource === "live"
+    ? "This came from the live company read."
+    : "This is the safe read based on the website.";
+  const evidence = brief.company.evidence.length
+    ? `<ul style="margin:8px 0 0;padding-left:20px;color:#5d6562;font-size:13px;">${brief.company.evidence.map((item) => `<li style="margin:4px 0;">${esc(item)}</li>`).join("")}</ul>`
+    : "";
+  const label = (text: string, colour = "#0b756c") =>
+    `<p style="margin:0 0 8px;color:${colour};font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;">${esc(text)}</p>`;
+  const card = (inner: string) =>
+    `<div style="margin-top:20px;border:1px solid rgba(13,25,41,.24);background:#fffdf8;padding:24px;box-shadow:10px 10px 0 rgba(13,25,41,.12);">${inner}</div>`;
+
+  return `<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${esc(singleLine(brief.company.name))} | Mindmake private brief</title></head>
+<body style="margin:0;background:#f4f0e8;color:#0d1929;font:16px/1.55 'Segoe UI',Arial,sans-serif;">
+<main style="max-width:760px;margin:auto;padding:44px 24px 64px;">
+<div style="border-top:10px solid #6ee1c0;padding-top:26px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:baseline;">
+  <p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:21px;letter-spacing:-.02em;"><b style="font-family:'Segoe UI',Arial,sans-serif;font-size:15px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;">Mindmake</b> &#215; ${esc(singleLine(brief.company.name))}</p>
+  <p style="margin:0;color:#5d6562;font-size:13px;">${esc(brief.company.domain)} &#183; prepared for ${esc(brief.contact.email)} &#183; Private brief</p>
+</div>
+<h1 style="max-width:14ch;margin:56px 0 0;font-family:Georgia,'Times New Roman',serif;font-size:52px;line-height:.96;letter-spacing:-.04em;">${esc(brief.choices.pressure)}.</h1>
+${card(`${label(`What Mindmake saw at ${singleLine(brief.company.name)}`)}<p style="margin:0;">${esc(brief.company.read)}</p><p style="margin:8px 0 0;color:#5d6562;font-size:13px;">${esc(source)}</p>${evidence}`)}
+<div style="margin-top:4px;">
+${card(`${label("What AI can carry")}<p style="margin:0;">${esc(brief.recommendation.aiCarries)}</p>`)}
+${card(`${label("What stays yours")}<p style="margin:0;">${esc(brief.recommendation.humanKeeps)}</p>`)}
+</div>
+${card(`${label("A useful 30-day proof")}<strong style="display:block;font-family:Georgia,'Times New Roman',serif;font-size:26px;line-height:1.15;letter-spacing:-.02em;">${esc(brief.recommendation.proofForThirtyDays)}</strong>`)}
+<div style="margin-top:34px;border-left:4px solid #b96743;padding-left:18px;">${label("Where the returned time goes", "#b96743")}<p style="margin:0;">${esc(brief.choices.returnedTimeValue)}</p></div>
+<p style="margin:30px 0 0;font-style:italic;color:#3d4a47;">${esc(cannotKnowLine(brief.choices.pressureId))}</p>
+<div style="margin-top:26px;border:1px solid #0b756c;background:#fffdf8;padding:18px 20px;">${label("The next step")}<p style="margin:0;">If this reads worth a conversation, reply to the email this brief came with. Krish reads every reply.</p></div>
+<div style="margin-top:56px;padding-top:16px;border-top:1px solid rgba(13,25,41,.22);color:#5d6562;font-size:13px;">
+  <p style="margin:0 0 6px;">This is a useful first view, not a promise or final answer. Mindmake uses the real business, the leader's judgement and real work to test what holds up.</p>
+  <p style="margin:0;">This read is an illustrative example of how the Mindmake brain reads a business from the outside. It is not advice.</p>
+</div>
+</main></body></html>`;
+}
+
 /** The visitor receives the server-owned brief they confirmed. */
 export function renderVisitorEmail(brief: StoredBrief): ServerEmail & { attachmentHtml: string } {
   const subject = `Your Mindmake brief for ${singleLine(brief.company.name)}`;
@@ -637,7 +738,7 @@ export function renderVisitorEmail(brief: StoredBrief): ServerEmail & { attachme
   ].join("\n");
 
   const html = htmlDocument(subject, body);
-  return { subject, html, text, attachmentHtml: html };
+  return { subject, html, text, attachmentHtml: renderProposalDocument(brief) };
 }
 
 const routeRead = (route: BriefEntryRoute): string => {

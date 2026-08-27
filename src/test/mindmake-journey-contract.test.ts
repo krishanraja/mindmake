@@ -93,6 +93,59 @@ describe("Mindmake step journey contract", () => {
     expect(read("src/styles/mindmake-journey.css")).toContain("@media (prefers-reduced-motion: reduce)");
   });
 
+  it("keeps hand-drawn marks sparing, reversible and off the footage", () => {
+    const mark = read("src/components/mindmake/ScrollMark.tsx");
+    expect(mark).toContain("prefers-reduced-motion: reduce");
+    expect(mark).toContain('"circle" | "underline" | "bracket"');
+    expect(read("src/styles/mindmake-journey.css"))
+      .toContain(".mm-mark.is-step { --mm-mark-progress: var(--mm-step-p3, 1); }");
+
+    ["src/pages/AiBrain.tsx", "src/pages/AiGtm.tsx"].forEach((file) => {
+      const marks = read(file).match(/<ScrollMark/g) ?? [];
+      expect(marks.length).toBeGreaterThan(0);
+      expect(marks.length).toBeLessThanOrEqual(3);
+    });
+    ["src/components/mindmake/BrainStepVisuals.tsx", "src/components/mindmake/GtmStepVisuals.tsx"]
+      .forEach((file) => expect(read(file)).not.toContain("ScrollMark"));
+  });
+
+  it("teaches the working-understanding comparison on both door pages", () => {
+    ["src/pages/AiBrain.tsx", "src/pages/AiGtm.tsx"].forEach((file) => {
+      const page = read(file);
+      expect(page).toContain("<WorkingUnderstandingCompare");
+      expect(page).toContain("Where does the understanding live when the work ends?");
+      expect(page).not.toMatch(/\bSaaS\b/);
+    });
+    const compare = read("src/components/mindmake/WorkingUnderstandingCompare.tsx");
+    expect(compare).toContain("You can hand over the work.");
+    expect(compare).toContain("Not the understanding.");
+    expect(compare).not.toMatch(/\bSaaS\b/);
+
+    const styles = read("src/styles/mindmake-journey.css");
+    const compareBlock = styles.slice(styles.indexOf(".mm-compare"));
+    expect(compareBlock).not.toMatch(/overflow-x:\s*(auto|scroll)/);
+    expect(styles).toMatch(/@media \(max-width: 560px\)[\s\S]*?\.mm-compare-grid \{ grid-template-columns: minmax\(0, 1fr\)/);
+  });
+
+  it("keeps the leaders claim uncounted until the evidence trail is approved", () => {
+    ["src/pages/Index.tsx", "scripts/generate-llms.mjs", "public/llms.txt"].forEach((file) => {
+      expect(read(file)).not.toMatch(/\b\d[\d,]*\+?\s+leaders/i);
+    });
+  });
+
+  it("stages the brief journey with a functional path and the branded proposal", () => {
+    const brief = read("src/components/mindmake/LeadBrief.tsx");
+    expect(brief).toContain('className="mm-brief-path"');
+    expect(brief).toContain('aria-label="Your progress"');
+    expect(brief).toContain("STEP_TONES[step]");
+    expect(brief).toContain("<MindmakeProposal");
+
+    const proposal = read("src/components/mindmake/proposalContent.ts");
+    expect(proposal).toContain("It is not advice.");
+    expect(proposal).toContain("What I cannot know from the outside");
+    expect(read("src/components/mindmake/MindmakeProposal.tsx")).toContain('aria-label="Your private brief"');
+  });
+
   it("keeps footage user-controlled through the shared media frame", () => {
     const film = read("src/components/mindmake/StepFilm.tsx");
     expect(film).toContain("MediaFrame");

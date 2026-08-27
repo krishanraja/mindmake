@@ -1,0 +1,242 @@
+/* The intelligence journey inside the brief dialog: a tone arc over the
+   proven step machine, a functional progress path, the recommendation
+   reveal and the branded proposal. Structural and phone rules stay in
+   mindmake.css; this file only stages them. All defaults are complete
+   states, and reduced motion swaps whole states. */
+
+.mm-brief-panel[data-tone] { background: var(--mmb-bg); color: var(--mmb-fg); }
+.mm-brief-panel[data-tone="ink"] {
+  --mmb-bg: var(--mm-ink);
+  --mmb-fg: #ffffff;
+  --mmb-muted: var(--mm-muted-dark);
+  --mmb-line: var(--mm-line-light);
+  --mmb-card: rgba(255, 255, 255, .05);
+  --mmb-accent: var(--mm-emerald);
+  --mmb-top: rgba(13, 25, 41, .94);
+}
+.mm-brief-panel[data-tone="forest"] {
+  --mmb-bg: var(--mm-forest);
+  --mmb-fg: #ffffff;
+  --mmb-muted: var(--mm-muted-dark);
+  --mmb-line: rgba(255, 255, 255, .2);
+  --mmb-card: rgba(255, 255, 255, .06);
+  --mmb-accent: var(--mm-emerald);
+  --mmb-top: rgba(6, 37, 31, .94);
+}
+.mm-brief-panel[data-tone="paper"] {
+  --mmb-bg: var(--mm-paper);
+  --mmb-fg: var(--mm-ink);
+  --mmb-muted: var(--mm-muted-light);
+  --mmb-line: var(--mm-line-dark);
+  --mmb-card: var(--mm-paper-bright);
+  --mmb-accent: var(--mm-emerald-deep);
+  --mmb-top: rgba(244, 240, 232, .96);
+}
+
+.mm-brief-panel[data-tone] h2 { color: var(--mmb-fg); }
+.mm-brief-panel[data-tone] .mm-brief-top {
+  border-bottom-color: var(--mmb-line);
+  background: var(--mmb-top);
+  color: var(--mmb-accent);
+}
+.mm-brief-panel[data-tone] .mm-brief-top button { border-color: var(--mmb-line); color: var(--mmb-fg); }
+.mm-brief-panel[data-tone] .mm-brief-step > p:not(.mm-form-error, .mm-honesty-note, .mm-capacity-line),
+.mm-brief-panel[data-tone] .mm-brief-step > small,
+.mm-brief-panel[data-tone] .mm-honesty-note { color: var(--mmb-muted); }
+.mm-brief-panel[data-tone] .mm-brief-step input {
+  border-color: var(--mmb-line);
+  background: var(--mmb-card);
+  color: var(--mmb-fg);
+}
+.mm-brief-panel[data-tone] .mm-step-back,
+.mm-brief-panel[data-tone] .mm-text-button { color: var(--mmb-muted); }
+.mm-brief-panel[data-tone] .mm-text-button { color: var(--mmb-fg); }
+.mm-brief-panel[data-tone] .mm-choice-grid button {
+  border-color: var(--mmb-line);
+  background: var(--mmb-card);
+  color: var(--mmb-fg);
+}
+.mm-brief-panel[data-tone] .mm-choice-grid button[aria-pressed="true"] {
+  border-color: var(--mmb-accent);
+  box-shadow: inset 5px 0 0 var(--mmb-accent);
+}
+.mm-brief-panel[data-tone] .mm-company-read { border-color: var(--mmb-line); background: var(--mmb-card); }
+.mm-brief-panel[data-tone] .mm-company-read p,
+.mm-brief-panel[data-tone] .mm-company-read ul { color: var(--mmb-muted); }
+.mm-brief-panel[data-tone] .mm-spinner { color: var(--mmb-accent); }
+.mm-brief-panel[data-tone="ink"] .mm-value-preview,
+.mm-brief-panel[data-tone="forest"] .mm-value-preview { color: var(--mmb-muted); }
+.mm-brief-panel[data-tone="ink"] .mm-value-preview strong,
+.mm-brief-panel[data-tone="forest"] .mm-value-preview strong { color: var(--mmb-fg); }
+
+/* The reading moment: a quiet accent rule filling under the message. */
+.mm-reading-rule {
+  width: min(240px, 60%);
+  height: 3px;
+  margin: 26px auto 0;
+  background: var(--mmb-line);
+  overflow: hidden;
+}
+.mm-reading-rule::before {
+  content: "";
+  display: block;
+  width: 40%;
+  height: 100%;
+  background: var(--mmb-accent);
+  animation: mm-brief-reading 1.6s ease-in-out infinite alternate;
+}
+@keyframes mm-brief-reading {
+  from { transform: translateX(-40%); }
+  to { transform: translateX(260%); }
+}
+
+/* The functional progress path: every rendered segment is a working
+   control naming a stage the visitor can return to. */
+.mm-brief-path {
+  position: sticky;
+  top: 58px;
+  z-index: 2;
+  display: flex;
+  border-bottom: 1px solid var(--mmb-line, var(--mm-line-dark));
+  background: var(--mmb-top, rgba(244, 240, 232, .96));
+}
+.mm-brief-path button {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 44px;
+  border: 0;
+  border-top: 3px solid transparent;
+  background: transparent;
+  color: var(--mmb-muted, var(--mm-muted-light));
+  padding: 8px 4px;
+  font-size: 12px;
+  font-weight: 750;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.mm-brief-path button[data-done="true"] { border-top-color: var(--mmb-accent, var(--mm-emerald-deep)); }
+.mm-brief-path button[aria-current="step"] {
+  border-top-color: var(--mmb-accent, var(--mm-emerald-deep));
+  color: var(--mmb-fg, var(--mm-ink));
+}
+.mm-brief-path button:disabled { cursor: default; }
+.mm-brief-path button:focus-visible { outline: 3px solid currentColor; outline-offset: -3px; }
+@media (max-width: 560px) {
+  .mm-brief-path { top: calc(58px + var(--mm-safe-top)); }
+  .mm-brief-path button { font-size: 10.5px; letter-spacing: 0; padding-inline: 2px; }
+}
+
+/* Step arrival: one fast settled entrance per step change. */
+@media (prefers-reduced-motion: no-preference) {
+  .mm-brief-step > * { animation: mm-brief-arrive .4s cubic-bezier(.22, .8, .3, 1) backwards; }
+  .mm-brief-step > *:nth-child(2) { animation-delay: .05s; }
+  .mm-brief-step > *:nth-child(3) { animation-delay: .1s; }
+  .mm-brief-step > *:nth-child(4) { animation-delay: .15s; }
+  .mm-brief-step > *:nth-child(5) { animation-delay: .2s; }
+  .mm-brief-step > *:nth-child(6) { animation-delay: .25s; }
+  .mm-preview .mm-brief-result-grid article {
+    animation: mm-brief-arrive .5s cubic-bezier(.22, .8, .3, 1) backwards;
+    animation-delay: calc(.12s + var(--mm-i, 0) * .14s);
+  }
+}
+@keyframes mm-brief-arrive {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* The recommendation reveal: the pressure headline at journey scale and
+   tone-aware result cards. */
+.mm-brief-panel[data-tone] .mm-preview h2 { max-width: 18ch; font-size: clamp(38px, 5vw, 54px); }
+.mm-brief-panel[data-tone="forest"] .mm-brief-result-grid article {
+  border-color: var(--mmb-line);
+  background: var(--mmb-card);
+}
+.mm-brief-panel[data-tone="forest"] .mm-brief-result-grid article.is-read { background: rgba(110, 225, 192, .1); }
+.mm-brief-panel[data-tone="forest"] .mm-brief-result-grid small { color: var(--mmb-accent); }
+.mm-brief-panel[data-tone="forest"] .mm-brief-result-grid article.is-wide { border-top-color: var(--mmb-accent); }
+.mm-brief-panel[data-tone="forest"] .mm-brief-result-grid article.is-time { border-top-color: var(--mm-rust); }
+
+/* Hand-drawn marks inside the dialog: the shared .mm-mark primitive lives
+   in mindmake.css; here the reveal timing and dark-tone stroke apply. */
+.mm-brief-panel[data-tone="ink"] .mm-mark,
+.mm-brief-panel[data-tone="forest"] .mm-mark { --mm-mark-stroke: var(--mm-emerald); }
+@media (prefers-reduced-motion: no-preference) {
+  .mm-mark.is-reveal svg path { animation: mm-mark-reveal .8s ease .8s backwards; }
+}
+@keyframes mm-mark-reveal {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mm-mark.is-reveal svg path { animation: none; }
+}
+
+/* The branded proposal handed over on the success step. Always paper: the
+   proposal is the object, whatever tone the room is in. */
+.mm-proposal {
+  margin-top: 30px;
+  border: 1px solid var(--mm-line-dark);
+  background: var(--mm-paper);
+  color: var(--mm-ink);
+  padding: clamp(22px, 4vw, 40px);
+  box-shadow: 14px 14px 0 rgba(0, 0, 0, .26);
+}
+.mm-proposal-cover {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  border-top: 8px solid var(--mm-emerald);
+  padding-top: 16px;
+}
+.mm-proposal-brand { font-family: "Source Serif 4", Charter, Georgia, serif; font-size: clamp(17px, 1.6vw, 21px); letter-spacing: -.02em; }
+.mm-proposal-meta { color: var(--mm-muted-light); font-size: 12px; }
+.mm-proposal-headline {
+  margin-top: clamp(20px, 3vw, 34px);
+  max-width: 15ch;
+  color: var(--mm-ink);
+  font-size: clamp(30px, 4.4vw, 46px);
+  line-height: .98;
+}
+.mm-proposal-card {
+  margin-top: 16px;
+  border: 1px solid rgba(13, 25, 41, .24);
+  background: var(--mm-paper-bright);
+  padding: clamp(14px, 2vw, 20px);
+  box-shadow: 8px 8px 0 rgba(13, 25, 41, .1);
+}
+.mm-proposal-card h4,
+.mm-proposal-time h4 {
+  margin: 0 0 8px;
+  color: var(--mm-emerald-deep);
+  font-family: "Source Sans 3", "Segoe UI", Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+.mm-proposal-card p, .mm-proposal-card ul { margin: 0; font-size: 15px; line-height: 1.5; }
+.mm-proposal-card ul { margin-top: 8px; padding-left: 18px; color: var(--mm-muted-light); font-size: 13px; }
+.mm-proposal-pair { display: grid; gap: 12px; }
+.mm-proposal-card.is-proof strong {
+  display: block;
+  font-family: "Source Serif 4", Charter, Georgia, serif;
+  font-size: clamp(19px, 2.2vw, 24px);
+  font-weight: 650;
+  line-height: 1.18;
+  letter-spacing: -.02em;
+}
+.mm-proposal-time { margin-top: 22px; border-left: 4px solid var(--mm-rust); padding-left: 14px; }
+.mm-proposal-time h4 { color: var(--mm-rust); }
+.mm-proposal-time p { margin: 0; font-size: 15px; }
+.mm-proposal-honesty { margin-top: 20px; color: var(--mm-muted-light); font-style: italic; font-size: 14px; }
+.mm-proposal-next { margin-top: 14px; border: 1px solid var(--mm-emerald-deep); background: var(--mm-paper-bright); padding: 12px 14px; font-size: 14px; }
+.mm-proposal-foot { margin-top: 22px; border-top: 1px solid rgba(13, 25, 41, .22); padding-top: 10px; }
+.mm-proposal-foot p { margin: 0 0 4px; color: var(--mm-muted-light); font-size: 12px; }
+@media (min-width: 680px) {
+  .mm-proposal-pair { grid-template-columns: 1fr 1fr; }
+}

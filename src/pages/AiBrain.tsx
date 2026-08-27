@@ -13,6 +13,8 @@ import {
   KeepVisual,
   UncoverVisual,
 } from "@/components/mindmake/BrainStepVisuals";
+import { ScrollMark } from "@/components/mindmake/ScrollMark";
+import { WorkingUnderstandingCompare } from "@/components/mindmake/WorkingUnderstandingCompare";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-journey.css";
@@ -85,7 +87,7 @@ export default function AiBrain() {
           title="Keep"
           tone="paper"
           body="The system, the evidence and the reasons stay with you. It keeps improving your decisions after the month ends, and it never needed you to become technical to own it."
-          note="It compounds without Krish."
+          note={<>It compounds <ScrollMark shape="circle" driver="step">without Krish</ScrollMark>.</>}
           visual={<KeepVisual />}
         />
 
@@ -100,6 +102,61 @@ export default function AiBrain() {
             { day: 90, standing: "Earned", body: "Your team works with your standards. The brain briefs you before you ask. It compounds without Krish." },
           ]}
           visual={<BrainTimelinePanel />}
+        />
+
+        <WorkingUnderstandingCompare
+          tone="paper"
+          ariaLabel="How the Mindmake brain compares with other kinds of help"
+          intro="A generic AI, a consultancy and ready-made tools can all do useful work. The difference is where the understanding lives when the work ends, and a leader needs to keep it."
+          rows={[
+            "Does useful work today?",
+            "Does it have a memory of you?",
+            "Can it draw out how you judge?",
+            "Where does the understanding live when the work ends?",
+          ]}
+          columns={[
+            {
+              title: "A generic AI chat",
+              explain: "An AI that answers whatever you ask it.",
+              cells: [
+                "Yes.",
+                "No. Each chat starts from nothing.",
+                "No. It waits to be asked.",
+                "Nowhere.",
+              ],
+            },
+            {
+              title: "A consultancy",
+              explain: "People who study your business and advise you.",
+              cells: [
+                "Yes.",
+                "Their notes leave with them.",
+                "Interviews, then a deck.",
+                "In a deck that leaves.",
+              ],
+            },
+            {
+              title: "Ready-made tools",
+              explain: "Software you subscribe to that stores your notes and context.",
+              cells: [
+                "Yes.",
+                "It stores what you put in.",
+                "No. You do the organising.",
+                "Inside the tool.",
+              ],
+            },
+            {
+              title: "The Mindmake brain, with Krish",
+              explain: "A working system built with you, on your real work.",
+              cells: [
+                "Yes.",
+                "It holds your taste, standards, sources and corrections.",
+                "Krish's questions, comparisons and graded examples.",
+                "With you, and it keeps growing.",
+              ],
+              emphasis: true,
+            },
+          ]}
         />
       </StepJourney>
 

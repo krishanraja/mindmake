@@ -31,7 +31,7 @@ CTRL keeps facts, examples, past choices and working rules beside the decisions 
 ## Proof
 
 - [Customer outcomes](/case-studies): eight verified anonymous stories.
-- Mindmake has helped over 4000 leaders with what is next in AI.
+- Mindmake has helped leaders across media, software and advisory with what is next in AI.
 - Organisation logos are attendance proof. They are not customer claims.
 - Career testimonials are kept separate from customer outcomes.
 

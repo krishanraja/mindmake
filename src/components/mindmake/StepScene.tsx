@@ -5,7 +5,7 @@ interface StepSceneProps {
   name: string;
   title: string;
   body: string;
-  note?: string;
+  note?: ReactNode;
   tone: "ink" | "forest" | "paper";
   visual: ReactNode;
   id?: string;

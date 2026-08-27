@@ -1,6 +1,6 @@
-import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { CSSProperties, FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Check, Download, LoaderCircle, X } from "lucide-react";
-import type { Dossier } from "@/components/diagnosis/types";
+import type { CompanyDossier as Dossier } from "@/components/mindmake/companyRead";
 import {
   buildMindmakeBriefConfirmV2,
   buildMindmakeBriefRequestV2,
@@ -12,6 +12,9 @@ import {
   type BriefRoute,
 } from "@/components/mindmake/leadDelivery";
 import { buildPrivateBriefHtml, type PrivateBriefContent } from "@/components/mindmake/privateBriefHtml";
+import { MindmakeProposal } from "@/components/mindmake/MindmakeProposal";
+import { ScrollMark } from "@/components/mindmake/ScrollMark";
+import "@/styles/mindmake-brief.css";
 
 export type { BriefRoute } from "@/components/mindmake/leadDelivery";
 
@@ -22,6 +25,20 @@ interface LeadBriefProps {
 }
 
 type Step = "domain" | "reading" | "pressure" | "capacity" | "preview" | "contact" | "verify" | "success";
+
+/* The dialog's tone arc: the question in the dark, the read on paper, the
+   recommendation revealed on forest, the forms back on paper, and the
+   proposal handed over on forest. */
+const STEP_TONES: Record<Step, "ink" | "forest" | "paper"> = {
+  domain: "ink",
+  reading: "ink",
+  pressure: "paper",
+  capacity: "paper",
+  preview: "forest",
+  contact: "paper",
+  verify: "paper",
+  success: "forest",
+};
 
 export const COMPANY_READ_TIMEOUT_MS = 10_000;
 export const BRIEF_BLOB_REVOKE_DELAY_MS = 1_000;
@@ -576,7 +593,12 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
   };
 
   const downloadBrief = () => {
-    const blob = new Blob([buildPrivateBriefHtml(brief)], { type: "text/html;charset=utf-8" });
+    const downloadContent = {
+      ...brief,
+      preparedFor: handoffResult?.visitorDelivery === "queued" ? email : undefined,
+      nextStep: (handoffResult?.visitorDelivery === "queued" ? "reply" : "keep") as "reply" | "keep",
+    };
+    const blob = new Blob([buildPrivateBriefHtml(downloadContent)], { type: "text/html;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
@@ -590,6 +612,34 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
 
   const operatorHasContext = handoffResult?.operatorDelivery === "queued";
   const visitorEmailQueued = handoffResult?.visitorDelivery === "queued";
+
+  /* The functional progress path: every rendered segment is a working
+     control naming a stage the visitor can return to. */
+  const pathStages: Array<{ label: string; target: Step; steps: Step[] }> = [
+    { label: "Website", target: "domain", steps: ["domain", "reading"] },
+    { label: "Problem", target: "pressure", steps: ["pressure"] },
+    { label: "Time", target: "capacity", steps: ["capacity"] },
+    { label: "Brief", target: "preview", steps: ["preview"] },
+    ...(handoffEnabled
+      ? [
+        { label: "Email", target: "contact" as Step, steps: ["contact"] as Step[] },
+        { label: "Code", target: "verify" as Step, steps: ["verify"] as Step[] },
+      ]
+      : []),
+  ];
+  const currentStageIndex = step === "success"
+    ? pathStages.length
+    : pathStages.findIndex((stage) => stage.steps.includes(step));
+
+  const goToStage = (target: Step) => {
+    if (submitting) return;
+    setError("");
+    if (step === "verify") {
+      requestIdRef.current = createRequestId();
+      setVerificationCode("");
+    }
+    setStep(target);
+  };
   const successTitle = !handoffEnabled
     ? "Keep this. Your brief is ready."
     : visitorEmailQueued && operatorHasContext
@@ -613,11 +663,26 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
 
   return (
     <div ref={backdropRef} className="mm-brief-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
-      <div className="mm-brief-panel" ref={panelRef} role="dialog" aria-modal="true" aria-labelledby="mm-brief-title">
+      <div className="mm-brief-panel" ref={panelRef} role="dialog" aria-modal="true" aria-labelledby="mm-brief-title" data-tone={STEP_TONES[step]}>
         <div className="mm-brief-top">
           <span>Mindmake</span>
           <button type="button" aria-label="Close" onClick={onClose}><X aria-hidden="true" /></button>
         </div>
+
+        <nav className="mm-brief-path" aria-label="Your progress">
+          {pathStages.map((stage, index) => (
+            <button
+              key={stage.label}
+              type="button"
+              aria-current={index === currentStageIndex ? "step" : undefined}
+              data-done={index < currentStageIndex ? "true" : undefined}
+              disabled={index >= currentStageIndex || step === "reading" || step === "success" || submitting}
+              onClick={() => goToStage(stage.target)}
+            >
+              {stage.label}
+            </button>
+          ))}
+        </nav>
 
         {step === "domain" && (
           <section className="mm-brief-step is-domain">
@@ -648,6 +713,7 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
             <LoaderCircle className="mm-spinner" aria-hidden="true" />
             <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">Reading {domain}.</h2>
             <p>Finding what the company does, what it sells and where AI may have changed the choice. This takes up to 10 seconds.</p>
+            <div className="mm-reading-rule" aria-hidden="true" />
           </section>
         )}
 
@@ -699,11 +765,11 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
             <button className="mm-step-back" type="button" onClick={() => setStep("capacity")}>← Back to your time</button>
             <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">{pressure}.</h2>
             <div className="mm-brief-result-grid">
-              <article className="is-wide is-read"><small>What we saw at {company}</small><p>{known}</p></article>
-              <article><small>AI can carry</small><p>{detail.carry}</p></article>
-              <article><small>You keep</small><p>{detail.human}</p></article>
-              <article className="is-wide"><small>A useful 30-day proof</small><strong>{detail.proof}</strong></article>
-              <article className="is-wide is-time"><small>What the returned time could buy</small><p>{timeValue}</p></article>
+              <article className="is-wide is-read" style={{ "--mm-i": 0 } as CSSProperties}><small>What we saw at {company}</small><p>{known}</p></article>
+              <article style={{ "--mm-i": 1 } as CSSProperties}><small>AI can carry</small><p>{detail.carry}</p></article>
+              <article style={{ "--mm-i": 2 } as CSSProperties}><small>You keep</small><p>{detail.human}</p></article>
+              <article className="is-wide" style={{ "--mm-i": 3 } as CSSProperties}><small>A useful 30-day proof</small><strong><ScrollMark shape="bracket" driver="reveal">{detail.proof}</ScrollMark></strong></article>
+              <article className="is-wide is-time" style={{ "--mm-i": 4 } as CSSProperties}><small>What the returned time could buy</small><p>{timeValue}</p></article>
             </div>
             <button className="mm-button" type="button" onClick={keepBrief}>Keep the private brief <span aria-hidden="true">→</span></button>
           </section>
@@ -777,6 +843,13 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
               <p>Your request for an invitation to the publication was recorded. You have not been subscribed.</p>
             )}
             {error && <p className="mm-form-error" role="alert">{error}</p>}
+            <MindmakeProposal
+              content={{
+                ...brief,
+                preparedFor: visitorEmailQueued ? email : undefined,
+                nextStep: visitorEmailQueued ? "reply" : "keep",
+              }}
+            />
             <div className="mm-success-actions">
               <button className="mm-button" type="button" onClick={downloadBrief}><Download aria-hidden="true" /> Download my brief</button>
               {handoffEnabled && !handoffResult && email && (

@@ -32,7 +32,7 @@ export default function Index() {
             <p>These are customer outcomes. Each one shows the hard choice and what became real.</p>
           </header>
           <div className="mm-reach">
-            <div><strong>Mindmake has helped over 4000 leaders with what's next in AI.</strong><span>Attended by people from organisations including</span></div>
+            <div><strong>Mindmake has helped leaders across media, software and advisory with what's next in AI.</strong><span>Attended by people from organisations including</span></div>
             <div className="mm-logo-rail" aria-label="Organisations attended by people">
               {attendeeBrands.map((brand) => <img key={brand.name} src={brand.logo} alt={brand.name} />)}
             </div>

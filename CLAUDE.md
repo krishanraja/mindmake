@@ -32,7 +32,7 @@ This file is a contributor guard. Read `project-documentation/MINDMAKE_CANON.md`
 - The removed private amount or the removed 22 percent result.
 - An uncapped Steph quote. Missing or failed consent data must hide it.
 - Em dashes or unexplained business and technical terms in public copy.
-- Eyebrows or equivalent decorative pre-heading chrome. This includes kickers, overlines, chapter numbers, decorative counters, status straps, proof badges and small pre-headings above or beside a real heading. Renaming or changing the case does not make them acceptable. A small label may remain only when it directly names an object, control, value or axis.
+- Eyebrows or equivalent decorative pre-heading chrome. This includes kickers, overlines, chapter numbers, decorative counters, status straps, proof badges and small pre-headings above or beside a real heading. Renaming or changing the case does not make them acceptable. A small label may remain only when it directly names an object, control, value or axis. A full-bleed background numeral marking a numbered step section is a second approved exception; it must never shrink into a small label, kicker or counter.
 
 Legacy offer and AI-flow code may still exist outside the active route tree. Treat it as dormant, not as current product truth. Do not edit Supabase, the CTRL repository or the control centre as part of the website rebuild.
 

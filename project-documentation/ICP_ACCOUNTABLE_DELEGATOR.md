@@ -6,7 +6,7 @@ This is the deep psychographic, behavioural and skill-gap profile of the buyer d
 
 This doc deliberately does not repeat what already lives elsewhere. For firmographic ranges, qualification signals, and disqualifiers see `ICP.md`. For the objection bank, routing logic, ROI math, and channel templates see `SALES_PLAYBOOK.md`. For canonical pitches and objection-handling FAQ see `Master_Messaging_and_FAQ.md`. What follows is the part those docs assume but never spell out: who this buyer actually is underneath, and the exact skill they are missing.
 
-> Internally this archetype has also been called "the Mindmaker" (the leader Mindmaker exists to serve). We use **"The Accountable Delegator"** as the canonical name so it never collides with the Mindmaker brand.
+> Internally this archetype was once called "the Mindmaker" (the leader the practice exists to serve). We use **"The Accountable Delegator"** as the canonical name so it never collides with the Mindmake brand.
 
 ---
 
@@ -90,7 +90,7 @@ This is the spec for what they need to be able to do, and it maps one-to-one ont
 
 Cutting across all four: **personal AI literacy.** The discernment that comes only from hands-on use, knowing where tools add value, where they introduce risk, and that input quality drives output quality. This is the 12x multiplier, and no secondhand briefing replicates it.
 
-The window is wide open. Only 6% of leaders say they are making real progress on designing how humans and AI work together (Deloitte, 2026 Global Human Capital Trends), and only 13% of organisations have AI agents genuinely integrated into workflows versus 56% still experimental or babysat (BCG, AI at Work 2025). The Accountable Delegator is not behind their peers. Almost everyone is at zero. That is the opening Mindmaker sells into.
+The window is wide open. Only 6% of leaders say they are making real progress on designing how humans and AI work together (Deloitte, 2026 Global Human Capital Trends), and only 13% of organisations have AI agents genuinely integrated into workflows versus 56% still experimental or babysat (BCG, AI at Work 2025). The Accountable Delegator is not behind their peers. Almost everyone is at zero. That is the opening Mindmake sells into.
 
 ---
 
@@ -120,7 +120,7 @@ They are not hiring for AI training or technology. They are hiring for relief fr
 
 ## What they are NOT
 
-Negative definition keeps the message sharp. This is a different cut from the `ICP.md` anti-ICPs (who Mindmaker will not serve); this is who the archetype is often confused with.
+Negative definition keeps the message sharp. This is a different cut from the `ICP.md` poor-fit list (who Mindmake will not serve); this is who the archetype is often confused with.
 
 | They are NOT | Why it matters |
 |---|---|
@@ -153,7 +153,7 @@ Any offer for this buyer must navigate the gap between their **stated need** (AI
 
 **What works:** frame it as leadership design, not AI training; start from the commercial outcome (speed to market, product clarity, revenue per employee) and work back to the human-AI structure required to deliver it; create safety to not know (the work happens on their decision, in private, without an audience of their own reports); give them a language upgrade (autonomous org design, tiered delegation, human-AI workflow architecture); build in personal experimentation as a leadership act; name the impostor dynamic as accurate.
 
-**The one-sentence pitch:** Most consultants hand you an answer you cannot defend. Mindmaker takes the decision apart in front of you, and rebuilds how the business makes the next one, so you stop delegating the call you were hired to make.
+**The one-sentence pitch:** Most consultants hand you an answer you cannot defend. Mindmake takes the decision apart in front of you, and rebuilds how the business makes the next one, so you stop delegating the call you were hired to make.
 
 ---
 
@@ -169,7 +169,7 @@ The Accountable Delegator is held back by the very capabilities that made them s
 - **Routing this buyer to the right offer:** `ICP.md` (Entry Points) and `SALES_PLAYBOOK.md` (§11 Routing Logic, §3 Pain to Offer Mapping).
 - **Objection handling:** `Master_Messaging_and_FAQ.md` (Part 5) and `SALES_PLAYBOOK.md` (§7 Objection Bank). The "can't we just delegate AI to IT?" objection is this archetype's core belief, addressed there.
 - **Channels, ROI math, discovery questions:** `SALES_PLAYBOOK.md`.
-- **The offers this archetype maps to:** `OFFERS.md` (The Teardown first, then The Handover) and `OUTCOMES.md`.
+- **The offer this archetype maps to:** `OFFERS.md` (the two doors and the privately priced 30-day proof).
 
 ---
 

@@ -1,6 +1,6 @@
 # Mindmake value proposition
 
-Last updated: 26 August 2026.
+Last updated: 27 August 2026.
 
 Mindmake helps leaders put their best judgement to work with AI.
 
@@ -15,13 +15,13 @@ The buyer often sees one of these signs:
 - Their standards, memory and judgement are hard for AI or their team to use.
 - They want AI to fill a weak spot, show a blind spot or help them act on a bigger vision.
 - AI has changed what customers can do, what they will pay for or how the business should sell.
-- A high-growth AI business needs sharper product, price, position, sales or team choices.
+- A high-growth AI business needs sharper product, price, positioning or people choices.
 
 The stated problem may be unclear. That is a valid starting point. Krish combines careful questions, business evidence, outside facts and hands-on building to find a useful place to begin.
 
 ## The two public doors
 
-`Build Your AI Brain` helps a leader make their judgement, standards, memory and trusted context easier to use. `Build Your AI GTM` helps a business rework product, price, position, sales and team choices as AI changes the market.
+`Build Your AI Brain` helps a leader make their judgement, standards, memory and trusted context easier to use. `Build Your AI GTM` helps a business rework product, price, positioning and people choices as AI changes the market.
 
 Either may lead to one privately priced 30-day proof. The proof ends with:
 
@@ -42,4 +42,4 @@ The proof is not that he can produce an AI answer. It is that he can combine bus
 
 The visitor should get value before being asked for contact details. They should leave thinking: I can see what comes next, make a better call and keep building my own judgement as AI changes the market.
 
-The public action is `Start here`. The version-two private hand-off remains source-only and fail-closed until the preview release gates pass.
+The public action is `Start here`. The private hand-off is live and fail-closed on every error; the visitor always keeps the local download.

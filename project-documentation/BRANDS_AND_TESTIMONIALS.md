@@ -1,20 +1,22 @@
-# Mindmaker Brand and Testimonial Proof
+# Mindmake brand and testimonial proof
 
-Status: current public-proof source. Proof permissions approved 2026-08-11. Homepage selection updated by Krish 2026-08-12.
+Last updated: 27 August 2026. Proof permissions approved 2026-08-11; career-reference set extended by Krish 2026-08-27.
 
-This file is the single project source for attendee brands, client outcomes, Steph Darmanin's consent-gated excerpts, and named career references. Other project documents must point here rather than copy these lists.
+This file is the single project source for attendee brands, client outcomes, Steph Darmanin's consent-gated excerpts, and named career references. Other project documents must point here rather than copy these lists. The rendered data lives in `src/data/rebuildProof.ts` and must match this file.
 
 ## Public framing
 
 Use this headline:
 
-> Mindmaker has helped over 4000 leaders with what's next in AI.
+> Mindmake has helped leaders across media, software and advisory with what's next in AI.
+
+The earlier "over 4000 leaders" count is retired from public copy under the claim control in `MINDMAKE_PROPOSITION_LOCK.md`: a count returns only when the section 6 evidence trail is compiled and Krish approves it.
 
 Use this line immediately above the brand grid:
 
 > Attended by people from organisations including
 
-The organisations below are attendance proof. They are not Mindmaker advisory clients and must never be described as clients.
+The organisations below are attendance proof. They are not Mindmake advisory clients and must never be described as clients.
 
 ## Approved attendee brands, exactly 16
 
@@ -49,7 +51,7 @@ Use official logo artwork in a compact one-line strip. The strip may move gently
 
 ## Verified client outcome stories, exactly 8
 
-The words in quotation marks are verbatim. Keep each client anonymous at role and sector unless a later consent record explicitly changes that.
+The words in quotation marks are verbatim. Keep each client anonymous at role and sector unless a later consent record explicitly changes that. The internal engagement records behind these stories are in `PROOF_BANK.md`.
 
 ### 1. Settle the expensive decision
 
@@ -121,7 +123,7 @@ Steph Darmanin is a separate client from the anonymous executive coaching practi
 
 Place the excerpts where they support the surrounding message. Never group all of them together.
 
-### Ownership after Mindmaker leaves
+### Ownership after Mindmake leaves
 
 > “What's unique about Krish is that he never lets you become reliant on him. He puts you in the driver's seat, explains AI fundamentals in plain language, and empowers you to own the skills that actually move your business forward.”
 >
@@ -132,6 +134,8 @@ Place the excerpts where they support the surrounding message. Never group all o
 > “I have invested thousands before that resulted in terribly disappointing outcomes. The website support came to a halt once the paid engagement ended and ultimately I had to pull the plug and start over. With Mindmaker, I was empowered to own the skills.”
 >
 > Steph Darmanin, Performance Coach
+
+(The word "Mindmaker" inside this quote is her verbatim wording from the time and stays unchanged.)
 
 ### Beside the price
 
@@ -145,15 +149,27 @@ Place the excerpts where they support the surrounding message. Never group all o
 >
 > Steph Darmanin, Performance Coach
 
-## Approved named career references, exactly 6
+## Approved named career references, exactly 9
 
-These are career references. They are not Mindmaker client outcomes. Use them only after client proof or on the operator/about surface.
+These are career references. They are not Mindmake client outcomes. Use them only after client proof or on the operator/about surface. The source is the professional recommendation set Krish supplied; the three references added on 27 August 2026 (Rob Hudson, Michael Ricciardone, Marie-Anne Leung Kam) were selected by Krish for their communication and human-approach themes and condensed faithfully from that set.
 
 ### Lizzie Young
 
 Chief Executive, Commercial Radio & Audio
 
 > “A respected senior leader with deep expertise in digital media and data, a great communicator of complexity, with a warm nature that brings people together.”
+
+### Rob Hudson
+
+National Sales Director, Media, REA Group
+
+> “A unique ability to make data products accessible to everyone in the room, not just the digital people. A genuine passion for helping clients solve business problems, and above all very personable and approachable.”
+
+### Michael Ricciardone
+
+Country Manager, ANZ, MoEngage
+
+> “Articulate, engaging and entertaining. He breaks down the barriers marketers face with data and technology using relevant examples and stories, then presents clear solutions. Full of support, always keen to educate.”
 
 ### Melinda Heffernan
 
@@ -179,6 +195,12 @@ Managing Partner, Lamington Digital
 
 > “Adept at translating complex scenarios into simple, easy-to-grasp language that moves the conversation forward.”
 
+### Marie-Anne Leung Kam
+
+Director, 2 Square Talent
+
+> “An outstanding leader with a clear vision, a collaborative approach and a knack for driving innovation. I could not recommend him more highly.”
+
 ### Vincent Pelillo
 
 Regional Managing Director, Channel Factory
@@ -187,12 +209,11 @@ Regional Managing Director, Channel Factory
 
 ## Homepage proof stack
 
-1. The approved reach headline.
+1. The approved reach headline (no count).
 2. The attendance qualifier and the current three-logo media strip: BBC, Hearst and Condé Nast. The full 16-brand set remains approved for other attendance-proof uses.
-3. The “Settle the expensive decision” outcome.
-4. The “Turn expertise into something clients can buy” outcome.
-5. Steph's ownership excerpt, only when consent is confirmed.
-6. Ashley Wales-Brown's career reference.
+3. Three result previews from the outcome stories, with the full archive on the case-studies route.
+4. The nine-voice career testimonial deck, one section, swipe-first on touch widths.
+5. Steph's excerpts appear only where consent is confirmed and never grouped together.
 
 ## Guardrails
 
@@ -202,3 +223,4 @@ Regional Managing Director, Channel Factory
 - Do not invent names, numbers, brands or outcomes.
 - Keep approved quotation text verbatim.
 - Public framing around quotes must use short, common words.
+- No public count of leaders helped until the evidence trail is compiled and approved.

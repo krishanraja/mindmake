@@ -1,9 +1,10 @@
 # Mindmake deployment
 
-Last updated: 26 August 2026, after the production launch pass.
+Last updated: 27 August 2026, after Gate E and the Round D cleanse.
 
 This file records how the live Mindmake site is deployed and how to change it
-safely. The full launch runbook that produced this state is `HANDOVER/06`.
+safely. Current identifiers live in `CURRENT_STATE.md`; history lives in
+`DECISIONS_LOG.md`.
 
 ## Live topology
 
@@ -27,16 +28,16 @@ Vercel builds from GitHub (`krishanraja/mindmake`). A merge to `main` builds
 and promotes production. The production build uses:
 
 - `VITE_SUPABASE_URL` / `VITE_SUPABASE_PUBLISHABLE_KEY` / `VITE_SUPABASE_PROJECT_ID`
-  for Supabase project `bkyuxvschuwngtcdhsyg` (Mindmaker AI).
-- `VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED` unset, so the private email hand-off
-  stays off. Enabling it is Gate E: a deliberate new build with the value
-  `true`, promotion, and one synthetic end-to-end lead from `mindmake.co`.
+  for Supabase project `bkyuxvschuwngtcdhsyg` (its display name in Supabase is
+  still the legacy "Mindmaker AI").
+- `VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED=true`: the private email hand-off is
+  live. Gate E was approved by Krish and closed on 27 August 2026 with a
+  synthetic end-to-end lead from `mindmake.co`.
 
-Launch identifiers:
-
-- Merged commit `e520952a182d29312fa2878dd3f963740c1dccb7` (pull request #141).
-- Production deployment `dpl_7KNTh3AhLsRKCbxUbq6oGeQ7EiH6`.
-- Rollback target `dpl_8on1i3DsoG2FY7ikYwU1GYAu3svx` (the previous site).
+Identifiers: the launch merged commit was
+`e520952a182d29312fa2878dd3f963740c1dccb7` (pull request #141, production
+`dpl_7KNTh3AhLsRKCbxUbq6oGeQ7EiH6`). The current production deployment and
+rollback target are recorded in `CURRENT_STATE.md` and move with each merge.
 
 ## Lead backend
 
@@ -45,9 +46,12 @@ Supabase project `bkyuxvschuwngtcdhsyg` runs the private brief pipeline:
 - Migrations `20260826123007_mindmake_brief_requests` (private schema, RLS,
   service-role-only RPCs) and `20260826180000_mindmake_brief_retention`
   (daily purge via pg_cron job `mindmake-brief-retention-daily`).
-- Functions `submit-mindmake-brief` (verify_jwt off; its own origin, honeypot,
-  rate-limit and verification controls are all live-tested) and
-  `enrich-company` (carries the comma-scrub fix).
+- Functions `submit-mindmake-brief` v11 (verify_jwt off; its own origin,
+  honeypot, rate-limit, verification and tailored-signature controls are all
+  live-tested) and `enrich-company` v35 (declarative synthesis, tailored
+  choice generation, currency meta-talk guard). Deploys go through the
+  Supabase Management API with the function's full import closure; after
+  every deploy, verify the deployed body and run one synthetic lead.
 - Configuration names (values live only in Supabase): `RESEND_API_KEY`,
   `MINDMAKE_RATE_LIMIT_SALT`, `MINDMAKE_VERIFICATION_SECRET`,
   `MINDMAKE_BRIEF_FROM` (`Mindmake <briefs@mindmake.co>`),
@@ -76,10 +80,10 @@ Per surface, never all at once:
 
 | Failure | Action |
 |---|---|
-| Site regression | Promote `dpl_8on1i3DsoG2FY7ikYwU1GYAu3svx` from the Vercel dashboard |
-| Domain or certificate failure | Detach the affected domain from the project; the previous state is recorded in `HANDOVER` evidence |
-| V2 function failure | Keep the flag off (it is off); revert the function version in Supabase if needed; never drop the lead tables |
-| Email failure | Keep V2 off, repair sender configuration, rerun the synthetic matrix |
+| Site regression | Promote the rollback deployment named in `CURRENT_STATE.md` from the Vercel dashboard |
+| Domain or certificate failure | Detach the affected domain from the project and re-attach after the certificate re-issues |
+| V2 function failure | Revert the function to its previous version in Supabase; never drop the lead tables. If the failure leaks bad content to visitors, ship a build with the flag off while the function is repaired |
+| Email failure | Repair sender configuration and rerun the synthetic matrix before trusting deliveries again |
 
 `VITE_` values are build-time: changing an environment variable alone changes
 nothing until a new build is promoted.

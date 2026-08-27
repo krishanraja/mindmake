@@ -1,6 +1,6 @@
-# Mindmaker buyer
+# Mindmake buyer
 
-Last updated: 12 August 2026.
+Last updated: 27 August 2026.
 
 The four buyer groups are:
 
@@ -14,7 +14,7 @@ The person must own, or be able to move, the decision and the business result be
 ## Best-fit moment
 
 - Faster startups may be taking the market.
-- Growth is possible, but the product, price, position or team is holding it back.
+- Growth is possible, but the product, price, positioning or people is holding it back.
 - AI has changed an important product, sales or company decision.
 - The leader knows something is wrong but cannot yet name the real problem.
 

@@ -1,10 +1,32 @@
 # Decisions Log
 
-**Last Updated:** 2026-08-26
+**History, not current truth.** Every entry describes the moment it was written and may be superseded; `MINDMAKE_CANON.md` and `CURRENT_STATE.md` hold the present. This is the project's only history file.
+
+**Last Updated:** 2026-08-27
 
 ---
 
 ## Brand & Product Decisions
+
+### 2026-08-27: Round D shipped — Gate E closed, the intelligence journey, the branded proposal and the full cleanse
+
+**Decision:** Krish approved and Round D delivered, in sequence: (1) Gate E, enabling the production email hand-off (the flag is on and lead capture is live); (2) the intelligence lead journey, restaged in the journey design language with a functional progress path; (3) the branded proposal, rendered on screen at the success step, emailed to the visitor and attached as a self-contained document; (4) tailored pressure choices, generated per company by `enrich-company`, HMAC-signed server-side, carried by the browser as an opaque pair and verified on both wire actions, with the locked list as the guaranteed fallback; (5) hand-drawn marks (`ScrollMark`) on key claim lines and the working-understanding comparison on both door pages; (6) the homepage reach claim reduced to a count-free line under the lock's claim control; (7) after Krish's review of a live operator email, a voice and design fix: the company read became declarative (no questions, no invitations to correct, British spelling enforced down to `judgement`), currency signals drop model meta-talk, and all three emails were restaged in the proposal design language; (8) three career references added from the recommendation set Krish supplied (Rob Hudson, Michael Ricciardone, Marie-Anne Leung Kam), making a nine-voice deck; (9) the repository cleanse (about 48,000 lines and 50MB removed, reachability-verified, lint to 0 errors) and this documentation cleanse, with `DECISIONS_LOG.md` kept as the single history file by Krish's choice.
+
+**Context:** Krish reviewed the shipped rebuild against the documentation, found lead capture effectively off, the annotations and comparison tables missing, and the docs contradictory. He answered three calls: enable Gate E now, deliver the proposal on screen plus emailed, keep one history file. He also ruled that old intelligence work could be mined fully server-side but no old UI, copy or proposal feel could survive, and that reads may make illustrative assumptions provided the site says none of it is advice.
+
+**Verification:** every stage carried a synthetic lead against production (request, code from the synthetic inbox, confirmation, three `delivered` sends, tamper rejected 400), plus the standing suite, build, lint, containment and frozen-hash gates.
+
+**Review trigger:** the flow videos arriving from Krish, or the first ten real leads.
+
+---
+
+### 2026-08-27: Door pages rebuilt as stepped, numbered journeys
+
+**Decision:** `/ai-brain` and `/ai-gtm` were rebuilt as stepped, numbered scroll journeys implementing `MINDMAKE_PROPOSITION_LOCK.md`: a hero, five pinned step scenes with full-bleed background numerals (the approved second exception to the eyebrow ban), the scroll-scrubbed compounding timeline (Day 30 default; 60 and 90 labelled earned; visitor takeover on first touch), and the 30-day proof close. The locked promise lines render verbatim; the GTM levers are product, price, positioning and people everywhere outside the byte-frozen gateway.
+
+**Context:** Krish issued the page rebuild brief and proposition lock on 27 August 2026 and approved autonomous shipping once verification passed. Shipped as pull request #146.
+
+---
 
 ### 2026-08-11: Advisory reinstated as the primary cash engine
 

@@ -6,7 +6,8 @@ This file is the current delivery truth for `mindmake.co`: what is live, at whic
 
 ## Live site
 
-- Status: **LIVE**. `https://mindmake.co` launched 26 August 2026 and has since shipped the phone-native rebuild, the stepped door-page journeys, the intelligence lead journey with the branded proposal, and the repository cleanse.
+- Status: **LIVE, STABILITY CLOSED** (27 August 2026). `https://mindmake.co` launched 26 August 2026 and has since shipped the phone-native rebuild, the stepped door-page journeys, the intelligence lead journey with the branded proposal, and the repository cleanse.
+- Stability closure evidence (27 August 2026, 19:25 UTC): all public routes and crawler surfaces 200; one-hop 308 redirects with path and query preserved from `www.mindmake.co`, `themindmaker.ai` and `www.themindmaker.ai`; certificates valid to 26 September 2026; zero Resend delivery failures; the two live functions show only 200s plus the one deliberate tamper-rejection 400 from testing; the retention cron succeeded at 02:17 UTC; no stale rows beyond any retention window; every production deployment READY. Recorded in GitHub issue #143, now closed.
 - Production: merge `8955fbae4a311dbfc62fceef5f65c3edf98a2343` (pull request #149), Vercel deployment `dpl_3taKirknuFu5SwsNL4p47ZjWvFts` on project `mindmake` (`prj_GqamX3psD0cGpGCDXRu0ljET7zap`).
 - Rollback target: `dpl_Avfe2NCnTPxK35MyfbBNDH6y4Sy1` (the previous production state, pull request #148).
 - Recent production history: #146 stepped door journeys, #147 intelligence journey, proposal, marks and comparison, #148 tailored choices, emailed proposal and the declarative email redesign, #149 repository cleanse and the nine-voice testimonial deck.
@@ -40,9 +41,8 @@ Supabase project `bkyuxvschuwngtcdhsyg`:
 
 ## Open items
 
-1. **24-hour stability closure**: confirm a stable first day of the launch, then close the dated GitHub issue.
-2. **Physical device checks**: iOS Safari, Android Chrome, VoiceOver and TalkBack remain a post-launch checklist; emulation evidence was accepted for launch.
-3. **CTRL old host**: repoint `ctrl.themindmaker.ai` to `https://ctrl.mindmake.co` after one confirmed authenticated CTRL login on the new host.
-4. **Credential rotation**: rotate the GitHub, Vercel, Supabase and Resend credentials used during the launch and Round D sessions.
-5. **Flow videos**: Krish will supply films of Brain and GTM flows in action. They slot into the existing `StepFilm` sources and posters as asset swaps; no code change is expected.
-6. The `themindmaker.ai` Resend domain still shows a failed verification; legacy senders on that domain stay unreliable until its DNS is repaired or the domain is retired from Resend.
+1. **Physical device checks**: iOS Safari, Android Chrome, VoiceOver and TalkBack remain a post-launch checklist; emulation evidence was accepted for launch.
+2. **CTRL old host**: repoint `ctrl.themindmaker.ai` to `https://ctrl.mindmake.co` after one confirmed authenticated CTRL login on the new host.
+3. **Credential rotation**: rotate the GitHub, Vercel, Supabase and Resend credentials used during the launch and Round D sessions.
+4. **Flow videos**: Krish will supply films of Brain and GTM flows in action. They slot into the existing `StepFilm` sources and posters as asset swaps; no code change is expected.
+5. The `themindmaker.ai` Resend domain still shows a failed verification; legacy senders on that domain stay unreliable until its DNS is repaired or the domain is retired from Resend.

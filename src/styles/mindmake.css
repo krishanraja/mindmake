@@ -227,8 +227,10 @@
 .mm-result-body { max-width: 520px; margin-top: 12px; color: var(--mm-muted-dark); font-size: 16px; line-height: 1.4; }
 .mm-result-card:not(:first-child) .mm-result-body { margin-top: 6px; font-size: 14px; line-height: 1.32; }
 .mm-result-context { margin-top: auto; padding-top: 10px; color: var(--mm-emerald); font-size: 12px; }
-.mm-result-visual { position: relative; min-height: 0; block-size: clamp(170px, 24vh, 220px); flex: 0 0 auto; display: flex; flex-direction: column; justify-content: center; margin: -1px -1px 18px; padding: 22px; border: 1px solid var(--mm-line-light); background: var(--mm-paper); color: var(--mm-ink); overflow: hidden; }
-.mm-result-card:not(:first-child) .mm-result-visual { block-size: 66px; margin-bottom: 8px; padding: 9px 14px; }
+/* Sized by its content with a floor, never a fixed box that cuts the number
+   it exists to show. */
+.mm-result-visual { position: relative; min-block-size: clamp(170px, 24vh, 220px); block-size: auto; flex: 0 0 auto; display: flex; flex-direction: column; justify-content: center; margin: -1px -1px 18px; padding: 22px; border: 1px solid var(--mm-line-light); background: var(--mm-paper); color: var(--mm-ink); overflow: hidden; }
+.mm-result-card:not(:first-child) .mm-result-visual { min-block-size: 66px; block-size: auto; margin-bottom: 8px; padding: 9px 14px; }
 .is-time .mm-result-visual { min-height: 0; }
 .mm-result-visual strong { font-family: "Source Serif 4", Charter, "Bitstream Charter", Georgia, serif; font-size: clamp(64px, 7vw, 96px); line-height: .9; }
 .mm-crossed { width: max-content; color: var(--mm-rust); font-family: "Source Serif 4", Charter, "Bitstream Charter", Georgia, serif; font-size: 25px; text-decoration: line-through; }
@@ -270,7 +272,7 @@
   .mm-result-card h3, .mm-result-card:not(:first-child) h3 { max-width: none; margin-top: 8px; font-size: clamp(25px, 2.25vw, 32px); line-height: 1; }
   .mm-result-body, .mm-result-card:not(:first-child) .mm-result-body { margin-top: 7px; font-size: clamp(13px, 1.05vw, 15px); line-height: 1.3; }
   .mm-result-context { padding-top: 6px; font-size: 10px; }
-  .mm-result-visual, .mm-result-card:not(:first-child) .mm-result-visual { min-height: 124px; block-size: 124px; margin: -1px -1px 8px; padding: 10px 13px; }
+  .mm-result-visual, .mm-result-card:not(:first-child) .mm-result-visual { min-block-size: 124px; block-size: auto; margin: -1px -1px 8px; padding: 10px 13px; }
   .mm-result-visual strong { font-size: clamp(50px, 5.2vw, 68px); }
   .mm-crossed { font-size: 16px; }
   .is-offer .mm-result-visual strong { font-size: clamp(25px, 2.5vw, 34px); }
@@ -590,7 +592,7 @@
   .mm-result-card h3, .mm-result-card:not(:first-child) h3 { max-width: none; margin-top: 8px; font-size: clamp(23px, 2.3vw, 29px); line-height: 1; }
   .mm-result-body, .mm-result-card:not(:first-child) .mm-result-body { margin-top: 7px; font-size: 13px; line-height: 1.28; }
   .mm-result-context { padding-top: 5px; font-size: 10px; }
-  .mm-result-visual, .mm-result-card:not(:first-child) .mm-result-visual { block-size: 88px; margin: -1px -1px 8px; padding: 10px 13px; }
+  .mm-result-visual, .mm-result-card:not(:first-child) .mm-result-visual { min-block-size: 88px; block-size: auto; margin: -1px -1px 8px; padding: 10px 13px; }
   .mm-result-visual strong { font-size: clamp(47px, 5vw, 61px); }
   .mm-crossed { font-size: 15px; }
   .is-offer .mm-result-visual strong { font-size: clamp(25px, 2.4vw, 31px); }
@@ -659,7 +661,7 @@
   .mm-result-card,
   .mm-result-card:not(:first-child) { overflow: visible; }
   .mm-result-visual,
-  .mm-result-card:not(:first-child) .mm-result-visual { min-height: 90px; block-size: 90px; }
+  .mm-result-card:not(:first-child) .mm-result-visual { min-block-size: 90px; block-size: auto; }
 }
 
 @media (max-width: 760px) {
@@ -680,7 +682,7 @@
   .mm-result-card:nth-child(1) { grid-row: auto; }
   .mm-result-card h3, .mm-result-card:not(:first-child) h3 { max-width: none; margin-top: 12px; font-size: clamp(28px, 7.8vw, 34px); }
   .mm-result-body, .mm-result-card:not(:first-child) .mm-result-body { margin-top: 8px; font-size: 14px; line-height: 1.36; }
-  .mm-result-visual, .mm-result-card:not(:first-child) .mm-result-visual { block-size: 130px; min-height: 130px; margin: 0 0 12px; padding: 14px; }
+  .mm-result-visual, .mm-result-card:not(:first-child) .mm-result-visual { min-block-size: 130px; block-size: auto; margin: 0 0 12px; padding: 14px; }
   .is-time .mm-result-visual { min-height: 130px; }
   .is-offer .mm-result-visual strong { font-size: clamp(36px, 10vw, 48px); }
   .is-offer .mm-result-visual > span { margin-top: 18px; padding-top: 14px; }
@@ -752,7 +754,7 @@
   .mm-result-grid { block-size: auto; min-height: 0; display: flex; align-items: stretch; gap: 10px; margin-top: 0; border: 0; overflow-x: auto; overflow-y: visible; padding-bottom: 10px; scroll-snap-type: x mandatory; scrollbar-width: thin; }
   .mm-result-card, .mm-result-card:not(:first-child) { width: min(34vw, 280px); min-width: min(34vw, 280px); min-height: 250px; grid-row: auto; overflow: visible; padding: 12px; border: 1px solid var(--mm-line-light); scroll-snap-align: start; }
   .mm-result-card:nth-child(1), .mm-result-card:nth-child(2) { border-right: 1px solid var(--mm-line-light); border-bottom: 1px solid var(--mm-line-light); }
-  .mm-result-visual, .mm-result-card:not(:first-child) .mm-result-visual { min-height: 70px; block-size: 70px; margin: 0 0 7px; padding: 7px 9px; }
+  .mm-result-visual, .mm-result-card:not(:first-child) .mm-result-visual { min-block-size: 70px; block-size: auto; margin: 0 0 7px; padding: 7px 9px; }
   .mm-result-visual strong { font-size: 34px; }
   .mm-crossed { font-size: 12px; }
   .is-offer .mm-result-visual strong { font-size: 21px; }
@@ -801,7 +803,7 @@
 
 @media (max-width: 380px) {
   .mm-about-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     grid-template-areas: "portrait" "title" "bio" "voices" "action";
     gap: 18px;
   }
@@ -864,7 +866,11 @@
   .mm-rail-dots > button.is-active::before { height: 4px; opacity: 1; }
   .mm-route-rail-controls .mm-rail-count,
   .mm-quote-deck > footer .mm-rail-count { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
-  .mm-quote-stack { display: flex; align-items: stretch; overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  /* A swipe track must be free to shrink below its slides, or its grid and
+     flex ancestors inherit the whole track's width and drag neighbouring
+     copy off the screen. */
+  .mm-voices, .mm-quote-grid, .mm-quote-deck, .mm-about .mm-voices { min-width: 0; }
+  .mm-quote-stack { min-width: 0; display: flex; align-items: stretch; overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
   .mm-quote-stack::-webkit-scrollbar { display: none; }
   .mm-quote-stack blockquote { flex: 0 0 100%; grid-area: auto; visibility: visible; opacity: 1; scroll-snap-align: start; }
   .mm-quote-stack blockquote + blockquote { padding-left: 18px; }

@@ -13,7 +13,25 @@ export function BrainGtmGateway() {
     if (!runway) return;
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const inviteKey = "mm-gateway-door-chosen";
     let frame = 0;
+    let doorTouched = false;
+    try {
+      doorTouched = sessionStorage.getItem(inviteKey) === "1";
+    } catch {
+      doorTouched = false;
+    }
+
+    const settleInvite = () => {
+      doorTouched = true;
+      runway.classList.remove("is-inviting");
+      try {
+        sessionStorage.setItem(inviteKey, "1");
+      } catch {
+        /* the hint simply returns next visit */
+      }
+    };
+    runway.addEventListener("click", settleInvite, { once: true, passive: true });
 
     const updateGateway = () => {
       frame = 0;
@@ -22,6 +40,7 @@ export function BrainGtmGateway() {
         runway.style.setProperty("--mm-gateway-door-open", "0px");
         runway.style.setProperty("--mm-gateway-door-open-mobile", "0px");
         runway.style.setProperty("--mm-gateway-seam-opacity", ".48");
+        runway.classList.remove("is-inviting");
         return;
       }
 
@@ -38,6 +57,7 @@ export function BrainGtmGateway() {
       runway.style.setProperty("--mm-gateway-door-open", `${desktopDistance.toFixed(2)}px`);
       runway.style.setProperty("--mm-gateway-door-open-mobile", `${mobileDistance.toFixed(2)}px`);
       runway.style.setProperty("--mm-gateway-seam-opacity", String((.32 + progress * .5).toFixed(3)));
+      runway.classList.toggle("is-inviting", !doorTouched && progress > .55);
     };
 
     const requestUpdate = () => {
@@ -53,6 +73,7 @@ export function BrainGtmGateway() {
       window.cancelAnimationFrame(frame);
       window.removeEventListener("scroll", requestUpdate);
       window.removeEventListener("resize", requestUpdate);
+      runway.removeEventListener("click", settleInvite);
       reduceMotion.removeEventListener?.("change", requestUpdate);
     };
   }, []);

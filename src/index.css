@@ -1,109 +1,9 @@
 /* LAYER ORDER */
-@layer scroll-hijack, base, components, utilities;
+@layer base, components, utilities;
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Hide scrollbar but keep scroll functionality (for Embla carousel viewports) */
-.hide-scrollbar,
-.hide-scrollbar * {
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
-}
-.hide-scrollbar::-webkit-scrollbar,
-.hide-scrollbar *::-webkit-scrollbar {
-  display: none !important;
-}
-
-/* =============================================================
-   SCROLL HIJACK LAYER - Loads BEFORE ALL other layers
-   Defense-in-depth for bulletproof scroll hijacking
-   
-   v3 FIX: Removed position:fixed from body - it was causing blank screen!
-   The body.style.top = "-scrollY" pattern pushed content OUT of viewport.
-   Now using overflow:hidden + RAF position maintenance instead.
-   ============================================================= */
-@layer scroll-hijack {
-  /* Root scroll state - MOST AGGRESSIVE containment */
-  html.scroll-hijack-locked {
-    overflow: hidden !important;
-    overscroll-behavior: none !important;
-    touch-action: none !important;
-    -webkit-overflow-scrolling: auto !important;
-    scroll-behavior: auto !important; /* Disable smooth scrolling during lock */
-  }
-  
-  /* Body lock - v3: NO position:fixed (was causing blank screen bug) */
-  /* Instead, we use overflow:hidden + RAF to maintain scroll position */
-  html.scroll-hijack-locked body {
-    overflow: hidden !important;
-    /* REMOVED: position: fixed !important; - THIS CAUSED BLANK SCREEN */
-    /* REMOVED: width: 100% !important; */
-    /* REMOVED: height: 100% !important; */
-    overscroll-behavior: none !important;
-    touch-action: none !important;
-  }
-  
-  /* Scroll hijack sections - contain all content */
-  .scroll-hijack-section {
-    position: relative;
-    overflow: hidden !important;
-    contain: layout style paint !important;
-    max-width: 100vw !important;
-  }
-  
-  /* All children of hijack sections - prevent overflow */
-  .scroll-hijack-section * {
-    max-width: 100%;
-  }
-  
-  /* Animation canvas - absolutely contained */
-  .scroll-hijack-canvas {
-    position: relative;
-    overflow: hidden !important;
-    contain: layout style !important;
-  }
-  
-  /* Sentinel elements for anticipatory detection */
-  .scroll-hijack-sentinel {
-    position: absolute;
-    top: -100px;
-    left: 0;
-    right: 0;
-    height: 1px;
-    pointer-events: none;
-    visibility: hidden;
-  }
-  
-  /* Progress indicator fixed at bottom */
-  .scroll-hijack-indicator {
-    position: fixed;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 100;
-    pointer-events: auto;
-  }
-  
-  /* GPU Acceleration for scroll hijack elements */
-  html.scroll-hijack-locked .scroll-hijack-item {
-    will-change: transform, opacity;
-    backface-visibility: hidden;
-    transform: translateZ(0);
-  }
-  
-  /* Prevent momentum scrolling on iOS during lock */
-  html.scroll-hijack-locked *:not(.scroll-hijack-indicator) {
-    -webkit-overflow-scrolling: auto !important;
-  }
-  
-  /* Kill all smooth scrolling during hijack */
-  html.scroll-hijack-locked,
-  html.scroll-hijack-locked * {
-    scroll-behavior: auto !important;
-  }
-}
 
 /* Hero @layer deleted -- hero is now styled purely via Tailwind classes in NewHero.tsx */
 
@@ -114,7 +14,7 @@
        Portfolio signature is CTRL's emerald #00D9B6 (171 100% 43%). The legacy
        `--mint*` token names are kept as ALIASES so every existing call-site
        (text-mint, shadow-mint, the 5 card variants) flips to emerald with zero
-       churn. WCAG-verified derivation in prototypes/brand-emerald-proof.*.
+       churn. The derivation was WCAG-verified when the palette was adopted.
        The rule is unchanged: bright emerald is fills/dark-bg/shadows only and
        NEVER text on a light bg; text/links on light use --emerald-deep (AA). */
     --ink: 210 58% 11%;           /* #0e1a2b - Main structure, typography */
@@ -149,10 +49,6 @@
     --surface-3: var(--light-grey); /* Existing muted */
     
     /* GLASSMORPHISM - Using existing colors */
-    --glass-bg: 0 0% 100% / 0.7;
-    --glass-border: 0 0% 100% / 0.2;
-    --glass-shadow: 0 8px 32px hsl(var(--ink) / 0.1);
-    
     /* SEMANTIC MAPPINGS */
     --background: var(--off-white);
     --foreground: var(--ink);
@@ -274,10 +170,6 @@
     --surface-3: var(--light-grey); /* Dark muted */
     
     /* GLASSMORPHISM - Dark mode */
-    --glass-bg: 210 58% 9% / 0.7;
-    --glass-border: 210 20% 15% / 0.3;
-    --glass-shadow: 0 8px 32px hsl(var(--ink) / 0.3);
-    
     --background: var(--off-white);
     --foreground: var(--graphite);
     --card: 210 58% 9%;
@@ -319,8 +211,7 @@
     --dark-card-heading: 0 0% 100%;
     --dark-card-body: 0 0% 93%;
     --dark-card-muted: 0 0% 75%;
-  }
-}
+  }}
 
 * {
   border-color: hsl(var(--border));
@@ -344,68 +235,6 @@ body {
 
 html {
   overflow-x: clip;
-}
-
-/* Scroll lock utility for smooth animation hijacking */
-/* LEGACY: scroll-locked class for backward compatibility */
-/* NEW: scroll-hijack-locked class with defense-in-depth (see @layer scroll-hijack) */
-/* v3 FIX: NO position:fixed on body - it caused blank screen bug */
-html.scroll-locked {
-  overflow: hidden !important;
-  overscroll-behavior: none !important;
-  touch-action: none !important;
-  -webkit-overflow-scrolling: auto !important;
-  scroll-behavior: auto !important;
-}
-
-html.scroll-locked body {
-  overflow: hidden !important;
-  /* REMOVED: position:fixed - THIS CAUSED BLANK SCREEN */
-  overscroll-behavior: none !important;
-  touch-action: none !important;
-}
-
-/* GPU Performance Hints for Scroll Animations */
-html.scroll-locked .scroll-animation-container {
-  will-change: clip-path;
-  contain: layout style;
-}
-
-html.scroll-locked .before-layer-wipe {
-  will-change: clip-path;
-  backface-visibility: hidden;
-}
-
-html.scroll-locked .wipe-glow-line {
-  will-change: left, opacity;
-}
-
-/* Chaos to Clarity GPU hints */
-.chaos-clarity-container {
-  contain: layout;
-}
-
-html.scroll-locked .chaos-concept {
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-}
-
-html.scroll-locked .chaos-label {
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-}
-
-html.scroll-locked .chaos-headline,
-html.scroll-locked .clarity-headline {
-  will-change: opacity;
-}
-
-html.scroll-locked .chaos-paragraph {
-  will-change: opacity, transform;
-}
-
-html.scroll-locked .chaos-ticker {
-  will-change: opacity, transform;
 }
 
 /* MODERN TYPOGRAPHY SYSTEM - 2026 */
@@ -463,11 +292,6 @@ p {
   font-weight: 400;
 }
 
-p.large {
-  font-size: clamp(1.125rem, 2vw, 1.25rem); /* 18-20px responsive */
-  line-height: 1.6;
-}
-
 small, .caption { 
   font-size: 12px; 
   line-height: 1.4;
@@ -498,431 +322,16 @@ a:hover {
     @apply py-12 sm:py-16 md:py-24 lg:py-32;
   }
 
-  /* Section padding with navbar offset - use on pages with fixed navbar */
-  .section-padding-nav {
-    @apply pb-12 sm:pb-16 md:pb-24 lg:pb-32;
-    padding-top: calc(var(--navbar-height) + 3rem);
-  }
-  
-  @media (min-width: 640px) {
-    .section-padding-nav {
-      padding-top: calc(var(--navbar-height-sm) + 4rem);
-    }
-  }
-  
-  @media (min-width: 768px) {
-    .section-padding-nav {
-      padding-top: calc(var(--navbar-height-md) + 6rem);
-    }
-  }
-
   .container-width {
     @apply mx-auto px-4 sm:px-6 lg:px-8;
     max-width: 108rem; /* ~1728px, 35% wider than the previous 80rem/1280px */
   }
 
-  /* Hero text sizing now handled by Tailwind classes in NewHero.tsx */
-
-  /* Premium hover lift - desktop only, calm 600ms ease */
-  .hover-lift {
-    transition: transform 600ms ease, box-shadow 600ms ease;
-  }
   
-  @media (min-width: 48rem) {
-    .hover-lift:hover {
-      transform: scale(1.02) translateY(-2px);
-    }
-  }
+
   
-  /* Carousel image scale - desktop only */
-  .carousel-image-hover {
-    transition: transform 600ms ease;
-  }
+
   
-  @media (min-width: 48rem) {
-    .carousel-image-hover:hover {
-      transform: scale(1.05);
-    }
-  }
-  
-  /* Disable heavy hover transforms on mobile/touch */
-  @media (max-width: 47.9375rem) {
-    .hover-lift:hover,
-    .carousel-image-hover:hover {
-      transform: none;
-    }
-  }
-
-  /* INKED PAPER CARD SYSTEM */
-  
-  /* Glass Card - Glassmorphism effect */
-  .glass-card {
-    background: hsl(var(--glass-bg));
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid hsl(var(--glass-border));
-    border-radius: 8px;
-    padding: 24px;
-    box-shadow: var(--glass-shadow);
-    transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  @media (min-width: 48rem) {
-    .glass-card:hover {
-      background: hsl(var(--glass-bg) / 0.85);
-      box-shadow: var(--shadow-lg), var(--shadow-mint-sm);
-      transform: translateY(-2px);
-    }
-  }
-
-  .dark .glass-card {
-    background: hsl(var(--glass-bg));
-    border-color: hsl(var(--glass-border));
-    box-shadow: var(--glass-shadow);
-  }
-
-  @media (min-width: 48rem) {
-    .dark .glass-card:hover {
-      background: hsl(var(--glass-bg) / 0.9);
-      box-shadow: var(--shadow-xl), var(--shadow-mint-md);
-      transform: translateY(-2px);
-    }
-  }
-  
-  /* Default Content Cards - Subtle mint tint + ink border */
-  .editorial-card {
-    background: linear-gradient(to bottom, hsl(var(--card)), hsl(var(--mint) / 0.02));
-    border: 2px solid hsl(var(--ink) / 0.15);
-    border-radius: 8px;
-    padding: 24px;
-    box-shadow: var(--shadow-sm);
-    transition: border-color 400ms cubic-bezier(0.4, 0, 0.2, 1), 
-                box-shadow 400ms cubic-bezier(0.4, 0, 0.2, 1), 
-                transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  @media (min-width: 48rem) {
-    .editorial-card:hover {
-      border-color: hsl(var(--mint) / 0.5);
-      box-shadow: var(--shadow-md), var(--shadow-mint-sm);
-      transform: scale(1.01) translateY(-2px);
-    }
-  }
-
-  .dark .editorial-card {
-    background: linear-gradient(to bottom, hsl(var(--card)), hsl(var(--mint) / 0.03));
-    border-color: hsl(var(--mint) / 0.2);
-    box-shadow: var(--shadow-md);
-  }
-
-  @media (min-width: 48rem) {
-    .dark .editorial-card:hover {
-      border-color: hsl(var(--mint) / 0.5);
-      box-shadow: var(--shadow-lg), var(--shadow-mint-md);
-      transform: scale(1.01) translateY(-2px);
-    }
-  }
-
-  /* Minimal Cards - Clean and simple */
-  .minimal-card {
-    background: linear-gradient(to bottom, hsl(var(--card)), hsl(var(--mint) / 0.02));
-    border: 2px solid hsl(var(--ink) / 0.15);
-    border-radius: 8px;
-    padding: 24px;
-    box-shadow: var(--shadow-xs);
-    transition: border-color 400ms cubic-bezier(0.4, 0, 0.2, 1), 
-                box-shadow 400ms cubic-bezier(0.4, 0, 0.2, 1), 
-                transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  @media (min-width: 48rem) {
-    .minimal-card:hover {
-      border-color: hsl(var(--mint) / 0.5);
-      transform: scale(1.01) translateY(-2px);
-      box-shadow: var(--shadow-md), var(--shadow-mint-sm);
-    }
-  }
-
-  .dark .minimal-card {
-    background: linear-gradient(to bottom, hsl(var(--card)), hsl(var(--mint) / 0.03));
-    border-color: hsl(var(--mint) / 0.2);
-    box-shadow: var(--shadow-sm);
-  }
-
-  @media (min-width: 48rem) {
-    .dark .minimal-card:hover {
-      border-color: hsl(var(--mint) / 0.5);
-      transform: scale(1.01) translateY(-2px);
-      box-shadow: var(--shadow-lg), var(--shadow-mint-md);
-    }
-  }
-
-  /* Accent Cards - Ink left border + mint top line */
-  .accent-card {
-    background: hsl(var(--off-white));
-    border: 1px solid hsl(var(--border));
-    border-left: 4px solid hsl(var(--ink));
-    border-radius: 8px;
-    padding: 24px;
-    position: relative;
-    box-shadow: var(--shadow-xs);
-    transition: border-color 400ms cubic-bezier(0.4, 0, 0.2, 1), 
-                box-shadow 400ms cubic-bezier(0.4, 0, 0.2, 1), 
-                transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .accent-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: hsl(var(--mint));
-    border-radius: 8px 8px 0 0;
-  }
-
-  @media (min-width: 48rem) {
-    .accent-card:hover {
-      border-left-color: hsl(var(--mint));
-      box-shadow: var(--shadow-md), var(--shadow-mint-sm);
-      transform: scale(1.01) translateY(-2px);
-    }
-  }
-
-  .dark .accent-card {
-    background: hsl(var(--card));
-    border-left-color: hsl(var(--mint));
-    border-color: hsl(var(--border));
-    box-shadow: var(--shadow-sm);
-  }
-
-  @media (min-width: 48rem) {
-    .dark .accent-card:hover {
-      box-shadow: var(--shadow-lg), var(--shadow-mint-md);
-      transform: scale(1.01) translateY(-2px);
-    }
-  }
-
-  /* Premium Cards - Featured with strong mint presence */
-  .premium-card {
-    background: linear-gradient(135deg, hsl(var(--card)), hsl(var(--mint) / 0.04));
-    border: 2px solid hsl(var(--mint) / 0.4);
-    border-radius: 8px;
-    padding: 24px;
-    position: relative;
-    box-shadow: var(--shadow-md), var(--shadow-mint-sm);
-    transition: border-color 400ms cubic-bezier(0.4, 0, 0.2, 1), 
-                box-shadow 400ms cubic-bezier(0.4, 0, 0.2, 1), 
-                transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  @media (min-width: 48rem) {
-    .premium-card:hover {
-      border-color: hsl(var(--mint) / 0.7);
-      transform: scale(1.01) translateY(-2px);
-      box-shadow: var(--shadow-xl), var(--shadow-mint-lg);
-    }
-  }
-
-  .dark .premium-card {
-    background: linear-gradient(135deg, hsl(var(--card)), hsl(var(--mint) / 0.05));
-    border-color: hsl(var(--mint) / 0.5);
-    box-shadow: var(--shadow-lg), var(--shadow-mint-md);
-  }
-
-  @media (min-width: 48rem) {
-    .dark .premium-card:hover {
-      border-color: hsl(var(--mint));
-      transform: scale(1.01) translateY(-2px);
-      box-shadow: var(--shadow-2xl), var(--shadow-mint-lg);
-    }
-  }
-
-  /* DARK CTA CARDS - High contrast text on dark ink backgrounds */
-  /* Use this class for CTAs, feature cards, and callouts with dark backgrounds */
-  .dark-cta-card {
-    background: linear-gradient(to bottom right, hsl(var(--ink)), hsl(var(--ink-900)));
-    border-radius: 1rem;
-    padding: 2rem;
-  }
-  
-  @media (min-width: 48rem) {
-    .dark-cta-card {
-      padding: 3rem;
-    }
-  }
-  
-  .dark-cta-card h2,
-  .dark-cta-card h3 {
-    color: hsl(var(--dark-card-heading));
-    font-weight: 700;
-  }
-  
-  .dark-cta-card p {
-    color: hsl(var(--dark-card-body));
-  }
-  
-  .dark-cta-card .dark-card-muted {
-    color: hsl(var(--dark-card-muted));
-  }
-
-  /* Editorial Rules - Section dividers */
-  .editorial-rule {
-    border: none;
-    height: 2px;
-    background: linear-gradient(to right, transparent, hsl(var(--ink) / 0.2), transparent);
-    margin: 3rem 0;
-  }
-
-  .dark .editorial-rule {
-    background: linear-gradient(to right, transparent, hsl(var(--mint) / 0.3), transparent);
-  }
-
-  .editorial-rule-mint {
-    border: none;
-    height: 1px;
-    background: linear-gradient(to right, transparent, hsl(var(--mint) / 0.5), transparent);
-    margin: 2rem 0;
-  }
-
-  /* TRUST SIGNALS */
-  .trust-bar {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    font-size: 0.875rem;
-    color: hsl(var(--muted-foreground));
-    font-weight: 500;
-  }
-
-  .trust-bar > span {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  /* MOBILE-FIRST TYPOGRAPHY */
-  .mobile-text-sm { @apply text-sm sm:text-base md:text-lg; }
-  .mobile-text-base { @apply text-base sm:text-lg md:text-xl; }
-  .mobile-text-lg { @apply text-lg sm:text-xl md:text-2xl; }
-  .mobile-text-xl { @apply text-xl sm:text-2xl md:text-3xl; }
-
-  /* MOBILE SPACING */
-  .mobile-spacing { @apply space-y-4 sm:space-y-6 md:space-y-8; }
-  .mobile-padding { @apply p-4 sm:p-6 md:p-8; }
-
-  /* SAFE AREA SUPPORT */
-  .pt-safe-top { padding-top: max(1rem, env(safe-area-inset-top)); }
-  .pt-safe-area-top { padding-top: max(5rem, env(safe-area-inset-top, 5rem)); }
-  .pb-safe-bottom { padding-bottom: max(1rem, env(safe-area-inset-bottom)); }
-  .pb-safe-area-bottom { padding-bottom: max(1rem, env(safe-area-inset-bottom, 1rem)); }
-
-  /* NAVBAR-AWARE SHEET POSITIONING */
-  /* Use on right-side sheets to prevent navbar overlap on desktop */
-  .sheet-navbar-aware {
-    top: var(--navbar-height) !important;
-    height: calc(100vh - var(--navbar-height)) !important;
-    height: calc(100dvh - var(--navbar-height)) !important;
-  }
-  
-  @media (min-width: 640px) {
-    .sheet-navbar-aware {
-      top: var(--navbar-height-sm) !important;
-      height: calc(100vh - var(--navbar-height-sm)) !important;
-      height: calc(100dvh - var(--navbar-height-sm)) !important;
-    }
-  }
-  
-  @media (min-width: 768px) {
-    .sheet-navbar-aware {
-      top: var(--navbar-height-md) !important;
-      height: calc(100vh - var(--navbar-height-md)) !important;
-      height: calc(100dvh - var(--navbar-height-md)) !important;
-    }
-  }
-
-  /* TOUCH TARGET - Minimum 44x44px */
-  .touch-target {
-    min-height: 44px;
-    min-width: 44px;
-  }
-
-  /* ---------------------------------------------------------------------- */
-  /* DIAGNOSIS ROOM, 2027 immersive surface                                 */
-  /* ---------------------------------------------------------------------- */
-
-  /* The shared dark-glass panel: frosted fill, hairline border, layered drop
-     shadow, plus an inner top-highlight so the surface catches light like
-     real glass. For use on the dark ink room only (never on white sheets). */
-  .glass-panel {
-    background: rgba(255, 255, 255, 0.04);
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.10);
-    box-shadow:
-      0 8px 40px -12px rgba(0, 0, 0, 0.55),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
-  }
-
-  /* A slow-drifting mint/emerald aurora blob. Pair with the keyframes below
-     and stagger delays/positions per blob. Pauses entirely under reduced
-     motion (see the global killswitch at the bottom of this file). */
-  .aurora-blob {
-    position: absolute;
-    border-radius: 9999px;
-    filter: blur(64px);
-    pointer-events: none;
-    will-change: transform, opacity;
-    animation: aurora-drift 22s ease-in-out infinite;
-  }
-
-  @keyframes aurora-drift {
-    0%, 100% {
-      transform: translate3d(0, 0, 0) scale(1);
-      opacity: 0.55;
-    }
-    33% {
-      transform: translate3d(6%, -5%, 0) scale(1.15);
-      opacity: 0.8;
-    }
-    66% {
-      transform: translate3d(-5%, 4%, 0) scale(0.92);
-      opacity: 0.45;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .aurora-blob { animation: none; }
-  }
-
-  /* ANIMATIONS */
-  .fade-in-up {
-    animation: fade-in-up 0.6s ease-out forwards;
-    opacity: 0;
-  }
-
-  @keyframes marquee-scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-
-  .ticker-track {
-    animation: marquee-scroll 60s linear infinite;
-    width: max-content;
-  }
-  @media (max-width: 768px) {
-    .ticker-track { animation-duration: 35s; }
-  }
-  .group:hover .ticker-track { animation-play-state: paused; }
-  @media (prefers-reduced-motion: reduce) {
-    .ticker-track { animation: none; }
-  }
-
-  @keyframes mindset-scroll {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-50%); }
-  }
 
   @keyframes fade-in-up {
     from {
@@ -935,45 +344,9 @@ a:hover {
     }
   }
 
-  .build-in {
-    animation: build-in 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    opacity: 0;
-  }
+  
 
-  @keyframes build-in {
-    0% {
-      opacity: 0;
-      transform: scale(0.95) translateY(10px);
-    }
-    50% {
-      opacity: 0.5;
-    }
-    100% {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-    }
-  }
-
-  .pulse-build {
-    animation: pulse-build 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse-build {
-    0%, 100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 0.8;
-      transform: scale(1.02);
-    }
-  }
-
-  /* REFINED ANIMATION UTILITIES - Corporate Polish */
-  .fade-in-smooth {
-    animation: fade-in-smooth 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    opacity: 0;
-  }
+  
 
   @keyframes fade-in-smooth {
     from {
@@ -982,11 +355,6 @@ a:hover {
     to {
       opacity: 1;
     }
-  }
-
-  .slide-up-refined {
-    animation: slide-up-refined 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    opacity: 0;
   }
 
   @keyframes slide-up-refined {
@@ -1000,11 +368,6 @@ a:hover {
     }
   }
 
-  .scale-in {
-    animation: scale-in 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    opacity: 0;
-  }
-
   @keyframes scale-in {
     from {
       opacity: 0;
@@ -1016,10 +379,6 @@ a:hover {
     }
   }
 
-  .glow-pulse {
-    animation: glow-pulse 3s ease-in-out infinite;
-  }
-
   @keyframes glow-pulse {
     0%, 100% {
       box-shadow: var(--shadow-mint-sm);
@@ -1029,20 +388,12 @@ a:hover {
     }
   }
 
-  /* Chat FAB combined entrance bounce + persistent glow */
-  .chat-fab-animated {
-    animation:
-      fab-bounce-in 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
-      glow-pulse 3s ease-in-out 0.8s infinite;
-  }
-
   @keyframes fab-bounce-in {
     0% { transform: scale(0) translateY(20px); opacity: 0; }
     50% { transform: scale(1.15) translateY(-4px); opacity: 1; }
     70% { transform: scale(0.95) translateY(2px); opacity: 1; }
     100% { transform: scale(1) translateY(0); opacity: 1; }
-  }
-}
+  }}
 
 /* ACCESSIBILITY */
 @media (prefers-reduced-motion: reduce) {
@@ -1051,8 +402,7 @@ a:hover {
     animation-iteration-count: 1 !important; 
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
-  }
-}
+  }}
 
 /* FOCUS STATES */
 button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
@@ -1062,217 +412,15 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
 /* VOICE INPUT ANIMATIONS */
 @layer components {
-  /* Voice listening pulse animation */
-  .voice-pulse {
-    animation: voice-pulse 1.5s ease-in-out infinite;
-  }
 
-  @keyframes voice-pulse {
-    0%, 100% { 
-      transform: scale(1); 
-      opacity: 0.8; 
-    }
-    50% { 
-      transform: scale(1.4); 
-      opacity: 0; 
-    }
-  }
+  
 
-  /* Voice button glow effect */
-  .voice-glow {
-    box-shadow: 0 0 20px hsl(var(--mint) / 0.4),
-                0 0 40px hsl(var(--mint) / 0.2),
-                0 0 60px hsl(var(--mint) / 0.1);
-  }
+  
 
-  /* Audio wave visualizer bars */
-  .voice-wave-bar {
-    animation: wave-bar 0.5s ease-in-out infinite;
-  }
+  
 
-  @keyframes wave-bar {
-    0%, 100% { 
-      height: 4px; 
-    }
-    50% { 
-      height: 16px; 
-    }
-  }
+  
 
-  /* Staggered delays for wave bars */
-  .voice-wave-bar:nth-child(1) { animation-delay: 0ms; }
-  .voice-wave-bar:nth-child(2) { animation-delay: 100ms; }
-  .voice-wave-bar:nth-child(3) { animation-delay: 200ms; }
-  .voice-wave-bar:nth-child(4) { animation-delay: 300ms; }
-  .voice-wave-bar:nth-child(5) { animation-delay: 400ms; }
+  
 
-  /* Voice recording indicator */
-  .voice-recording-dot {
-    animation: recording-pulse 1s ease-in-out infinite;
   }
-
-  @keyframes recording-pulse {
-    0%, 100% { 
-      opacity: 1;
-      transform: scale(1);
-    }
-    50% { 
-      opacity: 0.5;
-      transform: scale(1.1);
-    }
-  }
-
-  /* Voice transcript fade in */
-  .voice-transcript-appear {
-    animation: transcript-appear 0.3s ease-out forwards;
-  }
-
-  @keyframes transcript-appear {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Voice button ripple effect */
-  .voice-ripple {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .voice-ripple::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at center, hsl(var(--mint) / 0.3) 0%, transparent 70%);
-    opacity: 0;
-    animation: ripple-expand 0.6s ease-out;
-  }
-
-  @keyframes ripple-expand {
-    from {
-      transform: scale(0);
-      opacity: 1;
-    }
-    to {
-      transform: scale(2);
-      opacity: 0;
-    }
-  }
-
-  /* Voice-enabled card indicator shimmer */
-  .voice-badge-shimmer {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .voice-badge-shimmer::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      hsl(var(--mint) / 0.2),
-      transparent
-    );
-    animation: badge-shimmer 3s ease-in-out infinite;
-  }
-
-  @keyframes badge-shimmer {
-    0% { left: -100%; }
-    50%, 100% { left: 100%; }
-  }
-
-  /* Mobile voice-first prompt styles */
-  .voice-first-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 200px;
-  }
-
-  /* Voice button hover/active states */
-  .voice-button-active {
-    background: linear-gradient(135deg, hsl(var(--mint)), hsl(var(--mint) / 0.8));
-    box-shadow: 
-      0 4px 15px hsl(var(--mint) / 0.4),
-      0 0 30px hsl(var(--mint) / 0.2),
-      inset 0 1px 0 hsl(var(--mint) / 0.5);
-  }
-
-  .voice-button-idle {
-    background: hsl(var(--ink) / 0.08);
-    transition: all 0.3s ease;
-  }
-
-  .voice-button-idle:hover {
-    background: hsl(var(--mint) / 0.15);
-    transform: scale(1.05);
-  }
-
-  /* Premium card voice enhancement */
-  .premium-card-voice {
-    position: relative;
-  }
-
-  .premium-card-voice::before {
-    content: '';
-    position: absolute;
-    top: -1px;
-    right: -1px;
-    width: 80px;
-    height: 80px;
-    background: radial-gradient(
-      circle at 100% 0%,
-      hsl(var(--mint) / 0.15) 0%,
-      transparent 70%
-    );
-    border-radius: 0 4px 0 0;
-    pointer-events: none;
-  }
-
-  /* Overflow containment patterns - Architectural prevention system */
-  .overflow-contained {
-    overflow: hidden;
-    contain: layout style paint;
-  }
-
-  .overflow-contained-x {
-    overflow-x: hidden;
-    contain: layout;
-  }
-
-  .overflow-contained-y {
-    overflow-y: hidden;
-    contain: layout;
-  }
-
-  /* For carousel items */
-  .carousel-item-contained {
-    overflow: hidden;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* Equal height container utilities */
-  .equal-height-container {
-    display: flex;
-    align-items: stretch;
-  }
-
-  .equal-height-item {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-}

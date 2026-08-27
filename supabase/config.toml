@@ -1,40 +1,7 @@
 project_id = "bkyuxvschuwngtcdhsyg"
 
-[functions.chat-with-krish]
-verify_jwt = false
-
-[functions.get-ai-news]
-verify_jwt = false
-
-[functions.get-market-sentiment]
-verify_jwt = false
-
-[functions.create-consultation-hold]
-verify_jwt = false
-
-[functions.send-lead-email]
-verify_jwt = false
-
-[functions.send-contact-email]
-verify_jwt = false
-
-[functions.send-leadership-insights-email]
-verify_jwt = false
-
-[functions.nervous-decision-machine]
-verify_jwt = false
-
-[functions.import-audience-csv]
-verify_jwt = false
-
-[functions.submit-testimonial]
-verify_jwt = false
-
-[functions.submit-intake]
-verify_jwt = false
-
-[functions.personalize-intake]
-verify_jwt = false
-
 [functions.submit-mindmake-brief]
 verify_jwt = false
+
+[functions.enrich-company]
+verify_jwt = true

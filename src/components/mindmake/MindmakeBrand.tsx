@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import mindmakeWordmark from "../../../prototypes/assets/mindmake-wordmark.png";
+import mindmakeWordmark from "@/assets/mindmake-wordmark.png";
 import mindmakeIcon from "@/assets/mindmaker-icon.png";
 
 interface MindmakeBrandProps {

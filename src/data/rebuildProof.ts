@@ -101,10 +101,13 @@ export const clientStories: ClientStory[] = [
 
 export const careerReferences = [
   { name: "Lizzie Young", role: "Chief Executive, Commercial Radio & Audio", quote: "A respected senior leader with deep expertise in digital media and data, a great communicator of complexity, with a warm nature that brings people together." },
+  { name: "Rob Hudson", role: "National Sales Director, Media, REA Group", quote: "A unique ability to make data products accessible to everyone in the room, not just the digital people. A genuine passion for helping clients solve business problems, and above all very personable and approachable." },
+  { name: "Michael Ricciardone", role: "Country Manager, ANZ, MoEngage", quote: "Articulate, engaging and entertaining. He breaks down the barriers marketers face with data and technology using relevant examples and stories, then presents clear solutions. Full of support, always keen to educate." },
   { name: "Melinda Heffernan", role: "Ad Channel Partnerships Director, Asia-Pacific, Taboola", quote: "He explains complex technical set-ups simply and is a true problem solver. I learnt a huge amount about finding solutions for clients from him." },
   { name: "Chris Spencer", role: "Lead Account Executive, Enterprise, Culture Amp", quote: "An industry expert who turns knowledge into actionable plans and crafted solutions for clients." },
   { name: "Ashley Wales-Brown", role: "Digital Commerce Director, Mars United Commerce", quote: "Intelligent and hardworking, with a deep understanding of data and tech, always good for a straight answer and willing to get his hands dirty." },
   { name: "Matt Paine", role: "Managing Partner, Lamington Digital", quote: "Adept at translating complex scenarios into simple, easy-to-grasp language that moves the conversation forward." },
+  { name: "Marie-Anne Leung Kam", role: "Director, 2 Square Talent", quote: "An outstanding leader with a clear vision, a collaborative approach and a knack for driving innovation. I could not recommend him more highly." },
   { name: "Vincent Pelillo", role: "Regional Managing Director, Channel Factory", quote: "Outstanding leadership, consistently driving results in a challenging market. Where 'get it done' is valued, I'd rehire him 100%." },
 ] as const;
 

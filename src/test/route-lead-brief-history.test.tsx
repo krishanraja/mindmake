@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { MemoryRouter, Route, Routes, useLocation, useNavigate } from "react-router-dom";
@@ -15,10 +14,6 @@ vi.mock("@/components/mindmake/LeadBrief", () => ({
 
 vi.mock("@/components/mindmake/MediaFrame", () => ({
   MediaFrame: ({ title }: { title: string }) => <div aria-label={title} />,
-}));
-
-vi.mock("@/components/mindmake/RouteRail", () => ({
-  RouteRail: ({ children }: { children: ReactNode }) => <div>{children}</div>,
 }));
 
 function LocationProbe() {

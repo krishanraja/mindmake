@@ -45,6 +45,11 @@ const ACTIVE_SURFACES = [
   "src/components/mindmake/CompoundingTimeline.tsx",
   "src/components/mindmake/BrainStepVisuals.tsx",
   "src/components/mindmake/GtmStepVisuals.tsx",
+  "src/components/mindmake/companyRead.ts",
+  "src/components/mindmake/ScrollMark.tsx",
+  "src/components/mindmake/WorkingUnderstandingCompare.tsx",
+  "src/components/mindmake/proposalContent.ts",
+  "src/components/mindmake/MindmakeProposal.tsx",
   "src/components/FAQAccordion.tsx",
   "src/components/new-age/AgathaStory.tsx",
   "src/components/new-age/DecisionPromptSheet.tsx",
@@ -57,6 +62,7 @@ const ACTIVE_SURFACES = [
   "src/styles/mindmake-gateway.css",
   "src/styles/mindmake-opening-act.css",
   "src/styles/mindmake-journey.css",
+  "src/styles/mindmake-brief.css",
   "src/App.tsx",
   "vercel.json",
   "scripts/generate-llms.mjs",
@@ -237,6 +243,10 @@ describe("Mindmake public product contract", () => {
     expect(html).toContain("&lt;script&gt;");
     expect(html).toContain("Useful &amp; checked");
     expect(html).not.toMatch(/fonts\.googleapis|fonts\.gstatic|@import\s+url/i);
+    expect(html).not.toMatch(/\$\s*\d/);
+    expect(html).not.toMatch(/calendly|mailto:/i);
+    expect(html).toContain("It is not advice.");
+    expect(html).toContain("not a promise or final answer");
   });
 
   it("blocks persuasion-only prototype phrases from active pages", () => {

@@ -13,6 +13,8 @@ import {
   ReadVisual,
   RunVisual,
 } from "@/components/mindmake/GtmStepVisuals";
+import { ScrollMark } from "@/components/mindmake/ScrollMark";
+import { WorkingUnderstandingCompare } from "@/components/mindmake/WorkingUnderstandingCompare";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-journey.css";
@@ -75,7 +77,7 @@ export default function AiGtm() {
           title="Build the model"
           tone="forest"
           body="An AI-native model of how you sell, built so you can question it and see the sources behind every answer."
-          note="It has to run, not read well."
+          note={<>It has to <ScrollMark shape="circle" driver="step">run</ScrollMark>, not read well.</>}
           visual={<ModelVisual />}
         />
 
@@ -110,6 +112,61 @@ export default function AiGtm() {
             { day: 90, standing: "Earned", body: "The model runs across product, price, positioning and people. The next call starts from evidence, not debate." },
           ]}
           visual={<GtmTimelinePanel />}
+        />
+
+        <WorkingUnderstandingCompare
+          tone="forest"
+          ariaLabel="How the Mindmake model compares with other kinds of help"
+          intro="A fractional hire, an automation shop, a generic AI and ready-made tools all do useful work too. The same question decides between them: where does the understanding live when the work ends?"
+          rows={[
+            "Does useful work today?",
+            "Does it have a memory of your business?",
+            "Can it draw out how you decide?",
+            "Where does the understanding live when the work ends?",
+          ]}
+          columns={[
+            {
+              title: "A generic AI chat",
+              explain: "An AI that answers whatever you ask it.",
+              cells: [
+                "Yes.",
+                "No. Each chat starts from nothing.",
+                "No. It waits to be asked.",
+                "Nowhere.",
+              ],
+            },
+            {
+              title: "A consultancy",
+              explain: "People who study your business and advise you.",
+              cells: [
+                "Yes.",
+                "Their notes leave with them.",
+                "Interviews, then a deck.",
+                "In a deck that leaves.",
+              ],
+            },
+            {
+              title: "Ready-made tools",
+              explain: "Software you subscribe to that stores your notes and context.",
+              cells: [
+                "Yes.",
+                "It stores what you put in.",
+                "No. You do the organising.",
+                "Inside the tool.",
+              ],
+            },
+            {
+              title: "The Mindmake model, with Krish",
+              explain: "A working model built with your team, proven with real buyers.",
+              cells: [
+                "Yes.",
+                "It holds your market, your numbers and your reasons.",
+                "Krish's questions, comparisons and graded examples.",
+                "With your team. The next call starts from evidence.",
+              ],
+              emphasis: true,
+            },
+          ]}
         />
       </StepJourney>
 

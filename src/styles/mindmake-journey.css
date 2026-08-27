@@ -660,6 +660,99 @@
 .mm-timeline-visual.is-gtm .mm-timeline-layer { display: flex; }
 .mm-timeline-visual.is-gtm .mm-timeline-layer .mm-step-chip { border-color: var(--mm-step-accent); }
 
+/* ---------- Hand-drawn marks on the journey ---------- */
+
+/* Inside a pinned scene the settle beat draws the mark, so it scrubs with
+   the pin in both directions and completes wherever the pin is released. */
+.mm-journey [data-mm-step] .mm-mark.is-step { --mm-mark-progress: var(--mm-step-p3, 1); }
+.mm-journey [data-tone="ink"] .mm-mark,
+.mm-journey [data-tone="forest"] .mm-mark { --mm-mark-stroke: var(--mm-step-accent); }
+
+/* ---------- The working-understanding comparison ---------- */
+
+.mm-compare {
+  background: var(--mm-step-bg);
+  color: var(--mm-step-fg);
+  padding: clamp(72px, 10svh, 120px) var(--mm-edge);
+  min-width: 0;
+}
+.mm-compare h2 { max-width: 16ch; font-size: clamp(38px, 4.6vw, 70px); line-height: .98; }
+.mm-compare-intro {
+  margin-top: clamp(14px, 2svh, 22px);
+  max-width: 56ch;
+  color: var(--mm-step-muted);
+  font-size: clamp(15px, 1.3vw, 19px);
+  line-height: 1.5;
+}
+.mm-compare-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(10px, 1.4vw, 18px);
+  margin-top: clamp(28px, 4svh, 46px);
+}
+.mm-compare-col {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 6;
+  align-content: start;
+  min-width: 0;
+  border: 1px solid var(--mm-step-line);
+  background: var(--mm-step-card-bg);
+  padding: clamp(14px, 1.8vw, 22px);
+}
+@supports not (grid-template-rows: subgrid) {
+  .mm-compare-col { grid-template-rows: none; grid-row: auto; }
+}
+.mm-compare-col h3 {
+  font-size: clamp(17px, 1.5vw, 23px);
+  line-height: 1.12;
+  letter-spacing: -.02em;
+}
+.mm-compare-explain {
+  margin-top: 6px;
+  color: var(--mm-step-muted);
+  font-size: clamp(12px, 1vw, 14px);
+  line-height: 1.4;
+}
+.mm-compare-col dl { display: contents; }
+.mm-compare-col dl > div { min-width: 0; margin-top: 14px; border-top: 1px solid var(--mm-step-line); padding-top: 10px; }
+.mm-compare-col dt {
+  color: var(--mm-step-muted);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+.mm-compare-col dd {
+  margin: 6px 0 0;
+  font-size: clamp(13px, 1.1vw, 15px);
+  line-height: 1.42;
+}
+.mm-compare-col.is-mindmake {
+  border-color: var(--mm-step-accent);
+  box-shadow: 12px 12px 0 var(--mm-step-shadow);
+}
+.mm-compare-col.is-mindmake h3 { color: var(--mm-step-accent); }
+.mm-compare-hinge {
+  margin-top: clamp(30px, 4.6svh, 52px);
+  font-family: "Source Serif 4", Charter, "Bitstream Charter", Georgia, serif;
+  font-size: clamp(27px, 3vw, 44px);
+  font-weight: 650;
+  letter-spacing: -.03em;
+  line-height: 1.05;
+}
+
+@media (max-width: 900px) {
+  .mm-compare-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mm-compare-col { grid-template-rows: none; grid-row: auto; }
+  .mm-compare-col dl { display: block; }
+}
+
+@media (max-width: 560px) {
+  .mm-compare-grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .mm-compare-col dl > div { margin-top: 10px; padding-top: 8px; }
+  .mm-compare-col.is-mindmake { box-shadow: 8px 8px 0 var(--mm-step-shadow); }
+}
+
 /* ---------- Performance gating ---------- */
 
 .mm-journey [data-step-state="active"] .mm-step-numeral span,

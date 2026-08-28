@@ -26,19 +26,23 @@ const sections = [
     body: <><p>The site uses privacy-friendly analytics to count visits and understand which pages help. It does not use advertising cookies. Your privacy choice is kept on your device so the site can remember it.</p><p>External sites, including the Mindmake publication, have their own privacy terms.</p></>,
   },
   {
-    title: "6. How long we keep it",
-    body: <><p>A private-brief code works for ten minutes. Five failed tries stop it. The code itself is not stored.</p><p>Private-brief records are deleted on a schedule. A request that is never confirmed is deleted 7 days after it was made. The one-way abuse-limit records are deleted after 48 hours. A confirmed request, together with its consent and delivery records, is deleted 12 months after it last changed. You can ask for earlier deletion at any time. We first check the request really comes from you, then delete the record unless a legal duty requires part of it to be kept elsewhere.</p><p>Other information is kept only while it is needed for the reason it was collected, an active customer relationship, security, normal business records or a legal duty. You can ask what is held and why it is held.</p></>,
+    title: "6. Two emails, and then nothing",
+    body: <><p>A confirmed request receives its results email, and one follow-up fourteen days later. That is every email this website will ever send you. There is no sales sequence behind it and no newsletter.</p><p>To send that one follow-up we keep your email address and the date it is due. The record is deleted 7 days after the email is sent, and sooner if you ask. The publication is a separate choice that you make yourself, and nothing from this website subscribes you to it.</p></>,
   },
   {
-    title: "7. Your choices and rights",
+    title: "7. How long we keep it",
+    body: <><p>A private-brief code works for ten minutes. Five failed tries stop it. The code itself is not stored.</p><p>Private-brief records are deleted on a schedule. A request that is never confirmed is deleted 7 days after it was made. The one-way abuse-limit records are deleted after 48 hours. A confirmed request, together with its consent and delivery records, is deleted 12 months after it last changed. The follow-up record described below is deleted 7 days after that email is sent. You can ask for earlier deletion at any time. We first check the request really comes from you, then delete the record unless a legal duty requires part of it to be kept elsewhere.</p><p>Other information is kept only while it is needed for the reason it was collected, an active customer relationship, security, normal business records or a legal duty. You can ask what is held and why it is held.</p></>,
+  },
+  {
+    title: "8. Your choices and rights",
     body: <><p>Depending on where you live, you may be able to ask for a copy, correction, deletion, restriction or transfer of your personal information. You may also object to some uses.</p><p>You can leave the publication at any time through its unsubscribe link. Email <a href="mailto:privacy@mindmake.co">privacy@mindmake.co</a> for any other request. If you are in the UK and remain unhappy, you may complain to the Information Commissioner's Office. People elsewhere may contact their local data authority.</p></>,
   },
   {
-    title: "8. Security",
+    title: "9. Security",
     body: <><p>We use access controls and established service providers to protect information. No internet service can promise perfect security. Please do not put secrets or sensitive personal information into the public brief form.</p></>,
   },
   {
-    title: "9. Changes",
+    title: "10. Changes",
     body: <><p>We may update this notice when the service or the law changes. The latest date will appear at the top of this page.</p></>,
   },
 ] as const;

@@ -11,7 +11,7 @@ The private brief must feel useful before Mindmake asks for an email. It must al
 The release rules are:
 
 - no public diary or Calendly link;
-- no automated sales or nurture sequence;
+- no automated sales or nurture sequence beyond the single day-14 follow-up (see the amendment at the end of this file);
 - no automatic publication subscription or list import;
 - no visitor-written narrative, email HTML or hidden qualification data accepted by the server;
 - no claim that an email was delivered unless that delivery was accepted by the email provider;
@@ -179,3 +179,35 @@ The code works for ten minutes and five failed tries lock it. Expiry stops the c
 Every item of the release contract passed before the flag went on, and Krish gave the explicit Gate E approval on 27 August 2026: migration and security advisers, private-schema isolation from anonymous and signed-in roles, service-role wrapper boundaries, exact origins and secret configuration, the full request, resend, change-email and code matrix, both independent deliveries with synthetic inboxes, idempotent retries, inspected email output, publication-interest boundaries and the retention schedule with its manual deletion process.
 
 Any future change to the pipeline re-runs the relevant part of that contract before deploying, and a synthetic end-to-end lead from `https://mindmake.co` (code read from the provider's synthetic inbox, all three sends `delivered`) is the minimum proof after every function deploy. A provider `queued` response is never claimed as inbox delivery.
+
+
+## Amendment, 28 August 2026: the two-email cap
+
+The release rule that forbade any automated sequence is replaced by a bounded
+one. A lead receives exactly two emails, ever:
+
+1. **The results email**, unchanged. Sent on confirmation by
+   `submit-mindmake-brief`, or by `mindmake-personal-read` for a visitor who
+   completed the personal journey instead.
+2. **One follow-up, fourteen days later**, sent by `send-follow-ups` from a
+   daily 09:20 UTC job. Subject: "The better version of our offer". One short
+   paragraph, one sharper offer, one link back to the start. No images and no
+   tracking beyond the mailer's defaults.
+
+Nothing else sends. There is still no drip, no newsletter from this site and no
+list import; the publication remains a separate choice the visitor makes
+themselves.
+
+What keeps the cap true rather than merely stated:
+
+- `follow_up_queue` is unique on `(email, source)`, so a returning visitor
+  cannot stack a second follow-up.
+- Each send carries a deterministic idempotency key derived from the queue row,
+  so a rerun cannot duplicate a message.
+- `sent_at` is written only when the provider accepted the message, and a row
+  that fails three times is abandoned rather than retried forever.
+- The row is purged seven days after it sends. The public privacy notice states
+  this schedule.
+- `src/test/brief2-email-cap.test.ts` walks every function under
+  `supabase/functions` and fails if the set of things that can send mail, or the
+  set of places a follow-up can be created, ever grows.

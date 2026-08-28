@@ -227,3 +227,28 @@ The observed week-long collaboration method is captured at `_corpus/mindmake-col
 ---
 
 **Current next action:** complete the 24-hour stability closure, return the four-part physical device checklist, confirm one authenticated CTRL login at `ctrl.mindmake.co` so the old CTRL host can be repointed, and supply the Brain and GTM flow films for their step-film slots. The site, lead capture, backend, sender identity and retention schedule are live and verified.
+
+
+## Amendment, 28 August 2026: the site rebuild
+
+- The site speaks as "we". The founder is named once, as the person the named
+  references worked with, and nowhere else: no first-person voice, no
+  biography, no portrait.
+- The voice is a helpful expert explaining something clearly, in plain English a
+  twelve-year-old could follow. It is generous about the alternatives, it names
+  what the reader gains, and it never uses doom, commands, boasting or cryptic
+  headings. The design contract carries the full rule.
+- Amplify and absorb replace the Capture / Encode / Amplify / Uncover / Keep
+  ladder. The destination is level three, where the system builds on itself.
+- Each product has two engagement shapes: the build and the habit on the brain
+  side, the review and the build on the GTM side.
+- CTRL is named on `/ai-brain` only, shown as the engine we run on ourselves,
+  never linked and never priced.
+- A converting visitor receives exactly two emails: their results, and one
+  follow-up fourteen days later.
+- `/ai-gtm` publishes a daily corroborated read of what changed, with the
+  cache's own timestamp, staleness labelled past 26 hours, and a clean collapse
+  when the fetch fails.
+- Proof stays in three families that are never mixed: anonymous client outcomes,
+  named references who worked with the founder, and attendee brands described as
+  attendance.

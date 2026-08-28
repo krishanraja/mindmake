@@ -503,6 +503,30 @@ async function deliverBrief(
   await finishDelivery(admin, row.id, kind, claim.claim_token, result);
 }
 
+/** Fourteen days, the one follow-up the two-email cap allows. */
+const FOLLOW_UP_DAYS = 14;
+
+/**
+ * Queues the single day-14 follow-up.
+ *
+ * Best effort by design: this runs after the visitor's brief has already been
+ * accepted, so a queue failure must never turn a delivered brief into a
+ * reported failure. The queue's unique constraint on (email, source) means a
+ * returning visitor cannot stack a second follow-up, which is what keeps the
+ * two-email cap true rather than merely stated.
+ */
+async function queueFollowUp(admin: AdminClient, email: string): Promise<void> {
+  try {
+    const sendAfter = new Date(Date.now() + FOLLOW_UP_DAYS * 864e5).toISOString();
+    const { error } = await admin
+      .from("follow_up_queue")
+      .upsert({ email, source: "brief", send_after: sendAfter }, { onConflict: "email,source" });
+    if (error) console.error(`[mindmake-brief] follow-up queue failed: ${error.message}`);
+  } catch (error) {
+    console.error(`[mindmake-brief] follow-up queue threw: ${(error as Error).message}`);
+  }
+}
+
 async function deliverConfirmedBrief(
   admin: AdminClient,
   row: BriefRow,
@@ -514,7 +538,9 @@ async function deliverConfirmedBrief(
     deliverBrief(admin, row, "visitor", brief, config),
     deliverBrief(admin, row, "operator", brief, config),
   ]);
-  return requireRow(await callRpc(admin, "get", { row_id: row.id }));
+  const finished = requireRow(await callRpc(admin, "get", { row_id: row.id }));
+  if (finished.visitor_delivery === "queued") await queueFollowUp(admin, finished.email);
+  return finished;
 }
 
 async function handleRequestAction(

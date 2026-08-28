@@ -138,3 +138,13 @@ Each entry carries: `id`, `mode` (the shape of the work, never a SKU: `decide` s
 - **outcome:** Clear positioning and pricing. First two pilots signed inside the window. A playbook the sales team runs without the founder present.
 - **pull-quote:** "We had a brilliant product nobody could buy, because nobody could explain it. Now they can. Including me."
 - **attribution:** Founder, adtech firm
+
+
+## TODO, 28 August 2026: substantiate "2,000+ verified sources"
+
+The `/ai-brain` page carries the line "Live data from 2,000+ checked sources" as
+part of the CTRL description. Krish approved the claim for launch. The
+substantiation record is still outstanding: the source list, how a source is
+counted, and how "checked" is defined, recorded here so the number on the page
+is always defensible. Until that lands this is the one public claim on the site
+without a written basis in this file.

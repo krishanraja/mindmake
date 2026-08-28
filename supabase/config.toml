@@ -10,3 +10,15 @@ verify_jwt = true
 # matches the already-deployed setting.
 [functions.get-ai-news]
 verify_jwt = false
+
+# Called by the browser, with the origin allowlist enforced in code.
+[functions.mindmake-personal-read]
+verify_jwt = false
+
+# Called by pg_cron with a shared secret header, the pattern the project's
+# other scheduled functions already use.
+[functions.send-follow-ups]
+verify_jwt = false
+
+[functions.aa-price-snapshot]
+verify_jwt = false

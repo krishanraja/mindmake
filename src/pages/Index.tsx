@@ -6,6 +6,7 @@ import { CloseBlock } from "@/components/mindmake/CloseBlock";
 import { FilmPlate } from "@/components/mindmake/FilmPlate";
 import { FounderNote } from "@/components/mindmake/FounderNote";
 import { Instrument } from "@/components/mindmake/Instrument";
+import { ScrubText } from "@/components/mindmake/ScrubText";
 import { Marquee } from "@/components/mindmake/Marquee";
 import { ObjectionChips } from "@/components/mindmake/ObjectionChips";
 import { ProofStrip } from "@/components/mindmake/ProofStrip";
@@ -182,7 +183,7 @@ export default function Index() {
           </div>
 
           <div className="mm-answer">
-            <p className="mm-claim">You keep what it learns.</p>
+            <ScrubText className="mm-claim" text="You keep what it learns." />
             <p>That is the whole idea. We help you put your own judgement to work, in plain English, on real decisions, and you own the result.</p>
           </div>
 

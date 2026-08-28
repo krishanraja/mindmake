@@ -57,8 +57,12 @@ Last measured 28 August 2026, against the built output.
   Never point the typecheck at the root config.
 - Lint: **0 errors, 2 warnings** (react-refresh advisories in two long-standing files). Do not add new problems.
 - Build: prerenders **21 indexed routes**; the sitemap and prerender parity check runs inside the build.
-- Page heights at 1440x900: `/` 5.6 screens, `/ai-brain` 6.3, `/ai-gtm` 4.1, `/case-studies` 3.0.
-  At 390x844: 7.7, 9.1, 6.2, 5.0.
+- Page heights at 1440x900: `/` 6.0 screens, `/ai-brain` 8.5, `/ai-gtm` 4.7, `/case-studies` 5.0.
+  At 390x844: 7.9, 9.4, 6.6, 5.0.
+  `/ai-brain` grew about a screen at 1440 and not at all at 390, which is the
+  pinned climb: it holds the screen for 68vh on a laptop and is switched off
+  below 860px, where the three steps simply stack. That is the trade a pinned
+  section makes, and it was taken deliberately.
 - Browser gates, run against the built output at 1440px and 390px:
   - **Aliveness** (`npm run qa:alive`): no viewport-height of any page is still.
     It photographs three frames 900ms apart and reads two statistics: the mean
@@ -67,13 +71,32 @@ Last measured 28 August 2026, against the built output.
     because the mean cannot see a forty-pixel instrument moving hard. Floors are
     0.15 and 8, both calibrated from readings that fall in two groups with
     nothing between them. A window more than half footer is skipped, because a
-    footer is chrome. Clean at both widths: 22 viewports at 1440, 25 at 390.
+    footer is chrome. It then makes a **second, scrubbed pass**: it samples each
+    page at eight scroll offsets and requires elements whose state changes with
+    position in all three thirds of the page. The first pass alone photographs a
+    stationary viewport, so it cannot see a scrubbed build at all and passed a
+    site whose scroll-led motion had never been deployed. Clean at both widths:
+    25 viewports at 1440, 26 at 390.
   - **Image density** (`npm run qa:images`): no image renders above its intrinsic
     width, and none below 1.8 source pixels per CSS pixel, or 1.3 for film,
     which is limited by the footage. SVG is exempt. Clean at 1440 and 1920.
   - **Section rhythm** (`npm run qa:rhythm`): no two consecutive sections share a
     ground unless something else separates them. Exemptions are named in the
     script. Clean across 34 sections on four pages.
+  - **Card geometry** (`scripts/qa/card-geometry-check.mjs`): every card in a drum
+    reports the same height and its quote, attribution and button rows share a
+    y-offset with its neighbours', and opening one changes neither the page
+    height nor the position of anything around it. Measured, not eyeballed:
+    33 cards at 177.3px with rows at 15/80.3/136.3.
+  - **One way in** (`scripts/qa/one-way-in-check.mjs`): a page never shows two
+    primary actions at once. It walks each page at both widths and counts only
+    genuinely visible ones, because the closed menu has a box and the first
+    version of the check counted it. Clean across 8 page/width pairs.
+  - **Redirects** (`scripts/qa/redirect-check.mjs`): every retired route lands on
+    the homepage in one hop. This table used to expect `/teardown`, `/handover`
+    and `/start`, the rungs of the retired offer ladder, which are themselves
+    redirects now, so it was asserting a two-hop chain the runbook forbids and
+    failing 19 of 19. The code was right and the expectations were stale.
   - **Keyboard**: every tabbable element shows a visible focus ring. Clean at both widths.
   - **Layout**: no horizontal overflow, no console errors, exactly one `h1` per page, touch targets at or above the comfortable minimum.
   - **Reduced motion**: nothing animating, counters at their final figures.

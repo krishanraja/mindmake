@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useDragDrum } from "@/hooks/useDragDrum";
+import { CountingValue } from "@/components/mindmake/CountingValue";
 import { publishableTestimonials, FAMILY_LABEL, type Testimonial } from "@/data/testimonials";
 import { track } from "@/lib/analytics";
 
@@ -140,7 +141,7 @@ export function ProofDrum({ title = "People who have worked with Krish" }: { tit
       <div className="mm-drum-head">
         <h3>{title}</h3>
         <p className="mm-drum-hint">
-          <span>{voices.length} of them. Drag it, or use the arrows.</span>
+          <span><CountingValue value={voices.length} /> of them. Drag it, or use the arrows.</span>
           <span className="mm-drum-arrows">
             <button type="button" aria-label="Previous" onClick={() => drum.step(-1)}>←</button>
             <button type="button" aria-label="Next" onClick={() => drum.step(1)}>→</button>

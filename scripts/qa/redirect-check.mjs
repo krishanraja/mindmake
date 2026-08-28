@@ -18,25 +18,36 @@ import { startServer } from "./serve-dist.mjs";
 
 const PORT = 4181;
 
+/* Every retired offer route lands on the homepage, and the reason is the one-hop
+   rule. These used to expect /teardown, /handover and /start, which were the
+   rungs of the offer ladder. That ladder is retired: those three routes are
+   themselves redirects to the homepage now, so expecting a retired route to
+   arrive at one of them was asking for a two-hop chain the deploy runbook
+   forbids. The code has sent them straight to the homepage since the ladder came
+   out; this table was the last thing still describing the old shape. */
 const EXPECTED = {
-  "/workshops": "/teardown",
-  "/workshops/build-your-ai-chief-of-staff": "/teardown",
-  "/workshops/map-your-agentic-org-chart": "/teardown",
-  "/workshops/vibe-coding-for-leaders": "/teardown",
-  "/workshops/build-an-autonomous-business-function": "/teardown",
-  "/workshops/give-your-ai-memory": "/teardown",
-  "/enterprise": "/handover",
-  "/immersion": "/handover",
-  "/cohort": "/start",
-  "/leaders": "/start",
-  "/leadership-insights": "/start",
-  "/war-room": "/handover",
-  "/strategy-day": "/teardown",
-  "/fractional-caio": "/handover",
-  "/sprints": "/teardown",
-  "/sprint/4-week": "/teardown",
-  "/sprint/90-day": "/handover",
-  "/builder-sprint": "/teardown",
+  "/workshops": "/",
+  "/workshops/build-your-ai-chief-of-staff": "/",
+  "/workshops/map-your-agentic-org-chart": "/",
+  "/workshops/vibe-coding-for-leaders": "/",
+  "/workshops/build-an-autonomous-business-function": "/",
+  "/workshops/give-your-ai-memory": "/",
+  "/enterprise": "/",
+  "/immersion": "/",
+  "/cohort": "/",
+  "/leaders": "/",
+  "/leadership-insights": "/",
+  "/war-room": "/",
+  "/strategy-day": "/",
+  "/fractional-caio": "/",
+  "/sprints": "/",
+  "/sprint/90-day": "/",
+  "/sprint/4-week": "/",
+  "/builder-sprint": "/",
+  /* Retired with the rest of the ladder. This file was asserting it stayed
+     live, alone against vercel.json and src/test/redirects.test.ts, which both
+     have it going to the homepage and both pass. */
+  "/capital": "/",
 };
 
 const server = await startServer(PORT);
@@ -73,13 +84,6 @@ try {
   if (!alumniOk) failures++;
   console.log(`${alumniOk ? "PASS" : "FAIL"}  /alumni still reachable by direct URL -> ${alumni}`);
 
-  // /capital stays live rather than redirecting.
-  await page.goto(B + "/capital", { waitUntil: "domcontentloaded" });
-  await page.waitForTimeout(1200);
-  const capital = new URL(page.url()).pathname;
-  const capitalOk = capital === "/capital";
-  if (!capitalOk) failures++;
-  console.log(`${capitalOk ? "PASS" : "FAIL"}  /capital stays live -> ${capital}`);
 } finally {
   await browser.close();
   server.close();

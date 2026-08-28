@@ -6,10 +6,14 @@ import { CloseBlock } from "@/components/mindmake/CloseBlock";
 import { SubscribeBand } from "@/components/mindmake/SubscribeBand";
 import { FilmPlate } from "@/components/mindmake/FilmPlate";
 import { Instrument } from "@/components/mindmake/Instrument";
+import { ScrubText } from "@/components/mindmake/ScrubText";
 import { ObjectionChips } from "@/components/mindmake/ObjectionChips";
+import { LeverPanel } from "@/components/mindmake/LeverPanel";
+import { ProcessTrack } from "@/components/mindmake/ProcessTrack";
 import { LiveBoard } from "@/components/mindmake/board/LiveBoard";
 import { GtmJourney } from "@/components/mindmake/journeys/GtmJourney";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
+import { useScrollDriver } from "@/hooks/useScrollDriver";
 import { track } from "@/lib/analytics";
 import filmThreePoster from "@/assets/films/film-03-poster.jpg";
 import filmThreePosterWebp from "@/assets/films/film-03-poster.webp";
@@ -24,6 +28,7 @@ import "@/styles/mindmake-instruments.css";
 
 export default function AiGtm() {
   const { briefOpen, openBrief, closeBrief } = useLeadBriefHistory();
+  const plateRef = useScrollDriver<HTMLDivElement>();
   const [seedDomain, setSeedDomain] = useState<string>();
 
   const startFromJourney = (domain: string) => {
@@ -41,29 +46,34 @@ export default function AiGtm() {
 
       <section className="mm-hero" aria-labelledby="gtm-title">
         <div className="mm-container mm-hero-split">
+          {/* The film drifts against the copy as the hero leaves, which is what
+              the homepage hero has always done and these two never did. */}
           <div>
             <h1 className="mm-setup" id="gtm-title">AI is changing what customers pay for.</h1>
-            <p className="mm-claim">We help you sell for that.</p>
+            <ScrubText className="mm-claim" text="We help you sell for that." />
             <p className="mm-lede">
               We take one part of how you sell, rebuild it around the way AI has changed your
               market, and prove it with real buyers inside thirty days. You keep the model.
             </p>
           </div>
-          <FilmPlate
-            poster={filmThreePoster}
-            posterWebp={filmThreePosterWebp}
-            src={filmThreeLoop}
-            srcWebm={filmThreeLoopWebm}
-            label="A chart room of brass recording pens drawing ink curves onto paper drums. One pen has broken sharply downward and a hand tears the strip away."
-            priority
-          />
+          <div className="mm-hero-film mm-parallax" ref={plateRef}>
+            <FilmPlate
+              className="mm-parallax-plate"
+              poster={filmThreePoster}
+              posterWebp={filmThreePosterWebp}
+              src={filmThreeLoop}
+              srcWebm={filmThreeLoopWebm}
+              label="A chart room of brass recording pens drawing ink curves onto paper drums. One pen has broken sharply downward and a hand tears the strip away."
+              priority
+            />
+          </div>
         </div>
       </section>
 
       <section className="mm-block mm-on-raise" aria-labelledby="money-title">
         <div className="mm-container">
           <div className="mm-head-split">
-            <h2 id="money-title">Three things AI changes about selling.</h2>
+            <h2 id="money-title">Four things AI changes about selling.</h2>
             {/* The film belongs to the section rather than to one of three
                 peers, and beside the heading rather than under everything: a
                 1080px square spanning the full container was upscaled. */}
@@ -76,32 +86,11 @@ export default function AiGtm() {
               label="Extreme macro on a split-flap display in a brass frame, mid-cascade, settling lower on its column."
             />
           </div>
-          <div className="mm-impact" style={{ marginTop: 18 }}>
-            <article className="mm-impact-card">
-              <Instrument kind="gauge" />
-              <h3>What you charge</h3>
-              <p>
-                <strong>The cost of doing the work is falling</strong>, and customers are starting
-                to notice. We work out what that means for your margin and what your prices should
-                assume next year.
-              </p>
-            </article>
-            <article className="mm-impact-card">
-              <Instrument kind="flap" />
-              <h3>How you stand out</h3>
-              <p>
-                <strong>Who else is selling to your customers now</strong>, what they are promising,
-                and the clearest way to explain why you are the better choice.
-              </p>
-            </article>
-            <article className="mm-impact-card">
-              <Instrument kind="rail" />
-              <h3>Who does the selling</h3>
-              <p>
-                <strong>The roles worth creating now</strong>, the people who do well in them, and
-                the parts of selling your team can hand to AI this month.
-              </p>
-            </article>
+          {/* Four dials on one panel, because these are the four levers there
+              are and moving one moves the others. As three separate cards the
+              page named only three of them and left product out. */}
+          <div style={{ marginTop: 18 }}>
+            <LeverPanel />
           </div>
         </div>
       </section>
@@ -126,25 +115,22 @@ export default function AiGtm() {
 
       <section className="mm-block" aria-labelledby="engage-title">
         <div className="mm-container">
-          <h2 id="engage-title"><Instrument kind="levels" className="mm-head-mark" />Two ways to start.</h2>
-          <div className="mm-shapes">
-            <article className="mm-shape is-hot">
-              <Instrument kind="recorder" />
-              <h3>The review, thirty days</h3>
-              <p className="mm-shape-line">Understand what changed, and pick one thing to fix.</p>
-              <p>You get the model, a clear recommendation and all the evidence behind it. Priced on the result, with no retainer.</p>
-            </article>
-            <article className="mm-shape">
-              <Instrument kind="levels" />
-              <h3>The build</h3>
-              <p className="mm-shape-line">Put it in place, and teach your team to run it.</p>
-              <p>We set the system up as the memory of how you sell, connect it to your plans, and coach the people who will keep it going after we finish.</p>
-            </article>
-          </div>
-          <p className="mm-payoff">
-            We bring our own tooling, so the work moves quickly from day one.{" "}
-            <em>You keep the model, the plan and the system, and they keep working after we finish.</em>
-          </p>
+          <h2 id="engage-title"><Instrument kind="levels" className="mm-head-mark" />Thirty days proves it. Then your team runs it.</h2>
+          <ProcessTrack
+            first={{
+              instrument: "recorder",
+              title: "The review, thirty days",
+              line: "Understand what changed, and pick one thing to fix.",
+              body: "You get the model, a clear recommendation and all the evidence behind it. Priced on the result, with no retainer.",
+            }}
+            second={{
+              instrument: "levels",
+              title: "The build, optional",
+              line: "Put it in place, and teach your team to run it.",
+              body: "We set the system up as the memory of how you sell, connect it to your plans, and coach the people who will keep it going after we finish.",
+            }}
+          />
+          <ScrubText className="mm-payoff" text="We bring our own tooling, so the work moves quickly from day one. You keep the model, the plan and the system, and they keep working after we finish." />
         </div>
       </section>
 

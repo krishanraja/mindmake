@@ -6,11 +6,15 @@ import { CloseBlock } from "@/components/mindmake/CloseBlock";
 import { SubscribeBand } from "@/components/mindmake/SubscribeBand";
 import { FilmPlate } from "@/components/mindmake/FilmPlate";
 import { Instrument } from "@/components/mindmake/Instrument";
+import { ScrubText } from "@/components/mindmake/ScrubText";
 import { ObjectionChips } from "@/components/mindmake/ObjectionChips";
 import { ProofViewer } from "@/components/mindmake/ProofViewer";
+import { ClimbLadder } from "@/components/mindmake/ClimbLadder";
+import { ProcessTrack } from "@/components/mindmake/ProcessTrack";
 import { ForkBand } from "@/components/mindmake/ForkBand";
 import { BrainJourney } from "@/components/mindmake/journeys/BrainJourney";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
+import { useScrollDriver } from "@/hooks/useScrollDriver";
 import filmTwoPoster from "@/assets/films/film-02-poster.jpg";
 import filmTwoPosterWebp from "@/assets/films/film-02-poster.webp";
 import filmTwoLoop from "@/assets/films/film-02-loop.mp4";
@@ -53,6 +57,7 @@ const PRINCIPLES = [
 
 export default function AiBrain() {
   const { briefOpen, openBrief, closeBrief } = useLeadBriefHistory();
+  const plateRef = useScrollDriver<HTMLDivElement>();
 
   return (
     <MindmakeShell onStart={openBrief}>
@@ -64,6 +69,8 @@ export default function AiBrain() {
 
       <section className="mm-hero" aria-labelledby="brain-title">
         <div className="mm-container mm-hero-split">
+          {/* The film drifts against the copy as the hero leaves, which is what
+              the homepage hero has always done and these two never did. */}
           <div>
             <h1 className="mm-setup" id="brain-title">Your AI should already know how you work.</h1>
             <p className="mm-claim">In thirty days, yours will.</p>
@@ -73,14 +80,17 @@ export default function AiBrain() {
               the first week, and you keep it.
             </p>
           </div>
-          <FilmPlate
-            poster={filmTwoPoster}
-            posterWebp={filmTwoPosterWebp}
-            src={filmTwoLoop}
-            srcWebm={filmTwoLoopWebm}
-            label="A wall of walnut specimen drawers. A brass arm files one cream card while a handwritten note waits under a paperweight."
-            priority
-          />
+          <div className="mm-hero-film mm-parallax" ref={plateRef}>
+            <FilmPlate
+              className="mm-parallax-plate"
+              poster={filmTwoPoster}
+              posterWebp={filmTwoPosterWebp}
+              src={filmTwoLoop}
+              srcWebm={filmTwoLoopWebm}
+              label="A wall of walnut specimen drawers. A brass arm files one cream card while a handwritten note waits under a paperweight."
+              priority
+            />
+          </div>
         </div>
       </section>
 
@@ -115,10 +125,7 @@ export default function AiBrain() {
               </ul>
             </article>
           </div>
-          <p className="mm-payoff">
-            You get hours back every week.{" "}
-            <em>Spend them on the work only you can do.</em>
-          </p>
+          <ScrubText className="mm-payoff" text="You get hours back every week. Spend them on the work only you can do." />
         </div>
       </section>
 
@@ -147,7 +154,7 @@ export default function AiBrain() {
                 {SPEC_CHIPS.map((chip) => <span className="mm-spec-chip" key={chip}>{chip}</span>)}
               </div>
               <div className="mm-proof-line">
-                <span className="mm-claim">We built this for ourselves. In thirty days, we build yours.</span>
+                <ScrubText className="mm-claim" text="We built this for ourselves. In thirty days, we build yours." />
                 <small>CTRL, our own engine. Live today.</small>
               </div>
               {/* Three mono cards in a column, after the longest section on the
@@ -188,41 +195,31 @@ export default function AiBrain() {
         <ForkBand />
       </section>
 
+      {/* The climb holds the screen while it happens, so the three levels cost
+          one screen of looking rather than three of scrolling. */}
       <section className="mm-block" aria-labelledby="ladder-title">
         <div className="mm-container">
-          <h2 id="ladder-title"><Instrument kind="levels" className="mm-head-mark" />Thirty days builds it. Using it makes it better.</h2>
-          <div className="mm-ladder" style={{ marginTop: 18 }}>
-            <article className="mm-level">
-              <Instrument kind="flap" />
-              <h3>One. You use AI</h3>
-              <p>You ask, it answers, and tomorrow it has forgotten. Useful, and it never adds up.</p>
-            </article>
-            <article className="mm-level">
-              <Instrument kind="rail" />
-              <h3>Two. You direct AI</h3>
-              <p>You hand work over, check it and ship it. Good work, and every task starts from nothing.</p>
-            </article>
-            <article className="mm-level is-hot">
-              <Instrument kind="drawer" />
-              <h3>Three. It builds on itself</h3>
-              <p>It remembers, it learns what good looks like to you, and the hours it saves go back into your best work.</p>
-            </article>
-          </div>
+          <ClimbLadder title="Thirty days builds it. Using it makes it better." />
+        </div>
+      </section>
 
-          <div className="mm-shapes">
-            <article className="mm-shape is-hot">
-              <Instrument kind="recorder" />
-              <h3>The build, thirty days</h3>
-              <p className="mm-shape-line">Built once, connected to where you already work.</p>
-              <p>We learn your standards from real work, switch on the parts that keep learning, and connect it to the tools your week already runs on.</p>
-            </article>
-            <article className="mm-shape">
-              <Instrument kind="levels" />
-              <h3>The habit, optional</h3>
-              <p className="mm-shape-line">It gets better the more you use it.</p>
-              <p>Occasional check-ins to build the habits that get you to level three. No monthly retainer. The system keeps working either way.</p>
-            </article>
-          </div>
+      <section className="mm-block" aria-labelledby="shape-title">
+        <div className="mm-container">
+          <h2 id="shape-title"><Instrument kind="levels" className="mm-head-mark" />One process, and the second half is optional.</h2>
+          <ProcessTrack
+            first={{
+              instrument: "recorder",
+              title: "The build, thirty days",
+              line: "Built once, connected to where you already work.",
+              body: "We learn your standards from real work, switch on the parts that keep learning, and connect it to the tools your week already runs on.",
+            }}
+            second={{
+              instrument: "levels",
+              title: "The habit, optional",
+              line: "It gets better the more you use it.",
+              body: "Occasional check-ins to build the habits that get you to the third level. No monthly retainer. The system keeps working either way.",
+            }}
+          />
         </div>
       </section>
 

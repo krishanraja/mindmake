@@ -1,4 +1,5 @@
 import { Instrument, type InstrumentKind } from "@/components/mindmake/Instrument";
+import { ScrubText } from "@/components/mindmake/ScrubText";
 import { track } from "@/lib/analytics";
 
 /**
@@ -33,7 +34,7 @@ export function CloseBlock({ claim, body, onStart, ground, instrument, panelId }
     <section className={`mm-close${ground === "raise" ? " mm-on-raise" : ""}`}>
       <div className="mm-container">
         <Instrument kind={instrument} className="mm-close-mark" />
-        <p className="mm-claim">{claim}</p>
+        <ScrubText className="mm-claim" text={claim} />
         {body && <p>{body}</p>}
 
         {panelId ? (

@@ -25,8 +25,13 @@ type Subscriber = (progress: number) => void;
  * where only the differential matters. `read` is tight and finishes while the
  * element is still on screen, which is what a build needs: the thing has to be
  * assembled by the time the visitor is looking at it, not a viewport later.
+ * `pin` belongs to a section taller than the screen holding a sticky child: it
+ * maps 0 to 1 across exactly the distance that child holds still for, so the
+ * whole of a held section's motion is spent while it is the only thing on
+ * screen. It needs no width branch, because a section that is merely tall and
+ * not pinned travels the same distance under the same arithmetic.
  */
-export type ScrollRange = "centre" | "read";
+export type ScrollRange = "centre" | "read" | "pin";
 
 interface Entry {
   notify: Subscriber;
@@ -43,17 +48,32 @@ function completed() {
   registry.forEach(({ notify }) => notify(1));
 }
 
+function readProgress(rect: DOMRect, viewport: number): number {
+  /* 0 when the top edge is three quarters down the screen, 1 when the bottom
+     edge has risen to just above the middle. The whole build happens inside
+     one comfortable reading pass. */
+  const start = viewport * 0.75;
+  const end = viewport * 0.45;
+  const travelled = start - rect.top;
+  const distance = Math.max(1, start - end + rect.height);
+  return clamp(travelled / distance);
+}
+
 function progressFor(rect: DOMRect, viewport: number, range: ScrollRange): number {
-  if (range === "read") {
-    /* 0 when the top edge is three quarters down the screen, 1 when the bottom
-       edge has risen to just above the middle. The whole build happens inside
-       one comfortable reading pass. */
-    const start = viewport * 0.75;
-    const end = viewport * 0.45;
-    const travelled = start - rect.top;
-    const distance = Math.max(1, start - end + rect.height);
-    return clamp(travelled / distance);
+  if (range === "pin") {
+    /* 0 the moment the section's top reaches the top of the screen, 1 when its
+       bottom does. That is the sticky child's exact hold, so the build starts
+       when the section takes the screen and finishes as it gives it back.
+
+       A section shorter than the screen has no such distance, and dividing by
+       what is left of it snapped the whole build between 0 and 1 with nothing
+       in between. That is the narrow phone, where the pin is off and the
+       section is a few hundred pixels tall, so it falls back to a read. */
+    const held = rect.height - viewport;
+    if (held < viewport * 0.25) return readProgress(rect, viewport);
+    return clamp(-rect.top / held);
   }
+  if (range === "read") return readProgress(rect, viewport);
   const centre = rect.top + rect.height / 2;
   // 0 one viewport below the fold, 1 one viewport above it.
   return clamp((1 - centre / viewport + 1) / 2);

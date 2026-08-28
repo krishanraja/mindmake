@@ -7,9 +7,18 @@
  * existed, which the site passed while a visitor saw nothing: a 7%-alpha glow
  * satisfies `getAnimations()` and satisfies no human being.
  *
- * So this measures the thing the rule is actually about. It photographs each
- * viewport twice, a beat apart, and compares the pixels. A viewport whose
- * frames are near-identical is still, whatever the DOM claims.
+ * So this measures the thing the rule is actually about, in two passes.
+ *
+ * The AT-REST pass photographs each viewport several times a beat apart and
+ * compares the pixels. A viewport whose frames are near-identical is still,
+ * whatever the DOM claims.
+ *
+ * The SCRUBBED pass photographs the same content at three scroll positions and
+ * requires it to look different at each. That pass exists because the first one
+ * passed a site whose scroll-driven motion amounted to 34px of hero parallax:
+ * measuring only at rest cannot tell a page that builds as you read it from a
+ * page that merely has something ticking in the corner. Both are required, and
+ * they measure different promises.
  *
  * Usage:
  *   node scripts/qa/aliveness-check.mjs [--base http://127.0.0.1:4180]
@@ -109,6 +118,8 @@ const browser = await chromium.launch({
 const problems = [];
 const readings = [];
 
+const scrubbed = [];
+
 for (const path of PATHS) {
   const page = await browser.newPage({ viewport: { width: WIDTH, height: HEIGHT } });
   await page.goto(BASE + path, { waitUntil: "networkidle" });
@@ -168,9 +179,74 @@ for (const path of PATHS) {
       problems.push(`${path} @${y}px is still (mean ${mean.toFixed(3)} < ${FLOOR}, peak ${peak.toFixed(1)} < ${PEAK_FLOOR})`);
     }
   }
+  const build = await scrubbedThirds(page);
+  scrubbed.push({ path, ...build });
+  if (build.thirds.some((count) => count === 0)) {
+    const empty = build.thirds
+      .map((count, third) => (count === 0 ? ["top", "middle", "bottom"][third] : null))
+      .filter(Boolean);
+    problems.push(`${path} builds nothing as you read its ${empty.join(" or ")} third (${build.thirds.join("/")})`);
+  }
   await page.close();
 }
 await browser.close();
+
+/**
+ * The scrubbed pass: does the page build as you read it?
+ *
+ * Not measured in pixels. A position-driven build resets when you scroll back,
+ * so three photographs taken from the same offset are three identical
+ * photographs, and photographs taken from different offsets differ because the
+ * page moved rather than because anything built. So this reads the state
+ * instead: the --mm-p each driver writes, and the opacity of the words a
+ * ScrubText lights. An element counts as scrubbed only if that state actually
+ * differs across three scroll positions.
+ *
+ * It asserts distribution, not a count. The site this was written for had
+ * exactly three scroll-driven elements and all three were inside the hero,
+ * which is a page with parallax at the top and nothing afterwards. So a page
+ * has to carry scrubbed motion in its top, middle and bottom third.
+ */
+async function scrubbedThirds(page) {
+  const tall = await page.evaluate(() => document.body.scrollHeight);
+  const readState = () => page.evaluate(() => {
+    const out = [];
+    for (const el of document.querySelectorAll("[style*='--mm-p'], .mm-scrub span, .mm-fig-holder *")) {
+      const box = el.getBoundingClientRect();
+      const style = getComputedStyle(el);
+      out.push({
+        top: Math.round(box.top + window.scrollY),
+        state: `${style.getPropertyValue("--mm-p")}|${style.opacity}|${style.transform}|${style.width}`,
+      });
+    }
+    return out;
+  });
+
+  /* Sampled from the very top, because a build in the top third has already
+     finished by 15 percent down and would read as unchanging from there. The
+     same at the other end. */
+  const samples = [];
+  for (const at of [0, 0.08, 0.2, 0.35, 0.5, 0.65, 0.8, 0.95]) {
+    await page.evaluate((top) => window.scrollTo(0, top), Math.round(tall * at));
+    await page.waitForTimeout(420);
+    samples.push(await readState());
+  }
+
+  /* An element is scrubbed if its state is not the same in every sample. */
+  const moved = new Set();
+  const count = Math.min(...samples.map((s) => s.length));
+  for (let i = 0; i < count; i += 1) {
+    const states = new Set(samples.map((s) => s[i].state));
+    if (states.size > 1) moved.add(samples[0][i].top);
+  }
+
+  const thirds = [0, 0, 0];
+  for (const top of moved) {
+    const third = Math.min(2, Math.floor((top / tall) * 3));
+    thirds[third] += 1;
+  }
+  return { thirds, total: moved.size };
+}
 
 if (REPORT) {
   console.log(`aliveness readings at ${WIDTH}x${HEIGHT}, ${GAP}ms apart`);

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Instrument } from "@/components/mindmake/Instrument";
 import { ProofDrum } from "@/components/mindmake/ProofDrum";
-import { attendeeBrands, clientStories } from "@/data/rebuildProof";
+import { attendeeBrands, clientStories, FIGURE_INSTRUMENT } from "@/data/rebuildProof";
 
 /**
  * The proof, kept in its three separate families.
@@ -27,7 +27,14 @@ export function ProofStrip() {
         <div className="mm-stories">
           {stories.map((story) => (
             <article className="mm-story" key={story.id}>
-              <h3>{story.title}</h3>
+              {/* The mark the archive card already carries for this shape of
+                  outcome. Every other card family on the site has one; these
+                  three did not, which is also why three of them stacked on a
+                  phone were a screen with nothing moving in it. */}
+              <h3>
+                <Instrument kind={FIGURE_INSTRUMENT[story.figure.shape]} className="mm-head-mark" />
+                {story.title}
+              </h3>
               <p className="mm-story-outcome">{story.outcome}</p>
               <blockquote>{story.quote}</blockquote>
               <cite>{story.attribution}</cite>

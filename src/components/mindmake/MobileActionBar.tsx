@@ -26,9 +26,15 @@ export function MobileActionBar({ onStart }: { onStart: () => void }) {
   useEffect(() => {
     const decide = () => {
       const past = window.scrollY > window.innerHeight * 0.8;
+      /* Any part of it on screen, with no grace margin. A margin here means a
+         band of scroll positions where the page's own button is visible and the
+         bar is still up, which is exactly the two-ways-in this is meant to
+         prevent; the bar is fixed to the bottom of the screen, so a close-block
+         button entering from below arrives underneath it and standing down at
+         that moment is the correct behaviour rather than a flicker. */
       const competing = [...document.querySelectorAll("[data-mm-primary]")].some((el) => {
         const box = el.getBoundingClientRect();
-        return box.bottom > 0 && box.top < window.innerHeight - 40;
+        return box.bottom > 0 && box.top < window.innerHeight;
       });
       setShown(past && !competing);
     };

@@ -1,6 +1,37 @@
+import type { InstrumentKind } from "@/components/mindmake/Instrument";
 import bbcLogo from "@/assets/brands/bbc.svg";
 import hearstLogo from "@/assets/brands/hearst.svg";
 import condeNastLogo from "@/assets/brands/conde-nast.svg";
+
+/**
+ * The diagram a story gets, and the numbers in it.
+ *
+ * Four shapes, and every number in one is from that story's own record. Where
+ * the record has no number, the story gets `offer`, which carries none. Nothing
+ * here is rounded up, filled in, or inferred from a neighbouring story: a
+ * diagram with an invented figure in it is a lie with a chart around it.
+ */
+export type StoryFigure =
+  /** Two spans, long against short. "A year of the wrong build, or one day." */
+  /**
+   * Two spans, long against short. No numerals: the record says "about a year"
+   * and "one day", and printing 365 would be precise where the record is not.
+   * from and to set the ratio the bars are drawn at, nothing more.
+   */
+  | { shape: "span"; from: number; to: number; fromLabel: string; toLabel: string }
+  /** A set narrowing or widening. Fourteen vendors, three decisions. */
+  | { shape: "focus"; from: number; to: number; keep: "few" | "many"; fromLabel: string; toLabel: string }
+  /**
+   * A month of days, a few marked or most of them. It carries no numeral,
+   * because the record says "about once a month" and "most days" and there is
+   * no number in either. The picture shows the pattern; the labels say the
+   * words that were actually recorded.
+   */
+  | { shape: "cadence"; from: number; to: number; fromLabel: string; toLabel: string }
+  /** One figure that stands on its own. Two pilots signed during the work. */
+  | { shape: "count"; value: number; label: string; within: string }
+  /** No number in the record, so no number in the diagram. */
+  | { shape: "offer"; before: string; after: string };
 
 export type ClientStory = {
   id: string;
@@ -8,6 +39,9 @@ export type ClientStory = {
   outcome: string;
   quote: string;
   attribution: string;
+  /** Headline for the proof archive, and the diagram that goes with it. */
+  result: string;
+  figure: StoryFigure;
   homepage?: {
     sector: string;
     title: string;
@@ -25,6 +59,8 @@ export const attendeeBrands = [
 export const clientStories: ClientStory[] = [
   {
     id: "expensive-decision",
+    result: "One day stopped a year of the wrong build.",
+    figure: { shape: "span", from: 365, to: 1, fromLabel: "About a year on the wrong path", toLabel: "One day to the decision" },
     title: "Settle the expensive decision",
     outcome: "One day to a clear build-or-partner decision. This avoided about a year of work on the wrong path.",
     quote: "One day. One decision. No more Monday debates. That's the entire review.",
@@ -38,6 +74,8 @@ export const clientStories: ClientStory[] = [
   },
   {
     id: "sellable-expertise",
+    result: "Expertise became an offer people could buy.",
+    figure: { shape: "offer", before: "Ideas everyone respected", after: "One offer, and a plan to launch it" },
     title: "Turn expertise into something clients can buy",
     outcome: "A respected advisory firm turned its ideas into a clear offer and a plan to launch it.",
     quote: "We had expertise everyone respected and nothing they could buy. He turned the talking into something sellable.",
@@ -51,6 +89,8 @@ export const clientStories: ClientStory[] = [
   },
   {
     id: "simple-product",
+    result: "Two pilots signed during the work.",
+    figure: { shape: "count", value: 2, label: "pilots signed", within: "inside the thirty days" },
     title: "Make the product simple enough to sell",
     outcome: "The position and price were rebuilt in 30 days. The first two pilots were signed during the work.",
     quote: "We had a brilliant product nobody could buy, because nobody could explain it. Now they can. Including me.",
@@ -64,6 +104,8 @@ export const clientStories: ClientStory[] = [
   },
   {
     id: "hand-back",
+    result: "The business was rebuilt and left in the founder's hands.",
+    figure: { shape: "count", value: 5, label: "videos shipped", within: "in week one of eight" },
     title: "Rebuild the business, then hand it back",
     outcome: "An eight-week rebuild covered the brand, offers, lead capture, content and outreach. Five videos shipped in week one.",
     quote: "He uses deep knowledge of AI and tech to help me with genuinely human problems. I had an AI mentor before and they were far too technical. He thinks about me and the results I need.",
@@ -71,6 +113,8 @@ export const clientStories: ClientStory[] = [
   },
   {
     id: "own-system",
+    result: "Publishing moved from monthly to most days.",
+    figure: { shape: "cadence", from: 1, to: 22, fromLabel: "About once a month", toLabel: "Most days" },
     title: "Own the system instead of renting the operator",
     outcome: "A founder-owned content system cut publishing time from days to under an hour. Publishing moved from about monthly to most days.",
     quote: "I've learnt to push through barriers I didn't know I could, and the systems make me more effective and more motivated. I used to post once a month, now it's most days. It's helping my customers see me.",
@@ -78,6 +122,8 @@ export const clientStories: ClientStory[] = [
   },
   {
     id: "team-decides",
+    result: "Fourteen vendors became three decisions.",
+    figure: { shape: "focus", from: 14, to: 3, keep: "few", fromLabel: "Fourteen competing vendors", toLabel: "Three decisions" },
     title: "Change how the team decides",
     outcome: "A publisher moved from 14 competing AI vendors to three decisions. Its own team then shipped the chosen work with no new hires.",
     quote: "We started with immersive AI sessions, which led to a broader project where our team took ownership and accountability. He led it and landed it.",
@@ -85,6 +131,8 @@ export const clientStories: ClientStory[] = [
   },
   {
     id: "business-first",
+    result: "Eleven tools stopped. One useful system went live.",
+    figure: { shape: "focus", from: 14, to: 3, keep: "few", fromLabel: "Fourteen tools running", toLabel: "Three kept, eleven stopped" },
     title: "Tie every AI choice back to the business",
     outcome: "Eleven of fourteen tools were stopped. The budget was kept and the first working system went live inside 90 days.",
     quote: "It's been a good journey to bring him problems that match our business goals and leadership needs, and watch them come together in a very thoughtful programme.",
@@ -92,6 +140,8 @@ export const clientStories: ClientStory[] = [
   },
   {
     id: "market-moves",
+    result: "A new sales path led to a paid publisher test.",
+    figure: { shape: "offer", before: "Selling the way the old web paid", after: "A paid test with a major US publisher" },
     title: "Change direction before the market moves",
     outcome: "A data company changed how it sold as AI changed the web. The work led to a paid test with a major US publisher.",
     quote: "He set up an AI-native go-to-market system that made us rethink who we hire and what they do. He works experimentally yet transparently. We trusted he would deliver.",
@@ -114,3 +164,17 @@ export const careerReferences = [
 export const homepageResultStories = clientStories.flatMap((story) =>
   story.homepage ? [{ id: story.id, ...story.homepage }] : [],
 );
+
+/**
+ * The mark for a kind of story, so a reader can tell at a glance what shape of
+ * result they are about to read. Each mapping is the instrument that means the
+ * same thing: time moving through, things falling away, a figure reached, a
+ * rhythm traced, a shape formed.
+ */
+export const FIGURE_INSTRUMENT: Record<StoryFigure["shape"], InstrumentKind> = {
+  span: "rail",
+  focus: "flap",
+  count: "gauge",
+  cadence: "recorder",
+  offer: "drawer",
+};

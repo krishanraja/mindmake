@@ -23,7 +23,10 @@ export function CountingValue({ value, from = 0.72 }: CountingValueProps) {
   const [progress, setProgress] = useState(1);
   const ref = useScrollDriver<HTMLSpanElement>(setProgress, "read");
 
-  const floor = Math.round(value * from);
+  /* Small integers do not count at all. Settling 149 from 107 reads as a dial
+     finding its number; settling 3 from 2 reads as the wrong number, and on a
+     proof page every figure has to be true in every frame. */
+  const floor = value < 20 ? value : Math.round(value * from);
   const eased = 1 - Math.pow(1 - progress, 3);
   const shown = Math.round(floor + (value - floor) * eased);
 

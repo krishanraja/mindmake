@@ -1,57 +1,139 @@
-import { useState } from "react";
-import { ArrowRight } from "lucide-react";
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
-import { clientStories } from "@/data/rebuildProof";
+import { CloseBlock } from "@/components/mindmake/CloseBlock";
+import { CountingValue } from "@/components/mindmake/CountingValue";
+import { Instrument } from "@/components/mindmake/Instrument";
+import { ProofDrum } from "@/components/mindmake/ProofDrum";
+import { StoryFigureView } from "@/components/mindmake/StoryFigure";
+import { SubscribeBand } from "@/components/mindmake/SubscribeBand";
+import { attendeeBrands, clientStories, FIGURE_INSTRUMENT } from "@/data/rebuildProof";
+import { publishableTestimonials } from "@/data/testimonials";
+import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import "@/styles/mindmake.css";
+import "@/styles/mindmake-instruments.css";
 
-const resultTitles: Record<string, string> = {
-  "expensive-decision": "One day stopped a year of the wrong build.",
-  "sellable-expertise": "Expertise became an offer people could buy.",
-  "simple-product": "Two pilots signed during the work.",
-  "hand-back": "The business was rebuilt and left in the founder's hands.",
-  "own-system": "Publishing moved from monthly to most days.",
-  "team-decides": "Fourteen vendors became three decisions.",
-  "business-first": "Eleven tools stopped. One useful system went live.",
-  "market-moves": "A new sales path led to a paid publisher test.",
-};
-
+/**
+ * The proof archive.
+ *
+ * It was eight text blocks in a grid on the old page's stylesheet, with no
+ * imagery, no data and none of the vocabulary the rest of the site speaks. Now
+ * each story carries the one figure its own record holds, drawn as a diagram
+ * that resolves as you read down it, and the thirty-three voices sit under them
+ * on the same drum the homepage uses.
+ *
+ * The three families stay apart here as everywhere: an outcome is anonymous by
+ * role and sector because that is what those clients agreed to, the drum labels
+ * every voice by what it is, and the logos are attendance and say so.
+ */
 export default function CaseStudies() {
-  const [briefOpen, setBriefOpen] = useState(false);
+  const { briefOpen, openBrief, closeBrief } = useLeadBriefHistory();
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: "Mindmake customer outcomes",
-    itemListElement: clientStories.map((story, index) => ({ "@type": "ListItem", position: index + 1, name: resultTitles[story.id] })),
+    itemListElement: clientStories.map((story, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: story.result,
+    })),
   };
 
   return (
-    <MindmakeShell onStart={() => setBriefOpen(true)}>
-      <SEO title="Customer outcomes" description="Eight verified stories about the work Mindmake helped customers change and what happened next." canonical="/case-studies" jsonLd={jsonLd} />
-      <section className="mm-results-hero" aria-labelledby="stories-title">
+    <MindmakeShell onStart={openBrief}>
+      <SEO
+        title="Customer outcomes"
+        description="Eight verified stories about the work Mindmake helped customers change and what happened next."
+        canonical="/case-studies"
+        jsonLd={jsonLd}
+      />
+
+      <section className="mm-hero mm-proof-hero" aria-labelledby="stories-title">
         <div className="mm-container">
-          <h1 id="stories-title">The decision and what changed next.</h1>
-          <p>Eight verified stories. The customers stay anonymous. The work and results do not.</p>
+          <h1 id="stories-title"><Instrument kind="gauge" className="mm-head-mark" />The decision, and what changed next.</h1>
+          <p className="mm-lede">
+            Every figure below is from the record of that piece of work. The customers stay
+            anonymous, because that is what they agreed to. The work and the results do not.
+          </p>
+          <dl className="mm-proof-figures">
+            <div>
+              <dt>Stories on the record</dt>
+              <dd><CountingValue value={clientStories.length} from={0} /></dd>
+            </div>
+            <div>
+              <dt>People quoted, in their own words</dt>
+              <dd><CountingValue value={publishableTestimonials.length} from={0} /></dd>
+            </div>
+            <div>
+              <dt>Days to the first working system</dt>
+              <dd><CountingValue value={30} from={0} /></dd>
+            </div>
+          </dl>
         </div>
       </section>
-      <section className="mm-section mm-story-archive" aria-label="Customer outcome stories">
-        <div className="mm-container mm-story-archive-grid">
-          {clientStories.map((story) => (
-            <article key={story.id}>
-              <h2>{resultTitles[story.id]}</h2>
-              <p>{story.outcome}</p>
-              <blockquote>“{story.quote}”<cite>{story.attribution}</cite></blockquote>
-            </article>
-          ))}
+
+      <section className="mm-block mm-on-raise" aria-labelledby="archive-title">
+        <div className="mm-container">
+          <h2 id="archive-title">
+            <Instrument kind="recorder" className="mm-head-mark" />
+            Eight stories, and the figure from each.
+          </h2>
+          <div className="mm-stories-archive" style={{ marginTop: 20 }}>
+            {clientStories.map((story) => (
+              <article className="mm-story-full" key={story.id}>
+                <div className="mm-story-copy">
+                  <h2>
+                    <Instrument kind={FIGURE_INSTRUMENT[story.figure.shape]} className="mm-head-mark" />
+                    {story.result}
+                  </h2>
+                  <p className="mm-story-outcome">{story.outcome}</p>
+                  <blockquote>
+                    {story.quote}
+                    <cite>{story.attribution}</cite>
+                  </blockquote>
+                </div>
+                <StoryFigureView figure={story.figure} />
+              </article>
+            ))}
+          </div>
         </div>
       </section>
-      <section className="mm-final" aria-labelledby="stories-final-title">
-        <div className="mm-container mm-final-grid">
-          <div><h2 id="stories-final-title">Find the result worth proving.</h2><p>Start with the company website. Mindmake will do the reading before it asks you to explain the problem.</p><button className="mm-button" type="button" onClick={() => setBriefOpen(true)}>Start here <ArrowRight aria-hidden="true" /></button></div>
+
+      <section className="mm-block" aria-labelledby="voices-title">
+        <div className="mm-container">
+          <h2 id="voices-title">
+            <Instrument kind="drawer" className="mm-head-mark" />
+            Everyone on the record.
+          </h2>
+          <ProofDrum />
+
+          <div className="mm-attendance">
+            <h3>
+              <Instrument kind="rail" className="mm-head-mark" />
+              People from these organisations have joined our sessions
+            </h3>
+            <div className="mm-logo-rail">
+              {attendeeBrands.map((brand) => (
+                <div className="mm-logo-cell" key={brand.name}>
+                  <img src={brand.logo} alt={brand.name} loading="lazy" />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
-      <LeadBrief open={briefOpen} onClose={() => setBriefOpen(false)} />
+
+      <SubscribeBand />
+
+      <CloseBlock
+        instrument="levels"
+        claim="Find the result worth proving."
+        body="Give us your company address. We will do the reading before asking you to explain the problem."
+        onStart={openBrief}
+      />
+
+      <LeadBrief open={briefOpen} onClose={closeBrief} />
     </MindmakeShell>
   );
 }

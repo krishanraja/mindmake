@@ -1452,3 +1452,122 @@
 /* A head mark on a small heading scales with it rather than dwarfing it. */
 .mm-attendance h3 .mm-head-mark,
 .mm-drum-head h3 .mm-head-mark { width: 26px; height: 26px; margin-right: 8px; vertical-align: -6px; }
+
+/* ---------- The proof archive ---------- */
+
+.mm-proof-hero { padding-bottom: var(--mm-section); }
+.mm-proof-hero h1 { max-width: 18ch; }
+.mm-proof-hero .mm-lede { max-width: 62ch; margin-top: 16px; }
+.mm-proof-figures {
+  display: grid;
+  gap: 1px;
+  margin: 30px 0 0;
+  background: var(--mm-line);
+  border: 1px solid var(--mm-line);
+  border-radius: 3px;
+  overflow: hidden;
+}
+@media (min-width: 700px) { .mm-proof-figures { grid-template-columns: repeat(3, 1fr); } }
+.mm-proof-figures > div { background: var(--mm-ink2); padding: 16px 18px; }
+.mm-proof-figures dt {
+  color: var(--mm-mut);
+  font-family: var(--mm-mono);
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.mm-proof-figures dd {
+  margin: 6px 0 0;
+  color: var(--mm-mint);
+  font-family: var(--mm-serif);
+  font-size: clamp(30px, 3.6vw, 44px);
+  line-height: 1;
+  letter-spacing: -.02em;
+}
+
+.mm-stories-archive { display: grid; gap: 1px; background: var(--mm-line); border: 1px solid var(--mm-line); border-radius: 3px; overflow: hidden; }
+.mm-story-full { display: grid; gap: 20px; background: var(--mm-ink2); padding: clamp(18px, 2.4vw, 28px); }
+@media (min-width: 860px) {
+  .mm-story-full { grid-template-columns: minmax(0, 1fr) minmax(0, .74fr); gap: 36px; align-items: center; }
+}
+.mm-story-full h2 { max-width: 22ch; font-size: clamp(19px, 2.2vw, 26px); letter-spacing: -.02em; text-wrap: balance; }
+.mm-story-outcome { margin-top: 10px; color: var(--mm-tx2); font-size: 15px; line-height: 1.55; text-wrap: pretty; }
+.mm-story-full blockquote {
+  margin: 14px 0 0;
+  border-left: 2px solid var(--mm-mint-dim);
+  padding-left: 14px;
+  color: var(--mm-tx);
+  font-family: var(--mm-serif);
+  font-size: 15px;
+  line-height: 1.5;
+}
+.mm-story-full cite { display: block; margin-top: 8px; color: var(--mm-mut); font-family: var(--mm-mono); font-size: 10px; font-style: normal; }
+
+/* ---------- The story diagrams ---------- */
+
+/* Every part is present at full size from the first paint; scroll position only
+   moves how far the comparison has resolved. Nothing starts absent, so this is
+   a build rather than an entrance. */
+.mm-fig-holder { display: block; }
+.mm-fig { border: 1px solid var(--mm-line); border-radius: 3px; background: var(--mm-ink); padding: 16px 17px; }
+.mm-fig > p:last-child { display: flex; justify-content: space-between; gap: 14px; margin-top: 12px; color: var(--mm-mut); font-family: var(--mm-mono); font-size: 9.5px; line-height: 1.45; }
+.mm-fig > p:last-child span { flex: 1 1 0; }
+.mm-fig > p:last-child span:last-child { text-align: right; color: var(--mm-tx2); }
+
+.mm-fig-row { display: flex; align-items: center; gap: 10px; }
+.mm-fig-row + .mm-fig-row { margin-top: 10px; }
+.mm-fig-bar { display: block; height: 10px; border-radius: 1px; transition: width .18s linear; }
+.mm-fig-bar.is-was { background: var(--mm-ink3); border: 1px solid var(--mm-line); }
+.mm-fig-bar.is-now { background: var(--mm-mint); }
+.mm-fig-row b { flex: 0 0 auto; color: var(--mm-tx2); font-family: var(--mm-mono); font-size: 11px; font-weight: 500; }
+
+.mm-fig-marks { display: flex; flex-wrap: wrap; gap: 5px; }
+.mm-fig-marks i {
+  width: 12px;
+  height: 18px;
+  border: 1px solid var(--mm-line);
+  border-radius: 1px;
+  background: var(--mm-ink3);
+  transition: background .2s ease, border-color .2s ease, opacity .2s ease;
+}
+.mm-fig-marks i.is-kept { background: var(--mm-mint); border-color: var(--mm-mint); }
+.mm-fig-marks i.is-dim { opacity: .32; }
+.mm-fig-pair { display: flex; align-items: baseline; gap: 10px; margin-top: 14px; color: var(--mm-tx2); font-family: var(--mm-mono); font-size: 12px; }
+.mm-fig-pair b { color: var(--mm-tx); font-size: 22px; font-weight: 500; }
+.mm-fig-pair b:last-of-type { color: var(--mm-mint); }
+
+.mm-fig-count { text-align: center; }
+.mm-fig-value { color: var(--mm-mint); font-family: var(--mm-serif); font-size: clamp(44px, 6vw, 72px); line-height: 1; letter-spacing: -.03em; }
+.mm-fig-label { margin-top: 6px; color: var(--mm-tx); font-family: var(--mm-serif); font-size: 17px; }
+.mm-fig-within { margin-top: 6px; color: var(--mm-mut); font-family: var(--mm-mono); font-size: 10px; }
+
+.mm-fig-offer svg { display: block; width: 100%; height: 78px; }
+.mm-fig-frame { fill: none; stroke: var(--mm-line); stroke-width: 1; }
+.mm-fig-mark { fill: var(--mm-tx2); transition: fill .2s ease; }
+.mm-fig-mark.is-set { fill: var(--mm-mint); }
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-fig-bar, .mm-fig-marks i, .mm-fig-mark { transition: none; }
+}
+/* A month of days. No numeral: the record says "about once a month" and "most
+   days", and there is no figure in either. */
+.mm-fig-month {
+  /* Sized to the same 12px mark the focus figure uses, not to the card. A
+     seven-column grid on 1fr made each day sixty pixels across. */
+  display: grid;
+  grid-template-columns: repeat(7, 14px);
+  gap: 4px;
+}
+.mm-fig-month i {
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--mm-line);
+  border-radius: 1px;
+  background: var(--mm-ink3);
+  transition: background .2s ease, border-color .2s ease;
+}
+.mm-fig-month i.is-on { background: var(--mm-mint); border-color: var(--mm-mint); }
+.mm-fig-span .mm-fig-bar + .mm-fig-bar { margin-top: 10px; }
+@media (prefers-reduced-motion: reduce) { .mm-fig-month i { transition: none; } }
+/* A story's own mark, sized to its heading rather than to a section heading. */
+.mm-story-full h2 .mm-head-mark { width: 28px; height: 28px; margin-right: 9px; vertical-align: -6px; }

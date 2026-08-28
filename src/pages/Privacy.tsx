@@ -52,7 +52,7 @@ export default function Privacy() {
   const [briefOpen, setBriefOpen] = useState(false);
 
   return (
-    <MindmakeShell onStart={() => setBriefOpen(true)} darkHeader={false}>
+    <MindmakeShell onStart={() => setBriefOpen(true)}>
       <SEO title="Privacy policy" description="How Mindmake collects, uses and protects information." canonical="/privacy" />
       <article className="mm-legal-page">
         <header className="mm-container mm-legal-hero">

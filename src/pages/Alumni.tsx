@@ -25,7 +25,7 @@ export default function Alumni() {
   const [briefOpen, setBriefOpen] = useState(false);
 
   return (
-    <MindmakeShell onStart={() => setBriefOpen(true)} darkHeader={false}>
+    <MindmakeShell onStart={() => setBriefOpen(true)}>
       <SEO
         title="Past clients"
         description="Information for people who have finished work with Mindmake."

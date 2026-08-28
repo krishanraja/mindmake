@@ -60,7 +60,7 @@ export default function Contact() {
   };
 
   return (
-    <MindmakeShell onStart={() => setBriefOpen(true)} darkHeader={false}>
+    <MindmakeShell onStart={() => setBriefOpen(true)}>
       <SEO title="Contact" description="Send Mindmake a general message." canonical="/contact" />
       <section className="mm-contact-page" aria-labelledby="contact-title">
         <div className="mm-container mm-contact-grid">

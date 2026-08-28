@@ -27,7 +27,7 @@ export default function CaseStudies() {
   };
 
   return (
-    <MindmakeShell onStart={() => setBriefOpen(true)} darkHeader={false}>
+    <MindmakeShell onStart={() => setBriefOpen(true)}>
       <SEO title="Customer outcomes" description="Eight verified stories about the work Mindmake helped customers change and what happened next." canonical="/case-studies" jsonLd={jsonLd} />
       <section className="mm-results-hero" aria-labelledby="stories-title">
         <div className="mm-container">
@@ -49,7 +49,6 @@ export default function CaseStudies() {
       <section className="mm-final" aria-labelledby="stories-final-title">
         <div className="mm-container mm-final-grid">
           <div><h2 id="stories-final-title">Find the result worth proving.</h2><p>Start with the company website. Mindmake will do the reading before it asks you to explain the problem.</p><button className="mm-button" type="button" onClick={() => setBriefOpen(true)}>Start here <ArrowRight aria-hidden="true" /></button></div>
-          <img src="/favicon.svg" alt="" aria-hidden="true" />
         </div>
       </section>
       <LeadBrief open={briefOpen} onClose={() => setBriefOpen(false)} />

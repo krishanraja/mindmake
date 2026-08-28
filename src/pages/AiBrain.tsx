@@ -147,15 +147,21 @@ export default function AiBrain() {
             through.
           </p>
 
-          <div className="mm-spec-chips">
-            {SPEC_CHIPS.map((chip) => <span className="mm-spec-chip" key={chip}>{chip}</span>)}
-          </div>
-
-          <ProofViewer />
-
-          <div className="mm-proof-line">
-            <span className="mm-claim">We built this for ourselves. In thirty days, we build yours.</span>
-            <small>CTRL, our own engine. Live today.</small>
+          {/* The captures are product screenshots with real interface text in
+              them. At full container width they rendered 1238px from a 1404px
+              source, which is soft on any modern screen. Half the width is
+              twice the density and half the height. */}
+          <div className="mm-ctrl-split">
+            <div className="mm-ctrl-copy">
+              <div className="mm-spec-chips">
+                {SPEC_CHIPS.map((chip) => <span className="mm-spec-chip" key={chip}>{chip}</span>)}
+              </div>
+              <div className="mm-proof-line">
+                <span className="mm-claim">We built this for ourselves. In thirty days, we build yours.</span>
+                <small>CTRL, our own engine. Live today.</small>
+              </div>
+            </div>
+            <ProofViewer />
           </div>
 
           <div className="mm-principles">

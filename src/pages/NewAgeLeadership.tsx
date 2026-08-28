@@ -58,7 +58,7 @@ export default function NewAgeLeadership() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <MindmakeShell onStart={() => setBriefOpen(true)} darkHeader={false}>
+    <MindmakeShell onStart={() => setBriefOpen(true)}>
       <SEO
         title="A working AI org chart"
         description={description}

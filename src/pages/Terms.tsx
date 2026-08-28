@@ -52,7 +52,7 @@ export default function Terms() {
   const [briefOpen, setBriefOpen] = useState(false);
 
   return (
-    <MindmakeShell onStart={() => setBriefOpen(true)} darkHeader={false}>
+    <MindmakeShell onStart={() => setBriefOpen(true)}>
       <SEO title="Terms and conditions" description="Terms for using the Mindmake website and services." canonical="/terms" />
       <article className="mm-legal-page">
         <header className="mm-container mm-legal-hero">

@@ -27,7 +27,7 @@ const Blog = () => {
   const visiblePosts = featuredPost ? filteredPosts.filter((post) => post !== featuredPost) : filteredPosts;
 
   return (
-    <MindmakeShell onStart={() => setBriefOpen(true)} darkHeader={false}>
+    <MindmakeShell onStart={() => setBriefOpen(true)}>
       <SEO
         title="Ideas for better AI decisions"
         description="Useful questions, checks and working methods for leaders making business decisions as AI changes their market."

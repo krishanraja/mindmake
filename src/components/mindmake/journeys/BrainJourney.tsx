@@ -9,6 +9,13 @@ import { track } from "@/lib/analytics";
 
 type SendState = "idle" | "sending" | "sent" | "failed";
 
+/* Resolved once, the way useBoardData does it. Reading the env inline left the
+   header object typed string | undefined, which is also the honest shape of the
+   bug: with the variable missing the request would have gone out carrying the
+   word "undefined" as its key. */
+const FUNCTION_URL = `${import.meta.env.VITE_SUPABASE_URL ?? ""}/functions/v1/mindmake-personal-read`;
+const ANON_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? "";
+
 /**
  * See it learn you.
  *
@@ -37,12 +44,12 @@ export function BrainJourney() {
 
     // Best effort, and deliberately not awaited: the preview is already on
     // screen, and enrichment only improves the version that gets emailed.
-    void fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/mindmake-personal-read`, {
+    void fetch(FUNCTION_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-        Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+        apikey: ANON_KEY,
+        Authorization: `Bearer ${ANON_KEY}`,
       },
       body: JSON.stringify({ action: "preview", linkedin_url: linkedin.trim(), q1, q2 }),
     }).catch(() => undefined);
@@ -57,12 +64,12 @@ export function BrainJourney() {
     setPrompt("");
     setSend("sending");
     try {
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/mindmake-personal-read`, {
+      const response = await fetch(FUNCTION_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          apikey: ANON_KEY,
+          Authorization: `Bearer ${ANON_KEY}`,
         },
         body: JSON.stringify({ action: "send", linkedin_url: linkedin.trim(), q1, q2, email }),
       });

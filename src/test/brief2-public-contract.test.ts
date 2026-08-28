@@ -619,7 +619,7 @@ describe("the lead machinery is untouched", () => {
       email: "leader@example.com",
       domain: "example.com",
       pressure: "Our price no longer matches the value",
-      returnedTime: "Grow this business",
+      capacityChoice: "Grow this business",
       route: "gtm",
       publicationRequested: false,
     });
@@ -627,6 +627,11 @@ describe("the lead machinery is untouched", () => {
     expect(request.version).toBe(2);
     expect(request.website).toBe("");
     expect(request.consent.wordingVersion).toBe(NEWSLETTER_CONSENT_WORDING_VERSION);
+    /* The field was named returnedTime here until the typecheck was repaired,
+       which meant this test fed the builder a property it does not have and
+       omitted one it requires. Assert the mapping rather than only its
+       neighbours. */
+    expect(request.choices.returnedTimeId).toBe("grow-this-business");
   });
 
   it("still builds the version 2 confirm payload", () => {

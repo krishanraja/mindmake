@@ -18,7 +18,7 @@ const BlogPost = () => {
 
   if (!post) {
     return (
-      <MindmakeShell onStart={() => setBriefOpen(true)} darkHeader={false}>
+      <MindmakeShell onStart={() => setBriefOpen(true)}>
         <SEO title="Article not found" description="This Mindmake idea could not be found." canonical="/blog" noindex />
         <section className="mm-article-missing">
           <h1>This idea is no longer here.</h1>
@@ -55,7 +55,7 @@ const BlogPost = () => {
   };
 
   return (
-    <MindmakeShell onStart={() => setBriefOpen(true)} darkHeader={false}>
+    <MindmakeShell onStart={() => setBriefOpen(true)}>
       <SEO
         title={post.title}
         description={post.metaDescription}

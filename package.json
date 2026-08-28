@@ -8,15 +8,17 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/generate-sitemap.mjs && node scripts/generate-llms.mjs && node scripts/prerender.mjs",
+    "build": "npm run typecheck && vite build && node scripts/generate-sitemap.mjs && node scripts/generate-llms.mjs && node scripts/prerender.mjs",
     "build:vite": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "test": "vitest run",
     "test:watch": "vitest",
+    "qa:alive": "node scripts/qa/aliveness-check.mjs",
     "preview": "vite preview",
     "generate-favicons": "node scripts/generate-favicons.mjs",
-    "qa:alive": "node scripts/qa/aliveness-check.mjs"
+    "qa:images": "node scripts/qa/image-density-check.mjs"
   },
   "dependencies": {
     "@fontsource-variable/archivo": "^5.3.0",

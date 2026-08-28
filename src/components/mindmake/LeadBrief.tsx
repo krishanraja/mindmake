@@ -62,7 +62,10 @@ const createRequestId = () => {
   return `mindmake-${Date.now().toString(36)}-${Array.from(randomParts, (part) => part.toString(36)).join("")}`;
 };
 
-const PRESSURES = {
+/* Two doors carry their own pressures; the homepage falls back to the generic
+   set. Typed as exactly that, so the fallback below is a stated intent rather
+   than an accident the compiler could not see. */
+const PRESSURES: Partial<Record<BriefRoute, readonly string[]>> & { default: readonly string[] } = {
   default: [
     "Customers can now do more without us",
     "Our price no longer matches the value",

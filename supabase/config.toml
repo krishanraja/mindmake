@@ -5,3 +5,8 @@ verify_jwt = false
 
 [functions.enrich-company]
 verify_jwt = true
+
+# Public and unauthenticated: the daily read is published on /ai-gtm, and this
+# matches the already-deployed setting.
+[functions.get-ai-news]
+verify_jwt = false

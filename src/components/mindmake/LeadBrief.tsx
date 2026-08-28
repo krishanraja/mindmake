@@ -21,6 +21,10 @@ interface LeadBriefProps {
   open: boolean;
   onClose: () => void;
   route?: BriefRoute;
+  /** A domain the page already collected, so the dialog opens on the read. */
+  initialDomain?: string;
+  /** Fires once, when a verified request has been confirmed. */
+  onConfirmed?: () => void;
 }
 
 type Step = "domain" | "reading" | "pressure" | "capacity" | "preview" | "contact" | "verify" | "success";
@@ -228,7 +232,7 @@ const readableText = (value: unknown): string => {
   return declarativeOnly(text);
 };
 
-export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
+export function LeadBrief({ open, onClose, route = "home", initialDomain, onConfirmed }: LeadBriefProps) {
   const [step, setStep] = useState<Step>("domain");
   const [domainInput, setDomainInput] = useState("");
   const [domain, setDomain] = useState("");
@@ -354,6 +358,15 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [onClose, open]);
+
+  useEffect(() => {
+    if (!open || !initialDomain) return;
+    if (step !== "domain" || domain) return;
+    const seed = cleanDomain(initialDomain);
+    if (!isPublicHostname(seed)) return;
+    setDomainInput(seed);
+    void readCompany(seed);
+  }, [open, initialDomain, step, domain]);
 
   useEffect(() => {
     if (!open) return;
@@ -587,6 +600,7 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
         setError("Your publication interest was not recorded. You have not been added to any list.");
       }
       setStep("success");
+      onConfirmed?.();
     } catch (caught) {
       if (controller.signal.aborted || journeyVersion !== journeyVersionRef.current) return;
       setHandoffResult(null);

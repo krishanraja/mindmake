@@ -774,7 +774,12 @@
 .mm-impact-card .mm-label { color: var(--mm-mint); }
 .mm-impact-card p { margin-top: 9px; color: var(--mm-tx2); font-size: 14px; line-height: 1.55; }
 .mm-impact-card p strong { color: var(--mm-tx); font-weight: 600; }
-.mm-impact-card .mm-plate { margin-top: 14px; aspect-ratio: 1 / 1; }
+.mm-impact-card .mm-plate {
+  /* The square film sits with the card rather than dominating the row, so it
+     is capped and cropped instead of setting the row's height. */
+  margin-top: 14px;
+  height: clamp(110px, 14vw, 150px);
+}
 
 /* ---------- Section rhythm ---------- */
 

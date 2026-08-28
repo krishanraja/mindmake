@@ -32,7 +32,7 @@ Supabase project `bkyuxvschuwngtcdhsyg`.
 
 | Function | Version | verify_jwt | Role |
 |---|---|---|---|
-| `submit-mindmake-brief` | v12 | off | The company read. v12 adds the day-14 follow-up enqueue and changes nothing else |
+| `submit-mindmake-brief` | v12 | off | The company read. **The deployed body is still `main`'s.** The repository adds a day-14 enqueue that is deliberately not live yet: see open item 2 |
 | `enrich-company` | v36 | on | Declarative synthesis and tailored choices |
 | `get-ai-news` | v67 | off | Restored to the repository and extended with `{view:"board"}`. No body still returns the previous shape byte for byte |
 | `mindmake-personal-read` | v2 | off | The personal read: enrichment, the one results email, the follow-up enqueue |
@@ -63,7 +63,7 @@ Supabase project `bkyuxvschuwngtcdhsyg`.
 ## Open items
 
 1. **Promotion is Krish's call.** The branch is pushed and reviewed by pull request; nothing is promoted automatically.
-2. **The follow-up has a dated deadline.** `submit-mindmake-brief` v12 began enqueuing follow-ups on 28 August 2026, and each row waits fourteen days, so the earliest one can send is **11 September 2026**. The privacy notice that describes it ships with this rebuild. Either the rebuild is live before that date, or hold the job first: `select cron.alter_job((select jobid from cron.job where jobname = 'mindmake-follow-up-daily'), active := false);`
+2. **`submit-mindmake-brief` needs one redeploy, at launch and not before.** The repository version enqueues the day-14 follow-up; the deployed v12 does not, so nothing is being queued today and `follow_up_queue` is empty. That ordering is deliberate rather than an oversight: the enqueue creates an obligation to send an email the currently published privacy notice does not describe, and the notice that does describe it ships with this rebuild. Deploy the function in the same step as promoting the build, so the promise and the mechanism go live together. Until then the two paths hold: `mindmake-personal-read` enqueues its own rows but has no caller until `/ai-brain` ships, and `send-follow-ups` drains a queue that is empty.
 3. **Two mailboxes do not exist yet.** The pages route to `hello@mindmake.co` and the privacy notice to `privacy@mindmake.co`. There is no MX on the apex, so both aliases have to be created before launch.
 4. **Posters are stand-ins.** The six film slots carry generated stills. Real footage drops in under the same filenames with no code change.
 5. **Credential rotation**: rotate the GitHub, Vercel, Supabase and Resend credentials shared during this and the launch sessions.

@@ -16,7 +16,7 @@ tables are RLS-on with no policies, which means service role only.
 | `mindmake-personal-read` | v2 | false | The browser, from `/ai-brain` |
 | `send-follow-ups` | v2 | false | pg_cron, daily at 09:20 UTC |
 | `aa-price-snapshot` | v1 | false | pg_cron, daily at 11:00 UTC |
-| `submit-mindmake-brief` | v12 | false | The day-14 enqueue, and nothing else |
+| `submit-mindmake-brief` | v12 | false | Still `main`'s body. The repository's day-14 enqueue is held back on purpose |
 
 `get-ai-news` gained a board view and kept its previous response byte for byte.
 The two scheduled functions are public at the edge and guarded in code on the
@@ -78,26 +78,37 @@ select cron.unschedule('mindmake-follow-up-daily');
 Dropping the tables is not part of a rollback: `aa_model_snapshots` holds price
 history that cannot be recovered once deleted.
 
-## Before the site is promoted
+## Launch steps, in order
 
-- **The follow-up has a deadline of 11 September 2026.** `submit-mindmake-brief`
-  v12 started enqueuing follow-ups on 28 August, and every row waits fourteen
-  days, so nothing can send before then. The privacy notice that describes the
-  follow-up ships with the rebuild. Either the rebuild is live by that date, or
-  hold the job until it is:
+1. **Create the two mailboxes.** `hello@mindmake.co` and `privacy@mindmake.co`.
+   The site routes visitor contact to them and there is no MX on the apex today.
 
-  ```sql
-  select cron.alter_job(
-    (select jobid from cron.job where jobname = 'mindmake-follow-up-daily'),
-    active := false
-  );
-  ```
+2. **Promote the build.**
 
-  Hold the job; never delete queued rows. A visitor who asked for their read is
-  owed the follow-up, just not before the page that promises it is public.
+3. **Deploy `submit-mindmake-brief` last, from the merged repository.** Its
+   deployed v12 body is still `main`'s: it does not enqueue the day-14
+   follow-up. That is deliberate. The enqueue creates an obligation to send an
+   email that the currently published privacy notice does not describe, and the
+   notice that does describe it ships with the rebuild, so the mechanism must
+   not precede the promise. Deploying it in the same session as the promotion
+   is what keeps the two-email cap honest from the first lead.
 
-- The `hello@mindmake.co` and `privacy@mindmake.co` aliases need to exist. The
-  site routes visitor contact to them and there is no MX on the apex today.
+   Deploy through the Management API with the full import closure, then verify
+   the deployed body carries `queueFollowUp` and run one synthetic lead.
+
+If the promotion is rolled back after step 3, roll this function back too. A
+follow-up queued by a build that is no longer live is a promise nothing on the
+site is making any more:
+
+```sql
+select cron.alter_job(
+  (select jobid from cron.job where jobname = 'mindmake-follow-up-daily'),
+  active := false
+);
+```
+
+Hold the job; never delete queued rows. A visitor who asked for their read is
+owed the follow-up, just not from a site that has reverted.
 
 ## Still outstanding
 

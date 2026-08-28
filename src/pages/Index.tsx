@@ -5,6 +5,7 @@ import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { CloseBlock } from "@/components/mindmake/CloseBlock";
 import { FilmPlate } from "@/components/mindmake/FilmPlate";
 import { FounderNote } from "@/components/mindmake/FounderNote";
+import { Instrument } from "@/components/mindmake/Instrument";
 import { Marquee } from "@/components/mindmake/Marquee";
 import { ObjectionChips } from "@/components/mindmake/ObjectionChips";
 import { ProofStrip } from "@/components/mindmake/ProofStrip";
@@ -52,7 +53,7 @@ function ProofLive() {
     <section className="mm-block mm-on-raise" aria-labelledby="proof-title">
       <div className="mm-container">
         <div className="mm-board-head">
-          <h2 id="proof-title">What changed in AI this morning.</h2>
+          <h2 id="proof-title"><Instrument kind="recorder" className="mm-head-mark" />What changed in AI this morning.</h2>
           {board.status === "ready" && (
             <span className={`mm-timestamp${isStale(board.cacheDate) ? " is-stale" : ""}`}>
               <i className={`mm-live-dot${isStale(board.cacheDate) ? " is-stale" : ""}`} aria-hidden="true" />
@@ -172,7 +173,7 @@ export default function Index() {
 
       <section className="mm-block mm-on-raise" aria-labelledby="where-title">
         <div className="mm-container">
-          <h2 id="where-title">Where does everything you teach AI end up?</h2>
+          <h2 id="where-title"><Instrument kind="drawer" className="mm-head-mark" />Where does everything you teach AI end up?</h2>
           <p className="mm-lede" style={{ marginTop: 12 }}>
             You explain your business to AI every week. How you price. What good looks like. Which
             customers matter. That knowledge is worth something, and it has to live somewhere.
@@ -214,6 +215,7 @@ export default function Index() {
       <SubscribeBand />
 
       <CloseBlock
+        instrument="recorder"
         claim="Start with one real decision."
         body="Give us your company address. We will read your market, and send you a plan built for your business."
         onStart={openBrief}

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Instrument } from "@/components/mindmake/Instrument";
 import { track } from "@/lib/analytics";
 
 /**
@@ -51,6 +52,7 @@ export function ForkBand() {
       <div className="mm-band-head">
         <div className="mm-container">
           <h2>
+            <Instrument kind="levels" className="mm-head-mark" />
             Three ways to do this. <span className="mm-claim">They end in different places.</span>
           </h2>
         </div>

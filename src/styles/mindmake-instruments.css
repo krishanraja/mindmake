@@ -1372,3 +1372,83 @@
 }
 .mm-channels h3 { font-family: var(--mm-serif); font-size: clamp(17px, 1.9vw, 21px); letter-spacing: -.015em; }
 .mm-channels p { margin-top: 7px; color: var(--mm-tx2); font-size: 14px; line-height: 1.55; text-wrap: pretty; }
+
+/* ---------- The instrument set ---------- */
+
+/* Six marks, one grid, one stroke weight, one mint part each. Everything here
+   is complete at first paint: no dash-offset draw-on, because a stroke that
+   animates itself into existence starts from absent and that is the entrance
+   choreography the contract bans. What each one does instead is the slow,
+   meaningless thing the real object would do while nobody was watching. */
+.mm-i { display: block; color: var(--mm-tx2); overflow: visible; }
+.mm-i-hot { stroke: var(--mm-mint); }
+.mm-i-fill { fill: var(--mm-mint-wash); stroke: var(--mm-mint); }
+
+/* The needle drifts across its range and back, and never settles on a number,
+   because it is not reporting one. */
+.mm-i-needle { transform-origin: 24px 34px; animation: mm-i-sweep 11s ease-in-out infinite; }
+@keyframes mm-i-sweep {
+  0%, 100% { transform: rotate(-46deg); }
+  50% { transform: rotate(43deg); }
+}
+
+/* The drum turns, so the trace crosses the paper. The clip is a real clipPath
+   in the SVG, not a CSS clip-path: on an SVG child the reference box is that
+   element's own bounding box, and an inset in pixels clipped the trace away
+   entirely rather than trimming it to the drum. */
+.mm-i-trace { animation: mm-i-trace 5.5s linear infinite; }
+@keyframes mm-i-trace {
+  from { transform: translateX(0); }
+  to { transform: translateX(20px); }
+}
+
+/* One leaf falls and the next takes its place. */
+.mm-i-leaf { transform-origin: 24px 24px; animation: mm-i-fall 5s ease-in-out infinite; }
+@keyframes mm-i-fall {
+  0%, 62% { transform: rotateX(0deg); opacity: 1; }
+  78% { transform: rotateX(-72deg); opacity: .55; }
+  92%, 100% { transform: rotateX(0deg); opacity: 1; }
+}
+
+/* A card lifts out of the drawer and settles back. */
+.mm-i-card { animation: mm-i-lift 6s ease-in-out infinite; }
+@keyframes mm-i-lift {
+  0%, 100% { transform: translateY(2px); }
+  50% { transform: translateY(-2.5px); }
+}
+
+/* Sheets travel the rail towards the gate. */
+.mm-i-run { animation: mm-i-travel 5s linear infinite; }
+@keyframes mm-i-travel {
+  from { transform: translateX(-10px); }
+  to { transform: translateX(0); }
+}
+
+/* The light climbs the levels and starts again at the bottom. */
+.mm-i-climb rect { animation: mm-i-climb 4.5s steps(1, end) infinite; }
+@keyframes mm-i-climb {
+  0%, 33% { x: 10px; y: 30px; width: 8px; height: 10px; }
+  34%, 66% { x: 20px; y: 23px; width: 8px; height: 17px; }
+  67%, 100% { x: 30px; y: 14px; width: 8px; height: 26px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-i-needle, .mm-i-trace, .mm-i-leaf, .mm-i-card, .mm-i-run, .mm-i-climb rect { animation: none; }
+}
+
+/* Where the instruments sit. A card that has one gets it at the head, sized so
+   it reads as a mark rather than an illustration. */
+.mm-impact-card .mm-i,
+.mm-level .mm-i,
+.mm-shape .mm-i { width: 40px; height: 40px; margin-bottom: 10px; }
+.mm-lane .mm-i { width: 30px; height: 30px; position: absolute; top: 12px; right: 12px; opacity: .8; }
+.mm-lane { position: relative; }
+
+/* A mark at the head of a section or a claim, rather than on a card. */
+.mm-close-mark { width: 54px; height: 54px; margin: 0 auto 16px; }
+.mm-head-mark { display: inline-block; width: 36px; height: 36px; margin-right: 11px; vertical-align: -7px; }
+.mm-channels li .mm-i,
+.mm-principle .mm-i { width: 34px; height: 34px; margin-bottom: 9px; }
+/* A head mark on a small heading scales with it rather than dwarfing it. */
+.mm-attendance h3 .mm-head-mark,
+.mm-drum-head h3 .mm-head-mark { width: 26px; height: 26px; margin-right: 8px; vertical-align: -6px; }

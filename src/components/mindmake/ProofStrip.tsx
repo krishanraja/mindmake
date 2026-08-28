@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Instrument } from "@/components/mindmake/Instrument";
 import { ProofDrum } from "@/components/mindmake/ProofDrum";
 import { attendeeBrands, clientStories } from "@/data/rebuildProof";
 
@@ -21,7 +22,7 @@ export function ProofStrip() {
   return (
     <section className="mm-block" aria-labelledby="proof-strip-title">
       <div className="mm-container">
-        <h2 id="proof-strip-title">Real work, and what changed because of it.</h2>
+        <h2 id="proof-strip-title"><Instrument kind="levels" className="mm-head-mark" />Real work, and what changed because of it.</h2>
 
         <div className="mm-stories">
           {stories.map((story) => (
@@ -46,7 +47,10 @@ export function ProofStrip() {
         <ProofDrum />
 
         <div className="mm-attendance">
-          <h3>People from these organisations have joined our sessions</h3>
+          <h3>
+            <Instrument kind="rail" className="mm-head-mark" />
+            People from these organisations have joined our sessions
+          </h3>
           <div className="mm-logo-rail">
             {attendeeBrands.map((brand) => (
               /* The cell carries the background; only the image is filtered,

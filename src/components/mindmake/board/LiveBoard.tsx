@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { BoardCardView } from "@/components/mindmake/board/BoardCard";
 import { CountingValue } from "@/components/mindmake/CountingValue";
+import { Instrument, type InstrumentKind } from "@/components/mindmake/Instrument";
 import { useBoardData } from "@/hooks/useBoardData";
 import { useIsMobile } from "@/hooks/use-mobile";
 import {
@@ -24,6 +25,16 @@ import {
  * ran to more than a screen and a half.
  */
 const CARDS_SHOWN = 6;
+
+/* One instrument per lane, chosen for what the lane is about rather than for
+   variety: a recorder for what is being made, a gauge for what it costs, a
+   split-flap for a position changing, a rail for who does the work. */
+const LANE_INSTRUMENT: Record<string, InstrumentKind> = {
+  product: "recorder",
+  price: "gauge",
+  positioning: "flap",
+  people: "rail",
+};
 const CARDS_SHOWN_PHONE = 3;
 
 /**
@@ -136,6 +147,7 @@ export function LiveBoard({ ground }: { ground?: "raise" } = {}) {
               const peak = Math.max(1, ...spark);
               return (
                 <article className="mm-lane" key={lane}>
+                  <Instrument kind={LANE_INSTRUMENT[lane]} />
                   <span className="mm-label">{lane}</span>
                   <p className="mm-lane-value">
                     {/* Keyed on the filter so the figure re-settles when it changes. */}

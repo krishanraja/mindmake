@@ -1,3 +1,4 @@
+import { Instrument } from "@/components/mindmake/Instrument";
 import { PUBLICATION_URL } from "@/lib/publicLinks";
 import { track } from "@/lib/analytics";
 
@@ -40,6 +41,8 @@ export function SubscribeBand({ ground = "raise" }: { ground?: "raise" | "ink" }
 
           <ul className="mm-channels">
             <li>
+              {/* It traces where the money goes, so it gets the pen recorder. */}
+              <Instrument kind="recorder" />
               <h3>The Money of AI</h3>
               <p>
                 How the digital world gets paid for, as attention, content and access change.
@@ -47,6 +50,8 @@ export function SubscribeBand({ ground = "raise" }: { ground?: "raise" | "ink" }
               </p>
             </li>
             <li>
+              {/* It is an index of people building, so it gets the card drawer. */}
+              <Instrument kind="drawer" />
               <h3>Built with AI</h3>
               <p>
                 The people using AI to go from running something to building something, and the

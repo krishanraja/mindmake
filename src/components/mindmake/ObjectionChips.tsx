@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Instrument } from "@/components/mindmake/Instrument";
 import { track } from "@/lib/analytics";
 
 export interface Objection {
@@ -18,7 +19,9 @@ export function ObjectionChips({ objections, label = "Questions people ask us" }
 
   return (
     <div>
-      <h2 className="mm-objections-title">{label}</h2>
+      <h2 className="mm-objections-title">
+        <Instrument kind="flap" className="mm-head-mark" />{label}
+      </h2>
       <div className="mm-objections">
         {objections.map((objection) => {
           const isOpen = open === objection.id;

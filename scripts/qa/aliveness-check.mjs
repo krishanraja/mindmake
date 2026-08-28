@@ -45,19 +45,62 @@ const REPORT = args.includes("--report");
  * 0.15 sits well clear of the glow and well under the quietest real motion.
  */
 const FLOOR = Number(flag("floor", 0.15));
+/**
+ * Minimum change across the busiest twentieth of a percent of pixels, which is
+ * about a 25 by 25 patch: the scale of one small thing moving.
+ *
+ * Calibrated, not chosen. Across sixteen viewports the readings fall in two
+ * groups with nothing in between. Everything with something moving in it reads
+ * 13.4 or higher: 183 for the drum, 180 and 174 for the film heroes, 42 for a
+ * row of forty-pixel instruments, 13.4 for a film band at the edge of frame.
+ * Everything with nothing moving reads 1.0 to 2.0. A floor of 8 sits in the
+ * empty middle, so it cannot be reached by a viewport that has not earned it.
+ */
+const PEAK_FLOOR = Number(flag("peak-floor", 8));
 
-function meanDelta(aBuffer, bBuffer) {
+/** Fraction of pixels used for the local reading. */
+const PEAK_FRACTION = Number(flag("peak-fraction", 0.0005));
+
+/**
+ * Two readings from one pair of frames.
+ *
+ * `mean` is the average change across the whole viewport, which catches big
+ * slow things: a film, a marquee, a drum turning a full row of cards.
+ *
+ * `peak` is the average change across the busiest half a percent of pixels, and
+ * it exists because the mean cannot see a small thing moving hard. A forty
+ * pixel instrument is about a thousandth of a 1440x900 viewport, so a needle
+ * sweeping right across its own dial moves the mean by hundredths while a
+ * person watching it sees an obviously moving object. Averaging over the whole
+ * frame was answering "how much of the screen changed", and the rule is about
+ * whether anything visibly moved.
+ */
+function readDeltas(aBuffer, bBuffer) {
   const a = PNG.sync.read(aBuffer);
   const b = PNG.sync.read(bBuffer);
-  if (a.data.length !== b.data.length) return Infinity;
+  if (a.data.length !== b.data.length) return { mean: Infinity, peak: Infinity };
+
+  const pixels = a.data.length / 4;
+  const histogram = new Uint32Array(256);
   let sum = 0;
   // Every fourth byte is alpha, which never changes here.
   for (let i = 0; i < a.data.length; i += 4) {
-    sum += Math.abs(a.data[i] - b.data[i])
+    const delta = (Math.abs(a.data[i] - b.data[i])
       + Math.abs(a.data[i + 1] - b.data[i + 1])
-      + Math.abs(a.data[i + 2] - b.data[i + 2]);
+      + Math.abs(a.data[i + 2] - b.data[i + 2])) / 3;
+    sum += delta;
+    histogram[Math.min(255, Math.round(delta))] += 1;
   }
-  return sum / (a.data.length / 4) / 3;
+
+  const wanted = Math.max(1, Math.round(pixels * PEAK_FRACTION));
+  let counted = 0;
+  let peakSum = 0;
+  for (let level = 255; level >= 0 && counted < wanted; level -= 1) {
+    const take = Math.min(histogram[level], wanted - counted);
+    peakSum += take * level;
+    counted += take;
+  }
+  return { mean: sum / pixels, peak: counted ? peakSum / counted : 0 };
 }
 
 const browser = await chromium.launch({
@@ -83,25 +126,46 @@ for (const path of PATHS) {
   for (let y = 0; y < Math.max(1, height - HEIGHT / 2); y += HEIGHT) {
     await page.evaluate((top) => window.scrollTo(0, top), y);
     await page.waitForTimeout(700);
-    const first = await page.screenshot();
-    await page.waitForTimeout(GAP);
-    const second = await page.screenshot();
-    const delta = meanDelta(first, second);
-    readings.push({ path, y, delta });
-    if (delta < FLOOR) problems.push(`${path} @${y}px is still (${delta.toFixed(3)} < ${FLOOR})`);
+    /* Three frames, not two, and the strongest pair wins.
+       Some of the instruments move in steps or in a phase of their cycle: a
+       flap falls for a fifth of five seconds, a level light changes once every
+       one and a half. Two frames a beat apart can land either side of the still
+       part of such a cycle and report a moving thing as dead. Three frames over
+       twice the window cannot miss all of them, and a viewport with nothing in
+       it still reads about 1 however many frames you take. */
+    const frames = [await page.screenshot()];
+    for (let take = 0; take < 2; take += 1) {
+      await page.waitForTimeout(GAP);
+      frames.push(await page.screenshot());
+    }
+    let mean = 0;
+    let peak = 0;
+    for (let i = 0; i < frames.length; i += 1) {
+      for (let j = i + 1; j < frames.length; j += 1) {
+        const pair = readDeltas(frames[i], frames[j]);
+        mean = Math.max(mean, pair.mean);
+        peak = Math.max(peak, pair.peak);
+      }
+    }
+    readings.push({ path, y, mean, peak });
+    const alive = mean >= FLOOR || peak >= PEAK_FLOOR;
+    if (!alive) {
+      problems.push(`${path} @${y}px is still (mean ${mean.toFixed(3)} < ${FLOOR}, peak ${peak.toFixed(1)} < ${PEAK_FLOOR})`);
+    }
   }
   await page.close();
 }
 await browser.close();
 
 if (REPORT) {
-  console.log(`aliveness readings at ${WIDTH}x${HEIGHT}, ${GAP}ms apart\n`);
+  console.log(`aliveness readings at ${WIDTH}x${HEIGHT}, ${GAP}ms apart`);
+  console.log(`  mean = whole viewport, peak = busiest ${PEAK_FRACTION * 100}% of pixels\n`);
   for (const r of readings) {
-    const bar = "#".repeat(Math.min(40, Math.round(r.delta * 8)));
-    console.log(`  ${r.path.padEnd(10)} @${String(r.y).padStart(5)}  ${r.delta.toFixed(3).padStart(7)}  ${bar}`);
+    const bar = "#".repeat(Math.min(40, Math.round(r.peak / 3)));
+    console.log(`  ${r.path.padEnd(10)} @${String(r.y).padStart(5)}  mean ${r.mean.toFixed(3).padStart(7)}  peak ${r.peak.toFixed(1).padStart(6)}  ${bar}`);
   }
-  const quietest = readings.reduce((a, b) => (a.delta < b.delta ? a : b));
-  console.log(`\n  quietest: ${quietest.path} @${quietest.y}px at ${quietest.delta.toFixed(3)}`);
+  const quietest = readings.reduce((a, b) => (a.peak < b.peak ? a : b));
+  console.log(`\n  quietest by peak: ${quietest.path} @${quietest.y}px at ${quietest.peak.toFixed(1)}`);
   process.exit(0);
 }
 
@@ -109,4 +173,4 @@ if (problems.length) {
   console.error(`aliveness: ${problems.length} still viewport(s) at ${WIDTH}px\n  ` + problems.join("\n  "));
   process.exit(1);
 }
-console.log(`aliveness clean at ${WIDTH}px: ${readings.length} viewports, quietest ${Math.min(...readings.map((r) => r.delta)).toFixed(3)}`);
+console.log(`aliveness clean at ${WIDTH}px: ${readings.length} viewports, quietest peak ${Math.min(...readings.map((r) => r.peak)).toFixed(1)}`);

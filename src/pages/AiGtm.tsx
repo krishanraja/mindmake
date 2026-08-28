@@ -5,6 +5,7 @@ import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { CloseBlock } from "@/components/mindmake/CloseBlock";
 import { SubscribeBand } from "@/components/mindmake/SubscribeBand";
 import { FilmPlate } from "@/components/mindmake/FilmPlate";
+import { Instrument } from "@/components/mindmake/Instrument";
 import { ObjectionChips } from "@/components/mindmake/ObjectionChips";
 import { LiveBoard } from "@/components/mindmake/board/LiveBoard";
 import { GtmJourney } from "@/components/mindmake/journeys/GtmJourney";
@@ -100,6 +101,7 @@ export default function AiGtm() {
           </div>
           <div className="mm-impact" style={{ marginTop: 18 }}>
             <article className="mm-impact-card">
+              <Instrument kind="gauge" />
               <h3>What you charge</h3>
               <p>
                 <strong>The cost of doing the work is falling</strong>, and customers are starting
@@ -108,6 +110,7 @@ export default function AiGtm() {
               </p>
             </article>
             <article className="mm-impact-card">
+              <Instrument kind="flap" />
               <h3>How you stand out</h3>
               <p>
                 <strong>Who else is selling to your customers now</strong>, what they are promising,
@@ -115,6 +118,7 @@ export default function AiGtm() {
               </p>
             </article>
             <article className="mm-impact-card">
+              <Instrument kind="rail" />
               <h3>Who does the selling</h3>
               <p>
                 <strong>The roles worth creating now</strong>, the people who do well in them, and
@@ -129,7 +133,7 @@ export default function AiGtm() {
           try-it section underneath was one most visitors never reached. */}
       <section className="mm-block mm-try" aria-labelledby="read-title">
         <div className="mm-container">
-          <h2 id="read-title">Try it with your own company.</h2>
+          <h2 id="read-title"><Instrument kind="recorder" className="mm-head-mark" />Try it with your own company.</h2>
           <div className="mm-try-panel">
             <p className="mm-lede">
               Give us your company address. We will read your market while you watch, and send you
@@ -144,14 +148,16 @@ export default function AiGtm() {
 
       <section className="mm-block" aria-labelledby="engage-title">
         <div className="mm-container">
-          <h2 id="engage-title">Two ways to start.</h2>
+          <h2 id="engage-title"><Instrument kind="levels" className="mm-head-mark" />Two ways to start.</h2>
           <div className="mm-shapes">
             <article className="mm-shape is-hot">
+              <Instrument kind="recorder" />
               <h3>The review, thirty days</h3>
               <p className="mm-shape-line">Understand what changed, and pick one thing to fix.</p>
               <p>You get the model, a clear recommendation and all the evidence behind it. Priced on the result, with no retainer.</p>
             </article>
             <article className="mm-shape">
+              <Instrument kind="levels" />
               <h3>The build</h3>
               <p className="mm-shape-line">Put it in place, and teach your team to run it.</p>
               <p>We set the system up as the memory of how you sell, connect it to your plans, and coach the people who will keep it going after we finish.</p>
@@ -173,6 +179,7 @@ export default function AiGtm() {
       <SubscribeBand ground="ink" />
 
       <CloseBlock
+        instrument="gauge"
         ground="raise"
         claim="See where AI changes your numbers."
         body="Give us your company address and we will show you, using your market rather than a general example."

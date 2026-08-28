@@ -4,6 +4,7 @@ import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { CloseBlock } from "@/components/mindmake/CloseBlock";
 import { SubscribeBand } from "@/components/mindmake/SubscribeBand";
 import { FilmPlate } from "@/components/mindmake/FilmPlate";
+import { Instrument } from "@/components/mindmake/Instrument";
 import { ObjectionChips } from "@/components/mindmake/ObjectionChips";
 import { ProofViewer } from "@/components/mindmake/ProofViewer";
 import { ForkBand } from "@/components/mindmake/ForkBand";
@@ -56,14 +57,17 @@ const SPEC_CHIPS = [
 
 const PRINCIPLES = [
   {
+    instrument: "recorder" as const,
     title: "We trust the source, not the sales pitch.",
     body: "What a company publishes about its own product counts for less than what it actually shipped.",
   },
   {
+    instrument: "gauge" as const,
     title: "Two sources agree, or we leave it out.",
     body: "One report is a rumour. Two that agree is something you can use.",
   },
   {
+    instrument: "flap" as const,
     title: "It tells you when it cannot know.",
     body: "If the answer depends on something only you know, it says so rather than guessing.",
   },
@@ -105,7 +109,7 @@ export default function AiBrain() {
       <section className="mm-block mm-on-raise" aria-labelledby="aa-title">
         <div className="mm-container">
           <div className="mm-head-split">
-            <h2 id="aa-title">Built around your best work, and the parts you would rather skip.</h2>
+            <h2 id="aa-title"><Instrument kind="rail" className="mm-head-mark" />Built around your best work, and the parts you would rather skip.</h2>
             <FilmPlate
               className="mm-impact-film"
               poster={filmFourPoster}
@@ -142,7 +146,7 @@ export default function AiBrain() {
 
       <section className="mm-block" aria-labelledby="ctrl-title">
         <div className="mm-container">
-          <h2 id="ctrl-title">See a decision from every side.</h2>
+          <h2 id="ctrl-title"><Instrument kind="gauge" className="mm-head-mark" />See a decision from every side.</h2>
 
           {/* The captures are product screenshots with real interface text in
               them. At full container width they rendered 1238px from a 1404px
@@ -171,6 +175,7 @@ export default function AiBrain() {
               <div className="mm-principles">
                 {PRINCIPLES.map((principle) => (
                   <article className="mm-principle" key={principle.title}>
+                    <Instrument kind={principle.instrument} />
                     <h3>{principle.title}</h3>
                     <p>{principle.body}</p>
                   </article>
@@ -184,7 +189,7 @@ export default function AiBrain() {
 
       <section className="mm-block mm-on-raise mm-try" aria-labelledby="learn-title">
         <div className="mm-container">
-          <h2 id="learn-title">See what it would do for you.</h2>
+          <h2 id="learn-title"><Instrument kind="recorder" className="mm-head-mark" />See what it would do for you.</h2>
           <div className="mm-try-panel">
             <p className="mm-lede">
               Your LinkedIn and two taps, and we will show you what your first week would look
@@ -201,17 +206,20 @@ export default function AiBrain() {
 
       <section className="mm-block" aria-labelledby="ladder-title">
         <div className="mm-container">
-          <h2 id="ladder-title">Thirty days builds it. Using it makes it better.</h2>
+          <h2 id="ladder-title"><Instrument kind="levels" className="mm-head-mark" />Thirty days builds it. Using it makes it better.</h2>
           <div className="mm-ladder" style={{ marginTop: 18 }}>
             <article className="mm-level">
+              <Instrument kind="flap" />
               <h3>One. You use AI</h3>
               <p>You ask, it answers, and tomorrow it has forgotten. Useful, and it never adds up.</p>
             </article>
             <article className="mm-level">
+              <Instrument kind="rail" />
               <h3>Two. You direct AI</h3>
               <p>You hand work over, check it and ship it. Good work, and every task starts from nothing.</p>
             </article>
             <article className="mm-level is-hot">
+              <Instrument kind="drawer" />
               <h3>Three. It builds on itself</h3>
               <p>It remembers, it learns what good looks like to you, and the hours it saves go back into your best work.</p>
             </article>
@@ -219,11 +227,13 @@ export default function AiBrain() {
 
           <div className="mm-shapes">
             <article className="mm-shape is-hot">
+              <Instrument kind="recorder" />
               <h3>The build, thirty days</h3>
               <p className="mm-shape-line">Built once, connected to where you already work.</p>
               <p>We learn your standards from real work, switch on the parts that keep learning, and connect it to the tools your week already runs on.</p>
             </article>
             <article className="mm-shape">
+              <Instrument kind="levels" />
               <h3>The habit, optional</h3>
               <p className="mm-shape-line">It gets better the more you use it.</p>
               <p>Occasional check-ins to build the habits that get you to level three. No monthly retainer. The system keeps working either way.</p>
@@ -264,6 +274,7 @@ export default function AiBrain() {
       <SubscribeBand />
 
       <CloseBlock
+        instrument="drawer"
         claim="You keep everything."
         body="The system, the automations and the record of your standards. All of it stays with you when we finish."
         onStart={openBrief}

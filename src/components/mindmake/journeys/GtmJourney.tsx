@@ -66,7 +66,7 @@ export function GtmJourney({ onRead }: GtmJourneyProps) {
             }
           }}
         />
-        <button type="button" onClick={submit}>Read my business</button>
+        <button type="button" data-mm-primary onClick={submit}>Read my business</button>
       </div>
 
       {error && <p className="mm-journey-error" role="alert">{error}</p>}

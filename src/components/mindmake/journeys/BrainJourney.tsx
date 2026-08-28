@@ -121,7 +121,7 @@ export function BrainJourney() {
         );
       })}
 
-      <button className="mm-button" type="button" style={{ marginTop: 16 }} onClick={show}>
+      <button className="mm-button" data-mm-primary type="button" style={{ marginTop: 16 }} onClick={show}>
         Show me week one
       </button>
 

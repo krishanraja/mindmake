@@ -26,29 +26,6 @@ import filmFiveProofWebm from "@/assets/films/film-05-proof.webm";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-instruments.css";
 
-const BRAIN_OBJECTIONS = [
-  {
-    id: "cost",
-    question: "How much does it cost?",
-    answer: "It depends on the result you want, and we agree it privately after the first conversation. There is no retainer and no published price.",
-  },
-  {
-    id: "technical",
-    question: "Do I need to be technical?",
-    answer: "No. That is rather the point. We handle the technical side, and everything the system shows you is in plain English.",
-  },
-  {
-    id: "duration",
-    question: "What happens after the thirty days?",
-    answer: "It keeps working. You own the system, the automations and the record of your standards. We can check in from time to time if that helps, and it runs fine without us.",
-  },
-  {
-    id: "data",
-    question: "Who sees my data?",
-    answer: "Only you. We build it inside your own accounts, and we never publish, share or train anything on your work.",
-  },
-];
-
 const SPEC_CHIPS = [
   "Ours, two years in the building",
   "Decades of decision research inside",
@@ -193,7 +170,7 @@ export default function AiBrain() {
         </div>
       </section>
 
-      <section className="mm-block mm-on-raise mm-try" aria-labelledby="learn-title">
+      <section className="mm-block mm-on-raise mm-try" id="try-it" aria-labelledby="learn-title">
         <div className="mm-container">
           <h2 id="learn-title"><Instrument kind="recorder" className="mm-head-mark" />See what it would do for you.</h2>
           <div className="mm-try-panel">
@@ -251,7 +228,7 @@ export default function AiBrain() {
 
       <section className="mm-block mm-on-raise">
         <div className="mm-container">
-          <ObjectionChips objections={BRAIN_OBJECTIONS} />
+          <ObjectionChips ask={["technical", "how-we-work", "included", "duration", "keep", "data", "charging", "cost", "risk", "why-not-myself"]} />
         </div>
       </section>
 

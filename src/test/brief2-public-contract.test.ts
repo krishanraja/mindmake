@@ -539,6 +539,12 @@ describe("the naming law", () => {
       start: "how to start",
       fit: "whether it fits your business",
       email: "whether we will email forever",
+      "how-we-work": "what actually happens in the thirty days",
+      included: "what is included",
+      "why-not-myself": "why you need this rather than doing it yourself",
+      charging: "how we charge",
+      risk: "what happens if it does not work",
+      size: "whether you need to be a certain size",
     };
     for (const entry of ASK_ENTRIES) {
       expect(`01_CANON names the "${entry.id}" answer: ${entry.id in TOPIC}`)

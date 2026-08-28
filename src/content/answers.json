@@ -243,6 +243,118 @@
         "follow"
       ],
       "answer": "Two emails, ever. Your results, and one follow-up two weeks later. Nothing else, and no drip sequence. If you ask us to email your brief we send a six-digit code first, so we know the address is yours."
+    },
+    {
+      "id": "how-we-work",
+      "question": "What actually happens in the thirty days?",
+      "keywords": [
+        "how",
+        "work",
+        "process",
+        "happen",
+        "happens",
+        "thirty",
+        "30",
+        "days",
+        "week",
+        "weeks",
+        "run",
+        "runs",
+        "steps",
+        "expect",
+        "timeline"
+      ],
+      "answer": "Week one we learn how you decide, from real work rather than a questionnaire. Week two the first piece goes live and you use it. Weeks three and four we connect it to the tools your week already runs on and tighten it against what you actually did with it. You see something working from the first week, not a plan at the end."
+    },
+    {
+      "id": "included",
+      "question": "What is included?",
+      "keywords": [
+        "included",
+        "include",
+        "includes",
+        "get",
+        "deliverable",
+        "deliverables",
+        "receive",
+        "comes",
+        "package",
+        "scope",
+        "what do i get"
+      ],
+      "answer": "The working system inside your own accounts, the automations around it, the written record of your standards, and the evidence behind every recommendation. You also get the reasoning, so you can check it rather than take our word for it."
+    },
+    {
+      "id": "why-not-myself",
+      "question": "Why do I need this? Could I not do it myself?",
+      "keywords": [
+        "why",
+        "need",
+        "myself",
+        "own",
+        "internally",
+        "in-house",
+        "team",
+        "diy",
+        "already",
+        "bother",
+        "necessary",
+        "value"
+      ],
+      "answer": "You could, and some people should. What usually stops it is not capability, it is that the work never reaches the top of anyone's week. We bring the time, the tooling and the pattern from having done it before, and we leave you owning it rather than depending on us."
+    },
+    {
+      "id": "charging",
+      "question": "How do you charge?",
+      "keywords": [
+        "charge",
+        "charging",
+        "billing",
+        "bill",
+        "retainer",
+        "hourly",
+        "day rate",
+        "payment",
+        "terms",
+        "commercials",
+        "model"
+      ],
+      "answer": "On the result, agreed before we start, and not on hours or a monthly retainer. We say what the thirty days will produce, you agree the number privately, and it does not move afterwards. There is nothing to cancel at the end because there is nothing running."
+    },
+    {
+      "id": "risk",
+      "question": "What if it does not work?",
+      "keywords": [
+        "risk",
+        "fail",
+        "fails",
+        "guarantee",
+        "wrong",
+        "not work",
+        "doesn't work",
+        "refund",
+        "unhappy",
+        "bad fit"
+      ],
+      "answer": "You would know inside the first week rather than at the end, because something real is running by then. If it is clearly not going to be worth it we say so and stop, and you keep whatever has been built up to that point."
+    },
+    {
+      "id": "size",
+      "question": "Do we need to be a certain size?",
+      "keywords": [
+        "size",
+        "big",
+        "small",
+        "startup",
+        "enterprise",
+        "headcount",
+        "revenue",
+        "stage",
+        "large",
+        "solo",
+        "company size"
+      ],
+      "answer": "No. What matters is that one person can decide, and that there is real work to point it at. It has been useful to a solo practice and to a publisher with a few hundred people, for the same reason both times."
     }
   ]
 }

@@ -431,8 +431,10 @@ answers, because it is what ships. It covers cost, whether you need to be
 technical, what happens after thirty days, who sees your data, how this differs
 from a consultant, why not just use a chatbot, how much of the team's time it
 takes, what you keep, whether it is a document or something that works, whether
-thirty days is realistic, how to start, whether it fits your business, and
-whether we will email forever.
+thirty days is realistic, how to start, whether it fits your business,
+whether we will email forever, what actually happens in the thirty days, what is
+included, why you need this rather than doing it yourself, how we charge, what
+happens if it does not work, and whether you need to be a certain size.
 
 These stay true and are safe to reuse anywhere:
 

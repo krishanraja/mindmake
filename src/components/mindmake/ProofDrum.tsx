@@ -125,7 +125,10 @@ export function ProofDrum({ title = "People who have worked with Krish" }: { tit
     };
     document.addEventListener("keydown", onKey, true);
     document.addEventListener("pointerdown", onDown);
-    panel.current?.focus();
+    /* preventScroll, because the panel covers the rail the reader is already
+       looking at. Without it the browser scrolls to bring the focused box fully
+       into view and the page jumps under them. */
+    panel.current?.focus({ preventScroll: true });
     return () => {
       document.removeEventListener("keydown", onKey, true);
       document.removeEventListener("pointerdown", onDown);

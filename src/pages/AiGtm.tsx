@@ -22,29 +22,6 @@ import filmSixLoopWebm from "@/assets/films/film-06-loop.webm";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-instruments.css";
 
-const GTM_OBJECTIONS = [
-  {
-    id: "report",
-    question: "Do I get a document or something that works?",
-    answer: "Something that works, plus the evidence behind it. You can see every source we used and check the reasoning yourself.",
-  },
-  {
-    id: "speed",
-    question: "Is thirty days realistic?",
-    answer: "Yes, because we take on one result rather than a whole transformation. You see the first working piece in week one, and it improves each week after that.",
-  },
-  {
-    id: "team",
-    question: "How much of my team's time does this take?",
-    answer: "Very little. We need your decisions, the context you trust and a few introductions. There is no homework and no all-team rollout to sit through.",
-  },
-  {
-    id: "keep",
-    question: "What do we keep at the end?",
-    answer: "The model, the plan and the working system. All of it is yours, and it keeps running after we finish.",
-  },
-];
-
 export default function AiGtm() {
   const { briefOpen, openBrief, closeBrief } = useLeadBriefHistory();
   const [seedDomain, setSeedDomain] = useState<string>();
@@ -131,7 +108,7 @@ export default function AiGtm() {
 
       {/* Above the board, not below it. The board runs to about 800px, so a
           try-it section underneath was one most visitors never reached. */}
-      <section className="mm-block mm-try" aria-labelledby="read-title">
+      <section className="mm-block mm-try" id="try-it" aria-labelledby="read-title">
         <div className="mm-container">
           <h2 id="read-title"><Instrument kind="recorder" className="mm-head-mark" />Try it with your own company.</h2>
           <div className="mm-try-panel">
@@ -173,7 +150,7 @@ export default function AiGtm() {
 
       <section className="mm-block mm-on-raise">
         <div className="mm-container">
-          <ObjectionChips objections={GTM_OBJECTIONS} />
+          <ObjectionChips ask={["report", "speed", "team", "keep", "how-we-work", "included", "charging", "size", "fit", "risk"]} />
         </div>
       </section>
 
@@ -182,9 +159,9 @@ export default function AiGtm() {
       <CloseBlock
         instrument="gauge"
         ground="raise"
-        claim="See where AI changes your numbers."
-        body="Give us your company address and we will show you, using your market rather than a general example."
-        onStart={openBrief}
+        panelId="try-it"
+        claim="You keep the model."
+        body="The read, the plan and the working system stay with you, and they keep running after we finish."
       />
 
       <LeadBrief

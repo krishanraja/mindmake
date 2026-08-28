@@ -341,32 +341,6 @@
 
 /* ---------- Objection chips ---------- */
 
-.mm-objections { display: grid; gap: 9px; }
-@media (min-width: 720px) { .mm-objections { grid-template-columns: 1fr 1fr; } }
-.mm-objection {
-  text-align: left;
-  border: 1px solid var(--mm-line);
-  border-radius: 3px;
-  background: var(--mm-ink2);
-  padding: 14px 16px;
-  cursor: pointer;
-  transition: border-color .12s ease, background .12s ease;
-}
-@media (hover: hover) and (pointer: fine) {
-  .mm-objection:hover { border-color: var(--mm-mint-dim); background: var(--mm-ink3); }
-}
-.mm-objection:active { transform: translateY(1px); }
-.mm-objection[aria-expanded="true"] { border-color: var(--mm-mint-dim); }
-.mm-objection-q {
-  display: block;
-  font-family: var(--mm-grotesque);
-  font-weight: 600;
-  font-size: 15px;
-  letter-spacing: -.015em;
-  color: #f0f6f3;
-}
-.mm-objection-q::before { content: "Q. "; color: var(--mm-mint); font-family: var(--mm-mono); font-size: 11px; }
-.mm-objection-a { display: block; text-wrap: pretty; margin-top: 9px; color: var(--mm-tx2); font-size: 14.5px; line-height: 1.55; }
 
 /* ---------- The ask bar ---------- */
 
@@ -427,20 +401,6 @@
 .mm-close .mm-claim { font-size: clamp(26px, 4.4vw, 44px); }
 .mm-close > p { max-width: 48ch; margin: 14px auto 0; color: var(--mm-tx2); }
 .mm-close .mm-button { margin-top: 22px; }
-.mm-close-sub { display: block; margin-top: 18px; color: var(--mm-mut); font-family: var(--mm-mono); font-size: 11px; }
-.mm-close-sub a {
-  /* Inline in a sentence, so it stays inline, with enough vertical room to be
-     a comfortable target on a phone. */
-  display: inline-block;
-  padding: 7px 2px;
-  color: var(--mm-tx2);
-  text-decoration: underline;
-  text-decoration-color: var(--mm-mint-dim);
-  text-underline-offset: 3px;
-}
-@media (hover: hover) and (pointer: fine) {
-  .mm-close-sub a:hover { color: var(--mm-mint); }
-}
 
 /* ---------- The live board ---------- */
 
@@ -1741,3 +1701,49 @@
 .mm-voice-panel .mm-voice-by span { display: inline; -webkit-line-clamp: none; }
 .mm-voice-panel .mm-voice-more { margin-top: 10px; justify-self: start; }
 .mm-drum-track > .mm-voice.is-open { opacity: 1 !important; border-color: var(--mm-mint-dim); }
+
+/* ---------- The questions ---------- */
+
+/* Same drum, same card discipline as the testimonials: equal heights, rows that
+   line up, and an answer that opens without moving the page. They used to be a
+   two-column accordion where opening one chip stretched its row partner and
+   left it holding dead space. */
+.mm-questions { margin-top: 4px; }
+.mm-questions .mm-objections-title { margin-bottom: 0; }
+.mm-drum.is-questions { --mm-question-card: 320px; }
+.mm-drum.is-questions .mm-drum-track > .mm-question { width: 320px; flex: 0 0 320px; }
+
+.mm-question {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  align-content: start;
+  border: 1px solid var(--mm-line);
+  border-radius: 3px;
+  background: var(--mm-ink2);
+  padding: 15px 16px;
+  transition: border-color .12s ease, opacity .22s ease;
+}
+.mm-question.is-dim { opacity: .5; }
+/* Two classes deep: .mm-site h3 sets the display size and beats a single class,
+   which made every question read at 26px and wrap to three lines. */
+.mm-question .mm-question-q {
+  display: block;
+  color: #f0f6f3;
+  font-family: var(--mm-grotesque);
+  font-weight: 600;
+  font-size: 15.5px;
+  letter-spacing: -.015em;
+  line-height: 1.3;
+  text-wrap: pretty;
+}
+.mm-question-q::before { content: "Q. "; color: var(--mm-mint); font-family: var(--mm-mono); font-size: 11px; }
+/* Whole, always. Nothing to open, so nothing to grow. */
+.mm-question-a {
+  margin-top: 10px;
+  color: var(--mm-tx2);
+  font-size: 14px;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+.mm-questions .mm-ask { margin-top: 18px; }

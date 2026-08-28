@@ -17,11 +17,28 @@ import { track } from "@/lib/analytics";
 export function MobileActionBar({ onStart }: { onStart: () => void }) {
   const [shown, setShown] = useState(false);
 
+  /* Shown after the first screen, and hidden again whenever the page's own
+     primary action is on screen. The bar exists so the action is reachable
+     while none is in front of the reader; alongside one it is a second way in,
+     which is how the foot of /ai-gtm ended up showing three at once and how the
+     try-it panel ended up competing with a bar offering something else.
+     Anything that is a way in carries data-mm-primary. */
   useEffect(() => {
-    const decide = () => setShown(window.scrollY > window.innerHeight * 0.8);
+    const decide = () => {
+      const past = window.scrollY > window.innerHeight * 0.8;
+      const competing = [...document.querySelectorAll("[data-mm-primary]")].some((el) => {
+        const box = el.getBoundingClientRect();
+        return box.bottom > 0 && box.top < window.innerHeight - 40;
+      });
+      setShown(past && !competing);
+    };
     decide();
     window.addEventListener("scroll", decide, { passive: true });
-    return () => window.removeEventListener("scroll", decide);
+    window.addEventListener("resize", decide);
+    return () => {
+      window.removeEventListener("scroll", decide);
+      window.removeEventListener("resize", decide);
+    };
   }, []);
 
   useEffect(() => {

@@ -69,23 +69,37 @@ for (const path of PATHS) {
     }
   }
 
-  /* Opening a card must not move the page. */
-  const below = await page.evaluate(() => {
+  /* Opening a card must not move the page, and must not scroll it either.
+     Measured apart, because the first version of this reported an 861px move
+     that was really the browser scrolling to a newly focused panel. */
+  const before = await page.evaluate(() => {
     const after = document.querySelector(".mm-drum-count");
-    return after ? Math.round(after.getBoundingClientRect().top) : null;
+    return {
+      top: after ? Math.round(after.getBoundingClientRect().top) : null,
+      scroll: Math.round(window.scrollY),
+      tall: document.documentElement.scrollHeight,
+    };
   });
+  const below = before.top;
   /* Dispatched rather than clicked: the drum drifts continuously, so Playwright's
      actionability check never sees a stable element and waits forever. */
   const opener = await page.$(".mm-drum-track > .mm-voice .mm-voice-more");
   if (opener && below !== null) {
     await opener.dispatchEvent("click");
     await page.waitForTimeout(400);
-    const moved = await page.evaluate(() => {
-      const after = document.querySelector(".mm-drum-count");
-      return after ? Math.round(after.getBoundingClientRect().top) : null;
-    });
-    if (Math.abs(moved - below) > 2) {
-      problems.push(`${path}: opening a card moved the content below it by ${moved - below}px`);
+    const after = await page.evaluate(() => ({
+      top: (() => { const el = document.querySelector(".mm-drum-count"); return el ? Math.round(el.getBoundingClientRect().top) : null; })(),
+      scroll: Math.round(window.scrollY),
+      tall: document.documentElement.scrollHeight,
+    }));
+    if (after.tall !== before.tall) {
+      problems.push(`${path}: opening a card changed the page height by ${after.tall - before.tall}px`);
+    }
+    if (after.scroll !== before.scroll) {
+      problems.push(`${path}: opening a card scrolled the page by ${after.scroll - before.scroll}px`);
+    }
+    if (below !== null && after.top !== null && Math.abs((after.top - after.scroll) - (below - before.scroll)) > 2) {
+      problems.push(`${path}: opening a card moved the content below it by ${after.top - below}px`);
     }
   }
   console.log(`${path}: ${read.length} cards, height ${first.height}px, rows at ${first.quote}/${first.by}/${first.more}`);

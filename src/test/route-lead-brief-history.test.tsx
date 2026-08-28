@@ -47,12 +47,32 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
+/**
+ * Opens the brief the way that page's reader actually would.
+ *
+ * Every page has exactly one way in, which is the point of the change that made
+ * this helper necessary. On /ai-gtm that is the try-it panel, so the test types
+ * a domain and reads the business; on /ai-brain the close block is still the
+ * page's own entry. Clicking a "Start here" that no longer exists would have
+ * been the test asserting a duplicate CTA back into the design.
+ */
+function enterTheBrief(path: string) {
+  if (path === "/ai-gtm") {
+    fireEvent.change(screen.getByLabelText("Your company web address"), {
+      target: { value: "example.com" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Read my business" }));
+    return;
+  }
+  fireEvent.click(screen.getAllByRole("button", { name: "Start here" })[0]);
+}
+
 describe.each(routes)("$path private brief history", ({ path, entryRoute, Page }) => {
-  it("pushes Start here into history and lets Back or Close return to the same route", async () => {
+  it("pushes the page's own entry into history and lets Back or Close return to the same route", async () => {
     const baseLocation = `${path}?campaign=route-test#proof`;
     renderRoute(baseLocation, Page);
 
-    fireEvent.click(screen.getAllByRole("button", { name: "Start here" })[0]);
+    enterTheBrief(path);
     const firstDialog = await screen.findByRole("dialog");
     expect(firstDialog).toHaveAttribute("data-entry-route", entryRoute);
     expect(screen.getByTestId("location")).toHaveTextContent(`${path}?campaign=route-test&start=1#proof`);
@@ -61,7 +81,7 @@ describe.each(routes)("$path private brief history", ({ path, entryRoute, Page }
     await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
     expect(screen.getByTestId("location")).toHaveTextContent(baseLocation);
 
-    fireEvent.click(screen.getAllByRole("button", { name: "Start here" })[0]);
+    enterTheBrief(path);
     await screen.findByRole("dialog");
     fireEvent.click(screen.getByRole("button", { name: "Close" }));
     await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());

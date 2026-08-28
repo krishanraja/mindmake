@@ -31,19 +31,6 @@ import filmThreeLoopWebm from "@/assets/films/film-03-loop.webm";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-instruments.css";
 
-const HOMEPAGE_OBJECTIONS = [
-  {
-    id: "consultant",
-    question: "How is this different from hiring a consultant?",
-    answer: "A consultant does good work and then the project closes. We build the system inside your accounts, so what it learns about your work is still there next year.",
-  },
-  {
-    id: "chatgpt",
-    question: "Can I not just use ChatGPT?",
-    answer: "You can, and you should. Those tools are excellent. They just start from nothing every morning. The brain is the part that remembers your standards, so the tools you already pay for start from you.",
-  },
-];
-
 /** Today's strongest item, on the same component the board uses. */
 function ProofLive() {
   const board = useBoardData({ days: 1 });
@@ -201,7 +188,7 @@ export default function Index() {
 
           <Marquee lines={["Built once. Better every week.", "What it learns stays yours."]} />
 
-          <ObjectionChips objections={HOMEPAGE_OBJECTIONS} />
+          <ObjectionChips ask={["consultant", "chatgpt", "why-not-myself", "how-we-work", "included", "charging", "start", "email"]} />
         </div>
       </section>
 

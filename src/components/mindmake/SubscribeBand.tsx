@@ -6,7 +6,7 @@ import { track } from "@/lib/analytics";
  * The publication, as its own offer.
  *
  * It used to be eleven pixels of muted mono at the foot of the close block,
- * reading "Not ready? Take the weekly read instead" — a consolation prize for
+ * reading "Not ready? Take the weekly read instead", a consolation prize for
  * people who did not take the real one. It is not a consolation prize. It is a
  * separate thing a visitor might want on its own terms, so it says what the two
  * channels are and gives them one obvious way in.

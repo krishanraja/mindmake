@@ -1,47 +1,110 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Instrument } from "@/components/mindmake/Instrument";
-import { track } from "@/lib/analytics";
+import { AskBar } from "@/components/mindmake/AskBar";
+import { useDragDrum } from "@/hooks/useDragDrum";
+import { ASK_ENTRIES, type AskEntry } from "@/lib/askCorpus";
 
-export interface Objection {
-  id: string;
-  question: string;
-  answer: string;
-}
+/**
+ * The questions, on the same drum the testimonials use.
+ *
+ * They come from `src/content/answers.json` by id, which is the same corpus the
+ * ask bar and /faq read. They used to be hand-copied into each page, and the
+ * copies had already drifted: four answers said one thing on a page and another
+ * in the corpus. There is one source now, so that cannot happen again.
+ *
+ * The ask bar sits underneath, because this is the section where answering a
+ * question belongs. It used to live in the close block, directly under copy
+ * asking for a company address, which made a lookup box look like a lead form.
+ */
 
-interface ObjectionChipsProps {
-  /** Placed at the scroll moment the doubt occurs, not gathered into an FAQ. */
-  objections: Objection[];
+const CARD = 320;
+const GAP = 14;
+const PITCH = CARD + GAP;
+
+interface QuestionsProps {
+  /** Ids from the corpus, in the order this page wants them asked. */
+  ask: string[];
   label?: string;
 }
 
-export function ObjectionChips({ objections, label = "Questions people ask us" }: ObjectionChipsProps) {
-  const [open, setOpen] = useState<string | null>(null);
+/**
+ * A question and its answer, both readable without tapping anything.
+ *
+ * The first version clamped the answer to three lines and expanded on tap,
+ * which grew the whole row: every card in the rail got taller while the ones
+ * nobody opened kept their truncation and gained dead space underneath. These
+ * answers are two to eight lines. Showing them costs a taller card and saves an
+ * interaction nobody needed.
+ */
+function QuestionCard({ entry, dim }: { entry: AskEntry; dim: boolean }) {
+  return (
+    <article className={`mm-question${dim ? " is-dim" : ""}`}>
+      <h3 className="mm-question-q">{entry.question}</h3>
+      <p className="mm-question-a">{entry.answer}</p>
+    </article>
+  );
+}
+
+export function ObjectionChips({ ask, label = "Questions people ask us" }: QuestionsProps) {
+  const entries = ask
+    .map((id) => ASK_ENTRIES.find((entry) => entry.id === id))
+    .filter((entry): entry is AskEntry => Boolean(entry));
+  const frame = useRef<HTMLDivElement>(null);
+  const [viewport, setViewport] = useState(1200);
+
+  useEffect(() => {
+    const element = frame.current;
+    if (!element || typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(([entry]) => setViewport(entry.contentRect.width));
+    observer.observe(element);
+    setViewport(element.getBoundingClientRect().width);
+    return () => observer.disconnect();
+  }, []);
+
+  const drum = useDragDrum({ pitch: PITCH, count: entries.length, viewport, drift: 13 });
+  const perScreen = Math.max(1, Math.round(viewport / PITCH));
 
   return (
-    <div>
-      <h2 className="mm-objections-title">
-        <Instrument kind="flap" className="mm-head-mark" />{label}
-      </h2>
-      <div className="mm-objections">
-        {objections.map((objection) => {
-          const isOpen = open === objection.id;
-          return (
-            <button
-              key={objection.id}
-              className="mm-objection"
-              type="button"
-              aria-expanded={isOpen}
-              onClick={() => {
-                setOpen(isOpen ? null : objection.id);
-                if (!isOpen) track("objection_open", { objection: objection.id });
-              }}
-            >
-              <span className="mm-objection-q">{objection.question}</span>
-              {isOpen && <span className="mm-objection-a">{objection.answer}</span>}
-            </button>
-          );
-        })}
+    <div className="mm-questions">
+      <div className="mm-drum-head">
+        <h2 className="mm-objections-title">
+          <Instrument kind="flap" className="mm-head-mark" />{label}
+        </h2>
+        <p className="mm-drum-hint">
+          <span>{entries.length} of them. Drag it, or use the arrows.</span>
+          <span className="mm-drum-arrows">
+            <button type="button" aria-label="Previous question" onClick={() => drum.step(-1)}>←</button>
+            <button type="button" aria-label="Next question" onClick={() => drum.step(1)}>→</button>
+          </span>
+        </p>
       </div>
+
+      <div className="mm-drum-stage">
+        <div
+          className={`mm-drum is-questions${drum.held ? " is-held" : ""}`}
+          ref={frame}
+          role="group"
+          aria-label={`${label}: ${entries.length} questions`}
+          tabIndex={0}
+          onKeyDown={drum.onKeyDown}
+          onPointerDown={drum.onPointerDown}
+          onPointerMove={drum.onPointerMove}
+          onPointerUp={drum.onPointerUp}
+          onPointerCancel={drum.onPointerUp}
+        >
+          <div className="mm-drum-track" ref={drum.track}>
+            {entries.map((entry, at) => (
+              <QuestionCard
+                key={entry.id}
+                entry={entry}
+                dim={at < drum.index || at > drum.index + perScreen - 1}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <AskBar />
     </div>
   );
 }

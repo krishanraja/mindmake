@@ -17,6 +17,12 @@ interface FilmPlateProps {
   /** Darkens the plate so type sitting on it stays legible. */
   scrim?: boolean;
   priority?: boolean;
+  /**
+   * The plate is behind content that already says what this is, so it carries
+   * no role and no label. Used inside the doors, where announcing the film as
+   * an image would make a screen reader read the door twice.
+   */
+  decorative?: boolean;
 }
 
 /**
@@ -39,6 +45,7 @@ export function FilmPlate({
   style,
   scrim = false,
   priority = false,
+  decorative = false,
 }: FilmPlateProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
@@ -66,8 +73,7 @@ export function FilmPlate({
     <div
       className={`mm-plate${hasFilm ? " has-media" : ""} ${className}`.trim()}
       style={style}
-      role="img"
-      aria-label={label}
+      {...(decorative ? { "aria-hidden": true } : { role: "img", "aria-label": label })}
     >
       {poster && (
         <picture>

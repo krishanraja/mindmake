@@ -41,7 +41,9 @@ const CARDS_SHOWN_PHONE = 3;
  * unfiltered set, so the numbers never moved and the filter read as broken.
  * Everything on this board now derives from one filtered collection.
  */
-export function LiveBoard() {
+/** The ground the board sits on, so a page can keep its sections alternating. */
+export function LiveBoard({ ground }: { ground?: "raise" } = {}) {
+  const ground_class = ground === "raise" ? " mm-on-raise" : "";
   const board = useBoardData({ days: 28 });
   const [industry, setIndustry] = useState<Industry>("All industries");
   const [expanded, setExpanded] = useState(false);
@@ -77,7 +79,7 @@ export function LiveBoard() {
 
   if (board.status === "collapsed") {
     return (
-      <section className="mm-block" id="board" aria-labelledby="board-title">
+      <section className={`mm-block${ground_class}`} id="board" aria-labelledby="board-title">
         <div className="mm-container">
           <h2 id="board-title">What changed in AI today.</h2>
           <p className="mm-board-rebuilding">The read is rebuilding. Back within the hour.</p>
@@ -88,7 +90,7 @@ export function LiveBoard() {
 
   if (board.status === "loading") {
     return (
-      <section className="mm-block" id="board" aria-labelledby="board-title">
+      <section className={`mm-block${ground_class}`} id="board" aria-labelledby="board-title">
         <div className="mm-container">
           <h2 id="board-title">What changed in AI today.</h2>
           {/* A heading with nothing under it reads as broken rather than busy. */}
@@ -101,7 +103,7 @@ export function LiveBoard() {
   const stale = isStale(board.cacheDate);
 
   return (
-    <section className="mm-block" id="board" aria-labelledby="board-title">
+    <section className={`mm-block${ground_class}`} id="board" aria-labelledby="board-title">
       <div className="mm-container">
         <div className="mm-board-head">
           <h2 id="board-title">What changed in AI today.</h2>

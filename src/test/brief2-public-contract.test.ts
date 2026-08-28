@@ -431,11 +431,28 @@ describe("the conversion contract", () => {
     }
   });
 
-  it("points every weekly-read line at the publication", () => {
+  it("gives the publication its own section, not a consolation line", () => {
+    /* It used to be eleven pixels of muted mono at the foot of the close block,
+       reading "Not ready? Take the weekly read instead", which framed it as
+       what you take when you will not take the real thing. It is a separate
+       opt-in that some people want on its own terms, so it has a section, and
+       the close block no longer offers a runner-up prize. */
     const close = read("src/components/mindmake/CloseBlock.tsx");
-    expect(close).toContain("PUBLICATION_URL");
-    expect(close).toContain("Take the weekly read instead.");
+    expect(`close offers a consolation: ${close.includes("Not ready")}`)
+      .toBe("close offers a consolation: false");
+
+    const band = read("src/components/mindmake/SubscribeBand.tsx");
+    expect(band).toContain("PUBLICATION_URL");
+    /* Exactly two channels, named as the publication names them. */
+    expect(band).toContain("The Money of AI");
+    expect(band).toContain("Built with AI");
     expect(read("src/lib/publicLinks.ts")).toContain("https://mindmakerlive.substack.com");
+
+    /* And it is reachable from every page a visitor lands on. */
+    for (const page of ["src/pages/Index.tsx", "src/pages/AiBrain.tsx", "src/pages/AiGtm.tsx"]) {
+      expect(`${page} carries it: ${read(page).includes("<SubscribeBand")}`)
+        .toBe(`${page} carries it: true`);
+    }
   });
 });
 
@@ -670,8 +687,33 @@ describe("the film slots", () => {
 
   it("describes every plate for assistive technology", () => {
     const plate = read("src/components/mindmake/FilmPlate.tsx");
-    expect(plate).toContain('role="img"');
-    expect(plate).toContain("aria-label={label}");
+    expect(plate).toContain('role: "img"');
+    expect(plate).toContain('"aria-label": label');
+    /* A plate behind content that already names the thing is hidden instead,
+       so a door is not read out twice. That is a second branch, not a way to
+       skip the label: the check below is what stops it becoming one. */
+    expect(plate).toContain('"aria-hidden": true');
+  });
+
+  it("gives every plate on a page either a description or a reason not to", () => {
+    /* Every <FilmPlate> in the tree carries a non-empty label, or is marked
+       decorative because the copy sitting on it already says what it is. An
+       empty label with neither is a plate that announces itself as an image
+       called nothing. */
+    for (const [surface, source] of readAll(["src/pages/Index.tsx", "src/pages/AiBrain.tsx", "src/pages/AiGtm.tsx"])) {
+      const plates = source.split("<FilmPlate").slice(1);
+      expect(`${surface} has plates: ${plates.length > 0}`).toBe(`${surface} has plates: true`);
+      for (const [at, plate] of plates.entries()) {
+        const props = plate.slice(0, plate.indexOf("/>"));
+        const labelled = /label="[^"]+"/.test(props) || /label=\{[^}]+\}/.test(props);
+        const decorative = /\bdecorative\b/.test(props);
+        expect(`${surface} plate ${at}: ${labelled || decorative}`)
+          .toBe(`${surface} plate ${at}: true`);
+        /* And never both, which would mean a description nothing can read. */
+        expect(`${surface} plate ${at} is both: ${labelled && decorative}`)
+          .toBe(`${surface} plate ${at} is both: false`);
+      }
+    }
   });
 });
 

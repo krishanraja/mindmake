@@ -2,6 +2,7 @@ import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { CloseBlock } from "@/components/mindmake/CloseBlock";
+import { SubscribeBand } from "@/components/mindmake/SubscribeBand";
 import { FilmPlate } from "@/components/mindmake/FilmPlate";
 import { ObjectionChips } from "@/components/mindmake/ObjectionChips";
 import { ProofViewer } from "@/components/mindmake/ProofViewer";
@@ -181,14 +182,16 @@ export default function AiBrain() {
         </div>
       </section>
 
-      <section className="mm-block mm-on-raise" aria-labelledby="learn-title">
+      <section className="mm-block mm-on-raise mm-try" aria-labelledby="learn-title">
         <div className="mm-container">
           <h2 id="learn-title">See what it would do for you.</h2>
-          <p className="mm-lede" style={{ marginTop: 10 }}>
-            Your LinkedIn and two taps, and we will show you what your first week would look like.
-            It takes about twenty seconds.
-          </p>
-          <BrainJourney />
+          <div className="mm-try-panel">
+            <p className="mm-lede">
+              Your LinkedIn and two taps, and we will show you what your first week would look
+              like. It takes about twenty seconds.
+            </p>
+            <BrainJourney />
+          </div>
         </div>
       </section>
 
@@ -257,6 +260,8 @@ export default function AiBrain() {
           </p>
         </div>
       </section>
+
+      <SubscribeBand />
 
       <CloseBlock
         claim="You keep everything."

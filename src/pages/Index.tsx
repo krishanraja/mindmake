@@ -8,6 +8,7 @@ import { FounderNote } from "@/components/mindmake/FounderNote";
 import { Marquee } from "@/components/mindmake/Marquee";
 import { ObjectionChips } from "@/components/mindmake/ObjectionChips";
 import { ProofStrip } from "@/components/mindmake/ProofStrip";
+import { SubscribeBand } from "@/components/mindmake/SubscribeBand";
 import { BoardCardView } from "@/components/mindmake/board/BoardCard";
 import { useBoardData } from "@/hooks/useBoardData";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
@@ -18,6 +19,14 @@ import filmOnePoster from "@/assets/films/film-01-poster.jpg";
 import filmOnePosterWebp from "@/assets/films/film-01-poster.webp";
 import filmOneLoop from "@/assets/films/film-01-loop.mp4";
 import filmOneLoopWebm from "@/assets/films/film-01-loop.webm";
+import filmTwoPoster from "@/assets/films/film-02-poster.jpg";
+import filmTwoPosterWebp from "@/assets/films/film-02-poster.webp";
+import filmTwoLoop from "@/assets/films/film-02-loop.mp4";
+import filmTwoLoopWebm from "@/assets/films/film-02-loop.webm";
+import filmThreePoster from "@/assets/films/film-03-poster.jpg";
+import filmThreePosterWebp from "@/assets/films/film-03-poster.webp";
+import filmThreeLoop from "@/assets/films/film-03-loop.mp4";
+import filmThreeLoopWebm from "@/assets/films/film-03-loop.webm";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-instruments.css";
 
@@ -117,16 +126,45 @@ export default function Index() {
             </div>
           </div>
 
+          {/* The two doors are the only choice on this page, so they are the
+              largest thing on it after the hero. Each carries the film from the
+              page behind it, which makes the picture a preview rather than
+              decoration, and hovering one dims the other so the choice reads as
+              physical rather than as two paragraphs that happen to be links. */}
           <div className="mm-doors">
             <Link className="mm-door" to="/ai-brain" onClick={() => track("door_click", { door: "brain" })}>
-              <h2>An AI that knows how you work</h2>
-              <p>Your standards, your context and the decisions you have already made, working as one system. It helps with the work only you can do, and takes on the work you would rather not.</p>
-              <span className="mm-door-go">Build your AI brain <span aria-hidden="true">→</span></span>
+              <FilmPlate
+                className="mm-door-film"
+                poster={filmTwoPoster}
+                posterWebp={filmTwoPosterWebp}
+                src={filmTwoLoop}
+                srcWebm={filmTwoLoopWebm}
+                label=""
+                decorative
+                scrim
+              />
+              <span className="mm-door-copy">
+                <h2>An AI that knows how you work</h2>
+                <p>Your standards, your context and the decisions you have already made, working as one system. It helps with the work only you can do, and takes on the work you would rather not.</p>
+                <span className="mm-door-go">Build your AI brain <span aria-hidden="true">→</span></span>
+              </span>
             </Link>
             <Link className="mm-door" to="/ai-gtm" onClick={() => track("door_click", { door: "gtm" })}>
-              <h2>A way to sell that fits how AI works now</h2>
-              <p>AI is changing what customers will pay for. We rebuild one part of how you sell, across what you offer, what you charge, how you stand out and who does the selling.</p>
-              <span className="mm-door-go">Build your AI GTM <span aria-hidden="true">→</span></span>
+              <FilmPlate
+                className="mm-door-film"
+                poster={filmThreePoster}
+                posterWebp={filmThreePosterWebp}
+                src={filmThreeLoop}
+                srcWebm={filmThreeLoopWebm}
+                label=""
+                decorative
+                scrim
+              />
+              <span className="mm-door-copy">
+                <h2>A way to sell that fits how AI works now</h2>
+                <p>AI is changing what customers will pay for. We rebuild one part of how you sell, across what you offer, what you charge, how you stand out and who does the selling.</p>
+                <span className="mm-door-go">Build your AI GTM <span aria-hidden="true">→</span></span>
+              </span>
             </Link>
           </div>
         </div>
@@ -172,6 +210,8 @@ export default function Index() {
 
       {/* Proof, then who you would be working with, then the ask. */}
       <FounderNote treatment="standing" />
+
+      <SubscribeBand />
 
       <CloseBlock
         claim="Start with one real decision."

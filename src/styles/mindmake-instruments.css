@@ -255,26 +255,57 @@
 
 /* ---------- Doors ---------- */
 
-.mm-doors { display: grid; gap: 12px; position: relative; z-index: 2; margin-top: -46px; }
-@media (min-width: 700px) { .mm-doors { grid-template-columns: 1fr 1fr; } }
+/* The two doors are the only choice on the homepage, so they are the largest
+   thing on it after the hero. Each carries the film from the page behind it,
+   which makes the picture a preview rather than decoration.
+
+   They used to be two bordered cards tucked 46px up into the hero with a mono
+   link at the foot, and the note back was that you could barely tell they were
+   a click through. Now they are their own band, they are tall, and hovering one
+   dims the other so the choice reads as a choice. */
+.mm-doors { display: grid; gap: 14px; position: relative; z-index: 2; margin-top: 26px; }
+@media (min-width: 760px) { .mm-doors { grid-template-columns: 1fr 1fr; gap: 18px; } }
 .mm-door {
-  display: block;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  isolation: isolate;
+  min-height: clamp(280px, 34vw, 400px);
   border: 1px solid var(--mm-line);
   border-radius: 3px;
-  background: rgba(17, 26, 22, .92);
-  backdrop-filter: blur(4px);
-  padding: 18px 20px 16px;
+  overflow: hidden;
   color: inherit;
   text-decoration: none;
-  transition: border-color .12s ease, transform .12s ease, background .12s ease;
+  transition: border-color .16s ease, opacity .2s ease, transform .16s ease;
+}
+.mm-door > .mm-door-film {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 0;
+}
+.mm-door-copy {
+  display: block;
+  padding: clamp(18px, 2.4vw, 28px);
+  /* Its own gradient under the type, on top of the plate's scrim: a film frame
+     is not a background you can trust to stay dark where the words are. */
+  background: linear-gradient(0deg, rgba(7, 11, 9, .93) 12%, rgba(7, 11, 9, .72) 62%, transparent);
 }
 @media (hover: hover) and (pointer: fine) {
-  .mm-door:hover { border-color: var(--mm-mint-dim); background: rgba(24, 36, 31, .95); transform: translateY(-1px); }
+  .mm-doors:hover .mm-door { opacity: .52; }
+  .mm-doors:hover .mm-door:hover { opacity: 1; border-color: var(--mm-mint-dim); transform: translateY(-2px); }
   .mm-door:hover .mm-door-go { color: var(--mm-mint); gap: 12px; }
 }
+/* Focus has to win over the dim, or tabbing through leaves the focused door
+   greyed out while a stray pointer sits over its neighbour. */
+.mm-doors .mm-door:focus-visible { opacity: 1; outline: 2px solid var(--mm-focus); outline-offset: 3px; }
 .mm-door:active { transform: translateY(0); }
-.mm-door h2 { margin: 8px 0 6px; font-size: clamp(17px, 1.9vw, 21px); font-weight: 700; }
-.mm-door p { color: var(--mm-tx2); font-size: 14.5px; line-height: 1.5; }
+.mm-door h2 { margin: 0 0 8px; font-size: clamp(20px, 2.4vw, 27px); font-weight: 700; letter-spacing: -.02em; text-wrap: balance; }
+.mm-door p { max-width: 44ch; color: var(--mm-tx2); font-size: 14.5px; line-height: 1.5; text-wrap: pretty; }
+@media (prefers-reduced-motion: reduce) {
+  .mm-doors:hover .mm-door { opacity: 1; }
+  .mm-door, .mm-doors:hover .mm-door:hover { transform: none; }
+}
 .mm-door-go {
   display: inline-flex;
   align-items: center;
@@ -359,10 +390,14 @@
   outline: none;
 }
 .mm-ask-bar input::placeholder { color: var(--mm-mut); }
+/* Mint from the first paint. Both submits used to sit grey on grey until the
+   field had text in it, which reads as disabled: the one moment a visitor is
+   deciding whether this is worth trying, the control tells them it is not
+   ready. It is ready. It fills solid once there is something to send. */
 .mm-ask-bar button {
-  border: 0;
-  background: var(--mm-ink3);
-  color: var(--mm-mut);
+  border: 1px solid var(--mm-mint-dim);
+  background: var(--mm-mint-wash);
+  color: var(--mm-mint);
   padding: 0 16px;
   font-family: var(--mm-mono);
   font-size: 10.5px;
@@ -371,7 +406,7 @@
   cursor: pointer;
   transition: background .1s ease, color .1s ease;
 }
-.mm-ask-bar.has-text button { background: var(--mm-mint); color: var(--mm-mint-ink); }
+.mm-ask-bar.has-text button { border-color: var(--mm-mint); background: var(--mm-mint); color: var(--mm-mint-ink); }
 .mm-ask-bar button:active { background: var(--mm-mint-dim); }
 .mm-ask-out {
   margin-top: 12px;
@@ -575,9 +610,9 @@
 }
 .mm-journey-bar input::placeholder { color: var(--mm-mut); }
 .mm-journey-bar button {
-  border: 0;
-  background: var(--mm-ink3);
-  color: var(--mm-mut);
+  border: 1px solid var(--mm-mint-dim);
+  background: var(--mm-mint-wash);
+  color: var(--mm-mint);
   padding: 0 16px;
   font-family: var(--mm-mono);
   font-size: 10.5px;
@@ -587,7 +622,7 @@
   cursor: pointer;
   transition: background .1s ease, color .1s ease;
 }
-.mm-journey-bar.has-text button { background: var(--mm-mint); color: var(--mm-mint-ink); }
+.mm-journey-bar.has-text button { border-color: var(--mm-mint); background: var(--mm-mint); color: var(--mm-mint-ink); }
 .mm-journey-steps {
   display: grid;
   gap: 1px;
@@ -1300,3 +1335,40 @@
   .mm-drum { overflow-x: auto; scroll-snap-type: x mandatory; }
   .mm-drum-track > .mm-voice { scroll-snap-align: start; opacity: 1 !important; transition: none; }
 }
+
+/* ---------- Try it, and the publication ---------- */
+
+/* The try-it sections hold the only thing on the page a visitor can do rather
+   than read, and they used to sit in a bare block identical to the objection
+   chips above them. Their own panel, their own scale, and the mint edge that
+   means "this is the answer" everywhere else on the site. */
+.mm-try-panel {
+  margin-top: 18px;
+  border: 1px solid var(--mm-mint-dim);
+  border-radius: 3px;
+  background: linear-gradient(180deg, var(--mm-mint-wash), transparent 64%);
+  padding: clamp(20px, 2.6vw, 34px);
+}
+.mm-try > .mm-container > h2 { max-width: 22ch; font-size: clamp(27px, 3.6vw, 42px); }
+.mm-try-panel > .mm-lede:first-child { margin-top: 0; }
+
+/* A larger button for the one action a section exists to offer. */
+.mm-button-lg { min-height: 54px; padding: 14px 26px; font-size: 12.5px; }
+
+.mm-subscribe-grid { display: grid; gap: 26px; align-items: start; }
+@media (min-width: 900px) {
+  .mm-subscribe-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 48px; }
+}
+.mm-subscribe h2 { max-width: 18ch; }
+.mm-subscribe .mm-lede { margin-top: 12px; max-width: 46ch; }
+.mm-subscribe .mm-button { margin-top: 22px; }
+.mm-channels { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.mm-channels li {
+  border: 1px solid var(--mm-line);
+  border-left: 2px solid var(--mm-mint-dim);
+  border-radius: 3px;
+  background: var(--mm-ink2);
+  padding: 15px 17px;
+}
+.mm-channels h3 { font-family: var(--mm-serif); font-size: clamp(17px, 1.9vw, 21px); letter-spacing: -.015em; }
+.mm-channels p { margin-top: 7px; color: var(--mm-tx2); font-size: 14px; line-height: 1.55; text-wrap: pretty; }

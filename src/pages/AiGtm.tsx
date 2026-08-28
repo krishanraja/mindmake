@@ -3,6 +3,7 @@ import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { CloseBlock } from "@/components/mindmake/CloseBlock";
+import { SubscribeBand } from "@/components/mindmake/SubscribeBand";
 import { FilmPlate } from "@/components/mindmake/FilmPlate";
 import { ObjectionChips } from "@/components/mindmake/ObjectionChips";
 import { LiveBoard } from "@/components/mindmake/board/LiveBoard";
@@ -124,18 +125,22 @@ export default function AiGtm() {
         </div>
       </section>
 
-      <LiveBoard />
-
-      <section className="mm-block mm-on-raise" aria-labelledby="read-title">
+      {/* Above the board, not below it. The board runs to about 800px, so a
+          try-it section underneath was one most visitors never reached. */}
+      <section className="mm-block mm-try" aria-labelledby="read-title">
         <div className="mm-container">
           <h2 id="read-title">Try it with your own company.</h2>
-          <p className="mm-lede" style={{ marginTop: 10 }}>
-            Give us your company address. We will read your market while you watch, and send you a
-            plan built for your business. It takes a couple of minutes.
-          </p>
-          <GtmJourney onRead={startFromJourney} />
+          <div className="mm-try-panel">
+            <p className="mm-lede">
+              Give us your company address. We will read your market while you watch, and send you
+              a plan built for your business. It takes a couple of minutes.
+            </p>
+            <GtmJourney onRead={startFromJourney} />
+          </div>
         </div>
       </section>
+
+      <LiveBoard ground="raise" />
 
       <section className="mm-block" aria-labelledby="engage-title">
         <div className="mm-container">
@@ -165,7 +170,10 @@ export default function AiGtm() {
         </div>
       </section>
 
+      <SubscribeBand ground="ink" />
+
       <CloseBlock
+        ground="raise"
         claim="See where AI changes your numbers."
         body="Give us your company address and we will show you, using your market rather than a general example."
         onStart={openBrief}

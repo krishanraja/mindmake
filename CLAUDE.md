@@ -48,7 +48,7 @@ repository is dead: delete it rather than working around it.
 - Doom, fear or failure framing about the reader's business. Commands to the reader. Boasting about what we are about to do. Cryptic headings that need the paragraph below them to decode. The voice is a helpful expert explaining something clearly, and a twelve-year-old should follow every sentence.
 - Eyebrows. No small pre-heading above a hero or a section title, under any class name and in any case. A small label may remain only where it names an object, a control, a value or an axis.
 - The operator's personal name in the site's voice. Founder-led, practice voice (28 August 2026): he appears in the founder section at the foot of the homepage, in the framing of the proof, and inside verbatim quotes. Everywhere else there is no first person, no biography, no portrait and no "why him" argument standing in for evidence. Quotes are never edited, for spelling or anything else, and a shortened quote is an exact substring. The four CTRL captures keep their account chrome, and they are images.
-- The retired journey engine: stepped scroll journeys, numbered step rails, the Capture / Encode / Amplify / Uncover / Keep ladder, hand-drawn scroll marks, the stage photograph, and "Not an agency. Not a coach."
+- The retired journey engine: stepped scroll journeys, numbered step rails, the Capture / Encode / Amplify / Uncover / Keep ladder, hand-drawn scroll marks, and "Not an agency. Not a coach." The stage photograph came back on 28 August 2026 with the founder section and belongs there, cropped to him; it is not a hero and appears nowhere else.
 - Entrance choreography of any kind. Scroll-triggered reveals, fades, slides, staggered builds and scroll-progress bars are banned; see the motion law in the design contract.
 
 ## Active structure
@@ -58,7 +58,8 @@ repository is dead: delete it rather than working around it.
 - `src/assets/films/`: six films, both formats each, posters taken from frame one.
 - `src/App.tsx`: public route contract and retired-route fallbacks.
 - `src/pages/Index.tsx`: homepage. `src/pages/AiBrain.tsx` and `src/pages/AiGtm.tsx`: the two doors. `src/pages/CaseStudies.tsx`: approved proof archive.
-- `src/components/mindmake/`: the public design and conversion system, including the film plate, the marquee, the ask bar, the objection chips, the live board, the two journeys, and the lead journey (`LeadBrief`, `MindmakeProposal`, `proposalContent`, `privateBriefHtml`, `leadDelivery`, `companyRead`).
+- `src/components/mindmake/`: the public design and conversion system, including the film plate, the marquee, the ask bar, the objection chips, the live board, the two journeys, and the lead journey (`LeadBrief`, `MindmakeProposal`, `proposalContent`, `privateBriefHtml`, `leadDelivery`, `companyRead`). Also `Instrument` (the six-mark set), `ProofDrum` with `useDragDrum` (the 33 voices), `StoryFigure` (the five proof diagrams), `FounderNote`, `SubscribeBand`, `MindmakeBrand`, `MobileChapter` and `MobileActionBar`.
+- `src/data/testimonials.ts`: all 33 quotes, verbatim, each with a one-line excerpt that is an exact substring. Deliberately outside the copy gates, because the house style governs our voice and not what other people wrote; `src/test/testimonials.test.ts` enforces the rule that does apply.
 - `src/hooks/useScrollDriver.ts`: the one scroll primitive. `src/lib/analytics.ts`: the site's event wrapper. `src/lib/askCorpus.ts` and `src/content/answers.json`: the curated answer corpus behind the ask bar and `/faq`.
 - `src/styles/mindmake.css` (tokens, base, chrome, secondary pages) and `src/styles/mindmake-instruments.css` (the instrument components). `src/styles/mindmake-brief.css` styles the lead dialog.
 - `src/data/rebuildProof.ts`: proof data used by the rebuild.
@@ -67,13 +68,15 @@ repository is dead: delete it rather than working around it.
 
 ## Required checks
 
-Run the focused route, conversion and disclosure tests (the public contract, backend core, price and disclosure suites), the production build, the lint comparison, and desktop and 375px browser checks. Confirm visible focus, reduced motion, no overflow, no browser errors and one-hop redirects.
+Run the focused route, conversion and disclosure tests (the public contract, backend core, price and disclosure suites), the production build, the lint comparison, and desktop and 390px browser checks. Confirm visible focus, reduced motion, no overflow, no browser errors and one-hop redirects.
+
+Four browser gates run against the built output, at 1440 and 390: `npm run qa:alive` (no still viewport), `npm run qa:images` (no upscaling, and density floors), `npm run qa:rhythm` (no two sections sharing a ground unbroken), and the typecheck the build already runs. Their floors are calibrated from readings, not chosen; each script says how. If one fails, the page is usually what is wrong. When the gate is what is wrong, fix the measurement and say so in the commit rather than lowering a floor.
 
 For any change to a public surface, run both a source scan and a rendered DOM scan for the banned families: the operator's name, the banned vocabulary, the antithesis templates, and entrance motion. Motion must clarify the message or the interaction. Movement added only for decoration is a regression, and so is a still viewport.
 
 For any change to the lead pipeline, run `src/test/mindmake-brief-backend-core.test.ts`, redeploy with the function's full import closure, verify the deployed body and prove one synthetic end-to-end lead from `https://mindmake.co`.
 
-The current lint baseline is 0 errors and 2 warnings, recorded in `project-documentation/06_CURRENT_STATE.md`. Do not add new lint problems.
+The current baselines, recorded in `project-documentation/06_CURRENT_STATE.md`: 196 tests, 0 lint errors and 2 warnings, 0 type errors. Do not add new lint problems. Point the typecheck at `tsconfig.app.json`: the root config carries `"files": []` and checks nothing.
 
 For any change to the films or the film plate, confirm in a browser that every
 loop decodes and plays when scrolled into view, and that a reduced-motion

@@ -4,6 +4,35 @@ Last updated: 27 August 2026. Proof permissions approved 2026-08-11; career-refe
 
 This file is the single project source for attendee brands, client outcomes, Steph Darmanin's consent-gated excerpts, and named career references. Other project documents must point here rather than copy these lists. The rendered data lives in `src/data/rebuildProof.ts` and must match this file.
 
+## The thirty-three, and the two rules that hold them
+
+Added 28 August 2026. Every testimonial the practice holds now lives in
+`src/data/testimonials.ts`, in four families that never mix: five session
+attendees, four named clients with consent on record, fourteen anonymised client
+outcomes, ten named career references. A session attendee is not a client and a
+career reference is not an AI-era outcome; the cards carry the label that says
+which, and `src/test/testimonials.test.ts` checks the counts.
+
+**Quotes are never edited.** Not for spelling, not for house style, not to
+remove the founder's name. The rules that govern our own voice stop at the
+quotation mark, which is why that file sits outside the copy gates and says so
+at the exclusion. An earlier version of this data had been anglicised and
+name-stripped to pass those gates, and a quote edited to fit a style guide is
+not a quote.
+
+**A shortened quote is an exact substring.** Thirty-three quotes of wildly
+different lengths cannot share a rail, and the alternative to an excerpt is a
+paraphrase attributed to a named person. Every excerpt is checked against its
+full text by a test, so a rewrite cannot pass as an extract.
+
+**Named clients, consent-gated.** Steph Darmanin and Dipti Divekar are named
+clients with recorded consent, which crosses the "client outcomes stay
+anonymous" rule above. The exception is narrow and mechanical: a client in the
+`client` family renders only where `consent` reads `recorded`, and
+`publishableTestimonials` drops any that does not. A named client without
+consent is dropped rather than anonymised, because an anonymised version of a
+quote somebody gave under their own name is a different quote.
+
 ## Public framing
 
 Use this headline:

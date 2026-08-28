@@ -47,11 +47,33 @@ Supabase project `bkyuxvschuwngtcdhsyg`.
 
 ## Verification baselines
 
-- Tests: **170 across 16 files**, all passing. `tsc` clean.
-- Lint: **0 errors, 2 warnings** (react-refresh advisories in two long-standing files). Down from four. Do not add new problems.
+Last measured 28 August 2026, against the built output.
+
+- Tests: **196 across 17 files**, all passing.
+- Typecheck: **0 errors**, against `tsconfig.app.json`, and the build runs it first.
+  An earlier version of this file claimed `tsc` was clean when it had never run:
+  the root `tsconfig.json` carries `"files": []` with project references, so
+  `npx tsc --noEmit` checked nothing and exited 0 over seventeen real errors.
+  Never point the typecheck at the root config.
+- Lint: **0 errors, 2 warnings** (react-refresh advisories in two long-standing files). Do not add new problems.
 - Build: prerenders **21 indexed routes**; the sitemap and prerender parity check runs inside the build.
+- Page heights at 1440x900: `/` 5.6 screens, `/ai-brain` 6.3, `/ai-gtm` 4.1, `/case-studies` 3.0.
+  At 390x844: 7.7, 9.1, 6.2, 5.0.
 - Browser gates, run against the built output at 1440px and 390px:
-  - **Aliveness**: every viewport-height of all three pages holds at least one ambient element in motion. Clean at both widths.
+  - **Aliveness** (`npm run qa:alive`): no viewport-height of any page is still.
+    It photographs three frames 900ms apart and reads two statistics: the mean
+    change across the whole viewport, and the mean across the busiest twentieth
+    of a percent of pixels, which is about a 25 by 25 patch. The second exists
+    because the mean cannot see a forty-pixel instrument moving hard. Floors are
+    0.15 and 8, both calibrated from readings that fall in two groups with
+    nothing between them. A window more than half footer is skipped, because a
+    footer is chrome. Clean at both widths: 22 viewports at 1440, 25 at 390.
+  - **Image density** (`npm run qa:images`): no image renders above its intrinsic
+    width, and none below 1.8 source pixels per CSS pixel, or 1.3 for film,
+    which is limited by the footage. SVG is exempt. Clean at 1440 and 1920.
+  - **Section rhythm** (`npm run qa:rhythm`): no two consecutive sections share a
+    ground unless something else separates them. Exemptions are named in the
+    script. Clean across 34 sections on four pages.
   - **Keyboard**: every tabbable element shows a visible focus ring. Clean at both widths.
   - **Layout**: no horizontal overflow, no console errors, exactly one `h1` per page, touch targets at or above the comfortable minimum.
   - **Reduced motion**: nothing animating, counters at their final figures.

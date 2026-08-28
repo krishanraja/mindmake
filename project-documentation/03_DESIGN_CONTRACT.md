@@ -24,7 +24,11 @@ Ground and surfaces: `--mm-ink #0a100d`, `--mm-ink2 #111a16`, `--mm-ink3 #18241f
 
 Text on ink: `--mm-tx #e6ede8`, `--mm-tx2 #b0c0b7`, `--mm-mut #788c82`. On paper: `--mm-tx-d #131c17`, `--mm-tx2-d #4a554e`, `--mm-mut-d #7c857a`.
 
-Accents: `--mm-mint #7fe3b4` with `--mm-mint-dim #3e8e68` and `--mm-mint-wash #12291f`; `--mm-amber #e0a44a` with `--mm-amber-wash #2b2113`.
+Accents: `--mm-mint #7fe3b4` with `--mm-mint-dim #3e8e68` and `--mm-mint-wash #12291f`; `--mm-amber #e0a44a` with `--mm-amber-wash #2b2113`. Both accents have a paper form, `--mm-mint-d #2f6f51` and `--mm-amber-d #9a5a1c`, because the ink versions fall to 3.8:1 and below on the proposal's paper, under what its 11px labels need. Same two meanings, darkened.
+
+Grounds: three, alternating down every page. `--mm-ink` is the default, `--mm-ink-raise #1e2c26` is the second, a 1.32:1 step that is nothing as a hairline and unmistakable across a band, and `--mm-paper` is the break. `.mm-on-raise` redefines `--mm-line` and `--mm-mut` for its own subtree, because the instrument components read the palette directly and on the lighter ground a rule sits at 1.08:1 and muted text drops to 4.07:1. The section seam is `--mm-seam #30463d`, separate from `--mm-hair` because that one also draws inside articles where a louder rule would shout. `--mm-section` is the one spacing scale and `.mm-block` reads it.
+
+**No two consecutive sections share a ground** unless something else separates them: a full-bleed band carrying its own image, or a visible seam. `npm run qa:rhythm` enforces it and names its exemptions.
 
 Components read the ground-aware aliases (`--mm-bg`, `--mm-fg`, `--mm-rule` and their siblings) rather than the raw palette, so `.mm-on-paper` inverts a whole subtree by redefining five values.
 
@@ -49,13 +53,19 @@ The floor is measured, not asserted. `scripts/qa/aliveness-check.mjs` photograph
 
 **Scroll**, relationships between things already present. One primitive implements it: `src/hooks/useScrollDriver.ts` writes `--mm-p` (0 to 1) onto registered elements, and CSS reads that value. It offers two ranges: `centre`, a gentle two-viewport ramp for parallax where only the differential matters, and `read`, which completes while the element is still on screen, because a build has to be finished by the time someone is looking at it.
 
-The sanctioned devices are film inside the still, parallax across one sentence, sticky focus (a column pins while cards pass and non-active cards dim), one marquee per page at most, and these **scrubbed builds**:
+The sanctioned devices are film inside the still, parallax across one sentence, sticky focus (a column pins while cards pass and non-active cards dim), one marquee per page at most, **the instrument set**, **the drum**, and these **scrubbed builds**:
 
 - **Read-lit text** (`ScrubText`). A sentence lights word by word as it rises. Every word is in the DOM at full size throughout; only presence changes.
 - **Assembling rows.** Cards rise into place and draw their rule in sequence, each owning a slice of the range.
 - **Settling values** (`CountingValue`). A figure settles into its true number as you arrive. It starts from a fraction of the real value rather than from nothing, because these are real figures and a number reading 0 when it is 149 is briefly a lie.
 
 The rule that separates a build from a reveal, and the reason the ban below is untouched: **state is driven by position, never triggered by an event.** Scroll up and every one of these runs backwards. Nothing is ever absent, so nothing has to arrive.
+
+**The instrument set** (`Instrument.tsx`) is six marks from the world the films live in: a chart-room gauge, a pen recorder, a split-flap, a card drawer, a sheet rail, a level stack. One 48-unit grid, one stroke weight, one mint part each. Each is placed for what it means, not for variety: the drawer is what is kept, the recorder what is being read, the gauge what it costs, the flap what changes, the rail who does the work, the levels what compounds. Every major section heading carries the mark for the kind of thing it is.
+
+None of them draws itself on. A stroke that animates its dash offset from nothing is entrance choreography and its first state is absent. Each is complete at first paint and then does the slow, meaningless thing the real object would do while nobody is looking. **And it does it continuously:** a mark that rests for most of its cycle is a static mark wearing an animation, which is how the flap and the levels shipped wrong the first time.
+
+**The drum** (`useDragDrum.ts`) is the proof carousel, and it is four states in one loop. It drifts when left alone, stops dead and tracks the hand on a pointer down, keeps the speed you gave it and loses it to friction on release, and springs to the nearest card below walking pace. Past either end it resists at a third of the pull rather than stopping, which is what tells a hand where the end is. Haptics tick once per card crossing the centre, on touch, and only while the hand's own action is still playing out.
 
 **Touch**, everything answers the hand within about 100ms. Cards warm their border toward mint and lift one pixel. Chips fill on hover and press down on click. Tabs slide a mint indicator between states. Fork cards draw their tick when picked. Text links draw their underline. Focus-visible always shows the mint outline. A component shipped without hover, press and focus responses is unfinished, exactly as unfinished as a component with no mobile layout.
 

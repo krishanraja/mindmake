@@ -2,6 +2,8 @@ import { describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { GtmJourney } from "@/components/mindmake/journeys/GtmJourney";
 import { cleanDomain, isPublicHostname } from "@/lib/domain";
+import { BrainJourney } from "@/components/mindmake/journeys/BrainJourney";
+import { CLOSING_LINE, Q1_LINES, Q2_LINES } from "@/content/personalRead";
 
 /**
  * The GTM journey is a seam onto shipped machinery, not a second pipeline. It
@@ -64,5 +66,55 @@ describe("domain validation", () => {
     expect(isPublicHostname("example")).toBe(false);
     expect(isPublicHostname(".example.com")).toBe(false);
     expect(isPublicHostname("example.com.")).toBe(false);
+  });
+});
+
+describe("the personal read", () => {
+  it("composes the preview with no network call", () => {
+    /* The instant preview is structural, not best effort: the visitor sees
+       their week one before any request could have returned. */
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response("{}"));
+    render(<BrainJourney />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Writing and comms" }));
+    fireEvent.click(screen.getByRole("button", { name: "My network" }));
+    fireEvent.click(screen.getByRole("button", { name: "Show me week one" }));
+
+    expect(screen.getByText(Q1_LINES.writing)).toBeInTheDocument();
+    expect(screen.getByText(Q2_LINES.network)).toBeInTheDocument();
+    // The enrichment call is fired and never awaited, so the preview cannot
+    // depend on it. What matters is that the lines are already on screen.
+    fetchSpy.mockRestore();
+  });
+
+  it("asks for the email only once the preview exists", () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response("{}"));
+    render(<BrainJourney />);
+
+    expect(screen.queryByLabelText("Your work email")).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Admin between decisions" }));
+    fireEvent.click(screen.getByRole("button", { name: "My decisions" }));
+    fireEvent.click(screen.getByRole("button", { name: "Show me week one" }));
+
+    expect(screen.getByLabelText("Your work email")).toBeInTheDocument();
+    vi.restoreAllMocks();
+  });
+
+  it("says what to do rather than showing an empty preview", () => {
+    render(<BrainJourney />);
+    fireEvent.click(screen.getByRole("button", { name: "Show me week one" }));
+    expect(screen.getByRole("status")).toHaveTextContent(/tap one answer in each question/i);
+  });
+
+  it("states the two-email cap beside the preview", () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response("{}"));
+    render(<BrainJourney />);
+    fireEvent.click(screen.getByRole("button", { name: "Chasing people" }));
+    fireEvent.click(screen.getByRole("button", { name: "My pipeline" }));
+    fireEvent.click(screen.getByRole("button", { name: "Show me week one" }));
+    expect(screen.getByText(CLOSING_LINE)).toBeInTheDocument();
+    expect(CLOSING_LINE).toMatch(/one email, ever, plus one follow-up/i);
+    vi.restoreAllMocks();
   });
 });

@@ -282,6 +282,53 @@ describe("the ask bar corpus", () => {
   });
 });
 
+describe("CTRL appears as proof, on one page only", () => {
+  it("references the captures from /ai-brain and nowhere else", () => {
+    for (const [surface, source] of readAll(PUBLIC_SURFACES)) {
+      if (surface === "src/pages/AiBrain.tsx") continue;
+      expect(`${surface}: ${source.includes("assets/ctrl/")}`).toBe(`${surface}: false`);
+    }
+    expect(read("src/components/mindmake/ProofViewer.tsx")).toContain("assets/ctrl/");
+    expect(read("src/pages/AiBrain.tsx")).toContain("ProofViewer");
+  });
+
+  it("names CTRL on the brain page only", () => {
+    for (const [surface, source] of readAll([
+      "src/pages/Index.tsx",
+      "src/pages/AiGtm.tsx",
+    ])) {
+      expect(`${surface}: ${/\bCTRL\b/.test(source)}`).toBe(`${surface}: false`);
+    }
+    expect(read("src/pages/AiBrain.tsx")).toContain("CTRL");
+  });
+
+  it("never links or prices the product", () => {
+    const brain = read("src/pages/AiBrain.tsx");
+    expect(brain).not.toMatch(/href=["'][^"']*ctrl\./i);
+    expect(brain).not.toMatch(/to=["'][^"']*ctrl/i);
+  });
+
+  it("ships all four captures with their approved captions", () => {
+    const viewer = read("src/components/mindmake/ProofViewer.tsx");
+    for (const id of ["brain-graph", "decision-evidence", "standards", "briefing"]) {
+      expect(existsSync(resolve(ROOT, `src/assets/ctrl/ctrl-${id}.jpg`))).toBe(true);
+      expect(viewer).toContain(`ctrl-${id}.jpg`);
+    }
+    expect(viewer).toContain("42 things known, 18 confirmed by the owner");
+    expect(read("src/pages/AiBrain.tsx")).toContain("We built this for ourselves. In thirty days, we build yours.");
+  });
+});
+
+describe("the fork stores nothing", () => {
+  it("says so, and keeps its word", () => {
+    const fork = read("src/components/mindmake/ForkBand.tsx");
+    expect(fork).toContain("No email required. Nothing is stored.");
+    expect(fork).not.toContain("localStorage");
+    expect(fork).not.toContain("sessionStorage");
+    expect(fork).not.toMatch(/fetch\(|invoke\(/);
+  });
+});
+
 describe("the film slots", () => {
   it("ships a poster for every film", () => {
     for (const id of ["01", "02", "03", "04", "05", "06"]) {

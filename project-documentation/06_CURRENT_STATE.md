@@ -6,13 +6,12 @@ This file is the current delivery truth for `mindmake.co`: what is live, at whic
 
 ## Where the rebuild stands
 
-The three public pages have been rebuilt: the homepage, `/ai-brain` and `/ai-gtm`. The work is on branch `claude/site-rebuild-nd6z4u` and is **not promoted**. Production still serves the previous site.
+**The rebuild is live.** The homepage, `/ai-brain` and `/ai-gtm` were rebuilt, the six films were installed, and it was promoted to production on 28 August 2026.
 
-The backend the rebuild needs **is** live, because it was deployed and verified against production while the pages were being built. That split is deliberate and safe: the extended `get-ai-news` returns its previous response byte for byte when called the old way, and the new functions have no caller until the new pages ship.
-
-- Site status: **LIVE (previous build), REBUILD AWAITING REVIEW**. `https://mindmake.co` launched 26 August 2026.
-- Production: merge `8955fbae4a311dbfc62fceef5f65c3edf98a2343` (pull request #149), Vercel deployment `dpl_3taKirknuFu5SwsNL4p47ZjWvFts` on project `mindmake` (`prj_GqamX3psD0cGpGCDXRu0ljET7zap`).
-- Rollback target: `dpl_Avfe2NCnTPxK35MyfbBNDH6y4Sy1`.
+- Site status: **LIVE**. `https://mindmake.co` launched 26 August 2026 and now serves the rebuild.
+- Production: merge `75572542094ddd4e702a877b258b9014f37415c1` (pull request #152), Vercel deployment `dpl_HAoncV1RF3hcvcanqo7Yvc4tuAng` on project `mindmake` (`prj_GqamX3psD0cGpGCDXRu0ljET7zap`).
+- Rollback target: `dpl_5Ajont9gBNH3ocyzEknDzmqGj3bq`, the previous production state (pull request #151).
+- Verified live after promotion: all three pages 200 with their new headlines, both film formats and the posters served from the CDN, the sixty-second proof film reachable, one-hop 308 redirects from `www`, `themindmaker.ai`, `/signal` and `/library`, `llms.txt` and `sitemap.xml` 200, and the privacy notice carrying the corrected email wording and the working contact address.
 - Domains are unchanged: `mindmake.co` is canonical (Vercel DNS); `www.mindmake.co`, `themindmaker.ai` and `www.themindmaker.ai` 308-redirect to the apex in one hop with path and query preserved. The publication stays at `https://mindmakerlive.substack.com`. CTRL serves at `ctrl.mindmake.co`.
 - Routes did not change. The rebuild replaced what the three pages say and how they behave, not the route contract, so every redirect and crawler surface keeps its shape.
 
@@ -32,7 +31,7 @@ Supabase project `bkyuxvschuwngtcdhsyg`.
 
 | Function | Version | verify_jwt | Role |
 |---|---|---|---|
-| `submit-mindmake-brief` | v12 | off | The company read. **The deployed body is still `main`'s.** The repository adds a day-14 enqueue that is deliberately not live yet: see open item 2 |
+| `submit-mindmake-brief` | v13 | off | The company read, plus the day-14 follow-up enqueue. Deployed from merged `main` on 28 August 2026 with its full import closure, and the deployed body verified to carry the enqueue |
 | `enrich-company` | v36 | on | Declarative synthesis and tailored choices |
 | `get-ai-news` | v67 | off | Restored to the repository and extended with `{view:"board"}`. No body still returns the previous shape byte for byte |
 | `mindmake-personal-read` | v2 | off | The personal read: enrichment, the one results email, the follow-up enqueue |
@@ -85,8 +84,8 @@ or in the project's own history, and they are listed so nobody has to guess.
 
 ## Open items
 
-1. **Promotion is Krish's call.** The branch is pushed and reviewed by pull request; nothing is promoted automatically.
-2. **`submit-mindmake-brief` needs one redeploy, at launch and not before.** The repository version enqueues the day-14 follow-up; the deployed v12 does not, so nothing is being queued today and `follow_up_queue` is empty. That ordering is deliberate rather than an oversight: the enqueue creates an obligation to send an email the currently published privacy notice does not describe, and the notice that does describe it ships with this rebuild. Deploy the function in the same step as promoting the build, so the promise and the mechanism go live together. Until then the two paths hold: `mindmake-personal-read` enqueues its own rows but has no caller until `/ai-brain` ships, and `send-follow-ups` drains a queue that is empty.
+1. **The branded mailboxes are the one thing still owed.** See item 3. Everything else the rebuild needed is live.
+2. **The day-14 follow-up is now live, and the first one can send on 11 September 2026.** `submit-mindmake-brief` v13 was deployed straight after the promotion, so the enqueue and the privacy notice describing it went live together. The deployed body was verified to carry it. `follow_up_queue` was empty at that moment, so nothing predates the notice.
 3. **The branded mailboxes do not exist yet, and the site does not pretend they do.** `mindmake.co` has no MX record, so `hello@mindmake.co` and `privacy@mindmake.co` would bounce. Every contact link therefore reads one constant, `CONTACT_EMAIL` in `src/lib/publicLinks.ts`, currently set to the mailbox that does receive. To switch: add the MX record, create the two aliases, change that one constant.
 4. **The films are the real delivery.** Six films landed on 28 August 2026, each with an mp4, a webm and a poster taken from its own first frame. Loops are silent and under 1.7MB; the sixty-second proof film on `/ai-brain` is click-to-play and fetches nothing until asked. A twenty-second cut of the proof film also exists in the delivery and is not used on the site yet.
 5. **Credential rotation**: rotate the GitHub, Vercel, Supabase and Resend credentials shared during this and the launch sessions.

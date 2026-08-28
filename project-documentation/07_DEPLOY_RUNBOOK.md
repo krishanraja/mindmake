@@ -78,27 +78,28 @@ select cron.unschedule('mindmake-follow-up-daily');
 Dropping the tables is not part of a rollback: `aa_model_snapshots` holds price
 history that cannot be recovered once deleted.
 
-## Launch steps, in order
+## Launch, as it happened
 
-1. **Create the two mailboxes.** `hello@mindmake.co` and `privacy@mindmake.co`.
-   The site routes visitor contact to them and there is no MX on the apex today.
+All three steps ran on 28 August 2026, in this order, except the first.
 
-2. **Promote the build.**
+1. **The mailboxes were not created**, because `mindmake.co` still has no MX
+   record. Rather than ship contact links that bounce, every one of them now
+   reads `CONTACT_EMAIL` in `src/lib/publicLinks.ts`, pointing at the mailbox
+   that receives. To finish: add the MX record, create
+   `hello@mindmake.co` and `privacy@mindmake.co`, then change that one constant.
 
-3. **Deploy `submit-mindmake-brief` last, from the merged repository.** Its
-   deployed v12 body is still `main`'s: it does not enqueue the day-14
-   follow-up. That is deliberate. The enqueue creates an obligation to send an
-   email that the currently published privacy notice does not describe, and the
-   notice that does describe it ships with the rebuild, so the mechanism must
-   not precede the promise. Deploying it in the same session as the promotion
-   is what keeps the two-email cap honest from the first lead.
+2. **The build was promoted.** Merge `7557254`, deployment
+   `dpl_HAoncV1RF3hcvcanqo7Yvc4tuAng`.
 
-   Deploy through the Management API with the full import closure, then verify
-   the deployed body carries `queueFollowUp` and run one synthetic lead.
+3. **`submit-mindmake-brief` was deployed last**, from merged `main`, with its
+   full eighteen-file import closure. It went to v13, and the deployed body was
+   verified to carry `queueFollowUp`, `follow_up_queue`, `FOLLOW_UP_DAYS = 14`
+   and the `email,source` conflict target. The queue was empty at that moment,
+   so no follow-up predates the privacy notice that describes it.
 
-If the promotion is rolled back after step 3, roll this function back too. A
-follow-up queued by a build that is no longer live is a promise nothing on the
-site is making any more:
+If the promotion is ever rolled back, roll this function back too. A follow-up
+queued by a build that is no longer live is a promise nothing on the site is
+making any more:
 
 ```sql
 select cron.alter_job(

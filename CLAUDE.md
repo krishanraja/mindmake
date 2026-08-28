@@ -2,7 +2,22 @@
 
 Last updated: 28 August 2026.
 
-This file is a contributor guard. Read `project-documentation/MINDMAKE_CANON.md`, `project-documentation/CURRENT_STATE.md`, `project-documentation/DESIGN_CONTRACT.md` and `project-documentation/BRANDS_AND_TESTIMONIALS.md` before changing a public page.
+This file is a contributor guard, not the source of truth. The source of truth
+is `project-documentation/`, and it is read in order: `00_NORTH_STAR.md` first,
+then `01_CANON.md`. Where this file, a code comment, or anything else disagrees
+with those two, those two are right.
+
+Before changing a public page, read `00_NORTH_STAR.md`, `01_CANON.md`,
+`03_DESIGN_CONTRACT.md`, `04_PROOF.md` and `06_CURRENT_STATE.md`.
+
+## The naming law
+
+Mindmake is the only name for the business. CTRL is the product. The publication
+runs exactly two channels, **The Money of AI** and **Built with AI**. Mindmaker
+LLC is the registered legal entity and appears only in the privacy notice and the
+terms. `themindmaker.ai` and `mindmakerlive.substack.com` are infrastructure
+addresses, never names. Anything else that looks like a brand name in this
+repository is dead: delete it rather than working around it.
 
 ## Current commercial contract
 
@@ -17,7 +32,7 @@ This file is a contributor guard. Read `project-documentation/MINDMAKE_CANON.md`
 - Every read carries the honesty framing: an illustrative example of how the Mindmake brain reads a business from the outside, not advice, written as a statement that never asks the visitor anything.
 - A converting visitor receives exactly two emails, ever: the results email, and one follow-up fourteen days later. No drip, no newsletter from this site. The publication is a separate opt-in.
 - `/ai-gtm` carries a live daily market board fed by the public `get-ai-news` function. Everything on it is public, including the point-of-view line. Daily freshness with a visible timestamp is a standing commitment, and staleness is labelled rather than hidden.
-- The rebuild brief of 27 and 28 August 2026 is the current design and copy truth. Where an older repository document disagrees with it, the brief wins and the document gets updated.
+- The publication is a separate opt-in with exactly two channels, described in `project-documentation/02_PUBLICATION.md`.
 
 ## Do not reintroduce
 
@@ -38,9 +53,9 @@ This file is a contributor guard. Read `project-documentation/MINDMAKE_CANON.md`
 
 ## Active structure
 
-- `project-documentation/MINDMAKE_CANON.md`: current commercial and conversion truth.
-- `project-documentation/CURRENT_STATE.md`: live identifiers and verification baselines.
-- `project-documentation/DESIGN_CONTRACT.md`: binding design rules, the motion law and the acceptance checklist.
+- `project-documentation/`: the whole source of truth, read in numbered order. `README.md` there is the index.
+- `src/hooks/useAmbientMotion.ts`: whether a visitor is served moving footage at all.
+- `src/assets/films/`: six films, both formats each, posters taken from frame one.
 - `src/App.tsx`: public route contract and retired-route fallbacks.
 - `src/pages/Index.tsx`: homepage. `src/pages/AiBrain.tsx` and `src/pages/AiGtm.tsx`: the two doors. `src/pages/CaseStudies.tsx`: approved proof archive.
 - `src/components/mindmake/`: the public design and conversion system, including the film plate, the marquee, the ask bar, the objection chips, the live board, the two journeys, and the lead journey (`LeadBrief`, `MindmakeProposal`, `proposalContent`, `privateBriefHtml`, `leadDelivery`, `companyRead`).
@@ -58,6 +73,13 @@ For any change to a public surface, run both a source scan and a rendered DOM sc
 
 For any change to the lead pipeline, run `src/test/mindmake-brief-backend-core.test.ts`, redeploy with the function's full import closure, verify the deployed body and prove one synthetic end-to-end lead from `https://mindmake.co`.
 
-The current lint baseline is 0 errors and 2 warnings, recorded in `project-documentation/CURRENT_STATE.md`. Do not add new lint problems.
+The current lint baseline is 0 errors and 2 warnings, recorded in `project-documentation/06_CURRENT_STATE.md`. Do not add new lint problems.
 
-Stop before manual production promotion.
+For any change to the films or the film plate, confirm in a browser that every
+loop decodes and plays when scrolled into view, and that a reduced-motion
+visitor has no video mounted at all.
+
+Deployment and promotion follow `project-documentation/07_DEPLOY_RUNBOOK.md`,
+whose launch steps are ordered for a reason. Do not change live Supabase, send
+real email from new code paths, alter domains or delete deployed functions
+without the matching verification.

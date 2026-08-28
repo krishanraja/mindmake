@@ -1,7 +1,7 @@
 /**
  * Favicon Generator Script
  * 
- * Generates all required favicon sizes from the source mindmaker-icon.png
+ * Generates all required favicon sizes from the source mindmake-icon.png
  * 
  * Run: npm run generate-favicons
  */
@@ -16,8 +16,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.join(__dirname, '..');
 const publicDir = path.join(rootDir, 'public');
 
-// Source icon (the green gradient mindmaker icon)
-const sourceIcon = path.join(publicDir, 'mindmaker-icon.png');
+// Source icon (the green gradient Mindmake icon)
+const sourceIcon = path.join(publicDir, 'mindmake-icon.png');
 
 // All favicon sizes needed for complete browser/device support
 const sizes = [

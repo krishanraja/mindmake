@@ -40,6 +40,9 @@ CTRL is our own decision engine, mentioned on /ai-brain only and never sold. It 
 
 ## Reading and contact
 
-- [The weekly read](https://mindmakerlive.substack.com): a separate opt-in publication.
+- [The weekly read](https://mindmakerlive.substack.com): Mindmake's publication, a separate opt-in.
+  It runs two channels. The Money of AI follows how the digital world gets paid for and asks who
+  pays when a shift lands. Built with AI follows people using AI to become builders and reaches the
+  human reason under the build.
 - [Straight answers](/faq)
 - [General messages](/contact)

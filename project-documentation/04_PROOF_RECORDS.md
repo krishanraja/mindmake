@@ -4,15 +4,15 @@ Last updated: 27 August 2026.
 
 Internal, anonymised records of real Mindmake engagements. **Every entry is a real engagement that happened**, reduced to sector and role only. The numbers are kept; the names are gone. Only verified engagements belong in this file: if you cannot point at the invoice, it does not go in, and a shorter bank is the correct outcome rather than a problem to solve by topping it back up. (In August 2026 the 26 illustrative entries that once padded this bank were deleted for exactly that reason.)
 
-This file is internal proof context for briefs, proposals and case-study work. It is not public copy. The public renderings of this material are the eight client outcome stories in `BRANDS_AND_TESTIMONIALS.md` and `src/data/rebuildProof.ts`; those files control wording, attribution and consent. Public use of anything here that is not already in those files needs a fresh evidence check and Krish's approval.
+This file is internal proof context for briefs, proposals and case-study work. It is not public copy. The public renderings of this material are the eight client outcome stories in `04_PROOF.md` and `src/data/rebuildProof.ts`; those files control wording, attribution and consent. Public use of anything here that is not already in those files needs a fresh evidence check and Krish's approval.
 
 ## Public-use rules
 
-- Pull quotes are verbatim and map to the approved quotes in `BRANDS_AND_TESTIMONIALS.md`; do not restate them loosely.
+- Pull quotes are verbatim and map to the approved quotes in `04_PROOF.md`; do not restate them loosely.
 - Attributions stay at role and sector. No entry is ever presented as a named client.
 - R-01's outcome carries a retired private money disclosure and is **not approved for public use**.
 - R-02's percentage outcomes (including the 22 percent revenue figure) are **retired from public use**; the story may be told publicly only in the approved wording of the case-study archive.
-- No prices from these records appear in public copy. The private rate card lives in `MINDMAKE_PROPOSITION_LOCK.md`.
+- No prices from these records appear in public copy. The private rate card lives in `01_CANON.md`.
 
 ## Field schema
 

@@ -10,7 +10,7 @@ Use this headline:
 
 > Mindmake has helped leaders across media, software and advisory with what's next in AI.
 
-The earlier "over 4000 leaders" count is retired from public copy under the claim control in `MINDMAKE_PROPOSITION_LOCK.md`: a count returns only when the section 6 evidence trail is compiled and Krish approves it.
+The earlier "over 4000 leaders" count is retired from public copy under the claim control in `01_CANON.md`: a count returns only when the section 6 evidence trail is compiled and Krish approves it.
 
 Use this line immediately above the brand grid:
 
@@ -51,7 +51,7 @@ Use official logo artwork in a compact one-line strip. The strip may move gently
 
 ## Verified client outcome stories, exactly 8
 
-The words in quotation marks are verbatim. Keep each client anonymous at role and sector unless a later consent record explicitly changes that. The internal engagement records behind these stories are in `PROOF_BANK.md`.
+The words in quotation marks are verbatim. Keep each client anonymous at role and sector unless a later consent record explicitly changes that. The internal engagement records behind these stories are in `04_PROOF_RECORDS.md`.
 
 ### 1. Settle the expensive decision
 

@@ -51,7 +51,7 @@ describe("the public offer stays simple", () => {
     const shell = read("src/components/mindmake/MindmakeShell.tsx");
 
     expect(shell).toContain("Start here");
-    expect(links).toContain('SPRINT_PATH = "/?start=1"');
+    expect(links).toContain('START_PATH = "/?start=1"');
     expect(links).not.toContain("calendly.com");
   });
 });

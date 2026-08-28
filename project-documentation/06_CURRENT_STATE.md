@@ -2,7 +2,7 @@
 
 Last updated: 28 August 2026.
 
-This file is the current delivery truth for `mindmake.co`: what is live, at which identifiers, and what remains open. History lives in `DECISIONS_LOG.md`. Business truth lives in `MINDMAKE_CANON.md`. Design truth lives in `DESIGN_CONTRACT.md`.
+This file is the current delivery truth for `mindmake.co`: what is live, at which identifiers, and what remains open. Why the business exists is in `00_NORTH_STAR.md`. Commercial truth is in `01_CANON.md`. Design truth is in `03_DESIGN_CONTRACT.md`.
 
 ## Where the rebuild stands
 

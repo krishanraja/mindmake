@@ -7,7 +7,7 @@
 
 /* Hero @layer deleted -- hero is now styled purely via Tailwind classes in NewHero.tsx */
 
-/* MINDMAKER 2.0 DESIGN SYSTEM - INK + MINT */
+/* Legacy Tailwind layer. The public design system lives in src/styles/mindmake.css */
 @layer base {
   :root {
     /* INK + EMERALD PRIMARY PALETTE

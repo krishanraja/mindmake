@@ -1,5 +1,5 @@
 import { AskBar } from "@/components/mindmake/AskBar";
-import { MINDMAKER_LIVE_URL } from "@/lib/publicLinks";
+import { PUBLICATION_URL } from "@/lib/publicLinks";
 import { track } from "@/lib/analytics";
 
 interface CloseBlockProps {
@@ -29,7 +29,7 @@ export function CloseBlock({ claim, body, onStart }: CloseBlockProps) {
         <span className="mm-close-sub">
           Not ready?{" "}
           <a
-            href={MINDMAKER_LIVE_URL}
+            href={PUBLICATION_URL}
             target="_blank"
             rel="noreferrer"
             onClick={() => track("substack_click", { source: "close" })}

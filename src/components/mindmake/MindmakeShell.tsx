@@ -1,9 +1,7 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { MINDMAKER_LIVE_URL } from "@/lib/publicLinks";
+import { PUBLICATION_URL } from "@/lib/publicLinks";
 import { track } from "@/lib/analytics";
-
-export const MEDIA_URL = MINDMAKER_LIVE_URL;
 
 interface MindmakeShellProps {
   children: ReactNode;
@@ -121,7 +119,7 @@ export function MindmakeShell({ children, onStart, mainClassName = "" }: Mindmak
           <Link to="/ai-gtm">Build your AI GTM</Link>
           <Link to="/case-studies">Results</Link>
           <a
-            href={MINDMAKER_LIVE_URL}
+            href={PUBLICATION_URL}
             target="_blank"
             rel="noreferrer"
             onClick={() => track("substack_click", { source: "menu" })}
@@ -142,7 +140,7 @@ export function MindmakeShell({ children, onStart, mainClassName = "" }: Mindmak
             <Link to="/ai-brain">Build your AI brain</Link>
             <Link to="/ai-gtm">Build your AI GTM</Link>
             <Link to="/case-studies">Results</Link>
-            <a href={MINDMAKER_LIVE_URL} target="_blank" rel="noreferrer">The weekly read</a>
+            <a href={PUBLICATION_URL} target="_blank" rel="noreferrer">The weekly read</a>
             <Link to="/blog">Ideas</Link>
             <Link to="/faq">Answers</Link>
             <Link to="/contact">Contact</Link>

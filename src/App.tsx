@@ -4,7 +4,7 @@ import { ThemeProvider } from "next-themes";
 import { lazy, Suspense, useEffect } from "react";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { CookieConsent } from "@/components/CookieConsent";
-import { MINDMAKER_LIVE_URL } from "@/lib/publicLinks";
+import { PUBLICATION_URL } from "@/lib/publicLinks";
 import Index from "./pages/Index";
 
 const CaseStudies = lazy(() => import("./pages/CaseStudies"));
@@ -102,8 +102,8 @@ function AppRoutes() {
 
             <Route path="/start" element={<ToStart />} />
             <Route path="/decision" element={<ToStart />} />
-            <Route path="/signal" element={<ExternalRedirect to={MINDMAKER_LIVE_URL} />} />
-            <Route path="/builder-economy" element={<ExternalRedirect to={MINDMAKER_LIVE_URL} />} />
+            <Route path="/signal" element={<ExternalRedirect to={PUBLICATION_URL} />} />
+            <Route path="/builder-economy" element={<ExternalRedirect to={PUBLICATION_URL} />} />
 
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/10-20x-roi-what-real-ai-implementation-looks-like" element={<Navigate to="/blog/measuring-ai-work-that-pays-back" replace />} />

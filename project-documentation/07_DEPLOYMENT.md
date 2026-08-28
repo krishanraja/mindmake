@@ -3,8 +3,8 @@
 Last updated: 28 August 2026, after the site rebuild's backend landed.
 
 This file records how the live Mindmake site is deployed and how to change it
-safely. Current identifiers live in `CURRENT_STATE.md`; history lives in
-`DECISIONS_LOG.md`.
+safely. Current identifiers live in `06_CURRENT_STATE.md`, and the ordered
+launch steps live in `07_DEPLOY_RUNBOOK.md`.
 
 ## Live topology
 
@@ -37,7 +37,7 @@ and promotes production. The production build uses:
 Identifiers: the launch merged commit was
 `e520952a182d29312fa2878dd3f963740c1dccb7` (pull request #141, production
 `dpl_7KNTh3AhLsRKCbxUbq6oGeQ7EiH6`). The current production deployment and
-rollback target are recorded in `CURRENT_STATE.md` and move with each merge.
+rollback target are recorded in `06_CURRENT_STATE.md` and move with each merge.
 
 ## Backend
 
@@ -56,7 +56,7 @@ everything else in the project belongs to CTRL and is not ours to touch.
 Deploys go through the Supabase Management API with the function's **full
 import closure**; after every deploy, verify the deployed body against the
 repository and run one synthetic call. Current versions live in
-`CURRENT_STATE.md` and move with each deploy.
+`06_CURRENT_STATE.md` and move with each deploy.
 
 The two browser-called new functions check a strict origin allowlist before
 they do any work, and rate-limit on one-way HMAC identifiers rather than on a
@@ -101,8 +101,8 @@ returning visitor cannot stack a second row; each send is keyed on the row's
 id, so a re-run cannot duplicate; and `sent_at` is written only when the
 provider accepted. A used row is deleted after seven days.
 
-Anything that would add a third send — a sequence, a nurture, a list import —
-breaks a published promise. `src/test/mindmake-brief-backend-core.test.ts` and
+Anything that would add a third send, whether a sequence, a nurture or a list
+import, breaks a published promise. `src/test/mindmake-brief-backend-core.test.ts` and
 `src/test/brief2-email-cap.test.ts` walk every function to catch a new sender,
 so adding one fails the suite before it can ship.
 
@@ -128,7 +128,7 @@ Per surface, never all at once:
 
 | Failure | Action |
 |---|---|
-| Site regression | Promote the rollback deployment named in `CURRENT_STATE.md` from the Vercel dashboard |
+| Site regression | Promote the rollback deployment named in `06_CURRENT_STATE.md` from the Vercel dashboard |
 | Domain or certificate failure | Detach the affected domain from the project and re-attach after the certificate re-issues |
 | V2 function failure | Revert the function to its previous version in Supabase; never drop the lead tables. If the failure leaks bad content to visitors, ship a build with the flag off while the function is repaired |
 | Email failure | Repair sender configuration and rerun the synthetic matrix before trusting deliveries again |

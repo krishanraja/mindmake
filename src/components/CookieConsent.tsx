@@ -1,6 +1,6 @@
 import { useState, useEffect, useLayoutEffect, useRef } from "react";
 
-const CONSENT_KEY = "mindmaker_consent";
+const CONSENT_KEY = "mindmake_consent";
 
 export const CookieConsent = () => {
   const [visible, setVisible] = useState(false);

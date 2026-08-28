@@ -307,9 +307,85 @@ describe("the conversion contract", () => {
 
   it("points every weekly-read line at the publication", () => {
     const close = read("src/components/mindmake/CloseBlock.tsx");
-    expect(close).toContain("MINDMAKER_LIVE_URL");
+    expect(close).toContain("PUBLICATION_URL");
     expect(close).toContain("Take the weekly read instead.");
     expect(read("src/lib/publicLinks.ts")).toContain("https://mindmakerlive.substack.com");
+  });
+});
+
+describe("the naming law", () => {
+  /* A business with two names has none. Mindmake is the only name for the
+     business, and the publication runs exactly two channels. Everything else
+     that has ever looked like a brand name here is dead. */
+
+  it("uses no earlier name for the business", () => {
+    /* Two exceptions, both deliberate and both narrow. `Mindmaker LLC` is the
+       registered legal entity and belongs in the two legal pages, where the law
+       wants the registrant named. The substack.com address is where the
+       publication is hosted, which is an address rather than a name. */
+    const LEGAL_ENTITY = /Mindmaker LLC/g;
+    const HOSTING = /mindmakerlive\.substack\.com/g;
+    const LEGAL_PAGES = new Set(["src/pages/Privacy.tsx", "src/pages/Terms.tsx"]);
+
+    for (const [surface, source] of readAll(PUBLIC_SURFACES)) {
+      let copy = source.replace(HOSTING, "");
+      if (LEGAL_PAGES.has(surface)) copy = copy.replace(LEGAL_ENTITY, "");
+      expect(`${surface} uses an older name: ${/mindmaker/i.test(copy)}`)
+        .toBe(`${surface} uses an older name: false`);
+    }
+  });
+
+  it("names the publication's two channels and no others", () => {
+    const canon = read("project-documentation/00_NORTH_STAR.md");
+    expect(canon).toContain("The Money of AI");
+    expect(canon).toContain("Built with AI");
+    /* The channel that was renamed. Its old form must not survive anywhere a
+       reader or a model would take it as current. */
+    for (const doc of ["project-documentation/00_NORTH_STAR.md", "project-documentation/02_PUBLICATION.md"]) {
+      expect(`${doc}: ${/Building with AI/.test(read(doc))}`).toBe(`${doc}: false`);
+    }
+  });
+
+  it("keeps the documentation set to one reading order with no history file", () => {
+    /* A source of truth someone can read cold has exactly one of each thing.
+       A parallel history file full of superseded decisions defeats that. */
+    for (const gone of [
+      "project-documentation/DECISIONS_LOG.md",
+      "project-documentation/MINDMAKE_CANON.md",
+      "project-documentation/MINDMAKE_PROPOSITION_LOCK.md",
+      "HANDOVER/README.md",
+      "CHANGELOG.md",
+    ]) {
+      expect(`${gone} exists: ${existsSync(resolve(ROOT, gone))}`).toBe(`${gone} exists: false`);
+    }
+    for (const required of [
+      "project-documentation/00_NORTH_STAR.md",
+      "project-documentation/01_CANON.md",
+      "project-documentation/02_PUBLICATION.md",
+      "project-documentation/03_DESIGN_CONTRACT.md",
+      "project-documentation/04_PROOF.md",
+      "project-documentation/05_LEAD_DELIVERY_SPEC.md",
+      "project-documentation/06_CURRENT_STATE.md",
+      "project-documentation/07_DEPLOYMENT.md",
+    ]) {
+      expect(`${required} exists: ${existsSync(resolve(ROOT, required))}`).toBe(`${required} exists: true`);
+    }
+  });
+
+  it("leaves no documentation link pointing at a file that was removed", () => {
+    const docs = readdirSync(resolve(ROOT, "project-documentation"))
+      .filter((name) => name.endsWith(".md"))
+      .map((name) => `project-documentation/${name}`);
+    for (const [surface, source] of readAll([...docs, "README.md", "CLAUDE.md"])) {
+      for (const match of source.matchAll(/`(project-documentation\/[A-Za-z0-9_.]+\.md)`/g)) {
+        expect(`${surface} links ${match[1]}: ${existsSync(resolve(ROOT, match[1]))}`)
+          .toBe(`${surface} links ${match[1]}: true`);
+      }
+      for (const match of source.matchAll(/\]\((project-documentation\/[A-Za-z0-9_.]+\.md)\)/g)) {
+        expect(`${surface} links ${match[1]}: ${existsSync(resolve(ROOT, match[1]))}`)
+          .toBe(`${surface} links ${match[1]}: true`);
+      }
+    }
   });
 });
 

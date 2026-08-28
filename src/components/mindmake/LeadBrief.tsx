@@ -14,6 +14,7 @@ import {
 import { buildPrivateBriefHtml, type PrivateBriefContent } from "@/components/mindmake/privateBriefHtml";
 import { MindmakeProposal } from "@/components/mindmake/MindmakeProposal";
 import "@/styles/mindmake-brief.css";
+import { CONTACT_EMAIL } from "@/lib/publicLinks";
 
 export type { BriefRoute } from "@/components/mindmake/leadDelivery";
 
@@ -719,7 +720,7 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, onConf
     : visitorEmailQueued && operatorHasContext
       ? "The email was queued. Download a copy now too. We reply if there is a useful fit or thought to add."
       : visitorEmailQueued
-        ? "The email was queued. We were not given the context. Email hello@mindmake.co if you also want it seen."
+        ? `The email was queued. We were not given the context. Email ${CONTACT_EMAIL} if you also want it seen.`
         : operatorHasContext
           ? "Our copy was queued. Your email was not, so download your copy now."
           : "The hand-off was not confirmed. Your download is still ready.";
@@ -944,7 +945,7 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, onConf
             <div className="mm-success-actions">
               <button className="mm-button" type="button" onClick={downloadBrief}><Download aria-hidden="true" /> Download my brief</button>
               {handoffEnabled && !handoffResult && email && (
-                <a className="mm-text-button" href="mailto:hello@mindmake.co?subject=My%20Mindmake%20brief">Email us directly</a>
+                <a className="mm-text-button" href={`mailto:${CONTACT_EMAIL}?subject=My%20Mindmake%20brief`}>Email us directly</a>
               )}
               <button className="mm-text-button" type="button" onClick={onClose}>Return to the site</button>
             </div>

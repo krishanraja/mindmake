@@ -3,6 +3,7 @@ import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import "@/styles/mindmake.css";
+import { CONTACT_EMAIL } from "@/lib/publicLinks";
 
 const sections = [
   {
@@ -43,7 +44,7 @@ const sections = [
   },
   {
     title: "10. Contact",
-    body: <><p>Questions can be sent to <a href="mailto:hello@mindmake.co">hello@mindmake.co</a>.</p><p>Mindmaker LLC<br />Mindmake<br />mindmake.co</p></>,
+    body: <><p>Questions can be sent to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p><p>Mindmaker LLC<br />Mindmake<br />mindmake.co</p></>,
   },
 ] as const;
 

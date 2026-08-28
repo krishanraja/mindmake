@@ -1,5 +1,7 @@
 # 00. North star
 
+*Current as of 28 August 2026.*
+
 **If you read one file, read this one.** It is written for a person or a model
 arriving with no context, and it should leave you able to make a decision on
 Mindmake's behalf without asking anyone. Everything after it is detail.
@@ -100,8 +102,9 @@ as the fear of falling behind.
 
 - **Build your AI brain.** Your taste, standards and judgement, running as a
   system you own.
-- **Build your AI GTM.** An AI-native go-to-market across the four levers:
-  product, price, positioning and people.
+- **Build your AI GTM.** An AI-native go-to-market (GTM: how a business gets
+  its product to customers and gets paid for it) across the four levers:
+  product, price, positioning or people.
 
 They are not two products. Either can be the way in, and either can lead to the
 other when the work calls for it.
@@ -210,6 +213,11 @@ This one is absolute, because a business with two names has none.
 - `mindmakerlive.substack.com` is where the publication is hosted today. It is a
   hosting address, not a name. Nothing in copy calls the publication by it.
 
+One exception, and only one: **a verbatim quote is never edited.** A reference
+who said "Mindmaker" in 2019 still says it, because changing someone's words to
+suit our branding would be dishonest and would break the consent they gave. The
+quote carries the old name; nothing around it does.
+
 Anything else you find in this repository that looks like a brand name is dead.
 Delete it rather than working around it.
 
@@ -226,8 +234,11 @@ Delete it rather than working around it.
 - Call attendee brands clients.
 - Claim a number we cannot attribute, or a count of leaders helped we cannot
   evidence.
-- Send a third email. A converting visitor gets their results and one follow-up
-  fourteen days later, and that is the whole relationship until they reply.
+- Send an email nobody asked for. A converting visitor gets their results and
+  one follow-up fourteen days later, and that is the whole relationship until
+  they reply. The company read also sends a six-digit code first, because it has
+  to prove the address is theirs; that is the only other message, it is named on
+  the privacy page, and there is no third.
 - Let a section exist whose only job is to persuade. Every section teaches
   something, shows proof, or helps a decision.
 
@@ -260,3 +271,5 @@ honest move is to say so rather than guess.
 | Exactly what a lead receives and when | `05_LEAD_DELIVERY_SPEC.md` |
 | What is live right now, at which identifiers | `06_CURRENT_STATE.md` |
 | How to deploy, and how to roll back | `07_DEPLOYMENT.md` |
+| What the rebuild deployed, and the ordered launch steps | `07_DEPLOY_RUNBOOK.md` |
+| The engagement records behind the public proof | `04_PROOF_RECORDS.md` |

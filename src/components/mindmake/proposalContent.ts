@@ -1,4 +1,5 @@
 import type { PrivateBriefContent } from "@/components/mindmake/privateBriefHtml";
+import { CONTACT_EMAIL } from "@/lib/publicLinks";
 
 export interface ProposalContent extends PrivateBriefContent {
   preparedFor?: string;
@@ -67,5 +68,5 @@ export const buildProposalSections = (content: ProposalContent): ProposalSection
   disclaimer: DISCLAIMER_LINE,
   nextStep: content.nextStep === "reply"
     ? { title: "The next step", body: "If this reads worth a conversation, reply to the email this brief came with. We read every reply." }
-    : { title: "The next step", body: "Keep this copy. If you want us to see it, email hello@mindmake.co." },
+    : { title: "The next step", body: `Keep this copy. If you want us to see it, email ${CONTACT_EMAIL}.` },
 });

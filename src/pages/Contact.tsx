@@ -4,6 +4,7 @@ import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import "@/styles/mindmake.css";
+import { CONTACT_EMAIL } from "@/lib/publicLinks";
 
 type ContactField = "name" | "email" | "message";
 type ContactErrors = Partial<Record<ContactField, string>>;
@@ -55,7 +56,7 @@ export default function Contact() {
       "",
       message,
     ].filter(Boolean).join("\n"));
-    window.location.href = `mailto:hello@mindmake.co?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
   };
 
   return (

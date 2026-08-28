@@ -1,5 +1,7 @@
 # 01. Canon
 
+*Current as of 28 August 2026.*
+
 The commercial truth. Where anything else in this repository disagrees with this
 file or with `00_NORTH_STAR.md`, those two win and the other thing is wrong.
 
@@ -320,8 +322,9 @@ figure month, and the exact number follows the brief.
 **Collapse target.** After five paid proofs with door-shaped stories, collapse
 upward toward a single higher number.
 
-**Volume ceiling.** Roughly $45,000 to $65,000 a month at full utilisation, or
-$550,000 to $700,000 a year. Volume is capped by design, so price is the only
+**Volume ceiling.** Roughly $45,000 to $65,000 in a fully booked month. A year
+is not twelve of those: allowing for gaps between engagements, the planning
+range is $550,000 to $700,000. Volume is capped by design, so price is the only
 lever on that ceiling.
 
 **Internal budget anchors.** The Brain door sits on the coaching and chief-of-staff
@@ -330,7 +333,9 @@ workshop-format engagements are already reported at $50,000 to $100,000 and
 above. Both labels are internal and never appear in copy.
 
 **Revisit trigger.** Ten `Start here` briefs, or three sent proposals, whichever
-comes first.
+comes first. That is the trigger to re-examine the card. The collapse above it is
+a separate, later move that only happens once five proofs have been paid for and
+have produced door-shaped stories.
 
 **Assumptions to watch.** Ten `Start here` briefs with no mention of displacing a
 coach, consultant or positioning project: revisit the card downward or re-anchor.
@@ -381,10 +386,14 @@ only; it does not subscribe or import anyone.
 
 ### The two emails
 
-A converting visitor receives exactly two emails: the results they asked for, and
-one follow-up fourteen days later. Nothing else, ever. The mechanism that holds
-this is in `05_LEAD_DELIVERY_SPEC.md` and `07_DEPLOYMENT.md`. Anything that would
-add a third send breaks a published promise.
+A converting visitor receives exactly two emails after they confirm: the results
+they asked for, and one follow-up fourteen days later. Nothing else, ever.
+
+The company read sends one six-digit code before that, because it has to prove
+the address belongs to them. The personal read has no code and sends only the
+two. The privacy page names the code, so the promise on the page is accurate as
+written. Anything beyond these breaks a published promise. The mechanism is in
+`05_LEAD_DELIVERY_SPEC.md` and `07_DEPLOYMENT.md`.
 
 ### Qualifying, from the fit digest
 
@@ -510,9 +519,13 @@ One list, so it does not have to be repeated:
 British English. Plain enough for a twelve-year-old, throughout. Short sentences.
 Any business or technical term explained the moment it appears.
 
-Never: em dashes; the word "thesis" (use idea, view or plan); shaming anyone as a
-beginner; implying we have all the answers; fear as the whole argument; generic
-AI claims; consultant filler; technology theatre.
+Never: em dashes; the word "thesis" in public copy (use idea, view or plan);
+shaming anyone as a beginner; implying we have all the answers; fear as the whole
+argument; generic AI claims; consultant filler; technology theatre.
+
+"GTM" is the one abbreviation the doors are allowed to use, and it is expanded
+the first time it appears on a page: how a business gets its product to customers
+and gets paid for it.
 
 Avoid as public framing: "AI literacy", "AI fluency", "prompt engineering",
 "leveraging AI", "AI-powered", "future of work", "chief of staff",
@@ -543,8 +556,9 @@ These are real and unfinished. None of them blocks the website.
    consent before it renders.
 3. Complete current-source research before publishing any new AI GTM market
    claim.
-4. The private cash floor and exact multi-month model remain live commercial
-   questions.
+4. The floor and the multi-month card above are the current working numbers and
+   should be used. They are not yet proven against enough real deals to be
+   settled, which is what the revisit trigger is for.
 
 ---
 

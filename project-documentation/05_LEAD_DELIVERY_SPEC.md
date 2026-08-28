@@ -1,8 +1,8 @@
 # Mindmake private brief delivery
 
-Last updated: 27 August 2026.
+*Current as of 28 August 2026.*
 
-Status: **live**. The backend launched 26 August 2026 and Krish approved Gate E on 27 August 2026, so the public flag is on and the full journey runs in production: the migration and retention purge are applied, `submit-mindmake-brief` v11 and `enrich-company` v35 are deployed, the sender `Mindmake <briefs@mindmake.co>` is verified with SPF, DKIM and DMARC passing, and the complete verification, delivery and tailored-choice matrix passed against the live backend with synthetic inboxes.
+Status: **live**. The backend launched 26 August 2026 and Krish approved Gate E on 27 August 2026, so the public flag is on and the full journey runs in production: the migration and retention purge are applied, the functions are deployed at the versions recorded in `06_CURRENT_STATE.md`, which is the only place versions are written down, the sender `Mindmake <briefs@mindmake.co>` is verified with SPF, DKIM and DMARC passing, and the complete verification, delivery and tailored-choice matrix passed against the live backend with synthetic inboxes.
 
 ## Product boundary
 

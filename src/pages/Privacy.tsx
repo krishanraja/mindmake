@@ -3,11 +3,12 @@ import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import "@/styles/mindmake.css";
+import { CONTACT_EMAIL } from "@/lib/publicLinks";
 
 const sections = [
   {
     title: "1. Who we are",
-    body: <><p>Mindmake is the public brand of Mindmaker LLC. You can contact us at <a href="mailto:privacy@mindmake.co">privacy@mindmake.co</a>.</p></>,
+    body: <><p>Mindmake is the public brand of Mindmaker LLC. You can contact us at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p></>,
   },
   {
     title: "2. What we collect",
@@ -27,7 +28,7 @@ const sections = [
   },
   {
     title: "6. Two emails, and then nothing",
-    body: <><p>A confirmed request receives its results email, and one follow-up fourteen days later. That is every email this website will ever send you. There is no sales sequence behind it and no newsletter.</p><p>To send that one follow-up we keep your email address and the date it is due. The record is deleted 7 days after the email is sent, and sooner if you ask. The publication is a separate choice that you make yourself, and nothing from this website subscribes you to it.</p></>,
+    body: <><p>When you ask us to send your brief, we first send a six-digit code so we know the address is yours. After you confirm it you receive two emails: your results, and one follow-up fourteen days later. Those two are everything. There is no sales sequence behind them and no newsletter.</p><p>To send that one follow-up we keep your email address and the date it is due. The record is deleted 7 days after the email is sent, and sooner if you ask. The publication is a separate choice that you make yourself, and nothing from this website subscribes you to it.</p></>,
   },
   {
     title: "7. How long we keep it",
@@ -35,7 +36,7 @@ const sections = [
   },
   {
     title: "8. Your choices and rights",
-    body: <><p>Depending on where you live, you may be able to ask for a copy, correction, deletion, restriction or transfer of your personal information. You may also object to some uses.</p><p>You can leave the publication at any time through its unsubscribe link. Email <a href="mailto:privacy@mindmake.co">privacy@mindmake.co</a> for any other request. If you are in the UK and remain unhappy, you may complain to the Information Commissioner's Office. People elsewhere may contact their local data authority.</p></>,
+    body: <><p>Depending on where you live, you may be able to ask for a copy, correction, deletion, restriction or transfer of your personal information. You may also object to some uses.</p><p>You can leave the publication at any time through its unsubscribe link. Email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> for any other request. If you are in the UK and remain unhappy, you may complain to the Information Commissioner's Office. People elsewhere may contact their local data authority.</p></>,
   },
   {
     title: "9. Security",

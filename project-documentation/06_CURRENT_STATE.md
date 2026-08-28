@@ -61,11 +61,33 @@ Supabase project `bkyuxvschuwngtcdhsyg`.
 - The two-email cap was proven rather than asserted: three successful sends to one address produced exactly one queue row, and the fourth was rate-limited. Test rows were deleted afterwards.
 - There are no frozen SHA-locked surfaces any more. The V5 motion study, the gateway candidate and the V8 mock were deleted with their locks; the brief supersedes their contracts and git history preserves the files.
 
+## Names you will meet, and what they are
+
+None of these is a brand. They are identifiers that exist in live infrastructure
+or in the project's own history, and they are listed so nobody has to guess.
+
+| You will see | What it is |
+|---|---|
+| `themindmaker.ai` | An older domain that 308-redirects to `mindmake.co`. It runs Google Workspace, so `krish@themindmaker.ai` is the only mailbox that actually receives, which is why the site's contact links point there. |
+| `mindmakerlive.substack.com` | Where the publication is hosted. An address, not a name. |
+| `Mindmaker LLC` | The registered legal entity. It appears in the privacy notice and the terms and nowhere else. |
+| `Mindmaker AI` | The Supabase project's display name in that dashboard. Cosmetic, and renaming it is not worth a migration. |
+| `makeyourmindup.ai` | An older CTRL host. `ctrl.themindmaker.ai` still redirects there; open item 8 is to repoint it at `ctrl.mindmake.co`. |
+| `mm-ctrl` | The Vercel project that serves CTRL. Not this repository. |
+| `/signal`, `/builder-economy` | Retired routes that now redirect to the publication. They were earlier names for editorial strands; the publication's only channels are The Money of AI and Built with AI. |
+| `get-model-data` | A deployed edge function with no caller in this repository. Open item 6. |
+| `aa-price-snapshot`, `ARTIFICIALANALYSIS_API_KEY` | The daily price recorder and its data source, Artificial Analysis, a published model price and benchmark index. |
+| `Gate E` | The owner's approval, on 27 August 2026, that the private email hand-off could go live. The gate letters are a historical sequence and only E still matters. |
+| `Legacy Ascend` | The programme a named reference took part in, and the consent record her quotes are gated on. If that record is missing, the quotes do not render. |
+| `Lightning Lesson` | A third-party teaching format the founder has run, counted in the evidence trail for the retired reach claim. |
+| `mind/make` | The wordmark as it is set in the header, with a slash. It is a typographic treatment of Mindmake, not a second name. |
+| The enemy pair, the ladder, the fork, the board | Homepage and door-page sections. The enemy pair is the oracle and the mirror cards resolved by one claim; the ladder is the three levels of value; the fork is the paper band where a visitor picks a starting point and nothing is stored; the board is the live daily market read on `/ai-gtm`. |
+
 ## Open items
 
 1. **Promotion is Krish's call.** The branch is pushed and reviewed by pull request; nothing is promoted automatically.
 2. **`submit-mindmake-brief` needs one redeploy, at launch and not before.** The repository version enqueues the day-14 follow-up; the deployed v12 does not, so nothing is being queued today and `follow_up_queue` is empty. That ordering is deliberate rather than an oversight: the enqueue creates an obligation to send an email the currently published privacy notice does not describe, and the notice that does describe it ships with this rebuild. Deploy the function in the same step as promoting the build, so the promise and the mechanism go live together. Until then the two paths hold: `mindmake-personal-read` enqueues its own rows but has no caller until `/ai-brain` ships, and `send-follow-ups` drains a queue that is empty.
-3. **Two mailboxes do not exist yet.** The pages route to `hello@mindmake.co` and the privacy notice to `privacy@mindmake.co`. There is no MX on the apex, so both aliases have to be created before launch.
+3. **The branded mailboxes do not exist yet, and the site does not pretend they do.** `mindmake.co` has no MX record, so `hello@mindmake.co` and `privacy@mindmake.co` would bounce. Every contact link therefore reads one constant, `CONTACT_EMAIL` in `src/lib/publicLinks.ts`, currently set to the mailbox that does receive. To switch: add the MX record, create the two aliases, change that one constant.
 4. **The films are the real delivery.** Six films landed on 28 August 2026, each with an mp4, a webm and a poster taken from its own first frame. Loops are silent and under 1.7MB; the sixty-second proof film on `/ai-brain` is click-to-play and fetches nothing until asked. A twenty-second cut of the proof film also exists in the delivery and is not used on the site yet.
 5. **Credential rotation**: rotate the GitHub, Vercel, Supabase and Resend credentials shared during this and the launch sessions.
 6. **`get-model-data` v24 is still deployed** with no caller in this repository. Retiring it needs CTRL-side confirmation first.

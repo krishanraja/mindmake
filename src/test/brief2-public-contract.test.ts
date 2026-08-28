@@ -87,9 +87,38 @@ const readAll = (surfaces: string[]) => surfaces
   .map((surface) => [surface, read(surface)] as const);
 
 describe("the Krish gate", () => {
+  /* The ban is on the operator appearing in the site's voice: no first person,
+     no biography, no portrait, no "why him" section. It is not a ban on the
+     mailbox a visitor can reach a human on. That address is declared once, in
+     src/lib/publicLinks.ts, and every page reads the constant, so this
+     exception is one line in one file rather than something spread around. */
+  const CONTACT_MAILBOX = /krish@themindmaker\.ai/g;
+
   it("keeps the operator's name out of every public surface", () => {
     for (const [surface, source] of readAll(PUBLIC_SURFACES)) {
-      expect(`${surface}: ${source.toLowerCase().includes("krish")}`).toBe(`${surface}: false`);
+      const copy = source.replace(CONTACT_MAILBOX, "");
+      expect(`${surface}: ${copy.toLowerCase().includes("krish")}`).toBe(`${surface}: false`);
+    }
+  });
+
+  it("declares the contact mailbox once, and says why it is that one", () => {
+    const links = read("src/lib/publicLinks.ts");
+    expect(links).toContain("CONTACT_EMAIL");
+    /* mindmake.co has no MX record, so the branded aliases bounce. A privacy
+       contact that bounces is worse than one on the older domain, and the
+       comment has to keep saying so until the aliases exist. */
+    expect(links).toContain("no MX record");
+    for (const surface of [
+      "src/pages/Privacy.tsx",
+      "src/pages/Terms.tsx",
+      "src/pages/Contact.tsx",
+      "src/pages/Alumni.tsx",
+    ]) {
+      const source = read(surface);
+      expect(`${surface} reads the constant: ${source.includes("CONTACT_EMAIL")}`)
+        .toBe(`${surface} reads the constant: true`);
+      expect(`${surface} hardcodes an address: ${/mailto:[a-z]+@/.test(source)}`)
+        .toBe(`${surface} hardcodes an address: false`);
     }
   });
 
@@ -319,16 +348,18 @@ describe("the naming law", () => {
      that has ever looked like a brand name here is dead. */
 
   it("uses no earlier name for the business", () => {
-    /* Two exceptions, both deliberate and both narrow. `Mindmaker LLC` is the
-       registered legal entity and belongs in the two legal pages, where the law
-       wants the registrant named. The substack.com address is where the
-       publication is hosted, which is an address rather than a name. */
+    /* Three exceptions, all deliberate and all narrow, and none of them a name.
+       `Mindmaker LLC` is the registered legal entity and belongs in the two
+       legal pages, where the law wants the registrant named. The substack.com
+       address is where the publication is hosted. The themindmaker.ai mailbox
+       is where mail actually arrives, because mindmake.co has no MX record. */
     const LEGAL_ENTITY = /Mindmaker LLC/g;
     const HOSTING = /mindmakerlive\.substack\.com/g;
+    const MAILBOX = /krish@themindmaker\.ai/g;
     const LEGAL_PAGES = new Set(["src/pages/Privacy.tsx", "src/pages/Terms.tsx"]);
 
     for (const [surface, source] of readAll(PUBLIC_SURFACES)) {
-      let copy = source.replace(HOSTING, "");
+      let copy = source.replace(HOSTING, "").replace(MAILBOX, "");
       if (LEGAL_PAGES.has(surface)) copy = copy.replace(LEGAL_ENTITY, "");
       expect(`${surface} uses an older name: ${/mindmaker/i.test(copy)}`)
         .toBe(`${surface} uses an older name: false`);
@@ -369,6 +400,37 @@ describe("the naming law", () => {
       "project-documentation/07_DEPLOYMENT.md",
     ]) {
       expect(`${required} exists: ${existsSync(resolve(ROOT, required))}`).toBe(`${required} exists: true`);
+    }
+  });
+
+  it("keeps the canon's list of public answers in step with the ones that ship", () => {
+    /* The canon delegates the wording of public answers to answers.json, because
+       that file is what a visitor actually reads. Delegation is only honest
+       while the canon still names every topic the file covers, so a new answer
+       cannot appear on the site without the documentation knowing. */
+    const canon = read("project-documentation/01_CANON.md");
+    /* Markdown wraps at the column, so a phrase can straddle a line break. */
+    const covered = canon.slice(canon.indexOf("questions people actually ask")).replace(/\s+/g, " ");
+    const TOPIC: Record<string, string> = {
+      cost: "cost",
+      technical: "whether you need to be technical",
+      duration: "what happens after thirty days",
+      data: "who sees your data",
+      consultant: "how this differs from a consultant",
+      chatgpt: "why not just use a chatbot",
+      team: "how much of the team's time it takes",
+      keep: "what you keep",
+      report: "whether it is a document or something that works",
+      speed: "whether thirty days is realistic",
+      start: "how to start",
+      fit: "whether it fits your business",
+      email: "whether we will email forever",
+    };
+    for (const entry of ASK_ENTRIES) {
+      expect(`01_CANON names the "${entry.id}" answer: ${entry.id in TOPIC}`)
+        .toBe(`01_CANON names the "${entry.id}" answer: true`);
+      expect(`01_CANON covers ${entry.id}: ${covered.includes(TOPIC[entry.id])}`)
+        .toBe(`01_CANON covers ${entry.id}: true`);
     }
   });
 

@@ -30,13 +30,14 @@ Components read the ground-aware aliases (`--mm-bg`, `--mm-fg`, `--mm-rule` and 
 
 ## Type roles
 
-Three faces, one job each. All self-hosted through `@fontsource`, never a remote stylesheet.
+Four faces, one job each. Three carry meaning and the fourth is simply the body text. All self-hosted through `@fontsource`, never a remote stylesheet.
 
 - **Grotesque (Archivo), structure.** All headings, nav, cards, buttons. Weights 600 to 800, tracking tight on display sizes.
 - **Serif (Newsreader), the claim only.** Three or four times per page, always the emotional payoff line, usually in mint. Never a section heading, never nav, never body. Class: `.mm-claim`.
 - **Mono (IBM Plex Mono), data.** Numbers, sources, timestamps, category tags, small labels. Uppercase with wide letter-spacing. Class: `.mm-label`. Mono is what makes the live surfaces read as instruments.
+- **Body serif (Source Serif 4), running text.** Paragraphs and long copy. It carries no meaning of its own, which is exactly what keeps the claim serif above it meaningful.
 
-Source Serif 4 remains the body face. The hero pattern everywhere is a grotesque setup line and a serif mint payoff line, on or beside the film plate.
+The hero pattern everywhere is a grotesque setup line and a serif mint payoff line, on or beside the film plate.
 
 ## Motion: the site is never still
 
@@ -62,7 +63,7 @@ A small label may remain only where it names an object, a control, a value or an
 
 Three families, never mixed, because merging them would be the easiest lie on the page.
 
-- **Client outcomes** are anonymous, by role and sector, because that is what those clients agreed to.
+- **Client outcomes** are anonymous, by role and sector, because that is what those clients agreed to. One person sits in two families at once: a named reference who was also a client, and whose named quotes run only under a consent record that fails closed. `04_PROOF.md` governs her wording, and she is the only such case.
 - **Named references** are people who have worked with the founder, named with their consent, and always described as exactly that rather than passed off as client results.
 - **Attendee brands** are attendance and say so on the page. They are never described as clients and never linked.
 
@@ -84,7 +85,7 @@ Every public change runs all of it.
 
 1. Focused tests, then the full suite, then `npm run build` and `npx eslint .` no worse than the recorded baseline.
 2. Desktop and 375px checks in both scroll directions, with no horizontal overflow and no browser console errors.
-3. The Krish gate: a case-insensitive search across public surfaces returns nothing.
+3. The Krish gate: a case-insensitive search across public surfaces returns nothing except the three declared exceptions, which the contract test encodes. Those are: the reference section's heading, where he is named once as the person those people worked with; a verbatim quote that used an older name, because quotes are never edited; and the contact mailbox in `src/lib/publicLinks.ts`, which is on the older domain because that is the one that receives mail.
 4. The motion gate: no `IntersectionObserver` and no entrance animation on a rebuilt surface.
 5. The aliveness gate: scroll each page at reading pace and confirm every viewport holds something in motion, then crawl every interactive element with a mouse and a keyboard and confirm each answers.
 6. The three-second gate: read every headline with its serif payoff, standalone. Then the banned-word and antithesis scans.

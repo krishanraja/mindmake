@@ -6,7 +6,10 @@ Mindmake is a principal-led AI and commercial strategy practice. It helps a
 leader use AI to extend their judgement, taste and expertise, then turn that
 stronger capability into a better business result.
 
-The site is live at [`mindmake.co`](https://mindmake.co) with two doors:
+The site runs at [`mindmake.co`](https://mindmake.co) with two doors. What is
+deployed there right now is recorded in
+[`project-documentation/06_CURRENT_STATE.md`](project-documentation/06_CURRENT_STATE.md),
+which is the only place that answers it.
 
 - **Build your AI brain**: encode your taste and judgement, amplify your
   strengths, uncover your blind spots.
@@ -50,8 +53,10 @@ The only primary action is `Start here`.
 6. The visitor can always download the brief locally, whether or not either email
    succeeds.
 
-A converting visitor receives exactly two emails: their results, and one
-follow-up fourteen days later. Publication interest is separate and unticked. The
+A converting visitor receives exactly two emails after confirming: their results,
+and one follow-up fourteen days later. Asking for the brief sends one six-digit
+code before that, which the privacy page names. Publication interest is separate
+and unticked. The
 full contract is in
 [`project-documentation/05_LEAD_DELIVERY_SPEC.md`](project-documentation/05_LEAD_DELIVERY_SPEC.md).
 
@@ -101,9 +106,14 @@ publication.
 - No em dashes. British English. No "judgment".
 - No banned vocabulary, and no "not X, but Y" antithesis.
 - No entrance choreography, and no `IntersectionObserver` in a rebuilt surface.
-- Every viewport-height of every page holds at least one moving element.
+- Every viewport-height of every page holds at least one moving element, unless
+  the visitor asked for reduced motion, in which case the whole ambient layer
+  stops and the stills stand in.
 - Attendee brands are never called customers, and proof families never mix.
-- Exactly two emails can ever be sent to one address.
+- The contact address is declared once, in `src/lib/publicLinks.ts`, and it is the
+  one that actually receives mail.
+- Exactly two emails can ever be sent to one address after it is confirmed, plus
+  the one verification code that confirms it.
 
 ## Development
 

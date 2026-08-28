@@ -137,7 +137,7 @@ Place the excerpts where they support the surrounding message. Never group all o
 
 (The word "Mindmaker" inside this quote is her verbatim wording from the time and stays unchanged.)
 
-### Beside the price
+### On value for money
 
 > “In 10 years of group and private mentorships, this has been the most valuable investment I have made in myself and my business.”
 >

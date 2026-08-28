@@ -227,10 +227,26 @@ describe("the motion gate", () => {
     expect(entrances).toEqual([]);
   });
 
+  it("carries the ambient floor on every section, not only where a plate sits", () => {
+    /* The floor is that no viewport is ever fully still. Plates and the marquee
+       only cover part of a page, so the section ground carries the same light.
+       Attaching it to the section wrappers is what makes the floor structural
+       rather than something to remember: a new section inherits it. */
+    const css = read("src/styles/mindmake-instruments.css");
+    expect(css).toMatch(/@keyframes mm-ground-light/);
+    const rule = css.match(/\.mm-block::before,[\s\S]*?\}/)?.[0] ?? "";
+    expect(rule).toContain(".mm-close::before");
+    expect(rule).toContain("animation: mm-ground-light");
+    /* Behind the content and out of the way of the hand. */
+    expect(rule).toContain("z-index: -1");
+    expect(rule).toContain("pointer-events: none");
+  });
+
   it("stills the ambient layer under reduced motion", () => {
     const css = read("src/styles/mindmake-instruments.css");
     expect(css).toContain("prefers-reduced-motion");
     expect(css).toMatch(/prefers-reduced-motion[\s\S]*mm-marquee-track\s*\{\s*animation:\s*none/);
+    expect(css).toMatch(/prefers-reduced-motion[\s\S]*mm-block::before[\s\S]*?animation:\s*none/);
   });
 
   it("pins the scroll driver to its completed value under reduced motion", () => {

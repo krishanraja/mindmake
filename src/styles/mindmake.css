@@ -72,6 +72,7 @@
   --mm-muted: var(--mm-mut);
   --mm-rule: var(--mm-line);
   --mm-hairline: var(--mm-hair);
+  --mm-ground-light: rgba(127, 227, 180, .07);
 }
 
 .mm-on-paper {
@@ -82,6 +83,7 @@
   --mm-muted: var(--mm-mut-d);
   --mm-rule: var(--mm-paper-line);
   --mm-hairline: var(--mm-paper-line);
+  --mm-ground-light: rgba(10, 16, 13, .035);
   background: var(--mm-bg);
   color: var(--mm-fg);
 }
@@ -680,7 +682,7 @@
   font-size: 11.5px;
   text-align: center;
 }
-.mm-cookie-notice a { color: var(--mm-mint); }
+.mm-cookie-notice a { display: inline-block; padding: 6px 3px; color: var(--mm-mint); }
 
 /* Closing block shared by the secondary pages. */
 .mm-final { background: var(--mm-ink2); border-top: 1px solid var(--mm-hair); padding-block: var(--mm-section); }

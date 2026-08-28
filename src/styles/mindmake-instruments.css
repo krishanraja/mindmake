@@ -125,6 +125,46 @@
 .mm-live-dot.is-stale { background: var(--mm-amber); animation: none; }
 @media (prefers-reduced-motion: reduce) { .mm-live-dot { animation: none; } }
 
+/* ---------- Ambient: the section ground ---------- */
+
+/* The plates carry drift and a light pass, but a page is mostly the space
+   between them, and that space was going still. The ground carries the
+   faintest version of the same light, travelling slowly enough that it reads
+   as the room being powered rather than as something happening.
+
+   It sits behind the section's content, is inset far enough that its own
+   travel never reaches the section's edges, and answers nothing. */
+.mm-block,
+.mm-close,
+.mm-band {
+  position: relative;
+  isolation: isolate;
+}
+.mm-block::before,
+.mm-close::before,
+.mm-band::before {
+  content: "";
+  position: absolute;
+  inset: 0 22%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(64% 52% at 50% 50%, var(--mm-ground-light), transparent 72%);
+  animation: mm-ground-light 34s linear infinite;
+}
+/* A constant-speed traverse in both directions: no wrap to notice at the ends
+   and no easing that would let it rest in the middle. */
+@keyframes mm-ground-light {
+  0%, 100% { transform: translate3d(-18%, 0, 0); }
+  50% { transform: translate3d(18%, 0, 0); }
+}
+/* Offset so two stacked sections are never in step with each other. */
+.mm-block:nth-of-type(even)::before { animation-duration: 41s; animation-direction: reverse; }
+@media (prefers-reduced-motion: reduce) {
+  .mm-block::before,
+  .mm-close::before,
+  .mm-band::before { animation: none; }
+}
+
 /* ---------- Scroll: parallax reads --mm-p, written by useScrollDriver ---------- */
 
 .mm-parallax { --mm-p: .5; }
@@ -323,7 +363,16 @@
 .mm-close > p { max-width: 48ch; margin: 14px auto 0; color: var(--mm-tx2); }
 .mm-close .mm-button { margin-top: 22px; }
 .mm-close-sub { display: block; margin-top: 18px; color: var(--mm-mut); font-family: var(--mm-mono); font-size: 11px; }
-.mm-close-sub a { color: var(--mm-tx2); text-decoration: underline; text-decoration-color: var(--mm-mint-dim); text-underline-offset: 3px; }
+.mm-close-sub a {
+  /* Inline in a sentence, so it stays inline, with enough vertical room to be
+     a comfortable target on a phone. */
+  display: inline-block;
+  padding: 7px 2px;
+  color: var(--mm-tx2);
+  text-decoration: underline;
+  text-decoration-color: var(--mm-mint-dim);
+  text-underline-offset: 3px;
+}
 @media (hover: hover) and (pointer: fine) {
   .mm-close-sub a:hover { color: var(--mm-mint); }
 }

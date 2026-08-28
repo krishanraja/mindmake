@@ -135,6 +135,7 @@ export default function AiGtm() {
         <div className="mm-container">
           <h2 id="read-title"><Instrument kind="recorder" className="mm-head-mark" />Try it with your own company.</h2>
           <div className="mm-try-panel">
+            <Instrument kind="recorder" />
             <p className="mm-lede">
               Give us your company address. We will read your market while you watch, and send you
               a plan built for your business. It takes a couple of minutes.

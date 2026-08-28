@@ -1343,6 +1343,7 @@
    chips above them. Their own panel, their own scale, and the mint edge that
    means "this is the answer" everywhere else on the site. */
 .mm-try-panel {
+  position: relative;
   margin-top: 18px;
   border: 1px solid var(--mm-mint-dim);
   border-radius: 3px;
@@ -1402,12 +1403,17 @@
   to { transform: translateX(20px); }
 }
 
-/* One leaf falls and the next takes its place. */
-.mm-i-leaf { transform-origin: 24px 24px; animation: mm-i-fall 5s ease-in-out infinite; }
+/* One leaf falls and the next takes its place, without ever holding still.
+   The first version rested for 62 percent of its cycle, which meant that most
+   of the time it was a static mark wearing an animation: the ambient layer is
+   supposed to never stop, and a mark that pauses for three seconds has. */
+.mm-i-leaf { transform-origin: 24px 24px; animation: mm-i-fall 5s linear infinite; }
 @keyframes mm-i-fall {
-  0%, 62% { transform: rotateX(0deg); opacity: 1; }
-  78% { transform: rotateX(-72deg); opacity: .55; }
-  92%, 100% { transform: rotateX(0deg); opacity: 1; }
+  0% { transform: rotateX(0deg); opacity: 1; }
+  44% { transform: rotateX(-84deg); opacity: .5; }
+  50% { transform: rotateX(-90deg); opacity: .42; }
+  56% { transform: rotateX(-84deg); opacity: .5; }
+  100% { transform: rotateX(0deg); opacity: 1; }
 }
 
 /* A card lifts out of the drawer and settles back. */
@@ -1424,12 +1430,15 @@
   to { transform: translateX(0); }
 }
 
-/* The light climbs the levels and starts again at the bottom. */
-.mm-i-climb rect { animation: mm-i-climb 4.5s steps(1, end) infinite; }
+/* The light climbs the levels and starts again at the bottom. It slides rather
+   than stepping: steps(1) meant three instant jumps and four and a half seconds
+   of a mark that was not moving between them. */
+.mm-i-climb rect { animation: mm-i-climb 6s ease-in-out infinite; }
 @keyframes mm-i-climb {
-  0%, 33% { x: 10px; y: 30px; width: 8px; height: 10px; }
-  34%, 66% { x: 20px; y: 23px; width: 8px; height: 17px; }
-  67%, 100% { x: 30px; y: 14px; width: 8px; height: 26px; }
+  0% { x: 10px; y: 30px; width: 8px; height: 10px; }
+  40% { x: 20px; y: 23px; width: 8px; height: 17px; }
+  80% { x: 30px; y: 14px; width: 8px; height: 26px; }
+  100% { x: 10px; y: 30px; width: 8px; height: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1569,5 +1578,73 @@
 .mm-fig-month i.is-on { background: var(--mm-mint); border-color: var(--mm-mint); }
 .mm-fig-span .mm-fig-bar + .mm-fig-bar { margin-top: 10px; }
 @media (prefers-reduced-motion: reduce) { .mm-fig-month i { transition: none; } }
-/* A story's own mark, sized to its heading rather than to a section heading. */
-.mm-story-full h2 .mm-head-mark { width: 28px; height: 28px; margin-right: 9px; vertical-align: -6px; }
+/* A story's own mark, sized to its heading rather than to a section heading.
+   32 rather than 28: at 28 the archive sat on the aliveness floor rather than
+   clear of it, which is a gate reporting a real thinness, not a false alarm. */
+.mm-story-full h2 .mm-head-mark { width: 32px; height: 32px; margin-right: 10px; vertical-align: -7px; }
+
+/* ---------- The phone ---------- */
+
+.mm-chapter-more { margin-top: 14px; text-align: center; }
+
+/* The primary action, pinned on a phone and nowhere else. It appears once the
+   reader has left the first screen, because the hero has its own actions and a
+   fixed bar would land on them. */
+.mm-action-bar { display: none; }
+@media (max-width: 767px) {
+  .mm-action-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid var(--mm-line);
+    background: rgba(10, 16, 13, .94);
+    backdrop-filter: blur(8px);
+    padding: 10px var(--mm-gutter) calc(10px + var(--mm-safe-bottom));
+    transform: translateY(110%);
+    transition: transform .2s ease;
+  }
+  .mm-action-bar.is-shown { transform: translateY(0); }
+  .mm-action-bar .mm-button { width: 100%; max-width: 420px; }
+  /* It reserves its own height so it never covers the last thing being read. */
+  .mm-bar-visible .mm-footer { padding-bottom: calc(var(--mm-section) + 76px + var(--mm-safe-bottom)); }
+  @media (prefers-reduced-motion: reduce) {
+    .mm-action-bar { transition: none; }
+  }
+
+  /* A phone reads one column, and the hero used to take a screen and a half of
+     it before the doors even started. */
+  .mm-hero-stage { min-height: clamp(360px, 52vh, 460px); }
+  .mm-block { padding-block: 34px; }
+  .mm-subscribe-grid { gap: 20px; }
+  .mm-subscribe .mm-button { margin-top: 18px; }
+  .mm-channels li { padding: 13px 14px; }
+  .mm-answer { margin-top: 22px; }
+  .mm-door { min-height: 210px; }
+  .mm-doors { margin-top: 18px; }
+  .mm-story-full { gap: 14px; }
+  /* Full width, the stage photograph is 500px tall on a phone: half the
+     section, and it pushed the section past a screen so its own mark could
+     never be on screen with the rest of it. */
+  .mm-founder.is-standing .mm-founder-shot img {
+    max-height: 320px;
+    width: 100%;
+    object-fit: cover;
+    object-position: 60% 28%;
+  }
+  .mm-proof-figures dd { font-size: clamp(26px, 9vw, 34px); }
+}
+
+/* The panel is tall enough on a phone that its section heading scrolls away
+   before the panel does, so the mark repeats quietly inside it. */
+.mm-try-panel > .mm-i {
+  position: absolute;
+  right: clamp(14px, 2vw, 22px);
+  bottom: clamp(14px, 2vw, 22px);
+  width: 34px;
+  height: 34px;
+  opacity: .55;
+}

@@ -23,7 +23,11 @@ export function SubscribeBand({ ground = "raise" }: { ground?: "raise" | "ink" }
       <div className="mm-container">
         <div className="mm-subscribe-grid">
           <div>
-            <h2 id="subscribe-title">The reading, if you want it separately.</h2>
+            <h2 id="subscribe-title">
+              {/* A departures board: what is new, and when. */}
+              <Instrument kind="flap" className="mm-head-mark" />
+              The reading, if you want it separately.
+            </h2>
             <p className="mm-lede">
               We publish two things, and nothing else. No drip, and nothing from this page unless
               you ask for it here.

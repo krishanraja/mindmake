@@ -1,5 +1,6 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { MindmakeBrand } from "@/components/mindmake/MindmakeBrand";
+import { MobileActionBar } from "@/components/mindmake/MobileActionBar";
 import { Link, useLocation } from "react-router-dom";
 import { PUBLICATION_URL } from "@/lib/publicLinks";
 import { track } from "@/lib/analytics";
@@ -151,6 +152,10 @@ export function MindmakeShell({ children, onStart, mainClassName = "" }: Mindmak
           <small>Copyright {new Date().getFullYear()} Mindmake. Built in public, used in private.</small>
         </div>
       </footer>
+
+      {/* The primary action, pinned on a phone once the reader has left the
+          first screen. Nothing renders for it above the breakpoint. */}
+      <MobileActionBar onStart={onStart} />
     </div>
   );
 }

@@ -732,7 +732,16 @@
   font-size: 11.5px;
 }
 .mm-cookie-notice p { flex: 1 1 210px; }
-.mm-cookie-notice a { color: var(--mm-mint); text-decoration: underline; text-underline-offset: 3px; }
+/* The one inline link on the site inside fixed chrome, so it is also the one
+   that has to grow its own tap target rather than inherit a row's height. */
+.mm-cookie-notice a {
+  display: inline-block;
+  min-height: 30px;
+  padding-block: 5px;
+  color: var(--mm-mint);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 .mm-cookie-notice .mm-button-small { min-height: 34px; padding: 7px 12px; }
 
 /* The notice measures itself into --mm-cookie-reserve. Nothing used to read

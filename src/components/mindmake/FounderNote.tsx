@@ -1,3 +1,4 @@
+import { Instrument } from "@/components/mindmake/Instrument";
 import stageHero from "@/assets/founder/krish-stage-2-hero.webp";
 import stageHeroMobile from "@/assets/founder/krish-stage-2-hero-mobile.webp";
 import stagePortrait from "@/assets/founder/krish-stage-portrait.webp";
@@ -64,7 +65,10 @@ export function FounderNote({ treatment = "standing" }: FounderNoteProps) {
           </figure>
 
           <div className="mm-founder-note">
-            <h2 id="founder-title">Who you would be working with</h2>
+            <h2 id="founder-title">
+              <Instrument kind="drawer" className="mm-head-mark" />
+              Who you would be working with
+            </h2>
             <p className="mm-founder-name">
               <b>Krish Raja</b>
               <span>Founder, Mindmake</span>

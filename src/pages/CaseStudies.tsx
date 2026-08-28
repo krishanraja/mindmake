@@ -1,6 +1,7 @@
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
+import { MobileChapter } from "@/components/mindmake/MobileChapter";
 import { CloseBlock } from "@/components/mindmake/CloseBlock";
 import { CountingValue } from "@/components/mindmake/CountingValue";
 import { Instrument } from "@/components/mindmake/Instrument";
@@ -79,8 +80,11 @@ export default function CaseStudies() {
             <Instrument kind="recorder" className="mm-head-mark" />
             Eight stories, and the figure from each.
           </h2>
-          <div className="mm-stories-archive" style={{ marginTop: 20 }}>
-            {clientStories.map((story) => (
+          <MobileChapter
+            className="mm-stories-archive"
+            shown={3}
+            noun="stories"
+            items={clientStories.map((story) => (
               <article className="mm-story-full" key={story.id}>
                 <div className="mm-story-copy">
                   <h2>
@@ -96,7 +100,7 @@ export default function CaseStudies() {
                 <StoryFigureView figure={story.figure} />
               </article>
             ))}
-          </div>
+          />
         </div>
       </section>
 

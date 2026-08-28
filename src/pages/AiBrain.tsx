@@ -1,6 +1,7 @@
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
+import { MobileChapter } from "@/components/mindmake/MobileChapter";
 import { CloseBlock } from "@/components/mindmake/CloseBlock";
 import { SubscribeBand } from "@/components/mindmake/SubscribeBand";
 import { FilmPlate } from "@/components/mindmake/FilmPlate";
@@ -172,15 +173,20 @@ export default function AiBrain() {
                 <span className="mm-claim">We built this for ourselves. In thirty days, we build yours.</span>
                 <small>CTRL, our own engine. Live today.</small>
               </div>
-              <div className="mm-principles">
-                {PRINCIPLES.map((principle) => (
+              {/* Three mono cards in a column, after the longest section on the
+                  page, is the text wall the phone reader complained about. */}
+              <MobileChapter
+                className="mm-principles"
+                shown={1}
+                noun="rules"
+                items={PRINCIPLES.map((principle) => (
                   <article className="mm-principle" key={principle.title}>
                     <Instrument kind={principle.instrument} />
                     <h3>{principle.title}</h3>
                     <p>{principle.body}</p>
                   </article>
                 ))}
-              </div>
+              />
             </div>
             <ProofViewer />
           </div>
@@ -191,6 +197,7 @@ export default function AiBrain() {
         <div className="mm-container">
           <h2 id="learn-title"><Instrument kind="recorder" className="mm-head-mark" />See what it would do for you.</h2>
           <div className="mm-try-panel">
+            <Instrument kind="recorder" />
             <p className="mm-lede">
               Your LinkedIn and two taps, and we will show you what your first week would look
               like. It takes about twenty seconds.

@@ -124,6 +124,21 @@ for (const path of PATHS) {
 
   const height = await page.evaluate(() => document.body.scrollHeight);
   for (let y = 0; y < Math.max(1, height - HEIGHT / 2); y += HEIGHT) {
+    /* A window that is mostly footer is skipped. The rule is that no viewport
+       of the page is still, and a footer is site chrome: a list of links and a
+       copyright line that is deliberately quiet, on every site there has ever
+       been. Half is the line, so a window holding any real content still has
+       to earn its reading. */
+    const mostlyFooter = await page.evaluate(({ top, tall }) => {
+      const footer = document.querySelector("footer");
+      if (!footer) return false;
+      const box = footer.getBoundingClientRect();
+      const start = box.top + window.scrollY;
+      const overlap = Math.min(start + box.height, top + tall) - Math.max(start, top);
+      return overlap > tall * 0.5;
+    }, { top: y, tall: HEIGHT });
+    if (mostlyFooter) continue;
+
     await page.evaluate((top) => window.scrollTo(0, top), y);
     await page.waitForTimeout(700);
     /* Three frames, not two, and the strongest pair wins.

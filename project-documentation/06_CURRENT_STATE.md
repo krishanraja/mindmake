@@ -48,7 +48,7 @@ Supabase project `bkyuxvschuwngtcdhsyg`.
 
 ## Verification baselines
 
-- Tests: **164 across 16 files**, all passing. `tsc` clean.
+- Tests: **170 across 16 files**, all passing. `tsc` clean.
 - Lint: **0 errors, 2 warnings** (react-refresh advisories in two long-standing files). Down from four. Do not add new problems.
 - Build: prerenders **21 indexed routes**; the sitemap and prerender parity check runs inside the build.
 - Browser gates, run against the built output at 1440px and 390px:
@@ -57,6 +57,7 @@ Supabase project `bkyuxvschuwngtcdhsyg`.
   - **Layout**: no horizontal overflow, no console errors, exactly one `h1` per page, touch targets at or above the comfortable minimum.
   - **Reduced motion**: nothing animating, counters at their final figures.
   - **Board honesty**: verified in all three states (live, older than 26 hours, and unavailable) against a real captured cache payload.
+  - **Film playback**: all five ambient loops decode and play when scrolled into view, and a reduced-motion visitor has no video element mounted at all. Chromium pauses an offscreen muted loop and resumes it on view, which is the browser doing the right thing rather than a fault.
 - The two-email cap was proven rather than asserted: three successful sends to one address produced exactly one queue row, and the fourth was rate-limited. Test rows were deleted afterwards.
 - There are no frozen SHA-locked surfaces any more. The V5 motion study, the gateway candidate and the V8 mock were deleted with their locks; the brief supersedes their contracts and git history preserves the files.
 
@@ -65,7 +66,7 @@ Supabase project `bkyuxvschuwngtcdhsyg`.
 1. **Promotion is Krish's call.** The branch is pushed and reviewed by pull request; nothing is promoted automatically.
 2. **`submit-mindmake-brief` needs one redeploy, at launch and not before.** The repository version enqueues the day-14 follow-up; the deployed v12 does not, so nothing is being queued today and `follow_up_queue` is empty. That ordering is deliberate rather than an oversight: the enqueue creates an obligation to send an email the currently published privacy notice does not describe, and the notice that does describe it ships with this rebuild. Deploy the function in the same step as promoting the build, so the promise and the mechanism go live together. Until then the two paths hold: `mindmake-personal-read` enqueues its own rows but has no caller until `/ai-brain` ships, and `send-follow-ups` drains a queue that is empty.
 3. **Two mailboxes do not exist yet.** The pages route to `hello@mindmake.co` and the privacy notice to `privacy@mindmake.co`. There is no MX on the apex, so both aliases have to be created before launch.
-4. **Posters are stand-ins.** The six film slots carry generated stills. Real footage drops in under the same filenames with no code change.
+4. **The films are the real delivery.** Six films landed on 28 August 2026, each with an mp4, a webm and a poster taken from its own first frame. Loops are silent and under 1.7MB; the sixty-second proof film on `/ai-brain` is click-to-play and fetches nothing until asked. A twenty-second cut of the proof film also exists in the delivery and is not used on the site yet.
 5. **Credential rotation**: rotate the GitHub, Vercel, Supabase and Resend credentials shared during this and the launch sessions.
 6. **`get-model-data` v24 is still deployed** with no caller in this repository. Retiring it needs CTRL-side confirmation first.
 7. **Physical device checks**: iOS Safari, Android Chrome, VoiceOver and TalkBack remain a post-launch checklist; emulation evidence was accepted for launch.

@@ -199,7 +199,10 @@
   .mm-scrub span { opacity: 1 !important; transition: none; }
 }
 
-/* Sticky focus: a column pins while cards pass, non-active cards dim. */
+/* Sticky focus: a column pins while cards pass, non-active cards dim. One of
+   the devices the design contract sanctions, built and not yet placed on a
+   page. Kept rather than deleted: it is the implementation the contract names,
+   and it is how a tall card stack becomes one screen. */
 .mm-sticky-focus { display: grid; gap: 22px; }
 @media (min-width: 900px) {
   .mm-sticky-focus { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 40px; align-items: start; }
@@ -776,7 +779,7 @@
   border-radius: 50%;
   background: var(--mm-mint-dim);
 }
-.mm-payoff { margin-top: 16px; max-width: 54ch; font-family: var(--mm-serif); font-size: clamp(17px, 1.9vw, 21px); line-height: 1.4; color: var(--mm-tx); }
+.mm-payoff { margin-top: 30px; text-wrap: pretty; max-width: 54ch; font-family: var(--mm-serif); font-size: clamp(17px, 1.9vw, 21px); line-height: 1.4; color: var(--mm-tx); }
 .mm-payoff em { font-style: normal; color: var(--mm-mint); }
 
 /* ---------- CTRL: spec chips, proof viewer, principles ---------- */
@@ -871,7 +874,7 @@
 .mm-shape { border: 1px solid var(--mm-line); border-radius: 3px; background: var(--mm-ink2); padding: 17px 19px; }
 .mm-shape.is-hot { border-color: var(--mm-mint-dim); }
 .mm-shape.is-hot .mm-label { color: var(--mm-mint); }
-.mm-shape h3 { margin: 8px 0 7px; font-size: 16px; }
+.mm-shape h3 { margin: 8px 0 7px; font-size: 16px; text-wrap: nowrap; }
 .mm-shape p { color: var(--mm-tx2); font-size: 14px; line-height: 1.5; }
 
 /* ---------- The three impact cards (GTM) ---------- */
@@ -891,17 +894,29 @@
 .mm-impact-card .mm-label { color: var(--mm-mint); }
 .mm-impact-card p { margin-top: 9px; color: var(--mm-tx2); font-size: 14px; line-height: 1.55; }
 .mm-impact-card p strong { color: var(--mm-tx); font-weight: 600; }
-.mm-impact-card .mm-plate {
-  /* The square film sits with the card rather than dominating the row, so it
-     is capped and cropped instead of setting the row's height. */
-  margin-top: 14px;
-  height: clamp(110px, 14vw, 150px);
+/* A section head that carries its own image: heading on the left, film on the
+   right. Two things go wrong when the image sits in the stack instead. Inside
+   one of three cards it made the other two stretch to match and carry 150px of
+   empty space each, so a card grid must never hold one card with art and two
+   without. Spanning the full 1240px container it upscaled a 1080px square
+   source to 0.87x. Beside the heading it lands near 520px, which is better than
+   2x on the same file, and the section loses a whole row of height. */
+.mm-head-split { display: grid; gap: 20px; align-items: center; }
+@media (min-width: 860px) {
+  .mm-head-split { grid-template-columns: minmax(0, 1fr) minmax(0, .78fr); gap: 44px; }
+}
+.mm-impact-film {
+  height: clamp(150px, 20vw, 240px);
+  border-radius: 3px;
 }
 
 /* ---------- Section rhythm ---------- */
 
 .mm-block { padding-block: clamp(40px, 7vh, 80px); border-top: 1px solid var(--mm-hair); }
-.mm-block > .mm-container > h2 { max-width: 20ch; }
+/* 20ch was about 484px at the display size, inside a 1240px container: four
+   line headings with half the row empty. A measure wide enough to read, not so
+   wide it loses the eye. */
+.mm-block > .mm-container > h2 { max-width: 30ch; }
 .mm-block-head { margin-bottom: 18px; }
 .mm-block-head .mm-lede { margin-top: 12px; }
 .mm-block .mm-band { margin-block: 0; }
@@ -997,7 +1012,7 @@
 }
 
 /* A shape card names itself in its heading, then says what it is in one line. */
-.mm-shape-line { margin-top: 7px; color: var(--mm-tx); font-family: var(--mm-serif); font-size: 17px; line-height: 1.35; }
+.mm-shape-line { margin-top: 7px; text-wrap: pretty; color: var(--mm-tx); font-family: var(--mm-serif); font-size: 17px; line-height: 1.35; }
 .mm-shape p + p { margin-top: 8px; }
 .mm-objections-title { font-size: clamp(20px, 2.4vw, 27px); margin-bottom: 14px; }
 .mm-references h3, .mm-attendance h3 { font-size: 15px; font-weight: 600; color: var(--mm-tx2); margin-bottom: 12px; }

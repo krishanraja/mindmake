@@ -8,28 +8,28 @@
 .mm-brief-panel[data-tone="ink"] {
   --mmb-bg: var(--mm-ink);
   --mmb-fg: #ffffff;
-  --mmb-muted: var(--mm-muted-dark);
-  --mmb-line: var(--mm-line-light);
+  --mmb-muted: var(--mm-mut);
+  --mmb-line: var(--mm-line);
   --mmb-card: rgba(255, 255, 255, .05);
-  --mmb-accent: var(--mm-emerald);
+  --mmb-accent: var(--mm-mint);
   --mmb-top: rgba(13, 25, 41, .94);
 }
 .mm-brief-panel[data-tone="forest"] {
-  --mmb-bg: var(--mm-forest);
+  --mmb-bg: var(--mm-mint-wash);
   --mmb-fg: #ffffff;
-  --mmb-muted: var(--mm-muted-dark);
+  --mmb-muted: var(--mm-mut);
   --mmb-line: rgba(255, 255, 255, .2);
   --mmb-card: rgba(255, 255, 255, .06);
-  --mmb-accent: var(--mm-emerald);
+  --mmb-accent: var(--mm-mint);
   --mmb-top: rgba(6, 37, 31, .94);
 }
 .mm-brief-panel[data-tone="paper"] {
   --mmb-bg: var(--mm-paper);
   --mmb-fg: var(--mm-ink);
-  --mmb-muted: var(--mm-muted-light);
-  --mmb-line: var(--mm-line-dark);
-  --mmb-card: var(--mm-paper-bright);
-  --mmb-accent: var(--mm-emerald-deep);
+  --mmb-muted: var(--mm-mut-d);
+  --mmb-line: var(--mm-paper-line);
+  --mmb-card: var(--mm-paper2);
+  --mmb-accent: var(--mm-mint-d);
   --mmb-top: rgba(244, 240, 232, .96);
 }
 
@@ -97,7 +97,7 @@
   top: 58px;
   z-index: 2;
   display: flex;
-  border-bottom: 1px solid var(--mmb-line, var(--mm-line-dark));
+  border-bottom: 1px solid var(--mmb-line, var(--mm-paper-line));
   background: var(--mmb-top, rgba(244, 240, 232, .96));
 }
 .mm-brief-path button {
@@ -107,7 +107,7 @@
   border: 0;
   border-top: 3px solid transparent;
   background: transparent;
-  color: var(--mmb-muted, var(--mm-muted-light));
+  color: var(--mmb-muted, var(--mm-mut-d));
   padding: 8px 4px;
   font-size: 12px;
   font-weight: 750;
@@ -117,9 +117,9 @@
   cursor: pointer;
   touch-action: manipulation;
 }
-.mm-brief-path button[data-done="true"] { border-top-color: var(--mmb-accent, var(--mm-emerald-deep)); }
+.mm-brief-path button[data-done="true"] { border-top-color: var(--mmb-accent, var(--mm-mint-d)); }
 .mm-brief-path button[aria-current="step"] {
-  border-top-color: var(--mmb-accent, var(--mm-emerald-deep));
+  border-top-color: var(--mmb-accent, var(--mm-mint-d));
   color: var(--mmb-fg, var(--mm-ink));
 }
 .mm-brief-path button:disabled { cursor: default; }
@@ -157,12 +157,12 @@
 .mm-brief-panel[data-tone="forest"] .mm-brief-result-grid article.is-read { background: rgba(110, 225, 192, .1); }
 .mm-brief-panel[data-tone="forest"] .mm-brief-result-grid small { color: var(--mmb-accent); }
 .mm-brief-panel[data-tone="forest"] .mm-brief-result-grid article.is-wide { border-top-color: var(--mmb-accent); }
-.mm-brief-panel[data-tone="forest"] .mm-brief-result-grid article.is-time { border-top-color: var(--mm-rust); }
+.mm-brief-panel[data-tone="forest"] .mm-brief-result-grid article.is-time { border-top-color: var(--mm-amber); }
 
 /* Hand-drawn marks inside the dialog: the shared .mm-mark primitive lives
    in mindmake.css; here the reveal timing and dark-tone stroke apply. */
 .mm-brief-panel[data-tone="ink"] .mm-mark,
-.mm-brief-panel[data-tone="forest"] .mm-mark { --mm-mark-stroke: var(--mm-emerald); }
+.mm-brief-panel[data-tone="forest"] .mm-mark { --mm-mark-stroke: var(--mm-mint); }
 @media (prefers-reduced-motion: no-preference) {
   .mm-mark.is-reveal svg path { animation: mm-mark-reveal .8s ease .8s backwards; }
 }
@@ -178,7 +178,7 @@
    proposal is the object, whatever tone the room is in. */
 .mm-proposal {
   margin-top: 30px;
-  border: 1px solid var(--mm-line-dark);
+  border: 1px solid var(--mm-paper-line);
   background: var(--mm-paper);
   color: var(--mm-ink);
   padding: clamp(22px, 4vw, 40px);
@@ -190,11 +190,11 @@
   align-items: baseline;
   gap: 12px;
   flex-wrap: wrap;
-  border-top: 8px solid var(--mm-emerald);
+  border-top: 8px solid var(--mm-mint);
   padding-top: 16px;
 }
 .mm-proposal-brand { font-family: "Source Serif 4", Charter, Georgia, serif; font-size: clamp(17px, 1.6vw, 21px); letter-spacing: -.02em; }
-.mm-proposal-meta { color: var(--mm-muted-light); font-size: 12px; }
+.mm-proposal-meta { color: var(--mm-mut-d); font-size: 12px; }
 .mm-proposal-headline {
   margin-top: clamp(20px, 3vw, 34px);
   max-width: 15ch;
@@ -205,14 +205,14 @@
 .mm-proposal-card {
   margin-top: 16px;
   border: 1px solid rgba(13, 25, 41, .24);
-  background: var(--mm-paper-bright);
+  background: var(--mm-paper2);
   padding: clamp(14px, 2vw, 20px);
   box-shadow: 8px 8px 0 rgba(13, 25, 41, .1);
 }
 .mm-proposal-card h4,
 .mm-proposal-time h4 {
   margin: 0 0 8px;
-  color: var(--mm-emerald-deep);
+  color: var(--mm-mint-d);
   font-family: "Source Sans 3", "Segoe UI", Arial, sans-serif;
   font-size: 11px;
   font-weight: 800;
@@ -220,7 +220,7 @@
   text-transform: uppercase;
 }
 .mm-proposal-card p, .mm-proposal-card ul { margin: 0; font-size: 15px; line-height: 1.5; }
-.mm-proposal-card ul { margin-top: 8px; padding-left: 18px; color: var(--mm-muted-light); font-size: 13px; }
+.mm-proposal-card ul { margin-top: 8px; padding-left: 18px; color: var(--mm-mut-d); font-size: 13px; }
 .mm-proposal-pair { display: grid; gap: 12px; }
 .mm-proposal-card.is-proof strong {
   display: block;
@@ -230,13 +230,13 @@
   line-height: 1.18;
   letter-spacing: -.02em;
 }
-.mm-proposal-time { margin-top: 22px; border-left: 4px solid var(--mm-rust); padding-left: 14px; }
-.mm-proposal-time h4 { color: var(--mm-rust); }
+.mm-proposal-time { margin-top: 22px; border-left: 4px solid var(--mm-amber-d); padding-left: 14px; }
+.mm-proposal-time h4 { color: var(--mm-amber-d); }
 .mm-proposal-time p { margin: 0; font-size: 15px; }
-.mm-proposal-honesty { margin-top: 20px; color: var(--mm-muted-light); font-style: italic; font-size: 14px; }
-.mm-proposal-next { margin-top: 14px; border: 1px solid var(--mm-emerald-deep); background: var(--mm-paper-bright); padding: 12px 14px; font-size: 14px; }
+.mm-proposal-honesty { margin-top: 20px; color: var(--mm-mut-d); font-style: italic; font-size: 14px; }
+.mm-proposal-next { margin-top: 14px; border: 1px solid var(--mm-mint-d); background: var(--mm-paper2); padding: 12px 14px; font-size: 14px; }
 .mm-proposal-foot { margin-top: 22px; border-top: 1px solid rgba(13, 25, 41, .22); padding-top: 10px; }
-.mm-proposal-foot p { margin: 0 0 4px; color: var(--mm-muted-light); font-size: 12px; }
+.mm-proposal-foot p { margin: 0 0 4px; color: var(--mm-mut-d); font-size: 12px; }
 @media (min-width: 680px) {
   .mm-proposal-pair { grid-template-columns: 1fr 1fr; }
 }

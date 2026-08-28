@@ -83,7 +83,20 @@ export default function AiGtm() {
 
       <section className="mm-block" aria-labelledby="money-title">
         <div className="mm-container">
-          <h2 id="money-title">Three things AI changes about selling.</h2>
+          <div className="mm-head-split">
+            <h2 id="money-title">Three things AI changes about selling.</h2>
+            {/* The film belongs to the section rather than to one of three
+                peers, and beside the heading rather than under everything: a
+                1080px square spanning the full container was upscaled. */}
+            <FilmPlate
+              className="mm-impact-film"
+              poster={filmSixPoster}
+              posterWebp={filmSixPosterWebp}
+              src={filmSixLoop}
+              srcWebm={filmSixLoopWebm}
+              label="Extreme macro on a split-flap display in a brass frame, mid-cascade, settling lower on its column."
+            />
+          </div>
           <div className="mm-impact" style={{ marginTop: 18 }}>
             <article className="mm-impact-card">
               <h3>What you charge</h3>
@@ -92,13 +105,6 @@ export default function AiGtm() {
                 to notice. We work out what that means for your margin and what your prices should
                 assume next year.
               </p>
-              <FilmPlate
-                poster={filmSixPoster}
-                posterWebp={filmSixPosterWebp}
-                src={filmSixLoop}
-                srcWebm={filmSixLoopWebm}
-                label="Extreme macro on a split-flap display in a brass frame, mid-cascade, settling lower on its column."
-              />
             </article>
             <article className="mm-impact-card">
               <h3>How you stand out</h3>

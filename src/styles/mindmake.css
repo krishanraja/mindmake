@@ -39,6 +39,11 @@
   --mm-mint-ink: #07110c;
   --mm-amber: #e0a44a;
   --mm-amber-wash: #2b2113;
+  /* The same two accents, darkened for a paper ground. Both are tuned for ink:
+     on the proposal's paper mint reaches 3.8:1 and amber less, under the 4.5:1
+     that the 11px labels using them need. Same hues, same two meanings. */
+  --mm-mint-d: #2f6f51;
+  --mm-amber-d: #9a5a1c;
   --mm-focus: #7fe3b4;
 
   /* Type roles */
@@ -127,6 +132,10 @@
 /* The claim voice. Serif speaks only the claim. */
 .mm-claim {
   display: block;
+  /* The claim is set as a paragraph or a span, so it never inherited the
+     balancing scoped to headings, and short centred claims broke with a single
+     word alone on the last line. */
+  text-wrap: balance;
   font-family: var(--mm-serif);
   font-weight: 400;
   letter-spacing: -.02em;
@@ -162,7 +171,7 @@
   border: 0;
 }
 .mm-section { padding-block: var(--mm-section); }
-.mm-lede { max-width: 60ch; color: var(--mm-fg2); font-size: clamp(16px, 1.4vw, 18px); }
+.mm-lede { max-width: 62ch; color: var(--mm-fg2); font-size: clamp(16px, 1.4vw, 18px); text-wrap: pretty; }
 
 /* Buttons and links: the touch layer answers within 100ms. */
 .mm-button {
@@ -664,25 +673,36 @@
 .mm-not-found p { margin-top: 14px; color: var(--mm-tx2); }
 .mm-not-found .mm-button { margin-top: 26px; }
 
+/* One line, one sentence, one button, and out of the way.
+   As a full-width bar it stood 69px on a desktop and about 164px on a phone,
+   which is a fifth of an iPhone screen permanently occupied by a single
+   sentence. It is now a card in the corner, sized to its content. */
 .mm-cookie-notice {
   position: fixed;
-  inset: auto 0 0;
+  inset: auto var(--mm-gutter) calc(14px + var(--mm-safe-bottom)) auto;
   z-index: 90;
+  max-width: min(430px, calc(100vw - var(--mm-gutter) * 2));
   display: flex;
   flex-wrap: wrap;
-  gap: 12px 20px;
+  gap: 8px 14px;
   align-items: center;
-  justify-content: center;
-  border-top: 1px solid var(--mm-line);
+  border: 1px solid var(--mm-line);
+  border-radius: 3px;
   background: rgba(17, 26, 22, .97);
   backdrop-filter: blur(10px);
-  padding: 14px var(--mm-gutter) calc(14px + var(--mm-safe-bottom));
+  box-shadow: 0 12px 34px rgba(0, 0, 0, .42);
+  padding: 10px 12px;
   color: var(--mm-tx2);
   font-family: var(--mm-mono);
   font-size: 11.5px;
-  text-align: center;
 }
-.mm-cookie-notice a { display: inline-block; padding: 6px 3px; color: var(--mm-mint); }
+.mm-cookie-notice p { flex: 1 1 210px; }
+.mm-cookie-notice a { color: var(--mm-mint); text-decoration: underline; text-underline-offset: 3px; }
+.mm-cookie-notice .mm-button-small { min-height: 34px; padding: 7px 12px; }
+
+/* The notice measures itself into --mm-cookie-reserve. Nothing used to read
+   that, so the bar sat on top of the last of the footer. */
+.mm-cookie-visible .mm-footer { padding-bottom: calc(30px + var(--mm-safe-bottom) + var(--mm-cookie-reserve, 0px)); }
 
 /* Closing block shared by the secondary pages. */
 .mm-final { background: var(--mm-ink2); border-top: 1px solid var(--mm-hair); padding-block: var(--mm-section); }

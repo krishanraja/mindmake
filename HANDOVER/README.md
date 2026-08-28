@@ -1,5 +1,15 @@
 # Mindmake rebuild handover
 
+> **Superseded on 28 August 2026.** This pack is the 26 August checkpoint, kept
+> for history. It names files that have since been deleted, publishes frozen
+> hashes for surfaces the rebuild retired, and points at a local path and branch
+> that no longer exist. Do not follow its instructions.
+>
+> Current truth: `project-documentation/CURRENT_STATE.md` for live state,
+> `project-documentation/DESIGN_CONTRACT.md` for design, `CLAUDE.md` for the
+> contributor guard. `01_NORTH_STAR_AND_POSITIONING.md` in this folder remains
+> canonical for intent and is untouched.
+
 Created: 26 August 2026
 
 Repository: `C:\Users\krish\dev\mindmaker`

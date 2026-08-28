@@ -1,58 +1,52 @@
 import { useState } from "react";
-import { ArrowRight, ChevronDown } from "lucide-react";
 import { SEO } from "@/components/SEO";
-import { faqItems } from "@/components/FAQAccordion";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
+import { track } from "@/lib/analytics";
+import corpus from "@/content/answers.json";
 import "@/styles/mindmake.css";
+
+/** The same curated corpus the ask bar answers from, laid out in full. */
+const answers = corpus.entries as Array<{ id: string; question: string; answer: string }>;
 
 export default function Questions() {
   const [briefOpen, setBriefOpen] = useState(false);
 
   return (
-    <MindmakeShell onStart={() => setBriefOpen(true)} darkHeader={false}>
+    <MindmakeShell onStart={() => setBriefOpen(true)}>
       <SEO
-        title="Useful answers"
-        description="Clear answers about Mindmake, who it helps, what the work produces and how to begin."
+        title="Straight answers"
+        description="Straight answers about Mindmake: what the thirty days build, what it costs, what happens to your data and what you keep."
         canonical="/faq"
       />
       <section className="mm-answers-page" aria-labelledby="answers-title">
         <div className="mm-container">
           <div className="mm-answers-hero">
-            <div>
-              <h1 id="answers-title">Know what happens before you share.</h1>
-            </div>
-            <p>
-              These are the practical questions: who the work is for, what the first month
-              proves and what stays with you afterwards.
-            </p>
+            <h1 id="answers-title">Straight answers.</h1>
+            <p>The questions leaders ask before they start, answered the way we would answer them on a call.</p>
           </div>
 
           <div className="mm-answers-list">
-            {faqItems.map((item, index) => (
-              <details key={item.question} open={index === 0}>
-                <summary>
-                  <strong>{item.question}</strong>
-                  <ChevronDown aria-hidden="true" />
-                </summary>
+            {answers.map((item) => (
+              <section key={item.id}>
+                <h2>{item.question}</h2>
                 <p>{item.answer}</p>
-              </details>
+              </section>
             ))}
           </div>
 
           <aside className="mm-answers-next" aria-labelledby="answers-next-title">
-            <div>
-              <h2 id="answers-next-title">See what a useful first month could prove.</h2>
-            </div>
-            <div>
-              <p>
-                Mindmake reads the company first and gives you a starting point before asking
-                for your email.
-              </p>
-              <button className="mm-button" type="button" onClick={() => setBriefOpen(true)}>
-                Start here <ArrowRight aria-hidden="true" />
-              </button>
-            </div>
+            <h2 id="answers-next-title">Ready to see it on your business?</h2>
+            <button
+              className="mm-button"
+              type="button"
+              onClick={() => {
+                track("scoping_request", { source: "faq" });
+                setBriefOpen(true);
+              }}
+            >
+              Start here <span aria-hidden="true">→</span>
+            </button>
           </aside>
         </div>
       </section>

@@ -4,7 +4,6 @@ import { ThemeProvider } from "next-themes";
 import { lazy, Suspense, useEffect } from "react";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { CookieConsent } from "@/components/CookieConsent";
-import { MindmakeBrand } from "@/components/mindmake/MindmakeBrand";
 import { MINDMAKER_LIVE_URL } from "@/lib/publicLinks";
 import Index from "./pages/Index";
 
@@ -74,7 +73,7 @@ export function ScrollToLocation() {
 export function PageLoading() {
   return (
     <div className="mm-site mm-page-loading" role="status" aria-live="polite">
-      <MindmakeBrand />
+      <span className="mm-brand">MIND<span>/</span>MAKE</span>
       <p><span aria-hidden="true" /> Loading the page.</p>
     </div>
   );

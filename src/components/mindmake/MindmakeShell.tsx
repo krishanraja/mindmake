@@ -1,59 +1,30 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { MindmakeBrand } from "@/components/mindmake/MindmakeBrand";
+import { MINDMAKER_LIVE_URL } from "@/lib/publicLinks";
+import { track } from "@/lib/analytics";
 
-export const MEDIA_URL = "https://mindmakerlive.substack.com";
+export const MEDIA_URL = MINDMAKER_LIVE_URL;
 
 interface MindmakeShellProps {
   children: ReactNode;
   onStart: () => void;
-  darkHeader?: boolean;
-  headerMode?: "overlay" | "paper";
-  showStartAction?: boolean;
-  helpHash?: string;
   mainClassName?: string;
 }
 
-export function MindmakeShell({
-  children,
-  onStart,
-  darkHeader = true,
-  headerMode = "overlay",
-  showStartAction = true,
-  helpHash = "#work",
-  mainClassName = "",
-}: MindmakeShellProps) {
+export function MindmakeShell({ children, onStart, mainClassName = "" }: MindmakeShellProps) {
   const [scrolled, setScrolled] = useState(false);
-  const [tucked, setTucked] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
-  const mobileNavRef = useRef<HTMLElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   const mainRef = useRef<HTMLElement>(null);
   const footerRef = useRef<HTMLElement>(null);
   const location = useLocation();
 
   useEffect(() => {
-    const phone = window.matchMedia("(max-width: 560px)");
-    let lastY = window.scrollY;
-    const update = () => {
-      const y = window.scrollY;
-      setScrolled(y > 24);
-      if (!phone.matches || y <= 96) {
-        setTucked(false);
-      } else if (y - lastY > 6) {
-        setTucked(true);
-      } else if (lastY - y > 6) {
-        setTucked(false);
-      }
-      lastY = y;
-    };
+    const update = () => setScrolled(window.scrollY > 24);
     update();
     window.addEventListener("scroll", update, { passive: true });
-    phone.addEventListener?.("change", update);
-    return () => {
-      window.removeEventListener("scroll", update);
-      phone.removeEventListener?.("change", update);
-    };
+    return () => window.removeEventListener("scroll", update);
   }, []);
 
   useEffect(() => setMenuOpen(false), [location.pathname, location.hash, location.search]);
@@ -61,128 +32,117 @@ export function MindmakeShell({
   useEffect(() => {
     const main = mainRef.current as (HTMLElement & { inert: boolean }) | null;
     const footer = footerRef.current as (HTMLElement & { inert: boolean }) | null;
-    const mobileNav = mobileNavRef.current as (HTMLElement & { inert: boolean }) | null;
+    const menu = menuRef.current as (HTMLDivElement & { inert: boolean }) | null;
     if (main) main.inert = menuOpen;
     if (footer) footer.inert = menuOpen;
-    if (mobileNav) mobileNav.inert = !menuOpen;
+    if (menu) menu.inert = !menuOpen;
     document.body.classList.toggle("mm-menu-open", menuOpen);
 
-    if (!menuOpen) return () => {
+    const release = () => {
       document.body.classList.remove("mm-menu-open");
       if (main) main.inert = false;
       if (footer) footer.inert = false;
-      if (mobileNav) mobileNav.inert = true;
+      if (menu) menu.inert = true;
     };
 
-    const firstLink = mobileNavRef.current?.querySelector<HTMLElement>("a, button");
-    const focusTimer = window.setTimeout(() => firstLink?.focus(), 20);
-    const handleMenuKeyDown = (event: KeyboardEvent) => {
+    if (!menuOpen) return release;
+
+    const firstControl = menuRef.current?.querySelector<HTMLElement>("a, button");
+    const focusTimer = window.setTimeout(() => firstControl?.focus(), 20);
+
+    const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setMenuOpen(false);
         window.setTimeout(() => menuButtonRef.current?.focus(), 20);
         return;
       }
-
       if (event.key !== "Tab") return;
 
-      const navControls = Array.from(
-        mobileNavRef.current?.querySelectorAll<HTMLElement>(
-          'a[href], button:not([disabled])',
-        ) ?? [],
-      );
-      const focusableControls = [menuButtonRef.current, ...navControls].filter(
-        (control): control is HTMLElement => control !== null,
-      );
-      const firstControl = focusableControls[0];
-      const lastControl = focusableControls.at(-1);
+      const controls = [
+        menuButtonRef.current,
+        ...Array.from(menuRef.current?.querySelectorAll<HTMLElement>("a[href], button:not([disabled])") ?? []),
+      ].filter((control): control is HTMLElement => control !== null);
+      const first = controls[0];
+      const last = controls.at(-1);
 
-      if (event.shiftKey && document.activeElement === firstControl) {
+      if (event.shiftKey && document.activeElement === first) {
         event.preventDefault();
-        lastControl?.focus();
-      } else if (!event.shiftKey && document.activeElement === lastControl) {
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
         event.preventDefault();
-        firstControl?.focus();
+        first?.focus();
       }
     };
-    const closeAtDesktop = () => {
-      if (window.innerWidth > 900) setMenuOpen(false);
-    };
-    document.addEventListener("keydown", handleMenuKeyDown);
-    window.addEventListener("resize", closeAtDesktop);
+
+    document.addEventListener("keydown", onKeyDown);
     return () => {
       window.clearTimeout(focusTimer);
-      document.removeEventListener("keydown", handleMenuKeyDown);
-      window.removeEventListener("resize", closeAtDesktop);
-      document.body.classList.remove("mm-menu-open");
-      if (main) main.inert = false;
-      if (footer) footer.inert = false;
-      if (mobileNav) mobileNav.inert = true;
+      document.removeEventListener("keydown", onKeyDown);
+      release();
     };
   }, [menuOpen]);
 
-  const homeHref = (hash: string) => (location.pathname === "/" ? hash : `/${hash}`);
-  const paperHeader = headerMode === "paper";
-  const headerLight = !paperHeader && !scrolled && darkHeader;
-  const openBriefFromMobileMenu = () => {
+  const startFromMenu = () => {
     setMenuOpen(false);
     menuButtonRef.current?.focus({ preventScroll: true });
+    track("scoping_request", { source: "menu" });
     onStart();
   };
 
   return (
     <div className="mm-site">
       <a className="mm-skip" href="#main">Skip to content</a>
-      <header className={`mm-header${scrolled ? " is-scrolled" : ""}${headerLight ? " is-light" : ""}${paperHeader ? " is-paper" : ""}${tucked && !menuOpen ? " is-tucked" : ""}`}>
+      <header className={`mm-header${scrolled ? " is-scrolled" : ""}`}>
         <div className="mm-container mm-nav">
-          <MindmakeBrand light={headerLight} />
-          <nav className="mm-nav-links" aria-label="Main navigation">
-            <a href={homeHref(helpHash)}>How I help</a>
-            <Link to="/case-studies">Results</Link>
-            <a href={MEDIA_URL} target="_blank" rel="noreferrer">Media</a>
-            {showStartAction && (
-              <button className="mm-button mm-button-small" type="button" onClick={onStart}>
-                Start here <span aria-hidden="true">→</span>
-              </button>
-            )}
-          </nav>
+          <Link className="mm-brand" to="/">MIND<span>/</span>MAKE</Link>
           <button
             ref={menuButtonRef}
             className="mm-menu-button"
             type="button"
             aria-label={menuOpen ? "Close navigation" : "Open navigation"}
             aria-expanded={menuOpen}
-            aria-controls="mindmake-mobile-menu"
+            aria-controls="mindmake-menu"
             onClick={() => setMenuOpen((open) => !open)}
           >
             {menuOpen ? "Close" : "Menu"}
+            <span className="mm-burger" aria-hidden="true"><i /><i /><i /></span>
           </button>
         </div>
       </header>
-      <nav
-        ref={mobileNavRef}
-        className={`mm-mobile-nav${menuOpen ? " is-open" : ""}`}
-        id="mindmake-mobile-menu"
-        aria-label="Mobile navigation"
+
+      <div
+        ref={menuRef}
+        className={`mm-menu${menuOpen ? " is-open" : ""}`}
+        id="mindmake-menu"
         aria-hidden={!menuOpen}
       >
-        <a href={homeHref(helpHash)} onClick={() => setMenuOpen(false)}>How I help</a>
-        <Link to="/case-studies" onClick={() => setMenuOpen(false)}>Results</Link>
-        <a href={MEDIA_URL} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)}>Media</a>
-        {showStartAction && (
-          <button className="mm-button" type="button" onClick={openBriefFromMobileMenu}>Start here</button>
-        )}
-      </nav>
+        <nav aria-label="Main navigation">
+          <Link to="/ai-brain">Build your AI brain</Link>
+          <Link to="/ai-gtm">Build your AI GTM</Link>
+          <Link to="/case-studies">Results</Link>
+          <a
+            href={MINDMAKER_LIVE_URL}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => track("substack_click", { source: "menu" })}
+          >
+            The weekly read
+          </a>
+          <button type="button" onClick={startFromMenu}>Start here</button>
+        </nav>
+      </div>
+
       <main id="main" ref={mainRef} className={mainClassName} tabIndex={-1}>{children}</main>
+
       <footer className="mm-footer" ref={footerRef}>
         <div className="mm-container mm-footer-grid">
-          <MindmakeBrand />
-          <p>Put your best judgement to work with AI.</p>
+          <Link className="mm-brand" to="/">MIND<span>/</span>MAKE</Link>
+          <p>Systems that hold your judgement, and belong to you when we leave.</p>
           <nav aria-label="Footer navigation">
-            <Link to="/ai-brain">Build Your AI Brain</Link>
-            <Link to="/ai-gtm">Build Your AI GTM</Link>
+            <Link to="/ai-brain">Build your AI brain</Link>
+            <Link to="/ai-gtm">Build your AI GTM</Link>
             <Link to="/case-studies">Results</Link>
-            <Link to="/#about">About</Link>
-            <a href={MEDIA_URL} target="_blank" rel="noreferrer">Media</a>
+            <a href={MINDMAKER_LIVE_URL} target="_blank" rel="noreferrer">The weekly read</a>
             <Link to="/blog">Ideas</Link>
             <Link to="/faq">Answers</Link>
             <Link to="/contact">Contact</Link>

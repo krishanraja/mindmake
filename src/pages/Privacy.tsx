@@ -7,7 +7,7 @@ import "@/styles/mindmake.css";
 const sections = [
   {
     title: "1. Who we are",
-    body: <><p>Mindmake is the public brand of Mindmaker LLC. You can contact Krish Raja at <a href="mailto:krish@themindmaker.ai">krish@themindmaker.ai</a>.</p></>,
+    body: <><p>Mindmake is the public brand of Mindmaker LLC. You can contact us at <a href="mailto:privacy@mindmake.co">privacy@mindmake.co</a>.</p></>,
   },
   {
     title: "2. What we collect",
@@ -15,11 +15,11 @@ const sections = [
   },
   {
     title: "3. Why we use it",
-    body: <><p>Before you confirm your email, we use the information to research the company, prepare the brief, send the code and protect the service from misuse. Nothing is sent to Krish from the brief until the code is confirmed.</p><p>After confirmation, Mindmake tries to send your brief to you and a separate fit summary to Krish. The summary contains your email, company, choices, public company read and a server-made starting recommendation. Either email can fail on its own. No automated sales sequence follows.</p><p>The publication box is separate and unticked. It records interest only. It does not subscribe you or authorise an automatic import. A publication sign-up must be completed separately.</p><p>We may also use information to take steps you ask for before a contract, to carry out a contract, to meet a legal duty and for the reasonable needs of running, protecting and improving Mindmake.</p></>,
+    body: <><p>Before you confirm your email, we use the information to research the company, prepare the brief, send the code and protect the service from misuse. Nothing is sent to us from the brief until the code is confirmed.</p><p>After confirmation, Mindmake tries to send your brief to you and a separate fit summary to our team. The summary contains your email, company, choices, public company read and a server-made starting recommendation. Either email can fail on its own. No automated sales sequence follows.</p><p>The publication box is separate and unticked. It records interest only. It does not subscribe you or authorise an automatic import. A publication sign-up must be completed separately.</p><p>We may also use information to take steps you ask for before a contract, to carry out a contract, to meet a legal duty and for the reasonable needs of running, protecting and improving Mindmake.</p></>,
   },
   {
     title: "4. Who helps us handle it",
-    body: <><p>Mindmake uses trusted providers for website hosting, data storage, email, company research, AI services, privacy-friendly analytics, payments and publication delivery. These providers process information for the service they supply. Some may process data outside your country.</p><p>We do not sell personal information. We may share it when the law requires this, when a business transfer requires it or when you ask us to.</p><p>You can ask for the current provider list and transfer safeguards by emailing Krish.</p></>,
+    body: <><p>Mindmake uses trusted providers for website hosting, data storage, email, company research, AI services, privacy-friendly analytics, payments and publication delivery. These providers process information for the service they supply. Some may process data outside your country.</p><p>We do not sell personal information. We may share it when the law requires this, when a business transfer requires it or when you ask us to.</p><p>You can ask for the current provider list and transfer safeguards by emailing us.</p></>,
   },
   {
     title: "5. Analytics and your device",
@@ -31,7 +31,7 @@ const sections = [
   },
   {
     title: "7. Your choices and rights",
-    body: <><p>Depending on where you live, you may be able to ask for a copy, correction, deletion, restriction or transfer of your personal information. You may also object to some uses.</p><p>You can leave the publication at any time through its unsubscribe link. Email <a href="mailto:krish@themindmaker.ai">krish@themindmaker.ai</a> for any other request. If you are in the UK and remain unhappy, you may complain to the Information Commissioner's Office. People elsewhere may contact their local data authority.</p></>,
+    body: <><p>Depending on where you live, you may be able to ask for a copy, correction, deletion, restriction or transfer of your personal information. You may also object to some uses.</p><p>You can leave the publication at any time through its unsubscribe link. Email <a href="mailto:privacy@mindmake.co">privacy@mindmake.co</a> for any other request. If you are in the UK and remain unhappy, you may complain to the Information Commissioner's Office. People elsewhere may contact their local data authority.</p></>,
   },
   {
     title: "8. Security",

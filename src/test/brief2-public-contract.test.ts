@@ -1,0 +1,376 @@
+import { describe, expect, it } from "vitest";
+import { existsSync, readFileSync, statSync, readdirSync } from "node:fs";
+import { resolve } from "node:path";
+import { buildPrivateBriefHtml } from "@/components/mindmake/privateBriefHtml";
+import {
+  buildMindmakeBriefConfirmV2,
+  buildMindmakeBriefRequestV2,
+  NEWSLETTER_CONSENT_WORDING,
+  NEWSLETTER_CONSENT_WORDING_VERSION,
+} from "@/components/mindmake/leadDelivery";
+import { ASK_ENTRIES, ASK_UNMATCHED } from "@/lib/askCorpus";
+
+/**
+ * The public contract, as the rebuild brief defines it.
+ *
+ * Five non-negotiables gate the site: no Krish in copy, the three-second rule,
+ * the motion law, one accent system, and the two-email cap. What can be checked
+ * from source is checked here; the aliveness and three-second reads stay human.
+ */
+
+const ROOT = resolve(__dirname, "../..");
+
+/** Everything a visitor can read or that renders copy for one. */
+const PUBLIC_SURFACES = [
+  "index.html",
+  "src/App.tsx",
+  "src/pages/Index.tsx",
+  "src/pages/AiBrain.tsx",
+  "src/pages/AiGtm.tsx",
+  "src/pages/CaseStudies.tsx",
+  "src/pages/Contact.tsx",
+  "src/pages/Alumni.tsx",
+  "src/pages/Library.tsx",
+  "src/pages/NewAgeLeadership.tsx",
+  "src/pages/Blog.tsx",
+  "src/pages/BlogPost.tsx",
+  "src/pages/Privacy.tsx",
+  "src/pages/Terms.tsx",
+  "src/pages/NotFound.tsx",
+  "src/components/BlogPostCard.tsx",
+  "src/components/CookieConsent.tsx",
+  "src/components/mindmake/AskBar.tsx",
+  "src/lib/askCorpus.ts",
+  "src/components/mindmake/CloseBlock.tsx",
+  "src/components/mindmake/CountingValue.tsx",
+  "src/components/mindmake/FilmPlate.tsx",
+  "src/components/mindmake/LeadBrief.tsx",
+  "src/components/mindmake/Marquee.tsx",
+  "src/components/mindmake/MindmakeShell.tsx",
+  "src/components/mindmake/ObjectionChips.tsx",
+  "src/components/mindmake/companyRead.ts",
+  "src/components/mindmake/leadDelivery.ts",
+  "src/components/mindmake/privateBriefHtml.ts",
+  "src/components/mindmake/proposalContent.ts",
+  "src/components/mindmake/MindmakeProposal.tsx",
+  "src/components/new-age/AgathaStory.tsx",
+  "src/components/new-age/DecisionPromptSheet.tsx",
+  "src/components/new-age/OrgChart.tsx",
+  "src/components/new-age/OrgChartMobile.tsx",
+  "src/components/new-age/orgChartData.ts",
+  "src/content/answers.json",
+  "src/data/blogPosts.ts",
+  "src/data/rebuildProof.ts",
+  "scripts/generate-llms.mjs",
+  "scripts/generate-sitemap.mjs",
+  "scripts/prerender.mjs",
+  "public/llms.txt",
+];
+
+/** Files whose motion has to obey the motion law. */
+const MOTION_SURFACES = [
+  "src/hooks/useScrollDriver.ts",
+  "src/components/mindmake/CountingValue.tsx",
+  "src/components/mindmake/FilmPlate.tsx",
+  "src/components/mindmake/Marquee.tsx",
+  "src/components/mindmake/MindmakeShell.tsx",
+  "src/pages/Index.tsx",
+  "src/pages/AiBrain.tsx",
+  "src/pages/AiGtm.tsx",
+  "src/styles/mindmake.css",
+  "src/styles/mindmake-instruments.css",
+];
+
+const read = (relative: string) => readFileSync(resolve(ROOT, relative), "utf8");
+const readAll = (surfaces: string[]) => surfaces
+  .filter((surface) => existsSync(resolve(ROOT, surface)))
+  .map((surface) => [surface, read(surface)] as const);
+
+describe("the Krish gate", () => {
+  it("keeps the operator's name out of every public surface", () => {
+    for (const [surface, source] of readAll(PUBLIC_SURFACES)) {
+      expect(`${surface}: ${source.toLowerCase().includes("krish")}`).toBe(`${surface}: false`);
+    }
+  });
+
+  it("keeps the retired personal assets out of the repo", () => {
+    for (const asset of ["public/Krish-Headshot.png", "public/krish-stage-2-hero.webp"]) {
+      expect(existsSync(resolve(ROOT, asset))).toBe(false);
+    }
+  });
+});
+
+describe("the three-second gate", () => {
+  /* Vocabulary a non-technical scroller should never have to decode. Prose
+     only: these words are legitimate in code, so the scan reads visible copy. */
+  const BANNED_WORDS = [
+    "ingest", "orchestrate", "agentic", "harness", "semantic",
+  ];
+
+  const visibleCopy = (source: string) => source
+    // JSX/HTML text and quoted strings carry the copy; imports and classes do not.
+    .replace(/import[^\n]*\n/g, "")
+    .replace(/className="[^"]*"/g, "")
+    .replace(/from "[^"]*"/g, "");
+
+  it("keeps banned vocabulary out of public copy", () => {
+    /* One approved exception, from the brief's own final copy: the mirror card
+       says an AI "ingests what you tell it", where the word carries its plain
+       English sense rather than the machine one the ban is aimed at. */
+    const APPROVED = /ingests what you tell it/g;
+    for (const [surface, source] of readAll(PUBLIC_SURFACES)) {
+      const copy = visibleCopy(source).toLowerCase().replace(APPROVED, "");
+      for (const word of BANNED_WORDS) {
+        expect(`${surface} uses "${word}": ${copy.includes(word)}`).toBe(`${surface} uses "${word}": false`);
+      }
+    }
+  });
+
+  it("allows inference only where the board prices it", () => {
+    for (const [surface, source] of readAll(PUBLIC_SURFACES)) {
+      const copy = visibleCopy(source).toLowerCase();
+      const uses = copy.match(/inference/g) ?? [];
+      const priced = copy.match(/inference cost/g) ?? [];
+      expect(`${surface}: ${uses.length - priced.length}`).toBe(`${surface}: 0`);
+    }
+  });
+
+  it("rejects the AI-cliche antithesis templates", () => {
+    /* "not X, but Y", "X. Not Y." and "never just X" all lean on a negation to
+       praise something. The brief says state the fact instead. */
+    const ANTITHESIS = [
+      /\bnot [a-z]{2,}[^.?!]{0,40}, but\b/i,
+      /\.\s+Not [A-Z][a-z]+[.,]/,
+      /\bnever just\b/i,
+      /\bit never\b[^.?!]{0,30}\bit does\b/i,
+    ];
+    for (const [surface, source] of readAll(PUBLIC_SURFACES)) {
+      const copy = visibleCopy(source);
+      for (const pattern of ANTITHESIS) {
+        expect(`${surface} matches ${pattern}: ${pattern.test(copy)}`)
+          .toBe(`${surface} matches ${pattern}: false`);
+      }
+    }
+  });
+
+  it("keeps em dashes and American spellings out of public copy", () => {
+    for (const [surface, source] of readAll(PUBLIC_SURFACES)) {
+      expect(`${surface}: ${source.includes("—")}`).toBe(`${surface}: false`);
+      expect(`${surface}: ${/\bjudgment\b/.test(source)}`).toBe(`${surface}: false`);
+    }
+  });
+});
+
+describe("the motion gate", () => {
+  it("uses no IntersectionObserver on the rebuilt surfaces", () => {
+    /* The one scroll primitive is useScrollDriver, and it can only change how a
+       thing already on the page feels. An observer is how entrances get built,
+       so its absence is the check. */
+    for (const [surface, source] of readAll(MOTION_SURFACES)) {
+      expect(`${surface}: ${source.includes("IntersectionObserver")}`).toBe(`${surface}: false`);
+    }
+  });
+
+  it("keeps animation libraries off the three rebuilt pages", () => {
+    for (const [surface, source] of readAll([
+      "src/pages/Index.tsx",
+      "src/pages/AiBrain.tsx",
+      "src/pages/AiGtm.tsx",
+    ])) {
+      expect(`${surface}: ${source.includes("framer-motion")}`).toBe(`${surface}: false`);
+    }
+  });
+
+  it("never animates opacity or transform from an absent state", () => {
+    /* Entrance choreography always starts from opacity:0 or a translated
+       offset. Ambient and touch motion never do. */
+    const css = read("src/styles/mindmake-instruments.css");
+    const entrances = css.match(/@keyframes[^{]*\{[^@]*?opacity:\s*0[^}]*\}/g) ?? [];
+    expect(entrances).toEqual([]);
+  });
+
+  it("stills the ambient layer under reduced motion", () => {
+    const css = read("src/styles/mindmake-instruments.css");
+    expect(css).toContain("prefers-reduced-motion");
+    expect(css).toMatch(/prefers-reduced-motion[\s\S]*mm-marquee-track\s*\{\s*animation:\s*none/);
+  });
+
+  it("pins the scroll driver to its completed value under reduced motion", () => {
+    const driver = read("src/hooks/useScrollDriver.ts");
+    expect(driver).toContain("prefers-reduced-motion");
+    expect(driver).toContain("notify(1)");
+  });
+});
+
+describe("one accent system", () => {
+  it("defines mint and amber and nothing else as colour", () => {
+    const tokens = read("src/styles/mindmake.css");
+    expect(tokens).toContain("--mm-mint: #7fe3b4");
+    expect(tokens).toContain("--mm-amber: #e0a44a");
+    expect(tokens).toContain("--mm-ink: #0a100d");
+    expect(tokens).toContain("--mm-paper: #f2f1ea");
+  });
+
+  it("gives every interactive element a visible mint focus ring", () => {
+    const tokens = read("src/styles/mindmake.css");
+    expect(tokens).toMatch(/:focus-visible\s*\{\s*outline:\s*2px solid var\(--mm-focus\)/);
+    expect(tokens).toContain("--mm-focus: #7fe3b4");
+  });
+
+  it("reserves the serif for the claim and the mono for data", () => {
+    const tokens = read("src/styles/mindmake.css");
+    expect(tokens).toMatch(/\.mm-claim\s*\{[^}]*var\(--mm-serif\)/);
+    expect(tokens).toMatch(/\.mm-label\s*\{[^}]*var\(--mm-mono\)/);
+  });
+});
+
+describe("the conversion contract", () => {
+  it("offers Start here as the only primary action", () => {
+    const shell = read("src/components/mindmake/MindmakeShell.tsx");
+    expect(shell).toContain("Start here");
+    expect(shell.toLowerCase()).not.toContain("calendly");
+    expect(shell.toLowerCase()).not.toContain("book a fit call");
+  });
+
+  it("carries the five menu destinations", () => {
+    const shell = read("src/components/mindmake/MindmakeShell.tsx");
+    for (const item of [
+      "Build your AI brain",
+      "Build your AI GTM",
+      "Results",
+      "The weekly read",
+      "Start here",
+    ]) {
+      expect(shell).toContain(item);
+    }
+  });
+
+  it("keeps prices off every public surface", () => {
+    for (const [surface, source] of readAll(PUBLIC_SURFACES)) {
+      expect(`${surface}: ${/\$\s?\d{1,3}[,.]?\d{3}/.test(source)}`).toBe(`${surface}: false`);
+    }
+  });
+
+  it("points every weekly-read line at the publication", () => {
+    const close = read("src/components/mindmake/CloseBlock.tsx");
+    expect(close).toContain("MINDMAKER_LIVE_URL");
+    expect(close).toContain("Take the weekly read instead.");
+    expect(read("src/lib/publicLinks.ts")).toContain("https://mindmakerlive.substack.com");
+  });
+});
+
+describe("the ask bar corpus", () => {
+  const entries = ASK_ENTRIES;
+
+  it("answers the eight objections the brief requires", () => {
+    const required = ["cost", "technical", "duration", "data", "consultant", "chatgpt", "team", "keep"];
+    for (const id of required) {
+      expect(entries.map((entry) => entry.id)).toContain(id);
+    }
+  });
+
+  it("gives every entry a question, keywords and an answer", () => {
+    for (const entry of entries) {
+      expect(entry.question.length).toBeGreaterThan(8);
+      expect(entry.keywords.length).toBeGreaterThan(2);
+      expect(entry.answer.length).toBeGreaterThan(30);
+    }
+  });
+
+  it("answers an unmatched question honestly and routes it into the funnel", () => {
+    expect(ASK_UNMATCHED).toContain("results email");
+  });
+});
+
+describe("the film slots", () => {
+  it("ships a poster for every film", () => {
+    for (const id of ["01", "02", "03", "04", "05", "06"]) {
+      expect(existsSync(resolve(ROOT, `src/assets/films/film-${id}-poster.jpg`))).toBe(true);
+    }
+  });
+
+  it("keeps every film asset inside the performance budget", () => {
+    const dir = resolve(ROOT, "src/assets/films");
+    for (const file of readdirSync(dir)) {
+      const bytes = statSync(resolve(dir, file)).size;
+      expect(`${file}: ${bytes < 4_000_000}`).toBe(`${file}: true`);
+    }
+  });
+
+  it("describes every plate for assistive technology", () => {
+    const plate = read("src/components/mindmake/FilmPlate.tsx");
+    expect(plate).toContain('role="img"');
+    expect(plate).toContain("aria-label={label}");
+  });
+});
+
+describe("the lead machinery is untouched", () => {
+  it("still builds the version 2 request payload", () => {
+    const request = buildMindmakeBriefRequestV2({
+      requestId: "11111111-2222-4333-8444-555555555555",
+      email: "leader@example.com",
+      domain: "example.com",
+      pressure: "Our price no longer matches the value",
+      returnedTime: "Grow this business",
+      route: "gtm",
+      publicationRequested: false,
+    });
+    expect(request.action).toBe("request");
+    expect(request.version).toBe(2);
+    expect(request.website).toBe("");
+    expect(request.consent.wordingVersion).toBe(NEWSLETTER_CONSENT_WORDING_VERSION);
+  });
+
+  it("still builds the version 2 confirm payload", () => {
+    const confirm = buildMindmakeBriefConfirmV2({
+      requestId: "11111111-2222-4333-8444-555555555555",
+      email: "leader@example.com",
+      code: "123456",
+    });
+    expect(confirm.action).toBe("confirm");
+    expect(confirm.code).toBe("123456");
+  });
+
+  it("keeps the consent wording verbatim", () => {
+    expect(NEWSLETTER_CONSENT_WORDING.length).toBeGreaterThan(20);
+  });
+
+  it("keeps the downloadable brief self-contained", () => {
+    const html = buildPrivateBriefHtml({
+      company: "Example",
+      domain: "example.com",
+      pressure: "Our price no longer matches the value",
+      known: "A public read of the company.",
+      evidence: ["A first evidence line.", "A second evidence line."],
+      carry: "What AI can carry.",
+      human: "What stays yours.",
+      proof: "A useful thirty-day proof.",
+      capacityValue: "Where the returned time goes.",
+      nextStep: "keep",
+    });
+    expect(html).not.toContain("fonts.googleapis");
+    expect(html).not.toContain("fonts.gstatic");
+    expect(html).not.toContain("@import");
+    expect(html).not.toContain("<script");
+  });
+});
+
+describe("the crawler surfaces stay in step", () => {
+  it("keeps the generated llms.txt in agreement with its generator", () => {
+    const generator = read("scripts/generate-llms.mjs");
+    const generated = read("public/llms.txt");
+    for (const line of ["# Mindmake", "## The two doors", "## How paid work begins"]) {
+      expect(generator).toContain(line);
+      expect(generated).toContain(line);
+    }
+  });
+
+  it("prerenders the same routes the sitemap publishes", () => {
+    const sitemap = read("scripts/generate-sitemap.mjs");
+    const prerender = read("scripts/prerender.mjs");
+    for (const route of ["/ai-brain", "/ai-gtm", "/case-studies", "/faq"]) {
+      expect(sitemap).toContain(route);
+      expect(prerender).toContain(route);
+    }
+  });
+});

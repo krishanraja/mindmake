@@ -6,42 +6,48 @@ const here = dirname(fileURLToPath(import.meta.url));
 
 const llms = `# Mindmake
 
-> Put your best judgement to work with AI.
+> Every AI you buy knows the market. None of them know you.
 
-Mindmake helps leaders turn their judgement into useful AI systems and make better product, price, positioning and people decisions.
+Mindmake builds systems that hold a leader's judgement and belong to them afterwards. Two doors, one thirty-day proof.
 
-## Ways to get started on your AI journey
+## The two doors
 
-- [Build Your AI Brain](/ai-brain): encode a leader's taste and judgement into a working system that amplifies their strengths and uncovers their blind spots.
-- [Build Your AI GTM](/ai-gtm): create an AI-native GTM model across product, price, positioning or people, then test it with real buyers.
-- The two routes can connect. They are not separate payment plans.
+- [Build your AI brain](/ai-brain): your taste, standards and context, running as a system. It amplifies what you are best at and absorbs what you hate.
+- [Build your AI GTM](/ai-gtm): an AI-native go-to-market model across product, price, positioning and people. One lever, thirty days, priced on the outcome.
+- A client can start with either and cross to the other. They are not separate payment plans.
+
+## What we are against
+
+- The oracle: consultants who hand down an answer the leader could have reached alone, then take the thinking with them.
+- The mirror: AI that takes a leader's thinking and hands it back polished, unchanged, and forgotten by morning.
+- What we build instead makes the situation legible and leaves the decision with the human.
 
 ## How paid work begins
 
-- Public visitors do not book directly into Krish Raja's diary.
-- [Start here](/?start=1) begins with a company website, a likely business problem and what the leader would do with more time.
-- The visitor sees a useful preview before email. Adding a work email creates a personal recommendation and sends the same facts to Krish so he can decide whether a reply would help.
-- A strong fit can begin with one clear 30-day piece of work on a real problem.
-- Longer work is considered only after the first work shows value. Public prices are not shown.
+- There is no public diary and no published price.
+- [Start here](/?start=1) begins with a company website. The engine reads the market live and a proposal built for that company follows by email.
+- The visitor sees a useful preview before any email address is asked for.
+- A confirmed request receives two emails, ever: the results email, and one follow-up fourteen days later. There is no drip sequence.
+- Work starts with one thirty-day proof on a real result. Terms are agreed privately.
 
-## CTRL by Mindmake
+## The live board
 
-CTRL keeps facts, examples, past choices and working rules beside the decisions they support. It shows what the system knows, what still needs checking and where a person needs to decide.
+/ai-gtm publishes a daily corroborated read of what moved across product, price, positioning and people, with a visible timestamp and the number of independent sources behind each item.
+
+## CTRL
+
+CTRL is our own decision engine, mentioned on /ai-brain only and never sold. It reads a whole situation in plain English: the trade-offs, the counterpoints and what would change your mind. It is the engine we run on ourselves, shown as proof.
 
 ## Proof
 
-- [Customer outcomes](/case-studies): eight verified anonymous stories.
-- Mindmake has helped leaders across media, software and advisory with what is next in AI.
+- [Results](/case-studies): eight verified anonymous customer stories.
 - Organisation logos are attendance proof. They are not customer claims.
 - Career testimonials are kept separate from customer outcomes.
 
-## Krish Raja
+## Reading and contact
 
-Krish has spent 17 years in data and technology product strategy, plus two years building deeply with AI.
-
-## Media and contact
-
-- [Mindmake media](https://mindmakerlive.substack.com): useful ideas about building with AI and where AI is changing value.
+- [The weekly read](https://mindmakerlive.substack.com): a separate opt-in publication.
+- [Straight answers](/faq)
 - [General messages](/contact)
 `;
 

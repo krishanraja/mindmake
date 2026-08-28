@@ -173,7 +173,7 @@ describe("Mindmake private brief journey", () => {
     fireEvent.click(screen.getByRole("button", { name: /keep the private brief/i }));
 
     expect(await screen.findByRole("heading", { name: "Keep this. Your brief is ready." })).toBeInTheDocument();
-    expect(screen.getByText("Download it now. Nothing has been sent to Krish, and no email has been sent.")).toBeInTheDocument();
+    expect(screen.getByText("Download it now. Nothing has been sent to us, and no email has been sent.")).toBeInTheDocument();
     expect(screen.queryByLabelText("Work email")).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: /download my brief/i })).toBeEnabled();
     expect(invoke.mock.calls.map(([name]) => name)).toEqual(["enrich-company"]);
@@ -242,7 +242,7 @@ describe("Mindmake private brief journey", () => {
 
     fireEvent.change(codeField, { target: { value: "123456" } });
     fireEvent.click(screen.getByRole("button", { name: /send my private brief/i }));
-    const successHeading = await screen.findByRole("heading", { name: "Your brief is on its way. Krish's copy was queued too." });
+    const successHeading = await screen.findByRole("heading", { name: "Your brief is on its way. Our copy was queued too." });
     await waitFor(() => expect(successHeading).toHaveFocus());
   });
 
@@ -282,7 +282,7 @@ describe("Mindmake private brief journey", () => {
       expect(invoke.mock.calls.filter(([name, options]) => name === "submit-mindmake-brief" && options.body.action === "request")).toHaveLength(2);
     });
     await confirmCode();
-    await screen.findByRole("heading", { name: "Your brief is on its way. Krish's copy was queued too." });
+    await screen.findByRole("heading", { name: "Your brief is on its way. Our copy was queued too." });
 
     const handoffCalls = invoke.mock.calls.filter(([name]) => name === "submit-mindmake-brief");
     const requestCalls = handoffCalls.filter(([, options]) => options.body.action === "request");
@@ -367,8 +367,8 @@ describe("Mindmake private brief journey", () => {
     await requestCode();
     await confirmCode();
     expect(await screen.findByRole("heading", { name: "Your brief is on its way." })).toBeInTheDocument();
-    expect(screen.getByText(/Krish was not given the context/i)).toBeInTheDocument();
-    expect(screen.queryByText(/Krish's copy was queued/i)).not.toBeInTheDocument();
+    expect(screen.getByText(/We were not given the context/i)).toBeInTheDocument();
+    expect(screen.queryByText(/our copy was queued/i)).not.toBeInTheDocument();
   });
 
   it("rejects a publication interest the visitor did not request", async () => {
@@ -381,7 +381,7 @@ describe("Mindmake private brief journey", () => {
     await confirmCode();
     expect(await screen.findByText(/publication choice you did not make/i)).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Keep this. Your brief is still ready." })).toBeInTheDocument();
-    expect(screen.queryByText(/Krish's copy was queued/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/our copy was queued/i)).not.toBeInTheDocument();
   });
 
   it("keeps publication interest separate and never calls it a subscription", async () => {
@@ -393,7 +393,7 @@ describe("Mindmake private brief journey", () => {
     expect(screen.getByRole("checkbox", { name: /useful ideas by email/i })).not.toBeChecked();
     await requestCode({ publication: true });
     await confirmCode();
-    expect(await screen.findByRole("heading", { name: "Your brief is on its way. Krish's copy was queued too." })).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { name: "Your brief is on its way. Our copy was queued too." })).toBeInTheDocument();
     expect(screen.getByRole("alert")).toHaveTextContent("Your publication interest was not recorded. You have not been added to any list.");
     expect(screen.queryByText(/you are subscribed|you were added to|added to the publication/i)).not.toBeInTheDocument();
   });
@@ -408,8 +408,8 @@ describe("Mindmake private brief journey", () => {
     await confirmCode();
     expect(await screen.findByRole("heading", { name: "Keep this. Your brief is still ready." })).toBeInTheDocument();
     expect(screen.getByRole("alert")).toHaveTextContent(/neither hand-off was confirmed/i);
-    expect(screen.getByRole("link", { name: /email krish directly/i })).toHaveAttribute("href", expect.stringContaining("mailto:krish@themindmaker.ai"));
-    expect(screen.queryByText(/email was queued|Krish's copy was queued/i)).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /email us directly/i })).toHaveAttribute("href", expect.stringContaining("mailto:hello@mindmake.co"));
+    expect(screen.queryByText(/email was queued|our copy was queued/i)).not.toBeInTheDocument();
   });
 
   it("normalises an array-shaped company read instead of showing comma-separated text", async () => {

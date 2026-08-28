@@ -55,17 +55,17 @@ export default function Contact() {
       "",
       message,
     ].filter(Boolean).join("\n"));
-    window.location.href = `mailto:krish@themindmaker.ai?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:hello@mindmake.co?subject=${subject}&body=${body}`;
   };
 
   return (
     <MindmakeShell onStart={() => setBriefOpen(true)} darkHeader={false}>
-      <SEO title="Contact" description="Send Krish Raja a general message about Mindmake." canonical="/contact" />
+      <SEO title="Contact" description="Send Mindmake a general message." canonical="/contact" />
       <section className="mm-contact-page" aria-labelledby="contact-title">
         <div className="mm-container mm-contact-grid">
           <div>
             <h1 id="contact-title">Say hello.</h1>
-            <p>For a business starting point, use the guided read. For everything else, send Krish a note here.</p>
+            <p>For a business starting point, use the guided read. For everything else, send us a note here.</p>
             <button className="mm-text-link mm-contact-start" type="button" onClick={() => setBriefOpen(true)}>
               Start here <ArrowRight aria-hidden="true" />
             </button>

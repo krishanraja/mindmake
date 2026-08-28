@@ -1,7 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { SEO } from "@/components/SEO";
-import { MindmakeBrand } from "@/components/mindmake/MindmakeBrand";
 import "@/styles/mindmake.css";
 
 const NotFound = () => {
@@ -21,7 +20,7 @@ const NotFound = () => {
         canonical={location.pathname}
         noindex
       />
-      <header className="mm-container"><MindmakeBrand /></header>
+      <header className="mm-container"><Link className="mm-brand" to="/">MIND<span>/</span>MAKE</Link></header>
       <main className="mm-container">
         <p className="mm-error-code">404</p>
         <h1>There is nothing here.</h1>

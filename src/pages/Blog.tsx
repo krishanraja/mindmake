@@ -38,7 +38,7 @@ const Blog = () => {
           name: "Mindmake ideas",
           description: "Useful questions, checks and working methods for leaders making business decisions as AI changes their market",
           url: "https://mindmake.co/blog",
-          author: { "@type": "Person", name: "Krish Raja" },
+          author: { "@type": "Organization", name: "Mindmake" },
         }}
       />
 

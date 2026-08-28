@@ -1,0 +1,83 @@
+{
+  "unmatched": "Good question. We will answer it personally in your results email, or ask us on the first call.",
+  "entries": [
+    {
+      "id": "cost",
+      "question": "How much does it cost?",
+      "keywords": ["cost", "costs", "price", "pricing", "much", "pay", "fee", "fees", "expensive", "budget", "afford", "invest", "investment", "rate", "quote"],
+      "answer": "Priced on the outcome. Your exact terms arrive in your results email after the first conversation, and there is no retainer."
+    },
+    {
+      "id": "technical",
+      "question": "Do I need to be technical?",
+      "keywords": ["technical", "technology", "code", "coding", "developer", "engineer", "expert", "skills", "smart", "complicated", "complex", "difficult", "learn"],
+      "answer": "No technical skill needed. That is the point. We connect the technical to the practical, and everything the system tells you is in plain English."
+    },
+    {
+      "id": "duration",
+      "question": "What happens after the thirty days?",
+      "keywords": ["long", "time", "thirty", "30", "days", "duration", "weeks", "months", "after", "afterwards", "end", "ends", "finish", "over", "next"],
+      "answer": "Thirty days to a working system, and it keeps working after we leave. You own the brain, the automations and the standards file. Optional check-ins if you want them, no dependency if you do not."
+    },
+    {
+      "id": "data",
+      "question": "Who sees my data?",
+      "keywords": ["data", "privacy", "private", "secure", "security", "confidential", "safe", "share", "shared", "train", "training", "sees", "see", "gdpr"],
+      "answer": "You do. The system is built in your accounts, on your side. We never publish, share or train on anything of yours."
+    },
+    {
+      "id": "consultant",
+      "question": "Why not just hire a consultant?",
+      "keywords": ["consultant", "consultants", "consultancy", "agency", "advisor", "adviser", "different", "difference", "better", "why", "instead", "compare"],
+      "answer": "Consultants leave you a deck and take the thinking with them. We leave you a working system that holds your judgement and keeps learning."
+    },
+    {
+      "id": "chatgpt",
+      "question": "Can I not just use ChatGPT?",
+      "keywords": ["chatgpt", "gpt", "claude", "gemini", "copilot", "myself", "already", "tools", "tool", "subscription", "own"],
+      "answer": "Those tools are brilliant and they forget you every morning. The brain is what makes them yours: it holds your standards and context, so every tool you use starts from you instead of from zero."
+    },
+    {
+      "id": "team",
+      "question": "Does my team have to be involved?",
+      "keywords": ["team", "staff", "people", "involved", "involvement", "everyone", "colleagues", "workshops", "homework", "hours", "capacity"],
+      "answer": "Your decisions, your trusted context and a few introductions. That is the whole ask. There is no performative homework and no all-team rollout to sit through."
+    },
+    {
+      "id": "keep",
+      "question": "What do we keep when it ends?",
+      "keywords": ["keep", "keeps", "own", "owns", "ownership", "leave", "leaves", "get", "receive", "deliverable", "handover"],
+      "answer": "Everything. The brain, the automations, the standards file and the habit. All of it stays with you when we leave."
+    },
+    {
+      "id": "report",
+      "question": "Is this a report or real work?",
+      "keywords": ["report", "deck", "slides", "document", "strategy", "real", "work", "build", "built", "working", "theory"],
+      "answer": "Real work. You leave with a working system and the evidence behind it, not a document describing one."
+    },
+    {
+      "id": "speed",
+      "question": "How fast is thirty days really?",
+      "keywords": ["fast", "quick", "quickly", "speed", "realistic", "really", "possible", "rush", "rushed", "timeline"],
+      "answer": "Fast, because the scope is one result rather than a transformation programme. You see the first working piece inside the first week, and it improves every week after that."
+    },
+    {
+      "id": "start",
+      "question": "How do I start?",
+      "keywords": ["start", "begin", "started", "first", "step", "call", "book", "talk", "speak", "contact"],
+      "answer": "Start here, at the top or bottom of any page. You give a company address, the engine reads your market live, and a proposal built for you lands in your inbox."
+    },
+    {
+      "id": "fit",
+      "question": "Is this a fit for my business?",
+      "keywords": ["fit", "right", "suitable", "small", "large", "startup", "enterprise", "industry", "sector", "work with", "clients"],
+      "answer": "It fits a leader who owns the decision and wants to move on one result inside thirty days. If that is not you yet, the weekly read is the better place to start."
+    },
+    {
+      "id": "email",
+      "question": "Will you email me forever?",
+      "keywords": ["email", "emails", "spam", "newsletter", "list", "subscribe", "mail", "follow"],
+      "answer": "Two emails, ever. Your results, and one follow-up fourteen days later with a better offer. Nothing else, and no drip sequence."
+    }
+  ]
+}

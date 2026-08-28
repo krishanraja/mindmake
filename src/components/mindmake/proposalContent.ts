@@ -66,6 +66,6 @@ export const buildProposalSections = (content: ProposalContent): ProposalSection
   },
   disclaimer: DISCLAIMER_LINE,
   nextStep: content.nextStep === "reply"
-    ? { title: "The next step", body: "If this reads worth a conversation, reply to the email this brief came with. Krish reads every reply." }
-    : { title: "The next step", body: "Keep this copy. If you want Krish to see it, email krish@themindmaker.ai." },
+    ? { title: "The next step", body: "If this reads worth a conversation, reply to the email this brief came with. We read every reply." }
+    : { title: "The next step", body: "Keep this copy. If you want us to see it, email hello@mindmake.co." },
 });

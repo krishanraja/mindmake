@@ -2,9 +2,9 @@ import { useEffect, useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
 const PARAGRAPHS = [
-  "Agatha is an AI operations agent in Krish's system. It checks work from the other agents, looks for gaps and brings important questions back to him.",
-  "It noticed a simple problem. Fifteen useful reports were arriving as fifteen separate files. No one was turning them into one clear view for a leader. Agatha described the missing job and the checks it would need. Krish then built Nova to do that job.",
-  "The useful part was not that AI had invented a job. It had made a missing hand-off visible. Krish still had to decide whether the job was needed, what good work looked like and when Nova should ask for help.",
+  "Agatha is an AI operations agent in our own system. It checks work from the other agents, looks for gaps and brings important questions back to us.",
+  "It noticed a simple problem. Fifteen useful reports were arriving as fifteen separate files. No one was turning them into one clear view for a leader. Agatha described the missing job and the checks it would need. We then built Nova to do that job.",
+  "The useful part was not that AI had invented a job. It had made a missing hand-off visible. We still had to decide whether the job was needed, what good work looked like and when Nova should ask for help.",
 ];
 
 interface AgathaStoryProps {

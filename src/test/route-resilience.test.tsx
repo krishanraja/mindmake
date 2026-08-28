@@ -84,12 +84,12 @@ describe("public route resilience", () => {
     render(
       <MemoryRouter initialEntries={["/#about"]}>
         <ScrollToLocation />
-        <section id="about">About Krish</section>
+        <section id="about">About Mindmake</section>
       </MemoryRouter>,
     );
 
     await waitFor(() => expect(scrollTo).toHaveBeenCalledWith({ top: 0, behavior: "auto" }));
-    expect(screen.getByText("About Krish")).toHaveFocus();
+    expect(screen.getByText("About Mindmake")).toHaveFocus();
   });
 
   it("marks the client-side missing page as noindex", async () => {
@@ -105,6 +105,6 @@ describe("public route resilience", () => {
     renderWithAppProviders(<PageLoading />);
 
     expect(screen.getByRole("status")).toHaveTextContent("Loading the page.");
-    expect(screen.getByRole("link", { name: "Mindmake home" })).toBeInTheDocument();
+    expect(screen.getByText(/MIND/)).toBeInTheDocument();
   });
 });

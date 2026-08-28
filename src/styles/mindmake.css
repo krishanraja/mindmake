@@ -144,6 +144,11 @@
   font-weight: 700;
   letter-spacing: -.035em;
   line-height: 1.04;
+  /* Balance equalises line lengths instead of filling each line, which is
+     exactly what breaks a heading mid-phrase. It earns its place on a wide
+     display measure and fights every heading that also carries a tight ch cap,
+     because balancing an already-narrow measure just breaks at the midpoint.
+     So it applies here, and the capped headings opt out below. */
   text-wrap: balance;
   color: var(--mm-fg);
 }

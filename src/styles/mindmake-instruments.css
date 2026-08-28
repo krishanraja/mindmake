@@ -216,7 +216,10 @@
 
 .mm-hero {
   position: relative;
-  padding: calc(var(--mm-header-height) + clamp(18px, 4vh, 40px)) 0 0;
+  /* The bottom padding is not optional. It was zero because the doors used to
+     sit 46px up inside the hero; now they are their own band and without it the
+     second door butts straight against the next section's edge. */
+  padding: calc(var(--mm-header-height) + clamp(18px, 4vh, 40px)) 0 var(--mm-section);
 }
 .mm-hero-stage { position: relative; min-height: clamp(420px, 74vh, 640px); display: grid; }
 .mm-hero-plate { position: absolute; inset: 0; border-radius: 3px; overflow: hidden; }
@@ -363,7 +366,7 @@
   color: #f0f6f3;
 }
 .mm-objection-q::before { content: "Q. "; color: var(--mm-mint); font-family: var(--mm-mono); font-size: 11px; }
-.mm-objection-a { display: block; margin-top: 9px; color: var(--mm-tx2); font-size: 14.5px; line-height: 1.55; }
+.mm-objection-a { display: block; text-wrap: pretty; margin-top: 9px; color: var(--mm-tx2); font-size: 14.5px; line-height: 1.55; }
 
 /* ---------- The ask bar ---------- */
 
@@ -656,30 +659,46 @@
   letter-spacing: .1em;
   text-transform: uppercase;
 }
-.mm-qchips { display: flex; gap: 8px; flex-wrap: wrap; }
+.mm-qchips { display: flex; gap: 8px; flex-wrap: wrap; align-items: stretch; }
+/* A chip is one label, on one line. "Deciding without enough time" used to
+   break inside its own pill, which grew that chip past the 40px floor, which
+   made flex stretch every chip on the line to match it. Selecting one then
+   changed its weight and reflowed the row under the finger. All four are
+   fixed here: the label cannot break and the height is fixed rather than a
+   floor. The fourth is fixed at the pressed rule below, by not changing the
+   weight at all: a solid mint fill already says "chosen" louder than 100 units
+   of font weight, and it says it without moving anything. */
 .mm-qchip {
-  min-height: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
   border: 1px solid var(--mm-line);
   border-radius: 2px;
   background: transparent;
   color: var(--mm-tx2);
-  padding: 8px 13px;
+  padding: 0 13px;
   font-family: var(--mm-grotesque);
   font-weight: 500;
   font-size: 13px;
   cursor: pointer;
+  touch-action: manipulation;
   transition: border-color .1s ease, background .1s ease, color .1s ease;
 }
+
 @media (hover: hover) and (pointer: fine) {
   .mm-qchip:hover { border-color: var(--mm-mint-dim); color: var(--mm-tx); }
 }
 .mm-qchip:active { transform: translateY(1px); }
-.mm-qchip[aria-pressed="true"] { background: var(--mm-mint); border-color: var(--mm-mint); color: var(--mm-mint-ink); font-weight: 600; }
+.mm-qchip[aria-pressed="true"] { background: var(--mm-mint); border-color: var(--mm-mint); color: var(--mm-mint-ink); }
 
-.mm-preview { margin-top: 16px; border-left: 2px solid var(--mm-mint); padding: 10px 0 10px 15px; }
-.mm-preview h3 { font-size: 15px; font-weight: 700; letter-spacing: -.015em; color: #f0f6f3; }
-.mm-preview p { margin-top: 8px; color: var(--mm-tx2); font-size: 14.5px; line-height: 1.55; }
-.mm-preview .mm-fine { margin-top: 10px; color: var(--mm-mut); font-family: var(--mm-mono); font-size: 10.5px; letter-spacing: .04em; }
+/* Scoped to the journey. The lead dialog also carries a step called
+   .mm-preview, and these unscoped rules were leaking a mint left rule and 15px
+   of padding into it from a stylesheet the dialog never asked for. */
+.mm-journey .mm-preview { margin-top: 16px; border-left: 2px solid var(--mm-mint); padding: 10px 0 10px 15px; }
+.mm-journey .mm-preview h3 { font-size: 15px; font-weight: 700; letter-spacing: -.015em; color: #f0f6f3; }
+.mm-journey .mm-preview p { margin-top: 8px; color: var(--mm-tx2); font-size: 14.5px; line-height: 1.55; }
+.mm-journey .mm-preview .mm-fine { margin-top: 10px; color: var(--mm-mut); font-family: var(--mm-mono); font-size: 10.5px; letter-spacing: .04em; }
 .mm-preview-form { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
 .mm-preview-form input {
   flex: 1 1 220px;
@@ -922,7 +941,7 @@
 .mm-shape { border: 1px solid var(--mm-line); border-radius: 3px; background: var(--mm-ink2); padding: 17px 19px; }
 .mm-shape.is-hot { border-color: var(--mm-mint-dim); }
 .mm-shape.is-hot .mm-label { color: var(--mm-mint); }
-.mm-shape h3 { margin: 8px 0 7px; font-size: 16px; text-wrap: nowrap; }
+.mm-shape h3 { margin: 8px 0 7px; font-size: 16px; text-wrap: balance; }
 .mm-shape p { color: var(--mm-tx2); font-size: 14px; line-height: 1.5; }
 
 /* ---------- The three impact cards (GTM) ---------- */
@@ -1093,14 +1112,33 @@
 
 /* One card, whatever mechanic moves it. The excerpt is one line at rest and the
    full quote unfolds in place, so the rail never jumps a reader somewhere new. */
+/* Three rows, and the quote takes the slack. Every card in a drum is the same
+   height and its quote, its attribution and its button all sit on the same line
+   as its neighbours', which they never did while each card hugged its content.
+   The empty footer row is deliberate: a card with nothing to expand keeps the
+   space rather than standing shorter than the cards beside it. */
 .mm-voice {
+  position: relative;
+  display: grid;
+  /* Fixed rows below the quote, not auto. Auto measured each card's own
+     attribution, and "Chief Revenue Officer, data-infrastructure company" wraps
+     to three lines where "Session attendee" takes one, so the row above it grew
+     and shrank and nothing lined up. The role is clamped to two lines instead. */
+  grid-template-rows: 1fr 52px 30px;
   border: 1px solid var(--mm-line);
   border-radius: 3px;
   background: var(--mm-ink2);
   padding: 14px 15px;
   transition: border-color .12s ease;
 }
+.mm-voice-foot { display: flex; align-items: flex-start; }
 .mm-voice.is-open { border-color: var(--mm-mint-dim); }
+/* The marks are drawn, not stored. Putting them in the data would break the
+   rule that an excerpt is an exact substring of the quote, and the test that
+   enforces it. They also hang into the left margin so the first real character
+   still lines up with everything below it. */
+.mm-voice blockquote::before { content: "\201C"; margin-left: -0.42em; }
+.mm-voice blockquote::after { content: "\201D"; }
 .mm-voice blockquote {
   margin: 0;
   color: var(--mm-tx);
@@ -1110,19 +1148,29 @@
   letter-spacing: -.01em;
   text-wrap: pretty;
 }
-.mm-voice.is-open blockquote { font-size: 14px; line-height: 1.55; }
+
 .mm-voice-by {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px 8px;
+  gap: 3px 8px;
   align-items: baseline;
+  align-content: flex-start;
+  overflow: hidden;
   margin-top: 9px;
   font-family: var(--mm-mono);
   font-size: 10px;
   line-height: 1.4;
 }
 .mm-voice-by b { color: var(--mm-tx2); font-weight: 500; }
-.mm-voice-by span { color: var(--mm-mut); }
+/* Two lines at most, so the row cannot change height under a long job title.
+   The full role is still in the DOM and still read out. */
+.mm-voice-by span {
+  color: var(--mm-mut);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 /* The family label is the thing that stops a session attendee being read as a
    client. It stays legible rather than becoming decoration. */
 .mm-voice-by i {
@@ -1237,7 +1285,7 @@
   box-shadow: 0 0 0 1px var(--mm-line);
 }
 .mm-founder.is-standing .mm-founder-shot img { max-width: 330px; }
-.mm-founder-note h2 { max-width: 20ch; font-size: clamp(24px, 2.8vw, 34px); }
+.mm-founder-note h2 { max-width: 28ch; font-size: clamp(24px, 2.8vw, 34px); }
 .mm-founder-name {
   display: flex;
   flex-wrap: wrap;
@@ -1296,8 +1344,12 @@
 /* The frame clips the drum and fades both edges, so a card leaving the view
    goes rather than being cut. grab/grabbing is the whole affordance: this is
    a thing you take hold of. */
+.mm-drum-stage { position: relative; margin-top: 14px; }
 .mm-drum {
-  margin-top: 14px;
+  /* Clips on both axes, which is the only honest way to write it: a box that
+     hides one axis computes the other to auto, so "hidden x, visible y" was
+     quietly making a scroll container. The expanded quote lives outside this
+     element for exactly that reason. */
   overflow: hidden;
   cursor: grab;
   /* The browser must not claim the horizontal gesture, or a drag on a phone
@@ -1310,7 +1362,9 @@
 }
 .mm-drum.is-held { cursor: grabbing; }
 .mm-drum:focus-visible { outline: 2px solid var(--mm-focus); outline-offset: 3px; }
-.mm-drum-track { display: flex; align-items: flex-start; gap: 14px; width: max-content; will-change: transform; }
+/* stretch, not flex-start: the row height is the tallest card and every card
+   fills it, which is what makes the grid rows above line up across the drum. */
+.mm-drum-track { display: flex; align-items: stretch; gap: 14px; width: max-content; will-change: transform; }
 .mm-drum-track > .mm-voice { width: 296px; flex: 0 0 296px; }
 
 /* The card being read holds full contrast; the ones off the edge recede. The
@@ -1350,7 +1404,7 @@
   background: linear-gradient(180deg, var(--mm-mint-wash), transparent 64%);
   padding: clamp(20px, 2.6vw, 34px);
 }
-.mm-try > .mm-container > h2 { max-width: 22ch; font-size: clamp(27px, 3.6vw, 42px); }
+.mm-try > .mm-container > h2 { max-width: 26ch; font-size: clamp(27px, 3.6vw, 42px); }
 .mm-try-panel > .mm-lede:first-child { margin-top: 0; }
 
 /* A larger button for the one action a section exists to offer. */
@@ -1360,7 +1414,7 @@
 @media (min-width: 900px) {
   .mm-subscribe-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 48px; }
 }
-.mm-subscribe h2 { max-width: 18ch; }
+.mm-subscribe h2 { max-width: 26ch; }
 .mm-subscribe .mm-lede { margin-top: 12px; max-width: 46ch; }
 .mm-subscribe .mm-button { margin-top: 22px; }
 .mm-channels { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
@@ -1465,7 +1519,7 @@
 /* ---------- The proof archive ---------- */
 
 .mm-proof-hero { padding-bottom: var(--mm-section); }
-.mm-proof-hero h1 { max-width: 18ch; }
+.mm-proof-hero h1 { max-width: 22ch; }
 .mm-proof-hero .mm-lede { max-width: 62ch; margin-top: 16px; }
 .mm-proof-figures {
   display: grid;
@@ -1499,7 +1553,7 @@
 @media (min-width: 860px) {
   .mm-story-full { grid-template-columns: minmax(0, 1fr) minmax(0, .74fr); gap: 36px; align-items: center; }
 }
-.mm-story-full h2 { max-width: 22ch; font-size: clamp(19px, 2.2vw, 26px); letter-spacing: -.02em; text-wrap: balance; }
+.mm-story-full h2 { max-width: 28ch; font-size: clamp(19px, 2.2vw, 26px); letter-spacing: -.02em; }
 .mm-story-outcome { margin-top: 10px; color: var(--mm-tx2); font-size: 15px; line-height: 1.55; text-wrap: pretty; }
 .mm-story-full blockquote {
   margin: 14px 0 0;
@@ -1648,3 +1702,42 @@
   height: 34px;
   opacity: .55;
 }
+
+/* The whole quote, over the rail rather than inside a card. It covers the drum
+   so it always has room for a four-sentence quote, and it takes nothing out of
+   the flow, so the page below it never moves. */
+.mm-voice-panel {
+  position: absolute;
+  /* Anchored to the top and free to grow past the rail. Steph's quote is four
+     sentences; boxed to the rail's own height it would have scrolled inside a
+     panel, which is a worse way to read a quote than letting the panel be
+     taller than the thing it came from. It is layered, so nothing moves. */
+  top: 0;
+  left: 0;
+  right: 0;
+  min-height: 100%;
+  z-index: 6;
+  display: grid;
+  align-content: center;
+  border: 1px solid var(--mm-mint-dim);
+  border-radius: 3px;
+  background: var(--mm-ink3);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, .55);
+  padding: 18px clamp(18px, 3vw, 40px);
+}
+.mm-voice-panel:focus-visible { outline: 2px solid var(--mm-focus); outline-offset: -3px; }
+.mm-voice-panel blockquote {
+  max-width: 78ch;
+  margin: 0;
+  color: var(--mm-tx);
+  font-family: var(--mm-serif);
+  font-size: clamp(15px, 1.5vw, 18px);
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+.mm-voice-panel blockquote::before { content: "\201C"; margin-left: -0.42em; }
+.mm-voice-panel blockquote::after { content: "\201D"; }
+.mm-voice-panel .mm-voice-by { margin-top: 12px; overflow: visible; }
+.mm-voice-panel .mm-voice-by span { display: inline; -webkit-line-clamp: none; }
+.mm-voice-panel .mm-voice-more { margin-top: 10px; justify-self: start; }
+.mm-drum-track > .mm-voice.is-open { opacity: 1 !important; border-color: var(--mm-mint-dim); }

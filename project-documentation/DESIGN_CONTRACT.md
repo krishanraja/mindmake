@@ -7,7 +7,13 @@ The intent behind these rules is the north star: everything on the page is proof
 ## The five non-negotiables
 
 1. **No operator name in public copy.** The site speaks as "we" and "mind/make". Testimonials attribute by role and company. The only approved exception is the four CTRL product captures, where the operator's own account chrome is the proof; the rule governs copy, never those images.
-2. **The three-second rule.** Every section lands its point in the headline alone, for a non-technical scroller. No line depends on the section above it. Banned vocabulary in public copy: ingest, orchestrate, agentic, harness, semantic, RAG, LLM, and "inference" except where the GTM board prices it. Also banned everywhere: the AI-cliche antithesis templates. No "not X, but Y". No "X. Not Y." tags. No "never just X". When a sentence leans on a negation to praise something, delete the negation and state the fact.
+2. **The voice: a helpful expert, in plain English.** Every section lands its point in the headline alone, for a non-technical reader. A twelve-year-old should follow every sentence on the site.
+
+   What the voice does. It starts from the reader's situation and describes it the way they would. It is generous about the alternatives, because consultants and the tools people already pay for are genuinely useful and saying otherwise reads as a sales pitch. It names what the reader gains. It explains the mechanism in one plain sentence. It uses concrete nouns: standards, past decisions, hours, drafts, sources.
+
+   What the voice never does. No doom, no fear, no telling a reader their business is failing ("your price has not moved yet"). No commands ("you decide", "own the way you decide"). No boasting or spectacle ("watch us read your business"). No cryptic headings that need the paragraph underneath to decode them ("three places the money moves"). No metaphor doing the work a plain noun could do.
+
+   Banned vocabulary in public copy: ingest, orchestrate, agentic, harness, semantic, RAG, LLM, and "inference" except where the GTM board prices it. Banned constructions: the AI-cliche antithesis templates ("not X, but Y", "X. Not Y.", "never just X"), em dashes, and American spellings.
 3. **The motion law.** Motion only ever changes a relationship between things that are already present. See the motion system below. Entrance choreography is banned outright.
 4. **One accent system.** Mint means "this is the answer". Amber means "this moved since yesterday". Nothing else on the site is coloured. The serif speaks only the claim. The mono speaks only numbers, sources, timestamps and labels.
 5. **The two-email cap.** A visitor who converts receives exactly one results email and exactly one follow-up fourteen days later. Nothing else, ever.
@@ -45,6 +51,22 @@ Three layers. All three are required on every page.
 **Banned outright, and this is the entire ban:** entrance choreography. Staggered list builds, scroll-triggered fades or slides, numbered step reveals, progress bars tied to scroll position. `IntersectionObserver` does not appear on any rebuilt surface; the contract test enforces its absence, which is what makes the ban checkable.
 
 Under `prefers-reduced-motion`, the ambient layer falls back to posters and stopped bands, counters render final values, and parallax flattens. The touch layer stays, with transitions swapped for instant state changes.
+
+## The eyebrow ban
+
+No small pre-heading above a hero or a section title, anywhere on the site. Kickers, overlines, chapter numbers, decorative counters, status straps and proof badges are all the same thing under different names, and renaming one or changing its case does not make it acceptable. If a label is worth reading it belongs in the heading; if it is not, it should not be on the page.
+
+A small label may remain only where it names an object, a control, a value or an axis: a lane name on the board, a question number in a journey, a category tag on a card. The contract test enforces the shape of the ban by rejecting any label element immediately followed by a heading.
+
+## Proof
+
+Three families, never mixed, because merging them would be the easiest lie on the page.
+
+- **Client outcomes** are anonymous, by role and sector, because that is what those clients agreed to.
+- **Named references** are people who have worked with the founder, named with their consent, and always described as exactly that rather than passed off as client results.
+- **Attendee brands** are attendance and say so on the page. They are never described as clients and never linked.
+
+The site speaks as "we" throughout. The founder is named in the reference section's heading and nowhere else: no first-person voice, no biography, no portrait. The four CTRL captures keep their visible account chrome, because that is what proves the engine is real.
 
 ## Components
 

@@ -6,7 +6,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 
 const llms = `# Mindmake
 
-> Every AI you buy knows the market. None of them know you.
+> Every AI you buy knows the market. Yours should also know you.
 
 Mindmake builds systems that hold a leader's judgement and belong to them afterwards. Two doors, one thirty-day proof.
 
@@ -16,11 +16,11 @@ Mindmake builds systems that hold a leader's judgement and belong to them afterw
 - [Build your AI GTM](/ai-gtm): an AI-native go-to-market model across product, price, positioning and people. One lever, thirty days, priced on the outcome.
 - A client can start with either and cross to the other. They are not separate payment plans.
 
-## What we are against
+## Where what you teach AI ends up
 
-- The oracle: consultants who hand down an answer the leader could have reached alone, then take the thinking with them.
-- The mirror: AI that takes a leader's thinking and hands it back polished, unchanged, and forgotten by morning.
-- What we build instead makes the situation legible and leaves the decision with the human.
+- Consultants and agencies do good work and leave a plan. When the project closes, the understanding behind it goes with them.
+- The tools a leader subscribes to are useful, and each keeps what it learns on the vendor's side.
+- Mindmake builds the system inside the client's own accounts, so what it learns about their work stays theirs.
 
 ## How paid work begins
 

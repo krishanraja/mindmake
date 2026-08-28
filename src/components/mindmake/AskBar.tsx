@@ -35,7 +35,7 @@ export function AskBar() {
           id={inputId}
           type="text"
           value={question}
-          placeholder="Ask us anything. Straight answer, instantly."
+          placeholder="Ask us anything, and get a straight answer."
           aria-describedby={answer ? outputId : undefined}
           onChange={(event) => setQuestion(event.target.value)}
           onKeyDown={(event) => {

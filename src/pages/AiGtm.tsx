@@ -19,23 +19,23 @@ import "@/styles/mindmake-instruments.css";
 const GTM_OBJECTIONS = [
   {
     id: "report",
-    question: "Is this a report or real work?",
-    answer: "Real work. You leave with a working system and the evidence behind it, not a document describing one.",
+    question: "Do I get a document or something that works?",
+    answer: "Something that works, plus the evidence behind it. You can see every source we used and check the reasoning yourself.",
   },
   {
     id: "speed",
-    question: "How fast is thirty days really?",
-    answer: "Fast, because the scope is one result rather than a transformation programme. You see the first working piece inside the first week, and it improves every week after that.",
+    question: "Is thirty days realistic?",
+    answer: "Yes, because we take on one result rather than a whole transformation. You see the first working piece in week one, and it improves each week after that.",
   },
   {
     id: "team",
-    question: "Does my team have to be involved?",
-    answer: "Your decisions, your trusted context and a few introductions. That is the whole ask. There is no performative homework and no all-team rollout to sit through.",
+    question: "How much of my team's time does this take?",
+    answer: "Very little. We need your decisions, the context you trust and a few introductions. There is no homework and no all-team rollout to sit through.",
   },
   {
     id: "keep",
-    question: "What do we keep when it ends?",
-    answer: "Everything. The model, the plan and the system, and they keep working after we leave.",
+    question: "What do we keep at the end?",
+    answer: "The model, the plan and the working system. All of it is yours, and it keeps running after we finish.",
   },
 ];
 
@@ -52,19 +52,18 @@ export default function AiGtm() {
     <MindmakeShell onStart={openBrief}>
       <SEO
         title="Build your AI GTM"
-        description="An AI-native go-to-market model across product, price, positioning and people. One lever, thirty days, priced on the outcome."
+        description="AI is changing what customers will pay for. We rebuild one part of how you sell, in thirty days, and prove it with real buyers."
         canonical="/ai-gtm"
       />
 
       <section className="mm-hero" aria-labelledby="gtm-title">
         <div className="mm-container mm-hero-split">
           <div>
-            <p className="mm-label">Build your AI GTM</p>
-            <h1 className="mm-setup" id="gtm-title">AI moved your market.</h1>
-            <p className="mm-claim">Your price has not moved yet.</p>
+            <h1 className="mm-setup" id="gtm-title">AI is changing what customers pay for.</h1>
+            <p className="mm-claim">We help you sell for that.</p>
             <p className="mm-lede">
-              An AI-native go-to-market model across product, price, positioning and people.
-              One lever, thirty days, priced on the outcome.
+              We take one part of how you sell, rebuild it around the way AI has changed your
+              market, and prove it with real buyers inside thirty days. You keep the model.
             </p>
           </div>
           <FilmPlate
@@ -78,14 +77,14 @@ export default function AiGtm() {
 
       <section className="mm-block" aria-labelledby="money-title">
         <div className="mm-container">
-          <p className="mm-label">Where AI hits the model</p>
-          <h2 id="money-title">Three places the money moves.</h2>
+          <h2 id="money-title">Three things AI changes about selling.</h2>
           <div className="mm-impact" style={{ marginTop: 18 }}>
             <article className="mm-impact-card">
-              <span className="mm-label">Monetization</span>
+              <h3>What you charge</h3>
               <p>
-                The P&amp;L is being repriced underneath you. <strong>What intelligence costs now</strong>,
-                what that does to your margin, and the pricing your next decision should assume.
+                <strong>The cost of doing the work is falling</strong>, and customers are starting
+                to notice. We work out what that means for your margin and what your prices should
+                assume next year.
               </p>
               <FilmPlate
                 poster={filmSixPoster}
@@ -94,17 +93,17 @@ export default function AiGtm() {
               />
             </article>
             <article className="mm-impact-card">
-              <span className="mm-label">Positioning</span>
+              <h3>How you stand out</h3>
               <p>
-                <strong>Who is coming for your business</strong>, with what tactics, and the story
-                that keeps you distinct while they arrive.
+                <strong>Who else is selling to your customers now</strong>, what they are promising,
+                and the clearest way to explain why you are the better choice.
               </p>
             </article>
             <article className="mm-impact-card">
-              <span className="mm-label">People</span>
+              <h3>Who does the selling</h3>
               <p>
-                <strong>The roles that should exist now</strong>, the people who thrive in them,
-                and the immediate 10X wins inside your GTM.
+                <strong>The roles worth creating now</strong>, the people who do well in them, and
+                the parts of selling your team can hand to AI this month.
               </p>
             </article>
           </div>
@@ -115,11 +114,10 @@ export default function AiGtm() {
 
       <section className="mm-block" aria-labelledby="read-title">
         <div className="mm-container">
-          <p className="mm-label">Try it on your business</p>
-          <h2 id="read-title">Watch us read your business.</h2>
+          <h2 id="read-title">Try it with your own company.</h2>
           <p className="mm-lede" style={{ marginTop: 10 }}>
-            Drop your company address. The engine reads your market live and a proposal built for
-            you lands in your inbox within minutes.
+            Give us your company address. We will read your market while you watch, and send you a
+            plan built for your business. It takes a couple of minutes.
           </p>
           <GtmJourney onRead={startFromJourney} />
         </div>
@@ -127,35 +125,37 @@ export default function AiGtm() {
 
       <section className="mm-block" aria-labelledby="engage-title">
         <div className="mm-container">
-          <p className="mm-label">How we engage</p>
-          <h2 id="engage-title">Read it, or rebuild it.</h2>
+          <h2 id="engage-title">Two ways to start.</h2>
           <div className="mm-shapes">
             <article className="mm-shape is-hot">
-              <span className="mm-label">The audit · 30 days</span>
-              <h3>Read what changed. Choose the lever.</h3>
-              <p>You leave with the model, the recommendation and the proof it was built on. Priced on the outcome.</p>
+              <h3>The review, thirty days</h3>
+              <p className="mm-shape-line">Understand what changed, and pick one thing to fix.</p>
+              <p>You get the model, a clear recommendation and all the evidence behind it. Priced on the result, with no retainer.</p>
             </article>
             <article className="mm-shape">
-              <span className="mm-label">The deployment</span>
-              <h3>Install the vision. Build the champions.</h3>
-              <p>We deploy the brain as the memory of your GTM, wire it to the tactical plans, and develop the people inside your team who carry it forward.</p>
+              <h3>The build</h3>
+              <p className="mm-shape-line">Put it in place, and teach your team to run it.</p>
+              <p>We set the system up as the memory of how you sell, connect it to your plans, and coach the people who will keep it going after we finish.</p>
             </article>
           </div>
           <p className="mm-payoff">
-            Delivered alongside our operating system, so velocity is guaranteed.{" "}
-            <em>You keep the model, the plan and the system, and they keep working after we leave.</em>
+            We bring our own tooling, so the work moves quickly from day one.{" "}
+            <em>You keep the model, the plan and the system, and they keep working after we finish.</em>
           </p>
         </div>
       </section>
 
-      <section className="mm-block" aria-labelledby="gtm-objections">
+      <section className="mm-block">
         <div className="mm-container">
-          <h2 className="mm-visually-hidden" id="gtm-objections">Common questions</h2>
           <ObjectionChips objections={GTM_OBJECTIONS} />
         </div>
       </section>
 
-      <CloseBlock claim="Reprice before you are repriced." onStart={openBrief} />
+      <CloseBlock
+        claim="See where AI changes your numbers."
+        body="Give us your company address and we will show you, using your market rather than a general example."
+        onStart={openBrief}
+      />
 
       <LeadBrief
         open={briefOpen}

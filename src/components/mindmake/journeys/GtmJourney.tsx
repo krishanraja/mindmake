@@ -10,18 +10,18 @@ interface GtmJourneyProps {
 const STEPS = [
   {
     number: "01",
-    title: "We read you, live",
-    body: "Your sector, your competitors and your pricing position, pulled while you watch.",
+    title: "We read your market",
+    body: "Your sector, who you compete with and where your prices sit, pulled together while you watch.",
   },
   {
     number: "02",
-    title: "A proposal built for you",
-    body: "Your levers, your numbers, your next move.",
+    title: "A plan built for you",
+    body: "What we would change first, with your numbers rather than a general example.",
   },
   {
     number: "03",
-    title: "One email. That is it.",
-    body: "Your proposal, our private terms and a call link. We never mail you again except one follow-up.",
+    title: "One email, and that is it",
+    body: "Your plan, our terms and a link to talk. We write once more after two weeks, and never again.",
   },
 ];
 

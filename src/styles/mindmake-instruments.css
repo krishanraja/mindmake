@@ -788,3 +788,100 @@
 .mm-block-head { margin-bottom: 18px; }
 .mm-block-head .mm-lede { margin-top: 12px; }
 .mm-block .mm-band { margin-block: 0; }
+
+/* ---------- Proof: outcomes, references, attendance ---------- */
+
+/* Three families of proof, kept visually distinct so they cannot be misread
+   as one another. */
+.mm-three { display: grid; gap: 12px; }
+@media (min-width: 760px) { .mm-three { grid-template-columns: repeat(3, 1fr); } }
+.mm-enemy.is-answer { border-color: var(--mm-mint-dim); background: var(--mm-mint-wash); }
+.mm-enemy.is-answer .mm-label { color: var(--mm-mint); }
+
+.mm-stories { display: grid; gap: 12px; margin-top: 20px; }
+@media (min-width: 760px) { .mm-stories { grid-template-columns: repeat(3, 1fr); } }
+.mm-story {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--mm-line);
+  border-radius: 3px;
+  background: var(--mm-ink2);
+  padding: 18px 19px;
+  transition: border-color .12s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .mm-story:hover { border-color: var(--mm-mint-dim); }
+}
+.mm-story h3 { font-size: 16px; }
+.mm-story-outcome { margin-top: 9px; color: var(--mm-tx2); font-size: 14px; line-height: 1.5; }
+.mm-story blockquote {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--mm-hair);
+  font-family: var(--mm-serif);
+  font-size: 17px;
+  line-height: 1.4;
+  color: var(--mm-tx);
+}
+.mm-story cite {
+  display: block;
+  margin-top: 10px;
+  color: var(--mm-mut);
+  font-family: var(--mm-mono);
+  font-size: 10.5px;
+  font-style: normal;
+  letter-spacing: .05em;
+}
+
+.mm-references { margin-top: clamp(30px, 5vh, 48px); }
+.mm-reference-grid { display: grid; gap: 12px; margin-top: 12px; }
+@media (min-width: 760px) { .mm-reference-grid { grid-template-columns: repeat(3, 1fr); } }
+.mm-reference {
+  margin: 0;
+  border-left: 2px solid var(--mm-mint-dim);
+  padding: 4px 0 4px 15px;
+}
+.mm-reference blockquote { margin: 0; color: var(--mm-tx2); font-size: 14.5px; line-height: 1.55; }
+.mm-reference figcaption { margin-top: 10px; display: grid; gap: 2px; }
+.mm-reference figcaption strong {
+  color: var(--mm-tx);
+  font-family: var(--mm-grotesque);
+  font-weight: 600;
+  font-size: 13.5px;
+}
+.mm-reference figcaption span { color: var(--mm-mut); font-family: var(--mm-mono); font-size: 10.5px; }
+
+.mm-attendance { margin-top: clamp(30px, 5vh, 48px); }
+.mm-logo-rail {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  gap: 1px;
+  margin-top: 12px;
+  border: 1px solid var(--mm-line);
+  border-radius: 3px;
+  background: var(--mm-line);
+}
+.mm-logo-cell {
+  display: grid;
+  place-items: center;
+  background: var(--mm-ink2);
+  padding: clamp(12px, 1.6vw, 18px);
+}
+.mm-logo-rail img {
+  width: auto;
+  max-width: 100%;
+  height: clamp(26px, 3.4vh, 34px);
+  /* The marks are dark by default, so they are lifted to the page's text
+     colour rather than recoloured. */
+  filter: brightness(0) invert(1);
+  opacity: .62;
+  object-fit: contain;
+}
+
+/* A shape card names itself in its heading, then says what it is in one line. */
+.mm-shape-line { margin-top: 7px; color: var(--mm-tx); font-family: var(--mm-serif); font-size: 17px; line-height: 1.35; }
+.mm-shape p + p { margin-top: 8px; }
+.mm-objections-title { font-size: clamp(20px, 2.4vw, 27px); margin-bottom: 14px; }
+.mm-references h3, .mm-attendance h3 { font-size: 15px; font-weight: 600; color: var(--mm-tx2); margin-bottom: 12px; }
+.mm-impact-card h3 { font-size: 17px; margin-bottom: 9px; }

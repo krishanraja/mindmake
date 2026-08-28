@@ -161,6 +161,44 @@ describe("the three-second gate", () => {
   });
 });
 
+describe("the eyebrow ban", () => {
+  /* No small pre-heading above a hero or a section title, anywhere. Renaming
+     it or changing its case does not make it acceptable: what is banned is a
+     decorative label sitting above a real heading. A small label may remain
+     only where it names an object, a control, a value or an axis. */
+  const PAGES = [
+    "src/pages/Index.tsx",
+    "src/pages/AiBrain.tsx",
+    "src/pages/AiGtm.tsx",
+    "src/components/mindmake/ForkBand.tsx",
+    "src/components/mindmake/ProofStrip.tsx",
+    "src/components/mindmake/ObjectionChips.tsx",
+    "src/components/mindmake/CloseBlock.tsx",
+  ];
+
+  it("never places a label immediately above a heading", () => {
+    for (const [surface, source] of readAll(PAGES)) {
+      /* A label element followed by a heading, ignoring whitespace, is the
+         exact shape of the thing that is banned. */
+      const eyebrow = /mm-label[^>]*>[^<]*<\/(?:p|span)>\s*<h[1-3]/;
+      expect(`${surface}: ${eyebrow.test(source)}`).toBe(`${surface}: false`);
+    }
+  });
+
+  it("keeps the remaining labels on data rather than headings", () => {
+    /* The labels that survive name a lane on the board or a question in a
+       journey. Both are axes, and neither introduces a heading. */
+    const board = read("src/components/mindmake/board/LiveBoard.tsx");
+    expect(board).toMatch(/mm-label[^>]*>\{lane\}/);
+  });
+
+  it("uses no em dashes anywhere in public copy", () => {
+    for (const [surface, source] of readAll(PUBLIC_SURFACES)) {
+      expect(`${surface}: ${source.includes("\u2014")}`).toBe(`${surface}: false`);
+    }
+  });
+});
+
 describe("the motion gate", () => {
   it("uses no IntersectionObserver on the rebuilt surfaces", () => {
     /* The one scroll primitive is useScrollDriver, and it can only change how a

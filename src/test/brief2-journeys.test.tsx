@@ -45,10 +45,10 @@ describe("the company read seam", () => {
 
   it("states the three steps, including the email cap", () => {
     render(<GtmJourney onRead={vi.fn()} />);
-    expect(screen.getByText("We read you, live")).toBeInTheDocument();
-    expect(screen.getByText("A proposal built for you")).toBeInTheDocument();
-    expect(screen.getByText("One email. That is it.")).toBeInTheDocument();
-    expect(screen.getByText(/never mail you again except one follow-up/i)).toBeInTheDocument();
+    expect(screen.getByText("We read your market")).toBeInTheDocument();
+    expect(screen.getByText("A plan built for you")).toBeInTheDocument();
+    expect(screen.getByText("One email, and that is it")).toBeInTheDocument();
+    expect(screen.getByText(/write once more after two weeks, and never again/i)).toBeInTheDocument();
   });
 });
 

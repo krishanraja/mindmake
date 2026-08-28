@@ -46,7 +46,7 @@ export function LiveBoard() {
     return (
       <section className="mm-block" id="board" aria-labelledby="board-title">
         <div className="mm-container">
-          <h2 id="board-title">What moved, by lever.</h2>
+          <h2 id="board-title">What changed in AI today.</h2>
           <p className="mm-board-rebuilding">The read is rebuilding. Back within the hour.</p>
         </div>
       </section>
@@ -57,7 +57,7 @@ export function LiveBoard() {
     return (
       <section className="mm-block" id="board" aria-labelledby="board-title">
         <div className="mm-container">
-          <h2 id="board-title">What moved, by lever.</h2>
+          <h2 id="board-title">What changed in AI today.</h2>
         </div>
       </section>
     );
@@ -69,7 +69,7 @@ export function LiveBoard() {
     <section className="mm-block" id="board" aria-labelledby="board-title">
       <div className="mm-container">
         <div className="mm-board-head">
-          <h2 id="board-title">What moved, by lever.</h2>
+          <h2 id="board-title">What changed in AI today.</h2>
           <span className={`mm-timestamp${stale ? " is-stale" : ""}`}>
             <i className={`mm-live-dot${stale ? " is-stale" : ""}`} aria-hidden="true" />
             {timestampLabel(board.cacheDate, board.days.length, board.total)}

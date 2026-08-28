@@ -45,14 +45,13 @@ export function ForkBand() {
   return (
     <div className="mm-band mm-on-paper">
       <div className="mm-band-head">
-        <p className="mm-label">The fork nobody names</p>
         <h2>
-          Three ways to get a brain. <span className="mm-claim">Only one is yours at the end.</span>
+          Three ways to do this. <span className="mm-claim">They end in different places.</span>
         </h2>
       </div>
 
       <p className="mm-band-q">
-        <b>Q1</b> Everything you teach AI today. Where does it actually end up?
+        <b>Q1</b> Everything you teach AI today. Where does it end up?
       </p>
 
       <div className="mm-forks">

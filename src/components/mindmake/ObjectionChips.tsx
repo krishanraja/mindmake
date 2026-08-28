@@ -13,12 +13,12 @@ interface ObjectionChipsProps {
   label?: string;
 }
 
-export function ObjectionChips({ objections, label = "You are probably thinking" }: ObjectionChipsProps) {
+export function ObjectionChips({ objections, label = "Questions people ask us" }: ObjectionChipsProps) {
   const [open, setOpen] = useState<string | null>(null);
 
   return (
     <div>
-      <p className="mm-label">{label}</p>
+      <h2 className="mm-objections-title">{label}</h2>
       <div className="mm-objections">
         {objections.map((objection) => {
           const isOpen = open === objection.id;

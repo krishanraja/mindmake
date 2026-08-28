@@ -30,7 +30,9 @@ This file is a contributor guard. Read `project-documentation/MINDMAKE_CANON.md`
 - An uncapped Steph quote. Missing or failed consent data must hide it.
 - A public count of leaders helped, until the lock's evidence trail is compiled and approved.
 - Em dashes, American spellings such as `judgment`, or unexplained business and technical terms in public copy.
-- The operator's personal name anywhere in public copy, including meta tags, structured data, blog authorship and email addresses. The four CTRL captures are the one approved exception, and they are images.
+- Doom, fear or failure framing about the reader's business. Commands to the reader. Boasting about what we are about to do. Cryptic headings that need the paragraph below them to decode. The voice is a helpful expert explaining something clearly, and a twelve-year-old should follow every sentence.
+- Eyebrows. No small pre-heading above a hero or a section title, under any class name and in any case. A small label may remain only where it names an object, a control, a value or an axis.
+- The operator's personal name in the site's voice: no first person, no biography, no portrait. He is named once, as the person the named references worked with. The four CTRL captures keep their account chrome, and they are images.
 - The retired journey engine: stepped scroll journeys, numbered step rails, the Capture / Encode / Amplify / Uncover / Keep ladder, hand-drawn scroll marks, the stage photograph, and "Not an agency. Not a coach."
 - Entrance choreography of any kind. Scroll-triggered reveals, fades, slides, staggered builds and scroll-progress bars are banned; see the motion law in the design contract.
 

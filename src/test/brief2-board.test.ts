@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import {
   LANE_MAP,
   LANE_ORDER,
@@ -15,6 +17,9 @@ import {
   type BoardCard,
   type BoardDay,
 } from "@/lib/board";
+
+const read = (relative: string) =>
+  readFileSync(resolve(__dirname, "../..", relative), "utf8");
 
 /**
  * The board makes three promises a visitor can check: the mapping is published,
@@ -175,5 +180,65 @@ describe("the industry filter is deterministic", () => {
     expect(counts["All industries"]).toBe(2);
     expect(counts["Financial services"]).toBe(1);
     expect(counts["Media and publishing"]).toBe(0);
+  });
+
+  it("does not let Technology become a synonym for everything", () => {
+    /* Every item on this board is about AI, so words like model, platform,
+       software and api match nearly all of them. With those in the list, the
+       chip a technology buyer is most likely to press returned the same set as
+       All industries and read as broken. It now marks stories about the
+       technology industry rather than stories that mention technology. */
+    const generic = [
+      card({ headline: "A new language model tops the benchmarks" }),
+      card({ headline: "The platform ships a developer api" }),
+      card({ headline: "New software for agents" }),
+    ];
+    for (const item of generic) expect(matchesIndustry(item, "Technology")).toBe(false);
+
+    const sector = [
+      card({ headline: "The chip shortage eases" }),
+      card({ headline: "A hyperscaler opens a data centre" }),
+      card({ headline: "A semiconductor foundry raises prices" }),
+    ];
+    for (const item of sector) expect(matchesIndustry(item, "Technology")).toBe(true);
+  });
+});
+
+describe("the board reads from one filtered collection", () => {
+  /* The chips used to filter the visible cards while the lane counts, the
+     spark bars and the timestamp were computed from the unfiltered window, so
+     the numbers never moved and the control read as dead. Every figure has to
+     come from the same filtered days. */
+  const source = read("src/components/mindmake/board/LiveBoard.tsx");
+
+  it("filters the whole window before anything is counted", () => {
+    expect(source).toMatch(/const days = useMemo\([\s\S]{0,220}matchesIndustry\(card, industry\)/);
+  });
+
+  it("derives every figure from the filtered days", () => {
+    for (const derived of [
+      "laneCounts(days)",
+      "laneSpark(days, lane)",
+      "days.reduce((sum, day) => sum + day.cards.length, 0)",
+      "timestampLabel(board.cacheDate, days.length, total)",
+    ]) {
+      expect(`${derived}: ${source.includes(derived)}`).toBe(`${derived}: true`);
+    }
+  });
+
+  it("says how much it is holding back rather than dropping it silently", () => {
+    expect(source).toContain("Showing {visible.length} of {today.length} today.");
+    expect(source).toContain("Show all ${today.length}");
+  });
+
+  it("shows fewer cards on a phone, where they are a single column", () => {
+    expect(source).toContain("CARDS_SHOWN_PHONE");
+    expect(source).toMatch(/phone \? CARDS_SHOWN_PHONE : CARDS_SHOWN/);
+  });
+
+  it("never renders a heading with nothing under it", () => {
+    /* Loading used to be a bare h2, which reads as broken rather than busy. */
+    const loading = source.slice(source.indexOf('board.status === "loading"'));
+    expect(loading.slice(0, 500)).toContain("Reading today's sources.");
   });
 });

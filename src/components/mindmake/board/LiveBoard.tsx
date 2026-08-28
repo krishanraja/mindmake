@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { BoardCardView } from "@/components/mindmake/board/BoardCard";
 import { CountingValue } from "@/components/mindmake/CountingValue";
 import { useBoardData } from "@/hooks/useBoardData";
+import { useIsMobile } from "@/hooks/use-mobile";
 import {
   INDUSTRIES,
   LANE_MAP,
@@ -16,7 +17,14 @@ import {
   type Industry,
 } from "@/lib/board";
 
+/**
+ * Enough to read at a glance. The rest is one tap away, and counted.
+ *
+ * Fewer on a phone, where the cards are a single column and six of them alone
+ * ran to more than a screen and a half.
+ */
 const CARDS_SHOWN = 6;
+const CARDS_SHOWN_PHONE = 3;
 
 /**
  * The daily read, published.
@@ -26,21 +34,46 @@ const CARDS_SHOWN = 6;
  * fetch collapses the section to its heading and one honest line, never an
  * empty board frame. And the industry filter is a deterministic keyword match
  * the visitor could check themselves, not personalisation.
+ *
+ * A fourth rule, learned the hard way: a control that appears to do nothing is
+ * worse than no control. The chips used to filter the six visible cards while
+ * the lane counts, the spark bars and the timestamp were all computed from the
+ * unfiltered set, so the numbers never moved and the filter read as broken.
+ * Everything on this board now derives from one filtered collection.
  */
 export function LiveBoard() {
   const board = useBoardData({ days: 28 });
   const [industry, setIndustry] = useState<Industry>("All industries");
+  const [expanded, setExpanded] = useState(false);
+  const phone = useIsMobile();
 
-  const today = useMemo(
-    () => (board.status === "ready" ? board.days[0].cards : []),
+  /* Memoised rather than inlined: a fresh [] on every render would defeat the
+     filter memo below it and re-filter 28 days on each keystroke elsewhere. */
+  const allDays = useMemo(
+    () => (board.status === "ready" ? board.days : []),
     [board],
   );
-  const counts = useMemo(() => industryCounts(today), [today]);
-  const lanes = useMemo(
-    () => (board.status === "ready" ? laneCounts(board.days) : null),
-    [board],
+
+  /* One filtered view of the whole window. Every figure below reads from it. */
+  const days = useMemo(
+    () => allDays.map((day) => ({
+      ...day,
+      cards: day.cards.filter((card) => matchesIndustry(card, industry)),
+    })),
+    [allDays, industry],
   );
-  const visible = today.filter((card) => matchesIndustry(card, industry)).slice(0, CARDS_SHOWN);
+
+  const today = days[0]?.cards ?? [];
+  const counts = useMemo(() => industryCounts(allDays[0]?.cards ?? []), [allDays]);
+  const lanes = useMemo(() => (days.length ? laneCounts(days) : null), [days]);
+  const total = useMemo(() => days.reduce((sum, day) => sum + day.cards.length, 0), [days]);
+  const limit = phone ? CARDS_SHOWN_PHONE : CARDS_SHOWN;
+  const visible = expanded ? today : today.slice(0, limit);
+
+  const pick = (option: Industry) => {
+    setIndustry(option);
+    setExpanded(false);
+  };
 
   if (board.status === "collapsed") {
     return (
@@ -58,6 +91,8 @@ export function LiveBoard() {
       <section className="mm-block" id="board" aria-labelledby="board-title">
         <div className="mm-container">
           <h2 id="board-title">What changed in AI today.</h2>
+          {/* A heading with nothing under it reads as broken rather than busy. */}
+          <p className="mm-board-rebuilding" role="status">Reading today's sources.</p>
         </div>
       </section>
     );
@@ -72,7 +107,7 @@ export function LiveBoard() {
           <h2 id="board-title">What changed in AI today.</h2>
           <span className={`mm-timestamp${stale ? " is-stale" : ""}`}>
             <i className={`mm-live-dot${stale ? " is-stale" : ""}`} aria-hidden="true" />
-            {timestampLabel(board.cacheDate, board.days.length, board.total)}
+            {timestampLabel(board.cacheDate, days.length, total)}
           </span>
         </div>
 
@@ -84,9 +119,10 @@ export function LiveBoard() {
               type="button"
               aria-pressed={industry === option}
               disabled={counts[option] === 0}
-              onClick={() => setIndustry(option)}
+              onClick={() => pick(option)}
             >
               {option}
+              {option !== "All industries" && <i aria-hidden="true">{counts[option]}</i>}
             </button>
           ))}
         </div>
@@ -94,13 +130,14 @@ export function LiveBoard() {
         {lanes && (
           <div className="mm-lanes">
             {LANE_ORDER.map((lane) => {
-              const spark = laneSpark(board.days, lane);
+              const spark = laneSpark(days, lane);
               const peak = Math.max(1, ...spark);
               return (
                 <article className="mm-lane" key={lane}>
                   <span className="mm-label">{lane}</span>
                   <p className="mm-lane-value">
-                    <CountingValue value={lanes[lane]} />
+                    {/* Keyed on the filter so the figure re-settles when it changes. */}
+                    <CountingValue key={`${lane}-${industry}`} value={lanes[lane]} />
                     <small>items</small>
                   </p>
                   <div className="mm-spark" aria-hidden="true">
@@ -117,15 +154,30 @@ export function LiveBoard() {
 
         <p className="mm-lane-map">
           {LANE_ORDER.map((lane) => (
-            <span key={lane} style={{ display: "block" }}>
-              {lane} = {LANE_MAP[lane].join(", ")}
-            </span>
+            <span key={lane}>{lane} = {LANE_MAP[lane].join(", ")}</span>
           ))}
         </p>
 
-        <div className="mm-cards">
-          {visible.map((card) => <BoardCardView card={card} key={card.id} />)}
-        </div>
+        {today.length === 0 ? (
+          <p className="mm-board-rebuilding">
+            Nothing in {industry.toLowerCase()} today. The other lenses still have items.
+          </p>
+        ) : (
+          <>
+            <div className="mm-cards">
+              {visible.map((card) => <BoardCardView card={card} key={card.id} />)}
+            </div>
+            {/* Say how much is being held back rather than silently dropping it. */}
+            <p className="mm-cards-more">
+              <span>Showing {visible.length} of {today.length} today.</span>
+              {today.length > limit && (
+                <button type="button" className="mm-text-button" onClick={() => setExpanded(!expanded)}>
+                  {expanded ? "Show fewer" : `Show all ${today.length}`}
+                </button>
+              )}
+            </p>
+          </>
+        )}
       </div>
     </section>
   );

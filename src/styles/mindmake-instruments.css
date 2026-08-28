@@ -414,6 +414,13 @@
 .mm-timestamp.is-stale { color: var(--mm-amber); }
 
 .mm-chips { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 16px; }
+.mm-chip i {
+  margin-left: 7px;
+  font-style: normal;
+  font-size: 10px;
+  color: var(--mm-mut);
+}
+.mm-chip[aria-pressed="true"] i { color: var(--mm-ink); }
 .mm-chip {
   border: 1px solid var(--mm-line);
   border-radius: 2px;
@@ -468,9 +475,34 @@
 }
 .mm-spark i:last-child { background: var(--mm-mint); opacity: 1; }
 .mm-lane-sub { margin-top: 8px; color: var(--mm-mut); font-family: var(--mm-mono); font-size: 10px; }
-.mm-lane-map { margin-top: 12px; color: var(--mm-mut); font-family: var(--mm-mono); font-size: 10.5px; line-height: 1.7; }
+/* The lane key reads as a row of definitions rather than a four-line stack. */
+.mm-lane-map {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 22px;
+  margin-top: 12px;
+  color: var(--mm-mut);
+  font-family: var(--mm-mono);
+  font-size: 10.5px;
+  line-height: 1.7;
+}
 
+/* This grid had no columns at any width, so six full-width cards stacked on
+   every device and the section ran to 2.8 screens on a phone. */
 .mm-cards { display: grid; gap: 10px; margin-top: 14px; }
+@media (min-width: 760px) { .mm-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .mm-cards { grid-template-columns: repeat(3, 1fr); } }
+
+.mm-cards-more {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  align-items: baseline;
+  margin-top: 14px;
+  color: var(--mm-mut);
+  font-family: var(--mm-mono);
+  font-size: 11.5px;
+}
 .mm-card {
   border: 1px solid var(--mm-line);
   border-radius: 3px;

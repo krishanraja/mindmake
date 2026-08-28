@@ -145,7 +145,13 @@ const INDUSTRY_KEYWORDS: Record<Exclude<Industry, "All industries">, string[]> =
   "Financial services": ["bank", "financ", "credit", "insur", "trading", "invest", "payment", "fintech", "risk", "regulat", "compliance", "capital"],
   "Professional services": ["consult", "law", "legal", "audit", "accounting", "agency", "advisory", "recruit", "hiring", "profession"],
   "Retail and commerce": ["retail", "commerce", "shopping", "merchant", "consumer", "brand", "checkout", "logistics", "supply", "store"],
-  "Technology": ["model", "chip", "gpu", "cloud", "infrastructure", "developer", "software", "platform", "api", "open weights", "compute", "engineer"],
+  /* Narrower than it looks it should be, deliberately. On a board where every
+     item is about AI, words like "model", "platform", "api" and "software"
+     match nearly everything, so the chip that a technology buyer is most
+     likely to press was returning the same list as "All industries" and
+     reading as broken. These are the words that mark a story as being about
+     the technology industry rather than about technology. */
+  "Technology": ["chip", "semiconductor", "gpu", "data centre", "data center", "hyperscaler", "foundry", "hardware", "cloud provider", "open weights", "wafer", "fab"],
 };
 
 export function matchesIndustry(card: BoardCard, industry: Industry): boolean {

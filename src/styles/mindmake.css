@@ -304,15 +304,20 @@
   min-height: 44px;
   display: inline-flex;
   align-items: center;
-  font-family: var(--mm-grotesque);
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: .02em;
-  color: #f2f8f5;
+  gap: 10px;
   text-decoration: none;
   touch-action: manipulation;
 }
-.mm-brand span { color: var(--mm-mint); }
+/* Sized so both are above 2x on a retina screen: the mark is 520px wide and the
+   wordmark 890px, so 30px and 150px leave room to spare. */
+.mm-brand-icon { width: 30px; height: auto; }
+.mm-brand-wordmark { width: 150px; height: auto; display: block; }
+.mm-brand.is-compact .mm-brand-icon { width: 26px; }
+.mm-brand.is-compact .mm-brand-wordmark { width: 128px; }
+@media (max-width: 700px) {
+  .mm-brand-icon { width: 26px; }
+  .mm-brand-wordmark { width: 128px; }
+}
 .mm-menu-button {
   min-width: 44px;
   min-height: 44px;

@@ -1,4 +1,5 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
+import { MindmakeBrand } from "@/components/mindmake/MindmakeBrand";
 import { Link, useLocation } from "react-router-dom";
 import { PUBLICATION_URL } from "@/lib/publicLinks";
 import { track } from "@/lib/analytics";
@@ -92,7 +93,7 @@ export function MindmakeShell({ children, onStart, mainClassName = "" }: Mindmak
       <a className="mm-skip" href="#main">Skip to content</a>
       <header className={`mm-header${scrolled ? " is-scrolled" : ""}`}>
         <div className="mm-container mm-nav">
-          <Link className="mm-brand" to="/">MIND<span>/</span>MAKE</Link>
+          <MindmakeBrand />
           <button
             ref={menuButtonRef}
             className="mm-menu-button"
@@ -134,7 +135,7 @@ export function MindmakeShell({ children, onStart, mainClassName = "" }: Mindmak
 
       <footer className="mm-footer" ref={footerRef}>
         <div className="mm-container mm-footer-grid">
-          <Link className="mm-brand" to="/">MIND<span>/</span>MAKE</Link>
+          <MindmakeBrand compact />
           <p>We help leaders put their own judgement to work with AI, and you keep what it learns.</p>
           <nav aria-label="Footer navigation">
             <Link to="/ai-brain">Build your AI brain</Link>

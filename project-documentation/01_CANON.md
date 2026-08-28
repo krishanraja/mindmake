@@ -531,8 +531,19 @@ Avoid as public framing: "AI literacy", "AI fluency", "prompt engineering",
 "leveraging AI", "AI-powered", "future of work", "chief of staff",
 "productivity", "assistant".
 
-The site speaks as **we**. No first person, no biography, no portrait. The
-founder is named once, as the person the named references worked with.
+The site speaks as **we**. Founder-led, practice voice, decided 28 August 2026:
+the founder appears in the founder section at the foot of the homepage (his own
+bio, his own first person, his photograph), in the framing of the proof, and
+inside verbatim quotes where other people used his name. Everywhere else there
+is no first person, no biography and no portrait, and no "why him" argument in
+place of evidence. See `00_NORTH_STAR.md` for why the earlier "named exactly
+once, no portrait" rule was replaced.
+
+**Quotes are never edited.** Not for spelling, not for house style, not to
+remove the founder's name. The rules that govern our own voice stop at the
+quotation mark. A shortened quote on a rail is an exact substring of what the
+person wrote, never a paraphrase, and `src/test/testimonials.test.ts` checks
+every one of them.
 
 Every public section teaches something useful, shows credible proof, or helps the
 visitor make a clearer choice. A line whose only job is to persuade has not

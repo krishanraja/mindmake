@@ -20,6 +20,7 @@ export type MindmakeEvent =
   | "journey_brain_email"
   | "board_item_click"
   | "scoping_request"
+  | "testimonial_expand"
   | "substack_click";
 
 type EventProps = Record<string, string | number | boolean>;

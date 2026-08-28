@@ -175,9 +175,25 @@ never a cryptic headline that makes the reader work for the point.
 
 ## The voice
 
-We speak as **we**. There is no first person, no biography, no portrait. The
-founder is named exactly once, as the person the named references actually
-worked with, because a testimonial needs someone to have worked with.
+We speak as **we**. The practice is the subject of every claim, every
+explanation and every offer, and it never becomes one person telling you about
+himself.
+
+Founder-led, practice voice, decided 28 August 2026. The founder is Krish Raja,
+and he appears in exactly three places: the founder section at the foot of the
+homepage, where the bio is his own and in his own first person; the framing of
+the proof, because a testimonial needs somebody to have worked with; and inside
+verbatim quotes, where other people used his name.
+
+Everywhere else the earlier rule holds unchanged. No first person in the
+practice's voice, no biography woven through the pages, no portrait used as
+decoration, and no "why him" argument standing in for evidence.
+
+This replaces "named exactly once, no portrait", which was written before the
+proof archive existed. It changed because thirty-three people gave testimony
+about working with a named person, and proof that hides who the work was with
+is weaker proof. The positioning did not change with it: Mindmake still builds
+systems that hold a leader's judgement and belong to the client afterwards.
 
 The register is a helpful expert explaining something clearly to someone smart
 who has not thought about it yet. Confident about what we know, plain about what

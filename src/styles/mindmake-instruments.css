@@ -1053,3 +1053,178 @@
 .mm-objections-title { font-size: clamp(20px, 2.4vw, 27px); margin-bottom: 14px; }
 .mm-references h3, .mm-attendance h3 { font-size: 15px; font-weight: 600; color: var(--mm-tx2); margin-bottom: 12px; }
 .mm-impact-card h3 { font-size: 17px; margin-bottom: 9px; }
+
+/* ---------- The proof rail: thirty-three voices ---------- */
+
+/* One card, whatever mechanic moves it. The excerpt is one line at rest and the
+   full quote unfolds in place, so the rail never jumps a reader somewhere new. */
+.mm-voice {
+  border: 1px solid var(--mm-line);
+  border-radius: 3px;
+  background: var(--mm-ink2);
+  padding: 14px 15px;
+  transition: border-color .12s ease;
+}
+.mm-voice.is-open { border-color: var(--mm-mint-dim); }
+.mm-voice blockquote {
+  margin: 0;
+  color: var(--mm-tx);
+  font-family: var(--mm-serif);
+  font-size: 15px;
+  line-height: 1.45;
+  letter-spacing: -.01em;
+  text-wrap: pretty;
+}
+.mm-voice.is-open blockquote { font-size: 14px; line-height: 1.55; }
+.mm-voice-by {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  align-items: baseline;
+  margin-top: 9px;
+  font-family: var(--mm-mono);
+  font-size: 10px;
+  line-height: 1.4;
+}
+.mm-voice-by b { color: var(--mm-tx2); font-weight: 500; }
+.mm-voice-by span { color: var(--mm-mut); }
+/* The family label is the thing that stops a session attendee being read as a
+   client. It stays legible rather than becoming decoration. */
+.mm-voice-by i {
+  border: 1px solid var(--mm-line);
+  border-radius: 2px;
+  padding: 1px 5px;
+  color: var(--mm-mut);
+  font-style: normal;
+  font-size: 9px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+/* Two classes deep on purpose: .mm-site button sets font: inherit, which beats
+   a single class and made this read at body size and louder than the quote. */
+.mm-voice .mm-voice-more {
+  min-height: 30px;
+  margin-top: 4px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: var(--mm-mut);
+  font-family: var(--mm-mono);
+  font-size: 9.5px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: color .12s ease;
+}
+.mm-voice .mm-voice-more:hover,
+.mm-voice .mm-voice-more:focus-visible { color: var(--mm-mint); }
+
+.mm-rail { margin-top: 20px; display: grid; gap: 12px; }
+.mm-rail-column { display: grid; gap: 12px; align-content: start; }
+.mm-rail-count {
+  margin-top: 14px;
+  color: var(--mm-mut);
+  font-family: var(--mm-mono);
+  font-size: 10.5px;
+  line-height: 1.5;
+}
+
+/* Columns: three lanes drifting upward at slightly different rates, clipped to
+   a fixed frame. Held under the pointer and while anything inside has focus,
+   because a rail that keeps moving takes the quote away from the reader. */
+@media (min-width: 860px) {
+  .mm-rail.is-columns, .mm-rail.is-scrub { grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .mm-rail.is-columns {
+    height: 520px;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(180deg, transparent, #000 9%, #000 91%, transparent);
+    mask-image: linear-gradient(180deg, transparent, #000 9%, #000 91%, transparent);
+  }
+  .mm-rail.is-columns .mm-rail-column {
+    animation: mm-rail-up calc(74s + var(--mm-lane) * 13s) linear infinite;
+  }
+  .mm-rail.is-columns.is-held .mm-rail-column { animation-play-state: paused; }
+  .mm-rail.is-columns .mm-rail-run { display: grid; gap: 12px; }
+}
+@keyframes mm-rail-up { to { transform: translate3d(0, -50%, 0); } }
+
+/* Ticker: three horizontal rows, the middle one running the other way. Denser
+   than the columns and about a third of the height. */
+.mm-rail.is-ticker { display: block; overflow: hidden; }
+.mm-rail.is-ticker .mm-rail-column {
+  display: flex;
+  gap: 12px;
+  /* Without this a flex row stretches every card to the tallest one in it, and
+     a one-line quote carries three lines of empty box. */
+  align-items: flex-start;
+  width: max-content;
+  animation: mm-rail-left calc(66s + var(--mm-lane) * 11s) linear infinite;
+}
+.mm-rail.is-ticker .mm-rail-column:nth-child(2) { animation-name: mm-rail-right; }
+.mm-rail.is-ticker .mm-rail-run { display: flex; align-items: flex-start; gap: 12px; }
+.mm-rail.is-ticker .mm-voice { width: clamp(240px, 26vw, 330px); flex: 0 0 auto; }
+.mm-rail.is-ticker.is-held .mm-rail-column { animation-play-state: paused; }
+@keyframes mm-rail-left { to { transform: translate3d(-50%, 0, 0); } }
+@keyframes mm-rail-right { from { transform: translate3d(-50%, 0, 0); } to { transform: translate3d(0, 0, 0); } }
+
+/* Scrub: nothing autoplays. The columns offset by scroll position, so the
+   movement belongs to the reader and reverses when they go back up. */
+.mm-rail.is-scrub .mm-rail-column { will-change: transform; }
+
+/* No mechanic outruns the motion preference. Every card stays exactly where it
+   is, which is a complete state: all thirty-three are in the DOM either way. */
+@media (prefers-reduced-motion: reduce) {
+  .mm-rail .mm-rail-column { animation: none !important; transform: none !important; }
+  .mm-rail.is-columns { height: auto; overflow: visible; -webkit-mask-image: none; mask-image: none; }
+  .mm-rail.is-ticker .mm-rail-column { flex-wrap: wrap; width: auto; }
+  .mm-rail .mm-rail-run[aria-hidden="true"] { display: none; }
+}
+
+/* ---------- The founder ---------- */
+
+.mm-founder { padding-block: var(--mm-section); border-top: 1px solid var(--mm-seam); }
+.mm-founder-grid { display: grid; gap: 24px; align-items: center; }
+.mm-founder-shot { margin: 0; }
+.mm-founder-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 3px;
+}
+/* The cut-out sits on the ink ground baked into the file, so a circular mask
+   and a hairline of ours replace the cyan ring the supplied asset carried.
+   260px, not 300: a 536px source needs to stay above 1.8 source pixels per CSS
+   pixel and 300 would put it at 1.79. */
+.mm-founder.is-portrait .mm-founder-shot img {
+  max-width: 260px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--mm-line);
+}
+.mm-founder.is-standing .mm-founder-shot img { max-width: 330px; }
+.mm-founder-note h2 { max-width: 20ch; font-size: clamp(24px, 2.8vw, 34px); }
+.mm-founder-name {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  align-items: baseline;
+  margin-top: 10px;
+  font-family: var(--mm-mono);
+  font-size: 11px;
+}
+.mm-founder-name b { color: var(--mm-mint); font-weight: 500; letter-spacing: .04em; }
+.mm-founder-name span { color: var(--mm-mut); }
+.mm-founder-note p:not(.mm-founder-name) {
+  max-width: 62ch;
+  margin-top: 14px;
+  color: var(--mm-tx2);
+  font-size: 16px;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+.mm-founder-close { color: var(--mm-mut) !important; font-size: 14px !important; }
+@media (min-width: 900px) {
+  .mm-founder.is-stage .mm-founder-grid { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 44px; }
+  .mm-founder.is-portrait .mm-founder-grid { grid-template-columns: 260px minmax(0, 1fr); gap: 40px; align-items: start; }
+  .mm-founder.is-standing .mm-founder-grid { grid-template-columns: 330px minmax(0, 1fr); gap: 44px; align-items: center; }
+}

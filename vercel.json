@@ -193,7 +193,7 @@
   ],
   "headers": [
     {
-      "source": "/((?!alumni|test-email-flows\\.html).*)",
+      "source": "/((?!alumni|lab/|test-email-flows\\.html).*)",
       "headers": [
         {
           "key": "X-Robots-Tag",
@@ -202,7 +202,7 @@
       ]
     },
     {
-      "source": "/(alumni|test-email-flows\\.html)(.*)",
+      "source": "/(alumni|lab/|test-email-flows\\.html)(.*)",
       "headers": [
         {
           "key": "X-Robots-Tag",
@@ -214,6 +214,10 @@
   "rewrites": [
     {
       "source": "/alumni",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/lab/proof",
       "destination": "/index.html"
     }
   ]

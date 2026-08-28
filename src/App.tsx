@@ -8,6 +8,7 @@ import { PUBLICATION_URL } from "@/lib/publicLinks";
 import Index from "./pages/Index";
 
 const CaseStudies = lazy(() => import("./pages/CaseStudies"));
+const ProofLab = lazy(() => import("./components/lab/ProofLab").then((m) => ({ default: m.ProofLab })));
 const NewAgeLeadership = lazy(() => import("./pages/NewAgeLeadership"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Privacy = lazy(() => import("./pages/Privacy"));
@@ -115,6 +116,13 @@ function AppRoutes() {
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/alumni" element={<Alumni />} />
+
+            {/* The proof lab: three mechanics for the thirty-three voices and
+                two founder treatments, on the real content, so the choice is
+                made by looking. Never linked, never in the sitemap, deleted
+                once decided. Needs a vercel rewrite, like /alumni, because
+                nothing here is prerendered and the site has no SPA fallback. */}
+            <Route path="/lab/proof" element={<ProofLab />} />
 
             <Route path="/sprint" element={<ToStart />} />
             <Route path="/teardown" element={<ToStart />} />

@@ -48,6 +48,8 @@ const PUBLIC_SURFACES = [
   "src/components/mindmake/Marquee.tsx",
   "src/components/mindmake/MindmakeShell.tsx",
   "src/components/mindmake/ObjectionChips.tsx",
+  "src/components/mindmake/FounderNote.tsx",
+  "src/components/mindmake/ProofRail.tsx",
   "src/components/mindmake/companyRead.ts",
   "src/components/mindmake/leadDelivery.ts",
   "src/components/mindmake/privateBriefHtml.ts",
@@ -61,6 +63,13 @@ const PUBLIC_SURFACES = [
   "src/content/answers.json",
   "src/data/blogPosts.ts",
   "src/data/rebuildProof.ts",
+  /* src/data/testimonials.ts is deliberately absent. It holds thirty-three
+     verbatim quotes, and the house style rules these gates enforce govern the
+     practice's own voice, not what other people wrote. Scanning it would force
+     the quotes to be edited, and an edited quote attributed to a named person
+     is not a quote. The rule that does apply to that file, that every shortened
+     quote is an exact substring of the full one, is enforced by
+     src/test/testimonials.test.ts. */
   "scripts/generate-llms.mjs",
   "scripts/generate-sitemap.mjs",
   "scripts/prerender.mjs",
@@ -87,17 +96,60 @@ const readAll = (surfaces: string[]) => surfaces
   .map((surface) => [surface, read(surface)] as const);
 
 describe("the Krish gate", () => {
-  /* The ban is on the operator appearing in the site's voice: no first person,
-     no biography, no portrait, no "why him" section. It is not a ban on the
-     mailbox a visitor can reach a human on. That address is declared once, in
-     src/lib/publicLinks.ts, and every page reads the constant, so this
-     exception is one line in one file rather than something spread around. */
+  /* The ban is on the operator appearing in the site's voice, and that is still
+     what this gate holds. What changed on 28 August 2026 is where the voice
+     stops.
+
+     Founder-led, practice voice: he appears in the founder section, in the
+     framing of the proof, and inside verbatim quotes other people wrote. The
+     rest of the site is the practice speaking as we, with no first person, no
+     biography and no portrait. So the scan below still runs over every page and
+     every piece of copy the practice authors, and the two files that hold other
+     people's words and the founder's own section are named exceptions rather
+     than a hole in the rule.
+
+     The mailbox is a third exception, declared once in src/lib/publicLinks.ts
+     and read by every page, so it stays one line in one file. */
   const CONTACT_MAILBOX = /krish@themindmaker\.ai/g;
 
-  it("keeps the operator's name out of every public surface", () => {
+  /** Surfaces allowed to carry the name, and the reason each one is. */
+  const NAMED_SURFACES: Record<string, string> = {
+    "src/data/testimonials.ts": "thirty-three verbatim quotes, several of which name him",
+    "src/components/mindmake/FounderNote.tsx": "the founder section: his bio, in his own voice",
+  };
+
+  it("keeps the operator's name out of the practice's own voice", () => {
     for (const [surface, source] of readAll(PUBLIC_SURFACES)) {
+      if (surface in NAMED_SURFACES) continue;
       const copy = source.replace(CONTACT_MAILBOX, "");
       expect(`${surface}: ${copy.toLowerCase().includes("krish")}`).toBe(`${surface}: false`);
+    }
+  });
+
+  it("names every surface allowed to carry it, and only those", () => {
+    /* An exception that nobody has to declare is not an exception. Adding a
+       page to this list is a decision somebody makes on purpose, in a diff. */
+    for (const surface of Object.keys(NAMED_SURFACES)) {
+      expect(`${surface} exists: ${existsSync(resolve(ROOT, surface))}`)
+        .toBe(`${surface} exists: true`);
+      expect(NAMED_SURFACES[surface].length > 20).toBe(true);
+    }
+    expect(Object.keys(NAMED_SURFACES)).toHaveLength(2);
+  });
+
+  it("keeps the practice speaking as we, even where he is named", () => {
+    /* The founder section carries first person because the bio is his, and the
+       quotes carry it because the people who wrote them were speaking. Nothing
+       else may: a page that says "I build" has stopped being the practice.
+       Comments are stripped, since a note to the next engineer is not copy. */
+    const prose = (source: string) => source
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .replace(/\/\/[^\n]*/g, "")
+      .replace(/import[^\n]*\n/g, "");
+    for (const [surface, source] of readAll(PUBLIC_SURFACES)) {
+      if (surface in NAMED_SURFACES) continue;
+      expect(`${surface}: ${/\b(I build|I help|I work with|my practice|my clients)\b/i.test(prose(source))}`)
+        .toBe(`${surface}: false`);
     }
   });
 
@@ -122,9 +174,19 @@ describe("the Krish gate", () => {
     }
   });
 
-  it("keeps the retired personal assets out of the repo", () => {
+  /* The photographs came back with the founder section, so what this asserts
+     now is where they live. In src/assets they are hashed, sized and imported
+     by the one component that shows them; in public/ they were loose files any
+     page could reference and the old build shipped whether used or not. */
+  it("keeps the founder photographs out of public/ and under the build", () => {
     for (const asset of ["public/Krish-Headshot.png", "public/krish-stage-2-hero.webp"]) {
-      expect(existsSync(resolve(ROOT, asset))).toBe(false);
+      expect(`${asset} is loose: ${existsSync(resolve(ROOT, asset))}`).toBe(`${asset} is loose: false`);
+    }
+    for (const asset of [
+      "src/assets/founder/Krish-Headshot.png",
+      "src/assets/founder/krish-stage-2-hero.webp",
+    ]) {
+      expect(`${asset} exists: ${existsSync(resolve(ROOT, asset))}`).toBe(`${asset} exists: true`);
     }
   });
 });

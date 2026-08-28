@@ -20,6 +20,11 @@ const Alumni = lazy(() => import("./pages/Alumni"));
 const AiBrain = lazy(() => import("./pages/AiBrain"));
 const AiGtm = lazy(() => import("./pages/AiGtm"));
 
+/* The motion lab: two routes showing the same content under the two ways of
+   driving movement, so the choice can be made on real copy rather than on a
+   description. Never linked, never in the sitemap, and deleted once decided. */
+const MotionLab = lazy(() => import("./components/lab/MotionLab").then((m) => ({ default: m.MotionLab })));
+
 const queryClient = new QueryClient();
 
 export function ScrollToLocation() {
@@ -122,6 +127,9 @@ function AppRoutes() {
             <Route path="/capital" element={<ToStart />} />
             <Route path="/tool" element={<Navigate to="/ai-brain" replace />} />
             <Route path="/faq" element={<Questions />} />
+
+            <Route path="/lab/motion-a" element={<MotionLab mode="scrubbed" />} />
+            <Route path="/lab/motion-b" element={<MotionLab mode="entrance" />} />
 
             {[
               "/workshops",

@@ -18,23 +18,52 @@ import { useEffect, useRef } from "react";
 
 type Subscriber = (progress: number) => void;
 
-const registry = new Map<Element, Subscriber>();
+/**
+ * How an element's position maps to 0 to 1.
+ *
+ * `centre` is the original: a gentle two-viewport ramp, right for parallax
+ * where only the differential matters. `read` is tight and finishes while the
+ * element is still on screen, which is what a build needs: the thing has to be
+ * assembled by the time the visitor is looking at it, not a viewport later.
+ */
+export type ScrollRange = "centre" | "read";
+
+interface Entry {
+  notify: Subscriber;
+  range: ScrollRange;
+}
+
+const registry = new Map<Element, Entry>();
 let frame = 0;
 let listening = false;
 
+const clamp = (value: number) => Math.min(1, Math.max(0, value));
+
 function completed() {
-  registry.forEach((notify) => notify(1));
+  registry.forEach(({ notify }) => notify(1));
+}
+
+function progressFor(rect: DOMRect, viewport: number, range: ScrollRange): number {
+  if (range === "read") {
+    /* 0 when the top edge is three quarters down the screen, 1 when the bottom
+       edge has risen to just above the middle. The whole build happens inside
+       one comfortable reading pass. */
+    const start = viewport * 0.75;
+    const end = viewport * 0.45;
+    const travelled = start - rect.top;
+    const distance = Math.max(1, start - end + rect.height);
+    return clamp(travelled / distance);
+  }
+  const centre = rect.top + rect.height / 2;
+  // 0 one viewport below the fold, 1 one viewport above it.
+  return clamp((1 - centre / viewport + 1) / 2);
 }
 
 function measure() {
   frame = 0;
   const viewport = window.innerHeight || 1;
-  registry.forEach((notify, element) => {
-    const rect = element.getBoundingClientRect();
-    const centre = rect.top + rect.height / 2;
-    // 0 one viewport below the fold, 1 one viewport above it.
-    const raw = 1 - centre / viewport;
-    notify(Math.min(1, Math.max(0, (raw + 1) / 2)));
+  registry.forEach(({ notify, range }, element) => {
+    notify(progressFor(element.getBoundingClientRect(), viewport, range));
   });
 }
 
@@ -67,8 +96,8 @@ function stopListening() {
   }
 }
 
-function register(element: Element, notify: Subscriber) {
-  registry.set(element, notify);
+function register(element: Element, notify: Subscriber, range: ScrollRange) {
+  registry.set(element, { notify, range });
   if (reducedMotion() || typeof window.requestAnimationFrame !== "function") {
     notify(1);
     return;
@@ -88,6 +117,7 @@ function unregister(element: Element) {
  */
 export function useScrollDriver<T extends HTMLElement>(
   onProgress?: (progress: number) => void,
+  range: ScrollRange = "centre",
 ) {
   const ref = useRef<T | null>(null);
   const callback = useRef(onProgress);
@@ -103,7 +133,7 @@ export function useScrollDriver<T extends HTMLElement>(
       callback.current?.(progress);
     };
 
-    register(element, notify);
+    register(element, notify, range);
 
     const motionQuery = typeof window.matchMedia === "function"
       ? window.matchMedia("(prefers-reduced-motion: reduce)")
@@ -122,7 +152,7 @@ export function useScrollDriver<T extends HTMLElement>(
       motionQuery?.removeEventListener?.("change", onPreferenceChange);
       unregister(element);
     };
-  }, []);
+  }, [range]);
 
   return ref;
 }

@@ -11,8 +11,12 @@ import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import { track } from "@/lib/analytics";
 import filmThreePoster from "@/assets/films/film-03-poster.jpg";
 import filmThreePosterWebp from "@/assets/films/film-03-poster.webp";
+import filmThreeLoop from "@/assets/films/film-03-loop.mp4";
+import filmThreeLoopWebm from "@/assets/films/film-03-loop.webm";
 import filmSixPoster from "@/assets/films/film-06-poster.jpg";
 import filmSixPosterWebp from "@/assets/films/film-06-poster.webp";
+import filmSixLoop from "@/assets/films/film-06-loop.mp4";
+import filmSixLoopWebm from "@/assets/films/film-06-loop.webm";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-instruments.css";
 
@@ -69,6 +73,8 @@ export default function AiGtm() {
           <FilmPlate
             poster={filmThreePoster}
             posterWebp={filmThreePosterWebp}
+            src={filmThreeLoop}
+            srcWebm={filmThreeLoopWebm}
             label="A chart room of brass recording pens drawing ink curves onto paper drums. One pen has broken sharply downward and a hand tears the strip away."
             priority
           />
@@ -89,6 +95,8 @@ export default function AiGtm() {
               <FilmPlate
                 poster={filmSixPoster}
                 posterWebp={filmSixPosterWebp}
+                src={filmSixLoop}
+                srcWebm={filmSixLoopWebm}
                 label="Extreme macro on a split-flap display in a brass frame, mid-cascade, settling lower on its column."
               />
             </article>

@@ -1,11 +1,13 @@
 import { useRef, useState } from "react";
+import { useAmbientMotion } from "@/hooks/useAmbientMotion";
 
 interface FilmPlateProps {
-  /** Poster frame. Every slot ships with one; the site never waits on footage. */
+  /** Poster frame, which is frame one of the film so the handover is invisible. */
   poster?: string;
   posterWebp?: string;
-  /** Loop source, when the footage has landed. Absent means poster plus drift. */
+  /** Loop or film sources. Absent means poster plus the plate's own drift. */
   src?: string;
+  srcWebm?: string;
   /** What the film shows, for anyone who cannot see it. */
   label: string;
   /** Click to play with sound, rather than an ambient muted loop. */
@@ -18,14 +20,19 @@ interface FilmPlateProps {
 }
 
 /**
- * The film plate. Poster-first and lazy: the ambient drift and light sweep are
- * CSS on the plate itself, so an empty slot still moves and the aliveness floor
- * holds before any footage exists. Reduced motion serves the poster only.
+ * The film plate.
+ *
+ * The poster is always in the markup, so it carries the paint and there is
+ * nothing to wait for. An ambient loop mounts on top of it only once the
+ * browser has said this visitor wants motion; a visitor who asked for less
+ * keeps the still. A click-to-play film is a deliberate request rather than
+ * ambience, so it ignores that setting, and it fetches nothing until clicked.
  */
 export function FilmPlate({
   poster,
   posterWebp,
   src,
+  srcWebm,
   label,
   clickToPlay = false,
   className = "",
@@ -35,6 +42,7 @@ export function FilmPlate({
 }: FilmPlateProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
+  const motion = useAmbientMotion();
 
   const play = () => {
     const video = videoRef.current;
@@ -44,40 +52,24 @@ export function FilmPlate({
     setPlaying(true);
   };
 
+  const sources = (
+    <>
+      {srcWebm && <source src={srcWebm} type="video/webm" />}
+      {src && <source src={src} type="video/mp4" />}
+    </>
+  );
+
+  const hasFilm = Boolean(src || srcWebm);
+  const showLoop = hasFilm && !clickToPlay && motion;
+
   return (
     <div
-      className={`mm-plate${src ? " has-media" : ""} ${className}`.trim()}
+      className={`mm-plate${hasFilm ? " has-media" : ""} ${className}`.trim()}
       style={style}
       role="img"
       aria-label={label}
     >
-      {src && !clickToPlay && (
-        <video
-          className="mm-plate-media"
-          poster={poster}
-          src={src}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="none"
-          aria-hidden="true"
-        />
-      )}
-
-      {src && clickToPlay && (
-        <video
-          ref={videoRef}
-          className="mm-plate-media"
-          poster={poster}
-          src={src}
-          playsInline
-          preload="none"
-          controls={playing}
-        />
-      )}
-
-      {!src && poster && (
+      {poster && (
         <picture>
           {posterWebp && <source srcSet={posterWebp} type="image/webp" />}
           <img
@@ -89,6 +81,34 @@ export function FilmPlate({
             decoding={priority ? "sync" : "async"}
           />
         </picture>
+      )}
+
+      {showLoop && (
+        <video
+          className="mm-plate-media mm-plate-loop"
+          poster={poster}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+        >
+          {sources}
+        </video>
+      )}
+
+      {hasFilm && clickToPlay && (
+        <video
+          ref={videoRef}
+          className="mm-plate-media mm-plate-loop"
+          poster={poster}
+          playsInline
+          preload="none"
+          controls={playing}
+        >
+          {sources}
+        </video>
       )}
 
       {scrim && <div className="mm-plate-scrim" />}

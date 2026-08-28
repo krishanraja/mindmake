@@ -10,10 +10,16 @@ import { BrainJourney } from "@/components/mindmake/journeys/BrainJourney";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import filmTwoPoster from "@/assets/films/film-02-poster.jpg";
 import filmTwoPosterWebp from "@/assets/films/film-02-poster.webp";
+import filmTwoLoop from "@/assets/films/film-02-loop.mp4";
+import filmTwoLoopWebm from "@/assets/films/film-02-loop.webm";
 import filmFourPoster from "@/assets/films/film-04-poster.jpg";
 import filmFourPosterWebp from "@/assets/films/film-04-poster.webp";
+import filmFourLoop from "@/assets/films/film-04-loop.mp4";
+import filmFourLoopWebm from "@/assets/films/film-04-loop.webm";
 import filmFivePoster from "@/assets/films/film-05-poster.jpg";
 import filmFivePosterWebp from "@/assets/films/film-05-poster.webp";
+import filmFiveProof from "@/assets/films/film-05-proof.mp4";
+import filmFiveProofWebm from "@/assets/films/film-05-proof.webm";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-instruments.css";
 
@@ -87,6 +93,8 @@ export default function AiBrain() {
           <FilmPlate
             poster={filmTwoPoster}
             posterWebp={filmTwoPosterWebp}
+            src={filmTwoLoop}
+            srcWebm={filmTwoLoopWebm}
             label="A wall of walnut specimen drawers. A brass arm files one cream card while a handwritten note waits under a paperweight."
             priority
           />
@@ -121,6 +129,8 @@ export default function AiBrain() {
           <FilmPlate
             poster={filmFourPoster}
             posterWebp={filmFourPosterWebp}
+            src={filmFourLoop}
+            srcWebm={filmFourLoopWebm}
             label="A brass rail carrying cream sheets to a small gate, where a hand lifts the top sheet before the rail resumes."
             style={{ marginTop: 20, height: "clamp(120px, 18vw, 190px)" }}
           />
@@ -221,6 +231,8 @@ export default function AiBrain() {
           <FilmPlate
             poster={filmFivePoster}
             posterWebp={filmFivePosterWebp}
+            src={filmFiveProof}
+            srcWebm={filmFiveProofWebm}
             label="A directory room of card cabinets. Three cards lie fanned on a desk, and one hand rests beside them mid-decision."
             style={{ height: "clamp(180px, 30vw, 320px)" }}
             clickToPlay

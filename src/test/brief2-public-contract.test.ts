@@ -384,18 +384,53 @@ describe("the fork stores nothing", () => {
 });
 
 describe("the film slots", () => {
-  it("ships a poster for every film", () => {
+  it("ships a poster and both formats for every film", () => {
     for (const id of ["01", "02", "03", "04", "05", "06"]) {
-      expect(existsSync(resolve(ROOT, `src/assets/films/film-${id}-poster.jpg`))).toBe(true);
+      for (const suffix of ["poster.jpg", "poster.webp"]) {
+        expect(existsSync(resolve(ROOT, `src/assets/films/film-${id}-${suffix}`))).toBe(true);
+      }
+    }
+    /* Five ambient loops, and the proof film, which is a different thing. */
+    for (const id of ["01", "02", "03", "04", "06"]) {
+      for (const suffix of ["loop.mp4", "loop.webm"]) {
+        expect(existsSync(resolve(ROOT, `src/assets/films/film-${id}-${suffix}`))).toBe(true);
+      }
+    }
+    for (const suffix of ["proof.mp4", "proof.webm"]) {
+      expect(existsSync(resolve(ROOT, `src/assets/films/film-05-${suffix}`))).toBe(true);
     }
   });
 
-  it("keeps every film asset inside the performance budget", () => {
+  it("keeps what every visitor downloads inside the performance budget", () => {
+    /* Two budgets, because two different things are being paid for. A poster is
+       in the markup and carries the paint, so it stays small. An ambient loop
+       arrives after the paint but still arrives unasked, so it stays modest.
+       The proof film is neither: nothing fetches it until someone clicks, which
+       is why it is allowed to be a real sixty-second film. */
     const dir = resolve(ROOT, "src/assets/films");
     for (const file of readdirSync(dir)) {
       const bytes = statSync(resolve(dir, file)).size;
-      expect(`${file}: ${bytes < 4_000_000}`).toBe(`${file}: true`);
+      const cap = file.includes("poster") ? 200_000 : file.includes("proof") ? 10_000_000 : 2_000_000;
+      expect(`${file} (${bytes}B, cap ${cap}B): ${bytes < cap}`)
+        .toBe(`${file} (${bytes}B, cap ${cap}B): true`);
     }
+  });
+
+  it("charges nobody for the proof film until they ask for it", () => {
+    const plate = read("src/components/mindmake/FilmPlate.tsx");
+    expect(plate).toMatch(/clickToPlay[\s\S]{0,400}preload="none"/);
+    expect(read("src/pages/AiBrain.tsx")).toContain("clickToPlay");
+  });
+
+  it("serves the still, not the film, to anyone who asked for less motion", () => {
+    /* The loop is never mounted rather than mounted and paused, so a visitor
+       who asked for reduced motion does not fetch a video at all. */
+    const plate = read("src/components/mindmake/FilmPlate.tsx");
+    expect(plate).toContain("useAmbientMotion");
+    expect(plate).toMatch(/showLoop\s*=\s*hasFilm && !clickToPlay && motion/);
+    const hook = read("src/hooks/useAmbientMotion.ts");
+    expect(hook).toContain("prefers-reduced-motion");
+    expect(hook).toContain("useState(false)");
   });
 
   it("describes every plate for assistive technology", () => {

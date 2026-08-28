@@ -42,6 +42,13 @@
   height: 100%;
   object-fit: cover;
 }
+/* The film sits directly over its own first frame, so the still carries the
+   paint and the loop replaces it without anything moving. */
+.mm-plate-loop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
 .mm-plate-play {
   position: absolute;
   inset: 0;

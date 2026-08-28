@@ -15,6 +15,8 @@ import { topCard, isStale } from "@/lib/board";
 import { track } from "@/lib/analytics";
 import filmOnePoster from "@/assets/films/film-01-poster.jpg";
 import filmOnePosterWebp from "@/assets/films/film-01-poster.webp";
+import filmOneLoop from "@/assets/films/film-01-loop.mp4";
+import filmOneLoopWebm from "@/assets/films/film-01-loop.webm";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-instruments.css";
 
@@ -95,6 +97,8 @@ export default function Index() {
               <FilmPlate
                 poster={filmOnePoster}
                 posterWebp={filmOnePosterWebp}
+                src={filmOneLoop}
+                srcWebm={filmOneLoopWebm}
                 label="An instrument room at first light. A brass mechanism of interlocking wheels turns at different speeds under a single blade of window light."
                 className="mm-parallax-plate"
                 style={{ height: "100%" }}

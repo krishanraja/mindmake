@@ -12,11 +12,11 @@ tables are RLS-on with no policies, which means service role only.
 
 | Function | Version | verify_jwt | Called by |
 |---|---|---|---|
-| `get-ai-news` | v66 | false | The browser, for the board and the homepage card |
+| `get-ai-news` | v67 | false | The browser, for the board and the homepage card |
 | `mindmake-personal-read` | v2 | false | The browser, from `/ai-brain` |
 | `send-follow-ups` | v2 | false | pg_cron, daily at 09:20 UTC |
 | `aa-price-snapshot` | v1 | false | pg_cron, daily at 11:00 UTC |
-| `submit-mindmake-brief` | v11 | false | Unchanged in this pass |
+| `submit-mindmake-brief` | v12 | false | The day-14 enqueue, and nothing else |
 
 `get-ai-news` gained a board view and kept its previous response byte for byte.
 The two scheduled functions are public at the edge and guarded in code on the
@@ -78,10 +78,33 @@ select cron.unschedule('mindmake-follow-up-daily');
 Dropping the tables is not part of a rollback: `aa_model_snapshots` holds price
 history that cannot be recovered once deleted.
 
+## Before the site is promoted
+
+- **The follow-up has a deadline of 11 September 2026.** `submit-mindmake-brief`
+  v12 started enqueuing follow-ups on 28 August, and every row waits fourteen
+  days, so nothing can send before then. The privacy notice that describes the
+  follow-up ships with the rebuild. Either the rebuild is live by that date, or
+  hold the job until it is:
+
+  ```sql
+  select cron.alter_job(
+    (select jobid from cron.job where jobname = 'mindmake-follow-up-daily'),
+    active := false
+  );
+  ```
+
+  Hold the job; never delete queued rows. A visitor who asked for their read is
+  owed the follow-up, just not before the page that promises it is public.
+
+- The `hello@mindmake.co` and `privacy@mindmake.co` aliases need to exist. The
+  site routes visitor contact to them and there is no MX on the apex today.
+
 ## Still outstanding
 
 - `get-model-data` remains deployed and unused. The marketing repository has no
   callers. It should be retired once someone confirms the CTRL side does not
   call it either.
-- The `hello@mindmake.co` and `privacy@mindmake.co` aliases need to exist before
-  launch. The site now routes visitor contact to them.
+- The migrations are registered in the remote migration history under their
+  names rather than their file timestamps, which is how this project has always
+  applied them. `supabase db push` is not the deploy path here; the Management
+  API is.

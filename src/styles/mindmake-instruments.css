@@ -85,7 +85,9 @@
   overflow: hidden;
   background: var(--mm-mint);
   transform: rotate(-2deg);
-  margin: clamp(30px, 5vw, 52px) -30px;
+  /* The tilt lifts each corner, so the band overhangs by more than the rise it
+     needs across the widest viewport. */
+  margin: clamp(30px, 5vw, 52px) calc(-4vw - 40px);
   padding: 10px 0;
 }
 .mm-marquee-track {

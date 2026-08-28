@@ -108,6 +108,7 @@
   letter-spacing: -.035em;
   line-height: 1.04;
   text-wrap: balance;
+  color: var(--mm-fg);
 }
 .mm-site h1 { font-size: clamp(38px, 6vw, 62px); font-weight: 800; letter-spacing: -.04em; }
 .mm-site h2 { font-size: clamp(28px, 3.8vw, 44px); }

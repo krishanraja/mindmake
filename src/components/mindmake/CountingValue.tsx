@@ -1,49 +1,31 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useScrollDriver } from "@/hooks/useScrollDriver";
 
 interface CountingValueProps {
   value: number;
-  /** Milliseconds for the count once it starts. */
-  duration?: number;
+  /**
+   * Where the count starts, as a fraction of the true value. It defaults to
+   * settling rather than counting from nothing, because these are real figures
+   * and a number that reads 0 when it is 149 is briefly a lie.
+   */
+  from?: number;
 }
 
 /**
- * A live value that counts when it comes into view.
+ * A live value that settles into place as you arrive at it.
  *
- * The final number is what the component renders first, so nothing about the
- * page depends on the animation running: this changes how a value that is
- * already present feels, and never gates it. Reduced motion and jsdom both land
- * on the final value immediately, because the driver pins progress to 1 there.
+ * Scroll position drives the number rather than triggering it, so scrolling
+ * back up unsettles it again. The value is never gated: at rest, under reduced
+ * motion, and in jsdom the driver reports a completed pass and the true figure
+ * is what renders.
  */
-export function CountingValue({ value, duration = 620 }: CountingValueProps) {
-  const [shown, setShown] = useState(value);
-  const started = useRef(false);
-  const frame = useRef(0);
+export function CountingValue({ value, from = 0.72 }: CountingValueProps) {
+  const [progress, setProgress] = useState(1);
+  const ref = useScrollDriver<HTMLSpanElement>(setProgress, "read");
 
-  const ref = useScrollDriver<HTMLSpanElement>((progress) => {
-    if (started.current) return;
-    // Count only once the tile has actually entered the viewport.
-    if (progress <= 0.5 || progress >= 1) return;
-    started.current = true;
-
-    const from = Math.max(0, Math.round(value * 0.72));
-    const start = performance.now();
-    setShown(from);
-
-    const step = (now: number) => {
-      const elapsed = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - elapsed, 3);
-      setShown(Math.round(from + (value - from) * eased));
-      if (elapsed < 1) frame.current = requestAnimationFrame(step);
-    };
-    frame.current = requestAnimationFrame(step);
-  });
-
-  useEffect(() => {
-    setShown(value);
-    started.current = false;
-    return () => cancelAnimationFrame(frame.current);
-  }, [value]);
+  const floor = Math.round(value * from);
+  const eased = 1 - Math.pow(1 - progress, 3);
+  const shown = Math.round(floor + (value - floor) * eased);
 
   return <span ref={ref}>{shown.toLocaleString("en-GB")}</span>;
 }

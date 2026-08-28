@@ -256,6 +256,40 @@ describe("the motion gate", () => {
     expect(entrances).toEqual([]);
   });
 
+  it("drives the scrubbed builds from position, never from an event", () => {
+    /* This is the whole distinction between a build and a reveal, and it is why
+       the entrance ban did not have to move to allow these. A device that reads
+       scroll position reverses when you scroll back; one that latches on a
+       first sighting cannot. A `started`/`seen`/`hasFired` flag is that latch. */
+    for (const [surface, source] of readAll([
+      "src/components/mindmake/ScrubText.tsx",
+      "src/components/mindmake/CountingValue.tsx",
+    ])) {
+      expect(`${surface} uses the driver: ${source.includes("useScrollDriver")}`)
+        .toBe(`${surface} uses the driver: true`);
+      expect(`${surface} latches: ${/\b(started|hasFired|seen|played)\b/.test(source)}`)
+        .toBe(`${surface} latches: false`);
+    }
+  });
+
+  it("keeps every word of a scrubbed sentence in the document", () => {
+    /* Only opacity moves. A crawler, a screen reader, and someone landing
+       mid-page all get the complete sentence. */
+    const scrub = read("src/components/mindmake/ScrubText.tsx");
+    expect(scrub).toContain("text.split(");
+    expect(scrub).toMatch(/opacity:\s*dim \+/);
+    expect(`hides words: ${/display:\s*"?none|visibility:\s*"?hidden/.test(scrub)}`)
+      .toBe("hides words: false");
+  });
+
+  it("never lets a settling figure read a number that is not true", () => {
+    /* A live figure counting up from nothing states a false value on the way.
+       It settles from a fraction of the real number instead. */
+    const counting = read("src/components/mindmake/CountingValue.tsx");
+    expect(counting).toMatch(/from = 0\.\d+/);
+    expect(counting).toContain("value * from");
+  });
+
   it("carries the ambient floor on every section, not only where a plate sits", () => {
     /* The floor is that no viewport is ever fully still. Plates and the marquee
        only cover part of a page, so the section ground carries the same light.

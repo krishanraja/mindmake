@@ -43,15 +43,27 @@ The hero pattern everywhere is a grotesque setup line and a serif mint payoff li
 
 Three layers. All three are required on every page.
 
-**Ambient**, always moving, meaning nothing: film loops, the drift and light sweep inside any plate, the marquee, the live dot's pulse. This layer has a floor as well as a cap. Every viewport-height of every page contains at least one ambient element in motion; a fully still viewport is a bug of the same severity as a scroll reveal.
+**Ambient**, always moving, meaning nothing: film loops, the drift and light sweep inside any plate, the marquee, the live dot's pulse. This layer has a floor as well as a cap. Every viewport-height of every page contains motion a person can actually see; a fully still viewport is a bug of the same severity as a scroll reveal.
 
-**Scroll**, relationships between things already present. One primitive implements it: `src/hooks/useScrollDriver.ts` writes `--mm-p` (0 to 1) onto registered elements, and CSS reads that value. The sanctioned devices are film inside the still, parallax across one sentence, sticky focus (a column pins while cards pass and non-active cards dim), one marquee per page at most, and counting values on the live board. Scroll never triggers an element's entrance.
+The floor is measured, not asserted. `scripts/qa/aliveness-check.mjs` photographs each viewport twice, 900ms apart, and compares the pixels; below a mean per-channel change of 0.15 out of 255, the viewport is still. An earlier version of this gate asked the browser whether an animation existed, and the site passed it while showing a visitor nothing, because a 7 percent alpha glow satisfies `getAnimations()` and satisfies nobody. Presence of an animation is not the rule. Perceptibility is.
+
+**Scroll**, relationships between things already present. One primitive implements it: `src/hooks/useScrollDriver.ts` writes `--mm-p` (0 to 1) onto registered elements, and CSS reads that value. It offers two ranges: `centre`, a gentle two-viewport ramp for parallax where only the differential matters, and `read`, which completes while the element is still on screen, because a build has to be finished by the time someone is looking at it.
+
+The sanctioned devices are film inside the still, parallax across one sentence, sticky focus (a column pins while cards pass and non-active cards dim), one marquee per page at most, and these **scrubbed builds**:
+
+- **Read-lit text** (`ScrubText`). A sentence lights word by word as it rises. Every word is in the DOM at full size throughout; only presence changes.
+- **Assembling rows.** Cards rise into place and draw their rule in sequence, each owning a slice of the range.
+- **Settling values** (`CountingValue`). A figure settles into its true number as you arrive. It starts from a fraction of the real value rather than from nothing, because these are real figures and a number reading 0 when it is 149 is briefly a lie.
+
+The rule that separates a build from a reveal, and the reason the ban below is untouched: **state is driven by position, never triggered by an event.** Scroll up and every one of these runs backwards. Nothing is ever absent, so nothing has to arrive.
 
 **Touch**, everything answers the hand within about 100ms. Cards warm their border toward mint and lift one pixel. Chips fill on hover and press down on click. Tabs slide a mint indicator between states. Fork cards draw their tick when picked. Text links draw their underline. Focus-visible always shows the mint outline. A component shipped without hover, press and focus responses is unfinished, exactly as unfinished as a component with no mobile layout.
 
 **Banned outright, and this is the entire ban:** entrance choreography. Staggered list builds, scroll-triggered fades or slides, numbered step reveals, progress bars tied to scroll position. `IntersectionObserver` does not appear on any rebuilt surface; the contract test enforces its absence, which is what makes the ban checkable.
 
-Under `prefers-reduced-motion`, the ambient layer falls back to posters and stopped bands, counters render final values, and parallax flattens. The touch layer stays, with transitions swapped for instant state changes.
+The scrubbed builds above were adopted on 28 August 2026 after the two models were built side by side on the same content and compared. The ban did not have to move an inch to allow them, which is the argument for them: a build needs no observer, starts from no absent state, and reverses. A reveal needs all three.
+
+Under `prefers-reduced-motion`, the ambient layer falls back to posters and stopped bands, and every scrubbed build reports a completed pass: the sentence is fully lit, the row is assembled, the figure reads its true number, and parallax flattens. The touch layer stays, with transitions swapped for instant state changes.
 
 ## The eyebrow ban
 

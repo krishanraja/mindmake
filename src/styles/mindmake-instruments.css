@@ -182,6 +182,23 @@
   .mm-parallax-slow, .mm-parallax-fast, .mm-parallax-plate { transform: none; }
 }
 
+/* Scrubbed reading: a sentence that lights as you read it.
+   Every word is present at full size from the start, so a crawler, a screen
+   reader and a visitor landing mid-page all get the whole thing. Scroll moves
+   a read head along the line, and moves it back when you scroll back. */
+.mm-scrub {
+  font-family: var(--mm-serif);
+  font-size: clamp(24px, 3.2vw, 40px);
+  line-height: 1.24;
+  letter-spacing: -.02em;
+  color: var(--mm-fg);
+  text-wrap: pretty;
+}
+.mm-scrub span { transition: opacity .18s linear; }
+@media (prefers-reduced-motion: reduce) {
+  .mm-scrub span { opacity: 1 !important; transition: none; }
+}
+
 /* Sticky focus: a column pins while cards pass, non-active cards dim. */
 .mm-sticky-focus { display: grid; gap: 22px; }
 @media (min-width: 900px) {

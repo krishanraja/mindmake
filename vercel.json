@@ -215,14 +215,6 @@
     {
       "source": "/alumni",
       "destination": "/index.html"
-    },
-    {
-      "source": "/lab/motion-a",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/lab/motion-b",
-      "destination": "/index.html"
     }
   ]
 }

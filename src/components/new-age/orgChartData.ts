@@ -157,7 +157,7 @@ const newAgeNodes: OrgNode[] = [
       category: "emergent",
       decisionPrompt: {
         headline: "Agatha: Give the system a human owner",
-        body: "Agatha checks work from the other agents, spots gaps and brings important questions back to Krish.",
+        body: "Agatha checks work from the other agents, spots gaps and brings important questions back to us.",
         decisionLabel: "Useful question",
         decisionBody:
           "When an agent finds a problem that crosses two teams, which person owns the answer?",
@@ -266,7 +266,7 @@ const newAgeNodes: OrgNode[] = [
       featured: true,
       decisionPrompt: {
         headline: "Executive brief builder: Turn many reports into one view",
-        body: "This job was not in the first plan. Agatha found that useful reports were arriving one by one, but no one was joining them into a clear view.\n\nKrish checked the need, set the standard and built Nova to prepare that view.",
+        body: "This job was not in the first plan. Agatha found that useful reports were arriving one by one, but no one was joining them into a clear view.\n\nWe checked the need, set the standard and built Nova to prepare that view.",
         decisionLabel: "Useful question",
         decisionBody:
           "When AI points to a missing job, who checks that the job is real and decides what good work looks like?",

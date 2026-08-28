@@ -13,8 +13,8 @@ import {
 } from "@/components/mindmake/leadDelivery";
 import { buildPrivateBriefHtml, type PrivateBriefContent } from "@/components/mindmake/privateBriefHtml";
 import { MindmakeProposal } from "@/components/mindmake/MindmakeProposal";
-import { ScrollMark } from "@/components/mindmake/ScrollMark";
 import "@/styles/mindmake-brief.css";
+import { CONTACT_EMAIL } from "@/lib/publicLinks";
 
 export type { BriefRoute } from "@/components/mindmake/leadDelivery";
 
@@ -22,6 +22,10 @@ interface LeadBriefProps {
   open: boolean;
   onClose: () => void;
   route?: BriefRoute;
+  /** A domain the page already collected, so the dialog opens on the read. */
+  initialDomain?: string;
+  /** Fires once, when a verified request has been confirmed. */
+  onConfirmed?: () => void;
 }
 
 type Step = "domain" | "reading" | "pressure" | "capacity" | "preview" | "contact" | "verify" | "success";
@@ -229,7 +233,7 @@ const readableText = (value: unknown): string => {
   return declarativeOnly(text);
 };
 
-export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
+export function LeadBrief({ open, onClose, route = "home", initialDomain, onConfirmed }: LeadBriefProps) {
   const [step, setStep] = useState<Step>("domain");
   const [domainInput, setDomainInput] = useState("");
   const [domain, setDomain] = useState("");
@@ -355,6 +359,15 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [onClose, open]);
+
+  useEffect(() => {
+    if (!open || !initialDomain) return;
+    if (step !== "domain" || domain) return;
+    const seed = cleanDomain(initialDomain);
+    if (!isPublicHostname(seed)) return;
+    setDomainInput(seed);
+    void readCompany(seed);
+  }, [open, initialDomain, step, domain]);
 
   useEffect(() => {
     if (!open) return;
@@ -588,6 +601,7 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
         setError("Your publication interest was not recorded. You have not been added to any list.");
       }
       setStep("success");
+      onConfirmed?.();
     } catch (caught) {
       if (controller.signal.aborted || journeyVersion !== journeyVersionRef.current) return;
       setHandoffResult(null);
@@ -596,7 +610,7 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
       setError(mismatch
         ? "The reply included a publication choice you did not make. Nothing is described as confirmed."
         : deliveryFailure
-          ? "The code was accepted, but neither hand-off was confirmed. Download your copy and email Krish directly if you want him to see it."
+          ? "The code was accepted, but neither hand-off was confirmed. Download your copy and email us directly if you want it seen."
           : "That code was not accepted. Check the six digits and try again.");
       if (deliveryFailure || mismatch) setStep("success");
     } finally {
@@ -695,20 +709,20 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
   const successTitle = !handoffEnabled
     ? "Keep this. Your brief is ready."
     : visitorEmailQueued && operatorHasContext
-      ? "Your brief is on its way. Krish's copy was queued too."
+      ? "Your brief is on its way. Our copy was queued too."
       : visitorEmailQueued
         ? "Your brief is on its way."
         : operatorHasContext
-          ? "Krish's copy was queued. Keep yours here."
+          ? "Our copy was queued. Keep yours here."
           : "Keep this. Your brief is still ready.";
   const successBody = !handoffEnabled
-    ? "Download it now. Nothing has been sent to Krish, and no email has been sent."
+    ? "Download it now. Nothing has been sent to us, and no email has been sent."
     : visitorEmailQueued && operatorHasContext
-      ? "The email was queued. Download a copy now too. Krish can reply if there is a useful fit or thought to add."
+      ? "The email was queued. Download a copy now too. We reply if there is a useful fit or thought to add."
       : visitorEmailQueued
-        ? "The email was queued. Krish was not given the context. Email krish@themindmaker.ai if you also want him to see it."
+        ? `The email was queued. We were not given the context. Email ${CONTACT_EMAIL} if you also want it seen.`
         : operatorHasContext
-          ? "Krish's copy was queued. Your email was not, so download your copy now."
+          ? "Our copy was queued. Your email was not, so download your copy now."
           : "The hand-off was not confirmed. Your download is still ready.";
 
   if (!open) return null;
@@ -846,7 +860,7 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
               <article className="is-wide is-read" style={{ "--mm-i": 0 } as CSSProperties}><small>What we saw at {company}</small><p>{known}</p></article>
               <article style={{ "--mm-i": 1 } as CSSProperties}><small>AI can carry</small><p>{detail.carry}</p></article>
               <article style={{ "--mm-i": 2 } as CSSProperties}><small>You keep</small><p>{detail.human}</p></article>
-              <article className="is-wide" style={{ "--mm-i": 3 } as CSSProperties}><small>A useful 30-day proof</small><strong><ScrollMark shape="bracket" driver="reveal">{detail.proof}</ScrollMark></strong></article>
+              <article className="is-wide" style={{ "--mm-i": 3 } as CSSProperties}><small>A useful 30-day proof</small><strong>{detail.proof}</strong></article>
               <article className="is-wide is-time" style={{ "--mm-i": 4 } as CSSProperties}><small>What the returned time could buy</small><p>{timeValue}</p></article>
             </div>
             <button className="mm-button" type="button" onClick={keepBrief}>Keep the private brief <span aria-hidden="true">→</span></button>
@@ -878,7 +892,7 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
               {error && <p id="mm-work-email-error" className="mm-form-error" role="alert">{error}</p>}
               <button className="mm-button" type="submit" disabled={submitting}>{submitting ? "Sending the code..." : "Send the code"} <span aria-hidden="true">→</span></button>
             </form>
-            <small>Nothing is sent to Krish until you confirm the code. The publication box is separate and unticked. It records interest only. It does not subscribe you. <a href="/privacy" target="_blank" rel="noreferrer">How the private brief handles information</a>.</small>
+            <small>Nothing is sent to us until you confirm the code. The publication box is separate and unticked. It records interest only. It does not subscribe you. <a href="/privacy" target="_blank" rel="noreferrer">How the private brief handles information</a>.</small>
           </section>
         )}
 
@@ -908,7 +922,7 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
               <button className="mm-button" type="submit" disabled={submitting}>{submitting ? "Checking the code..." : "Send my private brief"} <span aria-hidden="true">→</span></button>
             </form>
             <button className="mm-text-button" type="button" disabled={submitting} onClick={resendVerification}>{submitting ? "Sending a new code..." : "Send a new code"}</button>
-            <small>The full brief goes to this verified address. Krish receives the same context only after the code is confirmed.</small>
+            <small>The full brief goes to this verified address. We receive the same context only after the code is confirmed.</small>
           </section>
         )}
 
@@ -931,7 +945,7 @@ export function LeadBrief({ open, onClose, route = "home" }: LeadBriefProps) {
             <div className="mm-success-actions">
               <button className="mm-button" type="button" onClick={downloadBrief}><Download aria-hidden="true" /> Download my brief</button>
               {handoffEnabled && !handoffResult && email && (
-                <a className="mm-text-button" href="mailto:krish@themindmaker.ai?subject=My%20Mindmake%20brief">Email Krish directly</a>
+                <a className="mm-text-button" href={`mailto:${CONTACT_EMAIL}?subject=My%20Mindmake%20brief`}>Email us directly</a>
               )}
               <button className="mm-text-button" type="button" onClick={onClose}>Return to the site</button>
             </div>

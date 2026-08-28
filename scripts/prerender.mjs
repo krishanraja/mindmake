@@ -12,45 +12,45 @@ const template = readFileSync(resolve(distDir, "index.html"), "utf8").replace(
   '<div id="root"></div>\n    <script type="module"',
 );
 
-const nav = `<nav aria-label="Mindmake"><a href="/ai-brain">Build Your AI Brain</a><a href="/ai-gtm">Build Your AI GTM</a><a href="/case-studies">Results</a><a href="https://mindmakerlive.substack.com">Media</a><a href="/?start=1">Start here</a></nav>`;
+const nav = `<nav aria-label="Mindmake"><a href="/ai-brain">Build your AI brain</a><a href="/ai-gtm">Build your AI GTM</a><a href="/case-studies">Results</a><a href="https://mindmakerlive.substack.com">The weekly read</a><a href="/?start=1">Start here</a></nav>`;
 
 const staticPages = [
   {
     path: "/",
-    title: "Put your best judgement to work with AI",
-    description: "Mindmake helps leaders turn their judgement into useful AI systems and make better product, price, positioning and people decisions.",
-    body: `<h1>Put your best judgement to work with AI.</h1><p>Mindmake helps leaders use AI to do more. It keeps what they know close, brings the right facts into view and turns hard choices into tools their team can use.</p><h2>Ways to get started on your AI journey</h2><p><a href="/ai-brain">Build Your AI Brain</a> or <a href="/ai-gtm">Build Your AI GTM</a>. Begin with the one that feels most useful now.</p><p><a href="/?start=1">Start here</a>.</p>`,
+    title: "Every AI you buy knows the market. Yours should also know you.",
+    description: "Mindmake builds AI that knows how you work: your standards, your context and your past decisions. Thirty days, and you keep what it learns.",
+    body: `<h1>Every AI you buy knows the market. Yours should also know you.</h1><h2>Two ways to start</h2><p><a href="/ai-brain">Build your AI brain</a>. An AI that knows how you work: your standards, your context and the decisions you have already made. It helps with the work only you can do, and takes on the work you would rather not.</p><p><a href="/ai-gtm">Build your AI GTM</a>. AI is changing what customers will pay for. We rebuild one part of how you sell, across what you offer, what you charge, how you stand out and who does the selling.</p><h2>Where does everything you teach AI end up?</h2><p>Consultants and agencies do good work and leave you a plan. When the project closes, the understanding behind it goes with them.</p><p>The tools you subscribe to are useful, and each of them keeps what it learns on their side.</p><p>We build the system inside your own accounts. It learns how you decide, it gets better every week, and it stays yours when we finish.</p><h2>You keep what it learns</h2><p>We help you put your own judgement to work, in plain English, on real decisions, and you own the result.</p><p><a href="/?start=1">Start here</a>.</p>`,
   },
   {
     path: "/ai-brain",
-    title: "Build Your AI Brain",
-    description: "An AI brain is a working system that holds your taste, judgement, standards, memory and trusted context, and uses them on your real work. Built with you in 30 days.",
-    body: `<h1>Encode your taste and judgement, amplify your strengths, uncover your blind spots.</h1><p>An AI brain is a working system that holds your taste, judgement, standards, memory and trusted context, and uses them on your real work.</p><h2>Five steps</h2><ul><li>Capture. We pull out the taste, judgement and standards that make you good.</li><li>Encode. That thinking becomes a working system in CTRL: memory, sources, rules and checks.</li><li>Amplify. The system prepares work your way and brings what matters before you ask.</li><li>Uncover. It shows you the calls you avoid and the blind spots nobody tells you about.</li><li>Keep. The system, the evidence and the reasons stay with you. It compounds without Krish.</li></ul><h2>A 30-day proof</h2><p>Work starts with the 30-day proof. The best work continues for three months or longer, and it has to earn that.</p><p><a href="/?start=1">Start here</a>.</p>`,
+    title: "Build your AI brain",
+    description: "An AI that knows how you work: your standards, your context and the decisions you have already made. Built in thirty days, and yours to keep.",
+    body: `<h1>Your AI should already know how you work. In thirty days, yours will.</h1><p>An AI brain is a working system that holds your standards, your context and the decisions you have already made, then uses them on real work. It starts learning in the first week, and you keep it.</p><h2>Built around your best work, and the parts you would rather skip</h2><p>More of this: the work only you can do. Your network, made searchable at the moment it matters. The calls only you can make, prepared from every angle. The taste that makes your work recognisably yours, written down.</p><p>Less of this: the work you would rather not do. Copy drafted in your voice before you arrive. The admin between decisions. The first pass of everything you dread starting.</p><h2>Thirty days builds it. Using it makes it better.</h2><p>Level one, you use AI: you ask, it answers, and tomorrow it has forgotten. Level two, you direct AI: you hand work over, check it and ship it, and every task starts from nothing. Level three, it builds on itself: it remembers, it learns what good looks like to you, and the hours it saves go back into your best work.</p><h2>You keep everything</h2><p>The system, the automations and the record of your standards. All of it stays with you when we finish.</p><p><a href="/?start=1">Start here</a>.</p>`,
   },
   {
     path: "/ai-gtm",
-    title: "Build Your AI GTM",
-    description: "Create an AI-native GTM model across product, price, positioning or people, then prove it with real buyers inside 30 days.",
-    body: `<h1>Create an AI-native GTM model across product, price, positioning or people.</h1><p>GTM is short for go to market: what you sell, what it costs, how you stand out and who does the selling.</p><h2>Five steps</h2><ul><li>Read. We find what changed and what customers will still pay for.</li><li>Choose the lever. Product, price, positioning or people. One lever carries the month.</li><li>Build the model. A working model you can question, with sources attached.</li><li>Prove with buyers. The model meets real buyers before the month ends.</li><li>Run it. The model, the data and the reasons stay with your team.</li></ul><h2>A 30-day proof</h2><p>Test one big business decision in 30 days, then leave the model with your team.</p><p><a href="/?start=1">Start here</a>.</p>`,
+    title: "Build your AI GTM",
+    description: "AI is changing what customers will pay for. We rebuild one part of how you sell, in thirty days, and prove it with real buyers.",
+    body: `<h1>AI is changing what customers pay for. We help you sell for that.</h1><p>We take one part of how you sell, rebuild it around the way AI has changed your market, and prove it with real buyers inside thirty days. You keep the model.</p><h2>Three things AI changes about selling</h2><p>What you charge: the cost of doing the work is falling, and customers are starting to notice. We work out what that means for your margin and what your prices should assume next year.</p><p>How you stand out: who else is selling to your customers now, what they are promising, and the clearest way to explain why you are the better choice.</p><p>Who does the selling: the roles worth creating now, the people who do well in them, and the parts of selling your team can hand to AI this month.</p><h2>What changed in AI today</h2><p>A daily read of what changed across product, price, positioning and people, checked against other sources and published on this page with its own timestamp.</p><h2>Two ways to start</h2><p>The review, thirty days: understand what changed and pick one thing to fix. You get the model, a clear recommendation and all the evidence behind it.</p><p>The build: put it in place and teach your team to run it. We set the system up as the memory of how you sell, connect it to your plans, and coach the people who keep it going.</p><p><a href="/?start=1">Start here</a>.</p>`,
   },
   {
     path: "/case-studies",
-    title: "Customer outcomes",
+    title: "Results",
     description: "Eight verified stories about the work Mindmake helped customers change and what happened next.",
     body: `<h1>The decision and what changed next.</h1><p>Eight real pieces of work. The customers stay anonymous. The work and results do not.</p><p><a href="/?start=1">Start here</a>.</p>`,
   },
   {
     path: "/new-age-leadership",
     title: "A working AI org chart",
-    description: "Explore a working org chart from Krish Raja's own AI system and see the human decisions behind each role.",
+    description: "Explore a working org chart from our own AI system and see the human decisions behind each role.",
     ogType: "article",
     keywords: "AI org chart, AI agents, organisation design, human judgement",
-    body: `<h1>See people and AI agents share the work.</h1><p>This is a working org chart from Krish's own AI system. It shows the decision each role creates and the work that returns to a person.</p><h2>Three choices before you add an AI agent</h2><ul><li>Keep a person on the calls that need trust.</li><li>Let AI carry work that has a clear rule.</li><li>Design the hand-off, not only the agent.</li></ul><p><a href="/?start=1">Start here</a>.</p>`,
+    body: `<h1>See people and AI agents share the work.</h1><p>This is a working org chart from our own AI system. It shows the decision each role creates and the work that returns to a person.</p><h2>Three choices before you add an AI agent</h2><ul><li>Keep a person on the calls that need trust.</li><li>Let AI carry work that has a clear rule.</li><li>Design the hand-off, not only the agent.</li></ul><p><a href="/?start=1">Start here</a>.</p>`,
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "Article",
       headline: "See people and AI agents share the work",
-      author: { "@type": "Person", name: "Krish Raja", url: site },
+      author: { "@type": "Organization", name: "Mindmake", url: site },
       publisher: { "@type": "Organization", name: "Mindmake", url: site },
       mainEntityOfPage: { "@type": "WebPage", "@id": `${site}/new-age-leadership` },
     },
@@ -63,21 +63,21 @@ const staticPages = [
   },
   {
     path: "/faq",
-    title: "Useful answers",
-    description: "Clear answers about Mindmake, who it helps, what the work produces and how to begin.",
-    body: `<h1>Useful answers</h1><p>Who the work is for, what the first month proves and what stays with you afterwards.</p><p><a href="/?start=1">Start here</a>.</p>`,
+    title: "Straight answers",
+    description: "Straight answers about Mindmake: what the thirty days build, what it costs, what happens to your data and what you keep.",
+    body: `<h1>Straight answers.</h1><p>The questions leaders ask before they start, answered the way we would answer them on a call. What it costs, whether you need to be technical, what happens after the thirty days, and who sees your data.</p><p><a href="/?start=1">Start here</a>.</p>`,
   },
   {
     path: "/contact",
     title: "Contact",
-    description: "Send Krish Raja a general message about Mindmake.",
+    description: "Send Mindmake a general message.",
     body: `<h1>Contact Mindmake.</h1><p>Use this page for a general message. For a private company recommendation, <a href="/?start=1">Start here</a>.</p>`,
   },
   {
     path: "/privacy",
     title: "Privacy policy",
     description: "How Mindmake collects, uses and protects information.",
-    body: `<h1>Privacy policy.</h1><p>This page explains what Mindmake collects, why it is needed and the choices you have.</p><h2>A private starting brief</h2><p>Mindmake uses the company website, the problem you choose, what you would do with more time and your work email to create the brief you asked for and send the same facts to Krish. The newsletter choice is separate and unticked.</p><h2>Your choices</h2><p>You can ask for a copy, correction or deletion of your personal information by emailing <a href="mailto:krish@themindmaker.ai">krish@themindmaker.ai</a>.</p>`,
+    body: `<h1>Privacy policy.</h1><p>This page explains what Mindmake collects, why it is needed and the choices you have.</p><h2>A private starting brief</h2><p>Mindmake uses the company website, the problem you choose, what you would do with more time and your work email to create the brief you asked for and send the same facts to our team. The publication choice is separate and unticked.</p><h2>Two emails, ever</h2><p>Asking us to send your brief triggers a six-digit code so we know the address is yours. After you confirm it you receive two emails: your results, and one follow-up fourteen days later. Nothing else is sent, and the follow-up record is deleted once it has been used.</p><h2>Your choices</h2><p>You can ask for a copy, correction or deletion of your personal information by emailing <a href="mailto:krish@themindmaker.ai">krish@themindmaker.ai</a>.</p>`,
   },
   {
     path: "/terms",

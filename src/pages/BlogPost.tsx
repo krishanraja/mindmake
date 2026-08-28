@@ -31,7 +31,7 @@ const BlogPost = () => {
 
   const relatedPosts = allPosts.filter((candidate) => candidate.category === post.category && candidate.slug !== post.slug).slice(0, 3);
   const shareUrl = `https://mindmake.co/blog/${post.slug}`;
-  const shareText = `${post.title} by Krish Raja`;
+  const shareText = `${post.title} by Mindmake`;
 
   const handleShare = async () => {
     setShareStatus("");
@@ -121,9 +121,9 @@ const BlogPost = () => {
       <aside className="mm-container mm-article-author" aria-label="About the author">
         <div aria-hidden="true">KR</div>
         <div>
-          <p>Krish Raja · Mindmake</p>
-          <p>Krish helps leaders put their judgement to work with AI, then builds the parts that help the work continue.</p>
-          <Link to="/#about">About Krish <ArrowRight aria-hidden="true" /></Link>
+          <p>Mindmake</p>
+          <p>We help leaders put their judgement to work with AI, then build the parts that keep the work going.</p>
+          <Link to="/ai-brain">Build your AI brain <ArrowRight aria-hidden="true" /></Link>
         </div>
       </aside>
 

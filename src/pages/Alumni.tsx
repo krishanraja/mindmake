@@ -4,6 +4,7 @@ import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import "@/styles/mindmake.css";
+import { CONTACT_EMAIL } from "@/lib/publicLinks";
 
 const continuity = [
   {
@@ -16,7 +17,7 @@ const continuity = [
   },
   {
     title: "Ask for help when it is worth it.",
-    body: "Krish can step back in for a new question or a wider build. The earlier work remains yours either way.",
+    body: "We can step back in for a new question or a wider build. The earlier work remains yours either way.",
   },
 ] as const;
 
@@ -48,8 +49,8 @@ export default function Alumni() {
           <section>
             <h2>Already worked together?</h2>
             <div>
-              <p>Send Krish the decision or system you want to revisit. A short note is enough because the earlier context should already exist.</p>
-              <p><a href="mailto:krish@themindmaker.ai?subject=Mindmake%20alumni%20request">Email Krish about the next step <ArrowRight aria-hidden="true" /></a></p>
+              <p>Send us the decision or system you want to revisit. A short note is enough because the earlier context should already exist.</p>
+              <p><a href={`mailto:${CONTACT_EMAIL}?subject=Mindmake%20alumni%20request`}>Email us about the next step <ArrowRight aria-hidden="true" /></a></p>
             </div>
           </section>
         </div>

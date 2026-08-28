@@ -30,14 +30,14 @@ const checks = [
 ];
 
 const description =
-  "Explore a working org chart from Krish Raja's own AI system and see the human decisions behind each role.";
+  "Explore a working org chart from our own AI system and see the human decisions behind each role.";
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
   headline: "See people and AI agents share the work",
   description,
-  author: { "@type": "Person", name: "Krish Raja", url: "https://mindmake.co" },
+  author: { "@type": "Organization", name: "Mindmake", url: "https://mindmake.co" },
   publisher: { "@type": "Organization", name: "Mindmake", url: "https://mindmake.co" },
   mainEntityOfPage: {
     "@type": "WebPage",
@@ -84,7 +84,7 @@ export default function NewAgeLeadership() {
             animate={{ opacity: 1, y: 0 }}
             transition={reduceMotion ? { duration: 0 } : { delay: 0.2, duration: 0.45 }}
           >
-            This is a working org chart from Krish's own AI system. Switch views, open a role
+            This is a working org chart from our own AI system. Switch views, open a role
             and inspect the decision it creates. Use it to notice what your own chart may need.
           </motion.p>
         </div>

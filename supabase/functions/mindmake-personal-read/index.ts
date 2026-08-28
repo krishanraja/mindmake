@@ -1,0 +1,238 @@
+/**
+ * mindmake-personal-read
+ *
+ * The personal half of the site's two journeys. The page composes its own
+ * preview from the same template lines, so this endpoint exists for two things
+ * only: enriching what we know about a visitor from their public profile, and
+ * sending the one results email when they ask for it.
+ *
+ * It follows submit-mindmake-brief's posture rather than inventing its own:
+ * a strict origin allowlist checked before any work, one-way HMAC identifiers
+ * for abuse limits, a deterministic idempotency key so a retry cannot become a
+ * second email, and no claim of a delivery the provider did not accept.
+ *
+ * Deploy with verify_jwt false: the browser calls it directly.
+ */
+
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { sendResendEmail } from "../_shared/http/resend.ts";
+import { clientIdentifier, hmacIdentifier } from "../_shared/security/hmac.ts";
+import {
+  InvalidRequestError,
+  parsePersonalRead,
+  personalReadIdempotencyKey,
+  renderPersonalRead,
+  type PersonalReadRequest,
+  type Profile,
+} from "./core.ts";
+
+const BODY_LIMIT_BYTES = 4 * 1024;
+const ENRICH_TIMEOUT_MS = 6_000;
+/** Fourteen days, the one follow-up the two-email cap allows. */
+const FOLLOW_UP_DAYS = 14;
+
+const ALLOWED_REQUEST_HEADERS = "authorization, x-client-info, apikey, content-type";
+
+interface Config {
+  supabaseUrl: string;
+  serviceRoleKey: string;
+  rateLimitSalt: string;
+  from: string;
+  operatorEmail: string;
+  allowedOrigins: Set<string>;
+}
+
+function readConfig(): Config {
+  const required = (name: string): string => {
+    const value = Deno.env.get(name)?.trim();
+    if (!value) throw new Error(`${name} is not configured`);
+    return value;
+  };
+
+  const allowedOrigins = new Set(
+    required("MINDMAKE_ALLOWED_ORIGINS").split(",").map((entry) => entry.trim()).filter(Boolean),
+  );
+  if (allowedOrigins.size === 0) throw new Error("MINDMAKE_ALLOWED_ORIGINS is empty");
+
+  const salt = required("MINDMAKE_RATE_LIMIT_SALT");
+  if (salt.length < 32) throw new Error("MINDMAKE_RATE_LIMIT_SALT is too short");
+
+  return {
+    supabaseUrl: required("SUPABASE_URL"),
+    serviceRoleKey: required("SUPABASE_SERVICE_ROLE_KEY"),
+    rateLimitSalt: salt,
+    from: required("MINDMAKE_BRIEF_FROM"),
+    operatorEmail: required("MINDMAKE_OPERATOR_EMAIL"),
+    allowedOrigins,
+  };
+}
+
+const corsHeaders = (origin: string): Record<string, string> => ({
+  "Access-Control-Allow-Origin": origin,
+  "Access-Control-Allow-Headers": ALLOWED_REQUEST_HEADERS,
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Max-Age": "600",
+  Vary: "Origin",
+});
+
+const json = (body: unknown, status: number, origin: string | null): Response =>
+  new Response(JSON.stringify(body), {
+    status,
+    headers: {
+      ...(origin ? corsHeaders(origin) : { Vary: "Origin" }),
+      "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": "no-store",
+    },
+  });
+
+/**
+ * Resolves a public profile, best effort.
+ *
+ * Anything that fails or times out degrades to an empty profile, because the
+ * email is worth sending either way and a guess would be worse than silence.
+ */
+async function enrichProfile(linkedinUrl: string): Promise<Profile> {
+  const key = Deno.env.get("PEOPLEDATALABS_API_KEY") ?? Deno.env.get("PDL_API_KEY");
+  if (!key || !linkedinUrl) return {};
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ENRICH_TIMEOUT_MS);
+  try {
+    const url = new URL("https://api.peopledatalabs.com/v5/person/enrich");
+    url.searchParams.set("profile", linkedinUrl);
+    url.searchParams.set("min_likelihood", "6");
+    const response = await fetch(url, {
+      headers: { "X-Api-Key": key },
+      signal: controller.signal,
+    });
+    if (!response.ok) return {};
+    const body = await response.json();
+    const person = body?.data ?? {};
+    return {
+      name: typeof person.full_name === "string" ? person.full_name : undefined,
+      role: typeof person.job_title === "string" ? person.job_title : undefined,
+      company: typeof person.job_company_name === "string" ? person.job_company_name : undefined,
+      industry: typeof person.job_company_industry === "string" ? person.job_company_industry : undefined,
+    };
+  } catch {
+    return {};
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function readBody(request: Request): Promise<unknown> {
+  const declared = Number(request.headers.get("content-length") ?? "0");
+  if (Number.isFinite(declared) && declared > BODY_LIMIT_BYTES) {
+    throw new InvalidRequestError("too-large");
+  }
+  const text = await request.text();
+  if (text.length > BODY_LIMIT_BYTES) throw new InvalidRequestError("too-large");
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new InvalidRequestError("json");
+  }
+}
+
+async function deliver(
+  config: Config,
+  parsed: PersonalReadRequest,
+  profile: Profile,
+): Promise<boolean> {
+  const email = parsed.email!;
+  const rendered = renderPersonalRead(parsed, profile);
+  const result = await sendResendEmail(
+    {
+      from: config.from,
+      to: [email],
+      reply_to: config.operatorEmail,
+      subject: rendered.subject,
+      html: rendered.html,
+      text: rendered.text,
+    },
+    { label: "mindmake-personal-read", idempotencyKey: await personalReadIdempotencyKey(email) },
+  );
+  return result.ok;
+}
+
+Deno.serve(async (request) => {
+  const origin = request.headers.get("origin");
+
+  let config: Config;
+  try {
+    config = readConfig();
+  } catch (error) {
+    console.error("[mindmake-personal-read] configuration", (error as Error).message);
+    return json({ error: "service_unavailable" }, 503, null);
+  }
+
+  const allowed = origin && config.allowedOrigins.has(origin) ? origin : null;
+  if (request.method === "OPTIONS") {
+    return new Response(null, { status: allowed ? 204 : 403, headers: allowed ? corsHeaders(allowed) : {} });
+  }
+  if (!allowed) return json({ error: "origin_not_allowed" }, 403, null);
+  if (request.method !== "POST") return json({ error: "method_not_allowed" }, 405, allowed);
+
+  let parsed: PersonalReadRequest;
+  try {
+    parsed = parsePersonalRead(await readBody(request));
+  } catch (error) {
+    const reason = error instanceof InvalidRequestError ? error.message : "invalid";
+    return json({ error: "invalid_request", reason }, 400, allowed);
+  }
+
+  const profile = await enrichProfile(parsed.linkedin_url ?? "");
+
+  // A preview asks for nothing to be stored or sent, so nothing is.
+  if (parsed.action === "preview") {
+    return json({ status: "ok", profile }, 200, allowed);
+  }
+
+  const email = parsed.email!;
+  const supabase = createClient(config.supabaseUrl, config.serviceRoleKey, {
+    auth: { persistSession: false },
+  });
+
+  const ipHash = await hmacIdentifier(config.rateLimitSalt, clientIdentifier(request));
+  const emailHash = await hmacIdentifier(config.rateLimitSalt, email);
+  /* PostgREST reaches only the public schema, so this calls the public wrapper
+     around the private routine, the same way the brief pipeline does. */
+  const { data: withinLimit, error: rateError } = await supabase.rpc(
+    "mindmake_consume_personal_read_rate",
+    { p_ip_hash: ipHash, p_email_hash: emailHash },
+  );
+  if (rateError) {
+    console.error("[mindmake-personal-read] rate limit", rateError.message);
+    return json({ error: "service_unavailable" }, 503, allowed);
+  }
+  if (withinLimit === false) {
+    return json({ error: "rate_limited" }, 429, allowed);
+  }
+
+  const sent = await deliver(config, parsed, profile);
+  if (!sent) {
+    // Never report a delivery the provider did not accept.
+    return json({ error: "delivery_failed" }, 502, allowed);
+  }
+
+  // Store the minimum the email needed, and nothing about the profile URL.
+  const { error: storeError } = await supabase.from("mindmake_personal_reads").insert({
+    email,
+    q1: parsed.q1,
+    q2: parsed.q2,
+    enrichment: profile,
+    delivered_at: new Date().toISOString(),
+  });
+  if (storeError) console.error("[mindmake-personal-read] store", storeError.message);
+
+  // The one follow-up the cap allows. Best effort: a queue failure must not
+  // turn a delivered email into a reported failure.
+  const sendAfter = new Date(Date.now() + FOLLOW_UP_DAYS * 864e5).toISOString();
+  const { error: queueError } = await supabase
+    .from("follow_up_queue")
+    .upsert({ email, source: "personal-read", send_after: sendAfter }, { onConflict: "email,source" });
+  if (queueError) console.error("[mindmake-personal-read] follow-up queue", queueError.message);
+
+  return json({ status: "queued" }, 200, allowed);
+});

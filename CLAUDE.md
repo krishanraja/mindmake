@@ -1,24 +1,38 @@
 # Mindmake repository guide
 
-Last updated: 27 August 2026.
+Last updated: 28 August 2026.
 
-This file is a contributor guard. Read `project-documentation/MINDMAKE_CANON.md`, `project-documentation/CURRENT_STATE.md`, `project-documentation/DESIGN_CONTRACT.md` and `project-documentation/BRANDS_AND_TESTIMONIALS.md` before changing a public page.
+This file is a contributor guard, not the source of truth. The source of truth
+is `project-documentation/`, and it is read in order: `00_NORTH_STAR.md` first,
+then `01_CANON.md`. Where this file, a code comment, or anything else disagrees
+with those two, those two are right.
+
+Before changing a public page, read `00_NORTH_STAR.md`, `01_CANON.md`,
+`03_DESIGN_CONTRACT.md`, `04_PROOF.md` and `06_CURRENT_STATE.md`.
+
+## The naming law
+
+Mindmake is the only name for the business. CTRL is the product. The publication
+runs exactly two channels, **The Money of AI** and **Built with AI**. Mindmaker
+LLC is the registered legal entity and appears only in the privacy notice and the
+terms. `themindmaker.ai` and `mindmakerlive.substack.com` are infrastructure
+addresses, never names. Anything else that looks like a brand name in this
+repository is dead: delete it rather than working around it.
 
 ## Current commercial contract
 
-- The outward-facing brand is Mindmake.
-- Mindmake helps a leader extend their judgement with AI and turn it into a better business result.
-- The two public doors are `Build Your AI Brain` and `Build Your AI GTM`. The four GTM levers are product, price, positioning and people.
+- The outward-facing brand is Mindmake. The site speaks as "we" and "mind/make", never in one person's name.
+- Mindmake builds systems that hold a leader's judgement and belong to the client afterwards. The enemy is the oracle (a consultant selling an answer the leader could have reached alone) and the mirror (AI that takes a leader's thinking and hands it back unchanged). "Instruments, not oracles" is internal design language, never site copy.
+- The two public doors are `Build your AI brain` and `Build your AI GTM`. The four GTM levers are product, price, positioning and people. A client can start with either and cross to the other.
 - Both lead into one paid 30-day proof. The price is private.
-- CTRL is Mindmake's product and proof layer, not a third offer.
-- There is no public diary link or `Book a fit call` CTA.
-- The only primary action is `Start here`.
-- The private email hand-off is live (Gate E approved and closed, 27 August 2026): company website, declarative read with tailored server-signed pressure choices, one easy question, verified work email, then the branded proposal on screen, by email and as an attached document, with a private fit digest to Krish.
-- The browser may send only the visitor email, company domain, allowlisted choice identifiers and the server-signed tailored-choice pair. Company research, tailored choices, recommendation assembly, verification codes, visitor delivery and Krish's private fit digest are server-owned.
+- CTRL is Mindmake's product and proof layer, not a third offer. It is named on `/ai-brain` only, never linked, never priced. Its four live captures appear on that page and nowhere else.
+- There is no public diary link or `Book a fit call` CTA. The only primary action is `Start here`.
+- The private email hand-off is live: company website, declarative read with tailored server-signed pressure choices, one easy question, verified work email, then the branded proposal on screen, by email and as an attached document, with a private fit digest to the operator.
+- The browser may send only the visitor email, company domain, allowlisted choice identifiers and the server-signed tailored-choice pair. Company research, tailored choices, recommendation assembly, verification codes, visitor delivery and the operator's fit digest are server-owned.
 - Every read carries the honesty framing: an illustrative example of how the Mindmake brain reads a business from the outside, not advice, written as a statement that never asks the visitor anything.
-- `prototypes/mindmake-judgement-thread-motion-study-v5.html` is the approved visual and interaction floor for the opening sequence, working-understanding act, judgement thread, two-route gateway and first CTRL proof. Its locked SHA-256 is `DE09D75C46EB660AD6148C1D7F5DD61E4F82031B48FCFE931CC3AE05C8126C81`.
-- The Brain and GTM gateway is the exact frozen candidate 7 V2 contract recorded in `project-documentation/MINDMAKE_CANON.md`. Its wording, composition and door-separation motion are not a suggestion to reinterpret.
-- V8 remains the breadth reference only for homepage proof and testimonial range not yet rebuilt through V5. Where V5 and V8 overlap, V5 wins.
+- A converting visitor receives exactly two emails, ever: the results email, and one follow-up fourteen days later. No drip, no newsletter from this site. The publication is a separate opt-in.
+- `/ai-gtm` carries a live daily market board fed by the public `get-ai-news` function. Everything on it is public, including the point-of-view line. Daily freshness with a visible timestamp is a standing commitment, and staleness is labelled rather than hidden.
+- The publication is a separate opt-in with exactly two channels, described in `project-documentation/02_PUBLICATION.md`.
 
 ## Do not reintroduce
 
@@ -26,36 +40,46 @@ This file is a contributor guard. Read `project-documentation/MINDMAKE_CANON.md`
 - Public prices, discounts or currency switching.
 - A public Calendly or direct diary path.
 - A chatbot or simulated AI answer that makes the practice look automated. The company read is served research presented honestly, never a conversation.
-- Attendee brands described as clients.
-- Offer labels on case studies.
+- Attendee brands described as clients. Offer labels on case studies.
 - The removed private amount or the removed 22 percent result.
 - An uncapped Steph quote. Missing or failed consent data must hide it.
 - A public count of leaders helped, until the lock's evidence trail is compiled and approved.
-- Em dashes or unexplained business and technical terms in public copy.
-- A conversational or self-correcting voice in the company read ("tell me if I am wrong" and its family), or American spellings such as `judgment` in any public or generated copy.
-- Eyebrows or equivalent decorative pre-heading chrome. This includes kickers, overlines, chapter numbers, decorative counters, status straps, proof badges and small pre-headings above or beside a real heading. Renaming or changing the case does not make them acceptable. A small label may remain only when it directly names an object, control, value or axis. A full-bleed background numeral marking a numbered step section is a second approved exception; it must never shrink into a small label, kicker or counter.
+- Em dashes, American spellings such as `judgment`, or unexplained business and technical terms in public copy.
+- Doom, fear or failure framing about the reader's business. Commands to the reader. Boasting about what we are about to do. Cryptic headings that need the paragraph below them to decode. The voice is a helpful expert explaining something clearly, and a twelve-year-old should follow every sentence.
+- Eyebrows. No small pre-heading above a hero or a section title, under any class name and in any case. A small label may remain only where it names an object, a control, a value or an axis.
+- The operator's personal name in the site's voice: no first person, no biography, no portrait. He is named once, as the person the named references worked with. The four CTRL captures keep their account chrome, and they are images.
+- The retired journey engine: stepped scroll journeys, numbered step rails, the Capture / Encode / Amplify / Uncover / Keep ladder, hand-drawn scroll marks, the stage photograph, and "Not an agency. Not a coach."
+- Entrance choreography of any kind. Scroll-triggered reveals, fades, slides, staggered builds and scroll-progress bars are banned; see the motion law in the design contract.
 
 ## Active structure
 
-- `project-documentation/MINDMAKE_CANON.md`: current commercial and conversion truth.
-- `project-documentation/CURRENT_STATE.md`: live identifiers and verification baselines.
-- `project-documentation/DESIGN_CONTRACT.md`: binding design rules and the acceptance checklist.
+- `project-documentation/`: the whole source of truth, read in numbered order. `README.md` there is the index.
+- `src/hooks/useAmbientMotion.ts`: whether a visitor is served moving footage at all.
+- `src/assets/films/`: six films, both formats each, posters taken from frame one.
 - `src/App.tsx`: public route contract and retired-route fallbacks.
-- `src/pages/Index.tsx`: homepage. `src/pages/AiBrain.tsx` and `src/pages/AiGtm.tsx`: the stepped door journeys. `src/pages/CaseStudies.tsx`: approved proof archive.
-- `src/components/mindmake/`: the public design and conversion system, including the journey engine (`StepJourney`, `StepScene`, `StepFilm`, `CompoundingTimeline`), the marks (`ScrollMark`, frozen `ScrollEvidenceMark`), the comparison (`WorkingUnderstandingCompare`), and the lead journey (`LeadBrief`, `MindmakeProposal`, `proposalContent`, `privateBriefHtml`, `leadDelivery`, `companyRead`).
-- `src/styles/mindmake.css`, `mindmake-journey.css`, `mindmake-brief.css`, and the frozen `mindmake-gateway.css`.
+- `src/pages/Index.tsx`: homepage. `src/pages/AiBrain.tsx` and `src/pages/AiGtm.tsx`: the two doors. `src/pages/CaseStudies.tsx`: approved proof archive.
+- `src/components/mindmake/`: the public design and conversion system, including the film plate, the marquee, the ask bar, the objection chips, the live board, the two journeys, and the lead journey (`LeadBrief`, `MindmakeProposal`, `proposalContent`, `privateBriefHtml`, `leadDelivery`, `companyRead`).
+- `src/hooks/useScrollDriver.ts`: the one scroll primitive. `src/lib/analytics.ts`: the site's event wrapper. `src/lib/askCorpus.ts` and `src/content/answers.json`: the curated answer corpus behind the ask bar and `/faq`.
+- `src/styles/mindmake.css` (tokens, base, chrome, secondary pages) and `src/styles/mindmake-instruments.css` (the instrument components). `src/styles/mindmake-brief.css` styles the lead dialog.
 - `src/data/rebuildProof.ts`: proof data used by the rebuild.
-- `supabase/functions/enrich-company` and `supabase/functions/submit-mindmake-brief` with `_shared/`: the two live edge functions.
-- `scripts/generate-sitemap.mjs`, `scripts/generate-llms.mjs`, `scripts/prerender.mjs`: crawler surfaces.
+- `supabase/functions/` with `_shared/`: the live edge functions.
+- `scripts/generate-sitemap.mjs`, `scripts/generate-llms.mjs`, `scripts/prerender.mjs`: crawler surfaces. The build fails when the prerender and sitemap route sets disagree, and the prerendered copy has to match the pages.
 
 ## Required checks
 
-Run the focused route, conversion and disclosure tests (the journey contract, public contract, backend core, price and disclosure suites), the production build, lint comparison, desktop and 390px browser checks. Confirm visible focus, reduced motion, no overflow, no browser errors and one-hop redirects.
+Run the focused route, conversion and disclosure tests (the public contract, backend core, price and disclosure suites), the production build, the lint comparison, and desktop and 375px browser checks. Confirm visible focus, reduced motion, no overflow, no browser errors and one-hop redirects.
 
-For any change to a surface covered by V5, compare it directly with that approved artifact and run both a source scan and a rendered DOM scan for the banned eyebrow family. Motion must clarify the message or the interaction. Movement added only for decoration is a regression.
+For any change to a public surface, run both a source scan and a rendered DOM scan for the banned families: the operator's name, the banned vocabulary, the antithesis templates, and entrance motion. Motion must clarify the message or the interaction. Movement added only for decoration is a regression, and so is a still viewport.
 
 For any change to the lead pipeline, run `src/test/mindmake-brief-backend-core.test.ts`, redeploy with the function's full import closure, verify the deployed body and prove one synthetic end-to-end lead from `https://mindmake.co`.
 
-The current lint baseline is 0 errors and 4 warnings, recorded in `project-documentation/CURRENT_STATE.md`. Do not add new lint problems.
+The current lint baseline is 0 errors and 2 warnings, recorded in `project-documentation/06_CURRENT_STATE.md`. Do not add new lint problems.
 
-Stop before manual production promotion.
+For any change to the films or the film plate, confirm in a browser that every
+loop decodes and plays when scrolled into view, and that a reduced-motion
+visitor has no video mounted at all.
+
+Deployment and promotion follow `project-documentation/07_DEPLOY_RUNBOOK.md`,
+whose launch steps are ordered for a reason. Do not change live Supabase, send
+real email from new code paths, alter domains or delete deployed functions
+without the matching verification.

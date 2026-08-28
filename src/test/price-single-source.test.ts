@@ -11,15 +11,14 @@ const ACTIVE_BUYING_SURFACES = [
   "src/pages/Contact.tsx",
   "src/components/mindmake/LeadBrief.tsx",
   "src/components/mindmake/MindmakeShell.tsx",
-  "src/components/mindmake/StepScene.tsx",
-  "src/components/mindmake/CompoundingTimeline.tsx",
-  "src/components/mindmake/BrainStepVisuals.tsx",
-  "src/components/mindmake/GtmStepVisuals.tsx",
-  "src/components/mindmake/WorkingUnderstandingCompare.tsx",
+  "src/components/mindmake/CloseBlock.tsx",
+  "src/components/mindmake/AskBar.tsx",
+  "src/components/mindmake/ObjectionChips.tsx",
   "src/components/mindmake/proposalContent.ts",
   "src/components/mindmake/MindmakeProposal.tsx",
   "src/components/mindmake/privateBriefHtml.ts",
-  "src/styles/mindmake-journey.css",
+  "src/content/answers.json",
+  "src/styles/mindmake-instruments.css",
   "scripts/generate-llms.mjs",
   "scripts/prerender.mjs",
   "index.html",
@@ -52,7 +51,7 @@ describe("the public offer stays simple", () => {
     const shell = read("src/components/mindmake/MindmakeShell.tsx");
 
     expect(shell).toContain("Start here");
-    expect(links).toContain('SPRINT_PATH = "/?start=1"');
+    expect(links).toContain('START_PATH = "/?start=1"');
     expect(links).not.toContain("calendly.com");
   });
 });

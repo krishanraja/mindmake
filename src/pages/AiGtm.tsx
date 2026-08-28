@@ -1,183 +1,177 @@
-import { ArrowRight } from "lucide-react";
+import { useState } from "react";
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
-import { StepJourney } from "@/components/mindmake/StepJourney";
-import { StepScene } from "@/components/mindmake/StepScene";
-import { CompoundingTimeline } from "@/components/mindmake/CompoundingTimeline";
-import {
-  GtmTimelinePanel,
-  LeverVisual,
-  ModelVisual,
-  ProveVisual,
-  ReadVisual,
-  RunVisual,
-} from "@/components/mindmake/GtmStepVisuals";
-import { ScrollMark } from "@/components/mindmake/ScrollMark";
-import { WorkingUnderstandingCompare } from "@/components/mindmake/WorkingUnderstandingCompare";
+import { CloseBlock } from "@/components/mindmake/CloseBlock";
+import { FilmPlate } from "@/components/mindmake/FilmPlate";
+import { ObjectionChips } from "@/components/mindmake/ObjectionChips";
+import { LiveBoard } from "@/components/mindmake/board/LiveBoard";
+import { GtmJourney } from "@/components/mindmake/journeys/GtmJourney";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
+import { track } from "@/lib/analytics";
+import filmThreePoster from "@/assets/films/film-03-poster.jpg";
+import filmThreePosterWebp from "@/assets/films/film-03-poster.webp";
+import filmThreeLoop from "@/assets/films/film-03-loop.mp4";
+import filmThreeLoopWebm from "@/assets/films/film-03-loop.webm";
+import filmSixPoster from "@/assets/films/film-06-poster.jpg";
+import filmSixPosterWebp from "@/assets/films/film-06-poster.webp";
+import filmSixLoop from "@/assets/films/film-06-loop.mp4";
+import filmSixLoopWebm from "@/assets/films/film-06-loop.webm";
 import "@/styles/mindmake.css";
-import "@/styles/mindmake-journey.css";
+import "@/styles/mindmake-instruments.css";
+
+const GTM_OBJECTIONS = [
+  {
+    id: "report",
+    question: "Do I get a document or something that works?",
+    answer: "Something that works, plus the evidence behind it. You can see every source we used and check the reasoning yourself.",
+  },
+  {
+    id: "speed",
+    question: "Is thirty days realistic?",
+    answer: "Yes, because we take on one result rather than a whole transformation. You see the first working piece in week one, and it improves each week after that.",
+  },
+  {
+    id: "team",
+    question: "How much of my team's time does this take?",
+    answer: "Very little. We need your decisions, the context you trust and a few introductions. There is no homework and no all-team rollout to sit through.",
+  },
+  {
+    id: "keep",
+    question: "What do we keep at the end?",
+    answer: "The model, the plan and the working system. All of it is yours, and it keeps running after we finish.",
+  },
+];
 
 export default function AiGtm() {
   const { briefOpen, openBrief, closeBrief } = useLeadBriefHistory();
+  const [seedDomain, setSeedDomain] = useState<string>();
+
+  const startFromJourney = (domain: string) => {
+    setSeedDomain(domain);
+    openBrief();
+  };
 
   return (
-    <MindmakeShell onStart={openBrief} mainClassName="mm-route-page mm-route-gtm">
+    <MindmakeShell onStart={openBrief}>
       <SEO
-        title="Build Your AI GTM"
-        description="Create an AI-native GTM model across product, price, positioning or people, then prove it with real buyers inside 30 days."
+        title="Build your AI GTM"
+        description="AI is changing what customers will pay for. We rebuild one part of how you sell, in thirty days, and prove it with real buyers."
         canonical="/ai-gtm"
       />
 
-      <StepJourney>
-        <section className="mm-journey-hero" data-tone="paper" aria-labelledby="gtm-title">
-          <h1 id="gtm-title">Create an AI-native GTM model across product, price, positioning or people.</h1>
-          <p className="mm-journey-definition">GTM is short for go to market: <strong>what you sell, what it costs, how you stand out and who does the selling</strong>. AI-native means built for what AI just changed, not patched around it.</p>
-          <div className="mm-journey-moments">
-            <article>
-              <h2>You lead an established business.</h2>
-              <p>Customers can now do part of it alone. Your price and your promise no longer line up. The model needs rework.</p>
-            </article>
-            <article>
-              <h2>You are building something new.</h2>
-              <p>An AI-native digital business has a model that must be invented, not repaired. Speed without a model is just burn.</p>
-            </article>
+      <section className="mm-hero" aria-labelledby="gtm-title">
+        <div className="mm-container mm-hero-split">
+          <div>
+            <h1 className="mm-setup" id="gtm-title">AI is changing what customers pay for.</h1>
+            <p className="mm-claim">We help you sell for that.</p>
+            <p className="mm-lede">
+              We take one part of how you sell, rebuild it around the way AI has changed your
+              market, and prove it with real buyers inside thirty days. You keep the model.
+            </p>
           </div>
-          <p className="mm-journey-moment">Krish has spent fifteen years turning data and AI into customer experience and ways to make money. Both leaders get the same month: read what changed, choose the lever, build the model, prove it with buyers, run it.</p>
-          <div className="mm-journey-hero-actions">
-            <button className="mm-button" type="button" onClick={openBrief}>Start here <ArrowRight aria-hidden="true" /></button>
-            <p className="mm-journey-refusals"><span>Not a fractional hire.</span> <span>Not an automation shop.</span></p>
-          </div>
-        </section>
-
-        <StepScene
-          index={1}
-          name="Read"
-          title="Read"
-          tone="ink"
-          body="We find what changed: what customers can now do alone, what they will still pay for, where your numbers disagree with your story. For the builder: what buyers will pay for that did not exist a year ago."
-          note="The read folds into week one."
-          visual={<ReadVisual />}
-        />
-
-        <StepScene
-          index={2}
-          name="Choose the lever"
-          title="Choose the lever"
-          tone="paper"
-          body="Product, price, positioning or people. One lever carries the month. The model covers all four."
-          note="One lever deep, the whole model mapped."
-          visual={<LeverVisual />}
-        />
-
-        <StepScene
-          index={3}
-          name="Build the model"
-          title="Build the model"
-          tone="forest"
-          body="An AI-native model of how you sell, built so you can question it and see the sources behind every answer."
-          note={<>It has to <ScrollMark shape="circle" driver="step">run</ScrollMark>, not read well.</>}
-          visual={<ModelVisual />}
-        />
-
-        <StepScene
-          index={4}
-          name="Prove with buyers"
-          title="Prove with buyers"
-          tone="ink"
-          body="The model meets real buyers before the month ends. What they do and what they say goes back into the model."
-          note="Evidence beats opinion."
-          visual={<ProveVisual />}
-        />
-
-        <StepScene
-          index={5}
-          name="Run it"
-          title="Run it"
-          tone="paper"
-          body="The model, the data and the reasons stay with your team. They can run the motion without waiting on Krish."
-          note="The next call starts sharper."
-          visual={<RunVisual />}
-        />
-
-        <CompoundingTimeline
-          tone="ink"
-          title="Day thirty is a beginning."
-          intro="Work starts with the 30-day proof. The best work continues for three months or longer, and it has to earn that."
-          ariaLabel="How the model compounds after day thirty"
-          states={[
-            { day: 30, standing: "The proof", body: "One lever deep, the whole model mapped, tested with real buyers." },
-            { day: 60, standing: "Earned", body: "The second lever is built in. Your team runs the motion." },
-            { day: 90, standing: "Earned", body: "The model runs across product, price, positioning and people. The next call starts from evidence, not debate." },
-          ]}
-          visual={<GtmTimelinePanel />}
-        />
-
-        <WorkingUnderstandingCompare
-          tone="forest"
-          ariaLabel="How the Mindmake model compares with other kinds of help"
-          intro="A fractional hire, an automation shop, a generic AI and ready-made tools all do useful work too. The same question decides between them: where does the understanding live when the work ends?"
-          rows={[
-            "Does useful work today?",
-            "Does it have a memory of your business?",
-            "Can it draw out how you decide?",
-            "Where does the understanding live when the work ends?",
-          ]}
-          columns={[
-            {
-              title: "A generic AI chat",
-              explain: "An AI that answers whatever you ask it.",
-              cells: [
-                "Yes.",
-                "No. Each chat starts from nothing.",
-                "No. It waits to be asked.",
-                "Nowhere.",
-              ],
-            },
-            {
-              title: "A consultancy",
-              explain: "People who study your business and advise you.",
-              cells: [
-                "Yes.",
-                "Their notes leave with them.",
-                "Interviews, then a deck.",
-                "In a deck that leaves.",
-              ],
-            },
-            {
-              title: "Ready-made tools",
-              explain: "Software you subscribe to that stores your notes and context.",
-              cells: [
-                "Yes.",
-                "It stores what you put in.",
-                "No. You do the organising.",
-                "Inside the tool.",
-              ],
-            },
-            {
-              title: "The Mindmake model, with Krish",
-              explain: "A working model built with your team, proven with real buyers.",
-              cells: [
-                "Yes.",
-                "It holds your market, your numbers and your reasons.",
-                "Krish's questions, comparisons and graded examples.",
-                "With your team. The next call starts from evidence.",
-              ],
-              emphasis: true,
-            },
-          ]}
-        />
-      </StepJourney>
-
-      <section className="mm-section mm-proof-offer is-gtm" aria-labelledby="gtm-proof-offer">
-        <div className="mm-container mm-proof-offer-grid">
-          <div><h2 id="gtm-proof-offer">Test one big business decision in 30 days.</h2></div>
-          <div><p>Mindmake starts with one costly question about the product, the price, the positioning or the people. It finds what changed, helps you make the hard choice and builds enough to test it with real buyers.</p><ul><li>One clear business question</li><li>Market and company evidence</li><li>A first version you can use</li><li>A real test before the month ends</li></ul><button className="mm-button" type="button" onClick={openBrief}>Start here <ArrowRight aria-hidden="true" /></button></div>
+          <FilmPlate
+            poster={filmThreePoster}
+            posterWebp={filmThreePosterWebp}
+            src={filmThreeLoop}
+            srcWebm={filmThreeLoopWebm}
+            label="A chart room of brass recording pens drawing ink curves onto paper drums. One pen has broken sharply downward and a hand tears the strip away."
+            priority
+          />
         </div>
       </section>
 
-      <LeadBrief open={briefOpen} onClose={closeBrief} route="gtm" />
+      <section className="mm-block" aria-labelledby="money-title">
+        <div className="mm-container">
+          <h2 id="money-title">Three things AI changes about selling.</h2>
+          <div className="mm-impact" style={{ marginTop: 18 }}>
+            <article className="mm-impact-card">
+              <h3>What you charge</h3>
+              <p>
+                <strong>The cost of doing the work is falling</strong>, and customers are starting
+                to notice. We work out what that means for your margin and what your prices should
+                assume next year.
+              </p>
+              <FilmPlate
+                poster={filmSixPoster}
+                posterWebp={filmSixPosterWebp}
+                src={filmSixLoop}
+                srcWebm={filmSixLoopWebm}
+                label="Extreme macro on a split-flap display in a brass frame, mid-cascade, settling lower on its column."
+              />
+            </article>
+            <article className="mm-impact-card">
+              <h3>How you stand out</h3>
+              <p>
+                <strong>Who else is selling to your customers now</strong>, what they are promising,
+                and the clearest way to explain why you are the better choice.
+              </p>
+            </article>
+            <article className="mm-impact-card">
+              <h3>Who does the selling</h3>
+              <p>
+                <strong>The roles worth creating now</strong>, the people who do well in them, and
+                the parts of selling your team can hand to AI this month.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <LiveBoard />
+
+      <section className="mm-block" aria-labelledby="read-title">
+        <div className="mm-container">
+          <h2 id="read-title">Try it with your own company.</h2>
+          <p className="mm-lede" style={{ marginTop: 10 }}>
+            Give us your company address. We will read your market while you watch, and send you a
+            plan built for your business. It takes a couple of minutes.
+          </p>
+          <GtmJourney onRead={startFromJourney} />
+        </div>
+      </section>
+
+      <section className="mm-block" aria-labelledby="engage-title">
+        <div className="mm-container">
+          <h2 id="engage-title">Two ways to start.</h2>
+          <div className="mm-shapes">
+            <article className="mm-shape is-hot">
+              <h3>The review, thirty days</h3>
+              <p className="mm-shape-line">Understand what changed, and pick one thing to fix.</p>
+              <p>You get the model, a clear recommendation and all the evidence behind it. Priced on the result, with no retainer.</p>
+            </article>
+            <article className="mm-shape">
+              <h3>The build</h3>
+              <p className="mm-shape-line">Put it in place, and teach your team to run it.</p>
+              <p>We set the system up as the memory of how you sell, connect it to your plans, and coach the people who will keep it going after we finish.</p>
+            </article>
+          </div>
+          <p className="mm-payoff">
+            We bring our own tooling, so the work moves quickly from day one.{" "}
+            <em>You keep the model, the plan and the system, and they keep working after we finish.</em>
+          </p>
+        </div>
+      </section>
+
+      <section className="mm-block">
+        <div className="mm-container">
+          <ObjectionChips objections={GTM_OBJECTIONS} />
+        </div>
+      </section>
+
+      <CloseBlock
+        claim="See where AI changes your numbers."
+        body="Give us your company address and we will show you, using your market rather than a general example."
+        onStart={openBrief}
+      />
+
+      <LeadBrief
+        open={briefOpen}
+        onClose={closeBrief}
+        route="gtm"
+        initialDomain={seedDomain}
+        onConfirmed={() => track("journey_gtm_complete")}
+      />
     </MindmakeShell>
   );
 }

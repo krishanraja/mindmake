@@ -1,88 +1,179 @@
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
-import { MindmakeOpeningAct } from "@/components/mindmake/MindmakeOpeningAct";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
-import { CareerReferenceDeck } from "@/components/mindmake/ProofDeck";
-import { RouteRail } from "@/components/mindmake/RouteRail";
-import { ScrollEvidenceMark } from "@/components/mindmake/ScrollEvidenceMark";
-import { attendeeBrands, homepageResultStories } from "@/data/rebuildProof";
+import { CloseBlock } from "@/components/mindmake/CloseBlock";
+import { FilmPlate } from "@/components/mindmake/FilmPlate";
+import { Marquee } from "@/components/mindmake/Marquee";
+import { ObjectionChips } from "@/components/mindmake/ObjectionChips";
+import { ProofStrip } from "@/components/mindmake/ProofStrip";
+import { BoardCardView } from "@/components/mindmake/board/BoardCard";
+import { useBoardData } from "@/hooks/useBoardData";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
+import { useScrollDriver } from "@/hooks/useScrollDriver";
+import { topCard, isStale } from "@/lib/board";
+import { track } from "@/lib/analytics";
+import filmOnePoster from "@/assets/films/film-01-poster.jpg";
+import filmOnePosterWebp from "@/assets/films/film-01-poster.webp";
+import filmOneLoop from "@/assets/films/film-01-loop.mp4";
+import filmOneLoopWebm from "@/assets/films/film-01-loop.webm";
 import "@/styles/mindmake.css";
-import "@/styles/mindmake-opening-act.css";
+import "@/styles/mindmake-instruments.css";
+
+const HOMEPAGE_OBJECTIONS = [
+  {
+    id: "consultant",
+    question: "How is this different from hiring a consultant?",
+    answer: "A consultant does good work and then the project closes. We build the system inside your accounts, so what it learns about your work is still there next year.",
+  },
+  {
+    id: "chatgpt",
+    question: "Can I not just use ChatGPT?",
+    answer: "You can, and you should. Those tools are excellent. They just start from nothing every morning. The brain is the part that remembers your standards, so the tools you already pay for start from you.",
+  },
+];
+
+/** Today's strongest item, on the same component the board uses. */
+function ProofLive() {
+  const board = useBoardData({ days: 1 });
+  const card = board.status === "ready" ? topCard(board.days) : null;
+
+  return (
+    <section className="mm-block" aria-labelledby="proof-title">
+      <div className="mm-container">
+        <div className="mm-board-head">
+          <h2 id="proof-title">What changed in AI this morning.</h2>
+          {board.status === "ready" && (
+            <span className={`mm-timestamp${isStale(board.cacheDate) ? " is-stale" : ""}`}>
+              <i className={`mm-live-dot${isStale(board.cacheDate) ? " is-stale" : ""}`} aria-hidden="true" />
+              {isStale(board.cacheDate) ? "Yesterday's read, checked against other sources" : "Today 10:30 UTC, checked against other sources"}
+            </span>
+          )}
+        </div>
+        <p className="mm-lede" style={{ marginTop: 10 }}>
+          We read the market every morning and keep the parts that matter to the people we work
+          with. Here is today's.
+        </p>
+
+        {card ? (
+          <>
+            <div className="mm-cards" style={{ marginTop: 14 }}>
+              <BoardCardView card={card} />
+            </div>
+            <p style={{ marginTop: 16 }}>
+              <Link className="mm-text-link" to="/ai-gtm#board">
+                See everything that changed <span aria-hidden="true">→</span>
+              </Link>
+            </p>
+          </>
+        ) : board.status === "collapsed" ? (
+          <p className="mm-board-rebuilding">The read is rebuilding. Back within the hour.</p>
+        ) : null}
+      </div>
+    </section>
+  );
+}
 
 export default function Index() {
   const { briefOpen, openBrief, closeBrief } = useLeadBriefHistory();
+  const setupRef = useScrollDriver<HTMLHeadingElement>();
+  const claimRef = useScrollDriver<HTMLParagraphElement>();
+  const plateRef = useScrollDriver<HTMLDivElement>();
 
   return (
-    <MindmakeShell onStart={openBrief} headerMode="paper" showStartAction={false} helpHash="#judgement-thread">
+    <MindmakeShell onStart={openBrief}>
       <SEO
-        title="Put your best judgement to work with AI"
-        description="Mindmake helps leaders turn their judgement into useful AI systems and make better product, price, message and team decisions."
+        title="Every AI you buy knows the market. Yours should also know you."
+        description="Mindmake builds AI that knows how you work: your standards, your context and your past decisions. Thirty days, and you keep what it learns."
         canonical="/"
       />
 
-      <MindmakeOpeningAct />
-
-      <section className="mm-section mm-results" id="results" aria-labelledby="results-title">
+      <section className="mm-hero" aria-labelledby="hero-title">
         <div className="mm-container">
-          <header className="mm-split-heading mm-results-heading">
-            <h2 id="results-title">Decisions that moved the business.</h2>
-            <p>These are customer outcomes. Each one shows the hard choice and what became real.</p>
-          </header>
-          <div className="mm-reach">
-            <div><strong>Mindmake has helped leaders across media, software and advisory with what's next in AI.</strong><span>Attended by people from organisations including</span></div>
-            <div className="mm-logo-rail" aria-label="Organisations attended by people">
-              {attendeeBrands.map((brand) => <img key={brand.name} src={brand.logo} alt={brand.name} />)}
+          <div className="mm-hero-stage">
+            {/* The film moves and the type sitting on it does not, and the two
+                lines travel at slightly different rates as the page scrolls. */}
+            <div className="mm-hero-plate mm-parallax" ref={plateRef}>
+              <FilmPlate
+                poster={filmOnePoster}
+                posterWebp={filmOnePosterWebp}
+                src={filmOneLoop}
+                srcWebm={filmOneLoopWebm}
+                label="An instrument room at first light. A brass mechanism of interlocking wheels turns at different speeds under a single blade of window light."
+                className="mm-parallax-plate"
+                style={{ height: "100%" }}
+                scrim
+                priority
+              />
+            </div>
+            <div className="mm-hero-copy">
+              <h1 className="mm-setup mm-parallax mm-parallax-slow" id="hero-title" ref={setupRef}>
+                Every AI you buy knows the market.
+              </h1>
+              <p className="mm-claim mm-parallax mm-parallax-fast" ref={claimRef}>
+                Yours should also know you.
+              </p>
             </div>
           </div>
-          <RouteRail className="mm-result-grid" label="Customer outcomes">
-            {homepageResultStories.map((story) => (
-              <article className={`mm-result-card is-${story.visual}`} key={story.title}>
-                <div className="mm-result-visual" aria-hidden="true">
-                  {story.visual === "time" && <><span className="mm-crossed">12 months</span><ScrollEvidenceMark /></>}
-                  {story.visual === "offer" && <><strong>One clear offer.</strong><span>Expertise → buyer → plan</span></>}
-                  {story.visual === "pilots" && <><span>Pilot 01 <b>Signed</b></span><span>Pilot 02 <b>Signed</b></span></>}
-                </div>
-                <h3>{story.title}</h3>
-                <p className="mm-result-body">{story.body}</p>
-                <p className="mm-result-context">{story.sector}</p>
-              </article>
-            ))}
-          </RouteRail>
-          <Link className="mm-text-link" to="/case-studies">See all eight customer stories <ArrowRight aria-hidden="true" /></Link>
-        </div>
-      </section>
 
-      <section className="mm-section mm-about" id="about" aria-labelledby="about-title">
-        <div className="mm-container mm-about-grid">
-          <div className="mm-portrait-stage"><img className="mm-headshot" src="/Krish-Headshot.png" alt="Krish Raja" /></div>
-          <div>
-            <h2 id="about-title">The decision and the build belong together.</h2>
-            <p>I have spent 17 years helping companies make better products and plans with data and technology. For the last two years, I have built with AI every day. I help leaders decide what to do, then build enough to see whether it works.</p>
-            <CareerReferenceDeck />
-            <button className="mm-button" type="button" onClick={openBrief}>Start here <ArrowRight aria-hidden="true" /></button>
+          <div className="mm-doors">
+            <Link className="mm-door" to="/ai-brain" onClick={() => track("door_click", { door: "brain" })}>
+              <h2>An AI that knows how you work</h2>
+              <p>Your standards, your context and the decisions you have already made, working as one system. It helps with the work only you can do, and takes on the work you would rather not.</p>
+              <span className="mm-door-go">Build your AI brain <span aria-hidden="true">→</span></span>
+            </Link>
+            <Link className="mm-door" to="/ai-gtm" onClick={() => track("door_click", { door: "gtm" })}>
+              <h2>A way to sell that fits how AI works now</h2>
+              <p>AI is changing what customers will pay for. We rebuild one part of how you sell, across what you offer, what you charge, how you stand out and who does the selling.</p>
+              <span className="mm-door-go">Build your AI GTM <span aria-hidden="true">→</span></span>
+            </Link>
           </div>
         </div>
       </section>
 
-      <section className="mm-section mm-media-section" aria-labelledby="media-title">
-        <div className="mm-container mm-media-grid">
-          <div><h2 id="media-title">Useful ideas by email.</h2><p>Two clear lenses on AI: how people build with it and how companies make money from it.</p><a className="mm-button" href="https://mindmakerlive.substack.com" target="_blank" rel="noreferrer">Read and subscribe <ArrowRight aria-hidden="true" /></a></div>
-          <RouteRail className="mm-media-covers" label="Mindmake media topics">
-            <article><strong>building with AI:</strong><span>How people and teams make better work.</span></article>
-            <article><strong>the money of AI:</strong><span>How products and markets are changing.</span></article>
-          </RouteRail>
+      <section className="mm-block" aria-labelledby="where-title">
+        <div className="mm-container">
+          <h2 id="where-title">Where does everything you teach AI end up?</h2>
+          <p className="mm-lede" style={{ marginTop: 12 }}>
+            You explain your business to AI every week. How you price. What good looks like. Which
+            customers matter. That knowledge is worth something, and it has to live somewhere.
+          </p>
+
+          <div className="mm-three" style={{ marginTop: 20 }}>
+            <article className="mm-enemy">
+              <h3>It stays in a plan</h3>
+              <p>Consultants and agencies do good work and leave you a plan you can act on. When the project closes, the understanding behind it goes with them.</p>
+            </article>
+            <article className="mm-enemy">
+              <h3>It stays in their product</h3>
+              <p>Every tool you subscribe to is useful, and every one keeps what it learns on their side. Cancel the subscription and you start again.</p>
+            </article>
+            <article className="mm-enemy is-answer">
+              <h3>It stays with you</h3>
+              <p>We build it inside your own accounts. It learns how you decide, it gets better every week, and it stays yours when we finish.</p>
+            </article>
+          </div>
+
+          <div className="mm-answer">
+            <p className="mm-claim">You keep what it learns.</p>
+            <p>That is the whole idea. We help you put your own judgement to work, in plain English, on real decisions, and you own the result.</p>
+          </div>
+
+          <Marquee lines={["Built once. Better every week.", "What it learns stays yours."]} />
+
+          <ObjectionChips objections={HOMEPAGE_OBJECTIONS} />
         </div>
       </section>
 
-      <section className="mm-final" aria-labelledby="final-title">
-        <div className="mm-container mm-final-grid">
-          <div><h2 id="final-title">Make it clearer. Build what helps. Keep it.</h2><p>Mindmake will read the business first, then give you a useful private recommendation.</p><button className="mm-button" type="button" onClick={openBrief}>Start here <ArrowRight aria-hidden="true" /></button></div>
-          <img src="/favicon.svg" alt="" aria-hidden="true" />
-        </div>
-      </section>
+      <ProofStrip />
+
+      <ProofLive />
+
+      <CloseBlock
+        claim="Start with one real decision."
+        body="Give us your company address. We will read your market, and send you a plan built for your business."
+        onStart={openBrief}
+      />
 
       <LeadBrief open={briefOpen} onClose={closeBrief} />
     </MindmakeShell>

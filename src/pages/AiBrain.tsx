@@ -1,171 +1,254 @@
-import { ArrowRight } from "lucide-react";
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
-import { StepJourney } from "@/components/mindmake/StepJourney";
-import { StepScene } from "@/components/mindmake/StepScene";
-import { CompoundingTimeline } from "@/components/mindmake/CompoundingTimeline";
-import {
-  AmplifyVisual,
-  BrainTimelinePanel,
-  CaptureVisual,
-  EncodeVisual,
-  KeepVisual,
-  UncoverVisual,
-} from "@/components/mindmake/BrainStepVisuals";
-import { ScrollMark } from "@/components/mindmake/ScrollMark";
-import { WorkingUnderstandingCompare } from "@/components/mindmake/WorkingUnderstandingCompare";
+import { CloseBlock } from "@/components/mindmake/CloseBlock";
+import { FilmPlate } from "@/components/mindmake/FilmPlate";
+import { ObjectionChips } from "@/components/mindmake/ObjectionChips";
+import { ProofViewer } from "@/components/mindmake/ProofViewer";
+import { ForkBand } from "@/components/mindmake/ForkBand";
+import { BrainJourney } from "@/components/mindmake/journeys/BrainJourney";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
+import filmTwoPoster from "@/assets/films/film-02-poster.jpg";
+import filmTwoPosterWebp from "@/assets/films/film-02-poster.webp";
+import filmTwoLoop from "@/assets/films/film-02-loop.mp4";
+import filmTwoLoopWebm from "@/assets/films/film-02-loop.webm";
+import filmFourPoster from "@/assets/films/film-04-poster.jpg";
+import filmFourPosterWebp from "@/assets/films/film-04-poster.webp";
+import filmFourLoop from "@/assets/films/film-04-loop.mp4";
+import filmFourLoopWebm from "@/assets/films/film-04-loop.webm";
+import filmFivePoster from "@/assets/films/film-05-poster.jpg";
+import filmFivePosterWebp from "@/assets/films/film-05-poster.webp";
+import filmFiveProof from "@/assets/films/film-05-proof.mp4";
+import filmFiveProofWebm from "@/assets/films/film-05-proof.webm";
 import "@/styles/mindmake.css";
-import "@/styles/mindmake-journey.css";
+import "@/styles/mindmake-instruments.css";
+
+const BRAIN_OBJECTIONS = [
+  {
+    id: "cost",
+    question: "How much does it cost?",
+    answer: "It depends on the result you want, and we agree it privately after the first conversation. There is no retainer and no published price.",
+  },
+  {
+    id: "technical",
+    question: "Do I need to be technical?",
+    answer: "No. That is rather the point. We handle the technical side, and everything the system shows you is in plain English.",
+  },
+  {
+    id: "duration",
+    question: "What happens after the thirty days?",
+    answer: "It keeps working. You own the system, the automations and the record of your standards. We can check in from time to time if that helps, and it runs fine without us.",
+  },
+  {
+    id: "data",
+    question: "Who sees my data?",
+    answer: "Only you. We build it inside your own accounts, and we never publish, share or train anything on your work.",
+  },
+];
+
+const SPEC_CHIPS = [
+  "Ours, two years in the building",
+  "Decades of decision research inside",
+  "Live data from 2,000+ checked sources",
+  "Checks that hold you to your own standards",
+];
+
+const PRINCIPLES = [
+  {
+    title: "We trust the source, not the sales pitch.",
+    body: "What a company publishes about its own product counts for less than what it actually shipped.",
+  },
+  {
+    title: "Two sources agree, or we leave it out.",
+    body: "One report is a rumour. Two that agree is something you can use.",
+  },
+  {
+    title: "It tells you when it cannot know.",
+    body: "If the answer depends on something only you know, it says so rather than guessing.",
+  },
+];
 
 export default function AiBrain() {
   const { briefOpen, openBrief, closeBrief } = useLeadBriefHistory();
 
   return (
-    <MindmakeShell onStart={openBrief} mainClassName="mm-route-page mm-route-brain">
+    <MindmakeShell onStart={openBrief}>
       <SEO
-        title="Build Your AI Brain"
-        description="An AI brain is a working system that holds your taste, judgement, standards, memory and trusted context, and uses them on your real work. Built with you in 30 days."
+        title="Build your AI brain"
+        description="An AI that knows how you work: your standards, your context and the decisions you have already made. Built in thirty days, and yours to keep."
         canonical="/ai-brain"
       />
 
-      <StepJourney>
-        <section className="mm-journey-hero" data-tone="ink" aria-labelledby="brain-title">
-          <h1 id="brain-title">Encode your taste and judgement, amplify your strengths, uncover your blind spots.</h1>
-          <p className="mm-journey-definition">An AI brain is a working system that holds your <strong>taste, judgement, standards, memory and trusted context</strong>, and uses them on your real work.</p>
-          <p className="mm-journey-moment">You handed the AI thing to someone else, and the understanding a leader now needs is slipping away with it. Your taste and standards are still trapped in your head. Over thirty days, you and Krish build the system that holds them.</p>
-          <div className="mm-journey-hero-actions">
-            <button className="mm-button" type="button" onClick={openBrief}>Start here <ArrowRight aria-hidden="true" /></button>
-            <p className="mm-journey-refusals"><span>Not an agency.</span> <span>Not a coach.</span></p>
+      <section className="mm-hero" aria-labelledby="brain-title">
+        <div className="mm-container mm-hero-split">
+          <div>
+            <h1 className="mm-setup" id="brain-title">Your AI should already know how you work.</h1>
+            <p className="mm-claim">In thirty days, yours will.</p>
+            <p className="mm-lede">
+              An AI brain is a working system that holds your standards, your context and the
+              decisions you have already made, then uses them on real work. It starts learning in
+              the first week, and you keep it.
+            </p>
           </div>
-        </section>
-
-        <StepScene
-          index={1}
-          name="Capture"
-          title="Capture"
-          tone="paper"
-          body="We sit inside your real work. Krish's questions, comparisons and graded examples pull out the taste, judgement, standards and trusted context that make you good."
-          note="You start from a working engine, never a blank page."
-          visual={<CaptureVisual />}
-        />
-
-        <StepScene
-          index={2}
-          name="Encode"
-          title="Encode"
-          tone="ink"
-          body="That thinking becomes a working system in CTRL, Mindmake's own product: memory, sources, rules and checks around your live work."
-          note="Not a folder of notes."
-          visual={<EncodeVisual />}
-        />
-
-        <StepScene
-          index={3}
-          name="Amplify"
-          title="Amplify"
-          tone="forest"
-          body="Your strengths arrive early. The system prepares work your way and brings what matters before you ask. It never does the work for you; it makes you faster at yours."
-          note="Getting time back is just the start."
-          visual={<AmplifyVisual />}
-        />
-
-        <StepScene
-          index={4}
-          name="Uncover"
-          title="Uncover"
-          tone="ink"
-          body="It shows you what you are not seeing: the calls you avoid, the patterns you miss, the blind spots nobody tells you about."
-          note="Beside each one, the evidence."
-          visual={<UncoverVisual />}
-        />
-
-        <StepScene
-          index={5}
-          name="Keep"
-          title="Keep"
-          tone="paper"
-          body="The system, the evidence and the reasons stay with you. It keeps improving your decisions after the month ends, and it never needed you to become technical to own it."
-          note={<>It compounds <ScrollMark shape="circle" driver="step">without Krish</ScrollMark>.</>}
-          visual={<KeepVisual />}
-        />
-
-        <CompoundingTimeline
-          tone="forest"
-          title="Day thirty is a beginning."
-          intro="Work starts with the 30-day proof. The best work continues for three months or longer, and it has to earn that."
-          ariaLabel="How the brain compounds after day thirty"
-          states={[
-            { day: 30, standing: "The proof", body: "One part of how you think, captured, encoded and working on your real work. Yours to keep either way." },
-            { day: 60, standing: "Earned", body: "The brain covers more of your week. A second part of your work runs through it. It starts catching what you would miss." },
-            { day: 90, standing: "Earned", body: "Your team works with your standards. The brain briefs you before you ask. It compounds without Krish." },
-          ]}
-          visual={<BrainTimelinePanel />}
-        />
-
-        <WorkingUnderstandingCompare
-          tone="paper"
-          ariaLabel="How the Mindmake brain compares with other kinds of help"
-          intro="A generic AI, a consultancy and ready-made tools can all do useful work. The difference is where the understanding lives when the work ends, and a leader needs to keep it."
-          rows={[
-            "Does useful work today?",
-            "Does it have a memory of you?",
-            "Can it draw out how you judge?",
-            "Where does the understanding live when the work ends?",
-          ]}
-          columns={[
-            {
-              title: "A generic AI chat",
-              explain: "An AI that answers whatever you ask it.",
-              cells: [
-                "Yes.",
-                "No. Each chat starts from nothing.",
-                "No. It waits to be asked.",
-                "Nowhere.",
-              ],
-            },
-            {
-              title: "A consultancy",
-              explain: "People who study your business and advise you.",
-              cells: [
-                "Yes.",
-                "Their notes leave with them.",
-                "Interviews, then a deck.",
-                "In a deck that leaves.",
-              ],
-            },
-            {
-              title: "Ready-made tools",
-              explain: "Software you subscribe to that stores your notes and context.",
-              cells: [
-                "Yes.",
-                "It stores what you put in.",
-                "No. You do the organising.",
-                "Inside the tool.",
-              ],
-            },
-            {
-              title: "The Mindmake brain, with Krish",
-              explain: "A working system built with you, on your real work.",
-              cells: [
-                "Yes.",
-                "It holds your taste, standards, sources and corrections.",
-                "Krish's questions, comparisons and graded examples.",
-                "With you, and it keeps growing.",
-              ],
-              emphasis: true,
-            },
-          ]}
-        />
-      </StepJourney>
-
-      <section className="mm-section mm-proof-offer" aria-labelledby="brain-proof-offer">
-        <div className="mm-container mm-proof-offer-grid">
-          <div><h2 id="brain-proof-offer">Prove one part of your AI brain on live work.</h2></div>
-          <div><p>Over 30 days, Mindmake starts with one useful job, memory or decision. It builds the smallest system that can help, tests it on work you already trust and leaves it in your hands.</p><ul><li>One clear job</li><li>Your examples and rules</li><li>A first version you can use</li><li>Real use before the month ends</li></ul><button className="mm-button" type="button" onClick={openBrief}>Start here <ArrowRight aria-hidden="true" /></button></div>
+          <FilmPlate
+            poster={filmTwoPoster}
+            posterWebp={filmTwoPosterWebp}
+            src={filmTwoLoop}
+            srcWebm={filmTwoLoopWebm}
+            label="A wall of walnut specimen drawers. A brass arm files one cream card while a handwritten note waits under a paperweight."
+            priority
+          />
         </div>
       </section>
+
+      <section className="mm-block" aria-labelledby="aa-title">
+        <div className="mm-container">
+          <h2 id="aa-title">Built around your best work, and the parts you would rather skip.</h2>
+          <div className="mm-aa" style={{ marginTop: 18 }}>
+            <article className="mm-aa-col is-amplify">
+              <h3>More of the work only you can do.</h3>
+              <ul>
+                <li>Your network, made searchable and usable at the moment it matters</li>
+                <li>The calls only you can make, prepared from every angle</li>
+                <li>The taste that makes your work recognisably yours, written down and enforced</li>
+              </ul>
+            </article>
+            <article className="mm-aa-col">
+              <h3>Less of the work you would rather not do.</h3>
+              <ul>
+                <li>Copy drafted in your voice, to your standards, before you arrive</li>
+                <li>The admin between decisions</li>
+                <li>The first pass of everything you currently dread starting</li>
+              </ul>
+            </article>
+          </div>
+          <p className="mm-payoff">
+            You get hours back every week.{" "}
+            <em>Spend them on the work only you can do.</em>
+          </p>
+          <FilmPlate
+            poster={filmFourPoster}
+            posterWebp={filmFourPosterWebp}
+            src={filmFourLoop}
+            srcWebm={filmFourLoopWebm}
+            label="A brass rail carrying cream sheets to a small gate, where a hand lifts the top sheet before the rail resumes."
+            style={{ marginTop: 20, height: "clamp(120px, 18vw, 190px)" }}
+          />
+        </div>
+      </section>
+
+      <section className="mm-block" aria-labelledby="ctrl-title">
+        <div className="mm-container">
+          <h2 id="ctrl-title">See a decision from every side.</h2>
+          <p className="mm-lede" style={{ marginTop: 10, marginBottom: 16 }}>
+            Behind the brain sits CTRL, the decision engine we have spent two years building and
+            use on our own work. It lays out a situation in plain English: the trade-offs, the
+            arguments against, and what would change your mind. No jargon, and nothing to wade
+            through.
+          </p>
+
+          <div className="mm-spec-chips">
+            {SPEC_CHIPS.map((chip) => <span className="mm-spec-chip" key={chip}>{chip}</span>)}
+          </div>
+
+          <ProofViewer />
+
+          <div className="mm-proof-line">
+            <span className="mm-claim">We built this for ourselves. In thirty days, we build yours.</span>
+            <small>CTRL, our own engine. Live today.</small>
+          </div>
+
+          <div className="mm-principles">
+            {PRINCIPLES.map((principle) => (
+              <article className="mm-principle" key={principle.title}>
+                <h3>{principle.title}</h3>
+                <p>{principle.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="mm-block" aria-labelledby="learn-title">
+        <div className="mm-container">
+          <h2 id="learn-title">See what it would do for you.</h2>
+          <p className="mm-lede" style={{ marginTop: 10 }}>
+            Your LinkedIn and two taps, and we will show you what your first week would look like.
+            It takes about twenty seconds.
+          </p>
+          <BrainJourney />
+        </div>
+      </section>
+
+      <section className="mm-block">
+        <div className="mm-container">
+          <ForkBand />
+        </div>
+      </section>
+
+      <section className="mm-block" aria-labelledby="ladder-title">
+        <div className="mm-container">
+          <h2 id="ladder-title">Thirty days builds it. Using it makes it better.</h2>
+          <div className="mm-ladder" style={{ marginTop: 18 }}>
+            <article className="mm-level">
+              <h3>One. You use AI</h3>
+              <p>You ask, it answers, and tomorrow it has forgotten. Useful, and it never adds up.</p>
+            </article>
+            <article className="mm-level">
+              <h3>Two. You direct AI</h3>
+              <p>You hand work over, check it and ship it. Good work, and every task starts from nothing.</p>
+            </article>
+            <article className="mm-level is-hot">
+              <h3>Three. It builds on itself</h3>
+              <p>It remembers, it learns what good looks like to you, and the hours it saves go back into your best work.</p>
+            </article>
+          </div>
+
+          <div className="mm-shapes">
+            <article className="mm-shape is-hot">
+              <h3>The build, thirty days</h3>
+              <p className="mm-shape-line">Built once, connected to where you already work.</p>
+              <p>We learn your standards from real work, switch on the parts that keep learning, and connect it to the tools your week already runs on.</p>
+            </article>
+            <article className="mm-shape">
+              <h3>The habit, optional</h3>
+              <p className="mm-shape-line">It gets better the more you use it.</p>
+              <p>Occasional check-ins to build the habits that get you to level three. No monthly retainer. The system keeps working either way.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section className="mm-block">
+        <div className="mm-container">
+          <ObjectionChips objections={BRAIN_OBJECTIONS} />
+        </div>
+      </section>
+
+      <section className="mm-block" aria-labelledby="film-title">
+        <div className="mm-container">
+          <h2 className="mm-visually-hidden" id="film-title">The idea underneath this</h2>
+          <FilmPlate
+            poster={filmFivePoster}
+            posterWebp={filmFivePosterWebp}
+            src={filmFiveProof}
+            srcWebm={filmFiveProofWebm}
+            label="A directory room of card cabinets. Three cards lie fanned on a desk, and one hand rests beside them mid-decision."
+            style={{ height: "clamp(180px, 30vw, 320px)" }}
+            clickToPlay
+          />
+          <p className="mm-lede" style={{ marginTop: 12, fontSize: 14 }}>
+            Sixty seconds on the idea underneath all of this: machines do the remembering and
+            the searching, and a person still makes the call.
+          </p>
+        </div>
+      </section>
+
+      <CloseBlock
+        claim="You keep everything."
+        body="The system, the automations and the record of your standards. All of it stays with you when we finish."
+        onStart={openBrief}
+      />
 
       <LeadBrief open={briefOpen} onClose={closeBrief} route="brain" />
     </MindmakeShell>

@@ -23,13 +23,13 @@ describe("CookieConsent", () => {
     render(<CookieConsent />);
     fireEvent.click(screen.getByText("Got it"));
     expect(screen.queryByText("Got it")).not.toBeInTheDocument();
-    expect(localStorage.getItem("mindmaker_consent")).toBe("accepted");
+    expect(localStorage.getItem("mindmake_consent")).toBe("accepted");
     expect(document.documentElement).not.toHaveClass("mm-cookie-visible");
     expect(document.documentElement.style.getPropertyValue("--mm-cookie-reserve")).toBe("");
   });
 
   it("does not show banner when consent already stored", () => {
-    localStorage.setItem("mindmaker_consent", "accepted");
+    localStorage.setItem("mindmake_consent", "accepted");
     render(<CookieConsent />);
     expect(screen.queryByText("Got it")).not.toBeInTheDocument();
   });

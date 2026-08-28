@@ -81,7 +81,7 @@ export default function AiGtm() {
         </div>
       </section>
 
-      <section className="mm-block" aria-labelledby="money-title">
+      <section className="mm-block mm-on-raise" aria-labelledby="money-title">
         <div className="mm-container">
           <div className="mm-head-split">
             <h2 id="money-title">Three things AI changes about selling.</h2>
@@ -126,7 +126,7 @@ export default function AiGtm() {
 
       <LiveBoard />
 
-      <section className="mm-block" aria-labelledby="read-title">
+      <section className="mm-block mm-on-raise" aria-labelledby="read-title">
         <div className="mm-container">
           <h2 id="read-title">Try it with your own company.</h2>
           <p className="mm-lede" style={{ marginTop: 10 }}>
@@ -159,7 +159,7 @@ export default function AiGtm() {
         </div>
       </section>
 
-      <section className="mm-block">
+      <section className="mm-block mm-on-raise">
         <div className="mm-container">
           <ObjectionChips objections={GTM_OBJECTIONS} />
         </div>

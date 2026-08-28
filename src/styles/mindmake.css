@@ -16,6 +16,14 @@
   --mm-ink3: #18241f;
   --mm-line: #22322b;
   --mm-hair: #1a2620;
+  /* The second ink ground. Sections alternate between this and --mm-ink so a
+     boundary is a change of surface rather than a line to look for. The step is
+     1.32:1, which is nothing as a hairline and unmistakable across a band. */
+  --mm-ink-raise: #1e2c26;
+  /* The section seam, separate from --mm-hair because that one also draws
+     inside articles and legal pages where a louder rule would shout. At 1.23:1
+     the old seam was below what a laptop shows; this is 1.89:1. */
+  --mm-seam: #30463d;
 
   /* Paper: the method bands only */
   --mm-paper: #f2f1ea;
@@ -63,7 +71,11 @@
   --mm-header-bar: 68px;
   --mm-header-height: calc(var(--mm-header-bar) + var(--mm-safe-top));
   --mm-cookie-reserve: 0px;
-  --mm-section: clamp(56px, 8vh, 104px);
+  /* The one section rhythm. It used to govern only the secondary pages while
+     .mm-block carried its own clamp, so the token that names itself the section
+     rhythm did not set it. Keyed to the width the type is measured against
+     rather than to vh, which made a short viewport quietly change the layout. */
+  --mm-section: clamp(40px, 4.4vw, 72px);
 }
 
 /* Ground-aware surface tokens. Components read these, never the raw palette,
@@ -78,6 +90,24 @@
   --mm-rule: var(--mm-line);
   --mm-hairline: var(--mm-hair);
   --mm-ground-light: rgba(127, 227, 180, .07);
+}
+
+/* The raised ink ground. It redefines the raw palette for its own subtree
+   rather than asking every component to read a surface token, because the
+   instrument components read --mm-line and --mm-mut directly. Two values move:
+   rules, which would otherwise sit at 1.08:1 on the lighter ground, and muted
+   text, which would drop to 4.07:1 and under what small labels need. Cards keep
+   --mm-ink2 and so recess into the band instead of floating on it. */
+.mm-on-raise {
+  --mm-bg: var(--mm-ink-raise);
+  --mm-bg2: var(--mm-ink2);
+  --mm-line: #35473e;
+  --mm-hair: #2b3a33;
+  --mm-mut: #8a9e93;
+  --mm-rule: var(--mm-line);
+  --mm-hairline: var(--mm-hair);
+  --mm-ground-light: rgba(127, 227, 180, .05);
+  background: var(--mm-bg);
 }
 
 .mm-on-paper {

@@ -39,7 +39,7 @@ function ProofLive() {
   const card = board.status === "ready" ? topCard(board.days) : null;
 
   return (
-    <section className="mm-block" aria-labelledby="proof-title">
+    <section className="mm-block mm-on-raise" aria-labelledby="proof-title">
       <div className="mm-container">
         <div className="mm-board-head">
           <h2 id="proof-title">What changed in AI this morning.</h2>
@@ -131,7 +131,7 @@ export default function Index() {
         </div>
       </section>
 
-      <section className="mm-block" aria-labelledby="where-title">
+      <section className="mm-block mm-on-raise" aria-labelledby="where-title">
         <div className="mm-container">
           <h2 id="where-title">Where does everything you teach AI end up?</h2>
           <p className="mm-lede" style={{ marginTop: 12 }}>

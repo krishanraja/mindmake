@@ -18,7 +18,8 @@
     "qa:alive": "node scripts/qa/aliveness-check.mjs",
     "preview": "vite preview",
     "generate-favicons": "node scripts/generate-favicons.mjs",
-    "qa:images": "node scripts/qa/image-density-check.mjs"
+    "qa:images": "node scripts/qa/image-density-check.mjs",
+    "qa:rhythm": "node scripts/qa/section-rhythm-check.mjs"
   },
   "dependencies": {
     "@fontsource-variable/archivo": "^5.3.0",

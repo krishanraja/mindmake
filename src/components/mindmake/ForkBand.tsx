@@ -42,14 +42,21 @@ export function ForkBand() {
   const [picked, setPicked] = useState<string | null>(null);
   const choice = FORKS.find((fork) => fork.id === picked);
 
+  /* The paper is the section, not a card sitting on it, so the head bar and the
+     paper both run to the viewport edge. Keeping the head a sibling of the
+     container rather than a child gets that bleed without a 50vw trick, which
+     overshoots by half a scrollbar and scrolls the page sideways. */
   return (
-    <div className="mm-band mm-on-paper">
+    <div className="mm-band">
       <div className="mm-band-head">
-        <h2>
-          Three ways to do this. <span className="mm-claim">They end in different places.</span>
-        </h2>
+        <div className="mm-container">
+          <h2>
+            Three ways to do this. <span className="mm-claim">They end in different places.</span>
+          </h2>
+        </div>
       </div>
 
+      <div className="mm-container mm-band-body">
       <p className="mm-band-q">
         <b>Q1</b> Everything you teach AI today. Where does it end up?
       </p>
@@ -89,6 +96,7 @@ export function ForkBand() {
           </>
         )}
       </p>
+      </div>
     </div>
   );
 }

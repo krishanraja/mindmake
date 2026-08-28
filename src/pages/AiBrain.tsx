@@ -101,9 +101,19 @@ export default function AiBrain() {
         </div>
       </section>
 
-      <section className="mm-block" aria-labelledby="aa-title">
+      <section className="mm-block mm-on-raise" aria-labelledby="aa-title">
         <div className="mm-container">
-          <h2 id="aa-title">Built around your best work, and the parts you would rather skip.</h2>
+          <div className="mm-head-split">
+            <h2 id="aa-title">Built around your best work, and the parts you would rather skip.</h2>
+            <FilmPlate
+              className="mm-impact-film"
+              poster={filmFourPoster}
+              posterWebp={filmFourPosterWebp}
+              src={filmFourLoop}
+              srcWebm={filmFourLoopWebm}
+              label="A brass rail carrying cream sheets to a small gate, where a hand lifts the top sheet before the rail resumes."
+            />
+          </div>
           <div className="mm-aa" style={{ marginTop: 18 }}>
             <article className="mm-aa-col is-amplify">
               <h3>More of the work only you can do.</h3>
@@ -126,33 +136,30 @@ export default function AiBrain() {
             You get hours back every week.{" "}
             <em>Spend them on the work only you can do.</em>
           </p>
-          <FilmPlate
-            poster={filmFourPoster}
-            posterWebp={filmFourPosterWebp}
-            src={filmFourLoop}
-            srcWebm={filmFourLoopWebm}
-            label="A brass rail carrying cream sheets to a small gate, where a hand lifts the top sheet before the rail resumes."
-            style={{ marginTop: 20, height: "clamp(120px, 18vw, 190px)" }}
-          />
         </div>
       </section>
 
       <section className="mm-block" aria-labelledby="ctrl-title">
         <div className="mm-container">
           <h2 id="ctrl-title">See a decision from every side.</h2>
-          <p className="mm-lede" style={{ marginTop: 10, marginBottom: 16 }}>
-            Behind the brain sits CTRL, the decision engine we have spent two years building and
-            use on our own work. It lays out a situation in plain English: the trade-offs, the
-            arguments against, and what would change your mind. No jargon, and nothing to wade
-            through.
-          </p>
 
           {/* The captures are product screenshots with real interface text in
               them. At full container width they rendered 1238px from a 1404px
               source, which is soft on any modern screen. Half the width is
-              twice the density and half the height. */}
+              twice the density and half the height.
+
+              Everything else in the section reads down the left column beside
+              them. The lede and the three principles used to be full width rows
+              above and below, which left about 260px of empty column next to a
+              tall viewer and made the section the longest on the page. */}
           <div className="mm-ctrl-split">
             <div className="mm-ctrl-copy">
+              <p className="mm-lede">
+                Behind the brain sits CTRL, the decision engine we have spent two years building
+                and use on our own work. It lays out a situation in plain English: the trade-offs,
+                the arguments against, and what would change your mind. No jargon, and nothing to
+                wade through.
+              </p>
               <div className="mm-spec-chips">
                 {SPEC_CHIPS.map((chip) => <span className="mm-spec-chip" key={chip}>{chip}</span>)}
               </div>
@@ -160,22 +167,21 @@ export default function AiBrain() {
                 <span className="mm-claim">We built this for ourselves. In thirty days, we build yours.</span>
                 <small>CTRL, our own engine. Live today.</small>
               </div>
+              <div className="mm-principles">
+                {PRINCIPLES.map((principle) => (
+                  <article className="mm-principle" key={principle.title}>
+                    <h3>{principle.title}</h3>
+                    <p>{principle.body}</p>
+                  </article>
+                ))}
+              </div>
             </div>
             <ProofViewer />
-          </div>
-
-          <div className="mm-principles">
-            {PRINCIPLES.map((principle) => (
-              <article className="mm-principle" key={principle.title}>
-                <h3>{principle.title}</h3>
-                <p>{principle.body}</p>
-              </article>
-            ))}
           </div>
         </div>
       </section>
 
-      <section className="mm-block" aria-labelledby="learn-title">
+      <section className="mm-block mm-on-raise" aria-labelledby="learn-title">
         <div className="mm-container">
           <h2 id="learn-title">See what it would do for you.</h2>
           <p className="mm-lede" style={{ marginTop: 10 }}>
@@ -186,10 +192,8 @@ export default function AiBrain() {
         </div>
       </section>
 
-      <section className="mm-block">
-        <div className="mm-container">
-          <ForkBand />
-        </div>
+      <section className="mm-block mm-on-paper">
+        <ForkBand />
       </section>
 
       <section className="mm-block" aria-labelledby="ladder-title">
@@ -225,25 +229,29 @@ export default function AiBrain() {
         </div>
       </section>
 
-      <section className="mm-block">
+      <section className="mm-block mm-on-raise">
         <div className="mm-container">
           <ObjectionChips objections={BRAIN_OBJECTIONS} />
         </div>
       </section>
 
-      <section className="mm-block" aria-labelledby="film-title">
+      {/* A full-bleed film band, and one of the two breaks in the ground rhythm.
+          It carries no ground and no seam of its own: the film across the whole
+          width is the separator, and losing the block padding costs the page a
+          hundred pixels it was spending on nothing. */}
+      <section className="mm-film-band" aria-labelledby="film-title">
+        <h2 className="mm-visually-hidden" id="film-title">The idea underneath this</h2>
+        <FilmPlate
+          className="mm-film-band-plate"
+          poster={filmFivePoster}
+          posterWebp={filmFivePosterWebp}
+          src={filmFiveProof}
+          srcWebm={filmFiveProofWebm}
+          label="A directory room of card cabinets. Three cards lie fanned on a desk, and one hand rests beside them mid-decision."
+          clickToPlay
+        />
         <div className="mm-container">
-          <h2 className="mm-visually-hidden" id="film-title">The idea underneath this</h2>
-          <FilmPlate
-            poster={filmFivePoster}
-            posterWebp={filmFivePosterWebp}
-            src={filmFiveProof}
-            srcWebm={filmFiveProofWebm}
-            label="A directory room of card cabinets. Three cards lie fanned on a desk, and one hand rests beside them mid-decision."
-            style={{ height: "clamp(180px, 30vw, 320px)" }}
-            clickToPlay
-          />
-          <p className="mm-lede" style={{ marginTop: 12, fontSize: 14 }}>
+          <p className="mm-film-band-note">
             Sixty seconds on the idea underneath all of this: machines do the remembering and
             the searching, and a person still makes the call.
           </p>

@@ -6,13 +6,33 @@ export const CookieConsent = () => {
   const [visible, setVisible] = useState(false);
   const noticeRef = useRef<HTMLDivElement>(null);
 
+  /**
+   * Held back until the visitor leaves the first screen.
+   *
+   * As a corner card pinned to the bottom right it landed on top of the
+   * homepage's two doors, which are the page's only primary action and happen
+   * to sit at the foot of the first viewport. Nothing here reserves layout, so
+   * the only way it cannot cover something is to appear once the reader has
+   * moved past it. Anyone who never scrolls never sees a notice they also never
+   * needed, and the moment they do scroll it arrives.
+   */
   useEffect(() => {
+    let asked = false;
     try {
-      if (!localStorage.getItem(CONSENT_KEY)) setVisible(true);
+      asked = localStorage.getItem(CONSENT_KEY) !== null;
     } catch {
       // A blocked storage API should not hide the privacy notice.
-      setVisible(true);
     }
+    if (asked) return;
+
+    const show = () => {
+      if (window.scrollY < window.innerHeight * 0.6) return;
+      setVisible(true);
+      window.removeEventListener("scroll", show);
+    };
+    show();
+    window.addEventListener("scroll", show, { passive: true });
+    return () => window.removeEventListener("scroll", show);
   }, []);
 
   useLayoutEffect(() => {

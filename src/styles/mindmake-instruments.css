@@ -385,7 +385,7 @@
 
 /* ---------- The close block ---------- */
 
-.mm-close { text-align: center; padding-block: clamp(44px, 8vh, 84px); border-top: 1px solid var(--mm-hair); }
+.mm-close { text-align: center; padding-block: calc(var(--mm-section) * 1.15); border-top: 1px solid var(--mm-seam); }
 .mm-close .mm-claim { font-size: clamp(26px, 4.4vw, 44px); }
 .mm-close > p { max-width: 48ch; margin: 14px auto 0; color: var(--mm-tx2); }
 .mm-close .mm-button { margin-top: 22px; }
@@ -662,14 +662,19 @@
 
 /* ---------- The paper method band ---------- */
 
-.mm-band {
-  padding: clamp(26px, 4vw, 40px) clamp(20px, 4vw, 40px);
-  border-radius: 3px;
-}
+/* The band is the whole section now rather than a rounded card inside it, so
+   its padding comes from .mm-block and the dark head runs edge to edge. */
 .mm-band-head {
   background: #0d1310;
-  margin: clamp(-40px, -4vw, -26px) clamp(-40px, -4vw, -20px) 22px;
-  padding: 22px clamp(20px, 4vw, 40px);
+  margin-bottom: 26px;
+  padding-block: 22px;
+}
+/* Flush with the top of the paper: a dark bar, then the band. The section's own
+   top padding moves below the bar so the paper still reads as a full band
+   rather than a strip the bar has squeezed. */
+.mm-block > .mm-band > .mm-band-head {
+  margin-top: calc(var(--mm-section) * -1);
+  margin-bottom: var(--mm-section);
 }
 .mm-band-head .mm-label { color: var(--mm-mint); margin-bottom: 9px; }
 .mm-band-head h2 { max-width: 26ch; color: #f5faf8; font-size: clamp(19px, 2.8vw, 28px); }
@@ -799,10 +804,16 @@
    the same file at half the CSS width is twice the pixel density. */
 .mm-ctrl-split { display: grid; gap: 26px; margin-top: 20px; }
 @media (min-width: 900px) {
-  .mm-ctrl-split { grid-template-columns: minmax(0, .82fr) minmax(0, 1fr); gap: 44px; align-items: start; }
+  /* The left column carries the lede, the chips, the claim and the three
+     principles now, so it takes a near-equal share. The viewer lands near
+     600px, which is still better than 2x on a 1404px capture. */
+  .mm-ctrl-split { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 44px; align-items: start; }
 }
 .mm-ctrl-copy { display: grid; gap: 22px; align-content: start; }
 .mm-ctrl-copy .mm-proof-line { margin-top: 0; }
+.mm-ctrl-copy .mm-lede { margin-top: 0; }
+/* One column inside the copy column, whatever the three-across rule says. */
+.mm-ctrl-copy .mm-principles { grid-template-columns: 1fr; margin-top: 0; }
 
 .mm-proof-viewer { border: 1px solid var(--mm-line); border-radius: 3px; background: var(--mm-ink2); overflow: hidden; }
 .mm-proof-tabs {
@@ -814,7 +825,9 @@
   border-bottom: 1px solid var(--mm-line);
 }
 .mm-proof-tab {
-  flex: 1 1 160px;
+  /* 160px put four tabs over the width of the narrowed viewer column and
+     wrapped the last one onto a row of its own. */
+  flex: 1 1 118px;
   min-height: 44px;
   border: 0;
   background: var(--mm-ink3);
@@ -912,7 +925,10 @@
 
 /* ---------- Section rhythm ---------- */
 
-.mm-block { padding-block: clamp(40px, 7vh, 80px); border-top: 1px solid var(--mm-hair); }
+.mm-block { padding-block: var(--mm-section); border-top: 1px solid var(--mm-seam); }
+/* A ground change is its own separator. Drawing a seam as well makes the join
+   read as two boundaries in a row. */
+.mm-on-raise, .mm-on-paper, .mm-on-raise + .mm-block, .mm-on-paper + .mm-block { border-top-color: transparent; }
 /* 20ch was about 484px at the display size, inside a 1240px container: four
    line headings with half the row empty. A measure wide enough to read, not so
    wide it loses the eye. */
@@ -920,6 +936,26 @@
 .mm-block-head { margin-bottom: 18px; }
 .mm-block-head .mm-lede { margin-top: 12px; }
 .mm-block .mm-band { margin-block: 0; }
+
+/* A full-bleed film band. The film runs edge to edge and separates the two
+   sections around it without a ground or a seam of its own. Capped at 1560px
+   because the master is 2048px wide and 1560 is the last width that still holds
+   the 1.3x the density gate asks of film. Every laptop is under it, so the band
+   is genuinely edge to edge there and only insets on a very wide screen. */
+.mm-film-band > .mm-film-band-plate {
+  max-width: 1560px;
+  margin-inline: auto;
+  height: clamp(200px, 26vw, 340px);
+  border-radius: 0;
+}
+.mm-film-band-note {
+  max-width: 62ch;
+  margin-top: 14px;
+  padding-bottom: var(--mm-section);
+  color: var(--mm-tx2);
+  font-size: 14px;
+  text-wrap: pretty;
+}
 
 /* ---------- Proof: outcomes, references, attendance ---------- */
 

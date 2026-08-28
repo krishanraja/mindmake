@@ -6,9 +6,10 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { CookieConsent } from "@/components/CookieConsent";
 import { PUBLICATION_URL } from "@/lib/publicLinks";
 import Index from "./pages/Index";
+import brandIcon from "@/assets/mindmake-mark.png";
+import brandWordmark from "@/assets/mindmake-wordmark-ink.png";
 
 const CaseStudies = lazy(() => import("./pages/CaseStudies"));
-const ProofLab = lazy(() => import("./components/lab/ProofLab").then((m) => ({ default: m.ProofLab })));
 const NewAgeLeadership = lazy(() => import("./pages/NewAgeLeadership"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Privacy = lazy(() => import("./pages/Privacy"));
@@ -74,7 +75,12 @@ export function ScrollToLocation() {
 export function PageLoading() {
   return (
     <div className="mm-site mm-page-loading" role="status" aria-live="polite">
-      <span className="mm-brand">MIND<span>/</span>MAKE</span>
+      {/* Not MindmakeBrand: this is the Suspense fallback and must not be a
+          link to the page it is currently loading. */}
+      <span className="mm-brand">
+        <img className="mm-brand-icon" src={brandIcon} width={520} height={470} alt="" aria-hidden="true" />
+        <img className="mm-brand-wordmark" src={brandWordmark} width={890} height={165} alt="Mindmake" />
+      </span>
       <p><span aria-hidden="true" /> Loading the page.</p>
     </div>
   );
@@ -116,13 +122,6 @@ function AppRoutes() {
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/alumni" element={<Alumni />} />
-
-            {/* The proof lab: three mechanics for the thirty-three voices and
-                two founder treatments, on the real content, so the choice is
-                made by looking. Never linked, never in the sitemap, deleted
-                once decided. Needs a vercel rewrite, like /alumni, because
-                nothing here is prerendered and the site has no SPA fallback. */}
-            <Route path="/lab/proof" element={<ProofLab />} />
 
             <Route path="/sprint" element={<ToStart />} />
             <Route path="/teardown" element={<ToStart />} />

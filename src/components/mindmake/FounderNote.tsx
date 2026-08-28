@@ -22,7 +22,7 @@ interface FounderNoteProps {
   treatment?: FounderTreatment;
 }
 
-export function FounderNote({ treatment = "stage" }: FounderNoteProps) {
+export function FounderNote({ treatment = "standing" }: FounderNoteProps) {
   return (
     <section className={`mm-founder is-${treatment}`} aria-labelledby="founder-title">
       <div className="mm-container">

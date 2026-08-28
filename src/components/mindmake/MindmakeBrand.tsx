@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import wordmark from "@/assets/mindmake-wordmark-ink.png";
-import icon from "@/assets/mindmaker-icon.png";
+import icon from "@/assets/mindmake-mark.png";
 
 /**
  * The real logo, back in the corner.

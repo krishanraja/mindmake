@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { attendeeBrands, careerReferences, clientStories } from "@/data/rebuildProof";
+import { ProofDrum } from "@/components/mindmake/ProofDrum";
+import { attendeeBrands, clientStories } from "@/data/rebuildProof";
 
 /**
  * The proof, kept in its three separate families.
@@ -13,11 +14,9 @@ import { attendeeBrands, careerReferences, clientStories } from "@/data/rebuildP
  */
 
 const SHOWN_STORIES = 3;
-const SHOWN_REFERENCES = 3;
 
 export function ProofStrip() {
   const stories = clientStories.slice(0, SHOWN_STORIES);
-  const references = careerReferences.slice(0, SHOWN_REFERENCES);
 
   return (
     <section className="mm-block" aria-labelledby="proof-strip-title">
@@ -41,20 +40,10 @@ export function ProofStrip() {
           </Link>
         </p>
 
-        <div className="mm-references">
-          <h3>People who have worked with our founder</h3>
-          <div className="mm-reference-grid">
-            {references.map((reference) => (
-              <figure className="mm-reference" key={reference.name}>
-                <blockquote>{reference.quote}</blockquote>
-                <figcaption>
-                  <strong>{reference.name}</strong>
-                  <span>{reference.role}</span>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-        </div>
+        {/* Three of nine references in a static grid became all thirty-three
+            voices on a drum you can spin. The families stay labelled on the
+            cards, so a session attendee still cannot be read as a client. */}
+        <ProofDrum />
 
         <div className="mm-attendance">
           <h3>People from these organisations have joined our sessions</h3>

@@ -4,6 +4,7 @@ import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { CloseBlock } from "@/components/mindmake/CloseBlock";
 import { FilmPlate } from "@/components/mindmake/FilmPlate";
+import { FounderNote } from "@/components/mindmake/FounderNote";
 import { Marquee } from "@/components/mindmake/Marquee";
 import { ObjectionChips } from "@/components/mindmake/ObjectionChips";
 import { ProofStrip } from "@/components/mindmake/ProofStrip";
@@ -168,6 +169,9 @@ export default function Index() {
       <ProofStrip />
 
       <ProofLive />
+
+      {/* Proof, then who you would be working with, then the ask. */}
+      <FounderNote treatment="standing" />
 
       <CloseBlock
         claim="Start with one real decision."

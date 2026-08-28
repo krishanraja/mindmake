@@ -105,6 +105,10 @@ describe("public route resilience", () => {
     renderWithAppProviders(<PageLoading />);
 
     expect(screen.getByRole("status")).toHaveTextContent("Loading the page.");
-    expect(screen.getByText(/MIND/)).toBeInTheDocument();
+    /* The wordmark is the real logo now rather than styled type, so the brand
+       is an image and the alt text is what carries the name. The mark beside it
+       is decorative and must stay out of the accessibility tree. */
+    expect(screen.getByAltText("Mindmake")).toBeInTheDocument();
+    expect(screen.getAllByRole("img")).toHaveLength(1);
   });
 });

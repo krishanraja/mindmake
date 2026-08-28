@@ -49,7 +49,7 @@ const PUBLIC_SURFACES = [
   "src/components/mindmake/MindmakeShell.tsx",
   "src/components/mindmake/ObjectionChips.tsx",
   "src/components/mindmake/FounderNote.tsx",
-  "src/components/mindmake/ProofRail.tsx",
+  "src/components/mindmake/ProofDrum.tsx",
   "src/components/mindmake/companyRead.ts",
   "src/components/mindmake/leadDelivery.ts",
   "src/components/mindmake/privateBriefHtml.ts",
@@ -116,6 +116,7 @@ describe("the Krish gate", () => {
   const NAMED_SURFACES: Record<string, string> = {
     "src/data/testimonials.ts": "thirty-three verbatim quotes, several of which name him",
     "src/components/mindmake/FounderNote.tsx": "the founder section: his bio, in his own voice",
+    "src/components/mindmake/ProofDrum.tsx": "the framing of the proof: who these people worked with",
   };
 
   it("keeps the operator's name out of the practice's own voice", () => {
@@ -134,7 +135,7 @@ describe("the Krish gate", () => {
         .toBe(`${surface} exists: true`);
       expect(NAMED_SURFACES[surface].length > 20).toBe(true);
     }
-    expect(Object.keys(NAMED_SURFACES)).toHaveLength(2);
+    expect(Object.keys(NAMED_SURFACES)).toHaveLength(3);
   });
 
   it("keeps the practice speaking as we, even where he is named", () => {

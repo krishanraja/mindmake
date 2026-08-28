@@ -1228,3 +1228,75 @@
   .mm-founder.is-portrait .mm-founder-grid { grid-template-columns: 260px minmax(0, 1fr); gap: 40px; align-items: start; }
   .mm-founder.is-standing .mm-founder-grid { grid-template-columns: 330px minmax(0, 1fr); gap: 44px; align-items: center; }
 }
+
+/* ---------- The proof drum ---------- */
+
+.mm-drum-block { margin-top: 22px; }
+.mm-drum-head { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: baseline; justify-content: space-between; }
+.mm-drum-head h3 { font-size: clamp(17px, 1.9vw, 21px); letter-spacing: -.015em; }
+.mm-drum-hint {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  color: var(--mm-mut);
+  font-family: var(--mm-mono);
+  font-size: 10.5px;
+}
+.mm-drum-arrows { display: inline-flex; gap: 4px; }
+.mm-drum-block .mm-drum-arrows button {
+  min-width: 34px;
+  min-height: 30px;
+  border: 1px solid var(--mm-line);
+  border-radius: 2px;
+  background: var(--mm-ink2);
+  color: var(--mm-tx2);
+  font-family: var(--mm-mono);
+  font-size: 12px;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: border-color .12s ease, color .12s ease;
+}
+.mm-drum-block .mm-drum-arrows button:hover { border-color: var(--mm-mint-dim); color: var(--mm-mint); }
+
+/* The frame clips the drum and fades both edges, so a card leaving the view
+   goes rather than being cut. grab/grabbing is the whole affordance: this is
+   a thing you take hold of. */
+.mm-drum {
+  margin-top: 14px;
+  overflow: hidden;
+  cursor: grab;
+  /* The browser must not claim the horizontal gesture, or a drag on a phone
+     scrolls the page sideways instead of turning the drum. */
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
+}
+.mm-drum.is-held { cursor: grabbing; }
+.mm-drum:focus-visible { outline: 2px solid var(--mm-focus); outline-offset: 3px; }
+.mm-drum-track { display: flex; align-items: flex-start; gap: 14px; width: max-content; will-change: transform; }
+.mm-drum-track > .mm-voice { width: 296px; flex: 0 0 296px; }
+
+/* The card being read holds full contrast; the ones off the edge recede. The
+   falloff comes from the drum's own index, so it is right mid-throw too. */
+.mm-drum-track > .mm-voice { transition: opacity .22s ease, border-color .16s ease; }
+.mm-drum-track > .mm-voice.is-dim { opacity: .5; }
+.mm-drum-track > .mm-voice.is-centre { border-color: var(--mm-mint-dim); }
+.mm-drum.is-held .mm-drum-track > .mm-voice { transition: none; }
+
+.mm-drum-count {
+  max-width: 68ch;
+  margin-top: 12px;
+  color: var(--mm-mut);
+  font-family: var(--mm-mono);
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* No drift, no throw, no spring. The drum becomes a scroller the reader
+     drives, and every card is still reachable by drag, arrow or tab. */
+  .mm-drum { overflow-x: auto; scroll-snap-type: x mandatory; }
+  .mm-drum-track > .mm-voice { scroll-snap-align: start; opacity: 1 !important; transition: none; }
+}

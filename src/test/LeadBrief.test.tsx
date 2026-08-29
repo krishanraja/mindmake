@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { useState } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -489,5 +491,89 @@ describe("Mindmake private brief journey", () => {
     expect(revokeObjectURL).not.toHaveBeenCalled();
     act(() => vi.advanceTimersByTime(1));
     expect(revokeObjectURL).toHaveBeenCalledWith("blob:mindmake-brief");
+  });
+});
+
+/**
+ * The dialog has a shape, and the stylesheet is where it lives.
+ *
+ * On 28 August 2026 the strip commit rewrote `mindmake.css` and took the whole
+ * dialog layer with it: the backdrop, the panel geometry, the step padding, the
+ * grids, the consent row, the success block and every phone rule. Nothing
+ * objected. The file that stages the dialog's colours was untouched and still
+ * correct, so it kept its palette while losing its shape, and it rendered
+ * full-bleed and unpadded on the live site on the one surface every lead
+ * passes through.
+ *
+ * Every test above this one passed throughout. They render markup and read it
+ * back, and a stylesheet is not markup: none of them could see it, and neither
+ * could a browser gate, because they all measure a page at rest and a dialog is
+ * not on a page at rest. So this asserts the rules exist at all, and
+ * `scripts/qa/dialog-shape-check.mjs` opens the real thing and reads its box.
+ */
+describe("the dialog's structure", () => {
+  const css = readFileSync(resolve(__dirname, "../styles/mindmake-brief.css"), "utf8");
+
+  it("styles every part of itself the component renders", () => {
+    /* The list is taken from the class names in LeadBrief.tsx. A part the
+       component renders and the stylesheet has never heard of is exactly the
+       failure this is here for. */
+    for (const part of [
+      ".mm-dialog-open",
+      ".mm-brief-backdrop",
+      ".mm-brief-panel",
+      ".mm-brief-top",
+      ".mm-brief-path",
+      ".mm-brief-step",
+      ".mm-step-back",
+      ".mm-text-button",
+      ".mm-form-error",
+      ".mm-honesty-note",
+      ".mm-reading",
+      ".mm-spinner",
+      ".mm-company-read",
+      ".mm-choice-grid",
+      ".mm-capacity-grid",
+      ".mm-value-preview",
+      ".mm-brief-result-grid",
+      ".mm-consent",
+      ".mm-success",
+      ".mm-success-mark",
+      ".mm-success-actions",
+    ]) {
+      expect(css, part).toContain(`${part} `);
+    }
+  });
+
+  it("makes the panel a panel rather than the page", () => {
+    const panel = css.slice(css.indexOf(".mm-brief-panel {"));
+    const block = panel.slice(0, panel.indexOf("}"));
+    expect(block).toContain("width: min(780px, 100%)");
+    expect(block).toContain("overflow-y: auto");
+    expect(block).toContain("overscroll-behavior: contain");
+    const backdrop = css.slice(css.indexOf(".mm-brief-backdrop {"));
+    expect(backdrop.slice(0, backdrop.indexOf("}"))).toContain("position: fixed");
+  });
+
+  it("reads the measurements the component takes", () => {
+    /* The dialog measures the visual viewport and the software keyboard and
+       writes five custom properties onto the backdrop. For a day nothing read
+       any of them, so an open keyboard on a phone pushed the field being typed
+       into under the fold. */
+    for (const property of [
+      "--mm-brief-viewport-height",
+      "--mm-brief-viewport-width",
+      "--mm-brief-viewport-top",
+      "--mm-brief-viewport-left",
+      "--mm-brief-keyboard-inset",
+    ]) {
+      expect(css, property).toContain(property);
+    }
+  });
+
+  it("gives a phone the screen rather than a card floating on it", () => {
+    const phone = css.slice(css.indexOf("@media (max-width: 560px)"));
+    expect(phone).toContain("grid-template-columns: 1fr");
+    expect(phone).toContain("var(--mm-safe-bottom)");
   });
 });

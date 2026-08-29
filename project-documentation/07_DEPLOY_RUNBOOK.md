@@ -13,7 +13,7 @@ tables are RLS-on with no policies, which means service role only.
 | Function | Version | verify_jwt | Called by |
 |---|---|---|---|
 | `get-ai-news` | v68 | false | The browser, for the board and the homepage card |
-| `mindmake-personal-read` | v19 | false | The browser, from `/ai-brain` |
+| `mindmake-personal-read` | v20 | false | The browser, from `/ai-brain`, and every dead end on the site |
 | `send-follow-ups` | v2 | false | pg_cron, daily at 09:20 UTC |
 | `aa-price-snapshot` | v1 | false | pg_cron, daily at 11:00 UTC |
 | `submit-mindmake-brief` | v14 | false | Still `main`'s body. The repository's day-14 enqueue is held back on purpose |
@@ -168,3 +168,40 @@ owed the follow-up, just not from a site that has reverted.
   names rather than their file timestamps, which is how this project has always
   applied them. `supabase db push` is not the deploy path here; the Management
   API is.
+
+## Release, 29 August 2026: the handoff
+
+Two changes ship together. The order matters for the same reason it did on
+28 August: the browser calls the function directly, so the function has to
+understand the new action before a build that sends it is live, and the
+database has to accept the new column before the function writes it.
+
+1. **The migration first.** `20260829120000_personal_read_handoff.sql` adds
+   `handoff_reason` to `public.mindmake_personal_reads`, relaxes `q1` and `q2`
+   from required-always to required-together, and indexes the handoff rows the
+   operator-notice cap counts. It adds no policy and collects no new personal
+   data. Applied through the Management API, as every migration on this project
+   is: `supabase db push` is not the deploy path here.
+
+2. **Then the merge and the promotion.** Wait for Vercel to finish before the
+   next step, because a build that offers a person while the function still
+   rejects `action: "handoff"` would put a dead end at the end of a dead end.
+
+3. **Then the function**, from merged `main`, with its full **sixteen-file**
+   import closure: `mindmake-personal-read/index.ts` and `core.ts`, plus
+   `_shared/http/resend.ts`, `_shared/logger.ts`, `_shared/retry.ts`,
+   `_shared/timeout.ts`, `_shared/security/hmac.ts` and the eight files under
+   `_shared/enrich/`. Verify the deployed body carries `parseHandoff`,
+   `renderHandoffNotice` and `HANDOFF_NOTICE_WINDOW_MS`, then prove one
+   synthetic handoff from `https://mindmake.co` and delete its row.
+
+Rolling back the promotion means rolling this function back too, for the same
+reason as the follow-up queue: an offer of a person that no live build makes any
+more. The row is harmless either way, so nothing needs deleting.
+
+### The dialog's shape
+
+The same release repairs the lead dialog, whose entire structural CSS was
+deleted by the strip commit of 28 August and shipped. It is a stylesheet-only
+change with no backend or configuration to it, so it rides the promotion in step
+2 and needs nothing of its own. `06_CURRENT_STATE.md` records what happened.

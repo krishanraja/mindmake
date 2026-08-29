@@ -59,7 +59,7 @@ Supabase project `bkyuxvschuwngtcdhsyg`.
 
 Last measured 29 August 2026, against the built output.
 
-- Tests: **330 across 22 files**, all passing. The thirty-five added on 29 August
+- Tests: **334 across 22 files**, all passing. The thirty-five added on 29 August
   hold the nine dead ends: that each one offers a person, that the offer posts
   the right reason, that it asks for nothing the page already holds, that it
   hands over an address rather than a spinner when even it fails, and that the
@@ -79,6 +79,13 @@ Last measured 29 August 2026, against the built output.
   pinned climb: it holds the screen for 68vh on a laptop and is switched off
   below 860px, where the three steps simply stack. That is the trade a pinned
   section makes, and it was taken deliberately.
+- Browser gates, run against the built output at 1440px and 390px. Two of them
+  were added on 29 August because every gate before them measured a page at
+  rest, and neither the lead dialog nor a failure state is on a page at rest:
+  `scripts/qa/dialog-shape-check.mjs` opens the dialog and reads its box, and
+  `scripts/qa/handoff-check.mjs` drives two dead ends for real and reads the
+  offer's contrast and focus ring on both grounds. The defect that earned them
+  is recorded below.
 - Browser gates, run against the built output at 1440px and 390px:
   - **Aliveness** (`npm run qa:alive`): no viewport-height of any page is still.
     It photographs three frames 900ms apart and reads two statistics: the mean
@@ -155,3 +162,35 @@ or in the project's own history, and they are listed so nobody has to guess.
 7. **Physical device checks**: iOS Safari, Android Chrome, VoiceOver and TalkBack remain a post-launch checklist; emulation evidence was accepted for launch.
 8. **CTRL old host**: repoint `ctrl.themindmaker.ai` to `https://ctrl.mindmake.co` after one confirmed authenticated CTRL login on the new host.
 9. The `themindmaker.ai` Resend domain still shows a failed verification; legacy senders on that domain stay unreliable until its DNS is repaired or the domain is retired from Resend.
+
+
+## Repaired on 29 August 2026: the lead dialog had no shape
+
+The strip commit of 28 August rewrote `mindmake.css` as tokens, base, chrome and
+the secondary pages. The lead dialog's entire structural layer went with the old
+site: the backdrop, the panel geometry, the sticky header, the step padding, the
+choice and result grids, the consent row, the success block and every phone
+rule. `mindmake-brief.css` was untouched, and it stages the dialog's colours, so
+the dialog kept its palette while losing its shape and rendered full-bleed and
+unpadded on the live site for a day, on the one surface every lead passes
+through.
+
+Nothing objected, and nothing could have. Component tests render markup and read
+it back; a stylesheet is not markup. Every browser gate measures a page at rest;
+a dialog is not on a page at rest. The five custom properties the component
+writes for the visual viewport and the software keyboard went unread the whole
+time, so an open keyboard on a phone pushed the field being typed into under the
+fold.
+
+The structure was rewritten in the current token set rather than restored: the
+deleted rules named `--mm-line-dark`, `--mm-paper-bright`, `--mm-muted-light`
+and `--mm-emerald-deep`, none of which survived the rebuild, so a literal
+restore would have shipped a stylesheet of failed `var()` calls. It now lives in
+`mindmake-brief.css`, the file `LeadBrief.tsx` imports itself, above the tone arc
+it always staged. The one leftover found while measuring: the ink tone's header
+was `rgba(13, 25, 41)`, the retired portfolio navy, which put a blue header on a
+green-black panel.
+
+Held by `src/test/LeadBrief.test.tsx`, which asserts every part the component
+renders has a rule, and by `scripts/qa/dialog-shape-check.mjs`, which opens the
+real dialog at 1440 and 390 and reads its box.

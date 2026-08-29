@@ -118,3 +118,30 @@ Every public change runs all of it.
 6. The three-second gate: read every headline with its serif payoff, standalone. Then the banned-word and antithesis scans.
 7. The board honesty gate: the timestamp renders from the cache date, staleness is labelled past 26 hours, and a failed fetch collapses the section cleanly.
 8. Reduced motion: posters, stopped bands, final counter values, and every control still operable.
+9. The interaction gate: open the lead dialog and drive one dead end to the offer
+   of a person, at 1440 and 390. Every gate above this one measures a page at
+   rest, and neither the dialog nor a failure state is on a page at rest: on
+   28 August 2026 the whole dialog layout was deleted and shipped with every
+   test and every gate passing. `scripts/qa/dialog-shape-check.mjs` and
+   `scripts/qa/handoff-check.mjs` are that gate, and anything else that only
+   appears after an interaction needs one of its own.
+
+## What a dead end looks like
+
+Nine things on this site can fail, and each one ends in an apology, one dry line
+where our own machine is the butt of the joke, and one way to reach a person.
+Never the visitor as the butt: a joke at the expense of somebody who has just
+been let down is a second insult, and levity is not the point of the panel, the
+button under it is.
+
+The shape follows the situation. A **panel** where the road is definitively
+closed, so the offer is one click. A **quiet line** where a working retry is
+sitting right there, so a second door does not shout over the first. The panel
+carries no ground of its own: every colour resolves through the dialog's tone
+tokens first and the page's second, so it wears the surface it lands on. The
+proposal learned that the hard way, as dark text on a dark ground.
+
+An apology is body copy, not a caption. The dialog had a caption colour and no
+secondary-text colour, so the offer's second line sat at 3.4:1 on paper before it
+was measured. Both now exist, `--mmb-muted` and `--mmb-fg2`, and the second is
+what a sentence uses.

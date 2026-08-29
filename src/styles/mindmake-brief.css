@@ -1,8 +1,293 @@
-/* The intelligence journey inside the brief dialog: a tone arc over the
-   proven step machine, a functional progress path, the recommendation
-   reveal and the branded proposal. Structural and phone rules stay in
-   mindmake.css; this file only stages them. All defaults are complete
-   states, and reduced motion swaps whole states. */
+/* The lead dialog: its structure, then the tone arc staged over it.
+ *
+ * This file used to say "structural and phone rules stay in mindmake.css; this
+ * file only stages them". They did not. The strip of 28 August 2026 rewrote
+ * mindmake.css as tokens, base, chrome and the secondary pages, and the whole
+ * dialog layer went with the old site: the backdrop, the panel geometry, the
+ * step padding, the choice grids, the consent row, the success block and every
+ * phone rule. Nothing objected, because the file that stages the colours was
+ * still there and still correct, so the dialog kept its palette while losing
+ * its shape. It has been rendering full-bleed and unpadded on the live site
+ * ever since, on the one surface every lead passes through.
+ *
+ * Two things stop that happening again. The structure lives here, in the file
+ * LeadBrief.tsx imports itself, rather than in a general stylesheet somebody
+ * may reasonably rewrite. And src/test/LeadBrief.test.tsx now asserts the
+ * rules exist, because a missing stylesheet rule is invisible to a component
+ * test and to every gate that measures a page at rest.
+ *
+ * The division of labour: geometry below, colour in the tone layer under it.
+ * The tone layer is complete on colour, so almost nothing here names one. All
+ * defaults are complete states, and reduced motion swaps whole states.
+ */
+
+/* ---------- Structure ---------- */
+
+.mm-dialog-open { overflow: hidden; }
+
+.mm-brief-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: grid;
+  place-items: center;
+  background: rgba(2, 13, 11, .82);
+  padding: 18px;
+  backdrop-filter: blur(8px);
+}
+
+/* The panel scrolls, not the page behind it. scroll-padding keeps a focused
+   field clear of the sticky header above and of the software keyboard below:
+   the dialog measures both and writes them onto the backdrop, and until this
+   rule existed nothing read either measurement. */
+.mm-brief-panel {
+  width: min(780px, 100%);
+  max-height: min(900px, calc(100dvh - 36px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-padding-block: 102px calc(40px + var(--mm-safe-bottom) + var(--mm-brief-keyboard-inset, 0px));
+  border: 1px solid var(--mmb-line, var(--mm-line));
+  box-shadow: 24px 24px 0 rgba(0, 0, 0, .28);
+}
+
+.mm-brief-top {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid transparent;
+  padding: 10px 16px 10px clamp(22px, 5vw, 52px);
+  font-family: var(--mm-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+}
+.mm-brief-top button {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  background: transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.mm-brief-top button svg { width: 18px; height: 18px; }
+
+/* Tall enough that a short step does not collapse into a strip, which is what
+   makes the arc of the journey feel like one object across six steps. */
+.mm-brief-step { min-height: 520px; padding: clamp(30px, 5vw, 60px); }
+.mm-brief-step h2 { max-width: 18ch; font-size: clamp(30px, 4vw, 46px); }
+.mm-brief-step > p:not(.mm-form-error, .mm-honesty-note, .mm-capacity-line) {
+  max-width: 60ch;
+  margin-top: 18px;
+  font-size: 16px;
+  line-height: 1.55;
+}
+.mm-brief-step form { display: grid; gap: 13px; margin-top: 30px; }
+.mm-brief-step label,
+.mm-brief-step legend {
+  font-family: var(--mm-mono);
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.mm-brief-step input {
+  width: 100%;
+  min-height: 52px;
+  border: 1px solid;
+  border-radius: 3px;
+  padding: 12px 15px;
+  font: inherit;
+  font-size: 16px;
+}
+.mm-brief-step input:focus-visible { outline: 2px solid var(--mmb-accent, var(--mm-mint)); outline-offset: 1px; }
+.mm-brief-step form .mm-button { justify-self: start; margin-top: 4px; }
+.mm-brief-step > small { display: block; max-width: 68ch; margin-top: 20px; font-size: 12.5px; line-height: 1.5; }
+.mm-brief-step > small a { min-height: 44px; display: inline-flex; align-items: center; text-decoration: underline; text-underline-offset: 3px; }
+.mm-brief-step fieldset { margin: 28px 0 20px; padding: 0; border: 0; }
+.mm-brief-step legend { margin-bottom: 13px; }
+
+.mm-step-back {
+  min-height: 44px;
+  margin: -10px 0 16px;
+  border: 0;
+  background: transparent;
+  padding: 6px 0;
+  font-family: var(--mm-mono);
+  font-size: 11.5px;
+  letter-spacing: .06em;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.mm-text-button {
+  min-height: 46px;
+  border: 0;
+  background: transparent;
+  padding: 10px 0;
+  font-family: var(--mm-mono);
+  font-size: 11.5px;
+  letter-spacing: .06em;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.mm-form-error {
+  margin-top: 12px;
+  border-left: 3px solid var(--mm-amber);
+  padding-left: 12px;
+  color: var(--mm-amber);
+  font-family: var(--mm-mono);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.mm-honesty-note { max-width: 60ch; margin-top: 12px; font-size: 13px; line-height: 1.5; }
+
+.mm-reading { display: grid; place-content: center; min-height: 420px; text-align: center; }
+.mm-reading h2, .mm-reading p { margin-inline: auto; }
+.mm-spinner { width: 44px; height: 44px; margin: 0 auto 30px; animation: mm-spin 1s linear infinite; }
+@keyframes mm-spin { to { transform: rotate(360deg); } }
+
+.mm-company-read {
+  display: flex;
+  gap: 18px;
+  margin-top: 24px;
+  border: 1px solid;
+  border-radius: 3px;
+  padding: 20px;
+}
+.mm-company-read img { width: 56px; height: 56px; flex: none; object-fit: contain; }
+.mm-company-read p { margin-top: 5px; font-size: 14.5px; line-height: 1.5; }
+.mm-company-read ul { display: grid; gap: 7px; margin: 14px 0 0; padding-left: 18px; font-size: 13px; }
+
+.mm-choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.mm-choice-grid button {
+  min-height: 72px;
+  border: 1px solid;
+  border-radius: 3px;
+  padding: 14px;
+  font: inherit;
+  font-size: 15px;
+  line-height: 1.35;
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.mm-brief-step .mm-button:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; }
+
+.mm-capacity-grid { margin-top: 28px; }
+.mm-capacity-line { margin-top: 14px; font-size: 14.5px; line-height: 1.55; }
+.mm-value-preview {
+  display: grid;
+  gap: 6px;
+  margin-top: 14px;
+  border-left: 3px solid var(--mmb-accent, var(--mm-mint));
+  padding: 14px 16px;
+}
+.mm-value-preview strong { font-family: var(--mm-mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; }
+
+.mm-brief-result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 30px; }
+.mm-brief-result-grid article { border: 1px solid; border-radius: 3px; padding: 20px; }
+.mm-brief-result-grid article.is-wide { grid-column: 1 / -1; border-top: 4px solid; }
+.mm-brief-result-grid small {
+  display: block;
+  font-family: var(--mm-mono);
+  font-size: 10.5px;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}
+.mm-brief-result-grid p { margin-top: 10px; font-size: 14.5px; line-height: 1.55; }
+.mm-brief-result-grid strong { display: block; margin-top: 12px; font-family: var(--mm-serif); font-size: 23px; line-height: 1.25; }
+
+/* Twenty-two pixels is a checkbox and its focus ring, and the label beside it
+   is a sentence rather than a field name, so it does not get the mono label
+   treatment the rest of this step uses. */
+.mm-consent {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  align-items: start;
+  gap: 10px;
+  margin-block: 8px;
+  font-family: var(--mm-body) !important;
+  font-size: 14px !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  line-height: 1.5;
+}
+.mm-consent input { min-height: auto; width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--mmb-accent, var(--mm-mint)); }
+
+.mm-success { display: grid; align-content: center; }
+.mm-success-mark {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--mm-mint);
+  color: var(--mm-mint-ink);
+}
+.mm-success h2 { margin-top: 22px; }
+.mm-success-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; margin-top: 28px; }
+
+/* The phone, where the dialog stops being a card and becomes the screen. The
+   backdrop is sized from the visual viewport the dialog measures, so an open
+   keyboard shortens the panel instead of pushing it under the fold. */
+@media (max-width: 560px) {
+  .mm-brief-backdrop {
+    inset: auto;
+    top: var(--mm-brief-viewport-top, 0px);
+    left: var(--mm-brief-viewport-left, 0px);
+    width: var(--mm-brief-viewport-width, 100vw);
+    height: var(--mm-brief-viewport-height, 100dvh);
+    padding: 0;
+    place-items: stretch;
+  }
+  .mm-brief-panel {
+    width: 100%;
+    height: var(--mm-brief-viewport-height, 100dvh);
+    max-height: var(--mm-brief-viewport-height, 100dvh);
+    scroll-padding-block: calc(102px + var(--mm-safe-top)) calc(32px + var(--mm-safe-bottom) + var(--mm-brief-keyboard-inset, 0px));
+    border-inline: 0;
+    box-shadow: none;
+  }
+  .mm-brief-top {
+    padding-top: calc(8px + var(--mm-safe-top));
+    padding-right: max(14px, var(--mm-safe-right));
+    padding-left: max(20px, var(--mm-safe-left));
+  }
+  .mm-brief-step {
+    min-height: 0;
+    padding: 28px max(20px, var(--mm-safe-right)) calc(44px + var(--mm-safe-bottom)) max(20px, var(--mm-safe-left));
+  }
+  .mm-brief-step h2 { max-width: 15ch; font-size: clamp(30px, 8.5vw, 40px); }
+  .mm-reading { min-height: 60dvh; }
+  .mm-choice-grid,
+  .mm-brief-result-grid { grid-template-columns: 1fr; }
+  .mm-brief-result-grid article.is-wide { grid-column: 1; }
+  .mm-company-read { flex-direction: column; }
+  .mm-success-actions { flex-direction: column; align-items: stretch; }
+  .mm-success-actions .mm-text-button { align-self: center; }
+}
+
+/* A phone held sideways has the height of a letterbox, so the panel gives up
+   its minimum height rather than putting the action below the fold. */
+@media (max-height: 560px) and (orientation: landscape) {
+  .mm-brief-panel { max-height: 100dvh; }
+  .mm-brief-step { min-height: 0; padding-block: 26px 34px; }
+  .mm-reading { min-height: 0; }
+}
+
+/* ---------- Tone ---------- */
 
 .mm-brief-panel[data-tone] { background: var(--mmb-bg); color: var(--mmb-fg); }
 .mm-brief-panel[data-tone="ink"] {
@@ -18,7 +303,10 @@
   --mmb-line: var(--mm-line);
   --mmb-card: rgba(255, 255, 255, .05);
   --mmb-accent: var(--mm-mint);
-  --mmb-top: rgba(13, 25, 41, .94);
+  /* A translucent --mm-ink. It was rgba(13, 25, 41), which is the retired
+     portfolio navy: it survived the rebuild because nothing ever measured it,
+     and it put a blue header on a green-black panel. */
+  --mmb-top: rgba(10, 16, 13, .94);
 }
 .mm-brief-panel[data-tone="forest"] {
   --mmb-bg: var(--mm-mint-wash);

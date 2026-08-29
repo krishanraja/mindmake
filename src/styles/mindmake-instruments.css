@@ -555,6 +555,57 @@
   padding: 18px;
   margin-top: 16px;
 }
+/* ---------- The four details both pages ask for ---------- */
+
+.mm-details { display: grid; gap: 15px; margin-top: 4px; }
+@media (min-width: 620px) { .mm-details-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; } }
+.mm-details-pair { display: grid; gap: 15px; }
+.mm-details-field { display: grid; gap: 7px; margin: 0; border: 0; padding: 0; min-width: 0; }
+/* A field label names a box, so it is set like the small mono labels
+   everywhere else on the site. A legend here is a question in a sentence, and
+   a sentence set in spaced uppercase mono is a sentence nobody reads. */
+.mm-details-field > label {
+  padding: 0;
+  font-family: var(--mm-mono);
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--mm-tx2);
+}
+.mm-details-field > legend {
+  padding: 0;
+  font-size: 15px;
+  line-height: 1.35;
+  color: var(--mm-tx);
+}
+.mm-details-field input {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--mm-line);
+  border-radius: 3px;
+  background: var(--mm-ink);
+  padding: 12px 13px;
+  color: var(--mm-tx);
+  font: inherit;
+  font-size: 15px;
+  transition: border-color .12s ease;
+}
+.mm-details-field input:hover { border-color: var(--mm-mint-dim); }
+.mm-details-field input:focus-visible { outline: 2px solid var(--mm-mint); outline-offset: 1px; }
+.mm-details-field input::placeholder { color: var(--mm-mut); }
+.mm-details-field > small { color: var(--mm-mut); font-size: 12.5px; line-height: 1.45; }
+/* A fieldset is a grid here, so its legend has to be told to take the whole row
+   rather than sit in the first cell of it. */
+.mm-details-field > legend { grid-column: 1 / -1; float: left; width: 100%; }
+.mm-details-divisions .mm-qchips { margin-top: 2px; }
+/* The mark sits on the question's own line, at the size a label wants rather
+   than the size a section heading wants. */
+/* Aligned to the first line rather than centred: these questions wrap to two
+   lines on a phone, and a mark floating in the middle of them reads as loose. */
+.mm-details-field > legend { display: flex; align-items: flex-start; gap: 8px; }
+.mm-q-mark { width: 26px; height: 26px; flex: none; margin-top: -3px; }
+.mm-details .mm-button { justify-self: start; margin-top: 3px; }
+
 .mm-journey-bar {
   display: flex;
   border: 1px solid var(--mm-line);

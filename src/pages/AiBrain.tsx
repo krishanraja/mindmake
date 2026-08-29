@@ -183,8 +183,8 @@ export default function AiBrain() {
           <div className="mm-try-panel">
             <Instrument kind="recorder" />
             <p className="mm-lede">
-              Your LinkedIn and two taps, and we will show you what your first week would look
-              like. It takes about twenty seconds.
+              Four details and two taps, and we will read your company and show you what your
+              first week would look like.
             </p>
             <BrainJourney />
           </div>

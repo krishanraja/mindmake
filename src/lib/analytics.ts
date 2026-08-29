@@ -16,7 +16,7 @@ export type MindmakeEvent =
   | "ask_submit"
   | "journey_gtm_start"
   | "journey_gtm_complete"
-  | "journey_brain_preview"
+  | "journey_brain_read"
   | "journey_brain_email"
   | "board_item_click"
   | "scoping_request"

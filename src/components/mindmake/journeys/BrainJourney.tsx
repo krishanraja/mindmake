@@ -1,10 +1,7 @@
 import { useState } from "react";
-import {
-  WEEK_ONE_QUESTIONS,
-  buildWeekOnePreview,
-  type Q1,
-  type Q2,
-} from "@/content/personalRead";
+import { Instrument } from "@/components/mindmake/Instrument";
+import { DetailsJourney, type Details } from "@/components/mindmake/journeys/DetailsJourney";
+import { WEEK_ONE_QUESTIONS, CLOSING_LINE, type Q1, type Q2 } from "@/content/personalRead";
 import { track } from "@/lib/analytics";
 
 type SendState = "idle" | "sending" | "sent" | "failed";
@@ -16,62 +13,89 @@ type SendState = "idle" | "sending" | "sent" | "failed";
 const FUNCTION_URL = `${import.meta.env.VITE_SUPABASE_URL ?? ""}/functions/v1/mindmake-personal-read`;
 const ANON_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? "";
 
+/** What the server assembles and the page puts on screen. */
+interface Read {
+  opening: string;
+  lines: string[];
+  company?: string;
+  companyOnly: boolean;
+}
+
+const post = (body: unknown) => fetch(FUNCTION_URL, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    apikey: ANON_KEY,
+    Authorization: `Bearer ${ANON_KEY}`,
+  },
+  body: JSON.stringify(body),
+});
+
 /**
- * See it learn you.
+ * See it read you.
  *
- * The preview is composed on the spot from the template lines, so it never
- * waits on a network call: the visitor gets the value before the email field
- * exists. Enrichment is a best-effort improvement to the emailed version, and
- * a send that cannot happen says so rather than claiming one.
+ * It used to ask for a LinkedIn URL and then compose a preview locally from two
+ * template lines, so the thing on screen was the same for everyone who tapped
+ * the same two chips. It asks for the four things every page asks for now, and
+ * the read comes back from the server built from the company behind the email
+ * and the part of the business the visitor works in.
+ *
+ * That trades certainty for substance: the old preview could never fail and
+ * could never say anything specific. This one waits a few seconds and can come
+ * back knowing only the division, which is why the degraded read is written to
+ * be worth reading on its own and says plainly what it did not find.
  */
 export function BrainJourney() {
-  const [linkedin, setLinkedin] = useState("");
   const [q1, setQ1] = useState<Q1 | null>(null);
   const [q2, setQ2] = useState<Q2 | null>(null);
-  const [preview, setPreview] = useState<ReturnType<typeof buildWeekOnePreview> | null>(null);
+  const [details, setDetails] = useState<Details | null>(null);
+  const [read, setRead] = useState<Read | null>(null);
+  const [reading, setReading] = useState(false);
   const [prompt, setPrompt] = useState("");
-  const [email, setEmail] = useState("");
   const [send, setSend] = useState<SendState>("idle");
 
-  const show = () => {
+  const start = async (entered: Details) => {
     if (!q1 || !q2) {
       setPrompt("Tap one answer in each question and this becomes yours.");
       return;
     }
     setPrompt("");
-    setPreview(buildWeekOnePreview(q1, q2, linkedin.trim().length > 0));
-    track("journey_brain_preview", { q1, q2, profile: linkedin.trim().length > 0 });
-
-    // Best effort, and deliberately not awaited: the preview is already on
-    // screen, and enrichment only improves the version that gets emailed.
-    void fetch(FUNCTION_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        apikey: ANON_KEY,
-        Authorization: `Bearer ${ANON_KEY}`,
-      },
-      body: JSON.stringify({ action: "preview", linkedin_url: linkedin.trim(), q1, q2 }),
-    }).catch(() => undefined);
+    setReading(true);
+    setDetails(entered);
+    track("journey_brain_read", { division: entered.division, q1, q2 });
+    try {
+      const response = await post({
+        action: "preview",
+        first_name: entered.firstName,
+        last_name: entered.lastName,
+        division: entered.division,
+        email: entered.email,
+        q1,
+        q2,
+      });
+      if (!response.ok) throw new Error(String(response.status));
+      const data = await response.json();
+      if (!data?.read) throw new Error("no-read");
+      setRead(data.read as Read);
+    } catch {
+      setPrompt("We could not read your company just now. Try again in a moment.");
+    } finally {
+      setReading(false);
+    }
   };
 
-  const submitEmail = async (event: React.FormEvent) => {
-    event.preventDefault();
-    if (!q1 || !q2 || !/^\S+@\S+\.\S+$/.test(email)) {
-      setPrompt("Add a work email and we will send the full version.");
-      return;
-    }
-    setPrompt("");
+  const sendFull = async () => {
+    if (!details || !q1 || !q2) return;
     setSend("sending");
     try {
-      const response = await fetch(FUNCTION_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          apikey: ANON_KEY,
-          Authorization: `Bearer ${ANON_KEY}`,
-        },
-        body: JSON.stringify({ action: "send", linkedin_url: linkedin.trim(), q1, q2, email }),
+      const response = await post({
+        action: "send",
+        first_name: details.firstName,
+        last_name: details.lastName,
+        division: details.division,
+        email: details.email,
+        q1,
+        q2,
       });
       if (!response.ok) throw new Error(String(response.status));
       const data = await response.json();
@@ -84,82 +108,88 @@ export function BrainJourney() {
     }
   };
 
+  if (read) {
+    return (
+      <div className="mm-journey">
+        {/* The same grid the company read assembles into on /ai-gtm, because
+            this is the same kind of object and a second design for it would be
+            two houses' worth of layout for one idea. */}
+        <div className="mm-brief-result-grid">
+          <article className="is-wide is-read"><small>What we found</small><p>{read.opening}</p></article>
+          {read.lines.map((line, at) => (
+            <article className={at === 0 ? "is-wide" : ""} key={line}>
+              <small>{at === 0 ? "Week one" : at === 1 ? "Pointed at" : "In your part of the business"}</small>
+              <p>{line}</p>
+            </article>
+          ))}
+        </div>
+
+        {read.companyOnly && (
+          <p className="mm-fine">
+            We read this from {read.company ?? "your company"} and the part of the business you work
+            in. We did not find you specifically, so nothing above assumes what you do there.
+          </p>
+        )}
+
+        {send === "sent" ? (
+          <p className="mm-fine" role="status" style={{ color: "var(--mm-mint)" }}>
+            On its way to {details?.email}. Check your inbox in a few minutes.
+          </p>
+        ) : (
+          <>
+            <button className="mm-button" data-mm-primary type="button" disabled={send === "sending"} onClick={sendFull}>
+              {send === "sending" ? "Sending" : "Send me the full version"} <span aria-hidden="true">→</span>
+            </button>
+            <p className="mm-fine">{CLOSING_LINE}</p>
+            {send === "failed" && (
+              <p className="mm-journey-error" role="alert">
+                We could not send that just now. Try again in a moment.
+              </p>
+            )}
+          </>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="mm-journey">
-      <div className={`mm-journey-bar${linkedin.trim() ? " has-text" : ""}`}>
-        <label className="mm-visually-hidden" htmlFor="brain-linkedin">Your LinkedIn URL</label>
-        <input
-          id="brain-linkedin"
-          type="text"
-          inputMode="url"
-          placeholder="linkedin.com/in/you"
-          value={linkedin}
-          onChange={(event) => setLinkedin(event.target.value)}
-        />
-      </div>
+      <DetailsJourney
+        action="Show me week one"
+        busy={reading}
+        busyLabel="Reading your company"
+        onSubmit={start}
+      >
+        {(["q1", "q2"] as const).map((key) => {
+          const question = WEEK_ONE_QUESTIONS[key];
+          const chosen = key === "q1" ? q1 : q2;
+          return (
+            <fieldset className="mm-details-field" key={key}>
+              {/* The flap is what changes and the drawer is what is kept, which
+                  is what these two questions are actually asking about. */}
+              <legend>
+                <Instrument kind={key === "q1" ? "flap" : "drawer"} className="mm-q-mark" />
+                {question.label}
+              </legend>
+              <div className="mm-qchips">
+                {question.options.map((option) => (
+                  <button
+                    key={option.id}
+                    className="mm-qchip"
+                    type="button"
+                    aria-pressed={chosen === option.id}
+                    onClick={() => (key === "q1" ? setQ1(option.id as Q1) : setQ2(option.id as Q2))}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </fieldset>
+          );
+        })}
+      </DetailsJourney>
 
-      {(["q1", "q2"] as const).map((key) => {
-        const question = WEEK_ONE_QUESTIONS[key];
-        const chosen = key === "q1" ? q1 : q2;
-        return (
-          <div className="mm-qrow" key={key}>
-            <p id={`brain-${key}`}>{key === "q1" ? "Q1 · " : "Q2 · "}{question.label}</p>
-            <div className="mm-qchips" role="group" aria-labelledby={`brain-${key}`}>
-              {question.options.map((option) => (
-                <button
-                  key={option.id}
-                  className="mm-qchip"
-                  type="button"
-                  aria-pressed={chosen === option.id}
-                  onClick={() => (key === "q1" ? setQ1(option.id as Q1) : setQ2(option.id as Q2))}
-                >
-                  {option.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        );
-      })}
-
-      <button className="mm-button" data-mm-primary type="button" style={{ marginTop: 16 }} onClick={show}>
-        Show me week one
-      </button>
-
-      {prompt && <p className="mm-journey-error" role="status">{prompt}</p>}
-
-      {preview && (
-        <div className="mm-preview">
-          <h3>{preview.title}</h3>
-          {preview.lines.map((line) => <p key={line}>{line}</p>)}
-          <p className="mm-fine">{preview.closing}</p>
-
-          {send === "sent" ? (
-            <p className="mm-fine" role="status" style={{ color: "var(--mm-mint)" }}>
-              On its way. Check your inbox in a few minutes.
-            </p>
-          ) : (
-            <form className="mm-preview-form" onSubmit={submitEmail}>
-              <label className="mm-visually-hidden" htmlFor="brain-email">Your work email</label>
-              <input
-                id="brain-email"
-                type="email"
-                placeholder="you@company.com"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-              />
-              <button className="mm-button" type="submit" disabled={send === "sending"}>
-                {send === "sending" ? "Sending" : "Send me the full version"}
-              </button>
-              {send === "failed" && (
-                <p className="mm-journey-error" role="alert">
-                  We could not send that just now. Try again in a moment, or start here and we will
-                  read your business instead.
-                </p>
-              )}
-            </form>
-          )}
-        </div>
-      )}
+      {prompt && <p className="mm-journey-error" role="alert">{prompt}</p>}
     </div>
   );
 }

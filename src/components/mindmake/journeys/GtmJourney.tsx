@@ -1,10 +1,9 @@
-import { useState } from "react";
+import { DetailsJourney, type Details } from "@/components/mindmake/journeys/DetailsJourney";
 import { track } from "@/lib/analytics";
-import { cleanDomain, isPublicHostname } from "@/lib/domain";
 
 interface GtmJourneyProps {
-  /** Hands the validated domain to the brief dialog, which opens on the read. */
-  onRead: (domain: string) => void;
+  /** Hands the details to the brief dialog, which opens on the read. */
+  onRead: (details: Details) => void;
 }
 
 const STEPS = [
@@ -29,47 +28,24 @@ const STEPS = [
  * The company read, started from the page.
  *
  * This is the shipped enrichment and proposal machinery made prominent, not a
- * second pipeline: the input validates a domain and hands it straight to the
- * brief dialog, which opens on the live read it would have run anyway.
+ * second pipeline: the details hand straight to the brief dialog, which opens on
+ * the live read it would have run anyway.
+ *
+ * It used to ask for a company web address alone while /ai-brain asked for a
+ * LinkedIn URL, so the same work email arrived by two routes at two standards.
+ * Both pages ask for the same four things now; the company comes out of the
+ * email, and the dialog still requires the six-digit code before anything about
+ * this visitor reaches us.
  */
 export function GtmJourney({ onRead }: GtmJourneyProps) {
-  const [value, setValue] = useState("");
-  const [error, setError] = useState("");
-
-  const submit = () => {
-    const domain = cleanDomain(value);
-    if (!isPublicHostname(domain)) {
-      setError("That does not look like a company web address. Try yourcompany.com.");
-      return;
-    }
-    setError("");
-    track("journey_gtm_start", { domain });
-    onRead(domain);
+  const submit = (details: Details) => {
+    track("journey_gtm_start", { domain: details.domain, division: details.division });
+    onRead(details);
   };
 
   return (
     <div className="mm-journey">
-      <div className={`mm-journey-bar${value.trim() ? " has-text" : ""}`}>
-        <label className="mm-visually-hidden" htmlFor="gtm-journey-domain">Your company web address</label>
-        <input
-          id="gtm-journey-domain"
-          type="text"
-          inputMode="url"
-          autoComplete="url"
-          placeholder="yourcompany.com"
-          value={value}
-          onChange={(event) => setValue(event.target.value)}
-          onKeyDown={(event) => {
-            if (event.key === "Enter") {
-              event.preventDefault();
-              submit();
-            }
-          }}
-        />
-        <button type="button" data-mm-primary onClick={submit}>Read my business</button>
-      </div>
-
-      {error && <p className="mm-journey-error" role="alert">{error}</p>}
+      <DetailsJourney action="Read my business" onSubmit={submit} />
 
       <div className="mm-journey-steps">
         {STEPS.map((step) => (

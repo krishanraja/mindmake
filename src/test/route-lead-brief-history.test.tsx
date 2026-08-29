@@ -58,10 +58,13 @@ afterEach(() => {
  */
 function enterTheBrief(path: string) {
   if (path === "/ai-gtm") {
-    fireEvent.change(screen.getByLabelText("Your company web address"), {
-      target: { value: "example.com" },
-    });
-    fireEvent.click(screen.getByRole("button", { name: "Read my business" }));
+    /* The page's own panel is the one way in, and it now asks for the same four
+       things /ai-brain does. */
+    fireEvent.change(screen.getByLabelText("First name"), { target: { value: "Ada" } });
+    fireEvent.change(screen.getByLabelText("Last name"), { target: { value: "Lovelace" } });
+    fireEvent.change(screen.getByLabelText("Work email"), { target: { value: "ada@example.com" } });
+    fireEvent.click(screen.getByRole("button", { name: "Leadership" }));
+    fireEvent.click(screen.getByRole("button", { name: /Read my business/ }));
     return;
   }
   fireEvent.click(screen.getAllByRole("button", { name: "Start here" })[0]);

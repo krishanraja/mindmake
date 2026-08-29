@@ -46,18 +46,4 @@ export const Q2_LINES: Record<Q2, string> = {
 };
 
 export const CLOSING_LINE =
-  "The full version, built from your LinkedIn, lands in your inbox. One email, ever, plus one follow-up.";
-
-export interface WeekOnePreview {
-  title: string;
-  lines: string[];
-  closing: string;
-}
-
-export function buildWeekOnePreview(q1: Q1, q2: Q2, hasProfile: boolean): WeekOnePreview {
-  return {
-    title: hasProfile ? "Built from your profile" : "Week one, for you",
-    lines: [Q1_LINES[q1], Q2_LINES[q2]],
-    closing: CLOSING_LINE,
-  };
-}
+  "The full version lands in your inbox. One email, ever, plus one follow-up.";

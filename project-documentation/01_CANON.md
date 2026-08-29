@@ -365,8 +365,14 @@ action is **Start here**.
 7. The operator decides whether to reply and, if useful, invites a private
    conversation.
 
-The browser sends only the email, company domain, allowlisted choice IDs and the
-server-signed tailored-choice pair. The server owns the research, tailored
+The browser sends only the visitor's first and last name, their work email, the
+company domain derived from it, allowlisted choice IDs (the division and the
+read's two answers) and the server-signed tailored-choice pair. The name is the
+only free text in that list, and it is there because it replaced a worse ask: the
+personal read used to want a LinkedIn URL, which most people have to go and find,
+and a name plus the company behind the email resolves the same person. A personal
+email address is refused on both sides, because the company read is built from
+the domain and there is nothing behind a personal one to read. The server owns the research, tailored
 choices, recommendation, proposal, fit digest, verification codes and delivery
 attempts. The old contact endpoint is never a fallback. The visitor can always
 download the brief locally, whether or not either email succeeds.

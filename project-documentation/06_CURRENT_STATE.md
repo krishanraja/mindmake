@@ -19,8 +19,10 @@ This file is the current delivery truth for `mindmake.co`: what is live, at whic
 
 Two doors, one paid proof, and two ways to be read.
 
-- **The company read** (`/ai-gtm`): a visitor types their company website and the existing brief pipeline reads it, unchanged. This is the Gate E hand-off approved on 27 August 2026, reached from a new place.
-- **The personal read** (`/ai-brain`): a visitor gives a public profile and two answers, sees their first week composed on the page immediately, and can have it emailed. The preview is composed in the browser from the same template the function uses, so it needs no network round trip and cannot stall.
+Both doors ask for the same four things, in the same component, with the same rules: first name, last name, work email and the part of the business they work in. The company comes out of the email's domain, so nobody types it twice, and a personal address is refused on both sides with a message that puts the limitation on us rather than on the visitor. What each page does with those four things is different, and deliberately so.
+
+- **The company read** (`/ai-gtm`): the details hand to the existing brief pipeline, unchanged, and the six-digit code still stands between the visitor and anything reaching us. This is the Gate E hand-off approved on 27 August 2026, reached from a new place. The proposal document is no longer rendered inside the dialog: it is built for the email and the attachment, and on screen it sat at the bottom of a scroll where nobody looked for it. The read the visitor came for is the preview step.
+- **The personal read** (`/ai-brain`): the server resolves the company from the email domain and the person from their name plus that company, and the read assembles on screen in the same grid the company read uses. It used to want a LinkedIn URL, which most people have to go and find, and composed a preview locally from two template lines, so everyone who tapped the same chips saw the same thing. A read that resolves the company but not the person says so on the page rather than passing itself off as more than it is. The preview now costs a paid provider call, so it sits behind the same rate limiter the send does.
 - **The live board** (`/ai-gtm#board`): what moved in AI today, grouped by the four levers, read from the daily cache. It states its own age, marks itself as yesterday's read after 26 hours, and collapses to a heading and one honest line if the read is unavailable. It never renders an empty frame.
 
 Every visitor who converts receives exactly two emails: the results they asked for, and one follow-up fourteen days later. Nothing else, ever. The mechanism is a unique row per address per journey, not a policy anyone has to remember.
@@ -49,7 +51,7 @@ Supabase project `bkyuxvschuwngtcdhsyg`.
 
 Last measured 28 August 2026, against the built output.
 
-- Tests: **196 across 17 files**, all passing.
+- Tests: **215 across 18 files**, all passing.
 - Typecheck: **0 errors**, against `tsconfig.app.json`, and the build runs it first.
   An earlier version of this file claimed `tsc` was clean when it had never run:
   the root `tsconfig.json` carries `"files": []` with project references, so
@@ -97,7 +99,8 @@ Last measured 28 August 2026, against the built output.
     and `/start`, the rungs of the retired offer ladder, which are themselves
     redirects now, so it was asserting a two-hop chain the runbook forbids and
     failing 19 of 19. The code was right and the expectations were stale.
-  - **Keyboard**: every tabbable element shows a visible focus ring. Clean at both widths.
+  - **Keyboard**: every tabbable element shows a visible focus ring. Clean at both
+    widths, including all twenty controls of the shared details capture.
   - **Layout**: no horizontal overflow, no console errors, exactly one `h1` per page, touch targets at or above the comfortable minimum.
   - **Reduced motion**: nothing animating, counters at their final figures.
   - **Board honesty**: verified in all three states (live, older than 26 hours, and unavailable) against a real captured cache payload.

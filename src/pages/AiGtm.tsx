@@ -12,6 +12,7 @@ import { LeverPanel } from "@/components/mindmake/LeverPanel";
 import { ProcessTrack } from "@/components/mindmake/ProcessTrack";
 import { LiveBoard } from "@/components/mindmake/board/LiveBoard";
 import { GtmJourney } from "@/components/mindmake/journeys/GtmJourney";
+import type { Details } from "@/components/mindmake/journeys/DetailsJourney";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import { useScrollDriver } from "@/hooks/useScrollDriver";
 import { track } from "@/lib/analytics";
@@ -29,10 +30,10 @@ import "@/styles/mindmake-instruments.css";
 export default function AiGtm() {
   const { briefOpen, openBrief, closeBrief } = useLeadBriefHistory();
   const plateRef = useScrollDriver<HTMLDivElement>();
-  const [seedDomain, setSeedDomain] = useState<string>();
+  const [seed, setSeed] = useState<Details>();
 
-  const startFromJourney = (domain: string) => {
-    setSeedDomain(domain);
+  const startFromJourney = (details: Details) => {
+    setSeed(details);
     openBrief();
   };
 
@@ -103,8 +104,8 @@ export default function AiGtm() {
           <div className="mm-try-panel">
             <Instrument kind="recorder" />
             <p className="mm-lede">
-              Give us your company address. We will read your market while you watch, and send you
-              a plan built for your business. It takes a couple of minutes.
+              Four details, and we read your market while you watch. Your company comes from your
+              email address, so there is nothing to look up. It takes a couple of minutes.
             </p>
             <GtmJourney onRead={startFromJourney} />
           </div>
@@ -154,7 +155,8 @@ export default function AiGtm() {
         open={briefOpen}
         onClose={closeBrief}
         route="gtm"
-        initialDomain={seedDomain}
+        initialDomain={seed?.domain}
+        initialEmail={seed?.email}
         onConfirmed={() => track("journey_gtm_complete")}
       />
     </MindmakeShell>

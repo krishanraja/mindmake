@@ -20,6 +20,7 @@ import { clientIdentifier, hmacIdentifier } from "../_shared/security/hmac.ts";
 import {
   InvalidRequestError,
   parsePersonalRead,
+  buildRead,
   personalReadIdempotencyKey,
   renderPersonalRead,
   type PersonalReadRequest,
@@ -86,20 +87,33 @@ const json = (body: unknown, status: number, origin: string | null): Response =>
   });
 
 /**
- * Resolves a public profile, best effort.
+ * Resolves a public profile from a name and the company their email belongs to.
  *
- * Anything that fails or times out degrades to an empty profile, because the
- * email is worth sending either way and a guess would be worse than silence.
+ * This used to be keyed on a LinkedIn URL the visitor pasted in, which is a
+ * thing most people have to go and find. PDL resolves the same person from a
+ * name plus a company, and hands back the profile URL as part of the answer, so
+ * the field could go without the read getting weaker.
+ *
+ * min_likelihood stays where it was. Anything that fails, times out or comes
+ * back under that bar degrades to an empty profile, and the caller falls back to
+ * a read built from the company alone. That silence is deliberate: a guessed job
+ * title in an email addressed to someone by name is worse than no job title.
  */
-async function enrichProfile(linkedinUrl: string): Promise<Profile> {
+async function enrichProfile(
+  firstName: string,
+  lastName: string,
+  company: string,
+): Promise<Profile> {
   const key = Deno.env.get("PEOPLEDATALABS_API_KEY") ?? Deno.env.get("PDL_API_KEY");
-  if (!key || !linkedinUrl) return {};
+  if (!key || !firstName || !lastName || !company) return {};
 
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), ENRICH_TIMEOUT_MS);
   try {
     const url = new URL("https://api.peopledatalabs.com/v5/person/enrich");
-    url.searchParams.set("profile", linkedinUrl);
+    url.searchParams.set("first_name", firstName);
+    url.searchParams.set("last_name", lastName);
+    url.searchParams.set("company", company);
     url.searchParams.set("min_likelihood", "6");
     const response = await fetch(url, {
       headers: { "X-Api-Key": key },
@@ -113,6 +127,7 @@ async function enrichProfile(linkedinUrl: string): Promise<Profile> {
       role: typeof person.job_title === "string" ? person.job_title : undefined,
       company: typeof person.job_company_name === "string" ? person.job_company_name : undefined,
       industry: typeof person.job_company_industry === "string" ? person.job_company_industry : undefined,
+      linkedin: typeof person.linkedin_url === "string" ? person.linkedin_url : undefined,
     };
   } catch {
     return {};
@@ -182,18 +197,15 @@ Deno.serve(async (request) => {
     return json({ error: "invalid_request", reason }, 400, allowed);
   }
 
-  const profile = await enrichProfile(parsed.linkedin_url ?? "");
-
-  // A preview asks for nothing to be stored or sent, so nothing is.
-  if (parsed.action === "preview") {
-    return json({ status: "ok", profile }, 200, allowed);
-  }
-
-  const email = parsed.email!;
+  const email = parsed.email;
   const supabase = createClient(config.supabaseUrl, config.serviceRoleKey, {
     auth: { persistSession: false },
   });
 
+  /* Ahead of the enrichment, and on a preview as well as a send.
+     A preview used to cost nothing, so it sat outside the limiter. It now makes
+     a paid provider call, and an unauthenticated endpoint that spends money per
+     request needs the meter in front of the spending rather than behind it. */
   const ipHash = await hmacIdentifier(config.rateLimitSalt, clientIdentifier(request));
   const emailHash = await hmacIdentifier(config.rateLimitSalt, email);
   /* PostgREST reaches only the public schema, so this calls the public wrapper
@@ -210,6 +222,20 @@ Deno.serve(async (request) => {
     return json({ error: "rate_limited" }, 429, allowed);
   }
 
+  /* The company comes out of the email domain, so nobody types it twice. A miss
+     here is silent by design and leaves a read built from the division alone. */
+  const profile = await enrichProfile(
+    parsed.first_name,
+    parsed.last_name,
+    email.slice(email.lastIndexOf("@") + 1),
+  );
+
+  // A preview asks for nothing to be stored or sent, so nothing is. It hands
+  // back the assembled read itself, which is what the page puts on screen.
+  if (parsed.action === "preview") {
+    return json({ status: "ok", read: buildRead(parsed, profile) }, 200, allowed);
+  }
+
   const sent = await deliver(config, parsed, profile);
   if (!sent) {
     // Never report a delivery the provider did not accept.
@@ -219,6 +245,9 @@ Deno.serve(async (request) => {
   // Store the minimum the email needed, and nothing about the profile URL.
   const { error: storeError } = await supabase.from("mindmake_personal_reads").insert({
     email,
+    first_name: parsed.first_name,
+    last_name: parsed.last_name,
+    division: parsed.division,
     q1: parsed.q1,
     q2: parsed.q2,
     enrichment: profile,

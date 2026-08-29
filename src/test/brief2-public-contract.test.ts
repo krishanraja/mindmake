@@ -755,6 +755,28 @@ describe("the lead machinery is untouched", () => {
     expect(confirm.code).toBe("123456");
   });
 
+  /* The canon states exactly what the browser is allowed to send, and this
+     round added the visitor's name to that list. The sentence and the parser
+     have to be amended together or one of them is a lie, so this holds them to
+     each other rather than trusting either. */
+  it("sends only what the canon says the browser may send", () => {
+    const canon = read("project-documentation/01_CANON.md");
+    const sentence = canon.slice(canon.indexOf("The browser sends only"));
+    expect(sentence.slice(0, 600)).toContain("first and last name");
+    expect(sentence.slice(0, 600)).toContain("work email");
+
+    /* The parser's allowlist is the enforcement. Nothing outside it reaches the
+       server, and nothing inside it is undeclared above. */
+    const parser = read("supabase/functions/mindmake-personal-read/core.ts");
+    const allowed = parser.slice(parser.indexOf("const allowed = new Set(["));
+    const keys = [...allowed.slice(0, allowed.indexOf("]")).matchAll(/"([a-z0-9_]+)"/g)].map((m) => m[1]);
+    expect(keys.sort()).toEqual(
+      ["action", "division", "email", "first_name", "last_name", "q1", "q2"],
+    );
+    /* The retired field must not creep back: it is the ask this round removed. */
+    expect(keys).not.toContain("linkedin_url");
+  });
+
   it("keeps the consent wording verbatim", () => {
     expect(NEWSLETTER_CONSENT_WORDING.length).toBeGreaterThan(20);
   });

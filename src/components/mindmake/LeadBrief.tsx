@@ -12,7 +12,6 @@ import {
   type BriefRoute,
 } from "@/components/mindmake/leadDelivery";
 import { buildPrivateBriefHtml, type PrivateBriefContent } from "@/components/mindmake/privateBriefHtml";
-import { MindmakeProposal } from "@/components/mindmake/MindmakeProposal";
 import "@/styles/mindmake-brief.css";
 import { CONTACT_EMAIL } from "@/lib/publicLinks";
 
@@ -24,6 +23,10 @@ interface LeadBriefProps {
   route?: BriefRoute;
   /** A domain the page already collected, so the dialog opens on the read. */
   initialDomain?: string;
+  /** The work email the page already collected, so nobody types it twice. The
+      code still has to be confirmed: this fills the field, it does not skip a
+      step. */
+  initialEmail?: string;
   /** Fires once, when a verified request has been confirmed. */
   onConfirmed?: () => void;
 }
@@ -236,7 +239,7 @@ const readableText = (value: unknown): string => {
   return declarativeOnly(text);
 };
 
-export function LeadBrief({ open, onClose, route = "home", initialDomain, onConfirmed }: LeadBriefProps) {
+export function LeadBrief({ open, onClose, route = "home", initialDomain, initialEmail, onConfirmed }: LeadBriefProps) {
   const [step, setStep] = useState<Step>("domain");
   const [domainInput, setDomainInput] = useState("");
   const [domain, setDomain] = useState("");
@@ -369,8 +372,9 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, onConf
     const seed = cleanDomain(initialDomain);
     if (!isPublicHostname(seed)) return;
     setDomainInput(seed);
+    if (initialEmail) setEmail(initialEmail);
     void readCompany(seed);
-  }, [open, initialDomain, step, domain]);
+  }, [open, initialDomain, initialEmail, step, domain]);
 
   useEffect(() => {
     if (!open) return;
@@ -938,13 +942,13 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, onConf
               <p>Your request for an invitation to the publication was recorded. You have not been subscribed.</p>
             )}
             {error && <p className="mm-form-error" role="alert">{error}</p>}
-            <MindmakeProposal
-              content={{
-                ...brief,
-                preparedFor: visitorEmailQueued ? email : undefined,
-                nextStep: visitorEmailQueued ? "reply" : "keep",
-              }}
-            />
+            {/* The proposal document is not rendered here. It is built for the
+                email and the attachment, and stapling it below the success copy
+                put a long formal document at the bottom of a dialog scroll where
+                nobody was looking for one. The read the visitor came for is the
+                preview step, two steps back; this step confirms the delivery and
+                hands over the file. The download builds its own HTML from the
+                same content, so it is unaffected. */}
             <div className="mm-success-actions">
               <button className="mm-button" type="button" onClick={downloadBrief}><Download aria-hidden="true" /> Download my brief</button>
               {handoffEnabled && !handoffResult && email && (

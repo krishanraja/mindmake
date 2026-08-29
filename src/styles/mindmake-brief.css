@@ -174,15 +174,25 @@
   .mm-mark.is-reveal svg path { animation: none; }
 }
 
-/* The branded proposal handed over on the success step. Always paper: the
-   proposal is the object, whatever tone the room is in. */
+/* The branded proposal on the success step.
+ *
+ * It used to be paper, on the grounds that "the proposal is the object,
+ * whatever tone the room is in". That was the defect: a cream document with a
+ * drop shadow, dropped into a dark dialog below the success copy, read as a
+ * foreign object stapled to the bottom of a scroll rather than as the thing the
+ * visitor had just earned. It is the same content either way, so what had to
+ * change was the surface, not the substance.
+ *
+ * It now takes the dialog's own tone tokens and the card idiom the preview step
+ * already uses, so the success step reads as one screen. The paper design is
+ * still the proposal's identity everywhere it is genuinely paper: the email and
+ * the downloadable attachment, both built by privateBriefHtml.ts, which this
+ * does not touch.
+ */
 .mm-proposal {
-  margin-top: 30px;
-  border: 1px solid var(--mm-paper-line);
-  background: var(--mm-paper);
-  color: var(--mm-ink);
-  padding: clamp(22px, 4vw, 40px);
-  box-shadow: 14px 14px 0 rgba(0, 0, 0, .26);
+  margin-top: 26px;
+  border-top: 2px solid var(--mmb-accent);
+  padding-top: 20px;
 }
 .mm-proposal-cover {
   display: flex;
@@ -190,53 +200,78 @@
   align-items: baseline;
   gap: 12px;
   flex-wrap: wrap;
-  border-top: 8px solid var(--mm-mint);
-  padding-top: 16px;
 }
-.mm-proposal-brand { font-family: "Source Serif 4", Charter, Georgia, serif; font-size: clamp(17px, 1.6vw, 21px); letter-spacing: -.02em; }
-.mm-proposal-meta { color: var(--mm-mut-d); font-size: 12px; }
+.mm-proposal-brand {
+  font-family: "Source Serif 4", Charter, Georgia, serif;
+  font-size: clamp(16px, 1.5vw, 19px);
+  letter-spacing: -.02em;
+}
+.mm-proposal-meta { color: var(--mmb-fg); opacity: .62; font-size: 12px; }
+/* Explicit colour, not inherited. The paper version set var(--mm-ink) and I
+   dropped it on the way to the screen version, which left the headline taking
+   a dark value on a dark ground: present, addressable, and invisible. The tone
+   token is the right source, because it is what every other heading in the
+   panel uses. */
 .mm-proposal-headline {
-  margin-top: clamp(20px, 3vw, 34px);
-  max-width: 15ch;
-  color: var(--mm-ink);
-  font-size: clamp(30px, 4.4vw, 46px);
-  line-height: .98;
+  margin-top: 12px;
+  max-width: 22ch;
+  color: var(--mmb-fg);
+  font-family: "Source Serif 4", Charter, Georgia, serif;
+  font-size: clamp(24px, 3.2vw, 34px);
+  font-weight: 650;
+  line-height: 1.08;
+  letter-spacing: -.02em;
 }
+/* The same card the preview step's result grid uses. */
 .mm-proposal-card {
-  margin-top: 16px;
-  border: 1px solid rgba(13, 25, 41, .24);
-  background: var(--mm-paper2);
-  padding: clamp(14px, 2vw, 20px);
-  box-shadow: 8px 8px 0 rgba(13, 25, 41, .1);
+  margin-top: 12px;
+  border: 1px solid var(--mmb-line);
+  border-top: 2px solid var(--mmb-line);
+  border-radius: 3px;
+  background: var(--mmb-card);
+  padding: 15px 16px;
 }
 .mm-proposal-card h4,
 .mm-proposal-time h4 {
-  margin: 0 0 8px;
-  color: var(--mm-mint-d);
-  font-family: "Source Sans 3", "Segoe UI", Arial, sans-serif;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: .13em;
+  margin: 0 0 7px;
+  color: var(--mmb-accent);
+  font-family: var(--mm-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: .12em;
   text-transform: uppercase;
 }
-.mm-proposal-card p, .mm-proposal-card ul { margin: 0; font-size: 15px; line-height: 1.5; }
-.mm-proposal-card ul { margin-top: 8px; padding-left: 18px; color: var(--mm-mut-d); font-size: 13px; }
+.mm-proposal-card p, .mm-proposal-card ul { margin: 0; font-size: 14.5px; line-height: 1.5; }
+.mm-proposal-card ul { margin-top: 8px; padding-left: 18px; opacity: .74; font-size: 13px; }
 .mm-proposal-pair { display: grid; gap: 12px; }
+.mm-proposal-card.is-proof { border-top-color: var(--mmb-accent); }
 .mm-proposal-card.is-proof strong {
   display: block;
   font-family: "Source Serif 4", Charter, Georgia, serif;
-  font-size: clamp(19px, 2.2vw, 24px);
+  font-size: clamp(18px, 2vw, 22px);
   font-weight: 650;
-  line-height: 1.18;
+  line-height: 1.2;
   letter-spacing: -.02em;
 }
-.mm-proposal-time { margin-top: 22px; border-left: 4px solid var(--mm-amber-d); padding-left: 14px; }
-.mm-proposal-time h4 { color: var(--mm-amber-d); }
-.mm-proposal-time p { margin: 0; font-size: 15px; }
-.mm-proposal-honesty { margin-top: 20px; color: var(--mm-mut-d); font-style: italic; font-size: 14px; }
-.mm-proposal-next { margin-top: 14px; border: 1px solid var(--mm-mint-d); background: var(--mm-paper2); padding: 12px 14px; font-size: 14px; }
-.mm-proposal-foot { margin-top: 22px; border-top: 1px solid rgba(13, 25, 41, .22); padding-top: 10px; }
-.mm-proposal-foot p { margin: 0 0 4px; color: var(--mm-mut-d); font-size: 12px; }
+.mm-proposal-time {
+  margin-top: 12px;
+  border: 1px solid var(--mmb-line);
+  border-top: 2px solid var(--mm-amber);
+  border-radius: 3px;
+  background: var(--mmb-card);
+  padding: 15px 16px;
+}
+.mm-proposal-time h4 { color: var(--mm-amber); }
+.mm-proposal-time p { margin: 0; font-size: 14.5px; line-height: 1.5; }
+.mm-proposal-honesty { margin-top: 16px; opacity: .72; font-style: italic; font-size: 13.5px; }
+.mm-proposal-next {
+  margin-top: 12px;
+  border-left: 2px solid var(--mmb-accent);
+  padding: 2px 0 2px 13px;
+  font-size: 14px;
+}
+.mm-proposal-foot { margin-top: 18px; border-top: 1px solid var(--mmb-line); padding-top: 10px; }
+.mm-proposal-foot p { margin: 0 0 4px; opacity: .58; font-size: 12px; }
 @media (min-width: 680px) {
   .mm-proposal-pair { grid-template-columns: 1fr 1fr; }
 }

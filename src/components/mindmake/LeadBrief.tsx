@@ -11,6 +11,7 @@ import {
   type MindmakeConfirmedResponseV2,
   type BriefRoute,
 } from "@/components/mindmake/leadDelivery";
+import { MindmakeProposal } from "@/components/mindmake/MindmakeProposal";
 import { buildPrivateBriefHtml, type PrivateBriefContent } from "@/components/mindmake/privateBriefHtml";
 import "@/styles/mindmake-brief.css";
 import { CONTACT_EMAIL } from "@/lib/publicLinks";
@@ -942,13 +943,20 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
               <p>Your request for an invitation to the publication was recorded. You have not been subscribed.</p>
             )}
             {error && <p className="mm-form-error" role="alert">{error}</p>}
-            {/* The proposal document is not rendered here. It is built for the
-                email and the attachment, and stapling it below the success copy
-                put a long formal document at the bottom of a dialog scroll where
-                nobody was looking for one. The read the visitor came for is the
-                preview step, two steps back; this step confirms the delivery and
-                hands over the file. The download builds its own HTML from the
-                same content, so it is unaffected. */}
+            {/* The canon promises this on screen, by email and as an attachment,
+                and it belongs on screen: it is what the visitor came for. What
+                was wrong was that it arrived as a cream paper document dropped
+                into a dark dialog under the success copy, which read as an
+                appendix rather than as the point. It is the same content in the
+                step's own visual language now. The email and the attachment are
+                built separately by privateBriefHtml and stay paper. */}
+            <MindmakeProposal
+              content={{
+                ...brief,
+                preparedFor: visitorEmailQueued ? email : undefined,
+                nextStep: visitorEmailQueued ? "reply" : "keep",
+              }}
+            />
             <div className="mm-success-actions">
               <button className="mm-button" type="button" onClick={downloadBrief}><Download aria-hidden="true" /> Download my brief</button>
               {handoffEnabled && !handoffResult && email && (

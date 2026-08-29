@@ -19,13 +19,19 @@ The release rules are:
 
 ## Visitor journey
 
-1. The visitor gives a company website.
+1. The visitor gives four details: first name, last name, work email and the part
+   of the business they work in. The company domain is derived from the email. A
+   personal address is refused on the page and again at the server, because the
+   read is built from the company behind the domain. Both doors ask for exactly
+   this, in one shared component, with one set of rules.
 2. Mindmake shows a declarative public-company read and labels a safe fallback honestly when live research does not answer. The read never asks the visitor anything or invites a correction; any sentence that does is dropped server-side and client-side before display.
 3. The visitor chooses one pressure. When the read was strong enough, the choices are two or three statements tailored to that company, generated and HMAC-signed by the server, each anchored to one locked lens; `Something else` reveals the locked list, which is also the guaranteed path whenever generation fails or runs out of time.
 4. The visitor chooses where better use of their time would matter.
 5. Mindmake shows a private starting recommendation, framed as an illustrative example of how the Mindmake brain reads a business from the outside, with the explicit line that none of it is advice.
 6. Only then does the visitor choose whether to keep it by email.
-7. The visitor enters a work email and may separately tick an unticked publication-interest box.
+7. The work email is already there, carried from step 1, and the visitor may
+   separately tick an unticked publication-interest box. Changing it here still
+   creates a fresh request.
 8. Mindmake sends a six-digit code. The code works for ten minutes and locks after five failed tries.
 9. Only after the code is confirmed does Mindmake try the two final deliveries independently, and the branded proposal renders on screen.
 10. The visitor can download the private HTML brief whether or not either email succeeds.

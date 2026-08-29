@@ -12,11 +12,11 @@ tables are RLS-on with no policies, which means service role only.
 
 | Function | Version | verify_jwt | Called by |
 |---|---|---|---|
-| `get-ai-news` | v67 | false | The browser, for the board and the homepage card |
-| `mindmake-personal-read` | v2 | false | The browser, from `/ai-brain` |
+| `get-ai-news` | v68 | false | The browser, for the board and the homepage card |
+| `mindmake-personal-read` | v3 | false | The browser, from `/ai-brain` |
 | `send-follow-ups` | v2 | false | pg_cron, daily at 09:20 UTC |
 | `aa-price-snapshot` | v1 | false | pg_cron, daily at 11:00 UTC |
-| `submit-mindmake-brief` | v12 | false | Still `main`'s body. The repository's day-14 enqueue is held back on purpose |
+| `submit-mindmake-brief` | v14 | false | Still `main`'s body. The repository's day-14 enqueue is held back on purpose |
 
 `get-ai-news` gained a board view and kept its previous response byte for byte.
 The two scheduled functions are public at the edge and guarded in code on the

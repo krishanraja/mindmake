@@ -349,7 +349,10 @@ rather than the craft.
 There is no public diary link and no "Book a fit call" CTA. The only primary
 action is **Start here**.
 
-1. The visitor gives a company website.
+1. The visitor gives four details: their first and last name, their work email
+   and the part of the business they work in. The company comes out of the
+   email's domain, so nobody types it twice, and a personal address is refused
+   because there is no company behind one to read.
 2. Mindmake shows a declarative outside read of the business and, when the read
    is strong enough, two or three pressure choices tailored to that company, each
    server-signed and anchored to a locked lens. "Something else" always reveals

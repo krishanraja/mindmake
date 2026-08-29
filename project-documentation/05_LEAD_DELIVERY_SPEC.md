@@ -343,6 +343,30 @@ the ceiling on their own week sits. If the personal read cannot be written,
 nothing is sent, because falling back to the company read is how the page ended
 up generic in the first place.
 
+### What testing real people found
+
+Five of Krish's own LinkedIn connections were run through the live person
+lookup on 29 August 2026, using their real names and their real employers'
+domains. Preview only: nothing was stored and no email was sent to any of them.
+
+| Person | What PDL returned | What they actually do |
+|---|---|---|
+| Lisa Burton | Vice President at HearstLab | correct |
+| Lewis Maleh | Founder and Chief Executive at Bentley Lewis | correct |
+| Abimbola Ikusika | Customer Success Specialist at Accomplishr | correct |
+| Alanna Laforet | no match, read refused | enGEN3 has thin public data, and the refusal is the system working |
+| Jay Gilden | Co-founder and Executive Director at Openly | **wrong person**. He is I&A Associate Director at Wavemaker |
+
+**One in four resolved matches was the wrong human being.** That number matters
+more than any of the presentation defects, because the others make a read read
+badly and this one makes it say something false about a named individual in an
+email addressed to them personally.
+
+It also corrects an earlier claim. Two of three public figures were reported as
+resolving, as though that were a hit rate; nobody had checked whether the two
+were the *right* people. Benioff and Collison happen to be unmistakable. Ordinary
+names are where this breaks, and Jay Gilden is an ordinary name.
+
 ### The employer cross-check
 
 PDL treats the company as a signal rather than a filter, so a common name comes
@@ -354,6 +378,12 @@ against the domain that was asked about, and a mismatch discards the person and
 falls back to a company-only read. A wrong job title is worse than no job title,
 and an email that opens by telling somebody they work somewhere they do not is
 the worst version of it.
+
+Verified against the case that exposed it: Jay Gilden at wavemaker.com now
+returns a company-only read, and Lisa Burton at hearstlab.com still resolves.
+The control matters as much as the case. A guard that discarded everybody would
+look identical to a guard that worked, if the only thing checked was that the
+bad match stopped appearing.
 
 `src/test/read-quality-gate.test.ts` holds forty-odd scenarios against it,
 including every division, every pair of answers, a descriptor in another

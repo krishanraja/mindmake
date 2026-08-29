@@ -51,7 +51,7 @@ Supabase project `bkyuxvschuwngtcdhsyg`.
 
 Last measured 28 August 2026, against the built output.
 
-- Tests: **294 across 21 files**, all passing.
+- Tests: **295 across 21 files**, all passing.
 - Typecheck: **0 errors**, against `tsconfig.app.json`, and the build runs it first.
   An earlier version of this file claimed `tsc` was clean when it had never run:
   the root `tsconfig.json` carries `"files": []` with project references, so

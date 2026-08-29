@@ -130,6 +130,21 @@ describe("the reads the live pipeline actually produced", () => {
     });
   }
 
+  /* The personal read, as the live pipeline now writes it. Its subject is the
+     seat rather than the employer, which is the whole point of the change: a
+     leader asking what AI does for their own capability is asking a different
+     question from what a business needs. */
+  it("writes about the person's work, not about their employer", () => {
+    const live = "Your judgement runs on portfolio construction and founder relationships, where you weigh conviction against the fund's capacity and the reality that backing women-led teams in fintech and data analytics means moving against established patterns in venture. You spend your time on due diligence depth and post-investment support. Your output sits at the number of companies you can meaningfully back each year and the returns those bets generate.";
+    const built = buildRead(REQUEST, { role: "Vice President", company: "HearstLab" }, { name: "HearstLab", descriptor: live }, "hearstlab.com");
+    const seen = built.seen ?? "";
+
+    /* The tells that it is about the seat: possessive second person about their
+       own work, and a statement of where their own output is capped. */
+    expect(seen).toMatch(/your judgement|your time|your output/i);
+    expect(assessRead(built, { role: "Vice President" }, "hearstlab.com").passed).toBe(true);
+  });
+
   it("leaves nothing sendable when the whole paragraph was the problem", () => {
     expect(sanitiseDescriptor("It is a company that provides innovative solutions. Built on WordPress.")).toBe("");
   });

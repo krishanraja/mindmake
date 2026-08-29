@@ -22,8 +22,13 @@ import { useEffect, useRef } from "react";
  *   run and confirmed it has an observer, so no JavaScript means no hiding.
  * - **Only what is below the fold is ever hidden.** Landing mid-page shows
  *   everything already on screen, immediately, in its final state.
- * - **A timer reveals everything regardless.** If the observer never fires, for
- *   any reason at all, the page is whole a moment later rather than never.
+ * - **A scroll pass reveals anything the reader reaches.** It does the
+ *   observer's job on a plain scroll listener, so a silently broken observer
+ *   costs nothing at all. This started life as a two-second timer and that was
+ *   wrong twice over: it defeated the feature, because on any real page every
+ *   element was revealed before the reader had scrolled to one, and it was a
+ *   weaker promise, because it guaranteed a moment rather than the reader's own
+ *   position.
  * - **Reduced motion hides nothing**, so that visitor gets the completed pass
  *   exactly as they do from every scrubbed build.
  *
@@ -36,15 +41,51 @@ import { useEffect, useRef } from "react";
 const ROOT_MARGIN = "0px 0px -12% 0px";
 
 /**
- * How long the page waits before showing everything regardless.
+ * The backstop, and the registry it runs over.
  *
- * Not a timeout in the usual sense: nothing has failed if it fires. It is the
- * guarantee that no combination of a stalled observer, a detached element or a
- * browser doing something unexpected can leave copy hidden. Two seconds is long
- * enough that it never pre-empts a reveal somebody is about to scroll to, and
- * short enough that nobody reads a gap.
+ * Every pending element is checked against the viewport on scroll and on
+ * resize, which is the observer's own job done by hand. If the observer works,
+ * this never has anything left to do; if it silently does not, the reader
+ * cannot tell, because an element is revealed by the time they can see it.
+ *
+ * One listener for the whole page, in the shape `useScrollDriver` already uses,
+ * so a page of thirty revealed elements is one passive listener rather than
+ * thirty.
  */
-const SAFETY_MS = 2000;
+const pending = new Set<HTMLElement>();
+let frame = 0;
+let listening = false;
+
+function sweep() {
+  frame = 0;
+  const viewport = window.innerHeight;
+  for (const element of [...pending]) {
+    if (element.getBoundingClientRect().top < viewport) {
+      element.dataset.reveal = "shown";
+      pending.delete(element);
+    }
+  }
+  if (pending.size === 0) stopSweeping();
+}
+
+const onScroll = () => {
+  if (frame) return;
+  frame = requestAnimationFrame(sweep);
+};
+
+function startSweeping() {
+  if (listening) return;
+  listening = true;
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll, { passive: true });
+}
+
+function stopSweeping() {
+  if (!listening) return;
+  listening = false;
+  window.removeEventListener("scroll", onScroll);
+  window.removeEventListener("resize", onScroll);
+}
 
 const reducedMotion = (): boolean =>
   typeof window !== "undefined"
@@ -69,6 +110,8 @@ export function useReveal<T extends HTMLElement>(index = 0) {
 
     const show = () => {
       element.dataset.reveal = "shown";
+      pending.delete(element);
+      if (pending.size === 0) stopSweeping();
     };
 
     /* No observer, or a visitor who asked for stillness: the element keeps the
@@ -83,6 +126,8 @@ export function useReveal<T extends HTMLElement>(index = 0) {
 
     element.dataset.reveal = "pending";
     element.style.setProperty("--mm-reveal-i", String(index));
+    pending.add(element);
+    startSweeping();
 
     const observer = new IntersectionObserver((entries) => {
       for (const entry of entries) {
@@ -92,12 +137,6 @@ export function useReveal<T extends HTMLElement>(index = 0) {
       }
     }, { rootMargin: ROOT_MARGIN });
     observer.observe(element);
-
-    /* The promise that nothing stays hidden, whatever else happens. */
-    const safety = window.setTimeout(() => {
-      show();
-      observer.disconnect();
-    }, SAFETY_MS);
 
     const motionQuery = typeof window.matchMedia === "function"
       ? window.matchMedia("(prefers-reduced-motion: reduce)")
@@ -112,7 +151,6 @@ export function useReveal<T extends HTMLElement>(index = 0) {
 
     return () => {
       motionQuery?.removeEventListener?.("change", onPreferenceChange);
-      window.clearTimeout(safety);
       observer.disconnect();
       /* Revealed on the way out, so an element that unmounts mid-reveal cannot
          be remounted into a hidden state by a stale attribute. */

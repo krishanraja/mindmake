@@ -416,3 +416,45 @@ The climb is the only pinned section on the site, so this is the whole of it.
 `.mm-head-split` also changes at 860px and was on the list; it is a two-column
 layout collapsing to one, which is a layout decision rather than a lost build,
 and it is left alone.
+
+
+## Added on 29 August 2026: arrival, and what it is not for
+
+`src/hooks/useReveal.ts` and `src/components/mindmake/Arrive.tsx`. Wrapping a
+group rather than each item, because what is worth staggering is a row of cards
+and writing the hook out six times is six chances to forget one.
+
+Wired first into the two quietest places a reader actually stops: the homepage's
+three answers to "where does everything you teach AI end up", which measured a
+whole-viewport mean of 0.023 and 0.026 across its two viewports, and the fork
+band on `/ai-brain`, which measured 0.071 and is the only paper band between two
+ink sections.
+
+**It is not a way to pass the aliveness gate.** That gate measures a page at
+rest, and an arrival has by then arrived, so the at-rest means above are
+untouched by this and will stay untouched. The reason it exists is the other
+half of the complaint: sections that were finished before they were looked at
+and did nothing as you read them.
+
+Chasing the at-rest mean was considered and rejected. Every `.mm-block` already
+carries a drifting ground light, reading about 0.01 over the gate's window, and
+the way to make that register would be to brighten it. The design contract calls
+movement added only for decoration a regression, and a brighter glow is exactly
+that: the contract's own words are that "a 7 percent alpha glow satisfies
+getAnimations() and satisfies no human being". The honest position is that the
+thin viewports are thin because they hold forms and cards and text, that arrival
+is what makes those read as alive, and that the mean is the wrong number for
+them.
+
+### What the backstop had to become
+
+The first version guaranteed "readable if the reveal never fires" with a
+two-second timer. Measured in a browser, every element on the page was revealed
+before a reader had scrolled to one, so no arrival ever happened. It was also
+the weaker promise: a moment, rather than the reader's own position.
+
+It is a scroll pass now, one passive listener for the page, doing the observer's
+job by hand. A silently broken observer costs nothing, because an element is
+revealed by the time it can be seen. Proven in a browser at 390: pending at the
+top, shown on arrival, no attribute at all under reduced motion, and 1076
+characters of the page's copy reaching a reader with JavaScript disabled.

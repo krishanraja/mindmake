@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Instrument } from "@/components/mindmake/Instrument";
+import { Arrive } from "@/components/mindmake/Arrive";
 import { track } from "@/lib/analytics";
 
 /**
@@ -63,7 +64,11 @@ export function ForkBand() {
         <b>Q1</b> Everything you teach AI today. Where does it end up?
       </p>
 
+      {/* The three answers arrive one after another. This band sits on paper
+          between two ink sections and measured a whole-viewport mean of 0.071:
+          the quietest thing on /ai-brain that a reader actually stops at. */}
       <div className="mm-forks">
+        <Arrive stagger>
         {FORKS.map((fork) => (
           <button
             key={fork.id}
@@ -83,6 +88,7 @@ export function ForkBand() {
             <p className="mm-fork-cost">{fork.cost}</p>
           </button>
         ))}
+        </Arrive>
       </div>
 
       <p className="mm-landing" role="status">

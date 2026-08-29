@@ -110,8 +110,13 @@ describe("what a reveal is allowed to hide", () => {
     expect(screen.getByText(/The decision/).dataset.reveal).toBeUndefined();
   });
 
-  it("shows everything again if the observer never fires", async () => {
-    vi.useFakeTimers();
+  it("shows anything the reader scrolls to even if the observer never fires", async () => {
+    /* The backstop, and the one promise that had to be rebuilt. It was a
+       two-second timer, which was wrong twice: on a real page every element was
+       revealed before the reader had scrolled to one, so no arrival ever
+       happened, and it guaranteed a moment rather than the reader's position.
+       A scroll pass is the observer's job done by hand, so a silently broken
+       observer costs nothing at all. */
     matchMedia(false);
     setViewport(800);
     setBox(2000);
@@ -119,10 +124,16 @@ describe("what a reveal is allowed to hide", () => {
     render(<Revealed />);
     expect(screen.getByText(/The decision/).dataset.reveal).toBe("pending");
 
-    await act(async () => { vi.advanceTimersByTime(2100); });
+    /* Time alone changes nothing now, which is the point. */
+    await act(async () => { await new Promise((r) => setTimeout(r, 60)); });
+    expect(screen.getByText(/The decision/).dataset.reveal).toBe("pending");
+
+    setBox(400);
+    await act(async () => {
+      window.dispatchEvent(new Event("scroll"));
+      await new Promise((r) => requestAnimationFrame(() => r(null)));
+    });
     expect(screen.getByText(/The decision/).dataset.reveal).toBe("shown");
-    expect(SilentObserver.instances.every((one) => one.disconnected)).toBe(true);
-    vi.useRealTimers();
   });
 
   it("keeps the text in the document the whole time", () => {

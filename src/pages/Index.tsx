@@ -6,6 +6,7 @@ import { CloseBlock } from "@/components/mindmake/CloseBlock";
 import { FilmPlate } from "@/components/mindmake/FilmPlate";
 import { FounderNote } from "@/components/mindmake/FounderNote";
 import { Instrument } from "@/components/mindmake/Instrument";
+import { Arrive } from "@/components/mindmake/Arrive";
 import { ScrubText } from "@/components/mindmake/ScrubText";
 import { Marquee } from "@/components/mindmake/Marquee";
 import { ObjectionChips } from "@/components/mindmake/ObjectionChips";
@@ -167,7 +168,13 @@ export default function Index() {
             customers matter. That knowledge is worth something, and it has to live somewhere.
           </p>
 
+          {/* The three answers arrive one after another as you reach them.
+              Measured before this, the two viewports covering this section read
+              a whole-viewport mean of 0.023 and 0.026: nothing on screen moved
+              while it was being read, and nothing changed as it was scrolled
+              past either. */}
           <div className="mm-three" style={{ marginTop: 20 }}>
+            <Arrive stagger>
             <article className="mm-enemy">
               <h3>It stays in a plan</h3>
               <p>Consultants and agencies do good work and leave you a plan you can act on. When the project closes, the understanding behind it goes with them.</p>
@@ -180,6 +187,7 @@ export default function Index() {
               <h3>It stays with you</h3>
               <p>We build it inside your own accounts. It learns how you decide, it gets better every week, and it stays yours when we finish.</p>
             </article>
+            </Arrive>
           </div>
 
           <div className="mm-answer">

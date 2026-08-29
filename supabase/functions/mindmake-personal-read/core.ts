@@ -233,6 +233,25 @@ export function present(value: string | undefined, isTitle = false): string | un
     .join(" ");
 }
 
+/**
+ * A company's name, without the address it happens to live at.
+ *
+ * The providers sometimes hand back the domain as the name, so the live battery
+ * addressed Shopify as "Shopify.com". Nobody writes their own company that way,
+ * and a reader who sees it knows immediately that no one looked.
+ */
+export function companyName(value: string | undefined): string | undefined {
+  const clean = value?.trim();
+  if (!clean) return undefined;
+  /* Only when the provider handed back a raw hostname, which it writes in
+     lower case. A company that is genuinely called Booking.com writes itself
+     with a capital, and the same rule that protects eBay protects it here: a
+     word already carrying a capital is a name somebody chose, not a string a
+     machine produced. */
+  const bare = /^([a-z0-9-]+)\.(com|co\.uk|io|ai|net|org|de|fr|nl|es|it|se|dk|no|fi|ie|au|ca|us)$/.exec(clean);
+  return bare && bare[1].length > 2 ? bare[1] : clean;
+}
+
 /** The same tidy-up applied to every field the read will actually say aloud. */
 export function tidyProfile(profile: Profile): Profile {
   return {
@@ -242,7 +261,7 @@ export function tidyProfile(profile: Profile): Profile {
        returned "University Of Oxford", which is a spelling of that name nobody
        has ever used. */
     role: present(profile.role, true),
-    company: present(profile.company, true),
+    company: present(companyName(profile.company), true),
     industry: present(profile.industry, true),
   };
 }
@@ -331,7 +350,7 @@ export function buildRead(
   profile: Profile,
   company?: CompanySeen,
 ): PersonalRead {
-  const named = present(company?.name) ?? profile.company?.trim();
+  const named = present(companyName(company?.name), true) ?? profile.company?.trim();
   const descriptor = company?.descriptor
     ? sanitiseDescriptor(houseVoice(company.descriptor.trim())) || undefined
     : undefined;
@@ -544,7 +563,8 @@ const DOOM = [
  */
 const FLATTERY = [
   /\b(?:world|industry|market)(?:'s)?[- ]?(?:leading|best|foremost|premier|number one|largest|biggest)\b/i,
-  /\byou (?:remain|are) the (?:leading|best|premier|foremost|dominant|top)\b/i,
+  /\b(?:you|it|they|\w+)\s+(?:remain|remains|are|is)\s+the\s+(?:leading|best|premier|foremost|dominant|top|backbone|gold standard)\b/i,
+  /\bdemonstrat\w+\s+your\s+commitment\b/i,
   /\b(?:unrivalled|unmatched|unparalleled|second to none|gold standard)\b/i,
   /\bgenuine innovation\b/i,
   /\b(?:rare|shining) example\b/i,
@@ -636,9 +656,13 @@ export function assessRead(read: PersonalRead, profile: Profile, domain = ""): R
   const ask = (question: string, ok: boolean) => { if (!ok) failures.push(question); };
 
   // 1. The question the whole email lives or dies on.
+  /* The floor applies after repair, not before it. Stripping the NHS read of
+     its doom sentence and its flattery left two sentences, which cleared a
+     word count measured across the whole body while the part that was supposed
+     to carry the specifics had almost nothing left in it. */
   ask(
     "Is there anything here that could only have been written about this company?",
-    seen.length >= 60 && unique.size >= 6,
+    seen.length >= 140 && unique.size >= 12,
   );
 
   // 2. Filler is worse than silence, because it looks like an answer.

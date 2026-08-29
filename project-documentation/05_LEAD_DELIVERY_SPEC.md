@@ -297,6 +297,21 @@ test rather than as a worse email.
 | "YAY! Mushrooms" | A real Marks and Spencer product. A bare test for an exclamation mark refused a good read over a brand name; our own shouting ends a word, a brand carries the mark inside a capitalised token. |
 | Four whole reads refused over one trailing sentence | The remedy was wrong, not just the rule. Repair now comes before refusal. |
 
+The re-run that verified those fixes exposed the next layer down, which is what
+iterating against real data looks like rather than a sign something is wrong:
+
+| What came back | What it exposed |
+|---|---|
+| "Marks And Spencer", "University Of Oxford" | The dossier's own name skipped the minor-word rule that job titles already had. |
+| "Shopify.com" | A provider handed back the hostname as the name. The TLD is stripped only when the whole name arrives in lower case, because a company genuinely called Booking.com writes itself with a capital, and the rule that protects eBay protects it too. |
+| "Shopify remains the dominant...", "You remain the backbone of British healthcare" | The flattery rule only matched a second-person subject. |
+| The NHS read cut to two thin sentences | The specificity floor was measured across the whole body, so stripping the doom sentence left the part that carries the specifics nearly empty while the total still cleared. The floor now applies to the repaired paragraph itself. |
+
+Six of the gate's own fixtures failed against that raised floor because they were
+shorter than anything the pipeline actually returns. The fixtures were lengthened
+rather than the floor lowered: it is calibrated from real reads, which run to
+three hundred characters and up.
+
 `src/test/read-quality-gate.test.ts` holds forty-odd scenarios against it,
 including every division, every pair of answers, a descriptor in another
 language, a company that capitalises itself oddly, and the provider states that

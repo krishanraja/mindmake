@@ -36,7 +36,7 @@ Supabase project `bkyuxvschuwngtcdhsyg`.
 | `submit-mindmake-brief` | v13 | off | The company read, plus the day-14 follow-up enqueue. Deployed from merged `main` on 28 August 2026 with its full import closure, and the deployed body verified to carry the enqueue |
 | `enrich-company` | v36 | on | Declarative synthesis and tailored choices |
 | `get-ai-news` | v68 | off | Restored to the repository and extended with `{view:"board"}`. No body still returns the previous shape byte for byte |
-| `mindmake-personal-read` | v15 | off | The personal read: enrichment, the one results email, the follow-up enqueue |
+| `mindmake-personal-read` | v16 | off | The personal read: enrichment, the one results email, the follow-up enqueue |
 | `send-follow-ups` | v2 | off | The day-14 follow-up. Cron only |
 | `aa-price-snapshot` | v1 | off | Daily model prices. Cron only |
 
@@ -51,7 +51,7 @@ Supabase project `bkyuxvschuwngtcdhsyg`.
 
 Last measured 28 August 2026, against the built output.
 
-- Tests: **285 across 21 files**, all passing.
+- Tests: **289 across 21 files**, all passing.
 - Typecheck: **0 errors**, against `tsconfig.app.json`, and the build runs it first.
   An earlier version of this file claimed `tsc` was clean when it had never run:
   the root `tsconfig.json` carries `"files": []` with project references, so

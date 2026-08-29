@@ -243,3 +243,92 @@ cannot reach `mindmake.co` through this session's proxy, though `curl` can, so
 the shape and the offer were verified against the deployed stylesheet and then
 rendered from an identical local build at 1440 and 390. Worth one look on a real
 device.
+
+
+## Repaired on 29 August 2026: the entrance was three pages in a row
+
+Krish described the load as a text-only page on a white background, then a
+glitch, then the site. Measured cold at 390px on a throttled 4Mbps connection,
+that was exactly what happened:
+
+| | before | after |
+|---|---|---|
+| first frame | pure white | ink |
+| at 395ms | the prerendered document, black on white | the shell, set as the hero |
+| at 719ms | the site replaces it | nothing to replace |
+| light ground on screen | ~700ms | 0ms |
+| page replaced after painting | once | never |
+| something moving | 1486ms | ~10ms after first paint |
+| page replaced after painting, phone | once | never, on all three pages |
+| page replaced after painting, 1440 | once | never on `/`, once on the two doors |
+
+Two causes, neither visible to anything that existed.
+
+**The ground.** `src/index.css` set `body { background-color: hsl(var(--background)) }`
+and `--background` is off-white. Vite injects the built stylesheet into the head
+*after* the critical inline style in `index.html` that sets the ink, so the later
+rule won and the page was off-white until React painted over it. Every page on
+this site, the 404 included, renders inside `.mm-site`, which paints the ink, so
+the white was never a design anybody chose: it was only ever visible during the
+flash. `--background` is unchanged and still correct for the shadcn components
+that read it through `bg-background`; only the page ground moved.
+
+**The shell.** `scripts/prerender.mjs` emits every heading and paragraph on the
+page as plain HTML so a crawler running nothing still gets all of it. It had no
+styles at all, so a visitor got a document in Inter for as long as it took React
+to arrive and discard it. It is now set as the hero it is about to become: the
+wordmark, the first line at hero scale, a slow light behind it, and the rest of
+the document clipped a screen below. Clipped rather than hidden, because the
+text is the reason the shell exists and hidden text is not text.
+
+Its CSS is deliberately in two places. `index.html` inlines what the first
+screen needs, so it does not wait on the 126KB render-blocking stylesheet;
+`src/styles/mindmake.css` holds the same rules for everything after.
+`src/test/first-screen.test.ts` keeps the two identical.
+
+The light behind the shell is also the only thing on this site that moves before
+JavaScript exists. It is a CSS gradient on a keyframe, which is why it can: no
+observer, no React, no video. "Alive from the get-go" is now literally true on
+the first painted frame rather than a second and a half later.
+
+### What is still outstanding
+
+At 1440 the two door pages settle once, about a second after they paint. It is
+not the flash and it is not the hero: the headline, the claim, the lede and the
+film plate were each measured against the hydrated page and matched to within a
+few pixels. What moves is the strip below the hero, where the live page starts
+its next section on `--mm-ink-raise` and the shell has plain ink. At 1440x900
+the hero ends at 824px, so the last 76px of the window changes colour when React
+lands, which the gate reads as about three rows of its grid.
+
+A band at a fixed 824px was tried and made it worse, because that number is only
+true at one window height. The real answer is the one the plan already names:
+render the components to HTML at build time instead of hand-writing a shell, so
+the first paint is the page rather than a good likeness of its first screen.
+Until then this is measured, named, and much smaller than what it replaced.
+
+Held by `src/test/first-screen.test.ts` and by `npm run qa:entrance`
+(`scripts/qa/first-second-check.mjs`), which loads the built site cold on a
+throttled connection and photographs the entrance from the compositor.
+
+### A note on the instrument
+
+The first version of that gate asked for a screenshot every 100ms and reported
+frames at 0ms, 411ms, and then nothing until 1449ms. `screenshot()` waits on the
+main thread, and the main thread is busy parsing 351KB of JavaScript, which is
+precisely the second being measured: an instrument that goes blind during the
+event. It uses a CDP screencast now, pushed from the compositor as each frame
+paints. It also measured the dominant colour at first, which was 36% of the
+frame on a page that is a ground plus a photograph plus type; it measures whole
+frame luminance now, because "it flashed white at me" is a statement about the
+whole frame.
+
+It also could not tell a page being replaced from a film starting: a 566px plate
+coming alive at 1440 moves a quarter of the grid every frame for as long as it
+plays, and the first attempt called that a replacement. Told to ignore any large
+change followed by more movement, it then failed its control, because a film
+plays in the genuinely-wrong-page case too. It now measures which cells keep
+changing once the page is running, sets those aside, and looks for replacements
+only in what is meant to be holding still. The control it is checked against is
+real: `vite preview` serves the SPA fallback, so `/ai-brain` on it renders the
+homepage shell and then swaps to the door page, and the gate has to catch that.

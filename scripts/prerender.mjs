@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "fs";
 import { dirname, resolve } from "path";
 import { fileURLToPath } from "url";
 import { loadBlogPosts } from "./lib/blog-posts-loader.mjs";
@@ -11,6 +11,32 @@ const template = readFileSync(resolve(distDir, "index.html"), "utf8").replace(
   /<div id="root">[\s\S]*?<\/div>\s*<script type="module"/,
   '<div id="root"></div>\n    <script type="module"',
 );
+
+/**
+ * The hero poster each page opens on, by its built filename.
+ *
+ * Put in the shell so the image the hydrated hero shows starts downloading when
+ * the HTML is parsed rather than after 351KB of JavaScript has run. Two things
+ * follow from that: the last visible jump goes, because the plate is already
+ * where React is about to draw it, and the page's largest element stops waiting
+ * on a bundle.
+ *
+ * Read from disk rather than hard-coded, because Vite hashes the filename on
+ * every content change. A miss is silent by design: the shell renders without a
+ * plate, which is how it looked before this existed.
+ */
+function heroPoster(path) {
+  const film = { "/": "film-01", "/ai-brain": "film-02", "/ai-gtm": "film-03" }[path];
+  if (!film) return null;
+  const assets = resolve(distDir, "assets");
+  if (!existsSync(assets)) return null;
+  const files = readdirSync(assets);
+  const pick = (extension) => files.find((name) => name.startsWith(`${film}-poster-`) && name.endsWith(extension));
+  const jpg = pick(".jpg");
+  const webp = pick(".webp");
+  if (!jpg && !webp) return null;
+  return `<picture id="prerendered-plate" aria-hidden="true">${webp ? `<source srcset="/assets/${webp}" type="image/webp">` : ""}${jpg ? `<img src="/assets/${jpg}" alt="" decoding="async" fetchpriority="high">` : ""}</picture>`;
+}
 
 const nav = `<nav aria-label="Mindmake"><a href="/ai-brain">Build your AI brain</a><a href="/ai-gtm">Build your AI GTM</a><a href="/case-studies">Results</a><a href="https://mindmakerlive.substack.com">The weekly read</a><a href="/?start=1">Start here</a></nav>`;
 
@@ -198,7 +224,32 @@ function build(page) {
   if (page.jsonLd) {
     html = html.replace("</head>", `    <script id="mindmake-page-jsonld" type="application/ld+json">${JSON.stringify(page.jsonLd)}</script>\n  </head>`);
   }
-  return html.replace('<div id="root"></div>', `<div id="root"><div id="prerendered-content">${page.body}${nav}</div></div>`);
+  /* The wordmark leads, as it does on the real page. Without it the shell was a
+     document that happened to be dark, and the swap to the hydrated page put a
+     header on screen out of nowhere. It is inert text rather than the real
+     brand component: nothing here may depend on JavaScript, because the whole
+     point of this markup is the window before JavaScript. */
+  const brand = `<p id="prerendered-brand" aria-hidden="true">MIND<span>/</span>MAKE</p>`;
+  /* Which shape the hero this is about to become has, so the shell can stand in
+     the same place. The homepage centres its first line over a film; the two
+     doors set it in the left column of a split with the film beside it. On a
+     phone both stack to one centred column and the distinction does nothing,
+     which is why it took a measurement at 1440 to notice: the entrance gate
+     read the desktop door pages as the page being replaced 535ms after it
+     painted, because the type jumped from the middle to the left. */
+  const heroShape = ["/ai-brain", "/ai-gtm"].includes(page.path) ? "split" : "centred";
+  const plate = heroPoster(page.path) ?? "";
+  /* Every hero on this site sets its last sentence apart: the setup in the
+     grotesque, the claim under it in mint serif. In the shell the whole thing
+     was one heading, so it wrapped onto a third line and the swap moved every
+     line of it. The heading's text is unchanged, which is what matters for a
+     crawler; only the final sentence is wrapped so it can be set. */
+  const body = page.body.replace(/<h1>([^<]+)<\/h1>/, (whole, text) => {
+    const at = text.trimEnd().slice(0, -1).lastIndexOf(". ");
+    if (at < 0) return whole;
+    return `<h1>${text.slice(0, at + 1)} <span class="prerendered-claim">${text.slice(at + 2)}</span></h1>`;
+  });
+  return html.replace('<div id="root"></div>', `<div id="root"><div id="prerendered-content" data-hero="${heroShape}">${brand}${plate}${body}${nav}</div></div>`);
 }
 
 const renderedPaths = new Set();

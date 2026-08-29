@@ -218,7 +218,25 @@
 }
 
 body {
-  background-color: hsl(var(--background));
+  /* The ink, not the shadcn --background token.
+   *
+   * Every page on this site, the 404 included, renders inside .mm-site, which
+   * paints --mm-ink. Nothing else ever paints a ground. But this rule said
+   * off-white, and it is in the built stylesheet, which Vite injects into the
+   * head *after* the critical inline style in index.html that sets the ink. The
+   * later rule won, so the pre-hydration paint was white.
+   *
+   * Measured before this change, cold at 390px on a 4Mbps connection: pure
+   * white at 20ms, the prerendered document in black on white at 395ms, and the
+   * site arriving at 719ms. Seven hundred milliseconds of a white page nobody
+   * designed, on the ground the whole site is a reaction against.
+   *
+   * --background stays exactly as it was: shadcn components still read it
+   * through bg-background, and this changes the page ground alone. The literal
+   * is repeated rather than read from --mm-ink because the token is defined in
+   * mindmake.css, which a page imports and this file cannot depend on.
+   */
+  background-color: #0a100d;
   color: hsl(var(--foreground));
   font-family: 'Inter Variable', 'Inter', system-ui, -apple-system, sans-serif;
   font-size: 16px;

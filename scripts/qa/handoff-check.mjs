@@ -9,7 +9,10 @@
 import { chromium } from "playwright";
 
 const BASE = "http://127.0.0.1:4180";
-const OUT = process.argv[2] ?? ".";
+/* A directory for the screenshots, and never the repository by default: the
+   first version defaulted to "." and four PNGs were committed with a change
+   that had nothing to do with them. */
+const OUT = process.argv[2] ?? process.env.TMPDIR ?? "/tmp";
 const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium" });
 const problems = [];
 

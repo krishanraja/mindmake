@@ -43,3 +43,9 @@ deno.lock
 .qa-screenshots/
 .vercel
 .env*
+
+# Screenshots written by the browser gates. They belong in a temp directory;
+# an earlier default of "." put four of them in a commit about the lead dialog.
+handoff-*.png
+entrance-*.png
+shell-*.png

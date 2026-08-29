@@ -8,6 +8,12 @@
 .mm-brief-panel[data-tone="ink"] {
   --mmb-bg: var(--mm-ink);
   --mmb-fg: #ffffff;
+  /* Secondary body text, which is not the same thing as a caption. --mmb-muted
+     is the caption colour, and on paper it sits at 3.4:1: correct for a small
+     mono label naming a box, and under the bar for a sentence somebody has to
+     read. The site already keeps the two apart on its own grounds, as --mm-fg2
+     and --mm-muted; the dialog only ever had the second. */
+  --mmb-fg2: var(--mm-tx2);
   --mmb-muted: var(--mm-mut);
   --mmb-line: var(--mm-line);
   --mmb-card: rgba(255, 255, 255, .05);
@@ -17,6 +23,7 @@
 .mm-brief-panel[data-tone="forest"] {
   --mmb-bg: var(--mm-mint-wash);
   --mmb-fg: #ffffff;
+  --mmb-fg2: var(--mm-tx2);
   --mmb-muted: var(--mm-mut);
   --mmb-line: rgba(255, 255, 255, .2);
   --mmb-card: rgba(255, 255, 255, .06);
@@ -26,6 +33,7 @@
 .mm-brief-panel[data-tone="paper"] {
   --mmb-bg: var(--mm-paper);
   --mmb-fg: var(--mm-ink);
+  --mmb-fg2: var(--mm-tx2-d);
   --mmb-muted: var(--mm-mut-d);
   --mmb-line: var(--mm-paper-line);
   --mmb-card: var(--mm-paper2);

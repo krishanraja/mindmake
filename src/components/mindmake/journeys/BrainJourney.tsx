@@ -1,17 +1,13 @@
 import { useState } from "react";
+import { HumanHandoff } from "@/components/mindmake/HumanHandoff";
 import { Instrument } from "@/components/mindmake/Instrument";
 import { DetailsJourney, type Details } from "@/components/mindmake/journeys/DetailsJourney";
 import { WEEK_ONE_QUESTIONS, CLOSING_LINE, type Q1, type Q2 } from "@/content/personalRead";
+import type { HandoffReason } from "@/content/handoff";
 import { track } from "@/lib/analytics";
+import { postPersonalRead } from "@/lib/personalReadClient";
 
 type SendState = "idle" | "sending" | "sent" | "failed";
-
-/* Resolved once, the way useBoardData does it. Reading the env inline left the
-   header object typed string | undefined, which is also the honest shape of the
-   bug: with the variable missing the request would have gone out carrying the
-   word "undefined" as its key. */
-const FUNCTION_URL = `${import.meta.env.VITE_SUPABASE_URL ?? ""}/functions/v1/mindmake-personal-read`;
-const ANON_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? "";
 
 /** What the server assembles and the page puts on screen. */
 interface Read {
@@ -20,16 +16,6 @@ interface Read {
   company?: string;
   companyOnly: boolean;
 }
-
-const post = (body: unknown) => fetch(FUNCTION_URL, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    apikey: ANON_KEY,
-    Authorization: `Bearer ${ANON_KEY}`,
-  },
-  body: JSON.stringify(body),
-});
 
 /**
  * See it read you.
@@ -53,6 +39,10 @@ export function BrainJourney() {
   const [reading, setReading] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [send, setSend] = useState<SendState>("idle");
+  /* Which dead end we are standing in, or null. Three of the four ways the read
+     can end badly used to collapse into one sentence about trying again, which
+     is advice a visitor has already taken by the time they read it. */
+  const [stuck, setStuck] = useState<HandoffReason | null>(null);
 
   const start = async (entered: Details) => {
     if (!q1 || !q2) {
@@ -60,11 +50,12 @@ export function BrainJourney() {
       return;
     }
     setPrompt("");
+    setStuck(null);
     setReading(true);
     setDetails(entered);
     track("journey_brain_read", { division: entered.division, q1, q2 });
     try {
-      const response = await post({
+      const response = await postPersonalRead({
         action: "preview",
         first_name: entered.firstName,
         last_name: entered.lastName,
@@ -79,16 +70,16 @@ export function BrainJourney() {
          is better than putting a generic paragraph on screen with their name on
          it, which is exactly what this whole gate exists to stop. */
       if (data?.status === "not_worth_sending") {
-        setPrompt(
-          "We could not find enough about your company from the outside to write you anything worth reading. "
-          + "Rather than send you something generic, we would rather not. Reply to us and we will look properly.",
-        );
+        setStuck("read-refused");
         return;
       }
       if (!data?.read) throw new Error("no-read");
       setRead(data.read as Read);
-    } catch {
-      setPrompt("We could not read your company just now. Try again in a moment.");
+    } catch (caught) {
+      /* The limiter is its own dead end and reads nothing like a fault: the cap
+         is ours, it cannot tell a robot from somebody interested, and telling
+         them to try again in a moment would be telling them to trip it again. */
+      setStuck(caught instanceof Error && caught.message === "429" ? "read-rate-limited" : "read-failed");
     } finally {
       setReading(false);
     }
@@ -98,7 +89,7 @@ export function BrainJourney() {
     if (!details || !q1 || !q2) return;
     setSend("sending");
     try {
-      const response = await post({
+      const response = await postPersonalRead({
         action: "send",
         first_name: details.firstName,
         last_name: details.lastName,
@@ -141,23 +132,50 @@ export function BrainJourney() {
           </p>
         )}
 
-        {send === "sent" ? (
+        {send === "sent" && (
           <p className="mm-fine" role="status" style={{ color: "var(--mm-mint)" }}>
             On its way to {details?.email}. Check your inbox in a few minutes.
           </p>
-        ) : (
+        )}
+
+        {/* The read is written and on screen. What failed is the posting of it,
+            so the offer takes the place of the send button rather than sitting
+            beside it: two actions here would be asking somebody who has just
+            been let down to decide which one is the real one. */}
+        {send === "failed" && (
+          <HumanHandoff
+            reason="send-failed"
+            details={details}
+            onRetry={() => { setSend("idle"); }}
+            retryLabel="Or try sending it again"
+          />
+        )}
+
+        {send !== "sent" && send !== "failed" && (
           <>
             <button className="mm-button" data-mm-primary type="button" disabled={send === "sending"} onClick={sendFull}>
               {send === "sending" ? "Sending" : "Send me the full version"} <span aria-hidden="true">→</span>
             </button>
             <p className="mm-fine">{CLOSING_LINE}</p>
-            {send === "failed" && (
-              <p className="mm-journey-error" role="alert">
-                We could not send that just now. Try again in a moment.
-              </p>
-            )}
           </>
         )}
+      </div>
+    );
+  }
+
+  /* Nothing to show and nothing to try. The form is put away rather than left
+     underneath, because leaving it there says the machine might work this time
+     and it has just told us it will not. Trying again is offered quietly inside
+     the panel for the two cases where it is worth anything. */
+  if (stuck) {
+    return (
+      <div className="mm-journey">
+        <HumanHandoff
+          reason={stuck}
+          details={details}
+          onRetry={stuck === "read-refused" ? undefined : () => setStuck(null)}
+          retryLabel="Or try the read once more"
+        />
       </div>
     );
   }
@@ -169,6 +187,10 @@ export function BrainJourney() {
         busy={reading}
         busyLabel="Reading your company and your role"
         onSubmit={start}
+        /* Somebody with no work address cannot go and get one, so the rule that
+           protects the reading becomes a locked door once the reading is off
+           the table. This is the way out of it. */
+        onDeadEnd={(typed) => <HumanHandoff reason="personal-email" prefill={typed} />}
       >
         {(["q1", "q2"] as const).map((key) => {
           const question = WEEK_ONE_QUESTIONS[key];

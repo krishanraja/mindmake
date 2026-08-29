@@ -759,6 +759,67 @@
 .mm-final h2 { max-width: 18ch; }
 .mm-final p { max-width: 56ch; color: var(--mm-tx2); }
 
+/* ---------- The offer at the end of a dead end ----------
+   Lives here rather than beside the journey, because it appears in three
+   places on three different grounds: inside the dark journey panel on
+   /ai-brain, inside the lead dialog wearing whichever surface that step is on,
+   and under the ask bar at the close of a page. Every colour resolves through
+   the dialog's tone tokens first and falls back to the page's, so the panel
+   wears the surface it lands on rather than carrying its own. The proposal
+   learned this the hard way, as dark text on a dark ground. */
+
+.mm-handoff {
+  --mmh-fg: var(--mmb-fg, var(--mm-tx));
+  /* Secondary body text, never the caption colour. The aside is a sentence
+     somebody has to read, and the dialog's muted token measured 3.4:1 on paper,
+     which is right for a small label naming a box and wrong for this. Measured
+     after the change: 6.9:1 on paper, 7.7:1 on ink, 8.1:1 on forest. */
+  --mmh-mut: var(--mmb-fg2, var(--mm-fg2, var(--mm-tx2)));
+  --mmh-line: var(--mmb-line, var(--mm-line));
+  --mmh-accent: var(--mmb-accent, var(--mm-mint));
+  display: grid;
+  gap: 14px;
+  margin-top: 16px;
+  border: 1px solid var(--mmh-line);
+  border-left: 2px solid var(--mmh-accent);
+  border-radius: 3px;
+  padding: 16px 17px;
+  color: var(--mmh-fg);
+  text-align: left;
+}
+.mm-handoff-say { display: grid; gap: 8px; }
+.mm-handoff .mm-i { width: 30px; height: 30px; }
+.mm-handoff-sorry { color: var(--mmh-fg); font-size: 16px; font-weight: 700; letter-spacing: -.015em; line-height: 1.35; }
+.mm-handoff-aside { max-width: 62ch; color: var(--mmh-mut); font-size: 14.5px; line-height: 1.55; }
+.mm-handoff-do { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; }
+.mm-handoff-last { color: var(--mm-amber); font-family: var(--mm-mono); font-size: 12px; line-height: 1.5; }
+.mm-handoff-last a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.mm-handoff.is-done { border-left-color: var(--mmh-accent); }
+
+/* The quiet way in, where a live form is still on screen and a second panel
+   would be a second door beside a working one. A text button, not a button
+   that looks like an action, with a tap target that still clears 30px. */
+.mm-handoff-trigger {
+  justify-self: start;
+  min-height: 30px;
+  padding-block: 4px;
+  border: 0;
+  background: none;
+  color: var(--mmb-accent, var(--mm-mint));
+  font-family: var(--mm-mono);
+  font-size: 11.5px;
+  letter-spacing: .06em;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.mm-handoff-trigger:focus-visible { outline: 2px solid var(--mmb-accent, var(--mm-mint)); outline-offset: 2px; }
+
+/* The offer sits inside the error block on the details form, where the error
+   is a dead end rather than a typo. */
+.mm-journey-error .mm-handoff { margin-top: 10px; }
+
 @media (prefers-reduced-motion: reduce) {
   .mm-site *, .mm-site *::before, .mm-site *::after {
     animation-duration: .001ms !important;

@@ -1,3 +1,4 @@
+import { HumanHandoff } from "@/components/mindmake/HumanHandoff";
 import { DetailsJourney, type Details } from "@/components/mindmake/journeys/DetailsJourney";
 import { track } from "@/lib/analytics";
 
@@ -45,7 +46,12 @@ export function GtmJourney({ onRead }: GtmJourneyProps) {
 
   return (
     <div className="mm-journey">
-      <DetailsJourney action="Read my business" onSubmit={submit} />
+      <DetailsJourney
+        action="Read my business"
+        onSubmit={submit}
+        /* The same locked door as the other page, opened the same way. */
+        onDeadEnd={(typed) => <HumanHandoff reason="personal-email" prefill={typed} />}
+      />
 
       <div className="mm-journey-steps">
         {STEPS.map((step) => (

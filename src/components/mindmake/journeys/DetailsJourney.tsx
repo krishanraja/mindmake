@@ -1,6 +1,14 @@
 import { useId, useState } from "react";
 import { Instrument } from "@/components/mindmake/Instrument";
-import { DIVISIONS, workEmailProblem, domainFromEmail, type Division } from "@/lib/workEmail";
+import { HANDOFF_TRIGGER } from "@/content/handoff";
+import {
+  DIVISIONS,
+  FREE_EMAIL_PROBLEM,
+  anyEmailProblem,
+  workEmailProblem,
+  domainFromEmail,
+  type Division,
+} from "@/lib/workEmail";
 
 /**
  * The four things both pages ask for, asked the same way on both.
@@ -14,6 +22,14 @@ import { DIVISIONS, workEmailProblem, domainFromEmail, type Division } from "@/l
  * The email carries the company: its domain is what the read is built from, so
  * nobody has to type their company twice. That is also why a personal address
  * cannot be accepted, and the message for that case says the limitation is ours.
+ *
+ * One of those messages is a dead end rather than a typo. Somebody working for
+ * themselves cannot go and get a work address, and until now the form simply
+ * held the door shut on them. `onDeadEnd` is how they get out: a quiet line
+ * under the error, and the form stands aside for whatever the page offers
+ * instead. It stands aside rather than sitting underneath because the offer
+ * carries its own form, and a form inside a form is not a thing a browser will
+ * do.
  */
 
 export interface Details {
@@ -25,6 +41,9 @@ export interface Details {
   domain: string;
 }
 
+/** What somebody had typed at the moment the form gave up on them. */
+export type PartialDetails = Partial<Omit<Details, "division">> & { division?: Division | "" };
+
 interface DetailsJourneyProps {
   /** The label on the button. Each page promises its own thing. */
   action: string;
@@ -33,15 +52,55 @@ interface DetailsJourneyProps {
   onSubmit: (details: Details) => void;
   /** Rendered under the fields: whatever the page wants asked as well. */
   children?: React.ReactNode;
+  /**
+   * Which addresses are allowed.
+   *
+   * "work" is the rule everywhere a read is being built, because the read comes
+   * out of the domain and a personal address gives it nothing. "any" is for the
+   * handoff form alone, where somebody is asking to reach a person rather than
+   * to be read: refusing them there would be the site enforcing a rule for a job
+   * it has already stopped doing, and turning a rescue into a second refusal.
+   */
+  emailRule?: "work" | "any";
+  /** Replaces the standard help line under the address field. */
+  emailHint?: string;
+  /** Fills the fields in from what was typed before the form stood aside. */
+  initial?: PartialDetails;
+  /**
+   * What to offer when the address rule is the thing standing in their way.
+   *
+   * Only the personal-address message reaches this. Every other message here is
+   * answered by fixing what was typed, and offering a way out of a typo would
+   * be offering a way out of nothing.
+   */
+  onDeadEnd?: (typed: PartialDetails) => React.ReactNode;
 }
 
-export function DetailsJourney({ action, busy, busyLabel, onSubmit, children }: DetailsJourneyProps) {
+export function DetailsJourney({
+  action,
+  busy,
+  busyLabel,
+  onSubmit,
+  children,
+  emailRule = "work",
+  emailHint,
+  initial,
+  onDeadEnd,
+}: DetailsJourneyProps) {
   const id = useId();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [division, setDivision] = useState<Division | "">("");
+  const [firstName, setFirstName] = useState(initial?.firstName ?? "");
+  const [lastName, setLastName] = useState(initial?.lastName ?? "");
+  const [email, setEmail] = useState(initial?.email ?? "");
+  const [division, setDivision] = useState<Division | "">(initial?.division ?? "");
   const [error, setError] = useState("");
+  const [stoodAside, setStoodAside] = useState(false);
+
+  const typed = (): PartialDetails => ({
+    firstName: firstName.trim().slice(0, 80),
+    lastName: lastName.trim().slice(0, 80),
+    email: email.trim().toLowerCase(),
+    division,
+  });
 
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -49,7 +108,7 @@ export function DetailsJourney({ action, busy, busyLabel, onSubmit, children }: 
       setError("We need your name to find you. First and last is enough.");
       return;
     }
-    const problem = workEmailProblem(email);
+    const problem = emailRule === "any" ? anyEmailProblem(email) : workEmailProblem(email);
     if (problem) { setError(problem); return; }
     if (!division) { setError("Pick the part of the business you work in."); return; }
     setError("");
@@ -61,6 +120,8 @@ export function DetailsJourney({ action, busy, busyLabel, onSubmit, children }: 
       domain: domainFromEmail(email),
     });
   };
+
+  if (stoodAside && onDeadEnd) return <>{onDeadEnd(typed())}</>;
 
   return (
     <form className="mm-details" onSubmit={submit} noValidate>
@@ -96,7 +157,7 @@ export function DetailsJourney({ action, busy, busyLabel, onSubmit, children }: 
           value={email}
           onChange={(event) => { setEmail(event.target.value); if (error) setError(""); }}
         />
-        <small>We read your company from this, so it saves you typing it out.</small>
+        <small>{emailHint ?? "We read your company from this, so it saves you typing it out."}</small>
       </p>
 
       <fieldset className="mm-details-field mm-details-divisions">
@@ -121,7 +182,16 @@ export function DetailsJourney({ action, busy, busyLabel, onSubmit, children }: 
 
       {children}
 
-      {error && <p className="mm-journey-error" role="alert">{error}</p>}
+      {error && (
+        <div className="mm-journey-error" role="alert">
+          <p>{error}</p>
+          {error === FREE_EMAIL_PROBLEM && onDeadEnd && (
+            <button className="mm-handoff-trigger" type="button" onClick={() => setStoodAside(true)}>
+              {HANDOFF_TRIGGER}
+            </button>
+          )}
+        </div>
+      )}
 
       <button className="mm-button" data-mm-primary type="submit" disabled={busy}>
         {busy ? (busyLabel ?? action) : action} <span aria-hidden="true">→</span>

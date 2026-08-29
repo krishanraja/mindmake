@@ -21,7 +21,10 @@ export type MindmakeEvent =
   | "board_item_click"
   | "scoping_request"
   | "testimonial_expand"
-  | "substack_click";
+  | "substack_click"
+  /* A dead end that offered a person, and one that a person was asked for. */
+  | "handoff_offer"
+  | "handoff_request";
 
 type EventProps = Record<string, string | number | boolean>;
 

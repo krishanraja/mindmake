@@ -404,6 +404,26 @@ two. The privacy page names the code, so the promise on the page is accurate as
 written. Anything beyond these breaks a published promise. The mechanism is in
 `05_LEAD_DELIVERY_SPEC.md` and `07_DEPLOYMENT.md`.
 
+A handoff sends the visitor nothing. Somebody who asks for a person after the
+site failed them has not converted and is not owed a third email: the operator
+is told, a person replies as a person, and the promise stays true. The
+temptation to acknowledge it by email is exactly the small kindness that would
+make it untrue, so `src/test/brief2-email-cap.test.ts` holds it shut.
+
+### Every dead end ends in a person
+
+Nine things on this site can fail, and every one of them ends in an apology, one
+dry line where our own machine is the butt of the joke, and one way to reach a
+person. Never the visitor as the butt: a joke at the expense of somebody who has
+just been let down is a second insult.
+
+Refusing to send something generic is right. Refusing and then closing the door
+is a lead we asked to leave, and for a while that is exactly what the read gate
+did. The offer is one click where the road is closed and a quiet line where a
+working retry sits beside it, and it asks for nothing the page already knows.
+The nine, and the two paths that deliberately have none, are listed in
+`05_LEAD_DELIVERY_SPEC.md`.
+
 ### Qualifying, from the fit digest
 
 1. Is there one important personal or business result to improve?

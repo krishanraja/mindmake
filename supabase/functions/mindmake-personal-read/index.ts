@@ -1,10 +1,14 @@
 /**
  * mindmake-personal-read
  *
- * The personal half of the site's two journeys. The page composes its own
- * preview from the same template lines, so this endpoint exists for two things
- * only: enriching what we know about a visitor from their public profile, and
- * sending the one results email when they ask for it.
+ * The personal half of the site's two journeys, and the one place a dead end on
+ * any page can end in a person. Three actions: `preview` assembles the read,
+ * `send` delivers it, and `handoff` records a visitor the site could not help
+ * and tells the operator about them.
+ *
+ * `handoff` is deliberately the plainest path here. It makes no provider call,
+ * writes nothing with a model and passes through no gate, because the whole
+ * point of it is that it cannot fail for the reasons the read just did.
  *
  * It follows submit-mindmake-brief's posture rather than inventing its own:
  * a strict origin allowlist checked before any work, one-way HMAC identifiers
@@ -22,11 +26,14 @@ import { clientIdentifier, hmacIdentifier } from "../_shared/security/hmac.ts";
 import {
   InvalidRequestError,
   parsePersonalRead,
+  parseHandoff,
   assessRead,
   buildRead,
   tidyProfile,
   type CompanySeen,
+  type HandoffRequest,
   personalReadIdempotencyKey,
+  renderHandoffNotice,
   renderPersonalRead,
   type PersonalReadRequest,
   type Profile,
@@ -36,6 +43,8 @@ const BODY_LIMIT_BYTES = 4 * 1024;
 const ENRICH_TIMEOUT_MS = 6_000;
 /** Fourteen days, the one follow-up the two-email cap allows. */
 const FOLLOW_UP_DAYS = 14;
+/** One notice per address per hour, so a stuck visitor cannot become a flood. */
+const HANDOFF_NOTICE_WINDOW_MS = 60 * 60 * 1000;
 
 const ALLOWED_REQUEST_HEADERS = "authorization, x-client-info, apikey, content-type";
 
@@ -268,6 +277,71 @@ async function deliver(
   return result.ok;
 }
 
+/**
+ * A visitor the site could not help, asking for a person.
+ *
+ * Nothing about this touches the read limiter. That meter exists to cap paid
+ * provider calls and results emails, and one of the reasons somebody arrives
+ * here is that they already tripped it: spending their read budget on a request
+ * for help would mean the dead end that fails to fail, which is the one thing
+ * this whole path exists to prevent.
+ *
+ * What is capped is the operator's inbox, at one notice per address per hour,
+ * read off the rows this same function writes. Over the cap the request is
+ * still stored and the visitor is still told the truth, because it is with us
+ * either way; only the second email is skipped.
+ */
+async function handleHandoff(
+  config: Config,
+  supabase: ReturnType<typeof createClient>,
+  parsed: HandoffRequest,
+  allowed: string,
+): Promise<Response> {
+  const since = new Date(Date.now() - HANDOFF_NOTICE_WINDOW_MS).toISOString();
+  const { count, error: countError } = await supabase
+    .from("mindmake_personal_reads")
+    .select("id", { count: "exact", head: true })
+    .eq("email", parsed.email)
+    .not("handoff_reason", "is", null)
+    .gt("created_at", since);
+  if (countError) console.error("[mindmake-personal-read] handoff count", countError.message);
+  const alreadyToldToday = (count ?? 0) > 0;
+
+  const { error: storeError } = await supabase.from("mindmake_personal_reads").insert({
+    email: parsed.email,
+    first_name: parsed.first_name,
+    last_name: parsed.last_name,
+    division: parsed.division,
+    handoff_reason: parsed.reason,
+  });
+  if (storeError) console.error("[mindmake-personal-read] handoff store", storeError.message);
+
+  let notified = false;
+  if (!alreadyToldToday) {
+    const notice = renderHandoffNotice(parsed);
+    const result = await sendResendEmail(
+      {
+        from: config.from,
+        to: [config.operatorEmail],
+        reply_to: parsed.email,
+        subject: notice.subject,
+        html: notice.html,
+        text: notice.text,
+      },
+      { label: "mindmake-personal-read-handoff" },
+    );
+    notified = result.ok;
+    if (!result.ok) console.error("[mindmake-personal-read] handoff notice not sent");
+  }
+
+  /* Reported even when the notice was skipped or refused. The row is written
+     first and the request really is with us, and a visitor who has already been
+     let down once is not told a second time that the machinery failed. The
+     failure is ours to find in the log, not theirs to carry. */
+  console.error("[mindmake-personal-read] handoff", parsed.reason, parsed.email.slice(parsed.email.lastIndexOf("@") + 1), `notified=${notified}`);
+  return json({ status: "received" }, 200, allowed);
+}
+
 Deno.serve(async (request) => {
   const origin = request.headers.get("origin");
 
@@ -286,18 +360,41 @@ Deno.serve(async (request) => {
   if (!allowed) return json({ error: "origin_not_allowed" }, 403, null);
   if (request.method !== "POST") return json({ error: "method_not_allowed" }, 405, allowed);
 
+  /* Read once, then routed on the action, because the two shapes share only
+     the four details and disagree about everything else. A handoff carries no
+     q1 or q2: six of the nine dead ends are on pages that never ask them. */
+  let body: unknown;
+  try {
+    body = await readBody(request);
+  } catch (error) {
+    const reason = error instanceof InvalidRequestError ? error.message : "invalid";
+    return json({ error: "invalid_request", reason }, 400, allowed);
+  }
+
+  const supabase = createClient(config.supabaseUrl, config.serviceRoleKey, {
+    auth: { persistSession: false },
+  });
+
+  if ((body as Record<string, unknown> | null)?.action === "handoff") {
+    let asked: HandoffRequest;
+    try {
+      asked = parseHandoff(body);
+    } catch (error) {
+      const reason = error instanceof InvalidRequestError ? error.message : "invalid";
+      return json({ error: "invalid_request", reason }, 400, allowed);
+    }
+    return await handleHandoff(config, supabase, asked, allowed);
+  }
+
   let parsed: PersonalReadRequest;
   try {
-    parsed = parsePersonalRead(await readBody(request));
+    parsed = parsePersonalRead(body);
   } catch (error) {
     const reason = error instanceof InvalidRequestError ? error.message : "invalid";
     return json({ error: "invalid_request", reason }, 400, allowed);
   }
 
   const email = parsed.email;
-  const supabase = createClient(config.supabaseUrl, config.serviceRoleKey, {
-    auth: { persistSession: false },
-  });
 
   /* Ahead of the enrichment, and on a preview as well as a send.
      A preview used to cost nothing, so it sat outside the limiter. It now makes

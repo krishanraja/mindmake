@@ -768,3 +768,166 @@ export function assessRead(read: PersonalRead, profile: Profile, domain = ""): R
   const outOf = 15 + VOICE.length - 1;
   return { passed: failures.length === 0, score: outOf - failures.length, outOf, failures };
 }
+
+/* ---------------------------------------------------------------------------
+ * The handoff
+ *
+ * Everything above this line decides whether a machine can say something worth
+ * reading. This part is what happens when it decides it cannot, or when any of
+ * the other eight things on the site that can fail does.
+ *
+ * A visitor who has hit one of those has already given us their name, their
+ * work address and the part of the business they work in, and up to now the
+ * site thanked them by explaining that nothing was coming. So the page offers a
+ * person instead, and this is where that request lands. It is deliberately the
+ * dullest code in the file: no provider call, no synthesis and no gate, because
+ * the whole value of it is that it cannot fail for the same reasons the read
+ * did.
+ * ------------------------------------------------------------------------- */
+
+/**
+ * Which dead end this came from.
+ *
+ * An allowlist rather than free text, the same way `division` is, so what the
+ * browser sends stays an identifier we chose. `src/content/handoff.ts` holds the
+ * page's copy of this list and `src/test/human-handoff.test.tsx` keeps the two
+ * identical.
+ */
+export const HANDOFF_REASONS = [
+  "read-refused",
+  "read-failed",
+  "read-rate-limited",
+  "send-failed",
+  "personal-email",
+  "code-not-sent",
+  "code-not-accepted",
+  "delivery-failed",
+  "ask-unmatched",
+] as const;
+
+export type HandoffReason = typeof HANDOFF_REASONS[number];
+
+/** What each reason means to the person reading the notice, in one line. */
+export const HANDOFF_REASON_LINES: Record<HandoffReason, string> = {
+  "read-refused": "The read gate refused to send. Nothing about their company cleared the bar.",
+  "read-failed": "The read request itself errored before anything was written.",
+  "read-rate-limited": "They hit the abuse limiter, which cannot tell them apart from a robot.",
+  "send-failed": "The read was written and the results email would not send.",
+  "personal-email": "They have no work address, so there was no company to read.",
+  "code-not-sent": "The verification code would not send, so the brief never reached them.",
+  "code-not-accepted": "The verification code kept being rejected.",
+  "delivery-failed": "The brief was confirmed and neither hand-off was accepted.",
+  "ask-unmatched": "They asked the ask bar something the answer corpus has no answer for.",
+};
+
+const isHandoffReason = (value: unknown): value is HandoffReason =>
+  HANDOFF_REASONS.includes(value as HandoffReason);
+
+export interface HandoffRequest {
+  action: "handoff";
+  reason: HandoffReason;
+  first_name: string;
+  last_name: string;
+  division: Division;
+  email: string;
+}
+
+/**
+ * The same strict parsing as the read, minus the one rule that would defeat it.
+ *
+ * The free-address gate exists to protect the reading: the company comes out of
+ * the domain, so a personal address gives the pipeline nothing. By the time
+ * somebody reaches this action the reading has already failed or been refused,
+ * and `personal-email` is one of the reasons they can arrive with. Applying the
+ * rule here would mean answering "we cannot read your company" with "and we
+ * will not talk to you either", which is the opposite of the point.
+ *
+ * q1 and q2 are absent rather than optional. Six of the nine dead ends are on
+ * pages that never ask those two questions, and an optional field that four
+ * callers cannot fill is a field that stops meaning anything.
+ */
+export function parseHandoff(body: unknown): HandoffRequest {
+  if (!body || typeof body !== "object") throw new InvalidRequestError("body");
+  const raw = body as Record<string, unknown>;
+
+  const allowed = new Set(["action", "reason", "first_name", "last_name", "division", "email"]);
+  for (const key of Object.keys(raw)) {
+    if (!allowed.has(key)) throw new InvalidRequestError(`unexpected:${key}`);
+  }
+
+  if (raw.action !== "handoff") throw new InvalidRequestError("action");
+  if (!isHandoffReason(raw.reason)) throw new InvalidRequestError("reason");
+  if (!isDivision(raw.division)) throw new InvalidRequestError("division");
+
+  const firstName = readName(raw.first_name, "first_name");
+  const lastName = readName(raw.last_name, "last_name");
+
+  if (typeof raw.email !== "string") throw new InvalidRequestError("email");
+  const email = raw.email.trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) {
+    throw new InvalidRequestError("email");
+  }
+
+  return {
+    action: "handoff",
+    reason: raw.reason,
+    first_name: firstName,
+    last_name: lastName,
+    division: raw.division,
+    email,
+  };
+}
+
+/**
+ * The notice to the operator, and the only email a handoff produces.
+ *
+ * The visitor gets nothing from this. Two emails ever, the results email and
+ * one follow-up, is a published promise in the canon and a handoff is neither
+ * of them, so what they were told on screen is what actually happens: a person
+ * reads their request and replies as a person.
+ *
+ * Everything in it is a fact we already hold. There is nothing generated here,
+ * because a summary written by the same machinery that just failed is not worth
+ * the paragraph it would take.
+ */
+export function renderHandoffNotice(request: HandoffRequest): PersonalReadEmail {
+  const name = `${request.first_name} ${request.last_name}`;
+  const domain = request.email.slice(request.email.lastIndexOf("@") + 1);
+  const subject = `Asked for a person: ${name} at ${domain}`;
+  const why = HANDOFF_REASON_LINES[request.reason];
+
+  const rows: Array<[string, string]> = [
+    ["Name", name],
+    ["Email", request.email],
+    ["Company domain", domain],
+    ["Division", request.division],
+    ["Dead end", request.reason],
+    ["What happened", why],
+  ];
+
+  const text = [
+    subject,
+    "",
+    ...rows.map(([label, value]) => `${label}: ${value}`),
+    "",
+    "They asked to speak to a person after the site could not help them.",
+    "Nothing has been sent to them. Replying to this is the whole hand-off.",
+  ].join("\n");
+
+  const html = `<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${escapeHtml(subject)}</title></head>
+<body style="margin:0;background:#0a100d;color:#e6ede8;font:16px/1.6 Arial,sans-serif">
+<div style="max-width:560px;margin:0 auto;padding:32px 22px">
+<p style="margin:0 0 24px;font:600 13px/1 Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#788c82">Mindmake</p>
+<h1 style="margin:0 0 18px;font:700 22px/1.25 Arial,sans-serif;letter-spacing:-.02em;color:#f2f8f5">${escapeHtml(subject)}</h1>
+<table style="width:100%;border-collapse:collapse;margin:0 0 20px">
+${rows.map(([label, value]) => `<tr><td style="padding:7px 12px 7px 0;border-bottom:1px solid #23342c;color:#788c82;font-size:13px;vertical-align:top;white-space:nowrap">${escapeHtml(label)}</td><td style="padding:7px 0;border-bottom:1px solid #23342c;color:#e6ede8;font-size:14px">${escapeHtml(value)}</td></tr>`).join("\n")}
+</table>
+<p style="margin:0 0 12px;color:#b0c0b7">They asked to speak to a person after the site could not help them.</p>
+<p style="margin:0;color:#788c82;font-size:13px">Nothing has been sent to them. Replying to this is the whole hand-off.</p>
+</div></body></html>`;
+
+  return { subject, html, text };
+}

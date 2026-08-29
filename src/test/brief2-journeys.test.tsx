@@ -165,8 +165,12 @@ describe("the personal read", () => {
     enterDetails();
     fireEvent.click(screen.getByRole("button", { name: /Show me week one/ }));
 
+    /* A failed read used to end in one sentence about trying again in a
+       moment, which is advice a visitor has already taken by the time they read
+       it. It ends in an apology and an offer of a person now. */
     await waitFor(() =>
-      expect(screen.getByRole("alert")).toHaveTextContent(/could not read your company/i));
+      expect(screen.getByRole("alert")).toHaveTextContent(/that did not work/i));
+    expect(screen.getByRole("button", { name: /have a person pick this up/i })).toBeInTheDocument();
     vi.restoreAllMocks();
   });
 

@@ -10,8 +10,12 @@ import {
   tidyProfile,
   openingLine,
   parsePersonalRead,
+  parseHandoff,
   personalReadIdempotencyKey,
+  renderHandoffNotice,
   renderPersonalRead,
+  HANDOFF_REASONS,
+  HANDOFF_REASON_LINES,
 } from "../../supabase/functions/mindmake-personal-read/core";
 import {
   CLOSING_LINE as PAGE_CLOSING,
@@ -232,5 +236,103 @@ describe("the page and the function agree", () => {
     expect(PAGE_Q1).toEqual(FUNCTION_Q1);
     expect(PAGE_Q2).toEqual(FUNCTION_Q2);
     expect(PAGE_CLOSING).toEqual(FUNCTION_CLOSING);
+  });
+});
+
+/**
+ * The handoff: what the server accepts when the machine has already failed.
+ *
+ * This action exists because refusing to send something generic is right and
+ * closing the door afterwards is not. Its whole value is that it cannot fail
+ * for the reasons the read just did, so what is worth holding here is that it
+ * stays that simple: strict parsing, no q1 or q2, and the one rule that would
+ * defeat the point deliberately not applied.
+ */
+describe("the handoff contract", () => {
+  const valid = {
+    action: "handoff",
+    reason: "read-refused",
+    first_name: "Ada",
+    last_name: "Lovelace",
+    division: "leadership",
+    email: "ada@northwind.com",
+  };
+
+  it("accepts the shape the offer sends", () => {
+    expect(parseHandoff(valid)).toEqual(valid);
+  });
+
+  it("takes a personal address, because the rule that bans one has nothing left to protect", () => {
+    /* The work-address rule exists to serve the reading: the company comes out
+       of the domain. By the time anybody reaches this action the reading has
+       failed or been refused, and "personal-email" is one of the reasons they
+       can arrive with. Applying it here would answer "we cannot read your
+       company" with "and we will not talk to you either". */
+    expect(parseHandoff({ ...valid, reason: "personal-email", email: "ada@gmail.com" }).email)
+      .toBe("ada@gmail.com");
+  });
+
+  it("refuses a reason it does not recognise", () => {
+    expect(() => parseHandoff({ ...valid, reason: "just-because" })).toThrow(InvalidRequestError);
+    expect(() => parseHandoff({ ...valid, reason: "" })).toThrow(InvalidRequestError);
+  });
+
+  it("refuses an unexpected key rather than ignoring it", () => {
+    expect(() => parseHandoff({ ...valid, q1: "writing" })).toThrow(InvalidRequestError);
+    expect(() => parseHandoff({ ...valid, note: "call me" })).toThrow(InvalidRequestError);
+  });
+
+  it("holds the same rules as the read on everything it shares with it", () => {
+    expect(() => parseHandoff({ ...valid, division: "growth" })).toThrow(InvalidRequestError);
+    expect(() => parseHandoff({ ...valid, email: "not-an-address" })).toThrow(InvalidRequestError);
+    expect(() => parseHandoff({ ...valid, first_name: "" })).toThrow(InvalidRequestError);
+    expect(() => parseHandoff({ ...valid, first_name: "A".repeat(81) })).toThrow(InvalidRequestError);
+    expect(() => parseHandoff({ ...valid, action: "preview" })).toThrow(InvalidRequestError);
+  });
+
+  it("names every reason the pages can send", () => {
+    for (const reason of HANDOFF_REASONS) {
+      expect(parseHandoff({ ...valid, reason }).reason).toBe(reason);
+      expect(HANDOFF_REASON_LINES[reason].length).toBeGreaterThan(20);
+    }
+  });
+});
+
+describe("the notice the operator gets", () => {
+  const asked = parseHandoff({
+    action: "handoff",
+    reason: "read-refused",
+    first_name: "Ada",
+    last_name: "Lovelace",
+    division: "leadership",
+    email: "ada@northwind.com",
+  });
+
+  it("carries the person, the company and which dead end they hit", () => {
+    const notice = renderHandoffNotice(asked);
+    expect(notice.subject).toBe("Asked for a person: Ada Lovelace at northwind.com");
+    for (const fact of ["Ada Lovelace", "ada@northwind.com", "northwind.com", "leadership", "read-refused"]) {
+      expect(notice.text).toContain(fact);
+      expect(notice.html).toContain(fact);
+    }
+    expect(notice.text).toContain(HANDOFF_REASON_LINES["read-refused"]);
+  });
+
+  it("says plainly that the visitor was sent nothing", () => {
+    /* Two emails ever is a published promise, and a handoff is neither of them.
+       The operator has to know that replying is the whole hand-off, because
+       nothing else is going to happen on its own. */
+    const notice = renderHandoffNotice(asked);
+    expect(notice.text).toMatch(/nothing has been sent to them/i);
+    expect(notice.html).toMatch(/nothing has been sent to them/i);
+  });
+
+  it("escapes what a browser typed before it reaches an operator's inbox", () => {
+    const nasty = renderHandoffNotice(parseHandoff({
+      ...asked,
+      first_name: "<script>alert(1)</script>",
+    }));
+    expect(nasty.html).not.toContain("<script>");
+    expect(nasty.html).toContain("&lt;script&gt;");
   });
 });

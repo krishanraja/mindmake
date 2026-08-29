@@ -42,6 +42,15 @@ const PUBLIC_SURFACES = [
   "src/components/mindmake/AskBar.tsx",
   "src/lib/askCorpus.ts",
   "src/components/mindmake/CloseBlock.tsx",
+  /* The nine dead ends and what they say. Every string a visitor sees when
+     something here fails is written in the same voice as the strings they see
+     when it works, and this is what holds the two to the same standard. */
+  "src/content/handoff.ts",
+  "src/components/mindmake/HumanHandoff.tsx",
+  "src/components/mindmake/journeys/DetailsJourney.tsx",
+  "src/components/mindmake/journeys/BrainJourney.tsx",
+  "src/components/mindmake/journeys/GtmJourney.tsx",
+  "src/lib/workEmail.ts",
   "src/components/mindmake/CountingValue.tsx",
   "src/components/mindmake/FilmPlate.tsx",
   "src/components/mindmake/LeadBrief.tsx",
@@ -266,6 +275,15 @@ describe("the eyebrow ban", () => {
     "src/components/mindmake/ProofStrip.tsx",
     "src/components/mindmake/ObjectionChips.tsx",
     "src/components/mindmake/CloseBlock.tsx",
+  /* The nine dead ends and what they say. Every string a visitor sees when
+     something here fails is written in the same voice as the strings they see
+     when it works, and this is what holds the two to the same standard. */
+  "src/content/handoff.ts",
+  "src/components/mindmake/HumanHandoff.tsx",
+  "src/components/mindmake/journeys/DetailsJourney.tsx",
+  "src/components/mindmake/journeys/BrainJourney.tsx",
+  "src/components/mindmake/journeys/GtmJourney.tsx",
+  "src/lib/workEmail.ts",
   ];
 
   it("never places a label immediately above a heading", () => {

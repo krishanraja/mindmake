@@ -392,3 +392,90 @@ return nothing. One of them earns its place twice: the first version of the
 "passes judgement" rule matched the bare word "behind", which appears in the
 Product division's own line as a preposition, so it would have silently refused
 every visitor who picked Product and nobody would have known why.
+
+## Amendment, 29 August 2026: every dead end ends in a person
+
+The gate above is the right behaviour and it was only half a change. A read that
+cannot be written well enough to send is not sent, and until this amendment the
+visitor was then told so and left there. Alanna Laforet at enGEN3 is the shape of
+it: a real person gave four true details, waited, and received one sentence
+explaining that nothing was coming. She is a lead we asked to leave.
+
+Nine failure paths across the site did the same thing. Not one offered a human,
+and by the time most of them fire **the page already holds the visitor's first
+name, last name, work email and division**, so the offer does not need a form.
+It needs a button.
+
+### The nine
+
+| Where | Offer | Details already held |
+|---|---|---|
+| `/ai-brain` read refused by the gate | panel | yes |
+| `/ai-brain` read request failed | panel, with a retry | yes |
+| `/ai-brain` rate limited | panel | yes |
+| `/ai-brain` results email would not send | panel, with a retry | yes |
+| Shared capture, personal address | quiet line inside the error | partly, carried across |
+| `/ai-gtm` verification code would not send | quiet line | yes, from the journey |
+| `/ai-gtm` code wrong, expired or locked | quiet line | yes, from the journey |
+| `/ai-gtm` neither delivery confirmed | panel | yes, from the journey |
+| Ask bar, unmatched question | quiet line | no, so it asks |
+
+Two paths deliberately have no offer. The `/ai-gtm` live company read failing is
+not a dead end: the journey carries on to a real recommendation and a real
+hand-off, and a second door beside a working one only asks somebody to guess
+which is the real one. It gained the honesty about whose fault it is instead.
+The live market board is content rather than conversion, and stays as it is.
+
+The rule for which shape: a **panel** where the road is definitively closed, so
+the offer is one click; a **quiet line** where a working retry is sitting right
+there, so the panel does not shout over it.
+
+### The register
+
+Dry and self-deprecating, and the machine is the butt of the joke every time.
+Never the visitor: a joke at the expense of somebody who has just been let down
+is not levity, it is a second insult. The apology comes first and plainly, then
+one line about our own machine, then the button. Nobody arrived wanting to
+laugh, so the joke is small and gets out of the way.
+
+`src/content/handoff.ts` holds all nine, `src/test/human-handoff.test.tsx`
+holds them to the house style, and both files are inside the site-wide copy
+gates in `src/test/brief2-public-contract.test.ts`.
+
+### The action
+
+`mindmake-personal-read` takes a third action rather than growing a second
+function: it already owns the origin allowlist, the HMAC identifiers, the
+operator address and Resend. `submit-mindmake-brief` is untouched, so
+`/ai-gtm`'s dead ends post here too; the action is a generic person-plus-reason
+capture and does not care which page it came from.
+
+Three things about it are deliberate and each undoes a way this could have gone
+wrong:
+
+- **It does not spend the read limiter.** That meter caps paid provider calls
+  and results emails, and one of the reasons somebody arrives here is that they
+  already tripped it. Charging them for asking for help would leave the dead end
+  most in need of a way out with none.
+- **It does not apply the work-address rule.** The rule exists to serve the
+  reading, and by the time this action runs the reading has already failed.
+  `personal-email` is one of the reasons a visitor can arrive with, so enforcing
+  it here would answer "we cannot read your company" with "and we will not talk
+  to you either".
+- **The visitor gets no email.** Two emails ever is a published promise in
+  `01_CANON.md` and a handoff is neither of them. The operator is told; a person
+  replies as a person. What is capped instead is that notice, at one per address
+  per hour, counted off the rows this function writes. Over the cap the row is
+  still stored and the visitor is still told the truth, because it is with us
+  either way.
+
+### Where the row lives
+
+`public.mindmake_personal_reads` gains `handoff_reason`, with a check constraint
+mirroring the parser's allowlist exactly as `division`, `q1` and `q2` already do.
+`q1` and `q2` stop being required and start being required together: a row is
+either a read, with both answers, or a handoff, with a reason, and
+`mindmake_personal_reads_shape_check` refuses anything that is half of each. RLS
+is unchanged, still on with no policies, still service role only. No new
+personal data is collected, and the retention schedule that covers this table
+already covers all of it.

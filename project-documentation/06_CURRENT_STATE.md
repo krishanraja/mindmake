@@ -22,6 +22,14 @@ Two doors, one paid proof, and two ways to be read.
 Both doors ask for the same four things, in the same component, with the same rules: first name, last name, work email and the part of the business they work in. The company comes out of the email's domain, so nobody types it twice, and a personal address is refused on both sides with a message that puts the limitation on us rather than on the visitor. What each page does with those four things is different, and deliberately so.
 
 - **The company read** (`/ai-gtm`): the details hand to the existing brief pipeline, unchanged, and the six-digit code still stands between the visitor and anything reaching us. This is the Gate E hand-off approved on 27 August 2026, reached from a new place. The proposal document is no longer rendered inside the dialog: it is built for the email and the attachment, and on screen it sat at the bottom of a scroll where nobody looked for it. The read the visitor came for is the preview step.
+- **Every dead end** (site-wide): nine paths can fail, and each one now ends in
+  an apology, a dry line about our own machine and one way to reach a person
+  rather than in a line of grey text with nothing under it. The offer posts to
+  `mindmake-personal-read`, which tells the operator and sends the visitor
+  nothing, because two emails ever is a published promise and a handoff is
+  neither of them. `05_LEAD_DELIVERY_SPEC.md` lists the nine, the two paths that
+  deliberately have none, and the three things about the action that are there
+  to stop it failing for the reasons the read did.
 - **The personal read** (`/ai-brain`): the server resolves the company from the email domain and the person from their name plus that company, and the read assembles on screen in the same grid the company read uses. It used to want a LinkedIn URL, which most people have to go and find, and composed a preview locally from two template lines, so everyone who tapped the same chips saw the same thing. A read that resolves the company but not the person says so on the page rather than passing itself off as more than it is. The preview now costs a paid provider call, so it sits behind the same rate limiter the send does.
 - **The live board** (`/ai-gtm#board`): what moved in AI today, grouped by the four levers, read from the daily cache. It states its own age, marks itself as yesterday's read after 26 hours, and collapses to a heading and one honest line if the read is unavailable. It never renders an empty frame.
 
@@ -36,7 +44,7 @@ Supabase project `bkyuxvschuwngtcdhsyg`.
 | `submit-mindmake-brief` | v13 | off | The company read, plus the day-14 follow-up enqueue. Deployed from merged `main` on 28 August 2026 with its full import closure, and the deployed body verified to carry the enqueue |
 | `enrich-company` | v36 | on | Declarative synthesis and tailored choices |
 | `get-ai-news` | v68 | off | Restored to the repository and extended with `{view:"board"}`. No body still returns the previous shape byte for byte |
-| `mindmake-personal-read` | v19 | off | The personal read: enrichment, the one results email, the follow-up enqueue |
+| `mindmake-personal-read` | v20 | off | The personal read: enrichment, the one results email, the follow-up enqueue, and the handoff every dead end on the site ends in |
 | `send-follow-ups` | v2 | off | The day-14 follow-up. Cron only |
 | `aa-price-snapshot` | v1 | off | Daily model prices. Cron only |
 
@@ -49,9 +57,15 @@ Supabase project `bkyuxvschuwngtcdhsyg`.
 
 ## Verification baselines
 
-Last measured 28 August 2026, against the built output.
+Last measured 29 August 2026, against the built output.
 
-- Tests: **295 across 21 files**, all passing.
+- Tests: **330 across 22 files**, all passing. The thirty-five added on 29 August
+  hold the nine dead ends: that each one offers a person, that the offer posts
+  the right reason, that it asks for nothing the page already holds, that it
+  hands over an address rather than a spinner when even it fails, and that the
+  copy stays inside the house style. They exist because this is precisely the
+  kind of thing that vanishes in a refactor with no gate objecting, which one of
+  the canon promises did for a whole commit.
 - Typecheck: **0 errors**, against `tsconfig.app.json`, and the build runs it first.
   An earlier version of this file claimed `tsc` was clean when it had never run:
   the root `tsconfig.json` carries `"files": []` with project references, so

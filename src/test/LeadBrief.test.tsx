@@ -264,7 +264,7 @@ describe("Mindmake private brief journey", () => {
       vi.advanceTimersByTime(COMPANY_READ_TIMEOUT_MS);
       await Promise.resolve();
     });
-    expect(screen.getByText(/live read took too long/i)).toBeInTheDocument();
+    expect(screen.getByText(/still thinking about it/i)).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Try the live read again" }));
     await act(async () => { await Promise.resolve(); });
     expect(screen.getByText("Example Company")).toBeInTheDocument();
@@ -407,7 +407,9 @@ describe("Mindmake private brief journey", () => {
     await requestCode();
     await confirmCode();
     expect(await screen.findByRole("heading", { name: "Keep this. Your brief is still ready." })).toBeInTheDocument();
-    expect(screen.getByRole("alert")).toHaveTextContent(/neither hand-off was confirmed/i);
+    /* Two alerts now: what failed, and the offer of a person underneath it.
+       The first is the one this test is about. */
+    expect(screen.getAllByRole("alert")[0]).toHaveTextContent(/neither hand-off was confirmed/i);
     expect(screen.getByRole("link", { name: /email us directly/i })).toHaveAttribute("href", expect.stringContaining("mailto:krish@themindmaker.ai"));
     expect(screen.queryByText(/email was queued|our copy was queued/i)).not.toBeInTheDocument();
   });

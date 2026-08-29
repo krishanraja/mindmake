@@ -157,6 +157,9 @@ export default function AiGtm() {
         route="gtm"
         initialDomain={seed?.domain}
         initialEmail={seed?.email}
+        /* So that if anything in there fails, the offer of a person is one
+           button rather than a fourth form at the worst possible moment. */
+        visitor={seed}
         onConfirmed={() => track("journey_gtm_complete")}
       />
     </MindmakeShell>

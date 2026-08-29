@@ -11,6 +11,8 @@ import {
   type MindmakeConfirmedResponseV2,
   type BriefRoute,
 } from "@/components/mindmake/leadDelivery";
+import { HumanHandoff } from "@/components/mindmake/HumanHandoff";
+import type { Details } from "@/components/mindmake/journeys/DetailsJourney";
 import { MindmakeProposal } from "@/components/mindmake/MindmakeProposal";
 import { buildPrivateBriefHtml, type PrivateBriefContent } from "@/components/mindmake/privateBriefHtml";
 import "@/styles/mindmake-brief.css";
@@ -30,6 +32,15 @@ interface LeadBriefProps {
   initialEmail?: string;
   /** Fires once, when a verified request has been confirmed. */
   onConfirmed?: () => void;
+  /**
+   * The four details, when the page collected them before opening this.
+   *
+   * Only used if something in here fails: it is what lets the offer of a person
+   * be one button rather than a fourth form at the worst possible moment. The
+   * dialog is opened without it from every "Start here" on the site, and the
+   * offer asks for what it needs in that case.
+   */
+  visitor?: Details;
 }
 
 type Step = "domain" | "reading" | "pressure" | "capacity" | "preview" | "contact" | "verify" | "success";
@@ -47,6 +58,17 @@ const STEP_TONES: Record<Step, "ink" | "forest" | "paper"> = {
   verify: "paper",
   success: "forest",
 };
+
+/* The three messages in here that are dead ends rather than corrections.
+   Named, because the offer under each one has to be able to tell which message
+   is on screen, and a copy of the sentence typed out at the point of use is a
+   copy that goes stale the first time the wording is improved. */
+export const CODE_NOT_SENT =
+  "The code could not be sent. Try again, or download the brief from the previous step.";
+export const CODE_NOT_ACCEPTED =
+  "That code was not accepted. Check the six digits and try again.";
+export const DELIVERY_NOT_CONFIRMED =
+  "The code was accepted, but neither hand-off was confirmed. Download your copy and email us directly if you want it seen.";
 
 export const COMPANY_READ_TIMEOUT_MS = 10_000;
 export const BRIEF_BLOB_REVOKE_DELAY_MS = 1_000;
@@ -240,7 +262,7 @@ const readableText = (value: unknown): string => {
   return declarativeOnly(text);
 };
 
-export function LeadBrief({ open, onClose, route = "home", initialDomain, initialEmail, onConfirmed }: LeadBriefProps) {
+export function LeadBrief({ open, onClose, route = "home", initialDomain, initialEmail, onConfirmed, visitor }: LeadBriefProps) {
   const [step, setStep] = useState<Step>("domain");
   const [domainInput, setDomainInput] = useState("");
   const [domain, setDomain] = useState("");
@@ -459,6 +481,14 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
     };
   }, [open]);
 
+  /* What the offer of a person needs, when the page collected it before opening
+     this. The address is the one typed in here rather than the one the page
+     arrived with, because the contact step is where somebody corrects it. */
+  const handoffDetails = useMemo(
+    () => (visitor ? { ...visitor, email: email.trim().toLowerCase() || visitor.email } : null),
+    [visitor, email],
+  );
+
   const readCompany = async (nextDomain: string) => {
     researchAbortRef.current?.abort();
     const controller = new AbortController();
@@ -506,10 +536,14 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
       if (journeyVersion !== journeyVersionRef.current) return;
       setDossier(null);
       setLiveRead(false);
+      /* Not a dead end, which is why there is no offer of a person here: the
+         journey carries on to a real recommendation and a real hand-off, and a
+         second door beside a working one would only ask somebody to guess which
+         is the real one. What it gains is the honesty about whose fault it is. */
       setResearchIssue(
         timedOut
-          ? "The live read took too long. You can keep going with this starting point, or try once more."
-          : "The live read did not answer. You can keep going with this starting point, or try once more.",
+          ? "Our read of your company is still thinking about it, and we would rather not keep you waiting on it. You can carry on from this starting point, or ask for the live read again."
+          : "Our read of your company came back with nothing to say for itself, which is unlike it. You can carry on from this starting point, or ask for the live read again.",
       );
       setStep("pressure");
     } finally {
@@ -567,7 +601,7 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
     } catch {
       if (controller.signal.aborted || journeyVersion !== journeyVersionRef.current) return;
       setHandoffResult(null);
-      setError("The code could not be sent. Try again, or download the brief from the previous step.");
+      setError(CODE_NOT_SENT);
     } finally {
       if (journeyVersion === journeyVersionRef.current) setSubmitting(false);
       if (handoffAbortRef.current === controller) handoffAbortRef.current = null;
@@ -618,8 +652,8 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
       setError(mismatch
         ? "The reply included a publication choice you did not make. Nothing is described as confirmed."
         : deliveryFailure
-          ? "The code was accepted, but neither hand-off was confirmed. Download your copy and email us directly if you want it seen."
-          : "That code was not accepted. Check the six digits and try again.");
+          ? DELIVERY_NOT_CONFIRMED
+          : CODE_NOT_ACCEPTED);
       if (deliveryFailure || mismatch) setStep("success");
     } finally {
       if (journeyVersion === journeyVersionRef.current) setSubmitting(false);
@@ -804,7 +838,7 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
             </div>
             {!liveRead && (
               <>
-                <p className="mm-honesty-note">{researchIssue || "Live research did not answer, so this is a starting point based on the website. It does not pretend to know more."}</p>
+                <p className="mm-honesty-note">{researchIssue || "Our live research did not answer, so this is a starting point built from the website alone. It does not pretend to know more than that."}</p>
                 <button className="mm-text-button" type="button" onClick={retryResearch}>Try the live read again</button>
               </>
             )}
@@ -900,6 +934,13 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
               {error && <p id="mm-work-email-error" className="mm-form-error" role="alert">{error}</p>}
               <button className="mm-button" type="submit" disabled={submitting}>{submitting ? "Sending the code..." : "Send the code"} <span aria-hidden="true">→</span></button>
             </form>
+            {/* Outside the form, not inside it: the offer carries a form of its
+                own where the page has not already collected the details, and a
+                form inside a form is not a thing a browser will do. Quiet,
+                because a working retry is sitting right above it. */}
+            {error === CODE_NOT_SENT && (
+              <HumanHandoff reason="code-not-sent" details={handoffDetails} asTrigger />
+            )}
             <small>Nothing is sent to us until you confirm the code. The publication box is separate and unticked. It records interest only. It does not subscribe you. <a href="/privacy" target="_blank" rel="noreferrer">How the private brief handles information</a>.</small>
           </section>
         )}
@@ -930,6 +971,9 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
               <button className="mm-button" type="submit" disabled={submitting}>{submitting ? "Checking the code..." : "Send my private brief"} <span aria-hidden="true">→</span></button>
             </form>
             <button className="mm-text-button" type="button" disabled={submitting} onClick={resendVerification}>{submitting ? "Sending a new code..." : "Send a new code"}</button>
+            {error === CODE_NOT_ACCEPTED && (
+              <HumanHandoff reason="code-not-accepted" details={handoffDetails} asTrigger />
+            )}
             <small>The full brief goes to this verified address. We receive the same context only after the code is confirmed.</small>
           </section>
         )}
@@ -943,6 +987,12 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
               <p>Your request for an invitation to the publication was recorded. You have not been subscribed.</p>
             )}
             {error && <p className="mm-form-error" role="alert">{error}</p>}
+            {/* The brief is finished and the email did not leave. Nothing here
+                is retryable by the visitor, so this is the offer in full rather
+                than a line asking them to want it. */}
+            {error === DELIVERY_NOT_CONFIRMED && (
+              <HumanHandoff reason="delivery-failed" details={handoffDetails} />
+            )}
             {/* The canon promises this on screen, by email and as an attachment,
                 and it belongs on screen: it is what the visitor came for. What
                 was wrong was that it arrived as a cream paper document dropped

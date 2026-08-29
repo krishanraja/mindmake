@@ -57,6 +57,17 @@ export const isFreeEmailDomain = (domain: string): boolean => FREE_EMAIL_DOMAINS
  * theirs, because in the personal-address case that is exactly what it is: the
  * address is perfectly valid and we are the ones who cannot do anything with it.
  */
+/**
+ * The one problem in this list that is a dead end rather than a typo.
+ *
+ * Every other message here is answered by fixing what was typed. This one is
+ * answered by having a different job: somebody working for themselves, or at a
+ * company that runs on a personal address, cannot fix it and should not be
+ * asked to. Named so a caller can tell the two apart and offer a person.
+ */
+export const FREE_EMAIL_PROBLEM =
+  "We read your company from your email address, so a personal one gives us nothing to go on. Use your work address and we can do the reading.";
+
 export function workEmailProblem(email: string): string | null {
   const value = email.trim();
   if (!value) return "Add your work email and we will read your company from it.";
@@ -67,8 +78,23 @@ export function workEmailProblem(email: string): string | null {
   if (!isPublicHostname(domain)) {
     return "We could not find a company in that address. Try the one you use at work.";
   }
-  if (isFreeEmailDomain(domain)) {
-    return "We read your company from your email address, so a personal one gives us nothing to go on. Use your work address and we can do the reading.";
+  if (isFreeEmailDomain(domain)) return FREE_EMAIL_PROBLEM;
+  return null;
+}
+
+/**
+ * The same rules without the company in them.
+ *
+ * Used by the handoff form alone, where somebody is asking to reach a person
+ * rather than to have their company read. The work-address rule exists to serve
+ * the reading, and once the reading has already failed it is a rule with nothing
+ * left to protect: applying it there would turn a rescue into a second refusal.
+ */
+export function anyEmailProblem(email: string): string | null {
+  const value = email.trim();
+  if (!value) return "Add an email address we can reply to.";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || value.length > 254) {
+    return "That does not look like an email address. Check it and try again.";
   }
   return null;
 }

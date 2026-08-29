@@ -92,6 +92,77 @@ describe("what can create a follow-up", () => {
   });
 });
 
+/**
+ * A handoff is not one of the two emails.
+ *
+ * The cap is a published promise: a converting visitor gets the results email
+ * and one follow-up fourteen days later, and nothing else from this site, ever.
+ * Somebody who asks for a person after the machine failed them has not
+ * converted and is not owed a third email, so the offer sends none: the
+ * operator is told, and a person replies as a person. The temptation to
+ * acknowledge it by email is exactly the kind of small kindness that would make
+ * the promise untrue, which is why it is a test rather than a comment.
+ */
+describe("the handoff, against the cap", () => {
+  const index = read("supabase/functions/mindmake-personal-read/index.ts");
+  const handler = index.slice(index.indexOf("async function handleHandoff"), index.indexOf("Deno.serve"));
+
+  it("emails the operator and nobody else", () => {
+    expect(handler).toContain("to: [config.operatorEmail]");
+    expect(handler).not.toMatch(/to:\s*\[\s*parsed\.email/);
+  });
+
+  it("queues no follow-up, so a handoff cannot start a sequence", () => {
+    expect(handler).not.toContain("follow_up_queue");
+  });
+
+  it("does not spend the read limiter, which is one of the things that sends people here", () => {
+    /* A visitor who tripped the abuse cap arrives with "read-rate-limited". If
+       asking for help cost them the same budget, the one dead end most in need
+       of a way out would be the one with none: the dead end that fails to
+       fail. */
+    expect(handler).not.toContain("mindmake_consume_personal_read_rate");
+  });
+
+  it("caps the operator notice instead, off its own rows", () => {
+    expect(handler).toContain("HANDOFF_NOTICE_WINDOW_MS");
+    expect(handler).toContain('.not("handoff_reason", "is", null)');
+  });
+
+  it("tells the visitor it is with us even when the notice was skipped", () => {
+    /* The row is written first, so the request really is with us either way. A
+       person who has already been let down once is not told a second time that
+       the machinery failed; that failure is ours to find in the log. */
+    const confirm = handler.slice(handler.indexOf("let notified"));
+    expect(confirm).toContain('json({ status: "received" }, 200, allowed)');
+    expect(confirm).not.toMatch(/if \(!notified\)[\s\S]{0,120}return json\(\{ error/);
+  });
+
+  it("keeps the database allowlist identical to the parser's", () => {
+    const migration = read("supabase/migrations/20260829120000_personal_read_handoff.sql");
+    const core = read("supabase/functions/mindmake-personal-read/core.ts");
+    const block = core.slice(core.indexOf("export const HANDOFF_REASONS"));
+    const reasons = Array.from(
+      block.slice(0, block.indexOf("] as const")).matchAll(/"([a-z-]+)"/g),
+      (match) => match[1],
+    );
+    expect(reasons).toHaveLength(9);
+    for (const reason of reasons) expect(migration).toContain(`'${reason}'`);
+  });
+
+  it("will not let a row be half a read and half a handoff", () => {
+    const migration = read("supabase/migrations/20260829120000_personal_read_handoff.sql");
+    expect(migration).toContain("mindmake_personal_reads_shape_check");
+    expect(migration).toMatch(/handoff_reason is not null and q1 is null and q2 is null/);
+    expect(migration).toMatch(/handoff_reason is null and q1 is not null and q2 is not null/);
+  });
+
+  it("adds no policy to a table that has none", () => {
+    const migration = read("supabase/migrations/20260829120000_personal_read_handoff.sql");
+    expect(migration).not.toMatch(/create policy|to anon|to authenticated/i);
+  });
+});
+
 describe("the follow-up sender", () => {
   const source = read("supabase/functions/send-follow-ups/index.ts");
 

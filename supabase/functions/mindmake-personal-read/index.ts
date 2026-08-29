@@ -175,7 +175,7 @@ async function deliver(
   company?: CompanySeen,
 ): Promise<boolean> {
   const email = parsed.email!;
-  const rendered = renderPersonalRead(parsed, profile, company);
+  const rendered = renderPersonalRead(parsed, profile, company, email.slice(email.lastIndexOf("@") + 1));
   const result = await sendResendEmail(
     {
       from: config.from,
@@ -281,7 +281,7 @@ Deno.serve(async (request) => {
     : undefined;
   if (!dossier) console.error("[mindmake-personal-read] no company read for", email.slice(email.lastIndexOf("@") + 1));
 
-  const read = buildRead(parsed, profile, company);
+  const read = buildRead(parsed, profile, company, email.slice(email.lastIndexOf("@") + 1));
   /* The gate. A read that cannot clear it is not sent, and the page is told so
      plainly rather than being handed something to put on screen that we would
      not stand behind. "I'd rather send nothing" is the rule, not a preference,

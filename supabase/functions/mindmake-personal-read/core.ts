@@ -240,16 +240,26 @@ export function present(value: string | undefined, isTitle = false): string | un
  * addressed Shopify as "Shopify.com". Nobody writes their own company that way,
  * and a reader who sees it knows immediately that no one looked.
  */
-export function companyName(value: string | undefined): string | undefined {
+export function companyName(value: string | undefined, domain = ""): string | undefined {
   const clean = value?.trim();
   if (!clean) return undefined;
-  /* Only when the provider handed back a raw hostname, which it writes in
-     lower case. A company that is genuinely called Booking.com writes itself
-     with a capital, and the same rule that protects eBay protects it here: a
-     word already carrying a capital is a name somebody chose, not a string a
-     machine produced. */
-  const bare = /^([a-z0-9-]+)\.(com|co\.uk|io|ai|net|org|de|fr|nl|es|it|se|dk|no|fi|ie|au|ca|us)$/.exec(clean);
-  return bare && bare[1].length > 2 ? bare[1] : clean;
+  /* The signal is that the name restates the address, not that it is lower
+     case. A first attempt keyed on case, on the theory that a provider writes
+     a raw hostname in lower case and a real name carries a capital; the live
+     pipeline then returned "Shopify.com" with the capital, and the rule never
+     fired on the one case it was written for.
+     
+     So: strip the suffix only when the whole name is the visitor's own domain
+     restated, which is the situation where it carries nothing the reader does
+     not already know. The cost is that a visitor at Booking.com, which really
+     is called that, would be addressed as "Booking". That is one company
+     against every company whose provider hands back a hostname, and it is a
+     smaller wrong than the alternative. */
+  if (!domain) return clean;
+  const root = domain.toLowerCase().replace(/^www\./, "");
+  if (clean.toLowerCase() !== root) return clean;
+  const label = root.split(".")[0];
+  return label.length > 2 ? label : clean;
 }
 
 /** The same tidy-up applied to every field the read will actually say aloud. */
@@ -261,7 +271,7 @@ export function tidyProfile(profile: Profile): Profile {
        returned "University Of Oxford", which is a spelling of that name nobody
        has ever used. */
     role: present(profile.role, true),
-    company: present(companyName(profile.company), true),
+    company: present(profile.company, true),
     industry: present(profile.industry, true),
   };
 }
@@ -349,8 +359,9 @@ export function buildRead(
   request: PersonalReadRequest,
   profile: Profile,
   company?: CompanySeen,
+  domain = "",
 ): PersonalRead {
-  const named = present(companyName(company?.name), true) ?? profile.company?.trim();
+  const named = present(companyName(company?.name, domain), true) ?? profile.company?.trim();
   const descriptor = company?.descriptor
     ? sanitiseDescriptor(houseVoice(company.descriptor.trim())) || undefined
     : undefined;
@@ -384,8 +395,9 @@ export function renderPersonalRead(
   request: PersonalReadRequest,
   profile: Profile,
   company?: CompanySeen,
+  domain = "",
 ): PersonalReadEmail {
-  const { opening, seen, lines } = buildRead(request, profile, company);
+  const { opening, seen, lines } = buildRead(request, profile, company, domain);
 
   const text = [
     "Your first week with an AI brain",

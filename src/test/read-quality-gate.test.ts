@@ -319,14 +319,28 @@ describe("the edge cases the live data actually produced", () => {
 
   /* From the v15 re-run: the fixes worked and exposed the next layer down. */
 
-  it("does not address a company by its web address", () => {
-    expect(companyName("shopify.com")).toBe("shopify");
-    expect(companyName("marksandspencer.co.uk")).toBe("marksandspencer");
-    /* Some companies really are called that. */
-    expect(companyName("Booking.com")).toBe("Booking.com");
+  /* The first attempt keyed on case, on the theory that a provider writes a raw
+     hostname in lower case and a real name carries a capital. The live pipeline
+     then returned "Shopify.com", capital and all, so the rule never fired on
+     the one case it was written for. The signal is that the name restates the
+     visitor's own address, which is when it carries nothing they do not know. */
+  it("does not address a company by the web address it was asked about", () => {
+    expect(companyName("Shopify.com", "shopify.com")).toBe("shopify");
+    expect(companyName("shopify.com", "shopify.com")).toBe("shopify");
+    expect(companyName("marksandspencer.co.uk", "marksandspencer.co.uk")).toBe("marksandspencer");
+  });
+
+  it("leaves a name alone when it is not simply the domain again", () => {
+    expect(companyName("Marks and Spencer", "marksandspencer.com")).toBe("Marks and Spencer");
+    expect(companyName("Ocado", "ocado.com")).toBe("Ocado");
+    /* Without a domain to compare against there is no signal, so nothing moves. */
     expect(companyName("Shopify.com")).toBe("Shopify.com");
-    expect(companyName("Marks and Spencer")).toBe("Marks and Spencer");
-    expect(tidyProfile({ company: "shopify.com" }).company).toBe("Shopify");
+    expect(companyName("Booking.com")).toBe("Booking.com");
+  });
+
+  it("renders the repaired name in the read itself", () => {
+    const built = buildRead(REQUEST, PERSON, { name: "Shopify.com", descriptor: GOOD.descriptor }, "shopify.com");
+    expect(built.company).toBe("Shopify");
   });
 
   it("spells a multi-word company the way its own name is spelled", () => {

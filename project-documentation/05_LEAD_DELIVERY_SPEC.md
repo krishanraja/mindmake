@@ -303,7 +303,7 @@ iterating against real data looks like rather than a sign something is wrong:
 | What came back | What it exposed |
 |---|---|
 | "Marks And Spencer", "University Of Oxford" | The dossier's own name skipped the minor-word rule that job titles already had. |
-| "Shopify.com" | A provider handed back the hostname as the name. The TLD is stripped only when the whole name arrives in lower case, because a company genuinely called Booking.com writes itself with a capital, and the rule that protects eBay protects it too. |
+| "Shopify.com" | A provider handed back the hostname as the name. The first fix keyed on case, on the theory that a raw hostname arrives in lower case and a real name carries a capital; the pipeline then returned "Shopify.com" with the capital and the rule never fired on the case it was written for. The suffix now comes off only when the name restates the visitor's own domain, which is when it carries nothing they do not already know. The cost is that a visitor at Booking.com, which really is called that, would be addressed as "Booking": one company against every company whose provider hands back a hostname. |
 | "Shopify remains the dominant...", "You remain the backbone of British healthcare" | The flattery rule only matched a second-person subject. |
 | The NHS read cut to two thin sentences | The specificity floor was measured across the whole body, so stripping the doom sentence left the part that carries the specifics nearly empty while the total still cleared. The floor now applies to the repaired paragraph itself. |
 

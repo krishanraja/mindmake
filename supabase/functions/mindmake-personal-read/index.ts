@@ -17,6 +17,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { sendResendEmail } from "../_shared/http/resend.ts";
 import { assembleDossier } from "../_shared/enrich/orchestrate.ts";
+import { completeText } from "../_shared/enrich/llm.ts";
 import { clientIdentifier, hmacIdentifier } from "../_shared/security/hmac.ts";
 import {
   InvalidRequestError,
@@ -140,6 +141,29 @@ async function enrichProfile(
     if (!person.job_title && !person.job_company_name) {
       console.error("[mindmake-personal-read] pdl matched nothing usable", body?.status ?? "");
     }
+
+    /* The company is a signal to PDL, not a filter, so a common name can come
+       back attached to the wrong employer. A real test returned an I&A
+       associate director at Wavemaker as a co-founder at Openly: same name,
+       different person, and an email that opens by telling somebody they work
+       somewhere they do not is worse than one that says nothing about them.
+       min_likelihood cannot catch this because the match is confident and
+       wrong, so the employer is checked rather than trusted. */
+    const matchedSite = String(person.job_company_website ?? "").toLowerCase().replace(/^www\./, "");
+    const matchedName = String(person.job_company_name ?? "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    const asked = company.toLowerCase().replace(/^www\./, "");
+    const askedRoot = asked.split(".")[0].replace(/[^a-z0-9]/g, "");
+    const sameEmployer = matchedSite === asked
+      || (askedRoot.length > 2 && matchedName.includes(askedRoot))
+      || (matchedName.length > 2 && askedRoot.includes(matchedName));
+    if (!sameEmployer) {
+      console.error(
+        "[mindmake-personal-read] pdl matched a different employer, discarding",
+        `asked=${asked}`,
+        `got=${matchedSite || matchedName || "none"}`,
+      );
+      return {};
+    }
     return tidyProfile({
       name: typeof person.full_name === "string" ? person.full_name : undefined,
       role: typeof person.job_title === "string" ? person.job_title : undefined,
@@ -152,6 +176,55 @@ async function enrichProfile(
   } finally {
     clearTimeout(timer);
   }
+}
+
+/**
+ * The read of one person's working week.
+ *
+ * The company read is not this. `/ai-gtm` asks what a business should do about
+ * its market, and its prompt says so in as many words: a sharp outside read of
+ * a company, ending on a plain statement about the business. `/ai-brain` asks a
+ * different question, which is what AI changes about one person's own
+ * capability and output. The two are related and they are not the same
+ * artefact, and for a while this page was sending the first one with a job
+ * title pasted on the front of it.
+ *
+ * So the company read becomes the input rather than the output. What comes back
+ * is about the seat: what somebody in it spends their judgement on, and where
+ * the ceiling on their own week currently sits.
+ *
+ * The shared GTM prompt is untouched. This is a second prompt on the same
+ * provider plumbing, because /ai-gtm has been reviewed and approved as it is.
+ */
+async function synthesiseWorkingLife(
+  companyRead: string,
+  role: string | undefined,
+  division: string,
+): Promise<string | null> {
+  if (!companyRead) return null;
+  const seat = role ? `Their role: ${role}.` : "Their role did not resolve; write about the part of the business only.";
+  return await completeText({
+    system: [
+      "You write one short paragraph about one person's working week, addressed to them.",
+      "The subject is their own work, judgement and output. Their employer is context you were given, never the subject.",
+      "Say what somebody in this seat actually spends their judgement on, and where the ceiling on their own output sits today.",
+      "Hard rules:",
+      "- 70 words or fewer. One paragraph. No line breaks, no lists, no headings.",
+      "- Ground it in at least one specific thing about this company from the brief, so it reads as this seat and not any seat. Do not invent facts.",
+      "- Never grade the company. Never say it is leading, dominant, failing, small, new or under strain.",
+      "- Never name a tool, a vendor, a platform or any technology.",
+      "- Never tell them what to do. No advice, no recommendations, no imperatives.",
+      "- Never flatter them and never praise their employer.",
+      "- Declarative sentences only. Never ask them anything and never invite a reply.",
+      "- Sentence case. Active voice. Second person. British spelling (judgement, organisation).",
+      "- No em dashes. No buzzwords (transformation, synergy, leverage, ecosystem, journey, unlock, seamless, empower).",
+      "- End on a plain statement about their work.",
+      "Output only the paragraph. No preamble and no quotation marks.",
+    ].join("\n"),
+    user: `${seat}\nThe part of the business they work in: ${division}.\nWhat is known about their employer:\n${companyRead}`,
+    maxTokens: 220,
+    temperature: 0.4,
+  });
 }
 
 async function readBody(request: Request): Promise<unknown> {
@@ -266,6 +339,14 @@ Deno.serve(async (request) => {
   ]);
 
   const dossier = assembled.dossier;
+  /* The company read is the input to the personal one, not the thing we send.
+     If the personal read cannot be written, nothing is: sending the company
+     read instead is how this page ended up generic in the first place. */
+  const companyRead = dossier?.synthesis ?? dossier?.understanding?.descriptor ?? "";
+  const workingLife = await synthesiseWorkingLife(companyRead, profile.role, parsed.division);
+  if (companyRead && !workingLife) {
+    console.error("[mindmake-personal-read] working-life synthesis unavailable");
+  }
   const company: CompanySeen | undefined = dossier
     ? {
       name: dossier.identity?.name,
@@ -274,7 +355,7 @@ Deno.serve(async (request) => {
          top-level field on the dossier; `understanding.descriptor` is the short
          unsynthesised "what they do" that the providers hand over, and reading
          that one first meant the good paragraph was never used at all. */
-      descriptor: dossier.synthesis ?? dossier.understanding?.descriptor,
+      descriptor: workingLife ?? undefined,
       industry: dossier.understanding?.industry,
       products: dossier.understanding?.products,
     }

@@ -327,13 +327,33 @@ The personal read reuses it unchanged, so doom, flattery and stack recitals are
 not stray defects: they are the GTM prompt working as intended, in a place that
 wants something different.
 
-**The durable fix is a personal-read variant of the prompt**, one that never
-grades, never flatters and never lists tooling, with the gate kept as the
-backstop rather than as the only defence. It is deliberately not done here:
-`synthesizeDescriptor` is shared with `/ai-gtm`, and changing it in place would
-alter a surface that has already been reviewed and approved. Adding a variant
-alongside it is the safe shape, and it is an owner's call rather than an
-implementation detail.
+**The durable fix was a personal-read variant of the prompt**, and it is now in
+place as `synthesiseWorkingLife` inside the personal-read function. The shared
+`synthesizeDescriptor` is untouched, because `/ai-gtm` has been reviewed and
+approved as it is; this is a second prompt on the same provider plumbing.
+
+**The two reads are different artefacts, and that is the point.** The GTM prompt
+says so itself: a sharp outside read of a company, ending on a plain statement
+about the business. A leader asking what AI changes about their own capability
+and output is asking a different question, and for a while this page answered
+the first one with a job title pasted on the front. The company read is now the
+*input* to the personal one rather than the thing that gets sent: what comes
+back is about the seat, what somebody in it spends their judgement on, and where
+the ceiling on their own week sits. If the personal read cannot be written,
+nothing is sent, because falling back to the company read is how the page ended
+up generic in the first place.
+
+### The employer cross-check
+
+PDL treats the company as a signal rather than a filter, so a common name comes
+back attached to the wrong employer. Testing with real people rather than
+invented ones returned an I&A associate director at Wavemaker as a co-founder at
+Openly: same name, different person. `min_likelihood` cannot catch that, because
+the match is confident and wrong. The employer PDL returns is now checked
+against the domain that was asked about, and a mismatch discards the person and
+falls back to a company-only read. A wrong job title is worse than no job title,
+and an email that opens by telling somebody they work somewhere they do not is
+the worst version of it.
 
 `src/test/read-quality-gate.test.ts` holds forty-odd scenarios against it,
 including every division, every pair of answers, a descriptor in another

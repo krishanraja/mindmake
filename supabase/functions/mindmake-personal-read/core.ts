@@ -403,7 +403,7 @@ export function renderPersonalRead(
     "Your first week with an AI brain",
     "",
     opening,
-    ...(seen ? ["", `What we can see from the outside: ${seen}`] : []),
+    ...(seen ? ["", `Your week, from the outside: ${seen}`] : []),
     "",
     ...lines,
     "",
@@ -424,7 +424,7 @@ export function renderPersonalRead(
 <p style="margin:0 0 24px;font:600 13px/1 Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#788c82">Mindmake</p>
 <h1 style="margin:0 0 18px;font:700 26px/1.2 Arial,sans-serif;letter-spacing:-.02em;color:#f2f8f5">Your first week with an AI brain</h1>
 <p style="margin:0 0 18px;color:#b0c0b7">${escapeHtml(opening)}</p>
-${seen ? `<p style="margin:0 0 20px;padding:14px 16px;border:1px solid #23342c;background:#0e1613;color:#e6ede8"><span style="display:block;margin-bottom:6px;font:500 10.5px/1 'Courier New',monospace;letter-spacing:.12em;text-transform:uppercase;color:#7fe3b4">What we can see from the outside</span>${escapeHtml(seen)}</p>` : ""}
+${seen ? `<p style="margin:0 0 20px;padding:14px 16px;border:1px solid #23342c;background:#0e1613;color:#e6ede8"><span style="display:block;margin-bottom:6px;font:500 10.5px/1 'Courier New',monospace;letter-spacing:.12em;text-transform:uppercase;color:#7fe3b4">Your week, from the outside</span>${escapeHtml(seen)}</p>` : ""}
 ${lines.map((line) => `<p style="margin:0 0 14px;padding-left:14px;border-left:2px solid #3e8e68;color:#e6ede8">${escapeHtml(line)}</p>`).join("\n")}
 <h2 style="margin:28px 0 10px;font:700 17px/1.3 Arial,sans-serif;color:#f2f8f5">What happens next</h2>
 <p style="margin:0 0 14px;color:#b0c0b7">If this is useful, reply to this email and we will look at your business properly. There is no diary link to book and no sales sequence behind this.</p>

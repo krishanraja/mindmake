@@ -183,8 +183,8 @@ export default function AiBrain() {
           <div className="mm-try-panel">
             <Instrument kind="recorder" />
             <p className="mm-lede">
-              Four details and two taps, and we will read your company and show you what your
-              first week would look like.
+              Four details and two taps. We read your company from the outside, then what that
+              means for your own week rather than for the business. It takes about half a minute.
             </p>
             <BrainJourney />
           </div>

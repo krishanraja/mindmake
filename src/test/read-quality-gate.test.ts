@@ -390,6 +390,28 @@ describe("the edge cases the live data actually produced", () => {
     expect(assessRead(thin, PERSON, "nhs.uk").passed).toBe(false);
   });
 
+  /* From testing real people rather than invented ones: PDL treats the company
+     as a signal, not a filter, so a common name comes back attached to the
+     wrong employer. An I&A associate director at Wavemaker was returned as a
+     co-founder at Openly. Same name, different person. The gate's own rule says
+     a wrong job title is worse than none, and this is the case where the title
+     is confidently wrong rather than absent. */
+  it("says nothing about a person whose employer did not match", () => {
+    /* enrichProfile discards the match, so the profile arrives empty and the
+       opening falls back to the division the visitor told us themselves. */
+    const built = read(GOOD, {});
+    expect(built.opening).not.toMatch(/You are /);
+    expect(built.companyOnly).toBe(true);
+    expect(assessRead(built, {}, "northwind.com").passed).toBe(true);
+  });
+
+  it("never asserts a role the profile does not carry", () => {
+    const wrong = read(GOOD, {});
+    wrong.opening = "You are Co-founder and Executive Director at Openly. Here is what your first week would look like.";
+    expect(assessRead(wrong, {}, "wavemaker.com").failures.join(" "))
+      .toMatch(/enrichment did not actually establish/);
+  });
+
   it("still passes a read that mentions none of those things", () => {
     expect(assess(GOOD).passed).toBe(true);
   });

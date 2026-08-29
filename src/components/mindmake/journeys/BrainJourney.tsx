@@ -125,7 +125,7 @@ export function BrainJourney() {
             this is the same kind of object and a second design for it would be
             two houses' worth of layout for one idea. */}
         <div className="mm-brief-result-grid">
-          <article className="is-wide is-read"><small>What we found</small><p>{read.opening}</p></article>
+          <article className="is-wide is-read"><small>Your week, from the outside</small><p>{read.opening}</p></article>
           {read.lines.map((line, at) => (
             <article className={at === 0 ? "is-wide" : ""} key={line}>
               <small>{at === 0 ? "Week one" : at === 1 ? "Pointed at" : "In your part of the business"}</small>
@@ -167,7 +167,7 @@ export function BrainJourney() {
       <DetailsJourney
         action="Show me week one"
         busy={reading}
-        busyLabel="Reading your company"
+        busyLabel="Reading your company and your role"
         onSubmit={start}
       >
         {(["q1", "q2"] as const).map((key) => {

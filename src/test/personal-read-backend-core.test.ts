@@ -6,6 +6,8 @@ import {
   Q2_LINES as FUNCTION_Q2,
   DIVISION_IDS,
   buildRead,
+  present,
+  tidyProfile,
   openingLine,
   parsePersonalRead,
   personalReadIdempotencyKey,
@@ -151,7 +153,61 @@ describe("the email says only what it knows", () => {
   });
 });
 
+describe("provider data is made fit to say out loud", () => {
+  /* PDL stores lowercase. Putting that straight into the first sentence a
+     visitor reads about themselves gave "You are chief executive officer at
+     salesforce", which is not honesty about the data, just untidiness. */
+  it("capitalises an all-lowercase role and company", () => {
+    expect(present("chief executive officer", true)).toBe("Chief Executive Officer");
+    expect(present("salesforce")).toBe("Salesforce");
+  });
+
+  it("keeps the small words small inside a title", () => {
+    expect(present("head of people and culture", true)).toBe("Head of People and Culture");
+    /* Not at the front, though. */
+    expect(present("of counsel", true)).toBe("Of Counsel");
+  });
+
+  /* The rule that protects the names that are deliberately odd. */
+  it("never touches a word that already carries a capital", () => {
+    expect(present("eBay")).toBe("eBay");
+    expect(present("iRobot")).toBe("iRobot");
+    expect(present("Chief of Staff", true)).toBe("Chief of Staff");
+    expect(present("BAE Systems")).toBe("BAE Systems");
+  });
+
+  it("drops empty values rather than presenting a blank", () => {
+    expect(present("")).toBeUndefined();
+    expect(present("   ")).toBeUndefined();
+    expect(present(undefined)).toBeUndefined();
+  });
+
+  it("tidies every field the read says aloud, and nothing else", () => {
+    const tidied = tidyProfile({
+      name: "marc benioff",
+      role: "chief executive officer",
+      company: "salesforce",
+      industry: "computer software",
+      linkedin: "linkedin.com/in/marcbenioff",
+    });
+    expect(tidied.name).toBe("Marc Benioff");
+    expect(tidied.role).toBe("Chief Executive Officer");
+    expect(tidied.company).toBe("Salesforce");
+    /* The URL is data, not prose: it must survive untouched. */
+    expect(tidied.linkedin).toBe("linkedin.com/in/marcbenioff");
+  });
+});
+
 describe("a retry cannot become a second email", () => {
+  /* Resend holds a key for 24 hours and 409s if the body changed under it, so
+     an address-only key turned every improvement to the read into a hard
+     delivery failure for everyone emailed that day. */
+  it("treats a different read to the same person as a different send", async () => {
+    const first = await personalReadIdempotencyKey("leader@example.com", "the old read");
+    const second = await personalReadIdempotencyKey("leader@example.com", "a better read");
+    expect(first).not.toBe(second);
+  });
+
   it("keys the send on the address", async () => {
     const first = await personalReadIdempotencyKey("leader@example.com");
     const second = await personalReadIdempotencyKey("leader@example.com");

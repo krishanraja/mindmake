@@ -217,3 +217,61 @@ What keeps the cap true rather than merely stated:
 - `src/test/brief2-email-cap.test.ts` walks every function under
   `supabase/functions` and fails if the set of things that can send mail, or the
   set of places a follow-up can be created, ever grows.
+
+
+## Amendment, 29 August 2026: the read has to earn the send
+
+The personal read on `/ai-brain` went out once as a job title pasted on the
+front of three template sentences, chosen by two taps, so everybody who tapped
+the same pair received the same email with their name on it. The verdict on it
+was "embarrassingly generic, I'd rather send nothing". That is now the
+implemented behaviour rather than a preference.
+
+**What the read is made of.** The paragraph that leads it is the synthesised
+outside read of the visitor's actual company, produced by the same
+`assembleDossier` orchestrator `/ai-gtm` runs on, reused in process. Everything
+after it describes what the brain would do, and those lines are templates on
+purpose, because they describe our product and our product does not vary by
+visitor. What has to vary is the company, and now it does.
+
+**The gate.** `assessRead` in `mindmake-personal-read/core.ts` reads the
+assembled read the way its recipient would and refuses to let it be sent if the
+answer to any of these is anything short of yes. A refusal returns
+`not_worth_sending`, the page says so plainly, and no email is sent.
+
+1. Is there anything here that could only have been written about this company?
+2. Would this same paragraph fit their closest competitor without changing a word?
+3. Does it claim to know something about them that nothing outside could know?
+4. Does it state a role or company that enrichment did not actually establish?
+5. Is the only specific thing in it their own job title, handed back to them?
+6. Is it short enough to be read in under a minute?
+7. Does it use an em dash, American spellings, or raise its voice?
+8. Does it carry placeholder residue, or the same sentence twice?
+9. Is every sentence plain enough to follow at speed?
+10. Is the company we are naming actually the one behind their email address?
+11. Does it pass judgement on how established or successful they are?
+12. Does it recite their infrastructure back at them?
+13. Does it ask the reader more than one thing?
+
+**Why these are deterministic.** A judge that scores the same input differently
+on two runs cannot be a hard gate on a live send path, and a gate that sometimes
+lets a bad email through is not a gate. What a machine cannot check is written
+here rather than pretended away: it cannot tell whether the paragraph is *true*,
+only whether it is specific, in voice, and within its rights.
+
+**Where the questions came from.** Every one of them is a thing that actually
+happened, not a thing imagined. Questions 10, 11 and 12 were written after three
+live runs: Brandfetch resolved a one-person consultancy's company to the
+founder's personal name, so the email would have opened "You are Director at
+Kristof Hermans"; the synthesis told a real business it was "still establishing
+your market position", which is a verdict on somebody's company delivered
+unasked; and it recited the reader's own hosting stack back at them, which reads
+as surveillance rather than insight.
+
+`src/test/read-quality-gate.test.ts` holds thirty-odd scenarios against it,
+including every division, every pair of answers, a descriptor in another
+language, a company that capitalises itself oddly, and the provider states that
+return nothing. One of them earns its place twice: the first version of the
+"passes judgement" rule matched the bare word "behind", which appears in the
+Product division's own line as a preposition, so it would have silently refused
+every visitor who picked Product and nobody would have known why.

@@ -75,6 +75,16 @@ export function BrainJourney() {
       });
       if (!response.ok) throw new Error(String(response.status));
       const data = await response.json();
+      /* The server read its own work and would not stand behind it. Saying so
+         is better than putting a generic paragraph on screen with their name on
+         it, which is exactly what this whole gate exists to stop. */
+      if (data?.status === "not_worth_sending") {
+        setPrompt(
+          "We could not find enough about your company from the outside to write you anything worth reading. "
+          + "Rather than send you something generic, we would rather not. Reply to us and we will look properly.",
+        );
+        return;
+      }
       if (!data?.read) throw new Error("no-read");
       setRead(data.read as Read);
     } catch {

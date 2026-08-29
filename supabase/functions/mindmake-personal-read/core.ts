@@ -179,6 +179,66 @@ export interface Profile {
   linkedin?: string;
 }
 
+/**
+ * The house voice, applied to anything a provider wrote.
+ *
+ * The LLM synthesis is scrubbed on its way out of `completeText`, and PDL's
+ * fields never were, so a job title carrying an em dash walked straight into
+ * the first sentence of the email. Provider text is provider text wherever it
+ * comes from: it all gets the same treatment before it is allowed into a
+ * sentence written in our name.
+ */
+export function houseVoice(input: string): string {
+  return input
+    .replace(/\s*[\u2013\u2014]\s*/g, ", ")
+    .replace(/\s+--\s+/g, ", ")
+    .replace(/\bjudgment(al|s)?\b/gi, (m) => (m[0] === "J" ? "Judgement" : "judgement") + m.slice(8))
+    .replace(/,\s*,/g, ",")
+    .replace(/\s+,/g, ",")
+    .replace(/,\s*([.!?])/g, "$1")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+}
+
+/* Words that stay lowercase inside a job title unless they open it. */
+const MINOR_WORDS = new Set(["of", "and", "the", "for", "at", "in", "to", "a", "an"]);
+
+/**
+ * Provider data, made fit to appear in a sentence about a person.
+ *
+ * PDL returns "chief executive officer" and "salesforce", and the read puts
+ * both straight into the first line a visitor sees about themselves. Lowercase
+ * is the provider's storage convention, not a fact about the company, so
+ * presenting it verbatim is not honesty, it is just untidiness.
+ *
+ * A word that already carries a capital is left exactly as it is. That is what
+ * protects the names that are deliberately odd: eBay and iRobot survive, and
+ * only all-lowercase words are touched.
+ */
+export function present(value: string | undefined, isTitle = false): string | undefined {
+  const clean = houseVoice(value?.trim().replace(/\s+/g, " ") ?? "");
+  if (!clean) return undefined;
+  return clean
+    .split(" ")
+    .map((word, at) => {
+      if (/[A-Z]/.test(word)) return word;
+      if (isTitle && at > 0 && MINOR_WORDS.has(word)) return word;
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    })
+    .join(" ");
+}
+
+/** The same tidy-up applied to every field the read will actually say aloud. */
+export function tidyProfile(profile: Profile): Profile {
+  return {
+    ...profile,
+    name: present(profile.name),
+    role: present(profile.role, true),
+    company: present(profile.company),
+    industry: present(profile.industry),
+  };
+}
+
 export const escapeHtml = (value: string): string => value
   .replaceAll("&", "&amp;")
   .replaceAll("<", "&lt;")
@@ -221,8 +281,22 @@ export function openingLine(profile: Profile, division?: Division): string {
  * previous shape composed the email in one place and the preview in another,
  * and four of the lines had already drifted apart by the time anyone checked.
  */
+/** What the company enrichment established, as far as the read is allowed to say it. */
+export interface CompanySeen {
+  name?: string;
+  /** The synthesised outside read: one paragraph of what this company does. */
+  descriptor?: string;
+  industry?: string;
+  products?: string[];
+}
+
 export interface PersonalRead {
   opening: string;
+  /**
+   * What we can see about this company from the outside. The one part of the
+   * read that could not have been written before the visitor arrived.
+   */
+  seen?: string;
   lines: string[];
   /** Present only when enrichment actually resolved the company. */
   company?: string;
@@ -230,11 +304,43 @@ export interface PersonalRead {
   companyOnly: boolean;
 }
 
-export function buildRead(request: PersonalReadRequest, profile: Profile): PersonalRead {
+/**
+ * The read.
+ *
+ * The first version was the opening line and three template sentences, and the
+ * templates were chosen by two taps, so everybody who tapped the same pair got
+ * the same email with their job title pasted on the front. That is the mirror
+ * this business exists to argue against, and it went out once before anybody
+ * noticed, which is the reason `seen` is now the part that leads.
+ *
+ * `seen` is the synthesised outside read of the actual company. Everything after
+ * it is what the brain would do about it, and those lines are templates on
+ * purpose: they describe our product, which does not vary by visitor. What has
+ * to vary is the company, and now it does.
+ */
+export function buildRead(
+  request: PersonalReadRequest,
+  profile: Profile,
+  company?: CompanySeen,
+): PersonalRead {
+  const named = present(company?.name) ?? profile.company?.trim();
+  const descriptor = company?.descriptor ? houseVoice(company.descriptor.trim()) : undefined;
+  const industry = present(company?.industry) ?? profile.industry;
+
+  /* Only ever what enrichment actually established. With no descriptor we say
+     what little we have and stop, rather than padding it into a paragraph. */
+  let seen: string | undefined;
+  if (descriptor) {
+    seen = descriptor;
+  } else if (named && industry) {
+    seen = `${named} works in ${industry.toLowerCase()}.`;
+  }
+
   return {
     opening: openingLine(profile, request.division),
+    seen,
     lines: [Q1_LINES[request.q1], Q2_LINES[request.q2], DIVISION_LINES[request.division]],
-    company: profile.company?.trim() || undefined,
+    company: named || undefined,
     companyOnly: !profile.role,
   };
 }
@@ -245,13 +351,18 @@ export interface PersonalReadEmail {
   text: string;
 }
 
-export function renderPersonalRead(request: PersonalReadRequest, profile: Profile): PersonalReadEmail {
-  const { opening, lines } = buildRead(request, profile);
+export function renderPersonalRead(
+  request: PersonalReadRequest,
+  profile: Profile,
+  company?: CompanySeen,
+): PersonalReadEmail {
+  const { opening, seen, lines } = buildRead(request, profile, company);
 
   const text = [
     "Your first week with an AI brain",
     "",
     opening,
+    ...(seen ? ["", `What we can see from the outside: ${seen}`] : []),
     "",
     ...lines,
     "",
@@ -272,6 +383,7 @@ export function renderPersonalRead(request: PersonalReadRequest, profile: Profil
 <p style="margin:0 0 24px;font:600 13px/1 Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#788c82">Mindmake</p>
 <h1 style="margin:0 0 18px;font:700 26px/1.2 Arial,sans-serif;letter-spacing:-.02em;color:#f2f8f5">Your first week with an AI brain</h1>
 <p style="margin:0 0 18px;color:#b0c0b7">${escapeHtml(opening)}</p>
+${seen ? `<p style="margin:0 0 20px;padding:14px 16px;border:1px solid #23342c;background:#0e1613;color:#e6ede8"><span style="display:block;margin-bottom:6px;font:500 10.5px/1 'Courier New',monospace;letter-spacing:.12em;text-transform:uppercase;color:#7fe3b4">What we can see from the outside</span>${escapeHtml(seen)}</p>` : ""}
 ${lines.map((line) => `<p style="margin:0 0 14px;padding-left:14px;border-left:2px solid #3e8e68;color:#e6ede8">${escapeHtml(line)}</p>`).join("\n")}
 <h2 style="margin:28px 0 10px;font:700 17px/1.3 Arial,sans-serif;color:#f2f8f5">What happens next</h2>
 <p style="margin:0 0 14px;color:#b0c0b7">If this is useful, reply to this email and we will look at your business properly. There is no diary link to book and no sales sequence behind this.</p>
@@ -281,9 +393,219 @@ ${lines.map((line) => `<p style="margin:0 0 14px;padding-left:14px;border-left:2
   return { subject: "Your first week with an AI brain", html, text };
 }
 
-/** Deterministic, so a retry cannot become a second email. */
-export async function personalReadIdempotencyKey(email: string): Promise<string> {
-  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(email));
+/**
+ * Deterministic, so a retry cannot become a second email.
+ *
+ * The address alone is not enough to key on, and the reason is worth keeping.
+ * Resend holds an idempotency key for 24 hours and refuses it with a 409 if the
+ * body has changed since, so keying on the address alone meant that the moment
+ * the read itself improved, every address emailed in the last day got a hard
+ * delivery failure rather than the better email. The content is part of the
+ * identity of the send: the same read to the same person is one email however
+ * many times it is retried, and a genuinely different read is a different send.
+ */
+export async function personalReadIdempotencyKey(email: string, content = ""): Promise<string> {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(`${email}\n${content}`));
   const hex = Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
   return `mindmake-personal-read/${hex}`;
+}
+
+/* ---------------------------------------------------------------------------
+ * The gate the read has to clear before it is allowed to be sent
+ *
+ * The first version of this read went out as a job title pasted on the front of
+ * three template sentences, and the verdict on it was "embarrassingly generic,
+ * I'd rather send nothing". That is now the implemented behaviour rather than a
+ * preference: a read that cannot clear this bar is not sent at all.
+ *
+ * The questions are asked from the reader's side. They are a senior operator at
+ * a real company, short of time and tired of being marketed at, and the whole
+ * job of this email is that they finish it feeling somebody actually looked at
+ * their business. Anything that reads as a form letter with their name on it
+ * costs more than sending nothing would.
+ *
+ * These are deterministic on purpose. A judge that scores differently on two
+ * runs of the same input cannot be a hard gate on a live send path, and a gate
+ * that sometimes lets a bad email through is not a gate. What a machine cannot
+ * check is written down in the rubric rather than pretended away.
+ * ------------------------------------------------------------------------- */
+
+/** Words so common in company copy that a sentence made of them says nothing. */
+const EMPTY_WORDS = new Set([
+  "the", "a", "an", "and", "or", "of", "to", "in", "for", "with", "on", "at", "by", "from",
+  "is", "are", "was", "were", "be", "been", "it", "its", "their", "they", "this", "that",
+  "company", "business", "solution", "solutions", "platform", "service", "services",
+  "software", "technology", "innovative", "leading", "global", "world", "class",
+  "customer", "customers", "client", "clients", "product", "products", "team", "teams",
+  "help", "helps", "helping", "provide", "provides", "providing", "enable", "enables",
+  "offering", "offers", "focused", "dedicated", "committed", "mission", "vision",
+]);
+
+/** Phrases that mean the synthesis gave up and wrote filler. */
+const FILLER = [
+  "a company that", "is a company", "provides solutions", "wide range of",
+  "cutting edge", "cutting-edge", "state of the art", "best in class",
+  "industry leading", "industry-leading", "one stop shop", "we could not",
+  "no information", "not available", "unknown", "n/a",
+];
+
+/**
+ * Judgements about the reader's standing.
+ *
+ * The synthesis wrote "you're a newly founded consulting practice, still
+ * establishing your market position" about a real business, which is a verdict
+ * on somebody's company delivered to them unasked. The house rule against doom
+ * framing is not only about failure words: telling a leader their business is
+ * small or immature is the same move in a politer register.
+ */
+const VERDICTS = [
+  /\b(?:still|yet to)\s+(?:establish|find|prove|build|gain)/i,
+  /\bnewly (?:founded|established|formed)\b/i,
+  /\b(?:small|tiny|modest|limited|minimal|little)\s+(?:team|presence|footprint|scale|reach|traction)/i,
+  /\b(?:lagging|immature|unproven|nascent|fledgling)\b/i,
+  /* "behind" only where it is a verdict. As a bare word it is a preposition,
+     and the reasoning behind a decision tripped this on every visitor who
+     picked Product, which the simulations caught and a live run would not
+     have: the read would simply have been refused and nobody would have known
+     why. */
+  /\b(?:falling|fallen|lag(?:ging)?)\s+behind\b|\bbehind\s+(?:the curve|your competitors|the market|peers)\b/i,
+  /\byou(?:'re| are) (?:a )?(?:small|new|young|emerging)\b/i,
+];
+
+/**
+ * Infrastructure a reader did not ask us to notice.
+ *
+ * Naming somebody's hosting stack back to them reads as surveillance rather
+ * than insight, and to a leader it is not even interesting. The enrichment
+ * knows the stack because BuiltWith reports it; that is a routing signal, not
+ * something to recite.
+ */
+const INFRASTRUCTURE = [
+  "supabase", "vercel", "netlify", "heroku", "cloudflare", "wordpress", "webflow",
+  "squarespace", "wix", "shopify plus", "hubspot", "google analytics", "segment",
+  "aws", "azure", "gcp", "digitalocean", "react", "next.js", "tailwind",
+];
+
+/** Claims about the reader's own situation that nothing outside could know. */
+const OVERREACH = [
+  /\byou(?:'re| are)\s+(?:struggling|failing|losing|behind|missing out)/i,
+  /\byour team (?:is|are)\s+(?:struggling|failing|not)/i,
+  /\byou need to\b/i,
+  /\byou should\b/i,
+  /\byou must\b/i,
+  /\bwe know (?:that )?you\b/i,
+];
+
+/** House voice, the parts of it a machine can actually check. */
+const VOICE = [
+  { pattern: /—/, question: "Does it use an em dash, which the house style does not?" },
+  { pattern: /\b(judgment|organiz|analyz|behavior|optimiz|personaliz|leverage|utilize|synerg)/i, question: "Does it use American spellings or business jargon?" },
+  { pattern: /!/, question: "Does it raise its voice at the reader?" },
+  { pattern: /\b(undefined|null|NaN|\{\{|TODO|Lorem)\b/, question: "Does it carry placeholder residue from the template?" },
+];
+
+export interface ReadAssessment {
+  passed: boolean;
+  /** How many of the rubric's questions the read answered well. */
+  score: number;
+  outOf: number;
+  /** The questions it failed, in the rubric's own words. */
+  failures: string[];
+}
+
+/** The specific words in a sentence: what is left once the empty ones go. */
+function substantiveWords(text: string): string[] {
+  return text.toLowerCase().replace(/[^a-z0-9\s-]/g, " ").split(/\s+/)
+    .filter((word) => word.length > 2 && !EMPTY_WORDS.has(word));
+}
+
+const sentences = (text: string) => text.split(/(?<=[.!?])\s+/).map((s) => s.trim()).filter(Boolean);
+
+/**
+ * Reads the assembled read the way its recipient would, and refuses it if the
+ * answer to any of these is anything short of yes.
+ */
+export function assessRead(read: PersonalRead, profile: Profile, domain = ""): ReadAssessment {
+  const failures: string[] = [];
+  const body = [read.opening, read.seen ?? "", ...read.lines].join(" ");
+  const seen = read.seen?.trim() ?? "";
+  const seenWords = substantiveWords(seen);
+  const unique = new Set(seenWords);
+
+  const ask = (question: string, ok: boolean) => { if (!ok) failures.push(question); };
+
+  // 1. The question the whole email lives or dies on.
+  ask(
+    "Is there anything here that could only have been written about this company?",
+    seen.length >= 60 && unique.size >= 6,
+  );
+
+  // 2. Filler is worse than silence, because it looks like an answer.
+  ask(
+    "Would this same paragraph fit their closest competitor without changing a word?",
+    Boolean(seen) && !FILLER.some((phrase) => seen.toLowerCase().includes(phrase)),
+  );
+
+  // 3. We are reading from the outside and must never pretend otherwise.
+  ask(
+    "Does it claim to know something about them that nothing outside could know?",
+    !OVERREACH.some((pattern) => pattern.test(body)),
+  );
+
+  // 4. A wrong job title is worse than no job title.
+  ask(
+    "Does it state a role or company that enrichment did not actually establish?",
+    (!/^You are /.test(read.opening) || Boolean(profile.role))
+    && (!read.opening.includes(" at ") || Boolean(profile.company || read.company)),
+  );
+
+  // 5. Reciting their own data back is the mirror this business argues against.
+  ask(
+    "Is the only specific thing in it their own job title, handed back to them?",
+    Boolean(seen) && substantiveWords(seen).some((w) => !read.opening.toLowerCase().includes(w)),
+  );
+
+  // 6. A senior reader gives this under a minute.
+  const words = body.split(/\s+/).filter(Boolean).length;
+  ask("Is it short enough to be read in under a minute?", words >= 60 && words <= 320);
+
+  // 7. The house voice, as far as a machine can see it.
+  for (const rule of VOICE) ask(rule.question, !rule.pattern.test(body));
+
+  // 8. A seam a reader can see is a seam that says nobody looked.
+  const all = sentences(body);
+  ask("Does the same sentence appear twice?", new Set(all).size === all.length);
+
+  // 9. Plain English, which here means no sentence anybody has to re-read.
+  ask(
+    "Is every sentence plain enough for someone to follow at speed?",
+    all.every((s) => s.split(/\s+/).length <= 42),
+  );
+
+  // 10. The name we call their company had better be their company.
+  const root = domain.split(".")[0]?.toLowerCase() ?? "";
+  const named = (read.company ?? "").toLowerCase();
+  ask(
+    "Is the company we are naming actually the one behind their email address?",
+    !named || !root || named.replace(/[^a-z0-9]/g, "").includes(root.replace(/[^a-z0-9]/g, ""))
+      || root.replace(/[^a-z0-9]/g, "").includes(named.split(" ")[0].replace(/[^a-z0-9]/g, "")),
+  );
+
+  // 11. A verdict on their business is not ours to hand them.
+  ask(
+    "Does it pass judgement on how established or successful they are?",
+    !VERDICTS.some((pattern) => pattern.test(body)),
+  );
+
+  // 12. Their stack is a routing signal, not an observation worth reciting.
+  ask(
+    "Does it recite their infrastructure back at them?",
+    !INFRASTRUCTURE.some((tool) => new RegExp(`\\b${tool.replace(".", "\\.")}\\b`, "i").test(body)),
+  );
+
+  // 13. One clear next step, and nothing else asked of them.
+  ask("Does it ask the reader more than one thing?", (body.match(/\?/g) ?? []).length <= 1);
+
+  const outOf = 13 + VOICE.length - 1;
+  return { passed: failures.length === 0, score: outOf - failures.length, outOf, failures };
 }

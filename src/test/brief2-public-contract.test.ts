@@ -310,13 +310,17 @@ describe("the eyebrow ban", () => {
 });
 
 describe("the motion gate", () => {
-  it("uses no IntersectionObserver on the rebuilt surfaces", () => {
-    /* The one scroll primitive is useScrollDriver, and it can only change how a
-       thing already on the page feels. An observer is how entrances get built,
-       so its absence is the check. */
+  it("keeps the observer out of every surface but the one primitive", () => {
+    /* This used to assert the observer appeared nowhere at all, which was the
+       checkable form of a ban on entrance choreography. Krish lifted that ban on
+       29 August 2026, so the assertion narrows rather than disappearing: arrival
+       is allowed, and it happens in `useReveal` or it does not happen. What the
+       ban was really protecting is enforced in `reveal-contract.test.tsx`, which
+       asks whether the page is still whole when the reveal never fires. */
     for (const [surface, source] of readAll(MOTION_SURFACES)) {
       expect(`${surface}: ${source.includes("IntersectionObserver")}`).toBe(`${surface}: false`);
     }
+    expect(read("src/hooks/useReveal.ts")).toContain("IntersectionObserver");
   });
 
   it("keeps animation libraries off the three rebuilt pages", () => {

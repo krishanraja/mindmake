@@ -14,7 +14,7 @@ The intent behind these rules is the north star: everything on the page is proof
    What the voice never does. No doom, no fear, no telling a reader their business is failing ("your price has not moved yet"). No commands ("you decide", "own the way you decide"). No boasting or spectacle ("watch us read your business"). No cryptic headings that need the paragraph underneath to decode them ("three places the money moves"). No metaphor doing the work a plain noun could do.
 
    Banned vocabulary in public copy: ingest, orchestrate, agentic, harness, semantic, RAG, LLM, and "inference" except where the GTM board prices it. Banned constructions: the AI-cliche antithesis templates ("not X, but Y", "X. Not Y.", "never just X"), em dashes, and American spellings.
-3. **The motion law.** Motion only ever changes a relationship between things that are already present. See the motion system below. Entrance choreography is banned outright.
+3. **The motion law.** Motion changes how something is presented, never whether it is there. See the motion system below. Entrance choreography is sanctioned; content that is only readable once it has fired is not.
 4. **One accent system.** Mint means "this is the answer". Amber means "this moved since yesterday". Nothing else on the site is coloured. The serif speaks only the claim. The mono speaks only numbers, sources, timestamps and labels.
 5. **The two-email cap.** A visitor who converts receives exactly one results email and exactly one follow-up fourteen days later. Nothing else, ever.
 
@@ -74,11 +74,25 @@ None of them draws itself on. A stroke that animates its dash offset from nothin
 
 **Touch**, everything answers the hand within about 100ms. Cards warm their border toward mint and lift one pixel. Chips fill on hover and press down on click. Tabs slide a mint indicator between states. Fork cards draw their tick when picked. Text links draw their underline. Focus-visible always shows the mint outline. A component shipped without hover, press and focus responses is unfinished, exactly as unfinished as a component with no mobile layout.
 
-**Banned outright, and this is the entire ban:** entrance choreography. Staggered list builds, scroll-triggered fades or slides, numbered step reveals, progress bars tied to scroll position. `IntersectionObserver` does not appear on any rebuilt surface; the contract test enforces its absence, which is what makes the ban checkable.
+**Arrival**, sanctioned 29 August 2026. Staggered builds, fades and slides on arrival, reveals that fire once as you reach them. One primitive implements all of it: `src/hooks/useReveal.ts`.
 
-The scrubbed builds above were adopted on 28 August 2026 after the two models were built side by side on the same content and compared. The ban did not have to move an inch to allow them, which is the argument for them: a build needs no observer, starts from no absent state, and reverses. A reveal needs all three.
+This was banned outright until that date, and the ban had a real argument: a scrubbed build needs no observer, starts from no absent state, and reverses, and a reveal needs all three. It was lifted on Krish's instruction, having been asked for three times. What the ban was also protecting is not lifted, because it was never really about choreography:
 
-Under `prefers-reduced-motion`, the ambient layer falls back to posters and stopped bands, and every scrubbed build reports a completed pass: the sentence is fully lit, the row is assembled, the figure reads its true number, and parallax flattens. The touch layer stays, with transitions swapped for instant state changes.
+**Every revealed element stays readable if the reveal never fires.** Copy here has to work for a crawler that runs nothing, a screen reader, a visitor who asked for reduced motion, and somebody landing halfway down a page from a search result. A reveal whose first state is genuinely absent breaks all four, and breaks them silently, because whoever built it always arrives at the top with a working observer. So the primitive guarantees, and `src/test/reveal-contract.test.tsx` holds, that:
+
+- the DOM is always complete, and only opacity and transform ever change;
+- CSS defaults to revealed, so no JavaScript means nothing hidden;
+- nothing already on screen is ever hidden, so a mid-page landing is whole;
+- a two-second timer shows everything regardless, so a stalled observer costs a moment rather than the page;
+- reduced motion hides nothing at all.
+
+`IntersectionObserver` appears in exactly one file, and the contract test holds it there. That is what replaced the old check: the ban was checkable because the observer appeared nowhere, and this is checkable because it appears in one place with the guarantees attached to it.
+
+**Still banned:** progress bars tied to scroll position, whatever they are filling. A bar that fills is a measurement of the reader rather than of anything on the page.
+
+The scrubbed builds above were adopted on 28 August 2026 after the two models were built side by side on the same content and compared, and they remain the default. A build that can be scrubbed should be: it reverses, it needs no observer, and a visitor who never scrolls has lost nothing. Arrival is for the things a scrub cannot express.
+
+Under `prefers-reduced-motion`, the ambient layer falls back to posters and stopped bands, every scrubbed build reports a completed pass, and every arrival is simply already there: the sentence is fully lit, the row is assembled, the figure reads its true number, and parallax flattens. The touch layer stays, with transitions swapped for instant state changes.
 
 ## The eyebrow ban
 
@@ -113,7 +127,7 @@ Every public change runs all of it.
 1. Focused tests, then the full suite, then `npm run build` and `npx eslint .` no worse than the recorded baseline.
 2. Desktop and 375px checks in both scroll directions, with no horizontal overflow and no browser console errors.
 3. The Krish gate: a case-insensitive search across public surfaces returns nothing except the three declared exceptions, which the contract test encodes. Those are: the reference section's heading, where he is named once as the person those people worked with; a verbatim quote that used an older name, because quotes are never edited; and the contact mailbox in `src/lib/publicLinks.ts`, which is on the older domain because that is the one that receives mail.
-4. The motion gate: no `IntersectionObserver` and no entrance animation on a rebuilt surface.
+4. The motion gate: `IntersectionObserver` in one file only, and every revealed element readable with it never firing. Disable JavaScript, then load each page and read it end to end.
 5. The aliveness gate: scroll each page at reading pace and confirm every viewport holds something in motion, then crawl every interactive element with a mouse and a keyboard and confirm each answers.
 6. The three-second gate: read every headline with its serif payoff, standalone. Then the banned-word and antithesis scans.
 7. The board honesty gate: the timestamp renders from the cache date, staleness is labelled past 26 hours, and a failed fetch collapses the section cleanly.

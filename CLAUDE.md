@@ -49,7 +49,7 @@ repository is dead: delete it rather than working around it.
 - Eyebrows. No small pre-heading above a hero or a section title, under any class name and in any case. A small label may remain only where it names an object, a control, a value or an axis.
 - The operator's personal name in the site's voice. Founder-led, practice voice (28 August 2026): he appears in the founder section at the foot of the homepage, in the framing of the proof, and inside verbatim quotes. Everywhere else there is no first person, no biography, no portrait and no "why him" argument standing in for evidence. Quotes are never edited, for spelling or anything else, and a shortened quote is an exact substring. The four CTRL captures keep their account chrome, and they are images.
 - The retired journey engine: stepped scroll journeys, numbered step rails, the Capture / Encode / Amplify / Uncover / Keep ladder, hand-drawn scroll marks, and "Not an agency. Not a coach." The stage photograph came back on 28 August 2026 with the founder section and belongs there, cropped to him; it is not a hero and appears nowhere else.
-- Entrance choreography of any kind. Scroll-triggered reveals, fades, slides, staggered builds and scroll-progress bars are banned; see the motion law in the design contract.
+- Scroll-progress bars, whatever they are filling. Entrance choreography was banned here until 29 August 2026 and is now sanctioned through `src/hooks/useReveal.ts` alone: see the motion law in the design contract for the guarantees that came with the lift, all of which reduce to the content being readable if the reveal never fires.
 
 ## Active structure
 
@@ -79,7 +79,7 @@ The last three exist because every other gate measures a page at rest, and neith
 
 The first screen's CSS is deliberately in two places: `index.html` inlines what the prerendered shell needs so it does not wait on a 126KB render-blocking stylesheet, and `src/styles/mindmake.css` holds the same rules for the rest. `src/test/first-screen.test.ts` keeps the two identical, because two copies of a colour is how a ground drifts. Their floors are calibrated from readings, not chosen; each script says how. If one fails, the page is usually what is wrong. When the gate is what is wrong, fix the measurement and say so in the commit rather than lowering a floor.
 
-For any change to a public surface, run both a source scan and a rendered DOM scan for the banned families: the operator's name, the banned vocabulary, the antithesis templates, and entrance motion. Motion must clarify the message or the interaction. Movement added only for decoration is a regression, and so is a still viewport.
+For any change to a public surface, run both a source scan and a rendered DOM scan for the banned families: the operator's name, the banned vocabulary and the antithesis templates. For anything that arrives on scroll, load the page with JavaScript disabled and confirm every word of it is readable. Motion must clarify the message or the interaction. Movement added only for decoration is a regression, and so is a still viewport.
 
 For any change to the lead pipeline, run `src/test/mindmake-brief-backend-core.test.ts`, redeploy with the function's full import closure, verify the deployed body and prove one synthetic end-to-end lead from `https://mindmake.co`.
 

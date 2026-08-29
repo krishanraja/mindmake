@@ -1035,6 +1035,34 @@
 /* The one place on this site where reduced motion leaves a visitor with a
    completely static screen, because there is nothing else on it yet. The
    gradient stays; it simply stops travelling. */
+/* ---------- Arrival ----------
+   Entrance choreography, sanctioned on 29 August 2026 after three years of
+   asking and two of banning. `src/hooks/useReveal.ts` carries the argument and
+   the guarantees; this is the whole of its appearance.
+
+   Only the pending state is styled. An element with no data-reveal attribute,
+   which is every element until the hook has run and confirmed an observer, is
+   already in its final state. That is what makes "no JavaScript" and "the
+   observer never fired" the same harmless case rather than a page of invisible
+   copy. */
+
+[data-reveal="pending"] {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+}
+[data-reveal] {
+  transition:
+    opacity .5s cubic-bezier(.22, .8, .3, 1) calc(var(--mm-reveal-i, 0) * 70ms),
+    transform .5s cubic-bezier(.22, .8, .3, 1) calc(var(--mm-reveal-i, 0) * 70ms);
+}
+/* Belt and braces, and the one that survives a stylesheet loading late: a
+   visitor who asked for stillness is never handed a hidden element even if the
+   hook has already marked one. */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal="pending"] { opacity: 1; transform: none; }
+  [data-reveal] { transition: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   #prerendered-content::before { animation: none; }
 }

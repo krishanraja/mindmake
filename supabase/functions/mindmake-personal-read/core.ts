@@ -556,6 +556,15 @@ const STACK_RECITAL =
  * reader their organisation is failing does not.
  */
 const DOOM = [
+  /* Scarcity and strain, as a vocabulary rather than as phrase pairs.
+     Three passes of this rule each caught the previous phrasing and missed the
+     next: "chronic funding pressures", then "waiting list backlogs", then
+     "limited resources and mounting demand". Enumerating noun pairs loses that
+     race, so this matches the qualifier and lets the noun be anything. */
+  /\b(?:limited|scarce|dwindling|stretched|strained|insufficient|inadequate|shrinking|constrained)\s+(?:\w+\s+){0,2}?(?:resources?|capacity|budgets?|staff|staffing|funding|headcount|margins?|time)\b/i,
+  /\b(?:mounting|rising|growing|escalating|spiralling|surging)\s+(?:\w+\s+){0,2}?(?:demand|pressures?|costs?|backlogs?|expectations)\b/i,
+  /\bsprawling\b/i,
+  /\bover(?:stretched|burdened|whelmed)\b/i,
   /\byou (?:face|suffer|struggle|contend with|grapple with)\b/i,
   /\b(?:chronic|mounting|severe|persistent|acute)\s+(?:\w+\s+)?(?:pressure|shortage|deficit|backlog|problem)/i,
   /\bbacklogs?\b/i,

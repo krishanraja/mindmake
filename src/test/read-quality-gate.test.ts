@@ -309,6 +309,23 @@ describe("the edge cases the live data actually produced", () => {
     }
   });
 
+  /* Three passes of the doom rule each caught the previous phrasing and missed
+     the next: "chronic funding pressures", then "waiting list backlogs", then
+     "limited resources and mounting demand". The rule matches the qualifier now
+     and lets the noun be whatever the model reached for. */
+  it("catches scarcity and strain however it is phrased", () => {
+    const kept = "Northwind moves freight for mid-market importers across the North Sea and clears customs in house, quoting per container and settling in sterling.";
+    for (const line of [
+      "You run a sprawling organisation serving 67 million people with limited resources and mounting demand.",
+      "It operates with stretched capacity and rising costs across every depot.",
+      "The team is overstretched and working with inadequate staffing.",
+      "They face dwindling margins and escalating expectations.",
+    ]) {
+      const built = read({ name: "Northwind", descriptor: `${kept} ${line}` });
+      expect(built.seen, line).toBe(kept);
+    }
+  });
+
   it("still allows an observation about the market they are in", () => {
     const built = read({
       name: "Northwind",

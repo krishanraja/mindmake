@@ -312,6 +312,29 @@ shorter than anything the pipeline actually returns. The fixtures were lengthene
 rather than the floor lowered: it is calibrated from real reads, which run to
 three hundred characters and up.
 
+### Why the gate keeps finding the next phrasing, and what would stop it
+
+Three passes of the doom rule each caught the phrasing in front of it and missed
+the next one: "chronic funding pressures", then "waiting list backlogs", then
+"limited resources and mounting demand". The rule now matches the qualifier and
+lets the noun be anything, which generalises further, but the pattern is worth
+naming rather than fixing again quietly.
+
+**The filtering is compensating for a prompt aimed somewhere else.**
+`synthesizeDescriptor` was written for `/ai-gtm`, where the paragraph is
+addressed to a company about its market and "you face rising costs" is on brief.
+The personal read reuses it unchanged, so doom, flattery and stack recitals are
+not stray defects: they are the GTM prompt working as intended, in a place that
+wants something different.
+
+**The durable fix is a personal-read variant of the prompt**, one that never
+grades, never flatters and never lists tooling, with the gate kept as the
+backstop rather than as the only defence. It is deliberately not done here:
+`synthesizeDescriptor` is shared with `/ai-gtm`, and changing it in place would
+alter a surface that has already been reviewed and approved. Adding a variant
+alongside it is the safe shape, and it is an owner's call rather than an
+implementation detail.
+
 `src/test/read-quality-gate.test.ts` holds forty-odd scenarios against it,
 including every division, every pair of answers, a descriptor in another
 language, a company that capitalises itself oddly, and the provider states that

@@ -250,8 +250,20 @@ answer to any of these is anything short of yes. A refusal returns
 9. Is every sentence plain enough to follow at speed?
 10. Is the company we are naming actually the one behind their email address?
 11. Does it pass judgement on how established or successful they are?
-12. Does it recite their infrastructure back at them?
-13. Does it ask the reader more than one thing?
+12. Does it tell them their organisation is failing or under strain?
+13. Does it flatter them instead of observing them?
+14. Does it recite their infrastructure back at them?
+15. Does it ask the reader more than one thing?
+
+**Repair comes before refusal.** The synthesis reliably writes four good
+sentences and then one more that recites the stack, grades how established the
+company is, or flatters it. Refusing the whole read over the last sentence
+throws away four good ones to avoid a bad one, and the reader loses a real read
+because a model would not stop writing. So `sanitiseDescriptor` drops the
+sentences that cannot be sent and keeps the ones that can, and the gate then
+runs on what is left. A paragraph that is nothing but bad sentences ends up
+empty and is refused on the specificity question, which is the honest outcome
+for it.
 
 **Why these are deterministic.** A judge that scores the same input differently
 on two runs cannot be a hard gate on a live send path, and a gate that sometimes
@@ -268,7 +280,24 @@ your market position", which is a verdict on somebody's company delivered
 unasked; and it recited the reader's own hosting stack back at them, which reads
 as surveillance rather than insight.
 
-`src/test/read-quality-gate.test.ts` holds thirty-odd scenarios against it,
+**What the live battery taught, on 29 August 2026.** Fourteen real domains were
+run through the deployed function and the results read rather than counted. It
+found seven defects, six of which no hand-written fixture would ever have
+produced, and `src/test/read-live-corpus.test.ts` now holds the paragraphs it
+actually returned so a future model or provider change shows up as a failing
+test rather than as a worse email.
+
+| What came back | What it exposed |
+|---|---|
+| "built on Salesforce, Contentful and Ruby on Rails" | A vendor list can never be complete. The construction is the tell, so the rule now matches "built on / powered by / runs on" followed by named products. |
+| "now employing 501, 1000 people" | Our own dash rule turned a headcount band into two wrong numbers. A dash between digits is a range, not a clause. |
+| "University Of Oxford" | Company names need the same minor-word rule as job titles. |
+| "You remain the world's leading research and teaching institution" | Flattery is the verdict rule with its sign flipped, and it is what the visitor came here to get away from. |
+| "you face chronic funding pressures and waiting list backlogs" | True, widely reported, and still not ours to hand somebody unasked. The house rule against doom is not only about the word "failing". |
+| "YAY! Mushrooms" | A real Marks and Spencer product. A bare test for an exclamation mark refused a good read over a brand name; our own shouting ends a word, a brand carries the mark inside a capitalised token. |
+| Four whole reads refused over one trailing sentence | The remedy was wrong, not just the rule. Repair now comes before refusal. |
+
+`src/test/read-quality-gate.test.ts` holds forty-odd scenarios against it,
 including every division, every pair of answers, a descriptor in another
 language, a company that capitalises itself oddly, and the provider states that
 return nothing. One of them earns its place twice: the first version of the

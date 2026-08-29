@@ -76,7 +76,7 @@ For any change to a public surface, run both a source scan and a rendered DOM sc
 
 For any change to the lead pipeline, run `src/test/mindmake-brief-backend-core.test.ts`, redeploy with the function's full import closure, verify the deployed body and prove one synthetic end-to-end lead from `https://mindmake.co`.
 
-The current baselines, recorded in `project-documentation/06_CURRENT_STATE.md`: 261 tests, 0 lint errors and 2 warnings, 0 type errors. Do not add new lint problems. Point the typecheck at `tsconfig.app.json`: the root config carries `"files": []` and checks nothing.
+The current baselines, recorded in `project-documentation/06_CURRENT_STATE.md`: 285 tests, 0 lint errors and 2 warnings, 0 type errors. Do not add new lint problems. Point the typecheck at `tsconfig.app.json`: the root config carries `"files": []` and checks nothing.
 
 For any change to the films or the film plate, confirm in a browser that every
 loop decodes and plays when scrolled into view, and that a reduced-motion

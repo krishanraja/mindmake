@@ -190,6 +190,11 @@ export interface Profile {
  */
 export function houseVoice(input: string): string {
   return input
+    /* Not between digits. The first live battery produced "now employing 501,
+       1000 people" out of a headcount band, because a dash separating numbers
+       is a range and not a clause, and replacing it with a comma turns one fact
+       into two wrong ones. */
+    .replace(/(\d)\s*[\u2013\u2014]\s*(\d)/g, "$1-$2")
     .replace(/\s*[\u2013\u2014]\s*/g, ", ")
     .replace(/\s+--\s+/g, ", ")
     .replace(/\bjudgment(al|s)?\b/gi, (m) => (m[0] === "J" ? "Judgement" : "judgement") + m.slice(8))
@@ -232,10 +237,13 @@ export function present(value: string | undefined, isTitle = false): string | un
 export function tidyProfile(profile: Profile): Profile {
   return {
     ...profile,
-    name: present(profile.name),
+    name: present(profile.name, true),
+    /* Company names take the minor-word rule too. Without it the live battery
+       returned "University Of Oxford", which is a spelling of that name nobody
+       has ever used. */
     role: present(profile.role, true),
-    company: present(profile.company),
-    industry: present(profile.industry),
+    company: present(profile.company, true),
+    industry: present(profile.industry, true),
   };
 }
 
@@ -324,7 +332,9 @@ export function buildRead(
   company?: CompanySeen,
 ): PersonalRead {
   const named = present(company?.name) ?? profile.company?.trim();
-  const descriptor = company?.descriptor ? houseVoice(company.descriptor.trim()) : undefined;
+  const descriptor = company?.descriptor
+    ? sanitiseDescriptor(houseVoice(company.descriptor.trim())) || undefined
+    : undefined;
   const industry = present(company?.industry) ?? profile.industry;
 
   /* Only ever what enrichment actually established. With no descriptor we say
@@ -484,6 +494,60 @@ const INFRASTRUCTURE = [
   "supabase", "vercel", "netlify", "heroku", "cloudflare", "wordpress", "webflow",
   "squarespace", "wix", "shopify plus", "hubspot", "google analytics", "segment",
   "aws", "azure", "gcp", "digitalocean", "react", "next.js", "tailwind",
+  "salesforce", "contentful", "ruby on rails", "django", "laravel", "kubernetes",
+  "snowflake", "databricks", "marketo", "zendesk", "stripe.js", "algolia",
+];
+
+/**
+ * The sentence shape the synthesis keeps reaching for.
+ *
+ * A vendor list can never be complete: the first live battery caught a read
+ * that named Salesforce, Contentful and Ruby on Rails, none of which were on a
+ * list that had been written around hosting. The construction is the tell, not
+ * the vendor. "Built on", "powered by", "runs on" followed by named products is
+ * a stack recital whatever the products happen to be, and to the person reading
+ * it about their own company it is never the interesting part.
+ */
+const STACK_RECITAL =
+  /\b(?:built|running|runs|powered|hosted|based)\s+(?:on|by|with)\s+[A-Z][A-Za-z0-9.]*(?:[\s,]+(?:and\s+)?[A-Z][A-Za-z0-9.]*)*/;
+
+/**
+ * Problems attributed to the reader.
+ *
+ * The house style bans doom, fear and failure framing about the reader's
+ * business, and the verdict rule only caught the "you are small" register. The
+ * live battery then told the NHS it "faces chronic funding pressures and
+ * waiting list backlogs that constrain your capacity to deliver timely care",
+ * which is all true, widely reported, and still not ours to hand somebody
+ * unasked in an email they did not ask for.
+ *
+ * Observing a market is fine: "competing in a crowded market" stays. Telling a
+ * reader their organisation is failing does not.
+ */
+const DOOM = [
+  /\byou (?:face|suffer|struggle|contend with|grapple with)\b/i,
+  /\b(?:chronic|mounting|severe|persistent|acute)\s+(?:\w+\s+)?(?:pressure|shortage|deficit|backlog|problem)/i,
+  /\bbacklogs?\b/i,
+  /\b(?:funding|budget|cash|staffing)\s+(?:pressures?|shortfalls?|crisis|constraints?)/i,
+  /\bconstrain(?:s|ing)?\s+your\b/i,
+  /\byour\s+(?:decline|struggles|failures|shortcomings|weaknesses)\b/i,
+];
+
+/**
+ * Praise.
+ *
+ * The verdict rule caught the read telling a business it was small. The live
+ * battery then produced "You remain the world's leading research and teaching
+ * institution", which is the same move with the sign flipped. The read is meant
+ * to be a read. Flattery is what the visitor came here to get away from, and a
+ * paragraph that opens by admiring them has stopped observing them.
+ */
+const FLATTERY = [
+  /\b(?:world|industry|market)(?:'s)?[- ]?(?:leading|best|foremost|premier|number one|largest|biggest)\b/i,
+  /\byou (?:remain|are) the (?:leading|best|premier|foremost|dominant|top)\b/i,
+  /\b(?:unrivalled|unmatched|unparalleled|second to none|gold standard)\b/i,
+  /\bgenuine innovation\b/i,
+  /\b(?:rare|shining) example\b/i,
 ];
 
 /** Claims about the reader's own situation that nothing outside could know. */
@@ -500,9 +564,46 @@ const OVERREACH = [
 const VOICE = [
   { pattern: /—/, question: "Does it use an em dash, which the house style does not?" },
   { pattern: /\b(judgment|organiz|analyz|behavior|optimiz|personaliz|leverage|utilize|synerg)/i, question: "Does it use American spellings or business jargon?" },
-  { pattern: /!/, question: "Does it raise its voice at the reader?" },
+  /* Only where we are the one shouting. Marks and Spencer sell a range called
+     "YAY! Mushrooms", and a bare test for an exclamation mark refused an
+     otherwise good read because a real product has one in its name. Our own
+     shouting ends a word: "brilliant!". A brand carries the mark inside a
+     capitalised token, so the letter before it is a capital. */
+  { pattern: /[a-z]!/, question: "Does it raise its voice at the reader?" },
   { pattern: /\b(undefined|null|NaN|\{\{|TODO|Lorem)\b/, question: "Does it carry placeholder residue from the template?" },
 ];
+
+/**
+ * Drops the sentences that cannot be sent, and keeps the ones that can.
+ *
+ * The synthesis writes a good paragraph and then, reliably, appends one more
+ * sentence reciting the stack or passing a verdict on how established the
+ * company is. Refusing the whole read over that last sentence throws away four
+ * good ones to avoid a bad one, which is the wrong trade: the reader loses a
+ * real read because a model would not stop writing.
+ *
+ * So the sentence goes and the rest stays. The gate still runs afterwards on
+ * what is left, so anything this misses is still caught, and a paragraph that
+ * is nothing but bad sentences ends up empty and is refused on the specificity
+ * question, which is the honest outcome for it.
+ */
+export function sanitiseDescriptor(text: string): string {
+  const kept = text
+    .split(/(?<=[.!?])\s+/)
+    .map((sentence) => sentence.trim())
+    .filter((sentence) => {
+      if (!sentence) return false;
+      if (STACK_RECITAL.test(sentence)) return false;
+      if (INFRASTRUCTURE.some((tool) => new RegExp(`\\b${tool.replace(".", "\\.")}\\b`, "i").test(sentence))) return false;
+      if (VERDICTS.some((pattern) => pattern.test(sentence))) return false;
+      if (FLATTERY.some((pattern) => pattern.test(sentence))) return false;
+      if (DOOM.some((pattern) => pattern.test(sentence))) return false;
+      if (OVERREACH.some((pattern) => pattern.test(sentence))) return false;
+      if (FILLER.some((phrase) => sentence.toLowerCase().includes(phrase))) return false;
+      return true;
+    });
+  return kept.join(" ").trim();
+}
 
 export interface ReadAssessment {
   passed: boolean;
@@ -597,15 +698,28 @@ export function assessRead(read: PersonalRead, profile: Profile, domain = ""): R
     !VERDICTS.some((pattern) => pattern.test(body)),
   );
 
-  // 12. Their stack is a routing signal, not an observation worth reciting.
+  // 12. Doom about their business is banned by the house style, in any register.
   ask(
-    "Does it recite their infrastructure back at them?",
-    !INFRASTRUCTURE.some((tool) => new RegExp(`\\b${tool.replace(".", "\\.")}\\b`, "i").test(body)),
+    "Does it tell them their organisation is failing or under strain?",
+    !DOOM.some((pattern) => pattern.test(body)),
   );
 
-  // 13. One clear next step, and nothing else asked of them.
+  // 13. Praise is not a read, and it is what they came here to get away from.
+  ask(
+    "Does it flatter them instead of observing them?",
+    !FLATTERY.some((pattern) => pattern.test(body)),
+  );
+
+  // 14. Their stack is a routing signal, not an observation worth reciting.
+  ask(
+    "Does it recite their infrastructure back at them?",
+    !INFRASTRUCTURE.some((tool) => new RegExp(`\\b${tool.replace(".", "\\.")}\\b`, "i").test(body))
+    && !STACK_RECITAL.test(body),
+  );
+
+  // 15. One clear next step, and nothing else asked of them.
   ask("Does it ask the reader more than one thing?", (body.match(/\?/g) ?? []).length <= 1);
 
-  const outOf = 13 + VOICE.length - 1;
+  const outOf = 15 + VOICE.length - 1;
   return { passed: failures.length === 0, score: outOf - failures.length, outOf, failures };
 }

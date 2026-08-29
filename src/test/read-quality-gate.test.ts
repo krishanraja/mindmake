@@ -6,6 +6,7 @@ import {
   type CompanySeen,
   type PersonalReadRequest,
   type Profile,
+  sanitiseDescriptor,
 } from "../../supabase/functions/mindmake-personal-read/core";
 
 /**
@@ -118,6 +119,23 @@ describe("the ways a read is not worth sending", () => {
     }
   });
 
+  /* A real product name is allowed to contain an exclamation mark. Marks and
+     Spencer sell "YAY! Mushrooms", and a bare test for the character refused an
+     otherwise good live read over it. */
+  it("allows an exclamation mark inside a brand, and still catches shouting", () => {
+    const brand = read({
+      name: "Northwind",
+      descriptor: "Northwind moves freight for importers across the North Sea and stocks the YAY! Mushrooms range for its grocery clients.",
+    });
+    expect(assessRead(brand, PERSON, "northwind.com").failures.join(" ")).not.toMatch(/raise its voice/);
+
+    const shouting = read({
+      name: "Northwind",
+      descriptor: "Northwind moves freight for importers across the North Sea and it is going to be brilliant!",
+    });
+    expect(assessRead(shouting, PERSON, "northwind.com").failures.join(" ")).toMatch(/raise its voice/);
+  });
+
   /* 8. Placeholder residue is the loudest possible "nobody read this". */
   it("refuses placeholder residue", () => {
     const bad = read({ name: "Northwind", descriptor: `Northwind operates undefined routes across the North Sea for importers of record and handles customs.` });
@@ -174,25 +192,26 @@ describe("the edge cases the live data actually produced", () => {
 
   /* The synthesis told a real business it was "still establishing its market
      position". A verdict on somebody's company is not ours to hand them. */
-  it("refuses a verdict on how established they are", () => {
+  it("strips a verdict on how established they are, keeping the rest", () => {
     for (const line of [
       "You're a newly founded consulting practice, still establishing your market position.",
       "Northwind has a small footprint and limited traction in the region so far.",
       "This is a nascent business in a crowded market.",
     ]) {
-      expect(assess({ name: "Northwind", descriptor: `${line} It moves freight for importers across the North Sea and clears customs in house.` }).passed, line).toBe(false);
+      const kept = "It moves freight for importers across the North Sea and clears customs in house.";
+      const built = read({ name: "Northwind", descriptor: `${line} ${kept}` });
+      expect(built.seen, line).toBe(kept);
+      expect(assessRead(built, PERSON, "northwind.com").passed, line).toBe(true);
     }
   });
 
   /* Naming somebody's hosting back to them reads as surveillance, and to a
      leader it is not even interesting. */
-  it("refuses reciting their infrastructure back at them", () => {
+  it("strips the sentence that recites their infrastructure", () => {
     for (const tool of ["Supabase", "Vercel", "WordPress", "Cloudflare", "HubSpot"]) {
-      const result = assess({
-        name: "Northwind",
-        descriptor: `Northwind moves freight for mid-market importers across the North Sea, clears customs in house, and runs its booking portal on ${tool}.`,
-      });
-      expect(result.failures.join(" "), tool).toMatch(/infrastructure back at them/);
+      const kept = "Northwind moves freight for mid-market importers across the North Sea and clears customs in house.";
+      const built = read({ name: "Northwind", descriptor: `${kept} It runs its booking portal on ${tool}.` });
+      expect(built.seen, tool).toBe(kept);
     }
   });
 
@@ -205,8 +224,148 @@ describe("the edge cases the live data actually produced", () => {
     expect(verdict.passed).toBe(false);
   });
 
+  /* A vendor list can never be complete. The first live battery produced
+     "You're a technology-enabled retailer built on Salesforce, Contentful and
+     Ruby on Rails", none of which were on a list written around hosting. */
+  it("catches a stack recital whatever the vendors happen to be", () => {
+    const kept = "Northwind moves freight for mid-market importers across the North Sea and clears customs in house.";
+    for (const tail of [
+      "built on Salesforce, Contentful and Ruby on Rails",
+      "powered by Snowflake and Databricks",
+      "running on Kubernetes",
+      "hosted with Fastly",
+    ]) {
+      const built = read({ name: "Northwind", descriptor: `${kept} It is a logistics operator ${tail}.` });
+      expect(built.seen, tail).toBe(kept);
+    }
+  });
+
+  /* The shape must not swallow ordinary prose that happens to use the words. */
+  it("does not mistake an ordinary sentence for a stack recital", () => {
+    for (const line of [
+      "Its reputation is built on decades of freight expertise.",
+      "The service runs on a schedule agreed with each importer.",
+      "Their case is based on volume rather than margin.",
+    ]) {
+      const result = assess({
+        name: "Northwind",
+        descriptor: `Northwind moves freight for mid-market importers across the North Sea and clears customs in house. ${line}`,
+      });
+      expect(result.failures.join(" "), line).not.toMatch(/infrastructure/);
+    }
+  });
+
+  /* Every one of these came out of the fourteen-domain live battery. */
+
+  it("keeps a headcount band a range instead of turning it into two numbers", () => {
+    /* "now employing 501, 1000 people" is what the dash rule did to a band. */
+    expect(tidyProfile({ role: "head of 501\u20131000 person team" }).role).toContain("501-1000");
+    const built = read({
+      name: "Northwind",
+      descriptor: "Northwind employs 501\u20131000 people moving freight for importers across the North Sea and clears its own customs.",
+    });
+    expect(built.seen).toContain("501-1000");
+    expect(built.seen).not.toContain("501, 1000");
+  });
+
+  it("spells a company name the way the company spells it", () => {
+    /* "University Of Oxford" is a spelling nobody has ever used. */
+    expect(tidyProfile({ company: "university of oxford" }).company).toBe("University of Oxford");
+    expect(tidyProfile({ company: "marks and spencer" }).company).toBe("Marks and Spencer");
+  });
+
+  it("refuses flattery, which is the verdict rule with the sign flipped", () => {
+    for (const line of [
+      "You remain the world's leading research and teaching institution.",
+      "Northwind is the industry-leading freight operator in the region.",
+      "Their service is second to none.",
+    ]) {
+      const built = read({ name: "Northwind", descriptor: `Northwind moves freight for importers across the North Sea and clears customs in house. ${line}` });
+      expect(built.seen, line).not.toContain(line);
+    }
+  });
+
+  it("does not mistake ordinary description for flattery", () => {
+    const built = read({
+      name: "Northwind",
+      descriptor: "Northwind leads its own customs clearance rather than subcontracting, and moves freight for mid-market importers across the North Sea.",
+    });
+    expect(assessRead(built, PERSON, "northwind.com").passed).toBe(true);
+  });
+
+  it("strips doom about the reader's own organisation", () => {
+    /* The live battery told the NHS it faces chronic funding pressures and
+       waiting list backlogs. True, widely reported, and not ours to hand
+       somebody unasked. */
+    const kept = "Northwind moves freight for importers across the North Sea and clears customs in house.";
+    for (const line of [
+      "You face chronic funding pressures and waiting list backlogs that constrain your capacity.",
+      "Northwind struggles with staffing shortfalls across its depots.",
+      "Your decline in the region has been steady since 2024.",
+    ]) {
+      const built = read({ name: "Northwind", descriptor: `${kept} ${line}` });
+      expect(built.seen, line).toBe(kept);
+    }
+  });
+
+  it("still allows an observation about the market they are in", () => {
+    const built = read({
+      name: "Northwind",
+      descriptor: "Northwind competes in a crowded freight market where automated customs clearance increasingly decides who wins, and it clears its own.",
+    });
+    expect(assessRead(built, PERSON, "northwind.com").passed).toBe(true);
+  });
+
   it("still passes a read that mentions none of those things", () => {
     expect(assess(GOOD).passed).toBe(true);
+  });
+});
+
+describe("the read is repaired before it is judged", () => {
+  /* The synthesis writes a good paragraph and then reliably appends one more
+     sentence reciting the stack or grading how established the company is.
+     Refusing four good sentences to avoid a fifth is the wrong trade. */
+  const GOOD_SENTENCES = "Northwind moves freight for mid-market importers across the North Sea. It clears customs in house rather than subcontracting.";
+
+  it("drops a trailing stack recital and keeps the rest", () => {
+    const out = sanitiseDescriptor(`${GOOD_SENTENCES} It is a logistics operator built on Salesforce and Contentful.`);
+    expect(out).toBe(GOOD_SENTENCES);
+  });
+
+  it("drops a verdict on how established they are and keeps the rest", () => {
+    const out = sanitiseDescriptor(`${GOOD_SENTENCES} It is a newly founded operator still establishing its position.`);
+    expect(out).toBe(GOOD_SENTENCES);
+  });
+
+  it("drops a claim about the reader nothing outside could know", () => {
+    const out = sanitiseDescriptor(`${GOOD_SENTENCES} You need to move faster than your rivals.`);
+    expect(out).toBe(GOOD_SENTENCES);
+  });
+
+  it("drops filler sentences", () => {
+    const out = sanitiseDescriptor(`${GOOD_SENTENCES} It provides solutions for a wide range of clients.`);
+    expect(out).toBe(GOOD_SENTENCES);
+  });
+
+  /* The real Ocado paragraph from the first live battery. */
+  it("repairs the paragraph the live battery actually returned", () => {
+    const live = "You operate Ocado Retail, the Marks & Spencer joint venture that runs an online supermarket. Your 2026 expansion into South Korea with Lotte signals ambition beyond your UK base. You're a technology-enabled retailer built on Salesforce, Contentful and Ruby on Rails.";
+    const out = sanitiseDescriptor(live);
+    expect(out).not.toMatch(/Salesforce|Contentful|Ruby on Rails/);
+    expect(out).toMatch(/Lotte/);
+    expect(assessRead({ ...read(GOOD), seen: out, company: "Ocado" }, PERSON, "ocado.com").passed).toBe(true);
+  });
+
+  /* A paragraph that is nothing but bad sentences ends up empty, and empty is
+     refused on specificity, which is the honest outcome for it. */
+  it("leaves nothing behind when every sentence has to go, and that is refused", () => {
+    const out = sanitiseDescriptor("It is a company that provides solutions. You need to act now. Built on WordPress.");
+    expect(out).toBe("");
+    expect(assess({ name: "Northwind", descriptor: "It is a company that provides solutions. Built on WordPress." }).passed).toBe(false);
+  });
+
+  it("leaves a clean paragraph completely alone", () => {
+    expect(sanitiseDescriptor(GOOD.descriptor!)).toBe(GOOD.descriptor);
   });
 });
 

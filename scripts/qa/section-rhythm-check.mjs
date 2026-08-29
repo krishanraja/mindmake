@@ -28,6 +28,10 @@ const flag = (name, fallback) => {
 const BASE = flag("base", "http://127.0.0.1:4180");
 const PATHS = flag("paths", "/,/ai-brain,/ai-gtm").split(",");
 const REPORT = args.includes("--report");
+/** The width to read the rhythm at. It was hard-coded to 1440, and a phone
+    stacks sections that sit side by side on a laptop, so the ground order it
+    produces is a different question that had never been asked. */
+const WIDTH = Number(flag("width", 1440));
 
 /** A band that separates by other means and so may repeat its neighbour's ground. */
 const SELF_SEPARATING = ["mm-film-band"];
@@ -39,7 +43,7 @@ const failures = [];
 const report = [];
 
 for (const path of PATHS) {
-  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  const page = await browser.newPage({ viewport: { width: WIDTH, height: WIDTH < 700 ? 844 : 900 } });
   await page.goto(BASE + path, { waitUntil: "networkidle" });
 
   const sections = await page.evaluate((selfSeparating) => {

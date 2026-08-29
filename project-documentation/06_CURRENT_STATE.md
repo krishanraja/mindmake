@@ -332,3 +332,48 @@ changing once the page is running, sets those aside, and looks for replacements
 only in what is meant to be holding still. The control it is checked against is
 real: `vite preview` serves the SPA fallback, so `/ai-brain` on it renders the
 homepage shell and then swaps to the door page, and the gate has to catch that.
+
+
+## Corrected on 29 August 2026: three gates had never run on a phone
+
+`qa:alive` and `qa:images` took a single `--width` and defaulted to 1440.
+`qa:rhythm` had no width flag at all and was hard-coded to `{ width: 1440,
+height: 900 }`. Only the four gates written later, card geometry, one-way-in,
+dialog shape and handoff, looped both widths. `CLAUDE.md` said all of them ran
+"at 1440 and 390", which was false for exactly the three that decide whether the
+site feels alive and whether its images are sharp.
+
+Found by being asked whether the request to feel alive from the get-go had
+objectively been met, and going to check rather than answering from memory.
+
+Run at 390 for the first time:
+
+- **Aliveness**: clean, 23 viewports, quietest peak 11.2.
+- **Rhythm**: clean, 29 sections across 3 pages.
+- **Images**: clean, 33 images, lowest 2.03x, against 1.42x at 1440.
+
+All three passed, which does not make the gap harmless. It makes it lucky, and
+the aliveness pass is thin in a way the next section records.
+
+Each npm script now runs both widths in turn.
+
+## Measured on 29 August 2026: the aliveness pass is thinner than it reads
+
+The gate's own header says the at-rest pass alone "cannot tell a page that builds
+as you read it from a page that merely has something ticking in the corner".
+Read across every viewport, that is what it is currently doing:
+
+| whole-viewport mean change | 390px | 1440px |
+|---|---|---|
+| at or above 1.0, something substantial moving | 9 of 23 | 7 of 20 |
+| below 0.15, passing on the peak floor alone | 13 of 23 | 12 of 20 |
+
+Fifty-seven percent of mobile viewports and sixty percent of desktop ones are,
+in whole-viewport terms, still. They clear the bar because one forty-pixel
+instrument is ticking in a corner.
+
+This is not a desktop-versus-mobile gap: the two columns are the same. The
+thinness is site-wide, and it was read on a phone, which is why it looked like a
+mobile problem. The floors are not wrong for what they measure. The claim hung
+on them was: "no viewport is fully still" is a much weaker promise than "alive
+from the get-go", and the first was allowed to stand in for the second.

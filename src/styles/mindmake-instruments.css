@@ -967,6 +967,21 @@
    so the climb costs one screen of looking instead of three of scrolling. */
 .mm-climb { position: relative; --mm-rise: 0px; }
 .mm-climb-pin { display: grid; align-content: center; gap: 22px; }
+/* The phone holds too, and used not to.
+   Without a hold the section is a few hundred pixels tall, the driver falls
+   back to a read, and measured at 390 the build reached 1.000 while the climb
+   was still arriving: three steps lighting in the time it takes to scroll past
+   the heading, then nothing for the rest of the section. A shorter hold than
+   the laptop's, because three stacked steps are about 480px and a phone screen
+   is 844: the section takes the screen, spends its motion, and gives it back. */
+@media (max-width: 859px) {
+  /* 180 and 84 leaves 80vh of hold, which is about 26vh a step: enough for each
+     one to register and not so much that the reader wonders if the page has
+     stopped. A first attempt at 210vh gave 110vh of hold and cost /ai-brain two
+     whole screens of phone scrolling for motion nobody asked to last longer. */
+  .mm-climb { height: 180vh; }
+  .mm-climb-pin { position: sticky; top: 8vh; height: 84vh; }
+}
 @media (min-width: 860px) {
   .mm-climb { height: 168vh; --mm-rise: 78px; }
   .mm-climb-pin { position: sticky; top: 0; height: 100vh; }

@@ -377,3 +377,42 @@ thinness is site-wide, and it was read on a phone, which is why it looked like a
 mobile problem. The floors are not wrong for what they measure. The claim hung
 on them was: "no viewport is fully still" is a much weaker promise than "alive
 from the get-go", and the first was allowed to stand in for the second.
+
+
+## Repaired on 29 August 2026: the phone finished its climb before reading it
+
+The pinned climb was documented as an accepted trade: pinned above 860px,
+stacked below it, "where the three steps simply stack". Measured rather than
+assumed, the stack was not the problem. The climb builds on a phone: the lamp
+runs down the left of the column and the steps light in order. What it did was
+build too early.
+
+At 390, `--mm-p` read 0.158, 0.473, 0.788, then 1.000 across scroll offsets of
+-0.6, -0.3, 0 and +0.3 viewports from the section's top. The whole build ran
+while the section was arriving and was finished before it was centred, then
+nothing changed for the rest of it. Three steps lighting in the time it takes to
+scroll past a heading.
+
+The cause is in the driver rather than the layout. With no hold, `pin` falls
+back to `read`, which completes while the element is still on screen. That is
+right for a paragraph and wrong for a section whose whole point is that it holds
+the screen while three things happen.
+
+The phone holds its own sections now, at a length sized for a phone: 210vh of
+section with an 84vh sticky child, against the laptop's 168vh and 100vh. Three
+stacked steps are about 480px in an 844px window, so the section takes the
+screen, spends its motion and gives it back. Measured after: 0.000, 0.273,
+0.546, 0.818, 1.000 across the hold, with the lit step stepping through all
+three.
+
+The hold costs scrolling, and the number is worth stating rather than burying:
+`/ai-brain` at 390 goes from 9.4 screens to 11.1, on the longest page on the
+site. A first attempt at 210vh cost two full screens; 180vh with an 84vh child
+leaves 80vh of hold, about 26vh a step. That is the trade, taken deliberately:
+the phone had a build that finished before it was read, and now it has one that
+reads.
+
+The climb is the only pinned section on the site, so this is the whole of it.
+`.mm-head-split` also changes at 860px and was on the list; it is a two-column
+layout collapsing to one, which is a layout decision rather than a lost build,
+and it is left alone.

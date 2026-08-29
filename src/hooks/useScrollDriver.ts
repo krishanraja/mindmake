@@ -66,9 +66,13 @@ function progressFor(rect: DOMRect, viewport: number, range: ScrollRange): numbe
        when the section takes the screen and finishes as it gives it back.
 
        A section shorter than the screen has no such distance, and dividing by
-       what is left of it snapped the whole build between 0 and 1 with nothing
-       in between. That is the narrow phone, where the pin is off and the
-       section is a few hundred pixels tall, so it falls back to a read. */
+       what is left of it snaps the whole build between 0 and 1 with nothing in
+       between, so it falls back to a read. This used to be the narrow phone,
+       where every pin was switched off: measured at 390 the climb reached 1.000
+       while it was still arriving, three steps lighting in the time it takes to
+       scroll past a heading. The phone holds its own sections now, at a length
+       sized for a phone, and this is the guard for a section that genuinely has
+       no room rather than the mobile path. */
     const held = rect.height - viewport;
     if (held < viewport * 0.25) return readProgress(rect, viewport);
     return clamp(-rect.top / held);

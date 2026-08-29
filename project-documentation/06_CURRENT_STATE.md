@@ -194,3 +194,52 @@ green-black panel.
 Held by `src/test/LeadBrief.test.tsx`, which asserts every part the component
 renders has a rule, and by `scripts/qa/dialog-shape-check.mjs`, which opens the
 real dialog at 1440 and 390 and reads its box.
+
+
+## Proven live, 29 August 2026
+
+Deployed in the runbook's order: migration, then the promotion, then the
+function. Nothing about the handoff was believed on the strength of a deploy
+call returning 200.
+
+- **Migration applied.** `handoff_reason` exists on
+  `public.mindmake_personal_reads`, `q1` and `q2` are nullable and governed by
+  `mindmake_personal_reads_shape_check`, and the table still carries **zero
+  policies**. Read back from `information_schema` and `pg_constraint` rather
+  than assumed from the statement succeeding.
+- **Build promoted.** The deployed stylesheet carries
+  `.mm-brief-backdrop{position:fixed…}`, `.mm-brief-panel{width:min(780px,100%)…}`
+  and `.mm-handoff{--mmh-fg:…}`. The bundle it replaced carried the tone rules
+  and not one structural one, which is how the dialog's missing shape was
+  confirmed rather than inferred.
+- **Function at v20**, sixteen-file closure, `verify_jwt` false. The deployed
+  body was checked for `parseHandoff`, `renderHandoffNotice`,
+  `HANDOFF_NOTICE_WINDOW_MS`, `handoff_reason`, the notice subject and two
+  reason ids, and for the read machinery it had to keep: `synthesiseWorkingLife`
+  and `sameEmployer`.
+- **Seven refusals behave.** No origin and a wrong origin are 403. An unknown
+  reason, an unexpected key, a smuggled `q1`, an unknown division and a
+  malformed address are each 400 naming the field.
+- **One synthetic handoff, end to end.** `personal-email` from a `gmail.com`
+  address, which is the case the work-address rule would wrongly have blocked:
+  200 `{"status":"received"}`, one row with `handoff_reason` set and `q1`, `q2`
+  and `delivered_at` null, **no follow-up queued**, and the log line
+  `handoff personal-email gmail.com notified=true`. The log carries the domain
+  and never the address.
+- **The operator cap holds.** A second handoff from the same address ten
+  minutes later logged `notified=false` and still answered `{"status":"received"}`,
+  because the row is written either way and the request really is with us. Both
+  synthetic rows were then deleted; the table holds no handoff rows.
+- **The read still reads.** `alanna.laforet@engen3.com`, the case that started
+  all of this, came back with a specific paragraph about athlete partnerships,
+  IP verification and image-rights licensing. Restructuring the body parsing to
+  route a third action did not damage the two that were there.
+- `VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED` is `true` in production, so the three
+  dead ends inside the lead dialog exist on the live site rather than only in a
+  build with the flag on.
+
+Not proven from this environment: the live site in a real browser. Chromium
+cannot reach `mindmake.co` through this session's proxy, though `curl` can, so
+the shape and the offer were verified against the deployed stylesheet and then
+rendered from an identical local build at 1440 and 390. Worth one look on a real
+device.

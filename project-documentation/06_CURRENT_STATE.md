@@ -660,3 +660,84 @@ there deliberately rather than decorated: its event is the ground inverting from
 ink to paper, which is a large visual change to scroll into and one an at-rest
 photograph cannot see. That is a real limit of the measurement, recorded rather
 than worked around.
+
+## Added on 30 August 2026: one ask everywhere, and a gate that can see a build
+
+### The lead flow had two front doors
+
+`Start here` on `/`, `/case-studies` and `/ai-brain`'s close block opened
+`LeadBrief` on a field labelled **Company website**. The panels on the two door
+pages asked for four details and told the reader there was nothing to look up.
+`05_LEAD_DELIVERY_SPEC.md` says both doors ask for exactly those four details in
+one shared component; that was true of the panels and not of the dialog, which
+is every primary action on the homepage and the archive. "Give us your company
+address" was the seam showing, and it shipped in three places, the third being
+the answer the ask bar itself gave to "how do I start".
+
+`LeadBrief` opens on `DetailsJourney` now. Nothing about what reaches the server
+changed: `buildMindmakeBriefRequestV2` sends `contact.email` and
+`company.domain`, and the domain is derived from the work email by
+`src/lib/workEmail.ts` rather than typed. The name and the division stay in the
+browser and do the job they already do on `/ai-gtm` — they are what the offer of
+a person carries when a step fails, which a cold-opened dialog never had.
+
+Two things came out of it that were not the point:
+
+- **`DetailsJourney` announced its errors and did not link them.** The website
+  field it replaced set `aria-describedby`; a `role="alert"` block reaches a
+  reader once, when it appears, and the linked description is what they get on
+  landing back at the field to fix it. Both door pages use this component, so
+  linking it fixed three surfaces.
+- **`/?start=1` had been failing hydration since the static render landed.**
+  Every indexed path is prerendered without a query string, so the server
+  rendered the page with the dialog shut and the client's first render opened
+  it. React discarded the page with error #418 on every shared start link and
+  every back-button return into the dialog — the one route the site's own
+  primary action produces. Confirmed against the deployed build before fixing,
+  so it is not a regression from this round. `useLeadBriefHistory` matches the
+  server on the first render now, as `use-mobile` does, and `/?start=1` is in
+  the entrance gate's default path set because neither that gate nor
+  `ssg-hydration.test.tsx` covered a query-parameter state.
+
+### The gate was asking the scroll builds to be something else
+
+Six of the fourteen still viewports sat on `ClimbLadder`, `ProcessTrack` and the
+fork band. Those are position-driven: they build as you scroll and are correctly
+static when you stop, which is what `03_DESIGN_CONTRACT.md` asks of them. The
+at-rest pass photographs a stopped page and can only ever see the ambient layer,
+so the only way to satisfy it there would have been to decorate them.
+
+`scrubbedThirds` already read the state of every scroll-driven element; it now
+reports where each one sits, and a viewport is alive if something moves in it at
+rest **or** something in it builds as you scroll through it.
+
+### And it was flaky, which matters for every number before this
+
+The plate light sweep is a 9.5 second cycle that parks for about 4.3 of them.
+The gate took three frames 900ms apart, spanning 1.8 seconds, which fits inside
+that park. Measured three times on the same unchanged page, `/ai-brain @6300px`
+read 0.125 with 2 cells moving, then 1.611 with 23, then 1.474 with 24. The
+window is five frames over 6.4 seconds now, and the same viewport reads 0.98 to
+1.12 across three runs.
+
+**So the readings in the section above this one were taken with a window that
+could miss a slow sweep**, and are only trustworthy where the motion was
+continuous. The homepage's before-and-after figures are safe on that count — a
+film and a drum move constantly — but the near-zero readings on quiet sections
+may have been quieter than the page was.
+
+### Where it stands
+
+| | before | after |
+| --- | --- | --- |
+| still viewports at 390 | 9 | **4** |
+| still viewports at 1440 | 5 | **1** |
+
+What remains is the two try-it forms and `/ @844px`. The forms are the
+conversion surface on each door page, 1.66 and 1.68 screens of inputs; a film
+beside each heading fixed their upper half and left the form itself, which is
+the one screen on the site a visitor is acting on rather than reading. Whether
+the at-rest rule should apply to an interaction surface at all is a question for
+Krish rather than a third exception carved by me. `/ @844px` is the paper
+argument section, whose event is the ground inverting — a large change to scroll
+into and one an at-rest photograph cannot see.

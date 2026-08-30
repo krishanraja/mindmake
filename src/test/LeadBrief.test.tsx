@@ -61,8 +61,21 @@ function ReopenHarness() {
   );
 }
 
+/* The first step is the four details now, not a website field.
+   It was `Company website`, which is the ask this dialog carried while both
+   door panels asked for four details and said there was nothing to look up.
+   The step being driven here is the same step: give the dialog what it needs to
+   read the company. The domain is derived from the work email rather than
+   typed, so the test supplies an address at the domain it wants read. */
+async function fillDetails(domain = "example.com") {
+  fireEvent.change(screen.getByLabelText("First name"), { target: { value: "Ada" } });
+  fireEvent.change(screen.getByLabelText("Last name"), { target: { value: "Lovelace" } });
+  fireEvent.change(screen.getByLabelText("Work email"), { target: { value: `ada@${domain}` } });
+  fireEvent.click(screen.getByRole("button", { name: "Leadership" }));
+}
+
 async function reachPreview(domain = "example.com") {
-  fireEvent.change(screen.getByLabelText("Company website"), { target: { value: domain } });
+  await fillDetails(domain);
   fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
   await screen.findByRole("heading", { name: "This is what I can see so far." });
   fireEvent.click(screen.getByRole("button", { name: "Customers can now do more without us" }));
@@ -139,7 +152,7 @@ describe("Mindmake private brief journey", () => {
     try {
       render(<LeadBrief open onClose={() => undefined} />);
       const heading = screen.getByRole("heading", { name: "Show me the business." });
-      const field = screen.getByLabelText("Company website");
+      const field = screen.getByLabelText("First name");
       const backdrop = screen.getByRole("dialog").parentElement as HTMLElement;
       await waitFor(() => expect(heading).toHaveFocus());
       expect(field).not.toHaveFocus();
@@ -193,9 +206,14 @@ describe("Mindmake private brief journey", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: "Open brief" }));
-    expect(await screen.findByLabelText("Company website")).toHaveValue("");
+    expect(await screen.findByLabelText("First name")).toHaveValue("");
     await reachContact("fresh.example.com");
-    expect(screen.getByLabelText("Work email")).toHaveValue("");
+    /* Carried, not asked again. The contact step used to open on an empty
+       address because the dialog had not asked for one; it asks for the work
+       email in the first step now, and this is the promise `initialEmail`
+       already made on the seeded path from /ai-gtm: nobody types it twice.
+       What must still be fresh is the journey, which the line above checks. */
+    expect(screen.getByLabelText("Work email")).toHaveValue("ada@fresh.example.com");
     expect(screen.getByRole("checkbox")).not.toBeChecked();
   });
 
@@ -211,13 +229,27 @@ describe("Mindmake private brief journey", () => {
     });
 
     render(<LeadBrief open onClose={() => undefined} />);
-    const domainField = screen.getByLabelText("Company website");
-    await waitFor(() => expect(domainField).toHaveFocus());
+    const nameField = screen.getByLabelText("First name");
+    /* The heading takes focus here, not the first field, which is what every
+       step of this dialog does except the two that ask for one thing. The
+       website field was the exception because it was the one thing; four
+       details are a form, and dropping a reader straight into "First name"
+       skips the sentence saying what the four are for. */
+    await waitFor(() => expect(screen.getByRole("heading", { name: "Show me the business." })).toHaveFocus());
+    expect(nameField).not.toHaveFocus();
     fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
-    expect(domainField).toHaveAttribute("aria-invalid", "true");
-    expect(domainField).toHaveAttribute("aria-describedby", "mm-company-domain-error");
+    /* The first step is the shared four-detail capture now. It announced its
+       error beside the form and left the field unmarked, which is a weaker
+       thing than the website field it replaced did: `role="alert"` reaches a
+       reader once, when it appears, and `aria-describedby` is what they get on
+       landing back at the field to fix it. Both door pages use this component,
+       so linking the error there fixed all three surfaces at once. */
+    expect(nameField).toHaveAttribute("aria-invalid", "true");
+    const nameErrorId = nameField.getAttribute("aria-describedby");
+    expect(nameErrorId).toBeTruthy();
+    expect(document.getElementById(nameErrorId as string)).toHaveTextContent(/We need your name/);
 
-    fireEvent.change(domainField, { target: { value: "https://www.example.com/pricing" } });
+    await fillDetails("example.com");
     fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
     await screen.findByRole("heading", { name: "Reading example.com." });
     await act(async () => finishCompanyRead?.({ data: dossier, error: null }));
@@ -230,6 +262,10 @@ describe("Mindmake private brief journey", () => {
 
     const emailField = await screen.findByLabelText("Work email");
     await waitFor(() => expect(emailField).toHaveFocus());
+    /* Cleared first, because this step now arrives carrying the address from
+       the details. Emptying it is the real path somebody takes to change it,
+       and it is the only way left to reach the error this line is about. */
+    fireEvent.change(emailField, { target: { value: "" } });
     fireEvent.click(screen.getByRole("button", { name: /send the code/i }));
     expect(emailField).toHaveAttribute("aria-invalid", "true");
     expect(emailField).toHaveAttribute("aria-describedby", "mm-work-email-error");
@@ -254,7 +290,7 @@ describe("Mindmake private brief journey", () => {
     invoke.mockImplementationOnce(() => new Promise(() => undefined)).mockResolvedValueOnce({ data: dossier, error: null });
 
     render(<LeadBrief open onClose={() => undefined} />);
-    fireEvent.change(screen.getByLabelText("Company website"), { target: { value: "example.com" } });
+    await fillDetails("example.com");
     fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
     await act(async () => { await Promise.resolve(); });
     expect(invoke).toHaveBeenCalledWith("enrich-company", expect.objectContaining({
@@ -423,7 +459,7 @@ describe("Mindmake private brief journey", () => {
       error: null,
     });
     render(<LeadBrief open onClose={() => undefined} />);
-    fireEvent.change(screen.getByLabelText("Company website"), { target: { value: "example.com" } });
+    await fillDetails("example.com");
     fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
     expect(await screen.findByText("Example Company helps teams do useful work.")).toBeInTheDocument();
     expect(screen.queryByText(/Example Company,helps teams,do useful work/)).not.toBeInTheDocument();
@@ -439,7 +475,7 @@ describe("Mindmake private brief journey", () => {
       error: null,
     });
     render(<LeadBrief open onClose={() => undefined} />);
-    fireEvent.change(screen.getByLabelText("Company website"), { target: { value: "bbc.com" } });
+    await fillDetails("bbc.com");
     fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
 
     expect(await screen.findByText("You're the BBC a public broadcaster reaching people across TV radio and digital platforms.")).toBeInTheDocument();
@@ -457,7 +493,7 @@ describe("Mindmake private brief journey", () => {
       error: null,
     });
     render(<LeadBrief open onClose={() => undefined} />);
-    fireEvent.change(screen.getByLabelText("Company website"), { target: { value: "example.com" } });
+    await fillDetails("example.com");
     fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
 
     expect(await screen.findByText("Example Company builds useful software.")).toBeInTheDocument();

@@ -1,7 +1,7 @@
 /**
- * Domain handling shared by the pages that collect a company address before
- * handing it to the company read. Kept beside the other pure helpers so the
- * components that use it stay components.
+ * Domain handling shared by the surfaces that derive a company domain from a
+ * work email before handing it to the company read. Kept beside the other pure
+ * helpers so the components that use it stay components.
  */
 
 /** Reduces what a visitor types to the bare host the read works from. */

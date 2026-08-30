@@ -28,6 +28,10 @@ import filmFivePoster from "@/assets/films/film-05-poster.jpg";
 import filmFivePosterWebp from "@/assets/films/film-05-poster.webp";
 import filmFiveProof from "@/assets/films/film-05-proof.mp4";
 import filmFiveProofWebm from "@/assets/films/film-05-proof.webm";
+import filmOnePoster from "@/assets/films/film-01-poster.jpg";
+import filmOnePosterWebp from "@/assets/films/film-01-poster.webp";
+import filmOneLoop from "@/assets/films/film-01-loop.mp4";
+import filmOneLoopWebm from "@/assets/films/film-01-loop.webm";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-instruments.css";
 
@@ -183,7 +187,24 @@ export default function AiBrain() {
 
       <section className="mm-block mm-on-raise mm-try" id="try-it" aria-labelledby="learn-title">
         <div className="mm-container">
-          <h2 id="learn-title"><Instrument kind="recorder" className="mm-head-mark" />See what it would do for you.</h2>
+          {/* The film belongs beside this heading for the same reason it does
+              beside the one above: this is the only section on the page that
+              carries no imagery, and it is the section the page exists to get
+              somebody into. Measured on a phone it read a whole-screen change
+              of 0.016 with one of sixty-four cells moving, across 1.66 screens
+              of form. A plate runs its light sweep whether or not the loop
+              plays, so this is the picture and the ambient layer at once. */}
+          <div className="mm-head-split">
+            <h2 id="learn-title"><Instrument kind="recorder" className="mm-head-mark" />See what it would do for you.</h2>
+            <FilmPlate
+              className="mm-impact-film"
+              poster={filmOnePoster}
+              posterWebp={filmOnePosterWebp}
+              src={filmOneLoop}
+              srcWebm={filmOneLoopWebm}
+              label="An instrument room at first light, where a brass mechanism of interlocking wheels turns at different speeds under a single blade of window light."
+            />
+          </div>
           <div className="mm-try-panel">
             <Instrument kind="recorder" />
             <p className="mm-lede">

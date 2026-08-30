@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const START_PARAM = "start";
@@ -9,7 +9,19 @@ export function useLeadBriefHistory() {
   const navigate = useNavigate();
   const openedBriefHere = useRef(false);
   const searchParams = useMemo(() => new URLSearchParams(location.search), [location.search]);
-  const briefOpen = searchParams.get(START_PARAM) === START_VALUE;
+
+  /* Closed on the first render, always, then opened if the address asks for it.
+     The pages are rendered to HTML at build time from a path with no query
+     string, so a visitor arriving at `?start=1` had the server saying the
+     dialog is shut and the client's first render saying it is open. React
+     compares those and threw the whole page away: production failed hydration
+     with error #418 on that address, on every shared start link and on every
+     back-button return into the dialog, which is the one route the site's
+     primary action produces. It is the same shape as `use-mobile`, and the same
+     fix: match the server, then correct after mount. */
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+  const briefOpen = mounted && searchParams.get(START_PARAM) === START_VALUE;
 
   useEffect(() => {
     if (!briefOpen) openedBriefHere.current = false;

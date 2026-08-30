@@ -24,6 +24,10 @@ import filmSixPoster from "@/assets/films/film-06-poster.jpg";
 import filmSixPosterWebp from "@/assets/films/film-06-poster.webp";
 import filmSixLoop from "@/assets/films/film-06-loop.mp4";
 import filmSixLoopWebm from "@/assets/films/film-06-loop.webm";
+import filmFourPoster from "@/assets/films/film-04-poster.jpg";
+import filmFourPosterWebp from "@/assets/films/film-04-poster.webp";
+import filmFourLoop from "@/assets/films/film-04-loop.mp4";
+import filmFourLoopWebm from "@/assets/films/film-04-loop.webm";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-instruments.css";
 
@@ -100,7 +104,24 @@ export default function AiGtm() {
           try-it section underneath was one most visitors never reached. */}
       <section className="mm-block mm-try" id="try-it" aria-labelledby="read-title">
         <div className="mm-container">
-          <h2 id="read-title"><Instrument kind="recorder" className="mm-head-mark" />Try it with your own company.</h2>
+          {/* The film belongs beside this heading for the same reason it does
+              beside the one above: this is the only section on the page that
+              carries no imagery, and it is the section the page exists to get
+              somebody into. Measured on a phone it read a whole-screen change
+              of 0.008 with one of sixty-four cells moving, across 1.68 screens
+              of form. A plate runs its light sweep whether or not the loop
+              plays, so this is the picture and the ambient layer at once. */}
+          <div className="mm-head-split">
+            <h2 id="read-title"><Instrument kind="recorder" className="mm-head-mark" />Try it with your own company.</h2>
+            <FilmPlate
+              className="mm-impact-film"
+              poster={filmFourPoster}
+              posterWebp={filmFourPosterWebp}
+              src={filmFourLoop}
+              srcWebm={filmFourLoopWebm}
+              label="A brass rail carrying cream sheets to a small gate, where a hand lifts the top sheet before the rail resumes."
+            />
+          </div>
           <div className="mm-try-panel">
             <Instrument kind="recorder" />
             <p className="mm-lede">

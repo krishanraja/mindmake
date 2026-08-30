@@ -44,7 +44,15 @@ const flag = (name, fallback) => {
 };
 
 const BASE = flag("base", "http://127.0.0.1:4180");
-const PATHS = flag("paths", "/,/ai-brain,/ai-gtm").split(",");
+/* `/?start=1` is in the default set because it is a route the site's own
+   primary action produces, and it is not a page the prerender renders: every
+   indexed path is rendered without a query string. That difference cost a
+   hydration failure nobody could see. The dialog opened on the client's first
+   render while the server had rendered the page with it shut, React threw the
+   whole page away with error #418, and it did so on every shared start link
+   and every back-button return into the dialog. Neither the page set here nor
+   `src/test/ssg-hydration.test.tsx` covered a query-parameter state. */
+const PATHS = flag("paths", "/,/ai-brain,/ai-gtm,/?start=1").split(",");
 const WIDTHS = flag("widths", "390,1440").split(",").map(Number);
 /** How long to watch. A flash the visitor sees happens well inside this. */
 const WINDOW = Number(flag("window", 4000));

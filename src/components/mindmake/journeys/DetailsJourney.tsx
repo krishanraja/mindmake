@@ -94,6 +94,13 @@ export function DetailsJourney({
   const [division, setDivision] = useState<Division | "">(initial?.division ?? "");
   const [error, setError] = useState("");
   const [stoodAside, setStoodAside] = useState(false);
+  /* Which field the error is about, so it can be linked to it rather than only
+     announced beside the form. A `role="alert"` block reaches a screen reader
+     once, when it appears; `aria-describedby` is what a reader gets when they
+     land back on the field to fix it, and it is what marks the field invalid
+     for anyone navigating by field. */
+  const [errorField, setErrorField] = useState<"name" | "email" | "division" | null>(null);
+  const errorId = `${useId()}-error`;
 
   const typed = (): PartialDetails => ({
     firstName: firstName.trim().slice(0, 80),
@@ -102,15 +109,21 @@ export function DetailsJourney({
     division,
   });
 
+  const fail = (field: "name" | "email" | "division", message: string) => {
+    setErrorField(field);
+    setError(message);
+  };
+
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
     if (!firstName.trim() || !lastName.trim()) {
-      setError("We need your name to find you. First and last is enough.");
+      fail("name", "We need your name to find you. First and last is enough.");
       return;
     }
     const problem = emailRule === "any" ? anyEmailProblem(email) : workEmailProblem(email);
-    if (problem) { setError(problem); return; }
-    if (!division) { setError("Pick the part of the business you work in."); return; }
+    if (problem) { fail("email", problem); return; }
+    if (!division) { fail("division", "Pick the part of the business you work in."); return; }
+    setErrorField(null);
     setError("");
     onSubmit({
       firstName: firstName.trim().slice(0, 80),
@@ -131,8 +144,10 @@ export function DetailsJourney({
           <input
             id={`${id}-first`}
             autoComplete="given-name"
+            aria-invalid={errorField === "name" || undefined}
+            aria-describedby={errorField === "name" ? errorId : undefined}
             value={firstName}
-            onChange={(event) => { setFirstName(event.target.value); if (error) setError(""); }}
+            onChange={(event) => { setFirstName(event.target.value); if (error) { setError(""); setErrorField(null); } }}
           />
         </p>
         <p className="mm-details-field">
@@ -140,8 +155,9 @@ export function DetailsJourney({
           <input
             id={`${id}-last`}
             autoComplete="family-name"
+            aria-invalid={errorField === "name" || undefined}
             value={lastName}
-            onChange={(event) => { setLastName(event.target.value); if (error) setError(""); }}
+            onChange={(event) => { setLastName(event.target.value); if (error) { setError(""); setErrorField(null); } }}
           />
         </p>
       </div>
@@ -153,14 +169,16 @@ export function DetailsJourney({
           type="email"
           inputMode="email"
           autoComplete="email"
+          aria-invalid={errorField === "email" || undefined}
+          aria-describedby={errorField === "email" ? errorId : undefined}
           placeholder="you@company.com"
           value={email}
-          onChange={(event) => { setEmail(event.target.value); if (error) setError(""); }}
+          onChange={(event) => { setEmail(event.target.value); if (error) { setError(""); setErrorField(null); } }}
         />
         <small>{emailHint ?? "We read your company from this, so it saves you typing it out."}</small>
       </p>
 
-      <fieldset className="mm-details-field mm-details-divisions">
+      <fieldset className="mm-details-field mm-details-divisions" aria-invalid={errorField === "division" || undefined} aria-describedby={errorField === "division" ? errorId : undefined}>
         {/* The rail is who does the work, which is exactly what this asks. Every
             other question on the site carries the mark for the kind of thing it
             is, and these were the three that did not. */}
@@ -172,7 +190,7 @@ export function DetailsJourney({
               className="mm-qchip"
               type="button"
               aria-pressed={division === entry.id}
-              onClick={() => { setDivision(entry.id); if (error) setError(""); }}
+              onClick={() => { setDivision(entry.id); if (error) { setError(""); setErrorField(null); } }}
             >
               {entry.label}
             </button>
@@ -184,7 +202,7 @@ export function DetailsJourney({
 
       {error && (
         <div className="mm-journey-error" role="alert">
-          <p>{error}</p>
+          <p id={errorId}>{error}</p>
           {error === FREE_EMAIL_PROBLEM && onDeadEnd && (
             <button className="mm-handoff-trigger" type="button" onClick={() => setStoodAside(true)}>
               {HANDOFF_TRIGGER}

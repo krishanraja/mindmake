@@ -30,6 +30,7 @@
  */
 
 import { chromium } from "playwright";
+import { readFileSync } from "node:fs";
 import { PNG } from "pngjs";
 
 const args = process.argv.slice(2);
@@ -42,8 +43,24 @@ const BASE = flag("base", "http://127.0.0.1:4180");
 const PATHS = flag("paths", "/,/ai-brain,/ai-gtm").split(",");
 const WIDTH = Number(flag("width", 1440));
 const HEIGHT = Number(flag("height", WIDTH < 700 ? 844 : 900));
-/** Milliseconds between the two frames. Long enough to see slow ambient drift. */
-const GAP = Number(flag("gap", 900));
+/**
+ * Milliseconds between frames, and how many.
+ *
+ * The window has to be longer than the longest a credited thing stays still
+ * inside its own cycle, or the reading is a coin toss. The plate light sweep is
+ * the binding case: `mm-sweep` runs 9.5s and parks from 55% to 100%, so it is
+ * motionless for about 4.3 seconds at a stretch. Three frames 900ms apart span
+ * 1.8s and fit inside that gap, and they did: the same viewport on /ai-brain
+ * read a whole-screen change of 0.125 on one run and 1.611 on the next, with 2
+ * cells moving and then 23. Every reading taken with that window, including the
+ * ones recorded in 06_CURRENT_STATE.md, is only trustworthy where the motion
+ * was continuous.
+ *
+ * Five frames 1600ms apart span 6.4s, which is longer than the 4.3s park, so at
+ * least one pair must straddle the moving part of the cycle.
+ */
+const GAP = Number(flag("gap", 1600));
+const FRAMES = Number(flag("frames", 5));
 const REPORT = args.includes("--report");
 
 /**
@@ -169,8 +186,25 @@ const readings = [];
 
 const scrubbed = [];
 
+/* The live board, served from a fixture.
+   `useBoardData` fetches `get-ai-news` from Supabase, which this session cannot
+   reach, so /ai-gtm's board section rendered "The read is rebuilding" and
+   measured a peak of 1.0: a screen with literally nothing in it. That is a
+   reading about the network, not about the page, and it was about to be treated
+   as a design defect. The fixture is one real response captured from the live
+   function, so the section is measured in the state a visitor sees. */
+const BOARD_FIXTURE = JSON.parse(
+  readFileSync(new URL("./fixtures/get-ai-news.json", import.meta.url), "utf8"),
+);
+
 for (const path of PATHS) {
   const page = await browser.newPage({ viewport: { width: WIDTH, height: HEIGHT } });
+  await page.route("**/get-ai-news**", (route) => route.fulfill({
+    status: 200,
+    contentType: "application/json",
+    headers: { "access-control-allow-origin": "*" },
+    body: JSON.stringify(BOARD_FIXTURE),
+  }));
   await page.goto(BASE + path, { waitUntil: "networkidle" });
   // Let lazy media start before judging whether anything moves.
   await page.evaluate(async () => {
@@ -181,6 +215,25 @@ for (const path of PATHS) {
     window.scrollTo(0, 0);
   });
   await page.waitForTimeout(1500);
+
+  /* The scrubbed pass runs first now, because its result decides whether a
+     viewport that is still at rest is actually still.
+
+     The design contract carries two motion layers: ambient, which moves while
+     you stand there, and scrubbed builds, which are driven by position and are
+     correctly static the moment you stop. Photographing a stopped page can only
+     ever see the first. Six of the fourteen viewports this gate was failing sat
+     on ClimbLadder, ProcessTrack and the fork band, which are the second — so
+     the gate was asking those sections to be something the contract says they
+     must not be, and the only way to satisfy it would have been to decorate
+     them.
+
+     A viewport is alive if something moves in it while you stand still, or if
+     something in it changes as you scroll through it. A viewport with neither
+     is dead, and the gate still says so. */
+  const build = await scrubbedThirds(page);
+  scrubbed.push({ path, ...build });
+  const buildsAt = (top, tall) => build.moved.some((m) => m.bottom > top && m.top < top + tall);
 
   const height = await page.evaluate(() => document.body.scrollHeight);
   for (let y = 0; y < Math.max(1, height - HEIGHT / 2); y += HEIGHT) {
@@ -209,7 +262,7 @@ for (const path of PATHS) {
        twice the window cannot miss all of them, and a viewport with nothing in
        it still reads about 1 however many frames you take. */
     const frames = [await page.screenshot()];
-    for (let take = 0; take < 2; take += 1) {
+    for (let take = 0; take < FRAMES - 1; take += 1) {
       await page.waitForTimeout(GAP);
       frames.push(await page.screenshot());
     }
@@ -224,22 +277,22 @@ for (const path of PATHS) {
         cells = Math.max(cells, pair.cells);
       }
     }
-    readings.push({ path, y, mean, peak, cells });
+    readings.push({ path, y, mean, peak, cells, builds: buildsAt(y, HEIGHT) });
     /* An AND on the second term, where it used to be a bare OR. A viewport is
        alive if the whole screen changes, or if something changes hard enough to
        see *across enough of the screen to be seen*. One ticking mark satisfies
        the peak and nothing else, which is how four frozen phone screens passed
        this gate for a fortnight. */
-    const alive = mean >= FLOOR || (peak >= PEAK_FLOOR && cells >= CELLS_FLOOR);
+    const builds = buildsAt(y, HEIGHT);
+    const alive = mean >= FLOOR || (peak >= PEAK_FLOOR && cells >= CELLS_FLOOR) || builds;
     if (!alive) {
       problems.push(
         `${path} @${y}px is still (mean ${mean.toFixed(3)} < ${FLOOR}, `
-        + `peak ${peak.toFixed(1)}, ${cells}/${GRID * GRID} cells moving < ${CELLS_FLOOR})`,
+        + `peak ${peak.toFixed(1)}, ${cells}/${GRID * GRID} cells moving < ${CELLS_FLOOR}, `
+        + `and nothing in it builds as you scroll)`,
       );
     }
   }
-  const build = await scrubbedThirds(page);
-  scrubbed.push({ path, ...build });
   if (build.thirds.some((count) => count === 0)) {
     const empty = build.thirds
       .map((count, third) => (count === 0 ? ["top", "middle", "bottom"][third] : null))
@@ -275,6 +328,7 @@ async function scrubbedThirds(page) {
       const style = getComputedStyle(el);
       out.push({
         top: Math.round(box.top + window.scrollY),
+        bottom: Math.round(box.bottom + window.scrollY),
         state: `${style.getPropertyValue("--mm-p")}|${style.opacity}|${style.transform}|${style.width}`,
       });
     }
@@ -292,19 +346,19 @@ async function scrubbedThirds(page) {
   }
 
   /* An element is scrubbed if its state is not the same in every sample. */
-  const moved = new Set();
+  const moved = [];
   const count = Math.min(...samples.map((s) => s.length));
   for (let i = 0; i < count; i += 1) {
     const states = new Set(samples.map((s) => s[i].state));
-    if (states.size > 1) moved.add(samples[0][i].top);
+    if (states.size > 1) moved.push({ top: samples[0][i].top, bottom: samples[0][i].bottom });
   }
 
   const thirds = [0, 0, 0];
-  for (const top of moved) {
+  for (const { top } of moved) {
     const third = Math.min(2, Math.floor((top / tall) * 3));
     thirds[third] += 1;
   }
-  return { thirds, total: moved.size };
+  return { thirds, total: moved.length, moved };
 }
 
 if (REPORT) {
@@ -312,7 +366,7 @@ if (REPORT) {
   console.log(`  mean = whole viewport, peak = busiest ${PEAK_FRACTION * 100}% of pixels, cells = ${GRID}x${GRID} cells changing by ${CELL_FLOOR}\n`);
   for (const r of readings) {
     const bar = "#".repeat(Math.min(40, Math.round(r.peak / 3)));
-    console.log(`  ${r.path.padEnd(10)} @${String(r.y).padStart(5)}  mean ${r.mean.toFixed(3).padStart(7)}  peak ${r.peak.toFixed(1).padStart(6)}  cells ${String(r.cells).padStart(2)}/${GRID * GRID}  ${bar}`);
+    console.log(`  ${r.path.padEnd(10)} @${String(r.y).padStart(5)}  mean ${r.mean.toFixed(3).padStart(7)}  peak ${r.peak.toFixed(1).padStart(6)}  cells ${String(r.cells).padStart(2)}/${GRID * GRID}  ${r.builds ? "builds" : "      "}  ${bar}`);
   }
   const quietest = readings.reduce((a, b) => (a.peak < b.peak ? a : b));
   console.log(`\n  quietest by peak: ${quietest.path} @${quietest.y}px at ${quietest.peak.toFixed(1)}`);

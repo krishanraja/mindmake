@@ -11,8 +11,8 @@ import {
   type MindmakeConfirmedResponseV2,
   type BriefRoute,
 } from "@/components/mindmake/leadDelivery";
+import { DetailsJourney, type Details } from "@/components/mindmake/journeys/DetailsJourney";
 import { HumanHandoff } from "@/components/mindmake/HumanHandoff";
-import type { Details } from "@/components/mindmake/journeys/DetailsJourney";
 import { MindmakeProposal } from "@/components/mindmake/MindmakeProposal";
 import { buildPrivateBriefHtml, type PrivateBriefContent } from "@/components/mindmake/privateBriefHtml";
 import "@/styles/mindmake-brief.css";
@@ -43,13 +43,26 @@ interface LeadBriefProps {
   visitor?: Details;
 }
 
-type Step = "domain" | "reading" | "pressure" | "capacity" | "preview" | "contact" | "verify" | "success";
+/* "details" was "domain", and the rename is the whole change.
+   This dialog opened on a field labelled Company website while the panels on
+   both door pages asked for four details and told the reader, in as many words,
+   that there was nothing to look up. 05_LEAD_DELIVERY_SPEC.md says both doors
+   ask for exactly those four details in one shared component; that was true of
+   the panels and not of this, which is every `Start here` on the homepage and
+   the archive. It is the same component now.
+
+   Nothing about what reaches the server changes. `buildMindmakeBriefRequestV2`
+   sends `contact.email` and `company.domain`, and the domain is derived from
+   the work email by `src/lib/workEmail.ts` rather than typed. The name and the
+   division stay in the browser and do the job they already do on /ai-gtm: they
+   are what the offer of a person carries when a step fails. */
+type Step = "details" | "reading" | "pressure" | "capacity" | "preview" | "contact" | "verify" | "success";
 
 /* The dialog's tone arc: the question in the dark, the read on paper, the
    recommendation revealed on forest, the forms back on paper, and the
    proposal handed over on forest. */
 const STEP_TONES: Record<Step, "ink" | "forest" | "paper"> = {
-  domain: "ink",
+  details: "ink",
   reading: "ink",
   pressure: "paper",
   capacity: "paper",
@@ -263,8 +276,12 @@ const readableText = (value: unknown): string => {
 };
 
 export function LeadBrief({ open, onClose, route = "home", initialDomain, initialEmail, onConfirmed, visitor }: LeadBriefProps) {
-  const [step, setStep] = useState<Step>("domain");
-  const [domainInput, setDomainInput] = useState("");
+  const [step, setStep] = useState<Step>("details");
+  /* What this dialog collected itself. On /ai-gtm the page has already asked,
+     and hands them in through `visitor`; opened cold from the homepage or the
+     archive there is nobody upstream, so it asks and keeps them here. Either
+     way the offer of a person ends up with a name and a division. */
+  const [collected, setCollected] = useState<Details | null>(null);
   const [domain, setDomain] = useState("");
   const [dossier, setDossier] = useState<Dossier | null>(null);
   const [liveRead, setLiveRead] = useState(false);
@@ -336,8 +353,8 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
     researchAbortRef.current = null;
     handoffAbortRef.current?.abort();
     handoffAbortRef.current = null;
-    setStep("domain");
-    setDomainInput("");
+    setStep("details");
+    setCollected(null);
     setDomain("");
     setDossier(null);
     setLiveRead(false);
@@ -391,10 +408,9 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
 
   useEffect(() => {
     if (!open || !initialDomain) return;
-    if (step !== "domain" || domain) return;
+    if (step !== "details" || domain) return;
     const seed = cleanDomain(initialDomain);
     if (!isPublicHostname(seed)) return;
-    setDomainInput(seed);
     if (initialEmail) setEmail(initialEmail);
     void readCompany(seed);
   }, [open, initialDomain, initialEmail, step, domain]);
@@ -403,7 +419,7 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
     if (!open) return;
     const focusTimer = window.setTimeout(() => {
       panelRef.current?.scrollTo?.({ top: 0 });
-      const focusTarget = !usesCoarseInteraction() && (step === "domain" || step === "contact" || step === "verify")
+      const focusTarget = !usesCoarseInteraction() && (step === "contact" || step === "verify")
         ? firstFieldRef.current
         : stepHeadingRef.current;
       focusTarget?.focus({ preventScroll: true });
@@ -484,10 +500,10 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
   /* What the offer of a person needs, when the page collected it before opening
      this. The address is the one typed in here rather than the one the page
      arrived with, because the contact step is where somebody corrects it. */
-  const handoffDetails = useMemo(
-    () => (visitor ? { ...visitor, email: email.trim().toLowerCase() || visitor.email } : null),
-    [visitor, email],
-  );
+  const handoffDetails = useMemo(() => {
+    const source = visitor ?? collected;
+    return source ? { ...source, email: email.trim().toLowerCase() || source.email } : null;
+  }, [visitor, collected, email]);
 
   const readCompany = async (nextDomain: string) => {
     researchAbortRef.current?.abort();
@@ -552,15 +568,15 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
     }
   };
 
-  const researchCompany = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const nextDomain = cleanDomain(domainInput);
-    if (!isPublicHostname(nextDomain)) {
-      setError("Add a company website, such as company.com.");
-      firstFieldRef.current?.focus();
-      return;
-    }
-    void readCompany(nextDomain);
+  /* DetailsJourney has already validated the address and derived the domain
+     from it, refusing a personal one on the page as the server does again. So
+     there is nothing left to parse here: keep the details for the offer of a
+     person, fill the contact step so nobody types the address twice, and start
+     the read on the same call the seeded path from /ai-gtm uses. */
+  const startFromDetails = (details: Details) => {
+    setCollected(details);
+    setEmail(details.email);
+    void readCompany(details.domain);
   };
 
   const retryResearch = () => {
@@ -724,7 +740,7 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
   /* The functional progress path: every rendered segment is a working
      control naming a stage the visitor can return to. */
   const pathStages: Array<{ label: string; target: Step; steps: Step[] }> = [
-    { label: "Website", target: "domain", steps: ["domain", "reading"] },
+    { label: "You", target: "details", steps: ["details", "reading"] },
     { label: "Problem", target: "pressure", steps: ["pressure"] },
     { label: "Time", target: "capacity", steps: ["capacity"] },
     { label: "Brief", target: "preview", steps: ["preview"] },
@@ -792,27 +808,20 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
           ))}
         </nav>
 
-        {step === "domain" && (
-          <section className="mm-brief-step is-domain">
+        {step === "details" && (
+          <section className="mm-brief-step is-details">
             <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">Show me the business.</h2>
-            <p>Start with the company website. Mindmake will do the reading before it asks you to explain the problem.</p>
-            <form onSubmit={researchCompany}>
-              <label htmlFor="mm-company-domain">Company website</label>
-              <input
-                ref={firstFieldRef}
-                id="mm-company-domain"
-                value={domainInput}
-                onChange={(event) => { setDomainInput(event.target.value); if (error) setError(""); }}
-                inputMode="url"
-                autoComplete="url"
-                placeholder="company.com"
-                aria-invalid={Boolean(error)}
-                aria-describedby={error ? "mm-company-domain-error" : undefined}
-              />
-              {error && <p id="mm-company-domain-error" className="mm-form-error" role="alert">{error}</p>}
-              <button className="mm-button" type="submit">Read the business <span aria-hidden="true">→</span></button>
-            </form>
-            <small>No email or brief is sent from this step. Mindmake may use public company information to make the read. <a href="/privacy" target="_blank" rel="noreferrer">How the starting read handles information</a>.</small>
+            <p>Four details, and Mindmake does the reading before it asks you to explain the problem.</p>
+            <DetailsJourney
+              action="Read the business"
+              busy={step !== "details"}
+              busyLabel="Reading the business"
+              initial={collected ?? undefined}
+              onSubmit={startFromDetails}
+              onDeadEnd={() => undefined}
+            />
+            {error && <p className="mm-form-error" role="alert">{error}</p>}
+            <small>No brief is sent from this step. Mindmake may use public company information to make the read. <a href="/privacy" target="_blank" rel="noreferrer">How the starting read handles information</a>.</small>
           </section>
         )}
 
@@ -827,7 +836,7 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
 
         {step === "pressure" && (
           <section className="mm-brief-step is-pressure">
-            <button className="mm-step-back" type="button" onClick={() => setStep("domain")}>← Change website</button>
+            <button className="mm-step-back" type="button" onClick={() => setStep("details")}>← Change your details</button>
             <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">This is what I can see so far.</h2>
             <div className="mm-company-read">
               {dossier?.identity?.logoUrl && <img src={dossier.identity.logoUrl} alt={`${company} logo`} onError={(event) => { event.currentTarget.hidden = true; }} />}

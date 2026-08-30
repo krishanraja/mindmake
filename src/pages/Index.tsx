@@ -224,7 +224,7 @@ export default function Index() {
       <CloseBlock
         instrument="recorder"
         claim="Start with one real decision."
-        body="Give us your company address. We will read your market, and send you a plan built for your business."
+        body="Four details, and we read your market before asking you to explain anything. A plan built for your business lands in your inbox."
         onStart={openBrief}
       />
 

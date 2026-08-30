@@ -133,7 +133,7 @@ export default function CaseStudies() {
       <CloseBlock
         instrument="levels"
         claim="Find the result worth proving."
-        body="Give us your company address. We will do the reading before asking you to explain the problem."
+        body="Four details, and we do the reading before asking you to explain the problem."
         onStart={openBrief}
       />
 

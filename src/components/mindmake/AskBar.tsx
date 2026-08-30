@@ -4,7 +4,7 @@ import { ASK_UNMATCHED, findAnswer } from "@/lib/askCorpus";
 import { track } from "@/lib/analytics";
 
 /**
- * One input at the close of each page: ask anything, get a straight answer at
+ * One input under the questions: ask anything, get a straight answer at
  * once. The bar is the product demo. The whole site claims plain-English
  * answers from a system that knows its owner, and this is that claim operating.
  *

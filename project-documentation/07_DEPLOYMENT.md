@@ -1,6 +1,6 @@
 # Mindmake deployment
 
-Last updated: 28 August 2026, after the site rebuild's backend landed.
+Last updated: 30 August 2026, after the site rebuild's backend landed. This file and `07_DEPLOY_RUNBOOK.md` overlap more than the README's split implies (both restate the function/verify_jwt table, the RPC-wrapper rule and the cron rollback command); a merge is worth considering, but that is a structural call for Krish, not made in this pass.
 
 This file records how the live Mindmake site is deployed and how to change it
 safely. Current identifiers live in `06_CURRENT_STATE.md`, and the ordered
@@ -71,7 +71,8 @@ never in a migration.
 
 - Migrations: `mindmake_brief_requests`, `mindmake_brief_retention`,
   `mindmake_follow_up_and_personal_read`, `aa_model_snapshots`,
-  `mindmake_scheduled_jobs`, `mindmake_public_rpc_wrappers`. All are
+  `mindmake_scheduled_jobs`, `mindmake_public_rpc_wrappers`,
+  `personal_read_name_and_division`, `personal_read_handoff`. All are
   idempotent and all are registered in the remote migration history.
 - Every table the site writes is RLS-on with **no policies**, so only the
   service role reaches it. Adding an anon policy to any of them is a

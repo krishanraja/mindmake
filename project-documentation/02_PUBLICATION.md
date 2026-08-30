@@ -1,6 +1,6 @@
 # 02. The publication
 
-*Current as of 28 August 2026.*
+*Current as of 30 August 2026.*
 
 Mindmake's publication is the practice's front door for people who are not ready
 to buy anything. It runs on Substack today at `mindmakerlive.substack.com`, which

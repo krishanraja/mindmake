@@ -1,8 +1,8 @@
 # Mindmake brand and testimonial proof
 
-Last updated: 27 August 2026. Proof permissions approved 2026-08-11; career-reference set extended by Krish 2026-08-27.
+Last updated: 30 August 2026. Proof permissions approved 2026-08-11; career-reference set extended by Krish 2026-08-27.
 
-This file is the single project source for attendee brands, client outcomes, Steph Darmanin's consent-gated excerpts, and named career references. Other project documents must point here rather than copy these lists. The rendered data lives in `src/data/rebuildProof.ts` and must match this file.
+This file is the single project source for attendee brands, client outcomes, the named clients' consent-gated excerpts, and named career references. Other project documents must point here rather than copy these lists. Verified client outcome stories and attendee brands render from `src/data/rebuildProof.ts` and must match this file. The thirty-three testimonials described below (sessions, named clients, career references) render from `src/data/testimonials.ts`; `rebuildProof.ts` carries an older, unused `careerReferences` array that duplicates the approved nine and has drifted from what actually ships (see below), and should be deleted once someone confirms nothing still reads it.
 
 ## The thirty-three, and the two rules that hold them
 
@@ -25,9 +25,9 @@ different lengths cannot share a rail, and the alternative to an excerpt is a
 paraphrase attributed to a named person. Every excerpt is checked against its
 full text by a test, so a rewrite cannot pass as an extract.
 
-**Named clients, consent-gated.** Steph Darmanin and Dipti Divekar are named
-clients with recorded consent, which crosses the "client outcomes stay
-anonymous" rule above. The exception is narrow and mechanical: a client in the
+**Named clients, consent-gated.** Steph Darmanin, Dipti Divekar, James Gately
+and Louisa Thrave are named clients with recorded consent, which crosses the
+"client outcomes stay anonymous" rule above. The exception is narrow and mechanical: a client in the
 `client` family renders only where `consent` reads `recorded`, and
 `publishableTestimonials` drops any that does not. A named client without
 consent is dropped rather than anonymised, because an anonymised version of a
@@ -146,41 +146,36 @@ A data company changed how it sold as AI changed the web. The work led to a paid
 >
 > CRO, data-infrastructure company
 
-## Steph Darmanin, consent-gated named proof
+## Named clients, consent-gated
 
-Steph Darmanin is a separate client from the anonymous executive coaching practice above. Her use is approved, but the site must still fail closed against the existing Legacy Ascend consent record. If that record is absent, private, unavailable or errors, show none of these excerpts and do not show her name.
+**Needs Krish's confirmation before this section is treated as settled.** The previous version of this section carried four excerpts under Steph Darmanin's name and described the gate as failing closed against an external "Legacy Ascend consent record." Neither survives a check against the live code:
 
-Place the excerpts where they support the surrounding message. Never group all of them together.
+- The actual mechanism is mechanical, not a lookup: each entry in `src/data/testimonials.ts` in the `client` family carries a hand-set `consent?: "recorded"` field, and `publishableTestimonials` drops any `client` entry where that field is anything other than `"recorded"`. There is no external record it queries and nothing to be "absent, private, unavailable or errors" — a maintainer sets or removes the literal field. Whatever real-world consent process stands behind that field (Legacy Ascend or otherwise) lives outside this repository.
+- Three of the four excerpts previously listed here do not match what `src/data/testimonials.ts` attributes to Steph Darmanin today. The quote beginning "What's unique about Krish is that he never lets you become reliant on him" is coded under **Dipti Divekar**. The quote about outsourced support that "came to a halt once the paid engagement ended" is coded, in different wording, under **James Gately**. Only the value-for-money and week-4 excerpts have no match under any name in code at all. Steph Darmanin's own coded quote ("Everyone wants to learn AI skills... a kind and dedicated accountability partner") does not appear anywhere in the previous version of this section.
 
-### Ownership after Mindmake leaves
+Until that is resolved with Krish against the original consent records, treat the excerpts below — reproduced verbatim from `src/data/testimonials.ts`, the file that actually renders — as the current source, and do not reuse the four excerpts above under Steph Darmanin's name.
+
+Place excerpts where they support the surrounding message. Never group all four names together.
+
+### Steph Darmanin, Performance Coach
+
+> “Everyone wants to learn AI skills, but it can be complex and overwhelming to go it alone. There are also a lot of smoke and mirrors out there, with many people claiming to be experts and appearing genuine in their promise to help you, but end up not following through on their commitments. Working with Krish was the opposite. You get much more than what you're expecting, learn from a kind and dedicated accountability partner, and the process is simple and straightforward.”
+
+### Dipti Divekar, Performance Coach
 
 > “What's unique about Krish is that he never lets you become reliant on him. He puts you in the driver's seat, explains AI fundamentals in plain language, and empowers you to own the skills that actually move your business forward.”
->
-> Steph Darmanin, Performance Coach
 
-### Contrast with old outsourced support
+### James Gately, Founder, FinTech
 
-> “I have invested thousands before that resulted in terribly disappointing outcomes. The website support came to a halt once the paid engagement ended and ultimately I had to pull the plug and start over. With Mindmaker, I was empowered to own the skills.”
->
-> Steph Darmanin, Performance Coach
+> “Previous support came to a halt once the paid engagement ended, and ultimately I had to pull the plug and start over. With mind/make, I was empowered on how to own the what I do next, which has brought me immense pride and satisfaction.”
 
-(The word "Mindmaker" inside this quote is her verbatim wording from the time and stays unchanged.)
+### Louisa Thrave, CEO, Media
 
-### On value for money
+> “If you're deciding what next step to take to drive stronger business outcomes, and weighing up between a marketing professional, a sales expert, or an AI coach, choose mindmake. You'll get all three.”
 
-> “In 10 years of group and private mentorships, this has been the most valuable investment I have made in myself and my business.”
->
-> Steph Darmanin, Performance Coach
+## Approved named career references, exactly 10
 
-### Beside the rebuild story
-
-> “By week 4, I realised I was overdelivering for clients with less effort, and that clarity led me to create new offers with tiered pricing that accurately reflects the value of the service I provide.”
->
-> Steph Darmanin, Performance Coach
-
-## Approved named career references, exactly 9
-
-These are career references. They are not Mindmake client outcomes. Use them only after client proof or on the operator/about surface. The source is the professional recommendation set Krish supplied; the three references added on 27 August 2026 (Rob Hudson, Michael Ricciardone, Marie-Anne Leung Kam) were selected by Krish for their communication and human-approach themes and condensed faithfully from that set.
+These are career references. They are not Mindmake client outcomes. Use them only after client proof or on the operator/about surface. The source is the professional recommendation set Krish supplied; the three references added on 27 August 2026 (Rob Hudson, Michael Ricciardone, Marie-Anne Leung Kam) were selected by Krish for their communication and human-approach themes and condensed faithfully from that set. Joseph Kinchin is a tenth reference that is already live in `src/data/testimonials.ts` and rendering on the homepage and case-studies proof drums; he was missing from this list until this pass added him to match the code.
 
 ### Lizzie Young
 
@@ -236,13 +231,19 @@ Regional Managing Director, Channel Factory
 
 > “Outstanding leadership, consistently driving results in a challenging market. Where 'get it done' is valued, I'd rehire him 100%.”
 
+### Joseph Kinchin
+
+Business Development Director, ROAS media
+
+> “Krish has proven himself a leading thinker in the ever evolving Programmatic and Data industry. His deep understand of both data and tech allows him concisely articulating the problems and solutions that are relevant for the present and in the future. In both roles where Krish has serviced us he has driven positive advertising outcomes through tangible advancements.”
+
 ## Homepage proof stack
 
 1. The approved reach headline (no count).
 2. The attendance qualifier and the current three-logo media strip: BBC, Hearst and Condé Nast. The full 16-brand set remains approved for other attendance-proof uses.
 3. Three result previews from the outcome stories, with the full archive on the case-studies route.
-4. The nine-voice career testimonial deck, one section, swipe-first on touch widths.
-5. Steph's excerpts appear only where consent is confirmed and never grouped together.
+4. One proof drum (`ProofDrum`) carrying all thirty-three testimonials, sessions, named clients, outcomes and career references together, swipe-first on touch widths, each card labelled by family. There is no separate career-only deck; that changed when the drum unified the proof set.
+5. The four named clients' excerpts appear only where `consent` reads `recorded` and are never grouped together under one name.
 
 ## Guardrails
 

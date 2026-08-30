@@ -1,6 +1,6 @@
 # Mindmake design contract
 
-Last updated: 28 August 2026. This file replaces the pre-rebuild contract in full. It binds the public site: the homepage, `/ai-brain`, `/ai-gtm`, and every secondary page that shares the system.
+Last updated: 30 August 2026. This file replaces the pre-rebuild contract in full. It binds the public site: the homepage, `/ai-brain`, `/ai-gtm`, and every secondary page that shares the system.
 
 The intent behind these rules is the north star: everything on the page is proof, an instrument the visitor operates, or art direction that makes the proof feel premium. Anything that is none of the three does not ship.
 
@@ -83,10 +83,10 @@ This was banned outright until that date, and the ban had a real argument: a scr
 - the DOM is always complete, and only opacity and transform ever change;
 - CSS defaults to revealed, so no JavaScript means nothing hidden;
 - nothing already on screen is ever hidden, so a mid-page landing is whole;
-- a two-second timer shows everything regardless, so a stalled observer costs a moment rather than the page;
+- a scroll- and resize-driven sweep shows anything still pending on every scroll and resize event, so a stalled observer costs at most the next scroll rather than the page (`useReveal.ts` tried a two-second timer first and dropped it: measured in a browser, every element on the page had already revealed before a reader scrolled to one, so no arrival ever ran);
 - reduced motion hides nothing at all.
 
-`IntersectionObserver` appears in exactly one file, and the contract test holds it there. That is what replaced the old check: the ban was checkable because the observer appeared nowhere, and this is checkable because it appears in one place with the guarantees attached to it.
+`IntersectionObserver` is meant to appear in exactly one file, and `src/test/reveal-contract.test.tsx` holds it there for the six core pages and primitives it checks (`Index.tsx`, `AiBrain.tsx`, `AiGtm.tsx`, `useScrollDriver.ts`, `FilmPlate.tsx`, `MindmakeShell.tsx`). **It does not hold site-wide today.** `src/components/new-age/AgathaStory.tsx`, rendered on the live `/new-age-leadership` route, runs a second, unrelated `IntersectionObserver` for an analytics beacon and drives its own entrance animations with framer-motion `whileInView`, outside `useReveal` and outside every guarantee above. This is a known violation of the one-primitive rule, not a sanctioned second case; it needs a code fix, tracked in `06_CURRENT_STATE.md`'s open items, not a rewrite of the rule.
 
 **Still banned:** progress bars tied to scroll position, whatever they are filling. A bar that fills is a measurement of the reader rather than of anything on the page.
 
@@ -127,7 +127,7 @@ Every public change runs all of it.
 1. Focused tests, then the full suite, then `npm run build` and `npx eslint .` no worse than the recorded baseline.
 2. Desktop and 375px checks in both scroll directions, with no horizontal overflow and no browser console errors.
 3. The Krish gate: a case-insensitive search across public surfaces returns nothing except the three declared exceptions, which the contract test encodes. Those are: the reference section's heading, where he is named once as the person those people worked with; a verbatim quote that used an older name, because quotes are never edited; and the contact mailbox in `src/lib/publicLinks.ts`, which is on the older domain because that is the one that receives mail.
-4. The motion gate: `IntersectionObserver` in one file only, and every revealed element readable with it never firing. Disable JavaScript, then load each page and read it end to end.
+4. The motion gate: `IntersectionObserver` in one file only across the pages and primitives `reveal-contract.test.tsx` checks, and every revealed element readable with it never firing. Disable JavaScript, then load each page and read it end to end. `/new-age-leadership` currently fails this gate; see the motion law above.
 5. The aliveness gate: scroll each page at reading pace and confirm every viewport holds something in motion, then crawl every interactive element with a mouse and a keyboard and confirm each answers.
 6. The three-second gate: read every headline with its serif payoff, standalone. Then the banned-word and antithesis scans.
 7. The board honesty gate: the timestamp renders from the cache date, staleness is labelled past 26 hours, and a failed fetch collapses the section cleanly.

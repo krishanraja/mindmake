@@ -1,6 +1,6 @@
 # 01. Canon
 
-*Current as of 28 August 2026.*
+*Current as of 30 August 2026.*
 
 The commercial truth. Where anything else in this repository disagrees with this
 file or with `00_NORTH_STAR.md`, those two win and the other thing is wrong.
@@ -374,8 +374,11 @@ read's two answers) and the server-signed tailored-choice pair. The name is the
 only free text in that list, and it is there because it replaced a worse ask: the
 personal read used to want a LinkedIn URL, which most people have to go and find,
 and a name plus the company behind the email resolves the same person. A personal
-email address is refused on both sides, because the company read is built from
-the domain and there is nothing behind a personal one to read. The server owns the research, tailored
+email address is refused on the page on both doors, because the company read is built from
+the domain and there is nothing behind a personal one to read; the server repeats that
+refusal only on the personal read (`mindmake-personal-read`), because there is no
+equivalent server-side check on the company read (`submit-mindmake-brief`) yet, which
+is an open gap recorded in `06_CURRENT_STATE.md`. The server owns the research, tailored
 choices, recommendation, proposal, fit digest, verification codes and delivery
 attempts. The old contact endpoint is never a fallback. The visitor can always
 download the brief locally, whether or not either email succeeds.

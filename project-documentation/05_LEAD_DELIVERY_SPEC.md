@@ -1,6 +1,6 @@
 # Mindmake private brief delivery
 
-*Current as of 28 August 2026.*
+*Current as of 30 August 2026.*
 
 Status: **live**. The backend launched 26 August 2026 and Krish approved Gate E on 27 August 2026, so the public flag is on and the full journey runs in production: the migration and retention purge are applied, the functions are deployed at the versions recorded in `06_CURRENT_STATE.md`, which is the only place versions are written down, the sender `Mindmake <briefs@mindmake.co>` is verified with SPF, DKIM and DMARC passing, and the complete verification, delivery and tailored-choice matrix passed against the live backend with synthetic inboxes.
 
@@ -21,9 +21,14 @@ The release rules are:
 
 1. The visitor gives four details: first name, last name, work email and the part
    of the business they work in. The company domain is derived from the email. A
-   personal address is refused on the page and again at the server, because the
-   read is built from the company behind the domain. Both doors ask for exactly
-   this, in one shared component, with one set of rules.
+   personal address is refused on the page on both doors, because the read is
+   built from the company behind the domain. Both doors ask for exactly this, in
+   one shared component, with one set of rules on the page. Server-side the two
+   doors are not yet symmetric: `mindmake-personal-read` repeats the refusal
+   (`core.ts` throws `personal-email` when the domain is a free-email one), but
+   `submit-mindmake-brief` has no equivalent check and will build, verify and
+   deliver a brief for a personal address if the client-side check is bypassed.
+   See the amendment below and the open item in `06_CURRENT_STATE.md`.
 2. Mindmake shows a declarative public-company read and labels a safe fallback honestly when live research does not answer. The read never asks the visitor anything or invites a correction; any sentence that does is dropped server-side and client-side before display.
 3. The visitor chooses one pressure. When the read was strong enough, the choices are two or three statements tailored to that company, generated and HMAC-signed by the server, each anchored to one locked lens; `Something else` reveals the locked list, which is also the guaranteed path whenever generation fails or runs out of time.
 4. The visitor chooses where better use of their time would matter.

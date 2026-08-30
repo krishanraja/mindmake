@@ -16,7 +16,7 @@ tables are RLS-on with no policies, which means service role only.
 | `mindmake-personal-read` | v20 | false | The browser, from `/ai-brain`, and every dead end on the site |
 | `send-follow-ups` | v2 | false | pg_cron, daily at 09:20 UTC |
 | `aa-price-snapshot` | v1 | false | pg_cron, daily at 11:00 UTC |
-| `submit-mindmake-brief` | v14 | false | Still `main`'s body. The repository's day-14 enqueue is held back on purpose |
+| `submit-mindmake-brief` | v13 | false | The browser, from `/ai-gtm`. Deployed last, from merged `main`, with the day-14 enqueue verified in the deployed body (see step 3 below) |
 
 `get-ai-news` gained a board view and kept its previous response byte for byte.
 The two scheduled functions are public at the edge and guarded in code on the
@@ -42,6 +42,13 @@ scheduled functions already use.
    edge function parses against, and a length ceiling on the names. Additive, so
    the function still running the old body was unaffected by it. RLS unchanged:
    still on, still no policies.
+6. `20260829120000_personal_read_handoff.sql`, applied 29 August 2026: adds
+   `handoff_reason` to `mindmake_personal_reads` with a check constraint
+   mirroring the nine handoff reasons the parser allows, relaxes `q1` and `q2`
+   from required to required-together, and adds
+   `mindmake_personal_reads_shape_check` so a row is either a read or a handoff,
+   never half of each. See "Release, 29 August 2026: the handoff" below for how
+   this one was verified. RLS unchanged: still on, still no policies.
 
 ## The one secret
 

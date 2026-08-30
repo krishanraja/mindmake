@@ -1,6 +1,6 @@
 # Proof bank
 
-Last updated: 27 August 2026.
+Last updated: 30 August 2026. Verified clean against `src/data/rebuildProof.ts` and `04_PROOF.md`'s eight public stories: R-01 through R-09 cover exactly the eight public stories plus R-07, which remains internal-only.
 
 Internal, anonymised records of real Mindmake engagements. **Every entry is a real engagement that happened**, reduced to sector and role only. The numbers are kept; the names are gone. Only verified engagements belong in this file: if you cannot point at the invoice, it does not go in, and a shorter bank is the correct outcome rather than a problem to solve by topping it back up. (In August 2026 the 26 illustrative entries that once padded this bank were deleted for exactly that reason.)
 

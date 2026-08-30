@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Arrive } from "@/components/mindmake/Arrive";
 import { Instrument } from "@/components/mindmake/Instrument";
 import { ProofDrum } from "@/components/mindmake/ProofDrum";
 import { attendeeBrands, clientStories, FIGURE_INSTRUMENT } from "@/data/rebuildProof";
@@ -24,7 +25,12 @@ export function ProofStrip() {
       <div className="mm-container">
         <h2 id="proof-strip-title"><Instrument kind="levels" className="mm-head-mark" />Real work, and what changed because of it.</h2>
 
+        {/* They arrive one after another as you reach them. Three finished
+            cards in a row was one of the viewports that read near zero on the
+            aliveness sweep: nothing moving while they were read, and nothing
+            changing as they were scrolled past. */}
         <div className="mm-stories">
+          <Arrive stagger>
           {stories.map((story) => (
             <article className="mm-story" key={story.id}>
               {/* The mark the archive card already carries for this shape of
@@ -40,6 +46,7 @@ export function ProofStrip() {
               <cite>{story.attribution}</cite>
             </article>
           ))}
+          </Arrive>
         </div>
 
         <p style={{ marginTop: 18 }}>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Arrive } from "@/components/mindmake/Arrive";
 import { useScrollDriver } from "@/hooks/useScrollDriver";
 
 /**
@@ -68,6 +69,11 @@ export function LeverPanel() {
 
   return (
     <div className="mm-levers" ref={ref}>
+      {/* They arrive left to right as the panel is reached, which is also the
+          order the needles are read in. The sweep itself is scroll-driven and
+          unaffected: this is one animation on the article, and the needles turn
+          from a custom property on a child. */}
+      <Arrive stagger>
       {LEVERS.map((lever, index) => (
         <article className={`mm-lever${index === lit ? " is-lit" : ""}`} key={lever.name}>
           <div className="mm-lever-dial">
@@ -99,6 +105,7 @@ export function LeverPanel() {
           <p>{lever.body}</p>
         </article>
       ))}
+      </Arrive>
     </div>
   );
 }

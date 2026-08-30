@@ -458,3 +458,97 @@ job by hand. A silently broken observer costs nothing, because an element is
 revealed by the time it can be seen. Proven in a browser at 390: pending at the
 top, shown on arrival, no attribute at all under reduced motion, and 1076
 characters of the page's copy reaching a reader with JavaScript disabled.
+
+## Added on 30 August 2026: the pages are rendered, not imitated
+
+`src/entry-server.tsx` renders every indexed route with `renderToString` at build
+time, `scripts/prerender.mjs` writes that markup into `#root`, and
+`src/main.tsx` hydrates it. First paint is the page.
+
+What it replaced was a hand-written shell: every heading and paragraph as plain
+markup, styled by forty inlined lines to look like the first screen it was about
+to become. It did its job for a crawler and it was a likeness, and three bugs
+came from it being a likeness rather than the thing. The last was a strip below
+the hero where the live page starts its next section on a raised ground and the
+shell had plain ink, measured as the page settling a second after it painted.
+The shell, its CSS, and the second copy of the design that came with it are
+deleted; `index.html` keeps the ink ground alone.
+
+Arrival was wired into the sections that were still finished before they were
+looked at: the three proof stories and the founder block and the publication
+band on the homepage, the three CTRL principles on `/ai-brain`, and the four
+lever dials, the process track and the questions head on `/ai-gtm`.
+
+### Four defects found while verifying it, none of them visible
+
+**The reveal was snapping, not travelling.** `[data-reveal]` set `transition`,
+and `.mm-enemy`, `.mm-story`, `.mm-fork` and `.mm-lever` each set a short
+`transition` of their own in `mindmake-instruments.css`, which loads after
+`mindmake.css` at the same specificity. The card's one-property declaration
+replaced the reveal's outright, so the three arrivals shipped on 29 August
+appeared rather than arrived. It is an animation now, which cannot collide with
+a transition, and the card keeps its own hover fade.
+
+**Every prerendered page was failing to hydrate.** Two separate mismatches, both
+reported by production React as a numbered error nobody reads, and both with the
+same symptom: the server render is thrown away and the page is rebuilt from
+nothing on the client, which is the glitch the prerender exists to remove.
+
+- `next-themes` inlined a `<script>` through `dangerouslySetInnerHTML`. The
+  client bundle and the SSR bundle minify that script's source differently, so
+  the text never matched. Nothing read the theme: no component calls
+  `useTheme`, all three of this site's stylesheets use zero shadcn tokens, the
+  lead dialog rendered byte-identical under both colour schemes, and the whole
+  measured difference on the homepage was a sub-threshold tint on one
+  photograph. The provider is gone.
+- `App` wrapped its routes in `<Suspense>` and the server entry did not. React
+  writes a pair of comment nodes around a Suspense boundary and looks for them
+  again at hydration, so the client's tree opened with a marker the server had
+  never written. The server entry now carries every wrapper `App` has, in
+  `App`'s order.
+
+**`/new-age-leadership` was prerendered without its org chart.** `OrgChart` was a
+`React.lazy` boundary inside an already-lazy route, which split one page's code
+across two requests and bought nothing. `renderToString` cannot wait for a lazy
+component, so the build wrote an unfinished boundary, the chart was missing from
+the HTML a crawler reads, and the browser rebuilt that section on arrival. It is
+a plain import now.
+
+**Two large images were racing the render-blocking stylesheet.** Measured cold at
+4Mbps: the brand mark was a 98KB PNG displayed at 30px, and the click-to-play
+film band fetched a 96KB poster before anything had been clicked, because
+`preload="none"` covers the film and not the poster. The mark is 128px and 8KB;
+the click-to-play video is not in the document until the play button is pressed,
+which is what its own docstring had always claimed.
+
+### The entrance, measured against the build it replaces
+
+Both builds served from `dist` by the same static server, same machine, same
+gate, back to back. **The ~390-400ms first paint the plan set as the bar was
+wrong**: measured properly, the shipped build paints at 896-1000ms.
+
+| | c476e58, the shell | this build |
+| --- | --- | --- |
+| 390 `/` | 924ms | 1064ms |
+| 390 `/ai-brain/` | 956ms | 1080ms |
+| 390 `/ai-gtm/` | 896ms | 992ms |
+| 1440 `/` | 964ms | 1076ms |
+| 1440 `/ai-brain/` | 1000ms | 1124ms |
+| 1440 `/ai-gtm/` | 952ms | 1056ms |
+| page replaced | **1x on both doors at 1440** | **0x on all six** |
+| hydration | failed on every page | clean on every page |
+
+So first paint costs about 100ms, which is the real HTML the SSG exists to send:
+11KB of shell became 38KB of page. What it buys is that the page arrives once.
+
+### The gate that would have caught it
+
+`scripts/qa/first-second-check.mjs` now reads the browser's error stream as well
+as its frames. Proven against a deliberately broken build, with the Suspense
+markers stripped out of one page: at 1440 the frames caught it as a replacement
+and at 390 they saw nothing at all, because the rebuild landed on markup that
+looked the same. A gate that only photographs a page cannot tell a working
+render from a discarded one.
+
+`src/test/ssg-hydration.test.tsx` renders both trees and compares the strings,
+which is the check that catches a divergence before it reaches a browser.

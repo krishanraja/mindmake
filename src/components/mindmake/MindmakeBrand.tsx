@@ -20,7 +20,7 @@ export function MindmakeBrand({ compact = false }: { compact?: boolean }) {
 
   return (
     <Link className={`mm-brand${compact ? " is-compact" : ""}`} to={home} aria-label="Mindmake home">
-      <img className="mm-brand-icon" src={icon} width={520} height={470} alt="" aria-hidden="true" />
+      <img className="mm-brand-icon" src={icon} width={128} height={114} alt="" aria-hidden="true" />
       <img className="mm-brand-wordmark" src={wordmark} width={890} height={165} alt="Mindmake" />
     </Link>
   );

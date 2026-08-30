@@ -1,3 +1,4 @@
+import { Arrive } from "@/components/mindmake/Arrive";
 import { Instrument, type InstrumentKind } from "@/components/mindmake/Instrument";
 import { useScrollDriver } from "@/hooks/useScrollDriver";
 
@@ -50,7 +51,11 @@ export function ProcessTrack({ first, second }: ProcessTrackProps) {
 
       <div className="mm-track-marker" aria-hidden="true" />
 
+      {/* The finite half, then the open one. The line and its marker are drawn
+          from first paint and never wait on this, so the shape of the sentence
+          is intact whether or not the two cards ever arrive. */}
       <div className="mm-track-parts">
+        <Arrive stagger>
         {[first, second].map((part, index) => (
           <article className={`mm-track-part${index === 0 ? " is-first" : ""}`} key={part.title}>
             <Instrument kind={part.instrument} />
@@ -59,6 +64,7 @@ export function ProcessTrack({ first, second }: ProcessTrackProps) {
             <p>{part.body}</p>
           </article>
         ))}
+        </Arrive>
       </div>
     </div>
   );

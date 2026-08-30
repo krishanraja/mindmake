@@ -10,23 +10,25 @@ const read = (relative: string) => readFileSync(resolve(ROOT, relative), "utf8")
  *
  * Krish described the entrance as a text-only page on a white background, then
  * a glitch, then the site. Measured cold at 390px on a 4Mbps connection, that
- * was exactly right: pure white at 20ms, the prerendered document in black on
- * white at 395ms, and the site arriving at 719ms. Seven hundred milliseconds of
- * a white page nobody designed, on the ground the whole site is a reaction
- * against.
+ * was exactly right: pure white at 20ms, a document in black on white at 395ms,
+ * and the site arriving at 719ms. Seven hundred milliseconds of a white page
+ * nobody designed, on the ground the whole site is a reaction against.
  *
  * Two causes, both invisible to every test that existed. `src/index.css` sets a
  * page ground, and Vite injects the built stylesheet into the head *after* the
  * critical inline style in `index.html`, so the later rule won and the ground
- * was off-white until React painted over it. And the prerendered shell had no
- * styles at all: it is every heading and paragraph on the page as plain HTML,
- * which is right for a crawler and was, for a visitor, a document.
+ * was off-white until React painted over it. And the build wrote a hand-written
+ * shell with no styles at all: every heading and paragraph on the page as plain
+ * HTML, which is right for a crawler and was, for a visitor, a document.
  *
- * A stylesheet is not markup, so no component test could see either one. What
- * follows is the checkable form: the ground is the ink in every place that can
- * paint one, and the two copies of the first screen's CSS agree. The behaviour
- * itself is measured by `scripts/qa/first-second-check.mjs`, which loads the
- * built site cold on a throttled connection and photographs the entrance.
+ * The first cause is what this file now guards. The second is gone rather than
+ * fixed: `src/entry-server.tsx` renders the real components at build time, so
+ * the first painted frame is the page, and the shell and the forty inlined
+ * lines that styled it are deleted. Most of this file went with them; what
+ * stays is the ground, in every place that can paint one, and a check that the
+ * shell does not come back as a likeness. The behaviour itself is measured by
+ * `scripts/qa/first-second-check.mjs`, which loads the built site cold on a
+ * throttled connection and photographs the entrance.
  */
 
 const indexHtml = read("index.html");
@@ -64,79 +66,41 @@ describe("the ground, everywhere something can paint one", () => {
   });
 });
 
-describe("the prerendered shell", () => {
-  const prerender = read("scripts/prerender.mjs");
-
-  it("carries the wordmark, so the header does not appear out of nowhere", () => {
-    expect(prerender).toContain('id="prerendered-brand"');
-    expect(prerender).toMatch(/MIND<span>\/<\/span>MAKE/);
-  });
-
-  it("is styled by both copies of the first screen's CSS", () => {
-    for (const [name, css] of [["inline", inlineStyle], ["stylesheet", mindmakeCss]] as const) {
-      expect(css, name).toContain("#prerendered-content");
-      expect(css, name).toContain("#prerendered-brand");
-      expect(css, name).toContain("mm-first-light");
+describe("the shell, and why there is not one", () => {
+  it("keeps the inline style to the ground and nothing else", () => {
+    /* The inline block exists for one reason: the built stylesheet is
+       render-blocking and 126KB, and the ground has to be right before it
+       lands. Everything beyond that is a second copy of the design, which is
+       how the first screen drifted away from the page three separate times. */
+    expect(inlineStyle.length).toBeLessThan(220);
+    for (const drift of ["--mm-tx", "font-size", "radial-gradient", "@keyframes", "animation"]) {
+      expect(inlineStyle, drift).not.toContain(drift);
     }
   });
 
-  it("holds the two copies to the same values", () => {
-    /* The inline copy exists so the first screen does not wait on a 126KB
-       render-blocking stylesheet. Two copies of a colour is how a ground
-       drifts, so the values are compared rather than trusted. */
-    for (const value of [
-      "--mm-ink:#0a100d",
-      "--mm-tx:#e6ede8",
-      "--mm-tx2:#b0c0b7",
-      "--mm-mint:#7fe3b4",
-    ]) {
-      expect(inlineStyle, value).toContain(value);
-      const [token, colour] = value.split(":");
-      expect(mindmakeCss, value).toContain(`${token}: ${colour}`);
-    }
-    for (const shape of [
-      "height:100dvh",
-      "clamp(26px,4.6vw,54px)",
-      "radial-gradient(60% 45% at 50% 40%",
-    ]) {
-      expect(inlineStyle, shape).toContain(shape);
-      expect(mindmakeCss.replace(/\s+/g, ""), shape).toContain(shape.replace(/\s+/g, ""));
+  it("has no hand-written first screen left anywhere", () => {
+    /* Three bugs came from the shell being a likeness rather than the thing,
+       the last of them a strip below the hero where the real page starts its
+       next section on a raised ground and the shell had plain ink. A fourth
+       would start exactly here, with an id nobody renders any more. */
+    for (const [name, source] of [
+      ["index.html", indexHtml],
+      ["mindmake.css", mindmakeCss],
+      ["prerender.mjs", read("scripts/prerender.mjs")],
+    ] as const) {
+      expect(source, name).not.toContain("prerendered-content");
+      expect(source, name).not.toContain("prerendered-brand");
+      expect(source, name).not.toContain("prerendered-plate");
     }
   });
 
-  it("hides nothing it is indexed for", () => {
-    /* The shell is the whole page's copy, which is the point: a crawler that
-       runs no JavaScript still gets all of it. So the screen it does not fit in
-       is clipped, never display:none, and the text stays text. */
-    const block = mindmakeCss.slice(mindmakeCss.indexOf("#prerendered-content {"));
-    const shell = block.slice(0, block.indexOf("}"));
-    expect(shell).toContain("overflow: hidden");
-    expect(shell).not.toContain("display: none");
-    expect(mindmakeCss).toContain("margin-bottom: 100dvh");
-  });
-
-  it("moves without JavaScript, and stops when asked", () => {
-    /* The only thing on screen that can move before React exists. Reduced
-       motion still gets the light; it simply stops travelling. */
-    for (const [name, css] of [["inline", inlineStyle], ["stylesheet", mindmakeCss]] as const) {
-      expect(css, name).toContain("animation");
-      /* Matched without the trailing punctuation: the inline copy is minified
-         by hand and the stylesheet is not, so one carries a semicolon. */
-      expect(css.replace(/\s+/g, ""), name)
-        .toMatch(/prefers-reduced-motion:reduce\)\{#prerendered-content::before\{animation:none;?\}/);
-    }
-  });
-
-  it("names the wordmark out of the rules that would move it", () => {
-    /* Three real bugs, all the same shape. `#prerendered-content > *` set
-       position:relative and dropped both the wordmark and the film plate out of
-       their absolute placement into the flow, and `#prerendered-content p` gave
-       the wordmark a 58ch max-width with auto margins and centred it, because
-       the wordmark is a paragraph and that selector outranks its id by one
-       element. An id is not automatically the most specific thing in the room. */
-    for (const [name, css] of [["inline", inlineStyle], ["stylesheet", mindmakeCss]] as const) {
-      expect(css.replace(/\s+/g, ""), name).toContain(">*:not(#prerendered-brand,#prerendered-plate)");
-      expect(css.replace(/\s+/g, ""), name).toContain("p:not(#prerendered-brand)");
-    }
+  it("fills the root from the components instead", () => {
+    /* The replacement, named so the deletion above reads as a move rather than
+       a loss: a crawler that runs nothing still gets every word of every page,
+       and now in the real layout. */
+    const prerender = read("scripts/prerender.mjs");
+    expect(prerender).toContain("entry-server");
+    expect(prerender).toContain('<div id="root">');
+    expect(read("src/entry-server.tsx")).toContain("renderToString");
   });
 });

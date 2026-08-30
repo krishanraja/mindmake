@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAmbientMotion } from "@/hooks/useAmbientMotion";
 
 interface FilmPlateProps {
@@ -32,7 +32,8 @@ interface FilmPlateProps {
  * nothing to wait for. An ambient loop mounts on top of it only once the
  * browser has said this visitor wants motion; a visitor who asked for less
  * keeps the still. A click-to-play film is a deliberate request rather than
- * ambience, so it ignores that setting, and it fetches nothing until clicked.
+ * ambience, so it ignores that setting, and it is not in the document at all
+ * until the play button is pressed.
  */
 export function FilmPlate({
   poster,
@@ -51,13 +52,28 @@ export function FilmPlate({
   const [playing, setPlaying] = useState(false);
   const motion = useAmbientMotion();
 
-  const play = () => {
+  /* Mounted on the click, not before it.
+     This element used to sit in the markup with `preload="none"` and a poster,
+     which the docstring above described as fetching nothing until clicked. The
+     `preload` covers the film; it does not cover the poster, and a browser
+     fetches that immediately. Once the pages were prerendered it was measured:
+     the click-to-play band on /ai-brain pulled 96KB of JPEG off a throttled
+     connection while the render-blocking stylesheet was still arriving, for a
+     still nobody reaches for several screens and which the `<picture>` above
+     already renders. Mounting on the click makes the claim true. */
+  const play = () => setPlaying(true);
+
+  /* Started here rather than with `autoPlay`, because this film plays with
+     sound and a bare autoplay attribute is refused for that. Called from an
+     effect one commit after the click, it is allowed: the click leaves sticky
+     activation behind it, which is what the policy actually tests. */
+  useEffect(() => {
+    if (!playing) return;
     const video = videoRef.current;
     if (!video) return;
     video.muted = false;
     void video.play();
-    setPlaying(true);
-  };
+  }, [playing]);
 
   const sources = (
     <>
@@ -83,8 +99,14 @@ export function FilmPlate({
             src={poster}
             alt=""
             loading={priority ? "eager" : "lazy"}
-            fetchPriority={priority ? "high" : "auto"}
             decoding={priority ? "sync" : "async"}
+            /* Lowercase, because React 18 does not know this attribute and
+               silently drops a camelCase prop it does not recognise. Written
+               `fetchPriority` it never reached the markup at all, which the
+               server render surfaced as a warning the production client build
+               had been stripping. React 18's types do not carry it either, so
+               the spread is what gets it past the compiler and onto the tag. */
+            {...{ fetchpriority: priority ? "high" : "auto" }}
           />
         </picture>
       )}
@@ -104,14 +126,12 @@ export function FilmPlate({
         </video>
       )}
 
-      {hasFilm && clickToPlay && (
+      {hasFilm && clickToPlay && playing && (
         <video
           ref={videoRef}
           className="mm-plate-media mm-plate-loop"
-          poster={poster}
           playsInline
-          preload="none"
-          controls={playing}
+          controls
         >
           {sources}
         </video>

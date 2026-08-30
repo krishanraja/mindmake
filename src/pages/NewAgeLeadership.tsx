@@ -1,15 +1,20 @@
-import { Suspense, lazy, useState } from "react";
+import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Bot, Sparkles, Users } from "lucide-react";
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { AgathaStory, PageCompletionBeacon } from "@/components/new-age/AgathaStory";
+/* Imported, not lazy. It was a `React.lazy` boundary inside a lazy route, which
+   split one page's code across two requests and bought nothing: this page is
+   the only thing that loads either chunk. Once the pages were prerendered it
+   cost something real. `renderToString` cannot wait for a lazy component, so
+   the build wrote an unfinished Suspense boundary here, the chart was missing
+   from the HTML a crawler reads, and the browser rebuilt that whole section
+   client-side on arrival. */
+import { OrgChart } from "@/components/new-age/OrgChart";
 import "@/styles/mindmake.css";
 
-const OrgChart = lazy(() =>
-  import("@/components/new-age/OrgChart").then((module) => ({ default: module.OrgChart })),
-);
 
 const checks = [
   {
@@ -44,14 +49,6 @@ const jsonLd = {
     "@id": "https://mindmake.co/new-age-leadership",
   },
 };
-
-function ChartFallback() {
-  return (
-    <div className="h-[520px] border border-border/60 bg-muted/30 md:h-[600px] flex items-center justify-center">
-      <div className="text-sm text-muted-foreground">Loading the working chart...</div>
-    </div>
-  );
-}
 
 export default function NewAgeLeadership() {
   const [briefOpen, setBriefOpen] = useState(false);
@@ -92,9 +89,7 @@ export default function NewAgeLeadership() {
 
       <section className="section-padding pt-0" aria-label="Interactive AI organisation chart">
         <div className="container-width max-w-6xl">
-          <Suspense fallback={<ChartFallback />}>
-            <OrgChart onStart={() => setBriefOpen(true)} />
-          </Suspense>
+          <OrgChart onStart={() => setBriefOpen(true)} />
         </div>
       </section>
 

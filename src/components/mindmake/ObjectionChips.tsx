@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Arrive } from "@/components/mindmake/Arrive";
 import { Instrument } from "@/components/mindmake/Instrument";
 import { AskBar } from "@/components/mindmake/AskBar";
 import { useDragDrum } from "@/hooks/useDragDrum";
@@ -66,6 +67,13 @@ export function ObjectionChips({ ask, label = "Questions people ask us" }: Quest
 
   return (
     <div className="mm-questions">
+      {/* The head arrives; the cards do not, and that is deliberate. A reveal
+          is triggered by an element's vertical position, and these thirty-odd
+          cards all share one: reaching the section would fire every card at
+          once, including the twenty off to the right that nobody has scrolled
+          to yet. The drum already drifts on its own, so the cards are the part
+          of this section that was never still. */}
+      <Arrive>
       <div className="mm-drum-head">
         <h2 className="mm-objections-title">
           <Instrument kind="flap" className="mm-head-mark" />{label}
@@ -78,6 +86,7 @@ export function ObjectionChips({ ask, label = "Questions people ask us" }: Quest
           </span>
         </p>
       </div>
+      </Arrive>
 
       <div className="mm-drum-stage">
         <div

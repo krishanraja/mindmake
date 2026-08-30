@@ -23,4 +23,13 @@ export default tseslint.config(
       "@typescript-eslint/no-unused-vars": "off",
     },
   },
+  {
+    /* The build-time render entry. react-refresh is a dev-server concern and
+       this module never reaches the browser bundle at all: `npm run build:ssr`
+       compiles it on its own, `scripts/prerender.mjs` imports it in Node, and
+       nothing in src/ imports it. The rule is right about the shape and wrong
+       about the file. */
+    files: ["src/entry-server.tsx"],
+    rules: { "react-refresh/only-export-components": "off" },
+  },
 );

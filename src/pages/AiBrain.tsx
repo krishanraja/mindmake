@@ -2,6 +2,7 @@ import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { MobileChapter } from "@/components/mindmake/MobileChapter";
+import { Arrive } from "@/components/mindmake/Arrive";
 import { CloseBlock } from "@/components/mindmake/CloseBlock";
 import { SubscribeBand } from "@/components/mindmake/SubscribeBand";
 import { FilmPlate } from "@/components/mindmake/FilmPlate";
@@ -163,12 +164,15 @@ export default function AiBrain() {
                 className="mm-principles"
                 shown={1}
                 noun="rules"
-                items={PRINCIPLES.map((principle) => (
-                  <article className="mm-principle" key={principle.title}>
+                /* Wrapped one by one rather than in a staggered group,
+                   because MobileChapter counts and slices this array and a
+                   fragment around it would leave it holding one child. */
+                items={PRINCIPLES.map((principle, at) => (
+                  <Arrive as="article" className="mm-principle" from={at} key={principle.title}>
                     <Instrument kind={principle.instrument} />
                     <h3>{principle.title}</h3>
                     <p>{principle.body}</p>
-                  </article>
+                  </Arrive>
                 ))}
               />
             </div>

@@ -1,6 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { ThemeProvider } from "next-themes";
 import { lazy, Suspense, useEffect } from "react";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { CookieConsent } from "@/components/CookieConsent";
@@ -78,7 +77,7 @@ export function PageLoading() {
       {/* Not MindmakeBrand: this is the Suspense fallback and must not be a
           link to the page it is currently loading. */}
       <span className="mm-brand">
-        <img className="mm-brand-icon" src={brandIcon} width={520} height={470} alt="" aria-hidden="true" />
+        <img className="mm-brand-icon" src={brandIcon} width={128} height={114} alt="" aria-hidden="true" />
         <img className="mm-brand-wordmark" src={brandWordmark} width={890} height={165} alt="Mindmake" />
       </span>
       <p><span aria-hidden="true" /> Loading the page.</p>
@@ -162,12 +161,32 @@ function AppRoutes() {
   );
 }
 
+/**
+ * No theme provider, and this is load-bearing rather than a tidy-up.
+ *
+ * next-themes wrapped this app from the Lovable scaffold onwards, set
+ * `class="light"` or `class="dark"` on the document, and was read by nothing:
+ * no component calls `useTheme`, and all three of this site's stylesheets use
+ * zero shadcn tokens. Measured with it still in place, the lead dialog rendered
+ * byte-identical under both schemes and the homepage differed only in the
+ * sub-threshold tint Chromium gives one photograph under `color-scheme: dark`.
+ *
+ * What it cost was the whole server render. The provider inlines a `<script>`
+ * through `dangerouslySetInnerHTML`, the client bundle and the SSR bundle
+ * minify that script's source differently, and React compares the text: every
+ * prerendered page failed hydration on its first node and switched the entire
+ * root to client rendering. That is precisely the glitch this work exists to
+ * remove, and it was invisible because React's production errors are numbered
+ * rather than described.
+ *
+ * `src/test/ssg-hydration.test.ts` holds the two entries to one provider set,
+ * and `scripts/qa/first-second-check.mjs` fails the build on a hydration error
+ * in a real browser.
+ */
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <AppRoutes />
-      </ThemeProvider>
+      <AppRoutes />
     </QueryClientProvider>
   );
 }

@@ -160,6 +160,28 @@ for (const width of WIDTHS) {
       viewport: { width, height: width < 700 ? 844 : 900 },
     });
     const page = await context.newPage();
+
+    /* Hydration errors, which is a different failure with the same symptom.
+       React compares the prerendered markup against what the app renders on
+       its first pass, and when they disagree it throws the whole server render
+       away and rebuilds the page from nothing. What that looks like is exactly
+       what this script measures: the site arrives, then a second later it is
+       replaced. Two of those shipped in one afternoon and neither was visible,
+       because a production React build reports them as a numbered error nobody
+       reads. The frames catch a replacement big enough to move a third of the
+       still cells; this catches every one of them, including the ones that
+       rebuild into identical-looking markup. */
+    const hydration = [];
+    page.on("pageerror", (error) => {
+      const text = String(error?.message ?? error);
+      /* 418 initial UI mismatch, 419 unfinished server boundary, 421 boundary
+         rebuilt during hydration, 423 root switched to client rendering, 425
+         text mismatch. All five mean the same thing here. */
+      if (/Minified React error #(418|419|421|423|425)\b/.test(text) || /Hydration failed|error while hydrating|server HTML/i.test(text)) {
+        hydration.push(text.replace(/;.*$/, ""));
+      }
+    });
+
     const session = await context.newCDPSession(page);
     await session.send("Network.enable");
     await session.send("Network.emulateNetworkConditions", THROTTLE);
@@ -292,6 +314,9 @@ for (const width of WIDTHS) {
     }
     if (firstMotion === null) {
       problems.push(`${width}px ${path}: nothing moves in the first ${WINDOW}ms`);
+    }
+    if (hydration.length) {
+      problems.push(`${width}px ${path}: hydration failed ${hydration.length}x (${[...new Set(hydration)].join(" | ")}), so the server render was thrown away`);
     }
 
     await context.close();

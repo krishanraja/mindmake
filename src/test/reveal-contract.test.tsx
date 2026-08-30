@@ -162,9 +162,38 @@ describe("the presentation layer", () => {
     expect(css).not.toMatch(/\[data-reveal\]\s*\{[^}]*opacity:\s*0/);
   });
 
+  it("travels on an animation, because a transition loses to the card", () => {
+    /* The first three arrivals shipped snapping rather than travelling, and
+       nothing failed. `transition` is one property; .mm-enemy, .mm-story,
+       .mm-fork and .mm-lever each set their own in mindmake-instruments.css,
+       which loads after this file at the same specificity, so the card's
+       one-property transition replaced the reveal's entirely.
+
+       An animation cannot be overwritten by a transition, so this is checked as
+       what it is: no `transition` on the reveal at all, and the fill mode that
+       lets go afterwards rather than pinning `transform: none` forever. */
+    const shown = css.slice(css.indexOf('[data-reveal="shown"] {'));
+    const block = shown.slice(0, shown.indexOf("}"));
+    expect(block).toContain("animation: mm-arrive");
+    expect(block).toContain("backwards");
+    expect(block).not.toContain("forwards");
+    expect(block).not.toContain("transition");
+    expect(css).toContain("@keyframes mm-arrive");
+
+    /* And the collision itself, so this cannot be undone by moving a rule.
+       Every card family the reveal is used on still owns its own transition;
+       the point is that the two layers no longer touch. */
+    const cards = readFileSync(resolve(__dirname, "../styles/mindmake-instruments.css"), "utf8");
+    for (const card of [".mm-enemy {", ".mm-story {", ".mm-fork {", ".mm-lever {"]) {
+      const rule = cards.slice(cards.indexOf(card));
+      expect(rule.slice(0, rule.indexOf("}")), card).toContain("transition:");
+    }
+  });
+
   it("restores it under reduced motion even if the hook already marked one", () => {
     const guard = css.slice(css.indexOf("@media (prefers-reduced-motion: reduce) {", css.indexOf('[data-reveal="pending"]')));
     expect(guard.slice(0, 200)).toContain('[data-reveal="pending"] { opacity: 1');
+    expect(guard.slice(0, 200)).toContain('[data-reveal="shown"] { animation: none');
   });
 });
 

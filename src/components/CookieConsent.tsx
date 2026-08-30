@@ -2,6 +2,14 @@ import { useState, useEffect, useLayoutEffect, useRef } from "react";
 
 const CONSENT_KEY = "mindmake_consent";
 
+/* useLayoutEffect on the server does nothing and React says so, once per page,
+   which was twenty-one stack traces in a build log where a real warning has to
+   be visible. The effect below is client-only in practice: it never runs until
+   the notice is visible, and the notice is only ever made visible by an effect.
+   Naming that is the whole fix; the browser still gets the layout effect, so
+   the reserve is published before paint exactly as it was. */
+const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
+
 export const CookieConsent = () => {
   const [visible, setVisible] = useState(false);
   const noticeRef = useRef<HTMLDivElement>(null);
@@ -35,7 +43,7 @@ export const CookieConsent = () => {
     return () => window.removeEventListener("scroll", show);
   }, []);
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!visible) return;
 
     const root = document.documentElement;

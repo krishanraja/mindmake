@@ -820,221 +820,6 @@
    is a dead end rather than a typo. */
 .mm-journey-error .mm-handoff { margin-top: 10px; }
 
-/* ---------- The first screen, before JavaScript ----------
-   The prerendered shell is every heading and paragraph on the page as plain
-   HTML, so a crawler gets the whole thing without running anything. A visitor
-   got the whole thing too: an unstyled document in Inter on an off-white ground
-   for the seven hundred milliseconds it took React to arrive and replace it.
-
-   Measured cold at 390px on 4Mbps before this existed: pure white at 20ms, the
-   document in black on white at 395ms, the site at 719ms. Three pages in a row,
-   which is exactly what "a glitch" describes.
-
-   It is styled rather than hidden. Hiding it would trade a flash for an empty
-   screen and put indexed copy behind display:none, and the text is the reason
-   the shell exists. So the first screen of it is set as the hero it is about to
-   become, the rest flows below the fold as any document does, and the swap at
-   the end is a small change instead of a different website.
-
-   React replaces this subtree on mount, so nothing here survives hydration and
-   nothing here can conflict with it. */
-
-#prerendered-content {
-  --mm-shell-pad: clamp(20px, 4vw, 64px);
-  position: relative;
-  /* Exactly one screen, and what does not fit is clipped rather than removed.
-     The shell holds every heading and paragraph on the page so a crawler that
-     runs nothing still gets the lot; a visitor should see a hero. overflow
-     rather than display:none, because the text is the reason this exists and
-     hidden text is not text. */
-  height: 100dvh;
-  display: grid;
-  align-content: start;
-  gap: 10px;
-  overflow: hidden;
-  /* Enough that the first line lands about where the hero's first line lands,
-     so the swap moves the type a little rather than throwing it across the
-     screen. */
-  padding: clamp(96px, 17vh, 150px) max(var(--mm-shell-pad), var(--mm-safe-left)) 0 max(var(--mm-shell-pad), var(--mm-safe-right));
-  background: var(--mm-ink);
-  color: var(--mm-tx);
-  font-family: var(--mm-body);
-  text-align: center;
-}
-
-/* The wordmark, inert. The real header is a component with a scroll state and
-   a menu; this is the two words it opens with, so the hydrated header does not
-   appear out of nowhere. */
-#prerendered-brand {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 2;
-  padding: 22px clamp(20px, 4vw, 64px);
-  text-align: left;
-  font-family: var(--mm-grotesque);
-  font-weight: 700;
-  font-size: 19px;
-  letter-spacing: -.02em;
-  color: #f5faf8;
-}
-#prerendered-brand span { color: var(--mm-mint); }
-
-/* The blade of window light the hero film opens on, drawn in CSS because at
-   this moment there is no video, no React and no instrument: this is the only
-   thing on the page that can move, and something has to. It is the same idea
-   the film carries, present before the film can be. */
-#prerendered-content::before {
-  content: "";
-  position: absolute;
-  inset: -20% -60%;
-  z-index: 0;
-  background: radial-gradient(60% 45% at 50% 40%, rgba(127, 227, 180, .16), rgba(127, 227, 180, 0) 70%);
-  animation: mm-first-light 9s ease-in-out infinite alternate;
-}
-@keyframes mm-first-light {
-  from { transform: translate3d(-6%, -3%, 0) scale(1); opacity: .75; }
-  to { transform: translate3d(6%, 3%, 0) scale(1.12); opacity: 1; }
-}
-
-/* Scoped away from the wordmark, which is positioned against the shell.
-   Both selectors carry one id, so without the :not() the later rule simply won
-   and the brand slid into the flow. */
-#prerendered-content > *:not(#prerendered-brand, #prerendered-plate) { position: relative; z-index: 1; }
-
-/* The first line is the hero's, at the hero's size. Everything after it is the
-   rest of the document, set quietly and sitting below the fold. */
-#prerendered-content h1 {
-  max-width: 18ch;
-  margin: 0 auto;
-  font-family: var(--mm-grotesque);
-  font-weight: 700;
-  font-size: clamp(26px, 4.6vw, 54px);
-  letter-spacing: -.035em;
-  line-height: 1.03;
-  color: #f5faf8;
-  text-wrap: balance;
-  /* The rest of the document is pushed a screen down rather than trimmed. The
-     shell carries every heading and paragraph on the page so that a crawler
-     running nothing still gets all of it; a visitor in the window before React
-     arrives should see a hero, not a table of contents. */
-  margin-bottom: 100dvh;
-}
-#prerendered-content h2 {
-  max-width: 30ch;
-  margin: 34px auto 0;
-  font-family: var(--mm-grotesque);
-  font-weight: 700;
-  font-size: clamp(19px, 2.4vw, 26px);
-  letter-spacing: -.03em;
-  line-height: 1.12;
-  color: var(--mm-tx);
-}
-/* By name, because the wordmark is a paragraph too, and `#prerendered-content p`
-   outranks `#prerendered-brand` by one element: it was handing the absolutely
-   positioned wordmark a 58ch max-width and auto margins, which centred it. */
-#prerendered-content p:not(#prerendered-brand) {
-  max-width: 58ch;
-  margin: 12px auto 0;
-  color: var(--mm-tx2);
-  font-size: 15.5px;
-  line-height: 1.55;
-}
-#prerendered-content a { color: var(--mm-mint); text-decoration: none; }
-#prerendered-content ul { max-width: 58ch; margin: 12px auto 0; padding-left: 18px; color: var(--mm-tx2); text-align: left; }
-#prerendered-content nav { display: none; }
-
-
-/* The hero's own poster, in the shell.
-   On the homepage the film fills the stage and the type sits on it; on the two
-   doors it is a plate beside the copy. Both are what React is about to draw, so
-   the swap moves the picture a little instead of introducing one. */
-#prerendered-plate {
-  position: absolute;
-  z-index: 0;
-  display: block;
-  overflow: hidden;
-  background: #070b09;
-}
-#prerendered-plate img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-/* Centred: the film is the stage, with a scrim so the type stays readable on
-   it, exactly as the hero plate does. */
-#prerendered-content[data-hero="centred"] #prerendered-plate {
-  left: 50%;
-  top: calc(clamp(96px, 17vh, 150px) - 46px);
-  width: min(var(--mm-shell-max), calc(100% - 2 * var(--mm-shell-pad)));
-  height: clamp(360px, 52vh, 460px);
-  transform: translateX(-50%);
-  border-radius: 3px;
-}
-#prerendered-content[data-hero="centred"] #prerendered-plate::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(7, 11, 9, .35), rgba(7, 11, 9, .72));
-}
-@media (min-width: 880px) {
-  #prerendered-content[data-hero="centred"] #prerendered-plate { height: clamp(420px, 62vh, 600px); }
-}
-
-/* Split: the plate takes the right column and only exists once there are two
-   columns to take one of. */
-#prerendered-content[data-hero="split"] #prerendered-plate { display: none; }
-@media (min-width: 880px) {
-  #prerendered-content[data-hero="split"] #prerendered-plate {
-    display: block;
-    right: max(var(--mm-shell-pad), calc((100vw - var(--mm-shell-max)) / 2));
-    top: 50%;
-    width: min(46%, 570px);
-    /* Square, because that is what the hero's plate resolves to when the copy
-       column sets the row height: 566 by 566 at 1440. */
-    aspect-ratio: 1 / 1;
-    height: auto;
-    transform: translateY(-50%);
-    border-radius: 3px;
-  }
-}
-
-
-/* The two doors set their first line in the left column of a split, with the
-   film beside it, so the shell does the same rather than centring and then
-   jumping left when React lands. Below 880px the real hero stacks to one
-   centred column and so does this, which is why the phone never showed it.
-   The sizes are the split hero's own, read from mindmake-instruments.css. */
-@media (min-width: 880px) {
-  #prerendered-content[data-hero="split"] {
-    /* Positioned by padding, not by centring. align-content:center on a grid
-       whose content is far taller than the viewport pushes the top off screen,
-       which is how the first attempt at this put the headline above the fold
-       and the third subheading in the middle of it. 34vh is where the split
-       hero's own first line lands in a 900px window. */
-    text-align: left;
-    padding-top: clamp(120px, 34vh, 320px);
-    padding-left: max(var(--mm-shell-pad), calc((100vw - var(--mm-shell-max)) / 2));
-  }
-  #prerendered-content[data-hero="split"] h1 {
-    margin-left: 0;
-    /* The split hero's left column is 1.05 of two fractions across a 1240px
-       container with a 48px gap, which is 626px. Measured rather than guessed:
-       15ch came out at 411px and wrapped the headline onto four lines against
-       the hero's two, which is most of what was still moving at the swap. */
-    max-width: min(626px, 52vw);
-    font-size: clamp(26px, 4vw, 46px);
-  }
-  /* The first paragraph of the door pages is word for word the lede the
-     hydrated hero shows, so it is shown here too and the swap has one less
-     thing to change. Everything from the first subheading down still waits a
-     screen below. */
-  #prerendered-content[data-hero="split"] h1 { margin-bottom: 18px; }
-  #prerendered-content[data-hero="split"] > p:not(#prerendered-brand) { max-width: 56ch; margin-inline: 0; }
-  #prerendered-content[data-hero="split"] h2:first-of-type { margin-top: 100dvh; }
-}
-
-/* The one place on this site where reduced motion leaves a visitor with a
-   completely static screen, because there is nothing else on it yet. The
-   gradient stays; it simply stops travelling. */
 /* ---------- Arrival ----------
    Entrance choreography, sanctioned on 29 August 2026 after three years of
    asking and two of banning. `src/hooks/useReveal.ts` carries the argument and
@@ -1050,21 +835,35 @@
   opacity: 0;
   transform: translate3d(0, 14px, 0);
 }
-[data-reveal] {
-  transition:
-    opacity .5s cubic-bezier(.22, .8, .3, 1) calc(var(--mm-reveal-i, 0) * 70ms),
-    transform .5s cubic-bezier(.22, .8, .3, 1) calc(var(--mm-reveal-i, 0) * 70ms);
+
+/* An animation, and not the transition this started as.
+   `transition` is one property, and every card family worth revealing already
+   owns it: .mm-enemy, .mm-story, .mm-fork and .mm-lever each set a short
+   border-color or background transition of their own, all of them in
+   mindmake-instruments.css, which loads after this file. Same specificity,
+   later file, so their one-property `transition` replaced the reveal's outright
+   and the first three arrivals shipped snapping into place instead of
+   travelling. Nothing failed; the cards simply appeared.
+
+   An animation cannot collide with a transition, so the two layers stop
+   competing for one property and a card keeps its own hover fade. `backwards`
+   holds the first frame through the stagger delay and then lets go, which
+   matters because a `forwards` fill would pin `transform: none` on the element
+   for the rest of the page's life and quietly outrank anything that wanted to
+   move it later. */
+[data-reveal="shown"] {
+  animation: mm-arrive .5s cubic-bezier(.22, .8, .3, 1) calc(var(--mm-reveal-i, 0) * 70ms) backwards;
+}
+@keyframes mm-arrive {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to { opacity: 1; transform: none; }
 }
 /* Belt and braces, and the one that survives a stylesheet loading late: a
    visitor who asked for stillness is never handed a hidden element even if the
    hook has already marked one. */
 @media (prefers-reduced-motion: reduce) {
   [data-reveal="pending"] { opacity: 1; transform: none; }
-  [data-reveal] { transition: none; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #prerendered-content::before { animation: none; }
+  [data-reveal="shown"] { animation: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

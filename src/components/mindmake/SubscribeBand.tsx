@@ -1,3 +1,4 @@
+import { Arrive } from "@/components/mindmake/Arrive";
 import { Instrument } from "@/components/mindmake/Instrument";
 import { PUBLICATION_URL } from "@/lib/publicLinks";
 import { track } from "@/lib/analytics";
@@ -21,8 +22,11 @@ export function SubscribeBand({ ground = "raise" }: { ground?: "raise" | "ink" }
   return (
     <section className={`mm-block mm-subscribe${ground === "raise" ? " mm-on-raise" : ""}`} aria-labelledby="subscribe-title">
       <div className="mm-container">
+        {/* The offer arrives, then the two channels arrive after it. This
+            band is two paragraphs and a button beside a list, so it was one of
+            the viewports the sweep read as finished before it was looked at. */}
         <div className="mm-subscribe-grid">
-          <div>
+          <Arrive>
             <h2 id="subscribe-title">
               {/* A departures board: what is new, and when. */}
               <Instrument kind="flap" className="mm-head-mark" />
@@ -41,9 +45,10 @@ export function SubscribeBand({ ground = "raise" }: { ground?: "raise" | "ink" }
             >
               Read it free <span aria-hidden="true">→</span>
             </a>
-          </div>
+          </Arrive>
 
           <ul className="mm-channels">
+            <Arrive stagger from={1}>
             <li>
               {/* It traces where the money goes, so it gets the pen recorder. */}
               <Instrument kind="recorder" />
@@ -62,6 +67,7 @@ export function SubscribeBand({ ground = "raise" }: { ground?: "raise" | "ink" }
                 real reason underneath the reason they give you.
               </p>
             </li>
+            </Arrive>
           </ul>
         </div>
       </div>

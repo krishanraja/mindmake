@@ -83,10 +83,12 @@ This was banned outright until that date, and the ban had a real argument: a scr
 - the DOM is always complete, and only opacity and transform ever change;
 - CSS defaults to revealed, so no JavaScript means nothing hidden;
 - nothing already on screen is ever hidden, so a mid-page landing is whole;
-- a two-second timer shows everything regardless, so a stalled observer costs a moment rather than the page;
+- a passive scroll pass reveals anything the reader reaches, so a silently broken observer costs nothing at all. This was a two-second timer first, which was wrong twice over: on any real page every element was revealed before the reader had scrolled to one, so no arrival ever happened, and it guaranteed a moment rather than the reader's own position;
 - reduced motion hides nothing at all.
 
 `IntersectionObserver` appears in exactly one file, and the contract test holds it there. That is what replaced the old check: the ban was checkable because the observer appeared nowhere, and this is checkable because it appears in one place with the guarantees attached to it.
+
+**An arrival travels on an animation, never on a transition.** `transition` is a single property and every card family worth revealing already owns it for its own hover fade, in `mindmake-instruments.css`, which loads after `mindmake.css` at the same specificity. The card's declaration replaced the reveal's outright and the first three arrivals shipped snapping into place; nothing failed and nothing looked broken, the cards simply appeared. An animation cannot be overwritten by a transition, so the two layers stop competing for one property. The fill mode is `backwards`, which holds the first frame through the stagger delay and then lets go: `forwards` would pin `transform: none` on the element for the rest of the page's life and quietly outrank anything that wanted to move it later.
 
 **Still banned:** progress bars tied to scroll position, whatever they are filling. A bar that fills is a measurement of the reader rather than of anything on the page.
 

@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "fs";
 import { dirname, resolve } from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath, pathToFileURL } from "url";
 import { loadBlogPosts } from "./lib/blog-posts-loader.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -11,32 +11,6 @@ const template = readFileSync(resolve(distDir, "index.html"), "utf8").replace(
   /<div id="root">[\s\S]*?<\/div>\s*<script type="module"/,
   '<div id="root"></div>\n    <script type="module"',
 );
-
-/**
- * The hero poster each page opens on, by its built filename.
- *
- * Put in the shell so the image the hydrated hero shows starts downloading when
- * the HTML is parsed rather than after 351KB of JavaScript has run. Two things
- * follow from that: the last visible jump goes, because the plate is already
- * where React is about to draw it, and the page's largest element stops waiting
- * on a bundle.
- *
- * Read from disk rather than hard-coded, because Vite hashes the filename on
- * every content change. A miss is silent by design: the shell renders without a
- * plate, which is how it looked before this existed.
- */
-function heroPoster(path) {
-  const film = { "/": "film-01", "/ai-brain": "film-02", "/ai-gtm": "film-03" }[path];
-  if (!film) return null;
-  const assets = resolve(distDir, "assets");
-  if (!existsSync(assets)) return null;
-  const files = readdirSync(assets);
-  const pick = (extension) => files.find((name) => name.startsWith(`${film}-poster-`) && name.endsWith(extension));
-  const jpg = pick(".jpg");
-  const webp = pick(".webp");
-  if (!jpg && !webp) return null;
-  return `<picture id="prerendered-plate" aria-hidden="true">${webp ? `<source srcset="/assets/${webp}" type="image/webp">` : ""}${jpg ? `<img src="/assets/${jpg}" alt="" decoding="async" fetchpriority="high">` : ""}</picture>`;
-}
 
 const nav = `<nav aria-label="Mindmake"><a href="/ai-brain">Build your AI brain</a><a href="/ai-gtm">Build your AI GTM</a><a href="/case-studies">Results</a><a href="https://mindmakerlive.substack.com">The weekly read</a><a href="/?start=1">Start here</a></nav>`;
 
@@ -195,6 +169,19 @@ const articlePages = blogPosts.map((post) => ({
 
 const pages = [...staticPages, ...articlePages];
 
+/* The built server bundle. `npm run build` builds it immediately before this
+   script runs; a stale one would silently prerender the previous commit's
+   markup, so its absence is a failure rather than a fallback. */
+const ssrEntry = resolve(rootDir, "dist-ssr/entry-server.js");
+if (!existsSync(ssrEntry)) {
+  throw new Error("dist-ssr/entry-server.js is missing. Run `npm run build:ssr` before prerendering.");
+}
+const { render } = await import(pathToFileURL(ssrEntry).href);
+
+/* Paths the route table in src/entry-server.tsx does not cover. Collected
+   rather than thrown on immediately, so one run names all of them. */
+const missingFromSsr = [];
+
 function replaceMeta(html, attribute, key, content) {
   const tag = `<meta ${attribute}="${key}" content="${escapeHtml(content)}" />`;
   const escapedKey = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -224,32 +211,27 @@ function build(page) {
   if (page.jsonLd) {
     html = html.replace("</head>", `    <script id="mindmake-page-jsonld" type="application/ld+json">${JSON.stringify(page.jsonLd)}</script>\n  </head>`);
   }
-  /* The wordmark leads, as it does on the real page. Without it the shell was a
-     document that happened to be dark, and the swap to the hydrated page put a
-     header on screen out of nowhere. It is inert text rather than the real
-     brand component: nothing here may depend on JavaScript, because the whole
-     point of this markup is the window before JavaScript. */
-  const brand = `<p id="prerendered-brand" aria-hidden="true">MIND<span>/</span>MAKE</p>`;
-  /* Which shape the hero this is about to become has, so the shell can stand in
-     the same place. The homepage centres its first line over a film; the two
-     doors set it in the left column of a split with the film beside it. On a
-     phone both stack to one centred column and the distinction does nothing,
-     which is why it took a measurement at 1440 to notice: the entrance gate
-     read the desktop door pages as the page being replaced 535ms after it
-     painted, because the type jumped from the middle to the left. */
-  const heroShape = ["/ai-brain", "/ai-gtm"].includes(page.path) ? "split" : "centred";
-  const plate = heroPoster(page.path) ?? "";
-  /* Every hero on this site sets its last sentence apart: the setup in the
-     grotesque, the claim under it in mint serif. In the shell the whole thing
-     was one heading, so it wrapped onto a third line and the swap moved every
-     line of it. The heading's text is unchanged, which is what matters for a
-     crawler; only the final sentence is wrapped so it can be set. */
-  const body = page.body.replace(/<h1>([^<]+)<\/h1>/, (whole, text) => {
-    const at = text.trimEnd().slice(0, -1).lastIndexOf(". ");
-    if (at < 0) return whole;
-    return `<h1>${text.slice(0, at + 1)} <span class="prerendered-claim">${text.slice(at + 2)}</span></h1>`;
-  });
-  return html.replace('<div id="root"></div>', `<div id="root"><div id="prerendered-content" data-hero="${heroShape}">${brand}${plate}${body}${nav}</div></div>`);
+  /* The page itself, rendered from the components at build time.
+
+     This used to be a hand-written shell: every heading and paragraph as plain
+     markup, styled to look like the first screen it was about to become. It did
+     its job and it was a likeness, and three bugs came from it being a likeness
+     rather than the thing. The last was a strip below the hero where the real
+     page starts its next section on a raised ground and the shell had plain
+     ink, which the entrance gate read as the page settling a second after it
+     painted.
+
+     Everything above this line is unchanged. `src/components/SEO.tsx` writes
+     the head in an effect and so produces nothing server-side, which is why the
+     title, meta, canonical and JSON-LD are still written here and why this
+     replaces the body alone.
+
+     A route the server bundle does not cover leaves #root empty and loads as a
+     single-page app, exactly as every retired route already does. */
+  const body = render(page.path);
+  if (!body) missingFromSsr.push(page.path);
+  return html.replace('<div id="root"></div>', `<div id="root">${body}</div>`);
+
 }
 
 const renderedPaths = new Set();
@@ -263,6 +245,17 @@ for (const page of pages) {
     if (!existsSync(out)) mkdirSync(out, { recursive: true });
     writeFileSync(resolve(out, "index.html"), html);
   }
+}
+
+/* A route the sitemap indexes and the server bundle does not render would ship
+   an empty #root: the page would still work, as a single-page app, and would
+   have quietly lost everything the prerender is for. The build fails on it for
+   the same reason it fails when the prerender and sitemap route sets disagree. */
+if (missingFromSsr.length) {
+  throw new Error(
+    `src/entry-server.tsx has no route for: ${missingFromSsr.join(", ")}. `
+    + "Add them there, or stop indexing them.",
+  );
 }
 
 const sitemap = readFileSync(resolve(distDir, "sitemap.xml"), "utf8");

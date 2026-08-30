@@ -1,3 +1,4 @@
+import { Arrive } from "@/components/mindmake/Arrive";
 import { Instrument } from "@/components/mindmake/Instrument";
 import stageHero from "@/assets/founder/krish-stage-2-hero.webp";
 import stageHeroMobile from "@/assets/founder/krish-stage-2-hero-mobile.webp";
@@ -27,7 +28,11 @@ export function FounderNote({ treatment = "standing" }: FounderNoteProps) {
   return (
     <section className={`mm-founder is-${treatment}`} aria-labelledby="founder-title">
       <div className="mm-container">
+        {/* The picture, then the note. Two blocks rather than one, so the
+            person arrives a beat before what he says, which is the order a
+            reader meets them in anyway. */}
         <div className="mm-founder-grid">
+          <Arrive stagger>
           <figure className="mm-founder-shot">
             {treatment === "stage" && (
               <picture>
@@ -90,6 +95,7 @@ export function FounderNote({ treatment = "standing" }: FounderNoteProps) {
               people I worked for and alongside. They are all real, and none of them are edited.
             </p>
           </div>
+          </Arrive>
         </div>
       </div>
     </section>

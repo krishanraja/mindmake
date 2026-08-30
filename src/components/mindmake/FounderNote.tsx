@@ -1,4 +1,5 @@
 import { Arrive } from "@/components/mindmake/Arrive";
+import { MobileChapter } from "@/components/mindmake/MobileChapter";
 import { Instrument } from "@/components/mindmake/Instrument";
 import stageHero from "@/assets/founder/krish-stage-2-hero.webp";
 import stageHeroMobile from "@/assets/founder/krish-stage-2-hero-mobile.webp";
@@ -33,7 +34,15 @@ export function FounderNote({ treatment = "standing" }: FounderNoteProps) {
             reader meets them in anyway. */}
         <div className="mm-founder-grid">
           <Arrive stagger>
+          {/* The portrait sits in a plate, like every other image on the site.
+              A plate carries a slow grain drift and a light sweep whether or
+              not a film is playing, which is the ambient layer the design
+              contract requires on every viewport-height of every page. Measured
+              on a phone before this, the founder screen read a whole-screen
+              change of 0.012 with two of sixty-four cells moving: a portrait
+              and four paragraphs, and nothing happening in either. */}
           <figure className="mm-founder-shot">
+            <div className="mm-plate mm-founder-plate">
             {treatment === "stage" && (
               <picture>
                 <source media="(max-width: 700px)" srcSet={stageHeroMobile} />
@@ -67,6 +76,7 @@ export function FounderNote({ treatment = "standing" }: FounderNoteProps) {
                 alt="Krish Raja, head and shoulders, smiling."
               />
             )}
+            </div>
           </figure>
 
           <div className="mm-founder-note">
@@ -78,22 +88,34 @@ export function FounderNote({ treatment = "standing" }: FounderNoteProps) {
               <b>Krish Raja</b>
               <span>Founder, Mindmake</span>
             </p>
-            <p>
-              I spent twenty years in digital media and data, most of it running commercial teams
-              at companies whose product was a technology most of their customers could not
-              explain. My job was usually the same one: take something complicated and make it
-              something a person could act on.
-            </p>
-            <p>
-              Mindmake does that with AI. I build the system with you, inside your own accounts,
-              and I show you how it works while we build it, because a system you cannot see
-              inside is one you have to keep paying someone to operate. When the thirty days end,
-              it is yours and it keeps running.
-            </p>
-            <p className="mm-founder-close">
-              The quotes above are from people I have worked with, and the references are from
-              people I worked for and alongside. They are all real, and none of them are edited.
-            </p>
+            {/* Three paragraphs of serif is a screen and a half on a phone, and
+                it measured as one: a whole-screen change of 0.019 with nothing
+                at all moving in it, because a wall of prose has nothing to move.
+                The device for that already exists and is used on /ai-brain and
+                /case-studies. The first paragraph says who he is, which is what
+                the heading promised; the rest is there for anyone who wants it. */}
+            <MobileChapter
+              shown={1}
+              noun="paragraphs"
+              items={[
+                <p key="one">
+                  I spent twenty years in digital media and data, most of it running commercial teams
+                  at companies whose product was a technology most of their customers could not
+                  explain. My job was usually the same one: take something complicated and make it
+                  something a person could act on.
+                </p>,
+                <p key="two">
+                  Mindmake does that with AI. I build the system with you, inside your own accounts,
+                  and I show you how it works while we build it, because a system you cannot see
+                  inside is one you have to keep paying someone to operate. When the thirty days end,
+                  it is yours and it keeps running.
+                </p>,
+                <p className="mm-founder-close" key="three">
+                  The quotes above are from people I have worked with, and the references are from
+                  people I worked for and alongside. They are all real, and none of them are edited.
+                </p>,
+              ]}
+            />
           </div>
           </Arrive>
         </div>

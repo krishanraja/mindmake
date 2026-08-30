@@ -90,7 +90,7 @@
 
 .mm-marquee {
   overflow: hidden;
-  background: var(--mm-mint);
+  background: var(--mm-mint-bright);
   transform: rotate(-2deg);
   /* The tilt lifts each corner, so the band overhangs by more than the rise it
      needs across the widest viewport. */
@@ -121,7 +121,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--mm-mint);
+  background: var(--mm-mint-bright);
   margin-right: 7px;
   animation: mm-pulse 2.4s ease-in-out infinite;
 }
@@ -389,7 +389,7 @@
   cursor: pointer;
   transition: background .1s ease, color .1s ease;
 }
-.mm-ask-bar.has-text button { border-color: var(--mm-mint); background: var(--mm-mint); color: var(--mm-mint-ink); }
+.mm-ask-bar.has-text button { border-color: var(--mm-mint-bright); background: var(--mm-mint-bright); color: var(--mm-mint-ink); }
 .mm-ask-bar button:active { background: var(--mm-mint-dim); }
 .mm-ask-out {
   margin-top: 12px;
@@ -445,7 +445,7 @@
   .mm-chip:not(:disabled):hover { border-color: var(--mm-mint-dim); background: var(--mm-mint-wash); color: var(--mm-tx); }
 }
 .mm-chip:active { transform: translateY(1px); }
-.mm-chip[aria-pressed="true"] { background: var(--mm-mint); border-color: var(--mm-mint); color: var(--mm-mint-ink); }
+.mm-chip[aria-pressed="true"] { background: var(--mm-mint-bright); border-color: var(--mm-mint-bright); color: var(--mm-mint-ink); }
 .mm-chip:disabled { opacity: .38; cursor: not-allowed; }
 
 .mm-lanes {
@@ -480,7 +480,7 @@
   background: var(--mm-mint-dim);
   opacity: .55;
 }
-.mm-spark i:last-child { background: var(--mm-mint); opacity: 1; }
+.mm-spark i:last-child { background: var(--mm-mint-bright); opacity: 1; }
 .mm-lane-sub { margin-top: 8px; color: var(--mm-mut); font-family: var(--mm-mono); font-size: 10px; }
 /* The lane key reads as a row of definitions rather than a four-line stack. */
 .mm-lane-map {
@@ -642,7 +642,7 @@
   cursor: pointer;
   transition: background .1s ease, color .1s ease;
 }
-.mm-journey-bar.has-text button { border-color: var(--mm-mint); background: var(--mm-mint); color: var(--mm-mint-ink); }
+.mm-journey-bar.has-text button { border-color: var(--mm-mint-bright); background: var(--mm-mint-bright); color: var(--mm-mint-ink); }
 .mm-journey-steps {
   display: grid;
   gap: 1px;
@@ -707,7 +707,7 @@
   .mm-qchip:hover { border-color: var(--mm-mint-dim); color: var(--mm-tx); }
 }
 .mm-qchip:active { transform: translateY(1px); }
-.mm-qchip[aria-pressed="true"] { background: var(--mm-mint); border-color: var(--mm-mint); color: var(--mm-mint-ink); }
+.mm-qchip[aria-pressed="true"] { background: var(--mm-mint-bright); border-color: var(--mm-mint-bright); color: var(--mm-mint-ink); }
 
 /* Scoped to the journey. The lead dialog also carries a step called
    .mm-preview, and these unscoped rules were leaking a mint left rule and 15px
@@ -737,6 +737,7 @@
    its padding comes from .mm-block and the dark head runs edge to edge. */
 .mm-band-head {
   background: #0d1310;
+  color: var(--mm-fg2);
   margin-bottom: 26px;
   padding-block: 22px;
 }
@@ -914,7 +915,7 @@
 @media (hover: hover) and (pointer: fine) {
   .mm-proof-tab:hover { background: var(--mm-mint-wash); color: var(--mm-tx); }
 }
-.mm-proof-tab[aria-selected="true"] { background: var(--mm-mint); color: var(--mm-mint-ink); }
+.mm-proof-tab[aria-selected="true"] { background: var(--mm-mint-bright); color: var(--mm-mint-ink); }
 .mm-proof-stage { background: #000; }
 /* The captures are all 1404x840. Stating the ratio holds the box before the
    image loads, so switching tabs cannot jolt the page. */
@@ -1049,7 +1050,7 @@
   height: 9px;
   margin: -4.5px 0 0 -4.5px;
   border-radius: 50%;
-  background: var(--mm-mint);
+  background: var(--mm-mint-bright);
   box-shadow: 0 0 0 7px rgba(127, 227, 180, .12);
   animation: mm-lamp 3.4s ease-in-out infinite;
 }
@@ -1094,7 +1095,7 @@
   height: 9px;
   margin-left: -4.5px;
   border-radius: 50%;
-  background: var(--mm-mint);
+  background: var(--mm-mint-bright);
   box-shadow: 0 0 0 5px rgba(127, 227, 180, .13);
 }
 
@@ -1489,6 +1490,12 @@
 .mm-founder { padding-block: var(--mm-section); border-top: 1px solid var(--mm-seam); }
 .mm-founder-grid { display: grid; gap: 24px; align-items: center; }
 .mm-founder-shot { margin: 0; }
+/* The plate around the portrait. It carries no background of its own: the
+   photograph fills it edge to edge, and what the plate contributes is the grain
+   drift and the light sweep every other image on the site already has. */
+.mm-founder-plate { background: none; border-radius: 3px; }
+.mm-founder-plate > img, .mm-founder-plate > picture > img { position: relative; z-index: 0; }
+
 .mm-founder-shot img {
   display: block;
   width: 100%;
@@ -1637,6 +1644,11 @@
 .mm-subscribe h2 { max-width: 26ch; }
 .mm-subscribe .mm-lede { margin-top: 12px; max-width: 46ch; }
 .mm-subscribe .mm-button { margin-top: 22px; }
+/* The split-flap film in the publication band. Sized to the copy column rather
+   than the whole band: it belongs to the offer on the left, beside the two
+   channels it publishes into, and full width it would read as a hero. */
+.mm-subscribe-film { margin-top: 20px; aspect-ratio: 16 / 9; border-radius: 3px; overflow: hidden; }
+@media (min-width: 900px) { .mm-subscribe-film { max-width: 420px; } }
 .mm-channels { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
 .mm-channels li {
   border: 1px solid var(--mm-line);
@@ -1801,7 +1813,7 @@
 .mm-fig-row + .mm-fig-row { margin-top: 10px; }
 .mm-fig-bar { display: block; height: 10px; border-radius: 1px; transition: width .18s linear; }
 .mm-fig-bar.is-was { background: var(--mm-ink3); border: 1px solid var(--mm-line); }
-.mm-fig-bar.is-now { background: var(--mm-mint); }
+.mm-fig-bar.is-now { background: var(--mm-mint-bright); }
 .mm-fig-row b { flex: 0 0 auto; color: var(--mm-tx2); font-family: var(--mm-mono); font-size: 11px; font-weight: 500; }
 
 .mm-fig-marks { display: flex; flex-wrap: wrap; gap: 5px; }
@@ -1813,7 +1825,7 @@
   background: var(--mm-ink3);
   transition: background .2s ease, border-color .2s ease, opacity .2s ease;
 }
-.mm-fig-marks i.is-kept { background: var(--mm-mint); border-color: var(--mm-mint); }
+.mm-fig-marks i.is-kept { background: var(--mm-mint-bright); border-color: var(--mm-mint-bright); }
 .mm-fig-marks i.is-dim { opacity: .32; }
 .mm-fig-pair { display: flex; align-items: baseline; gap: 10px; margin-top: 14px; color: var(--mm-tx2); font-family: var(--mm-mono); font-size: 12px; }
 .mm-fig-pair b { color: var(--mm-tx); font-size: 22px; font-weight: 500; }
@@ -1849,7 +1861,7 @@
   background: var(--mm-ink3);
   transition: background .2s ease, border-color .2s ease;
 }
-.mm-fig-month i.is-on { background: var(--mm-mint); border-color: var(--mm-mint); }
+.mm-fig-month i.is-on { background: var(--mm-mint-bright); border-color: var(--mm-mint-bright); }
 .mm-fig-span .mm-fig-bar + .mm-fig-bar { margin-top: 10px; }
 @media (prefers-reduced-motion: reduce) { .mm-fig-month i { transition: none; } }
 /* A story's own mark, sized to its heading rather than to a section heading.
@@ -1900,14 +1912,30 @@
   .mm-door { min-height: 210px; }
   .mm-doors { margin-top: 18px; }
   .mm-story-full { gap: 14px; }
-  /* Full width, the stage photograph is 500px tall on a phone: half the
-     section, and it pushed the section past a screen so its own mark could
-     never be on screen with the rest of it. */
+  /* The crop, declared rather than arrived at, and biased toward the top of
+     the frame instead of away from it.
+
+     This rendered him headless on a phone. `max-width: 330px` from the desktop
+     rule above and `height: auto` from .mm-founder-shot img were both still in
+     force inside this query, so a 670x861 source resolved to a 330x320 box:
+     `cover` then overflowed 104px vertically and `28%` — which is above centre
+     — pulled the visible window toward the top of the frame and cut about 29
+     CSS pixels, roughly 59 source pixels, off a photograph whose subject's head
+     starts about 90 source pixels down. The comment here was sized against a
+     500px-tall picture, which is the height it would have had at full width;
+     the 330px cap meant it was never that tall.
+
+     The `60%` was inert as well: with no horizontal overflow there was nothing
+     for it to distribute, which is the tell that it came from a landscape crop.
+
+     So: reset both inherited caps, state the height, and take the overflow off
+     the bottom, which is an empty chair and a floor. */
   .mm-founder.is-standing .mm-founder-shot img {
-    max-height: 320px;
+    max-width: none;
     width: 100%;
+    height: 320px;
     object-fit: cover;
-    object-position: 60% 28%;
+    object-position: 50% 8%;
   }
   .mm-proof-figures dd { font-size: clamp(26px, 9vw, 34px); }
 }

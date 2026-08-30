@@ -233,7 +233,7 @@
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: var(--mm-mint);
+  background: var(--mm-mint-bright);
   color: var(--mm-mint-ink);
 }
 .mm-success h2 { margin-top: 22px; }

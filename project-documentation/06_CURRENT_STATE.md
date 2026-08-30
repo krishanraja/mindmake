@@ -552,3 +552,111 @@ render from a discarded one.
 
 `src/test/ssg-hydration.test.tsx` renders both trees and compares the strings,
 which is the check that catches a divergence before it reaches a browser.
+
+## Added on 30 August 2026: the homepage had no tonal range and no imagery
+
+Krish asked whether the previous round was merged and in production, said the
+site looked no different, and told me to scroll it on a phone. All three landed.
+
+**It was not deployed.** The previous round sat on `claude/site-rebuild-nd6z4u`
+while `origin/main` was two commits behind it, and `mindmake.co/ai-brain` was
+still returning 11,115 bytes of the hand-written shell. It is merged and live
+now, verified by fetching the route and by running the entrance gate and a
+hydration check against production's own bytes.
+
+**And shipping it would not have answered him.** Production and the new build
+driven side by side at 390px were both 6,589px tall with identical layout. The
+static render changes how the page loads, not how it looks.
+
+### What scrolling it on a phone actually measured
+
+Seven viewports down the homepage, whole-screen change over 900ms, floor 0.15:
+
+| y | section | mean |
+| --- | --- | --- |
+| 0 | hero film | 5.112 |
+| 844 | the argument | **0.026** |
+| 1688 | marquee and questions | 3.282 |
+| 2532 | the three proof stories | **0.026** |
+| 3376 | live board | 1.171 |
+| 4220 | founder note | **0.012** |
+| 5064 | publication band | **0.060** |
+
+Four of seven screens frozen while being read, and all four passing `qa:alive`,
+because its rule was `mean >= FLOOR || peak >= PEAK_FLOOR` and `peak` reads the
+busiest 0.05% of pixels — about a 25 by 25 patch. One instrument mark ticking
+certified an otherwise static screen of text.
+
+Three causes, all confirmed in the code. The homepage carried **none** of the
+four scroll-built section components; `ClimbLadder`, `ProcessTrack`,
+`LeverPanel` and `StoryFigure` were all on other pages. There was no tonal
+range: ink and raise are 1.32:1 apart and the page alternated between them for
+its whole length, while paper — a full inversion, built and tested — was used
+once in the entire application. And below the hero there was no imagery at all
+for five screens.
+
+### What changed
+
+- **The paper ground works anywhere now.** It redefined five surface tokens
+  while the components read the raw palette, so the first attempt to move a
+  section onto it produced light cards' worth of nothing: dark cards with dark
+  headings and grey body text on cream, photographed and kept. Both non-default
+  grounds redefine the raw palette for their subtree now.
+- **The accent split in two.** `--mm-mint-bright` is the accent as a surface and
+  never follows the ground; `--mm-mint` is the accent as text and line and does.
+  Seventeen surface rules moved. `--mm-focus` derives from the bright token
+  rather than repeating its hex, so there is one mint literal in the file.
+- **The homepage runs an arc**: ink, paper, ink, raise, ink, paper, ink.
+- **The proof stories draw their figures.** All three already carried complete
+  figure data in `rebuildProof.ts` — a span, an offer and a count, with real
+  numbers — and the card rendered only the small mark for the shape and threw
+  the diagram away. `StoryFigureView` had been drawing them on /case-studies all
+  along.
+- **Film below the hero.** The proof section carries film four, the rail
+  carrying sheets to a gate; the publication band carries film six, a split-flap,
+  which is what a publication is. A plate runs a light sweep whether or not its
+  loop plays, so it is imagery and the ambient layer at once.
+- **The portrait sits in a plate**, like every other image on the site, and the
+  founder's three paragraphs are chaptered on a phone as /ai-brain's already are.
+
+| y | before | after |
+| --- | --- | --- |
+| 844 | 0.026, 1 cell | 0.026, 1 cell |
+| 2532 | 0.026 | **2.961, 16 cells** |
+| 4220 | 0.012 | **0.357, 13 cells** |
+| 5064 | 0.060 | **2.252, 18 cells** |
+
+### Two defects found by looking rather than by any gate
+
+**The founder photograph was decapitated on a phone.** `max-width: 330px` from
+the desktop rule and `height: auto` from the base rule were both still in force
+inside the mobile query, so a 670x861 source resolved to a 330x320 box; `cover`
+overflowed 104px and `object-position: 60% 28%` — above centre — pulled the
+window toward the top of the frame and cut about 29 CSS pixels off a photograph
+whose subject's head starts about 90 source pixels down. The `60%` was inert:
+there was no horizontal overflow for it to distribute. The crop is declared now
+and biased to the top; verified at 360, 390 and 430.
+
+**The cookie notice was 109px, thirteen percent of the screen**, floating over
+the content from sixty percent of the first viewport until dismissed, and it is
+in five of the ten screenshots taken while reading the site on a phone. It sits
+above the mobile action bar now rather than over the reading.
+
+### The gate reads spread now, and is red
+
+The at-rest pass counts how many of an 8x8 grid of cells change, and a viewport
+passes on `mean >= 0.15 || (peak >= 8 && cells >= 4)`. Four is calibrated across
+twenty-six viewports: everything carrying a film, a drum or a marquee lights 9
+to 45 cells; everything whose only motion is an instrument mark lights 0 to 3
+and reads a mean of 0.007 to 0.08.
+
+It fails, and the failure list is the worklist: 9 still viewports at 390 and 5
+at 1440. The homepage has one at each width; the rest are on `/ai-brain` and
+`/ai-gtm`, which have had none of this round's work. `/ai-gtm @2532px` reads a
+peak of 1.0, which is a screen where literally nothing moves at all.
+
+`/ @844px` is the one homepage viewport still below the floor, and it is left
+there deliberately rather than decorated: its event is the ground inverting from
+ink to paper, which is a large visual change to scroll into and one an at-rest
+photograph cannot see. That is a real limit of the measurement, recorded rather
+than worked around.

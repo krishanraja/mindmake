@@ -41,7 +41,16 @@
   --mm-mut-d: #7c857a;
 
   /* The only colour on the site */
-  --mm-mint: #7fe3b4;
+  /* The accent, in two roles that behave differently on a light ground.
+     `--mm-mint-bright` is the accent as a *surface*: a filled button, a pressed
+     chip, the marquee band, a resolved bar in a figure. It always carries
+     --mm-mint-ink on top of it and it stays bright on every ground, because a
+     mint button on paper is still a mint button.
+     `--mm-mint` is the accent as *text and line*, and a ground may redefine it:
+     #7fe3b4 on cream is 1.2:1 and unreadable, which is why the paper ground
+     existed for a week and was only ever used on one hand-built band. */
+  --mm-mint-bright: #7fe3b4;
+  --mm-mint: var(--mm-mint-bright);
   --mm-mint-dim: #3e8e68;
   --mm-mint-wash: #12291f;
   --mm-mint-ink: #07110c;
@@ -51,8 +60,13 @@
      on the proposal's paper mint reaches 3.8:1 and amber less, under the 4.5:1
      that the 11px labels using them need. Same hues, same two meanings. */
   --mm-mint-d: #2f6f51;
+  /* The wash behind an answered or selected card, on paper. --mm-mint-wash is
+     a near-black green and disappears into a cream ground. */
+  --mm-mint-wash-d: #e4efe8;
   --mm-amber-d: #9a5a1c;
-  --mm-focus: #7fe3b4;
+  /* The focus ring is the accent, and it stays bright on every ground: a
+     focus outline that dims on paper is the one outline that must not. */
+  --mm-focus: var(--mm-mint-bright);
 
   /* Type roles */
   --mm-grotesque: "Archivo Variable", "Helvetica Neue", Arial, sans-serif;
@@ -78,10 +92,22 @@
   --mm-section: clamp(40px, 4.4vw, 72px);
 }
 
-/* Ground-aware surface tokens. Components read these, never the raw palette,
-   so a paper band can invert a whole subtree by redefining five values. */
+/* Ground-aware surface tokens.
+   These were introduced so a band could invert a whole subtree by redefining a
+   few values, and the comment here used to claim components read them and never
+   the raw palette. They do not, and never did: 64 rules read --mm-tx2, 56 read
+   --mm-line, 31 read --mm-ink2. Both non-default grounds therefore redefine the
+   raw palette for their own subtree as well, which is what actually makes them
+   work. Read a surface token in new work; the raw ones are kept honest below. */
 .mm-site,
-.mm-on-ink {
+.mm-on-ink,
+/* The dark head of a fork band, which is an ink island inside a paper section
+   and therefore has to put the ink palette back for its own subtree. It paints
+   its own ground at .mm-band-head and it is the only element on the site that
+   does that against the grain of its section. Without this its claim inherited
+   the paper accent and rendered dark green on near-black: an accent that had
+   been correct for as long as paper redefined nothing. */
+.mm-band-head {
   --mm-bg: var(--mm-ink);
   --mm-bg2: var(--mm-ink2);
   --mm-fg: var(--mm-tx);
@@ -90,6 +116,19 @@
   --mm-rule: var(--mm-line);
   --mm-hairline: var(--mm-hair);
   --mm-ground-light: rgba(127, 227, 180, .07);
+
+  /* The raw palette too, so nesting works in both directions. */
+  --mm-ink: #0a100d;
+  --mm-ink2: #111a16;
+  --mm-ink3: #18241f;
+  --mm-tx: #e6ede8;
+  --mm-tx2: #b0c0b7;
+  --mm-mut: #788c82;
+  --mm-line: #22322b;
+  --mm-hair: #1a2620;
+  --mm-mint: var(--mm-mint-bright);
+  --mm-mint-dim: #3e8e68;
+  --mm-mint-wash: #12291f;
 }
 
 /* The raised ink ground. It redefines the raw palette for its own subtree
@@ -110,6 +149,18 @@
   background: var(--mm-bg);
 }
 
+/* Paper redefines the raw palette as well as the surface tokens, which is what
+   `.mm-on-raise` above has always done and this rule did not.
+   The block comment above claims components read the surface tokens and never
+   the raw palette. They do not: 64 rules read --mm-tx2, 56 read --mm-line, 31
+   read --mm-ink2. So this ground inverted five values and left the cards dark,
+   and the one time it was used it was on a band whose every rule hard-codes
+   --mm-paper2 and --mm-paper-line by hand. Photographed on a phone with the
+   homepage's argument section moved onto it, the three cards stayed near-black
+   with their headings turned dark on top of them, and the paragraph beneath ran
+   light grey on cream. Redefining the raw tokens here is what makes the ground
+   usable anywhere, rather than only where somebody wrote the paper colours out
+   by hand. */
 .mm-on-paper {
   --mm-bg: var(--mm-paper);
   --mm-bg2: var(--mm-paper2);
@@ -119,6 +170,22 @@
   --mm-rule: var(--mm-paper-line);
   --mm-hairline: var(--mm-paper-line);
   --mm-ground-light: rgba(10, 16, 13, .035);
+
+  /* The raw palette, for the components that read it directly. */
+  --mm-ink: var(--mm-paper);
+  --mm-ink2: var(--mm-paper2);
+  --mm-ink3: var(--mm-paper2);
+  --mm-tx: var(--mm-tx-d);
+  --mm-tx2: var(--mm-tx2-d);
+  --mm-mut: var(--mm-mut-d);
+  --mm-line: var(--mm-paper-line);
+  --mm-hair: var(--mm-paper-line);
+  /* The accent as text and line only. --mm-mint-bright is untouched, so a
+     filled button, a pressed chip and the marquee band stay mint here. */
+  --mm-mint: var(--mm-mint-d);
+  --mm-mint-dim: var(--mm-mint-d);
+  --mm-mint-wash: var(--mm-mint-wash-d);
+
   background: var(--mm-bg);
   color: var(--mm-fg);
 }
@@ -215,9 +282,9 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  border: 1px solid var(--mm-mint);
+  border: 1px solid var(--mm-mint-bright);
   border-radius: 2px;
-  background: var(--mm-mint);
+  background: var(--mm-mint-bright);
   color: var(--mm-mint-ink);
   padding: 11px 20px;
   font-family: var(--mm-mono);
@@ -276,7 +343,7 @@
   left: 8px;
   z-index: 1000;
   padding: 10px 14px;
-  background: var(--mm-mint);
+  background: var(--mm-mint-bright);
   color: var(--mm-mint-ink);
   font-family: var(--mm-mono);
   font-size: 12px;
@@ -547,7 +614,7 @@
 @media (hover: hover) and (pointer: fine) {
   .mm-blog-filters button:hover { border-color: var(--mm-mint-dim); color: var(--mm-tx); }
 }
-.mm-blog-filters button[aria-pressed="true"] { border-color: var(--mm-mint); background: var(--mm-mint); color: var(--mm-mint-ink); }
+.mm-blog-filters button[aria-pressed="true"] { border-color: var(--mm-mint-bright); background: var(--mm-mint-bright); color: var(--mm-mint-ink); }
 .mm-blog-list { display: grid; gap: 26px; }
 .mm-blog-featured { display: block; text-decoration: none; color: inherit; }
 .mm-blog-featured article {
@@ -737,6 +804,32 @@
   font-size: 11.5px;
 }
 .mm-cookie-notice p { flex: 1 1 210px; }
+
+/* On a phone it was 109px, thirteen percent of the screen, floating over the
+   content from sixty percent of the first viewport until somebody dismissed it.
+   It is in five of the ten screenshots taken while reading this site on a
+   phone, covering the thing being read in every one.
+
+   The cause is the wrap: `flex: 1 1 210px` cannot fit beside the button in a
+   350px box, so the button dropped to its own row and the notice became three
+   lines and a button. Letting the paragraph shrink keeps them on one row. It
+   also sits above the mobile action bar rather than beside it, because both are
+   fixed to the bottom and only one of them is chrome the reader asked for.
+   76px is the height the footer already reserves for that bar, so the two
+   numbers cannot drift apart without somebody noticing the footer first. */
+@media (max-width: 767px) {
+  .mm-cookie-notice {
+    inset: auto var(--mm-gutter) calc(76px + 8px + var(--mm-safe-bottom)) var(--mm-gutter);
+    max-width: none;
+    flex-wrap: nowrap;
+    gap: 10px;
+    padding: 9px 11px;
+    font-size: 10.5px;
+    line-height: 1.4;
+  }
+  .mm-cookie-notice p { flex: 1 1 auto; min-width: 0; }
+  .mm-cookie-notice .mm-button { flex: none; }
+}
 /* The one inline link on the site inside fixed chrome, so it is also the one
    that has to grow its own tap target rather than inherit a row's height. */
 .mm-cookie-notice a {

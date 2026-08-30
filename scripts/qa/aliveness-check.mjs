@@ -67,6 +67,39 @@ const FLOOR = Number(flag("floor", 0.15));
  */
 const PEAK_FLOOR = Number(flag("peak-floor", 8));
 
+/**
+ * The spread reading: how much of the viewport moves, rather than whether
+ * anything in it does.
+ *
+ * `peak` above answers "did anything move", and as an OR against `mean` that
+ * is all this gate ever asked. A forty-pixel instrument ticking in the corner
+ * of an otherwise frozen screen of text reads a peak of 24 to 30 and passes,
+ * and four of the seven phone viewports on the homepage were passing exactly
+ * that way while reading a whole-screen mean of 0.012 to 0.060. The site was
+ * certified alive by a gate measuring something else.
+ *
+ * So the frame is cut into a grid and cells that actually change are counted.
+ * One small object moving lights one cell; a film, a drum or a marquee lights
+ * many. The floors are calibrated below from readings on both.
+ */
+const GRID = Number(flag("grid", 8));
+/** Mean change within one cell for that cell to count as moving. */
+const CELL_FLOOR = Number(flag("cell-floor", 0.6));
+/**
+ * How many of the GRID x GRID cells must move.
+ *
+ * Calibrated across twenty-six viewports on the three main pages at 390px, and
+ * the readings fall in two groups with a clean gap. Everything carrying a film,
+ * a drum or a marquee lights 9 to 45 cells. Everything whose only motion is one
+ * or two instrument marks lights 0 to 3, and reads a whole-screen mean of 0.007
+ * to 0.08 — which is to say a person looking at it sees a photograph. Four sits
+ * in the gap.
+ *
+ * It is deliberately not set where the site currently stands. Viewports below
+ * it are named in the failure output and are the worklist, not the floor.
+ */
+const CELLS_FLOOR = Number(flag("cells-floor", 4));
+
 /** Fraction of pixels used for the local reading. */
 const PEAK_FRACTION = Number(flag("peak-fraction", 0.0005));
 
@@ -87,10 +120,15 @@ const PEAK_FRACTION = Number(flag("peak-fraction", 0.0005));
 function readDeltas(aBuffer, bBuffer) {
   const a = PNG.sync.read(aBuffer);
   const b = PNG.sync.read(bBuffer);
-  if (a.data.length !== b.data.length) return { mean: Infinity, peak: Infinity };
+  if (a.data.length !== b.data.length) return { mean: Infinity, peak: Infinity, cells: GRID * GRID };
 
   const pixels = a.data.length / 4;
   const histogram = new Uint32Array(256);
+  /* Per-cell sums, for the spread reading below. */
+  const cellSum = new Float64Array(GRID * GRID);
+  const cellPixels = new Uint32Array(GRID * GRID);
+  const cellWidth = a.width / GRID;
+  const cellHeight = a.height / GRID;
   let sum = 0;
   // Every fourth byte is alpha, which never changes here.
   for (let i = 0; i < a.data.length; i += 4) {
@@ -99,6 +137,17 @@ function readDeltas(aBuffer, bBuffer) {
       + Math.abs(a.data[i + 2] - b.data[i + 2])) / 3;
     sum += delta;
     histogram[Math.min(255, Math.round(delta))] += 1;
+
+    const pixel = i / 4;
+    const cell = Math.min(GRID - 1, Math.floor((pixel / a.width) / cellHeight)) * GRID
+      + Math.min(GRID - 1, Math.floor((pixel % a.width) / cellWidth));
+    cellSum[cell] += delta;
+    cellPixels[cell] += 1;
+  }
+
+  let cells = 0;
+  for (let cell = 0; cell < cellSum.length; cell += 1) {
+    if (cellPixels[cell] && cellSum[cell] / cellPixels[cell] >= CELL_FLOOR) cells += 1;
   }
 
   const wanted = Math.max(1, Math.round(pixels * PEAK_FRACTION));
@@ -109,7 +158,7 @@ function readDeltas(aBuffer, bBuffer) {
     peakSum += take * level;
     counted += take;
   }
-  return { mean: sum / pixels, peak: counted ? peakSum / counted : 0 };
+  return { mean: sum / pixels, peak: counted ? peakSum / counted : 0, cells };
 }
 
 const browser = await chromium.launch({
@@ -166,17 +215,27 @@ for (const path of PATHS) {
     }
     let mean = 0;
     let peak = 0;
+    let cells = 0;
     for (let i = 0; i < frames.length; i += 1) {
       for (let j = i + 1; j < frames.length; j += 1) {
         const pair = readDeltas(frames[i], frames[j]);
         mean = Math.max(mean, pair.mean);
         peak = Math.max(peak, pair.peak);
+        cells = Math.max(cells, pair.cells);
       }
     }
-    readings.push({ path, y, mean, peak });
-    const alive = mean >= FLOOR || peak >= PEAK_FLOOR;
+    readings.push({ path, y, mean, peak, cells });
+    /* An AND on the second term, where it used to be a bare OR. A viewport is
+       alive if the whole screen changes, or if something changes hard enough to
+       see *across enough of the screen to be seen*. One ticking mark satisfies
+       the peak and nothing else, which is how four frozen phone screens passed
+       this gate for a fortnight. */
+    const alive = mean >= FLOOR || (peak >= PEAK_FLOOR && cells >= CELLS_FLOOR);
     if (!alive) {
-      problems.push(`${path} @${y}px is still (mean ${mean.toFixed(3)} < ${FLOOR}, peak ${peak.toFixed(1)} < ${PEAK_FLOOR})`);
+      problems.push(
+        `${path} @${y}px is still (mean ${mean.toFixed(3)} < ${FLOOR}, `
+        + `peak ${peak.toFixed(1)}, ${cells}/${GRID * GRID} cells moving < ${CELLS_FLOOR})`,
+      );
     }
   }
   const build = await scrubbedThirds(page);
@@ -250,10 +309,10 @@ async function scrubbedThirds(page) {
 
 if (REPORT) {
   console.log(`aliveness readings at ${WIDTH}x${HEIGHT}, ${GAP}ms apart`);
-  console.log(`  mean = whole viewport, peak = busiest ${PEAK_FRACTION * 100}% of pixels\n`);
+  console.log(`  mean = whole viewport, peak = busiest ${PEAK_FRACTION * 100}% of pixels, cells = ${GRID}x${GRID} cells changing by ${CELL_FLOOR}\n`);
   for (const r of readings) {
     const bar = "#".repeat(Math.min(40, Math.round(r.peak / 3)));
-    console.log(`  ${r.path.padEnd(10)} @${String(r.y).padStart(5)}  mean ${r.mean.toFixed(3).padStart(7)}  peak ${r.peak.toFixed(1).padStart(6)}  ${bar}`);
+    console.log(`  ${r.path.padEnd(10)} @${String(r.y).padStart(5)}  mean ${r.mean.toFixed(3).padStart(7)}  peak ${r.peak.toFixed(1).padStart(6)}  cells ${String(r.cells).padStart(2)}/${GRID * GRID}  ${bar}`);
   }
   const quietest = readings.reduce((a, b) => (a.peak < b.peak ? a : b));
   console.log(`\n  quietest by peak: ${quietest.path} @${quietest.y}px at ${quietest.peak.toFixed(1)}`);

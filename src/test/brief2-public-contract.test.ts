@@ -407,16 +407,68 @@ describe("the motion gate", () => {
 describe("one accent system", () => {
   it("defines mint and amber and nothing else as colour", () => {
     const tokens = read("src/styles/mindmake.css");
-    expect(tokens).toContain("--mm-mint: #7fe3b4");
     expect(tokens).toContain("--mm-amber: #e0a44a");
     expect(tokens).toContain("--mm-ink: #0a100d");
     expect(tokens).toContain("--mm-paper: #f2f1ea");
+
+    /* Mint is one literal in two roles. `--mm-mint-bright` is the accent as a
+       surface — a filled button, a pressed chip, the marquee band — and stays
+       bright on every ground. `--mm-mint` is the accent as text and line, and
+       derives from it, so there is still exactly one mint in the file.
+
+       The split exists because #7fe3b4 on cream is 1.2:1. Before it, the paper
+       ground could not carry a mint claim, a mint link or a mint rule, which is
+       most of why a ground that had been built and tested was used on one band
+       of one page and nowhere else. */
+    expect(tokens).toContain("--mm-mint-bright: #7fe3b4");
+    expect(tokens).toContain("--mm-mint: var(--mm-mint-bright)");
+    const declarations = tokens.replace(/\/\*[\s\S]*?\*\//g, "");
+    expect(declarations.match(/#7fe3b4/g) ?? []).toHaveLength(1);
+  });
+
+  it("lets a ground redefine the accent as text but never as a surface", () => {
+    /* The one rule that keeps the split honest. If a paper band redefined
+       --mm-mint-bright it would turn the marquee into a dark green band with
+       dark text on it, and if a surface rule read --mm-mint it would go dark
+       mint on paper and take --mm-mint-ink with it. */
+    const tokens = read("src/styles/mindmake.css");
+    const paper = tokens.slice(tokens.indexOf(".mm-on-paper {"));
+    const block = paper.slice(0, paper.indexOf("}"));
+    expect(block).toContain("--mm-mint: var(--mm-mint-d)");
+    expect(block).not.toContain("--mm-mint-bright:");
+
+    for (const file of ["src/styles/mindmake.css", "src/styles/mindmake-instruments.css", "src/styles/mindmake-brief.css"]) {
+      const css = read(file);
+      expect(css, file).not.toMatch(/background(-color)?:\s*var\(--mm-mint\)/);
+    }
+  });
+
+  it("puts the ink palette back wherever a dark island sits inside paper", () => {
+    /* .mm-band-head paints its own near-black ground inside a paper section,
+       which makes it the one element on the site running against the grain of
+       the section it is in. The moment paper started redefining the accent, its
+       claim rendered dark green on near-black — correct for as long as paper
+       redefined nothing, and wrong the day it did.
+
+       Any future island of the same shape has to join this selector, so the
+       check is on the selector rather than on the one class. */
+    const tokens = read("src/styles/mindmake.css");
+    const group = tokens.slice(0, tokens.indexOf("--mm-ground-light: rgba(127, 227, 180, .07)"));
+    expect(group).toContain(".mm-band-head");
+
+    const instruments = read("src/styles/mindmake-instruments.css");
+    const head = instruments.slice(instruments.indexOf(".mm-band-head {"));
+    expect(head.slice(0, head.indexOf("}"))).toContain("background: #0d1310");
   });
 
   it("gives every interactive element a visible mint focus ring", () => {
     const tokens = read("src/styles/mindmake.css");
     expect(tokens).toMatch(/:focus-visible\s*\{\s*outline:\s*2px solid var\(--mm-focus\)/);
-    expect(tokens).toContain("--mm-focus: #7fe3b4");
+    /* The ring derives from the accent rather than repeating its hex, so a
+       change to the accent cannot leave the focus ring behind. It reads the
+       bright token on purpose: an outline that dimmed on a paper ground would
+       be the one outline that must not. */
+    expect(tokens).toContain("--mm-focus: var(--mm-mint-bright)");
   });
 
   it("reserves the serif for the claim and the mono for data", () => {

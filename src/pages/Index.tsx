@@ -160,7 +160,13 @@ export default function Index() {
         </div>
       </section>
 
-      <section className="mm-block mm-on-raise" aria-labelledby="where-title">
+      {/* Paper, and the page's first change of ground.
+          The homepage ran ink and raise alternately for its whole length, and
+          those two are 1.32:1 apart: measured on a phone, every screen below
+          the hero read as the same colour. This section is the argument and the
+          most text-heavy screen on the page, which is the one that most wants
+          light. */}
+      <section className="mm-block mm-on-paper" aria-labelledby="where-title">
         <div className="mm-container">
           <h2 id="where-title"><Instrument kind="drawer" className="mm-head-mark" />Where does everything you teach AI end up?</h2>
           <p className="mm-lede" style={{ marginTop: 12 }}>
@@ -208,7 +214,12 @@ export default function Index() {
       {/* Proof, then who you would be working with, then the ask. */}
       <FounderNote treatment="standing" />
 
-      <SubscribeBand />
+      {/* Paper again, and the page's second light movement. The publication is
+          a separate opt-in rather than a step in the offer, and the ground is
+          what says so before a word is read. Measured before this, the viewport
+          holding it read a whole-screen change of 0.060 against a floor of
+          0.15. */}
+      <SubscribeBand ground="paper" />
 
       <CloseBlock
         instrument="recorder"

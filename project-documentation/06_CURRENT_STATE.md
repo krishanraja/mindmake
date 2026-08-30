@@ -1,6 +1,6 @@
 # Mindmake current state
 
-Last updated: 28 August 2026.
+Last updated: 30 August 2026.
 
 This file is the current delivery truth for `mindmake.co`: what is live, at which identifiers, and what remains open. Why the business exists is in `00_NORTH_STAR.md`. Commercial truth is in `01_CANON.md`. Design truth is in `03_DESIGN_CONTRACT.md`.
 
@@ -48,7 +48,7 @@ Supabase project `bkyuxvschuwngtcdhsyg`.
 | `send-follow-ups` | v2 | off | The day-14 follow-up. Cron only |
 | `aa-price-snapshot` | v1 | off | Daily model prices. Cron only |
 
-- Migrations added: `mindmake_follow_up_and_personal_read`, `aa_model_snapshots`, `mindmake_scheduled_jobs`, `mindmake_public_rpc_wrappers`. All four are idempotent and all four are registered in the remote migration history, so the repository and the database agree.
+- Migrations added: `mindmake_follow_up_and_personal_read`, `aa_model_snapshots`, `mindmake_scheduled_jobs`, `mindmake_public_rpc_wrappers`, `personal_read_name_and_division`, `personal_read_handoff`. All six are idempotent and all six are registered in the remote migration history, so the repository and the database agree. The last two landed after this table was first written: `personal_read_name_and_division` added `first_name`, `last_name` and a checked `division` column so the read no longer needs a pasted LinkedIn URL, and `personal_read_handoff` added `handoff_reason` for the nine dead ends recorded below.
 - New tables are RLS-on with no policies, reachable only by the service role. No existing policy was loosened and no anon policy was added to anything.
 - Scheduled jobs: `mindmake-brief-retention-daily` (`17 2 * * *`), `mindmake-follow-up-daily` (`20 9 * * *`), `mindmake-aa-price-snapshot-daily` (`0 11 * * *`). The two new jobs call their function over HTTP with the Vault secret `mindmake_cron_secret` in the `x-mindmake-cron-secret` header, and each function refuses without it. This is the pattern the project's eight existing jobs already use.
 - Price history: 624 rows for 28 August 2026, the first day. This is the one thing here that cannot be back-filled, which is why it runs before anything renders it.
@@ -57,9 +57,9 @@ Supabase project `bkyuxvschuwngtcdhsyg`.
 
 ## Verification baselines
 
-Last measured 29 August 2026, against the built output.
+Last measured 30 August 2026, against the built output.
 
-- Tests: **334 across 22 files**, all passing. The thirty-five added on 29 August
+- Tests: **353 across 24 files**, all passing. The thirty-five added on 29 August
   hold the nine dead ends: that each one offers a person, that the offer posts
   the right reason, that it asks for nothing the page already holds, that it
   hands over an address rather than a spinner when even it fails, and that the

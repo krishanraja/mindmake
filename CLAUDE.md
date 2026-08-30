@@ -1,6 +1,6 @@
 # Mindmake repository guide
 
-Last updated: 28 August 2026.
+Last updated: 30 August 2026.
 
 This file is a contributor guard, not the source of truth. The source of truth
 is `project-documentation/`, and it is read in order: `00_NORTH_STAR.md` first,
@@ -83,7 +83,7 @@ For any change to a public surface, run both a source scan and a rendered DOM sc
 
 For any change to the lead pipeline, run `src/test/mindmake-brief-backend-core.test.ts`, redeploy with the function's full import closure, verify the deployed body and prove one synthetic end-to-end lead from `https://mindmake.co`.
 
-The current baselines, recorded in `project-documentation/06_CURRENT_STATE.md`: 295 tests, 0 lint errors and 2 warnings, 0 type errors. Do not add new lint problems. Point the typecheck at `tsconfig.app.json`: the root config carries `"files": []` and checks nothing.
+The current baselines, recorded in `project-documentation/06_CURRENT_STATE.md`: 353 tests, 0 lint errors and 2 warnings, 0 type errors. Do not add new lint problems. Point the typecheck at `tsconfig.app.json`: the root config carries `"files": []` and checks nothing.
 
 For any change to the films or the film plate, confirm in a browser that every
 loop decodes and plays when scrolled into view, and that a reduced-motion

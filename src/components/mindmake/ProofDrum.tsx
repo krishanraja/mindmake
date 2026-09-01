@@ -88,7 +88,7 @@ function Card({
   );
 }
 
-export function ProofDrum({ title = "People who have worked with Krish" }: { title?: string }) {
+export function ProofDrum({ title = "People who have worked with Krish", headingId }: { title?: string; headingId?: string }) {
   const voices = publishableTestimonials;
   const frame = useRef<HTMLDivElement>(null);
   const panel = useRef<HTMLDivElement>(null);
@@ -155,7 +155,7 @@ export function ProofDrum({ title = "People who have worked with Krish" }: { tit
   return (
     <div className="mm-drum-block">
       <div className="mm-drum-head">
-        <h3>{title}</h3>
+        <h3 id={headingId}>{title}</h3>
         <p className="mm-drum-hint">
           <span><CountingValue value={voices.length} /> of them. Drag it, or use the arrows.</span>
           <span className="mm-drum-arrows">

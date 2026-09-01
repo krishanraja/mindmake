@@ -53,8 +53,12 @@ const CARDS_SHOWN_PHONE = 3;
  * Everything on this board now derives from one filtered collection.
  */
 /** The ground the board sits on, so a page can keep its sections alternating. */
-export function LiveBoard({ ground }: { ground?: "raise" } = {}) {
-  const ground_class = ground === "raise" ? " mm-on-raise" : "";
+export function LiveBoard({ seam, ground }: { ground?: "raise"; seam?: boolean } = {}) {
+  /* A seam when this follows a section of its own ground. Splitting the try-it
+     panel in two put the form directly above this on /ai-gtm, and two raise
+     grounds meeting with nothing between them is one long band rather than two
+     sections. `qa:rhythm` names the seam as the sanctioned separator. */
+  const ground_class = `${ground === "raise" ? " mm-on-raise" : ""}${seam ? " mm-seam-above" : ""}`;
   const board = useBoardData({ days: 28 });
   const [industry, setIndustry] = useState<Industry>("All industries");
   const [expanded, setExpanded] = useState(false);

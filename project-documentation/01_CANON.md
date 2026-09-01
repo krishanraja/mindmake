@@ -346,8 +346,22 @@ rather than the craft.
 
 ## The conversion path
 
-There is no public diary link and no "Book a fit call" CTA. The only primary
-action is **Start here**.
+There is no public diary link and no "Book a fit call" CTA. There is one way in
+per screen.
+
+On the door pages that is **Start here**, because the reader is already standing
+in a door. On the homepage, from 1 September 2026, it is the two doors by name,
+**Build your AI brain** and **Build your AI GTM**, adjacent and in one control
+group. That is still one decision: the two are never apart on a screen, and
+`scripts/qa/one-way-in-check.mjs` holds exactly that shape.
+
+The reason is not presentation. Each door has always carried its own four
+pressure questions, and every `Start here` passed no door at all, so a visitor
+who started on the homepage was asked a generic set belonging to neither. Where
+the dialog is still opened without a door, from the sticky bar, the menu or a
+shared link, it asks which before the four details. Either way a client can
+still cross to the other door later; the choice decides what is asked first,
+not what is bought.
 
 1. The visitor gives four details: their first and last name, their work email
    and the part of the business they work in. The company comes out of the

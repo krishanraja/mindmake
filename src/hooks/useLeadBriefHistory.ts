@@ -1,8 +1,20 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import type { BriefRoute } from "@/components/mindmake/leadDelivery";
 
 const START_PARAM = "start";
-const START_VALUE = "1";
+
+/**
+ * Which door the visitor came through, in the address.
+ *
+ * `?start=1` is the original and still means "opened without a door", which the
+ * dialog answers by asking. `?start=brain` and `?start=gtm` are the two named
+ * doors, and they exist here rather than in component state for the reason the
+ * open flag does: this address is what the site's primary action produces, so
+ * it has to survive a shared link, a reload and the back button.
+ */
+const ROUTES: Record<string, BriefRoute> = { "1": "home", brain: "brain", gtm: "gtm" };
+const PARAM_FOR: Record<BriefRoute, string> = { home: "1", brain: "brain", gtm: "gtm" };
 
 export function useLeadBriefHistory() {
   const location = useLocation();
@@ -21,19 +33,21 @@ export function useLeadBriefHistory() {
      fix: match the server, then correct after mount. */
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
-  const briefOpen = mounted && searchParams.get(START_PARAM) === START_VALUE;
+  const asked = searchParams.get(START_PARAM) ?? "";
+  const briefOpen = mounted && asked in ROUTES;
+  const briefRoute: BriefRoute = ROUTES[asked] ?? "home";
 
   useEffect(() => {
     if (!briefOpen) openedBriefHere.current = false;
   }, [briefOpen]);
 
-  const setBriefOpen = useCallback((open: boolean) => {
+  const setBriefOpen = useCallback((open: boolean, route: BriefRoute = "home") => {
     if (open === briefOpen) return;
 
     const next = new URLSearchParams(location.search);
     if (open) {
       openedBriefHere.current = true;
-      next.set(START_PARAM, START_VALUE);
+      next.set(START_PARAM, PARAM_FOR[route]);
       navigate({
         pathname: location.pathname,
         search: next.toString() ? `?${next.toString()}` : "",
@@ -58,7 +72,9 @@ export function useLeadBriefHistory() {
 
   return {
     briefOpen,
-    openBrief: useCallback(() => setBriefOpen(true), [setBriefOpen]),
+    /** Which door, so the dialog offers that door's own four pressures. */
+    briefRoute,
+    openBrief: useCallback((route: BriefRoute = "home") => setBriefOpen(true, route), [setBriefOpen]),
     closeBrief: useCallback(() => setBriefOpen(false), [setBriefOpen]),
   };
 }

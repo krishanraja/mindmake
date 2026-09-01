@@ -45,6 +45,16 @@ interface DrumOptions {
   viewport: number;
   /** Pixels per second the drum turns when nobody is touching it. */
   drift?: number;
+  /**
+   * How the offset reaches the page. Defaults to translating the track.
+   *
+   * The rail is one way to show a drum and the deck in `StoryIndex` is another:
+   * eight cards in one grid cell, the front one whole and the rest behind it,
+   * which is the card index this world already talks about. Both want the same
+   * physics, and a second copy of the drift, the throw and the spring would be
+   * a second set of constants to drift apart.
+   */
+  write?: (element: HTMLDivElement, offset: number) => void;
 }
 
 /** Frame-rate independent decay: the fraction of velocity surviving `dt`. */
@@ -56,7 +66,7 @@ const DAMPING = 21;      // just past critical, so it settles without a bounce
 const RUBBER = 0.32;     // how much of a pull past the end actually moves it
 const SETTLE = 30;       // px/s below which a throw hands over to the spring
 
-export function useDragDrum({ pitch, count, viewport, drift = 16 }: DrumOptions) {
+export function useDragDrum({ pitch, count, viewport, drift = 16, write }: DrumOptions) {
   const track = useRef<HTMLDivElement>(null);
   const offset = useRef(0);
   const velocity = useRef(0);
@@ -83,7 +93,8 @@ export function useDragDrum({ pitch, count, viewport, drift = 16 }: DrumOptions)
 
   const paint = useCallback(() => {
     if (track.current) {
-      track.current.style.transform = `translate3d(${offset.current}px, 0, 0)`;
+      if (write) write(track.current, offset.current);
+      else track.current.style.transform = `translate3d(${offset.current}px, 0, 0)`;
     }
     const at = pitch === 0 ? 0 : Math.round(clamp(offset.current) / -pitch);
     if (at !== centred.current) {
@@ -95,7 +106,7 @@ export function useDragDrum({ pitch, count, viewport, drift = 16 }: DrumOptions)
          seconds ago is a device that appears to be broken. */
       if (touched.current && !reduced && mode.current !== "drift") navigator.vibrate?.(7);
     }
-  }, [clamp, pitch, reduced]);
+  }, [clamp, pitch, reduced, write]);
 
   /* One loop for every state. An earlier version ran drift, throw and spring as
      separate loops, and handing over between them dropped velocity at each

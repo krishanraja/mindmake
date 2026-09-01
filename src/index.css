@@ -322,17 +322,28 @@ small {
   line-height: 1.5;
 }
 
-/* NO UPPERCASE, NO UNDERLINES (except links) */
-a {
-  text-decoration: none;
-  color: hsl(var(--foreground));
-  transition: color 0.2s ease;
-}
-
-a:hover {
-  color: hsl(var(--mint));
-  text-decoration: underline;
-}
+/**
+ * No link rules here, and this is the second time this file has cost a live
+ * defect rather than the first.
+ *
+ * What was here: `a { color: hsl(var(--foreground)) }` and `a:hover { color:
+ * hsl(var(--mint)); text-decoration: underline }`, from the scaffold this
+ * project started in. That `--mint` is #00DBBA and the brand's is #7fe3b4, so
+ * the hover colour was one the design does not contain. Worse, `a:hover` is a
+ * class-weight selector and beats `.mm-door`, `.mm-blog-card` and every other
+ * single-class card link that sets `text-decoration: none`.
+ *
+ * On a desktop that is a wrong colour for as long as the pointer rests. On
+ * Android, Chrome applies `:hover` on a tap and holds it until the reader taps
+ * somewhere else, so every card a visitor touched stayed underlined in a
+ * foreign teal. Krish photographed it on the homepage's first door and it
+ * reproduces exactly: pressing `.mm-door` computes `underline` in
+ * `rgb(0, 219, 186)`.
+ *
+ * Links belong to `mindmake.css`, which is where every other public surface is
+ * decided. `.mm-site a` sets the colour and the decoration; the components that
+ * want an underline draw their own.
+ */
 
 /* COMPONENT LAYER */
 @layer components {

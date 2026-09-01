@@ -10,7 +10,7 @@ import { Arrive } from "@/components/mindmake/Arrive";
 import { ScrubText } from "@/components/mindmake/ScrubText";
 import { Marquee } from "@/components/mindmake/Marquee";
 import { ObjectionChips } from "@/components/mindmake/ObjectionChips";
-import { ProofStrip } from "@/components/mindmake/ProofStrip";
+import { ProofStrip, ProofVoices } from "@/components/mindmake/ProofStrip";
 import { SubscribeBand } from "@/components/mindmake/SubscribeBand";
 import { BoardCardView } from "@/components/mindmake/board/BoardCard";
 import { useBoardData } from "@/hooks/useBoardData";
@@ -39,7 +39,7 @@ function ProofLive() {
   const card = board.status === "ready" ? topCard(board.days) : null;
 
   return (
-    <section className="mm-block mm-on-raise" aria-labelledby="proof-title">
+    <section className="mm-block mm-on-raise mm-seam-above" aria-labelledby="proof-title">
       <div className="mm-container">
         <div className="mm-board-head">
           <h2 id="proof-title"><Instrument kind="recorder" className="mm-head-mark" />What changed in AI this morning.</h2>
@@ -75,7 +75,7 @@ function ProofLive() {
 }
 
 export default function Index() {
-  const { briefOpen, openBrief, closeBrief } = useLeadBriefHistory();
+  const { briefOpen, briefRoute, openBrief, closeBrief } = useLeadBriefHistory();
   const setupRef = useScrollDriver<HTMLHeadingElement>();
   const claimRef = useScrollDriver<HTMLParagraphElement>();
   const plateRef = useScrollDriver<HTMLDivElement>();
@@ -201,13 +201,31 @@ export default function Index() {
             <p>That is the whole idea. We help you put your own judgement to work, in plain English, on real decisions, and you own the result.</p>
           </div>
 
-          <Marquee lines={["Built once. Better every week.", "What it learns stays yours."]} />
+        </div>
+      </section>
 
-          <ObjectionChips ask={["consultant", "chatgpt", "why-not-myself", "how-we-work", "included", "charging", "start", "email"]} />
+      {/* The marquee is a band, not the tail of an argument. Inside the section
+          above it was the fifth thing there and the last 59px of 1,104. */}
+      <Marquee lines={["Built once. Better every week.", "What it learns stays yours."]} />
+
+      {/* Its own section, because it was 761px of a 1,865px one.
+          The argument above is a lede, three answers, a claim and a marquee,
+          and the questions were a fifth thing inside it: at 360px that section
+          ran 2.35 screens and this was 41% of it. They are a different act, they
+          have their own heading, and the reader arriving at them has finished
+          the argument rather than being partway through it. */}
+      <section className="mm-block mm-on-raise" aria-labelledby="home-questions-title">
+        <div className="mm-container">
+          <ObjectionChips
+            titleId="home-questions-title"
+            ask={["consultant", "chatgpt", "why-not-myself", "how-we-work", "included", "charging", "start", "email"]}
+          />
         </div>
       </section>
 
       <ProofStrip />
+
+      <ProofVoices />
 
       <ProofLive />
 
@@ -221,14 +239,18 @@ export default function Index() {
           0.15. */}
       <SubscribeBand ground="paper" />
 
+      {/* The two doors by name, because the choice was already being made for
+          the visitor: each one carries its own four pressure questions and the
+          homepage was sending everybody to a generic set belonging to neither. */}
       <CloseBlock
         instrument="recorder"
         claim="Start with one real decision."
         body="Four details, and we read your market before asking you to explain anything. A plan built for your business lands in your inbox."
         onStart={openBrief}
+        fork
       />
 
-      <LeadBrief open={briefOpen} onClose={closeBrief} />
+      <LeadBrief open={briefOpen} route={briefRoute} onClose={closeBrief} />
     </MindmakeShell>
   );
 }

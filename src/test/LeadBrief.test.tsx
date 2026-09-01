@@ -51,12 +51,18 @@ function mockWorkingV2Flow(finalResponse = confirmedResponse()) {
   });
 }
 
+/* Every journey test below names a door, because from 1 September 2026 the
+   dialog opened without one asks which before anything else, and the journey
+   these cases drive starts at the four details. `gtm` rather than `brain`
+   because the pressure these cases pick, "Customers can now do more without
+   us", belongs to that door's four; the brain door asks about a leader's own
+   week instead. The door step has its own cases at the foot of this file. */
 function ReopenHarness() {
   const [open, setOpen] = useState(true);
   return (
     <>
       <button type="button" onClick={() => setOpen(true)}>Open brief</button>
-      <LeadBrief open={open} onClose={() => setOpen(false)} />
+      <LeadBrief open={open} onClose={() => setOpen(false)} route="gtm" />
     </>
   );
 }
@@ -150,7 +156,7 @@ describe("Mindmake private brief journey", () => {
     });
 
     try {
-      render(<LeadBrief open onClose={() => undefined} />);
+      render(<LeadBrief open onClose={() => undefined} route="gtm" />);
       const heading = screen.getByRole("heading", { name: "Show me the business." });
       const field = screen.getByLabelText("First name");
       const backdrop = screen.getByRole("dialog").parentElement as HTMLElement;
@@ -182,7 +188,7 @@ describe("Mindmake private brief journey", () => {
     vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "false");
     invoke.mockResolvedValue({ data: dossier, error: null });
 
-    render(<LeadBrief open onClose={() => undefined} />);
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
     expect(screen.getByRole("link", { name: /how the starting read handles information/i })).toHaveAttribute("href", "/privacy");
     await reachPreview();
     fireEvent.click(screen.getByRole("button", { name: /keep the private brief/i }));
@@ -228,7 +234,7 @@ describe("Mindmake private brief journey", () => {
       return Promise.resolve({ data: confirmedResponse(), error: null });
     });
 
-    render(<LeadBrief open onClose={() => undefined} />);
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
     const nameField = screen.getByLabelText("First name");
     /* The heading takes focus here, not the first field, which is what every
        step of this dialog does except the two that ask for one thing. The
@@ -289,7 +295,7 @@ describe("Mindmake private brief journey", () => {
     vi.useFakeTimers();
     invoke.mockImplementationOnce(() => new Promise(() => undefined)).mockResolvedValueOnce({ data: dossier, error: null });
 
-    render(<LeadBrief open onClose={() => undefined} />);
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
     await fillDetails("example.com");
     fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
     await act(async () => { await Promise.resolve(); });
@@ -359,7 +365,7 @@ describe("Mindmake private brief journey", () => {
     vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "true");
     mockWorkingV2Flow();
 
-    render(<LeadBrief open onClose={() => undefined} />);
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
     await reachContact();
     await requestCode();
 
@@ -389,7 +395,7 @@ describe("Mindmake private brief journey", () => {
     });
     mockWorkingV2Flow();
 
-    render(<LeadBrief open onClose={() => undefined} />);
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
     await reachContact();
     await requestCode();
     const requestCall = invoke.mock.calls.find(([name, options]) => name === "submit-mindmake-brief" && options.body.action === "request");
@@ -400,7 +406,7 @@ describe("Mindmake private brief journey", () => {
     vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "true");
     mockWorkingV2Flow(confirmedResponse({ operatorDelivery: "failed" }));
 
-    render(<LeadBrief open onClose={() => undefined} />);
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
     await reachContact();
     await requestCode();
     await confirmCode();
@@ -413,7 +419,7 @@ describe("Mindmake private brief journey", () => {
     vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "true");
     mockWorkingV2Flow(confirmedResponse({ publicationInterestRecorded: true }));
 
-    render(<LeadBrief open onClose={() => undefined} />);
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
     await reachContact();
     await requestCode();
     await confirmCode();
@@ -426,7 +432,7 @@ describe("Mindmake private brief journey", () => {
     vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "true");
     mockWorkingV2Flow(confirmedResponse({ publicationInterestRecorded: false }));
 
-    render(<LeadBrief open onClose={() => undefined} />);
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
     await reachContact();
     expect(screen.getByRole("checkbox", { name: /useful ideas by email/i })).not.toBeChecked();
     await requestCode({ publication: true });
@@ -440,7 +446,7 @@ describe("Mindmake private brief journey", () => {
     vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "true");
     mockWorkingV2Flow(confirmedResponse({ visitorDelivery: "failed", operatorDelivery: "failed" }));
 
-    render(<LeadBrief open onClose={() => undefined} />);
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
     await reachContact();
     await requestCode();
     await confirmCode();
@@ -458,7 +464,7 @@ describe("Mindmake private brief journey", () => {
       data: { ...dossier, synthesis: ["Example Company", "helps teams", "do useful work."] },
       error: null,
     });
-    render(<LeadBrief open onClose={() => undefined} />);
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
     await fillDetails("example.com");
     fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
     expect(await screen.findByText("Example Company helps teams do useful work.")).toBeInTheDocument();
@@ -474,7 +480,7 @@ describe("Mindmake private brief journey", () => {
       },
       error: null,
     });
-    render(<LeadBrief open onClose={() => undefined} />);
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
     await fillDetails("bbc.com");
     fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
 
@@ -492,7 +498,7 @@ describe("Mindmake private brief journey", () => {
       },
       error: null,
     });
-    render(<LeadBrief open onClose={() => undefined} />);
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
     await fillDetails("example.com");
     fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
 
@@ -504,7 +510,7 @@ describe("Mindmake private brief journey", () => {
   it("waits before revoking a downloaded brief URL", async () => {
     vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "false");
     invoke.mockResolvedValue({ data: dossier, error: null });
-    render(<LeadBrief open onClose={() => undefined} />);
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
     await reachPreview();
     fireEvent.click(screen.getByRole("button", { name: /keep the private brief/i }));
     await screen.findByRole("heading", { name: "Keep this. Your brief is ready." });
@@ -611,5 +617,56 @@ describe("the dialog's structure", () => {
     const phone = css.slice(css.indexOf("@media (max-width: 560px)"));
     expect(phone).toContain("grid-template-columns: 1fr");
     expect(phone).toContain("var(--mm-safe-bottom)");
+  });
+});
+
+/**
+ * The door, and why the dialog sometimes asks for it.
+ *
+ * `BriefRoute` is `home | brain | gtm` and each door has held its own four
+ * pressure questions since the doors existed. Nothing on the homepage passed a
+ * route, so every visitor who started there met `PRESSURES.default`, a generic
+ * set belonging to neither door, and the difference the code was built to make
+ * was never made. The homepage forks at the button now; everything that opens
+ * this without a door asks here.
+ */
+describe("the door", () => {
+  afterEach(cleanup);
+
+  it("asks which one, when it was opened without one", () => {
+    render(<LeadBrief open onClose={() => undefined} />);
+    expect(screen.getByRole("heading", { name: "Which one are you here for?" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Build your AI brain/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Build your AI GTM/ })).toBeInTheDocument();
+  });
+
+  it("does not ask when the door is already known", () => {
+    render(<LeadBrief open onClose={() => undefined} route="brain" />);
+    expect(screen.queryByRole("heading", { name: "Which one are you here for?" })).not.toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Show me the business." })).toBeInTheDocument();
+  });
+
+  it("shows that door's own four problems, not a generic set", async () => {
+    /* The whole point of asking. The brain door asks about a leader's own week
+       and the GTM door about what customers will pay for, and before this the
+       homepage offered neither. */
+    render(<LeadBrief open onClose={() => undefined} />);
+    fireEvent.click(screen.getByRole("button", { name: /Build your AI brain/ }));
+    await screen.findByRole("heading", { name: "Show me the business." });
+
+    const source = readFileSync(resolve(__dirname, "../components/mindmake/LeadBrief.tsx"), "utf8");
+    const brain = source.slice(source.indexOf("  brain: ["), source.indexOf("  gtm: ["));
+    expect(brain).toContain("Too much important context lives in my head");
+    expect(brain).not.toContain("Customers can now do more without us");
+  });
+
+  it("puts the door in the path, so it can be gone back to", () => {
+    render(<LeadBrief open onClose={() => undefined} />);
+    expect(screen.getByRole("button", { name: "Door" })).toBeInTheDocument();
+  });
+
+  it("leaves the path alone when there was no door to pick", () => {
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
+    expect(screen.queryByRole("button", { name: "Door" })).not.toBeInTheDocument();
   });
 });

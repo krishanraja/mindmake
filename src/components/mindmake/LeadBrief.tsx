@@ -56,12 +56,28 @@ interface LeadBriefProps {
    the work email by `src/lib/workEmail.ts` rather than typed. The name and the
    division stay in the browser and do the job they already do on /ai-gtm: they
    are what the offer of a person carries when a step fails. */
-type Step = "details" | "reading" | "pressure" | "capacity" | "preview" | "contact" | "verify" | "success";
+type Step = "door" | "details" | "reading" | "pressure" | "capacity" | "preview" | "contact" | "verify" | "success";
+
+/**
+ * The two doors, and why the dialog sometimes has to ask.
+ *
+ * Each door carries its own four pressure questions in `PRESSURES` below, and
+ * until 1 September 2026 nothing on the homepage passed a route, so every
+ * visitor who started there met `PRESSURES.default`, a generic set belonging
+ * to neither door. The homepage now forks at the button. Everything else that
+ * opens this without a door, the sticky bar, the menu, /case-studies and a
+ * shared `?start=1` link, asks here instead, before the four details.
+ */
+const DOOR_CHOICES: ReadonlyArray<{ route: BriefRoute; label: string; line: string }> = [
+  { route: "brain", label: "Build your AI brain", line: "An AI that knows your standards, your context and the decisions you have already made." },
+  { route: "gtm", label: "Build your AI GTM", line: "One part of how you sell, rebuilt: what you offer, what you charge, how you stand out, who sells." },
+];
 
 /* The dialog's tone arc: the question in the dark, the read on paper, the
    recommendation revealed on forest, the forms back on paper, and the
    proposal handed over on forest. */
 const STEP_TONES: Record<Step, "ink" | "forest" | "paper"> = {
+  door: "ink",
   details: "ink",
   reading: "ink",
   pressure: "paper",
@@ -276,7 +292,10 @@ const readableText = (value: unknown): string => {
 };
 
 export function LeadBrief({ open, onClose, route = "home", initialDomain, initialEmail, onConfirmed, visitor }: LeadBriefProps) {
-  const [step, setStep] = useState<Step>("details");
+  /* Opened without a door, the first thing to settle is which one. Given one,
+     that question has an obvious answer and asking it would be furniture. */
+  const [step, setStep] = useState<Step>(route === "home" ? "door" : "details");
+  const [door, setDoor] = useState<BriefRoute>(route);
   /* What this dialog collected itself. On /ai-gtm the page has already asked,
      and hands them in through `visitor`; opened cold from the homepage or the
      archive there is nobody upstream, so it asks and keeps them here. Either
@@ -325,7 +344,7 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
     if (signal) items.push(`A recent signal worth checking: ${signal}`);
     return items;
   }, [dossier]);
-  const choices = PRESSURES[route] ?? PRESSURES.default;
+  const choices = PRESSURES[door] ?? PRESSURES.default;
 
   /* Server-signed tailored pressures, kept only when their shape is clean
      and their lens serves this door. */
@@ -353,7 +372,8 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
     researchAbortRef.current = null;
     handoffAbortRef.current?.abort();
     handoffAbortRef.current = null;
-    setStep("details");
+    setStep(route === "home" ? "door" : "details");
+    setDoor(route);
     setCollected(null);
     setDomain("");
     setDossier(null);
@@ -370,7 +390,10 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
     setResearchIssue("");
     setError("");
     requestIdRef.current = createRequestId();
-  }, []);
+    /* `route` is a dependency because a reset returns the dialog to whichever
+       step it opens on, and that is the door only when it was opened without
+       one. */
+  }, [route]);
 
   useEffect(() => {
     if (!open) {
@@ -592,7 +615,7 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
       pressure: (tailoredChoice ? LENS_LABELS[tailoredChoice.lensId] : pressure) as keyof typeof PRESSURE_IDS,
       publicationRequested: newsletter,
       requestId: requestIdRef.current,
-      route,
+      route: door,
       tailored: tailoredChoice ? { id: tailoredChoice.id, label: tailoredChoice.label } : undefined,
     });
     handoffAbortRef.current?.abort();
@@ -740,6 +763,7 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
   /* The functional progress path: every rendered segment is a working
      control naming a stage the visitor can return to. */
   const pathStages: Array<{ label: string; target: Step; steps: Step[] }> = [
+    ...(route === "home" ? [{ label: "Door", target: "door" as Step, steps: ["door"] as Step[] }] : []),
     { label: "You", target: "details", steps: ["details", "reading"] },
     { label: "Problem", target: "pressure", steps: ["pressure"] },
     { label: "Time", target: "capacity", steps: ["capacity"] },
@@ -807,6 +831,26 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
             </button>
           ))}
         </nav>
+
+        {step === "door" && (
+          <section className="mm-brief-step is-door">
+            <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">Which one are you here for?</h2>
+            <p>Both start the same way and both end in the same thirty days. This only changes what we ask you about first, and you can cross to the other later.</p>
+            <div className="mm-door-pick" role="group" aria-label="Which one are you here for?">
+              {DOOR_CHOICES.map((choice) => (
+                <button
+                  className="mm-door-choice"
+                  type="button"
+                  key={choice.route}
+                  onClick={() => { setDoor(choice.route); setStep("details"); }}
+                >
+                  <b>{choice.label}</b>
+                  <span>{choice.line}</span>
+                </button>
+              ))}
+            </div>
+          </section>
+        )}
 
         {step === "details" && (
           <section className="mm-brief-step is-details">

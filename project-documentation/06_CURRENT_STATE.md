@@ -880,3 +880,124 @@ nothing here needs to be steadier than that.
 348KB entry bundle. That is deliberate and it is not known to cost anything: the
 entrance gate reads clean on the routes it covers, and these two were never
 measured. They should be, before anyone assumes either way.
+
+## Added on 1 September 2026: split what does several jobs
+
+Krish's read of the live site on a phone: he could not tell what to do, it still
+felt like walls of scrolling, nothing about it was delightful, and `Start here`
+offered no choice between the two doors. He named heylemon.ai for how its
+components build as you scroll, and asked for tests at every screen size.
+
+Two of the four things measured before the work changed the brief.
+
+### The reference does not do what the rule said
+
+Driven at 390px, heylemon's sections run 1.44, 2.00, 1.67, 1.49, 1.65, 1.20 and
+1.94 screens: a median of about 1.5, the same as ours. Section length is not
+why it feels better. Three things are, all measurable. Every section **builds as
+it enters view** (its fourth goes from 5 faded and 5 shifted elements to 1 and
+1). Every section runs **its own always-on animation**: a waveform, `wv`,
+appears five times in *every* section, beside `heroZoom`, `bgZoom`, `mq`,
+`ring`, `keypress` and `wobble`. And each one carries **a small working
+demonstration** of the product rather than a diagram of it. There is no scroll
+library at all: plain CSS module keyframes.
+
+So the rule adopted was not a height cap. It was: a section is one idea, and a
+section running well past a screen is almost always several that nobody has
+separated.
+
+### What our sections actually were
+
+At 360px, 17 of 26 were over one screen, and the worst were not long copy.
+
+| section | before | what was in it |
+|---|---|---|
+| `/` proof strip | **2.61** | heading, film, 3 story cards, a link, 33 quotes on a drum, a logo rail |
+| `/` paper argument | **2.35** | lede, 3 cards, a claim, a marquee, **and the whole questions section** |
+| `/ai-brain` try-it | **2.14** | claim, film, copy, a four-field form with three chip questions |
+| `/ai-gtm` try-it | **2.08** | the same, plus 386px of "what happens next" *under* the form |
+| `/ai-brain` CTRL | 1.61 | 666px of argument, then 440px of tabs and a product capture |
+| `/` hero at 1280x800 | 1.47 | a hero sized by width alone, on a window 800px tall |
+
+After: no section past 1.35 screens at any of eight sizes, with three
+exemptions named and reasoned in the gate. `/` worst 2.61 to 1.38, `/ai-gtm`
+2.08 to 1.44, `/ai-brain` 2.14 to 1.88, that last being a form with three chip
+questions, which is the floor unless it asks less.
+
+### The proof became a card index
+
+`StoryIndex`: eight client stories as a deck, one filling the screen with the
+next two behind it, turned by a flick. `useDragDrum` gained a `write` option, so
+the same drift, drag, throw, snap and end resistance land the offset on a custom
+property instead of a rail transform, and CSS places every card in one grid cell
+by its distance from the front. The box is then the height of the tallest story
+with nothing measured, which is the reservation the questions stack could not
+have. It does not drift, because a card changing under a reader mid-quote is not
+ambient; the scrubbed `StoryFigureView` on each card is what keeps it moving.
+
+Before the drum takes control, and for anything that never runs a script, it is
+the vertical stack it replaced. Section 2.42 to 1.03 screens at 390, 0.86 at
+1440.
+
+### The fork at the button
+
+`BriefRoute` has been `home | brain | gtm` since the doors existed, and
+`LeadBrief` has held a different set of four pressure questions for each. Every
+`Start here` passed no route, so `PRESSURES.default` answered for everybody: a
+generic set belonging to neither door. The homepage now offers the two doors by
+name in one control group, the address carries which (`?start=brain`), and the
+dialog asks when it is opened without one. `scripts/qa/one-way-in-check.mjs`
+learned the new rule rather than being slipped past it by the rename: it now
+counts ways in rather than words, and a fork is one only when it is exactly two,
+adjacent, in a `role="group"`.
+
+### The tap state, which was live
+
+`src/index.css:326` still carried the scaffold's `a:hover { color:
+hsl(var(--mint)); text-decoration: underline }`. That `--mint` is `#00DBBA` and
+the brand's is `#7fe3b4`, and `a:hover` outranks every single-class card link
+that sets `text-decoration: none`. On Android `:hover` sticks after a tap, so
+every card a visitor touched stayed underlined in a colour the design does not
+contain. Krish photographed it on the homepage's first door and it reproduced
+exactly: pressing `.mm-door` computed `underline` in `rgb(0, 219, 186)`. It is
+`none / rgb(230, 237, 232)` now, and `first-screen.test.ts` holds three rules
+that keep that file away from anything a visitor sees.
+
+`.mm-head-mark` was `display: inline-block` inside its heading, so any heading
+that wrapped started its second line under the mark. It is a grid column now.
+
+### The gate Krish asked for
+
+`scripts/qa/screen-matrix-check.mjs`, `npm run qa:screens`. Eight sizes from
+360x800 to 1920x1080, three pages, four questions each: no section past budget,
+no sideways scroll, no text clipped inside a box that cannot be reached, and no
+fixed chrome over the primary action. It knows that a `<details>` fold and a
+`[role=group][tabindex]` drum both clip on purpose and hand the reader a way
+back in, so it does not report the questions stack or the thirty-three voices as
+defects for working.
+
+### Baselines after this change
+
+- Tests: **374 across 26 files**. The door has five new cases; the journey steps
+  are checked in the content and in both pages that render them.
+- Lint **0 errors, 2 warnings**. Typecheck **0 errors**.
+- `qa:screens`, `qa:nojs`, `qa:oneway`, `qa:rhythm`, `qa:images`, `qa:cards`,
+  `qa:entrance`, redirects, dialog shape and handoff: all green.
+- `qa:alive` keeps its standing worklist, unchanged at 4 still viewports at
+  390px, and splitting the try-it panels did not wake them. It moved the
+  readings and not past the floor: `/ai-gtm @2532px` went from peak 46.6 and 1
+  of 64 cells to peak 60.3 and 2, `/ai-brain @4220px` from 29.2 and 0 to 36.8
+  and 1. Enlarging the recorder mark on the form panel from 34px to 76px is what
+  moved them, and one instrument cannot fill four of sixty-four cells. The
+  honest reading is that a form screen is finished the moment it is drawn, and
+  what those two want is the picture the promise screen took with it when the
+  section split. That is a design decision rather than a fix, and the floor was
+  not lowered to hide it.
+
+### Still open
+
+- The three-question form on `/ai-brain` runs 1.88 screens and is exempt by
+  name. Making it two steps would fix the height and change a working
+  conversion surface, which is a decision rather than a fix.
+- `/new-age-leadership` and `/blog/:slug` are still lazy against a 348KB entry
+  bundle, and were never measured for the hydration cost.

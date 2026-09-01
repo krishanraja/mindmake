@@ -7,24 +7,6 @@ interface GtmJourneyProps {
   onRead: (details: Details) => void;
 }
 
-const STEPS = [
-  {
-    number: "01",
-    title: "We read your market",
-    body: "Your sector, who you compete with and where your prices sit, pulled together while you watch.",
-  },
-  {
-    number: "02",
-    title: "A plan built for you",
-    body: "What we would change first, with your numbers rather than a general example.",
-  },
-  {
-    number: "03",
-    title: "One email, and that is it",
-    body: "Your plan, our terms and a link to talk. We write once more after two weeks, and never again.",
-  },
-];
-
 /**
  * The company read, started from the page.
  *
@@ -53,15 +35,6 @@ export function GtmJourney({ onRead }: GtmJourneyProps) {
         onDeadEnd={(typed) => <HumanHandoff reason="personal-email" prefill={typed} />}
       />
 
-      <div className="mm-journey-steps">
-        {STEPS.map((step) => (
-          <article className="mm-journey-step" key={step.number}>
-            <b>{step.number}</b>
-            <strong>{step.title}</strong>
-            <span>{step.body}</span>
-          </article>
-        ))}
-      </div>
     </div>
   );
 }

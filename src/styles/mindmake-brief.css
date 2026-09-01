@@ -170,6 +170,33 @@
 .mm-company-read p { margin-top: 5px; font-size: 14.5px; line-height: 1.5; }
 .mm-company-read ul { display: grid; gap: 7px; margin: 14px 0 0; padding-left: 18px; font-size: 13px; }
 
+/* The door, asked only when the dialog was opened without one. Stacked rather
+   than side by side, because each answer carries a line explaining it and two
+   paragraphs in two columns on a phone is four lines of two words. */
+.mm-door-pick { display: grid; gap: 12px; margin-top: 26px; }
+.mm-door-choice {
+  display: grid;
+  gap: 6px;
+  border: 1px solid var(--mmb-line, var(--mm-line));
+  border-radius: 3px;
+  background: none;
+  padding: 18px;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: border-color .14s ease, transform .14s ease;
+}
+.mm-door-choice b { font-size: 17px; font-weight: 700; letter-spacing: -.015em; }
+.mm-door-choice span { color: var(--mmb-mut, var(--mm-tx2)); font-size: 14px; line-height: 1.5; text-wrap: pretty; }
+@media (hover: hover) and (pointer: fine) {
+  .mm-door-choice:hover { border-color: var(--mmb-accent, var(--mm-mint)); transform: translateY(-1px); }
+}
+.mm-door-choice:active { transform: translateY(0); }
+.mm-door-choice:focus-visible { outline: 2px solid var(--mm-focus); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .mm-door-choice { transition: none; transform: none; } }
+
 .mm-choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .mm-choice-grid button {
   min-height: 72px;

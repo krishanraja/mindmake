@@ -66,6 +66,42 @@ describe("the ground, everywhere something can paint one", () => {
   });
 });
 
+describe("the scaffold stylesheet, and what it may still paint", () => {
+  /* `src/index.css` is what this project was started from, and twice now
+     something left in it has reached a visitor. First `next-themes` inlined a
+     script whose minified text differed between the two bundles and threw away
+     every page's server render. Then `a:hover` set a colour from the scaffold's
+     own `--mint`, #00DBBA, which is not in the palette, and an underline that
+     outranked every single-class card link. On Android a tap holds `:hover`, so
+     a card a reader touched stayed underlined in that colour until they tapped
+     elsewhere.
+
+     The file still has to exist: it carries the Tailwind layers and the shadcn
+     tokens that `src/components/ui` reads. What it must not do is style an
+     element the public site renders. */
+
+  it("styles no link at all", () => {
+    const links = appCss.match(/^\s*a\s*[:,{][^}]*}/gm) ?? [];
+    expect(links, `src/index.css styles a link: ${links.join(" | ")}`).toHaveLength(0);
+  });
+
+  it("keeps the scaffold accent away from anything rendered", () => {
+    /* `--mint` here is a different colour from `--mm-mint` and always was. It
+       may stay as a token the shadcn graph reads; it may not be used to paint. */
+    const uses = appCss
+      /* Comments are where the reason this rule exists is written down, and
+         quoting the old declaration is the clearest way to write it. */
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .split("\n")
+      .filter((line) => /hsl\(var\(--mint\)/.test(line) && !/^\s*--/.test(line));
+    expect(uses, `src/index.css paints with the scaffold accent: ${uses.join(" | ")}`).toHaveLength(0);
+  });
+
+  it("leaves the link default to the file that owns public surfaces", () => {
+    expect(mindmakeCss).toContain(".mm-site a { color: inherit; text-decoration: none; }");
+  });
+});
+
 describe("the shell, and why there is not one", () => {
   it("keeps the inline style to the ground and nothing else", () => {
     /* The inline block exists for one reason: the built stylesheet is

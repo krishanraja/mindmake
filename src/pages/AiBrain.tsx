@@ -14,6 +14,7 @@ import { ClimbLadder } from "@/components/mindmake/ClimbLadder";
 import { ProcessTrack } from "@/components/mindmake/ProcessTrack";
 import { ForkBand } from "@/components/mindmake/ForkBand";
 import { BrainJourney } from "@/components/mindmake/journeys/BrainJourney";
+import { BRAIN_STEPS } from "@/content/journeySteps";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import { useScrollDriver } from "@/hooks/useScrollDriver";
 import filmTwoPoster from "@/assets/films/film-02-poster.jpg";
@@ -59,6 +60,7 @@ const PRINCIPLES = [
     body: "If the answer depends on something only you know, it says so rather than guessing.",
   },
 ];
+
 
 export default function AiBrain() {
   const { briefOpen, openBrief, closeBrief } = useLeadBriefHistory();
@@ -180,12 +182,24 @@ export default function AiBrain() {
                 ))}
               />
             </div>
-            <ProofViewer />
           </div>
         </div>
       </section>
 
-      <section className="mm-block mm-on-raise mm-try" id="try-it" aria-labelledby="learn-title">
+      {/* The captures on their own screen. Together with the argument above
+          this section ran 1.6 screens at 360px: 666px of copy, chips and
+          principles, then 440px of tabs and a product capture. They are two
+          claims, one about what CTRL is and one about what it looks like. */}
+      <section className="mm-block mm-on-raise" aria-labelledby="ctrl-see-title">
+        <div className="mm-container">
+          <h2 id="ctrl-see-title" className="mm-try-title">
+            <span>Four things it holds, and what each one looks like.</span>
+          </h2>
+          <ProofViewer />
+        </div>
+      </section>
+
+      <section className="mm-block mm-on-raise mm-seam-above" aria-labelledby="learn-title">
         <div className="mm-container">
           {/* The film belongs beside this heading for the same reason it does
               beside the one above: this is the only section on the page that
@@ -205,11 +219,35 @@ export default function AiBrain() {
               label="An instrument room at first light, where a brass mechanism of interlocking wheels turns at different speeds under a single blade of window light."
             />
           </div>
+
+          {/* What happens, before what we need, in the same three rows the GTM
+              door uses. Without them this screen was a heading and a film and
+              nothing else, which is a section that says the reader should keep
+              scrolling. */}
+          <div className="mm-journey-steps">
+            {BRAIN_STEPS.map((step) => (
+              <article className="mm-journey-step" key={step.number}>
+                <b>{step.number}</b>
+                <strong>{step.title}</strong>
+                <span>{step.body}</span>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* The form on its own screen. It asks three questions rather than one,
+          which is what makes the read personal rather than about the company,
+          and three chip sets cannot share a screen with a heading and a film.
+          Splitting is the honest answer; asking less is not. */}
+      <section className="mm-block mm-on-raise mm-try mm-seam-above" id="try-it" aria-labelledby="try-title">
+        <div className="mm-container">
           <div className="mm-try-panel">
             <Instrument kind="recorder" />
+            <h2 id="try-title" className="mm-try-title">Four details and two taps.</h2>
             <p className="mm-lede">
-              Four details and two taps. We read your company from the outside, then what that
-              means for your own week rather than for the business. It takes about half a minute.
+              We read your company from the outside, then what that means for your own week rather
+              than for the business. It takes about half a minute.
             </p>
             <BrainJourney />
           </div>

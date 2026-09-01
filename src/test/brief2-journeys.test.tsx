@@ -1,5 +1,8 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { BRAIN_STEPS, GTM_STEPS } from "@/content/journeySteps";
 import { GtmJourney } from "@/components/mindmake/journeys/GtmJourney";
 import { cleanDomain, isPublicHostname } from "@/lib/domain";
 import { BrainJourney } from "@/components/mindmake/journeys/BrainJourney";
@@ -63,11 +66,33 @@ describe("the shared capture", () => {
   });
 
   it("states the three steps, including the email cap", () => {
-    render(<GtmJourney onRead={vi.fn()} />);
-    expect(screen.getByText("We read your market")).toBeInTheDocument();
-    expect(screen.getByText("A plan built for you")).toBeInTheDocument();
-    expect(screen.getByText("One email, and that is it")).toBeInTheDocument();
-    expect(screen.getByText(/write once more after two weeks, and never again/i)).toBeInTheDocument();
+    /* The steps moved out of the form on 1 September 2026 and onto the screen
+       before it: 386px of "here is what happens next" under a form nobody had
+       filled in yet was a third of the tallest conversion surface on the site.
+       What has to stay true is that the two-email cap is said in the visitor's
+       own words on the way in, not in a privacy note, so this now asks the
+       content rather than the component. Both pages render every one of these
+       rows, which `brief2-public-contract.test.ts` holds. */
+    expect(GTM_STEPS.map((step) => step.title)).toEqual([
+      "We read your market",
+      "A plan built for you",
+      "One email, and that is it",
+    ]);
+    expect(GTM_STEPS[2].body).toMatch(/write once more after two weeks, and never again/i);
+    for (const steps of [GTM_STEPS, BRAIN_STEPS]) {
+      expect(steps).toHaveLength(3);
+      expect(steps[2].title).toBe("One email, and that is it");
+    }
+  });
+
+  it("renders every step the content names, on both doors", () => {
+    /* The pages own the markup now, so the risk this replaces is a step that
+       exists in the content and appears on no screen. */
+    for (const [page, steps] of [["src/pages/AiGtm.tsx", "GTM_STEPS"], ["src/pages/AiBrain.tsx", "BRAIN_STEPS"]] as const) {
+      const source = readFileSync(resolve(__dirname, "../..", page), "utf8");
+      expect(source, page).toContain(`${steps}.map((step) => (`);
+      expect(source, page).toContain("mm-journey-steps");
+    }
   });
 });
 

@@ -223,7 +223,12 @@
 .mm-site h2 { font-size: clamp(28px, 3.8vw, 44px); }
 .mm-site h3 { font-size: clamp(20px, 2.2vw, 26px); }
 .mm-site button, .mm-site input, .mm-site textarea, .mm-site select { font: inherit; }
-.mm-site a { color: inherit; }
+/* The whole link default for the site, in the file that decides public
+   surfaces. It used to be half here and half in the scaffold stylesheet, and
+   the scaffold's half painted a hover colour the palette does not contain.
+   Components that want an underline draw one: `.mm-text-link` grows a gradient
+   rule, `.mm-cookie-notice a` and `.mm-handoff-last a` say so outright. */
+.mm-site a { color: inherit; text-decoration: none; }
 .mm-site img { max-width: 100%; }
 .mm-site section[id],
 .mm-site main > section,

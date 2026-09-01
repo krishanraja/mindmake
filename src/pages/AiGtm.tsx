@@ -12,6 +12,7 @@ import { LeverPanel } from "@/components/mindmake/LeverPanel";
 import { ProcessTrack } from "@/components/mindmake/ProcessTrack";
 import { LiveBoard } from "@/components/mindmake/board/LiveBoard";
 import { GtmJourney } from "@/components/mindmake/journeys/GtmJourney";
+import { GTM_STEPS } from "@/content/journeySteps";
 import type { Details } from "@/components/mindmake/journeys/DetailsJourney";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import { useScrollDriver } from "@/hooks/useScrollDriver";
@@ -102,7 +103,7 @@ export default function AiGtm() {
 
       {/* Above the board, not below it. The board runs to about 800px, so a
           try-it section underneath was one most visitors never reached. */}
-      <section className="mm-block mm-try" id="try-it" aria-labelledby="read-title">
+      <section className="mm-block" aria-labelledby="read-title">
         <div className="mm-container">
           {/* The film belongs beside this heading for the same reason it does
               beside the one above: this is the only section on the page that
@@ -122,18 +123,38 @@ export default function AiGtm() {
               label="A brass rail carrying cream sheets to a small gate, where a hand lifts the top sheet before the rail resumes."
             />
           </div>
+          {/* What happens, before what we need. These three were rendered at
+              the foot of the form, which put 386px of "here is what comes next"
+              under a form nobody had filled in yet and made this section 2.08
+              screens on a 360px phone. */}
+          <div className="mm-journey-steps">
+            {GTM_STEPS.map((step) => (
+              <article className="mm-journey-step" key={step.number}>
+                <b>{step.number}</b>
+                <strong>{step.title}</strong>
+                <span>{step.body}</span>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* The form on its own screen. One job, and the job a reader can see the
+          whole of. */}
+      <section className="mm-block mm-on-raise mm-try" id="try-it" aria-labelledby="try-title">
+        <div className="mm-container">
           <div className="mm-try-panel">
             <Instrument kind="recorder" />
+            <h2 id="try-title" className="mm-try-title">Four details, and we start reading.</h2>
             <p className="mm-lede">
-              Four details, and we read your market while you watch. Your company comes from your
-              email address, so there is nothing to look up. It takes a couple of minutes.
+              Your company comes from your email address, so there is nothing to look up.
             </p>
             <GtmJourney onRead={startFromJourney} />
           </div>
         </div>
       </section>
 
-      <LiveBoard ground="raise" />
+      <LiveBoard ground="raise" seam />
 
       <section className="mm-block" aria-labelledby="engage-title">
         <div className="mm-container">

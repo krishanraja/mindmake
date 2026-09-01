@@ -43,9 +43,11 @@ interface QuestionsProps {
   /** Ids from the corpus, in the order this page wants them asked. */
   ask: string[];
   label?: string;
+  /** Set when this heading is the name of its own section. */
+  titleId?: string;
 }
 
-export function ObjectionChips({ ask, label = "Questions people ask us" }: QuestionsProps) {
+export function ObjectionChips({ ask, label = "Questions people ask us", titleId }: QuestionsProps) {
   const entries = ask
     .map((id) => ASK_ENTRIES.find((entry) => entry.id === id))
     .filter((entry): entry is AskEntry => Boolean(entry));
@@ -54,8 +56,8 @@ export function ObjectionChips({ ask, label = "Questions people ask us" }: Quest
     <div className="mm-questions">
       <Arrive>
         <div className="mm-drum-head">
-          <h2 className="mm-objections-title">
-            <Instrument kind="flap" className="mm-head-mark" />{label}
+          <h2 className="mm-objections-title" id={titleId}>
+            <Instrument kind="flap" className="mm-head-mark" /><span>{label}</span>
           </h2>
           <p className="mm-drum-hint">
             <span>{entries.length} of them. The answer opens under the question.</span>

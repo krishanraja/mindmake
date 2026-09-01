@@ -14,6 +14,7 @@
  * anything below the rail.
  */
 import { chromium } from "playwright";
+import { asked } from "./lib/asked.mjs";
 
 const args = process.argv.slice(2);
 const flag = (name, fallback) => {
@@ -32,7 +33,7 @@ const problems = [];
 
 for (const path of PATHS) {
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
-  await page.goto(BASE + path, { waitUntil: "networkidle" });
+  await page.goto(BASE + asked(path), { waitUntil: "networkidle" });
   const drum = await page.$(".mm-drum");
   if (!drum) { await page.close(); continue; }
   await drum.scrollIntoViewIfNeeded();

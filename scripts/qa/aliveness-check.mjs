@@ -30,6 +30,7 @@
  */
 
 import { chromium } from "playwright";
+import { asked } from "./lib/asked.mjs";
 import { readFileSync } from "node:fs";
 import { PNG } from "pngjs";
 
@@ -205,7 +206,7 @@ for (const path of PATHS) {
     headers: { "access-control-allow-origin": "*" },
     body: JSON.stringify(BOARD_FIXTURE),
   }));
-  await page.goto(BASE + path, { waitUntil: "networkidle" });
+  await page.goto(BASE + asked(path), { waitUntil: "networkidle" });
   // Let lazy media start before judging whether anything moves.
   await page.evaluate(async () => {
     for (let y = 0; y < document.body.scrollHeight; y += 600) {

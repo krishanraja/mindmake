@@ -1,6 +1,6 @@
 # Mindmake design contract
 
-Last updated: 28 August 2026. This file replaces the pre-rebuild contract in full. It binds the public site: the homepage, `/ai-brain`, `/ai-gtm`, and every secondary page that shares the system.
+Last updated: 1 September 2026. This file replaces the pre-rebuild contract in full. It binds the public site: the homepage, `/ai-brain`, `/ai-gtm`, and every secondary page that shares the system.
 
 The intent behind these rules is the north star: everything on the page is proof, an instrument the visitor operates, or art direction that makes the proof feel premium. Anything that is none of the three does not ship.
 
@@ -69,6 +69,12 @@ The rule that separates a build from a reveal, and the reason the ban below is u
 **The instrument set** (`Instrument.tsx`) is six marks from the world the films live in: a chart-room gauge, a pen recorder, a split-flap, a card drawer, a sheet rail, a level stack. One 48-unit grid, one stroke weight, one mint part each. Each is placed for what it means, not for variety: the drawer is what is kept, the recorder what is being read, the gauge what it costs, the flap what changes, the rail who does the work, the levels what compounds. Every major section heading carries the mark for the kind of thing it is.
 
 None of them draws itself on. A stroke that animates its dash offset from nothing is entrance choreography and its first state is absent. Each is complete at first paint and then does the slow, meaningless thing the real object would do while nobody is looking. **And it does it continuously:** a mark that rests for most of its cycle is a static mark wearing an animation, which is how the flap and the levels shipped wrong the first time.
+
+**The stack** (`OneAtATime.tsx`), adopted 1 September 2026, is where one row is open and every title stays on screen. It is the touch layer rather than a build or an arrival: nothing here is driven by scroll, nothing is gated behind reaching it, and the whole thing is a real `<details>` group, so a browser runs the accordion with no script loaded and every answer is in the markup either way. Opening a row swaps two panels at once over 200ms with no fade, which is the reference measured frame by frame rather than guessed at. The line down the left is the track's sentence turned on its side: solid above the open row, dashed and drifting below it, which is both what "not opened yet" looks like and the section's ambient layer.
+
+Two rules it deliberately does not break. The numbers sit **inside** the control they label, which is the carve-out the eyebrow ban keeps open for a question number; a number above a heading would be an eyebrow and this is not one. And it is not the retired numbered step rail: that was a scroll journey with an ordering claim, and this is a list the reader's hand drives, in any order, with nothing hidden from anyone who never touches it.
+
+Where it replaced the drum, and why, is in `ObjectionChips.tsx`. The short version: a drum is right for thirty-three short quotes you graze past and wrong for eight questions you look up, and `.mm-drum` was hiding seven answers of eight from anyone without JavaScript.
 
 **The drum** (`useDragDrum.ts`) is the proof carousel, and it is four states in one loop. It drifts when left alone, stops dead and tracks the hand on a pointer down, keeps the speed you gave it and loses it to friction on release, and springs to the nearest card below walking pace. Past either end it resists at a third of the pull rather than stopping, which is what tells a hand where the end is. Haptics tick once per card crossing the centre, on touch, and only while the hand's own action is still playing out.
 

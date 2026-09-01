@@ -17,6 +17,7 @@
  */
 
 import { chromium } from "playwright";
+import { asked } from "./lib/asked.mjs";
 
 const args = process.argv.slice(2);
 const flag = (name, fallback) => {
@@ -50,7 +51,7 @@ const rows = [];
 
 for (const path of PATHS) {
   const page = await browser.newPage({ viewport: { width: WIDTH, height: 900 }, deviceScaleFactor: 2 });
-  await page.goto(BASE + path, { waitUntil: "networkidle" });
+  await page.goto(BASE + asked(path), { waitUntil: "networkidle" });
   // Walk the page so lazy images and posters have all loaded before measuring.
   await page.evaluate(async () => {
     for (let y = 0; y < document.body.scrollHeight; y += 500) {

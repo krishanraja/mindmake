@@ -14,6 +14,7 @@ const ACTIVE_BUYING_SURFACES = [
   "src/components/mindmake/CloseBlock.tsx",
   "src/components/mindmake/AskBar.tsx",
   "src/components/mindmake/ObjectionChips.tsx",
+  "src/components/mindmake/OneAtATime.tsx",
   "src/components/mindmake/proposalContent.ts",
   "src/components/mindmake/MindmakeProposal.tsx",
   "src/components/mindmake/privateBriefHtml.ts",

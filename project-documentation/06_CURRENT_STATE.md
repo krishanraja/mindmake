@@ -1,6 +1,6 @@
 # Mindmake current state
 
-Last updated: 28 August 2026.
+Last updated: 1 September 2026.
 
 This file is the current delivery truth for `mindmake.co`: what is live, at which identifiers, and what remains open. Why the business exists is in `00_NORTH_STAR.md`. Commercial truth is in `01_CANON.md`. Design truth is in `03_DESIGN_CONTRACT.md`.
 
@@ -741,3 +741,142 @@ the at-rest rule should apply to an interaction surface at all is a question for
 Krish rather than a third exception carved by me. `/ @844px` is the paper
 argument section, whose event is the ground inverting — a large change to scroll
 into and one an at-rest photograph cannot see.
+
+## Added on 1 September 2026: the questions are a stack, and two gates were lying
+
+Krish sent two screenshots from streamwave.ai as the reference for not putting
+everything on screen at once, and asked for a view before anything was built.
+The investigation changed the answer twice, so the record has to carry both
+corrections rather than the conclusion alone.
+
+### What the reference actually is
+
+Driven in a real browser and traced frame by frame. Its accordion is a plain
+Elementor `nested-accordion` on native `<details>`: the swap is **220ms with
+both panels moving together and no fade at all**, opacity holding 1.00
+throughout, and the stack's own height moving 392px to 374px, so nothing below
+it jumps. Site-wide its entire motion vocabulary is fourteen stock Animate.css
+entrances, seven `fadeIn` and seven `fadeInUp`, every one of them with zero
+delay, on a 4,097px page. There is no bespoke motion system there to copy, and
+`useReveal`'s 70ms stagger is already the more considered of the two.
+
+What is worth taking is the **dose**, not the animation: every title on screen
+so the reader keeps the map, one body open, and a frame that does not resize.
+
+### The first correction: our density readings were wrong
+
+The first pass counted words per phone viewport and reported 487 on `/`, 524 on
+`/ai-brain` and 518 on `/ai-gtm` against a median of about 100. That was an
+artefact. The counter tested only whether an element's box overlapped the
+viewport vertically, so it counted the drum's cards sitting off to the right
+inside `overflow: hidden`, and it would have counted the accordion's shut
+answers too. Both wrong in the same direction, which made the comparison
+between them worthless.
+
+Counting only text where at least 60% of the box survives every clipping
+ancestor, measured against `e1d0389` built in a worktree and served beside the
+new build:
+
+| page | before, median / worst | after, median / worst |
+|---|---|---|
+| `/` | 110 / 188 | 95 / 188 |
+| `/ai-brain` | 95 / 143 | 100 / 143 |
+| `/ai-gtm` | 88 / 143 | 90 / 143 |
+
+So raw density was never the problem and this change did not move it. **The
+headline number in the plan was wrong and is corrected here rather than
+quietly dropped.**
+
+### What was actually wrong, measured
+
+Two things, and the change is worth making for both.
+
+**Sentences cut off mid-word.** Counted per page at 390px, the number of text
+blocks visible but clipped by a box that cannot be scrolled:
+
+| page | before | after |
+|---|---|---|
+| `/` | 8 | 6 |
+| `/ai-brain` | 6 | **0** |
+| `/ai-gtm` | 4 | **0** |
+
+The six left on `/` are the testimonial drum mid-drift, which is the sanctioned
+ambient device: a drum that turns always shows two partial cards. Its card is
+now sized to the frame below 428px, so a **parked** drum shows exactly one whole
+quote instead of one quote and a 54px column of half-words.
+
+**And the drum hid most of itself.** `.mm-drum` was `overflow: hidden` while the
+drum's position is a transform written by `useDragDrum`, so with scripting off
+it showed one card and clipped the rest with no scrollbar and no way to reach
+them. Measured on `/`: **one answer of eight, and 2,308px of clipped copy**, on
+the section a reader goes to when they have a question. The `overflow-x: auto`
+fallback existed but only inside `@media (prefers-reduced-motion)`.
+
+`.mm-drum` now starts as an ordinary scroller and `useDragDrum` reports when it
+has taken control, at which point it clips. `npm run qa:nojs` is the gate that
+would have caught it, proved with a control: it passes this build with 47
+answers present across four pages and nothing clipped, and it fails `e1d0389`
+with 107 blocks clipped inside `div.mm-drum` on `/` and 18 on each door page.
+
+### The second correction: the entrance gate was reporting a defect it caused
+
+Mid-verification `qa:entrance` showed 16 hydration failures on `/ai-brain` and
+13 on `/ai-gtm`, with `/` clean. The first diagnosis was wrong: making the lazy
+routes eager changed nothing, and the counts stayed identical, so that change
+was reverted rather than shipped on a disproved argument.
+
+The cause was the gate. `vite preview` serves `/ai-brain/` from the prerendered
+file and `/ai-brain` from the SPA fallback, which is the homepage's markup. The
+gate asked for the second, handed React the homepage's HTML and the router's own
+page, and reported the mismatch as a defect in the site. Every route except `/`
+failed, in proportion to how much content it had: 3 on `/privacy`, 6 on
+`/contact`, 9 on `/case-studies`, 24 on `/faq`. Vercel resolves the directory
+index either way, and production was already verified serving the right file.
+
+`scripts/qa/lib/asked.mjs` holds the fix and the reasoning, and all seven
+browser gates use it. With it, the entrance reports **clean on every path at
+both widths**: paint at 580 to 640ms, settled in the same frame, no light flash,
+no page replaced, no hydration failure. The claim in this file that hydration was
+"clean on every page" was true when written and had been checked on `/` alone.
+
+### The stack
+
+`src/components/mindmake/OneAtATime.tsx`, used by `ObjectionChips` on `/`,
+`/ai-brain`, `/ai-gtm` and `/faq`. A real `<details>` group with a shared `name`,
+so the browser runs the accordion with nothing loaded and every answer is in the
+markup. Once JavaScript is running the rows are all opened, the `name` comes off,
+and the fold travels a grid row from 0fr to 1fr in 200ms, because a closed
+`<details>` renders no body and there is nothing to transition. The line down the
+left is solid above the open row and dashed and drifting below it, on the track's
+own 2.6s and 12px, which is both what "not opened yet" means and the section's
+ambient layer now the drum's drift has gone.
+
+It held a measured `min-height` for an afternoon, so the frame never resized. That
+shipped a worse defect than it fixed: the reservation can only land after first
+paint and a `ResizeObserver` re-measured it when the fonts arrived, and
+`qa:entrance` caught the page replacing itself three times between 1,872ms and
+1,920ms on `/ai-brain` at 1440. It is gone. The reference resizes by 18px and
+nothing here needs to be steadier than that.
+
+### Baselines after this change
+
+- Tests: **365 across 26 files**, all passing. Nine are new, in
+  `src/test/one-at-a-time.test.tsx`, and the load-bearing one asserts the
+  server's own markup carries every answer with nothing running.
+- Lint: **0 errors, 2 warnings**, unchanged.
+- Typecheck: **0 errors** against `tsconfig.app.json`.
+- `qa:entrance`, `qa:nojs`, `qa:rhythm`, `qa:images`, `qa:cards`, `qa:oneway`,
+  the redirect, dialog-shape and handoff gates: all green at both widths.
+- `qa:alive`: the worklist is **unchanged**, 4 still viewports at 390px and 1 at
+  1440px, and every one is a try-it panel or `/ @844px`. No questions viewport
+  is on it, so the stack carries its own section. `/ai-brain @2700px` at 1440
+  reads 3 of 64 cells against a floor of 4 and flipped either side of it across
+  runs, which is a borderline reading on a screen that is genuinely still, not a
+  reason to move a floor.
+
+### Still open
+
+`/new-age-leadership` (340KB) and `/blog/:slug` (124KB) remain lazy against a
+348KB entry bundle. That is deliberate and it is not known to cost anything: the
+entrance gate reads clean on the routes it covers, and these two were never
+measured. They should be, before anyone assumes either way.

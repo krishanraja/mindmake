@@ -14,6 +14,7 @@
  * otherwise be counted, which is how the first version of this check lied.
  */
 import { chromium } from "playwright";
+import { asked } from "./lib/asked.mjs";
 
 const args = process.argv.slice(2);
 const flag = (name, fallback) => {
@@ -33,7 +34,7 @@ const rows = [];
 for (const [width, height] of [[1440, 900], [390, 844]]) {
   for (const path of PATHS) {
     const page = await browser.newPage({ viewport: { width, height } });
-    await page.goto(BASE + path, { waitUntil: "networkidle" });
+    await page.goto(BASE + asked(path), { waitUntil: "networkidle" });
     const tall = await page.evaluate(() => document.body.scrollHeight);
 
     let worst = 0;

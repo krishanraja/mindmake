@@ -1113,6 +1113,135 @@
 .mm-track-part p + p { margin-top: 8px; }
 .mm-track-part .mm-i { width: 40px; height: 40px; }
 
+/* ---------- One at a time: the stack where one row is open ---------- */
+
+/* The reference is streamwave.ai, measured rather than eyeballed: 220ms, both
+   panels moving together, no fade, and a frame that does not resize. The
+   component carries the argument; this file carries the two things that make it
+   feel like ours. The line down the left is the track's solid-then-dashed
+   sentence turned on its side, and the dashes drift because the questions below
+   the open one are the open-ended part. And the stack owns the section's
+   ambient layer now, which the drum used to own by drifting. */
+
+/* A column, not the container. Left to the full width of a 1440 screen the row
+   runs 1,240px and puts its marker a thousand pixels from the number it
+   belongs to, which stops reading as one row. */
+.mm-stack { display: grid; max-width: 900px; }
+
+.mm-stack-row {
+  position: relative;
+  padding-left: 17px;
+  border-bottom: 1px solid var(--mm-hair);
+}
+.mm-stack-row:first-of-type { border-top: 1px solid var(--mm-hair); }
+
+/* One line per row rather than one line for the stack, so the solid half and
+   the dashed half need no measurement and cannot fall out of register with the
+   rows they describe. */
+.mm-stack-row::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--mm-mint-dim);
+}
+.mm-stack-row.is-ahead::before {
+  background: repeating-linear-gradient(180deg, var(--mm-line) 0 5px, transparent 5px 12px);
+  animation: mm-stack-drift 2.6s linear infinite;
+}
+/* The same 12px period and 2.6s as the track, because it is the same idea. */
+@keyframes mm-stack-drift { to { background-position: 0 12px; } }
+
+.mm-stack-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 11px;
+  padding: 15px 2px 15px 0;
+  cursor: pointer;
+  list-style: none;
+}
+.mm-stack-head::-webkit-details-marker { display: none; }
+.mm-stack-head::marker { content: ""; }
+.mm-stack-head:focus-visible { outline: 2px solid var(--mm-focus); outline-offset: 2px; }
+
+.mm-stack-n {
+  color: var(--mm-mut);
+  font-family: var(--mm-mono);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  transition: color .16s ease;
+}
+.mm-stack-row.is-open .mm-stack-n { color: var(--mm-mint); }
+
+/* Two classes deep for the same reason the question card needed it: .mm-site h3
+   sets the display size and beats a single class. */
+.mm-stack .mm-stack-title {
+  display: block;
+  margin: 0;
+  color: var(--mm-tx2);
+  font-family: var(--mm-grotesque);
+  font-weight: 600;
+  font-size: 15.5px;
+  letter-spacing: -.015em;
+  line-height: 1.35;
+  text-wrap: pretty;
+  transition: color .16s ease;
+}
+/* The token, not the literal near-white the question card used. The stack sits
+   on paper on the homepage, and a hardcoded #f0f6f3 put the open question in
+   white on cream: the same defect the dark head of the fork band produced when
+   paper started redefining the palette. */
+.mm-stack-head:hover .mm-stack-title,
+.mm-stack-row.is-open .mm-stack-title { color: var(--mm-tx); }
+
+/* The marker for the row being read, pulsing on the live dot's cycle. */
+.mm-stack-dot {
+  align-self: center;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--mm-line);
+  transition: background .16s ease;
+}
+.mm-stack-row.is-open .mm-stack-dot {
+  background: var(--mm-mint-bright);
+  animation: mm-pulse 2.4s ease-in-out infinite;
+}
+
+.mm-stack-fold { padding-bottom: 17px; }
+.mm-stack .mm-stack-body { max-width: 62ch; }
+/* The paragraph, not the wrapper: .mm-site p is a class and an element and
+   beats one class on the box around it. */
+.mm-stack .mm-stack-body p {
+  color: var(--mm-tx2);
+  font-size: 15px;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+.mm-stack .mm-stack-body p + p { margin-top: 9px; }
+
+/* Driven: every row is open in the DOM so the swap has something to travel on,
+   and the fold does the hiding. min-height on the body is the load-bearing
+   line, because a grid item defaults to min-height auto and will not collapse
+   to a zero track. */
+.mm-stack.is-driven .mm-stack-fold {
+  display: grid;
+  grid-template-rows: 0fr;
+  padding-bottom: 0;
+  transition: grid-template-rows .2s cubic-bezier(.22, .8, .3, 1), padding-bottom .2s cubic-bezier(.22, .8, .3, 1);
+}
+.mm-stack.is-driven .mm-stack-row.is-open .mm-stack-fold { grid-template-rows: 1fr; padding-bottom: 17px; }
+.mm-stack.is-driven .mm-stack-body { overflow: hidden; min-height: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-stack-row.is-ahead::before { animation: none; }
+  .mm-stack-row.is-open .mm-stack-dot { animation: none; }
+  .mm-stack.is-driven .mm-stack-fold { transition: none; }
+}
+
 /* ---------- The four GTM levers, as one panel ---------- */
 
 .mm-levers {
@@ -1573,11 +1702,13 @@
    a thing you take hold of. */
 .mm-drum-stage { position: relative; margin-top: 14px; }
 .mm-drum {
-  /* Clips on both axes, which is the only honest way to write it: a box that
-     hides one axis computes the other to auto, so "hidden x, visible y" was
-     quietly making a scroll container. The expanded quote lives outside this
-     element for exactly that reason. */
-  overflow: hidden;
+  /* Until JavaScript takes the drum over, this is an ordinary scroller. It was
+     `overflow: hidden` unconditionally, and the drum's position is a transform
+     this hook writes, so with scripting off the box clipped every card past the
+     first with no scrollbar and no way to reach them: one of thirty-three here,
+     and one of eight on the questions drum that used to share this class. */
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
   cursor: grab;
   /* The browser must not claim the horizontal gesture, or a drag on a phone
      scrolls the page sideways instead of turning the drum. */
@@ -1587,12 +1718,22 @@
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
 }
+/* Driven: clips on both axes, which is the only honest way to write it. A box
+   that hides one axis computes the other to auto, so "hidden x, visible y" was
+   quietly making a scroll container; the expanded quote lives outside this
+   element for exactly that reason. */
+.mm-drum.is-driven { overflow: hidden; scroll-snap-type: none; }
+/* Not driven, so nothing is centred and nothing should recede for being off a
+   centre that does not exist yet. */
+.mm-drum:not(.is-driven) .mm-drum-track > * { scroll-snap-align: start; opacity: 1; }
 .mm-drum.is-held { cursor: grabbing; }
 .mm-drum:focus-visible { outline: 2px solid var(--mm-focus); outline-offset: 3px; }
 /* stretch, not flex-start: the row height is the tallest card and every card
    fills it, which is what makes the grid rows above line up across the drum. */
 .mm-drum-track { display: flex; align-items: stretch; gap: 14px; width: max-content; will-change: transform; }
-.mm-drum-track > .mm-voice { width: 296px; flex: 0 0 296px; }
+/* The width comes from the component, which squeezes the card to the frame on a
+   narrow screen so no neighbour is ever sliced mid-sentence. */
+.mm-drum-track > .mm-voice { width: var(--mm-card, 296px); flex: 0 0 var(--mm-card, 296px); }
 
 /* The card being read holds full contrast; the ones off the edge recede. The
    falloff comes from the drum's own index, so it is right mid-throw too. */
@@ -1611,9 +1752,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* No drift, no throw, no spring. The drum becomes a scroller the reader
-     drives, and every card is still reachable by drag, arrow or tab. */
-  .mm-drum { overflow-x: auto; scroll-snap-type: x mandatory; }
+  /* No drift, no throw, no spring. The drum stays the scroller it starts as,
+     and every card is still reachable by drag, arrow or tab. */
+  .mm-drum.is-driven { overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; }
   .mm-drum-track > .mm-voice { scroll-snap-align: start; opacity: 1 !important; transition: none; }
 }
 
@@ -1992,49 +2133,14 @@
 
 /* ---------- The questions ---------- */
 
-/* Same drum, same card discipline as the testimonials: equal heights, rows that
-   line up, and an answer that opens without moving the page. They used to be a
-   two-column accordion where opening one chip stretched its row partner and
-   left it holding dead space. */
+/* The questions, one answer at a time. See OneAtATime.tsx for why: the drum
+   that used to be here put 487 words on a 390px screen against a site median of
+   100, showed its cards clipped mid-word at both edges, and hid seven of its
+   eight answers from anyone without JavaScript. */
 .mm-questions { margin-top: 4px; }
 .mm-questions .mm-objections-title { margin-bottom: 0; }
-.mm-drum.is-questions { --mm-question-card: 320px; }
-.mm-drum.is-questions .mm-drum-track > .mm-question { width: 320px; flex: 0 0 320px; }
-
-.mm-question {
-  position: relative;
-  display: grid;
-  grid-template-rows: auto 1fr;
-  align-content: start;
-  border: 1px solid var(--mm-line);
-  border-radius: 3px;
-  background: var(--mm-ink2);
-  padding: 15px 16px;
-  transition: border-color .12s ease, opacity .22s ease;
-}
-.mm-question.is-dim { opacity: .5; }
-/* Two classes deep: .mm-site h3 sets the display size and beats a single class,
-   which made every question read at 26px and wrap to three lines. */
-.mm-question .mm-question-q {
-  display: block;
-  color: #f0f6f3;
-  font-family: var(--mm-grotesque);
-  font-weight: 600;
-  font-size: 15.5px;
-  letter-spacing: -.015em;
-  line-height: 1.3;
-  text-wrap: pretty;
-}
-.mm-question-q::before { content: "Q. "; color: var(--mm-mint); font-family: var(--mm-mono); font-size: 11px; }
-/* Whole, always. Nothing to open, so nothing to grow. */
-.mm-question-a {
-  margin-top: 10px;
-  color: var(--mm-tx2);
-  font-size: 14px;
-  line-height: 1.55;
-  text-wrap: pretty;
-}
-.mm-questions .mm-ask { margin-top: 18px; }
+.mm-questions .mm-stack { margin-top: 16px; }
+.mm-questions .mm-ask { margin-top: 22px; }
 
 /* A scrubbed line that is also a claim keeps the claim's colour and scale. Both
    selectors are one class, and instruments loads second, so the scrub would

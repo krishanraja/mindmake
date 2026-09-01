@@ -18,6 +18,7 @@
  */
 
 import { chromium } from "playwright";
+import { asked } from "./lib/asked.mjs";
 
 const args = process.argv.slice(2);
 const flag = (name, fallback) => {
@@ -44,7 +45,7 @@ const report = [];
 
 for (const path of PATHS) {
   const page = await browser.newPage({ viewport: { width: WIDTH, height: WIDTH < 700 ? 844 : 900 } });
-  await page.goto(BASE + path, { waitUntil: "networkidle" });
+  await page.goto(BASE + asked(path), { waitUntil: "networkidle" });
 
   const sections = await page.evaluate((selfSeparating) => {
     const roots = [...document.querySelectorAll(".mm-site > section, main > section, footer")];

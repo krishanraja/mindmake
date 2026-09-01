@@ -20,7 +20,21 @@ import { track } from "@/lib/analytics";
 
 const CARD = 296;
 const GAP = 14;
-const PITCH = CARD + GAP;
+/**
+ * How wide a card is, which is not always 296px.
+ *
+ * A drum is meant to show part of the next card, and on a laptop it does: four
+ * cards and a wide slice of a fifth, which reads as a rail that continues.
+ * On a phone the frame is 350px, so that slice is 54px, which is a column of
+ * half-words rather than a card. Counted across the three main pages at 390px,
+ * that one screen held six of the site's eighteen sentences cut mid-word, more
+ * than any other screen on the site.
+ *
+ * So below the width where a neighbour is worth seeing, one card fills the
+ * frame. The drag, the throw, the snap and the edge mask are all unchanged.
+ */
+const PEEK = CARD * 1.4 + GAP;
+const cardFor = (viewport: number) => (viewport < PEEK ? Math.max(220, viewport - GAP) : CARD);
 
 function Attribution({ voice }: { voice: Testimonial }) {
   return (
@@ -94,8 +108,10 @@ export function ProofDrum({ title = "People who have worked with Krish" }: { tit
     return () => observer.disconnect();
   }, []);
 
-  const drum = useDragDrum({ pitch: PITCH, count: voices.length, viewport, drift: 16 });
-  const perScreen = Math.max(1, Math.round(viewport / PITCH));
+  const card = cardFor(viewport);
+  const pitch = card + GAP;
+  const drum = useDragDrum({ pitch, count: voices.length, viewport, drift: 16 });
+  const perScreen = Math.max(1, Math.round(viewport / pitch));
 
   /* Tabbing into a card that is off to the right should bring it in rather than
      leaving the reader looking at nothing. */
@@ -153,7 +169,8 @@ export function ProofDrum({ title = "People who have worked with Krish" }: { tit
           touches the drum still meets all thirty-three in the right order. */}
       <div className="mm-drum-stage">
         <div
-          className={`mm-drum${drum.held ? " is-held" : ""}`}
+          className={`mm-drum${drum.driven ? " is-driven" : ""}${drum.held ? " is-held" : ""}`}
+          style={{ "--mm-card": `${card}px` } as React.CSSProperties}
           ref={frame}
           role="group"
           aria-label={`${title}: ${voices.length} quotes`}

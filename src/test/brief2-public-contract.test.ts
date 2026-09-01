@@ -57,6 +57,7 @@ const PUBLIC_SURFACES = [
   "src/components/mindmake/Marquee.tsx",
   "src/components/mindmake/MindmakeShell.tsx",
   "src/components/mindmake/ObjectionChips.tsx",
+  "src/components/mindmake/OneAtATime.tsx",
   "src/components/mindmake/FounderNote.tsx",
   "src/components/mindmake/ProofDrum.tsx",
   "src/components/mindmake/companyRead.ts",

@@ -26,6 +26,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
  * Reduced motion removes the drift, the throw and the spring. Dragging still
  * moves the drum and the arrows still step it, both landing directly on a card,
  * so every card stays reachable and nothing animates on its own.
+ *
+ * And it reports whether it has actually taken control, because everything
+ * above depends on a transform this hook writes. Until it has, the drum has to
+ * be an ordinary horizontal scroller: `.mm-drum` was `overflow: hidden` from
+ * the start, so with scripting off it showed one card and clipped the rest with
+ * no scrollbar and no way to reach them. Measured on the questions drum, that
+ * was one card of eight and 2,308px of answers.
  */
 
 type Mode = "drift" | "drag" | "throw" | "snap";
@@ -62,6 +69,10 @@ export function useDragDrum({ pitch, count, viewport, drift = 16 }: DrumOptions)
   const centred = useRef(0);
   const [index, setIndex] = useState(0);
   const [held, setHeld] = useState(false);
+  /* An effect rather than a check for `window`, so the first client render
+     matches the server's and hydration has nothing to disagree about. */
+  const [driven, setDriven] = useState(false);
+  useEffect(() => setDriven(true), []);
 
   const span = Math.max(0, count * pitch - viewport);
   const reduced = typeof window !== "undefined"
@@ -209,5 +220,5 @@ export function useDragDrum({ pitch, count, viewport, drift = 16 }: DrumOptions)
     mode.current = "snap";
   }, [clamp, paint, pitch, reduced]);
 
-  return { track, index, held, reduced, onPointerDown, onPointerMove, onPointerUp, onKeyDown, step, reveal };
+  return { track, index, held, reduced, driven, onPointerDown, onPointerMove, onPointerUp, onKeyDown, step, reveal };
 }

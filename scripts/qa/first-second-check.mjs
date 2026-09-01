@@ -35,6 +35,7 @@
  *                                          [--report] [--frames]
  */
 import { chromium } from "playwright";
+import { asked } from "./lib/asked.mjs";
 import { PNG } from "pngjs";
 
 const args = process.argv.slice(2);
@@ -53,6 +54,7 @@ const BASE = flag("base", "http://127.0.0.1:4180");
    and every back-button return into the dialog. Neither the page set here nor
    `src/test/ssg-hydration.test.tsx` covered a query-parameter state. */
 const PATHS = flag("paths", "/,/ai-brain,/ai-gtm,/?start=1").split(",");
+
 const WIDTHS = flag("widths", "390,1440").split(",").map(Number);
 /** How long to watch. A flash the visitor sees happens well inside this. */
 const WINDOW = Number(flag("window", 4000));
@@ -213,7 +215,7 @@ for (const width of WIDTHS) {
     await session.send("Page.startScreencast", { format: "png", everyNthFrame: 1 });
     /* Navigation is not awaited. Waiting for load would mean the first
        photograph is taken after the thing being photographed has finished. */
-    page.goto(BASE + path, { waitUntil: "commit" }).catch(() => {});
+    page.goto(BASE + asked(path), { waitUntil: "commit" }).catch(() => {});
     await page.waitForTimeout(WINDOW);
     try { await session.send("Page.stopScreencast"); } catch { /* gone */ }
 

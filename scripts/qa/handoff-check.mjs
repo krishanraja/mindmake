@@ -43,7 +43,7 @@ for (const [width, height] of [[1440, 900], [390, 844]]) {
   });
 
   // 1. The ask bar's unmatched question. No network, entirely client side.
-  await page.goto(`${BASE}/ai-brain`, { waitUntil: "networkidle" });
+  await page.goto(`${BASE}/ai-brain/`, { waitUntil: "networkidle" });
   await page.getByPlaceholder(/Ask us anything/).fill("what is your favourite colour");
   await page.getByRole("button", { name: "Ask", exact: true }).click();
   const trigger = page.getByRole("button", { name: /Or ask a person to look/ });
@@ -126,7 +126,7 @@ for (const [width, height] of [[1440, 900], [390, 844]]) {
   }));
   await page.route("**/functions/v1/submit-mindmake-brief", (route) => route.fulfill({ status: 500, body: "" }));
 
-  await page.goto(`${BASE}/ai-gtm`, { waitUntil: "networkidle" });
+  await page.goto(`${BASE}/ai-gtm/`, { waitUntil: "networkidle" });
   await page.getByLabel("First name").fill("Ada");
   await page.getByLabel("Last name").fill("Lovelace");
   await page.getByLabel("Work email").fill("ada@northwind.com");

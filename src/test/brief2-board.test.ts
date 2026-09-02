@@ -11,6 +11,10 @@ import {
   laneFor,
   laneSpark,
   matchesIndustry,
+  matchesRole,
+  roleCounts,
+  ROLE_CATEGORIES,
+  ROLE_LABELS,
   timestampLabel,
   topCard,
   STALE_AFTER_HOURS,
@@ -240,5 +244,78 @@ describe("the board reads from one filtered collection", () => {
     /* Loading used to be a bare h2, which reads as broken rather than busy. */
     const loading = source.slice(source.indexOf('board.status === "loading"'));
     expect(loading.slice(0, 500)).toContain("Reading today's sources.");
+  });
+});
+
+describe("the role filter reads the board as one part of a business", () => {
+  /* The eight the lead dialog already asks, in its order. */
+  const ROLES = [
+    "leadership", "sales", "marketing", "product",
+    "engineering", "operations", "finance", "people",
+  ] as const;
+
+  it("uses the site's own divisions and no second vocabulary", () => {
+    expect(Object.keys(ROLE_CATEGORIES)).toEqual([...ROLES]);
+    expect(Object.keys(ROLE_LABELS)).toEqual([...ROLES]);
+    /* Named the way the person in that job would say it, which is what the
+       dialog asks, so the board never offers "Revenue" beside a form asking
+       about "Sales". */
+    expect(ROLE_LABELS.sales).toBe("Sales");
+    expect(ROLE_LABELS.people).toBe("People");
+  });
+
+  it("claims every category for someone, and none for everyone", () => {
+    const claimed = new Set(Object.values(ROLE_CATEGORIES).flat());
+    for (const category of Object.values(LANE_MAP).flat()) {
+      expect(`${category}: claimed`).toBe(`${category}: ${claimed.has(category) ? "claimed" : "orphaned"}`);
+    }
+    for (const [role, cats] of Object.entries(ROLE_CATEGORIES)) {
+      expect(`${role}: ${cats.length < 9}`).toBe(`${role}: true`);
+    }
+  });
+
+  it("matches on the category a division works in", () => {
+    expect(matchesRole(card({ category: "org" }), "people")).toBe(true);
+    expect(matchesRole(card({ category: "economics" }), "finance")).toBe(true);
+    expect(matchesRole(card({ category: "security" }), "engineering")).toBe(true);
+    /* And not on one it does not. */
+    expect(matchesRole(card({ headline: "A quiet day", category: "org" }), "engineering")).toBe(false);
+  });
+
+  it("matches on a word in the headline or the point of view", () => {
+    const hiring = card({ headline: "Hiring slows across model labs", category: "model" });
+    expect(matchesRole(hiring, "people")).toBe(true);
+    const pov = card({ headline: "A neutral headline", category: "model", pov: "Watch the cost per token." });
+    expect(matchesRole(pov, "finance")).toBe(true);
+  });
+
+  it("does not let any role become a synonym for everything", () => {
+    /* The lesson the Technology chip taught, applied before it can repeat: a
+       chip that returns the whole board is a chip that reads as broken. */
+    const board = [
+      card({ headline: "Frontier model tops the benchmark", category: "model" }),
+      card({ headline: "Ad revenue passes a billion", category: "economics" }),
+      card({ headline: "Regulator opens an inquiry", category: "governance" }),
+      card({ headline: "A new agent toolchain ships", category: "tools" }),
+      card({ headline: "Researchers move between labs", category: "org" }),
+      card({ headline: "A serious vulnerability is disclosed", category: "security" }),
+      card({ headline: "An independent evaluation is published", category: "proof" }),
+    ];
+    for (const role of ROLES) {
+      const hits = board.filter((entry) => matchesRole(entry, role)).length;
+      expect(`${role}: ${hits < board.length}`).toBe(`${role}: true`);
+    }
+  });
+
+  it("counts every role, so a chip is never pressable and empty", () => {
+    const counts = roleCounts([
+      card({ category: "org", headline: "Researchers move between labs" }),
+      card({ category: "economics", headline: "Ad revenue passes a billion" }),
+    ]);
+    expect(Object.keys(counts)).toEqual([...ROLES]);
+    expect(counts.people).toBe(1);
+    expect(counts.finance).toBe(1);
+    expect(counts.leadership).toBe(2);
+    for (const role of ROLES) expect(counts[role]).toBeLessThanOrEqual(2);
   });
 });

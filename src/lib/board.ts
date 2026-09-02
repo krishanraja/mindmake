@@ -3,6 +3,7 @@
  * honest phrasings and the aggregations. No React and no network, so every rule
  * the brief calls a commitment can be tested directly.
  */
+import { DIVISIONS, DIVISION_IDS, type Division } from "@/lib/workEmail";
 
 /** CTRL's nine categories, as they arrive in the cache. */
 export type BoardCategory =
@@ -166,6 +167,94 @@ export function industryCounts(cards: BoardCard[]): Record<Industry, number> {
     counts[industry] = industry === "All industries"
       ? cards.length
       : cards.filter((card) => matchesIndustry(card, industry)).length;
+  }
+  return counts;
+}
+
+/* ---------- Reading the board as the part of the business you work in ---------- */
+
+/**
+ * The eight divisions, straight from `src/lib/workEmail.ts`.
+ *
+ * Not a second list. The lead dialog already asks a visitor which part of the
+ * business they work in, the server allowlists the same eight identifiers and a
+ * test keeps the two copies identical, so the board filters on the vocabulary
+ * the site already speaks rather than inventing "revenue" beside an existing
+ * "sales".
+ */
+export type Role = Division;
+export const ROLE_LABELS: Record<Role, string> = Object.fromEntries(
+  DIVISIONS.map((entry) => [entry.id, entry.label]),
+) as Record<Role, string>;
+
+/**
+ * Which of the nine categories touch each division's work.
+ *
+ * This is the base of the match and it is a projection a visitor could check:
+ * every category is claimed by at least one role, several are claimed by more
+ * than one, and nothing is claimed by all eight. `org` is deliberately the only
+ * category People claims, because a filter that quietly returns the whole board
+ * is the industry filter's old Technology bug wearing a different label.
+ */
+export const ROLE_CATEGORIES: Record<Role, BoardCategory[]> = {
+  leadership:  ["governance", "economics", "org"],
+  sales:       ["economics", "proof", "product"],
+  marketing:   ["proof", "product", "economics"],
+  product:     ["model", "product", "orchestration"],
+  engineering: ["model", "tools", "orchestration", "security"],
+  operations:  ["tools", "orchestration", "security", "governance"],
+  /* Economics only. `tools` was in here and it pulled a story about a security
+     breach into Finance's reading on the strength of the category alone, which
+     is the projection being generous rather than true. Money is its own
+     category; what Finance wants from the rest arrives on the keywords. */
+  finance:     ["economics"],
+  /* `org` alone, and it is the one role that cannot be fed by a single day.
+     Measured against the live feed on 2 September 2026: `org` is 20 items in
+     400, so People matched 0 of today's 13 and 3 of the last three days. Any
+     surface offering this chip has to read a window wide enough to stock it, or
+     the chip is permanently disabled on the surface that offers it. That is a
+     fact about the classifier upstream, not something a keyword list can fix. */
+  people:      ["org"],
+};
+
+/**
+ * The refinement, over the headline and the point of view.
+ *
+ * Narrow on purpose, for the reason recorded above `INDUSTRY_KEYWORDS`: on a
+ * board where every item is about AI, a word like "model" or "platform" matches
+ * nearly everything, and a chip that returns the same list as "Everything"
+ * reads as broken. These are words that mark an item as belonging to one
+ * division's week rather than to the industry at large.
+ */
+const ROLE_KEYWORDS: Record<Role, string[]> = {
+  leadership:  ["board", "regulat", "oversight", "judgement", "strategy", "policy", "governance"],
+  sales:       ["revenue", "pricing", "customer", "buyer", "deal", "quota", "pipeline"],
+  marketing:   ["advertis", " ads", "brand", "audience", "campaign", "creator", "content"],
+  product:     ["launch", "roadmap", "benchmark", "capabilit", "release", "feature"],
+  engineering: ["code", "api", "latency", "infrastructure", "open weights", "vulnerab", "deploy"],
+  operations:  ["workflow", "process", "supply", "outage", "incident", "throughput"],
+  finance:     ["cost", "cheaper", "margin", "spend", "billion", "funding", "efficiency"],
+  people:      ["hiring", "headcount", "layoff", "talent", "workforce", "culture", "role"],
+};
+
+/**
+ * Whether an item belongs in a division's reading.
+ *
+ * Deterministic and checkable, like the industry filter beside it: a category
+ * this division works in, or one of a short list of words in the headline or
+ * the point of view. Honest filtering, not personalisation.
+ */
+export function matchesRole(card: BoardCard, role: Role): boolean {
+  if (ROLE_CATEGORIES[role].includes(card.category as BoardCategory)) return true;
+  const haystack = [card.headline, card.pov ?? ""].join(" ").toLowerCase();
+  return ROLE_KEYWORDS[role].some((keyword) => haystack.includes(keyword));
+}
+
+/** Counts for the chips, so none is ever pressable and empty. */
+export function roleCounts(cards: BoardCard[]): Record<Role, number> {
+  const counts = {} as Record<Role, number>;
+  for (const role of DIVISION_IDS) {
+    counts[role] = cards.filter((card) => matchesRole(card, role)).length;
   }
   return counts;
 }

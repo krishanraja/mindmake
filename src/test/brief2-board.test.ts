@@ -11,6 +11,7 @@ import {
   laneFor,
   laneSpark,
   matchesIndustry,
+  isShown,
   matchesRole,
   roleCounts,
   ROLE_CATEGORIES,
@@ -317,5 +318,40 @@ describe("the role filter reads the board as one part of a business", () => {
     expect(counts.finance).toBe(1);
     expect(counts.leadership).toBe(2);
     for (const role of ROLES) expect(counts[role]).toBeLessThanOrEqual(2);
+  });
+});
+
+describe("the classifier's own reading, when it arrives", () => {
+  it("prefers affects over the projection, and answers only from it", () => {
+    /* A story whose subject is a model and whose audience is the people who
+       manage the work. The projection can only see the subject; the field can
+       see both, so it is the answer and the projection is not consulted. */
+    const marked = card({
+      headline: "A frontier lab reshapes how its teams are staffed",
+      category: "model",
+      affects: ["people", "leadership"],
+    });
+    expect(matchesRole(marked, "people")).toBe(true);
+    expect(matchesRole(marked, "leadership")).toBe(true);
+    /* Product would have matched on category alone. It does not now, because
+       the classifier read the article and did not say Product. */
+    expect(matchesRole(marked, "product")).toBe(false);
+  });
+
+  it("falls back to the projection when the field is absent or empty", () => {
+    expect(matchesRole(card({ category: "model" }), "product")).toBe(true);
+    expect(matchesRole(card({ category: "model", affects: [] }), "product")).toBe(true);
+  });
+
+  it("declines an item whose only content is damage", () => {
+    expect(isShown(card({ stance: "opportunity" }))).toBe(true);
+    expect(isShown(card({ stance: "shift" }))).toBe(true);
+    expect(isShown(card({ stance: "risk" }))).toBe(true);
+    expect(isShown(card({ stance: "damage" }))).toBe(false);
+  });
+
+  it("shows an item that predates the field rather than emptying the board", () => {
+    expect(isShown(card())).toBe(true);
+    expect(isShown(card({ stance: null }))).toBe(true);
   });
 });

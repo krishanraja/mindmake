@@ -26,6 +26,10 @@ export interface BoardCard {
   timeAgo: string | null;
   score: number | null;
   sourceCount: number | null;
+  /** Which parts of a business the item lands on. Null before CTRL emits it. */
+  affects: string[] | null;
+  /** What it asks of a leader. Null before CTRL emits it. */
+  stance: string | null;
 }
 
 export interface BoardDay {
@@ -61,6 +65,13 @@ const text = (value: unknown): string | null => {
 const number = (value: unknown): number | null =>
   typeof value === "number" && Number.isFinite(value) ? value : null;
 
+/** A list of short identifiers, or null. Anything else upstream sends is dropped. */
+const list = (value: unknown): string[] | null => {
+  if (!Array.isArray(value)) return null;
+  const clean = value.filter((entry): entry is string => typeof entry === "string" && entry.length > 0 && entry.length < 40);
+  return clean.length ? clean : null;
+};
+
 /** Strips a protocol and path down to the bare domain the card displays. */
 const prettySource = (value: unknown): string | null => {
   const source = text(value);
@@ -87,6 +98,14 @@ export function toBoardCard(raw: unknown, dayIndex: number, cardIndex: number): 
     timeAgo: text(card.timeAgo),
     score: number(card.score),
     sourceCount: number(card.sourceCount),
+    /* Who a story lands on, and what it asks of them. Both are written by the
+       classifier upstream and both are optional, because this function must
+       keep answering for a cache row written before they existed. Absent, the
+       board falls back to projecting the nine categories onto the eight
+       divisions, which is a guess; present, it is the classifier's reading of
+       the article rather than ours of the headline. */
+    affects: list(card.affects),
+    stance: text(card.stance),
   };
 }
 

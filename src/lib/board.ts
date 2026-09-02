@@ -26,6 +26,10 @@ export interface BoardCard {
   timeAgo?: string | null;
   score?: number | null;
   sourceCount?: number | null;
+  /** Which parts of a business the item lands on, from the classifier. */
+  affects?: string[] | null;
+  /** What it asks of a leader: an opening, a change to absorb, or a risk. */
+  stance?: string | null;
 }
 
 export interface BoardDay {
@@ -240,11 +244,24 @@ const ROLE_KEYWORDS: Record<Role, string[]> = {
 /**
  * Whether an item belongs in a division's reading.
  *
- * Deterministic and checkable, like the industry filter beside it: a category
- * this division works in, or one of a short list of words in the headline or
- * the point of view. Honest filtering, not personalisation.
+ * Two ways, and the first is much better than the second.
+ *
+ * `affects` is the classifier's own answer, written upstream from the article
+ * rather than the headline. When it is there, it is the answer: a projection of
+ * nine subject categories onto eight divisions is a guess, and this is not.
+ *
+ * Without it, the guess: a category this division works in, or one of a short
+ * list of words. Deterministic and checkable, like the industry filter beside
+ * it -- honest filtering, not personalisation -- but it cannot read. Measured
+ * against 400 live items, 59 were about people and work and 42 of them were
+ * filed under their subject instead, because a story has a subject and an
+ * audience and a single category can only record one. Widening the word lists
+ * to catch them was tried and rejected: it took People from 32 to 47 and most
+ * of the 15 were wrong, because no list of words can tell the team you manage
+ * from a team of AI agents in Slack. That is why the field exists.
  */
 export function matchesRole(card: BoardCard, role: Role): boolean {
+  if (card.affects?.length) return card.affects.includes(role);
   if (ROLE_CATEGORIES[role].includes(card.category as BoardCategory)) return true;
   const haystack = [card.headline, card.pov ?? ""].join(" ").toLowerCase();
   return ROLE_KEYWORDS[role].some((keyword) => haystack.includes(keyword));
@@ -257,4 +274,26 @@ export function roleCounts(cards: BoardCard[]): Record<Role, number> {
     counts[role] = cards.filter((card) => matchesRole(card, role)).length;
   }
   return counts;
+}
+
+/**
+ * The stances an item can take toward a leader, and the one the board declines.
+ *
+ * The board's job is what changed and what to do about it. An item that only
+ * reports damage -- a layoff round, a collapse, a firing -- has no move in it
+ * for the reader, and printing it is doom framing about their business, which
+ * the house style bans outright. So the upstream classifier drops those, and
+ * this is the second lock: anything that arrives marked as one is not shown.
+ *
+ * A story about work changing is not the same thing and is not excluded. "The
+ * shape of entry-level hiring is changing" is a shift with a move in it; "40,000
+ * people were let go" is not.
+ */
+export const SHOWN_STANCES = ["opportunity", "shift", "risk"] as const;
+
+export function isShown(card: BoardCard): boolean {
+  /* Unmarked items predate the field and are shown, because the board has been
+     answering with them all along and hiding them would empty it. */
+  if (!card.stance) return true;
+  return (SHOWN_STANCES as readonly string[]).includes(card.stance);
 }

@@ -83,8 +83,7 @@ export default function AiBrain() {
             <p className="mm-claim">In thirty days, yours will.</p>
             <p className="mm-lede">
               An AI brain is a working system that holds your standards, your context and the
-              decisions you have already made, then uses them on real work. It starts learning in
-              the first week, and you keep it.
+              decisions you have already made, then uses them on real work.
             </p>
           </div>
           <div className="mm-hero-film mm-parallax" ref={plateRef}>
@@ -132,7 +131,7 @@ export default function AiBrain() {
               </ul>
             </article>
           </div>
-          <ScrubText className="mm-payoff" text="You get hours back every week. Spend them on the work only you can do." />
+          <ScrubText className="mm-payoff" text="You get hours back every week." />
         </div>
       </section>
 
@@ -152,10 +151,9 @@ export default function AiBrain() {
           <div className="mm-ctrl-split">
             <div className="mm-ctrl-copy">
               <p className="mm-lede">
-                Behind the brain sits CTRL, the decision engine we have spent two years building
-                and use on our own work. It lays out a situation in plain English: the trade-offs,
-                the arguments against, and what would change your mind. No jargon, and nothing to
-                wade through.
+                Behind the brain sits CTRL, our own decision engine. It lays out a situation in
+                plain English: the trade-offs, the arguments against, and what would change your
+                mind.
               </p>
               <div className="mm-spec-chips">
                 {SPEC_CHIPS.map((chip) => <span className="mm-spec-chip" key={chip}>{chip}</span>)}
@@ -247,7 +245,7 @@ export default function AiBrain() {
             <h2 id="try-title" className="mm-try-title">Four details and two taps.</h2>
             <p className="mm-lede">
               We read your company from the outside, then what that means for your own week rather
-              than for the business. It takes about half a minute.
+              than for the business.
             </p>
             <BrainJourney />
           </div>
@@ -274,13 +272,13 @@ export default function AiBrain() {
               instrument: "recorder",
               title: "The build, thirty days",
               line: "Built once, connected to where you already work.",
-              body: "We learn your standards from real work, switch on the parts that keep learning, and connect it to the tools your week already runs on.",
+              body: "We learn your standards from real work, and switch on the parts that keep learning.",
             }}
             second={{
               instrument: "levels",
               title: "The habit, optional",
               line: "It gets better the more you use it.",
-              body: "Occasional check-ins to build the habits that get you to the third level. No monthly retainer. The system keeps working either way.",
+              body: "Occasional check-ins to build the habits that get you to the third level. No monthly retainer.",
             }}
           />
         </div>
@@ -288,7 +286,7 @@ export default function AiBrain() {
 
       <section className="mm-block mm-on-raise">
         <div className="mm-container">
-          <ObjectionChips ask={["technical", "how-we-work", "included", "duration", "keep", "data", "charging", "cost", "risk", "why-not-myself"]} />
+          <ObjectionChips ask={["technical", "how-we-work", "included", "keep", "data", "charging", "risk", "why-not-myself"]} />
         </div>
       </section>
 
@@ -320,7 +318,7 @@ export default function AiBrain() {
       <CloseBlock
         instrument="drawer"
         claim="You keep everything."
-        body="The system, the automations and the record of your standards. All of it stays with you when we finish."
+        body="The system, the automations and the record of your standards."
         onStart={openBrief}
       />
 

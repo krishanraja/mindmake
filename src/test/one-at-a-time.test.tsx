@@ -109,9 +109,15 @@ describe("the questions section", () => {
     }
   });
 
-  it("says how many there are without telling the reader to do anything", () => {
-    const markup = renderToStaticMarkup(<ObjectionChips ask={["consultant", "chatgpt"]} />);
-    expect(markup).toContain("2 of them.");
+  it("shows how many there are without a sentence saying so", () => {
+    /* The rows are numbered, so the last number is the count and the line that
+       used to print it under the heading was the markup saying what the markup
+       already showed. Both halves of the old rule still hold: the count is
+       legible, and nothing instructs the reader. */
+    const markup = renderToStaticMarkup(<ObjectionChips ask={["consultant", "chatgpt", "included"]} />);
+    expect(markup).toContain(">03<");
+    expect(markup).not.toContain(">04<");
+    expect(markup).not.toContain("3 of them");
     expect(markup).not.toContain("Drag it");
   });
 });

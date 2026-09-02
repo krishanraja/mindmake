@@ -40,8 +40,7 @@ export function SubscribeBand({ ground = "raise" }: { ground?: keyof typeof GROU
               The reading, if you want it separately.
             </h2>
             <p className="mm-lede">
-              We publish two things, and nothing else. No drip, and nothing from this page unless
-              you ask for it here.
+              No drip, and nothing from this page unless you ask for it here.
             </p>
             {/* The split-flap, which is what a publication is: what is new, and
                 when. The heading already carries the flap mark for exactly that

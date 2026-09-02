@@ -1001,3 +1001,139 @@ defects for working.
   conversion surface, which is a decision rather than a fix.
 - `/new-age-leadership` and `/blog/:slug` are still lazy against a 348KB entry
   bundle, and were never measured for the hydration cost.
+
+## 2 September 2026 — the design says it, so the sentence goes
+
+Krish, on the lead dialog on a phone: *"I don't think we need the text
+underneath the progress bar. It's stuff like that which we need to make way more
+minimal across the whole site. On every page the design should do the talking as
+opposed to the words... copy such as 'That is the whole idea.' is a total waste
+of space and needs to be purged from everywhere."*
+
+The sentence he pointed at was `Four details, and Mindmake does the reading
+before it asks you to explain the problem.` It sat between a step rail reading
+**You · Problem · Time · Brief** and four labelled fields, and it described both.
+
+### What was measured before anything was cut
+
+The whole rendered corpus of `/`, `/ai-brain` and `/ai-gtm` was pulled out of
+the built site block by block with word counts, rather than read in the source.
+Four families came out of it, and each was a habit rather than a paragraph:
+
+1. **Copy admiring the copy above it.** `That is the whole idea.` under a claim
+   on the homepage. `No jargon, and nothing to wade through.` under a sentence
+   whose only defence is whether it has jargon in it.
+2. **Instructions printed under a control that already looks like itself.**
+   `Drag it, or use the arrows.` under a drum with two arrows drawn on it.
+   `The answer opens under the question.` under a numbered accordion.
+   `Flick through them, or use the arrows.` under a deck. `Pick one and this
+   line tells you where you land.` under two buttons.
+3. **A lede restating the heading it sits under.** `/ai-gtm`'s form said
+   `Your company comes from your email address, so there is nothing to look up.`
+   under `Four details, and we start reading.`, with the same fact a third time
+   on the email field itself.
+4. **The same sentence said two and three times on one page.** `/ai-brain` ran
+   *the system, the automations and the record of your standards* as one answer,
+   then again as a second answer four rows down, then again as the close block's
+   body. Two of its ten questions were the same question, and so were two more.
+
+### What changed
+
+| | before | after |
+|---|---|---|
+| rendered words, `/` | 2,103 | **1,844** |
+| rendered words, `/ai-brain` | 1,202 | **1,025** |
+| rendered words, `/ai-gtm` | 910 | **838** |
+| total | 4,215 | **3,707** (−12%) |
+
+Every section on all three pages is lighter. The largest single cut is the
+homepage's story deck, 502 words to 338: each card stated its outcome in a
+sentence, drew the same numbers in a figure beneath it, and then had the client
+say it in their own words. The drawing and the quote are the two that are not
+ours, so the sentence went. It stays on `/case-studies`, where a card has no
+figure beside it.
+
+`/ai-brain` went from ten questions to eight. `duration` and `keep` answered the
+same question with the same sentence; `charging` already contained everything
+`cost` said, including that the price is private.
+
+The four CTRL captions lost the half that read the picture out loud. The one
+number in them, `42 things known, 18 confirmed by the owner`, moved into the
+capture's alt text, which is where a fact visible in a frame belongs and where it
+still reaches a reader who cannot see it. `brief2-public-contract.test.ts` still
+holds that exact string; it now finds it in the description rather than a
+caption, and says why.
+
+### What cutting a line broke, and how it was fixed
+
+Removing the outcome sentence left a hole in the story deck. Every card in the
+deck is the height of the tallest story, and the quote is pinned to the bottom
+edge so the eight of them line up; that combination puts all the spare height in
+one place. On the shortest story, which is the card you see first, it measured
+**147px of nothing between the figure and the quote** at 390px.
+
+`card-geometry-check.mjs` had nothing to say about it, correctly: the cards were
+all equal, all aligned, and all equally too tall. A gate for equal cards cannot
+see a card that is uniformly wrong.
+
+Stretching the figure into the gap was tried first and was worse. The bars inside
+a figure are a fixed 10px, so a 251px frame held a 10px bar and read as a chart
+that had failed to draw. What ships is the frame keeping its own size and
+floating in the middle of what is left: heading, drawing, quote, top to bottom,
+with the air shared either side of the drawing. The gap on the front card is
+74px, and 0-26px on the other seven. The rule is scoped to `.mm-deck-card`,
+because on `/case-studies` the same cards sit three across in a row, where it
+would let the tallest card decide where everyone's chart is drawn.
+
+### The gate that keeps it out
+
+`src/test/copy-restraint.test.ts`, over the server render of seven routes rather
+than the source, so a code comment explaining a rule cannot trip it and a string
+that never reaches a page cannot either. Three rules, one per habit above:
+
+- no copy about its own copy (`that is the whole idea`, `that's the point`,
+  `no jargon`, and their family);
+- no copy narrating a control (`drag it`, `use the arrows`, `tap to`,
+  `pick one and`, `the answer opens`);
+- **no sentence said twice on one page**, at six content words or more, over
+  `p`/`li`/`h*`/`legend`. Quotes are excluded: the same client sentence appears
+  in the story deck and the voices drum on the homepage, and that is two pieces
+  of evidence rather than our copy said twice.
+
+Run against the previous commit it fails six of its twenty-one cases, which is
+the control that says it is measuring something. Against this one it passes.
+
+The count under the questions heading (`8 of them.`) went with the rest. The
+rows are numbered 01–08, so the last number is the count, and
+`one-at-a-time.test.tsx` now asserts the numbering carries it rather than
+asserting the sentence exists.
+
+### Baselines after this change
+
+- Tests: **395 across 27 files**, the 21 new ones being the copy gate.
+- Lint **0 errors, 2 warnings**. Typecheck **0 errors**.
+- `qa:screens` at eight sizes: no section over budget anywhere, nothing clipped,
+  no sideways scroll, the action never buried. The homepage's worst section is
+  now 1.28 screens at 360px and 1.04 at 1440.
+- `qa:nojs`, `qa:oneway`, `qa:rhythm`, `qa:images`, `qa:cards`, `qa:entrance`,
+  redirects, dialog shape and handoff: all green.
+- `qa:alive`: **4 still viewports, down from 5, and the kind is unchanged.**
+  Three of the four are still `.mm-try`: `/ai-brain @3376px` and
+  `/ai-gtm @2532px` at 390, `/ai-brain @3600px` at 1440, plus `/ @844px`. The
+  plan for the previous commit predicted that splitting the try-it panels would
+  wake them and it did not; that prediction was wrong, and shortening the copy
+  around them does not change it either. A form screen is finished the moment it
+  is drawn. `Arrive` cannot fix it and its own docstring says so: the gate reads
+  a page at rest, and an arrival has by then arrived. What those screens want is
+  a set-piece, which is a design decision rather than a copy edit. No floor was
+  lowered.
+
+### Still open
+
+- The three still `.mm-try` viewports above, unchanged in kind since
+  1 September.
+- The three-question form on `/ai-brain` runs 1.88 screens and is exempt by
+  name. Making it two steps would fix the height and change a working
+  conversion surface, which is a decision rather than a fix.
+- `/new-age-leadership` and `/blog/:slug` are still lazy against a 348KB entry
+  bundle, and were never measured for the hydration cost.

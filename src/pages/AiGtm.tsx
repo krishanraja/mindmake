@@ -59,7 +59,7 @@ export default function AiGtm() {
             <ScrubText className="mm-claim" text="We help you sell for that." />
             <p className="mm-lede">
               We take one part of how you sell, rebuild it around the way AI has changed your
-              market, and prove it with real buyers inside thirty days. You keep the model.
+              market, and prove it with real buyers inside thirty days.
             </p>
           </div>
           <div className="mm-hero-film mm-parallax" ref={plateRef}>
@@ -146,9 +146,6 @@ export default function AiGtm() {
           <div className="mm-try-panel">
             <Instrument kind="recorder" />
             <h2 id="try-title" className="mm-try-title">Four details, and we start reading.</h2>
-            <p className="mm-lede">
-              Your company comes from your email address, so there is nothing to look up.
-            </p>
             <GtmJourney onRead={startFromJourney} />
           </div>
         </div>
@@ -170,10 +167,10 @@ export default function AiGtm() {
               instrument: "levels",
               title: "The build, optional",
               line: "Put it in place, and teach your team to run it.",
-              body: "We set the system up as the memory of how you sell, connect it to your plans, and coach the people who will keep it going after we finish.",
+              body: "We set the system up as the memory of how you sell, and connect it to your plans.",
             }}
           />
-          <ScrubText className="mm-payoff" text="We bring our own tooling, so the work moves quickly from day one. You keep the model, the plan and the system, and they keep working after we finish." />
+          <ScrubText className="mm-payoff" text="We bring our own tooling, so the work moves quickly from day one." />
         </div>
       </section>
 
@@ -190,7 +187,7 @@ export default function AiGtm() {
         ground="raise"
         panelId="try-it"
         claim="You keep the model."
-        body="The read, the plan and the working system stay with you, and they keep running after we finish."
+        body="The read, the plan and the working system. They keep running after we finish."
       />
 
       <LeadBrief

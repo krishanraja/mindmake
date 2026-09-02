@@ -701,6 +701,11 @@ describe("CTRL appears as proof, on one page only", () => {
       expect(existsSync(resolve(ROOT, `src/assets/ctrl/ctrl-${id}.jpg`))).toBe(true);
       expect(viewer).toContain(`ctrl-${id}.jpg`);
     }
+    /* The count is in the alt text rather than a caption, because it is a
+       fact the capture itself shows: the caption underneath was reading the
+       picture out loud to someone already looking at it. In the alt it still
+       reaches a reader who cannot see the frame, and it is still one approved
+       number that has to match what the capture holds. */
     expect(viewer).toContain("42 things known, 18 confirmed by the owner");
     expect(read("src/pages/AiBrain.tsx")).toContain("We built this for ourselves. In thirty days, we build yours.");
   });

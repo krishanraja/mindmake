@@ -120,6 +120,20 @@ No small pre-heading above a hero or a section title, anywhere on the site. Kick
 
 A small label may remain only where it names an object, a control, a value or an axis: a lane name on the board, a question number in a journey, a category tag on a card. The contract test enforces the shape of the ban by rejecting any label element immediately followed by a heading.
 
+## The design says it, so the sentence goes
+
+Added 2 September 2026, after a phone reading found the site legible, passing every layout and motion gate, and still reading as walls of words.
+
+A sentence earns its place by saying something nothing else on the screen says. Three things fail that test, and all three are checked mechanically in `src/test/copy-restraint.test.ts` over the server render, because each is cheap to write and invisible in review.
+
+- **Copy about its own copy.** "That is the whole idea." "No jargon, and nothing to wade through." A sentence claiming the sentence above it was good is a sentence the reader has to get past to reach the next real one.
+- **Copy narrating a control.** "Drag it, or use the arrows." under a drum with arrows drawn on it. "Pick one and this line tells you where you land." under two buttons. If a reader cannot tell what a control does, the control is what is wrong; a caption hides the defect and costs a line of the screen.
+- **The same sentence twice on one page.** Six content words or more, across paragraphs, list items, headings and legends. Quotes are exempt: the same client sentence in the story deck and the voices drum is two pieces of evidence, not our copy said twice.
+
+The corollary, which is the harder half: where a fact is already carried by a number in a picture, a label on an axis, a numbered row or the shape of a control, it is carried, and printing it again is not thoroughness. A count belongs in the numbering. A number visible in a capture belongs in that capture's alt text, where it still reaches a reader who cannot see the frame.
+
+None of this licenses cutting an answer. The questions sections are long because a reader with a question wants the answer, and every one of those is content. What came out was the same answer given twice under two headings.
+
 ## Proof
 
 Three families, never mixed, because merging them would be the easiest lie on the page.

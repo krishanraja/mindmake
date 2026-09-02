@@ -157,7 +157,7 @@ export function ProofDrum({ title = "People who have worked with Krish", heading
       <div className="mm-drum-head">
         <h3 id={headingId}>{title}</h3>
         <p className="mm-drum-hint">
-          <span><CountingValue value={voices.length} /> of them. Drag it, or use the arrows.</span>
+          <span><CountingValue value={voices.length} /> of them.</span>
           <span className="mm-drum-arrows">
             <button type="button" aria-label="Previous" onClick={() => drum.step(-1)}>←</button>
             <button type="button" aria-label="Next" onClick={() => drum.step(1)}>→</button>
@@ -218,9 +218,8 @@ export function ProofDrum({ title = "People who have worked with Krish", heading
       </div>
 
       <p className="mm-drum-count">
-        Every shortened quote is an exact extract of what the person wrote, and opens to the
-        whole thing. Sessions, clients and career references are labelled, and they are not
-        the same claim.
+        Every shortened quote is an exact extract, and opens to the whole thing. Sessions,
+        clients and career references are labelled, and are not the same claim.
       </p>
     </div>
   );

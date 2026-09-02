@@ -76,7 +76,6 @@ export function StoryIndex() {
           <span>of {String(stories.length).padStart(2, "0")}</span>
         </p>
         <p className="mm-index-hint">
-          <span>Flick through them, or use the arrows.</span>
           <span className="mm-drum-arrows">
             <button type="button" aria-label="Previous story" onClick={() => drum.step(-1)}>←</button>
             <button type="button" aria-label="Next story" onClick={() => drum.step(1)}>→</button>
@@ -115,7 +114,6 @@ export function StoryIndex() {
                 <Instrument kind={FIGURE_INSTRUMENT[story.figure.shape]} className="mm-head-mark" />
                 <span>{story.title}</span>
               </h3>
-              <p className="mm-story-outcome">{story.outcome}</p>
               <StoryFigureView figure={story.figure} />
               <blockquote>{story.quote}</blockquote>
               <cite>{story.attribution}</cite>

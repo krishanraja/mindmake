@@ -59,9 +59,6 @@ export function ObjectionChips({ ask, label = "Questions people ask us", titleId
           <h2 className="mm-objections-title" id={titleId}>
             <Instrument kind="flap" className="mm-head-mark" /><span>{label}</span>
           </h2>
-          <p className="mm-drum-hint">
-            <span>{entries.length} of them. The answer opens under the question.</span>
-          </p>
         </div>
       </Arrive>
 

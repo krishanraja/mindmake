@@ -175,7 +175,7 @@ export function DetailsJourney({
           value={email}
           onChange={(event) => { setEmail(event.target.value); if (error) { setError(""); setErrorField(null); } }}
         />
-        <small>{emailHint ?? "We read your company from this, so it saves you typing it out."}</small>
+        <small>{emailHint ?? "We read your company from this."}</small>
       </p>
 
       <fieldset className="mm-details-field mm-details-divisions" aria-invalid={errorField === "division" || undefined} aria-describedby={errorField === "division" ? errorId : undefined}>

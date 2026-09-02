@@ -98,10 +98,7 @@ export function ForkBand() {
             <small>{choice.sub}</small>
           </>
         ) : (
-          <>
-            Pick one and this line tells you where you land.
-            <small>No email required. Nothing is stored.</small>
-          </>
+          <small>No email required. Nothing is stored.</small>
         )}
       </p>
       </div>

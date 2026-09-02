@@ -50,11 +50,6 @@ function ProofLive() {
             </span>
           )}
         </div>
-        <p className="mm-lede" style={{ marginTop: 10 }}>
-          We read the market every morning and keep the parts that matter to the people we work
-          with. Here is today's.
-        </p>
-
         {card ? (
           <>
             <div className="mm-cards" style={{ marginTop: 14 }}>
@@ -171,7 +166,7 @@ export default function Index() {
           <h2 id="where-title"><Instrument kind="drawer" className="mm-head-mark" />Where does everything you teach AI end up?</h2>
           <p className="mm-lede" style={{ marginTop: 12 }}>
             You explain your business to AI every week. How you price. What good looks like. Which
-            customers matter. That knowledge is worth something, and it has to live somewhere.
+            customers matter.
           </p>
 
           {/* The three answers arrive one after another as you reach them.
@@ -196,9 +191,12 @@ export default function Index() {
             </Arrive>
           </div>
 
+          {/* The claim, and nothing under it. It carried a paragraph opening
+              "That is the whole idea", which is a sentence announcing that the
+              sentence above it was the point, followed by a restatement of the
+              three cards above that. */}
           <div className="mm-answer">
             <ScrubText className="mm-claim" text="You keep what it learns." />
-            <p>That is the whole idea. We help you put your own judgement to work, in plain English, on real decisions, and you own the result.</p>
           </div>
 
         </div>
@@ -245,7 +243,7 @@ export default function Index() {
       <CloseBlock
         instrument="recorder"
         claim="Start with one real decision."
-        body="Four details, and we read your market before asking you to explain anything. A plan built for your business lands in your inbox."
+        body="Four details, and we read your market before asking you to explain anything."
         onStart={openBrief}
         fork
       />

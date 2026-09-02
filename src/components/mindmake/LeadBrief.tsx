@@ -835,7 +835,7 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
         {step === "door" && (
           <section className="mm-brief-step is-door">
             <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">Which one are you here for?</h2>
-            <p>Both start the same way and both end in the same thirty days. This only changes what we ask you about first, and you can cross to the other later.</p>
+            <p>Both end in the same thirty days, and you can cross to the other later.</p>
             <div className="mm-door-pick" role="group" aria-label="Which one are you here for?">
               {DOOR_CHOICES.map((choice) => (
                 <button
@@ -855,7 +855,6 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
         {step === "details" && (
           <section className="mm-brief-step is-details">
             <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">Show me the business.</h2>
-            <p>Four details, and Mindmake does the reading before it asks you to explain the problem.</p>
             <DetailsJourney
               action="Read the business"
               busy={step !== "details"}
@@ -966,7 +965,7 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
           <section className="mm-brief-step is-contact">
             <button className="mm-step-back" type="button" onClick={() => setStep("preview")}>← Back to the brief</button>
             <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">Email the private brief.</h2>
-            <p>Enter your work email. Mindmake will send a six-digit code first. This keeps the brief private and checks that the address is yours.</p>
+            <p>A six-digit code comes first. It keeps the brief private and checks the address is yours.</p>
             <form onSubmit={submitLead}>
               <label htmlFor="mm-work-email">Work email</label>
               <input
@@ -1002,7 +1001,7 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
           <section className="mm-brief-step is-verify">
             <button className="mm-step-back" type="button" onClick={changeVerificationEmail}>← Change email</button>
             <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">Check your email.</h2>
-            <p>Enter the six-digit code sent to {email}. It expires after 10 minutes.</p>
+            <p>Sent to {email}. It expires after 10 minutes.</p>
             <form onSubmit={submitVerification}>
               <label htmlFor="mm-verification-code">Six-digit code</label>
               <input

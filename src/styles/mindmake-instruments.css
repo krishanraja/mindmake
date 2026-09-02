@@ -1478,6 +1478,24 @@
   padding: 20px;
 }
 
+/* The drawing sits in the slack rather than above it.
+ *
+ * Every card is the height of the tallest story and the quote is pinned to the
+ * bottom edge so the eight of them line up, which puts the spare height in the
+ * middle: 147px of nothing between the figure and the quote on the shortest
+ * story at 390px, and more once the outcome sentence came out on 2 September.
+ *
+ * Stretching the figure into it was tried first and was worse: the bars inside
+ * are a fixed height, so a 251px frame held a 10px bar and read as a chart that
+ * had failed to draw. The frame keeps its own size and floats in the middle of
+ * what is left, which is heading, drawing, quote, from top to bottom with the
+ * air shared either side of the drawing.
+ *
+ * Only in the deck. On /case-studies these cards sit three across in a row,
+ * where the same rule would let the tallest card decide where everyone's chart
+ * is drawn. */
+.mm-deck-card .mm-fig-holder { display: flex; flex: 1; flex-direction: column; justify-content: center; }
+
 /* Driven: every card in one grid cell, so the box is naturally the height of
    the tallest story and nothing is measured. Each card places itself by how far
    it is from the front, which is `--i` minus the offset the drum writes. */

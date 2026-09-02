@@ -12,7 +12,7 @@ tables are RLS-on with no policies, which means service role only.
 
 | Function | Version | verify_jwt | Called by |
 |---|---|---|---|
-| `get-ai-news` | v68 | false | The browser, for the board and the homepage card |
+| `get-ai-news` | v69 | false | The browser, for the board and the homepage card |
 | `mindmake-personal-read` | v20 | false | The browser, from `/ai-brain`, and every dead end on the site |
 | `send-follow-ups` | v2 | false | pg_cron, daily at 09:20 UTC |
 | `aa-price-snapshot` | v1 | false | pg_cron, daily at 11:00 UTC |

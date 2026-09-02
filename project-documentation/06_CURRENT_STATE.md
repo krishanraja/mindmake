@@ -1346,3 +1346,55 @@ drum's provenance note had the same shape one level in and lost their caps.
 - **Every browser gate green, `qa:alive` included, for the first time.**
   `qa:screens`, `qa:nojs`, `qa:oneway`, `qa:rhythm`, `qa:images`, `qa:cards`,
   `qa:entrance`, `qa:deadcss`, redirects, dialog shape, handoff.
+
+## 2 September 2026 — an audience axis, and what the cache actually holds
+
+The board can be read as one part of a business, and the mapping from nine
+subject categories onto eight divisions is a guess. Measured over 400 live
+items: **59 are about people and work, and only 17 carry `category: "org"`.**
+Forty-two were filed under their subject instead, because a story has a subject
+and an audience and one field can only record one of them. The subject always
+wins, since the subject is what a headline is about.
+
+Widening the keyword lists to recover them was tried and **rejected on the
+measurement**: People went from 32 to 47 across 28 days and most of the 15 added
+were wrong — *"NanoClaw enables persistent AI teams in Slack"* matched on
+"team". No list of words tells the team you manage from a team of AI agents. A
+classifier that has read the article can, so the fix belongs upstream.
+
+### The contract
+
+Two optional fields, additive, requested of CTRL's `live-headlines`:
+
+- **`affects: string[]`** — which of the eight divisions a story lands on,
+  judged from the article. When present it is the answer and the projection is
+  not consulted.
+- **`stance: string`** — `opportunity`, `shift`, `risk`, or `damage`. An item
+  that only reports harm has no move in it for the reader, and printing it is
+  doom framing about their business, which the house style bans. Those are
+  dropped upstream; `isShown` is the second lock here.
+
+A story about work changing is not excluded: the shape of entry-level hiring
+changing is a `shift` with a move in it, a redundancy round is not.
+
+### What is deployed, and what is not
+
+`get-ai-news` is at **v69**, deployed 2 September 2026 and verified in both
+shapes: the board view returns 28 days and 400 items with `affects` and `stance`
+on every card, and the legacy view returns the same four keys and the same
+headline key set as before. The mapper guards both fields, so a cache row
+written before they existed still maps and rubbish in them never reaches a page.
+
+**CTRL is not writing them yet.** Read straight from `live_headlines_cache`:
+every retained day reports 0 with `affects` and 0 with `stance`, and the keys a
+card actually carries are `aaMatched, benchmark, category, corroboration,
+externalScore, freshness, headline, id, pov, say, score, snippet, source,
+sourceCount, timeAgo, url`. Today's row was written at 10:30:24 UTC. So the
+classifier change is merged but has not produced data: the daily job has not
+re-run since, and the backfill has not been applied. Nothing on our side is
+waiting on anything — the moment a row carries the fields, they flow.
+
+### Baselines
+
+- **405 tests**, 0 lint errors and 2 warnings, 0 type errors.
+- Nothing renders differently until the fields arrive.

@@ -158,7 +158,37 @@ The site speaks as "we" throughout. The founder is named in the reference sectio
 
 Every component ships with its hover, press and focus-visible states. None are optional.
 
-Film plate, doors, enemy pair and answer block, marquee, objection chips, ask bar, live board (lane tiles, item cards, industry chips, timestamp with live dot), fork band on paper, ladder, shape cards, journey modules, proof viewer, close block. They live in `src/components/mindmake/` and are styled in `src/styles/mindmake-instruments.css`. Tokens, base and chrome live in `src/styles/mindmake.css`.
+Film plate, doors, enemy pair and answer block, marquee, objection chips, ask bar, live board (departures rows, lane tiles, role and industry chips, timestamp with live dot), fork band on paper, ladder, shape cards, journey modules, proof viewer, close block. They live in `src/components/mindmake/` and are styled in `src/styles/mindmake-instruments.css`. Tokens, base and chrome live in `src/styles/mindmake.css`.
+
+## The feed's voice
+
+The board publishes text this site did not write, and the two kinds are not
+governed the same way.
+
+**A headline is the source's own words and is never edited**, for spelling or
+anything else, exactly as a testimonial is. It appears in quotation only by
+being on a board that names its source beside it.
+
+**A line we author about an item is our voice** and is held to the house style
+like any other sentence here. The cache's `pov` field is that kind of line, and
+as CTRL writes it today it does not pass: measured over one day's items, 25 of
+29 are commands addressed to the reader and 9 carry American spellings. So the
+board does not print it. Its reading of an item is the `stance` word, which is
+one word and ours. The line returns when it is written in a voice this site can
+publish, and that is a change to the classifier rather than a scrub here: a
+scrub can fix `judgment`, and nothing mechanical can turn "Ensure rigorous
+oversight" into a sentence that is not an instruction to the reader.
+
+## Motion that is decoration on top of text
+
+The board's split-flap headline is the pattern to copy when something on this
+site animates text. **The true character is the element's own text at all
+times**; the animation writes an attribute and CSS paints a decoy over the top,
+and landing deletes the attribute. Nothing is ever revealed, uncovered or
+inserted, so the finished state is what a crawler, a reader with scripting off,
+a reader before hydration and a reader who asked for less motion all get, with
+no fallback branch to keep in step. An effect that has to build the content it
+animates is the wrong shape and belongs somewhere else.
 
 ## Accessibility
 
@@ -174,7 +204,7 @@ Every public change runs all of it.
 4. The motion gate: `IntersectionObserver` in one file only, and every revealed element readable with it never firing. Disable JavaScript, then load each page and read it end to end.
 5. The aliveness gate: scroll each page at reading pace and confirm every viewport holds something in motion, then crawl every interactive element with a mouse and a keyboard and confirm each answers.
 6. The three-second gate: read every headline with its serif payoff, standalone. Then the banned-word and antithesis scans.
-7. The board honesty gate: the timestamp renders from the cache date, staleness is labelled past 26 hours, and a failed fetch collapses the section cleanly.
+7. The board honesty gate: the timestamp renders from the cache date, staleness is labelled past 26 hours, and a failed fetch collapses the section cleanly. Every figure on the board comes from one filtered collection, so a chip moves the rows, the lane counts, the spark bars and the timestamp's total together; and each chip's count is what it would return if pressed, with the other lens left where it is, which is what makes "disabled at zero" true rather than approximate.
 8. Reduced motion: posters, stopped bands, final counter values, and every control still operable.
 9. The interaction gate: open the lead dialog and drive one dead end to the offer
    of a person, at 1440 and 390. Every gate above this one measures a page at

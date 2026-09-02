@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
@@ -12,11 +13,13 @@ import { Marquee } from "@/components/mindmake/Marquee";
 import { ObjectionChips } from "@/components/mindmake/ObjectionChips";
 import { ProofStrip, ProofVoices } from "@/components/mindmake/ProofStrip";
 import { SubscribeBand } from "@/components/mindmake/SubscribeBand";
-import { BoardCardView } from "@/components/mindmake/board/BoardCard";
+import { BoardFilters } from "@/components/mindmake/board/BoardFilters";
+import { FlapRow } from "@/components/mindmake/board/FlapRow";
 import { useBoardData } from "@/hooks/useBoardData";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import { useScrollDriver } from "@/hooks/useScrollDriver";
-import { topCard, isStale } from "@/lib/board";
+import { countMatching, isShown, isStale, recentMatching, roleCounts, timestampLabel, type Role } from "@/lib/board";
 import { track } from "@/lib/analytics";
 import filmOnePoster from "@/assets/films/film-01-poster.jpg";
 import filmOnePosterWebp from "@/assets/films/film-01-poster.webp";
@@ -33,10 +36,37 @@ import filmThreeLoopWebm from "@/assets/films/film-03-loop.webm";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-instruments.css";
 
-/** Today's strongest item, on the same component the board uses. */
+/**
+ * The morning's read, on the board's own rows.
+ *
+ * The homepage used to carry one card: today's highest-scoring item with its
+ * summary and its point of view. One item next to two thirds of an empty screen
+ * is not evidence that anything is running. This is the same board the /ai-gtm
+ * page publishes, cut to what a homepage owes -- headlines and their sources,
+ * no summary and no point of view, because the promise here is that we read the
+ * market every morning and the argument about it lives on the door page.
+ *
+ * It reads a week rather than a day for the reason the board does: a role chip
+ * filtered to today alone would be empty for whole divisions on most days.
+ */
 function ProofLive() {
-  const board = useBoardData({ days: 1 });
-  const card = board.status === "ready" ? topCard(board.days) : null;
+  const board = useBoardData({ days: 7 });
+  const [role, setRole] = useState<Role | null>(null);
+  const phone = useIsMobile();
+
+  const days = useMemo(
+    () => (board.status === "ready" ? board.days : []),
+    [board],
+  );
+  const counts = useMemo(
+    () => roleCounts(days.flatMap((day) => day.cards).filter(isShown)),
+    [days],
+  );
+  const total = useMemo(() => countMatching(days, { role }), [days, role]);
+  const rows = useMemo(
+    () => recentMatching(days, { role, limit: phone ? 4 : 6 }),
+    [days, role, phone],
+  );
 
   return (
     <section className="mm-block mm-on-raise mm-seam-above" aria-labelledby="proof-title">
@@ -46,18 +76,25 @@ function ProofLive() {
           {board.status === "ready" && (
             <span className={`mm-timestamp${isStale(board.cacheDate) ? " is-stale" : ""}`}>
               <i className={`mm-live-dot${isStale(board.cacheDate) ? " is-stale" : ""}`} aria-hidden="true" />
-              {isStale(board.cacheDate) ? "Yesterday's read, checked against other sources" : "Today 10:30 UTC, checked against other sources"}
+              {/* The cache's own stamp. This line was a hard-coded "Today 10:30
+                  UTC" for months, on the one section whose whole claim is that
+                  the timestamp is real. */}
+              {timestampLabel(board.cacheDate, days.length, total)}
             </span>
           )}
         </div>
-        {card ? (
+        {rows.length > 0 ? (
           <>
-            <div className="mm-cards" style={{ marginTop: 14 }}>
-              <BoardCardView card={card} />
+            <BoardFilters role={role} onRole={setRole} roleCounts={counts} />
+            <div className="mm-flap-panel">
+              {rows.map((card, index) => (
+                <FlapRow card={card} at={index} key={card.id} />
+              ))}
             </div>
-            <p style={{ marginTop: 16 }}>
+            <p className="mm-flap-foot">
+              <span>Showing {rows.length} of {total} in the last {days.length} days.</span>
               <Link className="mm-text-link" to="/ai-gtm#board">
-                See everything that changed <span aria-hidden="true">→</span>
+                See everything that changed <span aria-hidden="true">&rarr;</span>
               </Link>
             </p>
           </>

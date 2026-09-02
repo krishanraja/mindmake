@@ -103,13 +103,6 @@ export function timestampLabel(
   return `Read ${time} UTC · ${days} days · ${items}`;
 }
 
-/** The homepage carries today's strongest item, using the same component. */
-export function topCard(days: BoardDay[]): BoardCard | null {
-  const today = days[0]?.cards ?? [];
-  if (today.length === 0) return null;
-  return [...today].sort((a, b) => (b.score ?? 0) - (a.score ?? 0))[0];
-}
-
 export function laneCounts(days: BoardDay[]): Record<Lane, number> {
   const counts: Record<Lane, number> = { product: 0, price: 0, positioning: 0, people: 0 };
   for (const day of days) {
@@ -296,4 +289,45 @@ export function isShown(card: BoardCard): boolean {
      answering with them all along and hiding them would empty it. */
   if (!card.stance) return true;
   return (SHOWN_STANCES as readonly string[]).includes(card.stance);
+}
+
+/**
+ * The newest items matching the current filters, across the whole window.
+ *
+ * The board used to show today's cards and nothing else, with the retained days
+ * used only for the lane counts. That works while no filter is on, because
+ * today's items are the newest ones anyway. It stops working the moment a
+ * visitor picks a role: measured against the classified feed, People is 39
+ * items in 476 but only 0 of today's 13, so a chip that filtered today alone
+ * would be empty on most days for the role it was added to serve.
+ *
+ * So the board reaches back instead. One rule for both states: the newest N
+ * items that match, newest first. With no filter that is today, since today's
+ * items are the newest. With one it goes as far back as it needs. Nothing is
+ * hidden by this, because every row carries its own age.
+ */
+export function recentMatching(
+  days: BoardDay[],
+  options: { industry?: Industry; role?: Role | null; limit?: number } = {},
+): BoardCard[] {
+  const { industry = "All industries", role = null, limit } = options;
+  const out: BoardCard[] = [];
+  for (const day of days) {
+    for (const card of day.cards) {
+      if (!isShown(card)) continue;
+      if (!matchesIndustry(card, industry)) continue;
+      if (role && !matchesRole(card, role)) continue;
+      out.push(card);
+      if (limit && out.length >= limit) return out;
+    }
+  }
+  return out;
+}
+
+/** How many match, for the count beside a chip and the honesty line under it. */
+export function countMatching(
+  days: BoardDay[],
+  options: { industry?: Industry; role?: Role | null } = {},
+): number {
+  return recentMatching(days, options).length;
 }

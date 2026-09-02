@@ -1398,3 +1398,142 @@ waiting on anything — the moment a row carries the fields, they flow.
 
 - **405 tests**, 0 lint errors and 2 warnings, 0 type errors.
 - Nothing renders differently until the fields arrive.
+
+## 2 September 2026 — the board becomes a departures board
+
+The board was one card on the homepage and six cards on `/ai-gtm`, filtered by
+industry alone. It is now a list of rows on both, filtered by the part of the
+business a reader runs, drawn from the whole retained window rather than from
+today.
+
+### The treatment
+
+One item is a row: a gauge that sweeps to how well corroborated it is, and a
+headline that turns over leaf by leaf until it lands. They run on one clock, so
+a row finishes as one thing. Each row starts when it crosses into view, on its
+own settle rate and its own jitter, so rows overlap and disagree the way a real
+board does.
+
+**Every leaf carries the true character as its own text.** The riffle writes a
+decoy into `data-r` and CSS paints it over the top; landing deletes the
+attribute and the real character is revealed again, because it never left. So
+wherever a row renders — before hydration, under reduced motion, to anything
+reading the DOM — the headline is written out in full and nothing moves. The
+animation is never what puts the words on the screen. The board's data is
+fetched, so with scripting off the section shows its own honest line rather than
+rows; that is the fetch and has always been true of it, not the treatment.
+
+**The board only exists while a leaf is turning.** A real split-flap display is
+monospaced uppercase because each leaf is a fixed cell; ours is not, and a
+70-character headline set that way is markedly harder to read — which was the
+first thing the treatment was pulled up on. The slot, the hinge and the mono
+drum appear only on a churning leaf. A settled character is ordinary type in the
+site's own face, at reading size, with nothing round it.
+
+### What a phone changed, which was more than the layout
+
+A desktop row is one line of headline beside a gauge; a phone row is three. The
+first phone build made three separate mistakes, all found by looking at it:
+
+1. **It broke words in half.** "human researchers i / n safety", "annualized
+   revenu / e", on nearly every row. Two adjacent inline-blocks are a break
+   opportunity in Chromium whether or not there is a space between them, and
+   every character was one. Each word is a `nowrap` span now; only a word long
+   enough to strand a line — `Gemini-3.5-Transcribe`, 21 characters, real, in
+   the feed — gives that up so it can break between leaves.
+2. **The churning run sat above the line.** `overflow: hidden` on the leaf made
+   Chromium take its bottom margin edge as the baseline instead of its text's,
+   lifting every slot a descender's worth. The clip belongs to the decoy.
+3. **The clock was per-character.** A 91-character headline took two and a half
+   seconds, which on a phone — two or three rows in view rather than eight — is
+   most of the visible screen unreadable for most of that time. `perCell` comes
+   from a target total now: about 0.8s on a phone, 1.25s on a laptop, whatever
+   the length. Rows also cascade by index rather than firing together.
+
+The gauge moves too. On a laptop it is a 56px column to the left of the
+headline; on a phone that would be an eighth of the width the headline needs, so
+it drops to the foot of the row next to the corroboration it is a picture of.
+The meta track is `minmax(0, 1fr)`, which is what guarantees the lane badge can
+never push a row sideways: the mono text wraps instead.
+
+### The filters
+
+`BoardFilters` is one control used by both surfaces. The roles are the site's
+own eight divisions — the same list the lead dialog asks for and the server
+allowlists — so a visitor who says they run revenue in one place is offered the
+word "Sales" in the other. **Each chip's count is what it would return if
+pressed, with the other lens left where it is**, which is what makes "disabled
+at zero" a true promise rather than an approximate one.
+
+On a phone the two groups wrapped to eight rows and 370px, half a screen spent
+on the control before a reader reaches a headline. The chips are tighter, which
+takes the roles to three rows and 105px with all eight still on screen — they
+are the reason the filter exists, and a rail showing two of nine hides the rest
+behind a gesture nobody is told about. The industries are the second lens and
+are the rail.
+
+**The board reads the window, not the day.** Today alone is fine while nothing
+is filtered, because today's items are the newest anyway. It fails the moment a
+role is picked: People is 39 items in 476 and 0 of today's 13, so the chip added
+to serve that reader would have been empty on most days. Every row carries its
+own age, so nothing is passed off as today's.
+
+### Two things came off the page
+
+**The `pov` line.** Measured over the day's items, **25 of 29 are commands
+addressed to the reader** — "Focus on innovative ad models", "Ensure rigorous
+oversight", "Prioritize continuous improvement" — and **9 carry American
+spellings**, including `judgment`. The house style bans both outright, and a
+board printing ten of them is ten violations on the page. The board's reading of
+an item is the stance word instead, which is one word and ours. The line comes
+back when it is written in a voice this site can publish; that is an upstream
+change to CTRL's classifier, and the addendum asking for it is written.
+
+**The homepage's hard-coded timestamp.** `"Today 10:30 UTC, checked against
+other sources"` was a literal in `Index.tsx` for months, on the one section
+whose whole claim is that the timestamp is real. It renders from the cache date
+through `timestampLabel` now, like `/ai-gtm` always did.
+
+### The section split
+
+The board and the four lane tiles under one heading ran to **2.87 screens on a
+360px phone**. Where items are landing is a different question from what
+changed, so they are two sections with a seam, which is what `qa:rhythm`
+sanctions between two blocks standing on one ground. The lanes are two by two on
+a phone rather than a four-storey stack. Eight rows on a laptop and four on a
+phone: ten put `/ai-gtm` at 1.44 screens on a 1280x800 laptop, which is the
+short-height size the budget is set by.
+
+### What a still board turned out to be
+
+`qa:alive` reported `/ @3600px` at 1440 and `/ @4220px` at 390 as still
+viewports, both of them mostly board. It was the correct reading: the flap is an
+arrival, and by the time a page is at rest an arrival has arrived. A board that
+has finished is a photograph of a board.
+
+So an arrived row keeps turning one word of itself over, at long uneven
+intervals, only while it is on screen and never with the tab hidden. That is
+what a real departures board does for as long as you stand in front of it, and
+it is the honest fix rather than a floor lowered to meet the page. Both widths
+came back clean.
+
+Driving the needle from the row's position instead was tried first and reverted
+within the hour: with `--mm-p` on the gauge, a row low on the screen showed a
+low needle, so an item with two independent sources read as weaker than one with
+a single source sitting higher up. **A gauge carries a value and may not report
+where the reader has scrolled to.** The idle turn leaves it alone for the same
+reason: how well corroborated an item is has not changed.
+
+### What went with the rewrite
+
+`BoardCardView`, the six-card grid it sat in, its 1,795 characters of CSS, and
+`topCard`, which existed to pick the homepage's single item. The homepage draws
+from the same collection `/ai-gtm` does now, so there is no second rule beside
+it.
+
+### Baselines
+
+- **414 tests**, 0 lint errors and 2 warnings, 0 type errors.
+- Every browser gate green: `qa:screens`, `qa:nojs`, `qa:oneway`, `qa:rhythm`,
+  `qa:images`, `qa:cards`, `qa:entrance`, `qa:deadcss`, `qa:alive` at both
+  widths, redirects, dialog shape, handoff.

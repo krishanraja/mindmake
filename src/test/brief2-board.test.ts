@@ -13,11 +13,11 @@ import {
   matchesIndustry,
   isShown,
   matchesRole,
+  recentMatching,
   roleCounts,
   ROLE_CATEGORIES,
   ROLE_LABELS,
   timestampLabel,
-  topCard,
   STALE_AFTER_HOURS,
   type BoardCard,
   type BoardDay,
@@ -145,14 +145,12 @@ describe("the aggregations", () => {
     day("2026-08-27T10:30:00Z", [card({ id: "old", score: 99 })]),
   ];
 
-  it("takes the homepage card from today, by score", () => {
-    /* Never yesterday's strongest item: the homepage claims today's read. */
-    expect(topCard(days)?.id).toBe("high");
-  });
-
-  it("returns nothing when today holds nothing", () => {
-    expect(topCard([])).toBeNull();
-    expect(topCard([day("2026-08-28T10:30:00Z", [])])).toBeNull();
+  /* `topCard` went with the homepage's single card. The homepage carries the
+     board's own rows now, newest first across the window, which is the same
+     collection `/ai-gtm` draws from rather than a second rule beside it. */
+  it("takes the homepage's rows from the window, newest first", () => {
+    expect(recentMatching(days, { limit: 2 }).map((entry) => entry.id)).toEqual(["low", "high"]);
+    expect(recentMatching([])).toEqual([]);
   });
 
   it("sparks the last seven days, oldest first", () => {
@@ -232,13 +230,27 @@ describe("the board reads from one filtered collection", () => {
   });
 
   it("says how much it is holding back rather than dropping it silently", () => {
-    expect(source).toContain("Showing {visible.length} of {today.length} today.");
-    expect(source).toContain("Show all ${today.length}");
+    expect(source).toContain("Showing {rows.length} of {total} across {days.length} days.");
+    expect(source).toContain("Show {Math.min(ROWS_EXPANDED, total)}");
   });
 
-  it("shows fewer cards on a phone, where they are a single column", () => {
-    expect(source).toContain("CARDS_SHOWN_PHONE");
-    expect(source).toMatch(/phone \? CARDS_SHOWN_PHONE : CARDS_SHOWN/);
+  it("shows fewer rows on a phone, where a row is three lines rather than one", () => {
+    expect(source).toContain("ROWS_SHOWN_PHONE");
+    expect(source).toMatch(/phone \? ROWS_SHOWN_PHONE : ROWS_SHOWN/);
+  });
+
+  /* Today alone is fine while nothing is filtered, because today's items are
+     the newest anyway. It fails the moment a role is picked: People is 39 items
+     in 476 and 0 of today's 13, so the chip added to serve that reader would
+     have been empty on most days. The rows come from the window. */
+  it("draws its rows from the window rather than from today", () => {
+    expect(source).toContain("recentMatching(days, { limit })");
+    expect(source).not.toMatch(/const today = days\[0\]/);
+  });
+
+  it("counts each chip as what it would return if pressed", () => {
+    expect(source).toContain("roleCounts(shown.filter((card) => matchesIndustry(card, industry)))");
+    expect(source).toContain("industryCounts(shown.filter((card) => !role || matchesRole(card, role)))");
   });
 
   it("never renders a heading with nothing under it", () => {
@@ -353,5 +365,87 @@ describe("the classifier's own reading, when it arrives", () => {
   it("shows an item that predates the field rather than emptying the board", () => {
     expect(isShown(card())).toBe(true);
     expect(isShown(card({ stance: null }))).toBe(true);
+  });
+});
+
+/**
+ * The departures board, and the two things it is not allowed to cost.
+ *
+ * The headline must be readable with no scripting, and it must not break in the
+ * middle of a word. Both were broken by the same decision -- one element per
+ * character -- and both are fixed in the markup rather than in the animation,
+ * which is why they can be read out of the source.
+ */
+describe("the board's rows are leaves, and the leaves cost the headline nothing", () => {
+  const source = read("src/components/mindmake/board/FlapRow.tsx");
+
+  it("puts the true character in the markup and paints the decoy over it", () => {
+    /* The leaf's own text is the real character; the riffle only ever writes an
+       attribute. So a crawler, a reader with scripting off and a reader who
+       asked for less motion all get the headline written out in full. */
+    expect(source).toContain('<span className="mm-flap" key={at}>{character}</span>');
+    expect(source).toContain("cell.dataset.r =");
+    expect(source).toContain("delete cell.dataset.r");
+  });
+
+  it("does nothing at all under reduced motion", () => {
+    expect(source).toContain('window.matchMedia?.("(prefers-reduced-motion: reduce)").matches');
+  });
+
+  /* A board that has finished is a photograph of a board, and the aliveness
+     gate reads a page at rest, by which time an arrival has arrived. An arrived
+     row keeps turning one word of itself over, which is what a real departures
+     board does for as long as you stand in front of it. */
+  it("keeps turning over after it has arrived, and only while it is on screen", () => {
+    expect(source).toContain("const idle = () => {");
+    expect(source).toContain("if (visible && !document.hidden && words.length)");
+  });
+
+  /* Driving the needle from the row's position on screen was tried and
+     reverted: a row low on the screen showed a low needle, so an item with two
+     independent sources read as weaker than one with a single source sitting
+     higher up. A gauge carries a value, and an idle turn leaves it alone. */
+  it("never moves the needle for a reason that is not the item's corroboration", () => {
+    expect(source).toContain("turn(words[(Math.random() * words.length) | 0], 460, false)");
+    expect(source).not.toContain("useScrollDriver");
+    const css = read("src/styles/mindmake-instruments.css");
+    expect(css).toContain("calc(63 - var(--mm-at, 1) * var(--mm-sweep, 0) * 63)");
+  });
+
+  /* Two atomic inline boxes are a break opportunity in Chromium whether or not
+     there is a space between them, so a headline of bare leaves broke mid-word
+     on nearly every row of a phone. The word is the unit that holds a line
+     together; only one long enough to strand a line gives that up. */
+  it("breaks between words, not between letters", () => {
+    expect(source).toContain('className={`mm-flap-word${word.length >= LONG_WORD ? " is-long" : ""}`}');
+    const css = read("src/styles/mindmake-instruments.css");
+    expect(css).toContain(".mm-flap-word { white-space: nowrap; }");
+    expect(css).toContain(".mm-flap-word.is-long { white-space: normal; }");
+  });
+
+  /* An inline-block whose overflow is not `visible` takes its bottom margin
+     edge as its baseline instead of its text's, which lifted every churning run
+     off the line it was sitting in. The clip belongs to the leaf. */
+  it("clips the decoy rather than the cell, so the line keeps its baseline", () => {
+    const css = read("src/styles/mindmake-instruments.css");
+    const cell = css.slice(css.indexOf(".mm-flap[data-r] {"), css.indexOf(".mm-flap[data-r]::before"));
+    expect(cell.slice(0, cell.indexOf("::after"))).not.toContain("overflow: hidden");
+    expect(cell).toContain("overflow: hidden");
+  });
+
+  /* Measured over the day's items: 25 of 29 `pov` lines are commands addressed
+     to the reader and 9 carry American spellings, both of which the house style
+     bans outright. The board's reading of an item is the stance word instead. */
+  it("does not print the classifier's advice to the reader", () => {
+    expect(source).not.toContain("card.pov");
+    expect(source).toContain("STANCE_LABEL");
+  });
+
+  it("settles in a bounded time however long the headline is", () => {
+    /* At a fixed rate per character a 91-character headline took two and a half
+       seconds, which on a phone is most of the visible screen unreadable for
+       most of that time. The rate comes from a target total instead. */
+    expect(source).toMatch(/window\.innerWidth < 700 \? 760 : 1180/);
+    expect(source).toContain("Math.max(8, Math.min(30, target / leaves.length))");
   });
 });

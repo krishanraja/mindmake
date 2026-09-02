@@ -1,30 +1,37 @@
 import { useMemo, useState } from "react";
-import { BoardCardView } from "@/components/mindmake/board/BoardCard";
+import { BoardFilters } from "@/components/mindmake/board/BoardFilters";
+import { FlapRow } from "@/components/mindmake/board/FlapRow";
 import { CountingValue } from "@/components/mindmake/CountingValue";
 import { Instrument, type InstrumentKind } from "@/components/mindmake/Instrument";
 import { useBoardData } from "@/hooks/useBoardData";
 import { useIsMobile } from "@/hooks/use-mobile";
 import {
-  INDUSTRIES,
   LANE_MAP,
   LANE_ORDER,
   LANE_SUBTITLES,
   industryCounts,
+  isShown,
   isStale,
   laneCounts,
   laneSpark,
   matchesIndustry,
+  matchesRole,
+  recentMatching,
+  roleCounts,
   timestampLabel,
   type Industry,
+  type Role,
 } from "@/lib/board";
 
 /**
  * Enough to read at a glance. The rest is one tap away, and counted.
  *
- * Fewer on a phone, where the cards are a single column and six of them alone
- * ran to more than a screen and a half.
+ * Fewer on a phone, where a row is three lines of headline rather than one.
  */
-const CARDS_SHOWN = 6;
+const ROWS_SHOWN = 8;
+const ROWS_SHOWN_PHONE = 4;
+/** What "show more" opens to. The window holds hundreds; a wall is not a board. */
+const ROWS_EXPANDED = 30;
 
 /* One instrument per lane, chosen for what the lane is about rather than for
    variety: a recorder for what is being made, a gauge for what it costs, a
@@ -35,22 +42,27 @@ const LANE_INSTRUMENT: Record<string, InstrumentKind> = {
   positioning: "flap",
   people: "rail",
 };
-const CARDS_SHOWN_PHONE = 3;
 
 /**
  * The daily read, published.
  *
- * Three rules from the brief hold this together. The timestamp is always the
+ * Four rules from the brief hold this together. The timestamp is always the
  * cache's own, and past 26 hours it says so rather than hiding it. A failed
  * fetch collapses the section to its heading and one honest line, never an
- * empty board frame. And the industry filter is a deterministic keyword match
- * the visitor could check themselves, not personalisation.
+ * empty board frame. The filters are deterministic matches a visitor could
+ * check themselves, not personalisation. And -- learned the hard way -- a
+ * control that appears to do nothing is worse than no control: the chips once
+ * filtered the visible cards while the lane counts, the spark bars and the
+ * timestamp were computed from the unfiltered set, so the numbers never moved.
+ * Everything on this board derives from one filtered collection.
  *
- * A fourth rule, learned the hard way: a control that appears to do nothing is
- * worse than no control. The chips used to filter the six visible cards while
- * the lane counts, the spark bars and the timestamp were all computed from the
- * unfiltered set, so the numbers never moved and the filter read as broken.
- * Everything on this board now derives from one filtered collection.
+ * A fifth, from the role filter: **the board reads the window, not the day.**
+ * Today alone is fine while nothing is filtered, because today's items are the
+ * newest anyway. It fails the moment a visitor picks a role -- measured against
+ * the classified feed, People is 39 items in 476 and 0 of today's 13, so the
+ * chip added to serve that reader would have been empty on most days. The rows
+ * are the newest matching items wherever they fall in the retained window, and
+ * every row carries its own age, so nothing is passed off as today's.
  */
 /** The ground the board sits on, so a page can keep its sections alternating. */
 export function LiveBoard({ seam, ground }: { ground?: "raise"; seam?: boolean } = {}) {
@@ -61,6 +73,7 @@ export function LiveBoard({ seam, ground }: { ground?: "raise"; seam?: boolean }
   const ground_class = `${ground === "raise" ? " mm-on-raise" : ""}${seam ? " mm-seam-above" : ""}`;
   const board = useBoardData({ days: 28 });
   const [industry, setIndustry] = useState<Industry>("All industries");
+  const [role, setRole] = useState<Role | null>(null);
   const [expanded, setExpanded] = useState(false);
   const phone = useIsMobile();
 
@@ -75,22 +88,30 @@ export function LiveBoard({ seam, ground }: { ground?: "raise"; seam?: boolean }
   const days = useMemo(
     () => allDays.map((day) => ({
       ...day,
-      cards: day.cards.filter((card) => matchesIndustry(card, industry)),
+      cards: day.cards.filter((card) => (
+        isShown(card)
+        && matchesIndustry(card, industry)
+        && (!role || matchesRole(card, role))
+      )),
     })),
-    [allDays, industry],
+    [allDays, industry, role],
   );
 
-  const today = days[0]?.cards ?? [];
-  const counts = useMemo(() => industryCounts(allDays[0]?.cards ?? []), [allDays]);
+  /* Each chip's count is what it would return if pressed, with the other lens
+     left where it is. That is what makes "disabled at zero" a true promise
+     rather than an approximate one. */
+  const counts = useMemo(() => {
+    const shown = allDays.flatMap((day) => day.cards).filter(isShown);
+    return {
+      role: roleCounts(shown.filter((card) => matchesIndustry(card, industry))),
+      industry: industryCounts(shown.filter((card) => !role || matchesRole(card, role))),
+    };
+  }, [allDays, industry, role]);
+
   const lanes = useMemo(() => (days.length ? laneCounts(days) : null), [days]);
   const total = useMemo(() => days.reduce((sum, day) => sum + day.cards.length, 0), [days]);
-  const limit = phone ? CARDS_SHOWN_PHONE : CARDS_SHOWN;
-  const visible = expanded ? today : today.slice(0, limit);
-
-  const pick = (option: Industry) => {
-    setIndustry(option);
-    setExpanded(false);
-  };
+  const limit = expanded ? ROWS_EXPANDED : (phone ? ROWS_SHOWN_PHONE : ROWS_SHOWN);
+  const rows = useMemo(() => recentMatching(days, { limit }), [days, limit]);
 
   if (board.status === "collapsed") {
     return (
@@ -118,6 +139,7 @@ export function LiveBoard({ seam, ground }: { ground?: "raise"; seam?: boolean }
   const stale = isStale(board.cacheDate);
 
   return (
+    <>
     <section className={`mm-block${ground_class}`} id="board" aria-labelledby="board-title">
       <div className="mm-container">
         <div className="mm-board-head">
@@ -128,22 +150,52 @@ export function LiveBoard({ seam, ground }: { ground?: "raise"; seam?: boolean }
           </span>
         </div>
 
-        <div className="mm-chips" role="group" aria-label="Filter by industry">
-          {INDUSTRIES.map((option) => (
-            <button
-              key={option}
-              className="mm-chip"
-              type="button"
-              aria-pressed={industry === option}
-              disabled={counts[option] === 0}
-              onClick={() => pick(option)}
-            >
-              {option}
-              {option !== "All industries" && <i aria-hidden="true">{counts[option]}</i>}
-            </button>
-          ))}
-        </div>
+        <BoardFilters
+          role={role}
+          onRole={(next) => { setRole(next); setExpanded(false); }}
+          roleCounts={counts.role}
+          industry={industry}
+          onIndustry={(next) => { setIndustry(next); setExpanded(false); }}
+          industryCounts={counts.industry}
+        />
 
+        {rows.length === 0 ? (
+          <p className="mm-board-rebuilding">
+            Nothing matches that pair in the last {days.length} days. The other lenses still have items.
+          </p>
+        ) : (
+          <>
+            <div className="mm-flap-panel">
+              {rows.map((card, index) => (
+                <FlapRow card={card} at={index} key={card.id} />
+              ))}
+            </div>
+            {/* Say how much is being held back rather than silently dropping it. */}
+            <p className="mm-flap-foot">
+              <span>Showing {rows.length} of {total} across {days.length} days.</span>
+              {total > rows.length && (
+                <button type="button" className="mm-text-button" onClick={() => setExpanded(true)}>
+                  Show {Math.min(ROWS_EXPANDED, total)}
+                </button>
+              )}
+              {expanded && (
+                <button type="button" className="mm-text-button" onClick={() => setExpanded(false)}>
+                  Show fewer
+                </button>
+              )}
+            </p>
+          </>
+        )}
+
+      </div>
+    </section>
+
+    {/* Where it is landing is a different question from what changed, and the
+        two under one heading ran to 2.87 screens on a 360px phone. Two sections
+        with a seam, which is what `qa:rhythm` sanctions between two blocks
+        standing on one ground. */}
+    <section className={`mm-block mm-seam-above${ground === "raise" ? " mm-on-raise" : ""}`} aria-label="Where this week's items are landing">
+      <div className="mm-container">
         {lanes && (
           <div className="mm-lanes">
             {LANE_ORDER.map((lane) => {
@@ -154,8 +206,8 @@ export function LiveBoard({ seam, ground }: { ground?: "raise"; seam?: boolean }
                   <Instrument kind={LANE_INSTRUMENT[lane]} />
                   <span className="mm-label">{lane}</span>
                   <p className="mm-lane-value">
-                    {/* Keyed on the filter so the figure re-settles when it changes. */}
-                    <CountingValue key={`${lane}-${industry}`} value={lanes[lane]} />
+                    {/* Keyed on the filters so the figure re-settles when they change. */}
+                    <CountingValue key={`${lane}-${industry}-${role ?? "all"}`} value={lanes[lane]} />
                     <small>items</small>
                   </p>
                   <div className="mm-spark" aria-hidden="true">
@@ -175,28 +227,8 @@ export function LiveBoard({ seam, ground }: { ground?: "raise"; seam?: boolean }
             <span key={lane}>{lane} = {LANE_MAP[lane].join(", ")}</span>
           ))}
         </p>
-
-        {today.length === 0 ? (
-          <p className="mm-board-rebuilding">
-            Nothing in {industry.toLowerCase()} today. The other lenses still have items.
-          </p>
-        ) : (
-          <>
-            <div className="mm-cards">
-              {visible.map((card) => <BoardCardView card={card} key={card.id} />)}
-            </div>
-            {/* Say how much is being held back rather than silently dropping it. */}
-            <p className="mm-cards-more">
-              <span>Showing {visible.length} of {today.length} today.</span>
-              {today.length > limit && (
-                <button type="button" className="mm-text-button" onClick={() => setExpanded(!expanded)}>
-                  {expanded ? "Show fewer" : `Show all ${today.length}`}
-                </button>
-              )}
-            </p>
-          </>
-        )}
       </div>
     </section>
+    </>
   );
 }

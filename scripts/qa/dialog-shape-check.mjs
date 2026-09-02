@@ -56,6 +56,16 @@ for (const [width, height] of [[1440, 900], [390, 844]]) {
       stepPadTop: step ? parseFloat(getComputedStyle(step).paddingTop) : 0,
       topSticky: top ? getComputedStyle(top).position : "none",
       topHeight: top ? Math.round(top.getBoundingClientRect().height) : 0,
+      /* The step rail's own type, and whether any label was cut to fit. */
+      rail: [...el.querySelectorAll(".mm-brief-path button")].map((tab) => {
+        const cs = getComputedStyle(tab);
+        return {
+          label: tab.textContent.trim(),
+          size: parseFloat(cs.fontSize),
+          weight: Number(cs.fontWeight),
+          cut: tab.scrollWidth > tab.clientWidth + 1,
+        };
+      }),
     };
   });
 
@@ -81,7 +91,28 @@ for (const [width, height] of [[1440, 900], [390, 844]]) {
   say(shape.topSticky === "sticky", `the header is ${shape.topSticky}, so it scrolls away from the close button`);
   say(shape.topHeight >= 44, `the header is ${shape.topHeight}px, under the tap-target floor`);
 
-  console.log(`  ${width}px  panel ${shape.width}x${shape.height} at x=${shape.x}, step padding ${shape.stepPadLeft}/${shape.stepPadTop}, header ${shape.topHeight}px ${shape.topSticky}`);
+  /* The rail, and the cascade underneath it.
+   *
+   * `mindmake.css` normalises `.mm-site button { font: inherit }` at (0,1,1),
+   * the same weight as `.mm-brief-path button`, and loads second. So the rail's
+   * declared 12px/750 lost the tie on source order and it rendered at the
+   * body's 17px serif 400 from the day it was written until 2 September 2026.
+   *
+   * The symptom needed six steps to show: with the email hand-off off the local
+   * build runs four, and four labels in a 390px rail get 97px each, which fits
+   * any of them. Production runs six at 65px each, and "Problem" needs 73, so
+   * the first screen of the lead dialog on a phone read "Probl…".
+   *
+   * Both are checked, because only one of them is visible in the build this
+   * gate usually runs against. The size is the defect; the truncation is what
+   * it did. */
+  for (const tab of shape.rail) {
+    say(tab.size <= 13, `the step rail's "${tab.label}" is ${tab.size}px, so its own type rule lost to the button normaliser`);
+    say(tab.weight >= 600, `the step rail's "${tab.label}" is weight ${tab.weight}, so its own type rule lost to the button normaliser`);
+    say(!tab.cut, `the step rail cut "${tab.label}" to fit its cell`);
+  }
+
+  console.log(`  ${width}px  panel ${shape.width}x${shape.height} at x=${shape.x}, step padding ${shape.stepPadLeft}/${shape.stepPadTop}, header ${shape.topHeight}px ${shape.topSticky}, rail ${shape.rail.length} steps at ${shape.rail[0]?.size ?? "?"}px/${shape.rail[0]?.weight ?? "?"}`);
   await page.close();
 }
 

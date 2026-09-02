@@ -447,9 +447,33 @@
 }
 .mm-brief-path button:disabled { cursor: default; }
 .mm-brief-path button:focus-visible { outline: 3px solid currentColor; outline-offset: -3px; }
+
+/* The rail's own type, said again where it can be heard.
+ *
+ * `mindmake.css` carries `.mm-site button, input, textarea, select { font:
+ * inherit }`, which is the right normaliser and the wrong weight for this: it
+ * is `.mm-site button` at (0,1,1), exactly the same as `.mm-brief-path button`,
+ * and it is loaded second. So every font declaration above lost the tie on
+ * source order and the rail has been rendering at the body's 17px serif 400
+ * since it was written, not the 12px 750 it asks for.
+ *
+ * Nothing looked, because the local build runs four steps and four labels in a
+ * 390px rail get 97px each, which fits any of them. Production runs six, the
+ * email hand-off being on, and six cells are 65px: "Problem" needs 73 and was
+ * served as "Probl…" on the phone, on the first screen of the lead dialog.
+ *
+ * `[type="button"]` is what the markup already carries and takes this to
+ * (0,2,1), which is above the normaliser rather than tied with it. */
+.mm-brief-path button[type="button"] {
+  font-family: var(--mm-grotesque);
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: .01em;
+}
+
 @media (max-width: 560px) {
   .mm-brief-path { top: calc(58px + var(--mm-safe-top)); }
-  .mm-brief-path button { font-size: 10.5px; letter-spacing: 0; padding-inline: 2px; }
+  .mm-brief-path button[type="button"] { font-size: 10.5px; letter-spacing: 0; padding-inline: 2px; }
 }
 
 /* Step arrival: one fast settled entrance per step change. */

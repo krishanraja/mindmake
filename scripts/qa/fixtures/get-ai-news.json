@@ -1,1 +1,442 @@
-{"headlines":[{"title":"[SIGNAL] Gemini-3.5-Transcribe","source":"blog.google","say":null,"url":"https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-5-transcribe/","sourceCount":2},{"title":"[DECISION TRIGGER] Federal Judge Upholds Anthropic's $200M Contract Despite Safety Limits","source":"cnbc.com","say":"This ruling reinforces the importance of legal frameworks in AI governance.","url":"https://www.cnbc.com/2026/08/28/judge-blocks-pentagon-blacklist--anthropic-.html","sourceCount":1},{"title":"[SIGNAL] Agentic AI Security Requires Defense-in-Depth Architecture","source":"venturebeat.com","say":"Implementing layered security is crucial for protecting autonomous AI systems.","url":"https://venturebeat.com/security/the-three-layers-of-agentic-ai-security-a-defense-in-depth-architecture-for-autonomous-agents","sourceCount":1},{"title":"[SIGNAL] Breaking Claude Code Opus 5 Auto Mode","source":"simonwillison.net","say":"<p><strong><a href=\"https://embracethered.com/blog/posts/2026/breaking-claude-code-opus-5-and-automode/\">Breaking Claude Code Opus 5 Auto Mode</a></strong></p> Anthrop...","url":"https://simonwillison.net/2026/Aug/27/breaking-claude-code-opus-5-auto-mode/","sourceCount":1},{"title":"[SIGNAL] Debian votes to allow \"responsible use of generative AI\"","source":"lwn.net","say":null,"url":"https://lwn.net/Articles/1091231/","sourceCount":2},{"title":"[DECISION TRIGGER] Sony Music and Warner Sue Anthropic for Intellectual Property Theft","source":"techcrunch.com","say":"This lawsuit highlights the risks of IP violations in AI development.","url":"https://techcrunch.com/2026/08/29/sony-music-warner-sue-anthropic-alleging-a-brazen-campaign-of-intellectual-property-theft/","sourceCount":1},{"title":"[SIGNAL] GLM-5.3 is now open-weight","source":"huggingface.co","say":"https:&#x2F;&#x2F;twitter.com&#x2F;Zai_org&#x2F;status&#x2F;2093354097122455713 https:&#x2F;&#x2F;z.ai&#x2F;blog&#x2F;glm-5.3","url":"https://huggingface.co/zai-org/GLM-5.3","sourceCount":1},{"title":"[DECISION TRIGGER] Sony Music and Warner Chappell File Lawsuit Against Anthropic","source":"theverge.com","say":"The case underscores the financial stakes in AI-generated content disputes.","url":"https://www.theverge.com/ai-artificial-intelligence/986438/sony-music-warner-chappell-anthropic-lawsuit-copyright","sourceCount":1},{"title":"[SIGNAL] Gemini Omni 1.1 Flash","source":"blog.google","say":null,"url":"https://blog.google/innovation-and-ai/technology/developers-tools/build-with-gemini-omni-1-1-flash/","sourceCount":1},{"title":"[DECISION TRIGGER] How to Run a Chatbot on Your Own Computer","source":"wired.com","say":"Installing a large language model on your personal computer gives you a handy digital assistant that won’t compromise your data privacy.","url":"https://www.wired.com/story/how-to-run-your-own-local-llm/","sourceCount":1},{"title":"[SIGNAL] Fastest LLM right now: Celeris-1 at 1975 tok/s, 2.4x faster than Mercury 2","source":"Artificial Analysis"}],"timestamp":"2026-08-30T19:35:35.513Z","provider":"ctrl-shared-pool","fallback":false}
+{
+  "days": [
+    {
+      "date": "2026-09-02T10:30:24.122+00:00",
+      "cards": [
+        {
+          "id": "live-2026-09-02-0",
+          "headline": "Claude agents outperform human researchers in safety alignment tests",
+          "say": "AI agents achieving better safety alignment results reduces reliance on human expertise.",
+          "pov": "Leaders must prioritize oversight and judgment as AI handles more execution tasks.",
+          "category": "governance",
+          "source": "anthropic.com",
+          "url": "https://www.anthropic.com/research/automated-researchers-mitigate-alignment-failures",
+          "timeAgo": "12h ago",
+          "score": 11.65,
+          "sourceCount": 1
+        },
+        {
+          "id": "live-2026-09-02-1",
+          "headline": "ChatGPT Ads reach $1 billion annualized revenue in under 200 days",
+          "say": "Rapid ad revenue growth signals a shift in digital advertising strategies.",
+          "pov": "Focus on innovative ad models to stay competitive as execution costs drop.",
+          "category": "tools",
+          "source": "openai.com",
+          "url": "https://openai.com/index/expanding-access-to-ai-with-chatgpt-ads/",
+          "timeAgo": "12h ago",
+          "score": 10.15,
+          "sourceCount": 1
+        },
+        {
+          "id": "live-2026-09-02-2",
+          "headline": "Unowned code found installed in corporate networks raises concerns",
+          "say": "Unauthorized code installations highlight risks in corporate cybersecurity practices.",
+          "pov": "Ensure rigorous oversight to mitigate risks from unregulated AI deployments.",
+          "category": "model",
+          "source": "arstechnica.com",
+          "url": "https://arstechnica.com/security/2026/08/claude-codex-and-hermes-installed-unowned-code-inside-corporate-networks/",
+          "timeAgo": "2d ago",
+          "score": 9.51,
+          "sourceCount": 2
+        },
+        {
+          "id": "live-2026-09-02-3",
+          "headline": "OpenAI introduces Astra for advanced cybersecurity capabilities",
+          "say": "Astra's ability to identify security flaws enhances organizational resilience.",
+          "pov": "Invest in AI tools like Astra that augment human judgment in security.",
+          "category": "security",
+          "source": "openai.com",
+          "url": "https://openai.com/index/path-to-astra/",
+          "timeAgo": "14h ago",
+          "score": 8.76,
+          "sourceCount": 1
+        },
+        {
+          "id": "live-2026-09-02-4",
+          "headline": "OpenAI's ChatGPT Ads achieve $1 billion annualized revenue milestone",
+          "say": "This growth reflects increasing demand for AI-driven advertising solutions.",
+          "pov": "Leverage AI to optimize ad strategies and improve market positioning.",
+          "category": "economics",
+          "source": "reuters.com",
+          "url": "https://www.reuters.com/business/media-telecom/openais-ad-business-hits-1-billion-annualized-revenue-run-rate-2026-08-31/",
+          "timeAgo": "2d ago",
+          "score": 8.08,
+          "sourceCount": 1
+        },
+        {
+          "id": "live-2026-09-02-5",
+          "headline": "Anthropic Wrote Its Safety Limits Into a Contract. A Federal Judge Said That Was Enough.",
+          "say": "Pete Hegseth designated Anthropic a supply chain risk after the company refused to drop its limits on autonomous weapons and mass surveillance. A San Francisco federal...",
+          "pov": null,
+          "category": "governance",
+          "source": "cnbc.com",
+          "url": "https://www.cnbc.com/2026/08/28/judge-blocks-pentagon-blacklist--anthropic-.html",
+          "timeAgo": "4d ago",
+          "score": 7.69,
+          "sourceCount": 1
+        },
+        {
+          "id": "live-2026-09-02-6",
+          "headline": "The Hugging Face hack could indicate cultural issues at OpenAI",
+          "say": "This story originally appeared in The Algorithm, our weekly newsletter on AI. To get stories like this in your inbox first, sign up here. By now you’ve probably heard ...",
+          "pov": null,
+          "category": "tools",
+          "source": "technologyreview.com",
+          "url": "https://www.technologyreview.com/2026/08/31/1143180/hugging-face-hack-could-indicate-cultural-issues-at-openai/",
+          "timeAgo": "Yesterday",
+          "score": 6.74,
+          "sourceCount": 1
+        },
+        {
+          "id": "live-2026-09-02-7",
+          "headline": "BenchMIRT: What are LLM benchmarks actually measuring?",
+          "say": null,
+          "pov": null,
+          "category": "model",
+          "source": "huggingface.co",
+          "url": "https://huggingface.co/blog/allenai/benchmirt",
+          "timeAgo": "12h ago",
+          "score": 8.8,
+          "sourceCount": 1
+        },
+        {
+          "id": "live-2026-09-02-8",
+          "headline": "Anthropic launches Claude Fable 5.1 and says it’s up to 45 percent cheaper for agentic work",
+          "say": "Anthropic says its newest AI models, Fable 5.1 and Mythos 5.1, address criticisms from customers about price, data retention, and overzealous safeguards. The company c...",
+          "pov": null,
+          "category": "economics",
+          "source": "theverge.com",
+          "url": "https://www.theverge.com/ai-artificial-intelligence/987830/anthropic-claude-fable-mythos-5-1",
+          "timeAgo": "12h ago",
+          "score": 8.82,
+          "sourceCount": 1
+        },
+        {
+          "id": "live-2026-09-02-9",
+          "headline": "Anthropic opens Claude AI text detection to regulators, media, fact-checkers, and others",
+          "say": "Anthropic is launching an API that lets regulators, media outlets, and researchers check whether text carries Claude's digital watermark. The EU AI Act now requires in...",
+          "pov": null,
+          "category": "governance",
+          "source": "the-decoder.com",
+          "url": "https://the-decoder.com/anthropic-opens-claude-ai-text-detection-to-regulators-media-fact-checkers-and-others/",
+          "timeAgo": "13h ago",
+          "score": 7.27,
+          "sourceCount": 1
+        },
+        {
+          "id": "live-2026-09-02-10",
+          "headline": "Google announces latest AI updates from August 2026",
+          "say": "Staying updated on AI advancements is essential for strategic planning.",
+          "pov": null,
+          "category": "model",
+          "source": "blog.google",
+          "url": "https://blog.google/innovation-and-ai/technology/google-ai-updates-august-2026/",
+          "timeAgo": "13h ago",
+          "score": 8.77,
+          "sourceCount": 1
+        },
+        {
+          "id": "live-2026-09-02-11",
+          "headline": "Claude Fable 5.1 and Mythos 5.1 reduce costs and improve capabilities",
+          "say": "Significant cost reductions enable broader adoption of advanced AI models.",
+          "pov": "Evaluate new models for cost efficiency to enhance competitive advantage.",
+          "category": "economics",
+          "source": "venturebeat.com",
+          "url": "https://venturebeat.com/technology/anthropics-claude-fable-5-1-and-mythos-5-1-arrive-with-a-75-cost-reduction-for-fable-cache-reads",
+          "timeAgo": "15h ago",
+          "score": 8.73,
+          "sourceCount": 1
+        },
+        {
+          "id": "live-2026-09-02-12",
+          "headline": "Claude Fable 5.1 significantly outperforms predecessor in benchmarks",
+          "say": "Benchmark improvements indicate rapid advancements in AI model performance.",
+          "pov": "Prioritize continuous improvement and testing to leverage AI capabilities effectively.",
+          "category": "model",
+          "source": "decrypt.co",
+          "url": "https://decrypt.co/377078/anthropic-claude-fable-5-1?amp=1",
+          "timeAgo": "15h ago",
+          "score": 10.23,
+          "sourceCount": 2
+        }
+      ]
+    },
+    {
+      "date": "2026-09-01T10:30:26.687+00:00",
+      "cards": [
+        {
+          "id": "live-2026-09-01-0",
+          "headline": "OpenAI implements outcome-based pricing for large customers",
+          "say": "Outcome-based pricing aligns costs with actual AI performance, reducing financial risk for businesses.",
+          "pov": "Leaders must prioritize measurable outcomes to maintain competitive advantage in AI services.",
+          "category": "economics",
+          "source": "the-decoder.com",
+          "url": "https://the-decoder.com/openai-starts-charging-some-customers-only-when-its-ai-actually-works/",
+          "timeAgo": "20h ago",
+          "score": 10.09,
+          "sourceCount": 2
+        },
+        {
+          "id": "live-2026-09-01-1",
+          "headline": "Bank of England warns AI models may destabilize global finance",
+          "say": "Increased cyber risks from AI models threaten financial stability and operational integrity.",
+          "pov": "Assessing AI's impact on risk management is critical for leaders navigating financial technologies.",
+          "category": "model",
+          "source": "cnbc.com",
+          "url": "https://cnbc.com/2026/08/31/bailey-frontier-ai-financial-stability-risk.html",
+          "timeAgo": "Yesterday",
+          "score": 10,
+          "sourceCount": 2
+        },
+        {
+          "id": "live-2026-09-01-2",
+          "headline": "Sony Music Publishing and Warner Chappell sue Anthropic",
+          "say": "Legal actions over copyright highlight the importance of intellectual property in AI development.",
+          "pov": "Protecting IP is essential as AI innovations increasingly intersect with creative industries.",
+          "category": "governance",
+          "source": "theverge.com",
+          "url": "https://www.theverge.com/ai-artificial-intelligence/986438/sony-music-warner-chappell-anthropic-lawsuit-copyright",
+          "timeAgo": "Yesterday",
+          "score": 9.97,
+          "sourceCount": 2
+        },
+        {
+          "id": "live-2026-09-01-3",
+          "headline": "Polimill develops next-gen public AI infrastructure in Japan",
+          "say": "Public AI infrastructure enhances municipal services, driving efficiency and knowledge access.",
+          "pov": "Invest in infrastructure that leverages AI for public good to build community trust and engagement.",
+          "category": "tools",
+          "source": "openai.com",
+          "url": "https://openai.com/index/polimill",
+          "timeAgo": "Yesterday",
+          "score": 8.43,
+          "sourceCount": 1
+        },
+        {
+          "id": "live-2026-09-01-4",
+          "headline": "Unowned code found in corporate networks raises concerns",
+          "say": "Uncontrolled code installations pose significant security risks to corporate environments.",
+          "pov": "Establish strict governance protocols to manage AI integrations and safeguard corporate assets.",
+          "category": "model",
+          "source": "arstechnica.com",
+          "url": "https://arstechnica.com/security/2026/08/claude-codex-and-hermes-installed-unowned-code-inside-corporate-networks/",
+          "timeAgo": "Yesterday",
+          "score": 9.68,
+          "sourceCount": 2
+        },
+        {
+          "id": "live-2026-09-01-5",
+          "headline": "Feds seize Anthropic shares from Bankman-Fried associates",
+          "say": "Legal complications around investments can disrupt strategic partnerships and funding opportunities.",
+          "pov": "Stay vigilant about the implications of legal risks on partnerships and funding in AI ventures.",
+          "category": "governance",
+          "source": "biztoc.com",
+          "url": "https://biztoc.com/x/f982cf913331adf9",
+          "timeAgo": "Yesterday",
+          "score": 8.47,
+          "sourceCount": 2
+        },
+        {
+          "id": "live-2026-09-01-6",
+          "headline": "Hugging Face hack suggests cultural issues at OpenAI",
+          "say": "Security breaches indicate potential weaknesses in AI governance and operational culture.",
+          "pov": "Cultivating a strong security culture is vital to protect AI systems from vulnerabilities.",
+          "category": "tools",
+          "source": "technologyreview.com",
+          "url": "https://www.technologyreview.com/2026/08/31/1143180/hugging-face-hack-could-indicate-cultural-issues-at-openai/",
+          "timeAgo": "16h ago",
+          "score": 7.19,
+          "sourceCount": 1
+        },
+        {
+          "id": "live-2026-09-01-7",
+          "headline": "Bill Gates calls for slowing AI development",
+          "say": "Calls for caution reflect growing concerns over AI's rapid advancement and societal impact.",
+          "pov": "Evaluate the ethical implications of AI development to ensure responsible innovation.",
+          "category": "model",
+          "source": "bloomberg.com",
+          "url": "https://bloomberg.com/opinion/articles/2026-08-31/big-tech-cannot-be-trusted-to-regulate-its-ai-creations",
+          "timeAgo": "Yesterday",
+          "score": 8.47,
+          "sourceCount": 1
+        },
+        {
+          "id": "live-2026-09-01-8",
+          "headline": "OpenAI backs California bill for youth AI safety",
+          "say": "Supporting youth AI safety measures promotes responsible AI use and education.",
+          "pov": "Invest in youth-focused AI initiatives to shape future generations' understanding and usage of technology.",
+          "category": "governance",
+          "source": "openai.com",
+          "url": "https://openai.com/index/supporting-california-bill-advance-ai-youth-safety",
+          "timeAgo": "Yesterday",
+          "score": 8.43,
+          "sourceCount": 1
+        },
+        {
+          "id": "live-2026-09-01-9",
+          "headline": "Bus delays caused by Windows Defender warning",
+          "say": "Technical issues can disrupt operations, highlighting the need for robust IT management.",
+          "pov": "Ensure IT systems are resilient to minimize operational disruptions from unexpected tech failures.",
+          "category": "model",
+          "source": "theregister.com",
+          "url": "https://www.theregister.com/offbeat/2026/09/01/next-bus-to-altrincham-delayed-by-windows-defender/5293289",
+          "timeAgo": "1h ago",
+          "score": 7.9,
+          "sourceCount": 1
+        },
+        {
+          "id": "live-2026-09-01-10",
+          "headline": "Federal judge upholds Anthropic's safety contract limits",
+          "say": "Legal rulings on safety contracts shape AI development and operational boundaries.",
+          "pov": "Engage with legal frameworks proactively to navigate the evolving landscape of AI regulations.",
+          "category": "governance",
+          "source": "cnbc.com",
+          "url": "https://www.cnbc.com/2026/08/28/judge-blocks-pentagon-blacklist--anthropic-.html",
+          "timeAgo": "3d ago",
+          "score": 7.77,
+          "sourceCount": 1
+        }
+      ]
+    },
+    {
+      "date": "2026-08-31T10:30:27.16+00:00",
+      "cards": [
+        {
+          "id": "live-2026-08-31-0",
+          "headline": "GLM-5.3 model released with open-weight architecture",
+          "say": "Open-weight models enable more flexible and collaborative AI development.",
+          "pov": "Leaders should prioritize open architectures to enhance innovation and collaboration in AI.",
+          "category": "model",
+          "source": "huggingface.co",
+          "url": "https://huggingface.co/zai-org/GLM-5.3",
+          "timeAgo": "2d ago",
+          "score": 11.85,
+          "sourceCount": 1
+        },
+        {
+          "id": "live-2026-08-31-1",
+          "headline": "OpenAI and Anthropic compete for top AI talent",
+          "say": "Attracting skilled workers is critical for advancing AI capabilities and market position.",
+          "pov": "Focus on cultivating a compelling workplace culture to attract and retain AI talent.",
+          "category": "org",
+          "source": "biztoc.com",
+          "url": "https://biztoc.com/x/bae50fa13a5cd3ba",
+          "timeAgo": "Yesterday",
+          "score": 8.48,
+          "sourceCount": 2
+        },
+        {
+          "id": "live-2026-08-31-2",
+          "headline": "Federal judge upholds Anthropic's safety limits in contract",
+          "say": "Legal rulings on AI usage policies can impact operational capabilities and risk management.",
+          "pov": "Understand the legal landscape to navigate operational risks associated with AI deployment.",
+          "category": "governance",
+          "source": "cnbc.com",
+          "url": "https://www.cnbc.com/2026/08/28/judge-blocks-pentagon-blacklist--anthropic-.html",
+          "timeAgo": "2d ago",
+          "score": 7.9,
+          "sourceCount": 1
+        },
+        {
+          "id": "live-2026-08-31-3",
+          "headline": "Agentic AI security requires layered defense architecture",
+          "say": "Implementing robust security measures is essential for safeguarding AI systems in operations.",
+          "pov": "Invest in comprehensive security frameworks to protect AI assets from emerging threats.",
+          "category": "tools",
+          "source": "venturebeat.com",
+          "url": "https://venturebeat.com/security/the-three-layers-of-agentic-ai-security-a-defense-in-depth-architecture-for-autonomous-agents",
+          "timeAgo": "2d ago",
+          "score": 6.54,
+          "sourceCount": 1
+        },
+        {
+          "id": "live-2026-08-31-4",
+          "headline": "Unowned code found in corporate networks from AI models",
+          "say": "Using unverified code poses significant risks to corporate security and compliance.",
+          "pov": "Establish strict code vetting processes to mitigate risks from unowned AI-generated code.",
+          "category": "model",
+          "source": "arstechnica.com",
+          "url": "https://arstechnica.com/security/2026/08/claude-codex-and-hermes-installed-unowned-code-inside-corporate-networks/",
+          "timeAgo": "22h ago",
+          "score": 10.03,
+          "sourceCount": 2
+        },
+        {
+          "id": "live-2026-08-31-5",
+          "headline": "Employee reviews show declining sentiment towards AI",
+          "say": "Negative employee sentiment can hinder AI adoption and overall productivity in organizations.",
+          "pov": "Address employee concerns proactively to foster a supportive environment for AI integration.",
+          "category": "org",
+          "source": "the-decoder.com",
+          "url": "https://the-decoder.com/ai-sentiment-is-turning-sour-as-employee-reviews-reveal-growing-frustration-across-the-workforce/",
+          "timeAgo": "21h ago",
+          "score": 7.06,
+          "sourceCount": 1
+        },
+        {
+          "id": "live-2026-08-31-6",
+          "headline": "Sony Music and Warner allege Anthropic committed IP theft",
+          "say": "Intellectual property disputes can disrupt operations and damage reputations in tech sectors.",
+          "pov": "Prioritize IP protection strategies to safeguard innovations and maintain competitive advantage.",
+          "category": "governance",
+          "source": "techcrunch.com",
+          "url": "https://techcrunch.com/2026/08/29/sony-music-warner-sue-anthropic-alleging-a-brazen-campaign-of-intellectual-property-theft/",
+          "timeAgo": "Yesterday",
+          "score": 6.75,
+          "sourceCount": 1
+        },
+        {
+          "id": "live-2026-08-31-7",
+          "headline": "Nvidia claims it can sustain funding for AI growth",
+          "say": "Continuous funding is crucial for maintaining competitive edge in the AI market.",
+          "pov": "Leverage funding opportunities to drive innovation and scale AI initiatives effectively.",
+          "category": "model",
+          "source": "wsj.com",
+          "url": "https://www.wsj.com/tech/ai/nvidia-insists-it-can-keep-printing-money-to-fund-the-ai-boom-195e7d5e",
+          "timeAgo": "2d ago",
+          "score": 9.37,
+          "sourceCount": 1
+        },
+        {
+          "id": "live-2026-08-31-8",
+          "headline": "Sony Music and Warner sue Anthropic for copyright infringement",
+          "say": "Litigation over copyright can lead to significant financial and operational consequences.",
+          "pov": "Ensure compliance with copyright laws to avoid costly legal battles in AI development.",
+          "category": "governance",
+          "source": "theverge.com",
+          "url": "https://www.theverge.com/ai-artificial-intelligence/986438/sony-music-warner-chappell-anthropic-lawsuit-copyright",
+          "timeAgo": "Yesterday",
+          "score": 6.75,
+          "sourceCount": 1
+        },
+        {
+          "id": "live-2026-08-31-9",
+          "headline": "OpenAI contract with Cursor ends after SpaceX acquisition",
+          "say": "Contract changes can impact access to critical AI resources and partnerships.",
+          "pov": "Evaluate partnerships carefully to ensure alignment with strategic AI goals.",
+          "category": "model",
+          "source": "openai.com",
+          "url": "https://openai.com/index/our-decision-on-cursor-following-its-acquisition-by-spacex",
+          "timeAgo": "3d ago",
+          "score": 7.98,
+          "sourceCount": 1
+        },
+        {
+          "id": "live-2026-08-31-10",
+          "headline": "Guide to running a chatbot on personal computers",
+          "say": "Self-hosting AI tools enhances data privacy and control over operations.",
+          "pov": null,
+          "category": "governance",
+          "source": "wired.com",
+          "url": "https://www.wired.com/story/how-to-run-your-own-local-llm/",
+          "timeAgo": "2d ago",
+          "score": 6.66,
+          "sourceCount": 1
+        }
+      ]
+    }
+  ],
+  "timestamp": "2026-09-02T10:30:24.122+00:00",
+  "provider": "ctrl-shared-pool",
+  "total": 35
+}

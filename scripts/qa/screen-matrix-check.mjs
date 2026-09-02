@@ -35,6 +35,7 @@
  */
 import { chromium } from "playwright";
 import { asked } from "./lib/asked.mjs";
+import { serveBoard } from "./lib/board-fixture.mjs";
 
 const args = process.argv.slice(2);
 const flag = (name, fallback) => {
@@ -96,10 +97,11 @@ for (const [width, height] of SIZES) {
   });
   const page = await context.newPage();
   /* The board's own network, stubbed, so a section measured here is the section
-     production shows rather than "The read is rebuilding". */
-  await page.route("**/get-ai-news**", (route) => route.fulfill({
-    status: 200, contentType: "application/json", body: JSON.stringify({ items: [] }),
-  }));
+     production shows rather than "The read is rebuilding". This served
+     `{"items":[]}` until 2 September 2026, which matches neither shape the
+     function returns, so it measured the collapsed board under a comment
+     claiming the opposite. */
+  await serveBoard(page);
 
   for (const path of PATHS) {
     await page.goto(BASE + asked(path), { waitUntil: "networkidle" });

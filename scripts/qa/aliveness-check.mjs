@@ -31,7 +31,7 @@
 
 import { chromium } from "playwright";
 import { asked } from "./lib/asked.mjs";
-import { readFileSync } from "node:fs";
+import { serveBoard } from "./lib/board-fixture.mjs";
 import { PNG } from "pngjs";
 
 const args = process.argv.slice(2);
@@ -194,18 +194,13 @@ const scrubbed = [];
    reading about the network, not about the page, and it was about to be treated
    as a design defect. The fixture is one real response captured from the live
    function, so the section is measured in the state a visitor sees. */
-const BOARD_FIXTURE = JSON.parse(
-  readFileSync(new URL("./fixtures/get-ai-news.json", import.meta.url), "utf8"),
-);
+/* The fixture and the route both live in ./lib/board-fixture.mjs now, because
+   two other gates were stubbing this endpoint with a payload that collapsed the
+   board and nobody noticed the three had drifted apart. */
 
 for (const path of PATHS) {
   const page = await browser.newPage({ viewport: { width: WIDTH, height: HEIGHT } });
-  await page.route("**/get-ai-news**", (route) => route.fulfill({
-    status: 200,
-    contentType: "application/json",
-    headers: { "access-control-allow-origin": "*" },
-    body: JSON.stringify(BOARD_FIXTURE),
-  }));
+  await serveBoard(page);
   await page.goto(BASE + asked(path), { waitUntil: "networkidle" });
   // Let lazy media start before judging whether anything moves.
   await page.evaluate(async () => {

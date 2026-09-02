@@ -30,6 +30,7 @@
  */
 import { chromium } from "playwright";
 import { asked } from "./lib/asked.mjs";
+import { serveBoard } from "./lib/board-fixture.mjs";
 
 const args = process.argv.slice(2);
 const flag = (name, fallback) => {
@@ -54,8 +55,7 @@ const browser = await chromium.launch({
   executablePath: process.env.PLAYWRIGHT_CHROMIUM ?? "/opt/pw-browsers/chromium",
 });
 const page = await browser.newPage({ viewport: { width: WIDTH, height: WIDTH < 700 ? 844 : 900 } });
-await page.route("**/get-ai-news**", (route) =>
-  route.fulfill({ status: 200, contentType: "application/json", body: '{"items":[]}' }));
+await serveBoard(page);
 
 const problems = new Map();
 for (const path of PATHS) {

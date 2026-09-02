@@ -1545,9 +1545,47 @@ Measured live through our own filters at the moment of the change: seven days is
 from the same collection `/ai-gtm` does now, so there is no second rule beside
 it.
 
+### The sizes no gate here measures
+
+`qa:screens` runs eight sizes and its shortest phone is 360x800. Real phones are
+shorter: a 360x640 Android and a 320x568 handset are both common, and any phone
+held sideways is 390px tall. A section's budget is a ratio, so the same four
+rows read 1.26 screens at 360x800 and **1.51 at 360x640** — the markup did not
+change, only the denominator.
+
+Driven with a deliberately hostile payload — the longest headline the feed has
+produced, a 40-character unbreakable token, the longest source domain in the
+cache, and a card with no source, no age, no stance, no category and no link —
+across 320x568, 360x640, 390x844, 844x390, 430x932, 768x1024, 1024x600 and
+1920x1080, at rest and expanded to thirty rows:
+
+| | before | after |
+|---|---|---|
+| 320x568 | 1.84 screens | **1.26** |
+| 360x640 | 1.51 | **1.09** |
+| 844x390, sideways | 1.67 | 1.38 |
+| 1024x600 | 1.05 | **0.86** |
+
+Two changes did it. The row count follows the **height** rather than the width —
+three rows below 700px, four on a tall phone, eight on a laptop, through
+`src/hooks/useShortScreen.ts`. And on a short screen both chip groups become
+rails rather than one, because three wrapped rows of roles is a fifth of a 640px
+screen; on a tall phone the roles still wrap, so all eight are on screen at once,
+which is the point of the filter.
+
+The landscape phone stays at 1.38, twelve pixels over a budget nothing measures
+there, in an orientation where a reader has already accepted scrolling. Nothing
+overflows, nothing clips and no page errors at any of the eight, open or closed.
+
+A story that ran on two days is now shown once. Reading the window rather than
+the day made a repeat possible where it never was before: nothing upstream
+promises an id is unique across days, and two rows carrying one headline would
+also be two React children with one key. Twenty-eight days of live data has no
+duplicate today, which is not the same as a guarantee.
+
 ### Baselines
 
-- **414 tests**, 0 lint errors and 2 warnings, 0 type errors.
+- **416 tests**, 0 lint errors and 2 warnings, 0 type errors.
 - Every browser gate green: `qa:screens`, `qa:nojs`, `qa:oneway`, `qa:rhythm`,
   `qa:images`, `qa:cards`, `qa:entrance`, `qa:deadcss`, `qa:alive` at both
   widths, redirects, dialog shape, handoff.

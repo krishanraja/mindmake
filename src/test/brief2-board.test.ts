@@ -5,6 +5,7 @@ import {
   LANE_MAP,
   LANE_ORDER,
   corroborationLabel,
+  countMatching,
   industryCounts,
   isStale,
   laneCounts,
@@ -148,6 +149,19 @@ describe("the aggregations", () => {
   /* `topCard` went with the homepage's single card. The homepage carries the
      board's own rows now, newest first across the window, which is the same
      collection `/ai-gtm` draws from rather than a second rule beside it. */
+  /* Reading the window rather than the day makes a repeat possible where it
+     never was before: nothing upstream promises an id is unique across days,
+     and two rows carrying one headline would also be two React children with
+     one key. */
+  it("shows a story that ran on two days once", () => {
+    const twice = [
+      day("2026-08-28T10:30:00Z", [card({ id: "same" }), card({ id: "other" })]),
+      day("2026-08-27T10:30:00Z", [card({ id: "same" })]),
+    ];
+    expect(recentMatching(twice).map((entry) => entry.id)).toEqual(["same", "other"]);
+    expect(countMatching(twice)).toBe(2);
+  });
+
   it("takes the homepage's rows from the window, newest first", () => {
     expect(recentMatching(days, { limit: 2 }).map((entry) => entry.id)).toEqual(["low", "high"]);
     expect(recentMatching([])).toEqual([]);
@@ -401,6 +415,25 @@ describe("the board's rows are leaves, and the leaves cost the headline nothing"
     expect(source).toContain("if (visible && !document.hidden && words.length)");
   });
 
+  /* An arrival has arrived by the time a page is at rest, and the idle turn on
+     its own is too small and too occasional for a gate that photographs five
+     instants: three runs of `qa:alive` gave clean, clean, then three still
+     viewports. The panel is a `Build`, so it assembles with scroll position and
+     comes apart again on the way back, which is the reading a page at rest can
+     actually carry. */
+  it("assembles with scroll position rather than only on arrival", () => {
+    for (const surface of ["src/components/mindmake/board/LiveBoard.tsx", "src/pages/Index.tsx"]) {
+      const page = read(surface);
+      expect(`${surface}: ${page.includes('<Build className="mm-flap-panel">')}`).toBe(`${surface}: true`);
+    }
+    /* And the two clocks may not share a name: `--mm-at` is what `Build` writes
+       on every child, so the flap using it would have decided the row's opacity
+       and then pinned it at 1, leaving a build that never comes apart. */
+    expect(source).toContain('"--mm-turn"');
+    expect(source).not.toContain('"--mm-at"');
+    expect(source).toContain("...style,");
+  });
+
   /* Driving the needle from the row's position on screen was tried and
      reverted: a row low on the screen showed a low needle, so an item with two
      independent sources read as weaker than one with a single source sitting
@@ -409,7 +442,7 @@ describe("the board's rows are leaves, and the leaves cost the headline nothing"
     expect(source).toContain("turn(words[(Math.random() * words.length) | 0], 460, false)");
     expect(source).not.toContain("useScrollDriver");
     const css = read("src/styles/mindmake-instruments.css");
-    expect(css).toContain("calc(63 - var(--mm-at, 1) * var(--mm-sweep, 0) * 63)");
+    expect(css).toContain("calc(63 - var(--mm-turn, 1) * var(--mm-sweep, 0) * 63)");
   });
 
   /* Two atomic inline boxes are a break opportunity in Chromium whether or not

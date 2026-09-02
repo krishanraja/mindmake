@@ -17,6 +17,7 @@ import { BoardFilters } from "@/components/mindmake/board/BoardFilters";
 import { FlapRow } from "@/components/mindmake/board/FlapRow";
 import { useBoardData } from "@/hooks/useBoardData";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useShortScreen } from "@/hooks/useShortScreen";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import { useScrollDriver } from "@/hooks/useScrollDriver";
 import { countMatching, isShown, isStale, recentMatching, roleCounts, timestampLabel, type Role } from "@/lib/board";
@@ -56,6 +57,7 @@ function ProofLive() {
   const board = useBoardData({ days: 7 });
   const [role, setRole] = useState<Role | null>(null);
   const phone = useIsMobile();
+  const short = useShortScreen();
 
   const days = useMemo(
     () => (board.status === "ready" ? board.days : []),
@@ -67,8 +69,8 @@ function ProofLive() {
   );
   const total = useMemo(() => countMatching(days, { role }), [days, role]);
   const rows = useMemo(
-    () => recentMatching(days, { role, limit: phone ? 4 : 6 }),
-    [days, role, phone],
+    () => recentMatching(days, { role, limit: short ? 3 : phone ? 4 : 6 }),
+    [days, role, phone, short],
   );
 
   return (
@@ -89,11 +91,11 @@ function ProofLive() {
         {rows.length > 0 ? (
           <>
             <BoardFilters role={role} onRole={setRole} roleCounts={counts} />
-            <div className="mm-flap-panel">
+            <Build className="mm-flap-panel">
               {rows.map((card, index) => (
                 <FlapRow card={card} at={index} key={card.id} />
               ))}
-            </div>
+            </Build>
             <p className="mm-flap-foot">
               <span>Showing {rows.length} of {total} in the last {days.length} days.</span>
               <Link className="mm-text-link" to="/ai-gtm#board">

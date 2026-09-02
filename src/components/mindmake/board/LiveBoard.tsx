@@ -1,10 +1,12 @@
 import { useMemo, useState } from "react";
 import { BoardFilters } from "@/components/mindmake/board/BoardFilters";
+import { Build } from "@/components/mindmake/Build";
 import { FlapRow } from "@/components/mindmake/board/FlapRow";
 import { CountingValue } from "@/components/mindmake/CountingValue";
 import { Instrument, type InstrumentKind } from "@/components/mindmake/Instrument";
 import { useBoardData } from "@/hooks/useBoardData";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useShortScreen } from "@/hooks/useShortScreen";
 import {
   LANE_MAP,
   LANE_ORDER,
@@ -26,10 +28,15 @@ import {
 /**
  * Enough to read at a glance. The rest is one tap away, and counted.
  *
- * Fewer on a phone, where a row is three lines of headline rather than one.
+ * Fewer on a phone, where a row is three lines of headline rather than one, and
+ * fewer again on a short screen. A section's budget is a ratio, so the same four
+ * rows read 1.26 screens on a 360x800 phone and 1.51 on a 360x640 one, and 640
+ * is the commoner Android while a phone held sideways is 390px tall. The height
+ * decides, not the width, and no browser gate here tests a short one.
  */
 const ROWS_SHOWN = 8;
 const ROWS_SHOWN_PHONE = 4;
+const ROWS_SHOWN_SHORT = 3;
 /** What "show more" opens to. The window holds hundreds; a wall is not a board. */
 const ROWS_EXPANDED = 30;
 
@@ -79,6 +86,7 @@ export function LiveBoard({ seam, ground }: { ground?: "raise"; seam?: boolean }
   const [role, setRole] = useState<Role | null>(null);
   const [expanded, setExpanded] = useState(false);
   const phone = useIsMobile();
+  const short = useShortScreen();
 
   /* Memoised rather than inlined: a fresh [] on every render would defeat the
      filter memo below it and re-filter 28 days on each keystroke elsewhere. */
@@ -113,7 +121,7 @@ export function LiveBoard({ seam, ground }: { ground?: "raise"; seam?: boolean }
 
   const lanes = useMemo(() => (days.length ? laneCounts(days) : null), [days]);
   const total = useMemo(() => days.reduce((sum, day) => sum + day.cards.length, 0), [days]);
-  const limit = expanded ? ROWS_EXPANDED : (phone ? ROWS_SHOWN_PHONE : ROWS_SHOWN);
+  const limit = expanded ? ROWS_EXPANDED : (short ? ROWS_SHOWN_SHORT : phone ? ROWS_SHOWN_PHONE : ROWS_SHOWN);
   const rows = useMemo(() => recentMatching(days, { limit }), [days, limit]);
 
   if (board.status === "collapsed") {
@@ -168,11 +176,16 @@ export function LiveBoard({ seam, ground }: { ground?: "raise"; seam?: boolean }
           </p>
         ) : (
           <>
-            <div className="mm-flap-panel">
+            {/* A group, not a div: `Build` writes the panel's progress through a
+                reading pass onto every row, so the board assembles under the
+                reader and comes apart again on the way back. The flap is an
+                arrival and an arrival has arrived by the time a page is at
+                rest, which is what the aliveness gate reads. */}
+            <Build className="mm-flap-panel">
               {rows.map((card, index) => (
                 <FlapRow card={card} at={index} key={card.id} />
               ))}
-            </div>
+            </Build>
             {/* Say how much is being held back rather than silently dropping it. */}
             <p className="mm-flap-foot">
               <span>Showing {rows.length} of {total} across {days.length} days.</span>

@@ -491,20 +491,40 @@
   .mm-chips { gap: 5px; margin-top: 13px; }
   .mm-chip { min-height: 30px; padding: 5px 9px; font-size: 10px; }
   .mm-chip i { margin-left: 6px; }
-  .mm-chips.is-rail {
+}
+
+/* A short screen is the other case, and it is the one no gate here measures.
+   A 360x640 Android, a 320x568 phone and any phone held sideways have room
+   across and none down, so both groups become rails rather than one: three
+   wrapped rows of roles is a fifth of a 640px screen. The edge fades so it
+   reads as a row that continues rather than one that stops. Sideways inside a
+   box that scrolls, not on the page: `qa:screens` fails the second and
+   `qa:nojs` fails a box that cannot be scrolled. */
+@media (max-width: 767px), (max-height: 699px) {
+  .mm-chips.is-rail,
+  .mm-chips.is-short-rail {
     flex-wrap: nowrap;
     overflow-x: auto;
     scrollbar-width: none;
     padding-bottom: 2px;
     -webkit-overflow-scrolling: touch;
-    /* The edge fades so it reads as a row that continues rather than one that
-       stops. Sideways inside a box that scrolls, not on the page: `qa:screens`
-       fails the second and `qa:nojs` fails a box that cannot be scrolled. */
     mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 26px), transparent 100%);
   }
-  .mm-chips.is-rail::-webkit-scrollbar { display: none; }
-  .mm-chips.is-rail > * { flex: 0 0 auto; }
-  .mm-chips.is-rail .mm-chip-label { position: sticky; left: 0; z-index: 1; }
+  .mm-chips.is-rail::-webkit-scrollbar,
+  .mm-chips.is-short-rail::-webkit-scrollbar { display: none; }
+  .mm-chips.is-rail > *,
+  .mm-chips.is-short-rail > * { flex: 0 0 auto; }
+  .mm-chips.is-rail .mm-chip-label,
+  .mm-chips.is-short-rail .mm-chip-label { position: sticky; left: 0; z-index: 1; }
+}
+/* The roles wrap wherever there is height for them: on a tall phone every one
+   of the eight is on screen, which is the point of the filter. */
+@media (min-height: 700px) {
+  .mm-chips.is-short-rail { flex-wrap: wrap; overflow-x: visible; mask-image: none; }
+}
+@media (max-height: 699px) {
+  .mm-chips { gap: 5px; margin-top: 11px; }
+  .mm-chip { min-height: 30px; padding: 5px 9px; font-size: 10px; }
 }
 
 .mm-lanes {
@@ -577,6 +597,23 @@
    deletes the attribute. With scripting off, before hydration, in a crawler and
    under reduced motion the headline is written out in full and still. */
 
+/* The group treatment, adjusted for a panel of contiguous rows rather than a
+   grid of separated cards. Two changes, both because the rows touch:
+
+   The fade starts at .62 rather than .25. Eight rows staggered from the usual
+   floor leaves the bottom of the panel too dim to read while the top of it is
+   being read, and unlike a card a row has a neighbour to be compared against.
+
+   And nothing translates. Each row carries its own ground inside a bordered
+   panel, so shifting them by different amounts tears the seams between them
+   for the whole of the build. A departures board's rows do not slide anyway:
+   they change in place, which is the whole of what a leaf does. */
+.mm-flap-panel.mm-build > * {
+  opacity: calc(.62 + var(--mm-at, 1) * .38);
+  transform: none;
+  will-change: opacity;
+}
+
 .mm-flap-panel {
   /* The slot a leaf sits in: darker than the board, the way the real thing is
      a recess rather than a tile. Local rather than a global token, because
@@ -629,14 +666,14 @@
      how far through the turn the row is, and the product is where the needle
      has got to, so the gauge lands as the last leaf does. */
   stroke-dasharray: 63;
-  stroke-dashoffset: calc(63 - var(--mm-at, 1) * var(--mm-sweep, 0) * 63);
+  stroke-dashoffset: calc(63 - var(--mm-turn, 1) * var(--mm-sweep, 0) * 63);
 }
 .mm-gauge.is-strong .mm-gauge-fill { stroke: var(--mm-mint-bright); }
 .mm-gauge-needle {
   stroke: var(--mm-tx);
   stroke-width: 1.4;
   stroke-linecap: round;
-  transform: rotate(calc(-90deg + var(--mm-at, 1) * var(--mm-sweep, 0) * 180deg));
+  transform: rotate(calc(-90deg + var(--mm-turn, 1) * var(--mm-sweep, 0) * 180deg));
   transform-origin: 28px 28px;
 }
 .mm-gauge-hub { fill: var(--mm-tx2); }

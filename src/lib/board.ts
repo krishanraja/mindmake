@@ -312,11 +312,19 @@ export function recentMatching(
 ): BoardCard[] {
   const { industry = "All industries", role = null, limit } = options;
   const out: BoardCard[] = [];
+  /* A story that ran two days is one story. The cache keys each day's items
+     independently and nothing upstream promises an id is unique across the
+     window, so reading the window rather than the day makes a repeat possible
+     where it never was before. Two rows carrying the same headline would also
+     be two React children with one key. */
+  const seen = new Set<string>();
   for (const day of days) {
     for (const card of day.cards) {
+      if (seen.has(card.id)) continue;
       if (!isShown(card)) continue;
       if (!matchesIndustry(card, industry)) continue;
       if (role && !matchesRole(card, role)) continue;
+      seen.add(card.id);
       out.push(card);
       if (limit && out.length >= limit) return out;
     }

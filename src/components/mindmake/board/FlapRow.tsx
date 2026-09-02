@@ -15,6 +15,12 @@ import { track } from "@/lib/analytics";
  * weaker than one with a single source sitting higher up. A gauge carries a
  * value; it may not report where the reader has scrolled to.
  *
+ * Its clock is `--mm-turn` and not `--mm-at` for that reason too: `--mm-at` is
+ * what `Build` writes on every child of a group assembling with scroll
+ * position, and the panel is one of those. Sharing the name would have let the
+ * flap's clock decide the row's opacity and then pin it at 1, so the build
+ * could never come apart again on the way back up.
+ *
  * ## The mechanism, and what it may not cost
  *
  * Every character is a leaf in its own element with **the true character as its
@@ -133,7 +139,7 @@ function leaves(headline: string) {
   ));
 }
 
-export function FlapRow({ card, at }: { card: BoardCard; at: number }) {
+export function FlapRow({ card, at, style }: { card: BoardCard; at: number; style?: React.CSSProperties }) {
   const row = useRef<HTMLElement>(null);
   const lane = laneFor(card.category);
   const stance = card.stance ? STANCE_LABEL[card.stance] : null;
@@ -195,9 +201,9 @@ export function FlapRow({ card, at }: { card: BoardCard; at: number }) {
             cell.dataset.r = DRUM[(Math.random() * DRUM.length) | 0];
           }
         }
-        if (sweep) element.style.setProperty("--mm-at", Math.min(1, elapsed / total).toFixed(3));
+        if (sweep) element.style.setProperty("--mm-turn", Math.min(1, elapsed / total).toFixed(3));
         if (live || elapsed < total) frame = requestAnimationFrame(tick);
-        else if (sweep) element.style.setProperty("--mm-at", "1");
+        else if (sweep) element.style.setProperty("--mm-turn", "1");
       };
       frame = requestAnimationFrame(tick);
     };
@@ -278,7 +284,9 @@ export function FlapRow({ card, at }: { card: BoardCard; at: number }) {
     "data-stance": card.stance ?? undefined,
     /* Strings, not numbers: a custom property is set verbatim and a stray unit
        would make every calc() in the gauge invalid at computed-value time. */
-    style: { "--mm-sweep": String(sweepFor(card)), "--mm-at": "1" } as React.CSSProperties,
+    /* `style` arrives from `Build`, which writes each child's index into it.
+       Merged rather than replaced, and the row's own two properties win. */
+    style: { ...style, "--mm-sweep": String(sweepFor(card)), "--mm-turn": "1" } as React.CSSProperties,
   };
 
   return card.url ? (

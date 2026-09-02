@@ -40,8 +40,12 @@ export function BoardFilters({
   return (
     <>
       {/* The label names the control, which is the one thing a small label is
-          still allowed to do here. It is not a heading for what follows. */}
-      <div className="mm-chips" role="group" aria-label="Filter by the part of the business you run">
+          still allowed to do here. It is not a heading for what follows.
+
+          The roles wrap wherever there is height for them, so all eight are on
+          screen at once; on a short screen they become a rail like the
+          industries, because three wrapped rows is a fifth of a 640px phone. */}
+      <div className="mm-chips is-short-rail" role="group" aria-label="Filter by the part of the business you run">
         <span className="mm-chip-label">Your week</span>
         <button
           className="mm-chip"

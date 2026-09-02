@@ -9,7 +9,7 @@ export type BoardState =
   | { status: "collapsed" };
 
 interface Options {
-  /** How many retained days to ask for. The board shows 28, the homepage 1. */
+  /** How many retained days to ask for. The board reads 28, the homepage 7. */
   days?: number;
 }
 

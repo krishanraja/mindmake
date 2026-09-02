@@ -57,6 +57,9 @@ const LANE_INSTRUMENT: Record<string, InstrumentKind> = {
  * Everything on this board derives from one filtered collection.
  *
  * A fifth, from the role filter: **the board reads the window, not the day.**
+ * The heading says so: it used to read "What changed in AI today" over rows
+ * reaching back four days, and the stamp beside it already carries the exact
+ * figures, so the word came off rather than the accuracy.
  * Today alone is fine while nothing is filtered, because today's items are the
  * newest anyway. It fails the moment a visitor picks a role -- measured against
  * the classified feed, People is 39 items in 476 and 0 of today's 13, so the
@@ -117,7 +120,7 @@ export function LiveBoard({ seam, ground }: { ground?: "raise"; seam?: boolean }
     return (
       <section className={`mm-block${ground_class}`} id="board" aria-labelledby="board-title">
         <div className="mm-container">
-          <h2 id="board-title">What changed in AI today.</h2>
+          <h2 id="board-title">What changed in AI.</h2>
           <p className="mm-board-rebuilding">The read is rebuilding. Back within the hour.</p>
         </div>
       </section>
@@ -128,7 +131,7 @@ export function LiveBoard({ seam, ground }: { ground?: "raise"; seam?: boolean }
     return (
       <section className={`mm-block${ground_class}`} id="board" aria-labelledby="board-title">
         <div className="mm-container">
-          <h2 id="board-title">What changed in AI today.</h2>
+          <h2 id="board-title">What changed in AI.</h2>
           {/* A heading with nothing under it reads as broken rather than busy. */}
           <p className="mm-board-rebuilding" role="status">Reading today's sources.</p>
         </div>
@@ -143,7 +146,7 @@ export function LiveBoard({ seam, ground }: { ground?: "raise"; seam?: boolean }
     <section className={`mm-block${ground_class}`} id="board" aria-labelledby="board-title">
       <div className="mm-container">
         <div className="mm-board-head">
-          <h2 id="board-title">What changed in AI today.</h2>
+          <h2 id="board-title">What changed in AI.</h2>
           <span className={`mm-timestamp${stale ? " is-stale" : ""}`}>
             <i className={`mm-live-dot${stale ? " is-stale" : ""}`} aria-hidden="true" />
             {timestampLabel(board.cacheDate, days.length, total)}

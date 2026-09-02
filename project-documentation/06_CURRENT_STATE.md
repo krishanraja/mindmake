@@ -1524,6 +1524,20 @@ a single source sitting higher up. **A gauge carries a value and may not report
 where the reader has scrolled to.** The idle turn leaves it alone for the same
 reason: how well corroborated an item is has not changed.
 
+### The headings now say what the rows are
+
+`/ai-gtm` read "What changed in AI today." over rows reaching back four days,
+and the homepage read "this morning" over the same. The stamp beside each
+already carries the exact figures — "Read 10:30 UTC · 28 days · 389 corroborated
+items" — so the claim came off the heading rather than the accuracy off the
+rows. `/ai-gtm` is "What changed in AI."; the homepage, which reads seven days,
+is "What changed in AI this week."
+
+Measured live through our own filters at the moment of the change: seven days is
+73 items with every one of the eight roles stocked (People 2, Sales 3, Product
+32) and 13.7KB on the wire; 28 days is 389 items (People 35, Sales 14) and
+66KB. That is why the homepage reads a week and the door page reads the window.
+
 ### What went with the rewrite
 
 `BoardCardView`, the six-card grid it sat in, its 1,795 characters of CSS, and

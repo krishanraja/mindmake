@@ -48,6 +48,9 @@ import "@/styles/mindmake-instruments.css";
  *
  * It reads a week rather than a day for the reason the board does: a role chip
  * filtered to today alone would be empty for whole divisions on most days.
+ * Measured live, seven days is 73 items with every one of the eight roles
+ * stocked, and 13.7KB on the wire. The heading says "this week" because that is
+ * what the rows are, and each one carries its own age besides.
  */
 function ProofLive() {
   const board = useBoardData({ days: 7 });
@@ -72,7 +75,7 @@ function ProofLive() {
     <section className="mm-block mm-on-raise mm-seam-above" aria-labelledby="proof-title">
       <div className="mm-container">
         <div className="mm-board-head">
-          <h2 id="proof-title"><Instrument kind="recorder" className="mm-head-mark" />What changed in AI this morning.</h2>
+          <h2 id="proof-title"><Instrument kind="recorder" className="mm-head-mark" />What changed in AI this week.</h2>
           {board.status === "ready" && (
             <span className={`mm-timestamp${isStale(board.cacheDate) ? " is-stale" : ""}`}>
               <i className={`mm-live-dot${isStale(board.cacheDate) ? " is-stale" : ""}`} aria-hidden="true" />

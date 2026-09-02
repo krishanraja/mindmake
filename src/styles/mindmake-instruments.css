@@ -192,7 +192,6 @@
   line-height: 1.24;
   letter-spacing: -.02em;
   color: var(--mm-fg);
-  text-wrap: pretty;
 }
 .mm-scrub span { transition: opacity .18s linear; }
 @media (prefers-reduced-motion: reduce) {
@@ -322,7 +321,7 @@
 .mm-doors .mm-door:focus-visible { opacity: 1; outline: 2px solid var(--mm-focus); outline-offset: 3px; }
 .mm-door:active { transform: translateY(0); }
 .mm-door h2 { margin: 0 0 8px; font-size: clamp(20px, 2.4vw, 27px); font-weight: 700; letter-spacing: -.02em; text-wrap: balance; }
-.mm-door p { max-width: 44ch; color: var(--mm-tx2); font-size: 14.5px; line-height: 1.5; text-wrap: pretty; }
+.mm-door p { max-width: 44ch; color: var(--mm-tx2); font-size: 14.5px; line-height: 1.5; }
 @media (prefers-reduced-motion: reduce) {
   .mm-doors:hover .mm-door { opacity: 1; }
   .mm-door, .mm-doors:hover .mm-door:hover { transform: none; }
@@ -706,7 +705,7 @@
   font-size: 14.5px;
   letter-spacing: -.015em;
 }
-.mm-journey-step span { display: block; color: var(--mm-tx2); font-size: 13px; line-height: 1.45; }
+.mm-journey-step span { display: block; color: var(--mm-tx2); font-size: 13px; line-height: 1.45; text-wrap: balance; }
 .mm-journey-error { margin-top: 12px; color: var(--mm-amber); font-family: var(--mm-mono); font-size: 12px; }
 
 .mm-qrow { margin-top: 16px; }
@@ -898,7 +897,7 @@
   border-radius: 50%;
   background: var(--mm-mint-dim);
 }
-.mm-payoff { margin-top: 30px; text-wrap: pretty; max-width: 54ch; font-family: var(--mm-serif); font-size: clamp(17px, 1.9vw, 21px); line-height: 1.4; color: var(--mm-tx); }
+.mm-payoff { margin-top: 30px; max-width: 54ch; font-family: var(--mm-serif); font-size: clamp(17px, 1.9vw, 21px); line-height: 1.4; color: var(--mm-tx); }
 .mm-payoff em { font-style: normal; color: var(--mm-mint); }
 
 /* ---------- CTRL: spec chips, proof viewer, principles ---------- */
@@ -1240,7 +1239,6 @@
   font-size: 15.5px;
   letter-spacing: -.015em;
   line-height: 1.35;
-  text-wrap: pretty;
   transition: color .16s ease;
 }
 /* The token, not the literal near-white the question card used. The stack sits
@@ -1272,7 +1270,6 @@
   color: var(--mm-tx2);
   font-size: 15px;
   line-height: 1.6;
-  text-wrap: pretty;
 }
 .mm-stack .mm-stack-body p + p { margin-top: 9px; }
 
@@ -1411,7 +1408,6 @@
   padding-bottom: var(--mm-section);
   color: var(--mm-tx2);
   font-size: 14px;
-  text-wrap: pretty;
 }
 
 /* The voices band: references and attendance, on their own ground. */
@@ -1629,7 +1625,7 @@
 }
 
 /* A shape card names itself in its heading, then says what it is in one line. */
-.mm-shape-line { margin-top: 7px; text-wrap: pretty; color: var(--mm-tx); font-family: var(--mm-serif); font-size: 17px; line-height: 1.35; }
+.mm-shape-line { margin-top: 7px; color: var(--mm-tx); font-family: var(--mm-serif); font-size: 17px; line-height: 1.35; }
 .mm-shape p + p { margin-top: 8px; }
 .mm-objections-title { font-size: clamp(20px, 2.4vw, 27px); margin-bottom: 14px; }
 .mm-references h3, .mm-attendance h3 { font-size: 15px; font-weight: 600; color: var(--mm-tx2); margin-bottom: 12px; }
@@ -1673,7 +1669,6 @@
   font-size: 15px;
   line-height: 1.45;
   letter-spacing: -.01em;
-  text-wrap: pretty;
 }
 
 .mm-voice-by {
@@ -1836,7 +1831,6 @@
   color: var(--mm-tx2);
   font-size: 16px;
   line-height: 1.6;
-  text-wrap: pretty;
 }
 .mm-founder-close { color: var(--mm-mut) !important; font-size: 14px !important; }
 @media (min-width: 900px) {
@@ -1984,7 +1978,7 @@
   padding: 15px 17px;
 }
 .mm-channels h3 { font-family: var(--mm-serif); font-size: clamp(17px, 1.9vw, 21px); letter-spacing: -.015em; }
-.mm-channels p { margin-top: 7px; color: var(--mm-tx2); font-size: 14px; line-height: 1.55; text-wrap: pretty; }
+.mm-channels p { margin-top: 7px; color: var(--mm-tx2); font-size: 14px; line-height: 1.55; }
 
 /* ---------- The instrument set ---------- */
 
@@ -2130,7 +2124,7 @@ h3 > .mm-head-mark, h4 > .mm-head-mark { width: 28px; height: 28px; margin-top: 
   .mm-story-full { grid-template-columns: minmax(0, 1fr) minmax(0, .74fr); gap: 36px; align-items: center; }
 }
 .mm-story-full h2 { max-width: 28ch; font-size: clamp(19px, 2.2vw, 26px); letter-spacing: -.02em; }
-.mm-story-outcome { margin-top: 10px; color: var(--mm-tx2); font-size: 15px; line-height: 1.55; text-wrap: pretty; }
+.mm-story-outcome { margin-top: 10px; color: var(--mm-tx2); font-size: 15px; line-height: 1.55; }
 .mm-story-full blockquote {
   margin: 14px 0 0;
   border-left: 2px solid var(--mm-mint-dim);
@@ -2318,6 +2312,10 @@ h3 > .mm-head-mark, h4 > .mm-head-mark { width: 28px; height: 28px; margin-top: 
   padding: 18px clamp(18px, 3vw, 40px);
 }
 .mm-voice-panel:focus-visible { outline: 2px solid var(--mm-focus); outline-offset: -3px; }
+/* The only block on the site that opts out of balancing. This is the whole
+   quote, opened over the rail, and the longest of the thirty-three runs well
+   past the six line boxes Chrome will balance. `pretty` is what a long block
+   wants: even lines matter less than not ending on one word. */
 .mm-voice-panel blockquote {
   max-width: 78ch;
   margin: 0;

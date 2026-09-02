@@ -83,6 +83,13 @@ for (const path of PATHS) {
          display:none branch both land here, and both are opened by a control
          the browser itself provides. */
       if (area <= 0) continue;
+      /* A heading that is deliberately not drawn. `.mm-visually-hidden` is the
+         standard 1px clipped box naming a section for a screen reader, so being
+         clipped away is the whole of its job, and it is more reachable with
+         scripting off than with it. It only started reporting on 2 September,
+         when the margin reset stopped being (0,1,1) and its own `margin: -1px`
+         finally applied; the box was always there and always clipped. */
+      if (el.closest(".mm-visually-hidden")) continue;
       let t = box.top, l = box.left, w = box.width, h = box.height;
       let cage = null;
       for (let node = el.parentElement; node; node = node.parentElement) {

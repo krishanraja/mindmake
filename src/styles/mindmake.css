@@ -203,9 +203,46 @@
 .mm-site *,
 .mm-site *::before,
 .mm-site *::after { box-sizing: border-box; }
-.mm-site h1, .mm-site h2, .mm-site h3, .mm-site h4,
-.mm-site p, .mm-site figure, .mm-site blockquote,
-.mm-site dl, .mm-site dd { margin: 0; }
+/* The margin reset, at no specificity at all.
+ *
+ * It was `.mm-site h1, .mm-site p, ...`, which is (0,1,1), and that is above
+ * every single-class rule in this repository. So a component saying
+ * `.mm-payoff { margin-top: 30px }` was writing a declaration that could never
+ * win, and 16 of them across five pages were doing exactly that: the payoff
+ * line sat flush against the two cards above it on /ai-brain, the fork's "No
+ * email required" sat flush against the buttons, the questions heading had no
+ * space under it, the drum's provenance note none above it. Krish found one of
+ * them by eye on 2 September 2026; the other fifteen came out of the measure
+ * that followed.
+ *
+ * `:where()` contributes zero specificity, so this is (0,0,0). It still beats
+ * the browser's own stylesheet, because an author rule always does, and it now
+ * loses to any component that asks for a margin, which is the whole point of a
+ * reset. `scripts/qa/dead-css-check.mjs` fails if a declaration goes dead
+ * again. */
+:where(.mm-site) :where(h1, h2, h3, h4, p, figure, blockquote, dl, dd) { margin: 0; }
+
+/* Short prose balances; long prose does not, and the browser decides which.
+ *
+ * Krish, 2 September 2026: fix the places text wraps pointlessly. Measured
+ * across four pages at 1440 and 390, 72 blocks ended on a stub last line under
+ * a quarter the width of the widest — a full line, then three words. `pretty`
+ * only tidies the last line or two inside a paragraph, so it does nothing for a
+ * two-line quote whose natural break leaves four words alone; `balance` evens
+ * every line and the block reads as a shape somebody chose.
+ *
+ * It is set here rather than class by class because Chrome already draws the
+ * line this rule wants: it balances up to six line boxes and falls back to
+ * normal past that, so a caption, a quote and a lede get balanced and a
+ * forty-word answer is untouched, without CSS having to know which is which.
+ *
+ * `:where()` twice, so the whole thing is (0,0,0) and any component asking for
+ * `pretty` on a block it knows is long still wins. That is the same lesson as
+ * the margin reset directly above: a site-wide default that outranks the
+ * components it serves is not a default, it is an override. */
+:where(.mm-site) :where(p, li, blockquote, figcaption, cite, dd, small, summary, legend) {
+  text-wrap: balance;
+}
 .mm-site h1, .mm-site h2, .mm-site h3, .mm-site h4 {
   font-family: var(--mm-grotesque);
   font-weight: 700;
@@ -278,7 +315,16 @@
   border: 0;
 }
 .mm-section { padding-block: var(--mm-section); }
-.mm-lede { max-width: 62ch; color: var(--mm-fg2); font-size: clamp(16px, 1.4vw, 18px); text-wrap: pretty; }
+/* Balance, not pretty.
+ *
+ * A lede is two or three lines inside a 62ch measure, sitting under a heading
+ * that runs the full column. `pretty` only tidies the last line or two, so the
+ * homepage's read 558px then 352px at 1440: a full line and then a stub, which
+ * is what "wraps pointlessly" looks like. `balance` evens every line, so the
+ * block reads as a shape somebody chose. Chrome stops balancing past six lines
+ * and falls back, which is the right cut-off: this is for ledes, not for the
+ * long answers, which keep `pretty`. */
+.mm-lede { max-width: 62ch; color: var(--mm-fg2); font-size: clamp(16px, 1.4vw, 18px); text-wrap: balance; }
 
 /* Buttons and links: the touch layer answers within 100ms. */
 .mm-button {

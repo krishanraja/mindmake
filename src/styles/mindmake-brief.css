@@ -189,7 +189,7 @@
   transition: border-color .14s ease, transform .14s ease;
 }
 .mm-door-choice b { font-size: 17px; font-weight: 700; letter-spacing: -.015em; }
-.mm-door-choice span { color: var(--mmb-mut, var(--mm-tx2)); font-size: 14px; line-height: 1.5; text-wrap: pretty; }
+.mm-door-choice span { color: var(--mmb-mut, var(--mm-tx2)); font-size: 14px; line-height: 1.5; }
 @media (hover: hover) and (pointer: fine) {
   .mm-door-choice:hover { border-color: var(--mmb-accent, var(--mm-mint)); transform: translateY(-1px); }
 }

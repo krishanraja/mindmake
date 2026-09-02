@@ -131,6 +131,13 @@ for (const [width, height] of SIZES) {
            either as unreachable would report the questions stack and the
            thirty-three voices as defects for working. */
         if (el.closest("details") || el.closest("[role='group'][tabindex]")) continue;
+        /* A heading that is deliberately not drawn. `.mm-visually-hidden` is
+           the standard 1px clipped box that names a section for a screen
+           reader, so being clipped away is the whole of its job. It only
+           started reporting on 2 September, when the margin reset stopped
+           being (0,1,1) and its own `margin: -1px` finally applied; the box was
+           always there and always clipped. */
+        if (el.closest(".mm-visually-hidden")) continue;
         let t = box.top, l = box.left, w = box.width, h = box.height;
         for (let node = el.parentElement; node; node = node.parentElement) {
           const p = getComputedStyle(node);

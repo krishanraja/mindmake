@@ -134,6 +134,16 @@ The corollary, which is the harder half: where a fact is already carried by a nu
 
 None of this licenses cutting an answer. The questions sections are long because a reader with a question wants the answer, and every one of those is content. What came out was the same answer given twice under two headings.
 
+## A default carries no specificity
+
+Added 2 September 2026, after seventeen declarations were found that could never take effect.
+
+A site-wide reset is written `:where(.mm-site) :where(p, h2, blockquote, ...)`, never `.mm-site p`. The second form is (0,1,1), which is above every single-class rule in this repository, so a component saying `.mm-payoff { margin-top: 30px }` is writing a declaration that cannot win. Sixteen margins and the lead dialog's entire step-rail typography were dead exactly that way, and none of it is visible in a review: both rules read correctly on their own, and the file that loses is not the file being read.
+
+`:where()` contributes no specificity. The reset still beats the browser's own stylesheet, because an author rule always does, and it loses to any component that asks for something, which is the whole job of a reset. A default that outranks the components it serves is not a default; it is an override. `npm run qa:deadcss` reads it back from the browser.
+
+The same rule governs typographic defaults. Short prose balances (`text-wrap: balance`), because a two-line quote breaking to leave four words alone is what "wraps pointlessly" looks like and `pretty` cannot fix it: `pretty` tidies the last lines inside a paragraph, `balance` evens all of them. It is set once at (0,0,0) rather than per component, because Chrome balances up to six line boxes and falls back past that, so the browser draws the line between a caption and a long answer without CSS having to. A component opts back into `pretty` only where its block is reliably long.
+
 ## Proof
 
 Three families, never mixed, because merging them would be the easiest lie on the page.

@@ -25,7 +25,8 @@
     "build:ssr": "vite build --ssr src/entry-server.tsx --outDir dist-ssr",
     "qa:entrance": "node scripts/qa/first-second-check.mjs",
     "qa:nojs": "node scripts/qa/no-js-check.mjs",
-    "qa:screens": "node scripts/qa/screen-matrix-check.mjs"
+    "qa:screens": "node scripts/qa/screen-matrix-check.mjs",
+    "qa:deadcss": "node scripts/qa/dead-css-check.mjs --width 1440 && node scripts/qa/dead-css-check.mjs --width 390"
   },
   "dependencies": {
     "@fontsource-variable/archivo": "^5.3.0",

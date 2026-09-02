@@ -1137,3 +1137,110 @@ asserting the sentence exists.
   conversion surface, which is a decision rather than a fix.
 - `/new-age-leadership` and `/blog/:slug` are still lazy against a 348KB entry
   bundle, and were never measured for the hydration cost.
+
+## 2 September 2026 — the declarations that could never win
+
+Krish, with two screenshots: *"Can we also fix all the instances where text
+wraps pointlessly, or where it is far too close to other components."*
+
+The first screenshot showed `/ai-brain`'s payoff line sitting flush against the
+two cards above it. The line asks for `margin-top: 30px`. It was computing 0.
+
+### One line, and then sixteen more
+
+`mindmake.css` carried the margin reset as
+`.mm-site h1, .mm-site h2, ..., .mm-site p, ... { margin: 0 }`. That is
+**(0,1,1)**, and it is above every single-class rule in this repository. Not
+"wins on source order" — cannot lose. So a component writing
+`.mm-payoff { margin-top: 30px }` was writing a declaration with no effect, and
+measuring every element on five pages found **16 more of them**:
+
+| the component | asked for | got |
+|---|---|---|
+| `.mm-payoff` | `margin-top: 30px` | 0 |
+| `.mm-landing` (the fork's "No email required") | `margin-top: 18px` | 0 |
+| `.mm-band-q` | `margin: 18px 0 10px` | 0 |
+| `.mm-try-title` | `margin-top: 12px` | 0 |
+| `.mm-objections-title` | `margin-bottom: 14px` | 0 |
+| `.mm-voice-by` | `margin-top: 9px` | 0 |
+| `.mm-drum-count` | `margin-top: 12px` | 0 |
+| `.mm-voices-more` | `margin-top: 22px` | 0 |
+| `.mm-board-rebuilding` | `margin-top: 14px` | 0 |
+| `.mm-founder-name` | `margin-top: 10px` | 0 |
+| `.mm-film-band-note` | `margin-top: 14px` | 0 |
+| `.mm-shape-line` | `margin-top: 7px` | 0 |
+| `.mm-story-outcome` | `margin-top: 9px` | 0 |
+| `.mm-proof-figures` | `margin-top: 30px` | 0 |
+| `.mm-fig-label`, `.mm-fig-pair` | `6px`, `14px` | 0 |
+
+The same shape had cost the lead dialog its step rail's typography two commits
+earlier, where `.mm-site button { font: inherit }` beat `.mm-brief-path button`.
+That one was patched with `[type="button"]`. This is the general form of it.
+
+**The fix is `:where()`**, which contributes no specificity. The reset is now
+`:where(.mm-site) :where(h1, h2, h3, h4, p, figure, blockquote, dl, dd)`, which
+is (0,0,0). It still beats the browser's own stylesheet, because an author rule
+always does, and it now loses to any component that asks for a margin, which is
+the whole job of a reset. A site-wide default that outranks the components it
+serves is not a default; it is an override.
+
+`scripts/qa/dead-css-check.mjs` (`npm run qa:deadcss`) walks every element on
+five pages at both widths, reads back the author rules that match, and fails on
+any declaration from a rule of one class or less that is beaten by a `.mm-site`
+reset. Thirteen properties, not just margins.
+
+Two bugs in that gate are worth recording, because both made it pass a tree it
+had been written to fail:
+
+ - It compared a reset's `0` against a computed `0px` as strings.
+ - It recursed with `if (rule.cssRules) { walk(...); continue; }`. Since nested
+   CSS landed, **every** `CSSStyleRule` carries a `cssRules` of its own, empty
+   for a plain rule, and an empty `CSSRuleList` is truthy. So the walk skipped
+   every rule in the stylesheet and collected nothing at all. `.length` is the
+   difference between a gate and a green tick.
+
+Reverted, the gate reports 8 dead declarations; fixed, none at either width.
+
+### Text that wrapped pointlessly
+
+Measured the same way: **72 blocks across four pages at 1440 and 390 ended on a
+stub last line under a quarter of the width of the widest** — a full line, then
+three words. The homepage lede read 558px then 352px.
+
+`text-wrap: pretty` was already on many of them and cannot fix it: it tidies the
+last line or two inside a paragraph, so a two-line quote whose natural break
+leaves four words alone is exactly what it leaves alone. `balance` evens every
+line, and the block reads as a shape somebody chose.
+
+It is set once, as a (0,0,0) default on prose elements, because Chrome already
+draws the line the rule wants: it balances up to six line boxes and falls back
+past that. So a caption, a quote and a lede get balanced and a forty-word answer
+is untouched, with no CSS having to know which is which. The thirteen component
+rules that said `text-wrap: pretty` now defer to it; the one that keeps it is
+`.mm-voice-panel blockquote`, the whole quote opened over the rail, which is the
+one block long enough for `pretty` to be the right answer.
+
+**72 stub-ending blocks became 3**, and the three are correct: two marquee spans
+that scroll rather than wrap, and one seven-line founder paragraph where Chrome
+falls back past its balance cap. The homepage lede is 455/455 at 1440 and
+285/248/272 at 390.
+
+### Baselines after this change
+
+- Tests **395 across 27 files**, lint **0 errors and 2 warnings**, typecheck
+  **0 errors**.
+- `qa:deadcss` is new and green at both widths.
+- `qa:screens`, `qa:nojs`, `qa:oneway`, `qa:rhythm`, `qa:images`, `qa:cards`,
+  `qa:entrance`, redirects, dialog shape and handoff: all green.
+- Two gates gained a skip for `.mm-visually-hidden`. It is the standard 1px
+  clipped box that names a section for a screen reader, so being clipped away is
+  the whole of its job. It only started reporting when the reset stopped being
+  (0,1,1) and its own `margin: -1px` finally applied; the box was always there
+  and always clipped.
+- `qa:alive` reads **5 still viewports, 4 at 390 and 1 at 1440**, against 4 the
+  commit before. The extra one is not a new dead section: `/ai-brain` is about
+  40px taller now that its margins apply, so the gate's fixed sample points land
+  twice on the same form panel. Driving every one of them, **four of the five
+  are `.mm-try`** — `/ai-brain @3376` and `@4220` at 390, `/ai-gtm @2532` at
+  390, `/ai-brain @3600` at 1440 — and the fifth is `/ @844px`. That is the same
+  worklist as 1 September in substance, and no floor was lowered.

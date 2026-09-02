@@ -1244,3 +1244,105 @@ falls back past its balance cap. The homepage lede is 455/455 at 1440 and
   are `.mm-try`** — `/ai-brain @3376` and `@4220` at 390, `/ai-gtm @2532` at
   390, `/ai-brain @3600` at 1440 — and the fifth is `/ @844px`. That is the same
   worklist as 1 September in substance, and no floor was lowered.
+
+## 2 September 2026 — the toggle, the build, and the measure
+
+Four things, all of them named in the same message, and the first two were live
+defects nothing was looking for.
+
+### The story deck's arrows did nothing on a laptop
+
+The card index shipped with `useDragDrum`, whose travel is a rail's answer:
+`count * pitch - viewport`. A rail stops when its last card reaches the right
+edge. **A deck has no track.** Every card sits in the same grid cell, so its
+travel is every card but the first and the frame's width has nothing to do with
+it. Above about 1200px the frame is wider than eight cards at a 150px pitch, the
+expression goes negative, `Math.max(0, …)` clamps it to zero, and every press of
+the arrows was a no-op. It worked on a phone by arithmetic accident, which is
+why every check that ran at 390 was happy.
+
+`useDragDrum` takes a `span` now, and `StoryIndex` passes `(count - 1) * PITCH`.
+Measured: at 1440 the counter goes `01 of 08` to `02 of 08` and the deck offset
+0 to 0.997, where before both stood still.
+
+**No gate pressed a button.** They measure geometry, reachability, motion and
+copy; none of them asked whether a control did anything. `card-geometry-check`
+now presses the next arrow of every deck and rail on the page and fails if what
+it drives is in the same place afterwards. Reverted, it reports `pressing the
+deck's next arrow moved nothing (0|)`.
+
+### CAREER REFERENCE, cut in half
+
+`.mm-voice` is `grid-template-rows: 1fr 52px 30px` with `overflow: hidden`, and
+the attribution was a flex wrap of name, role and a bordered family chip. On any
+card whose role ran to two lines that is four lines in a 52px box, so the label
+was sliced through the middle on exactly the cards belonging to the people who
+wrote the references.
+
+It is two explicit rows now, the family beside the name, which is one line
+whatever the role does. The label stays, because the canon is that a session
+attendee is never read as a client; the **box around it is gone**, because three
+families of proof have to be told apart and that does not need a badge.
+Measured at 1440 and 390: nothing clipped, cards still equal at 177px.
+
+### Five excerpts that quoted the problem instead of the result
+
+Read cold on a card, each of these lands as criticism of the practice:
+
+| | was | now |
+|---|---|---|
+| James Gately | "Previous support came to a halt once the paid engagement ended" | "With mind/make, I was empowered" |
+| Dipti Divekar | "he never lets you become reliant on him" | "He puts you in the driver's seat, explains AI fundamentals in plain language" |
+| adtech founder | "We had a brilliant product nobody could buy…" | the same, plus "Now they can. Including me." |
+| media advisory | "We had expertise everyone respected and nothing they could buy." | "He turned the talking into something sellable." |
+| coaching founder | "I'd had an AI mentor before who was way too technical." | "Krish thinks about me and the results I need." |
+
+Every replacement is an exact substring of the same quote, unedited, and
+`testimonials.test.ts` still holds that rule and the 108-character cap.
+
+### Components that build as you scroll
+
+Asked for repeatedly and not delivered. `Arrive` fires once on a threshold and
+is then finished forever, so a section that has already arrived is a photograph:
+scroll back and down and nothing happens.
+
+`src/components/mindmake/Build.tsx` is the answer, and it needed no new
+machinery. `useScrollDriver` already writes `--mm-p` across a reading pass,
+position-driven and reversing. `Build` puts it on a group, each child carries
+its own `--mm-i`, and one rule in CSS does the arithmetic. The fallback is the
+whole safety case: `var(--mm-p, 1)` means unset is finished, so no JavaScript,
+before hydration, a crawler and a reduced-motion visitor all get the group
+complete, with no transform and no transparency. It adds a ref and nothing else
+to the markup, so the two trees still match.
+
+Wired into the homepage's three answers and both door pages' try-it panels.
+Measured across a scroll pass at 390 and 1440, children go 0.25 to 1.00 with
+position, and back.
+
+**`npm run qa:alive` is green for the first time since it was written**: 28
+viewports at 390 and 25 at 1440, none still. Its standing worklist was the two
+try-it panels and `/ @844px`, and the note in CLAUDE.md said those wanted a
+set-piece rather than a fix. That was wrong. What they wanted was to build.
+
+### Text that wraps while its column has room
+
+The earlier pass measured *widows* — stub last lines — and fixed 72 of them.
+That was the wrong metric for the complaint. Measured properly, as block width
+against the space the block has, the real defect is: `.mm-lede` is capped at
+62ch and sits under an `h2` that spans the full 1240px column, so the heading
+runs the width, the lede runs 590px of it, and **650px beside it is nothing.**
+
+Widening the measure would be the wrong fix; 62ch is right and 100ch is not
+readable. The column is what is wrong. Above 1100px a heading and the lede
+directly under it share a row, matched with `:has(> h2 + .mm-lede)`, so the
+lede's measure is its column rather than a fraction of one. Everything after the
+pair spans both columns. Measured on the homepage at 1440: h2 619px at x=100,
+lede 563px at x=777, same row, no gap. The founder note's paragraphs and the
+drum's provenance note had the same shape one level in and lost their caps.
+
+### Baselines
+
+- **395 tests**, 0 lint errors and 2 warnings, 0 type errors.
+- **Every browser gate green, `qa:alive` included, for the first time.**
+  `qa:screens`, `qa:nojs`, `qa:oneway`, `qa:rhythm`, `qa:images`, `qa:cards`,
+  `qa:entrance`, `qa:deadcss`, redirects, dialog shape, handoff.

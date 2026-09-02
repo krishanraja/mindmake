@@ -103,6 +103,43 @@ for (const path of PATHS) {
       problems.push(`${path}: opening a card moved the content below it by ${after.top - below}px`);
     }
   }
+  /* Every control that moves a deck or a rail actually moves it.
+   *
+   * The story deck shipped on 2 September 2026 with arrows that did nothing at
+   * all above about 1200px. It borrowed the rail's bound, `count * pitch -
+   * viewport`, and a deck has no track to run out of: on a laptop the frame is
+   * wider than eight cards at a 150px pitch, so the expression went negative,
+   * clamped to zero travel, and every press was a no-op. It worked on a phone
+   * by arithmetic accident, which is why every check that ran at 390 was happy.
+   *
+   * Nothing here was looking. The gates measure geometry, reachability and
+   * motion; none of them pressed a button and asked whether anything happened.
+   * So this presses the next arrow of every deck and rail on the page and fails
+   * if the thing it drives is in the same place afterwards. */
+  for (const [name, group, arrow] of [
+    ["deck", ".mm-deck", ".mm-index-hint button:last-of-type"],
+    ["voices rail", ".mm-drum", ".mm-drum-arrows button:last-of-type"],
+  ]) {
+    const control = await page.$(arrow);
+    if (!control) continue;
+    const where = () => page.evaluate((sel) => {
+      const el = document.querySelector(sel);
+      if (!el) return null;
+      /* A deck writes its position to a custom property and a rail transforms
+         its track, so read whichever this one uses. */
+      return `${getComputedStyle(el).getPropertyValue("--mm-deck-at").trim()}|${el.querySelector(".mm-drum-track")?.style.transform ?? ""}`;
+    }, group);
+    const before = await where();
+    if (before === null) continue;
+    await control.scrollIntoViewIfNeeded();
+    await control.click();
+    await page.waitForTimeout(650);
+    const after = await where();
+    if (before === after) {
+      problems.push(`${path}: pressing the ${name}'s next arrow moved nothing (${before || "unset"})`);
+    }
+  }
+
   console.log(`${path}: ${read.length} cards, height ${first.height}px, rows at ${first.quote}/${first.by}/${first.more}`);
   await page.close();
 }

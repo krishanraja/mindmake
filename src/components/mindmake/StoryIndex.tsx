@@ -65,7 +65,18 @@ export function StoryIndex() {
     element.style.setProperty("--mm-deck-at", String(-offset / PITCH));
   }, []);
 
-  const drum = useDragDrum({ pitch: PITCH, count: stories.length, viewport, drift: 0, write });
+  /* Every card but the first, because a deck has nowhere to travel and its
+     frame's width is not a bound on anything. Without this it borrows a rail's
+     `count * pitch - viewport`, which on a laptop is negative and clamps the
+     whole deck to a standstill. */
+  const drum = useDragDrum({
+    pitch: PITCH,
+    count: stories.length,
+    viewport,
+    drift: 0,
+    write,
+    span: (stories.length - 1) * PITCH,
+  });
   const at = drum.index;
 
   return (

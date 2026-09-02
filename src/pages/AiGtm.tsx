@@ -6,6 +6,7 @@ import { CloseBlock } from "@/components/mindmake/CloseBlock";
 import { SubscribeBand } from "@/components/mindmake/SubscribeBand";
 import { FilmPlate } from "@/components/mindmake/FilmPlate";
 import { Instrument } from "@/components/mindmake/Instrument";
+import { Build } from "@/components/mindmake/Build";
 import { ScrubText } from "@/components/mindmake/ScrubText";
 import { ObjectionChips } from "@/components/mindmake/ObjectionChips";
 import { LeverPanel } from "@/components/mindmake/LeverPanel";
@@ -143,11 +144,16 @@ export default function AiGtm() {
           whole of. */}
       <section className="mm-block mm-on-raise mm-try" id="try-it" aria-labelledby="try-title">
         <div className="mm-container">
-          <div className="mm-try-panel">
+          {/* The one screen on each door page the aliveness gate has called
+              still since 1 September. A form is finished the moment it is
+              drawn, so nothing on it moves at rest; what it can do is build
+              under the reader as they arrive, which is the gate's other half
+              and the thing this site has been asked for repeatedly. */}
+          <Build className="mm-try-panel">
             <Instrument kind="recorder" />
             <h2 id="try-title" className="mm-try-title">Four details, and we start reading.</h2>
             <GtmJourney onRead={startFromJourney} />
-          </div>
+          </Build>
         </div>
       </section>
 

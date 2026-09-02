@@ -36,12 +36,28 @@ const GAP = 14;
 const PEEK = CARD * 1.4 + GAP;
 const cardFor = (viewport: number) => (viewport < PEEK ? Math.max(220, viewport - GAP) : CARD);
 
+/**
+ * Who said it, and which of the three families it belongs to.
+ *
+ * Two rows, stated in the markup rather than left to wrapping. The family used
+ * to be a bordered chip that wrapped onto a fourth line, and the attribution
+ * row is a fixed 52px with `overflow: hidden`, so on any card where the role
+ * ran to two lines the label was simply cut in half: "CAREER REFERENCE" showing
+ * as a sliced band of letters on the cards of the people who wrote it.
+ *
+ * It sits beside the name now, which is one line whatever the role does. The
+ * label stays, because the canon is that a session attendee is never read as a
+ * client, but it is not a badge: three families of proof have to be told apart,
+ * and that does not need a box drawn round it.
+ */
 function Attribution({ voice }: { voice: Testimonial }) {
   return (
     <p className="mm-voice-by">
-      {voice.name && <b>{voice.name}</b>}
-      <span>{voice.role}</span>
-      <i>{FAMILY_LABEL[voice.family]}</i>
+      <span className="mm-voice-who">
+        {voice.name && <b>{voice.name}</b>}
+        <i>{FAMILY_LABEL[voice.family]}</i>
+      </span>
+      <span className="mm-voice-role">{voice.role}</span>
     </p>
   );
 }

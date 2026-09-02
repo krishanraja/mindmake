@@ -1671,11 +1671,13 @@
   letter-spacing: -.01em;
 }
 
+/* Two rows: who, then what they do. The family sits beside the name, where it
+   costs no height whatever the role does. It used to wrap to a fourth line
+   inside a fixed 52px box and was cut in half on every card with a long job
+   title. */
 .mm-voice-by {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 3px 8px;
-  align-items: baseline;
+  display: grid;
+  gap: 3px;
   align-content: flex-start;
   overflow: hidden;
   margin-top: 9px;
@@ -1683,23 +1685,22 @@
   font-size: 10px;
   line-height: 1.4;
 }
+.mm-voice-who { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; min-width: 0; }
 .mm-voice-by b { color: var(--mm-tx2); font-weight: 500; }
 /* Two lines at most, so the row cannot change height under a long job title.
    The full role is still in the DOM and still read out. */
-.mm-voice-by span {
+.mm-voice-role {
   color: var(--mm-mut);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-/* The family label is the thing that stops a session attendee being read as a
-   client. It stays legible rather than becoming decoration. */
+/* The label that stops a session attendee being read as a client. It is a
+   label, not a badge: three families of proof have to be told apart, and that
+   does not need a box drawn round it. */
 .mm-voice-by i {
-  border: 1px solid var(--mm-line);
-  border-radius: 2px;
-  padding: 1px 5px;
-  color: var(--mm-mut);
+  color: var(--mm-mut-d);
   font-style: normal;
   font-size: 9px;
   letter-spacing: .06em;
@@ -2328,7 +2329,7 @@ h3 > .mm-head-mark, h4 > .mm-head-mark { width: 28px; height: 28px; margin-top: 
 .mm-voice-panel blockquote::before { content: "\201C"; margin-left: -0.42em; }
 .mm-voice-panel blockquote::after { content: "\201D"; }
 .mm-voice-panel .mm-voice-by { margin-top: 12px; overflow: visible; }
-.mm-voice-panel .mm-voice-by span { display: inline; -webkit-line-clamp: none; }
+.mm-voice-panel .mm-voice-role { display: block; -webkit-line-clamp: none; }
 .mm-voice-panel .mm-voice-more { margin-top: 10px; justify-self: start; }
 .mm-drum-track > .mm-voice.is-open { opacity: 1 !important; border-color: var(--mm-mint-dim); }
 
@@ -2351,3 +2352,90 @@ h3 > .mm-head-mark, h4 > .mm-head-mark { width: 28px; height: 28px; margin-top: 
 .mm-hero-split .mm-scrub.mm-claim { font-size: clamp(27px, 4.2vw, 50px); margin-top: 2px; }
 .mm-scrub.mm-payoff { max-width: 54ch; font-size: clamp(20px, 2.4vw, 28px); line-height: 1.32; color: var(--mm-tx); }
 .mm-close .mm-scrub { margin-inline: auto; }
+
+/* ---------- Build: a group that assembles as you scroll through it ---------- */
+
+/*
+ * The arithmetic, once, for every group that uses it.
+ *
+ * `--mm-p` is the section's progress through a reading pass, written by
+ * `useScrollDriver` and reversing when the reader scrolls back. Each child
+ * subtracts its own share of the stagger and divides by how much of the pass
+ * one child's build takes, so child 0 is finished a third of the way through
+ * and the last child is finished at the end.
+ *
+ * The fallback is the whole safety argument: `var(--mm-p, 1)` means unset is
+ * finished, so a page with no JavaScript, a page before hydration, a crawler
+ * and a reduced-motion visitor all get the group in its final state with no
+ * transform and no transparency. Nothing here gates a word of content.
+ */
+.mm-build > * {
+  --mm-at: clamp(0, calc((var(--mm-p, 1) - var(--mm-i, 0) * .07) / .42), 1);
+  opacity: calc(.25 + var(--mm-at) * .75);
+  transform: translate3d(0, calc((1 - var(--mm-at)) * 20px), 0);
+  /* No transition. The property is written every frame the reader scrolls, so
+     a transition would fight the scroll and lag behind the thumb. */
+  will-change: transform;
+}
+
+/* The wrapper keeps a box on purpose, and cannot be `display: contents`: the
+   driver measures `getBoundingClientRect()` to know where the section is, and a
+   box-less element measures zero on every edge, which would pin every build to
+   the same progress forever. Where a group is a grid or a row, the caller
+   composes the layout class onto the Build itself rather than nesting a div
+   inside it. */
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-build > * { opacity: 1; transform: none; will-change: auto; }
+}
+
+/* ---------- The section head, on a wide screen ---------- */
+
+/*
+ * A lede that wraps while its column has room.
+ *
+ * Krish, 2 September 2026, with a screenshot of the homepage: text that wraps
+ * pointlessly. Measured across four pages at 1440 and 1920, the offenders are
+ * not widows, they are ledes: `.mm-lede` is capped at 62ch, which is the right
+ * measure for reading, and it sits under an h2 that spans the whole 1240px
+ * column. So the heading runs the full width, the lede runs 590px of it, and
+ * 650px beside it is nothing at all. On a phone the cap never binds and the
+ * problem does not exist.
+ *
+ * Widening the measure would be the wrong fix: 62ch is right, and 100ch is not
+ * readable. The column is what is wrong. Above 1100px the heading and its lede
+ * share a row, so the lede's measure is its column rather than a fraction of
+ * one, and the space it was leaving empty is where it now sits.
+ *
+ * `:has()` rather than a wrapper class on every page, because the shape being
+ * matched is exactly "a heading with a lede under it" and that is what the
+ * selector says. Everything after the pair spans both columns and keeps
+ * whatever layout it already had.
+ */
+@media (min-width: 1100px) {
+  .mm-block .mm-container:has(> h2 + .mm-lede) {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    column-gap: clamp(36px, 4vw, 76px);
+    align-items: start;
+  }
+  .mm-block .mm-container:has(> h2 + .mm-lede) > h2 { grid-column: 1; margin: 0; }
+  .mm-block .mm-container:has(> h2 + .mm-lede) > .mm-lede {
+    grid-column: 2;
+    /* Its column, not a slice of the page. */
+    max-width: none;
+    margin-top: 6px;
+  }
+  .mm-block .mm-container:has(> h2 + .mm-lede) > *:not(h2):not(.mm-lede) {
+    grid-column: 1 / -1;
+  }
+}
+
+/* The founder note's two paragraphs sat at 525px inside an 866px column, which
+   is the same defect one level in: a cap meant for a full-width column applied
+   inside one that is already narrow. */
+.mm-founder-note p:not(.mm-founder-name) { max-width: none; }
+
+/* The provenance note under the drum ran 408px of 1240. It is a footnote, and a
+   footnote still gets to use its line. */
+.mm-drum-count { max-width: 78ch; }

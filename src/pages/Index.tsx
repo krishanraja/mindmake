@@ -6,7 +6,7 @@ import { CloseBlock } from "@/components/mindmake/CloseBlock";
 import { FilmPlate } from "@/components/mindmake/FilmPlate";
 import { FounderNote } from "@/components/mindmake/FounderNote";
 import { Instrument } from "@/components/mindmake/Instrument";
-import { Arrive } from "@/components/mindmake/Arrive";
+import { Build } from "@/components/mindmake/Build";
 import { ScrubText } from "@/components/mindmake/ScrubText";
 import { Marquee } from "@/components/mindmake/Marquee";
 import { ObjectionChips } from "@/components/mindmake/ObjectionChips";
@@ -169,13 +169,15 @@ export default function Index() {
             customers matter.
           </p>
 
-          {/* The three answers arrive one after another as you reach them.
-              Measured before this, the two viewports covering this section read
-              a whole-viewport mean of 0.023 and 0.026: nothing on screen moved
-              while it was being read, and nothing changed as it was scrolled
-              past either. */}
-          <div className="mm-three" style={{ marginTop: 20 }}>
-            <Arrive stagger>
+          {/* The three answers build as the reader passes them, rather than
+              arriving once and being finished. `Arrive` fires on a threshold and
+              a section that has already arrived is a photograph; `Build` is
+              driven by scroll position, so it assembles under the reader and
+              comes apart again if they scroll back. Measured before either, the
+              two viewports covering this section read a whole-viewport mean of
+              0.023 and 0.026: nothing moved while it was read, and nothing
+              changed as it was scrolled past. */}
+          <Build className="mm-three" style={{ marginTop: 20 }}>
             <article className="mm-enemy">
               <h3>It stays in a plan</h3>
               <p>Consultants and agencies do good work and leave you a plan you can act on. When the project closes, the understanding behind it goes with them.</p>
@@ -188,8 +190,7 @@ export default function Index() {
               <h3>It stays with you</h3>
               <p>We build it inside your own accounts. It learns how you decide, it gets better every week, and it stays yours when we finish.</p>
             </article>
-            </Arrive>
-          </div>
+          </Build>
 
           {/* The claim, and nothing under it. It carried a paragraph opening
               "That is the whole idea", which is a sentence announcing that the

@@ -55,6 +55,21 @@ interface DrumOptions {
    * a second set of constants to drift apart.
    */
   write?: (element: HTMLDivElement, offset: number) => void;
+  /**
+   * How far the drum can travel, in pixels. Defaults to a rail's answer.
+   *
+   * A rail stops when its last card reaches the right edge, so its travel is
+   * the track's width minus the frame's: `count * pitch - viewport`. A deck has
+   * no track. Every card sits in the same grid cell, so its travel is simply
+   * every card but the first, and the frame's width has nothing to do with it.
+   *
+   * The deck shipped on 2 September 2026 using the rail's formula, and on a
+   * laptop the frame is wider than eight cards times a 150px pitch, so the
+   * whole expression went negative, clamped to zero, and the arrows moved
+   * nothing at all. It worked on a phone by arithmetic accident. That is the
+   * defect this option exists to make impossible to write again.
+   */
+  span?: number;
 }
 
 /** Frame-rate independent decay: the fraction of velocity surviving `dt`. */
@@ -66,7 +81,7 @@ const DAMPING = 21;      // just past critical, so it settles without a bounce
 const RUBBER = 0.32;     // how much of a pull past the end actually moves it
 const SETTLE = 30;       // px/s below which a throw hands over to the spring
 
-export function useDragDrum({ pitch, count, viewport, drift = 16, write }: DrumOptions) {
+export function useDragDrum({ pitch, count, viewport, drift = 16, write, span: spanOption }: DrumOptions) {
   const track = useRef<HTMLDivElement>(null);
   const offset = useRef(0);
   const velocity = useRef(0);
@@ -84,7 +99,7 @@ export function useDragDrum({ pitch, count, viewport, drift = 16, write }: DrumO
   const [driven, setDriven] = useState(false);
   useEffect(() => setDriven(true), []);
 
-  const span = Math.max(0, count * pitch - viewport);
+  const span = Math.max(0, spanOption ?? count * pitch - viewport);
   const reduced = typeof window !== "undefined"
     && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 

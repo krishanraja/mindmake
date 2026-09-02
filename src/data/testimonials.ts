@@ -96,7 +96,7 @@ export const testimonials: Testimonial[] = [
     name: "Dipti Divekar",
     role: "Performance Coach",
     consent: "recorded",
-    excerpt: "he never lets you become reliant on him",
+    excerpt: "He puts you in the driver's seat, explains AI fundamentals in plain language",
     full: "What's unique about Krish is that he never lets you become reliant on him. He puts you in the driver's seat, explains AI fundamentals in plain language, and empowers you to own the skills that actually move your business forward.",
   },
   {
@@ -105,7 +105,7 @@ export const testimonials: Testimonial[] = [
     name: "James Gately",
     role: "Founder, FinTech",
     consent: "recorded",
-    excerpt: "Previous support came to a halt once the paid engagement ended",
+    excerpt: "With mind/make, I was empowered",
     full: "Previous support came to a halt once the paid engagement ended, and ultimately I had to pull the plug and start over. With mind/make, I was empowered on how to own the what I do next, which has brought me immense pride and satisfaction.",
   },
   {
@@ -130,7 +130,7 @@ export const testimonials: Testimonial[] = [
     id: "adtech-founder",
     family: "outcome",
     role: "Founder, adtech firm",
-    excerpt: "We had a brilliant product nobody could buy, because nobody could explain it.",
+    excerpt: "We had a brilliant product nobody could buy, because nobody could explain it. Now they can. Including me.",
     full: "We had a brilliant product nobody could buy, because nobody could explain it. Now they can. Including me.",
   },
   {
@@ -144,7 +144,7 @@ export const testimonials: Testimonial[] = [
     id: "media-advisory-partner",
     family: "outcome",
     role: "Partner, media advisory",
-    excerpt: "We had expertise everyone respected and nothing they could buy.",
+    excerpt: "He turned the talking into something sellable.",
     full: "We had expertise everyone respected and nothing they could buy. He turned the talking into something sellable.",
   },
   {
@@ -158,7 +158,7 @@ export const testimonials: Testimonial[] = [
     id: "coaching-founder",
     family: "outcome",
     role: "Founder and CEO, executive coaching practice",
-    excerpt: "I'd had an AI mentor before who was way too technical.",
+    excerpt: "Krish thinks about me and the results I need.",
     full: "The reason I'm loving Krish's sprints is the unique approach. He uses his incredible knowledge of AI and tech to help me with really human problems. I'd had an AI mentor before who was way too technical. Krish thinks about me and the results I need.",
   },
   {

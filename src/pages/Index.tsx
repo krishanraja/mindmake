@@ -240,6 +240,15 @@ export default function Index() {
               three cards above that. */}
           <div className="mm-answer">
             <ScrubText className="mm-claim" text="You keep what it learns." />
+            {/* The one link to the argument page. This section asks where the
+                learning ends up; that page answers what the hours are for. It
+                was an orphan for months, prerendered and in the sitemap and
+                reachable from nowhere on the site. */}
+            <p className="mm-answer-more">
+              <Link className="mm-text-link" to="/new-age-leadership">
+                What the hours are for <span aria-hidden="true">&rarr;</span>
+              </Link>
+            </p>
           </div>
 
         </div>
@@ -259,7 +268,7 @@ export default function Index() {
         <div className="mm-container">
           <ObjectionChips
             titleId="home-questions-title"
-            ask={["consultant", "chatgpt", "why-not-myself", "how-we-work", "included", "charging", "start", "email"]}
+            ask={["consultant", "chatgpt", "tried-it", "why-not-myself", "how-we-work", "included", "charging", "start", "email"]}
           />
         </div>
       </section>

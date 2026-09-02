@@ -152,13 +152,13 @@ Three families, never mixed, because merging them would be the easiest lie on th
 - **Named references** are people who have worked with the founder, named with their consent, and always described as exactly that rather than passed off as client results.
 - **Attendee brands** are attendance and say so on the page. They are never described as clients and never linked.
 
-The site speaks as "we" throughout. The founder is named in the reference section's heading and nowhere else: no first-person voice, no biography, no portrait. The four CTRL captures keep their visible account chrome, because that is what proves the engine is real.
+The site speaks as "we" throughout. The founder appears in exactly three places, per the canon's ruling of 28 August 2026: the founder section at the foot of the homepage, in his own first person and with his photograph; the framing of the proof, because a testimonial needs somebody to have worked with; and inside verbatim quotes. Everywhere else there is no first person, no biography and no portrait. The four CTRL captures keep their visible account chrome, because that is what proves the engine is real.
 
 ## Components
 
 Every component ships with its hover, press and focus-visible states. None are optional.
 
-Film plate, doors, enemy pair and answer block, marquee, objection chips, ask bar, live board (departures rows, lane tiles, role and industry chips, timestamp with live dot), fork band on paper, ladder, shape cards, journey modules, proof viewer, close block. They live in `src/components/mindmake/` and are styled in `src/styles/mindmake-instruments.css`. Tokens, base and chrome live in `src/styles/mindmake.css`.
+Film plate, doors, enemy pair and answer block, marquee, objection chips, ask bar, live board (departures rows, lane tiles, role and industry chips, timestamp with live dot), fork band on paper, ladder, shape cards, journey modules, proof viewer, the reflex deck (four dated leaves you flick), the converge figure (fifteen strips into one), close block. They live in `src/components/mindmake/` and are styled in `src/styles/mindmake-instruments.css`. Tokens, base and chrome live in `src/styles/mindmake.css`.
 
 ## The feed's voice
 
@@ -178,6 +178,20 @@ one word and ours. The line returns when it is written in a voice this site can
 publish, and that is a change to the classifier rather than a scrub here: a
 scrub can fix `judgment`, and nothing mechanical can turn "Ensure rigorous
 oversight" into a sentence that is not an instruction to the reader.
+
+## A page that argues, without paragraphs
+
+`/new-age-leadership` is the one page whose job is to make the case rather
+than to get a fit visitor into the brief, and it is the pattern for any future
+one. Every beat is an instrument the site already owns with one line on it: a
+deck you flick, a line that lights as you read it, the track, the chart, a
+figure. Nothing is explained under itself, and nothing on it is a threat: the
+retired version put the same argument as "Or report to it", which the canon
+bans, and the value halves of those cards were the better half anyway.
+
+Its history is dated and checkable, because a page that says people have
+always resisted new tools and names nothing is asserting a feeling. Where the
+popular version is wrong it is corrected rather than repeated.
 
 ## Motion that is decoration on top of text
 

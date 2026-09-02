@@ -99,16 +99,18 @@ export function FounderNote({ treatment = "standing" }: FounderNoteProps) {
               noun="paragraphs"
               items={[
                 <p key="one">
-                  I spent twenty years in digital media and data, most of it running commercial teams
-                  at companies whose product was a technology most of their customers could not
-                  explain. My job was usually the same one: take something complicated and make it
-                  something a person could act on.
+                  I run Mindmake the way I tell clients to run their own businesses. Fourteen
+                  agents with named roles and a shared memory do the throughput, and I make the
+                  calls. The playbook you would see on a call is the one my own company runs on,
+                  and I am still paying the model bills, which is where most of what I know about
+                  the cost of running this comes from.
                 </p>,
                 <p key="two">
-                  Mindmake does that with AI. I build the system with you, inside your own accounts,
-                  and I show you how it works while we build it, because a system you cannot see
-                  inside is one you have to keep paying someone to operate. When the thirty days end,
-                  it is yours and it keeps running.
+                  Before this, twenty years in digital media and data, mostly running commercial
+                  teams at companies selling a technology their customers could not explain. The
+                  job was always to take something complicated and make it something a person could
+                  act on. It still is. I build inside your own accounts and show you how it works
+                  as we go, so when the thirty days end it is yours.
                 </p>,
                 <p className="mm-founder-close" key="three">
                   The quotes above are from people I have worked with, and the references are from

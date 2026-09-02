@@ -42,7 +42,7 @@ const flag = (name, fallback) => {
   return at === -1 ? fallback : args[at + 1];
 };
 const BASE = flag("base", "http://127.0.0.1:4180");
-const PATHS = flag("paths", "/,/ai-brain,/ai-gtm,/faq").split(",");
+const PATHS = flag("paths", "/,/ai-brain,/ai-gtm,/faq,/new-age-leadership").split(",");
 const REPORT = args.includes("--report");
 
 /** How much of an element's own box has to survive its clipping ancestors. */

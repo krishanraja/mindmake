@@ -187,7 +187,11 @@ export const OrgChart = ({ className, onStart }: OrgChartProps) => {
 
   return (
     <div className={className}>
-      {/* Toggle */}
+      {/* Two charts, one business, before and after. The caption under this
+          used to read "Switch to People + AI, then open a role to see the human
+          call behind it", which is a command to the reader narrating its own
+          control, and it repeated the section's lede almost word for word. The
+          buttons say what they do. */}
       <div className="flex flex-col items-center gap-3 mb-6">
         <div className="inline-flex items-center rounded-full border border-border bg-background p-1 shadow-sm">
           <button
@@ -215,9 +219,6 @@ export const OrgChart = ({ className, onStart }: OrgChartProps) => {
             People + AI
           </button>
         </div>
-        <p className="text-xs text-muted-foreground text-center">
-          Switch to People + AI, then open a role to see the human call behind it.
-        </p>
       </div>
 
       {/* Chart */}

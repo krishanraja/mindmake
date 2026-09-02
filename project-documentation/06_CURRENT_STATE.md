@@ -1589,3 +1589,117 @@ duplicate today, which is not the same as a guarantee.
 - Every browser gate green: `qa:screens`, `qa:nojs`, `qa:oneway`, `qa:rhythm`,
   `qa:images`, `qa:cards`, `qa:entrance`, `qa:deadcss`, `qa:alive` at both
   widths, redirects, dialog shape, handoff.
+
+## 2 September 2026 — the why, published as something to flick through
+
+Three pieces of thought leadership had been lost in the rebuild: the "ten
+years from now" flip cards, the history of people blaming their tools, and the
+founder bio's personality. Both originals were recovered from this repository's
+own git history (`f645644:src/components/BigProblem.tsx` and
+`755163d^:src/components/OperatorsEdge.tsx`), not scraped from the old deploy.
+
+### What was found first
+
+**The canon already carried the whole argument, and none of it was published.**
+`00_NORTH_STAR.md`: *"the leader gets faster at drafting and no better at
+deciding"*; *"You can hand over the work. You cannot hand over the
+understanding"*; *"Time saved is the setup, not the payoff. The real question is
+whose time comes back, what they put it into, and whether the new capability
+compounds."* That last line is the reinvestment idea exactly. So this was
+publishing approved messaging, with the recovered material as its evidence,
+its stakes and its voice.
+
+**`/new-age-leadership` was an orphan.** Prerendered, in the sitemap, linked
+from no page in `src/`, and the last file on the old Tailwind vocabulary. It
+held the 14-agent org chart, which is the proof for an argument it never made.
+It was also in no gate's page list, and two live copy violations had sat on it
+unseen: a lede telling the reader to "Switch views, open a role and inspect the
+decision it creates", and a caption under the chart reading "Switch to People +
+AI, then open a role to see the human call behind it". Both were commands
+narrating a control, and the caption repeated the lede.
+
+### The shape
+
+Not woven through the site, and not lumped into one page. The three pieces do
+three jobs, so each went where that job already lives, and the site gained
+exactly one link:
+
+| Piece | Job | Home |
+|---|---|---|
+| The tool-blaming history | Answers an objection | `tried-it`, one new entry in `answers.json`, on the homepage and `/ai-brain` |
+| Ten years / reinvestment | Makes the argument | `/new-age-leadership`, rebuilt |
+| The bio | Establishes credibility | `FounderNote`, three paragraphs rewritten |
+
+The homepage running order is unchanged. It gained one text link under "You
+keep what it learns." and the founder note's personality: the fourteen agents
+with named roles and a shared memory, the model bills, the playbook a client
+sees being the one his own company runs on.
+
+### The page, as an instrument
+
+The first cut was paragraphs. Krish: *"I don't want paragraphs of text. Text
+minimalist; design, UX and imagery should do the heavy lifting. Stunningly
+visual and haptic on mobile."* So every beat is an instrument the site already
+owns, with one line on it:
+
+| Beat | Carrier | Words |
+|---|---|---|
+| Hero | `mm-hero-split` with film 05, the specimen drawers | h1, serif claim, one line |
+| The reflex | **`ReflexDeck`**, four dated cards you flick, on `useDragDrum` like `StoryIndex` | four lines |
+| The turn | one `ScrubText` claim lit word by word, Juma cited in mono | thirty words |
+| The two hours | `ProcessTrack`, solid then dashed, with a `ScrubText` payoff | two titles, two lines |
+| The proof | the existing `OrgChart` | one line |
+| Agatha | **`ConvergeFigure`**, fifteen strips bending into one mint line, scrubbed | one line |
+
+On a laptop the deck card is a landscape leaf, date and thing on the left and
+the line on the right, so a one-line card does not sit in the left half of an
+empty section. The deck advances 01 → 03 under a real touch flick on a phone,
+settles to `--mm-deck-at: 1` and full opacity two seconds after a step, and is
+four readable cards in a column with scripting off.
+
+### What bound the copy
+
+- **The card fronts could not ship.** "Or report to it", "Or become a
+  commodity", "Or get passed by": `01_CANON.md` says public copy *never
+  threatens the reader with becoming obsolete*. The value halves survive; the
+  threats do not. The two ways the hours come back are stated in the third
+  person, as the canon's own "faster at the work, better at the job".
+- **"I'm the anti-consultant. I don't deliver slides, I deliver systems"** is
+  the antithesis family the canon bans by name. The stance survives on the
+  facts instead.
+- "agentic" is banned vocabulary; "Mindmaker" is banned by the naming law;
+  "TEN YEARS FROM NOW" and "WHO YOU'RE WORKING WITH" are eyebrows; "Tap to
+  flip" narrates a control.
+- **The history is checkable and corrected.** It is Thamus, a king in the myth
+  Socrates retells, who refuses writing, not Socrates in his own voice. The
+  calculator finding is Hembree and Dessart, seventy-nine studies gathered in
+  1986. Juma's thesis is about who gains and who loses, which is the stronger
+  claim as well as the accurate one. The air accidents usually cited alongside
+  this history came out: named fatal crashes on a page that sells something is
+  doom framing and in poor taste. So did the word "Luddite".
+
+### What came out
+
+The three "choices before you add an agent" cards, Agatha's three paragraphs,
+the page's second "Start here" halfway down, and every Tailwind and
+`framer-motion` line in the page and `AgathaStory`. `OrgChart` keeps its
+utility classes: it is a diagram in its own frame, not a page laid out in a
+retired system.
+
+### The gates now see the page
+
+`/new-age-leadership` is in the page list of every browser gate that takes
+one, in `copy-restraint`'s routes and in the public contract's eyebrow scan and
+route loop. `03_DESIGN_CONTRACT.md`'s line that the founder appears "nowhere
+else: no first-person voice, no biography, no portrait" was out of step with
+the shipped founder section and the canon's 28 August ruling, and now says
+what ships.
+
+### Baselines
+
+- **419 tests**, 0 lint errors and 2 warnings, 0 type errors. The three new
+  cases are `/new-age-leadership` running through `copy-restraint`'s three
+  rules.
+- Every browser gate green with the page in its list, at both widths.
+  `qa:screens` carries one new named exemption, the org chart, for the reason
+  above.

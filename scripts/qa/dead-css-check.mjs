@@ -39,7 +39,7 @@ const flag = (name, fallback) => {
 };
 const BASE = flag("base", "http://127.0.0.1:4180");
 const WIDTH = Number(flag("width", 1440));
-const PATHS = ["/", "/ai-brain", "/ai-gtm", "/case-studies", "/faq"];
+const PATHS = ["/", "/ai-brain", "/ai-gtm", "/case-studies", "/faq", "/new-age-leadership"];
 
 /* Properties where losing changes the layout or the reading. A reset winning on
    `box-sizing` is the reset doing its job; a reset winning on `margin-top` is

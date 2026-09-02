@@ -477,7 +477,13 @@ takes, what you keep, whether it is a document or something that works, whether
 thirty days is realistic, how to start, whether it fits your business,
 whether we will email forever, what actually happens in the thirty days, what is
 included, why you need this rather than doing it yourself, how we charge, what
-happens if it does not work, and whether you need to be a certain size.
+happens if it does not work, why it would be different when AI has already got
+things wrong, and whether you need to be a certain size.
+
+The last of those was added on 2 September 2026 and is the one place the
+argument on `/new-age-leadership` reaches the buying journey: a reader who
+tried AI once and stopped is the reader a six-hundred-year history of the same
+reflex is for, and the answer says so in four sentences without the history.
 
 These stay true and are safe to reuse anywhere:
 

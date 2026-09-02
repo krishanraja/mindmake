@@ -43,7 +43,7 @@ const flag = (name, fallback) => {
   return at === -1 ? fallback : args[at + 1];
 };
 const BASE = flag("base", "http://127.0.0.1:4180");
-const PATHS = flag("paths", "/,/ai-brain,/ai-gtm").split(",");
+const PATHS = flag("paths", "/,/ai-brain,/ai-gtm,/new-age-leadership").split(",");
 const BUDGET = Number(flag("budget", 1.35));
 const REPORT = args.includes("--report");
 
@@ -76,6 +76,10 @@ const EXEMPT = [
   {
     match: /^Four things AI changes about selling/,
     why: "The lever panel is one instrument, not several sections: four dials in one frame with their needles swinging together across a single read. Splitting it would be splitting a gauge in half. It is 1.44 screens on a 360px phone and under budget on every other size.",
+  },
+  {
+    match: /^What that looks like in a working company/,
+    why: "The org chart on /new-age-leadership. Eleven roles in one diagram, and on a phone the diagram is a stack of eleven cards: 880px of the section's 1,154px is the chart itself. Splitting it would be two org charts. It is 1.44 screens on a 360px phone, 1.30 on a 390, and under budget at every other size.",
   },
   {
     match: /^Four details and two taps/,

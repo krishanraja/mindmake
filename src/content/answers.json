@@ -339,6 +339,29 @@
       "answer": "You would know inside the first week rather than at the end, because something real is running by then. If it is clearly not going to be worth it we say so and stop, and you keep whatever has been built up to that point."
     },
     {
+      "id": "tried-it",
+      "question": "We tried AI and it got things wrong. Why would this be different?",
+      "keywords": [
+        "tried",
+        "wrong",
+        "mistake",
+        "mistakes",
+        "hallucinate",
+        "hallucination",
+        "hallucinations",
+        "unreliable",
+        "trust",
+        "accurate",
+        "accuracy",
+        "burned",
+        "failed",
+        "before",
+        "again",
+        "gave up"
+      ],
+      "answer": "It will get things wrong, and so will the next one. What matters is what happens then. Writing, the loom, the calculator and satnav all drew the same objection when they first slipped, and the objection was rarely about accuracy. A system built inside your own accounts, that shows its sources and says when it cannot know, is one you can check rather than one you have to trust."
+    },
+    {
       "id": "size",
       "question": "Do we need to be a certain size?",
       "keywords": [

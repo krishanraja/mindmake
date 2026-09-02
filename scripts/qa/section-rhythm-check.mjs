@@ -27,7 +27,7 @@ const flag = (name, fallback) => {
 };
 
 const BASE = flag("base", "http://127.0.0.1:4180");
-const PATHS = flag("paths", "/,/ai-brain,/ai-gtm").split(",");
+const PATHS = flag("paths", "/,/ai-brain,/ai-gtm,/new-age-leadership").split(",");
 const REPORT = args.includes("--report");
 /** The width to read the rhythm at. It was hard-coded to 1440, and a phone
     stacks sections that sit side by side on a laptop, so the ground order it

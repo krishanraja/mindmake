@@ -1,55 +1,38 @@
 import { useEffect, useRef } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { ConvergeFigure } from "@/components/mindmake/ConvergeFigure";
+import { Instrument } from "@/components/mindmake/Instrument";
 
-const PARAGRAPHS = [
-  "Agatha is an AI operations agent in our own system. It checks work from the other agents, looks for gaps and brings important questions back to us.",
-  "It noticed a simple problem. Fifteen useful reports were arriving as fifteen separate files. No one was turning them into one clear view for a leader. Agatha described the missing job and the checks it would need. We then built Nova to do that job.",
-  "The useful part was not that AI had invented a job. It had made a missing hand-off visible. We still had to decide whether the job was needed, what good work looked like and when Nova should ask for help.",
-];
-
-interface AgathaStoryProps {
-  onStart: () => void;
-}
-
-export function AgathaStory({ onStart }: AgathaStoryProps) {
-  const reduceMotion = useReducedMotion();
+/**
+ * One thing that happened, as a figure and one line.
+ *
+ * It was three paragraphs. The story is fifteen reports arriving as fifteen
+ * files, an agent noticing that nobody joined them up, and a person deciding
+ * whether the missing job was worth having. That is a picture with a caption,
+ * and the picture is the part a reader remembers.
+ *
+ * Ported off the retired vocabulary on 2 September 2026. It was the last piece
+ * of prose on the site still laid out in Tailwind utilities and animated by
+ * `framer-motion`, on a page nobody could reach, so nothing had ever pulled it
+ * up. It also carried a second "Start here" halfway down a page that already
+ * closes on one, which is a second way in on a site whose rule is one.
+ */
+export function AgathaStory({ ground }: { ground?: "raise" | "paper" } = {}) {
+  const ground_class = ground === "raise" ? " mm-on-raise" : ground === "paper" ? " mm-on-paper" : "";
 
   return (
-    <section className="section-padding" aria-labelledby="agatha-story-title">
-      <div className="container-width max-w-4xl">
-        <motion.h2
-          id="agatha-story-title"
-          className="max-w-[14ch] text-4xl font-bold leading-[1.02] md:text-6xl"
-          initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={reduceMotion ? { duration: 0 } : { delay: 0.08, duration: 0.5 }}
-        >
-          Fifteen reports exposed one missing job.
-        </motion.h2>
-        <div className="mt-10 space-y-6 border-l-2 border-mint pl-6 md:mt-14 md:pl-10">
-          {PARAGRAPHS.map((paragraph, index) => (
-            <motion.p
-              key={paragraph}
-              className="text-lg leading-relaxed text-foreground md:text-xl"
-              initial={reduceMotion ? false : { opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-70px" }}
-              transition={reduceMotion ? { duration: 0 } : { delay: index * 0.08, duration: 0.42 }}
-            >
-              {paragraph}
-            </motion.p>
-          ))}
-        </div>
-        <div className="mt-10 border-t border-border/60 pt-7">
-          <p className="max-w-2xl text-muted-foreground">
-            A useful starting point can be this small: find the work that is falling between
-            good people and good tools, then design the hand-off.
+    <section className={`mm-block${ground_class}`} aria-labelledby="agatha-story-title">
+      <div className="mm-container">
+        <div className="mm-head-split">
+          <h2 id="agatha-story-title">
+            <Instrument kind="flap" className="mm-head-mark" />
+            Fifteen reports exposed one missing job.
+          </h2>
+          <p className="mm-lede">
+            An agent in our own system noticed nobody was joining them up. A person decided the
+            job was worth having.
           </p>
-          <button className="mm-text-link mt-5 inline-flex min-h-11 items-center py-2" type="button" onClick={onStart}>
-            Start here
-          </button>
         </div>
+        <ConvergeFigure />
       </div>
     </section>
   );

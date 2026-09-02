@@ -1,46 +1,74 @@
 import { useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
-import { Bot, Sparkles, Users } from "lucide-react";
 import { SEO } from "@/components/SEO";
+import { AgathaStory, PageCompletionBeacon } from "@/components/new-age/AgathaStory";
+/* The chart stays on its own utility classes. It is a diagram in its own frame
+   rather than a page laid out in a retired system, and its classes never touch
+   the page around it. The prose that used to sit beside it did, and has moved. */
+import { OrgChart } from "@/components/new-age/OrgChart";
+import { CloseBlock } from "@/components/mindmake/CloseBlock";
+import { FilmPlate } from "@/components/mindmake/FilmPlate";
+import { Instrument } from "@/components/mindmake/Instrument";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
-import { AgathaStory, PageCompletionBeacon } from "@/components/new-age/AgathaStory";
-/* Imported, not lazy. It was a `React.lazy` boundary inside a lazy route, which
-   split one page's code across two requests and bought nothing: this page is
-   the only thing that loads either chunk. Once the pages were prerendered it
-   cost something real. `renderToString` cannot wait for a lazy component, so
-   the build wrote an unfinished Suspense boundary here, the chart was missing
-   from the HTML a crawler reads, and the browser rebuilt that whole section
-   client-side on arrival. */
-import { OrgChart } from "@/components/new-age/OrgChart";
+import { ProcessTrack } from "@/components/mindmake/ProcessTrack";
+import { ReflexDeck } from "@/components/mindmake/ReflexDeck";
+import { ScrubText } from "@/components/mindmake/ScrubText";
+import { useScrollDriver } from "@/hooks/useScrollDriver";
+import { HOURS, TURN } from "@/content/reflex";
+import filmFivePoster from "@/assets/films/film-05-poster.jpg";
+import filmFivePosterWebp from "@/assets/films/film-05-poster.webp";
+import filmFiveLoop from "@/assets/films/film-05-proof.mp4";
+import filmFiveLoopWebm from "@/assets/films/film-05-proof.webm";
 import "@/styles/mindmake.css";
+import "@/styles/mindmake-instruments.css";
 
-
-const checks = [
-  {
-    icon: Users,
-    title: "Keep a person on the calls that need trust.",
-    body: "Name the work where taste, care, privacy or a hard trade-off still needs a person. AI can prepare the ground without making the final call.",
-  },
-  {
-    icon: Bot,
-    title: "Let AI carry work that has a clear rule.",
-    body: "Research, checking and first drafts can move without waiting. Set the rule, the limit and the point where a person must step in.",
-  },
-  {
-    icon: Sparkles,
-    title: "Design the hand-off, not only the agent.",
-    body: "The useful question is not how many agents you have. It is what each one hands back, who checks it and what happens when it is unsure.",
-  },
-];
+/**
+ * The argument, published, as something to flick through.
+ *
+ * This page existed for months as an org chart nobody could reach: prerendered,
+ * in the sitemap, linked from no page in `src/`, and the last file on the old
+ * Tailwind vocabulary while the rest of the site moved to `mm-*`. It held the
+ * evidence for an argument it never made.
+ *
+ * The argument itself was already written, in `00_NORTH_STAR.md`, and had never
+ * reached a public surface: a leader gets hours back and no better at deciding
+ * unless the hours go somewhere, and you can hand over the work but not the
+ * understanding. The history in front of it answers the other half, which is
+ * why a leader stops after one wrong answer.
+ *
+ * ## Why it is a page and not a homepage section
+ *
+ * The homepage runs twelve sections and its job is to get a fit visitor into
+ * the brief, not to win an argument. An argument needs room. So the homepage
+ * gains one link and nothing else, and a reader who wants the reasoning finds
+ * a page rather than a paragraph. Fixing the orphan was free either way.
+ *
+ * ## Why there are so few words on it
+ *
+ * The first draft of this page was paragraphs, and the direction back was that
+ * the design, the interaction and the pictures should carry it. So every beat
+ * is an instrument the site already owns, with one line on it: a deck you turn,
+ * a line that lights as you pass, the track, the chart, a figure. Nothing here
+ * is explained under itself.
+ *
+ * ## What came out of the retired version
+ *
+ * The old homepage put this as three flip cards headed "Every leader will fall
+ * into one of two categories", whose fronts read "Or report to it", "Or become
+ * a commodity" and "Or get passed by". `01_CANON.md` bans exactly that:
+ * public copy "never threatens the reader with becoming obsolete". The value
+ * halves of those cards survive here almost intact; the threats do not. The
+ * flip is gone too, because it hid half the content behind a tap and told the
+ * reader to perform it.
+ */
 
 const description =
-  "Explore a working org chart from our own AI system and see the human decisions behind each role.";
+  "AI gives a leader hours back every week. What the hours go into decides whether the leader gets better at the job or only faster at the work.";
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
-  headline: "See people and AI agents share the work",
+  headline: "You can hand over the work",
   description,
   author: { "@type": "Organization", name: "Mindmake", url: "https://mindmake.co" },
   publisher: { "@type": "Organization", name: "Mindmake", url: "https://mindmake.co" },
@@ -52,98 +80,113 @@ const jsonLd = {
 
 export default function NewAgeLeadership() {
   const [briefOpen, setBriefOpen] = useState(false);
-  const reduceMotion = useReducedMotion();
+  const plateRef = useScrollDriver<HTMLDivElement>();
 
   return (
     <MindmakeShell onStart={() => setBriefOpen(true)}>
       <SEO
-        title="A working AI org chart"
+        title="What a leader does with the hours AI gives back"
         description={description}
         canonical="/new-age-leadership"
         ogType="article"
-        keywords="AI org chart, AI agents, organisation design, human judgement"
+        keywords="AI and leadership, resistance to new technology, AI org chart, human judgement"
         jsonLd={jsonLd}
       />
 
-      <section className="section-padding pt-32 pb-14 md:pt-40 md:pb-20">
-        <div className="container-width max-w-5xl">
-          <motion.h1
-            className="max-w-[15ch] text-[clamp(3rem,7vw,6.7rem)] leading-[0.95]"
-            initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={reduceMotion ? { duration: 0 } : { delay: 0.08, duration: 0.55 }}
-          >
-            See people and AI agents share the work.
-          </motion.h1>
-          <motion.p
-            className="mt-8 max-w-3xl text-lg leading-relaxed text-muted-foreground md:text-xl"
-            initial={reduceMotion ? false : { opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={reduceMotion ? { duration: 0 } : { delay: 0.2, duration: 0.45 }}
-          >
-            This is a working org chart from our own AI system. Switch views, open a role
-            and inspect the decision it creates. Use it to notice what your own chart may need.
-          </motion.p>
-        </div>
-      </section>
-
-      <section className="section-padding pt-0" aria-label="Interactive AI organisation chart">
-        <div className="container-width max-w-6xl">
-          <OrgChart onStart={() => setBriefOpen(true)} />
-        </div>
-      </section>
-
-      <section className="section-padding bg-muted/30" aria-labelledby="org-chart-checks">
-        <div className="container-width max-w-6xl">
-          <div className="max-w-3xl mb-12 md:mb-16">
-            <h2 id="org-chart-checks" className="text-3xl font-bold leading-tight md:text-5xl">
-              Three choices to make before you add an AI agent.
-            </h2>
-          </div>
-          <div className="grid border-y border-border/70 md:grid-cols-3">
-            {checks.map((check, index) => {
-              const Icon = check.icon;
-              return (
-                <motion.article
-                  key={check.title}
-                  className="py-9 md:min-h-[340px] md:px-8 md:py-10 md:first:pl-0 md:last:pr-0 md:[&+article]:border-l md:[&+article]:border-border/70"
-                  initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={reduceMotion ? { duration: 0 } : { delay: index * 0.1, duration: 0.45 }}
-                >
-                  <Icon className="h-6 w-6 text-mint-dark dark:text-mint" aria-hidden="true" />
-                  <h3 className="mt-16 text-2xl font-bold leading-tight md:text-3xl">{check.title}</h3>
-                  <p className="mt-5 leading-relaxed text-muted-foreground">{check.body}</p>
-                </motion.article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <AgathaStory onStart={() => setBriefOpen(true)} />
-
-      <section className="section-padding bg-ink text-white" aria-labelledby="org-chart-next-step">
-        <div className="container-width max-w-5xl grid gap-10 md:grid-cols-[1.2fr_.8fr] md:items-end">
+      <section className="mm-hero" aria-labelledby="reflex-title">
+        <div className="mm-container mm-hero-split">
           <div>
-            <h2 id="org-chart-next-step" className="max-w-[13ch] text-4xl font-bold leading-[1.02] md:text-6xl">
-              Find one hand-off worth improving first.
-            </h2>
-          </div>
-          <div>
-            <p className="mb-7 text-lg leading-relaxed text-white/70">
-              Mindmake can read the company and show one useful starting point. You see the
-              brief before you choose whether to share it.
+            <h1 className="mm-setup" id="reflex-title">You can hand over the work.</h1>
+            <ScrubText className="mm-claim" text="You cannot hand over the understanding." />
+            <p className="mm-lede">
+              AI gives a leader hours back every week. What the hours go into is the whole
+              question.
             </p>
-            <button className="mm-button" type="button" onClick={() => setBriefOpen(true)}>
-              Start here
-            </button>
+          </div>
+          {/* The specimen drawers: a record being kept, and a handwritten note
+              waiting beside it. The one film about memory and a human hand. */}
+          <div className="mm-hero-film mm-parallax" ref={plateRef}>
+            <FilmPlate
+              className="mm-parallax-plate"
+              poster={filmFivePoster}
+              posterWebp={filmFivePosterWebp}
+              src={filmFiveLoop}
+              srcWebm={filmFiveLoopWebm}
+              label="A wall of walnut specimen drawers. A brass arm files one cream card while a handwritten note waits under a paperweight."
+              priority
+            />
           </div>
         </div>
-        <PageCompletionBeacon />
       </section>
 
+      {/* Paper, because it is the page's reading ground and four cards on cream
+          read as an index rather than a wall. */}
+      <section className="mm-block mm-on-paper" aria-labelledby="history-title">
+        <div className="mm-container">
+          <h2 id="history-title">
+            <Instrument kind="drawer" className="mm-head-mark" />
+            People have blamed their tools for a long time.
+          </h2>
+          <ReflexDeck />
+        </div>
+      </section>
+
+      {/* One line, lit word by word as the reader passes it, and the source in
+          the data voice underneath. It carries the four cards above it, which
+          is why it gets a screen of its own rather than a paragraph under them. */}
+      <section className="mm-block" aria-labelledby="turn-title">
+        <div className="mm-container mm-turn">
+          <h2 className="mm-visually-hidden" id="turn-title">What the objections have in common</h2>
+          <ScrubText className="mm-claim mm-turn-line" text={TURN.line} />
+          <p className="mm-turn-source">{TURN.source}</p>
+        </div>
+      </section>
+
+      <section className="mm-block mm-on-raise" aria-labelledby="hours-title">
+        <div className="mm-container">
+          <div className="mm-head-split">
+            <h2 id="hours-title">
+              <Instrument kind="levels" className="mm-head-mark" />
+              Two things a leader can do with the same hour.
+            </h2>
+            <p className="mm-lede">{HOURS.lede}</p>
+          </div>
+          <div style={{ marginTop: 20 }}>
+            <ProcessTrack first={HOURS.first} second={HOURS.second} />
+          </div>
+          <div className="mm-answer">
+            <ScrubText className="mm-claim" text={HOURS.payoff} />
+          </div>
+        </div>
+      </section>
+
+      <section className="mm-block" aria-labelledby="chart-title">
+        <div className="mm-container">
+          <div className="mm-head-split">
+            <h2 id="chart-title">
+              <Instrument kind="rail" className="mm-head-mark" />
+              What that looks like in a working company.
+            </h2>
+            <p className="mm-lede">
+              Our own chart. Every role carries the decision that created it.
+            </p>
+          </div>
+          <div style={{ marginTop: 20 }}>
+            <OrgChart onStart={() => setBriefOpen(true)} />
+          </div>
+        </div>
+      </section>
+
+      <AgathaStory ground="paper" />
+
+      <CloseBlock
+        instrument="drawer"
+        claim="Find one hand-off worth improving first."
+        body="Mindmake reads the company and shows one useful starting point. You see the brief before you choose whether to share it."
+        onStart={() => setBriefOpen(true)}
+      />
+
+      <PageCompletionBeacon />
       <LeadBrief open={briefOpen} onClose={() => setBriefOpen(false)} />
     </MindmakeShell>
   );

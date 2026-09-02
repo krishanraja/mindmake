@@ -26,7 +26,7 @@ const flag = (name, fallback) => {
 };
 
 const BASE = flag("base", "http://127.0.0.1:4180");
-const PATHS = flag("paths", "/,/ai-brain,/ai-gtm,/case-studies").split(",");
+const PATHS = flag("paths", "/,/ai-brain,/ai-gtm,/case-studies,/new-age-leadership").split(",");
 const WIDTH = Number(flag("width", 1440));
 /**
  * Source pixels per CSS pixel.

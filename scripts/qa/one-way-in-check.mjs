@@ -38,7 +38,7 @@ const flag = (name, fallback) => {
   return at === -1 ? fallback : args[at + 1];
 };
 const BASE = flag("base", "http://127.0.0.1:4180");
-const PATHS = flag("paths", "/,/ai-brain,/ai-gtm,/case-studies").split(",");
+const PATHS = flag("paths", "/,/ai-brain,/ai-gtm,/case-studies,/new-age-leadership").split(",");
 const REPORT = args.includes("--report");
 
 const browser = await chromium.launch({

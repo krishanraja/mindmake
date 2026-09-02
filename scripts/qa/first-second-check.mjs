@@ -53,7 +53,7 @@ const BASE = flag("base", "http://127.0.0.1:4180");
    whole page away with error #418, and it did so on every shared start link
    and every back-button return into the dialog. Neither the page set here nor
    `src/test/ssg-hydration.test.tsx` covered a query-parameter state. */
-const PATHS = flag("paths", "/,/ai-brain,/ai-gtm,/?start=1").split(",");
+const PATHS = flag("paths", "/,/ai-brain,/ai-gtm,/new-age-leadership,/?start=1").split(",");
 
 const WIDTHS = flag("widths", "390,1440").split(",").map(Number);
 /** How long to watch. A flash the visitor sees happens well inside this. */

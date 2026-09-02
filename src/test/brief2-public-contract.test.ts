@@ -272,6 +272,9 @@ describe("the eyebrow ban", () => {
     "src/pages/Index.tsx",
     "src/pages/AiBrain.tsx",
     "src/pages/AiGtm.tsx",
+    "src/pages/NewAgeLeadership.tsx",
+    "src/components/mindmake/ReflexDeck.tsx",
+    "src/components/new-age/AgathaStory.tsx",
     "src/components/mindmake/ForkBand.tsx",
     "src/components/mindmake/ProofStrip.tsx",
     "src/components/mindmake/ObjectionChips.tsx",
@@ -619,6 +622,7 @@ describe("the naming law", () => {
       "why-not-myself": "why you need this rather than doing it yourself",
       charging: "how we charge",
       risk: "what happens if it does not work",
+      "tried-it": "why it would be different when AI has already got things wrong",
       size: "whether you need to be a certain size",
     };
     for (const entry of ASK_ENTRIES) {
@@ -894,7 +898,7 @@ describe("the crawler surfaces stay in step", () => {
   it("prerenders the same routes the sitemap publishes", () => {
     const sitemap = read("scripts/generate-sitemap.mjs");
     const prerender = read("scripts/prerender.mjs");
-    for (const route of ["/ai-brain", "/ai-gtm", "/case-studies", "/faq"]) {
+    for (const route of ["/ai-brain", "/ai-gtm", "/case-studies", "/faq", "/new-age-leadership"]) {
       expect(sitemap).toContain(route);
       expect(prerender).toContain(route);
     }

@@ -1,5 +1,6 @@
-import { Fragment, useMemo } from "react";
+import { useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Build } from "@/components/mindmake/Build";
 import { Bot, Sparkles, User } from "lucide-react";
 import {
   traditionalChart,
@@ -169,22 +170,35 @@ export const OrgChartMobile = ({
           animate={{ opacity: 1, y: 0 }}
           exit={reducedMotion ? undefined : { opacity: 0 }}
           transition={{ duration: reducedMotion ? 0 : 0.45 }}
-          className="flex flex-col items-stretch gap-3"
         >
-          {tiers.map((tier, tierIdx) => (
-            <Fragment key={tierIdx}>
-              <TierRow
-                tier={tier}
-                tierIdx={tierIdx}
-                reducedMotion={reducedMotion}
-                parentLabelById={parentLabelById}
-                onNodeSelect={onNodeSelect}
-              />
-              {tierIdx < tiers.length - 1 && (
-                <div className="mx-auto h-4 w-px bg-mint/40" aria-hidden />
-              )}
-            </Fragment>
-          ))}
+          {/* The tiers assemble with scroll position rather than arriving once.
+              Measured on a 390px phone the stack was a still viewport: mean
+              0.000, nothing moving and nothing building, because the only
+              motion it had was this one entrance, and a page at rest is by
+              definition past it. `Build` writes the group's progress onto each
+              tier so the chart builds down as the reader reads down it and comes
+              apart again on the way back. Each tier sits in a plain wrapper
+              because `Build` hands the index to its direct children, and a
+              Fragment cannot carry a style. */}
+          <Build className="flex flex-col items-stretch gap-3">
+            {tiers.flatMap((tier, tierIdx) => {
+              const out = [
+                <div key={`tier-${tierIdx}`}>
+                  <TierRow
+                    tier={tier}
+                    tierIdx={tierIdx}
+                    reducedMotion={reducedMotion}
+                    parentLabelById={parentLabelById}
+                    onNodeSelect={onNodeSelect}
+                  />
+                </div>,
+              ];
+              if (tierIdx < tiers.length - 1) {
+                out.push(<div key={`join-${tierIdx}`} className="mx-auto h-4 w-px bg-mint/40" aria-hidden />);
+              }
+              return out;
+            })}
+          </Build>
         </motion.div>
       </AnimatePresence>
     </div>

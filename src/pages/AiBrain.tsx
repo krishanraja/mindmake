@@ -292,7 +292,7 @@ export default function AiBrain() {
 
       <section className="mm-block mm-on-raise">
         <div className="mm-container">
-          <ObjectionChips ask={["technical", "how-we-work", "included", "keep", "data", "charging", "risk", "why-not-myself"]} />
+          <ObjectionChips ask={["technical", "tried-it", "how-we-work", "included", "keep", "data", "charging", "risk", "why-not-myself"]} />
         </div>
       </section>
 

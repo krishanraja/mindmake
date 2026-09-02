@@ -22,7 +22,7 @@ const flag = (name, fallback) => {
   return at === -1 ? fallback : args[at + 1];
 };
 const BASE = flag("base", "http://127.0.0.1:4180");
-const PATHS = flag("paths", "/,/case-studies").split(",");
+const PATHS = flag("paths", "/,/case-studies,/new-age-leadership").split(",");
 /** A pixel of rounding is fine; a row landing somewhere else is not. */
 const TOLERANCE = Number(flag("tolerance", 1.5));
 

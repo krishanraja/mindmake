@@ -147,6 +147,7 @@
   --mm-header-bar: 68px;
   --mm-header-height: calc(var(--mm-header-bar) + var(--mm-safe-top));
   --mm-cookie-reserve: 0px;
+  --mm-bar-reserve: 0px;
   /* The one section rhythm. It used to govern only the secondary pages while
      .mm-block carried its own clamp, so the token that names itself the section
      rhythm did not set it. Keyed to the width the type is measured against
@@ -250,6 +251,17 @@
 
   background: var(--mm-bg);
   color: var(--mm-fg);
+}
+
+/* Android Chrome enlarges text in a block it judges too narrow to read,
+   which is a guess made about a page it cannot see the design of. It arrived
+   on the privacy strip: a row designed at 10.5px, in a fixed bar the width of
+   the screen, photographed on a phone at something near half again. `100%`
+   rather than `none`, so the visitor's own text-size preference still scales
+   everything and only the browser's guess is refused. */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 .mm-site {
@@ -589,7 +601,11 @@
 .mm-footer {
   border-top: 1px solid var(--mm-hair);
   background: var(--mm-ink);
-  padding: 54px 0 calc(30px + var(--mm-safe-bottom));
+  /* Both pieces of fixed chrome reserve their own measured height here, and
+     they add up. They used to be two rules setting the same property, so
+     whichever came second in the stylesheet won and the other's chrome sat on
+     the last line of the footer whenever both were up. */
+  padding: 54px 0 calc(30px + var(--mm-safe-bottom) + var(--mm-cookie-reserve, 0px) + var(--mm-bar-reserve, 0px));
 }
 .mm-footer-grid { display: grid; gap: 26px; }
 .mm-footer-grid > p { max-width: 42ch; color: var(--mm-tx2); font-size: 15px; }
@@ -920,20 +936,48 @@
   font-family: var(--mm-mono);
   font-size: 11px;
 }
-.mm-cookie-notice p { white-space: nowrap; text-wrap: initial; }
+/* Everything inside the strip is declared here, and this is not belt and
+   braces. The notice is the one public surface rendered outside `.mm-site`,
+   so the scaffold's bare element rules in `src/index.css` reach it: `p {
+   font-size: 16px; line-height: 1.6 }` inflated a strip designed at 10.5px
+   by half, wrapped its one sentence onto two lines and made the row 65px
+   tall on every phone measured. A bare element rule beats inheritance at any
+   specificity, so declaring is the only defence. `font: inherit` is one
+   declaration rather than three, and cannot be half-undone the way
+   `white-space: nowrap; text-wrap: initial` undid itself here: the second is
+   the shorthand's own longhand, reset to `wrap` a line after the first asked
+   for `nowrap`, so the sentence wrapped on every phone from the day it was
+   written. */
+.mm-cookie-notice p { margin: 0; font: inherit; }
+/* The label may not break. The row wraps instead, which is the graceful end
+   of the same problem: a visitor whose text is scaled up gets two tidy lines
+   rather than a button reading GOT / IT. */
+.mm-cookie-notice button { white-space: nowrap; }
 
-/* 76px is the height the footer already reserves for the action bar, so the
-   two numbers cannot drift apart without somebody noticing the footer first. */
+/* Flush to the bottom of the screen, and the action bar stacks on top of it
+   from the height this publishes. It used to sit at `76px`, the bar's height,
+   whether or not the bar was there; the bar appears later than the notice and
+   stands down whenever the page's own action is on screen, so on every phone
+   measured the strip floated 76px above the bottom with the page showing
+   underneath it. A photograph of that is what started this. */
 @media (max-width: 767px) {
   .mm-cookie-notice {
-    inset: auto 0 calc(76px + var(--mm-safe-bottom)) 0;
+    inset: auto 0 0 0;
     width: auto;
     max-width: none;
     justify-content: space-between;
     border-radius: 0;
     border-inline: 0;
-    padding: 3px 6px 3px var(--mm-gutter);
+    border-bottom: 0;
+    padding: 4px 8px calc(4px + var(--mm-safe-bottom)) var(--mm-gutter);
     font-size: 10.5px;
+    /* The full-width strip may fall into two rows when a visitor's text is
+       scaled up, which is the tidy end of running out of room. The corner
+       card on a laptop may not: its width is `max-content`, and a wrapping
+       flex container with that width stacks into a tower rather than growing
+       sideways, which measured 234px tall at 768 and 176px at 1024. */
+    flex-wrap: wrap;
+    row-gap: 4px;
   }
 }
 /* The one inline link on the site inside fixed chrome, so it is also the one
@@ -948,9 +992,9 @@
 }
 .mm-cookie-notice .mm-button-small { min-height: 30px; padding: 5px 10px; }
 
-/* The notice measures itself into --mm-cookie-reserve. Nothing used to read
-   that, so the bar sat on top of the last of the footer. */
-.mm-cookie-visible .mm-footer { padding-bottom: calc(30px + var(--mm-safe-bottom) + var(--mm-cookie-reserve, 0px)); }
+/* Both reserves are published by the components that occupy the space, and
+   read by `.mm-footer` above and by the action bar, which stacks on the
+   notice. Nothing here carries a copy of either height. */
 
 /* Closing block shared by the secondary pages. */
 .mm-final { background: var(--mm-ink2); border-top: 1px solid var(--mm-hair); padding-block: var(--mm-section); }

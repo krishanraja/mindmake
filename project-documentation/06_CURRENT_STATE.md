@@ -2168,3 +2168,101 @@ the Organization record names the new logo.
   still can set one when there is one.
 - The 404 for an unknown route is Vercel's plain text. A branded page would
   be `dist/404.html`, which the prerender does not write yet.
+
+## 4 September 2026: the privacy strip, and the rules that reached it
+
+Krish, from an Android phone: the privacy banner glitches terribly, and make
+sure this cannot happen on any device. The photograph showed a dark strip
+floating above the bottom of the screen with the page showing underneath it,
+its one sentence broken over two lines, and its button reading GOT / IT.
+
+### Three causes, all reproducible at every phone width
+
+- **It was positioned for a bar that is usually not there.** The strip sat at
+  `bottom: calc(76px + safe)`, the action bar's height, whether or not the bar
+  was up. The bar appears later than the strip (0.8 of a screen against 0.6)
+  and stands down whenever the page's own action is on screen, so most of the
+  time it was not. Measured: a 76px gap under the strip at 360, 390, 412 and
+  430, at every scroll position, with the page visible through it.
+- **A row designed at 10.5px rendered at 16px.** The strip is the one public
+  surface rendered outside `.mm-site`, and `src/index.css` styles a bare
+  `p { font-size: 16px; line-height: 1.6 }`. A bare element rule beats
+  inheritance whatever its specificity, so the container's 10.5px never
+  reached its own paragraph. The strip measured 65px tall against a 39px
+  design, on every phone, since the day the rule was written.
+- **A declaration that cancelled the one above it.** `.mm-cookie-notice p`
+  read `white-space: nowrap; text-wrap: initial`. In CSS Text 4 `white-space`
+  is a shorthand whose components include `text-wrap`, so the second
+  declaration reset the first back to `wrap`. The computed value was
+  `white-space: normal`: the sentence had never been on one line.
+
+Android's own font boosting sits on top of all three, and nothing in the
+stylesheet had ever told it not to.
+
+### What changed
+
+- Everything inside the strip declares its own type: `font: inherit` on the
+  paragraph, in one declaration rather than three that can be half-undone,
+  and `white-space: nowrap` on the button so the label cannot break. The row
+  wraps instead when it runs out of room, which is the tidy end of the same
+  problem.
+- The strip is flush to the bottom edge on a phone (`inset: auto 0 0 0`), and
+  the action bar stacks on it by reading `--mm-cookie-reserve`. The bar
+  publishes its own measured height into `--mm-bar-reserve` rather than the
+  `76px` that used to be written down in two stylesheets, each with a comment
+  asking the other not to drift.
+- The footer adds both reserves in one declaration. They used to be two rules
+  setting the same property, so the later one won and whichever piece of
+  chrome lost sat on the last line of the footer whenever both were up.
+- `text-size-adjust: 100%` on `html`: the browser's guess at what needs
+  enlarging is refused, and the visitor's own text-size preference still
+  scales everything.
+- Only the full-width phone strip wraps. Adding `flex-wrap` to the corner card
+  as well stacked it into a tower, because its width is `max-content`: 234px
+  tall at 768 and 176px at 1024, found by the new gate on its first run.
+
+### The gate
+
+`npm run qa:chrome` (`scripts/qa/fixed-chrome-check.mjs`) drives both pieces
+of chrome into view at eight screen sizes, two pages and two text scales, at
+three scroll positions each: past the strip's threshold and before the bar's,
+past both, and the foot of the page. It asks that the strip is flush and full
+width on a phone and at its designed inset on a laptop, that the two never
+overlap, that neither is over its height budget for that text scale, that the
+sentence and the button still share one row at the design's own size and that
+neither the sentence nor the label has broken inside itself, that nothing
+overflows sideways, that neither buries an action the reader has scrolled to,
+and that the last line of the footer is readable under both.
+
+Each of the four defects was put back into the built stylesheet on its own and
+the gate reported it: the float ("floats 76px above the bottom of the
+screen"), the inflated type ("has broken into two rows at the design's own
+text size"), the breaking label ("button label is on 2 lines") and an
+unstacked bar ("the action bar and the privacy strip overlap").
+
+The row check took three attempts, and the two that failed are the useful
+part. A height budget let the inflated strip through at 75px. Counting the
+sentence's own lines let it through as well, because at 16px the sentence
+still fitted on one line and it was the **button** that dropped to a second
+row, which is a strip that has visibly broken without either piece wrapping
+inside itself. What catches it is the vertical distance between the sentence's
+centre and the button's.
+
+Two things about the gate are worth knowing before reading a number out of it.
+Its text scaling multiplies every font size once, reading all of them before
+writing any; an `em` rule on a subtree compounds at every level, which put the
+bar's button at 38px from a 17px design and had the gate reporting a 167px bar
+the site never renders. And it asks whether an action is buried the way
+`qa:screens` does, by scrolling the action to the middle of the screen and
+hit-testing its centre, rather than by rectangle overlap: chrome on the bottom
+edge clips the last few pixels of a tall card at some scroll position on any
+page, and a card the reader can scroll is not a buried action.
+
+### Still open
+
+- `src/index.css` styles bare `h1` to `h6`, `p` and `small`, and this is the
+  third live defect that file has caused. Removing those rules is not a
+  no-op: measured across five pages, paragraphs move from 16px to 17px and
+  the blog's `small` from 14px to 8.4px, because the design system's own
+  defaults have been dead underneath them. That is a change with a visual
+  pass attached, and it is not this commit.

@@ -2601,21 +2601,30 @@ h3 > .mm-head-mark, h4 > .mm-head-mark { width: 28px; height: 28px; margin-top: 
     position: fixed;
     left: 0;
     right: 0;
-    bottom: 0;
+    /* Stacked on the privacy strip, from the height the strip publishes. The
+       strip is flush to the bottom of the screen and this sits on top of it,
+       so the two are never apart and never overlap. */
+    bottom: var(--mm-cookie-reserve, 0px);
     z-index: 40;
     display: flex;
     justify-content: center;
     border-top: 1px solid var(--mm-line);
     background: rgba(10, 16, 13, .94);
     backdrop-filter: blur(8px);
-    padding: 10px var(--mm-gutter) calc(10px + var(--mm-safe-bottom));
-    transform: translateY(110%);
+    /* The home indicator's inset is only this bar's to clear when this bar is
+       the thing on the bottom edge. With the privacy strip below it the strip
+       carries it, and adding it here as well left about 34px of empty bar on
+       an iPhone. `max()` resolves to zero the moment the strip is up. No gate
+       here can see this: Playwright does not emulate a safe-area inset. */
+    padding: 10px var(--mm-gutter) calc(10px + max(0px, var(--mm-safe-bottom) - var(--mm-cookie-reserve, 0px)));
+    transform: translateY(calc(110% + var(--mm-cookie-reserve, 0px)));
     transition: transform .2s ease;
   }
   .mm-action-bar.is-shown { transform: translateY(0); }
   .mm-action-bar .mm-button { width: 100%; max-width: 420px; }
-  /* It reserves its own height so it never covers the last thing being read. */
-  .mm-bar-visible .mm-footer { padding-bottom: calc(var(--mm-section) + 76px + var(--mm-safe-bottom)); }
+  /* It reserves its own measured height in --mm-bar-reserve, which the
+     footer reads and adds to the strip's, so it never covers the last thing
+     being read and the two reserves cannot cancel each other. */
   @media (prefers-reduced-motion: reduce) {
     .mm-action-bar { transition: none; }
   }

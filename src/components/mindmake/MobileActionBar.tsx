@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { track } from "@/lib/analytics";
 
 /**
@@ -16,6 +16,7 @@ import { track } from "@/lib/analytics";
  */
 export function MobileActionBar({ onStart }: { onStart: () => void }) {
   const [shown, setShown] = useState(false);
+  const barRef = useRef<HTMLDivElement>(null);
 
   /* Shown after the first screen, and hidden again whenever the page's own
      primary action is on screen. The bar exists so the action is reachable
@@ -47,14 +48,36 @@ export function MobileActionBar({ onStart }: { onStart: () => void }) {
     };
   }, []);
 
+  /* Its own height, published for the footer to reserve. Measured rather than
+     written down: the number used to live in two stylesheets as `76px`, with a
+     comment in each asking the other not to drift. */
   useEffect(() => {
     const root = document.documentElement;
     root.classList.toggle("mm-bar-visible", shown);
-    return () => root.classList.remove("mm-bar-visible");
+    const bar = barRef.current;
+    if (!shown || !bar) {
+      root.style.removeProperty("--mm-bar-reserve");
+      return () => root.classList.remove("mm-bar-visible");
+    }
+
+    const publishReserve = () => {
+      root.style.setProperty("--mm-bar-reserve", `${bar.getBoundingClientRect().height}px`);
+    };
+    publishReserve();
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(publishReserve);
+    observer?.observe(bar);
+    window.addEventListener("resize", publishReserve);
+
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("resize", publishReserve);
+      root.classList.remove("mm-bar-visible");
+      root.style.removeProperty("--mm-bar-reserve");
+    };
   }, [shown]);
 
   return (
-    <div className={`mm-action-bar${shown ? " is-shown" : ""}`} aria-hidden={!shown}>
+    <div ref={barRef} className={`mm-action-bar${shown ? " is-shown" : ""}`} aria-hidden={!shown}>
       <button
         className="mm-button"
         type="button"

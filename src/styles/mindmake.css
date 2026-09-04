@@ -493,10 +493,11 @@
   text-decoration: none;
   touch-action: manipulation;
 }
-/* Sized so both are above 2x on a retina screen: the mark is 520px wide and the
-   wordmark 890px, so 30px and 150px leave room to spare. */
-.mm-brand-icon { width: 30px; height: auto; }
-.mm-brand-wordmark { width: 150px; height: auto; display: block; }
+/* Vectors, written into the page: the spans carry the width and the svg
+   inside takes it, keeping its own ratio from the viewBox. */
+.mm-brand-icon { width: 30px; display: block; }
+.mm-brand-wordmark { width: 150px; display: block; }
+.mm-brand-icon svg, .mm-brand-wordmark svg { display: block; width: 100%; height: auto; }
 .mm-brand.is-compact .mm-brand-icon { width: 26px; }
 .mm-brand.is-compact .mm-brand-wordmark { width: 128px; }
 @media (max-width: 700px) {

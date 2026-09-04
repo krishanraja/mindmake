@@ -5,8 +5,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { CookieConsent } from "@/components/CookieConsent";
 import { PUBLICATION_URL } from "@/lib/publicLinks";
 import Index from "./pages/Index";
-import brandIcon from "@/assets/mindmake-mark.png";
-import brandWordmark from "@/assets/mindmake-wordmark-ink.png";
+import { BrandMarks } from "@/components/mindmake/MindmakeBrand";
 
 const CaseStudies = lazy(() => import("./pages/CaseStudies"));
 const NewAgeLeadership = lazy(() => import("./pages/NewAgeLeadership"));
@@ -77,8 +76,7 @@ export function PageLoading() {
       {/* Not MindmakeBrand: this is the Suspense fallback and must not be a
           link to the page it is currently loading. */}
       <span className="mm-brand">
-        <img className="mm-brand-icon" src={brandIcon} width={128} height={114} alt="" aria-hidden="true" />
-        <img className="mm-brand-wordmark" src={brandWordmark} width={890} height={165} alt="Mindmake" />
+        <BrandMarks instance="loading" />
       </span>
       <p><span aria-hidden="true" /> Loading the page.</p>
     </div>

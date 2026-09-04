@@ -204,24 +204,26 @@ function build(page) {
   const body = render(page.path);
   if (!body) missingFromSsr.push(page.path);
 
-  /* The first screen's own images, preloaded from what this page renders.
+  /* The hero poster, preloaded from what this page renders.
 
-     The wordmark is an 11KB PNG that painted progressively, half-drawn glyphs
-     for about 150ms, because it started late at image priority behind the
-     stylesheet. The hero poster is `fetchpriority="high"` on its own tag and
-     still landed 650ms after the plate, because the tag is only discovered
-     once the document is parsed and the stylesheet is in. Both are read from
-     the rendered body rather than named here, so a renamed asset or a page
-     with no priority plate cannot leave a stale preload behind. Only the
-     first priority plate is taken, which is the hero on every page that has
-     one; a webp preload carries its type so a browser without webp ignores it
-     and takes the jpg from the picture element as it does today. */
+     It is `fetchpriority="high"` on its own tag and still landed 650ms after
+     the plate, because the tag is only discovered once the document is parsed
+     and the stylesheet is in. It is read from the rendered body rather than
+     named here, so a renamed asset or a page with no priority plate cannot
+     leave a stale preload behind. Only the first priority plate is taken,
+     which is the hero on every page that has one; a webp preload carries its
+     type so a browser without webp ignores it and takes the jpg from the
+     picture element as it does today. The wordmark and the mark used to be
+     preloaded here as well; they are vectors written into the page now, and
+     there is nothing to fetch.
+
+     Case-insensitive, because React writes the attribute as `srcSet` in the
+     server render and this pattern was written for `srcset`: from 3 to
+     4 September 2026 it matched nothing, no page carried the preload, and
+     the record said every page did. `src/test/first-screen.test.ts` now runs
+     the same pattern over the real render of the homepage. */
   const preloads = [];
-  for (const image of [/class="mm-brand-icon" src="([^"]+)"/, /class="mm-brand-wordmark" src="([^"]+)"/]) {
-    const match = body.match(image);
-    if (match) preloads.push(`<link rel="preload" as="image" fetchpriority="high" href="${match[1]}" />`);
-  }
-  const poster = body.match(/<source srcset="([^"]+)" type="image\/webp"[^>]*>\s*<img(?=[^>]*class="mm-plate-media")(?=[^>]*fetchpriority="high")[^>]*>/);
+  const poster = body.match(/<source srcset="([^"]+)" type="image\/webp"[^>]*>\s*<img(?=[^>]*class="mm-plate-media")(?=[^>]*fetchpriority="high")[^>]*>/i);
   if (poster) preloads.push(`<link rel="preload" as="image" type="image/webp" fetchpriority="high" href="${poster[1]}" />`);
   if (preloads.length) {
     html = html.replace('<link rel="stylesheet"', `${preloads.join("\n    ")}\n    <link rel="stylesheet"`);

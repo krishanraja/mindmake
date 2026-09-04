@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { render as serverRender } from "@/entry-server";
 
 const ROOT = resolve(__dirname, "../..");
 const read = (relative: string) => readFileSync(resolve(ROOT, relative), "utf8");
@@ -159,13 +160,51 @@ describe("the first screen's own files, asked for before the stylesheet", () => 
     expect(prerender).toContain("fontFiles.length !== 4");
   });
 
-  it("preloads the wordmark, the mark and the priority poster from the page it rendered", () => {
-    expect(prerender).toContain('class="mm-brand-wordmark" src="');
-    expect(prerender).toContain('class="mm-brand-icon" src="');
+  it("preloads the priority poster from the page it rendered", () => {
     expect(prerender).toContain('as="image" type="image/webp" fetchpriority="high"');
+    /* The pattern, run over the real render. React writes the attribute as
+       `srcSet`, and from 3 to 4 September 2026 the pattern was written for
+       `srcset`, matched nothing on any page, and this test passed on the
+       string in the script alone while the record said every page carried
+       the preload. The pattern here is the script's own, read out of it. */
+    const pattern = prerender.match(/const poster = body\.match\((\/.+\/i)\);/);
+    expect(pattern, "the poster pattern, with its i flag").not.toBeNull();
+    const source = pattern![1];
+    const regex = new RegExp(source.slice(1, source.lastIndexOf("/")), source.slice(source.lastIndexOf("/") + 1));
+    const match = serverRender("/").match(regex);
+    expect(match, "the homepage render carries a priority poster the pattern finds").not.toBeNull();
+    expect(match![1]).toMatch(/\.webp$/);
+  });
+
+  it("writes the mark and the wordmark into the page as vectors, with nothing to fetch", () => {
+    /* Until 4 September 2026 both were PNGs, preloaded and decoded before
+       paint so they would not arrive half-drawn. The designer's exports are
+       in the tree now as two small files of paths, and the component inlines
+       them, so the brand is in the first frame with no request behind it. */
     const brand = read("src/components/mindmake/MindmakeBrand.tsx");
-    expect(brand.match(/fetchpriority: "high"/g)).toHaveLength(2);
-    expect(brand.match(/decoding="sync"/g)).toHaveLength(2);
+    expect(brand).toContain('mindmake-mark.svg?raw');
+    expect(brand).toContain('mindmake-wordmark.svg?raw');
+    expect(brand).not.toContain("<img");
+    expect(prerender).not.toContain('class="mm-brand-icon" src="');
+    expect(prerender).not.toContain('class="mm-brand-wordmark" src="');
+    for (const file of ["src/assets/mindmake-mark.svg", "src/assets/mindmake-wordmark.svg"]) {
+      const svg = read(file);
+      expect(svg.length, file).toBeLessThan(4000);
+      expect(svg, file).toContain("viewBox=");
+      expect(svg, file).not.toMatch(/<svg[^>]*\s(width|height)=/);
+      expect(svg, file).not.toContain("<image");
+      expect(svg, file).not.toContain("<text");
+    }
+    /* The wordmark carries the name once; the mark is decorative. The
+       gradient reads the tokens, so it sits on the ink and would sit on
+       paper. */
+    const wordmark = read("src/assets/mindmake-wordmark.svg");
+    expect(wordmark).toContain('role="img" aria-label="Mindmake"');
+    expect(wordmark).toContain("var(--mm-tx");
+    expect(wordmark).toContain("var(--mm-mint");
+    expect(read("src/assets/mindmake-mark.svg")).toContain('aria-hidden="true"');
+    /* Each instance on a page gets its own gradient ids. */
+    expect(brand).toContain('id="mm-${instance}-');
   });
 
   it("gives every fallback face the metrics of the face it stands in for", () => {

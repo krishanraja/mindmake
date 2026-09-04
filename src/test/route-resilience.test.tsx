@@ -105,10 +105,11 @@ describe("public route resilience", () => {
     renderWithAppProviders(<PageLoading />);
 
     expect(screen.getByRole("status")).toHaveTextContent("Loading the page.");
-    /* The wordmark is the real logo now rather than styled type, so the brand
-       is an image and the alt text is what carries the name. The mark beside it
-       is decorative and must stay out of the accessibility tree. */
-    expect(screen.getByAltText("Mindmake")).toBeInTheDocument();
+    /* The wordmark is the real logo, a vector written into the page since
+       4 September 2026, and its accessible name is what carries the brand.
+       The mark beside it is decorative and must stay out of the
+       accessibility tree, so exactly one image is announced. */
+    expect(screen.getByRole("img", { name: "Mindmake" })).toBeInTheDocument();
     expect(screen.getAllByRole("img")).toHaveLength(1);
   });
 });

@@ -1753,7 +1753,9 @@ that nobody else can describe.
 ### What changed
 
 **The entrance, at the root.** The prerender preloads the four latin faces,
-both brand images and the priority poster, read from the built output; the
+both brand images and the priority poster, read from the built output (the
+poster preload was never emitted, see 4 September; the faces and the brand
+images were); the
 four faces stand on metric-matched fallbacks computed with Capsize; the
 wordmark and mark are fetched at high priority and decoded before paint;
 parallax is relative to the driver's first write (`--mm-p0`), so hydration
@@ -1860,9 +1862,7 @@ the driver's first-write logic); the argument page's from 348,314 to 348,190.
 
 - The method wording on the brain door and on `/ai-brain` needs Krish's
   confirmation; it is described, never named, per the canon.
-- The vector wordmark: only PNGs exist, so the brand images are preloaded and
-  decoded synchronously rather than inlined as SVG. An inline SVG needs the
-  brand's vector source.
+- The vector wordmark: resolved on 4 September, below.
 - The curtain's cost is measured and recorded in the 4 September entry;
   `var CURTAIN=false` in `index.html` keeps the type arrival alone if the
   number is not worth it.
@@ -2001,11 +2001,51 @@ the two runs is the network on the day and the curtain being there at all,
 and the local gate, which holds the network still, reads 1.44s for both
 builds.
 
+### The wordmark is a vector
+
+Krish uploaded the designer's two Canva exports to `main` the same morning
+(commit `03e40fa`, where the originals remain). What they were: the icon,
+900x472 with the mark centred, four shapes under four gradients written as
+659 stops each, 65KB; the wordmark, a megabyte, because its nine letter
+outlines were clip paths over eight copies of one 124KB gradient picture,
+vector letters with raster fills, and the last letter a plain mint path with
+a transform of its own. The gradient in the picture ran from a near-black
+navy at the M to the mint at the e, the paper version, which is exactly the
+gradient that vanished on the ink and had the PNG repainted on 3 September.
+
+What is in the tree now: `src/assets/mindmake-mark.svg`, the same four
+shapes under the same four gradients at seven stops, trimmed to the ink,
+2.5KB; and `src/assets/mindmake-wordmark.svg`, the nine outlines as paths
+under one gradient from `--mm-tx` to `--mm-mint` read from the tokens, the
+e's transform baked into its coordinates so the gradient lands on it (with
+the transform left in, the gradient was evaluated in the letter's own
+space and the e came out white), trimmed to the ink, 2.5KB. Its box is
+648 by 109 units, a ratio of 5.94 against the PNG's ink ratio of 5.93, so
+the header's widths did not change. `MindmakeBrand` writes both into the
+page, and `PageLoading` uses the same component; each instance gets its
+own gradient ids, because `url(#id)` resolves to the first match in the
+document and a gradient's stops read their custom properties where that
+first instance sits, which on the test page put the header's colours on a
+paper instance. The three PNGs are gone, the two brand preloads are out of
+`scripts/prerender.mjs`, and the two uploaded files are deleted under the
+naming law, their contents rebuilt and their history kept.
+
+Found while taking the brand preloads out: the poster preload beside them
+had never been emitted. React writes the attribute as `srcSet` in the
+server render and the pattern in `scripts/prerender.mjs` was written for
+`srcset`, so it matched nothing on any page, production included, from the
+day it was added. The unit test passed on the string in the script alone.
+The pattern is case-insensitive now, and the test reads the pattern out of
+the script and runs it over the real render of the homepage, where it has
+to find a webp.
+
 ### Baselines after this change
 
-- Tests: **434 across 28 files**, all passing. New: `first-screen.test.ts`
+- Tests: **435 across 28 files**, all passing. New: `first-screen.test.ts`
   pins the root marker and the strips to different names, and that nothing
-  adds `is-on`.
+  adds `is-on`; its brand case holds the two vectors inline, small,
+  image-free, with the name on the wordmark once, and its poster case runs
+  the prerender's own pattern over the real homepage render.
 - Lint **0 errors, 2 warnings**. Typecheck **0 errors**.
 - Every browser gate green at both widths, built with
   `VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED=true` as production is, `qa:alive`

@@ -44,73 +44,10 @@ const fontPreloads = fontFiles
 /* After the inline ground and before the stylesheet link Vite appended. */
 const shell = template.replace("</style>", `</style>\n    ${fontPreloads}`);
 
-const staticPages = [
-  {
-    path: "/",
-    title: "Every AI you buy knows the market. Yours should also know you.",
-    description: "Mindmake builds AI that knows how you work: your standards, your context and your past decisions. Thirty days, and you keep what it learns.",
-  },
-  {
-    path: "/ai-brain",
-    title: "Build your AI brain",
-    description: "An AI that knows how you work: your standards, your context and the decisions you have already made. Built in thirty days, and yours to keep.",
-  },
-  {
-    path: "/ai-gtm",
-    title: "Build your AI GTM",
-    description: "AI is changing what customers will pay for. We rebuild one part of how you sell, in thirty days, and prove it with real buyers.",
-  },
-  {
-    path: "/case-studies",
-    title: "Results",
-    description: "Eight verified stories about the work Mindmake helped customers change and what happened next.",
-  },
-  {
-    /* The page's own words, from src/pages/NewAgeLeadership.tsx. This entry
-       carried the retired org-chart title and description into the served
-       head for months after the page was rebuilt, because SEO.tsx writes the
-       head in an effect and only this file reaches a crawler. */
-    path: "/new-age-leadership",
-    title: "What a leader does with the hours AI gives back",
-    description: "AI gives a leader hours back every week. What the hours go into decides whether the leader gets better at the job or only faster at the work.",
-    ogType: "article",
-    keywords: "AI and leadership, resistance to new technology, AI org chart, human judgement",
-    jsonLd: {
-      "@context": "https://schema.org",
-      "@type": "Article",
-      headline: "You can hand over the work",
-      description: "AI gives a leader hours back every week. What the hours go into decides whether the leader gets better at the job or only faster at the work.",
-      author: { "@type": "Organization", name: "Mindmake", url: site },
-      publisher: { "@type": "Organization", name: "Mindmake", url: site },
-      mainEntityOfPage: { "@type": "WebPage", "@id": `${site}/new-age-leadership` },
-    },
-  },
-  {
-    path: "/blog",
-    title: "Ideas for better AI decisions",
-    description: "Useful questions, checks and working methods for leaders making business decisions as AI changes their market.",
-  },
-  {
-    path: "/faq",
-    title: "Straight answers",
-    description: "Straight answers about Mindmake: what the thirty days build, what it costs, what happens to your data and what you keep.",
-  },
-  {
-    path: "/contact",
-    title: "Contact",
-    description: "Send Mindmake a general message.",
-  },
-  {
-    path: "/privacy",
-    title: "Privacy policy",
-    description: "How Mindmake collects, uses and protects information.",
-  },
-  {
-    path: "/terms",
-    title: "Terms and conditions",
-    description: "Terms for using the Mindmake website and services.",
-  },
-];
+/* The indexed pages, shared with the plate painter so the head and the share
+   card are written from the same words; and the plates it painted. */
+import { staticPages } from "./lib/pages.mjs";
+const plates = JSON.parse(readFileSync(resolve(rootDir, "src/content/socialPlates.json"), "utf8"));
 
 const escapeHtml = (value) => String(value)
   .replaceAll("&", "&amp;")
@@ -176,10 +113,16 @@ function build(page) {
   html = replaceMeta(html, "name", "twitter:description", page.description);
   html = replaceMeta(html, "name", "twitter:url", canonicalUrl);
   if (page.keywords) html = replaceMeta(html, "name", "keywords", page.keywords);
-  if (page.ogImage) {
-    html = replaceMeta(html, "property", "og:image", page.ogImage);
-    html = replaceMeta(html, "name", "twitter:image", page.ogImage);
-  }
+  /* The page's own social plate, painted from these same words by
+     scripts/social-plates.mjs; the version in the URL changes when the words
+     do, so a network that caches by URL fetches the repainted plate. */
+  const plate = plates[page.path] ?? plates["/"];
+  const plateUrl = page.ogImage ?? `${site}${plate.file}?v=${plate.version}`;
+  const plateAlt = [plate.headline, plate.claim].filter(Boolean).join(" ");
+  html = replaceMeta(html, "property", "og:image", plateUrl);
+  html = replaceMeta(html, "property", "og:image:alt", plateAlt);
+  html = replaceMeta(html, "name", "twitter:image", plateUrl);
+  html = replaceMeta(html, "name", "twitter:image:alt", plateAlt);
   html = html.replace(/<link rel="canonical" href="[^"]*"\s*\/?>/, `<link rel="canonical" href="${escapeHtml(canonicalUrl)}" />`);
   if (page.jsonLd) {
     html = html.replace("</head>", `    <script id="mindmake-page-jsonld" type="application/ld+json">${JSON.stringify(page.jsonLd)}</script>\n  </head>`);

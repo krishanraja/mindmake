@@ -2081,3 +2081,68 @@ fallbacks rather than fixed by tuning one string.
   first big change. Three consecutive green runs after the repair.
 - Bundle: the built stylesheet and the homepage chunk are within a few bytes
   of 3 September; the body script is gone from `index.html`.
+
+## 4 September 2026: what a crawler and a share card are given
+
+Krish, from the browser: the tab icon looked terrible and should have a
+transparent background, and was the site fully discoverable by robots and
+crawlers, with the social plates correct and as inspiring as possible.
+
+### What was found
+
+- The tab icon was the old hand-drawn approximation of the mark in a
+  different green, and the touch icon and the Windows tile sizes wore a black
+  square. Nothing had been redrawn since the brand changed.
+- Every page and every post shared one social plate drawn for a brand two
+  rebuilds ago: a paper card holding the wordmark, the retired headline "Put
+  your best judgement to work with AI", Title Case links, a grid ground the
+  site never had. Its alt text was the word "Mindmake".
+- The Organization record's logo pointed at the old 512px tab icon.
+- Both URL forms of every page answered 200 (`/ai-brain` and `/ai-brain/`),
+  with only the canonical to say which was the page.
+- The retired `/intake` and `/testimonials` routes redirected temporarily,
+  so nothing they still carried moved with them.
+- `llms.txt` said the hand-off "begins with a company website" and showed a
+  preview "before any email address is asked for", which is the hand-off of
+  two rebuilds ago.
+- The web app manifest carried the previous brand's colours.
+
+What was already right, measured on production: `robots.txt` with the
+sitemap line, a sitemap of 21 URLs, a canonical, a title and a description
+on every page, `index, follow` in the head and the `X-Robots-Tag` header,
+`og:type` article on the argument page and the posts with Article records
+carrying dates, an Organization and WebSite record on every page, a real 404
+for unknown routes, one-hop 308 redirects from every retired domain and
+route, `en-GB` throughout, and every page rendered to markup at build.
+
+### What changed
+
+- The icon set is drawn from the vector mark by `scripts/generate-favicons.mjs`:
+  the SVG, the ICO (16, 32, 48) and the 16, 32, 192 and 512 PNGs transparent;
+  the touch icon, the two maskable install icons and a new 512px logo for the
+  Organization record on the ink, the mark inside the safe zone; a one-colour
+  pinned-tab SVG. Eight files nothing referenced are gone.
+- One social plate per indexed page and post, 21 in all, in the site's own
+  design: the ink, the mark and the wordmark, the page's headline in the
+  grotesque, its claim in the serif and the mint, the first frame of the
+  film its hero plays faded into the ink, and the address in the mono. The
+  words come from `scripts/lib/pages.mjs`, the list the prerender now writes
+  the head from, and from the posts' own titles, so a share card and a
+  crawler read the same sentence. `og:image:alt` and `twitter:image:alt`
+  carry the words. The URL carries a version from the words, so a network
+  that caches by URL fetches a repainted plate.
+- Painted by a browser and committed, because the production build has no
+  browser. `src/test/discoverability.test.ts` compares each plate's recorded
+  words with the page's current words and fails until `npm run social-plates`
+  repaints them; it also holds the plate's size and weight, the icon set,
+  the manifest's colours, the logo, the URL form and the llms.txt lines.
+- `SEO.tsx`, which rewrites the head on client navigation, reads the same
+  manifest, so what a crawler that runs scripts sees matches what one that
+  does not sees.
+- `vercel.json`: `trailingSlash: false`, so `/ai-brain/` is a 308 to
+  `/ai-brain`, the canonical form; `/intake` and `/testimonials` are
+  permanent. `/start` and `/decision` stay temporary on purpose: short links
+  people type.
+- `llms.txt` describes the hand-off the site runs: four details, the read on
+  screen, one easy question, the code to the work email, the proposal on
+  screen, by email and as a document.

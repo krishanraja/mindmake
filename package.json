@@ -18,6 +18,7 @@
     "qa:alive": "node scripts/qa/aliveness-check.mjs --width 1440 && node scripts/qa/aliveness-check.mjs --width 390",
     "preview": "vite preview",
     "generate-favicons": "node scripts/generate-favicons.mjs",
+    "social-plates": "node scripts/social-plates.mjs",
     "qa:images": "node scripts/qa/image-density-check.mjs --width 1440 && node scripts/qa/image-density-check.mjs --width 390",
     "qa:rhythm": "node scripts/qa/section-rhythm-check.mjs --width 1440 && node scripts/qa/section-rhythm-check.mjs --width 390",
     "qa:cards": "node scripts/qa/card-geometry-check.mjs",

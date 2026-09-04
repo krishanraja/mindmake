@@ -1,4 +1,5 @@
 {
+  "trailingSlash": false,
   "redirects": [
     {
       "source": "/test-email-flows.html",
@@ -8,22 +9,22 @@
     {
       "source": "/intake",
       "destination": "/?start=1",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/intake/index.html",
       "destination": "/?start=1",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/testimonials",
       "destination": "/case-studies",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/testimonials/index.html",
       "destination": "/case-studies",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/blog/10-20x-roi-what-real-ai-implementation-looks-like",

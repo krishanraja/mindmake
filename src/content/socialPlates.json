@@ -1,0 +1,149 @@
+{
+  "/": {
+    "file": "/social/home.jpg",
+    "version": "427b778d",
+    "headline": "Every AI you buy knows the market.",
+    "claim": "Yours should also know you.",
+    "still": "film-01"
+  },
+  "/ai-brain": {
+    "file": "/social/ai-brain.jpg",
+    "version": "7c561c8d",
+    "headline": "Build your AI brain.",
+    "claim": "An AI that knows how you work.",
+    "still": "film-02"
+  },
+  "/ai-gtm": {
+    "file": "/social/ai-gtm.jpg",
+    "version": "a536c077",
+    "headline": "Build your AI GTM.",
+    "claim": "AI is changing what customers will pay for.",
+    "still": "film-03"
+  },
+  "/case-studies": {
+    "file": "/social/case-studies.jpg",
+    "version": "ffb07e2e",
+    "headline": "The decision, and what changed next.",
+    "claim": "",
+    "still": "film-04"
+  },
+  "/new-age-leadership": {
+    "file": "/social/new-age-leadership.jpg",
+    "version": "72ab7507",
+    "headline": "What a leader does with the hours AI gives back.",
+    "claim": "You can hand over the work. You cannot hand over the understanding.",
+    "still": "film-05"
+  },
+  "/blog": {
+    "file": "/social/blog.jpg",
+    "version": "b5f553aa",
+    "headline": "Ideas you can use.",
+    "claim": "",
+    "still": "film-04"
+  },
+  "/faq": {
+    "file": "/social/faq.jpg",
+    "version": "b15203a1",
+    "headline": "Straight answers.",
+    "claim": "",
+    "still": "film-02"
+  },
+  "/contact": {
+    "file": "/social/contact.jpg",
+    "version": "d061c4c2",
+    "headline": "Say hello.",
+    "claim": "",
+    "still": "film-01"
+  },
+  "/privacy": {
+    "file": "/social/privacy.jpg",
+    "version": "a05cb277",
+    "headline": "Privacy policy.",
+    "claim": "",
+    "still": "film-05"
+  },
+  "/terms": {
+    "file": "/social/terms.jpg",
+    "version": "14092476",
+    "headline": "Terms and conditions.",
+    "claim": "",
+    "still": "film-05"
+  },
+  "/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan": {
+    "file": "/social/blog-the-execution-gap-why-ai-literate-leaders-ship-while-others-plan.jpg",
+    "version": "f1bc1735",
+    "headline": "The Start Cost: Why Good AI Work Gets Deferred",
+    "claim": "",
+    "still": "film-01"
+  },
+  "/blog/four-modes-of-ai-literacy-every-leader-needs": {
+    "file": "/social/blog-four-modes-of-ai-literacy-every-leader-needs.jpg",
+    "version": "bd303b97",
+    "headline": "Four Ways Leaders Can Work Better With AI",
+    "claim": "",
+    "still": "film-02"
+  },
+  "/blog/why-ai-training-fails-and-building-works": {
+    "file": "/social/blog-why-ai-training-fails-and-building-works.jpg",
+    "version": "00efe04d",
+    "headline": "Why Practice Changes More Than a Training Day",
+    "claim": "",
+    "still": "film-01"
+  },
+  "/blog/shadow-ai-to-strategic-ai-leaders-guide": {
+    "file": "/social/blog-shadow-ai-to-strategic-ai-leaders-guide.jpg",
+    "version": "36d67700",
+    "headline": "Find the AI Work Already Happening in Your Team",
+    "claim": "",
+    "still": "film-03"
+  },
+  "/blog/measuring-ai-work-that-pays-back": {
+    "file": "/social/blog-measuring-ai-work-that-pays-back.jpg",
+    "version": "9bcd9397",
+    "headline": "How to Tell Whether AI Work Is Paying Back",
+    "claim": "",
+    "still": "film-01"
+  },
+  "/blog/builder-vs-consumer-mindset-in-ai": {
+    "file": "/social/blog-builder-vs-consumer-mindset-in-ai.jpg",
+    "version": "d415303d",
+    "headline": "From One-Off AI Help to Systems You Can Reuse",
+    "claim": "",
+    "still": "film-02"
+  },
+  "/blog/ai-vendor-theatre-how-to-spot-and-avoid-it": {
+    "file": "/social/blog-ai-vendor-theatre-how-to-spot-and-avoid-it.jpg",
+    "version": "2838320e",
+    "headline": "How to Test an AI Vendor Before You Commit",
+    "claim": "",
+    "still": "film-03"
+  },
+  "/blog/a-useful-first-30-days-building-with-ai": {
+    "file": "/social/blog-a-useful-first-30-days-building-with-ai.jpg",
+    "version": "36bded18",
+    "headline": "A Useful First 30 Days of Building With AI",
+    "claim": "",
+    "still": "film-01"
+  },
+  "/blog/ai-literacy-for-executive-teams-lab-model": {
+    "file": "/social/blog-ai-literacy-for-executive-teams-lab-model.jpg",
+    "version": "58ae4a8c",
+    "headline": "How an Executive Team Can Learn AI Together",
+    "claim": "",
+    "still": "film-05"
+  },
+  "/blog/how-to-increase-creative-leadership-with-ai": {
+    "file": "/social/blog-how-to-increase-creative-leadership-with-ai.jpg",
+    "version": "01fcb01b",
+    "headline": "Use AI to See More Without Losing Your Taste",
+    "claim": "",
+    "still": "film-05"
+  },
+  "/blog/how-to-control-your-use-of-ai-as-a-leader": {
+    "file": "/social/blog-how-to-control-your-use-of-ai-as-a-leader.jpg",
+    "version": "b78109d7",
+    "headline": "Put AI Inside Clear Business Rules",
+    "claim": "",
+    "still": "film-05"
+  }
+}

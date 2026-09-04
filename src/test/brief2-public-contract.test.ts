@@ -903,7 +903,9 @@ describe("the crawler surfaces stay in step", () => {
 
   it("prerenders the same routes the sitemap publishes", () => {
     const sitemap = read("scripts/generate-sitemap.mjs");
-    const prerender = read("scripts/prerender.mjs");
+    /* The prerender writes its pages from scripts/lib/pages.mjs since
+       4 September 2026, the list the social plates are painted from too. */
+    const prerender = read("scripts/lib/pages.mjs");
     for (const route of ["/ai-brain", "/ai-gtm", "/case-studies", "/faq", "/new-age-leadership"]) {
       expect(sitemap).toContain(route);
       expect(prerender).toContain(route);

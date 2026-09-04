@@ -1,37 +1,16 @@
 {
   "name": "Mindmake",
   "short_name": "Mindmake",
-  "description": "Put your best judgement to work with AI.",
+  "description": "Mindmake builds AI that knows how you work: your standards, your context and your past decisions. Thirty days, and you keep what it learns.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F4F0E8",
-  "theme_color": "#06251F",
+  "background_color": "#0a100d",
+  "theme_color": "#0a100d",
   "orientation": "portrait-primary",
   "icons": [
-    {
-      "src": "/favicon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/favicon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/favicon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/favicon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
+    { "src": "/favicon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/favicon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/favicon-192x192-maskable.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/favicon-512x512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }
-

@@ -19,8 +19,8 @@ Mindmake builds systems that hold a leader's judgement and belong to them afterw
 ## How paid work begins
 
 - There is no public diary and no published price.
-- [Start here](/?start=1) begins with a company website. The engine reads the market live and a proposal built for that company follows by email.
-- The visitor sees a useful preview before any email address is asked for.
+- [Start here](/?start=1) asks for four details: first name, last name, work email and division. An illustrative read of the company from the outside follows on screen, with two choices tailored to it, then one easy question and a code to the work email.
+- The read is on screen before the work email is verified. A proposal built for that company then follows on screen, by email and as an attached document.
 - A confirmed request receives two emails, ever: the results email, and one follow-up fourteen days later. There is no drip sequence.
 - Work starts with one thirty-day proof on a real result. Terms are agreed privately.
 

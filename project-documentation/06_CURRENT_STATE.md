@@ -9,8 +9,8 @@ This file is the current delivery truth for `mindmake.co`: what is live, at whic
 **The rebuild is live.** The homepage, `/ai-brain` and `/ai-gtm` were rebuilt, the six films were installed, and it was promoted to production on 28 August 2026.
 
 - Site status: **LIVE**. `https://mindmake.co` launched 26 August 2026 and now serves the rebuild.
-- Production: merge `75572542094ddd4e702a877b258b9014f37415c1` (pull request #152), Vercel deployment `dpl_HAoncV1RF3hcvcanqo7Yvc4tuAng` on project `mindmake` (`prj_GqamX3psD0cGpGCDXRu0ljET7zap`).
-- Rollback target: `dpl_5Ajont9gBNH3ocyzEknDzmqGj3bq`, the previous production state (pull request #151).
+- Production: commit `cf2b2d0` on `main` (4 September 2026, "The curtain was never there"), Vercel deployment `dpl_GQ7wCHKhhRK34Nf5EpxJ3bPRahHc` on project `mindmake` (`prj_GqamX3psD0cGpGCDXRu0ljET7zap`). Before it, commit `12ace5e` (3 September, the entrance and the story's spine) at `dpl_AFyoEwjLzuG3wr93xuXAYFhVay9a`, and before that the 28 August rebuild, merge `75572542094ddd4e702a877b258b9014f37415c1` (pull request #152) at `dpl_HAoncV1RF3hcvcanqo7Yvc4tuAng`.
+- Rollback target: `dpl_HAoncV1RF3hcvcanqo7Yvc4tuAng`, the 28 August rebuild. Not `dpl_AFyoEwjLzuG3wr93xuXAYFhVay9a`: that build carries the 3 September curtain defect (the root as a fixed grid for a second after paint, and no curtain), and rolling back to it would ship that again.
 - Verified live after promotion: all three pages 200 with their new headlines, both film formats and the posters served from the CDN, the sixty-second proof film reachable, one-hop 308 redirects from `www`, `themindmaker.ai`, `/signal` and `/library`, `llms.txt` and `sitemap.xml` 200, and the privacy notice carrying the corrected email wording and the working contact address.
 - Domains are unchanged: `mindmake.co` is canonical (Vercel DNS); `www.mindmake.co`, `themindmaker.ai` and `www.themindmaker.ai` 308-redirect to the apex in one hop with path and query preserved. The publication stays at `https://mindmakerlive.substack.com`. CTRL serves at `ctrl.mindmake.co`.
 - Routes did not change. The rebuild replaced what the three pages say and how they behave, not the route contract, so every redirect and crawler surface keeps its shape.
@@ -1984,6 +1984,22 @@ section; at 2333ms the page is settled. `fonts.ready` at 1662ms,
 What the curtain costs on this profile: nothing held. The faces are in
 before the first frame, so the wipe is the entrance; the 700ms hold only
 happens when a face is still on its way at first paint.
+
+Production, deployment `dpl_GQ7wCHKhhRK34Nf5EpxJ3bPRahHc` for commit
+`cf2b2d0`, read through the session's forwarder at 390x844 on the same
+throttle, which adds a hop of its own so the absolute times run later than
+the gate's: the head script's mark at 610ms, first paint and first
+contentful paint together at 2264ms and the frame is the whole curtain
+with its seams closed, the arrival mark at 2199ms (65ms before paint, inside
+the honest lead), the strips displayed for 60 animation frames, the top
+strips lifting at 2558ms, the page settled by 3085ms, `DOMContentLoaded` at
+2694ms, the loop playing, zero layout shifts, and the root's class list
+`mm-arrived` alone at rest. The 3 September production run through the same
+forwarder read first paint at 1752ms with nothing over the page and the
+root's class list `is-on mm-arrived`; the difference in first paint between
+the two runs is the network on the day and the curtain being there at all,
+and the local gate, which holds the network still, reads 1.44s for both
+builds.
 
 ### Baselines after this change
 

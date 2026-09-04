@@ -9,7 +9,7 @@ This file is the current delivery truth for `mindmake.co`: what is live, at whic
 **The rebuild is live.** The homepage, `/ai-brain` and `/ai-gtm` were rebuilt, the six films were installed, and it was promoted to production on 28 August 2026.
 
 - Site status: **LIVE**. `https://mindmake.co` launched 26 August 2026 and now serves the rebuild.
-- Production: commit `fd8c07e` on `main` (4 September 2026, "The wordmark and the mark are vectors"), Vercel deployment `dpl_67GND784KVV4iQVSHPA9CpUXwp1g` on project `mindmake` (`prj_GqamX3psD0cGpGCDXRu0ljET7zap`). Before it the same morning, `cf2b2d0` ("The curtain was never there") at `dpl_GQ7wCHKhhRK34Nf5EpxJ3bPRahHc`, then Krish's upload of the two brand exports at `dpl_CAPenq7T8BuRzAia2SrXKkY4fHhw`. Before those, commit `12ace5e` (3 September, the entrance and the story's spine) at `dpl_AFyoEwjLzuG3wr93xuXAYFhVay9a`, and before that the 28 August rebuild, merge `75572542094ddd4e702a877b258b9014f37415c1` (pull request #152) at `dpl_HAoncV1RF3hcvcanqo7Yvc4tuAng`.
+- Production: commit `0704583` on `main` (4 September 2026, "What a crawler and a share card are given"), Vercel deployment `dpl_5saD1mJed9NpT9oXA6wgGHSUPGnz` on project `mindmake` (`prj_GqamX3psD0cGpGCDXRu0ljET7zap`). Before it the same day, `fd8c07e` ("The wordmark and the mark are vectors") at `dpl_67GND784KVV4iQVSHPA9CpUXwp1g`; before that, `cf2b2d0` ("The curtain was never there") at `dpl_GQ7wCHKhhRK34Nf5EpxJ3bPRahHc`, then Krish's upload of the two brand exports at `dpl_CAPenq7T8BuRzAia2SrXKkY4fHhw`. Before those, commit `12ace5e` (3 September, the entrance and the story's spine) at `dpl_AFyoEwjLzuG3wr93xuXAYFhVay9a`, and before that the 28 August rebuild, merge `75572542094ddd4e702a877b258b9014f37415c1` (pull request #152) at `dpl_HAoncV1RF3hcvcanqo7Yvc4tuAng`.
 - Rollback target: `dpl_HAoncV1RF3hcvcanqo7Yvc4tuAng`, the 28 August rebuild. Not `dpl_AFyoEwjLzuG3wr93xuXAYFhVay9a`: that build carries the 3 September curtain defect (the root as a fixed grid for a second after paint, and no curtain), and rolling back to it would ship that again.
 - Verified live after promotion: all three pages 200 with their new headlines, both film formats and the posters served from the CDN, the sixty-second proof film reachable, one-hop 308 redirects from `www`, `themindmaker.ai`, `/signal` and `/library`, `llms.txt` and `sitemap.xml` 200, and the privacy notice carrying the corrected email wording and the working contact address.
 - Domains are unchanged: `mindmake.co` is canonical (Vercel DNS); `www.mindmake.co`, `themindmaker.ai` and `www.themindmaker.ai` 308-redirect to the apex in one hop with path and query preserved. The publication stays at `https://mindmakerlive.substack.com`. CTRL serves at `ctrl.mindmake.co`.
@@ -2146,3 +2146,25 @@ route, `en-GB` throughout, and every page rendered to markup at build.
 - `llms.txt` describes the hand-off the site runs: four details, the read on
   screen, one easy question, the code to the work email, the proposal on
   screen, by email and as a document.
+
+### Verified on production
+
+Deployment `dpl_5saD1mJed9NpT9oXA6wgGHSUPGnz` for `0704583`: the homepage,
+`/ai-gtm` and a post each serve their own plate with a version in the URL
+and the page's words as the alt text; the plates, the SVG and ICO icons,
+the touch icon, the logo, the pinned-tab SVG and the manifest all answer
+200 with the right type; the old plate and the old tile sizes answer 404;
+`/ai-brain/`, `/blog/` and `/case-studies/` are 308s to the canonical
+form; `llms.txt` carries the four details; the manifest carries the ink;
+the Organization record names the new logo.
+
+### Still open
+
+- Nothing here can say how a share looks on LinkedIn or on X until one is
+  posted; both cache by URL, so the first share of each page fetches the new
+  plate, and a repainted plate needs the version in its URL to change, which
+  the manifest does when the words change.
+- The plate for a post uses its category's film. A post that earns its own
+  still can set one when there is one.
+- The 404 for an unknown route is Vercel's plain text. A branded page would
+  be `dist/404.html`, which the prerender does not write yet.

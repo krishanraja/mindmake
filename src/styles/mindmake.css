@@ -1074,42 +1074,48 @@
 
 /* ---------- The entrance: the page arrives once ----------
    Set in motion by the inline script in index.html, which puts mm-pending and
-   mm-curtain on <html> before first paint and swaps them for mm-arrived once
-   the four faces are in, or 700ms after the first frame. No script means no
-   class, and no class means every rule below is inert: the type is visible
-   and the curtain is display: none. That is the same guarantee the reveal
-   primitive makes, kept the same way, in CSS that defaults to shown.
+   mm-covered on <html> before first paint and swaps mm-pending for mm-arrived
+   once the four faces are in, or 700ms after the first frame on screen;
+   mm-covered comes off 1100ms after that. No script means no class, and no
+   class means every rule below is inert: the type is visible and the curtain
+   is display: none. That is the same guarantee the reveal primitive makes,
+   kept the same way, in CSS that defaults to shown.
 
    What stays painted from the first frame: the ground, the wordmark and the
    mark, the film plate with its poster, its drift and its sweep. What waits:
    the type, and the curtain over all of it.
 
-   The curtain is keyed on its own class, `is-on`, set by the two-line script
-   after it in the body, and never on a class of <html>. Measured in Chromium
-   against one build: any rule styling this element under a root class, even
-   `display: none`, held every frame until the root class came off, so the
-   page painted at 2.5 to 3.7 seconds instead of 1.3. index.html carries the
-   numbers. */
+   The root marker and the strips have different names on purpose. On
+   3 September the root carried `mm-curtain`, the strips' own class, and the
+   default below matched <html>: the whole document was display: none until
+   the marker came off, 2.5 seconds in on a throttled phone, and the gate
+   read that as a late first paint rather than a missing one. */
 .mm-curtain { display: none; }
-.mm-curtain.is-on {
+.mm-covered .mm-curtain {
   display: grid;
   position: fixed;
   inset: 0;
   z-index: 200;
   grid-template-rows: repeat(15, 1fr);
-  gap: 1px;
   overflow: hidden;
   pointer-events: none;
 }
-.mm-curtain.is-on i {
+/* The line between strips is drawn inside each strip, so it lifts with it,
+   and each strip runs a pixel into the next, so a fractional row height
+   cannot leave a seam. A grid gap showed the page through the seams:
+   fifteen bright lines where the paper section sat under the curtain on
+   the first frame, and a hairline of it at every fractional edge after. */
+.mm-covered .mm-curtain i {
   display: block;
+  height: calc(100% + 1px);
   background: var(--mm-ink-raise);
+  box-shadow: inset 0 1px 0 var(--mm-ink);
   transform-origin: top;
   will-change: transform;
 }
 /* The plate's own light, across the whole curtain, so the held screen is not
    a still: the ambient layer's floor applies to the entrance as well. */
-.mm-curtain.is-on::after {
+.mm-covered .mm-curtain::after {
   content: "";
   position: absolute;
   left: -40%;
@@ -1119,11 +1125,14 @@
   background: linear-gradient(90deg, transparent, rgba(190, 220, 205, .09), transparent);
   animation: mm-sweep 2.6s ease-in-out infinite;
 }
-/* Top to bottom, each strip 20ms after the one above it: 15 strips clear in
-   about 580ms. `forwards` is right here and nowhere else on the site, because
-   a strip is chrome that leaves, not content that stays. */
-.mm-arrived .mm-curtain.is-on i {
-  animation: mm-lift .3s cubic-bezier(.5, 0, .75, .35) calc(var(--i, 0) * 20ms) forwards;
+/* Top to bottom, each strip 20ms after the one above it, from 120ms after
+   the mark: the mark lands 40 to 100ms before the frame it is set in is on
+   screen, so without the base delay the top strips were already going in
+   the first frame anyone saw. 15 strips clear in about 700ms. `forwards` is
+   right here and nowhere else on the site, because a strip is chrome that
+   leaves, not content that stays. */
+.mm-arrived .mm-curtain i {
+  animation: mm-lift .3s cubic-bezier(.5, 0, .75, .35) calc(120ms + var(--i, 0) * 20ms) forwards;
 }
 @keyframes mm-lift { to { transform: scaleY(0); } }
 
@@ -1147,7 +1156,7 @@
    and if a stylesheet and a preference change ever disagree, nothing is held
    and nothing is covered. */
 @media (prefers-reduced-motion: reduce) {
-  .mm-curtain.is-on { display: none; }
+  .mm-covered .mm-curtain { display: none; }
   .mm-pending .mm-first, .mm-pending .mm-menu-button { opacity: 1; }
   .mm-arrived .mm-first, .mm-arrived .mm-menu-button { animation: none; }
 }

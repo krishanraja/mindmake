@@ -123,6 +123,20 @@ const ARRIVE_BUDGET = Number(flag("arrive-budget", 1000));
 /** How long the arrival's own frames are excused, from its mark. */
 const ARRIVE_WINDOW = Number(flag("arrive-window", 1100));
 /**
+ * How far before first paint the arrival mark may fall.
+ *
+ * Calibrated from readings on the built site, both widths, five paths. With
+ * the wait started in the first animation frame the mark landed 78 to 172ms
+ * before the first presented frame, which is how long that frame took to
+ * rasterise after its callback ran; started in the second frame it still
+ * lands 44 to 111ms before, which is why the lift itself begins 120ms after
+ * the mark. The defect this catches read 1,180ms. The floor is set well
+ * clear of the honest lead rather than at it.
+ */
+const ARRIVE_LEAD = Number(flag("arrive-lead", 400));
+/** How long the dialog's own opening frames are excused, from its DOM mark. */
+const DIALOG_WINDOW = Number(flag("dialog-window", 800));
+/**
  * The largest layout shift the page may make after it paints.
  *
  * Calibrated from readings on the built site with the preloads and the
@@ -250,6 +264,41 @@ for (const width of WIDTHS) {
     await page.addInitScript(() => {
       const shifts = [];
       window.__mmShifts = shifts;
+      /* The curtain, frame by frame: how many animation frames the strips
+         were displayed while <html> carried the marker that asks for them.
+         On 3 September the marker was set on every load and the strips were
+         never displayed, and nothing here could tell, because the gate reads
+         the browser's paint timing and the browser was presenting a page
+         with nothing over it. Counting stops once the marker has come and
+         gone, or after four hundred frames for a page that never sets it. */
+      /* The dialog's own moment, from the DOM. Read from the frames until
+         4 September, when a run at 1440 had the hero film playing over forty
+         of the sixty-four cells by the time the dialog opened, too few still
+         cells moved to register, and the gate reported a dialog that never
+         opened on a page where it had. */
+      window.__mmDialogAt = null;
+      try {
+        const observer = new MutationObserver(() => {
+          if (window.__mmDialogAt !== null) return;
+          if (document.querySelector('.mm-brief-panel[role="dialog"]')) {
+            window.__mmDialogAt = Math.round(performance.now());
+            observer.disconnect();
+          }
+        });
+        observer.observe(document, { childList: true, subtree: true });
+      } catch { /* no observer, no reading */ }
+      window.__mmCovered = false;
+      window.__mmCurtainFrames = 0;
+      let ticks = 0;
+      const tick = () => {
+        const covered = document.documentElement.classList.contains("mm-covered");
+        if (covered) window.__mmCovered = true;
+        const curtain = document.getElementById("mm-curtain");
+        if (covered && curtain && getComputedStyle(curtain).display !== "none") window.__mmCurtainFrames += 1;
+        ticks += 1;
+        if (!(window.__mmCovered && !covered) && ticks < 400) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
       try {
         new PerformanceObserver((list) => {
           for (const entry of list.getEntries()) {
@@ -306,7 +355,10 @@ for (const width of WIDTHS) {
       pending: performance.getEntriesByName("mm-pending")[0]?.startTime ?? null,
       arrived: performance.getEntriesByName("mm-arrived")[0]?.startTime ?? null,
       shifts: window.__mmShifts ?? [],
-    })).catch(() => ({ pending: null, arrived: null, shifts: [] }));
+      covered: window.__mmCovered ?? false,
+      curtainFrames: window.__mmCurtainFrames ?? 0,
+      dialogAt: window.__mmDialogAt ?? null,
+    })).catch(() => ({ pending: null, arrived: null, shifts: [], covered: false, curtainFrames: 0, dialogAt: null }));
     const arrivedAt = marks.arrived === null ? null : Math.round(marks.arrived);
     const inArrival = (at) => arrivedAt !== null && at >= arrivedAt - 40 && at <= arrivedAt + ARRIVE_WINDOW;
 
@@ -387,16 +439,16 @@ for (const width of WIDTHS) {
        after paint is the dialog, read as such, and everything after it is
        judged exactly as on any other path. */
     const opensDialog = /[?&]start=/.test(path);
-    let dialogAt = null;
+    /* When the dialog opened, from the DOM; its own frames, from the mark
+       to the end of its opening, are excused from the replacement count. */
+    const dialogAt = marks.dialogAt === null ? null : Math.round(marks.dialogAt);
+    const inDialog = (at) => dialogAt !== null && at >= dialogAt - 40 && at <= dialogAt + DIALOG_WINDOW;
     let settled = firstPaint;
     const reflows = [];
     for (let i = 1; i < ours.length; i += 1) {
       const moved = movedStill(ours[i - 1], ours[i]);
       if (moved < floor) continue;
-      if (opensDialog && dialogAt === null) {
-        dialogAt = ours[i].at;
-        continue;
-      }
+      if (opensDialog && inDialog(ours[i].at)) continue;
       settled = ours[i].at;
       reflows.push({ at: ours[i].at, moved });
     }
@@ -411,7 +463,7 @@ for (const width of WIDTHS) {
 
     const shifts = marks.shifts.filter((shift) => firstPaint === null || shift.at >= firstPaint);
     const worstShift = shifts.reduce((worst, shift) => (shift.value > (worst?.value ?? 0) ? shift : worst), null);
-    rows.push({ width, path, frames: frames.length, firstPaint, arrivedAt, settled, flashMs, firstMotion, reflows: reflows.length, restless: restless.size, shifts: shifts.length, worstShift, dialogAt });
+    rows.push({ width, path, frames: frames.length, firstPaint, arrivedAt, settled, flashMs, firstMotion, reflows: reflows.length, restless: restless.size, shifts: shifts.length, worstShift, dialogAt, covered: marks.covered, curtainFrames: marks.curtainFrames });
 
     if (flashes.length) {
       problems.push(`${width}px ${path}: a light ground is on screen from ${flashes[0].at}ms for ${flashMs || "<1"}ms (brightest ${Math.max(...flashes.map((f) => f.lum)).toFixed(2)})`);
@@ -437,6 +489,18 @@ for (const width of WIDTHS) {
     if (arrivedAt !== null && firstPaint !== null && arrivedAt - firstPaint > ARRIVE_BUDGET) {
       problems.push(`${width}px ${path}: the arrival began ${arrivedAt - firstPaint}ms after first paint, past the ${ARRIVE_BUDGET}ms cap`);
     }
+    /* The other direction. The arrival mark is set in an animation frame's
+       callback, which runs 40 to 110ms before that frame is on screen; an
+       arrival well before first paint is an arrival that played on a page
+       nobody was shown. On 3 September the root was display: none until the
+       curtain's marker came off, the type arrived at 1.3s, and the browser
+       presented its first frame at 2.5s with everything already in place. */
+    if (arrivedAt !== null && firstPaint !== null && firstPaint - arrivedAt > ARRIVE_LEAD) {
+      problems.push(`${width}px ${path}: the arrival began ${firstPaint - arrivedAt}ms before first paint, so it played on a page that was not being presented`);
+    }
+    if (marks.covered && marks.curtainFrames === 0) {
+      problems.push(`${width}px ${path}: the curtain was asked for (mm-covered) and never displayed`);
+    }
     if (opensDialog && dialogAt === null) {
       problems.push(`${width}px ${path}: the dialog never opened in ${WINDOW}ms`);
     }
@@ -460,12 +524,12 @@ for (const width of WIDTHS) {
     arrived: performance.getEntriesByName("mm-arrived").length,
     classes: document.documentElement.className,
     videos: document.querySelectorAll("video").length,
-    curtain: getComputedStyle(document.querySelector(".mm-curtain")).display,
+    curtain: getComputedStyle(document.getElementById("mm-curtain")).display,
   })).catch(() => null);
   if (!quietRead) {
     problems.push(`${width}px / under reduced motion: the page could not be read`);
   } else {
-    if (quietRead.pending || quietRead.arrived || /mm-(pending|curtain|arrived)/.test(quietRead.classes)) {
+    if (quietRead.pending || quietRead.arrived || /mm-(pending|covered|arrived)/.test(quietRead.classes)) {
       problems.push(`${width}px / under reduced motion: the entrance ran (${quietRead.classes || "marks set"})`);
     }
     if (quietRead.curtain !== "none") problems.push(`${width}px / under reduced motion: the curtain is ${quietRead.curtain}`);
@@ -487,6 +551,7 @@ for (const row of rows) {
     + `  ${String(row.restless).padStart(2)}/64 cells alive`
     + `  first motion ${String(row.firstMotion ?? "none").padStart(5)}${row.firstMotion === null ? "" : "ms"}`
     + `  shifts ${String(row.shifts).padStart(2)} (max ${row.worstShift ? `${row.worstShift.value} ${row.worstShift.node}` : "0"})`
+    + (row.covered ? `  curtain ${row.curtainFrames}f` : "")
     + (row.dialogAt === null || row.dialogAt === undefined ? "" : `  dialog ${row.dialogAt}ms`),
   );
 }

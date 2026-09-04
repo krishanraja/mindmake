@@ -234,7 +234,7 @@ describe("the entrance", () => {
   it("is hidden by default and handed over whole under reduced motion", () => {
     expect(entrance).toContain(".mm-curtain { display: none; }");
     const guard = entrance.slice(entrance.indexOf("@media (prefers-reduced-motion: reduce)"));
-    expect(guard).toContain(".mm-curtain.is-on { display: none; }");
+    expect(guard).toContain(".mm-covered .mm-curtain { display: none; }");
     expect(guard).toContain(".mm-pending .mm-first, .mm-pending .mm-menu-button { opacity: 1; }");
     expect(guard).toContain("animation: none");
   });

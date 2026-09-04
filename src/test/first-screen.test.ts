@@ -186,10 +186,11 @@ describe("the first screen's own files, asked for before the stylesheet", () => 
 
 describe("the entrance, held in the head and released once", () => {
   /* The page arrives once. The inline script in index.html sets mm-pending
-     and mm-curtain on <html> before first paint and swaps them for
+     and mm-covered on <html> before first paint, swaps mm-pending for
      mm-arrived when the four faces are in or 700ms after the first frame,
-     marking both moments for the gate. Everything about it that matters is
-     a guarantee about what happens when it does not run. */
+     marking both moments for the gate, and drops mm-covered 1100ms later.
+     Everything about it that matters is a guarantee about what happens when
+     it does not run. */
   const script = indexHtml.slice(indexHtml.indexOf("var CURTAIN"), indexHtml.indexOf("</script>", indexHtml.indexOf("var CURTAIN")));
 
   it("is small, and outside the React tree", () => {
@@ -218,14 +219,28 @@ describe("the entrance, held in the head and released once", () => {
     const curtain = indexHtml.slice(indexHtml.indexOf('<div class="mm-curtain"'), indexHtml.indexOf('<div id="root">'));
     expect(curtain.match(/<i style="--i:\d+"><\/i>/g)).toHaveLength(15);
     expect(curtain).toContain('aria-hidden="true"');
+    expect(curtain).toContain('id="mm-curtain"');
     expect(mindmakeCss).toContain(".mm-curtain { display: none; }");
-    expect(mindmakeCss).toContain(".mm-curtain.is-on {");
-    /* Keyed on the element's own class and never on a class of <html>: a
-       root-class-keyed rule on this element, even display: none, held every
-       frame in Chromium until the class came off. */
-    expect(mindmakeCss).not.toContain("html.mm-curtain");
-    expect(curtain).toContain('classList.add("is-on")');
+    expect(mindmakeCss).toContain(".mm-covered .mm-curtain {");
+    expect(script).toContain('classList.add("mm-covered")');
+    expect(script).toContain('classList.remove("mm-covered")');
     expect(script).toContain("var CURTAIN=true");
+  });
+
+  it("never gives the root the strips' own class name", () => {
+    /* On 3 September the root marker was also called mm-curtain, so the
+       default `.mm-curtain { display: none; }` matched <html> and the whole
+       document was out of render until the marker came off, 2.5 seconds in
+       on a throttled phone. The gate read the browser's first paint, which
+       was the first frame it presented, and reported it as late rather than
+       as missing. A second script then found the strips by class, got <html>
+       instead, and switched the root to display: grid, which is what
+       production painted: no strips, and a fixed, unscrollable root for a
+       second. One name for the marker, another for the element. */
+    expect(script).not.toContain('"mm-curtain"');
+    expect(indexHtml).not.toContain('classList.add("is-on")');
+    expect(mindmakeCss).not.toContain(".mm-curtain.is-on");
+    expect(mindmakeCss).not.toContain("html.mm-curtain");
   });
 
   it("keeps the critical inline style to the ground even so", () => {

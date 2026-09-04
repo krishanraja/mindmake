@@ -1,6 +1,6 @@
 # Mindmake current state
 
-Last updated: 3 September 2026.
+Last updated: 4 September 2026.
 
 This file is the current delivery truth for `mindmake.co`: what is live, at which identifiers, and what remains open. Why the business exists is in `00_NORTH_STAR.md`. Commercial truth is in `01_CANON.md`. Design truth is in `03_DESIGN_CONTRACT.md`.
 
@@ -1804,7 +1804,7 @@ parallax nudge at all; the layout-shift reading and the arrival marks are new.
 
 | | before | after |
 |---|---|---|
-| first paint, 390 `/` | 1.12s, in fallback faces | 1.40s, the curtain, with the faces already in |
+| first paint, 390 `/` | 1.12s, in fallback faces | 1.40s, with the faces already in (read on 3 September as the curtain; it was not, see 4 September) |
 | first paint, 1440 `/` | 1.43s, in fallback faces | 1.46s |
 | the faces in | about 1.0s after paint (production: 1.87s and 2.02s) | before the first frame: `mm-arrived` at 1.21 to 1.30s on every path |
 | the type arrives | as each face landed, twice | once, 220ms after the strips start to lift |
@@ -1814,20 +1814,17 @@ parallax nudge at all; the layout-shift reading and the arrival marks are new.
 | the dialog on `/?start=1` | inside the first painted frame | 2.25s at 390, 2.35s at 1440: about 0.9s after paint, because the script now travels behind the faces and the posters. Reported as its own reading with a 2s budget |
 | reduced motion | not measured | no marks, no curtain, no video, both widths |
 
-The curtain's cost, measured: the first frame is the strips rather than the
-page, at 1.30 to 1.50s on this throttle, and the page is on screen about 600ms
-later; on a fast connection the faces are in before the first frame and the
-whole entrance is the arrival itself. What it hides is nothing, because the
-causes are fixed; what it is for is one arrival rather than none.
-`var CURTAIN=false` in `index.html` keeps the type arrival alone.
-
-One finding worth its own line. Keyed on a class of `<html>`, as first written
-(`html.mm-curtain .mm-curtain { ... }`), the curtain made Chromium present no
-frame at all until the class came off: first paint at 2.5 to 3.7 seconds,
-with the same rules as `display: none` behaving the same way and the class
-alone, with no rule, behaving normally. Bisected against one build by editing
-the built stylesheet between runs. The curtain is keyed on a class of its own
-now, set by a two-line script after it in the body, and paints at 1.3s.
+**Corrected on 4 September 2026.** The two paragraphs that stood here said
+the curtain cost 600ms of held screen and that a curtain keyed on a class of
+`<html>` made Chromium present no frame until the class came off. Neither
+was true. The root marker was named `mm-curtain`, the strips' own class, so
+the default `.mm-curtain { display: none }` matched `<html>` and the whole
+document was out of render until the marker came off; and the two-line body
+script that switched the strips on found `<html>` first and switched on the
+root instead, which promoted it to `display: grid` and let it paint with no
+strips over it. Every reading in the table above was taken with no curtain
+on screen. The 4 September entry below has the bisection and the readings
+with the curtain actually rendered.
 
 Bundle: the homepage chunk went from 363,757 to 365,535 bytes (the track and
 the driver's first-write logic); the argument page's from 348,314 to 348,190.
@@ -1866,11 +1863,145 @@ the driver's first-write logic); the argument page's from 348,314 to 348,190.
 - The vector wordmark: only PNGs exist, so the brand images are preloaded and
   decoded synchronously rather than inlined as SVG. An inline SVG needs the
   brand's vector source.
-- The curtain's cost is measured and recorded above; `var CURTAIN=false` in
-  `index.html` keeps the type arrival alone if the number is not worth it.
+- The curtain's cost is measured and recorded in the 4 September entry;
+  `var CURTAIN=false` in `index.html` keeps the type arrival alone if the
+  number is not worth it.
 - On the day of measurement `get-ai-news` returned one day for a seven-day
   request; the heading and stamp are honest either way, the window question
   is upstream.
 - Pre-existing and out of scope: retired routes hydrate the homepage's
   prerendered markup against a different route; whether a privacy notice is
   needed at all for cookieless analytics.
+
+## 4 September 2026: the curtain was never there
+
+Found while writing the production readings of the 3 September deploy into
+this file: the root element's class list read `is-on mm-arrived`, and `is-on`
+was meant for the strips. Pulling on that thread found two defects in one
+construction, each hiding the other, and a gate that could see neither.
+
+### What was actually shipped
+
+The root marker for the curtain was named `mm-curtain`, the same name as the
+strips' own class. Two consequences:
+
+- `.mm-curtain { display: none; }`, the default that keeps the strips off
+  without a script, matched `<html>` as well. While the marker was on, the
+  whole document was `display: none`: nothing rendered, nothing was
+  presented, and Chromium's first paint was whenever the marker came off,
+  1100ms after the arrival mark. That is the "any rule under a root class
+  held every frame" finding of 3 September, misread. The bisection that day
+  was against a stylesheet in which the root default was present in every
+  variant, so every variant held.
+- The two-line body script that switched the strips on asked for
+  `.mm-curtain` and got `<html>` first, so `is-on` went on the root, which
+  then matched `.mm-curtain.is-on { display: grid; position: fixed; ... }`.
+  That is what let production paint at 1.75s: the root was promoted from
+  `display: none` to a fixed, full-viewport, fifteen-row grid with
+  `pointer-events: none` and `overflow: hidden` for about a second, and the
+  strips stayed `display: none`. Every "curtain" frame recorded on
+  3 September, local and production, was a page with nothing over it. On a
+  desktop with classic scrollbars the root's `overflow: hidden` would also
+  have taken the scrollbar for that second and given it back, a horizontal
+  reflow of the whole page that no gate here runs a browser wide enough to
+  show.
+
+The bisection redone, on the built stylesheet with a patcher that asserts
+each edit landed, at 390 on the gate's throttle, first paint by the
+browser's own timing:
+
+| variant | first paint |
+|---|---|
+| as built (strips on, found by id) | 2.54s |
+| strips without `will-change` | 2.55s |
+| sweep without its animation, and no sweep at all | 2.53s, 2.54s |
+| `position: absolute`, no `z-index` | 2.54s, 2.53s |
+| header exposed, strips transparent, text inside the curtain | 2.54s, 2.54s, 2.52s |
+| the strips `display: none` throughout | 2.54s |
+
+Ten variants, one number: the strips were never the cause. With the root
+marker renamed, first paint is 1.38s and the strips are on the first frame.
+
+### What changed
+
+- The root marker is `mm-covered`; the strips stay `.mm-curtain`. The
+  curtain is keyed `.mm-covered .mm-curtain`, which is the root-keyed rule
+  the 3 September note said could not work. The body script and `is-on` are
+  gone, and the head script's cleanup removes the marker and nothing else.
+- The seams. `gap: 1px` between strips showed the page through the curtain:
+  fifteen bright lines where the paper section sat under it on the first
+  frame, and a hairline at every fractional row edge after that. The line is
+  drawn inside each strip now (`box-shadow: inset 0 1px 0 var(--mm-ink)`)
+  and each strip runs a pixel into the next, so it lifts with the strip and
+  nothing shows through.
+- The wait starts on the second animation frame, and the lift starts
+  120ms after the mark. The first frame's callback runs before that frame
+  is rasterised, which took 78 to 172ms across ten readings, and the faces
+  are usually in already, so the lift was beginning on a frame nobody had
+  seen and the first frame on screen had the top strips already going. The
+  second frame's callback still runs 44 to 111ms before its frame is on
+  screen, which is what the base delay on the lift is for: the first frame
+  anyone sees is the whole curtain, and the wipe begins on the next.
+- `first-screen.test.ts` pins the two names apart: the head script may not
+  set `"mm-curtain"` on the root, and nothing may add `is-on`.
+- `qa:entrance` reads two more things, and each fires on the reproduced
+  defect. An arrival mark more than 400ms before first paint is an arrival
+  that played on a page nobody was shown (the defect read 1,180ms; the
+  honest lead, before the one-frame wait, read 78 to 172ms, and the floor
+  is set clear of it). And a page that set the marker and never displayed
+  the strips for a single animation frame is a curtain that was asked for
+  and never shown. Both reproduced by patching the built stylesheet:
+  "the arrival began 118ms before first paint" and "the curtain was asked
+  for (mm-covered) and never displayed".
+
+### Measured after
+
+Against the built output on the gate's throttle, both widths, the same
+instrument as 3 September with its two new readings. "Curtain" is the count
+of animation frames on which the strips were displayed while the marker was
+on; "lead" is how far the arrival mark fell before the first presented frame.
+
+| | 3 September as shipped (reproduced) | 4 September |
+|---|---|---|
+| first paint, 390 `/` | 2.54s, the finished page, nothing over it | 1.44s, the whole curtain, seams closed |
+| first paint, 1440 `/` | not re-measured | 1.44s |
+| the curtain on screen | 0 frames on every path | 59 to 67 frames at 390, 27 to 40 at 1440, every path |
+| the arrival mark against first paint | 1,180ms before it: the type arrived on a page nobody was shown | 44 to 111ms before it, and the lift starts 120ms after the mark, so the first frame on screen is the intact curtain and the wipe begins on the next |
+| the wipe | never seen | top strip going by 230ms after paint, all fifteen clear and the type in by about 700ms |
+| layout shifts after paint | 0 | 0 on every path, both widths |
+| page replaced after paint | 0 | 0 |
+| the dialog on `/?start=1` | not re-measured | 2.14 to 2.20s at 390, 2.11 to 2.13s at 1440 over three runs, read from the DOM: about 0.7s after paint |
+| reduced motion | no marks, no curtain, no video | the same |
+
+Photographed at 390 through the capture harness, not the gate: frame one at
+1442ms is fifteen strips of the raised ink with an ink line between each and
+no page showing through; at 1519ms the same; at 1670ms the top strip is
+lifting; at 1875ms the strips are half gone top to bottom and the hero claim
+is arriving beneath them; at 2073ms three strips remain over the paper
+section; at 2333ms the page is settled. `fonts.ready` at 1662ms,
+`DOMContentLoaded` at 2007ms, zero layout shifts across the run.
+
+What the curtain costs on this profile: nothing held. The faces are in
+before the first frame, so the wipe is the entrance; the 700ms hold only
+happens when a face is still on its way at first paint.
+
+### Baselines after this change
+
+- Tests: **434 across 28 files**, all passing. New: `first-screen.test.ts`
+  pins the root marker and the strips to different names, and that nothing
+  adds `is-on`.
+- Lint **0 errors, 2 warnings**. Typecheck **0 errors**.
+- Every browser gate green at both widths, built with
+  `VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED=true` as production is, `qa:alive`
+  twice at 390. `qa:entrance` carries the two new readings (the curtain's
+  frames and the arrival's lead) and one repair found by running it twice
+  in a row: the dialog on `/?start=1` was timed from the frames, the first
+  big change in the still cells, and on one run at 1440 the hero film was
+  playing over forty of the sixty-four cells by the time the dialog opened,
+  so too few still cells moved to register and the gate reported a dialog
+  that never opened on a page where it had. The dialog's moment is read from
+  the DOM now (the panel's insertion), and the frames inside its opening are
+  excused from the replacement count by that mark rather than by being the
+  first big change. Three consecutive green runs after the repair.
+- Bundle: the built stylesheet and the homepage chunk are within a few bytes
+  of 3 September; the body script is gone from `index.html`.

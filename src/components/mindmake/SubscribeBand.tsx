@@ -39,9 +39,6 @@ export function SubscribeBand({ ground = "raise" }: { ground?: keyof typeof GROU
               <Instrument kind="flap" className="mm-head-mark" />
               The reading, if you want it separately.
             </h2>
-            <p className="mm-lede">
-              No drip, and nothing from this page unless you ask for it here.
-            </p>
             {/* The split-flap, which is what a publication is: what is new, and
                 when. The heading already carries the flap mark for exactly that
                 reason, and this is the same object at a size a person can watch.

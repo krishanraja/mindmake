@@ -115,6 +115,9 @@ describe("freshness is honest", () => {
     const now = new Date("2026-08-28T18:00:00Z");
     expect(isStale(stamped, now)).toBe(false);
     expect(timestampLabel(stamped, 28, 417, now)).toBe("Read 10:30 UTC · 28 days · 417 corroborated items");
+    /* The day the homepage was photographed on a phone, the cache held one
+       day and the stamp read "1 days". */
+    expect(timestampLabel(stamped, 1, 15, now)).toBe("Read 10:30 UTC · 1 day · 15 corroborated items");
   });
 
   it("labels a read past the window as yesterday's rather than hiding it", () => {
@@ -244,7 +247,7 @@ describe("the board reads from one filtered collection", () => {
   });
 
   it("says how much it is holding back rather than dropping it silently", () => {
-    expect(source).toContain("Showing {rows.length} of {total} across {days.length} days.");
+    expect(source).toContain("Showing {rows.length} of {total} across {days.length} {days.length === 1 ? \"day\" : \"days\"}.");
     expect(source).toContain("Show {Math.min(ROWS_EXPANDED, total)}");
   });
 

@@ -39,14 +39,16 @@ export function BoardFilters({
 }) {
   return (
     <>
-      {/* The label names the control, which is the one thing a small label is
-          still allowed to do here. It is not a heading for what follows.
+      {/* No printed label. "Your week" and "Your market" sat at the head of
+          each row as sticky text with no ground of its own, so on any phone
+          where the row scrolls the chips slid under the words. They named
+          nothing the chips do not: the group carries its name for a screen
+          reader, and eight divisions and six industries say what they are.
 
           The roles wrap wherever there is height for them, so all eight are on
           screen at once; on a short screen they become a rail like the
           industries, because three wrapped rows is a fifth of a 640px phone. */}
       <div className="mm-chips is-short-rail" role="group" aria-label="Filter by the part of the business you run">
-        <span className="mm-chip-label">Your week</span>
         <button
           className="mm-chip"
           type="button"
@@ -72,7 +74,6 @@ export function BoardFilters({
 
       {industry && onIndustry && industryCounts && (
         <div className="mm-chips is-rail" role="group" aria-label="Filter by industry">
-          <span className="mm-chip-label">Your market</span>
           {INDUSTRIES.map((option) => (
             <button
               key={option}

@@ -7,6 +7,7 @@
  * surface — visible focus, no overflow, and legible on the ground it sits on.
  */
 import { chromium } from "playwright";
+import { serveBoard } from "./lib/board-fixture.mjs";
 
 const BASE = "http://127.0.0.1:4180";
 /* A directory for the screenshots, and never the repository by default: the
@@ -30,6 +31,12 @@ const contrast = (a, b) => {
 
 for (const [width, height] of [[1440, 900], [390, 844]]) {
   const page = await browser.newPage({ viewport: { width, height } });
+  /* The dialog leg lands on /ai-gtm, whose board fetches the daily read. With
+     no Supabase behind the build's placeholder address the fetch is refused
+     and the browser logs an error that has nothing to do with the offer being
+     checked; the other gates serve the board from the fixture for the same
+     reason. */
+  await serveBoard(page);
   const errors = [];
   page.on("pageerror", (error) => errors.push(String(error)));
   /* The 500 below is this script's own doing: the code send is failed on
@@ -130,7 +137,10 @@ for (const [width, height] of [[1440, 900], [390, 844]]) {
   await page.getByLabel("First name").fill("Ada");
   await page.getByLabel("Last name").fill("Lovelace");
   await page.getByLabel("Work email").fill("ada@northwind.com");
-  await page.getByRole("button", { name: "Leadership", exact: true }).click();
+  /* Scoped to the form's own question. The board on the same page offers the
+     same eight divisions as filter chips, so an unscoped "Leadership" is two
+     buttons once the board has rows to filter. */
+  await page.getByRole("group", { name: /Which part of the business/ }).getByRole("button", { name: "Leadership", exact: true }).click();
   await page.getByRole("button", { name: /Read my business/ }).click();
 
   await page.getByRole("button", { name: /Use this problem/ }).waitFor({ state: "visible", timeout: 20_000 });

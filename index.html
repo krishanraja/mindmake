@@ -17,6 +17,54 @@
          all that is left of it. src/test/first-screen.test.ts keeps the value
          identical to `--mm-ink` in src/styles/mindmake.css. -->
     <style>html,body{margin:0;overflow-x:clip;max-width:100vw;background:#0a100d}#root{max-width:100vw}</style>
+    <!-- The entrance: the page arrives once.
+
+         Measured cold on a throttled phone, the first screen changed seven
+         times in two seconds: fallback faces, a half-drawn wordmark, the
+         poster popping into an empty plate, two font reflows, a hydration
+         nudge and the film replacing its poster in a different tone. The
+         causes are fixed at the root (preloads, metric fallbacks, a relative
+         parallax, a crossfade). This holds the type and the curtain until the
+         faces are in, or 700ms after the first frame, whichever is sooner, so
+         what is left arrives as one event.
+
+         Outside React on purpose: a class on <html> set before first paint is
+         nothing the two trees can disagree about. No script means no class,
+         and no class means nothing hidden and no curtain, which is the same
+         guarantee the reveal primitive makes. Reduced motion and a deep link
+         take the same path. `fonts.load()` in the first frame rather than
+         `fonts.ready` here, because a ready promise taken before the
+         stylesheet exists is a promise about a set with no faces in it.
+         CURTAIN is the one switch: false keeps the type arrival alone.
+
+         The curtain is switched on by a class of its own, set by the two-line
+         script that follows it in the body, and never by a rule keyed on a
+         class of <html>. Measured in Chromium against the same build: with
+         `html.mm-curtain .mm-curtain { ... }` in the stylesheet, even as
+         `display: none`, the browser presented no frame at all until the
+         root class came off, 2.5 to 3.7 seconds in; keyed on the element it
+         paints at 1.3s. The root class is still set, for the gate to read
+         and for nothing to style. -->
+    <script>
+      (function(){try{
+        var CURTAIN=true;
+        var d=document,h=d.documentElement;
+        if(!d.fonts||!d.fonts.load||location.hash)return;
+        if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+        h.classList.add("mm-pending");if(CURTAIN)h.classList.add("mm-curtain");performance.mark("mm-pending");
+        var done=false,go=function(){
+          if(done)return;done=true;
+          h.classList.remove("mm-pending");h.classList.add("mm-arrived");performance.mark("mm-arrived");
+          setTimeout(function(){h.classList.remove("mm-curtain");var c=d.querySelector(".mm-curtain");if(c)c.classList.remove("is-on")},1100);
+        };
+        requestAnimationFrame(function(){
+          Promise.all(['1em "Archivo Variable"','1em "Newsreader Variable"','1em "Source Serif 4 Variable"','1em "IBM Plex Mono"']
+            .map(function(f){return d.fonts.load(f)})).then(go,go);
+          setTimeout(go,700);
+        });
+        setTimeout(go,4000);
+      }catch(e){}})();
+    </script>
 
     <title>Every AI you buy knows the market. None of them know you. | Mindmake</title>
     <meta name="title" content="Every AI you buy knows the market. None of them know you. | Mindmake" />
@@ -85,6 +133,11 @@
     </script>
   </head>
   <body>
+    <!-- The curtain: fifteen strips of the raised ink, the converge figure's
+         own count, lifting from the top once the faces are in. Shown only
+         while <html> carries mm-curtain, which only the script above sets. -->
+    <div class="mm-curtain" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i><i style="--i:10"></i><i style="--i:11"></i><i style="--i:12"></i><i style="--i:13"></i><i style="--i:14"></i></div>
+    <script>(function(){var c=document.querySelector(".mm-curtain");if(c&&document.documentElement.classList.contains("mm-curtain"))c.classList.add("is-on")})();</script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

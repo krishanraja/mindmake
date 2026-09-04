@@ -98,6 +98,17 @@ This was banned outright until that date, and the ban had a real argument: a scr
 
 `IntersectionObserver` appears in exactly one file, and the contract test holds it there. That is what replaced the old check: the ban was checkable because the observer appeared nowhere, and this is checkable because it appears in one place with the guarantees attached to it.
 
+**The entrance: the page arrives once**, from 3 September 2026. Photographed cold on a throttled phone, the first screen used to change seven times in two seconds: type in fallback faces, a half-drawn wordmark, the poster popping into an empty plate, two font reflows, a hydration nudge and the film replacing its poster in a different tone. Every one of those is fixed at the root, and the rule that keeps them fixed is this: **what is painted in the first frame is painted right, and what is not ready is not painted at all.**
+
+- The ground, the wordmark and the mark, the film plate with its poster, its drift and its sweep are in the first frame. The prerender preloads the four latin faces, both brand images and the priority poster, read from the built output rather than named.
+- The four faces keep `font-display: swap` and stand on metric-matched fallbacks (`Archivo Fallback` and its siblings in `mindmake.css`, numbers computed with Capsize), so a swap that still happens moves nothing.
+- The type waits. An inline script in `index.html`, outside React, puts `mm-pending` on `<html>` before first paint and swaps it for `mm-arrived` when the four faces are in or 700ms after the first frame, whichever is sooner, marking both moments on the performance timeline. `.mm-first` elements (the hero copy and the problem section on the homepage, the copy column on every other hero) are held and then arrive on the reveal primitive's own animation, `backwards` fill, 110ms apart.
+- The curtain: fifteen strips of the raised ink over the ink, the converge figure's own count, with the plate's light across them, switched on by its own class from a two-line script after it in the body and lifting top to bottom in about 580ms when the type is released. Never keyed on a class of `<html>`: measured in Chromium, any rule styling the curtain under a root class held every frame until the class came off, so the page painted at 2.5 to 3.7 seconds instead of 1.3. `var CURTAIN` in the head script is the one switch; false keeps the type arrival alone. It costs up to 700ms of held screen on a slow connection and it was chosen with that number on the table.
+- The guarantees are the reveal primitive's, kept the same way. No script means no class, and no class means nothing hidden and no curtain. Reduced motion takes the same path, and the stylesheet guards it a second time. A deep link (`location.hash`) is never held, because somebody arriving at `/#board` is looking at the page now.
+- Hydration moves nothing. `useScrollDriver` writes `--mm-p0` alongside its first `--mm-p` and every parallax translate is computed from the difference, so the server render, the first client render and the first write all compute zero; a `Build` group's first value travels for 400ms under `data-mm-settling` rather than snapping.
+- A loop mounts once its plate is within a viewport of the fold, and fades up over its own poster on `playing`, because a decoded frame and a webp of the same frame are not the same colour. The plate's sweep runs on `transform`; on `left` it was a layout shift every frame.
+- `npm run qa:entrance` reads the two marks and judges the frames inside the arrival by direction, fails an arrival that begins more than a second after first paint or never releases, reads every layout shift after first paint against a floor of 0.02, and runs a reduced-motion pass on which nothing may be held, covered or mounted.
+
 **An arrival travels on an animation, never on a transition.** `transition` is a single property and every card family worth revealing already owns it for its own hover fade, in `mindmake-instruments.css`, which loads after `mindmake.css` at the same specificity. The card's declaration replaced the reveal's outright and the first three arrivals shipped snapping into place; nothing failed and nothing looked broken, the cards simply appeared. An animation cannot be overwritten by a transition, so the two layers stop competing for one property. The fill mode is `backwards`, which holds the first frame through the stagger delay and then lets go: `forwards` would pin `transform: none` on the element for the rest of the page's life and quietly outrank anything that wanted to move it later.
 
 **A section is one idea, and one idea is about one screen.** Not a height cap: the rule is that a section running past about a third again of a phone screen is almost always several sections nobody has separated. The homepage's proof strip was a heading, a film, three story cards, a link, thirty-three quotes on a drum and a rail of logos, and at 360px it ran 2.61 screens. The argument beside it carried the questions section inside it. Both try-it panels carried a promise and a form. `scripts/qa/screen-matrix-check.mjs` measures every section at eight sizes from 360x800 to 1920x1080 and names its exemptions with a reason: the pinned climb, the lever panel and the three-question form on `/ai-brain` are each one object rather than several.
@@ -158,7 +169,7 @@ The site speaks as "we" throughout. The founder appears in exactly three places,
 
 Every component ships with its hover, press and focus-visible states. None are optional.
 
-Film plate, doors, enemy pair and answer block, marquee, objection chips, ask bar, live board (departures rows, lane tiles, role and industry chips, timestamp with live dot), fork band on paper, ladder, shape cards, journey modules, proof viewer, the reflex deck (four dated leaves you flick), the converge figure (fifteen strips into one), close block. They live in `src/components/mindmake/` and are styled in `src/styles/mindmake-instruments.css`. Tokens, base and chrome live in `src/styles/mindmake.css`.
+Film plate, doors (the homepage's one way in from 3 September 2026: two cards in one `role="group"`, each marked as a primary action, which is the shape the one-way-in gate reads as one fork and what tells the action bar to stand down), enemy pair and answer block, marquee, objection chips, ask bar, live board (departures rows, lane tiles, role and industry chips, timestamp with live dot), fork band on paper, ladder, shape cards, journey modules, proof viewer, the reflex deck (four dated leaves you flick), the converge figure (fifteen strips into one), close block. They live in `src/components/mindmake/` and are styled in `src/styles/mindmake-instruments.css`. Tokens, base and chrome live in `src/styles/mindmake.css`.
 
 ## The feed's voice
 
@@ -192,6 +203,16 @@ bans, and the value halves of those cards were the better half anyway.
 Its history is dated and checkable, because a page that says people have
 always resisted new tools and names nothing is asserting a feeling. Where the
 popular version is wrong it is corrected rather than repeated.
+
+The line that holds the history and the imagery together, and the test for
+any new film or beat: every generation blamed the tool, and the ones who came
+out ahead learned to read the instrument. The films are instrument rooms
+with a human hand deciding; the history is what happened each time a new
+instrument arrived. The dated objections stay on this page as the deeper
+why. From 3 September 2026 the homepage carries the page's opening instead,
+condensed to the two hours and the hinge, and the section on where
+everything a leader teaches AI ends up moved here from the homepage, because
+it is reasoning and this is the page for reasoning.
 
 ## Motion that is decoration on top of text
 

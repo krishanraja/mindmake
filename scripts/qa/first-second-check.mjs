@@ -28,6 +28,27 @@
  * changes before it settles. One is correct, a page arriving. Two or more is
  * the visitor watching the site change its mind, which is what a flash is.
  *
+ * ## The arrival, from 3 September 2026
+ *
+ * The page now arrives on purpose: the inline script in index.html holds the
+ * type and a curtain of ink strips until the faces are in, or 700ms after
+ * the first frame, and marks both moments on the performance timeline. The
+ * frames inside that window are the arrival and are judged by direction: an
+ * arrival brightens content over a ground that does not move, a replacement
+ * moves ink both ways. A frame in the window where more than a quarter of the
+ * moved cells darkened is still a replacement. Settling ignores the arrival's
+ * own frames; everything outside the window is judged exactly as before. And
+ * the arrival has to begin within `ARRIVE_BUDGET` of first paint, which is the
+ * cap plus a frame, so the curtain can never hold the page hostage.
+ *
+ * Two readings this gate never had. Layout shifts, from a PerformanceObserver
+ * installed before the page runs, because the seven changes the owner saw on
+ * a phone were all invisible to a photograph judged by cells: a font swap
+ * that moves a paragraph 22px is well under a third of the frame. And a
+ * reduced-motion pass on the homepage, which must set no marks, show no
+ * curtain and mount no video: the promise CLAUDE.md makes about the films
+ * that no gate held.
+ *
  * Usage:
  *   node scripts/qa/first-second-check.mjs [--base http://127.0.0.1:4180]
  *                                          [--paths /,/ai-brain,/ai-gtm]
@@ -89,6 +110,38 @@ const SETTLE_BUDGET = Number(flag("settle-budget", 400));
  * size of a hero has been swapped for something else.
  */
 const BIG_CHANGE = Number(flag("big-change", 22));
+
+/**
+ * How long after first paint the arrival may begin.
+ *
+ * The script caps the hold at 700ms after the first animation frame, so on
+ * this throttle the arrival mark lands 700ms plus a frame or two after paint.
+ * A later start means the cap did not hold, which is the one way the design
+ * could hurt a visitor rather than help one.
+ */
+const ARRIVE_BUDGET = Number(flag("arrive-budget", 1000));
+/** How long the arrival's own frames are excused, from its mark. */
+const ARRIVE_WINDOW = Number(flag("arrive-window", 1100));
+/**
+ * The largest layout shift the page may make after it paints.
+ *
+ * Calibrated from readings on the built site with the preloads and the
+ * metric-matched fallbacks in place: the board's rows arrive below the fold
+ * and the cookie strip is fixed, so nothing in the viewport should move.
+ */
+const SHIFT_FLOOR = Number(flag("shift-floor", 0.02));
+/**
+ * How long after first paint a page that opens the dialog may take to open it.
+ *
+ * `/?start=1` is the one path whose first screen is not in the prerender: the
+ * dialog opens when the script lands, which is the page doing what the address
+ * asked and not the page being replaced. It is reported as its own reading
+ * rather than as a replacement, and it has a budget of its own, because the
+ * script now travels behind the four faces and the posters and that moved the
+ * opening from inside the first painted frame to about 880ms after it on the
+ * throttle. Calibrated from that reading, with room for a slower run.
+ */
+const DIALOG_BUDGET = Number(flag("dialog-budget", 2000));
 
 /**
  * Network shaping, so the entrance is measured on a connection somebody might
@@ -192,6 +245,25 @@ for (const width of WIDTHS) {
       }
     });
 
+    /* Installed before the page runs, so every layout shift from the first
+       frame is on record with the element that moved. */
+    await page.addInitScript(() => {
+      const shifts = [];
+      window.__mmShifts = shifts;
+      try {
+        new PerformanceObserver((list) => {
+          for (const entry of list.getEntries()) {
+            if (entry.hadRecentInput) continue;
+            const node = entry.sources?.[0]?.node;
+            const name = node && node.nodeType === 1
+              ? `${node.tagName.toLowerCase()}${node.className && typeof node.className === "string" ? "." + node.className.trim().split(/\s+/).slice(0, 2).join(".") : ""}`
+              : "?";
+            shifts.push({ at: Math.round(entry.startTime), value: Number(entry.value.toFixed(4)), node: name });
+          }
+        }).observe({ type: "layout-shift", buffered: true });
+      } catch { /* not supported */ }
+    });
+
     const session = await context.newCDPSession(page);
     await session.send("Network.enable");
     await session.send("Network.emulateNetworkConditions", THROTTLE);
@@ -228,6 +300,15 @@ for (const width of WIDTHS) {
       const entry = performance.getEntriesByName("first-contentful-paint")[0];
       return entry ? Math.round(entry.startTime) : null;
     }).catch(() => null);
+
+    /* The arrival's own marks, and the shifts. */
+    const marks = await page.evaluate(() => ({
+      pending: performance.getEntriesByName("mm-pending")[0]?.startTime ?? null,
+      arrived: performance.getEntriesByName("mm-arrived")[0]?.startTime ?? null,
+      shifts: window.__mmShifts ?? [],
+    })).catch(() => ({ pending: null, arrived: null, shifts: [] }));
+    const arrivedAt = marks.arrived === null ? null : Math.round(marks.arrived);
+    const inArrival = (at) => arrivedAt !== null && at >= arrivedAt - 40 && at <= arrivedAt + ARRIVE_WINDOW;
 
     const seen = frames.map((frame) => ({ at: frame.at, ...read(frame.shot) }));
     if (FRAMES) {
@@ -283,10 +364,18 @@ for (const width of WIDTHS) {
       const before = a.print.split(",").map(Number);
       const after = b.print.split(",").map(Number);
       let count = 0;
+      let darkened = 0;
       for (let cell = 0; cell < 64; cell += 1) {
         if (restless.has(cell)) continue;
-        if (Math.abs(before[cell] - after[cell]) > 1) count += 1;
+        if (Math.abs(before[cell] - after[cell]) > 1) {
+          count += 1;
+          if (after[cell] < before[cell]) darkened += 1;
+        }
       }
+      /* Inside the arrival window a frame that brightens is the arrival: the
+         strips lift and the type fades up over a ground that does not move.
+         Ink moving both ways is a replacement wherever it happens. */
+      if (inArrival(b.at) && count > 0 && darkened <= count / 4) return 0;
       return count;
     };
 
@@ -294,11 +383,20 @@ for (const width of WIDTHS) {
        cells, so a page that is almost all film cannot pass by having nothing
        left to measure. */
     const floor = Math.max(6, Math.round(stillCells / 3));
+    /* A path that opens the dialog from its address: the first big change
+       after paint is the dialog, read as such, and everything after it is
+       judged exactly as on any other path. */
+    const opensDialog = /[?&]start=/.test(path);
+    let dialogAt = null;
     let settled = firstPaint;
     const reflows = [];
     for (let i = 1; i < ours.length; i += 1) {
       const moved = movedStill(ours[i - 1], ours[i]);
       if (moved < floor) continue;
+      if (opensDialog && dialogAt === null) {
+        dialogAt = ours[i].at;
+        continue;
+      }
       settled = ours[i].at;
       reflows.push({ at: ours[i].at, moved });
     }
@@ -311,7 +409,9 @@ for (const width of WIDTHS) {
       if (delta(frames[i - 1].shot, frames[i].shot) > 0.05) { firstMotion = frames[i].at; break; }
     }
 
-    rows.push({ width, path, frames: frames.length, firstPaint, settled, flashMs, firstMotion, reflows: reflows.length, restless: restless.size });
+    const shifts = marks.shifts.filter((shift) => firstPaint === null || shift.at >= firstPaint);
+    const worstShift = shifts.reduce((worst, shift) => (shift.value > (worst?.value ?? 0) ? shift : worst), null);
+    rows.push({ width, path, frames: frames.length, firstPaint, arrivedAt, settled, flashMs, firstMotion, reflows: reflows.length, restless: restless.size, shifts: shifts.length, worstShift, dialogAt });
 
     if (flashes.length) {
       problems.push(`${width}px ${path}: a light ground is on screen from ${flashes[0].at}ms for ${flashMs || "<1"}ms (brightest ${Math.max(...flashes.map((f) => f.lum)).toFixed(2)})`);
@@ -328,9 +428,50 @@ for (const width of WIDTHS) {
     if (hydration.length) {
       problems.push(`${width}px ${path}: hydration failed ${hydration.length}x (${[...new Set(hydration)].join(" | ")}), so the server render was thrown away`);
     }
+    if (marks.pending !== null && arrivedAt === null) {
+      problems.push(`${width}px ${path}: the page was held (mm-pending) and never released in ${WINDOW}ms`);
+    }
+    if (marks.pending === null) {
+      problems.push(`${width}px ${path}: the entrance script never ran (no mm-pending mark)`);
+    }
+    if (arrivedAt !== null && firstPaint !== null && arrivedAt - firstPaint > ARRIVE_BUDGET) {
+      problems.push(`${width}px ${path}: the arrival began ${arrivedAt - firstPaint}ms after first paint, past the ${ARRIVE_BUDGET}ms cap`);
+    }
+    if (opensDialog && dialogAt === null) {
+      problems.push(`${width}px ${path}: the dialog never opened in ${WINDOW}ms`);
+    }
+    if (opensDialog && dialogAt !== null && firstPaint !== null && dialogAt - firstPaint > DIALOG_BUDGET) {
+      problems.push(`${width}px ${path}: the dialog opened ${dialogAt - firstPaint}ms after first paint, past the ${DIALOG_BUDGET}ms budget`);
+    }
+    if (worstShift && worstShift.value > SHIFT_FLOOR) {
+      problems.push(`${width}px ${path}: layout shifted ${worstShift.value} at ${worstShift.at}ms (${worstShift.node}), over ${SHIFT_FLOOR}`);
+    }
 
     await context.close();
   }
+
+  /* The reduced-motion pass: nothing held, nothing covered, no film mounted. */
+  const quiet = await browser.newContext({ viewport: { width, height: width < 700 ? 844 : 900 }, reducedMotion: "reduce" });
+  const quietPage = await quiet.newPage();
+  await quietPage.goto(BASE + asked("/"), { waitUntil: "networkidle" }).catch(() => {});
+  await quietPage.waitForTimeout(1500);
+  const quietRead = await quietPage.evaluate(() => ({
+    pending: performance.getEntriesByName("mm-pending").length,
+    arrived: performance.getEntriesByName("mm-arrived").length,
+    classes: document.documentElement.className,
+    videos: document.querySelectorAll("video").length,
+    curtain: getComputedStyle(document.querySelector(".mm-curtain")).display,
+  })).catch(() => null);
+  if (!quietRead) {
+    problems.push(`${width}px / under reduced motion: the page could not be read`);
+  } else {
+    if (quietRead.pending || quietRead.arrived || /mm-(pending|curtain|arrived)/.test(quietRead.classes)) {
+      problems.push(`${width}px / under reduced motion: the entrance ran (${quietRead.classes || "marks set"})`);
+    }
+    if (quietRead.curtain !== "none") problems.push(`${width}px / under reduced motion: the curtain is ${quietRead.curtain}`);
+    if (quietRead.videos > 0) problems.push(`${width}px / under reduced motion: ${quietRead.videos} video element(s) mounted`);
+  }
+  await quiet.close();
 }
 await browser.close();
 
@@ -339,11 +480,14 @@ for (const row of rows) {
     `  ${String(row.width).padStart(4)} ${row.path.padEnd(11)}`
     + ` ${String(row.frames).padStart(3)} frames`
     + `  paint ${String(row.firstPaint ?? "-").padStart(5)}ms`
+    + `  arrived ${String(row.arrivedAt ?? "-").padStart(5)}ms`
     + `  settled ${String(row.settled ?? "-").padStart(5)}ms`
     + `  light flash ${String(row.flashMs).padStart(4)}ms`
     + `  page replaced ${row.reflows}x`
     + `  ${String(row.restless).padStart(2)}/64 cells alive`
-    + `  first motion ${String(row.firstMotion ?? "none").padStart(5)}${row.firstMotion === null ? "" : "ms"}`,
+    + `  first motion ${String(row.firstMotion ?? "none").padStart(5)}${row.firstMotion === null ? "" : "ms"}`
+    + `  shifts ${String(row.shifts).padStart(2)} (max ${row.worstShift ? `${row.worstShift.value} ${row.worstShift.node}` : "0"})`
+    + (row.dialogAt === null || row.dialogAt === undefined ? "" : `  dialog ${row.dialogAt}ms`),
   );
 }
 
@@ -354,4 +498,4 @@ if (problems.length) {
   for (const line of problems) console.error(`  ${line}`);
   process.exit(1);
 }
-console.log("\nthe entrance arrives once, on the ink, and is moving when it lands");
+console.log("\nthe entrance arrives once, on the ink, on time, moves nothing it has painted, and is moving when it lands");

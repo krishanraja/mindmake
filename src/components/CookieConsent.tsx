@@ -91,8 +91,10 @@ export const CookieConsent = () => {
       aria-live="polite"
     >
       <h2 id="privacy-notice-title" className="mm-visually-hidden">Privacy notice</h2>
+      {/* One line. It was three on a phone, plus a button, floating over the
+          reading on every screen of the visit until dismissed. */}
       <p>
-        Private analytics help us improve this site. <a href="/privacy">Privacy</a>.
+        Private analytics only. <a href="/privacy">Privacy</a>
       </p>
       <button className="mm-button mm-button-small" type="button" onClick={accept}>
         Got it

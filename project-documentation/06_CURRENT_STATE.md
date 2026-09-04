@@ -1,6 +1,6 @@
 # Mindmake current state
 
-Last updated: 1 September 2026.
+Last updated: 3 September 2026.
 
 This file is the current delivery truth for `mindmake.co`: what is live, at which identifiers, and what remains open. Why the business exists is in `00_NORTH_STAR.md`. Commercial truth is in `01_CANON.md`. Design truth is in `03_DESIGN_CONTRACT.md`.
 
@@ -1703,3 +1703,174 @@ what ships.
 - Every browser gate green with the page in its list, at both widths.
   `qa:screens` carries one new named exemption, the org chart, for the reason
   above.
+
+## 3 September 2026: the page arrives once, and the story gets a spine
+
+Krish, scrolling the live site on a phone: slight glitches as the page loads,
+the board's filter chips overlapping the words "your week", words that exist
+for their own sake, and a homepage that does not tell one story. He named
+tenex.co as the reference for how a page should reveal and asked to be
+challenged rather than obeyed.
+
+### What was measured before anything changed
+
+The live site, in a real browser at 390x844 on a throttled 4G profile,
+frame by frame from the compositor, against the same reading of the reference:
+
+| moment | mindmake.co | tenex.co |
+|---|---|---|
+| first paint | 1.06s, type in fallback faces, wordmark half drawn, hero plate an empty dark box | 1.73s, a solid yellow screen |
+| then | poster pops in at 1.7s; Archivo and Source Serif land at 1.9s and reflow the door copy 22px; Newsreader lands at 2.0s and rewraps the hero claim, block grows 30px; hydration at 2.5s moves the plate +7px, the h1 -6px and the claim -10px in one frame; the film replaces the poster at 3.0s in a visibly different tone | two seconds of yellow bars over a half-loaded statue, then the pixel face swaps in at 3.3s |
+| on WiFi | the same seven changes, faster | one designed arrival |
+
+Seven changes to the first screen in two seconds, and `qa:entrance` passed,
+because it measured a settle budget and a light flash and this was neither.
+The plate's light sweep animated `left`, a layout property, and registered a
+layout shift on every frame it moved: 28 in eight seconds on the hero alone.
+The reference is worse than this site on a slow connection and better on a
+fast one, which is the whole argument for fixing the causes before adding a
+curtain, and the curtain was chosen with that number on the table.
+
+The filter label: `<span class="mm-chip-label">` was `position: sticky;
+left: 0; z-index: 1` with no background inside the horizontally scrolling chip
+rail, so the chips scrolled under the words on any phone under 700px tall and
+on `/ai-gtm` on every phone. The label named nothing the chips do not.
+
+### The read that was given back
+
+The site was built section by section under gates, so every section was
+locally right and the page had no spine: the choice came before the reason,
+the argument was split across two pages joined by one link, sections restated
+their neighbours in words, and chrome (the privacy box and the action bar)
+took a quarter of a phone screen for the whole visit. The positioning
+sentence Krish quoted (an outcome business around one recurring executive
+decision, sold as diagnostic and installation, captured in CTRL) is the
+business model, not the promise, and the site should not say it: "agentic" is
+banned vocabulary and CTRL is never a third offer. What was missing from the
+page was the word that matters, that the decision comes back, and the method
+that nobody else can describe.
+
+### What changed
+
+**The entrance, at the root.** The prerender preloads the four latin faces,
+both brand images and the priority poster, read from the built output; the
+four faces stand on metric-matched fallbacks computed with Capsize; the
+wordmark and mark are fetched at high priority and decoded before paint;
+parallax is relative to the driver's first write (`--mm-p0`), so hydration
+moves nothing; a `Build` group's first value travels for 400ms instead of
+snapping; a loop mounts only when its plate is near and fades up over its
+poster on `playing`; the sweep runs on `transform`. Then the arrival: an
+inline head script holds the type and a curtain of fifteen ink strips until
+the faces are in or 700ms after the first frame, and `qa:entrance` reads its
+marks, judges the arrival by direction, reads layout shifts against a floor
+and runs a reduced-motion pass. The design contract carries the rule under
+"The entrance: the page arrives once".
+
+**The homepage's story.** Hero; the hours and the hinge on paper, condensed
+from the argument page (`HOURS` and `HINGE` in `src/content/reflex.ts`); the
+two doors as their own section and the page's one way in, each card marked as
+a primary action inside one `role="group"`; the marquee; proof; voices; the
+board; the founder; the questions, moved below the founder; the publication;
+the close, which now reads "Start with one decision you keep having to make."
+with no body line. The section on where everything a leader teaches AI ends
+up moved to `/new-age-leadership` after the chart. The brain door carries one
+sentence on the method, proposed for sign-off. The prerender's entry for the
+argument page had carried the retired org-chart title, description and
+JSON-LD into the served head since the page was rebuilt; it carries the
+page's own words now, and the hand-written `body` fields nothing had read
+since the component render landed are gone.
+
+**The words that were there for the sake of it.** "Your week" and "Your
+market" and their sticky rule; the homepage board's foot line and the word
+"this week" in its heading, which the stamp contradicted on the day the page
+was photographed (the cache held one day and the stamp read "1 days", also
+fixed); the lane key on `/ai-gtm`, which printed "orchestration" on a public
+page; the lane glosses, which were the lever headings said again; "33 of
+them." and the two-sentence note under the voices drum; the publication
+band's lede; the ask bar's placeholder; the org chart's control-narrating
+lede and the Agatha story's lede on the argument page; "Four things" in two
+headings whose four things were visible; two of the four CTRL spec chips and
+the small line under the CTRL claim. The privacy notice is one line and one
+button, full width above the action bar on a phone.
+
+**The method on `/ai-brain`.** "How it learns you.": three steps as a group
+that builds with scroll, unnamed. Wording proposed, awaiting sign-off.
+
+### Measured after
+
+Against the built output on the gate's throttle, the same instrument before
+and after, at 390 and 1440. Before, the gate could not see a font swap or a
+parallax nudge at all; the layout-shift reading and the arrival marks are new.
+
+| | before | after |
+|---|---|---|
+| first paint, 390 `/` | 1.12s, in fallback faces | 1.40s, the curtain, with the faces already in |
+| first paint, 1440 `/` | 1.43s, in fallback faces | 1.46s |
+| the faces in | about 1.0s after paint (production: 1.87s and 2.02s) | before the first frame: `mm-arrived` at 1.21 to 1.30s on every path |
+| the type arrives | as each face landed, twice | once, 220ms after the strips start to lift |
+| page replaced after paint | 0 (as the gate then read it) | 0, and now judged inside the arrival by direction |
+| layout shifts after paint | not measured | 0 on every path, both widths |
+| hydration nudge | plate +7px, h1 -6px, claim -10px in one frame | none: the first write is the origin |
+| the dialog on `/?start=1` | inside the first painted frame | 2.25s at 390, 2.35s at 1440: about 0.9s after paint, because the script now travels behind the faces and the posters. Reported as its own reading with a 2s budget |
+| reduced motion | not measured | no marks, no curtain, no video, both widths |
+
+The curtain's cost, measured: the first frame is the strips rather than the
+page, at 1.30 to 1.50s on this throttle, and the page is on screen about 600ms
+later; on a fast connection the faces are in before the first frame and the
+whole entrance is the arrival itself. What it hides is nothing, because the
+causes are fixed; what it is for is one arrival rather than none.
+`var CURTAIN=false` in `index.html` keeps the type arrival alone.
+
+One finding worth its own line. Keyed on a class of `<html>`, as first written
+(`html.mm-curtain .mm-curtain { ... }`), the curtain made Chromium present no
+frame at all until the class came off: first paint at 2.5 to 3.7 seconds,
+with the same rules as `display: none` behaving the same way and the class
+alone, with no rule, behaving normally. Bisected against one build by editing
+the built stylesheet between runs. The curtain is keyed on a class of its own
+now, set by a two-line script after it in the body, and paints at 1.3s.
+
+Bundle: the homepage chunk went from 363,757 to 365,535 bytes (the track and
+the driver's first-write logic); the argument page's from 348,314 to 348,190.
+
+### Baselines after this change
+
+- Tests: **433 across 28 files**, all passing. New: `src/test/scroll-driver.test.tsx`
+  (the first write and the silent subscriber), the entrance and preload cases
+  in `first-screen.test.ts`, and the entrance describe in
+  `reveal-contract.test.tsx`. `brief2-public-contract`'s absent-state check
+  now reads keyframes blocks only; `brief2-email-cap` reads the served privacy
+  page rather than a hand-written copy the prerender no longer carries.
+- Lint **0 errors, 2 warnings**. Typecheck **0 errors**.
+- Every browser gate green at both widths, built with
+  `VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED=true` as production is: `qa:entrance`
+  (with the arrival, layout-shift and reduced-motion readings), `qa:alive`
+  twice at 390, `qa:images`, `qa:rhythm`, `qa:cards`, `qa:oneway`, `qa:nojs`,
+  `qa:screens`, `qa:deadcss`, redirects, dialog shape and handoff. The
+  handoff gate now serves the board fixture on its `/ai-gtm` leg, as the other
+  gates do; without it the board's fetch to the build's placeholder address
+  was logged as a browser error that had nothing to do with the offer. With
+  rows to filter, the board offers the same eight divisions the form asks for,
+  so the gate's click on "Leadership" is scoped to the form's own question.
+- `qa:screens`: the homepage's worst section is 1.22 screens at 390x844; the
+  new problem section and the doors section are both under budget at every
+  size; no new exemption. The GTM page's lever exemption follows its renamed
+  heading.
+- Not measured from here: production itself, until this is deployed. The
+  frames in the table's "before" column are from production on 3 September;
+  the "after" column is the built output on the same throttle.
+
+### Still open
+
+- The method wording on the brain door and on `/ai-brain` needs Krish's
+  confirmation; it is described, never named, per the canon.
+- The vector wordmark: only PNGs exist, so the brand images are preloaded and
+  decoded synchronously rather than inlined as SVG. An inline SVG needs the
+  brand's vector source.
+- The curtain's cost is measured and recorded above; `var CURTAIN=false` in
+  `index.html` keeps the type arrival alone if the number is not worth it.
+- On the day of measurement `get-ai-news` returned one day for a seven-day
+  request; the heading and stamp are honest either way, the window question
+  is upstream.
+- Pre-existing and out of scope: retired routes hydrate the homepage's
+  prerendered markup against a different route; whether a privacy notice is
+  needed at all for cookieless analytics.

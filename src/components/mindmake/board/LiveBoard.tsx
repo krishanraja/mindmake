@@ -8,9 +8,7 @@ import { useBoardData } from "@/hooks/useBoardData";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useShortScreen } from "@/hooks/useShortScreen";
 import {
-  LANE_MAP,
   LANE_ORDER,
-  LANE_SUBTITLES,
   industryCounts,
   isShown,
   isStale,
@@ -172,7 +170,7 @@ export function LiveBoard({ seam, ground }: { ground?: "raise"; seam?: boolean }
 
         {rows.length === 0 ? (
           <p className="mm-board-rebuilding">
-            Nothing matches that pair in the last {days.length} days. The other lenses still have items.
+            Nothing matches that pair in the last {days.length} {days.length === 1 ? "day" : "days"}.
           </p>
         ) : (
           <>
@@ -188,7 +186,7 @@ export function LiveBoard({ seam, ground }: { ground?: "raise"; seam?: boolean }
             </Build>
             {/* Say how much is being held back rather than silently dropping it. */}
             <p className="mm-flap-foot">
-              <span>Showing {rows.length} of {total} across {days.length} days.</span>
+              <span>Showing {rows.length} of {total} across {days.length} {days.length === 1 ? "day" : "days"}.</span>
               {total > rows.length && (
                 <button type="button" className="mm-text-button" onClick={() => setExpanded(true)}>
                   Show {Math.min(ROWS_EXPANDED, total)}
@@ -231,18 +229,17 @@ export function LiveBoard({ seam, ground }: { ground?: "raise"; seam?: boolean }
                       <i key={index} style={{ height: `${Math.max(8, (count / peak) * 100)}%` }} />
                     ))}
                   </div>
-                  <p className="mm-lane-sub">{LANE_SUBTITLES[lane]}</p>
+                  {/* No gloss under the lane, and no key under the tiles. The
+                      glosses ("what you sell", "who does the selling") were the
+                      four lever headings printed a second time on the same
+                      page, and the key ("product = model, product,
+                      orchestration") was a mapping in the classifier's own
+                      words, one of which the house style bans outright. */}
                 </article>
               );
             })}
           </div>
         )}
-
-        <p className="mm-lane-map">
-          {LANE_ORDER.map((lane) => (
-            <span key={lane}>{lane} = {LANE_MAP[lane].join(", ")}</span>
-          ))}
-        </p>
       </div>
     </section>
     </>

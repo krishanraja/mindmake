@@ -37,11 +37,12 @@ import filmOneLoopWebm from "@/assets/films/film-01-loop.webm";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-instruments.css";
 
+/* Two, not four. "Live data from 2,000+ checked sources" and "Checks that hold
+   you to your own standards" were the second and third principle cards below
+   them, said again as badges. */
 const SPEC_CHIPS = [
   "Ours, two years in the building",
   "Decades of decision research inside",
-  "Live data from 2,000+ checked sources",
-  "Checks that hold you to your own standards",
 ];
 
 const PRINCIPLES = [
@@ -78,8 +79,9 @@ export default function AiBrain() {
       <section className="mm-hero" aria-labelledby="brain-title">
         <div className="mm-container mm-hero-split">
           {/* The film drifts against the copy as the hero leaves, which is what
-              the homepage hero has always done and these two never did. */}
-          <div>
+              the homepage hero has always done and these two never did. The
+              copy column is the entrance's first beat: see index.html. */}
+          <div className="mm-first">
             <h1 className="mm-setup" id="brain-title">Your AI should already know how you work.</h1>
             <p className="mm-claim">In thirty days, yours will.</p>
             <p className="mm-lede">
@@ -136,6 +138,31 @@ export default function AiBrain() {
         </div>
       </section>
 
+      {/* How it learns you. The method, described and never named, per the
+          canon: the site said "it learns how you decide" and nothing about
+          how, which left the one thing nobody else can say unsaid. Three
+          steps as a group that builds with scroll. The wording is proposed
+          for the owner to confirm before it ships. */}
+      <section className="mm-block" aria-labelledby="method-title">
+        <div className="mm-container">
+          <h2 id="method-title"><Instrument kind="drawer" className="mm-head-mark" />How it learns you.</h2>
+          <Build className="mm-three" style={{ marginTop: 20 }}>
+            <article className="mm-enemy">
+              <h3>Two pieces of your own work, side by side</h3>
+              <p>You say which is the better one, and why. Real work, never a questionnaire.</p>
+            </article>
+            <article className="mm-enemy">
+              <h3>It writes down the rule you used</h3>
+              <p>In your words, with the two examples kept beside it as the evidence.</p>
+            </article>
+            <article className="mm-enemy is-answer">
+              <h3>The next piece tests the rule</h3>
+              <p>What holds is kept. What does not is rewritten, by you, and the record shows when.</p>
+            </article>
+          </Build>
+        </div>
+      </section>
+
       <section className="mm-block" aria-labelledby="ctrl-title">
         <div className="mm-container">
           <h2 id="ctrl-title"><Instrument kind="gauge" className="mm-head-mark" />See a decision from every side.</h2>
@@ -161,7 +188,6 @@ export default function AiBrain() {
               </div>
               <div className="mm-proof-line">
                 <ScrubText className="mm-claim" text="We built this for ourselves. In thirty days, we build yours." />
-                <small>CTRL, our own engine. Live today.</small>
               </div>
               {/* Three mono cards in a column, after the longest section on the
                   page, is the text wall the phone reader complained about. */}
@@ -192,7 +218,7 @@ export default function AiBrain() {
       <section className="mm-block mm-on-raise" aria-labelledby="ctrl-see-title">
         <div className="mm-container">
           <h2 id="ctrl-see-title" className="mm-try-title">
-            <span>Four things it holds, and what each one looks like.</span>
+            <span>What it holds.</span>
           </h2>
           <ProofViewer />
         </div>

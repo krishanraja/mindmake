@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { render as serverRender } from "@/entry-server";
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 
@@ -221,7 +222,12 @@ describe("the privacy notice matches the schedule", () => {
   it("states the follow-up and its retention", () => {
     const privacy = read("src/pages/Privacy.tsx");
     expect(privacy).toMatch(/follow-up/i);
+    /* The served page, not a copy of it. This used to read the wording out of
+       a hand-written body in scripts/prerender.mjs, which was a second copy of
+       the notice that nothing rendered once the pages were built from the
+       components. The page a crawler and a visitor both get is the server
+       render, so that is what is read. */
     expect(existsSync(resolve(ROOT, "scripts/prerender.mjs"))).toBe(true);
-    expect(read("scripts/prerender.mjs")).toMatch(/follow-up/i);
+    expect(serverRender("/privacy")).toMatch(/follow-up/i);
   });
 });

@@ -140,3 +140,96 @@ describe("the shell, and why there is not one", () => {
     expect(read("src/entry-server.tsx")).toContain("renderToString");
   });
 });
+
+describe("the first screen's own files, asked for before the stylesheet", () => {
+  /* Measured cold on a throttled phone, the page painted in Helvetica and
+     Georgia and relaid itself twice as the real faces arrived, the wordmark
+     painted half-drawn, and the hero poster popped into an empty plate 650ms
+     after first paint. Every one of those is a file the browser only learned
+     about after the 135KB render-blocking stylesheet had been parsed. The
+     prerender now names them in the head, read from the built output rather
+     than guessed, so a renamed asset cannot leave a stale preload behind. */
+  const prerender = read("scripts/prerender.mjs");
+
+  it("preloads the four latin faces it finds in the built stylesheet, or fails the build", () => {
+    expect(prerender).toContain('rel="preload" as="font" type="font/woff2" crossorigin');
+    for (const face of ["archivo", "newsreader", "source-serif-4", "ibm-plex-mono-latin-400-normal"]) {
+      expect(prerender, face).toContain(face);
+    }
+    expect(prerender).toContain("fontFiles.length !== 4");
+  });
+
+  it("preloads the wordmark, the mark and the priority poster from the page it rendered", () => {
+    expect(prerender).toContain('class="mm-brand-wordmark" src="');
+    expect(prerender).toContain('class="mm-brand-icon" src="');
+    expect(prerender).toContain('as="image" type="image/webp" fetchpriority="high"');
+    const brand = read("src/components/mindmake/MindmakeBrand.tsx");
+    expect(brand.match(/fetchpriority: "high"/g)).toHaveLength(2);
+    expect(brand.match(/decoding="sync"/g)).toHaveLength(2);
+  });
+
+  it("gives every fallback face the metrics of the face it stands in for", () => {
+    for (const face of ["Archivo Fallback", "Newsreader Fallback", "Source Serif Fallback", "Plex Mono Fallback"]) {
+      const at = mindmakeCss.indexOf(`font-family: "${face}"`);
+      expect(at, face).toBeGreaterThan(-1);
+      const rule = mindmakeCss.slice(at, mindmakeCss.indexOf("}", at));
+      for (const metric of ["size-adjust", "ascent-override", "descent-override", "line-gap-override"]) {
+        expect(rule, `${face} ${metric}`).toContain(metric);
+      }
+    }
+    expect(mindmakeCss).toContain('--mm-grotesque: "Archivo Variable", "Archivo Fallback"');
+    expect(mindmakeCss).toContain('--mm-serif: "Newsreader Variable", "Newsreader Fallback"');
+    expect(mindmakeCss).toContain('--mm-body: "Source Serif 4 Variable", "Source Serif Fallback"');
+    expect(mindmakeCss).toContain('--mm-mono: "IBM Plex Mono", "Plex Mono Fallback"');
+  });
+});
+
+describe("the entrance, held in the head and released once", () => {
+  /* The page arrives once. The inline script in index.html sets mm-pending
+     and mm-curtain on <html> before first paint and swaps them for
+     mm-arrived when the four faces are in or 700ms after the first frame,
+     marking both moments for the gate. Everything about it that matters is
+     a guarantee about what happens when it does not run. */
+  const script = indexHtml.slice(indexHtml.indexOf("var CURTAIN"), indexHtml.indexOf("</script>", indexHtml.indexOf("var CURTAIN")));
+
+  it("is small, and outside the React tree", () => {
+    expect(script.length).toBeLessThan(1400);
+    expect(indexHtml.indexOf("var CURTAIN")).toBeLessThan(indexHtml.indexOf('<div id="root">'));
+  });
+
+  it("waits for the four faces by name, with a cap from the first frame and one for a background tab", () => {
+    expect(script).toContain("d.fonts.load");
+    for (const face of ["Archivo Variable", "Newsreader Variable", "Source Serif 4 Variable", "IBM Plex Mono"]) {
+      expect(script).toContain(face);
+    }
+    expect(script).toContain("requestAnimationFrame");
+    expect(script).toContain("setTimeout(go,700)");
+    expect(script).toContain("setTimeout(go,4000)");
+    expect(script).toContain('performance.mark("mm-pending")');
+    expect(script).toContain('performance.mark("mm-arrived")');
+  });
+
+  it("stands down for reduced motion and for a deep link", () => {
+    expect(script).toContain("prefers-reduced-motion: reduce");
+    expect(script).toContain("location.hash");
+  });
+
+  it("carries the curtain as fifteen strips that only the script can show", () => {
+    const curtain = indexHtml.slice(indexHtml.indexOf('<div class="mm-curtain"'), indexHtml.indexOf('<div id="root">'));
+    expect(curtain.match(/<i style="--i:\d+"><\/i>/g)).toHaveLength(15);
+    expect(curtain).toContain('aria-hidden="true"');
+    expect(mindmakeCss).toContain(".mm-curtain { display: none; }");
+    expect(mindmakeCss).toContain(".mm-curtain.is-on {");
+    /* Keyed on the element's own class and never on a class of <html>: a
+       root-class-keyed rule on this element, even display: none, held every
+       frame in Chromium until the class came off. */
+    expect(mindmakeCss).not.toContain("html.mm-curtain");
+    expect(curtain).toContain('classList.add("is-on")');
+    expect(script).toContain("var CURTAIN=true");
+  });
+
+  it("keeps the critical inline style to the ground even so", () => {
+    expect(inlineStyle.length).toBeLessThan(220);
+    expect(inlineStyle).not.toContain("mm-curtain");
+  });
+});

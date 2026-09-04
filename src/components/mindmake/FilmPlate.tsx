@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useAmbientMotion } from "@/hooks/useAmbientMotion";
+import { useScrollDriver } from "@/hooks/useScrollDriver";
 
 interface FilmPlateProps {
   /** Poster frame, which is frame one of the film so the handover is invisible. */
@@ -34,6 +35,26 @@ interface FilmPlateProps {
  * keeps the still. A click-to-play film is a deliberate request rather than
  * ambience, so it ignores that setting, and it is not in the document at all
  * until the play button is pressed.
+ *
+ * ## When a loop mounts
+ *
+ * Once the visitor wants motion and the plate is near the screen, not before.
+ * The homepage carries six loops, about 3.2MB of webm, and every one of them
+ * used to mount at hydration and start fetching against the hero's own 869KB
+ * on the same connection, which is why the hero film did not land until three
+ * seconds on a throttled phone. A priority plate is near from the start; every
+ * other plate waits until the scroll driver reports it within a viewport of
+ * the fold. The driver is asked to report and write nothing, so a plate does
+ * not read as a scrubbed build to the aliveness gate.
+ *
+ * ## How a loop arrives
+ *
+ * It fades up over its own poster once it is actually playing, because the
+ * decoded video and the webp of the same frame are not the same colour: the
+ * hero loop replaced its poster with a visibly darker tone in one frame. The
+ * class is added on the element rather than through state so nothing
+ * re-renders; the element is never in the server markup, so there is nothing
+ * for hydration to disagree about.
  */
 export function FilmPlate({
   poster,
@@ -75,6 +96,16 @@ export function FilmPlate({
     void video.play();
   }, [playing]);
 
+  /* Near, and live. See the docstring: a loop mounts once the plate is within
+     a viewport of the fold, and fades up once it is actually playing. */
+  const [near, setNear] = useState(priority);
+  const plateRef = useScrollDriver<HTMLDivElement>(
+    (progress) => { if (progress > 0) setNear(true); },
+    "centre",
+    { silent: true },
+  );
+  const live = (event: React.SyntheticEvent<HTMLVideoElement>) => event.currentTarget.classList.add("is-live");
+
   const sources = (
     <>
       {srcWebm && <source src={srcWebm} type="video/webm" />}
@@ -83,10 +114,11 @@ export function FilmPlate({
   );
 
   const hasFilm = Boolean(src || srcWebm);
-  const showLoop = hasFilm && !clickToPlay && motion;
+  const showLoop = hasFilm && !clickToPlay && motion && near;
 
   return (
     <div
+      ref={plateRef}
       className={`mm-plate${hasFilm ? " has-media" : ""} ${className}`.trim()}
       style={style}
       {...(decorative ? { "aria-hidden": true } : { role: "img", "aria-label": label })}
@@ -121,6 +153,7 @@ export function FilmPlate({
           playsInline
           preload="auto"
           aria-hidden="true"
+          onPlaying={live}
         >
           {sources}
         </video>
@@ -132,6 +165,7 @@ export function FilmPlate({
           className="mm-plate-media mm-plate-loop"
           playsInline
           controls
+          onPlaying={live}
         >
           {sources}
         </video>

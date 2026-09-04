@@ -7,6 +7,68 @@
 @import "@fontsource/ibm-plex-mono/400.css";
 @import "@fontsource/ibm-plex-mono/500.css";
 
+/* The fallback faces, sized to the faces they stand in for.
+
+   Every @fontsource face above is `font-display: swap`, so on a slow
+   connection the page paints in whatever the device has and then relays
+   itself when the real face lands. Measured cold on a throttled phone that
+   was two reflows in the first screen: the door copy moved 22px when Archivo
+   arrived and the hero claim rewrapped from one line to two when Newsreader
+   did, because Helvetica and Georgia are nothing like them in width.
+
+   These four faces are the device's own fonts wearing the web fonts' metrics.
+   `size-adjust` scales the fallback so its average character width matches
+   the real face, and the three overrides give it the real face's ascent,
+   descent and line gap, so a line wraps in the same place and stands the same
+   height in either. The swap still happens; it no longer moves anything.
+
+   The numbers are computed, not chosen: Capsize (`@capsizecss/unpack` over
+   the latin woff2 in node_modules, `@capsizecss/core`'s createFontStack
+   against its published metrics for Helvetica Neue, Arial, Georgia and
+   Courier New). size-adjust is the ratio of the two faces' average character
+   widths; each override is the real face's metric over its units per em,
+   divided by the size-adjust. Recompute if a face is replaced. */
+@font-face {
+  font-family: "Archivo Fallback";
+  src: local("Helvetica Neue"), local("HelveticaNeue");
+  ascent-override: 86.6447%;
+  descent-override: 20.7237%;
+  line-gap-override: 0%;
+  size-adjust: 101.3333%;
+}
+@font-face {
+  font-family: "Archivo Fallback Arial";
+  src: local("Arial"), local("ArialMT");
+  ascent-override: 85.8362%;
+  descent-override: 20.5303%;
+  line-gap-override: 0%;
+  size-adjust: 102.2878%;
+}
+@font-face {
+  font-family: "Newsreader Fallback";
+  src: local("Georgia");
+  ascent-override: 76.4676%;
+  descent-override: 27.5699%;
+  line-gap-override: 0%;
+  size-adjust: 96.1192%;
+}
+@font-face {
+  font-family: "Source Serif Fallback";
+  src: local("Georgia");
+  ascent-override: 96.4195%;
+  descent-override: 31.1781%;
+  line-gap-override: 0%;
+  size-adjust: 107.4471%;
+}
+@font-face {
+  font-family: "Plex Mono Fallback";
+  src: local("Courier New"), local("CourierNewPSMT");
+  ascent-override: 102.5167%;
+  descent-override: 27.5045%;
+  line-gap-override: 0%;
+  size-adjust: 99.9837%;
+}
+
 :root {
   position: relative;
 
@@ -69,10 +131,10 @@
   --mm-focus: var(--mm-mint-bright);
 
   /* Type roles */
-  --mm-grotesque: "Archivo Variable", "Helvetica Neue", Arial, sans-serif;
-  --mm-serif: "Newsreader Variable", Georgia, serif;
-  --mm-body: "Source Serif 4 Variable", Georgia, serif;
-  --mm-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --mm-grotesque: "Archivo Variable", "Archivo Fallback", "Archivo Fallback Arial", "Helvetica Neue", Arial, sans-serif;
+  --mm-serif: "Newsreader Variable", "Newsreader Fallback", Georgia, serif;
+  --mm-body: "Source Serif 4 Variable", "Source Serif Fallback", Georgia, serif;
+  --mm-mono: "IBM Plex Mono", "Plex Mono Fallback", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* Layout */
   --mm-shell-max: 1240px;
@@ -831,67 +893,59 @@
 .mm-not-found p { margin-top: 14px; color: var(--mm-tx2); }
 .mm-not-found .mm-button { margin-top: 26px; }
 
-/* One line, one sentence, one button, and out of the way.
-   As a full-width bar it stood 69px on a desktop and about 164px on a phone,
-   which is a fifth of an iPhone screen permanently occupied by a single
-   sentence. It is now a card in the corner, sized to its content. */
+/* One line, four words, one button, and out of the way.
+   Photographed on a phone on 3 September 2026 it was three lines and a
+   button, 109px of the screen, over the reading in every screenshot of the
+   visit until somebody dismissed it. The sentence is shorter now and the row
+   may not wrap: a strip the height of its button, in the corner on a laptop
+   and full width above the action bar on a phone, where the gutters would
+   have left a 350px box that the sentence and the button do not share. */
 .mm-cookie-notice {
   position: fixed;
   inset: auto var(--mm-gutter) calc(14px + var(--mm-safe-bottom)) auto;
   z-index: 90;
-  max-width: min(430px, calc(100vw - var(--mm-gutter) * 2));
+  width: max-content;
+  max-width: calc(100vw - var(--mm-gutter) * 2);
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px 14px;
   align-items: center;
+  gap: 12px;
   border: 1px solid var(--mm-line);
   border-radius: 3px;
   background: rgba(17, 26, 22, .97);
   backdrop-filter: blur(10px);
   box-shadow: 0 12px 34px rgba(0, 0, 0, .42);
-  padding: 10px 12px;
+  padding: 4px 5px 4px 12px;
   color: var(--mm-tx2);
   font-family: var(--mm-mono);
-  font-size: 11.5px;
+  font-size: 11px;
 }
-.mm-cookie-notice p { flex: 1 1 210px; }
+.mm-cookie-notice p { white-space: nowrap; text-wrap: initial; }
 
-/* On a phone it was 109px, thirteen percent of the screen, floating over the
-   content from sixty percent of the first viewport until somebody dismissed it.
-   It is in five of the ten screenshots taken while reading this site on a
-   phone, covering the thing being read in every one.
-
-   The cause is the wrap: `flex: 1 1 210px` cannot fit beside the button in a
-   350px box, so the button dropped to its own row and the notice became three
-   lines and a button. Letting the paragraph shrink keeps them on one row. It
-   also sits above the mobile action bar rather than beside it, because both are
-   fixed to the bottom and only one of them is chrome the reader asked for.
-   76px is the height the footer already reserves for that bar, so the two
-   numbers cannot drift apart without somebody noticing the footer first. */
+/* 76px is the height the footer already reserves for the action bar, so the
+   two numbers cannot drift apart without somebody noticing the footer first. */
 @media (max-width: 767px) {
   .mm-cookie-notice {
-    inset: auto var(--mm-gutter) calc(76px + 8px + var(--mm-safe-bottom)) var(--mm-gutter);
+    inset: auto 0 calc(76px + var(--mm-safe-bottom)) 0;
+    width: auto;
     max-width: none;
-    flex-wrap: nowrap;
-    gap: 10px;
-    padding: 9px 11px;
+    justify-content: space-between;
+    border-radius: 0;
+    border-inline: 0;
+    padding: 3px 6px 3px var(--mm-gutter);
     font-size: 10.5px;
-    line-height: 1.4;
   }
-  .mm-cookie-notice p { flex: 1 1 auto; min-width: 0; }
-  .mm-cookie-notice .mm-button { flex: none; }
 }
 /* The one inline link on the site inside fixed chrome, so it is also the one
    that has to grow its own tap target rather than inherit a row's height. */
 .mm-cookie-notice a {
   display: inline-block;
-  min-height: 30px;
-  padding-block: 5px;
+  min-height: 24px;
+  padding-block: 3px;
   color: var(--mm-mint);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
-.mm-cookie-notice .mm-button-small { min-height: 34px; padding: 7px 12px; }
+.mm-cookie-notice .mm-button-small { min-height: 30px; padding: 5px 10px; }
 
 /* The notice measures itself into --mm-cookie-reserve. Nothing used to read
    that, so the bar sat on top of the last of the footer. */
@@ -1016,4 +1070,84 @@
     animation-iteration-count: 1 !important;
     transition-duration: .001ms !important;
   }
+}
+
+/* ---------- The entrance: the page arrives once ----------
+   Set in motion by the inline script in index.html, which puts mm-pending and
+   mm-curtain on <html> before first paint and swaps them for mm-arrived once
+   the four faces are in, or 700ms after the first frame. No script means no
+   class, and no class means every rule below is inert: the type is visible
+   and the curtain is display: none. That is the same guarantee the reveal
+   primitive makes, kept the same way, in CSS that defaults to shown.
+
+   What stays painted from the first frame: the ground, the wordmark and the
+   mark, the film plate with its poster, its drift and its sweep. What waits:
+   the type, and the curtain over all of it.
+
+   The curtain is keyed on its own class, `is-on`, set by the two-line script
+   after it in the body, and never on a class of <html>. Measured in Chromium
+   against one build: any rule styling this element under a root class, even
+   `display: none`, held every frame until the root class came off, so the
+   page painted at 2.5 to 3.7 seconds instead of 1.3. index.html carries the
+   numbers. */
+.mm-curtain { display: none; }
+.mm-curtain.is-on {
+  display: grid;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  grid-template-rows: repeat(15, 1fr);
+  gap: 1px;
+  overflow: hidden;
+  pointer-events: none;
+}
+.mm-curtain.is-on i {
+  display: block;
+  background: var(--mm-ink-raise);
+  transform-origin: top;
+  will-change: transform;
+}
+/* The plate's own light, across the whole curtain, so the held screen is not
+   a still: the ambient layer's floor applies to the entrance as well. */
+.mm-curtain.is-on::after {
+  content: "";
+  position: absolute;
+  left: -40%;
+  top: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(190, 220, 205, .09), transparent);
+  animation: mm-sweep 2.6s ease-in-out infinite;
+}
+/* Top to bottom, each strip 20ms after the one above it: 15 strips clear in
+   about 580ms. `forwards` is right here and nowhere else on the site, because
+   a strip is chrome that leaves, not content that stays. */
+.mm-arrived .mm-curtain.is-on i {
+  animation: mm-lift .3s cubic-bezier(.5, 0, .75, .35) calc(var(--i, 0) * 20ms) forwards;
+}
+@keyframes mm-lift { to { transform: scaleY(0); } }
+
+/* The type, held and then arriving as the strips clear. The hero copy is the
+   first beat and the problem section's container the second, on the same
+   animation the reveal primitive uses, with the same `backwards` fill so the
+   first frame holds through the delay and nothing is pinned afterwards. */
+.mm-pending .mm-first,
+.mm-pending .mm-menu-button { opacity: 0; }
+.mm-arrived .mm-first {
+  animation: mm-arrive .5s cubic-bezier(.22, .8, .3, 1) calc(220ms + var(--mm-first-i, 0) * 110ms) backwards;
+}
+.mm-arrived .mm-menu-button {
+  animation: mm-arrive-fade .5s ease-out 220ms backwards;
+}
+@keyframes mm-arrive-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+/* Belt and braces: the script never sets these classes under reduced motion,
+   and if a stylesheet and a preference change ever disagree, nothing is held
+   and nothing is covered. */
+@media (prefers-reduced-motion: reduce) {
+  .mm-curtain.is-on { display: none; }
+  .mm-pending .mm-first, .mm-pending .mm-menu-button { opacity: 1; }
+  .mm-arrived .mm-first, .mm-arrived .mm-menu-button { animation: none; }
 }

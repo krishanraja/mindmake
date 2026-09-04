@@ -54,8 +54,9 @@ export default function AiGtm() {
       <section className="mm-hero" aria-labelledby="gtm-title">
         <div className="mm-container mm-hero-split">
           {/* The film drifts against the copy as the hero leaves, which is what
-              the homepage hero has always done and these two never did. */}
-          <div>
+              the homepage hero has always done and these two never did. The
+              copy column is the entrance's first beat: see index.html. */}
+          <div className="mm-first">
             <h1 className="mm-setup" id="gtm-title">AI is changing what customers pay for.</h1>
             <ScrubText className="mm-claim" text="We help you sell for that." />
             <p className="mm-lede">
@@ -80,7 +81,7 @@ export default function AiGtm() {
       <section className="mm-block mm-on-raise" aria-labelledby="money-title">
         <div className="mm-container">
           <div className="mm-head-split">
-            <h2 id="money-title">Four things AI changes about selling.</h2>
+            <h2 id="money-title">What AI changes about selling.</h2>
             {/* The film belongs to the section rather than to one of three
                 peers, and beside the heading rather than under everything: a
                 1080px square spanning the full container was upscaled. */}

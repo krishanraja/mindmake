@@ -30,25 +30,39 @@
   width: 40%;
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(190, 220, 205, .12), transparent);
+  /* On transform, not on `left`. The sweep used to animate its left edge,
+     which is layout: every frame it moved was a layout-shift entry, 28 of them
+     in eight seconds on the hero alone, and layout work on the main thread of
+     a phone that is also parsing 350KB of script. The travel is the same,
+     from 40% off the left edge to the right edge, as 350% of its own width. */
+  will-change: transform;
   animation: mm-sweep 9.5s ease-in-out infinite;
 }
 .mm-plate.has-media::before { opacity: .12; }
 .mm-plate.has-media::after { opacity: .55; }
 @keyframes mm-drift { to { background-position: 190px 0; } }
-@keyframes mm-sweep { 0% { left: -40%; } 55% { left: 100%; } 100% { left: 100%; } }
+@keyframes mm-sweep { 0% { transform: translateX(0); } 55%, 100% { transform: translateX(350%); } }
 .mm-plate-media {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-/* The film sits directly over its own first frame, so the still carries the
-   paint and the loop replaces it without anything moving. */
+/* The film sits directly over its own first frame. It fades up over the
+   still once it is actually playing, because a decoded video frame and a webp
+   of the same frame are not the same colour: measured cold on a phone, the
+   hero loop replaced its poster at three seconds with a visibly darker tone,
+   in one frame. A dissolve is what the eye reads as the same picture coming
+   alive; a cut is what it reads as a glitch. Until `playing` fires, or if
+   autoplay is refused, the still simply stays. */
 .mm-plate-loop {
   position: absolute;
   inset: 0;
   z-index: 0;
+  opacity: 0;
+  transition: opacity .4s ease;
 }
+.mm-plate-loop.is-live { opacity: 1; }
 .mm-plate-play {
   position: absolute;
   inset: 0;
@@ -174,10 +188,16 @@
 
 /* ---------- Scroll: parallax reads --mm-p, written by useScrollDriver ---------- */
 
-.mm-parallax { --mm-p: .5; }
-.mm-parallax-slow { transform: translate3d(0, calc((var(--mm-p) - .5) * -18px), 0); }
-.mm-parallax-fast { transform: translate3d(0, calc((var(--mm-p) - .5) * -34px), 0); }
-.mm-parallax-plate { transform: scale(1.06) translate3d(0, calc((var(--mm-p) - .5) * 22px), 0); }
+/* Relative to where the reader was when the script arrived.
+   `--mm-p0` is written once by the driver, alongside its first `--mm-p`, so the
+   server render, the first client render and the first write all compute a
+   translate of zero and hydration moves nothing. Before that the hero moved in
+   one frame the moment the script landed: the plate 7px down, the headline 6px
+   up, the claim 10px up, on a page the reader was already looking at. */
+.mm-parallax { --mm-p: .5; --mm-p0: .5; }
+.mm-parallax-slow { transform: translate3d(0, calc((var(--mm-p) - var(--mm-p0)) * -18px), 0); }
+.mm-parallax-fast { transform: translate3d(0, calc((var(--mm-p) - var(--mm-p0)) * -34px), 0); }
+.mm-parallax-plate { transform: scale(1.06) translate3d(0, calc((var(--mm-p) - var(--mm-p0)) * 22px), 0); }
 @media (prefers-reduced-motion: reduce) {
   .mm-parallax-slow, .mm-parallax-fast, .mm-parallax-plate { transform: none; }
 }
@@ -284,6 +304,9 @@
    a click through. Now they are their own band, they are tall, and hovering one
    dims the other so the choice reads as a choice. */
 .mm-doors { display: grid; gap: 14px; position: relative; z-index: 2; margin-top: 26px; }
+/* Their own section since 3 September 2026. The 26px was the gap under the
+   hero copy when the doors lived inside the hero; a block pads itself. */
+.mm-block > .mm-container > .mm-doors { margin-top: 0; }
 @media (min-width: 760px) { .mm-doors { grid-template-columns: 1fr 1fr; gap: 18px; } }
 .mm-door {
   position: relative;
@@ -445,16 +468,6 @@
 .mm-timestamp.is-stale { color: var(--mm-amber); }
 
 .mm-chips { display: flex; gap: 7px; flex-wrap: wrap; align-items: center; margin-top: 16px; }
-/* Naming the control, which is the one job a small label still has here. It is
-   not a heading for what follows it, and there is no sentence explaining it. */
-.mm-chip-label {
-  margin-right: 3px;
-  color: var(--mm-mut);
-  font-family: var(--mm-mono);
-  font-size: 9.5px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-}
 .mm-chip i {
   margin-left: 7px;
   font-style: normal;
@@ -515,8 +528,6 @@
   .mm-chips.is-short-rail::-webkit-scrollbar { display: none; }
   .mm-chips.is-rail > *,
   .mm-chips.is-short-rail > * { flex: 0 0 auto; }
-  .mm-chips.is-rail .mm-chip-label,
-  .mm-chips.is-short-rail .mm-chip-label { position: sticky; left: 0; z-index: 1; }
 }
 /* The roles wrap wherever there is height for them: on a tall phone every one
    of the eight is on screen, which is the point of the filter. */
@@ -2746,6 +2757,13 @@ h3 > .mm-head-mark, h4 > .mm-head-mark { width: 28px; height: 28px; margin-top: 
      a transition would fight the scroll and lag behind the thumb. */
   will-change: transform;
 }
+/* Except the first value, which lands on a page the reader is already looking
+   at. Unset means finished, so a group that is on screen when the script
+   arrives is assembled, and the driver's first write takes it apart to
+   wherever the reader's position says it should be. With no transition that
+   is a snap; for the 400ms the driver marks as settling it travels instead,
+   and every value after is written raw. */
+.mm-build[data-mm-settling] > * { transition: opacity .3s ease, transform .3s ease; }
 
 /* The wrapper keeps a box on purpose, and cannot be `display: contents`: the
    driver measures `getBoundingClientRect()` to know where the section is, and a

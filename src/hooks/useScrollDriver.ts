@@ -135,25 +135,71 @@ function unregister(element: Element) {
   if (registry.size === 0) stopListening();
 }
 
+interface DriverOptions {
+  /**
+   * Report progress to the callback and write nothing onto the element.
+   *
+   * For a subscriber that only wants to know where it is, such as a film plate
+   * deciding whether it is near enough to mount its loop. A plate carrying
+   * `--mm-p` would read to the aliveness gate's scrubbed pass as an element
+   * that builds with scroll, which it does not.
+   */
+  silent?: boolean;
+}
+
+/** How long the first value is allowed to travel before values are written raw. */
+const SETTLE_MS = 400;
+
 /**
  * Registers a node with the driver and writes --mm-p onto it.
  * Pass an onProgress callback to react in JS (CountingValue does).
+ *
+ * ## The first write
+ *
+ * Hydration lands after first paint, so the first value the driver writes
+ * lands on a page a reader is already looking at. Measured cold on a phone at
+ * scroll 0, the hero's three parallax elements moved in one frame when that
+ * happened: the plate 7px down, the headline 6px up, the claim 10px up, with
+ * no transition, because the CSS default of .5 is zero translate and the first
+ * measured value at 390x844 is about .8.
+ *
+ * Two things stop it. `--mm-p0` is written once, alongside the first `--mm-p`,
+ * and parallax computes its translate from the difference, so the server
+ * render, the first client render and the first write all compute zero and the
+ * reader's own position is the origin: the `centre` range is documented as
+ * one where only the differential matters, and now that is literally true. And
+ * `data-mm-settling` is set for the first 400ms, so a group that builds with
+ * position (`Build`) can let its first value travel rather than snap, which
+ * matters when the reader has already thumbed past it before the script
+ * arrived.
  */
 export function useScrollDriver<T extends HTMLElement>(
   onProgress?: (progress: number) => void,
   range: ScrollRange = "centre",
+  options: DriverOptions = {},
 ) {
   const ref = useRef<T | null>(null);
   const callback = useRef(onProgress);
   callback.current = onProgress;
+  const { silent = false } = options;
 
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
     if (typeof window === "undefined") return;
 
+    let first = true;
+    let settling = 0;
     const notify = (progress: number) => {
-      element.style.setProperty("--mm-p", progress.toFixed(3));
+      if (!silent) {
+        if (first) {
+          element.style.setProperty("--mm-p0", progress.toFixed(3));
+          element.setAttribute("data-mm-settling", "");
+          settling = window.setTimeout(() => element.removeAttribute("data-mm-settling"), SETTLE_MS);
+        }
+        element.style.setProperty("--mm-p", progress.toFixed(3));
+      }
+      first = false;
       callback.current?.(progress);
     };
 
@@ -174,9 +220,11 @@ export function useScrollDriver<T extends HTMLElement>(
 
     return () => {
       motionQuery?.removeEventListener?.("change", onPreferenceChange);
+      window.clearTimeout(settling);
+      element.removeAttribute("data-mm-settling");
       unregister(element);
     };
-  }, [range]);
+  }, [range, silent]);
 
   return ref;
 }

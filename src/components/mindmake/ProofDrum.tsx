@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useDragDrum } from "@/hooks/useDragDrum";
-import { CountingValue } from "@/components/mindmake/CountingValue";
 import { publishableTestimonials, FAMILY_LABEL, type Testimonial } from "@/data/testimonials";
 import { track } from "@/lib/analytics";
 
@@ -172,8 +171,9 @@ export function ProofDrum({ title = "People who have worked with Krish", heading
     <div className="mm-drum-block">
       <div className="mm-drum-head">
         <h3 id={headingId}>{title}</h3>
+        {/* The arrows alone. "33 of them." beside the heading was a count with
+            no noun, and the drum's own label already carries it. */}
         <p className="mm-drum-hint">
-          <span><CountingValue value={voices.length} /> of them.</span>
           <span className="mm-drum-arrows">
             <button type="button" aria-label="Previous" onClick={() => drum.step(-1)}>←</button>
             <button type="button" aria-label="Next" onClick={() => drum.step(1)}>→</button>
@@ -233,10 +233,9 @@ export function ProofDrum({ title = "People who have worked with Krish", heading
         )}
       </div>
 
-      <p className="mm-drum-count">
-        Every shortened quote is an exact extract, and opens to the whole thing. Sessions,
-        clients and career references are labelled, and are not the same claim.
-      </p>
+      {/* No note under the drum. It said every excerpt opens to the whole
+          quote, which the button on every card is, and that sessions, clients
+          and references are labelled, which the label on every card is. */}
     </div>
   );
 }

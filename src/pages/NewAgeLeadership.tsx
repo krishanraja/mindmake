@@ -5,6 +5,7 @@ import { AgathaStory, PageCompletionBeacon } from "@/components/new-age/AgathaSt
    rather than a page laid out in a retired system, and its classes never touch
    the page around it. The prose that used to sit beside it did, and has moved. */
 import { OrgChart } from "@/components/new-age/OrgChart";
+import { Build } from "@/components/mindmake/Build";
 import { CloseBlock } from "@/components/mindmake/CloseBlock";
 import { FilmPlate } from "@/components/mindmake/FilmPlate";
 import { Instrument } from "@/components/mindmake/Instrument";
@@ -95,7 +96,8 @@ export default function NewAgeLeadership() {
 
       <section className="mm-hero" aria-labelledby="reflex-title">
         <div className="mm-container mm-hero-split">
-          <div>
+          {/* The copy column is the entrance's first beat: see index.html. */}
+          <div className="mm-first">
             <h1 className="mm-setup" id="reflex-title">You can hand over the work.</h1>
             <ScrubText className="mm-claim" text="You cannot hand over the understanding." />
             <p className="mm-lede">
@@ -167,12 +169,43 @@ export default function NewAgeLeadership() {
               <Instrument kind="rail" className="mm-head-mark" />
               What that looks like in a working company.
             </h2>
-            <p className="mm-lede">
-              Our own chart. Every role carries the decision that created it.
-            </p>
+            <p className="mm-lede">Our own chart.</p>
           </div>
           <div style={{ marginTop: 20 }}>
             <OrgChart onStart={() => setBriefOpen(true)} />
+          </div>
+        </div>
+      </section>
+
+      {/* Where everything a leader teaches AI ends up. This was the homepage's
+          argument for months and moved here on 3 September 2026: the homepage
+          now opens on the hours and the hinge, and the reasoning that follows
+          from it, that the understanding has to stay with the leader, belongs
+          on the page whose job is the reasoning. Raise, between the chart's
+          ink and the story's paper. */}
+      <section className="mm-block mm-on-raise" aria-labelledby="where-title">
+        <div className="mm-container">
+          <h2 id="where-title"><Instrument kind="drawer" className="mm-head-mark" />Where does everything you teach AI end up?</h2>
+          <p className="mm-lede" style={{ marginTop: 12 }}>
+            You explain your business to AI every week. How you price. What good looks like. Which
+            customers matter.
+          </p>
+          <Build className="mm-three" style={{ marginTop: 20 }}>
+            <article className="mm-enemy">
+              <h3>It stays in a plan</h3>
+              <p>Consultants and agencies do good work and leave you a plan you can act on. When the project closes, the understanding behind it goes with them.</p>
+            </article>
+            <article className="mm-enemy">
+              <h3>It stays in their product</h3>
+              <p>Every tool you subscribe to is useful, and every one keeps what it learns on their side. Cancel the subscription and you start again.</p>
+            </article>
+            <article className="mm-enemy is-answer">
+              <h3>It stays with you</h3>
+              <p>We build it inside your own accounts. It learns how you decide, it gets better every week, and it stays yours when we finish.</p>
+            </article>
+          </Build>
+          <div className="mm-answer">
+            <ScrubText className="mm-claim" text="You keep what it learns." />
           </div>
         </div>
       </section>

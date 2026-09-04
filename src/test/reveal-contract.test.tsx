@@ -197,6 +197,49 @@ describe("the presentation layer", () => {
   });
 });
 
+describe("the entrance", () => {
+  /* The page arrives once, and the way it does so is held to the same four
+     promises as every reveal: nothing is hidden unless a script has said so,
+     the hidden state is the exception and never the default, arrival travels
+     on an animation with a fill that lets go, and reduced motion is handed
+     everything at once. */
+  const css = readFileSync(resolve(__dirname, "../styles/mindmake.css"), "utf8");
+  const entrance = css.slice(css.indexOf("The entrance: the page arrives once"));
+
+  it("hides type only under a class the head script sets", () => {
+    /* Read over the entrance's own block. The rest of the file has its own
+       reasons to write opacity: 0, such as the burger's bars once the menu is
+       open, and none of them is an entrance. */
+    const rules = entrance.replace(/\/\*[\s\S]*?\*\//g, "");
+    const hidden = [...rules.matchAll(/([^{}]+)\{[^}]*opacity:\s*0\s*;[^}]*\}/g)].map((m) => m[1].trim());
+    expect(hidden.length).toBeGreaterThan(0);
+    for (const selector of hidden) {
+      expect(`${selector}: sanctioned`).toBe(
+        /^\[data-reveal="pending"\]$|^\.mm-pending /.test(selector) || /mm-arrive-fade|from$/.test(selector)
+          ? `${selector}: sanctioned`
+          : `${selector}: hides something with no script to release it`,
+      );
+    }
+    expect(entrance).toContain(".mm-pending .mm-first,");
+  });
+
+  it("arrives on an animation that lets go, never a transition", () => {
+    const arrived = entrance.slice(entrance.indexOf(".mm-arrived .mm-first {"));
+    const block = arrived.slice(0, arrived.indexOf("}"));
+    expect(block).toContain("animation: mm-arrive");
+    expect(block).toContain("backwards");
+    expect(block).not.toContain("transition");
+  });
+
+  it("is hidden by default and handed over whole under reduced motion", () => {
+    expect(entrance).toContain(".mm-curtain { display: none; }");
+    const guard = entrance.slice(entrance.indexOf("@media (prefers-reduced-motion: reduce)"));
+    expect(guard).toContain(".mm-curtain.is-on { display: none; }");
+    expect(guard).toContain(".mm-pending .mm-first, .mm-pending .mm-menu-button { opacity: 1; }");
+    expect(guard).toContain("animation: none");
+  });
+});
+
 describe("the motion law, as it now stands", () => {
   const ROOT = resolve(__dirname, "../..");
   const read = (path: string) => readFileSync(resolve(ROOT, path), "utf8");

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
@@ -11,10 +11,12 @@ import { Build } from "@/components/mindmake/Build";
 import { ScrubText } from "@/components/mindmake/ScrubText";
 import { Marquee } from "@/components/mindmake/Marquee";
 import { ObjectionChips } from "@/components/mindmake/ObjectionChips";
+import { ProcessTrack } from "@/components/mindmake/ProcessTrack";
 import { ProofStrip, ProofVoices } from "@/components/mindmake/ProofStrip";
 import { SubscribeBand } from "@/components/mindmake/SubscribeBand";
 import { BoardFilters } from "@/components/mindmake/board/BoardFilters";
 import { FlapRow } from "@/components/mindmake/board/FlapRow";
+import { HINGE, HOURS } from "@/content/reflex";
 import { useBoardData } from "@/hooks/useBoardData";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useShortScreen } from "@/hooks/useShortScreen";
@@ -50,8 +52,10 @@ import "@/styles/mindmake-instruments.css";
  * It reads a week rather than a day for the reason the board does: a role chip
  * filtered to today alone would be empty for whole divisions on most days.
  * Measured live, seven days is 73 items with every one of the eight roles
- * stocked, and 13.7KB on the wire. The heading says "this week" because that is
- * what the rows are, and each one carries its own age besides.
+ * stocked, and 13.7KB on the wire. The heading used to say "this week", and on
+ * the day this was photographed the cache held one day, so the heading was a
+ * claim the stamp beside it contradicted. The stamp carries the window now and
+ * the heading carries none; each row carries its own age besides.
  */
 function ProofLive() {
   const board = useBoardData({ days: 7 });
@@ -77,7 +81,7 @@ function ProofLive() {
     <section className="mm-block mm-on-raise mm-seam-above" aria-labelledby="proof-title">
       <div className="mm-container">
         <div className="mm-board-head">
-          <h2 id="proof-title"><Instrument kind="recorder" className="mm-head-mark" />What changed in AI this week.</h2>
+          <h2 id="proof-title"><Instrument kind="recorder" className="mm-head-mark" />What changed in AI.</h2>
           {board.status === "ready" && (
             <span className={`mm-timestamp${isStale(board.cacheDate) ? " is-stale" : ""}`}>
               <i className={`mm-live-dot${isStale(board.cacheDate) ? " is-stale" : ""}`} aria-hidden="true" />
@@ -96,10 +100,12 @@ function ProofLive() {
                 <FlapRow card={card} at={index} key={card.id} />
               ))}
             </Build>
+            {/* The link alone. The count that sat beside it ("Showing 4 of 15
+                in the last 1 days.") repeated the stamp above the rows, and
+                the rows are countable. */}
             <p className="mm-flap-foot">
-              <span>Showing {rows.length} of {total} in the last {days.length} days.</span>
               <Link className="mm-text-link" to="/ai-gtm#board">
-                See everything that changed <span aria-hidden="true">&rarr;</span>
+                See the whole board <span aria-hidden="true">&rarr;</span>
               </Link>
             </p>
           </>
@@ -125,6 +131,12 @@ export default function Index() {
         canonical="/"
       />
 
+      {/* The story down this page, decided 3 September 2026 after reading it
+          on a phone: what this is, why it matters to a person, the choice,
+          the proof, the live read, who you would work with, the questions,
+          the publication, the ask. It used to put the choice second and the
+          argument third, so a visitor was offered two products before being
+          told why either one mattered. */}
       <section className="mm-hero" aria-labelledby="hero-title">
         <div className="mm-container">
           <div className="mm-hero-stage">
@@ -143,7 +155,10 @@ export default function Index() {
                 priority
               />
             </div>
-            <div className="mm-hero-copy">
+            {/* `mm-first`: the type arrives once the faces are in, as the first
+                beat of the entrance. The stage, the film and the wordmark are
+                painted from the first frame; only the words wait. */}
+            <div className="mm-hero-copy mm-first">
               <h1 className="mm-setup mm-parallax mm-parallax-slow" id="hero-title" ref={setupRef}>
                 Every AI you buy knows the market.
               </h1>
@@ -152,14 +167,50 @@ export default function Index() {
               </p>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* The two doors are the only choice on this page, so they are the
-              largest thing on it after the hero. Each carries the film from the
-              page behind it, which makes the picture a preview rather than
-              decoration, and hovering one dims the other so the choice reads as
-              physical rather than as two paragraphs that happen to be links. */}
-          <div className="mm-doors">
-            <Link className="mm-door" to="/ai-brain" onClick={() => track("door_click", { door: "brain" })}>
+      {/* The problem, and the page's first change of ground.
+          The hours AI gives a leader back, the two things those hours can go
+          into, and the hinge the whole practice hangs on. It is the argument
+          page's opening, condensed: the history of people blaming their tools
+          stays over there as the deeper why, because on a phone a reader
+          meeting the site for the first time should meet their own week, not
+          somebody else's objection. Paper, because it is the most text-bearing
+          screen on the page and the one that most wants light. */}
+      <section className="mm-block mm-on-paper" aria-labelledby="hours-title">
+        <div className="mm-container mm-first" style={{ "--mm-first-i": 1 } as CSSProperties}>
+          <h2 id="hours-title"><Instrument kind="levels" className="mm-head-mark" />{HOURS.title}</h2>
+          <div style={{ marginTop: 20 }}>
+            <ProcessTrack first={HOURS.first} second={HOURS.second} />
+          </div>
+          <div className="mm-answer">
+            <ScrubText className="mm-claim" text={HINGE} />
+            {/* The one link to the argument page, which keeps the reasoning
+                and the six-hundred-year history behind this sentence. */}
+            <p className="mm-answer-more">
+              <Link className="mm-text-link" to="/new-age-leadership">
+                What the hours are for <span aria-hidden="true">&rarr;</span>
+              </Link>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* The two doors, as the page's one way in.
+          They sat inside the hero until 3 September 2026, which offered the
+          choice before the reason. They are their own section now, after the
+          problem and before the proof, and they are marked as the primary
+          action: exactly two, adjacent, in one control group, which is the
+          shape `scripts/qa/one-way-in-check.mjs` reads as one fork rather than
+          two offers, and what tells the mobile action bar to stand down while
+          they are on screen. Each door carries the film from the page behind
+          it, so the picture is a preview rather than decoration, and hovering
+          one dims the other so the choice reads as physical. */}
+      <section className="mm-block">
+        <div className="mm-container">
+          <div className="mm-doors" role="group" aria-label="Pick the door to start with">
+            <Link className="mm-door" data-mm-primary to="/ai-brain" onClick={() => track("door_click", { door: "brain" })}>
               <FilmPlate
                 className="mm-door-film"
                 poster={filmTwoPoster}
@@ -172,11 +223,14 @@ export default function Index() {
               />
               <span className="mm-door-copy">
                 <h2>An AI that knows how you work</h2>
-                <p>Your standards, your context and the decisions you have already made, working as one system. It helps with the work only you can do, and takes on the work you would rather not.</p>
+                {/* The method, described and never named, per the canon: the
+                    one thing on this site nobody else can say. Wording to be
+                    confirmed by the owner before it ships. */}
+                <p>Your standards, your context and the decisions you have already made, working as one system. It learns them by asking you to grade real examples of your own work, then writing down the rule you used.</p>
                 <span className="mm-door-go">Build your AI brain <span aria-hidden="true">→</span></span>
               </span>
             </Link>
-            <Link className="mm-door" to="/ai-gtm" onClick={() => track("door_click", { door: "gtm" })}>
+            <Link className="mm-door" data-mm-primary to="/ai-gtm" onClick={() => track("door_click", { door: "gtm" })}>
               <FilmPlate
                 className="mm-door-film"
                 poster={filmThreePoster}
@@ -197,73 +251,21 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Paper, and the page's first change of ground.
-          The homepage ran ink and raise alternately for its whole length, and
-          those two are 1.32:1 apart: measured on a phone, every screen below
-          the hero read as the same colour. This section is the argument and the
-          most text-heavy screen on the page, which is the one that most wants
-          light. */}
-      <section className="mm-block mm-on-paper" aria-labelledby="where-title">
-        <div className="mm-container">
-          <h2 id="where-title"><Instrument kind="drawer" className="mm-head-mark" />Where does everything you teach AI end up?</h2>
-          <p className="mm-lede" style={{ marginTop: 12 }}>
-            You explain your business to AI every week. How you price. What good looks like. Which
-            customers matter.
-          </p>
-
-          {/* The three answers build as the reader passes them, rather than
-              arriving once and being finished. `Arrive` fires on a threshold and
-              a section that has already arrived is a photograph; `Build` is
-              driven by scroll position, so it assembles under the reader and
-              comes apart again if they scroll back. Measured before either, the
-              two viewports covering this section read a whole-viewport mean of
-              0.023 and 0.026: nothing moved while it was read, and nothing
-              changed as it was scrolled past. */}
-          <Build className="mm-three" style={{ marginTop: 20 }}>
-            <article className="mm-enemy">
-              <h3>It stays in a plan</h3>
-              <p>Consultants and agencies do good work and leave you a plan you can act on. When the project closes, the understanding behind it goes with them.</p>
-            </article>
-            <article className="mm-enemy">
-              <h3>It stays in their product</h3>
-              <p>Every tool you subscribe to is useful, and every one keeps what it learns on their side. Cancel the subscription and you start again.</p>
-            </article>
-            <article className="mm-enemy is-answer">
-              <h3>It stays with you</h3>
-              <p>We build it inside your own accounts. It learns how you decide, it gets better every week, and it stays yours when we finish.</p>
-            </article>
-          </Build>
-
-          {/* The claim, and nothing under it. It carried a paragraph opening
-              "That is the whole idea", which is a sentence announcing that the
-              sentence above it was the point, followed by a restatement of the
-              three cards above that. */}
-          <div className="mm-answer">
-            <ScrubText className="mm-claim" text="You keep what it learns." />
-            {/* The one link to the argument page. This section asks where the
-                learning ends up; that page answers what the hours are for. It
-                was an orphan for months, prerendered and in the sitemap and
-                reachable from nowhere on the site. */}
-            <p className="mm-answer-more">
-              <Link className="mm-text-link" to="/new-age-leadership">
-                What the hours are for <span aria-hidden="true">&rarr;</span>
-              </Link>
-            </p>
-          </div>
-
-        </div>
-      </section>
-
-      {/* The marquee is a band, not the tail of an argument. Inside the section
-          above it was the fifth thing there and the last 59px of 1,104. */}
+      {/* The marquee is a band between the choice and the proof. */}
       <Marquee lines={["Built once. Better every week.", "What it learns stays yours."]} />
 
-      {/* Its own section, because it was 761px of a 1,865px one.
-          The argument above is a lede, three answers, a claim and a marquee,
-          and the questions were a fifth thing inside it: at 360px that section
-          ran 2.35 screens and this was 41% of it. They are a different act, they
-          have their own heading, and the reader arriving at them has finished
-          the argument rather than being partway through it. */}
+      <ProofStrip />
+
+      <ProofVoices />
+
+      <ProofLive />
+
+      {/* Proof, then who you would be working with. */}
+      <FounderNote treatment="standing" />
+
+      {/* The questions, after the person. A reader who has seen the work and
+          met who did it is the reader with a question left, and it sat second
+          on the page, before either. */}
       <section className="mm-block mm-on-raise" aria-labelledby="home-questions-title">
         <div className="mm-container">
           <ObjectionChips
@@ -273,29 +275,20 @@ export default function Index() {
         </div>
       </section>
 
-      <ProofStrip />
-
-      <ProofVoices />
-
-      <ProofLive />
-
-      {/* Proof, then who you would be working with, then the ask. */}
-      <FounderNote treatment="standing" />
-
       {/* Paper again, and the page's second light movement. The publication is
           a separate opt-in rather than a step in the offer, and the ground is
-          what says so before a word is read. Measured before this, the viewport
-          holding it read a whole-screen change of 0.060 against a floor of
-          0.15. */}
+          what says so before a word is read. */}
       <SubscribeBand ground="paper" />
 
       {/* The two doors by name, because the choice was already being made for
           the visitor: each one carries its own four pressure questions and the
-          homepage was sending everybody to a generic set belonging to neither. */}
+          homepage was sending everybody to a generic set belonging to neither.
+          "Keep having to make" is the word that was missing from the whole
+          page: the proof is built around a decision that comes back, not a
+          one-off. No body line under it, because the line narrated the form. */}
       <CloseBlock
         instrument="recorder"
-        claim="Start with one real decision."
-        body="Four details, and we read your market before asking you to explain anything."
+        claim="Start with one decision you keep having to make."
         onStart={openBrief}
         fork
       />

@@ -22,7 +22,9 @@ import { useScrollDriver } from "@/hooks/useScrollDriver";
 export interface TrackPart {
   instrument: InstrumentKind;
   title: string;
-  line: string;
+  /** One line under the title. Optional, because where the line would only
+      describe the shape of the track, the track already says it. */
+  line?: string;
   body: string;
 }
 
@@ -60,7 +62,7 @@ export function ProcessTrack({ first, second }: ProcessTrackProps) {
           <article className={`mm-track-part${index === 0 ? " is-first" : ""}`} key={part.title}>
             <Instrument kind={part.instrument} />
             <h3>{part.title}</h3>
-            <p className="mm-shape-line">{part.line}</p>
+            {part.line && <p className="mm-shape-line">{part.line}</p>}
             <p>{part.body}</p>
           </article>
         ))}

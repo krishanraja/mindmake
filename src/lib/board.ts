@@ -99,8 +99,9 @@ export function timestampLabel(
   if (Number.isNaN(stamped.getTime())) return "The read is rebuilding";
   const time = stamped.toISOString().slice(11, 16);
   const items = `${total.toLocaleString("en-GB")} corroborated ${total === 1 ? "item" : "items"}`;
-  if (isStale(stamped, now)) return `Yesterday's read ${time} UTC · ${days} days · ${items}`;
-  return `Read ${time} UTC · ${days} days · ${items}`;
+  const window = `${days} ${days === 1 ? "day" : "days"}`;
+  if (isStale(stamped, now)) return `Yesterday's read ${time} UTC · ${window} · ${items}`;
+  return `Read ${time} UTC · ${window} · ${items}`;
 }
 
 export function laneCounts(days: BoardDay[]): Record<Lane, number> {

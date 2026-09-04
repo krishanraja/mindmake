@@ -20,8 +20,16 @@ export function MindmakeBrand({ compact = false }: { compact?: boolean }) {
 
   return (
     <Link className={`mm-brand${compact ? " is-compact" : ""}`} to={home} aria-label="Mindmake home">
-      <img className="mm-brand-icon" src={icon} width={128} height={114} alt="" aria-hidden="true" />
-      <img className="mm-brand-wordmark" src={wordmark} width={890} height={165} alt="Mindmake" />
+      {/* Fetched at head-parse time and decoded before paint.
+          Measured cold on a throttled phone, the wordmark painted progressively
+          and showed half-drawn glyphs for about 150ms, because an 11KB image
+          that starts late at image priority is still arriving when the page
+          first paints. `scripts/prerender.mjs` reads both hashed URLs from the
+          rendered page and preloads them; these two attributes make sure that
+          when the bytes are in, the mark is drawn whole rather than in passes.
+          Lowercase, as in FilmPlate: React 18 drops the camelCase prop. */}
+      <img className="mm-brand-icon" src={icon} width={128} height={114} alt="" aria-hidden="true" decoding="sync" {...{ fetchpriority: "high" }} />
+      <img className="mm-brand-wordmark" src={wordmark} width={890} height={165} alt="Mindmake" decoding="sync" {...{ fetchpriority: "high" }} />
     </Link>
   );
 }

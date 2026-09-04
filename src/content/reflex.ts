@@ -89,18 +89,30 @@ export const TURN = {
  * idea as a threat, which the canon bans outright.
  */
 export const HOURS = {
+  title: "Two things a leader can do with the same hour.",
   lede: "One makes a leader faster at the work. The other makes them better at the job.",
+  /* No `line` on either part. They read "Finite. It finishes." and "Open. It
+     keeps going.", which is what the track's own geometry draws: a capped
+     solid line and a dashed one running off the edge. The design says it. */
   first: {
     instrument: "recorder" as const,
     title: "The work it takes",
-    line: "Finite. It finishes.",
     body: "Drafting, research, checking. Real hours, back every week.",
   },
   second: {
     instrument: "levels" as const,
     title: "The hours that come back",
-    line: "Open. It keeps going.",
     body: "Harder questions, asked earlier, against what the business already knows.",
   },
   payoff: "The second one is what the system is for.",
 };
+
+/**
+ * The hinge, as one sentence pair.
+ *
+ * The north star's own line, and from 3 September 2026 the payoff of the
+ * homepage's problem section as well as this page's opening. On the homepage
+ * it is one scrubbed claim under the two hours; here it is the h1 and the
+ * claim, split in two.
+ */
+export const HINGE = "You can hand over the work. You cannot hand over the understanding.";

@@ -341,7 +341,13 @@ describe("the motion gate", () => {
     /* Entrance choreography always starts from opacity:0 or a translated
        offset. Ambient and touch motion never do. */
     const css = read("src/styles/mindmake-instruments.css");
-    const entrances = css.match(/@keyframes[^{]*\{[^@]*?opacity:\s*0[^}]*\}/g) ?? [];
+    /* Scoped to the keyframes block itself. The first version of this ran from
+       a keyframes rule to the next at-rule, so an ordinary rule a few
+       declarations below a harmless keyframes tripped it: the film loop's
+       crossfade, which is a transition on a class over a still of the very
+       same frame, and not an entrance from anywhere. */
+    const blocks = css.match(/@keyframes[^{]*\{(?:[^{}]*\{[^}]*\})+\s*\}/g) ?? [];
+    const entrances = blocks.filter((block) => /opacity:\s*0(?![.\d])/.test(block));
     expect(entrances).toEqual([]);
   });
 

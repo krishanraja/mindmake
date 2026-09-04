@@ -22,16 +22,12 @@ export function AgathaStory({ ground }: { ground?: "raise" | "paper" } = {}) {
   return (
     <section className={`mm-block${ground_class}`} aria-labelledby="agatha-story-title">
       <div className="mm-container">
-        <div className="mm-head-split">
-          <h2 id="agatha-story-title">
-            <Instrument kind="flap" className="mm-head-mark" />
-            Fifteen reports exposed one missing job.
-          </h2>
-          <p className="mm-lede">
-            An agent in our own system noticed nobody was joining them up. A person decided the
-            job was worth having.
-          </p>
-        </div>
+        {/* The heading and the figure. The lede under it told the story the
+            fifteen strips draw, a third time. */}
+        <h2 id="agatha-story-title">
+          <Instrument kind="flap" className="mm-head-mark" />
+          Fifteen reports exposed one missing job.
+        </h2>
         <ConvergeFigure />
       </div>
     </section>

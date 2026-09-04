@@ -2258,6 +2258,17 @@ hit-testing its centre, rather than by rectangle overlap: chrome on the bottom
 edge clips the last few pixels of a tall card at some scroll position on any
 page, and a card the reader can scroll is not a buried action.
 
+### Baselines after this change
+
+- Tests: **451 across 29 files**, all passing. New: the privacy strip's rules
+  in `CookieConsent.test.tsx`, which hold what the gate measures the result
+  of: the strip declares its own type, no declaration cancels the one above
+  it, the label may not break, the strip is flush and the bar stacks on it,
+  the footer adds both reserves, and the browser's text guess is refused.
+- Lint **0 errors, 2 warnings**. Typecheck **0 errors**.
+- Every browser gate green at both widths, plus `qa:chrome` at its own eight
+  sizes and two text scales.
+
 ### Still open
 
 - `src/index.css` styles bare `h1` to `h6`, `p` and `small`, and this is the

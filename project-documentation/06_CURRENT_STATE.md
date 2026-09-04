@@ -9,7 +9,7 @@ This file is the current delivery truth for `mindmake.co`: what is live, at whic
 **The rebuild is live.** The homepage, `/ai-brain` and `/ai-gtm` were rebuilt, the six films were installed, and it was promoted to production on 28 August 2026.
 
 - Site status: **LIVE**. `https://mindmake.co` launched 26 August 2026 and now serves the rebuild.
-- Production: commit `cf2b2d0` on `main` (4 September 2026, "The curtain was never there"), Vercel deployment `dpl_GQ7wCHKhhRK34Nf5EpxJ3bPRahHc` on project `mindmake` (`prj_GqamX3psD0cGpGCDXRu0ljET7zap`). Before it, commit `12ace5e` (3 September, the entrance and the story's spine) at `dpl_AFyoEwjLzuG3wr93xuXAYFhVay9a`, and before that the 28 August rebuild, merge `75572542094ddd4e702a877b258b9014f37415c1` (pull request #152) at `dpl_HAoncV1RF3hcvcanqo7Yvc4tuAng`.
+- Production: commit `fd8c07e` on `main` (4 September 2026, "The wordmark and the mark are vectors"), Vercel deployment `dpl_67GND784KVV4iQVSHPA9CpUXwp1g` on project `mindmake` (`prj_GqamX3psD0cGpGCDXRu0ljET7zap`). Before it the same morning, `cf2b2d0` ("The curtain was never there") at `dpl_GQ7wCHKhhRK34Nf5EpxJ3bPRahHc`, then Krish's upload of the two brand exports at `dpl_CAPenq7T8BuRzAia2SrXKkY4fHhw`. Before those, commit `12ace5e` (3 September, the entrance and the story's spine) at `dpl_AFyoEwjLzuG3wr93xuXAYFhVay9a`, and before that the 28 August rebuild, merge `75572542094ddd4e702a877b258b9014f37415c1` (pull request #152) at `dpl_HAoncV1RF3hcvcanqo7Yvc4tuAng`.
 - Rollback target: `dpl_HAoncV1RF3hcvcanqo7Yvc4tuAng`, the 28 August rebuild. Not `dpl_AFyoEwjLzuG3wr93xuXAYFhVay9a`: that build carries the 3 September curtain defect (the root as a fixed grid for a second after paint, and no curtain), and rolling back to it would ship that again.
 - Verified live after promotion: all three pages 200 with their new headlines, both film formats and the posters served from the CDN, the sixty-second proof film reachable, one-hop 308 redirects from `www`, `themindmaker.ai`, `/signal` and `/library`, `llms.txt` and `sitemap.xml` 200, and the privacy notice carrying the corrected email wording and the working contact address.
 - Domains are unchanged: `mindmake.co` is canonical (Vercel DNS); `www.mindmake.co`, `themindmaker.ai` and `www.themindmaker.ai` 308-redirect to the apex in one hop with path and query preserved. The publication stays at `https://mindmakerlive.substack.com`. CTRL serves at `ctrl.mindmake.co`.
@@ -1869,6 +1869,9 @@ the driver's first-write logic); the argument page's from 348,314 to 348,190.
 - On the day of measurement `get-ai-news` returned one day for a seven-day
   request; the heading and stamp are honest either way, the window question
   is upstream.
+- A face that lands after the 700ms hold can rewrap a line that sits near
+  its column's edge (seen once on the hero claim, above); metric fallbacks
+  match average width, not every string.
 - Pre-existing and out of scope: retired routes hydrate the homepage's
   prerendered markup against a different route; whether a privacy notice is
   needed at all for cookieless analytics.
@@ -2038,6 +2041,23 @@ day it was added. The unit test passed on the string in the script alone.
 The pattern is case-insensitive now, and the test reads the pattern out of
 the script and runs it over the real render of the homepage, where it has
 to find a webp.
+
+Production for this change is `dpl_67GND784KVV4iQVSHPA9CpUXwp1g`, commit
+`fd8c07e`, and it serves the two vectors inline with their own ids per
+instance, no brand image, and the webp poster preload on every page. Read
+through the forwarder at 390 on the throttle: first paint at 1692ms and the
+frame is the whole curtain, the strips on for 75 frames with the sweep
+crossing them, the arrival at 2332ms, which is the 700ms cap because a face
+was still on its way, zero layout shifts, the loop playing, and the vector
+header in the settled frame. One residual from that run, not the site's:
+the Newsreader file never arrived through the forwarder in six seconds, so
+the hero claim stayed in its metric fallback, which sets "Yours should also
+know you." on one line where the face sets two. The fallback matches the
+face's average advance width, not every string, so a face that lands after
+the hold can rewrap a line that sits near the column's edge; the hold
+covers it when the faces arrive inside 700ms of the first frame, which the
+preloads make the usual case. Recorded here as a known limit of metric
+fallbacks rather than fixed by tuning one string.
 
 ### Baselines after this change
 

@@ -205,3 +205,15 @@ The same release repairs the lead dialog, whose entire structural CSS was
 deleted by the strip commit of 28 August and shipped. It is a stylesheet-only
 change with no backend or configuration to it, so it rides the promotion in step
 2 and needs nothing of its own. `06_CURRENT_STATE.md` records what happened.
+
+## Release, 5 September 2026: the edge rewrite
+
+Copy only, on both sides of the lead pipeline, so no migration and no contract
+change. The order was the usual one: the merge and the promotion first
+(`6d39665`, `dpl_ZU6oQorQQcgpiD5YHARRFZHLo3Rg`), then `send-follow-ups` v5
+and `submit-mindmake-brief` v16 from the working tree with their full
+closures. Both deployed bodies were read back and every file is
+byte-identical to the repository. One synthetic lead from `https://mindmake.co`
+proved the code, the results email with its new label, the fit digest and
+exactly one follow-up row; both rows were deleted afterwards. The record is
+in `06_CURRENT_STATE.md`, "Promoted, 5 September 2026".

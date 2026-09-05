@@ -2311,13 +2311,14 @@ shipped and what was measured.
 - **Answers**: three questions renamed, five answers made duration-free, and
   `private` added ("Does anyone in my company need to know?"). The canon's
   list and the contract test's topic map moved with them.
-- **Server copy**: `send-follow-ups` v5 is live with the follow-up's offer
-  line read in private rather than thirty days; the body was read back and
-  matches the repository. `submit-mindmake-brief` carries the same edit in
-  the repository (the proposal's "A useful first proof" label in the email,
-  the attachment and the plain text, and two pressure lines) but **is not
-  deployed**: the sixteen-file closure could not go through the session's
-  tooling, so it is the first follow-up, per the lead-pipeline rule.
+- **Server copy**: `send-follow-ups` v5 and `submit-mindmake-brief` v16 are
+  live with the same edit (the proposal's "A useful first proof" label in the
+  email, the attachment and the plain text, two pressure lines, and the
+  follow-up's offer line read in private). Both bodies were read back from
+  the platform and every file is byte-identical to the repository, sixteen
+  for the brief and two for the follow-up. The brief function also carries
+  the wider personal-email list from `064cbe9`, which the browser already
+  enforced and the live function had not.
 - Deleted: `ForkBand.tsx`, `ClimbLadder.tsx`, their stylesheet blocks, the
   paper band head, and the tests and exemptions that named them.
 
@@ -2339,3 +2340,24 @@ shipped and what was measured.
   heading and quotes.
 - Social plates repainted for `/`, `/ai-brain` and `/ai-gtm`; `llms.txt`
   regenerated.
+
+### Promoted, 5 September 2026
+
+- Merged to `main` as `6d39665` (pull request #154). Vercel production
+  deployment `dpl_ZU6oQorQQcgpiD5YHARRFZHLo3Rg`, READY. Verified live: the
+  new hero on `/`, the private answer on `/`, `/ai-brain/`, `/ai-gtm/` and
+  `/faq/`, `llms.txt` carrying the new first line, and no duration promise on
+  any of them. The rollback target is the previous production deployment,
+  `dpl_5saD1mJed9NpT9oXA6wgGHSUPGnz`.
+- `submit-mindmake-brief` v16, deployed after the promotion in the runbook's
+  order, `verify_jwt` off, from the working tree with the CLI. Probed live: a
+  wrong origin is 403, an unexpected field is 400 naming it.
+- **One synthetic end-to-end lead** from `https://mindmake.co` to
+  `krish@themindmaker.ai`: verification code delivered, confirmed, visitor
+  and operator deliveries both queued, the results email carrying "A USEFUL
+  FIRST PROOF" and the new pressure line, exactly one `follow_up_queue` row
+  due fourteen days out. Both rows were then deleted and read back as gone.
+- Worth a look: the live company read for `themindmaker.ai` resolved the
+  brand to a different founder's name and product. That is the enrichment
+  provider's answer for that domain and predates this change; it is the
+  read a lead from that domain would see today.

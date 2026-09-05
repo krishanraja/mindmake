@@ -110,7 +110,7 @@ export function FounderNote({ treatment = "standing" }: FounderNoteProps) {
                   teams at companies selling a technology their customers could not explain. The
                   job was always to take something complicated and make it something a person could
                   act on. It still is. I build inside your own accounts and show you how it works
-                  as we go, so when the thirty days end it is yours.
+                  as we go, so when the work ends it is yours.
                 </p>,
                 <p className="mm-founder-close" key="three">
                   The quotes above are from people I have worked with, and the references are from

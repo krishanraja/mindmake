@@ -1,6 +1,6 @@
 # 01. Canon
 
-*Current as of 28 August 2026.*
+*Current as of 5 September 2026.*
 
 The commercial truth. Where anything else in this repository disagrees with this
 file or with `00_NORTH_STAR.md`, those two win and the other thing is wrong.
@@ -22,6 +22,26 @@ It is **not** an automation shop, a training course, a chatbot, or an open-ended
 consultancy. It does not begin with a list of repetitive tasks. It begins with
 the value of a leader's time, the decisions only they can make, and the
 capability the business should still have when the work ends.
+
+---
+
+## Sharpened, 5 September 2026
+
+See `00_NORTH_STAR.md`, "Sharpened, 5 September 2026", for the four things and
+the reasoning. What they change in this file:
+
+- The offer is a **paid proof with no public price and no public duration**.
+  The internal month shape, the hour envelope and the rate card below are
+  unchanged and stay internal.
+- The two doors are the **two questions a leader can bring**, an AI that
+  starts from what they already know, or a way to sell built for what
+  customers pay for now, and the same work sits behind both. Each door page
+  carries only what is specific to its door. The practice's argument is made
+  on the homepage (what the work answers) and on `/new-age-leadership` (why).
+- The Accountable Delegator below stays internal. Its one public form is the
+  private line in the north star, and the answer "Does anyone in my company
+  need to know?" in `src/content/answers.json`.
+- The payoff word in public copy is **edge**; judgement stays the mechanism.
 
 ---
 
@@ -238,7 +258,10 @@ without one.
 
 ## The offer
 
-Work starts with a **paid thirty-day proof**. There is no public price.
+Work starts with a **paid proof**. There is no public price and, from 5 September
+2026, no public duration: the length is agreed privately with the fee, and the
+site promises only that something is working in the first week. The month shape
+below is the internal envelope.
 
 The proof picks one important decision or capability, builds a working first
 version, uses it on real work, and leaves behind something the client keeps
@@ -262,7 +285,7 @@ CTRL-backed system that can keep improving.
 
 **How to describe the work.** We study the leader and the business, check outside
 evidence, capture the judgement that matters, and build a working first version.
-The thirty days must make something meaningfully better, rather than collect data
+The proof must make something meaningfully better, rather than collect data
 or produce documents. The client keeps the system and its reasoning in CTRL
 rather than receiving a deck that goes stale.
 
@@ -374,7 +397,7 @@ not what is bought.
 3. The visitor makes one easy choice, then chooses where returned time would
    matter most.
 4. Mindmake shows the recommendation: what AI can carry, what stays with the
-   leader, and what a thirty-day proof could test.
+   leader, and what a first proof could test.
 5. The visitor gives their email to keep the brief, confirms a code, and receives
    the branded proposal on screen, by email, and as a self-contained attachment.
 6. A private fit digest reaches the operator with the same inputs plus richer
@@ -444,7 +467,7 @@ The nine, and the two paths that deliberately have none, are listed in
 2. Would the work strengthen the leader's judgement, raise the value of their
    time, or improve a material product, price, positioning or people choice?
 3. Can the right people provide trusted context, decisions and introductions
-   during a focused thirty-day proof?
+   during a focused first proof?
 4. Can the first proof be bounded, useful, repeatable and valuable enough to earn
    longer work?
 
@@ -471,14 +494,15 @@ as separate software.
 **The live objection set is `src/content/answers.json`**, rendered by the
 objection chips and the ask bar. That file is the source of truth for public
 answers, because it is what ships. It covers cost, whether you need to be
-technical, what happens after thirty days, who sees your data, how this differs
+technical, what happens when the work ends, who sees your data, how this differs
 from a consultant, why not just use a chatbot, how much of the team's time it
-takes, what you keep, whether it is a document or something that works, whether
-thirty days is realistic, how to start, whether it fits your business,
-whether we will email forever, what actually happens in the thirty days, what is
+takes, what you keep, whether it is a document or something that works, how soon
+you see something working, how to start, whether it fits your business,
+whether we will email forever, what actually happens in the work, what is
 included, why you need this rather than doing it yourself, how we charge, what
 happens if it does not work, why it would be different when AI has already got
-things wrong, and whether you need to be a certain size.
+things wrong, whether you need to be a certain size, and whether anyone in your
+company needs to know.
 
 The last of those was added on 2 September 2026 and is the one place the
 argument on `/new-age-leadership` reaches the buying journey: a reader who

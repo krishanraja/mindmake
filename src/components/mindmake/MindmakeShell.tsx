@@ -137,7 +137,7 @@ export function MindmakeShell({ children, onStart, mainClassName = "" }: Mindmak
       <footer className="mm-footer" ref={footerRef}>
         <div className="mm-container mm-footer-grid">
           <MindmakeBrand compact />
-          <p>We help leaders put their own judgement to work with AI, and you keep what it learns.</p>
+          <p>We help leaders keep their edge as AI changes their market, and you keep what it learns.</p>
           <nav aria-label="Footer navigation">
             <Link to="/ai-brain">Build your AI brain</Link>
             <Link to="/ai-gtm">Build your AI GTM</Link>

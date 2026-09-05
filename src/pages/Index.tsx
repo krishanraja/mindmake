@@ -11,12 +11,11 @@ import { Build } from "@/components/mindmake/Build";
 import { ScrubText } from "@/components/mindmake/ScrubText";
 import { Marquee } from "@/components/mindmake/Marquee";
 import { ObjectionChips } from "@/components/mindmake/ObjectionChips";
-import { ProcessTrack } from "@/components/mindmake/ProcessTrack";
 import { ProofStrip, ProofVoices } from "@/components/mindmake/ProofStrip";
 import { SubscribeBand } from "@/components/mindmake/SubscribeBand";
 import { BoardFilters } from "@/components/mindmake/board/BoardFilters";
 import { FlapRow } from "@/components/mindmake/board/FlapRow";
-import { HINGE, HOURS } from "@/content/reflex";
+import { PRIVATE_LINE, THREE_THINGS } from "@/content/reflex";
 import { useBoardData } from "@/hooks/useBoardData";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useShortScreen } from "@/hooks/useShortScreen";
@@ -81,7 +80,7 @@ function ProofLive() {
     <section className="mm-block mm-on-raise mm-seam-above" aria-labelledby="proof-title">
       <div className="mm-container">
         <div className="mm-board-head">
-          <h2 id="proof-title"><Instrument kind="recorder" className="mm-head-mark" />What changed in AI.</h2>
+          <h2 id="proof-title"><Instrument kind="recorder" className="mm-head-mark" />What is coming, read today.</h2>
           {board.status === "ready" && (
             <span className={`mm-timestamp${isStale(board.cacheDate) ? " is-stale" : ""}`}>
               <i className={`mm-live-dot${isStale(board.cacheDate) ? " is-stale" : ""}`} aria-hidden="true" />
@@ -126,17 +125,18 @@ export default function Index() {
   return (
     <MindmakeShell onStart={openBrief}>
       <SEO
-        title="Every AI you buy knows the market. Yours should also know you."
-        description="Mindmake builds AI that knows how you work: your standards, your context and your past decisions. Thirty days, and you keep what it learns."
+        title="See what is coming for your business before it is obvious."
+        description="Mindmake works with leaders in private: where you stand, what is coming, what to do first, built into an AI that knows how you work and stays yours."
         canonical="/"
       />
 
-      {/* The story down this page, decided 3 September 2026 after reading it
-          on a phone: what this is, why it matters to a person, the choice,
-          the proof, the live read, who you would work with, the questions,
-          the publication, the ask. It used to put the choice second and the
-          argument third, so a visitor was offered two products before being
-          told why either one mattered. */}
+      {/* The story down this page, from 5 September 2026, read as a busy
+          leader would: what this is and who it is for, the choice, what the
+          work answers, the proof, the live read, who you would work with,
+          the questions, the publication, the ask. The 3 September order put
+          the argument second and the choice third, which was philosophy
+          before the offer; the hero carries the offer now and the doors
+          follow it, so the argument can come after both and stay short. */}
       <section className="mm-hero" aria-labelledby="hero-title">
         <div className="mm-container">
           <div className="mm-hero-stage">
@@ -160,55 +160,36 @@ export default function Index() {
                 painted from the first frame; only the words wait. */}
             <div className="mm-hero-copy mm-first">
               <h1 className="mm-setup mm-parallax mm-parallax-slow" id="hero-title" ref={setupRef}>
-                Every AI you buy knows the market.
+                See what is coming for your business before it is obvious.
               </h1>
               <p className="mm-claim mm-parallax mm-parallax-fast" ref={claimRef}>
-                Yours should also know you.
+                Then act on it with an AI that knows how you work, and keep the edge.
+              </p>
+              {/* The one thing the first screen never said: what Mindmake
+                  does, for whom, and in what setting. The door heroes have
+                  carried a lede since the rebuild; this one did not. */}
+              <p className="mm-lede">
+                Mindmake works with leaders in private. We read where you stand and what is
+                changing in your market, decide what to do first, and build it into an AI you own.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* The problem, and the page's first change of ground.
-          The hours AI gives a leader back, the two things those hours can go
-          into, and the hinge the whole practice hangs on. It is the argument
-          page's opening, condensed: the history of people blaming their tools
-          stays over there as the deeper why, because on a phone a reader
-          meeting the site for the first time should meet their own week, not
-          somebody else's objection. Paper, because it is the most text-bearing
-          screen on the page and the one that most wants light. */}
-      <section className="mm-block mm-on-paper" aria-labelledby="hours-title">
-        <div className="mm-container mm-first" style={{ "--mm-first-i": 1 } as CSSProperties}>
-          <h2 id="hours-title"><Instrument kind="levels" className="mm-head-mark" />{HOURS.title}</h2>
-          <div style={{ marginTop: 20 }}>
-            <ProcessTrack first={HOURS.first} second={HOURS.second} />
-          </div>
-          <div className="mm-answer">
-            <ScrubText className="mm-claim" text={HINGE} />
-            {/* The one link to the argument page, which keeps the reasoning
-                and the six-hundred-year history behind this sentence. */}
-            <p className="mm-answer-more">
-              <Link className="mm-text-link" to="/new-age-leadership">
-                What the hours are for <span aria-hidden="true">&rarr;</span>
-              </Link>
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* The two doors, as the page's one way in.
-          They sat inside the hero until 3 September 2026, which offered the
-          choice before the reason. They are their own section now, after the
-          problem and before the proof, and they are marked as the primary
-          action: exactly two, adjacent, in one control group, which is the
-          shape `scripts/qa/one-way-in-check.mjs` reads as one fork rather than
-          two offers, and what tells the mobile action bar to stand down while
+          Directly under the hero from 5 September 2026, because the hero now
+          says what the work is and the next thing a leader wants is the
+          choice. They are marked as the primary action: exactly two,
+          adjacent, in one control group, which is the shape
+          `scripts/qa/one-way-in-check.mjs` reads as one fork rather than two
+          offers, and what tells the mobile action bar to stand down while
           they are on screen. Each door carries the film from the page behind
           it, so the picture is a preview rather than decoration, and hovering
-          one dims the other so the choice reads as physical. */}
+          one dims the other so the choice reads as physical. The container is
+          the entrance's second beat now that the hours have gone. */}
       <section className="mm-block">
-        <div className="mm-container">
+        <div className="mm-container mm-first" style={{ "--mm-first-i": 1 } as CSSProperties}>
           <div className="mm-doors" role="group" aria-label="Pick the door to start with">
             <Link className="mm-door" data-mm-primary to="/ai-brain" onClick={() => track("door_click", { door: "brain" })}>
               <FilmPlate
@@ -222,11 +203,10 @@ export default function Index() {
                 scrim
               />
               <span className="mm-door-copy">
-                <h2>An AI that knows how you work</h2>
+                <h2>An AI that starts from what you already know</h2>
                 {/* The method, described and never named, per the canon: the
-                    one thing on this site nobody else can say. Wording to be
-                    confirmed by the owner before it ships. */}
-                <p>Your standards, your context and the decisions you have already made, working as one system. It learns them by asking you to grade real examples of your own work, then writing down the rule you used.</p>
+                    one thing on this site nobody else can say. */}
+                <p>Your standards, your context and the decisions you have already made, working as one system. It learns them from real examples of your work, so every call starts from you rather than from a blank page.</p>
                 <span className="mm-door-go">Build your AI brain <span aria-hidden="true">→</span></span>
               </span>
             </Link>
@@ -242,17 +222,47 @@ export default function Index() {
                 scrim
               />
               <span className="mm-door-copy">
-                <h2>A way to sell that fits how AI works now</h2>
-                <p>AI is changing what customers will pay for. We rebuild one part of how you sell, across what you offer, what you charge, how you stand out and who does the selling.</p>
+                <h2>A way to sell built for what customers pay for now</h2>
+                <p>AI has changed what your customers will pay for. We rebuild one part of how you sell, what you offer, what you charge, how you stand out or who does the selling, and prove it with real buyers.</p>
                 <span className="mm-door-go">Build your AI GTM <span aria-hidden="true">→</span></span>
               </span>
             </Link>
           </div>
+          <p className="mm-doors-note">Start with either. Both are read in private, and both end with something you own.</p>
         </div>
       </section>
 
-      {/* The marquee is a band between the choice and the proof. */}
-      <Marquee lines={["Built once. Better every week.", "What it learns stays yours."]} />
+      {/* What the work answers, in order. The page's first change of ground,
+          and the argument in the fewest words it will go: three beats that
+          build as the reader arrives and resolve on the third. Paper, because
+          it is the most text-bearing screen on the page and the one that most
+          wants light. It replaced the two hours and the hinge, which are
+          reasoning and live on the argument page, linked once from here. The
+          payoff is the private pillar's one public form. */}
+      <section className="mm-block mm-on-paper" aria-labelledby="things-title">
+        <div className="mm-container">
+          <h2 id="things-title"><Instrument kind="levels" className="mm-head-mark" />Three things you know at the end.</h2>
+          <Build className="mm-three" style={{ marginTop: 20 }}>
+            {THREE_THINGS.map((thing, at) => (
+              <article className={`mm-enemy${at === THREE_THINGS.length - 1 ? " is-answer" : ""}`} key={thing.title}>
+                <h3>{thing.title}</h3>
+                <p>{thing.body}</p>
+              </article>
+            ))}
+          </Build>
+          <div className="mm-answer">
+            <ScrubText className="mm-claim" text={PRIVATE_LINE} />
+            <p className="mm-answer-more">
+              <Link className="mm-text-link" to="/new-age-leadership">
+                Why the understanding has to stay with you <span aria-hidden="true">&rarr;</span>
+              </Link>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* The marquee is a band between the argument and the proof. */}
+      <Marquee lines={["Read in private.", "Built once. Better every week.", "What it learns stays yours."]} />
 
       <ProofStrip />
 
@@ -270,7 +280,7 @@ export default function Index() {
         <div className="mm-container">
           <ObjectionChips
             titleId="home-questions-title"
-            ask={["consultant", "chatgpt", "tried-it", "why-not-myself", "how-we-work", "included", "charging", "start", "email"]}
+            ask={["private", "cost", "how-we-work", "consultant", "chatgpt", "tried-it", "why-not-myself", "included", "start", "email"]}
           />
         </div>
       </section>

@@ -72,8 +72,11 @@ export function ProofVoices() {
         {/* The drum carries the band's heading rather than sitting under a
             second one saying the same thing. It names the founder, which is
             the framing of the proof and one of the three places the canon
-            allows it. */}
-        <ProofDrum headingId="proof-voices-title" />
+            allows it. Client families only on the homepage from 5 September
+            2026: the session and career voices are older and about a different
+            job, and beside the AI-era outcomes they read as padding. The
+            archive on /case-studies keeps all thirty-three. */}
+        <ProofDrum headingId="proof-voices-title" families={["client", "outcome"]} />
 
         <div className="mm-attendance">
           <h3>

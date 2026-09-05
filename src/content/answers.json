@@ -45,7 +45,7 @@
     },
     {
       "id": "duration",
-      "question": "What happens after the thirty days?",
+      "question": "What happens when the work ends?",
       "keywords": [
         "long",
         "time",
@@ -63,7 +63,7 @@
         "over",
         "next"
       ],
-      "answer": "Thirty days to a working system, and it keeps running afterwards. You own the system, the automations and the record of your standards."
+      "answer": "It keeps running. You own the system, the automations and the record of your standards, and nothing about it depends on us being there."
     },
     {
       "id": "data",
@@ -85,6 +85,25 @@
         "gdpr"
       ],
       "answer": "Only you. We build it inside your own accounts, and we never publish, share or train anything on your work."
+    },
+    {
+      "id": "private",
+      "question": "Does anyone in my company need to know?",
+      "keywords": [
+        "private",
+        "privately",
+        "confidential",
+        "confidentiality",
+        "know",
+        "secret",
+        "discreet",
+        "discretion",
+        "board",
+        "colleagues",
+        "nobody",
+        "anyone"
+      ],
+      "answer": "No. The work happens on your own decisions, with you, and nobody else in the business has to be told you started. Where the work needs your team, you decide when and how they come in."
     },
     {
       "id": "consultant",
@@ -179,7 +198,7 @@
     },
     {
       "id": "speed",
-      "question": "Is thirty days realistic?",
+      "question": "How soon do I see something working?",
       "keywords": [
         "fast",
         "quick",
@@ -190,9 +209,11 @@
         "possible",
         "rush",
         "rushed",
-        "timeline"
+        "timeline",
+        "soon",
+        "first week"
       ],
-      "answer": "Yes. We take on one result rather than a whole transformation, so you see the first working piece in week one and it improves each week after that."
+      "answer": "In the first week. We take on one result rather than a whole transformation, so the first working piece goes live early and it improves each week after that."
     },
     {
       "id": "start",
@@ -227,7 +248,7 @@
         "work with",
         "clients"
       ],
-      "answer": "It suits a leader who owns the decision and wants one real result inside thirty days. If that is not you yet, the weekly read is a good place to begin."
+      "answer": "It suits a leader who owns the decision and wants one real result, proved on real work. If that is not you yet, the weekly read is a good place to begin."
     },
     {
       "id": "email",
@@ -246,15 +267,13 @@
     },
     {
       "id": "how-we-work",
-      "question": "What actually happens in the thirty days?",
+      "question": "What actually happens in the work?",
       "keywords": [
         "how",
         "work",
         "process",
         "happen",
         "happens",
-        "thirty",
-        "30",
         "days",
         "week",
         "weeks",
@@ -264,7 +283,7 @@
         "expect",
         "timeline"
       ],
-      "answer": "Week one we learn how you decide, from real work rather than a questionnaire. Week two the first piece goes live and you use it. Weeks three and four we connect it to the tools your week already runs on and tighten it against what you actually did with it. You see something working from the first week, not a plan at the end."
+      "answer": "Week one we learn how you decide, from real work rather than a questionnaire. Week two the first piece goes live and you use it. After that we connect it to the tools your week already runs on and tighten it against what you actually did with it. You see something working from the first week, not a plan at the end."
     },
     {
       "id": "included",
@@ -319,7 +338,7 @@
         "commercials",
         "model"
       ],
-      "answer": "On the result, agreed before we start, and not on hours or a monthly retainer. We say what the thirty days will produce, you agree the number privately, and it does not move afterwards. There is nothing to cancel at the end because there is nothing running."
+      "answer": "On the result, agreed before we start, and not on hours or a monthly retainer. We say what the work will produce, you agree the number privately, and it does not move afterwards. There is nothing to cancel at the end because there is nothing running."
     },
     {
       "id": "risk",

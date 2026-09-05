@@ -219,7 +219,7 @@ for (const path of PATHS) {
      you stand there, and scrubbed builds, which are driven by position and are
      correctly static the moment you stop. Photographing a stopped page can only
      ever see the first. Six of the fourteen viewports this gate was failing sat
-     on ClimbLadder, ProcessTrack and the fork band, which are the second — so
+     on ProcessTrack, LeverPanel and the story figures, which are the second, so
      the gate was asking those sections to be something the contract says they
      must not be, and the only way to satisfy it would have been to decorate
      them.

@@ -184,7 +184,7 @@ describe("the presentation layer", () => {
        Every card family the reveal is used on still owns its own transition;
        the point is that the two layers no longer touch. */
     const cards = readFileSync(resolve(__dirname, "../styles/mindmake-instruments.css"), "utf8");
-    for (const card of [".mm-enemy {", ".mm-story {", ".mm-fork {", ".mm-lever {"]) {
+    for (const card of [".mm-enemy {", ".mm-story {", ".mm-lever {"]) {
       const rule = cards.slice(cards.indexOf(card));
       expect(rule.slice(0, rule.indexOf("}")), card).toContain("transition:");
     }

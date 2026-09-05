@@ -59,7 +59,7 @@ export const buildProposalSections = (content: ProposalContent): ProposalSection
   whyNow: content.evidence.slice(0, 2),
   carries: { title: "What AI can carry", body: content.carry },
   keeps: { title: "What stays yours", body: content.human },
-  proof: { title: "A useful 30-day proof", body: content.proof },
+  proof: { title: "A useful first proof", body: content.proof },
   returnedTime: { title: "Where the returned time goes", body: content.capacityValue },
   honesty: {
     cannotKnow: `What I cannot know from the outside: ${cannotKnowFor(content.pressure)}.`,

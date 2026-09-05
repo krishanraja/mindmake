@@ -1,6 +1,6 @@
 # 00. North star
 
-*Current as of 28 August 2026.*
+*Current as of 5 September 2026.*
 
 **If you read one file, read this one.** It is written for a person or a model
 arriving with no context, and it should leave you able to make a decision on
@@ -11,7 +11,8 @@ Mindmake's behalf without asking anyone. Everything after it is detail.
 ## The one sentence
 
 **Every AI a leader buys already knows the market. None of them know the
-leader. Mindmake builds the one that does.**
+leader. Mindmake builds the one that does, so the leader keeps their edge as
+the market moves.**
 
 That is the whole business, and every page, email, film and decision either
 serves it or does not belong.
@@ -109,10 +110,11 @@ as the fear of falling behind.
 They are not two products. Either can be the way in, and either can lead to the
 other when the work calls for it.
 
-Both lead to **one paid thirty-day proof**: pick one decision or capability,
-build a working first version, use it on real work, leave something behind that
-keeps running. Not a month of discovery followed by a report. The price is
-private and there is no public diary link. The only primary action on the site
+Both lead to **one paid proof**: pick one decision or capability, build a
+working first version, use it on real work, leave something behind that keeps
+running. Not a stretch of discovery followed by a report. The price is private,
+the length is agreed with it and neither appears on the site (5 September 2026),
+and there is no public diary link. The only primary action on the site
 is **Start here**.
 
 **CTRL** is our own product, running our own practice. It appears as evidence
@@ -123,7 +125,7 @@ priced.
 
 ## What good looks like
 
-**For the client**, thirty days in: something is running that was not running
+**For the client**, when the proof ends: something is running that was not running
 before, it is used on real work, the leader can direct it without us, and they
 would say out loud that it is useful. That last part is the actual bar. A proof
 counts as working when the client will stand behind it.
@@ -273,6 +275,43 @@ Three questions, in order:
 
 If those three do not settle it, the decision belongs to Krish Raja, and the
 honest move is to say so rather than guess.
+
+---
+
+## Sharpened, 5 September 2026
+
+The ikigai work of August and September (Master Ikigai v4, and the positioning
+sheet derived from it) sharpened what this business is for, and the site now
+says it. Nothing above was overturned; four things were made exact.
+
+**What the work answers, in order.** Where you stand. What is coming. What to
+do first. Then it is built into something the leader owns. This is the spine
+of the homepage and the thing every door page has to serve; it replaced the
+two hours and the hinge, which were reasoning and now live on the argument
+page alone.
+
+**The word.** Edge is what the leader keeps. It is commercial, it is theirs,
+and it is less abstract than mind or understanding. Judgement stays as the
+mechanism, and the hinge line keeps "understanding" because it is that line's
+own word. Edge is used sparingly and never as a boast.
+
+**Private, written to and never shamed.** The buyer the work is built for is a
+senior leader who is further behind on AI than anyone around them knows, and
+who cannot say so. That description stays internal, because on a page it reads
+as doom. Its one approved public form is the situation without the feeling:
+*Nobody in your organisation needs to know where you started.* The no-fear rule
+stands, and "Write for ambition as much as for pressure" stands with it.
+
+**No public duration.** The proof used to be sold as thirty days on every
+page, and it was the most repeated phrase on the site and the least interesting
+thing about the work. The length is agreed privately with the fee. Public copy
+promises what a leader sees in the first week and what they keep at the end.
+Figures from the record of past work (the archive's "days to the first working
+system", a story's "inside the thirty days") are facts and stay.
+
+The two doors stay. The 28 August decision was not undone: the duplication on
+the door pages came from each one making the whole practice's argument alone,
+so each now carries only what is specific to it, and the argument is made once.
 
 ---
 

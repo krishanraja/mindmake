@@ -16,7 +16,7 @@ export default function Questions() {
     <MindmakeShell onStart={() => setBriefOpen(true)}>
       <SEO
         title="Straight answers"
-        description="Straight answers about Mindmake: what the thirty days build, what it costs, what happens to your data and what you keep."
+        description="Straight answers about Mindmake: what the work builds, what it costs, whether anyone needs to know, what happens to your data and what you keep."
         canonical="/faq"
       />
       <section className="mm-answers-page" aria-labelledby="answers-title">

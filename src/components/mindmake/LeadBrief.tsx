@@ -202,7 +202,7 @@ const pressureDetail = (pressure: string) => {
     return {
       carry: "Bring product changes, buyer language and live objections into the same view.",
       human: "Choose the promise you can stand behind and the proof that earns it.",
-      proof: "Rebuild one offer and put it in front of real buyers inside 30 days.",
+      proof: "Rebuild one offer and put it in front of real buyers before the work ends.",
     };
   }
   if (normalised.includes("building") || normalised.includes("moves") || normalised.includes("choose")) {
@@ -222,7 +222,7 @@ const pressureDetail = (pressure: string) => {
   return {
     carry: "Research the company, hold the competing facts and show where the question may sit.",
     human: "Name the real problem and choose which result matters enough to test.",
-    proof: "Use 30 days to find the decision underneath the noise and build the first proof.",
+    proof: "Find the decision underneath the noise and build the first proof around it.",
   };
 };
 
@@ -835,7 +835,7 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
         {step === "door" && (
           <section className="mm-brief-step is-door">
             <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">Which one are you here for?</h2>
-            <p>Both end in the same thirty days, and you can cross to the other later.</p>
+            <p>Both end in the same piece of work, and you can cross to the other later.</p>
             <div className="mm-door-pick" role="group" aria-label="Which one are you here for?">
               {DOOR_CHOICES.map((choice) => (
                 <button
@@ -954,7 +954,7 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
               <article className="is-wide is-read" style={{ "--mm-i": 0 } as CSSProperties}><small>What we saw at {company}</small><p>{known}</p></article>
               <article style={{ "--mm-i": 1 } as CSSProperties}><small>AI can carry</small><p>{detail.carry}</p></article>
               <article style={{ "--mm-i": 2 } as CSSProperties}><small>You keep</small><p>{detail.human}</p></article>
-              <article className="is-wide" style={{ "--mm-i": 3 } as CSSProperties}><small>A useful 30-day proof</small><strong>{detail.proof}</strong></article>
+              <article className="is-wide" style={{ "--mm-i": 3 } as CSSProperties}><small>A useful first proof</small><strong>{detail.proof}</strong></article>
               <article className="is-wide is-time" style={{ "--mm-i": 4 } as CSSProperties}><small>What the returned time could buy</small><p>{timeValue}</p></article>
             </div>
             <button className="mm-button" type="button" onClick={keepBrief}>Keep the private brief <span aria-hidden="true">→</span></button>

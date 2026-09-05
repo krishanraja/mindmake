@@ -50,7 +50,7 @@ export const PRESSURE_DEFINITIONS = {
     routes: ["home"],
     aiCarries: "Research the company, hold the competing facts and show where the question may sit.",
     humanKeeps: "Name the real problem and choose which result matters enough to test.",
-    proofForThirtyDays: "Use 30 days to find the decision underneath the noise and build the first proof.",
+    proofForThirtyDays: "Find the decision underneath the noise and build the first proof around it.",
   },
   "important-context-lives-in-my-head": {
     label: "Too much important context lives in my head",
@@ -78,14 +78,14 @@ export const PRESSURE_DEFINITIONS = {
     routes: ["brain"],
     aiCarries: "Research the company, hold the competing facts and show where the question may sit.",
     humanKeeps: "Name the real problem and choose which result matters enough to test.",
-    proofForThirtyDays: "Use 30 days to find the decision underneath the noise and build the first proof.",
+    proofForThirtyDays: "Find the decision underneath the noise and build the first proof around it.",
   },
   "product-moving-faster-than-message": {
     label: "Our product is moving faster than our message",
     routes: ["gtm"],
     aiCarries: "Bring product changes, buyer language and live objections into the same view.",
     humanKeeps: "Choose the promise you can stand behind and the proof that earns it.",
-    proofForThirtyDays: "Rebuild one offer and put it in front of real buyers inside 30 days.",
+    proofForThirtyDays: "Rebuild one offer and put it in front of real buyers before the work ends.",
   },
   "price-still-reflects-old-work": {
     label: "Our price still reflects the old work",
@@ -696,7 +696,7 @@ ${card(`${label(`What Mindmake saw at ${singleLine(brief.company.name)}`)}<p sty
 ${card(`${label("What AI can carry")}<p style="margin:0;">${esc(brief.recommendation.aiCarries)}</p>`)}
 ${card(`${label("What stays yours")}<p style="margin:0;">${esc(brief.recommendation.humanKeeps)}</p>`)}
 </div>
-${card(`${label("A useful 30-day proof")}<strong style="display:block;font-family:Georgia,'Times New Roman',serif;font-size:26px;line-height:1.15;letter-spacing:-.02em;">${esc(brief.recommendation.proofForThirtyDays)}</strong>`)}
+${card(`${label("A useful first proof")}<strong style="display:block;font-family:Georgia,'Times New Roman',serif;font-size:26px;line-height:1.15;letter-spacing:-.02em;">${esc(brief.recommendation.proofForThirtyDays)}</strong>`)}
 <div style="margin-top:34px;border-left:4px solid #b96743;padding-left:18px;">${label("Where the returned time goes", "#b96743")}<p style="margin:0;">${esc(brief.choices.returnedTimeValue)}</p></div>
 <p style="margin:30px 0 0;font-style:italic;color:#3d4a47;">${esc(cannotKnowLine(brief.choices.pressureId))}</p>
 <div style="margin-top:26px;border:1px solid #0b756c;background:#fffdf8;padding:18px 20px;">${label("The next step")}<p style="margin:0;">If this reads worth a conversation, reply to the email this brief came with. Krish reads every reply.</p></div>
@@ -724,7 +724,7 @@ export function renderVisitorEmail(brief: StoredBrief): ServerEmail & { attachme
   ${emailBlock(`What Mindmake saw at ${companyName}`, `<p style="margin:0;">${esc(brief.company.read)}</p><p style="margin:10px 0 0;color:#5d6562;font-size:13.5px;">${esc(source)}</p>${evidenceHtml(brief.company.evidence)}`)}
   ${emailBlock("What AI can carry", `<p style="margin:0;">${esc(brief.recommendation.aiCarries)}</p>`)}
   ${emailBlock("What stays with you", `<p style="margin:0;">${esc(brief.recommendation.humanKeeps)}</p>`)}
-  ${emailBlock("A useful 30-day proof", `<strong style="display:block;font-family:Georgia,'Times New Roman',serif;font-size:24px;line-height:1.18;letter-spacing:-.02em;">${esc(brief.recommendation.proofForThirtyDays)}</strong>`)}
+  ${emailBlock("A useful first proof", `<strong style="display:block;font-family:Georgia,'Times New Roman',serif;font-size:24px;line-height:1.18;letter-spacing:-.02em;">${esc(brief.recommendation.proofForThirtyDays)}</strong>`)}
   ${emailAside("Where the returned time goes", `<p style="margin:0;">${esc(brief.choices.returnedTimeValue)}</p>`)}
   <p style="margin:26px 0 0;">${esc(attachmentLine)}</p>
   <p style="margin:14px 0 0;">${esc(boundary)}</p>
@@ -749,7 +749,7 @@ export function renderVisitorEmail(brief: StoredBrief): ServerEmail & { attachme
     "WHAT STAYS WITH YOU",
     brief.recommendation.humanKeeps,
     "",
-    "A USEFUL 30-DAY PROOF",
+    "A USEFUL FIRST PROOF",
     brief.recommendation.proofForThirtyDays,
     "",
     "WHERE THE RETURNED TIME GOES",

@@ -12,6 +12,7 @@ import { ObjectionChips } from "@/components/mindmake/ObjectionChips";
 import { LeverPanel } from "@/components/mindmake/LeverPanel";
 import { ProcessTrack } from "@/components/mindmake/ProcessTrack";
 import { LiveBoard } from "@/components/mindmake/board/LiveBoard";
+import { DoorStories } from "@/components/mindmake/DoorStories";
 import { GtmJourney } from "@/components/mindmake/journeys/GtmJourney";
 import { GTM_STEPS } from "@/content/journeySteps";
 import type { Details } from "@/components/mindmake/journeys/DetailsJourney";
@@ -47,7 +48,7 @@ export default function AiGtm() {
     <MindmakeShell onStart={openBrief}>
       <SEO
         title="Build your AI GTM"
-        description="AI is changing what customers will pay for. We rebuild one part of how you sell, in thirty days, and prove it with real buyers."
+        description="AI is changing what customers will pay for. We rebuild one part of how you sell and prove it with real buyers before we leave."
         canonical="/ai-gtm"
       />
 
@@ -61,7 +62,7 @@ export default function AiGtm() {
             <ScrubText className="mm-claim" text="We help you sell for that." />
             <p className="mm-lede">
               We take one part of how you sell, rebuild it around the way AI has changed your
-              market, and prove it with real buyers inside thirty days.
+              market, and prove it with real buyers before we leave.
             </p>
           </div>
           <div className="mm-hero-film mm-parallax" ref={plateRef}>
@@ -103,8 +104,51 @@ export default function AiGtm() {
         </div>
       </section>
 
-      {/* Above the board, not below it. The board runs to about 800px, so a
-          try-it section underneath was one most visitors never reached. */}
+      {/* The board, straight after the levers: the levers say what AI is
+          changing about selling and the board is that change, read this
+          morning, for the reader's own part of the business. It is the early
+          sight the whole practice rests on, and it used to sit under the form
+          where the page had already asked for something. Ink, between the
+          levers' raise and the stories' raise. */}
+      <LiveBoard />
+
+      {/* Two companies that changed how they sell. The first client proof on
+          this page, both GTM-shaped: a product made simple enough to buy, and
+          a sales path changed before the market forced it. */}
+      <section className="mm-block mm-on-raise" aria-labelledby="sold-title">
+        <div className="mm-container">
+          <h2 id="sold-title"><Instrument kind="drawer" className="mm-head-mark" />Two companies that changed how they sell.</h2>
+          <div style={{ marginTop: 20 }}>
+            <DoorStories ids={["simple-product", "market-moves"]} />
+          </div>
+        </div>
+      </section>
+
+      <section className="mm-block mm-on-paper" aria-labelledby="engage-title">
+        <div className="mm-container">
+          <h2 id="engage-title"><Instrument kind="levels" className="mm-head-mark" />One decision, proved with buyers. Then your team runs it.</h2>
+          <ProcessTrack
+            first={{
+              instrument: "recorder",
+              title: "The review",
+              line: "Understand what changed, and pick one thing to fix.",
+              body: "You get the model, a clear recommendation and all the evidence behind it. Priced on the result, with no retainer.",
+            }}
+            second={{
+              instrument: "levels",
+              title: "The build, optional",
+              line: "Put it in place, and teach your team to run it.",
+              body: "We set the system up as the memory of how you sell, and connect it to your plans.",
+            }}
+          />
+          <ScrubText className="mm-payoff" text="We bring our own tooling, so the work moves quickly from day one." />
+        </div>
+      </section>
+
+      {/* After the proof from 5 September 2026: the form was the third
+          section, before any evidence that the work had worked for anyone,
+          and a form a reader has no reason to fill in is a screen they scroll
+          past. The board, which used to sit under it, is above it now. */}
       <section className="mm-block" aria-labelledby="read-title">
         <div className="mm-container">
           {/* The film belongs beside this heading for the same reason it does
@@ -158,36 +202,13 @@ export default function AiGtm() {
         </div>
       </section>
 
-      <LiveBoard ground="raise" seam />
-
-      <section className="mm-block" aria-labelledby="engage-title">
+      <section className="mm-block">
         <div className="mm-container">
-          <h2 id="engage-title"><Instrument kind="levels" className="mm-head-mark" />Thirty days proves it. Then your team runs it.</h2>
-          <ProcessTrack
-            first={{
-              instrument: "recorder",
-              title: "The review, thirty days",
-              line: "Understand what changed, and pick one thing to fix.",
-              body: "You get the model, a clear recommendation and all the evidence behind it. Priced on the result, with no retainer.",
-            }}
-            second={{
-              instrument: "levels",
-              title: "The build, optional",
-              line: "Put it in place, and teach your team to run it.",
-              body: "We set the system up as the memory of how you sell, and connect it to your plans.",
-            }}
-          />
-          <ScrubText className="mm-payoff" text="We bring our own tooling, so the work moves quickly from day one." />
+          <ObjectionChips ask={["private", "report", "speed", "team", "keep", "how-we-work", "charging", "size", "fit", "risk"]} />
         </div>
       </section>
 
-      <section className="mm-block mm-on-raise">
-        <div className="mm-container">
-          <ObjectionChips ask={["report", "speed", "team", "keep", "how-we-work", "included", "charging", "size", "fit", "risk"]} />
-        </div>
-      </section>
-
-      <SubscribeBand ground="ink" />
+      <SubscribeBand ground="paper" />
 
       <CloseBlock
         instrument="gauge"

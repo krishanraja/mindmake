@@ -142,7 +142,7 @@ Deno.test("reconstructs all recommendation text from the allowlisted IDs", () =>
     "Human judgement should be server-owned",
   );
   assert(
-    stored.recommendation.proofForThirtyDays === "Rebuild one offer and put it in front of real buyers inside 30 days.",
+    stored.recommendation.proofForThirtyDays === "Rebuild one offer and put it in front of real buyers before the work ends.",
     "Proof should be server-owned",
   );
 });

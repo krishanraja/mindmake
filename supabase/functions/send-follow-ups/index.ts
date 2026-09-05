@@ -24,7 +24,7 @@ const SUBJECT = "The better version of our offer";
 const bodyText = (startUrl: string) => [
   "Two weeks ago you asked us to read your business, and we sent you what we found.",
   "",
-  "Since then we have made the offer sharper: one result, thirty days, and a fixed price agreed",
+  "Since then we have made the offer sharper: one result, read in private, and a fixed price agreed",
   "up front rather than a scope that grows. If the timing is better now, reply to this email and",
   "we will pick up where your read left off.",
   "",
@@ -43,7 +43,7 @@ const bodyHtml = (startUrl: string) => `<!doctype html>
 <div style="max-width:560px;margin:0 auto;padding:32px 22px">
 <p style="margin:0 0 24px;font:600 13px/1 Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#788c82">Mindmake</p>
 <p style="margin:0 0 16px;color:#b0c0b7">Two weeks ago you asked us to read your business, and we sent you what we found.</p>
-<p style="margin:0 0 16px;color:#b0c0b7">Since then we have made the offer sharper: one result, thirty days, and a fixed price agreed up front rather than a scope that grows. If the timing is better now, reply to this email and we will pick up where your read left off.</p>
+<p style="margin:0 0 16px;color:#b0c0b7">Since then we have made the offer sharper: one result, read in private, and a fixed price agreed up front rather than a scope that grows. If the timing is better now, reply to this email and we will pick up where your read left off.</p>
 <p style="margin:0 0 24px"><a href="${startUrl}" style="color:#7fe3b4">Start again with fresh numbers</a></p>
 <p style="margin:24px 0 0;font:400 13px/1.5 Arial,sans-serif;color:#788c82">This is the last email we will send you.</p>
 </div></body></html>`;

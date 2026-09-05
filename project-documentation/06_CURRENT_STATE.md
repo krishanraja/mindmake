@@ -1,6 +1,6 @@
 # Mindmake current state
 
-Last updated: 4 September 2026.
+Last updated: 5 September 2026.
 
 This file is the current delivery truth for `mindmake.co`: what is live, at which identifiers, and what remains open. Why the business exists is in `00_NORTH_STAR.md`. Commercial truth is in `01_CANON.md`. Design truth is in `03_DESIGN_CONTRACT.md`.
 
@@ -2277,3 +2277,65 @@ page, and a card the reader can scroll is not a buried action.
   the blog's `small` from 14px to 8.4px, because the design system's own
   defaults have been dead underneath them. That is a change with a visual
   pass attached, and it is not this commit.
+
+## 5 September 2026: the edge rewrite
+
+Krish's ikigai work (Master Ikigai v4 and the positioning sheet derived from
+it, both 5 September) sharpened what Mindmake is for, and he asked for the
+site to be read as a busy leader would and made coherent, concise and clear.
+What that reading found, and what changed, is in `00_NORTH_STAR.md`
+("Sharpened, 5 September 2026") and `01_CANON.md`. The record here is what
+shipped and what was measured.
+
+### What shipped
+
+- **The homepage** says what the work is on the first screen (a lede under the
+  claim, which the door heroes had and this one did not), puts the two doors
+  second, and replaces the two hours and the hinge with the three things the
+  work answers, on paper, built with scroll from `THREE_THINGS` in
+  `src/content/reflex.ts` and closed by the private line. The voices drum
+  shows the client families only; the archive keeps all thirty-three
+  (`ProofDrum` gained a `families` prop). The board is headed as early sight.
+- **`/ai-brain`** lost the fork band and the climb, which were the argument the
+  homepage and `/new-age-leadership` already make, and gained client proof:
+  two stories from the archive in `DoorStories`, chaptered on a phone. The
+  CTRL argument and the captures stay two sections, because merged they ran
+  1.8 screens on a laptop. Fifteen sections to twelve.
+- **`/ai-gtm`** puts the board straight after the levers, then two GTM-shaped
+  stories, then the process, and the form after all of them rather than third.
+- **No duration in public copy.** Every "thirty days" that was a promise went:
+  heroes, tracks, answers, the shell, the meta, `llms.txt`, the dialog's door
+  step and preview label, the on-screen proposal title, and one word of the
+  founder's bio. Facts from the record (the archive's counter, the pilots
+  figure) stay.
+- **Answers**: three questions renamed, five answers made duration-free, and
+  `private` added ("Does anyone in my company need to know?"). The canon's
+  list and the contract test's topic map moved with them.
+- **Server copy**: `send-follow-ups` v5 is live with the follow-up's offer
+  line read in private rather than thirty days; the body was read back and
+  matches the repository. `submit-mindmake-brief` carries the same edit in
+  the repository (the proposal's "A useful first proof" label in the email,
+  the attachment and the plain text, and two pressure lines) but **is not
+  deployed**: the sixteen-file closure could not go through the session's
+  tooling, so it is the first follow-up, per the lead-pipeline rule.
+- Deleted: `ForkBand.tsx`, `ClimbLadder.tsx`, their stylesheet blocks, the
+  paper band head, and the tests and exemptions that named them.
+
+### Measured
+
+- Tests **450 across 29 files**, lint **0 errors, 2 warnings**, typecheck
+  **0 errors** against `tsconfig.app.json`.
+- Every browser gate green at 1440 and 390 on the built output: rhythm (45
+  sections across 4 pages), screens (8 sizes, 4 pages, nothing past 1.35),
+  one way in (10 pairs), no-JS (5 pages, 50 answers present), cards (18 on
+  `/`, 33 on the archive), images, dead CSS, chrome, dialog shape, handoff,
+  redirects, entrance (clean on every path, page replaced 0x), and aliveness
+  (30 viewports at 1440, 33 at 390).
+- The screen gate caught two things the first pass got wrong, and both were
+  fixed by shape rather than by a floor: the merged CTRL section, and two
+  full story cards at 360px (1.43 screens, chaptered to one).
+- Rendered DOM of the seven routes scanned: no duration promise, no em dash,
+  no `judgment`, the operator's name only in the founder section, the drum
+  heading and quotes.
+- Social plates repainted for `/`, `/ai-brain` and `/ai-gtm`; `llms.txt`
+  regenerated.

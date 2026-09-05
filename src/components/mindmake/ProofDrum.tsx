@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useDragDrum } from "@/hooks/useDragDrum";
-import { publishableTestimonials, FAMILY_LABEL, type Testimonial } from "@/data/testimonials";
+import { publishableTestimonials, FAMILY_LABEL, type Testimonial, type TestimonialFamily } from "@/data/testimonials";
 import { track } from "@/lib/analytics";
 
 /**
@@ -103,8 +103,17 @@ function Card({
   );
 }
 
-export function ProofDrum({ title = "People who have worked with Krish", headingId }: { title?: string; headingId?: string }) {
-  const voices = publishableTestimonials;
+export function ProofDrum({
+  title = "People who have worked with Krish",
+  headingId,
+  families,
+}: {
+  title?: string;
+  headingId?: string;
+  /** Which families to show. Every family when absent; the archive shows all 33. */
+  families?: readonly TestimonialFamily[];
+}) {
+  const voices = families ? publishableTestimonials.filter((voice) => families.includes(voice.family)) : publishableTestimonials;
   const frame = useRef<HTMLDivElement>(null);
   const panel = useRef<HTMLDivElement>(null);
   const [viewport, setViewport] = useState(1200);

@@ -145,7 +145,7 @@ describe("Mindmake brief V2 backend core", () => {
     expect(stored.recommendation).toEqual({
       aiCarries: "Bring product changes, buyer language and live objections into the same view.",
       humanKeeps: "Choose the promise you can stand behind and the proof that earns it.",
-      proofForThirtyDays: "Rebuild one offer and put it in front of real buyers inside 30 days.",
+      proofForThirtyDays: "Rebuild one offer and put it in front of real buyers before the work ends.",
     });
   });
 

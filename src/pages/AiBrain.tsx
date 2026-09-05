@@ -11,9 +11,8 @@ import { Build } from "@/components/mindmake/Build";
 import { ScrubText } from "@/components/mindmake/ScrubText";
 import { ObjectionChips } from "@/components/mindmake/ObjectionChips";
 import { ProofViewer } from "@/components/mindmake/ProofViewer";
-import { ClimbLadder } from "@/components/mindmake/ClimbLadder";
 import { ProcessTrack } from "@/components/mindmake/ProcessTrack";
-import { ForkBand } from "@/components/mindmake/ForkBand";
+import { DoorStories } from "@/components/mindmake/DoorStories";
 import { BrainJourney } from "@/components/mindmake/journeys/BrainJourney";
 import { BRAIN_STEPS } from "@/content/journeySteps";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
@@ -72,7 +71,7 @@ export default function AiBrain() {
     <MindmakeShell onStart={openBrief}>
       <SEO
         title="Build your AI brain"
-        description="An AI that knows how you work: your standards, your context and the decisions you have already made. Built in thirty days, and yours to keep."
+        description="An AI that knows how you work: your standards, your context and the decisions you have already made. Built with you in private, and yours to keep."
         canonical="/ai-brain"
       />
 
@@ -83,10 +82,11 @@ export default function AiBrain() {
               copy column is the entrance's first beat: see index.html. */}
           <div className="mm-first">
             <h1 className="mm-setup" id="brain-title">Your AI should already know how you work.</h1>
-            <p className="mm-claim">In thirty days, yours will.</p>
+            <p className="mm-claim">Build one that does, and keep the edge.</p>
             <p className="mm-lede">
               An AI brain is a working system that holds your standards, your context and the
-              decisions you have already made, then uses them on real work.
+              decisions you have already made, then uses them on real work. Built with you in
+              private, inside your own accounts.
             </p>
           </div>
           <div className="mm-hero-film mm-parallax" ref={plateRef}>
@@ -106,7 +106,7 @@ export default function AiBrain() {
       <section className="mm-block mm-on-raise" aria-labelledby="aa-title">
         <div className="mm-container">
           <div className="mm-head-split">
-            <h2 id="aa-title"><Instrument kind="rail" className="mm-head-mark" />Built around your best work, and the parts you would rather skip.</h2>
+            <h2 id="aa-title"><Instrument kind="rail" className="mm-head-mark" />What it does on a Monday.</h2>
             <FilmPlate
               className="mm-impact-film"
               poster={filmFourPoster}
@@ -120,9 +120,9 @@ export default function AiBrain() {
             <article className="mm-aa-col is-amplify">
               <h3>More of the work only you can do.</h3>
               <ul>
-                <li>Your network, made searchable and usable at the moment it matters</li>
-                <li>The calls only you can make, prepared from every angle</li>
-                <li>The taste that makes your work recognisably yours, written down and enforced</li>
+                <li>The board paper, argued from every side before you walk in</li>
+                <li>Your network, searchable at the moment a name matters</li>
+                <li>The taste that makes your work yours, written down and applied</li>
               </ul>
             </article>
             <article className="mm-aa-col">
@@ -134,7 +134,7 @@ export default function AiBrain() {
               </ul>
             </article>
           </div>
-          <ScrubText className="mm-payoff" text="You get hours back every week." />
+          <ScrubText className="mm-payoff" text="Hours back every week, and better calls made with them." />
         </div>
       </section>
 
@@ -163,19 +163,14 @@ export default function AiBrain() {
         </div>
       </section>
 
-      <section className="mm-block" aria-labelledby="ctrl-title">
+      {/* How it decides, then what it holds: two claims, and two sections
+          because together they run 1.8 screens on a laptop and the gate says
+          one idea a screen. The first is the engine's rules; the second is
+          the captures, at half width because a 1404px source rendered full
+          width is soft and `qa:images` says so. */}
+      <section className="mm-block mm-on-raise" aria-labelledby="ctrl-title">
         <div className="mm-container">
-          <h2 id="ctrl-title"><Instrument kind="gauge" className="mm-head-mark" />See a decision from every side.</h2>
-
-          {/* The captures are product screenshots with real interface text in
-              them. At full container width they rendered 1238px from a 1404px
-              source, which is soft on any modern screen. Half the width is
-              twice the density and half the height.
-
-              Everything else in the section reads down the left column beside
-              them. The lede and the three principles used to be full width rows
-              above and below, which left about 260px of empty column next to a
-              tall viewer and made the section the longest on the page. */}
+          <h2 id="ctrl-title"><Instrument kind="gauge" className="mm-head-mark" />How it decides.</h2>
           <div className="mm-ctrl-split">
             <div className="mm-ctrl-copy">
               <p className="mm-lede">
@@ -187,7 +182,7 @@ export default function AiBrain() {
                 {SPEC_CHIPS.map((chip) => <span className="mm-spec-chip" key={chip}>{chip}</span>)}
               </div>
               <div className="mm-proof-line">
-                <ScrubText className="mm-claim" text="We built this for ourselves. In thirty days, we build yours." />
+                <ScrubText className="mm-claim" text="We built this for ourselves first. Then we build yours." />
               </div>
               {/* Three mono cards in a column, after the longest section on the
                   page, is the text wall the phone reader complained about. */}
@@ -211,11 +206,7 @@ export default function AiBrain() {
         </div>
       </section>
 
-      {/* The captures on their own screen. Together with the argument above
-          this section ran 1.6 screens at 360px: 666px of copy, chips and
-          principles, then 440px of tabs and a product capture. They are two
-          claims, one about what CTRL is and one about what it looks like. */}
-      <section className="mm-block mm-on-raise" aria-labelledby="ctrl-see-title">
+      <section className="mm-block" aria-labelledby="ctrl-see-title">
         <div className="mm-container">
           <h2 id="ctrl-see-title" className="mm-try-title">
             <span>What it holds.</span>
@@ -224,7 +215,21 @@ export default function AiBrain() {
         </div>
       </section>
 
-      <section className="mm-block mm-on-raise mm-seam-above" aria-labelledby="learn-title">
+      {/* Two leaders, and what they kept. The first client proof on this
+          page: until 5 September 2026 a reader met the mechanism, then the
+          form, and the evidence was two pages away. Both stories are about
+          ownership, which is what this door sells: a content system the
+          founder runs herself, and a business rebuilt and handed back. */}
+      <section className="mm-block mm-on-raise" aria-labelledby="built-title">
+        <div className="mm-container">
+          <h2 id="built-title"><Instrument kind="drawer" className="mm-head-mark" />Two leaders, and what they kept.</h2>
+          <div style={{ marginTop: 20 }}>
+            <DoorStories ids={["own-system", "hand-back"]} />
+          </div>
+        </div>
+      </section>
+
+      <section className="mm-block" aria-labelledby="learn-title">
         <div className="mm-container">
           {/* The film belongs beside this heading for the same reason it does
               beside the one above: this is the only section on the page that
@@ -284,41 +289,35 @@ export default function AiBrain() {
         </div>
       </section>
 
-      <section className="mm-block mm-on-paper">
-        <ForkBand />
-      </section>
-
-      {/* The climb holds the screen while it happens, so the three levels cost
-          one screen of looking rather than three of scrolling. */}
-      <section className="mm-block" aria-labelledby="ladder-title">
+      {/* The fork band and the climb stood here until 5 September 2026. Both
+          made the argument that what you teach AI should compound on your
+          side, which the homepage makes in three beats and the argument page
+          makes properly; on this page they were the same idea a third and a
+          fourth time, between the form and the process. Paper here, so the
+          page keeps a light passage after the form. */}
+      <section className="mm-block mm-on-paper" aria-labelledby="shape-title">
         <div className="mm-container">
-          <ClimbLadder title="Thirty days builds it. Using it makes it better." />
-        </div>
-      </section>
-
-      <section className="mm-block" aria-labelledby="shape-title">
-        <div className="mm-container">
-          <h2 id="shape-title"><Instrument kind="levels" className="mm-head-mark" />One process, and the second half is optional.</h2>
+          <h2 id="shape-title"><Instrument kind="levels" className="mm-head-mark" />One piece of work, and the second half is optional.</h2>
           <ProcessTrack
             first={{
               instrument: "recorder",
-              title: "The build, thirty days",
+              title: "The build",
               line: "Built once, connected to where you already work.",
-              body: "We learn your standards from real work, and switch on the parts that keep learning.",
+              body: "We learn your standards from real work, switch on the parts that keep learning, and leave when it is running.",
             }}
             second={{
               instrument: "levels",
               title: "The habit, optional",
               line: "It gets better the more you use it.",
-              body: "Occasional check-ins to build the habits that get you to the third level. No monthly retainer.",
+              body: "Occasional check-ins to build the habits that keep it improving. No monthly retainer.",
             }}
           />
         </div>
       </section>
 
-      <section className="mm-block mm-on-raise">
+      <section className="mm-block">
         <div className="mm-container">
-          <ObjectionChips ask={["technical", "tried-it", "how-we-work", "included", "keep", "data", "charging", "risk", "why-not-myself"]} />
+          <ObjectionChips ask={["private", "technical", "how-we-work", "keep", "data", "charging", "risk", "tried-it", "why-not-myself"]} />
         </div>
       </section>
 

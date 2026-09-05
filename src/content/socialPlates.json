@@ -1,16 +1,16 @@
 {
   "/": {
     "file": "/social/home.jpg",
-    "version": "427b778d",
-    "headline": "Every AI you buy knows the market.",
-    "claim": "Yours should also know you.",
+    "version": "29b5bd8c",
+    "headline": "See what is coming for your business before it is obvious.",
+    "claim": "Then act on it with an AI that knows how you work, and keep the edge.",
     "still": "film-01"
   },
   "/ai-brain": {
     "file": "/social/ai-brain.jpg",
-    "version": "7c561c8d",
+    "version": "757ec987",
     "headline": "Build your AI brain.",
-    "claim": "An AI that knows how you work.",
+    "claim": "Your AI should already know how you work.",
     "still": "film-02"
   },
   "/ai-gtm": {

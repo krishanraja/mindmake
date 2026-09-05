@@ -70,10 +70,6 @@ const SIZES = [
  */
 const EXEMPT = [
   {
-    match: /^Thirty days builds it/,
-    why: "The pinned climb. It is taller than the screen on purpose: its contents are sticky inside it, so three levels cost one screen of looking rather than three of scrolling.",
-  },
-  {
     match: /^What AI changes about selling/,
     why: "The lever panel is one instrument, not several sections: four dials in one frame with their needles swinging together across a single read. Splitting it would be splitting a gauge in half. It is 1.44 screens on a 360px phone and under budget on every other size.",
   },

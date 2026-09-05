@@ -454,21 +454,21 @@ describe("one accent system", () => {
   });
 
   it("puts the ink palette back wherever a dark island sits inside paper", () => {
-    /* .mm-band-head paints its own near-black ground inside a paper section,
-       which makes it the one element on the site running against the grain of
-       the section it is in. The moment paper started redefining the accent, its
-       claim rendered dark green on near-black — correct for as long as paper
-       redefined nothing, and wrong the day it did.
-
-       Any future island of the same shape has to join this selector, so the
-       check is on the selector rather than on the one class. */
+    /* The fork band's dark head painted its own near-black ground inside a
+       paper section, and the moment paper started redefining the accent its
+       claim rendered dark green on near-black. The band went on 5 September
+       2026, so there is no island left; what this holds now is that nothing in
+       the instruments paints the ink ground for itself without joining the
+       ink-palette selector in mindmake.css, which is how the next island would
+       fail the same way. */
     const tokens = read("src/styles/mindmake.css");
     const group = tokens.slice(0, tokens.indexOf("--mm-ground-light: rgba(127, 227, 180, .07)"));
-    expect(group).toContain(".mm-band-head");
+    expect(group).toContain(".mm-on-ink {");
 
     const instruments = read("src/styles/mindmake-instruments.css");
-    const head = instruments.slice(instruments.indexOf(".mm-band-head {"));
-    expect(head.slice(0, head.indexOf("}"))).toContain("background: #0d1310");
+    for (const match of instruments.matchAll(/^(\.[a-z0-9_-]+)[^{]*\{[^}]*background:\s*#0d1310/gm)) {
+      expect(group, match[1]).toContain(match[1]);
+    }
   });
 
   it("gives every interactive element a visible mint focus ring", () => {
@@ -612,24 +612,25 @@ describe("the naming law", () => {
     const TOPIC: Record<string, string> = {
       cost: "cost",
       technical: "whether you need to be technical",
-      duration: "what happens after thirty days",
+      duration: "what happens when the work ends",
       data: "who sees your data",
       consultant: "how this differs from a consultant",
       chatgpt: "why not just use a chatbot",
       team: "how much of the team's time it takes",
       keep: "what you keep",
       report: "whether it is a document or something that works",
-      speed: "whether thirty days is realistic",
+      speed: "how soon you see something working",
       start: "how to start",
       fit: "whether it fits your business",
       email: "whether we will email forever",
-      "how-we-work": "what actually happens in the thirty days",
+      "how-we-work": "what actually happens in the work",
       included: "what is included",
       "why-not-myself": "why you need this rather than doing it yourself",
       charging: "how we charge",
       risk: "what happens if it does not work",
       "tried-it": "why it would be different when AI has already got things wrong",
       size: "whether you need to be a certain size",
+      private: "whether anyone in your company needs to know",
     };
     for (const entry of ASK_ENTRIES) {
       expect(`01_CANON names the "${entry.id}" answer: ${entry.id in TOPIC}`)
@@ -717,17 +718,7 @@ describe("CTRL appears as proof, on one page only", () => {
        reaches a reader who cannot see the frame, and it is still one approved
        number that has to match what the capture holds. */
     expect(viewer).toContain("42 things known, 18 confirmed by the owner");
-    expect(read("src/pages/AiBrain.tsx")).toContain("We built this for ourselves. In thirty days, we build yours.");
-  });
-});
-
-describe("the fork stores nothing", () => {
-  it("says so, and keeps its word", () => {
-    const fork = read("src/components/mindmake/ForkBand.tsx");
-    expect(fork).toContain("No email required. Nothing is stored.");
-    expect(fork).not.toContain("localStorage");
-    expect(fork).not.toContain("sessionStorage");
-    expect(fork).not.toMatch(/fetch\(|invoke\(/);
+    expect(read("src/pages/AiBrain.tsx")).toContain("We built this for ourselves first. Then we build yours.");
   });
 });
 
@@ -880,7 +871,7 @@ describe("the lead machinery is untouched", () => {
       evidence: ["A first evidence line.", "A second evidence line."],
       carry: "What AI can carry.",
       human: "What stays yours.",
-      proof: "A useful thirty-day proof.",
+      proof: "A useful first proof.",
       capacityValue: "Where the returned time goes.",
       nextStep: "keep",
     });

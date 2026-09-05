@@ -58,7 +58,7 @@ The sanctioned devices are film inside the still, parallax across one sentence, 
 - **Read-lit text** (`ScrubText`). A sentence lights word by word as it rises. Every word is in the DOM at full size throughout; only presence changes.
 - **Assembling rows.** Cards rise into place and draw their rule in sequence, each owning a slice of the range.
 - **Settling values** (`CountingValue`). A figure settles into its true number as you arrive. It starts from a fraction of the real value rather than from nothing, because these are real figures and a number reading 0 when it is 149 is briefly a lie.
-- **The climb** (`ClimbLadder`). Three levels drawn as a staircase, held on screen while a lamp climbs it. The section is taller than the screen and its contents are sticky inside it, so three steps cost one screen of looking rather than three of scrolling. The cards *are* the staircase: they are laid out at equal height and shifted visually, and the lamp climbs the line between the first card's top corner and the last one's, so the graphic and the boxes cannot fall out of register. An SVG staircase drawn above them was tried first and could not be aligned, because an SVG scales in its own coordinate system and DOM boxes do not, so the two agreed at exactly one window width.
+- **The climb** (`ClimbLadder`, deleted 5 September 2026 with the fork band: both restated an argument the homepage and the argument page already make). Three levels drawn as a staircase, held on screen while a lamp climbs it. The section is taller than the screen and its contents are sticky inside it, so three steps cost one screen of looking rather than three of scrolling. The cards *are* the staircase: they are laid out at equal height and shifted visually, and the lamp climbs the line between the first card's top corner and the last one's, so the graphic and the boxes cannot fall out of register. An SVG staircase drawn above them was tried first and could not be aligned, because an SVG scales in its own coordinate system and DOM boxes do not, so the two agreed at exactly one window width.
 - **The track** (`ProcessTrack`). Two parts of one process on one line: solid and capped where the work is finite, dashed and uncapped where it is open-ended, with a marker travelling the whole line as you read. The dashes drift on their own, which is the ambient layer and is what open-ended looks like when nobody is watching.
 - **The lever panel** (`LeverPanel`). The four GTM levers as four dials in one frame, needles swinging together across the read, each from its own rest angle so they never read as one object or as a measurement of anything.
 
@@ -111,7 +111,7 @@ This was banned outright until that date, and the ban had a real argument: a scr
 
 **An arrival travels on an animation, never on a transition.** `transition` is a single property and every card family worth revealing already owns it for its own hover fade, in `mindmake-instruments.css`, which loads after `mindmake.css` at the same specificity. The card's declaration replaced the reveal's outright and the first three arrivals shipped snapping into place; nothing failed and nothing looked broken, the cards simply appeared. An animation cannot be overwritten by a transition, so the two layers stop competing for one property. The fill mode is `backwards`, which holds the first frame through the stagger delay and then lets go: `forwards` would pin `transform: none` on the element for the rest of the page's life and quietly outrank anything that wanted to move it later.
 
-**A section is one idea, and one idea is about one screen.** Not a height cap: the rule is that a section running past about a third again of a phone screen is almost always several sections nobody has separated. The homepage's proof strip was a heading, a film, three story cards, a link, thirty-three quotes on a drum and a rail of logos, and at 360px it ran 2.61 screens. The argument beside it carried the questions section inside it. Both try-it panels carried a promise and a form. `scripts/qa/screen-matrix-check.mjs` measures every section at eight sizes from 360x800 to 1920x1080 and names its exemptions with a reason: the pinned climb, the lever panel and the three-question form on `/ai-brain` are each one object rather than several.
+**A section is one idea, and one idea is about one screen.** Not a height cap: the rule is that a section running past about a third again of a phone screen is almost always several sections nobody has separated. The homepage's proof strip was a heading, a film, three story cards, a link, thirty-three quotes on a drum and a rail of logos, and at 360px it ran 2.61 screens. The argument beside it carried the questions section inside it. Both try-it panels carried a promise and a form. `scripts/qa/screen-matrix-check.mjs` measures every section at eight sizes from 360x800 to 1920x1080 and names its exemptions with a reason: the lever panel and the three-question form on `/ai-brain` are each one object rather than several (the pinned climb was one until it was deleted on 5 September 2026).
 
 **A page runs a ground arc, not an alternation.** Three grounds exist: ink, raise and paper. Ink and raise are one step apart at 1.32:1, which is a surface change at a seam and nothing at all across a screen, so a page that alternates only those two for its whole length has no arc and reads as one colour from the hero down. Paper is a full inversion and is the only ground a reader feels arriving. Every page carries at least one, spaced so the light passages break the page into movements rather than sitting next to each other.
 
@@ -169,7 +169,7 @@ The site speaks as "we" throughout. The founder appears in exactly three places,
 
 Every component ships with its hover, press and focus-visible states. None are optional.
 
-Film plate, doors (the homepage's one way in from 3 September 2026: two cards in one `role="group"`, each marked as a primary action, which is the shape the one-way-in gate reads as one fork and what tells the action bar to stand down), enemy pair and answer block, marquee, objection chips, ask bar, live board (departures rows, lane tiles, role and industry chips, timestamp with live dot), fork band on paper, ladder, shape cards, journey modules, proof viewer, the reflex deck (four dated leaves you flick), the converge figure (fifteen strips into one), close block. They live in `src/components/mindmake/` and are styled in `src/styles/mindmake-instruments.css`. Tokens, base and chrome live in `src/styles/mindmake.css`.
+Film plate, doors (the homepage's one way in from 3 September 2026: two cards in one `role="group"`, each marked as a primary action, which is the shape the one-way-in gate reads as one fork and what tells the action bar to stand down), enemy pair and answer block, marquee, objection chips, ask bar, live board (departures rows, lane tiles, role and industry chips, timestamp with live dot), the three things (a paper `Build` of three beats), shape cards, journey modules, proof viewer, the reflex deck (four dated leaves you flick), the converge figure (fifteen strips into one), close block. They live in `src/components/mindmake/` and are styled in `src/styles/mindmake-instruments.css`. Tokens, base and chrome live in `src/styles/mindmake.css`.
 
 ## The feed's voice
 
@@ -209,10 +209,11 @@ any new film or beat: every generation blamed the tool, and the ones who came
 out ahead learned to read the instrument. The films are instrument rooms
 with a human hand deciding; the history is what happened each time a new
 instrument arrived. The dated objections stay on this page as the deeper
-why. From 3 September 2026 the homepage carries the page's opening instead,
-condensed to the two hours and the hinge, and the section on where
-everything a leader teaches AI ends up moved here from the homepage, because
-it is reasoning and this is the page for reasoning.
+why. From 3 September 2026 the section on where everything a leader teaches AI
+ends up moved here from the homepage, because it is reasoning and this is the
+page for reasoning. The two hours and the hinge followed on 5 September 2026:
+the homepage now says what the work answers (where you stand, what is coming,
+what to do first) and links here once for the why.
 
 ## Motion that is decoration on top of text
 

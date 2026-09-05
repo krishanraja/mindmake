@@ -116,3 +116,35 @@ export const HOURS = {
  * claim, split in two.
  */
 export const HINGE = "You can hand over the work. You cannot hand over the understanding.";
+
+/**
+ * What the work answers, in order. The homepage's spine from 5 September 2026.
+ *
+ * Three beats as a group that builds with scroll, and the third resolves the
+ * set: where you stand, what is coming, what to do first. It replaced the two
+ * hours and the hinge on the homepage, which are reasoning and belong on the
+ * argument page. Each line has to land on its own, because a card on a phone
+ * is read in one glance and nothing under it explains it.
+ */
+export interface ThingBeat {
+  title: string;
+  body: string;
+}
+
+export const THREE_THINGS: ThingBeat[] = [
+  {
+    title: "Where you stand",
+    body: "How your business is placed, from the outside and the inside, with the evidence beside it.",
+  },
+  {
+    title: "What is coming",
+    body: "What is changing in your market this year, read daily from sources you can check.",
+  },
+  {
+    title: "What to do first",
+    body: "One decision or one capability, built and used on real work, so you are moving rather than planning.",
+  },
+];
+
+/** The private pillar's one public form. Approved 5 September 2026. */
+export const PRIVATE_LINE = "Nobody in your organisation needs to know where you started.";

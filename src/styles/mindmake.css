@@ -162,15 +162,13 @@
    --mm-line, 31 read --mm-ink2. Both non-default grounds therefore redefine the
    raw palette for their own subtree as well, which is what actually makes them
    work. Read a surface token in new work; the raw ones are kept honest below. */
+/* Any ink island inside a paper section joins this selector, so it puts the
+   ink palette back for its own subtree. The fork band's dark head was the one
+   such island until 5 September 2026, when the band was deleted; without the
+   rule its claim inherited the paper accent and rendered dark green on
+   near-black. */
 .mm-site,
-.mm-on-ink,
-/* The dark head of a fork band, which is an ink island inside a paper section
-   and therefore has to put the ink palette back for its own subtree. It paints
-   its own ground at .mm-band-head and it is the only element on the site that
-   does that against the grain of its section. Without this its claim inherited
-   the paper accent and rendered dark green on near-black: an accent that had
-   been correct for as long as paper redefined nothing. */
-.mm-band-head {
+.mm-on-ink {
   --mm-bg: var(--mm-ink);
   --mm-bg2: var(--mm-ink2);
   --mm-fg: var(--mm-tx);

@@ -5,6 +5,10 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-09-09
+
+- reconciled at `d3b1bd8`: `NOW.md`'s "What changed recently" gained two dated bullets, the answer surface (`/answers` and four questions, pull requests #160 to #164) and the cross-repo krish-canon block landing in `AGENTS.md` (pull requests #158, #159, #166, #167). `project-documentation/` was not touched by either change, so no drift found there; the state doc's "prerenders 21 indexed routes" line now predates the answer surface (sitemap and prerender cover 26), noted in `NOW.md` rather than rewritten here, since the doc's own baseline is scoped to the 5 September edge rewrite it was measured against.
+
 ## 2026-09-07
 
 - decision: Krish Raja, 7 September 2026, recorded in the control-center steward runbook under "Repo notes": the rule in `project-documentation/README.md` that read "There is no history file. If a fact here is out of date, it is a bug, not a record. History lives in git." is replaced. This repository keeps `project-documentation/history/LOG.md` like every other fleet repo, and git still holds everything. The reason: `project-documentation/06_CURRENT_STATE.md` had reached 2,363 lines and had become a state document and a release journal in one, so an agent that needed "where is it now" waded through every past deployment.

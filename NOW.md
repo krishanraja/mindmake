@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-09-07
-head: 64d63f1
+as_of: 2026-09-09
+head: d3b1bd8
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -33,9 +33,10 @@ What is sold, exactly as canon locks it:
 
 Copy-grade definition, safe to quote: "an AI brain is a working system that holds your taste, judgement, standards, memory and trusted context, and uses them on your real work." Everything in `never_publish` above stays out of any piece, whatever the source.
 
-## Where it is right now (as of 2026-09-07)
+## Where it is right now (as of 2026-09-09)
 
 - **Live** at `mindmake.co`. The rebuild was promoted on 28 August 2026; the latest promotion is the edge rewrite of 5 September 2026 (pull request #154), verified live with one synthetic end-to-end lead. Production identifiers, function versions and the rollback target: `project-documentation/06_CURRENT_STATE.md`, "Where the rebuild stands" and "Lead and data backend".
+- **A new public surface, `/answers`**, shipped 8 September 2026 (#160 to #164): one page per buyer question, machine-first, separate from the blog. The sitemap and prerender now cover 26 indexed routes, up from 21; `project-documentation/06_CURRENT_STATE.md`'s route count is dated 5 September and predates this.
 - **Four code commits past the recorded promotion**, all 7 September: Krish's revision of the thirty-three testimonials, the excerpts cut again to exact substrings, the story deck reading its quotes from the testimonials file, and one story swapped to fit its quote (#156, #157). A merge to `main` promotes production, and no readback of these is recorded in the state doc.
 - **Baselines** (5 September): 450 tests across 29 files, 0 lint errors and 2 warnings, 0 type errors, every browser gate green at 1440 and 390, `qa:alive` included. What each gate measures: `CLAUDE.md`, "Required checks".
 - **Owed** (open items 1 to 9 in the state doc): the branded mailboxes (`mindmake.co` has no MX record, so contact links read one constant pointing at the mailbox that receives), credential rotation, retiring `get-model-data`, repointing the old CTRL host, and the `themindmaker.ai` Resend domain's failed verification.
@@ -44,6 +45,8 @@ Copy-grade definition, safe to quote: "an AI brain is a working system that hold
 
 ## What changed recently
 
+- 2026-09-08 **The answer surface, built to be quoted** (#160 to #164). "`/answers` and `/answers/:slug`, server rendered so an assistant fetching a page finds the argument rather than a shell." Deliberately not the blog: those posts are curated and calmer, these "answer one buyer question each and take a position." One format module is shared by the site, the sitemap, `llms.txt`, the social plates and the prerender, so dropping a markdown file into `src/content/answers/` is the whole publishing step. Four questions shipped the same day: a revenue model for AI products in publishing, an AI centre of excellence with no engineering budget, what adtech competes on once AI can build the targeting model, and an AI decision tool for a trustworthy leadership team. A same-day follow-up (#164) repaired all four files after the generator glued the closing front-matter fence to the first line of prose and wrote a timestamp where the loader requires a date, and fixed the generator itself.
+- 2026-09-08 **The cross-repo canon reaches this repository** (#158, #159, #166, #167). `AGENTS.md` now carries the krish-canon block rendered from `krishanraja/ai-harness`, marker-delimited with its own sha256 so drift is "arithmetic rather than judgement." Before this, the canon "was well governed and had never reached a product repository: this repo referenced it zero times." The block is the harness steward's territory, never the docs steward's. A same-day fix corrected AGENTS.md's own header, which had claimed NOW.md is reconciled on every push to `main`: "the push half was never true... the steward has failed on every push since it shipped." The push trigger now validates only; the nightly run reconciles.
 - 2026-09-07 **The thirty-three, revised** (`20ef51f`, then `ad345f4`, `eb06329`, `218dc14`; #156, #157). Krish "revised the thirty-three to what people actually wrote and declared the file canon. Ten excerpts stopped being substrings of the quotes they came from: two by a capital letter, eight because the excerpt had been rewritten to say what the new quote meant, and one ran past the cap." The test caught all ten and every excerpt was cut again from the revised text. Then the story deck: "Each client story carried its own copy of the quote, and the copies had drifted from what the person wrote," so a story now names its voice and reads the quote from `src/data/testimonials.ts` at import, and one story was swapped because "the revised quote is about value landing on day one, compounding after, and nobody loitering." The control-center audit that flagged the broken rule the same morning is answered by these commits.
 - 2026-09-05 **The edge rewrite** (#154, recorded in `c0ec3ca`). Why, from the commit: the site "read as a busy leader would did not say it: a belief for a hero, philosophy before the offer, the same compounding argument four times across the door pages, no client proof on either door, a form before any reason to fill it, and 'thirty days' as the most repeated phrase on the site." Every duration promise left public copy; the north star and canon were sharpened the same day; `send-follow-ups` v5 and `submit-mindmake-brief` v16 deployed with the same edit.
 - 2026-09-04 **The privacy strip** (`96bf37e`). Photographed on an Android phone "floating above the bottom of the screen with the page showing underneath, its one sentence over two lines, its button reading GOT / IT. Three causes, all reproducible at every phone width, none of them measured by anything." New gate `qa:chrome`; two earlier versions of it missed the inflated row, and the record says why.

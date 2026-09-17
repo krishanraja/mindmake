@@ -71,7 +71,7 @@ describe("the social plates, one per indexed page, painted from the page's words
       const buffer = readFileSync(file);
       expect(jpegSize(buffer), path).toEqual({ width: 1200, height: 630 });
       expect(buffer.length, path).toBeLessThan(200_000);
-      expect(existsSync(resolve(ROOT, `src/assets/films/${plate.still}-poster.jpg`)), plate.still).toBe(true);
+      expect(existsSync(resolve(ROOT, `src/assets/films/aug2026/${plate.still}-poster.jpg`)), plate.still).toBe(true);
     }
   });
 

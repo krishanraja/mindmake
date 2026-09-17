@@ -57,7 +57,7 @@ repository is dead: delete it rather than working around it.
 
 - `project-documentation/`: the whole source of truth, read in numbered order. `README.md` there is the index.
 - `src/hooks/useAmbientMotion.ts`: whether a visitor is served moving footage at all.
-- `src/assets/films/`: six films, both formats each, posters taken from frame one.
+- `src/assets/films/aug2026/`: the six live films, both formats each, posters taken from frame one. Later film libraries live in sibling month folders and are not live until a page imports them.
 - `src/App.tsx`: public route contract and retired-route fallbacks.
 - `src/pages/Index.tsx`: homepage. `src/pages/AiBrain.tsx` and `src/pages/AiGtm.tsx`: the two doors. `src/pages/CaseStudies.tsx`: approved proof archive. `src/pages/NewAgeLeadership.tsx`: the argument page, the one page whose job is the why rather than the brief. It was an orphan on the old Tailwind vocabulary for months, in the sitemap and linked from nowhere; it is on `mm-*` now, linked once from the homepage, and in every gate's page list. Its copy lives in `src/content/reflex.ts`, one line per beat, and its history is dated and corrected (Thamus, not Socrates; Hembree and Dessart, 1986; Juma on who gains and who loses).
 - `src/components/mindmake/HumanHandoff.tsx` with `src/content/handoff.ts`: the offer of a person at the end of each of the nine dead ends. `05_LEAD_DELIVERY_SPEC.md` lists them and the two paths that deliberately have none.

@@ -95,8 +95,9 @@ publication.
   footage at all.
 - `src/styles/`: `mindmake.css` (tokens, base, chrome), `mindmake-instruments.css`
   (every rebuilt component), `mindmake-brief.css` (the brief dialog and proposal).
-- `src/assets/films/`: six films, each with both formats and a poster taken from
-  its own first frame.
+- `src/assets/films/aug2026/`: the six live films, each with both formats and a
+  poster taken from its own first frame. Later review libraries live in sibling
+  month folders and are not live until a page imports them.
 - `src/data/rebuildProof.ts`: proof data. `src/content/answers.json`: the live
   public answers.
 - `src/content/answers/*.md`: the `/answers` surface, one markdown file per

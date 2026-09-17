@@ -16,10 +16,10 @@ import { ReflexDeck } from "@/components/mindmake/ReflexDeck";
 import { ScrubText } from "@/components/mindmake/ScrubText";
 import { useScrollDriver } from "@/hooks/useScrollDriver";
 import { HOURS, TURN } from "@/content/reflex";
-import filmFivePoster from "@/assets/films/film-05-poster.jpg";
-import filmFivePosterWebp from "@/assets/films/film-05-poster.webp";
-import filmFiveLoop from "@/assets/films/film-05-proof.mp4";
-import filmFiveLoopWebm from "@/assets/films/film-05-proof.webm";
+import filmFivePoster from "@/assets/films/aug2026/film-05-poster.jpg";
+import filmFivePosterWebp from "@/assets/films/aug2026/film-05-poster.webp";
+import filmFiveLoop from "@/assets/films/aug2026/film-05-proof.mp4";
+import filmFiveLoopWebm from "@/assets/films/aug2026/film-05-proof.webm";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-instruments.css";
 

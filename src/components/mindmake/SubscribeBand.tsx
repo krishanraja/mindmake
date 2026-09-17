@@ -3,10 +3,10 @@ import { FilmPlate } from "@/components/mindmake/FilmPlate";
 import { Instrument } from "@/components/mindmake/Instrument";
 import { PUBLICATION_URL } from "@/lib/publicLinks";
 import { track } from "@/lib/analytics";
-import filmSixPoster from "@/assets/films/film-06-poster.jpg";
-import filmSixPosterWebp from "@/assets/films/film-06-poster.webp";
-import filmSixLoop from "@/assets/films/film-06-loop.mp4";
-import filmSixLoopWebm from "@/assets/films/film-06-loop.webm";
+import filmSixPoster from "@/assets/films/aug2026/film-06-poster.jpg";
+import filmSixPosterWebp from "@/assets/films/aug2026/film-06-poster.webp";
+import filmSixLoop from "@/assets/films/aug2026/film-06-loop.mp4";
+import filmSixLoopWebm from "@/assets/films/aug2026/film-06-loop.webm";
 
 /**
  * The publication, as its own offer.

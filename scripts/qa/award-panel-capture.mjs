@@ -21,6 +21,8 @@ const rubric = await loadRubric();
 const url = flag("url", rubric.target);
 const runId = flag("run-id", new Date().toISOString().replace(/[:.]/g, "-").replace(/Z$/, "Z"));
 const continuityPath = path.resolve(flag("continuity-report", "C:/Users/krish/.scratch/mindmake-full-route-continuity/report.json"));
+const cookieJarFlag = flag("cookie-jar", "");
+const expectedPath = new URL(url).pathname || "/";
 if (!/^[A-Za-z0-9][A-Za-z0-9._-]{0,99}$/.test(runId)) {
   console.error("run id must be 1 to 100 filename-safe characters using letters, numbers, dots, underscores or hyphens");
   process.exit(1);
@@ -43,6 +45,31 @@ try {
 await fs.mkdir(screenshots, { recursive: true });
 await fs.mkdir(path.join(output, "submissions"), { recursive: true });
 
+async function readNetscapeCookieJar(file) {
+  if (!file) return [];
+  const source = await fs.readFile(path.resolve(file), "utf8");
+  return source
+    .split(/\r?\n/)
+    .filter((line) => line && (!line.startsWith("#") || line.startsWith("#HttpOnly_")))
+    .map((line) => {
+      const [rawDomain, , cookiePath, secure, expires, name, value] = line.replace(/^#HttpOnly_/, "").split("\t");
+      if (!rawDomain || !name || value === undefined) return null;
+      return {
+        name,
+        value,
+        domain: rawDomain,
+        path: cookiePath || "/",
+        secure: secure === "TRUE",
+        httpOnly: line.startsWith("#HttpOnly_"),
+        sameSite: "Lax",
+        ...(Number(expires) > 0 ? { expires: Number(expires) } : {}),
+      };
+    })
+    .filter(Boolean);
+}
+
+const previewCookies = await readNetscapeCookieJar(cookieJarFlag);
+
 const capturedAt = new Date();
 const expiresAt = new Date(capturedAt.getTime() + 24 * 60 * 60 * 1000);
 const candidate = await candidateIdentity();
@@ -61,6 +88,7 @@ for (const plan of enginePlans) {
     for (const viewport of plan.viewports.filter(Boolean)) {
       const surface = viewport.width > viewport.height && viewport.width >= 1024 ? "desktop" : "mobile";
       const context = await browser.newContext({ viewport, reducedMotion: "no-preference", hasTouch: surface === "mobile" });
+      if (previewCookies.length) await context.addCookies(previewCookies);
       const page = await context.newPage();
       await page.addInitScript(() => localStorage.setItem("mindmake_consent", "accepted"));
       const consoleErrors = [];
@@ -95,15 +123,32 @@ for (const plan of enginePlans) {
           .map((element) => (element.getAttribute("aria-label") || element.textContent || "").trim())
           .filter(Boolean);
         return {
+          pathname: location.pathname,
           title: document.title,
           words: text ? text.split(/\s+/).length : 0,
           headings,
+          hasMain: Boolean(document.querySelector("main")),
+          hasVisibleH1: [...document.querySelectorAll("h1")].some((heading) => {
+            const rect = heading.getBoundingClientRect();
+            const style = getComputedStyle(heading);
+            return rect.width > 0 && rect.height > 0 && style.display !== "none" && style.visibility !== "hidden";
+          }),
           firstViewportControls: controls,
           totalScreens: Math.round((document.documentElement.scrollHeight / innerHeight) * 100) / 100,
           horizontalOverflow: Math.max(0, document.documentElement.scrollWidth - innerWidth),
         };
       });
-      const status = response?.ok() && consoleErrors.length === 0 && metrics.horizontalOverflow <= 1 ? "pass" : "fail";
+      const protectionPage = /log in to vercel/i.test(metrics.title) || metrics.pathname === "/login";
+      const status = response?.ok()
+        && metrics.pathname === expectedPath
+        && metrics.hasMain
+        && metrics.hasVisibleH1
+        && metrics.words >= 20
+        && !protectionPage
+        && consoleErrors.length === 0
+        && metrics.horizontalOverflow <= 1
+        ? "pass"
+        : "fail";
       observations.push({
         id: `capture-${stem}`,
         kind: "rendered_browser_capture",
@@ -114,7 +159,7 @@ for (const plan of enginePlans) {
         viewport: `${viewport.width}x${viewport.height}`,
         action: "cold load, traverse complete scroll, return to opening",
         expected: "complete route with no runtime error or horizontal overflow",
-        observed: `${response?.status() ?? "no response"}; ${consoleErrors.length} runtime errors; ${metrics.horizontalOverflow}px horizontal overflow`,
+        observed: `${response?.status() ?? "no response"}; resolved ${metrics.pathname}; ${consoleErrors.length} runtime errors; ${metrics.horizontalOverflow}px horizontal overflow; protection page ${protectionPage ? "yes" : "no"}`,
         metrics,
         consoleErrors,
         evidence: [

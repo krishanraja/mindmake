@@ -295,6 +295,8 @@
    darkest stop so the overshoot never shows an edge. */
 .mm-hero-film { border-radius: 3px; overflow: hidden; background: #070b09; }
 .mm-hero-film .mm-plate { height: 100%; border-radius: 0; }
+.mm-hero-film .mm-parallax-plate { transform-origin: left center; }
+.mm-hero-film .mm-plate-media { object-position: left center; }
 
 /* ---------- Doors ---------- */
 
@@ -817,7 +819,7 @@
    next to the corroboration it is a picture of. The meta track is
    `minmax(0, 1fr)`, which is what guarantees the lane badge can never push the
    row sideways: the mono text wraps instead. */
-@media (max-width: 767px) {
+@media (max-width: 767px) and (any-pointer: coarse) {
   .mm-flap-row {
     grid-template-columns: 34px minmax(0, 1fr) auto;
     grid-template-areas:
@@ -1626,8 +1628,8 @@
   font-size: 10.5px;
 }
 .mm-index .mm-drum-arrows button {
-  min-width: 30px;
-  min-height: 30px;
+  min-width: 44px;
+  min-height: 44px;
   border: 1px solid var(--mm-line);
   border-radius: 2px;
   background: var(--mm-ink2);
@@ -1889,7 +1891,7 @@
 /* Two classes deep on purpose: .mm-site button sets font: inherit, which beats
    a single class and made this read at body size and louder than the quote. */
 .mm-voice .mm-voice-more {
-  min-height: 30px;
+  min-height: 44px;
   margin-top: 4px;
   border: 0;
   background: transparent;
@@ -2034,9 +2036,26 @@
   font-size: 10.5px;
 }
 .mm-drum-arrows { display: inline-flex; gap: 4px; }
+.mm-drum-motion {
+  min-width: 58px;
+  min-height: 44px;
+  border: 1px solid var(--mm-line);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--mm-mut);
+  font-family: var(--mm-mono);
+  font-size: 9px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.mm-drum-motion:hover,
+.mm-drum-motion:focus-visible,
+.mm-drum-motion[aria-pressed="true"] { border-color: var(--mm-mint-dim); color: var(--mm-mint); }
 .mm-drum-block .mm-drum-arrows button {
-  min-width: 34px;
-  min-height: 30px;
+  min-width: 44px;
+  min-height: 44px;
   border: 1px solid var(--mm-line);
   border-radius: 2px;
   background: var(--mm-ink2);
@@ -2300,7 +2319,7 @@ h3 > .mm-head-mark, h4 > .mm-head-mark { width: 28px; height: 28px; margin-top: 
 }
 
 .mm-stories-archive { display: grid; gap: 1px; background: var(--mm-line); border: 1px solid var(--mm-line); border-radius: 3px; overflow: hidden; }
-.mm-story-full { display: grid; gap: 20px; background: var(--mm-ink2); padding: clamp(18px, 2.4vw, 28px); }
+.mm-story-full { display: grid; gap: 20px; scroll-margin-top: calc(var(--mm-header-height) + clamp(6.5rem, 12vw, 9rem)); background: var(--mm-ink2); padding: clamp(18px, 2.4vw, 28px); }
 @media (min-width: 860px) {
   .mm-story-full { grid-template-columns: minmax(0, 1fr) minmax(0, .74fr); gap: 36px; align-items: center; }
 }
@@ -2396,7 +2415,7 @@ h3 > .mm-head-mark, h4 > .mm-head-mark { width: 28px; height: 28px; margin-top: 
    reader has left the first screen, because the hero has its own actions and a
    fixed bar would land on them. */
 .mm-action-bar { display: none; }
-@media (max-width: 767px) {
+@media (max-width: 767px) and (any-pointer: coarse) {
   .mm-action-bar {
     position: fixed;
     left: 0;
@@ -2519,7 +2538,7 @@ h3 > .mm-head-mark, h4 > .mm-head-mark { width: 28px; height: 28px; margin-top: 
 .mm-voice-panel blockquote::after { content: "\201D"; }
 .mm-voice-panel .mm-voice-by { margin-top: 12px; overflow: visible; }
 .mm-voice-panel .mm-voice-role { display: block; -webkit-line-clamp: none; }
-.mm-voice-panel .mm-voice-more { margin-top: 10px; justify-self: start; }
+.mm-voice-panel .mm-voice-more { min-height: 44px; margin-top: 10px; justify-self: start; }
 .mm-drum-track > .mm-voice.is-open { opacity: 1 !important; border-color: var(--mm-mint-dim); }
 
 /* ---------- The questions ---------- */

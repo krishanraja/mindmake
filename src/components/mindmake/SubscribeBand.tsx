@@ -3,10 +3,8 @@ import { FilmPlate } from "@/components/mindmake/FilmPlate";
 import { Instrument } from "@/components/mindmake/Instrument";
 import { PUBLICATION_URL } from "@/lib/publicLinks";
 import { track } from "@/lib/analytics";
-import filmSixPoster from "@/assets/films/film-06-poster.jpg";
-import filmSixPosterWebp from "@/assets/films/film-06-poster.webp";
-import filmSixLoop from "@/assets/films/film-06-loop.mp4";
-import filmSixLoopWebm from "@/assets/films/film-06-loop.webm";
+import communicationsFilm from "@/assets/films/sep2026/communications-compose-loop-r01-20s-720p-web-sealed.mp4";
+import communicationsPoster from "../../../prototypes/website-redesign-recovery/case-study-browsing/media/communications-compose-loop-r01-20s-720p-web-sealed-poster.webp";
 
 /**
  * The publication, as its own offer.
@@ -47,11 +45,9 @@ export function SubscribeBand({ ground = "raise" }: { ground?: keyof typeof GROU
                 0.15, which is a still photograph of a website. */}
             <FilmPlate
               className="mm-subscribe-film"
-              poster={filmSixPoster}
-              posterWebp={filmSixPosterWebp}
-              src={filmSixLoop}
-              srcWebm={filmSixLoopWebm}
-              label="Extreme macro on a split-flap display in a brass frame, mid-cascade, settling lower on its column."
+              poster={communicationsPoster}
+              src={communicationsFilm}
+              label="Cream papers move through a brass composition machine and rise as prepared communications."
             />
             <a
               className="mm-button mm-button-lg"
@@ -60,7 +56,7 @@ export function SubscribeBand({ ground = "raise" }: { ground?: keyof typeof GROU
               rel="noreferrer"
               onClick={() => track("substack_click", { source: "subscribe_band" })}
             >
-              Read it free <span aria-hidden="true">→</span>
+              Open Media <span aria-hidden="true">→</span>
             </a>
           </Arrive>
 

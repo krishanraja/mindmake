@@ -8,6 +8,15 @@ it is, who it is for, what changed recently, what is waiting, and what not to tr
 It is validated on every push to `main` and reconciled against the code nightly, so it
 is never more than a day behind the tree. Chronology lives in `project-documentation/history/LOG.md`.
 
+## Active unreleased website redesign
+
+Before touching the homepage, AI Brain, AI GTM, Start here journey, proof, case studies
+or their shared visual system, read `project-documentation/website-redesign/STATE.md`
+and `quality/website-redesign/continuity-contract.v1.json` completely. They are the
+single resumable state and feedback contract for the active multi-session redesign.
+Run `npm run qa:website-restart` before any public-surface edit. Do not create another
+competing state, strategy, handoff or feedback document.
+
 This repository's own rules and deeper state: `CLAUDE.md`, `project-documentation/06_CURRENT_STATE.md`. They outrank the
 canon below on anything specific to this repository.
 

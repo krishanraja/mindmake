@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mindmake · Proof Field S2 review</title>
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;min-width:320px;min-height:100%;background:#03100c;color:#f5ead6;font-family:Arial,sans-serif}
+    body{padding:24px}.review-head{display:flex;align-items:end;justify-content:space-between;gap:24px;max-width:1540px;margin:0 auto 18px}.review-head p{margin:0 0 6px;color:#87e7bd;font:10px 'Courier New',monospace;letter-spacing:.12em;text-transform:uppercase}.review-head h1{margin:0;font:44px Georgia,serif;font-weight:400;letter-spacing:-.045em}.review-head small{max-width:48ch;color:rgba(245,234,214,.52);font:10px 'Courier New',monospace;line-height:1.5;text-align:right;text-transform:uppercase}.frames{display:grid;max-width:1540px;grid-template-columns:minmax(0,1fr) 390px;gap:18px;margin:auto}.frame{position:relative;overflow:hidden;border:1px solid rgba(135,231,189,.28);background:#051510;box-shadow:0 24px 70px rgba(0,0,0,.34)}.frame header{display:flex;height:32px;align-items:center;justify-content:space-between;padding:0 10px;border-bottom:1px solid rgba(135,231,189,.18);color:rgba(245,234,214,.48);font:8px 'Courier New',monospace;letter-spacing:.08em;text-transform:uppercase}.desktop{height:734px}.desktop iframe{width:1440px;height:700px;border:0;transform-origin:0 0}.mobile{height:878px}.mobile iframe{width:390px;height:844px;border:0}.frame-note{color:#87e7bd}@media(max-width:1000px){body{padding:10px}.review-head{display:block}.review-head small{display:block;margin-top:10px;text-align:left}.frames{display:block}.desktop{margin-bottom:12px}.mobile{width:min(390px,100%);margin:auto}.mobile iframe{width:100%}}
+  </style>
+</head>
+<body>
+  <header class="review-head">
+    <div><p>Case-study browsing · synthesis 02</p><h1>Proof Field</h1></div>
+    <small>Each cold proof carries a dimmed illustrative machinery film. Open-state meaning and device-specific navigation remain live.</small>
+  </header>
+  <main class="frames">
+    <section class="frame desktop"><header><span>Desktop · 1440 × 700 · all eight</span><span class="frame-note">Interactive</span></header><iframe title="Proof Field desktop" src="./index.html#overview"></iframe></section>
+    <section class="frame mobile"><header><span>Mobile · 390 × 844 · one proof</span><span class="frame-note">Interactive</span></header><iframe title="Proof Field mobile" src="./index.html#story=business-first&phase=result"></iframe></section>
+  </main>
+  <script>
+    const desktopFrame = document.querySelector('.desktop');
+    const desktopPreview = desktopFrame.querySelector('iframe');
+    const fitDesktop = () => {
+      const scale = Math.min(1, (desktopFrame.clientWidth - 2) / 1440);
+      desktopPreview.style.transform = `scale(${scale})`;
+      desktopFrame.style.height = `${34 + 700 * scale}px`;
+    };
+    new ResizeObserver(fitDesktop).observe(desktopFrame);
+    fitDesktop();
+  </script>
+</body>
+</html>

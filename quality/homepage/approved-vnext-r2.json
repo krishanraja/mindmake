@@ -1,0 +1,41 @@
+{
+  "artifact": "homepage-vnext-r2-mobile",
+  "approvedAt": "2026-09-13",
+  "approval": "looks good, lets move ahead with this.",
+  "prototypeHashes": {
+    "html": "2ba6ee81152deda2ec0148c7d72c3f98279f76607d7d0013d5c3bb695886d780",
+    "css": "f3fdaf5dfad0c6876276c4dcf645f834d6d6b9903bfc368fc92d6bce7a1be093",
+    "javascript": "01be166b2564d54643d7d41eb7b7788a50373c0e9af62ac6b50b0fbb919450b6",
+    "browserSuite": "a2b0257ed72139ea8c7a57b96a79e30ab822bae8989ae19830de94eca3b4be62"
+  },
+  "opening": {
+    "title": "Build the AI that knows how you decide.",
+    "doors": ["Build your AI brain", "Build your AI GTM"],
+    "sharedProof": "One paid proof on real work. You keep what works.",
+    "maximumPageScreens": 2.1,
+    "maximumTitleLines": 4
+  },
+  "routes": {
+    "brain": {
+      "title": "Your judgement at work.",
+      "maximumTitleLines": 3
+    },
+    "gtm": {
+      "title": "Make the business easier to buy.",
+      "maximumTitleLines": 3
+    }
+  },
+  "interaction": {
+    "routeReplacesOpening": true,
+    "browserHistory": true,
+    "desktopLeadPresentation": "right drawer",
+    "mobileLeadPresentation": "full screen sheet"
+  },
+  "prohibitedRegressions": [
+    "Start with either",
+    "Three things you know at the end",
+    "long chapter stack",
+    "always-open lead form",
+    "desktop columns stacked as the mobile hero"
+  ]
+}

@@ -34,7 +34,7 @@ describe("public route resilience", () => {
   it("shows a featured article when it is the search result", () => {
     renderWithAppProviders(<Blog />, "/blog");
 
-    fireEvent.change(screen.getByPlaceholderText("Try pricing, judgement or vendors"), {
+    fireEvent.change(screen.getByPlaceholderText("Pricing, judgement, AI"), {
       target: { value: "Start Cost" },
     });
 

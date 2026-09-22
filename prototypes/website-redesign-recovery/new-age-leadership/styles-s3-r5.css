@@ -1,0 +1,101 @@
+@import url('./styles-s3-r4.css');
+
+/* R5 adjudication correction: keep the story opening clear of the fixed shell,
+   and treat the division-of-work labels as primary meaning, not metadata. */
+.capability-head{height:60px;grid-template-columns:1fr 72px 1fr}
+.capability-head p{padding:0 clamp(18px,2.1vw,28px);font-size:clamp(11px,.78vw,13px);font-weight:650;letter-spacing:.12em;line-height:1.15}
+.capability-head p span{width:26px;height:26px;margin-right:11px;font-size:9px;font-weight:500}
+.capability-head i{border-left-color:rgba(178,138,72,.7)}
+.reach-copy{display:grid;align-content:center}
+.reach-copy>.kicker{position:static;grid-area:1/1;align-self:end;margin:0 0 26px}
+.reach-copy-state{grid-area:2/1}
+.capability-reel li{color:rgba(234,223,200,.82)}
+.capability-reel li:before{color:rgba(234,223,200,.5)}
+.capability-head p{font-size:clamp(12px,.82vw,14px)}
+.capability-head p span{font-size:10px}
+.reach-progress{font-size:11px;color:rgba(234,223,200,.68)}
+.reach-progress:before{background:rgba(234,223,200,.32)}
+.reach-progress button{appearance:none;min-width:88px;min-height:44px;border:0;padding:8px 0;background:transparent;color:rgba(234,223,200,.68);font:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer}
+.reach-progress button[aria-current="step"]{color:var(--mint)}
+.reach-progress button:focus-visible{outline:1px solid var(--mint);outline-offset:4px}
+.org-cell small,.org-cell span{font-size:10px}
+.org-cell span{color:rgba(234,223,200,.72)}
+#reach-title{scroll-margin-top:calc(var(--header) + 18px)}
+
+@media(max-width:900px){
+  .reach-sticky{grid-template-rows:minmax(238px,34%) minmax(0,66%)}
+  .reach-copy{padding:22px var(--edge) 18px;align-content:end}
+  .reach-copy>.kicker{margin-bottom:22px}
+  .reach-copy-state h2{font-size:clamp(38px,7.4vw,49px);line-height:.91}
+  .reach-copy-state p{display:block;max-width:620px;margin:13px 0 0;padding-left:13px;font-size:16px;line-height:1.4}
+  .reach-stage{place-items:start center;padding-top:14px}
+  .capability-head{height:54px;grid-template-columns:1fr 52px 1fr}
+  .capability-head p{padding:0 14px;font-size:12px;letter-spacing:.09em}
+  .capability-head p span{width:22px;height:22px;margin-right:7px;font-size:9px}
+  .hybrid-organisation{padding:10px}
+  .instrument-label{margin-bottom:9px}
+  .organisation-grid{padding:10px;gap:7px}
+  .org-cell{min-height:72px;padding:10px 12px}
+  .org-cell small{margin-bottom:4px}
+  .org-cell span{margin-top:3px}
+}
+
+@media(max-width:620px){
+  .reach-sticky{grid-template-rows:minmax(236px,34%) minmax(0,66%)}
+  .reach-copy{padding:16px 16px 14px}
+  .reach-copy>.kicker{margin-bottom:18px}
+  .reach-copy-state h2{font-size:clamp(33px,8.8vw,39px);line-height:.9}
+  .reach-copy-state p{margin-top:11px;padding-left:11px;font-size:15px;line-height:1.35}
+  .reach-stage{padding:4px 10px 56px}
+  .capability-head{height:52px;grid-template-columns:1fr 42px 1fr}
+  .capability-head p{display:flex;align-items:center;padding:0 8px;font-size:12px;letter-spacing:.045em;white-space:nowrap}
+  .capability-head p:last-child{justify-content:flex-end}
+  .capability-head p span{flex:0 0 auto;width:22px;height:22px;margin-right:6px;font-size:9px}
+  .hybrid-organisation{padding:7px}
+  .instrument-label{margin:2px 3px 7px;font-size:10px}
+  .organisation-grid{padding:6px;gap:5px}
+  .org-cell{min-height:48px;padding:6px 7px}
+  .org-cell small{margin-bottom:3px;font-size:10px}
+  .org-cell span{margin-top:2px;font-size:10px;line-height:1.2}
+}
+
+@media(max-height:650px) and (min-width:901px){
+  .capability-head{height:48px}
+  .capability-head p{font-size:12px}
+}
+
+@media(max-height:650px) and (max-width:900px) and (orientation:landscape){
+  .reach-sticky{grid-template-columns:38% 62%;grid-template-rows:1fr}
+  .reach-copy{grid-column:1;grid-row:1;padding:20px 18px 24px;align-content:center}
+  .reach-copy>.kicker{margin-bottom:18px}
+  .reach-copy-state h2{font-size:clamp(28px,6.9vh,37px);line-height:.9}
+  .reach-copy-state p{display:block;margin-top:11px;padding-left:10px;font-size:13px;line-height:1.3}
+  .reach-stage{grid-column:2;grid-row:1;padding:12px 14px 28px}
+  .capability-head{height:44px;grid-template-columns:1fr 44px 1fr}
+  .capability-head p{padding:0 8px;font-size:12px}
+  .capability-head p span{width:19px;height:19px;margin-right:5px;font-size:7px}
+  .reach-progress{left:calc(38% + 14px);right:14px}
+  .hybrid-organisation{padding:6px}
+  .instrument-label{margin:1px 3px 5px;font-size:10px}
+  .organisation-grid{padding:5px;gap:4px}
+  .org-cell{min-height:39px;padding:4px 7px}
+  .org-cell small{margin-bottom:2px;font-size:10px}
+  .org-cell strong{font-size:14px}
+  .org-cell span{display:block;font-size:10px;line-height:1.05;white-space:nowrap}
+  .org-cell{min-height:48px}
+}
+
+@media(max-height:650px) and (max-width:620px) and (orientation:portrait){
+  .reach-sticky{grid-template-rows:135px minmax(0,1fr)}
+  .reach-copy{padding:8px 16px 12px;align-content:end}
+  .reach-copy>.kicker{display:none}
+  .reach-copy-state h2{font-size:clamp(25px,8vw,29px);line-height:.9}
+  .reach-copy-state p{display:block;margin-top:9px;padding-left:9px;font-size:13px;line-height:1.3}
+  .reach-stage{padding:0 8px 56px}
+  .capability-instrument,.hybrid-organisation{margin-top:-4px}
+  .capability-head{height:46px}
+  .capability-head p{font-size:12px}
+  .reach-progress{font-size:11px}
+  .org-cell span{display:none}
+  .org-cell{min-height:39px}
+}

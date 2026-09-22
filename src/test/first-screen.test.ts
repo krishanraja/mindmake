@@ -249,8 +249,9 @@ describe("the entrance, held in the head and released once", () => {
     expect(script).toContain('performance.mark("mm-arrived")');
   });
 
-  it("stands down for reduced motion and for a deep link", () => {
+  it("stands down for the compact homepage, reduced motion and a deep link", () => {
     expect(script).toContain("prefers-reduced-motion: reduce");
+    expect(script).toContain('location.pathname==="/"');
     expect(script).toContain("location.hash");
   });
 

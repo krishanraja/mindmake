@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mindmake.co/schemas/homepage-concept-judge-v1.json",
+  "title": "Mindmake homepage concept judge verdict",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "judgeId",
+    "candidateOrder",
+    "diversity",
+    "candidateVerdicts",
+    "winner",
+    "runnerUp",
+    "disguisedRepetition",
+    "constraintRegression",
+    "discardedStrengths",
+    "synthesisInstructions",
+    "confidence"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "judgeId": { "type": "string", "pattern": "^judge_[a-z0-9_]+$" },
+    "candidateOrder": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": { "enum": ["candidate_a", "candidate_b", "candidate_c", "candidate_d", "candidate_e", "candidate_f"] }
+    },
+    "diversity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["passes", "pairs"],
+      "properties": {
+        "passes": { "type": "boolean" },
+        "pairs": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["pair", "differentAxes", "rationale"],
+            "properties": {
+              "pair": { "type": "string", "pattern": "^candidate_[a-f]:candidate_[a-f]$" },
+              "differentAxes": {
+                "type": "array",
+                "minItems": 2,
+                "uniqueItems": true,
+                "items": { "enum": ["sequencing", "user_agency", "primary_interaction", "information_structure", "state_model"] }
+              },
+              "rationale": { "type": "string", "minLength": 20, "maxLength": 500 }
+            }
+          }
+        }
+      }
+    },
+    "candidateVerdicts": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["candidateId", "hardConstraintsPass", "scores", "strength", "failure", "raiseCondition"],
+        "properties": {
+          "candidateId": { "enum": ["candidate_a", "candidate_b", "candidate_c", "candidate_d", "candidate_e", "candidate_f"] },
+          "hardConstraintsPass": { "type": "boolean" },
+          "scores": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["commercialClarity", "informationEconomy", "interactionStrength", "mobileQuality", "brandSpecificity", "proofIntegrity", "feasibility"],
+            "properties": {
+              "commercialClarity": { "$ref": "#/$defs/score" },
+              "informationEconomy": { "$ref": "#/$defs/score" },
+              "interactionStrength": { "$ref": "#/$defs/score" },
+              "mobileQuality": { "$ref": "#/$defs/score" },
+              "brandSpecificity": { "$ref": "#/$defs/score" },
+              "proofIntegrity": { "$ref": "#/$defs/score" },
+              "feasibility": { "$ref": "#/$defs/score" }
+            }
+          },
+          "strength": { "type": "string", "minLength": 20, "maxLength": 600 },
+          "failure": { "type": "string", "minLength": 20, "maxLength": 600 },
+          "raiseCondition": { "type": "string", "minLength": 20, "maxLength": 600 }
+        }
+      }
+    },
+    "winner": { "enum": ["candidate_a", "candidate_b", "candidate_c", "candidate_d", "candidate_e", "candidate_f"] },
+    "runnerUp": { "enum": ["candidate_a", "candidate_b", "candidate_c", "candidate_d", "candidate_e", "candidate_f"] },
+    "disguisedRepetition": { "type": "string", "minLength": 20, "maxLength": 800 },
+    "constraintRegression": { "type": "string", "minLength": 20, "maxLength": 800 },
+    "discardedStrengths": { "type": "string", "minLength": 20, "maxLength": 800 },
+    "synthesisInstructions": { "type": "array", "minItems": 2, "maxItems": 8, "items": { "type": "string", "minLength": 10, "maxLength": 400 } },
+    "confidence": { "enum": ["low", "medium", "high"] }
+  },
+  "$defs": {
+    "score": { "type": "number", "minimum": 0, "maximum": 10, "multipleOf": 0.1 }
+  }
+}

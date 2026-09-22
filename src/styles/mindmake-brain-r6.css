@@ -1,0 +1,184 @@
+/*
+ * AI Brain r6 release repairs.
+ * The r5 composition is preserved; this last layer owns responsive geometry
+ * and evidence-card resilience only.
+ */
+
+@media (min-width: 60.001rem) {
+  .mm-brain-r6 .hero {
+    min-height: max(100svh, 48rem);
+  }
+
+  .mm-brain-r6 .hero-copy {
+    padding-top: max(7.5rem, 13svh);
+    padding-bottom: max(6.5rem, 11svh);
+  }
+
+  .mm-brain-r6 .hero .primary-action {
+    position: relative;
+    z-index: 2;
+    margin-bottom: .5rem;
+  }
+
+  .mm-brain-r6 .brain-evidence-panel {
+    grid-template-columns: minmax(13rem, .54fr) minmax(0, 1.46fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    column-gap: clamp(1.25rem, 2.5vw, 2.75rem);
+  }
+
+  .mm-brain-r6 .brain-evidence-panel .state-copy {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    align-content: center;
+    min-width: 0;
+  }
+
+  .mm-brain-r6 .brain-evidence {
+    grid-column: 2;
+    grid-row: 1;
+    display: grid;
+    min-width: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    align-self: stretch;
+    border: 1px solid rgba(7, 21, 18, .22);
+  }
+
+  .mm-brain-r6 .brain-evidence > div,
+  .mm-brain-r6 .brain-evidence > aside {
+    position: relative;
+    display: grid;
+    min-width: 0;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    align-content: stretch;
+    align-items: start;
+    gap: clamp(.45rem, 1svh, .75rem);
+    padding: clamp(.8rem, 1.8svh, 1.2rem) clamp(.85rem, 1.25vw, 1.2rem);
+    border: 0;
+    border-right: 1px solid rgba(7, 21, 18, .16);
+    border-bottom: 1px solid rgba(7, 21, 18, .16);
+  }
+
+  .mm-brain-r6 .brain-evidence > div:nth-child(2),
+  .mm-brain-r6 .brain-evidence > aside {
+    border-right: 0;
+  }
+
+  .mm-brain-r6 .brain-evidence > div:nth-child(3),
+  .mm-brain-r6 .brain-evidence > aside {
+    border-bottom: 0;
+  }
+
+  .mm-brain-r6 .brain-evidence > div::before,
+  .mm-brain-r6 .brain-evidence > div::after {
+    display: none;
+  }
+
+  .mm-brain-r6 .brain-evidence small {
+    padding-right: 1.25rem;
+    font-size: clamp(.46rem, .55vw, .56rem);
+    line-height: 1.35;
+  }
+
+  .mm-brain-r6 .brain-evidence strong,
+  .mm-brain-r6 .brain-evidence > aside strong {
+    align-self: center;
+    padding: 0;
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: clamp(.88rem, min(1.15vw, 2.25svh), 1.16rem);
+    line-height: 1.16;
+    overflow-wrap: break-word;
+  }
+
+  .mm-brain-r6 .brain-evidence span,
+  .mm-brain-r6 .brain-evidence > aside span {
+    align-self: end;
+    color: rgba(7, 21, 18, .56);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: clamp(.43rem, .48vw, .52rem);
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  .mm-brain-r6 .brain-evidence > aside {
+    grid-template-rows: auto auto minmax(0, 1fr);
+    background: rgba(37, 108, 83, .09);
+  }
+
+  .mm-brain-r6 .brain-evidence > aside span {
+    align-self: start;
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: clamp(.66rem, min(.78vw, 1.6svh), .78rem);
+    line-height: 1.3;
+  }
+
+  .mm-brain-r6 .inline-demo-action {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: stretch;
+    min-width: 0;
+  }
+}
+
+@media (min-width: 60.001rem) and (max-height: 48rem) {
+  .mm-brain-r6 .hero {
+    min-height: max(100svh, 42rem);
+  }
+
+  .mm-brain-r6 .hero-copy {
+    padding-top: 6.5rem;
+    padding-bottom: 4rem;
+  }
+
+  .mm-brain-r6 .hero h1 {
+    font-size: clamp(3.75rem, min(6vw, 10.5svh), 5rem);
+  }
+
+  .mm-brain-r6 .brain-evidence-panel {
+    column-gap: 1.2rem;
+  }
+
+  .mm-brain-r6 .brain-evidence > div,
+  .mm-brain-r6 .brain-evidence > aside {
+    gap: .35rem;
+    padding: .65rem .75rem;
+  }
+
+  .mm-brain-r6 .brain-evidence strong,
+  .mm-brain-r6 .brain-evidence > aside strong {
+    font-size: clamp(.8rem, 2.05svh, .96rem);
+  }
+}
+
+@media (min-width: 60.001rem) and (max-width: 74rem) {
+  .mm-brain-r6 .brain-evidence-panel {
+    grid-template-columns: minmax(11rem, .46fr) minmax(0, 1.54fr);
+    column-gap: .9rem;
+  }
+
+  .mm-brain-r6 .brain-evidence > div,
+  .mm-brain-r6 .brain-evidence > aside {
+    padding-inline: .65rem;
+  }
+}
+
+@media (max-width: 60rem) and (orientation: portrait) {
+  .mm-brain-r6 .hero {
+    min-height: max(100svh, 40rem);
+  }
+
+  .mm-brain-r6 .hero-copy {
+    padding-bottom: max(5.5rem, calc(4rem + env(safe-area-inset-bottom)));
+  }
+
+  .mm-brain-r6 .brain-evidence {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .mm-brain-r6 .brain-evidence > div,
+  .mm-brain-r6 .brain-evidence > aside {
+    min-width: 0;
+  }
+}

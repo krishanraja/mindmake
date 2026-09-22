@@ -418,17 +418,13 @@ describe("the board's rows are leaves, and the leaves cost the headline nothing"
     expect(source).toContain("if (visible && !document.hidden && words.length)");
   });
 
-  /* An arrival has arrived by the time a page is at rest, and the idle turn on
-     its own is too small and too occasional for a gate that photographs five
-     instants: three runs of `qa:alive` gave clean, clean, then three still
-     viewports. The panel is a `Build`, so it assembles with scroll position and
-     comes apart again on the way back, which is the reading a page at rest can
-     actually carry. */
+  /* The board page still assembles with scroll position. The locked compact
+     homepage no longer duplicates the board. */
   it("assembles with scroll position rather than only on arrival", () => {
-    for (const surface of ["src/components/mindmake/board/LiveBoard.tsx", "src/pages/Index.tsx"]) {
-      const page = read(surface);
-      expect(`${surface}: ${page.includes('<Build className="mm-flap-panel">')}`).toBe(`${surface}: true`);
-    }
+    const surface = "src/components/mindmake/board/LiveBoard.tsx";
+    const page = read(surface);
+    expect(`${surface}: ${page.includes('<Build className="mm-flap-panel">')}`).toBe(`${surface}: true`);
+    expect(read("src/pages/Index.tsx")).not.toContain("<LiveBoard");
     /* And the two clocks may not share a name: `--mm-at` is what `Build` writes
        on every child, so the flap using it would have decided the row's opacity
        and then pinned it at 1, leaving a build that never comes apart. */

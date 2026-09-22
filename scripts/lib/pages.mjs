@@ -13,11 +13,11 @@ export const site = "https://mindmake.co";
 export const staticPages = [
   {
     path: "/",
-    title: "See what is coming for your business before it is obvious.",
-    description: "Mindmake works with leaders in private: where you stand, what is coming, what to do first, built into an AI that knows how you work and stays yours.",
-    headline: "See what is coming for your business before it is obvious.",
-    claim: "Then act on it with an AI that knows how you work, and keep the edge.",
-    still: "film-01",
+    title: "Build the AI that knows how you decide.",
+    description: "Mindmake helps founders and senior commercial leaders turn their standards, context and past decisions into an AI they own.",
+    headline: "Build the AI that knows how you decide.",
+    claim: "One paid proof on real work. You keep what works.",
+    still: "film-02",
   },
   {
     path: "/ai-brain",

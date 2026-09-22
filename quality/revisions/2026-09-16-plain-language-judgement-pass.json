@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "revision": "2026-09-16-plain-language-judgement-pass",
+  "baselines": {
+    "ai_brain": {
+      "path": "prototypes/ai-brain-vnext-r4",
+      "files": {
+        "index.html": "57B3D53A5E947369AFD4DAC469F25210194B6E495D352977653089DD24D6F3F0",
+        "styles.css": "4BA210C2DCBFE35BA983D65013F17791D9DC56BC39BFD704F043A66270DCA953",
+        "script.js": "0622155C08E7E1BCEB5F9DA60608263CDC7784FCC386A2D00F40EAB8836ABBDC"
+      }
+    },
+    "ai_gtm": {
+      "path": "prototypes/ai-gtm-vnext-r5",
+      "files": {
+        "index.html": "EC217AB76740F1FEB7000F3892D8D35D2D37434C8EEDC443FF46A035AEC41BFC",
+        "styles.css": "B46F538311D29F37E9E4692E86DD293507F782598406790B34967F681952ED28",
+        "script.js": "AC908995839EFF72DD73616E51E054A1224A51512B53E7B88A19148E6B79944F"
+      }
+    }
+  },
+  "candidates": {
+    "ai_brain": {
+      "path": "prototypes/ai-brain-vnext-r5",
+      "files": {
+        "index.html": "F043EEC8EBF6F22453D3BBB74A963D34DE1F5EDBE638819D84E5271121091771",
+        "styles.css": "C40860589525CC5B5D111A0F736959A438BBCD564C346CA39A3ABE220F7C7310",
+        "script.js": "7CE05C85C8233A5667E09B52FC79E6FC5325E190D5FA6B33685F5EAF6D7B3FCD"
+      }
+    },
+    "ai_gtm": {
+      "path": "prototypes/ai-gtm-vnext-r6",
+      "files": {
+        "index.html": "F6B3892E1A4E81AE9D1D137FA2B1EE8B86F5AC97629CD9C2EE60654652BE26E1",
+        "styles.css": "F1BE95FA547126962FFB66CD492909BF119E5885980129D9F1798EB528D02EBF",
+        "script.js": "9DF3A85DD67EFF69C9DD8AA3C3330CFA81A50252126AB12C9DC60CF9B953851F"
+      }
+    }
+  },
+  "allowed_changes": [
+    "Replace contextless GTM response labels and explanatory cells with self-contained customer language.",
+    "Stack GTM response choices on phones so complete labels have room.",
+    "Remove the duplicate Brain instruction block and consolidate its purpose into the section title.",
+    "Fit the real Brain data to the available graph panel so nodes do not sit below an empty top band.",
+    "Add product-wide language rules and automated regression checks."
+  ],
+  "invariants": [
+    "The AI Brain data file is byte-identical between r4 and r5.",
+    "All twenty Brain nodes and eighteen relationships remain interactive.",
+    "All five GTM signals and fifteen response models remain available.",
+    "The hero, ticker, paid proof, start drawer and paired desktop/mobile review remain present.",
+    "No deployment, publication, commit or external mutation is included."
+  ],
+  "file_invariants": [
+    {
+      "baseline": "prototypes/ai-brain-vnext-r4/brain-fixture.json",
+      "candidate": "prototypes/ai-brain-vnext-r5/brain-fixture.json",
+      "sha256": "02FA968575D7000874F0F10A09123336AD6EC3F7BF373DCD351FBB7E7EF2B1B9"
+    }
+  ]
+}

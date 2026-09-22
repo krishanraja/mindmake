@@ -1,0 +1,32 @@
+{
+  "artifact": "ai-brain-vnext-r5",
+  "approvedAt": "2026-09-16",
+  "approval": "looks great, lock and continue",
+  "productionLock": "quality/route-lock/approved-production-r1.json",
+  "repairAt": "2026-09-16",
+  "repairRuling": "Remove false empty states and preserve legible paper-state headings without changing the approved interaction model.",
+  "prototypeHashes": {
+    "html": "f043eec8ebf6f22453d3bbb74a963d34de1f5edbe638819d84e5271121091771",
+    "css": "3cf25040f9d8f31582309c663473049d4abad7abba489d4013c0abd49bd276f6",
+    "javascript": "c37dbc82354d63b66dc3966ff23e8d7bb4e997c2ecf3b0529346700ce800245a",
+    "brainFixture": "02fa968575d7000874f0f10a09123336ad6ec3f7bf373dcd351fbb7e7ef2b1b9",
+    "pairedReview": "804693ce435c3b3ece795010f29ba5f91a098e63e35e32e3f31a06c483a89aa3",
+    "browserSuite": "fd96e86b7e5691aa20052125ca7284b8b2ae8443ec91547817627e80279af65c"
+  },
+  "lockedExperience": {
+    "sectionTitle": "Inspect how a decision becomes reusable judgement.",
+    "states": ["Decision", "Brain", "Evidence", "Correction"],
+    "brainSource": "The synthetic fixture derived from the actual Brain repository contract",
+    "responsiveReview": "paired desktop and mobile",
+    "graphRule": "Fit the complete relationship graph to the available frame without a decorative empty band"
+  },
+  "prohibitedRegressions": [
+    "duplicate instructions above the Brain",
+    "abstract substitute nodes in place of the approved fixture",
+    "fixed wide SVG centred inside a tall mobile frame",
+    "desktop map squeezed into a phone",
+    "assumptive or unexplained control labels",
+    "new public price, duration, guarantee or product ladder"
+  ],
+  "authority": "Local production implementation and verification only. Commit, merge, preview deployment, production deployment and publication remain unauthorised."
+}

@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "candidate_b",
+  "title": "The Evidence Bench",
+  "governingMetaphor": "A walnut evidence bench with one brass selector lets the visitor compare generic AI with AI grounded in a leader's standards, context and past decisions. The changed evidence resolves into two adjacent output tracks, making Brain and GTM feel like two uses of the same working practice.",
+  "oneSentenceExperience": "Before choosing a door, a busy leader operates one compact proof instrument and sees how the same grounded approach produces a Brain-shaped result and a GTM-shaped result.",
+  "sequencing": [
+    "The first viewport names Mindmake, the senior decision-maker it serves and the practice in two short lines, then places the evidence bench before any route commitment.",
+    "The bench opens on a legible comparison between generic AI and AI grounded in the leader's standards, context and past decisions, with one clear action: reveal what changed.",
+    "Operating the brass selector reveals two outcomes from the approved proof set in parallel tracks: one Brain-shaped and one GTM-shaped, each with a short annotation explaining why it belongs to that door.",
+    "Directly beneath the evidence, Build your AI brain and Build your AI GTM remain adjacent as one decision group; choosing either begins the existing lead flow with that route carried forward.",
+    "The remaining page confirms that the first paid proof works on real work and belongs to the client, then closes with compact practice proof and restrained links to case studies, questions and the publication."
+  ],
+  "userAgency": "The visitor controls only the evidence comparison and which proof track receives focus. They are not asked to diagnose themselves, score readiness or supply information. The route choice appears after Mindmake has taught the distinction, and either door can be reconsidered without losing position.",
+  "primaryInteraction": "A two-position brass selector changes the evidence bench from Generic to Grounded in your standards. The comparison uses one shared input rail and two output tracks rather than a quiz: Brain shows how standards, context and past decisions become a working capability; GTM shows how that same grounding changes commercial work. Mouse, touch, Enter, Space and arrow keys operate the selector. Hover, pressed and focus-visible states are distinct, and the changed annotation appears beside the control rather than elsewhere on the page.",
+  "informationStructure": "One homepage, four unequal rooms: a compact orientation and evidence bench; a short paid-proof explanation; a separated proof room for anonymous client outcomes, named references and attendee brands; and a quiet practice close containing founder context, unlinked CTRL proof, plus routes to case studies, questions and the publication. Default copy targets 450 to 600 words, with secondary detail disclosed in place and no repeated card wall.",
+  "stateModel": [
+    "Untouched: the comparison is already meaningful, the two door names are visible together, and Reveal what changed is the primary next action.",
+    "Generic: the shared input and context-light response are shown with plain explanatory labels and no invented result claim.",
+    "Grounded: one approved Brain outcome and one approved GTM outcome appear with mint answers and amber markers only on what changed.",
+    "Proof focus: either outcome track can expand in place for one extra evidence line while the other remains visible and the door group stays anchored below.",
+    "Route chosen: the existing lead-flow surface opens with the selected door named, traps focus, closes with Escape or Back, and restores focus to its trigger.",
+    "Reduced motion or orientation change: state and conceptual position persist; comparison content swaps instantly and all meaning remains in text, colour-independent markers and labels.",
+    "Unavailable media: the instrument remains complete as text and static evidence; films are enhancement only and never block proof or routing."
+  ],
+  "mobileAdaptation": "At 390 and 320 widths, the opening becomes a compact vertical instrument: two-line orientation, a full-width selector, two concise proof rows, then the two door labels in a persistent two-column fieldset. Secondary annotations open inline, never in nested scroll. At 844 by 390, orientation sits left and the bench sits right so proof, both doors and the next action remain in view. Wider screens use a 5:7 split. Content order, focused track and selected state survive rotation; touch targets remain generous and the page stays within six primary phone screens.",
+  "proofModel": "Proof is the navigation logic, not a testimonial layer. One anonymous approved Brain-shaped result and one anonymous approved GTM-shaped result occupy the two output tracks and explain the doors by consequence. Named references and attendee brands sit in separately labelled bands later, while CTRL appears only as an unlinked note that Mindmake runs the approach itself. No price, timing, availability or unsupported number is exposed.",
+  "routeStart": "After encountering the default evidence, the visitor can choose either adjacent door. The chosen control opens the existing lead-flow contract in a focused drawer or dialog, already carrying Brain or GTM as route context, with a plain option to switch before submitting. There is no diary link, chatbot, public offer ladder or third route.",
+  "motionRole": "The brass selector moves one blade of light across the shared input rail, then amber ticks mark only the clauses that changed and mint settles on the resulting answer. Motion lasts only long enough to preserve cause and effect. Press feedback is immediate. Reduced motion uses an instant state change, while focus, labels and reading order communicate the same relationship.",
+  "feasibility": [
+    "A small React state machine can drive selector position, focused proof track, disclosure state and selected route without new backend services.",
+    "Existing approved proof supplies the two outcome tracks; authored comparison labels explain the mechanism without inventing client data.",
+    "The current lead-flow contract can receive a Brain or GTM route parameter and retain its existing submission behaviour.",
+    "CSS Grid and normal document flow cover wide, portrait-phone and short-landscape layouts without nested scrolling or device-specific forks.",
+    "Existing films can appear as optional ambient texture in the later practice room, with a poster and text fallback so they are never required for comprehension.",
+    "The public content model stays static and reviewable, making copy count, proof separation, keyboard order and reduced-motion behaviour deterministic to test."
+  ],
+  "risks": [
+    "The selector could be mistaken for a self-assessment; the label and surrounding copy must make clear that it changes an evidence view, not the visitor's diagnosis.",
+    "The comparison fails if the two approved outcomes are too abstract; each needs one concrete consequence while remaining within the approved anonymous proof set.",
+    "The two long door names can become cramped at 320 pixels; the paired fieldset needs tested wrapping and equal prominence without shrinking type.",
+    "Separating anonymous outcomes, named references and attendee brands requires strict content modelling so visual proximity never implies an unsupported relationship.",
+    "A drawer can obscure page context on short landscape screens; it must use a full-height route surface there and restore the exact prior proof state on close."
+  ]
+}

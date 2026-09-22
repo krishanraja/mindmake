@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown";
 import { SEO } from "@/components/SEO";
 import { BlogPostCard, categoryLabels } from "@/components/BlogPostCard";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
+import { CommercialDecisionBalance } from "@/components/mindmake/locked/CommercialDecisionBalance";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { useBlogPost, useBlogPosts } from "@/hooks/useBlogPosts";
 import "@/styles/mindmake.css";
@@ -127,12 +128,6 @@ const BlogPost = () => {
         </div>
       </aside>
 
-      <aside className="mm-container mm-article-next" aria-labelledby="article-next-title">
-        <h2 id="article-next-title">See what changes when the company is known.</h2>
-        <p>Mindmake reads the business first, gives you a likely problem and shows a useful first move before asking for your email.</p>
-        <button className="mm-button" type="button" onClick={() => setBriefOpen(true)}>Start here <ArrowRight aria-hidden="true" /></button>
-      </aside>
-
       {relatedPosts.length > 0 && (
         <section className="mm-container mm-related-ideas" aria-labelledby="related-title">
           <h2 id="related-title">Related ideas.</h2>
@@ -141,6 +136,8 @@ const BlogPost = () => {
           </div>
         </section>
       )}
+
+      <CommercialDecisionBalance context="editorial" onStart={() => setBriefOpen(true)} />
 
       <LeadBrief open={briefOpen} onClose={() => setBriefOpen(false)} />
     </MindmakeShell>

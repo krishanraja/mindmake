@@ -1,226 +1,111 @@
-import { useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { SEO } from "@/components/SEO";
-import { AgathaStory, PageCompletionBeacon } from "@/components/new-age/AgathaStory";
-/* The chart stays on its own utility classes. It is a diagram in its own frame
-   rather than a page laid out in a retired system, and its classes never touch
-   the page around it. The prose that used to sit beside it did, and has moved. */
-import { OrgChart } from "@/components/new-age/OrgChart";
-import { Build } from "@/components/mindmake/Build";
-import { CloseBlock } from "@/components/mindmake/CloseBlock";
-import { FilmPlate } from "@/components/mindmake/FilmPlate";
-import { Instrument } from "@/components/mindmake/Instrument";
+import { MindmakeBrand } from "@/components/mindmake/MindmakeBrand";
+import { CommercialDecisionBalance } from "@/components/mindmake/locked/CommercialDecisionBalance";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
-import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
-import { ProcessTrack } from "@/components/mindmake/ProcessTrack";
-import { ReflexDeck } from "@/components/mindmake/ReflexDeck";
-import { ScrubText } from "@/components/mindmake/ScrubText";
-import { useScrollDriver } from "@/hooks/useScrollDriver";
-import { HOURS, TURN } from "@/content/reflex";
-import filmFivePoster from "@/assets/films/film-05-poster.jpg";
-import filmFivePosterWebp from "@/assets/films/film-05-poster.webp";
-import filmFiveLoop from "@/assets/films/film-05-proof.mp4";
-import filmFiveLoopWebm from "@/assets/films/film-05-proof.webm";
+import { PUBLICATION_URL } from "@/lib/publicLinks";
 import "@/styles/mindmake.css";
-import "@/styles/mindmake-instruments.css";
+import writing from "../../prototypes/website-redesign-recovery/new-age-leadership/media/history-writing-s2.webp";
+import loom from "../../prototypes/website-redesign-recovery/new-age-leadership/media/history-loom-s2.webp";
+import calculator from "../../prototypes/website-redesign-recovery/new-age-leadership/media/history-calculator-s2.webp";
+import satnav from "../../prototypes/website-redesign-recovery/new-age-leadership/media/history-satnav-s2.webp";
+import quietPoster from "../../prototypes/website-redesign-recovery/case-study-browsing/media/quiet-workshop-growth-loop-r01-20s-720p-web-sealed-poster.webp";
+import signalsPoster from "../../prototypes/website-redesign-recovery/case-study-browsing/media/signals-arrive-loop-r01-20s-720p-web-sealed-poster.webp";
+import evidencePoster from "../../prototypes/website-redesign-recovery/case-study-browsing/media/evidence-connects-loop-r01-20s-720p-web-sealed-poster.webp";
+import communicationsPoster from "../../prototypes/website-redesign-recovery/case-study-browsing/media/communications-compose-loop-r01-20s-720p-web-sealed-poster.webp";
+import readyPoster from "../../prototypes/website-redesign-recovery/case-study-browsing/media/ready-for-decision-loop-r01-20s-720p-web-sealed-poster.webp";
+import quietFilm from "@/assets/films/sep2026/quiet-workshop-growth-loop-r01-20s-720p-web-sealed.mp4";
+import signalsFilm from "@/assets/films/sep2026/signals-arrive-loop-r01-20s-720p-web-sealed.mp4";
+import evidenceFilm from "@/assets/films/sep2026/evidence-connects-loop-r01-20s-720p-web-sealed.mp4";
+import communicationsFilm from "@/assets/films/sep2026/communications-compose-loop-r01-20s-720p-web-sealed.mp4";
+import readyFilm from "@/assets/films/sep2026/ready-for-decision-loop-r01-20s-720p-web-sealed.mp4";
+import "@/styles/new-age-leadership-r5.css";
 
-/**
- * The argument, published, as something to flick through.
- *
- * This page existed for months as an org chart nobody could reach: prerendered,
- * in the sitemap, linked from no page in `src/`, and the last file on the old
- * Tailwind vocabulary while the rest of the site moved to `mm-*`. It held the
- * evidence for an argument it never made.
- *
- * The argument itself was already written, in `00_NORTH_STAR.md`, and had never
- * reached a public surface: a leader gets hours back and no better at deciding
- * unless the hours go somewhere, and you can hand over the work but not the
- * understanding. The history in front of it answers the other half, which is
- * why a leader stops after one wrong answer.
- *
- * ## Why it is a page and not a homepage section
- *
- * The homepage runs twelve sections and its job is to get a fit visitor into
- * the brief, not to win an argument. An argument needs room. So the homepage
- * gains one link and nothing else, and a reader who wants the reasoning finds
- * a page rather than a paragraph. Fixing the orphan was free either way.
- *
- * ## Why there are so few words on it
- *
- * The first draft of this page was paragraphs, and the direction back was that
- * the design, the interaction and the pictures should carry it. So every beat
- * is an instrument the site already owns, with one line on it: a deck you turn,
- * a line that lights as you pass, the track, the chart, a figure. Nothing here
- * is explained under itself.
- *
- * ## What came out of the retired version
- *
- * The old homepage put this as three flip cards headed "Every leader will fall
- * into one of two categories", whose fronts read "Or report to it", "Or become
- * a commodity" and "Or get passed by". `01_CANON.md` bans exactly that:
- * public copy "never threatens the reader with becoming obsolete". The value
- * halves of those cards survive here almost intact; the threats do not. The
- * flip is gone too, because it hid half the content behind a tap and told the
- * reader to perform it.
- */
+const description = "Build a hybrid organisation where AI carries the repeated work and people keep the judgement, relationships and decisions.";
+const esc = (value: string) => value.replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 
-const description =
-  "AI gives a leader hours back every week. What the hours go into decides whether the leader gets better at the job or only faster at the work.";
+const stories = [
+  ["Writing", writing, "An ancient teacher speaking while a scribe records the words on papyrus", "If knowledge lives outside us, will memory grow weaker?", "Ideas could travel beyond one voice and survive their maker. We changed what memory was for."],
+  ["The loom", loom, "A skilled textile worker considering a mechanised loom in an early nineteenth-century mill", "If the machine can do the work, what happens to the worker?", "The fear was not foolish. Jobs, wages and status changed. The real fight was over who controlled the gain."],
+  ["Calculator", calculator, "A teacher introduces a pocket calculator beside handwritten arithmetic in a 1970s classroom", "If the device does the arithmetic, will children stop learning to think?", "A review of 79 studies found no collapse in basic skills. The question moved from doing every sum to understanding the answer."],
+  ["Satnav", satnav, "An early satellite-navigation unit and a paper map inside a car at a crossroads", "If the device knows the route, will we lose our sense of direction?", "That risk turned out to be real. A useful tool still asks us what we choose to keep practising."],
+] as const;
+const benefits = [
+  ["Leadership updates become consistent, even when the week was not.", "Your decisions, risks and priorities stay connected from one update to the next."],
+  ["Work nobody owns becomes visible before it becomes a problem.", "The Brain joins the gaps across reports, meetings and decisions."],
+  ["A change in market pricing becomes a decision, not a forgotten observation.", "It connects the signal to what your commercial team already knows."],
+  ["A CEO who hates writing can still publish ideas worth following.", "The blank page goes. Their judgement and voice stay."],
+  ["A CRO who hates the numbers can become better at using them.", "The Brain prepares what changed, why it matters and where to look next."],
+  ["Founder-led content can begin with the work, not another content calendar.", "Useful thinking already inside the business becomes something people can see."],
+] as const;
+const reels = (items: string[]) => `<ul>${items.map((x) => `<li>${x}</li>`).join("")}</ul><ul aria-hidden="true">${items.map((x) => `<li>${x}</li>`).join("")}</ul>`;
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  headline: "You can hand over the work",
-  description,
-  author: { "@type": "Organization", name: "Mindmake", url: "https://mindmake.co" },
-  publisher: { "@type": "Organization", name: "Mindmake", url: "https://mindmake.co" },
-  mainEntityOfPage: {
-    "@type": "WebPage",
-    "@id": "https://mindmake.co/new-age-leadership",
-  },
-};
+function pageMarkup() {
+  const frames = stories.map((s, i) => `<figure class="lens-frame${i ? "" : " is-active"}" data-lens-frame="${i}" aria-hidden="${Boolean(i)}"><img src="${esc(s[1])}" alt="${esc(s[2])}" /></figure>`).join("");
+  const copies = stories.map((s, i) => `<div class="lens-copy${i ? "" : " is-active"}" data-lens-copy="${i}" aria-hidden="${Boolean(i)}"><h3>${s[3]}</h3><p><b>What changed</b> ${s[4]}</p></div>`).join("");
+  const eras = stories.map((s, i) => `<button class="${i ? "" : "is-active"}" data-lens-button="${i}"${i ? "" : ' aria-current="step"'}><i>0${i + 1}</i><span>${s[0] === "The loom" ? "Loom" : s[0]}</span></button>`).join("");
+  const brainBenefits = benefits.map((b, i) => `<article class="brain-benefit${i ? "" : " is-active"}" data-benefit="${i}" aria-hidden="${Boolean(i)}"><h2${i ? "" : ' id="proof-title"'}>${b[0]}</h2><p>${b[1]}</p></article>`).join("");
+  const scenes = [[signalsFilm, signalsPoster, "It notices what changed.", "Signals arrive before someone asks for a report."], [evidenceFilm, evidencePoster, "It joins the evidence.", "New information meets what the business already knows."], [communicationsFilm, communicationsPoster, "It prepares the next move.", "Useful work reaches you ready for a decision."]].map((s, i) => `<article class="work-scene${i ? "" : " is-active"}" data-work-scene="${i}"><video muted loop playsinline preload="${i ? "none" : "metadata"}" poster="${esc(s[1])}"><source src="${esc(s[0])}" type="video/mp4" /></video><div class="work-wash"></div><div><small>0${i + 1}</small><h3>${s[2]}</h3><p>${s[3]}</p></div></article>`).join("");
+  return `<a class="skip" href="#main">Skip to the story</a><header class="masthead"><a class="brand" href="/" aria-label="Mindmake, back to the homepage"><svg viewBox="0 0 32 24" aria-hidden="true"><path d="M1 3 15.5 13 31 3v17L15.5 10 1 20Z"></path></svg><span>Mindmake</span></a><p>New-age leadership</p><button class="motion-toggle" type="button" aria-pressed="false"><i aria-hidden="true"></i><span>Pause motion</span></button></header><main id="main">
+  <section class="hero" id="top" aria-labelledby="hero-title"><video class="hero-film" muted loop playsinline preload="metadata" poster="${esc(quietPoster)}"><source src="${esc(quietFilm)}" type="video/mp4" /></video><div class="hero-wash" aria-hidden="true"></div><div class="hero-orbits" aria-hidden="true"><i></i><i></i><i></i><span></span></div><div class="hero-content"><p class="kicker"><span></span>The hybrid organisation</p><h1 id="hero-title">Build the business<br />that can <em>think</em><br />with you.</h1><p class="hero-deck scroll-reveal" data-reveal="hero-deck">Part people. Part agent.<br />Led by judgement.</p><a class="hero-action" href="#old-feeling">Begin the story <span aria-hidden="true">↓</span></a></div><p class="film-mark">Illustrative machinery</p></section>
+  <section class="old-feeling" id="old-feeling" aria-labelledby="old-feeling-title"><p class="kicker"><span></span>This feeling is older than AI</p><h2 id="old-feeling-title">You are not the first person to wonder what a new tool might take from you.</h2><p class="scroll-reveal" data-reveal>We have been asking that question for centuries.</p></section>
+  <section class="time-lens" id="history" aria-labelledby="lens-title" tabindex="0"><div class="lens-sticky"><div class="lens-viewport" data-lens-viewport>${frames}<div class="lens-wash" aria-hidden="true"></div><div class="lens-aperture" aria-hidden="true"><i></i><i></i><b></b></div></div><div class="lens-story" aria-live="polite"><p class="kicker"><span></span><b data-lens-count>01 / 04</b><i data-lens-era>Writing</i></p><h2 id="lens-title">We have felt this before.</h2>${copies}</div><nav class="lens-era-nav" aria-label="Choose an era">${eras}</nav><div class="lens-controls"><button type="button" data-lens-prev aria-label="Previous story">←</button><label><span>Move through time</span><input data-lens-range type="range" min="0" max="3" step="1" value="0" aria-label="Historical story" /></label><button type="button" data-lens-next aria-label="Next story">→</button></div></div></section>
+  <section class="reach-sequence" data-reach aria-labelledby="reach-title"><div class="reach-sticky"><video muted loop playsinline preload="metadata" poster="${esc(readyPoster)}"><source src="${esc(readyFilm)}" type="video/mp4" /></video><div class="reach-wash" aria-hidden="true"></div><div class="reach-copy"><p class="kicker"><span></span>And now, AI</p><div class="reach-copy-state is-active" data-reach-copy="boundary"><h2 id="reach-title">The feeling is familiar.<br /><em>The reach is new.</em></h2><p>AI can carry work that used to look like thinking, across the business from one decision to the next.</p></div><div class="reach-copy-state" data-reach-copy="organisation" aria-hidden="true"><h2>The organisation<br /><em>changes shape.</em></h2><p>People hold judgement. The AI Brain connects the work.</p></div><details><summary>Sources</summary><div><a href="https://classics.mit.edu/Plato/phaedrus.html">Plato, Phaedrus</a><a href="https://live-www.nationalarchives.gov.uk/explore-the-collection/stories/the-proclamation-of-ned-ludd/">The National Archives, Luddite protests</a><a href="https://eric.ed.gov/?id=EJ336469">Hembree and Dessart, 79-study calculator review</a><a href="https://doi.org/10.1038/s41598-020-62877-0">GPS use and spatial memory</a></div></details></div><div class="reach-stage"><div class="capability-instrument is-active" data-reach-panel="boundary" aria-label="The changing division of work"><div class="capability-head"><p><span>01</span>AI carries</p><i aria-hidden="true"></i><p><span>02</span>You keep</p></div><div class="capability-window"><div class="capability-reel reel-ai">${reels(["Gather","Connect","Compare","Monitor","Model","Reconcile","Prepare","Retrieve","Route","Update"])}</div><div class="capability-core" aria-hidden="true"><i></i><b></b></div><div class="capability-reel reel-human">${reels(["Intent","Taste","Judgement","Method","Relationships","Context","Accountability","Exceptions","Ethics","Decision"])}</div></div></div><div class="hybrid-organisation" data-reach-panel="organisation" aria-hidden="true"><p class="instrument-label"><span></span>New-age leadership</p><div class="organisation-grid" aria-label="A hybrid organisation made from people, an AI Brain and shared roles"><article class="org-cell org-leader"><small>Human</small><strong>Leader</strong><span>Direction · judgement</span></article><article class="org-cell org-chief"><small>Human</small><strong>Chief of Staff</strong><span>Trust · context</span></article><article class="org-cell org-brain"><small>System</small><strong>AI Brain</strong><span>Memory · links</span></article><article class="org-cell org-signals"><small>Agent</small><strong>Market signals</strong><span>Watches change</span></article><article class="org-cell org-marketing"><small>Hybrid</small><strong>Marketing</strong><span>Person leads</span></article><article class="org-cell org-research"><small>Hybrid</small><strong>Research</strong><span>People listen</span></article><article class="org-cell org-sales"><small>Agent</small><strong>Sales research</strong><span>People build trust</span></article><article class="org-cell org-brief"><small>New role</small><strong>Executive brief</strong><span>One view</span></article><div class="organisation-lines" aria-hidden="true"><i></i><i></i><i></i></div></div></div></div><nav class="reach-progress" aria-label="Sequence stages"><i aria-hidden="true"></i><button type="button" data-reach-jump="boundary" aria-current="step">Work</button><button type="button" data-reach-jump="organisation">Organisation</button></nav><p class="film-mark">Illustrative machinery</p></div></section>
+  <section class="work-scroll" aria-label="How the hybrid system works"><div class="work-sticky"><div class="work-intro"><p class="kicker"><span></span>What this feels like in practice</p><h2 class="scroll-reveal" data-reveal>The system does not replace your judgement.<br /><em>It brings more to it.</em></h2></div><div class="work-scenes">${scenes}</div><nav class="work-nav" aria-label="Working stages"><button class="is-active" data-work-button="0" aria-current="step">Notice</button><button data-work-button="1">Connect</button><button data-work-button="2">Prepare</button></nav></div></section>
+  <section class="human-proof" aria-labelledby="proof-title"><div class="proof-story brain-benefits" data-benefits><p class="kicker"><span></span>What your AI Brain makes possible</p><div class="benefit-stage">${brainBenefits}</div><div class="benefit-controls" aria-label="AI Brain benefits"><button type="button" data-benefit-prev aria-label="Previous benefit">←</button><p><span data-benefit-count>01</span> / 06</p><div aria-hidden="true"><i></i></div><button type="button" data-benefit-next aria-label="Next benefit">→</button></div><p class="sr-status" data-benefit-status aria-live="polite"></p></div><div class="proof-return"><p class="kicker dark"><span></span>The returned hour</p><h2>What will you do with the hours it gives back?</h2><ul><li>Ask the harder question.</li><li>Spend more time with people.</li><li>Make the consequential call earlier.</li></ul></div></section>
+  <section class="finale" id="finale" aria-labelledby="finale-title"><video muted loop playsinline preload="none" poster="${esc(readyPoster)}"><source src="${esc(readyFilm)}" type="video/mp4" /></video><div class="finale-wash"></div><div class="finale-copy"><p class="kicker"><span></span>The human boundary</p><h2 id="finale-title">Let the work move.<br />Keep the understanding<br /><em>with you.</em></h2><p>A hybrid organisation does not ask you to think less. It helps you act on more of what you know.</p><a href="#top">Return to the beginning <span aria-hidden="true">↑</span></a></div></section></main>`;
+}
+
+function useExperience(rootRef: React.RefObject<HTMLDivElement>) {
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    const abort = new AbortController();
+    const observers: IntersectionObserver[] = [];
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+    const toggle = root.querySelector<HTMLButtonElement>(".motion-toggle");
+    const videos = [...root.querySelectorAll<HTMLVideoElement>("video")];
+    let paused = reduced || saveData;
+    const syncMotion = () => { toggle?.setAttribute("aria-pressed", String(paused)); const label = toggle?.querySelector("span"); if (label) label.textContent = paused ? "Play motion" : "Pause motion"; root.classList.toggle("motion-paused", paused); };
+    const play = (video: HTMLVideoElement) => { if (!paused) void video.play().catch(() => undefined); };
+    syncMotion();
+    toggle?.addEventListener("click", () => { paused = !paused; syncMotion(); videos.forEach((v) => !paused && v.getBoundingClientRect().top < innerHeight && v.getBoundingClientRect().bottom > 0 ? play(v) : v.pause()); }, { signal: abort.signal });
+    const videoObserver = new IntersectionObserver((entries) => entries.forEach((entry) => entry.isIntersecting ? play(entry.target as HTMLVideoElement) : (entry.target as HTMLVideoElement).pause()), { threshold: 0.18 }); observers.push(videoObserver); videos.forEach((v) => videoObserver.observe(v));
+    const reveals = [...root.querySelectorAll<HTMLElement>("[data-reveal]")];
+    if (reduced || saveData) reveals.forEach((x) => x.classList.add("is-revealed")); else { const observer = new IntersectionObserver((entries) => entries.forEach((e) => { if (e.isIntersecting) { (e.target as HTMLElement).classList.add("is-revealed"); observer.unobserve(e.target); } }), { threshold: 0.25 }); observers.push(observer); reveals.forEach((x) => observer.observe(x)); }
+    const activate = (selector: string, index: number, current = "step") => root.querySelectorAll<HTMLElement>(selector).forEach((node, i) => {
+      node.classList.toggle("is-active", i === index);
+      node.setAttribute("aria-hidden", String(i !== index));
+      if (node.tagName === "BUTTON") {
+        if (i === index) node.setAttribute("aria-current", current);
+        else node.removeAttribute("aria-current");
+      }
+    });
+    let lensIndex = 0; let lensLockUntil = 0; let reachLockUntil = 0;
+    const setLens = (raw: number) => { lensIndex = Math.max(0, Math.min(3, raw)); activate("[data-lens-frame]", lensIndex); activate("[data-lens-copy]", lensIndex); activate("[data-lens-button]", lensIndex); const range = root.querySelector<HTMLInputElement>("[data-lens-range]"); if (range) range.value = String(lensIndex); const count = root.querySelector("[data-lens-count]"); const era = root.querySelector("[data-lens-era]"); if (count) count.textContent = `0${lensIndex + 1} / 04`; if (era) era.textContent = stories[lensIndex][0]; };
+    const lens = root.querySelector<HTMLElement>(".time-lens");
+    const chooseLens = (i: number) => { setLens(i); lensLockUntil = performance.now() + 1200; if (!lens || innerWidth <= 900) return; scrollTo({ top: scrollY + lens.getBoundingClientRect().top + Math.max(1, lens.offsetHeight - innerHeight) * (lensIndex / 3), behavior: reduced ? "auto" : "smooth" }); };
+    root.querySelectorAll<HTMLElement>("[data-lens-button]").forEach((button, i) => button.addEventListener("click", () => chooseLens(i), { signal: abort.signal })); root.querySelector("[data-lens-prev]")?.addEventListener("click", () => chooseLens(lensIndex - 1), { signal: abort.signal }); root.querySelector("[data-lens-next]")?.addEventListener("click", () => chooseLens(lensIndex + 1), { signal: abort.signal }); root.querySelector<HTMLInputElement>("[data-lens-range]")?.addEventListener("input", (e) => chooseLens(Number((e.target as HTMLInputElement).value)), { signal: abort.signal });
+    let workIndex = -1; const setWork = (i: number) => { if (i === workIndex) return; workIndex = i; activate("[data-work-scene]", i); activate("[data-work-button]", i); };
+    const reach = root.querySelector<HTMLElement>("[data-reach]"); const reachSticky = reach?.querySelector<HTMLElement>(".reach-sticky");
+    const setReach = (phase: string) => { root.querySelectorAll<HTMLElement>("[data-reach-copy],[data-reach-panel]").forEach((node) => { const active = (node.dataset.reachCopy || node.dataset.reachPanel) === phase; node.classList.toggle("is-active", active); node.setAttribute("aria-hidden", String(!active)); }); root.querySelectorAll<HTMLElement>("[data-reach-jump]").forEach((node) => node.dataset.reachJump === phase ? node.setAttribute("aria-current", "step") : node.removeAttribute("aria-current")); };
+    const update = () => { if (lens && innerWidth > 900 && performance.now() >= lensLockUntil) setLens(Math.round(Math.max(0, Math.min(1, -lens.getBoundingClientRect().top / Math.max(1, lens.offsetHeight - innerHeight))) * 3)); const work = root.querySelector<HTMLElement>(".work-scroll"); if (work && innerWidth > 900) setWork(Math.round(Math.max(0, Math.min(1, -work.getBoundingClientRect().top / Math.max(1, work.offsetHeight - innerHeight))) * 2)); if (reach && reachSticky) { const p = Math.max(0, Math.min(1, -reach.getBoundingClientRect().top / Math.max(1, reach.offsetHeight - reachSticky.offsetHeight))); reach.style.setProperty("--reach-progress", String(p)); if (performance.now() >= reachLockUntil) setReach(p < 0.48 ? "boundary" : "organisation"); } };
+    addEventListener("scroll", update, { passive: true, signal: abort.signal }); addEventListener("resize", update, { signal: abort.signal });
+    root.querySelectorAll<HTMLElement>("[data-work-button]").forEach((button, i) => button.addEventListener("click", () => { setWork(i); const work = root.querySelector<HTMLElement>(".work-scroll"); if (work) scrollTo({ top: scrollY + work.getBoundingClientRect().top + (work.offsetHeight - innerHeight) * (i / 2), behavior: reduced ? "auto" : "smooth" }); }, { signal: abort.signal }));
+    root.querySelectorAll<HTMLElement>("[data-reach-jump]").forEach((button) => button.addEventListener("click", () => { const phase = button.dataset.reachJump || "boundary"; setReach(phase); reachLockUntil = performance.now() + 1200; if (reach && reachSticky) scrollTo({ top: reach.offsetTop + (reach.offsetHeight - reachSticky.offsetHeight) * (phase === "organisation" ? 0.68 : 0.12), behavior: reduced ? "auto" : "smooth" }); }, { signal: abort.signal }));
+    let benefit = 0; let visible = false; let held = false; let timer = 0; let demonstrated = false; const benefitNodes = [...root.querySelectorAll<HTMLElement>("[data-benefit]")]; const showBenefit = (i: number, announce = false) => { benefit = (i + benefitNodes.length) % benefitNodes.length; activate("[data-benefit]", benefit); const count = root.querySelector("[data-benefit-count]"); if (count) count.textContent = String(benefit + 1).padStart(2, "0"); const status = root.querySelector("[data-benefit-status]"); if (announce && status) status.textContent = `Benefit ${benefit + 1} of ${benefitNodes.length}: ${benefitNodes[benefit].innerText}`; }; const startBenefits = (intro = false) => { clearTimeout(timer); clearInterval(timer); if (!visible || held || paused || reduced || saveData || document.hidden) return; timer = window.setTimeout(() => { showBenefit(benefit + 1); demonstrated = true; timer = window.setInterval(() => showBenefit(benefit + 1), 6200); }, intro && !demonstrated ? 900 : 6200); };
+    root.querySelector("[data-benefit-prev]")?.addEventListener("click", () => { showBenefit(benefit - 1, true); startBenefits(); }, { signal: abort.signal }); root.querySelector("[data-benefit-next]")?.addEventListener("click", () => { showBenefit(benefit + 1, true); startBenefits(); }, { signal: abort.signal }); const benefitRoot = root.querySelector<HTMLElement>("[data-benefits]"); benefitRoot?.addEventListener("focusin", () => { held = true; clearInterval(timer); }, { signal: abort.signal }); benefitRoot?.addEventListener("focusout", () => { held = false; startBenefits(); }, { signal: abort.signal }); if (benefitRoot) { const observer = new IntersectionObserver((entries) => { visible = Boolean(entries[0]?.isIntersecting); startBenefits(true); }, { threshold: 0.32 }); observers.push(observer); observer.observe(benefitRoot); }
+    setLens(0); setWork(0); update();
+    return () => { abort.abort(); observers.forEach((o) => o.disconnect()); clearTimeout(timer); clearInterval(timer); videos.forEach((v) => v.pause()); };
+  }, [rootRef]);
+}
 
 export default function NewAgeLeadership() {
+  const rootRef = useRef<HTMLDivElement>(null);
   const [briefOpen, setBriefOpen] = useState(false);
-  const plateRef = useScrollDriver<HTMLDivElement>();
-
-  return (
-    <MindmakeShell onStart={() => setBriefOpen(true)}>
-      <SEO
-        title="What a leader does with the hours AI gives back"
-        description={description}
-        canonical="/new-age-leadership"
-        ogType="article"
-        keywords="AI and leadership, resistance to new technology, AI org chart, human judgement"
-        jsonLd={jsonLd}
-      />
-
-      <section className="mm-hero" aria-labelledby="reflex-title">
-        <div className="mm-container mm-hero-split">
-          {/* The copy column is the entrance's first beat: see index.html. */}
-          <div className="mm-first">
-            <h1 className="mm-setup" id="reflex-title">You can hand over the work.</h1>
-            <ScrubText className="mm-claim" text="You cannot hand over the understanding." />
-            <p className="mm-lede">
-              AI gives a leader hours back every week. What the hours go into is the whole
-              question.
-            </p>
-          </div>
-          {/* The specimen drawers: a record being kept, and a handwritten note
-              waiting beside it. The one film about memory and a human hand. */}
-          <div className="mm-hero-film mm-parallax" ref={plateRef}>
-            <FilmPlate
-              className="mm-parallax-plate"
-              poster={filmFivePoster}
-              posterWebp={filmFivePosterWebp}
-              src={filmFiveLoop}
-              srcWebm={filmFiveLoopWebm}
-              label="A wall of walnut specimen drawers. A brass arm files one cream card while a handwritten note waits under a paperweight."
-              priority
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Paper, because it is the page's reading ground and four cards on cream
-          read as an index rather than a wall. */}
-      <section className="mm-block mm-on-paper" aria-labelledby="history-title">
-        <div className="mm-container">
-          <h2 id="history-title">
-            <Instrument kind="drawer" className="mm-head-mark" />
-            People have blamed their tools for a long time.
-          </h2>
-          <ReflexDeck />
-        </div>
-      </section>
-
-      {/* One line, lit word by word as the reader passes it, and the source in
-          the data voice underneath. It carries the four cards above it, which
-          is why it gets a screen of its own rather than a paragraph under them. */}
-      <section className="mm-block" aria-labelledby="turn-title">
-        <div className="mm-container mm-turn">
-          <h2 className="mm-visually-hidden" id="turn-title">What the objections have in common</h2>
-          <ScrubText className="mm-claim mm-turn-line" text={TURN.line} />
-          <p className="mm-turn-source">{TURN.source}</p>
-        </div>
-      </section>
-
-      <section className="mm-block mm-on-raise" aria-labelledby="hours-title">
-        <div className="mm-container">
-          <div className="mm-head-split">
-            <h2 id="hours-title">
-              <Instrument kind="levels" className="mm-head-mark" />
-              Two things a leader can do with the same hour.
-            </h2>
-            <p className="mm-lede">{HOURS.lede}</p>
-          </div>
-          <div style={{ marginTop: 20 }}>
-            <ProcessTrack first={HOURS.first} second={HOURS.second} />
-          </div>
-          <div className="mm-answer">
-            <ScrubText className="mm-claim" text={HOURS.payoff} />
-          </div>
-        </div>
-      </section>
-
-      <section className="mm-block" aria-labelledby="chart-title">
-        <div className="mm-container">
-          <div className="mm-head-split">
-            <h2 id="chart-title">
-              <Instrument kind="rail" className="mm-head-mark" />
-              What that looks like in a working company.
-            </h2>
-            <p className="mm-lede">Our own chart.</p>
-          </div>
-          <div style={{ marginTop: 20 }}>
-            <OrgChart onStart={() => setBriefOpen(true)} />
-          </div>
-        </div>
-      </section>
-
-      {/* Where everything a leader teaches AI ends up. This was the homepage's
-          argument for months and moved here on 3 September 2026: the homepage
-          now opens on the hours and the hinge, and the reasoning that follows
-          from it, that the understanding has to stay with the leader, belongs
-          on the page whose job is the reasoning. Raise, between the chart's
-          ink and the story's paper. */}
-      <section className="mm-block mm-on-raise" aria-labelledby="where-title">
-        <div className="mm-container">
-          <h2 id="where-title"><Instrument kind="drawer" className="mm-head-mark" />Where does everything you teach AI end up?</h2>
-          <p className="mm-lede" style={{ marginTop: 12 }}>
-            You explain your business to AI every week. How you price. What good looks like. Which
-            customers matter.
-          </p>
-          <Build className="mm-three" style={{ marginTop: 20 }}>
-            <article className="mm-enemy">
-              <h3>It stays in a plan</h3>
-              <p>Consultants and agencies do good work and leave you a plan you can act on. When the project closes, the understanding behind it goes with them.</p>
-            </article>
-            <article className="mm-enemy">
-              <h3>It stays in their product</h3>
-              <p>Every tool you subscribe to is useful, and every one keeps what it learns on their side. Cancel the subscription and you start again.</p>
-            </article>
-            <article className="mm-enemy is-answer">
-              <h3>It stays with you</h3>
-              <p>We build it inside your own accounts. It learns how you decide, it gets better every week, and it stays yours when we finish.</p>
-            </article>
-          </Build>
-          <div className="mm-answer">
-            <ScrubText className="mm-claim" text="You keep what it learns." />
-          </div>
-        </div>
-      </section>
-
-      <AgathaStory ground="paper" />
-
-      <CloseBlock
-        instrument="drawer"
-        claim="Find one hand-off worth improving first."
-        body="Mindmake reads the company and shows one useful starting point. You see the brief before you choose whether to share it."
-        onStart={() => setBriefOpen(true)}
-      />
-
-      <PageCompletionBeacon />
-      <LeadBrief open={briefOpen} onClose={() => setBriefOpen(false)} />
-    </MindmakeShell>
-  );
+  const html = useMemo(pageMarkup, []);
+  useExperience(rootRef);
+  return <><SEO title="Build the business that can think with you" description={description} canonical="/new-age-leadership" ogType="article" keywords="AI leadership, hybrid organisation, AI Brain, human judgement" jsonLd={{ "@context": "https://schema.org", "@type": "Article", headline: "Build the business that can think with you", description, author: { "@type": "Organization", name: "Mindmake", url: "https://mindmake.co" }, publisher: { "@type": "Organization", name: "Mindmake", url: "https://mindmake.co" }, mainEntityOfPage: { "@type": "WebPage", "@id": "https://mindmake.co/new-age-leadership" } }} /><div className="nal-page" ref={rootRef} dangerouslySetInnerHTML={{ __html: html }} /><div className="mm-site"><CommercialDecisionBalance context="leadership" onStart={() => setBriefOpen(true)} /><footer className="mm-footer"><div className="mm-container mm-footer-grid"><MindmakeBrand compact /><p>We help leaders keep their edge as AI changes their market, and you keep what it learns.</p><nav aria-label="Footer navigation"><Link to="/ai-brain">Build your AI brain</Link><Link to="/ai-gtm">Build your AI GTM</Link><Link to="/case-studies">Results</Link><a href={PUBLICATION_URL} target="_blank" rel="noreferrer">Media</a><Link to="/blog">Ideas</Link><Link to="/answers">Answers</Link><Link to="/faq">Straight answers</Link><Link to="/contact">Contact</Link><Link to="/privacy">Privacy</Link><Link to="/terms">Terms</Link></nav><small>Copyright {new Date().getFullYear()} Mindmake. Built in public, used in private.</small></div></footer></div><LeadBrief open={briefOpen} onClose={() => setBriefOpen(false)} /></>;
 }

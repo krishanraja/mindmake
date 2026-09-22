@@ -1,0 +1,27 @@
+name: Approved route lock
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  approved-routes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Verify approved production hashes and contracts
+        run: node scripts/qa/approved-route-lock-check.mjs
+      - name: Prove the lock fails closed
+        run: node scripts/qa/approved-route-lock-self-test.mjs
+      - name: Verify language contract
+        run: npm run qa:plain-language
+      - name: Verify focused route contracts
+        run: npx vitest run src/test/copy-restraint.test.ts src/test/first-screen.test.ts src/test/ssg-hydration.test.tsx src/test/LeadBrief.test.tsx src/test/route-lead-brief-history.test.tsx
+      - name: Build the approved routes
+        run: npm run build

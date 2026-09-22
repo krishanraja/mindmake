@@ -1,6 +1,7 @@
-import { CSSProperties, FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Check, Download, LoaderCircle, X } from "lucide-react";
 import type { CompanyDossier as Dossier } from "@/components/mindmake/companyRead";
+import { FilmPlate } from "@/components/mindmake/FilmPlate";
 import {
   buildMindmakeBriefConfirmV2,
   buildMindmakeBriefRequestV2,
@@ -11,12 +12,21 @@ import {
   type MindmakeConfirmedResponseV2,
   type BriefRoute,
 } from "@/components/mindmake/leadDelivery";
-import { DetailsJourney, type Details } from "@/components/mindmake/journeys/DetailsJourney";
+import type { Details } from "@/components/mindmake/journeys/DetailsJourney";
 import { HumanHandoff } from "@/components/mindmake/HumanHandoff";
 import { MindmakeProposal } from "@/components/mindmake/MindmakeProposal";
 import { buildPrivateBriefHtml, type PrivateBriefContent } from "@/components/mindmake/privateBriefHtml";
 import "@/styles/mindmake-brief.css";
 import { CONTACT_EMAIL } from "@/lib/publicLinks";
+import opportunitiesFilm from "@/assets/films/sep2026/opportunities-resolve-loop-r01-20s-720p-web-sealed.mp4";
+import opportunitiesPoster from "@/assets/films/sep2026/opportunities-resolve-poster.webp";
+import {
+  DIVISIONS,
+  FREE_EMAIL_PROBLEM,
+  domainFromEmail,
+  workEmailProblem,
+  type Division,
+} from "@/lib/workEmail";
 
 export type { BriefRoute } from "@/components/mindmake/leadDelivery";
 
@@ -24,12 +34,16 @@ interface LeadBriefProps {
   open: boolean;
   onClose: () => void;
   route?: BriefRoute;
+  presentation?: "modal" | "drawer";
   /** A domain the page already collected, so the dialog opens on the read. */
   initialDomain?: string;
   /** The work email the page already collected, so nobody types it twice. The
       code still has to be confirmed: this fills the field, it does not skip a
       step. */
   initialEmail?: string;
+  /** A plain-language choice already made on the route. It remains visible in
+      the brief but is not sent as a new backend field. */
+  initialContext?: string;
   /** Fires once, when a verified request has been confirmed. */
   onConfirmed?: () => void;
   /**
@@ -41,22 +55,17 @@ interface LeadBriefProps {
    * offer asks for what it needs in that case.
    */
   visitor?: Details;
+  /** Browser-history identity for this attempt. It restores an interrupted
+      draft on refresh or Forward without carrying it into a fresh CTA. */
+  journeyKey?: string | null;
 }
 
-/* "details" was "domain", and the rename is the whole change.
-   This dialog opened on a field labelled Company website while the panels on
-   both door pages asked for four details and told the reader, in as many words,
-   that there was nothing to look up. 05_LEAD_DELIVERY_SPEC.md says both doors
-   ask for exactly those four details in one shared component; that was true of
-   the panels and not of this, which is every `Start here` on the homepage and
-   the archive. It is the same component now.
-
-   Nothing about what reaches the server changes. `buildMindmakeBriefRequestV2`
-   sends `contact.email` and `company.domain`, and the domain is derived from
-   the work email by `src/lib/workEmail.ts` rather than typed. The name and the
-   division stay in the browser and do the job they already do on /ai-gtm: they
-   are what the offer of a person carries when a step fails. */
-type Step = "door" | "details" | "reading" | "pressure" | "capacity" | "preview" | "contact" | "verify" | "success";
+/* The approved entry separates the company from the person. A work email starts
+   the public read, then name and division are collected while that read runs.
+   The same four validated values still exist before the visitor can see the
+   company read, and the downstream version 2 request remains unchanged. */
+type Step = "door" | "company" | "profile" | "reading" | "pressure" | "capacity" | "preview" | "contact" | "verify" | "success";
+type CompanyReadState = "idle" | "reading" | "ready" | "failed";
 
 /**
  * The two doors, and why the dialog sometimes has to ask.
@@ -78,7 +87,8 @@ const DOOR_CHOICES: ReadonlyArray<{ route: BriefRoute; label: string; line: stri
    proposal handed over on forest. */
 const STEP_TONES: Record<Step, "ink" | "forest" | "paper"> = {
   door: "ink",
-  details: "ink",
+  company: "paper",
+  profile: "paper",
   reading: "ink",
   pressure: "paper",
   capacity: "paper",
@@ -173,6 +183,27 @@ const capacityDetail = (capacity: string) => {
     default:
       return "Choose where the returned time would create more value before deciding what to automate.";
   }
+};
+
+const capacityShort = (capacity: string) => {
+  switch (capacity) {
+    case "Grow this business": return "Grow";
+    case "Help more companies": return "Help";
+    case "Build my AI skill": return "Learn";
+    case "Make room for important decisions": return "Decide";
+    default: return "Time";
+  }
+};
+
+const pressureShort = (pressure: string) => {
+  const normalised = pressure.toLowerCase();
+  if (normalised.includes("message")) return "Message";
+  if (normalised.includes("price")) return "Price";
+  if (normalised.includes("customer")) return "Customer";
+  if (normalised.includes("context") || normalised.includes("search")) return "Context";
+  if (normalised.includes("decision") || normalised.includes("choose")) return "Decision";
+  if (normalised.includes("build") || normalised.includes("moves")) return "Priorities";
+  return "Problem";
 };
 
 const pressureDetail = (pressure: string) => {
@@ -291,23 +322,36 @@ const readableText = (value: unknown): string => {
   return declarativeOnly(text);
 };
 
-export function LeadBrief({ open, onClose, route = "home", initialDomain, initialEmail, onConfirmed, visitor }: LeadBriefProps) {
+export function LeadBrief({ open, onClose, route = "home", presentation = "modal", initialDomain, initialEmail, initialContext, onConfirmed, visitor, journeyKey }: LeadBriefProps) {
   /* Opened without a door, the first thing to settle is which one. Given one,
      that question has an obvious answer and asking it would be furniture. */
-  const [step, setStep] = useState<Step>(route === "home" ? "door" : "details");
+  const [step, setStep] = useState<Step>(route === "home" ? "door" : "company");
   const [door, setDoor] = useState<BriefRoute>(route);
   /* What this dialog collected itself. On /ai-gtm the page has already asked,
      and hands them in through `visitor`; opened cold from the homepage or the
      archive there is nobody upstream, so it asks and keeps them here. Either
      way the offer of a person ends up with a name and a division. */
   const [collected, setCollected] = useState<Details | null>(null);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [division, setDivision] = useState<Division | "">("");
+  const [entryError, setEntryError] = useState("");
+  const [entryErrorField, setEntryErrorField] = useState<"email" | "name" | "division" | null>(null);
   const [domain, setDomain] = useState("");
+  const [companyReadState, setCompanyReadState] = useState<CompanyReadState>("idle");
   const [dossier, setDossier] = useState<Dossier | null>(null);
   const [liveRead, setLiveRead] = useState(false);
   const [pressure, setPressure] = useState("");
   const [tailoredChoice, setTailoredChoice] = useState<TailoredPressure | null>(null);
   const [showGenericChoices, setShowGenericChoices] = useState(false);
   const [capacity, setCapacity] = useState("");
+  const [previousCapacity, setPreviousCapacity] = useState<string | null>(null);
+  const [previewLeaf, setPreviewLeaf] = useState(0);
+  const [previewCompact, setPreviewCompact] = useState(false);
+  const [timeEditorOpen, setTimeEditorOpen] = useState(false);
+  const [timeDraft, setTimeDraft] = useState("");
+  const [keepConfirmOpen, setKeepConfirmOpen] = useState(false);
+  const [previewAnnouncement, setPreviewAnnouncement] = useState("");
   const [email, setEmail] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
   const [newsletter, setNewsletter] = useState(false);
@@ -315,16 +359,24 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
   const [handoffResult, setHandoffResult] = useState<MindmakeConfirmedResponseV2 | null>(null);
   const [researchIssue, setResearchIssue] = useState("");
   const [error, setError] = useState("");
+  const [draftHydratedFor, setDraftHydratedFor] = useState("");
   const backdropRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const previewInstrumentRef = useRef<HTMLDivElement>(null);
+  const previewTouchXRef = useRef<number | null>(null);
+  const previewReturnFocusRef = useRef<HTMLElement | null>(null);
   const stepHeadingRef = useRef<HTMLHeadingElement>(null);
   const firstFieldRef = useRef<HTMLInputElement>(null);
+  const firstDivisionRef = useRef<HTMLButtonElement>(null);
+  const divisionSelectRef = useRef<HTMLSelectElement>(null);
   const previousFocus = useRef<HTMLElement | null>(null);
   const researchAbortRef = useRef<AbortController | null>(null);
   const handoffAbortRef = useRef<AbortController | null>(null);
   const requestIdRef = useRef(createRequestId());
   const journeyVersionRef = useRef(0);
+  const profileSubmittedRef = useRef(false);
   const handoffEnabled = import.meta.env.VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED === "true";
+  const draftStorageKey = journeyKey ? `mindmake-brief-draft:${journeyKey}` : "";
 
   const company = dossier?.identity?.name || domain.split(".")[0]?.replace(/[-_]/g, " ") || "Your business";
   const known = readableText(dossier?.synthesis)
@@ -372,16 +424,28 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
     researchAbortRef.current = null;
     handoffAbortRef.current?.abort();
     handoffAbortRef.current = null;
-    setStep(route === "home" ? "door" : "details");
+    setStep(route === "home" ? "door" : "company");
     setDoor(route);
     setCollected(null);
+    setFirstName("");
+    setLastName("");
+    setDivision("");
+    setEntryError("");
+    setEntryErrorField(null);
     setDomain("");
+    setCompanyReadState("idle");
     setDossier(null);
     setLiveRead(false);
     setPressure("");
     setTailoredChoice(null);
     setShowGenericChoices(false);
     setCapacity("");
+    setPreviousCapacity(null);
+    setPreviewLeaf(0);
+    setTimeEditorOpen(false);
+    setTimeDraft("");
+    setKeepConfirmOpen(false);
+    setPreviewAnnouncement("");
     setEmail("");
     setVerificationCode("");
     setNewsletter(false);
@@ -389,6 +453,7 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
     setHandoffResult(null);
     setResearchIssue("");
     setError("");
+    profileSubmittedRef.current = false;
     requestIdRef.current = createRequestId();
     /* `route` is a dependency because a reset returns the dialog to whichever
        step it opens on, and that is the door only when it was opened without
@@ -397,24 +462,119 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
 
   useEffect(() => {
     if (!open) {
+      setDraftHydratedFor("");
       resetJourney();
       return;
     }
     previousFocus.current = document.activeElement as HTMLElement | null;
     document.body.classList.add("mm-dialog-open");
+    const backdrop = backdropRef.current;
+    const main = backdrop?.parentElement;
+    const site = backdrop?.closest<HTMLElement>(".mm-site");
+    const background = site && main
+      ? [
+        ...Array.from(site.children).filter((element) => element !== main),
+        ...Array.from(main.children).filter((element) => element !== backdrop),
+      ].filter((element): element is HTMLElement => element instanceof HTMLElement)
+      : [];
+    const previousBackgroundState = background.map((element) => ({
+      element,
+      inert: element.inert,
+      ariaHidden: element.getAttribute("aria-hidden"),
+    }));
+    background.forEach((element) => {
+      element.inert = true;
+      element.setAttribute("aria-hidden", "true");
+    });
     return () => {
       document.body.classList.remove("mm-dialog-open");
+      previousBackgroundState.forEach(({ element, inert, ariaHidden }) => {
+        element.inert = inert;
+        if (ariaHidden === null) element.removeAttribute("aria-hidden");
+        else element.setAttribute("aria-hidden", ariaHidden);
+      });
       previousFocus.current?.focus();
       previousFocus.current = null;
     };
   }, [open, resetJourney]);
 
   useEffect(() => {
+    if (!open || !draftStorageKey || draftHydratedFor === draftStorageKey) return;
+    try {
+      const raw = window.sessionStorage.getItem(draftStorageKey);
+      if (raw) {
+        const draft = JSON.parse(raw) as {
+          savedAt?: number; step?: Step; door?: BriefRoute; collected?: Details | null;
+          firstName?: string; lastName?: string; division?: Division | ""; domain?: string;
+          companyReadState?: CompanyReadState; dossier?: Dossier | null; liveRead?: boolean;
+          pressure?: string; tailoredChoice?: TailoredPressure | null; showGenericChoices?: boolean;
+          capacity?: string; previousCapacity?: string | null; previewLeaf?: number;
+          email?: string; researchIssue?: string;
+        };
+        if (typeof draft.savedAt === "number" && Date.now() - draft.savedAt < 2 * 60 * 60 * 1000) {
+          const restoredStep = draft.step === "reading" ? "profile" : draft.step === "verify" ? "contact" : draft.step;
+          if (restoredStep && restoredStep !== "success") setStep(restoredStep);
+          if (draft.door) setDoor(draft.door);
+          setCollected(draft.collected ?? null);
+          setFirstName(draft.firstName ?? "");
+          setLastName(draft.lastName ?? "");
+          setDivision(draft.division ?? "");
+          setDomain(draft.domain ?? "");
+          setCompanyReadState(draft.companyReadState === "reading" ? "ready" : (draft.companyReadState ?? "idle"));
+          setDossier(draft.dossier ?? null);
+          setLiveRead(Boolean(draft.liveRead));
+          setPressure(draft.pressure ?? "");
+          setTailoredChoice(draft.tailoredChoice ?? null);
+          setShowGenericChoices(Boolean(draft.showGenericChoices));
+          setCapacity(draft.capacity ?? "");
+          setPreviousCapacity(draft.previousCapacity ?? null);
+          setPreviewLeaf(Number.isInteger(draft.previewLeaf)
+            ? Math.max(0, Math.min(3, Number(draft.previewLeaf)))
+            : 0);
+          setEmail(draft.email ?? "");
+          setResearchIssue(draft.researchIssue ?? "");
+          profileSubmittedRef.current = Boolean(draft.collected);
+        }
+      }
+    } catch {
+      window.sessionStorage.removeItem(draftStorageKey);
+    }
+    setDraftHydratedFor(draftStorageKey);
+  }, [draftHydratedFor, draftStorageKey, open]);
+
+  useEffect(() => {
+    if (!open || !draftStorageKey || draftHydratedFor !== draftStorageKey) return;
+    if (step === "success") {
+      window.sessionStorage.removeItem(draftStorageKey);
+      return;
+    }
+    window.sessionStorage.setItem(draftStorageKey, JSON.stringify({
+      savedAt: Date.now(), step, door, collected, firstName, lastName, division,
+      domain, companyReadState, dossier, liveRead, pressure, tailoredChoice,
+      showGenericChoices, capacity, previousCapacity, previewLeaf, email, researchIssue,
+    }));
+  }, [capacity, collected, companyReadState, dossier, division, door, draftHydratedFor, draftStorageKey, email, firstName, lastName, liveRead, open, pressure, previousCapacity, previewLeaf, researchIssue, showGenericChoices, step, tailoredChoice]);
+
+  useEffect(() => {
     if (!open) return;
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
+      if (event.key === "Escape") {
+        if (timeEditorOpen) {
+          event.preventDefault();
+          setTimeEditorOpen(false);
+          previewReturnFocusRef.current?.focus({ preventScroll: true });
+          return;
+        }
+        if (keepConfirmOpen) {
+          event.preventDefault();
+          setKeepConfirmOpen(false);
+          previewReturnFocusRef.current?.focus({ preventScroll: true });
+          return;
+        }
+        onClose();
+      }
       if (event.key !== "Tab" || !panelRef.current) return;
-      const focusable = Array.from(panelRef.current.querySelectorAll<HTMLElement>("button:not([disabled]), a[href], input:not([disabled])"));
+      const focusable = Array.from(panelRef.current.querySelectorAll<HTMLElement>("button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled])"));
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
       if (event.shiftKey && document.activeElement === first) {
@@ -427,22 +587,70 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
     };
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [onClose, open]);
+  }, [keepConfirmOpen, onClose, open, timeEditorOpen]);
+
+  useEffect(() => {
+    if (!open || step !== "preview" || typeof window.matchMedia !== "function") return;
+    const query = window.matchMedia("(max-width: 820px), (max-width: 920px) and (orientation: landscape) and (max-height: 500px)");
+    const update = () => setPreviewCompact(query.matches);
+    update();
+    query.addEventListener?.("change", update);
+    return () => query.removeEventListener?.("change", update);
+  }, [open, step]);
+
+  useEffect(() => {
+    if (!open || step !== "preview") return;
+    const instrument = previewInstrumentRef.current;
+    if (!instrument) return;
+    instrument.inert = timeEditorOpen || keepConfirmOpen;
+    if (timeEditorOpen || keepConfirmOpen) instrument.setAttribute("aria-hidden", "true");
+    else instrument.removeAttribute("aria-hidden");
+    if (!timeEditorOpen && !keepConfirmOpen) return;
+    const overlay = panelRef.current?.querySelector<HTMLElement>(timeEditorOpen ? ".mm-folio-time-panel" : ".mm-folio-keep-panel");
+    const firstFrame = window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => overlay?.querySelector<HTMLElement>("input:checked, button")?.focus({ preventScroll: true }));
+    });
+    return () => {
+      window.cancelAnimationFrame(firstFrame);
+      instrument.inert = false;
+      instrument.removeAttribute("aria-hidden");
+    };
+  }, [keepConfirmOpen, open, step, timeEditorOpen]);
+
+  useEffect(() => {
+    if (!open || step !== "preview") return;
+    const panel = panelRef.current;
+    const interrupted = Array.from(document.querySelectorAll<HTMLVideoElement>("video"))
+      .filter((video) => !panel?.contains(video) && !video.paused);
+    interrupted.forEach((video) => video.pause());
+    return () => {
+      if (document.hidden) return;
+      interrupted.filter((video) => video.isConnected).forEach((video) => { void video.play().catch(() => undefined); });
+    };
+  }, [open, step]);
 
   useEffect(() => {
     if (!open || !initialDomain) return;
-    if (step !== "details" || domain) return;
+    if (step !== "company" || domain) return;
     const seed = cleanDomain(initialDomain);
     if (!isPublicHostname(seed)) return;
-    if (initialEmail) setEmail(initialEmail);
-    void readCompany(seed);
-  }, [open, initialDomain, initialEmail, step, domain]);
+    if (initialEmail) setEmail(initialEmail.trim().toLowerCase());
+    if (visitor) {
+      setCollected(visitor);
+      setFirstName(visitor.firstName);
+      setLastName(visitor.lastName);
+      setDivision(visitor.division);
+      void readCompany(seed, "blocking");
+      return;
+    }
+    void readCompany(seed, "progressive");
+  }, [open, initialDomain, initialEmail, step, domain, visitor]);
 
   useEffect(() => {
     if (!open) return;
     const focusTimer = window.setTimeout(() => {
       panelRef.current?.scrollTo?.({ top: 0 });
-      const focusTarget = !usesCoarseInteraction() && (step === "contact" || step === "verify")
+      const focusTarget = !usesCoarseInteraction() && (["company", "profile", "contact", "verify"] as Step[]).includes(step)
         ? firstFieldRef.current
         : stepHeadingRef.current;
       focusTarget?.focus({ preventScroll: true });
@@ -528,7 +736,7 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
     return source ? { ...source, email: email.trim().toLowerCase() || source.email } : null;
   }, [visitor, collected, email]);
 
-  const readCompany = async (nextDomain: string) => {
+  const readCompany = async (nextDomain: string, mode: "blocking" | "progressive" = "blocking") => {
     researchAbortRef.current?.abort();
     const controller = new AbortController();
     researchAbortRef.current = controller;
@@ -537,17 +745,22 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
     let timeoutId = 0;
 
     setError("");
+    setEntryError("");
+    setEntryErrorField(null);
     setResearchIssue("");
     setDomain(nextDomain);
     setDossier(null);
     setLiveRead(false);
+    setCompanyReadState("reading");
     /* A tailored choice is signed for one domain; a fresh read clears it. */
     setTailoredChoice((previous) => {
       if (previous) setPressure("");
       return null;
     });
     setShowGenericChoices(false);
-    setStep("reading");
+    setPressure("");
+    setCapacity("");
+    setStep(mode === "progressive" ? "profile" : "reading");
     try {
       const { supabase } = await import("@/integrations/supabase/client");
       const companyRead = supabase.functions.invoke<Dossier>("enrich-company", {
@@ -569,12 +782,14 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
       delete safeDossier.scale;
       setDossier(safeDossier);
       setLiveRead(true);
-      setStep("pressure");
+      setCompanyReadState("ready");
+      if (mode === "blocking" || profileSubmittedRef.current) setStep("pressure");
     } catch {
       if (controller.signal.aborted && !timedOut) return;
       if (journeyVersion !== journeyVersionRef.current) return;
       setDossier(null);
       setLiveRead(false);
+      setCompanyReadState("failed");
       /* Not a dead end, which is why there is no offer of a person here: the
          journey carries on to a real recommendation and a real hand-off, and a
          second door beside a working one would only ask somebody to guess which
@@ -584,22 +799,71 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
           ? "Our read of your company is still thinking about it, and we would rather not keep you waiting on it. You can carry on from this starting point, or ask for the live read again."
           : "Our read of your company came back with nothing to say for itself, which is unlike it. You can carry on from this starting point, or ask for the live read again.",
       );
-      setStep("pressure");
+      if (mode === "blocking" || profileSubmittedRef.current) setStep("pressure");
     } finally {
       window.clearTimeout(timeoutId);
       if (researchAbortRef.current === controller) researchAbortRef.current = null;
     }
   };
 
-  /* DetailsJourney has already validated the address and derived the domain
-     from it, refusing a personal one on the page as the server does again. So
-     there is nothing left to parse here: keep the details for the offer of a
-     person, fill the contact step so nobody types the address twice, and start
-     the read on the same call the seeded path from /ai-gtm uses. */
-  const startFromDetails = (details: Details) => {
-    setCollected(details);
-    setEmail(details.email);
-    void readCompany(details.domain);
+  const submitCompany = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const nextEmail = email.trim().toLowerCase();
+    const problem = workEmailProblem(nextEmail);
+    if (problem) {
+      setEntryError(problem);
+      setEntryErrorField("email");
+      firstFieldRef.current?.focus();
+      return;
+    }
+    const nextDomain = domainFromEmail(nextEmail);
+    profileSubmittedRef.current = false;
+    setEmail(nextEmail);
+    void readCompany(nextDomain, "progressive");
+  };
+
+  const submitProfile = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!firstName.trim() || !lastName.trim()) {
+      setEntryError("We need your name to find you. First and last is enough.");
+      setEntryErrorField("name");
+      firstFieldRef.current?.focus();
+      return;
+    }
+    if (!division) {
+      setEntryError("Pick the part of the business you work in.");
+      setEntryErrorField("division");
+      requestAnimationFrame(() => {
+        const select = divisionSelectRef.current;
+        if (select && window.getComputedStyle(select).display !== "none") select.focus();
+        else firstDivisionRef.current?.focus();
+      });
+      return;
+    }
+    setEntryError("");
+    setEntryErrorField(null);
+    setCollected({
+      firstName: firstName.trim().slice(0, 80),
+      lastName: lastName.trim().slice(0, 80),
+      email,
+      division,
+      domain,
+    });
+    profileSubmittedRef.current = true;
+    setStep(companyReadState === "reading" ? "reading" : "pressure");
+  };
+
+  const changeCompanyEmail = () => {
+    researchAbortRef.current?.abort();
+    researchAbortRef.current = null;
+    profileSubmittedRef.current = false;
+    setCompanyReadState("idle");
+    setDossier(null);
+    setLiveRead(false);
+    setResearchIssue("");
+    setEntryError("");
+    setEntryErrorField(null);
+    setStep("company");
   };
 
   const retryResearch = () => {
@@ -739,6 +1003,93 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
     setStep(handoffEnabled ? "contact" : "success");
   };
 
+  const previewDoorLabel = door === "brain" ? "AI Brain" : door === "gtm" ? "AI GTM" : "Mindmake";
+  const previewDivision = DIVISIONS.find((entry) => entry.id === (collected?.division ?? division))?.label ?? "Leader";
+  const previewStartingPoint = `${previewDoorLabel} · ${pressure.replace(/[.]+$/, "")}.`;
+  const previewLeaves = [
+    { label: "Starting point", content: previewStartingPoint, proof: false },
+    { label: "AI can carry", content: detail.carry, proof: false },
+    { label: "You keep", content: detail.human, proof: false },
+    { label: "First proof", content: detail.proof, proof: true },
+  ] as const;
+
+  const movePreviewLeaf = (next: number, focus = false) => {
+    const bounded = Math.max(0, Math.min(3, next));
+    setPreviewLeaf(bounded);
+    setPreviewAnnouncement(`${previewLeaves[bounded].label}, ${bounded + 1} of 4.`);
+    if (focus) {
+      window.requestAnimationFrame(() => {
+        previewInstrumentRef.current
+          ?.querySelector<HTMLElement>(`[data-mm-folio-leaf="${bounded}"]`)
+          ?.focus({ preventScroll: true });
+      });
+    }
+  };
+
+  const handlePreviewLeafKey = (event: React.KeyboardEvent<HTMLElement>, index: number) => {
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    if (event.key === "Home") movePreviewLeaf(0, true);
+    if (event.key === "End") movePreviewLeaf(3, true);
+    if (event.key === "ArrowLeft") movePreviewLeaf(index - 1, true);
+    if (event.key === "ArrowRight") movePreviewLeaf(index + 1, true);
+  };
+
+  const openTimeEditor = (trigger: HTMLElement) => {
+    previewReturnFocusRef.current = trigger;
+    setTimeDraft(capacity);
+    setTimeEditorOpen(true);
+  };
+
+  const restorePreviewPanelFocus = () => {
+    window.requestAnimationFrame(() => {
+      previewReturnFocusRef.current?.focus({ preventScroll: true });
+    });
+  };
+
+  const closeTimeEditor = () => {
+    setTimeEditorOpen(false);
+    restorePreviewPanelFocus();
+  };
+
+  const commitTime = () => {
+    const next = timeDraft || capacity;
+    const changed = next !== capacity;
+    if (changed) {
+      setPreviousCapacity(capacity);
+      setCapacity(next);
+    }
+    setTimeEditorOpen(false);
+    setPreviewAnnouncement(changed
+      ? `Time changed to ${next}. The four guidance leaves are unchanged.`
+      : "Time kept.");
+    restorePreviewPanelFocus();
+  };
+
+  const restoreCapacity = () => {
+    if (!previousCapacity) return;
+    const current = capacity;
+    setCapacity(previousCapacity);
+    setPreviousCapacity(current);
+    setPreviewAnnouncement(`Time restored to ${previousCapacity}. The four guidance leaves are unchanged.`);
+  };
+
+  const openKeepConfirmation = (trigger: HTMLElement) => {
+    previewReturnFocusRef.current = trigger;
+    setKeepConfirmOpen(true);
+  };
+
+  const closeKeepConfirmation = () => {
+    setKeepConfirmOpen(false);
+    restorePreviewPanelFocus();
+  };
+
+  const continueFromKeepConfirmation = () => {
+    setKeepConfirmOpen(false);
+    setPreviewAnnouncement("Email verification is next. Nothing has been sent.");
+    keepBrief();
+  };
+
   const downloadBrief = () => {
     const downloadContent = {
       ...brief,
@@ -764,16 +1115,11 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
      control naming a stage the visitor can return to. */
   const pathStages: Array<{ label: string; target: Step; steps: Step[] }> = [
     ...(route === "home" ? [{ label: "Door", target: "door" as Step, steps: ["door"] as Step[] }] : []),
-    { label: "You", target: "details", steps: ["details", "reading"] },
+    { label: "Company", target: "company", steps: ["company"] },
+    { label: "You", target: "profile", steps: ["profile", "reading"] },
     { label: "Problem", target: "pressure", steps: ["pressure"] },
     { label: "Time", target: "capacity", steps: ["capacity"] },
-    { label: "Brief", target: "preview", steps: ["preview"] },
-    ...(handoffEnabled
-      ? [
-        { label: "Email", target: "contact" as Step, steps: ["contact"] as Step[] },
-        { label: "Code", target: "verify" as Step, steps: ["verify"] as Step[] },
-      ]
-      : []),
+    { label: "Brief", target: "preview", steps: ["preview", "contact", "verify", "success"] },
   ];
   const currentStageIndex = step === "success"
     ? pathStages.length
@@ -781,7 +1127,13 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
 
   const goToStage = (target: Step) => {
     if (submitting) return;
+    if (target === "company") {
+      changeCompanyEmail();
+      return;
+    }
     setError("");
+    setEntryError("");
+    setEntryErrorField(null);
     if (step === "verify") {
       requestIdRef.current = createRequestId();
       setVerificationCode("");
@@ -810,10 +1162,10 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
   if (!open) return null;
 
   return (
-    <div ref={backdropRef} className="mm-brief-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
-      <div className="mm-brief-panel" ref={panelRef} role="dialog" aria-modal="true" aria-labelledby="mm-brief-title" data-tone={STEP_TONES[step]}>
+    <div ref={backdropRef} className={`mm-brief-backdrop${presentation === "drawer" ? " is-drawer" : ""}`} role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
+      <div className={`mm-brief-panel${presentation === "drawer" ? " is-drawer" : ""}`} ref={panelRef} role="dialog" aria-modal="true" aria-labelledby="mm-brief-title" data-tone={STEP_TONES[step]} data-step={step} data-presentation={presentation}>
         <div className="mm-brief-top">
-          <span>Mindmake</span>
+          <span>{presentation === "drawer" ? "Start here" : "Mindmake"}</span>
           <button type="button" aria-label="Close" onClick={onClose}><X aria-hidden="true" /></button>
         </div>
 
@@ -842,7 +1194,7 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
                   className="mm-door-choice"
                   type="button"
                   key={choice.route}
-                  onClick={() => { setDoor(choice.route); setStep("details"); }}
+                  onClick={() => { setDoor(choice.route); setStep("company"); }}
                 >
                   <b>{choice.label}</b>
                   <span>{choice.line}</span>
@@ -852,19 +1204,112 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
           </section>
         )}
 
-        {step === "details" && (
-          <section className="mm-brief-step is-details">
-            <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">Show me the business.</h2>
-            <DetailsJourney
-              action="Read the business"
-              busy={step !== "details"}
-              busyLabel="Reading the business"
-              initial={collected ?? undefined}
-              onSubmit={startFromDetails}
-              onDeadEnd={() => undefined}
-            />
-            {error && <p className="mm-form-error" role="alert">{error}</p>}
-            <small>No brief is sent from this step. Mindmake may use public company information to make the read. <a href="/privacy" target="_blank" rel="noreferrer">How the starting read handles information</a>.</small>
+        {step === "company" && (
+          <section className="mm-brief-step mm-brief-start-step is-company">
+            <form className="mm-brief-start-form" onSubmit={submitCompany} noValidate>
+              <div className="mm-brief-start-content">
+                {initialContext && <p className="mm-brief-carried-context"><span>Starting point</span>{initialContext}</p>}
+                <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">Which business should we read?</h2>
+                <p className="mm-brief-start-lede">Your work email tells us where to look. We read public company information while you answer the next question.</p>
+                <p className="mm-brief-entry-field">
+                  <label htmlFor="mm-company-email">Work email</label>
+                  <input
+                    ref={firstFieldRef}
+                    id="mm-company-email"
+                    type="email"
+                    inputMode="email"
+                    autoComplete="email"
+                    placeholder="you@company.com"
+                    value={email}
+                    aria-invalid={entryErrorField === "email" || undefined}
+                    aria-describedby={entryErrorField === "email" ? "mm-company-email-error" : "mm-company-email-hint"}
+                    onChange={(event) => {
+                      setEmail(event.target.value);
+                      if (entryError) { setEntryError(""); setEntryErrorField(null); }
+                    }}
+                  />
+                  <small id="mm-company-email-hint">We use the domain, not your inbox.</small>
+                </p>
+                {entryError && <p id="mm-company-email-error" className="mm-form-error" role="alert">{entryError}</p>}
+                {entryError === FREE_EMAIL_PROBLEM && (
+                  <HumanHandoff reason="personal-email" prefill={{ email }} asTrigger />
+                )}
+              </div>
+              <footer className="mm-brief-action-rail">
+                <button className="mm-button" data-mm-primary type="submit">Read the business <span aria-hidden="true">→</span></button>
+                <p>No brief reaches our team until you confirm later. <a href="/privacy" target="_blank" rel="noreferrer">How we handle information</a>.</p>
+              </footer>
+            </form>
+          </section>
+        )}
+
+        {step === "profile" && (
+          <section className="mm-brief-step mm-brief-start-step is-profile">
+            <form className="mm-brief-start-form" onSubmit={submitProfile} noValidate>
+              <div className="mm-brief-start-content">
+                <button className="mm-step-back" type="button" onClick={changeCompanyEmail}>← Change email</button>
+                <div className="mm-brief-reading-record" aria-live="polite" data-status={companyReadState}>
+                  <span>MM / 01</span>
+                  <span><strong>{domain}</strong><small>{companyReadState === "ready" ? "Company read ready" : "Reading public company information"}</small></span>
+                  <i aria-hidden="true" />
+                </div>
+                <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">Who is this for?</h2>
+                <div className="mm-brief-name-pair">
+                  <p className="mm-brief-entry-field">
+                    <label htmlFor="mm-first-name">First name</label>
+                    <input
+                      ref={firstFieldRef}
+                      id="mm-first-name"
+                      autoComplete="given-name"
+                      value={firstName}
+                      aria-invalid={entryErrorField === "name" || undefined}
+                      aria-describedby={entryErrorField === "name" ? "mm-profile-error" : undefined}
+                      onChange={(event) => { setFirstName(event.target.value); if (entryError) { setEntryError(""); setEntryErrorField(null); } }}
+                    />
+                  </p>
+                  <p className="mm-brief-entry-field">
+                    <label htmlFor="mm-last-name">Last name</label>
+                    <input
+                      id="mm-last-name"
+                      autoComplete="family-name"
+                      value={lastName}
+                      aria-invalid={entryErrorField === "name" || undefined}
+                      onChange={(event) => { setLastName(event.target.value); if (entryError) { setEntryError(""); setEntryErrorField(null); } }}
+                    />
+                  </p>
+                </div>
+                <fieldset className="mm-brief-profile-role" aria-invalid={entryErrorField === "division" || undefined} aria-describedby={entryErrorField === "division" ? "mm-profile-error" : undefined}>
+                  <legend>Your part of the business</legend>
+                  <div className="mm-brief-role-chips">
+                    {DIVISIONS.map((entry, index) => (
+                      <button
+                        key={entry.id}
+                        ref={index === 0 ? firstDivisionRef : undefined}
+                        type="button"
+                        aria-pressed={division === entry.id}
+                        onClick={() => { setDivision(entry.id); if (entryError) { setEntryError(""); setEntryErrorField(null); } }}
+                      >
+                        {entry.label}
+                      </button>
+                    ))}
+                  </div>
+                  <select
+                    ref={divisionSelectRef}
+                    className="mm-brief-role-select"
+                    aria-label="Your part of the business"
+                    value={division}
+                    onChange={(event) => { setDivision(event.target.value as Division); if (entryError) { setEntryError(""); setEntryErrorField(null); } }}
+                  >
+                    <option value="">Choose one</option>
+                    {DIVISIONS.map((entry) => <option key={entry.id} value={entry.id}>{entry.label}</option>)}
+                  </select>
+                </fieldset>
+                {entryError && <p id="mm-profile-error" className="mm-form-error" role="alert">{entryError}</p>}
+              </div>
+              <footer className="mm-brief-action-rail">
+                <button className="mm-button" data-mm-primary type="submit">See the company read <span aria-hidden="true">→</span></button>
+              </footer>
+            </form>
           </section>
         )}
 
@@ -879,7 +1324,7 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
 
         {step === "pressure" && (
           <section className="mm-brief-step is-pressure">
-            <button className="mm-step-back" type="button" onClick={() => setStep("details")}>← Change your details</button>
+            <button className="mm-step-back" type="button" onClick={() => setStep("profile")}>← Change your details</button>
             <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">This is what I can see so far.</h2>
             <div className="mm-company-read">
               {dossier?.identity?.logoUrl && <img src={dossier.identity.logoUrl} alt={`${company} logo`} onError={(event) => { event.currentTarget.hidden = true; }} />}
@@ -942,22 +1387,170 @@ export function LeadBrief({ open, onClose, route = "home", initialDomain, initia
               ))}
             </div>
             {capacity && <p className="mm-value-preview" aria-live="polite"><strong>What that time could buy</strong>{timeValue}</p>}
-            <button className="mm-button" type="button" disabled={!capacity} onClick={() => setStep("preview")}>Show me the recommendation <span aria-hidden="true">→</span></button>
+            <button
+              className="mm-button"
+              type="button"
+              disabled={!capacity}
+              onClick={() => {
+                setPreviewLeaf(0);
+                setPreviousCapacity(null);
+                setStep("preview");
+              }}
+            >
+              Show me the recommendation <span aria-hidden="true">→</span>
+            </button>
           </section>
         )}
 
         {step === "preview" && (
-          <section className="mm-brief-step mm-preview is-preview">
-            <button className="mm-step-back" type="button" onClick={() => setStep("capacity")}>← Back to your time</button>
-            <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">{pressure}.</h2>
-            <div className="mm-brief-result-grid">
-              <article className="is-wide is-read" style={{ "--mm-i": 0 } as CSSProperties}><small>What we saw at {company}</small><p>{known}</p></article>
-              <article style={{ "--mm-i": 1 } as CSSProperties}><small>AI can carry</small><p>{detail.carry}</p></article>
-              <article style={{ "--mm-i": 2 } as CSSProperties}><small>You keep</small><p>{detail.human}</p></article>
-              <article className="is-wide" style={{ "--mm-i": 3 } as CSSProperties}><small>A useful first proof</small><strong>{detail.proof}</strong></article>
-              <article className="is-wide is-time" style={{ "--mm-i": 4 } as CSSProperties}><small>What the returned time could buy</small><p>{timeValue}</p></article>
+          <section className="mm-brief-step mm-preview mm-folio-preview is-preview">
+            <FilmPlate
+              className="mm-folio-film"
+              poster={opportunitiesPoster}
+              src={opportunitiesFilm}
+              label="Possibilities settling into two qualified opportunities"
+              priority
+              decorative
+            />
+            <div className="mm-folio-shade" aria-hidden="true" />
+
+            <div className="mm-folio-instrument" ref={previewInstrumentRef}>
+              <aside className="mm-folio-binding" aria-label="What shaped this brief">
+                <div className="mm-folio-binding-head">
+                  <p>Brief resolved</p>
+                  <span>Four choices, one useful start.</span>
+                </div>
+
+                <ol className="mm-folio-source-keys">
+                  <li><span>01</span><small>Company</small><strong>{company}</strong></li>
+                  <li><span>02</span><small>You</small><strong>{previewDivision}</strong></li>
+                  <li><span>03</span><small>Problem</small><strong>{pressureShort(pressure)}</strong></li>
+                  <li className="mm-folio-time-key">
+                    <button type="button" aria-haspopup="dialog" aria-label={`Change Time: ${capacityShort(capacity)}`} onClick={(event) => openTimeEditor(event.currentTarget)}>
+                      <span>04</span><small>Time</small><strong>{capacityShort(capacity)}</strong><i aria-hidden="true">↗</i>
+                    </button>
+                  </li>
+                </ol>
+
+                <div className="mm-folio-time-inscription" aria-live="polite">
+                  <small>What that time could buy</small>
+                  <p>{timeValue}</p>
+                  {previousCapacity && <button type="button" onClick={restoreCapacity}>Restore {capacityShort(previousCapacity)}</button>}
+                </div>
+
+                <div className="mm-folio-film-truth">
+                  <span aria-hidden="true" />
+                  <p>Illustrative sequence. Not evidence.</p>
+                </div>
+              </aside>
+
+              <section className="mm-folio" aria-label="Your private starting brief">
+                <header className="mm-folio-head">
+                  <div>
+                    <p>Private starting brief</p>
+                    <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">Two parts of the work are now clear.</h2>
+                  </div>
+                  <span className="mm-folio-leaf-count" aria-live="polite"><b>{previewLeaf + 1}</b> of 4</span>
+                </header>
+
+                <div
+                  className="mm-folio-leaves"
+                  onTouchStart={(event) => { previewTouchXRef.current = event.changedTouches[0]?.clientX ?? null; }}
+                  onTouchEnd={(event) => {
+                    if (previewTouchXRef.current === null) return;
+                    const delta = (event.changedTouches[0]?.clientX ?? previewTouchXRef.current) - previewTouchXRef.current;
+                    previewTouchXRef.current = null;
+                    if (Math.abs(delta) < 48) return;
+                    movePreviewLeaf(delta < 0 ? previewLeaf + 1 : previewLeaf - 1);
+                  }}
+                >
+                  {previewLeaves.map((leaf, index) => (
+                    <article
+                      key={leaf.label}
+                      className={`mm-folio-leaf${index === previewLeaf ? " is-active" : ""}${index < previewLeaf ? " is-before" : ""}${leaf.proof ? " is-proof" : ""}`}
+                      tabIndex={0}
+                      data-mm-folio-leaf={index}
+                      aria-current={index === previewLeaf ? "step" : undefined}
+                      onClick={() => movePreviewLeaf(index)}
+                      onKeyDown={(event) => handlePreviewLeafKey(event, index)}
+                    >
+                      <div className="mm-folio-leaf-label"><span>{String(index + 1).padStart(2, "0")}</span><small>{leaf.label}</small></div>
+                      {leaf.proof ? <strong>{leaf.content}</strong> : <p>{leaf.content}</p>}
+                    </article>
+                  ))}
+                </div>
+
+                <footer className="mm-folio-actions">
+                  <button
+                    className="mm-folio-back-leaf"
+                    type="button"
+                    hidden={!previewCompact || previewLeaf === 0}
+                    onClick={() => movePreviewLeaf(previewLeaf - 1, true)}
+                  >
+                    ← Previous
+                  </button>
+                  <button
+                    className="mm-button mm-folio-primary"
+                    type="button"
+                    onClick={(event) => {
+                      if (previewCompact && previewLeaf < 3) movePreviewLeaf(previewLeaf + 1, true);
+                      else openKeepConfirmation(event.currentTarget);
+                    }}
+                  >
+                    {previewCompact && previewLeaf < 3 ? "Next leaf" : "Keep the private brief"} <span aria-hidden="true">→</span>
+                  </button>
+                  <p>This is a useful first view, not a promise or final answer.</p>
+                </footer>
+              </section>
             </div>
-            <button className="mm-button" type="button" onClick={keepBrief}>Keep the private brief <span aria-hidden="true">→</span></button>
+
+            {timeEditorOpen && (
+              <section className="mm-folio-panel mm-folio-time-panel" role="dialog" aria-modal="true" aria-labelledby="mm-folio-time-title">
+                <div className="mm-folio-panel-surface">
+                  <header>
+                    <div><p>Change one choice</p><h2 id="mm-folio-time-title">Where would you put your best time?</h2></div>
+                    <button type="button" aria-label="Close time choices" onClick={closeTimeEditor}>×</button>
+                  </header>
+                  <div className="mm-folio-time-layout">
+                    <fieldset>
+                      <legend className="mm-visually-hidden">Where would you put your best time?</legend>
+                      {CAPACITY_CHOICES.map((item, index) => (
+                        <label key={item}>
+                          <input aria-label={item} type="radio" name="mm-folio-time" value={item} checked={(timeDraft || capacity) === item} onChange={() => setTimeDraft(item)} />
+                          <span><b>{String(index + 1).padStart(2, "0")}</b>{item}</span>
+                        </label>
+                      ))}
+                    </fieldset>
+                    <div className="mm-folio-time-preview">
+                      <p>What that time could buy</p>
+                      <strong>{capacityDetail(timeDraft || capacity)}</strong>
+                      <small>The guidance stays fixed. The time you protect changes.</small>
+                    </div>
+                  </div>
+                  <footer>
+                    <button className="mm-folio-quiet" type="button" onClick={closeTimeEditor}>Keep current time</button>
+                    <button className="mm-button" type="button" onClick={commitTime}>Use this time <span aria-hidden="true">→</span></button>
+                  </footer>
+                </div>
+              </section>
+            )}
+
+            {keepConfirmOpen && (
+              <section className="mm-folio-panel mm-folio-keep-panel" role="dialog" aria-modal="true" aria-labelledby="mm-folio-keep-title">
+                <div className="mm-folio-panel-surface mm-folio-keep-surface">
+                  <p className="mm-folio-panel-kicker">Keep this brief</p>
+                  <h2 id="mm-folio-keep-title">Email verification is next.</h2>
+                  <strong>Nothing has been sent.</strong>
+                  <p>Your brief stays here until you choose to continue.</p>
+                  <footer>
+                    <button autoFocus className="mm-folio-quiet" type="button" onClick={closeKeepConfirmation}>Not now</button>
+                    <button className="mm-button" type="button" onClick={continueFromKeepConfirmation}>Continue <span aria-hidden="true">→</span></button>
+                  </footer>
+                </div>
+              </section>
+            )}
+
+            <p className="mm-visually-hidden" role="status" aria-live="polite">{previewAnnouncement}</p>
           </section>
         )}
 

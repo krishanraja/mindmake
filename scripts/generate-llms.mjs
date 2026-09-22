@@ -24,7 +24,7 @@ Mindmake works with leaders in private. It reads where they stand and what is ch
 
 - [Build your AI brain](/ai-brain): your taste, standards and context, running as a system. It starts every call from what you already know.
 - [Build your AI GTM](/ai-gtm): an AI-native go-to-market model across product, price, positioning and people. One lever, proved with real buyers, priced on the result.
-- A client can start with either and cross to the other. They are not separate payment plans. Both are read in private: nobody in the client's organisation needs to know where they started.
+- A client can begin with Build your AI brain or Build your AI GTM, and the work can move between them. They are not separate payment plans. Both are read in private: nobody in the client's organisation needs to know where they started.
 
 ## Where what you teach AI ends up
 
@@ -65,7 +65,7 @@ ${answerLines}
 
 ## Reading and contact
 
-- [The weekly read](https://mindmakerlive.substack.com): Mindmake's publication, a separate opt-in.
+- [Media](https://mindmakerlive.substack.com): Mindmake's publication, a separate opt-in with The Money of AI and Built with AI.
   It runs two channels. The Money of AI follows how the digital world gets paid for and asks who
   pays when a shift lands. Built with AI follows people using AI to become builders and reaches the
   human reason under the build.

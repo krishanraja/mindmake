@@ -179,9 +179,11 @@ function readDeltas(aBuffer, bBuffer) {
   return { mean: sum / pixels, peak: counted ? peakSum / counted : 0, cells };
 }
 
-const browser = await chromium.launch({
-  executablePath: process.env.PLAYWRIGHT_CHROMIUM ?? "/opt/pw-browsers/chromium",
-});
+const browser = await chromium.launch(process.env.PLAYWRIGHT_CHROMIUM
+  ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM }
+  : process.platform === "linux"
+    ? { executablePath: "/opt/pw-browsers/chromium" }
+    : { channel: "chrome" });
 const problems = [];
 const readings = [];
 

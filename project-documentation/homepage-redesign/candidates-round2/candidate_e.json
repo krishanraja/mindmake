@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "candidate_e",
+  "title": "The Decision Cabinet",
+  "governingMetaphor": "The whole homepage is one walnut-and-brass instrument cabinet that fits inside the viewport. Its labelled compartments are a spatial map, not page sections: a central paper well explains the practice, two adjacent doors begin the paid-proof routes, and smaller fixed drawers reveal evidence or context in place.",
+  "oneSentenceExperience": "A busy leader understands the Mindmake distinction at the centre, inspects only the cabinet compartments they need, then opens one of two adjacent route doors.",
+  "sequencing": [
+    "Arrival shows the complete cabinet at once: Mindmake, the intended buyer, the generic-versus-personal AI distinction, both doors and a clear instruction to inspect or begin.",
+    "The central paper well adds value before any choice by showing that useful AI begins with the leader's standards, context and past decisions.",
+    "The visitor may open any fixed drawer labelled Proof, First proof, Practice or More; there is no forced diagnostic and no prescribed reading order.",
+    "Opening Proof exposes two short result slips, each physically aligned with its matching Brain or GTM door, so evidence clarifies the choice without forming a new section.",
+    "Opening First proof explains that Mindmake works on real work, produces something working and leaves it with the client; the two route doors remain visible beside the answer.",
+    "Opening either adjacent door leaves the cabinet and begins that route's existing lead flow; deeper case studies, questions and the publication leave through named links in More."
+  ],
+  "userAgency": "The visitor controls depth, not diagnosis. Every compartment is visible on the cabinet face and can be opened directly by pointer, touch or keyboard. They can compare the two door names at all times, close the current drawer, choose another compartment or begin a route without completing an imposed sequence.",
+  "primaryInteraction": "Activate a labelled brass pull to slide one shallow drawer into the central paper well. The well becomes a live region containing one compact answer of no more than 70 words, while the full cabinet map and both route doors remain in place. Activating the open drawer again, Escape or a dedicated Close control restores the centre. Semantic buttons follow visual order; focus moves to the revealed heading and returns to its pull on close. Hidden drawer contents are inert and unfocusable. No region scrolls, pans or behaves like a carousel.",
+  "informationStructure": "One bounded cabinet contains six stable zones: identity and menu on the top rail; buyer and practice statement in the central paper well; the adjacent Brain and GTM doors as the dominant decision group; Proof and First proof drawers on one side; Practice and More drawers on the other; and a quiet status line naming the current compartment. The drawers hold only decision-sized summaries. More is an index of outbound links to case studies, questions and the publication, never a second homepage inside the object.",
+  "stateModel": [
+    "Overview: all compartment labels, the core distinction, intended buyer and both route doors are visible.",
+    "Proof open: one approved Brain-shaped result and one approved GTM-shaped result appear as separate aligned slips.",
+    "First proof open: the working-on-real-work, client-keeps-it explanation occupies the paper well.",
+    "Practice open: compact founder and practice proof appears, with CTRL named only as unlinked evidence that Mindmake uses its own approach.",
+    "More open: case studies, questions and publication links appear with no route-specific selection retained.",
+    "Route begin: activating Brain or GTM navigates immediately into the matching existing lead-flow contract; returning restores the last cabinet compartment through a small URL hash."
+  ],
+  "mobileAdaptation": "The cabinet re-cases itself rather than becoming a page stack. In portrait it is one 100svh field case: top rail, compact paper well, one two-column row for the adjacent route doors, a two-by-two matrix of drawer pulls and the status line. At 320 by 568, answers have a 45-word cap, with 44-pixel targets and no scrolling. At 844 by 390, the zones form a low three-column case. URL-hash state survives orientation changes. The menu is a modal sheet that traps focus, closes with Escape or Back and restores focus; cabinet content stays inert behind it.",
+  "proofModel": "Proof is hardware attached to the choice. The Proof drawer reveals exactly two approved anonymous outcome slips, Brain on the left and GTM on the right, each connected by a fine brass rule to its door. A separate mark opens named references or attendee brands so those categories are never presented as client outcomes. The Practice drawer carries compact founder proof and an unlinked CTRL note.",
+  "routeStart": "The two door controls are always adjacent, equally legible and labelled exactly `Build your AI brain` and `Build your AI GTM`. Each states that it starts a paid proof on real work, without price, duration, availability or date. Activation is the commitment point: it navigates to the corresponding existing lead flow rather than transforming the cabinet into a persistent route-specific homepage.",
+  "motionRole": "A drawer travels only the short distance between its fixed pull and the paper well, preserving where the answer came from; the matching pull and status line remain lit. Door activation uses a brief blade-of-light opening before navigation. Hover lifts the brass pull, press seats it and focus-visible adds a cream-and-mint ring. Reduced motion replaces travel with an immediate content change, keeps the spatial highlight and announces the new heading.",
+  "feasibility": [
+    "A React state machine needs only overview plus four drawer states; door actions reuse the existing Brain and GTM lead-flow routes.",
+    "CSS Grid assigns named cabinet zones at desktop, portrait and landscape breakpoints, so the object reflows without measuring or freely dragging a scene.",
+    "Existing films may appear as optional poster-linked evidence in Practice, but the concept remains complete without autoplay or a new asset.",
+    "The bounded copy contracts keep every drawer within the viewport; longer material remains on existing destination pages rather than introducing nested scrolling.",
+    "Buttons, an aria-live paper well, inert hidden content, deterministic focus restoration and a modal menu meet the required keyboard and drawer behaviour.",
+    "URL-hash state is sufficient to preserve the current compartment through orientation changes and browser Back without creating a new data dependency."
+  ],
+  "risks": [
+    "The cabinet could read as decorative furniture; restrained front-on geometry and plain labels must make its information architecture obvious before texture is noticed.",
+    "Six visible zones may become cramped on the smallest landscape viewport; strict answer caps and the low three-column case are hard content constraints, not optional polish.",
+    "Literal route doors could overstate two separate products; the shared central well and single paid-proof line must visibly bind them before either action.",
+    "If drawer motion is too slow, the instrument becomes theatre; every response must update immediately and finish within a short orientation-preserving transition."
+  ]
+}

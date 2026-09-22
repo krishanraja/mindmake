@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "judgeId": "judge_four",
+  "candidateOrder": [
+    "candidate_f",
+    "candidate_e",
+    "candidate_d"
+  ],
+  "diversity": {
+    "passes": true,
+    "pairs": [
+      {
+        "pair": "candidate_e:candidate_f",
+        "differentAxes": [
+          "sequencing",
+          "user_agency",
+          "primary_interaction",
+          "information_structure",
+          "state_model"
+        ],
+        "rationale": "F asks for one immediate door choice and replaces the shared page with a route chamber. E keeps a bounded map visible, lets the visitor open compartments in any order and swaps short answers into a central well."
+      },
+      {
+        "pair": "candidate_d:candidate_f",
+        "differentAxes": [
+          "sequencing",
+          "user_agency",
+          "primary_interaction",
+          "information_structure",
+          "state_model"
+        ],
+        "rationale": "F moves directly from adjacent destinations to a dedicated route state. D keeps both routes attached to one proof object, lets the visitor inspect evidence stops, then continues into a conventional scrolling narrative."
+      },
+      {
+        "pair": "candidate_d:candidate_e",
+        "differentAxes": [
+          "sequencing",
+          "user_agency",
+          "primary_interaction",
+          "information_structure",
+          "state_model"
+        ],
+        "rationale": "E is a non-scrolling spatial index with mutually exclusive drawer states and free-order exploration. D is a proof-led sequence with a slider-like inspection state, normal page scroll and a later narrative continuation."
+      }
+    ]
+  },
+  "candidateVerdicts": [
+    {
+      "candidateId": "candidate_f",
+      "hardConstraintsPass": true,
+      "scores": {
+        "commercialClarity": 8.8,
+        "informationEconomy": 8.4,
+        "interactionStrength": 7.8,
+        "mobileQuality": 7.7,
+        "brandSpecificity": 8.5,
+        "proofIntegrity": 8.5,
+        "feasibility": 8.4
+      },
+      "strength": "It makes the two buyable routes immediate, binds them to one paid proof and then gives the chosen route the whole page. That is commercially legible, low-effort and structurally unlike a persistent selector.",
+      "failure": "Its weakest point is implementation ambiguity: a full-page route state should not also behave like a modal focus trap. The long adjacent labels also have almost no spare width at 320 pixels.",
+      "raiseCondition": "It becomes an A concept if the prototype proves the complete first view at 320 by 568 and 844 by 390, treats the chamber as navigation rather than a trapped dialog, and restores focus and history reliably."
+    },
+    {
+      "candidateId": "candidate_e",
+      "hardConstraintsPass": false,
+      "scores": {
+        "commercialClarity": 7.0,
+        "informationEconomy": 5.9,
+        "interactionStrength": 6.8,
+        "mobileQuality": 3.9,
+        "brandSpecificity": 8.5,
+        "proofIntegrity": 7.5,
+        "feasibility": 5.2
+      },
+      "strength": "The bounded cabinet is genuinely spatial, keeps the two doors adjacent and separates anonymous outcomes, named references and practice proof more carefully than most ornamental homepage concepts would.",
+      "failure": "Six persistent zones, four drawer controls, two doors, a status line and up to 45 words in a no-scroll 100svh object are not credible at 320 by 568, 844 by 390 or enlarged text. The central content swap also recreates a diagnostic workbench in cabinet clothing.",
+      "raiseCondition": "It could pass only by removing most compartments, allowing document reflow and scroll under constrained height or text zoom, and replacing the central answer switcher with one default-visible value statement plus the two routes."
+    },
+    {
+      "candidateId": "candidate_d",
+      "hardConstraintsPass": false,
+      "scores": {
+        "commercialClarity": 7.2,
+        "informationEconomy": 6.5,
+        "interactionStrength": 8.5,
+        "mobileQuality": 5.4,
+        "brandSpecificity": 9.0,
+        "proofIntegrity": 6.7,
+        "feasibility": 7.0
+      },
+      "strength": "The blade makes a useful causal claim visible: standards go in, a working object comes out and a commercial result follows. Fixed stops and keyboard controls give the interaction a plausible accessible path.",
+      "failure": "It regresses the repeated-decision problem by presenting the same door pair in the first view and again at the close. One artefact also has to explain both Brain and GTM, while its annotations, track and door labels become crowded or illegible on the shortest screens.",
+      "raiseCondition": "It becomes viable if one route-specific proof object sits inside the selected F-style chamber, is fully intelligible without dragging, and appears once only; remove the sticky continuation and the repeated closing door pair."
+    }
+  ],
+  "winner": "candidate_f",
+  "runnerUp": "candidate_d",
+  "disguisedRepetition": "Candidate E is disguised repetition of the rejected diagnostic workbench: fixed controls swap explanatory content into one shared display while the surrounding choice map persists. Candidate D is not the same workbench, but its multi-screen continuation and repeated door group recover two rejected production habits. Candidate F is materially distinct because choosing a door replaces the shared state.",
+  "constraintRegression": "E regresses mobile and accessibility resilience through a no-scroll 100svh cabinet whose controls and variable copy cannot reflow safely at the smallest portrait, shortest landscape or enlarged text. D regresses the ban on repeated selection state and makes route clarity depend too much on manipulating a potentially illegible proof asset. F passes, provided the route chamber is implemented as page navigation rather than an improper modal trap.",
+  "discardedStrengths": "Restore the rejected work's private-observatory atmosphere, cinematic archival imagery, confident type contrast and one meaningful light-to-dark transition. Put them around F's threshold and inside each route chamber, without restoring chapter density, delayed action, hidden controls or repeated choice state.",
+  "synthesisInstructions": [
+    "Prototype candidate F as the spine: one contained opening view, two equal adjacent doors and a decisive route replacement with no downstream selector.",
+    "Keep the shared sentence beside the doors explicit: both routes begin one paid proof on real work and leave the client with something working that they keep.",
+    "Borrow D's causal proof logic inside each chamber, but use one route-specific artefact that is already understandable at rest; inspection may deepen it but must never gate the action.",
+    "Do not borrow E's four-drawer state machine. Use its walnut, brass, paper and fixed spatial discipline as art direction only, not as a dashboard of choices.",
+    "Implement each chamber as a navigable page state with a real heading, body scroll and browser history. Escape and Back may return to the doors, but keyboard focus must not be trapped as if the whole page were a modal.",
+    "At 320 by 568 keep the door labels in one two-column group with two reserved lines and at least 44-pixel targets. At 844 by 390 use a compact split composition with neither proof nor actions below the fold.",
+    "Use one short light-to-dark threshold transition, an immediate reduced-motion swap, visible focus, restored trigger focus and preserved route state through orientation change.",
+    "Acceptance-test the prototype at all five named viewports, keyboard-only, reduced motion and enlarged text before any visual-polish decision is treated as approved."
+  ],
+  "confidence": "high"
+}

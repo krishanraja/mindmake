@@ -1,10 +1,10 @@
 {
   "/": {
     "file": "/social/home.jpg",
-    "version": "29b5bd8c",
-    "headline": "See what is coming for your business before it is obvious.",
-    "claim": "Then act on it with an AI that knows how you work, and keep the edge.",
-    "still": "film-01"
+    "version": "0580b8c0",
+    "headline": "Build the AI that knows how you decide.",
+    "claim": "One paid proof on real work. You keep what works.",
+    "still": "film-02"
   },
   "/ai-brain": {
     "file": "/social/ai-brain.jpg",
@@ -153,10 +153,31 @@
     "claim": "",
     "still": "film-05"
   },
+  "/answers/adtech-compete-ai-targeting-models-defensibility-audit": {
+    "file": "/social/answer-adtech-compete-ai-targeting-models-defensibility-audit.jpg",
+    "version": "8b65fc4e",
+    "headline": "Adtech Can't Compete on the Model Anymore. Here's What's Left to Defend",
+    "claim": "",
+    "still": "film-02"
+  },
   "/answers/ai-decision-tool-trustworthy-leadership-team": {
     "file": "/social/answer-ai-decision-tool-trustworthy-leadership-team.jpg",
     "version": "bcfedcb4",
     "headline": "An AI decision tool earns trust by holding your judgement, not by passing an audit",
+    "claim": "",
+    "still": "film-02"
+  },
+  "/answers/ai-center-of-excellence-without-engineering-budget": {
+    "file": "/social/answer-ai-center-of-excellence-without-engineering-budget.jpg",
+    "version": "abe71a78",
+    "headline": "An AI Center of Excellence Without an Engineering Budget Is a Governance Function, Not a Team",
+    "claim": "",
+    "still": "film-02"
+  },
+  "/answers/total-addressable-revenue-ai-products-publishing": {
+    "file": "/social/answer-total-addressable-revenue-ai-products-publishing.jpg",
+    "version": "d47c0d68",
+    "headline": "Total Addressable Revenue for AI Products in Publishing: Calculate It From Your P&L, Not a Market Report",
     "claim": "",
     "still": "film-02"
   }

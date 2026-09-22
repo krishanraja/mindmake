@@ -1,0 +1,65 @@
+{
+  "artifact": "mindmake-production-routes-r2-candidate",
+  "status": "candidate",
+  "createdAt": "2026-09-16",
+  "authority": "This revision is a locally verified candidate. It does not replace approved-production-r1.json and is not authorised for production until visual approval and an explicit release action.",
+  "basis": "User-authorised comprehensive battle testing after approved revision r1.",
+  "changePolicy": "Never overwrite either revision. Promote this candidate by creating a separate approved r2 record after visual approval. Commit, preview deployment and production deployment remain separate authority gates.",
+  "files": {
+    "src/pages/AiBrain.tsx": "0c13b9cf52a5a8da212c75512488585b6a855c58ccf5ad2b7b3ff8cd0ef862c8",
+    "src/styles/mindmake-brain-r5.css": "1705ea4e0feaf1dc87e36a3ceef48b62b949312935f21df02e258d57fcbc057d",
+    "src/data/vnext/brain-fixture.json": "02fa968575d7000874f0f10a09123336ad6ec3f7bf373dcd351fbb7e7ef2b1b9",
+    "prototypes/ai-brain-vnext-r5/production-review.html": "9e103b2ebf3af6acd9079b44c05228dea7ca2ed201007f5920021f80b7f459b9",
+    "src/pages/AiGtm.tsx": "da7ee7d8f67963caec8a21639b9ed5a0cb31106c771c1a956437eb4be181578a",
+    "src/styles/mindmake-gtm-r6.css": "0580af56bae06e2023c188c493d47100b1da5cd9b9611bb3138a1540cd0053f9",
+    "src/data/vnext/gtm-signals.json": "5ab7fac6ce8ebdab6b69b73f60e184a7e4df8d923d97edd29c38872648c3bf7f",
+    "prototypes/ai-gtm-vnext-r6/production-review.html": "48968401aa1a8dc8f8f352ab4f2c49f67252170ad7dfe248a17053be8c016243",
+    "src/pages/Index.tsx": "7e1dc26896d32ea6fd1820b5d2fe777655e1818777cc543470c4e41ae52d8476",
+    "src/styles/mindmake-home-vnext.css": "2bdbd38614cf183ce562a156a87ffc374864b60398e91219baa14cc3507c9e07",
+    "src/components/mindmake/LeadBrief.tsx": "646dc180920f6d9606700f0191b4893255533b904c5fede139443f9be77b313f",
+    "src/components/mindmake/MindmakeShell.tsx": "125b11302fadc89e44ae9907128d2a05fb554a14f4ca85625006bccc41a3349d",
+    "src/hooks/useLeadBriefHistory.ts": "6021893e7d2f4e3c809c0166b4574d0cbbc928ad679311766afb1fe479b9f39c",
+    "src/styles/mindmake-brief.css": "c7669a5f74dec2417468ce6fdcde3499406f721db904d4edd1c900a393017ff4",
+    "src/styles/mindmake.css": "eb201be6ef401ef907af457ab6e0a83130c1305425a9ee4ccb69351367a35776",
+    "scripts/qa/experience-battle-test.mjs": "d5e59b68cb84c0c46fd4d4f372631ada73a2532c462e698a04e4544cfd0e4d80",
+    "scripts/qa/approved-route-lock-check.mjs": "d5d1a40c2a54e1eb8cff6e745c252cdd84ee2d9d296a1c41386091b838a51bae",
+    "scripts/qa/approved-route-lock-self-test.mjs": "9f363a59b9d20a2fbfa6f10b510788011d258591e83ab578b550e3d007d504c5",
+    ".github/workflows/approved-route-lock.yml": "163b253b1289d447f629a5066062108aceefa79e6b249b39636423a9d9f412b6",
+    "scripts/qa/locked-route-regression-audit.mjs": "574c49793ad4a105c6b36138fa180d36b2604f6a211e9042053746e1154c8f92",
+    "scripts/qa/route-lock-production-check.mjs": "385519b093f5d58a94e1992a08583a009f2e8efd68177fc485e2d7768929b6b0",
+    "scripts/qa/plain-language-check.mjs": "639c62446bf7f3a01693ba1fc20e446e23ba8fbc8d17bc429e41da951fafd9a8"
+  },
+  "minimumContracts": {
+    "brain": {
+      "meanings": 20,
+      "relationships": 18,
+      "sources": 10,
+      "corrections": 3,
+      "states": ["Decision", "Brain", "Evidence", "Correction"],
+      "requiredInstruments": ["portrait-board", "living-brain", "brain-evidence", "brain-change"]
+    },
+    "gtm": {
+      "signals": 5,
+      "responseChoices": 15,
+      "stages": ["Signal", "Response", "Customer test"],
+      "requiredInstruments": ["ticker-window", "signal-to-choice", "commercial-map", "test-ticket"]
+    }
+  },
+  "forbiddenPhrases": ["keep the seat", "meter the work", "price the result"],
+  "verification": {
+    "experienceBattleTest": "296 of 296 passed in development and 296 of 296 passed against generated production files",
+    "desktopAliveness": "clean at 1440px across 12 sampled page-height viewports",
+    "phoneAliveness": "clean at 390px for homepage, Brain and GTM",
+    "typecheck": "passed",
+    "unitAndContractSuite": "29 of 29 test files passed; 473 of 473 tests passed",
+    "routeContracts": "Brain r5, GTM r6 and plain-language checks passed",
+    "productionEnvironment": "Vercel project mindmake has encrypted Supabase URL and publishable key for production, preview and development. Human handoff is configured for production and preview.",
+    "publicationSurface": "Four answer pages prerendered, indexed, included in llms.txt and supplied with generated social plates; editorial and discoverability contracts passed"
+  },
+  "renderedEvidence": [
+    "C:/Users/krish/.scratch/mindmake-experience-battle-test",
+    "C:/Users/krish/.scratch/mindmake-experience-battle-test-production-r2",
+    "C:/Users/krish/.scratch/mindmake-ai-brain-vnext-r5",
+    "C:/Users/krish/.scratch/mindmake-ai-gtm-vnext-r6"
+  ]
+}

@@ -50,23 +50,11 @@ afterEach(() => {
 /**
  * Opens the brief the way that page's reader actually would.
  *
- * Every page has exactly one way in, which is the point of the change that made
- * this helper necessary. On /ai-gtm that is the try-it panel, so the test types
- * a domain and reads the business; on /ai-brain the close block is still the
- * page's own entry. Clicking a "Start here" that no longer exists would have
- * been the test asserting a duplicate CTA back into the design.
+ * Both locked routes use the same drawer entry. GTM carries the market choice
+ * into that drawer, but neither route collects identity before it opens.
  */
 function enterTheBrief(path: string) {
-  if (path === "/ai-gtm") {
-    /* The page's own panel is the one way in, and it now asks for the same four
-       things /ai-brain does. */
-    fireEvent.change(screen.getByLabelText("First name"), { target: { value: "Ada" } });
-    fireEvent.change(screen.getByLabelText("Last name"), { target: { value: "Lovelace" } });
-    fireEvent.change(screen.getByLabelText("Work email"), { target: { value: "ada@example.com" } });
-    fireEvent.click(screen.getByRole("button", { name: "Leadership" }));
-    fireEvent.click(screen.getByRole("button", { name: /Read my business/ }));
-    return;
-  }
+  void path;
   fireEvent.click(screen.getAllByRole("button", { name: "Start here" })[0]);
 }
 
@@ -78,7 +66,8 @@ describe.each(routes)("$path private brief history", ({ path, entryRoute, Page }
     enterTheBrief(path);
     const firstDialog = await screen.findByRole("dialog");
     expect(firstDialog).toHaveAttribute("data-entry-route", entryRoute);
-    expect(screen.getByTestId("location")).toHaveTextContent(`${path}?campaign=route-test&start=1#proof`);
+    const startParameter = entryRoute;
+    expect(screen.getByTestId("location")).toHaveTextContent(`${path}?campaign=route-test&start=${startParameter}#proof`);
 
     fireEvent.click(screen.getByRole("button", { name: "Browser back" }));
     await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());

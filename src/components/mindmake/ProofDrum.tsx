@@ -70,12 +70,13 @@ function Attribution({ voice }: { voice: Testimonial }) {
  * the cards beside it.
  */
 function Card({
-  voice, dim, active, open, onOpen, onFocusCard,
+  voice, dim, active, open, tabbable, onOpen, onFocusCard,
 }: {
   voice: Testimonial;
   dim: boolean;
   active: boolean;
   open: boolean;
+  tabbable: boolean;
   onOpen: () => void;
   onFocusCard: () => void;
 }) {
@@ -91,7 +92,9 @@ function Card({
             type="button"
             className="mm-voice-more"
             aria-expanded={open}
+            aria-label={`Read the full quote from ${voice.name ?? voice.role}`}
             data-voice={voice.id}
+            tabIndex={tabbable ? 0 : -1}
             onFocus={onFocusCard}
             onClick={onOpen}
           >
@@ -118,6 +121,8 @@ export function ProofDrum({
   const panel = useRef<HTMLDivElement>(null);
   const [viewport, setViewport] = useState(1200);
   const [openId, setOpenId] = useState<string | null>(null);
+  const [motionPaused, setMotionPaused] = useState(false);
+  const [interacting, setInteracting] = useState(false);
   const opened = voices.find((voice) => voice.id === openId) ?? null;
 
   /* The drum needs to know how wide it is to work out where the last card
@@ -134,7 +139,7 @@ export function ProofDrum({
 
   const card = cardFor(viewport);
   const pitch = card + GAP;
-  const drum = useDragDrum({ pitch, count: voices.length, viewport, drift: 16 });
+  const drum = useDragDrum({ pitch, count: voices.length, viewport, drift: motionPaused || interacting ? 0 : 16 });
   const perScreen = Math.max(1, Math.round(viewport / pitch));
 
   /* Tabbing into a card that is off to the right should bring it in rather than
@@ -180,9 +185,18 @@ export function ProofDrum({
     <div className="mm-drum-block">
       <div className="mm-drum-head">
         <h3 id={headingId}>{title}</h3>
-        {/* The arrows alone. "33 of them." beside the heading was a count with
-            no noun, and the drum's own label already carries it. */}
         <p className="mm-drum-hint">
+          <button
+            type="button"
+            className="mm-drum-motion"
+            aria-pressed={motionPaused}
+            onClick={() => setMotionPaused((paused) => {
+              if (!paused) drum.settle();
+              return !paused;
+            })}
+          >
+            {motionPaused ? "Play" : "Pause"}
+          </button>
           <span className="mm-drum-arrows">
             <button type="button" aria-label="Previous" onClick={() => drum.step(-1)}>←</button>
             <button type="button" aria-label="Next" onClick={() => drum.step(1)}>→</button>
@@ -205,6 +219,14 @@ export function ProofDrum({
           onPointerMove={drum.onPointerMove}
           onPointerUp={drum.onPointerUp}
           onPointerCancel={drum.onPointerUp}
+          onPointerEnter={() => setInteracting(true)}
+          onPointerLeave={() => {
+            if (!frame.current?.contains(document.activeElement)) setInteracting(false);
+          }}
+          onFocusCapture={() => setInteracting(true)}
+          onBlurCapture={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setInteracting(false);
+          }}
         >
           <div className="mm-drum-track" ref={drum.track}>
             {voices.map((voice, at) => (
@@ -214,6 +236,7 @@ export function ProofDrum({
                 active={at === drum.index}
                 dim={at < drum.index || at > drum.index + perScreen - 1}
                 open={voice.id === openId}
+                tabbable={at === drum.index}
                 onFocusCard={() => onCardFocus(at)}
                 onOpen={() => {
                   setOpenId(voice.id);

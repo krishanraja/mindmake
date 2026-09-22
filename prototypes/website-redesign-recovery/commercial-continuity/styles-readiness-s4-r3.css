@@ -1,0 +1,47 @@
+/* Wide Windows desktops can expose a short CSS viewport after display scaling.
+   Extend the compact desktop composition through that real usable-height band. */
+@media(min-width:861px) and (min-height:721px) and (max-height:850px){
+  .offer-panel{
+    gap:11px;
+    padding-top:24px;
+    padding-bottom:24px;
+  }
+
+  .offer-panel h1{
+    font-size:clamp(45px,5vw,64px);
+  }
+
+  .offer-lede{
+    font-size:15px;
+  }
+
+  .proof-contract{
+    font-size:14px;
+  }
+
+  .balance-instrument{
+    padding-top:24px;
+    padding-bottom:24px;
+  }
+
+  .instrument-heading h2{
+    font-size:44px;
+  }
+
+  .instrument-heading p{
+    font-size:14px;
+  }
+
+  .balance-assembly{
+    min-height:220px;
+  }
+
+  .pan{
+    top:64%;
+    min-height:66px;
+  }
+
+  .film-label{
+    display:none;
+  }
+}

@@ -1,0 +1,695 @@
+{
+  "artifact": "mindmake-website-redesign-continuity-contract-v1",
+  "schemaVersion": 1,
+  "createdAt": "2026-09-17",
+  "status": "active",
+  "purpose": "Preserve Krish's accepted feedback, rejected patterns, recovery boundary, route continuity and completion gates across sessions without relying on chat memory.",
+  "authority": "This is the project-local continuity contract for the unreleased website redesign. It does not replace Mindmake commercial canon, the approved production-route manifests or an authoritative Decision Ledger record. Commit, merge, preview, deployment and publication remain separate gates.",
+  "canonicalState": "project-documentation/website-redesign/STATE.md",
+  "approvedBaseline": {
+    "productionLock": "quality/route-lock/approved-production-r1.json",
+    "brain": "quality/ai-brain/approved-vnext-r5.json",
+    "gtm": "quality/ai-gtm/approved-vnext-r6.json",
+    "approval": "this now looks good, lock and proceed, ensuring the system cannot fall apart moving forward",
+    "visualBaselineStatus": "verified_retrievable",
+    "productionSourceStatus": "hash_identified_but_exact_approved_bytes_not_retrieved",
+    "recoveryRule": "Render and inspect the approved Brain r5 and GTM r6 prototypes before changing a public surface. Never claim the approved production source has been restored until every locked file matches the r1 hash manifest."
+  },
+  "candidateStatus": [
+    {
+      "manifest": "quality/route-lock/candidate-production-r2.json",
+      "status": "unapproved_evidence_only"
+    },
+    {
+      "manifest": "quality/route-lock/candidate-production-r3.json",
+      "status": "unapproved_evidence_only"
+    },
+    {
+      "manifest": "quality/route-lock/candidate-production-r4.json",
+      "status": "unapproved_evidence_only"
+    },
+    {
+      "manifest": "quality/route-lock/candidate-production-r5.json",
+      "status": "rejected_visual_direction",
+      "covers": ["ai-brain-vnext-r8", "ai-gtm-vnext-r8"]
+    }
+  ],
+  "operatingModel": {
+    "oneStateSource": "project-documentation/website-redesign/STATE.md",
+    "oneFeedbackContract": "quality/website-redesign/continuity-contract.v1.json",
+    "materialSurfaceRule": "Work on one material visual surface at a time. Render it, show it cold, receive Krish's first reaction and explicit approval, then lock it before implementation or the next material surface.",
+    "systemRule": "Promote repeated failures into shared geometry, tokens, components, content contracts or automated checks. Do not solve the redesign through accumulating route-specific CSS patches.",
+    "gateRule": "A candidate may add stronger checks but may never remove, rename around or weaken an approved invariant to pass.",
+    "historyRule": "Rejected candidates and screenshots remain evidence. They are not implementation foundations and must not be silently deleted or rewritten.",
+    "approvalRule": "Blind or continuity judge consensus cannot certify Krish's taste. His rendered approval remains the material visual gate.",
+    "exceptionAuthority": "Only Krish may approve a material visual surface or accept an MMF finding as an exception. Agents and judges may reject, recommend or report a blocker but may not grant either approval.",
+    "sourceParityRule": "Failure to recover every approved-production-r1 hash is a required truth label and blocks any claim of source restoration. It does not block fresh concept work inside the authorised isolated prototype path.",
+    "dirtyTreeRule": "The current recovery assets and prior work are uncommitted or mixed. Stay in the named current worktree for readback and isolated concept work. Do not create a clean worktree, reset, clean, move or overwrite this tree until the recovery assets have been preserved by an explicitly authorised commit or exact snapshot.",
+    "isolatedPrototypePath": "prototypes/website-redesign-recovery/gtm-market-change/",
+    "publicEditRule": "Before Krish approves the rendered GTM synthesis, creation and editing are authorised only inside the isolated prototype path. Public route files, shared production components and production styles remain frozen.",
+    "traceRule": "Record concept divergence, selection rationale and reset trace only in the Concept and reset trace section of the canonical STATE.md. Do not create another state, handoff or strategy document.",
+    "returnRule": "Return with the rendered synthesis only if the recovery gates and isolated render succeed. If a hard gate prevents rendering, return the exact blocker, evidence and safest next action without bypassing the gate or substituting a plan for the missing artifact."
+  },
+  "feedbackRulings": [
+    {
+      "id": "MMR-001",
+      "category": "functionality",
+      "ruling": "Every visible link, tab, control and CTA must work and produce the consequence its label promises.",
+      "scope": ["sitewide"],
+      "acceptance": "Exercise every visible control with mouse, touch and keyboard where applicable, including failure and recovery states. Zero inert interactive elements."
+    },
+    {
+      "id": "MMR-002",
+      "category": "visual_hierarchy",
+      "ruling": "High-value page real estate must contain the most impressive, beautiful and delightful material in the experience, not unintentional blank fields.",
+      "scope": ["/ai-brain", "/ai-gtm", "desktop", "mobile"],
+      "acceptance": "Every signature viewport has an intentional focal composition that teaches or demonstrates meaning. Blank space is permitted only when it creates deliberate emphasis and is not the dominant content."
+    },
+    {
+      "id": "MMR-003",
+      "category": "shared_geometry",
+      "ruling": "The mind/make logo and navigation align to the same governing content grid at every viewport.",
+      "scope": ["sitewide"],
+      "acceptance": "Measured header, hero and section anchors share the approved inset within two CSS pixels at all required viewports."
+    },
+    {
+      "id": "MMR-004",
+      "category": "regression_control",
+      "ruling": "Once a defect is fixed and accepted, later work must not reintroduce it.",
+      "scope": ["sitewide", "process"],
+      "acceptance": "Every accepted correction has a named regression check or protected shared rule, and adjacent routes are rerun after changes."
+    },
+    {
+      "id": "MMR-005",
+      "category": "visual_system",
+      "ruling": "Brain and GTM must feel like living, premium instruments rather than documents made from bordered boxes.",
+      "scope": ["/ai-brain", "/ai-gtm"],
+      "acceptance": "The signature sections use meaningful imagery, motion, state change or direct manipulation to carry the argument. Generic card grids and blank box fields fail."
+    },
+    {
+      "id": "MMR-006",
+      "category": "information_architecture",
+      "ruling": "The GTM market-change sequence must reveal one coherent decision story rather than present a simultaneous matrix or information dump.",
+      "scope": ["/ai-gtm"],
+      "acceptance": "A first-time visitor can explain the sequence as market signal, possible response, linked business consequences and customer test after one pass. Mobile exposes one chapter at a time."
+    },
+    {
+      "id": "MMR-007",
+      "category": "cta_intelligence",
+      "ruling": "The primary CTA must feel intelligent and consequential, not like a decorative button leading to a generic form.",
+      "scope": ["sitewide", "start-here"],
+      "acceptance": "Route and selected context persist into the journey, each action changes visible state meaningfully, consequences are explicit, mistakes recover and the configured runtime can demonstrate the promised personalised moment or an honest designed fallback."
+    },
+    {
+      "id": "MMR-008",
+      "category": "typography",
+      "ruling": "No important phrase may truncate, collide, overlap or strand one awkward word on a final line.",
+      "scope": ["sitewide"],
+      "acceptance": "Rendered checks at every required viewport and 200 percent text reveal no clipping, collision, ellipsis of meaning-bearing text or avoidable single-word orphan in display copy."
+    },
+    {
+      "id": "MMR-009",
+      "category": "motion",
+      "ruling": "The experience should build with scroll in a lifelike, causal and reversible way.",
+      "scope": ["sitewide"],
+      "acceptance": "Each major third has a meaning-bearing position-driven change or intentional active state. Motion teaches sequence, reverses cleanly and preserves comprehension under reduced motion."
+    },
+    {
+      "id": "MMR-010",
+      "category": "mobile_sequencing",
+      "ruling": "Mobile must be deliberately recomposed for attention, not a compressed desktop page.",
+      "scope": ["mobile", "/ai-brain", "/ai-gtm"],
+      "acceptance": "Default mobile states present one idea, one visual and one obvious action. Supporting evidence is discoverable without exposing a dense wall by default."
+    },
+    {
+      "id": "MMR-011",
+      "category": "viewport_budget",
+      "ruling": "A mobile section may exceed one screen only when the sequence intentionally earns the extra height.",
+      "scope": ["mobile"],
+      "acceptance": "At 320x568, 390x844 and 430x932 every over-height section has a visible narrative progression or interaction. Accidental cut-offs and dead continuation space fail."
+    },
+    {
+      "id": "MMR-012",
+      "category": "responsive_integrity",
+      "ruling": "The complete experience must work at every material screen size, orientation and text scale.",
+      "scope": ["sitewide"],
+      "acceptance": "Pass 320x568, 360x800, 390x844, 430x932, 768x1024, 844x390, 1024x768, 1280x800, 1440x700, 1440x900, 1920x1080 and 200 percent text with no lost task, clipping, collision or horizontal page scroll."
+    },
+    {
+      "id": "MMR-013",
+      "category": "route_continuity",
+      "ruling": "The redesign must preserve and deliberately integrate New-age leadership, case studies, the blog, Answers, FAQ, Contact, legal pages and the wider site rather than treating Brain and GTM as isolated mocks.",
+      "scope": ["sitewide"],
+      "acceptance": "Every existing indexed route remains reachable, coherent with the shared system and included in relevant regression gates."
+    },
+    {
+      "id": "MMR-014",
+      "category": "publication",
+      "ruling": "Media must be a thoughtfully placed route into the Substack publication, not an afterthought or a competing primary CTA.",
+      "scope": ["navigation", "footer", "publication"],
+      "acceptance": "Media is findable from the shared navigation and an appropriate contextual surface, opens the canonical publication URL and remains visually subordinate to Start here."
+    },
+    {
+      "id": "MMR-015",
+      "category": "ticker",
+      "ruling": "The news ticker label, cards and state indicators must share a precise horizontal system.",
+      "scope": ["/ai-gtm"],
+      "acceptance": "The label and content anchors align at every required viewport; moving duplicates cannot intercept input; touch users can reliably read and select a signal."
+    },
+    {
+      "id": "MMR-016",
+      "category": "paid_proof",
+      "ruling": "The paid-proof section must not accidentally exceed a desktop viewport or hide its primary action.",
+      "scope": ["desktop", "/ai-brain", "/ai-gtm"],
+      "acceptance": "The core promise, proof and next action compose within one primary desktop viewport unless a deliberate sequence visibly continues."
+    },
+    {
+      "id": "MMR-017",
+      "category": "hero_cta",
+      "ruling": "The Start here control must never collide with or overlap the hero boundary.",
+      "scope": ["hero", "sitewide"],
+      "acceptance": "The CTA retains a clear reserve from the viewport and component border at every required viewport, browser chrome state and text scale."
+    },
+    {
+      "id": "MMR-018",
+      "category": "brain_proof_visual",
+      "ruling": "The Roughly monthly to Most days visual must remain safely contained and balanced inside its frame.",
+      "scope": ["/ai-brain"],
+      "acceptance": "Animated marks, labels and rules retain deliberate left and right breathing room at every viewport and never graze or escape the border."
+    },
+    {
+      "id": "MMR-019",
+      "category": "component_anatomy",
+      "ruling": "Repeated evidence and decision boxes must have consistent internal alignment, hierarchy and baseline anatomy.",
+      "scope": ["/ai-brain", "/ai-gtm"],
+      "acceptance": "Peer components align labels, claims, source lines and controls without compensating empty height or inconsistent vertical placement."
+    },
+    {
+      "id": "MMR-020",
+      "category": "case_studies",
+      "ruling": "The final experience must support multiple case studies, each with a distinct meaningful visual, through swipe, toggle or another clear browsing interaction.",
+      "scope": ["/ai-brain", "/case-studies", "mobile", "desktop"],
+      "acceptance": "At least three representative stories prove unique visuals, touch swipe or equivalent controls, keyboard access, position feedback and a route to the full archive."
+    },
+    {
+      "id": "MMR-021",
+      "category": "content_density",
+      "ruling": "The site must feel approachable and immediate, never like homework or a forty-five-minute intellectual commitment.",
+      "scope": ["sitewide"],
+      "acceptance": "A first-time reader can understand each screen in a glance, with short sentences, one dominant point and optional depth. Blind testing reports no recurring fatigue or intimidation."
+    },
+    {
+      "id": "MMR-022",
+      "category": "copy_visual_balance",
+      "ruling": "Use fewer words and let imagery, state and interaction do more of the explanatory work.",
+      "scope": ["sitewide"],
+      "acceptance": "No section repeats what its visual or control already shows. Supporting detail is disclosed only when requested."
+    },
+    {
+      "id": "MMR-023",
+      "category": "anti_default",
+      "ruling": "Blank backgrounds with bordered text boxes are a rejected visual direction, even when responsive checks pass.",
+      "scope": ["/ai-brain", "/ai-gtm", "sitewide"],
+      "acceptance": "Continuity judges explicitly fail generic card-wall, spreadsheet, dashboard-template or PowerPoint-like compositions that replace the approved physical and instrument-like character."
+    },
+    {
+      "id": "MMR-024",
+      "category": "approved_strengths",
+      "ruling": "Preserve the dark, warm, physical, cinematic and instrument-like strengths of the approved direction while repairing its weaknesses.",
+      "scope": ["sitewide"],
+      "acceptance": "Every material proposal identifies which approved strengths it preserves. A fix that removes the signature visual idea fails even if it reduces copy or simplifies layout."
+    },
+    {
+      "id": "MMR-025",
+      "category": "design_system",
+      "ruling": "Responsive stability must come from a coherent system, not sequential patches that override one another.",
+      "scope": ["implementation", "sitewide"],
+      "acceptance": "One governing geometry and component rule owns each behavior. New cascade layers or breakpoint overrides require a named reason and cannot duplicate an existing owner."
+    },
+    {
+      "id": "MMR-026",
+      "category": "state_completeness",
+      "ruling": "Every experience must handle representative, long, empty, quiet, loading, stale, error and recovery states without collapsing into blankness or noise.",
+      "scope": ["sitewide"],
+      "acceptance": "The state matrix is rendered and task-tested at narrow and wide viewports. Empty states remain intentional and useful."
+    },
+    {
+      "id": "MMR-027",
+      "category": "about_manifesto",
+      "ruling": "The final information architecture must explicitly resolve About and manifesto needs rather than silently omit them or invent duplicate pages.",
+      "scope": ["sitewide", "/new-age-leadership"],
+      "acceptance": "The route map records whether New-age leadership remains the manifesto-like surface and where founder/About context belongs. Any new route requires explicit material approval."
+    },
+    {
+      "id": "MMR-028",
+      "category": "judge_quality",
+      "ruling": "Testing must scrutinise every action, consequence, viewport, transition, wrap, truncation and recovery path rather than awarding broad scores from attractive screenshots.",
+      "scope": ["quality_system"],
+      "acceptance": "A release needs complete blind and continuity submissions with route, viewport, steps, observation and raise condition, plus deterministic checks for hard geometry and behavior."
+    },
+    {
+      "id": "MMR-029",
+      "category": "judge_calibration",
+      "ruling": "A high average score cannot overrule a serious failure or Krish's rejection of the rendered design.",
+      "scope": ["quality_system"],
+      "acceptance": "Any failed hard gate makes the release not ready. A rendered rejection keeps the surface unlocked regardless of model consensus."
+    },
+    {
+      "id": "MMR-030",
+      "category": "session_continuity",
+      "ruling": "A new session must continue from governed state and the earliest unpassed gate, not restart discovery or ask Krish to repeat feedback.",
+      "scope": ["process"],
+      "acceptance": "The new session first reads the canonical state and continuity contract, runs their validator, restates the baseline and next action, and proceeds without requesting already recorded feedback."
+    },
+    {
+      "id": "MMR-031",
+      "category": "document_control",
+      "ruling": "The redesign must have one current state file and one feedback contract rather than accumulating competing handoff documents.",
+      "scope": ["process"],
+      "acceptance": "All other redesign files are classified as canon, evidence, candidate, generated QA or unknown. No third artifact may claim to be current."
+    },
+    {
+      "id": "MMR-032",
+      "category": "recovery",
+      "ruling": "The next session starts by proving the approved visual baseline and current source status before changing design or code.",
+      "scope": ["process", "/ai-brain", "/ai-gtm"],
+      "acceptance": "Approved Brain r5 and GTM r6 prototype checks pass and renders are inspected. Exact production-source parity remains failed until every r1 hash matches."
+    },
+    {
+      "id": "MMR-033",
+      "category": "gtm_material_direction",
+      "ruling": "The GTM Consequence Linkage content spine is good, but material approval requires thoughtful, classy iconography or real-world imagery plus scroll-initiated build and animation. Krish's in-progress Higgsfield growth-machinery sequence is the preferred visual-source direction.",
+      "scope": ["/ai-gtm", "prototypes/website-redesign-recovery/gtm-market-change/"],
+      "acceptance": "A revised isolated desktop/mobile render preserves the accepted content and causal response model, integrates the supplied growth-machinery visual without approval-signage confusion, and visibly builds the linkage through scroll while reduced motion preserves the complete final meaning. Krish then explicitly approves the revised rendered surface."
+    },
+    {
+      "id": "MMR-034",
+      "category": "gtm_comprehension_and_operating_model",
+      "ruling": "GTM Step 01 must use space and alignment deliberately, Step 02 must make the visitor's decision task explicit, and the New-age leadership thesis must become a visible operating-model layer inside People and the other GTM consequences. The sequence should show how a leader divides work, standards, limits, exceptions and improvement between humans and agents.",
+      "scope": ["/ai-gtm", "/new-age-leadership", "prototypes/website-redesign-recovery/gtm-market-change/"],
+      "acceptance": "The revised desktop/mobile render uses a compact aligned signal selector without awkward narrow wraps or nested mobile scrolling; Step 02 names the action and its result; every response visibly updates Human and Agent responsibility splits across Product, Price, Positioning and People; People keeps human decision rights and agent-owned repeatable work clear; and Krish explicitly approves the rendered material surface."
+    },
+    {
+      "id": "MMR-035",
+      "category": "gtm_conditional_material_lock",
+      "ruling": "GTM-LINKAGE-S3's composition and interaction spine is approved on the explicit condition that the finished surface uses the real moving growth-machinery background, gives surrounding sections purposeful visual differentiation instead of an uninterrupted black field, and continues to build meaning through scroll.",
+      "scope": ["/ai-gtm", "prototypes/website-redesign-recovery/gtm-market-change/"],
+      "acceptance": "The real supplied motion asset is integrated into a rendered desktop/mobile GTM surface; movement and section transitions support signal-to-response-to-consequence causality; the page no longer reads as black background end to end; reduced motion, no-JavaScript and unavailable-media states retain complete meaning; and Krish approves the combined motion treatment before final GTM material approval is reported."
+    },
+    {
+      "id": "MMR-036",
+      "category": "gtm_viewport_fit_and_media_placement",
+      "ruling": "GTM-LINKAGE-S3-FIT's viewport treatment is approved. The supplied growth-machinery video will begin as the top-section background, while the remaining sequence must receive purposeful visual ground changes so the experience never becomes black block backgrounds end to end.",
+      "scope": ["/ai-gtm", "prototypes/website-redesign-recovery/gtm-market-change/"],
+      "acceptance": "The locked fit viewport rules remain green; the supplied video is integrated into the top section; later sections are visually differentiated with meaning while scroll causality remains clear; reduced-motion, no-JavaScript and unavailable-media states remain complete; and Krish approves the combined motion treatment before final GTM material approval is reported."
+    },
+    {
+      "id": "MMR-037",
+      "category": "brain_simplicity_live_record_and_visual_ground",
+      "ruling": "The Brain must feel inspiring and immediately understandable while retaining the current focal Brain visual and typography. Each chapter must fit its intended viewport, the complete record must become one automatically moving vertical carousel rather than an expanding long destination, and neither Brain nor GTM may resolve to black backgrounds carrying only text.",
+      "scope": ["/ai-brain", "/ai-gtm", "prototypes/website-redesign-recovery/brain-signature/"],
+      "acceptance": "A revised desktop/mobile Brain render uses plain visitor language and distinct meaningful visual grounds; every primary chapter fits 1880x953, 1440x900, 1440x700 and 390x844; all 20 meanings, 18 relationships, 10 sources and 3 corrections cycle within one fixed-height vertical reel with automatic movement, pause and manual advance; compact and landscape views reflow without clipping or nested scrolling; reduced motion and no-JavaScript retain meaning; and Krish explicitly approves the rendered material surface."
+    },
+    {
+      "id": "MMR-038",
+      "category": "brain_material_lock_and_wrap_durability",
+      "ruling": "BRAIN-ALIGNMENT-S2's material hierarchy, plain-language sequence, focal Brain, source check, correction interaction and live record are approved. The remaining wrap correction is routine and the result must be locked against regression. Future supplied videos are an additional chapter-background media layer and may not silently change the locked hierarchy, sequence, interaction model or signature language.",
+      "scope": ["/ai-brain", "prototypes/website-redesign-recovery/brain-signature/"],
+      "acceptance": "BRAIN-ALIGNMENT-S2-LOCK preserves every approved S2 source hash and differs only by its declared title and additive wrap-lock stylesheet; all eleven required viewports pass copy containment, last-line orphan, target-size, horizontal-overflow and nested-scroll checks; eight primary viewports keep each chapter inside one viewport; the complete interaction, 51-entry reel, 200 percent text, reduced-motion and no-JavaScript states remain green; and any later moving-media treatment that changes first notice or signature language is rendered for Krish before it is called materially approved."
+    },
+    {
+      "id": "MMR-039",
+      "category": "semantic_film_system_and_gtm_motion",
+      "ruling": "The September 2026 films form a semantic motion system rather than decorative wallpaper. GTM uses quiet-workshop-growth at the opening threshold and signals-arrive at Step 01, with no additional GTM loops. Brain opens with evidence-connects; Start here resolves with opportunities-resolve; New-age leadership uses ready-for-decision; and Media, Blog, Answers and Subscribe use communications-compose. Home may preview ready-for-decision, evidence-connects and quiet-workshop-growth in their corresponding moments. CASE-PROOF-FIELD-S2 is the approved case-study exception: its eight regions use six semantically mapped dimmed machinery films, capped at four active loops on desktop and two on compact screens, with the hovered or focused region prioritised. FAQ, Contact and legal routes do not receive generated loops merely to add motion. Outside the approved Proof Field exception, only one film plays at a time. Offscreen films pause, and reduced-motion, save-data, no-JavaScript and unavailable-media states retain complete poster-backed meaning without scroll-scrubbing playback.",
+      "scope": ["/", "/ai-gtm", "/ai-brain", "/start-here", "/new-age-leadership", "/case-studies", "/blog", "/answers", "/faq", "/contact", "/privacy", "/terms", "prototypes/website-redesign-recovery/gtm-market-change/", "prototypes/website-redesign-recovery/brain-signature/"],
+      "acceptance": "Each material surface receives a rendered desktop/mobile review before its combined motion treatment is called approved. For GTM, the byte-preserved S3-FIT hierarchy and interaction remain intact; quiet-workshop-growth and signals-arrive hand off with exactly one active loop; the remaining material ground changes prevent black text-only chapters; every required viewport and locked interaction remains green; reduced-motion and save-data load no playback source; no-JavaScript and unavailable-media states retain posters and complete meaning; and Krish explicitly approves the GTM-MOTION rendered candidate before Brain media integration or public implementation begins."
+    },
+    {
+      "id": "MMR-040",
+      "category": "gtm_motion_material_lock_and_scroll_build",
+      "ruling": "GTM-MOTION-S1's combined desktop/mobile visual treatment is approved. The opening workshop film and Step 01 signal film complete the GTM surface without replacing the Section 03 causal scroll build. Section 03 must continue to assemble the machinery, traces, chosen-response hub and consequence leaves from idle through building to built, while every locked response, consequence, undo, evidence and mobile behavior remains intact.",
+      "scope": ["/ai-gtm", "prototypes/website-redesign-recovery/gtm-market-change/"],
+      "acceptance": "The GTM-MOTION-S1 source and rendered evidence match the owner-reviewed artifact; the S3 and S3-FIT baseline hashes remain unchanged; the candidate differs only by its declared film scenes, additive style and additive controller; the browser gate proves Section 03 idle, building and built states plus the complete build offset; all required viewport, interaction, reduced-motion, save-data, no-JavaScript and unavailable-media checks pass; and later implementation does not alter the locked motion handoff or causal Section 03 sequence without a new rendered material approval."
+    },
+    {
+      "id": "MMR-041",
+      "category": "brain_full_bleed_evidence_hero_direction",
+      "ruling": "The Brain hero should use evidence-connects as a full-bleed cinematic environment, with the existing decision card, nodes and orbital Brain instrument retained as the foreground signature. The film must support rather than compete with the headline and instrument, later Brain chapters remain unchanged, and the revised combined desktop/mobile render remains subject to explicit material approval.",
+      "scope": ["/ai-brain", "prototypes/website-redesign-recovery/brain-signature/"],
+      "acceptance": "A new additive candidate preserves BRAIN-MOTION-S1 byte-for-byte, differs only by its declared hero-composition layer and candidate title, makes the evidence film visibly full-bleed on desktop and mobile, keeps headline and action legible, retains the existing Brain instrument as the primary foreground object, leaves every later chapter and interaction intact, passes required viewport and recovery checks, and returns to Krish as one cold rendered material surface before any shared-system or public-route implementation."
+    },
+    {
+      "id": "MMR-042",
+      "category": "brain_decision_instrument_alignment_durability",
+      "ruling": "The full-bleed Brain direction remains fixed, but its central decision instrument must read as a precisely constructed foreground object on every device. The plaque uses a stable landscape proportion, one explicit column grid, consistent internal spacing and mathematically and optically centred label, question and status. The oversized square halo, improvised spacing, unstable line breaks and any viewport-dependent centre drift are rejected.",
+      "scope": ["/ai-brain", "prototypes/website-redesign-recovery/brain-signature/"],
+      "acceptance": "An additive locked revision preserves BRAIN-MOTION-S2 byte-for-byte and changes only the candidate title plus one decision-instrument stylesheet; at all eleven required viewports the plaque centre differs from the Brain-object centre by no more than one CSS pixel, holds a 1.24 to 1.34 landscape ratio and a 0.50 to 0.68 Brain-width ratio, centres and contains all three text roles, expands without overflow at 200 percent text, and retains the film, headline, action, all later chapters, interactions and recovery states for Krish's rendered decision."
+    },
+    {
+      "id": "MMR-043",
+      "category": "brain_motion_s3_material_lock",
+      "ruling": "BRAIN-MOTION-S3's combined desktop and mobile composition is materially approved. The full-bleed evidence film, headline and action hierarchy, orbital Brain object, aligned decision instrument, four-chapter material sequence, source challenge, reversible correction and complete live record form the locked Brain signature surface. Shared-system and route implementation must preserve this exact hierarchy, interaction, responsive sequence and motion meaning.",
+      "scope": ["/ai-brain", "prototypes/website-redesign-recovery/brain-signature/"],
+      "acceptance": "The BRAIN-MOTION-S3 source and rendered evidence match the owner-reviewed artifact; the S2 baseline, BRAIN-ALIGNMENT-S2-LOCK, BRAIN-MOTION-S1 and BRAIN-MOTION-S2 hashes remain unchanged; implementation uses shared bounded primitives without altering the approved first notice, chapter order, decision-instrument geometry, film behavior, 20 meanings, source challenge, correction replay or 51-entry record; required viewport and recovery checks remain green; and any later material change returns as a rendered desktop/mobile decision."
+    },
+    {
+      "id": "MMR-044",
+      "category": "device_specific_world_class_interaction",
+      "ruling": "Every material experience must deliver breathtaking, world-class interaction designed specifically for its device context rather than one responsive interaction compressed across rectangles. Desktop must exploit pointer precision, keyboard fluency, spatial depth, cinematic scroll causality and reversible state choreography. Mobile must be independently sequenced for thumb reach, direct touch feedback, interruption and resume, orientation and safe areas. Both surfaces preserve the same product meaning, honest consequence and recovery while using mechanics native to their context.",
+      "scope": ["/", "/ai-brain", "/ai-gtm", "/case-studies", "/new-age-leadership", "/blog", "/answers", "/faq", "/contact", "/privacy", "/terms", "Start here", "shared shell and navigation"],
+      "acceptance": "Each materially changed surface receives one combined desktop/mobile rendered approval showing device-native interaction rather than responsive compression; every visible action has an immediate intelligible consequence and recovery; desktop pointer, keyboard and causal-scroll paths pass; mobile touch, thumb reach, interruption, orientation and safe-area paths pass; reduced-motion retains complete meaning; representative Chromium, WebKit and Firefox automation is green; final release includes physical iPhone Safari with VoiceOver and Android Chrome with TalkBack; and Krish explicitly approves the exact rendered interaction surface."
+    },
+    {
+      "id": "MMR-045",
+      "category": "start_here_interaction_s4_material_lock",
+      "ruling": "START-HERE-INTERACTION-S4's combined desktop and mobile interaction is materially approved. The Instrumented Working Folio, asymmetric desktop spread, mobile Pocket Folio, editable Time binding, truthful Time-only consequence, Restore path, interruption recovery, Keep disclosure and opportunities-resolve illustrative film treatment form the locked Start here surface.",
+      "scope": ["Start here", "src/components/mindmake/LeadBrief.tsx", "prototypes/website-redesign-recovery/start-here-intelligence/"],
+      "acceptance": "The S4 source hashes and rendered evidence match the owner-reviewed artifact; local implementation preserves the company-first journey and real LeadBrief data behavior; desktop retains precise pointer and keyboard operation, spatial hierarchy and reversible Time choreography; mobile retains one-leaf sequencing, thumb reach, safe-area action placement, orientation behavior and exact interruption resume; every consequence and recovery remains explicit; required Chromium, WebKit and Firefox checks pass; and any later material change returns as a rendered desktop/mobile decision."
+    },
+    {
+      "id": "MMR-046",
+      "category": "case_proof_field_s2_material_lock",
+      "ruling": "CASE-PROOF-FIELD-S2's combined desktop and mobile composition is materially approved. The continuous asymmetric eight-region field, direct cold-state outcomes, semantically mapped dimmed machinery films, distinct mechanism marks, in-place reversible story expansion, truthful endpoint language, desktop spatial keyboard navigation and mobile four-band to single-proof sequence form the locked case-study browsing surface.",
+      "scope": ["/case-studies", "prototypes/website-redesign-recovery/case-study-browsing/"],
+      "acceptance": "The S2 source hashes and rendered evidence match the owner-reviewed artifact; public-route implementation uses the canonical eight clientStories records without invented figures or client-film claims; all eight cold outcomes remain directly reachable; text and mechanism bounds never intersect; desktop retains Arrow, Home, End, 1-8, Enter, Space, Escape, URL and focus recovery; mobile retains direct touch, All eight, Previous, Next, position, orientation and safe-area behavior; the film decoder budget and poster-backed reduced-motion, save-data, no-JavaScript and unavailable-media states remain complete; required Chromium, WebKit and Firefox checks pass; and any later material change returns as a rendered desktop/mobile decision."
+    },
+    {
+      "id": "MMR-047",
+      "category": "interface_copy_must_not_rescue_the_interface",
+      "ruling": "The final site contains no backup-singer copy that narrates an obvious control, explains a visual metaphor after the visual has already made the point, or repeats a quantitative change already legible in the mechanism. If a visitor needs helper prose to understand what to open, move or inspect, the visual cues and information architecture must be corrected instead. Controls still name their action, recovery and consequence directly, and evidence boundaries remain truthful without being turned into decorative disclaimers.",
+      "scope": ["/", "/ai-brain", "/ai-gtm", "/case-studies", "/new-age-leadership", "/blog", "/answers", "/faq", "/contact", "/privacy", "/terms", "Start here", "shared shell and navigation"],
+      "acceptance": "All indexed routes pass the server-rendered copy-restraint gate; the rejected case-study helper sentences, repeated fourteen-to-three captions and synthetic two-fragment result line are absent from the production surface; visible controls remain self-naming and operable; the case-study mechanisms retain their truthful source data, distinct states, accessible actions and recovery behavior; and Chromium, WebKit and Firefox geometry, keyboard, history, reduced-motion and no-JavaScript checks remain green."
+    },
+    {
+      "id": "MMR-048",
+      "category": "commercial_continuity_s1_material_lock",
+      "ruling": "COMMERCIAL-CONTINUITY-S1 / Proof takes the ground is materially approved. Its proof-major warm surface, separate illustrative film edge, cold-visible offer routes, canonical anonymous outcomes, single filled Start here action and reversible native-scroll transformation form the locked commercial continuity surface. Later integration may faithfully adapt the surface to its approved route contexts but must not reinterpret its hierarchy, film-to-proof separation, interaction model or signature material language without a new rendered decision.",
+      "scope": ["commercial continuity", "paid-proof surfaces", "prototypes/website-redesign-recovery/commercial-continuity/"],
+      "acceptance": "The frozen COMMERCIAL-CONTINUITY-S1 source hashes and owner-reviewed paired render remain matched; integration preserves both ordinary offer links, the complete paid-proof promise, two canonical anonymous outcomes, Read all eight stories and Start here as the sole filled action; film remains separate from proof and yields reversibly on native scroll; Leadership, editorial, Brain and GTM contexts retain their approved film mappings; mobile preserves its film-edge then one-idea, two-door, proof-and-action sequence; reduced-motion, Save Data, no-JavaScript, unavailable-media, offscreen-playback, increased-text, touch, keyboard and reverse-scroll states remain complete; required Chromium, WebKit and Firefox checks pass; and any later material change returns as a rendered desktop/mobile decision."
+    },
+    {
+      "id": "MMR-049",
+      "category": "commercial_readiness_s3_proofglass_material_lock",
+      "ruling": "COMMERCIAL-READINESS-S3-PROOFGLASS is materially approved. Its dark warm film arrival, cold-visible audience and two offer doors, single filled Start here action with a useful consequence, physical client-record sheet, four canonical anonymous outcomes and causal five-stage Proofglass form the locked commercial-readiness surface. Desktop scroll raises the record and advances its reasoning reversibly. Portrait and short landscape retain their independently sequenced numbered instrument. Start here delivers a deterministic four-part decision record before email and then continues to the private brief.",
+      "scope": ["commercial readiness", "commercial continuity", "paid-proof surfaces", "Start here", "prototypes/website-redesign-recovery/commercial-continuity/"],
+      "acceptance": "The frozen S3 source hashes and owner-reviewed paired render match the recorded evidence; production integration preserves the first-notice hierarchy, exact R-02, R-03, R-05 and R-08 public-use boundaries, ordinary Brain and GTM links, generated-film disclosure, four complete five-stage causal records, direct tap/click/keyboard/drag equivalence, reversible scroll, full accessible stage meanings, one-sentence deterministic decision framing, interruption and focus recovery, and the existing private-brief continuation. Chromium, WebKit and Firefox plus reduced-motion, Save Data, no-JavaScript, unavailable-media, increased-text and coarse-pointer checks remain green. Any later change to hierarchy, interaction, responsive sequence, proof language or signature material treatment returns as a rendered material decision."
+    },
+    {
+      "id": "MMR-050",
+      "category": "commercial_readiness_s4_r3_material_lock",
+      "ruling": "COMMERCIAL-READINESS-S4-R3 is materially approved and supersedes S3 Proofglass as the commercial-readiness production direction. Its complete private paid-proof boundary, ordinary Brain and AI go-to-market links, single filled Start here action, five proof stages, warm physical Decision Balance, causal reversible desktop scroll, independently composed mobile sequence and deterministic decision-record recovery form the locked surface. The R2 and R3 fit, scaled-Windows and exercised-state corrections are part of the approval rather than optional patches.",
+      "scope": ["commercial readiness", "commercial continuity", "paid-proof surfaces", "Start here", "prototypes/website-redesign-recovery/commercial-continuity/"],
+      "acceptance": "The recorded S4 R3 hashes and owner-reviewed render remain matched; production integration preserves the approved hierarchy, private commercial boundary, two ordinary offer links, five-stage Decision Balance, range and stage control equivalence, reversible scroll, independently sequenced mobile composition and existing private LeadBrief continuation. The complete cold and exercised surface fits every required viewport including 1108x574, 1475x730 and 1538x636; the primary action retains the governed usable-screen reserve; modal open, complete, close, reopen, change and recovery preserve document and sticky-shell scroll positions; Chromium, WebKit and Firefox plus reduced-motion, Save Data, no-JavaScript, unavailable-media, increased-text, keyboard, touch and coarse-pointer checks remain green; and any material reinterpretation returns as a rendered decision."
+    }
+  ],
+  "verifiedOpenFindings": [
+    {
+      "id": "MMF-001",
+      "severity": "P1",
+      "finding": "Reduced-motion mode removes three of four Brain views on mobile.",
+      "acceptance": "All four views remain visible or operable without motion at 320x568, 390x844 and 430x932."
+    },
+    {
+      "id": "MMF-002",
+      "severity": "P2",
+      "finding": "Brain graph nodes fall below practical touch-target size.",
+      "acceptance": "Coarse-pointer hit areas are at least 44 by 44 CSS pixels without overlap."
+    },
+    {
+      "id": "MMF-003",
+      "severity": "P2",
+      "finding": "GTM asks touch users to select controls while they continuously move, and an inert ticker clone can intercept input.",
+      "acceptance": "Interactive controls remain stationary during touch selection, selected content stays fully visible and inert duplicates cannot receive pointer input."
+    },
+    {
+      "id": "MMF-004",
+      "severity": "P2",
+      "finding": "GTM loses text and controls at 320 pixels with 200 percent text.",
+      "acceptance": "All labels and actions reflow within 320 pixels at 200 percent text without clipping or hidden overflow."
+    },
+    {
+      "id": "MMF-005",
+      "severity": "P2",
+      "finding": "Start-here back, forward and refresh recovery can discard the selected route or journey state.",
+      "acceptance": "History restores the selected route and step. Refresh restores an appropriately private draft or warns before discarding it."
+    },
+    {
+      "id": "MMF-006",
+      "severity": "P2",
+      "finding": "The supplied local runtime cannot demonstrate the promised company-specific read because required configuration is absent.",
+      "acceptance": "The judged runtime produces a designated synthetic company read with no configuration error, or the missing external boundary is explicitly gated before a magic verdict is issued."
+    },
+    {
+      "id": "MMF-007",
+      "severity": "P2",
+      "finding": "The Brain closing headline has effectively invisible contrast in the audited candidate.",
+      "acceptance": "Meaning-bearing large text reaches at least 3 to 1 contrast in normal and reduced-motion modes."
+    },
+    {
+      "id": "MMF-008",
+      "severity": "P2",
+      "finding": "The Brain closing viewport becomes completely static and loses the living-instrument quality.",
+      "acceptance": "The closing region contains a reversible meaning-bearing scroll or state change at all required viewports."
+    },
+    {
+      "id": "MMF-009",
+      "severity": "P3",
+      "finding": "The privacy notice can overlap live content and controls on compact and landscape screens.",
+      "acceptance": "The notice intersects no focused, active or primary control and publishes a reliable reserve."
+    },
+    {
+      "id": "MMF-010",
+      "severity": "P3",
+      "finding": "Landscape commitment copy and dismissal can compete for the initial viewport.",
+      "acceptance": "Dismissal remains persistently reachable and the full reassurance or an unmistakable scroll affordance appears in the initial landscape viewport."
+    },
+    {
+      "id": "MMF-011",
+      "severity": "P3",
+      "finding": "Missing-division validation does not consistently move focus to the invalid control.",
+      "acceptance": "The error is announced, associated with the control and focus moves to the failing division field or group."
+    },
+    {
+      "id": "MMF-012",
+      "severity": "P2",
+      "finding": "The GTM first-screen composition can run the market-signal readout or the next section across the viewport boundary, leaving the user with a cut-off thought on common desktop and mobile screens.",
+      "acceptance": "The complete market-signal deck fits inside 1880x953, 1440x900, 1440x700 and 390x844; the next section begins below the fold at those sizes; and 320x568 plus 844x390 reflow naturally without horizontal overflow, nested scrolling or clipped controls."
+    },
+    {
+      "id": "MMF-013",
+      "severity": "P2",
+      "finding": "Brain S1 repeats the viewport-boundary failure: chapters can exceed a common desktop or mobile viewport and crop the active instrument, leaving the visitor mid-thought.",
+      "acceptance": "Every primary Brain chapter fits cleanly at 1880x953, 1440x900, 1440x700 and 390x844 with no clipped visible content or nested scrolling; 320x568, 430x932 and 844x390 reflow naturally without horizontal overflow or clipped controls; and the regression remains green after visual or copy changes."
+    },
+    {
+      "id": "MMF-014",
+      "severity": "P3",
+      "finding": "Brain S2 can form awkward one-word final lines and let correction copy cross its clay material boundary at desktop, portrait-tablet, compact-phone or increased-text combinations.",
+      "acceptance": "The locked Brain candidate keeps every display and body block inside its intended material panel without one-word final lines at all eleven required viewports and at 200 percent text; compact phones and portrait tablets reflow without clipping, horizontal overflow or nested scrolling; and the exact wrap regression remains automated."
+    },
+    {
+      "id": "MMF-015",
+      "severity": "P2",
+      "finding": "The BRAIN-MOTION-S2 hero decision plaque uses an oversized square halo and an implicit grid whose text track can drift from the plaque centre, making the signature foreground object appear misaligned, wonky and unprofessional across desktop and mobile.",
+      "acceptance": "The Brain decision plaque uses one explicit full-width grid column, stable landscape geometry and consistent internal spacing; its frame and every text role remain centred and contained within one CSS pixel at all eleven required viewports; 200 percent text expands the instrument without clipping or horizontal overflow; and the exact geometry regression remains automated."
+    },
+    {
+      "id": "MMF-016",
+      "severity": "P2",
+      "finding": "START-HERE-INTELLIGENCE-S1 compresses the recommendation into the top of the paper field, separates its conclusion from the primary action with an unearned empty band and uses competing alignment anchors across its AI, human and proof rows on desktop and mobile.",
+      "acceptance": "The Start here recommendation uses one repeated label-and-value grid, keeps corresponding row anchors within 1.5 CSS pixels, places the primary action no more than 28 CSS pixels after the proof conclusion, leaves no more than 32 CSS pixels of unused bottom space, and remains contained without clipping, overflow or alignment drift at all eleven required viewports."
+    },
+    {
+      "id": "MMF-017",
+      "severity": "P2",
+      "finding": "The Start here S2 paired-review page can paint its fixed-size desktop iframe wider than the available review column and then hide the excess, allowing the presented evidence to crop a candidate even when the candidate document itself reports no horizontal overflow.",
+      "acceptance": "Every desktop and mobile iframe paint rectangle remains fully inside its review window at 320, 390, 768, 1000, 1001, 1320, 1562, 1563, 1600 and 1920 CSS-pixel review widths; the exact 1320 x 852 reproduction has zero clipped pixels; meaning-bearing text remains inside its intended panel before and after each visible action; and the regression runs in Chromium, WebKit and Firefox before presentation."
+    },
+    {
+      "id": "MMF-018",
+      "severity": "P1",
+      "finding": "The current blind award-panel validator can report a valid ten-scorecard panel without proving ten independent judging contexts, binding scorecard evidence to the captured artifacts, exercising device-specific interactions or failing closed on low-confidence, stale, zero-critical-dimension and unconsumed-observation conditions; its Chromium-only capture also cannot certify a world-class experience across the required engines, input modes, accessibility states and physical devices.",
+      "acceptance": "Before the panel can certify release, every anonymous scorecard is provenance-bound to a frozen artifact hash and distinct judging context; stale or duplicate submissions are rejected; the active protocol references rubric.v2 consistently; the evidence packet covers Chromium, WebKit and Firefox plus pointer, keyboard, touch, reduced motion, 200-percent text, recovery and failure states, and the required current physical-device results; observations are consumed by aggregation; any hard-gate failure, critical-dimension zero, inconclusive evidence or insufficient confidence blocks world_class_winner; and the strengthened system passes adversarial self-tests that demonstrate each failure mode is rejected."
+    },
+    {
+      "id": "MMF-019",
+      "severity": "P2",
+      "finding": "The Commercial-readiness S4 review was presented with a 12.3 CSS-pixel logo-to-content drift and a short-desktop composition that exceeded the visible 1538 x 636 browser window, while its green checker began desktop coverage at 1440 x 700 and tested review geometry only inside an artificial 1000-pixel-high viewport.",
+      "acceptance": "The logo, hero and section anchor differ by no more than two CSS pixels at every required viewport; the complete cold desktop promise, offer links, paid-proof boundary, primary action, instrument heading, balance, range and stage controls remain inside 1538 x 636 and 1366 x 640 without clipping or nested scrolling; the review desktop and portrait frames both fit the actual visible review window at 1538 x 636; all rendered frames prove non-blank current-candidate content; and the exact assertions run in Chromium, WebKit and Firefox before presentation."
+    },
+    {
+      "id": "MMF-020",
+      "severity": "P2",
+      "finding": "The Commercial-readiness S4 R2 gate observed the offer panel at negative seven CSS pixels after its completed-record reopen path, then disabled first-screen containment for the exercised state. Chromium had scrolled both the document and the overflow-hidden sticky shell under the modal, so closing it left the headline beneath the fixed navigation even though the cold render passed.",
+      "acceptance": "Opening, completing, closing, reopening, changing and closing the Start here decision record preserves both the document scroll position and the sticky shell scroll position within one CSS pixel; the offer panel and headline remain below the fixed navigation reserve after every state; the complete cold composition also fits 1108 x 574; and the exact state sequence passes at every required Chromium viewport plus representative WebKit and Firefox viewports before presentation."
+    },
+    {
+      "id": "MMF-021",
+      "severity": "P1",
+      "finding": "A Commercial-readiness R3 localhost link was presented after its temporary Vite process had ended. The source and automated render remained valid, but the named address had no listener and returned connection refused, so the user received a dead artifact instead of the promised review surface.",
+      "acceptance": "A local review link may be presented only while its fixed-port listener is running, the exact artifact URL returns HTTP 200 with the expected candidate identity, the visible browser completes the document with zero console errors, and the tab is explicitly retained for user review. A passed ephemeral-server test never substitutes for this handoff readback."
+    },
+    {
+      "id": "MMF-022",
+      "severity": "P2",
+      "finding": "The Commercial-readiness R3 primary action and proof-stage controls escaped below a 1475 x 730 CSS viewport produced by a wide Windows desktop at 125-percent display scaling. The existing compact-desktop rule ended at 720 CSS pixels, creating a breakpoint cliff immediately above its tested range even though larger unscaled desktop screenshots fitted.",
+      "acceptance": "The complete commercial-readiness composition fits 1475 x 730, 1536 x 768 and 1600 x 768 with no clipping or nested scrolling; the primary action retains at least 24 CSS pixels of usable-screen reserve; the proof-stage controls remain fully visible; modal open, close, reopen and recovery preserve both scroll positions; and Chromium, WebKit and Firefox execute the exact 1475 x 730 case before presentation."
+    },
+    {
+      "id": "MMF-023",
+      "severity": "P1",
+      "finding": "On the production Proofglass mobile sequence, the selected stage's full-width absolutely positioned meaning layer could overlap the other four stage buttons. WebKit intermittently routed a tap intended for stage 05 back to the selected stage 01 descendant, leaving the requested recorded-change state unreachable even though the numbered control remained visible.",
+      "acceptance": "Selected-stage meaning text remains visually unchanged but cannot intercept pointer events; each of the five visible mobile stage controls activates its own state; the fourth client record and stage 05 pass at 320 x 568 and 390 x 844 in WebKit; and the complete commercial production matrix passes in Chromium, WebKit and Firefox without an unreachable or inconclusive stage."
+    },
+    {
+      "id": "MMF-024",
+      "severity": "P1",
+      "finding": "At the required 1108 x 574 compact-desktop viewport, the production GTM primary heading began beneath the fixed header and the centred navigation placed its first focused route beneath the same opaque chrome. The wider breakpoint and earlier landscape threshold left this exact Windows/browser-chrome case uncovered.",
+      "acceptance": "At 1108 x 574 in Chromium, WebKit and Firefox, the GTM primary heading begins below the fixed header, the first focused menu route begins below the header, the logo stays on the shared content edge, every route remains free of horizontal overflow and section containers preserve either the shared edges or the shared centre axis. The complete full-route continuity matrix and locked Brain/GTM production gate must then pass with zero failures."
+    },
+    {
+      "id": "MMF-025",
+      "severity": "P1",
+      "finding": "While the commercial decision record was open on New-age leadership, the upstream organisation chart could complete its timed change from Traditional to People + AI and add 108 CSS pixels above the locked surface. Restoring only the previous numeric scroll offset then returned the visitor to a different visible content position in WebKit and Firefox even though the modal itself closed correctly.",
+      "acceptance": "The decision record preserves the locked commercial surface's viewport anchor rather than assuming that the document above it remains the same height; close, Change decision and close, and the private-brief handoff remain focus-safe and recoverable; the exact New-age leadership 390 x 844 timed-layout-change case passes within one CSS pixel; and the complete 45-observation Chromium, WebKit and Firefox commercial production matrix passes with zero failures."
+    },
+    {
+      "id": "MMF-026",
+      "severity": "P1",
+      "finding": "At a 1440 x 900 desktop viewport with the document root text size increased to 200 percent, rem-based structural column minima doubled the Home and AI Brain chassis as well as their text. The Home proof instrument escaped the viewport; the fixed-height Brain opening clipped its explanation and actions; and the Brain decision plaque's three text roles collided.",
+      "acceptance": "At 1440 x 900 with the document root text size at 200 percent, Home retains its threshold, proof instrument and both primary route actions within the horizontal viewport; the AI Brain opening grows into normal document flow without losing its object, explanation, actions or note; the plaque's label, decision and status remain ordered and non-overlapping; neither route introduces horizontal document overflow; and the durable full-route continuity gate passes."
+    }
+  ],
+  "routeContinuity": {
+    "mustPreserve": [
+      "/",
+      "/ai-brain",
+      "/ai-gtm",
+      "/case-studies",
+      "/new-age-leadership",
+      "/blog",
+      "/blog/:slug",
+      "/answers",
+      "/answers/:slug",
+      "/faq",
+      "/contact",
+      "/privacy",
+      "/terms"
+    ],
+    "publicationUrl": "https://mindmakerlive.substack.com",
+    "aboutStatus": "No dedicated About route exists. Founder and practice context currently live in approved shared surfaces. Resolve any new About route as a material information-architecture decision.",
+    "manifestoStatus": "New-age leadership is the current manifesto-like argument surface. Do not duplicate it silently."
+  },
+  "judgeSystem": {
+    "blindPanel": {
+      "rubric": "quality/award-panel/rubric.v2.json",
+      "context": "production or matching preview, neutral rubric and assigned viewports only",
+      "purpose": "Measure first-time comprehension, desire, usability, buyability, originality and reliability without owner-history anchoring.",
+      "requiredResult": "world_class_winner",
+      "minimumSurfaceScore": 9.2,
+      "minimumJudgeScore": 8.8,
+      "hardGateRule": "all_pass"
+    },
+    "continuityPanel": {
+      "context": "this complete continuity contract, approved manifests, rejected-candidate status and matching rendered evidence",
+      "purpose": "Protect accumulated judgment and detect regressions that a blind visitor cannot know are regressions.",
+      "guardians": [
+        "visual_and_signature_guardian",
+        "mobile_attention_guardian",
+        "interaction_and_cta_guardian",
+        "responsive_and_accessibility_guardian",
+        "route_and_content_continuity_guardian"
+      ],
+      "requiredResult": "Every applicable feedback ruling and verified finding passes with route, viewport, action and observable evidence.",
+      "hardGateRule": "zero_failures_or_inconclusive_items"
+    },
+    "independence": "Blind jurors never see continuity findings or one another's verdicts. Continuity guardians receive the full history but do not see one another's verdicts. Deterministic checks run before either panel.",
+    "finalTasteGate": "Krish explicitly approves each material rendered surface. Judges advise and reject; they cannot grant taste approval."
+  },
+  "materialSurfaces": {
+    "requiresRenderedApproval": [
+      "GTM signature market-change sequence",
+      "Brain signature decision sequence",
+      "shared shell or navigation when its visual hierarchy or geometry changes",
+      "homepage when its visual hierarchy or information architecture changes",
+      "Start here when its journey, interaction model or visual hierarchy changes",
+      "case-study browsing when its interaction model, visual system or sequence changes",
+      "commercial continuity or paid-proof surfaces when their hierarchy, interaction model or signature material language changes"
+    ],
+    "routineWithinLockedSurface": [
+      "alignment correction",
+      "wrap and orphan correction",
+      "overflow correction",
+      "focus, target-size and semantic correction",
+      "deterministic regression-test reinforcement"
+    ],
+    "classificationRule": "If a change alters what a visitor notices first, what they understand next, the interaction model or the signature visual language, treat it as material. When uncertain, stop and ask Krish rather than self-approving."
+  },
+  "requiredViewports": [
+    "320x568",
+    "360x800",
+    "390x844",
+    "430x932",
+    "768x1024",
+    "844x390",
+    "1024x768",
+    "1108x574",
+    "1280x800",
+    "1440x700",
+    "1440x900",
+    "1475x730",
+    "1538x636",
+    "1920x1080"
+  ],
+  "releaseBrowserDeviceMatrix": {
+    "automated": [
+      "Chromium desktop at every required viewport",
+      "WebKit desktop and iPhone-class emulation at representative narrow, tablet and desktop viewports",
+      "Firefox desktop at representative narrow and desktop viewports"
+    ],
+    "physical": [
+      "current iPhone Safari with VoiceOver",
+      "current Android Chrome with TalkBack"
+    ],
+    "inputAndPreference": [
+      "keyboard-only navigation",
+      "touch and coarse pointer",
+      "200 percent text scaling or browser zoom reflow",
+      "reduced motion",
+      "portrait and landscape"
+    ],
+    "claimRule": "Emulation can support iteration but cannot satisfy the final physical-device release gate. Unrun browsers or devices must be reported as not verified, never inferred as passing."
+  },
+  "startGate": [
+    "Read AGENTS.md, NOW.md, CLAUDE.md and project-documentation/06_CURRENT_STATE.md.",
+    "Read project-documentation/website-redesign/STATE.md and this contract completely.",
+    "Run npm run qa:website-restart.",
+    "Run npm run qa:website-approved-visuals.",
+    "Inspect the approved paired Brain r5 and GTM r6 renders.",
+    "Report that the approved visual baseline is retrievable while exact approved production-source parity is not yet established; this failed parity is a truth label, not a blocker to isolated concept work.",
+    "Confirm the current tree is dirty and mixed, remain in it, and confine new creation to prototypes/website-redesign-recovery/gtm-market-change/.",
+    "Do not edit public surfaces until the recovery readback passes and Krish approves the isolated rendered synthesis."
+  ],
+  "executionOrder": [
+    "Recover and inspect the approved visual baseline.",
+    "Reconcile one shared visual and responsive system without using r8 as a foundation.",
+    "Create fresh concept divergence for the GTM market-change sequence only inside the authorised isolated prototype path, then present one rendered synthesis for approval.",
+    "After GTM lock, create and approve the Brain signature sequence.",
+    "Implement each locked surface through shared primitives, with continuity checks after every change.",
+    "Complete the CTA journey, case-study browsing and route-continuity pass.",
+    "Run deterministic checks, continuity guardians and blind award judges against a matching preview.",
+    "Seek separate commit, preview, deployment and production approvals only after local verification."
+  ],
+  "completionGates": [
+    "Every applicable feedback ruling MMR-001 through MMR-050 has current rendered evidence and passes.",
+    "Every verified open finding MMF-001 through MMF-026 is fixed or explicitly approved as a documented exception.",
+    "All required routes remain reachable and coherent.",
+    "All required viewports, orientations, reduced-motion, keyboard, touch and 200 percent text checks pass.",
+    "Every visible action and recovery path has been exercised in a matching runtime.",
+    "The continuity panel reports zero failures and zero inconclusive items.",
+    "The blind panel reaches world_class_winner on both desktop and mobile under rubric v2.",
+    "Krish explicitly approves every material rendered surface.",
+    "The production implementation matches a newly approved manifest and no earlier approval record is overwritten.",
+    "Commit, preview, deployment and production state are reported literally and separately."
+  ]
+}

@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#081411" />
+    <title>Mindmake AI GTM route prototype</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header" id="siteHeader">
+      <a class="brand" href="../homepage-vnext/index.html" aria-label="Mindmake homepage">
+        <img src="../../src/assets/mindmake-wordmark.svg" alt="Mindmake" />
+      </a>
+      <div class="header-actions">
+        <span class="route-name">AI GTM</span>
+        <button class="menu-trigger" id="menuTrigger" type="button" aria-haspopup="dialog" aria-controls="menuLayer" aria-expanded="false">
+          <span>Menu</span><i aria-hidden="true"></i>
+        </button>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" aria-labelledby="heroTitle" data-view="hero">
+        <video class="hero-film" autoplay muted loop playsinline poster="../../src/assets/films/film-04-poster.webp" aria-label="A brass rail carrying cream paper through a walnut instrument room">
+          <source src="../../src/assets/films/film-04-loop.webm" type="video/webm" />
+          <source src="../../src/assets/films/film-04-loop.mp4" type="video/mp4" />
+        </video>
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="hero-frame" aria-hidden="true"></div>
+        <div class="hero-copy">
+          <h1 id="heroTitle">Build your AI GTM for what customers value now.</h1>
+          <p class="claim">Start with one offer. Put the next version in front of customers.</p>
+          <p class="lede">For founders and commercial leaders. We redesign one part of how your business reaches customers and gets paid, then test it in the market.</p>
+          <button class="primary-action" type="button" data-open-start>Start here <span aria-hidden="true">→</span></button>
+        </div>
+        <a class="scroll-cue" href="#offerSequence">See the offer change <span aria-hidden="true">↓</span></a>
+      </section>
+
+      <section class="offer-sequence" id="offerSequence" aria-labelledby="sequenceTitle" data-view="levers">
+        <div class="offer-sticky">
+          <div class="sequence-heading">
+            <h2 id="sequenceTitle">Four levers. One offer.</h2>
+            <p>Move one and the rest must still make sense.</p>
+          </div>
+
+          <div class="press" aria-live="polite">
+            <div class="press-rail" aria-hidden="true"><i></i><i></i><b></b></div>
+            <article class="offer-sheet">
+              <div class="sheet-head"><span>Illustrative offer rebuild</span><strong id="sheetState">Product</strong></div>
+
+              <section class="lever-panel is-active" data-panel="0" aria-labelledby="productTitle">
+                <small>Product</small>
+                <h3 id="productTitle">What becomes newly valuable?</h3>
+                <div class="change"><span><b>Before</b>Advice and delivery</span><i aria-hidden="true">→</i><span><b>Next</b>A working first version customers can use</span></div>
+              </section>
+
+              <section class="lever-panel" data-panel="1" aria-labelledby="priceTitle">
+                <small>Price</small>
+                <h3 id="priceTitle">Where does the value move?</h3>
+                <div class="change"><span><b>Before</b>Time and output</span><i aria-hidden="true">→</i><span><b>Next</b>The decision, proof and result</span></div>
+              </section>
+
+              <section class="lever-panel" data-panel="2" aria-labelledby="positioningTitle">
+                <small>Positioning</small>
+                <h3 id="positioningTitle">What can customers not get alone?</h3>
+                <div class="change"><span><b>Before</b>Access to expertise</span><i aria-hidden="true">→</i><span><b>Next</b>Judgement applied to their real work</span></div>
+              </section>
+
+              <section class="lever-panel" data-panel="3" aria-labelledby="peopleTitle">
+                <small>People</small>
+                <h3 id="peopleTitle">Where should people get better?</h3>
+                <div class="change"><span><b>Before</b>Producing the repeated middle</span><i aria-hidden="true">→</i><span><b>Next</b>Customer contact, standards and release</span></div>
+              </section>
+            </article>
+            <div class="press-arm" aria-hidden="true"><span></span></div>
+          </div>
+
+          <nav class="lever-nav" aria-label="GTM levers">
+            <button type="button" data-stage="0" aria-current="step"><span>01</span>Product</button>
+            <button type="button" data-stage="1"><span>02</span>Price</button>
+            <button type="button" data-stage="2"><span>03</span>Positioning</button>
+            <button type="button" data-stage="3"><span>04</span>People</button>
+          </nav>
+        </div>
+      </section>
+
+      <section class="market" aria-labelledby="marketTitle" data-view="market">
+        <video class="market-film" autoplay muted loop playsinline poster="../../src/assets/films/film-03-poster.webp" aria-label="Brass recording pens tracing changing lines on paper drums">
+          <source src="../../src/assets/films/film-03-loop.webm" type="video/webm" />
+          <source src="../../src/assets/films/film-03-loop.mp4" type="video/mp4" />
+        </video>
+        <div class="market-shade" aria-hidden="true"></div>
+        <div class="market-copy">
+          <h2 id="marketTitle">Then it meets a customer.</h2>
+          <p class="claim">Market response changes the model.</p>
+          <p>We build a customer-facing first version while the decision is being made. What buyers do next becomes evidence, not a post-launch surprise.</p>
+        </div>
+        <div class="signal-instrument" aria-label="Illustrative customer response loop">
+          <div class="signal-orbit" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <div class="signal-core"><small>Customer signal</small><strong>Buying question</strong><span>changes the offer</span></div>
+          <ol><li>Buy</li><li>Ask</li><li>Wait</li><li>Walk</li></ol>
+        </div>
+      </section>
+
+      <section class="proof" aria-labelledby="proofTitle" data-view="proof">
+        <h2 id="proofTitle">The point is movement, not another GTM deck.</h2>
+        <div class="proof-result"><strong>2</strong><span>Pilots signed during the work.</span></div>
+        <div class="proof-result"><strong>1</strong><span>Changed sales path led to a paid publisher test.</span></div>
+        <p class="proof-source">Founder and commercial-leader reported outcomes. Identities withheld.</p>
+      </section>
+
+      <section class="close" aria-labelledby="closeTitle" data-view="close">
+        <div>
+          <h2 id="closeTitle">One offer is enough to begin.</h2>
+          <p class="claim">Leave with the next version in motion.</p>
+        </div>
+        <button class="primary-action is-large" type="button" data-open-start>Start here <span aria-hidden="true">→</span></button>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <img src="../../src/assets/mindmake-wordmark.svg" alt="Mindmake" />
+      <nav aria-label="Footer navigation"><a href="#">Contact</a><a href="#">Privacy</a><a href="#">Terms</a></nav>
+      <small>Prototype only. Nothing is sent or saved.</small>
+    </footer>
+
+    <div class="overlay-layer" id="menuLayer" hidden>
+      <div class="overlay-backdrop" data-close-menu></div>
+      <section class="menu-panel" role="dialog" aria-modal="true" aria-labelledby="menuTitle">
+        <div class="panel-head"><h2 id="menuTitle">Menu</h2><button class="close-button" type="button" data-close-menu aria-label="Close menu">×</button></div>
+        <nav><a href="../homepage-vnext/index.html">Home</a><a href="#offerSequence" data-close-menu>Four GTM levers</a><a href="#marketTitle" data-close-menu>Market test</a><button type="button" data-open-start>Start here</button></nav>
+      </section>
+    </div>
+
+    <div class="drawer-layer" id="startLayer" hidden>
+      <div class="drawer-backdrop" data-close-start></div>
+      <section class="start-drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+        <div class="panel-head"><span>Start here</span><button class="close-button" type="button" data-close-start aria-label="Close start form">×</button></div>
+        <div class="drawer-step"><span class="is-current">Company</span><span>You</span><span>Problem</span><span>Time</span><span>Brief</span></div>
+        <form novalidate>
+          <h2 id="drawerTitle">Which business should we read?</h2>
+          <p>Your work email tells us where to look. We read public company information while you answer the next question.</p>
+          <label for="workEmail">Work email<input id="workEmail" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com" aria-describedby="emailError" required /></label>
+          <p class="field-error" id="emailError" role="alert" hidden>Use a work email, for example you@company.com.</p>
+          <button class="primary-action drawer-action" type="submit">Read the business <span aria-hidden="true">→</span></button>
+          <small>Prototype only. Nothing is sent or saved.</small>
+        </form>
+      </section>
+    </div>
+  </body>
+</html>

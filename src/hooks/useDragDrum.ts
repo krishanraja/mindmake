@@ -180,6 +180,10 @@ export function useDragDrum({ pitch, count, viewport, drift = 16, write, span: s
 
   const onPointerDown = useCallback((event: React.PointerEvent) => {
     if (event.pointerType === "mouse" && event.button !== 0) return;
+    /* Controls inside the drum own their press. Capturing that pointer on the
+       rail can strand the button's click behind the drag gesture, leaving a
+       visible disclosure control with no observable consequence. */
+    if ((event.target as Element).closest("button, a, input, select, textarea, [role='button']")) return;
     mode.current = "drag";
     velocity.current = 0;
     target.current = null;
@@ -246,5 +250,20 @@ export function useDragDrum({ pitch, count, viewport, drift = 16, write, span: s
     mode.current = "snap";
   }, [clamp, paint, pitch, reduced]);
 
-  return { track, index, held, reduced, driven, onPointerDown, onPointerMove, onPointerUp, onKeyDown, step, reveal };
+  /**
+   * Stop on a complete card immediately.
+   *
+   * Pausing ambient drift by setting its speed to zero can otherwise preserve
+   * the rail between two snap points. That leaves both neighbouring cards
+   * cropped on a phone, which is not a useful paused state.
+   */
+  const settle = useCallback(() => {
+    offset.current = nearest(offset.current);
+    velocity.current = 0;
+    target.current = null;
+    mode.current = "drift";
+    paint();
+  }, [nearest, paint]);
+
+  return { track, index, held, reduced, driven, onPointerDown, onPointerMove, onPointerUp, onKeyDown, step, reveal, settle };
 }

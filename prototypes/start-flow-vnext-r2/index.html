@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Mindmake start flow vNext r2</title>
+  <style>
+    @font-face{font-family:Archivo;src:url("../../node_modules/@fontsource-variable/archivo/files/archivo-latin-wght-normal.woff2") format("woff2");font-weight:100 900;font-display:swap}
+    @font-face{font-family:Newsreader;src:url("../../node_modules/@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2") format("woff2");font-weight:200 800;font-display:swap}
+    @font-face{font-family:Plex;src:url("../../node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2") format("woff2");font-display:swap}
+    :root{--ink:#071512;--ink2:#0c211b;--paper:#f0e8d9;--paper2:#e7decc;--mint:#7de3bb;--mint2:#36a97e;--line:rgba(7,21,18,.16);--quiet:rgba(7,21,18,.62)}
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:var(--ink);color:var(--paper);font-family:Archivo,Arial,sans-serif}
+    button,input{font:inherit}
+    button{cursor:pointer}
+    .stage{min-height:100dvh;position:relative;overflow:hidden;background:var(--ink)}
+    .page{position:absolute;inset:0;display:grid;grid-template-rows:72px 1fr;padding:0 24px 24px}
+    .brandbar{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(125,227,187,.18)}
+    .brand{display:flex;align-items:center;gap:11px;font-family:Plex,monospace;font-size:22px;letter-spacing:.18em;text-transform:uppercase}
+    .mark{width:28px;height:24px;display:grid;grid-template-columns:repeat(2,1fr);align-items:end;gap:2px}
+    .mark i{display:block;background:linear-gradient(#9aefd0,#4bc292);height:16px}.mark i:last-child{height:24px}
+    .menu{font-family:Newsreader,serif;letter-spacing:.12em;text-transform:uppercase}
+    .ghost-hero{display:grid;grid-template-columns:.8fr 1.2fr;gap:48px;align-items:center}
+    .ghost-copy h1{font:400 clamp(58px,6.2vw,108px)/.9 Newsreader,serif;margin:0 0 24px;max-width:7ch}
+    .ghost-copy p{max-width:31rem;color:rgba(240,232,217,.72);font-size:20px;line-height:1.45}
+    .ghost-film{height:min(68vh,640px);border-radius:18px;background:linear-gradient(90deg,rgba(7,21,18,.2),rgba(7,21,18,0)),url("../../src/assets/films/film-02-poster.webp") center/cover;border:1px solid rgba(240,232,217,.16)}
+    .shade{position:absolute;inset:0;background:rgba(2,9,7,.68);backdrop-filter:blur(3px)}
+    .drawer{position:absolute;z-index:2;inset:0 0 0 auto;width:min(700px,82vw);background:var(--paper);color:var(--ink);box-shadow:-28px 0 80px rgba(0,0,0,.28);display:grid;grid-template-rows:auto auto 1fr;animation:enter .42s cubic-bezier(.2,.8,.2,1) both}
+    .drawer-head{min-height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(24px,4vw,48px);border-bottom:1px solid var(--line)}
+    .drawer-head strong{font-family:Plex,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+    .close{width:44px;height:44px;border:0;background:transparent;color:var(--ink);font-size:27px;line-height:1}
+    .progress{display:grid;grid-template-columns:repeat(5,1fr);padding:0 clamp(24px,4vw,48px);border-bottom:1px solid var(--line)}
+    .progress span{position:relative;padding:18px 0 15px;font:400 10px/1 Plex,monospace;letter-spacing:.08em;text-transform:uppercase;color:rgba(7,21,18,.38)}
+    .progress span::after{content:"";position:absolute;left:0;right:12px;bottom:-1px;height:2px;background:transparent}
+    .progress span.active{color:var(--ink)}.progress span.active::after{background:var(--mint2)}
+    .screen{min-height:0;display:none;grid-template-rows:1fr auto;padding:clamp(30px,6vh,64px) clamp(24px,5vw,56px) max(48px,env(safe-area-inset-bottom))}
+    .screen.active{display:grid;animation:screen-in .28s ease both}
+    .content{align-self:center;max-width:570px;width:100%}
+    h1{font:420 clamp(48px,5vw,70px)/.94 Newsreader,serif;letter-spacing:-.035em;margin:0 0 18px;max-width:10ch}
+    .lede{font-size:17px;line-height:1.45;color:var(--quiet);margin:0 0 clamp(28px,5vh,50px);max-width:36rem}
+    label,.legend{display:block;font:400 11px/1.2 Plex,monospace;letter-spacing:.1em;text-transform:uppercase;margin:0 0 10px;color:var(--quiet)}
+    input{width:100%;min-height:58px;border:0;border-bottom:2px solid rgba(7,21,18,.32);border-radius:0;background:transparent;color:var(--ink);padding:4px 0;font-size:clamp(20px,2.4vw,28px);outline:none}
+    input:focus{border-color:var(--mint2)}
+    input::placeholder{color:rgba(7,21,18,.26)}
+    .hint{display:block;margin-top:9px;color:rgba(7,21,18,.5);font-size:12px}
+    .action-rail{padding-top:24px}
+    .primary{width:100%;min-height:56px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:space-between;padding:0 20px;font-weight:700}
+    .primary:hover,.primary:focus-visible{background:var(--ink2);outline:3px solid rgba(54,169,126,.25);outline-offset:3px}
+    .privacy{margin:12px 0 0;color:rgba(7,21,18,.52);font-size:11px;line-height:1.35}.privacy a{color:inherit;text-underline-offset:2px}
+    .record{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;margin:0 0 28px}
+    .record-no{font:400 10px/1 Plex,monospace;color:var(--mint2)}
+    .record strong{font-size:14px}.record small{display:block;margin-top:3px;color:var(--quiet)}
+    .pulse{width:8px;height:8px;border-radius:50%;background:var(--mint2);box-shadow:0 0 0 0 rgba(54,169,126,.5);animation:pulse 1.8s infinite}
+    .pair{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:26px}
+    .pair input{min-height:48px;font-size:19px}
+    fieldset{border:0;padding:0;margin:0}.chips{display:flex;flex-wrap:wrap;gap:8px}
+    .chip{min-height:44px;border:1px solid rgba(7,21,18,.28);background:transparent;padding:0 14px;color:var(--ink);font-weight:650;font-size:13px}
+    .chip[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+    .division-select{display:none}
+    .back{min-height:44px;display:inline-flex;align-items:center;border:0;background:transparent;padding:0 0 12px;color:var(--quiet);font-size:12px;text-decoration:underline;text-underline-offset:3px}
+    .back:focus-visible{outline:2px solid var(--mint2);outline-offset:3px}
+    .done{align-self:center;text-align:left}.done h1{max-width:11ch}.done .record{margin-top:36px}
+    .annotation{position:absolute;z-index:1;left:24px;bottom:24px;font:400 10px/1.4 Plex,monospace;letter-spacing:.08em;text-transform:uppercase;color:rgba(240,232,217,.54)}
+    @keyframes enter{from{transform:translateX(100%)}to{transform:none}}
+    @keyframes screen-in{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+    @keyframes pulse{70%{box-shadow:0 0 0 8px rgba(54,169,126,0)}100%{box-shadow:0 0 0 0 rgba(54,169,126,0)}}
+    @media(max-width:640px){
+      .page{padding:0 16px 16px}.brandbar{min-height:68px}.brand{font-size:18px}.ghost-hero{display:block;padding-top:42px}.ghost-copy h1{font-size:58px}.ghost-copy p{font-size:16px}.ghost-film{position:absolute;inset:68px 0 0;height:auto;z-index:-1}.shade{background:rgba(2,9,7,.55);backdrop-filter:none}
+      .drawer{width:100%;grid-template-rows:68px 48px 1fr;box-shadow:none}
+      .drawer-head{min-height:68px;padding:0 16px}.progress{padding:0 16px}.progress span{padding:15px 0 12px;font-size:8px}.progress span::after{right:7px}
+      .screen{padding:clamp(22px,4vh,36px) 16px max(28px,env(safe-area-inset-bottom))}
+      .content{align-self:start}h1{font-size:clamp(40px,12vw,54px);max-width:9ch;margin-bottom:12px}.lede{font-size:15px;margin-bottom:clamp(22px,4vh,34px)}
+      input{min-height:52px;font-size:20px}.action-rail{padding-top:16px}.primary{min-height:52px}.privacy{font-size:10px}
+      .record{margin-bottom:20px;padding:11px 0}.pair{gap:12px;margin-bottom:18px}.pair input{min-height:44px;font-size:17px}.chips{gap:6px}.chip{min-height:44px;padding:0 11px;font-size:12px}
+      .back{padding-bottom:8px}.annotation{display:none}
+    }
+    @media(max-width:340px),(max-height:620px){
+      .drawer{grid-template-rows:60px 40px 1fr}.drawer-head{min-height:60px}.progress span{padding:11px 0 9px}
+      .screen{padding-top:12px;padding-bottom:max(14px,env(safe-area-inset-bottom))}.screen[data-screen="company"] .content{align-self:center}h1{font-size:34px}.lede{font-size:13px;margin-bottom:14px}
+      .record{margin-bottom:8px;padding:6px 0}.pair{margin-bottom:8px}.pair input{min-height:44px}.legend{margin-bottom:5px}.chips{display:none}.division-select{display:block;width:100%;min-height:44px;border:1px solid rgba(7,21,18,.3);border-radius:0;background:transparent;color:var(--ink);padding:0 10px}.action-rail{padding-top:6px}.primary{min-height:48px}.privacy{margin-top:5px}
+    }
+    @media(min-width:641px) and (max-height:620px){
+      .drawer{width:min(700px,82vw)}.screen{padding:10px 24px 24px}
+      .screen[data-screen="company"] .content{display:grid;grid-template-columns:.9fr 1.1fr;grid-template-rows:auto auto auto;gap:4px 26px;align-self:stretch;align-content:center}
+      .screen[data-screen="company"] h1{grid-column:1;grid-row:1 / span 2;margin:0;max-width:8ch}
+      .screen[data-screen="company"] .lede{grid-column:1;grid-row:3;margin:4px 0 0}
+      .screen[data-screen="company"] label{grid-column:2;grid-row:1;align-self:end;margin-bottom:4px}
+      .screen[data-screen="company"] input{grid-column:2;grid-row:2;min-height:42px;font-size:19px}
+      .screen[data-screen="company"] .hint{grid-column:2;grid-row:3;margin-top:4px}
+      .screen[data-screen="you"] .content{display:grid;grid-template-columns:.78fr 1.22fr;grid-template-rows:auto auto 1fr;gap:2px 24px;align-self:stretch;align-content:center}
+      .screen[data-screen="you"] .record{grid-column:1;grid-row:1;margin:0}.screen[data-screen="you"] h1{grid-column:1;grid-row:2;margin:0}
+      .screen[data-screen="you"] .back{grid-column:1;grid-row:3;align-self:end;justify-self:start}.screen[data-screen="you"] .pair{grid-column:2;grid-row:1;margin:0}
+      .screen[data-screen="you"] fieldset{grid-column:2;grid-row:2 / span 2;align-self:center}.screen[data-screen="you"] .chip{min-height:44px}
+      .action-rail{padding-top:4px}.primary{min-height:44px}.privacy{margin-top:3px}
+    }
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <main class="stage">
+    <div class="page" aria-hidden="true">
+      <div class="brandbar"><div class="brand"><span class="mark"><i></i><i></i></span>Mind/Make</div><div class="menu">Menu ☰</div></div>
+      <div class="ghost-hero"><div class="ghost-copy"><h1>Build the AI that knows how you decide.</h1><p>For founders and commercial leaders. Your standards and past decisions become an AI you own.</p></div><div class="ghost-film"></div></div>
+    </div>
+    <div class="shade" aria-hidden="true"></div>
+
+    <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="screen-title">
+      <header class="drawer-head"><strong>Start here</strong><button class="close" type="button" aria-label="Close prototype">×</button></header>
+      <nav class="progress" aria-label="Brief progress">
+        <span class="active" data-progress="company">Company</span><span data-progress="you">You</span><span>Problem</span><span>Time</span><span>Brief</span>
+      </nav>
+
+      <form class="screen active" data-screen="company" novalidate>
+        <div class="content">
+          <h1 id="screen-title">Which business should we read?</h1>
+          <p class="lede">Your work email tells us where to look. We read public company information while you answer the next question.</p>
+          <label for="email">Work email</label>
+          <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com" required />
+          <small class="hint">We use the domain, not your inbox.</small>
+        </div>
+        <footer class="action-rail">
+          <button class="primary" type="submit">Read the business <span aria-hidden="true">→</span></button>
+          <p class="privacy">No brief reaches our team until you confirm later. <a href="#">How we handle information</a></p>
+        </footer>
+      </form>
+
+      <form class="screen" data-screen="you" novalidate>
+        <div class="content">
+          <button class="back" type="button">← Change email</button>
+          <div class="record" aria-live="polite"><span class="record-no">MM / 01</span><span><strong id="domain">company.com</strong><small>Reading public company information</small></span><i class="pulse" aria-hidden="true"></i></div>
+          <h1 id="you-title">Who is this for?</h1>
+          <div class="pair"><p><label for="first">First name</label><input id="first" autocomplete="given-name" required /></p><p><label for="last">Last name</label><input id="last" autocomplete="family-name" required /></p></div>
+          <fieldset><legend class="legend">Your part of the business</legend><div class="chips"><button class="chip" type="button" aria-pressed="false">Founder</button><button class="chip" type="button" aria-pressed="false">Commercial</button><button class="chip" type="button" aria-pressed="false">Marketing</button><button class="chip" type="button" aria-pressed="false">Product</button><button class="chip" type="button" aria-pressed="false">Other</button></div><select class="division-select" aria-label="Your part of the business"><option>Founder</option><option>Commercial</option><option>Marketing</option><option>Product</option><option>Other</option></select></fieldset>
+        </div>
+        <footer class="action-rail"><button class="primary" type="submit">See the company read <span aria-hidden="true">→</span></button></footer>
+      </form>
+
+      <section class="screen" data-screen="done" tabindex="-1">
+        <div class="content done"><span class="record-no">PUBLIC COMPANY READ</span><h1>We found the business.</h1><p class="lede">The live product would reveal the company read here, then ask one clear question at a time.</p><div class="record"><span class="record-no">MM / 01</span><span><strong id="done-domain">company.com</strong><small>Ready to inspect</small></span><span aria-hidden="true">→</span></div></div>
+        <footer class="action-rail"><button class="primary reset" type="button">Start again <span aria-hidden="true">↺</span></button></footer>
+      </section>
+    </aside>
+    <p class="annotation">Interaction prototype · responsive drawer / phone sheet · 15 Sep 2026</p>
+  </main>
+  <script>
+    const screens=[...document.querySelectorAll('.screen')];
+    const progress=[...document.querySelectorAll('[data-progress]')];
+    const email=document.querySelector('#email');
+    const show=(name)=>{screens.forEach(s=>s.classList.toggle('active',s.dataset.screen===name));progress.forEach(p=>p.classList.toggle('active',p.dataset.progress===name));const active=screens.find(s=>s.dataset.screen===name);setTimeout(()=>active.querySelector('input,button')?.focus(),30)};
+    document.querySelector('[data-screen="company"]').addEventListener('submit',e=>{e.preventDefault();const value=email.value.trim();if(!value.includes('@')){email.setCustomValidity('Use a work email.');email.reportValidity();return}const domain=value.split('@').pop().toLowerCase();document.querySelector('#domain').textContent=domain;document.querySelector('#done-domain').textContent=domain;show('you')});
+    email.addEventListener('input',()=>email.setCustomValidity(''));
+    document.querySelector('.back').addEventListener('click',()=>show('company'));
+    document.querySelectorAll('.chip').forEach(chip=>chip.addEventListener('click',()=>{document.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed','false'));chip.setAttribute('aria-pressed','true')}));
+    document.querySelector('[data-screen="you"]').addEventListener('submit',e=>{e.preventDefault();show('done')});
+    document.querySelector('.reset').addEventListener('click',()=>{document.querySelectorAll('form').forEach(f=>f.reset());document.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed','false'));show('company')});
+    document.querySelector('.close').addEventListener('click',()=>alert('Prototype only. Close would return focus to Start here.'));
+    if(new URLSearchParams(location.search).get('step')==='2'){email.value='you@company.com';document.querySelector('#domain').textContent='company.com';show('you')}
+  </script>
+</body>
+</html>

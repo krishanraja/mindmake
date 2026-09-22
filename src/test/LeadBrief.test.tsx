@@ -51,9 +51,9 @@ function mockWorkingV2Flow(finalResponse = confirmedResponse()) {
   });
 }
 
-/* Every journey test below names a door, because from 1 September 2026 the
-   dialog opened without one asks which before anything else, and the journey
-   these cases drive starts at the four details. `gtm` rather than `brain`
+/* Every journey test below names a door, because the dialog opened without one
+   asks which before anything else. The entry now starts the company read from
+   the work email, then collects the other three details while it runs. `gtm`
    because the pressure these cases pick, "Customers can now do more without
    us", belongs to that door's four; the brain door asks about a leader's own
    week instead. The door step has its own cases at the foot of this file. */
@@ -67,35 +67,62 @@ function ReopenHarness() {
   );
 }
 
-/* The first step is the four details now, not a website field.
-   It was `Company website`, which is the ask this dialog carried while both
-   door panels asked for four details and said there was nothing to look up.
-   The step being driven here is the same step: give the dialog what it needs to
-   read the company. The domain is derived from the work email rather than
-   typed, so the test supplies an address at the domain it wants read. */
+/* The same four validated values are still required before the company read is
+   revealed. Only their sequence changed: email starts the read, then name and
+   division are collected while it runs. */
 async function fillDetails(domain = "example.com") {
+  fireEvent.change(screen.getByLabelText("Work email"), { target: { value: `ada@${domain}` } });
+  fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
+  await screen.findByRole("heading", { name: "Who is this for?" });
   fireEvent.change(screen.getByLabelText("First name"), { target: { value: "Ada" } });
   fireEvent.change(screen.getByLabelText("Last name"), { target: { value: "Lovelace" } });
-  fireEvent.change(screen.getByLabelText("Work email"), { target: { value: `ada@${domain}` } });
   fireEvent.click(screen.getByRole("button", { name: "Leadership" }));
+}
+
+function ResumeHarness() {
+  const [open, setOpen] = useState(true);
+  return (
+    <>
+      <button type="button" onClick={() => setOpen(true)}>Resume brief</button>
+      <LeadBrief open={open} onClose={() => setOpen(false)} route="gtm" journeyKey="folio-resume" />
+    </>
+  );
 }
 
 async function reachPreview(domain = "example.com") {
   await fillDetails(domain);
-  fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
+  fireEvent.click(screen.getByRole("button", { name: /see the company read/i }));
   await screen.findByRole("heading", { name: "This is what I can see so far." });
   fireEvent.click(screen.getByRole("button", { name: "Customers can now do more without us" }));
   fireEvent.click(screen.getByRole("button", { name: /use this problem/i }));
   fireEvent.click(screen.getByRole("button", { name: "Grow this business" }));
   fireEvent.click(screen.getByRole("button", { name: /show me the recommendation/i }));
-  await screen.findByRole("heading", { name: "Customers can now do more without us." });
+  await screen.findByRole("heading", { name: "Two parts of the work are now clear." });
 }
 
 async function reachContact(domain = "example.com") {
   await reachPreview(domain);
   fireEvent.click(screen.getByRole("button", { name: /keep the private brief/i }));
+  expect(await screen.findByRole("heading", { name: "Email verification is next." })).toBeInTheDocument();
+  fireEvent.click(screen.getByRole("button", { name: /^continue/i }));
   await screen.findByLabelText("Work email");
 }
+
+it("keeps nested confirmation focus inside the dialog and returns it to the invoking control", async () => {
+  vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "false");
+  invoke.mockResolvedValue({ data: dossier, error: null });
+  render(<LeadBrief open onClose={() => undefined} route="gtm" />);
+  await reachPreview();
+
+  const keepButton = screen.getByRole("button", { name: /keep the private brief/i });
+  keepButton.focus();
+  fireEvent.click(keepButton);
+
+  const notNow = await screen.findByRole("button", { name: "Not now" });
+  await waitFor(() => expect(notNow).toHaveFocus());
+  fireEvent.click(notNow);
+  await waitFor(() => expect(keepButton).toHaveFocus());
+});
 
 async function requestCode({ email = "leader@example.com", publication = false } = {}) {
   fireEvent.change(screen.getByLabelText("Work email"), { target: { value: email } });
@@ -157,8 +184,8 @@ describe("Mindmake private brief journey", () => {
 
     try {
       render(<LeadBrief open onClose={() => undefined} route="gtm" />);
-      const heading = screen.getByRole("heading", { name: "Show me the business." });
-      const field = screen.getByLabelText("First name");
+      const heading = screen.getByRole("heading", { name: "Which business should we read?" });
+      const field = screen.getByLabelText("Work email");
       const backdrop = screen.getByRole("dialog").parentElement as HTMLElement;
       await waitFor(() => expect(heading).toHaveFocus());
       expect(field).not.toHaveFocus();
@@ -184,20 +211,91 @@ describe("Mindmake private brief journey", () => {
     }
   });
 
+  it("isolates the page behind the drawer and restores it on close", () => {
+    const Shell = ({ open }: { open: boolean }) => (
+      <div className="mm-site">
+        <header data-testid="page-header" />
+        <main>
+          <section data-testid="page-content" />
+          <LeadBrief open={open} onClose={() => undefined} route="gtm" presentation="drawer" />
+        </main>
+        <footer data-testid="page-footer" />
+      </div>
+    );
+    const { rerender } = render(<Shell open />);
+    for (const testId of ["page-header", "page-content", "page-footer"]) {
+      const element = screen.getByTestId(testId);
+      expect(element.inert).toBe(true);
+      expect(element).toHaveAttribute("aria-hidden", "true");
+    }
+    expect(screen.getByRole("dialog")).not.toHaveAttribute("aria-hidden");
+
+    rerender(<Shell open={false} />);
+    for (const testId of ["page-header", "page-content", "page-footer"]) {
+      const element = screen.getByTestId(testId);
+      expect(element.inert).toBeFalsy();
+      expect(element).not.toHaveAttribute("aria-hidden");
+    }
+  });
+
   it("stays download-only by default and never asks for email or invokes a hand-off", async () => {
     vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "false");
     invoke.mockResolvedValue({ data: dossier, error: null });
 
     render(<LeadBrief open onClose={() => undefined} route="gtm" />);
-    expect(screen.getByRole("link", { name: /how the starting read handles information/i })).toHaveAttribute("href", "/privacy");
+    expect(screen.getByRole("link", { name: /how we handle information/i })).toHaveAttribute("href", "/privacy");
     await reachPreview();
     fireEvent.click(screen.getByRole("button", { name: /keep the private brief/i }));
+    expect(await screen.findByRole("heading", { name: "Email verification is next." })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /^continue/i }));
 
     expect(await screen.findByRole("heading", { name: "Keep this. Your brief is ready." })).toBeInTheDocument();
     expect(screen.getByText("Download it now. Nothing has been sent to us, and no email has been sent.")).toBeInTheDocument();
     expect(screen.queryByLabelText("Work email")).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: /download my brief/i })).toBeEnabled();
     expect(invoke.mock.calls.map(([name]) => name)).toEqual(["enrich-company"]);
+  });
+
+  it("keeps the four guidance leaves stable when Time changes and restores", async () => {
+    vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "false");
+    invoke.mockResolvedValue({ data: dossier, error: null });
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
+
+    await reachPreview();
+    const guidance = "Compare what customers can now do alone with the work they still struggle to finish or trust.";
+    expect(screen.getByText(guidance)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: /change time: grow/i }));
+    fireEvent.click(screen.getByRole("radio", { name: "Help more companies" }));
+    fireEvent.click(screen.getByRole("button", { name: /use this time/i }));
+
+    expect(screen.getByText(guidance)).toBeInTheDocument();
+    expect(screen.getByText("Use the same judgement across more companies without lowering the quality of the work.")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /restore grow/i }));
+    expect(screen.getByText("Protect that time for product, buyers and the few decisions that can change growth.")).toBeInTheDocument();
+  });
+
+  it("supports keyboard leaf navigation and resumes the exact interrupted leaf", async () => {
+    vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "false");
+    invoke.mockResolvedValue({ data: dossier, error: null });
+    render(<ResumeHarness />);
+
+    await reachPreview();
+    const startingLeaf = screen.getByText("Starting point").closest("article");
+    expect(startingLeaf).toHaveAttribute("aria-current", "step");
+    fireEvent.keyDown(startingLeaf as HTMLElement, { key: "ArrowRight" });
+    const aiLeaf = screen.getByText("AI can carry").closest("article");
+    expect(aiLeaf).toHaveAttribute("aria-current", "step");
+    fireEvent.keyDown(aiLeaf as HTMLElement, { key: "ArrowRight" });
+    const humanLeaf = screen.getByText("You keep").closest("article");
+    expect(humanLeaf).toHaveAttribute("aria-current", "step");
+
+    await waitFor(() => expect(window.sessionStorage.getItem("mindmake-brief-draft:folio-resume")).toContain('"previewLeaf":2'));
+    fireEvent.click(screen.getByRole("button", { name: "Close" }));
+    fireEvent.click(screen.getByRole("button", { name: "Resume brief" }));
+
+    expect(await screen.findByRole("heading", { name: "Two parts of the work are now clear." })).toBeInTheDocument();
+    expect(screen.getByText("You keep").closest("article")).toHaveAttribute("aria-current", "step");
   });
 
   it("starts a fresh private journey after the modal closes", async () => {
@@ -212,7 +310,7 @@ describe("Mindmake private brief journey", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: "Open brief" }));
-    expect(await screen.findByLabelText("First name")).toHaveValue("");
+    expect(await screen.findByLabelText("Work email")).toHaveValue("");
     await reachContact("fresh.example.com");
     /* Carried, not asked again. The contact step used to open on an empty
        address because the dialog had not asked for one; it asks for the work
@@ -235,28 +333,25 @@ describe("Mindmake private brief journey", () => {
     });
 
     render(<LeadBrief open onClose={() => undefined} route="gtm" />);
-    const nameField = screen.getByLabelText("First name");
-    /* The heading takes focus here, not the first field, which is what every
-       step of this dialog does except the two that ask for one thing. The
-       website field was the exception because it was the one thing; four
-       details are a form, and dropping a reader straight into "First name"
-       skips the sentence saying what the four are for. */
-    await waitFor(() => expect(screen.getByRole("heading", { name: "Show me the business." })).toHaveFocus());
-    expect(nameField).not.toHaveFocus();
+    const companyEmailField = screen.getByLabelText("Work email");
+    await waitFor(() => expect(companyEmailField).toHaveFocus());
     fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
-    /* The first step is the shared four-detail capture now. It announced its
-       error beside the form and left the field unmarked, which is a weaker
-       thing than the website field it replaced did: `role="alert"` reaches a
-       reader once, when it appears, and `aria-describedby` is what they get on
-       landing back at the field to fix it. Both door pages use this component,
-       so linking the error there fixed all three surfaces at once. */
+    expect(companyEmailField).toHaveAttribute("aria-invalid", "true");
+    expect(companyEmailField).toHaveAttribute("aria-describedby", "mm-company-email-error");
+
+    fireEvent.change(companyEmailField, { target: { value: "ada@example.com" } });
+    fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
+    const nameField = await screen.findByLabelText("First name");
+    fireEvent.click(screen.getByRole("button", { name: /see the company read/i }));
     expect(nameField).toHaveAttribute("aria-invalid", "true");
     const nameErrorId = nameField.getAttribute("aria-describedby");
     expect(nameErrorId).toBeTruthy();
     expect(document.getElementById(nameErrorId as string)).toHaveTextContent(/We need your name/);
 
-    await fillDetails("example.com");
-    fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
+    fireEvent.change(nameField, { target: { value: "Ada" } });
+    fireEvent.change(screen.getByLabelText("Last name"), { target: { value: "Lovelace" } });
+    fireEvent.click(screen.getByRole("button", { name: "Leadership" }));
+    fireEvent.click(screen.getByRole("button", { name: /see the company read/i }));
     await screen.findByRole("heading", { name: "Reading example.com." });
     await act(async () => finishCompanyRead?.({ data: dossier, error: null }));
     await screen.findByRole("heading", { name: "This is what I can see so far." });
@@ -265,6 +360,8 @@ describe("Mindmake private brief journey", () => {
     fireEvent.click(screen.getByRole("button", { name: "Grow this business" }));
     fireEvent.click(screen.getByRole("button", { name: /show me the recommendation/i }));
     fireEvent.click(await screen.findByRole("button", { name: /keep the private brief/i }));
+    expect(await screen.findByRole("heading", { name: "Email verification is next." })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /^continue/i }));
 
     const emailField = await screen.findByLabelText("Work email");
     await waitFor(() => expect(emailField).toHaveFocus());
@@ -296,8 +393,13 @@ describe("Mindmake private brief journey", () => {
     invoke.mockImplementationOnce(() => new Promise(() => undefined)).mockResolvedValueOnce({ data: dossier, error: null });
 
     render(<LeadBrief open onClose={() => undefined} route="gtm" />);
-    await fillDetails("example.com");
+    fireEvent.change(screen.getByLabelText("Work email"), { target: { value: "ada@example.com" } });
     fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
+    expect(screen.getByRole("heading", { name: "Who is this for?" })).toBeInTheDocument();
+    fireEvent.change(screen.getByLabelText("First name"), { target: { value: "Ada" } });
+    fireEvent.change(screen.getByLabelText("Last name"), { target: { value: "Lovelace" } });
+    fireEvent.click(screen.getByRole("button", { name: "Leadership" }));
+    fireEvent.click(screen.getByRole("button", { name: /see the company read/i }));
     await act(async () => { await Promise.resolve(); });
     expect(invoke).toHaveBeenCalledWith("enrich-company", expect.objectContaining({
       timeout: COMPANY_READ_TIMEOUT_MS,
@@ -466,7 +568,7 @@ describe("Mindmake private brief journey", () => {
     });
     render(<LeadBrief open onClose={() => undefined} route="gtm" />);
     await fillDetails("example.com");
-    fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
+    fireEvent.click(screen.getByRole("button", { name: /see the company read/i }));
     expect(await screen.findByText("Example Company helps teams do useful work.")).toBeInTheDocument();
     expect(screen.queryByText(/Example Company,helps teams,do useful work/)).not.toBeInTheDocument();
   });
@@ -482,7 +584,7 @@ describe("Mindmake private brief journey", () => {
     });
     render(<LeadBrief open onClose={() => undefined} route="gtm" />);
     await fillDetails("bbc.com");
-    fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
+    fireEvent.click(screen.getByRole("button", { name: /see the company read/i }));
 
     expect(await screen.findByText("You're the BBC a public broadcaster reaching people across TV radio and digital platforms.")).toBeInTheDocument();
     expect(screen.queryByText(/You're, the, BBC/)).not.toBeInTheDocument();
@@ -500,7 +602,7 @@ describe("Mindmake private brief journey", () => {
     });
     render(<LeadBrief open onClose={() => undefined} route="gtm" />);
     await fillDetails("example.com");
-    fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
+    fireEvent.click(screen.getByRole("button", { name: /see the company read/i }));
 
     expect(await screen.findByText("Example Company builds useful software.")).toBeInTheDocument();
     expect(screen.queryByText(/Let me know/)).not.toBeInTheDocument();
@@ -513,6 +615,8 @@ describe("Mindmake private brief journey", () => {
     render(<LeadBrief open onClose={() => undefined} route="gtm" />);
     await reachPreview();
     fireEvent.click(screen.getByRole("button", { name: /keep the private brief/i }));
+    expect(await screen.findByRole("heading", { name: "Email verification is next." })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /^continue/i }));
     await screen.findByRole("heading", { name: "Keep this. Your brief is ready." });
 
     const createObjectURL = vi.fn(() => "blob:mindmake-brief");
@@ -567,6 +671,14 @@ describe("the dialog's structure", () => {
       ".mm-brief-top",
       ".mm-brief-path",
       ".mm-brief-step",
+      ".mm-brief-start-step",
+      ".mm-brief-start-form",
+      ".mm-brief-start-content",
+      ".mm-brief-entry-field",
+      ".mm-brief-action-rail",
+      ".mm-brief-reading-record",
+      ".mm-brief-role-chips",
+      ".mm-brief-role-select",
       ".mm-step-back",
       ".mm-text-button",
       ".mm-form-error",
@@ -578,6 +690,16 @@ describe("the dialog's structure", () => {
       ".mm-capacity-grid",
       ".mm-value-preview",
       ".mm-brief-result-grid",
+      ".mm-folio-preview",
+      ".mm-folio-instrument",
+      ".mm-folio-binding",
+      ".mm-folio-source-keys",
+      ".mm-folio-time-inscription",
+      ".mm-folio",
+      ".mm-folio-leaves",
+      ".mm-folio-leaf",
+      ".mm-folio-actions",
+      ".mm-folio-panel",
       ".mm-consent",
       ".mm-success",
       ".mm-success-mark",
@@ -643,7 +765,7 @@ describe("the door", () => {
   it("does not ask when the door is already known", () => {
     render(<LeadBrief open onClose={() => undefined} route="brain" />);
     expect(screen.queryByRole("heading", { name: "Which one are you here for?" })).not.toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Show me the business." })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Which business should we read?" })).toBeInTheDocument();
   });
 
   it("shows that door's own four problems, not a generic set", async () => {
@@ -652,7 +774,7 @@ describe("the door", () => {
        homepage offered neither. */
     render(<LeadBrief open onClose={() => undefined} />);
     fireEvent.click(screen.getByRole("button", { name: /Build your AI brain/ }));
-    await screen.findByRole("heading", { name: "Show me the business." });
+    await screen.findByRole("heading", { name: "Which business should we read?" });
 
     const source = readFileSync(resolve(__dirname, "../components/mindmake/LeadBrief.tsx"), "utf8");
     const brain = source.slice(source.indexOf("  brain: ["), source.indexOf("  gtm: ["));

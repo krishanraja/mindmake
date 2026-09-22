@@ -137,15 +137,15 @@ export const testimonials: Testimonial[] = [
     id: "media-cro",
     family: "outcome",
     role: "Chief Revenue Officer, media company",
-    excerpt: "Krish knows how to add value immediately which contnues to compound",
-    full: "Krish knows how to add value immediately which contnues to compound, and is honest about the benefits of continuing to work with him. He doesn't want to loiter.",
+    excerpt: "Krish knows how to add value immediately which continues to compound",
+    full: "Krish knows how to add value immediately which continues to compound, and is honest about the benefits of continuing to work with him. He doesn't want to loiter.",
   },
   {
     id: "media-advisory-partner",
     family: "outcome",
     role: "Partner, media advisory",
     excerpt: "He turned the pitch into something sellable, which then evolved our pitch.",
-    full: "We had expertise everyone respected but needed to add products aroudn that. He turned the pitch into something sellable, which then evolved our pitch.",
+    full: "We had expertise everyone respected but needed to add products around that. He turned the pitch into something sellable, which then evolved our pitch.",
   },
   {
     id: "publisher-ops",

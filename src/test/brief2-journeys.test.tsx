@@ -85,14 +85,18 @@ describe("the shared capture", () => {
     }
   });
 
-  it("renders every step the content names, on both doors", () => {
-    /* The pages own the markup now, so the risk this replaces is a step that
-       exists in the content and appears on no screen. */
-    for (const [page, steps] of [["src/pages/AiGtm.tsx", "GTM_STEPS"], ["src/pages/AiBrain.tsx", "BRAIN_STEPS"]] as const) {
-      const source = readFileSync(resolve(__dirname, "../..", page), "utf8");
-      expect(source, page).toContain(`${steps}.map((step) => (`);
-      expect(source, page).toContain("mm-journey-steps");
-    }
+  it("renders a complete journey on both doors", () => {
+    /* Both locked routes now make their work tangible before opening the same
+       brief drawer. GTM moves from signal to response to customer test; Brain
+       moves from decision through the actual graph, evidence and correction. */
+    const gtm = readFileSync(resolve(__dirname, "../..", "src/pages/AiGtm.tsx"), "utf8");
+    expect(gtm).toContain('["Signal", "Response", "Customer test"]');
+    expect(gtm).toContain("signal.responses.map((response, index)");
+    expect(gtm).toContain("initialContext={context}");
+
+    const brain = readFileSync(resolve(__dirname, "../..", "src/pages/AiBrain.tsx"), "utf8");
+    expect(brain).toContain("STAGE_NAMES.map((name, index) => <button");
+    for (const state of ["Decision", "Brain", "Evidence", "Correction"]) expect(brain).toContain(state);
   });
 });
 

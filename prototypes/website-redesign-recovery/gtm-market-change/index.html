@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en" class="no-js" data-evidence-state="ready">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="An isolated Mindmake GTM concept: one market signal drives four linked commercial consequences and a customer test."
+    />
+    <title>Mindmake / GTM consequence linkage</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#linkage">Skip to the market-change instrument</a>
+
+    <main class="page-shell">
+      <header class="masthead" aria-label="Concept identity">
+        <a class="wordmark" href="#linkage" aria-label="Mindmake, return to instrument">
+          <svg viewBox="0 0 36 36" aria-hidden="true">
+            <path d="M7 26.5V9.5l11 6.7L29 9.5v17" />
+            <path d="M7 20.4 18 27l11-6.6" />
+          </svg>
+          <span>Mindmake</span>
+        </a>
+        <div class="instrument-stamp">
+          <span>GTM / market change</span>
+          <span class="status-light"><i aria-hidden="true"></i>Evidence set</span>
+        </div>
+      </header>
+
+      <section class="intro" aria-labelledby="page-title">
+        <h1 id="page-title">See what your response changes.</h1>
+        <div class="intro-side">
+          <p class="kicker">One market change. One choice. Four consequences.</p>
+          <p class="intro-copy">
+            Choose a market signal. Move the response. The commercial system moves with it.
+          </p>
+        </div>
+      </section>
+
+      <section class="signal-deck" aria-labelledby="signal-heading">
+        <div class="signal-index">
+          <div class="section-label">
+            <span>01</span>
+            <h2 id="signal-heading">Market signal</h2>
+          </div>
+
+          <fieldset class="signal-selector">
+            <legend class="sr-only">Choose a market signal</legend>
+            <label class="signal-tab">
+              <input type="radio" name="signal" value="pricing" checked />
+              <span class="tab-number">01</span>
+              <span><b>AI pricing</b><small>Price</small></span>
+            </label>
+            <label class="signal-tab">
+              <input type="radio" name="signal" value="commerce" />
+              <span class="tab-number">02</span>
+              <span><b>Purchases through AI</b><small>Distribution</small></span>
+            </label>
+            <label class="signal-tab">
+              <input type="radio" name="signal" value="product" />
+              <span class="tab-number">03</span>
+              <span><b>Building before the roadmap</b><small>Product</small></span>
+            </label>
+            <label class="signal-tab">
+              <input type="radio" name="signal" value="content" />
+              <span class="tab-number">04</span>
+              <span><b>AI access to paid content</b><small>Business model</small></span>
+            </label>
+            <label class="signal-tab">
+              <input type="radio" name="signal" value="service" />
+              <span class="tab-number">05</span>
+              <span><b>Software that does the work</b><small>Positioning</small></span>
+            </label>
+          </fieldset>
+        </div>
+
+        <article class="signal-readout" aria-live="polite">
+          <div class="readout-topline">
+            <p id="signal-domain">Price</p>
+            <time id="signal-date" datetime="2026-04-13">13 Apr 2026</time>
+          </div>
+          <p class="observation" id="signal-observation">
+            HubSpot moved two Breeze agents from access-based charges to credits tied to
+            resolved conversations and recommended leads.
+          </p>
+
+          <details class="evidence-drawer">
+            <summary>Inspect the evidence</summary>
+            <div class="evidence-body">
+              <p class="evidence-state" id="evidence-state">
+                <strong>Ready.</strong> Dated company evidence, with its limit kept visible.
+              </p>
+              <p id="signal-limit">
+                Company announcement. Adoption beyond HubSpot is not established.
+              </p>
+              <a
+                id="signal-source"
+                href="https://www.hubspot.com/company-news/hubspots-customer-agent-and-prospecting-agent-now-you-pay-when-the-task-is-complete"
+                target="_blank"
+                rel="noreferrer"
+              >Open HubSpot source <span aria-hidden="true">&#8599;</span></a>
+            </div>
+          </details>
+        </article>
+      </section>
+
+      <section class="linkage" id="linkage" aria-labelledby="decision-question">
+        <div class="question-block">
+          <div class="section-label">
+            <span>02</span>
+            <p>Choose the move</p>
+          </div>
+          <div class="question-copy">
+            <h2 id="decision-question">
+              If AI does more work with fewer seats, what should the customer pay for?
+            </h2>
+            <p class="decision-instruction">
+              Pick the move you would back. The machine shows what it changes.
+            </p>
+          </div>
+        </div>
+
+        <div class="response-rail">
+          <fieldset class="response-selector">
+            <legend class="sr-only">Choose the commercial response</legend>
+            <label class="response-paddle">
+              <input type="radio" name="response" value="0" />
+              <span class="paddle-mark" aria-hidden="true"></span>
+              <span>Keep AI inside the subscription</span>
+            </label>
+            <label class="response-paddle">
+              <input type="radio" name="response" value="1" checked />
+              <span class="paddle-mark" aria-hidden="true"></span>
+              <span>Charge for each completed task</span>
+            </label>
+            <label class="response-paddle">
+              <input type="radio" name="response" value="2" />
+              <span class="paddle-mark" aria-hidden="true"></span>
+              <span>Charge for each verified result</span>
+            </label>
+          </fieldset>
+
+          <button class="undo-button" id="undo" type="button" hidden>
+            <span aria-hidden="true">&#8630;</span>
+            <span id="undo-label">Undo response</span>
+          </button>
+        </div>
+
+        <div class="consequence-intro">
+          <div class="section-label">
+            <span>03</span>
+            <p>See what changes</p>
+          </div>
+          <p>See the human-and-agent business this choice creates.</p>
+        </div>
+
+        <div class="instrument" aria-label="Linked commercial consequences">
+          <div class="machine-film" aria-hidden="true">
+            <div class="machine-vignette"></div>
+          </div>
+          <div class="build-meter" aria-hidden="true">
+            <span></span>
+            <i></i>
+          </div>
+          <div class="instrument-surface" aria-hidden="true">
+            <svg class="linkage-lines" viewBox="0 0 1000 610" preserveAspectRatio="none">
+              <defs>
+                <filter id="line-glow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="3" result="blur" />
+                  <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                </filter>
+              </defs>
+              <path class="trace trace-a" d="M500 310 C410 265 375 145 250 124" />
+              <path class="trace trace-b" d="M500 310 C605 258 650 145 760 124" />
+              <path class="trace trace-c" d="M500 310 C405 370 350 476 242 480" />
+              <path class="trace trace-d" d="M500 310 C602 370 650 474 770 480" />
+              <circle cx="500" cy="310" r="70" />
+              <circle cx="500" cy="310" r="54" />
+              <circle cx="250" cy="124" r="8" />
+              <circle cx="760" cy="124" r="8" />
+              <circle cx="242" cy="480" r="8" />
+              <circle cx="770" cy="480" r="8" />
+            </svg>
+            <div class="hub">
+              <span>Chosen response</span>
+              <b id="hub-response">Completed task</b>
+              <i aria-hidden="true"></i>
+            </div>
+          </div>
+
+          <div class="outcome-grid" id="outcomes">
+            <article class="paper-leaf leaf-product" data-outcome="product">
+              <span class="leaf-index">A</span>
+              <h3>Product</h3>
+              <p id="outcome-product">Define each task the AI can complete.</p>
+              <div class="role-split">
+                <span><i aria-hidden="true">H</i><small id="role-product-human">Human defines the task</small></span>
+                <b aria-hidden="true"></b>
+                <span><i aria-hidden="true">A</i><small id="role-product-agent">Agent completes it</small></span>
+              </div>
+              <span class="change-mark">Changed</span>
+            </article>
+            <article class="paper-leaf leaf-price" data-outcome="price">
+              <span class="leaf-index">B</span>
+              <h3>Price</h3>
+              <p id="outcome-price">Customers buy credits for those tasks.</p>
+              <div class="role-split">
+                <span><i aria-hidden="true">H</i><small id="role-price-human">Human sets the limits</small></span>
+                <b aria-hidden="true"></b>
+                <span><i aria-hidden="true">A</i><small id="role-price-agent">System meters use</small></span>
+              </div>
+              <span class="change-mark">Changed</span>
+            </article>
+            <article class="paper-leaf leaf-positioning" data-outcome="positioning">
+              <span class="leaf-index">C</span>
+              <h3>Positioning</h3>
+              <p id="outcome-positioning">Customers pay as the AI completes more work.</p>
+              <div class="role-split">
+                <span><i aria-hidden="true">H</i><small id="role-positioning-human">Human owns the promise</small></span>
+                <b aria-hidden="true"></b>
+                <span><i aria-hidden="true">A</i><small id="role-positioning-agent">Agent shows proof</small></span>
+              </div>
+              <span class="change-mark">Changed</span>
+            </article>
+            <article class="paper-leaf leaf-people" data-outcome="people">
+              <span class="leaf-index">D</span>
+              <h3>People</h3>
+              <p id="outcome-people">Product defines usage. Finance sets limits.</p>
+              <div class="role-split">
+                <span><i aria-hidden="true">H</i><small id="role-people-human">Human handles exceptions</small></span>
+                <b aria-hidden="true"></b>
+                <span><i aria-hidden="true">A</i><small id="role-people-agent">Agent runs the routine</small></span>
+              </div>
+              <span class="change-mark">Changed</span>
+            </article>
+          </div>
+
+          <div class="mobile-stage" aria-live="polite">
+            <div class="mobile-link" aria-hidden="true">
+              <span class="link-pin"></span><i></i><span class="link-pin"></span>
+            </div>
+            <article class="paper-leaf mobile-leaf">
+              <span class="leaf-index" id="mobile-index">A / 04</span>
+              <h3 id="mobile-heading">Product</h3>
+              <p id="mobile-copy">Define each task the AI can complete.</p>
+              <div class="role-split mobile-role-split">
+                <span><i aria-hidden="true">H</i><small id="mobile-role-human">Human defines the task</small></span>
+                <b aria-hidden="true"></b>
+                <span><i aria-hidden="true">A</i><small id="mobile-role-agent">Agent completes it</small></span>
+              </div>
+            </article>
+            <div class="stage-controls">
+              <button type="button" id="stage-back" aria-label="Show previous consequence">
+                <span aria-hidden="true">&larr;</span> Back
+              </button>
+              <p id="stage-count">1 of 5</p>
+              <button type="button" id="stage-next">
+                Next: Price <span aria-hidden="true">&rarr;</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <article class="test-slip" id="test-slip" aria-labelledby="test-title">
+          <div class="test-rivet" aria-hidden="true"></div>
+          <p class="test-label"><span>04</span> Customer test</p>
+          <h3 id="test-title">Can buyers forecast and accept the charge?</h3>
+          <p id="test-body">
+            Show buyers each chargeable task, expected volume, cap and alerts before
+            engineering the billing model.
+          </p>
+          <div class="test-footer">
+            <span>Use before building</span>
+            <span class="perforation" aria-hidden="true"></span>
+            <span id="fixture-status">Worked example</span>
+          </div>
+        </article>
+      </section>
+
+      <footer class="concept-footer">
+        <p>GTM-LINKAGE-S3 / isolated material concept</p>
+        <p>Source evidence is dated. Outcomes are a worked commercial response, not a forecast.</p>
+      </footer>
+    </main>
+
+    <noscript>
+      <div class="noscript-note">
+        The default signal, response, linked consequences and test remain readable. Enable
+        JavaScript to move the instrument.
+      </div>
+    </noscript>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

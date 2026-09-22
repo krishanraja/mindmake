@@ -13,8 +13,8 @@ import { PageLoading, ScrollToLocation } from "@/App";
    throws rather than waiting. The client keeps `lazy` and `BrowserRouter`
    exactly as they are, so nothing about the shipped bundle changes shape. */
 import Index from "./pages/Index";
-import AiBrain from "./pages/AiBrain";
-import AiGtm from "./pages/AiGtm";
+import AiBrain from "./pages/AiBrainLocked";
+import AiGtm from "./pages/AiGtmLocked";
 import CaseStudies from "./pages/CaseStudies";
 import NewAgeLeadership from "./pages/NewAgeLeadership";
 import Blog from "./pages/Blog";

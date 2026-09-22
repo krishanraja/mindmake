@@ -30,9 +30,11 @@
  *
  * ## The arrival, from 3 September 2026
  *
- * The page now arrives on purpose: the inline script in index.html holds the
- * type and a curtain of ink strips until the faces are in, or 700ms after
- * the first frame, and marks both moments on the performance timeline. The
+ * Long-form routes now arrive on purpose: the inline script in index.html
+ * holds the type and a curtain of ink strips until the faces are in, or 700ms
+ * after the first frame, and marks both moments on the performance timeline.
+ * The compact homepage is deliberately immediate: its first viewport is the
+ * entrance and must not be delayed by another event in front of it. The
  * frames inside that window are the arrival and are judged by direction: an
  * arrival brightens content over a ground that does not move, a replacement
  * moves ink both ways. A frame in the window where more than a quarter of the
@@ -225,14 +227,17 @@ function delta(a, b) {
   return total / seen;
 }
 
-const browser = await chromium.launch({
-  executablePath: process.env.PLAYWRIGHT_CHROMIUM ?? "/opt/pw-browsers/chromium",
-});
+const browser = await chromium.launch(process.env.PLAYWRIGHT_CHROMIUM
+  ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM }
+  : process.platform === "linux"
+    ? { executablePath: "/opt/pw-browsers/chromium" }
+    : { channel: "chrome" });
 const problems = [];
 const rows = [];
 
 for (const width of WIDTHS) {
   for (const path of PATHS) {
+    const instantHomepage = path === "/" || path.startsWith("/?");
     const context = await browser.newContext({
       viewport: { width, height: width < 700 ? 844 : 900 },
     });
@@ -480,11 +485,14 @@ for (const width of WIDTHS) {
     if (hydration.length) {
       problems.push(`${width}px ${path}: hydration failed ${hydration.length}x (${[...new Set(hydration)].join(" | ")}), so the server render was thrown away`);
     }
-    if (marks.pending !== null && arrivedAt === null) {
+    if (!instantHomepage && marks.pending !== null && arrivedAt === null) {
       problems.push(`${width}px ${path}: the page was held (mm-pending) and never released in ${WINDOW}ms`);
     }
-    if (marks.pending === null) {
+    if (!instantHomepage && marks.pending === null) {
       problems.push(`${width}px ${path}: the entrance script never ran (no mm-pending mark)`);
+    }
+    if (instantHomepage && (marks.pending !== null || arrivedAt !== null || marks.covered)) {
+      problems.push(`${width}px ${path}: the compact homepage was put behind the route entrance`);
     }
     if (arrivedAt !== null && firstPaint !== null && arrivedAt - firstPaint > ARRIVE_BUDGET) {
       problems.push(`${width}px ${path}: the arrival began ${arrivedAt - firstPaint}ms after first paint, past the ${ARRIVE_BUDGET}ms cap`);

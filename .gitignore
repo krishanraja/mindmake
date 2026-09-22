@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Generated blind-judging evidence and verdicts
+artifacts/award-panel/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#071512" />
+    <title>Mindmake AI Brain in action prototype r3</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./script.js" defer></script>
+  </head>
+  <body data-phase="portrait">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header" id="siteHeader">
+      <a class="brand" href="../homepage-vnext/index.html" aria-label="Mindmake homepage">
+        <img src="../../src/assets/mindmake-wordmark.svg" alt="Mindmake" />
+      </a>
+      <div class="header-actions">
+        <span class="route-name">AI Brain</span>
+        <button class="menu-trigger" id="menuTrigger" type="button" aria-haspopup="dialog" aria-controls="menuLayer" aria-expanded="false">
+          <span>Menu</span><i aria-hidden="true"></i>
+        </button>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" aria-labelledby="heroTitle">
+        <video class="hero-film" autoplay muted loop playsinline poster="../../src/assets/films/film-02-poster.webp" aria-label="A walnut card cabinet with one drawer open beside a desk lamp">
+          <source src="../../src/assets/films/film-02-loop.webm" type="video/webm" />
+          <source src="../../src/assets/films/film-02-loop.mp4" type="video/mp4" />
+        </video>
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="hero-copy">
+          <h1 id="heroTitle"><span>Your AI brain</span><span>begins with a real decision.</span></h1>
+          <p class="claim">The next decision starts further ahead.</p>
+          <p class="lede">For founders and commercial leaders. We sharpen one consequential decision, use it on real work and leave the useful parts running in your accounts.</p>
+          <button class="primary-action" type="button" data-open-start>Start here <span aria-hidden="true">→</span></button>
+        </div>
+        <a class="scroll-cue" href="#decisionSequence">See the Brain in action <span aria-hidden="true">↓</span></a>
+      </section>
+
+      <section class="decision-sequence" id="decisionSequence" aria-labelledby="sequenceTitle">
+        <div class="decision-sticky">
+          <div class="sequence-heading">
+            <h2 id="sequenceTitle">Watch a decision become reusable judgement.</h2>
+          </div>
+
+          <nav class="stage-nav" aria-label="Living Brain views">
+            <button type="button" data-stage="0" aria-current="step"><span>01</span>Capture</button>
+            <button type="button" data-stage="1"><span>02</span>Inspect</button>
+            <button type="button" data-stage="2"><span>03</span>Evidence</button>
+            <button type="button" data-stage="3"><span>04</span>Correct</button>
+          </nav>
+
+          <div class="decision-machine" aria-live="polite">
+            <div class="machine-rail" aria-hidden="true"><i></i><b></b></div>
+            <article class="decision-sheet">
+              <div class="sheet-chrome">
+                <span>Interactive Brain · synthetic fixture</span>
+                <span class="demo-status"><i aria-hidden="true"></i><b id="sheetState">Capture</b></span>
+              </div>
+
+              <section class="state-panel is-active brain-portrait-panel" data-panel="0" aria-labelledby="portraitTitle">
+                <div class="state-copy">
+                  <h3 id="portraitTitle">A real decision creates a working portrait.</h3>
+                  <p>The Brain separates what you said, what the evidence supports and what you have actually chosen.</p>
+                </div>
+                <div class="demo-query" aria-label="Decision entering the illustrative Brain"><span>Decision in</span><strong>Where must human judgement remain when AI carries the repeatable middle?</strong><div><i></i><b>Prior captured</b><i></i><b>Evidence attached</b><i></i><b>Meaning proposed</b></div></div>
+                <div class="brain-stats" aria-label="Illustrative Brain summary">
+                  <span><b>20</b> meaning statements</span><span><b>18</b> evidenced relationships</span><span><b>10</b> source records</span><span><b>3</b> corrections retained</span>
+                </div>
+              </section>
+
+              <section class="state-panel brain-map-panel" data-panel="1" aria-labelledby="mapTitle">
+                <div class="state-copy">
+                  <h3 id="mapTitle">Inspect the meaning, not just the answer.</h3>
+                  <p>Choose a node. Its evidence, relationships and current standing remain attached.</p>
+                </div>
+                <div class="living-brain" id="livingBrain" data-status="loading">
+                  <div class="living-graph" aria-label="Interactive Living Brain with twenty current meanings and eighteen supported relationships">
+                    <svg id="livingBrainGraph" viewBox="0 0 1000 640" role="group" aria-labelledby="livingBrainTitle livingBrainDesc">
+                      <title id="livingBrainTitle">The actual Living Brain fixture</title>
+                      <desc id="livingBrainDesc">Twenty meanings are connected by eighteen evidenced relationships. Choose any node to inspect it.</desc>
+                      <defs>
+                        <filter id="livingGlow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="7" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+                      </defs>
+                      <g class="living-grid" aria-hidden="true"></g>
+                      <g class="living-clusters" aria-hidden="true"><text x="34" y="118">fluency</text><text x="565" y="98">judgement</text><text x="315" y="330">self</text><text x="30" y="585">growth</text><text x="720" y="588">future</text><text x="405" y="625">taste</text></g>
+                      <g class="living-viewport" id="livingViewport"><g id="livingEdges" aria-hidden="true"></g><g id="livingNodes"></g></g>
+                    </svg>
+                    <span class="living-count" id="livingCount">Opening the Brain</span>
+                  </div>
+                  <aside class="living-inspector" id="brainMapReadout" aria-live="polite">
+                    <small id="brainMapStanding">Current synthesis · BI-001</small>
+                    <strong id="brainMapTitle">Builder of judgement</strong>
+                    <p id="brainMapStatement">Move from personal AI fluency to systems that help other people exercise stronger judgement.</p>
+                    <div class="living-truth"><span><small>Evidence</small><b id="brainMapEvidence">Supported</b></span><span><small>Version</small><b id="brainMapVersion">v2</b></span><span><small>Audience</small><b id="brainMapAudience">Private</b></span></div>
+                    <ul id="brainMapRelations" class="living-relations"><li><b>Supports · BI-002</b><span>Possibility detection is a repeated source of the synthesis.</span></li></ul>
+                    <button type="button" data-open-evidence>Open the evidence <b aria-hidden="true">→</b></button>
+                  </aside>
+                </div>
+              </section>
+
+              <section class="state-panel brain-evidence-panel" data-panel="2" aria-labelledby="evidenceTitle">
+                <div class="state-copy">
+                  <h3 id="evidenceTitle">The answer can be challenged at source.</h3>
+                  <p>This standard is supported by two founder records. Model agreement never becomes release authority.</p>
+                </div>
+                <div class="brain-evidence">
+                  <div><small>Source · stated</small><strong>AI cannot substitute for taste and judgement.</strong><span>Founder interview · 07 Sep 2026</span></div>
+                  <div><small>Source · instruction</small><strong>Prioritise the complete human judgement and accountability loop.</strong><span>Founder product instruction · 07 Sep 2026</span></div>
+                  <div><small>Relationship</small><strong>Constrains “Make judgement teachable”.</strong><span>REL-003 · two references attached</span></div>
+                </div>
+                <button class="inline-demo-action" type="button" data-return-map>Return to the meaning <span aria-hidden="true">←</span></button>
+              </section>
+
+              <section class="state-panel brain-change-panel" data-panel="3" aria-labelledby="changeTitle">
+                <div class="state-copy">
+                  <h3 id="changeTitle">Correct it once. Watch the Brain repair.</h3>
+                  <p>Apply the founder correction below. Private synthesis can rebuild; consequential work remains held for review.</p>
+                </div>
+                <div class="brain-change" id="brainChange">
+                  <div class="earlier-version"><small>Earlier · v1</small><p>Consequential work always required human release.</p></div>
+                  <div class="proposed-version"><small>Founder correction · proposed v2</small><p>Externally consequential work requires human release. Reversible internal drafts may stay delegated.</p></div>
+                  <button class="apply-correction" id="applyCorrection" type="button"><span>Apply correction</span><b aria-hidden="true">→</b></button>
+                  <aside id="repairReceipt" aria-live="polite"><b>Repair ready</b><span id="repairText">No private meaning has changed yet.</span></aside>
+                </div>
+              </section>
+            </article>
+            <div class="drawer-bank" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="proof" aria-labelledby="proofTitle">
+        <div class="proof-copy">
+          <h2 id="proofTitle">An AI engine moved publishing from monthly to most days.</h2>
+          <p>The founder built it around recurring bottlenecks. Publishing moved from roughly monthly to most days.</p>
+          <span class="source">Founder, research and content brand · identity withheld</span>
+          <button class="proof-disclosure" type="button" aria-expanded="false" aria-controls="founderProof">Read the founder's words <span aria-hidden="true">+</span></button>
+          <blockquote id="founderProof" hidden>
+            “I used to post once a month; now it's most days because I focus on building an AI engine around what I do and what I get bottlenecked by.”
+            <cite>Founder-reported before and after</cite>
+          </blockquote>
+        </div>
+        <div class="cadence" aria-label="Publishing moved from roughly monthly to most days">
+          <div class="cadence-before"><strong>Roughly monthly</strong><i></i></div>
+          <div class="cadence-track" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="cadence-after"><strong>Most days</strong><i></i></div>
+        </div>
+      </section>
+
+      <section class="close" aria-labelledby="closeTitle">
+        <div>
+          <h2 id="closeTitle">One decision or capability is enough to begin.</h2>
+          <p class="claim">You keep what works.</p>
+          <p class="close-detail">One paid proof leaves a working first version of the Brain, its evidence and retained standards in your accounts.</p>
+        </div>
+        <button class="primary-action is-large" type="button" data-open-start>Start here <span aria-hidden="true">→</span></button>
+      </section>
+    </main>
+
+    <div class="overlay-layer" id="menuLayer" hidden>
+      <div class="overlay-backdrop" data-close-menu></div>
+      <section class="menu-panel" role="dialog" aria-modal="true" aria-labelledby="menuTitle">
+        <div class="panel-head"><h2 id="menuTitle">Menu</h2><button class="close-button" type="button" data-close-menu aria-label="Close menu">×</button></div>
+        <nav>
+          <a href="../homepage-vnext/index.html">Home</a>
+          <a href="#decisionSequence" data-close-menu>Brain in action</a>
+          <a href="#proofTitle" data-close-menu>Proof</a>
+          <button type="button" data-open-start>Start here</button>
+        </nav>
+      </section>
+    </div>
+
+    <div class="drawer-layer" id="startLayer" hidden>
+      <div class="drawer-backdrop" data-close-start></div>
+      <section class="start-drawer" role="dialog" aria-modal="true" aria-labelledby="drawerDialogTitle">
+        <div class="panel-head"><span id="drawerDialogTitle">Start here</span><button class="close-button" type="button" data-close-start aria-label="Close start form">×</button></div>
+        <div class="drawer-step" aria-label="Brief progress"><span data-drawer-step="company" class="is-current">Company</span><span data-drawer-step="you">You</span><span data-drawer-step="problem">Problem</span><span>Time</span><span data-drawer-step="complete">Brief</span></div>
+        <form class="drawer-screen" data-drawer-screen="company" novalidate>
+          <h2 id="drawerTitle">Which business should we read?</h2>
+          <p>Your work email tells us where to look. We read public company information while you answer the next question.</p>
+          <label for="workEmail">Work email<input id="workEmail" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com" aria-describedby="workEmailError" required /></label>
+          <p class="field-error" id="workEmailError" role="alert" hidden>Use a work email, for example you@company.com.</p>
+          <button class="primary-action drawer-action" type="submit">Read the business <span aria-hidden="true">→</span></button>
+          <small>Prototype only. Nothing is sent or saved.</small>
+        </form>
+        <form class="drawer-screen drawer-person" data-drawer-screen="you" novalidate hidden>
+          <button class="drawer-back" type="button" data-drawer-back>← Change email</button>
+          <div class="company-read" aria-live="polite"><span>MM / 01</span><strong id="companyDomain">company.com</strong><small>Ready for the live company read</small><i aria-hidden="true"></i></div>
+          <h2 id="drawerYouTitle">Who is this for?</h2>
+          <div class="person-grid">
+            <label for="firstName">First name<input id="firstName" autocomplete="given-name" required /></label>
+            <label for="lastName">Last name<input id="lastName" autocomplete="family-name" required /></label>
+          </div>
+          <label for="businessPart">Your part of the business
+            <select id="businessPart" required>
+              <option value="">Choose one</option><option>Founder</option><option>Commercial</option><option>Marketing</option><option>Product</option><option>Other</option>
+            </select>
+          </label>
+          <button class="primary-action drawer-action" type="submit">Continue <span aria-hidden="true">→</span></button>
+          <small>Prototype only. The live brief continues one question at a time.</small>
+        </form>
+        <form class="drawer-screen drawer-problem" data-drawer-screen="problem" novalidate hidden>
+          <button class="drawer-back" type="button" data-problem-back>← Back to you</button>
+          <div class="company-read"><span>MM / 02</span><strong id="problemDomain">company.com</strong><small id="problemPerson">Your context is intact</small><i aria-hidden="true"></i></div>
+          <h2 id="drawerProblemTitle">Which decision is carrying too much?</h2>
+          <p>Name the decision, not the whole business.</p>
+          <label for="decisionProblem">Decision<textarea id="decisionProblem" placeholder="We need to decide whether…" required></textarea></label>
+          <button class="primary-action drawer-action" type="submit">Keep this starting point <span aria-hidden="true">→</span></button>
+          <small>Prototype only. Nothing is sent or saved.</small>
+        </form>
+        <section class="drawer-screen drawer-complete" data-drawer-screen="complete" aria-labelledby="drawerCompleteTitle" tabindex="-1" hidden>
+          <span class="complete-label">Prototype receipt</span>
+          <h2 id="drawerCompleteTitle">Your starting point is intact.</h2>
+          <p>The live brief would open the next unanswered question here.</p>
+          <div class="company-read"><span>MM / 03</span><strong id="completeDomain">company.com</strong><small id="completeContext">Decision retained in this preview</small></div>
+          <button class="primary-action drawer-action" type="button" data-close-start>Finish preview <span aria-hidden="true">→</span></button>
+          <small>Prototype only. Nothing was sent or saved.</small>
+        </section>
+      </section>
+    </div>
+  </body>
+</html>

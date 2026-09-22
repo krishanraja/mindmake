@@ -72,6 +72,47 @@ const NARRATES_A_CONTROL = [
   /\bthe answer opens\b/i,
 ];
 
+/**
+ * Copy previously used to rescue a proof surface after the interface had
+ * already made the same point. The visual and information architecture must
+ * carry this meaning without a second voice narrating them.
+ */
+const BACKUP_SINGER_COPY = [
+  "Open any result. Move its mechanism. Return without losing your place.",
+  "Form shows the kind of change, never its size.",
+  "Illustrative machinery films · never client footage.",
+  "Fourteen tools running",
+  "Three kept, eleven stopped",
+  "The drawing shows the kind of recorded change, not its size.",
+  "Eight pieces of work. Eight recorded changes.",
+  "Eleven tools stopped. One useful system went live.",
+];
+
+/**
+ * Internal strategy notes that were once exposed as interface choices.
+ *
+ * A short label is not clear merely because the team that wrote it knows the
+ * hidden object. These stay explicit so a later visual compression cannot
+ * quietly put the shorthand back.
+ */
+const UNEXPLAINED_SHORTHAND = [
+  "Keep the seat",
+  "Meter the work",
+  "Price the result",
+  "Keep website-first",
+  "Syndicate the catalogue",
+  "Build for agent buying",
+  "Keep the spec gate",
+  "Prototype before commitment",
+  "Prototype against evidence",
+  "Protect the page",
+  "License the evidence",
+  "Build the intelligence product",
+  "Lead with features",
+  "Name the completed job",
+  "Prove the operating model",
+];
+
 /** Words too common to make two sentences the same sentence. */
 const NOISE = new Set(["the", "a", "an", "and", "or", "of", "to", "in", "on", "it", "is", "we", "you", "your", "our", "that", "this", "for", "with", "as", "at", "by", "from", "then", "so"]);
 
@@ -97,6 +138,29 @@ describe("copy restraint", () => {
     const offences = visible(rendered.get(route)!)
       .filter((text) => NARRATES_A_CONTROL.some((pattern) => pattern.test(text)));
     expect(offences).toEqual([]);
+  });
+
+  it.each(ROUTES)("uses no backup-singer proof copy on %s", (route) => {
+    const pageText = visible(rendered.get(route)!, "p|li|h1|h2|h3|h4|legend|small|blockquote|cite|span").join(" ").toLowerCase();
+    const offences = BACKUP_SINGER_COPY.filter((phrase) => pageText.includes(phrase.toLowerCase()));
+    expect(offences).toEqual([]);
+  });
+
+  it.each(ROUTES)("uses no unexplained strategy shorthand on %s", (route) => {
+    const pageText = visible(rendered.get(route)!, "p|li|h1|h2|h3|h4|legend|small|blockquote|cite|button|a").join(" ").toLowerCase();
+    const offences = UNEXPLAINED_SHORTHAND.filter((phrase) => pageText.includes(phrase.toLowerCase()));
+    expect(offences).toEqual([]);
+  });
+
+  it("keeps the stated intake count identical to the details it names", () => {
+    const faq = visible(rendered.get("/faq")!).join(" ");
+    expect(faq).toContain("four details: your first name, your last name, your work email and the part of the business you work in");
+  });
+
+  it("states the contact handoff without an orphan-prone location fragment", () => {
+    const contact = visible(rendered.get("/contact")!).join(" ");
+    expect(contact).toContain("Your email app will open. Nothing is sent until you press Send.");
+    expect(contact).not.toContain("Send there");
   });
 
   it.each(ROUTES)("says each sentence once on %s", (route) => {

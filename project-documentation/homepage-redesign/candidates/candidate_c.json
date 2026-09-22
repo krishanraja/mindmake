@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "candidate_c",
+  "title": "The Calibration Bench",
+  "governingMetaphor": "A patient instrument bench: Mindmake first places one calibrated reading on the surface, then the visitor sets the same working instrument toward Brain or GTM. Brass, walnut, cream paper and a single blade of light make the choice feel physical rather than conversational.",
+  "oneSentenceExperience": "Mindmake serves one useful reading about why generic AI misses, then lets the visitor turn one paid proof toward Brain or GTM with almost no effort.",
+  "sequencing": [
+    "The opening viewport names Mindmake, the decision-making buyer and the practice, then serves a short insight: generic AI starts with an average; useful AI starts with the leader's standards, context and past decisions.",
+    "Directly beneath that reading, the two adjacent doors sit on one shared calibration rail. Both names are fully visible and each is a clear next action.",
+    "Hover, focus or tap previews the selected route in a mint answer plate immediately below the rail: what becomes working, what the client keeps and one explicit Begin action. No question is asked.",
+    "The next band reveals one approved anonymous outcome for the selected route while leaving the other door available. A shared explanation then shows that both doors lead into one paid proof on real work.",
+    "Near the end, compact practice proof and a separate CTRL note show that Mindmake uses the approach itself. Low-weight links open deeper case studies, questions and the publication without interrupting the default route."
+  ],
+  "userAgency": "The visitor receives the useful distinction before doing anything. They may compare Brain and GTM by moving between two adjacent controls, reverse that choice without losing their place, or begin the selected route. They never classify a problem, answer a diagnostic question or enter free text on the homepage.",
+  "primaryInteraction": "A two-position calibration rail uses real buttons labelled Build your AI brain and Build your AI GTM. Its neutral state already contains the served reading and makes both choices legible. Hover, focus and tap move one blade of light and replace the answer plate directly below, with no carousel and no hidden focus targets. A second, explicit Begin with Brain or Begin with GTM action hands the chosen route to the existing lead flow. Pointer, keyboard and touch produce the same immediate information.",
+  "informationStructure": "One coherent page uses five unequal bands: served reading and route rail; route-matched proof; the shared paid-proof mechanism; compact practice and founder proof with CTRL kept as evidence only; then quiet links to case studies, questions and the publication. The selected route changes only the answer and its approved anonymous result, not the page spine. Cream carries the reading, mint the answer and amber only the changed phrase or selected position. The specified Archivo, Newsreader, IBM Plex Mono and Source Serif 4 roles remain intact.",
+  "stateModel": [
+    "Served: the useful reading, both adjacent doors and the invitation to compare are visible without interaction.",
+    "Brain preview: Brain is selected, its mint answer and approved anonymous Brain-shaped result appear at the point of action.",
+    "GTM preview: GTM is selected, its plain-language meaning, mint answer and approved anonymous GTM-shaped result appear in the same place.",
+    "Route start: an explicit Begin action passes only the chosen route into the existing lead-flow contract; the homepage collects nothing.",
+    "Menu open: focus is trapped, Escape or Back closes it and focus returns to the trigger; the selected route remains unchanged.",
+    "Reduced motion: position changes become instant state swaps, with selection, answer and focus still conveyed by text, colour and outline.",
+    "Resize or orientation change: the selected route and reading position persist while the same semantic order reflows."
+  ],
+  "mobileAdaptation": "At 390 by 844 and 320 by 568, the reading sits above a full-width two-column rail; each door wraps deliberately within its half but remains adjacent, with at least a 44-pixel target. The mint answer follows immediately, so no horizontal scroll or detached verdict appears. Secondary proof uses native disclosures in document order. At 844 by 390, the reading occupies the left half and the rail plus answer the right, keeping practice, buyer, both doors and next action in the first view. At 1024 and 1440, the rail spans a wide bench above the answer. Route state survives every reflow.",
+  "proofModel": "Only the selected door elevates one approved anonymous outcome, reducing proof noise. The other route remains one tap away. Named references, attendee brands and anonymous client outcomes use visibly separate labels and never share a claim block. CTRL appears later in its own practice-proof line, unlinked and unsold. No invented figures or representative data are required.",
+  "routeStart": "The visitor first chooses a door only to preview its useful answer. The adjacent mint action then starts the existing lead flow with a Brain or GTM route flag. No public diary, price, duration, availability or start date appears. The start remains reversible until that explicit action, and no third route or offer ladder is created.",
+  "motionRole": "A restrained blade of light travels between the two rail positions and the answer plate crossfades only to show which route changed. Press gives an immediate physical depression; focus-visible uses a high-contrast outline. Motion never reveals essential copy, auto-advances or delays action. Reduced-motion mode swaps states instantly while preserving every label and relationship.",
+  "feasibility": [
+    "A small React state machine can hold neutral, Brain and GTM preview states without changing routing architecture.",
+    "The existing lead flow receives one route flag from the explicit Begin action, so no new form, chatbot, scheduling surface or backend contract is needed.",
+    "Approved proof can populate two static route records; the shared spine and intentional fallback still work if one optional deeper item is absent.",
+    "CSS Grid and container queries can produce the wide, portrait-phone and short-landscape arrangements while preserving DOM and keyboard order.",
+    "Existing films may remain secondary ambient texture, but the concept does not depend on video loading to explain the practice or make the choice.",
+    "Buttons, native disclosures, a focus-managed menu and a reduced-motion media query cover the required pointer, keyboard and motion behaviours."
+  ],
+  "risks": [
+    "The served reading could become consultancy copy. Keep it to one concrete generic-versus-grounded comparison and let the answer plate demonstrate the consequence.",
+    "A preview may be mistaken for a diagnostic form. Use compare language, collect no input and make the separate Begin action explicit.",
+    "Adjacent doors can cramp at 320 pixels. Use deliberate line breaks, equal flexible columns and fixed touch height rather than shrinking type.",
+    "Route-matched proof could make the doors feel like separate products. Keep one rail, one shared paid-proof band and one unchanged page spine.",
+    "The first viewport can become crowded. Cap the opening reading and route answers tightly, with deeper proof disclosed only after the decision."
+  ]
+}

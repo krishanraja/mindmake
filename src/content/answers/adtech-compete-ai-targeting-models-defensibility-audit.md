@@ -26,7 +26,7 @@ Here's what nobody selling into this market wants to say plainly, so it gets sai
 
 Three things sat underneath every adtech company's model and did the real work, and none of them show up on a model comparison chart.
 
-Proprietary signal: not data in general, but data nobody else can get. Clickstream that only exists because of a placement position, conversion data that only flows because of an exclusive integration, first-party behavioural history that took years of exclusive relationships to accumulate. This is defensible because it's structurally hard to replicate, not because it's technically hard to model.
+Proprietary signal means data nobody else can get. Clickstream that only exists because of a placement position, conversion data that only flows because of an exclusive integration, first-party behavioural history that took years of exclusive relationships to accumulate. This is defensible because it's structurally hard to replicate, not because it's technically hard to model.
 
 Embedded distribution: the media buyer who has run budget through the platform for six years and whose team is trained on it, the publisher relationship that took a decade of trust to build, the ad server integration baked into a client's stack in a way that costs real engineering hours to rip out. This is defensible because switching costs money and time, not because the algorithm is clever.
 
@@ -59,17 +59,3 @@ The adtech companies that hold value through this shift will be the ones who sto
 Nobody has published hold-period data yet on how fast AI-native entrants actually convert adtech clients once the switching cost is real rather than theoretical. That number doesn't exist publicly. Anyone claiming to have it is guessing.
 
 The operator move is to run the five-line audit before the next raise, not after a competitor's term sheet forces the question.
-
-## Questions people ask next
-
-### Is proprietary AI still a valid selling point for an adtech company?
-
-Not on its own. If the model can be replicated from commercially available data and a foundation API, it's an input cost, not a differentiator. The differentiator is what data, distribution or workflow around it can't be replicated.
-
-### What should an adtech company actually put in its next fundraising deck instead of 'proprietary model'?
-
-Exclusive data contracts by name, measured client switching cost in dollars and weeks, and the share of revenue tied to workflows a client's own AI team couldn't rebuild in a quarter.
-
-### How fast are AI-native platforms like Landbase actually taking share from incumbent adtech?
-
-No reliable public figure exists yet. Treat any specific number here as unverified until an operator sees it in their own client churn data.

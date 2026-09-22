@@ -1,0 +1,73 @@
+{
+  "artifact": "mindmake-production-routes-r5-candidate",
+  "status": "candidate",
+  "createdAt": "2026-09-17",
+  "authority": "This candidate replaces the default reading contract on the AI Brain and AI GTM routes with progressive disclosure, shorter language and authored mobile chapters. It does not replace approved-production-r1.json and is not authorised for production until explicit visual approval and a separate release action.",
+  "basis": "User reported that the mobile experience remained intellectually intimidating: desktop records were exposed as dense mobile walls, sentences were too long and the sequence felt like homework. The requested correction applies across both experiences.",
+  "changePolicy": "Never overwrite an earlier approval or candidate. Promote by creating a separate approved r5 record after visual approval. Commit, preview deployment and production deployment remain separate authority gates.",
+  "files": {
+    "src/pages/AiBrain.tsx": "a418bb124a3c2515c6e3fa05361e0dc3b5ef65b134a61d5a17c93a08fc7d72d3",
+    "src/styles/mindmake-brain-r5.css": "1705ea4e0feaf1dc87e36a3ceef48b62b949312935f21df02e258d57fcbc057d",
+    "src/styles/mindmake-brain-system.css": "cf20f018e8f7b9cdf46778ed2f1b2b580ea1dc0cf1ed5022a4dc62c85b97e174",
+    "src/styles/mindmake-brain-calm.css": "88b14b7e6aacc9b035f5069b58841f0846a493c10831fa15740fce7c59d69bbf",
+    "src/data/vnext/brain-fixture.json": "02fa968575d7000874f0f10a09123336ad6ec3f7bf373dcd351fbb7e7ef2b1b9",
+    "src/data/rebuildProof.ts": "d11b62321793503ae9c826b10290e38b4ce621ce9e35af273aa179283623220e",
+    "prototypes/ai-brain-vnext-r8/production-review.html": "b886dc020ba4bad5e4bb411adfa0a0fe41b55b4c6693fd503d44d5295fbea067",
+    "src/pages/AiGtm.tsx": "72db3278eacec655fd15708cf187fbbcd81b1589dfe9c57b035e2d7a9bd272c0",
+    "src/styles/mindmake-gtm-r6.css": "0580af56bae06e2023c188c493d47100b1da5cd9b9611bb3138a1540cd0053f9",
+    "src/styles/mindmake-gtm-r7.css": "791e68021d23cf51b412d06a583982aaf4fbaf38b6f7a10cabb2f00fa93bce1f",
+    "src/styles/mindmake-gtm-calm.css": "abfb781a8ee4090153606eeb022614437b3a2f670b10177434ce4ed1c016aec6",
+    "src/data/vnext/gtm-signals.json": "5ab7fac6ce8ebdab6b69b73f60e184a7e4df8d923d97edd29c38872648c3bf7f",
+    "prototypes/ai-gtm-vnext-r8/production-review.html": "a25a5e9303fde7d73c47e40b5add99e947a5f45c90eb6f8618f6f844b24fd392",
+    "scripts/qa/cognitive-load-r5-check.mjs": "65f2d8f124fc491d141f3876ec022ac670a13c9a0e836c16a2762c6e3a1faa7b",
+    "scripts/qa/responsive-system-r4-check.mjs": "d366af60758de337dc68a4de1778f63e10b30943405448ae850832b66b61e4ab",
+    "scripts/qa/responsive-release-r3-check.mjs": "cd820b1451b1a4a76a6474b180225e4faef8a29ee3baa89ffaf6ea2ec5b37744",
+    "src/test/brief2-public-contract.test.ts": "156218b03a6f0864ed4cd3173eb2aa04d28429fc8e179010af0478c066c1e06c"
+  },
+  "readingContract": {
+    "default": "one idea, one visual and one obvious action",
+    "detail": "supporting records and explanations remain available through explicit disclosure",
+    "brainMobileVisibleWords": {
+      "Decision": 70,
+      "Brain": 55,
+      "Evidence": 40,
+      "Correction": 50
+    },
+    "gtmMobileVisibleWords": {
+      "Signal": 50,
+      "Response": 50,
+      "Customer test": 35
+    }
+  },
+  "minimumContracts": {
+    "brain": {
+      "meanings": 20,
+      "relationships": 18,
+      "sources": 10,
+      "corrections": 3,
+      "states": ["Decision", "Brain", "Evidence", "Correction"],
+      "requiredInstruments": ["portrait-board", "living-brain", "brain-evidence", "brain-change"]
+    },
+    "gtm": {
+      "signals": 5,
+      "responseChoices": 15,
+      "stages": ["Signal", "Response", "Customer test"],
+      "requiredInstruments": ["ticker-window", "decision-chapter", "commercial-map", "test-ticket"]
+    }
+  },
+  "forbiddenPhrases": ["keep the seat", "meter the work", "price the result"],
+  "verification": {
+    "cognitiveLoad": "94 of 94 checks passed across 320x568, 390x844, 768x1024 and 1440x900, including word budgets, one-chapter mobile sequencing, progressive disclosure, contained visuals and working primary actions.",
+    "responsiveSystem": "Passed at 10 viewports from 320x568 through 2508x1350 with zero page-level horizontal overflow and retained shell alignment.",
+    "legacyGtmResponsiveRegression": "passed",
+    "typecheck": "passed",
+    "unitAndContractSuite": "29 of 29 test files passed; 473 of 473 tests passed",
+    "plainLanguageContract": "passed",
+    "lint": "passed with zero errors and four pre-existing warnings",
+    "approvedLock": "intentionally remains r1 until explicit visual approval"
+  },
+  "renderedEvidence": [
+    "C:/Users/krish/.scratch/mindmake-calm-r8",
+    "C:/Users/krish/.scratch/mindmake-responsive-system-r4"
+  ]
+}

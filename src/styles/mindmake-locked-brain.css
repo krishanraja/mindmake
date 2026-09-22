@@ -1,0 +1,561 @@
+/* Generated from owner-approved locked prototype sources. Run npm run build:locked-surface-styles. */
+/* source: prototypes/website-redesign-recovery/brain-signature/styles-s2.css sha256=73be37eb68c46dd04e97be877aad5f8a560e870417c25811518699eeae1f5a49 */
+.mm-locked-brain{--ink:#07110e;--ink-2:#0b1b16;--paper:#eadfc9;--paper-2:#d8c9ad;--mint:#91e8bc;--mint-deep:#1f7d5b;--brass:#c69a51;--brass-light:#e0bd78;--clay:#6f382f;--line:rgba(232,222,200,.18);--header-h:66px;color-scheme:dark;font-family:"Archivo",Arial,sans-serif}
+.mm-locked-brain *{box-sizing:border-box}.mm-locked-brain{min-width:280px;scroll-behavior:smooth;background:var(--ink)}.mm-locked-brain{min-width:280px;margin:0;overflow-x:clip;background:var(--ink);color:var(--paper)}.mm-locked-brain button,.mm-locked-brain a{font:inherit;-webkit-tap-highlight-color:transparent}.mm-locked-brain a{color:inherit}.mm-locked-brain .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}.mm-locked-brain .skip-link{position:fixed;z-index:100;top:-5rem;left:1rem;min-width:44px;min-height:44px;padding:.8rem 1rem;background:var(--paper);color:var(--ink);font-weight:750}.mm-locked-brain .skip-link:focus{top:1rem}.mm-locked-brain .site-header{position:sticky;z-index:30;top:0;display:grid;height:var(--header-h);grid-template-columns:1fr auto 1fr;align-items:center;padding:0 clamp(1rem,4vw,4rem);border-bottom:1px solid rgba(220,239,227,.14);background:rgba(7,17,14,.94);backdrop-filter:blur(12px)}.mm-locked-brain .wordmark{display:flex;align-items:center;gap:.75rem;text-decoration:none}.mm-locked-brain .wordmark span{display:grid;width:38px;height:38px;place-items:center;border:1px solid var(--mint);color:var(--mint);font-family:"Newsreader",Georgia,serif;font-size:1.4rem}.mm-locked-brain .wordmark strong{font-size:1rem;letter-spacing:-.03em}.mm-locked-brain .site-header p{margin:0;color:rgba(234,223,201,.55);font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase}.mm-locked-brain .header-link{justify-self:end;color:var(--mint);font-size:.72rem;font-weight:720;text-decoration:none}.mm-locked-brain .header-link:hover{text-decoration:underline;text-underline-offset:.3rem}
+.mm-locked-brain .chapter{position:relative;display:grid;height:calc(100svh - var(--header-h));min-height:634px;grid-template-columns:minmax(288px,.72fr) minmax(544px,1.28fr);align-items:center;gap:clamp(2rem,6vw,7rem);overflow:hidden;padding:clamp(2rem,5vh,4.8rem) max(4vw,calc((100vw - 1600px)/2));isolation:isolate}.mm-locked-brain .chapter-copy{position:relative;z-index:4;align-self:center;max-width:36rem}.mm-locked-brain .chapter-number{display:grid;width:34px;height:34px;margin-bottom:1.1rem;place-items:center;border:1px solid currentColor;border-radius:50%;font-family:"IBM Plex Mono",monospace;font-size:.58rem}.mm-locked-brain .chapter h2{max-width:10ch;margin:0;font-family:"Newsreader",Georgia,serif;font-size:clamp(3rem,5.2vw,6.2rem);font-weight:390;letter-spacing:-.06em;line-height:.9}.mm-locked-brain .chapter-copy>p{max-width:31rem;margin:1.2rem 0 0;color:rgba(234,223,201,.7);font-family:"Newsreader",Georgia,serif;font-size:clamp(1rem,1.45vw,1.28rem);line-height:1.42}.mm-locked-brain .instrument{position:relative;z-index:3;min-width:0;transform:translateY(calc((1 - var(--p,0)) * 22px));opacity:calc(.52 + var(--p,0)*.48);transition:opacity 180ms linear,transform 180ms linear}.mm-locked-brain .phase-rail{position:fixed;z-index:24;right:1rem;top:50%;display:grid;gap:.45rem;transform:translateY(-50%)}.mm-locked-brain .phase-rail a{display:flex;width:44px;height:44px;align-items:center;justify-content:center;border:1px solid rgba(233,223,201,.18);border-radius:50%;background:rgba(7,17,14,.88);color:transparent;font-size:0;text-decoration:none;transition:width 180ms ease,border-color 180ms ease,background 180ms ease}.mm-locked-brain .phase-rail a span{color:rgba(233,223,201,.62);font-family:"IBM Plex Mono",monospace;font-size:.52rem}.mm-locked-brain .phase-rail a[aria-current="step"]{border-color:var(--mint);background:#123025}.mm-locked-brain .phase-rail a[aria-current="step"] span{color:var(--mint)}
+.mm-locked-brain .opening{grid-template-columns:minmax(384px,.9fr) minmax(496px,1.1fr);background:#08140f}.mm-locked-brain .opening::before{content:"";position:absolute;z-index:-2;inset:0;background-image:linear-gradient(rgba(145,232,188,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(145,232,188,.035) 1px,transparent 1px);background-size:80px 80px;mask-image:linear-gradient(90deg,transparent,black 38%,black)}.mm-locked-brain .opening::after{content:"";position:absolute;z-index:-1;right:-14vw;top:-36vh;width:82vw;height:110vh;border:1px solid rgba(198,154,81,.18);border-radius:50%;box-shadow:0 0 0 8vw rgba(198,154,81,.025),0 0 0 16vw rgba(145,232,188,.018)}.mm-locked-brain .opening-copy{position:relative;z-index:5}.mm-locked-brain .opening h1{max-width:8.5ch;margin:0;font-family:"Newsreader",Georgia,serif;font-size:clamp(4.7rem,7.2vw,8.5rem);font-weight:380;letter-spacing:-.07em;line-height:.82}.mm-locked-brain .opening-copy>p{max-width:34rem;margin:1.5rem 0;color:rgba(234,223,201,.7);font-family:"Newsreader",Georgia,serif;font-size:clamp(1.08rem,1.45vw,1.35rem);line-height:1.42}.mm-locked-brain .primary-link{display:inline-flex;min-height:48px;align-items:center;gap:1.2rem;padding:.8rem 1rem;border:1px solid rgba(145,232,188,.45);color:var(--mint);font-size:.72rem;font-weight:720;text-decoration:none}.mm-locked-brain .primary-link span{font-size:1rem}.mm-locked-brain .opening-note{position:absolute;z-index:5;left:max(4vw,calc((100vw - 1600px)/2));bottom:1.2rem;margin:0;color:rgba(234,223,201,.42);font-family:"IBM Plex Mono",monospace;font-size:.5rem;letter-spacing:.04em}.mm-locked-brain .brain-object{position:relative;z-index:2;display:grid;width:min(39vw,42rem);aspect-ratio:1;justify-self:center;place-items:center;border:1px solid rgba(198,154,81,.28);border-radius:50%;background:radial-gradient(circle,rgba(145,232,188,.11),rgba(7,17,14,.72) 48%,rgba(7,17,14,.96) 70%);box-shadow:inset 0 0 6rem rgba(145,232,188,.08),0 3rem 8rem rgba(0,0,0,.42)}.mm-locked-brain .brain-object::before{content:"";position:absolute;width:58%;height:58%;border:1px solid rgba(145,232,188,.22);border-radius:44% 56% 49% 51%;animation:turn 24s linear infinite}.mm-locked-brain .orbit{position:absolute;border:1px solid rgba(145,232,188,.18);border-radius:50%;animation:turn 32s linear infinite}.mm-locked-brain .orbit::after{content:"";position:absolute;top:50%;left:-4px;width:8px;height:8px;border-radius:50%;background:var(--mint);box-shadow:0 0 20px var(--mint)}.mm-locked-brain .orbit-one{width:82%;height:46%;transform:rotate(18deg)}.mm-locked-brain .orbit-two{width:64%;height:88%;transform:rotate(-28deg);animation-direction:reverse}.mm-locked-brain .orbit-three{width:48%;height:48%;border-color:rgba(198,154,81,.35);animation-duration:18s}.mm-locked-brain .pulse-core{position:relative;z-index:3;display:grid;width:48%;min-height:36%;align-content:center;padding:1.6rem;border:1px solid rgba(224,189,120,.58);background:#0a1712;box-shadow:0 0 0 1rem rgba(7,17,14,.72),0 0 5rem rgba(198,154,81,.18);text-align:center}.mm-locked-brain .pulse-core span,.mm-locked-brain .pulse-core small{color:var(--brass-light);font-family:"IBM Plex Mono",monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase}.mm-locked-brain .pulse-core strong{margin:.8rem 0;font-family:"Newsreader",Georgia,serif;font-size:clamp(1.25rem,2vw,2rem);font-weight:420;line-height:1.05}.mm-locked-brain .pulse-core small{color:var(--mint)}.mm-locked-brain .signal{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 18px var(--mint);animation:pulse 2.2s ease-in-out infinite}.mm-locked-brain .signal-one{left:18%;top:32%}.mm-locked-brain .signal-two{right:16%;top:43%;animation-delay:.7s}.mm-locked-brain .signal-three{left:39%;bottom:13%;animation-delay:1.4s}
+.mm-locked-brain .memory{background:var(--paper);color:var(--ink)}.mm-locked-brain .memory::before{content:"";position:absolute;z-index:-1;inset:0;background-image:linear-gradient(rgba(7,17,14,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(7,17,14,.055) 1px,transparent 1px);background-size:64px 64px}.mm-locked-brain .memory::after{content:"";position:absolute;z-index:-1;right:-8rem;top:50%;width:46rem;height:46rem;border:1px solid rgba(31,125,91,.18);border-radius:50%;transform:translateY(-50%);box-shadow:0 0 0 7rem rgba(31,125,91,.035),0 0 0 14rem rgba(31,125,91,.022)}.mm-locked-brain .memory .chapter-copy>p{color:rgba(7,17,14,.62)}.mm-locked-brain .brain-stage{display:grid;height:min(68vh,520px);min-height:410px;grid-template-columns:minmax(0,1.35fr) minmax(15rem,.65fr);overflow:hidden;border:1px solid rgba(7,17,14,.28);background:#08140f;color:var(--paper);box-shadow:0 2rem 5rem rgba(47,42,31,.2)}.mm-locked-brain .brain-field{position:relative;min-width:0;overflow:hidden;border-right:1px solid rgba(234,223,201,.14);background:radial-gradient(circle at 54% 50%,rgba(145,232,188,.15),transparent 17rem),#08140f}.mm-locked-brain .brain-field::before{content:"";position:absolute;inset:9%;border:1px solid rgba(145,232,188,.08);border-radius:50%;box-shadow:0 0 0 5rem rgba(145,232,188,.018),0 0 0 10rem rgba(198,154,81,.012)}.mm-locked-brain #relationshipFieldS2{position:absolute;inset:0;width:100%;height:100%;overflow:visible}.mm-locked-brain #relationshipFieldS2 line{stroke:rgba(145,232,188,.22);stroke-width:.22;vector-effect:non-scaling-stroke}.mm-locked-brain #relationshipFieldS2 line.is-focus{stroke:var(--brass-light);stroke-width:.46;stroke-dasharray:1.8 1}.mm-locked-brain .meaning-node-s2{position:absolute;z-index:2;display:grid;width:44px;height:44px;place-items:center;border:0;border-radius:50%;background:transparent;transform:translate(-50%,-50%);left:var(--x);top:var(--y);cursor:pointer}.mm-locked-brain .meaning-node-s2::before{content:"";width:8px;height:8px;border:1px solid rgba(145,232,188,.8);border-radius:50%;background:#07110e;box-shadow:0 0 0 5px rgba(145,232,188,.04);transition:all 180ms ease}.mm-locked-brain .meaning-node-s2 span{position:absolute;left:30px;width:8.5rem;color:rgba(234,223,201,.5);font-family:"IBM Plex Mono",monospace;font-size:.46rem;line-height:1.25;text-align:left;opacity:0;pointer-events:none;transition:opacity 180ms ease}.mm-locked-brain .meaning-node-s2:hover span,.mm-locked-brain .meaning-node-s2:focus-visible span,.mm-locked-brain .meaning-node-s2.is-active span{opacity:1}.mm-locked-brain .meaning-node-s2.is-active::before{width:17px;height:17px;border-color:var(--brass-light);background:var(--brass-light);box-shadow:0 0 0 8px rgba(198,154,81,.11),0 0 30px rgba(224,189,120,.55)}.mm-locked-brain .meaning-node-s2:focus-visible{outline:2px solid var(--paper);outline-offset:2px}.mm-locked-brain .field-focus{position:absolute;left:50%;top:50%;width:44%;height:44%;border:1px solid rgba(198,154,81,.2);border-radius:50%;transform:translate(-50%,-50%);animation:breathe 4s ease-in-out infinite}.mm-locked-brain .plain-inspector{display:flex;min-width:0;flex-direction:column;justify-content:center;padding:clamp(1.3rem,2.5vw,2.6rem);background:linear-gradient(160deg,#10231b,#07110e)}.mm-locked-brain .plain-inspector>span,.mm-locked-brain .plain-inspector small{color:var(--mint);font-family:"IBM Plex Mono",monospace;font-size:.5rem;letter-spacing:.08em;text-transform:uppercase}.mm-locked-brain .plain-inspector h3{margin:1rem 0 .8rem;font-family:"Newsreader",Georgia,serif;font-size:clamp(1.8rem,2.5vw,2.8rem);font-weight:420;letter-spacing:-.04em;line-height:.98}.mm-locked-brain .plain-inspector p{margin:0 0 1.2rem;color:rgba(234,223,201,.7);font-family:"Newsreader",Georgia,serif;font-size:1rem;line-height:1.4}.mm-locked-brain .plain-inspector small{margin-top:auto;color:rgba(234,223,201,.42);line-height:1.5}
+.mm-locked-brain .proof{background:#0c2824;color:var(--paper)}.mm-locked-brain .proof::before{content:"";position:absolute;z-index:-2;inset:0;background:linear-gradient(105deg,rgba(145,232,188,.06),transparent 35%,rgba(198,154,81,.08)),repeating-linear-gradient(90deg,transparent 0 7.9rem,rgba(234,223,201,.035) 8rem)}.mm-locked-brain .proof::after{content:"";position:absolute;z-index:-1;left:47%;top:-40%;width:42rem;height:70rem;border:1px solid rgba(145,232,188,.12);border-radius:50%;transform:rotate(32deg);box-shadow:0 0 0 7rem rgba(145,232,188,.018),0 0 0 14rem rgba(145,232,188,.012)}.mm-locked-brain .proof-machine{display:grid;height:min(68vh,520px);min-height:420px;grid-template-columns:1fr 5rem 1fr;grid-template-rows:1fr auto auto;overflow:hidden;border:1px solid rgba(224,189,120,.34);background:#07110e;box-shadow:0 2.5rem 6rem rgba(0,0,0,.38)}.mm-locked-brain .source-pod{position:relative;z-index:2;display:flex;min-width:0;flex-direction:column;justify-content:center;padding:clamp(1.25rem,2.8vw,3rem);transition:opacity 220ms ease,transform 220ms ease}.mm-locked-brain .source-pod span,.mm-locked-brain .source-pod small,.mm-locked-brain .proof-result span{color:var(--brass-light);font-family:"IBM Plex Mono",monospace;font-size:.5rem;letter-spacing:.08em;text-transform:uppercase}.mm-locked-brain .source-pod strong{max-width:17ch;margin:.9rem 0;font-family:"Newsreader",Georgia,serif;font-size:clamp(1.35rem,2vw,2.1rem);font-weight:420;line-height:1.08}.mm-locked-brain .source-pod small{color:var(--mint)}.mm-locked-brain .source-pod-one{background:rgba(198,154,81,.07)}.mm-locked-brain[data-source-test="true"] .source-pod-one{opacity:.22;transform:translateY(1rem)}.mm-locked-brain[data-source-test="true"] .source-pod-one small{color:#efae91}.mm-locked-brain .proof-beams{position:relative;z-index:3;display:grid;place-items:center;background:rgba(0,0,0,.18)}.mm-locked-brain .proof-beams i{position:absolute;width:1px;height:46%;background:linear-gradient(transparent,var(--mint),transparent);box-shadow:0 0 16px var(--mint);transition:opacity 220ms ease}.mm-locked-brain .proof-beams i:first-child{transform:translateY(-46%)}.mm-locked-brain .proof-beams i:nth-child(2){transform:translateY(46%)}.mm-locked-brain .proof-beams b{width:14px;height:14px;border:1px solid var(--brass-light);border-radius:50%;box-shadow:0 0 0 11px rgba(198,154,81,.1)}.mm-locked-brain[data-source-test="true"] .proof-beams i:first-child{opacity:.1}.mm-locked-brain .proof-result{grid-column:1/-1;display:grid;min-height:92px;grid-template-columns:10rem 1fr 1fr;align-items:center;gap:1.2rem;padding:1rem 1.5rem;border-top:1px solid rgba(234,223,201,.14);background:rgba(11,27,22,.92)}.mm-locked-brain .proof-result strong{font-family:"Newsreader",Georgia,serif;font-size:1.1rem;font-weight:450}.mm-locked-brain .proof-result p{margin:0;color:rgba(234,223,201,.58);font-size:.74rem;line-height:1.35}.mm-locked-brain .machine-action{display:flex;min-height:58px;align-items:center;justify-content:space-between;gap:1rem;padding:.8rem 1.2rem;border:0;background:var(--paper);color:var(--ink);font-size:.74rem;font-weight:760;cursor:pointer}.mm-locked-brain .machine-action b{color:var(--mint-deep);font-family:"IBM Plex Mono",monospace;font-size:.5rem;font-weight:400;text-transform:uppercase}.mm-locked-brain .machine-action:focus-visible,.mm-locked-brain .record-control:focus-visible{outline:3px solid var(--mint);outline-offset:-4px}.mm-locked-brain .proof-machine .machine-action{grid-column:1/3}.mm-locked-brain .machine-status{display:flex;min-height:58px;align-items:center;margin:0;padding:.8rem 1.2rem;background:rgba(0,0,0,.28);color:rgba(234,223,201,.55);font-size:.65rem}
+.mm-locked-brain .correction{background:#d7c2a1;color:#13271e}.mm-locked-brain .correction::before{content:"";position:absolute;z-index:-2;inset:0;background:linear-gradient(90deg,rgba(111,56,47,.94) 0 31%,transparent 31%),repeating-linear-gradient(0deg,transparent 0 79px,rgba(19,39,30,.06) 80px)}.mm-locked-brain .correction::after{content:"";position:absolute;z-index:-1;right:-12rem;bottom:-18rem;width:48rem;height:48rem;border:1px solid rgba(111,56,47,.18);border-radius:50%;box-shadow:0 0 0 6rem rgba(111,56,47,.035),0 0 0 12rem rgba(111,56,47,.022)}.mm-locked-brain .correction .chapter-copy{color:var(--paper)}.mm-locked-brain .correction .chapter-copy>p{color:rgba(234,223,201,.72)}.mm-locked-brain .correction-machine{display:grid;height:min(69vh,530px);min-height:430px;grid-template-columns:1fr 5rem 1fr;grid-template-rows:1fr auto auto auto;overflow:hidden;border:1px solid rgba(19,39,30,.35);background:#10241b;color:var(--paper);box-shadow:0 2rem 5rem rgba(68,44,28,.28)}.mm-locked-brain .memory-sheet{position:relative;display:flex;flex-direction:column;justify-content:center;padding:clamp(1.2rem,2.8vw,3rem);transition:opacity 220ms ease,transform 220ms ease}.mm-locked-brain .memory-sheet::after{content:"";position:absolute;inset:1.2rem;border:1px solid rgba(224,189,120,.18);pointer-events:none}.mm-locked-brain .memory-sheet span{position:relative;z-index:2;color:var(--brass-light);font-family:"IBM Plex Mono",monospace;font-size:.52rem;letter-spacing:.08em;text-transform:uppercase}.mm-locked-brain .memory-sheet p{position:relative;z-index:2;margin:1rem 0 0;font-family:"Newsreader",Georgia,serif;font-size:clamp(1.55rem,2.5vw,2.7rem);line-height:1.02}.mm-locked-brain .memory-sheet-before{opacity:.3}.mm-locked-brain .memory-sheet-after{background:rgba(145,232,188,.04)}.mm-locked-brain[data-correction="replay"] .memory-sheet-before{opacity:1;transform:scale(1.02)}.mm-locked-brain[data-correction="replay"] .memory-sheet-after{opacity:.38;transform:scale(.97)}.mm-locked-brain .learning-gate{position:relative;z-index:2;display:grid;place-items:center;border-inline:1px solid rgba(234,223,201,.12);background:#0a1812}.mm-locked-brain .learning-gate i{position:absolute;width:1px;height:100%;background:linear-gradient(transparent,var(--brass-light),transparent)}.mm-locked-brain .learning-gate b{transform:rotate(-90deg);color:var(--brass-light);font-family:"IBM Plex Mono",monospace;font-size:.5rem;font-weight:400;letter-spacing:.12em;text-transform:uppercase}.mm-locked-brain .correction-machine .machine-action{grid-column:1/3}.mm-locked-brain .correction-machine .machine-status{grid-column:3}.mm-locked-brain .honesty-note{grid-column:1/-1;padding:.65rem 1.2rem;border-top:1px solid rgba(234,223,201,.1);color:rgba(234,223,201,.4);font-family:"IBM Plex Mono",monospace;font-size:.46rem;line-height:1.45}
+.mm-locked-brain .living-record{background:#b88b4d;color:#07110e}.mm-locked-brain .living-record::before{content:"";position:absolute;z-index:-2;inset:0;background:linear-gradient(110deg,rgba(234,223,201,.88),rgba(216,201,173,.62) 39%,rgba(7,17,14,.16)),repeating-linear-gradient(90deg,transparent 0 5.9rem,rgba(7,17,14,.07) 6rem)}.mm-locked-brain .living-record::after{content:"";position:absolute;z-index:-1;right:8%;top:50%;width:35rem;height:35rem;border:1px solid rgba(7,17,14,.16);border-radius:50%;transform:translateY(-50%);box-shadow:0 0 0 5rem rgba(7,17,14,.035),0 0 0 10rem rgba(7,17,14,.022)}.mm-locked-brain .living-record .chapter-copy>p{color:rgba(7,17,14,.62)}.mm-locked-brain .record-machine{display:grid;height:min(72vh,550px);min-height:440px;grid-template-rows:auto 1fr auto;overflow:hidden;border:1px solid rgba(7,17,14,.45);background:#08140f;color:var(--paper);box-shadow:0 2.5rem 6rem rgba(68,44,28,.32)}.mm-locked-brain .record-counts{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid rgba(234,223,201,.13)}.mm-locked-brain .record-counts span{display:flex;min-width:0;align-items:baseline;gap:.55rem;padding:.8rem 1rem;border-right:1px solid rgba(234,223,201,.1);color:rgba(234,223,201,.48);font-size:.56rem;text-transform:uppercase}.mm-locked-brain .record-counts span:last-child{border:0}.mm-locked-brain .record-counts b{color:var(--mint);font-family:"Newsreader",Georgia,serif;font-size:1.45rem;font-weight:420}.mm-locked-brain .reel-window{position:relative;min-height:0;overflow:hidden;padding:0 clamp(1rem,3vw,2.6rem)}.mm-locked-brain .reel-window::before,.mm-locked-brain .reel-window::after{content:"";position:absolute;z-index:5;left:0;right:0;height:26%;pointer-events:none}.mm-locked-brain .reel-window::before{top:0;background:linear-gradient(#08140f,transparent)}.mm-locked-brain .reel-window::after{bottom:0;background:linear-gradient(transparent,#08140f)}.mm-locked-brain .reel-line{position:absolute;left:3.2rem;top:0;bottom:0;width:1px;background:rgba(145,232,188,.22)}.mm-locked-brain .record-reel{position:absolute;top:50%;right:clamp(1rem,3vw,2.6rem);left:clamp(1rem,3vw,2.6rem);display:grid;gap:.55rem;margin:0;padding:0;list-style:none;transform:translateY(calc(-50% - var(--reel-shift,0px)));transition:transform 520ms cubic-bezier(.2,.75,.2,1)}.mm-locked-brain .record-card{display:grid;min-height:66px;grid-template-columns:7.4rem minmax(0,1fr);align-items:center;gap:1rem;padding:.72rem 1rem .72rem 3rem;border:1px solid rgba(234,223,201,.09);background:rgba(234,223,201,.025);opacity:.25;transform:scale(.96);transition:opacity 420ms ease,transform 420ms ease,background 420ms ease,border-color 420ms ease}.mm-locked-brain .record-card.is-near{opacity:.52;transform:scale(.98)}.mm-locked-brain .record-card.is-current{border-color:rgba(224,189,120,.52);background:rgba(198,154,81,.1);opacity:1;transform:scale(1)}.mm-locked-brain .record-card span{color:var(--mint);font-family:"IBM Plex Mono",monospace;font-size:.5rem;letter-spacing:.08em;text-transform:uppercase}.mm-locked-brain .record-card div{min-width:0}.mm-locked-brain .record-card strong{display:block;overflow:hidden;font-family:"Newsreader",Georgia,serif;font-size:1rem;font-weight:470;line-height:1.1;text-overflow:ellipsis;white-space:nowrap}.mm-locked-brain .record-card small{display:block;overflow:hidden;margin-top:.28rem;color:rgba(234,223,201,.48);font-size:.58rem;line-height:1.25;text-overflow:ellipsis;white-space:nowrap}.mm-locked-brain .reel-focus{position:absolute;z-index:4;left:1.4rem;top:50%;width:13px;height:13px;border:1px solid var(--mint);border-radius:50%;background:#08140f;transform:translateY(-50%);box-shadow:0 0 0 8px rgba(145,232,188,.07),0 0 24px rgba(145,232,188,.4)}.mm-locked-brain .record-controls{display:flex;min-height:58px;align-items:center;gap:.5rem;padding:.5rem;border-top:1px solid rgba(234,223,201,.12)}.mm-locked-brain .record-controls p{display:flex;min-width:0;flex:1;align-items:center;gap:.6rem;margin:0;padding:0 .65rem}.mm-locked-brain .record-controls strong{font-size:.68rem}.mm-locked-brain .record-controls small{color:rgba(234,223,201,.43);font-family:"IBM Plex Mono",monospace;font-size:.5rem}.mm-locked-brain .live-dot{width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 12px var(--mint);animation:pulse 1.7s ease-in-out infinite}.mm-locked-brain[data-record-paused="true"] .live-dot{animation:none;background:var(--brass-light);box-shadow:none}.mm-locked-brain .record-control{min-width:72px;min-height:44px;border:1px solid rgba(234,223,201,.2);background:transparent;color:var(--paper);font-size:.66rem;font-weight:700;cursor:pointer}.mm-locked-brain .record-control:hover{border-color:var(--mint);color:var(--mint)}.mm-locked-brain .no-js-record{padding:1rem;color:var(--paper)}.mm-locked-brain .no-js-record p{margin:.5rem 0;font-family:"Newsreader",Georgia,serif;line-height:1.4}
+.mm-locked-brain .living-record .chapter-copy>h2{color:#07110e}
+.mm-locked-brain .truth-bar{display:flex;min-height:54px;align-items:center;justify-content:space-between;gap:1rem;padding:.8rem max(4vw,calc((100vw - 1600px)/2));border-top:1px solid rgba(234,223,201,.12);background:#050c09;color:rgba(234,223,201,.48);font-family:"IBM Plex Mono",monospace;font-size:.5rem}.mm-locked-brain.no-js .js-action{display:none}.mm-locked-brain.no-js .instrument{opacity:1;transform:none}
+.mm-locked-brain .wordmark,.mm-locked-brain .header-link{min-height:44px}.mm-locked-brain .header-link{display:flex;align-items:center}
+@keyframes turn{to{rotate:1turn}}@keyframes pulse{50%{opacity:.35;transform:scale(.72)}}@keyframes breathe{50%{transform:translate(-50%,-50%) scale(1.08);opacity:.45}}
+@media(max-height:760px) and (min-width:901px){.mm-locked-brain .chapter{min-height:600px;padding-block:2rem}.mm-locked-brain .opening h1{font-size:clamp(4rem,6vw,6.8rem)}.mm-locked-brain .opening-copy>p{margin:1rem 0}.mm-locked-brain .brain-object{width:min(34vw,34rem)}.mm-locked-brain .chapter h2{font-size:clamp(2.8rem,4.5vw,5rem)}.mm-locked-brain .chapter-copy>p{margin-top:.8rem}.mm-locked-brain .brain-stage,.mm-locked-brain .proof-machine,.mm-locked-brain .correction-machine,.mm-locked-brain .record-machine{height:460px;min-height:0}.mm-locked-brain .opening-note{bottom:.6rem}}
+@media(max-width:1100px){.mm-locked-brain .chapter{grid-template-columns:minmax(16rem,.65fr) minmax(28rem,1.35fr);gap:2rem}.mm-locked-brain .chapter h2{font-size:clamp(3rem,5.3vw,5rem)}.mm-locked-brain .opening{grid-template-columns:minmax(20rem,.8fr) minmax(27rem,1.2fr)}.mm-locked-brain .opening h1{font-size:clamp(4.4rem,7vw,6.5rem)}.mm-locked-brain .brain-stage{grid-template-columns:minmax(0,1.25fr) minmax(13rem,.75fr)}.mm-locked-brain .record-card{grid-template-columns:6rem 1fr}.mm-locked-brain .phase-rail{right:.4rem}}
+@media(max-width:760px){.mm-locked-brain{--header-h:62px}.mm-locked-brain .site-header{grid-template-columns:1fr auto;padding:0 1rem}.mm-locked-brain .site-header p{display:none}.mm-locked-brain .wordmark strong{font-size:.9rem}.mm-locked-brain .wordmark span{width:34px;height:34px}.mm-locked-brain .header-link{font-size:.64rem}.mm-locked-brain .phase-rail{display:none}.mm-locked-brain .chapter{height:auto;min-height:calc(100svh - var(--header-h));grid-template-columns:1fr;align-content:center;gap:1.5rem;padding:2.25rem 1rem}.mm-locked-brain .chapter-copy{max-width:none}.mm-locked-brain .chapter-number{width:30px;height:30px;margin-bottom:.7rem}.mm-locked-brain .chapter h2{max-width:11ch;font-size:clamp(3rem,12vw,4.6rem)}.mm-locked-brain .chapter-copy>p{max-width:35rem;margin-top:.8rem;font-size:1rem}.mm-locked-brain .opening{grid-template-columns:1fr;gap:1rem;padding-top:2rem;padding-bottom:2rem}.mm-locked-brain .opening h1{max-width:8ch;font-size:clamp(4rem,17vw,6rem)}.mm-locked-brain .opening-copy>p{max-width:28rem;margin:1rem 0;font-size:1rem}.mm-locked-brain .primary-link{min-height:46px}.mm-locked-brain .brain-object{grid-row:2;width:min(72vw,19rem);justify-self:end}.mm-locked-brain .pulse-core{width:56%;min-height:42%;padding:1rem}.mm-locked-brain .pulse-core strong{font-size:1.2rem}.mm-locked-brain .opening-note{position:static;grid-row:3;margin-top:0;font-size:.45rem}.mm-locked-brain .brain-stage{height:47vh;min-height:350px;grid-template-columns:1fr;grid-template-rows:1fr auto}.mm-locked-brain .brain-field{border-right:0;border-bottom:1px solid rgba(234,223,201,.14)}.mm-locked-brain .meaning-node-s2 span{display:none}.mm-locked-brain .plain-inspector{display:grid;grid-template-columns:1fr auto;gap:.35rem .8rem;padding:1rem}.mm-locked-brain .plain-inspector h3{grid-column:1;font-size:1.45rem;margin:.3rem 0}.mm-locked-brain .plain-inspector p{grid-column:1/-1;margin:0;font-size:.84rem}.mm-locked-brain .plain-inspector small{grid-column:2;grid-row:1/3;align-self:start;max-width:8rem;text-align:right}.mm-locked-brain .proof-machine{height:auto;min-height:0;grid-template-columns:1fr 3.5rem 1fr;grid-template-rows:auto auto auto}.mm-locked-brain .source-pod{min-height:170px;padding:1rem}.mm-locked-brain .source-pod strong{font-size:1.15rem}.mm-locked-brain .proof-result{grid-template-columns:1fr;gap:.35rem;min-height:106px;padding:1rem}.mm-locked-brain .proof-result span{font-size:.46rem}.mm-locked-brain .proof-result strong{font-size:1rem}.mm-locked-brain .proof-machine .machine-action{grid-column:1/3}.mm-locked-brain .machine-action,.mm-locked-brain .machine-status{min-height:54px}.mm-locked-brain .correction{background:#d7c2a1}.mm-locked-brain .correction::before{background:linear-gradient(180deg,rgba(111,56,47,.95) 0 43%,transparent 43%),repeating-linear-gradient(0deg,transparent 0 79px,rgba(19,39,30,.06) 80px)}.mm-locked-brain .correction-machine{height:auto;min-height:0;grid-template-columns:1fr;grid-template-rows:auto 3.2rem auto auto auto auto}.mm-locked-brain .memory-sheet{min-height:145px;padding:1.2rem}.mm-locked-brain .memory-sheet p{font-size:1.45rem}.mm-locked-brain .learning-gate{border-block:1px solid rgba(234,223,201,.12);border-inline:0}.mm-locked-brain .learning-gate i{width:100%;height:1px}.mm-locked-brain .learning-gate b{transform:none}.mm-locked-brain .correction-machine .machine-action,.mm-locked-brain .correction-machine .machine-status,.mm-locked-brain .honesty-note{grid-column:1}.mm-locked-brain .record-machine{height:54vh;min-height:410px}.mm-locked-brain .record-counts span{display:grid;gap:.1rem;padding:.65rem .4rem;text-align:center}.mm-locked-brain .record-counts b{font-size:1.2rem}.mm-locked-brain .reel-line{left:1.55rem}.mm-locked-brain .record-reel{left:.5rem;right:.5rem}.mm-locked-brain .record-card{min-height:60px;grid-template-columns:5.4rem 1fr;gap:.6rem;padding:.6rem .65rem .6rem 2rem}.mm-locked-brain .record-card strong{font-size:.92rem}.mm-locked-brain .record-card small{font-size:.52rem}.mm-locked-brain .reel-focus{left:.58rem}.mm-locked-brain .record-controls p{padding:0 .35rem}.mm-locked-brain .record-controls strong{font-size:.6rem}.mm-locked-brain .record-control{min-width:64px}.mm-locked-brain .truth-bar{align-items:flex-start;flex-direction:column;padding:1rem;font-size:.46rem}}
+@media(max-width:360px){.mm-locked-brain .header-link{display:none}.mm-locked-brain .opening h1{font-size:3.7rem}.mm-locked-brain .chapter h2{font-size:2.9rem}.mm-locked-brain .plain-inspector small{display:none}.mm-locked-brain .record-counts span{font-size:.48rem}.mm-locked-brain .record-card{grid-template-columns:4.6rem 1fr}.mm-locked-brain .record-controls strong{display:none}}
+@media(max-width:760px) and (max-height:700px){.mm-locked-brain .chapter{min-height:calc(100svh - var(--header-h));padding-block:1.3rem}.mm-locked-brain .opening{grid-template-columns:minmax(0,1fr) 11rem;align-items:center}.mm-locked-brain .opening-copy{grid-column:1}.mm-locked-brain .opening h1{font-size:clamp(3rem,11vw,4.6rem)}.mm-locked-brain .opening-copy>p{font-size:.86rem}.mm-locked-brain .brain-object{grid-column:2;grid-row:1;width:11rem}.mm-locked-brain .opening-note{grid-column:1/-1;grid-row:2}.mm-locked-brain .chapter h2{font-size:clamp(2.5rem,9vw,3.5rem)}.mm-locked-brain .chapter-copy>p{font-size:.88rem}.mm-locked-brain .brain-stage{height:330px;min-height:0}.mm-locked-brain .proof-machine,.mm-locked-brain .correction-machine{max-height:360px}.mm-locked-brain .source-pod{min-height:125px}.mm-locked-brain .record-machine{height:360px;min-height:0}}
+@media(max-width:900px) and (orientation:landscape){.mm-locked-brain .chapter{min-height:calc(100svh - var(--header-h));grid-template-columns:minmax(14rem,.7fr) minmax(0,1.3fr);gap:1.2rem;padding:1rem 2.5rem 1rem 1rem}.mm-locked-brain .opening{grid-template-columns:minmax(16rem,.8fr) minmax(0,1.2fr)}.mm-locked-brain .opening h1{font-size:3.5rem}.mm-locked-brain .brain-object{grid-column:2;grid-row:1;width:min(38vw,17rem)}.mm-locked-brain .opening-note{position:absolute}.mm-locked-brain .chapter h2{font-size:2.9rem}.mm-locked-brain .chapter-copy>p{font-size:.82rem}.mm-locked-brain .brain-stage,.mm-locked-brain .proof-machine,.mm-locked-brain .correction-machine,.mm-locked-brain .record-machine{height:calc(100svh - var(--header-h) - 2rem);min-height:0}.mm-locked-brain .source-pod{min-height:0}.mm-locked-brain .memory-sheet{min-height:0}.mm-locked-brain .truth-bar{display:none}}
+@media(max-width:760px){.mm-locked-brain .correction-machine{height:390px;min-height:0;grid-template-columns:1fr 2.4rem 1fr;grid-template-rows:1fr auto auto}.mm-locked-brain .memory-sheet{min-height:0;padding:1rem .75rem}.mm-locked-brain .memory-sheet::after{inset:.6rem}.mm-locked-brain .memory-sheet p{font-size:1.18rem}.mm-locked-brain .learning-gate{border-block:0;border-inline:1px solid rgba(234,223,201,.12)}.mm-locked-brain .learning-gate i{width:1px;height:100%}.mm-locked-brain .learning-gate b{transform:rotate(-90deg);font-size:.42rem}.mm-locked-brain .correction-machine .machine-action{grid-column:1/3}.mm-locked-brain .correction-machine .machine-status{grid-column:3}.mm-locked-brain .honesty-note{grid-column:1/-1;padding:.5rem .7rem}}
+@media(prefers-reduced-motion:reduce){.mm-locked-brain{scroll-behavior:auto}.mm-locked-brain .orbit,.mm-locked-brain .signal,.mm-locked-brain .field-focus,.mm-locked-brain .live-dot{animation:none!important}.mm-locked-brain .instrument,.mm-locked-brain .record-reel{transition:none!important}.mm-locked-brain .record-reel{transform:translateY(-50%)}}
+
+/* source: prototypes/website-redesign-recovery/brain-signature/styles-s2-lock.css sha256=4dc5945f4bcd362f6588942566fd072a5489c12028abfdb3af3e7150a50fb490 */
+/* BRAIN-ALIGNMENT-S2-LOCK
+   Declared delta: protect approved display and body copy measures without changing hierarchy, interaction or imagery. */
+.mm-locked-brain{
+  --brain-display-measure:10ch;
+  --brain-copy-measure:31rem;
+  --brain-narrow-copy-measure:25rem;
+}
+
+.mm-locked-brain .chapter-copy,.mm-locked-brain .opening-copy,.mm-locked-brain .plain-inspector,.mm-locked-brain .pulse-core{min-width:0}
+.mm-locked-brain .chapter-copy>h2,.mm-locked-brain .opening-copy>h1,.mm-locked-brain .plain-inspector>h3,.mm-locked-brain .pulse-core>strong{
+  max-inline-size:var(--brain-display-measure);
+  text-wrap:balance;
+  overflow-wrap:normal;
+  word-break:normal;
+  hyphens:none;
+}
+.mm-locked-brain .chapter-copy>p,.mm-locked-brain .opening-copy>p,.mm-locked-brain .plain-inspector>p,.mm-locked-brain .memory-sheet>p,.mm-locked-brain .source-pod>strong,.mm-locked-brain .record-card strong,.mm-locked-brain .record-card small{
+  overflow-wrap:break-word;
+  word-break:normal;
+  hyphens:none;
+}
+.mm-locked-brain .chapter-copy>p,.mm-locked-brain .opening-copy>p,.mm-locked-brain .plain-inspector>p{max-inline-size:var(--brain-copy-measure);text-wrap:pretty}
+
+@media(min-width:901px){
+  .mm-locked-brain .correction::before{
+    background:linear-gradient(90deg,rgba(111,56,47,.94) 0 39%,transparent 39%),repeating-linear-gradient(0deg,transparent 0 79px,rgba(19,39,30,.06) 80px)
+  }
+  .mm-locked-brain .correction{grid-template-columns:minmax(20rem,.78fr) minmax(34rem,1.22fr)}
+  .mm-locked-brain .correction .chapter-copy{max-inline-size:31rem}
+  .mm-locked-brain .correction .chapter-copy>h2{max-inline-size:11.5ch;font-size:clamp(2.8rem,4.7vw,5.6rem)}
+  .mm-locked-brain .correction .chapter-copy>p{max-inline-size:var(--brain-narrow-copy-measure)}
+}
+
+@media(min-width:761px) and (max-width:900px) and (orientation:portrait){
+  .mm-locked-brain .chapter{grid-template-columns:minmax(14rem,.65fr) minmax(25rem,1.35fr);gap:1.25rem;padding-inline:1.5rem}
+  .mm-locked-brain .opening{grid-template-columns:minmax(19rem,.85fr) minmax(19rem,1.15fr)}
+  .mm-locked-brain .opening-copy>h1{max-inline-size:9.5ch;font-size:clamp(3.8rem,7.4vw,4.5rem)}
+  .mm-locked-brain .correction{grid-template-columns:minmax(17rem,.8fr) minmax(24rem,1.2fr)}
+  .mm-locked-brain .correction::before{
+    background:linear-gradient(90deg,rgba(111,56,47,.94) 0 42%,transparent 42%),repeating-linear-gradient(0deg,transparent 0 79px,rgba(19,39,30,.06) 80px)
+  }
+  .mm-locked-brain .correction .chapter-copy{max-inline-size:17rem}
+  .mm-locked-brain .correction .chapter-copy>h2{max-inline-size:11.5ch;font-size:clamp(2.8rem,5.4vw,4rem)}
+  .mm-locked-brain .correction .chapter-copy>p{max-inline-size:17rem}
+}
+
+@media(max-width:760px){
+  .mm-locked-brain .chapter-copy>h2,.mm-locked-brain .opening-copy>h1{max-inline-size:9.5ch}
+  .mm-locked-brain .chapter-copy>h2{font-size:clamp(1.9rem,12vw,4.6rem)}
+  .mm-locked-brain .opening-copy>h1{font-size:clamp(2rem,17vw,6rem)}
+  .mm-locked-brain .correction .chapter-copy>h2{max-inline-size:11.5ch}
+  .mm-locked-brain .correction .chapter-copy>p{max-inline-size:30rem;text-wrap:balance}
+}
+
+@media(max-width:360px){
+  .mm-locked-brain .chapter-copy>h2,.mm-locked-brain .opening-copy>h1{max-inline-size:9ch}
+  .mm-locked-brain .correction .chapter-copy>h2{max-inline-size:11.5ch}
+}
+
+@media(max-width:420px) and (max-height:700px){
+  .mm-locked-brain .opening{grid-template-columns:1fr;gap:.75rem}
+  .mm-locked-brain .opening-copy{grid-column:1}
+  .mm-locked-brain .opening-copy>h1{max-inline-size:9ch;font-size:clamp(2rem,14vw,3rem)}
+  .mm-locked-brain .brain-object{grid-column:1;grid-row:2;width:9.5rem;justify-self:end;margin-top:-3.25rem}
+  .mm-locked-brain .opening-note{grid-column:1;grid-row:3}
+}
+
+/* source: prototypes/website-redesign-recovery/brain-signature/styles-s2-motion.css sha256=6438fd26ed7feaecf8d52f6db90683f0c310c26b805194741cf4de5129bec282 */
+/* BRAIN-MOTION-S1: additive opening film over the immutable S2 lock. */
+
+.mm-locked-brain .opening-film {
+  position: absolute;
+  z-index: 0;
+  top: 5%;
+  right: 0;
+  bottom: 5%;
+  left: 37%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: #07110e;
+  border: 1px solid rgba(224, 189, 120, 0.24);
+  box-shadow: 0 34px 90px rgba(0, 0, 0, 0.48);
+  clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.mm-locked-brain .opening-film video,.mm-locked-brain 
+.opening-film-scrim {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.mm-locked-brain .opening-film video {
+  object-fit: cover;
+  object-position: 52% 50%;
+  filter: saturate(0.72) contrast(1.08) brightness(0.58);
+}
+
+.mm-locked-brain .opening-film-scrim {
+  background:
+    linear-gradient(90deg, #08140f 0%, rgba(8, 20, 15, 0.92) 17%, rgba(8, 20, 15, 0.26) 56%, rgba(8, 20, 15, 0.58) 100%),
+    linear-gradient(180deg, rgba(8, 20, 15, 0.42), rgba(8, 20, 15, 0.58));
+}
+
+.mm-locked-brain .opening-film-readout {
+  position: absolute;
+  right: 1rem;
+  bottom: 0.8rem;
+  display: inline-flex;
+  gap: 0.45rem;
+  align-items: center;
+  color: rgba(234, 223, 201, 0.58);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.46rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.mm-locked-brain .opening-film-readout i {
+  width: 5px;
+  height: 5px;
+  background: var(--brass-light);
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(224, 189, 120, 0.62);
+}
+
+.mm-locked-brain .opening-copy,.mm-locked-brain 
+.brain-object,.mm-locked-brain 
+.opening-note {
+  text-shadow: 0 2px 28px rgba(0, 0, 0, 0.58);
+}
+
+.mm-locked-brain .brain-object {
+  background: radial-gradient(circle, rgba(145, 232, 188, 0.16), rgba(7, 17, 14, 0.76) 48%, rgba(7, 17, 14, 0.94) 70%);
+  backdrop-filter: blur(2px);
+}
+
+.mm-locked-brain[data-motion-policy="poster"] .opening-film-readout i,.mm-locked-brain[data-motion-policy="unavailable"] .opening-film-readout i {
+  background: var(--paper);
+  box-shadow: none;
+}
+
+@media (max-width: 900px) {
+  .mm-locked-brain .opening-film {
+    left: 29%;
+  }
+}
+
+@media (max-width: 760px) {
+  .mm-locked-brain .opening-film {
+    top: 38%;
+    right: -1rem;
+    bottom: 3.6rem;
+    left: 22%;
+    clip-path: polygon(13% 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .mm-locked-brain .opening-film video {
+    object-position: 56% 50%;
+    filter: saturate(0.7) contrast(1.08) brightness(0.5);
+  }
+
+  .mm-locked-brain .opening-film-scrim {
+    background:
+      linear-gradient(90deg, #08140f 0%, rgba(8, 20, 15, 0.7) 31%, rgba(8, 20, 15, 0.3) 100%),
+      linear-gradient(180deg, rgba(8, 20, 15, 0.28), rgba(8, 20, 15, 0.68));
+  }
+
+  .mm-locked-brain .opening-film-readout {
+    right: 0.7rem;
+    bottom: 0.55rem;
+    font-size: 0.42rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .mm-locked-brain .opening-film {
+    right: 0;
+  }
+}
+
+@media (max-width: 760px) and (max-height: 700px) {
+  .mm-locked-brain .opening-film {
+    top: 8%;
+    bottom: 8%;
+    left: 44%;
+  }
+}
+
+@media (forced-colors: active) {
+  .mm-locked-brain .opening-film {
+    display: none;
+  }
+}
+
+/* source: prototypes/website-redesign-recovery/brain-signature/styles-s2-motion-s2.css sha256=220565263ac081741b0b828f3838aefa3189805530d2f1ccb6df849a310bbe80 */
+/* BRAIN-MOTION-S2
+   Declared delta: turn the accepted evidence film into the full hero environment while preserving the S1 instrument, copy, interaction and all later chapters. */
+
+.mm-locked-brain .opening-film {
+  inset: 0;
+  border: 0;
+  clip-path: none;
+  box-shadow: none;
+  background: #050c09;
+}
+
+.mm-locked-brain .opening-film video {
+  object-position: 50% 50%;
+  filter: saturate(0.82) contrast(1.1) brightness(0.72);
+  transform: scale(1.1) translateX(3.5%);
+  transform-origin: 50% 50%;
+}
+
+.mm-locked-brain .opening-film-scrim {
+  background:
+    linear-gradient(90deg, rgba(5, 12, 9, 0.98) 0%, rgba(5, 12, 9, 0.94) 27%, rgba(5, 12, 9, 0.7) 43%, rgba(5, 12, 9, 0.2) 67%, rgba(5, 12, 9, 0.52) 100%),
+    linear-gradient(180deg, rgba(5, 12, 9, 0.38) 0%, rgba(5, 12, 9, 0.1) 48%, rgba(5, 12, 9, 0.7) 100%);
+}
+
+.mm-locked-brain .brain-object {
+  background: radial-gradient(circle, rgba(145, 232, 188, 0.12), rgba(7, 17, 14, 0.62) 48%, rgba(7, 17, 14, 0.82) 70%, rgba(7, 17, 14, 0.42) 100%);
+  box-shadow: inset 0 0 6rem rgba(145, 232, 188, 0.08), 0 3rem 8rem rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(1px);
+}
+
+.mm-locked-brain .opening-film-readout {
+  right: max(1rem, calc((100vw - 1600px) / 2));
+}
+
+@media (max-width: 900px) {
+  .mm-locked-brain .opening-film {
+    inset: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .mm-locked-brain .opening-film {
+    inset: 0;
+    clip-path: none;
+  }
+
+  .mm-locked-brain .opening-film video {
+    object-position: 56% 50%;
+    filter: saturate(0.78) contrast(1.08) brightness(0.64);
+    transform: scale(1.06);
+  }
+
+  .mm-locked-brain .opening-film-scrim {
+    background:
+      linear-gradient(180deg, rgba(5, 12, 9, 0.96) 0%, rgba(5, 12, 9, 0.84) 27%, rgba(5, 12, 9, 0.28) 56%, rgba(5, 12, 9, 0.74) 100%),
+      linear-gradient(90deg, rgba(5, 12, 9, 0.62) 0%, rgba(5, 12, 9, 0.12) 74%, rgba(5, 12, 9, 0.34) 100%);
+  }
+
+  .mm-locked-brain .brain-object {
+    background: radial-gradient(circle, rgba(145, 232, 188, 0.12), rgba(7, 17, 14, 0.58) 48%, rgba(7, 17, 14, 0.82) 72%, rgba(7, 17, 14, 0.34) 100%);
+  }
+
+  .mm-locked-brain .opening-film-readout {
+    right: 0.7rem;
+    bottom: 0.55rem;
+  }
+}
+
+@media (max-width: 760px) and (max-height: 700px) {
+  .mm-locked-brain .opening-film {
+    inset: 0;
+  }
+
+  .mm-locked-brain .opening-film video {
+    object-position: 58% 50%;
+  }
+
+  .mm-locked-brain .opening-film-scrim {
+    background:
+      linear-gradient(90deg, rgba(5, 12, 9, 0.96) 0%, rgba(5, 12, 9, 0.76) 42%, rgba(5, 12, 9, 0.22) 72%, rgba(5, 12, 9, 0.54) 100%),
+      linear-gradient(180deg, rgba(5, 12, 9, 0.42), rgba(5, 12, 9, 0.68));
+  }
+}
+
+@media (forced-colors: active) {
+  .mm-locked-brain .opening-film {
+    display: none;
+  }
+}
+
+/* source: prototypes/website-redesign-recovery/brain-signature/styles-s2-motion-s3.css sha256=5e52041a0535f1035f668126a44ff63ce05aa64ccffcc26ef6648793e14d40ac */
+/* BRAIN-MOTION-S3
+   Declared delta: replace the improvised central plaque geometry with one optically centred instrument grid. */
+
+.mm-locked-brain .pulse-core {
+  display: grid;
+  width: min(54%, 22rem);
+  min-height: max-content;
+  aspect-ratio: 1.28 / 1;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  align-content: stretch;
+  align-items: center;
+  justify-content: stretch;
+  justify-items: center;
+  gap: clamp(0.55rem, 1.15vw, 0.9rem);
+  place-self: center;
+  padding: clamp(1.2rem, 2.1vw, 2rem) clamp(1.3rem, 2.3vw, 2.2rem);
+  border-color: rgba(224, 189, 120, 0.64);
+  outline: 1px solid rgba(224, 189, 120, 0.14);
+  outline-offset: 8px;
+  background: rgba(7, 17, 14, 0.9);
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.36);
+  backdrop-filter: blur(7px);
+  text-align: center;
+}
+
+.mm-locked-brain .pulse-core span,.mm-locked-brain 
+.pulse-core small,.mm-locked-brain 
+.pulse-core strong {
+  justify-self: center;
+  margin: 0;
+  text-align: center;
+}
+
+.mm-locked-brain .pulse-core span,.mm-locked-brain 
+.pulse-core small {
+  font-size: clamp(0.42rem, 0.54vw, 0.5rem);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.mm-locked-brain .pulse-core span {
+  align-self: start;
+}
+
+.mm-locked-brain .pulse-core strong {
+  align-self: center;
+  width: min(100%, 14ch);
+  max-inline-size: none;
+  font-size: clamp(1.18rem, 1.72vw, 1.76rem);
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.mm-locked-brain .pulse-core small {
+  align-self: end;
+}
+
+@media (max-width: 760px) {
+  .mm-locked-brain .pulse-core {
+    width: 67%;
+    min-width: min(90%, 8rem);
+    min-height: 8.5rem;
+    aspect-ratio: 1.3 / 1;
+    gap: 0.55rem;
+    padding: 0.85rem 1rem;
+    outline-offset: 6px;
+  }
+
+  .mm-locked-brain .pulse-core span,.mm-locked-brain 
+  .pulse-core small {
+    font-size: clamp(0.38rem, 1.72vw, 0.45rem);
+    letter-spacing: 0.09em;
+  }
+
+  .mm-locked-brain .pulse-core strong {
+    max-inline-size: 14ch;
+    font-size: clamp(0.98rem, 4.6vw, 1.2rem);
+    line-height: 0.98;
+  }
+}
+
+@media (max-width: 420px) and (max-height: 700px) {
+  .mm-locked-brain .pulse-core {
+    width: 67%;
+    min-width: 0;
+    min-height: 0;
+    aspect-ratio: 1.28 / 1;
+    gap: 0.18rem;
+    padding: 0.35rem 0.55rem;
+    outline-offset: 5px;
+  }
+
+  .mm-locked-brain .pulse-core span,.mm-locked-brain 
+  .pulse-core small {
+    font-size: 0.32rem;
+    line-height: 1.1;
+  }
+
+  .mm-locked-brain .pulse-core strong {
+    font-size: 0.82rem;
+    line-height: 0.9;
+  }
+}
+
+
+/* Production-shell wrap guard. The shared fixed shell removes the prototype's
+   in-flow header and narrows WebKit and Chromium's tablet text measure enough
+   to orphan the final word. The accepted words and composition stay intact. */
+.mm-locked-brain { --header-h: 0px; }
+@media (min-width: 761px) and (max-width: 900px) and (orientation: portrait) {
+  .mm-locked-brain .memory .chapter-copy > h2 { font-size: 2.75rem; }
+
+  .mm-locked-brain .pulse-core {
+    gap: 0.3rem;
+    padding: 0.8rem 1rem;
+  }
+
+  .mm-locked-brain .pulse-core span,
+  .mm-locked-brain .pulse-core small {
+    font-size: 0.4rem;
+    line-height: 1.15;
+  }
+
+  .mm-locked-brain .pulse-core strong {
+    font-size: 1rem;
+    line-height: 0.95;
+  }
+}
+@media (max-width: 760px) and (max-height: 700px) {
+  .mm-locked-brain .opening { padding-top: calc(var(--mm-header-height) + 0.5rem); }
+}
+@media (min-width: 761px) and (max-width: 900px) and (orientation: landscape) {
+  .mm-locked-brain .opening { padding-top: var(--mm-header-height); }
+
+  /* A short landscape phone keeps the approved plaque and orbital object, but
+     cannot borrow the desktop plaque's vertical rhythm. Keep all three text
+     roles independently readable inside the same centred instrument. */
+  .mm-locked-brain .pulse-core {
+    gap: 0.28rem;
+    padding: 0.62rem 0.78rem;
+  }
+
+  .mm-locked-brain .pulse-core span,
+  .mm-locked-brain .pulse-core small {
+    font-size: 0.36rem;
+    line-height: 1.15;
+  }
+
+  .mm-locked-brain .pulse-core strong {
+    font-size: 1rem;
+    line-height: 0.94;
+  }
+}
+
+/* The record is evidence, not decoration: active meaning must never turn into
+   an ellipsis. Variable-height cards are centred by the measured reel logic. */
+.mm-locked-brain .record-card strong,
+.mm-locked-brain .record-card small {
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+}
+
+/* The opening is a viewport composition at normal text size, but it must
+   become a scrollable reading region when the visitor enlarges type. Keeping
+   only a minimum height preserves the approved first frame while preventing
+   the lede, action and note from being cut off by a fixed 100svh box. */
+.mm-locked-brain .opening {
+  height: auto;
+  min-height: calc(100svh - var(--header-h));
+  overflow: visible;
+}
+
+/* The approved plaque ratio remains the preferred size. At enlarged root
+   type its rem-based minimum grows with the words, so the three text roles
+   never collide inside a decorative box that stayed viewport-sized. */
+.mm-locked-brain .pulse-core {
+  min-height: min(80%, 13rem);
+}
+
+@media (max-width: 760px) {
+  .mm-locked-brain .record-card {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 0.28rem;
+    padding-left: 2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-locked-brain .record-reel {
+    transform: translateY(calc(-50% - var(--reel-shift, 0px)));
+  }
+}
+
+/* Desktop 200% reflow reaches phone-sized CSS widths with a fine pointer.
+   Release the comparison into a vertical reading order there; coarse-pointer
+   phones keep the independently approved side-by-side instrument. */
+@media (max-width: 760px) and (any-pointer: fine) {
+  /* A 200% desktop reflow still has a fine pointer and can be only 512–720
+     CSS pixels wide. Let the meaning-bearing chapters become a vertical
+     reading sequence there; coarse-pointer phone landscapes retain the
+     independently approved side-by-side instruments. */
+  .mm-locked-brain .chapter:not(.opening) {
+    height: auto;
+    min-height: auto;
+    grid-template-columns: 1fr;
+    align-content: start;
+    gap: 1.5rem;
+    overflow: visible;
+    padding: 2rem 1rem;
+  }
+
+  .mm-locked-brain .chapter:not(.opening) .chapter-copy {
+    max-width: none;
+  }
+
+  .mm-locked-brain .chapter:not(.opening) .chapter-copy > h2 {
+    max-inline-size: 100%;
+    font-size: clamp(2.5rem, 7vw, 3.35rem);
+  }
+
+  .mm-locked-brain .correction-machine {
+    height: auto;
+    max-height: none;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 3.2rem auto auto auto auto;
+  }
+
+  .mm-locked-brain .memory-sheet {
+    min-height: 145px;
+    padding: 1.2rem;
+  }
+
+  .mm-locked-brain .learning-gate {
+    border-block: 1px solid rgba(234,223,201,.12);
+    border-inline: 0;
+  }
+
+  .mm-locked-brain .learning-gate i { width: 100%; height: 1px; }
+  .mm-locked-brain .learning-gate b { transform: none; }
+  .mm-locked-brain .correction-machine .machine-action,
+  .mm-locked-brain .correction-machine .machine-status,
+  .mm-locked-brain .honesty-note { grid-column: 1; }
+}

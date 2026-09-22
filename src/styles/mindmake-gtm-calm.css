@@ -1,0 +1,142 @@
+/* R8 calm-reading contract: one chapter at a time on small screens. */
+
+.mm-gtm-calm details summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.mm-gtm-calm details summary::-webkit-details-marker { display: none; }
+.mm-gtm-calm details[open] > summary span { transform: rotate(45deg); }
+
+.mm-gtm-calm .test-detail {
+  grid-column: 1 / -1;
+  border-top: 1px solid rgba(55, 45, 30, .18);
+}
+
+.mm-gtm-calm .test-detail summary {
+  display: flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--mint-dark);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .58rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.mm-gtm-calm .test-detail p {
+  max-width: 55ch;
+  margin: 0 0 .85rem;
+  font-family: "Source Serif 4", Georgia, serif;
+}
+
+@media (max-width: 80rem) {
+  .mm-gtm-calm .decision-chapter { display: none; }
+  .mm-gtm-calm .decision[data-phase="0"] .signal-chapter,
+  .mm-gtm-calm .decision[data-phase="1"] .response-chapter,
+  .mm-gtm-calm .decision[data-phase="2"] .test-chapter { display: grid; }
+
+  .mm-gtm-calm .decision {
+    min-height: min(48rem, 100svh);
+    padding-top: 5rem;
+    padding-bottom: 3rem;
+  }
+
+  .mm-gtm-calm .decision-ledger { display: none; }
+  .mm-gtm-calm .decision-chapter { margin-bottom: 0; }
+  .mm-gtm-calm .mobile-response { display: block; border: 0; }
+
+  .mm-gtm-calm .mobile-axis-tabs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border: 1px solid rgba(55, 45, 30, .24);
+  }
+
+  .mm-gtm-calm .mobile-axis-tabs button {
+    display: grid;
+    min-width: 0;
+    min-height: 3rem;
+    place-content: center;
+    gap: .15rem;
+    padding: .35rem .2rem;
+    border: 0;
+    border-right: 1px solid rgba(55, 45, 30, .18);
+    background: transparent;
+    color: rgba(7, 21, 18, .58);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: clamp(.46rem, 1.5vw, .58rem);
+    text-align: center;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .mm-gtm-calm .mobile-axis-tabs button:last-child { border-right: 0; }
+  .mm-gtm-calm .mobile-axis-tabs button span { font-size: .42rem; }
+  .mm-gtm-calm .mobile-axis-tabs button[aria-checked="true"] { background: rgba(37, 108, 83, .08); color: var(--ink); box-shadow: inset 0 -3px var(--mint-dark); }
+
+  .mm-gtm-calm .mobile-axis-card {
+    display: grid;
+    min-height: 10rem;
+    align-content: center;
+    justify-items: center;
+    gap: .35rem;
+    padding: 1.2rem;
+    border: 1px solid rgba(55, 45, 30, .24);
+    border-top: 0;
+    background: radial-gradient(circle at 50% 45%, rgba(132, 228, 183, .18), transparent 44%);
+    text-align: center;
+  }
+
+  .mm-gtm-calm .mobile-axis-card small,
+  .mm-gtm-calm .mobile-axis-card strong { color: var(--mint-dark); font-family: "IBM Plex Mono", monospace; text-transform: uppercase; }
+  .mm-gtm-calm .mobile-axis-card small { font-size: .48rem; letter-spacing: .08em; }
+  .mm-gtm-calm .mobile-axis-card strong { font-size: .62rem; letter-spacing: .1em; }
+  .mm-gtm-calm .mobile-axis-card p { max-width: 28ch; margin: .35rem 0 0; font-family: "Newsreader", Georgia, serif; font-size: clamp(1.35rem, 3vw, 1.8rem); line-height: 1.08; }
+}
+
+@media (max-width: 60rem) {
+  .mm-gtm-calm .hero-copy .support-phone { max-width: 27ch; }
+  .mm-gtm-calm .decision { min-height: 0; padding: 4.45rem var(--edge) 2.75rem; }
+  .mm-gtm-calm .decision-rail { top: 4.25rem; margin-bottom: .65rem; }
+  .mm-gtm-calm .decision-rail button { font-size: .58rem; }
+  .mm-gtm-calm .decision-chapter { gap: .8rem; padding: .85rem; }
+  .mm-gtm-calm .question-block h2,
+  .mm-gtm-calm .chapter-heading h2 { max-width: 10ch; font-size: clamp(2rem, 10vw, 3rem); line-height: .92; }
+  .mm-gtm-calm .signal-question-phone { max-width: 31ch; font-size: 1rem; line-height: 1.28; }
+  .mm-gtm-calm .evidence-slip { padding: .85rem; }
+  .mm-gtm-calm .evidence-slip > p { margin-block: .65rem; font-size: .85rem; line-height: 1.35; }
+  .mm-gtm-calm .response-tabs button { min-height: 3.4rem; padding: .55rem; }
+  .mm-gtm-calm .response-tabs button b { font-size: .68rem; line-height: 1.15; }
+  .mm-gtm-calm .mobile-axis-tabs button { font-size: clamp(.4rem, 2.1vw, .52rem); }
+  .mm-gtm-calm .mobile-axis-card { min-height: 8.8rem; padding: .9rem; }
+
+  .mm-gtm-calm .test-ticket { gap: .7rem; padding: .85rem; }
+  .mm-gtm-calm .test-ticket > p { display: none; }
+  .mm-gtm-calm .test-ticket ol { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .mm-gtm-calm .test-ticket li { min-width: 0; padding: .65rem .45rem; }
+  .mm-gtm-calm .test-ticket li span { font-size: .65rem; }
+  .mm-gtm-calm .test-detail summary { font-size: .5rem; }
+  .mm-gtm-calm .test-detail p { font-size: .78rem; line-height: 1.35; }
+
+  .mm-gtm-calm .proof { min-height: 100svh; padding-top: 5.5rem; padding-bottom: 4rem; }
+  .mm-gtm-calm .proof h2 { max-width: 10ch; font-size: clamp(2.7rem, 12vw, 3.75rem); }
+  .mm-gtm-calm .proof h2 span { display: block; white-space: normal; }
+  .mm-gtm-calm .proof-copy > p { max-width: 30ch; }
+}
+
+@media (max-width: 22.5rem) {
+  .mm-gtm-calm .decision { padding-inline: .65rem; }
+  .mm-gtm-calm .decision-chapter { padding: .7rem; }
+  .mm-gtm-calm .response-tabs button b { font-size: .61rem; }
+  .mm-gtm-calm .mobile-axis-tabs button { font-size: .39rem; }
+  .mm-gtm-calm .mobile-axis-card { min-height: 7.8rem; }
+}
+
+@media (prefers-reduced-motion: reduce) and (max-width: 80rem) {
+  .mm-gtm-calm .decision-chapter { display: none !important; }
+  .mm-gtm-calm .decision[data-phase="0"] .signal-chapter,
+  .mm-gtm-calm .decision[data-phase="1"] .response-chapter,
+  .mm-gtm-calm .decision[data-phase="2"] .test-chapter { display: grid !important; }
+  .mm-gtm-calm .decision-rail { display: grid !important; }
+}

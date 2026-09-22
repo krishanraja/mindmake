@@ -28,12 +28,17 @@
  * anywhere that brings it back.
  *
  * Usage:
- *   node scripts/qa/no-js-check.mjs [--base http://127.0.0.1:4180]
+ *   node scripts/qa/no-js-check.mjs [--base http://127.0.0.1:PORT]
  *                                   [--paths /,/ai-brain,/ai-gtm] [--report]
+ *
+ * Without --base, the gate owns an ephemeral production-preview server and
+ * stops it before exit. An explicit base is only for deliberate diagnostics.
  */
 import { chromium } from "playwright";
 import { asked } from "./lib/asked.mjs";
+import { spawn } from "node:child_process";
 import { readFileSync } from "node:fs";
+import { createServer } from "node:net";
 import { resolve } from "node:path";
 
 const args = process.argv.slice(2);
@@ -41,9 +46,55 @@ const flag = (name, fallback) => {
   const at = args.indexOf(`--${name}`);
   return at === -1 ? fallback : args[at + 1];
 };
-const BASE = flag("base", "http://127.0.0.1:4180");
+const root = resolve(import.meta.dirname, "../..");
+let BASE = flag("base", "");
+let server;
 const PATHS = flag("paths", "/,/ai-brain,/ai-gtm,/faq,/new-age-leadership").split(",");
 const REPORT = args.includes("--report");
+
+const delay = (milliseconds) => new Promise((resolveDelay) => setTimeout(resolveDelay, milliseconds));
+const findEphemeralPort = () => new Promise((resolvePort, rejectPort) => {
+  const probe = createServer();
+  probe.unref();
+  probe.once("error", rejectPort);
+  probe.listen(0, "127.0.0.1", () => {
+    const address = probe.address();
+    probe.close((error) => {
+      if (error) rejectPort(error);
+      else resolvePort(address.port);
+    });
+  });
+});
+
+const startServer = async () => {
+  const port = await findEphemeralPort();
+  BASE = `http://127.0.0.1:${port}`;
+  const viteEntry = resolve(root, "node_modules/vite/bin/vite.js");
+  server = spawn(process.execPath, [viteEntry, "preview", "--host", "127.0.0.1", "--port", String(port), "--strictPort"], {
+    cwd: root,
+    stdio: ["ignore", "pipe", "pipe"],
+    windowsHide: true,
+  });
+  let diagnostics = "";
+  server.stdout.on("data", (chunk) => { diagnostics += chunk.toString(); });
+  server.stderr.on("data", (chunk) => { diagnostics += chunk.toString(); });
+  for (let attempt = 0; attempt < 80; attempt += 1) {
+    if (server.exitCode !== null) throw new Error(`local preview server exited before readiness\n${diagnostics}`);
+    try {
+      const response = await fetch(`${BASE}/`);
+      if (response.ok) return;
+    } catch {
+      // The owned preview is still starting.
+    }
+    await delay(125);
+  }
+  throw new Error(`local preview server did not become ready at ${BASE}\n${diagnostics}`);
+};
+
+if (!BASE) {
+  await startServer();
+  console.log(`Using script-owned production preview at ${BASE}`);
+}
 
 /** How much of an element's own box has to survive its clipping ancestors. */
 const KEPT_FLOOR = 0.06;
@@ -57,18 +108,28 @@ const answers = (corpus.entries ?? corpus).map((entry) => ({ id: entry.id, quest
 /** Text a browser will have collapsed, matched the same way. */
 const flatten = (text) => text.replace(/\s+/g, " ").replace(/[‘’]/g, "'").replace(/[“”]/g, '"').trim();
 
-const browser = await chromium.launch({
-  executablePath: process.env.PLAYWRIGHT_CHROMIUM ?? "/opt/pw-browsers/chromium",
-});
-const context = await browser.newContext({ viewport: { width: 390, height: 844 }, javaScriptEnabled: false });
 const problems = [];
 const rows = [];
+let browser;
 
-for (const path of PATHS) {
-  const page = await context.newPage();
-  await page.goto(BASE + asked(path), { waitUntil: "load" });
+try {
+  browser = await chromium.launch(process.env.PLAYWRIGHT_CHROMIUM
+    ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM }
+    : process.platform === "linux"
+      ? { executablePath: "/opt/pw-browsers/chromium" }
+      : { channel: "chrome" });
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, javaScriptEnabled: false });
+
+  for (const path of PATHS) {
+    const page = await context.newPage();
+    await page.goto(BASE + asked(path), { waitUntil: "load" });
 
   const text = flatten(await page.evaluate(() => document.body.textContent ?? ""));
+  const structure = await page.evaluate(() => ({
+    rootIsEmpty: (document.querySelector("#root")?.textContent ?? "").trim().length === 0,
+    mains: document.querySelectorAll("main").length,
+    h1s: document.querySelectorAll("h1").length,
+  }));
   /* The questions this page renders, taken from the page rather than a list
      kept here, and each one's answer looked for in the served markup. */
   const onPage = answers.filter((entry) => text.includes(flatten(entry.question)));
@@ -77,6 +138,10 @@ for (const path of PATHS) {
   const clipped = await page.evaluate((floor) => {
     const out = [];
     for (const el of document.querySelectorAll("h1,h2,h3,h4,p,li,blockquote,figcaption")) {
+      const visibleText = (el.textContent ?? "").trim().replace(/\s+/g, " ");
+      // Empty structural text nodes carry no readable content, so their box
+      // cannot constitute a no-JavaScript reachability failure.
+      if (!visibleText) continue;
       const box = el.getBoundingClientRect();
       const area = box.width * box.height;
       /* No box at all: not laid out, so not clipped. A closed <details> and a
@@ -115,12 +180,16 @@ for (const path of PATHS) {
         t = nt; l = nl;
       }
       const kept = (w * h) / area;
-      if (kept < floor) out.push({ cage, kept: Math.round(kept * 1000) / 1000, text: (el.textContent ?? "").trim().replace(/\s+/g, " ").slice(0, 52) });
+      if (kept < floor) out.push({ cage, kept: Math.round(kept * 1000) / 1000, text: visibleText.slice(0, 52) });
     }
     return out;
   }, KEPT_FLOOR);
 
-  rows.push({ path, asked: onPage.length, missing: missing.length, clipped: clipped.length });
+  const emptyRoute = structure.rootIsEmpty || structure.mains < 1 || structure.h1s < 1 || text.length < 80;
+  rows.push({ path, asked: onPage.length, missing: missing.length, clipped: clipped.length, emptyRoute });
+  if (emptyRoute) {
+    problems.push(`${path}: served no complete route content with JavaScript disabled (${structure.mains} main, ${structure.h1s} h1, ${text.length} text characters)`);
+  }
   if (missing.length) {
     problems.push(`${path}: ${missing.length} of ${onPage.length} answers not in the markup: ${missing.map((m) => m.id).join(", ")}`);
   }
@@ -128,16 +197,24 @@ for (const path of PATHS) {
     const cages = [...new Set(clipped.map((c) => c.cage))].join(", ");
     problems.push(`${path}: ${clipped.length} text block(s) laid out and then clipped away inside ${cages}, with no way to scroll to them — first: "${clipped[0].text}"`);
   }
-  await page.close();
+    await page.close();
+  }
+  await context.close();
+} finally {
+  if (browser) await browser.close();
+  if (server && server.exitCode === null) {
+    server.kill("SIGTERM");
+    await Promise.race([
+      new Promise((resolveExit) => server.once("exit", resolveExit)),
+      delay(2000),
+    ]);
+  }
 }
-await context.close();
-await browser.close();
 
 if (REPORT) {
   for (const r of rows) {
-    console.log(`  ${r.path.padEnd(12)} ${String(r.asked).padStart(2)} answers asked, ${r.missing} missing, ${r.clipped} clipped away`);
+    console.log(`  ${r.path.padEnd(12)} ${String(r.asked).padStart(2)} answers asked, ${r.missing} missing, ${r.clipped} clipped away, complete route: ${r.emptyRoute ? "no" : "yes"}`);
   }
-  process.exit(0);
 }
 
 if (problems.length) {

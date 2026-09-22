@@ -1,234 +1,181 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { CSSProperties, KeyboardEvent } from "react";
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
-import { CloseBlock } from "@/components/mindmake/CloseBlock";
-import { SubscribeBand } from "@/components/mindmake/SubscribeBand";
-import { FilmPlate } from "@/components/mindmake/FilmPlate";
-import { Instrument } from "@/components/mindmake/Instrument";
-import { Build } from "@/components/mindmake/Build";
-import { ScrubText } from "@/components/mindmake/ScrubText";
-import { ObjectionChips } from "@/components/mindmake/ObjectionChips";
-import { LeverPanel } from "@/components/mindmake/LeverPanel";
-import { ProcessTrack } from "@/components/mindmake/ProcessTrack";
-import { LiveBoard } from "@/components/mindmake/board/LiveBoard";
-import { DoorStories } from "@/components/mindmake/DoorStories";
-import { GtmJourney } from "@/components/mindmake/journeys/GtmJourney";
-import { GTM_STEPS } from "@/content/journeySteps";
-import type { Details } from "@/components/mindmake/journeys/DetailsJourney";
+import gtmSignals from "@/data/vnext/gtm-signals.json";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import { useScrollDriver } from "@/hooks/useScrollDriver";
-import { track } from "@/lib/analytics";
-import filmThreePoster from "@/assets/films/film-03-poster.jpg";
-import filmThreePosterWebp from "@/assets/films/film-03-poster.webp";
+import filmThreePoster from "@/assets/films/film-03-poster.webp";
 import filmThreeLoop from "@/assets/films/film-03-loop.mp4";
 import filmThreeLoopWebm from "@/assets/films/film-03-loop.webm";
-import filmSixPoster from "@/assets/films/film-06-poster.jpg";
-import filmSixPosterWebp from "@/assets/films/film-06-poster.webp";
-import filmSixLoop from "@/assets/films/film-06-loop.mp4";
-import filmSixLoopWebm from "@/assets/films/film-06-loop.webm";
-import filmFourPoster from "@/assets/films/film-04-poster.jpg";
-import filmFourPosterWebp from "@/assets/films/film-04-poster.webp";
+import filmFourPoster from "@/assets/films/film-04-poster.webp";
 import filmFourLoop from "@/assets/films/film-04-loop.mp4";
 import filmFourLoopWebm from "@/assets/films/film-04-loop.webm";
 import "@/styles/mindmake.css";
-import "@/styles/mindmake-instruments.css";
+import "@/styles/mindmake-gtm-r6.css";
+import "@/styles/mindmake-gtm-r7.css";
+import "@/styles/mindmake-gtm-calm.css";
+
+type SignalKey = keyof typeof gtmSignals;
+type Signal = (typeof gtmSignals)[SignalKey];
+type DecisionAxis = "product" | "price" | "positioning" | "people";
+
+const signalEntries = Object.entries(gtmSignals) as [SignalKey, Signal][];
+const tickerLabels: Record<SignalKey, string> = {
+  pricing: "HubSpot prices completed tasks",
+  commerce: "Shopify puts products in AI chats",
+  product: "Uber prototypes before the PRD",
+  content: "Cloudflare lets publishers charge AI crawlers",
+  service: "Zendesk sells an autonomous service workforce",
+};
+
+function moveRadioFocus(event: KeyboardEvent<HTMLElement>, nextIndex: number) {
+  const group = event.currentTarget.closest('[role="radiogroup"]');
+  const buttons = Array.from(group?.querySelectorAll<HTMLButtonElement>('[role="radio"]') ?? []);
+  buttons[nextIndex]?.focus();
+}
 
 export default function AiGtm() {
-  const { briefOpen, openBrief, closeBrief } = useLeadBriefHistory();
-  const plateRef = useScrollDriver<HTMLDivElement>();
-  const [seed, setSeed] = useState<Details>();
+  const { briefOpen, briefJourneyKey, openBrief, closeBrief } = useLeadBriefHistory();
+  const [activeSignal, setActiveSignal] = useState<SignalKey>("pricing");
+  const [activeResponse, setActiveResponse] = useState(2);
+  const [activeAxis, setActiveAxis] = useState<DecisionAxis>("product");
+  const [phase, setPhase] = useState(0);
+  const [decisionProgress, setDecisionProgress] = useState(0);
+  const [tickerHeld, setTickerHeld] = useState(false);
+  const tickerResumeRef = useRef<number>();
+  const middleBuildRef = useScrollDriver<HTMLSpanElement>(undefined, "read");
+  const proofRef = useScrollDriver<HTMLElement>(undefined, "read");
+  const proofBottomRef = useScrollDriver<HTMLSpanElement>(undefined, "read");
+  const decisionRef = useScrollDriver<HTMLElement>((progress) => {
+    if (window.matchMedia("(max-width: 80rem)").matches) return;
+    setDecisionProgress(Math.round(progress * 200) / 200);
+    setPhase(Math.min(2, Math.floor(Math.min(.9999, progress) * 3)));
+  }, "pin");
+  const signal = gtmSignals[activeSignal];
+  const selected = signal.responses[activeResponse];
+  const decisionAxes: { key: DecisionAxis; label: string; value: string }[] = [
+    { key: "product", label: "Product", value: selected.product },
+    { key: "price", label: "Price", value: selected.price },
+    { key: "positioning", label: "Positioning", value: selected.positioning },
+    { key: "people", label: "People", value: selected.people },
+  ];
 
-  const startFromJourney = (details: Details) => {
-    setSeed(details);
-    openBrief();
+  const chooseSignal = (key: SignalKey) => {
+    setActiveSignal(key);
+    setActiveResponse(2);
   };
 
+  useEffect(() => () => window.clearTimeout(tickerResumeRef.current), []);
+
+  const holdTicker = () => {
+    window.clearTimeout(tickerResumeRef.current);
+    setTickerHeld(true);
+  };
+
+  const releaseTicker = () => {
+    window.clearTimeout(tickerResumeRef.current);
+    tickerResumeRef.current = window.setTimeout(() => setTickerHeld(false), 4000);
+  };
+
+  const choosePhase = (nextPhase: number) => {
+    setPhase(nextPhase);
+    const section = decisionRef.current;
+    if (!section) return;
+    if (window.matchMedia("(max-width: 80rem)").matches) {
+      const target = section.querySelector<HTMLElement>(nextPhase === 0 ? ".decision-intro" : nextPhase === 1 ? ".comparison-shell" : ".test-ticket");
+      if (target) {
+        const fixedUiOffset = window.matchMedia("(max-width: 60rem)").matches ? 128 : 142;
+        window.scrollTo({ top: window.scrollY + target.getBoundingClientRect().top - fixedUiOffset, behavior: "smooth" });
+      }
+      return;
+    }
+    const travel = Math.max(1, section.offsetHeight - window.innerHeight);
+    window.scrollTo({ top: section.offsetTop + travel * (nextPhase / 2), behavior: "smooth" });
+  };
+
+  const handleResponseKeys = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
+    if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    const delta = event.key === "ArrowRight" || event.key === "ArrowDown" ? 1 : -1;
+    const next = event.key === "Home" ? 0 : event.key === "End" ? signal.responses.length - 1 : (index + delta + signal.responses.length) % signal.responses.length;
+    setActiveResponse(next);
+    moveRadioFocus(event, next);
+  };
+
+  const handleSignalKeys = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
+    if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    const delta = event.key === "ArrowRight" || event.key === "ArrowDown" ? 1 : -1;
+    const next = event.key === "Home" ? 0 : event.key === "End" ? signalEntries.length - 1 : (index + delta + signalEntries.length) % signalEntries.length;
+    chooseSignal(signalEntries[next][0]);
+    moveRadioFocus(event, next);
+  };
+
+  const openGtmBrief = () => openBrief("gtm");
+  const context = `${signal.short} · ${selected.name}`;
+
   return (
-    <MindmakeShell onStart={openBrief}>
-      <SEO
-        title="Build your AI GTM"
-        description="AI is changing what customers will pay for. We rebuild one part of how you sell and prove it with real buyers before we leave."
-        canonical="/ai-gtm"
-      />
+    <MindmakeShell onStart={openGtmBrief} mainClassName="mm-gtm-r6 mm-gtm-r7 mm-gtm-calm" showMobileActionBar={false} compactFooter>
+      <SEO title="Build your AI GTM" description="Turn one AI market shift into a tested commercial move across product, price, positioning and people." canonical="/ai-gtm" />
 
-      <section className="mm-hero" aria-labelledby="gtm-title">
-        <div className="mm-container mm-hero-split">
-          {/* The film drifts against the copy as the hero leaves, which is what
-              the homepage hero has always done and these two never did. The
-              copy column is the entrance's first beat: see index.html. */}
-          <div className="mm-first">
-            <h1 className="mm-setup" id="gtm-title">AI is changing what customers pay for.</h1>
-            <ScrubText className="mm-claim" text="We help you sell for that." />
-            <p className="mm-lede">
-              We take one part of how you sell, rebuild it around the way AI has changed your
-              market, and prove it with real buyers before we leave.
-            </p>
-          </div>
-          <div className="mm-hero-film mm-parallax" ref={plateRef}>
-            <FilmPlate
-              className="mm-parallax-plate"
-              poster={filmThreePoster}
-              posterWebp={filmThreePosterWebp}
-              src={filmThreeLoop}
-              srcWebm={filmThreeLoopWebm}
-              label="A chart room of brass recording pens drawing ink curves onto paper drums. One pen has broken sharply downward and a hand tears the strip away."
-              priority
-            />
-          </div>
+      <section className="hero" aria-labelledby="gtm-title">
+        <div className="hero-visual" aria-hidden="true"><video autoPlay muted loop playsInline poster={filmFourPoster} aria-hidden="true"><source src={filmFourLoopWebm} type="video/webm" /><source src={filmFourLoop} type="video/mp4" /></video><div className="hero-visual-shade" /><div className="hero-aperture"><i /><i /><i /></div></div>
+        <div className="hero-copy">
+          <h1 id="gtm-title"><span className="sr-only">We turn an AI market shift into one tested commercial move.</span><span className="title-wide" aria-hidden="true"><span>We turn an AI</span><span>market shift into one</span><span>tested commercial move.</span></span><span className="title-phone" aria-hidden="true"><span>We turn an AI</span><span>market shift into</span><span>one tested</span><span>commercial move.</span></span></h1>
+          <p className="support-wide">Align one offer. Build it. Test it with customers.</p>
+          <p className="support-phone">Align one offer. Build it. Test it.</p>
+          <div className="hero-actions"><button className="primary-action" type="button" onClick={openGtmBrief} data-mm-primary>Start here <span aria-hidden="true">→</span></button><a className="text-link" href="#decision-table">See live signals <span aria-hidden="true">↓</span></a></div>
         </div>
+
+        <section className="signal-wire" aria-label="Live read of dated AI business signals">
+          <div className="wire-label"><span><i aria-hidden="true" /> Live read</span><time dateTime="2026-09-15" aria-label="Sources checked 15 September 2026"><span>Sources checked</span><span>15 Sep 2026</span></time></div>
+          <div className="ticker-window"><div className={`wire-signals${tickerHeld ? " is-held" : ""}`} role="radiogroup" aria-label="Choose a market signal" onPointerDown={holdTicker} onPointerUp={releaseTicker} onPointerCancel={releaseTicker} onPointerLeave={releaseTicker}>{[...signalEntries, ...signalEntries].map(([key, entry], index) => { const clone = index >= signalEntries.length; return <button key={`${key}-${clone ? "copy" : "source"}`} type="button" role={clone ? undefined : "radio"} aria-checked={clone ? undefined : key === activeSignal} aria-hidden={clone || undefined} tabIndex={clone || key !== activeSignal ? -1 : 0} data-signal={key} data-clone={clone || undefined} onClick={() => chooseSignal(key)} onKeyDown={clone ? undefined : (event) => handleSignalKeys(event, index)}><b>{entry.domain}</b><span>{tickerLabels[key]}</span></button>; })}</div></div>
+        </section>
       </section>
 
-      <section className="mm-block mm-on-raise" aria-labelledby="money-title">
-        <div className="mm-container">
-          <div className="mm-head-split">
-            <h2 id="money-title">What AI changes about selling.</h2>
-            {/* The film belongs to the section rather than to one of three
-                peers, and beside the heading rather than under everything: a
-                1080px square spanning the full container was upscaled. */}
-            <FilmPlate
-              className="mm-impact-film"
-              poster={filmSixPoster}
-              posterWebp={filmSixPosterWebp}
-              src={filmSixLoop}
-              srcWebm={filmSixLoopWebm}
-              label="Extreme macro on a split-flap display in a brass frame, mid-cascade, settling lower on its column."
-            />
-          </div>
-          {/* Four dials on one panel, because these are the four levers there
-              are and moving one moves the others. As three separate cards the
-              page named only three of them and left product out. */}
-          <div style={{ marginTop: 18 }}>
-            <LeverPanel />
+      <section ref={decisionRef} className="decision" id="decision-table" aria-labelledby="decision-title" data-phase={phase} style={{ "--decision-progress": decisionProgress } as CSSProperties}>
+        <span ref={middleBuildRef} className="decision-mid-build" aria-hidden="true" />
+        <div className="decision-sticky">
+          <div className="decision-rail" aria-label="Worked example progress">{["Signal", "Response", "Customer test"].map((label, index) => <button type="button" key={label} className={phase === index ? "is-active" : undefined} aria-current={phase === index ? "step" : undefined} onClick={() => choosePhase(index)}><span>0{index + 1}</span>{label}</button>)}</div>
+
+          <div className="decision-workbench">
+            <div className="decision-ledger" aria-live="polite">
+              <span><small>Signal</small><strong>{signal.domain}</strong></span>
+              <i aria-hidden="true" />
+              <span><small>Working response</small><strong>{selected.name}</strong></span>
+            </div>
+
+            <article className="decision-chapter signal-chapter" data-chapter="0">
+              <div className="question-block"><h2 id="decision-title"><span className="decision-title-wide">One market change. One move.</span><span className="decision-title-phone">One change.<br />One move.</span></h2><p id="signalQuestion">{signal.question}</p><p className="signal-question-phone">{signal.mobileQuestion}</p></div>
+              <div className="evidence-slip"><div className="evidence-meta"><span>{signal.domain}</span><time dateTime={signal.isoDate}>{signal.date}</time></div><p>{signal.observation}</p><div className="evidence-foot"><details className="signal-caveat"><summary>Evidence note</summary><span>{signal.limit}</span></details><a href={signal.source} target="_blank" rel="noreferrer">{signal.sourceLabel} <span aria-hidden="true">↗</span></a></div></div>
+            </article>
+
+            <article className="decision-chapter response-chapter" data-chapter="1">
+              <header className="chapter-heading"><h2>Choose the move.</h2></header>
+              <div className="response-tabs" role="radiogroup" aria-label="Choose a commercial response">{signal.responses.map((response, index) => <button key={response.name} type="button" role="radio" aria-checked={activeResponse === index} tabIndex={activeResponse === index ? 0 : -1} onClick={() => setActiveResponse(index)} onKeyDown={(event) => handleResponseKeys(event, index)}><span>0{index + 1}</span><b>{response.name}</b></button>)}</div>
+              <div className="commercial-map" aria-label="How the selected response changes the business">
+                <div className="map-core"><small>Working response</small><strong>{selected.name}</strong><i aria-hidden="true" /></div>
+                <div className="map-axis axis-product"><span>01 · Product</span><strong>{selected.product}</strong></div>
+                <div className="map-axis axis-price"><span>02 · Price</span><strong>{selected.price}</strong></div>
+                <div className="map-axis axis-positioning"><span>03 · Positioning</span><strong>{selected.positioning}</strong></div>
+                <div className="map-axis axis-people"><span>04 · People</span><strong>{selected.people}</strong></div>
+              </div>
+              <div className="mobile-response" aria-live="polite"><div className="mobile-axis-tabs" role="radiogroup" aria-label="See how the choice changes the business">{decisionAxes.map((axis, index) => <button key={axis.key} type="button" role="radio" aria-checked={activeAxis === axis.key} onClick={() => setActiveAxis(axis.key)}><span>0{index + 1}</span>{axis.label}</button>)}</div><div className="mobile-axis-card"><small>{decisionAxes.findIndex((axis) => axis.key === activeAxis) + 1} of 4</small><strong>{decisionAxes.find((axis) => axis.key === activeAxis)?.label}</strong><p>{decisionAxes.find((axis) => axis.key === activeAxis)?.value}</p></div></div>
+            </article>
+
+            <article className="decision-chapter test-chapter" data-chapter="2">
+              <header className="chapter-heading"><h2>Test it with customers.</h2></header>
+              <div className="test-ticket" aria-live="polite"><div><span>Customer test</span><strong>{selected.testTitle}</strong></div><ol aria-label="Test protocol"><li><b>Show</b><span>The offer</span></li><li><b>Watch</b><span>What buyers do</span></li><li><b>Change</b><span>The decision</span></li></ol><details className="test-detail"><summary>How the test works <span aria-hidden="true">+</span></summary><p>{selected.testBody}</p></details></div>
+            </article>
           </div>
         </div>
       </section>
 
-      {/* The board, straight after the levers: the levers say what AI is
-          changing about selling and the board is that change, read this
-          morning, for the reader's own part of the business. It is the early
-          sight the whole practice rests on, and it used to sit under the form
-          where the page had already asked for something. Ink, between the
-          levers' raise and the stories' raise. */}
-      <LiveBoard />
+      <section ref={proofRef} className="proof" aria-labelledby="gtm-proof-title"><span ref={proofBottomRef} className="proof-bottom-build" aria-hidden="true" /><video autoPlay muted loop playsInline poster={filmThreePoster} aria-hidden="true"><source src={filmThreeLoopWebm} type="video/webm" /><source src={filmThreeLoop} type="video/mp4" /></video><div className="proof-shade" aria-hidden="true" /><div className="proof-copy is-visible"><h2 id="gtm-proof-title">One paid proof. <span>Real customer evidence.</span></h2><p>You keep the offer, evidence and system.</p><blockquote><p>“We set up an AI-native go-to-market system that made us rethink who we hire and what they do.”</p><cite>Chief Revenue Officer, data-infrastructure company</cite></blockquote><button className="primary-action is-large" type="button" onClick={openGtmBrief} data-mm-primary>Start here <span aria-hidden="true">→</span></button></div></section>
 
-      {/* Two companies that changed how they sell. The first client proof on
-          this page, both GTM-shaped: a product made simple enough to buy, and
-          a sales path changed before the market forced it. */}
-      <section className="mm-block mm-on-raise" aria-labelledby="sold-title">
-        <div className="mm-container">
-          <h2 id="sold-title"><Instrument kind="drawer" className="mm-head-mark" />Two companies that changed how they sell.</h2>
-          <div style={{ marginTop: 20 }}>
-            <DoorStories ids={["simple-product", "market-moves"]} />
-          </div>
-        </div>
-      </section>
-
-      <section className="mm-block mm-on-paper" aria-labelledby="engage-title">
-        <div className="mm-container">
-          <h2 id="engage-title"><Instrument kind="levels" className="mm-head-mark" />One decision, proved with buyers. Then your team runs it.</h2>
-          <ProcessTrack
-            first={{
-              instrument: "recorder",
-              title: "The review",
-              line: "Understand what changed, and pick one thing to fix.",
-              body: "You get the model, a clear recommendation and all the evidence behind it. Priced on the result, with no retainer.",
-            }}
-            second={{
-              instrument: "levels",
-              title: "The build, optional",
-              line: "Put it in place, and teach your team to run it.",
-              body: "We set the system up as the memory of how you sell, and connect it to your plans.",
-            }}
-          />
-          <ScrubText className="mm-payoff" text="We bring our own tooling, so the work moves quickly from day one." />
-        </div>
-      </section>
-
-      {/* After the proof from 5 September 2026: the form was the third
-          section, before any evidence that the work had worked for anyone,
-          and a form a reader has no reason to fill in is a screen they scroll
-          past. The board, which used to sit under it, is above it now. */}
-      <section className="mm-block" aria-labelledby="read-title">
-        <div className="mm-container">
-          {/* The film belongs beside this heading for the same reason it does
-              beside the one above: this is the only section on the page that
-              carries no imagery, and it is the section the page exists to get
-              somebody into. Measured on a phone it read a whole-screen change
-              of 0.008 with one of sixty-four cells moving, across 1.68 screens
-              of form. A plate runs its light sweep whether or not the loop
-              plays, so this is the picture and the ambient layer at once. */}
-          <div className="mm-head-split">
-            <h2 id="read-title"><Instrument kind="recorder" className="mm-head-mark" />Try it with your own company.</h2>
-            <FilmPlate
-              className="mm-impact-film"
-              poster={filmFourPoster}
-              posterWebp={filmFourPosterWebp}
-              src={filmFourLoop}
-              srcWebm={filmFourLoopWebm}
-              label="A brass rail carrying cream sheets to a small gate, where a hand lifts the top sheet before the rail resumes."
-            />
-          </div>
-          {/* What happens, before what we need. These three were rendered at
-              the foot of the form, which put 386px of "here is what comes next"
-              under a form nobody had filled in yet and made this section 2.08
-              screens on a 360px phone. */}
-          <div className="mm-journey-steps">
-            {GTM_STEPS.map((step) => (
-              <article className="mm-journey-step" key={step.number}>
-                <b>{step.number}</b>
-                <strong>{step.title}</strong>
-                <span>{step.body}</span>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* The form on its own screen. One job, and the job a reader can see the
-          whole of. */}
-      <section className="mm-block mm-on-raise mm-try" id="try-it" aria-labelledby="try-title">
-        <div className="mm-container">
-          {/* The one screen on each door page the aliveness gate has called
-              still since 1 September. A form is finished the moment it is
-              drawn, so nothing on it moves at rest; what it can do is build
-              under the reader as they arrive, which is the gate's other half
-              and the thing this site has been asked for repeatedly. */}
-          <Build className="mm-try-panel">
-            <Instrument kind="recorder" />
-            <h2 id="try-title" className="mm-try-title">Four details, and we start reading.</h2>
-            <GtmJourney onRead={startFromJourney} />
-          </Build>
-        </div>
-      </section>
-
-      <section className="mm-block">
-        <div className="mm-container">
-          <ObjectionChips ask={["private", "report", "speed", "team", "keep", "how-we-work", "charging", "size", "fit", "risk"]} />
-        </div>
-      </section>
-
-      <SubscribeBand ground="paper" />
-
-      <CloseBlock
-        instrument="gauge"
-        ground="raise"
-        panelId="try-it"
-        claim="You keep the model."
-        body="The read, the plan and the working system. They keep running after we finish."
-      />
-
-      <LeadBrief
-        open={briefOpen}
-        onClose={closeBrief}
-        route="gtm"
-        initialDomain={seed?.domain}
-        initialEmail={seed?.email}
-        /* So that if anything in there fails, the offer of a person is one
-           button rather than a fourth form at the worst possible moment. */
-        visitor={seed}
-        onConfirmed={() => track("journey_gtm_complete")}
-      />
+      <LeadBrief open={briefOpen} onClose={closeBrief} route="gtm" presentation="drawer" initialContext={context} journeyKey={briefJourneyKey} />
     </MindmakeShell>
   );
 }

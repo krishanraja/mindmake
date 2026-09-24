@@ -10,6 +10,27 @@ export const PUBLICATION_URL = "https://mindmakerlive.substack.com";
 export const START_PATH = "/?start=1";
 
 /**
+ * What every way in says, in one place so every surface agrees.
+ *
+ * It names what the reader actually gets, which is the only thing that holds at
+ * the moment of the click: they answer the brief's questions, they keep the
+ * brief it produces, and we get in touch afterwards. "Start here" named the act
+ * of clicking rather than the reward for it, and said nothing about either the
+ * document or the cost.
+ *
+ * Ruling (Krish, 2026-09-24): the click should promise something really good,
+ * really quickly, for free — the wizard, the capture, the output, then a free
+ * consultation and audit.
+ *
+ * It carries no duration. The site states no public price or timescale, and the
+ * number of minutes this takes is not measured anywhere, so it is not claimed.
+ * The consultation is named as what follows rather than as what the button
+ * books, because nothing in the flow books a session.
+ */
+export const START_LABEL = "Get your free AI brief";
+export const START_SUBLABEL = "Answer a few questions, keep the brief, then a free consultation.";
+
+/**
  * The address a visitor can actually reach a human on.
  *
  * It has to receive mail, which is the whole reason it is this one. `mindmake.co`

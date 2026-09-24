@@ -7,7 +7,7 @@ import { createHash } from "node:crypto";
 import { sourceHashBytes } from "../lib/source-hash.mjs";
 
 const root = resolve(import.meta.dirname, "../..");
-const manifestPath = resolve(root, "quality/route-lock/approved-production-r19.json");
+const manifestPath = resolve(root, "quality/route-lock/approved-production-r21.json");
 const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 for (const extension of ['.svg', '.xml', '.webmanifest']) {
@@ -30,7 +30,7 @@ manifest.files[firstPath] = "0".repeat(64);
 
 const output = resolve(tmpdir(), "mindmake-route-lock-self-test");
 await mkdir(output, { recursive: true });
-const badManifest = resolve(output, "approved-production-r19-bad.json");
+const badManifest = resolve(output, "approved-production-r21-bad.json");
 await writeFile(badManifest, `${JSON.stringify(manifest, null, 2)}\n`);
 
 const result = spawnSync(process.execPath, [resolve(root, "scripts/qa/approved-route-lock-check.mjs")], {

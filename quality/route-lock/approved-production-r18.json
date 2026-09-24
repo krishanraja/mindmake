@@ -2,13 +2,12 @@
   "artifact": "mindmake-approved-production-routes-r18",
   "recordedAt": "2026-09-24",
   "status": "candidate record. Owner approval for this revision is NOT recorded. Production gates have not been run against it. Do not treat it as an approval.",
-  "scopeRequested": "One instruction, raised from a screenshot of /ai-gtm: on every page, the left edge of the top bar's wordmark must be the left edge of that page's content. R17 introduced --mm-header-inline so the mark could take each route's own edge, and the body under it was never measured against the result. Four drifts were found and fixed. No page-body redesign, no new commercial offer, no approved copy replaced, and no change to the immutable R3 prototype or its generated adapter.",
+  "scopeRequested": "One instruction, raised from live mindmake.co with a screenshot of the surface: the commercial Decision Balance (\"Build one useful AI system on real work.\" and the five-reading proof instrument) exists on https://mindmake.co/new-age-leadership and absolutely nowhere else. It was mounted on seven routes. It is unmounted from the six that are not /new-age-leadership: /ai-brain, /ai-gtm, /blog, /blog/:slug, /answers and /answers/:slug. No component change, no replacement section, no new commercial offer, no approved copy rewritten, and no change to the immutable R3 prototype or its generated adapter.",
   "sessionDecisions": [
-    "Move the shared commercial block onto --mm-header-inline rather than duplicating the route edges into its own stylesheet, because that token already means 'this route's content edge' and the block closes every route it appears on.",
-    "Fix .mm-container's auto margin rather than the three blocks that tripped over it: the auto margin and the written-out start margin resolve to the same edge for a container at its own width, and differ only when something narrows the box, which is the bug.",
-    "Mirror the R5 surface's --edge into a new .mm-route-leadership class in src/styles/mindmake.css rather than editing src/styles/new-age-leadership-r5.css, which is generated from the approved prototype.",
-    "Leave the R3 chapters at their drawn 4.5%, 1.4px inboard of the 4.4% masthead at 1440. That is a composition decision inside the immutable prototype and belongs to the material-review gate, not to a correction pass. It is named in the new gate's exclusions rather than left unrecorded.",
-    "Leave the 404 centred. It has no top bar and no content edge; aligning a mark to a centred error card would be a redesign nobody asked for."
+    "Ruling (Krish, 2026-09-24): the Decision Balance belongs to /new-age-leadership and absolutely nowhere else.",
+    "Unmount rather than rewrite. src/components/mindmake/locked/CommercialDecisionBalance.tsx and its stylesheet are byte-identical to r17, so the approved surface is unchanged on the one route that keeps it; only the six mount points are removed.",
+    "Put nothing in the vacated space. A replacement close on /ai-brain, /ai-gtm or the editorial routes would be a new commercial surface, which is a material change this instruction did not scope.",
+    "Carry a negative control rather than trusting the removal. src/test/commercial-continuity.test.ts and scripts/qa/commercial-decision-balance-production-check.mjs now assert absence on the six routes, because a re-mount is a one-line import."
   ],
   "routes": [
     "/",
@@ -38,31 +37,31 @@
   },
   "files": {
     ".vercelignore": "f162171ded7ff8c1d6032f7cb50317bc19cc4d1bbd4757be9f8ea75cdec540f1",
-    "src/pages/AiBrainLocked.tsx": "1d70c40d558f42f6467dd8048da5443f30fba887c0a7973d799cc3fe032cd12d",
+    "src/pages/AiBrainLocked.tsx": "9ce6f747c2051c4bb4c8562921d9f3fed67728c2bf3ac20a4a19aa54a5365ac3",
     "src/styles/mindmake-locked-brain.css": "7ef818a05599b945ff2cdbd1aebf56cf3815f7d4508421963755216539da7b96",
     "src/data/vnext/brain-fixture.json": "02fa968575d7000874f0f10a09123336ad6ec3f7bf373dcd351fbb7e7ef2b1b9",
     "prototypes/website-redesign-recovery/brain-signature/index-s2-motion-s3.html": "423659d864e79a72a55d4fd3ca9450b610e616187929293f1e0a8faaafbff2c6",
-    "src/pages/AiGtmLocked.tsx": "7e50da2c4e04fd6aab24694a433d0794747eaa60ebb161cb3782b7c4b1c2467c",
+    "src/pages/AiGtmLocked.tsx": "cbcdd9ee4382a219b32b3580912c1b5c1e6ddfcc75eb1b13674948b2b6711526",
     "src/styles/mindmake-locked-gtm.css": "8c4ee91ad1a96f97efd397668f0742b148fbc4ec820e73daf2ddb4047be58579",
     "src/data/vnext/gtm-signals.json": "5ab7fac6ce8ebdab6b69b73f60e184a7e4df8d923d97edd29c38872648c3bf7f",
     "prototypes/website-redesign-recovery/gtm-market-change/index-motion.html": "8754e189e077ead09728e4e8b78ed26ad9b872a0d8b9d4b3503bc76ee7e98aef",
-    "src/pages/NewAgeLeadership.tsx": "a966f0dead170a2b60e7b9ceadfbe19ce084b76c9eecbc92c6a19c48713789fd",
+    "src/pages/NewAgeLeadership.tsx": "9293d0262fb7431d1cc4ef5007b1f30f39110a0bc3553836a78cb6792304a1b7",
     "src/styles/new-age-leadership-r5.css": "970ffb4f1096abf0e1f3882ac5d04518df17fa96c26cb2dbc5c48efd321a010d",
     "src/components/mindmake/locked/CommercialDecisionBalance.tsx": "d609051efad3b0c369a7a8ecafbca64863a4a83dcb7dc6a3816a56edfbdc5b88",
-    "src/styles/mindmake-commercial-decision-balance.css": "a2fb68466e0835aa4023a2c503c92e66cea3465ac94fdec5ce4d43ec37af3554",
+    "src/styles/mindmake-commercial-decision-balance.css": "28ee9e456159953099cfceabbd068d7d43cbf0bfdaa76c990fd76dd541b5cfac",
     "src/components/mindmake/locked/CaseProofField.tsx": "9973f788919a7802c07e88ca781b7f72f3797a1538875fc6bf1e247de920acb4",
     "src/pages/CaseStudies.tsx": "01c6ab3378d992c2543cbf9b818c43717e0c6491b6021e7471bc0eeede65faf5",
     "src/styles/mindmake-instruments.css": "2cf17cae456013e5ec5504bff3ba0b4f386d559dfc4c7da0596650382e262adf",
     "src/pages/Index.tsx": "485a04421a98c852d3e8870e9ebf4d49f4d253efc179a10385060efe558a028f",
     "src/styles/mindmake-home-vnext.css": "99bfc17c302fb476510452fc029268e85221c8cdcf43b133c9f921c095ac52ca",
-    "src/pages/Blog.tsx": "bbbcb0630060003f66f6177e72eb5bc6a421721a9c102d8adfcd5b07e0e25e96",
-    "src/pages/BlogPost.tsx": "0034314ed713a16f6ce0769f9ba580d44a497684e4abdff7feea13babe3de6ad",
-    "src/pages/Answers.tsx": "690e9e141533407855cf0f227c523e98ad78856c96964c6c6f0195fe45157b81",
-    "src/pages/Answer.tsx": "9dd0788611bf0d13faba57e1f6f98569b12fd4bc81395578a30ee64de452db3c",
+    "src/pages/Blog.tsx": "eedb74a049c1eae8ba9dbafa9793029b8076375aee279076797e7e2184cb8ae1",
+    "src/pages/BlogPost.tsx": "c63b50eefc00ca13a849c824035a3f1681bf14a74b5b2123cfcdbad4f0015613",
+    "src/pages/Answers.tsx": "9cf708e3fb54ce93a663fb4b21f4e9d497189adec457dec24b62dd794b30a036",
+    "src/pages/Answer.tsx": "afcb5862874a2efd84fd16ba00c7d4f6250c913379f3cf1ef57deb9fe91c6260",
     "src/pages/Contact.tsx": "bd73f64982f8176724a8feae80994bcfb1e65c3017ce0cbb0ef3d9e6c1638d99",
     "src/components/mindmake/MindmakeShell.tsx": "05482c75979df268e244c46afb856b932d14028cfb9f66b71f81592dec5d4516",
     "src/components/mindmake/LeadBrief.tsx": "433bde43d62dd29cfe19afd96d713d66eda64965a60c3a0ca90e0d4370020d15",
-    "src/styles/mindmake.css": "79708de6856fb859d7445af27a304afd17faa1cedc1cfbc30e81d114ab3e6b52",
+    "src/styles/mindmake.css": "ac75add37e9e6829b3a010e6f57c158f82b0d1dbc381990bb4cdbdae8132ca37",
     "src/styles/mindmake-brief.css": "05ce4b8c72ef0ac2fa0a85d6264793ff444cd663016a817b376d91a380497b9b",
     "src/hooks/useLeadBriefHistory.ts": "a782c9c8563b44ee23780742c1cfff703f7a0a362ffd2986405508e42567c427",
     "src/data/rebuildProof.ts": "bdea57fd6495548e2ea798e9b7056323bb1936c4f4e66c24301aa82c9114884b",
@@ -71,9 +70,9 @@
     "src/entry-server.tsx": "cd957bdd05c1634c15e7a73ed26bfbf36a23b8a6bfea535f968b00046646e705",
     "scripts/qa/approved-route-lock-check.mjs": "3abb7189561b404d372eb4d86907d861b6fd8244dfcee2e16a0e67e2ab684026",
     "scripts/qa/approved-route-lock-self-test.mjs": "03c0d29a520af39ceccce987c516f5ce59b151c61c45e4fd5f351b1f7f23d289",
-    ".github/workflows/approved-route-lock.yml": "0de06abb8972251d30b98f519b30bb2694d7582623b61c9b4cf7b7a33819edb0",
+    ".github/workflows/approved-route-lock.yml": "10e9abd95bab80477634dda226a8bb1704a2796c1b8e0a596a742650ee4f8f1c",
     "scripts/qa/locked-material-production-check.mjs": "b021940985b52171064d8cfdb9f439c58b440f433de79f3882329559daeeb61d",
-    "scripts/qa/full-route-continuity-check.mjs": "876f2ff1fc36f70bc45dc164955084317c5d5a616e8b6f8a5564e93cd2aad62f",
+    "scripts/qa/full-route-continuity-check.mjs": "6fc58e3aa78982e12b765c8bd245f4c84fc619d8d1dde3320a4e685e989bbc3d",
     "scripts/qa/plain-language-check.mjs": "639c62446bf7f3a01693ba1fc20e446e23ba8fbc8d17bc429e41da951fafd9a8",
     "src/components/homepage-release/component-styles.css": "0b514cc3fb6a68369a22865569557b40119506f2785fcf3bace34270a4a15409",
     "src/components/homepage-release/integration.css": "cb45a23326551c23571096050444ce34dc098090e7bceefa3d4058be697b5848",
@@ -94,7 +93,7 @@
     "scripts/lib/pages.mjs": "51b65ab4e6903505769075d23fb74644fd2e0a16dea36d2cd1ce58f67285659a",
     "src/content/socialPlates.json": "dafc4c7640702aea491486bb529724d53a0c1091b58a71c0dbaee6a255617163",
     "public/social/home.jpg": "d5bd9ba7b03ba989dbd39e8af93405af7d74de5165beb51f5780e718521b2aaf",
-    "package.json": "d7f08512c5b226dbd70065ecffc3dd5865f8256d29e4035ecbead1807d0cd251",
+    "package.json": "08e11e55c8ea2f0dc8cdb4046475b49bf6cb4ed9df603b508bd70f6c8f5003a5",
     "scripts/qa/website-feedback-ledger-check.mjs": "66520939db0aee662ede06de88ddc777959729ed65a1d6ae031578b85f27abec",
     "scripts/qa/release-route-smoke.mjs": "c5bfdceadfbbd1265ce7eaffa02eae787f18b2180113807d9831d9fdb8ce0478",
     "src/test/case-proof-hydration.test.tsx": "0598d9f0c7dbe9dc97f6bb439d8e1b4dc260a56366bdc3795d3d9358de8aa76c",
@@ -138,15 +137,9 @@
     "src/test/mindmake-brief-backend-core.test.ts": "4abd13b98aac8ebd07fc72b9a22a766220eead7351206a031c21b39acaf82494",
     "scripts/lib/source-hash.mjs": "558f2df12b482c3b7367a90c19bac10aa8771e65590b9b81e41a4089dc007c0e",
     "src/index.css": "1406d8fa2da45a662130ed3904c5e44757e25c9e6fc4e4d90feed5a6c53f5e38",
-    "vite.config.ts": "4f5c6d757b8d228cc5ada91c37789d1d33bbbc559b939361ed9977461c99fdfe",
-    "scripts/qa/logo-alignment-check.mjs": "d91c6176c6732f5e0a22135989c15d39e6ecefd751ea07f7b352f5d5fc0a5ce4"
+    "vite.config.ts": "4f5c6d757b8d228cc5ada91c37789d1d33bbbc559b939361ed9977461c99fdfe"
   },
-  "newlyLocked": [
-    {
-      "path": "scripts/qa/logo-alignment-check.mjs",
-      "reason": "The gate that measures the wordmark against each page's content edges. It is the only thing standing between this fix and the next silent drift, so it is part of the enforced surface."
-    }
-  ],
+  "newlyLocked": [],
   "minimumContracts": {
     "brain": {
       "meanings": 20,
@@ -189,32 +182,26 @@
     "price the result"
   ],
   "verification": {
-    "status": "Partial, and named. R17's claims are not proof for this candidate.",
+    "status": "Partial for this record, and not owner-approved. Recorded below exactly as run on 2026-09-24, Linux, Node 22.22.2.",
     "performed": [
-      "npm run typecheck, npm run lint and the full unit suite (541 tests, 36 files) on the changed tree",
-      "The canonical npm run build, green end to end, including qa:docs, the R3 adapter --check, the route lock, the homepage handoff and the material-review self-test; 26 prerendered routes",
-      "npm run qa:logo-alignment against the built dist/, served in Vercel's resolution order: 595 content edges across 14 routes at 390, 768, 1280, 1440 and 1920, all on the wordmark's edge",
-      "Two negative controls on that gate: reverting --db-gutter-left reproduces +42.41px on /ai-brain and +60px on /ai-gtm at 1440; reverting .mm-container's start margin reproduces +210px and +260px on an article and +160px on each legal page",
-      "The same edges read in Firefox on /, /ai-brain, /ai-gtm, /new-age-leadership, /privacy and an article at 1440 and 390",
-      "Desktop screenshots at 1440 inspected on the four corrected surfaces",
-      "Phone screenshots at 390 inspected on the same four surfaces",
-      "qa:cards, qa:chrome, qa:nojs, qa:screens, qa:entrance and qa:website-feedback on the built output. qa:rhythm reports two sections sharing a ground; the same two reproduce on a build of the unchanged baseline, so they are not this pass's",
-      "QA_ENGINE=chromium npm run qa:release-routes against the same build: 104 route cases and 5 supplements, 0 failures. Its local report was not kept, because one engine on one platform is not the release matrix and a receipt in artifacts/ would read as though it were."
+      "npm run typecheck: pass.",
+      "npm run lint: pass, 0 errors and the 2 pre-existing react-refresh warnings.",
+      "npm test: 36 files, 542 tests, all pass, including the rewritten single-route contract and its six-route negative control.",
+      "npm run qa:approved-routes and qa:approved-routes:self-test against this record: pass."
     ],
     "required": [
-      "The full built-route browser matrix on Chromium, Firefox and macOS WebKit against one build artifact. The Chromium leg above is one third of it.",
-      "Actual rendered forward/reverse pinned history and dividend states with exits",
-      "qa:logo-alignment on that same artifact, at every listed width and route",
-      "Live intelligence, verified lead delivery, personal read and downloadable brief",
-      "Independent review and exact deployment readback",
-      "All 26 source-indexed routes: initial/hydrated head parity, actual client effect, positive/negative detector controls, social/icon asset readback",
-      "Rendered first frame of a cold, throttled load on every code-split route, showing the route's own styling present"
+      "Canonical build and prerender",
+      "Full built-route browser matrix (qa:release-routes) on the same build artifact",
+      "qa:commercial-decision-balance-production, including the new absence sweep",
+      "qa:full-route-continuity with the relocated 512x384 reflow reading",
+      "Actual desktop and mobile screenshots of the six routes that lost the surface, read for what now ends each page",
+      "Independent review and exact deployment readback"
     ],
-    "physicalException": "VoiceOver on physical iPhone and TalkBack on physical Android not performed; owner permits publication after all other checks pass."
+    "physicalException": "VoiceOver on physical iPhone and TalkBack on physical Android not performed."
   },
   "supersedes": {
     "path": "quality/route-lock/approved-production-r17.json",
-    "reason": "R17 introduced --mm-header-inline and measured the wordmark against the two locked routes' headings. This record carries the rest of that same alignment: the shared commercial block, /new-age-leadership, and the three container measures, plus the gate that keeps them there. No earlier record is rewritten. R16 remains the last record carrying a recorded owner approval."
+    "reason": "R17 froze the correction pass over what the delivered surfaces render. This record carries one scoped removal on top of it. Every hash change is listed in scope with its reason; no earlier record is rewritten. R16 remains the last record carrying a recorded owner approval."
   },
   "textLineEndings": "lf",
   "browserPlatforms": {
@@ -232,28 +219,58 @@
     "baselineCommit": "0653dfd",
     "allowedExistingChanges": [
       {
-        "path": "src/styles/mindmake.css",
-        "before": "ac75add37e9e6829b3a010e6f57c158f82b0d1dbc381990bb4cdbdae8132ca37",
-        "after": "79708de6856fb859d7445af27a304afd17faa1cedc1cfbc30e81d114ab3e6b52",
-        "reason": "Adds .mm-route-leadership so /new-age-leadership's chrome takes the R5 surface's edge, and writes out .mm-container's start margin so a narrower max-width on the container shortens the measure instead of centring it. No other rule changes."
+        "path": "src/pages/AiBrainLocked.tsx",
+        "before": "1d70c40d558f42f6467dd8048da5443f30fba887c0a7973d799cc3fe032cd12d",
+        "after": "9ce6f747c2051c4bb4c8562921d9f3fed67728c2bf3ac20a4a19aa54a5365ac3",
+        "reason": "The Decision Balance is unmounted. /ai-brain keeps its locked body and the shell's own way in; it no longer carries the commercial surface."
       },
       {
-        "path": "src/styles/mindmake-commercial-decision-balance.css",
-        "before": "28ee9e456159953099cfceabbd068d7d43cbf0bfdaa76c990fd76dd541b5cfac",
-        "after": "a2fb68466e0835aa4023a2c503c92e66cea3465ac94fdec5ce4d43ec37af3554",
-        "reason": "Reads --mm-header-inline, falling back to --mm-edge, so the block sits on the route's content edge rather than always on the container's. Container-measured routes are unchanged."
+        "path": "src/pages/AiGtmLocked.tsx",
+        "before": "7e50da2c4e04fd6aab24694a433d0794747eaa60ebb161cb3782b7c4b1c2467c",
+        "after": "cbcdd9ee4382a219b32b3580912c1b5c1e6ddfcc75eb1b13674948b2b6711526",
+        "reason": "The Decision Balance is unmounted. /ai-gtm keeps its locked body and the shell's own way in; it no longer carries the commercial surface."
       },
       {
-        "path": "src/pages/NewAgeLeadership.tsx",
-        "before": "9293d0262fb7431d1cc4ef5007b1f30f39110a0bc3553836a78cb6792304a1b7",
-        "after": "a966f0dead170a2b60e7b9ceadfbe19ce084b76c9eecbc92c6a19c48713789fd",
-        "reason": "Declares mm-route-leadership on the .mm-site that carries the commercial block and the footer, so the shell chrome can take this route's edge. No page body change."
+        "path": "src/pages/Blog.tsx",
+        "before": "bbbcb0630060003f66f6177e72eb5bc6a421721a9c102d8adfcd5b07e0e25e96",
+        "after": "eedb74a049c1eae8ba9dbafa9793029b8076375aee279076797e7e2184cb8ae1",
+        "reason": "The Decision Balance is unmounted. The archive ends on its own index."
       },
       {
-        "path": "package.json",
-        "before": "08e11e55c8ea2f0dc8cdb4046475b49bf6cb4ed9df603b508bd70f6c8f5003a5",
-        "after": "d7f08512c5b226dbd70065ecffc3dd5865f8256d29e4035ecbead1807d0cd251",
-        "reason": "Adds the qa:logo-alignment script."
+        "path": "src/pages/BlogPost.tsx",
+        "before": "0034314ed713a16f6ce0769f9ba580d44a497684e4abdff7feea13babe3de6ad",
+        "after": "c63b50eefc00ca13a849c824035a3f1681bf14a74b5b2123cfcdbad4f0015613",
+        "reason": "The Decision Balance is unmounted. An article ends on its related ideas."
+      },
+      {
+        "path": "src/pages/Answers.tsx",
+        "before": "690e9e141533407855cf0f227c523e98ad78856c96964c6c6f0195fe45157b81",
+        "after": "9cf708e3fb54ce93a663fb4b21f4e9d497189adec457dec24b62dd794b30a036",
+        "reason": "The Decision Balance is unmounted. The answer index ends on its own entries."
+      },
+      {
+        "path": "src/pages/Answer.tsx",
+        "before": "9dd0788611bf0d13faba57e1f6f98569b12fd4bc81395578a30ee64de452db3c",
+        "after": "afcb5862874a2efd84fd16ba00c7d4f6250c913379f3cf1ef57deb9fe91c6260",
+        "reason": "The Decision Balance is unmounted. An answer ends on the questions that follow."
+      },
+      {
+        "path": "scripts/qa/full-route-continuity-check.mjs",
+        "before": "876f2ff1fc36f70bc45dc164955084317c5d5a616e8b6f8a5564e93cd2aad62f",
+        "after": "6fc58e3aa78982e12b765c8bd245f4c84fc619d8d1dde3320a4e685e989bbc3d",
+        "reason": "The 512x384 reflow reading of the commercial surface follows the surface to /new-age-leadership. The phone-only action bar reading stays on /blog, which still renders one."
+      },
+      {
+        "path": "scripts/qa/approved-route-lock-check.mjs",
+        "before": "1d278456ae775848c49d3fd87ee3f2f6839137dc42f3a999e6ec686073094cba",
+        "after": "3abb7189561b404d372eb4d86907d861b6fd8244dfcee2e16a0e67e2ab684026",
+        "reason": "Selects this new record."
+      },
+      {
+        "path": "scripts/qa/approved-route-lock-self-test.mjs",
+        "before": "4aa3f374621463a225f26f4eb4dfb02ae92f2b865023c580538d236e50ecc4dd",
+        "after": "03c0d29a520af39ceccce987c516f5ce59b151c61c45e4fd5f351b1f7f23d289",
+        "reason": "Selects this new record."
       }
     ]
   },
@@ -261,31 +278,5 @@
     ".svg",
     ".xml",
     ".webmanifest"
-  ],
-  "verificationCorrections": {
-    "allowedChanges": [
-      {
-        "path": "scripts/qa/approved-route-lock-check.mjs",
-        "before": "1d278456ae775848c49d3fd87ee3f2f6839137dc42f3a999e6ec686073094cba",
-        "after": "3abb7189561b404d372eb4d86907d861b6fd8244dfcee2e16a0e67e2ab684026",
-        "reason": "Reads this revision."
-      },
-      {
-        "path": "scripts/qa/approved-route-lock-self-test.mjs",
-        "before": "4aa3f374621463a225f26f4eb4dfb02ae92f2b865023c580538d236e50ecc4dd",
-        "after": "03c0d29a520af39ceccce987c516f5ce59b151c61c45e4fd5f351b1f7f23d289",
-        "reason": "Reads this revision."
-      },
-      {
-        "path": ".github/workflows/approved-route-lock.yml",
-        "before": "10e9abd95bab80477634dda226a8bb1704a2796c1b8e0a596a742650ee4f8f1c",
-        "after": "0de06abb8972251d30b98f519b30bb2694d7582623b61c9b4cf7b7a33819edb0",
-        "reason": "Runs qa:logo-alignment against the frozen built candidate on the Linux leg."
-      }
-    ],
-    "newlyBound": [
-      "scripts/qa/logo-alignment-check.mjs"
-    ],
-    "nonChanges": "All other R17 hashes retained. Product, backend, assets, the immutable R3 prototype and its generated adapter are unchanged from R17."
-  }
+  ]
 }

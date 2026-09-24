@@ -1,14 +1,12 @@
 {
-  "artifact": "mindmake-approved-production-routes-r19",
+  "artifact": "mindmake-approved-production-routes-r21",
   "recordedAt": "2026-09-24",
-  "status": "candidate record. Owner approval for this revision is NOT recorded. Production gates have not been run against it. Do not treat it as an approval.",
-  "scopeRequested": "Krish asked for the phone action bar back on /ai-brain and /ai-gtm. Restoring it required fixing why it did not work anywhere: every rule for .mm-action-bar lived in src/styles/mindmake-instruments.css, which only /case-studies imports, so on every other shell route the component shipped with no CSS and rendered a bare green button in normal flow below the footer, at every width including desktop. The rules move to src/styles/mindmake.css, beside the --mm-bar-reserve token and the .mm-footer padding that reads it. No declaration is changed. The same instruction also asked to rename every \"Start here\" to \"Get a free live session\" and to add a three-button sticky bar to the homepage. Neither is in this record; both are held for a decision, for the reasons in project-documentation/history/LOG.md.",
+  "status": "candidate record. Owner approval for this revision is NOT recorded. Do not treat it as an approval.",
+  "scopeRequested": "Two defects in r20's action bar, both found by the release browser matrix on the r20 head and both real visitor behaviour rather than gate artefacts. No new feature, no copy change, no change to what the bar offers on a desktop viewport.",
   "sessionDecisions": [
-    "Ruling (Krish, 2026-09-24): the phone action bar returns to /ai-brain and /ai-gtm.",
-    "Move the bar's rules rather than import the instruments stylesheet into the shell. Importing it would put the whole instruments sheet on every route's render-blocking path, which is the cost r17 spent work removing.",
-    "Move them into mindmake.css rather than a new stylesheet, because --mm-bar-reserve and the .mm-footer rule that reads it already live there and are the rest of the same contract.",
-    "Held: renaming \"Start here\" to \"Get a free live session\". The label is a public offer claim, the flow behind every one of those buttons is a private written brief rather than a booked session, and src/test/brief2-public-contract.test.ts records a decision against booking language on the shell. The offer has to change before the label can.",
-    "Held: a three-button sticky bar on the homepage. scripts/qa/one-way-in-check.mjs permits a fork of exactly two in one control group and fails anything else; src/components/mindmake/CloseBlock.tsx records the defect that produced the rule. The homepage is generated from the immutable approved R3, so the bar would also be a material change to that release."
+    "The trailing slash is a real page, not a test spelling. Vercel resolves /ai-brain and /ai-brain/ to the same document, so a visitor arriving at either had to get the same bar; keying on the exact pathname meant they did not, and React tore the route down to client rendering. Normalised rather than special-cased.",
+    "src/test/action-bar-door.test.ts locks it at the server render, with a negative control: reverted to the exact-pathname lookup, its two trailing-slash cases fail and the other nine pass.",
+    "The phone loses the door rather than the footer. A second row put the bar at 150.7px on a 568px screen, over a quarter of it, and its own reserve then covered the last footer link. The bar's job on a phone is the one action, and the menu carries both routes one tap away."
   ],
   "routes": [
     "/",
@@ -48,10 +46,10 @@
     "prototypes/website-redesign-recovery/gtm-market-change/index-motion.html": "8754e189e077ead09728e4e8b78ed26ad9b872a0d8b9d4b3503bc76ee7e98aef",
     "src/pages/NewAgeLeadership.tsx": "9293d0262fb7431d1cc4ef5007b1f30f39110a0bc3553836a78cb6792304a1b7",
     "src/styles/new-age-leadership-r5.css": "970ffb4f1096abf0e1f3882ac5d04518df17fa96c26cb2dbc5c48efd321a010d",
-    "src/components/mindmake/locked/CommercialDecisionBalance.tsx": "d609051efad3b0c369a7a8ecafbca64863a4a83dcb7dc6a3816a56edfbdc5b88",
+    "src/components/mindmake/locked/CommercialDecisionBalance.tsx": "f57849b19f5d15ecb5e9fd664833cfcf0d5e07bbd355d71656c243ac5c2a3410",
     "src/styles/mindmake-commercial-decision-balance.css": "28ee9e456159953099cfceabbd068d7d43cbf0bfdaa76c990fd76dd541b5cfac",
     "src/components/mindmake/locked/CaseProofField.tsx": "9973f788919a7802c07e88ca781b7f72f3797a1538875fc6bf1e247de920acb4",
-    "src/pages/CaseStudies.tsx": "01c6ab3378d992c2543cbf9b818c43717e0c6491b6021e7471bc0eeede65faf5",
+    "src/pages/CaseStudies.tsx": "02abc1d4981d741c7735a5109fd826615b792bc1a464f3b087e1196c1357f383",
     "src/styles/mindmake-instruments.css": "740382b622933e23aec214279cae5d6d5bcfb300a66c7cd80b0325cdd47ba7bb",
     "src/pages/Index.tsx": "485a04421a98c852d3e8870e9ebf4d49f4d253efc179a10385060efe558a028f",
     "src/styles/mindmake-home-vnext.css": "99bfc17c302fb476510452fc029268e85221c8cdcf43b133c9f921c095ac52ca",
@@ -59,19 +57,19 @@
     "src/pages/BlogPost.tsx": "c63b50eefc00ca13a849c824035a3f1681bf14a74b5b2123cfcdbad4f0015613",
     "src/pages/Answers.tsx": "9cf708e3fb54ce93a663fb4b21f4e9d497189adec457dec24b62dd794b30a036",
     "src/pages/Answer.tsx": "afcb5862874a2efd84fd16ba00c7d4f6250c913379f3cf1ef57deb9fe91c6260",
-    "src/pages/Contact.tsx": "bd73f64982f8176724a8feae80994bcfb1e65c3017ce0cbb0ef3d9e6c1638d99",
-    "src/components/mindmake/MindmakeShell.tsx": "05482c75979df268e244c46afb856b932d14028cfb9f66b71f81592dec5d4516",
+    "src/pages/Contact.tsx": "fbc16c3711108d1c98d0069d486222c22851442c4c2235ca30a0bd65a29f3d18",
+    "src/components/mindmake/MindmakeShell.tsx": "b58e9ada18861fc441912c6d49658f797118d40c0c380741e39cb7dc99879e38",
     "src/components/mindmake/LeadBrief.tsx": "433bde43d62dd29cfe19afd96d713d66eda64965a60c3a0ca90e0d4370020d15",
-    "src/styles/mindmake.css": "dbecd62f1e0b7d515178eba2078936a70439516214b76041beee62ebfe958c24",
+    "src/styles/mindmake.css": "ca8ae4f675738f82ce1ce83d0b1ced4ba48e82310d24d30f81a5aee1dabe28ad",
     "src/styles/mindmake-brief.css": "05ce4b8c72ef0ac2fa0a85d6264793ff444cd663016a817b376d91a380497b9b",
     "src/hooks/useLeadBriefHistory.ts": "a782c9c8563b44ee23780742c1cfff703f7a0a362ffd2986405508e42567c427",
     "src/data/rebuildProof.ts": "bdea57fd6495548e2ea798e9b7056323bb1936c4f4e66c24301aa82c9114884b",
     "src/data/testimonials.ts": "24466efccdb455aef4698f7e0a4a00e4885ecb43cf6245bf5255e1369e7d0663",
     "src/App.tsx": "2480580fceaf0697c370b6ce8f480068ca30780d9e06b8601e239175174f93af",
     "src/entry-server.tsx": "cd957bdd05c1634c15e7a73ed26bfbf36a23b8a6bfea535f968b00046646e705",
-    "scripts/qa/approved-route-lock-check.mjs": "b8d9f478f4c016988107bbdab39e16e031f9a9d1507bdce9f8363965941a7e59",
-    "scripts/qa/approved-route-lock-self-test.mjs": "b824b9d3908b7d471fd883ceca4f4084f0b97064f7df0175a463d938c8f11ffb",
-    ".github/workflows/approved-route-lock.yml": "10e9abd95bab80477634dda226a8bb1704a2796c1b8e0a596a742650ee4f8f1c",
+    "scripts/qa/approved-route-lock-check.mjs": "d138454932ef58b7135f4f4f411b167dfe1d452f7077c64e276e59d6fa8841b4",
+    "scripts/qa/approved-route-lock-self-test.mjs": "1a70eadc2c9bc47965b6dd55660a549ea98c899ce67dce1a1cc7ef8bf6a81ec7",
+    ".github/workflows/approved-route-lock.yml": "a3a41accb6cde749a9e5e89fd2f5672da0b61e4144ad75952ba55bcf3cbea397",
     "scripts/qa/locked-material-production-check.mjs": "b021940985b52171064d8cfdb9f439c58b440f433de79f3882329559daeeb61d",
     "scripts/qa/full-route-continuity-check.mjs": "6fc58e3aa78982e12b765c8bd245f4c84fc619d8d1dde3320a4e685e989bbc3d",
     "scripts/qa/plain-language-check.mjs": "639c62446bf7f3a01693ba1fc20e446e23ba8fbc8d17bc429e41da951fafd9a8",
@@ -114,7 +112,7 @@
     "src/test/discoverability.test.ts": "5327fa483bd558580dced126a666e54df427d6664aff614e115bfab0fc8b3b3b",
     "src/test/seo-prerender.test.tsx": "a49ddfaea0d4e25b3efcbd7342a40d92d8e8d96a52cf146a3b2468bd63ad674c",
     "src/test/seo-navigation.test.tsx": "df5fdc636cde34d682bec1b9ed80d5e4e47d412e8ca4af8d64bac2719722bb15",
-    "src/test/brief2-public-contract.test.ts": "d854d176197b0ec0d23ff62ebd028b84d8517b2ded51f8fe00aaed133381bfab",
+    "src/test/brief2-public-contract.test.ts": "2a67257bd481082edd5d529a40367b936f98ddd01c89e8ec878f8cc101d276fd",
     "public/sitemap.xml": "5721855b87fd7ce63765f373a76a6610c67c032a0a2ca628fbaeea9ee8702b82",
     "public/llms.txt": "aaf4b8c5c376f6eb365f9a98a44842075d67dfd260dc502e05c084e1865c03ad",
     "public/robots.txt": "d655c25315f781de2ff83266a9472f7fdf5e6c8fa0ae91b8f7099e4e3a78831b",
@@ -185,26 +183,22 @@
   "verification": {
     "status": "Partial for this record, and not owner-approved. Recorded below exactly as run on 2026-09-24, Linux, Node 22.22.2.",
     "performed": [
-      "npm run typecheck: pass.",
-      "npm run lint: pass, 0 errors and the 2 pre-existing react-refresh warnings.",
-      "npm test: 36 files, 542 tests, all pass, including the relocated CookieConsent stylesheet assertion.",
-      "npm run qa:approved-routes and qa:approved-routes:self-test against this record: pass.",
-      "npm run qa:chrome against the built artifact, 8 sizes x 5 pages x 2 text scales including /ai-brain and /ai-gtm: clean, strip flush, bar stacked on it, nothing covered.",
-      "npm run qa:oneway against the built artifact across 7 routes at 1440 and 390: never more than one primary action on screen.",
-      "Read on the built artifact: the bar is position:fixed and reserves 72.19px at 390x844 with a coarse pointer on /ai-brain, /ai-gtm, /blog and /answers, and computes display:none at 1440x900 on all four. Before this change it computed display:block and position:static at both widths on all but /case-studies."
+      "qa:release-routes, chromium, the full local matrix: 104 cases and 5 supplements, 0 failures. On the r20 head the same run reported the two hydration failures per offer route that CI saw, then three 'Last footer link obscured' failures after the first fix; both are gone.",
+      "npm test: 37 files, 553 tests, all pass, including the new action-bar door contract and its negative control.",
+      "npm run typecheck and npm run lint: pass, 0 errors and the 2 pre-existing warnings.",
+      "qa:approved-routes and its self-test against this record: pass.",
+      "qa:chrome, 8 sizes x 7 pages x 2 text scales: clean. qa:oneway, 9 routes at two widths: never more than one way in."
     ],
     "required": [
-      "Canonical build and prerender",
-      "Full built-route browser matrix (qa:release-routes) on the same build artifact",
-      "qa:full-route-continuity, whose 512x384 reading asserts the bar stays down on a desktop fine pointer",
-      "Physical phone read of both offer routes, since no gate emulates a safe-area inset",
+      "The full CI matrix on this head: Firefox and macOS WebKit have not run against the fix, and both failed on r20",
+      "A physical phone read, since no gate emulates a safe-area inset",
       "Independent review and exact deployment readback"
     ],
     "physicalException": "VoiceOver on physical iPhone and TalkBack on physical Android not performed."
   },
   "supersedes": {
-    "path": "quality/route-lock/approved-production-r18.json",
-    "reason": "R18 restricted the commercial Decision Balance to /new-age-leadership and left /ai-brain and /ai-gtm with no way in on the page. This record answers that. Every hash change is listed in scope with its reason; no earlier record is rewritten. R16 remains the last record carrying a recorded owner approval."
+    "path": "quality/route-lock/approved-production-r20.json",
+    "reason": "R20's action bar shipped two defects that its own release matrix caught on every engine. This record carries their fixes and the regression test that locks the first. No earlier record is rewritten. R16 remains the last record carrying a recorded owner approval."
   },
   "textLineEndings": "lf",
   "browserPlatforms": {
@@ -219,42 +213,30 @@
     "rationale": "project-documentation/website-redesign/RELEASE-2026-09-24.md"
   },
   "scope": {
-    "baselineCommit": "6b5cf3c",
+    "baselineCommit": "2fdc193",
     "allowedExistingChanges": [
       {
+        "path": "src/components/mindmake/MindmakeShell.tsx",
+        "before": "51ed65715b0faad8da1702290fdc1ea42d7a0a3a47326b7f4f7a75f891242cd4",
+        "after": "b58e9ada18861fc441912c6d49658f797118d40c0c380741e39cb7dc99879e38",
+        "reason": "Keys the action bar's door on the route without its trailing slash. Reading location.pathname exactly meant /ai-brain found a door and /ai-brain/ did not, so the prerendered document carried one and hydration did not: React error #418, the route dropped to client rendering and the server heading went with it. Caught by qa:release-routes on all three engines."
+      },
+      {
         "path": "src/styles/mindmake.css",
-        "before": "ac75add37e9e6829b3a010e6f57c158f82b0d1dbc381990bb4cdbdae8132ca37",
-        "after": "dbecd62f1e0b7d515178eba2078936a70439516214b76041beee62ebfe958c24",
-        "reason": "Takes ownership of the phone action bar's rules, next to --mm-bar-reserve and the .mm-footer rule that already reads it. Moved verbatim from mindmake-instruments.css; no declaration changed."
-      },
-      {
-        "path": "src/styles/mindmake-instruments.css",
-        "before": "2cf17cae456013e5ec5504bff3ba0b4f386d559dfc4c7da0596650382e262adf",
-        "after": "740382b622933e23aec214279cae5d6d5bcfb300a66c7cd80b0325cdd47ba7bb",
-        "reason": "Gives up the action bar's rules. They were unreachable from every shell route but /case-studies, which is why the component rendered as a bare button below the footer everywhere else."
-      },
-      {
-        "path": "src/pages/AiBrainLocked.tsx",
-        "before": "9ce6f747c2051c4bb4c8562921d9f3fed67728c2bf3ac20a4a19aa54a5365ac3",
-        "after": "4b56a76a1661097c7edff62878e602d138c902298fe23a7704a184f9079fa519",
-        "reason": "Stops declaring showMobileActionBar={false}, so the phone keeps a way in through the page. The locked body is unchanged."
-      },
-      {
-        "path": "src/pages/AiGtmLocked.tsx",
-        "before": "cbcdd9ee4382a219b32b3580912c1b5c1e6ddfcc75eb1b13674948b2b6711526",
-        "after": "8bc26e6098093e9f5c2cb8b3170f2f15825a2428e48420e37d5eb1801ef81381",
-        "reason": "Stops declaring showMobileActionBar={false}, so the phone keeps a way in through the page. The locked body is unchanged."
+        "before": "c41f3650c45a259794e2d8d1dcece0f7ceaed19d5524b1dc0f66ff8eb9c08fa4",
+        "after": "ca8ae4f675738f82ce1ce83d0b1ced4ba48e82310d24d30f81a5aee1dabe28ad",
+        "reason": "The door is hidden below 768px. It was a second row there, and the bar stood 150.7px tall at 320x568 with its own reserve pushing the last footer link underneath it on both offer routes. The phone keeps the one action; the menu carries both routes."
       },
       {
         "path": "scripts/qa/approved-route-lock-check.mjs",
-        "before": "3abb7189561b404d372eb4d86907d861b6fd8244dfcee2e16a0e67e2ab684026",
-        "after": "b8d9f478f4c016988107bbdab39e16e031f9a9d1507bdce9f8363965941a7e59",
+        "before": "4ba5c91e045cd1b5e443fc63ecef3f8e5571d8d7827852f7334ecc650c0bdaef",
+        "after": "d138454932ef58b7135f4f4f411b167dfe1d452f7077c64e276e59d6fa8841b4",
         "reason": "Selects this new record."
       },
       {
         "path": "scripts/qa/approved-route-lock-self-test.mjs",
-        "before": "03c0d29a520af39ceccce987c516f5ce59b151c61c45e4fd5f351b1f7f23d289",
-        "after": "b824b9d3908b7d471fd883ceca4f4084f0b97064f7df0175a463d938c8f11ffb",
+        "before": "34e13c593ceb9c598b0e2f8eed06fd29d16d1aec102b306d0bcd18b8ee3a29dc",
+        "after": "1a70eadc2c9bc47965b6dd55660a549ea98c899ce67dce1a1cc7ef8bf6a81ec7",
         "reason": "Selects this new record."
       }
     ]

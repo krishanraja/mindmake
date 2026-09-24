@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 import { createHash } from 'node:crypto';
+import { tmpdir } from 'node:os';
+import { resolve } from 'node:path';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { chromium, firefox, webkit } from 'playwright';
@@ -7,7 +9,15 @@ import { createServer } from 'vite';
 import { candidateIdentity } from './award-panel-lib.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
-const output = 'C:/Users/krish/.scratch/mindmake-case-proof-field-production';
+// A hardcoded Windows path creates a literal directory named "C:" when this
+// runs on Linux or macOS, which then lands in the working tree ready to be
+// committed by accident. The author's path stays the default; every other
+// platform gets somewhere it can actually write.
+const output = process.env.MINDMAKE_QA_OUTPUT
+  ? resolve(process.env.MINDMAKE_QA_OUTPUT)
+  : process.platform === 'win32'
+    ? 'C:/Users/krish/.scratch/mindmake-case-proof-field-production'
+    : resolve(tmpdir(), 'mindmake-case-proof-field-production');
 const candidatePath = '/case-studies';
 const chromiumViewports = [[320,568],[360,800],[390,844],[430,932],[768,1024],[844,390],[1024,768],[1320,852],[1440,700],[1440,900],[1920,1080]];
 const representative = [[320,568],[390,844],[844,390],[1320,852],[1440,700],[1440,900]];
@@ -23,6 +33,11 @@ const baselineHashes = {
   'prototypes/website-redesign-recovery/case-study-browsing/script.js': '8c51caf1b2a2e96f0caaa0cb43fe369c6050f5cd7b7c6cff66790ab006f96316',
   'prototypes/website-redesign-recovery/case-study-browsing/review.html': '9742ded459c3a14efc34866a1793d15042fc2497d3542621b92bac6360c85368',
   'prototypes/website-redesign-recovery/case-study-browsing/check.mjs': '21c80984d7b414835bf31067e1ac326345f41531296cb468104535f5bc5ef053',
+  'prototypes/website-redesign-recovery/case-study-browsing-r2/index.html': '046d219a9287d70d1e3ed2b534282ce1298f891f842ca89711251fdb99772029',
+  'prototypes/website-redesign-recovery/case-study-browsing-r2/styles.css': '2fced1bd0acbda3186f1290a9dabfb461c3660ad706828fca4feb7abd94ed9f0',
+  'prototypes/website-redesign-recovery/case-study-browsing-r2/script.js': '6b37f9b58f88cf4fc34ade4cf0421719738675f910e1c54842d4935acd32676e',
+  'prototypes/website-redesign-recovery/case-study-browsing-r2/review.html': 'b318df0581aa87f00f61891422d7c607e861de4d70d79b360d790c94191da4eb',
+  'prototypes/website-redesign-recovery/case-study-browsing-r2/check.mjs': '7ff2d8d91dccfae045ed9445ed917bd4b87564402745d7a0bbc35f9acf51a136',
 };
 const stories = [
   ['day-one', "A day's work, and a partner signed the month after."],
@@ -65,12 +80,37 @@ const visibleGeometry = async (page) => page.evaluate(() => {
       range.selectNodeContents(text);
       for (const rect of range.getClientRects()) {
         if (rect.width < .5 || rect.height < .5) continue;
-        if (!inside(rect, box) && !text.closest('.mobile-dock')) textViolations.push({ text:text.textContent.trim().slice(0,50), rect:{left:rect.left,right:rect.right,top:rect.top,bottom:rect.bottom}, box:{left:box.left,right:box.right,top:box.top,bottom:box.bottom} });
+        // A client rect reports where a line is laid out, which is not where it
+        // is painted once an ancestor has been scrolled. Text sitting below the
+        // fold of a container that scrolls vertically has not escaped anything
+        // — it is one gesture away, which is what a reader at 200% text gets
+        // instead of a card that shuts them out. Vertical position inside such
+        // a container is therefore not judged; everything else still is, and
+        // text escaping sideways still fails wherever it happens.
+        const scroller = text.closest('.expanded');
+        const scrolls = scroller && ['auto', 'scroll'].includes(getComputedStyle(scroller).overflowY);
+        const escapesSideways = rect.left < box.left - 1.5 || rect.right > box.right + 1.5;
+        const offending = scrolls ? escapesSideways : !inside(rect, box);
+        if (offending && !text.closest('.mobile-dock')) textViolations.push({ text:text.textContent.trim().slice(0,50), rect:{left:rect.left,right:rect.right,top:rect.top,bottom:rect.bottom}, box:{left:box.left,right:box.right,top:box.top,bottom:box.bottom} });
       }
     }
   }
   const targets = [...document.querySelectorAll('.mm-case-proof-s2 button,.mm-case-proof-s2 a')].filter(visible).map(element => ({ text:(element.textContent || element.getAttribute('aria-label') || '').trim().slice(0,42), rect:element.getBoundingClientRect() })).filter(({rect}) => rect.width < 43.5 || rect.height < 43.5).map(({text,rect}) => ({text,width:rect.width,height:rect.height}));
-  const nested = [...document.querySelectorAll('.region,.expanded')].filter(visible).map(element => ({className:element.className,x:element.scrollWidth-element.clientWidth,y:element.scrollHeight-element.clientHeight})).filter(item => item.x > 1 || item.y > 1);
+  // Overflow is a defect when the content cannot be reached, not when a box is
+  // longer than its frame. A phone card whose copy no longer fits — a reader at
+  // 200% text — must be able to scroll, and WCAG asks for exactly that: no loss
+  // of content, scrolling permitted. So an element that genuinely scrolls in
+  // the direction it overflows is reachable and passes; one that clips, or
+  // overflows sideways, still fails. This was written when nothing on the page
+  // scrolled inside itself, and said so by accident rather than on purpose.
+  const nested = [...document.querySelectorAll('.region,.expanded')].filter(visible).map(element => {
+    const style = getComputedStyle(element);
+    const scrollsY = ['auto', 'scroll'].includes(style.overflowY);
+    const scrollsX = ['auto', 'scroll'].includes(style.overflowX);
+    const y = element.scrollHeight - element.clientHeight;
+    const x = element.scrollWidth - element.clientWidth;
+    return { className:element.className, x: scrollsX ? 0 : x, y: scrollsY ? 0 : y, reachableY: scrollsY && y > 1 };
+  }).filter(item => item.x > 1 || item.y > 1);
   const iconOverlaps = [...document.querySelectorAll('.region-hit')].filter(visible).map(hit => {
     const copy = hit.querySelector('.region-copy');
     const glyph = hit.querySelector('.region-glyph');
@@ -160,6 +200,44 @@ async function verifyTextScale(page, label) {
   await settleLayout(page);
   const state = await visibleGeometry(page);
   assess(state, `${label} 200% text`);
+}
+
+async function verifyRail(page, label) {
+  /* No expansion step on a phone: the record is whole on the card, the rail is
+     a real scroll container, and its controls are on screen from the first
+     frame rather than appearing once something is open. */
+  const rail = await page.evaluate(() => {
+    const list = document.querySelector('.region-list');
+    const dock = document.querySelector('.mobile-dock');
+    const seg = document.querySelector('[data-rail-segments]');
+    const onScreen = (el) => { if (!el) return false; const b = el.getBoundingClientRect(); return b.width > 0 && b.height > 0 && b.bottom <= window.innerHeight + 1 && b.right <= window.innerWidth + 1; };
+    return {
+      overflowX: getComputedStyle(list).overflowX,
+      scrolls: list.scrollWidth > list.clientWidth + 1,
+      widerThanViewport: list.clientWidth > window.innerWidth,
+      dockOnScreen: onScreen(dock),
+      segmentsOnScreen: onScreen(seg),
+      openPanels: [...document.querySelectorAll('.expanded')].filter((e) => getComputedStyle(e).display !== 'none').length,
+      // Not "is it a scroll container" — a card whose copy no longer fits has
+      // to be able to scroll, and enlarged text proved that contract too
+      // strong. What made the rail fiddly was the browser having to work out
+      // where a gesture belonged; touch-action settles it outright, so the
+      // contract is the declaration.
+      inTheWay: [...document.querySelectorAll('.region, .region .expanded, .region-hit, .region-list')]
+        .filter((e) => !/pan-x/.test(getComputedStyle(e).touchAction)).length,
+    };
+  });
+  fail(rail.overflowX !== 'auto' || !rail.scrolls, `${label}: the rail is not a horizontal scroll container`);
+  fail(rail.widerThanViewport, `${label}: the rail is wider than the viewport instead of scrolling inside it`);
+  fail(!rail.dockOnScreen, `${label}: the rail's position and arrows are not on screen`);
+  fail(!rail.segmentsOnScreen, `${label}: the segment rail is not on screen`);
+  fail(rail.openPanels !== 8, `${label}: ${rail.openPanels} of 8 records are whole on the card`);
+  fail(rail.inTheWay !== 0, `${label}: ${rail.inTheWay} elements between a thumb and the rail do not declare horizontal panning`);
+  const before = (await page.locator('[data-mobile-position]').innerText()).trim();
+  await page.locator('[data-mobile-next]').click();
+  await settleLayout(page);
+  const after = (await page.locator('[data-mobile-position]').innerText()).trim();
+  fail(before === after, `${label}: the rail control did not advance the rail (held at ${before})`);
 }
 
 async function verifyKeyboardAndHistory(page, label) {
@@ -252,16 +330,41 @@ async function exercise(page, label, width, height) {
   await load(page);
   const regionCount = await page.locator('.mm-case-proof-s2 .region').count();
   fail(regionCount !== 8, `${label}: renders ${regionCount} proof regions, expected 8`);
-  await page.waitForFunction(() => [...document.querySelectorAll('.region-film')].some(film => !film.paused && film.readyState >= 2), null, { timeout:5000 }).catch(() => undefined);
+  // WebKit starts playback promptly and buffers slowly: sampled here it had
+  // four films playing at 1.5s with readyState still 0, and did not have data
+  // on all eight until about six seconds. Five seconds was therefore a
+  // measurement window, not a contract, and it failed on whichever desktop
+  // size happened to be slowest that run. The requirement is unchanged —
+  // films must really be playing with real data — the wait just now allows
+  // the slowest engine to get there.
+  await page.waitForFunction(() => [...document.querySelectorAll('.region-film')].some(film => !film.paused && film.readyState >= 2), null, { timeout:20000 }).catch(() => undefined);
+  // The field plays a few films at a time and rotates which ones every six
+  // seconds. A single sample can therefore land in the moment just after a
+  // rotation, when the four it has just started are unpaused but have not
+  // buffered yet and the four with data have just been paused — which reads as
+  // no film moving at all while every film is working correctly. Reproduced
+  // directly on WebKit: four unpaused, readyStates 4,2,2,4,0,0,0,0, and the
+  // unpaused four were the zeroes.
+  //
+  // So the sample polls across a rotation rather than trusting one instant.
+  // The contract is unchanged — a film must really be playing with real data —
+  // and the poll only stops the clock landing in the gap.
   const filmState = await page.evaluate(async () => {
-    await new Promise(resolve => setTimeout(resolve, 80));
+    const settle = async () => new Promise(resolve => setTimeout(resolve, 250));
+    const read = () => [...document.querySelectorAll('.region-film')].filter(film => !film.paused && film.readyState >= 2).length;
+    let best = read();
+    for (let attempt = 0; attempt < 40 && best < 1; attempt += 1) {
+      await settle();
+      best = Math.max(best, read());
+    }
+    window.__filmMovingObserved = best;
     const films = [...document.querySelectorAll('.region-film')];
     return {
       count:films.length,
       sources:[...new Set(films.map(film => film.dataset.filmSrc))],
       posters:films.filter(film => Boolean(film.getAttribute('poster'))).length,
       contract:films.every(film => film.muted && film.loop && film.hasAttribute('playsinline') && film.getAttribute('aria-hidden') === 'true' && film.tabIndex === -1),
-      moving:films.filter(film => !film.paused && film.readyState >= 2).length,
+      moving:Math.max(best, films.filter(film => !film.paused && film.readyState >= 2).length),
       mode:document.querySelector('.proof-shell')?.dataset.filmMotion,
     };
   });
@@ -288,7 +391,14 @@ async function exercise(page, label, width, height) {
   let state = await visibleGeometry(page);
   assess(state, `${label} overview`, { fixedHeight:!compact });
   fail(state.visibleRegions !== 8, `${label}: overview exposes ${state.visibleRegions} direct story controls, expected 8`);
-  fail((await page.locator('[data-case-archive]').getAttribute('href')) !== '#case-archive', `${label}: archive route missing`);
+  fail(await page.locator('[data-case-archive]').count() !== 0, `${label}: a route to the removed archive survives`);
+  for (const [id] of stories) {
+    fail(await page.locator(`.expanded#record-${id}`).count() !== 1, `${label}: #record-${id} does not resolve inside the proof field`);
+  }
+  fail(await page.locator('.region-copy cite').count() !== 8, `${label}: the cold field does not attribute all eight results`);
+  fail(await page.locator('.expanded blockquote').count() !== 8, `${label}: the records do not carry their testimony`);
+  fail(await page.locator('.expanded [data-fig]').count() !== 8, `${label}: the records do not carry a figure bound to story.figure`);
+  fail(await page.locator('.region-glyph, .mechanism').count() !== 0, `${label}: the retired mechanism glyph survives`);
 
   if (compact && height >= width) {
     await verifyTextScale(page, label);
@@ -303,20 +413,48 @@ async function exercise(page, label, width, height) {
     fail((await page.evaluate(() => document.activeElement?.getAttribute('data-open-story'))) !== 'day-one', `${label}: numeric shortcut did not reach story 1`);
   }
 
-  await verifyKeyboardAndHistory(page, label);
+  if (!compact) await verifyKeyboardAndHistory(page, label);
+  else await verifyRail(page, label);
 
-  await page.locator('[data-open-story="business-first"]').click();
-  await settleLayout(page);
-  state = await visibleGeometry(page);
-  assess(state, `${label} open`, { fixedHeight:!compact });
-  fail(state.mode !== 'story' || state.selected !== 1, `${label}: story did not open exactly once`);
-  fail(!page.url().includes('story=business-first&phase=result'), `${label}: result state not encoded in URL`);
-  fail(await page.locator('[data-story="business-first"] .mechanism .switch').count() !== 14, `${label}: switch proof does not contain 14 tools`);
-  fail(await page.locator('[data-story="business-first"] .mechanism .switch:not(.is-off)').count() !== 3, `${label}: switch proof does not keep exactly 3 tools`);
-  fail(await page.locator('[data-story="business-first"] .endpoint-labels').count() !== 0, `${label}: business-first mechanism repeats the change in backup labels`);
-  fail(!await page.locator(`#title-business-first`).evaluate(element => element === document.activeElement), `${label}: focus did not enter opened story`);
-  fail((await page.locator(`#title-business-first`).evaluate(element => getComputedStyle(element).outlineStyle)) !== 'none', `${label}: focused result heading shows a browser-default outline`);
-  if (compact) {
+  /* The open/close cycle, its URL state and its phase toggle are a desktop
+     composition. On a phone there is no expansion step at all: every record is
+     already whole on its card, so there is nothing to open, nothing to encode
+     and nothing to come back from. The rail has its own checks above. */
+  if (!compact) {
+    await page.locator('[data-open-story="business-first"]').click();
+    await settleLayout(page);
+    state = await visibleGeometry(page);
+    assess(state, `${label} open`, { fixedHeight:true });
+    fail(state.mode !== 'story' || state.selected !== 1, `${label}: story did not open exactly once`);
+    fail(!page.url().includes('story=business-first&phase=result'), `${label}: result state not encoded in URL`);
+    fail(await page.locator('[data-story="business-first"] .mm-fig-marks i').count() !== 14, `${label}: the business-first figure does not show 14 inputs`);
+    fail(await page.locator('[data-story="business-first"] .mm-fig-marks i.is-kept').count() !== 3, `${label}: the business-first figure does not keep exactly 3`);
+    fail(await page.locator('[data-story="business-first"] .endpoint-labels').count() !== 0, `${label}: business-first repeats the change in backup labels`);
+    fail(!await page.locator(`#title-business-first`).evaluate(element => element === document.activeElement), `${label}: focus did not enter opened story`);
+    fail((await page.locator(`#title-business-first`).evaluate(element => getComputedStyle(element).outlineStyle)) !== 'none', `${label}: focused result heading shows a browser-default outline`);
+
+    await page.locator('[data-story="business-first"] [data-toggle-phase]').click();
+    fail(!page.url().includes('phase=start'), `${label}: starting phase not encoded in URL`);
+    fail((await page.locator('[data-story="business-first"] [data-toggle-phase]').innerText()).toLowerCase() !== 'show the result', `${label}: phase control did not expose inverse`);
+    await page.reload({ waitUntil:'commit' });
+    await page.locator('.proof-shell[data-mode="story"]').waitFor({ state:'visible' });
+    await page.evaluate(() => document.fonts?.ready);
+    fail((await page.locator('.proof-shell').getAttribute('data-mode')) !== 'story', `${label}: reload lost selected story`);
+    fail(!page.url().includes('story=business-first&phase=start'), `${label}: reload lost stable phase`);
+    fail((await page.locator('[data-story="business-first"] [data-toggle-phase]').innerText()).toLowerCase() !== 'show the result', `${label}: reload did not restore start phase`);
+
+    /* The exit Krish could not find. It is a control, not a caption. */
+    const close = page.locator('.region.is-selected .expanded-close');
+    fail(!(await close.getAttribute('aria-label')), `${label}: the close control has no accessible name`);
+    const closeBox = await close.boundingBox();
+    fail(!closeBox || closeBox.width < 44 || closeBox.height < 44, `${label}: the close control is smaller than 44px`);
+    await close.click();
+    await settleLayout(page);
+    state = await visibleGeometry(page);
+    assess(state, `${label} returned`, { fixedHeight:true });
+    fail(state.mode !== 'overview' || state.visibleRegions !== 8, `${label}: return did not restore the full field`);
+    fail(state.activeElement !== 'business-first', `${label}: the close control did not restore originating focus (${state.activeElement})`);
+  } else {
     const overlap = await page.evaluate(() => {
       const notice = document.querySelector('.mm-cookie-notice');
       const dock = document.querySelector('.mobile-dock');
@@ -325,42 +463,16 @@ async function exercise(page, label, width, height) {
       const b = dock.getBoundingClientRect();
       return Math.max(0, Math.min(a.bottom,b.bottom) - Math.max(a.top,b.top)) * Math.max(0, Math.min(a.right,b.right) - Math.max(a.left,b.left));
     });
-    fail(overlap > 1, `${label}: privacy notice overlaps the active proof dock by ${overlap}px²`);
+    fail(overlap > 1, `${label}: privacy notice overlaps the rail dock by ${overlap}px²`);
   }
 
-  await page.locator('[data-story="business-first"] [data-toggle-phase]').click();
-  fail(!page.url().includes('phase=start'), `${label}: starting phase not encoded in URL`);
-  fail((await page.locator('[data-story="business-first"] [data-toggle-phase]').innerText()).toLowerCase() !== 'show recorded result', `${label}: phase control did not expose inverse`);
-  await page.reload({ waitUntil:'commit' });
-  await page.locator('.proof-shell[data-mode="story"]').waitFor({ state:'visible' });
-  await page.evaluate(() => document.fonts?.ready);
-  fail((await page.locator('.proof-shell').getAttribute('data-mode')) !== 'story', `${label}: reload lost selected story`);
-  fail(!page.url().includes('story=business-first&phase=start'), `${label}: reload lost stable phase`);
-  fail((await page.locator('[data-story="business-first"] [data-toggle-phase]').innerText()).toLowerCase() !== 'show recorded result', `${label}: reload did not restore start phase`);
-
-  if (compact) {
-    fail(await page.locator('.mobile-dock').isHidden(), `${label}: compact story dock is hidden`);
-    await page.locator('[data-mobile-next]').click();
-    await page.waitForTimeout(100);
-    fail(!page.url().includes('story=market-moves'), `${label}: mobile Next did not advance`);
-    await page.locator('[data-mobile-prev]').click();
-    fail(!page.url().includes('story=business-first'), `${label}: mobile Previous did not restore`);
-    await page.locator('[data-mobile-back]').click();
-  } else {
-    await page.keyboard.press('Escape');
-  }
+  if (!compact) await page.locator('[data-open-story="team-decides"]').click();
   await settleLayout(page);
-  state = await visibleGeometry(page);
-  assess(state, `${label} returned`, { fixedHeight:!compact });
-  fail(state.mode !== 'overview' || state.visibleRegions !== 8, `${label}: return did not restore the full field`);
-  fail(state.activeElement !== 'business-first', `${label}: return did not restore originating focus (${state.activeElement})`);
-
-  await page.locator('[data-open-story="team-decides"]').click();
-  fail(await page.locator('[data-story="team-decides"] .mechanism circle').count() !== 14, `${label}: decision proof does not show 14 inputs`);
-  fail(await page.locator('[data-story="team-decides"] .mechanism .phase-b path').count() !== 3, `${label}: decision proof does not show 3 decision paths`);
-  await page.locator('[data-story="team-decides"] [data-full-case]').click();
-  fail(!page.url().includes('#record-team-decides'), `${label}: full-case link did not encode its stable record target`);
-  fail(!await page.locator('#record-team-decides').evaluate(element => element === document.activeElement), `${label}: full-case link did not focus its matching record`);
+  const marks = page.locator('[data-story="team-decides"] .mm-fig-marks i');
+  fail(await marks.count() !== 14, `${label}: the decision figure does not show 14 inputs`);
+  fail(await page.locator('[data-story="team-decides"] .mm-fig-marks i.is-kept').count() !== 3, `${label}: the decision figure does not keep 3`);
+  fail((await page.locator('[data-story="team-decides"] .mm-fig-pair').innerText()).replace(/\s+/g, '') !== '14→3', `${label}: the decision figure does not state 14 to 3`);
+  fail((await page.locator('[data-story="team-decides"] .region-hit').getAttribute('href')) !== '#record-team-decides', `${label}: the tile fallback no longer names its record`);
   fail(errors.length > 0, `${label}: runtime errors ${errors.join(' | ')}`);
 }
 
@@ -382,7 +494,13 @@ async function run(browserType, name, viewports) {
         await load(page);
         await settleFullPageReveals(page);
         await page.screenshot({ path:`${output}/${name}-overview-${width}x${height}.png`, fullPage:true });
-        await page.locator('[data-open-story="business-first"]').click();
+        /* The open frame is a desktop frame. On a phone the cold state is the
+           open state, so the second capture is the rail a card along. */
+        if (width > 860) {
+          await page.locator('[data-open-story="business-first"]').click();
+        } else {
+          await page.locator('[data-mobile-next]').click();
+        }
         await settleLayout(page);
         await settleFullPageReveals(page);
         await page.screenshot({ path:`${output}/${name}-open-${width}x${height}.png`, fullPage:true });
@@ -400,9 +518,20 @@ async function reducedMotion() {
     page.setDefaultTimeout(45000);
     await load(page, `${candidatePath}#story=day-one&phase=result`);
     const state = await page.evaluate(() => {
-      const element = document.querySelector('.phase-b');
+      // The glyph this used to interrogate is gone. Its two claims transfer to
+      // the figure that replaced it: nothing animates under reduced motion, and
+      // the endpoints on screen are the record's own words rather than a
+      // second copy of them kept beside the drawing.
+      const bar = document.querySelector('[data-story="day-one"] .mm-fig-bar');
+      const labels = document.querySelectorAll('[data-story="day-one"] .mm-fig > p:last-child span');
       const films = [...document.querySelectorAll('.region-film')];
-      return { duration:getComputedStyle(element).transitionDuration, before:document.querySelector('.endpoint-labels span:first-child').textContent, after:document.querySelector('.endpoint-labels span:last-child').textContent, filmMode:document.querySelector('.proof-shell').dataset.filmMotion, movingFilms:films.filter(film => !film.paused).length };
+      return {
+        duration: getComputedStyle(bar).transitionDuration,
+        before: labels[0]?.textContent ?? '',
+        after: labels[1]?.textContent ?? '',
+        filmMode: document.querySelector('.proof-shell').dataset.filmMotion,
+        movingFilms: films.filter(film => !film.paused).length,
+      };
     });
     fail(Number.parseFloat(state.duration) > .001, `reduced motion: transition remains ${state.duration}`);
     fail(!state.before.includes('Two quarters') || !state.after.includes('One day'), 'reduced motion: truthful endpoints missing');
@@ -422,11 +551,35 @@ async function noJavaScript() {
     fail(await controls.count() !== 8, `no JavaScript: expected eight useful story links, found ${await controls.count()}`);
     const invalid = await controls.evaluateAll(elements => elements.filter(element => element.tagName !== 'A' || !element.getAttribute('href')?.startsWith('#record-')).length);
     fail(invalid > 0, `no JavaScript: ${invalid} primary story controls are not source-record links`);
-    if (await controls.count()) {
-      const href = await controls.first().getAttribute('href');
-      await controls.first().click();
-      fail(!href || !page.url().endsWith(href), `no JavaScript: primary story link did not reach ${href}`);
-    }
+    // This used to click the first link and check the URL. In S2 that was the
+    // whole contract: the record lived in a separate archive, so the fallback
+    // had to carry you there. S3 renders every record open when scripting is
+    // off, which makes the teaser above it redundant and — deliberately —
+    // empty, so it is no longer a thing you can click.
+    //
+    // What a reader without scripting actually needs is stronger than one
+    // working link, and it is what gets asserted now: every one of the eight
+    // anchors resolves to a record that is really on the page, with real
+    // height, carrying its own result, testimony and figure. A link that
+    // navigates to a hidden element would have passed the old check.
+    const reachable = await page.evaluate(() => {
+      const out = [];
+      for (const control of document.querySelectorAll('[data-open-story]')) {
+        const href = control.getAttribute('href') || '';
+        const target = document.getElementById(href.slice(1));
+        if (!target) { out.push(`${href}: no such record`); continue; }
+        const style = getComputedStyle(target);
+        const box = target.getBoundingClientRect();
+        if (style.display === 'none' || style.visibility === 'hidden' || box.height < 40) {
+          out.push(`${href}: record is not rendered (${style.display}, ${Math.round(box.height)}px)`);
+          continue;
+        }
+        if (!target.querySelector('blockquote')) out.push(`${href}: record carries no testimony`);
+        if (!target.querySelector('[data-fig]')) out.push(`${href}: record carries no figure`);
+      }
+      return out;
+    });
+    for (const problem of reachable) fail(true, `no JavaScript: ${problem}`);
     await context.close();
   } finally { await browser.close(); }
 }

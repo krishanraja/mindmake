@@ -332,6 +332,58 @@ for (const [width, height] of [[390, 844], [360, 800], [360, 740], [320, 568], [
   await context.close();
 }
 
+/* ---- 3b. the swipe, with a thumb ------------------------------------------- */
+/* The rail worked and was fiddly, which a click test cannot tell you. Three
+   elements between the finger and the rail were scroll containers in their own
+   right — including the card, because overflow: hidden is one — so every touch
+   started a walk up the scroll chain before the swipe could begin. These are
+   dispatched touch gestures, not clicks, and the flick is deliberately lazy. */
+
+for (const [width, height] of [[390, 844], [360, 700], [320, 568]]) {
+  const context = await browser.newContext({ viewport: { width, height }, hasTouch: true, isMobile: true, deviceScaleFactor: 2 });
+  const page = await context.newPage();
+  const cdp = await context.newCDPSession(page);
+  await page.goto(`${origin}${candidate}`, { waitUntil: 'load' });
+  await page.waitForTimeout(1000);
+  const label = `${width}×${height}`;
+
+  const chain = await page.evaluate(() => [...document.querySelectorAll('.region, .region .expanded, .region-hit')]
+    .filter((e) => { const s = getComputedStyle(e); return ['auto', 'scroll', 'hidden'].includes(s.overflowY) || ['auto', 'scroll', 'hidden'].includes(s.overflowX); })
+    .map((e) => e.className.split(' ')[0]));
+  for (const c of new Set(chain)) fail(true, `${label}: .${c} is a scroll container between the finger and the rail`);
+
+  const card = await page.evaluate(() => { const r = document.querySelector('.region').getBoundingClientRect(); return { cx: r.left + r.width / 2, cy: r.top + r.height / 2, bottom: r.bottom }; });
+  const pt = (x, y) => ({ x: Math.round(x), y: Math.round(y), radiusX: 12, radiusY: 16, force: 1 });
+  const swipe = async (from, to, steps) => {
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [pt(from.x, from.y)] });
+    for (let i = 1; i <= steps; i += 1) {
+      const t = i / steps;
+      await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [pt(from.x + (to.x - from.x) * t, from.y + (to.y - from.y) * t)] });
+      await page.waitForTimeout(14);
+    }
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+    await page.waitForTimeout(850);
+  };
+  const at = () => page.evaluate(() => document.querySelector('[data-mobile-position]').textContent.trim());
+
+  const gestures = [
+    ['a flat swipe across the copy', { x: card.cx + 110, y: card.cy }, { x: card.cx - 110, y: card.cy }, 12],
+    ['the arc a thumb actually makes', { x: card.cx + 110, y: card.cy - 60 }, { x: card.cx - 110, y: card.cy + 50 }, 12],
+    ['a swipe starting on the figure', { x: card.cx + 100, y: card.bottom - 70 }, { x: card.cx - 100, y: card.bottom - 40 }, 12],
+    ['a lazy short flick', { x: card.cx + 55, y: card.cy }, { x: card.cx - 55, y: card.cy }, 6],
+  ];
+  for (const [what, from, to, steps] of gestures) {
+    const before = await at();
+    await swipe(from, to, steps);
+    const after = await at();
+    fail(before === after, `${label}: ${what} did not move the rail (stuck on ${before})`);
+  }
+  /* And it must not have followed the card's fallback link while doing it. */
+  fail(Boolean(await page.evaluate(() => location.hash)), `${label}: swiping navigated the page`);
+  note(`${label}: four thumb gestures each advance the rail, nothing in the way`);
+  await context.close();
+}
+
 /* ---- 4. no scripting ------------------------------------------------------- */
 
 for (const [width, height] of [[1440, 900], [390, 844]]) {

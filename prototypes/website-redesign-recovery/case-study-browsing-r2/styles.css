@@ -337,6 +337,7 @@ body { margin: 0; background: #0a100d; }
     overflow-x: auto; overflow-y: hidden;
     scroll-snap-type: x mandatory;
     overscroll-behavior-x: contain;
+    touch-action: pan-x pinch-zoom;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
@@ -347,6 +348,8 @@ body { margin: 0; background: #0a100d; }
     flex: 0 0 84vw;                 /* the next record peeks, so it reads as a rail */
     scroll-snap-align: center;
     height: 100%;                   /* the field row is the card, exactly */
+    overflow: clip;                 /* clip, not hidden: hidden is a scroller */
+    touch-action: pan-x pinch-zoom;
     margin-right: 10px;
     border: 1px solid rgba(157, 240, 200, .22);
   }
@@ -362,7 +365,11 @@ body { margin: 0; background: #0a100d; }
   /* The link stays — it is the no-JavaScript control and the record anchor —
      but on the phone the record is already open, so the link is the card's
      own surface rather than a separate teaser over it. */
-  .region-hit { position: absolute; inset: 0; z-index: 2; display: block; padding: 0; }
+  .region-hit {
+    position: absolute; inset: 0; z-index: 2; display: block; padding: 0;
+    touch-action: pan-x pinch-zoom;
+    -webkit-touch-callout: none; -webkit-user-drag: none;
+  }
   .region-hit::before { display: none; }
   .region-kicker { display: none; }
   .region-copy { display: none; }
@@ -396,7 +403,11 @@ body { margin: 0; background: #0a100d; }
        failure the desktop panel had. */
     align-content: safe center;
     gap: 10px; padding: 16px;
-    overflow-y: auto; overscroll-behavior: contain; background: none;
+    /* No inner scroller. Every record fits its card at every width in the
+       matrix, which the gate asserts, and safe centring means anything that
+       ever did not fit would start at the top edge rather than be centred out
+       of both ends of the card. */
+    overflow: visible; touch-action: pan-x pinch-zoom; background: none;
   }
   /* The wrapper steps out of the box tree so the outcome and the testimony can
      be bands in their own right rather than two things inside one band. */

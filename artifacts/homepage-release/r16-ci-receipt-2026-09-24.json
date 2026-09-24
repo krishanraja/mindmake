@@ -1,0 +1,76 @@
+{
+  "candidate": "ff8f8d31402aea38c02b4ffddaefd628079c83b0",
+  "ciMerge": "ee0b58d44f542fb9daaa050399aae1cf869ce78b",
+  "productionMerge": "9e79e351db45ecb2f2f8b2e383639d402ab1c7a2",
+  "identicalGitTree": "0859da5aa90510e0eb97955a86f4b12d908a276c",
+  "runs": [
+    36025203645,
+    36025199539
+  ],
+  "builtArtifact": 10819157619,
+  "tests": {
+    "tests": 541,
+    "files": 36
+  },
+  "reports": [
+    {
+      "file": "linux/browser-report.json",
+      "sha256": "faa905c61c80f977f9f6828d433fc81e6bfcb0720941f3a559fe031c3d876dc0",
+      "at": "2026-09-24T16:10:54.001Z",
+      "cases": 12,
+      "fallbacks": 12,
+      "failures": []
+    },
+    {
+      "file": "macos/browser-report.json",
+      "sha256": "1eee8d3235cba7be12e6984b96381e35b868539f4b0b724d10c61d8393550ee4",
+      "at": "2026-09-24T16:10:59.949Z",
+      "cases": 12,
+      "fallbacks": 12,
+      "failures": []
+    },
+    {
+      "file": "linux/discoverability-127.0.0.1-2026-09-24T16-10-55.697Z.json",
+      "sha256": "2fb836ab20e40230c5a72a6c0f6126fee2fb7526d3c315e0d4e483bb5aebc7fa",
+      "at": "2026-09-24T16:10:55.697Z",
+      "routes": 26,
+      "assets": 32,
+      "failures": []
+    },
+    {
+      "file": "linux/route-smoke-ce3af36504de-chromium-2026-09-24T16-11-06-610Z.json",
+      "sha256": "bb25eef833c27f828956664facd68b9ed1ad614410109c74bfc27e14bf610ec7",
+      "at": "2026-09-24T16:15:18.601Z",
+      "cases": 104,
+      "supplemental": 5,
+      "routes": 26,
+      "indexSha256": "ce3af36504deb4c9911bd22b66f8cf42344a74546d97cea95be99b00332b87cb",
+      "failures": []
+    },
+    {
+      "file": "linux/route-smoke-ce3af36504de-firefox-2026-09-24T16-15-19-643Z.json",
+      "sha256": "9c8d9ffc37348e323a3380475d60d5b418dc66d1438c33b3392de0c9fdae25ad",
+      "at": "2026-09-24T16:17:33.066Z",
+      "cases": 52,
+      "supplemental": 2,
+      "routes": 26,
+      "indexSha256": "ce3af36504deb4c9911bd22b66f8cf42344a74546d97cea95be99b00332b87cb",
+      "failures": []
+    },
+    {
+      "file": "macos/route-smoke-ce3af36504de-webkit-2026-09-24T16-11-01-644Z.json",
+      "sha256": "9527bfd1c1dd48e3f341de8e7be95134cb116c667c5286ee2775e08effcde62a",
+      "at": "2026-09-24T16:14:10.394Z",
+      "cases": 52,
+      "supplemental": 2,
+      "routes": 26,
+      "indexSha256": "ce3af36504deb4c9911bd22b66f8cf42344a74546d97cea95be99b00332b87cb",
+      "failures": []
+    }
+  ],
+  "limits": [
+    "Counts summarize the retained CI artifacts, not new local execution.",
+    "Physical VoiceOver/TalkBack not performed; release-only exception.",
+    "Technical discoverability does not prove search rankings or AI citations."
+  ]
+}

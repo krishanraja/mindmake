@@ -83,6 +83,22 @@ inside the paired production-review frames.
 npm run qa:locked-routes
 ```
 
+## One left edge per page
+
+`qa:logo-alignment` measures the wordmark in each page's own top bar against
+that page's content edges, at five widths, on every indexed route plus one
+article and one answer. The site has three edge measures in use — the
+container's, the two locked routes' and the R5 surface's — and nothing had ever
+compared the chrome's against the body's, so four separate drifts had
+accumulated unseen, the largest 260px. `ANCHORS` in the script names the content
+edge per surface rather than guessing it, because a deliberately inset block (a
+centred closing block, a quote's rule, a hero deck set against its film) is not
+a content edge.
+
+```sh
+npm run qa:logo-alignment
+```
+
 ## redirect-check.mjs
 
 Exercises every retired route in a real browser against the built output and

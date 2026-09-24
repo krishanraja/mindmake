@@ -1,11 +1,12 @@
 {
   "artifact": "mindmake-approved-production-routes-r17",
   "recordedAt": "2026-09-24",
-  "status": "owner-instructed promotion; candidate CI has not yet run on the frozen head. Verification below records what actually ran and what did not.",
-  "scopeRequested": "A correction pass over what the delivered surfaces render, raised from live mindmake.co: the oversized menu action and footer, the focus ring drawn around hero headings, the wordmark sitting inboard of the locked routes' own content edge, the unstyled first paint on the code-split routes, and a plain-language lede under the unchanged \"The source records.\" heading. No page-body redesign, no new commercial offer, no approved copy replaced, and no change to the immutable R3 prototype or its generated adapter.",
+  "status": "candidate record. Owner approval for this revision is NOT recorded. Production gates have not been run against it. Do not treat it as an approval.",
+  "scopeRequested": "A correction pass over what the delivered surfaces render, raised from live mindmake.co: the oversized menu action and footer, the focus ring drawn around hero headings, the wordmark sitting inboard of the locked routes' own content edge, the unstyled first paint on the code-split routes, and a plain-language lede under the unchanged \"The source records.\" heading. No page-body redesign, no new commercial offer, no approved copy replaced, and no change to the immutable R3 prototype or its generated adapter. Then, on the same instruction, the release workflow's own cost: it ran the full release matrix against every commit on every branch, and twice per push.",
   "sessionDecisions": [
     "Keep \"The source records.\" and add a plain-language lede rather than rename the section to \"Testimonials\".",
-    "Fix the cause of the first-paint flash before adding any entrance, and keep the entrance non-occluding, which leaves the recorded ruling at src/styles/mindmake.css intact."
+    "Fix the cause of the first-paint flash before adding any entrance, and keep the entrance non-occluding, which leaves the recorded ruling at src/styles/mindmake.css intact.",
+    "Make the workflow changes before merging rather than after, because the wait was not sustainable against the number of small changes queued behind it."
   ],
   "routes": [
     "/",
@@ -68,7 +69,7 @@
     "src/entry-server.tsx": "cd957bdd05c1634c15e7a73ed26bfbf36a23b8a6bfea535f968b00046646e705",
     "scripts/qa/approved-route-lock-check.mjs": "1d278456ae775848c49d3fd87ee3f2f6839137dc42f3a999e6ec686073094cba",
     "scripts/qa/approved-route-lock-self-test.mjs": "4aa3f374621463a225f26f4eb4dfb02ae92f2b865023c580538d236e50ecc4dd",
-    ".github/workflows/approved-route-lock.yml": "5c688a2690c973f8a8e09cbd70fc2f608d177db80a8b2f3edf348caef7e5d496",
+    ".github/workflows/approved-route-lock.yml": "340088ef816cedb783ceb4311d26ea9db5dc8a88c99e6aa7e467ab2a812004c7",
     "scripts/qa/locked-material-production-check.mjs": "b021940985b52171064d8cfdb9f439c58b440f433de79f3882329559daeeb61d",
     "scripts/qa/full-route-continuity-check.mjs": "876f2ff1fc36f70bc45dc164955084317c5d5a616e8b6f8a5564e93cd2aad62f",
     "scripts/qa/plain-language-check.mjs": "639c62446bf7f3a01693ba1fc20e446e23ba8fbc8d17bc429e41da951fafd9a8",
@@ -189,7 +190,7 @@
     "price the result"
   ],
   "verification": {
-    "status": "Partial. Run in a Linux container on the built candidate, not in CI. Historical verification claims, r16 included, are not proof for this candidate.",
+    "status": "Not performed for this record. Historical verification claims, r16's included, are not proof for this candidate.",
     "required": [
       "Canonical build and all unit tests",
       "Actual rendered forward/reverse pinned history and dividend states with exits",
@@ -203,28 +204,7 @@
       "Homepage footer and open menu measured at 1440 and at a width above 2000, against the bounded measures",
       "First frame of / and /new-age-leadership with no prior pointer input, showing no focus ring on the heading"
     ],
-    "physicalException": "VoiceOver on physical iPhone and TalkBack on physical Android not performed; owner permits publication after all other checks pass.",
-    "ran": [
-      "541 unit tests across 36 files, typecheck against tsconfig.app.json, lint with two pre-existing refresh advisories",
-      "npm run build, including qa:docs, the homepage adapter --check, qa:approved-routes, qa:homepage-handoff and qa:material-review:self-test",
-      "qa:approved-routes:self-test, qa:website-feedback, qa:plain-language",
-      "qa:homepage-release: 12 cases and 12 screenshots across Chromium, Firefox and WebKit at 1440 and 390, forward and reverse with both exits, real lead entry, manual accessibility fallbacks, zero failures",
-      "qa:discoverability against a local built preview: 26 routes, 32 assets, zero failures",
-      "qa:no-js: 5 pages, 21 answers present, nothing clipped away",
-      "qa:release-routes: Chromium 104 cases and Firefox 52 cases with zero failures",
-      "Measured geometry on the built artifact for each reported item at 390, 1440 and 2560"
-    ],
-    "notRun": [
-      "Candidate CI on the frozen head. This container is not the CI matrix.",
-      "macOS WebKit. The workflow runs WebKit on macOS; the Linux WebKit leg timed out here on three core-navigation and one /case-studies case, identically on origin/main, so it is the platform rather than this change.",
-      "Independent review of this candidate.",
-      "Rendered-frame review by the owner of the new-age-leadership no-JavaScript fallback."
-    ],
-    "preExistingFailuresReproducedOnMain": [
-      "qa:full-route-continuity: waits for h1 at 320px, where the approved R3 hides the desktop variant's h1, so locator('h1').first() can never be visible. Identical failure on origin/main.",
-      "qa:release-routes Linux WebKit: byte-identical failure set on origin/main.",
-      "case-proof-field-production writes screenshots to a hardcoded Windows path, creating a stray C: directory in the working tree on Linux."
-    ]
+    "physicalException": "VoiceOver on physical iPhone and TalkBack on physical Android not performed; owner permits publication after all other checks pass."
   },
   "supersedes": {
     "path": "quality/route-lock/approved-production-r16.json",
@@ -294,6 +274,12 @@
         "reason": "Selects this new record."
       },
       {
+        "path": ".github/workflows/approved-route-lock.yml",
+        "before": "5c688a2690c973f8a8e09cbd70fc2f608d177db80a8b2f3edf348caef7e5d496",
+        "after": "340088ef816cedb783ceb4311d26ea9db5dc8a88c99e6aa7e467ab2a812004c7",
+        "reason": "Two tiers rather than one. The source gates still run on every commit; the 208-case browser matrix now runs on what is on its way to main, a pull request targeting it or main itself. Superseded runs on a branch are cancelled, never on main, where a run verifies a commit Vercel has already promoted. Each leg installs only the engines it launches and caches them. Nothing that runs before a merge to main changed."
+      },
+      {
         "path": "src/components/homepage-release/integration.css",
         "before": "9b5198cd83fd02d81856a891170fc0b0329119e04ed3d7be4d259c4db91f415a",
         "after": "cb45a23326551c23571096050444ce34dc098090e7bceefa3d4058be697b5848",
@@ -359,6 +345,5 @@
       "scripts/lib/source-hash.mjs"
     ],
     "nonChanges": "All other R15 hashes retained. Product/app/page sources, assets and backend unchanged from R15. Added source hash controls prove LF/CRLF parity, historical semantics and binary identity. qa:docs now runs original archive integrity/corruption/transport controls on everybuild."
-  },
-  "approval": "Krish instructed \"merge to main\" on 2026-09-24, in the session that produced this record, after reading the summary of the seven reported items, the no-JavaScript fallback on new-age-leadership and the three pre-existing gate failures listed in verification.notRun. main auto-promotes, so that instruction is the promotion approval. It is not a statement that he reviewed rendered frames of every surface, and it does not waive anything below."
+  }
 }

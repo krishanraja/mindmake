@@ -1,8 +1,31 @@
 name: Approved route lock
 
+# Two tiers, because one of them is a promotion gate and the other is a save
+# button. The source gates below run on everything and take a few minutes. The
+# browser matrix is 208 real route cases on two platforms and is what stands
+# between a commit and mindmake.co, so it runs when something is actually on its
+# way to main: a pull request targeting it, or main itself. Nothing that runs
+# before a merge to main changed when this was split; commits that are not being
+# released stopped paying for the release gate.
 on:
   pull_request:
   push:
+    # `pull_request` already covers every branch through its own PR. Without this
+    # filter each push to a PR branch ran the whole thing a second time, which
+    # cost nothing in wall clock and a second macOS runner, the scarcest thing in
+    # the account, so the duplicate was usually what the first one queued behind.
+    branches: [main]
+
+# A superseded run is not evidence of anything. Pushing four commits over ten
+# minutes used to run the matrix four times and wait for all four; now only the
+# newest survives. Keyed per ref, so one branch cancelling never touches another.
+#
+# Never on main. Vercel promotes a merge to main as it lands, so main's run is
+# verifying a commit that is already public: cancelling it because the next
+# merge arrived would leave a live deployment with no verification at all.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 permissions:
   contents: read
@@ -43,6 +66,11 @@ jobs:
           compression-level: 0
   browser-verification:
     needs: approved-routes
+    # Everything on its way to main, and nothing else. A pull request into main
+    # is verified before it can be merged, and main is verified again after,
+    # against the commit Vercel promotes. A commit on a working branch with no
+    # pull request open is not being released and is covered by the job above.
+    if: github.ref == 'refs/heads/main' || github.base_ref == 'main'
     strategy:
       fail-fast: false
       matrix:
@@ -64,8 +92,33 @@ jobs:
         with:
           name: approved-built-candidate
           path: dist/
+      - name: Resolve the pinned browser build
+        id: playwright
+        shell: bash
+        # The cache key has to name the exact Playwright version, or a version
+        # bump silently restores the previous browser build and the matrix runs
+        # against something other than what the lockfile pins.
+        run: echo "version=$(node -p "require('playwright-core/package.json').version")" >> "$GITHUB_OUTPUT"
+      - name: Restore the browsers this platform uses
+        id: browser-cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ runner.os == 'macOS' && '~/Library/Caches/ms-playwright' || '~/.cache/ms-playwright' }}
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}-${{ matrix.engines }}
       - name: Install release verification browsers
-        run: npx playwright install --with-deps chromium firefox webkit
+        # Only this leg's engines. Both legs used to install all three with
+        # their system dependencies, so every Linux run did an apt install of
+        # the WebKit stack it never launches. The system dependencies are not
+        # cacheable, so they are installed separately from the browser payload
+        # and stay outside the cache hit.
+        shell: bash
+        env:
+          QA_ENGINES: ${{ matrix.engines }}
+        run: |
+          if [ "$RUNNER_OS" = "Linux" ]; then
+            npx playwright install-deps $QA_ENGINES
+          fi
+          npx playwright install $QA_ENGINES
       - name: Verify actual homepage scroll builds and lead entry
         # All twelve ordered-state cases run on BOTH platforms. The contract is
         # never narrowed to fit an engine filter or a missing observation.

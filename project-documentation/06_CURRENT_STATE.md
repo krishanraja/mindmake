@@ -163,6 +163,78 @@ owns payload, privacy, retention, email and failure-path contracts.
   Linux runner. Measured before the change on run 36067326051: 9m10s total, one
   step 6m25s. On run 36073064054 the three legs started within four seconds of
   each other.
+- A delivered-surface correction pass is on the branch and is not live: it is
+  bounded by `quality/route-lock/approved-production-r17.json`, which records
+  that its own owner approval and candidate verification are outstanding. It
+  covers the heading focus ring, the menu action and footer measures, the header
+  wordmark's alignment on the locked routes, the unstyled first paint on the
+  code-split routes and a lede under the unchanged case-record heading. Nothing
+  above describes it; retrieve the live deployment before treating any of it as
+  production behaviour.
+- On the same branch and also not live, bounded by
+  `quality/route-lock/approved-production-r18.json`: the commercial Decision
+  Balance ("Build one useful AI system on real work." and its five-reading proof
+  instrument) is mounted on `/new-age-leadership` alone. It is unmounted from
+  `/ai-brain`, `/ai-gtm`, `/blog`, `/blog/:slug`, `/answers` and
+  `/answers/:slug`, which now end on their own last section and keep only the
+  shell's ways in. The component and its stylesheet are byte-identical to r17.
+  Nothing replaces the vacated space. Owner approval and candidate verification
+  for r18 are outstanding; live behaviour is still the r16 release.
+- Also on the branch and not live, bounded by
+  `quality/route-lock/approved-production-r19.json`: the phone action bar is
+  back on `/ai-brain` and `/ai-gtm`, and its rules move from
+  `src/styles/mindmake-instruments.css` to `src/styles/mindmake.css`. Only
+  `/case-studies` imported the instruments stylesheet, so on every other shell
+  route the bar shipped with no CSS and rendered a bare button in normal flow
+  below the footer at every width, desktop included. Measured after the move on
+  the built artifact: `position: fixed` and a 72.19px reserve at 390x844 with a
+  coarse pointer, `display: none` at 1440x900. No declaration changed.
+- Also on the branch and not live, bounded by
+  `quality/route-lock/approved-production-r20.json`: every way in now reads
+  `START_LABEL` from `src/lib/publicLinks.ts` ("Get your free AI brief"), and
+  the action bar carries two slots at every width: at most one door, which is
+  the offer route the reader is not on, then the one action. It stands down
+  whenever a page's own primary action is on screen. The immutable approved R3
+  homepage is untouched and is the one surface still reading "Start here".
+  Owner approval and candidate verification for r20 are outstanding.
+- `quality/route-lock/approved-production-r21.json` fixes two defects the
+  release matrix found in that bar: the door was keyed on the exact pathname,
+  so the trailing-slash spelling of a route hydrated without it and took the
+  route down to client rendering; and on a phone the door made the bar 150.7px
+  tall at 320x568 and covered the last footer link. The door now keys on the
+  route without its trailing slash and is hidden below 768px. Chromium's full
+  route matrix reads clean locally; Firefox and WebKit have not run against the
+  fix.
+- The release browser matrix runs one engine per leg. It is the same 208 cases
+  on the same frozen artifact; Chromium and Firefox simply no longer queue
+  behind each other on one Linux runner. Measured before the change on run
+  36067326051: 9m10s total, of which one step was 6m25s. Unverified until the
+  split matrix has actually run.
+- A `/new-age-leadership` repair is on the branch, bounded by
+  `quality/route-lock/approved-production-r23.json`, whose own owner approval is
+  outstanding. The route's three pinned sequences never pinned in production:
+  the prototype's body-level `overflow-x: hidden`, scoped onto `.nal-page`, made
+  that div its own scrollport, so each sequence scrolled away after one screen
+  and left the rest of its track empty. The route also drew its own masthead and
+  a hand-copied footer instead of the shared shell. Both are corrected on the
+  branch, the history sequence now builds by scroll below 900px as well as
+  above, and the AI Brain benefits are driven by scroll instead of a timer.
+- Verified for that repair on Linux: typecheck, lint, 541 unit tests, the
+  canonical build, the r23 route lock and its fail-closed self-test, the
+  fixed-chrome, no-JavaScript and dead-CSS gates, the release route smoke on
+  chromium and firefox, and `qa:new-age-r5-production` on chromium (ten
+  viewports), webkit and firefox, forward and reverse, with its negative
+  control. Not established for it: the macOS WebKit leg, physical screen-reader
+  passes, and any live production behaviour.
+- Three gates cannot return a verdict in this Linux container and were not
+  passed for that repair. `qa:release-routes` on WebKit fails on `/case-studies`
+  with an `.mp4` request that never completes, which is the documented Linux
+  WebKit media limitation and is why CI runs WebKit on macOS. `qa:alive` reads a
+  mean pixel change of 0.000 at every viewport of every route, the untouched
+  homepage and locked routes included, because films do not play here.
+  `qa:full-route-continuity` cannot start: on the homepage below 430px the first
+  `h1` in the document is a zero-size duplicate, so its `h1` wait times out, and
+  that reproduces identically on the pre-change commit.
 
 Do not promote old DNS/mailbox, CTRL-host or cache observations into fresh facts
 without new readback. CONTACT_EMAIL in src/lib/publicLinks.ts is the approved

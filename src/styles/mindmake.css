@@ -610,15 +610,11 @@ html {
 }
 .mm-site.mm-route-brain { --mm-header-inline: max(4vw, calc((100vw - 1600px) / 2)); }
 .mm-site.mm-route-gtm { --mm-header-inline: max(24px, calc((100vw - 1360px) / 2)); }
-/* /new-age-leadership draws its own masthead inside `.nal-page` and puts the
-   shared commercial block and the footer in a bare `.mm-site` beside it. Those
-   two are on the container's measure and the page above them is on the R5
-   surface's `--edge`, so the wordmark sat at 63px at 1440 while "Build one
-   useful AI system on real work." started at 100px, and at 1920 the gap was
-   72px against 340px. These mirror `--edge` in
-   src/styles/new-age-leadership-r5.css, including its two narrow overrides;
-   that file is generated from the approved prototype, so the mirror lives
-   here. */
+/* /new-age-leadership draws its sections against the R5 surface's own `--edge`,
+   and these mirror it, including the two narrow overrides. That file is
+   generated from the approved prototype, so the mirror lives here. The route
+   now wears the shared shell, so this puts the wordmark, the menu and the
+   footer on the same left edge as the story under them. */
 .mm-site.mm-route-leadership { --mm-header-inline: clamp(22px, 4.4vw, 72px); }
 @media (max-width: 700px) {
   .mm-site.mm-route-gtm { --mm-header-inline: max(16px, calc((100vw - 520px) / 2)); }

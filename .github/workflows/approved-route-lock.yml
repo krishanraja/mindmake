@@ -169,10 +169,31 @@ jobs:
         env:
           QA_ENGINE: ${{ matrix.engine }}
         run: npm run qa:release-routes
+      - name: Verify the leadership story builds by scroll
+        # The fault this catches shipped and then survived the gate meant to
+        # catch it: the old one clicked every control on the page and passed a
+        # route where none of the three pinned sequences pinned at all. This one
+        # never clicks. It scrolls, forwards and in reverse, and fails if
+        # scrolling alone does not reach every state or if it finds a run of
+        # empty viewport. Its own negative control removes the pins and must
+        # fail, so a green result cannot mean it measured nothing.
+        #
+        # Linux only, deliberately. The matrix split above makes macOS WebKit
+        # the critical path for the whole run, and this would add to it. The
+        # engine still gets covered: the gate runs on WebKit locally, where the
+        # route's own sequences pass, because what it measures is scroll state
+        # in the DOM rather than the media playback that fails on Linux.
+        if: runner.os == 'Linux'
+        shell: bash
+        env:
+          QA_ENGINE: ${{ matrix.engine }}
+        run: npm run qa:new-age-r5-production
       - name: Retain release verification evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: homepage-release-evidence-${{ matrix.os }}-${{ matrix.engine }}
-          path: artifacts/homepage-release/
+          path: |
+            artifacts/homepage-release/
+            artifacts/new-age-leadership/
           if-no-files-found: error

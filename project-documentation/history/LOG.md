@@ -9415,3 +9415,41 @@ R14 bindings were independently verified. No indexing, ranking, AI citation,
 social-platform cache refresh, new physical assistive-technology pass, future
 day-14 inbox delivery, clean dependency audit or other-client harness rollout
 is claimed. These remain the explicit limits in 06_CURRENT_STATE.md.
+
+## 2026-09-24 GTM-PLAIN-R2 replaces GTM-MOTION-S1 on /ai-gtm
+
+Owner direction: /ai-gtm read as one long page, sections overflowed a screen,
+the signal-then-response picker was neither obvious nor worth a visitor's
+effort, and the copy was cryptic. Mock r1 (a new visual system) was rejected
+for design; r2 rebuilt the new copy inside the approved GTM system and Krish
+approved it on 24 September 2026 on condition that phones feel native, and
+authorised the build through to main.
+
+Decisions taken with the owner in session: speak to both the established B2B
+leader and the AI-native founder through one switch; state the service plainly;
+publish the deliverable menu and the 30-day shape with the fee kept private;
+map all four levers in week 1 and build and test the one worth most in weeks 2
+to 4; prove it with the two verified GTM results; keep interaction to the
+team-board flip.
+
+Superseded public copy, retained here as required:
+
+- GTM headline: "We turn an AI market shift into one tested commercial move."
+- GTM promise: "See how one market change alters product, price, positioning
+  and people before you commit."
+- GTM film line: "Start with the commercial decision that is holding the rest
+  of the system back."
+- Live H1: "See what your response changes." Kicker: "One market change. One
+  choice. Four consequences."
+- Canon rules "no public price or duration" and "no public day-30/60/90
+  packages or duration promises" now carry one owner-approved exception: the
+  30-day shape on /ai-gtm.
+
+Retired sources: src/pages/AiGtmLocked.tsx (r17 sha256
+7e50da2c4e04fd6aab24694a433d0794747eaa60ebb161cb3782b7c4b1c2467c) and the
+unrouted src/pages/AiGtm.tsx. The prototype
+prototypes/website-redesign-recovery/gtm-market-change/index-motion.html (git
+blob ab4347aa8c376867d29895e5ed6d21573b9c4c57) remains in the repository unchanged as the historical reference.
+Route lock: quality/route-lock/approved-production-r25.json (built on r24). As r18
+requires, the shared commercial Decision Balance is not mounted on /ai-gtm; the
+site action bar carries Start here and the door to /ai-brain.

@@ -7,7 +7,7 @@ import { createHash } from "node:crypto";
 import { sourceHashBytes } from "../lib/source-hash.mjs";
 
 const root = resolve(import.meta.dirname, "../..");
-const manifestPath = resolve(root, "quality/route-lock/approved-production-r24.json");
+const manifestPath = resolve(root, "quality/route-lock/approved-production-r25.json");
 const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 for (const extension of ['.svg', '.xml', '.webmanifest']) {
@@ -30,7 +30,7 @@ manifest.files[firstPath] = "0".repeat(64);
 
 const output = resolve(tmpdir(), "mindmake-route-lock-self-test");
 await mkdir(output, { recursive: true });
-const badManifest = resolve(output, "approved-production-r24-bad.json");
+const badManifest = resolve(output, "approved-production-r25-bad.json");
 await writeFile(badManifest, `${JSON.stringify(manifest, null, 2)}\n`);
 
 const result = spawnSync(process.execPath, [resolve(root, "scripts/qa/approved-route-lock-check.mjs")], {
@@ -44,4 +44,22 @@ if (result.status === 0 || !result.stdout.includes(firstPath)) {
   process.exit(1);
 }
 
-console.log(JSON.stringify({ artifact: "approved-route-lock-self-test", failClosed: true, detectedDrift: firstPath }, null, 2));
+// Second control: a GTM contract that states no evidence contract at all must
+// be refused, not silently skipped.
+const unanchored = JSON.parse(await readFile(manifestPath, "utf8"));
+delete unanchored.minimumContracts.gtm.signals;
+delete unanchored.minimumContracts.gtm.responseChoices;
+delete unanchored.minimumContracts.gtm.citedSignals;
+const unanchoredManifest = resolve(output, "approved-production-r25-unanchored.json");
+await writeFile(unanchoredManifest, `${JSON.stringify(unanchored, null, 2)}\n`);
+const unanchoredResult = spawnSync(process.execPath, [resolve(root, "scripts/qa/approved-route-lock-check.mjs")], {
+  cwd: root,
+  encoding: "utf8",
+  env: { ...process.env, MINDMAKE_ROUTE_LOCK_MANIFEST: unanchoredManifest },
+});
+if (unanchoredResult.status === 0 || !unanchoredResult.stdout.includes("neither signal counts nor cited signals")) {
+  console.error(JSON.stringify({ artifact: "approved-route-lock-self-test", expectedFailure: "unanchored GTM contract", status: unanchoredResult.status, stdout: unanchoredResult.stdout }, null, 2));
+  process.exit(1);
+}
+
+console.log(JSON.stringify({ artifact: "approved-route-lock-self-test", failClosed: true, detectedDrift: firstPath, refusedUnanchoredGtm: true }, null, 2));

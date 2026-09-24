@@ -27,8 +27,10 @@ capability the business should still have when the work ends.
 
 ## Current public contract
 
-The offer is one paid proof with no public price or duration. The private rate
-card and delivery envelope below remain private and unchanged. The approved
+The offer is one paid proof with no public price. Its only public duration is
+the 30-day shape on `/ai-gtm` (owner decision, 24 September 2026); no other
+surface states or implies one. The private rate card and delivery envelope
+below remain private and unchanged. The approved
 R3 homepage carries the practice narrative; `/new-age-leadership` is its
 companion. The two door pages carry their specific capabilities. The internal
 buyer archetype is not public positioning.
@@ -51,9 +53,10 @@ The owner-approved public copy is locked:
 | Brain headline | Make your judgement reusable. |
 | Brain promise | Give your standards, context and past decisions a memory you can use. |
 | Brain film line | The next decision begins with what the last one taught you. |
-| GTM headline | We turn an AI market shift into one tested commercial move. |
-| GTM promise | See how one market change alters product, price, positioning and people before you commit. |
-| GTM film line | Start with the commercial decision that is holding the rest of the system back. |
+| GTM headline | Make your pricing, positioning and team AI-native. |
+| GTM promise | AI is changing what customers pay for, how they choose and who does the work. We rebuild your go-to-market around it, then test it with real buyers. |
+| GTM kicker | One go-to-market move in 30 days |
+| GTM 30 days | Week 1: we map all four. Weeks 2 to 4: we build the move worth most and test it with real buyers. Day 30: you keep it. |
 | Route back control | AI Brain or AI GTM |
 | Proof receipt | What stays with you |
 
@@ -266,9 +269,10 @@ without one.
 
 ## The offer
 
-Work starts with a **paid proof**. Price, duration and scope are agreed privately
-in writing. Do not introduce a public delivery-duration promise. The month
-shape below is the private operating envelope, not website copy.
+Work starts with a **paid proof**. Price and scope are agreed privately in
+writing. The one public duration is the 30-day shape on `/ai-gtm` in the table
+above; do not add another public delivery-duration promise anywhere else. The
+hours, capacity and continuation terms below stay private.
 
 The proof picks one important decision or capability, builds a working first
 version, uses it on real work, and leaves behind something the client keeps
@@ -299,7 +303,7 @@ rather than receiving a deck that goes stale.
 ### Continuation
 
 A visitor starts one paid proof. Continuation is earned by useful results;
-there are no public day-30/60/90 packages or duration promises.
+there are no public day-60/90 packages or continuation promises.
 
 Privately, continuation is proposed only against named deliverables discovered in
 month one, never as generic retained time. The duration follows the deliverable;
@@ -345,8 +349,9 @@ pay never argues the craft down; it argues the stakes up.
 named asset written into the agreement: equity, participation, real distribution,
 or a consented case study.
 
-**The public boundary.** No public price or duration. Scope, duration and fee are
-agreed privately in writing before work starts. The private rate card above is
+**The public boundary.** No public price. Beyond the 30-day shape on `/ai-gtm`,
+no public duration. Scope and fee are agreed privately in writing before work
+starts. The private rate card above is
 not a public promise.
 
 **Collapse target.** After five paid proofs with door-shaped stories, collapse

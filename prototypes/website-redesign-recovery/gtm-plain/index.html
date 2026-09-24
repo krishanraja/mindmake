@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Build your AI go-to-market · Mindmake (mock r1)</title>
+<link rel="stylesheet" href="latin.css">
+<style>
+:root{
+  --ink:#0a100d;--raise:#121c17;--raise-2:#1e2c26;--line:#22322b;--hair:#1a2620;--seam:#30463d;
+  --tx:#e6ede8;--mut:#8fa298;--paper:#f2f1ea;--paper-line:#dedcd0;--tx-d:#131c17;--mut-d:#5f685e;
+  --mint:#7fe3b4;--mint-dim:#3e8e68;--mint-wash:#12291f;--mint-ink:#07110c;--amber:#e0a44a;--amber-wash:#2b2113;--mint-d:#2f6f51;
+  --grot:"Archivo","Helvetica Neue",Arial,sans-serif;--serif:"Newsreader",Georgia,serif;--body:"Source Serif 4",Georgia,serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --gutter:clamp(20px,4vw,64px);--max:1240px;--edge:max(var(--gutter),calc((100vw - var(--max))/2));--head:68px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:var(--head)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--ink);color:var(--tx);font-family:var(--body);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:4px}
+
+/* masthead */
+.mast{position:fixed;inset:0 0 auto;height:var(--head);display:flex;align-items:center;justify-content:space-between;padding:0 var(--edge);background:rgba(10,16,13,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--hair);z-index:20}
+.logo{font-family:var(--grot);font-weight:700;letter-spacing:-.01em;font-size:20px;text-decoration:none}
+.logo span{color:var(--mint)}
+.mast nav{display:flex;gap:28px;align-items:center;font-family:var(--grot);font-size:14px;color:var(--mut)}
+.mast nav a{text-decoration:none}.mast nav a:hover{color:var(--tx)}
+.mast nav a[aria-current]{color:var(--tx)}
+@media (max-width:860px){.mast nav a:not(.btn){display:none}}
+
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--grot);font-weight:600;font-size:15px;border-radius:999px;padding:12px 22px;text-decoration:none;cursor:pointer;border:1px solid transparent;transition:transform .15s,background .15s}
+.btn-primary{background:var(--mint);color:var(--mint-ink)}
+.btn-primary:hover{transform:translateY(-1px);background:#98ecc5}
+.btn-ghost{border-color:var(--seam);color:var(--tx)}
+.btn-ghost:hover{border-color:var(--mint-dim)}
+.mast .btn{padding:9px 18px;font-size:14px}
+
+/* chapters */
+.ch{min-height:calc(100svh - var(--head));padding:clamp(40px,6vh,80px) var(--edge);display:flex;flex-direction:column;justify-content:center;border-bottom:1px solid var(--hair)}
+.ch:first-of-type{margin-top:var(--head)}
+.ch.raise{background:var(--raise)}
+.ch.paper{background:var(--paper);color:var(--tx-d)}
+.num{display:inline-flex;align-items:center;gap:12px;font-family:var(--mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--mint);margin-bottom:20px}
+.num b{display:inline-grid;place-items:center;width:30px;height:30px;border:1px solid var(--mint-dim);border-radius:50%;font-weight:500}
+.paper .num{color:var(--mint-d)}.paper .num b{border-color:var(--mint-d)}
+h1,h2{font-family:var(--serif);font-weight:400;letter-spacing:-.02em;margin:0}
+h1{font-size:clamp(42px,5.4vw,80px);line-height:1.02;max-width:16ch}
+h2{font-size:clamp(34px,4.4vw,64px);line-height:1.04;max-width:18ch}
+h2.wide{max-width:24ch;font-size:clamp(32px,3.6vw,54px)}
+.lede{font-size:clamp(18px,1.5vw,21px);color:var(--mut);max-width:40ch;margin:22px 0 0}
+.paper .lede{color:var(--mut-d)}
+h3{font-family:var(--grot);font-weight:600;font-size:19px;line-height:1.25;margin:0}
+.mono{font-family:var(--mono);font-size:12.5px;letter-spacing:.04em}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.25fr .9fr;gap:clamp(32px,5vw,80px);align-items:center}
+.switch{display:inline-flex;margin-top:34px;padding:4px;border:1px solid var(--seam);border-radius:999px;background:var(--hair)}
+.switch button{border:0;background:none;padding:10px 18px;border-radius:999px;font-family:var(--grot);font-size:15px;color:var(--mut);cursor:pointer;transition:background .2s,color .2s}
+.switch button[aria-pressed="true"]{background:var(--mint-wash);color:var(--mint);box-shadow:inset 0 0 0 1px var(--mint-dim)}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}
+.plan{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,var(--raise),var(--ink));padding:28px}
+.plan .mono{color:var(--mut)}
+.plan ol{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:0}
+.plan li{display:grid;grid-template-columns:112px 1fr;gap:14px;padding:16px 0;border-top:1px solid var(--line)}
+.plan li:first-child{border-top:0}
+.plan .when{font-family:var(--mono);font-size:12.5px;color:var(--mint);padding-top:3px}
+.plan .what{font-family:var(--grot);font-size:16px;line-height:1.4}
+.plan .what small{display:block;color:var(--mut);font-family:var(--body);font-size:15px;margin-top:3px}
+.levers{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.levers span{font-family:var(--mono);font-size:12px;border:1px solid var(--seam);border-radius:999px;padding:5px 11px;color:var(--tx)}
+
+/* facts */
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:44px}
+.fact{border:1px solid var(--line);border-radius:16px;padding:26px;display:flex;flex-direction:column;gap:14px;background:var(--ink)}
+.fact h3{font-family:var(--serif);font-weight:400;font-size:28px;line-height:1.1;letter-spacing:-.01em}
+.fact p{margin:0;color:var(--mut);font-size:16.5px}
+.fact .src{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);display:flex;justify-content:space-between;color:var(--amber)}
+.fact .src a{text-decoration:none}.fact .src a:hover{text-decoration:underline}
+
+/* levers table */
+.lever-grid{margin-top:40px;border-top:1px solid var(--paper-line)}
+.lever-row{display:grid;grid-template-columns:200px 1fr 40px 1fr;align-items:center;gap:20px;padding:22px 0;border-bottom:1px solid var(--paper-line)}
+.lever-row.head{padding:12px 0;color:var(--mut-d)}
+.lever-row .name{font-family:var(--grot);font-weight:600;font-size:22px}
+.lever-row .before{color:var(--mut-d);font-size:18px}
+.lever-row .arrow{color:var(--mint-d);font-family:var(--mono);font-size:18px;text-align:center}
+.lever-row .after{font-family:var(--grot);font-size:19px;font-weight:500;color:var(--tx-d)}
+.lever-row.head .before,.lever-row.head .after{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:400;color:var(--mut-d)}
+
+/* org chart */
+.org{display:grid;grid-template-columns:1fr 360px;gap:32px;margin-top:28px;align-items:start}
+.org-top{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:20px}
+.toggle{display:inline-flex;padding:4px;border:1px solid var(--seam);border-radius:999px;background:var(--hair)}
+.toggle button{border:0;background:none;padding:9px 20px;border-radius:999px;font-family:var(--grot);font-weight:600;font-size:15px;color:var(--mut);cursor:pointer}
+.toggle button[aria-pressed="true"]{background:var(--mint);color:var(--mint-ink)}
+.toggle-hint{font-family:var(--mono);font-size:12px;color:var(--amber);display:flex;align-items:center;gap:8px}
+.toggle-hint i{width:8px;height:8px;border-radius:50%;background:var(--amber);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+.tally{font-family:var(--mono);font-size:12.5px;color:var(--mut);margin-left:auto}
+.tally b{color:var(--tx);font-weight:500}
+.chart{position:relative;border:1px solid var(--line);border-radius:18px;padding:26px;background:var(--ink)}
+.lead-node{display:flex;justify-content:center;margin-bottom:22px;position:relative}
+.lead-node::after{content:"";position:absolute;left:50%;bottom:-22px;height:22px;border-left:1px dashed var(--seam)}
+.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;border-top:1px dashed var(--seam);padding-top:22px}
+.role{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);border-radius:12px;padding:14px 14px 13px;background:var(--raise);min-height:96px;transition:border-color .2s,transform .2s,background .2s}
+.role:hover{border-color:var(--seam);transform:translateY(-1px)}
+.role:focus-visible{outline:2px solid var(--mint);outline-offset:2px}
+.role[aria-pressed="true"]{border-color:var(--mint);background:var(--mint-wash)}
+.role .kind{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+.role .kind::before{content:"";width:8px;height:8px;border-radius:2px;background:currentColor}
+.k-human{color:#cfd8d2}.k-hybrid{color:var(--mint)}.k-agent{color:var(--amber)}
+.role .title{font-family:var(--grot);font-weight:600;font-size:16px;line-height:1.2}
+.role .sub{font-size:14px;color:var(--mut);line-height:1.35}
+.role.new .title::after{content:"New";margin-left:8px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);border:1px solid rgba(224,164,74,.5);border-radius:999px;padding:1px 6px;vertical-align:2px}
+.lead-node .role{min-height:0;width:min(280px,100%);text-align:center;align-items:center}
+.legend{display:flex;gap:18px;margin-top:18px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.legend span{display:flex;align-items:center;gap:6px}.legend span::before{content:"";width:8px;height:8px;border-radius:2px;background:currentColor}
+.decision{position:sticky;top:calc(var(--head) + 24px);border:1px solid var(--mint-dim);border-radius:18px;padding:26px;background:linear-gradient(180deg,var(--mint-wash),var(--ink) 85%)}
+.decision .mono{color:var(--mint)}
+.decision h3{font-size:22px;margin:10px 0 6px}
+.decision .role-line{color:var(--mut);font-size:15px;margin:0 0 18px}
+.decision .q{font-family:var(--serif);font-size:24px;line-height:1.22;margin:0;color:var(--tx)}
+.decision .foot{margin-top:22px;padding-top:16px;border-top:1px solid var(--line);font-size:15px;color:var(--mut)}
+.decision .foot b{color:var(--tx);font-weight:500}
+.fade{animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+/* proof */
+.proofs{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:40px}
+.proof{border:1px solid var(--line);border-radius:18px;padding:30px;background:var(--ink);display:flex;flex-direction:column;gap:16px}
+.proof .res{font-family:var(--serif);font-size:clamp(28px,2.6vw,38px);line-height:1.08;letter-spacing:-.01em}
+.proof blockquote{margin:0;padding-left:18px;border-left:2px solid var(--mint-dim);font-size:18px;color:var(--tx)}
+.proof .who{font-family:var(--mono);font-size:12px;color:var(--mut);letter-spacing:.04em}
+.proof .out{color:var(--mut);font-size:16px;margin:0}
+.proof a{margin-top:auto;font-family:var(--grot);font-size:15px;color:var(--mint);text-decoration:none}
+.proof a:hover{text-decoration:underline}
+.proof.lead{border-color:var(--mint-dim)}
+
+/* 30 days */
+.weeks{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:32px;border:1px solid var(--paper-line);border-radius:18px;overflow:hidden;background:#fff}
+.week{padding:28px;border-left:1px solid var(--paper-line)}
+.week:first-child{border-left:0}
+.week .mono{color:var(--mint-d);text-transform:uppercase;letter-spacing:.08em}
+.week h3{font-size:22px;margin:10px 0 8px;color:var(--tx-d)}
+.week p{margin:0;color:var(--mut-d);font-size:16.5px}
+.menu-head{display:flex;justify-content:space-between;align-items:baseline;gap:20px;margin-top:32px;flex-wrap:wrap}
+.menu-head h3{font-size:20px;color:var(--tx-d)}
+.menu{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.item{border:1px solid var(--paper-line);border-radius:12px;padding:14px 18px;background:#faf9f4}
+.item b{display:block;font-family:var(--grot);font-weight:600;font-size:16px;color:var(--tx-d)}
+.item span{font-size:15px;line-height:1.4;color:var(--mut-d)}
+.terms{margin:18px 0 0;font-size:16px;color:var(--mut-d)}
+
+/* close */
+.close{text-align:center;align-items:center}
+.close h2{margin:0 auto;max-width:16ch}
+.close .lede{margin:22px auto 0}
+.close .cta-row{justify-content:center}
+.other{margin-top:26px;font-family:var(--grot);font-size:15px;color:var(--mut)}
+.other a{color:var(--mint);text-decoration:none}
+
+.truth{padding:18px var(--edge);font-family:var(--mono);font-size:12px;color:var(--mut);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* responsive */
+@media (max-width:1060px){
+  .hero{grid-template-columns:1fr}
+  .org{grid-template-columns:1fr}
+  .decision{position:static}
+  .facts{grid-template-columns:1fr}
+  .fact{flex-direction:row;flex-wrap:wrap;gap:10px 20px}
+  .fact h3{flex:1 1 260px}.fact p{flex:1 1 320px}.fact .src{flex-basis:100%}
+}
+@media (max-width:760px){
+  body{font-size:17px}
+  .ch{min-height:0;padding:56px var(--gutter)}
+  .switch{display:flex;flex-direction:column;border-radius:16px;width:100%}
+  .switch button{text-align:left;border-radius:12px}
+  .cta-row .btn{flex:1 1 100%;justify-content:center}
+  .fact{flex-direction:column}
+  .fact h3,.fact p,.fact .src{flex:0 0 auto}
+  .lever-row{grid-template-columns:1fr;gap:4px;padding:18px 0}
+  .lever-row.head{display:none}
+  .lever-row .arrow{display:none}
+  .lever-row .before::before{content:"Before  ";font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+  .lever-row .after::before{content:"AI-native  ";font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mint-d);font-weight:400}
+  .founder .lever-row .before::before{content:"Default  "}
+  .roles{grid-template-columns:1fr 1fr}
+  .chart{padding:16px}
+  .tally{margin-left:0;width:100%}
+  .proofs,.weeks,.menu{grid-template-columns:1fr}
+  .week{border-left:0;border-top:1px solid var(--paper-line)}.week:first-child{border-top:0}
+}
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <a class="logo" href="#top">mind<span>/</span>make</a>
+  <nav aria-label="Main">
+    <a href="#">Build your AI brain</a>
+    <a href="#" aria-current="page">Build your AI GTM</a>
+    <a href="#">Results</a>
+    <a href="#">New-age leadership</a>
+    <a class="btn btn-primary" href="#start">Start here</a>
+  </nav>
+</header>
+
+<main id="top">
+
+<!-- 0 HERO -->
+<section class="ch" aria-labelledby="h-hero">
+  <div class="hero">
+    <div>
+      <h1 id="h-hero">Make your pricing, positioning and team AI-native.</h1>
+      <p class="lede" data-mode-text="heroLede"></p>
+      <div class="switch" role="group" aria-label="Your business">
+        <button type="button" data-mode="established" aria-pressed="true">I run an established business</button>
+        <button type="button" data-mode="founder" aria-pressed="false">I'm building an AI-native business</button>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#start">Start here</a>
+        <a class="btn btn-ghost" href="#changed">See how it works</a>
+      </div>
+    </div>
+    <aside class="plan" aria-label="What the 30 days look like">
+      <div class="mono">One go-to-market move in 30 days</div>
+      <ol>
+        <li><span class="when">Week 1</span><span class="what">We map what AI changes for you<small>Across your product, price, positioning and people.</small></span></li>
+        <li><span class="when">Weeks 2 to 4</span><span class="what">We build the move worth most<small>And test it with real buyers.</small></span></li>
+        <li><span class="when">Day 30</span><span class="what">You keep it<small>The model, the evidence and anything we built.</small></span></li>
+      </ol>
+      <div class="levers" aria-hidden="true"><span>Product</span><span>Price</span><span>Positioning</span><span>People</span></div>
+    </aside>
+  </div>
+</section>
+
+<!-- 1 WHAT CHANGED -->
+<section class="ch raise" id="changed" aria-labelledby="h-changed">
+  <div class="num"><b>01</b>What changed</div>
+  <h2 id="h-changed">Your buyers moved first.</h2>
+  <p class="lede" data-mode-text="changedLede"></p>
+  <div class="facts">
+    <article class="fact">
+      <h3>Customers pay when the work is done.</h3>
+      <p>HubSpot now charges for two of its AI agents per resolved conversation and per recommended lead, instead of per user.</p>
+      <div class="src mono"><a href="https://www.hubspot.com/company-news/hubspots-customer-agent-and-prospecting-agent-now-you-pay-when-the-task-is-complete" target="_blank" rel="noopener">HubSpot ↗</a><span>13 Apr 2026</span></div>
+    </article>
+    <article class="fact">
+      <h3>Buyers shop inside AI assistants.</h3>
+      <p>Shopify merchants now sell through ChatGPT, Copilot, Google AI Mode and Gemini. The assistant makes the shortlist.</p>
+      <div class="src mono"><a href="https://www.shopify.com/news/agentic-commerce-momentum" target="_blank" rel="noopener">Shopify ↗</a><span>24 Mar 2026</span></div>
+    </article>
+    <article class="fact">
+      <h3>Vendors sell outcomes.</h3>
+      <p>Zendesk now sells an AI service workforce and charges for results that a separate AI checks.</p>
+      <div class="src mono"><a href="https://www.zendesk.com/newsroom/press-releases/relate-2026/" target="_blank" rel="noopener">Zendesk ↗</a><span>19 May 2026</span></div>
+    </article>
+  </div>
+</section>
+
+<!-- 2 FOUR LEVERS -->
+<section class="ch paper" id="levers" aria-labelledby="h-levers">
+  <div class="num"><b>02</b>What we rebuild</div>
+  <h2 id="h-levers">Four things change. We rebuild all four with you.</h2>
+  <div class="lever-grid" data-lever-grid>
+    <div class="lever-row head" aria-hidden="true"><span></span><span class="before" data-mode-text="beforeHead"></span><span></span><span class="after">AI-native</span></div>
+  </div>
+</section>
+
+<!-- 3 ORG CHART -->
+<section class="ch" id="team" aria-labelledby="h-team">
+  <div class="num"><b>03</b>Your team</div>
+  <h2 id="h-team" class="wide" data-mode-text="teamHead"></h2>
+  <div class="org">
+    <div>
+      <div class="org-top">
+        <div class="toggle" role="group" aria-label="Team view">
+          <button type="button" data-view="today" aria-pressed="true">Today</button>
+          <button type="button" data-view="native" aria-pressed="false">AI-native</button>
+        </div>
+        <span class="toggle-hint" data-hint><i></i>Switch to AI-native</span>
+        <span class="tally" data-tally aria-live="polite"></span>
+      </div>
+      <div class="chart">
+        <div class="lead-node" data-lead></div>
+        <div class="roles" data-roles></div>
+        <div class="legend" aria-hidden="true"><span class="k-human">Person</span><span class="k-hybrid">Person + agents</span><span class="k-agent">Agent-first</span></div>
+      </div>
+    </div>
+    <aside class="decision" aria-live="polite" data-decision></aside>
+  </div>
+</section>
+
+<!-- 4 PROOF -->
+<section class="ch raise" id="proof" aria-labelledby="h-proof">
+  <div class="num"><b>04</b>Results</div>
+  <h2 id="h-proof">Two leaders who made the move.</h2>
+  <div class="proofs" data-proofs>
+    <article class="proof" data-proof="established">
+      <div class="res">A new sales path led to a paid test with a major US publisher.</div>
+      <blockquote>“We set up an AI-native go-to-market system that made us rethink who we hire and what they do.”</blockquote>
+      <div class="who">Chief Revenue Officer, data-infrastructure company</div>
+      <a href="#">Read the story →</a>
+    </article>
+    <article class="proof" data-proof="founder">
+      <div class="res">Position and price rebuilt in 30 days. Two pilots signed during the work.</div>
+      <blockquote>“We had a brilliant product nobody could buy, because nobody could explain it. We're now clear on who we are in the new world.”</blockquote>
+      <div class="who">Founder, adtech firm</div>
+      <a href="#">Read the story →</a>
+    </article>
+  </div>
+</section>
+
+<!-- 5 THIRTY DAYS -->
+<section class="ch paper" id="how" aria-labelledby="h-how">
+  <div class="num"><b>05</b>How it works</div>
+  <h2 id="h-how" class="wide">What happens in 30 days.</h2>
+  <div class="weeks">
+    <div class="week"><span class="mono">Week 1 · Read</span><h3>We map all four</h3><p>What AI has changed for your product, price, positioning and people, and which move is worth most.</p></div>
+    <div class="week"><span class="mono">Weeks 2 to 4 · Build and test</span><h3>We build that move</h3><p>Then put it in front of real buyers, so you decide on evidence instead of opinion.</p></div>
+    <div class="week"><span class="mono">Day 30 · Yours</span><h3>You keep it</h3><p>The model, the buyer evidence and anything we built. No retainer needed to keep it running.</p></div>
+  </div>
+  <div class="menu-head"><h3>What we can build for you</h3></div>
+  <div class="menu">
+    <div class="item"><b>Pricing model and buyer test</b><span>Per seat, per task or per result, tested with real buyers.</span></div>
+    <div class="item"><b>Positioning and messaging</b><span>A story buyers repeat and AI assistants recommend.</span></div>
+    <div class="item"><b>AI-native org chart</b><span>Which roles stay human, go hybrid or become agent-first.</span></div>
+    <div class="item"><b>Working agents</b><span>At least one agent running on your real work.</span></div>
+    <div class="item"><b>Product marketing launch kit</b><span>Sales story, pitch and launch plan for the new move.</span></div>
+    <div class="item"><b>AI market read</b><span>What AI is changing in your category, with sources.</span></div>
+  </div>
+  <p class="terms">We agree what goes into your 30 days, and the fee, privately before work starts.</p>
+</section>
+
+<!-- 6 START -->
+<section class="ch close" id="start" aria-labelledby="h-start">
+  <h2 id="h-start">Start with the move that matters most.</h2>
+  <p class="lede" data-mode-text="closeLede"></p>
+  <div class="cta-row"><button class="btn btn-primary" type="button">Start here</button></div>
+  <p class="other">Want AI that knows how you decide? <a href="#">Build your AI brain →</a></p>
+</section>
+
+</main>
+<div class="truth"><span>Mock r1 · layout and copy for review</span><span>Team chart is an illustrative example · market sources to be re-checked before publishing</span></div>
+
+<script>
+const MODES = {
+  established: {
+    heroLede: "AI is changing what customers pay for, how they choose and who does the work. We rebuild your go-to-market around it, then test it with real buyers before you commit.",
+    changedLede: "Each of these changes how you should price, sell and staff. Most go-to-market plans were written before any of them.",
+    beforeHead: "Before AI",
+    teamHead: "Your next sales and marketing team has agents on it.",
+    closeLede: "Tell us the change you are worried about. You get a first read on which of the four to fix first.",
+    levers: [
+      ["Product", "Software people use", "Software that finishes the work"],
+      ["Price", "Per seat, per month", "Per task or per result, with a cap buyers can forecast"],
+      ["Positioning", "Written for people browsing your site", "Clear enough that an AI assistant recommends you"],
+      ["People", "Hire more people as you grow", "A smaller team leads while agents carry the volume"]
+    ],
+    lead: { today: ["human","Chief Revenue Officer","Owns the number"], native: ["human","Chief Revenue Officer","Owns the number and the agents"] },
+    today: [
+      ["human","Sales","8 account executives","ae"],
+      ["human","Sales development","4 people qualifying leads","sdr"],
+      ["human","Marketing","5 people","mkt"],
+      ["human","Customer success","6 people","cs"],
+      ["human","Sales operations","3 people","ops"]
+    ],
+    native: [
+      ["hybrid","Sales","4 people + research and proposal agents","ae"],
+      ["agent","Lead qualification","Agents first, people take the exceptions","sdr"],
+      ["hybrid","Marketing","2 people + content agents","mkt"],
+      ["hybrid","Customer success","3 people + support agents","cs"],
+      ["agent","Market intelligence","Watches rivals, prices and buyer signals","intel",true],
+      ["human","Pricing owner","Owns what customers pay for","price",true]
+    ],
+    tally: { today: "<b>27</b> people · <b>0</b> agents", native: "<b>11</b> people · <b>5</b> agent roles" },
+    decisions: {
+      lead: "How do you set targets when part of the team is software?",
+      ae: "When agents do the research and first drafts, do you keep the same sellers and cover more accounts, or run a smaller team?",
+      sdr: "Who is accountable when an agent turns away a lead that would have bought?",
+      mkt: "Which work must stay in a human voice, and who signs off what agents publish?",
+      cs: "If agents resolve most tickets, what are customers paying your people for?",
+      ops: "Which reports and hand-offs still need a person once agents keep the records?",
+      intel: "Who reads what this agent finds, and how fast can a finding change your price?",
+      price: "Per task or per result: which can your buyers forecast and your finance team bill?"
+    }
+  },
+  founder: {
+    heroLede: "AI is changing what customers pay for, how they choose and who does the work. We help you build a go-to-market that starts AI-native, then test it with real buyers before you scale it.",
+    changedLede: "The playbook you would copy was written before any of this. You get to start from the new one.",
+    beforeHead: "Default playbook",
+    teamHead: "Your first commercial team can be mostly agents.",
+    closeLede: "Tell us what you are building. You get a first read on how to price, position and staff it.",
+    levers: [
+      ["Product", "Match the leader's feature list", "Build around the job AI can finish"],
+      ["Price", "Borrow seat pricing from SaaS", "Charge for work done from the first customer"],
+      ["Positioning", "Another AI tool in a crowded list", "One clear job buyers and AI assistants can repeat"],
+      ["People", "Hire sales, then marketing, then support", "The founder plus agents until the model is proven"]
+    ],
+    lead: { today: ["human","Founder","Sells, markets and supports"], native: ["human","Founder","Sets direction, closes deals"] },
+    today: [
+      ["human","First sales hire","Planned for next quarter","hire"],
+      ["human","Contractors","Content, design and ads","contract"],
+      ["human","Founder's evenings","Support and onboarding","support"]
+    ],
+    native: [
+      ["hybrid","Customer lead","First hire, working with agents","hire"],
+      ["agent","Outreach and research","Finds and warms the right buyers","outreach"],
+      ["agent","Content","Drafts in your voice, you approve","contract"],
+      ["agent","Onboarding and support","Answers first, escalates the rest","support"],
+      ["agent","Market intelligence","Watches rivals, prices and buyer signals","intel",true]
+    ],
+    tally: { today: "<b>1</b> founder · <b>1</b> hire planned · <b>0</b> agents", native: "<b>2</b> people · <b>4</b> agent roles" },
+    decisions: {
+      lead: "Which calls must only you make, and which can you hand to agents today?",
+      hire: "Is your first hire a seller, or someone who runs the agents that sell?",
+      outreach: "What must an agent never say to a buyer on your behalf?",
+      contract: "What does your voice sound like, written down clearly enough for an agent to follow?",
+      support: "When should a customer reach you instead of an agent?",
+      intel: "Which signal would make you change your price next month?"
+    }
+  }
+};
+
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const KIND = { human: "Person", hybrid: "Person + agents", agent: "Agent-first" };
+let mode = "established", view = "today", picked = "lead", touched = false;
+
+function roleButton([kind,title,sub,id,isNew], isLead){
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "role" + (isNew ? " new" : "");
+  b.dataset.id = isLead ? "lead" : id;
+  b.setAttribute("aria-pressed", String(b.dataset.id === picked));
+  b.innerHTML = `<span class="kind k-${kind}">${KIND[kind]}</span><span class="title">${title}</span><span class="sub">${sub}</span>`;
+  b.addEventListener("click", () => { picked = b.dataset.id; renderChart(); if (matchMedia("(max-width:1060px)").matches) $("[data-decision]").scrollIntoView({block:"nearest",behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"}); });
+  return b;
+}
+
+function renderChart(){
+  const m = MODES[mode];
+  const list = m[view];
+  if (picked !== "lead" && !list.some(r => r[3] === picked)) picked = "lead";
+  const lead = $("[data-lead]"); lead.replaceChildren(roleButton(m.lead[view], true));
+  const roles = $("[data-roles]"); roles.replaceChildren(...list.map(r => roleButton(r)));
+  $("[data-tally]").innerHTML = m.tally[view];
+  const role = picked === "lead" ? m.lead[view] : list.find(r => r[3] === picked);
+  const d = $("[data-decision]");
+  d.innerHTML = `<div class="fade"><span class="mono">The decision you'll face</span><h3>${role[1]}</h3><p class="role-line">${role[2]}</p><p class="q">${m.decisions[picked]}</p><p class="foot">${view === "today" ? "Switch to <b>AI-native</b> to see how this role changes." : "We work through decisions like this with you in week 1."}</p></div>`;
+}
+
+function renderMode(){
+  const m = MODES[mode];
+  document.body.classList.toggle("founder", mode === "founder");
+  $$("[data-mode]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.mode === mode)));
+  $$("[data-mode-text]").forEach(el => el.textContent = m[el.dataset.modeText]);
+  const grid = $("[data-lever-grid]");
+  $$(".lever-row:not(.head)", grid).forEach(r => r.remove());
+  m.levers.forEach(([n,b,a]) => {
+    const row = document.createElement("div"); row.className = "lever-row";
+    row.innerHTML = `<span class="name">${n}</span><span class="before">${b}</span><span class="arrow" aria-hidden="true">→</span><span class="after">${a}</span>`;
+    grid.appendChild(row);
+  });
+  const proofs = $("[data-proofs]");
+  const first = $(`[data-proof="${mode}"]`, proofs);
+  proofs.prepend(first);
+  $$(".proof", proofs).forEach(p => p.classList.toggle("lead", p === first));
+  picked = "lead";
+  renderChart();
+}
+
+$$("[data-mode]").forEach(b => b.addEventListener("click", () => { mode = b.dataset.mode; renderMode(); }));
+$$("[data-view]").forEach(b => b.addEventListener("click", () => {
+  view = b.dataset.view;
+  $$("[data-view]").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+  if (!touched){ touched = true; $("[data-hint]").remove(); }
+  renderChart();
+}));
+renderMode();
+</script>
+</body>
+</html>

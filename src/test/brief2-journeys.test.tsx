@@ -86,13 +86,16 @@ describe("the shared capture", () => {
   });
 
   it("renders a complete journey on both doors", () => {
-    /* Both locked routes now make their work tangible before opening the same
-       brief drawer. GTM moves from signal to response to customer test; Brain
-       moves from decision through the actual graph, evidence and correction. */
+    /* Both routes make their work tangible before opening the same brief
+       drawer. GTM moves from the reader's business through the 30 days, the
+       four levers, the team and a result, and carries the business the reader
+       chose into the drawer; Brain moves from decision through the actual
+       graph, evidence and correction. */
     const gtm = readFileSync(resolve(__dirname, "../..", "src/pages/AiGtm.tsx"), "utf8");
-    expect(gtm).toContain('["Signal", "Response", "Customer test"]');
-    expect(gtm).toContain("signal.responses.map((response, index)");
-    expect(gtm).toContain("initialContext={context}");
+    for (const lever of ["Product", "Price", "Positioning", "People"]) expect(gtm).toContain(`${lever.toLowerCase()}: "${lever}"`);
+    for (const step of ["Week 1", "Weeks 2 to 4", "Day 30"]) expect(gtm).toContain(`when: "${step}"`);
+    expect(gtm).toContain("The decision you'll face");
+    expect(gtm).toContain("initialContext={copy.tab}");
 
     const brain = readFileSync(resolve(__dirname, "../..", "src/pages/AiBrain.tsx"), "utf8");
     expect(brain).toContain("STAGE_NAMES.map((name, index) => <button");

@@ -112,9 +112,9 @@ other when the work calls for it.
 
 Both lead to **one paid proof**: pick one decision or capability, build a
 working first version, use it on real work, leave something behind that keeps
-running. Not a stretch of discovery followed by a report. The price is private,
-the length is agreed with it and neither appears on the site,
-and there is no public diary link. The only primary action on the site
+running. Not a stretch of discovery followed by a report. The price is private
+and never appears on the site; the only public length is the 30-day shape on
+`/ai-gtm`, and there is no public diary link. The only primary action on the site
 is **Start here**.
 
 **CTRL** is our own product, running our own practice. It appears as evidence
@@ -280,10 +280,10 @@ The internal buyer psychology stays private. Its approved public expression is
 *Nobody in your organisation needs to know where you started.* Write for
 ambition as much as pressure, never shame.
 
-No public price or duration. Scope, duration and fee are agreed privately in
-writing. Recorded durations in consented past-work evidence are facts, not
-new delivery promises. Do not add a timing promise that the approved surface
-does not contain.
+No public price. The only public duration is the owner-approved 30-day shape
+on `/ai-gtm`; scope and fee are agreed privately in writing. Recorded durations
+in consented past-work evidence are facts, not new delivery promises. Do not add
+a timing promise that the approved surface does not contain.
 
 Exact accepted copy is in `01_CANON.md`; source-bound composition and motion
 are in `03_DESIGN_CONTRACT.md` and the active release manifest. Do not apply a

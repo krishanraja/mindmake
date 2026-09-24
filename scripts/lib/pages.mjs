@@ -30,9 +30,9 @@ export const staticPages = [
   {
     path: "/ai-gtm",
     title: "Build your AI GTM",
-    description: "See how one market change alters product, price, positioning and people before you commit.",
+    description: "Make your pricing, positioning and team AI-native, then test it with real buyers.",
     headline: "Build your AI GTM.",
-    claim: "See how one market change alters product, price, positioning and people before you commit.",
+    claim: "Make your pricing, positioning and team AI-native, then test it with real buyers.",
     still: "film-03",
   },
   {

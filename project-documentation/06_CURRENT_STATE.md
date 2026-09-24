@@ -33,7 +33,7 @@ The delivered brief stays on screen and downloads as self-contained HTML.
 Publication interest is optional and unticked; it does not subscribe anyone.
 
 The personal-read API remains deployed, but is not a second form in this
-frontend. GTM uses the locked market-change instrument; the retained daily-news
+frontend. GTM uses the plain-English GTM-PLAIN-R2 page (approved 24 September 2026); the retained daily-news
 API is not evidence that a live board is rendered on the approved homepage.
 
 Navigation labels: Results, Thinking, Questions leaders ask, Before you start,
@@ -235,6 +235,11 @@ owns payload, privacy, retention, email and failure-path contracts.
   `qa:full-route-continuity` cannot start: on the homepage below 430px the first
   `h1` in the document is a zero-size duplicate, so its `h1` wait times out, and
   that reproduces identically on the pre-change commit.
+
+- /ai-gtm is replaced by the owner-approved GTM-PLAIN-R2 page, bounded by
+  `quality/route-lock/approved-production-r25.json`. Production readback of that
+  release is recorded in the history ledger when it lands; until then treat the
+  live deployment as the authority on what /ai-gtm renders.
 
 Do not promote old DNS/mailbox, CTRL-host or cache observations into fresh facts
 without new readback. CONTACT_EMAIL in src/lib/publicLinks.ts is the approved

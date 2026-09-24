@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
-import { CommercialDecisionBalance } from "@/components/mindmake/locked/CommercialDecisionBalance";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { answers } from "@/lib/answers";
 import { answerPath } from "@/lib/answerFormat";
@@ -77,8 +76,6 @@ export default function Answers() {
           </div>
         </div>
       </section>
-
-      <CommercialDecisionBalance context="editorial" onStart={() => setBriefOpen(true)} />
 
       <LeadBrief open={briefOpen} onClose={() => setBriefOpen(false)} />
     </MindmakeShell>

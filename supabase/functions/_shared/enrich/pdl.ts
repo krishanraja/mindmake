@@ -15,6 +15,7 @@ import type { DossierPartial } from './types.ts';
 import { fetchWithTimeout } from '../timeout.ts';
 import { retryWithBackoff } from '../retry.ts';
 import { createLogger } from '../logger.ts';
+import { hasExactDomainEvidence } from './provenance.ts';
 
 /** PDL company-enrich endpoint. Domain is passed via the `website` query param. */
 const PDL_ENRICH_URL = 'https://api.peopledatalabs.com/v5/company/enrich';
@@ -37,6 +38,7 @@ const CAPITAL_RE = /venture capital|private equity|investment management|family 
  */
 interface PdlCompany {
   status?: number;
+  website?: string;
   name?: string;
   display_name?: string;
   size?: string; // e.g. "1001-5000"
@@ -132,11 +134,17 @@ export async function fetchPDL(domain: string): Promise<DossierPartial | null> {
       logger.info('PDL returned no usable company', { domain, status: data?.status });
       return null;
     }
+    if (!hasExactDomainEvidence(domain, data.website)) {
+      logger.warn('company record did not match requested domain; discarded', { domain });
+      return null;
+    }
 
     const partial: DossierPartial = { tools: ['pdl'] };
     const identity: NonNullable<DossierPartial['identity']> = {};
     const understanding: NonNullable<DossierPartial['understanding']> = {};
     const scale: NonNullable<DossierPartial['scale']> = {};
+    const companyName = data.display_name || data.name;
+    if (typeof companyName === 'string' && companyName.trim()) identity.name = companyName.trim();
 
     if (typeof data.employee_count === 'number') scale.employeeCount = data.employee_count;
     if (typeof data.size === 'string' && data.size.trim()) scale.sizeBand = data.size.trim();

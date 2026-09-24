@@ -37,7 +37,7 @@ const RPC_NAME = "mindmake_brief_rpc";
 const RPC_STALE_SECONDS = 120;
 const ALLOWED_REQUEST_HEADERS = "authorization, x-client-info, apikey, content-type";
 
-type AdminClient = ReturnType<typeof createClient>;
+type AdminClient = ReturnType<typeof createClient<any>>;
 
 interface RuntimeConfig {
   supabaseUrl: string;

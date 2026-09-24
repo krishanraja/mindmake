@@ -21,6 +21,7 @@ import type { DossierPartial } from './types.ts';
 import { fetchWithTimeout } from '../timeout.ts';
 import { retryWithBackoff } from '../retry.ts';
 import { createLogger } from '../logger.ts';
+import { hasExactDomainEvidence } from './provenance.ts';
 
 /** Hard ceiling for the Brandfetch round-trip. Identity must stay snappy. */
 const BRANDFETCH_TIMEOUT_MS = 4500;
@@ -257,6 +258,10 @@ export async function fetchBrandfetch(domain: string): Promise<DossierPartial | 
     }
 
     const data = (await res.json()) as BrandfetchResponse;
+    if (!hasExactDomainEvidence(domain, data.domain)) {
+      logger.warn('brand identity did not match requested domain; discarded', { domain });
+      return null;
+    }
 
     const colors = pickColors(data.colors);
     const logoUrl = pickLogoUrl(data.logos);

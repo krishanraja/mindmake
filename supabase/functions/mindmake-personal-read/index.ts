@@ -21,6 +21,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { sendResendEmail } from "../_shared/http/resend.ts";
 import { assembleDossier } from "../_shared/enrich/orchestrate.ts";
+import { canonicalResearchDomain } from "../_shared/enrich/provenance.ts";
 import { completeText } from "../_shared/enrich/llm.ts";
 import { clientIdentifier, hmacIdentifier } from "../_shared/security/hmac.ts";
 import {
@@ -293,7 +294,7 @@ async function deliver(
  */
 async function handleHandoff(
   config: Config,
-  supabase: ReturnType<typeof createClient>,
+  supabase: ReturnType<typeof createClient<any>>,
   parsed: HandoffRequest,
   allowed: string,
 ): Promise<Response> {
@@ -428,7 +429,7 @@ Deno.serve(async (request) => {
      /ai-gtm's read runs on, reused in process exactly as its own comment
      invites, and at full depth it synthesises the outside read. */
   const [profile, assembled] = await Promise.all([
-    enrichProfile(parsed.first_name, parsed.last_name, email.slice(email.lastIndexOf("@") + 1)),
+    enrichProfile(parsed.first_name, parsed.last_name, canonicalResearchDomain(email.slice(email.lastIndexOf("@") + 1))),
     assembleDossier({ email, depth: "full" }).catch((error) => {
       console.error("[mindmake-personal-read] company read", (error as Error).message);
       return { dossier: null };

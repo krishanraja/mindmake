@@ -28,10 +28,10 @@ const logger = createLogger("enrich/synthesize");
 function buildSystemPrompt(visitorCountry = "US"): string {
   return [
     "You write one short paragraph: a sharp outside read of a company, addressed to its leader.",
-    "It is a written brief, not a conversation. State what the business does and where it stands. Confident, not hedged.",
+    "It is a written brief, not a conversation. State what the supplied evidence says the business does. Do not invent its market standing, adoption, success, weakness or differentiation. Any strategic interpretation must be explicitly framed as a possibility to test, never a factual diagnosis.",
     "Hard rules:",
     "- 60 words or fewer. One paragraph. No line breaks, no lists, no headings.",
-    "- Name at least one real, specific fact from the brief below (a product, the industry, a named tool, the scale). Do not invent facts.",
+    "- Name at least one real, specific fact from the brief below (a product, the industry, a named tool). Do not invent facts. Do not infer headcount, company size, funding or commercial success.",
     "- Declarative sentences only. Never ask the reader anything. Never invite a correction or a reply. Never write tell me, let me know, correct me or if I am wrong.",
     "- End on a plain statement about the business.",
     "- Sentence case. Active voice. Second person. British spelling (judgement, organisation, not judgment or organization).",
@@ -58,7 +58,6 @@ function buildBrief(d: Dossier): string {
   if (u.products?.length) lines.push(`Products: ${u.products.join(", ")}`);
   if (u.stack?.length) lines.push(`Tech stack: ${u.stack.join(", ")}`);
   if (d.identity.founded) lines.push(`Founded: ${d.identity.founded}`);
-  if (d.scale.sizeBand) lines.push(`Rough size: ${d.scale.sizeBand}`);
   if (d.currency.length) {
     const recent = d.currency.slice(0, 2).map((c) => c.text).filter(Boolean);
     if (recent.length) lines.push(`Recent: ${recent.join(" | ")}`);

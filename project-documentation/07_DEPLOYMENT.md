@@ -1,6 +1,6 @@
 # Mindmake deployment
 
-Last updated: 28 August 2026, after the site rebuild's backend landed.
+Last updated: 24 September 2026 (release procedure and backend evidence; new frontend promotion not yet recorded).
 
 This file records how the live Mindmake site is deployed and how to change it
 safely. Current identifiers live in `06_CURRENT_STATE.md`, and the ordered
@@ -23,6 +23,17 @@ records on `send.mindmake.co` (MX plus SPF TXT) and `_dmarc` with `p=none`.
 There is no MX on the apex: no mailbox exists at `@mindmake.co`.
 
 ## Build and promote
+
+### Current R3 release procedure
+
+The authority, scope, exact rollback anchor and eventual deployment receipt are in [RELEASE-2026-09-24](website-redesign/RELEASE-2026-09-24.md). Keep the pre-promotion deployment identity until the release owner verifies promotion; this procedure does not assert that the new frontend is live.
+
+1. Preserve immutable approved `homepage-production-synthesis-r3`. Generate its production adapter with `scripts/qa/build-homepage-release.mjs`; run its `--check` drift gate. Only the approved history/dividend scroll-pin behavior changes are authorized, not a new composition or copy rewrite.
+2. Run the full unit suite, application typecheck/lint/build and source/approval locks against the exact candidate. Earlier prototype receipts and backend-only tests do not satisfy the production build gate.
+3. Exercise the **built** candidate in Chromium, Firefox and WebKit: every history/dividend state, pin geometry, forward/reverse traversal, entry/exit, reduced-motion and insufficient-height behavior; run route smoke/continuity and lead-flow checks. Capture source-bound evidence, not screenshots alone.
+4. Run the feedback ledger/review gates and reject unresolved owner feedback. The only accepted exception is physical iPhone VoiceOver and Android TalkBack for this release; neither is a pass, and no other gate is waived.
+5. Match backend target/version/source readback and actual inbox/persistence/queue/download evidence to [the backend receipt](website-redesign/BACKEND-RELEASE-EVIDENCE-2026-09-24.md). Its final deployed versions are enrichment44, brief19 and personal24. Preserve domain/name corroboration, literal factual evidence and the explicit owned alias without changing recipients.
+6. Promote only after those gates pass, then verify the public domain, routes, assets and working flows. Record exact commit/deployment/rollback identifiers and residual physical-AT follow-up in the release record and current state. Backend deployment and frontend promotion are separate claims.
 
 Vercel builds from GitHub (`krishanraja/mindmake`). A merge to `main` builds
 and promotes production. The production build uses:

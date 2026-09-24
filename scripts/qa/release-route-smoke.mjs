@@ -143,9 +143,11 @@ async function smoke(browser, engine, viewport, route) {
     assert(record, record.initialOverflow.document <= viewport.width + 1, 'Horizontal overflow at entry');
     await menuCheck(page, record);
     // Traverse unloaded lazy images through the rendered page before judging them.
-    for (const image of await page.locator('img:visible').all()) {
-      if (await image.evaluate(node => node.complete)) continue;
-      await image.scrollIntoViewIfNeeded();
+    for (const image of await page.locator('img:visible').elementHandles()) {
+      if (await image.evaluate(node => !node.isConnected || !node.getClientRects().length || node.complete)) continue;
+      await image.evaluate(node => node.scrollIntoView({ block: 'center', behavior: 'instant' }));
+      await settle(page);
+      if (await image.evaluate(node => !node.isConnected || !node.getClientRects().length)) continue;
       await image.evaluate(node => new Promise(resolve => {
         if (node.complete) return resolve();
         const done = () => { clearTimeout(timer); resolve(); };

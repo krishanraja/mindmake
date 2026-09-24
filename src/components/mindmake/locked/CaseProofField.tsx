@@ -457,7 +457,10 @@ export function CaseProofField({ stories }: { stories: ClientStory[] }) {
 
   return (
     <div ref={rootRef} className="mm-case-proof-s2">
-      <style>{styles}</style>
+      {/* HTML style is RAWTEXT: entities emitted for a React text child are not
+          decoded by the HTML parser. Keep this trusted, repository-owned CSS
+          identical on the server and client so hydration preserves the page. */}
+      <style dangerouslySetInnerHTML={{ __html: styles }} />
       <section className="proof-shell" data-mode="overview" data-phase="result" aria-labelledby="fieldTitle">
         <div className="site-head-space" aria-hidden="true" />
         <section className="field-intro">

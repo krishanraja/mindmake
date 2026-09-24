@@ -7,6 +7,8 @@
  *   server-authored-text only.
  */
 
+import { canonicalResearchDomain } from '../enrich/provenance.ts';
+
 export const TAILORED_LABEL_MIN = 12;
 export const TAILORED_LABEL_MAX = 120;
 
@@ -51,7 +53,7 @@ export const signTailoredChoice = (
   domain: string,
   lensId: string,
   label: string,
-): Promise<string> => hmacHex(secret, `mindmake-choice:${domain}:${lensId}:${label}`);
+): Promise<string> => hmacHex(secret, `mindmake-choice:${canonicalResearchDomain(domain)}:${lensId}:${label}`);
 
 /** Verify a carried tailored choice against its claimed domain and lens. */
 export async function verifyTailoredChoice(

@@ -10,7 +10,11 @@ Delivery is `src/pages/Index.tsx` plus `src/components/homepage-release/`, compi
 
 Do not claim release-ready from the earlier R3 receipts. New production evidence belongs in `artifacts/homepage-release/` and must bind actual source hashes, visible text, scroll inputs and pin geometry. The old entry-reveal checks did not prove the missing interaction.
 
-The live backend test exposed a company-identity provenance defect. Promotion remains held while the actual research, verification, persistence and delivery paths are retested. Physical VoiceOver/TalkBack checks are not replaced by browser emulation. Current production remains unchanged until an explicit promotion record is added.
+The live backend test exposed and repaired a company-identity provenance defect. Enrichment v44, brief v19 and personal-read v24 have deployed-source readback, correct canonical and owned-alias reads, actual email receipts, persistence/follow-up checks and exact synthetic-row cleanup. See `BACKEND-RELEASE-EVIDENCE-2026-09-24.md` for the precise evidence and limitations. No live cron was invoked.
+
+The built homepage passed all 12 ordered-state cases across Chromium, Firefox and WebKit, desktop and mobile, including forward/reverse exits and reduced-motion/short-height fallbacks. The final route-wide matrix remains a publication gate. A separate Results-page parsed-server stylesheet hydration defect was corrected without changing CSS or design; a parsed-HTML regression test now protects it.
+
+Krish explicitly authorized publication after all other checks pass with physical iPhone VoiceOver and Android TalkBack checks recorded as outstanding for this release only. Browser emulation is not a physical-device pass. Frontend production remains unchanged until an explicit promotion record is added.
 
 Durable system update: ai-harness source `852c8f6`, evidence `7444d8d`; release `v2026.09.24.2` installed on this Codex client. Full harness checks and 24 adversarial motion-evidence tests passed; fresh-session canary rejected screenshot/attribute-only proof. Other clients and remote publication are not claimed.
 

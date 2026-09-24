@@ -137,10 +137,23 @@ owns payload, privacy, retention, email and failure-path contracts.
   instrument) is mounted on `/new-age-leadership` alone. It is unmounted from
   `/ai-brain`, `/ai-gtm`, `/blog`, `/blog/:slug`, `/answers` and
   `/answers/:slug`, which now end on their own last section and keep only the
-  shell's ways in (the menu's "Start here", and the phone action bar on the
-  editorial routes). The component and its stylesheet are byte-identical to r17.
+  shell's ways in. The component and its stylesheet are byte-identical to r17.
   Nothing replaces the vacated space. Owner approval and candidate verification
   for r18 are outstanding; live behaviour is still the r16 release.
+- Also on the branch and not live, bounded by
+  `quality/route-lock/approved-production-r19.json`: the phone action bar is
+  back on `/ai-brain` and `/ai-gtm`, and its rules move from
+  `src/styles/mindmake-instruments.css` to `src/styles/mindmake.css`. Only
+  `/case-studies` imported the instruments stylesheet, so on every other shell
+  route the bar shipped with no CSS and rendered a bare button in normal flow
+  below the footer at every width, desktop included. Measured after the move on
+  the built artifact: `position: fixed` and a 72.19px reserve at 390x844 with a
+  coarse pointer, `display: none` at 1440x900. No declaration changed.
+- Held, not implemented, pending a decision recorded in `history/LOG.md`:
+  renaming every "Start here" to "Get a free live session", and a three-button
+  sticky bar on the homepage. The first is a public offer claim the lead flow
+  does not deliver; the second fails the one-way-in rule and would change the
+  immutable approved R3.
 
 Do not promote old DNS/mailbox, CTRL-host or cache observations into fresh facts
 without new readback. CONTACT_EMAIL in src/lib/publicLinks.ts is the approved

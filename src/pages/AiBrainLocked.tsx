@@ -333,7 +333,7 @@ export default function AiBrainLocked() {
   useLockedMotion(rootRef);
 
   return (
-    <MindmakeShell onStart={() => openBrief("brain")} mainClassName="mm-locked-route-main" siteClassName="mm-route-brain" showMobileActionBar={false} compactFooter>
+    <MindmakeShell onStart={() => openBrief("brain")} mainClassName="mm-locked-route-main" siteClassName="mm-route-brain" compactFooter>
       <SEO title="Build your AI brain" description="See how one decision becomes remembered, evidenced, corrected and reusable." canonical="/ai-brain" />
       <div ref={rootRef} className="mm-locked-brain no-js" data-evidence-state="loading" dangerouslySetInnerHTML={{ __html: lockedMarkup }} />
       <LeadBrief open={briefOpen} onClose={closeBrief} route="brain" presentation="drawer" journeyKey={briefJourneyKey} />

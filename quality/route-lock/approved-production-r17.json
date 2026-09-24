@@ -1,7 +1,7 @@
 {
   "artifact": "mindmake-approved-production-routes-r17",
   "recordedAt": "2026-09-24",
-  "status": "candidate record. Owner approval for this revision is NOT recorded. Production gates have not been run against it. Do not treat it as an approval.",
+  "status": "owner-instructed promotion; candidate CI has not yet run on the frozen head. Verification below records what actually ran and what did not.",
   "scopeRequested": "A correction pass over what the delivered surfaces render, raised from live mindmake.co: the oversized menu action and footer, the focus ring drawn around hero headings, the wordmark sitting inboard of the locked routes' own content edge, the unstyled first paint on the code-split routes, and a plain-language lede under the unchanged \"The source records.\" heading. No page-body redesign, no new commercial offer, no approved copy replaced, and no change to the immutable R3 prototype or its generated adapter.",
   "sessionDecisions": [
     "Keep \"The source records.\" and add a plain-language lede rather than rename the section to \"Testimonials\".",
@@ -189,7 +189,7 @@
     "price the result"
   ],
   "verification": {
-    "status": "Not performed for this record. Historical verification claims, r16's included, are not proof for this candidate.",
+    "status": "Partial. Run in a Linux container on the built candidate, not in CI. Historical verification claims, r16 included, are not proof for this candidate.",
     "required": [
       "Canonical build and all unit tests",
       "Actual rendered forward/reverse pinned history and dividend states with exits",
@@ -203,7 +203,28 @@
       "Homepage footer and open menu measured at 1440 and at a width above 2000, against the bounded measures",
       "First frame of / and /new-age-leadership with no prior pointer input, showing no focus ring on the heading"
     ],
-    "physicalException": "VoiceOver on physical iPhone and TalkBack on physical Android not performed; owner permits publication after all other checks pass."
+    "physicalException": "VoiceOver on physical iPhone and TalkBack on physical Android not performed; owner permits publication after all other checks pass.",
+    "ran": [
+      "541 unit tests across 36 files, typecheck against tsconfig.app.json, lint with two pre-existing refresh advisories",
+      "npm run build, including qa:docs, the homepage adapter --check, qa:approved-routes, qa:homepage-handoff and qa:material-review:self-test",
+      "qa:approved-routes:self-test, qa:website-feedback, qa:plain-language",
+      "qa:homepage-release: 12 cases and 12 screenshots across Chromium, Firefox and WebKit at 1440 and 390, forward and reverse with both exits, real lead entry, manual accessibility fallbacks, zero failures",
+      "qa:discoverability against a local built preview: 26 routes, 32 assets, zero failures",
+      "qa:no-js: 5 pages, 21 answers present, nothing clipped away",
+      "qa:release-routes: Chromium 104 cases and Firefox 52 cases with zero failures",
+      "Measured geometry on the built artifact for each reported item at 390, 1440 and 2560"
+    ],
+    "notRun": [
+      "Candidate CI on the frozen head. This container is not the CI matrix.",
+      "macOS WebKit. The workflow runs WebKit on macOS; the Linux WebKit leg timed out here on three core-navigation and one /case-studies case, identically on origin/main, so it is the platform rather than this change.",
+      "Independent review of this candidate.",
+      "Rendered-frame review by the owner of the new-age-leadership no-JavaScript fallback."
+    ],
+    "preExistingFailuresReproducedOnMain": [
+      "qa:full-route-continuity: waits for h1 at 320px, where the approved R3 hides the desktop variant's h1, so locator('h1').first() can never be visible. Identical failure on origin/main.",
+      "qa:release-routes Linux WebKit: byte-identical failure set on origin/main.",
+      "case-proof-field-production writes screenshots to a hardcoded Windows path, creating a stray C: directory in the working tree on Linux."
+    ]
   },
   "supersedes": {
     "path": "quality/route-lock/approved-production-r16.json",
@@ -338,5 +359,6 @@
       "scripts/lib/source-hash.mjs"
     ],
     "nonChanges": "All other R15 hashes retained. Product/app/page sources, assets and backend unchanged from R15. Added source hash controls prove LF/CRLF parity, historical semantics and binary identity. qa:docs now runs original archive integrity/corruption/transport controls on everybuild."
-  }
+  },
+  "approval": "Krish instructed \"merge to main\" on 2026-09-24, in the session that produced this record, after reading the summary of the seven reported items, the no-JavaScript fallback on new-age-leadership and the three pre-existing gate failures listed in verification.notRun. main auto-promotes, so that instruction is the promotion approval. It is not a statement that he reviewed rendered frames of every surface, and it does not waive anything below."
 }

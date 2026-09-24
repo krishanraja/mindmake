@@ -3,11 +3,11 @@ import { createHash } from 'node:crypto';
 import { readFile, mkdir, writeFile, appendFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import path from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { fileURLToPath } from 'node:url';
 
 const runnerRequire = createRequire(process.env.QA_DIAG_RUNNER_ROOT
   ? path.join(process.env.QA_DIAG_RUNNER_ROOT, 'package.json') : import.meta.url);
-const { webkit } = await import(pathToFileURL(runnerRequire.resolve('playwright')).href);
+const { webkit } = runnerRequire('playwright');
 
 // Diagnostic only: no assertions in the release gate are changed or bypassed.
 // Four fresh-process cases isolate automation interception from native asset I/O.
@@ -28,7 +28,8 @@ if (process.argv.includes('--worker')) {
   const mode = process.env.QA_DIAG_MODE;
   const scenario = process.env.QA_DIAG_SCENARIO;
   const width = Number(process.env.QA_DIAG_WIDTH || 390);
-  const record = { mode, scenario, width, indexSha256, failures: [], phases: [], pageerrors: [], browserVersion: null };
+  const mediaTrace = process.env.QA_DIAG_MEDIA_TRACE === 'yes';
+  const record = { mode, scenario, width, mediaTrace, indexSha256, failures: [], phases: [], pageerrors: [], browserVersion: null };
   let browser;
   const start = performance.now();
   const event = value => emit({ elapsedMs: Math.round(performance.now() - start), ...value });
@@ -57,6 +58,49 @@ if (process.argv.includes('--worker')) {
     });
     page.on('requestfinished', request => event({ kind: 'request-finished', path: new URL(request.url()).pathname }));
     page.on('requestfailed', request => event({ kind: 'request-failed', path: new URL(request.url()).pathname, error: request.failure()?.errorText }));
+    if (mediaTrace) {
+      const prefix = '__qaNativeMedia__';
+      page.on('console', message => {
+        const text = message.text();
+        if (!text.startsWith(prefix)) return;
+        try { event({ kind: 'native-media', ...JSON.parse(text.slice(prefix.length)) }); } catch { /* unrelated console text is not trace evidence */ }
+      });
+      await page.addInitScript(({ target, prefix }) => {
+        if (location.origin !== target) return;
+        const ids = new WeakMap();
+        let nextElement = 0;
+        let nextCall = 0;
+        const log = detail => {
+          // Do not inspect native media getters here: the trace must not introduce
+          // an additional media pipeline operation while diagnosing a blocked call.
+          try { console.debug(prefix + JSON.stringify({ documentPath: location.pathname, browserMs: performance.now(), ...detail })); } catch { /* tracing never changes native results */ }
+        };
+        const invoke = (native, receiver, args, operation) => {
+          const call = ++nextCall;
+          if (receiver && (typeof receiver === 'object' || typeof receiver === 'function') && !ids.has(receiver)) ids.set(receiver, ++nextElement);
+          const element = ids.get(receiver) || null;
+          const started = performance.now();
+          log({ stage: 'before', operation, call, element, ...(operation === 'currentTime:set' ? { targetTime: args[0] } : {}) });
+          let thrown;
+          try { return Reflect.apply(native, receiver, args); }
+          catch (error) { thrown = error; throw error; }
+          finally { log({ stage: 'after', operation, call, element, durationMs: performance.now() - started, threw: Boolean(thrown), errorName: thrown?.name || null }); }
+        };
+        for (const name of ['play', 'pause', 'load']) {
+          const descriptor = Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype, name);
+          if (!descriptor || typeof descriptor.value !== 'function') continue;
+          const native = descriptor.value;
+          Object.defineProperty(HTMLMediaElement.prototype, name, { ...descriptor, value: function (...args) { return invoke(native, this, args, name); } });
+        }
+        const descriptor = Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype, 'currentTime');
+        if (descriptor?.set) {
+          const native = descriptor.set;
+          // Keep the original getter and all descriptor flags. The setter calls
+          // the native accessor exactly once, without coercing its argument.
+          Object.defineProperty(HTMLMediaElement.prototype, 'currentTime', { ...descriptor, set: function (value) { return invoke(native, this, [value], 'currentTime:set'); } });
+        }
+      }, { target: origin, prefix });
+    }
     await page.exposeFunction('__qaHeartbeat', state => event({ kind: 'heartbeat', ...state }));
     await page.addInitScript(target => {
       if (location.origin !== target) return;
@@ -102,7 +146,7 @@ if (process.argv.includes('--worker')) {
       await visit('/case-studies/', 'case-studies');
       record.visibleHeadings = await phase('case-studies:headings', () => page.locator('h1:visible').allTextContents());
       record.media = await phase('case-studies:media-state', () => page.locator('video').evaluateAll(nodes => nodes.map(node => ({ paused: node.paused, time: node.currentTime, readyState: node.readyState, path: node.currentSrc ? new URL(node.currentSrc).pathname : null }))));
-    } else {
+    } else if (scenario === 'core-navigation') {
       record.destinations = [];
       for (const destination of ['/ai-brain', '/ai-gtm']) {
         await visit('/', `${destination}:home`);
@@ -114,7 +158,7 @@ if (process.argv.includes('--worker')) {
       }
       await visit('/', 'third-home-return');
       record.visibleHeadings = await phase('third-home-return:headings', () => page.locator('h1:visible').allTextContents());
-    }
+    } else throw Error(`Unknown diagnostic scenario: ${scenario}`);
     if (record.visibleHeadings.length !== 1 || record.pageerrors.length) throw Error('Final heading or browser errors failed');
   } catch (error) {
     record.failures.push(error.message);
@@ -134,7 +178,7 @@ if (process.argv.includes('--worker')) {
   const name = `webkit-diagnostic-${indexSha256.slice(0, 12)}-${new Date().toISOString().replace(/[:.]/g, '-')}`;
   const file = path.join(evidence, `${name}.json`);
   const observations = path.join(evidence, `${name}.jsonl`);
-  const report = { at: new Date().toISOString(), indexSha256, origin, platform: process.platform, node: process.version, playwright: runnerRequire('playwright/package.json').version, scriptSha256: digest(await readFile(script)), cases: [], limitations: ['Diagnostic A/B only, not a replacement for the release gate.', 'Videos remain unchanged; no media mocks, pauses, timeouts relaxed, or product edits.', 'Broad routes all requests; selective bypasses automation interception only for local /assets/ and /fonts/ requests.', 'Each fresh-browser worker has a 45-second process deadline; individual page phases retain 12-second bounds.'] };
+  const report = { at: new Date().toISOString(), indexSha256, origin, platform: process.platform, node: process.version, playwright: runnerRequire('playwright/package.json').version, scriptSha256: digest(await readFile(script)), mediaTrace: process.env.QA_DIAG_MEDIA_TRACE === 'yes', cases: [], limitations: ['Diagnostic A/B only, not a replacement for the release gate.', 'Videos remain unchanged; no media mocks, pauses, timeouts relaxed, or product edits.', 'Broad routes all requests; selective bypasses automation interception only for local /assets/ and /fonts/ requests.', 'Each fresh-browser worker has a 45-second process deadline; individual page phases retain 12-second bounds.', 'Optional media tracing wraps play/pause/load and the currentTime setter; native return values, thrown objects, original getter, and descriptor flags are preserved, but wrapper identity and logging overhead differ.'] };
   let server;
   try {
     if (!process.env.QA_BASE_URL) {
@@ -150,7 +194,9 @@ if (process.argv.includes('--worker')) {
     if (digest(Buffer.from(await (await fetch(origin)).text())) !== indexSha256) throw Error('Preview homepage hash mismatch');
     await writeFile(observations, JSON.stringify({ kind: 'run-start', ...report }) + '\n');
     const modes = process.env.QA_DIAG_MODE ? [process.env.QA_DIAG_MODE] : ['broad', 'selective'];
-    for (const mode of modes) for (const scenario of ['case-studies', 'core-navigation']) {
+    const scenarios = process.env.QA_DIAG_SCENARIO ? [process.env.QA_DIAG_SCENARIO] : ['case-studies', 'core-navigation'];
+    if (scenarios.some(scenario => !['case-studies', 'core-navigation'].includes(scenario))) throw Error('Unknown QA_DIAG_SCENARIO');
+    for (const mode of modes) for (const scenario of scenarios) {
       const caseRecord = { mode, scenario, width: Number(process.env.QA_DIAG_WIDTH || 390), events: [], stderr: '' };
       const child = spawn(process.execPath, [script, '--worker'], { cwd: root, windowsHide: true, detached: process.platform !== 'win32', stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env, QA_DIAG_ORIGIN: origin, QA_DIAG_MODE: mode, QA_DIAG_SCENARIO: scenario } });
       const killOwnedGroup = () => {

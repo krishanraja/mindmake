@@ -23,6 +23,8 @@ jobs:
         run: npm run qa:material-review:self-test
       - name: Verify language contract
         run: npm run qa:plain-language
+      - name: Verify lint contract
+        run: npm run lint
       - name: Verify full regression suite
         run: npm test -- --maxWorkers=2
       - name: Build the approved routes

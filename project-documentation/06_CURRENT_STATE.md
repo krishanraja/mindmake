@@ -8,7 +8,7 @@ This file is the current delivery truth for `mindmake.co`: what is live, at whic
 
 The approved R3 production adapter is in final verification. **This entry does not claim the new frontend has been published.** The current release authority, verified pre-promotion rollback anchor and eventual promotion identity belong to [RELEASE-2026-09-24](website-redesign/RELEASE-2026-09-24.md). Keep that anchor until the release owner records actual promotion and public readback; older deployment identifiers below are historical, not a substitute.
 
-The bounded backend repair **is deployed** to project `bkyuxvschuwngtcdhsyg`: `enrich-company` v44, `submit-mindmake-brief` v19, `mindmake-personal-read` v24. Exact-domain provider checks and independently corroborated identity gate the company read. Factual descriptions quote literal corroborated provider evidence, not model paraphrases; news uses literal first-party source titles. The documented owned alias `themindmaker.ai` canonicalizes to `mindmake.co` for research/signatures only, never the recipient address. Arbitrary redirects and lookalike domains are not trusted.
+The bounded backend repair **is deployed** to project `bkyuxvschuwngtcdhsyg`: `enrich-company` v44, `submit-mindmake-brief` v20, `mindmake-personal-read` v25. The final two version increments correct type-only lint errors; emitted runtime JavaScript is unchanged and all deployed source files were read back. Exact-domain provider checks and independently corroborated identity gate the company read. Factual descriptions quote literal corroborated provider evidence, not model paraphrases; news uses literal first-party source titles. The documented owned alias `themindmaker.ai` canonicalizes to `mindmake.co` for research/signatures only, never the recipient address. Arbitrary redirects and lookalike domains are not trusted.
 
 Fresh canonical and legacy reads passed. Actual verification, visitor-brief, operator-digest and personal-read messages reached the designated operator INBOX; corresponding lead/personal rows and single day-14 queues were verified. Only captured synthetic rows were removed, with zero readback; no cron sender was invoked. The actual private-brief HTML generator was exercised through a browser download and the saved file inspected at 1440px and 390px with no overflow or external requests. Evidence, IDs, exact function versions, source readback and limits: [backend release evidence](website-redesign/BACKEND-RELEASE-EVIDENCE-2026-09-24.md), including its final addendum.
 
@@ -53,10 +53,10 @@ Supabase project `bkyuxvschuwngtcdhsyg`.
 
 | Function | Version | verify_jwt | Role |
 |---|---|---|---|
-| `submit-mindmake-brief` | v19 | off | Verified code, company brief, visitor/operator delivery and day-14 enqueue; uses the corroborated literal company read and owned-alias choice binding |
+| `submit-mindmake-brief` | v20 | off | Verified code, company brief, visitor/operator delivery and day-14 enqueue; uses the corroborated literal company read and owned-alias choice binding |
 | `enrich-company` | v44 | on | Exact-domain and corroborated identity; literal factual read and first-party source titles; tailored choices retained |
 | `get-ai-news` | v70 | off | Live board/cache read; version read back on 24 September, not redeployed by this repair |
-| `mindmake-personal-read` | v24 | off | Personal read, results email and follow-up enqueue; canonical owned-domain lookup; existing handoff retained |
+| `mindmake-personal-read` | v25 | off | Personal read, results email and follow-up enqueue; canonical owned-domain lookup; existing handoff retained |
 | `send-follow-ups` | v5 | off | The day-14 follow-up. Cron only. v5 (5 September 2026) carries the duration-free proposal copy; both of its files read back byte-identical to the repository |
 | `aa-price-snapshot` | v3 | off | Daily model prices. Cron only; version read back on 24 September, not redeployed by this repair |
 

@@ -58,6 +58,17 @@ const rect = box => box && ({ x: box.x, y: box.y, width: box.width, height: box.
 
 async function prepare(page, record) {
   page.setDefaultTimeout(12000);
+  record.readiness = [];
+  record.pendingRequests = [];
+  const pending = new Map();
+  const publishPending = () => { record.pendingRequests = [...pending.values()]; };
+  page.on('request', request => {
+    const url = new URL(request.url());
+    if (url.origin !== origin) return;
+    pending.set(request, { path: url.pathname, type: request.resourceType() });
+    publishPending();
+  });
+  for (const event of ['requestfinished', 'requestfailed']) page.on(event, request => { pending.delete(request); publishPending(); });
   page.on('pageerror', error => record.pageerrors.push(error.message));
   page.on('console', message => { if (message.type() === 'error' && /hydrati|Minified React error #(418|423|425)/i.test(message.text())) record.hydrationConsoleErrors.push(message.text()); });
   await page.addInitScript(targetOrigin => {
@@ -91,15 +102,34 @@ async function prepare(page, record) {
   });
 }
 
-async function ready(page) {
+async function ready(page, record) {
+  const stage = name => {
+    const entry = { name, path: new URL(page.url()).pathname, startedAt: new Date().toISOString() };
+    record.readiness.push(entry);
+    const start = performance.now();
+    return () => { entry.completedMs = Math.round(performance.now() - start); };
+  };
+  let complete = stage('react-root-and-heading');
   await page.waitForFunction(() => {
     const node = document.querySelector('#root');
     return node && Object.keys(node).some(key => key.startsWith('__reactContainer')) && document.querySelector('main h1');
   });
+  complete();
+  complete = stage('fonts-ready');
   await page.evaluate(() => document.fonts.ready);
+  complete();
+  complete = stage('curtain-released');
   await page.waitForFunction(() => !document.documentElement.classList.contains('mm-covered'));
+  complete();
   await page.waitForTimeout(180);
   await settle(page);
+}
+
+async function failureScreenshot(page, record) {
+  if (record.screenshot) return;
+  record.screenshot = `${runName}-${record.id.replace(/[^a-z0-9]/gi, '_')}-failure.png`;
+  try { await page.screenshot({ path: path.join(evidence, record.screenshot), timeout: 3000 }); }
+  catch (error) { record.screenshotFailure = error.message; delete record.screenshot; }
 }
 
 async function menuCheck(page, record) {
@@ -147,7 +177,7 @@ async function smoke(browser, engine, viewport, route) {
     record.documentSha256 = digest(await response.body());
     const local = await readFile(path.join(root, 'dist', route.replace(/^\//, ''), 'index.html'));
     assert(record, record.documentSha256 === digest(local), 'Served route bytes do not match built HTML');
-    await ready(page);
+    await ready(page, record);
     record.hydration = await page.evaluate(() => ({ serverHeadingCaptured: Boolean(window.__routeSmoke.serverHeading), serverHeadingPreserved: Boolean(window.__routeSmoke.serverHeading?.isConnected) }));
     assert(record, record.hydration.serverHeadingCaptured && record.hydration.serverHeadingPreserved, 'Server heading was not preserved through hydration');
     const headings = page.locator('h1:visible');
@@ -200,6 +230,11 @@ async function smoke(browser, engine, viewport, route) {
       const before = page.url();
       await page.locator('.mm-contact-form button[type="submit"]').click();
       await page.locator('#contact-name-error').waitFor();
+      const focusStarted = performance.now();
+      let contactReady = true;
+      await page.waitForFunction(() => document.activeElement.id === 'contact-name' && document.querySelectorAll('.mm-contact-form [aria-invalid="true"]').length === 3 && document.querySelectorAll('.mm-form-error').length === 3, null, { timeout: 3000 }).catch(() => { contactReady = false; });
+      record.contactRecoveryWaitMs = Math.round(performance.now() - focusStarted);
+      assert(record, contactReady, 'Contact error and focus recovery did not settle within 3000ms');
       record.invalidContact = { urlPreserved: page.url() === before, fields: await page.locator('.mm-contact-form [aria-invalid="true"]').count(), errors: await page.locator('.mm-form-error').allTextContents(), focusedField: await page.evaluate(() => document.activeElement.id) };
       assert(record, record.invalidContact.urlPreserved && record.invalidContact.fields === 3 && record.invalidContact.errors.length === 3 && record.invalidContact.focusedField === 'contact-name', 'Empty contact submission did not retain page with three focused field errors');
     }
@@ -208,7 +243,7 @@ async function smoke(browser, engine, viewport, route) {
       record.screenshot = `${runName}-${engine}-${viewport.width}-${route.replace(/[^a-z0-9]/gi, '_') || 'home'}.png`;
       await page.screenshot({ path: path.join(evidence, record.screenshot) });
     }
-  } catch (error) { assert(record, false, error.message); }
+  } catch (error) { assert(record, false, error.message); await failureScreenshot(page, record); }
   finally { cases.push(record); await persistObservation('route-case', record); await page.close(); }
 }
 
@@ -218,17 +253,17 @@ async function navigation(browser, engine, viewport) {
   try {
     await prepare(page, record);
     for (const destination of ['/ai-brain', '/ai-gtm', '/case-studies', '/blog']) {
-      await page.goto(`${origin}/`, { waitUntil: 'domcontentloaded' }); await ready(page);
+      await page.goto(`${origin}/`, { waitUntil: 'domcontentloaded' }); await ready(page, record);
       await page.getByRole('button', { name: 'Open navigation', exact: true }).filter({ visible: true }).click();
       await page.locator(`.r3-navigation a[href="${destination}"]:visible`).click();
       await page.waitForURL(url => url.pathname.replace(/\/$/, '') === destination);
-      await ready(page);
+      await ready(page, record);
       record.destinations.push({ expected: destination, actual: new URL(page.url()).pathname, heading: await page.locator('h1:visible').allTextContents(), homepageCleanup: await page.evaluate(() => !document.documentElement.classList.contains('mm-homepage-active')) });
       const result = record.destinations.at(-1);
       assert(record, result.heading.length === 1 && result.homepageCleanup, `Navigation to ${destination} failed`);
     }
     assert(record, !record.pageerrors.length && !record.hydrationConsoleErrors.length, 'Core navigation raised browser errors');
-  } catch (error) { assert(record, false, error.message); }
+  } catch (error) { assert(record, false, error.message); await failureScreenshot(page, record); }
   finally { supplemental.push(record); await persistObservation('core-navigation', record); await page.close(); }
 }
 
@@ -240,7 +275,7 @@ async function routerPatterns(browser) {
     const other = [...new Set([...literalRoutes.filter(route => !routes.includes(route) && !['/blog/:slug', '/answers/:slug'].includes(route)), ...retired])];
     for (const pattern of other) {
       const route = pattern === '*' ? '/qa-missing-public-page' : pattern.replace(':slug', 'qa-missing-slug');
-      await page.goto(`${origin}/`, { waitUntil: 'domcontentloaded' }); await ready(page);
+      await page.goto(`${origin}/`, { waitUntil: 'domcontentloaded' }); await ready(page, record);
       // There is no built HTML for these paths. Exercise BrowserRouter separately;
       // this is CSR route coverage, explicitly not direct-navigation hydration proof.
       await page.evaluate(next => { history.pushState(null, '', next); dispatchEvent(new PopStateEvent('popstate')); }, route);
@@ -254,7 +289,7 @@ async function routerPatterns(browser) {
       }
     }
     assert(record, !record.pageerrors.length, 'CSR route patterns raised browser errors');
-  } catch (error) { assert(record, false, error.message); }
+  } catch (error) { assert(record, false, error.message); await failureScreenshot(page, record); }
   finally { supplemental.push(record); await persistObservation('router-patterns', record); await page.close(); }
 }
 

@@ -2,15 +2,23 @@
 import { spawnSync } from "node:child_process";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
+import { tmpdir } from "node:os";
 
 const root = resolve(import.meta.dirname, "../..");
-const manifest = JSON.parse(await readFile(resolve(root, "quality/route-lock/approved-production-r2.json"), "utf8"));
+const manifestPath = resolve(root, "quality/route-lock/approved-production-r11.json");
+const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+const valid = spawnSync(process.execPath, [resolve(root, "scripts/qa/approved-route-lock-check.mjs")], {
+  cwd: root,
+  encoding: "utf8",
+  env: { ...process.env, MINDMAKE_ROUTE_LOCK_MANIFEST: manifestPath },
+});
+if (valid.status !== 0) throw new Error('The current unmodified manifest must pass before its negative control is meaningful');
 const [firstPath] = Object.keys(manifest.files);
 manifest.files[firstPath] = "0".repeat(64);
 
-const output = "C:/Users/krish/.scratch/mindmake-route-lock-self-test";
+const output = resolve(tmpdir(), "mindmake-route-lock-self-test");
 await mkdir(output, { recursive: true });
-const badManifest = resolve(output, "approved-production-r2-bad.json");
+const badManifest = resolve(output, "approved-production-r11-bad.json");
 await writeFile(badManifest, `${JSON.stringify(manifest, null, 2)}\n`);
 
 const result = spawnSync(process.execPath, [resolve(root, "scripts/qa/approved-route-lock-check.mjs")], {

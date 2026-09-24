@@ -18,7 +18,7 @@
  * Deploy with verify_jwt false: the browser calls it directly.
  */
 
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { createClient, type SupabaseClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { sendResendEmail } from "../_shared/http/resend.ts";
 import { assembleDossier } from "../_shared/enrich/orchestrate.ts";
 import { canonicalResearchDomain } from "../_shared/enrich/provenance.ts";
@@ -294,7 +294,7 @@ async function deliver(
  */
 async function handleHandoff(
   config: Config,
-  supabase: ReturnType<typeof createClient<any>>,
+  supabase: SupabaseClient,
   parsed: HandoffRequest,
   allowed: string,
 ): Promise<Response> {

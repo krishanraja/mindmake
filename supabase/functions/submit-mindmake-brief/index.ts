@@ -6,7 +6,7 @@
  */
 
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { createClient, type SupabaseClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { assembleDossier } from "../_shared/enrich/orchestrate.ts";
 import type { Dossier } from "../_shared/enrich/types.ts";
 import { sendResendEmail, toBase64 } from "../_shared/http/resend.ts";
@@ -37,7 +37,7 @@ const RPC_NAME = "mindmake_brief_rpc";
 const RPC_STALE_SECONDS = 120;
 const ALLOWED_REQUEST_HEADERS = "authorization, x-client-info, apikey, content-type";
 
-type AdminClient = ReturnType<typeof createClient<any>>;
+type AdminClient = SupabaseClient;
 
 interface RuntimeConfig {
   supabaseUrl: string;

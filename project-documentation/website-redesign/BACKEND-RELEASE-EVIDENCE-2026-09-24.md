@@ -144,3 +144,24 @@ This tests the real public personal-read API, live providers, actual email and s
 - Scratch evidence: `C:/Users/krish/.scratch/mindmake-private-brief-20260924/` contains the HTML, desktop/mobile PNGs and print PDF.
 
 The two bounded evidence gaps are closed at the levels stated. No new visual design or approved website copy was changed.
+
+## Final type-only source-parity addendum — 14:46 BST
+
+The release lint found two explicit-any annotations introduced by the earlier Deno compatibility repair. Both now use the Supabase package's exported `SupabaseClient` type, imported type-only, with no suppression. No runtime statement or behavior changed. TypeScript-transpiled ES2022/ESNext JavaScript (comments removed) was compared with the independently downloaded v19/v24 files: **byte-identical emitted runtime JavaScript for both entry points**.
+
+Before redeploy: all three Deno closure checks passed, ESLint on both changed entry points passed, and the provenance/brief-core/personal-core suite passed **67 tests across three files** at 14:45 BST. Coordinated redeployment changed only `submit-mindmake-brief` and `mindmake-personal-read`.
+
+Current exact metadata readback:
+
+| Function | Version | Status | Verify JWT |
+| --- | ---: | --- | --- |
+| enrich-company | 44 (untouched) | ACTIVE | true |
+| submit-mindmake-brief | 20 | ACTIVE | false |
+| mindmake-personal-read | 25 | ACTIVE | false |
+
+The two final closures were independently downloaded to `C:/Users/krish/.scratch/mindmake-backend-deployed-20260924-types`. All **19 unique source modules** matched repository SHA-256 exactly. Updated entry-point hashes:
+
+- submit-mindmake-brief/index.ts: `33CE410B8EC26381E6B553D5620B5C125AB3B90FAB9E86A1283BDA143E98C936`
+- mindmake-personal-read/index.ts: `1093FE13DB10D9A40E18576F3EF67BC8B6251F29415E12732C8C38425D21FAF3`
+
+Earlier real inbox/persistence/queue receipts remain evidence for the runtime-equivalent backend. No browser or email was run for this type-only increment. A fresh browser canary on the newly published frontend, including its actual success-screen download, is still pending the frontend promotion; the earlier browser receipts exercised the prior live frontend. The prepared QA driver supports both entry layouts and an explicit actual-download action without substituting generated fixtures for that final check.

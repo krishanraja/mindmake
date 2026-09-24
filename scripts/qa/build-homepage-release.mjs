@@ -39,7 +39,20 @@ runtime = runtime.replace('  const root = document.documentElement;', lifecycle)
 runtime = runtime.replaceAll('document.querySelector', 'root.querySelector').replace('document.getElementById("site")', 'root.querySelector("#site")');
 runtime = runtime.replace(/\b(button|link|dividendSection|document|reducedMotion)\.addEventListener(?:\?\.)?\(/g, 'listen($1, ');
 runtime = runtime.replaceAll('new IntersectionObserver(', 'new TrackedObserver(');
-runtime = runtime.replace('const restoreNavigationFocus = () => navigationReturnFocus?.focus({ preventScroll: true });', 'const restoreNavigationFocus = () => { if (document.activeElement === document.body || navigation.contains(document.activeElement)) navigationReturnFocus?.focus({ preventScroll: true }); };');
+runtime = runtime.replace('  const focusNavigationClose = () => {', `  let navigationFocusVersion = 0;
+  const focusNavigationClose = (version) => {
+    if (abort.signal.aborted || !root.isConnected || version !== navigationFocusVersion || !navigation.classList.contains('is-open') || root.closest('[inert]')) return;
+    if (navigation.contains(document.activeElement)) return;`);
+runtime = runtime.replace('    navigation.querySelector(`${variant} .menu-control`)?.focus({ preventScroll: true });', `    const target = navigation.querySelector(\`\${variant} .menu-control\`);
+    if (!target) return;
+    if (getComputedStyle(target).visibility === 'visible' && target.getClientRects().length) {
+      target.focus({ preventScroll: true });
+      if (document.activeElement === target) return;
+    }
+    requestAnimationFrame(() => focusNavigationClose(version));`);
+runtime = runtime.replace('  const setNavigation = (open, opener = null) => {', '  const setNavigation = (open, opener = null) => {\n    const focusVersion = ++navigationFocusVersion;');
+runtime = runtime.replace(/      requestAnimationFrame\(focusNavigationClose\);\r?\n      setTimeout\(focusNavigationClose, 60\);/, '      requestAnimationFrame(() => focusNavigationClose(focusVersion));');
+runtime = runtime.replace('const restoreNavigationFocus = () => navigationReturnFocus?.focus({ preventScroll: true });', 'const restoreNavigationFocus = () => { if (focusVersion === navigationFocusVersion && (document.activeElement === document.body || navigation.contains(document.activeElement))) navigationReturnFocus?.focus({ preventScroll: true }); };');
 runtime = runtime.replace('button.toggleAttribute("aria-current", Number(button.dataset.era) === index)', 'setCurrent(button, Number(button.dataset.era) === index)');
 runtime = runtime.replace('button.toggleAttribute("aria-current", active)', 'setCurrent(button, active)');
 runtime = runtime.replace('button.toggleAttribute("aria-current", index === practiceIndex)', 'setCurrent(button, index === practiceIndex)');

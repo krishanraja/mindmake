@@ -29,10 +29,10 @@ tables are RLS-on with no policies, which means service role only.
 |---|---|---|---|
 | `get-ai-news` | v70 | false | The browser; unchanged by the 24 September repair |
 | `enrich-company` | v44 | true | Domain-bound corroborated company read and tailored choices |
-| `mindmake-personal-read` | v24 | false | Personal preview/send and existing human handoff |
+| `mindmake-personal-read` | v25 | false | Personal preview/send and existing human handoff; final increment is type-only |
 | `send-follow-ups` | v5 | false | pg_cron, daily at 09:20 UTC; not invoked for this canary |
 | `aa-price-snapshot` | v3 | false | pg_cron, daily at 11:00 UTC; unchanged by this repair |
-| `submit-mindmake-brief` | v19 | false | Verified company brief, both deliveries and active day-14 enqueue |
+| `submit-mindmake-brief` | v20 | false | Verified company brief, both deliveries and active day-14 enqueue; final increment is type-only |
 
 `get-ai-news` gained a board view and kept its previous response byte for byte.
 The two scheduled functions are public at the edge and guarded in code on the

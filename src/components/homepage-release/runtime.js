@@ -37,11 +37,21 @@ export function mountHomepageRuntime(root, { onStart }) {
   const navigation = root.querySelector(".r3-navigation");
   const site = root.querySelector("#site");
   let navigationReturnFocus = null;
-  const focusNavigationClose = () => {
+  let navigationFocusVersion = 0;
+  const focusNavigationClose = (version) => {
+    if (abort.signal.aborted || !root.isConnected || version !== navigationFocusVersion || !navigation.classList.contains('is-open') || root.closest('[inert]')) return;
+    if (navigation.contains(document.activeElement)) return;
     const variant = matchMedia("(max-width: 700px)").matches ? ".preview-mobile" : ".preview-desktop";
-    navigation.querySelector(`${variant} .menu-control`)?.focus({ preventScroll: true });
+    const target = navigation.querySelector(`${variant} .menu-control`);
+    if (!target) return;
+    if (getComputedStyle(target).visibility === 'visible' && target.getClientRects().length) {
+      target.focus({ preventScroll: true });
+      if (document.activeElement === target) return;
+    }
+    requestAnimationFrame(() => focusNavigationClose(version));
   };
   const setNavigation = (open, opener = null) => {
+    const focusVersion = ++navigationFocusVersion;
     if (open) navigationReturnFocus = opener instanceof HTMLElement ? opener : document.activeElement;
     navigation.classList.toggle("is-open", open);
     navigation.setAttribute("aria-hidden", String(!open));
@@ -49,10 +59,9 @@ export function mountHomepageRuntime(root, { onStart }) {
     site.toggleAttribute("inert", open);
     document.body.classList.toggle("navigation-open", open);
     if (open) {
-      requestAnimationFrame(focusNavigationClose);
-      setTimeout(focusNavigationClose, 60);
+      requestAnimationFrame(() => focusNavigationClose(focusVersion));
     } else if (navigationReturnFocus instanceof HTMLElement) {
-      const restoreNavigationFocus = () => { if (document.activeElement === document.body || navigation.contains(document.activeElement)) navigationReturnFocus?.focus({ preventScroll: true }); };
+      const restoreNavigationFocus = () => { if (focusVersion === navigationFocusVersion && (document.activeElement === document.body || navigation.contains(document.activeElement))) navigationReturnFocus?.focus({ preventScroll: true }); };
       requestAnimationFrame(restoreNavigationFocus);
       setTimeout(restoreNavigationFocus, 60);
     }

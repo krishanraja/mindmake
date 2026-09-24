@@ -553,7 +553,7 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
       domain, companyReadState, dossier, liveRead, pressure, tailoredChoice,
       showGenericChoices, capacity, previousCapacity, previewLeaf, email, researchIssue,
     }));
-  }, [capacity, collected, companyReadState, dossier, division, door, draftHydratedFor, draftStorageKey, email, firstName, lastName, liveRead, open, pressure, previousCapacity, previewLeaf, researchIssue, showGenericChoices, step, tailoredChoice]);
+  }, [capacity, collected, companyReadState, domain, dossier, division, door, draftHydratedFor, draftStorageKey, email, firstName, lastName, liveRead, open, pressure, previousCapacity, previewLeaf, researchIssue, showGenericChoices, step, tailoredChoice]);
 
   useEffect(() => {
     if (!open) return;

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties, KeyboardEvent, TouchEvent } from "react";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components/SEO";
@@ -143,10 +143,10 @@ export default function AiBrain() {
     return { left: 60, top: 40, width, height, minX: Math.min(...xs), maxX: Math.max(...xs), minY: Math.min(...ys), maxY: Math.max(...ys), padX: 38, padY: 34 };
   }, [graphSize, mobileGraph]);
 
-  const pointFor = (item: BrainItem) => ({
+  const pointFor = useCallback((item: BrainItem) => ({
     x: layout.left + layout.padX + ((item.x - layout.minX) / (layout.maxX - layout.minX)) * (layout.width - layout.padX * 2),
     y: layout.top + layout.padY + ((item.y - layout.minY) / (layout.maxY - layout.minY)) * (layout.height - layout.padY * 2),
-  });
+  }), [layout]);
 
   const itemById = useMemo(() => new Map(brainFixture.items.map((item) => [item.id, item])), []);
   const selectedItem = itemById.get(selectedId) ?? brainFixture.items[0];
@@ -167,7 +167,7 @@ export default function AiBrain() {
       behavior: reducedMotion ? "auto" : "smooth",
     }));
     return () => cancelAnimationFrame(frame);
-  }, [itemById, layout, reducedMotion, selectedId, stage]);
+  }, [itemById, layout, pointFor, reducedMotion, selectedId, stage]);
 
   const chooseStage = (nextStage: number) => {
     setStage(nextStage);

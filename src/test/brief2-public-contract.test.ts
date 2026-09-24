@@ -504,11 +504,20 @@ describe("one accent system", () => {
 });
 
 describe("the conversion contract", () => {
-  it("offers Start here as the only primary action", () => {
+  it("offers one way in, worded in one place, and books nothing", () => {
     const shell = read("src/components/mindmake/MindmakeShell.tsx");
-    expect(shell).toContain("Start here");
-    expect(shell.toLowerCase()).not.toContain("calendly");
-    expect(shell.toLowerCase()).not.toContain("book a fit call");
+    const links = read("src/lib/publicLinks.ts");
+    /* The words live in publicLinks.ts so the menu, the action bar and every
+       page's own close read the same label. A literal here would let one
+       surface drift and still pass. */
+    expect(shell).toContain("START_LABEL");
+    expect(links).toContain("export const START_LABEL");
+    /* The flow behind it is a written brief that we follow up on. It books no
+       session, so nothing on the shell may say it does. */
+    for (const claim of ["calendly", "book a fit call", "book a call", "book a session", "schedule a call"]) {
+      expect(`${claim}: ${shell.toLowerCase().includes(claim)}`).toBe(`${claim}: false`);
+      expect(`${claim}: ${links.toLowerCase().includes(claim)}`).toBe(`${claim}: false`);
+    }
   });
 
   it("keeps the commercial, editorial and leadership routes in the menu", () => {
@@ -520,7 +529,6 @@ describe("the conversion contract", () => {
       "Ideas",
       "New-age leadership",
       "Media",
-      "Start here",
     ]) {
       expect(shell).toContain(item);
     }

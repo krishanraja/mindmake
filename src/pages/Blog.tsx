@@ -6,7 +6,6 @@ import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
 import { BlogPostCard, categoryLabels } from "@/components/BlogPostCard";
-import { CommercialDecisionBalance } from "@/components/mindmake/locked/CommercialDecisionBalance";
 import "@/styles/mindmake.css";
 
 const Blog = () => {
@@ -100,8 +99,6 @@ const Blog = () => {
         </div>
 
       </section>
-
-      <CommercialDecisionBalance context="editorial" onStart={() => setBriefOpen(true)} />
 
       <LeadBrief open={briefOpen} onClose={() => setBriefOpen(false)} />
     </MindmakeShell>

@@ -1,13 +1,14 @@
 {
-  "artifact": "mindmake-approved-production-routes-r18",
+  "artifact": "mindmake-approved-production-routes-r19",
   "recordedAt": "2026-09-24",
   "status": "candidate record. Owner approval for this revision is NOT recorded. Production gates have not been run against it. Do not treat it as an approval.",
-  "scopeRequested": "One instruction, raised from live mindmake.co with a screenshot of the surface: the commercial Decision Balance (\"Build one useful AI system on real work.\" and the five-reading proof instrument) exists on https://mindmake.co/new-age-leadership and absolutely nowhere else. It was mounted on seven routes. It is unmounted from the six that are not /new-age-leadership: /ai-brain, /ai-gtm, /blog, /blog/:slug, /answers and /answers/:slug. No component change, no replacement section, no new commercial offer, no approved copy rewritten, and no change to the immutable R3 prototype or its generated adapter.",
+  "scopeRequested": "Krish asked for the phone action bar back on /ai-brain and /ai-gtm. Restoring it required fixing why it did not work anywhere: every rule for .mm-action-bar lived in src/styles/mindmake-instruments.css, which only /case-studies imports, so on every other shell route the component shipped with no CSS and rendered a bare green button in normal flow below the footer, at every width including desktop. The rules move to src/styles/mindmake.css, beside the --mm-bar-reserve token and the .mm-footer padding that reads it. No declaration is changed. The same instruction also asked to rename every \"Start here\" to \"Get a free live session\" and to add a three-button sticky bar to the homepage. Neither is in this record; both are held for a decision, for the reasons in project-documentation/history/LOG.md.",
   "sessionDecisions": [
-    "Ruling (Krish, 2026-09-24): the Decision Balance belongs to /new-age-leadership and absolutely nowhere else.",
-    "Unmount rather than rewrite. src/components/mindmake/locked/CommercialDecisionBalance.tsx and its stylesheet are byte-identical to r17, so the approved surface is unchanged on the one route that keeps it; only the six mount points are removed.",
-    "Put nothing in the vacated space. A replacement close on /ai-brain, /ai-gtm or the editorial routes would be a new commercial surface, which is a material change this instruction did not scope.",
-    "Carry a negative control rather than trusting the removal. src/test/commercial-continuity.test.ts and scripts/qa/commercial-decision-balance-production-check.mjs now assert absence on the six routes, because a re-mount is a one-line import."
+    "Ruling (Krish, 2026-09-24): the phone action bar returns to /ai-brain and /ai-gtm.",
+    "Move the bar's rules rather than import the instruments stylesheet into the shell. Importing it would put the whole instruments sheet on every route's render-blocking path, which is the cost r17 spent work removing.",
+    "Move them into mindmake.css rather than a new stylesheet, because --mm-bar-reserve and the .mm-footer rule that reads it already live there and are the rest of the same contract.",
+    "Held: renaming \"Start here\" to \"Get a free live session\". The label is a public offer claim, the flow behind every one of those buttons is a private written brief rather than a booked session, and src/test/brief2-public-contract.test.ts records a decision against booking language on the shell. The offer has to change before the label can.",
+    "Held: a three-button sticky bar on the homepage. scripts/qa/one-way-in-check.mjs permits a fork of exactly two in one control group and fails anything else; src/components/mindmake/CloseBlock.tsx records the defect that produced the rule. The homepage is generated from the immutable approved R3, so the bar would also be a material change to that release."
   ],
   "routes": [
     "/",
@@ -37,11 +38,11 @@
   },
   "files": {
     ".vercelignore": "f162171ded7ff8c1d6032f7cb50317bc19cc4d1bbd4757be9f8ea75cdec540f1",
-    "src/pages/AiBrainLocked.tsx": "9ce6f747c2051c4bb4c8562921d9f3fed67728c2bf3ac20a4a19aa54a5365ac3",
+    "src/pages/AiBrainLocked.tsx": "4b56a76a1661097c7edff62878e602d138c902298fe23a7704a184f9079fa519",
     "src/styles/mindmake-locked-brain.css": "7ef818a05599b945ff2cdbd1aebf56cf3815f7d4508421963755216539da7b96",
     "src/data/vnext/brain-fixture.json": "02fa968575d7000874f0f10a09123336ad6ec3f7bf373dcd351fbb7e7ef2b1b9",
     "prototypes/website-redesign-recovery/brain-signature/index-s2-motion-s3.html": "423659d864e79a72a55d4fd3ca9450b610e616187929293f1e0a8faaafbff2c6",
-    "src/pages/AiGtmLocked.tsx": "cbcdd9ee4382a219b32b3580912c1b5c1e6ddfcc75eb1b13674948b2b6711526",
+    "src/pages/AiGtmLocked.tsx": "8bc26e6098093e9f5c2cb8b3170f2f15825a2428e48420e37d5eb1801ef81381",
     "src/styles/mindmake-locked-gtm.css": "8c4ee91ad1a96f97efd397668f0742b148fbc4ec820e73daf2ddb4047be58579",
     "src/data/vnext/gtm-signals.json": "5ab7fac6ce8ebdab6b69b73f60e184a7e4df8d923d97edd29c38872648c3bf7f",
     "prototypes/website-redesign-recovery/gtm-market-change/index-motion.html": "8754e189e077ead09728e4e8b78ed26ad9b872a0d8b9d4b3503bc76ee7e98aef",
@@ -51,7 +52,7 @@
     "src/styles/mindmake-commercial-decision-balance.css": "28ee9e456159953099cfceabbd068d7d43cbf0bfdaa76c990fd76dd541b5cfac",
     "src/components/mindmake/locked/CaseProofField.tsx": "9973f788919a7802c07e88ca781b7f72f3797a1538875fc6bf1e247de920acb4",
     "src/pages/CaseStudies.tsx": "01c6ab3378d992c2543cbf9b818c43717e0c6491b6021e7471bc0eeede65faf5",
-    "src/styles/mindmake-instruments.css": "2cf17cae456013e5ec5504bff3ba0b4f386d559dfc4c7da0596650382e262adf",
+    "src/styles/mindmake-instruments.css": "740382b622933e23aec214279cae5d6d5bcfb300a66c7cd80b0325cdd47ba7bb",
     "src/pages/Index.tsx": "485a04421a98c852d3e8870e9ebf4d49f4d253efc179a10385060efe558a028f",
     "src/styles/mindmake-home-vnext.css": "99bfc17c302fb476510452fc029268e85221c8cdcf43b133c9f921c095ac52ca",
     "src/pages/Blog.tsx": "eedb74a049c1eae8ba9dbafa9793029b8076375aee279076797e7e2184cb8ae1",
@@ -61,15 +62,15 @@
     "src/pages/Contact.tsx": "bd73f64982f8176724a8feae80994bcfb1e65c3017ce0cbb0ef3d9e6c1638d99",
     "src/components/mindmake/MindmakeShell.tsx": "05482c75979df268e244c46afb856b932d14028cfb9f66b71f81592dec5d4516",
     "src/components/mindmake/LeadBrief.tsx": "433bde43d62dd29cfe19afd96d713d66eda64965a60c3a0ca90e0d4370020d15",
-    "src/styles/mindmake.css": "ac75add37e9e6829b3a010e6f57c158f82b0d1dbc381990bb4cdbdae8132ca37",
+    "src/styles/mindmake.css": "dbecd62f1e0b7d515178eba2078936a70439516214b76041beee62ebfe958c24",
     "src/styles/mindmake-brief.css": "05ce4b8c72ef0ac2fa0a85d6264793ff444cd663016a817b376d91a380497b9b",
     "src/hooks/useLeadBriefHistory.ts": "a782c9c8563b44ee23780742c1cfff703f7a0a362ffd2986405508e42567c427",
     "src/data/rebuildProof.ts": "bdea57fd6495548e2ea798e9b7056323bb1936c4f4e66c24301aa82c9114884b",
     "src/data/testimonials.ts": "24466efccdb455aef4698f7e0a4a00e4885ecb43cf6245bf5255e1369e7d0663",
     "src/App.tsx": "2480580fceaf0697c370b6ce8f480068ca30780d9e06b8601e239175174f93af",
     "src/entry-server.tsx": "cd957bdd05c1634c15e7a73ed26bfbf36a23b8a6bfea535f968b00046646e705",
-    "scripts/qa/approved-route-lock-check.mjs": "3abb7189561b404d372eb4d86907d861b6fd8244dfcee2e16a0e67e2ab684026",
-    "scripts/qa/approved-route-lock-self-test.mjs": "03c0d29a520af39ceccce987c516f5ce59b151c61c45e4fd5f351b1f7f23d289",
+    "scripts/qa/approved-route-lock-check.mjs": "b8d9f478f4c016988107bbdab39e16e031f9a9d1507bdce9f8363965941a7e59",
+    "scripts/qa/approved-route-lock-self-test.mjs": "b824b9d3908b7d471fd883ceca4f4084f0b97064f7df0175a463d938c8f11ffb",
     ".github/workflows/approved-route-lock.yml": "10e9abd95bab80477634dda226a8bb1704a2796c1b8e0a596a742650ee4f8f1c",
     "scripts/qa/locked-material-production-check.mjs": "b021940985b52171064d8cfdb9f439c58b440f433de79f3882329559daeeb61d",
     "scripts/qa/full-route-continuity-check.mjs": "6fc58e3aa78982e12b765c8bd245f4c84fc619d8d1dde3320a4e685e989bbc3d",
@@ -186,22 +187,24 @@
     "performed": [
       "npm run typecheck: pass.",
       "npm run lint: pass, 0 errors and the 2 pre-existing react-refresh warnings.",
-      "npm test: 36 files, 542 tests, all pass, including the rewritten single-route contract and its six-route negative control.",
-      "npm run qa:approved-routes and qa:approved-routes:self-test against this record: pass."
+      "npm test: 36 files, 542 tests, all pass, including the relocated CookieConsent stylesheet assertion.",
+      "npm run qa:approved-routes and qa:approved-routes:self-test against this record: pass.",
+      "npm run qa:chrome against the built artifact, 8 sizes x 5 pages x 2 text scales including /ai-brain and /ai-gtm: clean, strip flush, bar stacked on it, nothing covered.",
+      "npm run qa:oneway against the built artifact across 7 routes at 1440 and 390: never more than one primary action on screen.",
+      "Read on the built artifact: the bar is position:fixed and reserves 72.19px at 390x844 with a coarse pointer on /ai-brain, /ai-gtm, /blog and /answers, and computes display:none at 1440x900 on all four. Before this change it computed display:block and position:static at both widths on all but /case-studies."
     ],
     "required": [
       "Canonical build and prerender",
       "Full built-route browser matrix (qa:release-routes) on the same build artifact",
-      "qa:commercial-decision-balance-production, including the new absence sweep",
-      "qa:full-route-continuity with the relocated 512x384 reflow reading",
-      "Actual desktop and mobile screenshots of the six routes that lost the surface, read for what now ends each page",
+      "qa:full-route-continuity, whose 512x384 reading asserts the bar stays down on a desktop fine pointer",
+      "Physical phone read of both offer routes, since no gate emulates a safe-area inset",
       "Independent review and exact deployment readback"
     ],
     "physicalException": "VoiceOver on physical iPhone and TalkBack on physical Android not performed."
   },
   "supersedes": {
-    "path": "quality/route-lock/approved-production-r17.json",
-    "reason": "R17 froze the correction pass over what the delivered surfaces render. This record carries one scoped removal on top of it. Every hash change is listed in scope with its reason; no earlier record is rewritten. R16 remains the last record carrying a recorded owner approval."
+    "path": "quality/route-lock/approved-production-r18.json",
+    "reason": "R18 restricted the commercial Decision Balance to /new-age-leadership and left /ai-brain and /ai-gtm with no way in on the page. This record answers that. Every hash change is listed in scope with its reason; no earlier record is rewritten. R16 remains the last record carrying a recorded owner approval."
   },
   "textLineEndings": "lf",
   "browserPlatforms": {
@@ -216,60 +219,42 @@
     "rationale": "project-documentation/website-redesign/RELEASE-2026-09-24.md"
   },
   "scope": {
-    "baselineCommit": "0653dfd",
+    "baselineCommit": "6b5cf3c",
     "allowedExistingChanges": [
       {
+        "path": "src/styles/mindmake.css",
+        "before": "ac75add37e9e6829b3a010e6f57c158f82b0d1dbc381990bb4cdbdae8132ca37",
+        "after": "dbecd62f1e0b7d515178eba2078936a70439516214b76041beee62ebfe958c24",
+        "reason": "Takes ownership of the phone action bar's rules, next to --mm-bar-reserve and the .mm-footer rule that already reads it. Moved verbatim from mindmake-instruments.css; no declaration changed."
+      },
+      {
+        "path": "src/styles/mindmake-instruments.css",
+        "before": "2cf17cae456013e5ec5504bff3ba0b4f386d559dfc4c7da0596650382e262adf",
+        "after": "740382b622933e23aec214279cae5d6d5bcfb300a66c7cd80b0325cdd47ba7bb",
+        "reason": "Gives up the action bar's rules. They were unreachable from every shell route but /case-studies, which is why the component rendered as a bare button below the footer everywhere else."
+      },
+      {
         "path": "src/pages/AiBrainLocked.tsx",
-        "before": "1d70c40d558f42f6467dd8048da5443f30fba887c0a7973d799cc3fe032cd12d",
-        "after": "9ce6f747c2051c4bb4c8562921d9f3fed67728c2bf3ac20a4a19aa54a5365ac3",
-        "reason": "The Decision Balance is unmounted. /ai-brain keeps its locked body and the shell's own way in; it no longer carries the commercial surface."
+        "before": "9ce6f747c2051c4bb4c8562921d9f3fed67728c2bf3ac20a4a19aa54a5365ac3",
+        "after": "4b56a76a1661097c7edff62878e602d138c902298fe23a7704a184f9079fa519",
+        "reason": "Stops declaring showMobileActionBar={false}, so the phone keeps a way in through the page. The locked body is unchanged."
       },
       {
         "path": "src/pages/AiGtmLocked.tsx",
-        "before": "7e50da2c4e04fd6aab24694a433d0794747eaa60ebb161cb3782b7c4b1c2467c",
-        "after": "cbcdd9ee4382a219b32b3580912c1b5c1e6ddfcc75eb1b13674948b2b6711526",
-        "reason": "The Decision Balance is unmounted. /ai-gtm keeps its locked body and the shell's own way in; it no longer carries the commercial surface."
-      },
-      {
-        "path": "src/pages/Blog.tsx",
-        "before": "bbbcb0630060003f66f6177e72eb5bc6a421721a9c102d8adfcd5b07e0e25e96",
-        "after": "eedb74a049c1eae8ba9dbafa9793029b8076375aee279076797e7e2184cb8ae1",
-        "reason": "The Decision Balance is unmounted. The archive ends on its own index."
-      },
-      {
-        "path": "src/pages/BlogPost.tsx",
-        "before": "0034314ed713a16f6ce0769f9ba580d44a497684e4abdff7feea13babe3de6ad",
-        "after": "c63b50eefc00ca13a849c824035a3f1681bf14a74b5b2123cfcdbad4f0015613",
-        "reason": "The Decision Balance is unmounted. An article ends on its related ideas."
-      },
-      {
-        "path": "src/pages/Answers.tsx",
-        "before": "690e9e141533407855cf0f227c523e98ad78856c96964c6c6f0195fe45157b81",
-        "after": "9cf708e3fb54ce93a663fb4b21f4e9d497189adec457dec24b62dd794b30a036",
-        "reason": "The Decision Balance is unmounted. The answer index ends on its own entries."
-      },
-      {
-        "path": "src/pages/Answer.tsx",
-        "before": "9dd0788611bf0d13faba57e1f6f98569b12fd4bc81395578a30ee64de452db3c",
-        "after": "afcb5862874a2efd84fd16ba00c7d4f6250c913379f3cf1ef57deb9fe91c6260",
-        "reason": "The Decision Balance is unmounted. An answer ends on the questions that follow."
-      },
-      {
-        "path": "scripts/qa/full-route-continuity-check.mjs",
-        "before": "876f2ff1fc36f70bc45dc164955084317c5d5a616e8b6f8a5564e93cd2aad62f",
-        "after": "6fc58e3aa78982e12b765c8bd245f4c84fc619d8d1dde3320a4e685e989bbc3d",
-        "reason": "The 512x384 reflow reading of the commercial surface follows the surface to /new-age-leadership. The phone-only action bar reading stays on /blog, which still renders one."
+        "before": "cbcdd9ee4382a219b32b3580912c1b5c1e6ddfcc75eb1b13674948b2b6711526",
+        "after": "8bc26e6098093e9f5c2cb8b3170f2f15825a2428e48420e37d5eb1801ef81381",
+        "reason": "Stops declaring showMobileActionBar={false}, so the phone keeps a way in through the page. The locked body is unchanged."
       },
       {
         "path": "scripts/qa/approved-route-lock-check.mjs",
-        "before": "1d278456ae775848c49d3fd87ee3f2f6839137dc42f3a999e6ec686073094cba",
-        "after": "3abb7189561b404d372eb4d86907d861b6fd8244dfcee2e16a0e67e2ab684026",
+        "before": "3abb7189561b404d372eb4d86907d861b6fd8244dfcee2e16a0e67e2ab684026",
+        "after": "b8d9f478f4c016988107bbdab39e16e031f9a9d1507bdce9f8363965941a7e59",
         "reason": "Selects this new record."
       },
       {
         "path": "scripts/qa/approved-route-lock-self-test.mjs",
-        "before": "4aa3f374621463a225f26f4eb4dfb02ae92f2b865023c580538d236e50ecc4dd",
-        "after": "03c0d29a520af39ceccce987c516f5ce59b151c61c45e4fd5f351b1f7f23d289",
+        "before": "03c0d29a520af39ceccce987c516f5ce59b151c61c45e4fd5f351b1f7f23d289",
+        "after": "b824b9d3908b7d471fd883ceca4f4084f0b97064f7df0175a463d938c8f11ffb",
         "reason": "Selects this new record."
       }
     ]

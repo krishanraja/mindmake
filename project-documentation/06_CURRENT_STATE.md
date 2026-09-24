@@ -7,10 +7,9 @@ Superseded observations live only in [history/LOG.md](history/LOG.md).
 ## Live release
 
 - Public site: https://mindmake.co
-- Live application release: PR #173, commit 0653dfd48605c7d2b76b5a49e2e41870cc2baa99; accepted R3 material remains unchanged.
-- Live production deployment: dpl_4wh4EJwvJbNUdGVyKmcCjPyd5f7U, mindmake-arvv8o6wj-krish-rajas-projects.vercel.app.
-- Recoverable preceding release: dpl_82UgoyZatcpdZLWfeGvQnsMPvcwd, mindmake-ijn7p1jlr-krish-rajas-projects.vercel.app, commit a0cc571.
-- Promoted on the owner's instruction before the candidate browser matrix finished. That matrix is the run on main for this commit, not a completed pre-merge check; read it before treating this release as verified.
+- Verified application release: PR #171, commit 9e79e351db45ecb2f2f8b2e383639d402ab1c7a2; accepted R3 material remains unchanged.
+- Verified production deployment: dpl_GcehNF5XMtFagREZ9Y5pKhHLQyJZ, mindmake-aijrjhst8-krish-rajas-projects.vercel.app.
+- Recoverable preceding release: dpl_EZigNAi6Uc6Apcq75XsFnHETt5W8, mindmake-bh0d8hczk-krish-rajas-projects.vercel.app.
 - Vercel project: prj_GqamX3psD0cGpGCDXRu0ljET7zap; team: team_iXZBozK4Ss7NHuyNk8L9wmO6.
 - Repository: krishanraja/mindmake. A merge to main automatically promotes production.
 
@@ -108,9 +107,9 @@ owns payload, privacy, retention, email and failure-path contracts.
   Actual indexing, search traffic, ranking and AI citation outcomes require
   external measurement; no ranking or citation guarantee is made. Social
   platform cache refreshes were not externally verified.
-- The hero H1 focus outline on desktop initial navigation is fixed and live: the
-  page title is focused only on a real route change, and the suppression is no
-  longer scoped to `.mm-site`. Mobile initial focus remains BODY.
+- Nonblocking existing focus detail: desktop initial navigation can outline
+  the hero H1; mobile initial focus remains BODY. A correction is on the branch
+  and not live. Until it is promoted this remains what production does.
 - Physical iPhone VoiceOver and Android TalkBack remain unperformed under the
   owner's explicit release-only exception. Emulation is not physical proof.
 - Dependency audit: 23 package entries (16 high, 5 moderate, 2 low). Bounded
@@ -124,19 +123,53 @@ owns payload, privacy, retention, email and failure-path contracts.
 - Recorded GitHub main check found no enforced branch protection/rulesets.
   Checked workflows fail closed; privileged bypass remains possible. Violations
   are not claimed impossible.
-- The delivered-surface correction pass bounded by
-  `quality/route-lock/approved-production-r17.json` is live. Public readback at
-  19:22 UTC confirmed the four code-split routes each serve their own stylesheet
-  in the head, the homepage carries its ground class from the first byte, the
-  case-record lede renders and the sitemap still answers 26 URLs. Its remaining
-  limits are in that record's verification block: the candidate browser matrix
-  did not complete before promotion, macOS WebKit is unrun for this candidate,
-  and no independent review was performed.
-- Three gate failures observed against this candidate each reproduce identically
-  on the preceding release and are not caused by it: `qa:full-route-continuity`
-  waits for an h1 at 320px where R3 hides the desktop variant's,
-  `qa:release-routes` times out on three Linux WebKit cases, and
-  `case-proof-field-production` writes screenshots to a hardcoded Windows path.
+- A delivered-surface correction pass is on the branch and is not live: it is
+  bounded by `quality/route-lock/approved-production-r17.json`, which records
+  that its own owner approval and candidate verification are outstanding. It
+  covers the heading focus ring, the menu action and footer measures, the header
+  wordmark's alignment on the locked routes, the unstyled first paint on the
+  code-split routes and a lede under the unchanged case-record heading. Nothing
+  above describes it; retrieve the live deployment before treating any of it as
+  production behaviour.
+- On the same branch and also not live, bounded by
+  `quality/route-lock/approved-production-r18.json`: the commercial Decision
+  Balance ("Build one useful AI system on real work." and its five-reading proof
+  instrument) is mounted on `/new-age-leadership` alone. It is unmounted from
+  `/ai-brain`, `/ai-gtm`, `/blog`, `/blog/:slug`, `/answers` and
+  `/answers/:slug`, which now end on their own last section and keep only the
+  shell's ways in. The component and its stylesheet are byte-identical to r17.
+  Nothing replaces the vacated space. Owner approval and candidate verification
+  for r18 are outstanding; live behaviour is still the r16 release.
+- Also on the branch and not live, bounded by
+  `quality/route-lock/approved-production-r19.json`: the phone action bar is
+  back on `/ai-brain` and `/ai-gtm`, and its rules move from
+  `src/styles/mindmake-instruments.css` to `src/styles/mindmake.css`. Only
+  `/case-studies` imported the instruments stylesheet, so on every other shell
+  route the bar shipped with no CSS and rendered a bare button in normal flow
+  below the footer at every width, desktop included. Measured after the move on
+  the built artifact: `position: fixed` and a 72.19px reserve at 390x844 with a
+  coarse pointer, `display: none` at 1440x900. No declaration changed.
+- Also on the branch and not live, bounded by
+  `quality/route-lock/approved-production-r20.json`: every way in now reads
+  `START_LABEL` from `src/lib/publicLinks.ts` ("Get your free AI brief"), and
+  the action bar carries two slots at every width: at most one door, which is
+  the offer route the reader is not on, then the one action. It stands down
+  whenever a page's own primary action is on screen. The immutable approved R3
+  homepage is untouched and is the one surface still reading "Start here".
+  Owner approval and candidate verification for r20 are outstanding.
+- `quality/route-lock/approved-production-r21.json` fixes two defects the
+  release matrix found in that bar: the door was keyed on the exact pathname,
+  so the trailing-slash spelling of a route hydrated without it and took the
+  route down to client rendering; and on a phone the door made the bar 150.7px
+  tall at 320x568 and covered the last footer link. The door now keys on the
+  route without its trailing slash and is hidden below 768px. Chromium's full
+  route matrix reads clean locally; Firefox and WebKit have not run against the
+  fix.
+- The release browser matrix runs one engine per leg. It is the same 208 cases
+  on the same frozen artifact; Chromium and Firefox simply no longer queue
+  behind each other on one Linux runner. Measured before the change on run
+  36067326051: 9m10s total, of which one step was 6m25s. Unverified until the
+  split matrix has actually run.
 
 Do not promote old DNS/mailbox, CTRL-host or cache observations into fresh facts
 without new readback. CONTACT_EMAIL in src/lib/publicLinks.ts is the approved

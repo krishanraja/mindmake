@@ -39,7 +39,7 @@ export default function CaseStudies() {
   };
 
   return (
-    <MindmakeShell onStart={openBrief} mainClassName="mm-case-route" showMobileActionBar={false}>
+    <MindmakeShell onStart={openBrief} mainClassName="mm-case-route">
       <SEO
         title="Results"
         description="Eight verified stories about the work Mindmake helped customers change and what happened next."

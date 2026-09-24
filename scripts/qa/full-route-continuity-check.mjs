@@ -524,6 +524,11 @@ async function verifyDesktopReflow(browser) {
   });
   fail(actionBar.visible || actionBar.display !== "none", `${label}: phone-only action bar obstructs desktop reflow (${JSON.stringify(actionBar)})`);
 
+  // The Decision Balance now exists on /new-age-leadership alone, so the
+  // reflow measurement of the commercial surface follows it there. The action
+  // bar reading above stays on /blog, which is the route that renders one.
+  const commercialLabel = "chromium desktop fine-pointer 512x384 /new-age-leadership reflow";
+  await page.goto(`${origin}/new-age-leadership`, { waitUntil: "domcontentloaded" });
   const contract = page.locator(".mm-decision-balance");
   await contract.scrollIntoViewIfNeeded();
   await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
@@ -542,11 +547,11 @@ async function verifyDesktopReflow(browser) {
       paragraphScrollWidth: paragraph?.scrollWidth ?? -1,
     };
   });
-  fail(commercial.documentOverflow > 1, `${label}: commercial surface creates ${Math.round(commercial.documentOverflow)}px horizontal overflow`);
-  fail(!commercial.paragraph || commercial.paragraph.width < 180, `${label}: Decision Balance promise collapsed (${JSON.stringify(commercial)})`);
-  fail(commercial.paragraphClientWidth < 0 || commercial.paragraphScrollWidth > commercial.paragraphClientWidth + 2, `${label}: commercial proof paragraph clips (${JSON.stringify(commercial)})`);
-  fail(commercial.contract.left < -1 || commercial.contract.right > 513, `${label}: commercial contract escapes the reflow viewport (${JSON.stringify(commercial)})`);
-  fail(!commercial.sheet || commercial.sheet.left < -1 || commercial.sheet.right > 513, `${label}: Decision Balance instrument escapes the reflow viewport (${JSON.stringify(commercial)})`);
+  fail(commercial.documentOverflow > 1, `${commercialLabel}: commercial surface creates ${Math.round(commercial.documentOverflow)}px horizontal overflow`);
+  fail(!commercial.paragraph || commercial.paragraph.width < 180, `${commercialLabel}: Decision Balance promise collapsed (${JSON.stringify(commercial)})`);
+  fail(commercial.paragraphClientWidth < 0 || commercial.paragraphScrollWidth > commercial.paragraphClientWidth + 2, `${commercialLabel}: commercial proof paragraph clips (${JSON.stringify(commercial)})`);
+  fail(commercial.contract.left < -1 || commercial.contract.right > 513, `${commercialLabel}: commercial contract escapes the reflow viewport (${JSON.stringify(commercial)})`);
+  fail(!commercial.sheet || commercial.sheet.left < -1 || commercial.sheet.right > 513, `${commercialLabel}: Decision Balance instrument escapes the reflow viewport (${JSON.stringify(commercial)})`);
   await context.close();
 }
 

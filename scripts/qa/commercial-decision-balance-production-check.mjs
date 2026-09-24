@@ -21,14 +21,21 @@ const approvedHashes = {
   "prototypes/website-redesign-recovery/commercial-continuity/check-readiness-s4-r3.mjs": "541b872572d1f3f02bb510c6678032e9517c2fef05a44185f91f17e888d828ad",
 };
 
+// Ruling (Krish, 2026-09-24): the Decision Balance exists on
+// /new-age-leadership and absolutely nowhere else. `routes` is the surface that
+// carries it; `removedRoutes` is the negative control over the six that used to.
 const routes = [
   ["/new-age-leadership", "leadership"],
-  ["/blog", "editorial"],
-  ["/blog/a-useful-first-30-days-building-with-ai", "editorial"],
-  ["/answers", "editorial"],
-  ["/answers/ai-decision-tool-trustworthy-leadership-team", "editorial"],
-  ["/ai-brain", "brain"],
-  ["/ai-gtm", "gtm"],
+];
+
+const removedRoutes = [
+  "/",
+  "/blog",
+  "/blog/a-useful-first-30-days-building-with-ai",
+  "/answers",
+  "/answers/ai-decision-tool-trustworthy-leadership-team",
+  "/ai-brain",
+  "/ai-gtm",
 ];
 
 const chromiumViewports = [[320,568],[360,800],[390,844],[430,932],[768,1024],[844,390],[1024,768],[1108,574],[1280,720],[1366,640],[1440,900],[1475,730],[1538,636],[1920,1080]];
@@ -47,11 +54,16 @@ for (const [relativePath, expected] of Object.entries(approvedHashes)) {
   fail(actual !== expected, `approved S4 R3 artifact changed: ${relativePath} expected ${expected}, got ${actual}`);
 }
 
-const routeSources = ["NewAgeLeadership.tsx", "Blog.tsx", "BlogPost.tsx", "Answers.tsx", "Answer.tsx", "AiBrainLocked.tsx", "AiGtmLocked.tsx"];
+const routeSources = ["NewAgeLeadership.tsx"];
+const clearedSources = ["Index.tsx", "Blog.tsx", "BlogPost.tsx", "Answers.tsx", "Answer.tsx", "AiBrainLocked.tsx", "AiGtmLocked.tsx"];
 for (const source of routeSources) {
   const code = await readFile(new URL(`../../src/pages/${source}`, import.meta.url), "utf8");
   fail(!code.includes("CommercialDecisionBalance"), `${source}: approved production adapter is missing`);
   fail(code.includes("CommercialProofglass"), `${source}: superseded S3 adapter is still mounted`);
+}
+for (const source of clearedSources) {
+  const code = await readFile(new URL(`../../src/pages/${source}`, import.meta.url), "utf8");
+  fail(code.includes("CommercialDecisionBalance"), `${source}: the Decision Balance is mounted outside /new-age-leadership`);
 }
 
 const server = await createServer({ root, server: { host: "127.0.0.1", port: 0, strictPort: false }, logLevel: "error" });
@@ -73,6 +85,12 @@ for (const [path, context] of routes) {
   fail(videos.length !== 2, `${path}: SSR expected two policy-switched video nodes, saw ${videos.length}`);
   fail(videos.some((video) => !video.includes("poster=")), `${path}: an SSR film has no poster`);
   fail(videos.some((video) => /\ssrc=/.test(video)), `${path}: SSR emitted moving media before policy checks`);
+}
+
+for (const path of removedRoutes) {
+  const html = renderSsr(path);
+  fail(html.includes("mm-decision-balance"), `${path}: SSR still renders the Decision Balance outside /new-age-leadership`);
+  fail(html.includes("Build one useful AI system on real work."), `${path}: the approved offer heading survives outside /new-age-leadership`);
 }
 
 async function prepare(page, { consent = true } = {}) {

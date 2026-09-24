@@ -34,6 +34,7 @@
     "qa:screens": "node scripts/qa/screen-matrix-check.mjs",
     "qa:deadcss": "node scripts/qa/dead-css-check.mjs --width 1440 && node scripts/qa/dead-css-check.mjs --width 390",
     "qa:chrome": "node scripts/qa/fixed-chrome-check.mjs",
+    "qa:logo-alignment": "node scripts/qa/logo-alignment-check.mjs",
     "qa:award-panel": "npm run qa:award-panel:definitions",
     "qa:award-panel:definitions": "npm run qa:award-panel:validate && npm run qa:award-panel:self-test",
     "qa:award-panel:validate": "node scripts/qa/award-panel-validate.mjs",

@@ -390,9 +390,31 @@ html {
 }
 .mm-mono { font-family: var(--mm-mono); font-variant-numeric: tabular-nums; }
 
+/* The container starts on the gutter and ends wherever it ends.
+
+   The start margin used to be `auto` as well, which centres the box. For a
+   container at its own width that is the same edge, because `auto` resolves to
+   exactly the expression below; the two differ only once something narrows the
+   box, and then `auto` centres the narrower measure instead of shortening it.
+   Three blocks declare a narrower `max-width` on the container itself and
+   nobody had measured the result: at 1440 the article title (820px) started
+   210px inboard of the wordmark and the article body (720px) 260px, while the
+   author card and the related ideas under them, on the same container with no
+   max-width, stayed on the gutter; the legal sections (920px) sat 160px inboard
+   of their own heading. One page, three left edges, none of them the logo's.
+
+   Written as a percentage of the page's content box rather than reusing
+   `--mm-edge`, which is measured in `vw` and so counts a classic scrollbar this
+   box does not, so the two would disagree by half a scrollbar on Windows. The
+   end margin stays `auto`: that is what absorbs the shortfall. */
 .mm-container {
   width: min(var(--mm-shell-max), calc(100% - (2 * max(var(--mm-gutter), var(--mm-safe-left), var(--mm-safe-right)))));
-  margin-inline: auto;
+  margin-inline: max(
+    var(--mm-gutter),
+    var(--mm-safe-left),
+    var(--mm-safe-right),
+    calc((100% - var(--mm-shell-max)) / 2)
+  ) auto;
 }
 .mm-visually-hidden {
   position: absolute;
@@ -588,26 +610,27 @@ html {
 }
 .mm-site.mm-route-brain { --mm-header-inline: max(4vw, calc((100vw - 1600px) / 2)); }
 .mm-site.mm-route-gtm { --mm-header-inline: max(24px, calc((100vw - 1360px) / 2)); }
-/* The leadership story draws every section against its own `--edge`, which is
-   the same clamp repeated here, including the flat 20px it drops to on a narrow
-   phone. Without it the wordmark sat at the container's 100px while the
-   headline under it started at 63px. */
+/* /new-age-leadership draws its sections against the R5 surface's own `--edge`,
+   and these mirror it, including the two narrow overrides. That file is
+   generated from the approved prototype, so the mirror lives here. The route
+   now wears the shared shell, so this puts the wordmark, the menu and the
+   footer on the same left edge as the story under them. */
 .mm-site.mm-route-leadership { --mm-header-inline: clamp(22px, 4.4vw, 72px); }
+@media (max-width: 700px) {
+  .mm-site.mm-route-gtm { --mm-header-inline: max(16px, calc((100vw - 520px) / 2)); }
+}
 @media (max-width: 620px) {
   .mm-site.mm-route-leadership { --mm-header-inline: 20px; }
 }
 @media (max-width: 360px) {
-  .mm-site.mm-route-leadership { --mm-header-inline: 16px; }
-}
-@media (max-width: 700px) {
-  .mm-site.mm-route-gtm { --mm-header-inline: max(16px, calc((100vw - 520px) / 2)); }
-}
-@media (max-width: 360px) {
   .mm-site.mm-route-gtm { --mm-header-inline: 12px; }
+  .mm-site.mm-route-leadership { --mm-header-inline: 16px; }
 }
 /* The overlay and the footer take the same edge too, next to their own rules
    below, so a route never shows its wordmark on one measure and the navigation
-   under it on another. */
+   under it on another. The shared commercial block reads the same token in
+   src/styles/mindmake-commercial-decision-balance.css, because it is page-wide
+   chrome by any other name: it closes every route it appears on. */
 .mm-brand {
   min-height: 44px;
   display: inline-flex;
@@ -1210,11 +1233,16 @@ html {
 }
 .mm-form-error { color: var(--mm-amber); font-family: var(--mm-mono); font-size: 12px; }
 
-.mm-not-found { min-height: 100svh; display: grid; place-items: center; background: var(--mm-ink); color: var(--mm-tx); text-align: center; padding: 40px 0; }
+/* The 404, on the same measure as every other page.
+   It was `place-items: center; text-align: center` inside its own bare
+   `.mm-site`, which put the wordmark in the middle of the viewport with the
+   error copy centred under it: the one page where the mark was neither in a top
+   bar nor on the page's left edge. It is a page hero now, under the shell. */
+.mm-not-found { padding: calc(var(--mm-header-height) + clamp(44px, 12vh, 120px)) 0 var(--mm-section); background: var(--mm-ink); color: var(--mm-tx); }
 .mm-error-code { color: var(--mm-mint); font-family: var(--mm-mono); font-size: 12px; letter-spacing: .2em; }
-.mm-not-found h1 { margin-top: 16px; }
-.mm-not-found p { margin-top: 14px; color: var(--mm-tx2); }
-.mm-not-found .mm-button { margin-top: 26px; }
+.mm-not-found h1 { max-width: 14ch; margin-top: 16px; }
+.mm-not-found > .mm-container > p { max-width: 52ch; margin-top: 18px; color: var(--mm-tx2); font-size: clamp(16px, 1.5vw, 19px); }
+.mm-not-found-actions { display: flex; flex-wrap: wrap; gap: 16px 26px; align-items: center; margin-top: 30px; }
 
 /* One line, four words, one button, and out of the way.
    Photographed on a phone on 3 September 2026 it was three lines and a

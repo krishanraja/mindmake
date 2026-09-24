@@ -1,0 +1,4775 @@
+{
+  "at": "2026-09-24T22:53:02.528Z",
+  "origin": "http://127.0.0.1:4344",
+  "built": true,
+  "selfOwnedRuntime": true,
+  "indexSha256": "2db9ce8cba2770bc725766f7cd4e47768364bddc19f3c7671c51b18459f62882",
+  "endSha256": "2db9ce8cba2770bc725766f7cd4e47768364bddc19f3c7671c51b18459f62882",
+  "scriptSha256": "4185de113028a507c4fd2038e21e7f77f2e0978d02e2bd0840b1616c3f6cd1de",
+  "routes": [
+    "/",
+    "/ai-brain",
+    "/ai-gtm",
+    "/case-studies",
+    "/new-age-leadership",
+    "/blog",
+    "/answers",
+    "/faq",
+    "/contact",
+    "/privacy",
+    "/terms",
+    "/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan",
+    "/blog/four-modes-of-ai-literacy-every-leader-needs",
+    "/blog/why-ai-training-fails-and-building-works",
+    "/blog/shadow-ai-to-strategic-ai-leaders-guide",
+    "/blog/measuring-ai-work-that-pays-back",
+    "/blog/builder-vs-consumer-mindset-in-ai",
+    "/blog/ai-vendor-theatre-how-to-spot-and-avoid-it",
+    "/blog/a-useful-first-30-days-building-with-ai",
+    "/blog/ai-literacy-for-executive-teams-lab-model",
+    "/blog/how-to-increase-creative-leadership-with-ai",
+    "/blog/how-to-control-your-use-of-ai-as-a-leader",
+    "/answers/adtech-compete-ai-targeting-models-defensibility-audit",
+    "/answers/ai-decision-tool-trustworthy-leadership-team",
+    "/answers/ai-center-of-excellence-without-engineering-budget",
+    "/answers/total-addressable-revenue-ai-products-publishing"
+  ],
+  "literalRoutePatterns": [
+    "/",
+    "/ai-brain",
+    "/ai-gtm",
+    "/case-studies",
+    "/operator",
+    "/start",
+    "/decision",
+    "/signal",
+    "/builder-economy",
+    "/blog",
+    "/blog/10-20x-roi-what-real-ai-implementation-looks-like",
+    "/blog/building-ai-systems-in-30-days-sprint-approach",
+    "/blog/:slug",
+    "/library",
+    "/answers",
+    "/answers/:slug",
+    "/new-age-leadership",
+    "/contact",
+    "/privacy",
+    "/terms",
+    "/alumni",
+    "/sprint",
+    "/teardown",
+    "/handover",
+    "/capital",
+    "/tool",
+    "/faq",
+    "/workshops/:slug",
+    "*"
+  ],
+  "expectedCounts": {
+    "routeCases": 52,
+    "coreNavigation": 2,
+    "routerPatterns": 0,
+    "supplemental": 2
+  },
+  "actualCounts": {
+    "routeCases": 52,
+    "coreNavigation": 2,
+    "routerPatterns": 0,
+    "supplemental": 2
+  },
+  "filters": {
+    "engine": "webkit",
+    "width": null,
+    "route": null
+  },
+  "limitations": [
+    "Public read-only UI only; no live lead, email, provider or payment mutation.",
+    "External requests and non-GET/HEAD requests were blocked; live integrations are outside this smoke.",
+    "Vite untrailed native links use exact built directory-index responses, matching documented deployment behavior.",
+    "Non-prerendered and retired route patterns are CSR coverage only; direct-navigation hydration is not certified.",
+    "Geometry, DOM identity and errors are automated observations, not a visual design or physical assistive-technology audit.",
+    "Cookie notice is dismissed to isolate route geometry; first-visit cookie clearance is a separate release check."
+  ],
+  "cases": [
+    {
+      "id": "webkit-390x844-/",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/",
+      "at": "2026-09-24T22:47:20.042Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/",
+          "startedAt": "2026-09-24T22:47:20.814Z",
+          "completedMs": 117
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/",
+          "startedAt": "2026-09-24T22:47:20.931Z",
+          "completedMs": 11
+        },
+        {
+          "name": "curtain-released",
+          "path": "/",
+          "startedAt": "2026-09-24T22:47:20.942Z",
+          "completedMs": 12
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "2db9ce8cba2770bc725766f7cd4e47768364bddc19f3c7671c51b18459f62882",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Build the business that can think with you."
+      ],
+      "heading": {
+        "x": 20,
+        "y": 92,
+        "width": 215.09375,
+        "height": 147.0625
+      },
+      "fixedHeaderBottom": 64,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 37,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 92,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 471.15234375,
+        "width": 390,
+        "height": 375
+      },
+      "footerLink": {
+        "x": 69.75,
+        "y": 754.056640625,
+        "width": 37.3125,
+        "height": 32
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "webkit-390x844-/ai-brain",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/ai-brain",
+      "at": "2026-09-24T22:47:22.053Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/ai-brain/",
+          "startedAt": "2026-09-24T22:47:23.054Z",
+          "completedMs": 34
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/ai-brain/",
+          "startedAt": "2026-09-24T22:47:23.088Z",
+          "completedMs": 8
+        },
+        {
+          "name": "curtain-released",
+          "path": "/ai-brain/",
+          "startedAt": "2026-09-24T22:47:23.096Z",
+          "completedMs": 2293
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "c7854dee20a82fa2d42e360862ce250bb5896fb059fdcb5aa5fea28ffa74b5d5",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "A Brain that learns how you decide."
+      ],
+      "heading": {
+        "x": 16,
+        "y": 95.875,
+        "width": 356.78125,
+        "height": 163.078125
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 13,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 31,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 545.40625,
+        "width": 390,
+        "height": 298.5
+      },
+      "footerLink": {
+        "x": 239.25,
+        "y": 691.40625,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "webkit-390x844-/ai-gtm",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/ai-gtm",
+      "at": "2026-09-24T22:47:36.842Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/ai-gtm/",
+          "startedAt": "2026-09-24T22:47:37.807Z",
+          "completedMs": 49
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/ai-gtm/",
+          "startedAt": "2026-09-24T22:47:37.856Z",
+          "completedMs": 12
+        },
+        {
+          "name": "curtain-released",
+          "path": "/ai-gtm/",
+          "startedAt": "2026-09-24T22:47:37.868Z",
+          "completedMs": 1619
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "e01d37eb6353fb981536c5285773cfe13c21f7d20c6cc6e3fd83350e8fd9408f",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "See what your response changes."
+      ],
+      "heading": {
+        "x": 16,
+        "y": 78,
+        "width": 358,
+        "height": 151.59375
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 15,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 337,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 545.890625,
+        "width": 390,
+        "height": 298.5
+      },
+      "footerLink": {
+        "x": 239.65625,
+        "y": 691.890625,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "webkit-390x844-/case-studies",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/case-studies",
+      "at": "2026-09-24T22:47:52.692Z",
+      "failures": [
+        "page.waitForFunction: Timeout 12000ms exceeded."
+      ],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/case-studies/",
+          "startedAt": "2026-09-24T22:47:53.564Z",
+          "completedMs": 49
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/case-studies/",
+          "startedAt": "2026-09-24T22:47:53.613Z",
+          "completedMs": 5
+        },
+        {
+          "name": "curtain-released",
+          "path": "/case-studies/",
+          "startedAt": "2026-09-24T22:47:53.619Z"
+        }
+      ],
+      "pendingRequests": [
+        {
+          "path": "/assets/communications-compose-loop-r01-20s-720p-web-sealed-D9OpGyzW.mp4",
+          "type": "other"
+        },
+        {
+          "path": "/assets/quiet-workshop-growth-loop-r01-20s-720p-web-sealed-DCFLoT_o.mp4",
+          "type": "other"
+        },
+        {
+          "path": "/assets/opportunities-resolve-loop-r01-20s-720p-web-sealed-S9fA_MZl.mp4",
+          "type": "other"
+        }
+      ],
+      "status": 200,
+      "documentSha256": "df8e7d98dcf37d5dc65483689695b11353518b2248e05c8a7c3a52314775ea40",
+      "screenshotFailure": "page.screenshot: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - taking page screenshot\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n"
+    },
+    {
+      "id": "webkit-390x844-/new-age-leadership",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/new-age-leadership",
+      "at": "2026-09-24T22:48:20.855Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/new-age-leadership/",
+          "startedAt": "2026-09-24T22:48:21.803Z",
+          "completedMs": 58
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/new-age-leadership/",
+          "startedAt": "2026-09-24T22:48:21.861Z",
+          "completedMs": 108
+        },
+        {
+          "name": "curtain-released",
+          "path": "/new-age-leadership/",
+          "startedAt": "2026-09-24T22:48:21.969Z",
+          "completedMs": 1157
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "f9fe4e6b6c6389630d307de3ad7baca15c85f9c9663a97ff05cf12fc3da8ca47",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Build the businessthat can thinkwith you."
+      ],
+      "heading": {
+        "x": 20,
+        "y": 366.28125,
+        "width": 350,
+        "height": 185.75
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 6,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 6,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 371.0625,
+        "width": 390,
+        "height": 523.6875
+      },
+      "footerLink": {
+        "x": 315.828125,
+        "y": 691.0625,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "webkit-390x844-/blog",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/blog",
+      "at": "2026-09-24T22:48:36.397Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/blog/",
+          "startedAt": "2026-09-24T22:48:37.108Z",
+          "completedMs": 49
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/blog/",
+          "startedAt": "2026-09-24T22:48:37.158Z",
+          "completedMs": 4
+        },
+        {
+          "name": "curtain-released",
+          "path": "/blog/",
+          "startedAt": "2026-09-24T22:48:37.162Z",
+          "completedMs": 1043
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "e46958c3c86519b990ab0bd5a8c0cdea4eede59591541f8594ac4e54974aed77",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Ideas you can use."
+      ],
+      "heading": {
+        "x": 20,
+        "y": 135.515625,
+        "width": 308.75,
+        "height": 79.03125
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 8,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 29,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 371.3125,
+        "width": 390,
+        "height": 523.6875
+      },
+      "footerLink": {
+        "x": 315.828125,
+        "y": 691.3125,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "webkit-390x844-/answers",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/answers",
+      "at": "2026-09-24T22:48:39.164Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/answers/",
+          "startedAt": "2026-09-24T22:48:39.784Z",
+          "completedMs": 50
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/answers/",
+          "startedAt": "2026-09-24T22:48:39.835Z",
+          "completedMs": 7
+        },
+        {
+          "name": "curtain-released",
+          "path": "/answers/",
+          "startedAt": "2026-09-24T22:48:39.842Z",
+          "completedMs": 1089
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "f3db230a52d1184bd3a0f2711d03a4114c2453691e0637e74bbd008d1ac68571",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Questions leaders are asking about AI."
+      ],
+      "heading": {
+        "x": 20,
+        "y": 135.515625,
+        "width": 350,
+        "height": 79.03125
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 6,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 33,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 371.359375,
+        "width": 390,
+        "height": 523.6875
+      },
+      "footerLink": {
+        "x": 315.828125,
+        "y": 691.359375,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "webkit-390x844-/faq",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/faq",
+      "at": "2026-09-24T22:48:41.873Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/faq/",
+          "startedAt": "2026-09-24T22:48:42.386Z",
+          "completedMs": 50
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/faq/",
+          "startedAt": "2026-09-24T22:48:42.435Z",
+          "completedMs": 31
+        },
+        {
+          "name": "curtain-released",
+          "path": "/faq/",
+          "startedAt": "2026-09-24T22:48:42.466Z",
+          "completedMs": 1113
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "0deb17dedff572b5255cfdc1a309efcb26b0e9d7927e90ff2d1a4b340dcdb040",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Straight answers."
+      ],
+      "heading": {
+        "x": 20,
+        "y": 135.515625,
+        "width": 332.5,
+        "height": 39.515625
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 8,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 35,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 371.8125,
+        "width": 390,
+        "height": 523.6875
+      },
+      "footerLink": {
+        "x": 315.828125,
+        "y": 691.8125,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "webkit-390x844-/contact",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/contact",
+      "at": "2026-09-24T22:48:44.260Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/contact/",
+          "startedAt": "2026-09-24T22:48:44.767Z",
+          "completedMs": 42
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/contact/",
+          "startedAt": "2026-09-24T22:48:44.809Z",
+          "completedMs": 18
+        },
+        {
+          "name": "curtain-released",
+          "path": "/contact/",
+          "startedAt": "2026-09-24T22:48:44.827Z",
+          "completedMs": 1159
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "5d25e310a837d1beacc4277c0864d3f007797fc8748c9af39112772be8d39b36",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Say hello."
+      ],
+      "heading": {
+        "x": 20,
+        "y": 128,
+        "width": 237.5,
+        "height": 39.515625
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 9,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 37,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 371.328125,
+        "width": 390,
+        "height": 523.6875
+      },
+      "footerLink": {
+        "x": 315.828125,
+        "y": 691.328125,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "contactRecoveryWaitMs": 4,
+      "invalidContact": {
+        "urlPreserved": true,
+        "fields": 3,
+        "errors": [
+          "Add your name.",
+          "Add a valid email address.",
+          "Add a message of at least 10 characters."
+        ],
+        "focusedField": "contact-name"
+      }
+    },
+    {
+      "id": "webkit-390x844-/privacy",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/privacy",
+      "at": "2026-09-24T22:48:46.729Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/privacy/",
+          "startedAt": "2026-09-24T22:48:47.226Z",
+          "completedMs": 42
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/privacy/",
+          "startedAt": "2026-09-24T22:48:47.268Z",
+          "completedMs": 10
+        },
+        {
+          "name": "curtain-released",
+          "path": "/privacy/",
+          "startedAt": "2026-09-24T22:48:47.277Z",
+          "completedMs": 1106
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "06135ac4a4bbf300ce27212ee41cf6c63d72d1d2c92da1aca8edec1f2bcde7ec",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Privacy policy."
+      ],
+      "heading": {
+        "x": 20,
+        "y": 135.515625,
+        "width": 350,
+        "height": 39.515625
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 7,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 32,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 371.25,
+        "width": 390,
+        "height": 523.6875
+      },
+      "footerLink": {
+        "x": 315.828125,
+        "y": 691.25,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "webkit-390x844-/terms",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/terms",
+      "at": "2026-09-24T22:48:49.096Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/terms/",
+          "startedAt": "2026-09-24T22:48:49.578Z",
+          "completedMs": 37
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/terms/",
+          "startedAt": "2026-09-24T22:48:49.615Z",
+          "completedMs": 5
+        },
+        {
+          "name": "curtain-released",
+          "path": "/terms/",
+          "startedAt": "2026-09-24T22:48:49.620Z",
+          "completedMs": 1147
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "6b0a139968bbb89ea131155c4083ddeac22dcb56ef91cd4b70963d66ce51ec3a",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Terms and conditions."
+      ],
+      "heading": {
+        "x": 20,
+        "y": 135.515625,
+        "width": 350,
+        "height": 79.03125
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 7,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 35,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 371.015625,
+        "width": 390,
+        "height": 523.6875
+      },
+      "footerLink": {
+        "x": 315.828125,
+        "y": 691.015625,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "webkit-390x844-/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan",
+      "at": "2026-09-24T22:48:51.459Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan/",
+          "startedAt": "2026-09-24T22:48:52.126Z",
+          "completedMs": 57
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan/",
+          "startedAt": "2026-09-24T22:48:52.183Z",
+          "completedMs": 10
+        },
+        {
+          "name": "curtain-released",
+          "path": "/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan/",
+          "startedAt": "2026-09-24T22:48:52.193Z",
+          "completedMs": 1071
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "d16e642d7c3f80c1adb74edaca5e881fc97f14a2d72075284572a7c9ac24be31",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "The Start Cost: Why Good AI Work Gets Deferred"
+      ],
+      "heading": {
+        "x": 20,
+        "y": 171.078125,
+        "width": 350,
+        "height": 93.5625
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 8,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 4,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 371.484375,
+        "width": 390,
+        "height": 523.6875
+      },
+      "footerLink": {
+        "x": 315.828125,
+        "y": 691.484375,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "webkit-390x844-/blog/four-modes-of-ai-literacy-every-leader-needs",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/blog/four-modes-of-ai-literacy-every-leader-needs",
+      "at": "2026-09-24T22:48:54.206Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/blog/four-modes-of-ai-literacy-every-leader-needs/",
+          "startedAt": "2026-09-24T22:48:54.940Z",
+          "completedMs": 44
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/blog/four-modes-of-ai-literacy-every-leader-needs/",
+          "startedAt": "2026-09-24T22:48:54.984Z",
+          "completedMs": 5
+        },
+        {
+          "name": "curtain-released",
+          "path": "/blog/four-modes-of-ai-literacy-every-leader-needs/",
+          "startedAt": "2026-09-24T22:48:54.989Z",
+          "completedMs": 1067
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "6fea7a40f80dba1d9f0dc1051d4475b9714d9b2e3726b0103d5132357c399fd2",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Four Ways Leaders Can Work Better With AI"
+      ],
+      "heading": {
+        "x": 20,
+        "y": 171.078125,
+        "width": 350,
+        "height": 62.375
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 5,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 6,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 371.203125,
+        "width": 390,
+        "height": 523.6875
+      },
+      "footerLink": {
+        "x": 315.828125,
+        "y": 691.203125,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "webkit-390x844-/blog/why-ai-training-fails-and-building-works",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/blog/why-ai-training-fails-and-building-works",
+      "at": "2026-09-24T22:48:56.991Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/blog/why-ai-training-fails-and-building-works/",
+          "startedAt": "2026-09-24T22:48:57.695Z",
+          "completedMs": 51
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/blog/why-ai-training-fails-and-building-works/",
+          "startedAt": "2026-09-24T22:48:57.745Z",
+          "completedMs": 8
+        },
+        {
+          "name": "curtain-released",
+          "path": "/blog/why-ai-training-fails-and-building-works/",
+          "startedAt": "2026-09-24T22:48:57.753Z",
+          "completedMs": 1091
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "1d03f79987bf8f6fe60bdf5276c66e0749d33bb33f2c824e454e6661b5549b39",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Why Practice Changes More Than a Training Day"
+      ],
+      "heading": {
+        "x": 20,
+        "y": 171.078125,
+        "width": 350,
+        "height": 62.375
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 7,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 28,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 371.703125,
+        "width": 390,
+        "height": 523.6875
+      },
+      "footerLink": {
+        "x": 315.828125,
+        "y": 691.703125,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "webkit-390x844-/blog/shadow-ai-to-strategic-ai-leaders-guide",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/blog/shadow-ai-to-strategic-ai-leaders-guide",
+      "at": "2026-09-24T22:48:59.820Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/blog/shadow-ai-to-strategic-ai-leaders-guide/",
+          "startedAt": "2026-09-24T22:49:00.497Z",
+          "completedMs": 54
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/blog/shadow-ai-to-strategic-ai-leaders-guide/",
+          "startedAt": "2026-09-24T22:49:00.551Z",
+          "completedMs": 18
+        },
+        {
+          "name": "curtain-released",
+          "path": "/blog/shadow-ai-to-strategic-ai-leaders-guide/",
+          "startedAt": "2026-09-24T22:49:00.569Z",
+          "completedMs": 1063
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "b34ee45b05295045942ec9be0b9752e0f86823185469623516997db7ad9538eb",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Find the AI Work Already Happening in Your Team"
+      ],
+      "heading": {
+        "x": 20,
+        "y": 171.078125,
+        "width": 350,
+        "height": 62.375
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 6,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 29,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 371.765625,
+        "width": 390,
+        "height": 523.6875
+      },
+      "footerLink": {
+        "x": 315.828125,
+        "y": 691.765625,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "webkit-390x844-/blog/measuring-ai-work-that-pays-back",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/blog/measuring-ai-work-that-pays-back",
+      "at": "2026-09-24T22:49:02.555Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/blog/measuring-ai-work-that-pays-back/",
+          "startedAt": "2026-09-24T22:49:03.325Z",
+          "completedMs": 38
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/blog/measuring-ai-work-that-pays-back/",
+          "startedAt": "2026-09-24T22:49:03.362Z",
+          "completedMs": 2
+        },
+        {
+          "name": "curtain-released",
+          "path": "/blog/measuring-ai-work-that-pays-back/",
+          "startedAt": "2026-09-24T22:49:03.365Z",
+          "completedMs": 1082
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "08fad037a5961a17d44f5c72254e454f5ec6b789f986247c8c84bffdc7e9e21d",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "How to Tell Whether AI Work Is Paying Back"
+      ],
+      "heading": {
+        "x": 20,
+        "y": 171.078125,
+        "width": 350,
+        "height": 62.375
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 7,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 26,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 371.84375,
+        "width": 390,
+        "height": 523.6875
+      },
+      "footerLink": {
+        "x": 315.828125,
+        "y": 691.84375,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "webkit-390x844-/blog/builder-vs-consumer-mindset-in-ai",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/blog/builder-vs-consumer-mindset-in-ai",
+      "at": "2026-09-24T22:49:05.482Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/blog/builder-vs-consumer-mindset-in-ai/",
+          "startedAt": "2026-09-24T22:49:06.164Z",
+          "completedMs": 35
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/blog/builder-vs-consumer-mindset-in-ai/",
+          "startedAt": "2026-09-24T22:49:06.199Z",
+          "completedMs": 11
+        },
+        {
+          "name": "curtain-released",
+          "path": "/blog/builder-vs-consumer-mindset-in-ai/",
+          "startedAt": "2026-09-24T22:49:06.210Z",
+          "completedMs": 1089
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "30721320b4fa2342808b7dd19751cae9627a8f055151cfcce9816bc262a830b4",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "From One-Off AI Help to Systems You Can Reuse"
+      ],
+      "heading": {
+        "x": 20,
+        "y": 171.078125,
+        "width": 350,
+        "height": 62.375
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 8,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 32,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 371.796875,
+        "width": 390,
+        "height": 523.6875
+      },
+      "footerLink": {
+        "x": 315.828125,
+        "y": 691.796875,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "webkit-390x844-/blog/ai-vendor-theatre-how-to-spot-and-avoid-it",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/blog/ai-vendor-theatre-how-to-spot-and-avoid-it",
+      "at": "2026-09-24T22:49:08.229Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/blog/ai-vendor-theatre-how-to-spot-and-avoid-it/",
+          "startedAt": "2026-09-24T22:49:08.933Z",
+          "completedMs": 52
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/blog/ai-vendor-theatre-how-to-spot-and-avoid-it/",
+          "startedAt": "2026-09-24T22:49:08.984Z",
+          "completedMs": 8
+        },
+        {
+          "name": "curtain-released",
+          "path": "/blog/ai-vendor-theatre-how-to-spot-and-avoid-it/",
+          "startedAt": "2026-09-24T22:49:08.992Z",
+          "completedMs": 1079
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "d27fe5f189a7704338b33fc64f4004b1ab33e603c7fa429c8b1812a60f7acb38",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "How to Test an AI Vendor Before You Commit"
+      ],
+      "heading": {
+        "x": 20,
+        "y": 171.078125,
+        "width": 350,
+        "height": 62.375
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 7,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 24,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 371.21875,
+        "width": 390,
+        "height": 523.6875
+      },
+      "footerLink": {
+        "x": 315.828125,
+        "y": 691.21875,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "webkit-390x844-/blog/a-useful-first-30-days-building-with-ai",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/blog/a-useful-first-30-days-building-with-ai",
+      "at": "2026-09-24T22:49:10.985Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/blog/a-useful-first-30-days-building-with-ai/",
+          "startedAt": "2026-09-24T22:49:11.628Z",
+          "completedMs": 39
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/blog/a-useful-first-30-days-building-with-ai/",
+          "startedAt": "2026-09-24T22:49:11.667Z",
+          "completedMs": 10
+        },
+        {
+          "name": "curtain-released",
+          "path": "/blog/a-useful-first-30-days-building-with-ai/",
+          "startedAt": "2026-09-24T22:49:11.676Z",
+          "completedMs": 1086
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "031eae5f772574eb79de46ac0d7ed3c9bd181ae188599abe85d4dabe6bebc885",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "A Useful First 30 Days of Building With AI"
+      ],
+      "heading": {
+        "x": 20,
+        "y": 171.078125,
+        "width": 350,
+        "height": 62.375
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 7,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 24,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 371.734375,
+        "width": 390,
+        "height": 523.6875
+      },
+      "footerLink": {
+        "x": 315.828125,
+        "y": 691.734375,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "webkit-390x844-/blog/ai-literacy-for-executive-teams-lab-model",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/blog/ai-literacy-for-executive-teams-lab-model",
+      "at": "2026-09-24T22:49:13.811Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/blog/ai-literacy-for-executive-teams-lab-model/",
+          "startedAt": "2026-09-24T22:49:14.464Z",
+          "completedMs": 44
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/blog/ai-literacy-for-executive-teams-lab-model/",
+          "startedAt": "2026-09-24T22:49:14.508Z",
+          "completedMs": 4
+        },
+        {
+          "name": "curtain-released",
+          "path": "/blog/ai-literacy-for-executive-teams-lab-model/",
+          "startedAt": "2026-09-24T22:49:14.513Z",
+          "completedMs": 1089
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "0f1009f6ff74986c27f9a56314cc214ab7a74c1fce3860feb741ebce94cbb6b3",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "How an Executive Team Can Learn AI Together"
+      ],
+      "heading": {
+        "x": 20,
+        "y": 171.078125,
+        "width": 350,
+        "height": 62.375
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 6,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 24,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 371.09375,
+        "width": 390,
+        "height": 523.6875
+      },
+      "footerLink": {
+        "x": 315.828125,
+        "y": 691.09375,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "webkit-390x844-/blog/how-to-increase-creative-leadership-with-ai",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/blog/how-to-increase-creative-leadership-with-ai",
+      "at": "2026-09-24T22:49:16.532Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/blog/how-to-increase-creative-leadership-with-ai/",
+          "startedAt": "2026-09-24T22:49:17.249Z",
+          "completedMs": 53
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/blog/how-to-increase-creative-leadership-with-ai/",
+          "startedAt": "2026-09-24T22:49:17.301Z",
+          "completedMs": 5
+        },
+        {
+          "name": "curtain-released",
+          "path": "/blog/how-to-increase-creative-leadership-with-ai/",
+          "startedAt": "2026-09-24T22:49:17.306Z",
+          "completedMs": 1043
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "7fef743949c521da9c6acc6729538c76a25c38c4138c22b7ff1c8e8b3388c1f5",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Use AI to See More Without Losing Your Taste"
+      ],
+      "heading": {
+        "x": 20,
+        "y": 171.078125,
+        "width": 350,
+        "height": 93.5625
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 7,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 22,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 371.65625,
+        "width": 390,
+        "height": 523.6875
+      },
+      "footerLink": {
+        "x": 315.828125,
+        "y": 691.65625,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "webkit-390x844-/blog/how-to-control-your-use-of-ai-as-a-leader",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/blog/how-to-control-your-use-of-ai-as-a-leader",
+      "at": "2026-09-24T22:49:19.348Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/blog/how-to-control-your-use-of-ai-as-a-leader/",
+          "startedAt": "2026-09-24T22:49:20.079Z",
+          "completedMs": 44
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/blog/how-to-control-your-use-of-ai-as-a-leader/",
+          "startedAt": "2026-09-24T22:49:20.124Z",
+          "completedMs": 4
+        },
+        {
+          "name": "curtain-released",
+          "path": "/blog/how-to-control-your-use-of-ai-as-a-leader/",
+          "startedAt": "2026-09-24T22:49:20.128Z",
+          "completedMs": 1049
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "36f5c8cfb8cb2b30f725dd9d35a3e48807bb54e4cdcdd1b68afde2ae26c8edb7",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Put AI Inside Clear Business Rules"
+      ],
+      "heading": {
+        "x": 20,
+        "y": 171.078125,
+        "width": 350,
+        "height": 62.375
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 8,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 29,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 371.46875,
+        "width": 390,
+        "height": 523.6875
+      },
+      "footerLink": {
+        "x": 315.828125,
+        "y": 691.46875,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "webkit-390x844-/answers/adtech-compete-ai-targeting-models-defensibility-audit",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/answers/adtech-compete-ai-targeting-models-defensibility-audit",
+      "at": "2026-09-24T22:49:22.117Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/answers/adtech-compete-ai-targeting-models-defensibility-audit/",
+          "startedAt": "2026-09-24T22:49:22.806Z",
+          "completedMs": 49
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/answers/adtech-compete-ai-targeting-models-defensibility-audit/",
+          "startedAt": "2026-09-24T22:49:22.855Z",
+          "completedMs": 9
+        },
+        {
+          "name": "curtain-released",
+          "path": "/answers/adtech-compete-ai-targeting-models-defensibility-audit/",
+          "startedAt": "2026-09-24T22:49:22.864Z",
+          "completedMs": 1042
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "1ee4547152b74f583b8a20a554a8feb89f963c97917fe2c1dbd08d9fa9f5b228",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Adtech Can't Compete on the Model Anymore. Here's What's Left to Defend"
+      ],
+      "heading": {
+        "x": 20,
+        "y": 171.078125,
+        "width": 350,
+        "height": 87.328125
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 8,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 30,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 371.640625,
+        "width": 390,
+        "height": 523.6875
+      },
+      "footerLink": {
+        "x": 315.828125,
+        "y": 691.640625,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "webkit-390x844-/answers/ai-decision-tool-trustworthy-leadership-team",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/answers/ai-decision-tool-trustworthy-leadership-team",
+      "at": "2026-09-24T22:49:24.853Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/answers/ai-decision-tool-trustworthy-leadership-team/",
+          "startedAt": "2026-09-24T22:49:25.548Z",
+          "completedMs": 45
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/answers/ai-decision-tool-trustworthy-leadership-team/",
+          "startedAt": "2026-09-24T22:49:25.594Z",
+          "completedMs": 4
+        },
+        {
+          "name": "curtain-released",
+          "path": "/answers/ai-decision-tool-trustworthy-leadership-team/",
+          "startedAt": "2026-09-24T22:49:25.597Z",
+          "completedMs": 1049
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "edb0b3cc293e77cd0df8603b3d1e0ffad0aaec847925fffbd3eeb39fb33c1c0a",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "An AI decision tool earns trust by holding your judgement, not by passing an audit"
+      ],
+      "heading": {
+        "x": 20,
+        "y": 171.078125,
+        "width": 350,
+        "height": 116.4375
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 13,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 12,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 371.53125,
+        "width": 390,
+        "height": 523.6875
+      },
+      "footerLink": {
+        "x": 315.828125,
+        "y": 691.53125,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "webkit-390x844-/answers/ai-center-of-excellence-without-engineering-budget",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/answers/ai-center-of-excellence-without-engineering-budget",
+      "at": "2026-09-24T22:49:27.599Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/answers/ai-center-of-excellence-without-engineering-budget/",
+          "startedAt": "2026-09-24T22:49:28.303Z",
+          "completedMs": 41
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/answers/ai-center-of-excellence-without-engineering-budget/",
+          "startedAt": "2026-09-24T22:49:28.344Z",
+          "completedMs": 4
+        },
+        {
+          "name": "curtain-released",
+          "path": "/answers/ai-center-of-excellence-without-engineering-budget/",
+          "startedAt": "2026-09-24T22:49:28.348Z",
+          "completedMs": 1052
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "e86787c885cdf1b6f575df67e72ba9aed6560af71c313d3bd68d44525701d02c",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "An AI Center of Excellence Without an Engineering Budget Is a Governance Function, Not a Team"
+      ],
+      "heading": {
+        "x": 20,
+        "y": 171.078125,
+        "width": 350,
+        "height": 116.4375
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 7,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 34,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 371.6875,
+        "width": 390,
+        "height": 523.6875
+      },
+      "footerLink": {
+        "x": 315.828125,
+        "y": 691.6875,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "webkit-390x844-/answers/total-addressable-revenue-ai-products-publishing",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/answers/total-addressable-revenue-ai-products-publishing",
+      "at": "2026-09-24T22:49:30.456Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/answers/total-addressable-revenue-ai-products-publishing/",
+          "startedAt": "2026-09-24T22:49:31.152Z",
+          "completedMs": 46
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/answers/total-addressable-revenue-ai-products-publishing/",
+          "startedAt": "2026-09-24T22:49:31.198Z",
+          "completedMs": 8
+        },
+        {
+          "name": "curtain-released",
+          "path": "/answers/total-addressable-revenue-ai-products-publishing/",
+          "startedAt": "2026-09-24T22:49:31.207Z",
+          "completedMs": 1043
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "a2f1b52206af890181cede9f0d4784ee999376972f22763d98f9230a926151d0",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Total Addressable Revenue for AI Products in Publishing: Calculate It From Your P&L, Not a Market Report"
+      ],
+      "heading": {
+        "x": 20,
+        "y": 171.078125,
+        "width": 350,
+        "height": 145.546875
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 8,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 32,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 371.984375,
+        "width": 390,
+        "height": 523.6875
+      },
+      "footerLink": {
+        "x": 315.828125,
+        "y": 691.984375,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "webkit-1440x900-/",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/",
+      "at": "2026-09-24T22:50:03.287Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/",
+          "startedAt": "2026-09-24T22:50:04.061Z",
+          "completedMs": 112
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/",
+          "startedAt": "2026-09-24T22:50:04.172Z",
+          "completedMs": 10
+        },
+        {
+          "name": "curtain-released",
+          "path": "/",
+          "startedAt": "2026-09-24T22:50:04.182Z",
+          "completedMs": 10
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "2db9ce8cba2770bc725766f7cd4e47768364bddc19f3c7671c51b18459f62882",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Build the business that can think with you."
+      ],
+      "heading": {
+        "x": 63.359375,
+        "y": 266.984375,
+        "width": 428.265625,
+        "height": 262.0625
+      },
+      "fixedHeaderBottom": 66,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 167,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 103,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 642.9287109375,
+        "width": 1440,
+        "height": 259.359375
+      },
+      "footerLink": {
+        "x": 126.546875,
+        "y": 798.306640625,
+        "width": 36.484375,
+        "height": 32
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "webkit-1440x900-/ai-brain",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/ai-brain",
+      "at": "2026-09-24T22:50:05.740Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/ai-brain/",
+          "startedAt": "2026-09-24T22:50:06.652Z",
+          "completedMs": 58
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/ai-brain/",
+          "startedAt": "2026-09-24T22:50:06.710Z",
+          "completedMs": 11
+        },
+        {
+          "name": "curtain-released",
+          "path": "/ai-brain/",
+          "startedAt": "2026-09-24T22:50:06.721Z",
+          "completedMs": 1727
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "c7854dee20a82fa2d42e360862ce250bb5896fb059fdcb5aa5fea28ffa74b5d5",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "A Brain that learns how you decide."
+      ],
+      "heading": {
+        "x": 57.59375,
+        "y": 227.4375,
+        "width": 557.28125,
+        "height": 255
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 7,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 384,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 617,
+        "width": 1440,
+        "height": 282.75
+      },
+      "footerLink": {
+        "x": 281.25,
+        "y": 763,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "webkit-1440x900-/ai-gtm",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/ai-gtm",
+      "at": "2026-09-24T22:50:21.578Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/ai-gtm/",
+          "startedAt": "2026-09-24T22:50:22.710Z",
+          "completedMs": 48
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/ai-gtm/",
+          "startedAt": "2026-09-24T22:50:22.757Z",
+          "completedMs": 4
+        },
+        {
+          "name": "curtain-released",
+          "path": "/ai-gtm/",
+          "startedAt": "2026-09-24T22:50:22.761Z",
+          "completedMs": 1784
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "e01d37eb6353fb981536c5285773cfe13c21f7d20c6cc6e3fd83350e8fd9408f",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "See what your response changes."
+      ],
+      "heading": {
+        "x": 40,
+        "y": 243.40625,
+        "width": 740,
+        "height": 158.375
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 47,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 6,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 617.65625,
+        "width": 1440,
+        "height": 282.75
+      },
+      "footerLink": {
+        "x": 263.640625,
+        "y": 763.65625,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "webkit-1440x900-/case-studies",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/case-studies",
+      "at": "2026-09-24T22:50:39.099Z",
+      "failures": [
+        "page.waitForFunction: Timeout 12000ms exceeded."
+      ],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/case-studies/",
+          "startedAt": "2026-09-24T22:50:39.982Z",
+          "completedMs": 36
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/case-studies/",
+          "startedAt": "2026-09-24T22:50:40.018Z",
+          "completedMs": 8
+        },
+        {
+          "name": "curtain-released",
+          "path": "/case-studies/",
+          "startedAt": "2026-09-24T22:50:40.026Z"
+        }
+      ],
+      "pendingRequests": [
+        {
+          "path": "/assets/opportunities-resolve-loop-r01-20s-720p-web-sealed-S9fA_MZl.mp4",
+          "type": "other"
+        }
+      ],
+      "status": 200,
+      "documentSha256": "df8e7d98dcf37d5dc65483689695b11353518b2248e05c8a7c3a52314775ea40",
+      "screenshotFailure": "page.screenshot: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - taking page screenshot\u001b[22m\n"
+    },
+    {
+      "id": "webkit-1440x900-/new-age-leadership",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/new-age-leadership",
+      "at": "2026-09-24T22:50:59.908Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/new-age-leadership/",
+          "startedAt": "2026-09-24T22:51:01.004Z",
+          "completedMs": 93
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/new-age-leadership/",
+          "startedAt": "2026-09-24T22:51:01.097Z",
+          "completedMs": 7
+        },
+        {
+          "name": "curtain-released",
+          "path": "/new-age-leadership/",
+          "startedAt": "2026-09-24T22:51:01.105Z",
+          "completedMs": 1068
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "f9fe4e6b6c6389630d307de3ad7baca15c85f9c9663a97ff05cf12fc3da8ca47",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Build the businessthat can thinkwith you."
+      ],
+      "heading": {
+        "x": 63.359375,
+        "y": 362.953125,
+        "width": 1060,
+        "height": 301.078125
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 5,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 4,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 543,
+        "width": 1440,
+        "height": 356.75
+      },
+      "footerLink": {
+        "x": 966.21875,
+        "y": 763,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "webkit-1440x900-/blog",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/blog",
+      "at": "2026-09-24T22:51:16.674Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/blog/",
+          "startedAt": "2026-09-24T22:51:17.404Z",
+          "completedMs": 33
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/blog/",
+          "startedAt": "2026-09-24T22:51:17.437Z",
+          "completedMs": 4
+        },
+        {
+          "name": "curtain-released",
+          "path": "/blog/",
+          "startedAt": "2026-09-24T22:51:17.442Z",
+          "completedMs": 1152
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "e46958c3c86519b990ab0bd5a8c0cdea4eede59591541f8594ac4e54974aed77",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Ideas you can use."
+      ],
+      "heading": {
+        "x": 100,
+        "y": 140,
+        "width": 503.75,
+        "height": 128.9375
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 13,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 115,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 543.4375,
+        "width": 1440,
+        "height": 356.75
+      },
+      "footerLink": {
+        "x": 1002.84375,
+        "y": 763.4375,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "webkit-1440x900-/answers",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/answers",
+      "at": "2026-09-24T22:51:20.505Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/answers/",
+          "startedAt": "2026-09-24T22:51:21.127Z",
+          "completedMs": 58
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/answers/",
+          "startedAt": "2026-09-24T22:51:21.184Z",
+          "completedMs": 8
+        },
+        {
+          "name": "curtain-released",
+          "path": "/answers/",
+          "startedAt": "2026-09-24T22:51:21.193Z",
+          "completedMs": 1084
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "f3db230a52d1184bd3a0f2711d03a4114c2453691e0637e74bbd008d1ac68571",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Questions leaders are asking about AI."
+      ],
+      "heading": {
+        "x": 100,
+        "y": 140,
+        "width": 620,
+        "height": 128.9375
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 6,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 79,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 543.28125,
+        "width": 1440,
+        "height": 356.75
+      },
+      "footerLink": {
+        "x": 1002.84375,
+        "y": 763.28125,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "webkit-1440x900-/faq",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/faq",
+      "at": "2026-09-24T22:51:24.090Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/faq/",
+          "startedAt": "2026-09-24T22:51:24.608Z",
+          "completedMs": 52
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/faq/",
+          "startedAt": "2026-09-24T22:51:24.660Z",
+          "completedMs": 2
+        },
+        {
+          "name": "curtain-released",
+          "path": "/faq/",
+          "startedAt": "2026-09-24T22:51:24.662Z",
+          "completedMs": 1164
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "0deb17dedff572b5255cfdc1a309efcb26b0e9d7927e90ff2d1a4b340dcdb040",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Straight answers."
+      ],
+      "heading": {
+        "x": 100,
+        "y": 140,
+        "width": 542.5,
+        "height": 64.46875
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 10,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 91,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 543.515625,
+        "width": 1440,
+        "height": 407.9375
+      },
+      "footerLink": {
+        "x": 1002.84375,
+        "y": 763.515625,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "webkit-1440x900-/contact",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/contact",
+      "at": "2026-09-24T22:51:26.572Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/contact/",
+          "startedAt": "2026-09-24T22:51:27.040Z",
+          "completedMs": 49
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/contact/",
+          "startedAt": "2026-09-24T22:51:27.088Z",
+          "completedMs": 8
+        },
+        {
+          "name": "curtain-released",
+          "path": "/contact/",
+          "startedAt": "2026-09-24T22:51:27.096Z",
+          "completedMs": 1194
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "5d25e310a837d1beacc4277c0864d3f007797fc8748c9af39112772be8d39b36",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Say hello."
+      ],
+      "heading": {
+        "x": 100,
+        "y": 148.890625,
+        "width": 387.5,
+        "height": 64.46875
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 9,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 93,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 543,
+        "width": 1440,
+        "height": 356.75
+      },
+      "footerLink": {
+        "x": 1002.84375,
+        "y": 763,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "contactRecoveryWaitMs": 10,
+      "invalidContact": {
+        "urlPreserved": true,
+        "fields": 3,
+        "errors": [
+          "Add your name.",
+          "Add a valid email address.",
+          "Add a message of at least 10 characters."
+        ],
+        "focusedField": "contact-name"
+      }
+    },
+    {
+      "id": "webkit-1440x900-/privacy",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/privacy",
+      "at": "2026-09-24T22:51:29.187Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/privacy/",
+          "startedAt": "2026-09-24T22:51:29.699Z",
+          "completedMs": 50
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/privacy/",
+          "startedAt": "2026-09-24T22:51:29.749Z",
+          "completedMs": 3
+        },
+        {
+          "name": "curtain-released",
+          "path": "/privacy/",
+          "startedAt": "2026-09-24T22:51:29.752Z",
+          "completedMs": 1158
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "06135ac4a4bbf300ce27212ee41cf6c63d72d1d2c92da1aca8edec1f2bcde7ec",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Privacy policy."
+      ],
+      "heading": {
+        "x": 100,
+        "y": 140,
+        "width": 581.25,
+        "height": 64.46875
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 8,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 87,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 542.796875,
+        "width": 1440,
+        "height": 407.9375
+      },
+      "footerLink": {
+        "x": 1002.84375,
+        "y": 762.796875,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "webkit-1440x900-/terms",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/terms",
+      "at": "2026-09-24T22:51:31.707Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/terms/",
+          "startedAt": "2026-09-24T22:51:32.216Z",
+          "completedMs": 76
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/terms/",
+          "startedAt": "2026-09-24T22:51:32.292Z",
+          "completedMs": 32
+        },
+        {
+          "name": "curtain-released",
+          "path": "/terms/",
+          "startedAt": "2026-09-24T22:51:32.324Z",
+          "completedMs": 1109
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "6b0a139968bbb89ea131155c4083ddeac22dcb56ef91cd4b70963d66ce51ec3a",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Terms and conditions."
+      ],
+      "heading": {
+        "x": 100,
+        "y": 140,
+        "width": 581.25,
+        "height": 128.9375
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 15,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 8,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 543.328125,
+        "width": 1440,
+        "height": 407.9375
+      },
+      "footerLink": {
+        "x": 1002.84375,
+        "y": 763.328125,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "webkit-1440x900-/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan",
+      "at": "2026-09-24T22:51:34.280Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan/",
+          "startedAt": "2026-09-24T22:51:35.033Z",
+          "completedMs": 50
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan/",
+          "startedAt": "2026-09-24T22:51:35.084Z",
+          "completedMs": 5
+        },
+        {
+          "name": "curtain-released",
+          "path": "/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan/",
+          "startedAt": "2026-09-24T22:51:35.089Z",
+          "completedMs": 1077
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "d16e642d7c3f80c1adb74edaca5e881fc97f14a2d72075284572a7c9ac24be31",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "The Start Cost: Why Good AI Work Gets Deferred"
+      ],
+      "heading": {
+        "x": 310,
+        "y": 175,
+        "width": 820,
+        "height": 108.15625
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 9,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 92,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 543.046875,
+        "width": 1440,
+        "height": 356.75
+      },
+      "footerLink": {
+        "x": 1002.84375,
+        "y": 763.046875,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "webkit-1440x900-/blog/four-modes-of-ai-literacy-every-leader-needs",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/blog/four-modes-of-ai-literacy-every-leader-needs",
+      "at": "2026-09-24T22:51:38.041Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/blog/four-modes-of-ai-literacy-every-leader-needs/",
+          "startedAt": "2026-09-24T22:51:38.759Z",
+          "completedMs": 56
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/blog/four-modes-of-ai-literacy-every-leader-needs/",
+          "startedAt": "2026-09-24T22:51:38.815Z",
+          "completedMs": 4
+        },
+        {
+          "name": "curtain-released",
+          "path": "/blog/four-modes-of-ai-literacy-every-leader-needs/",
+          "startedAt": "2026-09-24T22:51:38.819Z",
+          "completedMs": 1082
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "6fea7a40f80dba1d9f0dc1051d4475b9714d9b2e3726b0103d5132357c399fd2",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Four Ways Leaders Can Work Better With AI"
+      ],
+      "heading": {
+        "x": 310,
+        "y": 175,
+        "width": 820,
+        "height": 108.15625
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 7,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 84,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 543.15625,
+        "width": 1440,
+        "height": 356.75
+      },
+      "footerLink": {
+        "x": 1002.84375,
+        "y": 763.15625,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "webkit-1440x900-/blog/why-ai-training-fails-and-building-works",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/blog/why-ai-training-fails-and-building-works",
+      "at": "2026-09-24T22:51:41.706Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/blog/why-ai-training-fails-and-building-works/",
+          "startedAt": "2026-09-24T22:51:42.381Z",
+          "completedMs": 47
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/blog/why-ai-training-fails-and-building-works/",
+          "startedAt": "2026-09-24T22:51:42.428Z",
+          "completedMs": 10
+        },
+        {
+          "name": "curtain-released",
+          "path": "/blog/why-ai-training-fails-and-building-works/",
+          "startedAt": "2026-09-24T22:51:42.438Z",
+          "completedMs": 1085
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "1d03f79987bf8f6fe60bdf5276c66e0749d33bb33f2c824e454e6661b5549b39",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Why Practice Changes More Than a Training Day"
+      ],
+      "heading": {
+        "x": 310,
+        "y": 175,
+        "width": 820,
+        "height": 108.15625
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 7,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 10,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 542.984375,
+        "width": 1440,
+        "height": 356.75
+      },
+      "footerLink": {
+        "x": 1002.84375,
+        "y": 762.984375,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "webkit-1440x900-/blog/shadow-ai-to-strategic-ai-leaders-guide",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/blog/shadow-ai-to-strategic-ai-leaders-guide",
+      "at": "2026-09-24T22:51:45.385Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/blog/shadow-ai-to-strategic-ai-leaders-guide/",
+          "startedAt": "2026-09-24T22:51:46.061Z",
+          "completedMs": 60
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/blog/shadow-ai-to-strategic-ai-leaders-guide/",
+          "startedAt": "2026-09-24T22:51:46.121Z",
+          "completedMs": 19
+        },
+        {
+          "name": "curtain-released",
+          "path": "/blog/shadow-ai-to-strategic-ai-leaders-guide/",
+          "startedAt": "2026-09-24T22:51:46.140Z",
+          "completedMs": 1073
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "b34ee45b05295045942ec9be0b9752e0f86823185469623516997db7ad9538eb",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Find the AI Work Already Happening in Your Team"
+      ],
+      "heading": {
+        "x": 310,
+        "y": 175,
+        "width": 820,
+        "height": 108.15625
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 7,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 5,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 543.671875,
+        "width": 1440,
+        "height": 356.75
+      },
+      "footerLink": {
+        "x": 1002.84375,
+        "y": 763.671875,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "webkit-1440x900-/blog/measuring-ai-work-that-pays-back",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/blog/measuring-ai-work-that-pays-back",
+      "at": "2026-09-24T22:51:49.163Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/blog/measuring-ai-work-that-pays-back/",
+          "startedAt": "2026-09-24T22:51:49.903Z",
+          "completedMs": 42
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/blog/measuring-ai-work-that-pays-back/",
+          "startedAt": "2026-09-24T22:51:49.945Z",
+          "completedMs": 8
+        },
+        {
+          "name": "curtain-released",
+          "path": "/blog/measuring-ai-work-that-pays-back/",
+          "startedAt": "2026-09-24T22:51:49.953Z",
+          "completedMs": 1052
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "08fad037a5961a17d44f5c72254e454f5ec6b789f986247c8c84bffdc7e9e21d",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "How to Tell Whether AI Work Is Paying Back"
+      ],
+      "heading": {
+        "x": 310,
+        "y": 175,
+        "width": 820,
+        "height": 108.15625
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 8,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 86,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 542.984375,
+        "width": 1440,
+        "height": 356.75
+      },
+      "footerLink": {
+        "x": 1002.84375,
+        "y": 762.984375,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "webkit-1440x900-/blog/builder-vs-consumer-mindset-in-ai",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/blog/builder-vs-consumer-mindset-in-ai",
+      "at": "2026-09-24T22:51:52.861Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/blog/builder-vs-consumer-mindset-in-ai/",
+          "startedAt": "2026-09-24T22:51:53.649Z",
+          "completedMs": 49
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/blog/builder-vs-consumer-mindset-in-ai/",
+          "startedAt": "2026-09-24T22:51:53.698Z",
+          "completedMs": 21
+        },
+        {
+          "name": "curtain-released",
+          "path": "/blog/builder-vs-consumer-mindset-in-ai/",
+          "startedAt": "2026-09-24T22:51:53.719Z",
+          "completedMs": 1067
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "30721320b4fa2342808b7dd19751cae9627a8f055151cfcce9816bc262a830b4",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "From One-Off AI Help to Systems You Can Reuse"
+      ],
+      "heading": {
+        "x": 310,
+        "y": 175,
+        "width": 820,
+        "height": 108.15625
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 9,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 87,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 543.28125,
+        "width": 1440,
+        "height": 356.75
+      },
+      "footerLink": {
+        "x": 1002.84375,
+        "y": 763.28125,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "webkit-1440x900-/blog/ai-vendor-theatre-how-to-spot-and-avoid-it",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/blog/ai-vendor-theatre-how-to-spot-and-avoid-it",
+      "at": "2026-09-24T22:51:56.633Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/blog/ai-vendor-theatre-how-to-spot-and-avoid-it/",
+          "startedAt": "2026-09-24T22:51:57.373Z",
+          "completedMs": 83
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/blog/ai-vendor-theatre-how-to-spot-and-avoid-it/",
+          "startedAt": "2026-09-24T22:51:57.456Z",
+          "completedMs": 3
+        },
+        {
+          "name": "curtain-released",
+          "path": "/blog/ai-vendor-theatre-how-to-spot-and-avoid-it/",
+          "startedAt": "2026-09-24T22:51:57.459Z",
+          "completedMs": 1001
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "d27fe5f189a7704338b33fc64f4004b1ab33e603c7fa429c8b1812a60f7acb38",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "How to Test an AI Vendor Before You Commit"
+      ],
+      "heading": {
+        "x": 310,
+        "y": 175,
+        "width": 820,
+        "height": 108.15625
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 8,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 3,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 543.328125,
+        "width": 1440,
+        "height": 356.75
+      },
+      "footerLink": {
+        "x": 1002.84375,
+        "y": 763.328125,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "webkit-1440x900-/blog/a-useful-first-30-days-building-with-ai",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/blog/a-useful-first-30-days-building-with-ai",
+      "at": "2026-09-24T22:52:00.382Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/blog/a-useful-first-30-days-building-with-ai/",
+          "startedAt": "2026-09-24T22:52:01.111Z",
+          "completedMs": 45
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/blog/a-useful-first-30-days-building-with-ai/",
+          "startedAt": "2026-09-24T22:52:01.156Z",
+          "completedMs": 5
+        },
+        {
+          "name": "curtain-released",
+          "path": "/blog/a-useful-first-30-days-building-with-ai/",
+          "startedAt": "2026-09-24T22:52:01.161Z",
+          "completedMs": 1070
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "031eae5f772574eb79de46ac0d7ed3c9bd181ae188599abe85d4dabe6bebc885",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "A Useful First 30 Days of Building With AI"
+      ],
+      "heading": {
+        "x": 310,
+        "y": 175,
+        "width": 820,
+        "height": 108.15625
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 7,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 79,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 543.40625,
+        "width": 1440,
+        "height": 356.75
+      },
+      "footerLink": {
+        "x": 1002.84375,
+        "y": 763.40625,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "webkit-1440x900-/blog/ai-literacy-for-executive-teams-lab-model",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/blog/ai-literacy-for-executive-teams-lab-model",
+      "at": "2026-09-24T22:52:04.161Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/blog/ai-literacy-for-executive-teams-lab-model/",
+          "startedAt": "2026-09-24T22:52:04.849Z",
+          "completedMs": 68
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/blog/ai-literacy-for-executive-teams-lab-model/",
+          "startedAt": "2026-09-24T22:52:04.917Z",
+          "completedMs": 5
+        },
+        {
+          "name": "curtain-released",
+          "path": "/blog/ai-literacy-for-executive-teams-lab-model/",
+          "startedAt": "2026-09-24T22:52:04.923Z",
+          "completedMs": 1072
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "0f1009f6ff74986c27f9a56314cc214ab7a74c1fce3860feb741ebce94cbb6b3",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "How an Executive Team Can Learn AI Together"
+      ],
+      "heading": {
+        "x": 310,
+        "y": 175,
+        "width": 820,
+        "height": 108.15625
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 8,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 87,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 543.203125,
+        "width": 1440,
+        "height": 356.75
+      },
+      "footerLink": {
+        "x": 1002.84375,
+        "y": 763.203125,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "webkit-1440x900-/blog/how-to-increase-creative-leadership-with-ai",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/blog/how-to-increase-creative-leadership-with-ai",
+      "at": "2026-09-24T22:52:07.884Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/blog/how-to-increase-creative-leadership-with-ai/",
+          "startedAt": "2026-09-24T22:52:08.602Z",
+          "completedMs": 51
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/blog/how-to-increase-creative-leadership-with-ai/",
+          "startedAt": "2026-09-24T22:52:08.653Z",
+          "completedMs": 4
+        },
+        {
+          "name": "curtain-released",
+          "path": "/blog/how-to-increase-creative-leadership-with-ai/",
+          "startedAt": "2026-09-24T22:52:08.658Z",
+          "completedMs": 1083
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "7fef743949c521da9c6acc6729538c76a25c38c4138c22b7ff1c8e8b3388c1f5",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Use AI to See More Without Losing Your Taste"
+      ],
+      "heading": {
+        "x": 310,
+        "y": 175,
+        "width": 820,
+        "height": 108.15625
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 8,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 82,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 543.140625,
+        "width": 1440,
+        "height": 356.75
+      },
+      "footerLink": {
+        "x": 1002.84375,
+        "y": 763.140625,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "webkit-1440x900-/blog/how-to-control-your-use-of-ai-as-a-leader",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/blog/how-to-control-your-use-of-ai-as-a-leader",
+      "at": "2026-09-24T22:52:11.581Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/blog/how-to-control-your-use-of-ai-as-a-leader/",
+          "startedAt": "2026-09-24T22:52:12.318Z",
+          "completedMs": 52
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/blog/how-to-control-your-use-of-ai-as-a-leader/",
+          "startedAt": "2026-09-24T22:52:12.370Z",
+          "completedMs": 6
+        },
+        {
+          "name": "curtain-released",
+          "path": "/blog/how-to-control-your-use-of-ai-as-a-leader/",
+          "startedAt": "2026-09-24T22:52:12.376Z",
+          "completedMs": 1093
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "36f5c8cfb8cb2b30f725dd9d35a3e48807bb54e4cdcdd1b68afde2ae26c8edb7",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Put AI Inside Clear Business Rules"
+      ],
+      "heading": {
+        "x": 310,
+        "y": 175,
+        "width": 820,
+        "height": 54.078125
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 6,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 6,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 543.234375,
+        "width": 1440,
+        "height": 356.75
+      },
+      "footerLink": {
+        "x": 1002.84375,
+        "y": 763.234375,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "webkit-1440x900-/answers/adtech-compete-ai-targeting-models-defensibility-audit",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/answers/adtech-compete-ai-targeting-models-defensibility-audit",
+      "at": "2026-09-24T22:52:15.410Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/answers/adtech-compete-ai-targeting-models-defensibility-audit/",
+          "startedAt": "2026-09-24T22:52:16.155Z",
+          "completedMs": 47
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/answers/adtech-compete-ai-targeting-models-defensibility-audit/",
+          "startedAt": "2026-09-24T22:52:16.202Z",
+          "completedMs": 6
+        },
+        {
+          "name": "curtain-released",
+          "path": "/answers/adtech-compete-ai-targeting-models-defensibility-audit/",
+          "startedAt": "2026-09-24T22:52:16.208Z",
+          "completedMs": 1055
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "1ee4547152b74f583b8a20a554a8feb89f963c97917fe2c1dbd08d9fa9f5b228",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Adtech Can't Compete on the Model Anymore. Here's What's Left to Defend"
+      ],
+      "heading": {
+        "x": 100,
+        "y": 175,
+        "width": 820,
+        "height": 95.65625
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 8,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 79,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 543.3125,
+        "width": 1440,
+        "height": 356.75
+      },
+      "footerLink": {
+        "x": 1002.84375,
+        "y": 763.3125,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "webkit-1440x900-/answers/ai-decision-tool-trustworthy-leadership-team",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/answers/ai-decision-tool-trustworthy-leadership-team",
+      "at": "2026-09-24T22:52:19.133Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/answers/ai-decision-tool-trustworthy-leadership-team/",
+          "startedAt": "2026-09-24T22:52:19.834Z",
+          "completedMs": 50
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/answers/ai-decision-tool-trustworthy-leadership-team/",
+          "startedAt": "2026-09-24T22:52:19.884Z",
+          "completedMs": 19
+        },
+        {
+          "name": "curtain-released",
+          "path": "/answers/ai-decision-tool-trustworthy-leadership-team/",
+          "startedAt": "2026-09-24T22:52:19.903Z",
+          "completedMs": 1028
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "edb0b3cc293e77cd0df8603b3d1e0ffad0aaec847925fffbd3eeb39fb33c1c0a",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "An AI decision tool earns trust by holding your judgement, not by passing an audit"
+      ],
+      "heading": {
+        "x": 100,
+        "y": 175,
+        "width": 820,
+        "height": 143.484375
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 6,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 78,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 543.5,
+        "width": 1440,
+        "height": 356.75
+      },
+      "footerLink": {
+        "x": 1002.84375,
+        "y": 763.5,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "webkit-1440x900-/answers/ai-center-of-excellence-without-engineering-budget",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/answers/ai-center-of-excellence-without-engineering-budget",
+      "at": "2026-09-24T22:52:22.825Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/answers/ai-center-of-excellence-without-engineering-budget/",
+          "startedAt": "2026-09-24T22:52:23.483Z",
+          "completedMs": 52
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/answers/ai-center-of-excellence-without-engineering-budget/",
+          "startedAt": "2026-09-24T22:52:23.536Z",
+          "completedMs": 9
+        },
+        {
+          "name": "curtain-released",
+          "path": "/answers/ai-center-of-excellence-without-engineering-budget/",
+          "startedAt": "2026-09-24T22:52:23.545Z",
+          "completedMs": 1049
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "e86787c885cdf1b6f575df67e72ba9aed6560af71c313d3bd68d44525701d02c",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "An AI Center of Excellence Without an Engineering Budget Is a Governance Function, Not a Team"
+      ],
+      "heading": {
+        "x": 100,
+        "y": 175,
+        "width": 820,
+        "height": 143.484375
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 9,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 79,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 543.25,
+        "width": 1440,
+        "height": 356.75
+      },
+      "footerLink": {
+        "x": 1002.84375,
+        "y": 763.25,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "webkit-1440x900-/answers/total-addressable-revenue-ai-products-publishing",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/answers/total-addressable-revenue-ai-products-publishing",
+      "at": "2026-09-24T22:52:26.442Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/answers/total-addressable-revenue-ai-products-publishing/",
+          "startedAt": "2026-09-24T22:52:27.167Z",
+          "completedMs": 52
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/answers/total-addressable-revenue-ai-products-publishing/",
+          "startedAt": "2026-09-24T22:52:27.219Z",
+          "completedMs": 6
+        },
+        {
+          "name": "curtain-released",
+          "path": "/answers/total-addressable-revenue-ai-products-publishing/",
+          "startedAt": "2026-09-24T22:52:27.226Z",
+          "completedMs": 1075
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "a2f1b52206af890181cede9f0d4784ee999376972f22763d98f9230a926151d0",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Total Addressable Revenue for AI Products in Publishing: Calculate It From Your P&L, Not a Market Report"
+      ],
+      "heading": {
+        "x": 100,
+        "y": 175,
+        "width": 820,
+        "height": 143.484375
+      },
+      "fixedHeaderBottom": 69,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 8,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 5,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 542.984375,
+        "width": 1440,
+        "height": 356.75
+      },
+      "footerLink": {
+        "x": 1002.84375,
+        "y": 762.984375,
+        "width": 44,
+        "height": 44
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    }
+  ],
+  "supplemental": [
+    {
+      "id": "webkit-390x844-core-navigation",
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "failures": [
+        "page.goto: Timeout 12000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:4344/\", waiting until \"domcontentloaded\"\u001b[22m\n"
+      ],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [
+        "/ai-brain",
+        "/ai-gtm"
+      ],
+      "destinations": [
+        {
+          "expected": "/ai-brain",
+          "actual": "/ai-brain",
+          "heading": [
+            "A Brain that learns how you decide."
+          ],
+          "homepageCleanup": true
+        },
+        {
+          "expected": "/ai-gtm",
+          "actual": "/ai-gtm",
+          "heading": [
+            "See what your response changes."
+          ],
+          "homepageCleanup": true
+        }
+      ],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/",
+          "startedAt": "2026-09-24T22:49:33.886Z",
+          "completedMs": 79
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/",
+          "startedAt": "2026-09-24T22:49:33.966Z",
+          "completedMs": 69
+        },
+        {
+          "name": "curtain-released",
+          "path": "/",
+          "startedAt": "2026-09-24T22:49:34.034Z",
+          "completedMs": 14
+        },
+        {
+          "name": "react-root-and-heading",
+          "path": "/ai-brain",
+          "startedAt": "2026-09-24T22:49:35.238Z",
+          "completedMs": 56
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/ai-brain",
+          "startedAt": "2026-09-24T22:49:35.293Z",
+          "completedMs": 6
+        },
+        {
+          "name": "curtain-released",
+          "path": "/ai-brain",
+          "startedAt": "2026-09-24T22:49:35.300Z",
+          "completedMs": 1544
+        },
+        {
+          "name": "react-root-and-heading",
+          "path": "/",
+          "startedAt": "2026-09-24T22:49:48.024Z",
+          "completedMs": 63
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/",
+          "startedAt": "2026-09-24T22:49:48.087Z",
+          "completedMs": 4
+        },
+        {
+          "name": "curtain-released",
+          "path": "/",
+          "startedAt": "2026-09-24T22:49:48.091Z",
+          "completedMs": 6
+        },
+        {
+          "name": "react-root-and-heading",
+          "path": "/ai-gtm",
+          "startedAt": "2026-09-24T22:49:49.353Z",
+          "completedMs": 60
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/ai-gtm",
+          "startedAt": "2026-09-24T22:49:49.414Z",
+          "completedMs": 6
+        },
+        {
+          "name": "curtain-released",
+          "path": "/ai-gtm",
+          "startedAt": "2026-09-24T22:49:49.419Z",
+          "completedMs": 1153
+        }
+      ],
+      "pendingRequests": [
+        {
+          "path": "/fonts/ibm-plex-mono-latin-400-normal.woff2",
+          "type": "font"
+        },
+        {
+          "path": "/site.webmanifest",
+          "type": "other"
+        },
+        {
+          "path": "/assets/index-BtOC_Ouv.js",
+          "type": "script"
+        },
+        {
+          "path": "/assets/index-Db93r95O.css",
+          "type": "stylesheet"
+        },
+        {
+          "path": "/assets/history-writing-s2-DA2nLCmy.webp",
+          "type": "image"
+        },
+        {
+          "path": "/assets/ready-for-decision-loop-r01-20s-720p-web-sealed-poster-CdDKUrFk.webp",
+          "type": "image"
+        },
+        {
+          "path": "/assets/signals-arrive-loop-r01-20s-720p-web-sealed-poster-5aDt_67Q.webp",
+          "type": "image"
+        },
+        {
+          "path": "/assets/evidence-connects-loop-r01-20s-720p-web-sealed-poster-DnuwyiHS.webp",
+          "type": "image"
+        }
+      ],
+      "screenshot": "route-smoke-2db9ce8cba27-webkit-2026-09-24T22-47-19-903Z-webkit_390x844_core_navigation-failure.png"
+    },
+    {
+      "id": "webkit-1440x900-core-navigation",
+      "engine": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "failures": [
+        "page.goto: Timeout 12000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:4344/\", waiting until \"domcontentloaded\"\u001b[22m\n"
+      ],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [
+        "/ai-brain",
+        "/ai-gtm"
+      ],
+      "destinations": [
+        {
+          "expected": "/ai-brain",
+          "actual": "/ai-brain",
+          "heading": [
+            "A Brain that learns how you decide."
+          ],
+          "homepageCleanup": true
+        },
+        {
+          "expected": "/ai-gtm",
+          "actual": "/ai-gtm",
+          "heading": [
+            "See what your response changes."
+          ],
+          "homepageCleanup": true
+        }
+      ],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/",
+          "startedAt": "2026-09-24T22:52:30.840Z",
+          "completedMs": 74
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/",
+          "startedAt": "2026-09-24T22:52:30.914Z",
+          "completedMs": 68
+        },
+        {
+          "name": "curtain-released",
+          "path": "/",
+          "startedAt": "2026-09-24T22:52:30.983Z",
+          "completedMs": 13
+        },
+        {
+          "name": "react-root-and-heading",
+          "path": "/ai-brain",
+          "startedAt": "2026-09-24T22:52:32.867Z",
+          "completedMs": 53
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/ai-brain",
+          "startedAt": "2026-09-24T22:52:32.920Z",
+          "completedMs": 7
+        },
+        {
+          "name": "curtain-released",
+          "path": "/ai-brain",
+          "startedAt": "2026-09-24T22:52:32.927Z",
+          "completedMs": 1721
+        },
+        {
+          "name": "react-root-and-heading",
+          "path": "/",
+          "startedAt": "2026-09-24T22:52:46.156Z",
+          "completedMs": 56
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/",
+          "startedAt": "2026-09-24T22:52:46.212Z",
+          "completedMs": 5
+        },
+        {
+          "name": "curtain-released",
+          "path": "/",
+          "startedAt": "2026-09-24T22:52:46.217Z",
+          "completedMs": 15
+        },
+        {
+          "name": "react-root-and-heading",
+          "path": "/ai-gtm",
+          "startedAt": "2026-09-24T22:52:48.090Z",
+          "completedMs": 70
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/ai-gtm",
+          "startedAt": "2026-09-24T22:52:48.160Z",
+          "completedMs": 6
+        },
+        {
+          "name": "curtain-released",
+          "path": "/ai-gtm",
+          "startedAt": "2026-09-24T22:52:48.166Z",
+          "completedMs": 1144
+        }
+      ],
+      "pendingRequests": [
+        {
+          "path": "/assets/archivo-latin-wght-normal-E0tuGl4L.woff2",
+          "type": "font"
+        },
+        {
+          "path": "/assets/newsreader-latin-wght-normal-CCVVNp6i.woff2",
+          "type": "font"
+        },
+        {
+          "path": "/assets/source-serif-4-latin-wght-normal-D9elroTD.woff2",
+          "type": "font"
+        },
+        {
+          "path": "/fonts/ibm-plex-mono-latin-400-normal.woff2",
+          "type": "font"
+        },
+        {
+          "path": "/site.webmanifest",
+          "type": "other"
+        },
+        {
+          "path": "/assets/index-BtOC_Ouv.js",
+          "type": "script"
+        },
+        {
+          "path": "/assets/index-Db93r95O.css",
+          "type": "stylesheet"
+        },
+        {
+          "path": "/assets/history-writing-s2-DA2nLCmy.webp",
+          "type": "image"
+        },
+        {
+          "path": "/assets/ready-for-decision-loop-r01-20s-720p-web-sealed-poster-CdDKUrFk.webp",
+          "type": "image"
+        },
+        {
+          "path": "/assets/signals-arrive-loop-r01-20s-720p-web-sealed-poster-5aDt_67Q.webp",
+          "type": "image"
+        },
+        {
+          "path": "/assets/evidence-connects-loop-r01-20s-720p-web-sealed-poster-DnuwyiHS.webp",
+          "type": "image"
+        }
+      ],
+      "screenshot": "route-smoke-2db9ce8cba27-webkit-2026-09-24T22-47-19-903Z-webkit_1440x900_core_navigation-failure.png"
+    }
+  ],
+  "failures": [
+    "webkit-390x844-/case-studies: page.waitForFunction: Timeout 12000ms exceeded.",
+    "webkit-390x844-core-navigation: page.goto: Timeout 12000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:4344/\", waiting until \"domcontentloaded\"\u001b[22m\n",
+    "webkit-1440x900-/case-studies: page.waitForFunction: Timeout 12000ms exceeded.",
+    "webkit-1440x900-core-navigation: page.goto: Timeout 12000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:4344/\", waiting until \"domcontentloaded\"\u001b[22m\n"
+  ]
+}

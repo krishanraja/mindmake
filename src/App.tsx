@@ -20,7 +20,7 @@ const Answers = lazy(() => import("./pages/Answers"));
 const AnswerPage = lazy(() => import("./pages/Answer"));
 const Alumni = lazy(() => import("./pages/Alumni"));
 const AiBrain = lazy(() => import("./pages/AiBrainLocked"));
-const AiGtm = lazy(() => import("./pages/AiGtmLocked"));
+const AiGtm = lazy(() => import("./pages/AiGtm"));
 
 const queryClient = new QueryClient();
 

@@ -50,11 +50,12 @@ afterEach(() => {
 /**
  * Opens the brief the way that page's reader actually would.
  *
- * Both locked routes use the same drawer entry. GTM carries the market choice
- * into that drawer, but neither route collects identity before it opens.
+ * Neither route collects identity before the drawer opens. The plain-English
+ * GTM page has no in-page start button above its shared close, so a reader
+ * starts from the navigation (or, on a phone, the action bar that mirrors it).
  */
 function enterTheBrief(path: string) {
-  void path;
+  if (path === "/ai-gtm") fireEvent.click(screen.getByRole("button", { name: "Open navigation" }));
   fireEvent.click(screen.getAllByRole("button", { name: "Start here" })[0]);
 }
 

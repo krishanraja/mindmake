@@ -75,7 +75,7 @@ const entryStylesheetTag = template.match(/<link rel="stylesheet"[^>]*>/)[0];
 const staticRouteModules = {
   "/": null,
   "/ai-brain": "src/pages/AiBrainLocked.tsx",
-  "/ai-gtm": "src/pages/AiGtmLocked.tsx",
+  "/ai-gtm": "src/pages/AiGtm.tsx",
   "/case-studies": "src/pages/CaseStudies.tsx",
   "/new-age-leadership": "src/pages/NewAgeLeadership.tsx",
   "/blog": "src/pages/Blog.tsx",

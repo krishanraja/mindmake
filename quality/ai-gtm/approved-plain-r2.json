@@ -1,0 +1,34 @@
+{
+  "artifact": "ai-gtm-plain-r2",
+  "approvedAt": "2026-09-24",
+  "approval": "I like this but only if it looks completely mobile-native on mobile. If so it's approved. You can drive this all the way to Maine from here, merging to Maine when you're done.",
+  "approvalNote": "Quoted verbatim; \"Maine\" is the owner's dictation of main, the production branch.",
+  "approvalScope": "The GTM-PLAIN-R2 page as reviewed in the desktop and phone recordings and stills of 24 September 2026, with the phone composition made native (lever carousel, single-list team with in-place decisions, sticky Start here bar, 44px targets). Merge to main is authorised; main promotes to production.",
+  "rejectedBefore": "Mock r1 (prototypes/website-redesign-recovery/gtm-plain/index.html): copy accepted, visual system rejected as a new design system.",
+  "lockedExperience": {
+    "hero": "Make your pricing, positioning and team AI-native.",
+    "kicker": "One go-to-market move in 30 days",
+    "audienceSwitch": ["I run an established business", "I'm building an AI-native business"],
+    "plan": ["Week 1: We map all four", "Weeks 2 to 4: We build the move worth most", "Day 30: You keep it"],
+    "levers": ["Product", "Price", "Positioning", "People"],
+    "team": "Today and AI-native views; builds on scroll in both directions until the reader takes the switch; the tapped role shows the decision it creates",
+    "proof": ["market-moves (Chief Revenue Officer, data-infrastructure company)", "simple-product (Founder, adtech firm)"],
+    "publicDuration": "30 days, owner-approved exception to the canon duration rule, /ai-gtm only"
+  },
+  "prohibitedRegressions": [
+    "a signal or response picker the reader must operate before the page explains the service",
+    "a public price",
+    "a public duration anywhere other than the 30-day shape on /ai-gtm",
+    "Keep the seat",
+    "Meter the work",
+    "Price the result",
+    "a compressed desktop matrix on a phone"
+  ],
+  "sources": {
+    "page": "src/pages/AiGtm.tsx",
+    "styles": "src/styles/mindmake-gtm-plain.css",
+    "sharedSurfaceStyles": "src/styles/mindmake-locked-gtm.css",
+    "evidence": "src/data/vnext/gtm-signals.json"
+  },
+  "productionLock": "quality/route-lock/approved-production-r18.json"
+}

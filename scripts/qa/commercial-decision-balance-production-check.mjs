@@ -47,7 +47,7 @@ for (const [relativePath, expected] of Object.entries(approvedHashes)) {
   fail(actual !== expected, `approved S4 R3 artifact changed: ${relativePath} expected ${expected}, got ${actual}`);
 }
 
-const routeSources = ["NewAgeLeadership.tsx", "Blog.tsx", "BlogPost.tsx", "Answers.tsx", "Answer.tsx", "AiBrainLocked.tsx", "AiGtmLocked.tsx"];
+const routeSources = ["NewAgeLeadership.tsx", "Blog.tsx", "BlogPost.tsx", "Answers.tsx", "Answer.tsx", "AiBrainLocked.tsx", "AiGtm.tsx"];
 for (const source of routeSources) {
   const code = await readFile(new URL(`../../src/pages/${source}`, import.meta.url), "utf8");
   fail(!code.includes("CommercialDecisionBalance"), `${source}: approved production adapter is missing`);

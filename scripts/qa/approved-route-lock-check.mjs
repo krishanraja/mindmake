@@ -7,7 +7,7 @@ import { sourceHashBytes } from "../lib/source-hash.mjs";
 const root = resolve(import.meta.dirname, "../..");
 const manifestPath = process.env.MINDMAKE_ROUTE_LOCK_MANIFEST
   ? resolve(process.env.MINDMAKE_ROUTE_LOCK_MANIFEST)
-  : resolve(root, "quality/route-lock/approved-production-r17.json");
+  : resolve(root, "quality/route-lock/approved-production-r18.json");
 const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
 const failures = [];
 const sources = new Map();
@@ -37,8 +37,16 @@ exact(brain.items.length, brainContract.meanings, "Brain meanings");
 exact(brain.relationships.length, brainContract.relationships, "Brain relationships");
 exact(brain.sources.length, brainContract.sources, "Brain sources");
 exact(brain.corrections.length, brainContract.corrections, "Brain corrections");
-exact(signals.length, gtmContract.signals, "GTM signals");
-exact(signals.reduce((total, signal) => total + signal.responses.length, 0), gtmContract.responseChoices, "GTM response choices");
+// The signal fixture stays locked as the GTM evidence source. From r18 the
+// page no longer asks the reader to pick among its responses, so a manifest
+// states either the picker counts (r17 and earlier) or the cited signals (r18
+// onwards). A contract stating neither is refused rather than passed.
+if (gtmContract.signals === undefined && gtmContract.citedSignals === undefined) failures.push("GTM contract states neither signal counts nor cited signals");
+if (gtmContract.signals !== undefined) exact(signals.length, gtmContract.signals, "GTM signals");
+if (gtmContract.responseChoices !== undefined) exact(signals.reduce((total, signal) => total + signal.responses.length, 0), gtmContract.responseChoices, "GTM response choices");
+for (const key of gtmContract.citedSignals ?? []) {
+  if (!signalFixture[key]?.source) failures.push(`GTM cites a signal with no source: ${key}`);
+}
 
 const contractSource = (name, fallback) => {
   const paths = manifest.contractSources?.[name] ?? [fallback];

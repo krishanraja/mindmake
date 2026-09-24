@@ -19,9 +19,12 @@ Before rebuilding or presenting the homepage, read
 `quality/website-redesign/homepage-handoff.v1.json`, then run
 `npm run qa:homepage-handoff`. The handoff freezes every recovered component,
 selection and copy decision. R1 is rejected. R2 is a fidelity reference, not a
-production candidate. The next candidate must be one DOM and one scroll context
-and may be presented only through the repository's gated material-review
-command.
+production candidate. R3 was subsequently approved for production delivery with
+two bounded scroll-build corrections. The current authority and release evidence
+are recorded in STATE.md and `project-documentation/website-redesign/RELEASE-2026-09-24.md`.
+Use the deterministic R3 adapter, not another reconstruction. Future material
+candidates still require the repository's gated material-review command; the
+dated approval is not permission to reinterpret accepted decisions.
 
 ## The naming law
 

@@ -1,0 +1,71 @@
+import assert from 'node:assert/strict';
+import { chromium } from 'playwright';
+
+const base = process.env.QA_BASE_URL || 'http://127.0.0.1:64065';
+const browser = await chromium.launch();
+const checks = [];
+try {
+  for (const viewport of [{width:1440,height:900},{width:390,height:844}]) {
+    const page = await browser.newPage({viewport});
+    const errors = [];
+    page.on('pageerror', error => errors.push(error.message));
+    await page.goto(`${base}/`);
+    await page.locator('.mm-homepage-release .hero-copy h1:visible').waitFor();
+    await page.evaluate(() => document.fonts.ready);
+    assert.equal(await page.locator('main').count(), 1, 'One homepage main landmark');
+    assert.equal(await page.locator('.r3-opening .site-masthead:visible').count(), 1, 'One visible masthead');
+    assert.equal(await page.locator('.hero-copy h1:visible').textContent(), 'Build the business that can think with you.');
+    assert.equal(await page.locator('.homepage-pin-track').count(), 2);
+    const broken = await page.locator('img').evaluateAll(images => images.filter(image => image.complete && !image.naturalWidth).map(image=>image.src));
+    assert.deepEqual(broken, [], 'Imported image URLs resolve');
+    await page.evaluate(() => {
+      const section = document.querySelector('[data-component="leadership-dividend"]');
+      const track = section.closest('.homepage-pin-track') || section;
+      window.scrollTo({top: window.scrollY + track.getBoundingClientRect().top + 1, behavior:'instant'});
+    });
+    await page.locator('.mm-cookie-notice').waitFor();
+    await page.waitForTimeout(300);
+    const clear = await page.locator('[data-practice="0"]:visible').evaluate(element => {
+      const notice = document.querySelector('.mm-cookie-notice').getBoundingClientRect();
+      return element.getBoundingClientRect().bottom <= notice.top + 1;
+    });
+    assert.equal(clear, true, 'Cookie notice does not cover practice controls');
+    await page.locator('[data-practice="2"]:visible').click();
+    assert.equal(await page.locator('[data-practice="2"]:visible').getAttribute('aria-current'), 'true');
+    await page.locator('.mm-cookie-notice button').click();
+    await page.locator('.mm-cookie-notice').waitFor({state:'detached'});
+    await page.evaluate(() => scrollTo({top:0,behavior:'instant'}));
+    await page.locator('.r3-opening .menu-control:visible').click();
+    assert.equal(await page.locator('.r3-navigation').getAttribute('aria-hidden'), 'false');
+    await page.locator('.r3-navigation .start-action:visible').click();
+    await page.locator('.mm-brief-panel').waitFor();
+    await page.keyboard.press('Escape');
+    await page.locator('.mm-brief-panel').waitFor({state:'detached'});
+    await page.waitForFunction(() => document.activeElement?.matches('.r3-opening .menu-control'));
+    await page.locator('.r3-opening .menu-control:visible').click();
+    await page.keyboard.press('Escape');
+    await page.locator('.r3-opening [data-route-choice="gtm"]:visible').click();
+    await page.waitForTimeout(1200);
+    assert.equal(await page.locator('.r3-route .route-copy h2:visible').evaluate(element => element === document.activeElement), true, 'Route selection moves keyboard focus with the viewport');
+    await page.locator('[data-start-route="gtm"]:visible').click();
+    await page.locator('.mm-brief-panel[data-step="company"]').waitFor();
+    assert.match(page.url(), /start=gtm/);
+    assert.equal(await page.locator('.mm-homepage-release').getAttribute('aria-hidden'), 'true');
+    await page.keyboard.press('Escape');
+    await page.locator('.mm-brief-panel').waitFor({state:'detached'});
+    await page.waitForTimeout(100);
+    assert.equal(await page.locator('.mm-homepage-release').getAttribute('aria-hidden'), null);
+    assert.equal(await page.locator('[data-start-route="gtm"]:visible').evaluate(element => element === document.activeElement), true, 'Escape restores opener after background is no longer inert');
+    await page.emulateMedia({reducedMotion:'reduce'});
+    await page.waitForFunction(() => matchMedia('(prefers-reduced-motion: reduce)').matches && [...document.querySelectorAll('video')].every(video => video.paused));
+    assert.equal(await page.locator('video').evaluateAll(videos => videos.every(video => video.paused)), true, 'Reduced motion pauses every video');
+    assert.equal(await page.locator('[aria-current=""]').count(),0,'Current state has valid ARIA values');
+    await page.reload({waitUntil:'domcontentloaded'});
+    await page.locator('.mm-homepage-release').waitFor();
+    await page.waitForFunction(() => [...document.querySelectorAll('video')].every(video => video.paused));
+    assert.deepEqual(errors, [], 'No runtime errors');
+    checks.push({viewport,status:'PASS',journey:'menu, route choice, native LeadBrief open/close, imported assets'});
+    await page.close();
+  }
+  console.log(JSON.stringify({status:'PASS', checks}, null, 2));
+} finally { await browser.close(); }

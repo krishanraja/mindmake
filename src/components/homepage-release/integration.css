@@ -1,0 +1,11 @@
+/* Application chrome remains outside the locked composition. */
+.mm-homepage-release { min-width: 320px; color: #eee2cc; background: #06110d; line-height: normal; }
+.mm-homepage-release :where(h1, h2, h3, h4) { color: inherit; letter-spacing: normal; }
+.mm-homepage-release :where(small) { line-height: normal; }
+body.mm-homepage-active { margin: 0; }
+.mm-homepage-release .r3-footer { padding-bottom: var(--mm-cookie-reserve, 0px); }
+.mm-homepage-release .r3-navigation .menu-surface { bottom: var(--mm-cookie-reserve, 0px) !important; }
+.mm-homepage-release :is(.r3-history, .r3-dividend) { padding-bottom: var(--mm-cookie-reserve, 0px); }
+.mm-homepage-release :is(.r3-history, .r3-dividend) > .r3-variant {
+  height: calc(100dvh - var(--masthead) - var(--mm-cookie-reserve, 0px));
+}

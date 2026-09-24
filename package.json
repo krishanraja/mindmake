@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "vite",
     "review:website-recovery": "vite --host 127.0.0.1 --port 4198 --strictPort",
-    "build": "npm run qa:approved-routes && npm run qa:homepage-handoff && npm run qa:material-review:self-test && npm run typecheck && vite build && npm run build:ssr && node scripts/generate-sitemap.mjs && node scripts/generate-llms.mjs && node scripts/prerender.mjs",
+    "build": "node scripts/qa/build-homepage-release.mjs --check && npm run qa:approved-routes && npm run qa:homepage-handoff && npm run qa:material-review:self-test && npm run typecheck && vite build && npm run build:ssr && node scripts/generate-sitemap.mjs && node scripts/generate-llms.mjs && node scripts/prerender.mjs",
     "build:vite": "vite build",
     "build:dev": "vite build --mode development",
     "build:locked-surface-styles": "node scripts/qa/build-locked-surface-styles.mjs",
@@ -46,6 +46,8 @@
     "qa:material-review:self-test": "node scripts/qa/material-review-firewall-self-test.mjs",
     "qa:homepage-handoff": "node scripts/qa/homepage-handoff-check.mjs",
     "build:homepage-r3": "node prototypes/website-redesign-recovery/homepage-production-synthesis-r3/build.mjs",
+    "qa:homepage-release": "node scripts/qa/build-homepage-release.mjs --check && node scripts/qa/scroll-build-evidence-selftest.mjs && node scripts/qa/homepage-release-browser-check.mjs --built",
+    "qa:release-routes": "node scripts/qa/release-route-smoke.mjs",
     "qa:homepage-r3": "node prototypes/website-redesign-recovery/homepage-production-synthesis-r3/build.mjs --check && node prototypes/website-redesign-recovery/homepage-production-synthesis-r3/check.mjs && node scripts/qa/homepage-r3-browser-check.mjs",
     "qa:homepage-r3-specialists": "node scripts/qa/homepage-r3-specialist-receipt.mjs",
     "review:material": "node scripts/qa/present-material-candidate.mjs",

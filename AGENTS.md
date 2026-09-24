@@ -8,7 +8,7 @@ it is, who it is for, what changed recently, what is waiting, and what not to tr
 It is validated on every push to `main` and reconciled against the code nightly, so it
 is never more than a day behind the tree. Chronology lives in `project-documentation/history/LOG.md`.
 
-## Active unreleased website redesign
+## Approved website release and future revisions
 
 Before touching the homepage, AI Brain, AI GTM, Start here journey, proof, case studies
 or their shared visual system, read `project-documentation/website-redesign/STATE.md`
@@ -24,6 +24,16 @@ For homepage recovery, also read
 `npm run qa:homepage-handoff`. That machine-readable manifest is subordinate to the
 existing STATE document and freezes the recovered mocks, selections, copy corrections,
 rejected R1 and reference-only R2 without creating a competing narrative state.
+
+The subsequent R3 approval and production authority are recorded in STATE.md and
+`project-documentation/website-redesign/RELEASE-2026-09-24.md`. The older handoff is
+an immutable recovery baseline, not the latest approval status. Preserve the R3
+source and generate the homepage delivery adapter with
+`node scripts/qa/build-homepage-release.mjs`; never reconstruct it from memory.
+Run `npm run qa:homepage-release` and `npm run qa:release-routes` against the built
+candidate, and `node scripts/qa/website-feedback-ledger-check.mjs --release` before
+publication. Scroll-build evidence must show actual states, pin geometry, reverse
+progression and exits. An entrance animation or still screenshot is not proof.
 
 Never present a material website candidate from a direct Vite, file, prototype or
 ambient-server URL. The only review route is

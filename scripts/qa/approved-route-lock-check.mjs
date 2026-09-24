@@ -6,7 +6,7 @@ import { resolve } from "node:path";
 const root = resolve(import.meta.dirname, "../..");
 const manifestPath = process.env.MINDMAKE_ROUTE_LOCK_MANIFEST
   ? resolve(process.env.MINDMAKE_ROUTE_LOCK_MANIFEST)
-  : resolve(root, "quality/route-lock/approved-production-r3.json");
+  : resolve(root, "quality/route-lock/approved-production-r7.json");
 const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
 const failures = [];
 const sources = new Map();
@@ -14,7 +14,13 @@ const sha256 = (content) => createHash("sha256").update(content).digest("hex");
 
 for (const [relativePath, approvedHash] of Object.entries(manifest.files)) {
   const content = await readFile(resolve(root, relativePath));
-  const actualHash = sha256(content);
+  // Git checkouts differ in line endings across Windows and Linux. Only a
+  // manifest explicitly opting in uses LF-canonical text; binary assets stay
+  // byte-exact, and historic manifests retain their original hash semantics.
+  const textFile = /\.(?:[cm]?[jt]sx?|css|html|json|ya?ml|md|txt)$/.test(relativePath) || relativePath === '.vercelignore';
+  const hashContent = manifest.textLineEndings === 'lf' && textFile
+    ? Buffer.from(content.toString('utf8').replace(/\r\n/g, '\n')) : content;
+  const actualHash = sha256(hashContent);
   sources.set(relativePath, content.toString("utf8"));
   if (actualHash !== approvedHash) failures.push(`${relativePath}: approved ${approvedHash}, found ${actualHash}`);
 }

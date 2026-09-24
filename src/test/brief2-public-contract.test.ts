@@ -9,6 +9,7 @@ import {
   NEWSLETTER_CONSENT_WORDING_VERSION,
 } from "@/components/mindmake/leadDelivery";
 import { ASK_ENTRIES, ASK_UNMATCHED } from "@/lib/askCorpus";
+import { render as serverRender } from "@/entry-server";
 
 /**
  * The public contract, as the rebuild brief defines it.
@@ -801,8 +802,11 @@ describe("the film slots", () => {
        empty label with neither is a plate that announces itself as an image
        called nothing. */
     for (const [surface, source] of readAll(["src/pages/Index.tsx", "src/pages/AiBrain.tsx", "src/pages/AiGtm.tsx"])) {
-      const plates = source.split("<FilmPlate").slice(1);
-      const nativeVideos = source.split("<video").slice(1);
+      // Index consumes the immutable compiled adapter. Inspect what it renders,
+      // not a wrapper file that deliberately contains no duplicated markup.
+      const renderedSource = surface === "src/pages/Index.tsx" ? serverRender("/") : source;
+      const plates = renderedSource.split("<FilmPlate").slice(1);
+      const nativeVideos = renderedSource.split("<video").slice(1);
       expect(`${surface} has visual media: ${plates.length > 0 || nativeVideos.length > 0}`).toBe(`${surface} has visual media: true`);
       for (const [at, plate] of plates.entries()) {
         const props = plate.slice(0, plate.indexOf("/>"));

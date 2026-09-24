@@ -7,7 +7,7 @@ on:
 jobs:
   approved-routes:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -27,3 +27,17 @@ jobs:
         run: npx vitest run src/test/copy-restraint.test.ts src/test/first-screen.test.ts src/test/ssg-hydration.test.tsx src/test/LeadBrief.test.tsx src/test/route-lead-brief-history.test.tsx
       - name: Build the approved routes
         run: npm run build
+      - name: Install release verification browsers
+        run: npx playwright install --with-deps chromium firefox webkit
+      - name: Verify actual homepage scroll builds and lead entry
+        run: npm run qa:homepage-release
+      - name: Refuse unresolved owner feedback
+        run: node scripts/qa/website-feedback-ledger-check.mjs --release
+      - name: Verify built public routes and navigation
+        run: npm run qa:release-routes
+      - name: Retain release verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: homepage-release-evidence
+          path: artifacts/homepage-release/

@@ -13,10 +13,10 @@ export const site = "https://mindmake.co";
 export const staticPages = [
   {
     path: "/",
-    title: "Build the AI that knows how you decide.",
-    description: "Mindmake helps founders and senior commercial leaders turn their standards, context and past decisions into an AI they own.",
-    headline: "Build the AI that knows how you decide.",
-    claim: "One paid proof on real work. You keep what works.",
+    title: "Build the business that can think with you.",
+    description: "Part people. Part agent. Led by judgement. Build your AI brain or your AI native pricing, positioning and organisation with Mindmake.",
+    headline: "Build the business that can think with you.",
+    claim: "Part people. Part agent. Led by judgement.",
     still: "film-02",
   },
   {

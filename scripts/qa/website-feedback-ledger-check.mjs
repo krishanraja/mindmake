@@ -32,6 +32,7 @@ for (const [index, item] of (ledger.items || []).entries()) {
 }
 
 const blocking = ledger.items.filter((item) => ledger.rules.approvalBlockedByStatuses.includes(item.status)).map((item) => item.id);
+if (process.argv.includes('--release') && blocking.length) failures.push(`Unresolved release feedback: ${blocking.join(', ')}`);
 console.log(JSON.stringify({
   ledger: "project-documentation/website-redesign/feedback-ledger.json",
   items: ledger.items.length,

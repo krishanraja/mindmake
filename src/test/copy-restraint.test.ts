@@ -42,6 +42,19 @@ function visible(html: string, tags = "p|li|h1|h2|h3|h4|legend|small|blockquote|
   return out;
 }
 
+/** Both accepted device compositions live in the SSR DOM; only one is shown.
+ * Check each independently, so an actual repeat within either still fails. */
+function responsiveCopies(html: string) {
+  const document = new DOMParser().parseFromString(html, "text/html");
+  if (!document.querySelector(".r3-variant")) return [{device: "shared", html}];
+  return ["desktop", "mobile"].map(device => {
+    const copy = document.body.cloneNode(true) as HTMLElement;
+    const hidden = device === "desktop" ? "mobile" : "desktop";
+    copy.querySelectorAll(`.r3-variant.preview-${hidden}, .r3-variant.device-${hidden}`).forEach(node => node.remove());
+    return {device, html: copy.innerHTML};
+  });
+}
+
 /**
  * Copy that only exists to admire the copy above it.
  *
@@ -167,9 +180,10 @@ describe("copy restraint", () => {
     /* Quotes are excluded and cite lines with them. The same client sentence
        appears in the story deck and in the voices drum on the homepage, and
        that is two people's evidence rather than our copy said twice. */
-    const seen = new Map<string, string>();
-    const repeats: string[] = [];
-    for (const block of visible(rendered.get(route)!, "p|li|h2|h3|h4|legend")) {
+    for (const composition of responsiveCopies(rendered.get(route)!)) {
+      const seen = new Map<string, string>();
+      const repeats: string[] = [];
+      for (const block of visible(composition.html, "p|li|h2|h3|h4|legend")) {
       for (const sentence of sentences(block)) {
         const id = key(sentence);
         /* Six content words. Below that a repeat is a turn of phrase, not a
@@ -179,6 +193,7 @@ describe("copy restraint", () => {
         else seen.set(id, sentence);
       }
     }
-    expect(repeats).toEqual([]);
+      expect(repeats, `${route}: ${composition.device}`).toEqual([]);
+    }
   });
 });

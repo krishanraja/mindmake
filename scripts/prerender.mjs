@@ -180,8 +180,8 @@ function build(page) {
      the record said every page did. `src/test/first-screen.test.ts` now runs
      the same pattern over the real render of the homepage. */
   const preloads = [];
-  const poster = body.match(/<source srcset="([^"]+)" type="image\/webp"[^>]*>\s*<img(?=[^>]*class="mm-plate-media")(?=[^>]*fetchpriority="high")[^>]*>/i);
-  if (poster) preloads.push(`<link rel="preload" as="image" type="image/webp" fetchpriority="high" href="${poster[1]}" />`);
+  const poster = body.match(/<source srcset="([^"]+)" type="image\/webp"[^>]*>\s*<img(?=[^>]*class="mm-plate-media")(?=[^>]*fetchpriority="high")[^>]*>|<video(?=[^>]*data-mm-poster="true")[^>]*poster="([^"]+)"[^>]*>/i);
+  if (poster) preloads.push(`<link rel="preload" as="image" type="image/webp" fetchpriority="high" href="${poster[1] || poster[2]}" />`);
   if (preloads.length) {
     html = html.replace('<link rel="stylesheet"', `${preloads.join("\n    ")}\n    <link rel="stylesheet"`);
   }

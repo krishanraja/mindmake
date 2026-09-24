@@ -13,6 +13,27 @@
   },
   "items": [
     {
+      "id": "HOMEPAGE-SCROLL-BUILD-001",
+      "exactFeedback": "this is good to continue, except for these sections are supposed to build with scroll lock until complete. keep everything the same, and fix those two, then push live to production, harden the underlying system, log where we have gotten to, ensure all documentation is complete, ensuring everything works e2e including intelligence, lead capture etc",
+      "source": "conversation 2026-09-24, two R3 screenshots",
+      "surface": "approved R3 homepage to production",
+      "section": "history and leadership dividend",
+      "device": "desktop and mobile",
+      "element": "pinned reversible narrative progression",
+      "classification": "correction",
+      "requiredOutcome": "Preserve the R3 composition and copy; native scrolling advances all four history scenes and the leadership sequence before releasing each section. Reverse scrolling restores preceding scenes. Short-height and reduced-motion layouts remain operable without trapping content.",
+      "acceptanceTest": "On Chromium, Firefox and WebKit, advance actual document scroll through each state and back while asserting visible copy and stable section geometry, then leave each final state. Check manual controls, reduced motion and short viewports. Verify the same adapter serves the actual homepage and Start here.",
+      "status": "verified",
+      "resolution": "R3 presentation preserved. The built production adapter passed all 12 desktop/mobile history and dividend cases across Chromium, Firefox and WebKit, including actual forward/reverse states, stable pin geometry, both exits, manual reduced-motion controls and real LeadBrief entry. Initial entrance-transition drift was caught and removed; failed R6 measurements are retained, not relabelled as passes. Production promotion remains a separate recorded step.",
+      "evidence": [
+        "artifacts/homepage-release/browser-report.json",
+        "artifacts/homepage-release/scroll-observations.json",
+        "artifacts/homepage-release/motion-contract.json",
+        "artifacts/homepage-release/motion-receipt.json",
+        "artifacts/homepage-release/browser-report-r6-failed.json"
+      ]
+    },
+    {
       "id": "REVIEW-CONSOLE-FEEDBACK-001",
       "exactFeedback": "You need to let me commentate on individual question responses if I so wish, as well as overall at the end, and you need to actually take that feedback on board because some of it might be quite important.",
       "source": "conversation",

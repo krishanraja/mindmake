@@ -1,0 +1,1337 @@
+{
+  "candidateDigest": "2ebd4767044f2a609e7db1e91eebf723f587bcafca6d724377715c8316a5c314",
+  "cases": [
+    {
+      "id": "chromium-1440x900-history",
+      "route": "/",
+      "viewport": "1440x900",
+      "input": "page-scroll",
+      "capture": {
+        "path": "artifacts/homepage-release/scroll-observations.json",
+        "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+      },
+      "forward": [
+        {
+          "visibleText": "If knowledge lives outside us, will memory grow weaker?",
+          "scrollY": 910,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the machine can do the work, what happens to the worker?",
+          "scrollY": 1450,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the device does the arithmetic, will children stop learning to think?",
+          "scrollY": 1990,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the device knows the route, will we lose our sense of direction?",
+          "scrollY": 2530,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        }
+      ],
+      "reverse": [
+        {
+          "visibleText": "If the device knows the route, will we lose our sense of direction?",
+          "scrollY": 2530,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the device does the arithmetic, will children stop learning to think?",
+          "scrollY": 1990,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the machine can do the work, what happens to the worker?",
+          "scrollY": 1450,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If knowledge lives outside us, will memory grow weaker?",
+          "scrollY": 910,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 3160,
+        "stageTop": -100,
+        "evidence": {
+          "path": "artifacts/homepage-release/scroll-observations.json",
+          "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+        }
+      },
+      "exitBefore": {
+        "scrollY": 800,
+        "stageTop": 100,
+        "evidence": {
+          "path": "artifacts/homepage-release/scroll-observations.json",
+          "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+        }
+      }
+    },
+    {
+      "id": "chromium-1440x900-leadership-dividend",
+      "route": "/",
+      "viewport": "1440x900",
+      "input": "page-scroll",
+      "capture": {
+        "path": "artifacts/homepage-release/scroll-observations.json",
+        "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+      },
+      "forward": [
+        {
+          "visibleText": "It notices what changed.",
+          "scrollY": 4870,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It joins the evidence.",
+          "scrollY": 5410,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It prepares the next move.",
+          "scrollY": 5950,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "Leadership updates become consistent, even when the week was not.",
+          "scrollY": 6490,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "What will you do with the hours it gives back?",
+          "scrollY": 7030,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        }
+      ],
+      "reverse": [
+        {
+          "visibleText": "What will you do with the hours it gives back?",
+          "scrollY": 7030,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "Leadership updates become consistent, even when the week was not.",
+          "scrollY": 6490,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It prepares the next move.",
+          "scrollY": 5950,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It joins the evidence.",
+          "scrollY": 5410,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It notices what changed.",
+          "scrollY": 4870,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 7660,
+        "stageTop": -100,
+        "evidence": {
+          "path": "artifacts/homepage-release/scroll-observations.json",
+          "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+        }
+      },
+      "exitBefore": {
+        "scrollY": 4760,
+        "stageTop": 100,
+        "evidence": {
+          "path": "artifacts/homepage-release/scroll-observations.json",
+          "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+        }
+      }
+    },
+    {
+      "id": "chromium-390x844-history",
+      "route": "/",
+      "viewport": "390x844",
+      "input": "page-scroll",
+      "capture": {
+        "path": "artifacts/homepage-release/scroll-observations.json",
+        "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+      },
+      "forward": [
+        {
+          "visibleText": "If knowledge lives outside us, will memory grow weaker?",
+          "scrollY": 854,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the machine can do the work, what happens to the worker?",
+          "scrollY": 1360,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the device does the arithmetic, will children stop learning to think?",
+          "scrollY": 1866,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the device knows the route, will we lose our sense of direction?",
+          "scrollY": 2372,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        }
+      ],
+      "reverse": [
+        {
+          "visibleText": "If the device knows the route, will we lose our sense of direction?",
+          "scrollY": 2372,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the device does the arithmetic, will children stop learning to think?",
+          "scrollY": 1866,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the machine can do the work, what happens to the worker?",
+          "scrollY": 1360,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If knowledge lives outside us, will memory grow weaker?",
+          "scrollY": 854,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 2968,
+        "stageTop": -100,
+        "evidence": {
+          "path": "artifacts/homepage-release/scroll-observations.json",
+          "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+        }
+      },
+      "exitBefore": {
+        "scrollY": 744,
+        "stageTop": 100,
+        "evidence": {
+          "path": "artifacts/homepage-release/scroll-observations.json",
+          "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+        }
+      }
+    },
+    {
+      "id": "chromium-390x844-leadership-dividend",
+      "route": "/",
+      "viewport": "390x844",
+      "input": "page-scroll",
+      "capture": {
+        "path": "artifacts/homepage-release/scroll-observations.json",
+        "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+      },
+      "forward": [
+        {
+          "visibleText": "It notices what changed.",
+          "scrollY": 4566,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It joins the evidence.",
+          "scrollY": 5072,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It prepares the next move.",
+          "scrollY": 5578,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "Leadership updates become consistent, even when the week was not.",
+          "scrollY": 6084,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "What will you do with the hours it gives back?",
+          "scrollY": 6590,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        }
+      ],
+      "reverse": [
+        {
+          "visibleText": "What will you do with the hours it gives back?",
+          "scrollY": 6590,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "Leadership updates become consistent, even when the week was not.",
+          "scrollY": 6084,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It prepares the next move.",
+          "scrollY": 5578,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It joins the evidence.",
+          "scrollY": 5072,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It notices what changed.",
+          "scrollY": 4566,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 7186,
+        "stageTop": -100,
+        "evidence": {
+          "path": "artifacts/homepage-release/scroll-observations.json",
+          "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+        }
+      },
+      "exitBefore": {
+        "scrollY": 4456,
+        "stageTop": 100,
+        "evidence": {
+          "path": "artifacts/homepage-release/scroll-observations.json",
+          "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+        }
+      }
+    },
+    {
+      "id": "firefox-1440x900-history",
+      "route": "/",
+      "viewport": "1440x900",
+      "input": "page-scroll",
+      "capture": {
+        "path": "artifacts/homepage-release/scroll-observations.json",
+        "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+      },
+      "forward": [
+        {
+          "visibleText": "If knowledge lives outside us, will memory grow weaker?",
+          "scrollY": 910,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the machine can do the work, what happens to the worker?",
+          "scrollY": 1450,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the device does the arithmetic, will children stop learning to think?",
+          "scrollY": 1990,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the device knows the route, will we lose our sense of direction?",
+          "scrollY": 2530,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        }
+      ],
+      "reverse": [
+        {
+          "visibleText": "If the device knows the route, will we lose our sense of direction?",
+          "scrollY": 2530,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the device does the arithmetic, will children stop learning to think?",
+          "scrollY": 1990,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the machine can do the work, what happens to the worker?",
+          "scrollY": 1450,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If knowledge lives outside us, will memory grow weaker?",
+          "scrollY": 910,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 3160,
+        "stageTop": -100,
+        "evidence": {
+          "path": "artifacts/homepage-release/scroll-observations.json",
+          "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+        }
+      },
+      "exitBefore": {
+        "scrollY": 800,
+        "stageTop": 100,
+        "evidence": {
+          "path": "artifacts/homepage-release/scroll-observations.json",
+          "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+        }
+      }
+    },
+    {
+      "id": "firefox-1440x900-leadership-dividend",
+      "route": "/",
+      "viewport": "1440x900",
+      "input": "page-scroll",
+      "capture": {
+        "path": "artifacts/homepage-release/scroll-observations.json",
+        "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+      },
+      "forward": [
+        {
+          "visibleText": "It notices what changed.",
+          "scrollY": 4870,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It joins the evidence.",
+          "scrollY": 5410,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It prepares the next move.",
+          "scrollY": 5950,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "Leadership updates become consistent, even when the week was not.",
+          "scrollY": 6490,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "What will you do with the hours it gives back?",
+          "scrollY": 7030,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        }
+      ],
+      "reverse": [
+        {
+          "visibleText": "What will you do with the hours it gives back?",
+          "scrollY": 7030,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "Leadership updates become consistent, even when the week was not.",
+          "scrollY": 6490,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It prepares the next move.",
+          "scrollY": 5950,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It joins the evidence.",
+          "scrollY": 5410,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It notices what changed.",
+          "scrollY": 4870,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 7660,
+        "stageTop": -100,
+        "evidence": {
+          "path": "artifacts/homepage-release/scroll-observations.json",
+          "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+        }
+      },
+      "exitBefore": {
+        "scrollY": 4760,
+        "stageTop": 100,
+        "evidence": {
+          "path": "artifacts/homepage-release/scroll-observations.json",
+          "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+        }
+      }
+    },
+    {
+      "id": "firefox-390x844-history",
+      "route": "/",
+      "viewport": "390x844",
+      "input": "page-scroll",
+      "capture": {
+        "path": "artifacts/homepage-release/scroll-observations.json",
+        "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+      },
+      "forward": [
+        {
+          "visibleText": "If knowledge lives outside us, will memory grow weaker?",
+          "scrollY": 854,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the machine can do the work, what happens to the worker?",
+          "scrollY": 1360,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the device does the arithmetic, will children stop learning to think?",
+          "scrollY": 1866,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the device knows the route, will we lose our sense of direction?",
+          "scrollY": 2372,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        }
+      ],
+      "reverse": [
+        {
+          "visibleText": "If the device knows the route, will we lose our sense of direction?",
+          "scrollY": 2372,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the device does the arithmetic, will children stop learning to think?",
+          "scrollY": 1866,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the machine can do the work, what happens to the worker?",
+          "scrollY": 1360,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If knowledge lives outside us, will memory grow weaker?",
+          "scrollY": 854,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 2968,
+        "stageTop": -100,
+        "evidence": {
+          "path": "artifacts/homepage-release/scroll-observations.json",
+          "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+        }
+      },
+      "exitBefore": {
+        "scrollY": 744,
+        "stageTop": 100,
+        "evidence": {
+          "path": "artifacts/homepage-release/scroll-observations.json",
+          "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+        }
+      }
+    },
+    {
+      "id": "firefox-390x844-leadership-dividend",
+      "route": "/",
+      "viewport": "390x844",
+      "input": "page-scroll",
+      "capture": {
+        "path": "artifacts/homepage-release/scroll-observations.json",
+        "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+      },
+      "forward": [
+        {
+          "visibleText": "It notices what changed.",
+          "scrollY": 4566,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It joins the evidence.",
+          "scrollY": 5072,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It prepares the next move.",
+          "scrollY": 5578,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "Leadership updates become consistent, even when the week was not.",
+          "scrollY": 6084,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "What will you do with the hours it gives back?",
+          "scrollY": 6590,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        }
+      ],
+      "reverse": [
+        {
+          "visibleText": "What will you do with the hours it gives back?",
+          "scrollY": 6590,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "Leadership updates become consistent, even when the week was not.",
+          "scrollY": 6084,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It prepares the next move.",
+          "scrollY": 5578,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It joins the evidence.",
+          "scrollY": 5072,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It notices what changed.",
+          "scrollY": 4566,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 7186,
+        "stageTop": -100,
+        "evidence": {
+          "path": "artifacts/homepage-release/scroll-observations.json",
+          "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+        }
+      },
+      "exitBefore": {
+        "scrollY": 4456,
+        "stageTop": 100,
+        "evidence": {
+          "path": "artifacts/homepage-release/scroll-observations.json",
+          "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+        }
+      }
+    },
+    {
+      "id": "webkit-1440x900-history",
+      "route": "/",
+      "viewport": "1440x900",
+      "input": "page-scroll",
+      "capture": {
+        "path": "artifacts/homepage-release/scroll-observations.json",
+        "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+      },
+      "forward": [
+        {
+          "visibleText": "If knowledge lives outside us, will memory grow weaker?",
+          "scrollY": 910,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the machine can do the work, what happens to the worker?",
+          "scrollY": 1450,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the device does the arithmetic, will children stop learning to think?",
+          "scrollY": 1990,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the device knows the route, will we lose our sense of direction?",
+          "scrollY": 2530,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        }
+      ],
+      "reverse": [
+        {
+          "visibleText": "If the device knows the route, will we lose our sense of direction?",
+          "scrollY": 2530,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the device does the arithmetic, will children stop learning to think?",
+          "scrollY": 1990,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the machine can do the work, what happens to the worker?",
+          "scrollY": 1450,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If knowledge lives outside us, will memory grow weaker?",
+          "scrollY": 910,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 3160,
+        "stageTop": -100,
+        "evidence": {
+          "path": "artifacts/homepage-release/scroll-observations.json",
+          "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+        }
+      },
+      "exitBefore": {
+        "scrollY": 800,
+        "stageTop": 100,
+        "evidence": {
+          "path": "artifacts/homepage-release/scroll-observations.json",
+          "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+        }
+      }
+    },
+    {
+      "id": "webkit-1440x900-leadership-dividend",
+      "route": "/",
+      "viewport": "1440x900",
+      "input": "page-scroll",
+      "capture": {
+        "path": "artifacts/homepage-release/scroll-observations.json",
+        "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+      },
+      "forward": [
+        {
+          "visibleText": "It notices what changed.",
+          "scrollY": 4870,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It joins the evidence.",
+          "scrollY": 5410,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It prepares the next move.",
+          "scrollY": 5950,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "Leadership updates become consistent, even when the week was not.",
+          "scrollY": 6490,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "What will you do with the hours it gives back?",
+          "scrollY": 7030,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        }
+      ],
+      "reverse": [
+        {
+          "visibleText": "What will you do with the hours it gives back?",
+          "scrollY": 7030,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "Leadership updates become consistent, even when the week was not.",
+          "scrollY": 6490,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It prepares the next move.",
+          "scrollY": 5950,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It joins the evidence.",
+          "scrollY": 5410,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It notices what changed.",
+          "scrollY": 4870,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 7660,
+        "stageTop": -100,
+        "evidence": {
+          "path": "artifacts/homepage-release/scroll-observations.json",
+          "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+        }
+      },
+      "exitBefore": {
+        "scrollY": 4760,
+        "stageTop": 100,
+        "evidence": {
+          "path": "artifacts/homepage-release/scroll-observations.json",
+          "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+        }
+      }
+    },
+    {
+      "id": "webkit-390x844-history",
+      "route": "/",
+      "viewport": "390x844",
+      "input": "page-scroll",
+      "capture": {
+        "path": "artifacts/homepage-release/scroll-observations.json",
+        "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+      },
+      "forward": [
+        {
+          "visibleText": "If knowledge lives outside us, will memory grow weaker?",
+          "scrollY": 853,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the machine can do the work, what happens to the worker?",
+          "scrollY": 1359,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the device does the arithmetic, will children stop learning to think?",
+          "scrollY": 1865,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the device knows the route, will we lose our sense of direction?",
+          "scrollY": 2371,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        }
+      ],
+      "reverse": [
+        {
+          "visibleText": "If the device knows the route, will we lose our sense of direction?",
+          "scrollY": 2371,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the device does the arithmetic, will children stop learning to think?",
+          "scrollY": 1865,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If the machine can do the work, what happens to the worker?",
+          "scrollY": 1359,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "If knowledge lives outside us, will memory grow weaker?",
+          "scrollY": 853,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 2967,
+        "stageTop": -99.015625,
+        "evidence": {
+          "path": "artifacts/homepage-release/scroll-observations.json",
+          "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+        }
+      },
+      "exitBefore": {
+        "scrollY": 743,
+        "stageTop": 100.984375,
+        "evidence": {
+          "path": "artifacts/homepage-release/scroll-observations.json",
+          "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+        }
+      }
+    },
+    {
+      "id": "webkit-390x844-leadership-dividend",
+      "route": "/",
+      "viewport": "390x844",
+      "input": "page-scroll",
+      "capture": {
+        "path": "artifacts/homepage-release/scroll-observations.json",
+        "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+      },
+      "forward": [
+        {
+          "visibleText": "It notices what changed.",
+          "scrollY": 4565,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It joins the evidence.",
+          "scrollY": 5071,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It prepares the next move.",
+          "scrollY": 5577,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "Leadership updates become consistent, even when the week was not.",
+          "scrollY": 6083,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "What will you do with the hours it gives back?",
+          "scrollY": 6589,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        }
+      ],
+      "reverse": [
+        {
+          "visibleText": "What will you do with the hours it gives back?",
+          "scrollY": 6589,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "Leadership updates become consistent, even when the week was not.",
+          "scrollY": 6083,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It prepares the next move.",
+          "scrollY": 5577,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It joins the evidence.",
+          "scrollY": 5071,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        },
+        {
+          "visibleText": "It notices what changed.",
+          "scrollY": 4565,
+          "stageTop": 0,
+          "evidence": {
+            "path": "artifacts/homepage-release/scroll-observations.json",
+            "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+          }
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 7185,
+        "stageTop": -99.046875,
+        "evidence": {
+          "path": "artifacts/homepage-release/scroll-observations.json",
+          "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+        }
+      },
+      "exitBefore": {
+        "scrollY": 4455,
+        "stageTop": 100.953125,
+        "evidence": {
+          "path": "artifacts/homepage-release/scroll-observations.json",
+          "sha256": "7d04c614901cc54dfd257774e2c224f577db4ba6afea9eccdb26bb613413536b"
+        }
+      }
+    }
+  ]
+}

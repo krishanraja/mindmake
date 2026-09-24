@@ -70,6 +70,18 @@ jobs:
         # All twelve ordered-state cases run on BOTH platforms. The contract is
         # never narrowed to fit an engine filter or a missing observation.
         run: npm run qa:homepage-release
+      - name: Verify served and hydrated search metadata and share assets
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          npm run preview -- --host 127.0.0.1 --port 4346 --strictPort &
+          preview_pid=$!
+          trap 'kill "$preview_pid"' EXIT
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:4346/ > /dev/null; then break; fi
+            sleep 1
+          done
+          QA_REVISION="$GITHUB_SHA" npm run qa:discoverability -- --base=http://127.0.0.1:4346 --directory-index
       - name: Verify built public routes and navigation
         # Same 208 route cases and 9 navigation/redirect supplements. WebKit's
         # media gate runs on its Safari-like native platform; Linux WPE failures

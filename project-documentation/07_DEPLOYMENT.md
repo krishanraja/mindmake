@@ -1,150 +1,76 @@
-# Mindmake deployment
+# Deployment topology and operating contract
 
-Last updated: 24 September 2026 (release procedure and backend evidence; new frontend promotion not yet recorded).
+Reviewed 24 September 2026. Current deployment/version/rollback identities:
+[06_CURRENT_STATE.md](06_CURRENT_STATE.md). Procedure:
+[07_DEPLOY_RUNBOOK.md](07_DEPLOY_RUNBOOK.md). History: history/LOG.md only.
 
-This file records how the live Mindmake site is deployed and how to change it
-safely. Current identifiers live in `06_CURRENT_STATE.md`, and the ordered
-launch steps live in `07_DEPLOY_RUNBOOK.md`.
+## Frontend
 
-## Live topology
+Vercel project mindmake serves https://mindmake.co from krishanraja/mindmake.
+main auto-promotes. Node 22.x and npm ci use the committed lockfile. Vite
+prerenders indexed routes and generates sitemap/crawler text. Preview protection
+stays enabled: use authenticated preview access, not weakened project security.
+VITE_ values are build-time; changing them requires a rebuild.
 
-| Surface | Owner | Behaviour |
-|---|---|---|
-| `mindmake.co` | Vercel project `mindmake` (`prj_GqamX3psD0cGpGCDXRu0ljET7zap`, team `team_iXZBozK4Ss7NHuyNk8L9wmO6`) | Canonical public site |
-| `www.mindmake.co` | Same project | 308 redirect to the apex, path and query preserved |
-| `themindmaker.ai`, `www.themindmaker.ai` | Same project (DNS at Cloudflare, records point at Vercel) | 308 redirect to `https://mindmake.co`, path and query preserved |
-| `mindmakerlive.substack.com` | Substack | The publication. `/signal` and `/builder-economy` redirect here. `content.mindmake.co` is not in use (owner decision, 26 August 2026) |
-| `ctrl.mindmake.co` | Vercel project `mm-ctrl` | Serves the CTRL product |
-| `ctrl.themindmaker.ai` | Vercel project `mm-ctrl` | Still 308 redirects to `makeyourmindup.ai`; repoint to `ctrl.mindmake.co` after one confirmed authenticated CTRL login on the new host |
+www.mindmake.co, themindmaker.ai and www.themindmaker.ai redirect to the apex,
+preserving path/query. Canonical non-root paths omit trailing slashes.
+Publication: https://mindmakerlive.substack.com. CTRL is a separate project;
+its hosts/functions are not this website's deployment scope.
 
-`mindmake.co` DNS is hosted on Vercel DNS (`ns1/ns2.vercel-dns.com`). The zone
-also carries the Resend DKIM record (`resend._domainkey`), the return-path
-records on `send.mindmake.co` (MX plus SPF TXT) and `_dmarc` with `p=none`.
-There is no MX on the apex: no mailbox exists at `@mindmake.co`.
-
-## Build and promote
-
-### Current R3 release procedure
-
-The authority, scope, exact rollback anchor and eventual deployment receipt are in [RELEASE-2026-09-24](website-redesign/RELEASE-2026-09-24.md). Keep the pre-promotion deployment identity until the release owner verifies promotion; this procedure does not assert that the new frontend is live.
-
-1. Preserve immutable approved `homepage-production-synthesis-r3`. Generate its production adapter with `scripts/qa/build-homepage-release.mjs`; run its `--check` drift gate. Only the approved history/dividend scroll-pin behavior changes are authorized, not a new composition or copy rewrite.
-2. Run the full unit suite, application typecheck/lint/build and source/approval locks against the exact candidate. Earlier prototype receipts and backend-only tests do not satisfy the production build gate.
-3. Exercise the **built** candidate in Chromium, Firefox and WebKit: every history/dividend state, pin geometry, forward/reverse traversal, entry/exit, reduced-motion and insufficient-height behavior; run route smoke/continuity and lead-flow checks. Capture source-bound evidence, not screenshots alone.
-4. Run the feedback ledger/review gates and reject unresolved owner feedback. The only accepted exception is physical iPhone VoiceOver and Android TalkBack for this release; neither is a pass, and no other gate is waived.
-5. Match backend target/version/source readback and actual inbox/persistence/queue/download evidence to [the backend receipt](website-redesign/BACKEND-RELEASE-EVIDENCE-2026-09-24.md). Its final deployed versions are enrichment44, brief20 and personal25; the last two increments are runtime-equivalent type corrections. Preserve domain/name corroboration, literal factual evidence and the explicit owned alias without changing recipients.
-6. Promote only after those gates pass, then verify the public domain, routes, assets and working flows. Record exact commit/deployment/rollback identifiers and residual physical-AT follow-up in the release record and current state. Backend deployment and frontend promotion are separate claims.
-
-Vercel builds from GitHub (`krishanraja/mindmake`). A merge to `main` builds
-and promotes production. The production build uses:
-
-- `VITE_SUPABASE_URL` / `VITE_SUPABASE_PUBLISHABLE_KEY` / `VITE_SUPABASE_PROJECT_ID`
-  for Supabase project `bkyuxvschuwngtcdhsyg` (its display name in Supabase is
-  still the legacy "Mindmaker AI").
-- `VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED=true`: the private email hand-off is
-  live. Gate E was approved by Krish and closed on 27 August 2026 with a
-  synthetic end-to-end lead from `mindmake.co`.
-
-Identifiers: the launch merged commit was
-`e520952a182d29312fa2878dd3f963740c1dccb7` (pull request #141, production
-`dpl_7KNTh3AhLsRKCbxUbq6oGeQ7EiH6`). The current production deployment and
-rollback target are recorded in `06_CURRENT_STATE.md` and move with each merge.
+Browser settings: VITE_SUPABASE_URL, VITE_SUPABASE_PUBLISHABLE_KEY,
+VITE_SUPABASE_PROJECT_ID and VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED.
+Values belong in managed environments, never committed local files.
 
 ## Backend
 
-Supabase project `bkyuxvschuwngtcdhsyg`. Six functions belong to the site;
-everything else in the project belongs to CTRL and is not ours to touch.
+Project bkyuxvschuwngtcdhsyg. Versions/source evidence are in current state.
 
-| Function | verify_jwt | Called by |
+| Function | JWT | Contract |
 |---|---|---|
-| `submit-mindmake-brief` | off | The browser, for the company read |
-| `enrich-company` | on | `submit-mindmake-brief` |
-| `get-ai-news` | off | The browser, for the live board and the homepage proof card |
-| `mindmake-personal-read` | off | The browser, for the personal read |
-| `send-follow-ups` | off | pg_cron only |
-| `aa-price-snapshot` | off | pg_cron only |
+| submit-mindmake-brief | off | Company-first brief, verification and delivery |
+| enrich-company | on | Server-called domain-bound enrichment |
+| mindmake-personal-read | off | Retained personal-read API and human handoff |
+| get-ai-news | off | Retained cache API, not the approved homepage composition |
+| send-follow-ups | off | Cron-secret-guarded scheduled sender |
+| aa-price-snapshot | off | Cron-secret-guarded daily price recorder |
 
-Deploys go through the Supabase Management API with the function's **full
-import closure**; after every deploy, verify the deployed body against the
-repository and run one synthetic call. Current versions live in
-`06_CURRENT_STATE.md` and move with each deploy.
+Deploy full import closures, preserve JWT flags and independently read back
+source. Browser endpoints enforce origin/body allowlists and rate limits.
+Never loosen controls or add anonymous write policies for a canary. Preserve
+domain corroboration, literal factual reads and first-party source titles.
+The owned-domain alias affects research/signatures, never recipient addresses.
 
-The two browser-called new functions check a strict origin allowlist before
-they do any work, and rate-limit on one-way HMAC identifiers rather than on a
-raw address or IP. `get-ai-news` reads only the daily cache when asked for the
-board, so the board can never invent a fresher answer than the one it has.
+supabase/migrations defines retention, follow-up uniqueness, service-role-only
+tables and public wrappers for private routines. Before schema changes inspect
+remote migration history and obtain authority. Do not replay launch journals or
+run supabase db push by assumption. File contents do not prove a live job exists.
 
-The two cron-called functions are reached over HTTP by pg_cron with the Vault
-secret `mindmake_cron_secret` in the `x-mindmake-cron-secret` header, and each
-refuses without it. This is the project's established pattern and it is why
-they carry `verify_jwt` off: the guard is in the function, and the secret is
-never in a migration.
+Scheduled functions authenticate x-mindmake-cron-secret. The symbolic secret is
+mindmake_cron_secret in Vault and MINDMAKE_CRON_SECRET in the function environment;
+they must agree. Never put values in migrations, reports or transcripts.
+Read live cron configuration before changing it.
 
-- Migrations: `mindmake_brief_requests`, `mindmake_brief_retention`,
-  `mindmake_follow_up_and_personal_read`, `aa_model_snapshots`,
-  `mindmake_scheduled_jobs`, `mindmake_public_rpc_wrappers`. All are
-  idempotent and all are registered in the remote migration history.
-- Every table the site writes is RLS-on with **no policies**, so only the
-  service role reaches it. Adding an anon policy to any of them is a
-  regression, not a convenience.
-- PostgREST reaches only the `public` and `graphql_public` schemas, so a
-  routine in `private` needs a thin public wrapper to be callable from an edge
-  function. That is what `mindmake_public_rpc_wrappers` is for; a new private
-  routine needs the same treatment or it will fail with a 503 at runtime.
-- Scheduled jobs: `mindmake-brief-retention-daily` (`17 2 * * *`),
-  `mindmake-follow-up-daily` (`20 9 * * *`),
-  `mindmake-aa-price-snapshot-daily` (`0 11 * * *`).
-- Configuration names (values live only in Supabase): `RESEND_API_KEY`,
-  `MINDMAKE_RATE_LIMIT_SALT`, `MINDMAKE_VERIFICATION_SECRET`,
-  `MINDMAKE_BRIEF_FROM` (`Mindmake <briefs@mindmake.co>`),
-  `MINDMAKE_OPERATOR_EMAIL` (`krish@themindmaker.ai`),
-  `MINDMAKE_PUBLIC_URL` (`https://mindmake.co`),
-  `MINDMAKE_ALLOWED_ORIGINS` (`https://mindmake.co,https://www.mindmake.co`),
-  `MINDMAKE_CRON_SECRET`, `ARTIFICIALANALYSIS_API_KEY`, and the enrichment
-  provider keys.
+## Delivery and privacy
 
-### The two-email cap
+05_LEAD_DELIVERY_SPEC.md owns payloads, email cap, retention and failure paths.
+CONTACT_EMAIL in src/lib/publicLinks.ts owns contact links. Do not invent branded
+mailboxes or claim current DNS/Resend health from an old snapshot. Actual release
+INBOX proof covers its tested sender/recipient, not every provider or future cron.
 
-The public pages promise a visitor exactly two emails: the results they asked
-for, and one follow-up fourteen days later. That promise is held by mechanism,
-not by discipline: `follow_up_queue` is unique on `(email, source)`, so a
-returning visitor cannot stack a second row; each send is keyed on the row's
-id, so a re-run cannot duplicate; and `sent_at` is written only when the
-provider accepted. A used row is deleted after seven days.
+Managed keys include RESEND_API_KEY, MINDMAKE_RATE_LIMIT_SALT,
+MINDMAKE_VERIFICATION_SECRET, MINDMAKE_BRIEF_FROM, MINDMAKE_OPERATOR_EMAIL,
+MINDMAKE_PUBLIC_URL, MINDMAKE_ALLOWED_ORIGINS, MINDMAKE_CRON_SECRET,
+ARTIFICIALANALYSIS_API_KEY and enrichment-provider keys. Retrieve only through
+the authorized runtime; log sanitized outcomes, never values.
 
-Anything that would add a third send, whether a sequence, a nurture or a list
-import, breaks a published promise. `src/test/mindmake-brief-backend-core.test.ts` and
-`src/test/brief2-email-cap.test.ts` walk every function to catch a new sender,
-so adding one fails the suite before it can ship.
+Accepted/queued is not inbox delivery. Operational checks inspect function
+errors, rate-limit spikes and provider bounces, with inbox receipts only when
+sends are authorized. This runbook does not create an active monitor.
 
-Email identity: `mindmake.co` is verified in Resend; SPF, DKIM and DMARC all
-pass in a real inbox. Reply-To on verification and visitor emails is
-`krish@themindmaker.ai`; the operator email goes To that mailbox with the
-verified visitor address as Reply-To. The old `themindmaker.ai` Resend domain
-shows a failed verification and legacy senders on it are unreliable.
+## Rollback boundaries
 
-Retention: unverified requests purge after 7 days, rate-limit hashes after
-48 hours, verified records 12 months after their last update, sent follow-up
-rows after 7 days, unsent follow-up rows after 60 days, and personal reads at
-12 months. Deletion requests come through the published contact address and a
-manually verified private process.
-
-Operations: check the Resend logs and the Supabase function logs daily for
-failures, rate-limit spikes and bounces. A provider `queued` response is not
-proof of inbox delivery.
-
-## Rollback
-
-Per surface, never all at once:
-
-| Failure | Action |
-|---|---|
-| Site regression | Promote the rollback deployment named in `06_CURRENT_STATE.md` from the Vercel dashboard |
-| Domain or certificate failure | Detach the affected domain from the project and re-attach after the certificate re-issues |
-| V2 function failure | Revert the function to its previous version in Supabase; never drop the lead tables. If the failure leaks bad content to visitors, ship a build with the flag off while the function is repaired |
-| Email failure | Repair sender configuration and rerun the synthetic matrix before trusting deliveries again |
-| A follow-up must not go out yet | Hold the job rather than deleting queued rows: `select cron.alter_job((select jobid from cron.job where jobname = 'mindmake-follow-up-daily'), active := false);` |
-| The board is wrong or stale | Nothing to roll back. It reads only the daily cache, states its own age, and collapses to one honest line if the read is unavailable. Repair the cache, not the page |
-
-`VITE_` values are build-time: changing an environment variable alone changes
-nothing until a new build is promoted.
+Frontend and backend deploy separately. Use the known-good frontend deployment;
+preserve prior backend closures and check request compatibility before rollback.
+Never drop data or purge live queues. Holding sends, changing DNS/certificates,
+credentials or access requires scoped authority and a recovery plan, not an
+automatic workaround.

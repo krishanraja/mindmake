@@ -181,24 +181,239 @@ for (const [relativePath, expectedHash] of Object.entries(approved.files)) {
 }
 observations.push(`${matchingApprovedSourceFiles} of ${Object.keys(approved.files).length} r1 locked files currently match; this is an observation, not a start-gate pass`);
 
-for (const requiredText of [
+// Current documentation must describe the accepted release, not repeat an obsolete
+// recovery prompt. The complete earlier text is independently hash-checked below.
+const release = await readFile(resolve(root, "project-documentation/website-redesign/RELEASE-2026-09-24.md"), "utf8");
+const history = await readFile(resolve(root, "project-documentation/history/LOG.md"), "utf8");
+const currentDocumentationRequirements = [
+  ["state", "Status: approved-r3-live"],
+  ["state", "06_CURRENT_STATE.md"],
+  ["state", "quality/route-lock/approved-production-r14.json"],
+  ["state", "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/"],
+  ["state", "scripts/qa/build-homepage-release.mjs"],
+  ["state", "History retains four reversible states"],
+  ["state", "Leadership dividend retains five stages"],
+  ["state", "No wheel/touch cancellation"],
+  ["state", "natural flow and direct controls"],
+  ["state", "Only Krish may approve a material surface or accept an MMF exception"],
+  ["state", "Submission is not approval"],
+  ["state", "npm run qa:website-restart"],
+  ["state", "npm run qa:website-approved-visuals"],
+  ["state", "npm run qa:homepage-release"],
+  ["state", "npm run qa:release-routes"],
+  ["state", "Browser emulation is not a physical-device pass"],
+  ["state", "../history/LOG.md#archive-2026-09-24-website-redesign-state-md"],
+  ["release", "Publish after all other checks pass; record this exception"],
+  ["release", "Neither check has been performed"],
+  ["release", "not a permanent waiver for future work"],
+  ["release", "../history/LOG.md#archive-2026-09-24-website-redesign-release-2026-09-24-md"],
+];
+const obsoleteCurrentClaims = [
   "This is the single current state route for the unreleased multi-surface redesign.",
   "Exact next-session prompt",
-  "Do not restart discovery",
-  "npm run qa:website-restart",
-  "npm run qa:website-approved-visuals",
-  "First material artifact",
-  "Do not create another competing strategy, handoff, feedback or state document",
-  "prototypes/website-redesign-recovery/gtm-market-change/",
   "Exact r1 source parity is not currently recovered",
-  "Do not rely on any ambient server or another checkout",
-  "Only I can approve a material surface or accept an MMF exception",
-  "Concept and reset trace",
-  "physical iPhone Safari with VoiceOver",
-  "world_class_winner"
-]) {
-  requireCondition(state.includes(requiredText), `STATE.md is missing required text: ${requiredText}`);
+  "RELEASE BLOCKED",
+];
+function validateCurrentDocumentation(documents) {
+  const issues = [];
+  for (const [document, requiredText] of currentDocumentationRequirements) {
+    if (!documents[document]?.includes(requiredText)) issues.push(`${document}: missing ${requiredText}`);
+  }
+  for (const [document, text] of Object.entries(documents)) {
+    for (const obsolete of obsoleteCurrentClaims) {
+      if (text.includes(obsolete)) issues.push(`${document}: obsolete current claim ${obsolete}`);
+    }
+  }
+  return issues;
 }
+const currentDocuments = { state, release };
+failures.push(...validateCurrentDocumentation(currentDocuments));
+let documentationNegativeControls = 0;
+for (const [document, requiredText] of currentDocumentationRequirements) {
+  const mutated = { ...currentDocuments, [document]: currentDocuments[document].replaceAll(requiredText, "[removed for negative control]") };
+  requireCondition(validateCurrentDocumentation(mutated).includes(`${document}: missing ${requiredText}`),
+    `documentation negative control did not reject missing ${requiredText}`);
+  documentationNegativeControls += 1;
+}
+for (const obsolete of obsoleteCurrentClaims) {
+  for (const document of ["state", "release"]) {
+    const mutated = { ...currentDocuments, [document]: currentDocuments[document] + "\n" + obsolete };
+    requireCondition(validateCurrentDocumentation(mutated).includes(`${document}: obsolete current claim ${obsolete}`),
+      `documentation negative control accepted obsolete ${document} text`);
+    documentationNegativeControls += 1;
+  }
+}
+
+// Immutable transfer receipts bind the full pre-consolidation documents, including
+// failed findings and superseded owner instructions. These are not release passes.
+const archivedDocuments = [
+  {
+    "path": "project-documentation/homepage-redesign/BRAIN_AWARD_PANEL_R1.md",
+    "rawOriginal": {
+      "sha256": "bac240bd2afee5583f49a497b8cdd4ac4ddb1ad328f6343af44ba8c5cc2c1322",
+      "bytes": 4440
+    },
+    "storedLf": {
+      "sha256": "bac240bd2afee5583f49a497b8cdd4ac4ddb1ad328f6343af44ba8c5cc2c1322",
+      "bytes": 4440
+    }
+  },
+  {
+    "path": "project-documentation/homepage-redesign/BRAIN_CONCEPT_TRACE.md",
+    "rawOriginal": {
+      "sha256": "6859445e88a479651e736ccaafbe7528209b39428056d37f9c45e870ecd3ee05",
+      "bytes": 9631
+    },
+    "storedLf": {
+      "sha256": "6859445e88a479651e736ccaafbe7528209b39428056d37f9c45e870ecd3ee05",
+      "bytes": 9631
+    }
+  },
+  {
+    "path": "project-documentation/homepage-redesign/CONCEPT_TRACE.md",
+    "rawOriginal": {
+      "sha256": "87b73e2cb4e2653cf226f905780a95dcb73a8134f67e441d6648ed53394f7d29",
+      "bytes": 7590
+    },
+    "storedLf": {
+      "sha256": "87b73e2cb4e2653cf226f905780a95dcb73a8134f67e441d6648ed53394f7d29",
+      "bytes": 7590
+    }
+  },
+  {
+    "path": "project-documentation/homepage-redesign/DECISIONS.md",
+    "rawOriginal": {
+      "sha256": "68c2a2531c663ecec6e9d06afb4071a8c578ff5440127cbb36d06838a3bf03ca",
+      "bytes": 28910
+    },
+    "storedLf": {
+      "sha256": "68c2a2531c663ecec6e9d06afb4071a8c578ff5440127cbb36d06838a3bf03ca",
+      "bytes": 28910
+    }
+  },
+  {
+    "path": "project-documentation/homepage-redesign/GTM_CONCEPT_TRACE.md",
+    "rawOriginal": {
+      "sha256": "5953ff3b6ca3379cf859acf15da0b7c2716da0bf7a2551a689145f6c39a48c58",
+      "bytes": 12676
+    },
+    "storedLf": {
+      "sha256": "5953ff3b6ca3379cf859acf15da0b7c2716da0bf7a2551a689145f6c39a48c58",
+      "bytes": 12676
+    }
+  },
+  {
+    "path": "project-documentation/homepage-redesign/JUDGE_BRIEF.md",
+    "rawOriginal": {
+      "sha256": "a91690c7f79214ab60d0b872d4dce173621979166052dff4584abdb2e15f3bd6",
+      "bytes": 3441
+    },
+    "storedLf": {
+      "sha256": "a91690c7f79214ab60d0b872d4dce173621979166052dff4584abdb2e15f3bd6",
+      "bytes": 3441
+    }
+  },
+  {
+    "path": "project-documentation/homepage-redesign/ROUND2_JUDGE_BRIEF.md",
+    "rawOriginal": {
+      "sha256": "9a92a49117ac81fde264c9e50fe26180ebc789a733ed16b36a76a9cff351b95c",
+      "bytes": 3175
+    },
+    "storedLf": {
+      "sha256": "9a92a49117ac81fde264c9e50fe26180ebc789a733ed16b36a76a9cff351b95c",
+      "bytes": 3175
+    }
+  },
+  {
+    "path": "project-documentation/homepage-redesign/ROUND2_MISSING_TERRITORY.md",
+    "rawOriginal": {
+      "sha256": "5f643a2967d595ae966981e54004086d4f75f067cc2c544e310de0319e75ecac",
+      "bytes": 1556
+    },
+    "storedLf": {
+      "sha256": "5f643a2967d595ae966981e54004086d4f75f067cc2c544e310de0319e75ecac",
+      "bytes": 1556
+    }
+  },
+  {
+    "path": "project-documentation/homepage-redesign/SANITIZED_BRIEF.md",
+    "rawOriginal": {
+      "sha256": "ba36e37a12bbad4edbb8edc61db42a969f3b0bad9e93af92a3202828b753a8dc",
+      "bytes": 4598
+    },
+    "storedLf": {
+      "sha256": "ba36e37a12bbad4edbb8edc61db42a969f3b0bad9e93af92a3202828b753a8dc",
+      "bytes": 4598
+    }
+  },
+  {
+    "path": "project-documentation/homepage-redesign/STATE.md",
+    "rawOriginal": {
+      "sha256": "8af0041152c56910277c62e4e2643ccf2823cb71ba61849c9151db20587a34b8",
+      "bytes": 29279
+    },
+    "storedLf": {
+      "sha256": "8af0041152c56910277c62e4e2643ccf2823cb71ba61849c9151db20587a34b8",
+      "bytes": 29279
+    }
+  },
+  {
+    "path": "project-documentation/website-redesign/STATE.md",
+    "rawOriginal": {
+      "sha256": "b38aaffb13d1b3eb8bfbb60f27d3731cef1dca96bd9869dd88d0599306f8affe",
+      "bytes": 325904
+    },
+    "storedLf": {
+      "sha256": "b38aaffb13d1b3eb8bfbb60f27d3731cef1dca96bd9869dd88d0599306f8affe",
+      "bytes": 325904
+    }
+  },
+  {
+    "path": "project-documentation/website-redesign/RELEASE-2026-09-24.md",
+    "rawOriginal": {
+      "sha256": "699383ffdf3974aa3f36f19ba0c7738df0fe68f6be7fbd86c84a83116f6c88ca",
+      "bytes": 16742
+    },
+    "storedLf": {
+      "sha256": "699383ffdf3974aa3f36f19ba0c7738df0fe68f6be7fbd86c84a83116f6c88ca",
+      "bytes": 16742
+    }
+  }
+];
+function validateArchivedDocument(log, entry) {
+  // Preserve raw-source provenance separately; normalize checkout transport only.
+  // Every archived original in this transfer used LF.
+  log = log.replace(/\r\n/g, "\n");
+  const begin = "<!-- BEGIN VERBATIM " + entry.path + " -->\n" + "``````markdown\n";
+  const end = "``````\n<!-- END VERBATIM " + entry.path + " -->";
+  const start = log.indexOf(begin);
+  if (start < 0 || log.indexOf(begin, start + begin.length) >= 0) return "missing or duplicate archive";
+  const contentStart = start + begin.length;
+  const finish = log.indexOf(end, contentStart);
+  if (finish < 0) return "missing archive end";
+  const body = log.slice(contentStart, finish);
+  if (Buffer.byteLength(body, "utf8") !== entry.storedLf.bytes || sha256(body) !== entry.storedLf.sha256) return "archive byte/hash mismatch";
+  return null;
+}
+for (const entry of archivedDocuments) {
+  const issue = validateArchivedDocument(history, entry);
+  requireCondition(!issue, `${entry.path}: ${issue}`);
+  const marker = "<!-- BEGIN VERBATIM " + entry.path + " -->\n" + "``````markdown\n";
+  const corrupt = history.replace(/\r\n/g, "\n").replace(marker, marker + "[deliberate negative-control corruption]");
+  requireCondition(validateArchivedDocument(corrupt, entry) === "archive byte/hash mismatch",
+    `${entry.path}: archive corruption negative control did not fail closed`);
+}
+let archiveTransportControls = 0;
+const historyLf = history.replace(/\r\n/g, "\n");
+for (const transported of [historyLf, historyLf.replace(/\n/g, "\r\n")]) {
+  for (const entry of archivedDocuments) {
+    requireCondition(!validateArchivedDocument(transported, entry), `${entry.path}: line-ending transport changed archived meaning`);
+    archiveTransportControls += 1;
+  }
+}
+observations.push(`${archivedDocuments.length} complete historical documents retain raw-source provenance and match separate stored-LF byte counts and SHA-256 values`);
+observations.push(`${archiveTransportControls} LF/CRLF transport controls preserve all archived bodies`);
+observations.push(`${documentationNegativeControls} current-state negative controls and ${archivedDocuments.length} archive-corruption controls reject invalid documentation`);
 requireCondition(agents.includes("project-documentation/website-redesign/STATE.md"), "AGENTS.md does not route new agents to the recovery state");
 requireCondition(agents.includes("quality/website-redesign/continuity-contract.v1.json"), "AGENTS.md does not route new agents to the continuity contract");
 
@@ -215,6 +430,11 @@ console.log(JSON.stringify({
   brainMaterialLockFiles: brainMaterialLockFiles.length,
   matchingApprovedSourceFiles,
   approvedLockedFiles: Object.keys(approved.files).length,
+  currentDocumentationRequirements: currentDocumentationRequirements.length,
+  documentationNegativeControls,
+  archivedDocuments: archivedDocuments.length,
+  archiveCorruptionNegativeControls: archivedDocuments.length,
+  archiveTransportControls,
   observations,
   failures
 }, null, 2));

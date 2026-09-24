@@ -27,7 +27,7 @@ page.on('response', async response => {
 });
 try {
   await page.goto('https://mindmake.co/?start=brain', { waitUntil: 'domcontentloaded' });
-  const dialog = page.getByRole('dialog');
+  const dialog = page.locator('.mm-brief-panel[role="dialog"]');
   const workEmail = dialog.getByLabel('Work email', { exact: true });
   await workEmail.waitFor({ state: 'visible', timeout: 15000 });
   const combinedEntry = await dialog.getByLabel('First name', { exact: true }).isVisible();

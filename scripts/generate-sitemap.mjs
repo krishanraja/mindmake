@@ -9,11 +9,12 @@
  * noindex issues with non-production Vercel deployments.
  */
 
-import { writeFileSync } from "fs";
+import { writeFileSync, existsSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 import { loadBlogPosts } from "./lib/blog-posts-loader.mjs";
 import { loadAnswers } from "./lib/answers-loader.mjs";
+import { staticPages } from "./lib/pages.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
@@ -23,25 +24,12 @@ const DOMAINS = [
 ];
 
 // Static routes with their change frequency and priority
-const staticRoutes = [
-  { path: "/", changefreq: "daily", priority: "1.0" },
-  { path: "/ai-brain", changefreq: "weekly", priority: "0.9" },
-  { path: "/ai-gtm", changefreq: "weekly", priority: "0.9" },
-  { path: "/case-studies", changefreq: "monthly", priority: "0.8" },
-  { path: "/new-age-leadership", changefreq: "monthly", priority: "0.5" },
-  { path: "/blog", changefreq: "daily", priority: "0.8" },
-  { path: "/answers", changefreq: "weekly", priority: "0.8" },
-  { path: "/faq", changefreq: "monthly", priority: "0.5" },
-  { path: "/contact", changefreq: "yearly", priority: "0.5" },
-  { path: "/privacy", changefreq: "yearly", priority: "0.3" },
-  { path: "/terms", changefreq: "yearly", priority: "0.3" },
-  // /alumni intentionally excluded: unlisted and noindex.
-  // /workshops, /cohort, /enterprise, /immersion and /leaders are 301s now.
-  // A redirected URL does not belong in a sitemap.
-];
+// One indexed route list, shared with prerender. No fabricated lastmod for
+// static pages: a build date is not evidence of a significant content change.
+const staticRoutes = staticPages;
+const escapeXml = value => String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&apos;");
 
 async function generateSitemap() {
-  const today = new Date().toISOString().split("T")[0];
   const blogPosts = await loadBlogPosts(rootDir);
   const { answers, answerPath } = await loadAnswers(rootDir);
 
@@ -51,20 +39,15 @@ async function generateSitemap() {
     // Static pages
     for (const route of staticRoutes) {
       urls.push(`  <url>
-    <loc>${domain}${route.path}</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>${route.changefreq}</changefreq>
-    <priority>${route.priority}</priority>
+    <loc>${escapeXml(domain + route.path)}</loc>
   </url>`);
     }
 
     // Blog posts
     for (const post of blogPosts) {
       urls.push(`  <url>
-    <loc>${domain}/blog/${post.slug}</loc>
-    <lastmod>${post.updatedAt || today}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <loc>${escapeXml(`${domain}/blog/${post.slug}`)}</loc>
+    <lastmod>${escapeXml(post.updatedAt || post.publishedAt)}</lastmod>
   </url>`);
     }
 
@@ -72,10 +55,8 @@ async function generateSitemap() {
     // one page per buyer question, dated by when it was written.
     for (const answer of answers) {
       urls.push(`  <url>
-    <loc>${domain}${answerPath(answer.slug)}</loc>
-    <lastmod>${answer.publishedAt}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <loc>${escapeXml(domain + answerPath(answer.slug))}</loc>
+    <lastmod>${escapeXml(answer.publishedAt)}</lastmod>
   </url>`);
     }
   }
@@ -86,12 +67,14 @@ ${urls.join("\n")}
 </urlset>
 `;
 
-  // Write to both public/ (for dev) and dist/ (for production)
+  if (process.argv.includes("--stdout")) {
+    process.stdout.write(sitemap);
+    return;
+  }
+  // The public-only path lets focused checks leave an active built candidate alone.
   writeFileSync(resolve(__dirname, "../public/sitemap.xml"), sitemap);
-  try {
+  if (!process.argv.includes("--public-only") && existsSync(resolve(rootDir, "dist"))) {
     writeFileSync(resolve(__dirname, "../dist/sitemap.xml"), sitemap);
-  } catch {
-    // dist/ may not exist yet if running before build
   }
 
   const totalUrls = urls.length;

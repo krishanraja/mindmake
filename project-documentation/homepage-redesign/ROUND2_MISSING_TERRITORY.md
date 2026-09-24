@@ -1,19 +1,13 @@
-# Round two missing territory
+# Round two missing territory: history locator
 
-Use `SANITIZED_BRIEF.md` unchanged. This file adds only the conceptual territory the first round failed to cover.
+This path is retained for existing references; it is not current redesign guidance.
 
-The second round must not converge on a persistent Brain and GTM selector that swaps route-specific copy down one shared page. Across the set, each concept must use a different answer to all of these questions:
+The complete former document, including its original decisions, rationale, approval boundaries, failures, hashes and evidence references, is preserved verbatim in [history/LOG.md](../history/LOG.md#archive-2026-09-24-homepage-redesign-round2-missing-territory-md). The archive records source path `project-documentation/homepage-redesign/ROUND2_MISSING_TERRITORY.md` and raw SHA-256 `5f643a2967d595ae966981e54004086d4f75f067cc2c544e310de0319e75ecac`.
 
-- What happens before the visitor chooses a door?
-- What physical or spatial action carries the idea?
-- Does choosing a door navigate, reveal, transform or begin?
-- What remains on screen after the choice?
-- How does proof clarify the route without becoming another section stack?
+Current owners:
 
-Required territories:
+- [Website accepted state and change guards](../website-redesign/STATE.md).
+- [Current production and operational truth](../06_CURRENT_STATE.md).
+- [Feedback reconciliation](../website-redesign/FEEDBACK-WORKFLOW.md).
 
-1. One concept where a single piece of proof is the primary navigational object and the door choice emerges from operating or inspecting it. Do not add a preliminary selector before the doors.
-2. One concept where the homepage behaves as one bounded spatial object rather than a vertical sequence of sections. The visitor should manipulate or traverse that object without nested scrolling or a hidden carousel.
-3. One concept where the two doors are immediate destinations and the homepage changes through a decisive transition or contained overlay rather than persistent downstream route state.
-
-Every concept still needs the full two-door decision in the first viewport, route clarity before ornament and a contained responsive start surface. The set must remain feasible with the current React application and existing assets. Do not inspect or refer to first-round candidates or verdicts.
+Use the numbered canon for business and proof authority. Archived instructions, next actions and former approval limits describe their original dates; they do not reopen accepted R3 or grant new release authority. The historical schemas, candidate/verdict JSON and byte-locked `ROUTE-CONTINUITY-R3.md` remain at their original paths for reproducibility, not as competing current guidance.

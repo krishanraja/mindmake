@@ -100,7 +100,7 @@ const ssrEntry = resolve(rootDir, "dist-ssr/entry-server.js");
 if (!existsSync(ssrEntry)) {
   throw new Error("dist-ssr/entry-server.js is missing. Run `npm run build:ssr` before prerendering.");
 }
-const { render } = await import(pathToFileURL(ssrEntry).href);
+const { renderWithMetadata } = await import(pathToFileURL(ssrEntry).href);
 
 /* Paths the route table in src/entry-server.tsx does not cover. Collected
    rather than thrown on immediately, so one run names all of them. */
@@ -114,6 +114,16 @@ function replaceMeta(html, attribute, key, content) {
 }
 
 function build(page) {
+  const { body, metadata } = renderWithMetadata(page.path);
+  if (!metadata || metadata.noindex || metadata.canonical !== page.path) {
+    throw new Error(`Indexed route ${page.path} must render one matching, indexable SEO owner.`);
+  }
+  // The component owns the head. The page list owns inclusion and social art.
+  // A stale list must fail rather than silently diverge from llms/social output.
+  if (page.title !== metadata.title || page.description !== metadata.description) {
+    throw new Error(`Metadata manifest is stale for ${page.path}; reconcile it with the approved component metadata.`);
+  }
+  page = { ...page, ...metadata };
   const fullTitle = `${page.title} | Mindmake`;
   const canonicalUrl = `${site}${page.path}`;
   let html = shell.replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(fullTitle)}</title>`);
@@ -132,14 +142,15 @@ function build(page) {
      do, so a network that caches by URL fetches the repainted plate. */
   const plate = plates[page.path] ?? plates["/"];
   const plateUrl = page.ogImage ?? `${site}${plate.file}?v=${plate.version}`;
-  const plateAlt = [plate.headline, plate.claim].filter(Boolean).join(" ");
+  const plateAlt = page.ogImage ? page.title : [plate.headline, plate.claim].filter(Boolean).join(" ");
   html = replaceMeta(html, "property", "og:image", plateUrl);
+  html = replaceMeta(html, "property", "og:image:secure_url", plateUrl);
   html = replaceMeta(html, "property", "og:image:alt", plateAlt);
   html = replaceMeta(html, "name", "twitter:image", plateUrl);
   html = replaceMeta(html, "name", "twitter:image:alt", plateAlt);
   html = html.replace(/<link rel="canonical" href="[^"]*"\s*\/?>/, `<link rel="canonical" href="${escapeHtml(canonicalUrl)}" />`);
   if (page.jsonLd) {
-    html = html.replace("</head>", `    <script id="mindmake-page-jsonld" type="application/ld+json">${JSON.stringify(page.jsonLd)}</script>\n  </head>`);
+    html = html.replace("</head>", `    <script id="mindmake-page-jsonld" type="application/ld+json">${JSON.stringify(page.jsonLd).replaceAll("<", "\\u003c")}</script>\n  </head>`);
   }
   /* The page itself, rendered from the components at build time.
 
@@ -151,14 +162,11 @@ function build(page) {
      ink, which the entrance gate read as the page settling a second after it
      painted.
 
-     Everything above this line is unchanged. `src/components/SEO.tsx` writes
-     the head in an effect and so produces nothing server-side, which is why the
-     title, meta, canonical and JSON-LD are still written here and why this
-     replaces the body alone.
+     Metadata was captured from this same render above. The collector changes
+     no body markup; the browser still hydrates the original component tree.
 
      A route the server bundle does not cover leaves #root empty and loads as a
      single-page app, exactly as every retired route already does. */
-  const body = render(page.path);
   if (!body) missingFromSsr.push(page.path);
 
   /* The hero poster, preloaded from what this page renders.

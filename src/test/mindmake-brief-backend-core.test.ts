@@ -172,11 +172,22 @@ describe("Mindmake brief V2 backend core", () => {
     expect(operator.html.toLowerCase()).not.toContain("calendly");
     expect(visitor.attachmentHtml).not.toContain("fonts.googleapis.com");
     expect(visitor.attachmentHtml).not.toContain("@import");
-    expect(visitor.text).toContain("No sales emails will follow automatically.");
+    expect(visitor.text).toContain("We will send one follow-up fourteen days from now.");
     expect(visitor.text).not.toContain("Krish has the same brief");
     expect(visitor.text).toContain("It is not advice.");
     expect(operator.text).toContain("Never import this address directly.");
     expect(operator.text).not.toContain("read through the lens");
+  });
+
+  it("discloses the single day-14 follow-up consistently in visitor text and HTML", () => {
+    const visitor = renderVisitorEmail(createStoredBrief(parsedRequest(), research()));
+    const disclosure = "We will send one follow-up fourteen days from now. There is no ongoing email sequence. If you hear from Krish separately, it will be because he has a useful next move, a strong fit or something worth questioning.";
+
+    for (const body of [visitor.text, visitor.html]) {
+      expect(body).toContain(disclosure);
+      expect(body).not.toContain("No sales emails will follow automatically");
+    }
+    expect(visitor.subject).toBe("Your Mindmake brief for Example & Co");
   });
 
   it("keeps a positive publication choice as unverified interest", () => {

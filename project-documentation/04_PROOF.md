@@ -1,12 +1,13 @@
 # Mindmake brand and testimonial proof
 
-Last updated: 7 September 2026. Proof permissions approved 2026-08-11; career-reference set extended by Krish 2026-08-27; the thirty-three revised by Krish 2026-09-07.
+Policy/placement reviewed 24 September 2026. Approved quotation source remains
+`src/data/testimonials.ts`; this review does not expand consent or change words.
 
 This file is the single project source for attendee brands, client outcomes, Steph Darmanin's consent-gated excerpts, and named career references. Other project documents must point here rather than copy these lists. The rendered data lives in `src/data/rebuildProof.ts` and must match this file.
 
 ## The thirty-three, and the two rules that hold them
 
-Added 28 August 2026. Every testimonial the practice holds now lives in
+The approved testimonial set lives in
 `src/data/testimonials.ts`, in four families that never mix: five session
 attendees, four named clients with consent on record, fourteen anonymised client
 outcomes, ten named career references. A session attendee is not a client and a
@@ -16,22 +17,15 @@ which, and `src/test/testimonials.test.ts` checks the counts.
 **Quotes are never edited.** Not for spelling, not for house style, not to
 remove the founder's name. The rules that govern our own voice stop at the
 quotation mark, which is why that file sits outside the copy gates and says so
-at the exclusion. An earlier version of this data had been anglicised and
-name-stripped to pass those gates, and a quote edited to fit a style guide is
-not a quote.
+at the exclusion. House style never overrides source wording.
 
 **A shortened quote is an exact substring.** Thirty-three quotes of wildly
 different lengths cannot share a rail, and the alternative to an excerpt is a
 paraphrase attributed to a named person. Every excerpt is checked against its
 full text by a test, so a rewrite cannot pass as an extract.
 
-Both rules earned their keep on 7 September 2026. Krish revised the thirty-three
-to what people actually wrote, and ten excerpts stopped being substrings of the
-quotes they came from: two by a capital letter, eight because the excerpt had
-been rewritten to say what the new quote meant. The test caught all ten and
-every excerpt was cut again from the revised text. The story deck's eight
-pull-quotes are a separate, older approval and were not revised; see the open
-item in `06_CURRENT_STATE.md`.
+The eight stories read their quote and role from `src/data/testimonials.ts`.
+Do not maintain a separately edited quote in the story deck.
 
 **Named clients, consent-gated.** Steph Darmanin and Dipti Divekar are named
 clients with recorded consent, which crosses the "client outcomes stay
@@ -76,29 +70,24 @@ The organisations below are attendance proof. They are not Mindmake advisory cli
 
 All 16 organisations remain approved attendance proof. They are not all required on the homepage.
 
-## Current homepage logo selection
+## Permitted attendance-logo treatment
 
-Use the media organisations from the approved list for the current homepage direction:
-
-1. BBC
-2. Hearst
-3. Condé Nast
-
-Use official logo artwork in a compact one-line strip. The strip may move gently when that helps the page, but must pause for reduced-motion users and must not make the organisations look like advisory clients. Do not link the logos.
+BBC, Hearst and Condé Nast are an approved compact media selection. This is
+permission, not a required R3 homepage section. If an approved surface uses it,
+use official artwork with the attendance qualifier, no client implication and
+no logo links. Motion stops for reduced-motion users. Preserve the accepted
+homepage rather than inserting an earlier proof-stack design.
 
 ## Verified client outcome stories, exactly 8
 
 The words in quotation marks are verbatim. Keep each client anonymous at role and sector unless a later consent record explicitly changes that. The internal engagement records behind these stories are in `04_PROOF_RECORDS.md`.
 
-From 7 September 2026 each story names its voice in `src/data/testimonials.ts`
-and reads the quote and the role from there, so the deck cannot carry a second
-copy of what somebody wrote. The quotes below are the same text; the id in
-brackets after each attribution is the voice. Story 2's attribution followed
-the voice to "Partner, media advisory".
+Each story references a voice in `src/data/testimonials.ts` and reads its quote
+and role from there. The id after each attribution below identifies that voice.
 
 ### 1. Land the answer in a day, then leave
 
-Two quarters of argument over build or partner ended in one day in the room. The partner agreement was signed the following month, and build comes back for review in twelve months, once the data is stronger. (Swapped 7 September 2026 to fit the quote, from the same record, R-08; the story used to lead on the year of engineering not spent.)
+Two quarters of argument over build or partner ended in one day in the room. The partner agreement was signed the following month, and build comes back for review in twelve months, once the data is stronger.
 
 > “Krish knows how to add value immediately which contnues to compound, and is honest about the benefits of continuing to work with him. He doesn't want to loiter.”
 >
@@ -162,7 +151,7 @@ A data company changed how it sold as AI changed the web. The work led to a paid
 
 ## Steph Darmanin, consent-gated named proof
 
-Steph Darmanin is a separate client from the anonymous executive coaching practice above. Her use is approved, but the site must still fail closed against the existing Legacy Ascend consent record. If that record is absent, private, unavailable or errors, show none of these excerpts and do not show her name.
+Steph Darmanin is a separate client from the anonymous executive coaching practice above. Her use is approved. The production gate is the checked-in `consent: "recorded"` value and `publishableTestimonials` filter in `src/data/testimonials.ts`, not a live Legacy Ascend lookup. Missing recorded consent excludes the named client entry. Legacy Ascend is historical consent provenance; a withdrawal or unresolved permission requires removing publication eligibility before any further release. Do not claim a runtime consent service exists.
 
 Place the excerpts where they support the surrounding message. Never group all of them together.
 
@@ -192,71 +181,22 @@ Place the excerpts where they support the surrounding message. Never group all o
 >
 > Steph Darmanin, Performance Coach
 
-## Approved named career references, exactly 9
+## Approved named career references
 
-These are career references. They are not Mindmake client outcomes. Use them only after client proof or on the operator/about surface. The source is the professional recommendation set Krish supplied; the three references added on 27 August 2026 (Rob Hudson, Michael Ricciardone, Marie-Anne Leung Kam) were selected by Krish for their communication and human-approach themes and condensed faithfully from that set.
+The ten current career references, their exact original words, excerpts and roles
+are owned by [src/data/testimonials.ts](../src/data/testimonials.ts), family
+`reference`. Excerpts must remain exact substrings of their originals. These are
+career references, not Mindmake client outcomes. Use them only after client proof
+or on the operator/about surface. This file does not maintain a second condensed
+quote collection. The previous nine-reference prose is preserved, unchanged, in
+[the historical ledger](history/LOG.md).
 
-### Lizzie Young
+## Placement authority
 
-Chief Executive, Commercial Radio & Audio
-
-> “A respected senior leader with deep expertise in digital media and data, a great communicator of complexity, with a warm nature that brings people together.”
-
-### Rob Hudson
-
-National Sales Director, Media, REA Group
-
-> “A unique ability to make data products accessible to everyone in the room, not just the digital people. A genuine passion for helping clients solve business problems, and above all very personable and approachable.”
-
-### Michael Ricciardone
-
-Country Manager, ANZ, MoEngage
-
-> “Articulate, engaging and entertaining. He breaks down the barriers marketers face with data and technology using relevant examples and stories, then presents clear solutions. Full of support, always keen to educate.”
-
-### Melinda Heffernan
-
-Ad Channel Partnerships Director APAC, Taboola
-
-> “He explains complex technical set-ups simply and is a true problem solver. I learnt a huge amount about finding solutions for clients from him.”
-
-### Chris Spencer
-
-Lead Account Executive, Enterprise, Culture Amp
-
-> “An industry expert who turns knowledge into actionable plans and crafted solutions for clients.”
-
-### Ashley Wales-Brown
-
-Digital Commerce Director, Mars United Commerce
-
-> “Intelligent and hardworking, with a deep understanding of data and tech, always good for a straight answer and willing to get his hands dirty.”
-
-### Matt Paine
-
-Managing Partner, Lamington Digital
-
-> “Adept at translating complex scenarios into simple, easy-to-grasp language that moves the conversation forward.”
-
-### Marie-Anne Leung Kam
-
-Director, 2 Square Talent
-
-> “An outstanding leader with a clear vision, a collaborative approach and a knack for driving innovation. I could not recommend him more highly.”
-
-### Vincent Pelillo
-
-Regional Managing Director, Channel Factory
-
-> “Outstanding leadership, consistently driving results in a challenging market. Where 'get it done' is valued, I'd rehire him 100%.”
-
-## Homepage proof stack
-
-1. The approved reach headline (no count).
-2. The attendance qualifier and the current three-logo media strip: BBC, Hearst and Condé Nast. The full 16-brand set remains approved for other attendance-proof uses.
-3. Three result previews from the outcome stories, with the full archive on the case-studies route.
-4. The nine-voice career testimonial deck, one section, swipe-first on touch widths.
-5. Steph's excerpts appear only where consent is confirmed and never grouped together.
+The approved R3 homepage controls its proof placement. No additional logo strip,
+result cards, founder block or testimonial deck is required by this file. Results
+remain on `/case-studies`; other placements require their scoped approval. Steph
+excerpts stay consent-gated and never form an unapproved new section.
 
 ## Guardrails
 

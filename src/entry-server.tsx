@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import { StaticRouter } from "react-router-dom/server";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { CookieConsent } from "@/components/CookieConsent";
+import { SEOCollector, type SEOProps } from "@/lib/seoCollector";
 import { PageLoading, ScrollToLocation } from "@/App";
 
 /* Eagerly, and this is the whole reason this file exists rather than reusing
@@ -41,10 +42,9 @@ import Alumni from "./pages/Alumni";
  * shell was for is unchanged and better served: a crawler that runs nothing
  * still gets every word, and now in the real layout.
  *
- * The head is not rendered here. `src/components/SEO.tsx` writes title, meta,
- * canonical and JSON-LD in an effect, so it produces nothing server-side, and
- * `scripts/prerender.mjs` already writes all of it into the template. This
- * replaces the body only, which is why no head extraction is needed.
+ * The build captures the page's own SEO props during this same render. The
+ * prerender writes them into the head, so initial HTML and client navigation
+ * cannot maintain competing titles, descriptions or structured data.
  */
 
 /* Routes rather than a component per path, because `/blog/:slug` reads
@@ -86,7 +86,14 @@ function SiteRoutes() {
  * next during a build that renders twenty-one of them in a row.
  */
 export function render(path: string): string {
-  return renderToString(
+  return renderWithMetadata(path).body;
+}
+
+export function renderWithMetadata(path: string): { body: string; metadata: SEOProps | null } {
+  let metadata: SEOProps | null = null;
+  let metadataCount = 0;
+  const body = renderToString(
+    <SEOCollector.Provider value={value => { metadata = value; metadataCount += 1; }}>
     <QueryClientProvider client={new QueryClient()}>
       <StaticRouter location={path}>
         {/* Every wrapper `App` has, in `App`'s order, and this is the part that
@@ -110,6 +117,9 @@ export function render(path: string): string {
         </ErrorBoundary>
         <CookieConsent />
       </StaticRouter>
-    </QueryClientProvider>,
+    </QueryClientProvider>
+    </SEOCollector.Provider>,
   );
+  if (metadataCount > 1) throw new Error(`More than one SEO owner rendered for ${path}`);
+  return { body, metadata };
 }

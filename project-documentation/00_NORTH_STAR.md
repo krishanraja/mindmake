@@ -1,6 +1,6 @@
 # 00. North star
 
-*Current as of 5 September 2026.*
+*Current authority reviewed 24 September 2026 against the owner-approved R3 release. Operational evidence and limits: `06_CURRENT_STATE.md`.*
 
 **If you read one file, read this one.** It is written for a person or a model
 arriving with no context, and it should leave you able to make a decision on
@@ -113,7 +113,7 @@ other when the work calls for it.
 Both lead to **one paid proof**: pick one decision or capability, build a
 working first version, use it on real work, leave something behind that keeps
 running. Not a stretch of discovery followed by a report. The price is private,
-the length is agreed with it and neither appears on the site (5 September 2026),
+the length is agreed with it and neither appears on the site,
 and there is no public diary link. The only primary action on the site
 is **Start here**.
 
@@ -158,19 +158,16 @@ since yesterday**. Nothing else is coloured for decoration.
 the claim. A mono speaks data and labels, and only those. If you are unsure
 which face to use, you are unsure what the line is doing.
 
-**The motion.** Three layers, all required. **Ambient** never stops and means
-nothing: the films, the marquee, the live dot, the light moving across a section
-ground. **Scroll** only changes the relationship between things already on the
-page. **Touch** answers the hand inside a tenth of a second, on everything.
-Entrance choreography is banned outright: nothing fades or slides in as you
-reach it, because that makes understanding depend on watching an animation.
-
-**The floor and the ceiling.** No viewport is ever fully still. No element ever
-performs its own arrival.
+**The motion.** Ambient films establish the setting; scroll builds explain a
+sequence; controls respond promptly. The approved R3 history and leadership
+dividend chapters pin and progress reversibly with native scroll. Their static
+content remains available without script, with reduced motion, or where the
+viewport cannot fit the instrument. Approved staged reveals must never make
+reading depend on animation. `03_DESIGN_CONTRACT.md` owns the exact guarantees.
 
 **The words.** British English. Plain enough for a twelve-year-old. Short
 sentences. Any business term explained the moment it appears. Never an em dash.
-Never an eyebrow above a heading. Never doom, never commands, never boasting,
+No new duplicative eyebrows. Preserve accepted R3 labels. Never doom, never commands, never boasting,
 never a cryptic headline that makes the reader work for the point.
 
 ---
@@ -181,21 +178,11 @@ We speak as **we**. The practice is the subject of every claim, every
 explanation and every offer, and it never becomes one person telling you about
 himself.
 
-Founder-led, practice voice, decided 28 August 2026. The founder is Krish Raja,
-and he appears in exactly three places: the founder section at the foot of the
-homepage, where the bio is his own and in his own first person; the framing of
-the proof, because a testimonial needs somebody to have worked with; and inside
-verbatim quotes, where other people used his name.
-
-Everywhere else the earlier rule holds unchanged. No first person in the
-practice's voice, no biography woven through the pages, no portrait used as
-decoration, and no "why him" argument standing in for evidence.
-
-This replaces "named exactly once, no portrait", which was written before the
-proof archive existed. It changed because thirty-three people gave testimony
-about working with a named person, and proof that hides who the work was with
-is weaker proof. The positioning did not change with it: Mindmake still builds
-systems that hold a leader's judgement and belong to the client afterwards.
+Founder-led, practice voice. Krish Raja may appear in approved biographical
+context, the framing of proof and verbatim testimony. A portrait or biography
+is not a mandatory homepage section: preserve the approved R3 composition.
+Do not scatter founder references through practice copy or substitute a
+"why him" argument for evidence. Quotes keep the words their authors approved.
 
 The register is a helpful expert explaining something clearly to someone smart
 who has not thought about it yet. Confident about what we know, plain about what
@@ -236,8 +223,9 @@ who said "Mindmaker" in 2019 still says it, because changing someone's words to
 suit our branding would be dishonest and would break the consent they gave. The
 quote carries the old name; nothing around it does.
 
-Anything else you find in this repository that looks like a brand name is dead.
-Delete it rather than working around it.
+Do not introduce other public brand names. Preserve historical identifiers and
+consented quotations; changing infrastructure or deleting assets needs its own
+scoped authority.
 
 ---
 
@@ -252,11 +240,11 @@ Delete it rather than working around it.
 - Call attendee brands clients.
 - Claim a number we cannot attribute, or a count of leaders helped we cannot
   evidence.
-- Send an email nobody asked for. A converting visitor gets their results and
-  one follow-up fourteen days later, and that is the whole relationship until
-  they reply. The company read also sends a six-digit code first, because it has
-  to prove the address is theirs; that is the only other message, it is named on
-  the privacy page, and there is no third.
+- Send an email nobody asked for. Each completed conversion starts a bounded
+  sequence: results and one follow-up fourteen days later, not ongoing automated
+  email. The company read first sends an address-verification code, disclosed on
+  the privacy page. This is not an enforced lifetime cap across separate requests
+  or delivery paths; `05_LEAD_DELIVERY_SPEC.md` owns the exact boundaries.
 - Let a section exist whose only job is to persuade. Every section teaches
   something, shows proof, or helps a decision.
 
@@ -278,40 +266,29 @@ honest move is to say so rather than guess.
 
 ---
 
-## Sharpened, 5 September 2026
+## Current positioning and placement
 
-The ikigai work of August and September (Master Ikigai v4, and the positioning
-sheet derived from it) sharpened what this business is for, and the site now
-says it. Nothing above was overturned; four things were made exact.
+Edge is the payoff; judgement is the mechanism. Use edge sparingly, never as
+a boast. The approved homepage promise is **Build the business that can think
+with you.** Its opening line is **Part people. Part agent. Led by judgement.**
 
-**What the work answers, in order.** Where you stand. What is coming. What to
-do first. Then it is built into something the leader owns. This is the spine
-of the homepage and the thing every door page has to serve; it replaced the
-two hours and the hinge, which were reasoning and now live on the argument
-page alone.
+The homepage contains the approved history, work/organisation and leadership
+dividend chapters. `/new-age-leadership` remains a companion, not a reason to
+remove those chapters. The two doors carry their specific capabilities.
 
-**The word.** Edge is what the leader keeps. It is commercial, it is theirs,
-and it is less abstract than mind or understanding. Judgement stays as the
-mechanism, and the hinge line keeps "understanding" because it is that line's
-own word. Edge is used sparingly and never as a boast.
+The internal buyer psychology stays private. Its approved public expression is
+*Nobody in your organisation needs to know where you started.* Write for
+ambition as much as pressure, never shame.
 
-**Private, written to and never shamed.** The buyer the work is built for is a
-senior leader who is further behind on AI than anyone around them knows, and
-who cannot say so. That description stays internal, because on a page it reads
-as doom. Its one approved public form is the situation without the feeling:
-*Nobody in your organisation needs to know where you started.* The no-fear rule
-stands, and "Write for ambition as much as for pressure" stands with it.
+No public price or duration. Scope, duration and fee are agreed privately in
+writing. Recorded durations in consented past-work evidence are facts, not
+new delivery promises. Do not add a timing promise that the approved surface
+does not contain.
 
-**No public duration.** The proof used to be sold as thirty days on every
-page, and it was the most repeated phrase on the site and the least interesting
-thing about the work. The length is agreed privately with the fee. Public copy
-promises what a leader sees in the first week and what they keep at the end.
-Figures from the record of past work (the archive's "days to the first working
-system", a story's "inside the thirty days") are facts and stay.
-
-The two doors stay. The 28 August decision was not undone: the duplication on
-the door pages came from each one making the whole practice's argument alone,
-so each now carries only what is specific to it, and the argument is made once.
+Exact accepted copy is in `01_CANON.md`; source-bound composition and motion
+are in `03_DESIGN_CONTRACT.md` and the active release manifest. Do not apply a
+general preference to erase an explicitly accepted element. No new duplicative
+eyebrows, explanatory control captions or decorative instructions.
 
 ---
 

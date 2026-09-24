@@ -7,9 +7,10 @@ Superseded observations live only in [history/LOG.md](history/LOG.md).
 ## Live release
 
 - Public site: https://mindmake.co
-- Verified application release: PR #171, commit 9e79e351db45ecb2f2f8b2e383639d402ab1c7a2; accepted R3 material remains unchanged.
-- Verified production deployment: dpl_GcehNF5XMtFagREZ9Y5pKhHLQyJZ, mindmake-aijrjhst8-krish-rajas-projects.vercel.app.
-- Recoverable preceding release: dpl_EZigNAi6Uc6Apcq75XsFnHETt5W8, mindmake-bh0d8hczk-krish-rajas-projects.vercel.app.
+- Live application release: PR #173, commit 0653dfd48605c7d2b76b5a49e2e41870cc2baa99; accepted R3 material remains unchanged.
+- Live production deployment: dpl_4wh4EJwvJbNUdGVyKmcCjPyd5f7U, mindmake-arvv8o6wj-krish-rajas-projects.vercel.app.
+- Recoverable preceding release: dpl_82UgoyZatcpdZLWfeGvQnsMPvcwd, mindmake-ijn7p1jlr-krish-rajas-projects.vercel.app, commit a0cc571.
+- Promoted on the owner's instruction before the candidate browser matrix finished. That matrix is the run on main for this commit, not a completed pre-merge check; read it before treating this release as verified.
 - Vercel project: prj_GqamX3psD0cGpGCDXRu0ljET7zap; team: team_iXZBozK4Ss7NHuyNk8L9wmO6.
 - Repository: krishanraja/mindmake. A merge to main automatically promotes production.
 
@@ -107,9 +108,9 @@ owns payload, privacy, retention, email and failure-path contracts.
   Actual indexing, search traffic, ranking and AI citation outcomes require
   external measurement; no ranking or citation guarantee is made. Social
   platform cache refreshes were not externally verified.
-- Nonblocking existing focus detail: desktop initial navigation can outline
-  the hero H1; mobile initial focus remains BODY. A correction is on the branch
-  and not live. Until it is promoted this remains what production does.
+- The hero H1 focus outline on desktop initial navigation is fixed and live: the
+  page title is focused only on a real route change, and the suppression is no
+  longer scoped to `.mm-site`. Mobile initial focus remains BODY.
 - Physical iPhone VoiceOver and Android TalkBack remain unperformed under the
   owner's explicit release-only exception. Emulation is not physical proof.
 - Dependency audit: 23 package entries (16 high, 5 moderate, 2 low). Bounded
@@ -123,14 +124,19 @@ owns payload, privacy, retention, email and failure-path contracts.
 - Recorded GitHub main check found no enforced branch protection/rulesets.
   Checked workflows fail closed; privileged bypass remains possible. Violations
   are not claimed impossible.
-- A delivered-surface correction pass is on the branch and is not live: it is
-  bounded by `quality/route-lock/approved-production-r17.json`, which records
-  that its own owner approval and candidate verification are outstanding. It
-  covers the heading focus ring, the menu action and footer measures, the header
-  wordmark's alignment on the locked routes, the unstyled first paint on the
-  code-split routes and a lede under the unchanged case-record heading. Nothing
-  above describes it; retrieve the live deployment before treating any of it as
-  production behaviour.
+- The delivered-surface correction pass bounded by
+  `quality/route-lock/approved-production-r17.json` is live. Public readback at
+  19:22 UTC confirmed the four code-split routes each serve their own stylesheet
+  in the head, the homepage carries its ground class from the first byte, the
+  case-record lede renders and the sitemap still answers 26 URLs. Its remaining
+  limits are in that record's verification block: the candidate browser matrix
+  did not complete before promotion, macOS WebKit is unrun for this candidate,
+  and no independent review was performed.
+- Three gate failures observed against this candidate each reproduce identically
+  on the preceding release and are not caused by it: `qa:full-route-continuity`
+  waits for an h1 at 320px where R3 hides the desktop variant's,
+  `qa:release-routes` times out on three Linux WebKit cases, and
+  `case-proof-field-production` writes screenshots to a hardcoded Windows path.
 
 Do not promote old DNS/mailbox, CTRL-host or cache observations into fresh facts
 without new readback. CONTACT_EMAIL in src/lib/publicLinks.ts is the approved

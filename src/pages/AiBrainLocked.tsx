@@ -2,7 +2,6 @@ import { useEffect, useRef } from "react";
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
-import { CommercialDecisionBalance } from "@/components/mindmake/locked/CommercialDecisionBalance";
 import { useLockedMotion } from "@/components/mindmake/locked/useLockedMotion";
 import { extractLockedBlock, extractLockedMain, replaceLockedAsset } from "@/components/mindmake/locked/lockedMarkup";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
@@ -334,10 +333,9 @@ export default function AiBrainLocked() {
   useLockedMotion(rootRef);
 
   return (
-    <MindmakeShell onStart={() => openBrief("brain")} mainClassName="mm-locked-route-main" siteClassName="mm-route-brain" showMobileActionBar={false} compactFooter>
+    <MindmakeShell onStart={() => openBrief("brain")} mainClassName="mm-locked-route-main" siteClassName="mm-route-brain" compactFooter>
       <SEO title="Build your AI brain" description="See how one decision becomes remembered, evidenced, corrected and reusable." canonical="/ai-brain" />
       <div ref={rootRef} className="mm-locked-brain no-js" data-evidence-state="loading" dangerouslySetInnerHTML={{ __html: lockedMarkup }} />
-      <CommercialDecisionBalance context="brain" onStart={() => openBrief("brain")} />
       <LeadBrief open={briefOpen} onClose={closeBrief} route="brain" presentation="drawer" journeyKey={briefJourneyKey} />
     </MindmakeShell>
   );

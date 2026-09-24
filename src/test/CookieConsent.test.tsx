@@ -153,8 +153,15 @@ describe("the privacy strip's rules", () => {
     /* The bar reads the strip's published height rather than the other way
        round, so the strip is always the thing on the bottom edge, and it
        carries no copy of either height. */
-    const bar = instruments.slice(instruments.indexOf(".mm-action-bar {", instruments.indexOf("@media (max-width: 767px)")));
+    /* The bar's rules live in mindmake.css, beside --mm-bar-reserve and the
+       .mm-footer rule that reads it. They used to sit in the instruments
+       stylesheet, which only /case-studies imports, so every other shell route
+       shipped the component with no CSS and rendered a bare button below the
+       footer. Asserted here rather than left to the move: the stylesheet the
+       bar is in decides which routes get a bar at all. */
+    const bar = css.slice(css.indexOf(".mm-action-bar {", css.indexOf("@media (max-width: 767px) and (any-pointer: coarse)")));
     expect(bar.slice(0, bar.indexOf("\n  }"))).toContain("bottom: var(--mm-cookie-reserve, 0px)");
+    expect(instruments).not.toContain(".mm-action-bar");
     expect(instruments).not.toContain("calc(var(--mm-section) + 76px");
   });
 

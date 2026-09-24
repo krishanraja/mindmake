@@ -3,7 +3,6 @@ import type { ChangeEvent } from "react";
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
-import { CommercialDecisionBalance } from "@/components/mindmake/locked/CommercialDecisionBalance";
 import { useLockedMotion } from "@/components/mindmake/locked/useLockedMotion";
 import { extractLockedMain, removeLockedBlock, replaceLockedAsset } from "@/components/mindmake/locked/lockedMarkup";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
@@ -312,12 +311,11 @@ export default function AiGtmLocked() {
   useLockedMotion(rootRef);
 
   return (
-    <MindmakeShell onStart={() => openBrief("gtm")} mainClassName="mm-locked-route-main" siteClassName="mm-route-gtm" showMobileActionBar={false} compactFooter>
+    <MindmakeShell onStart={() => openBrief("gtm")} mainClassName="mm-locked-route-main" siteClassName="mm-route-gtm" compactFooter>
       <SEO title="Build your AI GTM" description="See how one market change alters product, price, positioning and people before you commit." canonical="/ai-gtm" />
       <div ref={rootRef} className="mm-locked-gtm no-js" data-evidence-state="ready">
         <div className="page-shell" dangerouslySetInnerHTML={{ __html: lockedMarkup }} />
       </div>
-      <CommercialDecisionBalance context="gtm" onStart={() => openBrief("gtm")} />
       <LeadBrief open={briefOpen} onClose={closeBrief} route="gtm" presentation="drawer" journeyKey={briefJourneyKey} />
     </MindmakeShell>
   );

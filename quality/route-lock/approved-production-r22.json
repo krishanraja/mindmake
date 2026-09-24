@@ -1,13 +1,14 @@
 {
-  "artifact": "mindmake-approved-production-routes-r18",
+  "artifact": "mindmake-approved-production-routes-r22",
   "recordedAt": "2026-09-24",
-  "status": "candidate record. Owner approval for this revision is NOT recorded. Production gates have not been run against it. Do not treat it as an approval.",
-  "scopeRequested": "One instruction, raised from live mindmake.co with a screenshot of the surface: the commercial Decision Balance (\"Build one useful AI system on real work.\" and the five-reading proof instrument) exists on https://mindmake.co/new-age-leadership and absolutely nowhere else. It was mounted on seven routes. It is unmounted from the six that are not /new-age-leadership: /ai-brain, /ai-gtm, /blog, /blog/:slug, /answers and /answers/:slug. No component change, no replacement section, no new commercial offer, no approved copy rewritten, and no change to the immutable R3 prototype or its generated adapter.",
+  "status": "candidate record. Owner approval for this revision is NOT recorded. Do not treat it as an approval.",
+  "scopeRequested": "One instruction about /new-age-leadership, raised from live mindmake.co: the page was supposed to build as it is scrolled and instead needed its buttons pressed, it showed large empty bands, and its top bar was not the one every other page wears. The cause of the first two was the same: the prototype's body-level overflow-x:hidden, scoped onto .nal-page, made that div its own scrollport, so every position:sticky on the route pinned to a container that never scrolls. All three pinned sequences scrolled away after one screen and left the rest of their tracks empty. Fixed at the cause, given the same scroll-built history on a phone that the desktop had, turned the one timed carousel into a sequence the reader drives, and put the route inside the shared shell. No approved word changed, no new claim, price, section or route. Renumbered from r18 to r22 after main advanced: r18 through r21 were taken while this work was in progress, and an immutable record is never reused.",
   "sessionDecisions": [
-    "Ruling (Krish, 2026-09-24): the Decision Balance belongs to /new-age-leadership and absolutely nowhere else.",
-    "Unmount rather than rewrite. src/components/mindmake/locked/CommercialDecisionBalance.tsx and its stylesheet are byte-identical to r17, so the approved surface is unchanged on the one route that keeps it; only the six mount points are removed.",
-    "Put nothing in the vacated space. A replacement close on /ai-brain, /ai-gtm or the editorial routes would be a new commercial surface, which is a material change this instruction did not scope.",
-    "Carry a negative control rather than trusting the removal. src/test/commercial-continuity.test.ts and scripts/qa/commercial-decision-balance-production-check.mjs now assert absence on the six routes, because a re-mount is a one-line import."
+    "Fix the scoping fault rather than the symptom. overflow-x:clip clips the same overflow without creating a scroll container, so the composition is unchanged and every pin the prototype designed starts working.",
+    "The film pause moves into the hero rather than floating. Measured at 1440 and 390 across the whole scroll, all four screen corners are occupied by this composition at some position, so a standing control would overlap a heading, an era button, the range input, the benefit arrows or the privacy notice. The operating system's reduced-motion setting remains the path for anyone who needs motion stopped everywhere.",
+    "The six AI Brain benefits stop advancing on a timer. On a page whose argument is carried by scrolling, a 6.2-second carousel was the one element that moved on its own and changed the sentence under whoever was reading it.",
+    "The phone keeps the era buttons and the range input. They are the assistive and reduced-motion path through the same four states; they now move the page to a state rather than swapping it underneath a reader who has not moved.",
+    "The gate proves states by scrolling and never by clicking, forwards and in reverse, and carries a negative control that removes the pins. The old gate clicked every control and passed a page where nothing pinned at all."
   ],
   "routes": [
     "/",
@@ -24,7 +25,7 @@
     "/privacy",
     "/terms"
   ],
-  "changePolicy": "This is a new immutable record. Never rewrite r1, r2, or any candidate or earlier approval manifest. Material routes remain locked. The CI workflow may enforce stricter non-material verification only through a new manifest revision. Owner approval, production deployment and publication remain separate authority gates, none of which this record supplies.",
+  "changePolicy": "This is a new immutable record. Never rewrite r1 through r21, or any candidate or earlier approval manifest. Material routes remain locked. Owner approval, production deployment and publication remain separate authority gates, none of which this record supplies.",
   "contractSources": {
     "brain": [
       "src/pages/AiBrainLocked.tsx",
@@ -37,42 +38,42 @@
   },
   "files": {
     ".vercelignore": "f162171ded7ff8c1d6032f7cb50317bc19cc4d1bbd4757be9f8ea75cdec540f1",
-    "src/pages/AiBrainLocked.tsx": "9ce6f747c2051c4bb4c8562921d9f3fed67728c2bf3ac20a4a19aa54a5365ac3",
+    "src/pages/AiBrainLocked.tsx": "4b56a76a1661097c7edff62878e602d138c902298fe23a7704a184f9079fa519",
     "src/styles/mindmake-locked-brain.css": "7ef818a05599b945ff2cdbd1aebf56cf3815f7d4508421963755216539da7b96",
     "src/data/vnext/brain-fixture.json": "02fa968575d7000874f0f10a09123336ad6ec3f7bf373dcd351fbb7e7ef2b1b9",
     "prototypes/website-redesign-recovery/brain-signature/index-s2-motion-s3.html": "423659d864e79a72a55d4fd3ca9450b610e616187929293f1e0a8faaafbff2c6",
-    "src/pages/AiGtmLocked.tsx": "cbcdd9ee4382a219b32b3580912c1b5c1e6ddfcc75eb1b13674948b2b6711526",
+    "src/pages/AiGtmLocked.tsx": "8bc26e6098093e9f5c2cb8b3170f2f15825a2428e48420e37d5eb1801ef81381",
     "src/styles/mindmake-locked-gtm.css": "8c4ee91ad1a96f97efd397668f0742b148fbc4ec820e73daf2ddb4047be58579",
     "src/data/vnext/gtm-signals.json": "5ab7fac6ce8ebdab6b69b73f60e184a7e4df8d923d97edd29c38872648c3bf7f",
     "prototypes/website-redesign-recovery/gtm-market-change/index-motion.html": "8754e189e077ead09728e4e8b78ed26ad9b872a0d8b9d4b3503bc76ee7e98aef",
-    "src/pages/NewAgeLeadership.tsx": "9293d0262fb7431d1cc4ef5007b1f30f39110a0bc3553836a78cb6792304a1b7",
-    "src/styles/new-age-leadership-r5.css": "970ffb4f1096abf0e1f3882ac5d04518df17fa96c26cb2dbc5c48efd321a010d",
-    "src/components/mindmake/locked/CommercialDecisionBalance.tsx": "d609051efad3b0c369a7a8ecafbca64863a4a83dcb7dc6a3816a56edfbdc5b88",
+    "src/pages/NewAgeLeadership.tsx": "13e976c82d0509c063811a8364aacb7e3d627b73a22f2e68abe8ba943c1aa856",
+    "src/styles/new-age-leadership-r5.css": "fd3b442e93674e9d3e1cb422cc0d16903a2e747bbb1d62d3fd7d78d2df374ace",
+    "src/components/mindmake/locked/CommercialDecisionBalance.tsx": "f57849b19f5d15ecb5e9fd664833cfcf0d5e07bbd355d71656c243ac5c2a3410",
     "src/styles/mindmake-commercial-decision-balance.css": "28ee9e456159953099cfceabbd068d7d43cbf0bfdaa76c990fd76dd541b5cfac",
     "src/components/mindmake/locked/CaseProofField.tsx": "9973f788919a7802c07e88ca781b7f72f3797a1538875fc6bf1e247de920acb4",
-    "src/pages/CaseStudies.tsx": "01c6ab3378d992c2543cbf9b818c43717e0c6491b6021e7471bc0eeede65faf5",
-    "src/styles/mindmake-instruments.css": "2cf17cae456013e5ec5504bff3ba0b4f386d559dfc4c7da0596650382e262adf",
+    "src/pages/CaseStudies.tsx": "02abc1d4981d741c7735a5109fd826615b792bc1a464f3b087e1196c1357f383",
+    "src/styles/mindmake-instruments.css": "740382b622933e23aec214279cae5d6d5bcfb300a66c7cd80b0325cdd47ba7bb",
     "src/pages/Index.tsx": "485a04421a98c852d3e8870e9ebf4d49f4d253efc179a10385060efe558a028f",
     "src/styles/mindmake-home-vnext.css": "99bfc17c302fb476510452fc029268e85221c8cdcf43b133c9f921c095ac52ca",
     "src/pages/Blog.tsx": "eedb74a049c1eae8ba9dbafa9793029b8076375aee279076797e7e2184cb8ae1",
     "src/pages/BlogPost.tsx": "c63b50eefc00ca13a849c824035a3f1681bf14a74b5b2123cfcdbad4f0015613",
     "src/pages/Answers.tsx": "9cf708e3fb54ce93a663fb4b21f4e9d497189adec457dec24b62dd794b30a036",
     "src/pages/Answer.tsx": "afcb5862874a2efd84fd16ba00c7d4f6250c913379f3cf1ef57deb9fe91c6260",
-    "src/pages/Contact.tsx": "bd73f64982f8176724a8feae80994bcfb1e65c3017ce0cbb0ef3d9e6c1638d99",
-    "src/components/mindmake/MindmakeShell.tsx": "05482c75979df268e244c46afb856b932d14028cfb9f66b71f81592dec5d4516",
+    "src/pages/Contact.tsx": "fbc16c3711108d1c98d0069d486222c22851442c4c2235ca30a0bd65a29f3d18",
+    "src/components/mindmake/MindmakeShell.tsx": "b58e9ada18861fc441912c6d49658f797118d40c0c380741e39cb7dc99879e38",
     "src/components/mindmake/LeadBrief.tsx": "433bde43d62dd29cfe19afd96d713d66eda64965a60c3a0ca90e0d4370020d15",
-    "src/styles/mindmake.css": "ac75add37e9e6829b3a010e6f57c158f82b0d1dbc381990bb4cdbdae8132ca37",
+    "src/styles/mindmake.css": "f0825f2eba3e7dbcb989f3b6917f2f338a693fe952f403d989116f3ae6422ac7",
     "src/styles/mindmake-brief.css": "05ce4b8c72ef0ac2fa0a85d6264793ff444cd663016a817b376d91a380497b9b",
     "src/hooks/useLeadBriefHistory.ts": "a782c9c8563b44ee23780742c1cfff703f7a0a362ffd2986405508e42567c427",
     "src/data/rebuildProof.ts": "bdea57fd6495548e2ea798e9b7056323bb1936c4f4e66c24301aa82c9114884b",
     "src/data/testimonials.ts": "24466efccdb455aef4698f7e0a4a00e4885ecb43cf6245bf5255e1369e7d0663",
     "src/App.tsx": "2480580fceaf0697c370b6ce8f480068ca30780d9e06b8601e239175174f93af",
     "src/entry-server.tsx": "cd957bdd05c1634c15e7a73ed26bfbf36a23b8a6bfea535f968b00046646e705",
-    "scripts/qa/approved-route-lock-check.mjs": "3abb7189561b404d372eb4d86907d861b6fd8244dfcee2e16a0e67e2ab684026",
-    "scripts/qa/approved-route-lock-self-test.mjs": "03c0d29a520af39ceccce987c516f5ce59b151c61c45e4fd5f351b1f7f23d289",
-    ".github/workflows/approved-route-lock.yml": "10e9abd95bab80477634dda226a8bb1704a2796c1b8e0a596a742650ee4f8f1c",
+    "scripts/qa/approved-route-lock-check.mjs": "3fbea49b94d123879f2c3042b16d57752aa246678ac6f31084c646f7c5af357e",
+    "scripts/qa/approved-route-lock-self-test.mjs": "c085ef425c1b62098bddd9ab039024fa1e32a0824175ff1b36de2bf833ab2953",
+    ".github/workflows/approved-route-lock.yml": "dda861ba5900590e3a45507786be2ef6afde722e6ba1b94cf5848cac0f8fe415",
     "scripts/qa/locked-material-production-check.mjs": "b021940985b52171064d8cfdb9f439c58b440f433de79f3882329559daeeb61d",
-    "scripts/qa/full-route-continuity-check.mjs": "6fc58e3aa78982e12b765c8bd245f4c84fc619d8d1dde3320a4e685e989bbc3d",
+    "scripts/qa/full-route-continuity-check.mjs": "85b6cf3d9a394ea1e265b68b146b0827f04d70cc8b5608a9dea4decb82f2a4ec",
     "scripts/qa/plain-language-check.mjs": "639c62446bf7f3a01693ba1fc20e446e23ba8fbc8d17bc429e41da951fafd9a8",
     "src/components/homepage-release/component-styles.css": "0b514cc3fb6a68369a22865569557b40119506f2785fcf3bace34270a4a15409",
     "src/components/homepage-release/integration.css": "cb45a23326551c23571096050444ce34dc098090e7bceefa3d4058be697b5848",
@@ -95,7 +96,7 @@
     "public/social/home.jpg": "d5bd9ba7b03ba989dbd39e8af93405af7d74de5165beb51f5780e718521b2aaf",
     "package.json": "08e11e55c8ea2f0dc8cdb4046475b49bf6cb4ed9df603b508bd70f6c8f5003a5",
     "scripts/qa/website-feedback-ledger-check.mjs": "66520939db0aee662ede06de88ddc777959729ed65a1d6ae031578b85f27abec",
-    "scripts/qa/release-route-smoke.mjs": "c5bfdceadfbbd1265ce7eaffa02eae787f18b2180113807d9831d9fdb8ce0478",
+    "scripts/qa/release-route-smoke.mjs": "4185de113028a507c4fd2038e21e7f77f2e0978d02e2bd0840b1616c3f6cd1de",
     "src/test/case-proof-hydration.test.tsx": "0598d9f0c7dbe9dc97f6bb439d8e1b4dc260a56366bdc3795d3d9358de8aa76c",
     "src/test/homepage-pin-lifecycle.test.ts": "35e7790170f6334afc540a6286f14e2e42eb31b8e78d55915bee522764774571",
     "src/test/homepage-navigation-focus.test.ts": "9f4b69a846bcf5db7afe289840363fc08523d68bf10033e8f1ce8f33f67ae07c",
@@ -113,7 +114,7 @@
     "src/test/discoverability.test.ts": "5327fa483bd558580dced126a666e54df427d6664aff614e115bfab0fc8b3b3b",
     "src/test/seo-prerender.test.tsx": "a49ddfaea0d4e25b3efcbd7342a40d92d8e8d96a52cf146a3b2468bd63ad674c",
     "src/test/seo-navigation.test.tsx": "df5fdc636cde34d682bec1b9ed80d5e4e47d412e8ca4af8d64bac2719722bb15",
-    "src/test/brief2-public-contract.test.ts": "d854d176197b0ec0d23ff62ebd028b84d8517b2ded51f8fe00aaed133381bfab",
+    "src/test/brief2-public-contract.test.ts": "2a67257bd481082edd5d529a40367b936f98ddd01c89e8ec878f8cc101d276fd",
     "public/sitemap.xml": "5721855b87fd7ce63765f373a76a6610c67c032a0a2ca628fbaeea9ee8702b82",
     "public/llms.txt": "aaf4b8c5c376f6eb365f9a98a44842075d67dfd260dc502e05c084e1865c03ad",
     "public/robots.txt": "d655c25315f781de2ff83266a9472f7fdf5e6c8fa0ae91b8f7099e4e3a78831b",
@@ -137,9 +138,25 @@
     "src/test/mindmake-brief-backend-core.test.ts": "4abd13b98aac8ebd07fc72b9a22a766220eead7351206a031c21b39acaf82494",
     "scripts/lib/source-hash.mjs": "558f2df12b482c3b7367a90c19bac10aa8771e65590b9b81e41a4089dc007c0e",
     "src/index.css": "1406d8fa2da45a662130ed3904c5e44757e25c9e6fc4e4d90feed5a6c53f5e38",
-    "vite.config.ts": "4f5c6d757b8d228cc5ada91c37789d1d33bbbc559b939361ed9977461c99fdfe"
+    "vite.config.ts": "4f5c6d757b8d228cc5ada91c37789d1d33bbbc559b939361ed9977461c99fdfe",
+    "src/styles/new-age-leadership-r6.layer.css": "546986da7d3b4a6bd23053ed69aa996400db8c4f140b39050a9a11a058be60ca",
+    "scripts/qa/build-new-age-r5-styles.mjs": "a5cba878c8e6293f7c61fce3b52bce4c3c269d5f4fc6cf9cb2e8c8a607c5d19a",
+    "scripts/qa/new-age-r5-production-check.mjs": "ae90d891a1b36208d6ec40b862b2916e012adf75749043f317eb1dea634386cf"
   },
-  "newlyLocked": [],
+  "newlyLocked": [
+    {
+      "path": "src/styles/new-age-leadership-r6.layer.css",
+      "reason": "The hand-authored production layer over the frozen R5 prototype. It carries the scroll-build corrections, so it is part of the enforced surface."
+    },
+    {
+      "path": "scripts/qa/build-new-age-r5-styles.mjs",
+      "reason": "Generates the route's only stylesheet from the locked prototype layers and this layer. Locking the generator is what stops the generated file drifting without a record."
+    },
+    {
+      "path": "scripts/qa/new-age-r5-production-check.mjs",
+      "reason": "The gate that proves the route's sequences build by scroll alone, in both directions, on ten viewports and three engines, with its own negative control."
+    }
+  ],
   "minimumContracts": {
     "brain": {
       "meanings": 20,
@@ -182,26 +199,24 @@
     "price the result"
   ],
   "verification": {
-    "status": "Partial for this record, and not owner-approved. Recorded below exactly as run on 2026-09-24, Linux, Node 22.22.2.",
+    "status": "Performed for this record on Linux only. Historical verification claims, r21's included, are not proof for this candidate.",
     "performed": [
-      "npm run typecheck: pass.",
-      "npm run lint: pass, 0 errors and the 2 pre-existing react-refresh warnings.",
-      "npm test: 36 files, 542 tests, all pass, including the rewritten single-route contract and its six-route negative control.",
-      "npm run qa:approved-routes and qa:approved-routes:self-test against this record: pass."
+      "npm run typecheck, npm run lint and the full unit suite (541 tests, 36 files).",
+      "node scripts/qa/new-age-r5-production-check.mjs on chromium (ten viewports from 320x568 to 1920x1080), webkit and firefox (three each): forward and reverse scroll alone reaches all four history states, both reach states, all six AI Brain benefits and all three working scenes, with no horizontal overflow, no runtime error, no control under 44px and no run of empty viewport over 42% of its height.",
+      "The same gate's negative control: with the four pins removed the sweep fails, so it is measuring the pins.",
+      "That gate is wired into the release workflow on both platforms, so it runs against what is on its way to main rather than only by hand.",
+      "npm run build, including the approved-route lock against this record and its fail-closed self-test."
     ],
     "required": [
-      "Canonical build and prerender",
-      "Full built-route browser matrix (qa:release-routes) on the same build artifact",
-      "qa:commercial-decision-balance-production, including the new absence sweep",
-      "qa:full-route-continuity with the relocated 512x384 reflow reading",
-      "Actual desktop and mobile screenshots of the six routes that lost the surface, read for what now ends each page",
-      "Independent review and exact deployment readback"
+      "The full Chromium/Firefox/Linux and WebKit/macOS release matrix against the built candidate.",
+      "Actual rendered forward/reverse pinned states with exits on the homepage and this route.",
+      "Independent review and exact deployment readback."
     ],
-    "physicalException": "VoiceOver on physical iPhone and TalkBack on physical Android not performed."
+    "physicalException": "VoiceOver on physical iPhone and TalkBack on physical Android not performed; owner permits publication after all other checks pass."
   },
   "supersedes": {
-    "path": "quality/route-lock/approved-production-r17.json",
-    "reason": "R17 froze the correction pass over what the delivered surfaces render. This record carries one scoped removal on top of it. Every hash change is listed in scope with its reason; no earlier record is rewritten. R16 remains the last record carrying a recorded owner approval."
+    "path": "quality/route-lock/approved-production-r21.json",
+    "reason": "R21 fixed two action-bar defects the release matrix found. This record carries the /new-age-leadership scroll-build repair and that route's move into the shared shell, on top of it. Every hash change is listed with its reason; no earlier record is rewritten. R16 remains the last record carrying a recorded owner approval."
   },
   "textLineEndings": "lf",
   "browserPlatforms": {
@@ -216,61 +231,55 @@
     "rationale": "project-documentation/website-redesign/RELEASE-2026-09-24.md"
   },
   "scope": {
-    "baselineCommit": "0653dfd",
+    "baselineCommit": "f446786",
     "allowedExistingChanges": [
       {
-        "path": "src/pages/AiBrainLocked.tsx",
-        "before": "1d70c40d558f42f6467dd8048da5443f30fba887c0a7973d799cc3fe032cd12d",
-        "after": "9ce6f747c2051c4bb4c8562921d9f3fed67728c2bf3ac20a4a19aa54a5365ac3",
-        "reason": "The Decision Balance is unmounted. /ai-brain keeps its locked body and the shell's own way in; it no longer carries the commercial surface."
+        "path": "src/pages/NewAgeLeadership.tsx",
+        "before": "9293d0262fb7431d1cc4ef5007b1f30f39110a0bc3553836a78cb6792304a1b7",
+        "after": "13e976c82d0509c063811a8364aacb7e3d627b73a22f2e68abe8ba943c1aa856",
+        "reason": "Wears the shared MindmakeShell instead of a bespoke masthead and a hand-copied footer; the film control moves into the hero; the AI Brain benefits gain a scroll track and are driven by scroll position rather than a 6.2-second timer, and the progress rule under the arrows is now actually set."
       },
       {
-        "path": "src/pages/AiGtmLocked.tsx",
-        "before": "7e50da2c4e04fd6aab24694a433d0794747eaa60ebb161cb3782b7c4b1c2467c",
-        "after": "cbcdd9ee4382a219b32b3580912c1b5c1e6ddfcc75eb1b13674948b2b6711526",
-        "reason": "The Decision Balance is unmounted. /ai-gtm keeps its locked body and the shell's own way in; it no longer carries the commercial surface."
+        "path": "src/styles/new-age-leadership-r5.css",
+        "before": "970ffb4f1096abf0e1f3882ac5d04518df17fa96c26cb2dbc5c48efd321a010d",
+        "after": "fd3b442e93674e9d3e1cb422cc0d16903a2e747bbb1d62d3fd7d78d2df374ace",
+        "reason": "Regenerated. Adds the overflow-x:clip integration correction that restores every pin on the route, and appends the R6 production layer."
       },
       {
-        "path": "src/pages/Blog.tsx",
-        "before": "bbbcb0630060003f66f6177e72eb5bc6a421721a9c102d8adfcd5b07e0e25e96",
-        "after": "eedb74a049c1eae8ba9dbafa9793029b8076375aee279076797e7e2184cb8ae1",
-        "reason": "The Decision Balance is unmounted. The archive ends on its own index."
-      },
-      {
-        "path": "src/pages/BlogPost.tsx",
-        "before": "0034314ed713a16f6ce0769f9ba580d44a497684e4abdff7feea13babe3de6ad",
-        "after": "c63b50eefc00ca13a849c824035a3f1681bf14a74b5b2123cfcdbad4f0015613",
-        "reason": "The Decision Balance is unmounted. An article ends on its related ideas."
-      },
-      {
-        "path": "src/pages/Answers.tsx",
-        "before": "690e9e141533407855cf0f227c523e98ad78856c96964c6c6f0195fe45157b81",
-        "after": "9cf708e3fb54ce93a663fb4b21f4e9d497189adec457dec24b62dd794b30a036",
-        "reason": "The Decision Balance is unmounted. The answer index ends on its own entries."
-      },
-      {
-        "path": "src/pages/Answer.tsx",
-        "before": "9dd0788611bf0d13faba57e1f6f98569b12fd4bc81395578a30ee64de452db3c",
-        "after": "afcb5862874a2efd84fd16ba00c7d4f6250c913379f3cf1ef57deb9fe91c6260",
-        "reason": "The Decision Balance is unmounted. An answer ends on the questions that follow."
-      },
-      {
-        "path": "scripts/qa/full-route-continuity-check.mjs",
-        "before": "876f2ff1fc36f70bc45dc164955084317c5d5a616e8b6f8a5564e93cd2aad62f",
-        "after": "6fc58e3aa78982e12b765c8bd245f4c84fc619d8d1dde3320a4e685e989bbc3d",
-        "reason": "The 512x384 reflow reading of the commercial surface follows the surface to /new-age-leadership. The phone-only action bar reading stays on /blog, which still renders one."
+        "path": "src/styles/mindmake.css",
+        "before": "ca8ae4f675738f82ce1ce83d0b1ced4ba48e82310d24d30f81a5aee1dabe28ad",
+        "after": "f0825f2eba3e7dbcb989f3b6917f2f338a693fe952f403d989116f3ae6422ac7",
+        "reason": "Gives the leadership route its own --mm-header-inline at three widths, so the shared wordmark sits on the same gutter as the story under it."
       },
       {
         "path": "scripts/qa/approved-route-lock-check.mjs",
-        "before": "1d278456ae775848c49d3fd87ee3f2f6839137dc42f3a999e6ec686073094cba",
-        "after": "3abb7189561b404d372eb4d86907d861b6fd8244dfcee2e16a0e67e2ab684026",
+        "before": "d138454932ef58b7135f4f4f411b167dfe1d452f7077c64e276e59d6fa8841b4",
+        "after": "3fbea49b94d123879f2c3042b16d57752aa246678ac6f31084c646f7c5af357e",
         "reason": "Selects this new record."
       },
       {
         "path": "scripts/qa/approved-route-lock-self-test.mjs",
-        "before": "4aa3f374621463a225f26f4eb4dfb02ae92f2b865023c580538d236e50ecc4dd",
-        "after": "03c0d29a520af39ceccce987c516f5ce59b151c61c45e4fd5f351b1f7f23d289",
+        "before": "1a70eadc2c9bc47965b6dd55660a549ea98c899ce67dce1a1cc7ef8bf6a81ec7",
+        "after": "c085ef425c1b62098bddd9ab039024fa1e32a0824175ff1b36de2bf833ab2953",
         "reason": "Selects this new record."
+      },
+      {
+        "path": ".github/workflows/approved-route-lock.yml",
+        "before": "a3a41accb6cde749a9e5e89fd2f5672da0b61e4144ad75952ba55bcf3cbea397",
+        "after": "dda861ba5900590e3a45507786be2ef6afde722e6ba1b94cf5848cac0f8fe415",
+        "reason": "Runs the rewritten scroll-build gate on both release platforms and keeps its evidence. A gate that only ever runs by hand is how the fault it catches survived the last one."
+      },
+      {
+        "path": "scripts/qa/full-route-continuity-check.mjs",
+        "before": "6fc58e3aa78982e12b765c8bd245f4c84fc619d8d1dde3320a4e685e989bbc3d",
+        "after": "85b6cf3d9a394ea1e265b68b146b0827f04d70cc8b5608a9dea4decb82f2a4ec",
+        "reason": "The route no longer has a second header shape to fall back to, so the fallbacks are gone."
+      },
+      {
+        "path": "scripts/qa/release-route-smoke.mjs",
+        "before": "c5bfdceadfbbd1265ce7eaffa02eae787f18b2180113807d9831d9fdb8ce0478",
+        "after": "4185de113028a507c4fd2038e21e7f77f2e0978d02e2bd0840b1616c3f6cd1de",
+        "reason": "Removes the navigation exemption the route held while it drew its own masthead."
       }
     ]
   },

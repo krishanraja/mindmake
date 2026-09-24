@@ -74,16 +74,27 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # One engine per leg, because `engines` was a space-separated list that
+        # the release-route step below walked in a bash loop. Chromium and
+        # Firefox therefore queued behind each other on a single Linux runner:
+        # measured on run 36067326051, that one step took 6m25s while the whole
+        # macOS leg finished in 5m14s, so the Linux leg, not WebKit, was the
+        # critical path and the run took 9m10s. Split, the two Linux engines run
+        # at the same time and the critical path becomes macOS WebKit.
+        #
+        # Nothing is narrowed. The same 208 route cases run on the same frozen
+        # artifact, and qa:homepage-release still launches all three engines on
+        # both platforms, which is why the install step below is never filtered
+        # to `engine`.
         include:
           - os: ubuntu-latest
-            engines: chromium firefox
+            engine: chromium
+          - os: ubuntu-latest
+            engine: firefox
           - os: macos-latest
-            engines: webkit
+            engine: webkit
     runs-on: ${{ matrix.os }}
-    # Raised from 30 when the scroll-build gate joined this job. That gate
-    # sweeps ten viewports twice each on chromium, and a job that runs out of
-    # time is a red PR for a reason that has nothing to do with the diff.
-    timeout-minutes: 45
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -109,11 +120,11 @@ jobs:
           path: ${{ runner.os == 'macOS' && '~/Library/Caches/ms-playwright' || '~/.cache/ms-playwright' }}
           key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
       - name: Install release verification browsers
-        # All three on both platforms. `matrix.engines` governs the release-route
+        # All three on both platforms. `matrix.engine` governs the release-route
         # step alone, which sets QA_ENGINE per engine; qa:homepage-release below
         # launches chromium, firefox and webkit whatever this leg is, which is
         # the contract its own comment says is never narrowed to fit an engine
-        # filter. Narrowing this install to matrix.engines on 24 September made
+        # filter. Narrowing this install to the leg's own engine on 24 September made
         # the macOS leg fail on a missing chromium in under two minutes.
         #
         # Split in two because only half of it is cacheable: the Linux system
@@ -130,7 +141,9 @@ jobs:
         # never narrowed to fit an engine filter or a missing observation.
         run: npm run qa:homepage-release
       - name: Verify served and hydrated search metadata and share assets
-        if: runner.os == 'Linux'
+        # Once per run, not once per Linux engine: it reads served metadata,
+        # which no engine filter changes.
+        if: matrix.engine == 'chromium'
         shell: bash
         run: |
           npm run preview -- --host 127.0.0.1 --port 4346 --strictPort &
@@ -147,28 +160,32 @@ jobs:
         # and no-app reproduction remain in the dated release evidence.
         shell: bash
         env:
-          QA_ENGINES: ${{ matrix.engines }}
-        run: |
-          for engine in $QA_ENGINES; do
-            QA_ENGINE="$engine" npm run qa:release-routes
-          done
+          QA_ENGINE: ${{ matrix.engine }}
+        run: npm run qa:release-routes
       - name: Verify the leadership story builds by scroll
-        # The fault this catches shipped and survived a gate that clicked every
-        # control on the page: the route's three pinned sequences never pinned,
-        # so the states changed off-screen and the buttons were the only way
-        # through. This one never clicks. It scrolls, forwards and in reverse,
-        # and fails if scrolling alone does not reach every state or if it finds
-        # a run of empty viewport. Its own negative control removes the pins and
-        # must fail, so a green result cannot mean it measured nothing.
+        # The fault this catches shipped and then survived the gate meant to
+        # catch it: the old one clicked every control on the page and passed a
+        # route where none of the three pinned sequences pinned at all. This one
+        # never clicks. It scrolls, forwards and in reverse, and fails if
+        # scrolling alone does not reach every state or if it finds a run of
+        # empty viewport. Its own negative control removes the pins and must
+        # fail, so a green result cannot mean it measured nothing.
+        #
+        # Linux only, deliberately. The matrix split above makes macOS WebKit
+        # the critical path for the whole run, and this would add to it. The
+        # engine still gets covered: the gate runs on WebKit locally, where the
+        # route's own sequences pass, because what it measures is scroll state
+        # in the DOM rather than the media playback that fails on Linux.
+        if: runner.os == 'Linux'
         shell: bash
         env:
-          QA_ENGINES: ${{ matrix.engines }}
+          QA_ENGINE: ${{ matrix.engine }}
         run: npm run qa:new-age-r5-production
       - name: Retain release verification evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: homepage-release-evidence-${{ matrix.os }}
+          name: homepage-release-evidence-${{ matrix.os }}-${{ matrix.engine }}
           path: |
             artifacts/homepage-release/
             artifacts/new-age-leadership/

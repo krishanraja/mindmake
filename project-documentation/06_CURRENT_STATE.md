@@ -131,8 +131,47 @@ owns payload, privacy, retention, email and failure-path contracts.
   code-split routes and a lede under the unchanged case-record heading. Nothing
   above describes it; retrieve the live deployment before treating any of it as
   production behaviour.
+- On the same branch and also not live, bounded by
+  `quality/route-lock/approved-production-r18.json`: the commercial Decision
+  Balance ("Build one useful AI system on real work." and its five-reading proof
+  instrument) is mounted on `/new-age-leadership` alone. It is unmounted from
+  `/ai-brain`, `/ai-gtm`, `/blog`, `/blog/:slug`, `/answers` and
+  `/answers/:slug`, which now end on their own last section and keep only the
+  shell's ways in. The component and its stylesheet are byte-identical to r17.
+  Nothing replaces the vacated space. Owner approval and candidate verification
+  for r18 are outstanding; live behaviour is still the r16 release.
+- Also on the branch and not live, bounded by
+  `quality/route-lock/approved-production-r19.json`: the phone action bar is
+  back on `/ai-brain` and `/ai-gtm`, and its rules move from
+  `src/styles/mindmake-instruments.css` to `src/styles/mindmake.css`. Only
+  `/case-studies` imported the instruments stylesheet, so on every other shell
+  route the bar shipped with no CSS and rendered a bare button in normal flow
+  below the footer at every width, desktop included. Measured after the move on
+  the built artifact: `position: fixed` and a 72.19px reserve at 390x844 with a
+  coarse pointer, `display: none` at 1440x900. No declaration changed.
+- Also on the branch and not live, bounded by
+  `quality/route-lock/approved-production-r20.json`: every way in now reads
+  `START_LABEL` from `src/lib/publicLinks.ts` ("Get your free AI brief"), and
+  the action bar carries two slots at every width: at most one door, which is
+  the offer route the reader is not on, then the one action. It stands down
+  whenever a page's own primary action is on screen. The immutable approved R3
+  homepage is untouched and is the one surface still reading "Start here".
+  Owner approval and candidate verification for r20 are outstanding.
+- `quality/route-lock/approved-production-r21.json` fixes two defects the
+  release matrix found in that bar: the door was keyed on the exact pathname,
+  so the trailing-slash spelling of a route hydrated without it and took the
+  route down to client rendering; and on a phone the door made the bar 150.7px
+  tall at 320x568 and covered the last footer link. The door now keys on the
+  route without its trailing slash and is hidden below 768px. Chromium's full
+  route matrix reads clean locally; Firefox and WebKit have not run against the
+  fix.
+- The release browser matrix runs one engine per leg. It is the same 208 cases
+  on the same frozen artifact; Chromium and Firefox simply no longer queue
+  behind each other on one Linux runner. Measured before the change on run
+  36067326051: 9m10s total, of which one step was 6m25s. Unverified until the
+  split matrix has actually run.
 - A `/new-age-leadership` repair is on the branch, bounded by
-  `quality/route-lock/approved-production-r18.json`, whose own owner approval is
+  `quality/route-lock/approved-production-r22.json`, whose own owner approval is
   outstanding. The route's three pinned sequences never pinned in production:
   the prototype's body-level `overflow-x: hidden`, scoped onto `.nal-page`, made
   that div its own scrollport, so each sequence scrolled away after one screen
@@ -141,7 +180,7 @@ owns payload, privacy, retention, email and failure-path contracts.
   branch, the history sequence now builds by scroll below 900px as well as
   above, and the AI Brain benefits are driven by scroll instead of a timer.
 - Verified for that repair on Linux: typecheck, lint, 541 unit tests, the
-  canonical build, the r18 route lock and its fail-closed self-test, the
+  canonical build, the r22 route lock and its fail-closed self-test, the
   fixed-chrome, no-JavaScript and dead-CSS gates, the release route smoke on
   chromium and firefox, and `qa:new-age-r5-production` on chromium (ten
   viewports), webkit and firefox, forward and reverse, with its negative

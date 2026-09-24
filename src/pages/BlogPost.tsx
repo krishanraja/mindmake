@@ -5,7 +5,6 @@ import ReactMarkdown from "react-markdown";
 import { SEO } from "@/components/SEO";
 import { BlogPostCard, categoryLabels } from "@/components/BlogPostCard";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
-import { CommercialDecisionBalance } from "@/components/mindmake/locked/CommercialDecisionBalance";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { useBlogPost, useBlogPosts } from "@/hooks/useBlogPosts";
 import "@/styles/mindmake.css";
@@ -138,8 +137,6 @@ const BlogPost = () => {
           </div>
         </section>
       )}
-
-      <CommercialDecisionBalance context="editorial" onStart={() => setBriefOpen(true)} />
 
       <LeadBrief open={briefOpen} onClose={() => setBriefOpen(false)} />
     </MindmakeShell>

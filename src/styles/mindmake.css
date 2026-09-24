@@ -496,47 +496,50 @@ html {
 }
 .mm-skip:focus { transform: translateY(0); }
 
-/* The Suspense fallback. It has been in the tree since the routes were split
-   and has never had a rule of its own, so a lazy route that had to wait showed
-   unstyled text on the browser's own ground: the one place on the site that
-   looked like nothing had been designed. It is the same ground, the same mark
-   and the same mono voice as everything else, with the hairline standing in for
-   a measure that is not knowable yet. Reduced motion keeps the line still; the
-   text already says what is happening. */
-.mm-page-loading {
-  display: grid;
-  min-height: 100dvh;
-  align-content: center;
-  justify-items: start;
-  gap: 22px;
-  padding-inline: var(--mm-header-inline, var(--mm-edge));
-  background: var(--mm-ink);
-}
-.mm-page-loading p {
-  display: grid;
-  gap: 12px;
-  margin: 0;
-  color: var(--mm-mut);
-  font-family: var(--mm-mono);
-  font-size: 11px;
-  letter-spacing: .06em;
-}
-.mm-page-loading p > span {
-  display: block;
-  width: min(240px, 42vw);
-  height: 1px;
-  background: var(--mm-hair);
-}
-@media (prefers-reduced-motion: no-preference) {
-  .mm-page-loading p > span {
-    background: linear-gradient(90deg, transparent, var(--mm-mint) 45%, transparent);
-    background-size: 42% 100%;
-    background-repeat: no-repeat;
-    animation: mm-page-loading-sweep 1.4s ease-in-out infinite;
+/* New-age leadership, with scripting off.
+
+   The page is five scroll-pinned chapters. Each is a sticky viewport-height
+   stage holding several states at once, and JavaScript is what walks between
+   them; the reduced-motion block in the generated sheet stops the animation but
+   keeps the pin, because with scripting there are direct controls behind it.
+   With scripting off there is neither, so every state after the first is laid
+   out inside a clipping stage with nothing to press and nothing to scroll: the
+   capability reel alone is a 1280px list inside a 390px window.
+
+   This was invisible until 24 September only because the route was served
+   without its own stylesheet at all, so nothing was clipping anything. Giving
+   the prerendered head its route CSS made the page correct and made this
+   finding real; scripts/qa/no-js-check.mjs reports it.
+
+   The fallback is one rule: release the pin and let the chapter flow. A reader
+   without scripting gets the whole page as a document, in order, which is what
+   the no-JavaScript contract is for. Nothing here reaches a visitor who has
+   scripting, and `scripting: none` matches exactly that state without a class
+   anyone has to add or remove. A browser that does not know the feature drops
+   the block and behaves as it does today.
+
+   It lives here rather than in new-age-leadership-r5.css, which is generated
+   from the approved prototype: this is a delivery fallback, not a change to the
+   approved composition, which is also why each selector carries a third class
+   to outrank that sheet's own two. */
+@media (scripting: none) {
+  .nal-page .reach-sequence .reach-sticky,
+  .nal-page .work-scroll .work-sticky,
+  .nal-page .time-lens .lens-sticky {
+    position: static;
+    height: auto;
+    overflow: visible;
   }
-  @keyframes mm-page-loading-sweep {
-    from { background-position: -45% 0; }
-    to { background-position: 145% 0; }
+  .nal-page .capability-instrument .capability-window {
+    height: auto;
+    overflow: visible;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .nal-page .capability-instrument .capability-window::before { display: none; }
+  .nal-page .capability-instrument .capability-reel {
+    animation: none;
+    transform: none;
   }
 }
 

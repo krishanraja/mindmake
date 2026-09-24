@@ -59,7 +59,7 @@
     "src/pages/Contact.tsx": "bd73f64982f8176724a8feae80994bcfb1e65c3017ce0cbb0ef3d9e6c1638d99",
     "src/components/mindmake/MindmakeShell.tsx": "05482c75979df268e244c46afb856b932d14028cfb9f66b71f81592dec5d4516",
     "src/components/mindmake/LeadBrief.tsx": "433bde43d62dd29cfe19afd96d713d66eda64965a60c3a0ca90e0d4370020d15",
-    "src/styles/mindmake.css": "4d59bbb7d819213e8e535321221e606afa697413c8ebc39d8fa899a05095b2cd",
+    "src/styles/mindmake.css": "ac75add37e9e6829b3a010e6f57c158f82b0d1dbc381990bb4cdbdae8132ca37",
     "src/styles/mindmake-brief.css": "05ce4b8c72ef0ac2fa0a85d6264793ff444cd663016a817b376d91a380497b9b",
     "src/hooks/useLeadBriefHistory.ts": "a782c9c8563b44ee23780742c1cfff703f7a0a362ffd2986405508e42567c427",
     "src/data/rebuildProof.ts": "bdea57fd6495548e2ea798e9b7056323bb1936c4f4e66c24301aa82c9114884b",
@@ -144,7 +144,7 @@
     },
     {
       "path": "vite.config.ts",
-      "reason": "build.cssCodeSplit decides whether a prerendered route is served with its own styling. Locking it stops the unstyled first paint returning silently."
+      "reason": "build.manifest is what lets the prerenderer put a route's own stylesheet in that route's head. Locking it stops the unstyled first paint returning silently."
     }
   ],
   "minimumContracts": {
@@ -251,7 +251,7 @@
       {
         "path": "src/styles/mindmake.css",
         "before": "880921ee64fb5e1a256805e548ba2329dacbc624bb8d25a5ea6373c1f6b2dbfb",
-        "after": "4d59bbb7d819213e8e535321221e606afa697413c8ebc39d8fa899a05095b2cd",
+        "after": "ac75add37e9e6829b3a010e6f57c158f82b0d1dbc381990bb4cdbdae8132ca37",
         "reason": "Removes the .mm-site-scoped copy of the heading focus reset; adds --mm-header-inline so the wordmark, the menu and the footer sit on each route's own content edge; styles the previously unstyled Suspense fallback."
       },
       {

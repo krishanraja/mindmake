@@ -496,11 +496,35 @@ async function noJavaScript() {
     fail(await controls.count() !== 8, `no JavaScript: expected eight useful story links, found ${await controls.count()}`);
     const invalid = await controls.evaluateAll(elements => elements.filter(element => element.tagName !== 'A' || !element.getAttribute('href')?.startsWith('#record-')).length);
     fail(invalid > 0, `no JavaScript: ${invalid} primary story controls are not source-record links`);
-    if (await controls.count()) {
-      const href = await controls.first().getAttribute('href');
-      await controls.first().click();
-      fail(!href || !page.url().endsWith(href), `no JavaScript: primary story link did not reach ${href}`);
-    }
+    // This used to click the first link and check the URL. In S2 that was the
+    // whole contract: the record lived in a separate archive, so the fallback
+    // had to carry you there. S3 renders every record open when scripting is
+    // off, which makes the teaser above it redundant and — deliberately —
+    // empty, so it is no longer a thing you can click.
+    //
+    // What a reader without scripting actually needs is stronger than one
+    // working link, and it is what gets asserted now: every one of the eight
+    // anchors resolves to a record that is really on the page, with real
+    // height, carrying its own result, testimony and figure. A link that
+    // navigates to a hidden element would have passed the old check.
+    const reachable = await page.evaluate(() => {
+      const out = [];
+      for (const control of document.querySelectorAll('[data-open-story]')) {
+        const href = control.getAttribute('href') || '';
+        const target = document.getElementById(href.slice(1));
+        if (!target) { out.push(`${href}: no such record`); continue; }
+        const style = getComputedStyle(target);
+        const box = target.getBoundingClientRect();
+        if (style.display === 'none' || style.visibility === 'hidden' || box.height < 40) {
+          out.push(`${href}: record is not rendered (${style.display}, ${Math.round(box.height)}px)`);
+          continue;
+        }
+        if (!target.querySelector('blockquote')) out.push(`${href}: record carries no testimony`);
+        if (!target.querySelector('[data-fig]')) out.push(`${href}: record carries no figure`);
+      }
+      return out;
+    });
+    for (const problem of reachable) fail(true, `no JavaScript: ${problem}`);
     await context.close();
   } finally { await browser.close(); }
 }

@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-09-09
-head: d3b1bd8
+as_of: 2026-09-17
+head: c12e5a2
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -33,7 +33,7 @@ What is sold, exactly as canon locks it:
 
 Copy-grade definition, safe to quote: "an AI brain is a working system that holds your taste, judgement, standards, memory and trusted context, and uses them on your real work." Everything in `never_publish` above stays out of any piece, whatever the source.
 
-## Where it is right now (as of 2026-09-09)
+## Where it is right now (as of 2026-09-17)
 
 - **Live** at `mindmake.co`. The rebuild was promoted on 28 August 2026; the latest promotion is the edge rewrite of 5 September 2026 (pull request #154), verified live with one synthetic end-to-end lead. Production identifiers, function versions and the rollback target: `project-documentation/06_CURRENT_STATE.md`, "Where the rebuild stands" and "Lead and data backend".
 - **A new public surface, `/answers`**, shipped 8 September 2026 (#160 to #164): one page per buyer question, machine-first, separate from the blog. The sitemap and prerender now cover 26 indexed routes, up from 21; `project-documentation/06_CURRENT_STATE.md`'s route count is dated 5 September and predates this.
@@ -45,6 +45,7 @@ Copy-grade definition, safe to quote: "an AI brain is a working system that hold
 
 ## What changed recently
 
+- 2026-09-17 **Film libraries organised by release month** (`6af2005`, pull request #169). The six live films moved from `src/assets/films/` into `src/assets/films/aug2026/` without changing bytes, so a later shoot does not have to share a folder with the one on site. A sealed September library of six loops landed alongside it in `src/assets/films/sep2026/`, with its own selection guidance, and is not live: nothing on the site imports it yet. `CLAUDE.md` and `README.md` were updated in the same commit.
 - 2026-09-08 **The answer surface, built to be quoted** (#160 to #164). "`/answers` and `/answers/:slug`, server rendered so an assistant fetching a page finds the argument rather than a shell." Deliberately not the blog: those posts are curated and calmer, these "answer one buyer question each and take a position." One format module is shared by the site, the sitemap, `llms.txt`, the social plates and the prerender, so dropping a markdown file into `src/content/answers/` is the whole publishing step. Four questions shipped the same day: a revenue model for AI products in publishing, an AI centre of excellence with no engineering budget, what adtech competes on once AI can build the targeting model, and an AI decision tool for a trustworthy leadership team. A same-day follow-up (#164) repaired all four files after the generator glued the closing front-matter fence to the first line of prose and wrote a timestamp where the loader requires a date, and fixed the generator itself.
 - 2026-09-08 **The cross-repo canon reaches this repository** (#158, #159, #166, #167). `AGENTS.md` now carries the krish-canon block rendered from `krishanraja/ai-harness`, marker-delimited with its own sha256 so drift is "arithmetic rather than judgement." Before this, the canon "was well governed and had never reached a product repository: this repo referenced it zero times." The block is the harness steward's territory, never the docs steward's. A same-day fix corrected AGENTS.md's own header, which had claimed NOW.md is reconciled on every push to `main`: "the push half was never true... the steward has failed on every push since it shipped." The push trigger now validates only; the nightly run reconciles.
 - 2026-09-07 **The thirty-three, revised** (`20ef51f`, then `ad345f4`, `eb06329`, `218dc14`; #156, #157). Krish "revised the thirty-three to what people actually wrote and declared the file canon. Ten excerpts stopped being substrings of the quotes they came from: two by a capital letter, eight because the excerpt had been rewritten to say what the new quote meant, and one ran past the cap." The test caught all ten and every excerpt was cut again from the revised text. Then the story deck: "Each client story carried its own copy of the quote, and the copies had drifted from what the person wrote," so a story now names its voice and reads the quote from `src/data/testimonials.ts` at import, and one story was swapped because "the revised quote is about value landing on day one, compounding after, and nobody loitering." The control-center audit that flagged the broken rule the same morning is answered by these commits.
@@ -63,7 +64,6 @@ Copy-grade definition, safe to quote: "an AI brain is a working system that hold
 - 2026-08-28 **The rebuild, live** (#152, #153): homepage and both doors rebuilt, six films installed, documentation consolidated into one numbered order led by a new north star, one name for the business.
 - 2026-08-27 **Cleanse** (#149, #150, #151): around 50MB of unreferenced media and 26 dependencies gone, twenty-five superseded documents deleted, the 24-hour stability gate closed.
 - 2026-08-26 **Launch** (#141): `mindmake.co` went live.
-- 2026-08-11 to 12 **Pre-rebuild** (`cda3c70`, #136, #137): one 21-day Sprint and a fit-call action, ten orphaned routes redirected, dead Builder Economy links retired. Every offer named in those commits is retired by canon and stays retired.
 
 The pattern is worth naming: 111 commits in fourteen days, 87 by Claude, and every deployment is followed by a docs-only "Record the ..." commit (eleven of them since 28 August) that writes what was actually proven live into the state doc. That habit is what makes the state doc trustworthy, and the steward keeps it rather than replacing it.
 

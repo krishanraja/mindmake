@@ -736,17 +736,17 @@ describe("the film slots", () => {
   it("ships a poster and both formats for every film", () => {
     for (const id of ["01", "02", "03", "04", "05", "06"]) {
       for (const suffix of ["poster.jpg", "poster.webp"]) {
-        expect(existsSync(resolve(ROOT, `src/assets/films/film-${id}-${suffix}`))).toBe(true);
+        expect(existsSync(resolve(ROOT, `src/assets/films/aug2026/film-${id}-${suffix}`))).toBe(true);
       }
     }
     /* Five ambient loops, and the proof film, which is a different thing. */
     for (const id of ["01", "02", "03", "04", "06"]) {
       for (const suffix of ["loop.mp4", "loop.webm"]) {
-        expect(existsSync(resolve(ROOT, `src/assets/films/film-${id}-${suffix}`))).toBe(true);
+        expect(existsSync(resolve(ROOT, `src/assets/films/aug2026/film-${id}-${suffix}`))).toBe(true);
       }
     }
     for (const suffix of ["proof.mp4", "proof.webm"]) {
-      expect(existsSync(resolve(ROOT, `src/assets/films/film-05-${suffix}`))).toBe(true);
+      expect(existsSync(resolve(ROOT, `src/assets/films/aug2026/film-05-${suffix}`))).toBe(true);
     }
   });
 
@@ -756,7 +756,7 @@ describe("the film slots", () => {
        arrives after the paint but still arrives unasked, so it stays modest.
        The proof film is neither: nothing fetches it until someone clicks, which
        is why it is allowed to be a real sixty-second film. */
-    const dir = resolve(ROOT, "src/assets/films");
+    const dir = resolve(ROOT, "src/assets/films/aug2026");
     for (const file of readdirSync(dir)) {
       const bytes = statSync(resolve(dir, file)).size;
       const cap = file.includes("poster") ? 200_000 : file.includes("proof") ? 10_000_000 : 2_000_000;

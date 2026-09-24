@@ -4,10 +4,10 @@ import { ProofDrum } from "@/components/mindmake/ProofDrum";
 import { StoryIndex } from "@/components/mindmake/StoryIndex";
 import { FilmPlate } from "@/components/mindmake/FilmPlate";
 import { attendeeBrands } from "@/data/rebuildProof";
-import filmFourPoster from "@/assets/films/film-04-poster.jpg";
-import filmFourPosterWebp from "@/assets/films/film-04-poster.webp";
-import filmFourLoop from "@/assets/films/film-04-loop.mp4";
-import filmFourLoopWebm from "@/assets/films/film-04-loop.webm";
+import filmFourPoster from "@/assets/films/aug2026/film-04-poster.jpg";
+import filmFourPosterWebp from "@/assets/films/aug2026/film-04-poster.webp";
+import filmFourLoop from "@/assets/films/aug2026/film-04-loop.mp4";
+import filmFourLoopWebm from "@/assets/films/aug2026/film-04-loop.webm";
 
 /**
  * The proof, kept in its three separate families.

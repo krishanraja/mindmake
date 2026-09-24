@@ -78,7 +78,7 @@ p { margin: 18px 0 0; font-family: "Newsreader", serif; font-weight: 400; font-s
 .url { position: absolute; left: 72px; bottom: 62px; font-family: "Plex Mono", monospace; font-weight: 500; font-size: 19px; letter-spacing: .06em; color: var(--mm-mint); display: flex; align-items: center; gap: 12px; }
 .url i { width: 8px; height: 8px; border-radius: 50%; background: var(--mm-mint); display: inline-block; }
 </style></head><body>
-<img class="still" src="${asset(`src/assets/films/${page.still}-poster.jpg`)}" alt="">
+<img class="still" src="${asset(`src/assets/films/aug2026/${page.still}-poster.jpg`)}" alt="">
 <div class="fade"></div><div class="light"></div>
 <div class="brand"><span class="mark">${mark}</span><span class="word">${wordmark}</span></div>
 <div class="words"><h1>${escape(page.headline)}</h1>${page.claim ? `<p>${escape(page.claim)}</p>` : ""}</div>

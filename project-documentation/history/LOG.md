@@ -5,6 +5,11 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-09-17
+
+- reconciled at `c12e5a2`: two non-steward commits since the last run, both the same change, "Organise film libraries by release month" (`6af2005`, pull request #169). It moved the six live films from `src/assets/films/` into `src/assets/films/aug2026/` without changing bytes, updated every import and check, and added a sealed, not-yet-live September loop library. `CLAUDE.md` and `README.md` were updated in the same commit by its author, so no drift was found in either. `project-documentation/` names no film file path, only the concept and the count, and the count (six live films) did not change, so nothing there needed reconciliation.
+- rolled from NOW.md: the "2026-08-11 to 12" bullet, more than 30 days old, moved to `## 2026-08-11` below.
+
 ## 2026-09-09
 
 - reconciled at `d3b1bd8`: `NOW.md`'s "What changed recently" gained two dated bullets, the answer surface (`/answers` and four questions, pull requests #160 to #164) and the cross-repo krish-canon block landing in `AGENTS.md` (pull requests #158, #159, #166, #167). `project-documentation/` was not touched by either change, so no drift found there; the state doc's "prerenders 21 indexed routes" line now predates the answer surface (sitemap and prerender cover 26), noted in `NOW.md` rather than rewritten here, since the doc's own baseline is scoped to the 5 September edge rewrite it was measured against.
@@ -2451,3 +2456,7 @@ job by hand. A silently broken observer costs nothing, because an element is
 revealed by the time it can be seen. Proven in a browser at 390: pending at the
 top, shown on arrival, no attribute at all under reduced motion, and 1076
 characters of the page's copy reaching a reader with JavaScript disabled.
+
+## 2026-08-11
+
+- rolled from NOW.md: 2026-08-11 to 12, pre-rebuild (`cda3c70`, pull requests #136, #137): one 21-day Sprint and a fit-call action retired, ten orphaned routes redirected, dead Builder Economy links retired. Every offer named in those commits is retired by canon and stays retired.

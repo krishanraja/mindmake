@@ -30,5 +30,5 @@
     "sharedSurfaceStyles": "src/styles/mindmake-locked-gtm.css",
     "evidence": "src/data/vnext/gtm-signals.json"
   },
-  "productionLock": "quality/route-lock/approved-production-r18.json"
+  "productionLock": "quality/route-lock/approved-production-r24.json"
 }

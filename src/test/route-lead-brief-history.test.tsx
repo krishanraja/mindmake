@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { MemoryRouter, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import AiBrain from "@/pages/AiBrain";
 import AiGtm from "@/pages/AiGtm";
+import { START_LABEL } from "@/lib/publicLinks";
 
 vi.mock("@/components/mindmake/LeadBrief", () => ({
   LeadBrief: ({ open, onClose, route }: { open: boolean; onClose: () => void; route: string }) => open ? (
@@ -51,11 +52,15 @@ afterEach(() => {
  * Opens the brief the way that page's reader actually would.
  *
  * Neither route collects identity before the drawer opens. The plain-English
- * GTM page has no in-page start button above its shared close, so a reader
- * starts from the navigation (or, on a phone, the action bar that mirrors it).
+ * GTM page has no in-page start button, so a reader starts from the navigation
+ * (or the site action bar that mirrors it), labelled with START_LABEL.
  */
 function enterTheBrief(path: string) {
-  if (path === "/ai-gtm") fireEvent.click(screen.getByRole("button", { name: "Open navigation" }));
+  if (path === "/ai-gtm") {
+    fireEvent.click(screen.getByRole("button", { name: "Open navigation" }));
+    fireEvent.click(screen.getAllByRole("button", { name: START_LABEL })[0]);
+    return;
+  }
   fireEvent.click(screen.getAllByRole("button", { name: "Start here" })[0]);
 }
 

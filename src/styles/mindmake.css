@@ -390,9 +390,31 @@ html {
 }
 .mm-mono { font-family: var(--mm-mono); font-variant-numeric: tabular-nums; }
 
+/* The container starts on the gutter and ends wherever it ends.
+
+   The start margin used to be `auto` as well, which centres the box. For a
+   container at its own width that is the same edge, because `auto` resolves to
+   exactly the expression below; the two differ only once something narrows the
+   box, and then `auto` centres the narrower measure instead of shortening it.
+   Three blocks declare a narrower `max-width` on the container itself and
+   nobody had measured the result: at 1440 the article title (820px) started
+   210px inboard of the wordmark and the article body (720px) 260px, while the
+   author card and the related ideas under them, on the same container with no
+   max-width, stayed on the gutter; the legal sections (920px) sat 160px inboard
+   of their own heading. One page, three left edges, none of them the logo's.
+
+   Written as a percentage of the page's content box rather than reusing
+   `--mm-edge`, which is measured in `vw` and so counts a classic scrollbar this
+   box does not, so the two would disagree by half a scrollbar on Windows. The
+   end margin stays `auto`: that is what absorbs the shortfall. */
 .mm-container {
   width: min(var(--mm-shell-max), calc(100% - (2 * max(var(--mm-gutter), var(--mm-safe-left), var(--mm-safe-right)))));
-  margin-inline: auto;
+  margin-inline: max(
+    var(--mm-gutter),
+    var(--mm-safe-left),
+    var(--mm-safe-right),
+    calc((100% - var(--mm-shell-max)) / 2)
+  ) auto;
 }
 .mm-visually-hidden {
   position: absolute;
@@ -588,15 +610,31 @@ html {
 }
 .mm-site.mm-route-brain { --mm-header-inline: max(4vw, calc((100vw - 1600px) / 2)); }
 .mm-site.mm-route-gtm { --mm-header-inline: max(24px, calc((100vw - 1360px) / 2)); }
+/* /new-age-leadership draws its own masthead inside `.nal-page` and puts the
+   shared commercial block and the footer in a bare `.mm-site` beside it. Those
+   two are on the container's measure and the page above them is on the R5
+   surface's `--edge`, so the wordmark sat at 63px at 1440 while "Build one
+   useful AI system on real work." started at 100px, and at 1920 the gap was
+   72px against 340px. These mirror `--edge` in
+   src/styles/new-age-leadership-r5.css, including its two narrow overrides;
+   that file is generated from the approved prototype, so the mirror lives
+   here. */
+.mm-site.mm-route-leadership { --mm-header-inline: clamp(22px, 4.4vw, 72px); }
 @media (max-width: 700px) {
   .mm-site.mm-route-gtm { --mm-header-inline: max(16px, calc((100vw - 520px) / 2)); }
 }
+@media (max-width: 620px) {
+  .mm-site.mm-route-leadership { --mm-header-inline: 20px; }
+}
 @media (max-width: 360px) {
   .mm-site.mm-route-gtm { --mm-header-inline: 12px; }
+  .mm-site.mm-route-leadership { --mm-header-inline: 16px; }
 }
 /* The overlay and the footer take the same edge too, next to their own rules
    below, so a route never shows its wordmark on one measure and the navigation
-   under it on another. */
+   under it on another. The shared commercial block reads the same token in
+   src/styles/mindmake-commercial-decision-balance.css, because it is page-wide
+   chrome by any other name: it closes every route it appears on. */
 .mm-brand {
   min-height: 44px;
   display: inline-flex;
@@ -732,6 +770,7 @@ html {
      the last line of the footer whenever both were up. */
   padding: 54px 0 calc(30px + var(--mm-safe-bottom) + var(--mm-cookie-reserve, 0px) + var(--mm-bar-reserve, 0px));
 }
+
 .mm-footer > .mm-container {
   width: 100%;
   margin-inline: 0;
@@ -764,6 +803,82 @@ html {
 }
 .mm-footer small { color: var(--mm-mut); font-family: var(--mm-mono); font-size: 10.5px; letter-spacing: .05em; }
 
+/* The way in, pinned to the bottom of the screen.
+   Owned here rather than in mindmake-instruments.css, which only /case-studies
+   imports: on every other shell route the component used to ship with no CSS at
+   all, so `display` computed to `block`, `position` to `static`, and a bare
+   button rendered below the footer at every width. It lives beside
+   --mm-bar-reserve and the .mm-footer rule that reads it, which is the rest of
+   the same contract.
+
+   It is no longer phone-only. Since the commercial surface moved to
+   /new-age-leadership alone, the shell routes have no way in of their own, and
+   the bar stands down by itself whenever a page's primary action is on screen,
+   so a wider viewport cannot produce two at once. */
+.mm-action-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  /* Stacked on the privacy strip, from the height the strip publishes. The
+     strip is flush to the bottom of the screen and this sits on top of it,
+     so the two are never apart and never overlap. */
+  bottom: var(--mm-cookie-reserve, 0px);
+  z-index: 40;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid var(--mm-line);
+  background: rgba(10, 16, 13, .94);
+  backdrop-filter: blur(8px);
+  /* The home indicator's inset is only this bar's to clear when this bar is
+     the thing on the bottom edge. With the privacy strip below it the strip
+     carries it, and adding it here as well left about 34px of empty bar on
+     an iPhone. `max()` resolves to zero the moment the strip is up. No gate
+     here can see this: Playwright does not emulate a safe-area inset. */
+  padding: 10px var(--mm-edge) calc(10px + max(0px, var(--mm-safe-bottom) - var(--mm-cookie-reserve, 0px)));
+  transform: translateY(calc(110% + var(--mm-cookie-reserve, 0px)));
+  transition: transform .2s ease;
+}
+.mm-action-bar.is-shown { transform: translateY(0); }
+/* Two slots and never three: at most one door, then the one action. They share
+   the shell's measure so the action lands under the page's own right edge. */
+.mm-action-bar-inner {
+  width: 100%;
+  max-width: var(--mm-shell-max);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}
+.mm-action-bar-door {
+  margin-right: auto;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--mm-tx2);
+  font-family: var(--mm-mono);
+  font-size: 12px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.mm-action-bar-door:hover { color: var(--mm-mint); }
+/* It reserves its own measured height in --mm-bar-reserve, which the
+   footer reads and adds to the strip's, so it never covers the last thing
+   being read and the two reserves cannot cancel each other. */
+@media (max-width: 767px) {
+  /* A phone gets the action and nothing else. The door was a second row here,
+     and the release smoke measured the cost: the bar stood 150.7px tall at
+     320x568, more than a quarter of the screen, and its own reserve pushed the
+     last footer link underneath it on both offer routes. The bar's job on a
+     phone is the one action; the menu carries both routes one tap away. */
+  .mm-action-bar-door { display: none; }
+  .mm-action-bar-inner { justify-content: center; }
+  .mm-action-bar .mm-button { width: 100%; max-width: 420px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mm-action-bar { transition: none; }
+}
+
 /* Secondary public pages, on the same ground as the rest of the site. */
 .mm-page-hero { padding: calc(var(--mm-header-height) + clamp(48px, 9vh, 96px)) 0 clamp(34px, 5vh, 56px); }
 .mm-page-hero h1 { max-width: 16ch; }
@@ -782,13 +897,6 @@ html {
   border: 1px solid var(--mm-line);
   border-radius: 3px;
   overflow: hidden;
-}
-@media (min-width: 760px) { .mm-story-archive-grid { grid-template-columns: 1fr 1fr; } }
-.mm-story-archive article {
-  display: flex;
-  flex-direction: column;
-  background: var(--mm-ink2);
-  padding: clamp(22px, 3vw, 34px);
 }
 .mm-story-archive h2 { max-width: 18ch; font-size: clamp(21px, 2.2vw, 28px); }
 .mm-story-archive article > p { max-width: 52ch; margin-top: 14px; color: var(--mm-tx2); font-size: 15px; }
@@ -1129,11 +1237,16 @@ html {
 }
 .mm-form-error { color: var(--mm-amber); font-family: var(--mm-mono); font-size: 12px; }
 
-.mm-not-found { min-height: 100svh; display: grid; place-items: center; background: var(--mm-ink); color: var(--mm-tx); text-align: center; padding: 40px 0; }
+/* The 404, on the same measure as every other page.
+   It was `place-items: center; text-align: center` inside its own bare
+   `.mm-site`, which put the wordmark in the middle of the viewport with the
+   error copy centred under it: the one page where the mark was neither in a top
+   bar nor on the page's left edge. It is a page hero now, under the shell. */
+.mm-not-found { padding: calc(var(--mm-header-height) + clamp(44px, 12vh, 120px)) 0 var(--mm-section); background: var(--mm-ink); color: var(--mm-tx); }
 .mm-error-code { color: var(--mm-mint); font-family: var(--mm-mono); font-size: 12px; letter-spacing: .2em; }
-.mm-not-found h1 { margin-top: 16px; }
-.mm-not-found p { margin-top: 14px; color: var(--mm-tx2); }
-.mm-not-found .mm-button { margin-top: 26px; }
+.mm-not-found h1 { max-width: 14ch; margin-top: 16px; }
+.mm-not-found > .mm-container > p { max-width: 52ch; margin-top: 18px; color: var(--mm-tx2); font-size: clamp(16px, 1.5vw, 19px); }
+.mm-not-found-actions { display: flex; flex-wrap: wrap; gap: 16px 26px; align-items: center; margin-top: 30px; }
 
 /* One line, four words, one button, and out of the way.
    Photographed on a phone on 3 September 2026 it was three lines and a

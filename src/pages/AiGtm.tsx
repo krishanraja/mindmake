@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
-import { CommercialDecisionBalance } from "@/components/mindmake/locked/CommercialDecisionBalance";
 import { useLockedMotion } from "@/components/mindmake/locked/useLockedMotion";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import signals from "@/data/vnext/gtm-signals.json";
@@ -490,7 +489,6 @@ export default function AiGtm() {
           </section>
         </div>
       </div>
-      <CommercialDecisionBalance context="gtm" onStart={() => openBrief("gtm")} />
       <LeadBrief open={briefOpen} onClose={closeBrief} route="gtm" presentation="drawer" journeyKey={briefJourneyKey} initialContext={copy.tab} />
     </MindmakeShell>
   );

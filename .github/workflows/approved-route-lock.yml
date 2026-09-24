@@ -74,11 +74,25 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # One engine per leg, because `engines` was a space-separated list that
+        # the release-route step below walked in a bash loop. Chromium and
+        # Firefox therefore queued behind each other on a single Linux runner:
+        # measured on run 36067326051, that one step took 6m25s while the whole
+        # macOS leg finished in 5m14s, so the Linux leg, not WebKit, was the
+        # critical path and the run took 9m10s. Split, the two Linux engines run
+        # at the same time and the critical path becomes macOS WebKit.
+        #
+        # Nothing is narrowed. The same 208 route cases run on the same frozen
+        # artifact, and qa:homepage-release still launches all three engines on
+        # both platforms, which is why the install step below is never filtered
+        # to `engine`.
         include:
           - os: ubuntu-latest
-            engines: chromium firefox
+            engine: chromium
+          - os: ubuntu-latest
+            engine: firefox
           - os: macos-latest
-            engines: webkit
+            engine: webkit
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     steps:
@@ -106,11 +120,11 @@ jobs:
           path: ${{ runner.os == 'macOS' && '~/Library/Caches/ms-playwright' || '~/.cache/ms-playwright' }}
           key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
       - name: Install release verification browsers
-        # All three on both platforms. `matrix.engines` governs the release-route
+        # All three on both platforms. `matrix.engine` governs the release-route
         # step alone, which sets QA_ENGINE per engine; qa:homepage-release below
         # launches chromium, firefox and webkit whatever this leg is, which is
         # the contract its own comment says is never narrowed to fit an engine
-        # filter. Narrowing this install to matrix.engines on 24 September made
+        # filter. Narrowing this install to the leg's own engine on 24 September made
         # the macOS leg fail on a missing chromium in under two minutes.
         #
         # Split in two because only half of it is cacheable: the Linux system
@@ -127,7 +141,9 @@ jobs:
         # never narrowed to fit an engine filter or a missing observation.
         run: npm run qa:homepage-release
       - name: Verify served and hydrated search metadata and share assets
-        if: runner.os == 'Linux'
+        # Once per run, not once per Linux engine: it reads served metadata,
+        # which no engine filter changes.
+        if: matrix.engine == 'chromium'
         shell: bash
         run: |
           npm run preview -- --host 127.0.0.1 --port 4346 --strictPort &
@@ -138,21 +154,25 @@ jobs:
             sleep 1
           done
           QA_REVISION="$GITHUB_SHA" npm run qa:discoverability -- --base=http://127.0.0.1:4346 --directory-index
+      - name: Verify one left edge per page
+        # Serves dist/ itself in Vercel's resolution order, so it reads the same
+        # prerendered files the matrix below does. One platform is enough: this
+        # measures layout the three engines resolve identically, and the widths
+        # it walks are the same on each.
+        if: runner.os == 'Linux'
+        run: npm run qa:logo-alignment
       - name: Verify built public routes and navigation
         # Same 208 route cases and 9 navigation/redirect supplements. WebKit's
         # media gate runs on its Safari-like native platform; Linux WPE failures
         # and no-app reproduction remain in the dated release evidence.
         shell: bash
         env:
-          QA_ENGINES: ${{ matrix.engines }}
-        run: |
-          for engine in $QA_ENGINES; do
-            QA_ENGINE="$engine" npm run qa:release-routes
-          done
+          QA_ENGINE: ${{ matrix.engine }}
+        run: npm run qa:release-routes
       - name: Retain release verification evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: homepage-release-evidence-${{ matrix.os }}
+          name: homepage-release-evidence-${{ matrix.os }}-${{ matrix.engine }}
           path: artifacts/homepage-release/
           if-no-files-found: error

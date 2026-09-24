@@ -10,9 +10,17 @@
   --db-line: rgba(232, 220, 196, 0.2);
   /* The production shell owns the page grid. Keeping this surface on the
      same edge token prevents the brand and content columns drifting apart at
-     wide, compact, or scaled Windows viewports. */
-  --db-gutter-left: var(--mm-edge);
-  --db-gutter-right: var(--mm-edge);
+     wide, compact, or scaled Windows viewports.
+
+     That token is the one the route names, not the container's, because this
+     block appears on routes whose bodies are drawn against their own measures.
+     Reading `--mm-edge` directly put "Build one useful AI system on real work."
+     at 100px at 1440 under a wordmark sitting at 57.6px on /ai-brain and 40px
+     on /ai-gtm, and the gap grew with the viewport: 340px against 280px at
+     1920. `--mm-header-inline` is set per route in src/styles/mindmake.css and
+     falls back to `--mm-edge`, so every container-measured route is unchanged. */
+  --db-gutter-left: var(--mm-header-inline, var(--mm-edge));
+  --db-gutter-right: var(--mm-header-inline, var(--mm-edge));
   --db-panel-inner: clamp(28px, 4vw, 62px);
   position: relative;
   height: 175svh;

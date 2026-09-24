@@ -5,6 +5,7 @@ import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { track } from "@/lib/analytics";
 import corpus from "@/content/answers.json";
 import "@/styles/mindmake.css";
+import { START_LABEL } from "@/lib/publicLinks";
 
 /** The same curated corpus the ask bar answers from, laid out in full. */
 const answers = corpus.entries as Array<{ id: string; question: string; answer: string }>;
@@ -39,13 +40,16 @@ export default function Questions() {
             <h2 id="answers-next-title">Ready to see it on your business?</h2>
             <button
               className="mm-button"
+              /* A way in, so it is marked as one: the action bar reads this
+                 attribute to stand down while this button is on screen. */
+              data-mm-primary
               type="button"
               onClick={() => {
                 track("scoping_request", { source: "faq" });
                 setBriefOpen(true);
               }}
             >
-              Start here <span aria-hidden="true">→</span>
+              {START_LABEL} <span aria-hidden="true">→</span>
             </button>
           </aside>
         </div>

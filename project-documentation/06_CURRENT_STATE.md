@@ -108,8 +108,8 @@ owns payload, privacy, retention, email and failure-path contracts.
   external measurement; no ranking or citation guarantee is made. Social
   platform cache refreshes were not externally verified.
 - Nonblocking existing focus detail: desktop initial navigation can outline
-  the hero H1; mobile initial focus remains BODY. A correction is on the branch
-  and not live. Until it is promoted this remains what production does.
+  the hero H1; mobile initial focus remains BODY. The r17 correction for this is
+  promoted (see below); this line describes the behaviour it replaced.
 - Physical iPhone VoiceOver and Android TalkBack remain unperformed under the
   owner's explicit release-only exception. Emulation is not physical proof.
 - Dependency audit: 23 package entries (16 high, 5 moderate, 2 low). Bounded
@@ -123,17 +123,49 @@ owns payload, privacy, retention, email and failure-path contracts.
 - Recorded GitHub main check found no enforced branch protection/rulesets.
   Checked workflows fail closed; privileged bypass remains possible. Violations
   are not claimed impossible.
-- A delivered-surface correction pass is on the branch and is not live: it is
-  bounded by `quality/route-lock/approved-production-r17.json`, which records
-  that its own owner approval and candidate verification are outstanding. It
-  covers the heading focus ring, the menu action and footer measures, the header
-  wordmark's alignment on the locked routes, the unstyled first paint on the
-  code-split routes and a lede under the unchanged case-record heading. Nothing
-  above describes it; retrieve the live deployment before treating any of it as
-  production behaviour.
+- Promoted on 2026-09-24 as merge `f446786` (PR #175), which Vercel
+  auto-promotes. Krish instructed the merge; that instruction is the promotion
+  approval, recorded in his terms rather than inflated ones. Four immutable
+  records land together, r18 through r21, each of which still says on its own
+  face that its owner approval was outstanding when it was written. They cover:
+  - r17: the delivered-surface correction pass (heading focus ring, menu action
+    and footer measures, header wordmark alignment on the locked routes, the
+    unstyled first paint on the code-split routes, the case-record lede).
+  - r18: the commercial Decision Balance is mounted on `/new-age-leadership`
+    alone, unmounted from `/ai-brain`, `/ai-gtm`, `/blog`, `/blog/:slug`,
+    `/answers` and `/answers/:slug`. Nothing replaces the vacated space.
+  - r19: the action bar's rules move from `mindmake-instruments.css`, which only
+    `/case-studies` imports, to `mindmake.css`. Before the move the bar shipped
+    with no CSS on every other shell route and rendered a bare button in normal
+    flow below the footer at every width.
+  - r20: every way in reads `START_LABEL` from `src/lib/publicLinks.ts`, and the
+    bar carries at most one door plus the one action, standing down whenever a
+    page's own primary action is on screen. The immutable approved R3 homepage
+    is untouched and is the one surface still reading "Start here".
+  - r21: the door keys on the route without its trailing slash, and is hidden
+    below 768px.
+- Production readback, 2026-09-24, after promotion: `/ai-brain`, `/ai-gtm` and
+  `/blog` serve "Get your free AI brief" and the action bar and carry no
+  Decision Balance; `/new-age-leadership` carries the Decision Balance and no
+  action bar, which is correct because it does not use the shell. `/ai-brain/`
+  and `/ai-gtm/` answer 308 to the slashless path and then serve the same
+  document, with the door present.
+- Scope correction on r21's first defect: `vercel.json` sets
+  `trailingSlash: false`, so production has always redirected `/ai-brain/` to
+  `/ai-brain` and no visitor was served the mismatched document. The hydration
+  failure was real in the local built preview and in `qa:release-routes`, which
+  asks for the slashed spelling deliberately, and it failed on all three
+  engines there. The session note that called it a live visitor-facing fault
+  overstated it; the fix stands on its own, because the door must not depend on
+  which spelling of a route renders it.
+- The release browser matrix runs one engine per leg. Same 208 cases on the same
+  frozen artifact; Chromium and Firefox no longer queue behind each other on one
+  Linux runner. Measured before the change on run 36067326051: 9m10s total, one
+  step 6m25s. On run 36073064054 the three legs started within four seconds of
+  each other.
 
 - /ai-gtm is replaced by the owner-approved GTM-PLAIN-R2 page, bounded by
-  `quality/route-lock/approved-production-r18.json`. Production readback of that
+  `quality/route-lock/approved-production-r24.json`. Production readback of that
   release is recorded in the history ledger when it lands; until then treat the
   live deployment as the authority on what /ai-gtm renders.
 

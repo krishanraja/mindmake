@@ -75,7 +75,12 @@ for (const [width, height] of [[1440, 900], [390, 844]]) {
              these, because a button cannot navigate and a button saying Start
              here is a way in somebody forgot to mark. Never a link. */
           const marked = el.hasAttribute("data-mm-primary");
-          const says = /start here|read my business|show me week one|build your ai (brain|gtm)/i.test(text);
+          /* The site's own label moved from "Start here" to what the reader
+             actually gets. Both are listed: the old one so a surface that never
+             changed is still counted, the new one so the action bar's button,
+             which deliberately carries no data-mm-primary because it would see
+             itself and never appear, does not walk past this gate unseen. */
+          const says = /start here|get your free ai brief|read my business|show me week one|build your ai (brain|gtm)/i.test(text);
           if (!marked && !(says && el.tagName === "BUTTON")) continue;
           const box = el.getBoundingClientRect();
           const style = getComputedStyle(el);

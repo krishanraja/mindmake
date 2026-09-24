@@ -33,7 +33,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 12
     steps:
@@ -48,6 +48,15 @@ jobs:
           name: identical-webkit-dist
           path: dist/
       - run: npx playwright install --with-deps webkit
+      - name: Supply and verify an actual headless audio endpoint
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pulseaudio
+          pulseaudio --start --exit-idle-time=-1
+          pactl load-module module-null-sink sink_name=release_ci
+          pactl set-default-sink release_ci
+          pactl info
+          pactl list short sinks
       - name: Compare identical site and no-app media on native platforms
         run: node scripts/qa/release-webkit-diagnostic.mjs
         env:

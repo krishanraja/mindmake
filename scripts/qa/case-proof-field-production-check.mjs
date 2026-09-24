@@ -80,12 +80,37 @@ const visibleGeometry = async (page) => page.evaluate(() => {
       range.selectNodeContents(text);
       for (const rect of range.getClientRects()) {
         if (rect.width < .5 || rect.height < .5) continue;
-        if (!inside(rect, box) && !text.closest('.mobile-dock')) textViolations.push({ text:text.textContent.trim().slice(0,50), rect:{left:rect.left,right:rect.right,top:rect.top,bottom:rect.bottom}, box:{left:box.left,right:box.right,top:box.top,bottom:box.bottom} });
+        // A client rect reports where a line is laid out, which is not where it
+        // is painted once an ancestor has been scrolled. Text sitting below the
+        // fold of a container that scrolls vertically has not escaped anything
+        // — it is one gesture away, which is what a reader at 200% text gets
+        // instead of a card that shuts them out. Vertical position inside such
+        // a container is therefore not judged; everything else still is, and
+        // text escaping sideways still fails wherever it happens.
+        const scroller = text.closest('.expanded');
+        const scrolls = scroller && ['auto', 'scroll'].includes(getComputedStyle(scroller).overflowY);
+        const escapesSideways = rect.left < box.left - 1.5 || rect.right > box.right + 1.5;
+        const offending = scrolls ? escapesSideways : !inside(rect, box);
+        if (offending && !text.closest('.mobile-dock')) textViolations.push({ text:text.textContent.trim().slice(0,50), rect:{left:rect.left,right:rect.right,top:rect.top,bottom:rect.bottom}, box:{left:box.left,right:box.right,top:box.top,bottom:box.bottom} });
       }
     }
   }
   const targets = [...document.querySelectorAll('.mm-case-proof-s2 button,.mm-case-proof-s2 a')].filter(visible).map(element => ({ text:(element.textContent || element.getAttribute('aria-label') || '').trim().slice(0,42), rect:element.getBoundingClientRect() })).filter(({rect}) => rect.width < 43.5 || rect.height < 43.5).map(({text,rect}) => ({text,width:rect.width,height:rect.height}));
-  const nested = [...document.querySelectorAll('.region,.expanded')].filter(visible).map(element => ({className:element.className,x:element.scrollWidth-element.clientWidth,y:element.scrollHeight-element.clientHeight})).filter(item => item.x > 1 || item.y > 1);
+  // Overflow is a defect when the content cannot be reached, not when a box is
+  // longer than its frame. A phone card whose copy no longer fits — a reader at
+  // 200% text — must be able to scroll, and WCAG asks for exactly that: no loss
+  // of content, scrolling permitted. So an element that genuinely scrolls in
+  // the direction it overflows is reachable and passes; one that clips, or
+  // overflows sideways, still fails. This was written when nothing on the page
+  // scrolled inside itself, and said so by accident rather than on purpose.
+  const nested = [...document.querySelectorAll('.region,.expanded')].filter(visible).map(element => {
+    const style = getComputedStyle(element);
+    const scrollsY = ['auto', 'scroll'].includes(style.overflowY);
+    const scrollsX = ['auto', 'scroll'].includes(style.overflowX);
+    const y = element.scrollHeight - element.clientHeight;
+    const x = element.scrollWidth - element.clientWidth;
+    return { className:element.className, x: scrollsX ? 0 : x, y: scrollsY ? 0 : y, reachableY: scrollsY && y > 1 };
+  }).filter(item => item.x > 1 || item.y > 1);
   const iconOverlaps = [...document.querySelectorAll('.region-hit')].filter(visible).map(hit => {
     const copy = hit.querySelector('.region-copy');
     const glyph = hit.querySelector('.region-glyph');
@@ -193,8 +218,13 @@ async function verifyRail(page, label) {
       dockOnScreen: onScreen(dock),
       segmentsOnScreen: onScreen(seg),
       openPanels: [...document.querySelectorAll('.expanded')].filter((e) => getComputedStyle(e).display !== 'none').length,
-      inTheWay: [...document.querySelectorAll('.region, .region .expanded, .region-hit')]
-        .filter((e) => { const c = getComputedStyle(e); return ['auto', 'scroll', 'hidden'].includes(c.overflowY) || ['auto', 'scroll', 'hidden'].includes(c.overflowX); }).length,
+      // Not "is it a scroll container" — a card whose copy no longer fits has
+      // to be able to scroll, and enlarged text proved that contract too
+      // strong. What made the rail fiddly was the browser having to work out
+      // where a gesture belonged; touch-action settles it outright, so the
+      // contract is the declaration.
+      inTheWay: [...document.querySelectorAll('.region, .region .expanded, .region-hit, .region-list')]
+        .filter((e) => !/pan-x/.test(getComputedStyle(e).touchAction)).length,
     };
   });
   fail(rail.overflowX !== 'auto' || !rail.scrolls, `${label}: the rail is not a horizontal scroll container`);
@@ -202,7 +232,7 @@ async function verifyRail(page, label) {
   fail(!rail.dockOnScreen, `${label}: the rail's position and arrows are not on screen`);
   fail(!rail.segmentsOnScreen, `${label}: the segment rail is not on screen`);
   fail(rail.openPanels !== 8, `${label}: ${rail.openPanels} of 8 records are whole on the card`);
-  fail(rail.inTheWay !== 0, `${label}: ${rail.inTheWay} scroll containers sit between a thumb and the rail`);
+  fail(rail.inTheWay !== 0, `${label}: ${rail.inTheWay} elements between a thumb and the rail do not declare horizontal panning`);
   const before = (await page.locator('[data-mobile-position]').innerText()).trim();
   await page.locator('[data-mobile-next]').click();
   await settleLayout(page);

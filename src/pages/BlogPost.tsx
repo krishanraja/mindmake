@@ -61,6 +61,8 @@ const BlogPost = () => {
         title={post.title}
         description={post.metaDescription}
         canonical={`/blog/${post.slug}`}
+        ogType="article"
+        ogImage={post.ogImage}
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "Article",

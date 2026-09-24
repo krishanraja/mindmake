@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { existsSync, readFileSync, statSync, readdirSync } from "node:fs";
 import { resolve } from "node:path";
+import { execFileSync } from "node:child_process";
+import { staticPages } from "../../scripts/lib/pages.mjs";
+import { blogPosts } from "@/data/blogPosts";
+import { answers } from "@/lib/answers";
+import { answerPath } from "@/lib/answerFormat";
 import { buildPrivateBriefHtml } from "@/components/mindmake/privateBriefHtml";
 import {
   buildMindmakeBriefConfirmV2,
@@ -865,15 +870,15 @@ describe("the lead machinery is untouched", () => {
     expect(confirm.code).toBe("123456");
   });
 
-  /* The canon states exactly what the browser is allowed to send, and this
-     round added the visitor's name to that list. The sentence and the parser
-     have to be amended together or one of them is a lie, so this holds them to
-     each other rather than trusting either. */
-  it("sends only what the canon says the browser may send", () => {
+  /* The commercial canon routes payload authority to the delivery spec.
+     Check the declared fields against the actual parser, not old narrative. */
+  it("sends only the personal-read fields declared by the delivery contract", () => {
     const canon = read("project-documentation/01_CANON.md");
-    const sentence = canon.slice(canon.indexOf("The browser sends only"));
-    expect(sentence.slice(0, 600)).toContain("first and last name");
-    expect(sentence.slice(0, 600)).toContain("work email");
+    expect(canon).toContain("05_LEAD_DELIVERY_SPEC.md");
+    const spec = read("project-documentation/05_LEAD_DELIVERY_SPEC.md");
+    const declaration = spec.match(/Personal-read request allowlist: `([^`]+)`/);
+    expect(declaration).not.toBeNull();
+    const declared = declaration![1].split(",").map((key) => key.trim()).sort();
 
     /* The parser's allowlist is the enforcement. Nothing outside it reaches the
        server, and nothing inside it is undeclared above. */
@@ -883,6 +888,7 @@ describe("the lead machinery is untouched", () => {
     expect(keys.sort()).toEqual(
       ["action", "division", "email", "first_name", "last_name", "q1", "q2"],
     );
+    expect(declared).toEqual(keys.sort());
     /* The retired field must not creep back: it is the ask this round removed. */
     expect(keys).not.toContain("linkedin_url");
   });
@@ -913,22 +919,16 @@ describe("the lead machinery is untouched", () => {
 
 describe("the crawler surfaces stay in step", () => {
   it("keeps the generated llms.txt in agreement with its generator", () => {
-    const generator = read("scripts/generate-llms.mjs");
-    const generated = read("public/llms.txt");
-    for (const line of ["# Mindmake", "## The two doors", "## How paid work begins"]) {
-      expect(generator).toContain(line);
-      expect(generated).toContain(line);
-    }
+    const generated = execFileSync(process.execPath, ["scripts/generate-llms.mjs", "--stdout"], { cwd: ROOT, encoding: "utf8" });
+    expect(read("public/llms.txt").replaceAll("\r\n", "\n")).toBe(generated.replaceAll("\r\n", "\n"));
+    for (const page of staticPages) expect(generated).toContain(page.description);
   });
 
   it("prerenders the same routes the sitemap publishes", () => {
-    const sitemap = read("scripts/generate-sitemap.mjs");
-    /* The prerender writes its pages from scripts/lib/pages.mjs since
-       4 September 2026, the list the social plates are painted from too. */
-    const prerender = read("scripts/lib/pages.mjs");
-    for (const route of ["/ai-brain", "/ai-gtm", "/case-studies", "/faq", "/answers", "/new-age-leadership"]) {
-      expect(sitemap).toContain(route);
-      expect(prerender).toContain(route);
-    }
+    const sitemap = execFileSync(process.execPath, ["scripts/generate-sitemap.mjs", "--stdout"], { cwd: ROOT, encoding: "utf8" });
+    const routes = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => new URL(match[1]).pathname);
+    const expected = [...staticPages.map(page => page.path), ...blogPosts.map(post => `/blog/${post.slug}`), ...answers.map(answer => answerPath(answer.slug))];
+    expect(routes.sort()).toEqual(expected.sort());
+    for (const route of routes) expect(serverRender(route), route).toContain("<h1");
   });
 });

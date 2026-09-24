@@ -1,5 +1,6 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import plates from "@/content/socialPlates.json";
+import { SEOCollector, type SEOProps } from "@/lib/seoCollector";
 
 /**
  * The page's own social plate, from the manifest `scripts/social-plates.mjs`
@@ -13,17 +14,6 @@ const plateFor = (path: string) => {
     ?? (plates as Record<string, { file: string; version: string; headline: string; claim: string }>)["/"];
   return { url: `https://mindmake.co${plate.file}?v=${plate.version}`, alt: [plate.headline, plate.claim].filter(Boolean).join(" ") };
 };
-
-interface SEOProps {
-  title: string;
-  description: string;
-  canonical?: string;
-  ogImage?: string;
-  ogType?: string;
-  keywords?: string;
-  jsonLd?: object;
-  noindex?: boolean;
-}
 
 const setMeta = (selector: string, attribute: "name" | "property", key: string, content: string) => {
   let element = document.head.querySelector<HTMLMetaElement>(selector);
@@ -45,17 +35,20 @@ export const SEO = ({
   jsonLd,
   noindex = false,
 }: SEOProps) => {
+  const collect = useContext(SEOCollector);
+  collect?.({ title, description, canonical, ogImage, ogType, keywords, jsonLd, noindex });
   useEffect(() => {
     const fullTitle = `${title} | Mindmake`;
-    const canonicalUrl = `https://mindmake.co${canonical || ""}`;
+    const canonicalUrl = `https://mindmake.co${canonical || "/"}`;
     const plate = plateFor(canonical || "/");
     const image = ogImage ?? plate.url;
     document.title = fullTitle;
 
     setMeta('meta[name="title"]', "name", "title", fullTitle);
     setMeta('meta[name="description"]', "name", "description", description);
-    setMeta('meta[name="robots"]', "name", "robots", noindex ? "noindex, nofollow" : "index, follow");
+    setMeta('meta[name="robots"]', "name", "robots", noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1");
     if (keywords) setMeta('meta[name="keywords"]', "name", "keywords", keywords);
+    else document.head.querySelector('meta[name="keywords"]')?.remove();
 
     let canonicalElement = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
     if (!canonicalElement) {
@@ -74,7 +67,7 @@ export const SEO = ({
       "og:image:secure_url": image,
       "og:image:width": "1200",
       "og:image:height": "630",
-      "og:image:alt": plate.alt,
+      "og:image:alt": ogImage ? title : plate.alt,
     };
     Object.entries(openGraph).forEach(([property, content]) => {
       setMeta(`meta[property="${property}"]`, "property", property, content);
@@ -86,7 +79,7 @@ export const SEO = ({
       "twitter:title": fullTitle,
       "twitter:description": description,
       "twitter:image": image,
-      "twitter:image:alt": plate.alt,
+      "twitter:image:alt": ogImage ? title : plate.alt,
     };
     Object.entries(twitter).forEach(([name, content]) => {
       setMeta(`meta[name="${name}"]`, "name", name, content);

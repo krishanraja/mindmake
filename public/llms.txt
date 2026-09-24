@@ -1,60 +1,39 @@
 # Mindmake
 
-> See what is coming for your business before it is obvious. Then act on it with an AI that knows how you work, and keep the edge.
+> Build the business that can think with you.
 
-Mindmake works with leaders in private. It reads where they stand and what is changing in their market, decides what to do first, and builds it into an AI they own. Two doors, one paid proof, no public price and no public duration.
+Part people. Part agent. Led by judgement. Build your AI brain or your AI native pricing, positioning and organisation with Mindmake.
 
-## The two doors
+## Pages
 
-- [Build your AI brain](/ai-brain): your taste, standards and context, running as a system. It starts every call from what you already know.
-- [Build your AI GTM](/ai-gtm): an AI-native go-to-market model across product, price, positioning and people. One lever, proved with real buyers, priced on the result.
-- A client can begin with Build your AI brain or Build your AI GTM, and the work can move between them. They are not separate payment plans. Both are read in private: nobody in the client's organisation needs to know where they started.
+- [Build your AI brain](https://mindmake.co/ai-brain): See how one decision becomes remembered, evidenced, corrected and reusable.
+- [Build your AI GTM](https://mindmake.co/ai-gtm): See how one market change alters product, price, positioning and people before you commit.
+- [Results](https://mindmake.co/case-studies): Eight verified stories about the work Mindmake helped customers change and what happened next.
+- [Build the business that can think with you](https://mindmake.co/new-age-leadership): Build a hybrid organisation where AI carries the repeated work and people keep the judgement, relationships and decisions.
+- [Thinking](https://mindmake.co/blog): Useful questions, checks and working methods for leaders making business decisions as AI changes their market.
+- [Questions leaders ask](https://mindmake.co/answers): One page per question: the direct answer first, then the case for it, including what the pages already answering that question miss.
+- [Before you start](https://mindmake.co/faq): Straight answers about Mindmake: what the work builds, what it costs, whether anyone needs to know, what happens to your data and what you keep.
+- [Contact](https://mindmake.co/contact): Send Mindmake a general message.
+- [Privacy policy](https://mindmake.co/privacy): How Mindmake collects, uses and protects information.
+- [Terms and conditions](https://mindmake.co/terms): Terms for using the Mindmake website and services.
 
-## Where what you teach AI ends up
+## Questions leaders ask
 
-- Consultants and agencies do good work and leave a plan. When the project closes, the understanding behind it goes with them.
-- The tools a leader subscribes to are useful, and each keeps what it learns on the vendor's side.
-- Mindmake builds the system inside the client's own accounts, so what it learns about their work stays theirs.
+- [Adtech Can't Compete on the Model Anymore. Here's What's Left to Defend](https://mindmake.co/answers/adtech-compete-ai-targeting-models-defensibility-audit): answers "how do adtech companies compete once AI can build targeting models without them". Adtech never competed on the model. A five-line defensibility audit for PE-backed leaders once AI can build targeting models alone.
+- [An AI decision tool earns trust by holding your judgement, not by passing an audit](https://mindmake.co/answers/ai-decision-tool-trustworthy-leadership-team): answers "how do I evaluate whether an AI decision tool is trustworthy enough for my leadership team". Governance tells a leadership team that a tool was built carefully. It cannot tell them it is right for this business. Trust is a question about memory.
+- [An AI Center of Excellence Without an Engineering Budget Is a Governance Function, Not a Team](https://mindmake.co/answers/ai-center-of-excellence-without-engineering-budget): answers "how to build an AI center of excellence without a dedicated engineering budget". Every AI CoE framework from Microsoft, Oracle and Tredence assumes engineering headcount. Here's the operating model for the leader who has none.
+- [Total Addressable Revenue for AI Products in Publishing: Calculate It From Your P&L, Not a Market Report](https://mindmake.co/answers/total-addressable-revenue-ai-products-publishing): answers "how do I calculate the total addressable revenue opportunity for AI products in publishing". Calculate an AI publishing product's revenue opportunity from churn, ARPU, ad yield and licensing data instead of a market-sizing report.
 
-## How paid work begins
+## Thinking
 
-- There is no public diary and no published price.
-- [Start here](/?start=1) asks for four details: first name, last name, work email and division. An illustrative read of the company from the outside follows on screen, with two choices tailored to it, then one easy question and a code to the work email.
-- The read is on screen before the work email is verified. A proposal built for that company then follows on screen, by email and as an attached document.
-- A confirmed request receives two emails, ever: the results email, and one follow-up fourteen days later. There is no drip sequence.
-- Work starts with one paid proof on a real result. The fee and the length are agreed privately. Something is working in the first week.
-
-## The live board
-
-/ai-gtm publishes a daily corroborated read of what moved across product, price, positioning and people, with a visible timestamp and the number of independent sources behind each item.
-
-## CTRL
-
-CTRL is our own decision engine, mentioned on /ai-brain only and never sold. It reads a whole situation in plain English: the trade-offs, the counterpoints and what would change your mind. It is the engine we run on ourselves, shown as proof.
-
-## Answers
-
-/answers holds one page per question a leader asks before they buy. Each page opens with the direct
-answer in two or three sentences, then argues the case: what the pages already answering that
-question miss, and what we would do instead. They are written to be quoted, in full or in part, with
-a link back to the page.
-
-- [Adtech Can't Compete on the Model Anymore. Here's What's Left to Defend](/answers/adtech-compete-ai-targeting-models-defensibility-audit): answers "how do adtech companies compete once AI can build targeting models without them".
-- [An AI decision tool earns trust by holding your judgement, not by passing an audit](/answers/ai-decision-tool-trustworthy-leadership-team): answers "how do I evaluate whether an AI decision tool is trustworthy enough for my leadership team".
-- [An AI Center of Excellence Without an Engineering Budget Is a Governance Function, Not a Team](/answers/ai-center-of-excellence-without-engineering-budget): answers "how to build an AI center of excellence without a dedicated engineering budget".
-- [Total Addressable Revenue for AI Products in Publishing: Calculate It From Your P&L, Not a Market Report](/answers/total-addressable-revenue-ai-products-publishing): answers "how do I calculate the total addressable revenue opportunity for AI products in publishing".
-
-## Proof
-
-- [Results](/case-studies): eight verified anonymous customer stories.
-- Organisation logos are attendance proof. They are not customer claims.
-- Career testimonials are kept separate from customer outcomes.
-
-## Reading and contact
-
-- [Media](https://mindmakerlive.substack.com): Mindmake's publication, a separate opt-in with The Money of AI and Built with AI.
-  It runs two channels. The Money of AI follows how the digital world gets paid for and asks who
-  pays when a shift lands. Built with AI follows people using AI to become builders and reaches the
-  human reason under the build.
-- [Straight answers](/faq)
-- [General messages](/contact)
+- [The Start Cost: Why Good AI Work Gets Deferred](https://mindmake.co/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan): How useful context, clear next steps and simple AI systems can make valuable work easier to start.
+- [Four Ways Leaders Can Work Better With AI](https://mindmake.co/blog/four-modes-of-ai-literacy-every-leader-needs): Four practical ways leaders can use AI for drafts, checks, repeatable work and better decisions.
+- [Why Practice Changes More Than a Training Day](https://mindmake.co/blog/why-ai-training-fails-and-building-works): Why practice on real work helps leaders turn AI training into useful habits and systems they can improve.
+- [Find the AI Work Already Happening in Your Team](https://mindmake.co/blog/shadow-ai-to-strategic-ai-leaders-guide): How to learn where a team already uses AI, check the risks and turn useful experiments into safer shared work.
+- [How to Tell Whether AI Work Is Paying Back](https://mindmake.co/blog/measuring-ai-work-that-pays-back): A practical way to measure whether AI returns useful time, improves important work and stays useful.
+- [From One-Off AI Help to Systems You Can Reuse](https://mindmake.co/blog/builder-vs-consumer-mindset-in-ai): How to turn useful one-off AI help into repeatable systems that remember your context and standards.
+- [How to Test an AI Vendor Before You Commit](https://mindmake.co/blog/ai-vendor-theatre-how-to-spot-and-avoid-it): Five practical checks for testing an AI vendor on your data, your problem and clear success measures.
+- [A Useful First 30 Days of Building With AI](https://mindmake.co/blog/a-useful-first-30-days-building-with-ai): A practical 30-day plan for testing AI on real work, building a useful first system and recording what changed.
+- [How an Executive Team Can Learn AI Together](https://mindmake.co/blog/ai-literacy-for-executive-teams-lab-model): A practical way for an executive team to build shared AI judgement through one real decision.
+- [Use AI to See More Without Losing Your Taste](https://mindmake.co/blog/how-to-increase-creative-leadership-with-ai): How leaders can use AI to explore more options while keeping human experience, judgement and taste in the final choice.
+- [Put AI Inside Clear Business Rules](https://mindmake.co/blog/how-to-control-your-use-of-ai-as-a-leader): Four sets of clear business rules for AI: purpose, decision rights, working checks and ownership.

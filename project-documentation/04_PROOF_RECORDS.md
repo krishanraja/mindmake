@@ -1,8 +1,9 @@
 # Proof bank
 
-Last updated: 7 September 2026. Pull quotes brought to the verbatim testimonials Krish revised that day.
+Internal evidence register; publication permissions reviewed 24 September 2026.
+Engagement facts retain their original scope, not new current-client claims.
 
-Internal, anonymised records of real Mindmake engagements. **Every entry is a real engagement that happened**, reduced to sector and role only. The numbers are kept; the names are gone. Only verified engagements belong in this file: if you cannot point at the invoice, it does not go in, and a shorter bank is the correct outcome rather than a problem to solve by topping it back up. (In August 2026 the 26 illustrative entries that once padded this bank were deleted for exactly that reason.)
+Internal, anonymised records of real Mindmake engagements. **Every entry is a real engagement that happened**, reduced to sector and role only. The numbers are kept; the names are gone. Only verified engagements belong in this file: if you cannot point at the invoice, it does not go in, and a shorter bank is the correct outcome rather than a problem to solve by topping it back up.
 
 This file is internal proof context for briefs, proposals and case-study work. It is not public copy. The public renderings of this material are the eight client outcome stories in `04_PROOF.md` and `src/data/rebuildProof.ts`; those files control wording, attribution and consent. Public use of anything here that is not already in those files needs a fresh evidence check and Krish's approval.
 
@@ -140,11 +141,9 @@ Each entry carries: `id`, `mode` (the shape of the work, never a SKU: `decide` s
 - **attribution:** Founder, adtech firm
 
 
-## TODO, 28 August 2026: substantiate "2,000+ verified sources"
+## Claim boundary
 
-The `/ai-brain` page carries the line "Live data from 2,000+ checked sources" as
-part of the CTRL description. Krish approved the claim for launch. The
-substantiation record is still outstanding: the source list, how a source is
-counted, and how "checked" is defined, recorded here so the number on the page
-is always defensible. Until that lands this is the one public claim on the site
-without a written basis in this file.
+No "2,000+ checked sources" reach claim is authorized for reintroduction by this
+register. The accepted Brain route does not render it. New quantified source
+claims need a verified inventory, counting method and explicit approval. The
+original unresolved substantiation note is preserved in history/LOG.md.

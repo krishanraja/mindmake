@@ -1,210 +1,91 @@
-# Backend release evidence — 24 September 2026
+# Current backend release evidence
 
-## Scope and target
+Verified release: 24 September 2026. This is the current evidence summary, not a chronological repair log. Full prior records and incident sequence are retained in `../history/LOG.md`. Behavioral specification: `../05_LEAD_DELIVERY_SPEC.md`. Overall production identity and frontend gates: `RELEASE-2026-09-24.md`.
 
-Production backend only; this is not a claim that the new homepage has been deployed or visually accepted.
+## Target and deployed identity
 
-- Repository: `mindmake-award-panel`, origin `krishanraja/mindmake`.
-- Exact Supabase target: `bkyuxvschuwngtcdhsyg` (Mindmaker AI), verified with authenticated official CLI. The connected MCP account did not expose this target and was not used.
-- Public browser entry: `https://mindmake.co/?start=brain`.
-- Email canary: the runbook-designated operator inbox, `krish@themindmaker.ai`. No other recipient was used, no publication opt-in selected.
-- No schema migration, key read, or unrelated function deployment.
-
-## Defect reproduced, not assumed
-
-The original live company read for the legacy `themindmaker.ai` domain returned HTTP 200 but identified an unrelated founder and described Doorganiser. Existing tests passed despite this. An exact-domain-only provider check still failed: stale same-domain identity metadata was insufficient. A generated currency summary then invented an unrelated vCon launch under a first-party citation. Finally, even correctly identified Mindmake acquired an unsupported predictive-software claim in the generated `synthesis` field.
-
-These were treated as launch blockers. The structural corrections are:
-
-1. Brandfetch and PDL must return the requested website domain, not merely HTTP success.
-2. Identity merge order is deterministic. Brand identity must be corroborated by independently matching PDL name, or by a literal first-party page title when PDL is unavailable. Missing evidence keeps the existing honest/manual recovery path; it does not fabricate a company.
-3. Currency accepts literal first-party Exa/NewsAPI titles, not generated launch summaries. The old Perplexity helper is not invoked by assembly.
-4. The factual company-read field quotes the corroborated provider descriptor/tagline literally. Generative synthesis is no longer invoked by the orchestrator. Useful tailored pressure choices remain available; they do not replace factual evidence.
-5. Internal employee/size routing is not supplied to visitor synthesis. Two pre-existing Deno generic typing errors were corrected without changing submission behavior.
-
-This is stronger than a prompt instruction, but it is not a claim that external provider data can never be stale. Domain and identity evidence remain necessary; uncertainty must remain explicit.
-
-## Final deployed versions and source readback
-
-Official CLI deployment and independent metadata readback:
-
-| Function | Version | Status | Verify JWT |
-| --- | ---: | --- | --- |
-| enrich-company | 43 | ACTIVE | true |
-| submit-mindmake-brief | 18 | ACTIVE | false |
-| mindmake-personal-read | 23 | ACTIVE | false |
-
-All three deployed closures were downloaded using the official CLI to `C:/Users/krish/.scratch/mindmake-backend-deployed-20260924-final`. SHA-256 comparison matched local files for the three entry points and all five changed shared runtime modules.
-
-Key final source hashes:
-
-- provenance.ts: `37B615EF14E69C7882545125DD67A04111FA42A496FD8038AD313E7554DC58CE`
-- orchestrate.ts: `569FA4496E9F0FFD8E902A579B6C192F179D025F1E2460C51845B6C8F672B430`
-- currency.ts: `3B57F167052333606CE7EA6438818BA0CD6370999CE78A6267D3E88CD026D467`
-
-Original downloaded source is retained at `C:/Users/krish/.scratch/mindmake-backend-rollback-20260924`. Rollback must preserve the JWT settings above and deploy only the relevant closures; no rollback was performed.
-
-## Executed checks
-
-`deno check supabase/functions/enrich-company/index.ts supabase/functions/submit-mindmake-brief/index.ts supabase/functions/mindmake-personal-read/index.ts` — all pass.
-
-`npm test -- --maxWorkers=2 src/test/enrichment-provenance.test.ts src/test/mindmake-brief-backend-core.test.ts` — 2 files, 31 tests pass after final structural guard (13:44 BST).
-
-Earlier existing lead/intelligence regression suites: 150 tests passed. Full-site regression evidence is owned by the parent release gate, not replaced by this report.
-
-Final fresh canonical browser read after v43/v18/v23:
-
-- HTTP 200, identity `Mindmake`, domain `mindmake.co`.
-- Factual read exactly: “Mindmake helps leaders turn their judgement into useful AI systems and make better product, price, positioning and people decisions.”
-- `synthesis` equals the literal corroborated tagline, with no predictive-software extrapolation.
-- First-party source: `https://mindmake.co/ai-gtm`, literal title “Build your AI GTM - Mindmake”.
-- Three tailored choices returned by the endpoint. Browser may use its existing generic-choice fallback; this report does not claim every generated choice was displayed.
-- No Kristof Hermans, Doorganiser, or vCon entity appeared in final response.
-
-Legacy domain before the final factual-field-only change: HTTP 404, honest unavailable state, live retry available, manual journey remained usable. It did not silently substitute a different company or claim successful enrichment. Its redirect to mindmake.co was observed; automatic cross-domain identity aliasing was not added.
-
-## Actual email, persistence and queue canary
-
-Executed through the live public browser, not direct insertion or mocked responses. Synthetic name Release Canary; leadership, context-in-my-head pressure, grow-this-business time choice. Used legacy domain recovery deliberately, without claiming it was a successful research result.
-
-Request: `e168a02c-9867-410a-9679-3b46a948c668`.
-
-1. Send-code returned HTTP 200 `verification_required`.
-2. A real fresh verification email reached the designated Gmail INBOX at 12:38:02 UTC. The code was read and supplied once; no code is stored in this report or a local file.
-3. Confirm returned HTTP 200 `confirmed`, visitor delivery `queued`, operator delivery `queued`.
-4. Both final messages actually arrived in Gmail INBOX at 12:38:52 UTC — provider queued alone was not counted as delivery.
-5. Exact database row showed `verified_at=2026-09-24 12:38:51.7112+00`, `assembly_state=ready`, all three delivery statuses queued, and all three provider delivery IDs populated.
-6. Exactly one follow-up row, `fd0da00b-1cbe-4adc-bb1c-8ea8fd1b8dc9`, source brief, due `2026-10-08 12:38:52.625+00`, attempts 0, unsent. The scheduled day-14 email was not sent early.
-7. Completion UI displayed the brief and download control. This canary did not independently inspect the downloaded file.
-
-Gmail receipt IDs (no email bodies retained):
-
-- Verification: `1a0d36c45864982b`.
-- Visitor brief: `1a0d36d0624127ee`.
-- Operator digest: `1a0d36d0fcef5216`.
-
-The email canary ran on v42/v17/v22. The final change to v43/v18/v23 only replaced the shared factual-read synthesis with literal evidence; submission and email delivery logic did not change. A fresh canonical read and deployed-source readback were then performed. No unnecessary second set of emails was sent.
-
-## Cleanup and boundary
-
-The exact synthetic brief and unsent follow-up rows were deleted using both captured IDs and the designated email predicates. One of each removed; independent readback returned zero for both. No other customer rows were touched. Test emails remain in the operator inbox as receipts; they were not deleted. Database cleanup is deliberate and not recoverable from this report, which contains no full brief data.
-
-Verified active schedules: daily brief retention, daily price snapshot, daily follow-up processing. Future delivery itself is not proven by a queued row. The live personal-read function was type checked and source/deployment verified, not independently exercised with a second paid/model/email workflow.
-
-## Repeatable procedure
-
-The opt-in driver is `scripts/qa/release-backend-canary.mjs`. Set `MINDMAKE_RUN_DESIGNATED_CANARY=yes` explicitly. For research only, also set `MINDMAKE_CANARY_CANONICAL_READ_ONLY=yes`; this uses the canonical domain and exits before send. For delivery, run with a terminal and provide explicit JSON actions. Do not broaden recipients. Read fresh codes only from the designated inbox, do not log search snippets containing codes, and never retain secrets or full email bodies as evidence. Capture row IDs before exact cleanup and verify zero afterwards.
-
-Production homepage, visual acceptance, accessibility, final frontend routes and any additional personal-read experience remain separately owned release gates.
-
-## Final addendum: owned alias and remaining E2E gaps closed
-
-This addendum supersedes the version numbers and untested personal-read/download boundaries above; the earlier sequence is retained as evidence of what was actually found.
-
-The first personal-read preview for the legacy inbox correctly returned `not_worth_sending` (3 failures). Nothing was stored or sent. Product documentation already establishes `themindmaker.ai` and `www.themindmaker.ai` as owned 308 aliases for `mindmake.co` (`07_DEPLOYMENT.md`, domain table). An explicit owned-domain configuration now canonicalizes this company lookup only. It does not follow arbitrary redirects, rewrite the email recipient, or weaken domain/name corroboration. Other domains, deceptive suffixes and `ctrl.themindmaker.ai` are unchanged. The matching profile company lookup uses the same alias; signed choices also bind to the canonical business so the legacy email journey can carry valid choices.
-
-Final production readback:
+- Repository origin: `krishanraja/mindmake`, local `mindmake-award-panel`.
+- Supabase project: `bkyuxvschuwngtcdhsyg`, Mindmaker AI, authenticated official CLI target verified. No keys read; no unrelated functions or schema migrated.
+- Production frontend: PR170 merge `3ee77cf9956f98dd73f69d0b48745930335e74e1`, deployment `dpl_EZigNAi6Uc6Apcq75XsFnHETt5W8`, public `https://mindmake.co`, immutable deployment `https://mindmake-bh0d8hczk-krish-rajas-projects.vercel.app`, observed script `/assets/index-CZk5zedf.js`.
+- Designated canary recipient: `krish@themindmaker.ai` only; synthetic Release Canary. No publication interest selected. No other leads touched.
 
 | Function | Version | Status | Verify JWT |
 | --- | ---: | --- | --- |
 | enrich-company | 44 | ACTIVE | true |
-| submit-mindmake-brief | 19 | ACTIVE | false |
-| mindmake-personal-read | 24 | ACTIVE | false |
-
-Fresh canonical and legacy browser reads both returned HTTP 200, corroborated Mindmake, the exact literal tagline recorded above, and three endpoint choices. Neither returned the unrelated entities or predictive-software claim. The test driver now waits for the actual enrichment response instead of assuming a 12-second sleep means completion.
-
-Three Deno closure checks passed. Targeted provenance, brief-core and personal-read-core suite: **3 files / 67 tests passed** at 13:52 BST. Added tests cover explicit alias/non-alias behavior and signed-choice acceptance for this owned alias while rejecting another company.
-
-All three final closures were independently downloaded to `C:/Users/krish/.scratch/mindmake-backend-deployed-20260924-alias`. Updated runtime modules matched local SHA-256:
-
-- provenance.ts: `E862D3F466E387412FE05F692F8A88568119307023780BB047D7CFB5751CA79C`
-- orchestrate.ts: `6A7A50F1C68D4BD5F31D0E6FE351363463F9E3F4218823B8F161DB557F4EC2C9`
-- choiceSignature.ts: `687BA37F7F9B60EBEF61C958D7CCACE8877BC43A07F1A211014E81C6E18D9260`
-- mindmake-personal-read/index.ts: `5A5DECEA927C675C57C1AA52D6C05553632416840AB1F2FCD67F21105C640DC1`
-
-### Personal-read delivery and cleanup
-
-Executed the documented public action contract with the allowed production origin, the designated inbox, synthetic Release Canary, leadership, writing and decisions. Preview returned `ok`, correctly named Mindmake, and `companyOnly=true` rather than inventing a matched personal profile. Send returned `queued`.
-
-- Actual Gmail INBOX receipt: `1a0d37b24e027444`, subject “Your first week with an AI brain”, received `2026-09-24T12:54:17Z`. Readback contained Mindmake and none of the known wrong entities/unsupported predictive claim.
-- Persisted personal row: `bc8661d0-3acc-4c48-8872-a7eac004f56a`, company Mindmake, delivered `2026-09-24T12:54:17.104Z`, correct synthetic details and choices.
-- Follow-up: `df6a5a5a-9342-4e1d-8e49-4334ac7616fc`, source personal-read, due `2026-10-08T12:54:17.246Z`, attempts 0, unsent.
-- Exact new personal row and exact unsent queue row were removed using IDs plus designated email predicates. One of each removed; independent readback returned zero for each. The receipt email remains. No cron sender invoked, no other leads touched.
-
-This tests the real public personal-read API, live providers, actual email and storage. It does not claim to be a second end-to-end browser walk through the separate personal-read UI.
-
-### Generated private-brief download
-
-`node scripts/qa/release-private-brief-artifact.mjs` imports the actual production `buildPrivateBriefHtml`, creates a representative canonical-company brief with the canary's real choice content, and triggers a real Chromium Blob download using the production content type/filename pattern. No second lead email was sent.
-
-- Saved HTML is byte-identical to the generator output: 3,650 bytes.
-- Opened the downloaded file itself at 1440px and 390px; inspected both full-page screenshots. All content sections present and readable, no text/card overlap or horizontal overflow.
-- Zero HTTP requests while opening the artifact. No script, iframe, external stylesheet or imported font dependency.
-- Print-to-A4 PDF produced. The PDF was generated, not separately visually graded; the HTML is the actual download format.
-- Scratch evidence: `C:/Users/krish/.scratch/mindmake-private-brief-20260924/` contains the HTML, desktop/mobile PNGs and print PDF.
-
-The two bounded evidence gaps are closed at the levels stated. No new visual design or approved website copy was changed.
-
-## Final type-only source-parity addendum — 14:46 BST
-
-The release lint found two explicit-any annotations introduced by the earlier Deno compatibility repair. Both now use the Supabase package's exported `SupabaseClient` type, imported type-only, with no suppression. No runtime statement or behavior changed. TypeScript-transpiled ES2022/ESNext JavaScript (comments removed) was compared with the independently downloaded v19/v24 files: **byte-identical emitted runtime JavaScript for both entry points**.
-
-Before redeploy: all three Deno closure checks passed, ESLint on both changed entry points passed, and the provenance/brief-core/personal-core suite passed **67 tests across three files** at 14:45 BST. Coordinated redeployment changed only `submit-mindmake-brief` and `mindmake-personal-read`.
-
-Current exact metadata readback:
-
-| Function | Version | Status | Verify JWT |
-| --- | ---: | --- | --- |
-| enrich-company | 44 (untouched) | ACTIVE | true |
 | submit-mindmake-brief | 20 | ACTIVE | false |
 | mindmake-personal-read | 25 | ACTIVE | false |
 
-The two final closures were independently downloaded to `C:/Users/krish/.scratch/mindmake-backend-deployed-20260924-types`. All **19 unique source modules** matched repository SHA-256 exactly. Updated entry-point hashes:
+## Source parity and checks
 
-- submit-mindmake-brief/index.ts: `33CE410B8EC26381E6B553D5620B5C125AB3B90FAB9E86A1283BDA143E98C936`
-- mindmake-personal-read/index.ts: `1093FE13DB10D9A40E18576F3EF67BC8B6251F29415E12732C8C38425D21FAF3`
+All three Deno closure checks passed. Scoped ESLint on the two repaired typed entry points passed. Provenance, brief-core and personal-read-core tests: 3 files / 67 tests passed. Full-site unit/browser/build results are in the overall release record, not replaced by this scoped result.
 
-Earlier real inbox/persistence/queue receipts remain evidence for the runtime-equivalent backend. No browser or email was run for this type-only increment. A fresh browser canary on the newly published frontend, including its actual success-screen download, is still pending the frontend promotion; the earlier browser receipts exercised the prior live frontend. The prepared QA driver supports both entry layouts and an explicit actual-download action without substituting generated fixtures for that final check.
+The deployed closures were independently downloaded using the official CLI. The final two closures at `C:/Users/krish/.scratch/mindmake-backend-deployed-20260924-types` matched all 19 unique repository modules by SHA256. The final submit/personal changes were type-only `SupabaseClient` imports; emitted runtime JavaScript was byte-identical to the preceding deployed versions. Current hashes:
 
-## Post-publication new-frontend canary — completed 24 September 2026
+| Source | SHA256 |
+| --- | --- |
+| submit-mindmake-brief/index.ts | `33CE410B8EC26381E6B553D5620B5C125AB3B90FAB9E86A1283BDA143E98C936` |
+| mindmake-personal-read/index.ts | `1093FE13DB10D9A40E18576F3EF67BC8B6251F29415E12732C8C38425D21FAF3` |
+| enrich/provenance.ts | `E862D3F466E387412FE05F692F8A88568119307023780BB047D7CFB5751CA79C` |
+| enrich/orchestrate.ts | `6A7A50F1C68D4BD5F31D0E6FE351363463F9E3F4218823B8F161DB557F4EC2C9` |
+| lead/choiceSignature.ts | `687BA37F7F9B60EBEF61C958D7CCACE8877BC43A07F1A211014E81C6E18D9260` |
 
-This addendum closes the pending new-frontend/browser-download boundary above. The release owner verified production promotion before authorizing this run: PR170 merge `3ee77cf9956f98dd73f69d0b48745930335e74e1`, Vercel production `dpl_EZigNAi6Uc6Apcq75XsFnHETt5W8`, deployment URL `https://mindmake-bh0d8hczk-krish-rajas-projects.vercel.app`, public `https://mindmake.co`, script `/assets/index-CZk5zedf.js`. Publication identity and the separate route/motion/browser matrix are recorded in `RELEASE-2026-09-24.md` by the release owner.
+## Verified intelligence behavior
 
-The live canary itself used `https://mindmake.co/?start=brain` in a fresh Chromium session at 1440×900 and the designated inbox only. It observed the new **company-then-profile** entry, not the prior combined form:
+Brandfetch/PDL exact-domain matching, deterministic merge and independent name corroboration are active. First-party titles can corroborate a small company's identity without PDL. Currency uses literal first-party Exa/NewsAPI titles, not generated launch summaries. The factual company field uses the corroborated literal descriptor/tagline, not model paraphrase. Useful tailored pressure choices remain separate.
 
-1. Work email → Read the business → First name/Last name/Leadership → See the company read.
-2. HTTP200 company read correctly resolved the legacy inbox to Mindmake at `mindmake.co`, with the literal corroborated description and first-party AI GTM source. Three choices returned by the endpoint; the existing generic option set appeared in this browser journey.
-3. Context pressure → Grow this business → approved folio preview → Keep the private brief → explicit “Email verification is next” confirmation → Continue → email/code step. Publication interest stayed unticked.
-4. Exactly one code-send action, one fresh inbox code and one successful confirmation. No resend, guessed code or extra results send.
-5. Success UI displayed the completed “Your private brief” article and actual Download my brief control.
+The explicit owned alias `themindmaker.ai` → `mindmake.co` applies to company/profile research and signed-choice binding, never to email recipients or arbitrary redirects. Alias and non-alias tests passed. Fresh canonical and legacy reads both returned HTTP200 and Mindmake, with this exact factual description:
 
-The first read-only traversal stopped before any send because the QA driver's generic dialog selector matched the expected nested folio confirmation and parent. The driver was scoped to the observed outer `.mm-brief-panel[role="dialog"]`, and the browser restarted. This was a harness selector correction only, not a product repair; the only completed delivery is the request below.
+> Mindmake helps leaders turn their judgement into useful AI systems and make better product, price, positioning and people decisions.
 
-### Actual delivery, persisted state and exactly one queue
+The first-party source was `https://mindmake.co/ai-gtm`, literal title “Build your AI GTM - Mindmake”. Three tailored choices were returned by the endpoint; the final actual browser used the available generic option set. No unrelated founder/company, vCon launch or predictive-software claim appeared in the verified final responses. External data is not guaranteed eternally correct; insufficient evidence must retain honest recovery.
 
-Baseline for the designated inbox: zero brief requests and zero brief follow-up rows.
+## Actual promoted-frontend browser canary
 
-- Request ID: `5dadd5c1-5d27-468a-ad51-97d53391452b`.
-- Created `2026-09-24T15:13:06.428362Z`; verified `2026-09-24T15:13:39.362906Z`.
-- Confirmation HTTP200 `confirmed`; assembly `ready`; all three provider IDs present; visitor/operator delivery states `queued`.
-- Verification INBOX receipt: `1a0d3fa47f0ac47c`, `15:13:08Z`.
-- Visitor brief INBOX receipt: `1a0d3fac761c5add`, `15:13:40Z`, “Your Mindmake brief for Mindmake”. Its HTML attachment and correct literal Mindmake description were confirmed; no known wrong entity/predictive-software claim.
-- Operator digest INBOX receipt: `1a0d3fabe3daa4f7`, `15:13:40Z`, “Mindmake brief: Mindmake | Too much important context lives in my head”.
-- Visitor receipt initially did not appear in a fresh-time search, then was found in INBOX using its exact subject. No resend was used to mask the observation gap. Provider acceptance alone was not counted as delivery.
-- Exactly one follow-up row: `40afb55f-5a23-475f-ae9d-b4d4fdc7da7c`, source `brief`, due `2026-10-08T15:13:40.444Z`, attempts0, unsent. No cron sender invoked.
+Fresh Chromium at 1440×900 entered `https://mindmake.co/?start=brain` after verified publication. Observed progressive UI: Work email → Read the business → First name/Last name/Leadership → See the company read → context pressure → Grow this business → folio preview → Keep the private brief → explicit verification-next confirmation → Continue → code → completed Your private brief.
 
-### Actual completed-journey download
+Exactly one code send and one successful confirmation; no guessed code, resend or extra final send. Baseline designated brief requests and queues were zero.
 
-Clicked the real production success-screen **Download my brief** button and captured its browser download event. This was not a test fixture or locally regenerated substitute.
+| Evidence | Verified value |
+| --- | --- |
+| Request | `5dadd5c1-5d27-468a-ad51-97d53391452b` |
+| Created | `2026-09-24T15:13:06.428362Z` |
+| Verified | `2026-09-24T15:13:39.362906Z` |
+| Server state | HTTP200 confirmed; assembly ready; all three provider IDs present; visitor/operator queued |
+| Code INBOX receipt | `1a0d3fa47f0ac47c`, 15:13:08Z |
+| Visitor INBOX receipt | `1a0d3fac761c5add`, 15:13:40Z; Your Mindmake brief for Mindmake |
+| Operator INBOX receipt | `1a0d3fabe3daa4f7`, 15:13:40Z |
+| Exactly one brief queue | `40afb55f-5a23-475f-ae9d-b4d4fdc7da7c`, due `2026-10-08T15:13:40.444Z`, attempts0, unsent |
 
-- Saved file: `C:/Users/krish/.scratch/mindmake-production-canary-20260924/live-private-brief-1790262854870.html`.
-- Size: **3,755 bytes**; SHA256 `0A85D52E50000045E1ED602E3DB8FC2B526A0A8EB7A93C79779C6583F6FA4D20`.
-- **15 content fragments** extracted from the actual on-screen article matched the saved HTML, including the selected pressure, company read, evidence, AI/human boundary, first proof and returned time.
-- Opened the downloaded file at 1440px and 390px; no horizontal overflow, placeholder residue or external requests. Both screenshots were visually inspected: text/cards readable with no overlap or clipping.
-- Screenshot paths use the same basename with `-1440.png` and `-390.png` in the designated scratch directory. The saved artifact contains only the authorized synthetic visitor's brief, not verification codes or secrets.
+Visitor HTML attachment and correct company description were confirmed. Actual INBOX receipts, not provider acceptance, establish delivery. OTPs and full email bodies were not logged. The brief and queue were deleted by captured IDs plus designated email/source predicates: one of each removed, independent remaining_brief0 / remaining_queue0. Emails remain as receipts; no other customer records were touched. Canary browser exited0 through its owned session.
 
-### Precise cleanup and final boundary
+## Actual completed-journey download
 
-Deleted exactly the captured request ID and captured unsent follow-up ID, additionally constrained by the designated email and queue source. One of each removed. Independent readback returned **remaining_brief0 / remaining_queue0**. No other leads were touched. The three receipt emails remain as evidence. The canary browser was stopped through its owned session and exited0.
+Clicked production's actual **Download my brief**, waited for the real browser download event and opened that saved HTML. This was not a generated test substitute.
 
-The promoted progressive frontend, real code verification, actual visitor/operator inbox delivery, stored ready brief, single due follow-up, and actual completed-journey download have now all been verified together. No further sends were made. Physical VoiceOver/TalkBack remain the separately documented owner-approved exception; nothing in this browser/backend canary claims those checks passed.
+- File: `C:/Users/krish/.scratch/mindmake-production-canary-20260924/live-private-brief-1790262854870.html`.
+- 3,755 bytes; SHA256 `0A85D52E50000045E1ED602E3DB8FC2B526A0A8EB7A93C79779C6583F6FA4D20`.
+- Fifteen fragments from the actual on-screen article matched, including pressure, company read, evidence, AI/human boundary, proof and returned time.
+- Opened at 1440px and 390px; screenshots visually inspected, no overlap/clipping/horizontal overflow or placeholder residue. Zero external requests.
+- Screenshots: same basename with `-1440.png` and `-390.png` in the same scratch directory. Contains authorized synthetic brief only, no code or secrets.
+
+## Personal-read API and delivery
+
+The real public personal-read action contract was exercised with the allowed production origin and designated inbox, leadership/writing/decisions. Preview returned ok, Mindmake and companyOnly=true rather than an invented profile. Send returned queued. This tests live research/providers, actual inbox and storage; it is not a full browser traversal of the separate personal-read UI.
+
+- Actual INBOX receipt `1a0d37b24e027444`, “Your first week with an AI brain”, `2026-09-24T12:54:17Z`.
+- Persisted personal row `bc8661d0-3acc-4c48-8872-a7eac004f56a`, company Mindmake, delivered `2026-09-24T12:54:17.104Z`.
+- Exactly one personal-read queue `df6a5a5a-9342-4e1d-8e49-4334ac7616fc`, due `2026-10-08T12:54:17.246Z`, attempts0, unsent.
+- Exact new read/queue IDs plus recipient predicates deleted; one each, zero independently read back. Receipt retained. This run preceded the type-only redeploy; runtime equivalence is documented above.
+
+## Limits and open discrepancy
+
+- Daily retention, price-snapshot and follow-up schedules are configured in the retained source; no fresh scheduler readback is asserted by this receipt. The live cron sender was not invoked and future day-14 delivery was not tested early. A due row is not a future inbox receipt.
+- Queue uniqueness is per email/source, not a lifetime cap across purges and all journeys. Verification is an additional service email.
+- Source correction ready, deployment pending: production visitor template still has the false “No sales emails will follow automatically” claim. The local candidate changes exactly one boundary string to disclose one follow-up fourteen days later, no ongoing sequence and separate useful human contact. Core source SHA256 is `772860552AC6E3E8E407A7CB099196C2AEAB9DC63B8D27CA3268CA4D04A2CCCD`; full source equality to the committed baseline plus that one replacement was verified. Four backend suites / 115 tests, three Deno closure checks and scoped ESLint passed. The regression checks HTML and text. No deployment/send yet; versions and production receipts above remain the deployed baseline, not proof of corrected live wording.
+- Physical iPhone VoiceOver/Android TalkBack were not performed under the owner's release-specific exception; no backend or browser result claims them passed.
+- The pending sentence correction also passes all 9 executable Deno core tests after updating their mirrored boundary assertion; it remains local and undeployed.
+- One successful designated company/recipient proves the recorded path, not universal future provider quality or deliverability. Separate frontend/public route/motion gates remain in the release record.
+
+## Repeat procedure
+
+Use the opt-in `scripts/qa/release-backend-canary.mjs` with `MINDMAKE_RUN_DESIGNATED_CANARY=yes` and only the authorized inbox. `MINDMAKE_CANARY_CANONICAL_READ_ONLY=yes` stops before sending. For delivery, explicitly drive each action; read fresh OTP in memory, do not record it. Wait for actual research and download events, verify actual receipts and exact database/queue counts, capture IDs before cleanup, delete only those synthetic records and verify zero. Do not run the live follow-up sender for convenience.

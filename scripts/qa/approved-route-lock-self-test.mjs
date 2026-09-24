@@ -3,10 +3,22 @@ import { spawnSync } from "node:child_process";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { tmpdir } from "node:os";
+import { createHash } from "node:crypto";
+import { sourceHashBytes } from "../lib/source-hash.mjs";
 
 const root = resolve(import.meta.dirname, "../..");
-const manifestPath = resolve(root, "quality/route-lock/approved-production-r14.json");
+const manifestPath = resolve(root, "quality/route-lock/approved-production-r16.json");
 const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+const digest = bytes => createHash('sha256').update(bytes).digest('hex');
+for (const extension of ['.svg', '.xml', '.webmanifest']) {
+  const lf = Buffer.from('first\nsecond\n');
+  const crlf = Buffer.from('first\r\nsecond\r\n');
+  if (digest(sourceHashBytes(`asset${extension}`, lf, manifest)) !== digest(sourceHashBytes(`asset${extension}`, crlf, manifest))) throw new Error(`Line ending drift for ${extension}`);
+  const historical = { textLineEndings: 'lf' };
+  if (digest(sourceHashBytes(`asset${extension}`, lf, historical)) === digest(sourceHashBytes(`asset${extension}`, crlf, historical))) throw new Error(`Historical semantics changed for ${extension}`);
+}
+const binary = Buffer.from([0, 255, 13, 10, 128]);
+if (!sourceHashBytes('image.png', binary, manifest).equals(binary)) throw new Error('Binary bytes were normalized');
 const valid = spawnSync(process.execPath, [resolve(root, "scripts/qa/approved-route-lock-check.mjs")], {
   cwd: root,
   encoding: "utf8",
@@ -18,7 +30,7 @@ manifest.files[firstPath] = "0".repeat(64);
 
 const output = resolve(tmpdir(), "mindmake-route-lock-self-test");
 await mkdir(output, { recursive: true });
-const badManifest = resolve(output, "approved-production-r14-bad.json");
+const badManifest = resolve(output, "approved-production-r16-bad.json");
 await writeFile(badManifest, `${JSON.stringify(manifest, null, 2)}\n`);
 
 const result = spawnSync(process.execPath, [resolve(root, "scripts/qa/approved-route-lock-check.mjs")], {

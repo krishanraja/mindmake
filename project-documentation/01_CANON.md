@@ -1,6 +1,6 @@
 # 01. Canon
 
-*Current as of 5 September 2026.*
+*Current authority reviewed 24 September 2026 against the owner-approved R3 release. Operational evidence and limits: `06_CURRENT_STATE.md`.*
 
 The commercial truth. Where anything else in this repository disagrees with this
 file or with `00_NORTH_STAR.md`, those two win and the other thing is wrong.
@@ -25,38 +25,46 @@ capability the business should still have when the work ends.
 
 ---
 
-## Sharpened, 5 September 2026
+## Current public contract
 
-See `00_NORTH_STAR.md`, "Sharpened, 5 September 2026", for the four things and
-the reasoning. What they change in this file:
-
-- The offer is a **paid proof with no public price and no public duration**.
-  The internal month shape, the hour envelope and the rate card below are
-  unchanged and stay internal.
-- The two doors are the **two questions a leader can bring**, an AI that
-  starts from what they already know, or a way to sell built for what
-  customers pay for now, and the same work sits behind both. Each door page
-  carries only what is specific to its door. The practice's argument is made
-  on the homepage (what the work answers) and on `/new-age-leadership` (why).
-- The Accountable Delegator below stays internal. Its one public form is the
-  private line in the north star, and the answer "Does anyone in my company
-  need to know?" in `src/content/answers.json`.
-- The payoff word in public copy is **edge**; judgement stays the mechanism.
+The offer is one paid proof with no public price or duration. The private rate
+card and delivery envelope below remain private and unchanged. The approved
+R3 homepage carries the practice narrative; `/new-age-leadership` is its
+companion. The two door pages carry their specific capabilities. The internal
+buyer archetype is not public positioning.
 
 ---
 
 ## The two doors
 
-The site uses two doors because they meet non-technical buyers in language they
-already have. These promises are locked:
+The owner-approved public copy is locked:
 
-- **Build your AI brain.** Encode your taste and judgement, amplify your
-  strengths, uncover your blind spots.
-- **Build your AI GTM.** Create an AI-native GTM model across product, price,
-  positioning or people.
+| Placement | Accepted copy |
+|---|---|
+| Homepage headline | Build the business that can think with you. |
+| Opening promise | Part people. Part agent. Led by judgement. |
+| Brain door | Build your AI brain |
+| Brain door explanation | Your judgement, running. |
+| GTM door | Build your AI GTM |
+| GTM door explanation | Build your AI native pricing, positioning and org. |
+| Shared proof | Build the first working version on real work. Keep the system. |
+| Brain headline | Make your judgement reusable. |
+| Brain promise | Give your standards, context and past decisions a memory you can use. |
+| Brain film line | The next decision begins with what the last one taught you. |
+| GTM headline | We turn an AI market shift into one tested commercial move. |
+| GTM promise | See how one market change alters product, price, positioning and people before you commit. |
+| GTM film line | Start with the commercial decision that is holding the rest of the system back. |
+| Route back control | AI Brain or AI GTM |
+| Proof receipt | What stays with you |
 
-The four GTM levers are **product, price, positioning and people**. Earlier
-"message and team" framing is retired wherever the levers are named.
+Public route labels: **Results**, **Thinking**, **Questions leaders ask**,
+**Before you start**, **Media**, **Start here**. Footer positioning:
+**Keep your edge as AI changes the market.**
+
+The four underlying GTM levers remain **product, price, positioning and people**.
+This approved shorter door sentence is not permission to remove product from
+the capability. These exact selections control their named placements; do not
+replace other approved route copy by treating this table as a site-wide rewrite.
 
 These are not two unrelated products. Either can be the hook, and either can lead
 to the other when the work calls for it.
@@ -258,10 +266,9 @@ without one.
 
 ## The offer
 
-Work starts with a **paid proof**. There is no public price and, from 5 September
-2026, no public duration: the length is agreed privately with the fee, and the
-site promises only that something is working in the first week. The month shape
-below is the internal envelope.
+Work starts with a **paid proof**. Price, duration and scope are agreed privately
+in writing. Do not introduce a public delivery-duration promise. The month
+shape below is the private operating envelope, not website copy.
 
 The proof picks one important decision or capability, builds a working first
 version, uses it on real work, and leaves behind something the client keeps
@@ -291,9 +298,8 @@ rather than receiving a deck that goes stale.
 
 ### Continuation
 
-Day 30 is the proof and the only thing a visitor can start. Days 60 and 90 show
-what continuation typically builds, labelled as earned, with no prices, package
-names or durations for sale.
+A visitor starts one paid proof. Continuation is earned by useful results;
+there are no public day-30/60/90 packages or duration promises.
 
 Privately, continuation is proposed only against named deliverables discovered in
 month one, never as generic retained time. The duration follows the deliverable;
@@ -339,8 +345,9 @@ pay never argues the craft down; it argues the stakes up.
 named asset written into the agreement: equity, participation, real distribution,
 or a consented case study.
 
-**The public script.** No number anywhere public. When asked: the proof is a five
-figure month, and the exact number follows the brief.
+**The public boundary.** No public price or duration. Scope, duration and fee are
+agreed privately in writing before work starts. The private rate card above is
+not a public promise.
 
 **Collapse target.** After five paid proofs with door-shaped stories, collapse
 upward toward a single higher number.
@@ -369,53 +376,26 @@ rather than the craft.
 
 ## The conversion path
 
-There is no public diary link and no "Book a fit call" CTA. There is one way in
-per screen.
+There is no public diary link or "Book a fit call" CTA. **Start here** is the
+primary action. The two adjacent door choices are one routing decision.
 
-On the door pages that is **Start here**, because the reader is already standing
-in a door. On the homepage, from 1 September 2026, it is the two doors by name,
-**Build your AI brain** and **Build your AI GTM**, adjacent and in one control
-group. That is still one decision: the two are never apart on a screen, and
-`scripts/qa/one-way-in-check.mjs` holds exactly that shape.
+The approved homepage and both doors use the same company-first `LeadBrief`:
 
-The reason is not presentation. Each door has always carried its own four
-pressure questions, and every `Start here` passed no door at all, so a visitor
-who started on the homepage was asked a generic set belonging to neither. Where
-the dialog is still opened without a door, from the sticky bar, the menu or a
-shared link, it asks which before the four details. Either way a client can
-still cross to the other door later; the choice decides what is asked first,
-not what is bought.
+1. Work email, then first/last name and business role; company comes from the
+   work domain. Personal domains are refused with an honest explanation.
+2. A corroborated company read, then a problem choice and where returned time
+   would help. Generic approved options remain valid when tailoring is absent.
+3. A brief: what AI can carry, what the leader keeps, and one useful first proof.
+4. **Keep the private brief** is explicit; the visitor confirms their address
+   with a code before delivery. The brief stays on screen and can be downloaded.
+5. The visitor receives their results and the operator receives a private fit
+   digest. The operator decides whether a personal reply would help.
 
-1. The visitor gives four details: their first and last name, their work email
-   and the part of the business they work in. The company comes out of the
-   email's domain, so nobody types it twice, and a personal address is refused
-   because there is no company behind one to read.
-2. Mindmake shows a declarative outside read of the business and, when the read
-   is strong enough, two or three pressure choices tailored to that company, each
-   server-signed and anchored to a locked lens. "Something else" always reveals
-   the locked list.
-3. The visitor makes one easy choice, then chooses where returned time would
-   matter most.
-4. Mindmake shows the recommendation: what AI can carry, what stays with the
-   leader, and what a first proof could test.
-5. The visitor gives their email to keep the brief, confirms a code, and receives
-   the branded proposal on screen, by email, and as a self-contained attachment.
-6. A private fit digest reaches the operator with the same inputs plus richer
-   company and fit context. Replying to it reaches the visitor directly.
-7. The operator decides whether to reply and, if useful, invites a private
-   conversation.
-
-The browser sends only the visitor's first and last name, their work email, the
-company domain derived from it, allowlisted choice IDs (the division and the
-read's two answers) and the server-signed tailored-choice pair. The name is the
-only free text in that list, and it is there because it replaced a worse ask: the
-personal read used to want a LinkedIn URL, which most people have to go and find,
-and a name plus the company behind the email resolves the same person. A personal
-email address is refused on both sides, because the company read is built from
-the domain and there is nothing behind a personal one to read. The server owns the research, tailored
-choices, recommendation, proposal, fit digest, verification codes and delivery
-attempts. The old contact endpoint is never a fallback. The visitor can always
-download the brief locally, whether or not either email succeeds.
+The server owns research, corroboration, signed tailored choices, assembly,
+verification and delivery. The browser submits validated identity and allowlisted
+choices, not invented research. The existing personal-read API is not a second
+form on the approved homepage. Exact payloads and failure paths belong to
+`05_LEAD_DELIVERY_SPEC.md`, rather than being duplicated here.
 
 **The honesty framing is mandatory on every read:** it is an illustrative example
 of how the Mindmake brain reads a business from the outside, it is not advice,
@@ -432,8 +412,10 @@ only; it does not subscribe or import anyone.
 
 ### The two emails
 
-A converting visitor receives exactly two emails after they confirm: the results
-they asked for, and one follow-up fourteen days later. Nothing else, ever.
+A completed conversion starts one bounded sequence: the results the visitor
+asked for, and one follow-up fourteen days later. No ongoing automated sequence.
+This is a per-conversion contract, not an enforced lifetime cap across separate
+requests or delivery paths; `05_LEAD_DELIVERY_SPEC.md` documents those limits.
 
 The company read sends one six-digit code before that, because it has to prove
 the address belongs to them. The personal read has no code and sends only the
@@ -449,17 +431,15 @@ make it untrue, so `src/test/brief2-email-cap.test.ts` holds it shut.
 
 ### Every dead end ends in a person
 
-Nine things on this site can fail, and every one of them ends in an apology, one
-dry line where our own machine is the butt of the joke, and one way to reach a
+When a visitor journey fails, its recovery must offer an honest explanation and
+one way to reach a
 person. Never the visitor as the butt: a joke at the expense of somebody who has
 just been let down is a second insult.
 
-Refusing to send something generic is right. Refusing and then closing the door
-is a lead we asked to leave, and for a while that is exactly what the read gate
-did. The offer is one click where the road is closed and a quiet line where a
-working retry sits beside it, and it asks for nothing the page already knows.
-The nine, and the two paths that deliberately have none, are listed in
-`05_LEAD_DELIVERY_SPEC.md`.
+Refusing to invent a read must not close the door. Recovery asks for nothing
+the page already knows and keeps a working retry where appropriate. The current
+failure contract and implementation sources are owned by
+`05_LEAD_DELIVERY_SPEC.md`; do not infer a fixed inventory from an older release.
 
 ### Qualifying, from the fit digest
 
@@ -504,10 +484,6 @@ happens if it does not work, why it would be different when AI has already got
 things wrong, whether you need to be a certain size, and whether anyone in your
 company needs to know.
 
-The last of those was added on 2 September 2026 and is the one place the
-argument on `/new-age-leadership` reaches the buying journey: a reader who
-tried AI once and stopped is the reader a six-hundred-year history of the same
-reflex is for, and the answer says so in four sentences without the history.
 
 These stay true and are safe to reuse anywhere:
 
@@ -579,12 +555,11 @@ One list, so it does not have to be repeated:
 - A public count of leaders helped, until the evidence trail is compiled and
   approved.
 - Em dashes, or unexplained business and technical terms, in public copy.
-- Eyebrow text above any heading.
+- New duplicative eyebrows or control-explaining captions; accepted R3 labels stay locked.
 - A conversational or self-correcting voice in the company read.
 - American spellings. It is "judgement".
-- Stepped, numbered scroll journeys, step rails, or full-bleed step numerals.
-- The Capture / Encode / Amplify / Uncover / Keep ladder. Amplify and absorb
-  replaced it.
+- A replacement journey or ladder that departs from accepted R3. Its native
+  pinned story/dividend builds and selected controls are explicitly approved.
 - "Not an agency. Not a coach." and every other "not X, but Y" antithesis.
 
 ---
@@ -606,13 +581,10 @@ Avoid as public framing: "AI literacy", "AI fluency", "prompt engineering",
 "leveraging AI", "AI-powered", "future of work", "chief of staff",
 "productivity", "assistant".
 
-The site speaks as **we**. Founder-led, practice voice, decided 28 August 2026:
-the founder appears in the founder section at the foot of the homepage (his own
-bio, his own first person, his photograph), in the framing of the proof, and
-inside verbatim quotes where other people used his name. Everywhere else there
-is no first person, no biography and no portrait, and no "why him" argument in
-place of evidence. See `00_NORTH_STAR.md` for why the earlier "named exactly
-once, no portrait" rule was replaced.
+The site speaks as **we**, in the practice voice. The founder may appear in
+approved biography, proof framing and verbatim quotes. Those permissions do
+not require adding a portrait or founder section to the locked homepage.
+Keep biography out of unrelated practice claims.
 
 **Quotes are never edited.** Not for spelling, not for house style, not to
 remove the founder's name. The rules that govern our own voice stop at the

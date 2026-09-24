@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { execFileSync } from "node:child_process";
 import { blogPosts } from "@/data/blogPosts";
 import plates from "@/content/socialPlates.json";
 import { answers } from "@/lib/answers";
@@ -146,11 +147,44 @@ describe("what the crawlers are told", () => {
     expect(temporary.sort()).toEqual(["/decision", "/start", "/test-email-flows.html"]);
   });
 
-  it("describes the hand-off the site runs in llms.txt", () => {
-    const llms = read("scripts/generate-llms.mjs");
-    expect(llms).not.toContain("company website");
-    expect(llms).toContain("four details");
-    expect(llms).toContain("two emails, ever");
+  it("derives the reader directory from canonical metadata, not a second set of claims", () => {
+    const llms = execFileSync(process.execPath, ["scripts/generate-llms.mjs", "--stdout"], { cwd: ROOT, encoding: "utf8" });
+    expect(llms.replaceAll("\r\n", "\n")).toBe(read("public/llms.txt").replaceAll("\r\n", "\n"));
+    for (const page of staticPages) expect(llms).toContain(page.description);
+    for (const post of blogPosts) expect(llms).toContain(`https://mindmake.co/blog/${post.slug}`);
+    expect(llms).not.toMatch(/two emails, ever|four details|Thirty days|priced on the result/);
+    expect(llms).toContain("[Thinking]");
+    expect(llms).toContain("[Before you start]");
+  });
+
+  it("keeps sitemap dates factual and uses the same canonical route set as prerender", () => {
+    const sitemap = execFileSync(process.execPath, ["scripts/generate-sitemap.mjs", "--stdout"], { cwd: ROOT, encoding: "utf8" });
+    expect(sitemap.replaceAll("\r\n", "\n")).toBe(read("public/sitemap.xml").replaceAll("\r\n", "\n"));
+    const xml = new DOMParser().parseFromString(sitemap, "text/xml");
+    expect(xml.querySelector("parsererror")).toBeNull();
+    const rows = [...xml.querySelectorAll("url")];
+    expect(rows).toHaveLength(staticPages.length + blogPosts.length + answers.length);
+    for (const page of staticPages) {
+      const row = rows.find(row => row.querySelector("loc")?.textContent === `https://mindmake.co${page.path}`);
+      expect(row, page.path).toBeDefined();
+      expect(row?.querySelector("lastmod"), page.path).toBeNull();
+    }
+    for (const post of blogPosts) {
+      const row = rows.find(row => row.querySelector("loc")?.textContent === `https://mindmake.co/blog/${post.slug}`);
+      expect(row?.querySelector("lastmod")?.textContent).toBe(post.updatedAt || post.publishedAt);
+    }
+  });
+
+  it("uses the approved homepage positioning in the fallback head, organisation and install manifest", () => {
+    const home = staticPages.find(page => page.path === "/")!;
+    const doc = new DOMParser().parseFromString(read("index.html"), "text/html");
+    expect(doc.title).toBe(`${home.title} | Mindmake`);
+    for (const selector of ['meta[name="description"]', 'meta[property="og:description"]', 'meta[name="twitter:description"]']) {
+      expect(doc.querySelector(selector)?.getAttribute("content")).toBe(home.description);
+    }
+    const graph = JSON.parse(doc.querySelector('script[type="application/ld+json"]')!.textContent!)["@graph"];
+    expect(graph.find((node: { "@type": string }) => node["@type"] === "Organization").description).toBe(home.description);
+    expect(JSON.parse(read("public/site.webmanifest")).description).toBe(home.description);
   });
 
   it("writes the head and the plates from one page list", () => {

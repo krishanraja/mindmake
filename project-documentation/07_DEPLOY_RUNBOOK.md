@@ -1,235 +1,94 @@
-# Deploy runbook: the rebuild's backend
+# Release runbook
 
-## Current backend release — 24 September 2026
+Current procedure, reviewed 24 September 2026. Not a deployment journal.
+[06_CURRENT_STATE.md](06_CURRENT_STATE.md) owns live/rollback identities;
+[07_DEPLOYMENT.md](07_DEPLOYMENT.md) owns topology and authority boundaries.
 
-Backend deployment is complete and frontend R3 is live from PR #170, merge `3ee77cf`, deployment `dpl_EZigNAi6Uc6Apcq75XsFnHETt5W8`. The frontend release authority, gates and public readback are in [RELEASE-2026-09-24](website-redesign/RELEASE-2026-09-24.md). Exact backend evidence, source hashes, canary IDs and cleanup are in [BACKEND-RELEASE-EVIDENCE-2026-09-24](website-redesign/BACKEND-RELEASE-EVIDENCE-2026-09-24.md), whose final addendum records the final versions below.
+## Establish scope
 
-1. Verify authenticated target `bkyuxvschuwngtcdhsyg`; never use a connector exposing only a different project. Do not read or log credentials.
-2. Preserve exact-domain provider checks, corroborated company identity, literal factual descriptions and first-party source titles. Only the documented owned alias `themindmaker.ai` maps to `mindmake.co` for research/signatures; email recipients remain unchanged. Missing corroboration stays honest, not a fabricated successful read.
-3. Run the provenance/brief/personal regressions and Deno checks for all affected closures. This repair passed 67 targeted tests and all three closure checks.
-4. Deploy the full affected import closures with the official CLI to the exact project, preserving JWT flags; independently download/read back the deployed sources. Do not deploy unrelated CTRL functions or alter tables/policies for this source-only repair.
-5. Verify real canonical and owned-legacy company reads, then only the authorized operator-inbox canaries. Actual inbox receipt, persisted state and one due follow-up row are required; provider `queued` alone is insufficient. Never invoke the live cron sender to test a future follow-up.
-6. Capture exact synthetic IDs, delete only those test rows and confirm zero. Keep ordinary customer rows/queues untouched. Verification codes and full email bodies do not belong in evidence files.
+Read the numbered canon, current state, website-redesign/STATE.md and active
+immutable route manifest. Preserve R3 and companion pages. Inspect git status,
+keep unrelated work and name the exact authorized delta. Use this checkout,
+not an unverified ambient server. Match authenticated GitHub/Vercel/Supabase
+targets before mutation. Secrets never belong in logs or documentation.
+Publication, real sends, backend and account changes require explicit scope.
 
-Backend preparation: code verification, visitor brief and operator digest reached INBOX through the previous live frontend; personal-read preview/send also passed through its public API and its email reached INBOX. Both journeys persisted the expected rows and one day-14 queue each; exact synthetic rows were removed and checked absent. The private-brief HTML generator was downloaded with a representative fixture and inspected at desktop/mobile widths, self-contained and without overflow. These checks alone do not prove the new frontend's complete visitor-to-download flow; its post-promotion canary is recorded separately in the release evidence. Print PDF was generated, not independently visually graded. Physical VoiceOver/TalkBack remain the owner's explicitly recorded, release-only exception, not passes.
+## Source and build
 
-## Historical background
+Use Node 22.x (at least 22.18), npm ci and the committed package-lock.json.
+Vercel installCommand is npm ci. Keep vercel.json compact: the platform
+normalizes it and exact configuration bytes are release-bound.
 
-Originally written 28 August 2026, after the work below was applied and verified against
-the live project. It is here so the same steps can be repeated, checked or
-rolled back by someone who was not in the room.
+- Run the deterministic homepage adapter --check; never hand-edit generated R3.
+- Run qa:approved-routes and its negative self-test, qa:homepage-handoff,
+  qa:website-feedback, qa:material-review:self-test and qa:plain-language.
+- Run typecheck against tsconfig.app.json, lint, full units and npm run build.
+  Root tsconfig alone is not a typecheck.
+- Metadata changes require discoverability tests, route/canonical parity,
+  built-head readback and visual inspection of social/icon artwork.
+  Run `npm run qa:discoverability -- --base=<built-or-live-origin>` with
+  `QA_REVISION` set to its source commit. It compares all source-indexed routes,
+  waits for actual client metadata execution, exercises a deliberate regression,
+  and checks share assets. This is technical eligibility, not search inclusion.
+- Permitted changes to locked files need a declared new manifest revision,
+  never overwriting an approval or silently rehashing unrelated edits.
 
-Project: `bkyuxvschuwngtcdhsyg`. Everything below is additive. No existing
-policy was loosened, no anon policy was added to any table, and the four new
-tables are RLS-on with no policies, which means service role only.
+## Browser and journey gates
 
-## What is deployed — independently read back 24 September 2026
+Use the exact built artifact. Full route smoke runs Chromium/Firefox on Linux
+and WebKit on macOS. Require expected counts and navigation supplements.
+Do not substitute a smaller matrix; local smoke is additive evidence.
 
-| Function | Version | verify_jwt | Called by |
-|---|---|---|---|
-| `get-ai-news` | v70 | false | The browser; unchanged by the 24 September repair |
-| `enrich-company` | v44 | true | Domain-bound corroborated company read and tailored choices |
-| `mindmake-personal-read` | v25 | false | Personal preview/send and existing human handoff; final increment is type-only |
-| `send-follow-ups` | v5 | false | pg_cron, daily at 09:20 UTC; not invoked for this canary |
-| `aa-price-snapshot` | v3 | false | pg_cron, daily at 11:00 UTC; unchanged by this repair |
-| `submit-mindmake-brief` | v20 | false | Verified company brief, both deliveries and active day-14 enqueue; final increment is type-only |
+For pinned builds verify every visible state, stable geometry, forward/reverse
+traversal, entry and natural release. Test reduced motion, short screens,
+keyboard controls and no-script readability. Run qa:homepage-release and its
+negative evidence controls. Screenshots or attributes alone cannot pass.
+Review desktop/mobile frames for fixed-chrome clearance, overlap, contrast,
+focus and overflow. Recheck the specific defect, not merely a nearby route.
 
-`get-ai-news` gained a board view and kept its previous response byte for byte.
-The two scheduled functions are public at the edge and guarded in code on the
-`x-mindmake-cron-secret` header, which is the pattern the project's other
-scheduled functions already use.
+Lead changes require backend units and Deno checks for affected import closures.
+Deploy only changed full closures to the verified project with original JWT
+flags, then independently read back source. Do not modify unrelated CTRL
+functions, policies or schemas to make a test pass.
 
-## Migrations applied, in order
+Authorized live canaries use only the designated inbox and synthetic data.
+Require actual inbox receipts, persistence, one due follow-up and the actual
+success-screen download matching the visible brief. Never invoke live cron to
+test a future email. Delete only exact test IDs and read back zero. Do not
+retain verification codes/full private bodies. Head/docs-only edits need no sends.
 
-1. `20260828120000_mindmake_follow_up_and_personal_read.sql`: `follow_up_queue`,
-   `mindmake_personal_reads`, the private rate-event table and its consume
-   function, and the purge routine.
-2. `20260828121000_aa_model_snapshots.sql`: the daily price table.
-3. `20260828122000_mindmake_scheduled_jobs.sql`: `pg_net` and `pg_cron`, then
-   the two jobs. `cron.schedule` upserts by name, so replaying is safe.
-4. `20260828123000_mindmake_public_rpc_wrappers.sql`: public wrappers for the
-   two private routines. PostgREST reaches only the public schema, so an edge
-   function cannot call a routine in `private` directly. This mirrors the
-   wrapper the brief pipeline already uses.
-5. `20260828170000_personal_read_name_and_division.sql`, applied 29 August 2026
-   and registered as `20260829065615 personal_read_name_and_division`: three
-   nullable columns on `mindmake_personal_reads` for the visitor's name and
-   division, with a check constraint on the division mirroring the allowlist the
-   edge function parses against, and a length ceiling on the names. Additive, so
-   the function still running the old body was unaffected by it. RLS unchanged:
-   still on, still no policies.
+## Promote and verify
 
-## The one secret
+1. Freeze the exact candidate commit; require its CI, independent review and
+   applicable material approval. Keep failed runs as failures.
+2. Preserve frontend deployment and affected backend rollback closures.
+3. Merge the approved PR to main; Vercel auto-promotes. Do not deploy an arbitrary
+   local worktree. Match build/commit and production alias.
+4. Read public HTML, assets, redirects and runtime behavior. For discoverability,
+   include head, robots, sitemap, icons and social images.
+5. Update current state/receipts; put chronology only in history/LOG.md.
 
-`mindmake_cron_secret` exists in two places and must hold the same value:
+The physical VoiceOver/TalkBack exception belongs to the recorded R3 release;
+it is not a standing waiver or a successful test.
 
-- Supabase Vault, read by the cron jobs when they build the request header.
-- The function environment as `MINDMAKE_CRON_SECRET`, read by the two scheduled
-  functions when they check it.
+## Search and AI discovery operations
 
-It was generated at deploy time and never written to the repository. To rotate
-it, create a new Vault secret under the same name and update the function
-secret to match; the jobs read the newest row.
+Page components own metadata; build-time rendering exposes their real text and
+structured data without waiting for client JavaScript. The route list,
+sitemap and optional llms directory must agree. Never invent schema claims or
+update lastmod simply because a build ran. Robots search eligibility is separate
+from consent for model-training crawlers; do not change either policy by guess.
 
-## Historical verification — August 2026
+Use verified Search Console/Bing property access for indexing, queries, traffic
+and AI-citation measurements when available. A healthy crawlable release does
+not prove indexing, ranking, citations, referrals or conversion improvement.
+Social-platform cache refresh and actual platform posts are external checks;
+image/metadata HTTP readback alone does not certify their final rendering.
 
-- `aa-price-snapshot` rejected a wrong header with 403, then recorded 624 models
-  for 2026-08-28.
-- `send-follow-ups` rejected a wrong header, then ran clean against an empty
-  queue.
-- `mindmake-personal-read` rejected a disallowed origin, an unexpected body key
-  and an out-of-range answer, then delivered a real email.
+## Recovery
 
-### The 29 August deploy, verified against the live function
-
-Ordered so the incompatibility window was as short as it could be. The old site
-sent `linkedin_url` and the new function refuses it; the new site sends
-`first_name` and the old function refused that, so some window was unavoidable.
-The migration went first (additive, so it changed nothing for the running
-function), then the merge to `main`, and the function went out the moment Vercel
-had promoted. The window was the seconds between those last two, and it touched
-only the read button on `/ai-brain`.
-
-- The deployed body was checked, not the deploy call's response: the bundle
-  carries `personal-email`, `buildRead`, `DIVISION_LINES` and
-  `FREE_EMAIL_DOMAINS`, and the three remaining `linkedin_url` occurrences are
-  the comment saying the field is gone plus the two that read the URL out of
-  PDL's answer.
-- Contract probes against the live function: `linkedin_url` returns
-  `unexpected:linkedin_url`, a gmail address returns `personal-email`, a missing
-  or unknown division returns `division`, an empty name returns `first_name`,
-  and a disallowed origin returns 403.
-- **The PDL swap was measured, not assumed.** Name plus the email's domain
-  resolved two of three very public test subjects: Benioff at salesforce.com and
-  Collison at stripe.com came back with role and company; Nadella at
-  microsoft.com returned 404, "No records were found matching your request".
-  A fallback that also tried the domain's bare label was built, deployed and
-  removed again, because every match came back on the domain and the second call
-  therefore only ever ran on a miss, which is the worst place to spend a paid
-  call.
-- The first version of `enrichProfile` logged nothing on failure, so a swap that
-  had stopped resolving anybody would have looked exactly like a run of
-  hard-to-find people. It logs the provider's status and message now, and
-  nothing about the person.
-- PDL returns lowercase, so the read opened with "You are chief executive
-  officer at salesforce". A provider's storage convention is not a fact about
-  the company: `present()` capitalises all-lowercase words and leaves anything
-  already carrying a capital alone, so eBay and iRobot survive it.
-- One synthetic end-to-end lead to `krish@themindmaker.ai` from
-  `https://mindmake.co`: delivered, the stored row carried the name, the division
-  and the resolved role and company, and it produced exactly **one**
-  `follow_up_queue` row due fourteen days out. Both test rows were deleted
-  afterwards.
-- Three successful sends to the same address produced exactly **one**
-  `follow_up_queue` row, which is the two-email cap holding in practice rather
-  than in prose. The fourth send inside the hour returned 429.
-- `get-ai-news` returned 28 days and 417 corroborated items on the board view,
-  and its legacy headline response unchanged.
-- The synthetic rows were deleted afterwards. The price history was kept,
-  because it cannot be back-filled.
-
-## Rolling back
-
-Each function has a version history in the Supabase dashboard; redeploying the
-previous version is the fastest reversal. To stop the new scheduled work
-without touching the functions:
-
-```sql
-select cron.unschedule('mindmake-aa-price-snapshot-daily');
-select cron.unschedule('mindmake-follow-up-daily');
-```
-
-Dropping the tables is not part of a rollback: `aa_model_snapshots` holds price
-history that cannot be recovered once deleted.
-
-## Launch, as it happened
-
-All three steps ran on 28 August 2026, in this order, except the first.
-
-1. **The mailboxes were not created**, because `mindmake.co` still has no MX
-   record. Rather than ship contact links that bounce, every one of them now
-   reads `CONTACT_EMAIL` in `src/lib/publicLinks.ts`, pointing at the mailbox
-   that receives. To finish: add the MX record, create
-   `hello@mindmake.co` and `privacy@mindmake.co`, then change that one constant.
-
-2. **The build was promoted.** Merge `7557254`, deployment
-   `dpl_HAoncV1RF3hcvcanqo7Yvc4tuAng`.
-
-3. **`submit-mindmake-brief` was deployed last**, from merged `main`, with its
-   full eighteen-file import closure. It went to v13, and the deployed body was
-   verified to carry `queueFollowUp`, `follow_up_queue`, `FOLLOW_UP_DAYS = 14`
-   and the `email,source` conflict target. The queue was empty at that moment,
-   so no follow-up predates the privacy notice that describes it.
-
-If the promotion is ever rolled back, roll this function back too. A follow-up
-queued by a build that is no longer live is a promise nothing on the site is
-making any more:
-
-```sql
-select cron.alter_job(
-  (select jobid from cron.job where jobname = 'mindmake-follow-up-daily'),
-  active := false
-);
-```
-
-Hold the job; never delete queued rows. A visitor who asked for their read is
-owed the follow-up, just not from a site that has reverted.
-
-## Still outstanding
-
-- `get-model-data` remains deployed and unused. The marketing repository has no
-  callers. It should be retired once someone confirms the CTRL side does not
-  call it either.
-- The migrations are registered in the remote migration history under their
-  names rather than their file timestamps, which is how this project has always
-  applied them. `supabase db push` is not the deploy path here; the Management
-  API is.
-
-## Release, 29 August 2026: the handoff
-
-Two changes ship together. The order matters for the same reason it did on
-28 August: the browser calls the function directly, so the function has to
-understand the new action before a build that sends it is live, and the
-database has to accept the new column before the function writes it.
-
-1. **The migration first.** `20260829120000_personal_read_handoff.sql` adds
-   `handoff_reason` to `public.mindmake_personal_reads`, relaxes `q1` and `q2`
-   from required-always to required-together, and indexes the handoff rows the
-   operator-notice cap counts. It adds no policy and collects no new personal
-   data. Applied through the Management API, as every migration on this project
-   is: `supabase db push` is not the deploy path here.
-
-2. **Then the merge and the promotion.** Wait for Vercel to finish before the
-   next step, because a build that offers a person while the function still
-   rejects `action: "handoff"` would put a dead end at the end of a dead end.
-
-3. **Then the function**, from merged `main`, with its full **sixteen-file**
-   import closure: `mindmake-personal-read/index.ts` and `core.ts`, plus
-   `_shared/http/resend.ts`, `_shared/logger.ts`, `_shared/retry.ts`,
-   `_shared/timeout.ts`, `_shared/security/hmac.ts` and the eight files under
-   `_shared/enrich/`. Verify the deployed body carries `parseHandoff`,
-   `renderHandoffNotice` and `HANDOFF_NOTICE_WINDOW_MS`, then prove one
-   synthetic handoff from `https://mindmake.co` and delete its row.
-
-Rolling back the promotion means rolling this function back too, for the same
-reason as the follow-up queue: an offer of a person that no live build makes any
-more. The row is harmless either way, so nothing needs deleting.
-
-### The dialog's shape
-
-The same release repairs the lead dialog, whose entire structural CSS was
-deleted by the strip commit of 28 August and shipped. It is a stylesheet-only
-change with no backend or configuration to it, so it rides the promotion in step
-2 and needs nothing of its own. `06_CURRENT_STATE.md` records what happened.
-
-## Release, 5 September 2026: the edge rewrite
-
-Copy only, on both sides of the lead pipeline, so no migration and no contract
-change. The order was the usual one: the merge and the promotion first
-(`6d39665`, `dpl_ZU6oQorQQcgpiD5YHARRFZHLo3Rg`), then `send-follow-ups` v5
-and `submit-mindmake-brief` v16 from the working tree with their full
-closures. Both deployed bodies were read back and every file is
-byte-identical to the repository. One synthetic lead from `https://mindmake.co`
-proved the code, the results email with its new label, the fit digest and
-exactly one follow-up row; both rows were deleted afterwards. The record is
-in `06_CURRENT_STATE.md`, "Promoted, 5 September 2026".
+Use the recorded frontend rollback for a confirmed regression. For backend
+regressions, check compatibility and redeploy the preserved full source closure
+with original JWT flags. Never drop tables or delete live lead/queue records.
+Holding cron, changing domains, credentials or access needs scoped authority and
+a recovery path. Verify the affected public flow again after recovery.

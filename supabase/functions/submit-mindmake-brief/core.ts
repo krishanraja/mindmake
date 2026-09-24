@@ -716,7 +716,7 @@ export function renderVisitorEmail(brief: StoredBrief): ServerEmail & { attachme
     : "This is the safe read based on the website.";
   const opening = "You chose one business pressure and where better use of your time could matter most. Treat this as something to test against the real business, not a finished answer.";
   const attachmentLine = "Your full brief is attached as a document you can keep or print.";
-  const boundary = "No sales emails will follow automatically. If you hear from Krish, it will be because he has a useful next move, a strong fit or something worth questioning.";
+  const boundary = "We will send one follow-up fourteen days from now. There is no ongoing email sequence. If you hear from Krish separately, it will be because he has a useful next move, a strong fit or something worth questioning.";
 
   const body = `
   <h1 style="max-width:16ch;margin:40px 0 0;font-family:Georgia,'Times New Roman',serif;font-size:38px;line-height:1.04;letter-spacing:-.03em;">${esc(brief.choices.pressure)}.</h1>

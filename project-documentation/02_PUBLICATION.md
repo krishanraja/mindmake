@@ -1,6 +1,7 @@
 # 02. The publication
 
-*Current as of 28 August 2026.*
+*Policy reviewed 24 September 2026; channels and mandate unchanged. This is a
+publication contract, not evidence of live cadence, hosts or subscriber counts.*
 
 Mindmake's publication is the practice's front door for people who are not ready
 to buy anything. It runs on Substack today at `mindmakerlive.substack.com`, which

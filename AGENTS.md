@@ -3,10 +3,11 @@
 Entry file for coding agents working in Mindmake. Codex reads this file natively;
 Claude Code and Cursor are routed here by their own rules.
 
-**Read `NOW.md` first.** It is the current state of this repository in one file: what
-it is, who it is for, what changed recently, what is waiting, and what not to trust.
-It is validated on every push to `main` and reconciled against the code nightly, so it
-is never more than a day behind the tree. Chronology lives in `project-documentation/history/LOG.md`.
+**Read `NOW.md` first.** It routes to the current business, live release and
+open work. `project-documentation/06_CURRENT_STATE.md` owns verified operational
+facts. Validate dates and source evidence; no nightly job or timestamp proves
+that every statement is fresh. Chronology lives only in
+`project-documentation/history/LOG.md`.
 
 ## Approved website release and future revisions
 

@@ -1,481 +1,108 @@
-# Mindmake private brief delivery
-
-*Current as of 28 August 2026.*
-
-Status: **live**. The backend launched 26 August 2026 and Krish approved Gate E on 27 August 2026, so the public flag is on and the full journey runs in production: the migration and retention purge are applied, the functions are deployed at the versions recorded in `06_CURRENT_STATE.md`, which is the only place versions are written down, the sender `Mindmake <briefs@mindmake.co>` is verified with SPF, DKIM and DMARC passing, and the complete verification, delivery and tailored-choice matrix passed against the live backend with synthetic inboxes.
-
-## Product boundary
-
-The private brief must feel useful before Mindmake asks for an email. It must also create a clear lead for Krish without pretending that a generated starting point is a finished diagnosis.
-
-The release rules are:
-
-- no public diary or Calendly link;
-- no automated sales or nurture sequence beyond the single day-14 follow-up (see the amendment at the end of this file);
-- no automatic publication subscription or list import;
-- no visitor-written narrative, email HTML or hidden qualification data accepted by the server;
-- no claim that an email was delivered unless that delivery was accepted by the email provider;
-- no loss of the visitor's local download when a network or email step fails.
-
-## Visitor journey
-
-1. The visitor gives four details: first name, last name, work email and the part
-   of the business they work in. The company domain is derived from the email. A
-   personal address is refused on the page and again at the server, because the
-   read is built from the company behind the domain. Both doors ask for exactly
-   this, in one shared component, with one set of rules.
-2. Mindmake shows a declarative public-company read and labels a safe fallback honestly when live research does not answer. The read never asks the visitor anything or invites a correction; any sentence that does is dropped server-side and client-side before display.
-3. The visitor chooses one pressure. When the read was strong enough, the choices are two or three statements tailored to that company, generated and HMAC-signed by the server, each anchored to one locked lens; `Something else` reveals the locked list, which is also the guaranteed path whenever generation fails or runs out of time.
-4. The visitor chooses where better use of their time would matter.
-5. Mindmake shows a private starting recommendation, framed as an illustrative example of how the Mindmake brain reads a business from the outside, with the explicit line that none of it is advice.
-6. Only then does the visitor choose whether to keep it by email.
-7. The work email is already there, carried from step 1, and the visitor may
-   separately tick an unticked publication-interest box. Changing it here still
-   creates a fresh request.
-8. Mindmake sends a six-digit code. The code works for ten minutes and locks after five failed tries.
-9. Only after the code is confirmed does Mindmake try the two final deliveries independently, and the branded proposal renders on screen.
-10. The visitor can download the private HTML brief whether or not either email succeeds.
-
-Changing the email or asking for a new code creates a fresh request. A network retry of the same request keeps the same request ID so it cannot create duplicate delivery work.
-
-## Browser contract
-
-The browser sends identifiers and choices only. It never sends the recommendation, company narrative, research evidence, email HTML or operator copy. The one piece of prose it may carry is a tailored-choice label the server itself authored and signed; the server verifies that signature against the domain and lens before trusting the label.
-
-Request action:
-
-```ts
-interface MindmakeBriefRequestActionV2 {
-  version: 2;
-  action: "request";
-  requestId: string;
-  contact: { email: string };
-  company: { domain: string };
-  choices: {
-    pressureId: MindmakePressureId;
-    returnedTimeId: MindmakeReturnedTimeId;
-    entryRoute: "home" | "brain" | "gtm";
-    tailored?: { id: string; label: string };
-  };
-  consent: {
-    publicationRequested: boolean;
-    wordingVersion: "mindmake-publication-consent-v1";
-  };
-  website: "";
-}
-```
-
-Confirmation action:
-
-```ts
-interface MindmakeBriefConfirmActionV2 {
-  version: 2;
-  action: "confirm";
-  requestId: string;
-  contact: { email: string };
-  code: string;
-  tailored?: { id: string; label: string };
-}
-```
-
-The `website` field is a bot trap and must remain empty.
-
-Tailored-choice rules: `id` is an HMAC-SHA256 signature over the domain, lens and label using the server's verification secret, created by `enrich-company` and carried back unchanged. On the request action an invalid pair is rejected with 400 `tailored_choice_invalid`. On the confirm action the pair is verified against the stored row's domain and lens; a mismatch falls back gracefully to the lens label rather than failing the confirmed lead. Nothing tailored is persisted; the lens keeps owning the recommendation content and the tailored label only changes what the pressure is called in the proposal, the emails and the digest.
-
-The browser accepts only these response states:
-
-```ts
-interface VerificationRequiredResponseV2 {
-  version: 2;
-  success: true;
-  status: "verification_required";
-  requestId: string;
-}
-
-interface ConfirmedBriefResponseV2 {
-  version: 2;
-  success: true;
-  status: "confirmed";
-  leadId: string;
-  visitorDelivery: "queued" | "failed";
-  operatorDelivery: "queued" | "failed";
-  publicationInterestRecorded: boolean;
-}
-```
+# Mindmake private brief and personal-read delivery
 
-`queued` means the email provider accepted the send request. It does not prove inbox delivery or that anyone read the message. The page reports each delivery separately and never turns a missing or unknown response into a success claim.
+Current at the 24 September 2026 production release. This file specifies current behavior, durable privacy/product boundaries and known limitations. Historical experiments and incident narratives belong only in `history/LOG.md`. Current deployment identity is in `06_CURRENT_STATE.md`; executed backend evidence is in `website-redesign/BACKEND-RELEASE-EVIDENCE-2026-09-24.md`.
 
-## Server-owned work
+## Product and consent boundaries
 
-The server validates an exact field allowlist and rejects extra narrative fields. It then:
+The starting read is an outside view, not a finished diagnosis or advice. The visitor sees a useful preview before choosing email delivery; the work email is already collected earlier to identify the company. Do not claim the journey asks for no email before providing value.
 
-1. normalises the email and domain;
-2. applies rate limits to one-way hashes of the email and internet address;
-3. researches the public company or creates an honest fallback;
-4. builds the recommendation from allowlisted choice IDs and server-owned rules;
-5. stores the request and delivery state in the private schema;
-6. creates and emails the verification code;
-7. verifies the submitted code;
-8. creates the visitor brief and Krish's fit summary from its own templates;
-9. attempts the two final emails independently;
-10. returns only the final delivery states and publication-interest state.
+- No public diary/Calendly link, hidden narrative input, automatic newsletter subscription or list import.
+- Publication interest is separate, unticked and unverified. Neither checkbox state subscribes anybody. Publication signup uses its provider's own verified process.
+- No automated nurture beyond the approved single day-14 follow-up per queued conversion source. Verification/service messages are distinct from marketing follow-up; see the implementation limit below.
+- Browser-authored recommendation, company narrative, evidence or email HTML is never accepted by the backend. A tailored label is trusted only with its valid server signature.
+- `queued` means provider acceptance, not actual inbox arrival and not a read receipt. The UI reports visitor and operator delivery separately.
+- A failed network/email step must not remove the local brief or its available download.
+- Company/profile evidence must not be fabricated. Insufficient research keeps an honest/manual route; it is not success by substitution.
 
-The six-digit code is never stored as plain text. The database stores a keyed hash and a nonce. Raw internet addresses and browser descriptions are not stored in the private brief tables. Only one-way hashes used for abuse limits are stored.
+## Shared private-brief journey
 
-The private schema is not readable by public or signed-in browser roles. The public wrapper rejects those roles and accepts only the service role used by the Edge Function.
+`src/components/mindmake/LeadBrief.tsx` owns the current progressive flow. A route-specific entry carries Brain/GTM; a generic entry asks for the door first.
 
-## What the visitor receives
+1. Work email → **Read the business**. Derive the company domain; reject personal addresses for company research. The public read begins while the visitor continues.
+2. First name, last name and division/Leadership → **See the company read**. Do not ask the visitor to re-enter the company or work email.
+3. Show the declarative company read or an honestly labelled unavailable state. Where available, two or three tailored pressure statements are server-authored, signed and bound to a locked lens. “Something else” and the locked choices remain the recovery path.
+4. Choose the pressure, then where returned time would matter.
+5. Show the illustrative private starting brief, with AI work, human responsibility and a first proof. Its disclaimer remains explicit; the preview is not professional advice.
+6. **Keep the private brief** opens the explicit confirmation that verification is next and nothing has been sent. Continue to the prefilled email and separate optional publication-interest box.
+7. Request the six-digit code. It expires after ten minutes and locks after five failed attempts.
+8. Only after successful confirmation attempt visitor brief and operator digest independently; show the completed “Your private brief” article and individual delivery status.
+9. **Download my brief** saves the actual self-contained HTML brief even if final email delivery fails.
 
-The visitor email is set in the proposal design language (paper ground, emerald cover rule, Mindmake × company cover, serif pressure headline, labelled cards) and contains:
+Changing email or explicitly requesting another code creates a fresh request. A network retry of the same request preserves request ID and idempotency. A default-route/company recovery is not proof that live research succeeded.
 
-- the chosen pressure (the tailored label when one was verified);
-- the public company read and its source label;
-- the evidence used;
-- what AI may carry;
-- what should stay with the leader;
-- one useful 30-day proof;
-- where the returned time could create more value;
-- the branded proposal document as a self-contained HTML attachment (system fonts, no scripts, no external requests, printable);
-- the honesty foot: the read is an illustrative example and is not advice.
+## API and server authority
 
-It contains no diary link and no automatic sales promise. It does not claim that Krish received his separate email. After the server returns `operatorDelivery: "queued"`, the UI may say only that Krish's copy was queued. The line "No sales emails will follow automatically" stays, and Reply-To is the operator mailbox so "reply to this email" is honest.
+The exact current contracts live in `supabase/functions/submit-mindmake-brief/core.ts`; avoid a second independently maintained interface in documentation. The brief v2 `request` sends requestId, contact.email, company.domain, allowlisted pressure/returned-time/entry-route choices, optional signed tailored choice, consent wording version and the empty honeypot. `confirm` sends requestId, email, code and optional signed tailored choice. Invalid/extra fields are rejected.
 
-## What Krish receives
+Server-owned work: normalize identifiers; apply hash-based abuse limits; research the company or label insufficiency; assemble from server-owned rules; store private request/delivery state; create and send the code; verify it; independently construct/send visitor and operator templates; return truthful status. Retries use delivery-specific deterministic idempotency keys.
 
-Krish's server-made fit digest shares the proposal design language and is ordered for a fast scan:
-
-- the tailored or lens pressure as the headline;
-- the leader: verified email (Reply-To reaches them directly), company and domain;
-- the public company read, its source and evidence;
-- what they chose: the pressure (naming the lens behind a tailored choice) and the returned time;
-- the brief they received: the server-owned AI, human and 30-day proof recommendation;
-- a route-specific note about where a useful first proof may sit;
-- the exact publication-interest state and wording version;
-- a reply rule: reply only with a useful thought, a strong fit or a clear question worth testing.
-
-The operator email must never tell Krish to chase the visitor or import the address into the publication.
-
-## Publication interest
-
-- The box is separate and unticked.
-- `true` means unverified interest only.
-- `false` means no interest was requested.
-- Neither value subscribes anyone.
-- No record is imported automatically or manually from this flow.
-- A later publication sign-up must use the publication provider's own verified process.
-- There is no recurring personalised watch in this release.
-
-## Failure behaviour
-
-- Company research fails: use the honest fallback and let the visitor continue.
-- Verification email fails: do not move to confirmation; keep the local brief available.
-- Code is invalid, expired or locked: show a plain error and do not send either final email.
-- Visitor delivery fails: do not say the brief was emailed; keep the download available.
-- Operator delivery fails: do not say Krish has the context.
-- Both final deliveries fail after confirmation: show the local download and a direct email fallback.
-- One final delivery succeeds: report only that delivery.
-- A delivery retry uses an independent idempotency key so one email cannot duplicate the other.
-
-## Retention truth
-
-The code works for ten minutes and five failed tries lock it. Expiry stops the code but does not delete the request record. The approved retention schedule runs as a private daily purge (Gate B1, 26 August 2026): unverified requests delete 7 days after creation, rate-limit event hashes after 48 hours, and verified request, consent and delivery records 12 months after their last update. Earlier deletion happens through the published contact address and a manually verified private process. The public privacy notice states the same schedule.
-
-## Release gate (closed 27 August 2026)
-
-Every item of the release contract passed before the flag went on, and Krish gave the explicit Gate E approval on 27 August 2026: migration and security advisers, private-schema isolation from anonymous and signed-in roles, service-role wrapper boundaries, exact origins and secret configuration, the full request, resend, change-email and code matrix, both independent deliveries with synthetic inboxes, idempotent retries, inspected email output, publication-interest boundaries and the retention schedule with its manual deletion process.
-
-Any future change to the pipeline re-runs the relevant part of that contract before deploying, and a synthetic end-to-end lead from `https://mindmake.co` (code read from the provider's synthetic inbox, all three sends `delivered`) is the minimum proof after every function deploy. A provider `queued` response is never claimed as inbox delivery.
-
-
-## Amendment, 28 August 2026: the two-email cap
-
-The release rule that forbade any automated sequence is replaced by a bounded
-one. A lead receives exactly two emails, ever:
-
-1. **The results email**, unchanged. Sent on confirmation by
-   `submit-mindmake-brief`, or by `mindmake-personal-read` for a visitor who
-   completed the personal journey instead.
-2. **One follow-up, fourteen days later**, sent by `send-follow-ups` from a
-   daily 09:20 UTC job. Subject: "The better version of our offer". One short
-   paragraph, one sharper offer, one link back to the start. No images and no
-   tracking beyond the mailer's defaults.
-
-Nothing else sends. There is still no drip, no newsletter from this site and no
-list import; the publication remains a separate choice the visitor makes
-themselves.
-
-What keeps the cap true rather than merely stated:
-
-- `follow_up_queue` is unique on `(email, source)`, so a returning visitor
-  cannot stack a second follow-up.
-- Each send carries a deterministic idempotency key derived from the queue row,
-  so a rerun cannot duplicate a message.
-- `sent_at` is written only when the provider accepted the message, and a row
-  that fails three times is abandoned rather than retried forever.
-- The row is purged seven days after it sends. The public privacy notice states
-  this schedule.
-- `src/test/brief2-email-cap.test.ts` walks every function under
-  `supabase/functions` and fails if the set of things that can send mail, or the
-  set of places a follow-up can be created, ever grows.
-
-
-## Amendment, 29 August 2026: the read has to earn the send
-
-The personal read on `/ai-brain` went out once as a job title pasted on the
-front of three template sentences, chosen by two taps, so everybody who tapped
-the same pair received the same email with their name on it. The verdict on it
-was "embarrassingly generic, I'd rather send nothing". That is now the
-implemented behaviour rather than a preference.
-
-**What the read is made of.** The paragraph that leads it is the synthesised
-outside read of the visitor's actual company, produced by the same
-`assembleDossier` orchestrator `/ai-gtm` runs on, reused in process. Everything
-after it describes what the brain would do, and those lines are templates on
-purpose, because they describe our product and our product does not vary by
-visitor. What has to vary is the company, and now it does.
-
-**The gate.** `assessRead` in `mindmake-personal-read/core.ts` reads the
-assembled read the way its recipient would and refuses to let it be sent if the
-answer to any of these is anything short of yes. A refusal returns
-`not_worth_sending`, the page says so plainly, and no email is sent.
-
-1. Is there anything here that could only have been written about this company?
-2. Would this same paragraph fit their closest competitor without changing a word?
-3. Does it claim to know something about them that nothing outside could know?
-4. Does it state a role or company that enrichment did not actually establish?
-5. Is the only specific thing in it their own job title, handed back to them?
-6. Is it short enough to be read in under a minute?
-7. Does it use an em dash, American spellings, or raise its voice?
-8. Does it carry placeholder residue, or the same sentence twice?
-9. Is every sentence plain enough to follow at speed?
-10. Is the company we are naming actually the one behind their email address?
-11. Does it pass judgement on how established or successful they are?
-12. Does it tell them their organisation is failing or under strain?
-13. Does it flatter them instead of observing them?
-14. Does it recite their infrastructure back at them?
-15. Does it ask the reader more than one thing?
-
-**Repair comes before refusal.** The synthesis reliably writes four good
-sentences and then one more that recites the stack, grades how established the
-company is, or flatters it. Refusing the whole read over the last sentence
-throws away four good ones to avoid a bad one, and the reader loses a real read
-because a model would not stop writing. So `sanitiseDescriptor` drops the
-sentences that cannot be sent and keeps the ones that can, and the gate then
-runs on what is left. A paragraph that is nothing but bad sentences ends up
-empty and is refused on the specificity question, which is the honest outcome
-for it.
-
-**Why these are deterministic.** A judge that scores the same input differently
-on two runs cannot be a hard gate on a live send path, and a gate that sometimes
-lets a bad email through is not a gate. What a machine cannot check is written
-here rather than pretended away: it cannot tell whether the paragraph is *true*,
-only whether it is specific, in voice, and within its rights.
-
-**Where the questions came from.** Every one of them is a thing that actually
-happened, not a thing imagined. Questions 10, 11 and 12 were written after three
-live runs: Brandfetch resolved a one-person consultancy's company to the
-founder's personal name, so the email would have opened "You are Director at
-Kristof Hermans"; the synthesis told a real business it was "still establishing
-your market position", which is a verdict on somebody's company delivered
-unasked; and it recited the reader's own hosting stack back at them, which reads
-as surveillance rather than insight.
-
-**What the live battery taught, on 29 August 2026.** Fourteen real domains were
-run through the deployed function and the results read rather than counted. It
-found seven defects, six of which no hand-written fixture would ever have
-produced, and `src/test/read-live-corpus.test.ts` now holds the paragraphs it
-actually returned so a future model or provider change shows up as a failing
-test rather than as a worse email.
-
-| What came back | What it exposed |
-|---|---|
-| "built on Salesforce, Contentful and Ruby on Rails" | A vendor list can never be complete. The construction is the tell, so the rule now matches "built on / powered by / runs on" followed by named products. |
-| "now employing 501, 1000 people" | Our own dash rule turned a headcount band into two wrong numbers. A dash between digits is a range, not a clause. |
-| "University Of Oxford" | Company names need the same minor-word rule as job titles. |
-| "You remain the world's leading research and teaching institution" | Flattery is the verdict rule with its sign flipped, and it is what the visitor came here to get away from. |
-| "you face chronic funding pressures and waiting list backlogs" | True, widely reported, and still not ours to hand somebody unasked. The house rule against doom is not only about the word "failing". |
-| "YAY! Mushrooms" | A real Marks and Spencer product. A bare test for an exclamation mark refused a good read over a brand name; our own shouting ends a word, a brand carries the mark inside a capitalised token. |
-| Four whole reads refused over one trailing sentence | The remedy was wrong, not just the rule. Repair now comes before refusal. |
-
-The re-run that verified those fixes exposed the next layer down, which is what
-iterating against real data looks like rather than a sign something is wrong:
-
-| What came back | What it exposed |
-|---|---|
-| "Marks And Spencer", "University Of Oxford" | The dossier's own name skipped the minor-word rule that job titles already had. |
-| "Shopify.com" | A provider handed back the hostname as the name. The first fix keyed on case, on the theory that a raw hostname arrives in lower case and a real name carries a capital; the pipeline then returned "Shopify.com" with the capital and the rule never fired on the case it was written for. The suffix now comes off only when the name restates the visitor's own domain, which is when it carries nothing they do not already know. The cost is that a visitor at Booking.com, which really is called that, would be addressed as "Booking": one company against every company whose provider hands back a hostname. |
-| "Shopify remains the dominant...", "You remain the backbone of British healthcare" | The flattery rule only matched a second-person subject. |
-| The NHS read cut to two thin sentences | The specificity floor was measured across the whole body, so stripping the doom sentence left the part that carries the specifics nearly empty while the total still cleared. The floor now applies to the repaired paragraph itself. |
-
-Six of the gate's own fixtures failed against that raised floor because they were
-shorter than anything the pipeline actually returns. The fixtures were lengthened
-rather than the floor lowered: it is calibrated from real reads, which run to
-three hundred characters and up.
-
-### Why the gate keeps finding the next phrasing, and what would stop it
-
-Three passes of the doom rule each caught the phrasing in front of it and missed
-the next one: "chronic funding pressures", then "waiting list backlogs", then
-"limited resources and mounting demand". The rule now matches the qualifier and
-lets the noun be anything, which generalises further, but the pattern is worth
-naming rather than fixing again quietly.
-
-**The filtering is compensating for a prompt aimed somewhere else.**
-`synthesizeDescriptor` was written for `/ai-gtm`, where the paragraph is
-addressed to a company about its market and "you face rising costs" is on brief.
-The personal read reuses it unchanged, so doom, flattery and stack recitals are
-not stray defects: they are the GTM prompt working as intended, in a place that
-wants something different.
-
-**The durable fix was a personal-read variant of the prompt**, and it is now in
-place as `synthesiseWorkingLife` inside the personal-read function. The shared
-`synthesizeDescriptor` is untouched, because `/ai-gtm` has been reviewed and
-approved as it is; this is a second prompt on the same provider plumbing.
-
-**The two reads are different artefacts, and that is the point.** The GTM prompt
-says so itself: a sharp outside read of a company, ending on a plain statement
-about the business. A leader asking what AI changes about their own capability
-and output is asking a different question, and for a while this page answered
-the first one with a job title pasted on the front. The company read is now the
-*input* to the personal one rather than the thing that gets sent: what comes
-back is about the seat, what somebody in it spends their judgement on, and where
-the ceiling on their own week sits. If the personal read cannot be written,
-nothing is sent, because falling back to the company read is how the page ended
-up generic in the first place.
-
-### What testing real people found
-
-Five of Krish's own LinkedIn connections were run through the live person
-lookup on 29 August 2026, using their real names and their real employers'
-domains. Preview only: nothing was stored and no email was sent to any of them.
-
-| Person | What PDL returned | What they actually do |
-|---|---|---|
-| Lisa Burton | Vice President at HearstLab | correct |
-| Lewis Maleh | Founder and Chief Executive at Bentley Lewis | correct |
-| Abimbola Ikusika | Customer Success Specialist at Accomplishr | correct |
-| Alanna Laforet | no match, read refused | enGEN3 has thin public data, and the refusal is the system working |
-| Jay Gilden | Co-founder and Executive Director at Openly | **wrong person**. He is I&A Associate Director at Wavemaker |
-
-**One in four resolved matches was the wrong human being.** That number matters
-more than any of the presentation defects, because the others make a read read
-badly and this one makes it say something false about a named individual in an
-email addressed to them personally.
-
-It also corrects an earlier claim. Two of three public figures were reported as
-resolving, as though that were a hit rate; nobody had checked whether the two
-were the *right* people. Benioff and Collison happen to be unmistakable. Ordinary
-names are where this breaks, and Jay Gilden is an ordinary name.
-
-### The employer cross-check
-
-PDL treats the company as a signal rather than a filter, so a common name comes
-back attached to the wrong employer. Testing with real people rather than
-invented ones returned an I&A associate director at Wavemaker as a co-founder at
-Openly: same name, different person. `min_likelihood` cannot catch that, because
-the match is confident and wrong. The employer PDL returns is now checked
-against the domain that was asked about, and a mismatch discards the person and
-falls back to a company-only read. A wrong job title is worse than no job title,
-and an email that opens by telling somebody they work somewhere they do not is
-the worst version of it.
-
-Verified against the case that exposed it: Jay Gilden at wavemaker.com now
-returns a company-only read, and Lisa Burton at hearstlab.com still resolves.
-The control matters as much as the case. A guard that discarded everybody would
-look identical to a guard that worked, if the only thing checked was that the
-bad match stopped appearing.
-
-`src/test/read-quality-gate.test.ts` holds forty-odd scenarios against it,
-including every division, every pair of answers, a descriptor in another
-language, a company that capitalises itself oddly, and the provider states that
-return nothing. One of them earns its place twice: the first version of the
-"passes judgement" rule matched the bare word "behind", which appears in the
-Product division's own line as a preposition, so it would have silently refused
-every visitor who picked Product and nobody would have known why.
-
-## Amendment, 29 August 2026: every dead end ends in a person
-
-The gate above is the right behaviour and it was only half a change. A read that
-cannot be written well enough to send is not sent, and until this amendment the
-visitor was then told so and left there. Alanna Laforet at enGEN3 is the shape of
-it: a real person gave four true details, waited, and received one sentence
-explaining that nothing was coming. She is a lead we asked to leave.
-
-Nine failure paths across the site did the same thing. Not one offered a human,
-and by the time most of them fire **the page already holds the visitor's first
-name, last name, work email and division**, so the offer does not need a form.
-It needs a button.
-
-### The nine
-
-| Where | Offer | Details already held |
-|---|---|---|
-| `/ai-brain` read refused by the gate | panel | yes |
-| `/ai-brain` read request failed | panel, with a retry | yes |
-| `/ai-brain` rate limited | panel | yes |
-| `/ai-brain` results email would not send | panel, with a retry | yes |
-| Shared capture, personal address | quiet line inside the error | partly, carried across |
-| `/ai-gtm` verification code would not send | quiet line | yes, from the journey |
-| `/ai-gtm` code wrong, expired or locked | quiet line | yes, from the journey |
-| `/ai-gtm` neither delivery confirmed | panel | yes, from the journey |
-| Ask bar, unmatched question | quiet line | no, so it asks |
-
-Two paths deliberately have no offer. The `/ai-gtm` live company read failing is
-not a dead end: the journey carries on to a real recommendation and a real
-hand-off, and a second door beside a working one only asks somebody to guess
-which is the real one. It gained the honesty about whose fault it is instead.
-The live market board is content rather than conversion, and stays as it is.
-
-The rule for which shape: a **panel** where the road is definitively closed, so
-the offer is one click; a **quiet line** where a working retry is sitting right
-there, so the panel does not shout over it.
-
-### The register
-
-Dry and self-deprecating, and the machine is the butt of the joke every time.
-Never the visitor: a joke at the expense of somebody who has just been let down
-is not levity, it is a second insult. The apology comes first and plainly, then
-one line about our own machine, then the button. Nobody arrived wanting to
-laugh, so the joke is small and gets out of the way.
-
-`src/content/handoff.ts` holds all nine, `src/test/human-handoff.test.tsx`
-holds them to the house style, and both files are inside the site-wide copy
-gates in `src/test/brief2-public-contract.test.ts`.
-
-### The action
-
-`mindmake-personal-read` takes a third action rather than growing a second
-function: it already owns the origin allowlist, the HMAC identifiers, the
-operator address and Resend. `submit-mindmake-brief` is untouched, so
-`/ai-gtm`'s dead ends post here too; the action is a generic person-plus-reason
-capture and does not care which page it came from.
-
-Three things about it are deliberate and each undoes a way this could have gone
-wrong:
-
-- **It does not spend the read limiter.** That meter caps paid provider calls
-  and results emails, and one of the reasons somebody arrives here is that they
-  already tripped it. Charging them for asking for help would leave the dead end
-  most in need of a way out with none.
-- **It does not apply the work-address rule.** The rule exists to serve the
-  reading, and by the time this action runs the reading has already failed.
-  `personal-email` is one of the reasons a visitor can arrive with, so enforcing
-  it here would answer "we cannot read your company" with "and we will not talk
-  to you either".
-- **The visitor gets no email.** Two emails ever is a published promise in
-  `01_CANON.md` and a handoff is neither of them. The operator is told; a person
-  replies as a person. What is capped instead is that notice, at one per address
-  per hour, counted off the rows this function writes. Over the cap the row is
-  still stored and the visitor is still told the truth, because it is with us
-  either way.
-
-### Where the row lives
-
-`public.mindmake_personal_reads` gains `handoff_reason`, with a check constraint
-mirroring the parser's allowlist exactly as `division`, `q1` and `q2` already do.
-`q1` and `q2` stop being required and start being required together: a row is
-either a read, with both answers, or a handoff, with a reason, and
-`mindmake_personal_reads_shape_check` refuses anything that is half of each. RLS
-is unchanged, still on with no policies, still service role only. No new
-personal data is collected, and the retention schedule that covers this table
-already covers all of it.
+The code is stored only as keyed hash plus nonce. Raw internet addresses/browser descriptions are not retained in private brief tables; abuse limits use one-way hashes. Private-schema data and service-role wrappers are unavailable to anonymous and ordinary authenticated browser roles. Do not read, print or archive provider secrets or OTPs in QA evidence.
+
+## Current research provenance
+
+`supabase/functions/_shared/enrich/orchestrate.ts` assembles the dossier with guards in `provenance.ts`:
+
+- Brandfetch returned domain and PDL returned website must match the requested research domain exactly.
+- Merge order is deterministic. A brand name needs an independently matching normalized PDL name, or a literal first-party page title corroborating that name when PDL is missing. A small company does not require a PDL record if first-party corroboration exists.
+- Literal Exa/NewsAPI first-party titles can supply currency evidence. The assembler does not invoke the generated Perplexity launch-summary helper.
+- The factual company read uses the corroborated provider's literal descriptor/tagline through `literalCompanyRead`. `synthesizeDescriptor` is not invoked by assembly; model paraphrases must not become unsupported company facts.
+- Explicit owned alias `themindmaker.ai` (including normalized www form) researches `mindmake.co`. This is business domain configuration, not arbitrary redirect trust; it does not rewrite the visitor's email recipient. Profile lookup and signed-choice domain binding use the same canonical business.
+- Useful generated pressure choices remain a separate analysis layer. Missing evidence is insufficient, not license to manufacture diagnosis or silently accept a different entity.
+
+These checks constrain provenance, not the infallibility of external data. Stale but apparently corroborated provider content remains a risk; no test certifies all future company reads as true.
+
+## Visitor brief, operator digest and download
+
+Visitor output contains the chosen pressure, company read/source/evidence, what AI may carry, what the leader retains, a useful first proof, returned-time value and the illustrative/not-advice foot. It has no diary link. Reply-To reaches the operator mailbox. The operator digest contains the verified email, company/domain, choices and underlying lens, source context, generated brief, route fit and exact publication-interest state. It is a prompt for a useful human reply, never an instruction to chase or import the lead.
+
+The proposal uses paper, an emerald cover rule, Mindmake/company identification and readable labelled sections. Browser article and HTML generator share proposal-section logic. `privateBriefHtml.ts` creates a self-contained HTML download/attachment with system fonts, no scripts and no external requests. Download remains a real file, not a link that depends on retained session state.
+
+## Personal-read path
+
+Personal-read request allowlist: `action, division, email, first_name, last_name, q1, q2`.
+Handoff has its own separately validated contract; neither path accepts browser-authored research.
+
+`mindmake-personal-read` supports `preview`, `send` and the separate `handoff` action. Personal read accepts the documented name, division, q1/q2 and email choices. Preview performs real research but neither persists a delivered read nor sends an email.
+
+`synthesiseWorkingLife` generates a personal working-life interpretation using the provenance-controlled literal company read and verified profile role if available. This remains generative; it is distinct from the factual company field. Product behavior lines are deliberate templates. PDL's returned employer is cross-checked against the requested company domain; mismatch discards the person and uses company-only context instead of inventing a role.
+
+`sanitiseDescriptor` removes unsuitable sentences before the deterministic `assessRead` gate. The gate checks specificity, identity, unsupported role assertions, generic/placeholder or duplicate prose, doom/flattery, infrastructure recitals, house voice and brevity. Refusal returns `not_worth_sending`; nothing is emailed. These heuristics cannot prove a generated paragraph true. No generic company paragraph is substituted for a failed personal interpretation and called a successful personal read.
+
+Successful send emails the visitor, stores `public.mindmake_personal_reads` and upserts the personal-read follow-up queue. The actual API/provider/inbox/persistence path was verified; this release evidence does not claim a second complete browser walk through every personal-read UI state.
+
+## Failure and human recovery
+
+- Research unavailable: label it, retain useful locked choices/manual continuation; do not misidentify the business.
+- Code send fails: do not advance as if sent. Wrong, expired or locked code: no final emails.
+- One final delivery fails: report only the accepted one. Both fail: keep local download and human fallback.
+- Provider rate limits or personal-read quality refusal: give the honest reason and an appropriate human/retry route.
+
+`src/content/handoff.ts`, the handoff component and `mindmake-personal-read`'s handoff action define recovery for personal-read refusal/request/rate/send failures, personal-address input, brief verification failures, unconfirmed final delivery and unmatched ask-bar questions. A panel is appropriate when closed; a quiet line sits beside an available retry. Copy apologises plainly; any dry humour is about the machine, never the visitor.
+
+Handoff reuses known details when present, allows a personal address, and does not consume the paid-read limiter. It sends no visitor email. Operator notice is rate-limited separately. Personal-read storage constrains a row to a read with both answers or a handoff reason; RLS remains service-role only. Do not equate an operator send acknowledgement with inbox arrival or claim storage succeeded without the response/evidence establishing it.
+
+## Follow-up contract and known wording discrepancy
+
+The approved sequence is a results email followed by one day-14 offer, not a drip campaign. Brief verification is an additional service email. `send-follow-ups` reads due rows at the configured daily 09:20 UTC schedule, uses deterministic row-based idempotency, records provider acceptance in `sent_at`, and abandons a row after three failed attempts. The configured subject is “The better version of our offer”. No publication signup occurs.
+
+`follow_up_queue` is unique on `(email, source)`. This prevents concurrent duplicate queue rows per source. It is **not** a lifetime “exactly two emails ever” guarantee: sources differ, old sent rows are purged and future explicit requests can create new work. Do not claim stronger enforcement than implemented. `brief2-email-cap.test.ts` guards the allowed sending surfaces; it does not establish inbox delivery or a lifetime identity cap.
+
+**Source correction ready; production deployment pending:** the deployed visitor results template still says “No sales emails will follow automatically”, despite the approved automated day-14 offer. The local `submit-mindmake-brief/core.ts` candidate changes only that boundary to: “We will send one follow-up fourteen days from now. There is no ongoing email sequence. If you hear from Krish separately, it will be because he has a useful next move, a strong fit or something worth questioning.” A focused regression checks both HTML and plain text and rejects the old claim. Four backend suites (115 tests), all three Deno closure checks and scoped lint pass. No deployment or email send has occurred for this correction; do not claim the live contradiction resolved until source-bound deployment/readback.
+
+The due queue and its send-after time were verified. The daily 09:20 UTC schedule is configured in source; this current record does not include a fresh 24 September live scheduler readback and must not be treated as proof of current cron activation. The future day-14 email was not sent early and the live cron sender was not invoked in release QA. No claim that that future message has arrived is made.
+
+The pending source-only follow-up disclosure also passes all nine executable Deno core tests. It remains undeployed until the coordinated source release and readback.
+
+## Retention
+
+Unverified brief requests delete seven days after creation; abuse-event hashes after 48 hours; verified requests, consent and delivery records twelve months after last update. Follow-up rows are purged seven days after sending. The private daily purge and corresponding public privacy notice are the implementation authorities. Expired code is not immediate record deletion. Earlier deletion follows the published contact address and a manually verified private process.
+
+Synthetic release cleanup deletes only captured request/read/queue IDs constrained by the designated mailbox and source, then independently verifies zero. It must never delete all leads for convenience. Receipt emails are retained separately as evidence.
+
+## Release evidence and repeatable verification
+
+The actual promoted progressive frontend completed company research → preview → code → confirmed brief → visitor and operator INBOX receipts → ready database state → exactly one due queue row → actual success-screen HTML download. The downloaded file matched 15 live article fragments and was visually inspected at 1440px and 390px without overlap/overflow/external requests. Exact synthetic records were removed and zero read back. IDs and hashes are in the backend evidence record.
+
+Use `scripts/qa/release-backend-canary.mjs` only with explicit designated-canary enablement and authorized recipient. It supports old/new entry layouts but final release evidence must identify the one actually exercised. Read fresh code in memory, never log it, wait for actual endpoint/download events, verify actual inbox receipts rather than `queued`, and record cleanup. Scope the actual outer dialog so a nested confirmation is not mistaken for a duplicate product defect.
+
+Changes rerun relevant unit/type/lint and runtime checks, source/deployment parity, and an authorized live canary where behavior changed. A type-only redeploy can reuse prior behavior evidence only with proved runtime equivalence; record the limit. `07_DEPLOY_RUNBOOK.md` owns the complete release procedure. Physical VoiceOver/TalkBack were not performed under the owner's release-specific exception; this backend evidence does not claim otherwise.

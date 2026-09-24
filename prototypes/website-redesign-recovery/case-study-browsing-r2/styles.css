@@ -258,7 +258,7 @@ body { margin: 0; background: #0a100d; }
    interface does not narrate its own controls. "All eight" stays below. */
 .expanded-close {
   position: absolute; z-index: 5; top: clamp(12px, 1.2vw, 20px); right: clamp(12px, 1.2vw, 20px);
-  display: grid; place-items: center; width: 44px; height: 44px; cursor: pointer;
+  display: grid; place-items: center; min-width: 46px; min-height: 46px; cursor: pointer;
   border: 1px solid rgba(238, 226, 204, .3); background: rgba(4, 14, 10, .6);
   color: var(--paper); font-size: 15px; line-height: 1;
 }
@@ -493,19 +493,10 @@ body { margin: 0; background: #0a100d; }
   .region .expanded-visual { grid-area: 3 / 1; align-self: stretch; }
 }
 
-/* The bands are sized against Newsreader as the site serves it, not against the
- * Georgia the prototype falls back to — the real face is wider, and measured on
- * the built page it needs a fifth quote line above 345px and a sixth below it.
- * Sizing this off the fallback is what put the attribution inside the figure
- * frame on the first build of the live page. */
-@media (max-width: 345px) {
-  .region .expanded { --band-quote: calc(var(--q-size) * 1.44 * 6 + 42px); --band-figure: 210px; }
-}
-
 @media (max-width: 380px) {
   .region { flex-basis: 88vw; }
   .expanded-head h2 { font-size: 24px; }
-  .region .expanded { gap: 10px; padding: 14px 13px; }
+  .region .expanded { gap: 9px; padding: 10px 13px; }
   .expanded-copy > p { font-size: 13.5px; }
   .expanded-copy blockquote { font-size: 14px; padding-left: 12px; }
   .expanded-visual .mm-fig { padding: 10px 11px; }
@@ -520,6 +511,91 @@ body { margin: 0; background: #0a100d; }
   .expanded-visual .mm-fig-label { font-size: 16px; }
   .expanded-visual .mm-fig-bar { height: 11px; }
   .expanded-visual .mm-fig-offer svg { height: 58px; }
+}
+
+
+/* The bands are sized against Newsreader as the site serves it, not against the
+ * Georgia the prototype falls back to — the real face is wider, and measured on
+ * the built page it needs a fifth quote line above 345px and a sixth below it.
+ * Sizing this off the fallback is what put the attribution inside the figure
+ * frame on the first build of the live page. */
+@media (max-width: 345px) {
+  /* At 320 the card has about 370px for four bands. Shaving pixels off each
+     one in turn does not converge; a slightly smaller quote does, because it
+     buys a whole line back rather than a fraction of one. */
+  .region .expanded {
+    --q-size: 12.5px;
+    --band-quote: calc(var(--q-size) * 1.44 * 6 + 60px);
+    --band-figure: 184px;
+  }
+  /* The fourteen-mark figure has a taller natural floor than the band it is
+     given here, so it is the one shape that has to come down with it. */
+  .expanded-visual .mm-fig { padding: 8px 10px; }
+  .expanded-visual .mm-fig > p:last-child { margin-top: 6px; font-size: 8.5px; }
+  .expanded-visual .mm-fig-marks { gap: 4px; }
+  .expanded-visual .mm-fig-marks i { width: 11px; height: 14px; }
+  .expanded-visual .mm-fig-pair { margin-top: 6px; font-size: 11px; }
+  .expanded-visual .mm-fig-pair b { font-size: 20px; }
+  .region .expanded { gap: 8px; }
+}
+
+
+/* A phone on its side, and any short wide window. The card is 183px tall here,
+ * which no stack of four bands can hold — so the card stops being a stack. The
+ * width that a landscape viewport does have goes to a second column, and the
+ * figure moves into it beside the testimony rather than under it. The outcome
+ * prose goes, as it does on any short screen: the title states the result and
+ * the figure states its size. */
+@media (max-width: 1100px) and (max-height: 520px) and (orientation: landscape) {
+  .region { flex-basis: 92vw; }
+  .region .expanded {
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    column-gap: clamp(14px, 2.4vw, 26px); row-gap: 4px; padding: 8px 16px;
+    align-content: safe center;
+  }
+  .region .expanded-head { grid-area: 1 / 1; }
+  .region .expanded-copy > p { display: none; }
+  .region .expanded blockquote { grid-area: 2 / 1; }
+  .region .expanded-visual { grid-area: 1 / 2 / 3 / 3; align-self: center; }
+  .region .expanded blockquote cite { margin-top: 5px; }
+  .region .expanded { --band-quote: auto; --q-size: clamp(12.5px, 3vw, 14px); }
+  .expanded-head h2 { font-size: clamp(19px, 3.4vw, 24px); }
+  .expanded-visual .mm-fig { padding: 10px 12px; }
+  .expanded-visual .mm-fig > p:last-child { margin-top: 8px; font-size: 9px; }
+  .expanded-visual .mm-fig-marks i { width: 13px; height: 18px; }
+  .expanded-visual .mm-fig-month { grid-template-columns: repeat(7, 13px); gap: 3px; }
+  .expanded-visual .mm-fig-month i { width: 13px; height: 13px; }
+  .expanded-visual .mm-fig-pair { margin-top: 8px; }
+  .expanded-visual .mm-fig-pair b { font-size: 22px; }
+  .expanded-visual .mm-fig-value { font-size: 40px; }
+  .expanded-visual .mm-fig-label { font-size: 14px; }
+  .expanded-visual .mm-fig-bar { height: 12px; }
+  .expanded-visual .mm-fig-offer svg { height: 54px; }
+}
+
+/* A short desktop window — a 1440x700 laptop with browser chrome. The open
+ * panel needed 631px of a 528px box, which put the actions row outside its own
+ * surface. The headline and the figure give the height back; nothing is
+ * removed, because on a desktop there is room to read all of it. */
+@media (min-width: 861px) and (max-height: 820px) {
+  .expanded-head h2 { font-size: clamp(28px, 3vw, 44px); }
+  .proof-shell[data-mode="story"] .region.is-selected .expanded {
+    gap: clamp(10px, 1vw, 18px) clamp(20px, 2.4vw, 48px);
+    padding: clamp(16px, 1.8vw, 28px);
+  }
+  .expanded-copy > p { font-size: clamp(14px, 1vw, 16px); }
+  .expanded-copy blockquote { margin-top: clamp(12px, 1.2vw, 18px); font-size: clamp(15px, 1.15vw, 19px); }
+  .expanded-visual .mm-fig { padding: clamp(14px, 1.4vw, 22px); }
+  .expanded-visual .mm-fig-marks i { width: clamp(16px, 1.3vw, 22px); height: clamp(24px, 2vw, 32px); }
+  .expanded-visual .mm-fig-pair { margin-top: 14px; }
+  .expanded-visual .mm-fig-pair b { font-size: clamp(28px, 2.4vw, 40px); }
+  .expanded-visual .mm-fig-value { font-size: clamp(44px, 4.6vw, 64px); }
+  .expanded-visual .mm-fig-label { font-size: clamp(17px, 1.3vw, 22px); }
+  .expanded-visual .mm-fig-bar { height: clamp(18px, 1.6vw, 26px); }
+  .expanded-visual .mm-fig-month { grid-template-columns: repeat(7, clamp(17px, 1.5vw, 24px)); gap: 4px; }
+  .expanded-visual .mm-fig-month i { width: clamp(17px, 1.5vw, 24px); height: clamp(17px, 1.5vw, 24px); }
+  .expanded-visual .mm-fig-offer svg { height: clamp(90px, 8vw, 130px); }
 }
 
 /* ---- motion ------------------------------------------------------------- */

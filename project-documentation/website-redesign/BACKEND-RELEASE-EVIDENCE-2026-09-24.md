@@ -165,3 +165,46 @@ The two final closures were independently downloaded to `C:/Users/krish/.scratch
 - mindmake-personal-read/index.ts: `1093FE13DB10D9A40E18576F3EF67BC8B6251F29415E12732C8C38425D21FAF3`
 
 Earlier real inbox/persistence/queue receipts remain evidence for the runtime-equivalent backend. No browser or email was run for this type-only increment. A fresh browser canary on the newly published frontend, including its actual success-screen download, is still pending the frontend promotion; the earlier browser receipts exercised the prior live frontend. The prepared QA driver supports both entry layouts and an explicit actual-download action without substituting generated fixtures for that final check.
+
+## Post-publication new-frontend canary — completed 24 September 2026
+
+This addendum closes the pending new-frontend/browser-download boundary above. The release owner verified production promotion before authorizing this run: PR170 merge `3ee77cf9956f98dd73f69d0b48745930335e74e1`, Vercel production `dpl_EZigNAi6Uc6Apcq75XsFnHETt5W8`, deployment URL `https://mindmake-bh0d8hczk-krish-rajas-projects.vercel.app`, public `https://mindmake.co`, script `/assets/index-CZk5zedf.js`. Publication identity and the separate route/motion/browser matrix are recorded in `RELEASE-2026-09-24.md` by the release owner.
+
+The live canary itself used `https://mindmake.co/?start=brain` in a fresh Chromium session at 1440×900 and the designated inbox only. It observed the new **company-then-profile** entry, not the prior combined form:
+
+1. Work email → Read the business → First name/Last name/Leadership → See the company read.
+2. HTTP200 company read correctly resolved the legacy inbox to Mindmake at `mindmake.co`, with the literal corroborated description and first-party AI GTM source. Three choices returned by the endpoint; the existing generic option set appeared in this browser journey.
+3. Context pressure → Grow this business → approved folio preview → Keep the private brief → explicit “Email verification is next” confirmation → Continue → email/code step. Publication interest stayed unticked.
+4. Exactly one code-send action, one fresh inbox code and one successful confirmation. No resend, guessed code or extra results send.
+5. Success UI displayed the completed “Your private brief” article and actual Download my brief control.
+
+The first read-only traversal stopped before any send because the QA driver's generic dialog selector matched the expected nested folio confirmation and parent. The driver was scoped to the observed outer `.mm-brief-panel[role="dialog"]`, and the browser restarted. This was a harness selector correction only, not a product repair; the only completed delivery is the request below.
+
+### Actual delivery, persisted state and exactly one queue
+
+Baseline for the designated inbox: zero brief requests and zero brief follow-up rows.
+
+- Request ID: `5dadd5c1-5d27-468a-ad51-97d53391452b`.
+- Created `2026-09-24T15:13:06.428362Z`; verified `2026-09-24T15:13:39.362906Z`.
+- Confirmation HTTP200 `confirmed`; assembly `ready`; all three provider IDs present; visitor/operator delivery states `queued`.
+- Verification INBOX receipt: `1a0d3fa47f0ac47c`, `15:13:08Z`.
+- Visitor brief INBOX receipt: `1a0d3fac761c5add`, `15:13:40Z`, “Your Mindmake brief for Mindmake”. Its HTML attachment and correct literal Mindmake description were confirmed; no known wrong entity/predictive-software claim.
+- Operator digest INBOX receipt: `1a0d3fabe3daa4f7`, `15:13:40Z`, “Mindmake brief: Mindmake | Too much important context lives in my head”.
+- Visitor receipt initially did not appear in a fresh-time search, then was found in INBOX using its exact subject. No resend was used to mask the observation gap. Provider acceptance alone was not counted as delivery.
+- Exactly one follow-up row: `40afb55f-5a23-475f-ae9d-b4d4fdc7da7c`, source `brief`, due `2026-10-08T15:13:40.444Z`, attempts0, unsent. No cron sender invoked.
+
+### Actual completed-journey download
+
+Clicked the real production success-screen **Download my brief** button and captured its browser download event. This was not a test fixture or locally regenerated substitute.
+
+- Saved file: `C:/Users/krish/.scratch/mindmake-production-canary-20260924/live-private-brief-1790262854870.html`.
+- Size: **3,755 bytes**; SHA256 `0A85D52E50000045E1ED602E3DB8FC2B526A0A8EB7A93C79779C6583F6FA4D20`.
+- **15 content fragments** extracted from the actual on-screen article matched the saved HTML, including the selected pressure, company read, evidence, AI/human boundary, first proof and returned time.
+- Opened the downloaded file at 1440px and 390px; no horizontal overflow, placeholder residue or external requests. Both screenshots were visually inspected: text/cards readable with no overlap or clipping.
+- Screenshot paths use the same basename with `-1440.png` and `-390.png` in the designated scratch directory. The saved artifact contains only the authorized synthetic visitor's brief, not verification codes or secrets.
+
+### Precise cleanup and final boundary
+
+Deleted exactly the captured request ID and captured unsent follow-up ID, additionally constrained by the designated email and queue source. One of each removed. Independent readback returned **remaining_brief0 / remaining_queue0**. No other leads were touched. The three receipt emails remain as evidence. The canary browser was stopped through its owned session and exited0.
+
+The promoted progressive frontend, real code verification, actual visitor/operator inbox delivery, stored ready brief, single due follow-up, and actual completed-journey download have now all been verified together. No further sends were made. Physical VoiceOver/TalkBack remain the separately documented owner-approved exception; nothing in this browser/backend canary claims those checks passed.

@@ -1,6 +1,6 @@
 # Mindmake website redesign recovery state
 
-## 24 September 2026: approved R3 production delivery, in progress
+## 24 September 2026: approved R3 live
 
 Krish approved R3 and authorized production publication after two corrections and end-to-end verification: history and leadership dividend must remain pinned while their scroll-driven sequences complete. Everything else stays as approved. The R3 reference is immutable.
 
@@ -10,11 +10,11 @@ Delivery is `src/pages/Index.tsx` plus `src/components/homepage-release/`, compi
 
 Do not claim release-ready from the earlier R3 receipts. New production evidence belongs in `artifacts/homepage-release/` and must bind actual source hashes, visible text, scroll inputs and pin geometry. The old entry-reveal checks did not prove the missing interaction.
 
-The live backend test exposed and repaired a company-identity provenance defect. Enrichment v44, brief v19 and personal-read v24 have deployed-source readback, correct canonical and owned-alias reads, actual email receipts, persistence/follow-up checks and exact synthetic-row cleanup. See `BACKEND-RELEASE-EVIDENCE-2026-09-24.md` for the precise evidence and limitations. No live cron was invoked.
+The live backend test exposed and repaired a company-identity provenance defect. Current deployed versions are enrichment v44, brief v20 and personal-read v25. The last two supersede v19/v24 with type-only corrections whose emitted JavaScript was independently verified identical. Deployed-source readback, correct canonical and owned-alias reads, actual email receipts, persistence/follow-up checks and captured synthetic-row cleanup are recorded in `BACKEND-RELEASE-EVIDENCE-2026-09-24.md`. Earlier previous-frontend/API receipts remain separate from the successful post-promotion new-frontend canary: company-first entry through actual verification, visitor/operator INBOX receipts and the actual success-screen download. No live cron was invoked.
 
-The built homepage passed all 12 ordered-state cases across Chromium, Firefox and WebKit, desktop and mobile, including forward/reverse exits and reduced-motion/short-height fallbacks. The final route-wide matrix remains a publication gate. A separate Results-page parsed-server stylesheet hydration defect was corrected without changing CSS or design; a parsed-HTML regression test now protects it.
+The built homepage passed all 12 ordered-state cases across Chromium, Firefox and WebKit on both Linux and macOS, including forward/reverse exits and reduced-motion/short-height fallbacks. Final CI passed 531 tests, 208 route cases and nine navigation supplements. A separate Results-page parsed-server stylesheet hydration defect was corrected without changing CSS or design; a parsed-HTML regression test now protects it.
 
-Krish explicitly authorized publication after all other checks pass with physical iPhone VoiceOver and Android TalkBack checks recorded as outstanding for this release only. Browser emulation is not a physical-device pass. Frontend production remains unchanged until an explicit promotion record is added.
+Krish explicitly authorized publication after all other checks pass with physical iPhone VoiceOver and Android TalkBack checks recorded as outstanding for this release only. Browser emulation is not a physical-device pass. PR #170 merged as `3ee77cf9956f98dd73f69d0b48745930335e74e1`; `mindmake.co` now serves READY production deployment `dpl_EZigNAi6Uc6Apcq75XsFnHETt5W8`. Public HTTP checks and the live scroll/fallback matrix passed. Exact receipts and remaining follow-up are in `RELEASE-2026-09-24.md`.
 
 Durable system update: ai-harness source `852c8f6`, evidence `7444d8d`; release `v2026.09.24.2` installed on this Codex client. Full harness checks and 24 adversarial motion-evidence tests passed; fresh-session canary rejected screenshot/attribute-only proof. Other clients and remote publication are not claimed.
 

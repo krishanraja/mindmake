@@ -2,7 +2,7 @@
 
 ## Current backend release — 24 September 2026
 
-Backend deployment is complete; frontend R3 promotion is **not yet claimed here**. The frontend release authority and gates are in [RELEASE-2026-09-24](website-redesign/RELEASE-2026-09-24.md). Exact backend evidence, source hashes, canary IDs and cleanup are in [BACKEND-RELEASE-EVIDENCE-2026-09-24](website-redesign/BACKEND-RELEASE-EVIDENCE-2026-09-24.md), whose final addendum records the final versions below.
+Backend deployment is complete and frontend R3 is live from PR #170, merge `3ee77cf`, deployment `dpl_EZigNAi6Uc6Apcq75XsFnHETt5W8`. The frontend release authority, gates and public readback are in [RELEASE-2026-09-24](website-redesign/RELEASE-2026-09-24.md). Exact backend evidence, source hashes, canary IDs and cleanup are in [BACKEND-RELEASE-EVIDENCE-2026-09-24](website-redesign/BACKEND-RELEASE-EVIDENCE-2026-09-24.md), whose final addendum records the final versions below.
 
 1. Verify authenticated target `bkyuxvschuwngtcdhsyg`; never use a connector exposing only a different project. Do not read or log credentials.
 2. Preserve exact-domain provider checks, corroborated company identity, literal factual descriptions and first-party source titles. Only the documented owned alias `themindmaker.ai` maps to `mindmake.co` for research/signatures; email recipients remain unchanged. Missing corroboration stays honest, not a fabricated successful read.
@@ -11,7 +11,7 @@ Backend deployment is complete; frontend R3 promotion is **not yet claimed here*
 5. Verify real canonical and owned-legacy company reads, then only the authorized operator-inbox canaries. Actual inbox receipt, persisted state and one due follow-up row are required; provider `queued` alone is insufficient. Never invoke the live cron sender to test a future follow-up.
 6. Capture exact synthetic IDs, delete only those test rows and confirm zero. Keep ordinary customer rows/queues untouched. Verification codes and full email bodies do not belong in evidence files.
 
-Executed: code verification, visitor brief and operator digest reached INBOX; personal-read preview/send also passed and its email reached INBOX. Both journeys persisted the expected rows and one day-14 queue each; exact synthetic rows were removed and checked absent. The generated private-brief HTML was actually downloaded and visually inspected at desktop/mobile widths, self-contained and without overflow. Personal-read verification used its public API contract rather than a second browser walkthrough; print PDF was generated, not independently visually graded. Physical VoiceOver/TalkBack remain the owner's explicitly recorded, release-only exception, not passes.
+Backend preparation: code verification, visitor brief and operator digest reached INBOX through the previous live frontend; personal-read preview/send also passed through its public API and its email reached INBOX. Both journeys persisted the expected rows and one day-14 queue each; exact synthetic rows were removed and checked absent. The private-brief HTML generator was downloaded with a representative fixture and inspected at desktop/mobile widths, self-contained and without overflow. These checks alone do not prove the new frontend's complete visitor-to-download flow; its post-promotion canary is recorded separately in the release evidence. Print PDF was generated, not independently visually graded. Physical VoiceOver/TalkBack remain the owner's explicitly recorded, release-only exception, not passes.
 
 ## Historical background
 

@@ -1,18 +1,18 @@
 # Mindmake current state
 
-Last updated: 24 September 2026 (backend and release-gate status; frontend promotion not yet recorded).
+Last updated: 24 September 2026 (approved R3 live and actual lead-to-download canary verified).
 
 This file is the current delivery truth for `mindmake.co`: what is live, at which identifiers, and what remains open. Why the business exists is in `00_NORTH_STAR.md`. Commercial truth is in `01_CANON.md`. Design truth is in `03_DESIGN_CONTRACT.md`. The dated record of past deployments, repairs and readings that used to sit below the open items is in `history/LOG.md`, newest first; nothing there describes today.
 
 ## Current release status — 24 September 2026
 
-The approved R3 production adapter is in final verification. **This entry does not claim the new frontend has been published.** The current release authority, verified pre-promotion rollback anchor and eventual promotion identity belong to [RELEASE-2026-09-24](website-redesign/RELEASE-2026-09-24.md). Keep that anchor until the release owner records actual promotion and public readback; older deployment identifiers below are historical, not a substitute.
+The approved R3 production adapter is **live** at `https://mindmake.co`. PR #170 merged as `3ee77cf9956f98dd73f69d0b48745930335e74e1`; production deployment is `dpl_EZigNAi6Uc6Apcq75XsFnHETt5W8` (`mindmake-bh0d8hczk-krish-rajas-projects.vercel.app`). Pre-publish CI passed 531 tests, 208 route cases and nine navigation supplements, plus all motion/fallback cases on Linux and macOS. Actual public readback and the live three-engine scroll matrix passed. Current authority, evidence and rollback anchor are in [RELEASE-2026-09-24](website-redesign/RELEASE-2026-09-24.md); older identifiers below are historical.
 
 The bounded backend repair **is deployed** to project `bkyuxvschuwngtcdhsyg`: `enrich-company` v44, `submit-mindmake-brief` v20, `mindmake-personal-read` v25. The final two version increments correct type-only lint errors; emitted runtime JavaScript is unchanged and all deployed source files were read back. Exact-domain provider checks and independently corroborated identity gate the company read. Factual descriptions quote literal corroborated provider evidence, not model paraphrases; news uses literal first-party source titles. The documented owned alias `themindmaker.ai` canonicalizes to `mindmake.co` for research/signatures only, never the recipient address. Arbitrary redirects and lookalike domains are not trusted.
 
-Fresh canonical and legacy reads passed. Actual verification, visitor-brief, operator-digest and personal-read messages reached the designated operator INBOX; corresponding lead/personal rows and single day-14 queues were verified. Only captured synthetic rows were removed, with zero readback; no cron sender was invoked. The actual private-brief HTML generator was exercised through a browser download and the saved file inspected at 1440px and 390px with no overflow or external requests. Evidence, IDs, exact function versions, source readback and limits: [backend release evidence](website-redesign/BACKEND-RELEASE-EVIDENCE-2026-09-24.md), including its final addendum.
+Fresh canonical and legacy reads passed. Earlier backend preparation used the previous frontend and the public personal-read API; those receipts remain separate. After promotion, the actual new company-first frontend journey passed company research, profile/problem/time selection, brief preview, email verification and success. Verification, visitor brief and operator digest all reached the designated INBOX. The persisted brief was ready and exactly one day-14 follow-up existed. The actual success-screen download contained 15 fragments matching the live brief, had no external requests, and passed desktop/mobile overflow and visual checks. Evidence, captured synthetic IDs and cleanup, exact function versions, source readback and limits: [backend release evidence](website-redesign/BACKEND-RELEASE-EVIDENCE-2026-09-24.md), including its final live-frontend addendum. No cron sender was invoked.
 
-The backend targeted suite passed 67 tests across three files; all three Deno closures passed. These do not replace the full release matrix. The owner-approved exception covers only physical iPhone VoiceOver and Android TalkBack for this release; neither was performed, and all other gates still apply.
+The backend targeted suite passed 67 tests across three files; all three Deno closures passed. The full release matrix passed separately. Physical iPhone VoiceOver and Android TalkBack remain unperformed under the owner's release-only exception. The authorized npm audit recorded 23 advisory package entries; bounded and independent applicability reviews found no confirmed visitor-reachable blocker in this static release, while leaving dependency upgrades open. Neither exception nor advisory triage is a blanket quality/security claim.
 
 ## Historical frontend baseline — recorded 7 September 2026
 
@@ -26,7 +26,15 @@ The backend targeted suite passed 67 tests across three files; all three Deno cl
 - Domains are unchanged: `mindmake.co` is canonical (Vercel DNS); `www.mindmake.co`, `themindmaker.ai` and `www.themindmaker.ai` 308-redirect to the apex in one hop with path and query preserved. The publication stays at `https://mindmakerlive.substack.com`. CTRL serves at `ctrl.mindmake.co`.
 - Routes did not change with the rebuild: it replaced what the three pages say and how they behave, not the route contract, so every redirect and crawler surface keeps its shape. Since 4 September 2026 one URL form is canonical: `vercel.json` sets `trailingSlash: false`, so `/ai-brain/` is a 308 to `/ai-brain`; `/intake` and `/testimonials` redirect permanently; `/start` and `/decision` stay temporary on purpose, as short links people type.
 
-## What a visitor can do
+## Current approved release journey
+
+The homepage is the accepted R3 composition: opening, historical stories, work and organisation, leadership dividend, the AI Brain / AI GTM route choice, and footer. Its history and dividend chapters use native reversible scroll-pinned sequences, with natural-flow controls for reduced-motion or insufficient-height viewports. The separate new-age leadership route remains the approved companion page.
+
+Both public doors and the homepage open the same production `LeadBrief`. The visitor enters a work email, adds their name and business role, sees the corroborated company read, chooses a problem and where returned time would help, then sees what AI can carry, what stays with them and a useful first proof. Keeping the brief is an explicit action followed by email verification. The delivered proposal remains visible and downloadable independently of email delivery. No step silently subscribes the visitor to the publication.
+
+The older personal-read API remains deployed and was separately verified; it is not evidence of a distinct personal-read form in this new frontend. The historical live-board layout described below is not the approved R3 homepage. Current public labels are Results, Thinking, Questions leaders ask, Before you start, Media and Start here.
+
+## Historical visitor journey (recorded 7 September 2026)
 
 Two doors, one paid proof, and two ways to be read.
 

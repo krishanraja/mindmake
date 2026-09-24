@@ -1,0 +1,365 @@
+{
+  "at": "2026-09-24T15:10:35.173Z",
+  "deployment": "dpl_EZigNAi6Uc6Apcq75XsFnHETt5W8",
+  "commit": "3ee77cf9956f98dd73f69d0b48745930335e74e1",
+  "origin": "https://mindmake.co",
+  "cases": [
+    {
+      "url": "https://mindmake.co/",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/"
+    },
+    {
+      "url": "https://mindmake.co/ai-brain",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/ai-brain"
+    },
+    {
+      "url": "https://mindmake.co/ai-gtm",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/ai-gtm"
+    },
+    {
+      "url": "https://mindmake.co/case-studies",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/case-studies"
+    },
+    {
+      "url": "https://mindmake.co/new-age-leadership",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/new-age-leadership"
+    },
+    {
+      "url": "https://mindmake.co/blog",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/blog"
+    },
+    {
+      "url": "https://mindmake.co/answers",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/answers"
+    },
+    {
+      "url": "https://mindmake.co/faq",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/faq"
+    },
+    {
+      "url": "https://mindmake.co/contact",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/contact"
+    },
+    {
+      "url": "https://mindmake.co/privacy",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/privacy"
+    },
+    {
+      "url": "https://mindmake.co/terms",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/terms"
+    },
+    {
+      "url": "https://mindmake.co/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan"
+    },
+    {
+      "url": "https://mindmake.co/blog/four-modes-of-ai-literacy-every-leader-needs",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/blog/four-modes-of-ai-literacy-every-leader-needs"
+    },
+    {
+      "url": "https://mindmake.co/blog/why-ai-training-fails-and-building-works",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/blog/why-ai-training-fails-and-building-works"
+    },
+    {
+      "url": "https://mindmake.co/blog/shadow-ai-to-strategic-ai-leaders-guide",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/blog/shadow-ai-to-strategic-ai-leaders-guide"
+    },
+    {
+      "url": "https://mindmake.co/blog/measuring-ai-work-that-pays-back",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/blog/measuring-ai-work-that-pays-back"
+    },
+    {
+      "url": "https://mindmake.co/blog/builder-vs-consumer-mindset-in-ai",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/blog/builder-vs-consumer-mindset-in-ai"
+    },
+    {
+      "url": "https://mindmake.co/blog/ai-vendor-theatre-how-to-spot-and-avoid-it",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/blog/ai-vendor-theatre-how-to-spot-and-avoid-it"
+    },
+    {
+      "url": "https://mindmake.co/blog/a-useful-first-30-days-building-with-ai",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/blog/a-useful-first-30-days-building-with-ai"
+    },
+    {
+      "url": "https://mindmake.co/blog/ai-literacy-for-executive-teams-lab-model",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/blog/ai-literacy-for-executive-teams-lab-model"
+    },
+    {
+      "url": "https://mindmake.co/blog/how-to-increase-creative-leadership-with-ai",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/blog/how-to-increase-creative-leadership-with-ai"
+    },
+    {
+      "url": "https://mindmake.co/blog/how-to-control-your-use-of-ai-as-a-leader",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/blog/how-to-control-your-use-of-ai-as-a-leader"
+    },
+    {
+      "url": "https://mindmake.co/answers/adtech-compete-ai-targeting-models-defensibility-audit",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/answers/adtech-compete-ai-targeting-models-defensibility-audit"
+    },
+    {
+      "url": "https://mindmake.co/answers/ai-decision-tool-trustworthy-leadership-team",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/answers/ai-decision-tool-trustworthy-leadership-team"
+    },
+    {
+      "url": "https://mindmake.co/answers/ai-center-of-excellence-without-engineering-budget",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/answers/ai-center-of-excellence-without-engineering-budget"
+    },
+    {
+      "url": "https://mindmake.co/answers/total-addressable-revenue-ai-products-publishing",
+      "status": 200,
+      "html": "text/html; charset=utf-8",
+      "heading": true,
+      "canonical": "https://mindmake.co/answers/total-addressable-revenue-ai-products-publishing"
+    }
+  ],
+  "assetChecks": [
+    {
+      "path": "/assets/archivo-latin-wght-normal-E0tuGl4L.woff2",
+      "status": 200,
+      "type": "font/woff2",
+      "length": "34928"
+    },
+    {
+      "path": "/assets/newsreader-latin-wght-normal-CCVVNp6i.woff2",
+      "status": 200,
+      "type": "font/woff2",
+      "length": "58084"
+    },
+    {
+      "path": "/assets/source-serif-4-latin-wght-normal-D9elroTD.woff2",
+      "status": 200,
+      "type": "font/woff2",
+      "length": "50824"
+    },
+    {
+      "path": "/assets/index-CZk5zedf.js",
+      "status": 200,
+      "type": "application/javascript; charset=utf-8",
+      "length": null
+    },
+    {
+      "path": "/assets/film-02-poster-gWbG5rBS.webp",
+      "status": 200,
+      "type": "image/webp",
+      "length": "73018"
+    },
+    {
+      "path": "/assets/index-CKTahQoj.css",
+      "status": 200,
+      "type": "text/css; charset=utf-8",
+      "length": null
+    },
+    {
+      "path": "/assets/film-02-loop-BTrFTDcj.mp4",
+      "status": 200,
+      "type": "video/mp4",
+      "length": "1106697"
+    },
+    {
+      "path": "/assets/history-writing-s2-DA2nLCmy.webp",
+      "status": 200,
+      "type": "image/webp",
+      "length": "105038"
+    },
+    {
+      "path": "/assets/ready-for-decision-loop-r01-20s-720p-web-sealed-poster-CdDKUrFk.webp",
+      "status": 200,
+      "type": "image/webp",
+      "length": "19518"
+    },
+    {
+      "path": "/assets/signals-arrive-loop-r01-20s-720p-web-sealed-poster-5aDt_67Q.webp",
+      "status": 200,
+      "type": "image/webp",
+      "length": "22492"
+    },
+    {
+      "path": "/assets/evidence-connects-loop-r01-20s-720p-web-sealed-poster-DnuwyiHS.webp",
+      "status": 200,
+      "type": "image/webp",
+      "length": "18520"
+    },
+    {
+      "path": "/assets/evidence-connects-loop-r01-20s-720p-web-sealed-CIVQM9yo.mp4",
+      "status": 200,
+      "type": "video/mp4",
+      "length": "2935781"
+    },
+    {
+      "path": "/assets/quiet-workshop-growth-loop-r01-20s-720p-web-sealed-DCFLoT_o.mp4",
+      "status": 200,
+      "type": "video/mp4",
+      "length": "2806571"
+    },
+    {
+      "path": "/assets/signals-arrive-loop-r01-20s-720p-web-sealed-DcYHdev6.mp4",
+      "status": 200,
+      "type": "video/mp4",
+      "length": "1872103"
+    },
+    {
+      "path": "/assets/ready-for-decision-loop-r01-20s-720p-web-sealed-DZXVgPk6.mp4",
+      "status": 200,
+      "type": "video/mp4",
+      "length": "1722444"
+    },
+    {
+      "path": "/assets/communications-compose-loop-r01-20s-720p-web-sealed-D9OpGyzW.mp4",
+      "status": 200,
+      "type": "video/mp4",
+      "length": "3259852"
+    },
+    {
+      "path": "/assets/opportunities-resolve-loop-r01-20s-720p-web-sealed-S9fA_MZl.mp4",
+      "status": 200,
+      "type": "video/mp4",
+      "length": "2227920"
+    },
+    {
+      "path": "/assets/communications-compose-loop-r01-20s-720p-web-sealed-poster-D5air296.webp",
+      "status": 200,
+      "type": "image/webp",
+      "length": "30942"
+    },
+    {
+      "path": "/assets/history-loom-s2-D0Prn2WQ.webp",
+      "status": 200,
+      "type": "image/webp",
+      "length": "161490"
+    },
+    {
+      "path": "/assets/history-calculator-s2-DBKm6C0T.webp",
+      "status": 200,
+      "type": "image/webp",
+      "length": "108792"
+    },
+    {
+      "path": "/assets/history-satnav-s2-DCP4eTTs.webp",
+      "status": 200,
+      "type": "image/webp",
+      "length": "116790"
+    }
+  ],
+  "redirects": [
+    {
+      "url": "https://www.mindmake.co/ai-brain?releasecheck=1",
+      "status": 308,
+      "location": "https://mindmake.co/ai-brain?releasecheck=1"
+    },
+    {
+      "url": "https://themindmaker.ai/ai-brain?releasecheck=1",
+      "status": 308,
+      "location": "https://mindmake.co/ai-brain?releasecheck=1"
+    },
+    {
+      "url": "https://www.themindmaker.ai/ai-brain?releasecheck=1",
+      "status": 308,
+      "location": "https://mindmake.co/ai-brain?releasecheck=1"
+    },
+    {
+      "url": "https://mindmake.co/ai-brain/",
+      "status": 308,
+      "location": "/ai-brain"
+    },
+    {
+      "url": "https://mindmake.co/intake",
+      "status": 308,
+      "location": "/?start=1"
+    },
+    {
+      "url": "https://mindmake.co/testimonials",
+      "status": 308,
+      "location": "/case-studies"
+    }
+  ],
+  "machine": [
+    {
+      "path": "/robots.txt",
+      "status": 200,
+      "length": 208
+    },
+    {
+      "path": "/llms.txt",
+      "status": 200,
+      "length": 4527
+    }
+  ],
+  "limitations": [
+    "Read-only HTTP verification; interactive and lead delivery verified separately."
+  ]
+}

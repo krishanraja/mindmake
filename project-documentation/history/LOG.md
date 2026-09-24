@@ -5,6 +5,14 @@ Newest first. Entries are written by the docs steward (see the steward link in
 describes current behaviour; `NOW.md` and `06_CURRENT_STATE.md` do. A figure
 in this file is a reading on the date above it, not a baseline.
 
+## 2026-09-24
+
+- Published the owner-approved R3 and locked companion surfaces through PR #170, merge `3ee77cf9956f98dd73f69d0b48745930335e74e1`, production `dpl_EZigNAi6Uc6Apcq75XsFnHETt5W8`. Preserved approved copy/composition/assets; added the requested four-state history and five-state leadership-dividend native scroll-pinned builds with reversible exits and reduced-motion/short-height fallbacks.
+- Final source-bound CI passed 531 tests, 208 route cases and nine navigation supplements. All twelve motion cases and twelve fallback transitions ran on both Linux and macOS; the public-site rerun passed too. Independent visual/focus/cookie review and all 26 indexed-page, referenced-asset and redirect checks passed. Exact receipts and failures corrected before publication are in `website-redesign/RELEASE-2026-09-24.md`.
+- Deployed and source-verified company-provenance corrections in enrichment v44, brief v20 and personal-read v25. The new live frontend canary reached actual verification, visitor/operator inbox delivery and the actual downloaded brief; captured synthetic identities and cleanup are in the backend evidence. No live follow-up cron was invoked.
+- Durable source/motion gates and positive/negative controls were strengthened. The canonical local harness and installed Codex release `v2026.09.24.2` were upgraded and tested; no remote harness or other-client installation is claimed. Node 22 and npm ci now preserve frozen dependencies; Vercel's formatting-only config compaction is byte-matched, not exempted.
+- Owner explicitly excepted physical iPhone VoiceOver/Android TalkBack for this release only. An authorized audit recorded 23 dependency package findings, assessed without a confirmed visitor-reachable blocker in this static release; compatible upgrades remain open. These are recorded limits, not perfect-quality claims.
+
 ## 2026-09-17
 
 - reconciled at `c12e5a2`: two non-steward commits since the last run, both the same change, "Organise film libraries by release month" (`6af2005`, pull request #169). It moved the six live films from `src/assets/films/` into `src/assets/films/aug2026/` without changing bytes, updated every import and check, and added a sealed, not-yet-live September loop library. `CLAUDE.md` and `README.md` were updated in the same commit by its author, so no drift was found in either. `project-documentation/` names no film file path, only the concept and the count, and the count (six live films) did not change, so nothing there needed reconciliation.

@@ -124,7 +124,7 @@ Three things about that gate are worth knowing before reading a number out of it
 
 The gate also serves `get-ai-news` from `scripts/qa/fixtures/`. Without it the board on `/ai-gtm` renders "The read is rebuilding" from a session that cannot reach Supabase, and a reading about the network gets recorded as a design defect.
 
-The current baselines, recorded in `project-documentation/06_CURRENT_STATE.md`: 450 tests across 29 files, 0 lint errors and 2 warnings, 0 type errors. Short prose balances by default (`text-wrap: balance` at (0,0,0) on prose elements, which Chrome applies up to six line boxes and drops past); only `.mm-voice-panel blockquote` opts back into `pretty`. Do not add new lint problems. Point the typecheck at `tsconfig.app.json`: the root config carries `"files": []` and checks nothing.
+The 5 September historical baseline was 450 tests across 29 files. Current source-bound counts and browser evidence belong to `project-documentation/website-redesign/RELEASE-2026-09-24.md` and `06_CURRENT_STATE.md`; do not use historical passes to certify a new candidate. Lint must retain zero errors and no warnings beyond the two longstanding refresh advisories. Short prose balances by default (`text-wrap: balance` at (0,0,0) on prose elements, which Chrome applies up to six line boxes and drops past); only `.mm-voice-panel blockquote` opts back into `pretty`. Do not add new lint problems. Point the typecheck at `tsconfig.app.json`: the root config carries `"files": []` and checks nothing.
 
 For any change to the films or the film plate, confirm in a browser that every
 loop decodes and plays when scrolled into view, and that a reduced-motion

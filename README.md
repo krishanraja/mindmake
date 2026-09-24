@@ -41,9 +41,10 @@ a name. The full rule is the naming law in the north star.
 
 The only primary action is `Start here`.
 
-1. The visitor gives four details: first name, last name, work email and the
-   part of the business they work in. The company comes out of the email's
-   domain, so nobody types it twice.
+1. The visitor starts with their work email, then gives their first name, last
+   name and part of the business. The company is read from the email domain.
+   The approved Company, You, Problem, Time and Brief stages use the same
+   `LeadBrief` component from either door.
 2. Mindmake shows a declarative company read and, when the read is strong enough,
    pressure choices tailored to that company. "Something else" reveals the locked
    list.
@@ -67,9 +68,9 @@ full contract is in
 
 | Route | Purpose |
 |---|---|
-| `/` | The threshold, the two doors, the enemy pair, live proof, the close |
-| `/ai-brain` | Amplify and absorb, CTRL as proof, the personal read, two client stories, how it learns you |
-| `/ai-gtm` | The three places money moves, the live board, the company read, engagement shapes |
+| `/` | Approved R3 opening, historical stories, work and organisation, leadership dividend, AI Brain/AI GTM routes, and footer |
+| `/ai-brain` | Locked judgement-and-memory instrument and the shared Start here journey |
+| `/ai-gtm` | Locked market-change instrument across product, price, positioning and people, with the shared Start here journey |
 | `/case-studies` | Eight verified customer stories |
 | `/blog`, `/blog/:slug` | Checked public ideas archive |
 | `/answers`, `/answers/:slug` | One page per buyer question, written to be quoted: the liftable answer first, then the argument |
@@ -87,10 +88,15 @@ publication.
 
 - `src/App.tsx`: active routes and retired-route fallbacks.
 - `src/pages/`: public page compositions.
+- `src/components/homepage-release/`: deterministic delivery adapter for the
+  immutable approved R3. `scripts/qa/build-homepage-release.mjs` owns its generated
+  files; `pinnedChapters.ts` owns native reversible scroll progression. Do not
+  replace this surface with a reconstruction from older components.
 - `src/components/mindmake/`: the shell, the film plate, the marquee, the live
   board, the two journeys, the fork, the ask bar, the brief and the proposal.
-- `src/hooks/useScrollDriver.ts`: the one scroll primitive for builds driven by
-  position. `src/hooks/useReveal.ts`: the one entrance primitive.
+- `src/hooks/useScrollDriver.ts` and `src/hooks/useReveal.ts`: retained primitives
+  for their existing surfaces. The explicitly approved R3 adapter has its own
+  isolated lifecycle and native pin controller, verified by rendered-state tests.
 - `src/hooks/useAmbientMotion.ts`: decides whether a visitor is served moving
   footage at all.
 - `src/styles/`: `mindmake.css` (tokens, base, chrome), `mindmake-instruments.css`
@@ -109,7 +115,12 @@ publication.
 - `scripts/generate-sitemap.mjs`, `scripts/generate-llms.mjs`,
   `scripts/prerender.mjs`: crawler surfaces.
 
-## Rules that are enforced by test
+## Baseline rules and approved release precedence
+
+These general rules predate the accepted R3 composition. Its exact labels,
+typography and choreography are protected by the release source manifest and
+must not be removed by interpreting a historical blanket rule as a redesign
+instruction. See `AGENTS.md` and the current release record before changing it.
 
 - No first person, no biography, no portrait. The founder is named once.
 - No eyebrow text above any heading, anywhere.
@@ -156,3 +167,10 @@ before merging, and
 for the ordered launch steps. Do not change live Supabase, send real email from
 new code paths, alter domains or delete deployed functions without the matching
 verification.
+
+The 24 September release additionally requires the immutable source lock,
+deterministic adapter check, full unit suite, lint, the twelve actual scroll
+cases, the complete built-route browser matrix and live lead-delivery evidence.
+See `project-documentation/website-redesign/RELEASE-2026-09-24.md` for exact
+receipts, rollback identity and the owner's release-only physical VoiceOver /
+TalkBack exception. A screenshot or successful build alone does not pass release.

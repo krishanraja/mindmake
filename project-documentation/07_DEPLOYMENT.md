@@ -1,6 +1,6 @@
 # Mindmake deployment
 
-Last updated: 24 September 2026 (release procedure and backend evidence; new frontend promotion not yet recorded).
+Last updated: 24 September 2026 (approved R3 production promotion and backend evidence).
 
 This file records how the live Mindmake site is deployed and how to change it
 safely. Current identifiers live in `06_CURRENT_STATE.md`, and the ordered
@@ -26,7 +26,7 @@ There is no MX on the apex: no mailbox exists at `@mindmake.co`.
 
 ### Current R3 release procedure
 
-The authority, scope, exact rollback anchor and eventual deployment receipt are in [RELEASE-2026-09-24](website-redesign/RELEASE-2026-09-24.md). Keep the pre-promotion deployment identity until the release owner verifies promotion; this procedure does not assert that the new frontend is live.
+The authority, scope, exact rollback anchor and actual deployment receipt are in [RELEASE-2026-09-24](website-redesign/RELEASE-2026-09-24.md). Approved R3 is live from PR #170, merge `3ee77cf`, deployment `dpl_EZigNAi6Uc6Apcq75XsFnHETt5W8`. Keep the recorded pre-promotion deployment as the recoverable rollback target.
 
 1. Preserve immutable approved `homepage-production-synthesis-r3`. Generate its production adapter with `scripts/qa/build-homepage-release.mjs`; run its `--check` drift gate. Only the approved history/dividend scroll-pin behavior changes are authorized, not a new composition or copy rewrite.
 2. Run the full unit suite, application typecheck/lint/build and source/approval locks against the exact candidate. Earlier prototype receipts and backend-only tests do not satisfy the production build gate.

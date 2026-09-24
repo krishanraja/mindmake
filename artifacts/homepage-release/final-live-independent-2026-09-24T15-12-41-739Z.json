@@ -1,0 +1,316 @@
+{
+  "at": "2026-09-24T15:12:41.739Z",
+  "url": "https://mindmake.co",
+  "expectedDeployment": "dpl_EZigNAi6Uc6Apcq75XsFnHETt5W8",
+  "expectedCommit": "3ee77cf",
+  "scope": "Read-only first-visit Chromium spot check; external/non-GET blocked; no backend submissions",
+  "visualReview": {
+    "screenshotsInspected": 8,
+    "finding": "No new visible blocker in representative history, dividend, footer and settled menu at either width; cookie does not cover the tested chapter controls or footer copyright.",
+    "limitations": "Bounded Chromium spot check, not a new full route or physical-device audit. Deployment and commit are parent-supplied expected identity; public response HTML hash was independently captured. Plausible analytics was blocked."
+  },
+  "cases": [
+    {
+      "width": 390,
+      "height": 844,
+      "errors": [],
+      "failures": [],
+      "screenshots": [
+        "C:\\Users\\krish\\dev\\mindmaker\\mindmake-award-panel\\artifacts\\homepage-release\\final-live-independent-2026-09-24T15-12-41-739Z-390-history.png",
+        "C:\\Users\\krish\\dev\\mindmaker\\mindmake-award-panel\\artifacts\\homepage-release\\final-live-independent-2026-09-24T15-12-41-739Z-390-leadership-dividend.png",
+        "C:\\Users\\krish\\dev\\mindmaker\\mindmake-award-panel\\artifacts\\homepage-release\\final-live-independent-2026-09-24T15-12-41-739Z-390-footer.png",
+        "C:\\Users\\krish\\dev\\mindmaker\\mindmake-award-panel\\artifacts\\homepage-release\\final-live-independent-2026-09-24T15-12-41-739Z-390-menu.png"
+      ],
+      "blocked": [
+        {
+          "host": "plausible.io",
+          "path": "/js/script.js",
+          "method": "GET"
+        }
+      ],
+      "observations": [
+        {
+          "chapter": "history",
+          "top": 0,
+          "bottom": 844,
+          "cookieTop": 805,
+          "cookieHeight": 39,
+          "controls": [
+            {
+              "text": "370 BCWriting",
+              "bottom": 786.484375
+            },
+            {
+              "text": "1675Loom",
+              "bottom": 786.484375
+            },
+            {
+              "text": "1970sCalculator",
+              "bottom": 786.484375
+            },
+            {
+              "text": "2000sSatnav",
+              "bottom": 786.484375
+            }
+          ],
+          "overflow": false
+        },
+        {
+          "chapter": "leadership-dividend",
+          "top": 0,
+          "bottom": 844,
+          "cookieTop": 805,
+          "cookieHeight": 39,
+          "controls": [
+            {
+              "text": "In practice",
+              "bottom": 127
+            },
+            {
+              "text": "What becomes possible",
+              "bottom": 127
+            },
+            {
+              "text": "The returned hour",
+              "bottom": 127
+            },
+            {
+              "text": "Notice",
+              "bottom": 782.78125
+            },
+            {
+              "text": "Connect",
+              "bottom": 782.78125
+            },
+            {
+              "text": "Prepare",
+              "bottom": 782.78125
+            }
+          ],
+          "overflow": false
+        }
+      ],
+      "status": 200,
+      "htmlSha256": "24038f10e41dac671b985b0540750462f12c3ce6a6752701f8c58579e4087a56",
+      "h1": [
+        "Build the business that can think with you."
+      ],
+      "initialCookie": 0,
+      "footer": {
+        "top": 439.3828125,
+        "bottom": 806.3203125,
+        "copyrightBottom": 779.0439453125,
+        "cookieTop": 805,
+        "scrollY": 8392,
+        "scrollHeight": 9236
+      },
+      "menu": {
+        "ariaHidden": "false",
+        "focusText": "Close",
+        "cookieTop": 805,
+        "links": [
+          {
+            "text": "",
+            "bottom": 53.484375
+          },
+          {
+            "text": "Build your AI brain",
+            "bottom": 260.734375
+          },
+          {
+            "text": "Build your AI GTM",
+            "bottom": 313.765625
+          },
+          {
+            "text": "Results",
+            "bottom": 366.796875
+          },
+          {
+            "text": "Thinking",
+            "bottom": 419.828125
+          },
+          {
+            "text": "Questions leaders ask",
+            "bottom": 472.859375
+          },
+          {
+            "text": "Before you start",
+            "bottom": 525.890625
+          },
+          {
+            "text": "Media",
+            "bottom": 578.921875
+          },
+          {
+            "text": "Start here →",
+            "bottom": 761.21875
+          },
+          {
+            "text": "Privacy",
+            "bottom": 785
+          },
+          {
+            "text": "Terms",
+            "bottom": 785
+          }
+        ]
+      },
+      "escape": {
+        "focused": "Open navigation",
+        "visible": true,
+        "inert": false
+      }
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "errors": [],
+      "failures": [],
+      "screenshots": [
+        "C:\\Users\\krish\\dev\\mindmaker\\mindmake-award-panel\\artifacts\\homepage-release\\final-live-independent-2026-09-24T15-12-41-739Z-1440-history.png",
+        "C:\\Users\\krish\\dev\\mindmaker\\mindmake-award-panel\\artifacts\\homepage-release\\final-live-independent-2026-09-24T15-12-41-739Z-1440-leadership-dividend.png",
+        "C:\\Users\\krish\\dev\\mindmaker\\mindmake-award-panel\\artifacts\\homepage-release\\final-live-independent-2026-09-24T15-12-41-739Z-1440-footer.png",
+        "C:\\Users\\krish\\dev\\mindmaker\\mindmake-award-panel\\artifacts\\homepage-release\\final-live-independent-2026-09-24T15-12-41-739Z-1440-menu.png"
+      ],
+      "blocked": [
+        {
+          "host": "plausible.io",
+          "path": "/js/script.js",
+          "method": "GET"
+        }
+      ],
+      "observations": [
+        {
+          "chapter": "history",
+          "top": 0,
+          "bottom": 900,
+          "cookieTop": 846,
+          "cookieHeight": 40,
+          "controls": [
+            {
+              "text": "370 BCWriting",
+              "bottom": 186.09375
+            },
+            {
+              "text": "1675Engine loom",
+              "bottom": 249.609375
+            },
+            {
+              "text": "1970sCalculator",
+              "bottom": 313.125
+            },
+            {
+              "text": "2000sSatnav",
+              "bottom": 376.640625
+            }
+          ],
+          "overflow": false
+        },
+        {
+          "chapter": "leadership-dividend",
+          "top": 0,
+          "bottom": 900,
+          "cookieTop": 846,
+          "cookieHeight": 40,
+          "controls": [
+            {
+              "text": "In practice",
+              "bottom": 129
+            },
+            {
+              "text": "What becomes possible",
+              "bottom": 129
+            },
+            {
+              "text": "The returned hour",
+              "bottom": 129
+            },
+            {
+              "text": "Notice",
+              "bottom": 820.3125
+            },
+            {
+              "text": "Connect",
+              "bottom": 820.3125
+            },
+            {
+              "text": "Prepare",
+              "bottom": 820.3125
+            }
+          ],
+          "overflow": false
+        }
+      ],
+      "status": 200,
+      "htmlSha256": "24038f10e41dac671b985b0540750462f12c3ce6a6752701f8c58579e4087a56",
+      "h1": [
+        "Build the business that can think with you."
+      ],
+      "initialCookie": 0,
+      "footer": {
+        "top": 491.7939453125,
+        "bottom": 861.6376953125,
+        "copyrightBottom": 826.8486328125,
+        "cookieTop": 846,
+        "scrollY": 8870,
+        "scrollHeight": 9770
+      },
+      "menu": {
+        "ariaHidden": "false",
+        "focusText": "Close",
+        "cookieTop": 846,
+        "links": [
+          {
+            "text": "",
+            "bottom": 57.265625
+          },
+          {
+            "text": "Build your AI brain",
+            "bottom": 288.046875
+          },
+          {
+            "text": "Build your AI GTM",
+            "bottom": 351.40625
+          },
+          {
+            "text": "Results",
+            "bottom": 414.765625
+          },
+          {
+            "text": "Thinking",
+            "bottom": 478.125
+          },
+          {
+            "text": "Questions leaders ask",
+            "bottom": 541.484375
+          },
+          {
+            "text": "Before you start",
+            "bottom": 604.84375
+          },
+          {
+            "text": "Media",
+            "bottom": 668.203125
+          },
+          {
+            "text": "Start here →",
+            "bottom": 491.078125
+          },
+          {
+            "text": "Privacy",
+            "bottom": 824
+          },
+          {
+            "text": "Terms",
+            "bottom": 824
+          }
+        ]
+      },
+      "escape": {
+        "focused": "Open navigation",
+        "visible": true,
+        "inert": false
+      }
+    }
+  ]
+}

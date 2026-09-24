@@ -1,8 +1,8 @@
 ---
 repo: krishanraja/mindmake
 product: Mindmake
-as_of: 2026-09-17
-head: c12e5a2
+as_of: 2026-09-24
+head: 3ee77cf
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -33,7 +33,39 @@ What is sold, exactly as canon locks it:
 
 Copy-grade definition, safe to quote: "an AI brain is a working system that holds your taste, judgement, standards, memory and trusted context, and uses them on your real work." Everything in `never_publish` above stays out of any piece, whatever the source.
 
-## Where it is right now (as of 2026-09-17)
+## Where it is right now (as of 2026-09-24)
+
+The owner-approved R3 homepage and locked companion surfaces are live from
+`3ee77cf`, PR #170, at Vercel deployment `dpl_EZigNAi6Uc6Apcq75XsFnHETt5W8`.
+Keep the approved copy, composition and imagery; the requested delta is reversible
+native scroll pinning for four historical stories and five leadership-dividend
+stages. Reduced-motion and short-height layouts retain direct natural-flow controls.
+
+The live backend repair is deployed and independently source-verified: enrichment
+v44, brief v20, personal-read v25. Real company/alias reads, verification and results
+emails, operator delivery, persistence and a single follow-up queue were checked.
+The new frontend's real company-first journey also passed through verification,
+visitor/operator INBOX delivery and the actual success-screen brief download.
+Exact canary identities, synthetic cleanup and earlier backend evidence are
+separated in the release record; no future follow-up sender was invoked.
+
+The release passed 531 tests, 208 route cases, nine navigation supplements and
+the complete motion/fallback matrix. The release workflow locks the approved source, validates actual visible scroll
+states and exits in three engines, checks every indexed route, and runs lint,
+unit tests and the production build. Failed candidates are retained as evidence,
+not relabelled as passes. The Firefox focus defect and source-lock test weakness
+found during release were corrected before promotion.
+
+The release-only exception approved by Krish covers physical iPhone VoiceOver and
+Android TalkBack. Neither has been performed. Exact release/rollback identity,
+current gates and proof: `project-documentation/website-redesign/RELEASE-2026-09-24.md`.
+The resumable accepted-design record is `project-documentation/website-redesign/STATE.md`.
+
+The canonical ai-harness upgrade is committed and installed in this Codex client
+as `v2026.09.24.2`; its fresh-session canary rejected screenshot-only motion proof.
+No claim is made that the harness commits were pushed or other clients upgraded.
+
+## Historical baseline (recorded 2026-09-17)
 
 - **Live** at `mindmake.co`. The rebuild was promoted on 28 August 2026; the latest promotion is the edge rewrite of 5 September 2026 (pull request #154), verified live with one synthetic end-to-end lead. Production identifiers, function versions and the rollback target: `project-documentation/06_CURRENT_STATE.md`, "Where the rebuild stands" and "Lead and data backend".
 - **A new public surface, `/answers`**, shipped 8 September 2026 (#160 to #164): one page per buyer question, machine-first, separate from the blog. The sitemap and prerender now cover 26 indexed routes, up from 21; `project-documentation/06_CURRENT_STATE.md`'s route count is dated 5 September and predates this.
@@ -69,11 +101,13 @@ The pattern is worth naming: 111 commits in fourteen days, 87 by Claude, and eve
 
 ## What is next and what is waiting on Krish
 
-- Next for the site: a production readback of the 7 September testimonials commits, recorded in the state doc the way every other promotion is.
-- Waiting on Krish: the method wording on the brain door and "How it learns you." on `/ai-brain`, proposed 3 September for sign-off. The method is described, never named.
+- Preserve the released R3 and locked companion surfaces. PR #170, public deployment and the actual new frontend lead-to-download journey passed. Future changes must keep the source lock, rendered motion gates and explicit decision record; do not ask Krish to approve the accepted design again.
+- Resolve the recorded dependency upgrade debt in a separate compatibility-tested change. The 23 advisory entries were assessed for this static release; they were not erased or labelled a clean audit.
+- Complete the two physical assistive-technology checks recorded as outstanding under the explicit release-only exception. Do not represent browser emulation as that evidence.
+- Older requests for method wording or prototype selection below do not reopen the subsequently approved R3 and locked Brain/GTM surfaces. Any future material change needs its own scoped decision.
 - Waiting on Krish (canon, "Open commercial work"): the evidence trail for a "leaders helped" figure; one Brain-shaped and one GTM-shaped story with consent; current-source research before any new AI GTM market claim; the pricing revisit trigger.
 - Waiting on CTRL: `affects` and `stance` in the headline cache, and a `pov` line in a voice this site can publish. Nothing on this side is waiting.
-- Next for the site: the first day-14 follow-up on 11 September 2026, and the owed items in the state doc.
+- The historical open-item register in the state doc is dated evidence, not a current claim that a follow-up is still waiting for 11 September. This release verifies enqueue and due time without invoking the cron sender early.
 
 ## Read next
 

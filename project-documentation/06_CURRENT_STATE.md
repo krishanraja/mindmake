@@ -131,6 +131,31 @@ owns payload, privacy, retention, email and failure-path contracts.
   code-split routes and a lede under the unchanged case-record heading. Nothing
   above describes it; retrieve the live deployment before treating any of it as
   production behaviour.
+- A `/new-age-leadership` repair is on the branch, bounded by
+  `quality/route-lock/approved-production-r18.json`, whose own owner approval is
+  outstanding. The route's three pinned sequences never pinned in production:
+  the prototype's body-level `overflow-x: hidden`, scoped onto `.nal-page`, made
+  that div its own scrollport, so each sequence scrolled away after one screen
+  and left the rest of its track empty. The route also drew its own masthead and
+  a hand-copied footer instead of the shared shell. Both are corrected on the
+  branch, the history sequence now builds by scroll below 900px as well as
+  above, and the AI Brain benefits are driven by scroll instead of a timer.
+- Verified for that repair on Linux: typecheck, lint, 541 unit tests, the
+  canonical build, the r18 route lock and its fail-closed self-test, the
+  fixed-chrome, no-JavaScript and dead-CSS gates, the release route smoke on
+  chromium and firefox, and `qa:new-age-r5-production` on chromium (ten
+  viewports), webkit and firefox, forward and reverse, with its negative
+  control. Not established for it: the macOS WebKit leg, physical screen-reader
+  passes, and any live production behaviour.
+- Three gates cannot return a verdict in this Linux container and were not
+  passed for that repair. `qa:release-routes` on WebKit fails on `/case-studies`
+  with an `.mp4` request that never completes, which is the documented Linux
+  WebKit media limitation and is why CI runs WebKit on macOS. `qa:alive` reads a
+  mean pixel change of 0.000 at every viewport of every route, the untouched
+  homepage and locked routes included, because films do not play here.
+  `qa:full-route-continuity` cannot start: on the homepage below 430px the first
+  `h1` in the document is a zero-size duplicate, so its `h1` wait times out, and
+  that reproduces identically on the pre-change commit.
 
 Do not promote old DNS/mailbox, CTRL-host or cache observations into fresh facts
 without new readback. CONTACT_EMAIL in src/lib/publicLinks.ts is the approved

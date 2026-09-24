@@ -588,6 +588,17 @@ html {
 }
 .mm-site.mm-route-brain { --mm-header-inline: max(4vw, calc((100vw - 1600px) / 2)); }
 .mm-site.mm-route-gtm { --mm-header-inline: max(24px, calc((100vw - 1360px) / 2)); }
+/* The leadership story draws every section against its own `--edge`, which is
+   the same clamp repeated here, including the flat 20px it drops to on a narrow
+   phone. Without it the wordmark sat at the container's 100px while the
+   headline under it started at 63px. */
+.mm-site.mm-route-leadership { --mm-header-inline: clamp(22px, 4.4vw, 72px); }
+@media (max-width: 620px) {
+  .mm-site.mm-route-leadership { --mm-header-inline: 20px; }
+}
+@media (max-width: 360px) {
+  .mm-site.mm-route-leadership { --mm-header-inline: 16px; }
+}
 @media (max-width: 700px) {
   .mm-site.mm-route-gtm { --mm-header-inline: max(16px, calc((100vw - 520px) / 2)); }
 }

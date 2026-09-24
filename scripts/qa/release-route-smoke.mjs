@@ -155,12 +155,10 @@ async function failureScreenshot(page, record) {
 async function menuCheck(page, record) {
   await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
   const opener = page.getByRole('button', { name: 'Open navigation', exact: true }).filter({ visible: true });
-  if (record.route === '/new-age-leadership' && !await opener.count()) {
-    const home = page.locator('.nal-page .masthead a.brand[href="/"]');
-    record.menu = { applicable: false, reason: 'Accepted companion route uses a home link and motion control, not a menu; src/pages/NewAgeLeadership.tsx pageMarkup.', homeLinkPresent: await home.count() === 1, motionControlPresent: await page.locator('.nal-page .motion-toggle:visible').count() === 1 };
-    assert(record, record.menu.homeLinkPresent && record.menu.motionControlPresent, 'Companion masthead lost its home link or motion control');
-    return;
-  }
+  /* /new-age-leadership used to be exempt here, because it drew its own
+     masthead with a home link and a motion control instead of the shared
+     navigation. It now wears the same shell as every other route, so the
+     exemption is gone and the route takes the check below. */
   if (!await opener.count()) { assert(record, false, 'Navigation opener missing'); return; }
   await opener.first().click();
   const openStarted = performance.now();

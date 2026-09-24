@@ -439,6 +439,17 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   outline-offset: 2px;
 }
 
+/* A page title focused to announce a route change is not a control, and the
+   ring the browser draws around it is a rectangle around the whole headline.
+   This used to be scoped to `.mm-site`, which is every surface except the two
+   that carry the largest headings on the site: the homepage renders inside
+   `.mm-homepage-release` and new-age leadership inside `.nal-page`, so both
+   showed the box on a cold load. Unscoped, because the rule is about what the
+   heading is, not about which surface it sits on. Both surfaces declare
+   `color-scheme: dark`, which is why the ring read as white. */
+h1[tabindex="-1"]:focus,
+h1[tabindex="-1"]:focus-visible { outline: 0; box-shadow: none; }
+
 /* VOICE INPUT ANIMATIONS */
 @layer components {
 

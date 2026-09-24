@@ -312,7 +312,7 @@ export default function AiGtmLocked() {
   useLockedMotion(rootRef);
 
   return (
-    <MindmakeShell onStart={() => openBrief("gtm")} mainClassName="mm-locked-route-main" showMobileActionBar={false} compactFooter>
+    <MindmakeShell onStart={() => openBrief("gtm")} mainClassName="mm-locked-route-main" siteClassName="mm-route-gtm" showMobileActionBar={false} compactFooter>
       <SEO title="Build your AI GTM" description="See how one market change alters product, price, positioning and people before you commit." canonical="/ai-gtm" />
       <div ref={rootRef} className="mm-locked-gtm no-js" data-evidence-state="ready">
         <div className="page-shell" dangerouslySetInnerHTML={{ __html: lockedMarkup }} />

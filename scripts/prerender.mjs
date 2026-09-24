@@ -45,6 +45,79 @@ const fontPreloads = fontFiles
 /* After the inline ground and before the stylesheet link Vite appended. */
 const shell = template.replace("</style>", `</style>\n    ${fontPreloads}`);
 
+/* Each route's own stylesheet, in that route's head.
+
+   Every route but `/` is a lazy import, so Vite puts its CSS in a chunk file
+   and the runtime appends the link once the chunk loads. That is fine for a
+   client-side navigation and wrong for a cold load: this script writes the
+   whole page into dist/<route>/index.html, the browser paints it from the
+   first byte, and until 24 September the only sheet in that head was the
+   entry's. /ai-brain, /ai-gtm, /case-studies and /new-age-leadership were
+   therefore served as complete documents carrying none of their own styling
+   until the bundle booted, which is the unstyled flash visitors reported.
+
+   Read from the build manifest rather than guessed, for the same reason the
+   font preloads above are: Vite hashes these names. The sheets go immediately
+   after the entry's, which is the order the runtime would have produced, so a
+   rule that wins a tie today still wins it. Anything already in the entry
+   sheet is skipped rather than linked twice. */
+const viteManifestPath = resolve(distDir, ".vite/manifest.json");
+if (!existsSync(viteManifestPath)) {
+  throw new Error("dist/.vite/manifest.json is missing. `build.manifest` must stay on in vite.config.ts.");
+}
+const viteManifest = JSON.parse(readFileSync(viteManifestPath, "utf8"));
+const entryStylesheets = new Set(viteManifest["index.html"]?.css ?? []);
+const entryStylesheetTag = template.match(/<link rel="stylesheet"[^>]*>/)[0];
+
+/* The lazy module behind each indexed route, from the route table in
+   src/App.tsx. A route added there and indexed but not named here would lose
+   its styling silently, so `moduleFor` throws instead of returning nothing. */
+const staticRouteModules = {
+  "/": null,
+  "/ai-brain": "src/pages/AiBrainLocked.tsx",
+  "/ai-gtm": "src/pages/AiGtmLocked.tsx",
+  "/case-studies": "src/pages/CaseStudies.tsx",
+  "/new-age-leadership": "src/pages/NewAgeLeadership.tsx",
+  "/blog": "src/pages/Blog.tsx",
+  "/answers": "src/pages/Answers.tsx",
+  "/faq": "src/pages/Library.tsx",
+  "/contact": "src/pages/Contact.tsx",
+  "/privacy": "src/pages/Privacy.tsx",
+  "/terms": "src/pages/Terms.tsx",
+};
+const unmappedStaticRoutes = staticPages.map((page) => page.path).filter((path) => !(path in staticRouteModules));
+if (unmappedStaticRoutes.length) {
+  throw new Error(
+    `scripts/prerender.mjs has no route module for: ${unmappedStaticRoutes.join(", ")}. `
+    + "Name the lazy page module there, or stop indexing the route.",
+  );
+}
+const moduleFor = (path) => {
+  if (path in staticRouteModules) return staticRouteModules[path];
+  if (path.startsWith("/blog/")) return "src/pages/BlogPost.tsx";
+  if (path.startsWith("/answers/")) return "src/pages/Answer.tsx";
+  throw new Error(`scripts/prerender.mjs has no route module for ${path}.`);
+};
+
+/* A page's sheets are its chunk's plus every chunk it imports, because a
+   stylesheet can come from a shared component rather than the page file. */
+const stylesheetsFor = (moduleId) => {
+  const sheets = [];
+  const seen = new Set();
+  const walk = (id) => {
+    if (seen.has(id)) return;
+    seen.add(id);
+    const chunk = viteManifest[id];
+    if (!chunk) throw new Error(`dist/.vite/manifest.json has no chunk for ${id}.`);
+    for (const href of chunk.css ?? []) {
+      if (!entryStylesheets.has(href) && !sheets.includes(href)) sheets.push(href);
+    }
+    for (const next of chunk.imports ?? []) walk(next);
+  };
+  walk(moduleId);
+  return sheets;
+};
+
 /* The indexed pages, shared with the plate painter so the head and the share
    card are written from the same words; and the plates it painted. */
 import { staticPages } from "./lib/pages.mjs";
@@ -192,6 +265,37 @@ function build(page) {
   if (poster) preloads.push(`<link rel="preload" as="image" type="image/webp" fetchpriority="high" href="${poster[1] || poster[2]}" />`);
   if (preloads.length) {
     html = html.replace('<link rel="stylesheet"', `${preloads.join("\n    ")}\n    <link rel="stylesheet"`);
+  }
+
+  /* The homepage ground, before React.
+
+     src/pages/Index.tsx puts `mm-homepage-active` on <html> and <body> in an
+     effect, and src/components/homepage-release/page.css hangs the ink ground
+     and `margin: 0` off it. On a cold load that class did not exist until React
+     mounted, so the approved homepage ground arrived a frame or two after the
+     markup it belongs to. The prerendered document already knows which page it
+     is, so it can carry the class from the first byte; the effect then adds a
+     class that is already there, which is a no-op, and a client-side
+     navigation away still removes it. */
+  if (page.path === "/") {
+    const grounded = html
+      .replace('<html lang="en-GB">', '<html lang="en-GB" class="mm-homepage-active">')
+      .replace("<body>", '<body class="mm-homepage-active">');
+    if (grounded === html) {
+      throw new Error("dist/index.html no longer carries the html and body tags the homepage ground is written onto.");
+    }
+    html = grounded;
+  }
+
+  const routeModule = moduleFor(page.path);
+  const routeStylesheets = routeModule ? stylesheetsFor(routeModule) : [];
+  if (routeStylesheets.length) {
+    const links = routeStylesheets.map((href) => `<link rel="stylesheet" crossorigin href="/${href}" />`);
+    const linked = html.replace(entryStylesheetTag, `${entryStylesheetTag}\n    ${links.join("\n    ")}`);
+    if (linked === html) {
+      throw new Error(`Could not place the route stylesheets for ${page.path}: the entry stylesheet link was not found.`);
+    }
+    html = linked;
   }
 
   return html.replace('<div id="root"></div>', `<div id="root">${body}</div>`);

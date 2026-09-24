@@ -144,10 +144,19 @@ try {
       if (!visibleText) continue;
       const box = el.getBoundingClientRect();
       const area = box.width * box.height;
-      /* No box at all: not laid out, so not clipped. A closed <details> and a
-         display:none branch both land here, and both are opened by a control
-         the browser itself provides. */
+      /* No box at all: not laid out, so not clipped. A display:none branch
+         lands here. */
       if (area <= 0) continue;
+      /* A closed <details> is opened by a control the browser itself provides,
+         so its contents are reachable with scripting off. This used to be the
+         line above: while the summary was shut the contents had no box, so the
+         area test caught them. Chromium now lays that content out and hides it
+         through the details slot instead, so on 24 September the ai-gtm
+         evidence drawer reported as unreachable text inside `section.signal-deck`
+         with `open` false on its own <details> ancestor. Named rather than
+         inferred from a box, so a further change to how a browser shuts a
+         drawer cannot quietly turn this back into a finding. */
+      if (el.closest("details:not([open])")) continue;
       /* A heading that is deliberately not drawn. `.mm-visually-hidden` is the
          standard 1px clipped box naming a section for a screen reader, so being
          clipped away is the whole of its job, and it is more reachable with

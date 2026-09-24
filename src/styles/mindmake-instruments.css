@@ -2319,6 +2319,13 @@ h3 > .mm-head-mark, h4 > .mm-head-mark { width: 28px; height: 28px; margin-top: 
 }
 
 .mm-stories-archive { display: grid; gap: 1px; background: var(--mm-line); border: 1px solid var(--mm-line); border-radius: 3px; overflow: hidden; }
+/* The site-wide reset zeroes heading margins and expects the component under
+   a heading to declare its own, the way .mm-drum-block does. This one never
+   did, so the records sat hard against "The source records." with no air at
+   all while every neighbouring block had some. Scoped to the direct child of
+   a block container, because DoorStories reuses the class inside a chapter
+   that sets its own rhythm. */
+.mm-block > .mm-container > .mm-stories-archive { margin-top: clamp(22px, 2.2vw, 36px); }
 .mm-story-full { display: grid; gap: 20px; scroll-margin-top: calc(var(--mm-header-height) + clamp(6.5rem, 12vw, 9rem)); background: var(--mm-ink2); padding: clamp(18px, 2.4vw, 28px); }
 @media (min-width: 860px) {
   .mm-story-full { grid-template-columns: minmax(0, 1fr) minmax(0, .74fr); gap: 36px; align-items: center; }

@@ -69,7 +69,7 @@
     "src/entry-server.tsx": "cd957bdd05c1634c15e7a73ed26bfbf36a23b8a6bfea535f968b00046646e705",
     "scripts/qa/approved-route-lock-check.mjs": "1d278456ae775848c49d3fd87ee3f2f6839137dc42f3a999e6ec686073094cba",
     "scripts/qa/approved-route-lock-self-test.mjs": "4aa3f374621463a225f26f4eb4dfb02ae92f2b865023c580538d236e50ecc4dd",
-    ".github/workflows/approved-route-lock.yml": "340088ef816cedb783ceb4311d26ea9db5dc8a88c99e6aa7e467ab2a812004c7",
+    ".github/workflows/approved-route-lock.yml": "10e9abd95bab80477634dda226a8bb1704a2796c1b8e0a596a742650ee4f8f1c",
     "scripts/qa/locked-material-production-check.mjs": "b021940985b52171064d8cfdb9f439c58b440f433de79f3882329559daeeb61d",
     "scripts/qa/full-route-continuity-check.mjs": "876f2ff1fc36f70bc45dc164955084317c5d5a616e8b6f8a5564e93cd2aad62f",
     "scripts/qa/plain-language-check.mjs": "639c62446bf7f3a01693ba1fc20e446e23ba8fbc8d17bc429e41da951fafd9a8",
@@ -276,8 +276,8 @@
       {
         "path": ".github/workflows/approved-route-lock.yml",
         "before": "5c688a2690c973f8a8e09cbd70fc2f608d177db80a8b2f3edf348caef7e5d496",
-        "after": "340088ef816cedb783ceb4311d26ea9db5dc8a88c99e6aa7e467ab2a812004c7",
-        "reason": "Two tiers rather than one. The source gates still run on every commit; the 208-case browser matrix now runs on what is on its way to main, a pull request targeting it or main itself. Superseded runs on a branch are cancelled, never on main, where a run verifies a commit Vercel has already promoted. Each leg installs only the engines it launches and caches them. Nothing that runs before a merge to main changed."
+        "after": "10e9abd95bab80477634dda226a8bb1704a2796c1b8e0a596a742650ee4f8f1c",
+        "reason": "Two tiers rather than one. The source gates still run on every commit; the 208-case browser matrix now runs on what is on its way to main, a pull request targeting it or main itself. Superseded runs on a branch are cancelled, never on main, where a run verifies a commit Vercel has already promoted. The browser payload is cached; the install itself still covers all three engines on both platforms, because qa:homepage-release launches all three whatever the leg is. Nothing that runs before a merge to main changed."
       },
       {
         "path": "src/components/homepage-release/integration.css",

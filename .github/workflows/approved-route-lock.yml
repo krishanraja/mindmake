@@ -99,26 +99,29 @@ jobs:
         # bump silently restores the previous browser build and the matrix runs
         # against something other than what the lockfile pins.
         run: echo "version=$(node -p "require('playwright-core/package.json').version")" >> "$GITHUB_OUTPUT"
-      - name: Restore the browsers this platform uses
+      - name: Restore the browser payload
         id: browser-cache
         uses: actions/cache@v4
         with:
           path: ${{ runner.os == 'macOS' && '~/Library/Caches/ms-playwright' || '~/.cache/ms-playwright' }}
-          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}-${{ matrix.engines }}
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
       - name: Install release verification browsers
-        # Only this leg's engines. Both legs used to install all three with
-        # their system dependencies, so every Linux run did an apt install of
-        # the WebKit stack it never launches. The system dependencies are not
-        # cacheable, so they are installed separately from the browser payload
-        # and stay outside the cache hit.
+        # All three on both platforms. `matrix.engines` governs the release-route
+        # step alone, which sets QA_ENGINE per engine; qa:homepage-release below
+        # launches chromium, firefox and webkit whatever this leg is, which is
+        # the contract its own comment says is never narrowed to fit an engine
+        # filter. Narrowing this install to matrix.engines on 24 September made
+        # the macOS leg fail on a missing chromium in under two minutes.
+        #
+        # Split in two because only half of it is cacheable: the Linux system
+        # dependencies are an apt install that a cache cannot restore, while the
+        # browser payload is exactly what the step above brought back.
         shell: bash
-        env:
-          QA_ENGINES: ${{ matrix.engines }}
         run: |
           if [ "$RUNNER_OS" = "Linux" ]; then
-            npx playwright install-deps $QA_ENGINES
+            npx playwright install-deps chromium firefox webkit
           fi
-          npx playwright install $QA_ENGINES
+          npx playwright install chromium firefox webkit
       - name: Verify actual homepage scroll builds and lead entry
         # All twelve ordered-state cases run on BOTH platforms. The contract is
         # never narrowed to fit an engine filter or a missing observation.

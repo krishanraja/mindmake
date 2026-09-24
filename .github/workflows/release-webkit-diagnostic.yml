@@ -23,6 +23,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+      - name: Probe current browser runner without changing built site or lockfile
+        run: npm install --no-save --package-lock=false playwright@1.63.0
       - run: npx playwright install --with-deps webkit
       - name: Compare native and intercepted local transport
         run: node scripts/qa/release-webkit-diagnostic.mjs

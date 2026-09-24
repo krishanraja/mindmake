@@ -338,15 +338,33 @@ async function exercise(page, label, width, height) {
   // films must really be playing with real data — the wait just now allows
   // the slowest engine to get there.
   await page.waitForFunction(() => [...document.querySelectorAll('.region-film')].some(film => !film.paused && film.readyState >= 2), null, { timeout:20000 }).catch(() => undefined);
+  // The field plays a few films at a time and rotates which ones every six
+  // seconds. A single sample can therefore land in the moment just after a
+  // rotation, when the four it has just started are unpaused but have not
+  // buffered yet and the four with data have just been paused — which reads as
+  // no film moving at all while every film is working correctly. Reproduced
+  // directly on WebKit: four unpaused, readyStates 4,2,2,4,0,0,0,0, and the
+  // unpaused four were the zeroes.
+  //
+  // So the sample polls across a rotation rather than trusting one instant.
+  // The contract is unchanged — a film must really be playing with real data —
+  // and the poll only stops the clock landing in the gap.
   const filmState = await page.evaluate(async () => {
-    await new Promise(resolve => setTimeout(resolve, 80));
+    const settle = async () => new Promise(resolve => setTimeout(resolve, 250));
+    const read = () => [...document.querySelectorAll('.region-film')].filter(film => !film.paused && film.readyState >= 2).length;
+    let best = read();
+    for (let attempt = 0; attempt < 40 && best < 1; attempt += 1) {
+      await settle();
+      best = Math.max(best, read());
+    }
+    window.__filmMovingObserved = best;
     const films = [...document.querySelectorAll('.region-film')];
     return {
       count:films.length,
       sources:[...new Set(films.map(film => film.dataset.filmSrc))],
       posters:films.filter(film => Boolean(film.getAttribute('poster'))).length,
       contract:films.every(film => film.muted && film.loop && film.hasAttribute('playsinline') && film.getAttribute('aria-hidden') === 'true' && film.tabIndex === -1),
-      moving:films.filter(film => !film.paused && film.readyState >= 2).length,
+      moving:Math.max(best, films.filter(film => !film.paused && film.readyState >= 2).length),
       mode:document.querySelector('.proof-shell')?.dataset.filmMotion,
     };
   });

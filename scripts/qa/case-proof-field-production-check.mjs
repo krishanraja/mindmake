@@ -300,7 +300,14 @@ async function exercise(page, label, width, height) {
   await load(page);
   const regionCount = await page.locator('.mm-case-proof-s2 .region').count();
   fail(regionCount !== 8, `${label}: renders ${regionCount} proof regions, expected 8`);
-  await page.waitForFunction(() => [...document.querySelectorAll('.region-film')].some(film => !film.paused && film.readyState >= 2), null, { timeout:5000 }).catch(() => undefined);
+  // WebKit starts playback promptly and buffers slowly: sampled here it had
+  // four films playing at 1.5s with readyState still 0, and did not have data
+  // on all eight until about six seconds. Five seconds was therefore a
+  // measurement window, not a contract, and it failed on whichever desktop
+  // size happened to be slowest that run. The requirement is unchanged —
+  // films must really be playing with real data — the wait just now allows
+  // the slowest engine to get there.
+  await page.waitForFunction(() => [...document.querySelectorAll('.region-film')].some(film => !film.paused && film.readyState >= 2), null, { timeout:20000 }).catch(() => undefined);
   const filmState = await page.evaluate(async () => {
     await new Promise(resolve => setTimeout(resolve, 80));
     const films = [...document.querySelectorAll('.region-film')];

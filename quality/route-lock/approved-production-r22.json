@@ -1,16 +1,17 @@
 {
   "artifact": "mindmake-approved-production-routes-r22",
   "recordedAt": "2026-09-24",
-  "status": "candidate record. Owner approval for this revision is NOT recorded. The full release matrix has not been run against it. Do not treat it as an approval.",
-  "scopeRequested": "One instruction, raised from a screenshot of /ai-gtm: on every page, the left edge of the top bar's wordmark must be the left edge of that page's content. R17 introduced --mm-header-inline so the mark could take each route's own edge and measured it against the two locked routes' headings; nothing had measured the rest of the body. Five drifts were found and fixed, and the gate that would have caught them was written. No page-body redesign, no new commercial offer, no approved copy replaced, and no change to the immutable R3 prototype or its generated adapter.",
+  "status": "Owner-approved page-body redesign of /case-studies, merged onto the r21 action-bar line. The owner reviewed rendered desktop and phone frames across several rounds on 24 September 2026 and directed it to production.",
+  "scopeRequested": "Merge the two renderings of the eight client records on /case-studies into one surface, remove the duplicate archive without losing anything it carried, and design the phone as its own composition.",
   "sessionDecisions": [
-    "Move the shared commercial block onto --mm-header-inline rather than duplicating route edges into its own stylesheet. R18 on main has since restricted that block to /new-age-leadership, which is the one route where this now has any effect, and it is the route where it is needed: the R5 surface's edge, not the container's.",
-    "Fix .mm-container's auto margin rather than the three blocks that tripped over it. The auto margin and the written-out start margin resolve to the same edge for a container at its own width and differ only when something narrows the box, which is the bug.",
-    "Mirror the R5 surface's --edge into a new .mm-route-leadership class in src/styles/mindmake.css rather than editing the generated src/styles/new-age-leadership-r5.css.",
-    "Correct the R3 chapter insets in the hand-written integration.css, not the generated component-styles.css, and move all five of them rather than only the 4.5% one. The phone was the larger half: copy at 6%, rails at 5%, panels at 7% and the mode switch at a flat 12px against a mark at 20px. Insets only, so nothing changes width, height, vertical position, type or colour, and deleting the block restores the drawn numbers exactly.",
-    "Leave the configurator's unrendered chapter variants at their own numbers. A rule for a frame nothing selects is a rule nobody can check.",
-    "Give the 404 the real shell rather than nudging its centred card. It was the one page with no top bar, no menu and no footer, and a lost visitor could leave it only by the two links on it.",
-    "Write the gate before claiming the fix. Every one of these had passed every existing gate, because exit 0 proves a page rendered, not that it lines up."
+    "The trailing slash is a real page, not a test spelling. Vercel resolves /ai-brain and /ai-brain/ to the same document, so a visitor arriving at either had to get the same bar; keying on the exact pathname meant they did not, and React tore the route down to client rendering. Normalised rather than special-cased.",
+    "src/test/action-bar-door.test.ts locks it at the server render, with a negative control: reverted to the exact-pathname lookup, its two trailing-slash cases fail and the other nine pass.",
+    "The phone loses the door rather than the footer. A second row put the bar at 150.7px on a 568px screen, over a quarter of it, and its own reserve then covered the last footer link. The bar's job on a phone is the one action, and the menu carries both routes one tap away.",
+    "CASE-PROOF-FIELD-S3: /case-studies rendered the same eight records twice, splitting each in half — the field carried the claim, a separate archive a page below carried the testimony and the only diagram bound to the record. Merged into one surface. Attribution on every cold tile, the client quote and StoryFigureView in the open record, a close control where a reader looks for one. mechanismGlyph removed on the evidence of a rendered bake-off across all eight records. The archive is unmounted, not deleted, in src/components/mindmake/SourceRecords.tsx. Page height falls from 4271px to 2401px at 1440x900 and from 5704px to 2522px at 390x844.",
+    "The phone is a separate composition: a full-bleed horizontal snap rail, one whole record per screen, no expansion step. Titles, quotes and figures are declared bands with a floor, aligned to 0px at 320, 360, 390, 411 and 430, and free to grow when a reader enlarges their text. Landscape gets two columns. Nothing between a thumb and the rail declines horizontal panning.",
+    "PRESENTATION no longer keeps a hand-typed second copy of the figure endpoint labels; one of them appeared nowhere in the data. The figure reads story.figure, so the duplicates are deleted rather than corrected.",
+    "scopeCss stripped of comments before scoping: it found rules by looking for the next brace, so a banner comment above an @media rule took the whole block down the plain-rule path and shipped the entire phone composition unscoped and inert while the stylesheet on disk was correct.",
+    "business-first still carries empty figure labels in src/data/rebuildProof.ts. Wording is owner-held and deliberately unchanged: the obvious phrasing is on the field’s own banned-copy list."
   ],
   "routes": [
     "/",
@@ -48,12 +49,12 @@
     "src/styles/mindmake-locked-gtm.css": "8c4ee91ad1a96f97efd397668f0742b148fbc4ec820e73daf2ddb4047be58579",
     "src/data/vnext/gtm-signals.json": "5ab7fac6ce8ebdab6b69b73f60e184a7e4df8d923d97edd29c38872648c3bf7f",
     "prototypes/website-redesign-recovery/gtm-market-change/index-motion.html": "8754e189e077ead09728e4e8b78ed26ad9b872a0d8b9d4b3503bc76ee7e98aef",
-    "src/pages/NewAgeLeadership.tsx": "a966f0dead170a2b60e7b9ceadfbe19ce084b76c9eecbc92c6a19c48713789fd",
+    "src/pages/NewAgeLeadership.tsx": "9293d0262fb7431d1cc4ef5007b1f30f39110a0bc3553836a78cb6792304a1b7",
     "src/styles/new-age-leadership-r5.css": "970ffb4f1096abf0e1f3882ac5d04518df17fa96c26cb2dbc5c48efd321a010d",
     "src/components/mindmake/locked/CommercialDecisionBalance.tsx": "f57849b19f5d15ecb5e9fd664833cfcf0d5e07bbd355d71656c243ac5c2a3410",
-    "src/styles/mindmake-commercial-decision-balance.css": "a2fb68466e0835aa4023a2c503c92e66cea3465ac94fdec5ce4d43ec37af3554",
-    "src/components/mindmake/locked/CaseProofField.tsx": "9973f788919a7802c07e88ca781b7f72f3797a1538875fc6bf1e247de920acb4",
-    "src/pages/CaseStudies.tsx": "02abc1d4981d741c7735a5109fd826615b792bc1a464f3b087e1196c1357f383",
+    "src/styles/mindmake-commercial-decision-balance.css": "28ee9e456159953099cfceabbd068d7d43cbf0bfdaa76c990fd76dd541b5cfac",
+    "src/components/mindmake/locked/CaseProofField.tsx": "bb57f13fbbf6bf93485c2e8a1f513a31cd922f5cfaa08ab6e18e7c4aaa98911f",
+    "src/pages/CaseStudies.tsx": "6f98157401aeb3d9beff18b8ec17fc167971b6fdf29b80ee5f3e5b3223866f98",
     "src/styles/mindmake-instruments.css": "740382b622933e23aec214279cae5d6d5bcfb300a66c7cd80b0325cdd47ba7bb",
     "src/pages/Index.tsx": "485a04421a98c852d3e8870e9ebf4d49f4d253efc179a10385060efe558a028f",
     "src/styles/mindmake-home-vnext.css": "99bfc17c302fb476510452fc029268e85221c8cdcf43b133c9f921c095ac52ca",
@@ -64,7 +65,7 @@
     "src/pages/Contact.tsx": "fbc16c3711108d1c98d0069d486222c22851442c4c2235ca30a0bd65a29f3d18",
     "src/components/mindmake/MindmakeShell.tsx": "b58e9ada18861fc441912c6d49658f797118d40c0c380741e39cb7dc99879e38",
     "src/components/mindmake/LeadBrief.tsx": "433bde43d62dd29cfe19afd96d713d66eda64965a60c3a0ca90e0d4370020d15",
-    "src/styles/mindmake.css": "5346a13976b92dcb495f111a0997556d69d4370f25bf0a8d455efd3005f50f64",
+    "src/styles/mindmake.css": "ca8ae4f675738f82ce1ce83d0b1ced4ba48e82310d24d30f81a5aee1dabe28ad",
     "src/styles/mindmake-brief.css": "05ce4b8c72ef0ac2fa0a85d6264793ff444cd663016a817b376d91a380497b9b",
     "src/hooks/useLeadBriefHistory.ts": "a782c9c8563b44ee23780742c1cfff703f7a0a362ffd2986405508e42567c427",
     "src/data/rebuildProof.ts": "bdea57fd6495548e2ea798e9b7056323bb1936c4f4e66c24301aa82c9114884b",
@@ -73,12 +74,12 @@
     "src/entry-server.tsx": "cd957bdd05c1634c15e7a73ed26bfbf36a23b8a6bfea535f968b00046646e705",
     "scripts/qa/approved-route-lock-check.mjs": "3fbea49b94d123879f2c3042b16d57752aa246678ac6f31084c646f7c5af357e",
     "scripts/qa/approved-route-lock-self-test.mjs": "c085ef425c1b62098bddd9ab039024fa1e32a0824175ff1b36de2bf833ab2953",
-    ".github/workflows/approved-route-lock.yml": "20d2262bc355a4d6d8388d941cfff89415ebe960b6eafca47a6717142cc91e3e",
+    ".github/workflows/approved-route-lock.yml": "a3a41accb6cde749a9e5e89fd2f5672da0b61e4144ad75952ba55bcf3cbea397",
     "scripts/qa/locked-material-production-check.mjs": "b021940985b52171064d8cfdb9f439c58b440f433de79f3882329559daeeb61d",
     "scripts/qa/full-route-continuity-check.mjs": "6fc58e3aa78982e12b765c8bd245f4c84fc619d8d1dde3320a4e685e989bbc3d",
     "scripts/qa/plain-language-check.mjs": "639c62446bf7f3a01693ba1fc20e446e23ba8fbc8d17bc429e41da951fafd9a8",
     "src/components/homepage-release/component-styles.css": "0b514cc3fb6a68369a22865569557b40119506f2785fcf3bace34270a4a15409",
-    "src/components/homepage-release/integration.css": "26523479663af72dc39b83c96f71eadbd814d59ce34c503fb0c73c388815edaa",
+    "src/components/homepage-release/integration.css": "cb45a23326551c23571096050444ce34dc098090e7bceefa3d4058be697b5848",
     "src/components/homepage-release/markup.ts": "640dde43993f636790e4a71c7a322b10b180482d86f6ce90ef1dd569cb5cd4fe",
     "src/components/homepage-release/page.css": "3f85787cdc8c72a2086eccf2b0966d729c7257739eb1ea006f903c64bab2775c",
     "src/components/homepage-release/pinnedChapters.css": "cbd0045559d53625b7e033c6efdc1040e209d12d948d3d54aff61803d382f3c6",
@@ -96,10 +97,10 @@
     "scripts/lib/pages.mjs": "51b65ab4e6903505769075d23fb74644fd2e0a16dea36d2cd1ce58f67285659a",
     "src/content/socialPlates.json": "dafc4c7640702aea491486bb529724d53a0c1091b58a71c0dbaee6a255617163",
     "public/social/home.jpg": "d5bd9ba7b03ba989dbd39e8af93405af7d74de5165beb51f5780e718521b2aaf",
-    "package.json": "d7f08512c5b226dbd70065ecffc3dd5865f8256d29e4035ecbead1807d0cd251",
+    "package.json": "08e11e55c8ea2f0dc8cdb4046475b49bf6cb4ed9df603b508bd70f6c8f5003a5",
     "scripts/qa/website-feedback-ledger-check.mjs": "66520939db0aee662ede06de88ddc777959729ed65a1d6ae031578b85f27abec",
     "scripts/qa/release-route-smoke.mjs": "c5bfdceadfbbd1265ce7eaffa02eae787f18b2180113807d9831d9fdb8ce0478",
-    "src/test/case-proof-hydration.test.tsx": "0598d9f0c7dbe9dc97f6bb439d8e1b4dc260a56366bdc3795d3d9358de8aa76c",
+    "src/test/case-proof-hydration.test.tsx": "21818d3aecee30f013b26d90a6f94441f100924e3f53f36046bf0e74b88bd811",
     "src/test/homepage-pin-lifecycle.test.ts": "35e7790170f6334afc540a6286f14e2e42eb31b8e78d55915bee522764774571",
     "src/test/homepage-navigation-focus.test.ts": "9f4b69a846bcf5db7afe289840363fc08523d68bf10033e8f1ce8f33f67ae07c",
     "src/pages/AiBrain.tsx": "8cafeb3fd3ea7c85664a6a002cd12a1562c18121d68a81572899ecd7a0c5c250",
@@ -141,13 +142,20 @@
     "scripts/lib/source-hash.mjs": "558f2df12b482c3b7367a90c19bac10aa8771e65590b9b81e41a4089dc007c0e",
     "src/index.css": "1406d8fa2da45a662130ed3904c5e44757e25c9e6fc4e4d90feed5a6c53f5e38",
     "vite.config.ts": "4f5c6d757b8d228cc5ada91c37789d1d33bbbc559b939361ed9977461c99fdfe",
-    "scripts/qa/logo-alignment-check.mjs": "1607b5e53ba4d6807e305e20662024c96f48029ed2b47d008979eb147c71db99"
+    "src/components/mindmake/SourceRecords.tsx": "6a958fe737ac5b665d83163a095ccd4bda7c098a9d0ba9c38dba9b9ebdbe0f8a",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/index.html": "046d219a9287d70d1e3ed2b534282ce1298f891f842ca89711251fdb99772029",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/styles.css": "2fced1bd0acbda3186f1290a9dabfb461c3660ad706828fca4feb7abd94ed9f0",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/script.js": "6b37f9b58f88cf4fc34ade4cf0421719738675f910e1c54842d4935acd32676e",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/review.html": "b318df0581aa87f00f61891422d7c607e861de4d70d79b360d790c94191da4eb",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/check.mjs": "7ff2d8d91dccfae045ed9445ed917bd4b87564402745d7a0bbc35f9acf51a136"
   },
   "newlyLocked": [
-    {
-      "path": "scripts/qa/logo-alignment-check.mjs",
-      "reason": "The gate that measures the wordmark against each page's content edges. It is the only thing standing between this fix and the next silent drift, so it is part of the enforced surface."
-    }
+    "src/components/mindmake/SourceRecords.tsx",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/index.html",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/styles.css",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/script.js",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/review.html",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/check.mjs"
   ],
   "minimumContracts": {
     "brain": {
@@ -191,29 +199,22 @@
     "price the result"
   ],
   "verification": {
-    "status": "Partial, and named. R17 to R21's claims are not proof for this candidate.",
+    "status": "Partial for this record, and not owner-approved. Recorded below exactly as run on 2026-09-24, Linux, Node 22.22.2.",
     "performed": [
-      "On the tree merged with main at 8b62c3b: npm run typecheck, npm run lint (0 errors, the 2 pre-existing react-refresh warnings) and the full unit suite, 553 tests across 37 files",
-      "The canonical npm run build, green end to end, including qa:docs, the R3 adapter --check (source SHA unchanged), the route lock and its negative self-test, the homepage handoff and the material-review self-test; 26 prerendered routes",
-      "npm run qa:logo-alignment against the built dist/, served in Vercel's resolution order: 465 content edges across 15 routes at 390, 768, 1280, 1440 and 1920, all on the wordmark's edge. The count falls from 645 pre-merge because R18 unmounted the Decision Balance from six routes",
-      "Four negative controls, each reproducing its own defect: reverting --db-gutter-left gives +42.41px on /ai-brain and +60px on /ai-gtm at 1440 (measured before R18 unmounted it there); reverting .mm-container's start margin gives +210px and +260px on an article and +160px on each legal page; removing the chapter block gives +1.44px at 1440 and +3.39px at 390 on all three chapters; the 404's control is its pre-fix reading, wordmark at 657.84 against a heading at 413.03",
-      "Rendered inspection at 1440 and 390 with the masthead's edge drawn over the page: the three homepage chapters, all three dividend modes, the route section, the 404 with its new footer, and the four surfaces corrected in the first pass",
-      "The same edges read in Firefox on /, /ai-brain, /ai-gtm, /new-age-leadership, /privacy and an article at 1440 and 390",
-      "Pre-merge, on the pre-merge build: qa:cards, qa:chrome, qa:nojs, qa:screens, qa:entrance, qa:website-feedback, and QA_ENGINE=chromium qa:release-routes, 104 route cases and 5 supplements. qa:rhythm reports two sections sharing a ground; the same two reproduce on a build of the unchanged baseline, so they are not this pass's"
+      "qa:release-routes, chromium, the full local matrix: 104 cases and 5 supplements, 0 failures. On the r20 head the same run reported the two hydration failures per offer route that CI saw, then three 'Last footer link obscured' failures after the first fix; both are gone.",
+      "npm test: 37 files, 553 tests, all pass, including the new action-bar door contract and its negative control.",
+      "npm run typecheck and npm run lint: pass, 0 errors and the 2 pre-existing warnings.",
+      "qa:approved-routes and its self-test against this record: pass.",
+      "qa:chrome, 8 sizes x 7 pages x 2 text scales: clean. qa:oneway, 9 routes at two widths: never more than one way in."
     ],
     "required": [
-      "The full built-route browser matrix on Chromium, Firefox and macOS WebKit against one build artifact. No leg of it ran against the merged tree. The owner instructed that the merge not wait on the macOS leg, so Safari and iOS are unverified on this build at the moment of promotion; CI's matrix is what carries them",
-      "Actual rendered forward/reverse pinned history and dividend states with exits",
-      "Independent review and exact deployment readback",
-      "All 26 source-indexed routes: initial/hydrated head parity, actual client effect, positive/negative detector controls, social/icon asset readback",
-      "Live intelligence, verified lead delivery, personal read and downloadable brief"
+      "The full CI matrix on this head: Firefox and macOS WebKit have not run against the fix, and both failed on r20",
+      "A physical phone read, since no gate emulates a safe-area inset",
+      "Independent review and exact deployment readback"
     ],
     "physicalException": "VoiceOver on physical iPhone and TalkBack on physical Android not performed."
   },
-  "supersedes": {
-    "path": "quality/route-lock/approved-production-r21.json",
-    "reason": "R18 to R21 on main carried the Decision Balance restriction and the site action bar. This record carries the wordmark alignment, which was developed alongside them and merged after. No earlier record is rewritten. R16 remains the last record carrying a recorded owner approval."
-  },
+  "supersedes": "quality/route-lock/approved-production-r21.json",
   "textLineEndings": "lf",
   "browserPlatforms": {
     "routes": {
@@ -227,37 +228,31 @@
     "rationale": "project-documentation/website-redesign/RELEASE-2026-09-24.md"
   },
   "scope": {
-    "baselineCommit": "r21",
+    "baselineCommit": "2fdc193",
     "allowedExistingChanges": [
       {
+        "path": "src/components/mindmake/MindmakeShell.tsx",
+        "before": "51ed65715b0faad8da1702290fdc1ea42d7a0a3a47326b7f4f7a75f891242cd4",
+        "after": "b58e9ada18861fc441912c6d49658f797118d40c0c380741e39cb7dc99879e38",
+        "reason": "Keys the action bar's door on the route without its trailing slash. Reading location.pathname exactly meant /ai-brain found a door and /ai-brain/ did not, so the prerendered document carried one and hydration did not: React error #418, the route dropped to client rendering and the server heading went with it. Caught by qa:release-routes on all three engines."
+      },
+      {
         "path": "src/styles/mindmake.css",
-        "before": "ca8ae4f675738f82ce1ce83d0b1ced4ba48e82310d24d30f81a5aee1dabe28ad",
-        "after": "5346a13976b92dcb495f111a0997556d69d4370f25bf0a8d455efd3005f50f64",
-        "reason": "Writes out .mm-container's start margin so a narrower max-width on the container shortens the measure instead of centring it; adds .mm-route-leadership so /new-age-leadership's chrome takes the R5 surface's edge; restyles .mm-not-found from a centred full-viewport card to a page hero under the shell. No other rule changes."
+        "before": "c41f3650c45a259794e2d8d1dcece0f7ceaed19d5524b1dc0f66ff8eb9c08fa4",
+        "after": "ca8ae4f675738f82ce1ce83d0b1ced4ba48e82310d24d30f81a5aee1dabe28ad",
+        "reason": "The door is hidden below 768px. It was a second row there, and the bar stood 150.7px tall at 320x568 with its own reserve pushing the last footer link underneath it on both offer routes. The phone keeps the one action; the menu carries both routes."
       },
       {
-        "path": "src/styles/mindmake-commercial-decision-balance.css",
-        "before": "28ee9e456159953099cfceabbd068d7d43cbf0bfdaa76c990fd76dd541b5cfac",
-        "after": "a2fb68466e0835aa4023a2c503c92e66cea3465ac94fdec5ce4d43ec37af3554",
-        "reason": "Reads --mm-header-inline, falling back to --mm-edge, so the block sits on its route's content edge. After R18 that route is /new-age-leadership alone, where the R5 edge is 63px at 1440 and 72px at 1920 against the container's 100px and 340px."
+        "path": "scripts/qa/approved-route-lock-check.mjs",
+        "before": "4ba5c91e045cd1b5e443fc63ecef3f8e5571d8d7827852f7334ecc650c0bdaef",
+        "after": "d138454932ef58b7135f4f4f411b167dfe1d452f7077c64e276e59d6fa8841b4",
+        "reason": "Selects this new record."
       },
       {
-        "path": "src/components/homepage-release/integration.css",
-        "before": "cb45a23326551c23571096050444ce34dc098090e7bceefa3d4058be697b5848",
-        "after": "26523479663af72dc39b83c96f71eadbd814d59ce34c503fb0c73c388815edaa",
-        "reason": "One new block puts the history, authority and dividend frames' copy, rails, stages, panels and controls on the frame's own edge, on desktop and on the phone, and brings the mode switch's phone rule off its flat 12px. Insets only. The generated adapter and the R3 source are untouched."
-      },
-      {
-        "path": "src/pages/NewAgeLeadership.tsx",
-        "before": "9293d0262fb7431d1cc4ef5007b1f30f39110a0bc3553836a78cb6792304a1b7",
-        "after": "a966f0dead170a2b60e7b9ceadfbe19ce084b76c9eecbc92c6a19c48713789fd",
-        "reason": "Declares mm-route-leadership on the .mm-site that carries the commercial block and the footer, so the shell chrome can take this route's edge. No page body change."
-      },
-      {
-        "path": "package.json",
-        "before": "08e11e55c8ea2f0dc8cdb4046475b49bf6cb4ed9df603b508bd70f6c8f5003a5",
-        "after": "d7f08512c5b226dbd70065ecffc3dd5865f8256d29e4035ecbead1807d0cd251",
-        "reason": "Adds the qa:logo-alignment script."
+        "path": "scripts/qa/approved-route-lock-self-test.mjs",
+        "before": "34e13c593ceb9c598b0e2f8eed06fd29d16d1aec102b306d0bcd18b8ee3a29dc",
+        "after": "1a70eadc2c9bc47965b6dd55660a549ea98c899ce67dce1a1cc7ef8bf6a81ec7",
+        "reason": "Selects this new record."
       }
     ]
   },
@@ -265,31 +260,5 @@
     ".svg",
     ".xml",
     ".webmanifest"
-  ],
-  "verificationCorrections": {
-    "allowedChanges": [
-      {
-        "path": "scripts/qa/approved-route-lock-check.mjs",
-        "before": "d138454932ef58b7135f4f4f411b167dfe1d452f7077c64e276e59d6fa8841b4",
-        "after": "3fbea49b94d123879f2c3042b16d57752aa246678ac6f31084c646f7c5af357e",
-        "reason": "Reads this revision."
-      },
-      {
-        "path": "scripts/qa/approved-route-lock-self-test.mjs",
-        "before": "1a70eadc2c9bc47965b6dd55660a549ea98c899ce67dce1a1cc7ef8bf6a81ec7",
-        "after": "c085ef425c1b62098bddd9ab039024fa1e32a0824175ff1b36de2bf833ab2953",
-        "reason": "Reads this revision."
-      },
-      {
-        "path": ".github/workflows/approved-route-lock.yml",
-        "before": "a3a41accb6cde749a9e5e89fd2f5672da0b61e4144ad75952ba55bcf3cbea397",
-        "after": "20d2262bc355a4d6d8388d941cfff89415ebe960b6eafca47a6717142cc91e3e",
-        "reason": "Runs qa:logo-alignment against the frozen built candidate on the Linux leg."
-      }
-    ],
-    "newlyBound": [
-      "scripts/qa/logo-alignment-check.mjs"
-    ],
-    "nonChanges": "All other R21 hashes retained. src/pages/NotFound.tsx is rewritten to use the shell and is not a locked file; the runtime gate, not a hash, is what holds its alignment. scripts/qa/README.md documents the new gate and is not locked. Product, backend, assets, the immutable R3 prototype and its generated adapter are unchanged."
-  }
+  ]
 }

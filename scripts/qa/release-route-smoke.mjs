@@ -13,14 +13,23 @@ const origin = process.env.QA_BASE_URL || 'http://127.0.0.1:4344';
 if (!['127.0.0.1', 'localhost'].includes(new URL(origin).hostname)) throw new Error('A local built preview is required');
 if (!process.env.QA_BASE_URL) {
   server = spawn(process.execPath, [path.join(root, 'node_modules/vite/bin/vite.js'), 'preview', '--host', '127.0.0.1', '--port', '4344', '--strictPort'], { cwd: root, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] });
-  await new Promise((resolve, reject) => {
-    let output = '';
-    const timer = setTimeout(() => reject(new Error('Owned built preview did not start within 20 seconds')), 20000);
-    server.once('error', error => { clearTimeout(timer); reject(error); });
-    server.once('exit', code => { clearTimeout(timer); reject(new Error(`Owned preview exited ${code}: ${output}`)); });
-    server.stderr.on('data', chunk => { output += chunk.toString(); });
-    server.stdout.on('data', chunk => { output += chunk.toString(); if (output.includes('http://127.0.0.1:4344/')) { clearTimeout(timer); resolve(); } });
-  });
+  // Terminal colour codes differ between Windows and Linux CI. Readiness is
+  // an actual HTTP response, not a substring of Vite's decorated console URL.
+  let startupError;
+  let startupOutput = '';
+  server.once('error', error => { startupError = error; });
+  server.once('exit', code => { startupError = new Error(`Owned preview exited ${code}: ${startupOutput}`); });
+  server.stderr.on('data', chunk => { startupOutput += chunk.toString(); });
+  server.stdout.on('data', chunk => { startupOutput += chunk.toString(); });
+  const deadline = Date.now() + 20000;
+  let ready = false;
+  while (Date.now() < deadline) {
+    if (startupError) throw startupError;
+    try { ready = (await fetch(origin, { signal: AbortSignal.timeout(1000) })).ok; } catch {}
+    if (ready) break;
+    await new Promise(resolve => setTimeout(resolve, 150));
+  }
+  if (!ready) throw new Error(`Owned built preview did not respond within 20 seconds: ${startupOutput}`);
 }
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 const indexBytes = await readFile(path.join(root, 'dist/index.html'));
@@ -51,7 +60,8 @@ async function prepare(page, record) {
   page.setDefaultTimeout(12000);
   page.on('pageerror', error => record.pageerrors.push(error.message));
   page.on('console', message => { if (message.type() === 'error' && /hydrati|Minified React error #(418|423|425)/i.test(message.text())) record.hydrationConsoleErrors.push(message.text()); });
-  await page.addInitScript(() => {
+  await page.addInitScript(targetOrigin => {
+    if (location.origin !== targetOrigin) return;
     localStorage.setItem('mindmake_consent', 'accepted');
     window.__routeSmoke = { serverHeading: null };
     const capture = () => {
@@ -61,7 +71,7 @@ async function prepare(page, record) {
     const observer = new MutationObserver(capture);
     observer.observe(document, { childList: true, subtree: true });
     capture();
-  });
+  }, origin);
   await page.route('**/*', async intercepted => {
     const request = intercepted.request();
     const url = new URL(request.url());
@@ -103,15 +113,25 @@ async function menuCheck(page, record) {
   }
   if (!await opener.count()) { assert(record, false, 'Navigation opener missing'); return; }
   await opener.first().click();
-  await page.waitForTimeout(120);
+  const openStarted = performance.now();
+  let openReady = true;
+  await page.waitForFunction(() => Boolean(document.querySelector('.r3-navigation.is-open, .mm-menu.is-open')) && Boolean(document.activeElement.closest('.r3-navigation, .mm-menu, .mm-header')), null, { timeout: 3000 }).catch(() => { openReady = false; });
   record.menu = await page.evaluate(() => ({
     open: Boolean(document.querySelector('.r3-navigation.is-open, .mm-menu.is-open')),
     focusInside: Boolean(document.activeElement.closest('.r3-navigation, .mm-menu, .mm-header')),
   }));
+  record.menu.openReadyWithinBound = openReady;
+  record.menu.openWaitMs = Math.round(performance.now() - openStarted);
+  assert(record, openReady, 'Menu open/focus state did not settle within 3000ms');
   assert(record, record.menu.open, 'Menu did not open');
   assert(record, record.menu.focusInside, 'Menu did not receive keyboard focus');
   await page.keyboard.press('Escape');
-  await page.waitForTimeout(120);
+  const closeStarted = performance.now();
+  let closeReady = true;
+  await page.waitForFunction(() => !document.querySelector('.r3-navigation.is-open, .mm-menu.is-open') && document.activeElement.getAttribute('aria-label') === 'Open navigation', null, { timeout: 3000 }).catch(() => { closeReady = false; });
+  record.menu.closeReadyWithinBound = closeReady;
+  record.menu.closeWaitMs = Math.round(performance.now() - closeStarted);
+  assert(record, closeReady, 'Menu close/focus state did not settle within 3000ms');
   record.menu.closed = await page.locator('.r3-navigation.is-open, .mm-menu.is-open').count() === 0;
   record.menu.focusRestored = await page.evaluate(() => document.activeElement.getAttribute('aria-label') === 'Open navigation');
   assert(record, record.menu.closed && record.menu.focusRestored, 'Menu Escape did not close and restore focus');

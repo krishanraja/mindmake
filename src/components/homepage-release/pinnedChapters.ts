@@ -44,7 +44,10 @@ export function mountPinnedChapters(root: HTMLElement, chapters: Chapters) {
     for (const item of tracks) {
       const height = item.section.getBoundingClientRect().height;
       // Short landscape / enlarged text must not pin content outside the viewport.
-      item.enabled = !motion.matches && height <= innerHeight + 2;
+      const enabled = !motion.matches && height <= innerHeight + 2;
+      if (enabled !== item.enabled) item.index = -1;
+      item.enabled = enabled;
+      if (!enabled) delete item.section.dataset.scrollStage;
       item.step = Math.max(220, Math.round(innerHeight * .6));
       item.track.classList.toggle("is-pinned", item.enabled);
       item.track.style.height = item.enabled ? `${height + item.count * item.step}px` : "";
@@ -56,11 +59,13 @@ export function mountPinnedChapters(root: HTMLElement, chapters: Chapters) {
     const detail = (event as CustomEvent<{ section: string; index?: number; mode?: string }>).detail;
     const name = detail.section === "dividend" ? "leadership-dividend" : detail.section;
     const item = tracks.find((entry) => entry.name === name);
-    if (!item?.enabled) return;
+    if (!item) return;
+    // Natural-mode controls can change the scene without moving the track.
+    item.index = -1;
+    if (!item.enabled) return;
     const index = detail.mode === "benefits" ? 3 : detail.mode === "return" ? 4 : detail.index ?? 0;
     const top = window.scrollY + item.track.getBoundingClientRect().top;
     window.scrollTo({ top: top + index * item.step + 2, behavior: "instant" });
-    item.index = -1;
     queue();
   }
   addEventListener("scroll", queue, { passive: true, signal: abort.signal });

@@ -12,7 +12,7 @@ await mkdir(evidence, { recursive: true });
 const external = process.env.MINDMAKE_RELEASE_URL;
 const origin = external || 'http://127.0.0.1:4342';
 const server = external ? null : spawn(process.execPath, [path.join(root,'node_modules/vite/bin/vite.js'), ...(process.argv.includes('--built') ? ['preview'] : []), '--host', '127.0.0.1','--port','4342','--strictPort'], {cwd:root,windowsHide:true,stdio:'pipe'});
-const failures = [], cases = [], screenshots = [];
+const failures = [], cases = [], screenshots = [], fallbackTransitions = [];
 const assert = (condition, message) => { if (!condition) failures.push(message); };
 const settle = page => page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
 const geometry = locator => locator.evaluate(node => { const r=node.getBoundingClientRect(); return {top:r.top,height:r.height,bottom:r.bottom}; });
@@ -113,6 +113,48 @@ try {
       await page.emulateMedia({reducedMotion:'no-preference'});
       await settle(page);
       assert(await page.locator('.homepage-pin-track.is-pinned').count()===0,`${engine}: short viewport natural flow`);
+      // A natural-flow manual selection must not leave the pin controller's
+      // cached stage stale when the user restores motion or viewport height.
+      for (const fallback of ['reduced-motion', 'short-height']) {
+        for (const chapter of ['history', 'leadership-dividend']) {
+          await page.setViewportSize({width:720,height:900});
+          await page.emulateMedia({reducedMotion:'no-preference'});
+          await settle(page);
+          const track=page.locator(`[data-chapter="${chapter}"]`);
+          const section=page.locator(`[data-component="${chapter}"]`);
+          const start=await track.evaluate(node=>scrollY+node.getBoundingClientRect().top);
+          const cachedIndex=1;
+          await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),start+540*cachedIndex+10);
+          await settle(page);
+          assert(await section.getAttribute('data-scroll-stage')==='1',`${engine}/${chapter}/${fallback}: cached pinned stage`);
+          if(fallback==='reduced-motion') await page.emulateMedia({reducedMotion:'reduce'});
+          else await page.setViewportSize({width:720,height:450});
+          await settle(page);
+          assert(await track.getAttribute('data-pin-mode')==='natural',`${engine}/${chapter}/${fallback}: natural mode`);
+          assert(await section.getAttribute('data-scroll-stage')===null,`${engine}/${chapter}/${fallback}: stale stage cleared`);
+          if(chapter==='history') {
+            await section.locator('[data-era="3"]:visible').click();
+            assert((await section.locator('[data-story-question]:visible').innerText()).includes(states.history[3]),`${engine}/${chapter}/${fallback}: natural manual choice`);
+          } else {
+            await section.locator('[data-dividend-mode="return"]:visible').click();
+            assert((await section.locator('.return-copy h2:visible').innerText()).includes(states[chapter][4]),`${engine}/${chapter}/${fallback}: natural manual choice`);
+          }
+          await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),start+540*cachedIndex+10);
+          if(fallback==='reduced-motion') await page.emulateMedia({reducedMotion:'no-preference'});
+          else await page.setViewportSize({width:720,height:900});
+          await settle(page);
+          const restoredStart=await track.evaluate(node=>scrollY+node.getBoundingClientRect().top);
+          await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),restoredStart+540*cachedIndex+10);
+          await settle(page);
+          const selector=chapter==='history'?'[data-story-question]:visible':'[data-practice-title]:visible';
+          const visibleState=(await section.locator(selector).innerText()).trim();
+          const restoredStage=await section.getAttribute('data-scroll-stage');
+          const matched=visibleState.includes(states[chapter][cachedIndex]);
+          assert(await track.getAttribute('data-pin-mode')==='scroll',`${engine}/${chapter}/${fallback}: pin restored`);
+          assert(restoredStage==='1' && matched,`${engine}/${chapter}/${fallback}: restored visible state agrees with scroll`);
+          fallbackTransitions.push({engine,chapter,fallback,restoredStage,visibleState,matched});
+        }
+      }
       await page.close();
     } finally { await browser.close(); }
   }
@@ -121,7 +163,7 @@ finally { server?.kill(); }
 const sourceFiles=['src/pages/Index.tsx','src/components/homepage-release/markup.ts','src/components/homepage-release/runtime.js','src/components/homepage-release/component-styles.css','src/components/homepage-release/page.css','src/components/homepage-release/integration.css','src/components/homepage-release/pinnedChapters.ts','src/components/homepage-release/pinnedChapters.css'];
 const hashes={};
 for(const file of sourceFiles) hashes[file]=createHash('sha256').update(await readFile(path.join(root,file))).digest('hex');
-const report={at:new Date().toISOString(),origin,built:process.argv.includes('--built'),hashes,cases,screenshots,failures};
+const report={at:new Date().toISOString(),origin,built:process.argv.includes('--built'),hashes,cases,screenshots,fallbackTransitions,failures};
 const traceText=JSON.stringify(report,null,2)+'\n';
 await writeFile(path.join(evidence,'scroll-observations.json'),traceText);
 const traceEvidence={path:'artifacts/homepage-release/scroll-observations.json',sha256:createHash('sha256').update(traceText).digest('hex')};

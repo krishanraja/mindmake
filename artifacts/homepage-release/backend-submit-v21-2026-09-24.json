@@ -1,0 +1,113 @@
+{
+  "recordedAt": "2026-09-24T16:14:44.7057164Z",
+  "source": "ff8f8d31402aea38c02b4ffddaefd628079c83b0",
+  "project": "bkyuxvschuwngtcdhsyg",
+  "function": "submit-mindmake-brief",
+  "version": 21,
+  "status": "ACTIVE",
+  "verifyJwt": false,
+  "deployStartedAt": "2026-09-24T16:12:35.8857729Z",
+  "deployCompletedAt": "2026-09-24T16:12:40.3415207Z",
+  "serverUpdatedAt": "2026-09-24T16:12:39.707Z",
+  "bundleSha256": "c1511b1dc78e5b4c4f81ad5c1e9c45d83169a997d66ef850fe995607542f0ff3",
+  "modules": [
+    {
+      "module": "supabase/functions/submit-mindmake-brief/core.ts",
+      "sha256": "772860552AC6E3E8E407A7CB099196C2AEAB9DC63B8D27CA3268CA4D04A2CCCD",
+      "candidateMatch": true
+    },
+    {
+      "module": "supabase/functions/submit-mindmake-brief/index.ts",
+      "sha256": "33CE410B8EC26381E6B553D5620B5C125AB3B90FAB9E86A1283BDA143E98C936",
+      "candidateMatch": true
+    },
+    {
+      "module": "supabase/functions/_shared/logger.ts",
+      "sha256": "1B6D22BED274B8E78B037ABD4D4A65C858A70DB0D20C9FE2A6B7D97FBBB74FB4",
+      "candidateMatch": true
+    },
+    {
+      "module": "supabase/functions/_shared/retry.ts",
+      "sha256": "E1D25811EBB05E364ABA6C4E789E2FF57A14343A159AD9C61593893689E09539",
+      "candidateMatch": true
+    },
+    {
+      "module": "supabase/functions/_shared/timeout.ts",
+      "sha256": "A4F3B91D0765484ECB49CE75D79E7E85E0D4E616B6DE32742A41B0C69991F4F4",
+      "candidateMatch": true
+    },
+    {
+      "module": "supabase/functions/_shared/enrich/brandfetch.ts",
+      "sha256": "50C949E39FB6995F01D34C117D684E85D22A3D2147DE5F8CA231325104E15EFA",
+      "candidateMatch": true
+    },
+    {
+      "module": "supabase/functions/_shared/enrich/builtwith.ts",
+      "sha256": "67C63B441DCA78E5ABC47DF3EB701EC8442BB51BB6A58258E80FDE4589AE3BC1",
+      "candidateMatch": true
+    },
+    {
+      "module": "supabase/functions/_shared/enrich/currency.ts",
+      "sha256": "3B57F167052333606CE7EA6438818BA0CD6370999CE78A6267D3E88CD026D467",
+      "candidateMatch": true
+    },
+    {
+      "module": "supabase/functions/_shared/enrich/orchestrate.ts",
+      "sha256": "6A7A50F1C68D4BD5F31D0E6FE351363463F9E3F4218823B8F161DB557F4EC2C9",
+      "candidateMatch": true
+    },
+    {
+      "module": "supabase/functions/_shared/enrich/pdl.ts",
+      "sha256": "1F008088AE7C3BB5C7C613F22C08D54CF0DCDEAE5DD68007EAB9845C57CD995D",
+      "candidateMatch": true
+    },
+    {
+      "module": "supabase/functions/_shared/enrich/provenance.ts",
+      "sha256": "E862D3F466E387412FE05F692F8A88568119307023780BB047D7CFB5751CA79C",
+      "candidateMatch": true
+    },
+    {
+      "module": "supabase/functions/_shared/enrich/tranco.ts",
+      "sha256": "1BD96FEC6563631BFAC7E1261E6BE1BE99FBD54949AA407A3493014824B0C72F",
+      "candidateMatch": true
+    },
+    {
+      "module": "supabase/functions/_shared/enrich/types.ts",
+      "sha256": "5026A980FF9145485E692168B326866670B123BD9878BEC1A47252F535D098C3",
+      "candidateMatch": true
+    },
+    {
+      "module": "supabase/functions/_shared/http/resend.ts",
+      "sha256": "6EA66796E632DF8B6967126CCB5E8EAE89BC62D5B10295BA31EDF683623E3B98",
+      "candidateMatch": true
+    },
+    {
+      "module": "supabase/functions/_shared/lead/choiceSignature.ts",
+      "sha256": "687BA37F7F9B60EBEF61C958D7CCACE8877BC43A07F1A211014E81C6E18D9260",
+      "candidateMatch": true
+    }
+  ],
+  "otherFunctionsUnchanged": {
+    "enrichCompany": 44,
+    "personalRead": 25
+  },
+  "runtimeReadOnly": {
+    "optionsStatus": 200,
+    "optionsBody": {
+      "success": true
+    },
+    "getBody": {
+      "success": false,
+      "error": "method_not_allowed"
+    },
+    "note": "Initial check expected204; inspected source specifies200success. Actual200success and405method_not_allowed match source. No product repair.",
+    "getStatus": 405
+  },
+  "noSends": true,
+  "noQueues": true,
+  "noCron": true,
+  "noSchema": true,
+  "rollback": "C:/Users/krish/.scratch/mindmake-submit-preflight-20260924-v20",
+  "scope": "One approved visitor email boundary string; no other runtime source change",
+  "limits": "No new email send; deployment and all-module source parity establish corrected template; prior E2E receipt proves unchanged delivery path"
+}

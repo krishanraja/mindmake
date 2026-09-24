@@ -6,24 +6,25 @@ Verified release: 24 September 2026. This is the current evidence summary, not a
 
 - Repository origin: `krishanraja/mindmake`, local `mindmake-award-panel`.
 - Supabase project: `bkyuxvschuwngtcdhsyg`, Mindmaker AI, authenticated official CLI target verified. No keys read; no unrelated functions or schema migrated.
-- Production frontend: PR170 merge `3ee77cf9956f98dd73f69d0b48745930335e74e1`, deployment `dpl_EZigNAi6Uc6Apcq75XsFnHETt5W8`, public `https://mindmake.co`, immutable deployment `https://mindmake-bh0d8hczk-krish-rajas-projects.vercel.app`, observed script `/assets/index-CZk5zedf.js`.
+- Actual browser-canary frontend: PR170 merge `3ee77cf9956f98dd73f69d0b48745930335e74e1`, deployment `dpl_EZigNAi6Uc6Apcq75XsFnHETt5W8`, public `https://mindmake.co`, observed script `/assets/index-CZk5zedf.js`. This identifies the exercised journey, not the latest frontend deployment; `../06_CURRENT_STATE.md` owns the verified application release.
 - Designated canary recipient: `krish@themindmaker.ai` only; synthetic Release Canary. No publication interest selected. No other leads touched.
 
 | Function | Version | Status | Verify JWT |
 | --- | ---: | --- | --- |
 | enrich-company | 44 | ACTIVE | true |
-| submit-mindmake-brief | 20 | ACTIVE | false |
+| submit-mindmake-brief | 21 | ACTIVE | false |
 | mindmake-personal-read | 25 | ACTIVE | false |
 
 ## Source parity and checks
 
-All three Deno closure checks passed. Scoped ESLint on the two repaired typed entry points passed. Provenance, brief-core and personal-read-core tests: 3 files / 67 tests passed. Full-site unit/browser/build results are in the overall release record, not replaced by this scoped result.
+All three Deno closure checks and scoped ESLint passed. Four backend suites / 115 tests and nine executable Deno core tests passed. Full-site unit/browser/build results are in the overall release record, not replaced by this scoped result.
 
-The deployed closures were independently downloaded using the official CLI. The final two closures at `C:/Users/krish/.scratch/mindmake-backend-deployed-20260924-types` matched all 19 unique repository modules by SHA256. The final submit/personal changes were type-only `SupabaseClient` imports; emitted runtime JavaScript was byte-identical to the preceding deployed versions. Current hashes:
+The submit v21 deployed closure was independently downloaded using the official CLI and all 15 modules match candidate `ff8f8d31402aea38c02b4ffddaefd628079c83b0`. Enrichment v44 and personal-read v25 versions and bundles remain unchanged. The sole v21 change is the results template's follow-up disclosure; source equality proves no other runtime change. Read-only OPTIONS200 and GET405 match the existing API contract. No POST, email, queue, cron, schema or unrelated-function mutation accompanied this correction. The redacted receipt is `../../artifacts/homepage-release/backend-submit-v21-2026-09-24.json`. Current hashes:
 
 | Source | SHA256 |
 | --- | --- |
 | submit-mindmake-brief/index.ts | `33CE410B8EC26381E6B553D5620B5C125AB3B90FAB9E86A1283BDA143E98C936` |
+| submit-mindmake-brief/core.ts | `772860552AC6E3E8E407A7CB099196C2AEAB9DC63B8D27CA3268CA4D04A2CCCD` |
 | mindmake-personal-read/index.ts | `1093FE13DB10D9A40E18576F3EF67BC8B6251F29415E12732C8C38425D21FAF3` |
 | enrich/provenance.ts | `E862D3F466E387412FE05F692F8A88568119307023780BB047D7CFB5751CA79C` |
 | enrich/orchestrate.ts | `6A7A50F1C68D4BD5F31D0E6FE351363463F9E3F4218823B8F161DB557F4EC2C9` |
@@ -77,13 +78,12 @@ The real public personal-read action contract was exercised with the allowed pro
 - Exactly one personal-read queue `df6a5a5a-9342-4e1d-8e49-4334ac7616fc`, due `2026-10-08T12:54:17.246Z`, attempts0, unsent.
 - Exact new read/queue IDs plus recipient predicates deleted; one each, zero independently read back. Receipt retained. This run preceded the type-only redeploy; runtime equivalence is documented above.
 
-## Limits and open discrepancy
+## Evidence limits
 
 - Daily retention, price-snapshot and follow-up schedules are configured in the retained source; no fresh scheduler readback is asserted by this receipt. The live cron sender was not invoked and future day-14 delivery was not tested early. A due row is not a future inbox receipt.
 - Queue uniqueness is per email/source, not a lifetime cap across purges and all journeys. Verification is an additional service email.
-- Source correction ready, deployment pending: production visitor template still has the false “No sales emails will follow automatically” claim. The local candidate changes exactly one boundary string to disclose one follow-up fourteen days later, no ongoing sequence and separate useful human contact. Core source SHA256 is `772860552AC6E3E8E407A7CB099196C2AEAB9DC63B8D27CA3268CA4D04A2CCCD`; full source equality to the committed baseline plus that one replacement was verified. Four backend suites / 115 tests, three Deno closure checks and scoped ESLint passed. The regression checks HTML and text. No deployment/send yet; versions and production receipts above remain the deployed baseline, not proof of corrected live wording.
+- The deployed results template truthfully discloses the existing single follow-up fourteen days later, no ongoing sequence and separate useful human contact. HTML/text regression and deployed source parity establish the corrected wording. The actual INBOX receipts above prove the unchanged delivery path, not a newly sent v21 email; no extra email was sent for the wording-only correction.
 - Physical iPhone VoiceOver/Android TalkBack were not performed under the owner's release-specific exception; no backend or browser result claims them passed.
-- The pending sentence correction also passes all 9 executable Deno core tests after updating their mirrored boundary assertion; it remains local and undeployed.
 - One successful designated company/recipient proves the recorded path, not universal future provider quality or deliverability. Separate frontend/public route/motion gates remain in the release record.
 
 ## Repeat procedure

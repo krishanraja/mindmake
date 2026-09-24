@@ -1,0 +1,323 @@
+{
+  "url": "https://mindmake.co",
+  "checkedAt": "2026-09-24T16:23:43.869Z",
+  "htmlSha256": "16e77acd33e0485dea521da605de0b6988b40146b707bac77b413140796a7342",
+  "scripts": [
+    {
+      "src": "/assets/index-DWnOh45o.js",
+      "sha256": "d7c36a786647bb85ffa0eae07ee7d1368fd60c77ec0df7f258ba9eeed9be3192"
+    }
+  ],
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 900,
+      "errors": [],
+      "blocked": [
+        {
+          "method": "GET",
+          "url": "https://plausible.io/js/script.js"
+        }
+      ],
+      "images": [
+        "artifacts/homepage-release/r16-live-16e77acd33e0-1440-opening.png",
+        "artifacts/homepage-release/r16-live-16e77acd33e0-1440-history-0.png",
+        "artifacts/homepage-release/r16-live-16e77acd33e0-1440-history-3.png",
+        "artifacts/homepage-release/r16-live-16e77acd33e0-1440-leadership-dividend-0.png",
+        "artifacts/homepage-release/r16-live-16e77acd33e0-1440-leadership-dividend-4.png",
+        "artifacts/homepage-release/r16-live-16e77acd33e0-1440-footer.png",
+        "artifacts/homepage-release/r16-live-16e77acd33e0-1440-menu.png"
+      ],
+      "checks": [
+        {
+          "name": "opening",
+          "headline": "Build the business that can think with you.",
+          "overflow": false
+        },
+        {
+          "name": "history",
+          "requested": 0,
+          "pinMode": "scroll",
+          "stage": "0",
+          "visibleText": "You are not the first person to wonder what a new tool might take from you.\n\nWe have been asking that question for centuries.\n\n01\n370 BC · WRITING\nIf knowledge lives outside us, will memory grow weaker?\n\nWHAT CHANGED\nIdeas could travel beyond one voice and survive their maker. We changed what memory was for.\n\n370 BC\nWriting\n1675\nEngine loom\n1970s\nCalculator\n2000s\nSatnav\n\nThe feeling is familiar. The reach is new.",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 1440,
+            "height": 900
+          },
+          "cookie": {
+            "x": 1080.6875,
+            "y": 846,
+            "width": 301.71875,
+            "height": 40
+          }
+        },
+        {
+          "name": "history",
+          "requested": 3,
+          "pinMode": "scroll",
+          "stage": "3",
+          "visibleText": "You are not the first person to wonder what a new tool might take from you.\n\nWe have been asking that question for centuries.\n\n04\n2000S · SATNAV\nIf the device knows the route, will we lose our sense of direction?\n\nWHAT CHANGED\nThat risk turned out to be real. A useful tool still asks us what we choose to keep practising.\n\n370 BC\nWriting\n1675\nEngine loom\n1970s\nCalculator\n2000s\nSatnav\n\nThe feeling is familiar. The reach is new.",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 1440,
+            "height": 900
+          },
+          "cookie": {
+            "x": 1080.6875,
+            "y": 846,
+            "width": 301.71875,
+            "height": 40
+          }
+        },
+        {
+          "name": "history",
+          "requested": 1,
+          "pinMode": "scroll",
+          "stage": "1",
+          "visibleText": "You are not the first person to wonder what a new tool might take from you.\n\nWe have been asking that question for centuries.\n\n02\n1675 · ENGINE LOOM\nIf the machine can do the work, what happens to the worker?\n\nWHAT CHANGED\nThe fear was not foolish. Jobs, wages and status changed. The real fight was over who controlled the gain.\n\n370 BC\nWriting\n1675\nEngine loom\n1970s\nCalculator\n2000s\nSatnav\n\nThe feeling is familiar. The reach is new.",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 1440,
+            "height": 900
+          },
+          "cookie": {
+            "x": 1080.6875,
+            "y": 846,
+            "width": 301.71875,
+            "height": 40
+          }
+        },
+        {
+          "name": "leadership-dividend",
+          "requested": 0,
+          "pinMode": "scroll",
+          "stage": "0",
+          "visibleText": "WHAT THIS FEELS LIKE IN PRACTICE\n\nThe system does not replace your judgement. It brings more to it.\n01 / 03\nIt notices what changed.\n\nSignals arrive before someone asks for a report.\n\nNotice\nConnect\nPrepare",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 1440,
+            "height": 900
+          },
+          "cookie": {
+            "x": 1080.6875,
+            "y": 846,
+            "width": 301.71875,
+            "height": 40
+          }
+        },
+        {
+          "name": "leadership-dividend",
+          "requested": 4,
+          "pinMode": "scroll",
+          "stage": "4",
+          "visibleText": "THE RETURNED HOUR\n\nWhat will you do with the hours it gives back?\nAsk the harder question.\nSpend more time with people.\nMake the consequential call earlier.\nA hybrid organisation does not ask you to think less. It helps you act on more of what you know.",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 1440,
+            "height": 900
+          },
+          "cookie": {
+            "x": 1080.6875,
+            "y": 846,
+            "width": 301.71875,
+            "height": 40
+          }
+        },
+        {
+          "name": "leadership-dividend",
+          "requested": 1,
+          "pinMode": "scroll",
+          "stage": "1",
+          "visibleText": "WHAT THIS FEELS LIKE IN PRACTICE\n\nThe system does not replace your judgement. It brings more to it.\n02 / 03\nIt joins the evidence.\n\nNew information meets what the business already knows.\n\nNotice\nConnect\nPrepare",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 1440,
+            "height": 900
+          },
+          "cookie": {
+            "x": 1080.6875,
+            "y": 846,
+            "width": 301.71875,
+            "height": 40
+          }
+        },
+        {
+          "name": "footer",
+          "overflow": false,
+          "links": 11
+        },
+        {
+          "name": "menu-focus",
+          "active": "Close navigation"
+        },
+        {
+          "name": "menu-escape",
+          "active": "Open navigation",
+          "inert": ""
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "errors": [],
+      "blocked": [
+        {
+          "method": "GET",
+          "url": "https://plausible.io/js/script.js"
+        }
+      ],
+      "images": [
+        "artifacts/homepage-release/r16-live-16e77acd33e0-390-opening.png",
+        "artifacts/homepage-release/r16-live-16e77acd33e0-390-history-0.png",
+        "artifacts/homepage-release/r16-live-16e77acd33e0-390-history-3.png",
+        "artifacts/homepage-release/r16-live-16e77acd33e0-390-leadership-dividend-0.png",
+        "artifacts/homepage-release/r16-live-16e77acd33e0-390-leadership-dividend-4.png",
+        "artifacts/homepage-release/r16-live-16e77acd33e0-390-footer.png",
+        "artifacts/homepage-release/r16-live-16e77acd33e0-390-menu.png"
+      ],
+      "checks": [
+        {
+          "name": "opening",
+          "headline": "Build the business that can think with you.",
+          "overflow": false
+        },
+        {
+          "name": "history",
+          "requested": 0,
+          "pinMode": "scroll",
+          "stage": "0",
+          "visibleText": "You are not the first person to wonder what a new tool might take from you.\n\nWe have been asking that question for centuries.\n\n01\n370 BC · WRITING\nIf knowledge lives outside us, will memory grow weaker?\n\nWHAT CHANGED\nIdeas could travel beyond one voice and survive their maker. We changed what memory was for.\n\n370 BC\n1675\n1970s\n2000s",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          },
+          "cookie": {
+            "x": 0,
+            "y": 805,
+            "width": 390,
+            "height": 39
+          }
+        },
+        {
+          "name": "history",
+          "requested": 3,
+          "pinMode": "scroll",
+          "stage": "3",
+          "visibleText": "You are not the first person to wonder what a new tool might take from you.\n\nWe have been asking that question for centuries.\n\n04\n2000S · SATNAV\nIf the device knows the route, will we lose our sense of direction?\n\nWHAT CHANGED\nThat risk turned out to be real. A useful tool still asks us what we choose to keep practising.\n\n370 BC\n1675\n1970s\n2000s",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          },
+          "cookie": {
+            "x": 0,
+            "y": 805,
+            "width": 390,
+            "height": 39
+          }
+        },
+        {
+          "name": "history",
+          "requested": 1,
+          "pinMode": "scroll",
+          "stage": "1",
+          "visibleText": "You are not the first person to wonder what a new tool might take from you.\n\nWe have been asking that question for centuries.\n\n02\n1675 · ENGINE LOOM\nIf the machine can do the work, what happens to the worker?\n\nWHAT CHANGED\nThe fear was not foolish. Jobs, wages and status changed. The real fight was over who controlled the gain.\n\n370 BC\n1675\n1970s\n2000s",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          },
+          "cookie": {
+            "x": 0,
+            "y": 805,
+            "width": 390,
+            "height": 39
+          }
+        },
+        {
+          "name": "leadership-dividend",
+          "requested": 0,
+          "pinMode": "scroll",
+          "stage": "0",
+          "visibleText": "WHAT THIS FEELS LIKE IN PRACTICE\n\nThe system does not replace your judgement. It brings more to it.\n01 / 03\nIt notices what changed.\n\nSignals arrive before someone asks for a report.\n\nNotice\nConnect\nPrepare",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          },
+          "cookie": {
+            "x": 0,
+            "y": 805,
+            "width": 390,
+            "height": 39
+          }
+        },
+        {
+          "name": "leadership-dividend",
+          "requested": 4,
+          "pinMode": "scroll",
+          "stage": "4",
+          "visibleText": "THE RETURNED HOUR\n\nWhat will you do with the hours it gives back?\nAsk the harder question.\nSpend more time with people.\nMake the consequential call earlier.",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          },
+          "cookie": {
+            "x": 0,
+            "y": 805,
+            "width": 390,
+            "height": 39
+          }
+        },
+        {
+          "name": "leadership-dividend",
+          "requested": 1,
+          "pinMode": "scroll",
+          "stage": "1",
+          "visibleText": "WHAT THIS FEELS LIKE IN PRACTICE\n\nThe system does not replace your judgement. It brings more to it.\n02 / 03\nIt joins the evidence.\n\nNew information meets what the business already knows.\n\nNotice\nConnect\nPrepare",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          },
+          "cookie": {
+            "x": 0,
+            "y": 805,
+            "width": 390,
+            "height": 39
+          }
+        },
+        {
+          "name": "footer",
+          "overflow": false,
+          "links": 11
+        },
+        {
+          "name": "menu-focus",
+          "active": "Close navigation"
+        },
+        {
+          "name": "menu-escape",
+          "active": "Open navigation",
+          "inert": ""
+        }
+      ]
+    }
+  ]
+}

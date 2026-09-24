@@ -81,17 +81,15 @@ Successful send emails the visitor, stores `public.mindmake_personal_reads` and 
 
 Handoff reuses known details when present, allows a personal address, and does not consume the paid-read limiter. It sends no visitor email. Operator notice is rate-limited separately. Personal-read storage constrains a row to a read with both answers or a handoff reason; RLS remains service-role only. Do not equate an operator send acknowledgement with inbox arrival or claim storage succeeded without the response/evidence establishing it.
 
-## Follow-up contract and known wording discrepancy
+## Follow-up contract
 
 The approved sequence is a results email followed by one day-14 offer, not a drip campaign. Brief verification is an additional service email. `send-follow-ups` reads due rows at the configured daily 09:20 UTC schedule, uses deterministic row-based idempotency, records provider acceptance in `sent_at`, and abandons a row after three failed attempts. The configured subject is “The better version of our offer”. No publication signup occurs.
 
 `follow_up_queue` is unique on `(email, source)`. This prevents concurrent duplicate queue rows per source. It is **not** a lifetime “exactly two emails ever” guarantee: sources differ, old sent rows are purged and future explicit requests can create new work. Do not claim stronger enforcement than implemented. `brief2-email-cap.test.ts` guards the allowed sending surfaces; it does not establish inbox delivery or a lifetime identity cap.
 
-**Source correction ready; production deployment pending:** the deployed visitor results template still says “No sales emails will follow automatically”, despite the approved automated day-14 offer. The local `submit-mindmake-brief/core.ts` candidate changes only that boundary to: “We will send one follow-up fourteen days from now. There is no ongoing email sequence. If you hear from Krish separately, it will be because he has a useful next move, a strong fit or something worth questioning.” A focused regression checks both HTML and plain text and rejects the old claim. Four backend suites (115 tests), all three Deno closure checks and scoped lint pass. No deployment or email send has occurred for this correction; do not claim the live contradiction resolved until source-bound deployment/readback.
+The deployed submit v21 results template states: “We will send one follow-up fourteen days from now. There is no ongoing email sequence. If you hear from Krish separately, it will be because he has a useful next move, a strong fit or something worth questioning.” A focused regression checks HTML and plain text. Four backend suites (115 tests), nine executable Deno core tests, three Deno closure checks and scoped lint pass. All 15 downloaded deployed modules match the candidate source. No recipients, delivery flow, queue behavior or schedule changed, and no additional email was sent for this wording-only correction. The backend receipt records source parity separately from the earlier actual inbox-delivery proof.
 
 The due queue and its send-after time were verified. The daily 09:20 UTC schedule is configured in source; this current record does not include a fresh 24 September live scheduler readback and must not be treated as proof of current cron activation. The future day-14 email was not sent early and the live cron sender was not invoked in release QA. No claim that that future message has arrived is made.
-
-The pending source-only follow-up disclosure also passes all nine executable Deno core tests. It remains undeployed until the coordinated source release and readback.
 
 ## Retention
 

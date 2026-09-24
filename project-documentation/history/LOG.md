@@ -9342,3 +9342,60 @@ the live version remains unchanged until a separately verified submit-only deplo
 Search Console/Bing property access, actual indexing/rankings/AI citations and
 external social-cache rendering have not been verified. No new emails, search
 submissions, DNS, crawler-training policy or dependency upgrades were performed.
+
+## 2026-09-24 R16 technical discovery release: verified production closeout
+
+PR171 merged at 16:18:47Z as 9e79e351db45ecb2f2f8b2e383639d402ab1c7a2.
+Candidate ff8f8d31402aea38c02b4ffddaefd628079c83b0, CI merge
+ee0b58d44f542fb9daaa050399aae1cf869ce78b and production merge share exact Git
+tree 0859da5aa90510e0eb97955a86f4b12d908a276c. Both clean CI runs
+36025203645 and 36025199539 passed: 541 tests/36 files, lint/type/build,
+26 prerendered routes, 208 route cases plus nine navigation supplements across
+Chromium, Firefox and macOS WebKit. Both platforms passed all 12 ordered motion
+cases and 12 fallbacks. Linux passed all 26 initial/hydrated heads and 32 assets.
+The same built homepage SHA was
+ce3af36504deb4c9911bd22b66f8cf42344a74546d97cea95be99b00332b87cb.
+Built artifact10819157619 and the report hashes/counts are bound in
+artifacts/homepage-release/r16-ci-receipt-2026-09-24.json.
+
+Vercel production dpl_GcehNF5XMtFagREZ9Y5pKhHLQyJZ is READY at
+mindmake-aijrjhst8-krish-rajas-projects.vercel.app with public aliases verified.
+The immediate preceding recoverable deployment is dpl_EZigNAi6Uc6Apcq75XsFnHETt5W8.
+Public clean-URL verification at 16:20:40.819Z passed 26 routes/32 assets with
+actual client metadata writes and deliberate regression controls, not an SSR
+tag falsely counted as hydration. Report:
+artifacts/homepage-release/discoverability-mindmake.co-2026-09-24T16-20-40.819Z.json.
+Public homepage SHA256 is
+16e77acd33e0485dea521da605de0b6988b40146b707bac77b413140796a7342;
+/assets/index-DWnOh45o.js is
+d7c36a786647bb85ffa0eae07ee7d1368fd60c77ec0df7f258ba9eeed9be3192.
+Public rendered checks at 1440x900 and 390x844 found no JS errors or horizontal
+overflow; history/dividend forward and reverse stages, cookie clearance, menu
+focus containment and Escape restoration passed. Actual screenshots were
+inspected, including settled navigation after its entrance transition.
+One nonblocking existing behavior is recorded, not hidden: desktop initial
+navigation focuses H1 and displays its keyboard outline; mobile focus remains
+BODY because the first H1 is the hidden desktop variant. No unapproved design
+or focus behavior change was made in this metadata release. Evidence prefix:
+artifacts/homepage-release/r16-live-16e77acd33e0.
+
+Submit-only backend v21 became ACTIVE at 16:12:39.707Z, JWT unchanged false.
+All 15 officially downloaded modules match ff8f8d3. Enrichment44 and personal25
+are unchanged. Bundle SHA256:
+c1511b1dc78e5b4c4f81ad5c1e9c45d83169a997d66ef850fe995607542f0ff3.
+OPTIONS200/success and GET405/method_not_allowed match source. The initial QA
+expectation of OPTIONS204 was corrected after inspecting the actual existing
+contract; no implementation was changed to fit the test. The one-sentence
+follow-up disclosure is now deployed. No POST, email, queue, cron, schema or
+other-function mutation was used in this wording-only readback. Earlier actual
+INBOX evidence proves the unchanged sending path, not a newly sent v21 message.
+Redacted all-module receipt:
+artifacts/homepage-release/backend-submit-v21-2026-09-24.json.
+
+The current numbered docs and root arrival router now state these verified
+facts; prior states remain in this append-only ledger. R1-R16 manifests and
+the exact R3 reference remain unchanged. All 100 R16 bindings and 57 preserved
+R14 bindings were independently verified. No indexing, ranking, AI citation,
+social-platform cache refresh, new physical assistive-technology pass, future
+day-14 inbox delivery, clean dependency audit or other-client harness rollout
+is claimed. These remain the explicit limits in 06_CURRENT_STATE.md.

@@ -1,0 +1,36 @@
+[
+  {
+    "width": 1440,
+    "initialFocus": {
+      "tag": "H1",
+      "html": "<h1 tabindex=\"-1\">Build the business that can think with you.</h1>",
+      "focusVisible": true
+    },
+    "menu": {
+      "opacity": "1",
+      "background": "rgb(6, 17, 13)"
+    },
+    "trapBack": "Terms",
+    "trapForward": "Close navigation",
+    "footer": {
+      "opacity": "1"
+    }
+  },
+  {
+    "width": 390,
+    "initialFocus": {
+      "tag": "BODY",
+      "html": "<body class=\"mm-homepage-active\">\n    <!-- The curtain: fifteen strips of the raised ink, the converge figure's\n         own count, lifting from the top once the faces are in. Shown only\n         while <html> carries mm-covered, which only the script above sets. -->\n    <div class=\"mm-curtain\" id=\"m",
+      "focusVisible": false
+    },
+    "menu": {
+      "opacity": "1",
+      "background": "rgb(6, 17, 13)"
+    },
+    "trapBack": "Terms",
+    "trapForward": "Close navigation",
+    "footer": {
+      "opacity": "1"
+    }
+  }
+]

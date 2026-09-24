@@ -2,7 +2,7 @@
 repo: krishanraja/mindmake
 product: Mindmake
 as_of: 2026-09-24
-head: 3ee77cf
+head: 9e79e35
 lifecycle: live
 production_url: https://mindmake.co
 state_doc: project-documentation/06_CURRENT_STATE.md
@@ -38,9 +38,10 @@ brief inspection. That proof is not permission for additional sends.
 ## Current work and limits
 
 Technical discovery metadata/social/icon verification and current-document
-consolidation are in progress on codex/r3-release-record-20260924 (PR #171).
-They do not reopen approved visual decisions. Require exact-head gates before
-promotion; read back public output afterwards before calling the changes live.
+consolidation are live. All 26 public routes and 32 metadata assets passed
+post-publication verification. Accepted visual decisions remain unchanged.
+Search-console ownership, indexing, ranking and AI citation outcomes are not
+established by those technical checks. Require fresh evidence for those claims.
 
 Physical iPhone VoiceOver and Android TalkBack remain outstanding under the
 owner's release-only exception. Dependency advisories remain upgrade work,

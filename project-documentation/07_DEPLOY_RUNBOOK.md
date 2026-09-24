@@ -30,6 +30,9 @@ normalizes it and exact configuration bytes are release-bound.
   `QA_REVISION` set to its source commit. It compares all source-indexed routes,
   waits for actual client metadata execution, exercises a deliberate regression,
   and checks share assets. This is technical eligibility, not search inclusion.
+  For a local Vite built preview only, add `--directory-index` to inspect the
+  generated per-route HTML rather than its clean-path SPA fallback. That mode
+  is loopback-only. Production checks must use actual clean URLs without it.
 - Permitted changes to locked files need a declared new manifest revision,
   never overwriting an approval or silently rehashing unrelated edits.
 

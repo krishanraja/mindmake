@@ -1,13 +1,13 @@
 # Approved website state
 
 Status: approved-r3-live
-Working-copy status: pending-release-readback
+Working-copy status: verified-production-closeout
 Updated: 24 September 2026.
 
-The documentation consolidation and current worktree changes are not yet a new
-production release. The live R3 authority below remains the last verified
-material release; reconcile this working-copy status after the new candidate's
-CI, deployment and public readback. Do not label pending work as live.
+The technical discovery and documentation closeout passed candidate CI,
+deployment and public readback. The accepted R3 material authority below is
+unchanged. Current operational identity and evidence limits remain in
+06_CURRENT_STATE.md; do not relabel old receipts as new verification.
 
 This is the single current accepted-design and change-guard route for the website. [06_CURRENT_STATE.md](../06_CURRENT_STATE.md) owns current production identity and operational truth. The numbered canon owns business, brand and proof authority. [NOW.md](../../NOW.md) is the arrival router, not another authority. Historical decisions and evidence live only in [history/LOG.md](../history/LOG.md#2026-09-24-redesign-documentation-consolidation).
 
@@ -16,7 +16,7 @@ This is the single current accepted-design and change-guard route for the websit
 Krish approved R3 on 24 September 2026 and authorised publication after end-to-end verification. The approved R3 is live at `https://mindmake.co`. Its exact copy, imagery, composition and controls remain locked; the authorised behaviour addition is native scroll-pinned history and leadership-dividend progression.
 
 - Immutable homepage reference: `prototypes/website-redesign-recovery/homepage-production-synthesis-r3/`.
-- Last live material source lock: `quality/route-lock/approved-production-r14.json`. The active checker selects `quality/route-lock/approved-production-r16.json` for the pending metadata/documentation closeout. Never rewrite either or earlier immutable approval/candidate manifests. `06_CURRENT_STATE.md` identifies what is actually deployed.
+- Accepted R3 material provenance: `quality/route-lock/approved-production-r14.json`. The active checker selects `quality/route-lock/approved-production-r16.json` for the verified technical discovery/documentation release. Never rewrite either or earlier immutable approval/candidate manifests. `06_CURRENT_STATE.md` identifies the verified application release.
 - Delivery: `src/pages/Index.tsx` and `src/components/homepage-release/`, compiled by `scripts/qa/build-homepage-release.mjs`. Change the canonical generator when generated output needs an authorised correction; do not reconstruct the approved page from prose or screenshots.
 - Companion surface locks remain intact: GTM-MOTION-S1, BRAIN-MOTION-S3, START-HERE-INTERACTION-S4, CASE-PROOF-FIELD-S2, COMMERCIAL-READINESS-S4-R3 and TIME-LENS-S3-R5. The production manifest binds their actual delivered sources.
 - `quality/website-redesign/homepage-handoff.v1.json` preserves the earlier recovery baseline. It is subordinate to this accepted R3 state, not permission to restore an obsolete homepage.

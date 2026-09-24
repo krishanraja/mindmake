@@ -3,7 +3,6 @@ import type { ChangeEvent } from "react";
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
-import { CommercialDecisionBalance } from "@/components/mindmake/locked/CommercialDecisionBalance";
 import { useLockedMotion } from "@/components/mindmake/locked/useLockedMotion";
 import { extractLockedMain, removeLockedBlock, replaceLockedAsset } from "@/components/mindmake/locked/lockedMarkup";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
@@ -317,7 +316,6 @@ export default function AiGtmLocked() {
       <div ref={rootRef} className="mm-locked-gtm no-js" data-evidence-state="ready">
         <div className="page-shell" dangerouslySetInnerHTML={{ __html: lockedMarkup }} />
       </div>
-      <CommercialDecisionBalance context="gtm" onStart={() => openBrief("gtm")} />
       <LeadBrief open={briefOpen} onClose={closeBrief} route="gtm" presentation="drawer" journeyKey={briefJourneyKey} />
     </MindmakeShell>
   );

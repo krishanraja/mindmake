@@ -131,6 +131,16 @@ owns payload, privacy, retention, email and failure-path contracts.
   code-split routes and a lede under the unchanged case-record heading. Nothing
   above describes it; retrieve the live deployment before treating any of it as
   production behaviour.
+- On the same branch and also not live, bounded by
+  `quality/route-lock/approved-production-r18.json`: the commercial Decision
+  Balance ("Build one useful AI system on real work." and its five-reading proof
+  instrument) is mounted on `/new-age-leadership` alone. It is unmounted from
+  `/ai-brain`, `/ai-gtm`, `/blog`, `/blog/:slug`, `/answers` and
+  `/answers/:slug`, which now end on their own last section and keep only the
+  shell's ways in (the menu's "Start here", and the phone action bar on the
+  editorial routes). The component and its stylesheet are byte-identical to r17.
+  Nothing replaces the vacated space. Owner approval and candidate verification
+  for r18 are outstanding; live behaviour is still the r16 release.
 
 Do not promote old DNS/mailbox, CTRL-host or cache observations into fresh facts
 without new readback. CONTACT_EMAIL in src/lib/publicLinks.ts is the approved

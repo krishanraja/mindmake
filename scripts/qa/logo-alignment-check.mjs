@@ -90,7 +90,18 @@ const SHARED = [
   ".mm-decision-balance-offer > button",
 ];
 const ANCHORS = {
-  "/": [".r3-opening .hero-copy > h1", ".r3-opening .hero-copy > p", ".r3-opening .hero-copy > .route-doors"],
+  "/": [
+    ".r3-opening .hero-copy > h1",
+    ".r3-opening .hero-copy > p",
+    ".r3-opening .hero-copy > .route-doors",
+    /* The chapters below the first screen, on both the desktop and the phone
+       frame; the hidden one fails the visibility test. Their rails and stages
+       hang off the right edge, so only the copy is a left edge here, and the
+       mode switch is measured by eye because its desktop edge is the right one. */
+    ":is(.r3-history, .r3-authority, .r3-dividend) :is(.bridge, .story-copy, .authority-copy)",
+    ".r3-dividend .practice-panel > header",
+    ".r3-footer .site-footer > :first-child",
+  ],
   /* The R5 hero's deck is inset against the film on purpose and its action is
      pinned to the right edge, so the kicker and the headline are the edge. */
   "/new-age-leadership": [".nal-page .hero .hero-content > .kicker", ".nal-page .hero .hero-content > h1"],
@@ -100,10 +111,9 @@ const ANCHORS = {
  * loaders the sitemap uses so a renamed article cannot quietly drop the article
  * template out of the check.
  *
- * Not listed: the R3 chapters below the homepage's first screen. The approved
- * composition draws them at 4.5% where the masthead and the opening are at
- * 4.4%, which is 1.4px at 1440. That is a composition decision and belongs to
- * the material-review gate, not to this one.
+ * The homepage's chapters are listed too, as of the pass that put them on the
+ * frame's edge. What is not listed anywhere is a right edge: this gate reads the
+ * left one, so a rail or a stage that hangs off the right is verified by eye.
  */
 const [posts, { answers, answerPath }] = await Promise.all([
   loadBlogPosts(process.cwd()),
@@ -124,6 +134,11 @@ const ROUTES = [
   "/privacy",
   "/terms",
   "/alumni",
+  /* The 404, which the static server answers the way Vercel does: no file, so
+     the SPA fallback, so the client router. It is not an indexed route and has
+     no prerendered file of its own, which is exactly why it has to be named
+     here rather than picked up from the page list. */
+  "/this-route-does-not-exist",
 ];
 
 /** Runs in the page. Self-contained: Playwright ships it across as source. */

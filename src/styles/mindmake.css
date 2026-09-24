@@ -1167,11 +1167,16 @@ html {
 }
 .mm-form-error { color: var(--mm-amber); font-family: var(--mm-mono); font-size: 12px; }
 
-.mm-not-found { min-height: 100svh; display: grid; place-items: center; background: var(--mm-ink); color: var(--mm-tx); text-align: center; padding: 40px 0; }
+/* The 404, on the same measure as every other page.
+   It was `place-items: center; text-align: center` inside its own bare
+   `.mm-site`, which put the wordmark in the middle of the viewport with the
+   error copy centred under it: the one page where the mark was neither in a top
+   bar nor on the page's left edge. It is a page hero now, under the shell. */
+.mm-not-found { padding: calc(var(--mm-header-height) + clamp(44px, 12vh, 120px)) 0 var(--mm-section); background: var(--mm-ink); color: var(--mm-tx); }
 .mm-error-code { color: var(--mm-mint); font-family: var(--mm-mono); font-size: 12px; letter-spacing: .2em; }
-.mm-not-found h1 { margin-top: 16px; }
-.mm-not-found p { margin-top: 14px; color: var(--mm-tx2); }
-.mm-not-found .mm-button { margin-top: 26px; }
+.mm-not-found h1 { max-width: 14ch; margin-top: 16px; }
+.mm-not-found > .mm-container > p { max-width: 52ch; margin-top: 18px; color: var(--mm-tx2); font-size: clamp(16px, 1.5vw, 19px); }
+.mm-not-found-actions { display: flex; flex-wrap: wrap; gap: 16px 26px; align-items: center; margin-top: 30px; }
 
 /* One line, four words, one button, and out of the way.
    Photographed on a phone on 3 September 2026 it was three lines and a

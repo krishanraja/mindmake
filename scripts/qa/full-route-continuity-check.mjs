@@ -133,9 +133,11 @@ async function geometry(page) {
     }));
     const main = document.querySelector("main");
     const h1 = [...document.querySelectorAll("h1")].filter(visible);
-    const header = (document.querySelector(".mm-header") || document.querySelector(".nal-page .masthead"))?.getBoundingClientRect();
-    const headerContainer = (document.querySelector(".mm-header .mm-container") || document.querySelector(".nal-page .hero-content"))?.getBoundingClientRect();
-    const brand = (document.querySelector(".mm-header .mm-brand") || document.querySelector(".nal-page .masthead .brand"))?.getBoundingClientRect();
+    /* Every route wears the shared header now, /new-age-leadership included,
+       so there is no second shape to fall back to. */
+    const header = document.querySelector(".mm-header")?.getBoundingClientRect();
+    const headerContainer = document.querySelector(".mm-header .mm-container")?.getBoundingClientRect();
+    const brand = document.querySelector(".mm-header .mm-brand")?.getBoundingClientRect();
     const primaryHeading = h1[0]?.getBoundingClientRect();
     const mainContainers = [...document.querySelectorAll("main > .mm-container, main > section > .mm-container, main > article > .mm-container")]
       .filter(visible)
@@ -686,8 +688,8 @@ async function verifyLeadershipInteraction(browser) {
   await page.getByRole("heading", { level: 1 }).waitFor();
   const entrance = await page.evaluate(() => {
     const hero = document.querySelector(".nal-page .hero")?.getBoundingClientRect();
-    const header = document.querySelector(".nal-page .masthead")?.getBoundingClientRect();
-    const brand = document.querySelector(".nal-page .brand")?.getBoundingClientRect();
+    const header = document.querySelector(".mm-header")?.getBoundingClientRect();
+    const brand = document.querySelector(".mm-header .mm-brand")?.getBoundingClientRect();
     const content = document.querySelector(".nal-page .hero-content")?.getBoundingClientRect();
     const title = document.querySelector("#hero-title");
     return { hero, header, brand, content, titleColour: title ? getComputedStyle(title).color : "missing", overflow: document.documentElement.scrollWidth - innerWidth };

@@ -543,9 +543,326 @@
 }
 
 /* Production integration corrections. The application already owns the same
- * local font families, and its reset assigns heading colours directly. */
+ * local font families, and its reset assigns heading colours directly.
+ * The prototype declared overflow-x:hidden on body, where the viewport is the
+ * scrollport. Scoped onto .nal-page that div becomes the scrollport itself, so
+ * every position:sticky inside it pinned to a container that never scrolls and
+ * the three pinned sequences scrolled away, leaving empty paper behind them.
+ * overflow-x:clip clips the same overflow without creating a scroll container. */
 .nal-page{--serif:"Newsreader Variable",Newsreader,Georgia,serif;--sans:"Archivo Variable",Archivo,Arial,sans-serif;--mono:"IBM Plex Mono",Plex,"Courier New",monospace}
+.nal-page{overflow-x:clip}
 .nal-page h1,.nal-page h2,.nal-page h3{color:inherit}
-.nal-page button,.nal-page input[type=range],.nal-page a.hero-action,.nal-page .masthead .brand,.nal-page .reach-copy details a{min-height:44px}
-.nal-page .masthead .brand,.nal-page .reach-copy details a{display:inline-flex;align-items:center}
+.nal-page button,.nal-page input[type=range],.nal-page a.hero-action,.nal-page .reach-copy details a{min-height:44px}
+.nal-page .reach-copy details a{display:inline-flex;align-items:center}
 @media(max-height:650px) and (max-width:900px) and (orientation:landscape){.nal-page .lens-era-nav{grid-template-columns:repeat(4,44px)}.nal-page .lens-era-nav button{width:44px;min-height:44px}}
+
+/* new-age-leadership-r6.layer.css */
+/* NEW-AGE-LEADERSHIP R6 production layer.
+ *
+ * Hand-authored source, unlike the R5 prototype layers it sits on top of. The
+ * build script scopes it to .nal-page and appends it last, so it wins at equal
+ * specificity without any approved file being rewritten.
+ *
+ * Intent: the page is a scroll story. Every sequence on it should build as the
+ * reader scrolls, on a phone exactly as on a desktop, and no sequence should
+ * reserve viewport height it does not fill. R5 delivered that on desktop only,
+ * and only in principle: the .nal-page scope turned the page into its own
+ * scroll container, so nothing pinned anywhere. R6 restores the pins, gives the
+ * phone the same scroll-built history the desktop has, and removes the reserved
+ * height that read as blank paper.
+ *
+ * The controls stay. Era buttons, the range input, the stage buttons and the
+ * benefit arrows are the reduced-motion and assistive path through the same
+ * states, and they now move the page rather than fighting it. */
+
+/* ---------------------------------------------------------------------------
+ * 0. The page now wears the site's own header, menu and footer.
+ *
+ * The prototype drew its own 72px masthead, so every pin on the page offsets
+ * itself by --header. That token is now the shared shell's measured height, so
+ * the pins clear the real bar rather than a number that happened to match it,
+ * and it tracks the safe-area inset on a notched phone the way the rest of the
+ * site does.
+ * ------------------------------------------------------------------------- */
+.nal-page {
+  --header: var(--mm-header-height, 68px);
+}
+
+/* The film pause is the one control the shared header does not carry, so it
+ * moves into the hero, beside the action that starts the story and beneath the
+ * first film it governs.
+ *
+ * It was worth checking whether it could stay a standing control somewhere on
+ * the page instead. It cannot: this composition runs edge to edge and every
+ * sequence puts its own controls along the bottom of the screen, so a floating
+ * button was measured overlapping headings, era buttons, the range input, the
+ * benefit arrows or the privacy notice at some scroll position in all four
+ * corners, at 1440 and at 390 alike. The operating system's reduced-motion
+ * setting remains the path for anyone who needs motion stopped everywhere; this
+ * button is the convenience for anyone who decides it here. */
+.nal-page .hero-content .motion-toggle {
+  justify-self: start;
+  margin-top: clamp(20px, 3vh, 32px);
+  color: rgba(234, 223, 200, .6);
+}
+
+.nal-page .hero-content .motion-toggle:hover,
+.nal-page .hero-content .motion-toggle:focus-visible {
+  color: var(--paper);
+}
+
+/* Above 900px the story action is taken out of flow to the hero's lower right,
+ * so the toggle follows the deck on the left and the two balance the block. */
+@media (max-width: 900px) {
+  .nal-page .hero-content .motion-toggle {
+    margin-top: 20px;
+  }
+}
+
+/* The narrow masthead had no room for the real label, so below 620px it hid the
+ * span with font-size:0 and drew a fixed "Motion" from a pseudo-element. The
+ * span is the accessible name, and the script rewrites it between "Pause
+ * motion" and "Play motion" as the state changes; the pseudo-element never
+ * changed, so a phone showed a word that did not say what the button would do.
+ * In the hero there is room for the real one. */
+@media (max-width: 620px) {
+  .nal-page .hero-content .motion-toggle span {
+    font-size: 9px;
+  }
+
+  .nal-page .hero-content .motion-toggle span:after {
+    content: none;
+  }
+}
+
+/* The phone hero centred its block in the screen, which was right when the
+ * block ended at the story action. With the pause control under it the block is
+ * 64px taller and centring pushed a band of empty wash below it. It sits on the
+ * lower edge now, the way it does above 900px. */
+@media (max-width: 900px) {
+  .nal-page .hero {
+    align-items: flex-end;
+  }
+
+  .nal-page .hero-content {
+    margin-top: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * 1. History lens: scroll-built on every width, not only above 900px.
+ *
+ * R5 collapsed the lens to a single click-through card below 900px, so the four
+ * eras were reachable only by tapping. The sticky returns, with a shorter track
+ * than the desktop's 320svh because a phone's thumb travels further per screen.
+ * ------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .nal-page .time-lens {
+    height: 300svh;
+    min-height: 0;
+  }
+
+  .nal-page .lens-sticky {
+    position: sticky;
+    top: var(--header);
+    height: calc(100svh - var(--header));
+    min-height: 0;
+    /* The story row hugs its tallest state and the image takes the slack, so no
+     * band of empty ink is left under the copy. */
+    grid-template-rows: minmax(150px, 1fr) auto 64px;
+  }
+
+  /* The four states stop being absolutely positioned and share one grid cell,
+   * which is what lets the row size itself to the tallest of them. */
+  .nal-page .lens-story {
+    display: grid;
+    grid-template-rows: auto auto auto;
+    align-content: start;
+    row-gap: 0;
+  }
+
+  .nal-page .lens-story > .kicker {
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  .nal-page .lens-story h2 {
+    grid-row: 2;
+    grid-column: 1;
+  }
+
+  .nal-page .lens-copy {
+    position: relative;
+    grid-row: 3;
+    grid-column: 1;
+    top: auto;
+    left: auto;
+    right: auto;
+    margin-top: clamp(14px, 2.4vh, 22px);
+  }
+}
+
+@media (max-width: 620px) {
+  .nal-page .time-lens {
+    height: 280svh;
+  }
+
+  .nal-page .lens-sticky {
+    grid-template-rows: minmax(132px, 1fr) auto 60px;
+  }
+}
+
+@media (max-width: 360px) {
+  .nal-page .lens-sticky {
+    grid-template-rows: minmax(120px, 1fr) auto 58px;
+  }
+}
+
+/* A phone held sideways has almost no vertical room. Keep the pin, but give it
+ * a short track and the side-by-side layout R5 already established there. */
+@media (max-height: 650px) and (max-width: 900px) and (orientation: landscape) {
+  .nal-page .time-lens {
+    height: 260svh;
+  }
+
+  .nal-page .lens-sticky {
+    grid-template-rows: minmax(0, 1fr) 56px;
+  }
+
+  .nal-page .lens-story {
+    display: block;
+  }
+
+  .nal-page .lens-copy {
+    position: absolute;
+    grid-row: auto;
+    left: 18px;
+    right: 18px;
+    top: 61px;
+    margin-top: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * 2. The AI Brain benefits stop being a timed carousel and become a sequence
+ *    the reader drives.
+ *
+ * Six statements advanced themselves every 6.2 seconds, which changed the text
+ * under anyone still reading it and made the page's one time-driven element sit
+ * inside a story otherwise entirely driven by scroll. The panel now pins and
+ * steps with the scroll like the three sequences before it, and the returned
+ * hour holds its position beside it, which is the composition R5 approved —
+ * just held for longer.
+ *
+ * --benefit-step is the scroll distance per statement. Five steps carry six
+ * statements.
+ * ------------------------------------------------------------------------- */
+.nal-page .human-proof {
+  --benefit-step: 48svh;
+  align-items: start;
+  min-height: 0;
+}
+
+.nal-page .proof-track {
+  position: relative;
+  height: calc(100svh - var(--header) + 5 * var(--benefit-step));
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.nal-page .proof-track > .proof-story {
+  position: sticky;
+  top: var(--header);
+  height: calc(100svh - var(--header));
+}
+
+.nal-page .human-proof > .proof-return {
+  position: sticky;
+  top: var(--header);
+  min-height: calc(100svh - var(--header));
+}
+
+/* The progress rule under the arrows tracks the scroll position, so it needs to
+ * move in step rather than on the old timer's easing. */
+.nal-page .benefit-controls > div i {
+  transition: transform .34s cubic-bezier(.4, .01, .2, 1);
+}
+
+@media (max-width: 900px) {
+  /* One column: the benefits pin and step, then release into the returned
+   * hour, which reads better on a phone than holding both on one screen. */
+  .nal-page .human-proof > .proof-return {
+    position: static;
+    min-height: 0;
+  }
+
+  .nal-page .proof-track {
+    --benefit-step: 44svh;
+  }
+
+  .nal-page .proof-track > .proof-story {
+    min-height: 0;
+  }
+}
+
+@media (max-height: 650px) and (max-width: 900px) {
+  .nal-page .human-proof {
+    --benefit-step: 40svh;
+  }
+
+  .nal-page .proof-track > .proof-story {
+    height: calc(100svh - var(--header));
+    min-height: 0;
+  }
+}
+
+@media (max-height: 650px) and (min-width: 901px) {
+  .nal-page .human-proof {
+    --benefit-step: 42svh;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * 3. Reserved height that nothing fills.
+ *
+ * On a 640px-tall phone the practice introduction claimed a whole screen under
+ * a rule written for a phone held sideways, leaving well over a third of the
+ * viewport empty above the first scene. It now takes the height its words need.
+ * ------------------------------------------------------------------------- */
+@media (max-height: 650px) and (max-width: 900px) and (orientation: portrait) {
+  .nal-page .work-intro {
+    min-height: 0;
+    padding-top: calc(var(--header) + 4vh);
+    padding-bottom: 5vh;
+  }
+
+  .nal-page .work-scene {
+    min-height: 62svh;
+  }
+
+  .nal-page .proof-story,
+  .nal-page .proof-return {
+    min-height: 0;
+  }
+
+  .nal-page .benefit-stage {
+    min-height: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * 4. Reduced motion keeps the pins — the page is a scroll story and removing
+ *    them would remove the story — but drops every transition, so each state
+ *    arrives already composed rather than animating into place.
+ * ------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .nal-page .benefit-controls > div i,
+  .nal-page .work-scene,
+  .nal-page .reach-copy-state,
+  .nal-page .capability-instrument,
+  .nal-page .hybrid-organisation {
+    transition: none;
+    animation: none;
+  }
+}
+

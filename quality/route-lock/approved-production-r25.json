@@ -1,14 +1,14 @@
 {
-  "artifact": "mindmake-approved-production-routes-r24",
+  "artifact": "mindmake-approved-production-routes-r25",
   "recordedAt": "2026-09-24",
-  "status": "candidate record. Owner approval for this revision is NOT recorded. Do not treat it as an approval.",
-  "scopeRequested": "One instruction about /new-age-leadership, raised from live mindmake.co: the page was supposed to build as it is scrolled and instead needed its buttons pressed, it showed large empty bands, and its top bar was not the one every other page wears. The cause of the first two was the same: the prototype's body-level overflow-x:hidden, scoped onto .nal-page, made that div its own scrollport, so every position:sticky on the route pinned to a container that never scrolls. All three pinned sequences scrolled away after one screen and left the rest of their tracks empty. Fixed at the cause, given the same scroll-built history on a phone that the desktop had, turned the one timed carousel into a sequence the reader drives, and put the route inside the shared shell. No approved word changed, no new claim, price, section or route.",
+  "status": "Owner approval recorded for the GTM-PLAIN-R2 /ai-gtm surface (quality/ai-gtm/approved-plain-r2.json), including authority to merge to main. Every other binding is carried from r24 unchanged, and the approval status of r17 to r24 is not altered by this record.",
+  "scopeRequested": "Replace /ai-gtm with the plain-English GTM-PLAIN-R2 page inside the approved GTM visual system, mobile-native on phones, and carry every other r24 binding unchanged.",
   "sessionDecisions": [
-    "Fix the scoping fault rather than the symptom. overflow-x:clip clips the same overflow without creating a scroll container, so the composition is unchanged and every pin the prototype designed starts working.",
-    "The film pause moves into the hero rather than floating. Measured at 1440 and 390 across the whole scroll, all four screen corners are occupied by this composition at some position, so a standing control would overlap a heading, an era button, the range input, the benefit arrows or the privacy notice. The operating system's reduced-motion setting remains the path for anyone who needs motion stopped everywhere.",
-    "The six AI Brain benefits stop advancing on a timer. On a page whose argument is carried by scrolling, a 6.2-second carousel was the one element that moved on its own and changed the sentence under whoever was reading it.",
-    "The phone keeps the era buttons and the range input. They are the assistive and reduced-motion path through the same four states; they now move the page to a state rather than swapping it underneath a reader who has not moved.",
-    "The gate proves states by scrolling and never by clicking, forwards and in reverse, and carries a negative control that removes the pins. The old gate clicked every control and passed a page where nothing pinned at all."
+    "Rebuild the new copy inside the approved GTM system rather than a new design system (mock r1 rejected for design, copy kept).",
+    "One switch serves the established leader and the AI-native founder; established is the default.",
+    "Publish the deliverable menu and the 30-day shape; keep the fee private. Canon records this as the one public-duration exception.",
+    "Remove the signal/response picker; keep one interaction, the team board flip, driven by scroll and a direct switch.",
+    "Phones get their own composition: lever carousel, single-list team with in-place decisions, sticky Start here bar."
   ],
   "routes": [
     "/",
@@ -32,8 +32,7 @@
       "prototypes/website-redesign-recovery/brain-signature/index-s2-motion-s3.html"
     ],
     "gtm": [
-      "src/pages/AiGtmLocked.tsx",
-      "prototypes/website-redesign-recovery/gtm-market-change/index-motion.html"
+      "src/pages/AiGtm.tsx"
     ]
   },
   "files": {
@@ -42,10 +41,8 @@
     "src/styles/mindmake-locked-brain.css": "7ef818a05599b945ff2cdbd1aebf56cf3815f7d4508421963755216539da7b96",
     "src/data/vnext/brain-fixture.json": "02fa968575d7000874f0f10a09123336ad6ec3f7bf373dcd351fbb7e7ef2b1b9",
     "prototypes/website-redesign-recovery/brain-signature/index-s2-motion-s3.html": "423659d864e79a72a55d4fd3ca9450b610e616187929293f1e0a8faaafbff2c6",
-    "src/pages/AiGtmLocked.tsx": "8bc26e6098093e9f5c2cb8b3170f2f15825a2428e48420e37d5eb1801ef81381",
     "src/styles/mindmake-locked-gtm.css": "8c4ee91ad1a96f97efd397668f0742b148fbc4ec820e73daf2ddb4047be58579",
     "src/data/vnext/gtm-signals.json": "5ab7fac6ce8ebdab6b69b73f60e184a7e4df8d923d97edd29c38872648c3bf7f",
-    "prototypes/website-redesign-recovery/gtm-market-change/index-motion.html": "8754e189e077ead09728e4e8b78ed26ad9b872a0d8b9d4b3503bc76ee7e98aef",
     "src/pages/NewAgeLeadership.tsx": "13e976c82d0509c063811a8364aacb7e3d627b73a22f2e68abe8ba943c1aa856",
     "src/styles/new-age-leadership-r5.css": "fd3b442e93674e9d3e1cb422cc0d16903a2e747bbb1d62d3fd7d78d2df374ace",
     "src/components/mindmake/locked/CommercialDecisionBalance.tsx": "f57849b19f5d15ecb5e9fd664833cfcf0d5e07bbd355d71656c243ac5c2a3410",
@@ -67,10 +64,10 @@
     "src/hooks/useLeadBriefHistory.ts": "a782c9c8563b44ee23780742c1cfff703f7a0a362ffd2986405508e42567c427",
     "src/data/rebuildProof.ts": "bdea57fd6495548e2ea798e9b7056323bb1936c4f4e66c24301aa82c9114884b",
     "src/data/testimonials.ts": "24466efccdb455aef4698f7e0a4a00e4885ecb43cf6245bf5255e1369e7d0663",
-    "src/App.tsx": "2480580fceaf0697c370b6ce8f480068ca30780d9e06b8601e239175174f93af",
-    "src/entry-server.tsx": "cd957bdd05c1634c15e7a73ed26bfbf36a23b8a6bfea535f968b00046646e705",
-    "scripts/qa/approved-route-lock-check.mjs": "52307cf6e6b33ff15cf298f0049686253b351d2eff57e53ac90038fd0a5f8816",
-    "scripts/qa/approved-route-lock-self-test.mjs": "1c24d08b7867e6faf0954a1189afa833d150b8e989c9eeb4287ae06740327966",
+    "src/App.tsx": "33006d91bd74a80429b160ecca2dbe67d21cb976e9a9618678a2ab1474954ec8",
+    "src/entry-server.tsx": "c7b23fef712f8bdba0ef48e32c78761b9313fcdcec06747f61ecf46b15e80126",
+    "scripts/qa/approved-route-lock-check.mjs": "56ff24e58236625f8c166fbdc9d18feddeafba9ca8fe81327cc74037b01a7ede",
+    "scripts/qa/approved-route-lock-self-test.mjs": "780364824ac99a18a35c8f9d5116931925a19649603c5f398597c7fac651ede0",
     ".github/workflows/approved-route-lock.yml": "e94d7e3fd4ca4f74288812899aea21a0ea477c0ac80dbc5aa2919895798a4a99",
     "scripts/qa/locked-material-production-check.mjs": "b021940985b52171064d8cfdb9f439c58b440f433de79f3882329559daeeb61d",
     "scripts/qa/full-route-continuity-check.mjs": "85b6cf3d9a394ea1e265b68b146b0827f04d70cc8b5608a9dea4decb82f2a4ec",
@@ -90,9 +87,9 @@
     "scripts/qa/homepage-scroll-contract.mjs": "23eff5cdd987b985cb72ab4d4d6a24c13187b8f9b353ccc669ebef421a8b7067",
     "scripts/qa/scroll-build-evidence.mjs": "1ae4a330c831d6accbfba3ba869c0c9a1d259e2b8258b524e2aa74408bbbabbc",
     "scripts/qa/scroll-build-evidence-selftest.mjs": "1e82f4d67511254bdb3e41740d57a4b7b1dff1e6e30790e0f935c6c4bc898e99",
-    "scripts/prerender.mjs": "e321c14ce02c9686e391c64a4f56d6dce568db77c7923b342404b8661c582554",
-    "scripts/lib/pages.mjs": "51b65ab4e6903505769075d23fb74644fd2e0a16dea36d2cd1ce58f67285659a",
-    "src/content/socialPlates.json": "dafc4c7640702aea491486bb529724d53a0c1091b58a71c0dbaee6a255617163",
+    "scripts/prerender.mjs": "f0bcb76106e4762595d624c2068636341f4ef8ee4bd39426e9a6c7409d6be867",
+    "scripts/lib/pages.mjs": "2b7bcf0e6f8a98e828da153a4c21aa5e4f34848c72131f3ab2ca5fd3e2af18c4",
+    "src/content/socialPlates.json": "ac43595d604111435790b48c6f9c6d45a0363d7f78f20a1ea86535548628bb44",
     "public/social/home.jpg": "d5bd9ba7b03ba989dbd39e8af93405af7d74de5165beb51f5780e718521b2aaf",
     "package.json": "d7f08512c5b226dbd70065ecffc3dd5865f8256d29e4035ecbead1807d0cd251",
     "scripts/qa/website-feedback-ledger-check.mjs": "66520939db0aee662ede06de88ddc777959729ed65a1d6ae031578b85f27abec",
@@ -116,11 +113,11 @@
     "src/test/seo-navigation.test.tsx": "df5fdc636cde34d682bec1b9ed80d5e4e47d412e8ca4af8d64bac2719722bb15",
     "src/test/brief2-public-contract.test.ts": "2a67257bd481082edd5d529a40367b936f98ddd01c89e8ec878f8cc101d276fd",
     "public/sitemap.xml": "5721855b87fd7ce63765f373a76a6610c67c032a0a2ca628fbaeea9ee8702b82",
-    "public/llms.txt": "aaf4b8c5c376f6eb365f9a98a44842075d67dfd260dc502e05c084e1865c03ad",
+    "public/llms.txt": "3fbf05b005c823de334066becaf069736240617f4d072064a343579f21ff801d",
     "public/robots.txt": "d655c25315f781de2ff83266a9472f7fdf5e6c8fa0ae91b8f7099e4e3a78831b",
     "public/site.webmanifest": "6bee8c8f39dfff7ae9238d49043596ccce8609015ea9b51666f4f0fd9bf5ed83",
     "public/social/ai-brain.jpg": "7875a0b6ab08e8787a010502d4e17c615b2b485aa25dc57d26e17ededcb3b36c",
-    "public/social/ai-gtm.jpg": "53b03bc8eeca7cf80731a86a6f26478d5f1698f5535b1ea6467a82ba159e9178",
+    "public/social/ai-gtm.jpg": "8b42284cd1b790544e5118bfb887bbe9e8a5a1339cd40331994d27c952a0f170",
     "public/social/new-age-leadership.jpg": "d13a3a27c11814059731317f059311f20dec8dcabbfaabd4aebd1574262b9731",
     "public/favicon.svg": "1b813838a8a80fac0412fbd78ae6676563ac49dc0ace456d9817a49931211303",
     "public/favicon.ico": "77c728ed9f12e278cdb1839691bc03567a7c2ef6e03108db1d16cd3d5760e6f6",
@@ -148,20 +145,23 @@
     "scripts/qa/logo-alignment-check.mjs": "1607b5e53ba4d6807e305e20662024c96f48029ed2b47d008979eb147c71db99",
     "src/styles/new-age-leadership-r6.layer.css": "546986da7d3b4a6bd23053ed69aa996400db8c4f140b39050a9a11a058be60ca",
     "scripts/qa/build-new-age-r5-styles.mjs": "a5cba878c8e6293f7c61fce3b52bce4c3c269d5f4fc6cf9cb2e8c8a607c5d19a",
-    "scripts/qa/new-age-r5-production-check.mjs": "ae90d891a1b36208d6ec40b862b2916e012adf75749043f317eb1dea634386cf"
+    "scripts/qa/new-age-r5-production-check.mjs": "ae90d891a1b36208d6ec40b862b2916e012adf75749043f317eb1dea634386cf",
+    "src/pages/AiGtm.tsx": "7229c390932eb445bedde9b67a72330eb9527304348171f8d02b7dbc300bf687",
+    "src/styles/mindmake-gtm-plain.css": "787983312dc8812cdcaecd6c2120a8f3bd636ac9f2e5d8b98c864c5da4b473d9",
+    "quality/ai-gtm/approved-plain-r2.json": "b42d8a6e66f822150c6c49d3059aaf09b86d6f92dcb7b243114ae359041578cc"
   },
   "newlyLocked": [
     {
-      "path": "src/styles/new-age-leadership-r6.layer.css",
-      "reason": "The hand-authored production layer over the frozen R5 prototype. It carries the scroll-build corrections, so it is part of the enforced surface."
+      "path": "src/pages/AiGtm.tsx",
+      "reason": "Delivers the approved GTM-PLAIN-R2 surface."
     },
     {
-      "path": "scripts/qa/build-new-age-r5-styles.mjs",
-      "reason": "Generates the route's only stylesheet from the locked prototype layers and this layer. Locking the generator is what stops the generated file drifting without a record."
+      "path": "src/styles/mindmake-gtm-plain.css",
+      "reason": "Delivers the approved GTM-PLAIN-R2 surface."
     },
     {
-      "path": "scripts/qa/new-age-r5-production-check.mjs",
-      "reason": "The gate that proves the route's sequences build by scroll alone, in both directions, on ten viewports and three engines, with its own negative control."
+      "path": "quality/ai-gtm/approved-plain-r2.json",
+      "reason": "The owner approval record this manifest cites."
     }
   ],
   "minimumContracts": {
@@ -185,18 +185,26 @@
       ]
     },
     "gtm": {
-      "signals": 5,
-      "responseChoices": 15,
+      "citedSignals": [
+        "product",
+        "pricing",
+        "commerce",
+        "service"
+      ],
       "stages": [
-        "Signal",
-        "Response",
-        "Customer test"
+        "Your business",
+        "What changes",
+        "Your team",
+        "Result"
       ],
       "requiredInstruments": [
-        "signal-deck",
-        "response-selector",
+        "signal-selector",
         "outcome-grid",
-        "test-slip"
+        "lever-track",
+        "response-selector",
+        "team-board",
+        "test-slip",
+        "data-device-variant"
       ]
     }
   },
@@ -206,24 +214,18 @@
     "price the result"
   ],
   "verification": {
-    "status": "Performed for this record on Linux only. Historical verification claims, r22's included, are not proof for this candidate.",
-    "performed": [
-      "npm run typecheck, npm run lint and the full unit suite (541 tests, 36 files).",
-      "node scripts/qa/new-age-r5-production-check.mjs on chromium (ten viewports from 320x568 to 1920x1080), webkit and firefox (three each): forward and reverse scroll alone reaches all four history states, both reach states, all six AI Brain benefits and all three working scenes, with no horizontal overflow, no runtime error, no control under 44px and no run of empty viewport over 42% of its height.",
-      "The same gate's negative control: with the four pins removed the sweep fails, so it is measuring the pins.",
-      "That gate is wired into the release workflow on both platforms, so it runs against what is on its way to main rather than only by hand.",
-      "npm run build, including the approved-route lock against this record and its fail-closed self-test."
-    ],
+    "status": "Required before promotion; recorded in the pull request and history ledger, not claimed here.",
     "required": [
       "The full Chromium/Firefox/Linux and WebKit/macOS release matrix against the built candidate.",
       "Actual rendered forward/reverse pinned states with exits on the homepage and this route.",
-      "Independent review and exact deployment readback."
+      "Independent review and exact deployment readback.",
+      "/ai-gtm at 1440x900, 390x844, 360x740 and 375x667: no horizontal overflow, every visible control at least 44px on phones, lever carousel swipe and Back/Next, team board today/AI-native on scroll in both directions and by switch, in-place decision on phones"
     ],
     "physicalException": "VoiceOver on physical iPhone and TalkBack on physical Android not performed; owner permits publication after all other checks pass."
   },
   "supersedes": {
-    "path": "quality/route-lock/approved-production-r23.json",
-    "reason": "R22 is the record main carried when this branch merged it. This record carries the /new-age-leadership scroll-build repair and that route's move into the shared shell, on top of it. Every hash change is listed with its reason; no earlier record is rewritten. R16 remains the last record carrying a recorded owner approval."
+    "path": "quality/route-lock/approved-production-r24.json",
+    "reason": "Replaces the /ai-gtm surface with the owner-approved GTM-PLAIN-R2 page. Every hash change is listed in scope with its reason; no earlier record is rewritten."
   },
   "textLineEndings": "lf",
   "browserPlatforms": {
@@ -238,55 +240,61 @@
     "rationale": "project-documentation/website-redesign/RELEASE-2026-09-24.md"
   },
   "scope": {
-    "baselineCommit": "deeeab3",
+    "baselineCommit": "a742f40",
     "allowedExistingChanges": [
       {
-        "path": "src/pages/NewAgeLeadership.tsx",
-        "before": "a966f0dead170a2b60e7b9ceadfbe19ce084b76c9eecbc92c6a19c48713789fd",
-        "after": "13e976c82d0509c063811a8364aacb7e3d627b73a22f2e68abe8ba943c1aa856",
-        "reason": "Wears the shared MindmakeShell instead of a bespoke masthead and a hand-copied footer; the film control moves into the hero; the AI Brain benefits gain a scroll track and are driven by scroll position rather than a 6.2-second timer, and the progress rule under the arrows is now actually set."
+        "path": "src/App.tsx",
+        "before": "2480580fceaf0697c370b6ce8f480068ca30780d9e06b8601e239175174f93af",
+        "after": "33006d91bd74a80429b160ecca2dbe67d21cb976e9a9618678a2ab1474954ec8",
+        "reason": "Routes /ai-gtm to the approved GTM-PLAIN-R2 page (src/pages/AiGtm.tsx) instead of AiGtmLocked."
       },
       {
-        "path": "src/styles/new-age-leadership-r5.css",
-        "before": "970ffb4f1096abf0e1f3882ac5d04518df17fa96c26cb2dbc5c48efd321a010d",
-        "after": "fd3b442e93674e9d3e1cb422cc0d16903a2e747bbb1d62d3fd7d78d2df374ace",
-        "reason": "Regenerated. Adds the overflow-x:clip integration correction that restores every pin on the route, and appends the R6 production layer."
-      },
-      {
-        "path": "src/styles/mindmake.css",
-        "before": "5346a13976b92dcb495f111a0997556d69d4370f25bf0a8d455efd3005f50f64",
-        "after": "3b1fc6bd4e6c0529304bf2d439f03b823dfde446ca22cbc4330894960c6f3249",
-        "reason": "Gives the leadership route its own --mm-header-inline at three widths, so the shared wordmark sits on the same gutter as the story under it."
+        "path": "src/entry-server.tsx",
+        "before": "cd957bdd05c1634c15e7a73ed26bfbf36a23b8a6bfea535f968b00046646e705",
+        "after": "c7b23fef712f8bdba0ef48e32c78761b9313fcdcec06747f61ecf46b15e80126",
+        "reason": "Server render of /ai-gtm uses the same GTM-PLAIN-R2 page, keeping the hydration trees identical."
       },
       {
         "path": "scripts/qa/approved-route-lock-check.mjs",
-        "before": "afb4609a5baef2e5c59115925fb279c0e0ae31e00d54824f77819ef4defd4238",
-        "after": "52307cf6e6b33ff15cf298f0049686253b351d2eff57e53ac90038fd0a5f8816",
-        "reason": "Selects this new record."
+        "before": "52307cf6e6b33ff15cf298f0049686253b351d2eff57e53ac90038fd0a5f8816",
+        "after": "56ff24e58236625f8c166fbdc9d18feddeafba9ca8fe81327cc74037b01a7ede",
+        "reason": "Defaults to r25, and checks the GTM evidence contract as either picker counts (r24 and earlier) or cited signals (r25), refusing a contract that states neither."
       },
       {
         "path": "scripts/qa/approved-route-lock-self-test.mjs",
-        "before": "d7b17b44e335be8c16c4981e690dec13c9aa474a1bde17602529695b24af9314",
-        "after": "1c24d08b7867e6faf0954a1189afa833d150b8e989c9eeb4287ae06740327966",
-        "reason": "Selects this new record."
+        "before": "1c24d08b7867e6faf0954a1189afa833d150b8e989c9eeb4287ae06740327966",
+        "after": "780364824ac99a18a35c8f9d5116931925a19649603c5f398597c7fac651ede0",
+        "reason": "Targets r25 and adds a negative control proving an unanchored GTM contract is refused."
       },
       {
-        "path": ".github/workflows/approved-route-lock.yml",
-        "before": "20d2262bc355a4d6d8388d941cfff89415ebe960b6eafca47a6717142cc91e3e",
-        "after": "e94d7e3fd4ca4f74288812899aea21a0ea477c0ac80dbc5aa2919895798a4a99",
-        "reason": "Runs the rewritten scroll-build gate on both release platforms and keeps its evidence. A gate that only ever runs by hand is how the fault it catches survived the last one."
+        "path": "scripts/prerender.mjs",
+        "before": "e321c14ce02c9686e391c64a4f56d6dce568db77c7923b342404b8661c582554",
+        "after": "f0bcb76106e4762595d624c2068636341f4ef8ee4bd39426e9a6c7409d6be867",
+        "reason": "Maps /ai-gtm to src/pages/AiGtm.tsx so the prerendered page carries its own stylesheets."
       },
       {
-        "path": "scripts/qa/full-route-continuity-check.mjs",
-        "before": "6fc58e3aa78982e12b765c8bd245f4c84fc619d8d1dde3320a4e685e989bbc3d",
-        "after": "85b6cf3d9a394ea1e265b68b146b0827f04d70cc8b5608a9dea4decb82f2a4ec",
-        "reason": "The route no longer has a second header shape to fall back to, so the fallbacks are gone."
+        "path": "scripts/lib/pages.mjs",
+        "before": "51b65ab4e6903505769075d23fb74644fd2e0a16dea36d2cd1ce58f67285659a",
+        "after": "2b7bcf0e6f8a98e828da153a4c21aa5e4f34848c72131f3ab2ca5fd3e2af18c4",
+        "reason": "The /ai-gtm description and share-card claim become the page's own sentence: \"Make your pricing, positioning and team AI-native, then test it with real buyers.\""
       },
       {
-        "path": "scripts/qa/release-route-smoke.mjs",
-        "before": "c5bfdceadfbbd1265ce7eaffa02eae787f18b2180113807d9831d9fdb8ce0478",
-        "after": "4185de113028a507c4fd2038e21e7f77f2e0978d02e2bd0840b1616c3f6cd1de",
-        "reason": "Removes the navigation exemption the route held while it drew its own masthead."
+        "path": "src/content/socialPlates.json",
+        "before": "dafc4c7640702aea491486bb529724d53a0c1091b58a71c0dbaee6a255617163",
+        "after": "ac43595d604111435790b48c6f9c6d45a0363d7f78f20a1ea86535548628bb44",
+        "reason": "Records the repainted /ai-gtm plate for its new claim; no other plate is changed."
+      },
+      {
+        "path": "public/llms.txt",
+        "before": "aaf4b8c5c376f6eb365f9a98a44842075d67dfd260dc502e05c084e1865c03ad",
+        "after": "3fbf05b005c823de334066becaf069736240617f4d072064a343579f21ff801d",
+        "reason": "Regenerated from pages.mjs so its /ai-gtm line carries the new description."
+      },
+      {
+        "path": "public/social/ai-gtm.jpg",
+        "before": "53b03bc8eeca7cf80731a86a6f26478d5f1698f5535b1ea6467a82ba159e9178",
+        "after": "8b42284cd1b790544e5118bfb887bbe9e8a5a1339cd40331994d27c952a0f170",
+        "reason": "The /ai-gtm share plate repainted with the new claim by npm run social-plates; no other plate is changed."
       }
     ]
   },
@@ -294,5 +302,17 @@
     ".svg",
     ".xml",
     ".webmanifest"
+  ],
+  "retired": [
+    {
+      "path": "src/pages/AiGtmLocked.tsx",
+      "lastHash": "8bc26e6098093e9f5c2cb8b3170f2f15825a2428e48420e37d5eb1801ef81381",
+      "reason": "No longer routed or imported; superseded by GTM-PLAIN-R2. Recorded in project-documentation/history/LOG.md."
+    },
+    {
+      "path": "prototypes/website-redesign-recovery/gtm-market-change/index-motion.html",
+      "lastHash": "8754e189e077ead09728e4e8b78ed26ad9b872a0d8b9d4b3503bc76ee7e98aef",
+      "reason": "No longer routed or imported; superseded by GTM-PLAIN-R2. Recorded in project-documentation/history/LOG.md."
+    }
   ]
 }

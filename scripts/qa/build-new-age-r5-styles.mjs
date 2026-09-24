@@ -35,20 +35,33 @@ const source = (await Promise.all(files.map(async (file) => {
   return `/* ${file} */\n${css.replace(/^@import[^;]+;\s*/u, "")}`;
 }))).join("\n\n");
 
-const ast = postcss.parse(source);
-ast.walkAtRules("font-face", (rule) => rule.remove());
-ast.walkRules((rule) => {
-  if (rule.parent?.type === "atrule" && /keyframes$/u.test(rule.parent.name)) return;
-  rule.selectors = rule.selectors.map((selector) => {
-    const trimmed = selector.trim();
-    if (trimmed === ":root" || trimmed === "html" || trimmed === "body") return ".nal-page";
-    if (trimmed.startsWith("html ")) return `.nal-page ${trimmed.slice(5)}`;
-    if (trimmed.startsWith("body ")) return `.nal-page ${trimmed.slice(5)}`;
-    return trimmed.startsWith(".nal-page") ? trimmed : `.nal-page ${trimmed}`;
+const scope = (css) => {
+  const ast = postcss.parse(css);
+  ast.walkAtRules("font-face", (rule) => rule.remove());
+  ast.walkRules((rule) => {
+    if (rule.parent?.type === "atrule" && /keyframes$/u.test(rule.parent.name)) return;
+    rule.selectors = rule.selectors.map((selector) => {
+      const trimmed = selector.trim();
+      if (trimmed === ":root" || trimmed === "html" || trimmed === "body") return ".nal-page";
+      if (trimmed.startsWith("html ")) return `.nal-page ${trimmed.slice(5)}`;
+      if (trimmed.startsWith("body ")) return `.nal-page ${trimmed.slice(5)}`;
+      return trimmed.startsWith(".nal-page") ? trimmed : `.nal-page ${trimmed}`;
+    });
   });
-});
+  return ast.toString();
+};
+
+const ast = scope(source);
 
 const banner = `/* Generated from the owner-approved NEW-AGE-LEADERSHIP-R5 prototype.\n * Do not hand-edit. Run npm run build:new-age-r5-styles after an authorised baseline change.\n * The .nal-page scope prevents this material surface from leaking into other routes. */\n`;
-const integration = `\n/* Production integration corrections. The application already owns the same\n * local font families, and its reset assigns heading colours directly. */\n.nal-page{--serif:"Newsreader Variable",Newsreader,Georgia,serif;--sans:"Archivo Variable",Archivo,Arial,sans-serif;--mono:"IBM Plex Mono",Plex,"Courier New",monospace}\n.nal-page h1,.nal-page h2,.nal-page h3{color:inherit}\n.nal-page button,.nal-page input[type=range],.nal-page a.hero-action,.nal-page .masthead .brand,.nal-page .reach-copy details a{min-height:44px}\n.nal-page .masthead .brand,.nal-page .reach-copy details a{display:inline-flex;align-items:center}\n@media(max-height:650px) and (max-width:900px) and (orientation:landscape){.nal-page .lens-era-nav{grid-template-columns:repeat(4,44px)}.nal-page .lens-era-nav button{width:44px;min-height:44px}}\n`;
-await writeFile(output, `${banner}${ast.toString()}${integration}`, "utf8");
-console.log(`wrote ${path.relative(root, output)} from ${files.length} locked layers`);
+const integration = `\n/* Production integration corrections. The application already owns the same\n * local font families, and its reset assigns heading colours directly.\n * The prototype declared overflow-x:hidden on body, where the viewport is the\n * scrollport. Scoped onto .nal-page that div becomes the scrollport itself, so\n * every position:sticky inside it pinned to a container that never scrolls and\n * the three pinned sequences scrolled away, leaving empty paper behind them.\n * overflow-x:clip clips the same overflow without creating a scroll container. */\n.nal-page{--serif:"Newsreader Variable",Newsreader,Georgia,serif;--sans:"Archivo Variable",Archivo,Arial,sans-serif;--mono:"IBM Plex Mono",Plex,"Courier New",monospace}\n.nal-page{overflow-x:clip}\n.nal-page h1,.nal-page h2,.nal-page h3{color:inherit}\n.nal-page button,.nal-page input[type=range],.nal-page a.hero-action,.nal-page .reach-copy details a{min-height:44px}\n.nal-page .reach-copy details a{display:inline-flex;align-items:center}\n@media(max-height:650px) and (max-width:900px) and (orientation:landscape){.nal-page .lens-era-nav{grid-template-columns:repeat(4,44px)}.nal-page .lens-era-nav button{width:44px;min-height:44px}}\n`;
+
+/* The R6 layer is hand-authored production source rather than a frozen
+ * prototype layer, so it is read from src/styles and scoped the same way. It is
+ * written last, which is how it wins at equal specificity without any approved
+ * file being rewritten. */
+const r6Path = path.join(root, "src", "styles", "new-age-leadership-r6.layer.css");
+const r6 = scope(await readFile(r6Path, "utf8"));
+
+await writeFile(output, `${banner}${ast}${integration}\n/* new-age-leadership-r6.layer.css */\n${r6}\n`, "utf8");
+console.log(`wrote ${path.relative(root, output)} from ${files.length} locked layers and the R6 production layer`);

@@ -7,7 +7,7 @@ import { sourceHashBytes } from "../lib/source-hash.mjs";
 const root = resolve(import.meta.dirname, "../..");
 const manifestPath = process.env.MINDMAKE_ROUTE_LOCK_MANIFEST
   ? resolve(process.env.MINDMAKE_ROUTE_LOCK_MANIFEST)
-  : resolve(root, "quality/route-lock/approved-production-r24.json");
+  : resolve(root, "quality/route-lock/approved-production-r25.json");
 const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
 const failures = [];
 const sources = new Map();
@@ -37,9 +37,9 @@ exact(brain.items.length, brainContract.meanings, "Brain meanings");
 exact(brain.relationships.length, brainContract.relationships, "Brain relationships");
 exact(brain.sources.length, brainContract.sources, "Brain sources");
 exact(brain.corrections.length, brainContract.corrections, "Brain corrections");
-// The signal fixture stays locked as the GTM evidence source. From r24 the
+// The signal fixture stays locked as the GTM evidence source. From r25 the
 // page no longer asks the reader to pick among its responses, so a manifest
-// states either the picker counts (r17 and earlier) or the cited signals (r24
+// states either the picker counts (r17 and earlier) or the cited signals (r25
 // onwards). A contract stating neither is refused rather than passed.
 if (gtmContract.signals === undefined && gtmContract.citedSignals === undefined) failures.push("GTM contract states neither signal counts nor cited signals");
 if (gtmContract.signals !== undefined) exact(signals.length, gtmContract.signals, "GTM signals");

@@ -1,6 +1,6 @@
 {
-  "at": "2026-09-24T15:11:44.452Z",
-  "origin": "https://mindmake.co",
+  "at": "2026-09-24T18:12:40.551Z",
+  "origin": "http://127.0.0.1:4342",
   "built": true,
   "hashes": {
     "src/pages/Index.tsx": "485a04421a98c852d3e8870e9ebf4d49f4d253efc179a10385060efe558a028f",
@@ -8,7 +8,7 @@
     "src/components/homepage-release/runtime.js": "455f458d711100018037fa60b6d742570b261d85da143f3dc766d497a5695419",
     "src/components/homepage-release/component-styles.css": "0b514cc3fb6a68369a22865569557b40119506f2785fcf3bace34270a4a15409",
     "src/components/homepage-release/page.css": "3f85787cdc8c72a2086eccf2b0966d729c7257739eb1ea006f903c64bab2775c",
-    "src/components/homepage-release/integration.css": "9b5198cd83fd02d81856a891170fc0b0329119e04ed3d7be4d259c4db91f415a",
+    "src/components/homepage-release/integration.css": "cb45a23326551c23571096050444ce34dc098090e7bceefa3d4058be697b5848",
     "src/components/homepage-release/pinnedChapters.ts": "d3f0c747e3d52cce0054072276ea018e7dc3c04f0173a1f3ab36533092237886",
     "src/components/homepage-release/pinnedChapters.css": "cbd0045559d53625b7e033c6efdc1040e209d12d948d3d54aff61803d382f3c6"
   },
@@ -1435,11 +1435,11 @@
         }
       },
       "exitBefore": {
-        "scrollY": 4740,
+        "scrollY": 4760,
         "rect": {
-          "top": 120,
+          "top": 100,
           "height": 900,
-          "bottom": 1020
+          "bottom": 1000
         }
       }
     },
@@ -1454,11 +1454,11 @@
         {
           "direction": "forward",
           "index": 0,
-          "scrollY": 854,
+          "scrollY": 853,
           "rect": {
             "top": 0,
-            "height": 844,
-            "bottom": 844
+            "height": 843.984375,
+            "bottom": 843.984375
           },
           "visibleState": "If knowledge lives outside us, will memory grow weaker?",
           "expected": "If knowledge lives outside us, will memory grow weaker?",
@@ -1467,11 +1467,11 @@
         {
           "direction": "forward",
           "index": 1,
-          "scrollY": 1360,
+          "scrollY": 1359,
           "rect": {
             "top": 0,
-            "height": 844,
-            "bottom": 844
+            "height": 843.984375,
+            "bottom": 843.984375
           },
           "visibleState": "If the machine can do the work, what happens to the worker?",
           "expected": "If the machine can do the work, what happens to the worker?",
@@ -1480,11 +1480,11 @@
         {
           "direction": "forward",
           "index": 2,
-          "scrollY": 1866,
+          "scrollY": 1865,
           "rect": {
             "top": 0,
-            "height": 844,
-            "bottom": 844
+            "height": 843.984375,
+            "bottom": 843.984375
           },
           "visibleState": "If the device does the arithmetic, will children stop learning to think?",
           "expected": "If the device does the arithmetic, will children stop learning to think?",
@@ -1493,11 +1493,11 @@
         {
           "direction": "forward",
           "index": 3,
-          "scrollY": 2372,
+          "scrollY": 2371,
           "rect": {
             "top": 0,
-            "height": 844,
-            "bottom": 844
+            "height": 843.984375,
+            "bottom": 843.984375
           },
           "visibleState": "If the device knows the route, will we lose our sense of direction?",
           "expected": "If the device knows the route, will we lose our sense of direction?",
@@ -1506,11 +1506,11 @@
         {
           "direction": "reverse",
           "index": 3,
-          "scrollY": 2372,
+          "scrollY": 2371,
           "rect": {
             "top": 0,
-            "height": 844,
-            "bottom": 844
+            "height": 843.984375,
+            "bottom": 843.984375
           },
           "visibleState": "If the device knows the route, will we lose our sense of direction?",
           "expected": "If the device knows the route, will we lose our sense of direction?",
@@ -1519,11 +1519,11 @@
         {
           "direction": "reverse",
           "index": 2,
-          "scrollY": 1866,
+          "scrollY": 1865,
           "rect": {
             "top": 0,
-            "height": 844,
-            "bottom": 844
+            "height": 843.984375,
+            "bottom": 843.984375
           },
           "visibleState": "If the device does the arithmetic, will children stop learning to think?",
           "expected": "If the device does the arithmetic, will children stop learning to think?",
@@ -1532,11 +1532,11 @@
         {
           "direction": "reverse",
           "index": 1,
-          "scrollY": 1360,
+          "scrollY": 1359,
           "rect": {
             "top": 0,
-            "height": 844,
-            "bottom": 844
+            "height": 843.984375,
+            "bottom": 843.984375
           },
           "visibleState": "If the machine can do the work, what happens to the worker?",
           "expected": "If the machine can do the work, what happens to the worker?",
@@ -1545,11 +1545,11 @@
         {
           "direction": "reverse",
           "index": 0,
-          "scrollY": 854,
+          "scrollY": 853,
           "rect": {
             "top": 0,
-            "height": 844,
-            "bottom": 844
+            "height": 843.984375,
+            "bottom": 843.984375
           },
           "visibleState": "If knowledge lives outside us, will memory grow weaker?",
           "expected": "If knowledge lives outside us, will memory grow weaker?",
@@ -1557,19 +1557,19 @@
         }
       ],
       "exitAfter": {
-        "scrollY": 2968,
+        "scrollY": 2967,
         "rect": {
-          "top": -100,
-          "height": 844,
-          "bottom": 744
+          "top": -99.015625,
+          "height": 843.984375,
+          "bottom": 744.96875
         }
       },
       "exitBefore": {
-        "scrollY": 744,
+        "scrollY": 743,
         "rect": {
-          "top": 100,
-          "height": 844,
-          "bottom": 944
+          "top": 100.984375,
+          "height": 843.984375,
+          "bottom": 944.96875
         }
       }
     },
@@ -1584,11 +1584,11 @@
         {
           "direction": "forward",
           "index": 0,
-          "scrollY": 4566,
+          "scrollY": 4565,
           "rect": {
             "top": 0,
-            "height": 844,
-            "bottom": 844
+            "height": 843.984375,
+            "bottom": 843.984375
           },
           "visibleState": "It notices what changed.",
           "expected": "It notices what changed.",
@@ -1597,11 +1597,11 @@
         {
           "direction": "forward",
           "index": 1,
-          "scrollY": 5072,
+          "scrollY": 5071,
           "rect": {
             "top": 0,
-            "height": 844,
-            "bottom": 844
+            "height": 843.984375,
+            "bottom": 843.984375
           },
           "visibleState": "It joins the evidence.",
           "expected": "It joins the evidence.",
@@ -1610,11 +1610,11 @@
         {
           "direction": "forward",
           "index": 2,
-          "scrollY": 5578,
+          "scrollY": 5577,
           "rect": {
             "top": 0,
-            "height": 844,
-            "bottom": 844
+            "height": 843.984375,
+            "bottom": 843.984375
           },
           "visibleState": "It prepares the next move.",
           "expected": "It prepares the next move.",
@@ -1623,11 +1623,11 @@
         {
           "direction": "forward",
           "index": 3,
-          "scrollY": 6084,
+          "scrollY": 6083,
           "rect": {
             "top": 0,
-            "height": 844,
-            "bottom": 844
+            "height": 843.984375,
+            "bottom": 843.984375
           },
           "visibleState": "Leadership updates become consistent, even when the week was not.",
           "expected": "Leadership updates become consistent, even when the week was not.",
@@ -1636,11 +1636,11 @@
         {
           "direction": "forward",
           "index": 4,
-          "scrollY": 6590,
+          "scrollY": 6589,
           "rect": {
             "top": 0,
-            "height": 844,
-            "bottom": 844
+            "height": 843.984375,
+            "bottom": 843.984375
           },
           "visibleState": "What will you do with the hours it gives back?",
           "expected": "What will you do with the hours it gives back?",
@@ -1649,11 +1649,11 @@
         {
           "direction": "reverse",
           "index": 4,
-          "scrollY": 6590,
+          "scrollY": 6589,
           "rect": {
             "top": 0,
-            "height": 844,
-            "bottom": 844
+            "height": 843.984375,
+            "bottom": 843.984375
           },
           "visibleState": "What will you do with the hours it gives back?",
           "expected": "What will you do with the hours it gives back?",
@@ -1662,11 +1662,11 @@
         {
           "direction": "reverse",
           "index": 3,
-          "scrollY": 6084,
+          "scrollY": 6083,
           "rect": {
             "top": 0,
-            "height": 844,
-            "bottom": 844
+            "height": 843.984375,
+            "bottom": 843.984375
           },
           "visibleState": "Leadership updates become consistent, even when the week was not.",
           "expected": "Leadership updates become consistent, even when the week was not.",
@@ -1675,11 +1675,11 @@
         {
           "direction": "reverse",
           "index": 2,
-          "scrollY": 5578,
+          "scrollY": 5577,
           "rect": {
             "top": 0,
-            "height": 844,
-            "bottom": 844
+            "height": 843.984375,
+            "bottom": 843.984375
           },
           "visibleState": "It prepares the next move.",
           "expected": "It prepares the next move.",
@@ -1688,11 +1688,11 @@
         {
           "direction": "reverse",
           "index": 1,
-          "scrollY": 5072,
+          "scrollY": 5071,
           "rect": {
             "top": 0,
-            "height": 844,
-            "bottom": 844
+            "height": 843.984375,
+            "bottom": 843.984375
           },
           "visibleState": "It joins the evidence.",
           "expected": "It joins the evidence.",
@@ -1701,11 +1701,11 @@
         {
           "direction": "reverse",
           "index": 0,
-          "scrollY": 4566,
+          "scrollY": 4565,
           "rect": {
             "top": 0,
-            "height": 844,
-            "bottom": 844
+            "height": 843.984375,
+            "bottom": 843.984375
           },
           "visibleState": "It notices what changed.",
           "expected": "It notices what changed.",
@@ -1713,19 +1713,19 @@
         }
       ],
       "exitAfter": {
-        "scrollY": 7186,
+        "scrollY": 7185,
         "rect": {
-          "top": -100,
-          "height": 844,
-          "bottom": 744
+          "top": -99.046875,
+          "height": 843.984375,
+          "bottom": 744.9375
         }
       },
       "exitBefore": {
-        "scrollY": 4440,
+        "scrollY": 4455,
         "rect": {
-          "top": 118,
-          "height": 844,
-          "bottom": 962
+          "top": 100.953125,
+          "height": 843.984375,
+          "bottom": 944.9375
         }
       }
     }
@@ -1843,5 +1843,5 @@
     }
   ],
   "failures": [],
-  "candidateDigest": "2ebd4767044f2a609e7db1e91eebf723f587bcafca6d724377715c8316a5c314"
+  "candidateDigest": "8f39d62082bfbd1f1568dfebf29b510dca4ebe677a6d6a1bd176273b59576781"
 }

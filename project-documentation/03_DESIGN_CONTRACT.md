@@ -102,9 +102,9 @@ This was banned outright until that date, and the ban had a real argument: a scr
 
 - The ground, the wordmark and the mark (vectors written into the page since 4 September 2026, so there is nothing of theirs to fetch), the film plate with its poster, its drift and its sweep are in the first frame. The prerender preloads the four latin faces, both brand images and the priority poster, read from the built output rather than named.
 - The four faces keep `font-display: swap` and stand on metric-matched fallbacks (`Archivo Fallback` and its siblings in `mindmake.css`, numbers computed with Capsize), so a swap that still happens moves nothing.
-- The type waits. An inline script in `index.html`, outside React, puts `mm-pending` on `<html>` before first paint and swaps it for `mm-arrived` when the four faces are in or 700ms after the first frame, whichever is sooner, marking both moments on the performance timeline. `.mm-first` elements (the hero copy and the problem section on the homepage, the copy column on every other hero) are held and then arrive on the reveal primitive's own animation, `backwards` fill, 110ms apart.
+- Long-form route type waits. An inline script in `index.html`, outside React, puts `mm-pending` on `<html>` before first paint and swaps it for `mm-arrived` when the four faces are in or 700ms after the first frame, whichever is sooner, marking both moments on the performance timeline. `.mm-first` elements on those routes are held and then arrive on the reveal primitive's own animation, `backwards` fill, 110ms apart. The compact homepage is immediate: its first viewport is already the entrance, so `/` and `/?start=1` do not run the additional curtain or type arrival.
 - The curtain: fifteen strips of the raised ink over the ink, the converge figure's own count, with the plate's light across them, shown while `<html>` carries `mm-covered` and lifting top to bottom in about 700ms when the type is released, from 120ms after the mark so the first frame on screen is the whole curtain. The root marker and the strips have different names on purpose: on 3 September the root carried the strips' own class, so `.mm-curtain { display: none }` matched the document and nothing was rendered until the marker came off, 2.5 seconds in on a throttled phone, and the gate read the browser's first paint and reported it as late rather than as missing. `var CURTAIN` in the head script is the one switch; false keeps the type arrival alone. It costs up to 700ms of held screen on a slow connection and it was chosen with that number on the table.
-- The guarantees are the reveal primitive's, kept the same way. No script means no class, and no class means nothing hidden and no curtain. Reduced motion takes the same path, and the stylesheet guards it a second time. A deep link (`location.hash`) is never held, because somebody arriving at `/#board` is looking at the page now.
+- The guarantees are the reveal primitive's, kept the same way. No script means no class, and no class means nothing hidden and no curtain. The compact homepage, reduced motion and a deep link (`location.hash`) take the same immediate path.
 - Hydration moves nothing. `useScrollDriver` writes `--mm-p0` alongside its first `--mm-p` and every parallax translate is computed from the difference, so the server render, the first client render and the first write all compute zero; a `Build` group's first value travels for 400ms under `data-mm-settling` rather than snapping.
 - A loop mounts once its plate is within a viewport of the fold, and fades up over its own poster on `playing`, because a decoded frame and a webp of the same frame are not the same colour. The plate's sweep runs on `transform`; on `left` it was a layout shift every frame.
 - `npm run qa:entrance` reads the two marks and judges the frames inside the arrival by direction, fails an arrival that begins more than a second after first paint or never releases, reads every layout shift after first paint against a floor of 0.02, and runs a reduced-motion pass on which nothing may be held, covered or mounted.
@@ -130,6 +130,14 @@ Under `prefers-reduced-motion`, the ambient layer falls back to posters and stop
 No small pre-heading above a hero or a section title, anywhere on the site. Kickers, overlines, chapter numbers, decorative counters, status straps and proof badges are all the same thing under different names, and renaming one or changing its case does not make it acceptable. If a label is worth reading it belongs in the heading; if it is not, it should not be on the page.
 
 A small label may remain only where it names an object, a control, a value or an axis: a lane name on the board, a question number in a journey, a category tag on a card. The contract test enforces the shape of the ban by rejecting any label element immediately followed by a heading.
+
+## A control names the whole choice
+
+Added 16 September 2026 after the AI GTM comparison reduced three different pricing models to "Keep the seat", "Meter the work" and "Price the result". Those were internal strategy notes presented as customer language. A reader had to infer what was being kept, measured or priced before they could compare the choices.
+
+Every button, tab, option and step label must make sense without access to the team's working language. Name the thing and the consequence: "Charge for each completed task", not "Meter the work". Context can remove repetition, but it cannot supply the missing object. If a clear label does not fit the control, change the control. Never shorten the meaning to preserve a desktop grid on a phone.
+
+The banned regression set starts with the fifteen shorthand labels removed in that pass. `src/test/copy-restraint.test.ts` protects the rendered product and `scripts/qa/plain-language-check.mjs` protects the current prototypes.
 
 ## The design says it, so the sentence goes
 
@@ -229,6 +237,16 @@ animates is the wrong shape and belongs somewhere else.
 ## Accessibility
 
 Mint focus-visible outlines on every interactive element. Body text meets AA on both grounds; mint on ink is for large text and chrome, never body text. Every film plate carries a descriptive `aria-label`. Objection chips are buttons, the ask bar is a labelled input, and the fork is keyboard-operable.
+
+## Approved route signatures
+
+The largest and most visible area in a product route carries the strongest demonstration of the product. It is never reserved by an oversized empty container, decorative whitespace or an illustration that cannot explain the offer. Tests measure the distribution of meaningful child content, not the area of its parent box.
+
+The approved AI Brain signature has four complete and reversible views: Decision, the actual living twenty-node Brain, Evidence and Correction. Decision assembles a working portrait from the real fixture. Evidence keeps source, instruction, relationship and standing attached. Correction shows the exact rule before and after the founder changes it. Desktop may pin the sequence; portrait phones use a readable natural-height document. Neither presentation substitutes an abstract diagram for the actual Brain.
+
+The approved AI GTM signature carries one live market signal through a named response, product, price, positioning, people and a customer test. The signal-to-choice crossing and commercial map remain visible on desktop. Phones stack the linked decisions and never squeeze a desktop matrix into the viewport. The live read moves as a ticker without exposing a native horizontal scrollbar.
+
+Both signatures, their fixture data, their review surfaces and the gates that protect them are frozen in `quality/route-lock/approved-production-r1.json`. `npm run qa:approved-routes` checks exact hashes and structural counts. `npm run qa:approved-routes:self-test` proves the guard fails closed. `npm run build` runs the guard before compilation, and `.github/workflows/approved-route-lock.yml` runs it independently on every push and pull request. A later approved change creates a new manifest revision. It never edits this approval record in place.
 
 ## The acceptance checklist
 

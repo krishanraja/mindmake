@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "judgeId": "judge_three",
+  "candidateOrder": [
+    "candidate_e",
+    "candidate_d",
+    "candidate_f"
+  ],
+  "diversity": {
+    "passes": true,
+    "pairs": [
+      {
+        "pair": "candidate_d:candidate_e",
+        "differentAxes": [
+          "primary_interaction",
+          "information_structure",
+          "state_model"
+        ],
+        "rationale": "E is a non-scrolling cabinet of independently addressable drawers around persistent route doors. D is a linear page led by a three-stop proof inspection control, then carries that artefact down a provenance rail. Their interaction, document structure and retained state are materially different."
+      },
+      {
+        "pair": "candidate_e:candidate_f",
+        "differentAxes": [
+          "sequencing",
+          "user_agency",
+          "state_model"
+        ],
+        "rationale": "E lets visitors inspect optional evidence in place while the complete cabinet remains visible. F asks for an immediate route choice, replaces the shared room with a dedicated chamber and retains only the chosen route until exit."
+      },
+      {
+        "pair": "candidate_d:candidate_f",
+        "differentAxes": [
+          "sequencing",
+          "primary_interaction",
+          "information_structure"
+        ],
+        "rationale": "D makes manipulation of one proof artefact the explanatory spine before and after route choice. F makes the doors the first consequential action and defers route-specific proof to a replacement chamber, with no inspection state or sticky provenance rail."
+      }
+    ]
+  },
+  "candidateVerdicts": [
+    {
+      "candidateId": "candidate_e",
+      "hardConstraintsPass": false,
+      "scores": {
+        "commercialClarity": 8.4,
+        "informationEconomy": 8.0,
+        "interactionStrength": 8.3,
+        "mobileQuality": 5.8,
+        "brandSpecificity": 9.1,
+        "proofIntegrity": 9.2,
+        "feasibility": 6.8
+      },
+      "strength": "It is the most coherent physical information model. The two routes stay adjacent, drawers reveal only decision-sized material, and anonymous outcomes, named references and attendee brands remain separated. The cabinet feels recognisably Mindmake rather than like a generic landing page.",
+      "failure": "Its absolute 100svh, no-scroll promise is an accessibility and short-viewport failure. Six zones, two long route labels, 44-pixel controls and a 45-word answer cannot reliably reflow under enlarged text at 320 by 568 or constrained-height landscape without clipping, overlap or illegible compression.",
+      "raiseCondition": "Keep the cabinet as a bounded visual model at default scale, but permit one document scroll when available height or text scale crosses a measured threshold. Preserve compartment location and adjacent doors, and prove the overview plus every open-drawer state at 200 percent text size."
+    },
+    {
+      "candidateId": "candidate_d",
+      "hardConstraintsPass": false,
+      "scores": {
+        "commercialClarity": 7.6,
+        "informationEconomy": 6.3,
+        "interactionStrength": 7.7,
+        "mobileQuality": 5.4,
+        "brandSpecificity": 8.7,
+        "proofIntegrity": 6.9,
+        "feasibility": 7.4
+      },
+      "strength": "Proof genuinely carries the interaction, and the causal sequence from standards to kept output to observed result gives the blade of light an informational job. Fixed stops, keyboard support, media fallback and permanently available route plates make the mechanism more than visual theatre.",
+      "failure": "The smallest first viewport is overcommitted: practice, buyer, legible artefact, caption, instruction, three 44-pixel stops and two adjacent doors compete inside 320 by 568. Door-specific meaning is partly gated by inspection, and one proof object is asked to substantiate both routes without establishing that the approved evidence supports that bridge.",
+      "raiseCondition": "Remove the drag instruction and sticky afterlife. Use a compact, directly tappable three-step proof transcription with its full causal claim visible at rest, then prove that the approved source supports both route inferences. The 320 and 844 landscape starts must remain readable without shrinking the artefact into decoration."
+    },
+    {
+      "candidateId": "candidate_f",
+      "hardConstraintsPass": true,
+      "scores": {
+        "commercialClarity": 9.2,
+        "informationEconomy": 8.7,
+        "interactionStrength": 7.8,
+        "mobileQuality": 7.6,
+        "brandSpecificity": 8.6,
+        "proofIntegrity": 8.8,
+        "feasibility": 8.8
+      },
+      "strength": "It is the easiest concept to buy. The buyer, practice, two routes and shared paid-proof proposition arrive before ornament; choosing a door creates a clean commitment and route-specific proof is shown as a receipt rather than an undifferentiated evidence wall. Its state and History API model are credible.",
+      "failure": "The interaction is structurally clear but not yet uniquely valuable: a transition can disguise ordinary navigation. Four route-chamber bands plus optional reveals could recreate the rejected chapter stack, and equal two-column labels remain tight at 320 pixels and at enlarged text sizes.",
+      "raiseCondition": "Make each chamber a ruthless single-decision surface: one plain distinction, one sourced result, one kept working output and one Start here action before any optional link. Prototype the 320-pixel door pair and text enlargement early, allowing height to grow rather than reducing type."
+    }
+  ],
+  "winner": "candidate_f",
+  "runnerUp": "candidate_e",
+  "disguisedRepetition": "The set is not disguised repetition of itself. D is the nearest regression toward the rejected production direction because its five-screen journey, sticky provenance rail and repeated closing doors extend one interaction through a familiar chapter sequence. E avoids that stack entirely. F is distinct, but its route chambers become disguised old structure if the four bands expand into equal-weight sections or multiple disclosures.",
+  "constraintRegression": "E regresses accessibility by making no scrolling an absolute at 100svh without a text-enlargement escape, so it fails the hard pass. D fails the smallest-viewport information-economy test and makes route clarity depend too heavily on operating a dense proof control; its imperative drag instruction also conflicts with the no-command voice rule. F has no specified hard regression, but its 320-pixel adjacent labels and takeover focus behaviour require rendered proof.",
+  "discardedStrengths": "Restore the rejected work's private-observatory atmosphere, confident Archivo and Newsreader contrast, one archival proof image and one meaningful light-to-dark transition. Put those qualities inside F's threshold crossing and one proof receipt. Do not restore the long chapter stack, repeated route selection, dense evidence wall, hidden controls or delayed action.",
+  "synthesisInstructions": [
+    "Prototype candidate F as the base: one threshold viewport, two adjacent doors, then a true route replacement rather than downstream copy swapping.",
+    "In the first viewport show Mindmake, the intended buyer, one plain practice distinction, both exact door names and the shared paid-proof line. Nothing else may compete above the fold.",
+    "Limit each route chamber to four decision units: what this route changes, why generic AI is insufficient, one approved route-shaped result paired with what the client keeps, and Start here.",
+    "Borrow E's proof discipline: keep anonymous outcomes, named references and attendee brands in separate semantic groups, and never make CTRL a linked offer.",
+    "Borrow only D's causal clarity, not its drag control: express standards in, working proof and observed result as a compact visible sequence attached to the relevant proof receipt.",
+    "At 320 by 568 keep the route labels adjacent with 44-pixel minimum targets and allow vertical growth at enlarged text. At 844 by 390 remove sticky elements and keep every primary action clear of browser and safe-area edges.",
+    "Use one brief threshold transition with an instant reduced-motion equivalent. Move focus to the route heading, make the inactive layer inert, support Escape and browser Back, and restore focus and scroll position on return.",
+    "Acceptance-test all five named viewports, keyboard order, visible focus, screen-reader names, 200 percent text size, orientation preservation and source-level proof attribution before design approval."
+  ],
+  "confidence": "high"
+}

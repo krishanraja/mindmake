@@ -60,7 +60,7 @@ function Focus({ figure, at }: { figure: Extract<Figure, { shape: "focus" }>; at
         <span aria-hidden="true">→</span>
         <b><CountingValue value={figure.to} /></b>
       </p>
-      <p><span>{figure.fromLabel}</span><span>{figure.toLabel}</span></p>
+      {(figure.fromLabel || figure.toLabel) && <p><span>{figure.fromLabel}</span><span>{figure.toLabel}</span></p>}
     </div>
   );
 }

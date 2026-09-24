@@ -1,10 +1,20 @@
 # Mindmake current state
 
-Last updated: 7 September 2026.
+Last updated: 24 September 2026 (backend and release-gate status; frontend promotion not yet recorded).
 
 This file is the current delivery truth for `mindmake.co`: what is live, at which identifiers, and what remains open. Why the business exists is in `00_NORTH_STAR.md`. Commercial truth is in `01_CANON.md`. Design truth is in `03_DESIGN_CONTRACT.md`. The dated record of past deployments, repairs and readings that used to sit below the open items is in `history/LOG.md`, newest first; nothing there describes today.
 
-## Where the rebuild stands
+## Current release status — 24 September 2026
+
+The approved R3 production adapter is in final verification. **This entry does not claim the new frontend has been published.** The current release authority, verified pre-promotion rollback anchor and eventual promotion identity belong to [RELEASE-2026-09-24](website-redesign/RELEASE-2026-09-24.md). Keep that anchor until the release owner records actual promotion and public readback; older deployment identifiers below are historical, not a substitute.
+
+The bounded backend repair **is deployed** to project `bkyuxvschuwngtcdhsyg`: `enrich-company` v44, `submit-mindmake-brief` v20, `mindmake-personal-read` v25. The final two version increments correct type-only lint errors; emitted runtime JavaScript is unchanged and all deployed source files were read back. Exact-domain provider checks and independently corroborated identity gate the company read. Factual descriptions quote literal corroborated provider evidence, not model paraphrases; news uses literal first-party source titles. The documented owned alias `themindmaker.ai` canonicalizes to `mindmake.co` for research/signatures only, never the recipient address. Arbitrary redirects and lookalike domains are not trusted.
+
+Fresh canonical and legacy reads passed. Actual verification, visitor-brief, operator-digest and personal-read messages reached the designated operator INBOX; corresponding lead/personal rows and single day-14 queues were verified. Only captured synthetic rows were removed, with zero readback; no cron sender was invoked. The actual private-brief HTML generator was exercised through a browser download and the saved file inspected at 1440px and 390px with no overflow or external requests. Evidence, IDs, exact function versions, source readback and limits: [backend release evidence](website-redesign/BACKEND-RELEASE-EVIDENCE-2026-09-24.md), including its final addendum.
+
+The backend targeted suite passed 67 tests across three files; all three Deno closures passed. These do not replace the full release matrix. The owner-approved exception covers only physical iPhone VoiceOver and Android TalkBack for this release; neither was performed, and all other gates still apply.
+
+## Historical frontend baseline — recorded 7 September 2026
 
 **The rebuild is live.** The homepage, `/ai-brain` and `/ai-gtm` were rebuilt, the six films were installed, and it was promoted to production on 28 August 2026. The edge rewrite of 5 September 2026 (what the work answers, said once, with no public duration) is the latest promotion.
 
@@ -43,12 +53,12 @@ Supabase project `bkyuxvschuwngtcdhsyg`.
 
 | Function | Version | verify_jwt | Role |
 |---|---|---|---|
-| `submit-mindmake-brief` | v16 | off | The company read, plus the day-14 follow-up enqueue. v16 deployed on 5 September 2026 after the promotion, from the working tree with the CLI; the body was read back from the platform and every one of its sixteen files is byte-identical to the repository. It also carries the wider personal-email list from `064cbe9`, which the browser already enforced and the live function had not |
-| `enrich-company` | v36 | on | Declarative synthesis and tailored choices |
-| `get-ai-news` | v69 | off | Restored to the repository and extended with `{view:"board"}`. v69 (2 September 2026) passes `affects` and `stance` through with a list guard when a cache row carries them. No body still returns the previous shape byte for byte |
-| `mindmake-personal-read` | v20 | off | The personal read: enrichment, the one results email, the follow-up enqueue, and the handoff every dead end on the site ends in |
+| `submit-mindmake-brief` | v20 | off | Verified code, company brief, visitor/operator delivery and day-14 enqueue; uses the corroborated literal company read and owned-alias choice binding |
+| `enrich-company` | v44 | on | Exact-domain and corroborated identity; literal factual read and first-party source titles; tailored choices retained |
+| `get-ai-news` | v70 | off | Live board/cache read; version read back on 24 September, not redeployed by this repair |
+| `mindmake-personal-read` | v25 | off | Personal read, results email and follow-up enqueue; canonical owned-domain lookup; existing handoff retained |
 | `send-follow-ups` | v5 | off | The day-14 follow-up. Cron only. v5 (5 September 2026) carries the duration-free proposal copy; both of its files read back byte-identical to the repository |
-| `aa-price-snapshot` | v1 | off | Daily model prices. Cron only |
+| `aa-price-snapshot` | v3 | off | Daily model prices. Cron only; version read back on 24 September, not redeployed by this repair |
 
 - Migrations added: `mindmake_follow_up_and_personal_read`, `aa_model_snapshots`, `mindmake_scheduled_jobs`, `mindmake_public_rpc_wrappers`. All four are idempotent and all four are registered in the remote migration history, so the repository and the database agree. On 29 August 2026 `handoff_reason` was added to `public.mindmake_personal_reads`, `q1` and `q2` became nullable under `mindmake_personal_reads_shape_check`, and the table still carries zero policies.
 - New tables are RLS-on with no policies, reachable only by the service role. No existing policy was loosened and no anon policy was added to anything.
@@ -58,7 +68,7 @@ Supabase project `bkyuxvschuwngtcdhsyg`.
 - Retention: unverified brief requests purge after 7 days, rate-limit hashes after 48 hours, verified records at 12 months, sent follow-up rows after 7 days, unsent rows after 60 days, personal reads at 12 months. The privacy notice states the same schedule.
 - `VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED` is `true` in production, so the three dead ends inside the lead dialog exist on the live site rather than only in a build with the flag on.
 
-## Verification baselines
+## Historical verification baselines — 5–7 September 2026
 
 Last measured 5 September 2026, against the built output, for the edge rewrite. The readings that set each gate's floor, and every earlier baseline, are in `history/LOG.md` under the date they were taken.
 
@@ -74,7 +84,7 @@ Last measured 5 September 2026, against the built output, for the edge rewrite. 
 - Quotes (7 September 2026): every excerpt in `src/data/testimonials.ts` is an exact substring of its revised full quote and within the 108-character cap, and each of the eight client stories in `src/data/rebuildProof.ts` names its voice and takes the whole quote and the role from that file; `src/test/testimonials.test.ts` holds both. Measured on the rail at nine widths from 320 to 1920 on `/` and `/case-studies/`: every card equal at 177.3px from 360 up, nothing clipped. Tests 450 across 29 files, lint 0 errors and 2 warnings, typecheck 0 errors, unchanged; cards, screens and no-JS gates green on the built output.
 - Rendered DOM of the seven routes scanned: no duration promise, no em dash, no `judgment`, the operator's name only in the founder section, the drum heading and quotes.
 - The two-email cap was proven rather than asserted on 29 August 2026: three successful sends to one address produced exactly one queue row, and the fourth was rate-limited. Test rows were deleted afterwards.
-- There are no frozen SHA-locked surfaces any more. The V5 motion study, the gateway candidate and the V8 mock were deleted with their locks; the brief supersedes their contracts and git history preserves the files.
+- Historical 7 September position: the V5 motion study, gateway candidate and V8 mock locks had been removed. **Superseded on 24 September:** the accepted R3 prototype is immutable, its production adapter is deterministically compiled and drift checked, and the current release requires source-bound browser evidence. See the release record above; the old no-lock statement is not current policy.
 
 ## Names you will meet, and what they are
 
@@ -99,7 +109,9 @@ or in the project's own history, and they are listed so nobody has to guess.
 | The enemy pair, the ladder, the fork, the board | Homepage and door-page sections. The enemy pair is the oracle and the mirror cards resolved by one claim (the `mm-enemy` class now carries the three things the work answers on the homepage); the board is the live daily market read on `/ai-gtm` and the homepage. The ladder (the three levels of value, `ClimbLadder`, the site's one pinned climb) and the fork (`ForkBand`, the paper band where a visitor picked a starting point) were deleted from `/ai-brain` on 5 September 2026 because they made the argument the homepage and `/new-age-leadership` already make; the names survive only in the record. |
 | `mm-covered`, `.mm-curtain` | The entrance's root marker and the fifteen ink strips it keys, two names on purpose since 4 September 2026. `var CURTAIN` in `index.html` is the one switch. |
 
-## Open items
+## Historical open-item register — retained from 7 September 2026
+
+These entries retain their original dated context; they are not a claim that only one item remains for the 24 September release. Current release gates and the narrowly scoped physical-AT exception are recorded above and in the release record.
 
 1. **The branded mailboxes are the one thing still owed.** See item 3. Everything else the rebuild needed is live.
 2. **The day-14 follow-up is live, and the first one can send on 11 September 2026.** `submit-mindmake-brief` v13 was deployed straight after the 28 August promotion, so the enqueue and the privacy notice describing it went live together. The deployed body was verified to carry it. `follow_up_queue` was empty at that moment, so nothing predates the notice.
@@ -121,6 +133,6 @@ Carried from the dated entries, still open on 7 September 2026. The reasoning be
 15. **Share cards**: nothing here can say how a share looks on LinkedIn or on X until one is posted; both cache by URL, so the first share of each page fetches the new plate. A post's plate uses its category's film until it earns a still of its own. The 404 for an unknown route is Vercel's plain text; a branded page would be `dist/404.html`, which the prerender does not write yet.
 16. **A face that lands after the 700ms hold can rewrap a line** that sits near its column's edge (seen once on the hero claim through the forwarder on 4 September). Metric fallbacks match average width, not every string. A known limit, recorded rather than fixed by tuning one string.
 17. **Pre-existing and out of scope** (3 September): retired routes hydrate the homepage's prerendered markup against a different route; whether a privacy notice is needed at all for cookieless analytics.
-18. **The live company read for `themindmaker.ai`** resolved the brand to a different founder's name and product (5 September). That is the enrichment provider's answer for that domain and predates the edge rewrite; it is the read a lead from that domain would see today.
+18. **Resolved 24 September: wrong-company read for `themindmaker.ai`.** The historical 5 September failure was reproduced and repaired with domain/name corroboration, literal factual evidence and the documented owned-domain alias. Fresh live canonical and legacy reads returned Mindmake; the actual personal-read send passed. The earlier wrong-founder result must not be treated as acceptable provider behavior or current output.
 19. **A story that ran on two days is shown once** on the board. Nothing upstream promises an id is unique across days; 28 days of live data had no duplicate on 2 September, which is not a guarantee.
 20. **The three-question form on `/ai-brain`** ran 1.88 screens and is exempt from the screen budget by name (last measured 1 September). Making it two steps would fix the height and change a working conversion surface, which is a decision rather than a fix.

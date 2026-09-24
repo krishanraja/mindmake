@@ -276,4 +276,12 @@ describe("Mindmake brief V2 backend core", () => {
       "A tailored choice, read through the lens: Our product is moving faster than our message.",
     );
   });
+
+  it('preserves signed choices across the documented business alias only', async () => {
+    const label = 'Important context still lives in my head';
+    const lens = 'important-context-lives-in-my-head';
+    const id = await signTailoredChoice('test-secret', 'mindmake.co', lens, label);
+    expect(await verifyTailoredChoice('test-secret', 'themindmaker.ai', lens, label, id)).toBe(true);
+    expect(await verifyTailoredChoice('test-secret', 'other.example', lens, label, id)).toBe(false);
+  });
 });

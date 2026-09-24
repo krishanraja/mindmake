@@ -84,7 +84,7 @@
         "see",
         "gdpr"
       ],
-      "answer": "Only you. We build it inside your own accounts, and we never publish, share or train anything on your work."
+      "answer": "Mindmake and the providers needed to run the service. After email confirmation, you receive the brief and our team receives a fit summary. We do not sell or publish your information. Full details are in our privacy policy."
     },
     {
       "id": "private",
@@ -230,7 +230,7 @@
         "speak",
         "contact"
       ],
-      "answer": "Start here, at the top or bottom of any page. You give us four details, your name, your work email and the part of the business you work in. We read your company from the email, so there is nothing to look up, and a plan built for your business lands in your inbox."
+      "answer": "Start here, at the top or bottom of any page. You give us four details: your first name, your last name, your work email and the part of the business you work in. We read your company from the email, so there is nothing to look up, and a plan built for your business lands in your inbox."
     },
     {
       "id": "fit",

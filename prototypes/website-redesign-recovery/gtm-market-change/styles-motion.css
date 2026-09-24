@@ -1,0 +1,231 @@
+/* GTM-MOTION-S1: additive film layer over the immutable S3-FIT candidate. */
+
+:root {
+  --film-edge: rgba(230, 196, 130, 0.28);
+  --film-shadow: rgba(0, 0, 0, 0.58);
+}
+
+.intro,
+.signal-deck {
+  position: relative;
+  isolation: isolate;
+}
+
+.motion-scene {
+  position: absolute;
+  z-index: -1;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: #08100d;
+  border: 1px solid var(--film-edge);
+  box-shadow: 0 28px 72px var(--film-shadow);
+}
+
+.motion-film,
+.motion-scrim {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.motion-film {
+  object-fit: cover;
+  object-position: 50% 50%;
+  filter: saturate(0.88) contrast(1.04) brightness(0.78);
+}
+
+.motion-scrim {
+  background:
+    linear-gradient(90deg, #07110e 0%, rgba(7, 17, 14, 0.9) 18%, rgba(7, 17, 14, 0.22) 62%, rgba(7, 17, 14, 0.48) 100%),
+    linear-gradient(180deg, rgba(7, 17, 14, 0.26), rgba(7, 17, 14, 0.66));
+}
+
+.motion-readout {
+  position: absolute;
+  right: 1rem;
+  bottom: 0.75rem;
+  display: inline-flex;
+  gap: 0.45rem;
+  align-items: center;
+  color: rgba(234, 223, 202, 0.58);
+  font-size: 0.52rem;
+  font-weight: 640;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.motion-readout i {
+  width: 5px;
+  height: 5px;
+  background: var(--brass-bright);
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(230, 196, 130, 0.58);
+}
+
+.motion-scene--threshold {
+  top: clamp(1rem, 2.6vh, 2rem);
+  right: -24px;
+  bottom: clamp(1rem, 2.6vh, 2rem);
+  left: 34%;
+  opacity: 0.94;
+  border-right: 0;
+  clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.intro > h1,
+.intro > .intro-side {
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.6);
+}
+
+.intro > h1 {
+  max-width: 740px;
+}
+
+.motion-scene--signals {
+  z-index: 0;
+  top: 86px;
+  right: 0;
+  bottom: 0;
+  width: 54%;
+  border: 0;
+  border-left: 1px solid rgba(230, 196, 130, 0.18);
+  box-shadow: none;
+}
+
+.motion-scene--signals .motion-film {
+  object-position: 58% 48%;
+  filter: saturate(0.74) contrast(1.08) brightness(0.58);
+}
+
+.motion-scene--signals .motion-scrim {
+  background:
+    linear-gradient(90deg, #0b1713 0%, rgba(11, 23, 19, 0.94) 19%, rgba(11, 23, 19, 0.35) 70%, rgba(11, 23, 19, 0.58) 100%),
+    linear-gradient(180deg, rgba(7, 17, 14, 0.42), rgba(7, 17, 14, 0.72));
+}
+
+.signal-index,
+.signal-readout {
+  position: relative;
+  z-index: 1;
+}
+
+.signal-readout {
+  background: linear-gradient(90deg, rgba(11, 23, 19, 0.98) 0%, rgba(11, 23, 19, 0.9) 45%, rgba(11, 23, 19, 0.28) 100%);
+}
+
+.observation {
+  max-width: min(52ch, 70%);
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.72);
+}
+
+html[data-motion-policy="poster"] .motion-readout,
+html[data-motion-policy="unavailable"] .motion-readout {
+  opacity: 0.66;
+}
+
+html[data-motion-policy="poster"] .motion-readout i,
+html[data-motion-policy="unavailable"] .motion-readout i {
+  background: var(--cream);
+  box-shadow: none;
+}
+
+@media (min-width: 981px) and (max-height: 760px) {
+  .motion-scene--signals {
+    top: 76px;
+  }
+}
+
+@media (max-width: 980px) {
+  .motion-scene--threshold {
+    left: 25%;
+  }
+
+  .motion-scene--signals {
+    top: 0;
+    width: 58%;
+  }
+}
+
+@media (max-width: 700px) {
+  .motion-scene--threshold {
+    top: auto;
+    right: -16px;
+    bottom: 0.55rem;
+    left: 28%;
+    height: 46%;
+    opacity: 0.9;
+    border-right: 0;
+    clip-path: polygon(12% 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .motion-scene--threshold .motion-film {
+    object-position: 58% 50%;
+    filter: saturate(0.88) contrast(1.05) brightness(0.64);
+  }
+
+  .motion-scene--threshold .motion-scrim {
+    background:
+      linear-gradient(90deg, #07110e 0%, rgba(7, 17, 14, 0.7) 31%, rgba(7, 17, 14, 0.22) 100%),
+      linear-gradient(180deg, rgba(7, 17, 14, 0.32), rgba(7, 17, 14, 0.64));
+  }
+
+  .intro-side {
+    max-width: 66%;
+  }
+
+  .motion-readout {
+    right: 0.68rem;
+    bottom: 0.52rem;
+    font-size: 0.46rem;
+  }
+
+  .motion-scene--signals {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    border-left: 0;
+  }
+
+  .motion-scene--signals .motion-film {
+    object-position: 60% 50%;
+    filter: saturate(0.72) contrast(1.06) brightness(0.5);
+  }
+
+  .motion-scene--signals .motion-scrim {
+    background:
+      linear-gradient(90deg, rgba(7, 17, 14, 0.96), rgba(7, 17, 14, 0.52)),
+      linear-gradient(180deg, rgba(7, 17, 14, 0.8) 0 48%, rgba(7, 17, 14, 0.34) 72%, rgba(7, 17, 14, 0.82) 100%);
+  }
+
+  .signal-readout {
+    background: linear-gradient(180deg, rgba(11, 23, 19, 0.9), rgba(11, 23, 19, 0.46));
+  }
+
+  .observation {
+    max-width: 31ch;
+  }
+}
+
+@media (max-width: 360px) {
+  .motion-scene--threshold {
+    right: 0;
+  }
+}
+
+@media (forced-colors: active) {
+  .motion-scene {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-film {
+    animation: none !important;
+  }
+}

@@ -96,8 +96,10 @@ const browser = await chromium.launch(process.env.PLAYWRIGHT_CHROMIUM || existsS
   : {});
 const context = await browser.newContext({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 });
 const page = await context.newPage();
-const manifest = {};
-for (const entry of pages) {
+const onlyRoute = process.argv.find(arg => arg.startsWith('--route='))?.slice(8);
+if (onlyRoute && !pages.some(entry => entry.path === onlyRoute)) throw new Error(`Unknown social route: ${onlyRoute}`);
+const manifest = onlyRoute ? JSON.parse(readFileSync(resolve(root, "src/content/socialPlates.json"), "utf8")) : {};
+for (const entry of pages.filter(entry => !onlyRoute || entry.path === onlyRoute)) {
   const version = createHash("sha1").update(JSON.stringify([TEMPLATE, entry.headline, entry.claim, entry.still, entry.path])).digest("hex").slice(0, 8);
   const file = `${entry.name}.jpg`;
   await page.setContent(html(entry), { waitUntil: "load" });
@@ -108,9 +110,9 @@ for (const entry of pages) {
 await browser.close();
 
 /* Plates nothing names any more. */
-for (const stale of readdirSync(outDir)) {
+for (const stale of onlyRoute ? [] : readdirSync(outDir)) {
   if (!Object.values(manifest).some((plate) => plate.file.endsWith(`/${stale}`))) unlinkSync(resolve(outDir, stale));
 }
 writeFileSync(resolve(root, "src/content/socialPlates.json"), `${JSON.stringify(manifest, null, 2)}\n`);
-if (existsSync(resolve(root, "public/og-image.jpg"))) unlinkSync(resolve(root, "public/og-image.jpg"));
+if (!onlyRoute && existsSync(resolve(root, "public/og-image.jpg"))) unlinkSync(resolve(root, "public/og-image.jpg"));
 console.log(`${pages.length} plates painted into public/social, manifest in src/content/socialPlates.json`);

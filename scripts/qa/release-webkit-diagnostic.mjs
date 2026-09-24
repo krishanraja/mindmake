@@ -1,0 +1,286 @@
+import { spawn } from 'node:child_process';
+import { createHash } from 'node:crypto';
+import { readFile, mkdir, writeFile, appendFile } from 'node:fs/promises';
+import { createRequire } from 'node:module';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const runnerRequire = createRequire(process.env.QA_DIAG_RUNNER_ROOT
+  ? path.join(process.env.QA_DIAG_RUNNER_ROOT, 'package.json') : import.meta.url);
+const { webkit } = runnerRequire('playwright');
+
+// Diagnostic only: no assertions in the release gate are changed or bypassed.
+// Four fresh-process cases isolate automation interception from native asset I/O.
+const root = path.resolve(import.meta.dirname, '../..');
+const script = fileURLToPath(import.meta.url);
+const digest = bytes => createHash('sha256').update(bytes).digest('hex');
+const indexSha256 = digest(await readFile(path.join(root, 'dist/index.html')));
+const origin = process.env.QA_DIAG_ORIGIN || process.env.QA_BASE_URL || 'http://127.0.0.1:4345';
+if (!['localhost', '127.0.0.1'].includes(new URL(origin).hostname)) throw Error('Local diagnostic target required');
+const emit = event => console.log(JSON.stringify(event));
+const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
+const bounded = (promise, ms, label) => {
+  let timer;
+  return Promise.race([promise, new Promise((_, reject) => { timer = setTimeout(() => reject(Error(`${label}: bounded ${ms}ms timeout`)), ms); })]).finally(() => clearTimeout(timer));
+};
+
+if (process.argv.includes('--worker')) {
+  const mode = process.env.QA_DIAG_MODE;
+  const scenario = process.env.QA_DIAG_SCENARIO;
+  const width = Number(process.env.QA_DIAG_WIDTH || 390);
+  const mediaTrace = process.env.QA_DIAG_MEDIA_TRACE === 'yes';
+  const record = { mode, scenario, width, mediaTrace, indexSha256, failures: [], phases: [], pageerrors: [], browserVersion: null };
+  let browser;
+  const start = performance.now();
+  const event = value => emit({ elapsedMs: Math.round(performance.now() - start), ...value });
+  const phase = async (name, operation, timeout = 12000) => {
+    const item = { name, startedMs: Math.round(performance.now() - start) };
+    record.phases.push(item); event({ kind: 'phase-start', ...item });
+    const phaseStart = performance.now();
+    const result = await bounded(operation(), timeout, name);
+    item.completedMs = Math.round(performance.now() - phaseStart);
+    event({ kind: 'phase-complete', ...item });
+    return result;
+  };
+  const diagnosticDocuments = new Map();
+  try {
+    browser = await phase('launch', () => webkit.launch());
+    record.browserVersion = browser.version();
+    const page = await phase('new-page', () => browser.newPage({ viewport: { width, height: width < 700 ? 844 : 900 }, serviceWorkers: 'block' }));
+    page.setDefaultTimeout(12000);
+    page.on('pageerror', error => { record.pageerrors.push(error.message); event({ kind: 'pageerror', message: error.message }); });
+    page.on('crash', () => event({ kind: 'page-crash' }));
+    page.on('request', request => {
+      const url = new URL(request.url());
+      event({ kind: 'request', path: url.pathname, external: url.origin !== origin, method: request.method(), type: request.resourceType(), range: request.headers().range || null });
+    });
+    page.on('response', response => {
+      event({ kind: 'response', path: new URL(response.url()).pathname, status: response.status(), length: response.headers()['content-length'] || null, contentRange: response.headers()['content-range'] || null });
+    });
+    page.on('requestfinished', request => event({ kind: 'request-finished', path: new URL(request.url()).pathname }));
+    page.on('requestfailed', request => event({ kind: 'request-failed', path: new URL(request.url()).pathname, error: request.failure()?.errorText }));
+    if (mediaTrace) {
+      const prefix = '__qaNativeMedia__';
+      page.on('console', message => {
+        const text = message.text();
+        if (!text.startsWith(prefix)) return;
+        try { event({ kind: 'native-media', ...JSON.parse(text.slice(prefix.length)) }); } catch { /* unrelated console text is not trace evidence */ }
+      });
+      await page.addInitScript(({ target, prefix }) => {
+        if (location.origin !== target) return;
+        const ids = new WeakMap();
+        let nextElement = 0;
+        let nextCall = 0;
+        const log = detail => {
+          // Do not inspect native media getters here: the trace must not introduce
+          // an additional media pipeline operation while diagnosing a blocked call.
+          try { console.debug(prefix + JSON.stringify({ documentPath: location.pathname, browserMs: performance.now(), ...detail })); } catch { /* tracing never changes native results */ }
+        };
+        const invoke = (native, receiver, args, operation) => {
+          const call = ++nextCall;
+          if (receiver && (typeof receiver === 'object' || typeof receiver === 'function') && !ids.has(receiver)) ids.set(receiver, ++nextElement);
+          const element = ids.get(receiver) || null;
+          const started = performance.now();
+          log({ stage: 'before', operation, call, element, ...(operation === 'currentTime:set' ? { targetTime: typeof args[0] === 'number' ? args[0] : null, argumentType: typeof args[0] } : {}) });
+          let thrown;
+          let didThrow = false;
+          try { return Reflect.apply(native, receiver, args); }
+          catch (error) { didThrow = true; thrown = error; throw error; }
+          finally { log({ stage: 'after', operation, call, element, durationMs: performance.now() - started, threw: didThrow, errorName: thrown instanceof Error ? thrown.name : null }); }
+        };
+        for (const name of ['play', 'pause', 'load']) {
+          const descriptor = Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype, name);
+          if (!descriptor || typeof descriptor.value !== 'function') continue;
+          const native = descriptor.value;
+          Object.defineProperty(HTMLMediaElement.prototype, name, { ...descriptor, value: function (...args) { return invoke(native, this, args, name); } });
+        }
+        const descriptor = Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype, 'currentTime');
+        if (descriptor?.set) {
+          const native = descriptor.set;
+          // Keep the original getter and all descriptor flags. The setter calls
+          // the native accessor exactly once, without coercing its argument.
+          Object.defineProperty(HTMLMediaElement.prototype, 'currentTime', { ...descriptor, set: function (value) { return invoke(native, this, [value], 'currentTime:set'); } });
+        }
+      }, { target: origin, prefix });
+    }
+    await page.exposeFunction('__qaHeartbeat', state => event({ kind: 'heartbeat', ...state }));
+    await page.addInitScript(target => {
+      if (location.origin !== target) return;
+      localStorage.setItem('mindmake_consent', 'accepted');
+      setInterval(() => window.__qaHeartbeat({ readyState: document.readyState, covered: document.documentElement.classList.contains('mm-covered'), arrived: document.documentElement.classList.contains('mm-arrived'), playing: [...document.querySelectorAll('video')].filter(node => !node.paused).length }).catch(() => {}), 500);
+    }, origin);
+    const handler = async intercepted => {
+      const request = intercepted.request();
+      const url = new URL(request.url());
+      event({ kind: 'intercept', path: url.pathname, type: request.resourceType() });
+      if (url.origin !== origin || !['GET', 'HEAD'].includes(request.method())) return intercepted.abort();
+      if (scenario === 'media-only' && request.isNavigationRequest() && diagnosticDocuments.has(url.pathname)) {
+        return intercepted.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: diagnosticDocuments.get(url.pathname) });
+      }
+      if (request.isNavigationRequest() && ['/ai-brain', '/ai-gtm'].includes(url.pathname)) {
+        // Same exact directory-index mapping as the release gate; HTML only.
+        return intercepted.fulfill({ response: await intercepted.fetch({ url: `${origin}${url.pathname}/` }) });
+      }
+      await intercepted.continue();
+    };
+    if (mode === 'broad') await page.route('**/*', handler);
+    else if (mode === 'selective') {
+      // Keep local media/font/image/script/style bytes entirely on native networking.
+      // This diagnostic performs only document navigation and menu clicks, no forms.
+      await page.route(url => url.origin !== origin || !/^\/(assets|fonts)\//.test(url.pathname), handler);
+    } else throw Error(`Unknown diagnostic mode: ${mode}`);
+
+    const ready = async label => {
+      await phase(`${label}:root-heading`, () => page.waitForFunction(() => {
+        const node = document.querySelector('#root');
+        return node && Object.keys(node).some(key => key.startsWith('__reactContainer')) && document.querySelector('main h1');
+      }));
+      await phase(`${label}:fonts`, () => page.evaluate(() => document.fonts.ready));
+      await phase(`${label}:curtain`, () => page.waitForFunction(() => !document.documentElement.classList.contains('mm-covered')));
+      await page.waitForTimeout(180);
+      await phase(`${label}:two-frames`, () => page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))));
+    };
+    const visit = async (pathname, label) => {
+      const response = await phase(`${label}:goto`, () => page.goto(`${origin}${pathname}`, { waitUntil: 'domcontentloaded', timeout: 12000 }));
+      const bytes = await phase(`${label}:document-bytes`, () => response.body());
+      const local = await readFile(path.join(root, 'dist', pathname.replace(/^\//, ''), 'index.html'));
+      if (digest(bytes) !== digest(local)) throw Error('Served HTML does not match built HTML');
+      await ready(label);
+    };
+    if (scenario === 'media-only') {
+      const sourceHtml = await readFile(path.join(root, 'dist/case-studies/index.html'), 'utf8');
+      const films = [...sourceHtml.matchAll(/<video\b[^>]*data-film-src="([^"]+)"[^>]*data-offset="([^"]+)"[^>]*>/g)]
+        .slice(0, width < 700 ? 2 : 4).map(match => ({ path: match[1], offset: Number(match[2]) }));
+      if (films.length !== (width < 700 ? 2 : 4) || films.some(film => !/^\/assets\/[\w.-]+\.mp4$/.test(film.path) || !Number.isFinite(film.offset))) throw Error('Cannot identify exact built proof-field media');
+      record.mediaSources = await phase('media-only:verify-source-bytes', async () => {
+        const results = [];
+        for (const film of films) {
+          const local = await readFile(path.join(root, 'dist', film.path.slice(1)));
+          const response = await fetch(`${origin}${film.path}`, { signal: AbortSignal.timeout(12000) });
+          const served = Buffer.from(await response.arrayBuffer());
+          const item = { ...film, bytes: local.length, sha256: digest(local), servedSha256: digest(served), status: response.status };
+          if (item.status !== 200 || item.sha256 !== item.servedSha256) throw Error('Media bytes do not match the built artifact');
+          results.push(item);
+        }
+        return results;
+      });
+      // Minimal native document: no app bundle, React, stylesheet, poster or font.
+      // Width/height attributes merely keep every active video on screen.
+      const documentPath = '/__qa-media-only';
+      const exitPath = '/__qa-media-only-exit';
+      const html = `<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>Native media diagnostic</title></head><body><h1>Native media diagnostic</h1>${films.map((_, i) => `<video id="film-${i}" width="160" height="90" muted loop playsinline preload="none"></video>`).join('')}<script>
+const films = ${JSON.stringify(films)};
+window.__qaMedia = films.map(() => ({ metadata: false, seeked: false, playing: false, errors: [] }));
+films.forEach((source, i) => {
+  const film = document.getElementById('film-' + i);
+  const state = window.__qaMedia[i];
+  film.muted = true;
+  film.addEventListener('loadedmetadata', () => {
+    state.metadata = true;
+    if (Number.isFinite(film.duration) && film.duration > 0) film.currentTime = Math.min(source.offset, Math.max(0, film.duration - 0.1));
+  }, { once: true });
+  film.addEventListener('seeked', () => { state.seeked = true; });
+  film.addEventListener('playing', () => { state.playing = true; });
+  film.addEventListener('error', () => { state.errors.push('media:' + (film.error?.code || 'unknown')); });
+  film.src = source.path;
+  film.play().catch(error => { state.errors.push(error.name); });
+});
+</script></body></html>`;
+      diagnosticDocuments.set(documentPath, html);
+      diagnosticDocuments.set(exitPath, '<!doctype html><html><head><title>Media exit</title></head><body><h1>Media exit</h1></body></html>');
+      record.minimalDocument = { path: documentPath, sha256: digest(html), sourceHtml: html, transport: 'Same-origin native navigation with diagnostic HTML response fulfillment; video responses unmodified', activeVideos: films.length, limitation: 'A minimal reproduction, not the full application scheduling or lifecycle' };
+      const response = await phase('media-only:goto', () => page.goto(`${origin}${documentPath}`, { waitUntil: 'domcontentloaded', timeout: 12000 }));
+      record.minimalDocument.servedSha256 = digest(await phase('media-only:document-bytes', () => response.body()));
+      if (record.minimalDocument.sha256 !== record.minimalDocument.servedSha256) throw Error('Minimal document hash mismatch');
+      await phase('media-only:metadata-seek-playing', () => page.waitForFunction(() => window.__qaMedia?.every(state => state.metadata && state.seeked && state.playing && !state.errors.length)));
+      await phase('media-only:two-frames', () => page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))));
+      await phase('media-only:heartbeat-dwell', () => page.evaluate(() => new Promise(resolve => setTimeout(resolve, 1500))));
+      record.media = await phase('media-only:media-state', () => page.locator('video').evaluateAll(nodes => nodes.map((node, i) => ({ ...window.__qaMedia[i], paused: node.paused, time: node.currentTime, readyState: node.readyState, path: new URL(node.currentSrc).pathname }))));
+      const exit = await phase('media-only:native-navigation-away', () => page.goto(`${origin}${exitPath}`, { waitUntil: 'domcontentloaded', timeout: 12000 }));
+      if (digest(await phase('media-only:exit-document-bytes', () => exit.body())) !== digest(diagnosticDocuments.get(exitPath))) throw Error('Minimal exit document hash mismatch');
+      await phase('media-only:exit-two-frames', () => page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))));
+      record.visibleHeadings = await phase('media-only:exit-heading', () => page.locator('h1:visible').allTextContents());
+    } else if (scenario === 'case-studies') {
+      await visit('/case-studies/', 'case-studies');
+      record.visibleHeadings = await phase('case-studies:headings', () => page.locator('h1:visible').allTextContents());
+      record.media = await phase('case-studies:media-state', () => page.locator('video').evaluateAll(nodes => nodes.map(node => ({ paused: node.paused, time: node.currentTime, readyState: node.readyState, path: node.currentSrc ? new URL(node.currentSrc).pathname : null }))));
+    } else if (scenario === 'core-navigation') {
+      record.destinations = [];
+      for (const destination of ['/ai-brain', '/ai-gtm']) {
+        await visit('/', `${destination}:home`);
+        await phase(`${destination}:menu`, () => page.getByRole('button', { name: 'Open navigation', exact: true }).filter({ visible: true }).click());
+        await phase(`${destination}:click`, () => page.locator(`.r3-navigation a[href="${destination}"]:visible`).click());
+        await phase(`${destination}:url`, () => page.waitForURL(url => url.pathname.replace(/\/$/, '') === destination));
+        await ready(destination);
+        record.destinations.push({ destination, headings: await phase(`${destination}:headings`, () => page.locator('h1:visible').allTextContents()) });
+      }
+      await visit('/', 'third-home-return');
+      record.visibleHeadings = await phase('third-home-return:headings', () => page.locator('h1:visible').allTextContents());
+    } else throw Error(`Unknown diagnostic scenario: ${scenario}`);
+    if (record.visibleHeadings.length !== 1 || record.pageerrors.length) throw Error('Final heading or browser errors failed');
+  } catch (error) {
+    record.failures.push(error.message);
+    // Independent server probe distinguishes a live HTTP server from renderer stalls.
+    const started = performance.now();
+    try { const response = await fetch(`${origin}/`, { method: 'HEAD', signal: AbortSignal.timeout(2000) }); record.serverProbe = { status: response.status, elapsedMs: Math.round(performance.now() - started) }; }
+    catch (probeError) { record.serverProbe = { error: probeError.message }; }
+  } finally {
+    emit({ kind: 'result', record });
+    if (browser) await bounded(browser.close(), 2000, 'browser-close').catch(error => event({ kind: 'cleanup-timeout', message: error.message }));
+    // The parent owns this worker's process group and will reap any descendants.
+    process.exit(record.failures.length ? 1 : 0);
+  }
+} else {
+  const evidence = path.join(root, 'artifacts/homepage-release');
+  await mkdir(evidence, { recursive: true });
+  const name = `webkit-diagnostic-${indexSha256.slice(0, 12)}-${new Date().toISOString().replace(/[:.]/g, '-')}`;
+  const file = path.join(evidence, `${name}.json`);
+  const observations = path.join(evidence, `${name}.jsonl`);
+  const report = { at: new Date().toISOString(), indexSha256, origin, platform: process.platform, node: process.version, playwright: runnerRequire('playwright/package.json').version, scriptSha256: digest(await readFile(script)), mediaTrace: process.env.QA_DIAG_MEDIA_TRACE === 'yes', cases: [], limitations: ['Diagnostic A/B only, not a replacement for the release gate.', 'Videos remain unchanged; no media mocks, pauses, timeouts relaxed, or product edits.', 'Broad routes all requests; selective bypasses automation interception only for local /assets/ and /fonts/ requests.', 'Each fresh-browser worker has a 45-second process deadline; individual page phases retain 12-second bounds.', 'Optional media tracing wraps play/pause/load and the currentTime setter; native return values, thrown objects, original getter, and descriptor flags are preserved, but wrapper identity and logging overhead differ.'] };
+  let server;
+  try {
+    if (!process.env.QA_BASE_URL) {
+      server = spawn(process.execPath, [path.join(root, 'node_modules/vite/bin/vite.js'), 'preview', '--host', '127.0.0.1', '--port', '4345', '--strictPort'], { cwd: root, windowsHide: true, stdio: 'ignore' });
+      let available = false;
+      for (let attempt = 0; attempt < 40; attempt++) {
+        if (server.exitCode !== null) throw Error(`Preview exited ${server.exitCode}`);
+        try { const response = await fetch(origin, { signal: AbortSignal.timeout(500) }); if (response.ok) { available = true; break; } } catch { /* bounded startup */ }
+        await pause(250);
+      }
+      if (!available) throw Error('Owned preview did not become HTTP-ready');
+    }
+    if (digest(Buffer.from(await (await fetch(origin)).text())) !== indexSha256) throw Error('Preview homepage hash mismatch');
+    await writeFile(observations, JSON.stringify({ kind: 'run-start', ...report }) + '\n');
+    const modes = process.env.QA_DIAG_MODE ? [process.env.QA_DIAG_MODE] : ['broad', 'selective'];
+    const scenarios = process.env.QA_DIAG_SCENARIO ? [process.env.QA_DIAG_SCENARIO] : ['case-studies', 'core-navigation', ...(process.env.QA_DIAG_INCLUDE_MEDIA === 'yes' ? ['media-only'] : [])];
+    if (scenarios.some(scenario => !['case-studies', 'core-navigation', 'media-only'].includes(scenario))) throw Error('Unknown QA_DIAG_SCENARIO');
+    for (const mode of modes) for (const scenario of scenarios) {
+      const caseRecord = { mode, scenario, width: Number(process.env.QA_DIAG_WIDTH || 390), events: [], stderr: '' };
+      const child = spawn(process.execPath, [script, '--worker'], { cwd: root, windowsHide: true, detached: process.platform !== 'win32', stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env, QA_DIAG_ORIGIN: origin, QA_DIAG_MODE: mode, QA_DIAG_SCENARIO: scenario } });
+      const killOwnedGroup = () => {
+        try { if (process.platform === 'win32') child.kill(); else process.kill(-child.pid, 'SIGKILL'); } catch { /* already exited */ }
+      };
+      const timer = setTimeout(() => { caseRecord.processDeadlineExceeded = true; killOwnedGroup(); }, 45000);
+      let buffer = '';
+      child.stdout.on('data', chunk => {
+        buffer += chunk.toString();
+        let newline;
+        while ((newline = buffer.indexOf('\n')) >= 0) {
+          const line = buffer.slice(0, newline); buffer = buffer.slice(newline + 1);
+          try { const entry = JSON.parse(line); caseRecord.events.push(entry); if (entry.kind === 'result') caseRecord.result = entry.record; } catch { /* non-JSON browser output is not a result */ }
+        }
+      });
+      child.stderr.on('data', chunk => { caseRecord.stderr += chunk.toString(); });
+      const completed = await new Promise(resolve => { child.once('error', error => resolve({ error: error.message })); child.once('exit', (code, signal) => resolve({ code, signal })); });
+      clearTimeout(timer); killOwnedGroup();
+      Object.assign(caseRecord, completed);
+      report.cases.push(caseRecord);
+      await appendFile(observations, JSON.stringify({ kind: 'diagnostic-case', ...caseRecord }) + '\n');
+      emit({ mode, scenario, code: caseRecord.code, deadline: Boolean(caseRecord.processDeadlineExceeded), failures: caseRecord.result?.failures || ['Worker did not return a result'] });
+    }
+    report.endSha256 = digest(await readFile(path.join(root, 'dist/index.html')));
+    await writeFile(file, JSON.stringify(report, null, 2) + '\n');
+    emit({ report: file, indexSha256, endSha256: report.endSha256 });
+    if (report.endSha256 !== indexSha256) process.exitCode = 1;
+  } finally { server?.kill(); }
+}

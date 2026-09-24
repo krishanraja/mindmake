@@ -74,7 +74,7 @@ describe("the prerendered markup and the app that hydrates it", () => {
     for (const path of ["/privacy", "/ai-brain", "/blog", "/answers"]) {
       const server = chunks(serverRender(path));
       expect(server[0], path).toBe("<!--$-->");
-      expect(serverRender(path), path).toContain('class="mm-site"');
+      expect(serverRender(path), path).toMatch(/class="mm-site(?:\s[^"]*)?"/);
       expect(serverRender(path), path).not.toContain("Loading the page.");
     }
   });
@@ -86,6 +86,6 @@ describe("the prerendered markup and the app that hydrates it", () => {
        is on the source rather than only on the output. */
     const entry = serverRender("/");
     expect(entry.startsWith("<!--$-->")).toBe(true);
-    expect(entry).toContain('class="mm-site"');
+    expect(entry).toMatch(/class="mm-site(?:\s[^"]*)?"/);
   });
 });

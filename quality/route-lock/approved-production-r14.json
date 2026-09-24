@@ -1,0 +1,169 @@
+{
+  "artifact": "mindmake-approved-production-routes-r14",
+  "approvedAt": "2026-09-24",
+  "approval": "Krish approved R3 and authorized preserving it except scroll-locked history and leadership builds, then production after E2E verification. This records that scoped delivery, not a claim that verification or promotion has completed.",
+  "routes": [
+    "/",
+    "/ai-brain",
+    "/ai-gtm",
+    "/new-age-leadership",
+    "/case-studies",
+    "/blog",
+    "/blog/:slug",
+    "/answers",
+    "/answers/:slug",
+    "/faq",
+    "/contact",
+    "/privacy",
+    "/terms"
+  ],
+  "status": "owner-authorized delivery; production gates must still pass",
+  "changePolicy": "This is a new immutable approval record. Never rewrite r1, r2, or any candidate manifest. Material routes remain locked. The CI workflow may enforce stricter non-material verification only through a new manifest revision. Production deployment and publication remain separate authority gates.",
+  "contractSources": {
+    "brain": [
+      "src/pages/AiBrainLocked.tsx",
+      "prototypes/website-redesign-recovery/brain-signature/index-s2-motion-s3.html"
+    ],
+    "gtm": [
+      "src/pages/AiGtmLocked.tsx",
+      "prototypes/website-redesign-recovery/gtm-market-change/index-motion.html"
+    ]
+  },
+  "files": {
+    ".vercelignore": "f162171ded7ff8c1d6032f7cb50317bc19cc4d1bbd4757be9f8ea75cdec540f1",
+    "src/pages/AiBrainLocked.tsx": "e8bc824441de5d4d677135679bb1875c247fb0ab72dda9f9384b5ee8042f2edd",
+    "src/styles/mindmake-locked-brain.css": "7ef818a05599b945ff2cdbd1aebf56cf3815f7d4508421963755216539da7b96",
+    "src/data/vnext/brain-fixture.json": "02fa968575d7000874f0f10a09123336ad6ec3f7bf373dcd351fbb7e7ef2b1b9",
+    "prototypes/website-redesign-recovery/brain-signature/index-s2-motion-s3.html": "423659d864e79a72a55d4fd3ca9450b610e616187929293f1e0a8faaafbff2c6",
+    "src/pages/AiGtmLocked.tsx": "fd3ab70392efbcb5995b8db47288ebcefe27b9a4b57bbef40789c0f575559e39",
+    "src/styles/mindmake-locked-gtm.css": "8c4ee91ad1a96f97efd397668f0742b148fbc4ec820e73daf2ddb4047be58579",
+    "src/data/vnext/gtm-signals.json": "5ab7fac6ce8ebdab6b69b73f60e184a7e4df8d923d97edd29c38872648c3bf7f",
+    "prototypes/website-redesign-recovery/gtm-market-change/index-motion.html": "8754e189e077ead09728e4e8b78ed26ad9b872a0d8b9d4b3503bc76ee7e98aef",
+    "src/pages/NewAgeLeadership.tsx": "9293d0262fb7431d1cc4ef5007b1f30f39110a0bc3553836a78cb6792304a1b7",
+    "src/styles/new-age-leadership-r5.css": "970ffb4f1096abf0e1f3882ac5d04518df17fa96c26cb2dbc5c48efd321a010d",
+    "src/components/mindmake/locked/CommercialDecisionBalance.tsx": "d609051efad3b0c369a7a8ecafbca64863a4a83dcb7dc6a3816a56edfbdc5b88",
+    "src/styles/mindmake-commercial-decision-balance.css": "28ee9e456159953099cfceabbd068d7d43cbf0bfdaa76c990fd76dd541b5cfac",
+    "src/components/mindmake/locked/CaseProofField.tsx": "9973f788919a7802c07e88ca781b7f72f3797a1538875fc6bf1e247de920acb4",
+    "src/pages/CaseStudies.tsx": "d8d540b310f457ec0c904715963962506c8ee2460e83d6b49ea64d8ececab78e",
+    "src/styles/mindmake-instruments.css": "2d64b6c2d61857f42f8c964a2040a462935a8a7ef4b9079084ac240617eeada9",
+    "src/pages/Index.tsx": "485a04421a98c852d3e8870e9ebf4d49f4d253efc179a10385060efe558a028f",
+    "src/styles/mindmake-home-vnext.css": "99bfc17c302fb476510452fc029268e85221c8cdcf43b133c9f921c095ac52ca",
+    "src/pages/Blog.tsx": "bbbcb0630060003f66f6177e72eb5bc6a421721a9c102d8adfcd5b07e0e25e96",
+    "src/pages/BlogPost.tsx": "8d5140346154ebe63f0a1968b764d51745ad042e1589ff9c6e2b1a71c738c5e4",
+    "src/pages/Answers.tsx": "690e9e141533407855cf0f227c523e98ad78856c96964c6c6f0195fe45157b81",
+    "src/pages/Answer.tsx": "9dd0788611bf0d13faba57e1f6f98569b12fd4bc81395578a30ee64de452db3c",
+    "src/pages/Contact.tsx": "bd73f64982f8176724a8feae80994bcfb1e65c3017ce0cbb0ef3d9e6c1638d99",
+    "src/components/mindmake/MindmakeShell.tsx": "05482c75979df268e244c46afb856b932d14028cfb9f66b71f81592dec5d4516",
+    "src/components/mindmake/LeadBrief.tsx": "433bde43d62dd29cfe19afd96d713d66eda64965a60c3a0ca90e0d4370020d15",
+    "src/styles/mindmake.css": "880921ee64fb5e1a256805e548ba2329dacbc624bb8d25a5ea6373c1f6b2dbfb",
+    "src/styles/mindmake-brief.css": "05ce4b8c72ef0ac2fa0a85d6264793ff444cd663016a817b376d91a380497b9b",
+    "src/hooks/useLeadBriefHistory.ts": "a782c9c8563b44ee23780742c1cfff703f7a0a362ffd2986405508e42567c427",
+    "src/data/rebuildProof.ts": "bdea57fd6495548e2ea798e9b7056323bb1936c4f4e66c24301aa82c9114884b",
+    "src/data/testimonials.ts": "24466efccdb455aef4698f7e0a4a00e4885ecb43cf6245bf5255e1369e7d0663",
+    "src/App.tsx": "8b63c2ffa003235b01bf7651ab21c74cefd22387ced9aec8298c5349dbc1292b",
+    "src/entry-server.tsx": "32cc4a008c0447caf05d8409ffd8aeccdd44bcacdc62d725cef2316f3382489b",
+    "scripts/qa/approved-route-lock-check.mjs": "d45e33dd830c8477c844d7d4bfdf267254b5d1aa7a0cd9d58b5c10e13c3e5df0",
+    "scripts/qa/approved-route-lock-self-test.mjs": "d7a95d5f43a86c9666b23dae9c87fea6dbd2bb82b87fe5658556d7ed9abc7385",
+    ".github/workflows/approved-route-lock.yml": "c9f355e0d03b9e7d9b9f1059434d30765d4f24de8b4a2067c924dfe90974d041",
+    "scripts/qa/locked-material-production-check.mjs": "b021940985b52171064d8cfdb9f439c58b440f433de79f3882329559daeeb61d",
+    "scripts/qa/full-route-continuity-check.mjs": "876f2ff1fc36f70bc45dc164955084317c5d5a616e8b6f8a5564e93cd2aad62f",
+    "scripts/qa/plain-language-check.mjs": "639c62446bf7f3a01693ba1fc20e446e23ba8fbc8d17bc429e41da951fafd9a8",
+    "src/components/homepage-release/component-styles.css": "0b514cc3fb6a68369a22865569557b40119506f2785fcf3bace34270a4a15409",
+    "src/components/homepage-release/integration.css": "9b5198cd83fd02d81856a891170fc0b0329119e04ed3d7be4d259c4db91f415a",
+    "src/components/homepage-release/markup.ts": "640dde43993f636790e4a71c7a322b10b180482d86f6ce90ef1dd569cb5cd4fe",
+    "src/components/homepage-release/page.css": "3f85787cdc8c72a2086eccf2b0966d729c7257739eb1ea006f903c64bab2775c",
+    "src/components/homepage-release/pinnedChapters.css": "cbd0045559d53625b7e033c6efdc1040e209d12d948d3d54aff61803d382f3c6",
+    "src/components/homepage-release/pinnedChapters.ts": "d3f0c747e3d52cce0054072276ea018e7dc3c04f0173a1f3ab36533092237886",
+    "src/components/homepage-release/runtime.d.ts": "775442011d8988d11986add6b3bdc1e07c9095905f83077b76672d0f0be2103c",
+    "src/components/homepage-release/runtime.js": "455f458d711100018037fa60b6d742570b261d85da143f3dc766d497a5695419",
+    "scripts/qa/build-homepage-release.mjs": "25bfdab816dce88af772b9922540d984f4afddd39257600cac887fa84b25fe25",
+    "scripts/qa/homepage-release-browser-check.mjs": "30f4f2bcd11b232f55c0f2c071d4a4de2a4fefb8c0f3bef0edec94bc39d40f2b",
+    "scripts/qa/homepage-release-adapter-check.mjs": "247a946cff44752053ae807edec2a452d82a639ca6cd410caa49c0d3639301d4",
+    "scripts/qa/homepage-release-visual-parity-check.mjs": "c45405559cb8a5e3499b5d29e9d9b397dadfaedc48efe409fe8f0cbfc33573ad",
+    "scripts/qa/homepage-scroll-contract.mjs": "23eff5cdd987b985cb72ab4d4d6a24c13187b8f9b353ccc669ebef421a8b7067",
+    "scripts/qa/scroll-build-evidence.mjs": "1ae4a330c831d6accbfba3ba869c0c9a1d259e2b8258b524e2aa74408bbbabbc",
+    "scripts/qa/scroll-build-evidence-selftest.mjs": "1e82f4d67511254bdb3e41740d57a4b7b1dff1e6e30790e0f935c6c4bc898e99",
+    "scripts/prerender.mjs": "ecbea7d3baba89aab1c08e42c25719351cbfda18a35b4bd4a4e8dcfa13f48174",
+    "scripts/lib/pages.mjs": "392bf56740b4b24cb38d4914c6c5154e97b0d99543ba767c0c875af539b12dec",
+    "src/content/socialPlates.json": "d62c2e568ae7cb2d47e714b6e823175d5f885a0298e434cee245198e67d7b4c3",
+    "public/social/home.jpg": "d5bd9ba7b03ba989dbd39e8af93405af7d74de5165beb51f5780e718521b2aaf",
+    "package.json": "34fb5a6801f8e4cf90aa2d34bd7ea8ff922a5ccb3ef363960e6ef50fde7d5977",
+    "scripts/qa/website-feedback-ledger-check.mjs": "66520939db0aee662ede06de88ddc777959729ed65a1d6ae031578b85f27abec",
+    "scripts/qa/release-route-smoke.mjs": "c5bfdceadfbbd1265ce7eaffa02eae787f18b2180113807d9831d9fdb8ce0478",
+    "src/test/case-proof-hydration.test.tsx": "0598d9f0c7dbe9dc97f6bb439d8e1b4dc260a56366bdc3795d3d9358de8aa76c",
+    "src/test/homepage-pin-lifecycle.test.ts": "35e7790170f6334afc540a6286f14e2e42eb31b8e78d55915bee522764774571",
+    "src/test/homepage-navigation-focus.test.ts": "9f4b69a846bcf5db7afe289840363fc08523d68bf10033e8f1ce8f33f67ae07c",
+    "src/pages/AiBrain.tsx": "8cafeb3fd3ea7c85664a6a002cd12a1562c18121d68a81572899ecd7a0c5c250",
+    "package-lock.json": "6a7f43aa68c44c768f2cc01f6fbfd8aa2bb4628bd5b8fdbe1c83a1098ca59261",
+    "vercel.json": "a1be53303da99d3dcb4ff6222c8007bcdc3a088628fe94da387293c5f372a4a1"
+  },
+  "minimumContracts": {
+    "brain": {
+      "meanings": 20,
+      "relationships": 18,
+      "sources": 10,
+      "corrections": 3,
+      "states": [
+        "memory",
+        "proof",
+        "correction",
+        "living-record"
+      ],
+      "requiredInstruments": [
+        "brain-object",
+        "brain-field",
+        "proof-machine",
+        "correction-machine",
+        "record-machine"
+      ]
+    },
+    "gtm": {
+      "signals": 5,
+      "responseChoices": 15,
+      "stages": [
+        "Signal",
+        "Response",
+        "Customer test"
+      ],
+      "requiredInstruments": [
+        "signal-deck",
+        "response-selector",
+        "outcome-grid",
+        "test-slip"
+      ]
+    }
+  },
+  "forbiddenPhrases": [
+    "keep the seat",
+    "meter the work",
+    "price the result"
+  ],
+  "verification": {
+    "status": "Pending final candidate-bound release verification; historical verification claims are not proof for this candidate.",
+    "required": [
+      "Canonical build and all unit tests",
+      "Actual rendered forward/reverse pinned history and dividend states with exits",
+      "Full built-route browser matrix and navigation",
+      "Live intelligence, verified lead delivery, personal read and downloadable brief",
+      "Independent review and exact deployment readback"
+    ],
+    "physicalException": "VoiceOver on physical iPhone and TalkBack on physical Android not performed; owner permits publication after all other checks pass."
+  },
+  "authority": "Krish explicitly authorized production publication after the scoped scroll-build repair and all other release checks pass. Physical iPhone VoiceOver and Android TalkBack checks are excepted for this release only, per explicit reply on 2026-09-24.",
+  "supersedes": {
+    "path": "quality/route-lock/approved-production-r13.json",
+    "reason": "Match Vercel canonical compact JSON plus newline for vercel.json without changing its object or weakening exact source hashing. The R13 preview passed frozen dependency installation but identified this formatting-only transformation. Application, dependencies, checks and configuration values remain unchanged."
+  },
+  "textLineEndings": "lf",
+  "browserPlatforms": {
+    "routes": {
+      "chromium": "ubuntu-latest",
+      "firefox": "ubuntu-latest",
+      "webkit": "macos-latest"
+    },
+    "expectedRouteCases": 208,
+    "expectedSupplementalCases": 9,
+    "motion": "All twelve ordered-state cases and fallbacks on both platforms",
+    "rationale": "project-documentation/website-redesign/RELEASE-2026-09-24.md"
+  }
+}

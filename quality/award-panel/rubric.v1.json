@@ -1,0 +1,297 @@
+{
+  "schemaVersion": 1,
+  "name": "Mindmake World-Class Website Panel",
+  "purpose": "A blind, evidence-led judging panel for a buyable, inspiring, technically excellent website.",
+  "target": "https://mindmake.co/",
+  "scoreScale": {
+    "minimum": 0,
+    "maximum": 10,
+    "precision": 1,
+    "anchors": {
+      "3": "Materially broken, confusing, generic or untrustworthy.",
+      "5": "Competent but ordinary. The main task is possible with visible friction.",
+      "7": "Strong professional work with clear weaknesses that would prevent major-award recognition.",
+      "8": "Award-shortlist quality. Distinctive, coherent and highly usable, with limited weaknesses.",
+      "9": "World-class. Memorable, precise and exceptionally resolved across the assigned lens.",
+      "10": "Field-defining. Creates a reference point other teams would study or imitate."
+    }
+  },
+  "sources": [
+    {
+      "name": "The Webby Awards 2025/2026 Judging Criteria",
+      "url": "https://www.webbyawards.com/judging-criteria/",
+      "retrieved": "2026-09-12",
+      "adopted": ["content", "structure and navigation", "visual design", "functionality", "interactivity", "innovation", "overall experience"]
+    },
+    {
+      "name": "Awwwards evaluation model",
+      "url": "https://www.awwwards.com/sites/proof-1",
+      "retrieved": "2026-09-12",
+      "adopted": ["design", "usability", "creativity", "content", "semantics", "animations", "accessibility", "performance", "responsive design", "metadata"]
+    },
+    {
+      "name": "Awwwards Mobile Excellence evaluation system",
+      "url": "https://www.awwwards.com/mobile-excellence-guidelines.pdf",
+      "retrieved": "2026-09-12",
+      "adopted": ["mobile friendliness", "speed", "best practices", "usability", "visible CTAs", "tap targets", "legibility", "viewport fit"]
+    },
+    {
+      "name": "CSS Design Awards judging model",
+      "url": "https://www.cssdesignawards.com/about",
+      "retrieved": "2026-09-12",
+      "adopted": ["UI", "UX", "innovation", "independent panel scoring"]
+    },
+    {
+      "name": "WCAG 2.2",
+      "url": "https://www.w3.org/TR/WCAG22/",
+      "retrieved": "2026-09-12",
+      "adopted": ["keyboard access", "focus", "contrast", "reflow", "target size", "motion alternatives"]
+    }
+  ],
+  "surfaces": {
+    "desktop": {
+      "viewports": [
+        { "width": 1440, "height": 900, "label": "primary desktop" },
+        { "width": 1024, "height": 768, "label": "small laptop" }
+      ]
+    },
+    "mobile": {
+      "viewports": [
+        { "width": 390, "height": 844, "label": "primary phone" },
+        { "width": 320, "height": 568, "label": "small phone" },
+        { "width": 844, "height": 390, "label": "phone landscape" }
+      ]
+    }
+  },
+  "blindness": {
+    "forbiddenContext": [
+      "prior audit scores or findings",
+      "owner complaints or desired fixes",
+      "iteration history",
+      "other judges' scores or rationales",
+      "repository source code or internal strategy documents"
+    ],
+    "allowedContext": [
+      "the public production website",
+      "the neutral judging rubric",
+      "the assigned surface and viewports",
+      "publicly observable browser evidence gathered by the judge"
+    ]
+  },
+  "jurors": [
+    {
+      "id": "juror_visual",
+      "assignments": ["desktop_art_direction", "mobile_art_direction"]
+    },
+    {
+      "id": "juror_immersive",
+      "assignments": ["desktop_immersion_interaction", "mobile_immersion_haptic"]
+    },
+    {
+      "id": "juror_commercial",
+      "assignments": ["desktop_buyability_trust", "mobile_buyability_trust"]
+    },
+    {
+      "id": "juror_inspiration",
+      "assignments": ["desktop_inspiration_originality", "mobile_inspiration_originality"]
+    },
+    {
+      "id": "juror_experience",
+      "assignments": ["desktop_ux_content_technical", "mobile_ux_content_technical"]
+    }
+  ],
+  "hardGates": [
+    {
+      "id": "truth",
+      "label": "Claims and proof remain factually consistent in every visible state.",
+      "owners": ["desktop_buyability_trust", "desktop_ux_content_technical", "mobile_buyability_trust", "mobile_ux_content_technical"],
+      "failureEffect": "ineligible"
+    },
+    {
+      "id": "primary_task",
+      "label": "A first-time qualified visitor can understand the offer and reach the primary action without assistance.",
+      "owners": ["desktop_buyability_trust", "desktop_ux_content_technical", "mobile_buyability_trust", "mobile_ux_content_technical"],
+      "failureEffect": "ineligible"
+    },
+    {
+      "id": "responsive_integrity",
+      "label": "No material clipping, overlap, two-dimensional scrolling or unreachable action at an assigned viewport.",
+      "owners": ["desktop_art_direction", "desktop_ux_content_technical", "mobile_art_direction", "mobile_ux_content_technical"],
+      "failureEffect": "ineligible"
+    },
+    {
+      "id": "keyboard_and_focus",
+      "label": "The primary route is keyboard operable with visible, logical focus and recoverable overlays.",
+      "owners": ["desktop_buyability_trust", "desktop_ux_content_technical", "mobile_immersion_haptic", "mobile_ux_content_technical"],
+      "failureEffect": "ineligible"
+    },
+    {
+      "id": "motion_safety",
+      "label": "Motion does not obscure meaning, falsify state or ignore reduced-motion intent.",
+      "owners": ["desktop_immersion_interaction", "desktop_ux_content_technical", "mobile_immersion_haptic", "mobile_ux_content_technical"],
+      "failureEffect": "ineligible"
+    },
+    {
+      "id": "critical_failure",
+      "label": "No broken navigation, non-working primary control or blocking runtime failure occurs in the judged route.",
+      "owners": ["desktop_buyability_trust", "desktop_ux_content_technical", "mobile_buyability_trust", "mobile_ux_content_technical"],
+      "failureEffect": "ineligible"
+    }
+  ],
+  "awardBands": [
+    {
+      "id": "world_class_winner",
+      "label": "World-class winner",
+      "minimumSurfaceScore": 8.6,
+      "minimumJudgeScore": 8.0,
+      "requiresAllHardGates": true
+    },
+    {
+      "id": "award_shortlist",
+      "label": "Award shortlist",
+      "minimumSurfaceScore": 8.0,
+      "minimumJudgeScore": 7.2,
+      "requiresAllHardGates": true
+    },
+    {
+      "id": "honourable_mention",
+      "label": "Honourable mention",
+      "minimumSurfaceScore": 7.3,
+      "minimumJudgeScore": 6.5,
+      "requiresAllHardGates": true
+    },
+    {
+      "id": "not_ready",
+      "label": "Not award-ready",
+      "minimumSurfaceScore": 0,
+      "minimumJudgeScore": 0,
+      "requiresAllHardGates": false
+    }
+  ],
+  "judges": [
+    {
+      "id": "desktop_art_direction",
+      "surface": "desktop",
+      "title": "Desktop Art Director",
+      "mandate": "Judge composition, typography, image direction, hierarchy, restraint and the coherence of the complete scroll.",
+      "dimensions": [
+        { "id": "composition", "weight": 0.25 },
+        { "id": "typography_and_hierarchy", "weight": 0.25 },
+        { "id": "visual_system_coherence", "weight": 0.25 },
+        { "id": "scroll_as_composition", "weight": 0.25 }
+      ]
+    },
+    {
+      "id": "desktop_inspiration_originality",
+      "surface": "desktop",
+      "title": "Desktop Inspiration and Originality Judge",
+      "mandate": "Judge whether the experience creates desire, surprise, emotional lift and a memorable point of view without relying on fashionable effects.",
+      "dimensions": [
+        { "id": "originality", "weight": 0.3 },
+        { "id": "emotional_resonance", "weight": 0.25 },
+        { "id": "memorability", "weight": 0.25 },
+        { "id": "brand_specificity", "weight": 0.2 }
+      ]
+    },
+    {
+      "id": "desktop_immersion_interaction",
+      "surface": "desktop",
+      "title": "Desktop Immersion and Interaction Judge",
+      "mandate": "Judge spatial continuity, motion, interaction feedback, pacing and whether technology makes the experience feel alive rather than decorated.",
+      "dimensions": [
+        { "id": "immersion", "weight": 0.25 },
+        { "id": "motion_choreography", "weight": 0.25 },
+        { "id": "interaction_feedback", "weight": 0.25 },
+        { "id": "relevance_of_technology", "weight": 0.25 }
+      ]
+    },
+    {
+      "id": "desktop_buyability_trust",
+      "surface": "desktop",
+      "title": "Desktop Buyability and Trust Judge",
+      "mandate": "Judge whether a qualified buyer can identify the category, recognise themselves, understand what is bought, believe the proof and take the next step.",
+      "dimensions": [
+        { "id": "category_and_audience_clarity", "weight": 0.2 },
+        { "id": "offer_and_outcome_clarity", "weight": 0.2 },
+        { "id": "proof_and_trust", "weight": 0.2 },
+        { "id": "perceived_value", "weight": 0.2 },
+        { "id": "conversion_cost", "weight": 0.2 }
+      ]
+    },
+    {
+      "id": "desktop_ux_content_technical",
+      "surface": "desktop",
+      "title": "Desktop UX, Content and Technical Judge",
+      "mandate": "Judge information architecture, progressive disclosure, navigation, accessibility, responsiveness, performance and functional reliability.",
+      "dimensions": [
+        { "id": "information_architecture", "weight": 0.2 },
+        { "id": "content_precision", "weight": 0.2 },
+        { "id": "navigation_and_task_flow", "weight": 0.2 },
+        { "id": "accessibility", "weight": 0.2 },
+        { "id": "performance_and_reliability", "weight": 0.2 }
+      ]
+    },
+    {
+      "id": "mobile_art_direction",
+      "surface": "mobile",
+      "title": "Mobile Art Director",
+      "mandate": "Judge whether the visual idea has been recomposed for a narrow, touch-led screen rather than reduced from desktop.",
+      "dimensions": [
+        { "id": "mobile_composition", "weight": 0.25 },
+        { "id": "typography_and_hierarchy", "weight": 0.25 },
+        { "id": "visual_system_coherence", "weight": 0.25 },
+        { "id": "orientation_resilience", "weight": 0.25 }
+      ]
+    },
+    {
+      "id": "mobile_inspiration_originality",
+      "surface": "mobile",
+      "title": "Mobile Inspiration and Originality Judge",
+      "mandate": "Judge whether the phone experience is emotionally compelling, distinctive and memorable in its own right.",
+      "dimensions": [
+        { "id": "originality", "weight": 0.3 },
+        { "id": "emotional_resonance", "weight": 0.25 },
+        { "id": "memorability", "weight": 0.25 },
+        { "id": "brand_specificity", "weight": 0.2 }
+      ]
+    },
+    {
+      "id": "mobile_immersion_haptic",
+      "surface": "mobile",
+      "title": "Mobile Immersion and Haptic Judge",
+      "mandate": "Judge tactile quality through touch response, gesture, spatial continuity, motion, pacing and appropriate device feedback. Do not reward vibration or gesture for its own sake.",
+      "dimensions": [
+        { "id": "tactile_response", "weight": 0.25 },
+        { "id": "gesture_and_thumb_flow", "weight": 0.25 },
+        { "id": "motion_and_spatial_continuity", "weight": 0.25 },
+        { "id": "relevance_and_restraint", "weight": 0.25 }
+      ]
+    },
+    {
+      "id": "mobile_buyability_trust",
+      "surface": "mobile",
+      "title": "Mobile Buyability and Trust Judge",
+      "mandate": "Judge whether a qualified buyer can understand, trust and begin buying in a one-handed, interrupted mobile context.",
+      "dimensions": [
+        { "id": "category_and_audience_clarity", "weight": 0.2 },
+        { "id": "offer_and_outcome_clarity", "weight": 0.2 },
+        { "id": "proof_and_trust", "weight": 0.2 },
+        { "id": "perceived_value", "weight": 0.2 },
+        { "id": "conversion_cost", "weight": 0.2 }
+      ]
+    },
+    {
+      "id": "mobile_ux_content_technical",
+      "surface": "mobile",
+      "title": "Mobile UX, Content and Technical Judge",
+      "mandate": "Judge scan cost, disclosure, navigation, touch ergonomics, accessibility, responsive behaviour, performance and recovery.",
+      "dimensions": [
+        { "id": "information_architecture", "weight": 0.2 },
+        { "id": "content_precision", "weight": 0.2 },
+        { "id": "navigation_and_task_flow", "weight": 0.2 },
+        { "id": "accessibility_and_touch", "weight": 0.2 },
+        { "id": "performance_and_reliability", "weight": 0.2 }
+      ]
+    }
+  ]
+}

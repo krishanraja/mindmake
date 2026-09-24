@@ -9,9 +9,19 @@ interface MindmakeShellProps {
   children: ReactNode;
   onStart: () => void;
   mainClassName?: string;
+  siteClassName?: string;
+  showMobileActionBar?: boolean;
+  compactFooter?: boolean;
 }
 
-export function MindmakeShell({ children, onStart, mainClassName = "" }: MindmakeShellProps) {
+export function MindmakeShell({
+  children,
+  onStart,
+  mainClassName = "",
+  siteClassName = "",
+  showMobileActionBar = true,
+  compactFooter = false,
+}: MindmakeShellProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -48,7 +58,23 @@ export function MindmakeShell({ children, onStart, mainClassName = "" }: Mindmak
     if (!menuOpen) return release;
 
     const firstControl = menuRef.current?.querySelector<HTMLElement>("a, button");
-    const focusTimer = window.setTimeout(() => firstControl?.focus(), 20);
+    // The menu has already rendered and had `inert` removed when this effect
+    // runs. Focus immediately, on the next frame, and once after the visibility
+    // transition has settled. WebKit and Firefox can reject both earlier focus
+    // calls when reduced motion collapses that transition to a single tick.
+    firstControl?.focus({ preventScroll: true });
+    const focusFrame = window.requestAnimationFrame(() => firstControl?.focus({ preventScroll: true }));
+    let focusAttempts = 0;
+    const focusTimer = window.setInterval(() => {
+      const active = document.activeElement;
+      if (active === document.body || active === menuButtonRef.current) {
+        firstControl?.focus({ preventScroll: true });
+      }
+      focusAttempts += 1;
+      if (document.activeElement?.closest("#mindmake-menu") || focusAttempts >= 12) {
+        window.clearInterval(focusTimer);
+      }
+    }, 80);
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -76,7 +102,8 @@ export function MindmakeShell({ children, onStart, mainClassName = "" }: Mindmak
 
     document.addEventListener("keydown", onKeyDown);
     return () => {
-      window.clearTimeout(focusTimer);
+      window.cancelAnimationFrame(focusFrame);
+      window.clearInterval(focusTimer);
       document.removeEventListener("keydown", onKeyDown);
       release();
     };
@@ -90,7 +117,7 @@ export function MindmakeShell({ children, onStart, mainClassName = "" }: Mindmak
   };
 
   return (
-    <div className="mm-site">
+    <div className={`mm-site ${siteClassName}`.trim()}>
       <a className="mm-skip" href="#main">Skip to content</a>
       <header className={`mm-header${scrolled ? " is-scrolled" : ""}`}>
         <div className="mm-container mm-nav">
@@ -120,13 +147,15 @@ export function MindmakeShell({ children, onStart, mainClassName = "" }: Mindmak
           <Link to="/ai-brain">Build your AI brain</Link>
           <Link to="/ai-gtm">Build your AI GTM</Link>
           <Link to="/case-studies">Results</Link>
+          <Link to="/blog">Ideas</Link>
+          <Link to="/new-age-leadership">New-age leadership</Link>
           <a
             href={PUBLICATION_URL}
             target="_blank"
             rel="noreferrer"
             onClick={() => track("substack_click", { source: "menu" })}
           >
-            The weekly read
+            Media
           </a>
           <button type="button" onClick={startFromMenu}>Start here</button>
         </nav>
@@ -134,22 +163,27 @@ export function MindmakeShell({ children, onStart, mainClassName = "" }: Mindmak
 
       <main id="main" ref={mainRef} className={mainClassName} tabIndex={-1}>{children}</main>
 
-      <footer className="mm-footer" ref={footerRef}>
+      <footer className={`mm-footer${compactFooter ? " is-compact" : ""}`} ref={footerRef}>
         <div className="mm-container mm-footer-grid">
           <MindmakeBrand compact />
-          <p>We help leaders keep their edge as AI changes their market, and you keep what it learns.</p>
+          {!compactFooter && <p>We help leaders keep their edge as AI changes their market, and you keep what it learns.</p>}
           <nav aria-label="Footer navigation">
-            <Link to="/ai-brain">Build your AI brain</Link>
-            <Link to="/ai-gtm">Build your AI GTM</Link>
-            <Link to="/case-studies">Results</Link>
-            <a href={PUBLICATION_URL} target="_blank" rel="noreferrer">The weekly read</a>
-            <Link to="/blog">Ideas</Link>
-            {/* Two surfaces, two labels. `/faq` is the curated corpus the ask
-                bar answers from, and its own heading is "Straight answers";
-                `/answers` is a page per buyer question. One label reading
-                "Answers" for both is what would confuse a reader. */}
-            <Link to="/answers">Answers</Link>
-            <Link to="/faq">Straight answers</Link>
+            {!compactFooter && (
+              <>
+                <Link to="/ai-brain">Build your AI brain</Link>
+                <Link to="/ai-gtm">Build your AI GTM</Link>
+                <Link to="/case-studies">Results</Link>
+                <a href={PUBLICATION_URL} target="_blank" rel="noreferrer">Media</a>
+                <Link to="/blog">Ideas</Link>
+                {/* Two surfaces, two labels. `/faq` is the curated corpus the ask
+                    bar answers from, and its own heading is "Straight answers";
+                    `/answers` is a page per buyer question. One label reading
+                    "Answers" for both is what would confuse a reader. */}
+                <Link to="/answers">Answers</Link>
+                <Link to="/faq">Straight answers</Link>
+              </>
+            )}
+            {compactFooter && <a href={PUBLICATION_URL} target="_blank" rel="noreferrer">Media</a>}
             <Link to="/contact">Contact</Link>
             <Link to="/privacy">Privacy</Link>
             <Link to="/terms">Terms</Link>
@@ -160,7 +194,7 @@ export function MindmakeShell({ children, onStart, mainClassName = "" }: Mindmak
 
       {/* The primary action, pinned on a phone once the reader has left the
           first screen. Nothing renders for it above the breakpoint. */}
-      <MobileActionBar onStart={onStart} />
+      {showMobileActionBar && <MobileActionBar onStart={onStart} />}
     </div>
   );
 }

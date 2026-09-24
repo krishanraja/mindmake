@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ReactFlow, {
   Background,
   Handle,
@@ -137,6 +137,7 @@ export const OrgChart = ({ className, onStart }: OrgChartProps) => {
   const [hasAutoToggled, setHasAutoToggled] = useState(false);
   const [selectedNode, setSelectedNode] = useState<OrgNodeData | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const sheetTriggerRef = useRef<HTMLElement | null>(null);
   const reducedMotion = usePrefersReducedMotion();
   const isMobile = useIsMobile();
 
@@ -155,6 +156,9 @@ export const OrgChart = ({ className, onStart }: OrgChartProps) => {
   const openDecision = useCallback(
     (data: OrgNodeData, nodeId: string) => {
       if (!data.decisionPrompt) return;
+      sheetTriggerRef.current = document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
       setSelectedNode(data);
       setSheetOpen(true);
       trackEvent("chart_node_clicked", { node: nodeId });
@@ -168,6 +172,13 @@ export const OrgChart = ({ className, onStart }: OrgChartProps) => {
     setHasAutoToggled(true);
     trackEvent("chart_toggle_flipped", { to: next });
   };
+
+  const handleSheetOpenChange = useCallback((open: boolean) => {
+    setSheetOpen(open);
+    if (!open) {
+      window.requestAnimationFrame(() => sheetTriggerRef.current?.focus({ preventScroll: true }));
+    }
+  }, []);
 
   // Memoize to avoid remount warnings on ReactFlow
   const nodes = useMemo(
@@ -268,7 +279,7 @@ export const OrgChart = ({ className, onStart }: OrgChartProps) => {
 
       <DecisionPromptSheet
         open={sheetOpen}
-        onOpenChange={setSheetOpen}
+        onOpenChange={handleSheetOpenChange}
         data={selectedNode}
         onStart={() => {
           setSheetOpen(false);

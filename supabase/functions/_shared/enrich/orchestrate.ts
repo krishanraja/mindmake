@@ -28,8 +28,8 @@ import { fetchPDL } from "./pdl.ts";
 import { fetchTranco } from "./tranco.ts";
 import { fetchBuiltWith } from "./builtwith.ts";
 import { fetchCurrency } from "./currency.ts";
-import { synthesizeDescriptor } from "./synthesize.ts";
 import { createLogger } from "../logger.ts";
+import { canonicalResearchDomain, companyIdentityCorroborated, literalCompanyRead } from "./provenance.ts";
 
 const logger = createLogger("enrich/orchestrate");
 
@@ -136,7 +136,7 @@ function deriveRouting(dossier: Dossier): void {
 
 /** Whether any usable identity was resolved (name or logo). */
 function hasIdentity(dossier: Dossier): boolean {
-  return Boolean(dossier.identity.name || dossier.identity.logoUrl);
+  return Boolean(dossier.identity.name);
 }
 
 /** Race a promise against a deadline; resolves to `fallback` if the deadline wins. */
@@ -165,6 +165,8 @@ export async function assembleDossier(input: AssembleInput): Promise<AssembleRes
   }
   if (!domain) return { dossier: null, noDomain: true };
 
+  domain = canonicalResearchDomain(domain);
+
   if (FREE_EMAIL_DOMAINS.has(domain)) return { dossier: null, skipped: "free-email" };
 
   const cacheKey = `${domain}:${depth}`;
@@ -180,14 +182,12 @@ export async function assembleDossier(input: AssembleInput): Promise<AssembleRes
     const dossier = emptyDossier(domain, depth);
 
     // --- Layer 1: name-bearing identity sources first --------------------------
-    const identityCalls: Array<Promise<unknown>> = [
-      fetchBrandfetch(domain).then((p) => mergeDossier(dossier, p)),
-      fetchTranco(domain).then((p) => mergeDossier(dossier, p)),
-    ];
-    if (depth === "full") {
-      identityCalls.push(fetchPDL(domain).then((p) => mergeDossier(dossier, p)));
-    }
-    await Promise.allSettled(identityCalls);
+    const [brand, rank, company] = await Promise.all([
+      fetchBrandfetch(domain), fetchTranco(domain), fetchPDL(domain),
+    ]);
+    mergeDossier(dossier, company);
+    mergeDossier(dossier, rank);
+    mergeDossier(dossier, brand);
 
     // Seed from the name-search hit when Brandfetch-by-domain left gaps.
     if (searched) {
@@ -198,8 +198,8 @@ export async function assembleDossier(input: AssembleInput): Promise<AssembleRes
     }
 
     // Hard miss on the fast path: identity depth with nothing to show.
-    if (depth === "identity" && !hasIdentity(dossier)) {
-      logger.warn("identity depth resolved no identity", { domain });
+    if (!hasIdentity(dossier)) {
+      logger.warn("no domain-bound company identity; using honest unavailable state", { domain });
       return { dossier: null, notFound: true };
     }
 
@@ -218,18 +218,21 @@ export async function assembleDossier(input: AssembleInput): Promise<AssembleRes
       );
     }
 
+    // Provider HTTP success is not company identity proof. A name collision
+    // must never become a confident story or a server-signed pressure choice.
+    if (!companyIdentityCorroborated(domain, brand?.identity?.name,
+      company?.identity?.name, dossier.currency.filter(item => item.source === 'exa' || item.source === 'newsapi'))) {
+      logger.warn("company identity lacks independent corroboration", { domain });
+      return { dossier: null, notFound: true };
+    }
+
     // --- Internal routing (never recited to the user) --------------------------
     deriveRouting(dossier);
 
-    // --- Synthesis (full only, best-effort, null ok) ---------------------------
+    // The factual company read is literal, domain-bound identity evidence.
+    // Model interpretations belong in explicit choices, never this factual field.
     if (depth === "full" && hasIdentity(dossier)) {
-      const elapsed = Date.now() - started;
-      const remaining = Math.max(1500, FULL_DEADLINE_MS - elapsed);
-      const line = await withDeadline(
-        synthesizeDescriptor(dossier, visitorCountry).catch(() => null),
-        remaining,
-        null,
-      );
+      const line = literalCompanyRead(dossier.understanding.descriptor, dossier.understanding.tagline);
       if (line) dossier.synthesis = line;
     }
 

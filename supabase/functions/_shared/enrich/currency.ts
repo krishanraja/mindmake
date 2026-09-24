@@ -19,6 +19,7 @@
 import type { CurrencyItem, DossierPartial } from './types.ts';
 import { fetchWithTimeout } from '../timeout.ts';
 import { createLogger } from '../logger.ts';
+import { isFirstPartyEvidence } from './provenance.ts';
 
 const logger = createLogger('enrich-currency');
 
@@ -107,9 +108,11 @@ async function fetchPerplexity(company: string, domain: string): Promise<Currenc
     }
 
     const citations: string[] | undefined = data?.citations;
+    const sourceUrl = citations?.find((url) => isFirstPartyEvidence(domain, url));
+    if (!sourceUrl) return null;
     return {
       text: tidy(cleaned),
-      sourceUrl: Array.isArray(citations) ? citations[0] : undefined,
+      sourceUrl,
       source: 'perplexity',
     };
   } catch (err) {
@@ -122,7 +125,7 @@ async function fetchPerplexity(company: string, domain: string): Promise<Currenc
  * Exa (secondary): up to 2 recent, real-dated press/blog items.
  * @returns an array of CurrencyItems (possibly empty); never throws.
  */
-async function fetchExa(company: string): Promise<CurrencyItem[]> {
+async function fetchExa(company: string, domain: string): Promise<CurrencyItem[]> {
   const key = Deno.env.get('EXA_API_KEY');
   if (!key) {
     logger.warn('EXA_API_KEY missing, skipping exa');
@@ -139,7 +142,8 @@ async function fetchExa(company: string): Promise<CurrencyItem[]> {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          query: `${company} product launch announcement 2026`,
+          query: `${company} ${domain} product launch announcement 2026`,
+          includeDomains: [domain],
           numResults: 3,
           type: 'auto',
         }),
@@ -157,7 +161,7 @@ async function fetchExa(company: string): Promise<CurrencyItem[]> {
       Array.isArray(data?.results) ? data.results : [];
 
     return results
-      .filter((r) => r?.title && r?.url)
+      .filter((r) => r?.title && isFirstPartyEvidence(domain, r.url))
       .slice(0, 2)
       .map((r): CurrencyItem => ({
         text: tidy(r.title!),
@@ -175,7 +179,7 @@ async function fetchExa(company: string): Promise<CurrencyItem[]> {
  * NewsAPI (tertiary, best-effort): up to 1 item. Often sparse or empty.
  * @returns an array with 0 or 1 CurrencyItem; never throws.
  */
-async function fetchNewsApi(company: string): Promise<CurrencyItem[]> {
+async function fetchNewsApi(company: string, domain: string): Promise<CurrencyItem[]> {
   const key = Deno.env.get('NEWSAPI_API_KEY');
   if (!key) {
     logger.warn('NEWSAPI_API_KEY missing, skipping newsapi');
@@ -198,7 +202,7 @@ async function fetchNewsApi(company: string): Promise<CurrencyItem[]> {
     const articles: Array<{ title?: string; url?: string; publishedAt?: string }> =
       Array.isArray(data?.articles) ? data.articles : [];
 
-    const first = articles.find((a) => a?.title && a?.url);
+    const first = articles.find((a) => a?.title && isFirstPartyEvidence(domain, a.url));
     if (!first) return [];
 
     return [{
@@ -240,9 +244,8 @@ export async function fetchCurrency(
   );
 
   const work = Promise.allSettled([
-    fetchPerplexity(company, domain),
-    fetchExa(company),
-    fetchNewsApi(company),
+    fetchExa(company, domain),
+    fetchNewsApi(company, domain),
   ]);
 
   const raced = await Promise.race([work, overallTimeout]);
@@ -252,15 +255,10 @@ export async function fetchCurrency(
     return null;
   }
 
-  const [perplexityRes, exaRes, newsRes] = raced;
+  const [exaRes, newsRes] = raced;
   const tools: string[] = [];
   const merged: CurrencyItem[] = [];
 
-  // Order matters: perplexity first so its citation wins any sourceUrl dedupe.
-  if (perplexityRes.status === 'fulfilled' && perplexityRes.value) {
-    tools.push('perplexity');
-    merged.push(perplexityRes.value);
-  }
   if (exaRes.status === 'fulfilled' && exaRes.value.length) {
     tools.push('exa');
     merged.push(...exaRes.value);
@@ -274,6 +272,7 @@ export async function fetchCurrency(
   const seen = new Set<string>();
   const items: CurrencyItem[] = [];
   for (const item of merged) {
+    if (!isFirstPartyEvidence(domain, item.sourceUrl)) continue;
     if (item.sourceUrl) {
       if (seen.has(item.sourceUrl)) continue;
       seen.add(item.sourceUrl);

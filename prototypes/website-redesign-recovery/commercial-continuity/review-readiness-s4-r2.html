@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The Decision Balance · fit-lock review</title>
+    <style>
+      *{box-sizing:border-box}
+      html{background:#04100b;color:#e8dcc4;font-family:Arial,sans-serif}
+      body{margin:0;padding:14px}
+      .head{display:flex;align-items:end;justify-content:space-between;gap:20px;max-width:1600px;margin:0 auto 10px}
+      .head h1{margin:0;font-size:18px}
+      .head p{margin:4px 0 0;color:#91a197;font-size:11px}
+      .head a{display:inline-flex;align-items:center;min-height:44px;color:#a8f0ca}
+      .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(250px,.3fr);gap:14px;max-width:1600px;margin:auto}
+      .frame{min-width:0}
+      .mobile-stack{display:grid;align-content:start;gap:14px}
+      .label{display:flex;justify-content:space-between;gap:12px;margin:0 0 6px;color:#a8f0ca;font:9px/1.2 monospace;letter-spacing:.08em;text-transform:uppercase}
+      .window{position:relative;width:100%;overflow:hidden;border:1px solid #2c4438;background:#06110d}
+      .canvas{position:absolute;top:0;left:0;transform-origin:top left}
+      .canvas iframe{display:block;border:0;background:#06110d}
+      @media(max-width:980px){body{padding:10px}.grid{grid-template-columns:1fr}.head{align-items:start;flex-direction:column}.mobile-stack{grid-template-columns:1fr}.desktop-frame .window{max-height:none}}
+    </style>
+  </head>
+  <body>
+    <header class="head">
+      <div><h1>The Decision Balance</h1><p>Fit-lock revision · current desktop, portrait and short landscape</p></div>
+      <a href="./index-readiness-s4-r2.html">Open responsive synthesis</a>
+    </header>
+    <main class="grid">
+      <section class="frame desktop-frame">
+        <div class="label"><span>Desktop · 1440 × 900</span><a href="./index-readiness-s4-r2.html">Open</a></div>
+        <div class="window" data-w="1440" data-h="900"><div class="canvas"><iframe title="Desktop Decision Balance synthesis" src="./index-readiness-s4-r2.html" width="1440" height="900"></iframe></div></div>
+      </section>
+      <div class="mobile-stack">
+        <section class="frame portrait-frame">
+          <div class="label"><span>Portrait · 390 × 844</span><a href="./index-readiness-s4-r2.html">Open</a></div>
+          <div class="window" data-w="390" data-h="844"><div class="canvas"><iframe title="Portrait Decision Balance synthesis" src="./index-readiness-s4-r2.html" width="390" height="844"></iframe></div></div>
+        </section>
+        <section class="frame landscape-frame">
+          <div class="label"><span>Landscape · 844 × 390</span><a href="./index-readiness-s4-r2.html">Open</a></div>
+          <div class="window" data-w="844" data-h="390"><div class="canvas"><iframe title="Landscape Decision Balance synthesis" src="./index-readiness-s4-r2.html" width="844" height="390"></iframe></div></div>
+        </section>
+      </div>
+    </main>
+    <script>
+      const resize=()=>document.querySelectorAll('.window').forEach(win=>{
+        const width=Number(win.dataset.w);
+        const height=Number(win.dataset.h);
+        const available=Math.max(220,innerHeight-win.getBoundingClientRect().top-14);
+        const firstRow=win.closest('.desktop-frame,.portrait-frame');
+        const scale=Math.min(1,win.clientWidth/width,firstRow?available/height:win.clientWidth/width);
+        const canvas=win.querySelector('.canvas');
+        win.style.height=`${Math.ceil(height*scale)}px`;
+        canvas.style.left=`${Math.max(0,(win.clientWidth-width*scale)/2)}px`;
+        canvas.style.transform=`scale(${scale})`;
+      });
+      new ResizeObserver(resize).observe(document.body);
+      addEventListener('resize',resize);
+      resize();
+    </script>
+  </body>
+</html>

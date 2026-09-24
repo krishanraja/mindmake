@@ -13,11 +13,11 @@ export const site = "https://mindmake.co";
 export const staticPages = [
   {
     path: "/",
-    title: "See what is coming for your business before it is obvious.",
-    description: "Mindmake works with leaders in private: where you stand, what is coming, what to do first, built into an AI that knows how you work and stays yours.",
-    headline: "See what is coming for your business before it is obvious.",
-    claim: "Then act on it with an AI that knows how you work, and keep the edge.",
-    still: "film-01",
+    title: "Build the business that can think with you.",
+    description: "Part people. Part agent. Led by judgement. Build your AI brain or your AI native pricing, positioning and organisation with Mindmake.",
+    headline: "Build the business that can think with you.",
+    claim: "Part people. Part agent. Led by judgement.",
+    still: "film-02",
   },
   {
     path: "/ai-brain",

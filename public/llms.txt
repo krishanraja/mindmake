@@ -8,7 +8,7 @@ Mindmake works with leaders in private. It reads where they stand and what is ch
 
 - [Build your AI brain](/ai-brain): your taste, standards and context, running as a system. It starts every call from what you already know.
 - [Build your AI GTM](/ai-gtm): an AI-native go-to-market model across product, price, positioning and people. One lever, proved with real buyers, priced on the result.
-- A client can start with either and cross to the other. They are not separate payment plans. Both are read in private: nobody in the client's organisation needs to know where they started.
+- A client can begin with Build your AI brain or Build your AI GTM, and the work can move between them. They are not separate payment plans. Both are read in private: nobody in the client's organisation needs to know where they started.
 
 ## Where what you teach AI ends up
 
@@ -41,7 +41,7 @@ a link back to the page.
 
 - [Adtech Can't Compete on the Model Anymore. Here's What's Left to Defend](/answers/adtech-compete-ai-targeting-models-defensibility-audit): answers "how do adtech companies compete once AI can build targeting models without them".
 - [An AI decision tool earns trust by holding your judgement, not by passing an audit](/answers/ai-decision-tool-trustworthy-leadership-team): answers "how do I evaluate whether an AI decision tool is trustworthy enough for my leadership team".
-- [An AI Center of Excellence Without an Engineering Budget Is a Governance Function, Not a Team](/answers/ai-center-of-excellence-without-engineering-budget): answers "how do I build an AI center of excellence without a dedicated engineering budget".
+- [An AI Center of Excellence Without an Engineering Budget Is a Governance Function, Not a Team](/answers/ai-center-of-excellence-without-engineering-budget): answers "how to build an AI center of excellence without a dedicated engineering budget".
 - [Total Addressable Revenue for AI Products in Publishing: Calculate It From Your P&L, Not a Market Report](/answers/total-addressable-revenue-ai-products-publishing): answers "how do I calculate the total addressable revenue opportunity for AI products in publishing".
 
 ## Proof
@@ -52,7 +52,7 @@ a link back to the page.
 
 ## Reading and contact
 
-- [The weekly read](https://mindmakerlive.substack.com): Mindmake's publication, a separate opt-in.
+- [Media](https://mindmakerlive.substack.com): Mindmake's publication, a separate opt-in with The Money of AI and Built with AI.
   It runs two channels. The Money of AI follows how the digital world gets paid for and asks who
   pays when a shift lands. Built with AI follows people using AI to become builders and reaches the
   human reason under the build.

@@ -19,7 +19,7 @@
 import { createServer } from "http";
 import { readFileSync, existsSync, statSync } from "fs";
 import { resolve, extname, dirname, join } from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath, pathToFileURL } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DIST = resolve(__dirname, "../../dist");
@@ -96,7 +96,7 @@ export function startServer(port = 4180) {
   });
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   const port = Number(process.argv[2] ?? 4180);
   await startServer(port);
   console.log(`Serving dist/ on http://127.0.0.1:${port} with Vercel-style resolution`);

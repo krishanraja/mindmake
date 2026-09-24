@@ -9,6 +9,7 @@ import {
   NEWSLETTER_CONSENT_WORDING_VERSION,
 } from "@/components/mindmake/leadDelivery";
 import { ASK_ENTRIES, ASK_UNMATCHED } from "@/lib/askCorpus";
+import { render as serverRender } from "@/entry-server";
 
 /**
  * The public contract, as the rebuild brief defines it.
@@ -505,13 +506,15 @@ describe("the conversion contract", () => {
     expect(shell.toLowerCase()).not.toContain("book a fit call");
   });
 
-  it("carries the five menu destinations", () => {
+  it("keeps the commercial, editorial and leadership routes in the menu", () => {
     const shell = read("src/components/mindmake/MindmakeShell.tsx");
     for (const item of [
       "Build your AI brain",
       "Build your AI GTM",
       "Results",
-      "The weekly read",
+      "Ideas",
+      "New-age leadership",
+      "Media",
       "Start here",
     ]) {
       expect(shell).toContain(item);
@@ -541,11 +544,16 @@ describe("the conversion contract", () => {
     expect(band).toContain("Built with AI");
     expect(read("src/lib/publicLinks.ts")).toContain("https://mindmakerlive.substack.com");
 
-    /* And it is reachable from every page a visitor lands on. */
-    for (const page of ["src/pages/Index.tsx", "src/pages/AiBrain.tsx", "src/pages/AiGtm.tsx"]) {
-      expect(`${page} carries it: ${read(page).includes("<SubscribeBand")}`)
-        .toBe(`${page} carries it: true`);
-    }
+    /* The locked offer routes reveal the publication through the menu instead
+       of restoring another section to either short, decision-led argument. */
+    expect(read("src/pages/AiGtm.tsx")).not.toContain("<SubscribeBand");
+    expect(read("src/pages/AiBrain.tsx")).not.toContain("<SubscribeBand");
+    expect(read("src/pages/Index.tsx")).not.toContain("<SubscribeBand");
+    const shell = read("src/components/mindmake/MindmakeShell.tsx");
+    expect(shell).toContain("PUBLICATION_URL");
+    expect(shell).toContain("Media");
+    expect(band).toContain("Open Media");
+    expect(band).not.toContain("Read it free");
   });
 });
 
@@ -689,24 +697,19 @@ describe("the ask bar corpus", () => {
   });
 });
 
-describe("CTRL appears as proof, on one page only", () => {
-  it("references the captures from /ai-brain and nowhere else", () => {
+describe("the Brain decision proof", () => {
+  it("keeps internal CTRL captures off the shortened public route", () => {
     for (const [surface, source] of readAll(PUBLIC_SURFACES)) {
-      if (surface === "src/pages/AiBrain.tsx") continue;
       expect(`${surface}: ${source.includes("assets/ctrl/")}`).toBe(`${surface}: false`);
     }
     expect(read("src/components/mindmake/ProofViewer.tsx")).toContain("assets/ctrl/");
-    expect(read("src/pages/AiBrain.tsx")).toContain("ProofViewer");
+    expect(read("src/pages/AiBrain.tsx")).not.toContain("ProofViewer");
   });
 
-  it("names CTRL on the brain page only", () => {
-    for (const [surface, source] of readAll([
-      "src/pages/Index.tsx",
-      "src/pages/AiGtm.tsx",
-    ])) {
+  it("keeps the internal engine name out of the public argument", () => {
+    for (const [surface, source] of readAll(["src/pages/Index.tsx", "src/pages/AiBrain.tsx", "src/pages/AiGtm.tsx"])) {
       expect(`${surface}: ${/\bCTRL\b/.test(source)}`).toBe(`${surface}: false`);
     }
-    expect(read("src/pages/AiBrain.tsx")).toContain("CTRL");
   });
 
   it("never links or prices the product", () => {
@@ -715,19 +718,17 @@ describe("CTRL appears as proof, on one page only", () => {
     expect(brain).not.toMatch(/to=["'][^"']*ctrl/i);
   });
 
-  it("ships all four captures with their approved captions", () => {
-    const viewer = read("src/components/mindmake/ProofViewer.tsx");
-    for (const id of ["brain-graph", "decision-evidence", "standards", "briefing"]) {
-      expect(existsSync(resolve(ROOT, `src/assets/ctrl/ctrl-${id}.jpg`))).toBe(true);
-      expect(viewer).toContain(`ctrl-${id}.jpg`);
-    }
-    /* The count is in the alt text rather than a caption, because it is a
-       fact the capture itself shows: the caption underneath was reading the
-       picture out loud to someone already looking at it. In the alt it still
-       reaches a reader who cannot see the frame, and it is still one approved
-       number that has to match what the capture holds. */
-    expect(viewer).toContain("42 things known, 18 confirmed by the owner");
-    expect(read("src/pages/AiBrain.tsx")).toContain("We built this for ourselves first. Then we build yours.");
+  it("makes one decision and one attributed outcome tangible", () => {
+    const brain = read("src/pages/AiBrain.tsx");
+    const proofRecords = read("src/data/rebuildProof.ts");
+    const clientWords = read("src/data/testimonials.ts");
+    for (const state of ["Decision", "Brain", "Evidence", "Correction"]) expect(brain).toContain(state);
+    expect(brain).toContain("Inspect how a decision becomes reusable judgement.");
+    expect(brain).toContain("Correct it once.");
+    expect(brain).toContain("clientStories");
+    expect(proofRecords).toContain('...spoken("wellness-founder")');
+    expect(clientWords).toContain("I used to post once a month; now it's most days");
+    expect(brain).toContain("identity withheld");
   });
 });
 
@@ -764,10 +765,14 @@ describe("the film slots", () => {
     }
   });
 
-  it("charges nobody for the proof film until they ask for it", () => {
+  it("charges nobody for the long proof film without an explicit play", () => {
     const plate = read("src/components/mindmake/FilmPlate.tsx");
-    expect(plate).toMatch(/clickToPlay[\s\S]{0,400}preload="none"/);
-    expect(read("src/pages/AiBrain.tsx")).toContain("clickToPlay");
+    expect(plate).toContain("clickToPlay && playing");
+    expect(plate).toContain("showLoop = hasFilm && !clickToPlay && motion");
+    const brain = read("src/pages/AiBrain.tsx");
+    expect(brain).toContain("filmTwoPoster");
+    expect(brain).toContain("filmTwoLoopWebm");
+    expect(brain).not.toContain("filmFiveProof");
   });
 
   it("serves the still, not the film, to anyone who asked for less motion", () => {
@@ -797,8 +802,12 @@ describe("the film slots", () => {
        empty label with neither is a plate that announces itself as an image
        called nothing. */
     for (const [surface, source] of readAll(["src/pages/Index.tsx", "src/pages/AiBrain.tsx", "src/pages/AiGtm.tsx"])) {
-      const plates = source.split("<FilmPlate").slice(1);
-      expect(`${surface} has plates: ${plates.length > 0}`).toBe(`${surface} has plates: true`);
+      // Index consumes the immutable compiled adapter. Inspect what it renders,
+      // not a wrapper file that deliberately contains no duplicated markup.
+      const renderedSource = surface === "src/pages/Index.tsx" ? serverRender("/") : source;
+      const plates = renderedSource.split("<FilmPlate").slice(1);
+      const nativeVideos = renderedSource.split("<video").slice(1);
+      expect(`${surface} has visual media: ${plates.length > 0 || nativeVideos.length > 0}`).toBe(`${surface} has visual media: true`);
       for (const [at, plate] of plates.entries()) {
         const props = plate.slice(0, plate.indexOf("/>"));
         const labelled = /label="[^"]+"/.test(props) || /label=\{[^}]+\}/.test(props);
@@ -808,6 +817,17 @@ describe("the film slots", () => {
         /* And never both, which would mean a description nothing can read. */
         expect(`${surface} plate ${at} is both: ${labelled && decorative}`)
           .toBe(`${surface} plate ${at} is both: false`);
+      }
+      for (const [at, video] of nativeVideos.entries()) {
+        const props = video.slice(0, video.indexOf(">"));
+        const labelled = /aria-label="[^"]+"/.test(props);
+        const decorative = /aria-hidden="true"/.test(props);
+        expect(`${surface} video ${at} has a poster: ${/\bposter=/.test(props)}`)
+          .toBe(`${surface} video ${at} has a poster: true`);
+        expect(`${surface} video ${at} is described or decorative: ${labelled || decorative}`)
+          .toBe(`${surface} video ${at} is described or decorative: true`);
+        expect(`${surface} video ${at} is both: ${labelled && decorative}`)
+          .toBe(`${surface} video ${at} is both: false`);
       }
     }
   });

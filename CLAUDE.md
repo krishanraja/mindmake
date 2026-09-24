@@ -1,6 +1,6 @@
 # Mindmake repository guide
 
-Last updated: 5 September 2026.
+Last updated: 24 September 2026.
 
 This file is a contributor guard, not the source of truth. The source of truth
 is `project-documentation/`, and it is read in order: `00_NORTH_STAR.md` first,
@@ -11,6 +11,20 @@ Read [`AGENTS.md`](./AGENTS.md) alongside it: it points at `NOW.md` for current 
 
 Before changing a public page, read `00_NORTH_STAR.md`, `01_CANON.md`,
 `03_DESIGN_CONTRACT.md`, `04_PROOF.md` and `06_CURRENT_STATE.md`.
+
+## Homepage recovery handoff
+
+Before rebuilding or presenting the homepage, read
+`project-documentation/website-redesign/STATE.md` and
+`quality/website-redesign/homepage-handoff.v1.json`, then run
+`npm run qa:homepage-handoff`. The handoff freezes every recovered component,
+selection and copy decision. R1 is rejected. R2 is a fidelity reference, not a
+production candidate. R3 was subsequently approved for production delivery with
+two bounded scroll-build corrections. The current authority and release evidence
+are recorded in STATE.md and `project-documentation/website-redesign/RELEASE-2026-09-24.md`.
+Use the deterministic R3 adapter, not another reconstruction. Future material
+candidates still require the repository's gated material-review command; the
+dated approval is not permission to reinterpret accepted decisions.
 
 ## The naming law
 

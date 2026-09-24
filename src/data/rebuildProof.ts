@@ -151,8 +151,8 @@ export const clientStories: ClientStory[] = [
   },
   {
     id: "business-first",
-    result: "Eleven tools stopped. One useful system went live.",
-    figure: { shape: "focus", from: 14, to: 3, keep: "few", fromLabel: "Fourteen tools running", toLabel: "Three kept, eleven stopped" },
+    result: "The team cut eleven tools and put one useful system live.",
+    figure: { shape: "focus", from: 14, to: 3, keep: "few", fromLabel: "", toLabel: "" },
     title: "Tie every AI choice back to the business",
     outcome: "Eleven of fourteen tools were stopped. The budget was kept and the first working system went live inside 90 days.",
     ...spoken("broadcast-president"),

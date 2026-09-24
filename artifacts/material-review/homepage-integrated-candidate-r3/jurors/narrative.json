@@ -1,0 +1,62 @@
+{
+  "id": "narrative",
+  "contextId": "r3-narrative-fresh",
+  "executorId": "agent-r3-narrative",
+  "surface": "desktop+mobile",
+  "coverage": [
+    "storyboard_narrative",
+    "information_architecture_guidance",
+    "content_clarity_voice"
+  ],
+  "status": "pass",
+  "summary": "Final candidate ee7b010ae7da6d7748d3504ca47c24fe149b280f815423d36c50b44e9ad241a1 passes this specialist scope against the frozen owner decisions. Refreshed candidate-bound evidence records ten zero-failure journeys across Chromium, Firefox and WebKit, and the parity report retains every locked message row. Desktop and mobile form one coherent story from opening, through historical fear and the present division of work, into the practice-first leadership dividend with discoverable benefits and returned-hour states, then the Brain/GTM route. The Start here stacking and hit-target hardening introduces no narrative, information-architecture or voice regression. No blocker, major or minor narrative implementation defect remains.",
+  "findings": [
+    {
+      "severity": "note",
+      "detail": "The benefits and returned-hour payoff sit behind clear What becomes possible and The returned hour controls because leadershipDividend.defaultMode is explicitly locked to practice. The final candidate preserves that decision, keeps both alternatives visible on desktop and mobile, and the fresh browser report records successful benefit-state exercise. This is faithful implementation, not a narrative failure.",
+      "evidence": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json"
+    },
+    {
+      "severity": "note",
+      "detail": "AI GTM, AI native pricing, positioning and org, Your judgement, running, Part people. Part agent. Led by judgement., and the 79-study historical sentence are frozen owner-submitted copy or accepted source copy. Candidate ee7b010a reproduces them faithfully; a juror cannot reopen those owner decisions as implementation findings.",
+      "evidence": "quality/website-redesign/homepage-handoff.v1.json"
+    }
+  ],
+  "hardGates": [
+    {
+      "id": "candidate_evidence_identity",
+      "status": "pass",
+      "detail": "Browser, readiness and continuity receipts all identify candidate ee7b010ae7da6d7748d3504ca47c24fe149b280f815423d36c50b44e9ad241a1; ten journeys and all applicable readiness checks report zero failures."
+    },
+    {
+      "id": "owner_decision_fidelity",
+      "status": "pass",
+      "detail": "The zero-failure parity report preserves the frozen message copy, history copy, authority labels, route language and practice-first leadership-dividend selection rather than substituting juror preference."
+    },
+    {
+      "id": "opening_history_work_benefits_routes_progression",
+      "status": "pass",
+      "detail": "Both surfaces progress from opening to historical fear to the present division of work, then expose practice, benefits and returned-hour states before the final Brain/GTM route; the owner-selected practice default remains intact."
+    },
+    {
+      "id": "plain_cold_visitor_comprehension",
+      "status": "pass",
+      "detail": "Within the locked wording, the headline, two named doors, proof line, historical bridge, AI-carries/You-keep split and route outcome make the offer and next action legible without implementation-added explanatory prose."
+    },
+    {
+      "id": "active_guidance_without_backup_singer_copy",
+      "status": "pass",
+      "detail": "Era controls, Work/Organisation states, leadership-dividend modes, practice stages, benefit arrows and the single locked route toggle are self-naming and visibly guide progression without a duplicate route selector."
+    },
+    {
+      "id": "content_voice_lock_compliance",
+      "status": "pass",
+      "detail": "No material implementation drift from the frozen owner-submitted and accepted component copy was found. Potential wording preferences remain owner decisions rather than candidate defects."
+    },
+    {
+      "id": "desktop_mobile_information_architecture",
+      "status": "pass",
+      "detail": "Desktop and mobile preserve the same causal chapter order, keep alternate content states discoverable, and end with one clear route choice and Start here action."
+    }
+  ]
+}

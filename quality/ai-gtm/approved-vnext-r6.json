@@ -1,0 +1,31 @@
+{
+  "artifact": "ai-gtm-vnext-r6",
+  "approvedAt": "2026-09-16",
+  "approval": "looks great, lock and continue",
+  "productionLock": "quality/route-lock/approved-production-r1.json",
+  "prototypeHashes": {
+    "html": "f6b3892e1a4e81ae9d1d137fa2b1ee8b86f5ac97629cd9c2ee60654652be26e1",
+    "css": "f1be95fa547126962ffb66cd492909bf119e5885980129d9f1798eb528d02ebf",
+    "javascript": "9df3a85dd67eff69c9dd8aa3c3330cfa81a50252126ab12c9dc60cf9b953851f",
+    "pairedReview": "9cb2ea041a1a1d992591fe90c6db53837d80932308e8bb5ef5276772bd7ea4ba",
+    "browserSuite": "dd27e5b9c21422f992f56032bdd128360409afce0fe8e944739d8a4df8ec0179"
+  },
+  "lockedExperience": {
+    "hero": "We turn an AI market shift into one tested commercial move.",
+    "decisionModel": "One market change opens three plain-English responses and one customer test",
+    "signals": 5,
+    "responseChoices": 15,
+    "responsiveReview": "paired desktop and mobile",
+    "mobileRule": "Choices stack at full width rather than preserving a compressed desktop matrix"
+  },
+  "prohibitedRegressions": [
+    "Keep the seat",
+    "Meter the work",
+    "Price the result",
+    "unexplained internal strategy shorthand",
+    "three squeezed choice columns on a phone",
+    "a native horizontal scrollbar masquerading as a ticker",
+    "new public price, duration, guarantee or product ladder"
+  ],
+  "authority": "Local production implementation and verification only. Commit, merge, preview deployment, production deployment and publication remain unauthorised."
+}

@@ -4,8 +4,28 @@
 @import "@fontsource-variable/archivo";
 @import "@fontsource-variable/newsreader";
 @import "@fontsource-variable/source-serif-4";
-@import "@fontsource/ibm-plex-mono/400.css";
-@import "@fontsource/ibm-plex-mono/500.css";
+
+/* Keep the two small mono faces on the site's ordinary static-asset path.
+   Firefox intermittently aborted Vite's transformed node_modules response
+   during the full multi-route matrix; the byte-identical self-hosted files
+   remove that development/proof transport from the critical render path. */
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url("/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
 
 /* The fallback faces, sized to the faces they stand in for.
 
@@ -465,6 +485,9 @@ html {
   top: 8px;
   left: 8px;
   z-index: 1000;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
   padding: 10px 14px;
   background: var(--mm-mint-bright);
   color: var(--mm-mint-ink);
@@ -556,9 +579,13 @@ html {
   background: rgba(10, 16, 13, .97);
   backdrop-filter: blur(18px);
   padding: calc(var(--mm-header-height) + 24px) var(--mm-gutter) 40px;
-  transition: opacity .16s ease, visibility .16s ease;
+  /* Visibility must switch on before the opening fade. A timed visibility
+     transition left every link unfocusable while the menu's focus handoff ran,
+     so keyboard users remained on the Close control behind the overlay. On
+     close, visibility waits for the opacity fade instead. */
+  transition: opacity .16s ease, visibility 0s linear .16s;
 }
-.mm-menu.is-open { visibility: visible; opacity: 1; }
+.mm-menu.is-open { visibility: visible; opacity: 1; transition-delay: 0s; }
 .mm-menu nav { width: min(var(--mm-shell-max), 100%); margin-inline: auto; display: grid; }
 .mm-menu a,
 .mm-menu button {
@@ -596,6 +623,26 @@ html {
 }
 .mm-menu-open { overflow: hidden; }
 
+/* A short landscape viewport cannot fit seven 60px rows beneath the fixed
+   header. Centre alignment used to distribute that deficit above and below
+   the menu, leaving the first focused route behind the opaque header. Keep
+   real 44px targets, start below the chrome, and let the menu itself scroll.
+   600px includes the 1108x574 Windows/browser-chrome viewport that exposed
+   the same failure outside a phone-sized width. */
+@media (max-height: 600px) and (orientation: landscape) {
+  .mm-menu {
+    align-content: start;
+    overflow-y: auto;
+    padding: calc(var(--mm-header-height) + 2px) var(--mm-gutter) max(4px, var(--mm-safe-bottom));
+  }
+  .mm-menu a,
+  .mm-menu button {
+    min-height: 44px;
+    padding-block: 4px;
+    font-size: clamp(18px, 5.2vh, 22px);
+  }
+}
+
 .mm-footer {
   border-top: 1px solid var(--mm-hair);
   background: var(--mm-ink);
@@ -615,6 +662,7 @@ html {
   border-block: 1px solid var(--mm-hair);
 }
 .mm-footer nav a {
+  min-width: 44px;
   min-height: 44px;
   display: inline-flex;
   align-items: center;
@@ -823,6 +871,22 @@ html {
 .mm-article-hero { max-width: 820px; padding-bottom: 30px; border-bottom: 1px solid var(--mm-hair); }
 .mm-article-hero h1 { font-size: clamp(30px, 4.4vw, 52px); }
 .mm-article-meta { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 18px; color: var(--mm-mut); font-family: var(--mm-mono); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; }
+.mm-article-meta nav { display: inline-flex; gap: 6px; align-items: center; }
+.mm-article-meta nav button,
+.mm-article-meta nav a {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--mm-hair);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--mm-tx2);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.mm-article-meta nav svg { width: 18px; height: 18px; }
 .mm-article-excerpt { max-width: 62ch; margin-top: 18px; color: var(--mm-tx2); font-size: 18px; }
 .mm-article-author { margin-top: 18px; color: var(--mm-mut); font-family: var(--mm-mono); font-size: 11px; }
 .mm-article-body { max-width: 720px; margin-top: 34px; color: var(--mm-tx2); font-size: 17px; line-height: 1.7; }
@@ -840,6 +904,7 @@ html {
 }
 .mm-article-body code { font-family: var(--mm-mono); font-size: .88em; background: var(--mm-ink3); padding: 1px 5px; border-radius: 2px; }
 .mm-article-next, .mm-related-ideas { margin-top: var(--mm-section); padding-top: 30px; border-top: 1px solid var(--mm-hair); }
+.mm-article-author a { min-height: 44px; display: inline-flex; align-items: center; }
 .mm-article-missing { padding: 60px 0; }
 .mm-share-status { margin-top: 12px; color: var(--mm-mint); font-family: var(--mm-mono); font-size: 11px; }
 
@@ -972,6 +1037,11 @@ html {
 .mm-contact-form .mm-form-error,
 .mm-contact-form .mm-button { grid-column: 1 / -1; }
 .mm-contact-form .mm-button { margin-top: 12px; }
+.mm-contact-form small a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+}
 .mm-form-error { color: var(--mm-amber); font-family: var(--mm-mono); font-size: 12px; }
 
 .mm-not-found { min-height: 100svh; display: grid; place-items: center; background: var(--mm-ink); color: var(--mm-tx); text-align: center; padding: 40px 0; }
@@ -1061,6 +1131,17 @@ html {
   text-underline-offset: 3px;
 }
 .mm-cookie-notice .mm-button-small { min-height: 30px; padding: 5px 10px; }
+
+html.mm-cookie-visible{scroll-padding-bottom:calc(var(--mm-cookie-reserve,0px) + 16px)}
+html.mm-cookie-visible .mm-brain-r5 .decision-sticky,
+html.mm-cookie-visible .mm-gtm-r6 .decision-sticky{height:calc(100svh - var(--mm-cookie-reserve,0px))}
+html.mm-cookie-visible .mm-brain-r5 .proof-copy,
+html.mm-cookie-visible .mm-brain-r5 .close>div,
+html.mm-cookie-visible .mm-gtm-r6 .proof-copy{transform:translateY(calc(var(--mm-cookie-reserve,0px) / -2))}
+
+@media(max-height:520px) and (orientation:landscape){
+  .mm-cookie-notice{inset:calc(58px + var(--mm-safe-top)) 8px auto auto}
+}
 
 /* Both reserves are published by the components that occupy the space, and
    read by `.mm-footer` above and by the action bar, which stacks on the
@@ -1207,7 +1288,10 @@ html {
    read that as a late first paint rather than a missing one. */
 .mm-curtain { display: none; }
 .mm-covered .mm-curtain {
-  display: grid;
+  /* An opaque entrance cannot precede readable content. The retained curtain
+     markup is inert; the hero's short type fade supplies the arrival without
+     ever slicing the page into unreadable bands. */
+  display: none;
   position: fixed;
   inset: 0;
   z-index: 200;

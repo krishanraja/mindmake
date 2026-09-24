@@ -1,6 +1,21 @@
 # Deploy runbook: the rebuild's backend
 
-Written 28 August 2026, after the work below was applied and verified against
+## Current backend release — 24 September 2026
+
+Backend deployment is complete; frontend R3 promotion is **not yet claimed here**. The frontend release authority and gates are in [RELEASE-2026-09-24](website-redesign/RELEASE-2026-09-24.md). Exact backend evidence, source hashes, canary IDs and cleanup are in [BACKEND-RELEASE-EVIDENCE-2026-09-24](website-redesign/BACKEND-RELEASE-EVIDENCE-2026-09-24.md), whose final addendum records the final versions below.
+
+1. Verify authenticated target `bkyuxvschuwngtcdhsyg`; never use a connector exposing only a different project. Do not read or log credentials.
+2. Preserve exact-domain provider checks, corroborated company identity, literal factual descriptions and first-party source titles. Only the documented owned alias `themindmaker.ai` maps to `mindmake.co` for research/signatures; email recipients remain unchanged. Missing corroboration stays honest, not a fabricated successful read.
+3. Run the provenance/brief/personal regressions and Deno checks for all affected closures. This repair passed 67 targeted tests and all three closure checks.
+4. Deploy the full affected import closures with the official CLI to the exact project, preserving JWT flags; independently download/read back the deployed sources. Do not deploy unrelated CTRL functions or alter tables/policies for this source-only repair.
+5. Verify real canonical and owned-legacy company reads, then only the authorized operator-inbox canaries. Actual inbox receipt, persisted state and one due follow-up row are required; provider `queued` alone is insufficient. Never invoke the live cron sender to test a future follow-up.
+6. Capture exact synthetic IDs, delete only those test rows and confirm zero. Keep ordinary customer rows/queues untouched. Verification codes and full email bodies do not belong in evidence files.
+
+Executed: code verification, visitor brief and operator digest reached INBOX; personal-read preview/send also passed and its email reached INBOX. Both journeys persisted the expected rows and one day-14 queue each; exact synthetic rows were removed and checked absent. The generated private-brief HTML was actually downloaded and visually inspected at desktop/mobile widths, self-contained and without overflow. Personal-read verification used its public API contract rather than a second browser walkthrough; print PDF was generated, not independently visually graded. Physical VoiceOver/TalkBack remain the owner's explicitly recorded, release-only exception, not passes.
+
+## Historical background
+
+Originally written 28 August 2026, after the work below was applied and verified against
 the live project. It is here so the same steps can be repeated, checked or
 rolled back by someone who was not in the room.
 
@@ -8,15 +23,16 @@ Project: `bkyuxvschuwngtcdhsyg`. Everything below is additive. No existing
 policy was loosened, no anon policy was added to any table, and the four new
 tables are RLS-on with no policies, which means service role only.
 
-## What is deployed
+## What is deployed — independently read back 24 September 2026
 
 | Function | Version | verify_jwt | Called by |
 |---|---|---|---|
-| `get-ai-news` | v69 | false | The browser, for the board and the homepage card |
-| `mindmake-personal-read` | v20 | false | The browser, from `/ai-brain`, and every dead end on the site |
-| `send-follow-ups` | v2 | false | pg_cron, daily at 09:20 UTC |
-| `aa-price-snapshot` | v1 | false | pg_cron, daily at 11:00 UTC |
-| `submit-mindmake-brief` | v14 | false | Still `main`'s body. The repository's day-14 enqueue is held back on purpose |
+| `get-ai-news` | v70 | false | The browser; unchanged by the 24 September repair |
+| `enrich-company` | v44 | true | Domain-bound corroborated company read and tailored choices |
+| `mindmake-personal-read` | v25 | false | Personal preview/send and existing human handoff; final increment is type-only |
+| `send-follow-ups` | v5 | false | pg_cron, daily at 09:20 UTC; not invoked for this canary |
+| `aa-price-snapshot` | v3 | false | pg_cron, daily at 11:00 UTC; unchanged by this repair |
+| `submit-mindmake-brief` | v20 | false | Verified company brief, both deliveries and active day-14 enqueue; final increment is type-only |
 
 `get-ai-news` gained a board view and kept its previous response byte for byte.
 The two scheduled functions are public at the edge and guarded in code on the
@@ -55,7 +71,7 @@ It was generated at deploy time and never written to the repository. To rotate
 it, create a new Vault secret under the same name and update the function
 secret to match; the jobs read the newest row.
 
-## How this was verified
+## Historical verification — August 2026
 
 - `aa-price-snapshot` rejected a wrong header with 403, then recorded 624 models
   for 2026-08-28.

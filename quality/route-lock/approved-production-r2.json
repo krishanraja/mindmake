@@ -1,0 +1,84 @@
+{
+  "artifact": "mindmake-approved-production-routes-r2",
+  "approvedAt": "2026-09-22",
+  "approval": "Krish explicitly approved the locked material surfaces, then answered yes to a scoped commit and preview deployment of the exact verified website candidate.",
+  "routes": ["/", "/ai-brain", "/ai-gtm", "/new-age-leadership", "/case-studies", "/blog", "/blog/:slug", "/answers", "/answers/:slug", "/faq", "/contact", "/privacy", "/terms"],
+  "status": "approved source baseline for commit and immutable preview verification",
+  "changePolicy": "This is a new immutable approval record. Never rewrite r1 or any candidate manifest. Any material source change requires explicit rendered approval and another manifest revision. Production deployment and publication remain separate authority gates.",
+  "contractSources": {
+    "brain": [
+      "src/pages/AiBrainLocked.tsx",
+      "prototypes/website-redesign-recovery/brain-signature/index-s2-motion-s3.html"
+    ],
+    "gtm": [
+      "src/pages/AiGtmLocked.tsx",
+      "prototypes/website-redesign-recovery/gtm-market-change/index-motion.html"
+    ]
+  },
+  "files": {
+    ".vercelignore": "f162171ded7ff8c1d6032f7cb50317bc19cc4d1bbd4757be9f8ea75cdec540f1",
+    "src/pages/AiBrainLocked.tsx": "e8bc824441de5d4d677135679bb1875c247fb0ab72dda9f9384b5ee8042f2edd",
+    "src/styles/mindmake-locked-brain.css": "7ef818a05599b945ff2cdbd1aebf56cf3815f7d4508421963755216539da7b96",
+    "src/data/vnext/brain-fixture.json": "02fa968575d7000874f0f10a09123336ad6ec3f7bf373dcd351fbb7e7ef2b1b9",
+    "prototypes/website-redesign-recovery/brain-signature/index-s2-motion-s3.html": "423659d864e79a72a55d4fd3ca9450b610e616187929293f1e0a8faaafbff2c6",
+    "src/pages/AiGtmLocked.tsx": "fd3ab70392efbcb5995b8db47288ebcefe27b9a4b57bbef40789c0f575559e39",
+    "src/styles/mindmake-locked-gtm.css": "8c4ee91ad1a96f97efd397668f0742b148fbc4ec820e73daf2ddb4047be58579",
+    "src/data/vnext/gtm-signals.json": "5ab7fac6ce8ebdab6b69b73f60e184a7e4df8d923d97edd29c38872648c3bf7f",
+    "prototypes/website-redesign-recovery/gtm-market-change/index-motion.html": "8754e189e077ead09728e4e8b78ed26ad9b872a0d8b9d4b3503bc76ee7e98aef",
+    "src/pages/NewAgeLeadership.tsx": "9293d0262fb7431d1cc4ef5007b1f30f39110a0bc3553836a78cb6792304a1b7",
+    "src/styles/new-age-leadership-r5.css": "970ffb4f1096abf0e1f3882ac5d04518df17fa96c26cb2dbc5c48efd321a010d",
+    "src/components/mindmake/locked/CommercialDecisionBalance.tsx": "d609051efad3b0c369a7a8ecafbca64863a4a83dcb7dc6a3816a56edfbdc5b88",
+    "src/styles/mindmake-commercial-decision-balance.css": "28ee9e456159953099cfceabbd068d7d43cbf0bfdaa76c990fd76dd541b5cfac",
+    "src/components/mindmake/locked/CaseProofField.tsx": "940412cf6c777151f4464ae84ba421e048e40d937b969f34f3dd86c63c6e1acc",
+    "src/pages/CaseStudies.tsx": "ec54c450ed687acf40fbe239182c49a779b583f8d53804b5214e1be43dd98362",
+    "src/styles/mindmake-instruments.css": "607db8ab33c3de07a7d7181160fba8466833d3c0a61f2ab47e7ebc3e78bf1292",
+    "src/pages/Index.tsx": "7e1dc26896d32ea6fd1820b5d2fe777655e1818777cc543470c4e41ae52d8476",
+    "src/styles/mindmake-home-vnext.css": "99bfc17c302fb476510452fc029268e85221c8cdcf43b133c9f921c095ac52ca",
+    "src/pages/Blog.tsx": "57ce6b5324df47a097b3c312de5e17e77fca5459cdcdb4ea9140a642ef5c71ea",
+    "src/pages/BlogPost.tsx": "56fedfd0f2926c85efd930c086ed860d42f8c9b55bba7ad40d53992a2844413b",
+    "src/pages/Answers.tsx": "d7810b2b53ac9ea06a096b1a9a2e6ae562f74d91ff6ba3bc469d65c0cd6896b8",
+    "src/pages/Answer.tsx": "753df5db91b369378a8156f945fcf8a6a919e017250eb67dd97da0007f8802cc",
+    "src/pages/Contact.tsx": "0ea4301eff7bc32700895661fcc2a4fcf33359d71b1c8b525bc7953d200642fb",
+    "src/components/mindmake/MindmakeShell.tsx": "0486c3784429f5a9c655fcc8fb9458664aa85a9f3b7ee251ce946ce2c218ff99",
+    "src/components/mindmake/LeadBrief.tsx": "abd2a8fad402d488808e17affd67717dee01ba5e283a4bc75ed80777d2e4a238",
+    "src/styles/mindmake.css": "a1a863259224a4bc4a6d55d110102b826f883192b673c9388305bb6d24e6d100",
+    "src/styles/mindmake-brief.css": "ca4be6985ee31cc0ff0a10aedce531097cdef3b0d7286c285d78d855737e4891",
+    "src/hooks/useLeadBriefHistory.ts": "6021893e7d2f4e3c809c0166b4574d0cbbc928ad679311766afb1fe479b9f39c",
+    "src/data/rebuildProof.ts": "9548e682692451df95104eeb15f36284a2b8d0d0d2a68ff3c7acf07a354d0432",
+    "src/data/testimonials.ts": "bac103bda330f30cf264b0c794ad4f0a19aea95893776d9e6ddf63e3acedc78e",
+    "src/App.tsx": "e6626ec61d48176592d1b7493f61c1f071f3e0e3573946568b9bc81ca1d781c6",
+    "src/entry-server.tsx": "d94343d639e940b9e3c85a66d342d51e031c6ff00b43862f6de885e0e982103e",
+    "scripts/qa/approved-route-lock-check.mjs": "1af75f338d8e1982a3117d70af8a754270b7b9aa940ff39a97aaf988462cb325",
+    "scripts/qa/approved-route-lock-self-test.mjs": "5a77a9d17bbb8a65ea3a6ac717f49e3502f1ce0e47e1c78233eeb97024a8ba87",
+    ".github/workflows/approved-route-lock.yml": "163b253b1289d447f629a5066062108aceefa79e6b249b39636423a9d9f412b6",
+    "scripts/qa/locked-material-production-check.mjs": "b021940985b52171064d8cfdb9f439c58b440f433de79f3882329559daeeb61d",
+    "scripts/qa/full-route-continuity-check.mjs": "876f2ff1fc36f70bc45dc164955084317c5d5a616e8b6f8a5564e93cd2aad62f",
+    "scripts/qa/plain-language-check.mjs": "639c62446bf7f3a01693ba1fc20e446e23ba8fbc8d17bc429e41da951fafd9a8"
+  },
+  "minimumContracts": {
+    "brain": {
+      "meanings": 20,
+      "relationships": 18,
+      "sources": 10,
+      "corrections": 3,
+      "states": ["memory", "proof", "correction", "living-record"],
+      "requiredInstruments": ["brain-object", "brain-field", "proof-machine", "correction-machine", "record-machine"]
+    },
+    "gtm": {
+      "signals": 5,
+      "responseChoices": 15,
+      "stages": ["Signal", "Response", "Customer test"],
+      "requiredInstruments": ["signal-deck", "response-selector", "outcome-grid", "test-slip"]
+    }
+  },
+  "forbiddenPhrases": ["keep the seat", "meter the work", "price the result"],
+  "verification": {
+    "ownerMaterialApproval": "All changed material surfaces were reviewed and explicitly approved in the governed recovery sequence.",
+    "routeContinuity": "243 checks passed across 13 routes and the required Chromium, WebKit and Firefox matrix.",
+    "newAgeLeadership": "The dedicated production gate passed nine Chromium viewports plus representative desktop, portrait and landscape WebKit and Firefox checks.",
+    "tests": "30 files and 496 tests passed.",
+    "noJavaScript": "Five governed pages and 21 article/answer pages passed from the complete prerendered production output.",
+    "productionAuthority": "not granted"
+  },
+  "authority": "The exact source set is approved for a scoped commit and immutable preview deployment. Merge, production deployment, publication and go-live remain separate authority gates."
+}

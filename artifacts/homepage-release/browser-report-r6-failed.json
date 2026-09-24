@@ -1,0 +1,1757 @@
+{
+  "at": "2026-09-24T12:46:51.138Z",
+  "origin": "http://127.0.0.1:4342",
+  "built": true,
+  "hashes": {
+    "src/pages/Index.tsx": "485a04421a98c852d3e8870e9ebf4d49f4d253efc179a10385060efe558a028f",
+    "src/components/homepage-release/markup.ts": "640dde43993f636790e4a71c7a322b10b180482d86f6ce90ef1dd569cb5cd4fe",
+    "src/components/homepage-release/runtime.js": "478daa2d0d346b1bd417c2fb39ef929ad83c322b9e61d9a69951ba845b9ba04c",
+    "src/components/homepage-release/component-styles.css": "0b514cc3fb6a68369a22865569557b40119506f2785fcf3bace34270a4a15409",
+    "src/components/homepage-release/page.css": "3f85787cdc8c72a2086eccf2b0966d729c7257739eb1ea006f903c64bab2775c",
+    "src/components/homepage-release/integration.css": "9b5198cd83fd02d81856a891170fc0b0329119e04ed3d7be4d259c4db91f415a",
+    "src/components/homepage-release/pinnedChapters.ts": "c713e17335f87a3f2b2309e28406bda4ea922f682d31201440571dbe30b267a0",
+    "src/components/homepage-release/pinnedChapters.css": "db2cd6db90db3a5cb14596525b5036bd01eff023a69c1ffae3e0e87e5ac235bb"
+  },
+  "cases": [
+    {
+      "label": "chromium-1440",
+      "chapter": "history",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "samples": [
+        {
+          "direction": "forward",
+          "index": 0,
+          "scrollY": 910,
+          "rect": {
+            "top": 6.632963180541992,
+            "height": 900,
+            "bottom": 906.632963180542
+          },
+          "visibleState": "If knowledge lives outside us, will memory grow weaker?",
+          "expected": "If knowledge lives outside us, will memory grow weaker?",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 1,
+          "scrollY": 1450,
+          "rect": {
+            "top": 3.40374755859375,
+            "height": 900.0000610351562,
+            "bottom": 903.40380859375
+          },
+          "visibleState": "If the machine can do the work, what happens to the worker?",
+          "expected": "If the machine can do the work, what happens to the worker?",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 2,
+          "scrollY": 1990,
+          "rect": {
+            "top": 1.05712890625,
+            "height": 900,
+            "bottom": 901.05712890625
+          },
+          "visibleState": "If the device does the arithmetic, will children stop learning to think?",
+          "expected": "If the device does the arithmetic, will children stop learning to think?",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 3,
+          "scrollY": 2530,
+          "rect": {
+            "top": 0.248779296875,
+            "height": 900,
+            "bottom": 900.248779296875
+          },
+          "visibleState": "If the device knows the route, will we lose our sense of direction?",
+          "expected": "If the device knows the route, will we lose our sense of direction?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 3,
+          "scrollY": 2530,
+          "rect": {
+            "top": 0.0521240234375,
+            "height": 900.0001220703125,
+            "bottom": 900.05224609375
+          },
+          "visibleState": "If the device knows the route, will we lose our sense of direction?",
+          "expected": "If the device knows the route, will we lose our sense of direction?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 2,
+          "scrollY": 1990,
+          "rect": {
+            "top": 0.0052490234375,
+            "height": 900,
+            "bottom": 900.0052490234375
+          },
+          "visibleState": "If the device does the arithmetic, will children stop learning to think?",
+          "expected": "If the device does the arithmetic, will children stop learning to think?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 1,
+          "scrollY": 1450,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "If the machine can do the work, what happens to the worker?",
+          "expected": "If the machine can do the work, what happens to the worker?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 0,
+          "scrollY": 910,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "If knowledge lives outside us, will memory grow weaker?",
+          "expected": "If knowledge lives outside us, will memory grow weaker?",
+          "matched": true
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 3160,
+        "rect": {
+          "top": -100,
+          "height": 900,
+          "bottom": 800
+        }
+      },
+      "exitBefore": {
+        "scrollY": 800,
+        "rect": {
+          "top": 100,
+          "height": 900,
+          "bottom": 1000
+        }
+      }
+    },
+    {
+      "label": "chromium-1440",
+      "chapter": "leadership-dividend",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "samples": [
+        {
+          "direction": "forward",
+          "index": 0,
+          "scrollY": 4870,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "It notices what changed.",
+          "expected": "It notices what changed.",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 1,
+          "scrollY": 5410,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "It joins the evidence.",
+          "expected": "It joins the evidence.",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 2,
+          "scrollY": 5950,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "It prepares the next move.",
+          "expected": "It prepares the next move.",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 3,
+          "scrollY": 6490,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "Leadership updates become consistent, even when the week was not.",
+          "expected": "Leadership updates become consistent, even when the week was not.",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 4,
+          "scrollY": 7030,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "What will you do with the hours it gives back?",
+          "expected": "What will you do with the hours it gives back?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 4,
+          "scrollY": 7030,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "What will you do with the hours it gives back?",
+          "expected": "What will you do with the hours it gives back?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 3,
+          "scrollY": 6490,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "Leadership updates become consistent, even when the week was not.",
+          "expected": "Leadership updates become consistent, even when the week was not.",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 2,
+          "scrollY": 5950,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "It prepares the next move.",
+          "expected": "It prepares the next move.",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 1,
+          "scrollY": 5410,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "It joins the evidence.",
+          "expected": "It joins the evidence.",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 0,
+          "scrollY": 4870,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "It notices what changed.",
+          "expected": "It notices what changed.",
+          "matched": true
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 7660,
+        "rect": {
+          "top": -100,
+          "height": 900,
+          "bottom": 800
+        }
+      },
+      "exitBefore": {
+        "scrollY": 4760,
+        "rect": {
+          "top": 100,
+          "height": 900,
+          "bottom": 1000
+        }
+      }
+    },
+    {
+      "label": "chromium-390",
+      "chapter": "history",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "samples": [
+        {
+          "direction": "forward",
+          "index": 0,
+          "scrollY": 854,
+          "rect": {
+            "top": 0.5059270858764648,
+            "height": 844,
+            "bottom": 844.5059270858765
+          },
+          "visibleState": "If knowledge lives outside us, will memory grow weaker?",
+          "expected": "If knowledge lives outside us, will memory grow weaker?",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 1,
+          "scrollY": 1360,
+          "rect": {
+            "top": 0.00128173828125,
+            "height": 843.9999389648438,
+            "bottom": 844.001220703125
+          },
+          "visibleState": "If the machine can do the work, what happens to the worker?",
+          "expected": "If the machine can do the work, what happens to the worker?",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 2,
+          "scrollY": 1866,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "If the device does the arithmetic, will children stop learning to think?",
+          "expected": "If the device does the arithmetic, will children stop learning to think?",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 3,
+          "scrollY": 2372,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "If the device knows the route, will we lose our sense of direction?",
+          "expected": "If the device knows the route, will we lose our sense of direction?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 3,
+          "scrollY": 2372,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "If the device knows the route, will we lose our sense of direction?",
+          "expected": "If the device knows the route, will we lose our sense of direction?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 2,
+          "scrollY": 1866,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "If the device does the arithmetic, will children stop learning to think?",
+          "expected": "If the device does the arithmetic, will children stop learning to think?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 1,
+          "scrollY": 1360,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "If the machine can do the work, what happens to the worker?",
+          "expected": "If the machine can do the work, what happens to the worker?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 0,
+          "scrollY": 854,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "If knowledge lives outside us, will memory grow weaker?",
+          "expected": "If knowledge lives outside us, will memory grow weaker?",
+          "matched": true
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 2968,
+        "rect": {
+          "top": -100,
+          "height": 844,
+          "bottom": 744
+        }
+      },
+      "exitBefore": {
+        "scrollY": 744,
+        "rect": {
+          "top": 100,
+          "height": 844,
+          "bottom": 944
+        }
+      }
+    },
+    {
+      "label": "chromium-390",
+      "chapter": "leadership-dividend",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "samples": [
+        {
+          "direction": "forward",
+          "index": 0,
+          "scrollY": 4566,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "It notices what changed.",
+          "expected": "It notices what changed.",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 1,
+          "scrollY": 5072,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "It joins the evidence.",
+          "expected": "It joins the evidence.",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 2,
+          "scrollY": 5578,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "It prepares the next move.",
+          "expected": "It prepares the next move.",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 3,
+          "scrollY": 6084,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "Leadership updates become consistent, even when the week was not.",
+          "expected": "Leadership updates become consistent, even when the week was not.",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 4,
+          "scrollY": 6590,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "What will you do with the hours it gives back?",
+          "expected": "What will you do with the hours it gives back?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 4,
+          "scrollY": 6590,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "What will you do with the hours it gives back?",
+          "expected": "What will you do with the hours it gives back?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 3,
+          "scrollY": 6084,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "Leadership updates become consistent, even when the week was not.",
+          "expected": "Leadership updates become consistent, even when the week was not.",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 2,
+          "scrollY": 5578,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "It prepares the next move.",
+          "expected": "It prepares the next move.",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 1,
+          "scrollY": 5072,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "It joins the evidence.",
+          "expected": "It joins the evidence.",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 0,
+          "scrollY": 4566,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "It notices what changed.",
+          "expected": "It notices what changed.",
+          "matched": true
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 7186,
+        "rect": {
+          "top": -100,
+          "height": 844,
+          "bottom": 744
+        }
+      },
+      "exitBefore": {
+        "scrollY": 4456,
+        "rect": {
+          "top": 100,
+          "height": 844,
+          "bottom": 944
+        }
+      }
+    },
+    {
+      "label": "firefox-1440",
+      "chapter": "history",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "samples": [
+        {
+          "direction": "forward",
+          "index": 0,
+          "scrollY": 910,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "If knowledge lives outside us, will memory grow weaker?",
+          "expected": "If knowledge lives outside us, will memory grow weaker?",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 1,
+          "scrollY": 1450,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "If the machine can do the work, what happens to the worker?",
+          "expected": "If the machine can do the work, what happens to the worker?",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 2,
+          "scrollY": 1990,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "If the device does the arithmetic, will children stop learning to think?",
+          "expected": "If the device does the arithmetic, will children stop learning to think?",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 3,
+          "scrollY": 2530,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "If the device knows the route, will we lose our sense of direction?",
+          "expected": "If the device knows the route, will we lose our sense of direction?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 3,
+          "scrollY": 2530,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "If the device knows the route, will we lose our sense of direction?",
+          "expected": "If the device knows the route, will we lose our sense of direction?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 2,
+          "scrollY": 1990,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "If the device does the arithmetic, will children stop learning to think?",
+          "expected": "If the device does the arithmetic, will children stop learning to think?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 1,
+          "scrollY": 1450,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "If the machine can do the work, what happens to the worker?",
+          "expected": "If the machine can do the work, what happens to the worker?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 0,
+          "scrollY": 910,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "If knowledge lives outside us, will memory grow weaker?",
+          "expected": "If knowledge lives outside us, will memory grow weaker?",
+          "matched": true
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 3160,
+        "rect": {
+          "top": -100,
+          "height": 900,
+          "bottom": 800
+        }
+      },
+      "exitBefore": {
+        "scrollY": 800,
+        "rect": {
+          "top": 100,
+          "height": 900,
+          "bottom": 1000
+        }
+      }
+    },
+    {
+      "label": "firefox-1440",
+      "chapter": "leadership-dividend",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "samples": [
+        {
+          "direction": "forward",
+          "index": 0,
+          "scrollY": 4870,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "It notices what changed.",
+          "expected": "It notices what changed.",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 1,
+          "scrollY": 5410,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "It joins the evidence.",
+          "expected": "It joins the evidence.",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 2,
+          "scrollY": 5950,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "It prepares the next move.",
+          "expected": "It prepares the next move.",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 3,
+          "scrollY": 6490,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "Leadership updates become consistent, even when the week was not.",
+          "expected": "Leadership updates become consistent, even when the week was not.",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 4,
+          "scrollY": 7030,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "What will you do with the hours it gives back?",
+          "expected": "What will you do with the hours it gives back?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 4,
+          "scrollY": 7030,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "What will you do with the hours it gives back?",
+          "expected": "What will you do with the hours it gives back?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 3,
+          "scrollY": 6490,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "Leadership updates become consistent, even when the week was not.",
+          "expected": "Leadership updates become consistent, even when the week was not.",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 2,
+          "scrollY": 5950,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "It prepares the next move.",
+          "expected": "It prepares the next move.",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 1,
+          "scrollY": 5410,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "It joins the evidence.",
+          "expected": "It joins the evidence.",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 0,
+          "scrollY": 4870,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "It notices what changed.",
+          "expected": "It notices what changed.",
+          "matched": true
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 7660,
+        "rect": {
+          "top": -100,
+          "height": 900,
+          "bottom": 800
+        }
+      },
+      "exitBefore": {
+        "scrollY": 4760,
+        "rect": {
+          "top": 100,
+          "height": 900,
+          "bottom": 1000
+        }
+      }
+    },
+    {
+      "label": "firefox-390",
+      "chapter": "history",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "samples": [
+        {
+          "direction": "forward",
+          "index": 0,
+          "scrollY": 854,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "If knowledge lives outside us, will memory grow weaker?",
+          "expected": "If knowledge lives outside us, will memory grow weaker?",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 1,
+          "scrollY": 1360,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "If the machine can do the work, what happens to the worker?",
+          "expected": "If the machine can do the work, what happens to the worker?",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 2,
+          "scrollY": 1866,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "If the device does the arithmetic, will children stop learning to think?",
+          "expected": "If the device does the arithmetic, will children stop learning to think?",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 3,
+          "scrollY": 2372,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "If the device knows the route, will we lose our sense of direction?",
+          "expected": "If the device knows the route, will we lose our sense of direction?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 3,
+          "scrollY": 2372,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "If the device knows the route, will we lose our sense of direction?",
+          "expected": "If the device knows the route, will we lose our sense of direction?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 2,
+          "scrollY": 1866,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "If the device does the arithmetic, will children stop learning to think?",
+          "expected": "If the device does the arithmetic, will children stop learning to think?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 1,
+          "scrollY": 1360,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "If the machine can do the work, what happens to the worker?",
+          "expected": "If the machine can do the work, what happens to the worker?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 0,
+          "scrollY": 854,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "If knowledge lives outside us, will memory grow weaker?",
+          "expected": "If knowledge lives outside us, will memory grow weaker?",
+          "matched": true
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 2968,
+        "rect": {
+          "top": -100,
+          "height": 844,
+          "bottom": 744
+        }
+      },
+      "exitBefore": {
+        "scrollY": 744,
+        "rect": {
+          "top": 100,
+          "height": 844,
+          "bottom": 944
+        }
+      }
+    },
+    {
+      "label": "firefox-390",
+      "chapter": "leadership-dividend",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "samples": [
+        {
+          "direction": "forward",
+          "index": 0,
+          "scrollY": 4566,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "It notices what changed.",
+          "expected": "It notices what changed.",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 1,
+          "scrollY": 5072,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "It joins the evidence.",
+          "expected": "It joins the evidence.",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 2,
+          "scrollY": 5578,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "It prepares the next move.",
+          "expected": "It prepares the next move.",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 3,
+          "scrollY": 6084,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "Leadership updates become consistent, even when the week was not.",
+          "expected": "Leadership updates become consistent, even when the week was not.",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 4,
+          "scrollY": 6590,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "What will you do with the hours it gives back?",
+          "expected": "What will you do with the hours it gives back?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 4,
+          "scrollY": 6590,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "What will you do with the hours it gives back?",
+          "expected": "What will you do with the hours it gives back?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 3,
+          "scrollY": 6084,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "Leadership updates become consistent, even when the week was not.",
+          "expected": "Leadership updates become consistent, even when the week was not.",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 2,
+          "scrollY": 5578,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "It prepares the next move.",
+          "expected": "It prepares the next move.",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 1,
+          "scrollY": 5072,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "It joins the evidence.",
+          "expected": "It joins the evidence.",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 0,
+          "scrollY": 4566,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "It notices what changed.",
+          "expected": "It notices what changed.",
+          "matched": true
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 7186,
+        "rect": {
+          "top": -100,
+          "height": 844,
+          "bottom": 744
+        }
+      },
+      "exitBefore": {
+        "scrollY": 4456,
+        "rect": {
+          "top": 100,
+          "height": 844,
+          "bottom": 944
+        }
+      }
+    },
+    {
+      "label": "webkit-1440",
+      "chapter": "history",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "samples": [
+        {
+          "direction": "forward",
+          "index": 0,
+          "scrollY": 910,
+          "rect": {
+            "top": 0.7593994140625,
+            "height": 900,
+            "bottom": 900.7593994140625
+          },
+          "visibleState": "If knowledge lives outside us, will memory grow weaker?",
+          "expected": "If knowledge lives outside us, will memory grow weaker?",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 1,
+          "scrollY": 1450,
+          "rect": {
+            "top": 0.1697998046875,
+            "height": 900.0001220703125,
+            "bottom": 900.169921875
+          },
+          "visibleState": "If the machine can do the work, what happens to the worker?",
+          "expected": "If the machine can do the work, what happens to the worker?",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 2,
+          "scrollY": 1990,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "If the device does the arithmetic, will children stop learning to think?",
+          "expected": "If the device does the arithmetic, will children stop learning to think?",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 3,
+          "scrollY": 2530,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "If the device knows the route, will we lose our sense of direction?",
+          "expected": "If the device knows the route, will we lose our sense of direction?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 3,
+          "scrollY": 2530,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "If the device knows the route, will we lose our sense of direction?",
+          "expected": "If the device knows the route, will we lose our sense of direction?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 2,
+          "scrollY": 1990,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "If the device does the arithmetic, will children stop learning to think?",
+          "expected": "If the device does the arithmetic, will children stop learning to think?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 1,
+          "scrollY": 1450,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "If the machine can do the work, what happens to the worker?",
+          "expected": "If the machine can do the work, what happens to the worker?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 0,
+          "scrollY": 910,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "If knowledge lives outside us, will memory grow weaker?",
+          "expected": "If knowledge lives outside us, will memory grow weaker?",
+          "matched": true
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 3160,
+        "rect": {
+          "top": -100,
+          "height": 900,
+          "bottom": 800
+        }
+      },
+      "exitBefore": {
+        "scrollY": 800,
+        "rect": {
+          "top": 100,
+          "height": 900,
+          "bottom": 1000
+        }
+      }
+    },
+    {
+      "label": "webkit-1440",
+      "chapter": "leadership-dividend",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "samples": [
+        {
+          "direction": "forward",
+          "index": 0,
+          "scrollY": 4870,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "It notices what changed.",
+          "expected": "It notices what changed.",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 1,
+          "scrollY": 5410,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "It joins the evidence.",
+          "expected": "It joins the evidence.",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 2,
+          "scrollY": 5950,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "It prepares the next move.",
+          "expected": "It prepares the next move.",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 3,
+          "scrollY": 6490,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "Leadership updates become consistent, even when the week was not.",
+          "expected": "Leadership updates become consistent, even when the week was not.",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 4,
+          "scrollY": 7030,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "What will you do with the hours it gives back?",
+          "expected": "What will you do with the hours it gives back?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 4,
+          "scrollY": 7030,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "What will you do with the hours it gives back?",
+          "expected": "What will you do with the hours it gives back?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 3,
+          "scrollY": 6490,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "Leadership updates become consistent, even when the week was not.",
+          "expected": "Leadership updates become consistent, even when the week was not.",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 2,
+          "scrollY": 5950,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "It prepares the next move.",
+          "expected": "It prepares the next move.",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 1,
+          "scrollY": 5410,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "It joins the evidence.",
+          "expected": "It joins the evidence.",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 0,
+          "scrollY": 4870,
+          "rect": {
+            "top": 0,
+            "height": 900,
+            "bottom": 900
+          },
+          "visibleState": "It notices what changed.",
+          "expected": "It notices what changed.",
+          "matched": true
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 7660,
+        "rect": {
+          "top": -100,
+          "height": 900,
+          "bottom": 800
+        }
+      },
+      "exitBefore": {
+        "scrollY": 4754,
+        "rect": {
+          "top": 106,
+          "height": 900,
+          "bottom": 1006
+        }
+      }
+    },
+    {
+      "label": "webkit-390",
+      "chapter": "history",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "samples": [
+        {
+          "direction": "forward",
+          "index": 0,
+          "scrollY": 854,
+          "rect": {
+            "top": 2.52301025390625,
+            "height": 843.9999389648438,
+            "bottom": 846.52294921875
+          },
+          "visibleState": "If knowledge lives outside us, will memory grow weaker?",
+          "expected": "If knowledge lives outside us, will memory grow weaker?",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 1,
+          "scrollY": 1360,
+          "rect": {
+            "top": 0.733154296875,
+            "height": 844,
+            "bottom": 844.733154296875
+          },
+          "visibleState": "If the machine can do the work, what happens to the worker?",
+          "expected": "If the machine can do the work, what happens to the worker?",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 2,
+          "scrollY": 1866,
+          "rect": {
+            "top": 0.18896484375,
+            "height": 844,
+            "bottom": 844.18896484375
+          },
+          "visibleState": "If the device does the arithmetic, will children stop learning to think?",
+          "expected": "If the device does the arithmetic, will children stop learning to think?",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 3,
+          "scrollY": 2372,
+          "rect": {
+            "top": 0.0087890625,
+            "height": 844,
+            "bottom": 844.0087890625
+          },
+          "visibleState": "If the device knows the route, will we lose our sense of direction?",
+          "expected": "If the device knows the route, will we lose our sense of direction?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 3,
+          "scrollY": 2372,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "If the device knows the route, will we lose our sense of direction?",
+          "expected": "If the device knows the route, will we lose our sense of direction?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 2,
+          "scrollY": 1866,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "If the device does the arithmetic, will children stop learning to think?",
+          "expected": "If the device does the arithmetic, will children stop learning to think?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 1,
+          "scrollY": 1360,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "If the machine can do the work, what happens to the worker?",
+          "expected": "If the machine can do the work, what happens to the worker?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 0,
+          "scrollY": 854,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "If knowledge lives outside us, will memory grow weaker?",
+          "expected": "If knowledge lives outside us, will memory grow weaker?",
+          "matched": true
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 2968,
+        "rect": {
+          "top": -100,
+          "height": 844,
+          "bottom": 744
+        }
+      },
+      "exitBefore": {
+        "scrollY": 744,
+        "rect": {
+          "top": 100,
+          "height": 844,
+          "bottom": 944
+        }
+      }
+    },
+    {
+      "label": "webkit-390",
+      "chapter": "leadership-dividend",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "samples": [
+        {
+          "direction": "forward",
+          "index": 0,
+          "scrollY": 4566,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "It notices what changed.",
+          "expected": "It notices what changed.",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 1,
+          "scrollY": 5072,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "It joins the evidence.",
+          "expected": "It joins the evidence.",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 2,
+          "scrollY": 5578,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "It prepares the next move.",
+          "expected": "It prepares the next move.",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 3,
+          "scrollY": 6084,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "Leadership updates become consistent, even when the week was not.",
+          "expected": "Leadership updates become consistent, even when the week was not.",
+          "matched": true
+        },
+        {
+          "direction": "forward",
+          "index": 4,
+          "scrollY": 6590,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "What will you do with the hours it gives back?",
+          "expected": "What will you do with the hours it gives back?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 4,
+          "scrollY": 6590,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "What will you do with the hours it gives back?",
+          "expected": "What will you do with the hours it gives back?",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 3,
+          "scrollY": 6084,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "Leadership updates become consistent, even when the week was not.",
+          "expected": "Leadership updates become consistent, even when the week was not.",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 2,
+          "scrollY": 5578,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "It prepares the next move.",
+          "expected": "It prepares the next move.",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 1,
+          "scrollY": 5072,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "It joins the evidence.",
+          "expected": "It joins the evidence.",
+          "matched": true
+        },
+        {
+          "direction": "reverse",
+          "index": 0,
+          "scrollY": 4566,
+          "rect": {
+            "top": 0,
+            "height": 844,
+            "bottom": 844
+          },
+          "visibleState": "It notices what changed.",
+          "expected": "It notices what changed.",
+          "matched": true
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 7186,
+        "rect": {
+          "top": -100,
+          "height": 844,
+          "bottom": 744
+        }
+      },
+      "exitBefore": {
+        "scrollY": 4454,
+        "rect": {
+          "top": 104,
+          "height": 844,
+          "bottom": 948
+        }
+      }
+    }
+  ],
+  "screenshots": [
+    "chromium-1440-history.png",
+    "chromium-1440-leadership-dividend.png",
+    "chromium-390-history.png",
+    "chromium-390-leadership-dividend.png",
+    "firefox-1440-history.png",
+    "firefox-1440-leadership-dividend.png",
+    "firefox-390-history.png",
+    "firefox-390-leadership-dividend.png",
+    "webkit-1440-history.png",
+    "webkit-1440-leadership-dividend.png",
+    "webkit-390-history.png",
+    "webkit-390-leadership-dividend.png"
+  ],
+  "failures": [
+    "chromium-1440/history/forward/0: stays pinned (top 6.632963180541992)",
+    "chromium-1440/history/0: fits viewport",
+    "chromium-1440/history/forward/1: stays pinned (top 3.40374755859375)",
+    "chromium-1440/history/1: fits viewport",
+    "chromium-1440x900-history: forward stage escaped pin at 0",
+    "chromium-1440x900-history: forward stage escaped pin at 1",
+    "webkit-390x844-history: forward stage escaped pin at 0"
+  ],
+  "candidateDigest": "f17f87744aab4050f9ba8f6bfc4b758d5c7df41d8e63b5b4eee0468967084c1c"
+}

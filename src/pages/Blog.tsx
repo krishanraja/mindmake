@@ -6,6 +6,7 @@ import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
 import { BlogPostCard, categoryLabels } from "@/components/BlogPostCard";
+import { CommercialDecisionBalance } from "@/components/mindmake/locked/CommercialDecisionBalance";
 import "@/styles/mindmake.css";
 
 const Blog = () => {
@@ -56,7 +57,7 @@ const Blog = () => {
               type="search"
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.target.value)}
-              placeholder="Try pricing, judgement or vendors"
+              placeholder="Pricing, judgement, AI"
             />
           </label>
           <div className="mm-blog-filters" aria-label="Filter by subject">
@@ -98,12 +99,9 @@ const Blog = () => {
           )}
         </div>
 
-        <aside className="mm-container mm-blog-continuation" aria-labelledby="blog-next-title">
-          <h2 id="blog-next-title">Turn one useful idea into a clearer starting point.</h2>
-          <p>Mindmake reads the company first. You see the likely problem and a useful first move before choosing whether to keep the private brief.</p>
-          <button className="mm-button" type="button" onClick={() => setBriefOpen(true)}>Start here <ArrowRight aria-hidden="true" /></button>
-        </aside>
       </section>
+
+      <CommercialDecisionBalance context="editorial" onStart={() => setBriefOpen(true)} />
 
       <LeadBrief open={briefOpen} onClose={() => setBriefOpen(false)} />
     </MindmakeShell>

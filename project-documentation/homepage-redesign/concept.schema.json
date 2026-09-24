@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mindmake.co/schemas/homepage-concept-v1.json",
+  "title": "Mindmake homepage concept",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "candidateId",
+    "title",
+    "governingMetaphor",
+    "oneSentenceExperience",
+    "sequencing",
+    "userAgency",
+    "primaryInteraction",
+    "informationStructure",
+    "stateModel",
+    "mobileAdaptation",
+    "proofModel",
+    "routeStart",
+    "motionRole",
+    "feasibility",
+    "risks"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "candidateId": { "type": "string", "pattern": "^candidate_[a-f]$" },
+    "title": { "type": "string", "minLength": 3, "maxLength": 80 },
+    "governingMetaphor": { "type": "string", "minLength": 20, "maxLength": 400 },
+    "oneSentenceExperience": { "type": "string", "minLength": 20, "maxLength": 300 },
+    "sequencing": { "type": "array", "minItems": 3, "maxItems": 7, "items": { "type": "string", "minLength": 10, "maxLength": 300 } },
+    "userAgency": { "type": "string", "minLength": 20, "maxLength": 400 },
+    "primaryInteraction": { "type": "string", "minLength": 20, "maxLength": 600 },
+    "informationStructure": { "type": "string", "minLength": 20, "maxLength": 600 },
+    "stateModel": { "type": "array", "minItems": 3, "maxItems": 8, "items": { "type": "string", "minLength": 8, "maxLength": 300 } },
+    "mobileAdaptation": { "type": "string", "minLength": 20, "maxLength": 600 },
+    "proofModel": { "type": "string", "minLength": 20, "maxLength": 500 },
+    "routeStart": { "type": "string", "minLength": 20, "maxLength": 500 },
+    "motionRole": { "type": "string", "minLength": 20, "maxLength": 500 },
+    "feasibility": { "type": "array", "minItems": 2, "maxItems": 8, "items": { "type": "string", "minLength": 8, "maxLength": 300 } },
+    "risks": { "type": "array", "minItems": 2, "maxItems": 6, "items": { "type": "string", "minLength": 8, "maxLength": 300 } }
+  }
+}

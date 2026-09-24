@@ -36,8 +36,10 @@
          Outside React on purpose: a class on <html> set before first paint is
          nothing the two trees can disagree about. No script means no class,
          and no class means nothing hidden and no curtain, which is the same
-         guarantee the reveal primitive makes. Reduced motion and a deep link
-         take the same path. `fonts.load()` in the first frame rather than
+         guarantee the reveal primitive makes. The compact homepage, reduced
+         motion and a deep link take the same immediate path. Its film and two
+         route controls are the opening event, so putting another event in front
+         of them only delays the answer. `fonts.load()` in the first frame rather than
          `fonts.ready` here, because a ready promise taken before the
          stylesheet exists is a promise about a set with no faces in it.
          CURTAIN is the one switch: false keeps the type arrival alone.
@@ -53,7 +55,7 @@
       (function(){try{
         var CURTAIN=true;
         var d=document,h=d.documentElement;
-        if(!d.fonts||!d.fonts.load||location.hash)return;
+        if(!d.fonts||!d.fonts.load||location.pathname==="/"||location.hash)return;
         if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
         h.classList.add("mm-pending");if(CURTAIN)h.classList.add("mm-covered");performance.mark("mm-pending");
         var done=false,go=function(){

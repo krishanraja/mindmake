@@ -72,6 +72,7 @@ export function useLeadBriefHistory() {
 
   return {
     briefOpen,
+    briefJourneyKey: briefOpen ? location.key : null,
     /** Which door, so the dialog offers that door's own four pressures. */
     briefRoute,
     openBrief: useCallback((route: BriefRoute = "home") => setBriefOpen(true, route), [setBriefOpen]),

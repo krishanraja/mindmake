@@ -1,0 +1,169 @@
+{
+  "candidateDigest": "c1095835ee300a53b7178cb5e874a00d62918a63708a438bda0a0369e98c6071",
+  "acceptedDecision": "quality/website-redesign/homepage-handoff.v1.json",
+  "acceptedDecisionDigest": "876e95cb3df0f9ea51c9f544abd2339d644ce44bdedb40626e7caf0e3fc08292",
+  "cases": [
+    {
+      "id": "chromium-1440x900-history",
+      "route": "/",
+      "viewport": "1440x900",
+      "states": [
+        "If knowledge lives outside us, will memory grow weaker?",
+        "If the machine can do the work, what happens to the worker?",
+        "If the device does the arithmetic, will children stop learning to think?",
+        "If the device knows the route, will we lose our sense of direction?"
+      ],
+      "pinTop": 0,
+      "tolerance": 2
+    },
+    {
+      "id": "chromium-1440x900-leadership-dividend",
+      "route": "/",
+      "viewport": "1440x900",
+      "states": [
+        "It notices what changed.",
+        "It joins the evidence.",
+        "It prepares the next move.",
+        "Leadership updates become consistent, even when the week was not.",
+        "What will you do with the hours it gives back?"
+      ],
+      "pinTop": 0,
+      "tolerance": 2
+    },
+    {
+      "id": "chromium-390x844-history",
+      "route": "/",
+      "viewport": "390x844",
+      "states": [
+        "If knowledge lives outside us, will memory grow weaker?",
+        "If the machine can do the work, what happens to the worker?",
+        "If the device does the arithmetic, will children stop learning to think?",
+        "If the device knows the route, will we lose our sense of direction?"
+      ],
+      "pinTop": 0,
+      "tolerance": 2
+    },
+    {
+      "id": "chromium-390x844-leadership-dividend",
+      "route": "/",
+      "viewport": "390x844",
+      "states": [
+        "It notices what changed.",
+        "It joins the evidence.",
+        "It prepares the next move.",
+        "Leadership updates become consistent, even when the week was not.",
+        "What will you do with the hours it gives back?"
+      ],
+      "pinTop": 0,
+      "tolerance": 2
+    },
+    {
+      "id": "firefox-1440x900-history",
+      "route": "/",
+      "viewport": "1440x900",
+      "states": [
+        "If knowledge lives outside us, will memory grow weaker?",
+        "If the machine can do the work, what happens to the worker?",
+        "If the device does the arithmetic, will children stop learning to think?",
+        "If the device knows the route, will we lose our sense of direction?"
+      ],
+      "pinTop": 0,
+      "tolerance": 2
+    },
+    {
+      "id": "firefox-1440x900-leadership-dividend",
+      "route": "/",
+      "viewport": "1440x900",
+      "states": [
+        "It notices what changed.",
+        "It joins the evidence.",
+        "It prepares the next move.",
+        "Leadership updates become consistent, even when the week was not.",
+        "What will you do with the hours it gives back?"
+      ],
+      "pinTop": 0,
+      "tolerance": 2
+    },
+    {
+      "id": "firefox-390x844-history",
+      "route": "/",
+      "viewport": "390x844",
+      "states": [
+        "If knowledge lives outside us, will memory grow weaker?",
+        "If the machine can do the work, what happens to the worker?",
+        "If the device does the arithmetic, will children stop learning to think?",
+        "If the device knows the route, will we lose our sense of direction?"
+      ],
+      "pinTop": 0,
+      "tolerance": 2
+    },
+    {
+      "id": "firefox-390x844-leadership-dividend",
+      "route": "/",
+      "viewport": "390x844",
+      "states": [
+        "It notices what changed.",
+        "It joins the evidence.",
+        "It prepares the next move.",
+        "Leadership updates become consistent, even when the week was not.",
+        "What will you do with the hours it gives back?"
+      ],
+      "pinTop": 0,
+      "tolerance": 2
+    },
+    {
+      "id": "webkit-1440x900-history",
+      "route": "/",
+      "viewport": "1440x900",
+      "states": [
+        "If knowledge lives outside us, will memory grow weaker?",
+        "If the machine can do the work, what happens to the worker?",
+        "If the device does the arithmetic, will children stop learning to think?",
+        "If the device knows the route, will we lose our sense of direction?"
+      ],
+      "pinTop": 0,
+      "tolerance": 2
+    },
+    {
+      "id": "webkit-1440x900-leadership-dividend",
+      "route": "/",
+      "viewport": "1440x900",
+      "states": [
+        "It notices what changed.",
+        "It joins the evidence.",
+        "It prepares the next move.",
+        "Leadership updates become consistent, even when the week was not.",
+        "What will you do with the hours it gives back?"
+      ],
+      "pinTop": 0,
+      "tolerance": 2
+    },
+    {
+      "id": "webkit-390x844-history",
+      "route": "/",
+      "viewport": "390x844",
+      "states": [
+        "If knowledge lives outside us, will memory grow weaker?",
+        "If the machine can do the work, what happens to the worker?",
+        "If the device does the arithmetic, will children stop learning to think?",
+        "If the device knows the route, will we lose our sense of direction?"
+      ],
+      "pinTop": 0,
+      "tolerance": 2
+    },
+    {
+      "id": "webkit-390x844-leadership-dividend",
+      "route": "/",
+      "viewport": "390x844",
+      "states": [
+        "It notices what changed.",
+        "It joins the evidence.",
+        "It prepares the next move.",
+        "Leadership updates become consistent, even when the week was not.",
+        "What will you do with the hours it gives back?"
+      ],
+      "pinTop": 0,
+      "tolerance": 2
+    }
+  ]
+}

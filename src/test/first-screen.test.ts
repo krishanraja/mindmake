@@ -173,7 +173,7 @@ describe("the first screen's own files, asked for before the stylesheet", () => 
     const regex = new RegExp(source.slice(1, source.lastIndexOf("/")), source.slice(source.lastIndexOf("/") + 1));
     const match = serverRender("/").match(regex);
     expect(match, "the homepage render carries a priority poster the pattern finds").not.toBeNull();
-    expect(match![1]).toMatch(/\.webp$/);
+    expect(match![1] || match![2]).toMatch(/\.webp$/);
   });
 
   it("writes the mark and the wordmark into the page as vectors, with nothing to fetch", () => {
@@ -249,8 +249,9 @@ describe("the entrance, held in the head and released once", () => {
     expect(script).toContain('performance.mark("mm-arrived")');
   });
 
-  it("stands down for reduced motion and for a deep link", () => {
+  it("stands down for the compact homepage, reduced motion and a deep link", () => {
     expect(script).toContain("prefers-reduced-motion: reduce");
+    expect(script).toContain('location.pathname==="/"');
     expect(script).toContain("location.hash");
   });
 

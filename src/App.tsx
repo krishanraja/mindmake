@@ -19,8 +19,8 @@ const Questions = lazy(() => import("./pages/Library"));
 const Answers = lazy(() => import("./pages/Answers"));
 const AnswerPage = lazy(() => import("./pages/Answer"));
 const Alumni = lazy(() => import("./pages/Alumni"));
-const AiBrain = lazy(() => import("./pages/AiBrain"));
-const AiGtm = lazy(() => import("./pages/AiGtm"));
+const AiBrain = lazy(() => import("./pages/AiBrainLocked"));
+const AiGtm = lazy(() => import("./pages/AiGtmLocked"));
 
 const queryClient = new QueryClient();
 
@@ -33,6 +33,9 @@ export function ScrollToLocation() {
       let frame = 0;
       let attempts = 0;
       const focusPageTitle = () => {
+        // Do not steal focus from a visitor who has already opened the menu or
+        // moved to another control while a lazy route is still mounting.
+        if (document.activeElement && document.activeElement !== document.body) return;
         const title = document.querySelector<HTMLElement>("#main h1, main h1");
         if (title) {
           title.tabIndex = -1;
@@ -55,15 +58,22 @@ export function ScrollToLocation() {
       if (target) {
         const headerBottom = document.querySelector<HTMLElement>(".mm-header")
           ?.getBoundingClientRect().bottom ?? 0;
+        const declaredMargin = Number.parseFloat(window.getComputedStyle(target).scrollMarginTop);
+        const usableMargin = Number.isFinite(declaredMargin) && declaredMargin > 0
+          ? declaredMargin
+          : headerBottom + 16;
         const targetTop = window.scrollY + target.getBoundingClientRect().top;
-        window.scrollTo({ top: Math.max(0, targetTop - headerBottom - 16), behavior: "auto" });
+        window.scrollTo({ top: Math.max(0, targetTop - usableMargin), behavior: "auto" });
         target.tabIndex = -1;
         target.focus({ preventScroll: true });
         return;
       }
 
       attempts += 1;
-      if (attempts < 10) frame = window.requestAnimationFrame(findTarget);
+      // Lazy route chunks can take longer than ten frames to mount on slower
+      // engines and devices. Keep the hash contract alive for four seconds so
+      // the target is positioned once it actually exists.
+      if (attempts < 240) frame = window.requestAnimationFrame(findTarget);
     };
 
     frame = window.requestAnimationFrame(findTarget);

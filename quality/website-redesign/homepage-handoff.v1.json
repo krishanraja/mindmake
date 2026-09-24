@@ -1,0 +1,332 @@
+{
+  "schemaVersion": 1,
+  "artifact": "mindmake-homepage-handoff-v1",
+  "status": "handoff-baseline-not-production-candidate",
+  "purpose": "Preserve the exact accepted homepage component sources, owner-submitted decisions, corrections, unresolved work and review gates so another agent can continue without reconstructing intent from chat history.",
+  "authority": {
+    "owner": "Krish Raja",
+    "recordedAt": "2026-09-24",
+    "grants": "Reconstruct one integrated homepage candidate faithfully from these locked sources and decisions.",
+    "doesNotGrant": [
+      "reinterpretation of accepted component decisions",
+      "production approval",
+      "deployment",
+      "publication",
+      "replacement of unresolved feedback with agent judgement"
+    ]
+  },
+  "integrity": {
+    "algorithm": "sha256-path-nul-file-sha256-ordinal-v1",
+    "trees": [
+      {
+        "path": "prototypes/website-redesign-recovery/component-selection",
+        "sha256": "3fb6f776f8eb7d0fc18fc414a309d30dce2c211da4f85f03473a311debf564e4",
+        "role": "accepted source components and decision consoles"
+      },
+      {
+        "path": "prototypes/website-redesign-recovery/homepage-production-synthesis-r1",
+        "sha256": "83b70195c414d51d6e5745ec8bb27e6892ea562359ace880bbf407bc0d2b6386",
+        "role": "rejected synthesis retained as negative evidence"
+      },
+      {
+        "path": "prototypes/website-redesign-recovery/homepage-production-synthesis-r2",
+        "sha256": "9e82aa50cd9c3852d555229e05f7cf48816f2464424fccd81a67b1721a005701",
+        "role": "component-fidelity reference only"
+      }
+    ],
+    "files": [
+      {
+        "path": "quality/website-redesign/homepage-selection.manifest.json",
+        "sha256": "c7d9e6510050330bf16c3bd9fce6b0e530e0478e7360ab1162f9b6908e9559cf"
+      },
+      {
+        "path": "scripts/qa/homepage-synthesis-parity-check.mjs",
+        "sha256": "e3bf7a915f87341e7ec61a8444d08b90532112623020d10f6c9d9808c5ca8a48"
+      }
+    ]
+  },
+  "sourceOfTruth": {
+    "componentManifest": "quality/website-redesign/homepage-selection.manifest.json",
+    "feedbackLedger": "project-documentation/website-redesign/feedback-ledger.json",
+    "continuityContract": "quality/website-redesign/continuity-contract.v1.json",
+    "experienceProfile": "quality/website-redesign/experience-quality.profile.json",
+    "materialReviewManifest": "quality/website-redesign/material-review-candidate.json",
+    "handoffGuide": "project-documentation/website-redesign/STATE.md"
+  },
+  "globalLocks": {
+    "alignment": "The left edge of the logo aligns with the left edge of the hero text on every device.",
+    "minimalism": "Do not add duplicative eyebrow copy or backup-singer instructions. If the visual hierarchy needs explanatory helper text, repair the hierarchy.",
+    "logo": "Use the working Mindmake mark and wordmark assets. A broken image state is never an option.",
+    "viewport": "Primary content and controls must fit the intended desktop and mobile viewport without hiding beneath browser, operating-system or fixed site chrome.",
+    "mobile": "Mobile is a purpose-built composition, not a compressed desktop page or an excessively long sequence of low-information panels.",
+    "integration": "The next material candidate is one DOM and one scroll context. Iframes are prohibited in the final integration.",
+    "motion": "Preserve accepted page-level scroll reveals and section choreography, with reduced-motion behavior. Do not replace them with disconnected embedded components.",
+    "copy": "Use the locked copy below verbatim unless Krish explicitly changes it.",
+    "labels": "Important navigation, state and ownership labels remain legible. Do not use tiny text for load-bearing meaning.",
+    "overlap": "Text, custom icons, controls and section seams must never overlap at any governed viewport."
+  },
+  "decisions": {
+    "shellAlignment": {
+      "source": "prototypes/website-redesign-recovery/component-selection/logo-alignment/alignment-lock.html",
+      "status": "accepted",
+      "selection": "logo-left-equals-hero-left",
+      "note": "The static alignment proof establishes geometry only. Its old route label is not approved copy."
+    },
+    "masthead": {
+      "source": "prototypes/website-redesign-recovery/component-selection/masthead-configurator/index.html",
+      "status": "owner-submitted",
+      "selection": {
+        "desktopLogo": 146,
+        "mobileLogo": 128,
+        "desktopHeight": 66,
+        "mobileHeight": 64,
+        "centreContext": "none",
+        "menu": "word-lines",
+        "ground": "glass",
+        "bottomRule": "hairline",
+        "behaviour": "fixed"
+      },
+      "comment": "none"
+    },
+    "navigation": {
+      "source": "prototypes/website-redesign-recovery/component-selection/navigation-overlay-configurator/index.html",
+      "status": "owner-submitted",
+      "selection": {
+        "structureDesktop": "index",
+        "structureMobile": "list",
+        "scaleDesktop": "balanced",
+        "scaleMobile": "balanced",
+        "densityDesktop": "balanced",
+        "densityMobile": "balanced",
+        "order": "build",
+        "secondary": "footer",
+        "active": "rule",
+        "action": "bar",
+        "ground": "solid",
+        "entrance": "stepped"
+      },
+      "comment": "none"
+    },
+    "opening": {
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-opening-configurator/index.html",
+      "status": "owner-submitted",
+      "selection": {
+        "compositionDesktop": "editorial",
+        "compositionMobile": "overlay",
+        "titleDesktop": "balanced",
+        "titleMobile": "balanced",
+        "measureDesktop": "balanced",
+        "measureMobile": "balanced",
+        "positionDesktop": "middle",
+        "positionMobile": "high",
+        "cropDesktop": "center",
+        "cropMobile": "right",
+        "contrast": "cinema",
+        "lede": "show",
+        "doors": "paired",
+        "proof": "show",
+        "reveal": "staged"
+      }
+    },
+    "history": {
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-history-configurator/index-r3.html",
+      "status": "owner-submitted-with-correction-accepted",
+      "selection": {
+        "desktopComposition": "editorial",
+        "mobileComposition": "integrated",
+        "desktopCopyPosition": "left",
+        "desktopHeadlineScale": "balanced",
+        "mobileHeadlineScale": "balanced",
+        "controlTreatment": "era",
+        "storyTransition": "dissolve",
+        "bridgeTreatment": "contrast"
+      },
+      "copy": {
+        "bridgeHeadline": "You are not the first person to wonder what a new tool might take from you.",
+        "bridgeLine": "We have been asking that question for centuries.",
+        "outcomeLabel": "What changed",
+        "closingHinge": "The feeling is familiar. The reach is new.",
+        "questionWriting": "If knowledge lives outside us, will memory grow weaker?",
+        "questionLoom": "If the machine can do the work, what happens to the worker?",
+        "questionCalculator": "If the device does the arithmetic, will children stop learning to think?",
+        "questionSatnav": "If the device knows the route, will we lose our sense of direction?",
+        "outcomeWriting": "Ideas could travel beyond one voice and survive their maker. We changed what memory was for.",
+        "outcomeLoom": "The fear was not foolish. Jobs, wages and status changed. The real fight was over who controlled the gain.",
+        "outcomeCalculator": "A review of 79 studies found no collapse in basic skills. The question moved from doing every sum to understanding the answer.",
+        "outcomeSatnav": "That risk turned out to be real. A useful tool still asks us what we choose to keep practising."
+      }
+    },
+    "authority": {
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-authority-configurator/index.html",
+      "status": "owner-submitted-with-mobile-corrections-accepted",
+      "selection": {
+        "desktopLayout": "balanced",
+        "mobileLayout": "network",
+        "desktopHeadline": "balanced",
+        "mobileHeadline": "balanced",
+        "desktopInstrumentScale": "balanced",
+        "mobileInstrumentScale": "balanced",
+        "controlStyle": "buttons",
+        "defaultPhase": "work",
+        "aiList": "long",
+        "humanList": "long",
+        "reelMotion": "moving",
+        "organisationDetail": "concise"
+      },
+      "copy": {
+        "chapterLabel": "And now, AI",
+        "workHeadline": "The feeling is familiar. The reach is new.",
+        "workPromise": "AI can carry work that used to look like thinking, across the business from one decision to the next.",
+        "organisationHeadline": "The organisation changes shape.",
+        "organisationPromise": "People hold judgement. The AI Brain connects the work.",
+        "aiLabel": "AI carries",
+        "humanLabel": "You keep",
+        "organisationLabel": "New-age leadership",
+        "filmLabel": "Illustrative machinery"
+      },
+      "corrections": [
+        "The phone composition is a bounded one-screen network, not the rejected tall two-column chart.",
+        "AGENT, HUMAN, HYBRID, SYSTEM and NEW ROLE labels align horizontally within each visual row.",
+        "AI carries and You keep are load-bearing labels and cannot be rendered as illegibly small copy."
+      ]
+    },
+    "leadershipDividend": {
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-leadership-dividend-configurator/index.html",
+      "status": "owner-submitted",
+      "selection": {
+        "desktopLayout": "balanced",
+        "mobileLayout": "overlay",
+        "desktopTitle": "balanced",
+        "mobileTitle": "balanced",
+        "defaultMode": "practice",
+        "practiceControls": "tabs",
+        "benefitControls": "arrows",
+        "benefitMotion": "rotate-entry",
+        "sceneOrder": "notice-connect-prepare",
+        "sceneCopy": "show",
+        "benefitOrder": "leadership-first",
+        "benefitCopy": "show",
+        "benefitCount": "fraction",
+        "returnList": "all"
+      },
+      "copy": {
+        "practiceLabel": "What this feels like in practice",
+        "practiceHeadline": "The system does not replace your judgement. It brings more to it.",
+        "benefitLabel": "What your AI Brain makes possible",
+        "returnLabel": "The returned hour",
+        "returnHeadline": "What will you do with the hours it gives back?",
+        "returnLine": "A hybrid organisation does not ask you to think less. It helps you act on more of what you know."
+      }
+    },
+    "routeOutcome": {
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-route-configurator/index.html",
+      "status": "owner-submitted",
+      "selection": {
+        "compositionDesktop": "balanced",
+        "compositionMobile": "copy",
+        "titleDesktop": "balanced",
+        "titleMobile": "balanced",
+        "measureDesktop": "balanced",
+        "measureMobile": "balanced",
+        "action": "copy",
+        "back": "text",
+        "caption": "show",
+        "receipt": "full",
+        "steps": "numbered",
+        "reveal": "staged"
+      }
+    },
+    "footer": {
+      "source": "prototypes/website-redesign-recovery/component-selection/footer-configurator/index.html",
+      "status": "owner-submitted",
+      "selection": {
+        "structureDesktop": "rail",
+        "structureMobile": "compact",
+        "densityDesktop": "compact",
+        "densityMobile": "compact",
+        "brand": "full",
+        "statement": "short",
+        "routes": "single",
+        "legal": "bottom",
+        "copyright": "short",
+        "ground": "dark",
+        "rule": "accent",
+        "reveal": "scroll"
+      },
+      "comment": "Rename Ideas, Answers and Straight Answers. New-age leadership is now the homepage, so do not add a duplicative route without applying the separate route decision."
+    },
+    "sharedLanguage": {
+      "source": "prototypes/website-redesign-recovery/component-selection/shared-language-configurator/index.html",
+      "status": "owner-submitted-in-conversation",
+      "selection": {
+        "results": "Results",
+        "blog": "Thinking",
+        "answers": "Questions leaders ask",
+        "faq": "Before you start",
+        "media": "Media",
+        "start": "Start here",
+        "leadershipMode": "companion",
+        "positioning": "Keep your edge as AI changes the market."
+      },
+      "comment": "none",
+      "provenanceNote": "The browser store later showed defaults. The owner's explicit Saved locally readback in the conversation is authoritative for this handoff."
+    },
+    "message": {
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-message-configurator/index.html",
+      "status": "owner-submitted-with-comment-supersession",
+      "selection": {
+        "openingHeadline": "Build the business that can think with you.",
+        "openingLede": "Part people. Part agent. Led by judgement.",
+        "brainDoor": "Build your AI brain",
+        "brainDoorDetail": "Your judgement, running.",
+        "gtmDoor": "Build your AI GTM",
+        "gtmDoorDetail": "Build your AI native pricing, positioning and org.",
+        "openingProof": "Build the first working version on real work. Keep the system.",
+        "brainHeadline": "Make your judgement reusable.",
+        "brainLede": "Give your standards, context and past decisions a memory you can use.",
+        "brainCaption": "The next decision begins with what the last one taught you.",
+        "gtmHeadline": "We turn an AI market shift into one tested commercial move.",
+        "gtmLede": "See how one market change alters product, price, positioning and people before you commit.",
+        "gtmCaption": "Start with the commercial decision that is holding the rest of the system back.",
+        "backLabel": "AI Brain or AI GTM",
+        "receiptHeading": "What stays with you"
+      },
+      "supersession": "The submitted AI GTM detail Product, price, positioning and people move together. was explicitly replaced by Build your AI native pricing, positioning and org."
+    }
+  },
+  "assemblyState": {
+    "rejected": {
+      "id": "homepage-production-synthesis-r1",
+      "path": "prototypes/website-redesign-recovery/homepage-production-synthesis-r1",
+      "reason": "It did not faithfully implement the accepted chapter decisions."
+    },
+    "referenceOnly": {
+      "id": "homepage-production-synthesis-r2",
+      "path": "prototypes/website-redesign-recovery/homepage-production-synthesis-r2",
+      "reason": "It preserves component fidelity through iframe embedding but is not a continuous production experience and cannot preserve page-level scroll choreography."
+    },
+    "nextCandidate": {
+      "id": "homepage-integrated-candidate-r3",
+      "status": "not-built",
+      "requirements": [
+        "single DOM",
+        "single scroll context",
+        "accepted component and copy parity",
+        "desktop and mobile device-specific composition",
+        "continuous forward and reverse journey evidence",
+        "all blocking feedback resolved",
+        "candidate-bound specialist evidence",
+        "review URL emitted only by the material presentation firewall"
+      ]
+    }
+  },
+  "blockingFeedback": [
+    "HOMEPAGE-SYNTHESIS-FIDELITY-001",
+    "HOMEPAGE-SYNTHESIS-INTEGRATION-001"
+  ],
+  "commands": {
+    "verifyHandoff": "npm run qa:homepage-handoff",
+    "verifyQualitySystem": "npm run qa:website-restart",
+    "presentCandidate": "npm run review:material -- quality/website-redesign/material-review-candidate.json"
+  }
+}

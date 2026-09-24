@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "candidate_d",
+  "title": "The Proof Bench",
+  "governingMetaphor": "One approved working artefact rests on a dark inspection bench. A brass handle moves a blade of light across it, exposing the leader's standards, the thing Mindmake made and the commercial consequence. The two doors are plates fixed to the artefact, not a selector placed before it.",
+  "oneSentenceExperience": "A busy leader inspects one piece of real work, sees how judgement became a working result, then enters the Brain or GTM route from the exact evidence that clarified the choice.",
+  "sequencing": [
+    "The first viewport names Mindmake as a practice for founders and senior commercial leaders, shows the proof bench and keeps Build your AI brain and Build your AI GTM adjacent on the artefact's lower edge.",
+    "The artefact is already useful at rest: a short caption identifies the real work, what the client kept and the approved result, while a clear cue says Drag the light to inspect or Use arrow keys.",
+    "Moving the blade reveals three fixed layers in order: the leader's standards and context, the working output made from them, and the commercial consequence. Each annotation sits beside the point it explains.",
+    "As the blade reaches the standards layer, the Brain plate gains a plain line about building from the leader's decisions rather than a generic AI. At the consequence layer, the GTM plate gains a line about reaching customers and getting paid.",
+    "Choosing either adjacent plate begins that route immediately. The homepage does not become a persistent route switcher and the inspected artefact remains visible behind the departure transition.",
+    "If the visitor continues down the homepage, the same artefact becomes a compact provenance rail beside one explanation of the paid proof, followed by restrained founder proof and links to cases, questions and the publication.",
+    "The page closes by returning to the same two adjacent door plates with Start here as the single action language, without price, diary link, offer ladder or third route."
+  ],
+  "userAgency": "The visitor can understand the two routes from the resting state, inspect the proof by dragging, tapping a fixed evidence point or using arrow keys, and choose a door at any time. Inspection adds clarity but never gates progress. Normal page scroll remains available, and no diagnosis, quiz or preliminary selector appears.",
+  "primaryInteraction": "The proof bench is one semantic figure with an approved working artefact, a three-stop track and a movable brass handle. Dragging or pressing Left and Right moves the light between Standards in, Working proof and Result observed; tapping a stop does the same. An attached annotation changes beside the evidence while both door plates stay adjacent. Hover previews, press responds immediately, and focus-visible marks every handle, stop and door. The control reveals existing evidence; it never simulates a live AI result.",
+  "informationStructure": "Screen one is a contained start surface: short practice statement, intended buyer, proof bench, instruction and two adjacent doors. Screens two and three keep a reduced artefact as a sticky provenance rail while explaining the shared paid proof and what the client keeps; there are no repeated card stacks. Screen four holds compact founder proof and quiet links to cases, questions and the publication. Screen five returns to the two doors. Secondary material uses a focus-managed drawer or its existing destination.",
+  "stateModel": [
+    "Rest: the whole approved artefact, its honest caption, all three evidence stops and both adjacent doors are visible; no result is hidden behind interaction.",
+    "Standards inspected: the blade marks the supplied context and past decisions, and the Brain door's explanatory line becomes mint while the GTM door stays fully available.",
+    "Working proof inspected: the kept output is named in plain language, both doors use equal visual weight and the shared paid-proof relationship is explicit.",
+    "Result inspected: the approved commercial consequence is highlighted in amber and the GTM explanatory line becomes mint, without implying that Brain lacks a commercial result.",
+    "Route committed: the selected plate depresses, the other stays readable for orientation, and a short contained transition begins the existing route with its source door preserved.",
+    "Reduced motion: the blade jumps between stops, annotations replace without sliding and the same content, focus order and route actions remain.",
+    "Unavailable media: a paper record with the same approved caption and evidence points replaces film or imagery; the doors and complete decision remain usable.",
+    "Drawer open: background content is inert, focus is trapped, Escape or Back closes it and focus returns to the link that opened it."
+  ],
+  "mobileAdaptation": "At 390 by 844 and 320 by 568, the start becomes a compact portrait bench: statement, 4:3 artefact, three-position track and two adjacent door plates in a two-column group. The handle has a 44-pixel target, while fixed stops make tapping the coarse-pointer path. At 844 by 390, the statement uses the left third and the bench the right two thirds, with doors inside its lower edge. The desktop rail becomes an in-flow thumbnail on phones, leaving one page scroll. Rotation preserves the active stop and focused door; safe-area padding protects actions.",
+  "proofModel": "One approved public proof object carries the default journey: an existing case artefact, film or working-output record from one paid proof. Its caption separates context, kept output and observed result, with source and anonymity handled exactly as approved. It is not a montage and never merges an anonymous outcome, named reference or attendee brand into one implied attribution. Founder proof and deeper case links remain secondary.",
+  "routeStart": "Build your AI brain and Build your AI GTM are permanent adjacent plates on the proof object. Each has one plain explanatory line revealed by inspection, plus the shared line One paid proof. Something working on real work that you keep. Activating a plate calls the existing lead-flow contract with that route selected and preserves a Back path to the same inspection stop. Start here is the only action wording; there is no public diary, price, availability claim or intermediate chooser.",
+  "motionRole": "The blade of light shows causality: standards enter, a working output appears and an observed result follows. Its movement is brief, direct and reversible, with no autoplay or decorative loop. The route transition visually carries the selected evidence annotation into the next surface so the visitor keeps orientation. Reduced motion replaces travel with an immediate light change and text update.",
+  "feasibility": [
+    "Build the bench from semantic React and CSS: figure, buttons, range-like handle, positioned annotations and existing media. No canvas, WebGL or new backend is required.",
+    "Model the inspection stop and route source in component state; pass the selected door into the existing lead-flow contract and restore the stop when the visitor returns.",
+    "Use existing approved films or proof assets with a static paper fallback, responsive picture or video sources and no claim generated at runtime.",
+    "Keep the document as the only scrolling container. CSS grid handles the desktop, phone portrait and phone landscape compositions without nested scrolling or hidden carousel items.",
+    "Implement the handle with button stops and slider semantics, labelled current value, arrow-key support and immediate pointer response; every route remains a normal link or button.",
+    "Test the first viewport at 1440 by 900, 1024 by 768, 390 by 844, 320 by 568 and 844 by 390, including 200 percent zoom, keyboard-only use and reduced motion."
+  ],
+  "risks": [
+    "The concept fails if the chosen artefact needs a long explanation. Select one approved proof whose input, kept output and result can each be labelled in a short line.",
+    "A draggable light can look decorative. Fixed evidence stops, explicit instruction, keyboard semantics and attached explanatory changes must make its informational job obvious at rest.",
+    "The proof could make one door look secondary. Keep both plates equal in size and permanence, and use mint only for the explanation currently clarified by the evidence.",
+    "A wide proof asset may become illegible on a small phone. Use an approved crop or paper transcription with full alt text rather than shrinking detail beyond recognition.",
+    "Sticky treatment can consume short landscape screens. Disable stickiness at constrained heights and use the contained split start surface specified for 844 by 390."
+  ]
+}

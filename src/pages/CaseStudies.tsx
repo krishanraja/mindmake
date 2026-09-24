@@ -1,15 +1,13 @@
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
-import { MobileChapter } from "@/components/mindmake/MobileChapter";
 import { CloseBlock } from "@/components/mindmake/CloseBlock";
-import { CountingValue } from "@/components/mindmake/CountingValue";
 import { Instrument } from "@/components/mindmake/Instrument";
 import { ProofDrum } from "@/components/mindmake/ProofDrum";
 import { StoryFigureView } from "@/components/mindmake/StoryFigure";
 import { SubscribeBand } from "@/components/mindmake/SubscribeBand";
+import { CaseProofField } from "@/components/mindmake/locked/CaseProofField";
 import { attendeeBrands, clientStories, FIGURE_INSTRUMENT } from "@/data/rebuildProof";
-import { publishableTestimonials } from "@/data/testimonials";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-instruments.css";
@@ -42,7 +40,7 @@ export default function CaseStudies() {
   };
 
   return (
-    <MindmakeShell onStart={openBrief}>
+    <MindmakeShell onStart={openBrief} mainClassName="mm-case-route" showMobileActionBar={false}>
       <SEO
         title="Results"
         description="Eight verified stories about the work Mindmake helped customers change and what happened next."
@@ -50,48 +48,22 @@ export default function CaseStudies() {
         jsonLd={jsonLd}
       />
 
-      <section className="mm-hero mm-proof-hero" aria-labelledby="stories-title">
-        <div className="mm-container">
-          <h1 id="stories-title"><Instrument kind="gauge" className="mm-head-mark" />The decision, and what changed next.</h1>
-          <p className="mm-lede">
-            Every figure below is from the record of that piece of work. The customers stay
-            anonymous, because that is what they agreed to. The work and the results do not.
-          </p>
-          <dl className="mm-proof-figures">
-            <div>
-              <dt>Stories on the record</dt>
-              <dd><CountingValue value={clientStories.length} from={0} /></dd>
-            </div>
-            <div>
-              <dt>People quoted, in their own words</dt>
-              <dd><CountingValue value={publishableTestimonials.length} from={0} /></dd>
-            </div>
-            <div>
-              <dt>Days to the first working system</dt>
-              <dd><CountingValue value={30} from={0} /></dd>
-            </div>
-          </dl>
-        </div>
-      </section>
+      <CaseProofField stories={clientStories} />
 
-      <section className="mm-block mm-on-raise" aria-labelledby="archive-title">
+      <section id="case-archive" className="mm-block mm-on-raise" aria-labelledby="archive-title">
         <div className="mm-container">
           <h2 id="archive-title">
             <Instrument kind="recorder" className="mm-head-mark" />
-            Eight stories, and the figure from each.
+            The source records.
           </h2>
-          <MobileChapter
-            className="mm-stories-archive"
-            shown={3}
-            noun="stories"
-            items={clientStories.map((story) => (
-              <article className="mm-story-full" key={story.id}>
+          <div className="mm-stories-archive">
+            {clientStories.map((story) => (
+              <article id={`record-${story.id}`} className="mm-story-full" key={story.id} tabIndex={-1}>
                 <div className="mm-story-copy">
                   <h2>
                     <Instrument kind={FIGURE_INSTRUMENT[story.figure.shape]} className="mm-head-mark" />
                     {story.result}
                   </h2>
-                  <p className="mm-story-outcome">{story.outcome}</p>
                   <blockquote>
                     {story.quote}
                     <cite>{story.attribution}</cite>
@@ -100,7 +72,7 @@ export default function CaseStudies() {
                 <StoryFigureView figure={story.figure} />
               </article>
             ))}
-          />
+          </div>
         </div>
       </section>
 

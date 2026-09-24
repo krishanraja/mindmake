@@ -113,7 +113,7 @@ export default function Contact() {
             {errors.message && <p id="contact-message-error" className="mm-form-error">{errors.message}</p>}
             <button className="mm-button" type="submit">Open in email <ArrowRight aria-hidden="true" /></button>
             <small>
-              This opens your email app. Nothing is sent until you press Send there. Read the{" "}
+              Your email app will open. Nothing is sent until you press Send. Read the{" "}
               <a href="/privacy" target="_blank" rel="noreferrer">privacy notice</a>.
             </small>
           </form>

@@ -1,0 +1,68 @@
+{
+  "artifact": "mindmake-production-routes-r4-candidate",
+  "status": "candidate",
+  "createdAt": "2026-09-17",
+  "authority": "This candidate replaces responsive patches on the AI Brain route with one governed geometry and interaction layer, and adds a data-backed client-story browser. It does not replace approved-production-r1.json and is not authorised for production until explicit visual approval and a separate release action.",
+  "basis": "User reported recurrent shell misalignment, fragile evidence cards, a proof visual escaping its border, accidental mobile cut-offs and a need for multiple case studies with distinct visuals and swipe or toggle navigation.",
+  "changePolicy": "Never overwrite an earlier approval or candidate. Promote by creating a separate approved r4 record after visual approval. Commit, preview deployment and production deployment remain separate authority gates.",
+  "files": {
+    "src/pages/AiBrain.tsx": "217f46b3667c54e14c0ad1aa107fcdf92f9e677b62721cbf60a4964bc3e9fe56",
+    "src/styles/mindmake-brain-r5.css": "1705ea4e0feaf1dc87e36a3ceef48b62b949312935f21df02e258d57fcbc057d",
+    "src/styles/mindmake-brain-system.css": "cf20f018e8f7b9cdf46778ed2f1b2b580ea1dc0cf1ed5022a4dc62c85b97e174",
+    "src/data/vnext/brain-fixture.json": "02fa968575d7000874f0f10a09123336ad6ec3f7bf373dcd351fbb7e7ef2b1b9",
+    "src/data/rebuildProof.ts": "d11b62321793503ae9c826b10290e38b4ce621ce9e35af273aa179283623220e",
+    "src/data/testimonials.ts": "ba241384d25ca196ef0f03723ca6bcd2bbc64d411d6cc72566db89c8c786e1df",
+    "prototypes/ai-brain-vnext-r7/production-review.html": "a969a79ff9bc957ceaba83996abc5486bcea65441e34a35c8e26a7702e765b02",
+    "src/pages/AiGtm.tsx": "7cb7b7f13907c7c1dade9ddd0057af022b1eb345c3762c14d08efa874debc9e6",
+    "src/styles/mindmake-gtm-r6.css": "0580af56bae06e2023c188c493d47100b1da5cd9b9611bb3138a1540cd0053f9",
+    "src/styles/mindmake-gtm-r7.css": "791e68021d23cf51b412d06a583982aaf4fbaf38b6f7a10cabb2f00fa93bce1f",
+    "src/data/vnext/gtm-signals.json": "5ab7fac6ce8ebdab6b69b73f60e184a7e4df8d923d97edd29c38872648c3bf7f",
+    "prototypes/ai-gtm-vnext-r7/production-review.html": "af5d5d553cdeb209d1666c7df5c75c71d87a87b1983e9362a67391b8857948c7",
+    "src/components/mindmake/MindmakeShell.tsx": "ab4c9acef6bcf00d3d289c1e3f482412e440a3c5e839548dbd376e329c811f95",
+    "src/components/mindmake/SubscribeBand.tsx": "16823d35ba0833b57336576ba69f1bcd9341863f4a5318b61b8d7c846ac63b77",
+    "src/lib/publicLinks.ts": "b4f782b0fd1d56e00c4e5b2528bc76f3b0baad84b9275a3ee43d97e61fa183a2",
+    "src/App.tsx": "43316dee2bc859ffb406c4c3025b5d4b95de1559b0a2347364f4a1bc9fa70868",
+    "scripts/qa/responsive-release-r3-check.mjs": "cd820b1451b1a4a76a6474b180225e4faef8a29ee3baa89ffaf6ea2ec5b37744",
+    "scripts/qa/responsive-system-r4-check.mjs": "d366af60758de337dc68a4de1778f63e10b30943405448ae850832b66b61e4ab",
+    "scripts/generate-llms.mjs": "35f3e7fc9a430fd29b6d2542edc5cd6a52c5a252f9cf651309e9ca37f6ece6ab",
+    "src/test/brief2-public-contract.test.ts": "0b5b4714f89aee56290206fac4179c7973f790482f2d3f46fffe5cfad5934d09",
+    "project-documentation/homepage-redesign/ROUTE-CONTINUITY-R3.md": "db1a99612cf57fae90abc6c1b3f827361798977aa1facf531c15b4296273df04",
+    "scripts/qa/approved-route-lock-check.mjs": "d5d1a40c2a54e1eb8cff6e745c252cdd84ee2d9d296a1c41386091b838a51bae",
+    "scripts/qa/approved-route-lock-self-test.mjs": "9f363a59b9d20a2fbfa6f10b510788011d258591e83ab578b550e3d007d504c5",
+    ".github/workflows/approved-route-lock.yml": "163b253b1289d447f629a5066062108aceefa79e6b249b39636423a9d9f412b6",
+    "scripts/qa/locked-route-regression-audit.mjs": "574c49793ad4a105c6b36138fa180d36b2604f6a211e9042053746e1154c8f92",
+    "scripts/qa/route-lock-production-check.mjs": "385519b093f5d58a94e1992a08583a009f2e8efd68177fc485e2d7768929b6b0",
+    "scripts/qa/plain-language-check.mjs": "639c62446bf7f3a01693ba1fc20e446e23ba8fbc8d17bc429e41da951fafd9a8",
+    "package.json": "80b232b10c943bab476982ee24385a9c97f846a951cb39de95489b3b0f91d1ac"
+  },
+  "minimumContracts": {
+    "brain": {
+      "meanings": 20,
+      "relationships": 18,
+      "sources": 10,
+      "corrections": 3,
+      "states": ["Decision", "Brain", "Evidence", "Correction"],
+      "requiredInstruments": ["portrait-board", "living-brain", "brain-evidence", "brain-change"]
+    },
+    "gtm": {
+      "signals": 5,
+      "responseChoices": 15,
+      "stages": ["Signal", "Response", "Customer test"],
+      "requiredInstruments": ["ticker-window", "decision-ledger", "decision-chapter", "commercial-map", "test-ticket"]
+    }
+  },
+  "forbiddenPhrases": ["keep the seat", "meter the work", "price the result"],
+  "verification": {
+    "responsiveSystem": "Passed at 10 viewports from 320x568 through 2508x1350, including shared-shell alignment, zero horizontal overflow, bounded proof visuals, compact mobile proof, equal evidence anatomy and unclipped case-study controls.",
+    "caseStudyInteraction": "Passed for mouse and touch controls, swipe, keyboard focus, deep links, three distinct visuals and access to the eight-story archive.",
+    "legacyResponsiveRegression": "passed",
+    "typecheck": "passed",
+    "unitAndContractSuite": "29 of 29 test files passed; 473 of 473 tests passed",
+    "plainLanguageContract": "passed",
+    "lint": "passed with zero errors and four pre-existing warnings",
+    "approvedLock": "intentionally remains r1 until explicit visual approval"
+  },
+  "renderedEvidence": [
+    "C:/Users/krish/.scratch/mindmake-responsive-system-r4"
+  ]
+}

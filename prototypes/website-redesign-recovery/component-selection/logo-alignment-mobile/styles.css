@@ -1,0 +1,31 @@
+@font-face{font-family:"Archivo";src:url("/node_modules/@fontsource-variable/archivo/files/archivo-latin-wght-normal.woff2") format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Newsreader";src:url("/node_modules/@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2") format("woff2");font-weight:200 800;font-display:swap}
+@font-face{font-family:"IBM Plex Mono";src:url("/node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2") format("woff2");font-weight:400;font-display:swap}
+
+:root{color-scheme:dark;font-family:"Archivo",Arial,sans-serif;--ink:#07110e;--paper:#eadfc9;--mint:#91e8bc}
+*{box-sizing:border-box}
+html{background:#050b09}
+body{min-width:320px;margin:0;overflow-x:clip;background:radial-gradient(circle at 74% 0%,rgba(55,106,80,.14),transparent 36rem),#050b09;color:var(--paper)}
+main{width:min(1180px,calc(100% - 40px));margin-inline:auto;padding:clamp(36px,6vw,82px) 0 72px}
+.decision-head{display:grid;grid-template-columns:1fr auto;align-items:end;gap:12px 32px;padding-bottom:28px;border-bottom:1px solid rgba(145,232,188,.18)}
+.decision-head p,.decision-head span,.menu,.hero-copy p,summary,dt,dd{font-family:"IBM Plex Mono",monospace;text-transform:uppercase;letter-spacing:.12em}
+.decision-head p{grid-column:1/-1;margin:0;color:var(--mint);font-size:11px}
+.decision-head h1{margin:0;font:360 clamp(42px,6vw,72px)/.9 "Newsreader",Georgia,serif;letter-spacing:-.05em}
+.decision-head span{color:rgba(234,223,201,.54);font-size:9px}
+.options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,3vw,34px);padding-top:clamp(38px,6vw,70px)}
+.option h2{margin:0 0 10px;color:var(--mint);font:400 18px "IBM Plex Mono",monospace}
+.viewport{position:relative;aspect-ratio:390/560;overflow:hidden;border:1px solid rgba(145,232,188,.22);background:linear-gradient(0deg,rgba(4,16,13,.96) 0%,rgba(4,16,13,.6) 50%,rgba(4,16,13,.18) 100%),radial-gradient(circle at 68% 38%,rgba(198,154,81,.2),transparent 22%),repeating-radial-gradient(circle at 68% 38%,transparent 0 44px,rgba(145,232,188,.08) 45px 46px),#07110e}
+.viewport::after{position:absolute;inset:0;background-image:linear-gradient(rgba(145,232,188,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(145,232,188,.022) 1px,transparent 1px);background-size:48px 48px;content:"";pointer-events:none}
+.masthead{position:relative;z-index:2;display:flex;height:64px;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(234,223,201,.16);background:rgba(7,17,14,.82)}
+.brand{position:absolute;left:var(--logo-x);display:inline-flex;min-height:44px;align-items:center;gap:9px;text-decoration:none}
+.mark{display:block;width:22px;height:auto}.wordmark{display:block;width:104px;height:auto}
+.menu{position:absolute;right:20px;display:flex;min-height:44px;align-items:center;gap:9px;font-family:"Newsreader",Georgia,serif;font-size:10px}
+.menu i,.menu i::after{display:block;width:17px;height:1px;background:currentColor;content:""}.menu i::after{transform:translateY(5px)}
+.hero-copy{position:absolute;z-index:1;bottom:12%;left:20px;width:calc(100% - 40px)}
+.hero-copy p{margin:0 0 14px;color:var(--mint);font-size:8px}
+.hero-copy strong{display:block;max-width:9ch;font:340 clamp(38px,4.25vw,50px)/.86 "Newsreader",Georgia,serif;letter-spacing:-.055em}
+.option-a{--logo-x:14px}.option-b{--logo-x:16px}.option-c{--logo-x:20px}
+details{margin-top:54px;border-top:1px solid rgba(145,232,188,.18);color:rgba(234,223,201,.56)}
+summary{min-height:48px;padding-top:17px;cursor:pointer;font-size:9px}dl{margin:0}dl div{display:grid;min-height:42px;grid-template-columns:42px 1fr;align-items:center;border-top:1px solid rgba(145,232,188,.1)}dt,dd{margin:0;font-size:9px}dt{color:var(--mint)}
+@media(max-width:900px){.options{grid-template-columns:1fr}.viewport{width:min(100%,390px);margin-inline:auto}.option h2{width:min(100%,390px);margin-inline:auto;margin-bottom:10px}.hero-copy strong{font-size:clamp(38px,11vw,50px)}}
+@media(max-width:700px){main{width:min(100% - 24px,620px);padding-top:24px}.decision-head{grid-template-columns:1fr;align-items:start}.decision-head h1{font-size:42px}}

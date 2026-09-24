@@ -1,8 +1,9 @@
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
+import { Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { motion, useReducedMotion } from "framer-motion";
+import { X } from "lucide-react";
 import type { OrgNodeData } from "./orgChartData";
 
 interface DecisionPromptSheetProps {
@@ -86,6 +87,9 @@ export const DecisionPromptSheet = ({ open, onOpenChange, data, onStart }: Decis
     return (
       <Drawer open={open} onOpenChange={onOpenChange}>
         <DrawerContent className="px-4 flex flex-col max-h-[85dvh]">
+          <DrawerClose className="absolute right-4 top-4 z-10 grid min-h-11 min-w-11 place-items-center rounded-sm border border-border bg-background" aria-label="Close role details">
+            <X className="h-4 w-4" aria-hidden="true" />
+          </DrawerClose>
           <DrawerHeader className="sr-only">
             <DrawerTitle>{data.decisionPrompt?.headline ?? data.label}</DrawerTitle>
             <DrawerDescription>Role details</DrawerDescription>
@@ -102,7 +106,7 @@ export const DecisionPromptSheet = ({ open, onOpenChange, data, onStart }: Decis
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
-        className="sm:max-w-lg w-full overflow-y-auto"
+        className="!top-[var(--mm-header-height)] !bottom-0 !h-auto z-[120] sm:max-w-lg w-full overflow-y-auto"
       >
         <SheetHeader className="sr-only">
           <SheetTitle>{data.decisionPrompt?.headline ?? data.label}</SheetTitle>

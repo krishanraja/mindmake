@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mindmake start flow r2, desktop and mobile</title>
+  <style>
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:#071512;color:#f0e8d9;font-family:Arial,sans-serif}
+    body{padding:20px}
+    header{min-height:52px;display:flex;align-items:flex-start;justify-content:space-between;gap:20px;border-bottom:1px solid rgba(125,227,187,.2);margin-bottom:20px}
+    h1{margin:0;font-size:18px;letter-spacing:.04em}p{margin:4px 0 0;color:rgba(240,232,217,.58);font-size:12px}
+    .board{display:grid;grid-template-columns:minmax(0,979px) 285px;gap:20px;justify-content:center;align-items:start}
+    figure{margin:0;min-width:0}figcaption{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+    a{color:#7de3bb;text-underline-offset:3px}.frame{position:relative;overflow:hidden;background:#0b1713;border:1px solid rgba(240,232,217,.2)}
+    .desktop{width:979px;height:612px}.desktop iframe{width:1440px;height:900px;transform:scale(.68);transform-origin:0 0}
+    .mobile{width:285px;height:616px}.mobile iframe{width:390px;height:844px;transform:scale(.73);transform-origin:0 0}
+    iframe{border:0;background:#f0e8d9}
+    @media(max-width:1340px){.board{grid-template-columns:1fr}.desktop{width:min(979px,100%)}.mobile{width:285px}.desktop iframe{transform-origin:0 0}}
+  </style>
+</head>
+<body>
+  <header><div><h1>Start flow r2</h1><p>Paired review surface</p></div><a href="./index.html">Open responsive prototype</a></header>
+  <main class="board">
+    <figure><figcaption><span>Desktop · 1440 × 900</span><a href="./index.html" target="_blank">Open</a></figcaption><div class="frame desktop"><iframe src="./index.html" title="Desktop start-flow treatment"></iframe></div></figure>
+    <figure><figcaption><span>Mobile · 390 × 844</span><a href="./index.html" target="_blank">Open</a></figcaption><div class="frame mobile"><iframe src="./index.html" title="Mobile start-flow treatment"></iframe></div></figure>
+  </main>
+</body>
+</html>

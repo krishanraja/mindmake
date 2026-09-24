@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
+import { CommercialDecisionBalance } from "@/components/mindmake/locked/CommercialDecisionBalance";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { answerBySlug } from "@/lib/answers";
 import { answerJsonLd, answerPath } from "@/lib/answerFormat";
@@ -102,6 +103,8 @@ export default function Answer() {
           </div>
         </div>
       </article>
+
+      <CommercialDecisionBalance context="editorial" onStart={() => setBriefOpen(true)} />
 
       <LeadBrief open={briefOpen} onClose={() => setBriefOpen(false)} />
     </MindmakeShell>

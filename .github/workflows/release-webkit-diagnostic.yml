@@ -1,0 +1,73 @@
+name: Release WebKit diagnostic
+
+on:
+  push:
+    branches: [codex/award-judging-panel]
+    paths:
+      - .github/workflows/release-webkit-diagnostic.yml
+      - scripts/qa/release-webkit-diagnostic.mjs
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-once:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: identical-webkit-dist
+          path: dist/
+          compression-level: 0
+  platform-comparison:
+    needs: build-once
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: identical-webkit-dist
+          path: dist/
+      - run: npx playwright install --with-deps webkit
+      - name: Supply and verify an actual headless audio endpoint
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pulseaudio
+          pulseaudio --start --exit-idle-time=-1
+          pactl load-module module-null-sink sink_name=release_ci
+          pactl set-default-sink release_ci
+          pactl info
+          pactl list short sinks
+      - name: Compare identical site and no-app media on native platforms
+        run: node scripts/qa/release-webkit-diagnostic.mjs
+        env:
+          QA_DIAG_MODE: broad
+          QA_DIAG_MEDIA_TRACE: 'yes'
+          QA_DIAG_INCLUDE_MEDIA: 'yes'
+          DEBUG: pw:browser
+          GST_DEBUG: '2'
+      - name: Preserve both outcomes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: webkit-platform-diagnostic-${{ matrix.os }}
+          path: artifacts/homepage-release/webkit-diagnostic*

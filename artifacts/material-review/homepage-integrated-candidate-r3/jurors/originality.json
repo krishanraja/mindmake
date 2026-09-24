@@ -1,0 +1,62 @@
+{
+  "id": "originality",
+  "contextId": "r3-originality-blind-ee7b010a-20260924",
+  "executorId": "agent-r3-originality-juror",
+  "surface": "desktop+mobile",
+  "coverage": [
+    "originality_brand",
+    "visual_craft"
+  ],
+  "status": "pass",
+  "candidateSha256": "ee7b010ae7da6d7748d3504ca47c24fe149b280f815423d36c50b44e9ad241a1",
+  "summary": "PASS for frozen candidate ee7b010ae7da6d7748d3504ca47c24fe149b280f815423d36c50b44e9ad241a1. The cabinet-of-judgement opening, instrument-room imagery, ink/cream/mint system, editorial typography and historical-to-present visual argument form a recognisable Mindmake world rather than a fashionable AI-site skin. Desktop has confident cinematic scale; the 390px and 320px compositions are genuinely recomposed rather than squeezed, retain the same point of view and keep each chapter visually legible. The final CTA-stacking and centre-hit hardening does not alter the judged visual composition. No blocker or major originality/visual-craft defect was observed. Three minor residuals keep the result below a field-defining finish: the middle run is tonally very dark and similar, the closing route repeats the opening cabinet imagery with limited new visual payoff, and a few supporting lines become optically small at 320px.",
+  "findings": [
+    {
+      "severity": "minor",
+      "detail": "History, authority and leadership-dividend run as consecutive near-black, full-height image fields. Their structures differ, but the restrained light range makes the middle of the journey feel more tonally continuous than emotionally progressive. A future polish pass could vary illumination or surface treatment within the locked imagery and compositions; the current result remains coherent and readable.",
+      "evidence": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/chromium-desktop-1440x900-full.png at sha256 de3033f6b8df18f9489892c8ff1276c837cfec0527c6c24f9796f521d974c8a6; chromium-mobile-390x844-full.png at sha256 9bfee51f0de68b042af954449a0140847ad59c1c417ed62c612cb3ccf0550d9e"
+    },
+    {
+      "severity": "minor",
+      "detail": "Reusing the cabinet film at the final route creates a clear bookend, but the exact visual return offers less surprise than the preceding history and machinery chapters. It reads as intentional continuity rather than generic repetition, yet it slightly lowers the closing section's signature delight.",
+      "evidence": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/chromium-desktop-1440x900-full.png at sha256 de3033f6b8df18f9489892c8ff1276c837cfec0527c6c24f9796f521d974c8a6"
+    },
+    {
+      "severity": "minor",
+      "detail": "At 320x568, the opening door details, paid-proof line and some receipt/footer supporting text are materially smaller and lighter than the page's otherwise generous headline and control system. Nothing collides or becomes unreachable, but the microtype feels more compressed than the rest of the visual craft.",
+      "evidence": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/chromium-mobile-320x568-full.png at sha256 425cf84e644b64a3237cd892b1bae891a433238f5103e79db7b4d1d2e475ec4f"
+    }
+  ],
+  "hardGates": [
+    {
+      "id": "brand_specificity",
+      "status": "pass",
+      "detail": "The drawers, patient machinery, historical instruments, deep ink ground, cream claims and semantic mint form a specific Mindmake world that is recognisable without relying on the wordmark alone."
+    },
+    {
+      "id": "anti_default_originality",
+      "status": "pass",
+      "detail": "The experience avoids the prevailing generic AI-site vocabulary of gradient mesh, glass-card stacks, mascots, terminal theatre and interchangeable SaaS diagrams; its central metaphor is carried through imagery, typography and interaction anatomy."
+    },
+    {
+      "id": "visual_craft",
+      "status": "pass",
+      "detail": "The frozen desktop, 200-percent-equivalent and mobile evidence shows controlled type scale, deliberate crops, stable alignments, coherent fine rules, intentional section seams and clear primary/control hierarchy with no blocker or major craft failure."
+    },
+    {
+      "id": "mobile_independence",
+      "status": "pass",
+      "detail": "The 390x844 and 320x568 surfaces recompose the opening, historical story, authority split, dividend scene and route close for the phone instead of merely compressing the desktop layout."
+    },
+    {
+      "id": "real_estate_intent",
+      "status": "pass",
+      "detail": "No judged desktop or portrait-mobile signature viewport is dominated by accidental blankness, low-value filler or decorative empty fields while meaningful content is compressed elsewhere."
+    },
+    {
+      "id": "frozen_owner_constraints",
+      "status": "pass",
+      "detail": "The reviewed candidate preserves the locked logo/hero axis, cinematic opening, integrated history, bounded authority network, practice-first dividend, route composition, shared language and single-page visual continuity rather than substituting the juror's preferences."
+    }
+  ]
+}

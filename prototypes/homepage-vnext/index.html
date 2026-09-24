@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#071512" />
+    <title>Mindmake homepage reset prototype</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./script.js" defer></script>
+  </head>
+  <body data-view="threshold">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header" id="siteHeader">
+      <button class="brand" type="button" data-home aria-label="Mindmake, return to both routes">
+        <img src="../../src/assets/mindmake-wordmark.svg" alt="Mindmake" />
+      </button>
+      <button class="menu-trigger" id="menuTrigger" type="button" aria-haspopup="dialog" aria-controls="menuLayer">
+        <span>Menu</span><i aria-hidden="true"></i>
+      </button>
+    </header>
+
+    <main id="main">
+      <section class="threshold" id="thresholdView" aria-labelledby="thresholdTitle">
+        <div class="threshold-copy">
+          <p class="audience">For founders and senior commercial leaders</p>
+          <h1 id="thresholdTitle">Build the AI that knows how you decide.</h1>
+          <p class="threshold-lede">Mindmake turns your standards, context and past decisions into a system you own.</p>
+        </div>
+
+        <div class="threshold-instrument" aria-label="Choose how to begin">
+          <div class="instrument-light" aria-hidden="true"></div>
+          <div class="instrument-face" aria-hidden="true">
+            <span>MM</span>
+            <b>01</b>
+          </div>
+          <div class="route-doors">
+            <button class="route-door" type="button" data-route="brain">
+              <span>Build your</span>
+              <strong>AI brain</strong>
+              <small>Your judgement, running.</small>
+              <i aria-hidden="true">↗</i>
+            </button>
+            <button class="route-door" type="button" data-route="gtm">
+              <span>Build your</span>
+              <strong>AI GTM</strong>
+              <small>How you reach customers and get paid.</small>
+              <i aria-hidden="true">↗</i>
+            </button>
+          </div>
+          <p class="shared-proof">One paid proof on real work. You keep what works.</p>
+        </div>
+
+        <nav class="quiet-links" aria-label="More about Mindmake">
+          <a href="#cases">Cases</a>
+          <a href="#questions">Questions</a>
+          <a href="#publication">Publication</a>
+        </nav>
+      </section>
+
+      <section class="route-view" id="routeView" hidden aria-labelledby="routeTitle">
+        <div class="route-topline">
+          <button class="back-button" id="routeBack" type="button"><span aria-hidden="true">←</span> Both routes</button>
+          <p>One paid proof</p>
+        </div>
+
+        <div class="route-chamber">
+          <div class="route-copy">
+            <p class="route-name" id="routeName"></p>
+            <h1 id="routeTitle" tabindex="-1"></h1>
+            <p class="route-lede" id="routeLede"></p>
+            <button class="primary-action" id="startButton" type="button">Start here <span aria-hidden="true">→</span></button>
+          </div>
+
+          <figure class="route-figure">
+            <img id="routeImage" src="" alt="" />
+            <figcaption id="routeCaption"></figcaption>
+          </figure>
+
+          <article class="proof-receipt" aria-labelledby="receiptTitle">
+            <div class="receipt-head">
+              <h2 id="receiptTitle">What the proof can leave behind</h2>
+              <p id="receiptSource"></p>
+            </div>
+            <ol class="causal-line" id="causalLine"></ol>
+            <blockquote id="receiptResult"></blockquote>
+          </article>
+        </div>
+
+      </section>
+    </main>
+
+    <div class="overlay-layer" id="menuLayer" hidden>
+      <div class="overlay-backdrop" data-close-menu></div>
+      <section class="menu-panel" role="dialog" aria-modal="true" aria-labelledby="menuTitle">
+        <div class="panel-head">
+          <h2 id="menuTitle">Menu</h2>
+          <button class="close-button" type="button" data-close-menu aria-label="Close menu">×</button>
+        </div>
+        <nav class="menu-nav" aria-label="Main menu">
+          <button type="button" data-menu-route="brain"><span>01</span>Build your AI brain</button>
+          <button type="button" data-menu-route="gtm"><span>02</span>Build your AI GTM</button>
+          <a href="#cases" data-close-menu><span>03</span>Case studies</a>
+          <a href="#questions" data-close-menu><span>04</span>Questions</a>
+          <a href="#publication" data-close-menu><span>05</span>Publication</a>
+        </nav>
+        <button class="primary-action menu-start" type="button" id="menuStart">Start here <span aria-hidden="true">→</span></button>
+      </section>
+    </div>
+
+    <div class="drawer-layer" id="startLayer" hidden>
+      <div class="drawer-backdrop" data-close-drawer></div>
+      <section class="start-drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+        <div class="panel-head">
+          <p id="drawerStep">1 of 3</p>
+          <button class="close-button" type="button" data-close-drawer aria-label="Close start form">×</button>
+        </div>
+        <div class="drawer-progress" aria-hidden="true"><i id="drawerProgress"></i></div>
+
+        <form id="startForm" novalidate>
+          <section class="form-step is-active" data-step="route">
+            <h2 id="drawerTitle">Where should we begin?</h2>
+            <p>Both routes start with one paid proof on real work.</p>
+            <div class="choice-stack" id="routeChoices">
+              <button type="button" data-drawer-route="brain">Build your AI brain <span aria-hidden="true">→</span></button>
+              <button type="button" data-drawer-route="gtm">Build your AI GTM <span aria-hidden="true">→</span></button>
+            </div>
+          </section>
+
+          <section class="form-step" data-step="work" hidden>
+            <h2 id="workTitle">What needs to change first?</h2>
+            <p>Pick the closest answer. It does not lock the work.</p>
+            <div class="choice-stack" id="workChoices"></div>
+          </section>
+
+          <section class="form-step" data-step="details" hidden>
+            <h2>Where can we reply?</h2>
+            <p>We use your work email to understand the business before we respond.</p>
+            <label>Work email<input id="workEmail" type="email" autocomplete="email" inputmode="email" required /></label>
+            <label>Your name<input id="fullName" type="text" autocomplete="name" required /></label>
+            <label>Part of the business<input id="businessArea" type="text" autocomplete="organization-title" required /></label>
+            <button class="primary-action drawer-submit" type="submit">Finish prototype <span aria-hidden="true">→</span></button>
+          </section>
+
+          <section class="form-step form-complete" data-step="complete" hidden tabindex="-1">
+            <div class="complete-mark" aria-hidden="true">✓</div>
+            <h2>That is the whole path.</h2>
+            <p>This prototype does not send or save anything.</p>
+            <button class="primary-action" type="button" data-close-drawer>Return to the page</button>
+          </section>
+        </form>
+      </section>
+    </div>
+
+  </body>
+</html>

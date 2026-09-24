@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "candidate_f",
+  "title": "The Threshold Room",
+  "governingMetaphor": "The homepage is an instrument-room antechamber with two adjacent brass doors. Choosing one means crossing a threshold: the room folds away and a dedicated route chamber takes over, with no selector left running underneath it.",
+  "oneSentenceExperience": "A visitor sees what Mindmake does and who it is for, chooses one of two immediate destinations, then enters a focused chamber that explains the route, proves it and begins it.",
+  "sequencing": [
+    "The first viewport opens on a quiet working room: Mindmake, a plain statement of the practice and intended buyer, then the two equal door actions side by side.",
+    "A short shared line under the doors explains that both routes lead to a paid proof built on real work and that the client keeps what works.",
+    "Choosing a door triggers one decisive transition. The shared room folds out of view while the selected route chamber replaces it at the top of the document.",
+    "The chamber names the route in plain language, shows the difference it addresses, pairs one relevant public outcome with what the first proof leaves working, and places Start here beside that answer.",
+    "Case studies and common questions appear as optional reveals inside the chamber only after the core decision is clear; they never become competing calls to action.",
+    "Start here enters the existing lead flow with only the chosen route attached. Close, Escape or browser Back returns to the unchanged threshold and restores focus to the door used.",
+    "Visitors who do not choose can continue down a short shared homepage close containing compact practice proof and links to deeper case studies, questions and the publication."
+  ],
+  "userAgency": "The visitor makes one consequential choice and can reverse it without losing context. The doors do not diagnose them, change downstream sections or demand preliminary input; they take the visitor directly to the clearest explanation of each route.",
+  "primaryInteraction": "Two adjacent, full-width door controls sit in the first viewport. Hover or focus lifts a thin blade of light around one door; press gives immediate physical travel, then the entire start surface pivots away as one plane. The destination is a top-level route chamber using the page as the sole scroll container, not a drawer with its own scrollbar. A persistent, clearly labelled Back to both doors control closes the chamber. Focus moves to the chamber heading, remains within the route experience while it is open, and returns to the original door on exit.",
+  "informationStructure": "The shared layer contains only identity, practice and buyer, the two-door decision, one shared paid-proof sentence, compact practice proof and routes to deeper material. Each destination chamber has four unequal bands: a direct route explanation; the contrast between generic AI and an AI grounded in the leader's standards, context and past decisions where relevant; one route-shaped outcome paired with the working thing the client keeps; then Start here. Optional case-study and question reveals sit after the action, while CTRL can appear only as unlinked operating proof near the chamber close.",
+  "stateModel": [
+    "Threshold ready: both doors are equal, adjacent and fully legible; no route is selected or pre-emphasised.",
+    "Door engaged: press feedback appears immediately, the selected label remains readable and the opposite door recedes only during the transition.",
+    "Route chamber open: the shared homepage is replaced rather than rewritten; the chosen destination owns the page and body scroll.",
+    "Optional proof revealed: one disclosure opens in natural document flow, moves focus to its heading and closes without changing route identity.",
+    "Lead flow begun: Start here passes Brain or GTM intent into the existing contract without asking the visitor to diagnose further on the homepage.",
+    "Returned: Close, Escape or browser Back restores the untouched threshold, its prior body-scroll position and focus on the triggering door.",
+    "Reduced motion or transition failure: the chamber swaps instantly with the same heading, route context, focus movement and Back behaviour."
+  ],
+  "mobileAdaptation": "At 390 and 320 pixels, identity and claim sit above a two-column door pair; each fixed label wraps to two lines rather than stacking into a sequence. The shared proof line follows. At 844 by 390, a compressed header keeps the same pair beside the claim. Opening a chamber replaces the document, avoiding fixed panels that fight browser chrome or keyboards. Chamber content uses one natural column with no sticky footer. Safe-area padding is respected, and orientation changes preserve the open chamber and nearest heading.",
+  "proofModel": "Proof behaves like the receipt inside each destination, not another homepage section. Brain shows one approved Brain-shaped result; GTM shows one approved GTM-shaped result. Each sits beside a plain statement of what was left working and kept. Source type is explicit, while anonymous outcomes, named references and attendee brands remain visually and semantically separate. Deeper evidence is optional after Start here, never required to understand the route.",
+  "routeStart": "The sole primary action inside either chamber is Start here. It opens the existing lead flow with the selected door recorded as context, then asks only the next low-cost question allowed by that contract. There is no price, diary, availability claim or extra offer. The visitor can back out to both doors before submitting anything, and any later typed input follows the lead flow's own persistence rules.",
+  "motionRole": "Motion explains that a threshold has been crossed and preserves orientation. The chosen door advances, the shared room moves away as one plane and the chamber settles from the same edge in 280 to 360 milliseconds. No content arrives before its heading. Reduced motion uses an immediate cross-state swap with a brief focus-ring confirmation. Closing reverses direction so the visitor understands they are returning, not navigating deeper.",
+  "feasibility": [
+    "Implement as one React threshold view plus two data-driven route chamber variants using existing copy, films, proof records and lead-flow entry points.",
+    "Use History API state or a transient route hash so browser Back closes the chamber while a fresh homepage visit still begins with both doors unselected.",
+    "Keep the document body as the only scroll container; opening stores body scroll, renders the chamber at its top and restoring the threshold reapplies the stored position.",
+    "Use semantic buttons for both doors, a labelled route region or dialog-like takeover, deterministic focus placement, Escape handling and trigger-focus restoration.",
+    "CSS grid holds the adjacent door pair across required widths; container queries condense the claim and shared line without changing the decision order.",
+    "Existing route films can appear as optional, lazy-loaded proof details with a poster and transcript fallback, so the first decision does not depend on media loading.",
+    "All transition states can be expressed with transform and opacity; reduced-motion mode removes travel without removing any content or state change."
+  ],
+  "risks": [
+    "A theatrical transition could delay clarity. Cap it below 360 milliseconds, reveal no extra ornament and make the pressed door respond on pointer down.",
+    "A full-page chamber could feel like hidden navigation. Keep Back to both doors persistent, support browser Back and retain the selected route name in the chamber heading.",
+    "Two long door labels can crowd a 320-pixel screen. Reserve two lines for each, use equal columns and test text zoom before considering any type reduction.",
+    "Optional disclosures could recreate a section stack. Limit each chamber to one route result and one combined deeper-proof reveal after the primary action.",
+    "Transient history can become confusing on repeated opens. Replace the active chamber state when switching routes and clear it on close so Back has one predictable meaning."
+  ]
+}

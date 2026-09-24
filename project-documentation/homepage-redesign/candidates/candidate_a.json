@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "candidate_a",
+  "title": "The Twin-Channel Workbench",
+  "governingMetaphor": "A single working instrument with two adjacent brass channel keys. The visitor chooses Brain or GTM, and the same bench retunes its explanation, evidence and next action around that choice without pretending they are separate products.",
+  "oneSentenceExperience": "Mindmake adds one useful distinction, then lets a busy leader choose the proof they want to see and watch one coherent homepage reorganise around it.",
+  "sequencing": [
+    "The first viewport states what Mindmake does, who it is for and why a leader-specific AI differs from a generic one, then presents the two adjacent door names as the next action.",
+    "Choosing Build your AI brain or Build your AI GTM keeps the visitor in place and immediately retunes a live response strip beneath the choice: amber marks what changed and mint marks the resulting answer.",
+    "The selected channel leads the next two scenes: a plain-language mechanism and one approved anonymous result shaped to that route. The other channel remains visible and switchable in the same decision rail.",
+    "Both channels converge on one shared explanation of the paid proof: Mindmake applies the approach to real work and the client keeps something working.",
+    "A compact practice proof closes the main journey, followed by quiet links to deeper case studies, questions and the publication, plus the selected route's single start action."
+  ],
+  "userAgency": "There is no preselected route and no diagnostic quiz. After receiving a useful distinction, the visitor makes one reversible choice about the kind of proof they want to inspect. They can switch channels at any point without losing scroll position or entering a separate product journey.",
+  "primaryInteraction": "The two door names form one semantic, keyboard-operable segmented control styled as physical channel keys, with clear hover, press and focus-visible states. A selection updates the response strip immediately, announces the change in a polite live region and sets the route-specific content below. The selector remains present as a compact sticky rail after the hero, while all shared content stays shared.",
+  "informationStructure": "One header and at most five desktop scenes: orient and choose; selected response; route-shaped mechanism and outcome; shared paid-proof explanation; practice proof and onward links. The first scene contains the practice, buyer, both adjacent doors and next action at every required viewport. Only one route's secondary detail is rendered at a time, keeping default-visible copy under 700 words and preventing repeated card-stack rhythm.",
+  "stateModel": [
+    "Unchosen: both channel keys are equal; a short shared distinction and invitation are visible, with no route content implied as preferred.",
+    "Brain selected: Brain is visibly and semantically selected; the live strip, mechanism, anonymous Brain-shaped result and start action use that route.",
+    "GTM selected: GTM is visibly and semantically selected; the same positions retune to the GTM mechanism, anonymous result and start action.",
+    "Route switched: the anchor and conceptual position remain stable while changed elements update together and focus stays on the chosen key.",
+    "Lead flow open: the selected route is passed into the existing lead-flow contract; focus is trapped and Escape or Back closes it and restores focus.",
+    "Reduced motion: every state change is immediate, with labels, selection semantics, colour and content carrying the full meaning without animation."
+  ],
+  "mobileAdaptation": "At 390 by 844 and 320 by 568, the first scene is a compact vertical spine with the two full door names side by side in one full-width control and the response directly below; type and copy shorten by hierarchy, not by illegible scaling. Later scenes follow the selected channel in natural page scroll, with no nested scrolling. At 844 by 390, orientation becomes a two-column stage: claim and selector left, live response and action right. At 1024 by 768 and 1440 by 900, the same relationship widens rather than adding content. Rotation preserves route, anchor and focus target.",
+  "proofModel": "Selection reveals one approved anonymous result for that channel beside the mechanism that produced it, so proof answers the visitor's choice instead of arriving as a distant logo wall. Anonymous outcomes, any named references and attendee brands occupy separately labelled visual bands and are never visually joined. CTRL appears only in the later practice proof as evidence that Mindmake uses its own approach, with no link or sales action.",
+  "routeStart": "The route-specific start action sits beside the selected response and repeats after the shared paid-proof explanation. It opens the existing lead flow with Brain or GTM already carried forward, so the visitor is not asked to diagnose or repeat the choice. The flow exposes no public price, duration, availability, start date or diary link, and closing it returns the visitor to the triggering action.",
+  "motionRole": "On selection, one blade of light travels a short distance from the chosen brass key to the response strip while amber briefly identifies changed material and mint settles on the answer. The movement shows cause and effect, completes quickly and never gates reading or input. Switching routes reverses the same path. Reduced-motion mode replaces travel with an immediate state change and persistent textual selection.",
+  "feasibility": [
+    "Implement as one React route with a small route-state enum and shared section components fed by Brain or GTM content objects.",
+    "Use the existing films and approved proof as optional route-scoped media; the concept remains complete when media is unavailable or still loading.",
+    "Render only the active route's secondary content, or mark inactive content hidden and inert, so invisible controls never enter the keyboard order.",
+    "Use CSS grid and container queries for the wide, portrait and short-landscape arrangements without duplicating the semantic journey.",
+    "Pass the selected route into the existing lead-flow contract rather than creating a chatbot, third offer or new public scheduling path.",
+    "Use CSS transforms and opacity for the blade-of-light cue, with a no-animation reduced-motion branch and no dependency on canvas or WebGL."
+  ],
+  "risks": [
+    "An early choice could feel like self-diagnosis. Mitigate by teaching the leader-specific AI distinction first, framing the keys as which proof to inspect and making the choice reversible.",
+    "Branching could imply two products. Mitigate through one shared frame, one paid-proof explanation, persistent adjacent doors and one common lead-flow destination.",
+    "Large content-height changes could disorient a visitor who switches late. Keep section anchors stable, constrain paired content to comparable roles and preserve the current scroll anchor.",
+    "The 320 by 568 viewport could become crowded. Protect it with strict first-scene copy budgets, two compact equal keys and a response that remains useful without media.",
+    "Colour or motion could become the only state signal. Pair both with selected semantics, visible labels and immediate content changes."
+  ]
+}

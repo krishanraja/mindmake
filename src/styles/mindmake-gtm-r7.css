@@ -1,0 +1,707 @@
+/*
+ * AI GTM r7 release candidate.
+ *
+ * The approved r6 visual language stays underneath this file. This layer owns
+ * only the responsive release repairs and the decision-story architecture so
+ * future changes do not reopen the entire accumulated r6 cascade.
+ */
+
+.mm-gtm-r7 .wire-label {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: .8rem;
+  padding: .85rem 1rem;
+}
+
+.mm-gtm-r7 .wire-label > span,
+.mm-gtm-r7 .wire-label time {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  min-width: 0;
+  margin: 0;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.mm-gtm-r7 .wire-label time {
+  justify-self: end;
+  color: rgba(244, 237, 223, .58);
+}
+
+.mm-gtm-r7 .wire-label time span {
+  display: inline;
+}
+
+.mm-gtm-r7 .wire-label time span + span::before {
+  content: " · ";
+}
+
+.mm-gtm-r7 .decision {
+  --decision-progress: 0;
+  position: relative;
+  isolation: isolate;
+}
+
+.mm-gtm-r7 .decision-workbench {
+  position: relative;
+  min-width: 0;
+}
+
+.mm-gtm-r7 .decision-ledger {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
+  min-height: 3.25rem;
+  padding: .7rem 1rem;
+  border: 1px solid rgba(55, 45, 30, .24);
+  background: rgba(244, 237, 223, .72);
+}
+
+.mm-gtm-r7 .decision-ledger span {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  gap: .65rem;
+}
+
+.mm-gtm-r7 .decision-ledger span:last-child {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.mm-gtm-r7 .decision-ledger small {
+  color: var(--mint-dark);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .53rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.mm-gtm-r7 .decision-ledger strong {
+  overflow: hidden;
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: .9rem;
+  line-height: 1.1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mm-gtm-r7 .decision-ledger i {
+  width: clamp(2.4rem, 6vw, 6.5rem);
+  height: 1px;
+  background: linear-gradient(90deg, var(--amber), var(--mint-dark));
+}
+
+.mm-gtm-r7 .decision-chapter {
+  min-width: 0;
+}
+
+.mm-gtm-r7 .chapter-heading h2 {
+  max-width: 14ch;
+  margin: 0;
+  font-family: "Newsreader", Georgia, serif;
+  font-size: clamp(2.8rem, min(4.2vw, 7.2svh), 4.9rem);
+  font-weight: 390;
+  letter-spacing: -.052em;
+  line-height: .92;
+}
+
+.mm-gtm-r7 .chapter-heading > p:last-child {
+  max-width: 38ch;
+  margin: 1rem 0 0;
+  color: rgba(7, 21, 18, .6);
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+@media (min-width: 80.001rem) {
+  .mm-gtm-r7 .decision {
+    height: 330svh;
+    padding: 0;
+  }
+
+  .mm-gtm-r7 .decision-sticky {
+    position: sticky;
+    top: 0;
+    display: grid;
+    width: min(calc(100% - 2 * var(--edge)), 90rem);
+    height: 100svh;
+    margin: 0 auto;
+    grid-template-columns: 8.8rem minmax(0, 1fr);
+    gap: clamp(1.25rem, 2.4vw, 2.5rem);
+    align-items: stretch;
+    padding: calc(4.75rem + clamp(.9rem, 2svh, 1.35rem)) 0 clamp(.9rem, 2svh, 1.35rem);
+  }
+
+  .mm-gtm-r7 .decision-rail {
+    position: relative;
+    inset: auto;
+    transform: none;
+    display: grid;
+    width: auto;
+    grid-template-rows: repeat(3, 1fr);
+    grid-column: 1;
+    grid-row: 1;
+    gap: .45rem;
+    align-self: stretch;
+    justify-content: stretch;
+  }
+
+  .mm-gtm-r7 .decision-rail button {
+    display: grid;
+    min-width: 0;
+    min-height: 0;
+    place-items: center;
+    align-content: center;
+    gap: .5rem;
+    padding: .75rem;
+    border: 1px solid rgba(7, 21, 18, .18);
+    border-left-width: 1px;
+    background: rgba(255, 253, 247, .32);
+    text-align: center;
+  }
+
+  .mm-gtm-r7 .decision-rail button.is-active {
+    border: 1px solid rgba(33, 107, 80, .46);
+    box-shadow: inset 3px 0 var(--mint-dark);
+  }
+
+  .mm-gtm-r7 .decision-workbench {
+    display: grid;
+    min-height: 0;
+    grid-column: 2;
+    grid-row: 1;
+    grid-template-rows: auto minmax(0, 1fr);
+    overflow: hidden;
+    border: 1px solid rgba(75, 55, 31, .3);
+    background: linear-gradient(105deg, rgba(255, 253, 247, .9), rgba(238, 226, 204, .78));
+    box-shadow: 0 2rem 5rem rgba(73, 49, 24, .14);
+  }
+
+  .mm-gtm-r7 .decision-ledger {
+    border: 0;
+    border-bottom: 1px solid rgba(55, 45, 30, .24);
+  }
+
+  .mm-gtm-r7 .decision-chapter {
+    position: absolute;
+    inset: 3.25rem 0 0;
+    visibility: hidden;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(1rem);
+    transition: opacity 280ms ease, transform 420ms cubic-bezier(.2, .8, .2, 1), visibility 0s linear 420ms;
+    pointer-events: none;
+  }
+
+  .mm-gtm-r7 .decision[data-phase="0"] .decision-chapter[data-chapter="0"],
+  .mm-gtm-r7 .decision[data-phase="1"] .decision-chapter[data-chapter="1"],
+  .mm-gtm-r7 .decision[data-phase="2"] .decision-chapter[data-chapter="2"] {
+    z-index: 2;
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition-delay: 0s;
+    pointer-events: auto;
+  }
+
+  .mm-gtm-r7 .signal-chapter {
+    display: grid;
+    grid-template-columns: minmax(23rem, .9fr) minmax(22rem, 1.1fr);
+    gap: clamp(2rem, 4vw, 4.5rem);
+    align-items: center;
+    padding: clamp(1.5rem, 3svh, 2.75rem) clamp(1.5rem, 3vw, 3rem);
+  }
+
+  .mm-gtm-r7 .question-block h2 {
+    max-width: 9ch;
+    margin-bottom: clamp(.8rem, 1.5svh, 1.2rem);
+    font-size: clamp(3.25rem, min(5vw, 8svh), 5.8rem);
+    line-height: .88;
+  }
+
+  .mm-gtm-r7 .question-block > p:last-child,
+  .mm-gtm-r7 .question-block #signalQuestion {
+    max-width: 24ch;
+    font-size: clamp(1.35rem, min(2.2vw, 3.5svh), 2.25rem);
+  }
+
+  .mm-gtm-r7 .evidence-slip {
+    align-self: center;
+    max-height: 100%;
+  }
+
+  .mm-gtm-r7 .response-chapter {
+    display: grid;
+    min-height: 0;
+    grid-template-columns: minmax(18rem, .62fr) minmax(0, 1.38fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: clamp(1.1rem, 2svh, 1.8rem) clamp(1.5rem, 3vw, 3rem);
+    padding: clamp(1.35rem, 2.6svh, 2.4rem) clamp(1.5rem, 3vw, 3rem);
+  }
+
+  .mm-gtm-r7 .response-chapter .chapter-heading {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .mm-gtm-r7 .response-tabs {
+    grid-column: 1;
+    grid-row: 2;
+    align-content: start;
+    grid-template-columns: 1fr;
+    margin: 0;
+    border: 1px solid rgba(55, 45, 30, .24);
+    border-bottom: 0;
+  }
+
+  .mm-gtm-r7 .response-tabs button {
+    min-height: clamp(3.2rem, 8svh, 4.4rem);
+    border-right: 0;
+    border-bottom: 1px solid rgba(55, 45, 30, .24);
+    text-align: left;
+  }
+
+  .mm-gtm-r7 .response-tabs button[aria-checked="true"] {
+    box-shadow: inset 3px 0 var(--mint-dark);
+  }
+
+  .mm-gtm-r7 .commercial-map {
+    position: relative;
+    grid-column: 2;
+    grid-row: 1 / 3;
+    display: grid;
+    min-height: 0;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 0;
+    padding: 0;
+    border: 1px solid rgba(55, 45, 30, .24);
+    background: rgba(247, 241, 229, .54);
+  }
+
+  .mm-gtm-r7 .commercial-map::before {
+    position: absolute;
+    z-index: 0;
+    top: calc(50% + 1.6rem);
+    right: 7%;
+    left: 7%;
+    height: 1px;
+    background: linear-gradient(90deg, var(--amber), var(--mint-dark));
+    content: "";
+    transform: scaleX(clamp(0, calc((var(--decision-progress) - .34) * 4.5), 1));
+    transform-origin: left;
+    transition: transform 120ms linear;
+  }
+
+  .mm-gtm-r7 .commercial-map::after {
+    display: none;
+  }
+
+  .mm-gtm-r7 .map-core {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    display: flex;
+    min-height: 5.6rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1rem 1.25rem;
+    border: 0;
+    border-bottom: 1px solid rgba(130, 230, 183, .2);
+    background: var(--ink);
+    text-align: left;
+  }
+
+  .mm-gtm-r7 .map-core strong {
+    max-width: none;
+    font-size: clamp(1.55rem, min(2.2vw, 3.5svh), 2.35rem);
+    text-align: right;
+  }
+
+  .mm-gtm-r7 .map-core i {
+    flex: 0 0 auto;
+    margin: 0;
+  }
+
+  .mm-gtm-r7 .map-axis {
+    z-index: 1;
+    grid-row: 2;
+    align-content: start;
+    gap: .75rem;
+    min-height: 0;
+    padding: clamp(1rem, 2svh, 1.6rem) 1rem;
+    border: 0;
+    border-right: 1px solid rgba(55, 45, 30, .2);
+    background: linear-gradient(180deg, rgba(255, 253, 247, .84), rgba(242, 232, 215, .64));
+    opacity: .18;
+    transform: translateY(.75rem);
+  }
+
+  .mm-gtm-r7 .axis-product { grid-column: 1; }
+  .mm-gtm-r7 .axis-price { grid-column: 2; }
+  .mm-gtm-r7 .axis-positioning { grid-column: 3; }
+  .mm-gtm-r7 .axis-people { grid-column: 4; border-right: 0; }
+
+  .mm-gtm-r7 .decision[data-phase="1"] .map-axis {
+    opacity: 1;
+    transform: none;
+    transition: opacity 360ms ease, transform 460ms cubic-bezier(.2, .8, .2, 1);
+  }
+
+  .mm-gtm-r7 .decision[data-phase="1"] .axis-product { transition-delay: 80ms; }
+  .mm-gtm-r7 .decision[data-phase="1"] .axis-price { transition-delay: 180ms; }
+  .mm-gtm-r7 .decision[data-phase="1"] .axis-positioning { transition-delay: 280ms; }
+  .mm-gtm-r7 .decision[data-phase="1"] .axis-people { transition-delay: 380ms; }
+
+  .mm-gtm-r7 .map-axis strong {
+    font-size: clamp(.88rem, min(1.05vw, 2.2svh), 1.08rem);
+    line-height: 1.28;
+  }
+
+  .mm-gtm-r7 .mobile-response {
+    display: none !important;
+  }
+
+  .mm-gtm-r7 .test-chapter {
+    display: grid;
+    grid-template-columns: minmax(18rem, .62fr) minmax(0, 1.38fr);
+    gap: clamp(1.5rem, 3vw, 3rem);
+    align-items: center;
+    padding: clamp(1.5rem, 3svh, 3rem) clamp(1.5rem, 3vw, 3rem);
+  }
+
+  .mm-gtm-r7 .test-ticket {
+    display: grid;
+    grid-template-columns: minmax(14rem, .82fr) minmax(16rem, 1.18fr);
+    gap: clamp(1rem, 2vw, 2rem);
+    margin: 0;
+    padding: clamp(1.2rem, 2.4svh, 2rem);
+  }
+
+  .mm-gtm-r7 .test-ticket ol {
+    grid-column: 1 / -1;
+    border-top: 1px solid rgba(130, 230, 183, .2);
+    border-left: 0;
+  }
+}
+
+/* Shallow desktop windows remain full compositions without clipping. */
+@media (min-width: 80.001rem) and (max-height: 47rem) {
+  .mm-gtm-r7 .decision-sticky {
+    padding-top: 5.35rem;
+    padding-bottom: .65rem;
+  }
+
+  .mm-gtm-r7 .question-block h2 {
+    font-size: clamp(3rem, 7.4svh, 4.5rem);
+  }
+
+  .mm-gtm-r7 .chapter-heading h2 {
+    font-size: clamp(2.4rem, 6.2svh, 3.55rem);
+  }
+
+  .mm-gtm-r7 .signal-chapter,
+  .mm-gtm-r7 .response-chapter,
+  .mm-gtm-r7 .test-chapter {
+    padding-block: 1rem;
+  }
+
+  .mm-gtm-r7 .evidence-slip > p {
+    margin-block: .75rem;
+  }
+}
+
+/* Tablet and phone: the same story becomes three authored chapters. */
+@media (max-width: 80rem) {
+  .mm-gtm-r7 .decision {
+    height: auto !important;
+    min-height: 0;
+    padding: 5.25rem var(--edge) 4.75rem;
+  }
+
+  .mm-gtm-r7 .decision-sticky {
+    position: relative;
+    top: auto;
+    display: block;
+    width: 100%;
+    height: auto !important;
+    min-height: 0;
+    max-height: none;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .mm-gtm-r7 .decision-rail {
+    position: sticky;
+    inset: auto;
+    z-index: 10;
+    top: 4.25rem;
+    display: grid;
+    width: auto;
+    height: auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: auto;
+    flex-direction: initial;
+    flex-wrap: nowrap;
+    transform: none;
+    margin: 0 0 .75rem;
+  }
+
+  .mm-gtm-r7 .decision-rail button {
+    min-height: 44px;
+    flex: none;
+  }
+
+  .mm-gtm-r7 .decision-ledger {
+    position: sticky;
+    z-index: 8;
+    top: 7.45rem;
+    margin-bottom: 1.25rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .mm-gtm-r7 .decision-chapter {
+    position: relative;
+    inset: auto;
+    display: grid;
+    visibility: visible;
+    min-height: 0;
+    margin: 0 0 1.25rem;
+    padding: clamp(1rem, 3vw, 1.5rem);
+    border: 1px solid rgba(55, 45, 30, .24);
+    background: rgba(255, 253, 247, .48);
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .mm-gtm-r7 .signal-chapter {
+    gap: 1.25rem;
+  }
+
+  .mm-gtm-r7 .signal-chapter .question-block {
+    order: 0;
+  }
+
+  .mm-gtm-r7 .signal-chapter .evidence-slip {
+    order: 1;
+  }
+
+  .mm-gtm-r7 .response-chapter {
+    gap: 1rem;
+  }
+
+  .mm-gtm-r7 .response-tabs {
+    margin: 0;
+    border: 1px solid rgba(55, 45, 30, .24);
+    border-bottom: 0;
+  }
+
+  .mm-gtm-r7 .commercial-map {
+    display: none;
+  }
+
+  .mm-gtm-r7 .mobile-response {
+    display: grid;
+    border: 1px solid rgba(55, 45, 30, .24);
+    border-bottom: 0;
+  }
+
+  .mm-gtm-r7 .mobile-response div {
+    min-height: 0;
+    padding: .8rem;
+  }
+
+  .mm-gtm-r7 .test-chapter {
+    gap: 1rem;
+  }
+
+  .mm-gtm-r7 .test-ticket {
+    margin: 0;
+  }
+}
+
+@media (max-width: 60rem) {
+  .mm-gtm-r7 .wire-label {
+    grid-template-columns: auto 1fr;
+    gap: .45rem;
+    padding: .65rem .7rem;
+  }
+
+  .mm-gtm-r7 .wire-label time {
+    font-size: clamp(.48rem, 2vw, .57rem);
+  }
+
+  .mm-gtm-r7 .decision {
+    padding-top: 4.35rem;
+    padding-bottom: 4rem;
+  }
+
+  .mm-gtm-r7 .decision-rail {
+    top: 4.25rem;
+    margin-bottom: .75rem;
+  }
+
+  .mm-gtm-r7 .decision-ledger {
+    top: 7.65rem;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.25fr);
+    min-height: 2.8rem;
+    margin-bottom: .9rem;
+    padding: .55rem .65rem;
+  }
+
+  .mm-gtm-r7 .decision-ledger small {
+    display: none;
+  }
+
+  .mm-gtm-r7 .decision-ledger strong {
+    font-size: .72rem;
+  }
+
+  .mm-gtm-r7 .decision-chapter {
+    padding: .9rem;
+  }
+
+  .mm-gtm-r7 .chapter-heading h2 {
+    font-size: clamp(2.2rem, 10vw, 3.35rem);
+  }
+
+  .mm-gtm-r7 .test-ticket {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .9rem;
+    padding: 1rem;
+  }
+
+  .mm-gtm-r7 .test-ticket ol {
+    grid-template-columns: 1fr;
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 24rem) {
+  .mm-gtm-r7 .wire-label time span:first-child {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .mm-gtm-r7 .wire-label time span + span::before {
+    content: "";
+  }
+
+  .mm-gtm-r7 .decision-ledger i {
+    width: 1.25rem;
+  }
+}
+
+/* Paid proof: one complete desktop viewport, never a cropped billboard. */
+@media (min-width: 60.001rem) {
+  .mm-gtm-r7 .proof {
+    min-height: 100svh;
+    align-items: center;
+    padding-top: max(6.25rem, 8svh);
+    padding-bottom: max(2rem, 5svh);
+  }
+
+  .mm-gtm-r7 .proof-copy {
+    display: grid;
+    align-content: center;
+    max-width: min(43rem, 51vw);
+  }
+
+  .mm-gtm-r7 .proof h2 {
+    margin-bottom: clamp(.8rem, 2svh, 1.35rem);
+    font-size: clamp(3.8rem, min(6vw, 9.2svh), 6.8rem);
+    line-height: .86;
+  }
+
+  .mm-gtm-r7 .proof-copy > p {
+    margin-bottom: clamp(.7rem, 1.6svh, 1.2rem);
+    font-size: clamp(1.3rem, min(2vw, 3.1svh), 2rem);
+  }
+
+  .mm-gtm-r7 .proof blockquote {
+    margin: clamp(.6rem, 1.5svh, 1.1rem) 0;
+    padding-top: clamp(.6rem, 1.2svh, .9rem);
+  }
+
+  .mm-gtm-r7 .proof .primary-action {
+    margin-top: clamp(.7rem, 1.5svh, 1.2rem);
+  }
+}
+
+@media (min-width: 60.001rem) and (max-height: 48rem) {
+  .mm-gtm-r7 .proof {
+    min-height: 100svh;
+    padding-top: 5.6rem;
+    padding-bottom: 1rem;
+  }
+
+  .mm-gtm-r7 .proof h2 {
+    font-size: clamp(3.25rem, 8.2svh, 4.55rem);
+  }
+
+  .mm-gtm-r7 .proof-copy > p {
+    font-size: clamp(1.05rem, 2.6svh, 1.35rem);
+  }
+
+  .mm-gtm-r7 .proof blockquote {
+    font-size: .9rem;
+  }
+
+  .mm-gtm-r7 .proof .primary-action {
+    min-height: 2.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-gtm-r7 .decision {
+    height: auto;
+  }
+
+  .mm-gtm-r7 .decision-sticky {
+    position: relative;
+    display: block;
+    width: min(calc(100% - 2rem), 90rem);
+    height: auto;
+    padding: 6rem 0 3rem;
+  }
+
+  .mm-gtm-r7 .decision-rail {
+    display: none;
+  }
+
+  .mm-gtm-r7 .decision-workbench {
+    display: block;
+    overflow: visible;
+  }
+
+  .mm-gtm-r7 .decision-ledger {
+    position: relative;
+    top: auto;
+  }
+
+  .mm-gtm-r7 .decision-chapter,
+  .mm-gtm-r7 .decision[data-phase] .decision-chapter {
+    position: relative;
+    inset: auto;
+    display: grid;
+    visibility: visible;
+    margin-top: 1rem;
+    padding: 1.5rem;
+    border: 1px solid rgba(55, 45, 30, .24);
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+}

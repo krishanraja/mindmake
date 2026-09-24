@@ -1,0 +1,10 @@
+.gitattributes text eol=lf
+src/components/homepage-release/* text eol=lf
+src/pages/Index.tsx text eol=lf
+scripts/qa/*homepage*release*.mjs text eol=lf
+scripts/qa/*scroll*.mjs text eol=lf
+artifacts/homepage-release/*.json text eol=lf
+quality/route-lock/approved-production-r4.json text eol=lf
+prototypes/website-redesign-recovery/homepage-production-synthesis-r3/* text eol=lf
+artifacts/material-review/homepage-integrated-candidate-r3/*.json text eol=lf
+artifacts/material-review/homepage-integrated-candidate-r3/jurors/*.json text eol=lf

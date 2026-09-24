@@ -1,0 +1,66 @@
+/* BRAIN-ALIGNMENT-S2-LOCK
+   Declared delta: protect approved display and body copy measures without changing hierarchy, interaction or imagery. */
+:root{
+  --brain-display-measure:10ch;
+  --brain-copy-measure:31rem;
+  --brain-narrow-copy-measure:25rem;
+}
+
+.chapter-copy,.opening-copy,.plain-inspector,.pulse-core{min-width:0}
+.chapter-copy>h2,.opening-copy>h1,.plain-inspector>h3,.pulse-core>strong{
+  max-inline-size:var(--brain-display-measure);
+  text-wrap:balance;
+  overflow-wrap:normal;
+  word-break:normal;
+  hyphens:none;
+}
+.chapter-copy>p,.opening-copy>p,.plain-inspector>p,.memory-sheet>p,.source-pod>strong,.record-card strong,.record-card small{
+  overflow-wrap:break-word;
+  word-break:normal;
+  hyphens:none;
+}
+.chapter-copy>p,.opening-copy>p,.plain-inspector>p{max-inline-size:var(--brain-copy-measure);text-wrap:pretty}
+
+@media(min-width:901px){
+  .correction::before{
+    background:linear-gradient(90deg,rgba(111,56,47,.94) 0 39%,transparent 39%),repeating-linear-gradient(0deg,transparent 0 79px,rgba(19,39,30,.06) 80px)
+  }
+  .correction{grid-template-columns:minmax(20rem,.78fr) minmax(34rem,1.22fr)}
+  .correction .chapter-copy{max-inline-size:31rem}
+  .correction .chapter-copy>h2{max-inline-size:11.5ch;font-size:clamp(2.8rem,4.7vw,5.6rem)}
+  .correction .chapter-copy>p{max-inline-size:var(--brain-narrow-copy-measure)}
+}
+
+@media(min-width:761px) and (max-width:900px) and (orientation:portrait){
+  .chapter{grid-template-columns:minmax(14rem,.65fr) minmax(25rem,1.35fr);gap:1.25rem;padding-inline:1.5rem}
+  .opening{grid-template-columns:minmax(19rem,.85fr) minmax(19rem,1.15fr)}
+  .opening-copy>h1{max-inline-size:9.5ch;font-size:clamp(3.8rem,7.4vw,4.5rem)}
+  .correction{grid-template-columns:minmax(17rem,.8fr) minmax(24rem,1.2fr)}
+  .correction::before{
+    background:linear-gradient(90deg,rgba(111,56,47,.94) 0 42%,transparent 42%),repeating-linear-gradient(0deg,transparent 0 79px,rgba(19,39,30,.06) 80px)
+  }
+  .correction .chapter-copy{max-inline-size:17rem}
+  .correction .chapter-copy>h2{max-inline-size:11.5ch;font-size:clamp(2.8rem,5.4vw,4rem)}
+  .correction .chapter-copy>p{max-inline-size:17rem}
+}
+
+@media(max-width:760px){
+  .chapter-copy>h2,.opening-copy>h1{max-inline-size:9.5ch}
+  .chapter-copy>h2{font-size:clamp(1.9rem,12vw,4.6rem)}
+  .opening-copy>h1{font-size:clamp(2rem,17vw,6rem)}
+  .correction .chapter-copy>h2{max-inline-size:11.5ch}
+  .correction .chapter-copy>p{max-inline-size:30rem;text-wrap:balance}
+}
+
+@media(max-width:360px){
+  .chapter-copy>h2,.opening-copy>h1{max-inline-size:9ch}
+  .correction .chapter-copy>h2{max-inline-size:11.5ch}
+}
+
+@media(max-width:420px) and (max-height:700px){
+  .opening{grid-template-columns:1fr;gap:.75rem}
+  .opening-copy{grid-column:1}
+  .opening-copy>h1{max-inline-size:9ch;font-size:clamp(2rem,14vw,3rem)}
+  .brain-object{grid-column:1;grid-row:2;width:9.5rem;justify-self:end;margin-top:-3.25rem}
+  .opening-note{grid-column:1;grid-row:3}
+}

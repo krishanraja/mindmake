@@ -42,6 +42,19 @@ function visible(html: string, tags = "p|li|h1|h2|h3|h4|legend|small|blockquote|
   return out;
 }
 
+/** Both accepted device compositions live in the SSR DOM; only one is shown.
+ * Check each independently, so an actual repeat within either still fails. */
+function responsiveCopies(html: string) {
+  const document = new DOMParser().parseFromString(html, "text/html");
+  if (!document.querySelector(".r3-variant")) return [{device: "shared", html}];
+  return ["desktop", "mobile"].map(device => {
+    const copy = document.body.cloneNode(true) as HTMLElement;
+    const hidden = device === "desktop" ? "mobile" : "desktop";
+    copy.querySelectorAll(`.r3-variant.preview-${hidden}, .r3-variant.device-${hidden}`).forEach(node => node.remove());
+    return {device, html: copy.innerHTML};
+  });
+}
+
 /**
  * Copy that only exists to admire the copy above it.
  *
@@ -72,6 +85,47 @@ const NARRATES_A_CONTROL = [
   /\bthe answer opens\b/i,
 ];
 
+/**
+ * Copy previously used to rescue a proof surface after the interface had
+ * already made the same point. The visual and information architecture must
+ * carry this meaning without a second voice narrating them.
+ */
+const BACKUP_SINGER_COPY = [
+  "Open any result. Move its mechanism. Return without losing your place.",
+  "Form shows the kind of change, never its size.",
+  "Illustrative machinery films · never client footage.",
+  "Fourteen tools running",
+  "Three kept, eleven stopped",
+  "The drawing shows the kind of recorded change, not its size.",
+  "Eight pieces of work. Eight recorded changes.",
+  "Eleven tools stopped. One useful system went live.",
+];
+
+/**
+ * Internal strategy notes that were once exposed as interface choices.
+ *
+ * A short label is not clear merely because the team that wrote it knows the
+ * hidden object. These stay explicit so a later visual compression cannot
+ * quietly put the shorthand back.
+ */
+const UNEXPLAINED_SHORTHAND = [
+  "Keep the seat",
+  "Meter the work",
+  "Price the result",
+  "Keep website-first",
+  "Syndicate the catalogue",
+  "Build for agent buying",
+  "Keep the spec gate",
+  "Prototype before commitment",
+  "Prototype against evidence",
+  "Protect the page",
+  "License the evidence",
+  "Build the intelligence product",
+  "Lead with features",
+  "Name the completed job",
+  "Prove the operating model",
+];
+
 /** Words too common to make two sentences the same sentence. */
 const NOISE = new Set(["the", "a", "an", "and", "or", "of", "to", "in", "on", "it", "is", "we", "you", "your", "our", "that", "this", "for", "with", "as", "at", "by", "from", "then", "so"]);
 
@@ -99,13 +153,37 @@ describe("copy restraint", () => {
     expect(offences).toEqual([]);
   });
 
+  it.each(ROUTES)("uses no backup-singer proof copy on %s", (route) => {
+    const pageText = visible(rendered.get(route)!, "p|li|h1|h2|h3|h4|legend|small|blockquote|cite|span").join(" ").toLowerCase();
+    const offences = BACKUP_SINGER_COPY.filter((phrase) => pageText.includes(phrase.toLowerCase()));
+    expect(offences).toEqual([]);
+  });
+
+  it.each(ROUTES)("uses no unexplained strategy shorthand on %s", (route) => {
+    const pageText = visible(rendered.get(route)!, "p|li|h1|h2|h3|h4|legend|small|blockquote|cite|button|a").join(" ").toLowerCase();
+    const offences = UNEXPLAINED_SHORTHAND.filter((phrase) => pageText.includes(phrase.toLowerCase()));
+    expect(offences).toEqual([]);
+  });
+
+  it("keeps the stated intake count identical to the details it names", () => {
+    const faq = visible(rendered.get("/faq")!).join(" ");
+    expect(faq).toContain("four details: your first name, your last name, your work email and the part of the business you work in");
+  });
+
+  it("states the contact handoff without an orphan-prone location fragment", () => {
+    const contact = visible(rendered.get("/contact")!).join(" ");
+    expect(contact).toContain("Your email app will open. Nothing is sent until you press Send.");
+    expect(contact).not.toContain("Send there");
+  });
+
   it.each(ROUTES)("says each sentence once on %s", (route) => {
     /* Quotes are excluded and cite lines with them. The same client sentence
        appears in the story deck and in the voices drum on the homepage, and
        that is two people's evidence rather than our copy said twice. */
-    const seen = new Map<string, string>();
-    const repeats: string[] = [];
-    for (const block of visible(rendered.get(route)!, "p|li|h2|h3|h4|legend")) {
+    for (const composition of responsiveCopies(rendered.get(route)!)) {
+      const seen = new Map<string, string>();
+      const repeats: string[] = [];
+      for (const block of visible(composition.html, "p|li|h2|h3|h4|legend")) {
       for (const sentence of sentences(block)) {
         const id = key(sentence);
         /* Six content words. Below that a repeat is a turn of phrase, not a
@@ -115,6 +193,7 @@ describe("copy restraint", () => {
         else seen.set(id, sentence);
       }
     }
-    expect(repeats).toEqual([]);
+      expect(repeats, `${route}: ${composition.device}`).toEqual([]);
+    }
   });
 });

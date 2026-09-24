@@ -1,0 +1,45 @@
+{
+  "artifact": "mindmake-approved-production-routes-r1",
+  "approvedAt": "2026-09-16",
+  "approval": "this now looks good, lock and proceed, ensuring the system cannot fall apart moving forward",
+  "routes": ["/ai-brain", "/ai-gtm"],
+  "changePolicy": "Any change to a locked file requires an explicit locked revision, fresh deterministic and rendered verification, and a new manifest revision. Never overwrite this approval record in place.",
+  "files": {
+    "src/pages/AiBrain.tsx": "01d4c5178c956b032f603ab710d69f375980ca2e83feed636033fa540bdaf663",
+    "src/styles/mindmake-brain-r5.css": "32563b03aef30c343e3fc99447703852d99ca0d0c9d85cb81a2c866ba2264850",
+    "src/data/vnext/brain-fixture.json": "02fa968575d7000874f0f10a09123336ad6ec3f7bf373dcd351fbb7e7ef2b1b9",
+    "prototypes/ai-brain-vnext-r5/production-review.html": "9e103b2ebf3af6acd9079b44c05228dea7ca2ed201007f5920021f80b7f459b9",
+    "src/pages/AiGtm.tsx": "727321f10b6e5106fb96028b9528badfb69625050e3b73f53cf30fcc00d9cb6f",
+    "src/styles/mindmake-gtm-r6.css": "e85bbed6918d71cc8edcab44f0f02b365d12ea23e4b48708139032362addbc81",
+    "src/data/vnext/gtm-signals.json": "5ab7fac6ce8ebdab6b69b73f60e184a7e4df8d923d97edd29c38872648c3bf7f",
+    "prototypes/ai-gtm-vnext-r6/production-review.html": "48968401aa1a8dc8f8f352ab4f2c49f67252170ad7dfe248a17053be8c016243",
+    "scripts/qa/approved-route-lock-check.mjs": "d5d1a40c2a54e1eb8cff6e745c252cdd84ee2d9d296a1c41386091b838a51bae",
+    "scripts/qa/approved-route-lock-self-test.mjs": "9f363a59b9d20a2fbfa6f10b510788011d258591e83ab578b550e3d007d504c5",
+    ".github/workflows/approved-route-lock.yml": "163b253b1289d447f629a5066062108aceefa79e6b249b39636423a9d9f412b6",
+    "scripts/qa/locked-route-regression-audit.mjs": "574c49793ad4a105c6b36138fa180d36b2604f6a211e9042053746e1154c8f92",
+    "scripts/qa/route-lock-production-check.mjs": "385519b093f5d58a94e1992a08583a009f2e8efd68177fc485e2d7768929b6b0",
+    "scripts/qa/plain-language-check.mjs": "639c62446bf7f3a01693ba1fc20e446e23ba8fbc8d17bc429e41da951fafd9a8"
+  },
+  "minimumContracts": {
+    "brain": {
+      "meanings": 20,
+      "relationships": 18,
+      "sources": 10,
+      "corrections": 3,
+      "states": ["Decision", "Brain", "Evidence", "Correction"],
+      "requiredInstruments": ["portrait-board", "living-brain", "brain-evidence", "brain-change"]
+    },
+    "gtm": {
+      "signals": 5,
+      "responseChoices": 15,
+      "stages": ["Signal", "Response", "Customer test"],
+      "requiredInstruments": ["ticker-window", "signal-to-choice", "commercial-map", "test-ticket"]
+    }
+  },
+  "forbiddenPhrases": ["keep the seat", "meter the work", "price the result"],
+  "renderedEvidence": [
+    "C:/Users/krish/.scratch/mindmake-locked-route-regression",
+    "C:/Users/krish/.scratch/mindmake-route-lock-production-final"
+  ],
+  "authority": "The production experience is approved and locally locked. Commit, preview deployment, production deployment and publication remain separate authority gates."
+}

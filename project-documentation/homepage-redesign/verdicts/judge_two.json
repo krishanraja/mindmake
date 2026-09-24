@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "judgeId": "judge_two",
+  "candidateOrder": [
+    "candidate_b",
+    "candidate_c",
+    "candidate_a"
+  ],
+  "diversity": {
+    "passes": false,
+    "pairs": [
+      {
+        "pair": "candidate_b:candidate_c",
+        "differentAxes": [
+          "sequencing",
+          "user_agency",
+          "primary_interaction",
+          "information_structure",
+          "state_model"
+        ],
+        "rationale": "B asks the visitor to operate a generic-versus-grounded evidence comparison before choosing a route and shows both outputs together. C serves the distinction as copy, then makes Brain versus GTM the control and swaps one local answer and result."
+      },
+      {
+        "pair": "candidate_a:candidate_b",
+        "differentAxes": [
+          "sequencing",
+          "user_agency",
+          "primary_interaction",
+          "information_structure",
+          "state_model"
+        ],
+        "rationale": "A makes route selection the first interaction and lets that state retune several downstream scenes. B first changes an evidence state, keeps both route outcomes visible in parallel, and only then offers the adjacent doors."
+      },
+      {
+        "pair": "candidate_a:candidate_c",
+        "differentAxes": [
+          "sequencing",
+          "information_structure"
+        ],
+        "rationale": "A propagates the chosen route through a sticky rail, mechanism, result and repeated start action, while C contains most change in a local answer plate and matched proof band. Those are differences of reach and placement, not two materially different concepts: both use the same served distinction, adjacent Brain/GTM selector, selected answer, selected proof and shared paid-proof spine."
+      }
+    ]
+  },
+  "candidateVerdicts": [
+    {
+      "candidateId": "candidate_b",
+      "hardConstraintsPass": true,
+      "scores": {
+        "commercialClarity": 8.3,
+        "informationEconomy": 8.6,
+        "interactionStrength": 8.9,
+        "mobileQuality": 8.0,
+        "brandSpecificity": 9.1,
+        "proofIntegrity": 9.3,
+        "feasibility": 8.8
+      },
+      "strength": "The evidence comparison earns its place by demonstrating the generic-versus-grounded mechanism before asking for a route. Showing Brain and GTM outcomes together makes the two doors read as applications of one practice, and its proof labelling is especially disciplined.",
+      "failure": "It introduces an interaction before the commercially important route choice. On a 320 by 568 or 844 by 390 viewport, orientation, selector, two proof rows and both doors may compete, so the evidence instrument risks delaying the action and weakening route-first clarity.",
+      "raiseCondition": "Make the comparison useful in its untouched state, remove proof-track expansion from the opening, and prove with rendered viewport checks that practice, buyer, both door names and a route action fit without requiring the visitor to operate the selector."
+    },
+    {
+      "candidateId": "candidate_c",
+      "hardConstraintsPass": false,
+      "scores": {
+        "commercialClarity": 9.0,
+        "informationEconomy": 8.9,
+        "interactionStrength": 8.1,
+        "mobileQuality": 8.6,
+        "brandSpecificity": 8.6,
+        "proofIntegrity": 9.2,
+        "feasibility": 7.8
+      },
+      "strength": "The served reading followed by one adjacent route rail is the quickest concept to understand. The answer plate keeps feedback at the point of action, selected proof reduces noise, and the wide, portrait and short-landscape adaptations are coherently described.",
+      "failure": "The route-start state delegates to the existing lead flow but never specifies a contained drawer or dialog, focus trapping, Escape or Back closure, or focus restoration. It gives those guarantees only for the menu, leaving a direct accessibility and mobile-flow invariant unmet. It is also conceptually near-duplicate of A.",
+      "raiseCondition": "Define the lead flow as a contained responsive surface with trapped focus, logical keyboard order, Escape or Back closure and exact trigger restoration, then materially differentiate the concept from A rather than merely localising the same selector-driven content swap."
+    },
+    {
+      "candidateId": "candidate_a",
+      "hardConstraintsPass": true,
+      "scores": {
+        "commercialClarity": 9.2,
+        "informationEconomy": 8.7,
+        "interactionStrength": 8.5,
+        "mobileQuality": 8.5,
+        "brandSpecificity": 8.8,
+        "proofIntegrity": 9.1,
+        "feasibility": 8.9
+      },
+      "strength": "A puts the familiar Brain and GTM doors at the centre of the first decision, preserves one shared practice, and carries a reversible route state through mechanism, proof and lead flow. Its keyboard, hidden-content, reduced-motion and return-focus provisions are the most complete.",
+      "failure": "Retuning several downstream scenes and keeping a sticky selector can make a simple route choice feel like a branching microsite, while the repeated route action risks duplication. The concept also shares almost its entire interaction and state spine with C, reducing the panel's intended divergence.",
+      "raiseCondition": "Keep one route rail and one primary start action, bound the retuned content to a compact mechanism-and-result module, and demonstrate stable scroll position and content height when switching late on phone and short landscape."
+    }
+  ],
+  "winner": "candidate_a",
+  "runnerUp": "candidate_b",
+  "disguisedRepetition": "Candidates A and C are disguised repetition. Both teach the generic-versus-grounded distinction, use adjacent Brain/GTM controls as the primary interaction, swap a mint route answer and one anonymous result, retain one shared paid-proof explanation, and pass the selected route into the lead flow. A spreads the state farther and C contains it locally, but the visitor's conceptual journey is substantially the same. B is materially distinct.",
+  "constraintRegression": "Candidate C regresses the lead-flow accessibility and mobile containment requirement because it does not define the route surface, focus trap, Escape or Back behaviour, or trigger restoration. Candidate B passes the stated invariants but carries a high first-viewport crowding risk that must be verified in render. Candidate A states the required route, proof, keyboard, motion and private-information constraints without a hard regression.",
+  "discardedStrengths": "All three concepts risk discarding the strongest rejected-work assets while escaping its structure: the private-observatory atmosphere, cinematic archival imagery, confident type contrast and light-versus-dark chapter rhythm. Restore one restrained archival film or still in the compact practice-proof close, with text and poster fallback, and retain one decisive light-to-dark transition. Do not restore the long sequence, dense proof wall or repeated boxed chapters.",
+  "synthesisInstructions": [
+    "Use candidate A as the prototype spine: one first-viewport statement of practice and buyer, one adjacent Brain/GTM rail, and one reversible route state carried into the existing lead flow.",
+    "Borrow B's causal evidence logic without adding its second selector: the route response should show one shared input grounded in standards, context and past decisions, then one route-shaped output with amber marking only what changed and mint marking the answer.",
+    "Keep the selected mechanism and one approved anonymous result in one compact module directly under the rail. Do not retune multiple long scenes, expand proof tracks, or repeat the primary start action.",
+    "Follow with one shared paid-proof statement explaining real work and client ownership, then a compact practice close. Keep anonymous outcomes, named references and attendee brands in separately labelled regions, and keep CTRL unlinked and unsold.",
+    "Implement the start action as a contained drawer on standard viewports and a full-height focused surface on short landscape, with a logical tab order, trapped focus, Escape or Back closure, and restoration to the exact door trigger.",
+    "At 320 by 568 and 844 by 390, prioritise practice, buyer, both full door names and one route action before any secondary annotation. Keep the control adjacent, targets at least 44 pixels, state persistent through rotation, and hidden content inert.",
+    "Restore one cinematic archival visual and a single light-to-dark chapter transition in the practice close, preserving the observatory atmosphere without adding a screen or making media necessary for comprehension.",
+    "Prototype all untouched, Brain, GTM, drawer-open, reduced-motion, media-fallback and rotation states, then verify word count, viewport fit, focus order, focus restoration and stable scroll position with deterministic checks."
+  ],
+  "confidence": "high"
+}

@@ -1,0 +1,62 @@
+{
+  "id": "commercial-conversion-ee7b010a",
+  "contextId": "r3-commercial-ee7b010a-independent",
+  "executorId": "agent-r3-commercial-ee7b010a",
+  "candidateSha256": "ee7b010ae7da6d7748d3504ca47c24fe149b280f815423d36c50b44e9ad241a1",
+  "surface": "desktop+mobile",
+  "coverage": [
+    "product_truth",
+    "conversion_trust",
+    "information_architecture_guidance"
+  ],
+  "status": "pass",
+  "summary": "PASS for frozen candidate ee7b010ae7da6d7748d3504ca47c24fe149b280f815423d36c50b44e9ad241a1. The page is commercially coherent and faithful to the owner locks: it presents exactly the two Mindmake doors, makes the build-on-real-work and keep-the-system proof early, moves causally from historical concern to the new division of work and practical payoff, and places a concrete receipt beside the final action. Desktop and mobile preserve the same legible sequence without duplicative route guidance. The final conversion matrix closes the primary handoff risk across all ten governed journeys: six journeys finish through GTM and four through Brain, each requiring an unobstructed CTA centre hit, the named URL parameter and a lead dialog at data-step=company rather than the generic chooser. Independent matching-runtime reproduction also confirmed desktop GTM to /?start=gtm and compact-mobile Brain to /?start=brain with clear CTA centre hits and no generic chooser. Product truth, conversion trust and information-architecture guidance pass with no blocker, major or minor finding in this specialist scope.",
+  "findings": [],
+  "hardGates": [
+    {
+      "id": "exact_candidate_identity",
+      "status": "pass",
+      "detail": "The repository-defined six-file composite identity recomputes exactly to ee7b010ae7da6d7748d3504ca47c24fe149b280f815423d36c50b44e9ad241a1."
+    },
+    {
+      "id": "candidate_bound_evidence_integrity",
+      "status": "pass",
+      "detail": "Browser, readiness and continuity receipts bind to ee7b010a; all 39 cited report and screenshot hashes matched at adjudication time, covering ten journeys and ten screenshots across Chromium, Firefox and WebKit with zero recorded failures."
+    },
+    {
+      "id": "owner_decision_fidelity",
+      "status": "pass",
+      "detail": "Static candidate checks report 114 parity rows with no failures, and the homepage synthesis parity check passes six source components and ten locked copy values. No owner-selected copy or decision was reopened."
+    },
+    {
+      "id": "product_truth",
+      "status": "pass",
+      "detail": "The surface presents the two canonical public doors, AI Brain and AI GTM, without a public price, retired offer or third advisory product. It frames the paid proof as a working version built on real work that the buyer keeps, and distinguishes AI-carried work from retained human judgement."
+    },
+    {
+      "id": "proof_and_trust_placement",
+      "status": "pass",
+      "detail": "The opening proof line follows the two doors, and the route-specific outcome is followed by a clearly labelled anonymous client receipt immediately beside the final action rather than being deferred to navigation or a separate proof page."
+    },
+    {
+      "id": "information_architecture_guidance",
+      "status": "pass",
+      "detail": "Desktop and mobile preserve a causal opening-history-authority-practice-payoff-route sequence. Distinct controls expose historical stories, Work versus Organisation, practical and benefit states, and the final Brain/GTM route without duplicative guidance."
+    },
+    {
+      "id": "conversion_trust",
+      "status": "pass",
+      "detail": "Route selection updates the offer-specific outcome and binds Start here to the selected door. The governed matrix checks an unobstructed centre hit, clicks the actual CTA, preserves the named route and requires the lead dialog to bypass the generic chooser."
+    },
+    {
+      "id": "desktop_mobile_primary_handoff",
+      "status": "pass",
+      "detail": "The ten-journey matrix covers both named routes across governed desktop, mobile, short-height, zoom-equivalent and phone-landscape viewports. Independent matching-runtime checks reproduced desktop GTM to /?start=gtm and compact-mobile Brain to /?start=brain, both at the company step with the generic chooser absent."
+    },
+    {
+      "id": "current_external_media_destination",
+      "status": "pass",
+      "detail": "The footer's Media destination resolved successfully at adjudication time."
+    }
+  ]
+}

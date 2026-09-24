@@ -389,9 +389,9 @@ body { margin: 0; background: #0a100d; }
     --t-size: clamp(23px, 6.6vw, 29px);
     --o-size: clamp(13px, 3.6vw, 14.5px);
     --q-size: clamp(14px, 3.9vw, 16px);
-    --band-title: calc(var(--t-size) * 1 * 2);          /* two lines, always */
+    --band-title: calc(var(--t-size) * 1 * 3);          /* three lines, always */
     --band-outcome: calc(var(--o-size) * 1.45 * 3);     /* three lines, always */
-    --band-quote: calc(var(--q-size) * 1.44 * 4 + 24px);/* four lines plus the source */
+    --band-quote: calc(var(--q-size) * 1.44 * 5 + 42px);/* five lines, plus a source that may take two */
     --band-figure: 236px;                               /* the evidence, one size */
 
     position: absolute; inset: 0; z-index: 3;
@@ -493,10 +493,13 @@ body { margin: 0; background: #0a100d; }
   .region .expanded-visual { grid-area: 3 / 1; align-self: stretch; }
 }
 
-/* Below about 345px two of the eight titles need a third line. The band takes
- * it for all eight rather than letting those two break the alignment. */
+/* The bands are sized against Newsreader as the site serves it, not against the
+ * Georgia the prototype falls back to — the real face is wider, and measured on
+ * the built page it needs a fifth quote line above 345px and a sixth below it.
+ * Sizing this off the fallback is what put the attribution inside the figure
+ * frame on the first build of the live page. */
 @media (max-width: 345px) {
-  .region .expanded { --band-title: calc(var(--t-size) * 1 * 3); }
+  .region .expanded { --band-quote: calc(var(--q-size) * 1.44 * 6 + 42px); --band-figure: 210px; }
 }
 
 @media (max-width: 380px) {
@@ -530,7 +533,7 @@ body { margin: 0; background: #0a100d; }
 /* ======================================================================== */
 /* No scripting.                                                            */
 /*                                                                          */
-/* `#record-{id}` is the fallback href on all eight tiles and the deep link  */
+/* A record anchor is the fallback href on all eight tiles, and the deep link  */
 /* production serves today. In S2 it resolved into a separate archive; that  */
 /* archive is gone, so the anchor now has to resolve inside this field. With */
 /* scripting off there is nothing to open a panel, so the field stops being  */

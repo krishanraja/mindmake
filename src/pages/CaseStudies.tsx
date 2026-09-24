@@ -1,13 +1,12 @@
 import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
-import { CloseBlock } from "@/components/mindmake/CloseBlock";
 import { Instrument } from "@/components/mindmake/Instrument";
+import { CloseBlock } from "@/components/mindmake/CloseBlock";
 import { ProofDrum } from "@/components/mindmake/ProofDrum";
-import { StoryFigureView } from "@/components/mindmake/StoryFigure";
 import { SubscribeBand } from "@/components/mindmake/SubscribeBand";
 import { CaseProofField } from "@/components/mindmake/locked/CaseProofField";
-import { attendeeBrands, clientStories, FIGURE_INSTRUMENT } from "@/data/rebuildProof";
+import { attendeeBrands, clientStories } from "@/data/rebuildProof";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-instruments.css";
@@ -49,33 +48,6 @@ export default function CaseStudies() {
       />
 
       <CaseProofField stories={clientStories} />
-
-      <section id="case-archive" className="mm-block mm-on-raise" aria-labelledby="archive-title">
-        <div className="mm-container">
-          <h2 id="archive-title">
-            <Instrument kind="recorder" className="mm-head-mark" />
-            The source records.
-          </h2>
-          <p className="mm-lede">One record per client: their words, and what the work changed.</p>
-          <div className="mm-stories-archive">
-            {clientStories.map((story) => (
-              <article id={`record-${story.id}`} className="mm-story-full" key={story.id} tabIndex={-1}>
-                <div className="mm-story-copy">
-                  <h2>
-                    <Instrument kind={FIGURE_INSTRUMENT[story.figure.shape]} className="mm-head-mark" />
-                    {story.result}
-                  </h2>
-                  <blockquote>
-                    {story.quote}
-                    <cite>{story.attribution}</cite>
-                  </blockquote>
-                </div>
-                <StoryFigureView figure={story.figure} />
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section className="mm-block" aria-labelledby="voices-title">
         <div className="mm-container">

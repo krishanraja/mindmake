@@ -34,7 +34,15 @@ describe("case proof field parsed-server hydration", () => {
     // A string-vs-string SSR comparison misses this: style contents use the
     // HTML RAWTEXT parser and therefore retain, rather than decode, entities.
     expect(serverCss).not.toMatch(/&(?:quot|gt|lt|amp);/);
-    expect(serverCss).toContain('font-family:"Archivo"');
+    // Positive control, so the entity assertion above cannot pass on an empty
+    // string. It deliberately asserts on the scoping this component adds rather
+    // than on the prototype stylesheet's own text: `?raw` resolves to "" under
+    // vitest, which would make any assertion about the sheet's contents a
+    // statement about the test environment instead of the product. That the
+    // sheet itself ships is proved where it can be: the built-route browser
+    // matrix and scripts/qa/case-proof-field-production-check.mjs.
+    expect(serverCss).toContain(".mm-case-proof-s2 .site-head-space");
+    expect(serverCss).toContain(".mm-case-proof-s2 .proof-shell");
     const recovered: unknown[] = [];
     let root: ReturnType<typeof hydrateRoot> | undefined;
     try {

@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 import { createHash } from 'node:crypto';
+import { tmpdir } from 'node:os';
+import { resolve } from 'node:path';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { chromium, firefox, webkit } from 'playwright';
@@ -7,7 +9,15 @@ import { createServer } from 'vite';
 import { candidateIdentity } from './award-panel-lib.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
-const output = 'C:/Users/krish/.scratch/mindmake-case-proof-field-production';
+// A hardcoded Windows path creates a literal directory named "C:" when this
+// runs on Linux or macOS, which then lands in the working tree ready to be
+// committed by accident. The author's path stays the default; every other
+// platform gets somewhere it can actually write.
+const output = process.env.MINDMAKE_QA_OUTPUT
+  ? resolve(process.env.MINDMAKE_QA_OUTPUT)
+  : process.platform === 'win32'
+    ? 'C:/Users/krish/.scratch/mindmake-case-proof-field-production'
+    : resolve(tmpdir(), 'mindmake-case-proof-field-production');
 const candidatePath = '/case-studies';
 const chromiumViewports = [[320,568],[360,800],[390,844],[430,932],[768,1024],[844,390],[1024,768],[1320,852],[1440,700],[1440,900],[1920,1080]];
 const representative = [[320,568],[390,844],[844,390],[1320,852],[1440,700],[1440,900]];
@@ -23,6 +33,11 @@ const baselineHashes = {
   'prototypes/website-redesign-recovery/case-study-browsing/script.js': '8c51caf1b2a2e96f0caaa0cb43fe369c6050f5cd7b7c6cff66790ab006f96316',
   'prototypes/website-redesign-recovery/case-study-browsing/review.html': '9742ded459c3a14efc34866a1793d15042fc2497d3542621b92bac6360c85368',
   'prototypes/website-redesign-recovery/case-study-browsing/check.mjs': '21c80984d7b414835bf31067e1ac326345f41531296cb468104535f5bc5ef053',
+  'prototypes/website-redesign-recovery/case-study-browsing-r2/index.html': '046d219a9287d70d1e3ed2b534282ce1298f891f842ca89711251fdb99772029',
+  'prototypes/website-redesign-recovery/case-study-browsing-r2/styles.css': '3387164ba701d417233fb7f03f92f96916a5bfb1ca687ee213d05596a0404beb',
+  'prototypes/website-redesign-recovery/case-study-browsing-r2/script.js': '6b37f9b58f88cf4fc34ade4cf0421719738675f910e1c54842d4935acd32676e',
+  'prototypes/website-redesign-recovery/case-study-browsing-r2/review.html': 'b318df0581aa87f00f61891422d7c607e861de4d70d79b360d790c94191da4eb',
+  'prototypes/website-redesign-recovery/case-study-browsing-r2/check.mjs': 'e90d609cc925ff5f8a49ec547c837d675131f023499ad08029c38b1f2bbd4151',
 };
 const stories = [
   ['day-one', "A day's work, and a partner signed the month after."],
@@ -162,6 +177,39 @@ async function verifyTextScale(page, label) {
   assess(state, `${label} 200% text`);
 }
 
+async function verifyRail(page, label) {
+  /* No expansion step on a phone: the record is whole on the card, the rail is
+     a real scroll container, and its controls are on screen from the first
+     frame rather than appearing once something is open. */
+  const rail = await page.evaluate(() => {
+    const list = document.querySelector('.region-list');
+    const dock = document.querySelector('.mobile-dock');
+    const seg = document.querySelector('[data-rail-segments]');
+    const onScreen = (el) => { if (!el) return false; const b = el.getBoundingClientRect(); return b.width > 0 && b.height > 0 && b.bottom <= window.innerHeight + 1 && b.right <= window.innerWidth + 1; };
+    return {
+      overflowX: getComputedStyle(list).overflowX,
+      scrolls: list.scrollWidth > list.clientWidth + 1,
+      widerThanViewport: list.clientWidth > window.innerWidth,
+      dockOnScreen: onScreen(dock),
+      segmentsOnScreen: onScreen(seg),
+      openPanels: [...document.querySelectorAll('.expanded')].filter((e) => getComputedStyle(e).display !== 'none').length,
+      inTheWay: [...document.querySelectorAll('.region, .region .expanded, .region-hit')]
+        .filter((e) => { const c = getComputedStyle(e); return ['auto', 'scroll', 'hidden'].includes(c.overflowY) || ['auto', 'scroll', 'hidden'].includes(c.overflowX); }).length,
+    };
+  });
+  fail(rail.overflowX !== 'auto' || !rail.scrolls, `${label}: the rail is not a horizontal scroll container`);
+  fail(rail.widerThanViewport, `${label}: the rail is wider than the viewport instead of scrolling inside it`);
+  fail(!rail.dockOnScreen, `${label}: the rail's position and arrows are not on screen`);
+  fail(!rail.segmentsOnScreen, `${label}: the segment rail is not on screen`);
+  fail(rail.openPanels !== 8, `${label}: ${rail.openPanels} of 8 records are whole on the card`);
+  fail(rail.inTheWay !== 0, `${label}: ${rail.inTheWay} scroll containers sit between a thumb and the rail`);
+  const before = (await page.locator('[data-mobile-position]').innerText()).trim();
+  await page.locator('[data-mobile-next]').click();
+  await settleLayout(page);
+  const after = (await page.locator('[data-mobile-position]').innerText()).trim();
+  fail(before === after, `${label}: the rail control did not advance the rail (held at ${before})`);
+}
+
 async function verifyKeyboardAndHistory(page, label) {
   const opener = page.locator('[data-open-story="business-first"]');
   await opener.focus();
@@ -288,7 +336,14 @@ async function exercise(page, label, width, height) {
   let state = await visibleGeometry(page);
   assess(state, `${label} overview`, { fixedHeight:!compact });
   fail(state.visibleRegions !== 8, `${label}: overview exposes ${state.visibleRegions} direct story controls, expected 8`);
-  fail((await page.locator('[data-case-archive]').getAttribute('href')) !== '#case-archive', `${label}: archive route missing`);
+  fail(await page.locator('[data-case-archive]').count() !== 0, `${label}: a route to the removed archive survives`);
+  for (const [id] of stories) {
+    fail(await page.locator(`.expanded#record-${id}`).count() !== 1, `${label}: #record-${id} does not resolve inside the proof field`);
+  }
+  fail(await page.locator('.region-copy cite').count() !== 8, `${label}: the cold field does not attribute all eight results`);
+  fail(await page.locator('.expanded blockquote').count() !== 8, `${label}: the records do not carry their testimony`);
+  fail(await page.locator('.expanded [data-fig]').count() !== 8, `${label}: the records do not carry a figure bound to story.figure`);
+  fail(await page.locator('.region-glyph, .mechanism').count() !== 0, `${label}: the retired mechanism glyph survives`);
 
   if (compact && height >= width) {
     await verifyTextScale(page, label);
@@ -303,20 +358,48 @@ async function exercise(page, label, width, height) {
     fail((await page.evaluate(() => document.activeElement?.getAttribute('data-open-story'))) !== 'day-one', `${label}: numeric shortcut did not reach story 1`);
   }
 
-  await verifyKeyboardAndHistory(page, label);
+  if (!compact) await verifyKeyboardAndHistory(page, label);
+  else await verifyRail(page, label);
 
-  await page.locator('[data-open-story="business-first"]').click();
-  await settleLayout(page);
-  state = await visibleGeometry(page);
-  assess(state, `${label} open`, { fixedHeight:!compact });
-  fail(state.mode !== 'story' || state.selected !== 1, `${label}: story did not open exactly once`);
-  fail(!page.url().includes('story=business-first&phase=result'), `${label}: result state not encoded in URL`);
-  fail(await page.locator('[data-story="business-first"] .mechanism .switch').count() !== 14, `${label}: switch proof does not contain 14 tools`);
-  fail(await page.locator('[data-story="business-first"] .mechanism .switch:not(.is-off)').count() !== 3, `${label}: switch proof does not keep exactly 3 tools`);
-  fail(await page.locator('[data-story="business-first"] .endpoint-labels').count() !== 0, `${label}: business-first mechanism repeats the change in backup labels`);
-  fail(!await page.locator(`#title-business-first`).evaluate(element => element === document.activeElement), `${label}: focus did not enter opened story`);
-  fail((await page.locator(`#title-business-first`).evaluate(element => getComputedStyle(element).outlineStyle)) !== 'none', `${label}: focused result heading shows a browser-default outline`);
-  if (compact) {
+  /* The open/close cycle, its URL state and its phase toggle are a desktop
+     composition. On a phone there is no expansion step at all: every record is
+     already whole on its card, so there is nothing to open, nothing to encode
+     and nothing to come back from. The rail has its own checks above. */
+  if (!compact) {
+    await page.locator('[data-open-story="business-first"]').click();
+    await settleLayout(page);
+    state = await visibleGeometry(page);
+    assess(state, `${label} open`, { fixedHeight:true });
+    fail(state.mode !== 'story' || state.selected !== 1, `${label}: story did not open exactly once`);
+    fail(!page.url().includes('story=business-first&phase=result'), `${label}: result state not encoded in URL`);
+    fail(await page.locator('[data-story="business-first"] .mm-fig-marks i').count() !== 14, `${label}: the business-first figure does not show 14 inputs`);
+    fail(await page.locator('[data-story="business-first"] .mm-fig-marks i.is-kept').count() !== 3, `${label}: the business-first figure does not keep exactly 3`);
+    fail(await page.locator('[data-story="business-first"] .endpoint-labels').count() !== 0, `${label}: business-first repeats the change in backup labels`);
+    fail(!await page.locator(`#title-business-first`).evaluate(element => element === document.activeElement), `${label}: focus did not enter opened story`);
+    fail((await page.locator(`#title-business-first`).evaluate(element => getComputedStyle(element).outlineStyle)) !== 'none', `${label}: focused result heading shows a browser-default outline`);
+
+    await page.locator('[data-story="business-first"] [data-toggle-phase]').click();
+    fail(!page.url().includes('phase=start'), `${label}: starting phase not encoded in URL`);
+    fail((await page.locator('[data-story="business-first"] [data-toggle-phase]').innerText()).toLowerCase() !== 'show the result', `${label}: phase control did not expose inverse`);
+    await page.reload({ waitUntil:'commit' });
+    await page.locator('.proof-shell[data-mode="story"]').waitFor({ state:'visible' });
+    await page.evaluate(() => document.fonts?.ready);
+    fail((await page.locator('.proof-shell').getAttribute('data-mode')) !== 'story', `${label}: reload lost selected story`);
+    fail(!page.url().includes('story=business-first&phase=start'), `${label}: reload lost stable phase`);
+    fail((await page.locator('[data-story="business-first"] [data-toggle-phase]').innerText()).toLowerCase() !== 'show the result', `${label}: reload did not restore start phase`);
+
+    /* The exit Krish could not find. It is a control, not a caption. */
+    const close = page.locator('.region.is-selected .expanded-close');
+    fail(!(await close.getAttribute('aria-label')), `${label}: the close control has no accessible name`);
+    const closeBox = await close.boundingBox();
+    fail(!closeBox || closeBox.width < 44 || closeBox.height < 44, `${label}: the close control is smaller than 44px`);
+    await close.click();
+    await settleLayout(page);
+    state = await visibleGeometry(page);
+    assess(state, `${label} returned`, { fixedHeight:true });
+    fail(state.mode !== 'overview' || state.visibleRegions !== 8, `${label}: return did not restore the full field`);
+    fail(state.activeElement !== 'business-first', `${label}: the close control did not restore originating focus (${state.activeElement})`);
+  } else {
     const overlap = await page.evaluate(() => {
       const notice = document.querySelector('.mm-cookie-notice');
       const dock = document.querySelector('.mobile-dock');
@@ -325,42 +408,16 @@ async function exercise(page, label, width, height) {
       const b = dock.getBoundingClientRect();
       return Math.max(0, Math.min(a.bottom,b.bottom) - Math.max(a.top,b.top)) * Math.max(0, Math.min(a.right,b.right) - Math.max(a.left,b.left));
     });
-    fail(overlap > 1, `${label}: privacy notice overlaps the active proof dock by ${overlap}px²`);
+    fail(overlap > 1, `${label}: privacy notice overlaps the rail dock by ${overlap}px²`);
   }
 
-  await page.locator('[data-story="business-first"] [data-toggle-phase]').click();
-  fail(!page.url().includes('phase=start'), `${label}: starting phase not encoded in URL`);
-  fail((await page.locator('[data-story="business-first"] [data-toggle-phase]').innerText()).toLowerCase() !== 'show recorded result', `${label}: phase control did not expose inverse`);
-  await page.reload({ waitUntil:'commit' });
-  await page.locator('.proof-shell[data-mode="story"]').waitFor({ state:'visible' });
-  await page.evaluate(() => document.fonts?.ready);
-  fail((await page.locator('.proof-shell').getAttribute('data-mode')) !== 'story', `${label}: reload lost selected story`);
-  fail(!page.url().includes('story=business-first&phase=start'), `${label}: reload lost stable phase`);
-  fail((await page.locator('[data-story="business-first"] [data-toggle-phase]').innerText()).toLowerCase() !== 'show recorded result', `${label}: reload did not restore start phase`);
-
-  if (compact) {
-    fail(await page.locator('.mobile-dock').isHidden(), `${label}: compact story dock is hidden`);
-    await page.locator('[data-mobile-next]').click();
-    await page.waitForTimeout(100);
-    fail(!page.url().includes('story=market-moves'), `${label}: mobile Next did not advance`);
-    await page.locator('[data-mobile-prev]').click();
-    fail(!page.url().includes('story=business-first'), `${label}: mobile Previous did not restore`);
-    await page.locator('[data-mobile-back]').click();
-  } else {
-    await page.keyboard.press('Escape');
-  }
+  if (!compact) await page.locator('[data-open-story="team-decides"]').click();
   await settleLayout(page);
-  state = await visibleGeometry(page);
-  assess(state, `${label} returned`, { fixedHeight:!compact });
-  fail(state.mode !== 'overview' || state.visibleRegions !== 8, `${label}: return did not restore the full field`);
-  fail(state.activeElement !== 'business-first', `${label}: return did not restore originating focus (${state.activeElement})`);
-
-  await page.locator('[data-open-story="team-decides"]').click();
-  fail(await page.locator('[data-story="team-decides"] .mechanism circle').count() !== 14, `${label}: decision proof does not show 14 inputs`);
-  fail(await page.locator('[data-story="team-decides"] .mechanism .phase-b path').count() !== 3, `${label}: decision proof does not show 3 decision paths`);
-  await page.locator('[data-story="team-decides"] [data-full-case]').click();
-  fail(!page.url().includes('#record-team-decides'), `${label}: full-case link did not encode its stable record target`);
-  fail(!await page.locator('#record-team-decides').evaluate(element => element === document.activeElement), `${label}: full-case link did not focus its matching record`);
+  const marks = page.locator('[data-story="team-decides"] .mm-fig-marks i');
+  fail(await marks.count() !== 14, `${label}: the decision figure does not show 14 inputs`);
+  fail(await page.locator('[data-story="team-decides"] .mm-fig-marks i.is-kept').count() !== 3, `${label}: the decision figure does not keep 3`);
+  fail((await page.locator('[data-story="team-decides"] .mm-fig-pair').innerText()).replace(/\s+/g, '') !== '14→3', `${label}: the decision figure does not state 14 to 3`);
+  fail((await page.locator('[data-story="team-decides"] .region-hit').getAttribute('href')) !== '#record-team-decides', `${label}: the tile fallback no longer names its record`);
   fail(errors.length > 0, `${label}: runtime errors ${errors.join(' | ')}`);
 }
 
@@ -382,7 +439,13 @@ async function run(browserType, name, viewports) {
         await load(page);
         await settleFullPageReveals(page);
         await page.screenshot({ path:`${output}/${name}-overview-${width}x${height}.png`, fullPage:true });
-        await page.locator('[data-open-story="business-first"]').click();
+        /* The open frame is a desktop frame. On a phone the cold state is the
+           open state, so the second capture is the rail a card along. */
+        if (width > 860) {
+          await page.locator('[data-open-story="business-first"]').click();
+        } else {
+          await page.locator('[data-mobile-next]').click();
+        }
         await settleLayout(page);
         await settleFullPageReveals(page);
         await page.screenshot({ path:`${output}/${name}-open-${width}x${height}.png`, fullPage:true });

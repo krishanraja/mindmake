@@ -71,9 +71,25 @@ const open = async (options = {}) => {
     fail(result !== story.result, `${story.id}: cold tile result does not match the record`);
 
     /* The testimony, which lived a page below until now. */
-    const quote = (await region.locator('.expanded blockquote p').textContent() || '').trim();
-    fail(!quote.startsWith(story.quote.slice(0, 40)),
-      `${story.id}: the panel does not carry the record's own quote`);
+    const quote = await region.evaluate((el) => {
+      const p = el.querySelector('blockquote p').cloneNode(true);
+      p.querySelectorAll('.q-gap').forEach((g) => g.remove());
+      return p.textContent.trim();
+    });
+    fail(quote !== story.quote,
+      `${story.id}: the quotation is not the record's, once the elision mark is removed`);
+    const outcome = await region.evaluate((el) => {
+      const p = el.querySelector('.expanded-copy > p').cloneNode(true);
+      p.querySelectorAll('.q-gap').forEach((g) => g.remove());
+      return p.textContent.trim();
+    });
+    fail(outcome !== story.outcome, `${story.id}: the outcome prose is not the record's`);
+    const cut = await region.evaluate((el) => {
+      const runs = [...el.querySelectorAll('.q-cut')].map((c) => c.textContent);
+      const full = el.querySelector('blockquote p').textContent + el.querySelector('.expanded-copy > p').textContent;
+      return runs.every((r) => full.includes(r));
+    });
+    fail(!cut, `${story.id}: an elided run is not a contiguous part of the record's own text`);
     const panelCite = (await region.locator('.expanded blockquote cite').textContent() || '').trim();
     fail(panelCite !== story.attribution, `${story.id}: panel attribution does not match the record`);
 
@@ -87,6 +103,17 @@ const open = async (options = {}) => {
     fail(await anchor.count() !== 1, `${story.id}: #record-${story.id} must resolve to the panel itself`);
   }
   note(`8 records carry their own attribution, testimony and story.figure`);
+
+  const italic = await page.evaluate(() => [...document.querySelectorAll('.expanded blockquote')]
+    .filter((b) => getComputedStyle(b).fontStyle !== 'italic').length);
+  fail(italic > 0, `${italic} quotations are not set in italic`);
+
+  /* "in week one of eight" was inheriting the two-ended from/to label layout
+     and landing hard against one edge. */
+  const within = await page.evaluate(() => [...document.querySelectorAll('.mm-fig-count .mm-fig-within')]
+    .filter((w) => getComputedStyle(w).textAlign !== 'center').map((w) => w.textContent.trim()));
+  for (const w of within) fail(true, `the count figure's qualifier is not centred: "${w}"`);
+  note('quotations are italic and the count qualifier is centred');
 
   /* The glyph is gone, on the evidence of the 24 September bake-off. */
   const html = await page.content();
@@ -158,9 +185,48 @@ const open = async (options = {}) => {
   await context.close();
 }
 
+/* ---- 2b. the panel holds at every desktop size ----------------------------- */
+
+for (const [w, h] of [[1280, 720], [1440, 900], [1600, 900], [1728, 1117], [1800, 1000], [1920, 1080], [2560, 1440]]) {
+  const context = await browser.newContext({ viewport: { width: w, height: h } });
+  const page = await context.newPage();
+  await page.goto(`${origin}${candidate}`, { waitUntil: 'load' });
+  await page.waitForTimeout(700);
+  await page.click('[data-open-story="hand-back"]');
+  await page.waitForTimeout(500);
+  const bad = await page.evaluate(() => {
+    const q = (s) => document.querySelector(`.region.is-selected ${s}`);
+    const box = (e) => e.getBoundingClientRect();
+    const pairs = [['head', '.expanded-head'], ['copy', '.expanded-copy'], ['actions', '.expanded-actions'], ['figure', '.expanded-visual']];
+    const out = [];
+    for (let i = 0; i < pairs.length; i += 1) {
+      for (let j = i + 1; j < pairs.length; j += 1) {
+        const a = box(q(pairs[i][1])), b = box(q(pairs[j][1]));
+        const y = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+        const x = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+        if (y > 1 && x > 1) out.push(`${pairs[i][0]}/${pairs[j][0]} overlap ${Math.round(x)}x${Math.round(y)}px`);
+      }
+    }
+    return out;
+  });
+  for (const b of bad) fail(true, `${w}x${h}: ${b}`);
+  /* And the panel has to use the space it has, not one column of it. */
+  const spread = await page.evaluate(() => {
+    const q = (s) => document.querySelector(`.region.is-selected ${s}`).getBoundingClientRect();
+    const panel = q('.expanded'), fig = q('.expanded-visual'), head = q('.expanded-head h2');
+    return { panelW: panel.width, figRight: fig.right - panel.left, headW: head.width };
+  });
+  fail(spread.figRight < spread.panelW * 0.7,
+    `${w}x${h}: the figure stops at ${Math.round(spread.figRight)}px of a ${Math.round(spread.panelW)}px panel — the right side is unused`);
+  fail(spread.headW < spread.panelW * 0.45,
+    `${w}x${h}: the headline is confined to ${Math.round(spread.headW)}px of a ${Math.round(spread.panelW)}px panel`);
+  await context.close();
+}
+note('the open panel holds its layout from 1280x720 to 2560x1440 and uses the panel width');
+
 /* ---- 3. the phone, which is its own composition ---------------------------- */
 
-for (const [width, height] of [[390, 844], [360, 800], [320, 568]]) {
+for (const [width, height] of [[390, 844], [360, 800], [360, 740], [320, 568], [411, 660]]) {
   const context = await browser.newContext({ viewport: { width, height } });
   const page = await context.newPage();
   await page.goto(`${origin}${candidate}`, { waitUntil: 'load' });
@@ -202,14 +268,18 @@ for (const [width, height] of [[390, 844], [360, 800], [320, 568]]) {
   fail(whole.display === 'none', `${label}: the record is hidden behind an expansion step`);
   fail(!whole.quote || !whole.fig, `${label}: the phone card is missing its testimony or its figure`);
 
-  /* figureFillsTheCard */
+  /* figureFillsTheCard. `.expanded-copy` is display:contents on the phone so
+     that the outcome and the testimony can be bands in their own right — it
+     has no box of its own, so the comparison is against the band that does. */
   const widths = await page.evaluate(() => {
     const r = document.querySelector('.region[data-story="own-system"]');
     const w = (s) => Math.round(r.querySelector(s).getBoundingClientRect().width);
-    return { copy: w('.expanded-copy'), fig: w('.expanded-visual') };
+    return { quote: w('blockquote'), title: w('.expanded-head h2'), fig: w('.expanded-visual') };
   });
-  fail(Math.abs(widths.copy - widths.fig) > 2,
-    `${label}: the figure is ${widths.fig}px beside ${widths.copy}px of copy`);
+  fail(Math.abs(widths.quote - widths.fig) > 2,
+    `${label}: the figure is ${widths.fig}px beside ${widths.quote}px of testimony`);
+  fail(Math.abs(widths.title - widths.fig) > 2,
+    `${label}: the figure is ${widths.fig}px beside a ${widths.title}px headline`);
 
   /* The title holds one line. */
   const title = await page.evaluate(() => {
@@ -246,7 +316,19 @@ for (const [width, height] of [[390, 844], [360, 800], [320, 568]]) {
     fail(overflowing.length > 0, `390: ${overflowing.join(', ')} do not fit one phone screen`);
   }
 
-  note(`${label}: rail scrolls, controls on screen, record whole`);
+  /* Titles with titles, quotes with quotes, figures with figures. A rail whose
+     furniture moves between cards reads as eight pages, not one deck. */
+  const rows = await page.evaluate(() => [...document.querySelectorAll('.region')].map((r) => {
+    const top = r.getBoundingClientRect().top;
+    const y = (sel) => { const e = r.querySelector(sel); return e ? Math.round(e.getBoundingClientRect().top - top) : null; };
+    return { id: r.dataset.story, title: y('.expanded-head h2'), quote: y('blockquote'), fig: y('.expanded-visual') };
+  }));
+  for (const band of ['title', 'quote', 'fig']) {
+    const values = rows.map((r) => r[band]);
+    const spread = Math.max(...values) - Math.min(...values);
+    fail(spread > 1, `${label}: the ${band} band varies by ${spread}px across the eight cards`);
+  }
+  note(`${label}: rail scrolls, controls on screen, record whole, bands aligned`);
   await context.close();
 }
 

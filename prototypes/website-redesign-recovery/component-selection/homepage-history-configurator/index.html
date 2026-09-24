@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>Mindmake / historical story decisions</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="review-shell">
+      <header class="review-head">
+        <div><h1>Homepage historical story</h1><p>The accepted time lens stays. Choose the chapter's words, hierarchy and device compression together.</p></div>
+        <div class="story-switch" role="group" aria-label="Preview historical story"><button type="button" data-story="0" class="is-active">Writing</button><button type="button" data-story="1">Loom</button><button type="button" data-story="2">Calculator</button><button type="button" data-story="3">Satnav</button></div>
+      </header>
+
+      <section class="workspace">
+        <div class="previews" data-story-index="0">
+          <article class="preview-card preview-desktop" aria-label="Desktop historical story preview">
+            <div class="preview-label"><b>Desktop</b><span>One bounded cinematic time lens</span></div>
+            <section class="history-frame">
+              <div class="bridge"><h2 data-copy="bridgeHeadline"></h2><p data-optional-copy="bridgeLine"></p></div>
+              <figure class="story-image"><img data-story-image alt="" /><div class="image-wash"></div></figure>
+              <article class="story-copy"><div class="story-meta"><span data-story-count></span><b data-story-era></b></div><h3 data-story-question></h3><p><strong data-copy="outcomeLabel"></strong><span data-story-outcome></span></p></article>
+              <nav class="era-rail" aria-label="Choose a historical story"><button type="button" data-era="0"><span>370 BC</span><b>Writing</b></button><button type="button" data-era="1"><span>1675</span><b>Engine loom</b></button><button type="button" data-era="2"><span>1970s</span><b>Calculator</b></button><button type="button" data-era="3"><span>2000s</span><b>Satnav</b></button></nav>
+              <p class="closing-hinge" data-optional-copy="closingHinge"></p>
+            </section>
+          </article>
+
+          <article class="preview-card preview-mobile" aria-label="Mobile historical story preview">
+            <div class="preview-label"><b>Mobile</b><span>All four stories inside one screen</span></div>
+            <section class="history-frame">
+              <div class="bridge"><h2 data-copy="bridgeHeadline"></h2><p data-optional-copy="bridgeLine"></p></div>
+              <figure class="story-image"><img data-story-image alt="" /><div class="image-wash"></div></figure>
+              <article class="story-copy"><div class="story-meta"><span data-story-count></span><b data-story-era></b></div><h3 data-story-question></h3><p><strong data-copy="outcomeLabel"></strong><span data-story-outcome></span></p></article>
+              <nav class="era-rail" aria-label="Choose a historical story"><button type="button" data-era="0"><span>370 BC</span><b>Writing</b></button><button type="button" data-era="1"><span>1675</span><b>Loom</b></button><button type="button" data-era="2"><span>1970s</span><b>Calculator</b></button><button type="button" data-era="3"><span>2000s</span><b>Satnav</b></button></nav>
+              <p class="closing-hinge" data-optional-copy="closingHinge"></p>
+            </section>
+          </article>
+        </div>
+
+        <form class="controls" id="historyForm">
+          <section class="control-group">
+            <header><span>01</span><div><h2>Chapter structure</h2><p>Where the bridge sits and how the same story compresses by device.</p></div></header>
+            <fieldset><legend>Desktop composition</legend><div class="segments"><label><input type="radio" name="desktopComposition" value="editorial" checked /><span>Editorial split</span></label><label><input type="radio" name="desktopComposition" value="cinematic" /><span>Cinematic overlay</span></label><label><input type="radio" name="desktopComposition" value="banded" /><span>Paper prelude</span></label></div></fieldset>
+            <fieldset><legend>Mobile compression</legend><div class="segments"><label><input type="radio" name="mobileComposition" value="integrated" checked /><span>Integrated one-screen lens</span></label><label><input type="radio" name="mobileComposition" value="prelude" /><span>Brief prelude, then lens</span></label><label><input type="radio" name="mobileComposition" value="first-frame" /><span>Bridge inside first story</span></label></div></fieldset>
+            <fieldset><legend>Desktop story copy position</legend><div class="segments"><label><input type="radio" name="desktopCopyPosition" value="left" checked /><span>Left</span></label><label><input type="radio" name="desktopCopyPosition" value="right" /><span>Right</span></label></div></fieldset>
+            <fieldset><legend>Desktop headline scale</legend><div class="segments"><label><input type="radio" name="desktopHeadlineScale" value="balanced" checked /><span>Balanced</span></label><label><input type="radio" name="desktopHeadlineScale" value="large" /><span>Large</span></label></div></fieldset>
+            <fieldset><legend>Mobile headline scale</legend><div class="segments"><label><input type="radio" name="mobileHeadlineScale" value="balanced" checked /><span>Balanced</span></label><label><input type="radio" name="mobileHeadlineScale" value="compact" /><span>Compact</span></label></div></fieldset>
+            <fieldset><legend>Story controls</legend><div class="segments"><label><input type="radio" name="controlTreatment" value="era" checked /><span>Era rail</span></label><label><input type="radio" name="controlTreatment" value="count" /><span>Numbered rail</span></label><label><input type="radio" name="controlTreatment" value="titles" /><span>Title rail</span></label></div></fieldset>
+            <fieldset><legend>Story transition</legend><div class="segments"><label><input type="radio" name="storyTransition" value="dissolve" checked /><span>Dissolve</span></label><label><input type="radio" name="storyTransition" value="slide" /><span>Directional slide</span></label><label><input type="radio" name="storyTransition" value="cut" /><span>Clean cut</span></label></div></fieldset>
+          </section>
+
+          <section class="control-group">
+            <header><span>02</span><div><h2>Chapter language</h2><p>No eyebrow. The reader moves straight from the homepage promise into the human story.</p></div></header>
+            <fieldset><legend>Bridge headline</legend><div class="segments copy-options"><label><input type="radio" name="bridgeHeadline" value="You are not the first person to wonder what a new tool might take from you." checked /><span>You are not the first person to wonder what a new tool might take from you.</span></label><label><input type="radio" name="bridgeHeadline" value="Every powerful tool changes what people fear losing." /><span>Every powerful tool changes what people fear losing.</span></label><label><input type="radio" name="bridgeHeadline" value="AI is not the first tool to make people question their place." /><span>AI is not the first tool to make people question their place.</span></label></div></fieldset>
+            <fieldset><legend>Bridge line</legend><div class="segments copy-options"><label><input type="radio" name="bridgeLine" value="We have been asking that question for centuries." checked /><span>We have been asking that question for centuries.</span></label><label><input type="radio" name="bridgeLine" value="The technology changes. The human question does not." /><span>The technology changes. The human question does not.</span></label><label><input type="radio" name="bridgeLine" value="" /><span>Remove it</span></label></div></fieldset>
+            <fieldset><legend>Outcome label</legend><div class="segments copy-options"><label><input type="radio" name="outcomeLabel" value="What changed" checked /><span>What changed</span></label><label><input type="radio" name="outcomeLabel" value="What happened" /><span>What happened</span></label><label><input type="radio" name="outcomeLabel" value="The result" /><span>The result</span></label><label><input type="radio" name="outcomeLabel" value="" /><span>Remove it</span></label></div></fieldset>
+            <fieldset><legend>Closing hinge</legend><div class="segments copy-options"><label><input type="radio" name="closingHinge" value="The feeling is familiar. The reach is new." checked /><span>The feeling is familiar. The reach is new.</span></label><label><input type="radio" name="closingHinge" value="The old question returns at a different scale." /><span>The old question returns at a different scale.</span></label><label><input type="radio" name="closingHinge" value="AI reaches further. Your boundary has to become clearer." /><span>AI reaches further. Your boundary has to become clearer.</span></label><label><input type="radio" name="closingHinge" value="" /><span>Remove it</span></label></div></fieldset>
+          </section>
+
+          <section class="control-group story-language">
+            <header><span>03</span><div><h2>Four story questions</h2><p>Each question is shown over its generated historical image.</p></div></header>
+            <fieldset><legend>Writing</legend><div class="segments copy-options"><label><input type="radio" name="questionWriting" value="If knowledge lives outside us, will memory grow weaker?" checked /><span>If knowledge lives outside us, will memory grow weaker?</span></label><label><input type="radio" name="questionWriting" value="When writing holds the words, what happens to memory?" /><span>When writing holds the words, what happens to memory?</span></label><label><input type="radio" name="questionWriting" value="If the page remembers for us, do we remember less?" /><span>If the page remembers for us, do we remember less?</span></label></div></fieldset>
+            <fieldset><legend>Engine loom</legend><div class="segments copy-options"><label><input type="radio" name="questionLoom" value="If the machine can do the work, what happens to the worker?" checked /><span>If the machine can do the work, what happens to the worker?</span></label><label><input type="radio" name="questionLoom" value="When the machine takes the skill, who keeps the value?" /><span>When the machine takes the skill, who keeps the value?</span></label><label><input type="radio" name="questionLoom" value="If output rises, who gets the gain?" /><span>If output rises, who gets the gain?</span></label></div></fieldset>
+            <fieldset><legend>Calculator</legend><div class="segments copy-options"><label><input type="radio" name="questionCalculator" value="If the device does the arithmetic, will children stop learning to think?" checked /><span>If the device does the arithmetic, will children stop learning to think?</span></label><label><input type="radio" name="questionCalculator" value="When the calculator does the sum, what should children still learn?" /><span>When the calculator does the sum, what should children still learn?</span></label><label><input type="radio" name="questionCalculator" value="If the machine gives the answer, do we lose the thinking?" /><span>If the machine gives the answer, do we lose the thinking?</span></label></div></fieldset>
+            <fieldset><legend>Satnav</legend><div class="segments copy-options"><label><input type="radio" name="questionSatnav" value="If the device knows the route, will we lose our sense of direction?" checked /><span>If the device knows the route, will we lose our sense of direction?</span></label><label><input type="radio" name="questionSatnav" value="When the map tells us where to turn, what stops being practised?" /><span>When the map tells us where to turn, what stops being practised?</span></label><label><input type="radio" name="questionSatnav" value="If the route is always given, do we still learn the way?" /><span>If the route is always given, do we still learn the way?</span></label></div></fieldset>
+          </section>
+
+          <section class="control-group story-language">
+            <header><span>04</span><div><h2>Four outcomes</h2><p>Plain English, historically honest and short enough to remain part of the image.</p></div></header>
+            <fieldset><legend>Writing outcome</legend><div class="segments copy-options"><label><input type="radio" name="outcomeWriting" value="Ideas could travel beyond one voice and survive their maker. We changed what memory was for." checked /><span>Ideas could travel beyond one voice and survive their maker. We changed what memory was for.</span></label><label><input type="radio" name="outcomeWriting" value="Writing did not end memory. It changed the work memory had to do." /><span>Writing did not end memory. It changed the work memory had to do.</span></label><label><input type="radio" name="outcomeWriting" value="Knowledge could travel, accumulate and outlive the person who first held it." /><span>Knowledge could travel, accumulate and outlive the person who first held it.</span></label></div></fieldset>
+            <fieldset><legend>Engine loom outcome</legend><div class="segments copy-options"><label><input type="radio" name="outcomeLoom" value="The fear was not foolish. Jobs, wages and status changed. The real fight was over who controlled the gain." checked /><span>The fear was not foolish. Jobs, wages and status changed. The real fight was over who controlled the gain.</span></label><label><input type="radio" name="outcomeLoom" value="The machine changed whose skill counted, who earned and who controlled the output." /><span>The machine changed whose skill counted, who earned and who controlled the output.</span></label><label><input type="radio" name="outcomeLoom" value="Workers were right to worry about wages and status. The gain depended on who owned the machine." /><span>Workers were right to worry about wages and status. The gain depended on who owned the machine.</span></label></div></fieldset>
+            <fieldset><legend>Calculator outcome</legend><div class="segments copy-options"><label><input type="radio" name="outcomeCalculator" value="A review of 79 studies found no collapse in basic skills. The question moved from doing every sum to understanding the answer." checked /><span>A review of 79 studies found no collapse in basic skills. The question moved from doing every sum to understanding the answer.</span></label><label><input type="radio" name="outcomeCalculator" value="Basic skills did not collapse. The useful question became whether children understood the answer." /><span>Basic skills did not collapse. The useful question became whether children understood the answer.</span></label><label><input type="radio" name="outcomeCalculator" value="The calculator changed what good learning looked like. Understanding mattered more than repeating every sum." /><span>The calculator changed what good learning looked like. Understanding mattered more than repeating every sum.</span></label></div></fieldset>
+            <fieldset><legend>Satnav outcome</legend><div class="segments copy-options"><label><input type="radio" name="outcomeSatnav" value="That risk turned out to be real. A useful tool still asks us what we choose to keep practising." checked /><span>That risk turned out to be real. A useful tool still asks us what we choose to keep practising.</span></label><label><input type="radio" name="outcomeSatnav" value="The tool made navigation easier, but habitual use can weaken the spatial memory we stop exercising." /><span>The tool made navigation easier, but habitual use can weaken the spatial memory we stop exercising.</span></label><label><input type="radio" name="outcomeSatnav" value="Satnav solved the route and exposed the trade-off. Convenience can remove a skill we still value." /><span>Satnav solved the route and exposed the trade-off. Convenience can remove a skill we still value.</span></label></div></fieldset>
+          </section>
+
+          <label class="comment-field">Optional comment<textarea name="comment" placeholder="Only if the combination needs a precise adjustment."></textarea></label>
+          <div class="form-actions"><button type="button" id="lockButton">Lock the historical story</button><button type="button" id="resetButton">Reset</button></div>
+          <output id="selectionReadout" aria-live="polite"></output>
+        </form>
+      </section>
+    </main>
+    <script src="./script.js"></script>
+  </body>
+</html>

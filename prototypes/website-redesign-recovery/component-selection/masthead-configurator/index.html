@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark light" />
+    <title>Mindmake / masthead combination</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="review-shell">
+      <header class="review-head">
+        <h1>Masthead combination</h1>
+        <p>Shape the section, then lock it once.</p>
+      </header>
+
+      <section class="review-grid">
+        <div class="preview-column">
+          <article class="preview preview-desktop" aria-label="Desktop masthead preview">
+            <div class="site-canvas">
+              <header class="site-masthead">
+                <a class="brand" href="#" aria-label="Mindmake home" tabindex="-1">
+                  <img class="mark" src="../../../../src/assets/mindmake-mark.svg" alt="" />
+                  <img class="wordmark" src="../../../../src/assets/mindmake-wordmark.svg" alt="Mindmake" />
+                </a>
+                <span class="context" aria-live="polite"></span>
+                <span class="menu-control"><b>Menu</b><i aria-hidden="true"></i></span>
+              </header>
+              <div class="hero-copy"><strong>Build one useful AI system on real work.</strong></div>
+            </div>
+          </article>
+
+          <article class="preview preview-mobile" aria-label="Mobile masthead preview">
+            <div class="site-canvas">
+              <header class="site-masthead">
+                <a class="brand" href="#" aria-label="Mindmake home" tabindex="-1">
+                  <img class="mark" src="../../../../src/assets/mindmake-mark.svg" alt="" />
+                  <img class="wordmark" src="../../../../src/assets/mindmake-wordmark.svg" alt="Mindmake" />
+                </a>
+                <span class="context" aria-live="polite"></span>
+                <span class="menu-control"><b>Menu</b><i aria-hidden="true"></i></span>
+              </header>
+              <div class="hero-copy"><strong>Build one useful AI system on real work.</strong></div>
+            </div>
+          </article>
+        </div>
+
+        <form class="controls" id="mastheadForm">
+          <fieldset data-key="logoDesktop">
+            <legend>Desktop logo scale</legend>
+            <div class="segments">
+              <label><input type="radio" name="logoDesktop" value="146" checked /><span>A · 146</span></label>
+              <label><input type="radio" name="logoDesktop" value="164" /><span>B · 164</span></label>
+              <label><input type="radio" name="logoDesktop" value="190" /><span>C · 190</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset data-key="logoMobile">
+            <legend>Mobile logo scale</legend>
+            <div class="segments">
+              <label><input type="radio" name="logoMobile" value="128" checked /><span>A · 128</span></label>
+              <label><input type="radio" name="logoMobile" value="146" /><span>B · 146</span></label>
+              <label><input type="radio" name="logoMobile" value="164" /><span>C · 164</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset data-key="heightDesktop">
+            <legend>Desktop masthead height</legend>
+            <div class="segments">
+              <label><input type="radio" name="heightDesktop" value="66" checked /><span>A · 66</span></label>
+              <label><input type="radio" name="heightDesktop" value="72" /><span>B · 72</span></label>
+              <label><input type="radio" name="heightDesktop" value="76" /><span>C · 76</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset data-key="heightMobile">
+            <legend>Mobile masthead height</legend>
+            <div class="segments">
+              <label><input type="radio" name="heightMobile" value="62" /><span>A · 62</span></label>
+              <label><input type="radio" name="heightMobile" value="64" checked /><span>B · 64</span></label>
+              <label><input type="radio" name="heightMobile" value="72" /><span>C · 72</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset data-key="contextLabel">
+            <legend>Centre context</legend>
+            <div class="segments">
+              <label><input type="radio" name="contextLabel" value="none" checked /><span>None</span></label>
+              <label><input type="radio" name="contextLabel" value="route" /><span>Route</span></label>
+              <label><input type="radio" name="contextLabel" value="motion" /><span>Motion</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset data-key="menuStyle">
+            <legend>Menu treatment</legend>
+            <div class="segments">
+              <label><input type="radio" name="menuStyle" value="word-lines" checked /><span>Word + lines</span></label>
+              <label><input type="radio" name="menuStyle" value="lines" /><span>Lines only</span></label>
+              <label><input type="radio" name="menuStyle" value="word" /><span>Word only</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset data-key="ground">
+            <legend>Header ground</legend>
+            <div class="segments">
+              <label><input type="radio" name="ground" value="clear" /><span>Clear</span></label>
+              <label><input type="radio" name="ground" value="glass" checked /><span>Glass</span></label>
+              <label><input type="radio" name="ground" value="solid" /><span>Solid</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset data-key="rule">
+            <legend>Bottom rule</legend>
+            <div class="segments segments-two">
+              <label><input type="radio" name="rule" value="none" /><span>None</span></label>
+              <label><input type="radio" name="rule" value="hairline" checked /><span>Hairline</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset data-key="behavior">
+            <legend>Scroll behaviour</legend>
+            <div class="segments segments-two">
+              <label><input type="radio" name="behavior" value="fixed" checked /><span>Fixed</span></label>
+              <label><input type="radio" name="behavior" value="sticky" /><span>Sticky</span></label>
+            </div>
+          </fieldset>
+
+          <label class="comment-field" for="comment">
+            <span>Optional commentary</span>
+            <textarea id="comment" name="comment" rows="4" placeholder="Anything to change or protect in this section"></textarea>
+          </label>
+
+          <div class="form-actions">
+            <button type="button" id="lockButton">Lock this combination</button>
+            <button type="button" id="resetButton">Reset</button>
+          </div>
+          <output id="selectionReadout" aria-live="polite"></output>
+        </form>
+      </section>
+    </main>
+    <script src="./script.js"></script>
+  </body>
+</html>

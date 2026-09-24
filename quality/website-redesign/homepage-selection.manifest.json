@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "status": "accepted-component-source-of-truth",
+  "rejectedAssemblies": [
+    "prototypes/website-redesign-recovery/homepage-production-synthesis-r1"
+  ],
+  "assembly": "prototypes/website-redesign-recovery/homepage-production-synthesis-r2",
+  "rule": "Render the selected source component. Do not reconstruct it from prose, memory, or an older shell.",
+  "components": [
+    {
+      "id": "opening",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-opening-configurator/index.html",
+      "sourceSha256": "f9b308043c07c3176eb56a607ea7adeb09984d999ecb57bdce85238303c67aa1",
+      "style": "prototypes/website-redesign-recovery/component-selection/homepage-opening-configurator/styles.css",
+      "styleSha256": "04b2e9b3a4c6b2e6ec28dc0bf4c51c0e062c604250302c2df0ef9be5f9b268c0",
+      "selection": {
+        "compositionDesktop": "editorial",
+        "compositionMobile": "overlay",
+        "titleDesktop": "balanced",
+        "titleMobile": "balanced",
+        "measureDesktop": "balanced",
+        "measureMobile": "balanced",
+        "positionDesktop": "middle",
+        "positionMobile": "high",
+        "cropDesktop": "center",
+        "cropMobile": "right",
+        "contrast": "cinema",
+        "lede": "show",
+        "doors": "paired",
+        "proof": "show",
+        "reveal": "staged"
+      }
+    },
+    {
+      "id": "history",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-history-configurator/index-r3.html",
+      "sourceSha256": "796a60b0610a491bd7ce715d465c2001a3672f7c587a98374c3ed5c7a4aac19e",
+      "style": "prototypes/website-redesign-recovery/component-selection/homepage-history-configurator/styles-r3.css",
+      "styleSha256": "634e12df3b7a12c22e6cc6c8e017ff8b2f2fa6c1aeb523170ab2c0b50b12086b",
+      "selection": {
+        "desktopComposition": "editorial",
+        "mobileComposition": "integrated",
+        "desktopCopyPosition": "left",
+        "desktopHeadlineScale": "balanced",
+        "mobileHeadlineScale": "balanced",
+        "controlTreatment": "era",
+        "storyTransition": "dissolve",
+        "bridgeTreatment": "contrast"
+      }
+    },
+    {
+      "id": "authority",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-authority-configurator/index.html",
+      "sourceSha256": "17dfeca7453a009b4b8426d82770a489c891313ce4152747b2b731f320b4b150",
+      "style": "prototypes/website-redesign-recovery/component-selection/homepage-authority-configurator/styles.css",
+      "styleSha256": "8c4ea9ef8bcadead1f3cd8a449c48794aaa27f97e3129ad959a78ac24d314e9f",
+      "selection": {
+        "desktopLayout": "balanced",
+        "mobileLayout": "network",
+        "desktopHeadline": "balanced",
+        "mobileHeadline": "balanced",
+        "desktopInstrumentScale": "balanced",
+        "mobileInstrumentScale": "balanced",
+        "controlStyle": "buttons",
+        "defaultPhase": "work",
+        "aiList": "long",
+        "humanList": "long",
+        "reelMotion": "moving",
+        "organisationDetail": "concise"
+      }
+    },
+    {
+      "id": "leadership-dividend",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-leadership-dividend-configurator/index.html",
+      "sourceSha256": "2370aefcc9a158bc13966a0f203be26919640d073305d693b9cb3e776dd5fb24",
+      "style": "prototypes/website-redesign-recovery/component-selection/homepage-leadership-dividend-configurator/styles.css",
+      "styleSha256": "7535a532181f98392a769ddc48a34148738874220a07fce7ef1298b564416515",
+      "selection": {
+        "desktopLayout": "balanced",
+        "mobileLayout": "overlay",
+        "desktopTitle": "balanced",
+        "mobileTitle": "balanced",
+        "defaultMode": "practice",
+        "practiceControls": "tabs",
+        "benefitControls": "arrows",
+        "benefitMotion": "rotate-entry",
+        "sceneOrder": "notice-connect-prepare",
+        "sceneCopy": "show",
+        "benefitOrder": "leadership-first",
+        "benefitCopy": "show",
+        "benefitCount": "fraction",
+        "returnList": "all"
+      }
+    },
+    {
+      "id": "route",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-route-configurator/index.html",
+      "sourceSha256": "528d0564893cd4c286a6f91317dbc3847b326ef4fb0ec7ef5e340ed57c1d0ad3",
+      "style": "prototypes/website-redesign-recovery/component-selection/homepage-route-configurator/styles.css",
+      "styleSha256": "1d2d616546e9953cbeab9854a578daa83ef16182f20515100053496fc983898f",
+      "selection": {
+        "compositionDesktop": "balanced",
+        "compositionMobile": "copy",
+        "titleDesktop": "balanced",
+        "titleMobile": "balanced",
+        "measureDesktop": "balanced",
+        "measureMobile": "balanced",
+        "action": "copy",
+        "back": "text",
+        "caption": "show",
+        "receipt": "full",
+        "steps": "numbered",
+        "reveal": "staged"
+      }
+    },
+    {
+      "id": "footer",
+      "source": "prototypes/website-redesign-recovery/component-selection/footer-configurator/index.html",
+      "sourceSha256": "6abde12d692ffe589ec01c391c628f87412934c794467def5191106e5f819e27",
+      "style": "prototypes/website-redesign-recovery/component-selection/footer-configurator/styles.css",
+      "styleSha256": "d2b7a7952a20d7945777865880747808260c6c0581d722d09af6d76949fa0954",
+      "selection": {
+        "structureDesktop": "rail",
+        "structureMobile": "compact",
+        "densityDesktop": "compact",
+        "densityMobile": "compact",
+        "brand": "full",
+        "statement": "short",
+        "routes": "single",
+        "legal": "bottom",
+        "copyright": "short",
+        "ground": "dark",
+        "rule": "accent",
+        "reveal": "scroll"
+      }
+    }
+  ]
+}

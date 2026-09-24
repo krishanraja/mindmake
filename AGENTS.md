@@ -19,6 +19,12 @@ it is the project adapter for the canonical harness experience-quality contract.
 Run `npm run qa:website-restart` before any public-surface edit. Do not create another
 competing state, strategy, handoff or feedback document.
 
+For homepage recovery, also read
+`quality/website-redesign/homepage-handoff.v1.json` and run
+`npm run qa:homepage-handoff`. That machine-readable manifest is subordinate to the
+existing STATE document and freezes the recovered mocks, selections, copy corrections,
+rejected R1 and reference-only R2 without creating a competing narrative state.
+
 Never present a material website candidate from a direct Vite, file, prototype or
 ambient-server URL. The only review route is
 `npm run review:material -- quality/website-redesign/material-review-candidate.json`.

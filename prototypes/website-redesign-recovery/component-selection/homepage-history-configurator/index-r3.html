@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>Mindmake / historical story decision console</title>
+    <link rel="stylesheet" href="./styles-r3.css" />
+  </head>
+  <body>
+    <main class="console-shell">
+      <header class="console-head">
+        <div><h1>Homepage historical story</h1><p>One decision at a time. The live preview shows exactly what each choice changes.</p></div>
+        <div class="save-state" aria-live="polite"><i></i><span>Saved locally</span></div>
+      </header>
+
+      <section class="console-workspace">
+        <div class="preview-pane">
+          <header class="preview-toolbar">
+            <div class="device-switch" role="group" aria-label="Preview device"><button type="button" data-device="desktop" class="is-active">Desktop</button><button type="button" data-device="mobile">Mobile</button></div>
+            <div class="story-switch" role="group" aria-label="Preview historical story"><button type="button" data-story="0" class="is-active">Writing</button><button type="button" data-story="1">Loom</button><button type="button" data-story="2">Calculator</button><button type="button" data-story="3">Satnav</button></div>
+          </header>
+
+          <div class="preview-stage" data-device-view="desktop">
+            <article class="device-frame device-desktop" aria-label="Desktop historical story preview">
+              <section class="history-frame">
+                <div class="bridge" data-focus-region="bridge"><h2 data-copy="bridgeHeadline"></h2><p data-optional-copy="bridgeLine"></p></div>
+                <figure class="story-image"><img data-story-image alt="" /><div class="image-wash"></div></figure>
+                <article class="story-copy" data-focus-region="story"><div class="story-meta"><span data-story-count></span><b data-story-era></b></div><h3 data-story-question data-focus-region="question"></h3><p data-focus-region="outcome"><strong data-copy="outcomeLabel"></strong><span data-story-outcome></span></p></article>
+                <nav class="era-rail" data-focus-region="controls" aria-label="Choose a historical story"><button type="button" data-era="0"><span>370 BC</span><b>Writing</b></button><button type="button" data-era="1"><span>1675</span><b>Engine loom</b></button><button type="button" data-era="2"><span>1970s</span><b>Calculator</b></button><button type="button" data-era="3"><span>2000s</span><b>Satnav</b></button></nav>
+                <p class="closing-hinge" data-focus-region="hinge" data-optional-copy="closingHinge"></p>
+              </section>
+            </article>
+
+            <article class="device-frame device-mobile" aria-label="Mobile historical story preview">
+              <section class="history-frame">
+                <div class="bridge" data-focus-region="bridge"><h2 data-copy="bridgeHeadline"></h2><p data-optional-copy="bridgeLine"></p></div>
+                <figure class="story-image"><img data-story-image alt="" /><div class="image-wash"></div></figure>
+                <article class="story-copy" data-focus-region="story"><div class="story-meta"><span data-story-count></span><b data-story-era></b></div><h3 data-story-question data-focus-region="question"></h3><p data-focus-region="outcome"><strong data-copy="outcomeLabel"></strong><span data-story-outcome></span></p></article>
+                <nav class="era-rail" data-focus-region="controls" aria-label="Choose a historical story"><button type="button" data-era="0"><span>370 BC</span><b>Writing</b></button><button type="button" data-era="1"><span>1675</span><b>Loom</b></button><button type="button" data-era="2"><span>1970s</span><b>Calculator</b></button><button type="button" data-era="3"><span>2000s</span><b>Satnav</b></button></nav>
+                <p class="closing-hinge" data-focus-region="hinge" data-optional-copy="closingHinge"></p>
+              </section>
+            </article>
+          </div>
+        </div>
+
+        <aside class="decision-pane">
+          <nav class="group-nav" aria-label="Decision sections"></nav>
+          <div class="decision-progress"><span data-progress-count></span><div><i data-progress-bar></i></div></div>
+          <section class="decision-card" aria-live="polite">
+            <p class="decision-group" data-decision-group></p>
+            <h2 data-decision-title></h2>
+            <p class="decision-context" data-decision-context></p>
+            <fieldset><legend class="sr-only" data-decision-title-copy></legend><div class="decision-options" data-decision-options></div></fieldset>
+          </section>
+          <footer class="decision-actions">
+            <button type="button" class="secondary" data-prev>Previous</button>
+            <button type="button" class="primary" data-next>Next decision <span>→</span></button>
+          </footer>
+        </aside>
+      </section>
+    </main>
+    <script src="./script-r3.js"></script>
+  </body>
+</html>

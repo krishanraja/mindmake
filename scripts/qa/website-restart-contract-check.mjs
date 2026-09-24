@@ -19,6 +19,7 @@ const requireCondition = (condition, message) => {
 const contract = JSON.parse(await readFile(contractPath, "utf8"));
 const state = await readFile(statePath, "utf8");
 const agents = await readFile(resolve(root, "AGENTS.md"), "utf8");
+const claude = await readFile(resolve(root, "CLAUDE.md"), "utf8");
 const visualBaselineRunner = await readFile(resolve(root, "scripts/qa/approved-visual-baseline-check.mjs"), "utf8");
 const judgingProtocol = await readFile(resolve(root, "quality/award-panel/JUDGING_PROTOCOL.md"), "utf8");
 const awardCapture = await readFile(resolve(root, "scripts/qa/award-panel-capture.mjs"), "utf8");
@@ -90,6 +91,11 @@ requireCondition(visualBaselineRunner.includes("findEphemeralPort"), "approved v
 requireCondition(visualBaselineRunner.includes("MINDMAKE_QA_ORIGIN"), "approved visual runner must bind child suites to its own origin");
 requireCondition(!visualBaselineRunner.includes("Using verified existing Mindmake server"), "approved visual runner must not trust an ambient server");
 requireCondition(packageJson.scripts?.["review:material"] === "node scripts/qa/present-material-candidate.mjs", "material review must use the fail-closed presenter");
+requireCondition(packageJson.scripts?.["qa:homepage-handoff"] === "node scripts/qa/homepage-handoff-check.mjs", "homepage handoff must have a deterministic verifier");
+requireCondition(packageJson.scripts?.["qa:website-restart"]?.includes("qa:homepage-handoff"), "website restart must verify the homepage handoff");
+requireCondition(packageJson.scripts?.build?.includes("qa:homepage-handoff"), "the normal build must verify the homepage handoff");
+requireCondition(agents.includes("quality/website-redesign/homepage-handoff.v1.json"), "AGENTS.md does not route homepage recovery through the frozen handoff manifest");
+requireCondition(claude.includes("quality/website-redesign/homepage-handoff.v1.json"), "CLAUDE.md does not route homepage recovery through the frozen handoff manifest");
 requireCondition(packageJson.scripts?.["qa:website-restart"]?.includes("qa:material-review:self-test"), "website restart must run the material-review firewall self-test");
 requireCondition(packageJson.scripts?.build?.includes("qa:material-review:self-test"), "the normal build must run the material-review firewall self-test");
 requireCondition(agents.includes("npm run review:material -- quality/website-redesign/material-review-candidate.json"), "AGENTS.md does not route material review through the firewall");

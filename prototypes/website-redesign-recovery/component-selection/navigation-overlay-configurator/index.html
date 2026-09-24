@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <title>Mindmake / navigation overlay combination</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./overrides.css" />
+  </head>
+  <body>
+    <main class="review-shell">
+      <header class="review-head"><div><h1>Open navigation</h1><p>All routes present. Shape the complete open state, then lock it once.</p></div><span>Locked masthead applied</span></header>
+      <section class="workspace">
+        <div class="previews">
+          <article class="preview-card preview-desktop" aria-label="Desktop open navigation preview">
+            <div class="preview-label"><b>Desktop</b><span>1280 × 720</span></div>
+            <div class="site-frame">
+              <video muted loop autoplay playsinline preload="metadata" poster="../../../../src/assets/films/film-02-poster.webp" aria-hidden="true"><source src="../../../../src/assets/films/film-02-loop.mp4" type="video/mp4" /></video>
+              <div class="ground" aria-hidden="true"></div>
+              <header class="site-masthead"><a class="brand" href="#" aria-label="Mindmake home" tabindex="-1"><img class="mark" src="../../../../src/assets/mindmake-mark.svg" alt="" /><img class="wordmark" src="../../../../src/assets/mindmake-wordmark.svg" alt="Mindmake" /></a><span class="menu-control"><b>Close</b><i aria-hidden="true"></i></span></header>
+              <div class="menu-surface"><nav class="primary-routes" aria-label="Main navigation"><a class="is-active" href="#">Build your AI brain</a><a href="#">Build your AI GTM</a><a href="#">Results</a><a href="#">Ideas</a><a href="#">New-age leadership</a><a href="#">Media</a></nav><button class="start-action" type="button" tabindex="-1">Start here <span>→</span></button><nav class="secondary-routes" aria-label="Additional navigation"><a href="#">Answers</a><a href="#">Straight answers</a><a href="#">Contact</a><a href="#">Privacy</a><a href="#">Terms</a></nav></div>
+            </div>
+          </article>
+          <article class="preview-card preview-mobile" aria-label="Mobile open navigation preview">
+            <div class="preview-label"><b>Mobile</b><span>390 × 844</span></div>
+            <div class="site-frame">
+              <video muted loop autoplay playsinline preload="metadata" poster="../../../../src/assets/films/film-02-poster.webp" aria-hidden="true"><source src="../../../../src/assets/films/film-02-loop.mp4" type="video/mp4" /></video>
+              <div class="ground" aria-hidden="true"></div>
+              <header class="site-masthead"><a class="brand" href="#" aria-label="Mindmake home" tabindex="-1"><img class="mark" src="../../../../src/assets/mindmake-mark.svg" alt="" /><img class="wordmark" src="../../../../src/assets/mindmake-wordmark.svg" alt="Mindmake" /></a><span class="menu-control"><b>Close</b><i aria-hidden="true"></i></span></header>
+              <div class="menu-surface"><nav class="primary-routes" aria-label="Main navigation"><a class="is-active" href="#">Build your AI brain</a><a href="#">Build your AI GTM</a><a href="#">Results</a><a href="#">Ideas</a><a href="#">New-age leadership</a><a href="#">Media</a></nav><button class="start-action" type="button" tabindex="-1">Start here <span>→</span></button><nav class="secondary-routes" aria-label="Additional navigation"><a href="#">Answers</a><a href="#">Straight answers</a><a href="#">Contact</a><a href="#">Privacy</a><a href="#">Terms</a></nav></div>
+            </div>
+          </article>
+        </div>
+
+        <form class="controls" id="navForm">
+          <fieldset><legend>Desktop structure</legend><div class="segments"><label><input type="radio" name="structureDesktop" value="index" checked /><span>Editorial index</span></label><label><input type="radio" name="structureDesktop" value="columns" /><span>Two columns</span></label><label><input type="radio" name="structureDesktop" value="split" /><span>Split with action</span></label></div></fieldset>
+          <fieldset><legend>Mobile structure</legend><div class="segments"><label><input type="radio" name="structureMobile" value="list" checked /><span>Single list</span></label><label><input type="radio" name="structureMobile" value="grouped" /><span>Grouped</span></label><label><input type="radio" name="structureMobile" value="action-first" /><span>Action first</span></label></div></fieldset>
+          <fieldset><legend>Desktop link scale</legend><div class="segments"><label><input type="radio" name="scaleDesktop" value="compact" /><span>Compact</span></label><label><input type="radio" name="scaleDesktop" value="balanced" checked /><span>Balanced</span></label><label><input type="radio" name="scaleDesktop" value="large" /><span>Large</span></label></div></fieldset>
+          <fieldset><legend>Mobile link scale</legend><div class="segments"><label><input type="radio" name="scaleMobile" value="compact" /><span>Compact</span></label><label><input type="radio" name="scaleMobile" value="balanced" checked /><span>Balanced</span></label><label><input type="radio" name="scaleMobile" value="large" /><span>Large</span></label></div></fieldset>
+          <fieldset><legend>Desktop density</legend><div class="segments"><label><input type="radio" name="densityDesktop" value="compact" /><span>Compact</span></label><label><input type="radio" name="densityDesktop" value="balanced" checked /><span>Balanced</span></label><label><input type="radio" name="densityDesktop" value="airy" /><span>Airy</span></label></div></fieldset>
+          <fieldset><legend>Mobile density</legend><div class="segments"><label><input type="radio" name="densityMobile" value="compact" /><span>Compact</span></label><label><input type="radio" name="densityMobile" value="balanced" checked /><span>Balanced</span></label><label><input type="radio" name="densityMobile" value="airy" /><span>Airy</span></label></div></fieldset>
+          <fieldset><legend>Route order</legend><div class="segments"><label><input type="radio" name="order" value="build" checked /><span>Build first</span></label><label><input type="radio" name="order" value="proof" /><span>Proof first</span></label><label><input type="radio" name="order" value="leadership" /><span>Leadership first</span></label></div></fieldset>
+          <fieldset><legend>Secondary routes</legend><div class="segments"><label><input type="radio" name="secondary" value="footer" checked /><span>Footer row</span></label><label><input type="radio" name="secondary" value="group" /><span>Quiet group</span></label><label><input type="radio" name="secondary" value="hidden" /><span>Remove here</span></label></div></fieldset>
+          <fieldset><legend>Active-route cue</legend><div class="segments"><label><input type="radio" name="active" value="none" /><span>None</span></label><label><input type="radio" name="active" value="rule" checked /><span>Rule</span></label><label><input type="radio" name="active" value="dot" /><span>Dot</span></label></div></fieldset>
+          <fieldset><legend>Start-here treatment</legend><div class="segments"><label><input type="radio" name="action" value="row" /><span>Link row</span></label><label><input type="radio" name="action" value="bar" checked /><span>Filled bar</span></label><label><input type="radio" name="action" value="anchored" /><span>Anchored footer</span></label></div></fieldset>
+          <fieldset><legend>Overlay ground</legend><div class="segments"><label><input type="radio" name="ground" value="solid" checked /><span>Solid</span></label><label><input type="radio" name="ground" value="glass" /><span>Glass</span></label><label><input type="radio" name="ground" value="film" /><span>Film-backed</span></label></div></fieldset>
+          <fieldset><legend>Entrance</legend><div class="segments"><label><input type="radio" name="entrance" value="immediate" /><span>Immediate</span></label><label><input type="radio" name="entrance" value="stepped" checked /><span>Stepped</span></label><label><input type="radio" name="entrance" value="curtain" /><span>Curtain</span></label></div></fieldset>
+          <label class="comment-field" for="comment"><span>Optional commentary</span><textarea id="comment" name="comment" rows="4" placeholder="Anything to change or protect in this open state"></textarea></label>
+          <div class="form-actions"><button type="button" id="lockButton">Lock this combination</button><button type="button" id="resetButton">Reset</button></div><output id="selectionReadout" aria-live="polite"></output>
+        </form>
+      </section>
+    </main>
+    <script src="./script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>Mindmake / accepted homepage synthesis R2</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main id="site" aria-label="Mindmake homepage">
+    <section class="component-frame opening" data-component="opening" data-source-id="homepage-opening-configurator">
+      <iframe title="Mindmake homepage opening" data-kind="standard" data-source="../component-selection/homepage-opening-configurator/index.html"></iframe>
+    </section>
+
+    <section class="component-frame history" data-component="history" data-source-id="homepage-history-configurator-r3">
+      <iframe title="How people have responded to new tools" data-kind="console" data-source="../component-selection/homepage-history-configurator/index-r3.html"></iframe>
+    </section>
+
+    <section class="component-frame authority" data-component="authority" data-source-id="homepage-authority-configurator">
+      <iframe title="The boundary between AI and human judgement" data-kind="console" data-source="../component-selection/homepage-authority-configurator/index.html"></iframe>
+    </section>
+
+    <section class="interactive-chapter dividend" data-component="leadership-dividend" data-source-id="homepage-leadership-dividend-configurator">
+      <nav class="chapter-switch" aria-label="Leadership dividend chapters">
+        <button type="button" data-dividend-mode="practice" aria-pressed="true">In practice</button>
+        <button type="button" data-dividend-mode="benefits" aria-pressed="false">What becomes possible</button>
+        <button type="button" data-dividend-mode="return" aria-pressed="false">The returned hour</button>
+      </nav>
+      <div class="component-frame">
+        <iframe title="What an AI Brain makes possible" data-kind="console" data-source="../component-selection/homepage-leadership-dividend-configurator/index.html"></iframe>
+      </div>
+    </section>
+
+    <section class="interactive-chapter routes" data-component="route" data-source-id="homepage-route-configurator">
+      <nav class="chapter-switch" aria-label="Choose a route">
+        <button type="button" data-route-mode="brain" aria-pressed="true">AI Brain</button>
+        <button type="button" data-route-mode="gtm" aria-pressed="false">AI GTM</button>
+      </nav>
+      <div class="component-frame">
+        <iframe title="Choose an AI Brain or AI GTM route" data-kind="standard" data-source="../component-selection/homepage-route-configurator/index.html"></iframe>
+      </div>
+    </section>
+
+    <section class="component-frame footer" data-component="footer" data-source-id="footer-configurator">
+      <iframe title="Mindmake footer" data-kind="footer" data-source="../component-selection/footer-configurator/index.html"></iframe>
+    </section>
+  </main>
+
+  <aside class="navigation-overlay" aria-hidden="true">
+    <iframe title="Mindmake navigation" data-kind="standard" data-source="../component-selection/navigation-overlay-configurator/index.html"></iframe>
+  </aside>
+  <script src="./script.js"></script>
+</body>
+</html>

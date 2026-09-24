@@ -143,10 +143,10 @@
     "vite.config.ts": "4f5c6d757b8d228cc5ada91c37789d1d33bbbc559b939361ed9977461c99fdfe",
     "src/components/mindmake/SourceRecords.tsx": "6a958fe737ac5b665d83163a095ccd4bda7c098a9d0ba9c38dba9b9ebdbe0f8a",
     "prototypes/website-redesign-recovery/case-study-browsing-r2/index.html": "046d219a9287d70d1e3ed2b534282ce1298f891f842ca89711251fdb99772029",
-    "prototypes/website-redesign-recovery/case-study-browsing-r2/styles.css": "bb853fa62955848870dde05aea5d8f045912840e0fa2344fc07deb5534ab845d",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/styles.css": "2fced1bd0acbda3186f1290a9dabfb461c3660ad706828fca4feb7abd94ed9f0",
     "prototypes/website-redesign-recovery/case-study-browsing-r2/script.js": "6b37f9b58f88cf4fc34ade4cf0421719738675f910e1c54842d4935acd32676e",
     "prototypes/website-redesign-recovery/case-study-browsing-r2/review.html": "b318df0581aa87f00f61891422d7c607e861de4d70d79b360d790c94191da4eb",
-    "prototypes/website-redesign-recovery/case-study-browsing-r2/check.mjs": "e90d609cc925ff5f8a49ec547c837d675131f023499ad08029c38b1f2bbd4151"
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/check.mjs": "7ff2d8d91dccfae045ed9445ed917bd4b87564402745d7a0bbc35f9acf51a136"
   },
   "newlyLocked": [
     "src/components/mindmake/SourceRecords.tsx",

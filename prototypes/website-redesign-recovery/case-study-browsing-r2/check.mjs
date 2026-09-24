@@ -347,10 +347,17 @@ for (const [width, height] of [[390, 844], [360, 700], [320, 568]]) {
   await page.waitForTimeout(1000);
   const label = `${width}×${height}`;
 
-  const chain = await page.evaluate(() => [...document.querySelectorAll('.region, .region .expanded, .region-hit')]
-    .filter((e) => { const s = getComputedStyle(e); return ['auto', 'scroll', 'hidden'].includes(s.overflowY) || ['auto', 'scroll', 'hidden'].includes(s.overflowX); })
-    .map((e) => e.className.split(' ')[0]));
-  for (const c of new Set(chain)) fail(true, `${label}: .${c} is a scroll container between the finger and the rail`);
+  /* The first version of this asserted that nothing between the finger and the
+     rail was a scroll container at all. That was too strong, and enlarged text
+     proved it: a card whose copy no longer fits has to be able to scroll. What
+     actually made the rail fiddly was the browser having to work out where a
+     gesture belonged, and `touch-action` settles that outright — an element
+     that declares it does not pan vertically cannot take the swipe, whether or
+     not it is also a scroller. So the contract is the declaration. */
+  const chain = await page.evaluate(() => [...document.querySelectorAll('.region, .region .expanded, .region-hit, .region-list')]
+    .map((e) => ({ name: e.className.split(' ')[0], touch: getComputedStyle(e).touchAction }))
+    .filter((e) => !/pan-x/.test(e.touch)));
+  for (const c of chain) fail(true, `${label}: .${c.name} does not declare horizontal panning (touch-action: ${c.touch}), so it can steal the swipe`);
 
   const card = await page.evaluate(() => { const r = document.querySelector('.region').getBoundingClientRect(); return { cx: r.left + r.width / 2, cy: r.top + r.height / 2, bottom: r.bottom }; });
   const pt = (x, y) => ({ x: Math.round(x), y: Math.round(y), radiusX: 12, radiusY: 16, force: 1 });

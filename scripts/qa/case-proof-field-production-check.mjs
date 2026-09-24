@@ -34,10 +34,10 @@ const baselineHashes = {
   'prototypes/website-redesign-recovery/case-study-browsing/review.html': '9742ded459c3a14efc34866a1793d15042fc2497d3542621b92bac6360c85368',
   'prototypes/website-redesign-recovery/case-study-browsing/check.mjs': '21c80984d7b414835bf31067e1ac326345f41531296cb468104535f5bc5ef053',
   'prototypes/website-redesign-recovery/case-study-browsing-r2/index.html': '046d219a9287d70d1e3ed2b534282ce1298f891f842ca89711251fdb99772029',
-  'prototypes/website-redesign-recovery/case-study-browsing-r2/styles.css': '3387164ba701d417233fb7f03f92f96916a5bfb1ca687ee213d05596a0404beb',
+  'prototypes/website-redesign-recovery/case-study-browsing-r2/styles.css': '2fced1bd0acbda3186f1290a9dabfb461c3660ad706828fca4feb7abd94ed9f0',
   'prototypes/website-redesign-recovery/case-study-browsing-r2/script.js': '6b37f9b58f88cf4fc34ade4cf0421719738675f910e1c54842d4935acd32676e',
   'prototypes/website-redesign-recovery/case-study-browsing-r2/review.html': 'b318df0581aa87f00f61891422d7c607e861de4d70d79b360d790c94191da4eb',
-  'prototypes/website-redesign-recovery/case-study-browsing-r2/check.mjs': 'e90d609cc925ff5f8a49ec547c837d675131f023499ad08029c38b1f2bbd4151',
+  'prototypes/website-redesign-recovery/case-study-browsing-r2/check.mjs': '7ff2d8d91dccfae045ed9445ed917bd4b87564402745d7a0bbc35f9acf51a136',
 };
 const stories = [
   ['day-one', "A day's work, and a partner signed the month after."],

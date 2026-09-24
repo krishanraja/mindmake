@@ -1,0 +1,493 @@
+/* Proof Field S3 — one surface.
+ *
+ * S2 split each record in half: this field carried the claim, and a separate
+ * archive a page below carried the testimony and the only data-bound diagram.
+ * S3 merges them. The record is whole here, and the archive goes.
+ *
+ * Three changes against S2, and one deletion.
+ *   1. The cold tile names its source. A claim with nobody attached to it is
+ *      not proof, and this is the results landing page.
+ *   2. The open record carries the client's own words and the figure drawn
+ *      from `story.figure` — the same StoryFigureView markup production
+ *      already ships, so the real component drops in without a reflow.
+ *   3. The close is where a reader looks for one. "All eight" stays.
+ *   4. mechanismGlyph is gone. Rendered side by side against the figure on
+ *      24 September it stated no quantity on any record at any size.
+ *
+ * The phone is not this composition reflowed. It is a full-bleed rail, one
+ * whole record per screen, no expansion step at all.
+ */
+
+.proof-shell {
+  --ink: #0a100d;
+  --ink-2: #111a16;
+  --ink-3: #18241f;
+  --line: #22322b;
+  --paper: #eadfc9;
+  --tx: #e6ede8;
+  --tx-2: #b0c0b7;
+  --mut: #788c82;
+  --mint: #7fe3b4;
+  --brass: #c69a51;
+  --serif: "Newsreader Variable", Newsreader, Georgia, serif;
+  --sans: "Archivo Variable", Archivo, system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --head: 64px;
+  --dock: 0px;
+
+  display: grid;
+  /* An implicit grid column is auto-sized, which is max-content. The phone
+     rail is 2820px of records, so without this the rail never became a
+     scroll container at all: it widened the page to 2820px instead and took
+     the dock off screen with it, while the clipped overflow hid the
+     evidence. The column has to be allowed to be narrower than its own
+     contents before anything inside it can scroll. */
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: var(--head) auto minmax(0, 1fr);
+  min-height: 100svh;
+  overflow: clip;
+  background: var(--ink);
+  color: var(--tx);
+  font-family: var(--sans);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: #0a100d; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ---- chrome ------------------------------------------------------------- */
+
+.site-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; padding: 0 clamp(20px, 4vw, 64px);
+  border-bottom: 1px solid rgba(157, 240, 200, .18);
+}
+.brand { display: flex; align-items: center; gap: 9px; color: var(--paper); text-decoration: none; }
+.brand-mark {
+  display: grid; place-items: center; width: 26px; height: 26px;
+  border: 1px solid var(--mint); color: var(--mint);
+  font-family: var(--serif); font-size: 15px;
+}
+.brand strong { font: 600 14px/1 var(--sans); letter-spacing: -.01em; }
+.route-label { margin: 0; color: var(--mut); font: 500 10px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+.route-label span { color: var(--line); margin: 0 6px; }
+
+.field-intro { padding: clamp(14px, 2.2vh, 24px) clamp(20px, 4vw, 64px) clamp(12px, 1.8vh, 18px); }
+.field-intro h1 {
+  margin: 0; max-width: 18ch; color: var(--paper);
+  font: 400 clamp(34px, 4.6vw, 64px)/.88 var(--serif); letter-spacing: -.03em;
+}
+
+/* ---- the field ---------------------------------------------------------- */
+
+.proof-field {
+  position: relative; min-height: 0;
+  margin: 0 clamp(20px, 4vw, 64px) clamp(18px, 2.6vh, 32px);
+  border: 1px solid rgba(157, 240, 200, .2); background: #0b2119;
+  box-shadow: 0 28px 75px rgba(0, 0, 0, .3), inset 0 0 80px rgba(189, 146, 84, .035);
+}
+.region-list {
+  display: grid; width: 100%; height: 100%; min-height: 460px; margin: 0; padding: 0;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: repeat(6, minmax(0, 1fr));
+  gap: 1px; background: rgba(234, 220, 193, .16); list-style: none;
+}
+
+/* The hand-placed packing, carried over from S2 unchanged. */
+.region[data-index="0"] { grid-area: 1/1/4/6; }
+.region[data-index="1"] { grid-area: 1/6/3/10; }
+.region[data-index="2"] { grid-area: 1/10/3/13; }
+.region[data-index="3"] { grid-area: 3/6/7/9; }
+.region[data-index="4"] { grid-area: 3/9/5/13; }
+.region[data-index="5"] { grid-area: 4/1/7/4; }
+.region[data-index="6"] { grid-area: 4/4/7/6; }
+.region[data-index="7"] { grid-area: 5/9/7/13; }
+
+.region { position: relative; min-width: 0; min-height: 0; overflow: hidden; background: var(--ink); }
+.region-film {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: .58; filter: saturate(.62) contrast(1.14) brightness(.82) sepia(.08);
+  transition: opacity .3s ease;
+}
+.region::before {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(152deg, rgba(4, 14, 10, .42), rgba(4, 14, 10, .82)),
+    linear-gradient(to top, rgba(4, 14, 10, .92) 6%, transparent 62%);
+}
+.region:hover .region-film, .region:focus-within .region-film { opacity: .76; }
+
+.region-hit {
+  position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column;
+  justify-content: flex-end; gap: 0; padding: clamp(12px, 1.4vw, 20px);
+  color: var(--paper); text-decoration: none;
+}
+.region-hit::before {
+  content: ""; position: absolute; inset: 0 auto auto 0; height: 2px; width: 0;
+  background: var(--mint); transition: width .28s ease;
+}
+.region-hit:hover::before, .region-hit:focus-visible::before { width: 100%; }
+.region-hit:focus-visible { outline: 3px solid var(--paper); outline-offset: -3px; }
+
+.region-kicker { position: absolute; top: clamp(12px, 1.4vw, 20px); left: clamp(12px, 1.4vw, 20px); }
+.region-kicker b { color: var(--mut); font: 400 10px/1 var(--mono); letter-spacing: .1em; }
+
+.region-copy { display: grid; gap: 5px; }
+.region-copy small { color: var(--mint); font: 500 9px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+.region-copy strong {
+  color: var(--paper); font: 400 clamp(17px, 1.55vw, 34px)/.98 var(--serif);
+  letter-spacing: -.02em; text-wrap: balance; text-shadow: 0 2px 16px rgba(0, 0, 0, .72);
+}
+/* The attribution. This is the change that makes the cold screen proof rather
+   than assertion, so it is given the source voice the rest of the site uses
+   and the same shadow floor the result sits on. */
+.region-copy cite {
+  color: var(--tx-2); font: 400 clamp(10px, .55vw, 13px)/1.35 var(--mono); font-style: normal;
+  letter-spacing: .03em; text-shadow: 0 2px 12px rgba(0, 0, 0, .8);
+}
+
+/* The three smallest regions cannot carry the same type as the largest. */
+.region[data-index="2"] .region-copy strong,
+.region[data-index="6"] .region-copy strong,
+.region[data-index="7"] .region-copy strong { font-size: clamp(16px, 1.3vw, 27px); }
+.region[data-index="6"] .region-copy cite { font-size: 9px; }
+
+/* ---- the open record ---------------------------------------------------- */
+
+.expanded { display: none; }
+
+.proof-shell[data-mode="story"] .region-list { grid-template-rows: repeat(7, minmax(0, 1fr)); }
+.proof-shell[data-mode="story"] .region.is-selected { grid-area: 1/1/8/9; z-index: 3; }
+.proof-shell[data-mode="story"][data-side="right"] .region.is-selected { grid-area: 1/5/8/13; }
+.proof-shell[data-mode="story"] .region.is-selected .region-hit { display: none; }
+.proof-shell[data-mode="story"] .region.is-selected .region-film { opacity: .2; }
+.proof-shell[data-mode="story"] .region:not(.is-selected) { grid-area: auto/9/auto/13; }
+.proof-shell[data-mode="story"][data-side="right"] .region:not(.is-selected) { grid-area: auto/1/auto/5; }
+.proof-shell[data-mode="story"] .region:not(.is-selected) .region-film { opacity: .24; }
+.proof-shell[data-mode="story"] .region:not(.is-selected) .region-copy small,
+.proof-shell[data-mode="story"] .region:not(.is-selected) .region-copy cite { display: none; }
+.proof-shell[data-mode="story"] .region:not(.is-selected) .region-copy strong { font-size: clamp(14px, 1.05vw, 17px); }
+
+.proof-shell[data-mode="story"] .region.is-selected .expanded {
+  position: absolute; inset: 0; z-index: 4; display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, .92fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: clamp(14px, 1.6vw, 26px);
+  padding: clamp(20px, 2.4vw, 40px);
+  background: linear-gradient(120deg, rgba(4, 14, 10, .93), rgba(4, 14, 10, .76));
+}
+
+.expanded-head { grid-column: 1; grid-row: 1; }
+.expanded-head p { margin: 0 0 10px; color: var(--mint); font: 500 10px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+.expanded-head h2 {
+  margin: 0; max-width: 14ch; color: var(--paper);
+  font: 400 clamp(32px, 3.9vw, 62px)/.92 var(--serif); letter-spacing: -.035em;
+  padding-bottom: 6px;   /* the serif descenders were clipping the head box */
+}
+.expanded-head h2:focus { outline: 0; }
+
+/* The figure sits in its own plate, on the right, where the mechanism was. */
+.expanded-visual {
+  grid-column: 2; grid-row: 1/3; align-self: center;
+  display: grid; place-items: center; padding: 0 clamp(0px, 1.2vw, 20px);
+}
+/* One figure scale, both surfaces. `.expanded-visual` outranks a bare
+   `.mm-fig-*` inside a media query, so anything that needs to differ per
+   surface has to be written at this specificity or it will not land. */
+.expanded-visual .mm-fig { width: 100%; max-width: 480px; padding: clamp(18px, 1.8vw, 28px); }
+.expanded-visual .mm-fig > p:last-child { margin-top: 18px; font-size: 10.5px; }
+.expanded-visual .mm-fig-bar { height: 16px; }
+.expanded-visual .mm-fig-marks { gap: 7px; }
+.expanded-visual .mm-fig-marks i { width: 20px; height: 30px; }
+.expanded-visual .mm-fig-pair { margin-top: 20px; font-size: 15px; }
+.expanded-visual .mm-fig-pair b { font-size: 36px; }
+.expanded-visual .mm-fig-value { font-size: clamp(58px, 7vw, 96px); }
+.expanded-visual .mm-fig-label { font-size: 21px; }
+.expanded-visual .mm-fig-within { font-size: 11px; }
+.expanded-visual .mm-fig-month { grid-template-columns: repeat(7, 22px); gap: 6px; justify-content: center; }
+.expanded-visual .mm-fig-month i { width: 22px; height: 22px; }
+.expanded-visual .mm-fig-offer svg { height: 112px; }
+
+.expanded-copy { grid-column: 1; grid-row: 2; align-self: center; max-width: 42ch; }
+.expanded-copy > p { margin: 0; color: var(--tx-2); font: 400 clamp(15px, 1.25vw, 20px)/1.5 var(--serif); }
+
+/* The testimony. It lived a page below until now. */
+.expanded-copy blockquote {
+  margin: clamp(16px, 1.8vw, 26px) 0 0; padding: 0 0 0 16px;
+  border-left: 2px solid var(--mint);
+  color: var(--paper); font: 400 clamp(17px, 1.5vw, 24px)/1.42 var(--serif);
+}
+.expanded-copy blockquote p { margin: 0; text-indent: -.42em; }
+.expanded-copy blockquote p::before { content: "\201C"; }
+.expanded-copy blockquote p::after { content: "\201D"; }
+.expanded-copy blockquote cite {
+  display: block; margin-top: 10px; color: var(--mut);
+  font: 400 10px/1.4 var(--mono); font-style: normal; letter-spacing: .04em;
+}
+
+.expanded-actions {
+  grid-column: 1/-1; grid-row: 3; display: flex; align-items: center;
+  justify-content: space-between; gap: 16px;
+}
+.expanded-actions div { display: flex; gap: 10px; }
+.expanded-actions button {
+  min-height: 44px; padding: 0 16px; cursor: pointer;
+  border: 1px solid rgba(238, 226, 204, .28); background: transparent;
+  color: var(--paper); font: 500 10px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase;
+}
+.expanded-actions button:hover { border-color: var(--mint); color: var(--mint); }
+.expanded-actions button:focus-visible { outline: 3px solid var(--paper); outline-offset: 3px; }
+.expanded-actions .position { color: var(--mut); font: 400 10px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+
+/* The close, where a reader looks for one. An icon, not a caption: the
+   interface does not narrate its own controls. "All eight" stays below. */
+.expanded-close {
+  position: absolute; z-index: 5; top: clamp(12px, 1.2vw, 20px); right: clamp(12px, 1.2vw, 20px);
+  display: grid; place-items: center; width: 44px; height: 44px; cursor: pointer;
+  border: 1px solid rgba(238, 226, 204, .3); background: rgba(4, 14, 10, .6);
+  color: var(--paper); font-size: 15px; line-height: 1;
+}
+.expanded-close:hover { border-color: var(--mint); color: var(--mint); }
+.expanded-close:focus-visible { outline: 3px solid var(--paper); outline-offset: 3px; }
+
+/* ---- StoryFigureView, exactly as production emits it --------------------- */
+
+.mm-fig { border: 1px solid var(--line); border-radius: 3px; background: var(--ink); padding: 16px 17px; }
+.mm-fig > p:last-child {
+  display: flex; justify-content: space-between; gap: 14px; margin: 12px 0 0;
+  color: var(--mut); font-family: var(--mono); font-size: 9.5px; line-height: 1.45;
+}
+.mm-fig > p:last-child span { flex: 1 1 0; }
+.mm-fig > p:last-child span:last-child { text-align: right; color: var(--tx-2); }
+.mm-fig-bar { display: block; height: 10px; border-radius: 1px; transition: width .28s ease; }
+.mm-fig-bar.is-was { background: var(--ink-3); border: 1px solid var(--line); }
+.mm-fig-bar.is-now { background: var(--mint); }
+.mm-fig-span .mm-fig-bar + .mm-fig-bar { margin-top: 10px; }
+.mm-fig-marks { display: flex; flex-wrap: wrap; gap: 5px; }
+.mm-fig-marks i {
+  width: 12px; height: 18px; border: 1px solid var(--line); border-radius: 1px;
+  background: var(--ink-3); transition: background .2s ease, border-color .2s ease, opacity .2s ease;
+}
+.mm-fig-marks i.is-kept { background: var(--mint); border-color: var(--mint); }
+.mm-fig-marks i.is-dim { opacity: .32; }
+.mm-fig-pair { display: flex; align-items: baseline; gap: 10px; margin: 14px 0 0; color: var(--tx-2); font-family: var(--mono); font-size: 12px; }
+.mm-fig-pair b { color: var(--tx); font-size: 22px; font-weight: 500; }
+.mm-fig-pair b:last-of-type { color: var(--mint); }
+.mm-fig-count { text-align: center; }
+.mm-fig-count p { margin: 0; }
+.mm-fig-value { color: var(--mint); font-family: var(--serif); font-size: clamp(44px, 6vw, 72px); line-height: 1; letter-spacing: -.03em; }
+.mm-fig-label { margin-top: 6px !important; color: var(--tx); font-family: var(--serif); font-size: 17px; }
+.mm-fig-within { margin-top: 6px !important; color: var(--mut); font-family: var(--mono); font-size: 10px; }
+.mm-fig-offer svg { display: block; width: 100%; height: 78px; }
+.mm-fig-frame { fill: none; stroke: var(--line); stroke-width: 1; }
+.mm-fig-mark { fill: var(--tx-2); transition: fill .2s ease, x .28s ease, y .28s ease, width .28s ease; }
+.mm-fig-mark.is-set { fill: var(--mint); }
+.mm-fig-month { display: grid; grid-template-columns: repeat(7, 14px); gap: 4px; }
+.mm-fig-month i { width: 14px; height: 14px; border: 1px solid var(--line); border-radius: 1px; background: var(--ink-3); transition: background .2s ease, border-color .2s ease; }
+.mm-fig-month i.is-on { background: var(--mint); border-color: var(--mint); }
+
+.mobile-dock { display: none; }
+
+/* ======================================================================== */
+/* The phone. Its own composition, not this one reflowed.                    */
+/* ======================================================================== */
+
+@media (max-width: 860px) {
+  .proof-shell {
+    --head: 56px; --dock: 56px;
+    grid-template-rows: var(--head) auto minmax(0, 1fr) auto auto;
+    height: 100svh; overflow: clip;
+  }
+  .site-head { padding-inline: 18px; }
+  .route-label { display: none; }
+  .field-intro { padding: 14px 14px 10px; }
+  .field-intro h1 {
+    max-width: none; white-space: nowrap;
+    font-size: min(7.3vw, 34px); letter-spacing: -.035em;
+  }
+
+  .proof-field {
+    height: 100%; min-height: 0; margin: 0 0 10px; border: 0;
+    box-shadow: none; background: transparent;
+  }
+
+  /* One whole record per screen, swiped. The grid, the packing and the
+     expansion step are all desktop ideas; none of them survive here. A record
+     on a phone needs the full width to carry its own testimony, and swiping is
+     what a thumb already does. */
+  .region-list {
+    display: flex; height: 100%; min-height: 0; gap: 0;
+    background: transparent;
+    overflow-x: auto; overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .region-list::-webkit-scrollbar { display: none; }
+
+  .region {
+    grid-area: auto !important;
+    flex: 0 0 84vw;                 /* the next record peeks, so it reads as a rail */
+    scroll-snap-align: center;
+    height: 100%;                   /* the field row is the card, exactly */
+    margin-right: 10px;
+    border: 1px solid rgba(157, 240, 200, .22);
+  }
+  .region:first-child { margin-left: 14px; }
+  .region:last-child { margin-right: 14px; }
+
+  .region-film { opacity: .52; }
+  .region::before {
+    background:
+      linear-gradient(172deg, rgba(4, 14, 10, .3) 0%, rgba(4, 14, 10, .8) 30%, rgba(4, 14, 10, .92) 100%);
+  }
+
+  /* The link stays — it is the no-JavaScript control and the record anchor —
+     but on the phone the record is already open, so the link is the card's
+     own surface rather than a separate teaser over it. */
+  .region-hit { position: absolute; inset: 0; z-index: 2; display: block; padding: 0; }
+  .region-hit::before { display: none; }
+  .region-kicker { display: none; }
+  .region-copy { display: none; }
+
+  /* Everything, inline. No expansion step on a phone. */
+  .region .expanded {
+    position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column;
+    justify-content: center; gap: 10px; padding: 18px 16px;
+    overflow-y: auto; overscroll-behavior: contain; background: none;
+  }
+  .region .expanded-close { display: none; }
+  .expanded-head p { display: none; }
+  .expanded-head h2 { font-size: clamp(25px, 7.4vw, 33px); max-width: 15ch; line-height: .96; }
+  .expanded-visual {
+    order: 4; border: 0; padding: 0; background: none;
+    margin-top: 4px; flex: 0 0 auto;
+    align-self: stretch; justify-items: stretch;   /* full card width, like the copy */
+  }
+  .expanded-copy { max-width: none; }
+  .expanded-copy > p { font-size: 14px; line-height: 1.45; }
+  .expanded-copy blockquote { margin-top: 14px; font-size: 15px; line-height: 1.42; }
+  .expanded-copy blockquote cite { font-size: 9.5px; }
+  .expanded-actions { display: none; }
+
+  .expanded-visual .mm-fig { padding: 13px 14px; }
+  .expanded-visual .mm-fig > p:last-child { margin-top: 14px; }
+  .expanded-visual .mm-fig-value { font-size: 62px; }
+  .expanded-visual .mm-fig-offer svg { height: 76px; }
+
+  /* The dock is the rail's own instrument now, not expansion chrome: it is
+     present from the first frame, which is half of what makes the rail
+     obviously a rail. */
+  .mobile-dock {
+    display: flex; align-items: center; justify-content: center; gap: 18px;
+    height: var(--dock); padding-bottom: env(safe-area-inset-bottom, 0px);
+    border-top: 1px solid rgba(157, 240, 200, .18); background: rgba(4, 14, 10, .94);
+  }
+  .mobile-dock button {
+    min-width: 44px; min-height: 44px; cursor: pointer;
+    border: 1px solid rgba(238, 226, 204, .28); background: transparent;
+    color: var(--paper); font-size: 15px;
+  }
+  .mobile-dock button:focus-visible { outline: 3px solid var(--paper); outline-offset: 2px; }
+  .mobile-dock [data-mobile-position] { min-width: 68px; text-align: center; color: var(--mut); font: 500 11px/1 var(--mono); letter-spacing: .12em; }
+
+  /* The segment rail: eight marks, the current one lit. Nothing to read, and
+     it says "there are eight of these and you are on the second" at a glance. */
+  .rail-segments { display: flex; gap: 5px; justify-content: center; padding: 12px 14px; }
+  .rail-segments i { flex: 1 1 0; height: 3px; max-width: 32px; background: var(--line); transition: background .2s ease, transform .2s ease; }
+  .rail-segments i.is-on { background: var(--mint); transform: scaleY(1.7); }
+}
+
+@media (max-width: 380px) {
+  .region { flex-basis: 88vw; }
+  .expanded-head h2 { font-size: 24px; }
+  .region .expanded { gap: 10px; padding: 14px 13px; }
+  .expanded-copy > p { font-size: 13.5px; }
+  .expanded-copy blockquote { font-size: 14px; padding-left: 12px; }
+  .expanded-visual .mm-fig { padding: 10px 11px; }
+  .expanded-visual .mm-fig > p:last-child { margin-top: 10px; font-size: 9.5px; }
+  .expanded-visual .mm-fig-month { grid-template-columns: repeat(7, 15px); gap: 4px; }
+  .expanded-visual .mm-fig-month i { width: 15px; height: 15px; }
+  .expanded-visual .mm-fig-marks { gap: 5px; }
+  .expanded-visual .mm-fig-marks i { width: 13px; height: 19px; }
+  .expanded-visual .mm-fig-pair { margin-top: 12px; }
+  .expanded-visual .mm-fig-pair b { font-size: 26px; }
+  .expanded-visual .mm-fig-value { font-size: 42px; }
+  .expanded-visual .mm-fig-label { font-size: 16px; }
+  .expanded-visual .mm-fig-bar { height: 11px; }
+  .expanded-visual .mm-fig-offer svg { height: 58px; }
+}
+
+/* ---- motion ------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .region-film { display: none; }
+  .region-hit::before, .mm-fig-bar, .mm-fig-marks i, .mm-fig-month i, .mm-fig-mark { transition: none; }
+  .region-list { scroll-behavior: auto; }
+}
+
+/* ======================================================================== */
+/* No scripting.                                                            */
+/*                                                                          */
+/* `#record-{id}` is the fallback href on all eight tiles and the deep link  */
+/* production serves today. In S2 it resolved into a separate archive; that  */
+/* archive is gone, so the anchor now has to resolve inside this field. With */
+/* scripting off there is nothing to open a panel, so the field stops being  */
+/* a field and becomes what the archive was: eight whole records, stacked,   */
+/* every one of them already open and every anchor already pointing at its   */
+/* own record. Nothing is behind a control that cannot run.                  */
+/* ======================================================================== */
+
+@media (scripting: none) {
+  .proof-shell { height: auto; overflow: visible; grid-template-rows: auto auto auto; }
+  .proof-field { height: auto; }
+
+  /* A stacked record is as tall as its own copy, so the tile scrim — a gradient
+     built to darken the foot of a short tile — leaves the middle of it sitting
+     over open film. Flat, at the strength the copy needs. */
+  .region::before { background: rgba(4, 14, 10, .9); }
+
+  .region-list {
+    display: block; height: auto; min-height: 0; overflow: visible;
+    background: transparent;
+  }
+  .region, .region:first-child, .region:last-child {
+    grid-area: auto !important; display: block; flex: none;
+    height: auto; min-height: 0; margin: 0 0 1px;
+    border: 1px solid rgba(157, 240, 200, .2);
+  }
+
+  /* The teaser is the control, and there is nothing for it to control. The
+     record below it says everything the teaser said. */
+  .region-hit { position: static; display: block; padding: 0; }
+  .region-hit::before { display: none; }
+  .region-kicker, .region-copy { display: none; }
+
+  /* Static, so it carries no stacking context and the scrim pseudo-element at
+     z-index 1 painted over every word of it. The panel has to be the layer it
+     is everywhere else, or the readable state is the one nobody can read. */
+  .region .expanded {
+    position: relative; z-index: 2; display: grid; gap: 16px;
+    grid-template-columns: minmax(0, 1fr); padding: clamp(20px, 3vw, 40px);
+    background: none;
+  }
+  .region .expanded-head,
+  .region .expanded-copy,
+  .region .expanded-visual { grid-column: 1; grid-row: auto; }
+  .region .expanded-close { display: none; }
+  .region .expanded-actions { display: none; }
+  .region .expanded-visual { border: 0; padding: 0; background: none; max-width: 420px; }
+  .region-film { opacity: .2; }
+
+  .mobile-dock, .rail-segments { display: none; }
+}
+
+@media (scripting: none) and (min-width: 861px) {
+  .region .expanded { grid-template-columns: minmax(0, 1fr) minmax(0, .8fr); }
+  .region .expanded-head { grid-column: 1; grid-row: 1; }
+  .region .expanded-copy { grid-column: 1; grid-row: 2; }
+  .region .expanded-visual { grid-column: 2; grid-row: 1/3; align-self: center; }
+}

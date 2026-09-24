@@ -9,6 +9,28 @@ import { asked } from './lib/asked.mjs';
 let server;
 try {
 const root = path.resolve(import.meta.dirname, '../..');
+const matrix = { chromium: [{ width: 320, height: 568 }, { width: 390, height: 844 }, { width: 1108, height: 574 }, { width: 1440, height: 900 }], firefox: [{ width: 390, height: 844 }, { width: 1440, height: 900 }], webkit: [{ width: 390, height: 844 }, { width: 1440, height: 900 }] };
+const engineFilter = process.env.QA_ENGINE;
+const widthFilter = process.env.QA_WIDTH;
+const routeFilter = process.env.QA_ROUTE;
+if (engineFilter !== undefined && !Object.hasOwn(matrix, engineFilter)) throw new Error(`Unknown QA_ENGINE: ${engineFilter}`);
+if (widthFilter !== undefined && (!/^[1-9]\d*$/.test(widthFilter) || !Number.isSafeInteger(Number(widthFilter)))) throw new Error(`Invalid QA_WIDTH: ${widthFilter}`);
+const activeMatrix = Object.entries(matrix).filter(([engine]) => engineFilter === undefined || engine === engineFilter)
+  .map(([engine, viewports]) => [engine, viewports.filter(viewport => widthFilter === undefined || viewport.width === Number(widthFilter))])
+  .filter(([, viewports]) => viewports.length);
+if (!activeMatrix.length) throw new Error(`QA_WIDTH matches no viewport for the selected engines: ${widthFilter}`);
+const sitemap = await readFile(path.join(root, 'dist/sitemap.xml'), 'utf8');
+const routes = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => new URL(match[1]).pathname);
+if (!routes.length || new Set(routes).size !== routes.length) throw new Error('Built sitemap has no routes or duplicate routes');
+if (routeFilter !== undefined && !routes.includes(routeFilter)) throw new Error(`QA_ROUTE matches no built public route: ${routeFilter}`);
+const activeRoutes = routes.filter(route => routeFilter === undefined || route === routeFilter);
+const activeViewportCount = activeMatrix.reduce((count, [, viewports]) => count + viewports.length, 0);
+const expectedCounts = {
+  routeCases: activeViewportCount * activeRoutes.length,
+  coreNavigation: routeFilter === undefined ? activeViewportCount : 0,
+  routerPatterns: routeFilter === undefined && activeMatrix.some(([engine]) => engine === 'chromium') ? 1 : 0,
+};
+expectedCounts.supplemental = expectedCounts.coreNavigation + expectedCounts.routerPatterns;
 const origin = process.env.QA_BASE_URL || 'http://127.0.0.1:4344';
 if (!['127.0.0.1', 'localhost'].includes(new URL(origin).hostname)) throw new Error('A local built preview is required');
 if (!process.env.QA_BASE_URL) {
@@ -35,8 +57,6 @@ const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 const indexBytes = await readFile(path.join(root, 'dist/index.html'));
 const indexSha256 = digest(indexBytes);
 if (digest(Buffer.from(await (await fetch(`${origin}/`)).text())) !== indexSha256) throw new Error('Served homepage differs from dist/index.html');
-const sitemap = await readFile(path.join(root, 'dist/sitemap.xml'), 'utf8');
-const routes = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => new URL(match[1]).pathname);
 const appSource = await readFile(path.join(root, 'src/App.tsx'), 'utf8');
 const literalRoutes = [...appSource.matchAll(/<Route path="([^"]+)"/g)].map(match => match[1]);
 const retired = [...appSource.matchAll(/^\s+"(\/[^"\n]+)",\r?$/gm)].map(match => match[1]);
@@ -47,7 +67,7 @@ const scriptSha256 = digest(await readFile(new URL(import.meta.url)));
 const runStamp = new Date().toISOString().replace(/[:.]/g, '-');
 const runName = `route-smoke-${indexSha256.slice(0, 12)}${process.env.QA_ENGINE ? `-${process.env.QA_ENGINE}` : ''}${process.env.QA_WIDTH ? `-${process.env.QA_WIDTH}` : ''}${process.env.QA_ROUTE ? `-${process.env.QA_ROUTE.replace(/[^a-z0-9]/gi, '_')}` : ''}-${runStamp}`;
 const observationsFile = path.join(evidence, `${runName}.jsonl`);
-await writeFile(observationsFile, JSON.stringify({ kind: 'run-start', at: new Date().toISOString(), origin, indexSha256, scriptSha256, routes, filters: { engine: process.env.QA_ENGINE || null, width: process.env.QA_WIDTH || null, route: process.env.QA_ROUTE || null } }) + '\n');
+await writeFile(observationsFile, JSON.stringify({ kind: 'run-start', at: new Date().toISOString(), origin, indexSha256, scriptSha256, routes, expectedCounts, filters: { engine: process.env.QA_ENGINE || null, width: process.env.QA_WIDTH || null, route: process.env.QA_ROUTE || null } }) + '\n');
 async function persistObservation(kind, record) {
   await appendFile(observationsFile, JSON.stringify({ kind, indexSha256, scriptSha256, record }) + '\n');
   console.log(JSON.stringify({ observed: record.id, failures: record.failures }));
@@ -293,25 +313,32 @@ async function routerPatterns(browser) {
   finally { supplemental.push(record); await persistObservation('router-patterns', record); await page.close(); }
 }
 
-const matrix = { chromium: [{ width: 320, height: 568 }, { width: 390, height: 844 }, { width: 1108, height: 574 }, { width: 1440, height: 900 }], firefox: [{ width: 390, height: 844 }, { width: 1440, height: 900 }], webkit: [{ width: 390, height: 844 }, { width: 1440, height: 900 }] };
-for (const [engine, launcher] of Object.entries({ chromium, firefox, webkit })) {
-  if (process.env.QA_ENGINE && engine !== process.env.QA_ENGINE) continue;
+for (const [engine, viewports] of activeMatrix) {
+  const launcher = { chromium, firefox, webkit }[engine];
   const browser = await launcher.launch();
   try {
-    for (const viewport of matrix[engine]) {
-      if (process.env.QA_WIDTH && viewport.width !== Number(process.env.QA_WIDTH)) continue;
-      for (const route of routes.filter(route => !process.env.QA_ROUTE || route === process.env.QA_ROUTE)) await smoke(browser, engine, viewport, route);
+    for (const viewport of viewports) {
+      for (const route of activeRoutes) await smoke(browser, engine, viewport, route);
       if (!process.env.QA_ROUTE) await navigation(browser, engine, viewport);
       console.log(JSON.stringify({ completed: `${engine}-${viewport.width}x${viewport.height}`, cases: cases.length, failures: failures.length }));
     }
     if (engine === 'chromium' && !process.env.QA_ROUTE) await routerPatterns(browser);
   } finally { await browser.close(); }
 }
+const actualCounts = {
+  routeCases: cases.length,
+  coreNavigation: supplemental.filter(record => record.id.endsWith('-core-navigation')).length,
+  routerPatterns: supplemental.filter(record => record.id === 'chromium-router-patterns').length,
+  supplemental: supplemental.length,
+};
+for (const [kind, expected] of Object.entries(expectedCounts)) {
+  if (actualCounts[kind] !== expected) failures.push(`Coverage count mismatch for ${kind}: expected ${expected}, observed ${actualCounts[kind]}`);
+}
 const endSha256 = digest(await readFile(path.join(root, 'dist/index.html')));
 if (endSha256 !== indexSha256) failures.push('Built homepage changed during the run; candidate evidence is invalid');
 const report = {
   at: new Date().toISOString(), origin, built: true, selfOwnedRuntime: Boolean(server), indexSha256, endSha256,
-  scriptSha256, routes, literalRoutePatterns: literalRoutes,
+  scriptSha256, routes, literalRoutePatterns: literalRoutes, expectedCounts, actualCounts,
   filters: { engine: process.env.QA_ENGINE || null, width: process.env.QA_WIDTH || null, route: process.env.QA_ROUTE || null },
   limitations: ['Public read-only UI only; no live lead, email, provider or payment mutation.', 'External requests and non-GET/HEAD requests were blocked; live integrations are outside this smoke.', 'Vite untrailed native links use exact built directory-index responses, matching documented deployment behavior.', 'Non-prerendered and retired route patterns are CSR coverage only; direct-navigation hydration is not certified.', 'Geometry, DOM identity and errors are automated observations, not a visual design or physical assistive-technology audit.', 'Cookie notice is dismissed to isolate route geometry; first-visit cookie clearance is a separate release check.'],
   cases, supplemental, failures,

@@ -4,6 +4,9 @@ on:
   pull_request:
   push:
 
+permissions:
+  contents: read
+
 jobs:
   approved-routes:
     runs-on: ubuntu-latest
@@ -29,17 +32,59 @@ jobs:
         run: npm test -- --maxWorkers=2
       - name: Build the approved routes
         run: npm run build
+      - name: Refuse unresolved owner feedback
+        run: node scripts/qa/website-feedback-ledger-check.mjs --release
+      - name: Freeze the single built candidate for both platforms
+        uses: actions/upload-artifact@v4
+        with:
+          name: approved-built-candidate
+          path: dist/
+          if-no-files-found: error
+          compression-level: 0
+  browser-verification:
+    needs: approved-routes
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            engines: chromium firefox
+          - os: macos-latest
+            engines: webkit
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: approved-built-candidate
+          path: dist/
       - name: Install release verification browsers
         run: npx playwright install --with-deps chromium firefox webkit
       - name: Verify actual homepage scroll builds and lead entry
+        # All twelve ordered-state cases run on BOTH platforms. The contract is
+        # never narrowed to fit an engine filter or a missing observation.
         run: npm run qa:homepage-release
-      - name: Refuse unresolved owner feedback
-        run: node scripts/qa/website-feedback-ledger-check.mjs --release
       - name: Verify built public routes and navigation
-        run: npm run qa:release-routes
+        # Same 208 route cases and 9 navigation/redirect supplements. WebKit's
+        # media gate runs on its Safari-like native platform; Linux WPE failures
+        # and no-app reproduction remain in the dated release evidence.
+        shell: bash
+        env:
+          QA_ENGINES: ${{ matrix.engines }}
+        run: |
+          for engine in $QA_ENGINES; do
+            QA_ENGINE="$engine" npm run qa:release-routes
+          done
       - name: Retain release verification evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: homepage-release-evidence
+          name: homepage-release-evidence-${{ matrix.os }}
           path: artifacts/homepage-release/
+          if-no-files-found: error

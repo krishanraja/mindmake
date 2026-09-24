@@ -42,6 +42,7 @@ if (process.argv.includes('--worker')) {
     event({ kind: 'phase-complete', ...item });
     return result;
   };
+  const diagnosticDocuments = new Map();
   try {
     browser = await phase('launch', () => webkit.launch());
     record.browserVersion = browser.version();
@@ -80,11 +81,12 @@ if (process.argv.includes('--worker')) {
           if (receiver && (typeof receiver === 'object' || typeof receiver === 'function') && !ids.has(receiver)) ids.set(receiver, ++nextElement);
           const element = ids.get(receiver) || null;
           const started = performance.now();
-          log({ stage: 'before', operation, call, element, ...(operation === 'currentTime:set' ? { targetTime: args[0] } : {}) });
+          log({ stage: 'before', operation, call, element, ...(operation === 'currentTime:set' ? { targetTime: typeof args[0] === 'number' ? args[0] : null, argumentType: typeof args[0] } : {}) });
           let thrown;
+          let didThrow = false;
           try { return Reflect.apply(native, receiver, args); }
-          catch (error) { thrown = error; throw error; }
-          finally { log({ stage: 'after', operation, call, element, durationMs: performance.now() - started, threw: Boolean(thrown), errorName: thrown?.name || null }); }
+          catch (error) { didThrow = true; thrown = error; throw error; }
+          finally { log({ stage: 'after', operation, call, element, durationMs: performance.now() - started, threw: didThrow, errorName: thrown instanceof Error ? thrown.name : null }); }
         };
         for (const name of ['play', 'pause', 'load']) {
           const descriptor = Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype, name);
@@ -112,6 +114,9 @@ if (process.argv.includes('--worker')) {
       const url = new URL(request.url());
       event({ kind: 'intercept', path: url.pathname, type: request.resourceType() });
       if (url.origin !== origin || !['GET', 'HEAD'].includes(request.method())) return intercepted.abort();
+      if (scenario === 'media-only' && request.isNavigationRequest() && diagnosticDocuments.has(url.pathname)) {
+        return intercepted.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: diagnosticDocuments.get(url.pathname) });
+      }
       if (request.isNavigationRequest() && ['/ai-brain', '/ai-gtm'].includes(url.pathname)) {
         // Same exact directory-index mapping as the release gate; HTML only.
         return intercepted.fulfill({ response: await intercepted.fetch({ url: `${origin}${url.pathname}/` }) });
@@ -142,7 +147,60 @@ if (process.argv.includes('--worker')) {
       if (digest(bytes) !== digest(local)) throw Error('Served HTML does not match built HTML');
       await ready(label);
     };
-    if (scenario === 'case-studies') {
+    if (scenario === 'media-only') {
+      const sourceHtml = await readFile(path.join(root, 'dist/case-studies/index.html'), 'utf8');
+      const films = [...sourceHtml.matchAll(/<video\b[^>]*data-film-src="([^"]+)"[^>]*data-offset="([^"]+)"[^>]*>/g)]
+        .slice(0, width < 700 ? 2 : 4).map(match => ({ path: match[1], offset: Number(match[2]) }));
+      if (films.length !== (width < 700 ? 2 : 4) || films.some(film => !/^\/assets\/[\w.-]+\.mp4$/.test(film.path) || !Number.isFinite(film.offset))) throw Error('Cannot identify exact built proof-field media');
+      record.mediaSources = await phase('media-only:verify-source-bytes', async () => {
+        const results = [];
+        for (const film of films) {
+          const local = await readFile(path.join(root, 'dist', film.path.slice(1)));
+          const response = await fetch(`${origin}${film.path}`, { signal: AbortSignal.timeout(12000) });
+          const served = Buffer.from(await response.arrayBuffer());
+          const item = { ...film, bytes: local.length, sha256: digest(local), servedSha256: digest(served), status: response.status };
+          if (item.status !== 200 || item.sha256 !== item.servedSha256) throw Error('Media bytes do not match the built artifact');
+          results.push(item);
+        }
+        return results;
+      });
+      // Minimal native document: no app bundle, React, stylesheet, poster or font.
+      // Width/height attributes merely keep every active video on screen.
+      const documentPath = '/__qa-media-only';
+      const exitPath = '/__qa-media-only-exit';
+      const html = `<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>Native media diagnostic</title></head><body><h1>Native media diagnostic</h1>${films.map((_, i) => `<video id="film-${i}" width="160" height="90" muted loop playsinline preload="none"></video>`).join('')}<script>
+const films = ${JSON.stringify(films)};
+window.__qaMedia = films.map(() => ({ metadata: false, seeked: false, playing: false, errors: [] }));
+films.forEach((source, i) => {
+  const film = document.getElementById('film-' + i);
+  const state = window.__qaMedia[i];
+  film.muted = true;
+  film.addEventListener('loadedmetadata', () => {
+    state.metadata = true;
+    if (Number.isFinite(film.duration) && film.duration > 0) film.currentTime = Math.min(source.offset, Math.max(0, film.duration - 0.1));
+  }, { once: true });
+  film.addEventListener('seeked', () => { state.seeked = true; });
+  film.addEventListener('playing', () => { state.playing = true; });
+  film.addEventListener('error', () => { state.errors.push('media:' + (film.error?.code || 'unknown')); });
+  film.src = source.path;
+  film.play().catch(error => { state.errors.push(error.name); });
+});
+</script></body></html>`;
+      diagnosticDocuments.set(documentPath, html);
+      diagnosticDocuments.set(exitPath, '<!doctype html><html><head><title>Media exit</title></head><body><h1>Media exit</h1></body></html>');
+      record.minimalDocument = { path: documentPath, sha256: digest(html), sourceHtml: html, transport: 'Same-origin native navigation with diagnostic HTML response fulfillment; video responses unmodified', activeVideos: films.length, limitation: 'A minimal reproduction, not the full application scheduling or lifecycle' };
+      const response = await phase('media-only:goto', () => page.goto(`${origin}${documentPath}`, { waitUntil: 'domcontentloaded', timeout: 12000 }));
+      record.minimalDocument.servedSha256 = digest(await phase('media-only:document-bytes', () => response.body()));
+      if (record.minimalDocument.sha256 !== record.minimalDocument.servedSha256) throw Error('Minimal document hash mismatch');
+      await phase('media-only:metadata-seek-playing', () => page.waitForFunction(() => window.__qaMedia?.every(state => state.metadata && state.seeked && state.playing && !state.errors.length)));
+      await phase('media-only:two-frames', () => page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))));
+      await phase('media-only:heartbeat-dwell', () => page.evaluate(() => new Promise(resolve => setTimeout(resolve, 1500))));
+      record.media = await phase('media-only:media-state', () => page.locator('video').evaluateAll(nodes => nodes.map((node, i) => ({ ...window.__qaMedia[i], paused: node.paused, time: node.currentTime, readyState: node.readyState, path: new URL(node.currentSrc).pathname }))));
+      const exit = await phase('media-only:native-navigation-away', () => page.goto(`${origin}${exitPath}`, { waitUntil: 'domcontentloaded', timeout: 12000 }));
+      if (digest(await phase('media-only:exit-document-bytes', () => exit.body())) !== digest(diagnosticDocuments.get(exitPath))) throw Error('Minimal exit document hash mismatch');
+      await phase('media-only:exit-two-frames', () => page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))));
+      record.visibleHeadings = await phase('media-only:exit-heading', () => page.locator('h1:visible').allTextContents());
+    } else if (scenario === 'case-studies') {
       await visit('/case-studies/', 'case-studies');
       record.visibleHeadings = await phase('case-studies:headings', () => page.locator('h1:visible').allTextContents());
       record.media = await phase('case-studies:media-state', () => page.locator('video').evaluateAll(nodes => nodes.map(node => ({ paused: node.paused, time: node.currentTime, readyState: node.readyState, path: node.currentSrc ? new URL(node.currentSrc).pathname : null }))));
@@ -194,8 +252,8 @@ if (process.argv.includes('--worker')) {
     if (digest(Buffer.from(await (await fetch(origin)).text())) !== indexSha256) throw Error('Preview homepage hash mismatch');
     await writeFile(observations, JSON.stringify({ kind: 'run-start', ...report }) + '\n');
     const modes = process.env.QA_DIAG_MODE ? [process.env.QA_DIAG_MODE] : ['broad', 'selective'];
-    const scenarios = process.env.QA_DIAG_SCENARIO ? [process.env.QA_DIAG_SCENARIO] : ['case-studies', 'core-navigation'];
-    if (scenarios.some(scenario => !['case-studies', 'core-navigation'].includes(scenario))) throw Error('Unknown QA_DIAG_SCENARIO');
+    const scenarios = process.env.QA_DIAG_SCENARIO ? [process.env.QA_DIAG_SCENARIO] : ['case-studies', 'core-navigation', ...(process.env.QA_DIAG_INCLUDE_MEDIA === 'yes' ? ['media-only'] : [])];
+    if (scenarios.some(scenario => !['case-studies', 'core-navigation', 'media-only'].includes(scenario))) throw Error('Unknown QA_DIAG_SCENARIO');
     for (const mode of modes) for (const scenario of scenarios) {
       const caseRecord = { mode, scenario, width: Number(process.env.QA_DIAG_WIDTH || 390), events: [], stderr: '' };
       const child = spawn(process.execPath, [script, '--worker'], { cwd: root, windowsHide: true, detached: process.platform !== 'win32', stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env, QA_DIAG_ORIGIN: origin, QA_DIAG_MODE: mode, QA_DIAG_SCENARIO: scenario } });

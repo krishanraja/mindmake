@@ -12,7 +12,7 @@ permissions:
   contents: read
 
 jobs:
-  transport-comparison:
+  build-once:
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
@@ -23,16 +23,42 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - name: Probe current browser runner without changing built site or lockfile
-        run: npm install --prefix "$RUNNER_TEMP/webkit-probe" --no-save --package-lock=false playwright@1.63.0
-      - run: node "$RUNNER_TEMP/webkit-probe/node_modules/playwright/cli.js" install --with-deps webkit
-      - name: Compare native and intercepted local transport
+      - uses: actions/upload-artifact@v4
+        with:
+          name: identical-webkit-dist
+          path: dist/
+          compression-level: 0
+  platform-comparison:
+    needs: build-once
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: identical-webkit-dist
+          path: dist/
+      - run: npx playwright install --with-deps webkit
+      - name: Compare identical site and no-app media on native platforms
         run: node scripts/qa/release-webkit-diagnostic.mjs
         env:
-          QA_DIAG_RUNNER_ROOT: ${{ runner.temp }}/webkit-probe
+          QA_DIAG_MODE: broad
+          QA_DIAG_MEDIA_TRACE: 'yes'
+          QA_DIAG_INCLUDE_MEDIA: 'yes'
+          DEBUG: pw:browser
+          GST_DEBUG: '2'
       - name: Preserve both outcomes
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: webkit-transport-diagnostic
+          name: webkit-platform-diagnostic-${{ matrix.os }}
           path: artifacts/homepage-release/webkit-diagnostic*

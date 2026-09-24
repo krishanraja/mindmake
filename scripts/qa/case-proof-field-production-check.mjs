@@ -463,9 +463,20 @@ async function reducedMotion() {
     page.setDefaultTimeout(45000);
     await load(page, `${candidatePath}#story=day-one&phase=result`);
     const state = await page.evaluate(() => {
-      const element = document.querySelector('.phase-b');
+      // The glyph this used to interrogate is gone. Its two claims transfer to
+      // the figure that replaced it: nothing animates under reduced motion, and
+      // the endpoints on screen are the record's own words rather than a
+      // second copy of them kept beside the drawing.
+      const bar = document.querySelector('[data-story="day-one"] .mm-fig-bar');
+      const labels = document.querySelectorAll('[data-story="day-one"] .mm-fig > p:last-child span');
       const films = [...document.querySelectorAll('.region-film')];
-      return { duration:getComputedStyle(element).transitionDuration, before:document.querySelector('.endpoint-labels span:first-child').textContent, after:document.querySelector('.endpoint-labels span:last-child').textContent, filmMode:document.querySelector('.proof-shell').dataset.filmMotion, movingFilms:films.filter(film => !film.paused).length };
+      return {
+        duration: getComputedStyle(bar).transitionDuration,
+        before: labels[0]?.textContent ?? '',
+        after: labels[1]?.textContent ?? '',
+        filmMode: document.querySelector('.proof-shell').dataset.filmMotion,
+        movingFilms: films.filter(film => !film.paused).length,
+      };
     });
     fail(Number.parseFloat(state.duration) > .001, `reduced motion: transition remains ${state.duration}`);
     fail(!state.before.includes('Two quarters') || !state.after.includes('One day'), 'reduced motion: truthful endpoints missing');

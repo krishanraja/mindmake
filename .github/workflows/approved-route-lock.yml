@@ -80,7 +80,10 @@ jobs:
           - os: macos-latest
             engines: webkit
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 30
+    # Raised from 30 when the scroll-build gate joined this job. That gate
+    # sweeps ten viewports twice each on chromium, and a job that runs out of
+    # time is a red PR for a reason that has nothing to do with the diff.
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -149,10 +152,24 @@ jobs:
           for engine in $QA_ENGINES; do
             QA_ENGINE="$engine" npm run qa:release-routes
           done
+      - name: Verify the leadership story builds by scroll
+        # The fault this catches shipped and survived a gate that clicked every
+        # control on the page: the route's three pinned sequences never pinned,
+        # so the states changed off-screen and the buttons were the only way
+        # through. This one never clicks. It scrolls, forwards and in reverse,
+        # and fails if scrolling alone does not reach every state or if it finds
+        # a run of empty viewport. Its own negative control removes the pins and
+        # must fail, so a green result cannot mean it measured nothing.
+        shell: bash
+        env:
+          QA_ENGINES: ${{ matrix.engines }}
+        run: npm run qa:new-age-r5-production
       - name: Retain release verification evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: homepage-release-evidence-${{ matrix.os }}
-          path: artifacts/homepage-release/
+          path: |
+            artifacts/homepage-release/
+            artifacts/new-age-leadership/
           if-no-files-found: error

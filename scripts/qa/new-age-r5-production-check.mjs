@@ -30,6 +30,10 @@
  * and below anything that reads as a fault. It is deliberately not tightened to
  * the current measurement: this is a floor for faults, not a lock on layout.
  *
+ * What it does not cover: it exercises the route's source through Vite, as the
+ * gate it replaces did, not the built artifact. It is evidence about behaviour,
+ * not a release receipt; `qa:release-routes` is what binds the built bytes.
+ *
  * Run: node scripts/qa/new-age-r5-production-check.mjs
  *      QA_ENGINES="chromium webkit" node scripts/qa/new-age-r5-production-check.mjs
  */

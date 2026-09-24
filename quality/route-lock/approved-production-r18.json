@@ -71,7 +71,7 @@
     "src/entry-server.tsx": "cd957bdd05c1634c15e7a73ed26bfbf36a23b8a6bfea535f968b00046646e705",
     "scripts/qa/approved-route-lock-check.mjs": "3abb7189561b404d372eb4d86907d861b6fd8244dfcee2e16a0e67e2ab684026",
     "scripts/qa/approved-route-lock-self-test.mjs": "03c0d29a520af39ceccce987c516f5ce59b151c61c45e4fd5f351b1f7f23d289",
-    ".github/workflows/approved-route-lock.yml": "10e9abd95bab80477634dda226a8bb1704a2796c1b8e0a596a742650ee4f8f1c",
+    ".github/workflows/approved-route-lock.yml": "c9af6a2c07c7953484fc55f93f060fe2844864989ce53e5e68b9a1634462e306",
     "scripts/qa/locked-material-production-check.mjs": "b021940985b52171064d8cfdb9f439c58b440f433de79f3882329559daeeb61d",
     "scripts/qa/full-route-continuity-check.mjs": "226a032d6ada1ef85b5fc1d905c2f10e448dde8bf53afdd404fb381d3aa64fc8",
     "scripts/qa/plain-language-check.mjs": "639c62446bf7f3a01693ba1fc20e446e23ba8fbc8d17bc429e41da951fafd9a8",
@@ -141,7 +141,7 @@
     "vite.config.ts": "4f5c6d757b8d228cc5ada91c37789d1d33bbbc559b939361ed9977461c99fdfe",
     "src/styles/new-age-leadership-r6.layer.css": "546986da7d3b4a6bd23053ed69aa996400db8c4f140b39050a9a11a058be60ca",
     "scripts/qa/build-new-age-r5-styles.mjs": "a5cba878c8e6293f7c61fce3b52bce4c3c269d5f4fc6cf9cb2e8c8a607c5d19a",
-    "scripts/qa/new-age-r5-production-check.mjs": "7c88424dcda4532f67738fc6e89b58773a4498c39819d49fd983db505ae9204b"
+    "scripts/qa/new-age-r5-production-check.mjs": "ae90d891a1b36208d6ec40b862b2916e012adf75749043f317eb1dea634386cf"
   },
   "newlyLocked": [
     {
@@ -204,6 +204,7 @@
       "npm run typecheck, npm run lint and the full unit suite (541 tests, 36 files).",
       "node scripts/qa/new-age-r5-production-check.mjs on chromium (ten viewports from 320x568 to 1920x1080), webkit and firefox (three each): forward and reverse scroll alone reaches all four history states, both reach states, all six AI Brain benefits and all three working scenes, with no horizontal overflow, no runtime error, no control under 44px and no run of empty viewport over 42% of its height.",
       "The same gate's negative control: with the four pins removed the sweep fails, so it is measuring the pins.",
+      "That gate is wired into the release workflow on both platforms, so it runs against what is on its way to main rather than only by hand.",
       "npm run build, including the approved-route lock against this record and its fail-closed self-test."
     ],
     "required": [
@@ -261,6 +262,12 @@
         "before": "4aa3f374621463a225f26f4eb4dfb02ae92f2b865023c580538d236e50ecc4dd",
         "after": "03c0d29a520af39ceccce987c516f5ce59b151c61c45e4fd5f351b1f7f23d289",
         "reason": "Selects this new record."
+      },
+      {
+        "path": ".github/workflows/approved-route-lock.yml",
+        "before": "10e9abd95bab80477634dda226a8bb1704a2796c1b8e0a596a742650ee4f8f1c",
+        "after": "c9af6a2c07c7953484fc55f93f060fe2844864989ce53e5e68b9a1634462e306",
+        "reason": "Runs the rewritten scroll-build gate on both release platforms and keeps its evidence. A gate that only ever runs by hand is how the fault it catches survived the last one."
       },
       {
         "path": "scripts/qa/full-route-continuity-check.mjs",

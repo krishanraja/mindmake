@@ -1,10 +1,13 @@
-import { webkit } from 'playwright';
 import { spawn } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { readFile, mkdir, writeFile, appendFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+
+const runnerRequire = createRequire(process.env.QA_DIAG_RUNNER_ROOT
+  ? path.join(process.env.QA_DIAG_RUNNER_ROOT, 'package.json') : import.meta.url);
+const { webkit } = await import(pathToFileURL(runnerRequire.resolve('playwright')).href);
 
 // Diagnostic only: no assertions in the release gate are changed or bypassed.
 // Four fresh-process cases isolate automation interception from native asset I/O.
@@ -131,7 +134,7 @@ if (process.argv.includes('--worker')) {
   const name = `webkit-diagnostic-${indexSha256.slice(0, 12)}-${new Date().toISOString().replace(/[:.]/g, '-')}`;
   const file = path.join(evidence, `${name}.json`);
   const observations = path.join(evidence, `${name}.jsonl`);
-  const report = { at: new Date().toISOString(), indexSha256, origin, platform: process.platform, node: process.version, playwright: createRequire(import.meta.url)('playwright/package.json').version, scriptSha256: digest(await readFile(script)), cases: [], limitations: ['Diagnostic A/B only, not a replacement for the release gate.', 'Videos remain unchanged; no media mocks, pauses, timeouts relaxed, or product edits.', 'Broad routes all requests; selective bypasses automation interception only for local /assets/ and /fonts/ requests.', 'Each fresh-browser worker has a 45-second process deadline; individual page phases retain 12-second bounds.'] };
+  const report = { at: new Date().toISOString(), indexSha256, origin, platform: process.platform, node: process.version, playwright: runnerRequire('playwright/package.json').version, scriptSha256: digest(await readFile(script)), cases: [], limitations: ['Diagnostic A/B only, not a replacement for the release gate.', 'Videos remain unchanged; no media mocks, pauses, timeouts relaxed, or product edits.', 'Broad routes all requests; selective bypasses automation interception only for local /assets/ and /fonts/ requests.', 'Each fresh-browser worker has a 45-second process deadline; individual page phases retain 12-second bounds.'] };
   let server;
   try {
     if (!process.env.QA_BASE_URL) {

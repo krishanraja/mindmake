@@ -157,6 +157,14 @@ owns payload, privacy, retention, email and failure-path contracts.
   whenever a page's own primary action is on screen. The immutable approved R3
   homepage is untouched and is the one surface still reading "Start here".
   Owner approval and candidate verification for r20 are outstanding.
+- `quality/route-lock/approved-production-r21.json` fixes two defects the
+  release matrix found in that bar: the door was keyed on the exact pathname,
+  so the trailing-slash spelling of a route hydrated without it and took the
+  route down to client rendering; and on a phone the door made the bar 150.7px
+  tall at 320x568 and covered the last footer link. The door now keys on the
+  route without its trailing slash and is hidden below 768px. Chromium's full
+  route matrix reads clean locally; Firefox and WebKit have not run against the
+  fix.
 - The release browser matrix runs one engine per leg. It is the same 208 cases
   on the same frozen artifact; Chromium and Firefox simply no longer queue
   behind each other on one Linux runner. Measured before the change on run

@@ -7,7 +7,7 @@ import { sourceHashBytes } from "../lib/source-hash.mjs";
 const root = resolve(import.meta.dirname, "../..");
 const manifestPath = process.env.MINDMAKE_ROUTE_LOCK_MANIFEST
   ? resolve(process.env.MINDMAKE_ROUTE_LOCK_MANIFEST)
-  : resolve(root, "quality/route-lock/approved-production-r20.json");
+  : resolve(root, "quality/route-lock/approved-production-r21.json");
 const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
 const failures = [];
 const sources = new Map();

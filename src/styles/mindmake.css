@@ -828,10 +828,13 @@ html {
    footer reads and adds to the strip's, so it never covers the last thing
    being read and the two reserves cannot cancel each other. */
 @media (max-width: 767px) {
-  /* A phone gets the action at full width. The door drops to a quiet line
-     above it rather than competing for the same row. */
-  .mm-action-bar-inner { flex-wrap: wrap; justify-content: center; gap: 8px; }
-  .mm-action-bar-door { margin-right: 0; width: 100%; justify-content: center; font-size: 11px; }
+  /* A phone gets the action and nothing else. The door was a second row here,
+     and the release smoke measured the cost: the bar stood 150.7px tall at
+     320x568, more than a quarter of the screen, and its own reserve pushed the
+     last footer link underneath it on both offer routes. The bar's job on a
+     phone is the one action; the menu carries both routes one tap away. */
+  .mm-action-bar-door { display: none; }
+  .mm-action-bar-inner { justify-content: center; }
   .mm-action-bar .mm-button { width: 100%; max-width: 420px; }
 }
 @media (prefers-reduced-motion: reduce) {

@@ -42,7 +42,17 @@ export function MindmakeShell({
   const mainRef = useRef<HTMLElement>(null);
   const footerRef = useRef<HTMLElement>(null);
   const location = useLocation();
-  const actionBarDoor = ACTION_BAR_DOORS[location.pathname];
+  /* Keyed on the route without its trailing slash, because both spellings
+     reach the same page and the door has to be the same on each.
+
+     The first version of this read location.pathname directly, and the release
+     smoke caught it on every engine: the prerendered document for /ai-brain is
+     rendered from "/ai-brain", the reader arrives at "/ai-brain/", the lookup
+     missed, and React hydrated a bar with no door onto markup that had one.
+     That is React error #418 and it takes the whole route down to client
+     rendering, losing the server heading with it. Vercel resolves either
+     spelling, so this was a real visitor's page, not only a gate's. */
+  const actionBarDoor = ACTION_BAR_DOORS[location.pathname.replace(/\/+$/, "") || "/"];
 
   useEffect(() => {
     const update = () => setScrolled(window.scrollY > 24);

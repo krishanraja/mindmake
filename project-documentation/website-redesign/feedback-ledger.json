@@ -127,16 +127,14 @@
       "classification": "correction",
       "requiredOutcome": "Compile each accepted chapter from its selected rendered component and exact decision payload. Do not reinterpret the selection readback as a loose content brief or substitute an older page shell.",
       "acceptanceTest": "For every accepted chapter, an automated parity manifest names the source artifact and selected payload, and compares the integrated section against the source for DOM contract, governing data attributes, copy, device-specific composition, interaction states and approved visual anchors. Every row must pass before the next integrated candidate is presented.",
-      "status": "implemented-awaiting-review",
-      "resolution": "HOMEPAGE-PRODUCTION-SYNTHESIS-R1 remains rejected. R2 hosts the accepted source components directly, supplies their exact accepted configuration payloads and copy, and is blocked from production pending Krish's review.",
+      "status": "verified",
+      "resolution": "R1 remains rejected and R2 remains a fidelity reference. R3 deterministically compiles the frozen handoff from the accepted source components into one pre-publish candidate. All 114 selection, copy, source and interaction parity rows pass before presentation.",
       "evidence": [
         "explicit owner rejection, 2026-09-24",
-        "R1 source imported the older homepage-new-age-story stylesheet and script instead of compiling selected chapter artifacts",
-        "quality/website-redesign/homepage-selection.manifest.json records live source and stylesheet SHA-256 values plus each accepted configuration payload",
-        "scripts/qa/homepage-synthesis-parity-check.mjs passes for six source components and ten locked copy assertions",
-        "R2 browser readback passed at 1440 x 900 and 390 x 844 after correcting the shared 52px console-host clipping defect",
-        "browser interaction readback passed for history era change, Work to Organisation, leadership benefits, AI Brain to AI GTM, and navigation open and close",
-        "npm run build exited 0 on 2026-09-24"
+        "quality/website-redesign/homepage-handoff.v1.json",
+        "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/build.mjs",
+        "artifacts/material-review/homepage-integrated-candidate-r3/parity-report.json",
+        "114 of 114 R3 parity rows pass against candidate ee7b010ae7da6d7748d3504ca47c24fe149b280f815423d36c50b44e9ad241a1"
       ]
     },
     {
@@ -150,9 +148,14 @@
       "classification": "correction",
       "requiredOutcome": "The review candidate is one integrated DOM and scroll context, preserves every accepted page-level scroll build, reserves space for controls, and is inspected continuously from opening to footer and back before presentation.",
       "acceptanceTest": "The fail-closed presentation command rejects iframe or parity harnesses, requires candidate-bound continuous forward and reverse journey evidence on desktop and mobile, reports zero section-seam collisions, and validates independent specialist evidence before emitting a review URL.",
-      "status": "open",
-      "resolution": "R2 is reclassified as a fidelity reference and is not eligible for material review. The executable presentation firewall is being installed before an integrated R3 candidate is built.",
-      "evidence": []
+      "status": "verified",
+      "resolution": "R2 remains a fidelity reference. R3 is one light DOM and one page-level scroll context. Its candidate-bound automated journey exercises opening, history, authority, leadership dividend, route and footer forward and reverse across Chromium, Firefox and WebKit, including short desktop, portrait mobile, narrow mobile, phone landscape and a 200-percent layout-equivalent contracted desktop viewport.",
+      "evidence": [
+        "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json",
+        "artifacts/material-review/homepage-integrated-candidate-r3/readiness-receipt.json",
+        "artifacts/material-review/homepage-integrated-candidate-r3/continuity-receipt.json",
+        "10 candidate-bound browser journeys pass with zero section-seam, clipping, alignment, focus, state-recovery, media-budget or Start here handoff failures"
+      ]
     }
   ]
 }

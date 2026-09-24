@@ -26,6 +26,7 @@ const awardCapture = await readFile(resolve(root, "scripts/qa/award-panel-captur
 const awardAggregate = await readFile(resolve(root, "scripts/qa/award-panel-aggregate.mjs"), "utf8");
 const packageJson = await readJson("package.json");
 const materialReviewManifest = await readJson("quality/website-redesign/material-review-candidate.json");
+const materialReviewReferenceR2 = await readJson("quality/website-redesign/material-review-reference-r2.json");
 const materialReviewFirewall = await readFile(resolve(root, "scripts/qa/material-review-firewall-lib.mjs"), "utf8");
 const materialReviewPresenter = await readFile(resolve(root, "scripts/qa/present-material-candidate.mjs"), "utf8");
 const materialReviewSelfTest = await readFile(resolve(root, "scripts/qa/material-review-firewall-self-test.mjs"), "utf8");
@@ -99,9 +100,10 @@ requireCondition(claude.includes("quality/website-redesign/homepage-handoff.v1.j
 requireCondition(packageJson.scripts?.["qa:website-restart"]?.includes("qa:material-review:self-test"), "website restart must run the material-review firewall self-test");
 requireCondition(packageJson.scripts?.build?.includes("qa:material-review:self-test"), "the normal build must run the material-review firewall self-test");
 requireCondition(agents.includes("npm run review:material -- quality/website-redesign/material-review-candidate.json"), "AGENTS.md does not route material review through the firewall");
-requireCondition(materialReviewManifest.status === "blocked-reference", "R2 must remain classified as a blocked reference");
-requireCondition(materialReviewManifest.artifact.kind === "fidelity-harness", "R2 must remain classified as a fidelity harness");
-requireCondition(materialReviewManifest.artifact.integrationModel === "embedded-iframes", "R2 integration model is no longer declared honestly");
+requireCondition(materialReviewReferenceR2.status === "blocked-reference", "R2 must remain classified as a blocked reference");
+requireCondition(materialReviewReferenceR2.artifact.kind === "fidelity-harness", "R2 must remain classified as a fidelity harness");
+requireCondition(materialReviewReferenceR2.artifact.integrationModel === "embedded-iframes", "R2 integration model is no longer declared honestly");
+requireCondition(materialReviewManifest.artifact.integrationModel === "single-dom-single-scroll-context", "the active material candidate must use one DOM and one scroll context");
 for (const requiredCode of ["embedded_frame", "journey_missing", "feedback_blocking", "judge_identity", "mismatch", "stale", "not_run"]) {
   requireCondition(materialReviewFirewall.includes(requiredCode), `material-review firewall is missing ${requiredCode}`);
 }

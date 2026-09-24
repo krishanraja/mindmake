@@ -1,0 +1,4 @@
+.gitattributes text eol=lf
+prototypes/website-redesign-recovery/homepage-production-synthesis-r3/* text eol=lf
+artifacts/material-review/homepage-integrated-candidate-r3/*.json text eol=lf
+artifacts/material-review/homepage-integrated-candidate-r3/jurors/*.json text eol=lf

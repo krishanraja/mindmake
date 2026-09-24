@@ -153,6 +153,10 @@ export async function validateMaterialReviewCandidate({ root, manifestPath, now 
   if (!Array.isArray(manifest.requirements?.surfaces) || manifest.requirements.surfaces.length < 2) blockers.push({ code: "journey_missing", message: "candidate must declare desktop and mobile surfaces" });
   if (!Array.isArray(manifest.requirements?.scrollDrivenSections) || manifest.requirements.scrollDrivenSections.length === 0) blockers.push({ code: "journey_missing", message: "candidate has no declared scroll-driven sections" });
   if (!Array.isArray(manifest.artifact?.files) || manifest.artifact.files.length === 0) blockers.push({ code: "manifest_invalid", message: "candidate artifact files are missing" });
+  const nonRuntimeFiles = new Set(manifest.artifact?.nonRuntimeFiles ?? []);
+  for (const file of nonRuntimeFiles) {
+    if (!manifest.artifact?.files?.includes(file)) blockers.push({ code: "manifest_invalid", message: `non-runtime file is not part of the candidate identity: ${file}` });
+  }
 
   let identity = null;
   try {
@@ -162,6 +166,7 @@ export async function validateMaterialReviewCandidate({ root, manifestPath, now 
   }
 
   for (const file of identity?.files ?? []) {
+    if (nonRuntimeFiles.has(file.path)) continue;
     if (!/\.(?:html|js|jsx|mjs|ts|tsx)$/i.test(file.path)) continue;
     const source = await readFile(path.resolve(root, file.path), "utf8");
     if (/<iframe\b/i.test(source) || /createElement\s*\(\s*["']iframe["']\s*\)/i.test(source)) {

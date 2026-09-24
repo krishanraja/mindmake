@@ -1,0 +1,249 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "homepage-integrated-candidate-r3",
+  "candidateSha256": "ee7b010ae7da6d7748d3504ca47c24fe149b280f815423d36c50b44e9ad241a1",
+  "capturedAt": "2026-09-24T11:11:53.443Z",
+  "expiresAt": "2026-10-01T11:11:53.443Z",
+  "observations": [
+    {
+      "id": "chromium-desktop-1440x900-continuous-journey",
+      "surface": "desktop",
+      "route": "/prototypes/website-redesign-recovery/homepage-production-synthesis-r3/index.html",
+      "viewport": "1440x900",
+      "action": "Open the page, exercise menu, story, organisation, benefit and route states, then scroll through every section forward and reverse.",
+      "expected": "One coherent responsive page with no clipping, drift, hidden controls or lost state.",
+      "observed": "All states completed in one DOM and one root scroll context; section seams and fixed chrome remained bounded.",
+      "status": "pass",
+      "metrics": {
+        "mediaPerformance": {
+          "count": 2,
+          "unique": 2,
+          "transferred": 1786343,
+          "duplicateTransfers": 0
+        }
+      },
+      "evidence": [
+        {
+          "path": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/chromium-desktop-1440x900-full.png",
+          "sha256": "c0a1ea455acc162bc7d4e5a5bf6e353a1525b246b1d9f3bb86fa611d7b730704"
+        }
+      ]
+    },
+    {
+      "id": "chromium-desktop-1440x700-continuous-journey",
+      "surface": "desktop",
+      "route": "/prototypes/website-redesign-recovery/homepage-production-synthesis-r3/index.html",
+      "viewport": "1440x700",
+      "action": "Open the page, exercise menu, story, organisation, benefit and route states, then scroll through every section forward and reverse.",
+      "expected": "One coherent responsive page with no clipping, drift, hidden controls or lost state.",
+      "observed": "All states completed in one DOM and one root scroll context; section seams and fixed chrome remained bounded.",
+      "status": "pass",
+      "metrics": {
+        "mediaPerformance": {
+          "count": 2,
+          "unique": 2,
+          "transferred": 1786343,
+          "duplicateTransfers": 0
+        }
+      },
+      "evidence": [
+        {
+          "path": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/chromium-desktop-1440x700-full.png",
+          "sha256": "828095ba9f49a3f30b7a0bbe1fdfbd1ab4902e45f3a5e63a968a155508d9a87a"
+        }
+      ]
+    },
+    {
+      "id": "chromium-desktop-200pct-equivalent-720x450-continuous-journey",
+      "surface": "desktop",
+      "route": "/prototypes/website-redesign-recovery/homepage-production-synthesis-r3/index.html",
+      "viewport": "720x450",
+      "action": "Open the page, exercise menu, story, organisation, benefit and route states, then scroll through every section forward and reverse.",
+      "expected": "One coherent responsive page with no clipping, drift, hidden controls or lost state.",
+      "observed": "All states completed in one DOM and one root scroll context; section seams and fixed chrome remained bounded.",
+      "status": "pass",
+      "metrics": {
+        "mediaPerformance": {
+          "count": 2,
+          "unique": 2,
+          "transferred": 1786343,
+          "duplicateTransfers": 0
+        }
+      },
+      "evidence": [
+        {
+          "path": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/chromium-desktop-200pct-equivalent-720x450-full.png",
+          "sha256": "b3743b92dc907d09b7163d866fd336bafe568e8f6c7ea70da95e5d31368fa25f"
+        }
+      ]
+    },
+    {
+      "id": "chromium-mobile-390x844-continuous-journey",
+      "surface": "mobile",
+      "route": "/prototypes/website-redesign-recovery/homepage-production-synthesis-r3/index.html",
+      "viewport": "390x844",
+      "action": "Open the page, exercise menu, story, organisation, benefit and route states, then scroll through every section forward and reverse.",
+      "expected": "One coherent responsive page with no clipping, drift, hidden controls or lost state.",
+      "observed": "All states completed in one DOM and one root scroll context; section seams and fixed chrome remained bounded.",
+      "status": "pass",
+      "metrics": {
+        "mediaPerformance": {
+          "count": 2,
+          "unique": 2,
+          "transferred": 1786343,
+          "duplicateTransfers": 0
+        }
+      },
+      "evidence": [
+        {
+          "path": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/chromium-mobile-390x844-full.png",
+          "sha256": "2abf5767ddd85b71fff9ae0f67e28026cfd8d1fee1fe2d4d4f12ae24d0b8d2a3"
+        }
+      ]
+    },
+    {
+      "id": "chromium-mobile-320x568-continuous-journey",
+      "surface": "mobile",
+      "route": "/prototypes/website-redesign-recovery/homepage-production-synthesis-r3/index.html",
+      "viewport": "320x568",
+      "action": "Open the page, exercise menu, story, organisation, benefit and route states, then scroll through every section forward and reverse.",
+      "expected": "One coherent responsive page with no clipping, drift, hidden controls or lost state.",
+      "observed": "All states completed in one DOM and one root scroll context; section seams and fixed chrome remained bounded.",
+      "status": "pass",
+      "metrics": {
+        "mediaPerformance": {
+          "count": 2,
+          "unique": 2,
+          "transferred": 1786343,
+          "duplicateTransfers": 0
+        }
+      },
+      "evidence": [
+        {
+          "path": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/chromium-mobile-320x568-full.png",
+          "sha256": "144f1029273c32029e477afb590e75d5d2c9b95c68db72f5ff246cf9aaf29865"
+        }
+      ]
+    },
+    {
+      "id": "chromium-phone-landscape-844x390-continuous-journey",
+      "surface": "desktop",
+      "route": "/prototypes/website-redesign-recovery/homepage-production-synthesis-r3/index.html",
+      "viewport": "844x390",
+      "action": "Open the page, exercise menu, story, organisation, benefit and route states, then scroll through every section forward and reverse.",
+      "expected": "One coherent responsive page with no clipping, drift, hidden controls or lost state.",
+      "observed": "All states completed in one DOM and one root scroll context; section seams and fixed chrome remained bounded.",
+      "status": "pass",
+      "metrics": {
+        "mediaPerformance": {
+          "count": 2,
+          "unique": 2,
+          "transferred": 1786343,
+          "duplicateTransfers": 0
+        }
+      },
+      "evidence": [
+        {
+          "path": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/chromium-phone-landscape-844x390-full.png",
+          "sha256": "926042a91c927b367a9940b54bcae6ec340c9f8cc3f6bda9e772e2c6575752d7"
+        }
+      ]
+    },
+    {
+      "id": "firefox-desktop-1440x900-continuous-journey",
+      "surface": "desktop",
+      "route": "/prototypes/website-redesign-recovery/homepage-production-synthesis-r3/index.html",
+      "viewport": "1440x900",
+      "action": "Open the page, exercise menu, story, organisation, benefit and route states, then scroll through every section forward and reverse.",
+      "expected": "One coherent responsive page with no clipping, drift, hidden controls or lost state.",
+      "observed": "All states completed in one DOM and one root scroll context; section seams and fixed chrome remained bounded.",
+      "status": "pass",
+      "metrics": {
+        "mediaPerformance": {
+          "count": 1,
+          "unique": 1,
+          "transferred": 679346,
+          "duplicateTransfers": 0
+        }
+      },
+      "evidence": [
+        {
+          "path": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/firefox-desktop-1440x900-full.png",
+          "sha256": "6d43853827443c08c72919dc9576f19e785a8eb574b4b7ffc556ef2109f127a6"
+        }
+      ]
+    },
+    {
+      "id": "firefox-mobile-390x844-continuous-journey",
+      "surface": "mobile",
+      "route": "/prototypes/website-redesign-recovery/homepage-production-synthesis-r3/index.html",
+      "viewport": "390x844",
+      "action": "Open the page, exercise menu, story, organisation, benefit and route states, then scroll through every section forward and reverse.",
+      "expected": "One coherent responsive page with no clipping, drift, hidden controls or lost state.",
+      "observed": "All states completed in one DOM and one root scroll context; section seams and fixed chrome remained bounded.",
+      "status": "pass",
+      "metrics": {
+        "mediaPerformance": {
+          "count": 1,
+          "unique": 1,
+          "transferred": 1106997,
+          "duplicateTransfers": 0
+        }
+      },
+      "evidence": [
+        {
+          "path": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/firefox-mobile-390x844-full.png",
+          "sha256": "0da709154961f51ac24e5d8d8ea0e824b02bbf0a7f109f5351896f5b64fa620d"
+        }
+      ]
+    },
+    {
+      "id": "webkit-desktop-1440x900-continuous-journey",
+      "surface": "desktop",
+      "route": "/prototypes/website-redesign-recovery/homepage-production-synthesis-r3/index.html",
+      "viewport": "1440x900",
+      "action": "Open the page, exercise menu, story, organisation, benefit and route states, then scroll through every section forward and reverse.",
+      "expected": "One coherent responsive page with no clipping, drift, hidden controls or lost state.",
+      "observed": "All states completed in one DOM and one root scroll context; section seams and fixed chrome remained bounded.",
+      "status": "pass",
+      "metrics": {
+        "mediaPerformance": {
+          "count": 0,
+          "unique": 0,
+          "transferred": 0,
+          "duplicateTransfers": 0
+        }
+      },
+      "evidence": [
+        {
+          "path": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/webkit-desktop-1440x900-full.png",
+          "sha256": "846826e2d4015abfba78df95a056a13b88fc3758efe00bef60e601e163d87ac3"
+        }
+      ]
+    },
+    {
+      "id": "webkit-mobile-390x844-continuous-journey",
+      "surface": "mobile",
+      "route": "/prototypes/website-redesign-recovery/homepage-production-synthesis-r3/index.html",
+      "viewport": "390x844",
+      "action": "Open the page, exercise menu, story, organisation, benefit and route states, then scroll through every section forward and reverse.",
+      "expected": "One coherent responsive page with no clipping, drift, hidden controls or lost state.",
+      "observed": "All states completed in one DOM and one root scroll context; section seams and fixed chrome remained bounded.",
+      "status": "pass",
+      "metrics": {
+        "mediaPerformance": {
+          "count": 0,
+          "unique": 0,
+          "transferred": 0,
+          "duplicateTransfers": 0
+        }
+      },
+      "evidence": [
+        {
+          "path": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/webkit-mobile-390x844-full.png",
+          "sha256": "214a93645d80a4166026a20cf2aa4981e953f74675fea44030ca5c3ac151c928"
+        }
+      ]
+    }
+  ]
+}

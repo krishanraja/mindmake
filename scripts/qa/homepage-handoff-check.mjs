@@ -30,6 +30,11 @@ async function treeHash(directory) {
 }
 
 const handoff = JSON.parse(await readFile(handoffPath, "utf8"));
+const material = JSON.parse(await readFile(resolve(root, handoff.sourceOfTruth.materialReviewManifest), "utf8"));
+const integratedCandidateExists = material.candidateId === handoff.assemblyState?.nextCandidate?.id
+  && material.status === "candidate"
+  && material.artifact?.kind === "integrated-production-candidate"
+  && material.artifact?.integrationModel === "single-dom-single-scroll-context";
 if (handoff.schemaVersion !== 1) failures.push("schemaVersion must equal 1");
 if (handoff.status !== "handoff-baseline-not-production-candidate") failures.push("handoff status must remain non-production");
 
@@ -79,11 +84,13 @@ const ledger = JSON.parse(await readFile(resolve(root, handoff.sourceOfTruth.fee
 for (const id of handoff.blockingFeedback ?? []) {
   const item = ledger.items?.find((candidate) => candidate.id === id);
   if (!item) failures.push(`blocking feedback missing from ledger: ${id}`);
-  else if (!ledger.rules?.approvalBlockedByStatuses?.includes(item.status)) failures.push(`blocking feedback no longer blocks approval: ${id} (${item.status})`);
+  else if (integratedCandidateExists && item.status !== "verified") failures.push(`integrated candidate feedback is not verified: ${id} (${item.status})`);
+  else if (!integratedCandidateExists && !ledger.rules?.approvalBlockedByStatuses?.includes(item.status)) failures.push(`blocking feedback no longer blocks approval before R3 exists: ${id} (${item.status})`);
 }
 
-const material = JSON.parse(await readFile(resolve(root, handoff.sourceOfTruth.materialReviewManifest), "utf8"));
-if (material.status !== "blocked-reference" || material.artifact?.kind !== "fidelity-harness") failures.push("material review manifest must continue to block R2 as a fidelity reference");
+const r2Reference = JSON.parse(await readFile(resolve(root, "quality/website-redesign/material-review-reference-r2.json"), "utf8"));
+if (r2Reference.status !== "blocked-reference" || r2Reference.artifact?.kind !== "fidelity-harness") failures.push("R2 must remain separately recorded as a blocked fidelity reference");
+if (!integratedCandidateExists) failures.push("the active material manifest does not identify the built single-DOM R3 candidate");
 if (handoff.commands?.presentCandidate !== "npm run review:material -- quality/website-redesign/material-review-candidate.json") failures.push("presentation command changed");
 
 console.log(JSON.stringify({

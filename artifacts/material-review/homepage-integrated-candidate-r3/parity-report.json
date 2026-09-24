@@ -1,0 +1,747 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "homepage-integrated-candidate-r3",
+  "handoffArtifact": "mindmake-homepage-handoff-v1",
+  "handoffStatus": "handoff-baseline-not-production-candidate",
+  "generatedAt": "2026-09-24T11:09:45.168Z",
+  "compiler": "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/build.mjs",
+  "sourceIntegrity": {
+    "algorithm": "sha256-path-nul-file-sha256-ordinal-v1",
+    "trees": [
+      {
+        "path": "prototypes/website-redesign-recovery/component-selection",
+        "sha256": "3fb6f776f8eb7d0fc18fc414a309d30dce2c211da4f85f03473a311debf564e4",
+        "role": "accepted source components and decision consoles"
+      },
+      {
+        "path": "prototypes/website-redesign-recovery/homepage-production-synthesis-r1",
+        "sha256": "83b70195c414d51d6e5745ec8bb27e6892ea562359ace880bbf407bc0d2b6386",
+        "role": "rejected synthesis retained as negative evidence"
+      },
+      {
+        "path": "prototypes/website-redesign-recovery/homepage-production-synthesis-r2",
+        "sha256": "9e82aa50cd9c3852d555229e05f7cf48816f2464424fccd81a67b1721a005701",
+        "role": "component-fidelity reference only"
+      }
+    ],
+    "files": [
+      {
+        "path": "quality/website-redesign/homepage-selection.manifest.json",
+        "sha256": "c7d9e6510050330bf16c3bd9fce6b0e530e0478e7360ab1162f9b6908e9559cf"
+      },
+      {
+        "path": "scripts/qa/homepage-synthesis-parity-check.mjs",
+        "sha256": "e3bf7a915f87341e7ec61a8444d08b90532112623020d10f6c9d9808c5ca8a48"
+      }
+    ]
+  },
+  "rows": [
+    {
+      "id": "navigation.structureDesktop",
+      "source": "prototypes/website-redesign-recovery/component-selection/navigation-overlay-configurator/index.html",
+      "contract": "navigation overlay preserves data-structure-desktop=\"index\"",
+      "status": "pass"
+    },
+    {
+      "id": "navigation.structureMobile",
+      "source": "prototypes/website-redesign-recovery/component-selection/navigation-overlay-configurator/index.html",
+      "contract": "navigation overlay preserves data-structure-mobile=\"list\"",
+      "status": "pass"
+    },
+    {
+      "id": "navigation.scaleDesktop",
+      "source": "prototypes/website-redesign-recovery/component-selection/navigation-overlay-configurator/index.html",
+      "contract": "navigation overlay preserves data-scale-desktop=\"balanced\"",
+      "status": "pass"
+    },
+    {
+      "id": "navigation.scaleMobile",
+      "source": "prototypes/website-redesign-recovery/component-selection/navigation-overlay-configurator/index.html",
+      "contract": "navigation overlay preserves data-scale-mobile=\"balanced\"",
+      "status": "pass"
+    },
+    {
+      "id": "navigation.densityDesktop",
+      "source": "prototypes/website-redesign-recovery/component-selection/navigation-overlay-configurator/index.html",
+      "contract": "navigation overlay preserves data-density-desktop=\"balanced\"",
+      "status": "pass"
+    },
+    {
+      "id": "navigation.densityMobile",
+      "source": "prototypes/website-redesign-recovery/component-selection/navigation-overlay-configurator/index.html",
+      "contract": "navigation overlay preserves data-density-mobile=\"balanced\"",
+      "status": "pass"
+    },
+    {
+      "id": "navigation.order",
+      "source": "prototypes/website-redesign-recovery/component-selection/navigation-overlay-configurator/index.html",
+      "contract": "navigation overlay preserves data-order=\"build\"",
+      "status": "pass"
+    },
+    {
+      "id": "navigation.secondary",
+      "source": "prototypes/website-redesign-recovery/component-selection/navigation-overlay-configurator/index.html",
+      "contract": "navigation overlay preserves data-secondary=\"footer\"",
+      "status": "pass"
+    },
+    {
+      "id": "navigation.active",
+      "source": "prototypes/website-redesign-recovery/component-selection/navigation-overlay-configurator/index.html",
+      "contract": "navigation overlay preserves data-active=\"rule\"",
+      "status": "pass"
+    },
+    {
+      "id": "navigation.action",
+      "source": "prototypes/website-redesign-recovery/component-selection/navigation-overlay-configurator/index.html",
+      "contract": "navigation overlay preserves data-action=\"bar\"",
+      "status": "pass"
+    },
+    {
+      "id": "navigation.ground",
+      "source": "prototypes/website-redesign-recovery/component-selection/navigation-overlay-configurator/index.html",
+      "contract": "navigation overlay preserves data-ground=\"solid\"",
+      "status": "pass"
+    },
+    {
+      "id": "navigation.entrance",
+      "source": "prototypes/website-redesign-recovery/component-selection/navigation-overlay-configurator/index.html",
+      "contract": "navigation overlay preserves data-entrance=\"stepped\"",
+      "status": "pass"
+    },
+    {
+      "id": "opening.compositionDesktop",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-opening-configurator/index.html",
+      "contract": "opening preserves data-composition-desktop=\"editorial\"",
+      "status": "pass"
+    },
+    {
+      "id": "opening.compositionMobile",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-opening-configurator/index.html",
+      "contract": "opening preserves data-composition-mobile=\"overlay\"",
+      "status": "pass"
+    },
+    {
+      "id": "opening.titleDesktop",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-opening-configurator/index.html",
+      "contract": "opening preserves data-title-desktop=\"balanced\"",
+      "status": "pass"
+    },
+    {
+      "id": "opening.titleMobile",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-opening-configurator/index.html",
+      "contract": "opening preserves data-title-mobile=\"balanced\"",
+      "status": "pass"
+    },
+    {
+      "id": "opening.measureDesktop",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-opening-configurator/index.html",
+      "contract": "opening preserves data-measure-desktop=\"balanced\"",
+      "status": "pass"
+    },
+    {
+      "id": "opening.measureMobile",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-opening-configurator/index.html",
+      "contract": "opening preserves data-measure-mobile=\"balanced\"",
+      "status": "pass"
+    },
+    {
+      "id": "opening.positionDesktop",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-opening-configurator/index.html",
+      "contract": "opening preserves data-position-desktop=\"middle\"",
+      "status": "pass"
+    },
+    {
+      "id": "opening.positionMobile",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-opening-configurator/index.html",
+      "contract": "opening preserves data-position-mobile=\"high\"",
+      "status": "pass"
+    },
+    {
+      "id": "opening.cropDesktop",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-opening-configurator/index.html",
+      "contract": "opening preserves data-crop-desktop=\"center\"",
+      "status": "pass"
+    },
+    {
+      "id": "opening.cropMobile",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-opening-configurator/index.html",
+      "contract": "opening preserves data-crop-mobile=\"right\"",
+      "status": "pass"
+    },
+    {
+      "id": "opening.contrast",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-opening-configurator/index.html",
+      "contract": "opening preserves data-contrast=\"cinema\"",
+      "status": "pass"
+    },
+    {
+      "id": "opening.lede",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-opening-configurator/index.html",
+      "contract": "opening preserves data-lede=\"show\"",
+      "status": "pass"
+    },
+    {
+      "id": "opening.doors",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-opening-configurator/index.html",
+      "contract": "opening preserves data-doors=\"paired\"",
+      "status": "pass"
+    },
+    {
+      "id": "opening.proof",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-opening-configurator/index.html",
+      "contract": "opening preserves data-proof=\"show\"",
+      "status": "pass"
+    },
+    {
+      "id": "opening.reveal",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-opening-configurator/index.html",
+      "contract": "opening preserves data-reveal=\"staged\"",
+      "status": "pass"
+    },
+    {
+      "id": "history.desktopComposition",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-history-configurator/index-r3.html",
+      "contract": "history preserves data-desktop-composition=\"editorial\"",
+      "status": "pass"
+    },
+    {
+      "id": "history.mobileComposition",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-history-configurator/index-r3.html",
+      "contract": "history preserves data-mobile-composition=\"integrated\"",
+      "status": "pass"
+    },
+    {
+      "id": "history.desktopCopyPosition",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-history-configurator/index-r3.html",
+      "contract": "history preserves data-desktop-copy-position=\"left\"",
+      "status": "pass"
+    },
+    {
+      "id": "history.desktopHeadlineScale",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-history-configurator/index-r3.html",
+      "contract": "history preserves data-desktop-headline-scale=\"balanced\"",
+      "status": "pass"
+    },
+    {
+      "id": "history.mobileHeadlineScale",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-history-configurator/index-r3.html",
+      "contract": "history preserves data-mobile-headline-scale=\"balanced\"",
+      "status": "pass"
+    },
+    {
+      "id": "history.controlTreatment",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-history-configurator/index-r3.html",
+      "contract": "history preserves data-control-treatment=\"era\"",
+      "status": "pass"
+    },
+    {
+      "id": "history.storyTransition",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-history-configurator/index-r3.html",
+      "contract": "history preserves data-story-transition=\"dissolve\"",
+      "status": "pass"
+    },
+    {
+      "id": "history.bridgeTreatment",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-history-configurator/index-r3.html",
+      "contract": "history preserves data-bridge-treatment=\"contrast\"",
+      "status": "pass"
+    },
+    {
+      "id": "authority.desktopLayout",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-authority-configurator/index.html",
+      "contract": "authority preserves data-desktop-layout=\"balanced\"",
+      "status": "pass"
+    },
+    {
+      "id": "authority.mobileLayout",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-authority-configurator/index.html",
+      "contract": "authority preserves data-mobile-layout=\"network\"",
+      "status": "pass"
+    },
+    {
+      "id": "authority.desktopHeadline",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-authority-configurator/index.html",
+      "contract": "authority preserves data-desktop-headline=\"balanced\"",
+      "status": "pass"
+    },
+    {
+      "id": "authority.mobileHeadline",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-authority-configurator/index.html",
+      "contract": "authority preserves data-mobile-headline=\"balanced\"",
+      "status": "pass"
+    },
+    {
+      "id": "authority.desktopInstrumentScale",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-authority-configurator/index.html",
+      "contract": "authority preserves data-desktop-instrument-scale=\"balanced\"",
+      "status": "pass"
+    },
+    {
+      "id": "authority.mobileInstrumentScale",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-authority-configurator/index.html",
+      "contract": "authority preserves data-mobile-instrument-scale=\"balanced\"",
+      "status": "pass"
+    },
+    {
+      "id": "authority.controlStyle",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-authority-configurator/index.html",
+      "contract": "authority preserves data-control-style=\"buttons\"",
+      "status": "pass"
+    },
+    {
+      "id": "authority.defaultPhase",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-authority-configurator/index.html",
+      "contract": "authority preserves data-default-phase=\"work\"",
+      "status": "pass"
+    },
+    {
+      "id": "authority.aiList",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-authority-configurator/index.html",
+      "contract": "authority preserves data-ai-list=\"long\"",
+      "status": "pass"
+    },
+    {
+      "id": "authority.humanList",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-authority-configurator/index.html",
+      "contract": "authority preserves data-human-list=\"long\"",
+      "status": "pass"
+    },
+    {
+      "id": "authority.reelMotion",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-authority-configurator/index.html",
+      "contract": "authority preserves data-reel-motion=\"moving\"",
+      "status": "pass"
+    },
+    {
+      "id": "authority.organisationDetail",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-authority-configurator/index.html",
+      "contract": "authority preserves data-organisation-detail=\"concise\"",
+      "status": "pass"
+    },
+    {
+      "id": "leadershipDividend.desktopLayout",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-leadership-dividend-configurator/index.html",
+      "contract": "leadership dividend preserves data-desktop-layout=\"balanced\"",
+      "status": "pass"
+    },
+    {
+      "id": "leadershipDividend.mobileLayout",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-leadership-dividend-configurator/index.html",
+      "contract": "leadership dividend preserves data-mobile-layout=\"overlay\"",
+      "status": "pass"
+    },
+    {
+      "id": "leadershipDividend.desktopTitle",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-leadership-dividend-configurator/index.html",
+      "contract": "leadership dividend preserves data-desktop-title=\"balanced\"",
+      "status": "pass"
+    },
+    {
+      "id": "leadershipDividend.mobileTitle",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-leadership-dividend-configurator/index.html",
+      "contract": "leadership dividend preserves data-mobile-title=\"balanced\"",
+      "status": "pass"
+    },
+    {
+      "id": "leadershipDividend.defaultMode",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-leadership-dividend-configurator/index.html",
+      "contract": "leadership dividend preserves data-default-mode=\"practice\"",
+      "status": "pass"
+    },
+    {
+      "id": "leadershipDividend.practiceControls",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-leadership-dividend-configurator/index.html",
+      "contract": "leadership dividend preserves data-practice-controls=\"tabs\"",
+      "status": "pass"
+    },
+    {
+      "id": "leadershipDividend.benefitControls",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-leadership-dividend-configurator/index.html",
+      "contract": "leadership dividend preserves data-benefit-controls=\"arrows\"",
+      "status": "pass"
+    },
+    {
+      "id": "leadershipDividend.benefitMotion",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-leadership-dividend-configurator/index.html",
+      "contract": "leadership dividend preserves data-benefit-motion=\"rotate-entry\"",
+      "status": "pass"
+    },
+    {
+      "id": "leadershipDividend.sceneOrder",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-leadership-dividend-configurator/index.html",
+      "contract": "leadership dividend preserves data-scene-order=\"notice-connect-prepare\"",
+      "status": "pass"
+    },
+    {
+      "id": "leadershipDividend.sceneCopy",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-leadership-dividend-configurator/index.html",
+      "contract": "leadership dividend preserves data-scene-copy=\"show\"",
+      "status": "pass"
+    },
+    {
+      "id": "leadershipDividend.benefitOrder",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-leadership-dividend-configurator/index.html",
+      "contract": "leadership dividend preserves data-benefit-order=\"leadership-first\"",
+      "status": "pass"
+    },
+    {
+      "id": "leadershipDividend.benefitCopy",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-leadership-dividend-configurator/index.html",
+      "contract": "leadership dividend preserves data-benefit-copy=\"show\"",
+      "status": "pass"
+    },
+    {
+      "id": "leadershipDividend.benefitCount",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-leadership-dividend-configurator/index.html",
+      "contract": "leadership dividend preserves data-benefit-count=\"fraction\"",
+      "status": "pass"
+    },
+    {
+      "id": "leadershipDividend.returnList",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-leadership-dividend-configurator/index.html",
+      "contract": "leadership dividend preserves data-return-list=\"all\"",
+      "status": "pass"
+    },
+    {
+      "id": "routeOutcome.compositionDesktop",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-route-configurator/index.html",
+      "contract": "route preserves data-composition-desktop=\"balanced\"",
+      "status": "pass"
+    },
+    {
+      "id": "routeOutcome.compositionMobile",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-route-configurator/index.html",
+      "contract": "route preserves data-composition-mobile=\"copy\"",
+      "status": "pass"
+    },
+    {
+      "id": "routeOutcome.titleDesktop",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-route-configurator/index.html",
+      "contract": "route preserves data-title-desktop=\"balanced\"",
+      "status": "pass"
+    },
+    {
+      "id": "routeOutcome.titleMobile",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-route-configurator/index.html",
+      "contract": "route preserves data-title-mobile=\"balanced\"",
+      "status": "pass"
+    },
+    {
+      "id": "routeOutcome.measureDesktop",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-route-configurator/index.html",
+      "contract": "route preserves data-measure-desktop=\"balanced\"",
+      "status": "pass"
+    },
+    {
+      "id": "routeOutcome.measureMobile",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-route-configurator/index.html",
+      "contract": "route preserves data-measure-mobile=\"balanced\"",
+      "status": "pass"
+    },
+    {
+      "id": "routeOutcome.action",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-route-configurator/index.html",
+      "contract": "route preserves data-action=\"copy\"",
+      "status": "pass"
+    },
+    {
+      "id": "routeOutcome.back",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-route-configurator/index.html",
+      "contract": "route preserves data-back=\"text\"",
+      "status": "pass"
+    },
+    {
+      "id": "routeOutcome.caption",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-route-configurator/index.html",
+      "contract": "route preserves data-caption=\"show\"",
+      "status": "pass"
+    },
+    {
+      "id": "routeOutcome.receipt",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-route-configurator/index.html",
+      "contract": "route preserves data-receipt=\"full\"",
+      "status": "pass"
+    },
+    {
+      "id": "routeOutcome.steps",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-route-configurator/index.html",
+      "contract": "route preserves data-steps=\"numbered\"",
+      "status": "pass"
+    },
+    {
+      "id": "routeOutcome.reveal",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-route-configurator/index.html",
+      "contract": "route preserves data-reveal=\"staged\"",
+      "status": "pass"
+    },
+    {
+      "id": "footer.structureDesktop",
+      "source": "prototypes/website-redesign-recovery/component-selection/footer-configurator/index.html",
+      "contract": "footer preserves data-structure-desktop=\"rail\"",
+      "status": "pass"
+    },
+    {
+      "id": "footer.structureMobile",
+      "source": "prototypes/website-redesign-recovery/component-selection/footer-configurator/index.html",
+      "contract": "footer preserves data-structure-mobile=\"compact\"",
+      "status": "pass"
+    },
+    {
+      "id": "footer.densityDesktop",
+      "source": "prototypes/website-redesign-recovery/component-selection/footer-configurator/index.html",
+      "contract": "footer preserves data-density-desktop=\"compact\"",
+      "status": "pass"
+    },
+    {
+      "id": "footer.densityMobile",
+      "source": "prototypes/website-redesign-recovery/component-selection/footer-configurator/index.html",
+      "contract": "footer preserves data-density-mobile=\"compact\"",
+      "status": "pass"
+    },
+    {
+      "id": "footer.brand",
+      "source": "prototypes/website-redesign-recovery/component-selection/footer-configurator/index.html",
+      "contract": "footer preserves data-brand=\"full\"",
+      "status": "pass"
+    },
+    {
+      "id": "footer.statement",
+      "source": "prototypes/website-redesign-recovery/component-selection/footer-configurator/index.html",
+      "contract": "footer preserves data-statement=\"short\"",
+      "status": "pass"
+    },
+    {
+      "id": "footer.routes",
+      "source": "prototypes/website-redesign-recovery/component-selection/footer-configurator/index.html",
+      "contract": "footer preserves data-routes=\"single\"",
+      "status": "pass"
+    },
+    {
+      "id": "footer.legal",
+      "source": "prototypes/website-redesign-recovery/component-selection/footer-configurator/index.html",
+      "contract": "footer preserves data-legal=\"bottom\"",
+      "status": "pass"
+    },
+    {
+      "id": "footer.copyright",
+      "source": "prototypes/website-redesign-recovery/component-selection/footer-configurator/index.html",
+      "contract": "footer preserves data-copyright=\"short\"",
+      "status": "pass"
+    },
+    {
+      "id": "footer.ground",
+      "source": "prototypes/website-redesign-recovery/component-selection/footer-configurator/index.html",
+      "contract": "footer preserves data-ground=\"dark\"",
+      "status": "pass"
+    },
+    {
+      "id": "footer.rule",
+      "source": "prototypes/website-redesign-recovery/component-selection/footer-configurator/index.html",
+      "contract": "footer preserves data-rule=\"accent\"",
+      "status": "pass"
+    },
+    {
+      "id": "footer.reveal",
+      "source": "prototypes/website-redesign-recovery/component-selection/footer-configurator/index.html",
+      "contract": "footer preserves data-reveal=\"scroll\"",
+      "status": "pass"
+    },
+    {
+      "id": "message.openingHeadline",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-message-configurator/index.html",
+      "contract": "locked value is present: Build the business that can think with you.",
+      "status": "pass"
+    },
+    {
+      "id": "message.openingLede",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-message-configurator/index.html",
+      "contract": "locked value is present: Part people. Part agent. Led by judgement.",
+      "status": "pass"
+    },
+    {
+      "id": "message.brainDoor",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-message-configurator/index.html",
+      "contract": "locked value is present: Build your AI brain",
+      "status": "pass"
+    },
+    {
+      "id": "message.brainDoorDetail",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-message-configurator/index.html",
+      "contract": "locked value is present: Your judgement, running.",
+      "status": "pass"
+    },
+    {
+      "id": "message.gtmDoor",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-message-configurator/index.html",
+      "contract": "locked value is present: Build your AI GTM",
+      "status": "pass"
+    },
+    {
+      "id": "message.gtmDoorDetail",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-message-configurator/index.html",
+      "contract": "locked value is present: Build your AI native pricing, positioning and org.",
+      "status": "pass"
+    },
+    {
+      "id": "message.openingProof",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-message-configurator/index.html",
+      "contract": "locked value is present: Build the first working version on real work. Keep the system.",
+      "status": "pass"
+    },
+    {
+      "id": "message.brainHeadline",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-message-configurator/index.html",
+      "contract": "locked value is present: Make your judgement reusable.",
+      "status": "pass"
+    },
+    {
+      "id": "message.brainLede",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-message-configurator/index.html",
+      "contract": "locked value is present: Give your standards, context and past decisions a memory you can use.",
+      "status": "pass"
+    },
+    {
+      "id": "message.brainCaption",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-message-configurator/index.html",
+      "contract": "locked value is present: The next decision begins with what the last one taught you.",
+      "status": "pass"
+    },
+    {
+      "id": "message.gtmHeadline",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-message-configurator/index.html",
+      "contract": "locked value is present: We turn an AI market shift into one tested commercial move.",
+      "status": "pass"
+    },
+    {
+      "id": "message.gtmLede",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-message-configurator/index.html",
+      "contract": "locked value is present: See how one market change alters product, price, positioning and people before you commit.",
+      "status": "pass"
+    },
+    {
+      "id": "message.gtmCaption",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-message-configurator/index.html",
+      "contract": "locked value is present: Start with the commercial decision that is holding the rest of the system back.",
+      "status": "pass"
+    },
+    {
+      "id": "message.backLabel",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-message-configurator/index.html",
+      "contract": "locked value is present: AI Brain or AI GTM",
+      "status": "pass"
+    },
+    {
+      "id": "message.receiptHeading",
+      "source": "prototypes/website-redesign-recovery/component-selection/homepage-message-configurator/index.html",
+      "contract": "locked value is present: What stays with you",
+      "status": "pass"
+    },
+    {
+      "id": "sharedLanguage.results",
+      "source": "prototypes/website-redesign-recovery/component-selection/shared-language-configurator/index.html",
+      "contract": "locked value is present: Results",
+      "status": "pass"
+    },
+    {
+      "id": "sharedLanguage.blog",
+      "source": "prototypes/website-redesign-recovery/component-selection/shared-language-configurator/index.html",
+      "contract": "locked value is present: Thinking",
+      "status": "pass"
+    },
+    {
+      "id": "sharedLanguage.answers",
+      "source": "prototypes/website-redesign-recovery/component-selection/shared-language-configurator/index.html",
+      "contract": "locked value is present: Questions leaders ask",
+      "status": "pass"
+    },
+    {
+      "id": "sharedLanguage.faq",
+      "source": "prototypes/website-redesign-recovery/component-selection/shared-language-configurator/index.html",
+      "contract": "locked value is present: Before you start",
+      "status": "pass"
+    },
+    {
+      "id": "sharedLanguage.media",
+      "source": "prototypes/website-redesign-recovery/component-selection/shared-language-configurator/index.html",
+      "contract": "locked value is present: Media",
+      "status": "pass"
+    },
+    {
+      "id": "sharedLanguage.start",
+      "source": "prototypes/website-redesign-recovery/component-selection/shared-language-configurator/index.html",
+      "contract": "locked value is present: Start here",
+      "status": "pass"
+    },
+    {
+      "id": "sharedLanguage.positioning",
+      "source": "prototypes/website-redesign-recovery/component-selection/shared-language-configurator/index.html",
+      "contract": "locked value is present: Keep your edge as AI changes the market.",
+      "status": "pass"
+    },
+    {
+      "id": "masthead.desktopLogo",
+      "source": "prototypes/website-redesign-recovery/component-selection/masthead-configurator/index.html",
+      "contract": "width:146px",
+      "status": "pass"
+    },
+    {
+      "id": "masthead.mobileLogo",
+      "source": "prototypes/website-redesign-recovery/component-selection/masthead-configurator/index.html",
+      "contract": "width:128px",
+      "status": "pass"
+    },
+    {
+      "id": "masthead.desktopHeight",
+      "source": "prototypes/website-redesign-recovery/component-selection/masthead-configurator/index.html",
+      "contract": "--masthead:66px",
+      "status": "pass"
+    },
+    {
+      "id": "masthead.mobileHeight",
+      "source": "prototypes/website-redesign-recovery/component-selection/masthead-configurator/index.html",
+      "contract": "--masthead:64px",
+      "status": "pass"
+    },
+    {
+      "id": "shellAlignment",
+      "source": "prototypes/website-redesign-recovery/component-selection/masthead-configurator/index.html",
+      "contract": ".logoLeft - .titleLeft <= 1.5px in browser evidence",
+      "status": "pass"
+    },
+    {
+      "id": "singleDom",
+      "source": "prototypes/website-redesign-recovery/component-selection/masthead-configurator/index.html",
+      "contract": "no iframe and one document scroll root",
+      "status": "pass"
+    },
+    {
+      "id": "motion",
+      "source": "prototypes/website-redesign-recovery/component-selection/masthead-configurator/index.html",
+      "contract": "IntersectionObserver and reduced-motion branch",
+      "status": "pass"
+    }
+  ],
+  "failures": [],
+  "files": [
+    {
+      "path": "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/index.html",
+      "sha256": "46be2e145f8175399e724bbaf80bc2014a8bf6ab5ce7184b6243a5bdae9a7007"
+    },
+    {
+      "path": "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/page.css",
+      "sha256": "b33e7592cb2a2f45942bdad618c156df6510f09d162491768e5a53dad085433d"
+    },
+    {
+      "path": "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/component-styles.css",
+      "sha256": "1f82151710ed3b831cc17d16f36628014ff0f6afca0f1a7a0af8977e351d46c4"
+    },
+    {
+      "path": "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/script.js",
+      "sha256": "2b85cf89121f247ef293a70f6d54cf9ee945c51014046a7e1a7be0cde0660326"
+    },
+    {
+      "path": "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/build.mjs",
+      "sha256": "58449c1053520839ad45d162290a390c6934f23979a630a9cb11942b3fbe9d64"
+    }
+  ]
+}

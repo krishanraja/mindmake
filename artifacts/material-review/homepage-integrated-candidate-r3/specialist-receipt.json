@@ -1,0 +1,315 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "homepage-integrated-candidate-r3",
+  "candidateSha256": "ee7b010ae7da6d7748d3504ca47c24fe149b280f815423d36c50b44e9ad241a1",
+  "capturedAt": "2026-09-24T11:11:54.403Z",
+  "expiresAt": "2026-10-01T11:11:54.403Z",
+  "jurors": [
+    {
+      "id": "art_system",
+      "contextId": "r3-art-system-fresh",
+      "executorId": "agent-r3-art-system",
+      "surface": "desktop+mobile",
+      "coverage": [
+        "visual_craft",
+        "design_system_integrity",
+        "responsive_layout"
+      ],
+      "status": "pass",
+      "evidence": [
+        {
+          "path": "artifacts/material-review/homepage-integrated-candidate-r3/jurors/art-system.json",
+          "sha256": "fbd458d026837a5c4c5c709586f80cb2f207a095886ddf50b833ee3bf2eacc46"
+        }
+      ]
+    },
+    {
+      "id": "narrative",
+      "contextId": "r3-narrative-fresh",
+      "executorId": "agent-r3-narrative",
+      "surface": "desktop+mobile",
+      "coverage": [
+        "storyboard_narrative",
+        "information_architecture_guidance",
+        "content_clarity_voice"
+      ],
+      "status": "pass",
+      "evidence": [
+        {
+          "path": "artifacts/material-review/homepage-integrated-candidate-r3/jurors/narrative.json",
+          "sha256": "07b07fc1b3446a584ce78bb8e17e52df9e8ee3284aa1ff16417b89fc62e5c32f"
+        }
+      ]
+    },
+    {
+      "id": "interaction",
+      "contextId": "r3-interaction-fresh",
+      "executorId": "agent-r3-interaction",
+      "surface": "desktop+mobile",
+      "coverage": [
+        "device_specific_interaction",
+        "motion_scroll_causality",
+        "functional_state_recovery"
+      ],
+      "status": "pass",
+      "evidence": [
+        {
+          "path": "artifacts/material-review/homepage-integrated-candidate-r3/jurors/interaction.json",
+          "sha256": "385c8a4d0cc60da0ec1a8c4972d007bfc90a28723012138c2e1b132ba0766840"
+        }
+      ]
+    },
+    {
+      "id": "commercial-conversion-ee7b010a",
+      "contextId": "r3-commercial-ee7b010a-independent",
+      "executorId": "agent-r3-commercial-ee7b010a",
+      "surface": "desktop+mobile",
+      "coverage": [
+        "product_truth",
+        "conversion_trust",
+        "information_architecture_guidance"
+      ],
+      "status": "pass",
+      "evidence": [
+        {
+          "path": "artifacts/material-review/homepage-integrated-candidate-r3/jurors/commercial.json",
+          "sha256": "d44bd8f68c7400636f797db430bf873addf5c33fb4d4fcd03bdfb780f106b8e2"
+        }
+      ]
+    },
+    {
+      "id": "ux-technical",
+      "contextId": "r3-ux-technical-final-ee7b010a",
+      "executorId": "agent-r3-ux-technical",
+      "surface": "desktop+mobile",
+      "coverage": [
+        "accessibility_assistive_technology",
+        "performance_technical",
+        "evidence_provenance",
+        "responsive_layout"
+      ],
+      "status": "pass",
+      "evidence": [
+        {
+          "path": "artifacts/material-review/homepage-integrated-candidate-r3/jurors/ux-technical.json",
+          "sha256": "3fd8af558de7b015ec86480945b8b2b62ab088e4dc30a2784aa842e7bb52edcc"
+        }
+      ]
+    },
+    {
+      "id": "originality",
+      "contextId": "r3-originality-blind-ee7b010a-20260924",
+      "executorId": "agent-r3-originality-juror",
+      "surface": "desktop+mobile",
+      "coverage": [
+        "originality_brand",
+        "visual_craft"
+      ],
+      "status": "pass",
+      "evidence": [
+        {
+          "path": "artifacts/material-review/homepage-integrated-candidate-r3/jurors/originality.json",
+          "sha256": "4a4afdc09929fef29d1dfbb99a7bd190a888a8e18ed907dd2296edb65c6e6ad0"
+        }
+      ]
+    }
+  ],
+  "hardGates": [
+    {
+      "id": "art_system:logo_hero_alignment",
+      "status": "pass"
+    },
+    {
+      "id": "art_system:hierarchy_and_minimalism",
+      "status": "pass"
+    },
+    {
+      "id": "art_system:section_seams",
+      "status": "pass"
+    },
+    {
+      "id": "art_system:no_overlap_or_clipping",
+      "status": "pass"
+    },
+    {
+      "id": "art_system:load_bearing_label_legibility",
+      "status": "pass"
+    },
+    {
+      "id": "art_system:phone_landscape_masthead_geometry",
+      "status": "pass"
+    },
+    {
+      "id": "art_system:responsive_layout",
+      "status": "pass"
+    },
+    {
+      "id": "narrative:candidate_evidence_identity",
+      "status": "pass"
+    },
+    {
+      "id": "narrative:owner_decision_fidelity",
+      "status": "pass"
+    },
+    {
+      "id": "narrative:opening_history_work_benefits_routes_progression",
+      "status": "pass"
+    },
+    {
+      "id": "narrative:plain_cold_visitor_comprehension",
+      "status": "pass"
+    },
+    {
+      "id": "narrative:active_guidance_without_backup_singer_copy",
+      "status": "pass"
+    },
+    {
+      "id": "narrative:content_voice_lock_compliance",
+      "status": "pass"
+    },
+    {
+      "id": "narrative:desktop_mobile_information_architecture",
+      "status": "pass"
+    },
+    {
+      "id": "interaction:device_specific_interaction",
+      "status": "pass"
+    },
+    {
+      "id": "interaction:motion_scroll_causality",
+      "status": "pass"
+    },
+    {
+      "id": "interaction:functional_state_recovery",
+      "status": "pass"
+    },
+    {
+      "id": "interaction:menu_focus_escape",
+      "status": "pass"
+    },
+    {
+      "id": "interaction:history_switching",
+      "status": "pass"
+    },
+    {
+      "id": "interaction:organisation_switching",
+      "status": "pass"
+    },
+    {
+      "id": "interaction:benefit_rotation",
+      "status": "pass"
+    },
+    {
+      "id": "interaction:route_selection",
+      "status": "pass"
+    },
+    {
+      "id": "interaction:reduced_motion",
+      "status": "pass"
+    },
+    {
+      "id": "interaction:short_screen_resilience",
+      "status": "pass"
+    },
+    {
+      "id": "commercial-conversion-ee7b010a:exact_candidate_identity",
+      "status": "pass"
+    },
+    {
+      "id": "commercial-conversion-ee7b010a:candidate_bound_evidence_integrity",
+      "status": "pass"
+    },
+    {
+      "id": "commercial-conversion-ee7b010a:owner_decision_fidelity",
+      "status": "pass"
+    },
+    {
+      "id": "commercial-conversion-ee7b010a:product_truth",
+      "status": "pass"
+    },
+    {
+      "id": "commercial-conversion-ee7b010a:proof_and_trust_placement",
+      "status": "pass"
+    },
+    {
+      "id": "commercial-conversion-ee7b010a:information_architecture_guidance",
+      "status": "pass"
+    },
+    {
+      "id": "commercial-conversion-ee7b010a:conversion_trust",
+      "status": "pass"
+    },
+    {
+      "id": "commercial-conversion-ee7b010a:desktop_mobile_primary_handoff",
+      "status": "pass"
+    },
+    {
+      "id": "commercial-conversion-ee7b010a:current_external_media_destination",
+      "status": "pass"
+    },
+    {
+      "id": "ux-technical:candidate_identity_and_runtime_binding",
+      "status": "pass"
+    },
+    {
+      "id": "ux-technical:accessibility_assistive_technology_automated",
+      "status": "pass"
+    },
+    {
+      "id": "ux-technical:performance_technical",
+      "status": "pass"
+    },
+    {
+      "id": "ux-technical:evidence_provenance",
+      "status": "pass"
+    },
+    {
+      "id": "ux-technical:responsive_layout_automated_pre_publish",
+      "status": "pass"
+    },
+    {
+      "id": "ux-technical:cta_stacking_and_centre_hit",
+      "status": "pass"
+    },
+    {
+      "id": "ux-technical:named_start_here_conversion",
+      "status": "pass"
+    },
+    {
+      "id": "ux-technical:home_legal_link_integrity",
+      "status": "pass"
+    },
+    {
+      "id": "ux-technical:single_dom_continuous_journey",
+      "status": "pass"
+    },
+    {
+      "id": "ux-technical:release_scope_truth_label",
+      "status": "pass"
+    },
+    {
+      "id": "originality:brand_specificity",
+      "status": "pass"
+    },
+    {
+      "id": "originality:anti_default_originality",
+      "status": "pass"
+    },
+    {
+      "id": "originality:visual_craft",
+      "status": "pass"
+    },
+    {
+      "id": "originality:mobile_independence",
+      "status": "pass"
+    },
+    {
+      "id": "originality:real_estate_intent",
+      "status": "pass"
+    },
+    {
+      "id": "originality:frozen_owner_constraints",
+      "status": "pass"
+    }
+  ]
+}

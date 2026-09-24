@@ -1,18 +1,24 @@
 {
   "schemaVersion": 1,
-  "candidateId": "homepage-production-synthesis-r2",
-  "status": "blocked-reference",
+  "candidateId": "homepage-integrated-candidate-r3",
+  "status": "candidate",
   "profile": "quality/website-redesign/experience-quality.profile.json",
   "artifact": {
-    "kind": "fidelity-harness",
-    "root": "prototypes/website-redesign-recovery/homepage-production-synthesis-r2",
-    "entry": "prototypes/website-redesign-recovery/homepage-production-synthesis-r2/index.html",
-    "route": "/prototypes/website-redesign-recovery/homepage-production-synthesis-r2/index.html",
-    "integrationModel": "embedded-iframes",
+    "kind": "integrated-production-candidate",
+    "root": "prototypes/website-redesign-recovery/homepage-production-synthesis-r3",
+    "entry": "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/index.html",
+    "route": "/prototypes/website-redesign-recovery/homepage-production-synthesis-r3/index.html",
+    "integrationModel": "single-dom-single-scroll-context",
     "files": [
-      "prototypes/website-redesign-recovery/homepage-production-synthesis-r2/index.html",
-      "prototypes/website-redesign-recovery/homepage-production-synthesis-r2/styles.css",
-      "prototypes/website-redesign-recovery/homepage-production-synthesis-r2/script.js"
+      "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/index.html",
+      "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/component-styles.css",
+      "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/page.css",
+      "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/script.js",
+      "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/build.mjs",
+      "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/check.mjs"
+    ],
+    "nonRuntimeFiles": [
+      "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/check.mjs"
     ]
   },
   "requirements": {
@@ -23,13 +29,13 @@
     "scrollDrivenSections": ["history", "authority", "leadership-dividend", "route"]
   },
   "evidence": {
-    "readiness": null,
-    "continuity": null,
-    "specialist": null
+    "readiness": "artifacts/material-review/homepage-integrated-candidate-r3/readiness-receipt.json",
+    "continuity": "artifacts/material-review/homepage-integrated-candidate-r3/continuity-receipt.json",
+    "specialist": "artifacts/material-review/homepage-integrated-candidate-r3/specialist-receipt.json"
   },
   "feedback": {
     "ledger": "project-documentation/website-redesign/feedback-ledger.json",
     "applicableIds": ["HOMEPAGE-SYNTHESIS-FIDELITY-001", "HOMEPAGE-SYNTHESIS-INTEGRATION-001"]
   },
-  "classification": "R2 preserves selected component sources but is not an integrated candidate. Its iframe architecture breaks the accepted page-level scroll context and permits cross-section overlay failures."
+  "classification": "R3 compiles every frozen owner-selected chapter into one light DOM, one page-level scroll context, with the accepted copy, device treatments and interaction states preserved. It is a pre-publish candidate only and does not alter the live homepage."
 }

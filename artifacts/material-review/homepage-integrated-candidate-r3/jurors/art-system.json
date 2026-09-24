@@ -1,0 +1,72 @@
+{
+  "id": "art_system",
+  "contextId": "r3-art-system-fresh",
+  "executorId": "agent-r3-art-system",
+  "surface": "desktop+mobile",
+  "coverage": [
+    "visual_craft",
+    "design_system_integrity",
+    "responsive_layout"
+  ],
+  "status": "pass",
+  "summary": "PASS for final frozen candidate ee7b010ae7da6d7748d3504ca47c24fe149b280f815423d36c50b44e9ad241a1. The refreshed ten-screenshot browser report has ten passing journeys and zero failures, including the 200%-equivalent viewport. Desktop and mobile preserve the locked logo/hero axis, hierarchy, minimalism and section rhythm; hardened Start here stacking and hit targets retain the accepted visual composition, and no blocker or major art-system issue is observed.",
+  "findings": [
+    {
+      "severity": "note",
+      "detail": "The 320x568 leadership-dividend composition now shows the full accepted headline below the mode switch, with no clipping or collision.",
+      "evidence": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/chromium-mobile-320x568-full.png"
+    },
+    {
+      "severity": "note",
+      "detail": "The duplicate route selector is absent. A single compact back control sits above the route headline at 320px and 390px; the headline, CTA, caption and receipt retain a clear hierarchy without collision.",
+      "evidence": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/chromium-mobile-390x844-full.png"
+    },
+    {
+      "severity": "note",
+      "detail": "Desktop remains visually coherent at 1440x900 and 1440x700, with consistent instrument framing, controlled seams and no observed clipping or alignment drift.",
+      "evidence": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/chromium-desktop-1440x900-full.png"
+    },
+    {
+      "severity": "note",
+      "detail": "The refreshed Chromium, Firefox and WebKit captures preserve the same governed hierarchy and responsive composition; the candidate-bound browser report records ten passing journeys, including the 200%-equivalent capture, with no failures.",
+      "evidence": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json"
+    }
+  ],
+  "hardGates": [
+    {
+      "id": "logo_hero_alignment",
+      "status": "pass",
+      "detail": "The logo and hero copy share the governed left edge on desktop, portrait mobile and the phone-landscape composition."
+    },
+    {
+      "id": "hierarchy_and_minimalism",
+      "status": "pass",
+      "detail": "The accepted image-led compositions remain restrained and preserve clear primary, supporting and control hierarchy without added backup-singer copy."
+    },
+    {
+      "id": "section_seams",
+      "status": "pass",
+      "detail": "Continuous desktop and mobile captures retain clean, bounded transitions between opening, history, authority, dividend, route and footer."
+    },
+    {
+      "id": "no_overlap_or_clipping",
+      "status": "pass",
+      "detail": "The prior compact dividend and mobile route collisions are absent in the refreshed 320px and 390px captures. The simplified single-control route header and executable geometry assertions pass for the governed Chromium viewports."
+    },
+    {
+      "id": "load_bearing_label_legibility",
+      "status": "pass",
+      "detail": "Mobile mode-switch labels render at 11px, above the 10.5px assertion floor, while AI carries and You keep remain legible and aligned."
+    },
+    {
+      "id": "phone_landscape_masthead_geometry",
+      "status": "pass",
+      "detail": "The 844x390 composition keeps the fixed masthead, headline and primary route controls in governed geometry; the refreshed Chromium landscape run completes without an art-system geometry failure."
+    },
+    {
+      "id": "responsive_layout",
+      "status": "pass",
+      "detail": "1440x900, 1440x700, the 720x450 200%-equivalent viewport, 390x844, 320x568 and 844x390 retain complete, collision-free visual hierarchy under final candidate ee7b010ae7da6d7748d3504ca47c24fe149b280f815423d36c50b44e9ad241a1."
+    }
+  ]
+}

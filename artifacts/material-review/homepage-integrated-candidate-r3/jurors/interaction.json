@@ -1,0 +1,92 @@
+{
+  "id": "interaction",
+  "contextId": "r3-interaction-fresh",
+  "executorId": "agent-r3-interaction",
+  "surface": "desktop+mobile",
+  "coverage": [
+    "device_specific_interaction",
+    "motion_scroll_causality",
+    "functional_state_recovery"
+  ],
+  "status": "pass",
+  "summary": "PASS for final candidate ee7b010ae7da6d7748d3504ca47c24fe149b280f815423d36c50b44e9ad241a1. The exact-hash 10-journey matrix and focused adversarial retests confirm menu focus/recovery, history and organisation switching, paused/resumed benefit motion, route state preservation, both Brain and GTM centre-hit targets and named Start here handoffs, reduced motion, deferred media, short screens and phone landscape without a blocker, major or minor interaction issue.",
+  "findings": [
+    {
+      "severity": "note",
+      "detail": "Navigation behaves as a modal interaction across Chromium, Firefox and WebKit: the page behind it is inert, focus enters Close, forward and reverse Tab remain inside, Start here is keyboard reachable, Escape closes the overlay and the exact opener regains focus without moving the page.",
+      "evidence": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json"
+    },
+    {
+      "severity": "note",
+      "detail": "History, organisation, dividend and route state changes preserve keyboard focus and scroll position. The removed duplicate route selector leaves one unambiguous in-context toggle, and each paired desktop/mobile state remains synchronized.",
+      "evidence": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json"
+    },
+    {
+      "severity": "note",
+      "detail": "Benefit motion now advances only while the benefits panel is visible and unfocused, pauses for a full interval while a control has focus, remains paused offscreen and stays disabled under prefers-reduced-motion.",
+      "evidence": "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/script.js"
+    },
+    {
+      "severity": "note",
+      "detail": "Both AI Brain and AI GTM Start here controls own their centre hit point across the governed desktop, 200%-equivalent, portrait-mobile, short-mobile and phone-landscape journeys. Each real click carries the named route into the lead dialog at the company step.",
+      "evidence": "scripts/qa/homepage-r3-browser-check.mjs"
+    },
+    {
+      "severity": "note",
+      "detail": "Normal reveals remain intersection-led, reverse travel preserves revealed content, route media is deferred until viewport need, reduced motion removes timed animation, and the 844x390 opening keeps headline, lede, both route choices and proof inside the initial viewport.",
+      "evidence": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/chromium-phone-landscape-844x390-full.png"
+    }
+  ],
+  "hardGates": [
+    {
+      "id": "device_specific_interaction",
+      "status": "pass",
+      "detail": "Desktop, 200%-equivalent, portrait mobile, 320x568 and bespoke 844x390 phone-landscape behavior expose complete controls and preserve their intended compositions."
+    },
+    {
+      "id": "motion_scroll_causality",
+      "status": "pass",
+      "detail": "Section reveals follow viewport entry, benefit motion follows visibility/focus state, in-section changes preserve scroll and media activation is deferred until route proximity."
+    },
+    {
+      "id": "functional_state_recovery",
+      "status": "pass",
+      "detail": "Menu, history, organisation, dividend and route transitions retain recoverable state, focus and scroll; both named conversion handoffs complete."
+    },
+    {
+      "id": "menu_focus_escape",
+      "status": "pass",
+      "detail": "The menu inerts the background, contains focus, exposes Start here, closes on Escape and restores the exact opener across Chromium, Firefox and WebKit."
+    },
+    {
+      "id": "history_switching",
+      "status": "pass",
+      "detail": "All four eras update image, question, outcome, count and aria-current without changing scroll or losing focus."
+    },
+    {
+      "id": "organisation_switching",
+      "status": "pass",
+      "detail": "Work and Organisation update the paired content and instrument state in place while retaining the activated control."
+    },
+    {
+      "id": "benefit_rotation",
+      "status": "pass",
+      "detail": "Timed progression runs only while visible and unfocused, pauses during focus and offscreen travel, resumes safely and remains stopped under reduced motion."
+    },
+    {
+      "id": "route_selection",
+      "status": "pass",
+      "detail": "Brain and GTM copy, media, receipt and selected state remain synchronized; every governed viewport passes centre-hit ownership and the actual named Start here handoff."
+    },
+    {
+      "id": "reduced_motion",
+      "status": "pass",
+      "detail": "Reduced-motion mode exposes chapters immediately, removes component animation and prevents timed benefit progression."
+    },
+    {
+      "id": "short_screen_resilience",
+      "status": "pass",
+      "detail": "The 1440x700, 720x450, 320x568 and 844x390 journeys retain their primary content, state controls and conversion actions without fixed-chrome obstruction or intercepted hit targets."
+    }
+  ]
+}

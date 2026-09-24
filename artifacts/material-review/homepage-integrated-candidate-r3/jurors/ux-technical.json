@@ -1,0 +1,104 @@
+{
+  "id": "ux-technical",
+  "contextId": "r3-ux-technical-final-ee7b010a",
+  "executorId": "agent-r3-ux-technical",
+  "surface": "desktop+mobile",
+  "coverage": [
+    "accessibility_assistive_technology",
+    "performance_technical",
+    "evidence_provenance",
+    "responsive_layout"
+  ],
+  "status": "pass",
+  "boundCandidateSha256": "ee7b010ae7da6d7748d3504ca47c24fe149b280f815423d36c50b44e9ad241a1",
+  "summary": "PASS for the automated pre-publish UX/accessibility/technical/evidence scope of final frozen candidate ee7b010ae7da6d7748d3504ca47c24fe149b280f815423d36c50b44e9ad241a1. Deterministic source identity, browser-report hash and all ten continuity screenshot hashes match. Ten zero-failure journeys cover representative Chromium, Firefox and WebKit desktop/mobile behavior plus short desktop, compact mobile, phone landscape and a 720x450 200-percent-layout-equivalent stress run. Candidate-bound media metrics stay below budget with zero duplicate paid transfers. Dynamic semantics, modal focus containment and restoration, real home/legal destinations, named Brain/GTM conversion, CTA stacking and centre-hit behavior all pass. No blocker, major or minor finding remains in this scope. Physical VoiceOver/TalkBack and the exhaustive release device matrix remain explicitly unclaimed release-only gates.",
+  "findings": [
+    {
+      "severity": "note",
+      "detail": "The final CTA stacking correction is effective. The route copy now forms a higher stacking context and the Start here control sits above it. Independent centre-point hit testing at 1440x900, 320x568 and the 720x450 zoom-equivalent viewport returned the intended button, with the observed hit stack ordered button, route copy, wash, video and route stage. Activation preserved the selected GTM route and opened /?start=gtm directly at the visible company brief step without a console error.",
+      "evidence": "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/page.css; scripts/qa/homepage-r3-browser-check.mjs; artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json"
+    },
+    {
+      "severity": "note",
+      "detail": "Named Start here conversion remains complete. Brain and GTM states retain the selected route, both handoff URLs resolve, and the browser runner verifies the clear centre hit before activating the final control and confirming that the brief bypasses the generic route chooser.",
+      "evidence": "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/script.js; scripts/qa/homepage-r3-browser-check.mjs; artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json"
+    },
+    {
+      "severity": "note",
+      "detail": "Opening and footer Mindmake home links resolve to / and remain keyboard reachable. Privacy and Terms resolve to /privacy and /terms. The overlay brand remains intentionally tabindex=-1 so Close is the first and last modal trap boundary; the background remains inert while the overlay is open.",
+      "evidence": "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/index.html; prototypes/website-redesign-recovery/homepage-production-synthesis-r3/script.js"
+    },
+    {
+      "severity": "note",
+      "detail": "Dynamic history questions/outcomes, benefit titles and route copy expose polite live regions. Work/Organisation controls reference existing panels through aria-controls, pressed/current state is synchronised and inactive authority panels are hidden from the accessibility tree. Automated modal entry, forward/reverse containment, Escape close and opener restoration pass.",
+      "evidence": "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/index.html; prototypes/website-redesign-recovery/homepage-production-synthesis-r3/script.js; artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json"
+    },
+    {
+      "severity": "note",
+      "detail": "Media measurements remain persisted per observation. Chromium journeys record two unique film resources, 1,786,343 transferred bytes after route activation and zero duplicate paid transfers, below the 3,500,000-byte budget. Firefox and WebKit remain at or below that result with zero duplicate transfers. Hidden variants are source-gated, route media is deferred and navigation has no unused video.",
+      "evidence": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json; scripts/qa/homepage-r3-browser-check.mjs; prototypes/website-redesign-recovery/homepage-production-synthesis-r3/index.html"
+    },
+    {
+      "severity": "note",
+      "detail": "The 720x450 zoom-equivalent capture and standard desktop/mobile captures complete the same interactive journey with no reported overflow, clipping, seam collision or fixed-chrome obstruction. This supports automated pre-publish adjudication but does not replace the exhaustive release viewport and physical-device matrix.",
+      "evidence": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/chromium-desktop-200pct-equivalent-720x450-full.png; artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json"
+    },
+    {
+      "severity": "note",
+      "detail": "Current iPhone Safari with VoiceOver and Android Chrome with TalkBack remain not run and are not inferred. This PASS is limited to automated pre-publish review and grants no release certification.",
+      "evidence": "quality/website-redesign/experience-quality.profile.json; quality/website-redesign/continuity-contract.v1.json"
+    }
+  ],
+  "hardGates": [
+    {
+      "id": "candidate_identity_and_runtime_binding",
+      "status": "pass",
+      "detail": "Fresh deterministic identity equals ee7b010ae7da6d7748d3504ca47c24fe149b280f815423d36c50b44e9ad241a1, matching browser, readiness and continuity receipts."
+    },
+    {
+      "id": "accessibility_assistive_technology_automated",
+      "status": "pass",
+      "detail": "Keyboard modal entry, containment, Escape and focus restoration pass; background inerting, live regions, valid aria-controls, pressed/current state and hidden inactive panels are present and exercised. Opening/footer home links are reachable while the overlay brand is correctly excluded from the trap."
+    },
+    {
+      "id": "performance_technical",
+      "status": "pass",
+      "detail": "Candidate-bound metrics are persisted and remain within the 3,500,000-byte media budget with zero duplicate paid transfers at every recorded journey."
+    },
+    {
+      "id": "evidence_provenance",
+      "status": "pass",
+      "detail": "Candidate hash matches, readiness cites the exact current browser-report hash, all ten continuity screenshot hashes match and every browser observation is bound to the same final candidate identity."
+    },
+    {
+      "id": "responsive_layout_automated_pre_publish",
+      "status": "pass",
+      "detail": "Representative desktop, short desktop, portrait mobile, compact mobile, phone landscape and 200-percent-layout-equivalent evidence show zero reported overflow, clipping, seam or fixed-chrome failures; Firefox and WebKit corroborate principal desktop/mobile states."
+    },
+    {
+      "id": "cta_stacking_and_centre_hit",
+      "status": "pass",
+      "detail": "The selected-route Start here button occupies the top centre-point hit layer after scroll at desktop, compact mobile and zoom-equivalent sizes, and all ten automated journeys complete the same clear-hit check before conversion."
+    },
+    {
+      "id": "named_start_here_conversion",
+      "status": "pass",
+      "detail": "Brain and GTM handoff URLs resolve and the final selected-route action opens the named brief directly at the company step."
+    },
+    {
+      "id": "home_legal_link_integrity",
+      "status": "pass",
+      "detail": "Home, Privacy and Terms use real routes; opening/footer home links participate in normal keyboard order and the overlay home brand is intentionally excluded to preserve the Close-bound modal trap."
+    },
+    {
+      "id": "single_dom_continuous_journey",
+      "status": "pass",
+      "detail": "All ten observations complete the forward/reverse journey in one DOM and one root scroll context while exercising menu, historical, organisation, dividend, route, CTA hit and conversion states."
+    },
+    {
+      "id": "release_scope_truth_label",
+      "status": "pass",
+      "detail": "The verdict is explicitly automated and pre-publish only; it does not claim unrun physical VoiceOver/TalkBack or exhaustive release-device evidence."
+    }
+  ]
+}

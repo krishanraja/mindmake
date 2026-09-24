@@ -9,3 +9,148 @@ body.mm-homepage-active { margin: 0; }
 .mm-homepage-release :is(.r3-history, .r3-dividend) > .r3-variant {
   height: calc(100dvh - var(--masthead) - var(--mm-cookie-reserve, 0px));
 }
+
+/* ---------------------------------------------------------------------------
+   Corrections to the delivered R3, 2026-09-24.
+
+   The approved composition is authored in `cqi`, percentages of the preview
+   frame it was drawn in. Production unlocks that frame (page.css sets
+   `aspect-ratio: auto`), so every one of those numbers now tracks the real
+   viewport width and grows without limit: `gap: 5cqi` is 72px at 1440 and
+   128px at 2560. Nothing below changes a composition decision. Each rule takes
+   a value that was written as a percentage and gives it the floor and ceiling
+   the frame used to supply, so the surface holds its drawn proportions at any
+   width. Values are chosen so a 1440px render matches what was approved.
+
+   This file is hand-written and is not emitted by
+   scripts/qa/build-homepage-release.mjs, which is why the corrections live here
+   rather than in the generated adapter. It is imported last, and every selector
+   carries the `.mm-homepage-release` scope, so it wins on specificity without
+   `!important`. --------------------------------------------------------- */
+
+/* The type stacks, with the metric-matched fallbacks the rest of the site
+   already uses. R3 declares bare `Archivo` and `Newsreader` with no fallback,
+   so before the faces land the first screen is set in the browser default and
+   then rewraps when they arrive. The fallback faces are defined in
+   src/styles/mindmake.css: the device's own fonts wearing these faces'
+   metrics, so the swap still happens and no longer moves anything. Family
+   only, never size or line height. */
+.mm-homepage-release {
+  --r3-sans: Archivo, "Archivo Variable", "Archivo Fallback", "Archivo Fallback Arial", "Helvetica Neue", Arial, sans-serif;
+  --r3-serif: Newsreader, "Newsreader Variable", "Newsreader Fallback", Georgia, serif;
+}
+.mm-homepage-release .r3-opening,
+.mm-homepage-release .r3-opening .hero-lede,
+.mm-homepage-release .r3-opening .route-doors button,
+.mm-homepage-release .r3-opening .shared-proof,
+.mm-homepage-release .r3-navigation .start-action,
+.mm-homepage-release .r3-navigation .secondary-routes a,
+.mm-homepage-release .r3-footer .footer-routes a,
+.mm-homepage-release .r3-footer .legal a,
+.mm-homepage-release .r3-footer .site-footer small { font-family: var(--r3-sans); }
+.mm-homepage-release .r3-opening .hero-copy :is(h1, h2),
+.mm-homepage-release .r3-opening .menu-control,
+.mm-homepage-release .r3-navigation .menu-control,
+.mm-homepage-release .r3-navigation .primary-routes a,
+.mm-homepage-release .r3-footer .footer-statement { font-family: var(--r3-serif); }
+
+/* The menu's start action. `min-height: 6.2cqi` is 89px at 1440 against an
+   18px line, the block padding is zero, and the arrow is floated, which takes
+   it out of flow and leaves the remaining line box at the top of that 89px
+   box. The label sat crammed against the top edge with the mint running on
+   below it. Centre the content and bound the height. */
+.mm-homepage-release .r3-navigation .start-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: clamp(52px, 4vw, 64px);
+  padding-inline: clamp(16px, 1.4vw, 22px);
+  font-size: clamp(13px, 0.95vw, 15px);
+}
+.mm-homepage-release .r3-navigation .start-action span { float: none; }
+
+/* The footer. `gap: 5cqi` is shorthand, so it sets the row gap too: the rail
+   layout resolves to three rows (brand and routes, then legal, then the
+   copyright, both spanning), which is 144px of empty gap at 1440 and 256px at
+   2560. Only the vertical measures and the type change here. The inline
+   padding stays at its authored 4.4cqi, because the masthead uses the same
+   number and the two brands have to sit on the same edge. */
+.mm-homepage-release .r3-footer .site-footer {
+  align-content: start;
+  row-gap: clamp(18px, 2vw, 28px);
+  padding-block: clamp(26px, 2.2vw, 34px);
+}
+.mm-homepage-release .r3-footer .brand { width: clamp(128px, 12.5vw, 190px); }
+.mm-homepage-release .r3-footer .footer-statement {
+  margin-top: clamp(10px, 0.9vw, 14px);
+  font-size: clamp(14px, 1.15vw, 18px);
+}
+.mm-homepage-release .r3-footer .footer-routes a { font-size: clamp(13px, 1.1vw, 17px); }
+.mm-homepage-release .r3-footer .legal a { font-size: clamp(11px, 0.9vw, 14px); }
+.mm-homepage-release .r3-footer .site-footer small { font-size: clamp(10px, 0.7vw, 12px); }
+
+@media (max-width: 700px) {
+  /* The phone footer is a flex column whose every measure is a percentage of a
+     390-to-700px viewport, so it grows by three quarters across that range.
+     These hold the 390px rendering across it. */
+  .mm-homepage-release .r3-footer .preview-mobile .site-footer {
+    gap: clamp(18px, 5vw, 26px);
+    padding-block: clamp(26px, 7vw, 38px);
+  }
+  .mm-homepage-release .r3-footer .preview-mobile .brand { width: clamp(128px, 36vw, 170px); }
+  .mm-homepage-release .r3-footer .preview-mobile .footer-statement {
+    margin-top: clamp(16px, 5vw, 24px);
+    font-size: clamp(15px, 4vw, 18px);
+  }
+  .mm-homepage-release .r3-footer .preview-mobile .footer-routes a,
+  .mm-homepage-release .r3-footer .preview-mobile .site-footer[data-structure-mobile="compact"] .footer-routes a {
+    font-size: clamp(14px, 3.8vw, 17px);
+  }
+  .mm-homepage-release .r3-footer .preview-mobile .legal a { font-size: clamp(13px, 3.4vw, 15px); }
+  .mm-homepage-release .r3-footer .preview-mobile .site-footer small { font-size: clamp(11px, 2.8vw, 13px); }
+  .mm-homepage-release .r3-navigation .preview-mobile .start-action {
+    min-height: clamp(52px, 13.4vw, 60px);
+    padding-inline: clamp(16px, 4vw, 22px);
+    font-size: clamp(13px, 3.5vw, 15px);
+  }
+}
+
+/* The arrival.
+
+   Once the route stylesheets are in the prerendered head there is nothing ugly
+   left to cover, so the entrance stops being a mask and becomes the one thing
+   it should have been: the film finding its focus. The plate arrives a little
+   over-scaled and soft and settles onto its own frame while the approved staged
+   type reveal runs over the same window. Nothing is hidden and nothing is
+   unreadable at any point, which is the whole reason the opaque curtain in
+   src/styles/mindmake.css is inert and stays inert.
+
+   Only the film moves. The wash, the copy, the doors and the masthead are
+   untouched, so the words are legible in the first frame and never blur.
+
+   The plate is `overflow: hidden` and the scale runs inwards, so the soft edge
+   is always outside the frame and no ground shows through. */
+@media (prefers-reduced-motion: no-preference) {
+  .mm-homepage-release .r3-opening .hero-stage video {
+    animation: mm-r3-settle 760ms cubic-bezier(.22, .8, .3, 1) both;
+  }
+}
+@keyframes mm-r3-settle {
+  from { opacity: .84; transform: scale(1.045); filter: blur(7px); }
+  to { opacity: 1; transform: none; filter: blur(0); }
+}
+
+/* A phone is the device that pays for this, so it gets the shorter version and
+   no blur at all: a full-bleed blur is a compositing pass on the frame we are
+   trying to make cheap, and the effect it buys is invisible at that size. The
+   settle is scale and light only, and it is over in a third of a second. */
+@media (prefers-reduced-motion: no-preference) and (max-width: 700px) {
+  .mm-homepage-release .r3-opening .hero-stage video {
+    animation: mm-r3-settle-phone 420ms cubic-bezier(.22, .8, .3, 1) both;
+  }
+}
+@keyframes mm-r3-settle-phone {
+  from { opacity: .88; transform: scale(1.028); }
+  to { opacity: 1; transform: none; }
+}

@@ -56,6 +56,7 @@ export default function CaseStudies() {
             <Instrument kind="recorder" className="mm-head-mark" />
             The source records.
           </h2>
+          <p className="mm-lede">One record per client: their words, and what the work changed.</p>
           <div className="mm-stories-archive">
             {clientStories.map((story) => (
               <article id={`record-${story.id}`} className="mm-story-full" key={story.id} tabIndex={-1}>

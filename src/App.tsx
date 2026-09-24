@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useRef } from "react";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { CookieConsent } from "@/components/CookieConsent";
 import { PUBLICATION_URL } from "@/lib/publicLinks";
@@ -26,9 +26,25 @@ const queryClient = new QueryClient();
 
 export function ScrollToLocation() {
   const { hash, pathname } = useLocation();
+  /* The title focus announces a route change to a screen reader that has just
+     been moved somewhere new inside one document. A cold load is not a route
+     change: the visitor arrived at this page and the browser has already
+     announced it. Focusing the heading there bought nothing and cost a
+     :focus-visible ring drawn around the whole headline on every cold load,
+     because a programmatic focus with no prior pointer input counts as
+     keyboard focus.
+
+     Keyed to the path rather than to a mount flag, because StrictMode mounts
+     every effect twice in development: a flag would have called the second
+     mount a navigation and drawn the ring in exactly the place a reviewer
+     looks for it. Two runs on the same path are the same page either way. */
+  const shownPath = useRef<string | null>(null);
   useEffect(() => {
+    const changedRoute = shownPath.current !== null && shownPath.current !== pathname;
+    shownPath.current = pathname;
     if (!hash) {
       window.scrollTo(0, 0);
+      if (!changedRoute) return;
 
       let frame = 0;
       let attempts = 0;

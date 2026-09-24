@@ -363,7 +363,6 @@ html {
 .mm-site main > section,
 .mm-site main .mm-section,
 .mm-site main .mm-final { scroll-margin-top: calc(var(--mm-header-height) + 12px); }
-.mm-site h1[tabindex="-1"]:focus { outline: 0; box-shadow: none; }
 
 /* The claim voice. Serif speaks only the claim. */
 .mm-claim {
@@ -497,6 +496,50 @@ html {
 }
 .mm-skip:focus { transform: translateY(0); }
 
+/* The Suspense fallback. It has been in the tree since the routes were split
+   and has never had a rule of its own, so a lazy route that had to wait showed
+   unstyled text on the browser's own ground: the one place on the site that
+   looked like nothing had been designed. It is the same ground, the same mark
+   and the same mono voice as everything else, with the hairline standing in for
+   a measure that is not knowable yet. Reduced motion keeps the line still; the
+   text already says what is happening. */
+.mm-page-loading {
+  display: grid;
+  min-height: 100dvh;
+  align-content: center;
+  justify-items: start;
+  gap: 22px;
+  padding-inline: var(--mm-header-inline, var(--mm-edge));
+  background: var(--mm-ink);
+}
+.mm-page-loading p {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  color: var(--mm-mut);
+  font-family: var(--mm-mono);
+  font-size: 11px;
+  letter-spacing: .06em;
+}
+.mm-page-loading p > span {
+  display: block;
+  width: min(240px, 42vw);
+  height: 1px;
+  background: var(--mm-hair);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .mm-page-loading p > span {
+    background: linear-gradient(90deg, transparent, var(--mm-mint) 45%, transparent);
+    background-size: 42% 100%;
+    background-repeat: no-repeat;
+    animation: mm-page-loading-sweep 1.4s ease-in-out infinite;
+  }
+  @keyframes mm-page-loading-sweep {
+    from { background-position: -45% 0; }
+    to { background-position: 145% 0; }
+  }
+}
+
 /* Header, menu, footer */
 .mm-header {
   position: fixed;
@@ -518,6 +561,39 @@ html {
   justify-content: space-between;
   gap: 24px;
 }
+/* The logo sits on the page's own content edge.
+
+   The header's inner element carries `.mm-container`, so its left edge was
+   always the shell's: `max(--mm-gutter, (100vw - 1240px) / 2)`, 100px at 1440.
+   That is right for every surface built on the container, and wrong for the two
+   locked routes, whose bodies are drawn against their own measures: the brain's
+   chapters at `max(4vw, (100vw - 1600px) / 2)` and the GTM shell at
+   `min(100% - 48px, 1360px)` centred. Measured at 1440 the heading started at
+   57.6px and 40px while the wordmark sat at 100px, so the mark floated inboard
+   of the page it belongs to.
+
+   `--mm-header-inline` lets each surface name its own edge and defaults to the
+   container's, which reproduces the existing alignment exactly for everything
+   that does not set it. The menu control moves with it, because the chrome
+   should frame the content on both sides. The locked stylesheets are generated
+   from their approved prototypes, so the two overrides live here rather than in
+   them. */
+.mm-header > .mm-container {
+  width: 100%;
+  margin-inline: 0;
+  padding-inline: var(--mm-header-inline, var(--mm-edge));
+}
+.mm-site.mm-route-brain { --mm-header-inline: max(4vw, calc((100vw - 1600px) / 2)); }
+.mm-site.mm-route-gtm { --mm-header-inline: max(24px, calc((100vw - 1360px) / 2)); }
+@media (max-width: 700px) {
+  .mm-site.mm-route-gtm { --mm-header-inline: max(16px, calc((100vw - 520px) / 2)); }
+}
+@media (max-width: 360px) {
+  .mm-site.mm-route-gtm { --mm-header-inline: 12px; }
+}
+/* The overlay and the footer take the same edge too, next to their own rules
+   below, so a route never shows its wordmark on one measure and the navigation
+   under it on another. */
 .mm-brand {
   min-height: 44px;
   display: inline-flex;
@@ -578,7 +654,8 @@ html {
   opacity: 0;
   background: rgba(10, 16, 13, .97);
   backdrop-filter: blur(18px);
-  padding: calc(var(--mm-header-height) + 24px) var(--mm-gutter) 40px;
+  padding-block: calc(var(--mm-header-height) + 24px) 40px;
+  padding-inline: var(--mm-header-inline, var(--mm-edge));
   /* Visibility must switch on before the opening fade. A timed visibility
      transition left every link unfocusable while the menu's focus handoff ran,
      so keyboard users remained on the Close control behind the overlay. On
@@ -586,7 +663,7 @@ html {
   transition: opacity .16s ease, visibility 0s linear .16s;
 }
 .mm-menu.is-open { visibility: visible; opacity: 1; transition-delay: 0s; }
-.mm-menu nav { width: min(var(--mm-shell-max), 100%); margin-inline: auto; display: grid; }
+.mm-menu nav { display: grid; width: 100%; }
 .mm-menu a,
 .mm-menu button {
   min-height: 60px;
@@ -651,6 +728,11 @@ html {
      whichever came second in the stylesheet won and the other's chrome sat on
      the last line of the footer whenever both were up. */
   padding: 54px 0 calc(30px + var(--mm-safe-bottom) + var(--mm-cookie-reserve, 0px) + var(--mm-bar-reserve, 0px));
+}
+.mm-footer > .mm-container {
+  width: 100%;
+  margin-inline: 0;
+  padding-inline: var(--mm-header-inline, var(--mm-edge));
 }
 .mm-footer-grid { display: grid; gap: 26px; }
 .mm-footer-grid > p { max-width: 42ch; color: var(--mm-tx2); font-size: 15px; }

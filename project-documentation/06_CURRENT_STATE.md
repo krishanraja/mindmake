@@ -108,8 +108,8 @@ owns payload, privacy, retention, email and failure-path contracts.
   external measurement; no ranking or citation guarantee is made. Social
   platform cache refreshes were not externally verified.
 - Nonblocking existing focus detail: desktop initial navigation can outline
-  the hero H1; mobile initial focus remains BODY. This was observed and recorded,
-  not changed as part of the approved-layout-preserving metadata release.
+  the hero H1; mobile initial focus remains BODY. A correction is on the branch
+  and not live. Until it is promoted this remains what production does.
 - Physical iPhone VoiceOver and Android TalkBack remain unperformed under the
   owner's explicit release-only exception. Emulation is not physical proof.
 - Dependency audit: 23 package entries (16 high, 5 moderate, 2 low). Bounded
@@ -123,6 +123,14 @@ owns payload, privacy, retention, email and failure-path contracts.
 - Recorded GitHub main check found no enforced branch protection/rulesets.
   Checked workflows fail closed; privileged bypass remains possible. Violations
   are not claimed impossible.
+- A delivered-surface correction pass is on the branch and is not live: it is
+  bounded by `quality/route-lock/approved-production-r17.json`, which records
+  that its own owner approval and candidate verification are outstanding. It
+  covers the heading focus ring, the menu action and footer measures, the header
+  wordmark's alignment on the locked routes, the unstyled first paint on the
+  code-split routes and a lede under the unchanged case-record heading. Nothing
+  above describes it; retrieve the live deployment before treating any of it as
+  production behaviour.
 
 Do not promote old DNS/mailbox, CTRL-host or cache observations into fresh facts
 without new readback. CONTACT_EMAIL in src/lib/publicLinks.ts is the approved

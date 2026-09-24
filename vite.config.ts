@@ -11,6 +11,27 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
+  /* The build manifest, so the prerenderer can put each route's own stylesheet
+     in that route's head.
+
+     Every route but `/` is a lazy import and each of those pages imports its
+     own large sheet, so per-chunk CSS leaves the brain, GTM, instrument and
+     new-age styles in files the browser only learns about after the JS bundle
+     has booted and asked for the route chunk. The prerenderer writes complete
+     markup into `dist/<route>/index.html` and linked only the entry sheet, so
+     those four routes were served as fully formed documents with none of their
+     own styling: measured against production on 24 September,
+     `/assets/index-*.css` carried no `.mm-stories-archive`, `.mm-locked-brain`
+     or locked-GTM rule at all. That is the unstyled first paint.
+
+     Collapsing the split would fix it in one line and put ~42KB gzipped of
+     brain, GTM, instrument and new-age CSS that the homepage never uses on the
+     homepage's render-blocking path, which is the path this repository spends
+     its font preloads, inline ground colour and entrance budget defending. So
+     the split stays and scripts/prerender.mjs reads this manifest instead,
+     writing each route's own sheet into its own head. That script fails the
+     build when a prerendered route has no entry here. */
+  build: { manifest: true },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

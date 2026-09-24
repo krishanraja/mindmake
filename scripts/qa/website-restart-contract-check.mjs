@@ -20,10 +20,18 @@ const contract = JSON.parse(await readFile(contractPath, "utf8"));
 const state = await readFile(statePath, "utf8");
 const agents = await readFile(resolve(root, "AGENTS.md"), "utf8");
 const visualBaselineRunner = await readFile(resolve(root, "scripts/qa/approved-visual-baseline-check.mjs"), "utf8");
+const judgingProtocol = await readFile(resolve(root, "quality/award-panel/JUDGING_PROTOCOL.md"), "utf8");
+const awardCapture = await readFile(resolve(root, "scripts/qa/award-panel-capture.mjs"), "utf8");
+const awardAggregate = await readFile(resolve(root, "scripts/qa/award-panel-aggregate.mjs"), "utf8");
+const packageJson = await readJson("package.json");
+const materialReviewManifest = await readJson("quality/website-redesign/material-review-candidate.json");
+const materialReviewFirewall = await readFile(resolve(root, "scripts/qa/material-review-firewall-lib.mjs"), "utf8");
+const materialReviewPresenter = await readFile(resolve(root, "scripts/qa/present-material-candidate.mjs"), "utf8");
+const materialReviewSelfTest = await readFile(resolve(root, "scripts/qa/material-review-firewall-self-test.mjs"), "utf8");
 const approved = await readJson("quality/route-lock/approved-production-r1.json");
 const brain = await readJson("quality/ai-brain/approved-vnext-r5.json");
 const gtm = await readJson("quality/ai-gtm/approved-vnext-r6.json");
-const rubric = await readJson("quality/award-panel/rubric.v2.json");
+const rubric = await readJson("quality/award-panel/rubric.v3.json");
 
 requireCondition(contract.artifact === "mindmake-website-redesign-continuity-contract-v1", "unexpected continuity artifact id");
 requireCondition(contract.status === "active", "continuity contract is not active");
@@ -33,19 +41,19 @@ requireCondition(approved.artifact === "mindmake-approved-production-routes-r1",
 requireCondition(brain.artifact === "ai-brain-vnext-r5", "approved Brain artifact changed");
 requireCondition(gtm.artifact === "ai-gtm-vnext-r6", "approved GTM artifact changed");
 
-const expectedFeedbackIds = Array.from({ length: 50 }, (_, index) => `MMR-${String(index + 1).padStart(3, "0")}`);
+const expectedFeedbackIds = Array.from({ length: 51 }, (_, index) => `MMR-${String(index + 1).padStart(3, "0")}`);
 const actualFeedbackIds = contract.feedbackRulings.map((ruling) => ruling.id);
 requireCondition(new Set(actualFeedbackIds).size === actualFeedbackIds.length, "feedback rulings contain duplicate ids");
-requireCondition(JSON.stringify(actualFeedbackIds) === JSON.stringify(expectedFeedbackIds), "feedback rulings must contain the complete ordered MMR-001 through MMR-050 set");
+requireCondition(JSON.stringify(actualFeedbackIds) === JSON.stringify(expectedFeedbackIds), "feedback rulings must contain the complete ordered MMR-001 through MMR-051 set");
 for (const ruling of contract.feedbackRulings) {
   requireCondition(typeof ruling.ruling === "string" && ruling.ruling.length >= 30, `${ruling.id} needs a specific ruling`);
   requireCondition(Array.isArray(ruling.scope) && ruling.scope.length > 0, `${ruling.id} needs a scope`);
   requireCondition(typeof ruling.acceptance === "string" && ruling.acceptance.length >= 30, `${ruling.id} needs observable acceptance criteria`);
 }
 
-const expectedFindingIds = Array.from({ length: 26 }, (_, index) => `MMF-${String(index + 1).padStart(3, "0")}`);
+const expectedFindingIds = Array.from({ length: 27 }, (_, index) => `MMF-${String(index + 1).padStart(3, "0")}`);
 const actualFindingIds = contract.verifiedOpenFindings.map((finding) => finding.id);
-requireCondition(JSON.stringify(actualFindingIds) === JSON.stringify(expectedFindingIds), "verified findings must contain the complete ordered MMF-001 through MMF-026 set");
+requireCondition(JSON.stringify(actualFindingIds) === JSON.stringify(expectedFindingIds), "verified findings must contain the complete ordered MMF-001 through MMF-027 set");
 for (const finding of contract.verifiedOpenFindings) {
   requireCondition(["P0", "P1", "P2", "P3"].includes(finding.severity), `${finding.id} has an invalid severity`);
   requireCondition(finding.finding.length >= 30 && finding.acceptance.length >= 30, `${finding.id} needs a finding and acceptance criterion`);
@@ -58,8 +66,13 @@ requireCondition(contract.requiredViewports.length === 14, "the required viewpor
 requireCondition(contract.requiredViewports.includes("1538x636"), "the required viewport matrix must retain the observed short-desktop 1538x636 size");
 requireCondition(contract.requiredViewports.includes("1108x574"), "the required viewport matrix must retain the observed compact-desktop 1108x574 size");
 requireCondition(contract.requiredViewports.includes("1475x730"), "the required viewport matrix must retain the observed scaled-Windows 1475x730 size");
-requireCondition(contract.judgeSystem.continuityPanel.guardians.length === 5, "continuity panel must contain five independent guardians");
-requireCondition(contract.judgeSystem.blindPanel.rubric === "quality/award-panel/rubric.v2.json", "blind panel must use rubric v2");
+requireCondition(contract.judgeSystem.continuityPanel.guardians.length === 6, "continuity panel must contain six independent guardians");
+requireCondition(contract.judgeSystem.blindPanel.rubric === "quality/award-panel/rubric.v3.json", "blind panel must use rubric v3");
+requireCondition(judgingProtocol.includes("six independent jurors"), "judging protocol must name six independent jurors");
+requireCondition(judgingProtocol.includes("All twelve valid scorecards"), "judging protocol must require all twelve scorecards");
+requireCondition(judgingProtocol.includes("verifies every cited evidence file"), "judging protocol must require hash-verified run-local evidence");
+requireCondition(awardCapture.includes("continuityMatchesCandidate"), "award capture must reject a continuity report from another candidate");
+requireCondition(awardAggregate.includes("frozen evidence hash mismatch"), "award aggregation must verify frozen evidence hashes");
 requireCondition(contract.judgeSystem.blindPanel.minimumSurfaceScore === 9.2, "blind panel surface threshold must remain 9.2");
 requireCondition(contract.judgeSystem.blindPanel.minimumJudgeScore === 8.8, "blind panel judge threshold must remain 8.8");
 requireCondition(contract.operatingModel.exceptionAuthority.startsWith("Only Krish"), "exception and material approval authority must remain Krish");
@@ -76,13 +89,36 @@ requireCondition(contract.releaseBrowserDeviceMatrix.physical.some((entry) => en
 requireCondition(visualBaselineRunner.includes("findEphemeralPort"), "approved visual runner must allocate its own ephemeral port");
 requireCondition(visualBaselineRunner.includes("MINDMAKE_QA_ORIGIN"), "approved visual runner must bind child suites to its own origin");
 requireCondition(!visualBaselineRunner.includes("Using verified existing Mindmake server"), "approved visual runner must not trust an ambient server");
+requireCondition(packageJson.scripts?.["review:material"] === "node scripts/qa/present-material-candidate.mjs", "material review must use the fail-closed presenter");
+requireCondition(packageJson.scripts?.["qa:website-restart"]?.includes("qa:material-review:self-test"), "website restart must run the material-review firewall self-test");
+requireCondition(packageJson.scripts?.build?.includes("qa:material-review:self-test"), "the normal build must run the material-review firewall self-test");
+requireCondition(agents.includes("npm run review:material -- quality/website-redesign/material-review-candidate.json"), "AGENTS.md does not route material review through the firewall");
+requireCondition(materialReviewManifest.status === "blocked-reference", "R2 must remain classified as a blocked reference");
+requireCondition(materialReviewManifest.artifact.kind === "fidelity-harness", "R2 must remain classified as a fidelity harness");
+requireCondition(materialReviewManifest.artifact.integrationModel === "embedded-iframes", "R2 integration model is no longer declared honestly");
+for (const requiredCode of ["embedded_frame", "journey_missing", "feedback_blocking", "judge_identity", "mismatch", "stale", "not_run"]) {
+  requireCondition(materialReviewFirewall.includes(requiredCode), `material-review firewall is missing ${requiredCode}`);
+}
+requireCondition(materialReviewPresenter.includes("validateMaterialReviewCandidate"), "material presenter can bypass the firewall");
+for (const requiredFixture of ["iframe assembly", "missing reverse scroll", "stale evidence", "judge candidate mismatch", "unresolved feedback", "forged evidence hash", "missing receipt", "component harness"]) {
+  requireCondition(materialReviewSelfTest.includes(requiredFixture), `material-review self-test is missing ${requiredFixture}`);
+}
 
 const rubricFailures = validateRubric(rubric);
-failures.push(...rubricFailures.map((failure) => `rubric v2: ${failure}`));
+failures.push(...rubricFailures.map((failure) => `rubric v3: ${failure}`));
+const representativeAwardRoutes = [
+  "/", "/ai-brain", "/ai-gtm", "/case-studies", "/new-age-leadership", "/blog",
+  "/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan", "/answers",
+  "/answers/adtech-compete-ai-targeting-models-defensibility-audit", "/faq", "/contact", "/privacy", "/terms",
+];
+requireCondition(
+  JSON.stringify(rubric.requiredRouteGroups.complete) === JSON.stringify(representativeAwardRoutes),
+  "rubric v3 complete coverage must include every canonical route plus representative blog and Answers detail routes",
+);
 const worldClass = rubric.awardBands.find((band) => band.id === "world_class_winner");
-requireCondition(worldClass?.minimumSurfaceScore === 9.2 && worldClass?.minimumJudgeScore === 8.8, "rubric v2 world-class thresholds do not match the continuity contract");
-for (const gate of ["real_estate_intent", "cognitive_pacing", "micro_layout_integrity", "action_consequence"]) {
-  requireCondition(rubric.hardGates.some((candidate) => candidate.id === gate), `rubric v2 is missing ${gate}`);
+requireCondition(worldClass?.minimumSurfaceScore === 9.2 && worldClass?.minimumJudgeScore === 8.8, "rubric v3 world-class thresholds do not match the continuity contract");
+for (const gate of ["real_estate_intent", "cognitive_pacing", "micro_layout_integrity", "action_consequence", "narrative_progression", "experiential_redundancy", "contextual_journey", "design_system_coherence"]) {
+  requireCondition(rubric.hardGates.some((candidate) => candidate.id === gate), `rubric v3 is missing ${gate}`);
 }
 
 for (const candidate of contract.candidateStatus) {
@@ -164,8 +200,9 @@ console.log(JSON.stringify({
   verifiedOpenFindings: contract.verifiedOpenFindings.length,
   requiredRoutes: contract.routeContinuity.mustPreserve.length,
   requiredViewports: contract.requiredViewports.length,
-  continuityGuardians: contract.judgeSystem.continuityPanel.guardians.length,
-  blindJudges: rubric.judges.length,
+  continuityGuardianDefinitions: contract.judgeSystem.continuityPanel.guardians.length,
+  blindJudgeDefinitions: rubric.judges.length,
+  judgingStatus: "definitions_validated_only_no_judges_executed",
   approvedPrototypeFiles: approvedPrototypeFiles.length,
   brainMaterialLockFiles: brainMaterialLockFiles.length,
   matchingApprovedSourceFiles,

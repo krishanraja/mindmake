@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "homepage-production-synthesis-r2",
+  "status": "blocked-reference",
+  "profile": "quality/website-redesign/experience-quality.profile.json",
+  "artifact": {
+    "kind": "fidelity-harness",
+    "root": "prototypes/website-redesign-recovery/homepage-production-synthesis-r2",
+    "entry": "prototypes/website-redesign-recovery/homepage-production-synthesis-r2/index.html",
+    "route": "/prototypes/website-redesign-recovery/homepage-production-synthesis-r2/index.html",
+    "integrationModel": "embedded-iframes",
+    "files": [
+      "prototypes/website-redesign-recovery/homepage-production-synthesis-r2/index.html",
+      "prototypes/website-redesign-recovery/homepage-production-synthesis-r2/styles.css",
+      "prototypes/website-redesign-recovery/homepage-production-synthesis-r2/script.js"
+    ]
+  },
+  "requirements": {
+    "surfaces": ["desktop", "mobile"],
+    "singleDomScrollContext": true,
+    "noEmbeddedFrames": true,
+    "continuousForwardAndReverse": true,
+    "scrollDrivenSections": ["history", "authority", "leadership-dividend", "route"]
+  },
+  "evidence": {
+    "readiness": null,
+    "continuity": null,
+    "specialist": null
+  },
+  "feedback": {
+    "ledger": "project-documentation/website-redesign/feedback-ledger.json",
+    "applicableIds": ["HOMEPAGE-SYNTHESIS-FIDELITY-001", "HOMEPAGE-SYNTHESIS-INTEGRATION-001"]
+  },
+  "classification": "R2 preserves selected component sources but is not an integrated candidate. Its iframe architecture breaks the accepted page-level scroll context and permits cross-section overlay failures."
+}

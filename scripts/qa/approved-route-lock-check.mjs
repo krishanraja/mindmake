@@ -6,7 +6,7 @@ import { resolve } from "node:path";
 const root = resolve(import.meta.dirname, "../..");
 const manifestPath = process.env.MINDMAKE_ROUTE_LOCK_MANIFEST
   ? resolve(process.env.MINDMAKE_ROUTE_LOCK_MANIFEST)
-  : resolve(root, "quality/route-lock/approved-production-r2.json");
+  : resolve(root, "quality/route-lock/approved-production-r3.json");
 const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
 const failures = [];
 const sources = new Map();

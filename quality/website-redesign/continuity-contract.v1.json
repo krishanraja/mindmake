@@ -400,6 +400,13 @@
       "ruling": "COMMERCIAL-READINESS-S4-R3 is materially approved and supersedes S3 Proofglass as the commercial-readiness production direction. Its complete private paid-proof boundary, ordinary Brain and AI go-to-market links, single filled Start here action, five proof stages, warm physical Decision Balance, causal reversible desktop scroll, independently composed mobile sequence and deterministic decision-record recovery form the locked surface. The R2 and R3 fit, scaled-Windows and exercised-state corrections are part of the approval rather than optional patches.",
       "scope": ["commercial readiness", "commercial continuity", "paid-proof surfaces", "Start here", "prototypes/website-redesign-recovery/commercial-continuity/"],
       "acceptance": "The recorded S4 R3 hashes and owner-reviewed render remain matched; production integration preserves the approved hierarchy, private commercial boundary, two ordinary offer links, five-stage Decision Balance, range and stage control equivalence, reversible scroll, independently sequenced mobile composition and existing private LeadBrief continuation. The complete cold and exercised surface fits every required viewport including 1108x574, 1475x730 and 1538x636; the primary action retains the governed usable-screen reserve; modal open, complete, close, reopen, change and recovery preserve document and sticky-shell scroll positions; Chromium, WebKit and Firefox plus reduced-motion, Save Data, no-JavaScript, unavailable-media, increased-text, keyboard, touch and coarse-pointer checks remain green; and any material reinterpretation returns as a rendered decision."
+    },
+    {
+      "id": "MMR-051",
+      "category": "quality_system_v3_and_homepage_narrative_direction",
+      "ruling": "New-age leadership is the governing narrative spine for the future homepage, shortened and synthesised rather than transplanted wholesale. Before that material homepage work continues, the quality system must independently own storyboarding, narrative progression, conversion guidance, experiential duplication, design-system coherence and device-native interaction, and it must never describe judge definitions as completed judging.",
+      "scope": ["quality system", "blind award panel", "continuity guardians", "homepage", "New-age leadership", "full-site integration"],
+      "acceptance": "The active versioned rubric assigns independent desktop and mobile narrative, conversion, art-system, interaction, UX-accessibility-technical and inspiration lenses; complete-route journey traces and section inventories are candidate-bound; repeated mechanisms and footer-only destinations are explicit hard gates; claim evidence matches route and viewport; distinct executor provenance is required; unresolved scrutiny, zero dimensions, missing physical-device evidence or absent submissions fail closed; recovery checks report judge definitions literally; and the shortened New-age-led homepage synthesis remains behind its rendered material approval gate."
     }
   ],
   "verifiedOpenFindings": [
@@ -509,7 +516,7 @@
       "id": "MMF-018",
       "severity": "P1",
       "finding": "The current blind award-panel validator can report a valid ten-scorecard panel without proving ten independent judging contexts, binding scorecard evidence to the captured artifacts, exercising device-specific interactions or failing closed on low-confidence, stale, zero-critical-dimension and unconsumed-observation conditions; its Chromium-only capture also cannot certify a world-class experience across the required engines, input modes, accessibility states and physical devices.",
-      "acceptance": "Before the panel can certify release, every anonymous scorecard is provenance-bound to a frozen artifact hash and distinct judging context; stale or duplicate submissions are rejected; the active protocol references rubric.v2 consistently; the evidence packet covers Chromium, WebKit and Firefox plus pointer, keyboard, touch, reduced motion, 200-percent text, recovery and failure states, and the required current physical-device results; observations are consumed by aggregation; any hard-gate failure, critical-dimension zero, inconclusive evidence or insufficient confidence blocks world_class_winner; and the strengthened system passes adversarial self-tests that demonstrate each failure mode is rejected."
+      "acceptance": "Before the panel can certify release, every anonymous scorecard is provenance-bound to a frozen artifact hash and distinct judging context; stale or duplicate submissions are rejected; the active protocol references rubric.v3 consistently; the evidence packet covers Chromium, WebKit and Firefox plus pointer, keyboard, touch, reduced motion, 200-percent text, recovery and failure states, and the required current physical-device results; observations are consumed by aggregation; any hard-gate failure, critical-dimension zero, inconclusive evidence or insufficient confidence blocks world_class_winner; and the strengthened system passes adversarial self-tests that demonstrate each failure mode is rejected."
     },
     {
       "id": "MMF-019",
@@ -558,6 +565,12 @@
       "severity": "P1",
       "finding": "At a 1440 x 900 desktop viewport with the document root text size increased to 200 percent, rem-based structural column minima doubled the Home and AI Brain chassis as well as their text. The Home proof instrument escaped the viewport; the fixed-height Brain opening clipped its explanation and actions; and the Brain decision plaque's three text roles collided.",
       "acceptance": "At 1440 x 900 with the document root text size at 200 percent, Home retains its threshold, proof instrument and both primary route actions within the horizontal viewport; the AI Brain opening grows into normal document flow without losing its object, explanation, actions or note; the plaque's label, decision and status remain ordered and non-overlapping; neither route introduces horizontal document overflow; and the durable full-route continuity gate passes."
+    },
+    {
+      "id": "MMF-027",
+      "severity": "P1",
+      "finding": "The recovery command reported counts labelled as continuity guardians and blind judges even though it only validated contract entries and rubric definitions. The latest exact-candidate preview evidence contains zero judge submissions and no aggregate verdict, while single-URL screenshot capture and broad score dimensions allowed narrative duplication, weak journey guidance, inconsistent design-system behavior and visible mobile defects to escape adjudication.",
+      "acceptance": "Recovery output labels guardian and judge definitions literally; the active v3 panel captures every required route with section-level storyboard evidence; twelve scorecards from six distinct executor contexts cover their required route groups; every claim binds to a matching route and viewport observation; narrative progression, experiential redundancy, contextual journey and design-system coherence are hard gates; unresolved scrutiny, zero dimensions, missing observations, incomplete physical-device evidence and absent submissions block world_class_winner; and adversarial self-tests prove each failure class is rejected."
     }
   ],
   "routeContinuity": {
@@ -582,7 +595,7 @@
   },
   "judgeSystem": {
     "blindPanel": {
-      "rubric": "quality/award-panel/rubric.v2.json",
+        "rubric": "quality/award-panel/rubric.v3.json",
       "context": "production or matching preview, neutral rubric and assigned viewports only",
       "purpose": "Measure first-time comprehension, desire, usability, buyability, originality and reliability without owner-history anchoring.",
       "requiredResult": "world_class_winner",
@@ -595,6 +608,7 @@
       "purpose": "Protect accumulated judgment and detect regressions that a blind visitor cannot know are regressions.",
       "guardians": [
         "visual_and_signature_guardian",
+        "narrative_and_conversion_guardian",
         "mobile_attention_guardian",
         "interaction_and_cta_guardian",
         "responsive_and_accessibility_guardian",
@@ -681,13 +695,13 @@
     "Seek separate commit, preview, deployment and production approvals only after local verification."
   ],
   "completionGates": [
-    "Every applicable feedback ruling MMR-001 through MMR-050 has current rendered evidence and passes.",
-    "Every verified open finding MMF-001 through MMF-026 is fixed or explicitly approved as a documented exception.",
+    "Every applicable feedback ruling MMR-001 through MMR-051 has current rendered evidence and passes.",
+    "Every verified open finding MMF-001 through MMF-027 is fixed or explicitly approved as a documented exception.",
     "All required routes remain reachable and coherent.",
     "All required viewports, orientations, reduced-motion, keyboard, touch and 200 percent text checks pass.",
     "Every visible action and recovery path has been exercised in a matching runtime.",
     "The continuity panel reports zero failures and zero inconclusive items.",
-    "The blind panel reaches world_class_winner on both desktop and mobile under rubric v2.",
+    "The blind panel reaches world_class_winner on both desktop and mobile under rubric v3.",
     "Krish explicitly approves every material rendered surface.",
     "The production implementation matches a newly approved manifest and no earlier approval record is overwritten.",
     "Commit, preview, deployment and production state are reported literally and separately."

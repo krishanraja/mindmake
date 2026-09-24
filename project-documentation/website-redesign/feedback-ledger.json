@@ -1,0 +1,158 @@
+{
+  "ledgerVersion": 1,
+  "updatedAt": "2026-09-24",
+  "stateReference": "project-documentation/website-redesign/STATE.md",
+  "rules": {
+    "submissionIsApproval": false,
+    "verbatimFeedbackRequired": true,
+    "acceptanceEvidenceRequired": true,
+    "approvalBlockedByStatuses": [
+      "open",
+      "implemented-awaiting-review"
+    ]
+  },
+  "items": [
+    {
+      "id": "REVIEW-CONSOLE-FEEDBACK-001",
+      "exactFeedback": "You need to let me commentate on individual question responses if I so wish, as well as overall at the end, and you need to actually take that feedback on board because some of it might be quite important.",
+      "source": "conversation",
+      "surface": "component-selection consoles",
+      "section": "feedback capture and readback",
+      "device": "all",
+      "element": "decision note and overall note",
+      "classification": "constraint",
+      "requiredOutcome": "Every decision can carry its own note, the whole section can carry an overall note, and both layers are shown verbatim in the final reconciliation.",
+      "acceptanceTest": "Enter a decision note and an overall note, submit, reload, and verify both full strings remain visible and serialised.",
+      "status": "verified",
+      "resolution": "Decision-level and overall note capture are persisted and full note text is rendered in every current console review.",
+      "evidence": [
+        "authority, history and leadership-dividend console browser checks"
+      ]
+    },
+    {
+      "id": "REVIEW-CONSOLE-SEMANTICS-001",
+      "exactFeedback": "done",
+      "source": "conversation",
+      "surface": "component-selection consoles",
+      "section": "submission semantics",
+      "device": "all",
+      "element": "final action and readback",
+      "classification": "correction",
+      "requiredOutcome": "Done means the choices and commentary were submitted for reconciliation. It must not be treated as blanket approval of defaults or as a production lock.",
+      "acceptanceTest": "The console uses submit language, preserves feedback, and never presents submission as approval or a production lock.",
+      "status": "verified",
+      "resolution": "All current consoles now use submitted-for-reconciliation language while retaining the existing local persistence field for backward compatibility.",
+      "evidence": [
+        "console copy assertions in all three browser checks"
+      ]
+    },
+    {
+      "id": "REVIEW-CONSOLE-VIEWPORT-001",
+      "exactFeedback": "This is so hard to use, I forget what I am voting for given how much I have to scroll up and down constantly, this is unusable. Think of a smarter way to present this to me.",
+      "source": "conversation",
+      "surface": "component-selection consoles",
+      "section": "decision workspace",
+      "device": "desktop and narrow desktop",
+      "element": "persistent preview, decision card and note field",
+      "classification": "constraint",
+      "requiredOutcome": "One decision, its live consequence and its note field remain usable together without document scrolling or clipped controls at the actual review viewport.",
+      "acceptanceTest": "At 729 by 759 CSS pixels, the page has no document overflow, the active card does not clip, and the decision note is visible.",
+      "status": "verified",
+      "resolution": "The compact workspace split was tightened and the real review viewport was added to the deterministic matrix.",
+      "evidence": [
+        "Chromium 729x759 sessions in all three browser checks"
+      ]
+    },
+    {
+      "id": "HOMEPAGE-AUTHORITY-MOBILE-001",
+      "exactFeedback": "the mobile layout was unacceptable",
+      "source": "conversation and supplied screenshot",
+      "surface": "homepage authority chapter",
+      "section": "The organisation changes shape",
+      "device": "mobile",
+      "element": "organisation composition",
+      "classification": "correction",
+      "requiredOutcome": "Replace the tall two-column chart with a bounded phone-native composition that communicates the organisation without excessive vertical travel or wasted space.",
+      "acceptanceTest": "The selected mobile composition fits inside one phone preview, avoids overlap and clipping, and remains legible at 390x844 and 320x568.",
+      "status": "accepted",
+      "resolution": "Krish accepted the One-screen network composition on 2026-09-24. The rejected tall chart remains removed. No decision note or overall note accompanied this correction.",
+      "evidence": [
+        "homepage authority console mobile viewport matrix",
+        "explicit owner submission: done, 2026-09-24"
+      ]
+    },
+    {
+      "id": "HOMEPAGE-AUTHORITY-ALIGN-001",
+      "exactFeedback": "I said the AGENT/HUMAN/HYBRID eyebrows needed to be horizontally aligned with one another.",
+      "source": "conversation and supplied screenshot",
+      "surface": "homepage authority chapter",
+      "section": "The organisation changes shape",
+      "device": "mobile",
+      "element": "organisation node type labels",
+      "classification": "correction",
+      "requiredOutcome": "The type labels in every visual row share the same top coordinate, regardless of whether a card title wraps.",
+      "acceptanceTest": "Measured top coordinates for each row differ by no more than 1 CSS pixel.",
+      "status": "verified",
+      "resolution": "Organisation cards now use fixed label and title rows rather than content-dependent vertical centring.",
+      "evidence": [
+        "homepage authority checker row-top measurement, tolerance 1 CSS pixel"
+      ]
+    },
+    {
+      "id": "HOMEPAGE-HISTORY-TYPE-001",
+      "exactFeedback": "AI is not the first tool to make people question their place. being in the same font as If the machine gives the answer, do we lose the thinking? and its equivalents did not feel right aesthetically.",
+      "source": "conversation",
+      "surface": "homepage historical story chapter",
+      "section": "historical bridge and story question",
+      "device": "all",
+      "element": "typographic hierarchy",
+      "classification": "correction",
+      "requiredOutcome": "The bridge is visibly subordinate to the historical question and does not compete with it in typeface, scale or authority.",
+      "acceptanceTest": "The selected bridge treatment has a distinct type role and smaller measured visual prominence than every story question.",
+      "status": "accepted",
+      "resolution": "Krish accepted Compact modern bridge, editorial story on 2026-09-24. The former same-serif treatment remains rejected. No decision note or overall note accompanied this correction.",
+      "evidence": [
+        "homepage history console hierarchy decision and cross-viewport browser check",
+        "explicit owner submission: done, 2026-09-24"
+      ]
+    },
+    {
+      "id": "HOMEPAGE-SYNTHESIS-FIDELITY-001",
+      "exactFeedback": "you took more or less none of the entire accepted decisions in any chapter?",
+      "source": "conversation and review of HOMEPAGE-PRODUCTION-SYNTHESIS-R1",
+      "surface": "integrated homepage synthesis",
+      "section": "all accepted homepage chapters",
+      "device": "all",
+      "element": "component geometry, hierarchy, interaction and visual treatment",
+      "classification": "correction",
+      "requiredOutcome": "Compile each accepted chapter from its selected rendered component and exact decision payload. Do not reinterpret the selection readback as a loose content brief or substitute an older page shell.",
+      "acceptanceTest": "For every accepted chapter, an automated parity manifest names the source artifact and selected payload, and compares the integrated section against the source for DOM contract, governing data attributes, copy, device-specific composition, interaction states and approved visual anchors. Every row must pass before the next integrated candidate is presented.",
+      "status": "implemented-awaiting-review",
+      "resolution": "HOMEPAGE-PRODUCTION-SYNTHESIS-R1 remains rejected. R2 hosts the accepted source components directly, supplies their exact accepted configuration payloads and copy, and is blocked from production pending Krish's review.",
+      "evidence": [
+        "explicit owner rejection, 2026-09-24",
+        "R1 source imported the older homepage-new-age-story stylesheet and script instead of compiling selected chapter artifacts",
+        "quality/website-redesign/homepage-selection.manifest.json records live source and stylesheet SHA-256 values plus each accepted configuration payload",
+        "scripts/qa/homepage-synthesis-parity-check.mjs passes for six source components and ten locked copy assertions",
+        "R2 browser readback passed at 1440 x 900 and 390 x 844 after correcting the shared 52px console-host clipping defect",
+        "browser interaction readback passed for history era change, Work to Organisation, leadership benefits, AI Brain to AI GTM, and navigation open and close",
+        "npm run build exited 0 on 2026-09-24"
+      ]
+    },
+    {
+      "id": "HOMEPAGE-SYNTHESIS-INTEGRATION-001",
+      "exactFeedback": "looks better, bar for some visual issues at the bottom. Do you even look at what you give me to review? If you did, you surely would not let this pass. My assumption is that this preview has not yet incorporated any of the scroll related builds either, other than that this is better.",
+      "source": "conversation and supplied screenshot",
+      "surface": "integrated homepage synthesis",
+      "section": "continuous homepage journey and route receipt",
+      "device": "desktop and mobile",
+      "element": "page-level scroll context, section seams and route controls",
+      "classification": "correction",
+      "requiredOutcome": "The review candidate is one integrated DOM and scroll context, preserves every accepted page-level scroll build, reserves space for controls, and is inspected continuously from opening to footer and back before presentation.",
+      "acceptanceTest": "The fail-closed presentation command rejects iframe or parity harnesses, requires candidate-bound continuous forward and reverse journey evidence on desktop and mobile, reports zero section-seam collisions, and validates independent specialist evidence before emitting a review URL.",
+      "status": "open",
+      "resolution": "R2 is reclassified as a fidelity reference and is not eligible for material review. The executable presentation firewall is being installed before an integrated R3 candidate is built.",
+      "evidence": []
+    }
+  ]
+}

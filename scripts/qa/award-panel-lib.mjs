@@ -8,11 +8,17 @@ import Ajv2020 from "ajv/dist/2020.js";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 export const root = path.resolve(here, "../..");
-const configuredRubric = process.env.MINDMAKE_AWARD_RUBRIC ?? "quality/award-panel/rubric.v2.json";
+const configuredRubric = process.env.MINDMAKE_AWARD_RUBRIC ?? "quality/award-panel/rubric.v3.json";
 export const rubricPath = path.isAbsolute(configuredRubric)
   ? configuredRubric
   : path.resolve(root, configuredRubric);
-export const submissionSchemaPath = path.join(root, "quality", "award-panel", "submission.schema.json");
+const configuredRubricSource = JSON.parse(fsSync.readFileSync(rubricPath, "utf8"));
+export const submissionSchemaPath = path.join(
+  root,
+  "quality",
+  "award-panel",
+  configuredRubricSource.rubricRevision >= 3 ? "submission.schema.v3.json" : "submission.schema.json",
+);
 const submissionSchema = JSON.parse(fsSync.readFileSync(submissionSchemaPath, "utf8"));
 const ajv = new Ajv2020({ allErrors: true, strict: true, multipleOfPrecision: 2 });
 const validateSubmissionSchema = ajv.compile(submissionSchema);
@@ -88,16 +94,41 @@ export function validateRubric(rubric) {
   if (rubric.schemaVersion !== 1) errors.push("rubric schemaVersion must be 1");
   if (!Array.isArray(rubric.sources) || rubric.sources.length < 4) errors.push("rubric needs at least four named sources");
   if (!Array.isArray(rubric.hardGates) || rubric.hardGates.length < 5) errors.push("rubric needs at least five hard gates");
-  if (!Array.isArray(rubric.judges) || rubric.judges.length !== 10) errors.push("rubric must define exactly ten judges");
-  if (!Array.isArray(rubric.jurors) || rubric.jurors.length !== 5) errors.push("rubric must define exactly five jurors");
+  const v3 = rubric.rubricRevision >= 3;
+  const expectedJudgeCount = v3 ? 12 : 10;
+  const expectedJurorCount = v3 ? 6 : 5;
+  if (!Array.isArray(rubric.judges) || rubric.judges.length !== expectedJudgeCount) errors.push(`rubric must define exactly ${expectedJudgeCount} judges`);
+  if (!Array.isArray(rubric.jurors) || rubric.jurors.length !== expectedJurorCount) errors.push(`rubric must define exactly ${expectedJurorCount} jurors`);
+  if (v3) {
+    for (const group of ["core", "utility", "complete"]) {
+      const routes = rubric.requiredRouteGroups?.[group];
+      if (!Array.isArray(routes) || routes.length === 0) {
+        errors.push(`requiredRouteGroups.${group} must contain routes`);
+        continue;
+      }
+      if (new Set(routes).size !== routes.length) errors.push(`requiredRouteGroups.${group} contains duplicate routes`);
+      for (const route of routes) {
+        if (typeof route !== "string" || !route.startsWith("/") || route.includes(":")) {
+          errors.push(`requiredRouteGroups.${group} contains a non-capturable route: ${route}`);
+        }
+      }
+    }
+    const completeRoutes = new Set(rubric.requiredRouteGroups?.complete ?? []);
+    for (const route of [...(rubric.requiredRouteGroups?.core ?? []), ...(rubric.requiredRouteGroups?.utility ?? [])]) {
+      if (!completeRoutes.has(route)) errors.push(`requiredRouteGroups.complete is missing ${route}`);
+    }
+  }
 
   const ids = new Set();
   const gateIds = new Set();
   const jurorIds = new Set();
-  const requiredLens = ["art_direction", "inspiration_originality", "immersion", "buyability_trust", "ux_content_technical"];
+  const requiredLens = v3
+    ? ["art_system", "narrative_journey", "immersion_interaction", "conversion_trust", "ux_accessibility_technical", "inspiration_originality"]
+    : ["art_direction", "inspiration_originality", "immersion", "buyability_trust", "ux_content_technical"];
   for (const surface of ["desktop", "mobile"]) {
     const judges = rubric.judges?.filter((judge) => judge.surface === surface) ?? [];
-    if (judges.length !== 5) errors.push(`${surface} must have exactly five judges`);
+    const expectedSurfaceJudges = v3 ? 6 : 5;
+    if (judges.length !== expectedSurfaceJudges) errors.push(`${surface} must have exactly ${expectedSurfaceJudges} judges`);
     for (const lens of requiredLens) {
       if (!judges.some((judge) => judge.id.includes(lens))) errors.push(`${surface} is missing the ${lens} lens`);
     }
@@ -108,6 +139,7 @@ export function validateRubric(rubric) {
     ids.add(judge.id);
     if (!["desktop", "mobile"].includes(judge.surface)) errors.push(`${judge.id} has an invalid surface`);
     if (!judge.mandate || judge.mandate.length < 30) errors.push(`${judge.id} needs a specific mandate`);
+    if (v3 && !Object.hasOwn(rubric.requiredRouteGroups ?? {}, judge.routeCoverage)) errors.push(`${judge.id} has an unknown routeCoverage group`);
     const dimensions = judge.dimensions ?? [];
     if (dimensions.length < 4) errors.push(`${judge.id} needs at least four dimensions`);
     const dimensionIds = new Set(dimensions.map((dimension) => dimension.id));
@@ -170,12 +202,20 @@ export function validateSubmission(submission, rubric) {
     errors.push(...(validateSubmissionSchema.errors ?? []).map((error) => `schema ${error.instancePath || "/"} ${error.message}`));
   }
   const judge = rubric.judges.find((candidate) => candidate.id === submission.judgeId);
-  if (submission.schemaVersion !== 2) errors.push("schemaVersion must be 2");
+  const v3 = rubric.rubricRevision >= 3;
+  const expectedSchemaVersion = v3 ? 3 : 2;
+  if (submission.schemaVersion !== expectedSchemaVersion) errors.push(`schemaVersion must be ${expectedSchemaVersion}`);
   if (!submission.runId) errors.push("runId is required");
   for (const field of ["candidateSha256", "rubricSha256", "evidenceManifestSha256"]) {
     if (!/^[a-f0-9]{64}$/.test(submission[field] ?? "")) errors.push(`${field} must be a SHA-256 digest`);
   }
   if (!submission.contextId || submission.contextId.length < 16) errors.push("contextId is required");
+  if (v3) {
+    if (!submission.contextProof?.executorId || submission.contextProof.executorId.length < 8) errors.push("contextProof.executorId is required");
+    if (!Number.isFinite(Date.parse(submission.contextProof?.startedAt))) errors.push("contextProof.startedAt must be an ISO date-time");
+    if (!Array.isArray(submission.journeyTrace) || submission.journeyTrace.length < 3) errors.push(`${submission.judgeId} needs at least three journey trace observations`);
+    if (!Array.isArray(submission.scrutiny) || submission.scrutiny.length < 3) errors.push(`${submission.judgeId} needs at least three scrutiny findings`);
+  }
   if (!Number.isFinite(Date.parse(submission.submittedAt))) errors.push("submittedAt must be an ISO date-time");
   if (!judge) return [...errors, `unknown judge: ${submission.judgeId}`];
   const juror = rubric.jurors.find((candidate) => candidate.id === submission.jurorId);
@@ -187,7 +227,9 @@ export function validateSubmission(submission, rubric) {
   if (attestation.sawPriorCritique !== false) errors.push(`${judge.id} saw prior critique or did not attest false`);
   if (attestation.sawOtherVerdicts !== false) errors.push(`${judge.id} saw other verdicts or did not attest false`);
   if (attestation.sawIterationHistory !== false) errors.push(`${judge.id} saw iteration history or did not attest false`);
-  if (attestation.usedProductionOnly !== true) errors.push(`${judge.id} did not attest to production-only judging`);
+  if (v3) {
+    if (attestation.usedMatchingCandidate !== true) errors.push(`${judge.id} did not attest to judging the matching candidate`);
+  } else if (attestation.usedProductionOnly !== true) errors.push(`${judge.id} did not attest to production-only judging`);
   if (attestation.usedFrozenEvidence !== true) errors.push(`${judge.id} did not attest to frozen evidence`);
   if (attestation.independentContext !== true) errors.push(`${judge.id} did not attest to an independent context`);
   if (!Array.isArray(submission.consumedObservationIds) || submission.consumedObservationIds.length === 0) {

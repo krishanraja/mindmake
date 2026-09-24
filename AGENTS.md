@@ -14,8 +14,18 @@ Before touching the homepage, AI Brain, AI GTM, Start here journey, proof, case 
 or their shared visual system, read `project-documentation/website-redesign/STATE.md`
 and `quality/website-redesign/continuity-contract.v1.json` completely. They are the
 single resumable state and feedback contract for the active multi-session redesign.
+Also apply and validate `quality/website-redesign/experience-quality.profile.json`;
+it is the project adapter for the canonical harness experience-quality contract.
 Run `npm run qa:website-restart` before any public-surface edit. Do not create another
 competing state, strategy, handoff or feedback document.
+
+Never present a material website candidate from a direct Vite, file, prototype or
+ambient-server URL. The only review route is
+`npm run review:material -- quality/website-redesign/material-review-candidate.json`.
+That command must fail closed unless the exact integrated bytes have current readiness,
+continuity, reconciled-feedback and independent-specialist receipts. Component galleries,
+iframe assemblies, parity harnesses and static frame collections are reference material,
+not review candidates.
 
 This repository's own rules and deeper state: `CLAUDE.md`, `project-documentation/06_CURRENT_STATE.md`. They outrank the
 canon below on anything specific to this repository.

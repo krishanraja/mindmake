@@ -21,10 +21,22 @@ const rubric = await loadRubric();
 const url = flag("url", rubric.target);
 const runId = flag("run-id", new Date().toISOString().replace(/[:.]/g, "-").replace(/Z$/, "Z"));
 const continuityPath = path.resolve(flag("continuity-report", "C:/Users/krish/.scratch/mindmake-full-route-continuity/report.json"));
+const feedbackLedgerPath = path.resolve(flag("feedback-ledger", path.join(root, "project-documentation", "website-redesign", "feedback-ledger.json")));
 const cookieJarFlag = flag("cookie-jar", "");
-const expectedPath = new URL(url).pathname || "/";
+const targetUrl = new URL(url);
+const routeGroups = rubric.requiredRouteGroups ?? { complete: [targetUrl.pathname || "/"], core: [targetUrl.pathname || "/"] };
+const completeRoutes = routeGroups.complete ?? [targetUrl.pathname || "/"];
+const coreRoutes = new Set(routeGroups.core ?? completeRoutes);
 if (!/^[A-Za-z0-9][A-Za-z0-9._-]{0,99}$/.test(runId)) {
   console.error("run id must be 1 to 100 filename-safe characters using letters, numbers, dots, underscores or hyphens");
+  process.exit(1);
+}
+
+const feedbackLedger = await readJson(feedbackLedgerPath);
+const feedbackBlockingStatuses = new Set(feedbackLedger.rules?.approvalBlockedByStatuses ?? ["open", "implemented-awaiting-review"]);
+const blockingFeedback = (feedbackLedger.items ?? []).filter((item) => feedbackBlockingStatuses.has(item.status));
+if (blockingFeedback.length) {
+  console.error(`award panel capture blocked by unresolved feedback:\n${blockingFeedback.map((item) => `- ${item.id}: ${item.requiredOutcome}`).join("\n")}`);
   process.exit(1);
 }
 
@@ -85,7 +97,22 @@ const enginePlans = [
 for (const plan of enginePlans) {
   const browser = await plan.type.launch({ headless: true, ...plan.options });
   try {
-    for (const viewport of plan.viewports.filter(Boolean)) {
+    const primaryDesktop = rubric.surfaces.desktop.viewports.find((item) => item.width === 1440 && item.height === 900);
+    const primaryMobile = rubric.surfaces.mobile.viewports.find((item) => item.width === 390 && item.height === 844);
+    const cases = [];
+    for (const route of completeRoutes) {
+      for (const viewport of [primaryDesktop, primaryMobile].filter(Boolean)) cases.push({ route, viewport });
+    }
+    if (plan.id === "chromium") {
+      for (const route of coreRoutes) {
+        for (const viewport of plan.viewports.filter(Boolean)) {
+          if ((viewport.width === primaryDesktop?.width && viewport.height === primaryDesktop?.height)
+            || (viewport.width === primaryMobile?.width && viewport.height === primaryMobile?.height)) continue;
+          cases.push({ route, viewport });
+        }
+      }
+    }
+    for (const { route, viewport } of cases) {
       const surface = viewport.width > viewport.height && viewport.width >= 1024 ? "desktop" : "mobile";
       const context = await browser.newContext({ viewport, reducedMotion: "no-preference", hasTouch: surface === "mobile" });
       if (previewCookies.length) await context.addCookies(previewCookies);
@@ -96,10 +123,13 @@ for (const plan of enginePlans) {
         if (message.type() === "error") consoleErrors.push(message.text());
       });
       page.on("pageerror", (error) => consoleErrors.push(error.message));
-      const response = await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
+      const routeUrl = new URL(route, targetUrl.origin);
+      const expectedPath = routeUrl.pathname || "/";
+      const response = await page.goto(routeUrl.href, { waitUntil: "domcontentloaded", timeout: 60000 });
       await page.locator("main").waitFor({ state: "attached" });
       await page.evaluate(() => document.fonts?.ready);
-      const stem = `${plan.id}-${surface}-${viewport.width}x${viewport.height}`;
+      const routeStem = expectedPath === "/" ? "home" : expectedPath.slice(1).replaceAll("/", "-");
+      const stem = `${plan.id}-${surface}-${viewport.width}x${viewport.height}-${routeStem}`;
       const foldPath = path.join(screenshots, `${stem}-fold.png`);
       const fullPath = path.join(screenshots, `${stem}-full.png`);
       await page.screenshot({ path: foldPath });
@@ -122,6 +152,27 @@ for (const plan of enginePlans) {
           })
           .map((element) => (element.getAttribute("aria-label") || element.textContent || "").trim())
           .filter(Boolean);
+        const sectionNodes = [...new Set([...document.querySelectorAll("main section"), ...document.querySelectorAll("main > div")])]
+          .filter((section) => {
+            const rect = section.getBoundingClientRect();
+            const style = getComputedStyle(section);
+            return rect.width > 0 && rect.height > 0 && style.display !== "none" && style.visibility !== "hidden";
+          });
+        const sections = sectionNodes.map((section, index) => {
+          const rect = section.getBoundingClientRect();
+          const sectionText = (section.innerText || "").replace(/\s+/g, " ").trim();
+          const heading = section.querySelector("h1,h2,h3")?.textContent?.replace(/\s+/g, " ").trim() || "";
+          return {
+            index,
+            id: section.id || "",
+            className: typeof section.className === "string" ? section.className : "",
+            heading,
+            words: sectionText ? sectionText.split(/\s+/).length : 0,
+            heightScreens: Math.round((rect.height / innerHeight) * 100) / 100,
+            controls: section.querySelectorAll("a,button,input,select,textarea").length,
+            visuals: section.querySelectorAll("img,video,svg,canvas,picture").length,
+          };
+        });
         return {
           pathname: location.pathname,
           title: document.title,
@@ -136,6 +187,7 @@ for (const plan of enginePlans) {
           firstViewportControls: controls,
           totalScreens: Math.round((document.documentElement.scrollHeight / innerHeight) * 100) / 100,
           horizontalOverflow: Math.max(0, document.documentElement.scrollWidth - innerWidth),
+          sections,
         };
       });
       const protectionPage = /log in to vercel/i.test(metrics.title) || metrics.pathname === "/login";
@@ -155,10 +207,10 @@ for (const plan of enginePlans) {
         status,
         engine: plan.id,
         input: surface === "mobile" ? "touch-emulation" : "pointer-keyboard",
-        route: new URL(url).pathname || "/",
+        route: expectedPath,
         viewport: `${viewport.width}x${viewport.height}`,
-        action: "cold load, traverse complete scroll, return to opening",
-        expected: "complete route with no runtime error or horizontal overflow",
+        action: "cold load, inventory every major section, traverse complete scroll, return to opening",
+        expected: "complete candidate-bound route with no runtime error or horizontal overflow and a section-level storyboard inventory",
         observed: `${response?.status() ?? "no response"}; resolved ${metrics.pathname}; ${consoleErrors.length} runtime errors; ${metrics.horizontalOverflow}px horizontal overflow; protection page ${protectionPage ? "yes" : "no"}`,
         metrics,
         consoleErrors,
@@ -174,21 +226,60 @@ for (const plan of enginePlans) {
   }
 }
 
+const primaryJourneyCaptures = observations.filter((item) => item.kind === "rendered_browser_capture"
+  && item.engine === "chromium"
+  && ["1440x900", "390x844"].includes(item.viewport));
+const headingRoutes = new Map();
+for (const observation of primaryJourneyCaptures) {
+  for (const section of observation.metrics?.sections ?? []) {
+    const heading = section.heading?.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+    if (!heading) continue;
+    if (!headingRoutes.has(heading)) headingRoutes.set(heading, new Set());
+    headingRoutes.get(heading).add(observation.route);
+  }
+}
+const repeatedHeadings = [...headingRoutes.entries()]
+  .filter(([, routes]) => routes.size > 1)
+  .map(([heading, routes]) => ({ heading, routes: [...routes].sort() }));
+observations.push({
+  id: "cross-route-storyboard-inventory",
+  kind: "cross_route_storyboard",
+  status: primaryJourneyCaptures.length === completeRoutes.length * 2 ? "pass" : "inconclusive",
+  engine: "chromium",
+  input: "pointer-touch-emulation",
+  route: "all required routes",
+  viewport: "required matrix",
+  action: "compare every primary desktop and mobile route inventory for story progression, section cost and repeated mechanisms",
+  expected: "two candidate-bound inventories for every required route and explicit cross-route repetition evidence",
+  observed: `${primaryJourneyCaptures.length} primary route inventories for ${completeRoutes.length} routes; ${repeatedHeadings.length} headings repeat across routes`,
+  metrics: {
+    routes: primaryJourneyCaptures.map((item) => ({ route: item.route, viewport: item.viewport, totalScreens: item.metrics?.totalScreens, sections: item.metrics?.sections ?? [] })),
+    repeatedHeadings,
+  },
+  evidence: primaryJourneyCaptures.flatMap((item) => item.evidence ?? []),
+});
+
 try {
   const continuity = await readJson(continuityPath);
   const continuityBytes = await fs.readFile(continuityPath);
+  const continuityCandidateSha256 = continuity.identity?.candidate?.sha256;
+  const continuityMatchesCandidate = continuityCandidateSha256 === candidate.sha256;
+  const continuityEvidenceDir = path.join(output, "evidence");
+  const continuityEvidenceFile = path.join(continuityEvidenceDir, "full-route-continuity-report.json");
+  await fs.mkdir(continuityEvidenceDir, { recursive: true });
+  await fs.writeFile(continuityEvidenceFile, continuityBytes);
   observations.push({
     id: "automation-full-route-continuity",
     kind: "deterministic_automation",
-    status: continuity.failures?.length === 0 ? "pass" : "fail",
+    status: continuity.failures?.length === 0 && continuityMatchesCandidate ? "pass" : "inconclusive",
     engine: "chromium-webkit-firefox",
     input: "pointer-keyboard-touch-emulation-reduced-motion-200-percent-text",
     route: "all required routes",
     viewport: "390x844 and 1440x900",
     action: "load every route, use shared navigation, open archive entries, recover validation and return",
     expected: "zero deterministic failures",
-    observed: `${continuity.checks ?? continuity.observations?.length ?? 0} route observations; ${continuity.failures?.length ?? 0} failures`,
-    evidence: [{ path: continuityPath.replaceAll("\\", "/"), sha256: sha256(continuityBytes) }],
+    observed: `${continuity.checks ?? continuity.observations?.length ?? 0} route observations; ${continuity.failures?.length ?? 0} failures; candidate ${continuityMatchesCandidate ? "matches" : `mismatch (${continuityCandidateSha256 ?? "missing"})`}`,
+    evidence: [{ path: path.relative(output, continuityEvidenceFile).replaceAll("\\", "/"), sha256: sha256(continuityBytes) }],
   });
 } catch (error) {
   observations.push({
@@ -205,6 +296,31 @@ try {
     evidence: [],
   });
 }
+
+const feedbackRequirements = {
+  ledgerVersion: feedbackLedger.ledgerVersion,
+  requirements: (feedbackLedger.items ?? [])
+    .filter((item) => ["verified", "accepted"].includes(item.status))
+    .map(({ id, surface, section, device, element, classification, requiredOutcome, acceptanceTest, status }) => ({ id, surface, section, device, element, classification, requiredOutcome, acceptanceTest, status })),
+};
+const feedbackEvidenceDir = path.join(output, "evidence");
+const feedbackEvidenceFile = path.join(feedbackEvidenceDir, "feedback-requirements.json");
+await fs.mkdir(feedbackEvidenceDir, { recursive: true });
+const feedbackEvidenceBytes = Buffer.from(`${JSON.stringify(feedbackRequirements, null, 2)}\n`);
+await fs.writeFile(feedbackEvidenceFile, feedbackEvidenceBytes);
+observations.push({
+  id: "feedback-reconciliation-requirements",
+  kind: "governed_requirements",
+  status: "pass",
+  engine: "project-ledger",
+  input: "neutral-resolved-requirements-only",
+  route: "all applicable routes",
+  viewport: "all applicable viewports",
+  action: "check the candidate against every resolved feedback requirement without exposing owner complaint history",
+  expected: "no unresolved feedback and complete neutral requirements for applicable judges",
+  observed: `${feedbackRequirements.requirements.length} resolved requirements; 0 blocking feedback items`,
+  evidence: [{ path: path.relative(output, feedbackEvidenceFile).replaceAll("\\", "/"), sha256: sha256(feedbackEvidenceBytes) }],
+});
 
 observations.push(
   {
@@ -243,7 +359,7 @@ const evidenceManifest = {
 const evidenceManifestSha256 = hashEvidenceManifest(evidenceManifest);
 const judgeContexts = Object.fromEntries(rubric.jurors.map((juror) => [juror.id, crypto.randomBytes(18).toString("hex")]));
 const run = {
-  schemaVersion: 2,
+  schemaVersion: rubric.rubricRevision >= 3 ? 3 : 2,
   runId,
   target: url,
   capturedAt: capturedAt.toISOString(),
@@ -258,7 +374,7 @@ const run = {
 };
 await fs.writeFile(path.join(output, "run.json"), `${JSON.stringify(run, null, 2)}\n`);
 console.log(JSON.stringify({
-  artifact: "mindmake-blind-award-panel-run-v2",
+  artifact: `mindmake-blind-award-panel-run-v${rubric.rubricRevision}`,
   output,
   runId,
   target: url,

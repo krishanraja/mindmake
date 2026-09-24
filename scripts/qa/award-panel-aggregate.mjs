@@ -8,6 +8,7 @@ import {
   loadRubric,
   readJson,
   scoreSubmission,
+  sha256,
   stableJson,
   validateRubric,
   validateSubmission,
@@ -28,8 +29,9 @@ if (rubricErrors.length) {
 }
 
 const run = await readJson(path.join(absoluteRunDirectory, "run.json"));
-if (run.schemaVersion !== 2) {
-  console.error("run schemaVersion must be 2; legacy panel runs cannot certify this candidate");
+const expectedRunSchema = rubric.rubricRevision >= 3 ? 3 : 2;
+if (run.schemaVersion !== expectedRunSchema) {
+  console.error(`run schemaVersion must be ${expectedRunSchema}; legacy panel runs cannot certify this candidate`);
   process.exit(1);
 }
 if (run.rubricSha256 !== hashRubric(rubric)) {
@@ -60,6 +62,33 @@ for (const observation of run.evidenceManifest?.observations ?? []) {
     process.exit(1);
   }
   observationIds.add(observation.id);
+  const evidenceItems = observation.evidence ?? [];
+  if (observation.status === "pass" && evidenceItems.length === 0) {
+    console.error(`passing observation has no frozen evidence: ${observation.id}`);
+    process.exit(1);
+  }
+  for (const evidence of evidenceItems) {
+    if (typeof evidence.path !== "string" || path.isAbsolute(evidence.path)) {
+      console.error(`evidence path must be relative to the run directory: ${observation.id}`);
+      process.exit(1);
+    }
+    const evidencePath = path.resolve(absoluteRunDirectory, evidence.path);
+    if (!evidencePath.startsWith(`${absoluteRunDirectory}${path.sep}`)) {
+      console.error(`evidence path escapes the run directory: ${observation.id}/${evidence.path}`);
+      process.exit(1);
+    }
+    let evidenceBytes;
+    try {
+      evidenceBytes = await fs.readFile(evidencePath);
+    } catch {
+      console.error(`frozen evidence file is missing: ${observation.id}/${evidence.path}`);
+      process.exit(1);
+    }
+    if (!/^[a-f0-9]{64}$/.test(evidence.sha256 ?? "") || sha256(evidenceBytes) !== evidence.sha256) {
+      console.error(`frozen evidence hash mismatch: ${observation.id}/${evidence.path}`);
+      process.exit(1);
+    }
+  }
 }
 for (const id of run.requiredObservationIds ?? []) {
   if (!observationIds.has(id)) {
@@ -76,6 +105,21 @@ const seen = new Set();
 const semanticCards = new Set();
 const jurorCounts = new Map();
 const jurorContexts = new Map();
+const jurorExecutors = new Map();
+const observationById = new Map((run.evidenceManifest?.observations ?? []).map((item) => [item.id, item]));
+const normaliseRoute = (value) => {
+  if (!value || value === "all required routes") return value;
+  const route = value.split("?")[0].split("#")[0].replace(/\/$/, "");
+  return route || "/";
+};
+const evidenceMatches = (claim, observation) => {
+  if (!observation) return false;
+  const claimedRoute = normaliseRoute(claim.route);
+  const observedRoute = normaliseRoute(observation.route ?? observation.metrics?.pathname);
+  const routeMatches = ["all required routes", "all primary tasks"].includes(observedRoute) || claimedRoute === observedRoute;
+  const viewportMatches = observation.viewport === "required matrix" || observation.viewport === claim.viewport;
+  return routeMatches && viewportMatches;
+};
 for (const submission of submissions) {
   if (submission.runId !== run.runId) errors.push(`${submission.judgeId} belongs to run ${submission.runId}, not ${run.runId}`);
   if (seen.has(submission.judgeId)) errors.push(`duplicate submission for ${submission.judgeId}`);
@@ -86,6 +130,22 @@ for (const submission of submissions) {
   const priorContext = jurorContexts.get(submission.jurorId);
   if (priorContext && priorContext !== submission.contextId) errors.push(`${submission.jurorId} changed context between its paired scorecards`);
   jurorContexts.set(submission.jurorId, submission.contextId);
+  if (rubric.rubricRevision >= 3) {
+    const executorId = submission.contextProof?.executorId;
+    const startedAt = Date.parse(submission.contextProof?.startedAt);
+    const submittedAt = Date.parse(submission.submittedAt);
+    if (startedAt < Date.parse(run.capturedAt) || startedAt > submittedAt || startedAt > Date.parse(run.expiresAt)) {
+      errors.push(`${submission.judgeId} executor context started outside the frozen evidence window`);
+    }
+    const priorExecutor = jurorExecutors.get(submission.jurorId);
+    if (priorExecutor && priorExecutor !== executorId) errors.push(`${submission.jurorId} changed executor between paired scorecards`);
+    jurorExecutors.set(submission.jurorId, executorId);
+    const requiredRoutes = rubric.requiredRouteGroups?.[rubric.judges.find((item) => item.id === submission.judgeId)?.routeCoverage] ?? [];
+    const traversedRoutes = new Set((submission.journeyTrace ?? []).map((item) => normaliseRoute(item.route)));
+    for (const route of requiredRoutes) {
+      if (!traversedRoutes.has(normaliseRoute(route))) errors.push(`${submission.judgeId} did not trace required route ${route}`);
+    }
+  }
   if (submission.candidateSha256 !== run.candidate.sha256) errors.push(`${submission.judgeId} judged a different candidate`);
   if (submission.rubricSha256 !== run.rubricSha256) errors.push(`${submission.judgeId} used a different rubric`);
   if (submission.evidenceManifestSha256 !== run.evidenceManifestSha256) errors.push(`${submission.judgeId} used a different evidence manifest`);
@@ -97,10 +157,33 @@ for (const submission of submissions) {
   const boundIds = [
     ...(submission.dimensions ?? []).flatMap((dimension) => (dimension.evidence ?? []).flatMap((item) => item.observationIds ?? [])),
     ...(submission.hardGates ?? []).flatMap((gate) => gate.observationIds ?? []),
+    ...(submission.journeyTrace ?? []).flatMap((item) => item.observationIds ?? []),
+    ...(submission.scrutiny ?? []).flatMap((item) => item.observationIds ?? []),
   ];
   for (const id of boundIds) {
     if (!observationIds.has(id)) errors.push(`${submission.judgeId} cites unknown observation ${id}`);
     if (!(submission.consumedObservationIds ?? []).includes(id)) errors.push(`${submission.judgeId} cites unconsumed observation ${id}`);
+  }
+  const claims = [
+    ...(submission.dimensions ?? []).flatMap((dimension) => dimension.evidence ?? []),
+    ...(submission.hardGates ?? []),
+    ...(submission.journeyTrace ?? []),
+    ...(submission.scrutiny ?? []),
+  ];
+  for (const claim of claims) {
+    for (const id of claim.observationIds ?? []) {
+      const observation = observationById.get(id);
+      if (observation && !evidenceMatches(claim, observation)) {
+        errors.push(`${submission.judgeId} cites ${id} for ${claim.route} ${claim.viewport}, but that observation covers ${observation.route} ${observation.viewport}`);
+      }
+    }
+  }
+  for (const gate of submission.hardGates ?? []) {
+    if (gate.status !== "pass") continue;
+    for (const id of gate.observationIds ?? []) {
+      const observation = observationById.get(id);
+      if (observation && observation.status !== "pass") errors.push(`${submission.judgeId}/${gate.id} passed using ${id} with status ${observation.status}`);
+    }
   }
   const semanticCard = stableJson({
     dimensions: submission.dimensions,
@@ -120,6 +203,10 @@ for (const judge of rubric.judges) {
 }
 const distinctContexts = new Set(jurorContexts.values());
 if (distinctContexts.size !== rubric.jurors.length) errors.push(`expected ${rubric.jurors.length} independent juror contexts, found ${distinctContexts.size}`);
+if (rubric.rubricRevision >= 3) {
+  const distinctExecutors = new Set(jurorExecutors.values());
+  if (distinctExecutors.size !== rubric.jurors.length) errors.push(`expected ${rubric.jurors.length} independent executor identities, found ${distinctExecutors.size}`);
+}
 const consumedAcrossPanel = new Set(submissions.flatMap((submission) => submission.consumedObservationIds ?? []));
 for (const id of run.requiredObservationIds ?? []) {
   if (!consumedAcrossPanel.has(id)) errors.push(`required observation was never consumed: ${id}`);
@@ -132,7 +219,15 @@ if (errors.length) {
 const surfaces = {};
 const requiredEvidence = (run.requiredObservationIds ?? []).map((id) => run.evidenceManifest.observations.find((item) => item.id === id));
 const evidenceReady = requiredEvidence.length > 0 && requiredEvidence.every((item) => item?.status === "pass");
-const confidenceReady = submissions.every((submission) => submission.confidence !== "low");
+const zeroDimensions = submissions.flatMap((submission) => (submission.dimensions ?? [])
+  .filter((dimension) => dimension.score === 0)
+  .map((dimension) => `${submission.judgeId}/${dimension.id}`));
+const unresolvedScrutiny = submissions.flatMap((submission) => (submission.scrutiny ?? [])
+  .filter((item) => item.status !== "pass")
+  .map((item) => `${submission.judgeId}/${item.category}/${item.route}: ${item.status}`));
+const confidenceReady = submissions.every((submission) => submission.confidence !== "low")
+  && zeroDimensions.length === 0
+  && unresolvedScrutiny.length === 0;
 for (const surface of ["desktop", "mobile"]) {
   const judged = submissions
     .filter((submission) => submission.surface === surface)
@@ -182,6 +277,8 @@ const result = {
   blockers: [
     ...requiredEvidence.filter((item) => item?.status !== "pass").map((item) => `${item.id}: ${item?.status ?? "missing"}`),
     ...submissions.filter((submission) => submission.confidence === "low").map((submission) => `${submission.judgeId}: low confidence`),
+    ...zeroDimensions.map((item) => `${item}: zero dimension`),
+    ...unresolvedScrutiny,
   ],
   siteScore,
   awardBand: awardBand(siteScore, allJudges.map((item) => item.score), allGatesPass, rubric),

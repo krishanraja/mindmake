@@ -55,3 +55,4 @@ shell-*.png
 
 # Docs steward working files (control-center scripts checked out by the workflow)
 .steward/
+C:/

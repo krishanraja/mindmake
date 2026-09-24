@@ -12,15 +12,10 @@ import opportunitiesPoster from "../../../../prototypes/website-redesign-recover
 import workshopPoster from "../../../../prototypes/website-redesign-recovery/case-study-browsing/media/quiet-workshop-growth-loop-r01-20s-720p-web-sealed-poster.webp";
 import evidencePoster from "../../../../prototypes/website-redesign-recovery/case-study-browsing/media/evidence-connects-loop-r01-20s-720p-web-sealed-poster.webp";
 import signalsPoster from "../../../../prototypes/website-redesign-recovery/case-study-browsing/media/signals-arrive-loop-r01-20s-720p-web-sealed-poster.webp";
-import proofFieldCss from "../../../../prototypes/website-redesign-recovery/case-study-browsing/styles.css?raw";
-
-type MechanismKind = "span" | "offer" | "pilots" | "handoff" | "cadence" | "decisions" | "switches" | "route";
+import proofFieldCss from "../../../../prototypes/website-redesign-recovery/case-study-browsing-r2/styles.css?raw";
 
 type StoryPresentation = {
   short: string;
-  before: string;
-  after: string;
-  kind: MechanismKind;
   film: string;
   poster: string;
   offset: number;
@@ -28,40 +23,34 @@ type StoryPresentation = {
 };
 
 const PRESENTATION: Record<string, StoryPresentation> = {
-  "day-one": { short: "Day one", before: "Two quarters refereeing the argument", after: "One day in the room", kind: "span", film: readyFilm, poster: readyPoster, offset: 1.4, filmPosition: "51% 52%" },
-  "sellable-expertise": { short: "Sellable expertise", before: "Ideas everyone respected", after: "One offer, and a plan to launch it", kind: "offer", film: communicationsFilm, poster: communicationsPoster, offset: 3.8, filmPosition: "61% 48%" },
-  "simple-product": { short: "Simple product", before: "Inside the thirty days", after: "2 pilots signed", kind: "pilots", film: opportunitiesFilm, poster: opportunitiesPoster, offset: 6.2, filmPosition: "50% 49%" },
-  "hand-back": { short: "Hand it back", before: "5 videos shipped in week one of eight", after: "Left in the founder's hands", kind: "handoff", film: workshopFilm, poster: workshopPoster, offset: 8.6, filmPosition: "48% 47%" },
-  "own-system": { short: "Own the system", before: "About once a month", after: "Most days", kind: "cadence", film: evidenceFilm, poster: evidencePoster, offset: 10.8, filmPosition: "44% 45%" },
-  "team-decides": { short: "Team decides", before: "Fourteen competing vendors", after: "Three decisions", kind: "decisions", film: signalsFilm, poster: signalsPoster, offset: 13.2, filmPosition: "36% 52%" },
-  "business-first": { short: "Business first", before: "", after: "", kind: "switches", film: readyFilm, poster: readyPoster, offset: 15.4, filmPosition: "74% 50%" },
-  "market-moves": { short: "Market moves", before: "Selling the way the old web paid", after: "A paid test with a major US publisher", kind: "route", film: signalsFilm, poster: signalsPoster, offset: 17.1, filmPosition: "74% 54%" },
+  "day-one": { short: "Day one", film: readyFilm, poster: readyPoster, offset: 1.4, filmPosition: "51% 52%" },
+  "sellable-expertise": { short: "Sellable expertise", film: communicationsFilm, poster: communicationsPoster, offset: 3.8, filmPosition: "61% 48%" },
+  "simple-product": { short: "Simple product", film: opportunitiesFilm, poster: opportunitiesPoster, offset: 6.2, filmPosition: "50% 49%" },
+  "hand-back": { short: "Hand it back", film: workshopFilm, poster: workshopPoster, offset: 8.6, filmPosition: "48% 47%" },
+  "own-system": { short: "Own the system", film: evidenceFilm, poster: evidencePoster, offset: 10.8, filmPosition: "44% 45%" },
+  "team-decides": { short: "Team decides", film: signalsFilm, poster: signalsPoster, offset: 13.2, filmPosition: "36% 52%" },
+  "business-first": { short: "Business first", film: readyFilm, poster: readyPoster, offset: 15.4, filmPosition: "74% 50%" },
+  "market-moves": { short: "Market moves", film: signalsFilm, poster: signalsPoster, offset: 17.1, filmPosition: "74% 54%" },
 };
 
 const escapeHtml = (value: string) => value.replace(/[&<>"']/g, (character) => ({
   "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;",
 }[character] ?? character));
 
-function mechanismGlyph(kind: MechanismKind, large = false) {
-  const view = large ? "0 0 520 240" : "0 0 220 74";
-  const stroke = "currentColor";
-  const mint = "#87e7bd";
-  const paper = "#eadcc1";
-  const body: Record<MechanismKind, string> = {
-    span: `<g class="phase-a" fill="none" stroke="${stroke}" stroke-width="${large ? 4 : 2}"><path d="M${large ? 32 : 14} ${large ? 86 : 29}H${large ? 464 : 202}"/><path d="M${large ? 32 : 14} ${large ? 68 : 21}V${large ? 104 : 37}M${large ? 464 : 202} ${large ? 68 : 21}V${large ? 104 : 37}"/></g><g class="phase-b travel"><rect x="${large ? 394 : 170}" y="${large ? 124 : 43}" width="${large ? 70 : 30}" height="${large ? 45 : 16}" fill="${mint}"/><circle cx="${large ? 486 : 211}" cy="${large ? 146 : 51}" r="${large ? 10 : 4}" fill="${paper}"/></g>`,
-    offer: `<g class="phase-a" fill="none" stroke="${stroke}" stroke-width="${large ? 3 : 1.5}">${[0, 1, 2, 3].map((i) => `<path d="M${large ? 36 : 16} ${large ? 58 + i * 30 : 18 + i * 11}C${large ? 170 : 72} ${large ? 40 + i * 24 : 14 + i * 9} ${large ? 250 : 110} ${large ? 70 + i * 20 : 25 + i * 8} ${large ? 310 : 134} ${large ? 110 : 38}"/>`).join("")}</g><g class="phase-b travel"><rect x="${large ? 310 : 134}" y="${large ? 76 : 26}" width="${large ? 168 : 72}" height="${large ? 92 : 32}" rx="${large ? 3 : 1}" fill="none" stroke="${mint}" stroke-width="${large ? 4 : 2}"/><path d="M${large ? 326 : 141} ${large ? 104 : 36}H${large ? 456 : 197}M${large ? 326 : 141} ${large ? 128 : 45}H${large ? 426 : 184}" stroke="${mint}" stroke-width="${large ? 3 : 1.5}"/></g>`,
-    pilots: `<path class="phase-a" d="M${large ? 60 : 26} ${large ? 176 : 59}A${large ? 150 : 64} ${large ? 150 : 50} 0 0 1 ${large ? 460 : 198} ${large ? 176 : 59}" fill="none" stroke="${stroke}" stroke-width="${large ? 4 : 2}"/><g class="phase-b travel" fill="none" stroke="${mint}" stroke-width="${large ? 5 : 2}"><circle cx="${large ? 220 : 94}" cy="${large ? 116 : 39}" r="${large ? 34 : 13}"/><circle cx="${large ? 340 : 146}" cy="${large ? 96 : 33}" r="${large ? 34 : 13}"/><path d="M${large ? 204 : 87} ${large ? 116 : 39}l${large ? 12 : 5} ${large ? 12 : 5} ${large ? 22 : -10} ${large ? -26 : 9}M${large ? 324 : 139} ${large ? 96 : 33}l${large ? 12 : 5} ${large ? 12 : 5} ${large ? 22 : -10} ${large ? -26 : 9}"/></g>`,
-    handoff: `<g class="phase-a" stroke="${stroke}" stroke-width="${large ? 3 : 1.5}"><path d="M${large ? 38 : 16} ${large ? 164 : 56}H${large ? 476 : 205}"/>${Array.from({ length: 8 }, (_, i) => `<path d="M${large ? 52 + i * 54 : 22 + i * 23} ${large ? 152 : 52}V${large ? 176 : 60}"/>`).join("")}${Array.from({ length: 5 }, (_, i) => `<circle cx="${large ? 52 + i * 17 : 22 + i * 8}" cy="${large ? 124 : 42}" r="${large ? 7 : 3}" fill="${paper}"/>`).join("")}</g><g class="phase-b travel" fill="none" stroke="${mint}" stroke-width="${large ? 5 : 2}"><circle cx="${large ? 410 : 176}" cy="${large ? 96 : 33}" r="${large ? 28 : 12}"/><path d="M${large ? 382 : 164} ${large ? 96 : 33}H${large ? 260 : 112}v${large ? 26 : 9}h${large ? 42 : 18}"/></g>`,
-    cadence: `<g class="phase-a" fill="none" stroke="${stroke}" stroke-width="${large ? 4 : 2}"><path d="M${large ? 36 : 15} ${large ? 144 : 49}H${large ? 484 : 208}"/><path d="M${large ? 94 : 40} ${large ? 144 : 49}V${large ? 70 : 24}"/></g><g class="phase-b" stroke="${mint}" stroke-width="${large ? 4 : 2}"><path d="M${large ? 36 : 15} ${large ? 144 : 49}H${large ? 484 : 208}"/>${Array.from({ length: 10 }, (_, i) => `<path d="M${large ? 180 + i * 28 : 77 + i * 12} ${large ? 144 : 49}V${large ? (i % 3 === 0 ? 68 : 92) : (i % 3 === 0 ? 23 : 31)}"/>`).join("")}</g>`,
-    decisions: `<g class="phase-a" fill="${paper}" opacity=".75">${Array.from({ length: 14 }, (_, i) => { const angle = (i / 14) * Math.PI * 2; const x = (large ? 258 : 110) + Math.cos(angle) * (large ? 150 : 60); const y = (large ? 120 : 37) + Math.sin(angle) * (large ? 80 : 25); return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${large ? 5 : 2.2}"/>`; }).join("")}</g><g class="phase-b travel" fill="none" stroke="${mint}" stroke-width="${large ? 7 : 3}"><path d="M${large ? 258 : 110} ${large ? 120 : 37}L${large ? 420 : 181} ${large ? 54 : 18}"/><path d="M${large ? 258 : 110} ${large ? 120 : 37}L${large ? 438 : 189} ${large ? 120 : 37}"/><path d="M${large ? 258 : 110} ${large ? 120 : 37}L${large ? 420 : 181} ${large ? 188 : 63}"/></g>`,
-    switches: `<g transform="translate(${large ? 45 : 19} ${large ? 54 : 17})">${Array.from({ length: 14 }, (_, i) => { const x = (i % 7) * (large ? 58 : 24); const y = Math.floor(i / 7) * (large ? 84 : 28); const off = i > 2; return `<g class="switch ${off ? "is-off" : ""}" transform="translate(${x} ${y})"><rect width="${large ? 34 : 14}" height="${large ? 58 : 20}" rx="${large ? 4 : 2}" fill="none" stroke="${off ? stroke : mint}" stroke-width="${large ? 3 : 1.5}"/><circle cx="${large ? 17 : 7}" cy="${large ? 16 : 6}" r="${large ? 6 : 2.5}" fill="${off ? paper : mint}"/></g>`; }).join("")}</g>`,
-    route: `<g fill="none" stroke-width="${large ? 5 : 2}"><path class="phase-a" d="M${large ? 36 : 15} ${large ? 120 : 40}H${large ? 472 : 203}" stroke="${stroke}"/><path class="phase-b" d="M${large ? 36 : 15} ${large ? 120 : 40}H${large ? 210 : 90}Q${large ? 270 : 116} ${large ? 120 : 40} ${large ? 304 : 131} ${large ? 72 : 24}H${large ? 472 : 203}" stroke="${mint}"/><circle class="travel" cx="${large ? 444 : 191}" cy="${large ? 72 : 24}" r="${large ? 12 : 5}" fill="${mint}" stroke="none"/></g>`,
-  };
-  return `<svg viewBox="${view}" aria-hidden="true" focusable="false">${body[kind]}</svg>`;
-}
 
 function scopeCss(source: string, root: string) {
-  const withoutFonts = source.replace(/@font-face\s*\{[^}]*\}/g, "");
+  /* Comments come out before anything else is parsed. The transform below finds
+     rules by looking for the next brace, so a comment sitting between two rules
+     is read as part of the following selector — which means a stylesheet that
+     documents its own sections emits `<root> /* note *\/ .selector`, a selector
+     that matches nothing. A banner comment above an @media rule is worse: the
+     header no longer starts with "@media", the whole block takes the plain-rule
+     path, and every rule inside it ships unscoped and silently inert. That is
+     how the entire phone composition came to be absent from the built page
+     while the stylesheet on disk was correct. A stray brace inside a comment
+     (`#record-{id}`) desynchronises the same counter. */
+  const withoutComments = source.replace(/\/\*[\s\S]*?\*\//g, "");
+  const withoutFonts = withoutComments.replace(/@font-face\s*\{[^}]*\}/g, "");
   const transform = (input: string): string => {
     let output = "";
     let cursor = 0;
@@ -105,39 +94,110 @@ ${root} .field-intro{grid-template-columns:minmax(0,1fr)}
 }
 @media(max-width:860px){
   ${root} .site-head-space{height:var(--mm-header-height)}
-  ${root} .field-intro,${root} .proof-field{width:calc(100% - (2 * max(var(--mm-gutter),var(--mm-safe-left),var(--mm-safe-right))));margin-inline:auto}
-  ${root} .field-intro{padding-inline:0}
-  ${root} .proof-shell[data-mode="story"] .proof-field{margin-inline:auto}
-  ${root} .region-list{grid-template-rows:repeat(4,minmax(82px,auto))}
-  ${root} .region{min-height:82px}
-  ${root} .region-hit,${root} .region[data-index="2"] .region-hit,${root} .region[data-index="5"] .region-hit,${root} .region[data-index="6"] .region-hit{position:relative;inset:auto;height:auto;min-height:82px;overflow-wrap:anywhere}
-  ${root} .region-copy strong{overflow-wrap:anywhere}
-  ${root} .mobile-dock{bottom:var(--mm-cookie-reserve,0px)}
-}
-@media(max-width:280px){
-  ${root} .region-list{grid-template-columns:1fr;grid-template-rows:none}
+  ${root} .proof-shell{grid-template-rows:var(--mm-header-height) auto minmax(0,1fr) auto auto}
+  ${root} .field-intro{width:calc(100% - (2 * max(var(--mm-gutter),var(--mm-safe-left),var(--mm-safe-right))));margin-inline:auto;padding-inline:0}
+  ${root} .expanded-head h2{overflow-wrap:anywhere}
+  ${root} .mobile-dock{padding-bottom:calc(env(safe-area-inset-bottom,0px) + var(--mm-cookie-reserve,0px))}
 }`;
+}
+
+/**
+ * StoryFigureView, emitted as markup.
+ *
+ * The field builds its regions as a string, so the figure has to be a string
+ * too. Every number below is read from the record's own `story.figure`; the
+ * class names and element order match the React component exactly, so the two
+ * render identically and the stylesheet serves both.
+ */
+function storyFigureMarkup(figure: ClientStory["figure"]) {
+  const labels = (from: string, to: string) => `<p><span>${escapeHtml(from)}</span><span>${escapeHtml(to)}</span></p>`;
+  if (figure.shape === "span") {
+    const resolved = Math.max(3, Math.sqrt(figure.to / figure.from) * 100);
+    return `<div class="mm-fig mm-fig-span" data-fig="span" data-resolved="${resolved.toFixed(2)}">
+      <span class="mm-fig-bar is-was" style="width:100%"></span>
+      <span class="mm-fig-bar is-now" style="width:${resolved.toFixed(2)}%"></span>
+      ${labels(figure.fromLabel, figure.toLabel)}
+    </div>`;
+  }
+  if (figure.shape === "focus") {
+    const total = Math.max(figure.from, figure.to);
+    const marks = Array.from({ length: total }, (_, i) => `<i class="${i < figure.to ? "is-kept" : "is-dim"}"></i>`).join("");
+    return `<div class="mm-fig mm-fig-focus" data-fig="focus" data-kept="${figure.to}">
+      <div class="mm-fig-marks" aria-hidden="true">${marks}</div>
+      <p class="mm-fig-pair"><b>${figure.from}</b><span aria-hidden="true">→</span><b>${figure.to}</b></p>
+      ${labels(figure.fromLabel, figure.toLabel)}
+    </div>`;
+  }
+  if (figure.shape === "cadence") {
+    const cells = Array.from({ length: 28 }, (_, i) => `<i class="${i < figure.to ? "is-on" : ""}"></i>`).join("");
+    return `<div class="mm-fig mm-fig-cadence" data-fig="cadence" data-from="${figure.from}" data-to="${figure.to}">
+      <div class="mm-fig-month" aria-hidden="true">${cells}</div>
+      ${labels(figure.fromLabel, figure.toLabel)}
+    </div>`;
+  }
+  if (figure.shape === "count") {
+    return `<div class="mm-fig mm-fig-count" data-fig="count" data-value="${figure.value}">
+      <p class="mm-fig-value">${figure.value}</p>
+      <p class="mm-fig-label">${escapeHtml(figure.label)}</p>
+      <p class="mm-fig-within">${escapeHtml(figure.within)}</p>
+    </div>`;
+  }
+  const scatter = [[8, 30], [26, 12], [44, 38], [62, 18], [80, 34], [98, 22]];
+  const marks = scatter.map((_, i) => `<rect class="mm-fig-mark is-set" x="${(14 + i * 18.6).toFixed(1)}" y="28" width="12" height="4" rx="1"/>`).join("");
+  return `<div class="mm-fig mm-fig-offer" data-fig="offer" data-scatter="${scatter.map(([x, y]) => `${x},${y}`).join(" ")}">
+    <svg viewBox="0 0 120 56" aria-hidden="true" preserveAspectRatio="none">
+      <rect class="mm-fig-frame" x="4" y="8" width="112" height="40" rx="2"/>${marks}
+    </svg>
+    ${labels(figure.before, figure.after)}
+  </div>`;
+}
+
+/**
+ * Passages the phone card cannot hold at a size worth reading.
+ *
+ * The record is never edited. The run named here is wrapped and hidden on the
+ * phone alone, with an ellipsis shown in its place; desktop renders every word
+ * and the full quotation stays in the DOM byte-exact either way. Each entry
+ * must be the literal tail of the passage it belongs to, and the build throws
+ * if a record is reworded out from under it rather than quietly showing a
+ * sentence that no longer ends where it should.
+ */
+const PHONE_ELISION: Record<string, { quote?: string; outcome?: string }> = {
+  "day-one": { outcome: ", and build comes back for review in twelve months, once the data is stronger." },
+  "hand-back": { quote: ". I'd had an AI mentor before who was way too technical. Krish thinks about me and the results I need." },
+  "own-system": { quote: ". I used to post once a month; now it's most days because I focus on building an AI engine around what I do and what I get bottlenecked by. It's helping me be seen by my customers." },
+  "team-decides": { quote: ". Cheers to Krish for leading and landing." },
+  "market-moves": { quote: ". We trusted he would deliver." },
+};
+
+function elided(text: string, tail: string | undefined, id: string, field: string) {
+  if (!tail) return escapeHtml(text);
+  if (!text.endsWith(tail)) throw new Error(`Phone elision for ${id} no longer matches the ${field} in the record`);
+  const kept = text.slice(0, text.length - tail.length);
+  return `${escapeHtml(kept)}<span class="q-cut">${escapeHtml(tail)}</span><span class="q-gap" aria-hidden="true">…</span>`;
 }
 
 function storyMarkup(story: ClientStory, index: number) {
   const presentation = PRESENTATION[story.id];
   if (!presentation) throw new Error(`No proof-field presentation for ${story.id}`);
   const position = String(index + 1).padStart(2, "0");
-  const endpoints = presentation.before && presentation.after
-    ? `<div class="endpoint-labels"><span>${escapeHtml(presentation.before)}</span><span>${escapeHtml(presentation.after)}</span></div>`
-    : "";
-  return `<li class="region" data-index="${index}" data-story="${escapeHtml(story.id)}">
+  const cut = PHONE_ELISION[story.id] ?? {};
+  const id = escapeHtml(story.id);
+  return `<li class="region" data-index="${index}" data-story="${id}">
     <video class="region-film" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-film-src="${escapeHtml(presentation.film)}" data-offset="${presentation.offset}" style="object-position:${presentation.filmPosition}" poster="${escapeHtml(presentation.poster)}"></video>
-    <a class="region-hit" href="#record-${escapeHtml(story.id)}" aria-controls="detail-${escapeHtml(story.id)}" data-open-story="${escapeHtml(story.id)}">
+    <a class="region-hit" href="#record-${id}" aria-controls="record-${id}" data-open-story="${id}">
       <span class="region-kicker"><b>${position}</b></span>
-      <span class="region-copy"><small>${escapeHtml(presentation.short)}</small><strong>${escapeHtml(story.result)}</strong></span>
-      <span class="region-glyph phase-result">${mechanismGlyph(presentation.kind)}</span>
+      <span class="region-copy"><small>${escapeHtml(presentation.short)}</small><strong>${escapeHtml(story.result)}</strong><cite>${escapeHtml(story.attribution)}</cite></span>
     </a>
-    <section class="expanded phase-result" id="detail-${escapeHtml(story.id)}" aria-labelledby="title-${escapeHtml(story.id)}" hidden>
-      <header class="expanded-head"><p>${position} / 08 · ${escapeHtml(story.title)}</p><h2 id="title-${escapeHtml(story.id)}" tabindex="-1">${escapeHtml(story.result)}</h2></header>
-      <div class="expanded-visual"><div class="mechanism">${mechanismGlyph(presentation.kind, true)}</div>${endpoints}</div>
-      <div class="expanded-copy"><p>${escapeHtml(story.outcome)}</p></div>
-      <footer class="expanded-actions"><div><button type="button" data-toggle-phase>Show starting point</button><a href="#record-${escapeHtml(story.id)}" data-full-case="${escapeHtml(story.id)}">See the source record</a></div><span class="position">Case archive · ${position} of 08</span><button type="button" data-close-story>All eight</button></footer>
+    <section class="expanded" id="record-${id}" aria-labelledby="title-${id}">
+      <button class="expanded-close" type="button" data-close-story aria-label="Close this record, return to all eight"><span aria-hidden="true">✕</span></button>
+      <header class="expanded-head"><p>${position} / 08 · ${escapeHtml(story.title)}</p><h2 id="title-${id}" tabindex="-1">${escapeHtml(story.result)}</h2></header>
+      <div class="expanded-visual">${storyFigureMarkup(story.figure)}</div>
+      <div class="expanded-copy">
+        <p>${elided(story.outcome, cut.outcome, story.id, "outcome")}</p>
+        <blockquote><p>${elided(story.quote, cut.quote, story.id, "quote")}</p><cite>${escapeHtml(story.attribution)}</cite></blockquote>
+      </div>
+      <footer class="expanded-actions"><div><button type="button" data-toggle-phase>Show starting point</button></div><span class="position">Case archive · ${position} of 08</span><button type="button" data-close-story>All eight</button></footer>
     </section>
   </li>`;
 }
@@ -271,6 +331,45 @@ export function CaseProofField({ stories }: { stories: ClientStory[] }) {
       const url = story ? `#story=${story}&phase=${nextPhase}` : "#overview";
       history[mode === "replace" ? "replaceState" : "pushState"]({ story, phase: nextPhase }, "", url);
     };
+    const setFigure = (fig: HTMLElement, atResult: boolean) => {
+      const kind = fig.dataset.fig;
+      if (kind === "span") {
+        const now = fig.querySelector<HTMLElement>(".mm-fig-bar.is-now");
+        if (now) now.style.width = `${atResult ? Number(fig.dataset.resolved || 0) : 2}%`;
+        return;
+      }
+      if (kind === "focus") {
+        const kept = Number(fig.dataset.kept || 0);
+        fig.querySelectorAll<HTMLElement>(".mm-fig-marks i").forEach((mark, index) => {
+          mark.className = atResult ? (index < kept ? "is-kept" : "is-dim") : "";
+        });
+        const pair = fig.querySelectorAll<HTMLElement>(".mm-fig-pair b");
+        if (pair.length === 2) pair[1].style.opacity = atResult ? "1" : ".28";
+        return;
+      }
+      if (kind === "cadence") {
+        const on = atResult ? Number(fig.dataset.to || 0) : Number(fig.dataset.from || 0);
+        fig.querySelectorAll<HTMLElement>(".mm-fig-month i").forEach((cell, index) => {
+          cell.className = index < on ? "is-on" : "";
+        });
+        return;
+      }
+      if (kind === "count") {
+        const node = fig.querySelector<HTMLElement>(".mm-fig-value");
+        if (node) node.textContent = String(atResult ? Number(fig.dataset.value || 0) : 0);
+        return;
+      }
+      if (kind === "offer") {
+        const scatter = (fig.dataset.scatter || "").trim().split(/\s+/).map((pair) => pair.split(",").map(Number));
+        fig.querySelectorAll<SVGRectElement>(".mm-fig-mark").forEach((mark, index) => {
+          const start = scatter[index] ?? [8, 28];
+          mark.setAttribute("x", atResult ? String(14 + index * 18.6) : String(start[0]));
+          mark.setAttribute("y", atResult ? "28" : String(start[1]));
+          mark.setAttribute("width", atResult ? "12" : "4");
+          mark.classList.toggle("is-set", atResult);
+        });
+      }
+    };
     const applyPhase = (nextPhase: "start" | "result", announce = true) => {
       phase = nextPhase;
       shell.dataset.phase = phase;
@@ -280,10 +379,12 @@ export function CaseProofField({ stories }: { stories: ClientStory[] }) {
       if (!selectedRegion) return;
       const expanded = selectedRegion.querySelector<HTMLElement>(".expanded");
       if (!expanded) return;
-      expanded.classList.toggle("phase-start", phase === "start");
-      expanded.classList.toggle("phase-result", phase === "result");
+      expanded.querySelectorAll<HTMLElement>("[data-fig]").forEach((fig) => setFigure(fig, phase === "result"));
       const button = expanded.querySelector<HTMLButtonElement>("[data-toggle-phase]");
-      if (button) button.textContent = phase === "result" ? "Show starting point" : "Show recorded result";
+      if (button) {
+        button.textContent = phase === "result" ? "Show starting point" : "Show the result";
+        button.setAttribute("aria-pressed", phase === "result" ? "false" : "true");
+      }
       if (announce) live.textContent = `${PRESENTATION[activeId]?.short}: ${phase === "result" ? "recorded result" : "starting point"}.`;
     };
     const openStory = (id: string, nextPhase: "start" | "result" = "result", options: { originIndex?: number; fromHistory?: boolean; replace?: boolean } = {}) => {
@@ -296,13 +397,10 @@ export function CaseProofField({ stories }: { stories: ClientStory[] }) {
       animateLayout(() => {
         shell.dataset.mode = "story";
         shell.dataset.side = side;
-        dock.hidden = !isCompact();
         regions.forEach((region, regionIndex) => {
           const active = region.dataset.story === id;
           region.classList.toggle("is-selected", active);
           region.querySelector<HTMLElement>(".region-hit")?.setAttribute("aria-expanded", String(active));
-          const expanded = region.querySelector<HTMLElement>(".expanded");
-          if (expanded) expanded.hidden = !active;
           const open = region.querySelector<HTMLAnchorElement>(".region-hit");
           if (open) open.tabIndex = active ? -1 : 0;
           if (!active) region.style.order = String(regionIndex < index ? regionIndex : regionIndex - 1);
@@ -328,13 +426,10 @@ export function CaseProofField({ stories }: { stories: ClientStory[] }) {
         shell.dataset.mode = "overview";
         shell.dataset.phase = "result";
         delete shell.dataset.side;
-        dock.hidden = true;
         regions.forEach((region) => {
           region.classList.remove("is-selected");
           region.style.order = "";
           region.querySelector<HTMLElement>(".region-hit")?.setAttribute("aria-expanded", "false");
-          const expanded = region.querySelector<HTMLElement>(".expanded");
-          if (expanded) expanded.hidden = true;
         });
         setRoving(target);
       });
@@ -366,6 +461,7 @@ export function CaseProofField({ stories }: { stories: ClientStory[] }) {
     openButtons.forEach((button, index) => {
       listen(button, "click", ((event: MouseEvent) => {
         event.preventDefault();
+        if (isCompact()) { railTo(index); return; }
         openStory(button.dataset.openStory ?? "", "result", { originIndex: index });
       }) as EventListener);
       listen(button, "focus", () => setRoving(index));
@@ -390,45 +486,46 @@ export function CaseProofField({ stories }: { stories: ClientStory[] }) {
       const target = event.target as Element;
       const toggle = target.closest<HTMLElement>("[data-toggle-phase]");
       const close = target.closest<HTMLElement>("[data-close-story]");
-      const fullCase = target.closest<HTMLAnchorElement>("[data-full-case]");
       if (toggle && selected) {
         applyPhase(phase === "result" ? "start" : "result");
         writeUrl(selected, phase, "replace");
         sessionStorage.setItem("mindmake-proof-field", JSON.stringify({ story: selected, phase, originIndex }));
       }
       if (close) closeStory();
-      if (fullCase) {
-        event.preventDefault();
-        const id = fullCase.dataset.fullCase;
-        closeStory({ fromHistory: true, focus: false });
-        const destination = id ? document.getElementById(`record-${id}`) : null;
-        if (destination) {
-          history.pushState({ story: null, phase: "result" }, "", `#record-${id}`);
-          destination.focus({ preventScroll: true });
-          destination.scrollIntoView({ behavior: reducedMotion.matches ? "auto" : "smooth", block: "start" });
-        }
-      }
     }) as EventListener);
-    listen(root.querySelector<HTMLElement>("[data-mobile-back]")!, "click", () => closeStory());
-    listen(root.querySelector<HTMLElement>("[data-mobile-prev]")!, "click", () => {
-      if (!selected) return;
-      const index = stories.findIndex((story) => story.id === selected);
-      const next = (index - 1 + stories.length) % stories.length;
-      openStory(stories[next].id, "result", { originIndex: next });
-    });
-    listen(root.querySelector<HTMLElement>("[data-mobile-next]")!, "click", () => {
-      if (!selected) return;
-      const index = stories.findIndex((story) => story.id === selected);
-      const next = (index + 1) % stories.length;
-      openStory(stories[next].id, "result", { originIndex: next });
-    });
-    const visitArchive = (event: Event) => {
-      event.preventDefault();
-      closeStory({ fromHistory: true, focus: false });
-      history.pushState({ story: null, phase: "result" }, "", "#case-archive");
-      document.getElementById("case-archive")?.scrollIntoView({ behavior: reducedMotion.matches ? "auto" : "smooth" });
+    const segments = Array.from(root.querySelectorAll<HTMLElement>("[data-rail-segments] i"));
+    const position = root.querySelector<HTMLElement>("[data-mobile-position]");
+    const railIndex = () => {
+      const middle = list.scrollLeft + list.clientWidth / 2;
+      let best = 0;
+      let bestGap = Infinity;
+      regions.forEach((region, index) => {
+        const gap = Math.abs(region.offsetLeft + region.offsetWidth / 2 - middle);
+        if (gap < bestGap) { bestGap = gap; best = index; }
+      });
+      return best;
     };
-    root.querySelectorAll("[data-case-archive]").forEach((link) => listen(link, "click", visitArchive));
+    const syncRail = () => {
+      if (!isCompact()) return;
+      const index = railIndex();
+      if (position) position.textContent = `${String(index + 1).padStart(2, "0")} / 08`;
+      segments.forEach((segment, segmentIndex) => segment.classList.toggle("is-on", segmentIndex === index));
+    };
+    const railTo = (index: number) => {
+      const region = regions[Math.max(0, Math.min(regions.length - 1, index))];
+      if (!region) return;
+      list.scrollTo({
+        left: region.offsetLeft - (list.clientWidth - region.offsetWidth) / 2,
+        behavior: reducedMotion.matches ? "auto" : "smooth",
+      });
+    };
+    let railFrame = 0;
+    listen(list, "scroll", () => {
+      window.cancelAnimationFrame(railFrame);
+      railFrame = window.requestAnimationFrame(() => { syncRail(); syncFilms(); });
+    }, { passive: true } as AddEventListenerOptions);
+    listen(root.querySelector<HTMLElement>("[data-mobile-prev]")!, "click", () => railTo(railIndex() - 1));
+    listen(root.querySelector<HTMLElement>("[data-mobile-next]")!, "click", () => railTo(railIndex() + 1));
     listen(document, "keydown", ((event: KeyboardEvent) => {
       if (event.key === "Escape" && selected) { event.preventDefault(); closeStory(); }
     }) as EventListener);
@@ -437,11 +534,13 @@ export function CaseProofField({ stories }: { stories: ClientStory[] }) {
       if (state.story) openStory(state.story, state.phase, { fromHistory: true, originIndex: stories.findIndex((story) => story.id === state.story) });
       else if (selected) closeStory({ fromHistory: true });
     });
-    listen(window, "resize", () => { dock.hidden = !(selected && isCompact()); syncFilms(); });
+    listen(window, "resize", () => { dock.hidden = !isCompact(); syncRail(); syncFilms(); });
     listen(document, "visibilitychange", syncFilms);
     listen(reducedMotion, "change", () => { if (filmMayMove()) setOffsets(); syncFilms(); });
     if (connection) listen(connection, "change", () => { saveData = Boolean(connection.saveData); if (filmMayMove()) setOffsets(); syncFilms(); });
 
+    dock.hidden = !isCompact();
+    syncRail();
     setRoving(0);
     const initial = hashState();
     if (initial.story) openStory(initial.story, initial.phase, { fromHistory: true, originIndex: stories.findIndex((story) => story.id === initial.story) });
@@ -471,12 +570,17 @@ export function CaseProofField({ stories }: { stories: ClientStory[] }) {
         <section className="proof-field" aria-label="Eight client stories" data-copy-boundary>
           <ol className="region-list" dangerouslySetInnerHTML={{ __html: markup }} />
         </section>
-        <nav className="mobile-dock" aria-label="Case study controls" hidden>
-          <button type="button" data-mobile-back>All eight</button>
-          <button type="button" data-mobile-prev aria-label="Previous case study">←</button>
+        {/* Eight marks, the current one lit. It ships in the served document so
+            the rail reads as a rail before any script runs, and so does the
+            dock: the phone's controls are not chrome that appears once
+            something is open, because on the phone nothing is closed. */}
+        <div className="rail-segments" aria-hidden="true" data-rail-segments>
+          {Array.from({ length: 8 }, (_, index) => <i className={index === 0 ? "is-on" : undefined} key={index} />)}
+        </div>
+        <nav className="mobile-dock" aria-label="Case study controls">
+          <button type="button" data-mobile-prev aria-label="Previous record">←</button>
           <span data-mobile-position>01 / 08</span>
-          <button type="button" data-mobile-next aria-label="Next case study">→</button>
-          <a href="#case-archive" data-case-archive aria-label="Open the full case-study archive">Archive ↗</a>
+          <button type="button" data-mobile-next aria-label="Next record">→</button>
         </nav>
         <p className="sr-only" aria-live="polite" data-live />
       </section>

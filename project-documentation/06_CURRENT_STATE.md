@@ -149,11 +149,19 @@ owns payload, privacy, retention, email and failure-path contracts.
   below the footer at every width, desktop included. Measured after the move on
   the built artifact: `position: fixed` and a 72.19px reserve at 390x844 with a
   coarse pointer, `display: none` at 1440x900. No declaration changed.
-- Held, not implemented, pending a decision recorded in `history/LOG.md`:
-  renaming every "Start here" to "Get a free live session", and a three-button
-  sticky bar on the homepage. The first is a public offer claim the lead flow
-  does not deliver; the second fails the one-way-in rule and would change the
-  immutable approved R3.
+- Also on the branch and not live, bounded by
+  `quality/route-lock/approved-production-r20.json`: every way in now reads
+  `START_LABEL` from `src/lib/publicLinks.ts` ("Get your free AI brief"), and
+  the action bar carries two slots at every width: at most one door, which is
+  the offer route the reader is not on, then the one action. It stands down
+  whenever a page's own primary action is on screen. The immutable approved R3
+  homepage is untouched and is the one surface still reading "Start here".
+  Owner approval and candidate verification for r20 are outstanding.
+- The release browser matrix runs one engine per leg. It is the same 208 cases
+  on the same frozen artifact; Chromium and Firefox simply no longer queue
+  behind each other on one Linux runner. Measured before the change on run
+  36067326051: 9m10s total, of which one step was 6m25s. Unverified until the
+  split matrix has actually run.
 
 Do not promote old DNS/mailbox, CTRL-host or cache observations into fresh facts
 without new readback. CONTACT_EMAIL in src/lib/publicLinks.ts is the approved

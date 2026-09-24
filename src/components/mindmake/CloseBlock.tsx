@@ -1,6 +1,7 @@
 import { Instrument, type InstrumentKind } from "@/components/mindmake/Instrument";
 import { ScrubText } from "@/components/mindmake/ScrubText";
 import { track } from "@/lib/analytics";
+import { START_LABEL } from "@/lib/publicLinks";
 
 import type { BriefRoute } from "@/components/mindmake/leadDelivery";
 
@@ -106,7 +107,7 @@ export function CloseBlock({ claim, body, onStart, ground, instrument, panelId, 
               onStart?.();
             }}
           >
-            Start here <span aria-hidden="true">→</span>
+            {START_LABEL} <span aria-hidden="true">→</span>
           </button>
         )}
       </div>

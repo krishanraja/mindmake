@@ -765,58 +765,77 @@ html {
 }
 .mm-footer small { color: var(--mm-mut); font-family: var(--mm-mono); font-size: 10.5px; letter-spacing: .05em; }
 
-/* The phone's way in, owned here rather than in mindmake-instruments.css.
-   The bar is rendered by MindmakeShell on every route that opts in, but its
-   rules used to sit in the instruments stylesheet, which only /case-studies
-   and the legacy /ai-brain source import. On every other shell route the
-   component therefore shipped with no CSS at all: `display` computed to
-   `block`, `position` to `static`, and a bare green button rendered below the
-   footer at every width. It lives beside --mm-bar-reserve and the .mm-footer
-   rule that reads it, which is the rest of the same contract. */
-/* The primary action, pinned on a phone and nowhere else. It appears once the
-   reader has left the first screen, because the hero has its own actions and a
-   fixed bar would land on them. */
-.mm-action-bar { display: none; }
-@media (max-width: 767px) and (any-pointer: coarse) {
-  .mm-action-bar {
-    position: fixed;
-    left: 0;
-    right: 0;
-    /* Stacked on the privacy strip, from the height the strip publishes. The
-       strip is flush to the bottom of the screen and this sits on top of it,
-       so the two are never apart and never overlap. */
-    bottom: var(--mm-cookie-reserve, 0px);
-    z-index: 40;
-    display: flex;
-    justify-content: center;
-    border-top: 1px solid var(--mm-line);
-    background: rgba(10, 16, 13, .94);
-    backdrop-filter: blur(8px);
-    /* The home indicator's inset is only this bar's to clear when this bar is
-       the thing on the bottom edge. With the privacy strip below it the strip
-       carries it, and adding it here as well left about 34px of empty bar on
-       an iPhone. `max()` resolves to zero the moment the strip is up. No gate
-       here can see this: Playwright does not emulate a safe-area inset. */
-    padding: 10px var(--mm-gutter) calc(10px + max(0px, var(--mm-safe-bottom) - var(--mm-cookie-reserve, 0px)));
-    transform: translateY(calc(110% + var(--mm-cookie-reserve, 0px)));
-    transition: transform .2s ease;
-  }
-  .mm-action-bar.is-shown { transform: translateY(0); }
-  .mm-action-bar .mm-button { width: 100%; max-width: 420px; }
-  /* It reserves its own measured height in --mm-bar-reserve, which the
-     footer reads and adds to the strip's, so it never covers the last thing
-     being read and the two reserves cannot cancel each other. */
-  @media (prefers-reduced-motion: reduce) {
-    .mm-action-bar { transition: none; }
-  }
-}
+/* The way in, pinned to the bottom of the screen.
+   Owned here rather than in mindmake-instruments.css, which only /case-studies
+   imports: on every other shell route the component used to ship with no CSS at
+   all, so `display` computed to `block`, `position` to `static`, and a bare
+   button rendered below the footer at every width. It lives beside
+   --mm-bar-reserve and the .mm-footer rule that reads it, which is the rest of
+   the same contract.
 
-@media (min-width: 760px) { .mm-story-archive-grid { grid-template-columns: 1fr 1fr; } }
-.mm-story-archive article {
+   It is no longer phone-only. Since the commercial surface moved to
+   /new-age-leadership alone, the shell routes have no way in of their own, and
+   the bar stands down by itself whenever a page's primary action is on screen,
+   so a wider viewport cannot produce two at once. */
+.mm-action-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  /* Stacked on the privacy strip, from the height the strip publishes. The
+     strip is flush to the bottom of the screen and this sits on top of it,
+     so the two are never apart and never overlap. */
+  bottom: var(--mm-cookie-reserve, 0px);
+  z-index: 40;
   display: flex;
-  flex-direction: column;
-  background: var(--mm-ink2);
-  padding: clamp(22px, 3vw, 34px);
+  justify-content: center;
+  border-top: 1px solid var(--mm-line);
+  background: rgba(10, 16, 13, .94);
+  backdrop-filter: blur(8px);
+  /* The home indicator's inset is only this bar's to clear when this bar is
+     the thing on the bottom edge. With the privacy strip below it the strip
+     carries it, and adding it here as well left about 34px of empty bar on
+     an iPhone. `max()` resolves to zero the moment the strip is up. No gate
+     here can see this: Playwright does not emulate a safe-area inset. */
+  padding: 10px var(--mm-edge) calc(10px + max(0px, var(--mm-safe-bottom) - var(--mm-cookie-reserve, 0px)));
+  transform: translateY(calc(110% + var(--mm-cookie-reserve, 0px)));
+  transition: transform .2s ease;
+}
+.mm-action-bar.is-shown { transform: translateY(0); }
+/* Two slots and never three: at most one door, then the one action. They share
+   the shell's measure so the action lands under the page's own right edge. */
+.mm-action-bar-inner {
+  width: 100%;
+  max-width: var(--mm-shell-max);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}
+.mm-action-bar-door {
+  margin-right: auto;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--mm-tx2);
+  font-family: var(--mm-mono);
+  font-size: 12px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.mm-action-bar-door:hover { color: var(--mm-mint); }
+/* It reserves its own measured height in --mm-bar-reserve, which the
+   footer reads and adds to the strip's, so it never covers the last thing
+   being read and the two reserves cannot cancel each other. */
+@media (max-width: 767px) {
+  /* A phone gets the action at full width. The door drops to a quiet line
+     above it rather than competing for the same row. */
+  .mm-action-bar-inner { flex-wrap: wrap; justify-content: center; gap: 8px; }
+  .mm-action-bar-door { margin-right: 0; width: 100%; justify-content: center; font-size: 11px; }
+  .mm-action-bar .mm-button { width: 100%; max-width: 420px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mm-action-bar { transition: none; }
 }
 
 /* Secondary public pages, on the same ground as the rest of the site. */

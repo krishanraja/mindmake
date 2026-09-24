@@ -4,7 +4,7 @@ import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import "@/styles/mindmake.css";
-import { CONTACT_EMAIL } from "@/lib/publicLinks";
+import { CONTACT_EMAIL, START_LABEL } from "@/lib/publicLinks";
 
 type ContactField = "name" | "email" | "message";
 type ContactErrors = Partial<Record<ContactField, string>>;
@@ -68,7 +68,7 @@ export default function Contact() {
             <h1 id="contact-title">Say hello.</h1>
             <p>For a business starting point, use the guided read. For everything else, send us a note here.</p>
             <button className="mm-text-link mm-contact-start" type="button" onClick={() => setBriefOpen(true)}>
-              Start here <ArrowRight aria-hidden="true" />
+              {START_LABEL} <ArrowRight aria-hidden="true" />
             </button>
           </div>
           <form className="mm-contact-form" onSubmit={submit} noValidate>

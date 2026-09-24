@@ -50,8 +50,18 @@ export const CookieConsent = () => {
     const notice = noticeRef.current;
     if (!notice) return;
 
+    /* The space the notice occupies at the bottom of the screen, which is its
+       height plus whatever gap it leaves under itself. On a phone it is a strip
+       flush to the bottom edge, so the gap is zero and this is exactly the
+       height it always published. On a desktop it is a corner card inset from
+       the bottom, and publishing the height alone put the action bar 14px into
+       it: the bar cleared 40px of card while the card's own top edge was 54px
+       up. Measured from the viewport rather than added as a constant, so a
+       change to the card's inset cannot leave a copy of it here to drift. */
     const publishReserve = () => {
-      root.style.setProperty("--mm-cookie-reserve", `${notice.getBoundingClientRect().height}px`);
+      const box = notice.getBoundingClientRect();
+      const occupied = Math.max(0, window.innerHeight - box.top);
+      root.style.setProperty("--mm-cookie-reserve", `${occupied}px`);
     };
 
     root.classList.add("mm-cookie-visible");

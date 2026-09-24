@@ -1,8 +1,8 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { MindmakeBrand } from "@/components/mindmake/MindmakeBrand";
-import { MobileActionBar } from "@/components/mindmake/MobileActionBar";
+import { SiteActionBar, type ActionBarDoor } from "@/components/mindmake/SiteActionBar";
 import { Link, useLocation } from "react-router-dom";
-import { PUBLICATION_URL } from "@/lib/publicLinks";
+import { PUBLICATION_URL, START_LABEL } from "@/lib/publicLinks";
 import { track } from "@/lib/analytics";
 
 interface MindmakeShellProps {
@@ -13,6 +13,19 @@ interface MindmakeShellProps {
   showMobileActionBar?: boolean;
   compactFooter?: boolean;
 }
+
+/**
+ * The door the action bar offers: the offer route the reader is not already on.
+ *
+ * Two entries and no default. On an editorial page neither route is more
+ * relevant than the other, and offering both would put three controls in a bar
+ * that is allowed two. The bar is where a reader acts, not where they browse;
+ * the menu and the footer carry the whole site.
+ */
+const ACTION_BAR_DOORS: Record<string, ActionBarDoor> = {
+  "/ai-brain": { to: "/ai-gtm", label: "Build your AI GTM" },
+  "/ai-gtm": { to: "/ai-brain", label: "Build your AI brain" },
+};
 
 export function MindmakeShell({
   children,
@@ -29,6 +42,7 @@ export function MindmakeShell({
   const mainRef = useRef<HTMLElement>(null);
   const footerRef = useRef<HTMLElement>(null);
   const location = useLocation();
+  const actionBarDoor = ACTION_BAR_DOORS[location.pathname];
 
   useEffect(() => {
     const update = () => setScrolled(window.scrollY > 24);
@@ -157,7 +171,7 @@ export function MindmakeShell({
           >
             Media
           </a>
-          <button type="button" onClick={startFromMenu}>Start here</button>
+          <button type="button" onClick={startFromMenu}>{START_LABEL}</button>
         </nav>
       </div>
 
@@ -192,9 +206,10 @@ export function MindmakeShell({
         </div>
       </footer>
 
-      {/* The primary action, pinned on a phone once the reader has left the
-          first screen. Nothing renders for it above the breakpoint. */}
-      {showMobileActionBar && <MobileActionBar onStart={onStart} />}
+      {/* The one way in, pinned to the bottom of the screen once the reader
+          has left the first screen, and standing down whenever the page's own
+          primary action is on screen. */}
+      {showMobileActionBar && <SiteActionBar onStart={onStart} door={actionBarDoor} label={START_LABEL} />}
     </div>
   );
 }

@@ -8,6 +8,7 @@ import {
 } from "react";
 import { Link } from "react-router-dom";
 import { track } from "@/lib/analytics";
+import { START_LABEL } from "@/lib/publicLinks";
 import readinessFilm from "@/assets/films/sep2026/ready-for-decision-loop-r01-20s-720p-web-sealed.mp4";
 import readinessPoster from "../../../../prototypes/website-redesign-recovery/case-study-browsing/media/ready-for-decision-loop-r01-20s-720p-web-sealed-poster.webp";
 import "@/styles/mindmake-commercial-decision-balance.css";
@@ -435,7 +436,7 @@ export function CommercialDecisionBalance({ context, onStart }: CommercialDecisi
           <p className="mm-decision-balance-contract">One real decision or capability becomes a working first version. We use it on real work. You keep the system, its proof and standards.</p>
           <p className="mm-decision-balance-boundary">Scope, duration and fee are agreed privately in writing before work starts.</p>
           <button ref={startRef} className="mm-decision-balance-start" type="button" data-mm-primary onClick={openDecision}>
-            <span><strong>Start here</strong><small>Get a first decision record before email</small></span><i aria-hidden="true">→</i>
+            <span><strong>{START_LABEL}</strong><small>Get a first decision record before email</small></span><i aria-hidden="true">→</i>
           </button>
         </section>
 

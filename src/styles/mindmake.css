@@ -390,9 +390,31 @@ html {
 }
 .mm-mono { font-family: var(--mm-mono); font-variant-numeric: tabular-nums; }
 
+/* The container starts on the gutter and ends wherever it ends.
+
+   The start margin used to be `auto` as well, which centres the box. For a
+   container at its own width that is the same edge, because `auto` resolves to
+   exactly the expression below; the two differ only once something narrows the
+   box, and then `auto` centres the narrower measure instead of shortening it.
+   Three blocks declare a narrower `max-width` on the container itself and
+   nobody had measured the result: at 1440 the article title (820px) started
+   210px inboard of the wordmark and the article body (720px) 260px, while the
+   author card and the related ideas under them, on the same container with no
+   max-width, stayed on the gutter; the legal sections (920px) sat 160px inboard
+   of their own heading. One page, three left edges, none of them the logo's.
+
+   Written as a percentage of the page's content box rather than reusing
+   `--mm-edge`, which is measured in `vw` and so counts a classic scrollbar this
+   box does not, so the two would disagree by half a scrollbar on Windows. The
+   end margin stays `auto`: that is what absorbs the shortfall. */
 .mm-container {
   width: min(var(--mm-shell-max), calc(100% - (2 * max(var(--mm-gutter), var(--mm-safe-left), var(--mm-safe-right)))));
-  margin-inline: auto;
+  margin-inline: max(
+    var(--mm-gutter),
+    var(--mm-safe-left),
+    var(--mm-safe-right),
+    calc((100% - var(--mm-shell-max)) / 2)
+  ) auto;
 }
 .mm-visually-hidden {
   position: absolute;
@@ -588,15 +610,31 @@ html {
 }
 .mm-site.mm-route-brain { --mm-header-inline: max(4vw, calc((100vw - 1600px) / 2)); }
 .mm-site.mm-route-gtm { --mm-header-inline: max(24px, calc((100vw - 1360px) / 2)); }
+/* /new-age-leadership draws its own masthead inside `.nal-page` and puts the
+   shared commercial block and the footer in a bare `.mm-site` beside it. Those
+   two are on the container's measure and the page above them is on the R5
+   surface's `--edge`, so the wordmark sat at 63px at 1440 while "Build one
+   useful AI system on real work." started at 100px, and at 1920 the gap was
+   72px against 340px. These mirror `--edge` in
+   src/styles/new-age-leadership-r5.css, including its two narrow overrides;
+   that file is generated from the approved prototype, so the mirror lives
+   here. */
+.mm-site.mm-route-leadership { --mm-header-inline: clamp(22px, 4.4vw, 72px); }
 @media (max-width: 700px) {
   .mm-site.mm-route-gtm { --mm-header-inline: max(16px, calc((100vw - 520px) / 2)); }
 }
+@media (max-width: 620px) {
+  .mm-site.mm-route-leadership { --mm-header-inline: 20px; }
+}
 @media (max-width: 360px) {
   .mm-site.mm-route-gtm { --mm-header-inline: 12px; }
+  .mm-site.mm-route-leadership { --mm-header-inline: 16px; }
 }
 /* The overlay and the footer take the same edge too, next to their own rules
    below, so a route never shows its wordmark on one measure and the navigation
-   under it on another. */
+   under it on another. The shared commercial block reads the same token in
+   src/styles/mindmake-commercial-decision-balance.css, because it is page-wide
+   chrome by any other name: it closes every route it appears on. */
 .mm-brand {
   min-height: 44px;
   display: inline-flex;

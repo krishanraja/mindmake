@@ -754,6 +754,90 @@
         "src/components/homepage-release/markup.ts, generated with one footer-routes rail",
         "artifacts/ideas-merge/2026-09-25/case-studies-footer-390x844.png and home-footer-390x844.png, the built footers on a phone"
       ]
+    },
+    {
+      "id": "LEAD-BRIEF-KEYBOARD-001",
+      "exactFeedback": "The keyboard interaction on this lead capture form on mobile is absolutely horrendous. It just is not usable at all.",
+      "source": "Krish, 25 September 2026, two Android Chrome screenshots (Samsung keyboard) of the lead dialog opened from a case-study page",
+      "surface": "the lead dialog (src/components/mindmake/LeadBrief.tsx) on every page that opens it",
+      "section": "Company, You, Contact and Verify steps",
+      "device": "mobile",
+      "element": "text fields with the software keyboard up, the sticky header and progress rail",
+      "classification": "correction",
+      "requiredOutcome": "With the keyboard up, the focused field, its label and its hint or error sit between the bottom of the sticky header and rail and the top of the keyboard; the rail never slides under the header; nothing shows through either; surnames are not autocorrected; return in First name moves to Last name; a pasted or typed six-digit code sends itself once.",
+      "acceptanceTest": "npm run qa:lead-keyboard passes at 390x844 and 320x568 with the visual viewport shrunk to the keyboard and to keyboard plus autofill strip, and fails against the previous main (negative control); src/test/LeadBrief.test.tsx covers reveal, keyboard detection, return key, paste and single auto-submit. Final acceptance is Krish repeating the same walk on his phone.",
+      "status": "implemented-awaiting-review",
+      "resolution": "The phone panel no longer subtracts the keyboard twice; the header has one height the rail pins under; the header and rail are opaque; a focused field is scrolled back into view by the panel alone only when it has left the visible band; the step change no longer takes focus back from a field; the page behind is locked on phones; every text field carries autocapitalize, autocorrect, spellcheck and enterkeyhint; the code field has no length cap, takes a paste and sends six digits once. Landscape phones (844x390) with the keyboard up are recorded as a known limit.",
+      "evidence": [
+        "scripts/qa/lead-keyboard-check.mjs: passes on this branch (33 observations); 60 blocking failures against main 95dfcc9, 18 of them fields under the header",
+        "src/test/LeadBrief.test.tsx: typing on a phone"
+      ]
+    },
+    {
+      "id": "LEAD-BRIEF-LOGO-001",
+      "exactFeedback": "Also there's a fake MindMake logo in the top left, which we need to legitimise and replace with the real one.",
+      "source": "Krish, 25 September 2026, two Android Chrome screenshots (Samsung keyboard) of the lead dialog opened from a case-study page",
+      "surface": "the lead dialog header",
+      "section": "header",
+      "device": "all",
+      "element": "the monospace MINDMAKE text top-left",
+      "classification": "correction",
+      "requiredOutcome": "The dialog header shows the real Mindmake mark and wordmark, readable on the ink, paper and forest steps, beside the approved S4 label (Start here, and Start here / Private brief on the desktop preview), with the close control on the right.",
+      "acceptanceTest": "src/test/LeadBrief.test.tsx finds the Mindmake image in the header with its own gradient ids and no link; the keyboard gate's screenshots show the lockup on paper and on the forest preview at 390x844 and 320x568.",
+      "status": "implemented-awaiting-review",
+      "resolution": "The text span is replaced by BrandMarks (instance dialog) from src/components/mindmake/MindmakeBrand.tsx; the header names --mm-tx and --mm-mint for each tone so the wordmark reads on paper. The emails and downloaded brief still use a text wordmark; the download moves to the vector logo with the Release 2 brief.",
+      "evidence": [
+        "src/test/LeadBrief.test.tsx: wears the real logo in its header",
+        "artifacts/lead-keyboard/390x844-profile-prefilled.png and 390x844-preview-header.png, produced by npm run qa:lead-keyboard"
+      ]
+    },
+    {
+      "id": "LEAD-BRIEF-NAME-PREFILL-001",
+      "exactFeedback": "It doesn't actually properly parse the email. Say, for example, if it's first name.last name@company.com, it should already prepopulate first name and last name in the next step.",
+      "source": "Krish, 25 September 2026, two Android Chrome screenshots (Samsung keyboard) of the lead dialog opened from a case-study page",
+      "surface": "the lead dialog",
+      "section": "You step",
+      "device": "all",
+      "element": "First name and Last name fields",
+      "classification": "correction",
+      "requiredOutcome": "first.last@company.com (and first_last) arrives on the You step with both names filled and editable; a typed name is never replaced; role mailboxes, single-word addresses and shapes the parser cannot place fill nothing.",
+      "acceptanceTest": "src/test/work-email.test.ts holds the parser table, including the addresses that must fill nothing; src/test/LeadBrief.test.tsx holds prefill, typed-name survival and draft restore; the keyboard gate asserts anya.divekar@peldonrose.com arrives as Anya / Divekar.",
+      "status": "implemented-awaiting-review",
+      "resolution": "nameFromEmail in src/lib/workEmail.ts; LeadBrief fills only empty or previously guessed fields and keeps its guesses in the resumable draft. With both names filled the phone keyboard stays down on the You step.",
+      "evidence": [
+        "src/test/work-email.test.ts: the work email carries the name",
+        "src/test/LeadBrief.test.tsx: reads the name from a first.last address and never replaces a typed one"
+      ]
+    },
+    {
+      "id": "LEAD-BRIEF-INTELLIGENCE-001",
+      "exactFeedback": "After that when it brings up the company information, that's really the only insightful bit about this. I was expecting to have a 100 times more intelligent proposal curated based on that specific company with their specific headlines, latest news, what their category is doing, and what we hypothesise could be their problem based on their selections in this lead cap form. It's kind of basic, to be honest",
+      "source": "Krish, 25 September 2026, two Android Chrome screenshots (Samsung keyboard) of the lead dialog opened from a case-study page",
+      "surface": "the lead dialog and the private brief it produces",
+      "section": "company read, preview and brief",
+      "device": "all",
+      "element": "company read, recommendation and brief content",
+      "classification": "correction",
+      "requiredOutcome": "The brief is written for the company: its latest headlines with publisher, date and link; what its category is doing, sourced; and a clearly labelled hypothesis about the problem underneath the visitor's choices, with what would prove it wrong. Facts stay sourced; anything generated is labelled.",
+      "acceptanceTest": "Krish approves a rendered mock of the new company read and brief built from real public information for a real company before any build; the built release then shows the same sections on screen, in the email and in the download from one stored proposal.",
+      "status": "open",
+      "resolution": "Planned as a second release: corroborated company news and category evidence, a validated synthesis step in submit-mindmake-brief, and one stored proposal rendered everywhere. Needs a rendered mock first, then approval at migration, deploy and live canary.",
+      "evidence": []
+    },
+    {
+      "id": "LEAD-BRIEF-DELIVERABLE-001",
+      "exactFeedback": "and that shows throughout the experience, all the way through to what they receive, which I can't really tell what it is at the moment.",
+      "source": "Krish, 25 September 2026, two Android Chrome screenshots (Samsung keyboard) of the lead dialog opened from a case-study page",
+      "surface": "the lead dialog, the visitor email and the downloaded brief",
+      "section": "Keep, Contact, Verify and success steps",
+      "device": "all",
+      "element": "what the visitor is told they will receive, and what arrives",
+      "classification": "correction",
+      "requiredOutcome": "One name for the deliverable throughout, and before the code the visitor is told exactly what arrives: one email with the private brief and its sources, plus a copy to keep.",
+      "acceptanceTest": "Shown in the same rendered mock as LEAD-BRIEF-INTELLIGENCE-001 and approved by Krish before build.",
+      "status": "open",
+      "resolution": "Planned with LEAD-BRIEF-INTELLIGENCE-001.",
+      "evidence": []
     }
   ]
 }

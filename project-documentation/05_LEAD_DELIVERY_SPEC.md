@@ -19,12 +19,12 @@ The starting read is an outside view, not a finished diagnosis or advice. The vi
 `src/components/mindmake/LeadBrief.tsx` owns the current progressive flow. A route-specific entry carries Brain/GTM; a generic entry asks for the door first.
 
 1. Work email → **Read the business**. Derive the company domain; reject personal addresses for company research. The public read begins while the visitor continues.
-2. First name, last name and division/Leadership → **See the company read**. Do not ask the visitor to re-enter the company or work email.
+2. First name, last name and division/Leadership → **See the company read**. Do not ask the visitor to re-enter the company or work email. A `first.last@` or `first_last@` address fills both names in the browser (`nameFromEmail`, `src/lib/workEmail.ts`); a role mailbox, a single word or a shape it cannot place fills nothing, and a name the visitor typed is never replaced. The guess is an editable default, not evidence, and is not sent anywhere the typed name would not be.
 3. Show the declarative company read or an honestly labelled unavailable state. Where available, two or three tailored pressure statements are server-authored, signed and bound to a locked lens. “Something else” and the locked choices remain the recovery path.
 4. Choose the pressure, then where returned time would matter.
 5. Show the illustrative private starting brief, with AI work, human responsibility and a first proof. Its disclaimer remains explicit; the preview is not professional advice.
 6. **Keep the private brief** opens the explicit confirmation that verification is next and nothing has been sent. Continue to the prefilled email and separate optional publication-interest box.
-7. Request the six-digit code. It expires after ten minutes and locks after five failed attempts.
+7. Request the six-digit code. It expires after ten minutes and locks after five failed attempts. Six digits, typed or pasted, send themselves once; a code that failed is not resent until it changes.
 8. Only after successful confirmation attempt visitor brief and operator digest independently; show the completed “Your private brief” article and individual delivery status.
 9. **Download my brief** saves the actual self-contained HTML brief even if final email delivery fails.
 

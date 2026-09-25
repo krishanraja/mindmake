@@ -29,6 +29,7 @@
     "qa:cards": "node scripts/qa/card-geometry-check.mjs",
     "qa:oneway": "node scripts/qa/one-way-in-check.mjs",
     "qa:line-breaks": "node scripts/qa/line-break-check.mjs",
+    "qa:lead-keyboard": "node scripts/qa/lead-keyboard-check.mjs",
     "qa:type-system": "node scripts/qa/type-system-check.mjs",
     "build:ssr": "vite build --ssr src/entry-server.tsx --outDir dist-ssr",
     "qa:entrance": "node scripts/qa/first-second-check.mjs",

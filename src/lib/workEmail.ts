@@ -48,6 +48,94 @@ export function domainFromEmail(email: string): string {
   return cleanDomain(email.trim().toLowerCase().slice(at + 1));
 }
 
+/**
+ * Mailbox words that name a job, a team or a channel rather than a person.
+ *
+ * An address containing any of these is not read for a name at all. Words that
+ * are also common first names (dev, will, mark) are deliberately left out, so
+ * `dev.patel@` still fills in.
+ */
+const ROLE_MAILBOX_WORDS = new Set([
+  "abuse", "account", "accounts", "accounting", "admin", "administrator", "all", "billing", "biz",
+  "board", "booking", "bookings", "business", "careers", "ceo", "cfo", "cio", "cmo", "community",
+  "company", "compliance", "contact", "contacts", "coo", "cto", "customer", "customers", "demo",
+  "design", "digital", "director", "directors", "donotreply", "editor", "editorial", "email",
+  "enquiries", "enquiry", "events", "everyone", "facilities", "feedback", "finance", "founder",
+  "founders", "cofounder", "general", "global", "group", "growth", "hello", "help", "helpdesk", "hey",
+  "hi", "hiring", "hq", "hr", "inquiries", "inquiry", "investor", "investors", "invoices", "ir", "it",
+  "jobs", "leadership", "legal", "mail", "management", "marketing", "me", "media", "news",
+  "newsletter", "no", "noreply", "office", "online", "operations", "ops", "order", "orders", "owner",
+  "partner", "partners", "partnerships", "payments", "people", "postmaster", "pr", "press", "privacy",
+  "procurement", "project", "projects", "purchasing", "reception", "recruiting", "recruitment",
+  "reply", "sales", "security", "service", "services", "shop", "social", "sponsorship", "staff",
+  "store", "studio", "success", "support", "talent", "team", "tech", "test", "uk", "us", "eu",
+  "web", "webmaster", "work",
+]);
+
+/* Surname particles that join the last name when they sit between two parts.
+   The first group is usually written in lower case, the second capitalised. */
+const LOWER_PARTICLES = new Set(["van", "von", "der", "den", "ter", "ten", "de"]);
+const CAPITAL_PARTICLES = new Set(["da", "di", "del", "della", "du", "la", "le", "dos", "das", "st", "al", "el", "bin", "ibn"]);
+
+const NAME_PART = /^\p{Script=Latin}+(?:['’-]\p{Script=Latin}+)*$/u;
+
+const capitalise = (word: string) =>
+  word
+    .split(/(['’-])/)
+    .map((segment) => (segment.length > 0 && !/['’-]/.test(segment)
+      ? segment.charAt(0).toUpperCase() + segment.slice(1).toLowerCase()
+      : segment))
+    .join("");
+
+const capitaliseSurname = (word: string) => {
+  const match = /^mc(\p{Script=Latin}{3,})$/iu.exec(word);
+  return match ? `Mc${capitalise(match[1])}` : capitalise(word);
+};
+
+/**
+ * A first and last name read from the part of a work address before the @,
+ * or null when the address does not say.
+ *
+ * Only a guess the visitor can see and correct, so it errs towards saying
+ * nothing: an address with no separator (`anyadivekar@`, `jsmith@`), a role
+ * mailbox, digits in the middle, a word from the company's own domain or a
+ * shape it cannot place returns null. Hyphens stay inside a name, so
+ * `anne-marie@` is one first name rather than two names. A single initial
+ * fills only the part it cannot be confused with.
+ */
+export function nameFromEmail(email: string): { firstName: string; lastName: string } | null {
+  const value = email.trim().toLowerCase();
+  const at = value.lastIndexOf("@");
+  if (at < 1) return null;
+  const local = value.slice(0, at).split("+")[0];
+  if (!local || /[\s"]/.test(local) || !/[._]/.test(local)) return null;
+
+  const parts = local.split(/[._]+/).filter(Boolean);
+  if (parts.length > 0 && /^\d+$/.test(parts[parts.length - 1])) parts.pop();
+  if (parts.length > 0) parts[parts.length - 1] = parts[parts.length - 1].replace(/\d+$/, "");
+  if (parts.length < 2 || parts.length > 3) return null;
+  if (parts.some((part) => !part || part.length > 40 || !NAME_PART.test(part))) return null;
+
+  const companyWords = domainFromEmail(value).split(".").slice(0, -1);
+  if (parts.some((part) => ROLE_MAILBOX_WORDS.has(part) || companyWords.includes(part))) return null;
+
+  let first = parts[0];
+  let last = parts[parts.length - 1];
+  let particle = "";
+  if (parts.length === 3) {
+    const middle = parts[1];
+    if (LOWER_PARTICLES.has(middle)) particle = middle;
+    else if (CAPITAL_PARTICLES.has(middle)) particle = capitalise(middle);
+    else if (middle.length !== 1) return null;
+  }
+
+  if (first.length === 1 && last.length === 1) return null;
+  const surname = last.length === 1 ? "" : [particle, capitaliseSurname(last)].filter(Boolean).join(" ");
+  first = first.length === 1 ? "" : capitalise(first);
+  last = surname;
+  return { firstName: first.slice(0, 80), lastName: last.slice(0, 80) };
+}
+
 export const isFreeEmailDomain = (domain: string): boolean => FREE_EMAIL_DOMAINS.has(domain);
 
 /**

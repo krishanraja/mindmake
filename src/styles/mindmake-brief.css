@@ -24,6 +24,13 @@
 /* ---------- Structure ---------- */
 
 .mm-dialog-open { overflow: hidden; }
+/* The body alone does not hold the page still on a phone, because html and
+   body both clip horizontal overflow and so the body's overflow never reaches
+   the viewport. Phone widths only: above them the classic scrollbar would
+   vanish and reflow the page behind the dialog. */
+@media (max-width: 560px) {
+  html.mm-dialog-lock { overflow: hidden; }
+}
 
 .mm-brief-backdrop {
   position: fixed;
@@ -37,15 +44,20 @@
 }
 
 /* The panel scrolls, not the page behind it. scroll-padding keeps a focused
-   field clear of the sticky header above and of the software keyboard below:
-   the dialog measures both and writes them onto the backdrop, and until this
-   rule existed nothing read either measurement. */
+   field clear of the sticky header and progress rail above it and of the
+   software keyboard below: the dialog measures both and writes them onto the
+   backdrop. Here, where the panel is a card that does not shrink with the
+   keyboard, the keyboard's height is added to the bottom padding.
+   `--mm-brief-top-h` is the header's one height, which the rail pins under,
+   so the two can never overlap. */
 .mm-brief-panel {
+  --mm-brief-top-h: 58px;
+  --mm-brief-path-h: 45px;
   width: min(780px, 100%);
   max-height: min(900px, calc(100dvh - 36px));
   overflow-y: auto;
   overscroll-behavior: contain;
-  scroll-padding-block: 102px calc(40px + var(--mm-safe-bottom) + var(--mm-brief-keyboard-inset, 0px));
+  scroll-padding-block: calc(var(--mm-brief-top-h) + var(--mm-brief-path-h) + 12px) calc(40px + var(--mm-safe-bottom) + var(--mm-brief-keyboard-inset, 0px));
   border: 1px solid var(--mmb-line, var(--mm-line));
   box-shadow: 24px 24px 0 rgba(0, 0, 0, .28);
 }
@@ -58,6 +70,7 @@
   background: rgba(2, 13, 11, .72);
 }
 .mm-brief-panel.is-drawer {
+  --mm-brief-top-h: 72px;
   width: min(700px, 82vw);
   height: 100dvh;
   max-height: 100dvh;
@@ -69,10 +82,8 @@
 @keyframes mm-brief-drawer-in { from { transform: translateX(100%); } to { transform: none; } }
 
 .mm-brief-panel.is-drawer .mm-brief-top {
-  min-height: 72px;
   padding-inline: clamp(24px, 4vw, 48px);
 }
-.mm-brief-panel.is-drawer .mm-brief-path { top: 72px; }
 
 /* The approved start is two jobs, not one dense form. The company read begins
    from the address, then runs while the visitor gives us their name and role. */
@@ -261,6 +272,7 @@
   position: sticky;
   top: 0;
   z-index: 3;
+  box-sizing: border-box;
   min-height: 58px;
   display: flex;
   align-items: center;
@@ -288,6 +300,42 @@
   touch-action: manipulation;
 }
 .mm-brief-top button svg { width: 18px; height: 18px; }
+/* Exactly the header height the rail is pinned under. The folio preview keeps
+   its own header, so it is left out. */
+.mm-brief-panel:not([data-step="preview"]) .mm-brief-top {
+  height: var(--mm-brief-top-h);
+  min-height: 0;
+  padding-block: 0;
+}
+
+/* The real logo, drawn as the site header draws it, at the header's scale.
+   The wordmark's gradient reads --mm-tx and --mm-mint, which are the ink
+   colours unless a ground says otherwise, so every tone names its own below. */
+.mm-brief-brand {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  line-height: 0;
+}
+.mm-brief-brand .mm-brand-icon { width: 24px; }
+.mm-brief-brand .mm-brand-wordmark { width: 118px; }
+.mm-brief-context {
+  margin-right: auto;
+  margin-left: 6px;
+  overflow: hidden;
+  color: var(--mmb-muted, var(--mm-mut));
+  font-family: var(--mm-mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: .1em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+}
+@media (max-width: 348px) {
+  .mm-brief-context { display: none; }
+}
 
 /* Tall enough that a short step does not collapse into a strip, which is what
    makes the arc of the journey feel like one object across six steps. */
@@ -335,6 +383,14 @@
   text-decoration: underline;
   text-underline-offset: 3px;
   cursor: pointer;
+}
+/* `.mm-site button { font: inherit }` outranks a single class, so the back
+   link took the body's face at 17px. The attribute puts this above it. */
+.mm-brief-panel .mm-step-back[type="button"] {
+  font-family: var(--mm-mono);
+  font-size: 11.5px;
+  font-weight: 400;
+  letter-spacing: .06em;
 }
 .mm-text-button {
   min-height: 46px;
@@ -498,20 +554,27 @@
     padding: 0;
     place-items: stretch;
   }
+  /* The panel is already the height of what can be seen, keyboard or not,
+     so the keyboard is not added to its bottom padding again. Adding it twice
+     left no room to show a field in, and the field went under the header. */
   .mm-brief-panel {
+    --mm-brief-top-h: calc(58px + var(--mm-safe-top));
     width: 100%;
     height: var(--mm-brief-viewport-height, 100dvh);
     max-height: var(--mm-brief-viewport-height, 100dvh);
-    scroll-padding-block: calc(102px + var(--mm-safe-top)) calc(32px + var(--mm-safe-bottom) + var(--mm-brief-keyboard-inset, 0px));
+    scroll-padding-block: calc(var(--mm-brief-top-h) + var(--mm-brief-path-h) + 12px) calc(32px + var(--mm-safe-bottom));
     border-inline: 0;
     box-shadow: none;
   }
-  .mm-brief-panel.is-drawer { animation-name: mm-brief-sheet-in; }
+  /* With the keyboard up the home indicator is under it, so its inset is not
+     room anyone can use. */
+  .mm-brief-backdrop[data-keyboard="open"] .mm-brief-panel { scroll-padding-bottom: 16px; }
+  .mm-brief-panel.is-drawer { --mm-brief-top-h: calc(68px + var(--mm-safe-top)); animation-name: mm-brief-sheet-in; }
   .mm-brief-panel.is-drawer .mm-brief-top {
-    min-height: 68px;
     padding-inline: max(16px, var(--mm-safe-right)) max(16px, var(--mm-safe-left));
   }
-  .mm-brief-panel.is-drawer .mm-brief-path { top: calc(68px + var(--mm-safe-top)); }
+  .mm-brief-panel:not([data-step="preview"]) .mm-brief-top { padding-top: var(--mm-safe-top); }
+  .mm-brief-panel[data-step="preview"] .mm-brief-context { display: none; }
   .mm-brief-panel.is-drawer .mm-brief-start-step {
     min-height: calc(var(--mm-brief-viewport-height, 100dvh) - 116px - var(--mm-safe-top));
   }
@@ -582,8 +645,7 @@
 }
 
 @media (max-width: 340px), (max-height: 620px) {
-  .mm-brief-panel.is-drawer .mm-brief-top { min-height: 60px; }
-  .mm-brief-panel.is-drawer .mm-brief-path { top: calc(60px + var(--mm-safe-top)); }
+  .mm-brief-panel.is-drawer { --mm-brief-top-h: calc(60px + var(--mm-safe-top)); }
   .mm-brief-panel.is-drawer .mm-brief-start-step {
     min-height: calc(var(--mm-brief-viewport-height, 100dvh) - 110px - var(--mm-safe-top));
   }
@@ -734,10 +796,15 @@
 .mm-brief-panel[data-tone] h2 { color: var(--mmb-fg); }
 .mm-brief-panel[data-tone] .mm-brief-top {
   border-bottom-color: var(--mmb-line);
-  background: var(--mmb-top);
+  /* Opaque, like the rail under it: a step heading scrolled under the header
+     showed through it as a ghost behind the logo. The preview keeps its own
+     glass over the film. */
+  background: linear-gradient(var(--mmb-top), var(--mmb-top)), var(--mmb-bg);
   color: var(--mmb-accent);
 }
 .mm-brief-panel[data-tone] .mm-brief-top button { border-color: var(--mmb-line); color: var(--mmb-fg); }
+.mm-brief-panel[data-tone] .mm-brief-top { --mm-tx: #e6ede8; --mm-mint: var(--mm-mint-bright); }
+.mm-brief-panel[data-tone="paper"] .mm-brief-top { --mm-tx: var(--mm-tx-d); --mm-mint: var(--mm-mint-d); }
 .mm-brief-panel[data-tone] .mm-brief-step > p:not(.mm-form-error, .mm-honesty-note, .mm-capacity-line),
 .mm-brief-panel[data-tone] .mm-brief-step > small,
 .mm-brief-panel[data-tone] .mm-honesty-note { color: var(--mmb-muted); }
@@ -792,11 +859,16 @@
    control naming a stage the visitor can return to. */
 .mm-brief-path {
   position: sticky;
-  top: 58px;
+  top: var(--mm-brief-top-h);
   z-index: 2;
   display: flex;
   border-bottom: 1px solid var(--mmb-line, var(--mm-paper-line));
-  background: var(--mmb-top, rgba(244, 240, 232, .96));
+  /* The header's tint laid over the panel's own ground, so the rail is the
+     same colour and fully opaque: the step scrolling under it with a keyboard
+     up no longer shows through it. */
+  background:
+    linear-gradient(var(--mmb-top, rgba(244, 240, 232, .96)), var(--mmb-top, rgba(244, 240, 232, .96))),
+    var(--mmb-bg, var(--mm-paper));
 }
 .mm-brief-path button {
   flex: 1 1 0;
@@ -847,7 +919,6 @@
 }
 
 @media (max-width: 560px) {
-  .mm-brief-path { top: calc(58px + var(--mm-safe-top)); }
   .mm-brief-path button[type="button"] {
     font-size: clamp(9px, 2.65vw, 10.5px);
     letter-spacing: -.01em;
@@ -1026,11 +1097,7 @@
   background: rgba(3, 16, 12, .68);
   backdrop-filter: blur(16px);
 }
-.mm-brief-panel[data-step="preview"] .mm-brief-top > span::after {
-  content: " / private brief";
-  margin-left: 10px;
-  color: rgba(244, 234, 214, .55);
-}
+.mm-brief-panel[data-step="preview"] .mm-brief-context { color: rgba(244, 234, 214, .55); }
 
 .mm-folio-preview {
   --mmf-ink: #061711;

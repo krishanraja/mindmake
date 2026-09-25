@@ -13,7 +13,7 @@ import postcss from 'postcss';
 // chapters instead of its own three, which are scrapped.
 //
 // A second authorised correction (Krish, 2026-09-25, recorded in
-// quality/route-lock/approved-production-r36.json): the two hero doors promise
+// quality/route-lock/approved-production-r38.json): the two hero doors promise
 // a page (their ↗ says so) and are links to it rather than buttons that
 // scrolled to the closing chapter, and Media carries its "Subscribe for free"
 // badge and lands on the subscribe form. `doors` and `subscribe` below are the

@@ -24,7 +24,7 @@ Krish approved R3 on 24 September 2026 and authorised publication after end-to-e
 
 ## Visitor flow and page changes
 
-Krish set these on 25 September 2026; `quality/route-lock/approved-production-r36.json` records them.
+Krish set these on 25 September 2026; `quality/route-lock/approved-production-r38.json` records them.
 
 - Three intents, three names, one of each on every CTA. **Get your free AI brief** (`START_LABEL`) is for a reader who is ready and opens the brief. **Build your AI brain** and **Build your AI GTM** are for a reader who is exploring and go to `/ai-brain` and `/ai-gtm`. **Subscribe for free** (`SUBSCRIBE_LABEL`) is for a reader who is not ready and opens the publication's subscribe form.
 - The homepage hero doors are links to their pages. The generator converts them in `scripts/qa/build-homepage-release.mjs`; the R3 source is unchanged. The closing chapter keeps its own AI Brain or AI GTM toggle and the brief.

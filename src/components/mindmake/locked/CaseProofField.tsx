@@ -86,6 +86,14 @@ function scopeCss(source: string, root: string) {
   };
   return `${transform(withoutFonts)}
 ${root} .site-head-space{min-height:var(--mm-header-height)}
+/* The header is fixed, so any scroll the browser performs on our behalf --
+   focusing a control, following an anchor, an engine scrolling an element into
+   view before a tap -- can land a control underneath it. At a short landscape
+   viewport that is exactly what happens to the rail dock: it is on screen, the
+   browser scrolls it to the top of the page, and the masthead is then over it.
+   Reserving the measured header height as scroll margin makes those scrolls
+   stop below the chrome instead of behind it. */
+${root} .region,${root} .mobile-dock,${root} .mobile-dock button,${root} .expanded{scroll-margin-top:calc(var(--mm-header-height) + 12px)}
 ${root} .proof-shell{grid-template-rows:var(--mm-header-height) auto minmax(0,1fr)}
 ${root} .field-intro{grid-template-columns:minmax(0,1fr)}
 @media(min-width:861px){
@@ -110,7 +118,14 @@ ${root} .field-intro{grid-template-columns:minmax(0,1fr)}
  * render identically and the stylesheet serves both.
  */
 function storyFigureMarkup(figure: ClientStory["figure"]) {
-  const labels = (from: string, to: string) => `<p><span>${escapeHtml(from)}</span><span>${escapeHtml(to)}</span></p>`;
+  // A record with nothing to say at either end renders no label row, rather
+  // than a row of two empty spans reserving the space where words would go.
+  // business-first is the one that carries none: its endpoints would repeat its
+  // own headline, and the two obvious phrasings are on the field's banned-copy
+  // list. The absence is the decision; this stops it looking like an omission.
+  const labels = (from: string, to: string) => (from || to
+    ? `<p><span>${escapeHtml(from)}</span><span>${escapeHtml(to)}</span></p>`
+    : "");
   if (figure.shape === "span") {
     const resolved = Math.max(3, Math.sqrt(figure.to / figure.from) * 100);
     return `<div class="mm-fig mm-fig-span" data-fig="span" data-resolved="${resolved.toFixed(2)}">

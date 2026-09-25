@@ -302,6 +302,10 @@ owns payload, privacy, retention, email and failure-path contracts.
   is new." answered a history chapter `/` no longer has. `/new-age-leadership`
   keeps both states. Recorded in
   `quality/route-lock/approved-production-r39.json`.
+- The homepage opening hero plays the Archive Engine loop
+  (`src/assets/films/sep2026/archive-engine-hero-loop-r04-16s-1080p-web-sealed.mp4`)
+  with its own WebP poster; the route stage keeps `film-02`. Recorded in
+  `quality/route-lock/approved-production-r40.json`.
 - Conversion flow, page changes and line breaks: recorded in
   `quality/route-lock/approved-production-r38.json`, merged as PR #189,
   commit `94d1524`. Main's post-merge matrix on that commit passed on

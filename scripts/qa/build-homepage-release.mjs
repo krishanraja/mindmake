@@ -19,6 +19,11 @@ import postcss from 'postcss';
 // scrolled to the closing chapter, and Media carries its "Subscribe for free"
 // badge and lands on the subscribe form. `doors` and `subscribe` below are the
 // whole of it; each is counted and the build fails if the source drifts.
+//
+// A third (Krish, 2026-09-25, recorded in
+// quality/route-lock/approved-production-r40.json): the two opening hero-stage
+// films play the Archive Engine loop with its own poster. `heroFilm` below is
+// the whole of it; the route stage keeps film-02, as does /ai-brain.
 const repo = process.cwd();
 const source = path.join(repo, 'prototypes/website-redesign-recovery/homepage-production-synthesis-r3');
 const output = path.join(repo, 'src/components/homepage-release');
@@ -62,12 +67,17 @@ body = cut(body, '<a class="skip-link" href="#history">', null, '<a class="skip-
 const publication = 'https://mindmakerlive.substack.com';
 const subscribe = { href: `${publication}/subscribe`, label: 'Subscribe for free' };
 const doors = { brain: '/ai-brain', gtm: '/ai-gtm' };
+const heroFilm = {
+  poster: '../../../src/assets/films/sep2026/archive-engine-hero-poster-r04.webp',
+  mp4: '../../../src/assets/films/sep2026/archive-engine-hero-loop-r04-16s-1080p-web-sealed.mp4',
+};
 body = body
+  .replace(/(<section class="hero-stage">\s*<video [^>]*poster=")\.\.\/\.\.\/\.\.\/src\/assets\/films\/film-02-poster\.webp("[^>]*>\s*<source src=")\.\.\/\.\.\/\.\.\/src\/assets\/films\/film-02-loop\.mp4"/g, (_, open, middle) => `${open}${heroFilm.poster}${middle}${heroFilm.mp4}"`)
   .replace(/<button type="button" data-route-choice="(brain|gtm)">([\s\S]*?)<\/button>/g, (_, route, inner) => `<a href="${doors[route]}" data-route-choice="${route}">${inner}</a>`)
   .replace(/(<nav class="primary-routes"[^>]*>[\s\S]*?)<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `$1<a href="${subscribe.href}" target="_blank" rel="noreferrer" class="mm-route-badged" data-badge="${subscribe.label}">Media</a>`)
   .replace(/<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `<a href="${subscribe.href}" target="_blank" rel="noreferrer">Media</a>`)
   .replace(/(<p class="footer-statement">[^<]*<\/p>)/g, `$1<a class="mm-subscribe-cta" href="${subscribe.href}" target="_blank" rel="noreferrer" data-subscribe-source="homepage_footer">${subscribe.label} <span aria-hidden="true">↗</span></a>`);
-for (const [pattern, expected, label] of [[/data-route-choice="(?:brain|gtm)"/g, 4, 'hero door'], [/data-badge=/g, 2, 'Media badge'], [/mm-subscribe-cta/g, 2, 'footer subscribe'], [/<button type="button" data-route-choice/g, 0, 'unconverted door']]) {
+for (const [pattern, expected, label] of [[/data-route-choice="(?:brain|gtm)"/g, 4, 'hero door'], [/data-badge=/g, 2, 'Media badge'], [/mm-subscribe-cta/g, 2, 'footer subscribe'], [/<button type="button" data-route-choice/g, 0, 'unconverted door'], [/archive-engine-hero-loop-r04/g, 2, 'hero film'], [/archive-engine-hero-poster-r04/g, 2, 'hero poster']]) {
   const found = (body.match(pattern) ?? []).length;
   if (found !== expected) throw new Error(`Authorised correction drifted: ${label} expected ${expected}, found ${found}`);
 }

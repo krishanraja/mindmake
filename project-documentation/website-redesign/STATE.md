@@ -28,6 +28,7 @@ Krish set these on 25 September 2026; `quality/route-lock/approved-production-r3
 
 - Three intents, three names, one of each on every CTA. **Get your free AI brief** (`START_LABEL`) is for a reader who is ready and opens the brief. **Build your AI brain** and **Build your AI GTM** are for a reader who is exploring and go to `/ai-brain` and `/ai-gtm`. **Subscribe for free** (`SUBSCRIBE_LABEL`) is for a reader who is not ready and opens the publication's subscribe form.
 - The homepage hero doors are links to their pages. The generator converts them in `scripts/qa/build-homepage-release.mjs`; the R3 source is unchanged. The closing chapter keeps its own AI Brain or AI GTM toggle and the brief.
+- The opening hero plays the Archive Engine loop (`src/assets/films/sep2026/archive-engine-hero-loop-r04-16s-1080p-web-sealed.mp4`, poster `archive-engine-hero-poster-r04.webp`), substituted by the same generator (r40). The route stage keeps `film-02`.
 - Both offer pages end with `PairingBridge`: the other page (the brain enables the GTM; the GTM runs better on a brain) beside the brief, pre-routed. Its brief button is `data-mm-primary`, so the action bar stands down and one way in holds.
 - Subscribing appears in three places: a hairline badge beside Media in both menus, a footer button, and the brief's success step. There is no band, pop-up or modal. It never outweighs the brief's filled mint.
 - No word or link sits alone on a new line at 1440x900 or 390x844 on any page (`qa:line-breaks`; the rule is in `03_DESIGN_CONTRACT.md`).

@@ -350,6 +350,16 @@ owns payload, privacy, retention, email and failure-path contracts.
   local Blender render after seeing the moving result and ordered its complete
   removal from the repository. r06 is not an approved visual reference and
   consumed no Higgsfield generative-video credits.
+- The AI Brain page speaks to the reader (BRAIN-NARRATIVE-S4), approved by
+  Krish on 25 September 2026 and recorded in
+  `quality/route-lock/approved-production-r48.json`. The hero film,
+  constellation and living record stay; five chapters run You, Inside,
+  Sharper, Private and Business; the source-check and correction chapters are
+  retired. Three answers now say the Brain belongs to the leader.
+  `scripts/qa/locked-material-production-check.mjs` and
+  `scripts/qa/full-route-continuity-check.mjs` still assert the retired Brain
+  chapters (both were already stale or red before r48); the Brain's current
+  proof is `src/test/brain-narrative.test.ts` and `qa:line-breaks`.
 - Refinements across `/ai-brain`, `/ai-gtm`, `/`, `/case-studies`, `/answers`
   and `/blog`, from Krish's phone review on 25 September 2026. Recorded in
   `quality/route-lock/approved-production-r43.json`, which lists each change.

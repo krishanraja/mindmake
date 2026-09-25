@@ -7,16 +7,16 @@ claim: "Most comparisons rank assistants on model quality, price and features. M
 target_query: "what does an AI brain do for a leadership team that a general AI assistant cannot"
 published_at: "2026-09-12"
 first_party:
-  - Mindmake builds AI brains that hold a leader's own standards, decisions and context inside the client's own accounts.
+  - Mindmake builds AI brains that hold a leader's own standards, decisions and context. The brain belongs to the leader.
   - Every answer from an AI brain can be traced back to the standard or decision it drew on, so a person can check it and disagree with it.
   - When a leader changes their mind, the brain keeps the earlier view and records why it changed.
 faq:
   - q: Is an AI brain a different model?
-    a: No. It usually runs on the same leading models a general assistant uses. The difference is the record it reads from before it answers, and that record belongs to the business.
+    a: No. It usually runs on the same leading models a general assistant uses. The difference is the record it reads from before it answers, and that record belongs to the leader.
   - q: What goes into it first?
     a: The decisions a team has already made and the reasons behind them. Pricing exceptions, hiring calls, the plans that were stopped and why. Most of it exists already in documents, notes and meeting records.
   - q: Who can see it?
-    a: The leader decides. It is private by default, held in the client's own accounts, and the company benefits from the decisions it improves.
+    a: The leader decides. It is private by default, it belongs to the leader, and the company benefits from the decisions it improves.
   - q: How long before it is useful?
     a: It is useful on the first real decision it is given, because even a small record of past reasoning beats none. It gets more useful with every decision and correction added afterwards.
 ---

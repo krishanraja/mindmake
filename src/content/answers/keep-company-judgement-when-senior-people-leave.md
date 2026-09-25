@@ -7,7 +7,7 @@ claim: "Most advice on knowledge loss is about documentation and handover checkl
 target_query: "how do I stop my company's knowledge and judgement leaving when senior people leave"
 published_at: "2026-09-18"
 first_party:
-  - Mindmake builds records of how a leader decides, held in the business's own accounts, so the judgement stays when people move on.
+  - A leader's own AI brain stays theirs. The standards and decisions they share with the team stay in the business's own accounts when people move on.
   - The most expensive thing a senior person takes with them is the reason they said no.
   - A decision recorded with its reason can be reused, checked and corrected. A decision recorded without it can only be copied.
 faq:
@@ -44,5 +44,7 @@ That second use matters more each year. Teams increasingly start their work with
 ## Keep it owned by the business
 
 The record should sit in the business's own accounts, readable by people and exportable. If it lives inside a vendor's system, the business ends up renting back its own memory.
+
+This shared record is different from a leader's own AI brain, which is private and stays theirs wherever they go. What the business keeps is what they chose to hand to the team.
 
 Start with one person and one recurring decision. Record the next five times it is made and the reasons behind each one. That small record is worth more at their leaving party than any handover document.

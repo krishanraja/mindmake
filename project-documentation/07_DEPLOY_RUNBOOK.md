@@ -37,7 +37,7 @@ normalizes it and exact configuration bytes are release-bound.
   `quality/route-lock/approved-production.lock.json` with
   `npm run qa:approved-routes:update` in the same commit, which says why.
   Never regenerate to absorb an unintended edit. The numbered manifests
-  r1 to r46 are frozen history and are never rewritten.
+  r1 to r48 are frozen history and are never rewritten.
 
 ## Browser and journey gates
 

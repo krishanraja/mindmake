@@ -1,0 +1,359 @@
+{
+  "cases": [
+    {
+      "id": "levers-1440x900",
+      "route": "/ai-gtm",
+      "viewport": "1440x900",
+      "input": "page-scroll",
+      "capture": {
+        "path": "artifacts/ai-gtm/scroll-build/levers-1440x900-forward-0.jpg",
+        "sha256": "0810fa2381c86161a042c1bec0510fee3ed7501d9b5efcd6d6174e6eccdc0c7e"
+      },
+      "forward": [
+        {
+          "visibleText": "Product",
+          "scrollY": 1127,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-1440x900-forward-0.jpg",
+            "sha256": "0810fa2381c86161a042c1bec0510fee3ed7501d9b5efcd6d6174e6eccdc0c7e"
+          }
+        },
+        {
+          "visibleText": "Price",
+          "scrollY": 1718,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-1440x900-forward-1.jpg",
+            "sha256": "6ad5c7f6b7fbf2284413448ebf5bac9a85570dabf04f7fd3e3f1a8156d526e58"
+          }
+        },
+        {
+          "visibleText": "Positioning",
+          "scrollY": 2310,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-1440x900-forward-2.jpg",
+            "sha256": "e32cd9b66cc4b0a70365ed40a7b266d3ccfb4b63c4807a5806cfb07e8da7a6ff"
+          }
+        },
+        {
+          "visibleText": "People",
+          "scrollY": 2901,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-1440x900-forward-3.jpg",
+            "sha256": "b8de4a645ae1b10124e8aa4f0015225a82ffc5937cbadb7e50c8d9420ec51f5d"
+          }
+        }
+      ],
+      "reverse": [
+        {
+          "visibleText": "People",
+          "scrollY": 2900,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-1440x900-reverse-3.jpg",
+            "sha256": "91cfc0bc2b0163165a20571d819fb2104f6da561f110f3e453efdc4a9d81d821"
+          }
+        },
+        {
+          "visibleText": "Positioning",
+          "scrollY": 2309,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-1440x900-reverse-2.jpg",
+            "sha256": "f8aa245b7d4088e7afd2626cc39d84c113628ec176c9cedfcfe26664a72ebb1f"
+          }
+        },
+        {
+          "visibleText": "Price",
+          "scrollY": 1717,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-1440x900-reverse-1.jpg",
+            "sha256": "24969c2ad10662b8ac0b673da31982789f75abf2413115cb15b36c2a11d7ed19"
+          }
+        },
+        {
+          "visibleText": "Product",
+          "scrollY": 1126,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-1440x900-reverse-0.jpg",
+            "sha256": "0e5cd07cbc87d890026d6ab4dbe754c51bdd94a995da9fc19d65442bd05e1944"
+          }
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 3647,
+        "stageTop": -376,
+        "evidence": {
+          "path": "artifacts/ai-gtm/scroll-build/levers-1440x900-exit-after.jpg",
+          "sha256": "c654cc5b69daedabc89b126e05058dde958c378e22327a242bac3c79eda97b06"
+        }
+      },
+      "exitBefore": {
+        "scrollY": 381,
+        "stageTop": 519,
+        "evidence": {
+          "path": "artifacts/ai-gtm/scroll-build/levers-1440x900-exit-before.jpg",
+          "sha256": "ce0dfc78ab28c44d47b26aef7dfb51bc1955a8c84a6333b246e523eab6d65d3e"
+        }
+      }
+    },
+    {
+      "id": "plan-1440x900",
+      "route": "/ai-gtm",
+      "viewport": "1440x900",
+      "input": "page-scroll",
+      "capture": {
+        "path": "artifacts/ai-gtm/scroll-build/plan-1440x900-forward-0.jpg",
+        "sha256": "5e04e1658b71e9d56f981ac5f01210f3a612b7702f36553ccc3b85a988b21075"
+      },
+      "forward": [
+        {
+          "visibleText": "Week 1",
+          "scrollY": 5299,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/plan-1440x900-forward-0.jpg",
+            "sha256": "5e04e1658b71e9d56f981ac5f01210f3a612b7702f36553ccc3b85a988b21075"
+          }
+        },
+        {
+          "visibleText": "Weeks 2 to 4",
+          "scrollY": 5895,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/plan-1440x900-forward-1.jpg",
+            "sha256": "9b83b2440afe0683a346c0a36792edd3f9be662916aac78b71d548abf987f6d4"
+          }
+        },
+        {
+          "visibleText": "Day 30",
+          "scrollY": 6492,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/plan-1440x900-forward-2.jpg",
+            "sha256": "b01714794fb188c7f90de21749263922d65008e317ddf660f1fecedba3188aae"
+          }
+        }
+      ],
+      "reverse": [
+        {
+          "visibleText": "Day 30",
+          "scrollY": 6491,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/plan-1440x900-reverse-2.jpg",
+            "sha256": "b01714794fb188c7f90de21749263922d65008e317ddf660f1fecedba3188aae"
+          }
+        },
+        {
+          "visibleText": "Weeks 2 to 4",
+          "scrollY": 5894,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/plan-1440x900-reverse-1.jpg",
+            "sha256": "9b83b2440afe0683a346c0a36792edd3f9be662916aac78b71d548abf987f6d4"
+          }
+        },
+        {
+          "visibleText": "Week 1",
+          "scrollY": 5298,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/plan-1440x900-reverse-0.jpg",
+            "sha256": "5e04e1658b71e9d56f981ac5f01210f3a612b7702f36553ccc3b85a988b21075"
+          }
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 7240,
+        "stageTop": -375.7,
+        "evidence": {
+          "path": "artifacts/ai-gtm/scroll-build/plan-1440x900-exit-after.jpg",
+          "sha256": "fbd7a60d3a94cc6ba9dee7b507f9e04fe990594b3e0a53e5c9d3e63074561dd3"
+        }
+      },
+      "exitBefore": {
+        "scrollY": 4550,
+        "stageTop": 519.3,
+        "evidence": {
+          "path": "artifacts/ai-gtm/scroll-build/plan-1440x900-exit-before.jpg",
+          "sha256": "8d91a476d8d114efb2e5a7e9fd662183a949dda202aaec44ff747cd8807e7c35"
+        }
+      }
+    },
+    {
+      "id": "team-1440x900",
+      "route": "/ai-gtm",
+      "viewport": "1440x900",
+      "input": "page-scroll",
+      "capture": {
+        "path": "artifacts/ai-gtm/scroll-build/team-1440x900-forward-0.jpg",
+        "sha256": "e89eb45721f6b92e4124d6c981c345cf47d4b743a2ea68a3a9eddcc1ec4d933c"
+      },
+      "forward": [
+        {
+          "visibleText": "Today",
+          "scrollY": 7865,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/team-1440x900-forward-0.jpg",
+            "sha256": "e89eb45721f6b92e4124d6c981c345cf47d4b743a2ea68a3a9eddcc1ec4d933c"
+          }
+        },
+        {
+          "visibleText": "AI-native",
+          "scrollY": 8475,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/team-1440x900-forward-1.jpg",
+            "sha256": "7b755243e2ba9bef600be3da53653c6b9827d17e1a82f3b2a21bfd58d39cb2e9"
+          }
+        }
+      ],
+      "reverse": [
+        {
+          "visibleText": "AI-native",
+          "scrollY": 8474,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/team-1440x900-reverse-1.jpg",
+            "sha256": "a1d0977e6e198c4cd6e0527fb0b17036076b66381f5dbe3f905efbcac3a91240"
+          }
+        },
+        {
+          "visibleText": "Today",
+          "scrollY": 7864,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/team-1440x900-reverse-0.jpg",
+            "sha256": "b71013e1407c40d2b659d7875bf03dc5cc127618667277d75607adde8035e837"
+          }
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 9229,
+        "stageTop": -380.7,
+        "evidence": {
+          "path": "artifacts/ai-gtm/scroll-build/team-1440x900-exit-after.jpg",
+          "sha256": "960accce307aea3f0209f0eb5a18272b0f9aa8f707e0b864d9eac2f8b54c7942"
+        }
+      },
+      "exitBefore": {
+        "scrollY": 7110,
+        "stageTop": 519.3,
+        "evidence": {
+          "path": "artifacts/ai-gtm/scroll-build/team-1440x900-exit-before.jpg",
+          "sha256": "d0b7a2a0373a8dc985309d2114f330778c2bcd11d3fdceb72390fab2e3051add"
+        }
+      }
+    },
+    {
+      "id": "levers-390x844",
+      "route": "/ai-gtm",
+      "viewport": "390x844",
+      "input": "page-scroll",
+      "capture": {
+        "path": "artifacts/ai-gtm/scroll-build/levers-390x844-forward-0.jpg",
+        "sha256": "83ccd104001b158e89aac11d5d60e3b36f3b891969e2c43cfce6fc7ccb3b0774"
+      },
+      "forward": [
+        {
+          "visibleText": "Product",
+          "scrollY": 1053,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-390x844-forward-0.jpg",
+            "sha256": "83ccd104001b158e89aac11d5d60e3b36f3b891969e2c43cfce6fc7ccb3b0774"
+          }
+        },
+        {
+          "visibleText": "Price",
+          "scrollY": 1609,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-390x844-forward-1.jpg",
+            "sha256": "bcb6d7e05c3b8a0c7109db5d562b747c4d35e49424193073446cad3477456d9d"
+          }
+        },
+        {
+          "visibleText": "Positioning",
+          "scrollY": 2164,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-390x844-forward-2.jpg",
+            "sha256": "b91bfda35ad86bb0251d0a0d579285701b6c3a0ba1b6160bb0af5a2034be044a"
+          }
+        },
+        {
+          "visibleText": "People",
+          "scrollY": 2720,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-390x844-forward-3.jpg",
+            "sha256": "9656c66ec702527167641dd120af32f00f335264970a2c1df30636673e86899f"
+          }
+        }
+      ],
+      "reverse": [
+        {
+          "visibleText": "People",
+          "scrollY": 2719,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-390x844-reverse-3.jpg",
+            "sha256": "3455a8bfcd2eac319e80ee47bf5fffc958752c5594c1a3ebd93c9ca13e61ff74"
+          }
+        },
+        {
+          "visibleText": "Positioning",
+          "scrollY": 2163,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-390x844-reverse-2.jpg",
+            "sha256": "625d2632b3d3bab48a629265f5024f815514a6dfdb41cb6527bc9764c258df83"
+          }
+        },
+        {
+          "visibleText": "Price",
+          "scrollY": 1608,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-390x844-reverse-1.jpg",
+            "sha256": "d57601f41c87483ea264db77135eec326cda715e8a68066d8ec0be405aa97745"
+          }
+        },
+        {
+          "visibleText": "Product",
+          "scrollY": 1052,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-390x844-reverse-0.jpg",
+            "sha256": "aa0ef2d4214aaacc7054776fcddbb5e6efd52360ed022084b6d33fe0f02b0935"
+          }
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 3420,
+        "stageTop": -348.4,
+        "evidence": {
+          "path": "artifacts/ai-gtm/scroll-build/levers-390x844-exit-after.jpg",
+          "sha256": "985451495fd1718beb6ca64795cfe8886b078c1690743d5c787dd1f6c500f57b"
+        }
+      },
+      "exitBefore": {
+        "scrollY": 353,
+        "stageTop": 491,
+        "evidence": {
+          "path": "artifacts/ai-gtm/scroll-build/levers-390x844-exit-before.jpg",
+          "sha256": "e07e5b0641a87b6bee5fdccc7440c7cb93b0d0230e6c29d4c279856b51854259"
+        }
+      }
+    }
+  ],
+  "candidateDigest": "9815162a56f19c12acb760a0440395f21c8acf655bfba5f079e72e2f4e84ceb8"
+}

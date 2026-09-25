@@ -77,7 +77,7 @@ Locked files are hashed in quality/route-lock/approved-production.lock.json,
 which only npm run qa:approved-routes:update writes. Regenerate it in the
 commit that makes an intended edit and say why there; never regenerate to
 absorb an edit you did not mean. On a lock conflict, take either side and
-regenerate. The numbered manifests r1 to r46 are frozen history.
+regenerate. The numbered manifests r1 to r48 are frozen history.
 
 ## Release and external actions
 

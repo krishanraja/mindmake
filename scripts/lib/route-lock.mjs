@@ -2,7 +2,7 @@
 // `npm run qa:approved-routes:update` after an intended edit to a locked file
 // and commit the result with that edit. It carries no revision number or date,
 // so a change never renames it and two branches only meet on the lines for the
-// files they both touched. The numbered manifests beside it (r1 to r46) are
+// files they both touched. The numbered manifests beside it (r1 to r48) are
 // frozen history; the checker reads one only when MINDMAKE_ROUTE_LOCK_MANIFEST
 // names it.
 import { createHash } from "node:crypto";

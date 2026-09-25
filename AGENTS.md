@@ -44,7 +44,10 @@ ambient-server URL. The only review route is
 That command must fail closed unless the exact integrated bytes have current readiness,
 continuity, reconciled-feedback and independent-specialist receipts. Component galleries,
 iframe assemblies, parity harnesses and static frame collections are reference material,
-not review candidates.
+not review candidates. A reviewer who cannot reach the local presenter (Krish on a phone,
+reviewing a cloud session) is shown the protected Vercel preview of the commit whose bytes
+the receipts identify, and only after `npm run qa:material-review -- <candidate.json> --issue <receipt>`
+has passed for that candidate; record the deployment, URL and commit beside the receipt.
 
 This repository's own rules and deeper state: `CLAUDE.md`, `project-documentation/06_CURRENT_STATE.md`. They outrank the
 canon below on anything specific to this repository.

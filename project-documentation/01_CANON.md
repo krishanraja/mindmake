@@ -85,6 +85,12 @@ them on your real work.**
 The page must feel like access and acceleration, never like software doing the
 leader's job.
 
+**Who owns it** (Krish, 25 September 2026). The Brain belongs to the leader: it
+is private to them and goes where they go. The business keeps the standards and
+decisions the leader chooses to share with the team, and gains from the
+decisions the Brain improves. Sell the Brain as the leader's growing capability,
+never as company memory.
+
 ### The mechanism, and why it is defensible
 
 The engine is the Mindmake brain: CTRL plus a corpus built over years from

@@ -323,6 +323,25 @@ owns payload, privacy, retention, email and failure-path contracts.
   route headline is set small enough on phones for "judgement reusable." to
   fit, and the phone footer lays its links in two even columns.
   Recorded in `quality/route-lock/approved-production-r42.json`.
+- The leadership chapters on `/` and `/new-age-leadership`, from Krish's phone
+  review on 25 September 2026. Recorded in
+  `quality/route-lock/approved-production-r45.json`.
+  - The AI Brain benefits no longer lose the ends of their lines on a phone.
+    The benefits stage's grid column is now exactly the stage, and the phone
+    headline size fits the longest phrase the line-break guard keeps together
+    ("forgotten observation.") at every width from 320px.
+  - `keepLastWords` also takes back a join when the block grew wider than an
+    ancestor that hides its overflow, rather than only when it overflowed its
+    own box.
+  - `qa:line-breaks` fails text cut off by an edge that hides it, and carries a
+    negative control for it.
+  - On a phone at least 480px tall the practice scenes pin under their
+    introduction and build by the signal sweep: a mint line crosses the frame
+    left to right, uncovers the next scene, and the rail's fill travels from
+    stop to stop with it, in both directions. Reduced motion changes scenes at
+    the same points without a sweep. A phone held sideways, and a page without
+    scripts, keep the scenes one after another. On the homepage only the scene
+    on screen, and the one being uncovered, play their films.
 - The homepage opening hero selects the Archive Engine r06 loop
   (`src/assets/films/sep2026/archive-engine-hero-loop-r06-16s-720p-web-sealed.mp4`)
   with its own WebP poster; the route stage keeps `film-02`. The 16.5-second

@@ -83,9 +83,25 @@ function join(before: Word, last: Word): (() => void) | null {
 
 /* Whether the joined block now runs past an edge that hides it: an ancestor
    that clips its overflow, or the viewport. A pair that merely overhangs its
-   own box, with nothing clipping it, still reads in full and stays joined. */
+   own box, with nothing clipping it, still reads in full and stays joined.
+
+   A block that does not overflow can still be cut off. A heading in an
+   auto-sized grid or flex track grows with the joined pair instead, and takes
+   its track wider than the box that clips it: on the homepage "forgotten
+   observation." widened the benefits column by 15px, and every benefit lost
+   the ends of its lines (Krish, 2026-09-25). So a block wider than an ancestor
+   that hides its overflow counts as clipped too. Scrolling ancestors are left
+   out of that test: what they hide is a swipe away, and a card waiting off
+   screen in a carousel is not cut off. */
 function clipped(el: Element): boolean {
-  if (el.scrollWidth <= el.clientWidth + 1) return false;
+  if (el.scrollWidth <= el.clientWidth + 1) {
+    const width = el.getBoundingClientRect().width;
+    if (width > window.innerWidth + 1) return true;
+    for (let node = el.parentElement; node && node !== document.body; node = node.parentElement) {
+      if (/hidden|clip/.test(getComputedStyle(node).overflowX) && width > node.clientWidth + 1) return true;
+    }
+    return false;
+  }
   const range = document.createRange();
   range.selectNodeContents(el);
   const right = Math.max(...[...range.getClientRects()].map((r) => r.right), el.getBoundingClientRect().right);

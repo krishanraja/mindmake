@@ -260,6 +260,12 @@ owns payload, privacy, retention, email and failure-path contracts.
   forgets the answer, removes the `_ga` cookies and reloads. Recorded in
   `quality/route-lock/approved-production-r31.json`.
 
+- Navigation: every route opens the same menu. `/` uses the generated R3 menu
+  and every other route uses the shell menu, which reads `PRIMARY_ROUTES` in
+  `src/lib/publicLinks.ts` for the menu and footer, in R3's wording, order and
+  Newsreader type. `src/test/primary-routes-parity.test.ts` holds them
+  together. Recorded in `quality/route-lock/approved-production-r32.json`.
+
 Do not promote old DNS/mailbox, CTRL-host or cache observations into fresh facts
 without new readback. CONTACT_EMAIL in src/lib/publicLinks.ts is the approved
 contact source. Older operational findings remain in the history ledger.

@@ -660,13 +660,15 @@ html {
   padding: 8px 0;
   background: transparent;
   color: var(--mm-tx);
-  font-family: var(--mm-mono);
-  font-size: 10.5px;
-  letter-spacing: .12em;
+  letter-spacing: .1em;
   text-transform: uppercase;
   cursor: pointer;
   touch-action: manipulation;
 }
+/* R3's menu control: the serif, capitals, open tracking, so the homepage and
+   every shell page show the same control. Two classes because
+   `.mm-site button { font: inherit }` would otherwise set it in the body face. */
+.mm-site .mm-menu-button { font: 500 12px/1 var(--mm-serif); }
 .mm-burger { width: 20px; display: grid; gap: 4px; }
 .mm-burger i {
   height: 1.5px;
@@ -689,8 +691,8 @@ html {
   align-content: center;
   visibility: hidden;
   opacity: 0;
-  background: rgba(10, 16, 13, .97);
-  backdrop-filter: blur(18px);
+  /* Opaque, as R3's ground reads: the page behind never shows through. */
+  background: #050e0a;
   padding-block: calc(var(--mm-header-height) + 24px) 40px;
   padding-inline: var(--mm-header-inline, var(--mm-edge));
   /* Visibility must switch on before the opening fade. A timed visibility
@@ -700,40 +702,96 @@ html {
   transition: opacity .16s ease, visibility 0s linear .16s;
 }
 .mm-menu.is-open { visibility: visible; opacity: 1; transition-delay: 0s; }
-.mm-menu nav { display: grid; width: 100%; }
-.mm-menu a,
-.mm-menu button {
-  min-height: 60px;
+/* The menu R3 opens on the homepage, rebuilt for the shell so every page
+   shows the same one: a column of Newsreader routes on hairlines with a mint
+   ↗, the start action beside them, the legal pair beneath. Sizes are R3's
+   container units (3.1cqi desktop, 8.2cqi phone) resolved against the
+   viewport, which is the container R3's menu fills. Colours are R3's own
+   literals, so a paper page's darker mint never reaches the overlay. */
+.mm-menu {
+  grid-template-columns: minmax(0, 1fr) minmax(220px, .42fr);
+  grid-template-rows: 1fr auto;
+  column-gap: 5vw;
+  align-content: stretch;
+}
+.mm-menu-routes { display: grid; align-content: center; width: 100%; }
+.mm-menu-routes a {
+  position: relative;
+  min-height: clamp(52px, 4.4vw, 76px);
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(238, 226, 204, .15);
+  padding-right: 32px;
+  color: #eee2cc;
+  font-family: var(--mm-serif);
+  font-weight: 400;
+  font-size: clamp(28px, 3.1vw, 54px);
+  line-height: .95;
+  letter-spacing: -.03em;
+  text-decoration: none;
+  transition: color .12s ease;
+}
+.mm-menu-routes a::after {
+  position: absolute;
+  right: 0;
+  content: "↗";
+  color: #9df0c8;
+  font-family: var(--mm-grotesque);
+  font-weight: 400;
+  font-size: clamp(14px, 1.2vw, 20px);
+  line-height: 1;
+}
+.mm-menu-start {
+  align-self: center;
+  min-height: clamp(52px, 4vw, 64px);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
   border: 0;
-  border-bottom: 1px solid var(--mm-hair);
-  background: transparent;
-  color: var(--mm-tx);
-  padding: 8px 0;
-  font-family: var(--mm-grotesque);
-  font-weight: 700;
-  font-size: clamp(22px, 3.6vw, 34px);
-  letter-spacing: -.03em;
+  padding-inline: clamp(16px, 1.4vw, 22px);
+  background: #9df0c8;
+  color: #06110d;
   text-align: left;
-  text-decoration: none;
   cursor: pointer;
-  transition: color .12s ease, padding-left .12s ease;
 }
-.mm-menu a::after,
-.mm-menu button::after {
-  content: "→";
-  color: var(--mm-mint);
-  font-family: var(--mm-mono);
-  font-size: 15px;
-  opacity: 0;
-  transition: opacity .12s ease;
+.mm-site .mm-menu-start { font: 650 clamp(13px, .95vw, 15px)/1 var(--mm-grotesque); }
+.mm-menu-secondary {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 24px;
+  align-items: end;
+  padding-top: 24px;
+}
+.mm-menu-secondary a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: flex-end;
+  color: #93a399;
+  font-family: var(--mm-grotesque);
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: .05em;
+  text-decoration: none;
 }
 @media (hover: hover) and (pointer: fine) {
-  .mm-menu a:hover, .mm-menu button:hover { color: var(--mm-mint); padding-left: 10px; }
-  .mm-menu a:hover::after, .mm-menu button:hover::after { opacity: 1; }
+  .mm-menu-routes a:hover,
+  .mm-menu-secondary a:hover { color: #9df0c8; }
+}
+@media (max-width: 700px) {
+  .mm-menu {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto auto;
+    row-gap: 14px;
+  }
+  .mm-menu-routes a {
+    min-height: max(48px, 13.6vw);
+    font-size: clamp(26px, 8.2vw, 40px);
+  }
+  .mm-menu-routes a::after { font-size: clamp(13px, 3.5vw, 16px); }
+  .mm-menu-start { min-height: 52px; }
+  .mm-site .mm-menu-start { font-size: clamp(14px, 3.5vw, 16px); }
+  .mm-menu-secondary { grid-column: auto; padding-top: 0; }
 }
 .mm-menu-open { overflow: hidden; }
 
@@ -749,12 +807,13 @@ html {
     overflow-y: auto;
     padding: calc(var(--mm-header-height) + 2px) var(--mm-gutter) max(4px, var(--mm-safe-bottom));
   }
-  .mm-menu a,
-  .mm-menu button {
+  .mm-menu { grid-template-columns: 1fr; grid-template-rows: auto; row-gap: 8px; }
+  .mm-menu-routes a {
     min-height: 44px;
-    padding-block: 4px;
-    font-size: clamp(18px, 5.2vh, 22px);
+    font-size: clamp(20px, 5.6vh, 26px);
   }
+  .mm-menu-start { min-height: 44px; }
+  .mm-menu-secondary { grid-column: auto; padding-top: 0; }
 }
 
 .mm-footer {

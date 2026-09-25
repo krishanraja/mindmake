@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useRef, useState } from "react";
 import { MindmakeBrand } from "@/components/mindmake/MindmakeBrand";
 import { SiteActionBar, type ActionBarDoor } from "@/components/mindmake/SiteActionBar";
 import { Link, useLocation } from "react-router-dom";
-import { PUBLICATION_URL, START_LABEL } from "@/lib/publicLinks";
+import { PRIMARY_ROUTES, PUBLICATION_URL, START_LABEL } from "@/lib/publicLinks";
 import { track } from "@/lib/analytics";
 
 interface MindmakeShellProps {
@@ -167,21 +167,30 @@ export function MindmakeShell({
         id="mindmake-menu"
         aria-hidden={!menuOpen}
       >
-        <nav aria-label="Main navigation">
-          <Link to="/ai-brain">Build your AI brain</Link>
-          <Link to="/ai-gtm">Build your AI GTM</Link>
-          <Link to="/case-studies">Results</Link>
-          <Link to="/blog">Ideas</Link>
-          <Link to="/new-age-leadership">New-age leadership</Link>
-          <a
-            href={PUBLICATION_URL}
-            target="_blank"
-            rel="noreferrer"
-            onClick={() => track("substack_click", { source: "menu" })}
-          >
-            Media
-          </a>
-          <button type="button" onClick={startFromMenu}>{START_LABEL}</button>
+        {/* The same menu the homepage opens: the R3 routes, then the one way
+            in, then the legal pair. The start action stays a button because
+            off the homepage it opens the brief dialog in place. */}
+        <nav className="mm-menu-routes" aria-label="Main navigation">
+          {PRIMARY_ROUTES.map(({ label, href, external }) => external ? (
+            <a
+              key={href}
+              href={href}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => track("substack_click", { source: "menu" })}
+            >
+              {label}
+            </a>
+          ) : (
+            <Link key={href} to={href}>{label}</Link>
+          ))}
+        </nav>
+        <button className="mm-menu-start" type="button" onClick={startFromMenu}>
+          {START_LABEL} <span aria-hidden="true">→</span>
+        </button>
+        <nav className="mm-menu-secondary" aria-label="Additional navigation">
+          <Link to="/privacy">Privacy</Link>
+          <Link to="/terms">Terms</Link>
         </nav>
       </div>
 
@@ -194,17 +203,9 @@ export function MindmakeShell({
           <nav aria-label="Footer navigation">
             {!compactFooter && (
               <>
-                <Link to="/ai-brain">Build your AI brain</Link>
-                <Link to="/ai-gtm">Build your AI GTM</Link>
-                <Link to="/case-studies">Results</Link>
-                <a href={PUBLICATION_URL} target="_blank" rel="noreferrer">Media</a>
-                <Link to="/blog">Ideas</Link>
-                {/* Two surfaces, two labels. `/faq` is the curated corpus the ask
-                    bar answers from, and its own heading is "Straight answers";
-                    `/answers` is a page per buyer question. One label reading
-                    "Answers" for both is what would confuse a reader. */}
-                <Link to="/answers">Answers</Link>
-                <Link to="/faq">Straight answers</Link>
+                {PRIMARY_ROUTES.map(({ label, href, external }) => external
+                  ? <a key={href} href={href} target="_blank" rel="noreferrer">{label}</a>
+                  : <Link key={href} to={href}>{label}</Link>)}
               </>
             )}
             {compactFooter && <a href={PUBLICATION_URL} target="_blank" rel="noreferrer">Media</a>}

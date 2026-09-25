@@ -70,9 +70,9 @@ const exactLocks = [
   [handoff.decisions?.authority?.selection?.mobileLayout, "network", "authority mobile composition"],
   [handoff.decisions?.message?.selection?.openingHeadline, "Build the business that can think with you.", "opening headline"],
   [handoff.decisions?.message?.selection?.gtmDoorDetail, "Build your AI native pricing, positioning and org.", "AI GTM subheading"],
-  [handoff.decisions?.sharedLanguage?.selection?.blog, "Thinking", "editorial route label"],
-  [handoff.decisions?.sharedLanguage?.selection?.answers, "Questions leaders ask", "answer route label"],
-  [handoff.decisions?.sharedLanguage?.selection?.faq, "Before you start", "buying questions label"]
+  [handoff.decisions?.sharedLanguage?.selection?.blog, "Ideas you can use", "editorial route label"],
+  [handoff.decisions?.sharedLanguage?.selection?.answers, "Quick AI tips", "answer route label"],
+  [handoff.decisions?.sharedLanguage?.selection?.faq, "Questions we get asked", "buying questions label"]
 ];
 for (const [actual, expected, label] of exactLocks) if (actual !== expected) failures.push(`${label}: expected ${expected}, found ${actual}`);
 

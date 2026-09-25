@@ -153,8 +153,9 @@ describe("what the crawlers are told", () => {
     for (const page of staticPages) expect(llms).toContain(page.description);
     for (const post of blogPosts) expect(llms).toContain(`https://mindmake.co/blog/${post.slug}`);
     expect(llms).not.toMatch(/two emails, ever|four details|Thirty days|priced on the result/);
-    expect(llms).toContain("[Thinking]");
-    expect(llms).toContain("[Before you start]");
+    expect(llms).toContain("[Ideas you can use]");
+    expect(llms).toContain("[Questions we get asked]");
+    expect(llms).toContain("[About us]");
   });
 
   it("keeps sitemap dates factual and uses the same canonical route set as prerender", () => {

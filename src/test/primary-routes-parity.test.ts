@@ -44,6 +44,9 @@ describe("primary routes parity", () => {
     expect(byHref["/answers"]).toBe(selection.answers);
     expect(byHref["/faq"]).toBe(selection.faq);
     expect(PRIMARY_ROUTES.at(-1)?.label).toBe(selection.media);
+    /* Home leads and About us sits before Media (Krish, 2026-09-25). */
+    expect(PRIMARY_ROUTES[0]).toEqual({ label: "Home", href: "/" });
+    expect(PRIMARY_ROUTES.at(-2)).toEqual({ label: "About us", href: "/about" });
     expect(START_LABEL).toBe(selection.start);
   });
 });

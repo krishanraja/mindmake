@@ -26,10 +26,11 @@ and use its deterministic production adapter.
 | /ai-brain | Approved judgement-and-memory instrument |
 | /ai-gtm | Approved market-change instrument |
 | /new-age-leadership | Approved people/AI companion narrative |
-| /case-studies | Results: eight verified client stories |
-| /blog and /blog/:slug | Thinking: editorial archive |
-| /answers and /answers/:slug | Questions leaders ask |
-| /faq | Before you start |
+| /case-studies | Success stories: eight verified client stories |
+| /blog and /blog/:slug | Ideas you can use: editorial archive |
+| /answers and /answers/:slug | Quick AI tips |
+| /faq | Questions we get asked |
+| /about | About us: who runs the practice and why |
 | /contact | General contact |
 | /privacy and /terms | Website policies |
 | /alumni | Unlisted, noindex surface |

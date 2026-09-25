@@ -915,6 +915,16 @@ html {
 @media (max-width: 520px) {
   .mm-footer nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+/* The full footer carries twelve links from 25 September 2026 (Home and About
+   us joined the routes), and at 1440 a wrapping row left "Terms" alone. Even
+   columns keep every row full: four from 901px, three on a tablet. The
+   compact four-link footer on the door pages keeps its single row. */
+@media (min-width: 521px) and (max-width: 900px) {
+  .mm-footer:not(.is-compact) nav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 901px) {
+  .mm-footer:not(.is-compact) nav { display: grid; grid-template-columns: repeat(4, auto); justify-content: start; }
+}
 .mm-footer small { color: var(--mm-mut); font-family: var(--mm-mono); font-size: 10.5px; letter-spacing: .05em; }
 
 /* "Subscribe for free": the badge beside Media in the menu and the footer's

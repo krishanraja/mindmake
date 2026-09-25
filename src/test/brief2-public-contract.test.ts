@@ -37,6 +37,7 @@ const PUBLIC_SURFACES = [
   "src/pages/Contact.tsx",
   "src/pages/Alumni.tsx",
   "src/pages/Library.tsx",
+  "src/pages/About.tsx",
   "src/pages/NewAgeLeadership.tsx",
   "src/pages/Blog.tsx",
   "src/pages/BlogPost.tsx",
@@ -142,6 +143,7 @@ describe("the Krish gate", () => {
     "src/data/testimonials.ts": "thirty-three verbatim quotes, several of which name him",
     "src/components/mindmake/FounderNote.tsx": "the founder section: his bio, in his own voice",
     "src/components/mindmake/ProofDrum.tsx": "the framing of the proof: who these people worked with",
+    "src/pages/About.tsx": "the About us page: who runs the practice and why, in his own voice (Krish, 2026-09-25)",
   };
 
   it("keeps the operator's name out of the practice's own voice", () => {
@@ -160,7 +162,7 @@ describe("the Krish gate", () => {
         .toBe(`${surface} exists: true`);
       expect(NAMED_SURFACES[surface].length > 20).toBe(true);
     }
-    expect(Object.keys(NAMED_SURFACES)).toHaveLength(3);
+    expect(Object.keys(NAMED_SURFACES)).toHaveLength(4);
   });
 
   it("keeps the practice speaking as we, even where he is named", () => {
@@ -191,6 +193,7 @@ describe("the Krish gate", () => {
       "src/pages/Terms.tsx",
       "src/pages/Contact.tsx",
       "src/pages/Alumni.tsx",
+      "src/pages/About.tsx",
     ]) {
       const source = read(surface);
       expect(`${surface} reads the constant: ${source.includes("CONTACT_EMAIL")}`)
@@ -527,10 +530,12 @@ describe("the conversion contract", () => {
     for (const item of [
       "Build your AI brain",
       "Build your AI GTM",
-      "Results",
-      "Thinking",
-      "Questions leaders ask",
-      "Before you start",
+      "Home",
+      "Success stories",
+      "Ideas you can use",
+      "Quick AI tips",
+      "Questions we get asked",
+      "About us",
       "Media",
     ]) {
       expect(links).toContain(item);

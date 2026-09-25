@@ -81,6 +81,7 @@ const staticRouteModules = {
   "/blog": "src/pages/Blog.tsx",
   "/answers": "src/pages/Answers.tsx",
   "/faq": "src/pages/Library.tsx",
+  "/about": "src/pages/About.tsx",
   "/contact": "src/pages/Contact.tsx",
   "/privacy": "src/pages/Privacy.tsx",
   "/terms": "src/pages/Terms.tsx",

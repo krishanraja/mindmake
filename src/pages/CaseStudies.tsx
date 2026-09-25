@@ -40,7 +40,7 @@ export default function CaseStudies() {
   return (
     <MindmakeShell onStart={openBrief} mainClassName="mm-case-route">
       <SEO
-        title="Results"
+        title="Success stories"
         description="Eight verified stories about the work Mindmake helped customers change and what happened next."
         canonical="/case-studies"
         jsonLd={jsonLd}

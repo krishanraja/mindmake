@@ -16,14 +16,14 @@ export default function Questions() {
   return (
     <MindmakeShell onStart={() => setBriefOpen(true)}>
       <SEO
-        title="Straight answers"
+        title="Questions we get asked"
         description="Straight answers about Mindmake: what the work builds, what it costs, whether anyone needs to know, what happens to your data and what you keep."
         canonical="/faq"
       />
       <section className="mm-answers-page" aria-labelledby="answers-title">
         <div className="mm-container">
           <div className="mm-answers-hero">
-            <h1 id="answers-title">Straight answers.</h1>
+            <h1 id="answers-title">Questions we get asked.</h1>
             <p>The questions leaders ask before they start, answered the way we would answer them on a call.</p>
           </div>
 

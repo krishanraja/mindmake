@@ -110,16 +110,16 @@ body.mm-homepage-active { margin: 0; }
   font-size: clamp(14px, 1.15vw, 18px);
 }
 .mm-homepage-release .r3-footer .footer-routes a { font-size: clamp(13px, 1.1vw, 17px); }
-/* All eight footer routes on one line (Krish, 2026-09-25): at 1440 they
-   needed about 1,019px against a 1,007px column, so the last route wrapped
-   onto a line of its own. Smaller type and a tighter gap fit them from
-   1,024px up; below that the row still wraps rather than shrink the type
-   under 11px. */
+/* The footer's ten routes (Home and About us joined the eight on
+   2026-09-25) no longer fit one line at 1440, and a wrapping row left the
+   last route alone. Two even rows of five keep every row full at every
+   desktop width; the type stays at the size the one-line rail used. */
 @media (min-width: 701px) {
-  .mm-homepage-release .r3-footer .preview-desktop .footer-routes {
-    display: flex;
-    flex-wrap: wrap;
-    column-gap: clamp(12px, 1.25vw, 26px);
+  .mm-homepage-release .r3-footer .preview-desktop .site-footer .footer-routes {
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    justify-content: start;
+    gap: clamp(8px, 0.8vw, 14px) clamp(16px, 1.6vw, 30px);
   }
   .mm-homepage-release .r3-footer .preview-desktop .footer-routes a {
     font-size: clamp(11px, 0.95vw, 16px);
@@ -147,9 +147,17 @@ body.mm-homepage-active { margin: 0; }
     margin-top: clamp(16px, 5vw, 24px);
     font-size: clamp(15px, 4vw, 18px);
   }
+  /* Ten uneven links fell 3+3+3+1 on a phone and left the start route alone.
+     Two even columns keep every row paired, as the shell footer does. */
+  .mm-homepage-release .r3-footer .preview-mobile .site-footer .footer-routes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(10px, 3vw, 16px) clamp(12px, 4vw, 20px);
+  }
   .mm-homepage-release .r3-footer .preview-mobile .footer-routes a,
   .mm-homepage-release .r3-footer .preview-mobile .site-footer[data-structure-mobile="compact"] .footer-routes a {
-    font-size: clamp(14px, 3.8vw, 17px);
+    font-size: clamp(13px, 3.6vw, 17px);
+    white-space: nowrap;
   }
   .mm-homepage-release .r3-footer .preview-mobile .legal a { font-size: clamp(13px, 3.4vw, 15px); }
   .mm-homepage-release .r3-footer .preview-mobile .site-footer small { font-size: clamp(11px, 2.8vw, 13px); }

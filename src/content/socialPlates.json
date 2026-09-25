@@ -22,8 +22,8 @@
   },
   "/case-studies": {
     "file": "/social/case-studies.jpg",
-    "version": "ffb07e2e",
-    "headline": "The decision, and what changed next.",
+    "version": "7958053b",
+    "headline": "Success stories.",
     "claim": "",
     "still": "film-04"
   },
@@ -43,17 +43,24 @@
   },
   "/answers": {
     "file": "/social/answers.jpg",
-    "version": "2d6214cf",
-    "headline": "Questions leaders are asking about AI.",
+    "version": "53d122b9",
+    "headline": "Quick AI tips.",
     "claim": "Answered with a position, not a summary.",
     "still": "film-02"
   },
   "/faq": {
     "file": "/social/faq.jpg",
-    "version": "b15203a1",
-    "headline": "Straight answers.",
+    "version": "f017925b",
+    "headline": "Questions we get asked.",
     "claim": "",
     "still": "film-02"
+  },
+  "/about": {
+    "file": "/social/about.jpg",
+    "version": "2e8a7d86",
+    "headline": "About us.",
+    "claim": "",
+    "still": "film-01"
   },
   "/contact": {
     "file": "/social/contact.jpg",

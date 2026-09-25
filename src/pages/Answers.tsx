@@ -19,7 +19,7 @@ import "@/styles/mindmake.css";
  * the page is for. Mixing the two would dilute the archive and misrepresent
  * both, so they share the design system and nothing else.
  */
-const TITLE = "Questions leaders are asking about AI";
+const TITLE = "Quick AI tips";
 const DESCRIPTION = "One page per question: the direct answer first, then the case for it, including what the pages already answering that question miss.";
 
 const written = (date: string) =>
@@ -56,7 +56,7 @@ export default function Answers() {
       <section className="mm-answer-index" aria-labelledby="answer-index-title">
         <div className="mm-container">
           <div className="mm-answer-index-hero">
-            <h1 id="answer-index-title">Questions leaders are asking about AI.</h1>
+            <h1 id="answer-index-title">Quick AI tips.</h1>
           </div>
 
           <div className="mm-answer-index-entries">

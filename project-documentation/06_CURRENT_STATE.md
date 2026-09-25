@@ -323,6 +323,17 @@ owns payload, privacy, retention, email and failure-path contracts.
   route headline is set small enough on phones for "judgement reusable." to
   fit, and the phone footer lays its links in two even columns.
   Recorded in `quality/route-lock/approved-production-r42.json`.
+- The menu and the About page, from Krish's request on 25 September 2026.
+  Recorded in `quality/route-lock/approved-production-r47.json`.
+  - Every menu and footer reads Home, Build your AI brain, Build your AI GTM,
+    Success stories, Ideas you can use, Quick AI tips, Questions we get asked,
+    About us and Media. The four renamed pages carry their label as their
+    title and headline, so the click lands where it said.
+  - `/about` is a new indexed page: the practice in its own voice, then Krish
+    in his, with his headshot, sixteen years of career facts from his own
+    published record, why he started Mindmake, and three verbatim career
+    references read from `src/data/testimonials.ts`. It is the fourth named
+    surface in the Krish gate. No count of leaders helped appears.
 - The leadership chapters on `/` and `/new-age-leadership`, from Krish's phone
   review on 25 September 2026. Recorded in
   `quality/route-lock/approved-production-r46.json`.

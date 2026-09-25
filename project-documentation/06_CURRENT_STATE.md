@@ -271,6 +271,12 @@ owns payload, privacy, retention, email and failure-path contracts.
   pages take it from `--mm-body` and the `.mm-site` heading default. Recorded
   in `quality/route-lock/approved-production-r33.json`.
 
+- Route loading: every client route loads through `lazyRoute`
+  (`src/lib/lazyRoute.ts`), so one dropped chunk request costs a single reload
+  rather than the error page. A chunk that fails every time still reaches the
+  error boundary after that one reload. Recorded in
+  `quality/route-lock/approved-production-r34.json`.
+
 Do not promote old DNS/mailbox, CTRL-host or cache observations into fresh facts
 without new readback. CONTACT_EMAIL in src/lib/publicLinks.ts is the approved
 contact source. Older operational findings remain in the history ledger.

@@ -520,17 +520,20 @@ describe("the conversion contract", () => {
     }
   });
 
-  it("keeps the commercial, editorial and leadership routes in the menu", () => {
+  it("keeps the approved R3 routes in the shell menu", () => {
     const shell = read("src/components/mindmake/MindmakeShell.tsx");
+    const links = read("src/lib/publicLinks.ts");
+    expect(shell).toContain("PRIMARY_ROUTES.map");
     for (const item of [
       "Build your AI brain",
       "Build your AI GTM",
       "Results",
-      "Ideas",
-      "New-age leadership",
+      "Thinking",
+      "Questions leaders ask",
+      "Before you start",
       "Media",
     ]) {
-      expect(shell).toContain(item);
+      expect(links).toContain(item);
     }
   });
 

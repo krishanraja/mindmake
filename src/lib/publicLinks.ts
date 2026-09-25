@@ -47,3 +47,22 @@ export const START_SUBLABEL = "Answer a few questions, keep the brief, then a fr
  * record, then change this one constant. Nothing else needs to move.
  */
 export const CONTACT_EMAIL = "krish@themindmaker.ai";
+
+/**
+ * The site's primary routes, in the order and wording the approved R3 homepage
+ * menu uses (quality/website-redesign/homepage-handoff.v1.json,
+ * `sharedLanguage.selection`). R3's own menu is generated from its prototype,
+ * so the shell menu and footer on every other page read this list instead of
+ * keeping their own copy. A reader opening the menu from /blog sees exactly
+ * what they see from /. src/test/primary-routes-parity.test.ts holds the two
+ * together.
+ */
+export const PRIMARY_ROUTES: ReadonlyArray<{ label: string; href: string; external?: boolean }> = [
+  { label: "Build your AI brain", href: "/ai-brain" },
+  { label: "Build your AI GTM", href: "/ai-gtm" },
+  { label: "Results", href: "/case-studies" },
+  { label: "Thinking", href: "/blog" },
+  { label: "Questions leaders ask", href: "/answers" },
+  { label: "Before you start", href: "/faq" },
+  { label: "Media", href: PUBLICATION_URL, external: true },
+];

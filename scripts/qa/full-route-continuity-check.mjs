@@ -221,7 +221,7 @@ async function verifyShell(page, label) {
   await page.waitForTimeout(100);
   const menu = page.getByRole("button", { name: "Open navigation" });
   await menu.click();
-  const navigation = page.locator("#mindmake-menu nav");
+  const navigation = page.locator("#mindmake-menu .mm-menu-routes");
   await navigation.waitFor({ state: "visible" });
   try {
     await page.waitForFunction(() => document.activeElement?.closest("#mindmake-menu") !== null, null, { timeout: 1_000 });
@@ -245,7 +245,7 @@ async function verifyShell(page, label) {
         .find((link) => link.textContent.trim() === "Media")?.getAttribute("href"),
     };
   });
-  for (const href of ["/ai-brain", "/ai-gtm", "/case-studies", "/blog", "/new-age-leadership"]) {
+  for (const href of ["/ai-brain", "/ai-gtm", "/case-studies", "/blog", "/answers", "/faq"]) {
     fail(!shell.internal.includes(href), `${label}: menu is missing ${href}`);
   }
   fail(shell.media !== "https://mindmakerlive.substack.com", `${label}: Media points to ${shell.media}`);

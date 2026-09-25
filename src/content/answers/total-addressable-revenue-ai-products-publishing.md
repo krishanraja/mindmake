@@ -1,5 +1,5 @@
 ---
-title: "Total Addressable Revenue for AI Products in Publishing: Calculate It From Your P&L, Not a Market Report"
+title: "Total addressable revenue for AI products in publishing: calculate it from your P&L, not a market report"
 slug: "total-addressable-revenue-ai-products-publishing"
 description: "Calculate an AI publishing product's revenue opportunity from churn, ARPU, ad yield and licensing data instead of a market-sizing report."
 answer: "The total addressable revenue for an AI product in publishing is not a slice of a category-wide TAM figure from a research firm. It is built from a publisher's own revenue lines: subscriber base, churn, ARPU, ad yield per session, and licensing rates, run through the specific mechanic the AI product changes. Mindmake builds that calculation from a publisher's actual P&L rather than an industry multiple."

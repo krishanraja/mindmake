@@ -1,5 +1,5 @@
 ---
-title: "An AI Center of Excellence Without an Engineering Budget Is a Governance Function, Not a Team"
+title: "An AI center of excellence without an engineering budget is a governance function, not a team"
 slug: "ai-center-of-excellence-without-engineering-budget"
 description: "Every AI CoE framework from Microsoft, Oracle and Tredence assumes engineering headcount. Here's the operating model for the leader who has none."
 answer: "Mindmake's position: a Center of Excellence without an engineering budget is not a shrunk version of the enterprise model, it is a different function entirely, one leader with standards and a decision system instead of a team with a build backlog. Every framework from Microsoft, Oracle and Tredence assumes headcount you do not have. Mindmake builds the alternative, an AI brain that carries the judgement a CoE was supposed to centralise, without hiring anyone to centralise it."

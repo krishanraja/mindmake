@@ -439,12 +439,8 @@ async function verifyDesktopTextReflow(browser) {
       route: "/ai-brain",
       targets: [
         ".mm-locked-brain .opening-copy > h1",
-        ".mm-locked-brain .brain-object",
-        ".mm-locked-brain .pulse-core",
-        ".mm-locked-brain .pulse-core strong",
         ".mm-locked-brain .opening-copy > p",
         ".mm-locked-brain .primary-link",
-        ".mm-locked-brain .opening-note",
       ],
     },
   ];

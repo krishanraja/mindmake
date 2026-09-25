@@ -12,6 +12,7 @@ import evidencePoster from "../../prototypes/website-redesign-recovery/brain-sig
 import { PairingBridge } from "@/components/mindmake/PairingBridge";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-locked-brain.css";
+import "@/styles/mindmake-brain-refinements.css";
 
 const selectedId = "BI-003";
 const plainStatements: Record<string, string> = {
@@ -38,7 +39,7 @@ const plainStatements: Record<string, string> = {
 };
 
 const evidenceMessages = {
-  ready: "Current record. Ten sources connected.",
+  ready: "",
   loading: "Checking the record. The last known version remains readable.",
   stale: "The source check is older than expected. The last known version remains readable.",
   error: "The source check is unavailable. The last known version remains readable.",
@@ -61,8 +62,29 @@ function prepareMarkup() {
 
 const lockedMarkup = prepareMarkup();
 
-const humanise = (value: string) => value.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
-const plainStanding = (item: BrainItem) => `${item.standing === "accepted" ? "Accepted thinking" : "Working thinking"}, ${item.confidence === "direct" ? "backed by direct evidence" : "supported by the record"}`;
+// Settled thinking and thinking still being worked out look different in the
+// graph, so the nodes read as doing different jobs before anyone clicks.
+const isSettled = (item: BrainItem) => item.standing === "accepted" || item.standing === "owned_call" || item.standing === "accepted_learning";
+
+// Text that changes on interaction sits in a frame sized to its longest
+// variant, so the panel never grows or shrinks as a visitor clicks around.
+function reserveLongest(target: HTMLElement | null, variants: string[]) {
+  const frame = target?.parentElement;
+  if (!target || !frame || frame.querySelector(`[data-sizer-for="${target.id}"]`)) return;
+  const wrapper = document.createElement("div");
+  wrapper.className = "mm-stable-frame";
+  target.replaceWith(wrapper);
+  wrapper.append(target);
+  variants.forEach((variant) => {
+    const ghost = target.cloneNode(false) as HTMLElement;
+    ghost.removeAttribute("id");
+    ghost.dataset.sizerFor = target.id;
+    ghost.setAttribute("aria-hidden", "true");
+    ghost.className = `${target.className} mm-stable-ghost`.trim();
+    ghost.textContent = variant;
+    wrapper.append(ghost);
+  });
+}
 
 function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
   useEffect(() => {
@@ -96,15 +118,35 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
         node.classList.toggle("is-active", active);
         node.setAttribute("aria-pressed", active ? "true" : "false");
       });
-      const kind = q<HTMLElement>("#inspectorKindS2");
       const title = q<HTMLElement>("#inspectorTitleS2");
       const statement = q<HTMLElement>("#inspectorStatementS2");
-      const standing = q<HTMLElement>("#inspectorStandingS2");
-      if (kind) kind.textContent = "What the Brain remembers";
       if (title) title.textContent = item.title;
       if (statement) statement.textContent = plainStatements[item.id] ?? item.statement;
-      if (standing) standing.textContent = plainStanding(item);
     };
+
+    // Every idea title stays on one line at one size. The size is set once
+    // from the longest title that fits the panel, never per selection.
+    const inspector = q<HTMLElement>("#meaningInspectorS2");
+    const inspectorTitle = q<HTMLElement>("#inspectorTitleS2");
+    reserveLongest(q<HTMLElement>("#inspectorStatementS2"), fixture.items.map((item) => plainStatements[item.id] ?? item.statement));
+    const fitTitles = () => {
+      if (!inspector || !inspectorTitle) return;
+      inspector.style.removeProperty("--inspector-title-size");
+      const probe = inspectorTitle.cloneNode(false) as HTMLElement;
+      probe.removeAttribute("id");
+      probe.setAttribute("aria-hidden", "true");
+      probe.style.cssText = "position:absolute;visibility:hidden;white-space:nowrap;width:auto;max-width:none;max-inline-size:none;margin:0";
+      inspectorTitle.parentElement?.append(probe);
+      const available = inspectorTitle.getBoundingClientRect().width;
+      const baseSize = parseFloat(getComputedStyle(inspectorTitle).fontSize);
+      const widest = Math.max(...fixture.items.map((item) => { probe.textContent = item.title; return probe.getBoundingClientRect().width; }));
+      probe.remove();
+      if (available > 0 && widest > available) inspector.style.setProperty("--inspector-title-size", `${Math.floor(baseSize * (available / widest) * 10) / 10}px`);
+    };
+    fitTitles();
+    void document.fonts?.ready.then(fitTitles);
+    window.addEventListener("resize", fitTitles);
+    cleanups.push(() => window.removeEventListener("resize", fitTitles));
 
     if (field && svg) {
       fixture.relationships.forEach((relationship) => {
@@ -125,6 +167,8 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
         button.type = "button";
         button.className = "meaning-node-s2";
         button.dataset.id = item.id;
+        button.dataset.standing = isSettled(item) ? "settled" : "working";
+        button.style.setProperty("--cue-delay", `${(fixture.items.indexOf(item) * 7) % 20 * 0.45}s`);
         button.style.setProperty("--x", `${item.x}%`);
         button.style.setProperty("--y", `${item.y}%`);
         button.setAttribute("aria-label", `${item.title}. ${plainStatements[item.id] ?? item.statement}`);
@@ -133,7 +177,7 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
         const label = document.createElement("span");
         label.textContent = item.title;
         button.append(label);
-        const click = () => selectMeaning(item);
+        const click = () => { root.dataset.meaningTouched = "true"; selectMeaning(item); };
         button.addEventListener("click", click);
         cleanups.push(() => button.removeEventListener("click", click));
         field.append(button);
@@ -169,6 +213,7 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
         if (!item) return;
         event.preventDefault();
         event.stopPropagation();
+        root.dataset.meaningTouched = "true";
         selectMeaning(item);
       };
       field.addEventListener("click", selectNearestMeaning, true);
@@ -181,6 +226,8 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
       ...fixture.sources.map((source) => ({ kind: "Evidence", id: source.id, title: source.label, detail: source.assertion })),
       ...fixture.corrections.map((correction) => ({ kind: "Change", id: correction.id, title: itemById.get(correction.item_ref)?.title ?? correction.item_ref, detail: correction.summary })),
     ];
+    const counts = [fixture.items.length, fixture.relationships.length, fixture.sources.length, fixture.corrections.length];
+    root.querySelectorAll<HTMLElement>(".record-counts b").forEach((count, index) => { count.textContent = String(counts[index]); });
     const reel = q<HTMLOListElement>("#recordReelS2");
     const complete = q<HTMLElement>("#completeRecordS2");
     const pauseButton = q<HTMLButtonElement>("#pauseRecordS2");
@@ -247,42 +294,35 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
     paint();
     startTimer();
 
+    // One switch, one visible consequence: the first source dims and the
+    // result underneath says what still holds. The label names the next
+    // action, and the result panel never changes height.
     const sourceButton = q<HTMLButtonElement>("#testSourceS2");
+    const proofResult = {
+      both: ["The decision is supported by both sources.", "Its connected thinking is clear."],
+      one: ["The decision still holds.", "One source still supports it. Two connected ideas need another look."],
+    };
+    reserveLongest(q<HTMLElement>("#proofHeadlineS2"), [proofResult.both[0], proofResult.one[0]]);
+    reserveLongest(q<HTMLElement>("#proofDetailS2"), [proofResult.both[1], proofResult.one[1]]);
     const testSource = () => {
       const testing = root.dataset.sourceTest !== "true";
       root.dataset.sourceTest = testing ? "true" : "false";
-      sourceButton?.setAttribute("aria-pressed", testing ? "true" : "false");
+      sourceButton?.setAttribute("aria-checked", testing ? "true" : "false");
       const label = sourceButton?.querySelector("span");
-      const hint = sourceButton?.querySelector("b");
-      if (label) label.textContent = testing ? "Put the source back" : "Take one source away";
-      if (hint) hint.textContent = testing ? "Restore" : "Try it";
-      const sourceState = q<HTMLElement>("#sourceOneStateS2");
+      if (label) label.textContent = testing ? "Put the source back" : "Remove one source";
+      const [headlineText, detailText] = testing ? proofResult.one : proofResult.both;
       const headline = q<HTMLElement>("#proofHeadlineS2");
       const detail = q<HTMLElement>("#proofDetailS2");
-      if (sourceState) sourceState.textContent = testing ? "Temporarily removed" : "Connected";
-      if (headline) headline.textContent = testing ? "The decision still holds." : "The decision is supported by both sources.";
-      if (detail) detail.textContent = testing ? "One source still supports it. Two connected ideas need another look." : "Its connected thinking is clear.";
+      if (headline) headline.textContent = headlineText;
+      if (detail) detail.textContent = detailText;
     };
     sourceButton?.addEventListener("click", testSource);
     cleanups.push(() => sourceButton?.removeEventListener("click", testSource));
 
-    const correctionButton = q<HTMLButtonElement>("#replayCorrectionS2");
-    const replayCorrection = () => {
-      const replay = root.dataset.correction !== "replay";
-      root.dataset.correction = replay ? "replay" : "current";
-      correctionButton?.setAttribute("aria-pressed", replay ? "true" : "false");
-      const label = correctionButton?.querySelector("span");
-      const hint = correctionButton?.querySelector("b");
-      if (label) label.textContent = replay ? "Return to the current view" : "Replay the change";
-      if (hint) hint.textContent = replay ? "Show now" : "Before → now";
-      const status = q<HTMLElement>("#correctionStatusS2");
-      if (status) status.textContent = replay ? "The earlier view is back in focus." : "The current view is in focus.";
-    };
-    correctionButton?.addEventListener("click", replayCorrection);
-    cleanups.push(() => correctionButton?.removeEventListener("click", replayCorrection));
-
     const chapters = [...root.querySelectorAll<HTMLElement>(".chapter[data-phase]")];
     const links = [...root.querySelectorAll<HTMLElement>("[data-phase-link]")];
+    const correctionSection = q<HTMLElement>("#correction");
+    const correctionMachine = q<HTMLElement>("#correctionMachine");
     let buildFrame = 0;
     const updateBuild = () => {
       buildFrame = 0;
@@ -298,6 +338,14 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
         const distance = Math.abs(rect.top + rect.height * 0.4 - viewportHeight * 0.5);
         if (distance < nearest) { nearest = distance; active = chapter; }
       });
+      // The correction builds from BEFORE to NOW as its instrument rises from
+      // the lower edge of the screen to above centre, and unbuilds on the
+      // way back. It reads its own position so every screen size agrees.
+      if (correctionMachine && correctionSection) {
+        const top = correctionMachine.getBoundingClientRect().top;
+        const learn = renderFinal ? 1 : Math.max(0, Math.min(1, (viewportHeight * 0.85 - top) / (viewportHeight * 0.45)));
+        correctionSection.style.setProperty("--learn-scroll", learn.toFixed(3));
+      }
       links.forEach((link) => {
         if (link.dataset.phaseLink === active?.dataset.phase) link.setAttribute("aria-current", "step");
         else link.removeAttribute("aria-current");
@@ -310,7 +358,6 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
     cleanups.push(() => window.removeEventListener("resize", requestBuild));
 
     root.dataset.sourceTest = "false";
-    root.dataset.correction = "current";
     root.classList.remove("no-js");
     setEvidenceState(requestedState);
     updateBuild();

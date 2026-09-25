@@ -5,7 +5,7 @@ import { SEO } from "@/components/SEO";
 import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { answers } from "@/lib/answers";
-import { answerPath } from "@/lib/answerFormat";
+import { answerPath, asQuestion } from "@/lib/answerFormat";
 import "@/styles/mindmake.css";
 
 /**
@@ -57,7 +57,6 @@ export default function Answers() {
         <div className="mm-container">
           <div className="mm-answer-index-hero">
             <h1 id="answer-index-title">Questions leaders are asking about AI.</h1>
-            <p>Each page answers one question in full at the top, then argues the case underneath. They are written to be quoted, by people and by the machines people ask.</p>
           </div>
 
           <div className="mm-answer-index-entries">
@@ -65,7 +64,7 @@ export default function Answers() {
               <Link key={answer.slug} className="mm-answer-entry" to={answerPath(answer.slug)}>
                 <article>
                   <h2>{answer.title}</h2>
-                  <p>{answer.targetQuery}</p>
+                  <p>{asQuestion(answer.targetQuery)}</p>
                   <footer>
                     <span>{written(answer.publishedAt)}</span>
                     <strong>Read the answer <ArrowRight aria-hidden="true" /></strong>

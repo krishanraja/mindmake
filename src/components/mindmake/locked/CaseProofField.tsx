@@ -106,6 +106,17 @@ ${root} .field-intro{grid-template-columns:minmax(0,1fr)}
   ${root} .field-intro{width:calc(100% - (2 * max(var(--mm-gutter),var(--mm-safe-left),var(--mm-safe-right))));margin-inline:auto;padding-inline:0}
   ${root} .expanded-head h2{overflow-wrap:anywhere}
   ${root} .mobile-dock{padding-bottom:calc(env(safe-area-inset-bottom,0px) + var(--mm-cookie-reserve,0px))}
+  /* Thumb swipes anywhere on a card (Krish, 2026-09-25). Each card's copy
+     sat in its own scroll box that refused to hand a gesture on, so a swipe
+     only moved the rail from the few places outside that box, and a vertical
+     swipe could never leave the rail for the testimonials and client logos
+     below it. Now a sideways swipe anywhere moves the rail, and an up or down
+     swipe scrolls the page. */
+  ${root} .region-list,${root} .region,${root} .region-hit,${root} .region .expanded{touch-action:pan-x pan-y}
+  ${root} .region .expanded{overscroll-behavior:auto}
+  /* The rail stops short of a full screen so the testimonials below it show
+     their first line: the page visibly goes on. */
+  ${root} .proof-shell{height:calc(100svh - 76px);min-height:560px}
 }`;
 }
 

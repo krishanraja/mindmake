@@ -63,9 +63,24 @@ export interface AnswerPage {
   faq: AnswerFaqEntry[];
   /** The argument, as markdown. */
   body: string;
+  /**
+   * False keeps a page out of the top of the index however new it is
+   * (`lead: false` in the front matter). Krish, 2026-09-25: the adtech
+   * answer is never the first thing a visitor reads.
+   */
+  lead: boolean;
 }
 
 const SITE = "https://mindmake.co";
+
+/**
+ * The target query as a reader sees it: a sentence-case question. The stored
+ * query keeps the lower-case words a buyer types into a search box.
+ */
+export const asQuestion = (query: string) => {
+  const trimmed = query.trim().replace(/[?.!]+$/, "");
+  return `${trimmed.charAt(0).toUpperCase()}${trimmed.slice(1)}?`;
+};
 
 /** The path an answer is published at, in one place so nothing guesses it. */
 export const answerPath = (slug: string) => `/answers/${slug}`;
@@ -144,6 +159,12 @@ function parseFrontMatter(front: string, file: string): Record<string, FrontMatt
   return fields;
 }
 
+const leadFlag = (value: FrontMatterValue, file: string) => {
+  if (value === "true") return true;
+  if (value === "false") return false;
+  throw new Error(`${file}: lead is ${JSON.stringify(value)} rather than true or false`);
+};
+
 /**
  * One answer page from one file's source.
  *
@@ -202,6 +223,7 @@ export function parseAnswerFile(source: string, file: string): AnswerPage {
     firstParty: list("first_party"),
     faq: faq as AnswerFaqEntry[],
     body,
+    lead: fields.lead === undefined ? true : leadFlag(fields.lead, file),
   };
 }
 
@@ -214,6 +236,18 @@ export function parseAnswerFile(source: string, file: string): AnswerPage {
  */
 export const byNewestFirst = (a: AnswerPage, b: AnswerPage) =>
   b.publishedAt.localeCompare(a.publishedAt) || a.slug.localeCompare(b.slug);
+
+/**
+ * The index order: newest first, except that a page marked `lead: false`
+ * never opens the list. The newest page allowed to lead moves to the top and
+ * everything else keeps its date order.
+ */
+export function orderAnswers(pages: AnswerPage[]) {
+  const sorted = [...pages].sort(byNewestFirst);
+  const leader = sorted.findIndex((page) => page.lead);
+  if (leader > 0) sorted.unshift(...sorted.splice(leader, 1));
+  return sorted;
+}
 
 /**
  * The structured data for one answer page: the article, and the FAQ as its own

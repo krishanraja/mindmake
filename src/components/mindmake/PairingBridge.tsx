@@ -17,15 +17,24 @@ import "@/styles/mindmake-pairing.css";
  * while it is on screen and the page never shows two ways in at once
  * (scripts/qa/one-way-in-check.mjs). The other page is a link: a reader who
  * follows it is browsing, not starting.
+ *
+ * Revision (Krish, 2026-09-25): a heading about the other service sitting
+ * above this page's brief button blurred where a click would take you. The
+ * page now ends in two distinct parts: this page's brief first, then the
+ * other service as one card that says where you are and where it goes.
  */
 const PAIRS = {
   brain: {
+    here: "AI brain",
+    there: "AI GTM",
     title: "An AI brain gives your GTM something to run on.",
     body: "AI GTM turns an AI market shift into one tested commercial move. It moves faster when the judgement behind it is already written down.",
     to: "/ai-gtm",
     label: "Build your AI GTM",
   },
   gtm: {
+    here: "AI GTM",
+    there: "AI brain",
     title: "Your GTM runs better on an AI brain.",
     body: "An AI brain gives your standards, context and past decisions a memory you can use, so each pricing, positioning and org call starts from what you already know.",
     to: "/ai-brain",
@@ -38,17 +47,6 @@ export function PairingBridge({ route, onStart }: { route: keyof typeof PAIRS; o
   return (
     <section className="mm-pairing" aria-labelledby="mm-pairing-title" data-pairing={route}>
       <div className="mm-pairing-inner">
-        <div className="mm-pairing-other">
-          <h2 id="mm-pairing-title">{pair.title}</h2>
-          <p>{pair.body}</p>
-          <Link
-            className="mm-pairing-link"
-            to={pair.to}
-            onClick={() => track("door_click", { source: "pairing", to: pair.to })}
-          >
-            {pair.label} <span aria-hidden="true">→</span>
-          </Link>
-        </div>
         <div className="mm-pairing-start">
           <button
             className="mm-button"
@@ -62,6 +60,24 @@ export function PairingBridge({ route, onStart }: { route: keyof typeof PAIRS; o
             {START_LABEL} <span aria-hidden="true">→</span>
           </button>
         </div>
+        <Link
+          className="mm-pairing-other"
+          to={pair.to}
+          aria-describedby="mm-pairing-body"
+          onClick={() => track("door_click", { source: "pairing", to: pair.to })}
+        >
+          <span className="mm-pairing-route" aria-hidden="true">
+            <span>{pair.here}</span>
+            <span className="mm-pairing-route-arrow">→</span>
+            <b>{pair.there}</b>
+          </span>
+          <h2 id="mm-pairing-title">{pair.title}</h2>
+          <p id="mm-pairing-body">{pair.body}</p>
+          <span className="mm-pairing-link">
+            <span className="mm-pairing-label">{pair.label}</span>
+            <span className="mm-pairing-arrow" aria-hidden="true">→</span>
+          </span>
+        </Link>
       </div>
     </section>
   );

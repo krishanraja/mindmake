@@ -180,7 +180,7 @@ async function inspectCommon(page, label, rootSelector, { targets = [] } = {}) {
   return result;
 }
 
-async function inspectBrainLayout(page, label, { requireViewportFit = false, requirePlaqueRatio = true } = {}) {
+async function inspectBrainLayout(page, label, { requireViewportFit = false } = {}) {
   await inspectCommon(page, label, ".mm-locked-brain", {
     targets: ["button:not([hidden])", ".primary-link", ".phase-rail a"],
   });
@@ -214,7 +214,7 @@ async function inspectBrainLayout(page, label, { requireViewportFit = false, req
     });
     const chapters = [...document.querySelectorAll(".mm-locked-brain .chapter")].map((chapter) => {
       const chapterRect = chapter.getBoundingClientRect();
-      const contentOverflow = [...chapter.querySelectorAll(":scope > .chapter-copy, :scope > .instrument, :scope > .brain-object, :scope > .opening-copy, :scope > .opening-note")]
+      const contentOverflow = [...chapter.querySelectorAll(":scope > .chapter-copy, :scope > .instrument, :scope > .opening-copy")]
         .filter((element) => getComputedStyle(element).display !== "none")
         .map((element) => ({ name: element.className, rect: element.getBoundingClientRect() }))
         .filter(({ rect }) => rect.top < chapterRect.top - 2 || rect.bottom > chapterRect.bottom + 2 || rect.left < chapterRect.left - 2 || rect.right > chapterRect.right + 2)
@@ -267,6 +267,10 @@ async function inspectBrainLayout(page, label, { requireViewportFit = false, req
       correctionRight: correctionCopy?.right || 0,
       correctionLimit,
       recordText,
+      brainObject: brainRect ? {
+        decorative: document.querySelector(".mm-locked-brain .brain-object").getAttribute("aria-hidden") === "true"
+          && getComputedStyle(document.querySelector(".mm-locked-brain .brain-object")).pointerEvents === "none",
+      } : null,
       plaque: brainRect && plaqueRect ? {
         centerDx: Math.abs((plaqueRect.left + plaqueRect.width / 2) - (brainRect.left + brainRect.width / 2)),
         centerDy: Math.abs((plaqueRect.top + plaqueRect.height / 2) - (brainRect.top + brainRect.height / 2)),
@@ -288,21 +292,10 @@ async function inspectBrainLayout(page, label, { requireViewportFit = false, req
   if (result.correctionLimit !== null) {
     assert.ok(result.correctionRight <= result.correctionLimit + 2, `${label}: correction copy crosses its material panel`);
   }
-  assert.ok(result.plaque, `${label}: decision plaque is missing`);
-  assert.ok(result.plaque.centerDx <= 1, `${label}: decision plaque horizontal centre drift ${result.plaque.centerDx}px`);
-  assert.ok(result.plaque.centerDy <= 1, `${label}: decision plaque vertical centre drift ${result.plaque.centerDy}px`);
-  if (requirePlaqueRatio) {
-    assert.ok(result.plaque.widthRatio >= 0.5 && result.plaque.widthRatio <= 0.68, `${label}: decision plaque width ratio ${result.plaque.widthRatio}`);
-    assert.ok(result.plaque.aspectRatio >= 1.24 && result.plaque.aspectRatio <= 1.34, `${label}: decision plaque aspect ratio ${result.plaque.aspectRatio}`);
-  }
-  for (const child of result.plaque.children) {
-    assert.ok(Math.abs(child.centerX - result.plaque.centerX) <= 1, `${label}: ${child.name} is not centred in the decision plaque`);
-    assert.ok(child.left >= result.plaque.rect.left - 1 && child.right <= result.plaque.rect.right + 1, `${label}: ${child.name} escapes the decision plaque horizontally`);
-    assert.ok(child.top >= result.plaque.rect.top - 1 && child.bottom <= result.plaque.rect.bottom + 1, `${label}: ${child.name} escapes the decision plaque vertically`);
-    assert.ok(child.scrollWidth <= child.clientWidth + 1, `${label}: ${child.name} overflows the decision plaque`);
-    assert.equal(child.textAlign, "center", `${label}: ${child.name} is not centre aligned`);
-  }
-  assert.deepEqual(result.plaque.collisions, [], `${label}: decision plaque text collides vertically: ${result.plaque.collisions.join(", ")}`);
+  /* r41 (Krish, 2026-09-25): the decision plaque is gone; the orbit is the
+     hero's decorative ground and must never take a pointer or a reader. */
+  assert.equal(result.plaque, null, `${label}: the removed decision plaque has returned`);
+  assert.ok(result.brainObject?.decorative, `${label}: the hero orbit is not a decorative layer`);
   for (const record of result.recordText) {
     assert.notEqual(record.textOverflow, "ellipsis", `${label}: living-record text is ellipsized: ${record.text}`);
     assert.notEqual(record.whiteSpace, "nowrap", `${label}: living-record text cannot wrap: ${record.text}`);
@@ -357,12 +350,41 @@ async function verifyBrainInteractions(browser) {
   assert.equal(await page.locator("#completeRecordS2 p").count(), 51);
   await page.locator('.meaning-node-s2[data-id="BI-020"]').click();
   assert.match(await page.locator("#inspectorStatementS2").textContent(), /less generic/);
+  /* Every idea keeps one size and every title one line, whichever is picked. */
+  const nodeGeometry = await page.evaluate(async () => {
+    const sizes = new Set();
+    const titleHeights = new Set();
+    for (const node of document.querySelectorAll(".meaning-node-s2")) {
+      node.click();
+      await new Promise((resolve) => setTimeout(resolve, 220));
+      for (const dot of document.querySelectorAll(".meaning-node-s2")) {
+        const style = getComputedStyle(dot, "::before");
+        sizes.add(`${style.width}x${style.height}`);
+      }
+      titleHeights.add(Math.round(document.querySelector("#inspectorTitleS2").getBoundingClientRect().height));
+      titleHeights.add(`panel ${Math.round(document.querySelector("#meaningInspectorS2").getBoundingClientRect().height)}`);
+    }
+    return { sizes: [...sizes], titleHeights: [...titleHeights] };
+  });
+  assert.equal(nodeGeometry.sizes.length, 1, `Brain idea dots change size on selection: ${nodeGeometry.sizes.join(", ")}`);
+  assert.equal(nodeGeometry.titleHeights.length, 2, `Brain inspector title or panel height moves on selection: ${nodeGeometry.titleHeights.join(", ")}`);
+  const proofHeight = await page.locator(".proof-result").evaluate((element) => element.getBoundingClientRect().height);
   await page.locator("#testSourceS2").click();
+  assert.equal(await page.locator("#testSourceS2").getAttribute("aria-checked"), "true");
   assert.equal((await page.locator("#proofHeadlineS2").textContent()).trim(), "The decision still holds.");
+  assert.equal(await page.locator(".proof-result").evaluate((element) => element.getBoundingClientRect().height), proofHeight, "Brain proof result changes height when a source is removed");
   await page.locator("#testSourceS2").click();
-  await page.locator("#replayCorrectionS2").click();
-  assert.match(await page.locator("#correctionStatusS2").textContent(), /earlier view/);
-  await page.locator("#replayCorrectionS2").click();
+  /* The correction builds from before to now with scroll, and unbuilds on the way back. */
+  const learnAt = async (fraction) => page.evaluate(async (at) => {
+    const machine = document.querySelector("#correctionMachine");
+    window.scrollTo(0, machine.getBoundingClientRect().top + window.scrollY - window.innerHeight * at);
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    return Number(getComputedStyle(document.querySelector("#correction")).getPropertyValue("--learn-scroll"));
+  }, fraction);
+  const early = await learnAt(0.95);
+  const late = await learnAt(0.2);
+  const back = await learnAt(0.95);
+  assert.ok(early < 0.25 && late === 1 && back < 0.25, `Brain correction does not build both ways with scroll (${early}, ${late}, ${back})`);
   await page.locator("#pauseRecordS2").click();
   assert.equal(await page.locator(".mm-locked-brain").getAttribute("data-record-paused"), "true");
   await page.locator("[data-commercial-video]").evaluate((video) => video.scrollIntoView({ block: "center" }));
@@ -437,7 +459,7 @@ async function verifyBrainInteractions(browser) {
   await page.waitForFunction(() => document.querySelector("video[data-motion-video]")?.paused);
   assert.equal(await page.locator(".mm-locked-brain").getAttribute("data-active-film"), null);
   await page.close();
-  observations.push("Brain preserves 20 meanings, 18 relationships, 10 sources, 3 corrections and all 51 record entries; source removal, correction replay, reel controls, one-film motion and reversible scroll build work on the production route.");
+  observations.push("Brain preserves 20 meanings, 18 relationships, 10 sources, 3 corrections and all 51 record entries; fixed-size ideas, one-line titles, a stable source switch, a scroll-built correction, reel controls, one-film motion and reversible scroll build work on the production route.");
 }
 
 async function verifyBrainClosingContrast(browser) {
@@ -455,7 +477,7 @@ async function verifyBrainClosingContrast(browser) {
       assert.ok(response?.ok(), `${label}: route response failed`);
       await page.evaluate(() => document.fonts.ready);
       await page.waitForFunction(() => !document.querySelector(".mm-locked-brain")?.classList.contains("no-js"));
-      for (const selector of ["#correction-title", "#record-title"]) {
+      for (const selector of ["#memory-title", "#correction-title", "#record-title"]) {
         const heading = page.locator(selector);
         await heading.scrollIntoViewIfNeeded();
         const foreground = rgbChannels(await heading.evaluate((element) => getComputedStyle(element).color));
@@ -652,7 +674,13 @@ async function verifyEvidenceStates(browser) {
       const page = await openRoute(browser, route, rootSelector, `${route} evidence ${state}`, { width: 390, height: 844 }, `?state=${state}`);
       assert.equal(await page.locator(rootSelector).getAttribute("data-evidence-state"), state);
       const selector = route === "/ai-gtm" ? "#evidence-state" : "#evidenceStateS2";
-      assert.ok((await page.locator(selector).textContent()).trim().length > 18);
+      /* The Brain's evidence bar only speaks when something needs saying:
+         a ready or loading record shows nothing (Krish, 2026-09-25). */
+      if (route === "/ai-brain" && ["ready", "loading"].includes(state)) {
+        assert.equal(await page.locator(".truth-bar").isVisible(), false, `${route} ${state}: the evidence bar is showing`);
+      } else {
+        assert.ok((await page.locator(selector).textContent()).trim().length > 18);
+      }
       await page.close();
     }
   }

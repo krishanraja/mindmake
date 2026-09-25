@@ -406,19 +406,23 @@ export default function AiGtm() {
                     </article>
                   ))}
                 </div>
-                <div className="stage-controls">
-                  <button type="button" onClick={() => goToStage(stage - 1)} disabled={stage === 0} aria-label="Show previous change">
-                    <span aria-hidden="true">&larr;</span> Back
+                <nav className="stage-controls" aria-label="The four changes">
+                  <button type="button" className="stage-arrow" onClick={() => goToStage(stage - 1)} disabled={stage === 0} aria-label="Previous change">
+                    <span aria-hidden="true">&larr;</span>
                   </button>
-                  <p className="lever-dots" aria-live="polite">
-                    <span className="sr-only">{stage + 1} of 4</span>
-                    {LEVERS.map((key, index) => <i key={key} aria-hidden="true" className={index === stage ? "is-on" : undefined} />)}
+                  <p className="stage-count" aria-live="polite">
+                    <span className="sr-only">{LEVER_NAMES[LEVERS[stage]]}, </span>
+                    {String(stage + 1).padStart(2, "0")} / {String(LEVERS.length).padStart(2, "0")}
                   </p>
-                  <button type="button" onClick={() => goToStage(stage === LEVERS.length - 1 ? 0 : stage + 1)}>
-                    <span className="stage-next-long">{stage === LEVERS.length - 1 ? "Back to Product" : `Next: ${LEVER_NAMES[LEVERS[stage + 1]]}`}</span>
-                    <span className="stage-next-short" aria-hidden="true">{stage === LEVERS.length - 1 ? "Start again" : LEVER_NAMES[LEVERS[stage + 1]]}</span> <span aria-hidden="true">&rarr;</span>
+                  <button
+                    type="button"
+                    className="stage-arrow"
+                    onClick={() => goToStage(stage === LEVERS.length - 1 ? 0 : stage + 1)}
+                    aria-label={stage === LEVERS.length - 1 ? `Back to ${LEVER_NAMES[LEVERS[0]]}` : `Next: ${LEVER_NAMES[LEVERS[stage + 1]]}`}
+                  >
+                    <span aria-hidden="true">{stage === LEVERS.length - 1 ? "\u21BA" : "\u2192"}</span>
                   </button>
-                </div>
+                </nav>
               </div>
             </div>
           </section>
@@ -480,12 +484,12 @@ export default function AiGtm() {
               </div>
             </div>
             <article className="signal-readout">
-              <div className="readout-topline">
+              <blockquote className="observation">&ldquo;{copy.proof.quote}&rdquo;</blockquote>
+              <p className="proof-result">{copy.proof.result}</p>
+              <div className="proof-attribution">
                 <p>{copy.proof.who}</p>
                 <a href="/case-studies">Read the story <span aria-hidden="true">&rarr;</span></a>
               </div>
-              <blockquote className="observation">&ldquo;{copy.proof.quote}&rdquo;</blockquote>
-              <p className="proof-result">{copy.proof.result}</p>
             </article>
           </section>
         </div>

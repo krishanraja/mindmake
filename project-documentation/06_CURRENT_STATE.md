@@ -311,6 +311,18 @@ owns payload, privacy, retention, email and failure-path contracts.
   about 08:30 UTC: `/` serves the Archive Engine MP4 in both opening
   variants (200, `video/mp4`, 3,641,185 bytes) and `film-02-loop` only on the
   route stage.
+- Refinements across `/ai-brain`, `/ai-gtm`, `/`, `/case-studies`, `/answers`
+  and `/blog`, from Krish's phone review on 25 September 2026. Recorded in
+  `quality/route-lock/approved-production-r41.json`, which lists each change.
+  In short: the AI Brain page loses its caveats and self-describing labels,
+  its hero plaque and its replay button; its ideas, titles and panels hold
+  still, and its correction builds with scroll. The AI GTM paper cards read
+  at full contrast, the carousel uses the site's square arrow controls, and
+  the result reads quote, outcome, attribution. Both offer pages end with the
+  brief, then a card naming the other service. The homepage phone opening
+  spreads across the screen. The case-study rail passes vertical swipes to
+  the page and stops short of a full screen. `/answers` gains five answers
+  and never opens on the adtech one. `/blog` drops its subtitle.
 - Conversion flow, page changes and line breaks: recorded in
   `quality/route-lock/approved-production-r38.json`, merged as PR #189,
   commit `94d1524`. Main's post-merge matrix on that commit passed on

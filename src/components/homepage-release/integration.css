@@ -221,3 +221,27 @@ body.mm-homepage-active { margin: 0; }
   text-decoration: none;
 }
 .mm-homepage-release .r3-footer .mm-subscribe-cta:hover { background: rgba(157, 240, 200, 0.08); }
+
+/* ---------------------------------------------------------------------------
+   Phone opening, 2026-09-25 (Krish): "the content is shoved into the top half
+   of the screen and should be more evenly spaced out to use the mobile screen
+   better." The words and their order are unchanged. The headline and lede
+   hold the upper part of the frame, the two doors and the proof line sit in
+   the lower part over the film, and the small type moves up to sizes a phone
+   reads comfortably. ------------------------------------------------------ */
+@media (max-width: 700px) {
+  .mm-homepage-release .r3-opening .preview-mobile .hero-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: clamp(40px, 11cqi, 64px) 5.13cqi calc(clamp(28px, 9cqi, 56px) + env(safe-area-inset-bottom, 0px));
+  }
+  .mm-homepage-release .r3-opening .preview-mobile .hero-lede { margin-top: 4.6cqi; font-size: clamp(15px, 4.1cqi, 18px); line-height: 1.4; }
+  .mm-homepage-release .r3-opening .preview-mobile .route-doors { gap: 3cqi; margin-top: auto; }
+  .mm-homepage-release .r3-opening .preview-mobile .route-doors a { min-height: 19cqi; padding: 3.4cqi 10cqi 3.4cqi 4cqi; }
+  .mm-homepage-release .r3-opening .preview-mobile .route-doors span,
+  .mm-homepage-release .r3-opening .preview-mobile .route-doors small { font-size: clamp(11px, 3cqi, 13px); }
+  .mm-homepage-release .r3-opening .preview-mobile .route-doors strong { font-size: clamp(17px, 4.6cqi, 20px); }
+  .mm-homepage-release .r3-opening .preview-mobile .route-doors i { right: 4cqi; bottom: 4cqi; }
+  .mm-homepage-release .r3-opening .preview-mobile .shared-proof { margin-top: 5cqi; font-size: clamp(12px, 3.2cqi, 14px); line-height: 1.4; }
+}

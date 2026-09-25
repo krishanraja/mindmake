@@ -10,6 +10,7 @@ import Answers from "@/pages/Answers";
 import Answer from "@/pages/Answer";
 import { blogPosts } from "@/data/blogPosts";
 import { answers } from "@/lib/answers";
+import { asQuestion } from "@/lib/answerFormat";
 
 const renderWithAppProviders = (node: React.ReactNode, route = "/") => {
   const queryClient = new QueryClient({
@@ -109,7 +110,7 @@ describe("public route resilience", () => {
 
     for (const answer of answers) {
       expect(screen.getByRole("heading", { name: answer.title })).toBeInTheDocument();
-      expect(screen.getByText(answer.targetQuery)).toBeInTheDocument();
+      expect(screen.getByText(asQuestion(answer.targetQuery))).toBeInTheDocument();
       expect(screen.getByRole("link", { name: new RegExp(answer.title.slice(0, 30), "i") }))
         .toHaveAttribute("href", `/answers/${answer.slug}`);
     }

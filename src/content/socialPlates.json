@@ -78,85 +78,120 @@
   },
   "/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan": {
     "file": "/social/blog-the-execution-gap-why-ai-literate-leaders-ship-while-others-plan.jpg",
-    "version": "f1bc1735",
-    "headline": "The Start Cost: Why Good AI Work Gets Deferred",
+    "version": "ce55f4c6",
+    "headline": "The start cost: why good AI work gets deferred",
     "claim": "",
     "still": "film-01"
   },
   "/blog/four-modes-of-ai-literacy-every-leader-needs": {
     "file": "/social/blog-four-modes-of-ai-literacy-every-leader-needs.jpg",
-    "version": "bd303b97",
-    "headline": "Four Ways Leaders Can Work Better With AI",
+    "version": "5035b2e5",
+    "headline": "Four ways leaders can work better with AI",
     "claim": "",
     "still": "film-02"
   },
   "/blog/why-ai-training-fails-and-building-works": {
     "file": "/social/blog-why-ai-training-fails-and-building-works.jpg",
-    "version": "00efe04d",
-    "headline": "Why Practice Changes More Than a Training Day",
+    "version": "abb143e0",
+    "headline": "Why practice changes more than a training day",
     "claim": "",
     "still": "film-01"
   },
   "/blog/shadow-ai-to-strategic-ai-leaders-guide": {
     "file": "/social/blog-shadow-ai-to-strategic-ai-leaders-guide.jpg",
-    "version": "36d67700",
-    "headline": "Find the AI Work Already Happening in Your Team",
+    "version": "a92dd7ad",
+    "headline": "Find the AI work already happening in your team",
     "claim": "",
     "still": "film-03"
   },
   "/blog/measuring-ai-work-that-pays-back": {
     "file": "/social/blog-measuring-ai-work-that-pays-back.jpg",
-    "version": "9bcd9397",
-    "headline": "How to Tell Whether AI Work Is Paying Back",
+    "version": "c2b93700",
+    "headline": "How to tell whether AI work is paying back",
     "claim": "",
     "still": "film-01"
   },
   "/blog/builder-vs-consumer-mindset-in-ai": {
     "file": "/social/blog-builder-vs-consumer-mindset-in-ai.jpg",
-    "version": "d415303d",
-    "headline": "From One-Off AI Help to Systems You Can Reuse",
+    "version": "b6037635",
+    "headline": "From one-off AI help to systems you can reuse",
     "claim": "",
     "still": "film-02"
   },
   "/blog/ai-vendor-theatre-how-to-spot-and-avoid-it": {
     "file": "/social/blog-ai-vendor-theatre-how-to-spot-and-avoid-it.jpg",
-    "version": "2838320e",
-    "headline": "How to Test an AI Vendor Before You Commit",
+    "version": "4cea2e1b",
+    "headline": "How to test an AI vendor before you commit",
     "claim": "",
     "still": "film-03"
   },
   "/blog/a-useful-first-30-days-building-with-ai": {
     "file": "/social/blog-a-useful-first-30-days-building-with-ai.jpg",
-    "version": "36bded18",
-    "headline": "A Useful First 30 Days of Building With AI",
+    "version": "71b03bc2",
+    "headline": "A useful first 30 days of building with AI",
     "claim": "",
     "still": "film-01"
   },
   "/blog/ai-literacy-for-executive-teams-lab-model": {
     "file": "/social/blog-ai-literacy-for-executive-teams-lab-model.jpg",
-    "version": "58ae4a8c",
-    "headline": "How an Executive Team Can Learn AI Together",
+    "version": "d30b2a51",
+    "headline": "How an executive team can learn AI together",
     "claim": "",
     "still": "film-05"
   },
   "/blog/how-to-increase-creative-leadership-with-ai": {
     "file": "/social/blog-how-to-increase-creative-leadership-with-ai.jpg",
-    "version": "01fcb01b",
-    "headline": "Use AI to See More Without Losing Your Taste",
+    "version": "25e8e1ee",
+    "headline": "Use AI to see more without losing your taste",
     "claim": "",
     "still": "film-05"
   },
   "/blog/how-to-control-your-use-of-ai-as-a-leader": {
     "file": "/social/blog-how-to-control-your-use-of-ai-as-a-leader.jpg",
-    "version": "b78109d7",
-    "headline": "Put AI Inside Clear Business Rules",
+    "version": "682d892d",
+    "headline": "Put AI inside clear business rules",
     "claim": "",
     "still": "film-05"
   },
+  "/answers/ai-system-learns-from-corrections": {
+    "file": "/social/answer-ai-system-learns-from-corrections.jpg",
+    "version": "01aa5797",
+    "headline": "An AI system gets better at your work when every correction is kept with its reason",
+    "claim": "",
+    "still": "film-02"
+  },
+  "/answers/what-humans-should-decide-when-ai-does-the-work": {
+    "file": "/social/answer-what-humans-should-decide-when-ai-does-the-work.jpg",
+    "version": "02b28a9c",
+    "headline": "People should decide what reaches the outside world, what cannot be undone and what sets the standard",
+    "claim": "",
+    "still": "film-02"
+  },
+  "/answers/keep-company-judgement-when-senior-people-leave": {
+    "file": "/social/answer-keep-company-judgement-when-senior-people-leave.jpg",
+    "version": "2b18cf6a",
+    "headline": "Keep a company's judgement when senior people leave by recording its decisions and the reasons behind them",
+    "claim": "",
+    "still": "film-02"
+  },
+  "/answers/expertise-more-valuable-as-ai-improves": {
+    "file": "/social/answer-expertise-more-valuable-as-ai-improves.jpg",
+    "version": "070b9166",
+    "headline": "Expertise becomes more valuable as AI improves, because judgement is the part AI cannot supply",
+    "claim": "",
+    "still": "film-02"
+  },
+  "/answers/ai-brain-vs-general-assistant-leadership-team": {
+    "file": "/social/answer-ai-brain-vs-general-assistant-leadership-team.jpg",
+    "version": "1e5b96b5",
+    "headline": "An AI brain starts from what your business already knows. A general assistant starts from zero every time",
+    "claim": "",
+    "still": "film-02"
+  },
   "/answers/adtech-compete-ai-targeting-models-defensibility-audit": {
     "file": "/social/answer-adtech-compete-ai-targeting-models-defensibility-audit.jpg",
-    "version": "8b65fc4e",
-    "headline": "Adtech Can't Compete on the Model Anymore. Here's What's Left to Defend",
+    "version": "d33346f5",
+    "headline": "Adtech can't compete on the model any more. Here's what is left to defend",
     "claim": "",
     "still": "film-02"
   },
@@ -169,15 +204,15 @@
   },
   "/answers/ai-center-of-excellence-without-engineering-budget": {
     "file": "/social/answer-ai-center-of-excellence-without-engineering-budget.jpg",
-    "version": "abe71a78",
-    "headline": "An AI Center of Excellence Without an Engineering Budget Is a Governance Function, Not a Team",
+    "version": "f1d7a095",
+    "headline": "An AI center of excellence without an engineering budget is a governance function, not a team",
     "claim": "",
     "still": "film-02"
   },
   "/answers/total-addressable-revenue-ai-products-publishing": {
     "file": "/social/answer-total-addressable-revenue-ai-products-publishing.jpg",
-    "version": "d47c0d68",
-    "headline": "Total Addressable Revenue for AI Products in Publishing: Calculate It From Your P&L, Not a Market Report",
+    "version": "9bfee8f6",
+    "headline": "Total addressable revenue for AI products in publishing: calculate it from your P&L, not a market report",
     "claim": "",
     "still": "film-02"
   }

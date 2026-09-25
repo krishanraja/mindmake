@@ -34,21 +34,18 @@
             playsinline
           ></video>
           <span class="opening-film-scrim"></span>
-          <span class="opening-film-readout"><i></i> Evidence connecting</span>
         </figure>
         <div class="opening-copy">
           <h1 id="opening-title">A Brain that learns how you decide.</h1>
           <p>It remembers what mattered, why it mattered and what changed, so good judgement can travel through the business.</p>
           <a class="primary-link" href="#memory">See it think <span aria-hidden="true">↓</span></a>
         </div>
-        <div class="brain-object" aria-label="A living map of one decision and the thinking around it">
+        <div class="brain-object" aria-hidden="true">
           <div class="orbit orbit-one" aria-hidden="true"></div>
           <div class="orbit orbit-two" aria-hidden="true"></div>
           <div class="orbit orbit-three" aria-hidden="true"></div>
-          <div class="pulse-core"><span>One decision</span><strong>Where must human judgement remain?</strong><small>Remembered and connected</small></div>
           <i class="signal signal-one" aria-hidden="true"></i><i class="signal signal-two" aria-hidden="true"></i><i class="signal signal-three" aria-hidden="true"></i>
         </div>
-        <p class="opening-note">The Brain is private to the leader. The company benefits from the decisions it improves.</p>
       </section>
 
       <nav class="phase-rail" aria-label="Brain sequence">
@@ -73,7 +70,6 @@
             <span id="inspectorKindS2">What the Brain remembers</span>
             <h3 id="inspectorTitleS2">Human release judgement</h3>
             <p id="inspectorStatementS2">People stay accountable for work that reaches the outside world.</p>
-            <small id="inspectorStandingS2">Accepted thinking, backed by direct evidence</small>
           </aside>
         </div>
       </section>
@@ -86,22 +82,18 @@
         </div>
         <div class="proof-machine instrument" id="proofMachine">
           <article class="source-pod source-pod-one">
-            <span>What Krish said</span>
             <strong>Human taste stays accountable for the final output.</strong>
-            <small id="sourceOneStateS2">Connected</small>
           </article>
           <div class="proof-beams" aria-hidden="true"><i></i><i></i><b></b></div>
           <article class="source-pod source-pod-two">
-            <span>What the product requires</span>
             <strong>Keep the full human judgement loop intact.</strong>
-            <small>Connected</small>
           </article>
           <article class="proof-result" aria-live="polite">
             <span>What remains true</span>
             <strong id="proofHeadlineS2">The decision is supported by both sources.</strong>
             <p id="proofDetailS2">Its connected thinking is clear.</p>
           </article>
-          <button class="machine-action js-action" id="testSourceS2" type="button" aria-pressed="false"><span>Take one source away</span><b aria-hidden="true">Try it</b></button>
+          <button class="machine-action source-switch js-action" id="testSourceS2" type="button" role="switch" aria-checked="false"><span>Remove one source</span><b aria-hidden="true"><i></i></b></button>
         </div>
       </section>
 
@@ -121,9 +113,6 @@
             <span>Now</span>
             <p>People release work that reaches the outside world. Reversible internal drafts can stay delegated.</p>
           </div>
-          <button class="machine-action js-action" id="replayCorrectionS2" type="button" aria-pressed="false"><span>Replay the change</span><b aria-hidden="true">Before → now</b></button>
-          <p class="machine-status" id="correctionStatusS2" role="status">The current view is in focus.</p>
-          <small class="honesty-note">The source records the correction, not the full earlier sentence. The earlier wording is approved example copy.</small>
         </div>
       </section>
 
@@ -158,6 +147,6 @@
       </section>
     </main>
 
-    <footer class="truth-bar"><span id="evidenceStateS2">Checking the record. The last known version remains readable.</span><span>Synthetic approved fixture / private demonstration</span></footer>
+    <footer class="truth-bar" data-evidence-only><span id="evidenceStateS2" role="status"></span></footer>
   </body>
 </html>

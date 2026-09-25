@@ -293,6 +293,17 @@ owns payload, privacy, retention, email and failure-path contracts.
   `qa:logo-alignment`; `qa:new-age-r5-production` failed only its scope-leak
   assertion, which still forbade any `.nal-page` on `/`. r36
   (`quality/route-lock/approved-production-r36.json`) corrects it.
+- `/case-studies` is recorded in
+  `quality/route-lock/approved-production-r37.json`. A figure whose record
+  carries no endpoint labels renders no label row at all, rather than two empty
+  spans holding the space where words would go; `business-first` is the only
+  record that carries none. The field reserves the measured header height as
+  scroll margin on its cards, panels and dock, so a control the browser scrolls
+  into view on the reader's behalf stops below the fixed masthead instead of
+  behind it. Two known defects from the archive removal are open:
+  `/case-studies#record-<id>` does not open a record on desktop, where the panel
+  is `display: none` until the story is expanded, and `qa:full-route-continuity`
+  still asserts on `#archive-title`, which that removal deleted.
 
 Do not promote old DNS/mailbox, CTRL-host or cache observations into fresh facts
 without new readback. CONTACT_EMAIL in src/lib/publicLinks.ts is the approved

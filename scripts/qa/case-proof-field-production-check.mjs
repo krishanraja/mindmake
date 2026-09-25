@@ -398,6 +398,18 @@ async function exercise(page, label, width, height) {
   fail(await page.locator('.region-copy cite').count() !== 8, `${label}: the cold field does not attribute all eight results`);
   fail(await page.locator('.expanded blockquote').count() !== 8, `${label}: the records do not carry their testimony`);
   fail(await page.locator('.expanded [data-fig]').count() !== 8, `${label}: the records do not carry a figure bound to story.figure`);
+  // A record with nothing to say at either end renders no label row at all. It
+  // used to render two empty spans, which reserved the space where words would
+  // go and read as an omission rather than the decision it is: business-first's
+  // endpoints would repeat its own headline, and both obvious phrasings are on
+  // the prohibited list above.
+  const blankLabelRows = await page.evaluate(() => [...document.querySelectorAll('.mm-fig')].flatMap((fig) => {
+    const story = fig.closest('.region')?.dataset.story ?? '?';
+    return [...fig.querySelectorAll(':scope > p')]
+      .filter((row) => !row.className && row.querySelectorAll(':scope > span').length === 2 && !row.textContent.trim())
+      .map(() => story);
+  }));
+  for (const story of blankLabelRows) fail(true, `${label}: ${story} reserves an empty figure label row`);
   fail(await page.locator('.region-glyph, .mechanism').count() !== 0, `${label}: the retired mechanism glyph survives`);
 
   if (compact && height >= width) {
@@ -589,13 +601,17 @@ async function verifyBlindPanelTargetCorrections() {
   try {
     const cases = [
       { route:'/contact', viewport:{ width:390, height:844 }, selector:'.mm-contact-form small a', label:'contact privacy link' },
-      { route:'/ai-gtm', viewport:{ width:1440, height:900 }, selector:'.mm-locked-gtm .evidence-body a', label:'GTM evidence source link' },
+      // GTM-PLAIN-R2 (r24) replaced the evidence drawer's contents: it now holds
+      // the menu of work, and the cited sources moved onto the lever leaves.
+      // The rule is a touch-target one, so it is measured on the phone variant
+      // that carries them, not on the desktop leaf where the same link is a
+      // 17px line of pointer-fine text.
+      { route:'/ai-gtm', viewport:{ width:390, height:844 }, selector:'.mm-locked-gtm .mobile-leaf .leaf-was a', label:'GTM evidence source link' },
     ];
     for (const check of cases) {
       const context = await browser.newContext({ viewport:check.viewport });
       const page = await context.newPage();
       await page.goto(origin + check.route, { waitUntil:'domcontentloaded' });
-      if (check.route === '/ai-gtm') await page.locator('.evidence-drawer summary').click();
       const control = page.locator(check.selector).first();
       await control.waitFor({ state:'visible' });
       const rect = await control.evaluate(element => element.getBoundingClientRect().toJSON());

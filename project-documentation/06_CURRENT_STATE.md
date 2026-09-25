@@ -249,6 +249,16 @@ owns payload, privacy, retention, email and failure-path contracts.
   release is recorded in the history ledger when it lands; until then treat the
   live deployment as the authority on what /ai-gtm renders.
 
+- Analytics: every page loads the Google tag (gtag.js, `G-SMXQH8E4CM`) as the
+  first child of `<head>`, alongside Plausible, from `index.html`, which every
+  prerendered route is written from. Recorded in
+  `quality/route-lock/approved-production-r29.json`. Open limit: GA sets
+  first-party cookies and fires before any consent choice, while the cookie
+  notice ("Private analytics only") and section 5 of `/privacy` still describe
+  privacy-friendly analytics alone. Both are approved copy; the correction, and
+  whether GA should wait for consent, needs Krish's decision. The supplied
+  snippet does not skip localhost, so local QA previews also send hits.
+
 Do not promote old DNS/mailbox, CTRL-host or cache observations into fresh facts
 without new readback. CONTACT_EMAIL in src/lib/publicLinks.ts is the approved
 contact source. Older operational findings remain in the history ledger.

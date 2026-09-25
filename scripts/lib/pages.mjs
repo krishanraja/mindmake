@@ -37,9 +37,9 @@ export const staticPages = [
   },
   {
     path: "/case-studies",
-    title: "Results",
+    title: "Success stories",
     description: "Eight verified stories about the work Mindmake helped customers change and what happened next.",
-    headline: "The decision, and what changed next.",
+    headline: "Success stories.",
     still: "film-04",
   },
   {
@@ -67,7 +67,7 @@ export const staticPages = [
   },
   {
     path: "/blog",
-    title: "Ideas for better AI decisions",
+    title: "Ideas you can use",
     description: "Useful questions, checks and working methods for leaders making business decisions as AI changes their market.",
     headline: "Ideas you can use.",
     still: "film-04",
@@ -78,18 +78,25 @@ export const staticPages = [
        blog's posts are read from their data file, so publishing one is adding
        a file and nothing else. */
     path: "/answers",
-    title: "Questions leaders are asking about AI",
+    title: "Quick AI tips",
     description: "One page per question: the direct answer first, then the case for it, including what the pages already answering that question miss.",
-    headline: "Questions leaders are asking about AI.",
+    headline: "Quick AI tips.",
     claim: "Answered with a position, not a summary.",
     still: "film-02",
   },
   {
     path: "/faq",
-    title: "Straight answers",
+    title: "Questions we get asked",
     description: "Straight answers about Mindmake: what the work builds, what it costs, whether anyone needs to know, what happens to your data and what you keep.",
-    headline: "Straight answers.",
+    headline: "Questions we get asked.",
     still: "film-02",
+  },
+  {
+    path: "/about",
+    title: "About us",
+    description: "Who runs Mindmake and why. Sixteen years building commercial teams in media, data and technology, now spent helping leaders use AI to make better decisions.",
+    headline: "About us.",
+    still: "film-01",
   },
   {
     path: "/contact",

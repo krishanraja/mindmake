@@ -1,0 +1,44 @@
+/* ---------- /about ----------
+ *
+ * The page borrows the /faq hero and the founder block's plate, name line and
+ * measure. What is here is only what those two do not already say: the hero
+ * sits closer to the founder block, the prose keeps the note's measure, and the
+ * three references sit as a row of quiet quotes.
+ */
+
+.mm-about-page { padding-bottom: 0; }
+.mm-about-founder { border-top: 0; }
+.mm-about-founder .mm-founder-shot img { max-width: 420px; }
+@media (min-width: 900px) {
+  .mm-about-founder.is-standing .mm-founder-grid { grid-template-columns: 420px minmax(0, 1fr); }
+}
+
+.mm-about-prose { max-width: 62ch; }
+.mm-about-prose h2 { font-size: clamp(24px, 2.8vw, 34px); }
+.mm-about-prose p { margin-top: 14px; color: var(--mm-tx2); font-size: 16px; line-height: 1.6; }
+.mm-about-prose a { color: var(--mm-mint); text-underline-offset: 3px; }
+.mm-about-prose .mm-about-study { margin-top: 26px; color: var(--mm-mut); font-size: 14px; }
+
+.mm-about-references { display: grid; gap: 28px; margin-top: 28px; }
+.mm-about-references figure { margin: 0; padding-top: 18px; border-top: 1px solid var(--mm-hair); }
+.mm-about-references blockquote {
+  margin: 0;
+  font-family: var(--mm-serif);
+  font-weight: 300;
+  font-size: clamp(20px, 2vw, 25px);
+  line-height: 1.3;
+  color: var(--mm-tx);
+}
+.mm-about-references figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin-top: 14px;
+  font-family: var(--mm-mono);
+  font-size: 11px;
+}
+.mm-about-references figcaption b { color: var(--mm-mint); font-weight: 500; }
+.mm-about-references figcaption span { color: var(--mm-mut); }
+@media (min-width: 900px) {
+  .mm-about-references { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px; }
+}

@@ -14,7 +14,7 @@ const rootDir = resolve(here, "..");
 const { answers, answerPath } = await loadAnswers(rootDir);
 const posts = await loadBlogPosts(rootDir);
 const home = staticPages.find(page => page.path === "/");
-const labels = { "/blog": "Thinking", "/answers": "Questions leaders ask", "/faq": "Before you start" };
+const labels = {};
 const answerLines = answers
   .map((answer) => `- [${answer.title}](${site}${answerPath(answer.slug)}): answers "${answer.targetQuery}". ${answer.description}`)
   .join("\n");
@@ -29,11 +29,11 @@ ${home.description}
 
 ${staticPages.filter(page => page.path !== "/").map(page => `- [${labels[page.path] || page.title}](${site}${page.path}): ${page.description}`).join("\n")}
 
-## Questions leaders ask
+## Quick AI tips
 
 ${answerLines}
 
-## Thinking
+## Ideas you can use
 
 ${posts.map(post => `- [${post.title}](${site}/blog/${post.slug}): ${post.metaDescription}`).join("\n")}
 `;

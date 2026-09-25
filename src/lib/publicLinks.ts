@@ -70,12 +70,16 @@ export const CONTACT_EMAIL = "krish@themindmaker.ai";
  * together.
  */
 export const PRIMARY_ROUTES: ReadonlyArray<{ label: string; href: string; external?: boolean; badge?: string }> = [
+  { label: "Home", href: "/" },
   { label: "Build your AI brain", href: "/ai-brain" },
   { label: "Build your AI GTM", href: "/ai-gtm" },
-  { label: "Results", href: "/case-studies" },
-  { label: "Thinking", href: "/blog" },
-  { label: "Questions leaders ask", href: "/answers" },
-  { label: "Before you start", href: "/faq" },
+  /* Plainer labels that say what the reader gets (Krish, 2026-09-25). Each
+     page's own title matches its label, so the click lands where it said. */
+  { label: "Success stories", href: "/case-studies" },
+  { label: "Ideas you can use", href: "/blog" },
+  { label: "Quick AI tips", href: "/answers" },
+  { label: "Questions we get asked", href: "/faq" },
+  { label: "About us", href: "/about" },
   /* The label stays the approved "Media"; the badge beside it says what the
      click gets you (Krish, 2026-09-25). */
   { label: "Media", href: SUBSCRIBE_URL, external: true, badge: SUBSCRIBE_LABEL },

@@ -29,7 +29,7 @@ const Blog = () => {
   return (
     <MindmakeShell onStart={() => setBriefOpen(true)}>
       <SEO
-        title="Ideas for better AI decisions"
+        title="Ideas you can use"
         description="Useful questions, checks and working methods for leaders making business decisions as AI changes their market."
         canonical="/blog"
         jsonLd={{

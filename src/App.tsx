@@ -20,6 +20,7 @@ const Contact = preloadable(() => import("./pages/Contact"));
 const Blog = preloadable(() => import("./pages/Blog"));
 const BlogPost = preloadable(() => import("./pages/BlogPost"));
 const Questions = preloadable(() => import("./pages/Library"));
+const About = preloadable(() => import("./pages/About"));
 const Answers = preloadable(() => import("./pages/Answers"));
 const AnswerPage = preloadable(() => import("./pages/Answer"));
 const Alumni = preloadable(() => import("./pages/Alumni"));
@@ -40,6 +41,7 @@ const PAGE_CODE: ReadonlyArray<[RegExp, { preload: () => Promise<unknown> }]> = 
   [/^\/answers\/?$/, Answers],
   [/^\/answers\/[^/]+\/?$/, AnswerPage],
   [/^\/faq\/?$/, Questions],
+  [/^\/about\/?$/, About],
   [/^\/new-age-leadership\/?$/, NewAgeLeadership],
   [/^\/contact\/?$/, Contact],
   [/^\/privacy\/?$/, Privacy],
@@ -254,6 +256,7 @@ function AppRoutes() {
             <Route path="/capital" element={<ToStart />} />
             <Route path="/tool" element={<Navigate to="/ai-brain" replace />} />
             <Route path="/faq" element={<Questions />} />
+            <Route path="/about" element={<About />} />
 
             {[
               "/workshops",

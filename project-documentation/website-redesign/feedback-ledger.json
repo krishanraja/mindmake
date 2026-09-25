@@ -677,6 +677,26 @@
         "quality/ai-brain/approved-narrative-s4.json",
         "src/test/brain-narrative.test.ts"
       ]
+    },
+    {
+      "id": "MENU-RELABEL-ABOUT-001",
+      "exactFeedback": "In the menu, Rename Results to Success Stories, Thinking to Ideas You Can Use, Questions leaders ask to Quick AI tips, Before you start to Questions we get asked, and add Home at the top. Change the titles inside the pages too. And then add a new page called About us, which will contain my profile (build this from krishraja.com and with this headshot, substantiate why I'm bulding this business and make me sound incredibly warm and approachable. Follow the existing design system",
+      "source": "Krish, 25 September 2026, with a screenshot of the open menu and a headshot",
+      "surface": "every menu and footer; /case-studies, /blog, /answers, /faq; /about",
+      "section": "navigation, page titles, the About page",
+      "device": "desktop and mobile",
+      "element": "the primary route list, each page's H1 and document title, the new About page",
+      "classification": "correction",
+      "requiredOutcome": "Every menu and footer reads Home, Build your AI brain, Build your AI GTM, Success stories, Ideas you can use, Quick AI tips, Questions we get asked, About us, Media, in that order. Each renamed page's H1 and document title carry its label. /about exists, is indexed, opens in the shell, shows the supplied headshot, tells who runs Mindmake and why in a warm first person under a practice-voice opening, uses only published career facts and verbatim references, and follows the existing type, colour and plate system.",
+      "acceptanceTest": "src/test/primary-routes-parity.test.ts holds the homepage and shell menus to PRIMARY_ROUTES in order; brief2-public-contract, discoverability, seo-prerender and copy-restraint cover the labels, the About surface and its head; the built site renders /about and the four renamed pages with the new titles at 1440x900 and 390x844 with qa:line-breaks clean; the open menu shows nine routes at both sizes without burying the start action or the legal links.",
+      "status": "verified",
+      "resolution": "PRIMARY_ROUTES in src/lib/publicLinks.ts carries the list; scripts/qa/build-homepage-release.mjs applies it to the generated homepage menus and footer; scripts/lib/pages.mjs and the four page components carry the titles; src/pages/About.tsx is the new page. The generated route lock quality/route-lock/approved-production.lock.json carries the change, with src/pages/About.tsx and src/styles/mindmake-about.css added to it.",
+      "evidence": [
+        "quality/route-lock/approved-production.lock.json, regenerated with src/pages/About.tsx and src/styles/mindmake-about.css added",
+        "src/test/primary-routes-parity.test.ts, src/test/brief2-public-contract.test.ts, src/test/discoverability.test.ts, src/test/copy-restraint.test.ts, src/test/seo-prerender.test.tsx",
+        "qa:line-breaks on the built site: no findings on 32 routes at 1440x900 or 390x844; it first caught the homepage footer wrapping 9+1 and 3+3+3+1 and the shell footer 11+1, fixed with even footer columns.",
+        "Desktop (1440x900) and phone (390x844) screenshots of the open menu on / and /about, /about in full, and /case-studies, /blog, /answers and /faq, reviewed on the built site: every menu link and the start action inside the viewport at both sizes, Privacy and Terms visible, each page's H1 and document title equal to its label."
+      ]
     }
   ]
 }

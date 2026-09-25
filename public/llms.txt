@@ -8,16 +8,17 @@ Part people. Part agent. Led by judgement. Build your AI brain or your AI native
 
 - [Build your AI brain](https://mindmake.co/ai-brain): Every AI you can buy already knows the market, and none of them know you. We help you build the one that does, private to you.
 - [Build your AI GTM](https://mindmake.co/ai-gtm): Make your pricing, positioning and team AI-native, then test it with real buyers.
-- [Results](https://mindmake.co/case-studies): Eight verified stories about the work Mindmake helped customers change and what happened next.
+- [Success stories](https://mindmake.co/case-studies): Eight verified stories about the work Mindmake helped customers change and what happened next.
 - [Build the business that can think with you](https://mindmake.co/new-age-leadership): Build a hybrid organisation where AI carries the repeated work and people keep the judgement, relationships and decisions.
-- [Thinking](https://mindmake.co/blog): Useful questions, checks and working methods for leaders making business decisions as AI changes their market.
-- [Questions leaders ask](https://mindmake.co/answers): One page per question: the direct answer first, then the case for it, including what the pages already answering that question miss.
-- [Before you start](https://mindmake.co/faq): Straight answers about Mindmake: what the work builds, what it costs, whether anyone needs to know, what happens to your data and what you keep.
+- [Ideas you can use](https://mindmake.co/blog): Useful questions, checks and working methods for leaders making business decisions as AI changes their market.
+- [Quick AI tips](https://mindmake.co/answers): One page per question: the direct answer first, then the case for it, including what the pages already answering that question miss.
+- [Questions we get asked](https://mindmake.co/faq): Straight answers about Mindmake: what the work builds, what it costs, whether anyone needs to know, what happens to your data and what you keep.
+- [About us](https://mindmake.co/about): Who runs Mindmake and why. Sixteen years building commercial teams in media, data and technology, now spent helping leaders use AI to make better decisions.
 - [Contact](https://mindmake.co/contact): Send Mindmake a general message.
 - [Privacy policy](https://mindmake.co/privacy): How Mindmake collects, uses and protects information.
 - [Terms and conditions](https://mindmake.co/terms): Terms for using the Mindmake website and services.
 
-## Questions leaders ask
+## Quick AI tips
 
 - [An AI system gets better at your work when every correction is kept with its reason](https://mindmake.co/answers/ai-system-learns-from-corrections): answers "how do I make an AI system learn from our corrections over time". Correcting AI in the moment fixes one answer. Recording the correction and its reason fixes every answer after it. Here is how that works.
 - [People should decide what reaches the outside world, what cannot be undone and what sets the standard](https://mindmake.co/answers/what-humans-should-decide-when-ai-does-the-work): answers "what decisions should humans still make when AI can do most of the work". Let AI do reversible internal work. Keep people accountable for anything that reaches customers, cannot be undone or defines what good looks like.
@@ -29,7 +30,7 @@ Part people. Part agent. Led by judgement. Build your AI brain or your AI native
 - [An AI center of excellence without an engineering budget is a governance function, not a team](https://mindmake.co/answers/ai-center-of-excellence-without-engineering-budget): answers "how to build an AI center of excellence without a dedicated engineering budget". Every AI CoE framework from Microsoft, Oracle and Tredence assumes engineering headcount. Here's the operating model for the leader who has none.
 - [Total addressable revenue for AI products in publishing: calculate it from your P&L, not a market report](https://mindmake.co/answers/total-addressable-revenue-ai-products-publishing): answers "how do I calculate the total addressable revenue opportunity for AI products in publishing". Calculate an AI publishing product's revenue opportunity from churn, ARPU, ad yield and licensing data instead of a market-sizing report.
 
-## Thinking
+## Ideas you can use
 
 - [The start cost: why good AI work gets deferred](https://mindmake.co/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan): How useful context, clear next steps and simple AI systems can make valuable work easier to start.
 - [Four ways leaders can work better with AI](https://mindmake.co/blog/four-modes-of-ai-literacy-every-leader-needs): Four practical ways leaders can use AI for drafts, checks, repeatable work and better decisions.

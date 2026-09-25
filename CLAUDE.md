@@ -82,6 +82,11 @@ production back afterwards, record the revision, and never knowingly merge a red
 head. Judgement about whether the change is sound is still yours; permission to
 land it is already given.
 
+Merge quietly (Krish, 2026-09-25): when asked to merge, wait for the PR's checks
+within the same turn, merge, read production back, then send one message. Do not
+subscribe to PR activity, schedule check-ins or narrate interim events. Fold the
+release receipt into the change itself; no separate docs-only follow-up PR.
+
 Lead changes require units, closure typechecks, deployed source readback and
 proportionate authorized live proof. Queued is not delivered. Approved recipients
 only; never trigger cron early. Delete only exact synthetic IDs and verify zero.

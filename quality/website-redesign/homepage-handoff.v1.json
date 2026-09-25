@@ -261,7 +261,6 @@
       "selection": {
         "results": "Success stories",
         "blog": "Ideas you can use",
-        "answers": "Quick AI tips",
         "faq": "Questions we get asked",
         "media": "Media",
         "start": "Get your free AI brief",
@@ -269,7 +268,7 @@
         "positioning": "Keep your edge as AI changes the market."
       },
       "comment": "none",
-      "provenanceNote": "The browser store later showed defaults. The owner's explicit Saved locally readback in the conversation is authoritative for this handoff. The `start` label was \"Start here\" in that original readback. Krish renamed every way in on 2026-09-24 so the click names what the reader gets rather than the act of clicking; the React surfaces read the same words from START_LABEL in src/lib/publicLinks.ts. The earlier wording is preserved in this note rather than lost, and no integrity-locked tree or file was touched to make the change. On 2026-09-25 Krish renamed four route labels so each says what the reader gets: Results became Success stories, Thinking became Ideas you can use, Questions leaders ask became Quick AI tips, and Before you start became Questions we get asked. He added Home at the top of the menu and About us before Media in the same request. The homepage menu carries them through authorised corrections in scripts/qa/build-homepage-release.mjs; the prototype tree is untouched."
+      "provenanceNote": "The browser store later showed defaults. The owner's explicit Saved locally readback in the conversation is authoritative for this handoff. The `start` label was \"Start here\" in that original readback. Krish renamed every way in on 2026-09-24 so the click names what the reader gets rather than the act of clicking; the React surfaces read the same words from START_LABEL in src/lib/publicLinks.ts. The earlier wording is preserved in this note rather than lost, and no integrity-locked tree or file was touched to make the change. On 2026-09-25 Krish renamed four route labels so each says what the reader gets: Results became Success stories, Thinking became Ideas you can use, Questions leaders ask became Quick AI tips, and Before you start became Questions we get asked. He added Home at the top of the menu and About us before Media in the same request. The homepage menu carries them through authorised corrections in scripts/qa/build-homepage-release.mjs; the prototype tree is untouched. Later on 2026-09-25 Krish merged Quick AI tips into Ideas you can use (\"Move all the content from the 'Ideas you can use' page into the 'Quick AI Tips' page in its native format, ordered newest first. Add a couple of filters at the top and then rename this page 'Ideas you can use', deleting the old empty one\"): the selection no longer names an answers label, /answers redirects to /blog, and the phone footers carry no route list (\"on mobile only, we don't need all the links in the bottom nav bar\"). The generator applies both; the prototype tree is still untouched."
     },
     "message": {
       "source": "prototypes/website-redesign-recovery/component-selection/homepage-message-configurator/index.html",

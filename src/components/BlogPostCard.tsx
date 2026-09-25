@@ -1,13 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import type { BlogPost } from "@/data/blogPosts";
-
-const categoryLabels: Record<string, string> = {
-  "ai-literacy": "Using AI",
-  leadership: "For leaders",
-  implementation: "Building",
-  strategy: "Business choices",
-};
+import { subjectLabels as categoryLabels } from "@/lib/ideaFormat";
 
 export const BlogPostCard = ({ post }: { post: BlogPost }) => (
   <Link to={`/blog/${post.slug}`} className="mm-blog-card">

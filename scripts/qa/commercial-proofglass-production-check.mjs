@@ -23,7 +23,6 @@ const routes = [
   ["/new-age-leadership", "leadership"],
   ["/blog", "editorial"],
   ["/blog/a-useful-first-30-days-building-with-ai", "editorial"],
-  ["/answers", "editorial"],
   ["/answers/ai-decision-tool-trustworthy-leadership-team", "editorial"],
   ["/ai-brain", "brain"],
   ["/ai-gtm", "gtm"],

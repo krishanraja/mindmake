@@ -699,6 +699,7 @@
       ]
     },
     {
+<<<<<<< HEAD
       "id": "TYPE-SYSTEM-002",
       "exactFeedback": "The AI brain page contains all the right fonts and font sizes. The homepage and other pages do not. Audit every single word and standardise the fonts everywhere.",
       "source": "Krish, 25 September 2026, with a phone screenshot of the homepage opening",
@@ -716,6 +717,42 @@
         "qa:line-breaks: no findings on 32 routes at 1440x900 or 390x844; qa:homepage-release:pre-merge (Chromium): 8 cases, 8 screenshots, no failures",
         "quality/route-lock/approved-production.lock.json, regenerated for the intended stylesheet edits",
         "Desktop (1440x900) and phone (390x844) screenshots of the homepage from opening to footer, /about, /blog, an article, /contact, /case-studies, /ai-gtm and the /new-age-leadership finale, reviewed on the built site"
+=======
+      "id": "IDEAS-MERGE-001",
+      "exactFeedback": "Move all the content from the \"Ideas you can use\" page into the \"Quick AI Tips\" page in its native format, ordered newest first. Add a couple of filters at the top and then rename this page \"Ideas you can use\", deleting the old empty one.",
+      "source": "Krish, 25 September 2026, with phone screenshots of the open menu on /answers and the footer on /case-studies",
+      "surface": "/blog, /answers, every menu and footer, llms.txt, the sitemap",
+      "section": "the ideas index and its filters",
+      "device": "desktop and mobile",
+      "element": "the merged list, the kind and subject filters, the menu route list",
+      "classification": "correction",
+      "requiredOutcome": "One page titled Ideas you can use lists every quick tip and every longer read in the tips' entry form, newest first, with a kind filter and a subject filter at the top. The second page no longer exists: its address redirects to the merged page, every menu and footer carries one Ideas you can use route, and each tip and read keeps its own page.",
+      "acceptanceTest": "src/test/route-resilience.test.tsx renders /blog with every idea newest first and narrows it by kind and subject; src/test/primary-routes-parity.test.ts holds the homepage and shell menus to PRIMARY_ROUTES without /answers; src/test/redirects.test.ts checks the /answers redirect in vercel.json and src/App.tsx; discoverability, seo-prerender and brief2-public-contract cover the sitemap, llms.txt and the surface list; the built site renders /blog at 1440x900 and 390x844 with qa:line-breaks clean.",
+      "status": "implemented-awaiting-review",
+      "resolution": "src/lib/ideaFormat.ts merges src/data/blogPosts.ts and src/content/answers/ into one ordered list for src/pages/Blog.tsx and scripts/generate-llms.mjs; src/pages/Answers.tsx is deleted; /answers redirects to /blog in vercel.json and src/App.tsx; PRIMARY_ROUTES and the homepage generator drop the Quick AI tips route; each answer file carries a category for the subject filter. The generated route lock carries the change. The merged page keeps the /blog address because the archive, /library and the old post redirects already point there; the page Krish named is the surviving one in every visible respect.",
+      "evidence": [
+        "quality/route-lock/approved-production.lock.json, regenerated with src/pages/Answers.tsx removed",
+        "src/test/route-resilience.test.tsx, src/test/primary-routes-parity.test.ts, src/test/redirects.test.ts and src/test/discoverability.test.ts, green in the full unit suite",
+        "artifacts/ideas-merge/2026-09-25/blog-1440x900.png and blog-390x844.png, the built /blog at both sizes"
+      ]
+    },
+    {
+      "id": "FOOTER-PHONE-ROUTES-001",
+      "exactFeedback": "And then on mobile only, we don't need all the links in the bottom nav bar. It just takes up space when there's a mobile menu that is easily accessible.",
+      "source": "Krish, 25 September 2026, with a phone screenshot of the /case-studies footer",
+      "surface": "the shell footer on every page and the homepage footer",
+      "section": "footer",
+      "device": "mobile",
+      "element": "the footer route list",
+      "classification": "correction",
+      "requiredOutcome": "On a phone no footer repeats the menu's route list. The shell footer keeps Contact, Privacy and Terms; the homepage footer keeps its statement, the subscribe action, Privacy and Terms and the copyright. Desktop footers are unchanged.",
+      "acceptanceTest": "The built site at 390x844 shows the shell footer with three links on one row and the homepage footer without a route list, with qa:line-breaks clean; at 1440x900 both footers still carry their full route rail; scripts/qa/build-homepage-release.mjs counts one footer route rail in the generated markup.",
+      "status": "implemented-awaiting-review",
+      "resolution": "The shell footer's route links carry .mm-footer-route, hidden below 521px in src/styles/mindmake.css; the homepage generator cuts the phone footer's route list from the generated markup and src/components/homepage-release/integration.css lifts the phone footer's authored minimum height.",
+      "evidence": [
+        "src/components/homepage-release/markup.ts, generated with one footer-routes rail",
+        "artifacts/ideas-merge/2026-09-25/case-studies-footer-390x844.png and home-footer-390x844.png, the built footers on a phone"
+>>>>>>> origin/main
       ]
     }
   ]

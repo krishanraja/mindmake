@@ -66,23 +66,16 @@ export const staticPages = [
     },
   },
   {
+    /* The one index of the quick tips and the longer reads (Krish,
+       2026-09-25: /answers merged into this page and now redirects here). The
+       pages under it are not listed here: the reads come from
+       `src/data/blogPosts.ts` and the tips are markdown files read by
+       `scripts/lib/answers-loader.mjs`, so publishing one is adding a file. */
     path: "/blog",
     title: "Ideas you can use",
-    description: "Useful questions, checks and working methods for leaders making business decisions as AI changes their market.",
+    description: "Quick AI tips and longer reads for leaders making business decisions as AI changes their market, newest first.",
     headline: "Ideas you can use.",
     still: "film-04",
-  },
-  {
-    /* The answer surface's index. The pages under it are not listed here: they
-       are markdown files read by `scripts/lib/answers-loader.mjs`, the way the
-       blog's posts are read from their data file, so publishing one is adding
-       a file and nothing else. */
-    path: "/answers",
-    title: "Quick AI tips",
-    description: "One page per question: the direct answer first, then the case for it, including what the pages already answering that question miss.",
-    headline: "Quick AI tips.",
-    claim: "Answered with a position, not a summary.",
-    still: "film-02",
   },
   {
     path: "/faq",

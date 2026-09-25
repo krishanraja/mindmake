@@ -6,6 +6,7 @@ answer: "When AI can do most of the work, people should still decide three kinds
 claim: "Most guidance on human oversight asks for a person in the loop for everything, which slows work down and becomes a rubber stamp. A clear line based on reach, reversibility and standard-setting is faster and holds up better."
 target_query: "what decisions should humans still make when AI can do most of the work"
 published_at: "2026-09-21"
+category: leadership
 first_party:
   - Mindmake's working rule is that people release work that reaches the outside world, and reversible internal drafts can stay delegated.
   - A person reviewing everything ends up reviewing nothing carefully. A clear line lets them review the things that matter.

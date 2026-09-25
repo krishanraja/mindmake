@@ -109,7 +109,7 @@ async function testGtm(page, viewport) {
   await page.waitForTimeout(180);
   const menu = await box(page.locator("#mindmake-menu .mm-menu-routes"));
   if (menu.top < 0 || menu.bottom > viewport.height + 1) fail(viewport.name, route, `navigation does not fit the viewport (${menu.top.toFixed(1)}–${menu.bottom.toFixed(1)})`);
-  for (const label of ["Home", "Build your AI brain", "Build your AI GTM", "Success stories", "Ideas you can use", "Quick AI tips", "Questions we get asked", "About us", "Media"]) {
+  for (const label of ["Home", "Build your AI brain", "Build your AI GTM", "Success stories", "Ideas you can use", "Questions we get asked", "About us", "Media"]) {
     if (!(await page.locator("#mindmake-menu .mm-menu-routes").getByText(label, { exact: true }).count())) fail(viewport.name, route, `navigation is missing ${label}`);
   }
   if (!(await page.locator("#mindmake-menu").getByRole("button", { name: "Get your free AI brief" }).count())) fail(viewport.name, route, "navigation is missing the start action");

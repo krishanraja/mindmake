@@ -21,7 +21,8 @@ import "@/styles/mindmake.css";
  *
  * `src/pages/BlogPost.tsx` is the archive's page and stays untouched. This one
  * shares the design system with it and none of its data, so neither surface
- * can quietly become the other.
+ * can quietly become the other. Both are listed on `/blog`, "Ideas you can
+ * use", which is where "All ideas" goes (owner ruling, 2026-09-25).
  */
 export default function Answer() {
   const { slug } = useParams<{ slug: string }>();
@@ -31,11 +32,11 @@ export default function Answer() {
   if (!answer) {
     return (
       <MindmakeShell onStart={() => setBriefOpen(true)}>
-        <SEO title="Answer not found" description="This answer could not be found." canonical="/answers" noindex />
+        <SEO title="Answer not found" description="This answer could not be found." canonical="/blog" noindex />
         <section className="mm-article-missing">
           <div className="mm-container">
             <h1>This answer is no longer here.</h1>
-            <Link className="mm-button" to="/answers">See every answer <ArrowRight aria-hidden="true" /></Link>
+            <Link className="mm-button" to="/blog">See every idea <ArrowRight aria-hidden="true" /></Link>
           </div>
         </section>
         <LeadBrief open={briefOpen} onClose={() => setBriefOpen(false)} />
@@ -56,7 +57,7 @@ export default function Answer() {
       <article className="mm-answer-page">
         <div className="mm-container">
           <header className="mm-answer-hero">
-            <Link className="mm-answer-back" to="/answers"><ArrowLeft aria-hidden="true" /> All answers</Link>
+            <Link className="mm-answer-back" to="/blog"><ArrowLeft aria-hidden="true" /> All ideas</Link>
             <h1>{answer.title}</h1>
             {/* The liftable answer, before any preamble. */}
             <p className="mm-answer-direct">{answer.answer}</p>

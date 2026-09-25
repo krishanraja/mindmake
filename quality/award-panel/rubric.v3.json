@@ -44,8 +44,8 @@
   },
   "requiredRouteGroups": {
     "core": ["/", "/ai-brain", "/ai-gtm", "/case-studies", "/new-age-leadership"],
-    "utility": ["/blog", "/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan", "/answers", "/answers/adtech-compete-ai-targeting-models-defensibility-audit", "/faq", "/contact", "/privacy", "/terms"],
-    "complete": ["/", "/ai-brain", "/ai-gtm", "/case-studies", "/new-age-leadership", "/blog", "/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan", "/answers", "/answers/adtech-compete-ai-targeting-models-defensibility-audit", "/faq", "/contact", "/privacy", "/terms"]
+    "utility": ["/blog", "/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan", "/answers/adtech-compete-ai-targeting-models-defensibility-audit", "/faq", "/contact", "/privacy", "/terms"],
+    "complete": ["/", "/ai-brain", "/ai-gtm", "/case-studies", "/new-age-leadership", "/blog", "/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan", "/answers/adtech-compete-ai-targeting-models-defensibility-audit", "/faq", "/contact", "/privacy", "/terms"]
   },
   "jurors": [
     { "id": "juror_art_system", "assignments": ["desktop_art_system", "mobile_art_system"] },

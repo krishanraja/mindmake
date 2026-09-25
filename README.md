@@ -27,8 +27,9 @@ and use its deterministic production adapter.
 | /ai-gtm | Approved market-change instrument |
 | /new-age-leadership | Approved people/AI companion narrative |
 | /case-studies | Success stories: eight verified client stories |
-| /blog and /blog/:slug | Ideas you can use: editorial archive |
-| /answers and /answers/:slug | Quick AI tips |
+| /blog | Ideas you can use: every quick tip and longer read, newest first, filtered by kind and subject |
+| /blog/:slug | A longer read |
+| /answers/:slug | A quick tip, one page per question; /answers itself redirects to /blog |
 | /faq | Questions we get asked |
 | /about | About us: who runs the practice and why |
 | /contact | General contact |
@@ -55,7 +56,9 @@ failure guarantees belong to [05_LEAD_DELIVERY_SPEC.md](project-documentation/05
 - src/styles/: production styles. Do not modify global rules to fix one component.
 - src/assets/films/: approved assets; page imports determine what is live.
 - src/data/testimonials.ts and rebuildProof.ts: consented quotation/proof sources.
-- src/content/answers/: long-form answers, separate from editorial blog data.
+- src/content/answers/: the quick tips, one markdown file per page.
+  src/lib/ideaFormat.ts merges them with src/data/blogPosts.ts into the one
+  list /blog shows and llms.txt repeats.
 - scripts/lib/pages.mjs: indexed-page metadata; prerender/sitemap/llms/social
   generators and discoverability tests keep crawler surfaces consistent.
 - supabase/functions/: site backend; do not alter unrelated CTRL functions.

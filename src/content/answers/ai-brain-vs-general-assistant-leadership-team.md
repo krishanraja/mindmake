@@ -6,6 +6,7 @@ answer: "An AI brain is a private, structured record of how a leader and their t
 claim: "Most comparisons rank assistants on model quality, price and features. Model quality is converging, and the lasting difference for a leadership team is whether the system holds its own record of judgement, which none of those comparisons measure."
 target_query: "what does an AI brain do for a leadership team that a general AI assistant cannot"
 published_at: "2026-09-12"
+category: ai-literacy
 first_party:
   - Mindmake builds AI brains that hold a leader's own standards, decisions and context. The brain belongs to the leader.
   - Every answer from an AI brain can be traced back to the standard or decision it drew on, so a person can check it and disagree with it.

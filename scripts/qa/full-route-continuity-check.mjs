@@ -16,7 +16,6 @@ const requiredRoutes = [
   "/case-studies",
   "/new-age-leadership",
   "/blog",
-  "/answers",
   "/faq",
   "/contact",
   "/privacy",
@@ -245,7 +244,7 @@ async function verifyShell(page, label) {
         .find((link) => link.textContent.trim() === "Media")?.getAttribute("href"),
     };
   });
-  for (const href of ["/ai-brain", "/ai-gtm", "/case-studies", "/blog", "/answers", "/faq"]) {
+  for (const href of ["/ai-brain", "/ai-gtm", "/case-studies", "/blog", "/faq"]) {
     fail(!shell.internal.includes(href), `${label}: menu is missing ${href}`);
   }
   fail(shell.media !== "https://mindmakerlive.substack.com/subscribe", `${label}: Media points to ${shell.media}`);
@@ -366,25 +365,25 @@ async function verifyRouteActions(page, engine, viewport) {
   // URL has changed, which makes a later search assertion observe stale UI.
   await page.goto(`${origin}/blog`, { waitUntil: "domcontentloaded" });
   await page.getByRole("heading", { level: 1 }).waitFor();
-  const search = page.getByRole("searchbox");
-  await search.waitFor({ state: "visible", timeout: 45000 });
-  await search.fill("no-result-sentinel-9f2f");
-  await page.locator(".mm-blog-empty").waitFor({ state: "visible", timeout: 45000 });
-  await page.getByRole("button", { name: "Show all ideas" }).click();
-  fail((await page.getByRole("searchbox").inputValue()) !== "", `${suffix}: clearing blog search did not recover the archive`);
+  // The one ideas list (2026-09-25): the kind filter narrows it and "All"
+  // brings every idea back; the quick tips are reached from the same page.
+  const every = await page.locator(".mm-idea-entry").count();
+  await page.getByRole("button", { name: "Quick tips" }).click();
+  const tips = await page.locator(".mm-idea-entry").count();
+  fail(!tips || tips >= every, `${suffix}: the kind filter did not narrow the ideas (${tips} of ${every})`);
+  await page.getByRole("button", { name: "All", exact: true }).click();
+  fail((await page.locator(".mm-idea-entry").count()) !== every, `${suffix}: clearing the kind filter did not recover every idea`);
 
-  await page.goto(`${origin}/answers`, { waitUntil: "domcontentloaded" });
-  await page.getByRole("heading", { level: 1 }).waitFor();
   const answerHref = await page.locator("a[href^='/answers/']").first().getAttribute("href");
-  fail(!answerHref, `${suffix}: answers exposes no answer route`);
+  fail(!answerHref, `${suffix}: the ideas page exposes no answer route`);
   if (answerHref) {
     discovered.answer = answerHref;
     await loadAndCheck(page, answerHref, `${suffix} ${answerHref}`);
-    const back = page.getByRole("link", { name: /All answers/i });
-    fail(!(await back.count()), `${suffix} ${answerHref}: no route back to the answer index`);
+    const back = page.getByRole("link", { name: /All ideas/i });
+    fail(!(await back.count()), `${suffix} ${answerHref}: no route back to the ideas page`);
     if (await back.count()) {
       await back.click();
-      await page.waitForURL(`${origin}/answers`);
+      await page.waitForURL(`${origin}/blog`);
     }
   }
 
@@ -400,7 +399,7 @@ async function verifyTextScale(browser) {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: "reduce" });
   const page = await context.newPage();
   await prepare(page);
-  for (const route of ["/new-age-leadership", "/blog", "/answers", "/faq", "/contact", "/privacy", "/terms"]) {
+  for (const route of ["/new-age-leadership", "/blog", "/faq", "/contact", "/privacy", "/terms"]) {
     const label = `chromium 390x844 ${route} 200% text`;
     await page.goto(`${origin}${route}`, { waitUntil: "domcontentloaded" });
     await page.locator("h1").first().waitFor({ state: "visible" });

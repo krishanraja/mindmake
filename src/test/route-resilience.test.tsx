@@ -6,11 +6,13 @@ import { PageLoading, ScrollToLocation } from "@/App";
 import Blog from "@/pages/Blog";
 import BlogPost from "@/pages/BlogPost";
 import NotFound from "@/pages/NotFound";
-import Answers from "@/pages/Answers";
 import Answer from "@/pages/Answer";
 import { blogPosts } from "@/data/blogPosts";
 import { answers } from "@/lib/answers";
+import { ideas } from "@/lib/ideas";
 import { asQuestion } from "@/lib/answerFormat";
+
+const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 const renderWithAppProviders = (node: React.ReactNode, route = "/") => {
   const queryClient = new QueryClient({
@@ -32,14 +34,42 @@ afterEach(() => {
 });
 
 describe("public route resilience", () => {
-  it("shows a featured article when it is the search result", () => {
+  it("lists every quick tip and every longer read on one page, newest first", () => {
+    /* One list (Krish, 2026-09-25): the tips and the reads together, the tips'
+       entry form, newest first, and an idea marked lead: false never opens
+       it. Both kinds are present or the merge lost a source. */
     renderWithAppProviders(<Blog />, "/blog");
 
-    fireEvent.change(screen.getByPlaceholderText("Pricing, judgement, AI"), {
-      target: { value: "Start Cost" },
-    });
+    const headings = screen.getAllByRole("heading", { level: 2 }).map((node) => node.textContent);
+    expect(headings).toEqual(ideas.map((idea) => idea.title));
+    expect(ideas.some((idea) => idea.kind === "tip") && ideas.some((idea) => idea.kind === "read")).toBe(true);
+    expect(ideas).toHaveLength(blogPosts.length + answers.length);
+    expect(ideas[0].lead).toBe(true);
+    const rest = ideas.slice(1).map((idea) => idea.publishedAt);
+    expect(rest).toEqual([...rest].sort().reverse());
+    for (const idea of ideas) {
+      expect(screen.getByRole("link", { name: new RegExp(escapeRegExp(idea.title.slice(0, 30)), "i") }))
+        .toHaveAttribute("href", idea.href);
+    }
+  });
 
-    expect(screen.getByRole("heading", { name: blogPosts[0].title })).toBeInTheDocument();
+  it("narrows the ideas by kind and by subject, and shows every idea again", () => {
+    renderWithAppProviders(<Blog />, "/blog");
+
+    fireEvent.click(screen.getByRole("button", { name: "Quick tips" }));
+    for (const idea of ideas) {
+      expect(screen.queryByRole("heading", { name: idea.title }) !== null, idea.href).toBe(idea.kind === "tip");
+    }
+
+    fireEvent.click(screen.getByRole("button", { name: "For leaders" }));
+    for (const idea of ideas) {
+      expect(screen.queryByRole("heading", { name: idea.title }) !== null, idea.href)
+        .toBe(idea.kind === "tip" && idea.subject === "leadership");
+    }
+
+    fireEvent.click(screen.getByRole("button", { name: "All" }));
+    fireEvent.click(screen.getByRole("button", { name: "All subjects" }));
+    expect(screen.getAllByRole("heading", { level: 2 })).toHaveLength(ideas.length);
   });
 
   it("copies an article link when native sharing is unavailable", async () => {
@@ -106,7 +136,7 @@ describe("public route resilience", () => {
   });
 
   it("lists every answer page with the question it answers", () => {
-    renderWithAppProviders(<Answers />, "/answers");
+    renderWithAppProviders(<Blog />, "/blog");
 
     for (const answer of answers) {
       expect(screen.getByRole("heading", { name: answer.title })).toBeInTheDocument();

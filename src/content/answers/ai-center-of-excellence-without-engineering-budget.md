@@ -6,6 +6,7 @@ answer: "Mindmake's position: a Center of Excellence without an engineering budg
 claim: "Every cited source sells a CoE framework built for teams with engineering budget. This page is for the leader who has judgement and standards but no build team, and treats that as the actual operating condition, not a temporary shortfall."
 target_query: "how to build an AI center of excellence without a dedicated engineering budget"
 published_at: "2026-09-01"
+category: implementation
 first_party:
   - "Mindmake's build your AI brain product exists specifically to carry a leader's standards and judgement as a running system, which is the function a CoE is meant to perform without needing a build team to do it."
   - "Mindmake's CTRL product runs the practice itself, which is the same model being proposed here: standards encoded and running, not a committee reviewing other people's work."

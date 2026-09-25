@@ -906,11 +906,14 @@ html {
 @media (hover: hover) and (pointer: fine) {
   .mm-footer nav a:hover { color: var(--mm-mint); }
 }
-/* On a phone the full footer's ten links, being uneven in width, fell
-   2+3+4+1 and left "Terms" alone on the last row (/case-studies). Two even
-   columns keep every row paired, for the four-link footer too. */
+/* On a phone the full footer carries no route list (Krish, 2026-09-25: the
+   menu is a tap away, and the list only pushed Contact, the legal pair and
+   the copyright down the page). Contact, Privacy and Terms sit on one row.
+   The compact four-link footer on the door pages keeps two even columns, so
+   every row stays paired and no link is stranded. */
 @media (max-width: 520px) {
-  .mm-footer nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mm-footer:not(.is-compact) nav a.mm-footer-route { display: none; }
+  .mm-footer.is-compact nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 /* The full footer carries twelve links from 25 September 2026 (Home and About
    us joined the routes), and at 1440 a wrapping row left "Terms" alone. Even
@@ -1104,34 +1107,16 @@ html {
 .mm-blog-page { padding: calc(var(--mm-header-height) + clamp(28px, 6vh, 72px)) 0 var(--mm-section); }
 .mm-blog-hero { padding-bottom: clamp(22px, 3vw, 36px); border-bottom: 1px solid var(--mm-hair); }
 .mm-blog-hero h1 { max-width: 13ch; }
-.mm-blog-tools { display: grid; gap: 16px; align-items: end; padding-block: 22px 26px; }
-@media (min-width: 860px) { .mm-blog-tools { grid-template-columns: minmax(260px, .7fr) minmax(0, 1.3fr); } }
-.mm-blog-search { position: relative; display: grid; gap: 8px; }
-.mm-blog-search > span:first-child,
-.mm-blog-search label {
-  color: var(--mm-mut);
-  font-family: var(--mm-mono);
-  font-size: 10px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-}
-.mm-blog-search svg { position: absolute; left: 14px; bottom: 15px; width: 17px; height: 17px; color: var(--mm-mint-dim); }
-.mm-blog-search input {
-  width: 100%;
-  min-height: 48px;
-  border: 1px solid var(--mm-line);
-  border-radius: 2px;
-  background: var(--mm-ink2);
-  color: var(--mm-tx);
-  padding: 12px 14px 12px 42px;
-  font-family: var(--mm-mono);
-  font-size: 13px;
-}
-.mm-blog-search input::placeholder { color: var(--mm-mut); }
+/* The two filters (Krish, 2026-09-25): what kind of idea, then what it is
+   about, as two groups of chips on one row. */
+.mm-ideas-tools { padding-block: 22px 8px; }
+.mm-ideas-filters { display: flex; flex-wrap: wrap; gap: 10px 28px; }
 .mm-blog-filters { display: flex; flex-wrap: wrap; gap: 7px; }
-/* One row on a phone, scrolled sideways, so the subjects never push the
-   first idea off the first screen. */
+/* On a phone each filter takes its own row, so both are in view at once, and
+   a row too long for the screen scrolls sideways rather than wrapping and
+   pushing the first idea off the first screen. */
 @media (max-width: 859px) {
+  .mm-ideas-filters { display: grid; gap: 8px; }
   .mm-blog-filters {
     flex-wrap: nowrap;
     margin-inline: calc(-1 * var(--mm-gutter, 16px));
@@ -1159,21 +1144,31 @@ html {
   .mm-blog-filters button:hover { border-color: var(--mm-mint-dim); color: var(--mm-tx); }
 }
 .mm-blog-filters button[aria-pressed="true"] { border-color: var(--mm-mint-bright); background: var(--mm-mint-bright); color: var(--mm-mint-ink); }
-.mm-blog-list { display: grid; gap: 26px; }
-.mm-blog-featured { display: block; text-decoration: none; color: inherit; }
-.mm-blog-featured article {
+/* The one list: every idea in the entry form the quick tips used, a title,
+   the question or the excerpt, then its kind, subject and date. */
+.mm-ideas-list { max-width: 820px; display: grid; }
+.mm-idea-entry { display: block; color: inherit; text-decoration: none; }
+.mm-idea-entry article { padding: 32px 0; border-bottom: 1px solid var(--mm-hair); }
+.mm-idea-entry h2 { max-width: 32ch; font-size: clamp(21px, 2.4vw, 30px); text-wrap: pretty; }
+.mm-idea-entry > article > p { max-width: 62ch; margin-top: 14px; color: var(--mm-tx2); font-size: 16px; }
+.mm-idea-entry footer {
   display: flex;
-  flex-direction: column;
-  border: 1px solid var(--mm-line);
-  border-radius: 3px;
-  background: var(--mm-ink2);
-  padding: clamp(24px, 4vw, 44px);
-  transition: border-color .12s ease, transform .12s ease;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  align-items: center;
+  margin-top: 18px;
+  color: var(--mm-mut);
+  font-family: var(--mm-mono);
+  font-size: 10.5px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
 }
-@media (hover: hover) and (pointer: fine) {
-  .mm-blog-featured:hover article { border-color: var(--mm-mint-dim); transform: translateY(-1px); }
+.mm-idea-entry footer strong { display: inline-flex; align-items: center; gap: 7px; color: var(--mm-mint); font-weight: 400; }
+.mm-idea-entry footer svg { width: 15px; height: 15px; }
+@media (hover: hover) {
+  .mm-idea-entry:hover h2 { color: var(--mm-mint); }
 }
-.mm-blog-featured header,
+/* The cards under a read, "Related ideas." */
 .mm-blog-card header {
   display: flex;
   justify-content: space-between;
@@ -1184,9 +1179,6 @@ html {
   letter-spacing: .13em;
   text-transform: uppercase;
 }
-.mm-blog-featured h2 { max-width: 20ch; margin-top: 14px; font-size: clamp(26px, 3.4vw, 40px); }
-.mm-blog-featured p { max-width: 62ch; margin-top: 16px; color: var(--mm-tx2); font-size: 17px; }
-.mm-blog-featured footer,
 .mm-blog-card footer {
   display: flex;
   justify-content: space-between;
@@ -1198,8 +1190,8 @@ html {
   font-family: var(--mm-mono);
   font-size: 10.5px;
 }
-.mm-blog-featured footer strong, .mm-blog-card footer strong { display: inline-flex; align-items: center; gap: 7px; color: var(--mm-mint); font-weight: 400; }
-.mm-blog-featured svg, .mm-blog-card svg { width: 15px; height: 15px; }
+.mm-blog-card footer strong { display: inline-flex; align-items: center; gap: 7px; color: var(--mm-mint); font-weight: 400; }
+.mm-blog-card svg { width: 15px; height: 15px; }
 .mm-blog-grid { display: grid; gap: 1px; background: var(--mm-line); border: 1px solid var(--mm-line); border-radius: 3px; overflow: hidden; }
 @media (min-width: 700px) { .mm-blog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 1000px) { .mm-blog-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
@@ -1294,44 +1286,21 @@ html {
 .mm-answers-list p { margin-top: 12px; color: var(--mm-tx2); font-size: 16px; }
 .mm-answers-next { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
 
-/* The answer surface, /answers and /answers/:slug.
+/* The answer pages, /answers/:slug. Their index merged into /blog on
+ * 2026-09-25 (Krish), whose `.mm-idea-entry` rules above took over the entry
+ * form these pages' index used.
  *
  * Singular `mm-answer-`, because plural `mm-answers-` directly above belongs to
  * /faq and the two are different surfaces: that one lays out the curated corpus
  * the ask bar answers from, this one is a page per buyer question. Nothing here
- * reads the blog's classes and nothing there reads these, so either surface can
- * be reshaped without the other moving.
+ * reads the article page's classes and nothing there reads these, so either
+ * surface can be reshaped without the other moving.
  *
  * The measure, the rules and the type ramp are the article page's, because an
  * answer page is an article and should feel like one. What it does not have is
  * the article's meta row of category, author and reading time: a machine-first
  * page carries the question it answers and the date it was written. */
-.mm-answer-index, .mm-answer-page { background: var(--mm-ink); }
-.mm-answer-index { padding: calc(var(--mm-header-height) + clamp(44px, 8vh, 88px)) 0 var(--mm-section); }
-.mm-answer-index-hero { padding-bottom: 40px; border-bottom: 1px solid var(--mm-hair); }
-.mm-answer-index-hero h1 { max-width: 16ch; }
-.mm-answer-index-entries { max-width: 820px; display: grid; }
-.mm-answer-entry { display: block; color: inherit; text-decoration: none; }
-.mm-answer-entry article { padding: 32px 0; border-bottom: 1px solid var(--mm-hair); }
-.mm-answer-entry h2 { max-width: 32ch; font-size: clamp(21px, 2.4vw, 30px); text-wrap: pretty; }
-.mm-answer-entry > article > p { max-width: 62ch; margin-top: 14px; color: var(--mm-tx2); font-size: 16px; }
-.mm-answer-entry footer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 20px;
-  align-items: center;
-  margin-top: 18px;
-  color: var(--mm-mut);
-  font-family: var(--mm-mono);
-  font-size: 10.5px;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-}
-.mm-answer-entry footer strong { display: inline-flex; align-items: center; gap: 7px; color: var(--mm-mint); font-weight: 400; }
-.mm-answer-entry footer svg { width: 15px; height: 15px; }
-@media (hover: hover) {
-  .mm-answer-entry:hover h2 { color: var(--mm-mint); }
-}
+.mm-answer-page { background: var(--mm-ink); }
 
 .mm-answer-page { padding: calc(var(--mm-header-height) + clamp(40px, 7vh, 76px)) 0 var(--mm-section); }
 .mm-answer-back { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--mm-mint); font-family: var(--mm-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }

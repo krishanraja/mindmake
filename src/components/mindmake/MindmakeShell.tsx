@@ -213,12 +213,16 @@ export function MindmakeShell({
           >
             {SUBSCRIBE_LABEL} <span aria-hidden="true">↗</span>
           </a>
+          {/* On a phone the route list is not rendered visible (owner ruling,
+              2026-09-25: the menu is a tap away and the list only took up
+              space); `.mm-footer-route` in mindmake.css hides it below 521px.
+              Contact and the legal pair stay, because the menu has no Contact. */}
           <nav aria-label="Footer navigation">
             {!compactFooter && (
               <>
                 {PRIMARY_ROUTES.map(({ label, href, external }) => external
-                  ? <a key={href} href={href} target="_blank" rel="noreferrer">{label}</a>
-                  : <Link key={href} to={href}>{label}</Link>)}
+                  ? <a key={href} className="mm-footer-route" href={href} target="_blank" rel="noreferrer">{label}</a>
+                  : <Link key={href} className="mm-footer-route" to={href}>{label}</Link>)}
               </>
             )}
             {compactFooter && <a href={SUBSCRIBE_URL} target="_blank" rel="noreferrer">Media</a>}

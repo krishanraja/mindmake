@@ -22,7 +22,7 @@ export async function loadAnswers(rootDir) {
     sourcefile: "src/lib/answerFormat.ts",
   });
   const moduleUrl = `data:text/javascript;base64,${Buffer.from(code).toString("base64")}`;
-  const { parseAnswerFile, orderAnswers, answerPath, answerJsonLd } = await import(moduleUrl);
+  const { parseAnswerFile, orderAnswers, answerPath, answerJsonLd, asQuestion } = await import(moduleUrl);
 
   const directory = "src/content/answers";
   const files = (await readdir(resolve(rootDir, directory))).filter((file) => file.endsWith(".md"));
@@ -34,5 +34,5 @@ export async function loadAnswers(rootDir) {
     answers.push(parseAnswerFile(markdown, `${directory}/${file}`));
   }
 
-  return { answers: orderAnswers(answers), answerPath, answerJsonLd };
+  return { answers: orderAnswers(answers), answerPath, answerJsonLd, asQuestion };
 }

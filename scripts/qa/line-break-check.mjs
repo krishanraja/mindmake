@@ -16,6 +16,12 @@
  *  - Rows: a container of three or more links or buttons that wraps into rows
  *    fails when its last row holds one item and an earlier row holds several.
  *    A column (one item per row) is a list, not a wrap, and passes.
+ *  - Clipped text (Krish, 2026-09-25): a word that runs past the edge of an
+ *    ancestor that hides its overflow, or past the viewport, is text a reader
+ *    cannot see. The homepage's benefits lost the ends of their lines this way
+ *    at 390px, and every other check passed, because the clip hid the overflow
+ *    from the page's scroll width. A word inside a scroller is not clipped:
+ *    what a scroller hides is a swipe away.
  *
  * Reduced motion is emulated so every reveal is in its final place; layout is
  * measured after fonts load. `--base` points at an existing server; otherwise
@@ -74,8 +80,23 @@ const measure = () => {
         range.setStart(node, match.index);
         range.setEnd(node, match.index + match[0].length);
         /* A word the browser breaks at a hyphen is a fragment on each line. */
-        for (const rect of [...range.getClientRects()].filter((r) => r.width > 0)) words.push({ word: match[0], top: rect.top, bottom: rect.bottom });
+        for (const rect of [...range.getClientRects()].filter((r) => r.width > 0)) words.push({ word: match[0], top: rect.top, bottom: rect.bottom, left: rect.left, right: rect.right });
       }
+    }
+    /* Clipped: the nearest ancestor that hides overflow, unless a scroller
+       comes first; the root's clip is the viewport. */
+    let edge = null;
+    for (let node = el.parentElement; node; node = node.parentElement) {
+      const overflow = getComputedStyle(node).overflowX;
+      if (/auto|scroll/.test(overflow)) { edge = null; break; }
+      if (/hidden|clip/.test(overflow)) { edge = node; break; }
+    }
+    if (edge && words.length) {
+      const bounds = edge === document.documentElement || edge === document.body ? { left: 0, right: innerWidth } : edge.getBoundingClientRect();
+      const lefts = words.map((word) => word.left);
+      const rights = words.map((word) => word.right);
+      const past = Math.max(Math.max(...rights) - bounds.right, bounds.left - Math.min(...lefts));
+      if (past > 1) problems.push({ kind: "clipped", where: describe(el), text: el.textContent.trim().replace(/\s+/g, " ").slice(0, 90), stranded: `${Math.round(past)}px past ${describe(edge)}` });
     }
     if (words.length < 3) continue;
     const lines = [];
@@ -136,12 +157,15 @@ try {
     }
     await context.close();
   }
-  /* Negative control: a stranded word and a stranded link that this check
-     must report, or its silence on the site means nothing. */
+  /* Negative control: a stranded word, a stranded link and a line cut off by
+     a box that hides its overflow, which this check must report, or its
+     silence on the site means nothing. The same overhang inside a scroller
+     must not be reported. */
   const control = await browser.newPage({ viewport: { width: 390, height: 844 } });
-  await control.setContent(`<p style="width:11ch;font:16px monospace;text-wrap:wrap">aaa bbb ccc ddd</p><nav style="display:flex;flex-wrap:wrap;column-gap:10px;width:230px">${'<a href="#" style="display:block;width:100px;font:16px monospace">Route</a>'.repeat(5)}</nav>`);
+  await control.setContent(`<p style="width:11ch;font:16px monospace;text-wrap:wrap">aaa bbb ccc ddd</p><nav style="display:flex;flex-wrap:wrap;column-gap:10px;width:230px">${'<a href="#" style="display:block;width:100px;font:16px monospace">Route</a>'.repeat(5)}</nav><div style="width:120px;overflow:hidden"><p id="cut" style="width:240px;font:16px monospace">cut off at the edge</p></div><div style="width:120px;overflow-x:auto"><p style="width:240px;font:16px monospace">reachable by a swipe</p></div>`);
   const caught = await control.evaluate(measure);
-  if (!caught.some((p) => p.kind === "word") || !caught.some((p) => p.kind === "link")) failures.push({ viewport: "control", route: "fixture", kind: "control", where: "negative control", stranded: `expected a word and a link, caught ${JSON.stringify(caught)}` });
+  const clippedCaught = caught.filter((p) => p.kind === "clipped");
+  if (!caught.some((p) => p.kind === "word") || !caught.some((p) => p.kind === "link") || clippedCaught.length !== 1 || !clippedCaught[0].where.includes("#cut")) failures.push({ viewport: "control", route: "fixture", kind: "control", where: "negative control", stranded: `expected a word, a link and one clipped line, caught ${JSON.stringify(caught)}` });
 } finally {
   await browser.close();
   server?.kill();

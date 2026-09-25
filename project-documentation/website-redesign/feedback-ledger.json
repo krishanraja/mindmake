@@ -593,6 +593,46 @@
       "status": "open",
       "resolution": "Pending owner review of the rendered candidate.",
       "evidence": []
+    },
+    {
+      "id": "LEADERSHIP-BENEFITS-CLIPPED-001",
+      "exactFeedback": "The CRO screenshot shows text flying off the right-hand side of the page.",
+      "source": "Krish, 25 September 2026, with a phone screenshot of the homepage's AI Brain benefits at 05 / 06",
+      "surface": "/ and /new-age-leadership",
+      "section": "What your AI Brain makes possible",
+      "device": "mobile",
+      "element": "the benefit headlines, first reported on \"A CRO who hates the numbers can become better at using them.\"",
+      "classification": "correction",
+      "requiredOutcome": "Every benefit headline sits inside its stage with its full gutter at every phone width, with no lone last word, on both pages that share the chapters.",
+      "acceptanceTest": "On the built site at 320 to 1920px wide every benefit card is exactly as wide as its stage and no headline runs past it; qa:line-breaks reports no clipped text and no stranded word at 1440x900 and 390x844, and reports the pre-fix build.",
+      "status": "verified",
+      "resolution": "The benefits stage's grid column is the stage, the phone headline size fits the longest phrase the line-break guard keeps together, keepLastWords takes back a join that made its block wider than a clipping ancestor, and qa:line-breaks now fails clipped text. Recorded in quality/route-lock/approved-production-r46.json.",
+      "evidence": [
+        "quality/route-lock/approved-production-r46.json",
+        "scripts/qa/line-break-check.mjs on the built site: no findings on 31 routes; the pre-fix build is reported 8px past the benefits stage at 390x844; its negative control catches a clipped line and passes a scroller.",
+        "Built-site probe on / and /new-age-leadership at 320x640 to 1920x1080: every benefit card equals its stage and no headline passes it.",
+        "Phone screenshots of the benefits reviewed on the built site."
+      ]
+    },
+    {
+      "id": "PRACTICE-PHONE-SWEEP-001",
+      "exactFeedback": "In the other screenshot there is a vertically stacked section which should really build with scroll, with that left-to-right green line animation. Or if you can think of anything more surprising and delightful than that, I'm all ears for a bit of variety.",
+      "source": "Krish, 25 September 2026, with a phone screenshot of the homepage's practice scenes (\"It notices what changed.\", \"It joins the evidence.\")",
+      "surface": "/ and /new-age-leadership",
+      "section": "What this feels like in practice",
+      "device": "mobile",
+      "element": "the three practice scenes and the stage buttons beneath them",
+      "classification": "correction",
+      "requiredOutcome": "On a phone the practice scenes build with scroll under their introduction: a mint line sweeps left to right and uncovers each next scene, and a rail's mint fill travels from stop to stop with it, forwards and in reverse, releasing into the benefits; each stop reaches its scene; reduced motion switches at the same points without a sweep; a phone held sideways and a page without scripts keep the stacked flow.",
+      "acceptanceTest": "On the built homepage at 390x844 the practice frame pins under the masthead, shows each of the three scenes by scroll forwards and in reverse, releases at both ends, and the rail's last stop reaches the last scene with the rail full; at 720x450 the scenes stay stacked; the progress mapping is unit tested in both directions and under reduced motion.",
+      "status": "verified",
+      "resolution": "The R6 layer pins .work-scenes on phones at least 480px tall and reveals scenes by a scroll-scrubbed clip behind a mint sweep line, with the stage buttons restyled as the rail; leadershipChapters.ts reads the pinned travel from layout and exports the mapping. Recorded in quality/route-lock/approved-production-r46.json.",
+      "evidence": [
+        "quality/route-lock/approved-production-r46.json",
+        "scripts/qa/homepage-release-browser-check.mjs --built --pre-merge (Chromium): 8 cases including the phone practice case, forward, reverse and both exits.",
+        "src/test/homepage-leadership-chapters.test.ts",
+        "Phone screenshots at every stage of the sweep, reduced motion, 844x390 and no-JS reviewed on the built site."
+      ]
     }
   ]
 }

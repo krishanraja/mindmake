@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { homepageMarkup } from "@/components/homepage-release/markup";
-import { leadershipChaptersMarkup, mountLeadershipChapters } from "@/components/leadership-chapters/leadershipChapters";
+import { leadershipChaptersMarkup, mountLeadershipChapters, practiceRest, practiceSweep } from "@/components/leadership-chapters/leadershipChapters";
 
 describe("homepage leadership chapters", () => {
   afterEach(() => { vi.unstubAllGlobals(); document.body.innerHTML = ""; });
@@ -57,5 +57,76 @@ describe("homepage leadership chapters", () => {
     unmount();
     root.querySelector<HTMLButtonElement>("[data-benefit-next]")!.click();
     expect(count.textContent).toBe("02");
+  });
+
+  /* The phone's practice sequence (r46): a mint line sweeps each scene in as
+     the reader scrolls, and the rail's fill travels with it. */
+  describe("the practice sweep on a phone", () => {
+    const samples = Array.from({ length: 401 }, (_, i) => i / 400);
+
+    it("starts on the first scene and ends on the last, with the rail empty then full", () => {
+      expect(practiceSweep(0)).toMatchObject({ active: 0, sweeps: [0, 0], fill: 0, line: 0, copy: [1, 0, 0] });
+      expect(practiceSweep(1)).toMatchObject({ active: 2, sweeps: [1, 1], fill: 1, line: 0, copy: [0, 0, 1] });
+    });
+
+    it("only ever moves forward as the reader scrolls on, so scrolling back retraces it exactly", () => {
+      for (let i = 1; i < samples.length; i += 1) {
+        const before = practiceSweep(samples[i - 1]);
+        const after = practiceSweep(samples[i]);
+        expect(after.sweeps[0]).toBeGreaterThanOrEqual(before.sweeps[0]);
+        expect(after.sweeps[1]).toBeGreaterThanOrEqual(before.sweeps[1]);
+        expect(after.fill).toBeGreaterThanOrEqual(before.fill);
+        expect(after.active).toBeGreaterThanOrEqual(before.active);
+      }
+    });
+
+    it("reaches each stop on the rail exactly as its sweep completes", () => {
+      for (const progress of samples) {
+        const state = practiceSweep(progress);
+        expect(state.fill).toBeCloseTo((state.sweeps[0] + state.sweeps[1]) / 2, 10);
+        expect(state.reached[1]).toBe(state.sweeps[0] >= 1);
+        expect(state.reached[2]).toBe(state.sweeps[1] >= 1);
+      }
+    });
+
+    it("never shows two scenes' words at once, and shows the line only mid-sweep", () => {
+      for (const progress of samples) {
+        const state = practiceSweep(progress);
+        expect(state.copy.filter((value) => value > 0).length).toBeLessThanOrEqual(1);
+        const sweeping = state.sweeps.some((value) => value > 0 && value < 1);
+        if (!sweeping) expect(state.line).toBe(0);
+      }
+    });
+
+    it("holds every scene still where its rail stop sends the reader", () => {
+      practiceRest.forEach((rest, scene) => {
+        const state = practiceSweep(rest);
+        expect(state.active).toBe(scene);
+        expect(state.line).toBe(0);
+        expect(state.copy[scene]).toBe(1);
+      });
+    });
+
+    it("with reduced motion, changes scene at the same points, all at once, with no line", () => {
+      for (const progress of samples) {
+        const state = practiceSweep(progress, true);
+        expect(state.line).toBe(0);
+        state.sweeps.forEach((value) => expect([0, 1]).toContain(value));
+        expect(state.active).toBe(practiceSweep(progress).active);
+      }
+    });
+
+    it("keeps every stacked scene available to a screen reader where the frame cannot pin", () => {
+      vi.stubGlobal("scrollTo", vi.fn());
+      vi.stubGlobal("innerWidth", 844);
+      vi.stubGlobal("innerHeight", 390);
+      const root = document.createElement("div");
+      root.innerHTML = leadershipChaptersMarkup();
+      document.body.append(root);
+      const unmount = mountLeadershipChapters(root, { reduced: true });
+      const hidden = [...root.querySelectorAll("[data-work-scene]")].map((scene) => scene.getAttribute("aria-hidden"));
+      expect(hidden).toEqual(["false", "false", "false"]);
+      unmount();
+    });
   });
 });

@@ -1,9 +1,10 @@
 // Expected visible states are the accepted page copy, independent of runtime data.
 // From r35 the homepage carries the three /new-age-leadership chapters in place
 // of R3's history, authority and leadership dividend (Ruling, Krish, 2026-09-25).
-// Each pins under the homepage's fixed masthead. The practice scenes pin only
-// above 900px; on a phone they are laid out one after another by design, so
-// the phone declares no pinned practice case.
+// Each pins under the homepage's fixed masthead. From r46 the practice scenes
+// pin on a phone too, under their introduction, and build by the signal sweep
+// (Krish, 2026-09-25: "should really build with scroll"), so the phone
+// declares a pinned practice case like the desktop.
 // From r41 the R3 history chapter is back ahead of them (Krish, 2026-09-25:
 // "reinstate"), pinned at the top of the viewport by pinnedChapters.ts.
 export const APPROVED_SCROLL_STATES = {
@@ -40,7 +41,7 @@ export const HISTORY_PIN_TOP = 0;
 
 export const CHAPTERS_BY_VIEWPORT = {
   '1440x900': ['history', 'reach', 'practice', 'benefits'],
-  '390x844': ['history', 'reach', 'benefits'],
+  '390x844': ['history', 'reach', 'practice', 'benefits'],
 };
 
 export function createHomepageScrollContract({ engines = ['chromium', 'firefox', 'webkit'], candidateDigest, acceptedDecision, acceptedDecisionDigest }) {

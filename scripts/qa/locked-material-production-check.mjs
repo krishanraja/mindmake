@@ -28,12 +28,12 @@ const chapterFitViewports = new Set([
   "390x844", "430x932", "768x1024", "1024x768", "1280x800", "1440x700", "1440x900", "1920x1080",
 ]);
 const fingerprints = {
-  "prototypes/website-redesign-recovery/gtm-market-change/index-motion.html": "8754e189e077ead09728e4e8b78ed26ad9b872a0d8b9d4b3503bc76ee7e98aef",
   "prototypes/website-redesign-recovery/brain-signature/index-s2-motion-s3.html": "423659d864e79a72a55d4fd3ca9450b610e616187929293f1e0a8faaafbff2c6",
-  "src/styles/mindmake-locked-gtm.css": "8c4ee91ad1a96f97efd397668f0742b148fbc4ec820e73daf2ddb4047be58579",
   "src/styles/mindmake-locked-brain.css": "51e0a9a3a351e81d8578f570eaf662d0f6b958acf17551c666caf89ddc5dc4a2",
 };
-const fixture = JSON.parse(await readFile(resolve(root, "src/data/vnext/gtm-signals.json"), "utf8"));
+/* /ai-gtm left the locked-material routes in r44: it is written by hand on the
+   house tokens and has its own scroll-build gate (scripts/qa/ai-gtm-scroll-build-check.mjs).
+   Its checks here had asserted the retired signal-and-response design since r25. */
 const issues = [];
 const observations = [];
 let origin;
@@ -70,7 +70,7 @@ for (const [relativePath, expected] of Object.entries(fingerprints)) {
   const actual = sha256(await readFile(resolve(root, relativePath)));
   assert.equal(actual, expected, `Locked production input changed: ${relativePath}`);
 }
-observations.push("The owner-approved GTM-MOTION-S1 and BRAIN-MOTION-S3 documents, and their generated scoped styles with the verified fine-pointer reflow guards, match their locked hashes.");
+observations.push("The owner-approved BRAIN-MOTION-S3 document, and its generated scoped styles with the verified fine-pointer reflow guards, match their locked hashes.");
 
 async function startServer() {
   const port = await findEphemeralPort();
@@ -87,11 +87,8 @@ async function startServer() {
   for (let attempt = 0; attempt < 80; attempt += 1) {
     if (server.exitCode !== null) throw new Error(`Script-owned Vite server exited before readiness.\n${diagnostics}`);
     try {
-      const [brain, gtm] = await Promise.all([
-        fetch(`${origin}/ai-brain`),
-        fetch(`${origin}/ai-gtm`),
-      ]);
-      if (brain.ok && gtm.ok) return;
+      const brain = await fetch(`${origin}/ai-brain`);
+      if (brain.ok) return;
     } catch {
       // Retry until the bounded readiness window expires.
     }
@@ -307,39 +304,6 @@ async function inspectBrainLayout(page, label, { requireViewportFit = false } = 
       assert.deepEqual(chapter.contentOverflow, [], `${label}: #${chapter.id} clips ${chapter.contentOverflow.join(", ")}`);
     }
   }
-}
-
-async function inspectGtmLayout(page, label) {
-  await inspectCommon(page, label, ".mm-locked-gtm", {
-    targets: ["button:not([hidden])", "summary", ".signal-tab", ".response-paddle", ".evidence-body a"],
-  });
-  const alignment = await page.evaluate(() => {
-    const shell = document.querySelector(".mm-locked-gtm .page-shell")?.getBoundingClientRect();
-    const selector = document.querySelector(".mm-locked-gtm .signal-selector");
-    const selectorRect = selector?.getBoundingClientRect();
-    const tabs = selector ? [...selector.querySelectorAll(".signal-tab")].map((tab) => {
-      const rect = tab.getBoundingClientRect();
-      return { top: rect.top, width: rect.width, height: rect.height };
-    }) : [];
-    return {
-      viewportWidth: innerWidth,
-      shellWidth: shell?.width || 0,
-      selectorWidth: selectorRect?.width || 0,
-      selectorClientWidth: selector?.clientWidth || 0,
-      selectorScrollWidth: selector?.scrollWidth || 0,
-      tabs,
-    };
-  });
-  assert.ok(alignment.shellWidth > 0 && alignment.shellWidth < await page.evaluate(() => innerWidth), `${label}: governed page-width container is missing`);
-  assert.ok(alignment.selectorScrollWidth <= alignment.selectorClientWidth + 1, `${label}: signal selector becomes a nested horizontal scroller`);
-  if (alignment.viewportWidth > 980 && alignment.tabs.length === 5) {
-    assert.ok(Math.max(...alignment.tabs.map((tab) => tab.top)) - Math.min(...alignment.tabs.map((tab) => tab.top)) <= 1, `${label}: signal choices do not share one aligned baseline`);
-    assert.ok(alignment.tabs.every((tab) => tab.height <= 112), `${label}: signal choices become tall empty boxes`);
-  }
-  await page.locator(".evidence-drawer summary").click();
-  const sourceTarget = await page.locator(".evidence-body a").boundingBox();
-  assert.ok(sourceTarget && sourceTarget.width >= 44 && sourceTarget.height >= 44, `${label}: evidence source link is undersized at ${sourceTarget?.width}x${sourceTarget?.height}`);
-  await page.locator(".evidence-drawer summary").click();
 }
 
 async function verifyBrainInteractions(browser) {
@@ -559,73 +523,9 @@ async function verifyBrainFinePointerReflow(browser) {
   }
 }
 
-async function verifyGtmInteractions(browser) {
-  const page = await openRoute(browser, "/ai-gtm", ".mm-locked-gtm", "Chromium GTM interactions", { width: 1440, height: 900 });
-  assert.equal(await page.locator('input[name="signal"]').count(), 5);
-  assert.equal(await page.locator('input[name="response"]').count(), 3);
-  await page.waitForFunction(() => document.querySelector(".mm-locked-gtm")?.dataset.activeFilm === "threshold");
-  assert.equal(await page.locator("video").evaluateAll((videos) => videos.filter((video) => !video.paused).length), 1);
-  await page.evaluate(() => document.querySelector(".signal-deck").scrollIntoView({ block: "center" }));
-  await page.waitForFunction(() => document.querySelector(".mm-locked-gtm")?.dataset.activeFilm === "signals");
-  assert.equal(await page.locator("video").evaluateAll((videos) => videos.filter((video) => !video.paused).length), 1);
-  await page.evaluate(() => window.scrollTo(0, 0));
-  assert.equal(await page.locator(".instrument").getAttribute("data-build"), "idle");
-  await page.evaluate(() => {
-    const target = document.querySelector(".instrument");
-    window.scrollTo(0, target.offsetTop - innerHeight * 0.6);
-  });
-  await page.waitForFunction(() => document.querySelector(".instrument")?.dataset.build === "building");
-  await page.evaluate(() => {
-    const target = document.querySelector(".instrument");
-    window.scrollTo(0, target.offsetTop - innerHeight * 0.12);
-  });
-  await page.waitForFunction(() => document.querySelector(".instrument")?.dataset.build === "built");
-  assert.equal(await page.locator(".instrument").evaluate((element) => getComputedStyle(element).getPropertyValue("--build-offset").trim()), "0px");
-  await page.waitForFunction(() => [...document.querySelectorAll(".mm-locked-gtm video")].every((video) => video.paused));
-  for (const [signalKey, signal] of Object.entries(fixture)) {
-    await page.locator(`.signal-tab:has(input[value="${signalKey}"])`).click();
-    assert.equal(await page.locator("#signal-observation").textContent(), signal.observation);
-    assert.equal(await page.locator("#decision-question").textContent(), signal.question);
-    for (let index = 0; index < signal.responses.length; index += 1) {
-      const response = signal.responses[index];
-      await page.locator(`.response-paddle:has(input[value="${index}"])`).click();
-      for (const key of ["product", "price", "positioning", "people"]) {
-        assert.equal(await page.locator(`#outcome-${key}`).textContent(), response[key]);
-      }
-      assert.equal(await page.locator("#test-title").textContent(), response.testTitle);
-      assert.equal(await page.locator("#test-body").textContent(), response.testBody);
-    }
-  }
-  await page.locator('.signal-tab:has(input[value="pricing"])').click();
-  await page.locator('.response-paddle:has(input[value="0"])').click();
-  await page.locator('.response-paddle:has(input[value="2"])').click();
-  assert.equal(await page.locator("#undo").isVisible(), true);
-  await page.locator("#undo").click();
-  assert.equal(await page.locator('input[name="response"]:checked').getAttribute("value"), "0");
-  assert.equal(await page.locator("#undo").isHidden(), true);
-  await page.close();
-
-  const mobile = await openRoute(browser, "/ai-gtm", ".mm-locked-gtm", "Chromium GTM mobile sequence", { width: 390, height: 844 });
-  assert.equal(await mobile.locator("#decision-question").textContent(), fixture.pricing.mobileQuestion);
-  for (let index = 1; index <= 4; index += 1) {
-    await mobile.locator("#stage-next").click();
-    assert.equal(await mobile.locator("#stage-count").textContent(), `${index + 1} of 5`);
-  }
-  assert.equal(await mobile.locator("#test-slip").isVisible(), true);
-  await mobile.locator("#stage-next").click();
-  assert.equal(await mobile.locator("#stage-count").textContent(), "1 of 5");
-  assert.equal(await mobile.locator("#test-slip").isHidden(), true);
-  await mobile.locator("#stage-next").click();
-  await mobile.locator("#stage-back").click();
-  assert.equal(await mobile.locator("#stage-count").textContent(), "1 of 5");
-  await mobile.close();
-  observations.push("GTM preserves all 5 signals x 3 responses, updates four linked consequences and the customer test, keeps one-level undo, hands motion between scenes, builds Section 03 causally, and advances or reverses the five-stage mobile sequence.");
-}
-
 async function verifyFallbacks(browser) {
   for (const [route, rootSelector, filmCount] of [
     ["/ai-brain", ".mm-locked-brain", 1],
-    ["/ai-gtm", ".mm-locked-gtm", 2],
   ]) {
     const reducedContext = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, reducedMotion: "reduce" });
     await reducedContext.addInitScript(() => localStorage.setItem("mindmake_consent", "accepted"));
@@ -635,16 +535,10 @@ async function verifyFallbacks(browser) {
     await reduced.waitForFunction((selector) => document.querySelector(selector)?.dataset.motionPolicy === "poster", rootSelector);
     assert.equal(await reduced.locator(`${rootSelector} video`).count(), filmCount);
     assert.equal(await reduced.locator(`${rootSelector} video`).evaluateAll((videos) => videos.every((video) => !video.getAttribute("src") && video.paused)), true);
-    if (route === "/ai-gtm") {
-      await reduced.waitForFunction(() => document.querySelector(".instrument")?.dataset.build === "built");
-      await reduced.locator("#stage-next").click();
-      assert.equal(await reduced.locator("#stage-count").textContent(), "2 of 5");
-    } else {
-      assert.equal(await reduced.locator("#pauseRecordS2").textContent(), "Play");
-      await reduced.locator("#nextRecordS2").click();
-      await reduced.waitForFunction(() => document.querySelector("#recordIndexS2")?.textContent?.trim() === "2 of 51");
-      assert.equal((await reduced.locator("#recordIndexS2").textContent()).trim(), "2 of 51");
-    }
+    assert.equal(await reduced.locator("#pauseRecordS2").textContent(), "Play");
+    await reduced.locator("#nextRecordS2").click();
+    await reduced.waitForFunction(() => document.querySelector("#recordIndexS2")?.textContent?.trim() === "2 of 51");
+    assert.equal((await reduced.locator("#recordIndexS2").textContent()).trim(), "2 of 51");
     await reducedContext.close();
 
     const saveDataContext = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true });
@@ -667,13 +561,12 @@ async function verifyFallbacks(browser) {
 
 async function verifyEvidenceStates(browser) {
   for (const [route, rootSelector, states] of [
-    ["/ai-gtm", ".mm-locked-gtm", ["ready", "stale", "quiet", "error", "conflicted"]],
     ["/ai-brain", ".mm-locked-brain", ["ready", "loading", "stale", "error", "recovery"]],
   ]) {
     for (const state of states) {
       const page = await openRoute(browser, route, rootSelector, `${route} evidence ${state}`, { width: 390, height: 844 }, `?state=${state}`);
       assert.equal(await page.locator(rootSelector).getAttribute("data-evidence-state"), state);
-      const selector = route === "/ai-gtm" ? "#evidence-state" : "#evidenceStateS2";
+      const selector = "#evidenceStateS2";
       /* The Brain's evidence bar only speaks when something needs saying:
          a ready or loading record shows nothing (Krish, 2026-09-25). */
       if (route === "/ai-brain" && ["ready", "loading"].includes(state)) {
@@ -691,14 +584,10 @@ async function verifyRepresentativeEngine(browserType, engine, viewports) {
   const browser = await browserType.launch({ headless: true });
   try {
     for (const [label, viewport] of viewports) {
-      for (const [route, rootSelector] of [["/ai-brain", ".mm-locked-brain"], ["/ai-gtm", ".mm-locked-gtm"]]) {
+      for (const [route, rootSelector] of [["/ai-brain", ".mm-locked-brain"]]) {
         const page = await openRoute(browser, route, rootSelector, `${engine} ${route} ${label}`, viewport, "?render=final");
-        if (route === "/ai-brain") {
-          await page.waitForFunction(() => document.querySelectorAll(".meaning-node-s2").length === 20);
-          await inspectBrainLayout(page, `${engine} ${route} ${label}`, { requireViewportFit: chapterFitViewports.has(label) });
-        } else {
-          await inspectGtmLayout(page, `${engine} ${route} ${label}`);
-        }
+        await page.waitForFunction(() => document.querySelectorAll(".meaning-node-s2").length === 20);
+        await inspectBrainLayout(page, `${engine} ${route} ${label}`, { requireViewportFit: chapterFitViewports.has(label) });
         await page.close();
         console.log(`${engine} ${route} ${label}: pass`);
       }
@@ -711,12 +600,11 @@ async function verifyRepresentativeEngine(browserType, engine, viewports) {
 async function captureEvidence(browser) {
   for (const [routeName, route, rootSelector] of [
     ["brain", "/ai-brain", ".mm-locked-brain"],
-    ["gtm", "/ai-gtm", ".mm-locked-gtm"],
   ]) {
     for (const [label, viewport] of [["desktop-1440x900", { width: 1440, height: 900 }], ["mobile-390x844", { width: 390, height: 844 }]]) {
       const page = await openRoute(browser, route, rootSelector, `capture ${routeName} ${label}`, viewport, "?render=final");
       if (routeName === "brain") await page.waitForFunction(() => document.querySelectorAll(".meaning-node-s2").length === 20);
-      await page.addStyleTag({ content: "html, body, .mm-locked-brain, .mm-locked-gtm { scroll-behavior: auto !important; }" });
+      await page.addStyleTag({ content: "html, body, .mm-locked-brain { scroll-behavior: auto !important; }" });
       await page.waitForFunction((selector) => {
         const rootElement = document.querySelector(selector);
         return rootElement?.dataset.activeFilm || rootElement?.dataset.motionPolicy === "poster";
@@ -747,20 +635,15 @@ try {
       await brain.waitForFunction(() => document.querySelectorAll(".meaning-node-s2").length === 20);
       await inspectBrainLayout(brain, `Chromium Brain ${label}`, { requireViewportFit: chapterFitViewports.has(label) });
       await brain.close();
-      const gtm = await openRoute(chrome, "/ai-gtm", ".mm-locked-gtm", `Chromium GTM ${label}`, viewport, "?render=final");
-      await inspectGtmLayout(gtm, `Chromium GTM ${label}`);
-      await gtm.close();
       console.log(`Chromium ${label}: pass`);
     }
-    observations.push("Chromium passes both locked production routes at all eleven required viewports, including chapter fit, plaque centring, copy containment, target size, overflow and nested-scroll gates.");
+    observations.push("Chromium passes the locked Brain route at all eleven required viewports, including chapter fit, plaque centring, copy containment, target size, overflow and nested-scroll gates.");
     await verifyBrainInteractions(chrome);
     console.log("Chromium Brain interactions: pass");
     await verifyBrainClosingContrast(chrome);
     console.log("Chromium Brain closing contrast: pass");
     await verifyBrainFinePointerReflow(chrome);
     console.log("Chromium Brain fine-pointer reflow: pass");
-    await verifyGtmInteractions(chrome);
-    console.log("Chromium GTM interactions: pass");
     await verifyFallbacks(chrome);
     console.log("Chromium motion fallbacks: pass");
     await verifyEvidenceStates(chrome);

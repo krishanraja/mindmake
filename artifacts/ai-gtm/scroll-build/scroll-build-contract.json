@@ -1,0 +1,79 @@
+{
+  "acceptedDecision": "r44 candidate: /ai-gtm pinned chapters",
+  "cases": [
+    {
+      "id": "levers-1440x900",
+      "route": "/ai-gtm",
+      "viewport": "1440x900",
+      "states": [
+        "Product",
+        "Price",
+        "Positioning",
+        "People"
+      ],
+      "pinTop": 69,
+      "tolerance": 2
+    },
+    {
+      "id": "plan-1440x900",
+      "route": "/ai-gtm",
+      "viewport": "1440x900",
+      "states": [
+        "Week 1",
+        "Weeks 2 to 4",
+        "Day 30"
+      ],
+      "pinTop": 69,
+      "tolerance": 2
+    },
+    {
+      "id": "team-1440x900",
+      "route": "/ai-gtm",
+      "viewport": "1440x900",
+      "states": [
+        "Today",
+        "AI-native"
+      ],
+      "pinTop": 69,
+      "tolerance": 2
+    },
+    {
+      "id": "levers-390x844",
+      "route": "/ai-gtm",
+      "viewport": "390x844",
+      "states": [
+        "Product",
+        "Price",
+        "Positioning",
+        "People"
+      ],
+      "pinTop": 69,
+      "tolerance": 2
+    },
+    {
+      "id": "plan-390x844",
+      "route": "/ai-gtm",
+      "viewport": "390x844",
+      "states": [
+        "Week 1",
+        "Weeks 2 to 4",
+        "Day 30"
+      ],
+      "pinTop": 69,
+      "tolerance": 2
+    },
+    {
+      "id": "team-390x844",
+      "route": "/ai-gtm",
+      "viewport": "390x844",
+      "states": [
+        "Today",
+        "AI-native"
+      ],
+      "pinTop": 69,
+      "tolerance": 2
+    }
+  ],
+  "candidateDigest": "b7d5467b12c722aa74c0b397310f309d66a08b5ee34357da96de91e79b94e6e7",
+  "acceptedDecisionDigest": "ec2faecd96f03d7135ce6d19ec14350e58e84365d94001b635ba2ff3be9a915c"
+}

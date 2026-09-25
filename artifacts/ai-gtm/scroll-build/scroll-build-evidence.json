@@ -1,0 +1,509 @@
+{
+  "cases": [
+    {
+      "id": "levers-1440x900",
+      "route": "/ai-gtm",
+      "viewport": "1440x900",
+      "input": "page-scroll",
+      "capture": {
+        "path": "artifacts/ai-gtm/scroll-build/levers-1440x900-forward-0.jpg",
+        "sha256": "2c2db168890c0144be2b45ac00c004dbdd96b90aa875e3e56e4a9f22867b8df5"
+      },
+      "forward": [
+        {
+          "visibleText": "Product",
+          "scrollY": 1119,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-1440x900-forward-0.jpg",
+            "sha256": "2c2db168890c0144be2b45ac00c004dbdd96b90aa875e3e56e4a9f22867b8df5"
+          }
+        },
+        {
+          "visibleText": "Price",
+          "scrollY": 1695,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-1440x900-forward-1.jpg",
+            "sha256": "32110091e9f0492164d86c6199bdbf0ed8ecc789eb253744808c19286d6613fe"
+          }
+        },
+        {
+          "visibleText": "Positioning",
+          "scrollY": 2271,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-1440x900-forward-2.jpg",
+            "sha256": "40db49c6ceb97356c348894aca288f1943b9336096fa58edddd8dea6eddffa7f"
+          }
+        },
+        {
+          "visibleText": "People",
+          "scrollY": 2847,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-1440x900-forward-3.jpg",
+            "sha256": "638f219b9bfe59bbbf73c66e550df029b66dbccf1c534bdb345f2e4a49e000bf"
+          }
+        }
+      ],
+      "reverse": [
+        {
+          "visibleText": "People",
+          "scrollY": 2846,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-1440x900-reverse-3.jpg",
+            "sha256": "7624791349a4d1ea4d6ae45b72d5dd88193b38e6695ce47d9601020c84a884f0"
+          }
+        },
+        {
+          "visibleText": "Positioning",
+          "scrollY": 2270,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-1440x900-reverse-2.jpg",
+            "sha256": "0eafbed77f09a5728b28c37505f58d998f0b6539602eb7e66242643f2b5373ab"
+          }
+        },
+        {
+          "visibleText": "Price",
+          "scrollY": 1694,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-1440x900-reverse-1.jpg",
+            "sha256": "abe19f165ca4c870550552087a8fbe90930f29451021936b07defaae413295fb"
+          }
+        },
+        {
+          "visibleText": "Product",
+          "scrollY": 1118,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-1440x900-reverse-0.jpg",
+            "sha256": "55b77ba83a4f4b1f3de43ef68d9bd8485a28f2879d0327fb1c4362af666aa4d2"
+          }
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 3585,
+        "stageTop": -314,
+        "evidence": {
+          "path": "artifacts/ai-gtm/scroll-build/levers-1440x900-exit-after.jpg",
+          "sha256": "717bb563c034bd9c78a8ab5023a370ce9d5e9fe337f6967bed7bf7d2898bfd41"
+        }
+      },
+      "exitBefore": {
+        "scrollY": 381,
+        "stageTop": 519,
+        "evidence": {
+          "path": "artifacts/ai-gtm/scroll-build/levers-1440x900-exit-before.jpg",
+          "sha256": "1a50a436a6e02628e52e706e164d169e8f9da55636b4d252ea3b8e712fd7c7b5"
+        }
+      }
+    },
+    {
+      "id": "plan-1440x900",
+      "route": "/ai-gtm",
+      "viewport": "1440x900",
+      "input": "page-scroll",
+      "capture": {
+        "path": "artifacts/ai-gtm/scroll-build/plan-1440x900-forward-0.jpg",
+        "sha256": "f344690918b1d7709e2ec903ce76db3451bb160b1770ae82d975760a5c77d9d4"
+      },
+      "forward": [
+        {
+          "visibleText": "Week 1",
+          "scrollY": 5087,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/plan-1440x900-forward-0.jpg",
+            "sha256": "f344690918b1d7709e2ec903ce76db3451bb160b1770ae82d975760a5c77d9d4"
+          }
+        },
+        {
+          "visibleText": "Weeks 2 to 4",
+          "scrollY": 5663,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/plan-1440x900-forward-1.jpg",
+            "sha256": "0029113fe8cfd3c100cabab37f0a4a08b6cab568c7b25e83ae3621551509269a"
+          }
+        },
+        {
+          "visibleText": "Day 30",
+          "scrollY": 6239,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/plan-1440x900-forward-2.jpg",
+            "sha256": "b9e72d8a421c157159e2bf6ea275625af56bdaf71b4a2c1fbeb6189808ce6732"
+          }
+        }
+      ],
+      "reverse": [
+        {
+          "visibleText": "Day 30",
+          "scrollY": 6238,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/plan-1440x900-reverse-2.jpg",
+            "sha256": "de38e1b55afb4fd300792c26ef5cedb525ff454a1513e5a2353b9d48d370997c"
+          }
+        },
+        {
+          "visibleText": "Weeks 2 to 4",
+          "scrollY": 5662,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/plan-1440x900-reverse-1.jpg",
+            "sha256": "9acf6ae31bd07d49dcd378dce9467572b7a934799b2bf76b0d5ce1ef4ab0bb4a"
+          }
+        },
+        {
+          "visibleText": "Week 1",
+          "scrollY": 5086,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/plan-1440x900-reverse-0.jpg",
+            "sha256": "984cc8e2a71fb43d9651c589945acc9e4c9c95104552dd358e0e3362006d078a"
+          }
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 6977,
+        "stageTop": -314,
+        "evidence": {
+          "path": "artifacts/ai-gtm/scroll-build/plan-1440x900-exit-after.jpg",
+          "sha256": "6eeadcf55470aa1c13953e7aee94af88b765f442c2a33064c2dbc5507ef87ea8"
+        }
+      },
+      "exitBefore": {
+        "scrollY": 4349,
+        "stageTop": 519,
+        "evidence": {
+          "path": "artifacts/ai-gtm/scroll-build/plan-1440x900-exit-before.jpg",
+          "sha256": "243a434b4e756993637982b1542809a8f0eda3cf525bdb643bef95d788e5b22e"
+        }
+      }
+    },
+    {
+      "id": "team-1440x900",
+      "route": "/ai-gtm",
+      "viewport": "1440x900",
+      "input": "page-scroll",
+      "capture": {
+        "path": "artifacts/ai-gtm/scroll-build/team-1440x900-forward-0.jpg",
+        "sha256": "363456529b40dfff8c9b74d5fd4b99b5cf83a78dac8abcdc7de611311c787c17"
+      },
+      "forward": [
+        {
+          "visibleText": "Today",
+          "scrollY": 7664,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/team-1440x900-forward-0.jpg",
+            "sha256": "363456529b40dfff8c9b74d5fd4b99b5cf83a78dac8abcdc7de611311c787c17"
+          }
+        },
+        {
+          "visibleText": "AI-native",
+          "scrollY": 8273,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/team-1440x900-forward-1.jpg",
+            "sha256": "30182a57df238ac9949eb63f3925cbbf26831322235c72d0a7a3e07e57fd2a78"
+          }
+        }
+      ],
+      "reverse": [
+        {
+          "visibleText": "AI-native",
+          "scrollY": 8272,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/team-1440x900-reverse-1.jpg",
+            "sha256": "72b6415c047102868986441e6691f1b77a9da50baea23141a02851a03732c4b3"
+          }
+        },
+        {
+          "visibleText": "Today",
+          "scrollY": 7663,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/team-1440x900-reverse-0.jpg",
+            "sha256": "68f6a02f21110153efa574cc7bf151ddc4d493e76a265d94c840e6ae1dc8ce43"
+          }
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 9028,
+        "stageTop": -381,
+        "evidence": {
+          "path": "artifacts/ai-gtm/scroll-build/team-1440x900-exit-after.jpg",
+          "sha256": "c215b8c0d8eb133aa139ff625971a395c01f5bc70375a63ebc6bd51fe18c8ae3"
+        }
+      },
+      "exitBefore": {
+        "scrollY": 6909,
+        "stageTop": 519,
+        "evidence": {
+          "path": "artifacts/ai-gtm/scroll-build/team-1440x900-exit-before.jpg",
+          "sha256": "40a334f8b17f2e7e8738026aca4041ed2f6ce2bc9aa80bfcbef62ce70ed862c4"
+        }
+      }
+    },
+    {
+      "id": "levers-390x844",
+      "route": "/ai-gtm",
+      "viewport": "390x844",
+      "input": "page-scroll",
+      "capture": {
+        "path": "artifacts/ai-gtm/scroll-build/levers-390x844-forward-0.jpg",
+        "sha256": "cb20a052edfc3f88ca68e1fbc865741fd3aae354822aca710d39bc3ffb4de340"
+      },
+      "forward": [
+        {
+          "visibleText": "Product",
+          "scrollY": 1045,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-390x844-forward-0.jpg",
+            "sha256": "cb20a052edfc3f88ca68e1fbc865741fd3aae354822aca710d39bc3ffb4de340"
+          }
+        },
+        {
+          "visibleText": "Price",
+          "scrollY": 1585,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-390x844-forward-1.jpg",
+            "sha256": "e8044c8080c3f89377573bdc09663aaf03b05128bafff303f135d2d4813ae9f2"
+          }
+        },
+        {
+          "visibleText": "Positioning",
+          "scrollY": 2126,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-390x844-forward-2.jpg",
+            "sha256": "aacfc8a85e7477f5b0b63aa7acc458e463bd9c4df76440b4e43a39bb2eb04c67"
+          }
+        },
+        {
+          "visibleText": "People",
+          "scrollY": 2666,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-390x844-forward-3.jpg",
+            "sha256": "922cc46990bde226c20c2acf95f8c0678c6aa7ca98cc6c4f5b55b1f170b9670f"
+          }
+        }
+      ],
+      "reverse": [
+        {
+          "visibleText": "People",
+          "scrollY": 2665,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-390x844-reverse-3.jpg",
+            "sha256": "a422bfecd25da40be89b7b197983b8b457d1b0b6bed83d7ccd1471a5b5ae2ff0"
+          }
+        },
+        {
+          "visibleText": "Positioning",
+          "scrollY": 2125,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-390x844-reverse-2.jpg",
+            "sha256": "604fc14c62b039967ec2e55c1bea58d451da17d7176a2f0ab40f5a79dd471489"
+          }
+        },
+        {
+          "visibleText": "Price",
+          "scrollY": 1584,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-390x844-reverse-1.jpg",
+            "sha256": "8cbdb16153d00873ca6119d6421bcbd96bbd051e9d567c759bedbc34f29a5327"
+          }
+        },
+        {
+          "visibleText": "Product",
+          "scrollY": 1044,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/levers-390x844-reverse-0.jpg",
+            "sha256": "48da7677609bf46efdd4e3173f17411bbf926bef4fa44868e2135f3fd7b10cc7"
+          }
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 3358,
+        "stageTop": -286.4,
+        "evidence": {
+          "path": "artifacts/ai-gtm/scroll-build/levers-390x844-exit-after.jpg",
+          "sha256": "ab4c76a604b4d00600deea4062c7b4c77266218b2b5e9803691720673f3b1b29"
+        }
+      },
+      "exitBefore": {
+        "scrollY": 353,
+        "stageTop": 491,
+        "evidence": {
+          "path": "artifacts/ai-gtm/scroll-build/levers-390x844-exit-before.jpg",
+          "sha256": "2a64b3c82dcca6e4a60788fef938530d3a67520bf26cdfbbb32f872e8a5a8a5c"
+        }
+      }
+    },
+    {
+      "id": "plan-390x844",
+      "route": "/ai-gtm",
+      "viewport": "390x844",
+      "input": "page-scroll",
+      "capture": {
+        "path": "artifacts/ai-gtm/scroll-build/plan-390x844-forward-0.jpg",
+        "sha256": "3eed26d12fb58a912dec762ad43ca7deba300955eef598b9389fc0d8d7d83ddc"
+      },
+      "forward": [
+        {
+          "visibleText": "Week 1",
+          "scrollY": 4758,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/plan-390x844-forward-0.jpg",
+            "sha256": "3eed26d12fb58a912dec762ad43ca7deba300955eef598b9389fc0d8d7d83ddc"
+          }
+        },
+        {
+          "visibleText": "Weeks 2 to 4",
+          "scrollY": 5298,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/plan-390x844-forward-1.jpg",
+            "sha256": "a4e6cac50f3e9c14c9104a9b13c509d60fa5cac3a34ae1af63cfb633e602d7d5"
+          }
+        },
+        {
+          "visibleText": "Day 30",
+          "scrollY": 5838,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/plan-390x844-forward-2.jpg",
+            "sha256": "b13299011ada07af7149de74653d59aec7ca139c036e1fc26134915c79880447"
+          }
+        }
+      ],
+      "reverse": [
+        {
+          "visibleText": "Day 30",
+          "scrollY": 5837,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/plan-390x844-reverse-2.jpg",
+            "sha256": "41e555a71f839f07e19586564a9b46addd2f13ab9aa1fcb1893d32d0a5e48b0c"
+          }
+        },
+        {
+          "visibleText": "Weeks 2 to 4",
+          "scrollY": 5297,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/plan-390x844-reverse-1.jpg",
+            "sha256": "213a94641c6ba8c3170f97c9129d9c6304aa24f834e8d6a2b3f8363b83efb7ac"
+          }
+        },
+        {
+          "visibleText": "Week 1",
+          "scrollY": 4757,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/plan-390x844-reverse-0.jpg",
+            "sha256": "9dd834707e437ecfc50c7cc0e9ed799b40e4c06ea90c5ade5b46f488d042e2bd"
+          }
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 6530,
+        "stageTop": -285.9,
+        "evidence": {
+          "path": "artifacts/ai-gtm/scroll-build/plan-390x844-exit-after.jpg",
+          "sha256": "944e5a8f5c7fd79fa31c3cad78de115321719857c7430b974d351b3106b05c5f"
+        }
+      },
+      "exitBefore": {
+        "scrollY": 4066,
+        "stageTop": 490.6,
+        "evidence": {
+          "path": "artifacts/ai-gtm/scroll-build/plan-390x844-exit-before.jpg",
+          "sha256": "726e67a36e1bd7d17329f06852a28d144190fce87d39b6eb40eb38478b768944"
+        }
+      }
+    },
+    {
+      "id": "team-390x844",
+      "route": "/ai-gtm",
+      "viewport": "390x844",
+      "input": "page-scroll",
+      "capture": {
+        "path": "artifacts/ai-gtm/scroll-build/team-390x844-forward-0.jpg",
+        "sha256": "2433c8ca2e8a644642cdbc0de2e666b5cab474357ef46b3d58b066ec2c745731"
+      },
+      "forward": [
+        {
+          "visibleText": "Today",
+          "scrollY": 7171,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/team-390x844-forward-0.jpg",
+            "sha256": "2433c8ca2e8a644642cdbc0de2e666b5cab474357ef46b3d58b066ec2c745731"
+          }
+        },
+        {
+          "visibleText": "AI-native",
+          "scrollY": 7744,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/team-390x844-forward-1.jpg",
+            "sha256": "c9f8ee3d8a84e7b3e3d4e2f6cd49656d84785cae9db05028882bd679419607e5"
+          }
+        }
+      ],
+      "reverse": [
+        {
+          "visibleText": "AI-native",
+          "scrollY": 7743,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/team-390x844-reverse-1.jpg",
+            "sha256": "285a034d9aaee89db2754e4d97b479ccd1d6590ca7ef40518d54d790c6e998b0"
+          }
+        },
+        {
+          "visibleText": "Today",
+          "scrollY": 7170,
+          "stageTop": 68,
+          "evidence": {
+            "path": "artifacts/ai-gtm/scroll-build/team-390x844-reverse-0.jpg",
+            "sha256": "451e5b9c1ea5ec547f36e7ba3a605d3122a80bb4d1f5440cf04c2e1585e166f2"
+          }
+        }
+      ],
+      "exitAfter": {
+        "scrollY": 8453,
+        "stageTop": -352.6,
+        "evidence": {
+          "path": "artifacts/ai-gtm/scroll-build/team-390x844-exit-after.jpg",
+          "sha256": "a3ae55e684ac0e55d75083cdbd6a543cf02f4212d0f68d1b6843c69be0c5f2a4"
+        }
+      },
+      "exitBefore": {
+        "scrollY": 6462,
+        "stageTop": 491.1,
+        "evidence": {
+          "path": "artifacts/ai-gtm/scroll-build/team-390x844-exit-before.jpg",
+          "sha256": "6e47185e233627ee8981fff22bc6ca84e7e7095cedbaa91edd6158c2fe2b3b57"
+        }
+      }
+    }
+  ],
+  "candidateDigest": "b7d5467b12c722aa74c0b397310f309d66a08b5ee34357da96de91e79b94e6e7"
+}

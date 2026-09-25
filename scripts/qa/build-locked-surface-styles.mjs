@@ -10,26 +10,9 @@ const root = resolve(import.meta.dirname, "../..");
 const sha256 = (content) => createHash("sha256").update(content).digest("hex");
 
 const surfaces = [
-  {
-    name: "gtm",
-    rootClass: "mm-locked-gtm",
-    output: "src/styles/mindmake-locked-gtm.css",
-    postlude: `
-/* Production-shell clearance. The prototype masthead occupied this space in
-   flow; the shared shell is fixed, so the locked mobile hero must reserve it. */
-@media (max-width: 700px) {
-  .mm-locked-gtm .intro { padding-top: calc(var(--mm-header-height) + 0.625rem); }
-}
-`,
-    replacements: [
-      ['url("./growth-machinery-reference.png")', 'url("../../prototypes/website-redesign-recovery/gtm-market-change/growth-machinery-reference.png")'],
-    ],
-    sources: [
-      ["prototypes/website-redesign-recovery/gtm-market-change/styles.css", "6b97b5310fbde129fc2b8f0157f428e15faaa450a4fb8330a52cb5fb10c263b1"],
-      ["prototypes/website-redesign-recovery/gtm-market-change/styles-fit.css", "22f57b32606dc93d529a42a7ed9ca5055d53851029c81f7554ea6c8716cb6c36"],
-      ["prototypes/website-redesign-recovery/gtm-market-change/styles-motion.css", "9f3dee85d798eb2755f28b061b6353057ee912fd2c4a5e55017e95f52a46e12f"],
-    ],
-  },
+  /* The GTM surface was retired in r44: /ai-gtm is written by hand on the
+     house tokens in src/styles/mindmake-ai-gtm.css, and nothing may generate
+     the old sheet back. */
   {
     name: "brain",
     rootClass: "mm-locked-brain",

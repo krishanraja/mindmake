@@ -1,0 +1,57 @@
+{
+  "artifact": "ai-brain-narrative-s4",
+  "approvedAt": "2026-09-25",
+  "approval": {
+    "by": "Krish",
+    "verbatim": [
+      "1. yes I like it. 2. You don't need to have verbal diahorrea and commentate on whose brain it is, just chill the hell out. 3. I agree with your position."
+    ],
+    "reviewed": "Desktop 1440x900 and phone 390x844 captures of every chapter and a scroll recording down and back at each size, sent in the session. Not presented through review:material, which supports only the homepage candidate."
+  },
+  "scope": "/ai-brain narrative, chapter sequence, copy, the three new stepped instruments, and the ownership position in three answers.",
+  "applied": "Chapter 02 heading 'We built our own first.' became 'What a Brain holds.' and its body no longer says whose Brain it is; rail label Proof became Inside.",
+  "lockedExperience": {
+    "h1": "An AI brain of your own.",
+    "chapters": [
+      [
+        "You",
+        "The questions only you can answer."
+      ],
+      [
+        "Inside",
+        "What a Brain holds."
+      ],
+      [
+        "Sharper",
+        "Your next call gets sharper."
+      ],
+      [
+        "Private",
+        "Private to you, and yours to keep."
+      ],
+      [
+        "Business",
+        "Your business rises with you."
+      ]
+    ],
+    "kept": [
+      "evidence-connects hero film and orbit",
+      "constellation",
+      "living record"
+    ]
+  },
+  "prohibitedRegressions": [
+    "the source-switch machine",
+    "the correction replay",
+    "memory as the page's promise",
+    "a public price or duration",
+    "'clone' as framing"
+  ],
+  "sources": [
+    "prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html",
+    "src/pages/AiBrainLocked.tsx",
+    "src/styles/mindmake-brain-narrative.css",
+    "src/components/mindmake/locked/scrollSequence.ts"
+  ],
+  "productionLock": "quality/route-lock/approved-production-r48.json"
+}

@@ -45,8 +45,8 @@ function visible(html: string, tags = "p|li|h1|h2|h3|h4|legend|small|blockquote|
 /** Both accepted device compositions live in the SSR DOM; only one is shown.
  * Check each independently, so an actual repeat within either still fails. */
 /* A page may carry one composition per device when a phone needs a different
-   instrument, such as the R3 variants or the /ai-gtm lever carousel marked
-   data-device-variant. Only one is ever displayed, so each is read alone. */
+   instrument, such as the R3 variants or any block marked data-device-variant.
+   Only one is ever displayed, so each is read alone. */
 function responsiveCopies(html: string) {
   const document = new DOMParser().parseFromString(html, "text/html");
   if (!document.querySelector(".r3-variant, [data-device-variant]")) return [{device: "shared", html}];

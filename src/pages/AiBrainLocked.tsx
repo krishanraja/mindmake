@@ -7,12 +7,14 @@ import { extractLockedBlock, extractLockedMain, replaceLockedAsset } from "@/com
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import fixture from "@/data/vnext/brain-fixture.json";
 import evidenceFilm from "@/assets/films/sep2026/evidence-connects-loop-r01-20s-720p-web-sealed.mp4";
-import lockedDocument from "../../prototypes/website-redesign-recovery/brain-signature/index-s2-motion-s3.html?raw";
+import lockedDocument from "../../prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html?raw";
 import evidencePoster from "../../prototypes/website-redesign-recovery/brain-signature/media/evidence-connects-poster.png";
 import { PairingBridge } from "@/components/mindmake/PairingBridge";
+import { sequenceProgress, stepStates } from "@/components/mindmake/locked/scrollSequence";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-locked-brain.css";
 import "@/styles/mindmake-brain-refinements.css";
+import "@/styles/mindmake-brain-narrative.css";
 
 const selectedId = "BI-003";
 const plainStatements: Record<string, string> = {
@@ -21,7 +23,7 @@ const plainStatements: Record<string, string> = {
   "BI-003": "People stay accountable for work that reaches the outside world.",
   "BI-004": "Repeated clicks, copying and explanation reveal where the system needs work.",
   "BI-005": "Seeing what is possible early can make old ways of working feel painfully slow.",
-  "BI-006": "Work with leaders who want to reshape their category, not defend the old one.",
+  "BI-006": "Work with leaders who want to reshape their category.",
   "BI-007": "Let AI carry repeatable information work. Keep standards, relationships, strategy and final craft human.",
   "BI-008": "Missing numbers and lookalike thinking are warning signs.",
   "BI-009": "The system should preserve a person's voice, standards and exceptions.",
@@ -35,7 +37,7 @@ const plainStatements: Record<string, string> = {
   "BI-017": "Changing a mind is not enough when the surrounding system still rewards the old behaviour.",
   "BI-018": "A second AI can check the work. It cannot make the final call.",
   "BI-019": "The leader owns the Brain. The company gains from the decisions it improves.",
-  "BI-020": "Help capable people become more discerning, more agentic and less generic.",
+  "BI-020": "Help capable people become more discerning, more decisive and less generic.",
 };
 
 const evidenceMessages = {
@@ -48,13 +50,18 @@ const evidenceMessages = {
 
 type BrainItem = (typeof fixture.items)[number];
 
+// The page is five chapters after the opening, in this order. Each heading
+// must appear exactly once, so a copy edit can never silently drop or double
+// a chapter the scroll build, the rail and the checks all depend on.
+const chapterTitles = ["opening-title", "you-title", "memory-title", "sharper-title", "record-title", "business-title"];
+
 function prepareMarkup() {
   let markup = `${extractLockedMain(lockedDocument)}${extractLockedBlock(lockedDocument, "truth-bar")}`;
-  const protectedPhrase = "One decision wakes the whole Brain.";
-  if (markup.split(protectedPhrase).length - 1 !== 1) {
-    throw new Error("The locked Brain heading changed before its production wrap guard was applied.");
-  }
-  markup = markup.replace(protectedPhrase, "One decision wakes the whole&nbsp;Brain.");
+  chapterTitles.forEach((id) => {
+    if (markup.split(`id="${id}"`).length - 1 !== 1) {
+      throw new Error(`The Brain page must carry exactly one ${id}.`);
+    }
+  });
   markup = replaceLockedAsset(markup, "../../../src/assets/films/sep2026/evidence-connects-loop-r01-20s-720p-web-sealed.mp4", evidenceFilm);
   markup = replaceLockedAsset(markup, "./media/evidence-connects-poster.png", evidencePoster);
   return markup;
@@ -294,35 +301,9 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
     paint();
     startTimer();
 
-    // One switch, one visible consequence: the first source dims and the
-    // result underneath says what still holds. The label names the next
-    // action, and the result panel never changes height.
-    const sourceButton = q<HTMLButtonElement>("#testSourceS2");
-    const proofResult = {
-      both: ["The decision is supported by both sources.", "Its connected thinking is clear."],
-      one: ["The decision still holds.", "One source still supports it. Two connected ideas need another look."],
-    };
-    reserveLongest(q<HTMLElement>("#proofHeadlineS2"), [proofResult.both[0], proofResult.one[0]]);
-    reserveLongest(q<HTMLElement>("#proofDetailS2"), [proofResult.both[1], proofResult.one[1]]);
-    const testSource = () => {
-      const testing = root.dataset.sourceTest !== "true";
-      root.dataset.sourceTest = testing ? "true" : "false";
-      sourceButton?.setAttribute("aria-checked", testing ? "true" : "false");
-      const label = sourceButton?.querySelector("span");
-      if (label) label.textContent = testing ? "Put the source back" : "Remove one source";
-      const [headlineText, detailText] = testing ? proofResult.one : proofResult.both;
-      const headline = q<HTMLElement>("#proofHeadlineS2");
-      const detail = q<HTMLElement>("#proofDetailS2");
-      if (headline) headline.textContent = headlineText;
-      if (detail) detail.textContent = detailText;
-    };
-    sourceButton?.addEventListener("click", testSource);
-    cleanups.push(() => sourceButton?.removeEventListener("click", testSource));
-
     const chapters = [...root.querySelectorAll<HTMLElement>(".chapter[data-phase]")];
     const links = [...root.querySelectorAll<HTMLElement>("[data-phase-link]")];
-    const correctionSection = q<HTMLElement>("#correction");
-    const correctionMachine = q<HTMLElement>("#correctionMachine");
+    const sequences = [...root.querySelectorAll<HTMLElement>("[data-steps]")];
     let buildFrame = 0;
     const updateBuild = () => {
       buildFrame = 0;
@@ -338,14 +319,16 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
         const distance = Math.abs(rect.top + rect.height * 0.4 - viewportHeight * 0.5);
         if (distance < nearest) { nearest = distance; active = chapter; }
       });
-      // The correction builds from BEFORE to NOW as its instrument rises from
-      // the lower edge of the screen to above centre, and unbuilds on the
-      // way back. It reads its own position so every screen size agrees.
-      if (correctionMachine && correctionSection) {
-        const top = correctionMachine.getBoundingClientRect().top;
-        const learn = renderFinal ? 1 : Math.max(0, Math.min(1, (viewportHeight * 0.85 - top) / (viewportHeight * 0.45)));
-        correctionSection.style.setProperty("--learn-scroll", learn.toFixed(3));
-      }
+      // The stepped instruments (the questions, the decision and the levers)
+      // light one step at a time as each rises into view, and unlight on the
+      // way back. Only colour and opacity change, never size or position.
+      sequences.forEach((sequence) => {
+        const rect = sequence.getBoundingClientRect();
+        const progress = renderFinal ? 1 : sequenceProgress(rect.top, rect.height, viewportHeight);
+        sequence.style.setProperty("--seq-p", progress.toFixed(3));
+        const steps = [...sequence.querySelectorAll<HTMLElement>("[data-step]")];
+        stepStates(progress, steps.length).forEach((state, index) => { steps[index].dataset.stepState = state; });
+      });
       links.forEach((link) => {
         if (link.dataset.phaseLink === active?.dataset.phase) link.setAttribute("aria-current", "step");
         else link.removeAttribute("aria-current");
@@ -357,13 +340,13 @@ function useLockedBrain(rootRef: React.RefObject<HTMLDivElement>) {
     cleanups.push(() => window.removeEventListener("scroll", requestBuild));
     cleanups.push(() => window.removeEventListener("resize", requestBuild));
 
-    root.dataset.sourceTest = "false";
     root.classList.remove("no-js");
     setEvidenceState(requestedState);
     updateBuild();
 
     return () => {
       cleanups.forEach((cleanup) => cleanup());
+      sequences.forEach((sequence) => sequence.querySelectorAll<HTMLElement>("[data-step]").forEach((step) => { delete step.dataset.stepState; }));
       stopTimer();
       if (buildFrame) window.cancelAnimationFrame(buildFrame);
       field?.querySelectorAll(".meaning-node-s2").forEach((node) => node.remove());
@@ -382,7 +365,7 @@ export default function AiBrainLocked() {
 
   return (
     <MindmakeShell onStart={() => openBrief("brain")} mainClassName="mm-locked-route-main" siteClassName="mm-route-brain" compactFooter>
-      <SEO title="Build your AI brain" description="See how one decision becomes remembered, evidenced, corrected and reusable." canonical="/ai-brain" />
+      <SEO title="Build your AI brain" description="Every AI you can buy already knows the market, and none of them know you. We help you build the one that does, private to you." canonical="/ai-brain" />
       <div ref={rootRef} className="mm-locked-brain no-js" data-evidence-state="loading" dangerouslySetInnerHTML={{ __html: lockedMarkup }} />
       <PairingBridge route="brain" onStart={() => openBrief("brain")} />
       <LeadBrief open={briefOpen} onClose={closeBrief} route="brain" presentation="drawer" journeyKey={briefJourneyKey} />

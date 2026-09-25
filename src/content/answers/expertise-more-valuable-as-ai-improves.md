@@ -47,4 +47,4 @@ So AI raises the value of expertise twice. It removes the slow parts of expert w
 
 The danger is that judgement stays in a few senior heads while everything around it speeds up. Those people become the bottleneck, then they leave, and the judgement leaves with them.
 
-The businesses that do well in the next economy will write their judgement down: the standards, the decisions and the reasons. That record can be taught to new people, used by AI systems and corrected when it turns out to be wrong. It compounds, and it belongs to the business.
+The businesses that do well in the next economy will write their judgement down: the standards, the decisions and the reasons. That record can be taught to new people, used by AI systems and corrected when it turns out to be wrong. It compounds. A leader's own AI brain stays theirs, and the standards they share with the team stay with the business.

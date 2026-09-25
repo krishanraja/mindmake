@@ -643,40 +643,34 @@ html {
 
    The header's inner element carries `.mm-container`, so its left edge was
    always the shell's: `max(--mm-gutter, (100vw - 1240px) / 2)`, 100px at 1440.
-   That is right for every surface built on the container, and wrong for the two
-   locked routes, whose bodies are drawn against their own measures: the brain's
-   chapters at `max(4vw, (100vw - 1600px) / 2)` and the GTM shell at
-   `min(100% - 48px, 1360px)` centred. Measured at 1440 the heading started at
-   57.6px and 40px while the wordmark sat at 100px, so the mark floated inboard
-   of the page it belongs to.
+   That is right for every surface built on the container, and wrong for the
+   locked brain route, whose chapters are drawn against their own measure,
+   `max(4vw, (100vw - 1600px) / 2)`. Measured at 1440 its heading started at
+   57.6px while the wordmark sat at 100px, so the mark floated inboard of the
+   page it belongs to. /ai-gtm is drawn on the container since r47 and needs
+   no override.
 
    `--mm-header-inline` lets each surface name its own edge and defaults to the
    container's, which reproduces the existing alignment exactly for everything
    that does not set it. The menu control moves with it, because the chrome
-   should frame the content on both sides. The locked stylesheets are generated
-   from their approved prototypes, so the two overrides live here rather than in
-   them. */
+   should frame the content on both sides. The locked stylesheet is generated
+   from its approved prototype, so the override lives here rather than in it. */
 .mm-header > .mm-container {
   width: 100%;
   margin-inline: 0;
   padding-inline: var(--mm-header-inline, var(--mm-edge));
 }
 .mm-site.mm-route-brain { --mm-header-inline: max(4vw, calc((100vw - 1600px) / 2)); }
-.mm-site.mm-route-gtm { --mm-header-inline: max(24px, calc((100vw - 1360px) / 2)); }
 /* /new-age-leadership draws its sections against the R5 surface's own `--edge`,
    and these mirror it, including the two narrow overrides. That file is
    generated from the approved prototype, so the mirror lives here. The route
    now wears the shared shell, so this puts the wordmark, the menu and the
    footer on the same left edge as the story under them. */
 .mm-site.mm-route-leadership { --mm-header-inline: clamp(22px, 4.4vw, 72px); }
-@media (max-width: 700px) {
-  .mm-site.mm-route-gtm { --mm-header-inline: max(16px, calc((100vw - 520px) / 2)); }
-}
 @media (max-width: 620px) {
   .mm-site.mm-route-leadership { --mm-header-inline: 20px; }
 }
 @media (max-width: 360px) {
-  .mm-site.mm-route-gtm { --mm-header-inline: 12px; }
   .mm-site.mm-route-leadership { --mm-header-inline: 16px; }
 }
 /* The overlay and the footer take the same edge too, next to their own rules

@@ -601,12 +601,9 @@ async function verifyBlindPanelTargetCorrections() {
   try {
     const cases = [
       { route:'/contact', viewport:{ width:390, height:844 }, selector:'.mm-contact-form small a', label:'contact privacy link' },
-      // GTM-PLAIN-R2 (r24) replaced the evidence drawer's contents: it now holds
-      // the menu of work, and the cited sources moved onto the lever leaves.
-      // The rule is a touch-target one, so it is measured on the phone variant
-      // that carries them, not on the desktop leaf where the same link is a
-      // 17px line of pointer-fine text.
-      { route:'/ai-gtm', viewport:{ width:390, height:844 }, selector:'.mm-locked-gtm .mobile-leaf .leaf-was a', label:'GTM evidence source link' },
+      // r47: each lever's dated source is a link on its step in the first
+      // chapter. The rule is a touch-target one, measured on a phone.
+      { route:'/ai-gtm', viewport:{ width:390, height:844 }, selector:'.mm-gtm .gtm-lever[data-active="true"] .gtm-source', label:'GTM evidence source link' },
     ];
     for (const check of cases) {
       const context = await browser.newContext({ viewport:check.viewport });

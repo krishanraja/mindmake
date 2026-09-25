@@ -1,0 +1,56 @@
+{
+  "acceptedDecision": "r45 candidate: /ai-gtm pinned chapters",
+  "cases": [
+    {
+      "id": "levers-1440x900",
+      "route": "/ai-gtm",
+      "viewport": "1440x900",
+      "states": [
+        "Product",
+        "Price",
+        "Positioning",
+        "People"
+      ],
+      "pinTop": 69,
+      "tolerance": 2
+    },
+    {
+      "id": "plan-1440x900",
+      "route": "/ai-gtm",
+      "viewport": "1440x900",
+      "states": [
+        "Week 1",
+        "Weeks 2 to 4",
+        "Day 30"
+      ],
+      "pinTop": 69,
+      "tolerance": 2
+    },
+    {
+      "id": "team-1440x900",
+      "route": "/ai-gtm",
+      "viewport": "1440x900",
+      "states": [
+        "Today",
+        "AI-native"
+      ],
+      "pinTop": 69,
+      "tolerance": 2
+    },
+    {
+      "id": "levers-390x844",
+      "route": "/ai-gtm",
+      "viewport": "390x844",
+      "states": [
+        "Product",
+        "Price",
+        "Positioning",
+        "People"
+      ],
+      "pinTop": 69,
+      "tolerance": 2
+    }
+  ],
+  "candidateDigest": "9815162a56f19c12acb760a0440395f21c8acf655bfba5f079e72e2f4e84ceb8",
+  "acceptedDecisionDigest": "2c743c9323d0e6faa1928e73b49b1281246ebd329e70eb77b9daec27bee47272"
+}

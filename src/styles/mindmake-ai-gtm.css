@@ -1,0 +1,1046 @@
+/* /ai-gtm, r47: one argument in the site's own system.
+
+   Written by hand, for this route only, on the house tokens in mindmake.css:
+   Newsreader headlines, Archivo body and actions, IBM Plex Mono labels, the
+   shell's container, one mint (the answer, the selected state, what is lit)
+   and amber (what changed, and the evidence for it). It replaces the page's
+   two private stylesheets, which carried their own palette, three different
+   mints, non-variable font names and labels down to 7.7px (Krish, 2026-09-25:
+   "The fonts are all over the place").
+
+   The only colours named here are in the token block below: the warm cream
+   the approved chapter surfaces set their text and paper in (the homepage
+   chapters, /new-age-leadership and /ai-brain all use it), and the washes
+   that keep text readable over film. Everything else reads a token. Like
+   those surfaces, key words take the italic mint (the h1's "how they buy.",
+   the offer's "AI-native.").
+
+   Three chapters pin: the stage is `position: sticky` inside a taller track,
+   and src/hooks/usePinnedSteps.ts reads the step from how far it has
+   travelled. Whether a stage pins is decided here, not in the script: short
+   screens, landscape phones and readers without scripting get every step in
+   flow instead. */
+
+/* The route sits on the edge the approved chapter surfaces use (the homepage
+   and /new-age-leadership put their content and wordmark 4.4vw in, 63px at
+   1440), so the logo does not jump between them. --mm-edge is recomputed here
+   because a custom property is resolved where it is declared. */
+.mm-site.mm-route-gtm {
+  --mm-gutter: clamp(20px, 4.4vw, 72px);
+  --mm-shell-max: 1600px;
+  --mm-edge: max(var(--mm-gutter), var(--mm-safe-left), var(--mm-safe-right), calc((100vw - var(--mm-shell-max)) / 2));
+}
+
+.mm-gtm {
+  --gtm-cream: #eadfc8;
+  --gtm-cream-2: rgba(234, 223, 200, .8);
+  --gtm-cream-3: rgba(234, 223, 200, .66);
+  --gtm-line: rgba(234, 223, 200, .16);
+  --gtm-line-strong: rgba(234, 223, 200, .32);
+  --gtm-wash: rgba(10, 16, 13, .9);
+  --gtm-glass: rgba(10, 16, 13, .82);
+  --gtm-glow: rgba(127, 227, 180, .09);
+  --gtm-paper: #eadfc8;
+  --gtm-step: 64svh;
+  --gtm-reserve: calc(var(--mm-bar-reserve, 0px) + var(--mm-cookie-reserve, 0px));
+  --gtm-ease: cubic-bezier(.2, .7, .2, 1);
+  background: var(--mm-ink);
+  color: var(--gtm-cream);
+}
+
+/* Headings take the chapter's ink rather than the shell's cooler white. */
+.mm-site .mm-gtm :is(h1, h2, h3) { color: inherit; }
+.mm-site .mm-gtm :is(h1, h2) em {
+  color: var(--mm-mint);
+  font-style: italic;
+}
+.mm-gtm :where(ul, ol) { margin: 0; padding: 0; list-style: none; }
+.mm-gtm .mm-on-paper {
+  /* The bright mint focus ring falls under 3:1 on the cream, so on paper the
+     ring takes the paper's own mint, which clears it. */
+  --mm-focus: var(--mm-mint-d);
+  background: var(--gtm-paper);
+  color: var(--mm-tx-d);
+}
+.mm-site .mm-gtm .mm-text-link { font-size: 12px; }
+.gtm-nowrap { white-space: nowrap; }
+
+/* Films: full bleed behind their chapter. The posters carry a thin light
+   frame from the export, so the picture runs a few pixels past its box. */
+.gtm-film {
+  position: absolute;
+  inset: -6px;
+  z-index: -2;
+  margin: 0;
+  overflow: hidden;
+}
+.gtm-film video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.02);
+}
+
+/* 0. Opening ------------------------------------------------------------- */
+
+.gtm-opening {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-items: end;
+  min-height: 100svh;
+  padding: calc(var(--mm-header-height) + 48px) 0 clamp(40px, 8vh, 96px);
+  overflow: hidden;
+}
+.gtm-opening::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, var(--gtm-wash) 0%, rgba(10, 16, 13, .7) 46%, rgba(10, 16, 13, .34) 100%),
+    linear-gradient(0deg, var(--gtm-wash) 0%, transparent 60%);
+}
+.gtm-opening-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(260px, .6fr);
+  grid-template-areas: "copy rules" "motion motion";
+  align-items: end;
+  column-gap: clamp(32px, 6vw, 112px);
+  row-gap: clamp(24px, 4.4vh, 52px);
+}
+.gtm-opening-copy { grid-area: copy; }
+.mm-site .gtm-opening h1 {
+  max-width: 11.5ch;
+  font-size: clamp(46px, 6.6vw, 104px);
+  font-weight: 360;
+  line-height: .92;
+  letter-spacing: -.052em;
+}
+.gtm-opening-deck {
+  max-width: 24ch;
+  margin-top: clamp(22px, 3.4vh, 34px);
+  color: var(--gtm-cream-2);
+  font: 400 clamp(20px, 2vw, 30px)/1.24 var(--mm-serif);
+  letter-spacing: -.012em;
+}
+/* The old playbook, struck through rule by rule as the page opens. */
+.gtm-playbook {
+  grid-area: rules;
+  display: grid;
+  border-top: 1px solid var(--gtm-line-strong);
+}
+.gtm-playbook li {
+  display: grid;
+  gap: 4px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--gtm-line);
+}
+.gtm-playbook-name {
+  color: var(--gtm-cream-3);
+  font: 400 12px/1.2 var(--mm-mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+/* A struck old way: the amber line is drawn through every line of it. */
+.gtm-was s {
+  text-decoration: none;
+  background: linear-gradient(var(--mm-amber), var(--mm-amber)) no-repeat 0 58% / 100% 2px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.gtm-playbook .gtm-was {
+  color: var(--gtm-cream-2);
+  font-size: 17px;
+  line-height: 1.35;
+  text-wrap: balance;
+}
+.gtm-playbook s {
+  animation: gtm-strike .7s var(--gtm-ease) both;
+  animation-delay: calc(.9s + var(--gtm-i) * .45s);
+}
+@keyframes gtm-strike {
+  from { background-size: 0 2px; }
+  to { background-size: 100% 2px; }
+}
+.mm-site .gtm-motion {
+  grid-area: motion;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--gtm-cream-3);
+  font: 400 12px/1 var(--mm-mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.gtm-motion i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--mm-mint);
+  box-shadow: 0 0 12px var(--mm-mint);
+}
+.gtm-motion[aria-pressed="true"] i { background: transparent; box-shadow: inset 0 0 0 1px var(--mm-mint); }
+@media (hover: hover) and (pointer: fine) {
+  .mm-site .gtm-motion:hover { color: var(--gtm-cream); }
+}
+
+/* Pinned chapters, shared ----------------------------------------------- */
+
+.gtm-chapter {
+  position: relative;
+  height: calc(100svh - var(--mm-header-height) + var(--gtm-steps) * var(--gtm-step));
+}
+.gtm-stage {
+  position: sticky;
+  top: var(--mm-header-height);
+  isolation: isolate;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  /* One screen under the masthead, less whatever the action bar and the
+     privacy strip occupy, so the rail is never under either of them and the
+     next chapter follows the rail directly when the stage releases. */
+  height: calc(100svh - var(--mm-header-height) - var(--gtm-reserve));
+  overflow: hidden;
+  transition: height .2s ease;
+}
+.gtm-stage-body {
+  min-height: 0;
+  display: grid;
+  align-content: center;
+  padding-block: clamp(20px, 4.5vh, 56px);
+}
+.gtm-steps { display: grid; }
+.gtm-step {
+  grid-area: 1 / 1;
+  transition: opacity .42s var(--gtm-ease), transform .56s var(--gtm-ease), visibility 0s linear 0s;
+}
+.gtm-step[data-active="false"] {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(18px);
+  pointer-events: none;
+  transition: opacity .28s ease, transform .28s ease, visibility 0s linear .28s;
+}
+
+/* The rail: one segment per step, filling with the page's progress through
+   the chapter, on the content edges and above the action bar. Each segment is
+   a control that moves the page to its step. */
+.gtm-rail {
+  display: grid;
+  grid-template-columns: repeat(var(--gtm-n), minmax(0, 1fr));
+  border-top: 1px solid var(--gtm-line);
+  padding-inline: var(--mm-edge);
+  background: rgba(10, 16, 13, .72);
+}
+.mm-site .gtm-rail-step {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  min-height: 60px;
+  padding: 0 16px 0 0;
+  border: 0;
+  background: transparent;
+  color: var(--gtm-cream-3);
+  font: 400 12px/1.2 var(--mm-mono);
+  letter-spacing: .12em;
+  text-align: left;
+  text-transform: uppercase;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: color .2s ease, flex-basis .35s var(--gtm-ease);
+}
+.mm-site .gtm-rail-step[data-active="true"] { color: var(--gtm-cream); }
+@media (hover: hover) and (pointer: fine) {
+  .mm-site .gtm-rail-step:hover { color: var(--gtm-cream); }
+}
+.gtm-rail-fill {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 12px;
+  height: 2px;
+  background: var(--mm-mint);
+  transform-origin: left center;
+  transform: scaleX(clamp(0, calc(var(--gtm-progress, 0) * var(--gtm-n) - var(--gtm-i)), 1));
+}
+.gtm-rail-number { color: var(--mm-mint); font-variant-numeric: tabular-nums; }
+.gtm-rail-name { white-space: nowrap; }
+
+/* 1. The four places ----------------------------------------------------- */
+
+.gtm-levers { background: var(--mm-ink); }
+.gtm-levers .gtm-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, var(--gtm-wash) 0%, rgba(10, 16, 13, .74) 50%, rgba(10, 16, 13, .3) 100%),
+    linear-gradient(0deg, rgba(10, 16, 13, .72) 0%, transparent 42%);
+}
+.gtm-levers .gtm-stage-body {
+  /* The steps take the room left but never less than they need, so a step
+     that outgrows the stage shows on the body, where the hook measures it. */
+  grid-template-rows: auto 1fr;
+  align-content: stretch;
+  gap: clamp(18px, 4vh, 48px);
+}
+.lever-steps { align-self: center; }
+.mm-site .gtm-levers-title {
+  color: var(--gtm-cream-3);
+  font-size: clamp(26px, 2.6vw, 40px);
+  font-weight: 380;
+}
+.gtm-lever {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(300px, 5fr);
+  align-items: center;
+  gap: clamp(28px, 6vw, 96px);
+}
+.mm-site .gtm-felt {
+  max-width: 16.5ch;
+  font-size: clamp(34px, 4.1vw, 66px);
+  font-weight: 370;
+  line-height: .98;
+  letter-spacing: -.045em;
+}
+/* The card: the old way struck in amber, the new way settling in after it,
+   and the dated source that shows the change is real. */
+.gtm-lever-card {
+  display: grid;
+  gap: 14px;
+  padding: clamp(22px, 2.6vw, 34px);
+  border-top: 2px solid var(--mm-mint);
+  background: var(--gtm-glass);
+}
+.gtm-lever-was {
+  color: var(--gtm-cream-2);
+  font-size: 17px;
+  line-height: 1.4;
+}
+.gtm-lever-was s {
+  text-decoration: none;
+  background: linear-gradient(var(--mm-amber), var(--mm-amber)) no-repeat 0 58% / 100% 2px;
+  transition: background-size .5s var(--gtm-ease) .18s;
+}
+.gtm-lever[data-active="false"] .gtm-lever-was s { background-size: 0 2px; }
+.gtm-lever-now {
+  color: var(--gtm-cream);
+  font: 400 clamp(24px, 2.2vw, 34px)/1.08 var(--mm-serif);
+  letter-spacing: -.028em;
+  transition: opacity .45s ease .42s, transform .55s var(--gtm-ease) .42s;
+}
+.gtm-lever[data-active="false"] .gtm-lever-now { opacity: 0; transform: translateY(8px); }
+.mm-site .gtm-source {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  margin-top: 2px;
+  color: var(--mm-amber);
+  font: 400 12px/1.2 var(--mm-mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+@media (hover: hover) and (pointer: fine) {
+  .mm-site .gtm-source:hover { text-decoration: underline; text-underline-offset: 4px; }
+}
+
+/* 2. The workaround, and what it costs ------------------------------------ */
+
+.gtm-workaround {
+  display: grid;
+  align-items: center;
+  padding-block: clamp(72px, 13vh, 144px);
+  background: var(--mm-ink-raise);
+}
+.mm-site .gtm-workaround h2 {
+  max-width: 18ch;
+  font-size: clamp(34px, 4.4vw, 68px);
+  font-weight: 370;
+  line-height: 1;
+  letter-spacing: -.045em;
+}
+.gtm-workaround p {
+  max-width: 30ch;
+  margin-top: clamp(20px, 3.4vh, 32px);
+  padding-left: 20px;
+  border-left: 2px solid var(--mm-amber);
+  color: var(--gtm-cream-2);
+  font: 400 clamp(22px, 2.2vw, 34px)/1.2 var(--mm-serif);
+  letter-spacing: -.02em;
+}
+
+/* 3. The turn: the offer and the one question ----------------------------- */
+
+.gtm-turn {
+  display: grid;
+  align-items: center;
+  padding-block: clamp(64px, 11vh, 128px);
+}
+.gtm-turn-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: clamp(36px, 6vh, 64px);
+}
+.mm-site .gtm-turn-title {
+  max-width: 13ch;
+  font-size: clamp(44px, 6.2vw, 98px);
+  font-weight: 360;
+  line-height: .93;
+  letter-spacing: -.052em;
+}
+.mm-site .gtm-turn-title em { color: var(--mm-mint-d); }
+.gtm-turn-promise {
+  max-width: 50ch;
+  margin-top: clamp(22px, 3.4vh, 34px);
+  color: var(--mm-tx2-d);
+  font-size: clamp(17px, 1.4vw, 19px);
+  line-height: 1.55;
+}
+.gtm-doors {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 820px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.gtm-doors-question {
+  grid-column: 1 / -1;
+  margin-bottom: 14px;
+  padding: 0;
+  color: var(--mm-tx-d);
+  font: 400 clamp(22px, 2vw, 30px)/1.1 var(--mm-serif);
+  letter-spacing: -.02em;
+}
+.gtm-door {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 76px;
+  padding: 16px 20px;
+  border: 1px solid rgba(19, 28, 23, .22);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: border-color .18s ease, background-color .18s ease;
+}
+.gtm-door input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.gtm-door-mark {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--mm-tx2-d);
+  border-radius: 50%;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+.gtm-door-text { display: grid; gap: 4px; }
+.gtm-door-text b { font-size: 16px; font-weight: 600; line-height: 1.25; text-wrap: balance; }
+.gtm-door-text small {
+  color: var(--mm-tx2-d);
+  font: 400 12px/1.3 var(--mm-mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.gtm-door[data-active="true"] {
+  border-color: var(--mm-mint-d);
+  background: var(--mm-mint-wash-d);
+}
+.gtm-door[data-active="true"] .gtm-door-mark {
+  border-color: var(--mm-mint-d);
+  box-shadow: inset 0 0 0 4px var(--mm-mint-wash-d), inset 0 0 0 9px var(--mm-mint-d);
+}
+.gtm-door:has(input:focus-visible) { outline: 2px solid var(--mm-focus); outline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) {
+  .gtm-door:hover { border-color: var(--mm-mint-d); }
+}
+@media (min-width: 1100px) {
+  .gtm-turn-body {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    column-gap: clamp(48px, 6vw, 112px);
+    align-items: end;
+  }
+  .gtm-turn .gtm-doors { grid-template-columns: 1fr; }
+}
+
+/* 4. The 30 days --------------------------------------------------------- */
+
+.gtm-plan { background: var(--mm-ink); }
+.gtm-plan .gtm-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(ellipse at 18% 0%, var(--gtm-glow), transparent 55%);
+}
+.gtm-plan .gtm-stage-body {
+  grid-template-rows: auto auto 1fr;
+  align-content: center;
+  gap: clamp(20px, 3.6vh, 40px);
+}
+.mm-site .gtm-plan-title { font-size: clamp(34px, 3.6vw, 58px); font-weight: 370; }
+/* The month: thirty days that light as the page moves through the chapter,
+   in three stretches whose names are the rail beneath them. */
+.plan-month { display: grid; }
+.plan-days {
+  display: grid;
+  grid-template-columns: repeat(30, minmax(0, 1fr));
+  column-gap: 4px;
+}
+.plan-days li {
+  /* A day lights once the page has passed its share of the chapter. */
+  --gtm-lit: clamp(0, calc((var(--gtm-progress, 0) * 30 - var(--gtm-day) + 1) * 4), 1);
+  height: clamp(28px, 4.4vh, 44px);
+  border: 1px solid color-mix(in srgb, var(--mm-mint) calc(var(--gtm-lit) * 100%), var(--gtm-line));
+  background-color: color-mix(in srgb, var(--mm-mint) calc(var(--gtm-lit) * 88%), transparent);
+  transition: background-color .25s ease, border-color .25s ease;
+}
+.plan-days li[data-stretch="1"]:nth-child(8),
+.plan-days li[data-stretch="2"]:nth-child(29) { margin-left: clamp(8px, 1.2vw, 20px); }
+.gtm-rail-days {
+  grid-template-columns: 7fr 21fr 2fr;
+  column-gap: clamp(8px, 1.2vw, 20px);
+  padding-inline: 0;
+  border-top: 0;
+  background: transparent;
+}
+.gtm-rail-days .gtm-rail-fill { display: none; }
+.mm-site .gtm-rail-days .gtm-rail-step { min-height: 48px; padding-right: 0; }
+/* One stretch at a time beneath the month, like the four places: the month
+   keeps the whole shape in view while the stretch the reader has reached
+   fills the screen. */
+.gtm-plan-steps { align-self: center; }
+.gtm-plan .gtm-step {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  grid-template-areas: "when list" "what list" "detail list";
+  grid-template-rows: auto auto 1fr;
+  column-gap: clamp(32px, 6vw, 112px);
+  row-gap: 12px;
+  align-items: start;
+}
+.gtm-plan-step > .gtm-plan-when { grid-area: when; }
+.gtm-plan-step > .gtm-plan-what { grid-area: what; }
+.gtm-plan-step > .gtm-plan-detail { grid-area: detail; }
+.gtm-plan-step > :is(.gtm-plan-list, .gtm-plan-note) { grid-column: 2; }
+.gtm-plan-step > .gtm-plan-list { grid-row: 1 / span 3; align-self: start; }
+.gtm-plan-step > .gtm-plan-note { grid-row: 4; }
+.gtm-plan-menu { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
+/* The stretch names sit on the rail above; a phone, which drops the rail,
+   shows them on each stretch instead. */
+.gtm-plan-when {
+  display: none;
+  color: var(--mm-mint);
+  font: 400 12px/1.2 var(--mm-mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.mm-site .gtm-plan-what { font-size: clamp(34px, 3.6vw, 60px); font-weight: 370; line-height: .98; letter-spacing: -.045em; }
+.gtm-plan-detail { max-width: 34ch; color: var(--gtm-cream-2); font: 400 clamp(19px, 1.6vw, 24px)/1.3 var(--mm-serif); letter-spacing: -.01em; }
+.gtm-plan-list {
+  display: grid;
+  border-top: 1px solid var(--gtm-line);
+}
+.gtm-plan-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--gtm-line);
+  color: var(--gtm-cream);
+  font-size: 15px;
+  line-height: 1.35;
+}
+.gtm-plan-mapped li { display: grid; gap: 2px; }
+.gtm-plan-mapped li span {
+  color: var(--gtm-cream-3);
+  font: 400 12px/1.2 var(--mm-mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.gtm-plan-mapped .gtm-was { color: var(--gtm-cream-3); font-size: 14px; }
+.gtm-plan-mapped li b { font-weight: 400; }
+.gtm-plan-note { margin-top: 4px; color: var(--gtm-cream-3); font-size: 14px; line-height: 1.5; }
+
+/* 5. Your team ----------------------------------------------------------- */
+
+.gtm-team { background: var(--mm-ink-raise); }
+.gtm-team .gtm-stage-body {
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  grid-template-rows: auto 1fr;
+  grid-template-areas: "head board" "decision board";
+  align-content: center;
+  column-gap: clamp(32px, 5vw, 80px);
+  row-gap: clamp(20px, 3.5vh, 36px);
+}
+.gtm-team-head { grid-area: head; align-self: end; }
+.mm-site .gtm-team-head h2 { max-width: 13ch; font-size: clamp(34px, 3.8vw, 58px); font-weight: 370; }
+/* The chart sits on an instrument panel that says what it is. */
+.team-instrument {
+  grid-area: board;
+  align-self: center;
+  display: grid;
+  gap: 14px;
+  padding: clamp(14px, 1.6vw, 22px);
+  border: 1px solid var(--gtm-line);
+  background:
+    radial-gradient(ellipse at 50% 0%, var(--gtm-glow), transparent 60%),
+    rgba(10, 16, 13, .5);
+}
+.team-instrument-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 18px;
+}
+.team-instrument-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--gtm-cream-3);
+  font: 400 12px/1.2 var(--mm-mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.team-instrument-label i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--mm-mint);
+  box-shadow: 0 0 12px var(--mm-mint);
+}
+.gtm-team-tally {
+  display: grid;
+  color: var(--mm-mint);
+  font: 400 12px/1.3 var(--mm-mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.gtm-team-tally > span { grid-area: 1 / 1; justify-self: end; transition: opacity .3s ease; }
+.team-board {
+  display: grid;
+  grid-template-columns: repeat(var(--gtm-cols, 3), minmax(0, 1fr));
+  gap: 8px;
+}
+/* The lead sits above a bus that the seats hang from. */
+.mm-site .role-lead { grid-column: 1 / -1; justify-self: center; width: min(100%, 380px); }
+.team-bus {
+  grid-column: 1 / -1;
+  position: relative;
+  height: 20px;
+  margin-block: -8px -2px;
+}
+.team-bus::before,
+.team-bus::after {
+  content: "";
+  position: absolute;
+  background: var(--gtm-line-strong);
+}
+.team-bus::before { left: 50%; top: 0; width: 1px; height: 50%; }
+.team-bus::after { left: calc(100% / var(--gtm-cols, 3) / 2); right: calc(100% / var(--gtm-cols, 3) / 2); top: 50%; height: 1px; }
+.mm-site .role-cell {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  min-height: 108px;
+  padding: 14px 16px;
+  border: 1px solid var(--gtm-line);
+  border-top-color: transparent;
+  background: rgba(10, 16, 13, .56);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: border-color .2s ease, background-color .2s ease;
+}
+/* Each seat's top rule says what kind of seat it is. */
+.role-cell::before {
+  content: "";
+  position: absolute;
+  inset: -1px -1px auto;
+  height: 2px;
+  background: var(--gtm-kind, var(--gtm-line-strong));
+  transition: background-color .35s ease;
+}
+.gtm-team[data-view="today"] .role-cell:has([data-view-layer="today"][data-kind="hybrid"]),
+.gtm-team[data-view="native"] .role-cell:has([data-view-layer="native"][data-kind="hybrid"]) { --gtm-kind: color-mix(in srgb, var(--mm-mint) 55%, transparent); }
+.gtm-team[data-view="today"] .role-cell:has([data-view-layer="today"][data-kind="agent"]),
+.gtm-team[data-view="native"] .role-cell:has([data-view-layer="native"][data-kind="agent"]) { --gtm-kind: var(--mm-mint); }
+.gtm-team[data-view="native"] .role-cell:has([data-view-layer="native"][data-new]) { --gtm-kind: var(--mm-amber); }
+.mm-site .role-cell[aria-pressed="true"] { border-color: var(--mm-mint); background: var(--mm-mint-wash); }
+@media (hover: hover) and (pointer: fine) {
+  .mm-site .role-cell:hover { border-color: var(--gtm-line-strong); }
+  .mm-site .role-cell[aria-pressed="true"]:hover { border-color: var(--mm-mint); }
+}
+/* A small ring on every seat shows it can be picked; the picked seat fills it. */
+.role-pick {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--gtm-line-strong);
+  border-radius: 50%;
+  transition: background-color .2s ease, border-color .2s ease;
+}
+.role-cell[aria-pressed="true"] .role-pick { border-color: var(--mm-mint); background: var(--mm-mint); }
+.role-layer {
+  grid-area: 1 / 1;
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  min-width: 0;
+  padding-right: 18px;
+  transition: opacity .38s ease, transform .5s var(--gtm-ease);
+}
+.role-kind {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  color: var(--gtm-cream-3);
+  font: 400 12px/1.2 var(--mm-mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.role-layer:is([data-kind="hybrid"], [data-kind="agent"]) .role-kind { color: var(--mm-mint); }
+.role-kind em { color: var(--mm-amber); font-style: normal; }
+.role-title { font: 400 clamp(19px, 1.6vw, 24px)/1.08 var(--mm-serif); letter-spacing: -.02em; }
+.role-line { color: var(--gtm-cream-2); font-size: 14px; line-height: 1.4; }
+/* A seat that does not exist yet waits empty until the AI-native team fills it. */
+.mm-site .role-arrives { border-style: dashed; }
+.gtm-team[data-view="native"] .role-arrives { border-style: solid; }
+.gtm-team[data-view="today"] [data-view-layer="native"],
+.gtm-team[data-view="native"] [data-view-layer="today"] {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+}
+.gtm-team .role-cell:nth-child(3) .role-layer { transition-delay: .04s; }
+.gtm-team .role-cell:nth-child(4) .role-layer { transition-delay: .08s; }
+.gtm-team .role-cell:nth-child(5) .role-layer { transition-delay: .12s; }
+.gtm-team .role-cell:nth-child(6) .role-layer { transition-delay: .16s; }
+.gtm-team .role-cell:nth-child(7) .role-layer { transition-delay: .2s; }
+.gtm-team .role-cell:nth-child(8) .role-layer { transition-delay: .24s; }
+
+/* The decision a picked seat creates, beside the chart. */
+.decision-panel {
+  grid-area: decision;
+  align-self: start;
+  display: grid;
+  gap: 10px;
+  padding: clamp(18px, 2vw, 26px) clamp(18px, 2vw, 26px) clamp(18px, 2vw, 26px) 22px;
+  border-left: 2px solid var(--mm-mint);
+  background: rgba(10, 16, 13, .42);
+}
+.decision-stack { display: grid; }
+.decision-copy { grid-area: 1 / 1; display: grid; align-content: start; gap: inherit; }
+.decision-panel .decision-copy { gap: 10px; }
+/* The unseen copies that hold the panel at its tallest decision. */
+.decision-sizer { visibility: hidden; }
+.mm-site .decision-panel h3,
+.decision-sizer-q { margin: 0; font: 400 clamp(22px, 2vw, 30px)/1.1 var(--mm-serif); letter-spacing: -.025em; }
+.gtm-decision-role,
+.decision-sizer-role { color: var(--mm-mint); font: 400 12px/1.4 var(--mm-mono); letter-spacing: .1em; text-transform: uppercase; }
+.gtm-decision-note { color: var(--gtm-cream-2); font-size: 15px; line-height: 1.45; }
+/* Each seat carries its own decision too, shown where the chapter is a
+   document rather than a chart. */
+.role-decision { display: none; }
+.gtm-rail-two { background: transparent; }
+
+/* 6. The result ---------------------------------------------------------- */
+
+.gtm-proof { padding-block: clamp(80px, 14vh, 160px); }
+.gtm-proof-figure { margin: 0; display: grid; gap: clamp(20px, 3vh, 30px); }
+.gtm-quote {
+  max-width: 1060px;
+  margin: 0;
+  font: 400 clamp(30px, 3.6vw, 56px)/1.06 var(--mm-serif);
+  letter-spacing: -.035em;
+}
+.gtm-proof-result {
+  max-width: 48ch;
+  /* The paper amber, a step darker so the outcome reads at AA on the cream. */
+  color: color-mix(in srgb, var(--mm-amber-d) 78%, var(--mm-tx-d));
+  font-size: clamp(17px, 1.4vw, 19px);
+  font-weight: 600;
+  line-height: 1.45;
+}
+.gtm-proof-who {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
+  max-width: 1060px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(19, 28, 23, .18);
+}
+.gtm-proof-who cite {
+  color: var(--mm-tx2-d);
+  font: 400 12px/1.4 var(--mm-mono);
+  font-style: normal;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+/* Tablets and phones: their own composition ------------------------------- */
+
+@media (max-width: 899px) {
+  .gtm-opening-body { grid-template-columns: 1fr; grid-template-areas: "copy" "rules" "motion"; row-gap: 22px; }
+  .gtm-playbook { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; }
+  .gtm-playbook li { padding: 9px 0; }
+  .gtm-playbook .gtm-was { font-size: 15px; }
+
+  .gtm-lever { grid-template-columns: 1fr; align-content: start; gap: 22px; }
+  .mm-site .gtm-felt { max-width: 18ch; font-size: clamp(30px, 8.2vw, 44px); line-height: 1; }
+  .gtm-lever-card { padding: 20px; gap: 10px; }
+  .gtm-lever-now { font-size: clamp(22px, 6vw, 28px); }
+  .gtm-levers .gtm-stage-body { gap: 22px; padding-block: 20px 12px; }
+  .mm-site .gtm-levers-title { font-size: clamp(22px, 6vw, 28px); }
+
+  .gtm-doors { grid-template-columns: 1fr; }
+
+  .gtm-team .gtm-stage-body { grid-template-columns: 1fr; grid-template-rows: auto auto auto; grid-template-areas: "head" "board" "decision"; align-content: center; row-gap: 14px; padding-block: 16px 10px; }
+  .mm-site .gtm-team-head h2 { font-size: clamp(28px, 7.4vw, 38px); }
+  .team-instrument { padding: 10px; gap: 10px; }
+  .team-board { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .team-bus::after { left: 25%; right: 25%; }
+  .mm-site .role-cell { min-height: 0; padding: 10px 12px; }
+  .mm-site .role-lead { width: 100%; }
+  .role-title { font-size: 18px; }
+  .role-line { font-size: 13px; }
+  .role-kind { letter-spacing: .04em; }
+  .role-pick { top: 10px; right: 10px; width: 10px; height: 10px; }
+  .decision-panel { gap: 6px; padding: 14px 16px; }
+  .decision-panel .decision-copy { gap: 6px; }
+  .mm-site .decision-panel h3,
+  .decision-sizer-q { font-size: 20px; }
+  .gtm-decision-note { font-size: 14px; }
+
+  /* The rail on a phone: every step keeps its number, and the one on screen
+     opens to its name, so a long name never has to share a quarter of the
+     width with its neighbours. */
+  .gtm-rail:not(.gtm-rail-days) { display: flex; gap: 8px; }
+  .mm-site .gtm-rail:not(.gtm-rail-days) .gtm-rail-step { flex: 0 0 44px; min-height: 52px; padding-right: 0; }
+  .mm-site .gtm-rail:not(.gtm-rail-days) .gtm-rail-step[data-active="true"] { flex: 1 1 auto; }
+  .gtm-rail:not(.gtm-rail-days) .gtm-rail-step[data-active="false"] .gtm-rail-name { display: none; }
+  .gtm-rail-fill { right: 4px; }
+}
+@media (min-width: 700px) and (max-width: 899px) {
+  .gtm-plan .gtm-step { grid-template-columns: 1fr; grid-template-areas: "when" "what" "detail"; grid-template-rows: none; }
+  .gtm-plan-step > :is(.gtm-plan-list, .gtm-plan-note) { grid-column: 1; grid-row: auto; }
+}
+
+/* The month on a phone is a document: three columns cannot fit, and one
+   stretch at a time left most of the screen empty, so it flows, and the
+   month is drawn whole, its three stretches in their own colours. */
+@media (max-width: 699px) {
+  .gtm-plan { height: auto; }
+  .gtm-plan .gtm-stage { position: static; height: auto; overflow: visible; }
+  .gtm-plan .gtm-stage-body { padding-block: 64px 56px; gap: 22px; }
+  .gtm-plan .gtm-steps { gap: 44px; }
+  .gtm-plan .gtm-step,
+  .gtm-plan .gtm-step[data-active="false"] { grid-area: auto; grid-template-columns: 1fr; grid-template-areas: "when" "what" "detail"; grid-template-rows: none; opacity: 1; visibility: visible; transform: none; pointer-events: auto; }
+  .gtm-plan-step > :is(.gtm-plan-list, .gtm-plan-note) { grid-column: 1; grid-row: auto; }
+  .gtm-plan-menu { grid-template-columns: 1fr; }
+  .mm-site .gtm-plan-what { font-size: 30px; }
+  .gtm-plan-detail { font-size: 19px; }
+  .gtm-rail-days { display: none; }
+  .gtm-plan-when { display: block; }
+  .plan-days { grid-template-columns: repeat(15, minmax(0, 1fr)); row-gap: 4px; }
+  .plan-days li[data-stretch="1"]:nth-child(8),
+  .plan-days li[data-stretch="2"]:nth-child(29) { margin-left: 0; }
+  .plan-days li { --gtm-lit: 1; height: 18px; }
+  .plan-days li[data-stretch="1"] { background-color: color-mix(in srgb, var(--mm-mint) 44%, transparent); }
+  .plan-days li[data-stretch="2"] { background-color: var(--mm-amber); border-color: var(--mm-amber); }
+}
+
+/* Where a stage cannot hold one step on one screen, the chapter flows ------
+   Short screens, phones held sideways and readers without scripting get every
+   step in order as a document. */
+
+@media (max-height: 559px), (max-width: 900px) and (orientation: landscape), (scripting: none) {
+  .gtm-chapter { height: auto; }
+  .gtm-stage { position: static; height: auto; overflow: visible; }
+  .gtm-stage-body { padding-block: clamp(56px, 10vh, 96px); }
+  .gtm-levers .gtm-stage-body { grid-template-rows: auto; }
+  .gtm-steps { gap: clamp(48px, 8vh, 80px); }
+  .gtm-step,
+  .gtm-step[data-active="false"],
+  .gtm-plan .gtm-step,
+  .gtm-plan .gtm-step[data-active="false"] {
+    grid-area: auto;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    pointer-events: auto;
+  }
+  .gtm-lever[data-active="false"] .gtm-lever-was s { background-size: 100% 2px; }
+  .gtm-lever[data-active="false"] .gtm-lever-now { opacity: 1; transform: none; }
+  .gtm-levers .gtm-rail { display: none; }
+  .plan-days li { --gtm-lit: 1; }
+  .gtm-plan .gtm-step { grid-template-columns: 1fr; grid-template-areas: "when" "what" "detail"; grid-template-rows: none; }
+  .gtm-plan-step > :is(.gtm-plan-list, .gtm-plan-note) { grid-column: 1; grid-row: auto; }
+  .gtm-plan-when { display: block; }
+  .gtm-plan .gtm-rail { display: none; }
+}
+/* A chapter whose step no longer fits its screen flows the same way: the
+   hook marks it when a reader's own text spacing or font size makes a step
+   taller than the stage, so nothing is clipped (WCAG 1.4.12). */
+.gtm-chapter[data-gtm-flow="true"] { height: auto; }
+.gtm-chapter[data-gtm-flow="true"] .gtm-stage { position: static; height: auto; overflow: visible; }
+.gtm-chapter[data-gtm-flow="true"] .gtm-stage-body { padding-block: clamp(56px, 10vh, 96px); }
+.gtm-levers[data-gtm-flow="true"] .gtm-stage-body { grid-template-rows: auto; }
+.gtm-chapter[data-gtm-flow="true"] .gtm-steps { gap: clamp(48px, 8vh, 80px); }
+.gtm-chapter[data-gtm-flow="true"] .gtm-step {
+  grid-area: auto;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  pointer-events: auto;
+}
+.gtm-chapter[data-gtm-flow="true"] .gtm-lever .gtm-lever-was s { background-size: 100% 2px; }
+.gtm-chapter[data-gtm-flow="true"] .gtm-lever .gtm-lever-now { opacity: 1; transform: none; }
+.gtm-levers[data-gtm-flow="true"] .gtm-rail,
+.gtm-plan[data-gtm-flow="true"] .gtm-rail { display: none; }
+.gtm-plan[data-gtm-flow="true"] .plan-days li { --gtm-lit: 1; }
+.gtm-plan[data-gtm-flow="true"] .gtm-step { grid-template-columns: 1fr; grid-template-areas: "when" "what" "detail"; grid-template-rows: none; }
+.gtm-plan[data-gtm-flow="true"] .gtm-plan-step > :is(.gtm-plan-list, .gtm-plan-note) { grid-column: 1; grid-row: auto; }
+.gtm-plan[data-gtm-flow="true"] .gtm-plan-when { display: block; }
+
+/* The team needs more height than the four places: seven seats and a
+   decision. A tablet held upright pins it. No phone screen holds the chart
+   and a decision without clipping one of them, so on a phone the team is a
+   document, and so is every screen too short to hold it. */
+@media (max-width: 699px), (max-width: 899px) and (max-height: 739px) {
+  .gtm-team { height: auto; }
+  .gtm-team .gtm-stage { position: static; height: auto; overflow: visible; }
+  .gtm-team .gtm-stage-body { padding-block: 56px 32px; }
+  .team-board { grid-template-columns: 1fr; }
+  .team-bus::after { display: none; }
+}
+@media (max-height: 559px), (max-width: 900px) and (orientation: landscape) {
+  .gtm-team { height: auto; }
+  .gtm-team .gtm-stage { position: static; height: auto; overflow: visible; }
+}
+@media (max-width: 360px) {
+  .gtm-playbook { grid-template-columns: 1fr; }
+}
+@media (max-width: 340px) {
+  .team-board { grid-template-columns: 1fr; }
+  .team-bus::after { display: none; }
+}
+/* Wherever the team does not pin it is a document: every seat shows today's
+   version struck through, as the playbook is (only the part that changes when
+   the seat keeps its name), then the AI-native one and the decision it
+   creates. The tally reads today then AI-native, and there is no
+   switch to reach for. The same holds without scripting, and for a chapter the
+   hook has released because a reader's text outgrew it. */
+@media (scripting: none), (max-height: 559px), (max-width: 900px) and (orientation: landscape), (max-width: 699px), (max-width: 899px) and (max-height: 739px) {
+  .gtm-team .gtm-rail { display: none; }
+  .gtm-team[data-view] [data-view-layer] { grid-area: auto; opacity: 1; visibility: visible; transform: none; }
+  .gtm-team[data-view] .role-layer[data-view-layer="today"] { display: block; padding: 0 0 10px; margin: 0 0 10px; border-bottom: 1px solid var(--gtm-line); color: var(--gtm-cream-3); font-size: 14px; line-height: 1.4; }
+  .gtm-team[data-view] .role-layer[data-view-layer="today"] .role-kind { display: none; }
+  .gtm-team[data-view] .role-layer[data-view-layer="today"] :is(.role-title, .role-line) { display: inline; color: inherit; font: inherit; letter-spacing: 0; text-decoration: line-through; text-decoration-color: var(--mm-amber); }
+  .gtm-team[data-view] .role-layer[data-view-layer="today"] .role-title::after { content: " \00b7  "; }
+  .gtm-team[data-view] .role-layer::before { display: block; margin-bottom: 6px; font: 400 12px/1.2 var(--mm-mono); letter-spacing: .14em; text-transform: uppercase; text-decoration: none; }
+  .gtm-team[data-view] .role-layer[data-view-layer="today"]::before { content: "Today"; color: var(--gtm-cream-3); }
+  .gtm-team[data-view] .role-layer[data-view-layer="today"][data-kept] .role-title { display: none; }
+  .gtm-team[data-view] .role-layer.role-empty[data-view-layer] { display: none; }
+  .gtm-team .role-line { display: block; }
+  .gtm-team .role-decision { display: block; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--gtm-line); color: var(--gtm-cream); font: 400 18px/1.3 var(--mm-serif); letter-spacing: -.01em; }
+  .gtm-team .role-pick { display: none; }
+  .mm-site .gtm-team .role-cell { cursor: default; }
+  .gtm-team .decision-stack { display: none; }
+  .gtm-team .decision-panel { padding: 0; border-left: 0; background: none; }
+  .gtm-team .gtm-team-tally > span { justify-self: start; }
+  .gtm-team .gtm-team-tally > span::before { color: var(--gtm-cream-3); }
+  .gtm-team .gtm-team-tally > [data-view-layer="today"]::before { content: "Today \2003"; }
+  .gtm-team .gtm-team-tally > [data-view-layer="native"]::before { content: "AI-native \2003"; }
+}
+.gtm-team[data-gtm-flow="true"] .gtm-rail { display: none; }
+.gtm-team[data-gtm-flow="true"][data-view] [data-view-layer] { grid-area: auto; opacity: 1; visibility: visible; transform: none; }
+.gtm-team[data-gtm-flow="true"][data-view] .role-layer[data-view-layer="today"] { display: block; padding: 0 0 10px; margin: 0 0 10px; border-bottom: 1px solid var(--gtm-line); color: var(--gtm-cream-3); font-size: 14px; line-height: 1.4; }
+.gtm-team[data-gtm-flow="true"][data-view] .role-layer[data-view-layer="today"] .role-kind { display: none; }
+.gtm-team[data-gtm-flow="true"][data-view] .role-layer[data-view-layer="today"] :is(.role-title, .role-line) { display: inline; color: inherit; font: inherit; letter-spacing: 0; text-decoration: line-through; text-decoration-color: var(--mm-amber); }
+.gtm-team[data-gtm-flow="true"][data-view] .role-layer[data-view-layer="today"] .role-title::after { content: " \00b7  "; }
+.gtm-team[data-gtm-flow="true"][data-view] .role-layer::before { display: block; margin-bottom: 6px; font: 400 12px/1.2 var(--mm-mono); letter-spacing: .14em; text-transform: uppercase; text-decoration: none; }
+.gtm-team[data-gtm-flow="true"][data-view] .role-layer[data-view-layer="today"]::before { content: "Today"; color: var(--gtm-cream-3); }
+.gtm-team[data-gtm-flow="true"][data-view] .role-layer[data-view-layer="today"][data-kept] .role-title { display: none; }
+.gtm-team[data-gtm-flow="true"][data-view] .role-layer.role-empty[data-view-layer] { display: none; }
+.gtm-team[data-gtm-flow="true"] .role-line { display: block; }
+.gtm-team[data-gtm-flow="true"] .role-decision { display: block; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--gtm-line); color: var(--gtm-cream); font: 400 18px/1.3 var(--mm-serif); letter-spacing: -.01em; }
+.gtm-team[data-gtm-flow="true"] .role-pick { display: none; }
+.mm-site .gtm-team[data-gtm-flow="true"] .role-cell { cursor: default; }
+.gtm-team[data-gtm-flow="true"] .decision-stack { display: none; }
+.gtm-team[data-gtm-flow="true"] .decision-panel { padding: 0; border-left: 0; background: none; }
+.gtm-team[data-gtm-flow="true"] .gtm-team-tally > span { justify-self: start; }
+.gtm-team[data-gtm-flow="true"] .gtm-team-tally > span::before { color: var(--gtm-cream-3); }
+.gtm-team[data-gtm-flow="true"] .gtm-team-tally > [data-view-layer="today"]::before { content: "Today \2003"; }
+.gtm-team[data-gtm-flow="true"] .gtm-team-tally > [data-view-layer="native"]::before { content: "AI-native \2003"; }
+@media (scripting: none) {
+  .gtm-playbook s { animation: none; }
+}
+
+/* Short desktop screens keep the pin with tighter type. */
+@media (min-width: 900px) and (max-height: 860px) {
+  .gtm-plan-list li { padding: 8px 0; font-size: 15px; }
+  .gtm-plan-mapped li { gap: 1px; }
+  .plan-days li { height: 24px; }
+  .mm-site .role-cell { min-height: 92px; padding: 11px 14px; }
+}
+@media (min-width: 900px) and (max-height: 760px) {
+  .mm-site .gtm-rail-step { min-height: 52px; }
+  .mm-site .gtm-felt { font-size: clamp(32px, 3.6vw, 56px); }
+  /* A laptop screen holds the whole team: less air, the same content. */
+  .gtm-team .gtm-stage-body { padding-block: 14px; row-gap: 16px; }
+  .mm-site .gtm-team-head h2 { max-width: 16ch; font-size: clamp(30px, 3vw, 44px); }
+  .team-instrument { padding: 12px; gap: 10px; }
+  .team-board { gap: 6px; }
+  .team-bus { height: 14px; margin-block: -6px 0; }
+  .mm-site .role-cell { min-height: 0; padding: 10px 14px; }
+  .role-layer { gap: 4px; }
+  .role-title { font-size: clamp(18px, 1.4vw, 21px); }
+  .role-line { font-size: 13px; line-height: 1.35; }
+  .decision-panel { padding: 14px 18px; gap: 8px; }
+  .decision-panel .decision-copy { gap: 8px; }
+  .mm-site .decision-panel h3,
+  .decision-sizer-q { font-size: clamp(20px, 1.7vw, 24px); }
+  .gtm-decision-note { font-size: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gtm-stage,
+  .gtm-step,
+  .gtm-step[data-active="false"],
+  .gtm-lever-was s,
+  .gtm-lever-now,
+  .role-layer,
+  .role-cell::before,
+  .gtm-team-tally > span,
+  .mm-site .gtm-rail-step,
+  .mm-site .role-cell,
+  .plan-days li,
+  .gtm-door,
+  .gtm-door-mark { transition: none; }
+  .gtm-step[data-active="false"] { transform: none; }
+  .gtm-playbook s { animation: none; }
+}

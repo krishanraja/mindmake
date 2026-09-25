@@ -5,9 +5,8 @@ import { resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { createHash } from "node:crypto";
 import { sourceHashBytes } from "../lib/source-hash.mjs";
+import { lockPath as manifestPath, root } from "../lib/route-lock.mjs";
 
-const root = resolve(import.meta.dirname, "../..");
-const manifestPath = resolve(root, "quality/route-lock/approved-production-r47.json");
 const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 for (const extension of ['.svg', '.xml', '.webmanifest']) {
@@ -24,13 +23,17 @@ const valid = spawnSync(process.execPath, [resolve(root, "scripts/qa/approved-ro
   encoding: "utf8",
   env: { ...process.env, MINDMAKE_ROUTE_LOCK_MANIFEST: manifestPath },
 });
-if (valid.status !== 0) throw new Error('The current unmodified manifest must pass before its negative control is meaningful');
+if (valid.status !== 0) throw new Error('The current unmodified lock must pass before its negative control is meaningful');
+// The committed lock must be exactly what the generator writes, so nobody can
+// hand-edit it into a shape the generator would not produce.
+const regenerated = spawnSync(process.execPath, [resolve(root, "scripts/qa/approved-route-lock-update.mjs"), "--check"], { cwd: root, encoding: "utf8" });
+if (regenerated.status !== 0) throw new Error(`The committed lock is not what the generator produces: ${regenerated.stderr}`);
 const [firstPath] = Object.keys(manifest.files);
 manifest.files[firstPath] = "0".repeat(64);
 
 const output = resolve(tmpdir(), "mindmake-route-lock-self-test");
 await mkdir(output, { recursive: true });
-const badManifest = resolve(output, "approved-production-r47-bad.json");
+const badManifest = resolve(output, "approved-production-bad.lock.json");
 await writeFile(badManifest, `${JSON.stringify(manifest, null, 2)}\n`);
 
 const result = spawnSync(process.execPath, [resolve(root, "scripts/qa/approved-route-lock-check.mjs")], {
@@ -50,7 +53,7 @@ const unanchored = JSON.parse(await readFile(manifestPath, "utf8"));
 delete unanchored.minimumContracts.gtm.signals;
 delete unanchored.minimumContracts.gtm.responseChoices;
 delete unanchored.minimumContracts.gtm.citedSignals;
-const unanchoredManifest = resolve(output, "approved-production-r47-unanchored.json");
+const unanchoredManifest = resolve(output, "approved-production-unanchored.lock.json");
 await writeFile(unanchoredManifest, `${JSON.stringify(unanchored, null, 2)}\n`);
 const unanchoredResult = spawnSync(process.execPath, [resolve(root, "scripts/qa/approved-route-lock-check.mjs")], {
   cwd: root,
@@ -62,4 +65,4 @@ if (unanchoredResult.status === 0 || !unanchoredResult.stdout.includes("neither 
   process.exit(1);
 }
 
-console.log(JSON.stringify({ artifact: "approved-route-lock-self-test", failClosed: true, detectedDrift: firstPath, refusedUnanchoredGtm: true }, null, 2));
+console.log(JSON.stringify({ artifact: "approved-route-lock-self-test", failClosed: true, generatorReproducesLock: true, detectedDrift: firstPath, refusedUnanchoredGtm: true }, null, 2));

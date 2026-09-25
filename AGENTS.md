@@ -32,7 +32,8 @@ an immutable recovery baseline, not the latest approval status. Preserve the R3
 source and generate the homepage delivery adapter with
 `node scripts/qa/build-homepage-release.mjs`; never reconstruct it from memory.
 Before merging, run `npm run qa:homepage-release:pre-merge` (Chromium only) against
-the built candidate and `node scripts/qa/website-feedback-ledger-check.mjs --release`.
+the built candidate. The feedback ledger is a record, not a merge gate: an open item
+never blocks a branch.
 Firefox and WebKit are never pre-merge requirements: `qa:homepage-release` across
 all three engines and `qa:release-routes` run on main after the merge. Scroll-build evidence must show actual states, pin geometry, reverse
 progression and exits. An entrance animation or still screenshot is not proof.
@@ -43,7 +44,10 @@ ambient-server URL. The only review route is
 That command must fail closed unless the exact integrated bytes have current readiness,
 continuity, reconciled-feedback and independent-specialist receipts. Component galleries,
 iframe assemblies, parity harnesses and static frame collections are reference material,
-not review candidates.
+not review candidates. A reviewer who cannot reach the local presenter (Krish on a phone,
+reviewing a cloud session) is shown the protected Vercel preview of the commit whose bytes
+the receipts identify, and only after `npm run qa:material-review -- <candidate.json> --issue <receipt>`
+has passed for that candidate; record the deployment, URL and commit beside the receipt.
 
 This repository's own rules and deeper state: `CLAUDE.md`, `project-documentation/06_CURRENT_STATE.md`. They outrank the
 canon below on anything specific to this repository.

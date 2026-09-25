@@ -40,12 +40,18 @@ Node22.x >=22.18 and npm ci. Required gates:
 
 - qa:approved-routes and qa:approved-routes:self-test.
 - qa:homepage-handoff, qa:website-feedback, qa:material-review:self-test.
+  The feedback ledger is a record, not a merge gate: qa:website-feedback checks
+  its shape, and an open item never blocks a branch (Krish, 2026-09-25).
 - qa:plain-language, typecheck, lint, full unit suite and build.
 - qa:line-breaks on the built site: no lone word or link on its own line, and
   no text cut off by an edge that hides it, at 1440x900 or 390x844 (Krish,
   2026-09-25).
 - qa:homepage-release:pre-merge: rendered scroll/fallback states and negative
   controls, Chromium only.
+
+Run the required gates and nothing more. No AI review rounds (review skills,
+reviewer subagents, Claude Code Review or Copilot requests) unless Krish asks
+for one (Krish, 2026-09-25).
 
 Firefox and WebKit are NOT pre-merge requirements, in any script. Ruling
 (Krish, 2026-09-25): Chromium alone gates a branch. Do not install, run or wait
@@ -67,7 +73,11 @@ Local static preview uses /path/ for its prerendered file, not SPA fallback;
 production canonical remains /path. Use the QA URL helper. Source/build identity
 and real displayed state must bind every release receipt. Failed runs stay failed.
 Fix measurement bugs with evidence/negative controls, not lowered thresholds.
-Approved-file edits require a new declared manifest revision, not silent rehashes.
+Locked files are hashed in quality/route-lock/approved-production.lock.json,
+which only npm run qa:approved-routes:update writes. Regenerate it in the
+commit that makes an intended edit and say why there; never regenerate to
+absorb an edit you did not mean. On a lock conflict, take either side and
+regenerate. The numbered manifests r1 to r46 are frozen history.
 
 ## Release and external actions
 

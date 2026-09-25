@@ -33,8 +33,11 @@ normalizes it and exact configuration bytes are release-bound.
   For a local Vite built preview only, add `--directory-index` to inspect the
   generated per-route HTML rather than its clean-path SPA fallback. That mode
   is loopback-only. Production checks must use actual clean URLs without it.
-- Permitted changes to locked files need a declared new manifest revision,
-  never overwriting an approval or silently rehashing unrelated edits.
+- Permitted changes to locked files are declared by regenerating
+  `quality/route-lock/approved-production.lock.json` with
+  `npm run qa:approved-routes:update` in the same commit, which says why.
+  Never regenerate to absorb an unintended edit. The numbered manifests
+  r1 to r46 are frozen history and are never rewritten.
 
 ## Browser and journey gates
 

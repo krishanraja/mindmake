@@ -32,7 +32,8 @@ an immutable recovery baseline, not the latest approval status. Preserve the R3
 source and generate the homepage delivery adapter with
 `node scripts/qa/build-homepage-release.mjs`; never reconstruct it from memory.
 Before merging, run `npm run qa:homepage-release:pre-merge` (Chromium only) against
-the built candidate and `node scripts/qa/website-feedback-ledger-check.mjs --release`.
+the built candidate. The feedback ledger is a record, not a merge gate: an open item
+never blocks a branch.
 Firefox and WebKit are never pre-merge requirements: `qa:homepage-release` across
 all three engines and `qa:release-routes` run on main after the merge. Scroll-build evidence must show actual states, pin geometry, reverse
 progression and exits. An entrance animation or still screenshot is not proof.

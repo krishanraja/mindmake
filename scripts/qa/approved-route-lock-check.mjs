@@ -1,25 +1,18 @@
 #!/usr/bin/env node
-import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { sourceHashBytes } from "../lib/source-hash.mjs";
+import { hashLockedFile, lockPath } from "../lib/route-lock.mjs";
 
-const root = resolve(import.meta.dirname, "../..");
+// The generated lock by default; a frozen numbered manifest only when named.
 const manifestPath = process.env.MINDMAKE_ROUTE_LOCK_MANIFEST
   ? resolve(process.env.MINDMAKE_ROUTE_LOCK_MANIFEST)
-  : resolve(root, "quality/route-lock/approved-production-r46.json");
+  : lockPath;
 const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
 const failures = [];
 const sources = new Map();
-const sha256 = (content) => createHash("sha256").update(content).digest("hex");
 
 for (const [relativePath, approvedHash] of Object.entries(manifest.files)) {
-  const content = await readFile(resolve(root, relativePath));
-  // Git checkouts differ in line endings across Windows and Linux. Only a
-  // manifest explicitly opting in uses LF-canonical text; binary assets stay
-  // byte-exact, and historic manifests retain their original hash semantics.
-  const hashContent = sourceHashBytes(relativePath, content, manifest);
-  const actualHash = sha256(hashContent);
+  const { content, hash: actualHash } = await hashLockedFile(relativePath, manifest);
   sources.set(relativePath, content.toString("utf8"));
   if (actualHash !== approvedHash) failures.push(`${relativePath}: approved ${approvedHash}, found ${actualHash}`);
 }
@@ -74,8 +67,12 @@ for (const phrase of manifest.forbiddenPhrases) {
   if (publicRouteText.includes(phrase.toLowerCase())) failures.push(`Forbidden phrase returned: ${phrase}`);
 }
 
+if (failures.length && manifestPath === lockPath) {
+  failures.push("If these edits were intended, run npm run qa:approved-routes:update and commit the lock with them.");
+}
+
 console.log(JSON.stringify({
-  artifact: manifest.artifact,
+  lock: manifestPath === lockPath ? "quality/route-lock/approved-production.lock.json" : manifest.artifact,
   lockedFiles: Object.keys(manifest.files).length,
   brain: { meanings: brain.items.length, relationships: brain.relationships.length, sources: brain.sources.length, corrections: brain.corrections.length },
   gtm: { signals: signals.length, responseChoices: signals.reduce((total, signal) => total + signal.responses.length, 0) },

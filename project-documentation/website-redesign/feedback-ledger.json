@@ -485,6 +485,40 @@
         "quality/route-lock/approved-production-r42.json",
         "Built-site scans and screenshots at 1800 and 390 reviewed."
       ]
+    },
+    {
+      "id": "AI-BRAIN-NARRATIVE-001",
+      "exactFeedback": "I find the AI brain page a little boring and uninspiring. I also feel like it's not as relatable as to why this approach is a good one (its portable, its private and belongs to the individual, and it's designed for the leaders that have high standards and unique perspectives - they can clone themselves, amplify their strengths, level out their weaknesses, and level themselves up so they can level their business up - which is why GTM falls out of Brain). https://www.apostra.ai/ has quite a good narrative on its landing page, and it feels like it speaks TO the user directly, as opposed to just being a product showcase with facts everywhere. In terms of the animations I would be happy to preserve, they are in the two screen shots attached as well as the hero section video. I'd like you to work through the positioning with me here - this is a critically important task and so i expect you to treat it with utmost care and thoughtfulness - this is a matter of taste. Do not violate the current design system or aesthetic.",
+      "source": "Krish, 25 September 2026, with screenshots of the /ai-brain living record and constellation, and an Apostra vs CTRL comparison table",
+      "surface": "/ai-brain",
+      "section": "Whole page narrative",
+      "device": "desktop and mobile",
+      "element": "hero copy, chapter sequence, chapter copy and the instruments between the hero and the pairing card",
+      "classification": "preference",
+      "requiredOutcome": "The page speaks to the leader and carries why the Brain is right for them: private, portable and theirs; for leaders with high standards and a point of view; their strengths amplified, blind spots covered and bar raised; the business and its GTM following. The hero film, the constellation and the living record are kept; the design system is unchanged.",
+      "acceptanceTest": "Krish reviews the rendered desktop and mobile candidate (BRAIN-NARRATIVE-S4) and accepts it. Mechanically: the Brain structure and voice tests pass, qa:line-breaks passes at 1440x900 and 390x844, and every stepped instrument builds forward and back and shows whole without script or motion.",
+      "status": "implemented-awaiting-review",
+      "resolution": "Candidate BRAIN-NARRATIVE-S4 r1: prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html, src/styles/mindmake-brain-narrative.css and src/components/mindmake/locked/scrollSequence.ts; the source-check and correction chapters retired; hero film, constellation and living record carried over.",
+      "evidence": [
+        "quality/route-lock/candidate-production-r6.json"
+      ]
+    },
+    {
+      "id": "AI-BRAIN-VOICE-001",
+      "exactFeedback": "Every public section teaches something useful... Never: em dashes... 'Not an agency. Not a coach.' and every other 'not X, but Y' antithesis. Avoid as public framing: 'AI literacy', 'AI fluency'... (01_CANON.md voice rules, applied to copy already live on /ai-brain)",
+      "source": "Canon voice rules found breached on /ai-brain during the AI-BRAIN-NARRATIVE-001 work, 25 September 2026",
+      "surface": "/ai-brain",
+      "section": "Constellation and living record",
+      "device": "desktop and mobile",
+      "element": "BI-006 and BI-020 plain statements, the BI-012 title, the SRC-001 evidence line and the REL-005 and REL-015 connection lines",
+      "classification": "correction",
+      "requiredOutcome": "No banned framing ('agentic', 'AI fluency') and no 'not X' antithesis in any line the constellation or the living record shows, with each line's meaning kept.",
+      "acceptanceTest": "The live Brain voice block in src/test/brief2-public-contract.test.ts passes over the Brain page, its markup and the fixture's displayed fields.",
+      "status": "implemented-awaiting-review",
+      "resolution": "BI-006 drops ', not defend the old one'; BI-020 'more agentic' becomes 'more decisive'; BI-012 'Builder, not persuader' becomes 'Leaders ready to move'; SRC-001 'AI fluency begins' becomes 'Using AI well begins'; REL-005 and REL-015 lose their 'not only' contrasts.",
+      "evidence": [
+        "src/test/brief2-public-contract.test.ts"
+      ]
     }
   ]
 }

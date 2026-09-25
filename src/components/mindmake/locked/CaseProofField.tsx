@@ -86,6 +86,14 @@ function scopeCss(source: string, root: string) {
   };
   return `${transform(withoutFonts)}
 ${root} .site-head-space{min-height:var(--mm-header-height)}
+/* The header is fixed, so any scroll the browser performs on our behalf --
+   focusing a control, following an anchor, an engine scrolling an element into
+   view before a tap -- can land a control underneath it. At a short landscape
+   viewport that is exactly what happens to the rail dock: it is on screen, the
+   browser scrolls it to the top of the page, and the masthead is then over it.
+   Reserving the measured header height as scroll margin makes those scrolls
+   stop below the chrome instead of behind it. */
+${root} .region,${root} .mobile-dock,${root} .mobile-dock button,${root} .expanded{scroll-margin-top:calc(var(--mm-header-height) + 12px)}
 ${root} .proof-shell{grid-template-rows:var(--mm-header-height) auto minmax(0,1fr)}
 ${root} .field-intro{grid-template-columns:minmax(0,1fr)}
 @media(min-width:861px){

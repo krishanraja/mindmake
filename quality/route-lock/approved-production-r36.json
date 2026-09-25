@@ -1,7 +1,7 @@
 {
   "artifact": "mindmake-approved-production-routes-r36",
   "recordedAt": "2026-09-25",
-  "status": "Owner-directed correction: a figure with no endpoint labels renders no label row.",
+  "status": "Owner-directed correction: a figure with no endpoint labels renders no label row, and the field reserves the fixed header as scroll margin so a control the browser scrolls into view does not land behind it.",
   "scopeRequested": "Suppress the figure label row when a record carries no endpoint labels.",
   "sessionDecisions": [
     "The three sections are carried whole, as /new-age-leadership has them, including each one's first state: the reach sequence opens on \"The feeling is familiar. The reach is new.\" before \"The organisation changes shape.\", and the practice sequence runs Notice, Connect, Prepare.",
@@ -49,7 +49,7 @@
     "src/styles/new-age-leadership-r5.css": "fd3b442e93674e9d3e1cb422cc0d16903a2e747bbb1d62d3fd7d78d2df374ace",
     "src/components/mindmake/locked/CommercialDecisionBalance.tsx": "f57849b19f5d15ecb5e9fd664833cfcf0d5e07bbd355d71656c243ac5c2a3410",
     "src/styles/mindmake-commercial-decision-balance.css": "a2fb68466e0835aa4023a2c503c92e66cea3465ac94fdec5ce4d43ec37af3554",
-    "src/components/mindmake/locked/CaseProofField.tsx": "63b9c52e405811c3d2ac3564a3e09613c67e99473a90c34211d49306409a485d",
+    "src/components/mindmake/locked/CaseProofField.tsx": "95eaa1afceea8f82bb187c0ddfe9506e71de840315383b6509cabab716baf5a0",
     "src/pages/CaseStudies.tsx": "6f98157401aeb3d9beff18b8ec17fc167971b6fdf29b80ee5f3e5b3223866f98",
     "src/styles/mindmake-instruments.css": "d5a358250a736c65011e08bd3221195acb02b9937049d1a11acfb7d7a213f03d",
     "src/pages/Index.tsx": "c13f6d753acf1747155e6a4a533fdb4dce17fed6d8764566dcc31e2338b7e0a5",

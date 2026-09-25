@@ -309,8 +309,16 @@
     "price the result"
   ],
   "verification": {
-    "status": "Pending: filled from the verification run on the final candidate.",
-    "performed": []
+    "status": "Pre-merge verification on the merged tree (main r44 merged in), candidate ai-gtm-r45 sha256 9815162a56f19c12acb760a0440395f21c8acf655bfba5f079e72e2f4e84ceb8, Chromium only per the 2026-09-25 ruling.",
+    "performed": [
+      "typecheck, lint (0 errors, 3 pre-existing warnings), full unit suite 599/599, npm run build",
+      "qa:approved-routes, qa:approved-routes:self-test, qa:homepage-handoff, qa:website-feedback, qa:material-review:self-test, qa:plain-language, qa:docs, build-homepage-release --check",
+      "qa:line-breaks at 1440x900 and 390x844: no failures",
+      "qa:homepage-release:pre-merge (Chromium): 7 cases, no failures",
+      "qa:nojs: 5 pages, 21 answers present, nothing clipped; qa:oneway on a script-started preview: 10 page/width pairs; qa:logo-alignment: 565 edges on the wordmark",
+      "scripts/qa/ai-gtm-scroll-build-check.mjs --candidate quality/ai-gtm/material-review-candidate-r45.json: 13 viewports forward and reverse, no clipping at 12 fit sizes for both doors and every seat, WCAG 1.4.12 text spacing, rail hold, reduced motion, no-JS, negative control; 0 failures (artifacts/ai-gtm/scroll-build/report.json)",
+      "Not done before merge: the second independent review round was stopped when Krish instructed the merge; the post-merge three-engine matrix runs on main."
+    ]
   },
   "supersedes": {
     "path": "quality/route-lock/approved-production-r44.json",

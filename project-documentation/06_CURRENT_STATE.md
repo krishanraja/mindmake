@@ -305,7 +305,12 @@ owns payload, privacy, retention, email and failure-path contracts.
 - The homepage opening hero plays the Archive Engine loop
   (`src/assets/films/sep2026/archive-engine-hero-loop-r04-16s-1080p-web-sealed.mp4`)
   with its own WebP poster; the route stage keeps `film-02`. Recorded in
-  `quality/route-lock/approved-production-r40.json`.
+  `quality/route-lock/approved-production-r40.json`. Merged as PR #195,
+  commit `08c7434`. Main's post-merge matrix on that commit passed on
+  Chromium, Firefox and WebKit. Production read back on 25 September 2026 at
+  about 08:30 UTC: `/` serves the Archive Engine MP4 in both opening
+  variants (200, `video/mp4`, 3,641,185 bytes) and `film-02-loop` only on the
+  route stage.
 - Conversion flow, page changes and line breaks: recorded in
   `quality/route-lock/approved-production-r38.json`, merged as PR #189,
   commit `94d1524`. Main's post-merge matrix on that commit passed on

@@ -323,14 +323,13 @@ owns payload, privacy, retention, email and failure-path contracts.
   route headline is set small enough on phones for "judgement reusable." to
   fit, and the phone footer lays its links in two even columns.
   Recorded in `quality/route-lock/approved-production-r42.json`.
-- The homepage opening hero selects the Archive Engine r06 loop
-  (`src/assets/films/sep2026/archive-engine-hero-loop-r06-16s-720p-web-sealed.mp4`)
-  with its own WebP poster; the route stage keeps `film-02`. The 16.5-second
-  deterministic cycle opens the drawer before any machinery moves, stamps
-  the paper, moves it on constrained guides through the real drawer opening,
-  closes the drawer and returns to the identical start frame. Recorded in
-  `quality/route-lock/approved-production-r44.json`. The prior r04 package and
-  its PR #195 production receipt remain historical provenance only.
+- The homepage opening hero selects the recoverable Archive Engine r04 loop
+  (`src/assets/films/sep2026/archive-engine-hero-loop-r04-16s-1080p-web-sealed.mp4`)
+  with its own WebP poster; the route stage keeps `film-02`. Recorded in
+  `quality/route-lock/approved-production-r45.json`. Krish rejected the r06
+  local Blender render after seeing the moving result and ordered its complete
+  removal from the repository. r06 is not an approved visual reference and
+  consumed no Higgsfield generative-video credits.
 - Refinements across `/ai-brain`, `/ai-gtm`, `/`, `/case-studies`, `/answers`
   and `/blog`, from Krish's phone review on 25 September 2026. Recorded in
   `quality/route-lock/approved-production-r43.json`, which lists each change.

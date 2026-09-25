@@ -35,7 +35,7 @@ One section carries one intelligible idea. A pinned chapter can use extra scroll
 
 The existing system uses ink, raised ink and paper, mint for the selected/answer state and amber for changed/evidence accents. Shared tokens live in `src/styles/mindmake.css`; the approved homepage has its own compiled component styles. Read those actual sources rather than treating an older hexadecimal table as authority to repaint R3.
 
-The self-hosted faces are Archivo, Newsreader, IBM Plex Mono and Source Serif 4. Typeface role and scale in the approved composition are locked. Structural introductory copy and expressive story questions must remain visibly differentiated; a generic “serif only three times” rule must not overwrite the accepted serif headings.
+The self-hosted faces are Archivo, Newsreader, IBM Plex Mono and Source Serif 4. Every page uses the AI Brain page's type system (Krish, 2026-09-25): light Newsreader for headlines, Archivo for body and actions, IBM Plex Mono 400 for labels. The shell carries it through `--mm-body` and the `.mm-site` heading default in `src/styles/mindmake.css`, so a page gets it without its own rules. Source Serif 4 is kept only for the private brief document's brand line and is not a page face. Typeface role and scale in the approved composition are locked. Structural introductory copy and expressive story questions must remain visibly differentiated; a generic “serif only three times” rule must not overwrite the accepted serif headings.
 
 Ground-aware colors must remain readable on both ink and paper. Mint as a filled surface is distinct from mint as text. Meaningful body text meets AA contrast; small labels are not exempt. Source labels and consent/error copy must not become faint decorative captions.
 

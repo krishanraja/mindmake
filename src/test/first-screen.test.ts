@@ -218,7 +218,8 @@ describe("the first screen's own files, asked for before the stylesheet", () => 
     }
     expect(mindmakeCss).toContain('--mm-grotesque: "Archivo Variable", "Archivo Fallback"');
     expect(mindmakeCss).toContain('--mm-serif: "Newsreader Variable", "Newsreader Fallback"');
-    expect(mindmakeCss).toContain('--mm-body: "Source Serif 4 Variable", "Source Serif Fallback"');
+    /* Body is Archivo: the AI Brain page's system is the site's (Krish, 2026-09-25). */
+    expect(mindmakeCss).toContain("--mm-body: var(--mm-grotesque);");
     expect(mindmakeCss).toContain('--mm-mono: "IBM Plex Mono", "Plex Mono Fallback"');
   });
 });

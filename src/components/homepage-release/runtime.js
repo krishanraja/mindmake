@@ -129,7 +129,6 @@ export function mountHomepageRuntime(root, { onStart }) {
     }
     if (shouldScroll) scope("route").scrollIntoView({ behavior: reducedMotion.matches ? "auto" : "smooth", block: "start" });
   };
-  within("opening", "[data-route-choice]").forEach((button) => listen(button, "click", () => selectRoute(button.dataset.routeChoice, true, true)));
   within("route", "[data-route-toggle]").forEach((button) => listen(button, "click", () => {
     selectRoute(selectedRoute === "brain" ? "gtm" : "brain", false, true);
   }));

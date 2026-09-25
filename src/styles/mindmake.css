@@ -858,6 +858,48 @@ html {
 }
 .mm-footer small { color: var(--mm-mut); font-family: var(--mm-mono); font-size: 10.5px; letter-spacing: .05em; }
 
+/* "Subscribe for free": the badge beside Media in the menu and the footer's
+   one quiet way to stay close (Krish, 2026-09-25). Both are hairline mint, a
+   step below the brief's filled mint in weight, so the two never compete.
+   The badge is generated content so the link's text stays the approved
+   "Media"; ::before because ::after is the route's ↗, and `order` puts it
+   after the label in the link's flex row. The homepage's generated menu and
+   footer carry the same two in src/components/homepage-release/integration.css. */
+.mm-menu-routes a.mm-route-badged::before {
+  content: attr(data-badge);
+  order: 1;
+  margin-left: .75em;
+  padding: .42em .7em .36em;
+  color: #9df0c8;
+  border: 1px solid rgba(157, 240, 200, .45);
+  border-radius: 999px;
+  font: 600 10px/1 var(--mm-grotesque);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.mm-subscribe-cta {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: .5em;
+  min-height: 44px;
+  padding: 0 1em;
+  color: var(--mm-mint);
+  border: 1px solid color-mix(in srgb, var(--mm-mint) 45%, transparent);
+  font-family: var(--mm-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  touch-action: manipulation;
+  transition: background-color .12s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .mm-subscribe-cta:hover { background: color-mix(in srgb, var(--mm-mint) 8%, transparent); }
+}
+
 /* The way in, pinned to the bottom of the screen.
    Owned here rather than in mindmake-instruments.css, which only /case-studies
    imports: on every other shell route the component used to ship with no CSS at

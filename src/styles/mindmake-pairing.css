@@ -1,0 +1,64 @@
+/* The foot of both offer pages: the other page, then the brief. It sits on
+   the pages' own dark ground with one hairline above it, aligned to the same
+   gutter as the logo, so it reads as the page concluding rather than as a
+   new band arriving. */
+.mm-pairing {
+  border-top: 1px solid rgba(157, 240, 200, .18);
+  background: #07110e;
+  color: #eee2cc;
+}
+.mm-pairing-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, .8fr);
+  align-items: end;
+  gap: 32px clamp(32px, 6vw, 96px);
+  padding: clamp(56px, 7vw, 104px) var(--mm-header-inline, var(--mm-edge)) clamp(52px, 6vw, 88px);
+}
+.mm-pairing h2 {
+  max-width: 20ch;
+  margin: 0;
+  color: #eee2cc;
+  font-family: var(--mm-serif);
+  font-weight: 400;
+  font-size: clamp(32px, 3.6vw, 56px);
+  line-height: .98;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+.mm-pairing p {
+  max-width: 52ch;
+  margin: 18px 0 0;
+  color: #b9b1a2;
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: 1.5;
+}
+.mm-pairing-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .6em;
+  min-height: 44px;
+  margin-top: 16px;
+  color: #9df0c8;
+  font-family: var(--mm-serif);
+  font-size: clamp(19px, 1.5vw, 23px);
+  letter-spacing: -.01em;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .28em;
+  text-decoration-color: rgba(157, 240, 200, .4);
+  transition: text-decoration-color .15s ease;
+}
+.mm-pairing-link span { transition: transform .2s cubic-bezier(.2, .7, .2, 1); }
+@media (hover: hover) and (pointer: fine) {
+  .mm-pairing-link:hover { text-decoration-color: currentColor; }
+  .mm-pairing-link:hover span { transform: translateX(3px); }
+}
+.mm-pairing-link:focus-visible,
+.mm-pairing .mm-button:focus-visible { outline: 3px solid #eee2cc; outline-offset: 3px; }
+.mm-pairing-start { justify-self: end; }
+.mm-pairing .mm-button { min-height: 54px; padding-inline: 24px; }
+@media (max-width: 760px) {
+  .mm-pairing-inner { grid-template-columns: 1fr; align-items: start; }
+  .mm-pairing-start { justify-self: stretch; }
+  .mm-pairing .mm-button { width: 100%; }
+}

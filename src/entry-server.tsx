@@ -7,6 +7,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { CookieConsent } from "@/components/CookieConsent";
 import { SEOCollector, type SEOProps } from "@/lib/seoCollector";
 import { PageLoading, ScrollToLocation } from "@/App";
+import { RouteTransitions } from "@/components/RouteTransitions";
 
 /* Eagerly, and this is the whole reason this file exists rather than reusing
    App.tsx directly. `App` loads every page but the homepage through
@@ -110,6 +111,7 @@ export function renderWithMetadata(path: string): { body: string; metadata: SEOP
             them, so a wrapper added to one and not the other fails a test
             rather than a page. */}
         <ScrollToLocation />
+        <RouteTransitions />
         <ErrorBoundary>
           <Suspense fallback={<PageLoading />}>
             <SiteRoutes />

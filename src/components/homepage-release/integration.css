@@ -41,7 +41,7 @@ body.mm-homepage-active { margin: 0; }
 }
 .mm-homepage-release .r3-opening,
 .mm-homepage-release .r3-opening .hero-lede,
-.mm-homepage-release .r3-opening .route-doors button,
+.mm-homepage-release .r3-opening .route-doors a,
 .mm-homepage-release .r3-opening .shared-proof,
 .mm-homepage-release .r3-navigation .start-action,
 .mm-homepage-release .r3-navigation .secondary-routes a,
@@ -216,3 +216,45 @@ body.mm-homepage-active { margin: 0; }
   from { opacity: .88; transform: scale(1.028); }
   to { opacity: 1; transform: none; }
 }
+
+/* The hero doors are links to their pages now (Krish, 2026-09-25). They keep
+   the approved door composition; only a link's own defaults are undone. */
+.mm-homepage-release .r3-opening .route-doors a { text-decoration: none; cursor: pointer; }
+.mm-homepage-release .r3-opening .route-doors a:focus-visible { outline: 3px solid var(--paper); outline-offset: 3px; }
+.mm-homepage-release .r3-opening .route-doors a:hover { border-color: rgba(157, 240, 200, 0.55); }
+
+/* "Subscribe for free" beside Media. Generated content, so the link's text
+   stays the approved "Media" and the badge still reads as part of its name.
+   ::before because ::after is the route's ↗; `order` puts it after the label
+   in the link's flex row. A hairline pill rather than a filled one: it sits
+   below the brief's mint button in weight, never beside it. */
+.mm-homepage-release .mm-route-badged::before {
+  content: attr(data-badge);
+  order: 1;
+  margin-left: 0.75em;
+  padding: 0.42em 0.7em 0.36em;
+  color: #9df0c8;
+  border: 1px solid rgba(157, 240, 200, 0.45);
+  border-radius: 999px;
+  font: 600 10px/1 var(--r3-sans);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* The footer's one quiet way to stay close. */
+.mm-homepage-release .r3-footer .mm-subscribe-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  width: max-content;
+  margin-top: clamp(12px, 1vw, 16px);
+  padding: 0.7em 1em;
+  color: #9df0c8;
+  border: 1px solid rgba(157, 240, 200, 0.45);
+  font: 600 11px/1 var(--r3-sans);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.mm-homepage-release .r3-footer .mm-subscribe-cta:hover { background: rgba(157, 240, 200, 0.08); }

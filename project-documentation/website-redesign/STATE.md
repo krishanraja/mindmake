@@ -22,6 +22,16 @@ Krish approved R3 on 24 September 2026 and authorised publication after end-to-e
 - `quality/website-redesign/homepage-handoff.v1.json` preserves the earlier recovery baseline. It is subordinate to this accepted R3 state, not permission to restore an obsolete homepage.
 - The historical r1 source-parity findings are not the current production-source verdict. Do not substitute a candidate manifest to bypass an approved-source failure.
 
+## Visitor flow and page changes
+
+Krish set these on 25 September 2026; `quality/route-lock/approved-production-r33.json` records them.
+
+- Three intents, three names, one of each on every CTA. **Get your free AI brief** (`START_LABEL`) is for a reader who is ready and opens the brief. **Build your AI brain** and **Build your AI GTM** are for a reader who is exploring and go to `/ai-brain` and `/ai-gtm`. **Subscribe for free** (`SUBSCRIBE_LABEL`) is for a reader who is not ready and opens the publication's subscribe form.
+- The homepage hero doors are links to their pages. The generator converts them in `scripts/qa/build-homepage-release.mjs`; the R3 source is unchanged. The closing chapter keeps its own AI Brain or AI GTM toggle and the brief.
+- Both offer pages end with `PairingBridge`: the other page (the brain enables the GTM; the GTM runs better on a brain) beside the brief, pre-routed. Its brief button is `data-mm-primary`, so the action bar stands down and one way in holds.
+- Subscribing appears in three places: a hairline badge beside Media in both menus, a footer button, and the brief's success step. There is no band, pop-up or modal. It never outweighs the brief's filled mint.
+- Page changes use the ruled line (`src/components/RouteTransitions.tsx`). Same-origin links stay in the app, the next page's code is fetched before the swap, and a mint hairline sets the new page in over about 560ms. Back and Forward restore the reader's scroll position. Reduced motion and browsers without view transitions get the same navigation with no animation. The component renders nothing, so hydration is unchanged.
+
 ## Non-regression contract
 
 1. History retains four reversible states: Writing, the engine loom, the calculator and satnav. Leadership dividend retains five stages: Notice, Connect, Prepare, What becomes possible and The returned hour.

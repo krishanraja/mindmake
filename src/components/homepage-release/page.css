@@ -23,7 +23,7 @@ body.mm-homepage-active.navigation-open{overflow:hidden}
 .r3-opening .preview-desktop .hero-stage,.r3-opening .preview-mobile .hero-stage{inset:var(--masthead) 0 0!important}
 .r3-opening .hero-copy h1{max-width:10.5ch;margin:0;color:var(--paper);font:400 clamp(42px,5vw,76px)/.91 Newsreader,Georgia,serif;letter-spacing:-.055em;text-wrap:balance}
 .r3-opening .menu-control,.r3-navigation .menu-control{min-width:44px;min-height:44px;border:0;background:transparent;cursor:pointer}
-.r3-opening .route-doors button,.r3-mode-switch button,.r3-authority [data-stage],.r3-history [data-era],.r3-dividend [data-practice],.r3-dividend [data-benefit-prev],.r3-dividend [data-benefit-next]{min-width:44px;min-height:44px}
+.r3-opening .route-doors a,.r3-mode-switch button,.r3-authority [data-stage],.r3-history [data-era],.r3-dividend [data-practice],.r3-dividend [data-benefit-prev],.r3-dividend [data-benefit-next]{min-width:44px;min-height:44px}
 .r3-authority .capability-instrument header b{font-size:clamp(11px,.82vw,13px)!important}
 .r3-authority .organisation-grid small{font-size:clamp(9px,.68vw,11px)!important}
 .r3-opening button:focus-visible,.r3-navigation a:focus-visible,.r3-navigation button:focus-visible,.r3-mode-switch button:focus-visible,.r3-section [data-era]:focus-visible,.r3-section [data-stage]:focus-visible,.r3-section [data-practice]:focus-visible,.r3-section [data-benefit-prev]:focus-visible,.r3-section [data-benefit-next]:focus-visible,.r3-section .primary:focus-visible,.r3-footer a:focus-visible{outline:3px solid var(--paper)!important;outline-offset:3px!important}
@@ -64,7 +64,7 @@ body.mm-homepage-active.navigation-open{overflow:hidden}
   .r3-opening>.r3-variant{height:100dvh;min-height:568px}
   .r3-opening .r3-variant>.site-frame{height:100dvh;min-height:568px}
   .r3-opening .hero-copy h1{max-width:9.5ch;font-size:10.25cqi;line-height:.92}
-  .r3-opening .route-doors button{min-height:58px}
+  .r3-opening .route-doors a{min-height:58px}
   .r3-mode-switch{right:max(12px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom));left:max(12px,env(safe-area-inset-left));max-width:none;overflow-x:auto}
   .r3-mode-switch button{flex:1;min-height:52px;white-space:nowrap;padding-inline:8px;font-size:11px;line-height:1.2}
   .r3-dividend .r3-mode-switch{top:calc(var(--masthead) + 10px);right:12px;bottom:auto;left:12px}
@@ -89,7 +89,7 @@ body.mm-homepage-active.navigation-open{overflow:hidden}
   .r3-opening .preview-desktop .hero-copy h1{max-width:12ch;font-size:clamp(32px,7.2vh,42px);line-height:.92}
   .r3-opening .preview-desktop .hero-lede{margin-top:8px;font-size:12px}
   .r3-opening .preview-desktop .route-doors{margin-top:10px}
-  .r3-opening .preview-desktop .route-doors button{min-height:54px;padding-block:7px}
+  .r3-opening .preview-desktop .route-doors a{min-height:54px;padding-block:7px}
   .r3-opening .preview-desktop .shared-proof{margin-top:8px}
 }
 

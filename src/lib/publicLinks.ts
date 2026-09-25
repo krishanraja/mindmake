@@ -7,6 +7,18 @@
  * site or in generated copy calls it anything else.
  */
 export const PUBLICATION_URL = "https://mindmakerlive.substack.com";
+
+/**
+ * Where every "Subscribe for free" lands: the publication's one-field form,
+ * not its archive. A reader who has just been promised a subscription should
+ * not have to find the box on a page of posts. The form keeps its own "read it
+ * first" way through to the archive for anyone not ready to give an email.
+ *
+ * Subscribing is the site's low-commitment way to stay close. It never
+ * competes with START_LABEL, which is the way in for a reader who is ready.
+ */
+export const SUBSCRIBE_URL = `${PUBLICATION_URL}/subscribe`;
+export const SUBSCRIBE_LABEL = "Subscribe for free";
 export const START_PATH = "/?start=1";
 
 /**
@@ -57,12 +69,14 @@ export const CONTACT_EMAIL = "krish@themindmaker.ai";
  * what they see from /. src/test/primary-routes-parity.test.ts holds the two
  * together.
  */
-export const PRIMARY_ROUTES: ReadonlyArray<{ label: string; href: string; external?: boolean }> = [
+export const PRIMARY_ROUTES: ReadonlyArray<{ label: string; href: string; external?: boolean; badge?: string }> = [
   { label: "Build your AI brain", href: "/ai-brain" },
   { label: "Build your AI GTM", href: "/ai-gtm" },
   { label: "Results", href: "/case-studies" },
   { label: "Thinking", href: "/blog" },
   { label: "Questions leaders ask", href: "/answers" },
   { label: "Before you start", href: "/faq" },
-  { label: "Media", href: PUBLICATION_URL, external: true },
+  /* The label stays the approved "Media"; the badge beside it says what the
+     click gets you (Krish, 2026-09-25). */
+  { label: "Media", href: SUBSCRIBE_URL, external: true, badge: SUBSCRIBE_LABEL },
 ];

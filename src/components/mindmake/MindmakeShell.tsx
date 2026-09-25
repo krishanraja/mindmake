@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useRef, useState } from "react";
 import { MindmakeBrand } from "@/components/mindmake/MindmakeBrand";
 import { SiteActionBar, type ActionBarDoor } from "@/components/mindmake/SiteActionBar";
 import { Link, useLocation } from "react-router-dom";
-import { PRIMARY_ROUTES, PUBLICATION_URL, START_LABEL } from "@/lib/publicLinks";
+import { PRIMARY_ROUTES, START_LABEL, SUBSCRIBE_LABEL, SUBSCRIBE_URL } from "@/lib/publicLinks";
 import { track } from "@/lib/analytics";
 
 interface MindmakeShellProps {
@@ -171,12 +171,14 @@ export function MindmakeShell({
             in, then the legal pair. The start action stays a button because
             off the homepage it opens the brief dialog in place. */}
         <nav className="mm-menu-routes" aria-label="Main navigation">
-          {PRIMARY_ROUTES.map(({ label, href, external }) => external ? (
+          {PRIMARY_ROUTES.map(({ label, href, external, badge }) => external ? (
             <a
               key={href}
               href={href}
               target="_blank"
               rel="noreferrer"
+              className={badge ? "mm-route-badged" : undefined}
+              data-badge={badge}
               onClick={() => track("substack_click", { source: "menu" })}
             >
               {label}
@@ -200,6 +202,17 @@ export function MindmakeShell({
         <div className="mm-container mm-footer-grid">
           <MindmakeBrand compact />
           {!compactFooter && <p>We help leaders keep their edge as AI changes their market, and you keep what it learns.</p>}
+          {/* The footer's one quiet way to stay close, on every page. The
+              brief stays the way in; this is for the reader not ready yet. */}
+          <a
+            className="mm-subscribe-cta"
+            href={SUBSCRIBE_URL}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => track("substack_click", { source: "footer" })}
+          >
+            {SUBSCRIBE_LABEL} <span aria-hidden="true">↗</span>
+          </a>
           <nav aria-label="Footer navigation">
             {!compactFooter && (
               <>
@@ -208,7 +221,7 @@ export function MindmakeShell({
                   : <Link key={href} to={href}>{label}</Link>)}
               </>
             )}
-            {compactFooter && <a href={PUBLICATION_URL} target="_blank" rel="noreferrer">Media</a>}
+            {compactFooter && <a href={SUBSCRIBE_URL} target="_blank" rel="noreferrer">Media</a>}
             <Link to="/contact">Contact</Link>
             <Link to="/privacy">Privacy</Link>
             <Link to="/terms">Terms</Link>

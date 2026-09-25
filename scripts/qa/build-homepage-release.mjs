@@ -5,6 +5,12 @@ import postcss from 'postcss';
 
 // The approved R3 is immutable. This adapter only changes delivery paths,
 // runtime lifecycle and CSS isolation, never approved words or composition.
+//
+// One authorised correction on top of that (Krish, 2026-09-25): the two hero
+// doors promise a page (their ↗ says so) and now are links to it rather than
+// buttons that scrolled to the closing chapter, and Media carries its
+// "Subscribe for free" badge and lands on the subscribe form. Words, order and
+// composition are unchanged; `doors` and `publication` below are the whole of it.
 const repo = process.cwd();
 const source = path.join(repo, 'prototypes/website-redesign-recovery/homepage-production-synthesis-r3');
 const output = path.join(repo, 'src/components/homepage-release');
@@ -33,8 +39,24 @@ const register = value => {
   return assets.get(value).name;
 };
 const body = read('index.html').match(/<body>([\s\S]*?)<script src="\.\/script.js"><\/script>/)[1].trim();
-const markup = body.replace(/<video muted="" loop="" autoplay=""/g, '<video data-mm-poster="true" muted="" loop=""').replace(/(?:src|poster)="(\.\.\/[^\"]+)"/g, (all, value) => all.replace(value, `\${${register(value)}}`));
+const publication = 'https://mindmakerlive.substack.com';
+const subscribe = { href: `${publication}/subscribe`, label: 'Subscribe for free' };
+const doors = { brain: '/ai-brain', gtm: '/ai-gtm' };
+const corrected = body
+  .replace(/<button type="button" data-route-choice="(brain|gtm)">([\s\S]*?)<\/button>/g, (_, route, inner) => `<a href="${doors[route]}" data-route-choice="${route}">${inner}</a>`)
+  .replace(/(<nav class="primary-routes"[^>]*>[\s\S]*?)<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `$1<a href="${subscribe.href}" target="_blank" rel="noreferrer" class="mm-route-badged" data-badge="${subscribe.label}">Media</a>`)
+  .replace(/<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `<a href="${subscribe.href}" target="_blank" rel="noreferrer">Media</a>`)
+  .replace(/(<p class="footer-statement">[^<]*<\/p>)/g, `$1<a class="mm-subscribe-cta" href="${subscribe.href}" target="_blank" rel="noreferrer" data-subscribe-source="homepage_footer">${subscribe.label} <span aria-hidden="true">↗</span></a>`);
+for (const [pattern, expected, label] of [[/data-route-choice="(?:brain|gtm)"/g, 4, 'hero door'], [/data-badge=/g, 2, 'Media badge'], [/mm-subscribe-cta/g, 2, 'footer subscribe'], [/<button type="button" data-route-choice/g, 0, 'unconverted door']]) {
+  const found = (corrected.match(pattern) ?? []).length;
+  if (found !== expected) throw new Error(`Authorised correction drifted: ${label} expected ${expected}, found ${found}`);
+}
+const markup = corrected.replace(/<video muted="" loop="" autoplay=""/g, '<video data-mm-poster="true" muted="" loop=""').replace(/(?:src|poster)="(\.\.\/[^\"]+)"/g, (all, value) => all.replace(value, `\${${register(value)}}`));
 let runtime = read('script.js').replace(/^\(\(\) => \{/, 'export function mountHomepageRuntime(root, { onStart }) {').replace(/\}\)\(\);\s*$/, '}');
+// The doors are links now; the page they name is where the click goes.
+const doorBinding = '  within("opening", "[data-route-choice]").forEach((button) => button.addEventListener("click", () => selectRoute(button.dataset.routeChoice, true, true)));\n';
+if (!runtime.includes(doorBinding)) throw new Error('Hero door binding moved in the approved source');
+runtime = runtime.replace(doorBinding, '');
 runtime = runtime.replace('  const root = document.documentElement;', lifecycle);
 runtime = runtime.replaceAll('document.querySelector', 'root.querySelector').replace('document.getElementById("site")', 'root.querySelector("#site")');
 runtime = runtime.replace(/\b(button|link|dividendSection|document|reducedMotion)\.addEventListener(?:\?\.)?\(/g, 'listen($1, ');
@@ -85,6 +107,9 @@ const files = {
 };
 for (const name of ['component-styles.css', 'page.css']) {
   const ast = postcss.parse(read(name));
+  ast.walkRules(rule => {
+    if (rule.selector.includes('.route-doors button')) rule.selectors = rule.selectors.map(selector => selector.replaceAll('.route-doors button', '.route-doors a'));
+  });
   ast.walkDecls(decl => {
     decl.value = decl.value.replace(/url\("(\.\.\/[^\"]+)"\)/g, (_, value) => `url("${path.relative(output, path.resolve(source, value)).replaceAll('\\', '/')}")`);
   });

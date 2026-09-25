@@ -60,7 +60,7 @@ try {
         for (const retired of ['history', 'authority', 'leadership-dividend']) assert(await page.locator(`[data-component="${retired}"]`).count()===0,`${label}: retired ${retired} chapter is gone`);
         assert(await page.locator('.mm-home-leadership').evaluate(node=>node.previousElementSibling?.id==='opening' && node.nextElementSibling?.id==='route'),`${label}: chapters sit between the opening and the route`);
         const pinTop = PIN_TOP[size];
-        // The reach chapter is its organisation state alone (r38): one still
+        // The reach chapter is its organisation state alone (r39): one still
         // screen with the grid, no first state, no stage switch, no scroll track.
         const reach = await page.locator('.mm-home-leadership .reach-sequence').evaluate((section, retired) => {
           const heading = section.querySelector('.reach-copy h2');

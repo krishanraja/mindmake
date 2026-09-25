@@ -9,6 +9,7 @@ import fixture from "@/data/vnext/brain-fixture.json";
 import evidenceFilm from "@/assets/films/sep2026/evidence-connects-loop-r01-20s-720p-web-sealed.mp4";
 import lockedDocument from "../../prototypes/website-redesign-recovery/brain-signature/index-s2-motion-s3.html?raw";
 import evidencePoster from "../../prototypes/website-redesign-recovery/brain-signature/media/evidence-connects-poster.png";
+import { PairingBridge } from "@/components/mindmake/PairingBridge";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-locked-brain.css";
 
@@ -336,6 +337,7 @@ export default function AiBrainLocked() {
     <MindmakeShell onStart={() => openBrief("brain")} mainClassName="mm-locked-route-main" siteClassName="mm-route-brain" compactFooter>
       <SEO title="Build your AI brain" description="See how one decision becomes remembered, evidenced, corrected and reusable." canonical="/ai-brain" />
       <div ref={rootRef} className="mm-locked-brain no-js" data-evidence-state="loading" dangerouslySetInnerHTML={{ __html: lockedMarkup }} />
+      <PairingBridge route="brain" onStart={() => openBrief("brain")} />
       <LeadBrief open={briefOpen} onClose={closeBrief} route="brain" presentation="drawer" journeyKey={briefJourneyKey} />
     </MindmakeShell>
   );

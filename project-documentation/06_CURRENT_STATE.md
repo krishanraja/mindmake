@@ -297,7 +297,7 @@ owns payload, privacy, retention, email and failure-path contracts.
   shape." alone, as one still screen: "The feeling is familiar. The reach
   is new." answered a history chapter `/` no longer has. `/new-age-leadership`
   keeps both states. Recorded in
-  `quality/route-lock/approved-production-r38.json`.
+  `quality/route-lock/approved-production-r39.json`.
 - `/case-studies` is recorded in
   `quality/route-lock/approved-production-r37.json`. A figure whose record
   carries no endpoint labels renders no label row at all, rather than two empty

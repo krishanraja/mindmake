@@ -45,9 +45,17 @@ try {
     await page.waitForFunction(() => document.activeElement?.matches('.r3-opening .menu-control'));
     await page.locator('.r3-opening .menu-control:visible').click();
     await page.keyboard.press('Escape');
-    await page.locator('.r3-opening [data-route-choice="gtm"]:visible').click();
-    await page.waitForTimeout(1200);
-    assert.equal(await page.locator('.r3-route .route-copy h2:visible').evaluate(element => element === document.activeElement), true, 'Route selection moves keyboard focus with the viewport');
+    // The hero doors are links to their pages (Krish, 2026-09-25), not a
+    // scroll to the closing chapter. The closing chapter keeps its own toggle.
+    const door = page.locator('.r3-opening [data-route-choice="gtm"]:visible');
+    assert.equal(await door.getAttribute('href'), '/ai-gtm', 'The AI GTM door is a real link to its page');
+    await door.click();
+    await page.waitForURL(url => /^\/ai-gtm\/?$/.test(new URL(url).pathname));
+    await page.locator('.mm-route-gtm main h1').waitFor();
+    await page.goBack();
+    await page.locator('.mm-homepage-release [data-route-toggle]:visible').waitFor();
+    await page.locator('.r3-route [data-route-toggle]:visible').click();
+    assert.equal(await page.locator('[data-start-route]:visible').getAttribute('data-start-route'), 'gtm', 'The closing chapter toggle still binds the brief to its route');
     await page.locator('[data-start-route="gtm"]:visible').click();
     await page.locator('.mm-brief-panel[data-step="company"]').waitFor();
     assert.match(page.url(), /start=gtm/);

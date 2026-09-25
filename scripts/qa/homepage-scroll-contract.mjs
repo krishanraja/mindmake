@@ -3,7 +3,7 @@
 // of R3's history, authority and leadership dividend (Ruling, Krish, 2026-09-25).
 // Each pins under the homepage's fixed masthead. The practice scenes pin only
 // above 900px; on a phone they are laid out one after another by design, so
-// the phone declares no pinned practice case. From r38 the reach chapter is its
+// the phone declares no pinned practice case. From r39 the reach chapter is its
 // organisation state alone, one still screen with no scroll track, so it is
 // declared below as a single static state rather than an ordered sequence.
 export const STATIC_REACH_STATE = 'The organisation changes shape.';

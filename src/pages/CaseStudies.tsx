@@ -4,7 +4,6 @@ import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { Instrument } from "@/components/mindmake/Instrument";
 import { CloseBlock } from "@/components/mindmake/CloseBlock";
 import { ProofDrum } from "@/components/mindmake/ProofDrum";
-import { SubscribeBand } from "@/components/mindmake/SubscribeBand";
 import { CaseProofField } from "@/components/mindmake/locked/CaseProofField";
 import { attendeeBrands, clientStories } from "@/data/rebuildProof";
 import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
@@ -72,8 +71,6 @@ export default function CaseStudies() {
           </div>
         </div>
       </section>
-
-      <SubscribeBand />
 
       <CloseBlock
         instrument="levels"

@@ -1,0 +1,73 @@
+/* The ruled line: how one page becomes the next. The mechanism and the reason
+   are in src/components/RouteTransitions.tsx.
+
+   One duration and one easing for the line and the reveal, so the edge of the
+   new page and the line are the same thing. The old page only fades and
+   softens; it never moves, so nothing on screen travels but the line. */
+:root { --mm-route-time: 560ms; --mm-route-ease: cubic-bezier(.2, .7, .2, 1); }
+
+.mm-route-rule {
+  position: fixed;
+  z-index: 2147483000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(157, 240, 200, 0) 0%, rgba(157, 240, 200, .85) 18%, rgba(157, 240, 200, .85) 82%, rgba(157, 240, 200, 0) 100%);
+  box-shadow: 0 0 14px 1px rgba(157, 240, 200, .28);
+  view-transition-name: mm-route-rule;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) {
+    animation: mm-route-settle calc(var(--mm-route-time) * .6) cubic-bezier(.4, 0, 1, 1) both;
+  }
+  ::view-transition-new(root) {
+    animation: mm-route-set var(--mm-route-time) var(--mm-route-ease) both;
+  }
+  ::view-transition-group(mm-route-rule) { animation: none; }
+  ::view-transition-new(mm-route-rule) {
+    animation: mm-route-line var(--mm-route-time) var(--mm-route-ease) both;
+  }
+  ::view-transition-old(mm-route-rule) { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
+}
+
+@keyframes mm-route-settle {
+  to { opacity: 0; filter: blur(2px); }
+}
+@keyframes mm-route-set {
+  from { clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes mm-route-line {
+  0% { transform: translateY(0); opacity: 0; }
+  12% { opacity: 1; }
+  80% { opacity: .9; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+/* The last resort, if a page's code is still on its way after the transition
+   has stopped waiting for it: the ground and the mark, not an unstyled flash. */
+.mm-page-loading {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 18px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: #0a100d;
+  color: #93a399;
+}
+.mm-page-loading p {
+  margin: 0;
+  font: 500 11px/1 ui-monospace, "SFMono-Regular", Menlo, monospace;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}

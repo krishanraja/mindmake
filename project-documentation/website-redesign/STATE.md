@@ -22,9 +22,20 @@ Krish approved R3 on 24 September 2026 and authorised publication after end-to-e
 - `quality/website-redesign/homepage-handoff.v1.json` preserves the earlier recovery baseline. It is subordinate to this accepted R3 state, not permission to restore an obsolete homepage.
 - The historical r1 source-parity findings are not the current production-source verdict. Do not substitute a candidate manifest to bypass an approved-source failure.
 
+## Visitor flow and page changes
+
+Krish set these on 25 September 2026; `quality/route-lock/approved-production-r38.json` records them.
+
+- Three intents, three names, one of each on every CTA. **Get your free AI brief** (`START_LABEL`) is for a reader who is ready and opens the brief. **Build your AI brain** and **Build your AI GTM** are for a reader who is exploring and go to `/ai-brain` and `/ai-gtm`. **Subscribe for free** (`SUBSCRIBE_LABEL`) is for a reader who is not ready and opens the publication's subscribe form.
+- The homepage hero doors are links to their pages. The generator converts them in `scripts/qa/build-homepage-release.mjs`; the R3 source is unchanged. The closing chapter keeps its own AI Brain or AI GTM toggle and the brief.
+- Both offer pages end with `PairingBridge`: the other page (the brain enables the GTM; the GTM runs better on a brain) beside the brief, pre-routed. Its brief button is `data-mm-primary`, so the action bar stands down and one way in holds.
+- Subscribing appears in three places: a hairline badge beside Media in both menus, a footer button, and the brief's success step. There is no band, pop-up or modal. It never outweighs the brief's filled mint.
+- No word or link sits alone on a new line at 1440x900 or 390x844 on any page (`qa:line-breaks`; the rule is in `03_DESIGN_CONTRACT.md`).
+- Page changes use the ruled line (`src/components/RouteTransitions.tsx`). Same-origin links stay in the app, the next page's code is fetched before the swap, and a mint hairline sets the new page in over about 560ms. Back and Forward restore the reader's scroll position. Reduced motion and browsers without view transitions get the same navigation with no animation. The component renders nothing, so hydration is unchanged.
+
 ## Non-regression contract
 
-1. Between the opening and the route, the homepage carries the three new-age leadership chapters (r35). Its reach chapter opens on "The organisation changes shape." alone, as one still screen (r38): "The feeling is familiar. The reach is new." and its history sources answer a history chapter the homepage no longer has, and stay on `/new-age-leadership` only. Practice retains Notice, Connect and Prepare. The AI Brain benefits retain all six beside The returned hour. R3's history, authority and leadership-dividend chapters are retired from `/` and are not to be restored.
+1. Between the opening and the route, the homepage carries the three new-age leadership chapters (r35). Its reach chapter opens on "The organisation changes shape." alone, as one still screen (r39): "The feeling is familiar. The reach is new." and its history sources answer a history chapter the homepage no longer has, and stay on `/new-age-leadership` only. Practice retains Notice, Connect and Prepare. The AI Brain benefits retain all six beside The returned hour. R3's history, authority and leadership-dividend chapters are retired from `/` and are not to be restored.
 2. Native sticky tracks release before and after each chapter. No wheel/touch cancellation. Reduced motion keeps the pins and drops transitions and films, as on `/new-age-leadership`. Below 900px the practice scenes flow one after another. Every state stays reachable from its direct controls on reduced-motion and short screens.
 3. Scroll proof observes visible text, actual forward/reverse input, every ordered state, pin geometry and both exits. A screenshot, state attribute or entrance reveal alone is not proof.
 4. Preserve the selected masthead/content alignment: the chapters pin under the homepage's fixed masthead and take its gutter. Device-specific compositions remain distinct. No clipping, collisions, hidden actions, blank substitute panels or fixed-nav/cookie overlap.

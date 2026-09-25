@@ -421,9 +421,9 @@
       "requiredOutcome": "The homepage reach chapter opens on \"The organisation changes shape.\" with the organisation grid; /new-age-leadership keeps both states.",
       "acceptanceTest": "The built homepage shows \"The organisation changes shape.\" as the reach heading with the grid, one screen tall, with no first state, switch or Sources and none of the retired words on the page, at 1440x900 and 390x844; /new-age-leadership still renders both states.",
       "status": "verified",
-      "resolution": "leadershipChaptersMarkup takes an opening option; the homepage generator asks for \"organisation\" and renders the reach chapter as one still screen. Recorded in quality/route-lock/approved-production-r38.json.",
+      "resolution": "leadershipChaptersMarkup takes an opening option; the homepage generator asks for \"organisation\" and renders the reach chapter as one still screen. Recorded in quality/route-lock/approved-production-r39.json.",
       "evidence": [
-        "quality/route-lock/approved-production-r38.json",
+        "quality/route-lock/approved-production-r39.json",
         "scripts/qa/homepage-release-browser-check.mjs --built --pre-merge (Chromium)",
         "src/test/homepage-leadership-chapters.test.ts",
         "Desktop and phone screenshots of the reach screen reviewed on the built site."

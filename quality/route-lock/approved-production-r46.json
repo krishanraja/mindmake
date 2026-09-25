@@ -1,26 +1,15 @@
 {
-  "artifact": "mindmake-approved-production-routes-r45",
+  "artifact": "mindmake-approved-production-routes-r46",
   "recordedAt": "2026-09-25",
-  "status": "candidate record. The rejected Archive Engine r06 render is removed and the homepage is restored to r04.",
-  "scopeRequested": "Krish, 2026-09-25, after seeing the rendered r06 video: \"its the worst one youve ever made\" and \"remove that video from the repository\".",
+  "status": "candidate record. The leadership chapters' benefit headlines stay inside their stage on a phone, and the practice scenes build with scroll on a phone.",
+  "scopeRequested": "Krish, 2026-09-25, with two phone screenshots of the homepage: \"Two other issues: 1. The CRO screenshot shows text flying off the right-hand side of the page. 2. In the other screenshot there is a vertically stacked section which should really build with scroll, with that left-to-right green line animation. Or if you can think of anything more surprising and delightful than that, I'm all ears for a bit of variety.\" The plan proposing the signal sweep was approved before implementation.",
   "sessionDecisions": [
-    "The complete r06 repository package is removed: MP4, WebM, JPG poster and WebP poster. It is not approved work, not a creative reference and must not be restored from git history as a production candidate.",
-    "The two homepage opening variants return to the recoverable Archive Engine r04 MP4 and WebP poster. The later route-stage film, /ai-brain and every unrelated page remain unchanged.",
-    "The failed r06 local Blender render consumed no Higgsfield generative-video credits. A future production render must not be inferred from r06 merely because its motion was mechanically constrained.",
-    "The two homepage opening hero-stage videos replace r04 with Archive Engine r06. The receiving drawer visibly opens before any other part moves; only then does the feed, seal, guided carriage, external lift and constrained pusher place the document through the drawer's physical opening. The drawer closes and the mechanism returns to the identical starting frame.",
-    "The r06 package is silent, 16.5 seconds, 1280 by 720, 24 fps and 396 frames. It includes H.264 MP4, VP9 WebM, JPG and WebP poster files. Both videos decode cleanly and remain below 4 MB; frame 1 and frame 396 are identical at the loop boundary.",
-    "The site uses the r06 MP4 and WebP poster in the opening only. The later homepage route-stage film, /ai-brain and the root film-02 package remain unchanged. r04 remains in the library as historical provenance and is no longer selected for new placement.",
-    "AI Brain hero: the decision plaque, the private-to-the-leader note and the 'Evidence connecting' readout are removed. The orbit rings, disc and signal dots stay, enlarged into a decorative layer (aria-hidden, no pointer events) between the film and the copy across the whole opening.",
-    "AI Brain 01: the heading is ink on the paper section (it inherited the site's light heading colour). Every idea dot keeps one 10px size; selection changes colour only. Settled thinking shows as a solid mint dot, working thinking as a dashed brass ring. Until the first pick, ideas ping in turn and, on wider screens, their names come online beside them; reduced motion turns this off. The standing line ('Accepted thinking, backed by direct evidence') is deleted. Titles never wrap: one size, fitted once to the longest title, and the panel sits under the graph at every width so that size stays readable. The statement frame is sized to the longest statement so the panel never changes height.",
-    "AI Brain 02: 'What Krish said', 'What the product requires' and both 'Connected' labels are deleted. 'final output.' rendered as a mono label because the line-break guard wraps the last two words in a span and the label selectors matched any span; label selectors now match direct children only, across the proof, correction and record instruments. 'Take one source away / Try it' becomes one full-width switch ('Remove one source' / 'Put the source back') with a track showing its position; the result panel keeps one height in both states.",
-    "AI Brain 03: the replay button, its status line and the source caveat are removed. The comparison builds from before to now as the instrument rises through the screen, and unbuilds on the way back, read from the instrument's own position so every screen size agrees. 'Learning' sits in a gap in its line instead of across it. Phones read the change top to bottom. Reduced motion and ?render=final show the finished state; without JavaScript it is finished.",
-    "AI Brain 04 and footer: the record counts are read from the fixture. The evidence bar shows nothing while the record is ready or loading ('Current record. Ten sources connected.' and 'Synthetic approved fixture / private demonstration' are removed) and still speaks for stale, error and recovery.",
-    "Both offer pages end in two distinct parts: the brief first, then the other service as one card link that names where the reader is and where it goes ('AI brain \u2192 AI GTM'). The brief keeps data-mm-primary; wording of the pair is unchanged.",
-    "AI GTM: the paper-card labels and the desktop decision slip heading are ink on paper (they inherited the site's near-white heading colour); the index, strike-through and source text are raised to readable contrast. The carousel controls use the site's carousel pattern: square arrow buttons either side of a mono '01 / 04' count, the next change named in the button's label. The hero lede takes the full measure on phones instead of a 66% column. The result reads quote, outcome, then the attribution in smaller type with the story link.",
-    "Homepage phone opening: headline and lede hold the upper part, the doors and proof line sit in the lower part over the film, and the small type moves to phone-readable sizes. Made in the hand-written integration.css; the generated R3 adapter and its source are unchanged. Words and order are unchanged.",
-    "Case studies phone rail: every card element allows pan-x and pan-y, and the card's inner scroll box no longer contains overscroll, so a sideways swipe anywhere moves the rail and a vertical swipe scrolls the page to the testimonials and client logos, which were present but unreachable. The rail stops 76px short of the screen so 'Everyone on the record.' shows beneath it.",
-    "Answers: a page may carry lead: false; it never opens the index (the adtech answer carries it). Five new answers, 12 to 24 September 2026, on the AI brain and on expertise and judgement. Answer and blog titles are in sentence case, and the index shows each entry's question as a sentence-case question. The index subtitle is removed, as it only described the page.",
-    "Blog: the subtitle under 'Ideas you can use.' is removed, top spacing is tightened, and the subject filters sit on one sideways-scrolling row on phones so the first idea reaches the first screen."
+    "The benefits stage (shared by / and /new-age-leadership) stacks all six statements in one grid cell whose auto column grew to the widest phrase any statement could not break. keepLastWords held \"forgotten observation.\" together (385px at 412), so every statement laid out about 15px wider than the stage that hides its overflow and lost the ends of its lines. The column is now minmax(0, 1fr), the phone column of .human-proof likewise, and the phone headline is clamp(34px, 10.5vw, 58px) (short phones min(clamp(32px, 7vh, 44px), 10.5vw)), at which the longest kept pair fits the measure from 320px. Made in the hand-written R6 layer; new-age-leadership-r5.css is regenerated from it.",
+    "keepLastWords' clip test returned early whenever a block did not overflow its own box, so a heading that grew its track past a clipping ancestor kept its join. It now also takes back a join when the block is wider than an ancestor that hides its overflow; scrolling ancestors are excluded, so a card waiting off screen in a carousel keeps its joins.",
+    "qa:line-breaks gains a clipped-text rule: a word past the edge of an ancestor that hides its overflow, or past the viewport, fails; a scroller's overflow does not. Its negative control carries a clipped line that must be reported and a scroller that must not. Against the pre-fix build it reports the benefits 8px past the stage at 390x844; after the fix it reports nothing on 31 routes.",
+    "On a phone at least 480px tall the practice introduction still scrolls, then the scenes pin as one frame under the masthead and build by the signal sweep: a 1px mint line crosses the frame left to right, uncovering the next scene behind it (a scroll-scrubbed clip-path), while the outgoing words leave and the incoming ones settle once it has passed. The stage buttons become a rail at the frame's foot in the reach chapter's language, a hairline with a 2px mint fill that travels from stop to stop with the sweep; each stop is a 44px button that scrolls to its scene. The progress is read from layout offsets, not innerHeight, and is scrubbed both ways.",
+    "Reduced motion keeps the pin and changes scenes at the same points without a sweep. A phone held sideways (under 480px tall) and a page without scripts keep the scenes one after another; in that flow no visible scene carries aria-hidden. On the homepage, where the chapters own film playback, only the scene on screen and the one being uncovered play; /new-age-leadership keeps its own playback and motion toggle.",
+    "Desktop (over 900px) is unchanged. The homepage scroll contract now declares the phone practice case; the browser check asserts the phone pin, the rail's 44px stops and the last stop filling the rail, and that 720x450 keeps the stacked flow. The new-age production check needs no change: its sweep reads the active scene once the scenes are stacked in one cell, and its negative control, run at 1440, still removes the desktop pin. STATE.md's non-regression item and 03_DESIGN_CONTRACT.md record the new phone behaviour."
   ],
   "routes": [
     "/",
@@ -56,7 +45,7 @@
     "src/styles/mindmake-locked-gtm.css": "84757e31da19b762a6e48e7e4d81906fa97aec02c2f58e61df9c015d5faf667e",
     "src/data/vnext/gtm-signals.json": "5ab7fac6ce8ebdab6b69b73f60e184a7e4df8d923d97edd29c38872648c3bf7f",
     "src/pages/NewAgeLeadership.tsx": "96a0b024fd35ef96e99f114e7e9427588abeeab49711cd4af0cf3b406c690cc0",
-    "src/styles/new-age-leadership-r5.css": "fd3b442e93674e9d3e1cb422cc0d16903a2e747bbb1d62d3fd7d78d2df374ace",
+    "src/styles/new-age-leadership-r5.css": "e57b7b64dae0a490d2f9b7651d0d0ce54979498a94b4c8e490755f0b961e8fd6",
     "src/components/mindmake/locked/CommercialDecisionBalance.tsx": "f57849b19f5d15ecb5e9fd664833cfcf0d5e07bbd355d71656c243ac5c2a3410",
     "src/styles/mindmake-commercial-decision-balance.css": "a2fb68466e0835aa4023a2c503c92e66cea3465ac94fdec5ce4d43ec37af3554",
     "src/components/mindmake/locked/CaseProofField.tsx": "37964c4f93a8046ee86219d1e8b0da985137070d9ff893f363142f33d667e3d5",
@@ -78,8 +67,8 @@
     "src/data/testimonials.ts": "24466efccdb455aef4698f7e0a4a00e4885ecb43cf6245bf5255e1369e7d0663",
     "src/App.tsx": "0643615283d8d4ab3083c9867d97e0664701dbf8c0bae692abdf04578195a17d",
     "src/entry-server.tsx": "ac7a18adfd46748caa2edf69bc577246cb5fd95511a93102745117d7d455dcef",
-    "scripts/qa/approved-route-lock-check.mjs": "b206014237de90bbb03174f572858ba2270d23b137bb81064fb22b304bbc546b",
-    "scripts/qa/approved-route-lock-self-test.mjs": "84698da77fc73b988eb2f7b0612805adc08e3448199e2e457bd7f634b4e185d8",
+    "scripts/qa/approved-route-lock-check.mjs": "2657f3a8b0cb5e7e7cc90d8434d966033e4656ff2d6e0d6022ce1fbae9d18f81",
+    "scripts/qa/approved-route-lock-self-test.mjs": "a1471b6e3efb779513c516e441ac6ce1eee503af60a6fb5a6b431db0462c12da",
     ".github/workflows/approved-route-lock.yml": "a8436f33851fea66cfb2cc3a4cf3e888a0baa5bd068dd6f82bd7684cab90c61c",
     "scripts/qa/locked-material-production-check.mjs": "6dbe1dcdfcad99a9c910e13ae02e88fbea7d1fe0295f6dc5f693a5b0fa37960b",
     "scripts/qa/full-route-continuity-check.mjs": "baed7b4a3a244a282b383c938a7c79d5cc34ea819328aad027e005fc4566d2e5",
@@ -92,10 +81,10 @@
     "src/components/homepage-release/runtime.js": "25ed130d2af76ffa2c29816ab71aa35520f833f51db9cf0a63a7b42b6c87bb01",
     "scripts/qa/build-homepage-release.mjs": "1669df9675840194ee6f79a354932c2db73d7ec1e5c3e23fcbb6fc33e6e45c79",
     "src/assets/films/sep2026/README.md": "579fe9bb0a9e049c689a7c8291f3b2a23781326ee31d1c80691393c25420a35f",
-    "scripts/qa/homepage-release-browser-check.mjs": "9d41a08065c14b8de9ed0bdbea2d1658f25cf8e014b0e3462c89dd0fc0f425a3",
+    "scripts/qa/homepage-release-browser-check.mjs": "34179e27e969bc7207bead8355886f5fe3c3cd0a515828264205e97f17c4781a",
     "scripts/qa/homepage-release-adapter-check.mjs": "ae9ea60d107c9a2c137dd4fa3d6427ab29b5b10a373d1946257c35db89141b8e",
     "scripts/qa/homepage-release-visual-parity-check.mjs": "c45405559cb8a5e3499b5d29e9d9b397dadfaedc48efe409fe8f0cbfc33573ad",
-    "scripts/qa/homepage-scroll-contract.mjs": "d77ba4202a7dce0a85713ac8cadd1bfd3c822812e0df77c6b55565567f2161de",
+    "scripts/qa/homepage-scroll-contract.mjs": "4e9700d53d48a351de06a7aa108d72857c6b10115ae3c97541829aab79c2f06c",
     "scripts/qa/scroll-build-evidence.mjs": "1ae4a330c831d6accbfba3ba869c0c9a1d259e2b8258b524e2aa74408bbbabbc",
     "scripts/qa/scroll-build-evidence-selftest.mjs": "1e82f4d67511254bdb3e41740d57a4b7b1dff1e6e30790e0f935c6c4bc898e99",
     "scripts/prerender.mjs": "f0bcb76106e4762595d624c2068636341f4ef8ee4bd39426e9a6c7409d6be867",
@@ -153,31 +142,29 @@
     "prototypes/website-redesign-recovery/case-study-browsing-r2/review.html": "b318df0581aa87f00f61891422d7c607e861de4d70d79b360d790c94191da4eb",
     "prototypes/website-redesign-recovery/case-study-browsing-r2/check.mjs": "7ff2d8d91dccfae045ed9445ed917bd4b87564402745d7a0bbc35f9acf51a136",
     "scripts/qa/logo-alignment-check.mjs": "c4e3dbd28709a39b75c4bf8c719b2eb992bdddb5aa0ba53864186e7d1a7bee32",
-    "src/styles/new-age-leadership-r6.layer.css": "546986da7d3b4a6bd23053ed69aa996400db8c4f140b39050a9a11a058be60ca",
+    "src/styles/new-age-leadership-r6.layer.css": "fb54260235ecfb6773aecf99f0e446219f207da167c9e8c069917f84d7f94abb",
     "scripts/qa/build-new-age-r5-styles.mjs": "a5cba878c8e6293f7c61fce3b52bce4c3c269d5f4fc6cf9cb2e8c8a607c5d19a",
     "scripts/qa/new-age-r5-production-check.mjs": "86db61496a4b0ee713c9ad4ac337997895f6f351bb02b29d3a3cf83217448c9b",
     "src/pages/AiGtm.tsx": "bd106257ab8183ae86dbc3d6249a42c935642230c5e7c91f2a1a2c94d987b028",
     "src/styles/mindmake-gtm-plain.css": "acfa59021a76674c2170fa2bc84567f7c4576ba8f90c8156532f9bc834953262",
     "quality/ai-gtm/approved-plain-r2.json": "b42d8a6e66f822150c6c49d3059aaf09b86d6f92dcb7b243114ae359041578cc",
     "src/lib/lazyRoute.ts": "24b6b3f403f670143ed84c743c402ceef93e4d3f5e61cd7c3316182205b329ab",
-    "src/components/leadership-chapters/leadershipChapters.ts": "ca3df3202fec02644693c16be62029790e3493a642f72352e11cf33c37249bf3",
-    "src/test/homepage-leadership-chapters.test.ts": "adabe281f5076665b7b322a6412ba398c862aee2c421dcda593346b4a21d84f9",
+    "src/components/leadership-chapters/leadershipChapters.ts": "e8935fceb37a34b6dedd38363d4a8e344a4ea29d159f8dd41b2cbf4f33ea4dba",
+    "src/test/homepage-leadership-chapters.test.ts": "63add0d85a3169f8491a3ed3f8fbc118ad2ebc9258abc3a92d38580adb974fad",
     "src/components/RouteTransitions.tsx": "2ea90affe111da73822be30636456cb6d049503d7abc76dae683bc249edc474b",
     "src/lib/preloadable.ts": "fee50216ad2139646bb11b172e3779f141049a54d88b1327bbaf8862b65d0a10",
     "src/styles/route-transition.css": "a36631807614c9a976c610b514526d96e34ed670f71488c6e2bdf6ed7f422154",
     "src/components/mindmake/PairingBridge.tsx": "488ee1e5372215bdacffd5fcc23f4ce10750ea69cd8086d3bc81735678ad9d65",
     "src/styles/mindmake-pairing.css": "8a395eb6a2d2355b6be3dd7ce6107c2947ed3669fc27dce44b6ab34b0c2918c8",
-    "src/lib/keepLastWords.ts": "cd461a3982132f249a5640fb25ec3f07b58c95c4c74420ad01f2cab70e092663",
+    "src/lib/keepLastWords.ts": "610a02f004cbabba0911e5d820192bd2dcfe39c8033293a74273bf61a2799d91",
     "src/components/LineBreaks.tsx": "bbac965ae889699a88a94bc5c79e6cc59ae8a255a512e0f0e98e66a51f16a448",
-    "scripts/qa/line-break-check.mjs": "9ab29ee6bc4ff99312ef7a1ddd05a94538ef5d48999402cbb4d25f4baebd5fe2",
+    "scripts/qa/line-break-check.mjs": "c88328c39b55665639482f78433dea8ff6d99023bfdda81e7f59be42512c566e",
     "src/components/homepage-release/pinnedChapters.ts": "578fd7d0c728fadd171b550e4d707b96bfbc7aa1d2ef18a0fa561c26b693b156",
     "src/components/homepage-release/pinnedChapters.css": "cbd0045559d53625b7e033c6efdc1040e209d12d948d3d54aff61803d382f3c6",
     "src/test/homepage-pin-lifecycle.test.ts": "ecab5c57568c418cc15bc6cdb368a2ce75c8ff09f92c7cd1cb83f2dd351bf4e3",
     "src/styles/mindmake-brain-refinements.css": "79593cf9ea20a975a0ff5cc813f402158bee269fa93a1dadd557446e99d4614f"
   },
-  "newlyLocked": [
-    "src/styles/mindmake-brain-refinements.css"
-  ],
+  "newlyLocked": [],
   "minimumContracts": {
     "brain": {
       "meanings": 20,
@@ -228,20 +215,19 @@
     "price the result"
   ],
   "verification": {
-    "status": "Verified on 2026-09-25, Windows, from main bde3a78: source gates, 568 tests, production build and Chromium pre-merge homepage evidence passed.",
+    "status": "Run on 2026-09-25, Linux, Node 22.22.2, Chromium from /opt/pw-browsers via PLAYWRIGHT_CHROMIUM, first on bde3a78 and again after merging origin/main 46ff38d (the r06 revert, r45).",
     "performed": [
-      "qa:approved-routes and its self-test against this record, qa:docs, qa:homepage-handoff, qa:website-feedback, qa:material-review:self-test, qa:plain-language, typecheck, lint, the full unit suite (568 tests), the canonical build, qa:line-breaks (no findings at 1440x900 or 390x844) and qa:homepage-release:pre-merge (Chromium): pass.",
-      "Built-site Chromium probe at 390x844 and 1440x900: every /ai-brain idea dot measures 10x10px after clicking all 20; the inspector keeps one height and every title fits one line; the proof result keeps its height through the source switch; none of the removed texts remain; the correction's --learn-scroll reads 0, 1, 0 as the instrument moves down, up and down; #memory-title contrast 14.51:1; every /ai-gtm paper-card text colour is at least 5.72:1 on the paper.",
-      "/case-studies at 390x844: every card element declares pan-x (0 in the way), the dock is on screen and 'Everyone on the record.' shows on the first screen. With CDP touch events, a vertical swipe on a card scrolled the page 385px; before the change it scrolled 0px.",
-      "Screenshots at 390x844 and 1440x900 of every changed surface reviewed by eye.",
-      "locked-material-production-check and case-proof-field-production-check need a Chrome channel absent from this container; their updated assertions were exercised by the probe above. Firefox and WebKit run on main after merge, per the 2026-09-25 ruling.",
-      "Repository scan finds no r06 media files and no generated r06 imports. The r04 MP4 and WebP poster retain their previously verified hashes.",
-      "The generated homepage imports the r04 MP4 and WebP poster exactly twice, once for each opening variant. The later route-stage film-02 references remain unchanged."
+      "On the merged tree: qa:approved-routes and its self-test against this record, qa:docs, qa:homepage-handoff, qa:website-feedback --release, qa:material-review:self-test, qa:plain-language, typecheck, lint, the full unit suite (575 tests), the canonical build, qa:line-breaks (no findings on 31 routes at 1440x900 or 390x844, clipped-text rule included) and qa:homepage-release:pre-merge (Chromium, 8 cases including the phone practice case): pass.",
+      "qa:line-breaks against the pre-fix build reports the benefits' text 8px past the benefits stage at 390x844; its negative control reports a clipped line and passes a scroller.",
+      "Built-site probe on / and /new-age-leadership at 320x640, 360x640, 360x780, 390x844, 412x915, 620x900, 768x1024, 900x1100, 1024x768, 1280x800, 1440x900 and 1920x1080: every benefit card is exactly as wide as its stage and no headline passes it.",
+      "new-age-r5-production-check.mjs with QA_ENGINES=chromium: all ten Chromium viewports reach every lens, reach, practice and benefit state forwards and in reverse with no blank band over the limit, and the unpinned negative control is caught (717px blank). A first run failed at 320x568 with a whole-screen blank frame while the dev server was reloading edited source mid-sweep; the uninterrupted re-run passed, and the same probe replayed at that viewport measured at most 125px. The Chromium-only receipt was kept out of artifacts/new-age-leadership, which holds the three-engine receipt.",
+      "Phone sweep on the built site at 390x844 and 412x915: the frame pins under the masthead; sweep 1, the rest on scene 2, sweep 2 and the rest on scene 3 read back from the CSS variables in order and in reverse; only the visible and incoming films play; reduced motion switches at the same points with no line; 844x390 and a page without scripts keep the scenes stacked with every scene available to assistive technology. Screenshots and a 23-second recording reviewed.",
+      "Firefox and WebKit run on main after merge, per the 2026-09-25 ruling."
     ]
   },
   "supersedes": {
-    "path": "quality/route-lock/approved-production-r44.json",
-    "reason": "Removes the rejected r06 package and restores the homepage opening to r04 on Krish's explicit instruction. No earlier record is rewritten."
+    "path": "quality/route-lock/approved-production-r45.json",
+    "reason": "Benefit headline clipping and the practice chapter's phone composition, on Krish's instruction. No earlier record is rewritten."
   },
   "textLineEndings": "lf",
   "browserPlatforms": {
@@ -252,11 +238,11 @@
     },
     "expectedRouteCases": 208,
     "expectedSupplementalCases": 9,
-    "motion": "All fifteen ordered-state cases (five per engine) and the reduced-motion and short-screen fallbacks on both platforms",
+    "motion": "All twenty-four ordered-state cases (eight per engine: history, reach, practice and benefits at 1440x900 and 390x844) and the reduced-motion and short-screen fallbacks on both platforms",
     "rationale": "project-documentation/website-redesign/RELEASE-2026-09-24.md"
   },
   "scope": {
-    "baselineCommit": "bde3a78",
+    "baselineCommit": "46ff38d",
     "allowedExistingChanges": []
   },
   "additionalTextExtensions": [
@@ -274,21 +260,6 @@
       "path": "prototypes/website-redesign-recovery/gtm-market-change/index-motion.html",
       "lastHash": "8754e189e077ead09728e4e8b78ed26ad9b872a0d8b9d4b3503bc76ee7e98aef",
       "reason": "No longer routed or imported; superseded by GTM-PLAIN-R2. Recorded in project-documentation/history/LOG.md."
-    },
-    {
-      "path": "src/components/homepage-release/pinnedChapters.css",
-      "lastHash": "cbd0045559d53625b7e033c6efdc1040e209d12d948d3d54aff61803d382f3c6",
-      "reason": "The R3 history and leadership-dividend pin controller. Retired with those chapters; the new-age leadership chapters pin with their own sticky tracks."
-    },
-    {
-      "path": "src/components/homepage-release/pinnedChapters.ts",
-      "lastHash": "d3f0c747e3d52cce0054072276ea018e7dc3c04f0173a1f3ab36533092237886",
-      "reason": "The R3 history and leadership-dividend pin controller. Retired with those chapters; the new-age leadership chapters pin with their own sticky tracks."
-    },
-    {
-      "path": "src/test/homepage-pin-lifecycle.test.ts",
-      "lastHash": "35e7790170f6334afc540a6286f14e2e42eb31b8e78d55915bee522764774571",
-      "reason": "The R3 history and leadership-dividend pin controller. Retired with those chapters; the new-age leadership chapters pin with their own sticky tracks."
     },
     {
       "path": "src/components/mindmake/SubscribeBand.tsx",

@@ -1,7 +1,7 @@
 // Expected visible states are the accepted page copy, independent of runtime data.
 // From r35 the homepage carries the three /new-age-leadership chapters in place
 // of R3's history, authority and leadership dividend (Ruling, Krish, 2026-09-25).
-// Each pins under the homepage's fixed masthead. From r45 the practice scenes
+// Each pins under the homepage's fixed masthead. From r46 the practice scenes
 // pin on a phone too, under their introduction, and build by the signal sweep
 // (Krish, 2026-09-25: "should really build with scroll"), so the phone
 // declares a pinned practice case like the desktop.

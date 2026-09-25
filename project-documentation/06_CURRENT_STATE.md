@@ -325,7 +325,7 @@ owns payload, privacy, retention, email and failure-path contracts.
   Recorded in `quality/route-lock/approved-production-r42.json`.
 - The leadership chapters on `/` and `/new-age-leadership`, from Krish's phone
   review on 25 September 2026. Recorded in
-  `quality/route-lock/approved-production-r45.json`.
+  `quality/route-lock/approved-production-r46.json`.
   - The AI Brain benefits no longer lose the ends of their lines on a phone.
     The benefits stage's grid column is now exactly the stage, and the phone
     headline size fits the longest phrase the line-break guard keeps together
@@ -342,14 +342,13 @@ owns payload, privacy, retention, email and failure-path contracts.
     the same points without a sweep. A phone held sideways, and a page without
     scripts, keep the scenes one after another. On the homepage only the scene
     on screen, and the one being uncovered, play their films.
-- The homepage opening hero selects the Archive Engine r06 loop
-  (`src/assets/films/sep2026/archive-engine-hero-loop-r06-16s-720p-web-sealed.mp4`)
-  with its own WebP poster; the route stage keeps `film-02`. The 16.5-second
-  deterministic cycle opens the drawer before any machinery moves, stamps
-  the paper, moves it on constrained guides through the real drawer opening,
-  closes the drawer and returns to the identical start frame. Recorded in
-  `quality/route-lock/approved-production-r44.json`. The prior r04 package and
-  its PR #195 production receipt remain historical provenance only.
+- The homepage opening hero selects the recoverable Archive Engine r04 loop
+  (`src/assets/films/sep2026/archive-engine-hero-loop-r04-16s-1080p-web-sealed.mp4`)
+  with its own WebP poster; the route stage keeps `film-02`. Recorded in
+  `quality/route-lock/approved-production-r45.json`. Krish rejected the r06
+  local Blender render after seeing the moving result and ordered its complete
+  removal from the repository. r06 is not an approved visual reference and
+  consumed no Higgsfield generative-video credits.
 - Refinements across `/ai-brain`, `/ai-gtm`, `/`, `/case-studies`, `/answers`
   and `/blog`, from Krish's phone review on 25 September 2026. Recorded in
   `quality/route-lock/approved-production-r43.json`, which lists each change.

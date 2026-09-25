@@ -59,7 +59,7 @@ describe("homepage leadership chapters", () => {
     expect(count.textContent).toBe("02");
   });
 
-  /* The phone's practice sequence (r45): a mint line sweeps each scene in as
+  /* The phone's practice sequence (r46): a mint line sweeps each scene in as
      the reader scrolls, and the rail's fill travels with it. */
   describe("the practice sweep on a phone", () => {
     const samples = Array.from({ length: 401 }, (_, i) => i / 400);

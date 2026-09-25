@@ -34,7 +34,7 @@ const chapters = {
     at: (i, g) => g.start + [0.1, 0.75][i] * g.travel },
   practice: { track: '.mm-home-leadership .work-scroll', stage: '.work-sticky', state: '.work-scene.is-active h3',
     at: (i, g) => g.start + [0.02, 0.5, 0.95][i] * (g.height - g.viewportHeight) },
-  // On a phone (r45) the introduction scrolls, then the scenes pin beneath it
+  // On a phone (r46) the introduction scrolls, then the scenes pin beneath it
   // and each state rests where leadershipChapters.ts's rail stops send it.
   practicePhone: { track: '.mm-home-leadership .work-scroll', stage: '.work-scenes', state: '.work-scene.is-active h3',
     at: (i, g) => g.scenesStart - g.pinTop + [0.06, 0.5, 0.94][i] * g.pinTravel },
@@ -116,7 +116,7 @@ try {
           console.log(`Verified ${label}/${chapter}: forward, reverse, exits and screenshot`);
         }
         if (viewport.width <= 900) {
-          // On a phone the practice scenes pin under their introduction (r45),
+          // On a phone the practice scenes pin under their introduction (r46),
           // and the rail's stops are direct controls to each scene.
           assert(await page.locator('.mm-home-leadership .work-scenes').evaluate(node=>getComputedStyle(node).position)==='sticky',`${label}: practice scenes pin on a phone`);
           const stops = await page.locator('.mm-home-leadership [data-work-button]').evaluateAll(nodes=>nodes.map(node=>node.getBoundingClientRect().height));

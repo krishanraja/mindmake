@@ -1,6 +1,6 @@
 # Mindmake brand and testimonial proof
 
-Policy/placement reviewed 24 September 2026. Approved quotation source remains
+Policy/placement reviewed 25 September 2026. Approved quotation source remains
 `src/data/testimonials.ts`; this review does not expand consent or change words.
 
 This file is the single project source for attendee brands, client outcomes, Steph Darmanin's consent-gated excerpts, and named career references. Other project documents must point here rather than copy these lists. The rendered data lives in `src/data/rebuildProof.ts` and must match this file.

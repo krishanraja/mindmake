@@ -1,6 +1,6 @@
 # Release runbook
 
-Current procedure, reviewed 24 September 2026. Not a deployment journal.
+Current procedure, reviewed 25 September 2026. Not a deployment journal.
 [06_CURRENT_STATE.md](06_CURRENT_STATE.md) owns live/rollback identities;
 [07_DEPLOYMENT.md](07_DEPLOYMENT.md) owns topology and authority boundaries.
 

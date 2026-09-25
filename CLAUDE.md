@@ -1,6 +1,6 @@
 # Mindmake contributor guide
 
-Reviewed 24 September 2026. Read AGENTS.md and NOW.md first. Numbered project
+Reviewed 25 September 2026. Read AGENTS.md and NOW.md first. Numbered project
 documentation owns business truth; this is execution guidance, not its duplicate.
 
 ## Accepted surface

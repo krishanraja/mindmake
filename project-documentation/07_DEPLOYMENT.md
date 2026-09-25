@@ -1,6 +1,6 @@
 # Deployment topology and operating contract
 
-Reviewed 24 September 2026. Current deployment/version/rollback identities:
+Reviewed 25 September 2026. Current deployment/version/rollback identities:
 [06_CURRENT_STATE.md](06_CURRENT_STATE.md). Procedure:
 [07_DEPLOY_RUNBOOK.md](07_DEPLOY_RUNBOOK.md). History: history/LOG.md only.
 

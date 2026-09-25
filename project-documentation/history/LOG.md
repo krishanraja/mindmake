@@ -2676,7 +2676,7 @@ The initial concept selection was made before blind judging. After owner accepta
 - Artifact: `prototypes/ai-brain-vnext-r1/`.
 - Opening: film-led cabinet room with “Your AI brain begins with a real decision.”
 - Instrument: one illustrative decision moves through four reversible states: Prepared, Challenged, Decided and Kept.
-- Proof: approved R-05 evidence only—publishing reduced from days to under an hour, moving from roughly monthly to most days.
+- Proof: approved R-05 evidence only, publishing reduced from days to under an hour, moving from roughly monthly to most days.
 - Retained value: the decision, evidence, correction and accepted standard remain attached rather than becoming an abstract “knowledge base”.
 - Close: one Start here action opening the already approved company-first drawer.
 - Responsive split: desktop uses a fixed state rail and large decision sheet; mobile uses a horizontal state control and a full-width sheet. Neither treatment inherits the other's column structure.
@@ -5425,7 +5425,7 @@ Stored LF bytes: 210673
 
 <!-- BEGIN ARCHIVE FRAGMENT parent-owned-originals -->
 ````````````markdown
-## 2026-09-24 — current-document consolidation, parent-owned originals
+## 2026-09-24: current-document consolidation, parent-owned originals
 
 Preserved before correction at source commit 0d458c9. Historical snapshots, not current guidance.
 
@@ -6985,7 +6985,7 @@ Last updated: 24 September 2026 (approved R3 live and actual lead-to-download ca
 
 This file is the current delivery truth for `mindmake.co`: what is live, at which identifiers, and what remains open. Why the business exists is in `00_NORTH_STAR.md`. Commercial truth is in `01_CANON.md`. Design truth is in `03_DESIGN_CONTRACT.md`. The dated record of past deployments, repairs and readings that used to sit below the open items is in `history/LOG.md`, newest first; nothing there describes today.
 
-## Current release status — 24 September 2026
+## Current release status: 24 September 2026
 
 The approved R3 production adapter is **live** at `https://mindmake.co`. PR #170 merged as `3ee77cf9956f98dd73f69d0b48745930335e74e1`; production deployment is `dpl_EZigNAi6Uc6Apcq75XsFnHETt5W8` (`mindmake-bh0d8hczk-krish-rajas-projects.vercel.app`). Pre-publish CI passed 531 tests, 208 route cases and nine navigation supplements, plus all motion/fallback cases on Linux and macOS. Actual public readback and the live three-engine scroll matrix passed. Current authority, evidence and rollback anchor are in [RELEASE-2026-09-24](website-redesign/RELEASE-2026-09-24.md); older identifiers below are historical.
 
@@ -6995,7 +6995,7 @@ Fresh canonical and legacy reads passed. Earlier backend preparation used the pr
 
 The backend targeted suite passed 67 tests across three files; all three Deno closures passed. The full release matrix passed separately. Physical iPhone VoiceOver and Android TalkBack remain unperformed under the owner's release-only exception. The authorized npm audit recorded 23 advisory package entries; bounded and independent applicability reviews found no confirmed visitor-reachable blocker in this static release, while leaving dependency upgrades open. Neither exception nor advisory triage is a blanket quality/security claim.
 
-## Historical frontend baseline — recorded 7 September 2026
+## Historical frontend baseline: recorded 7 September 2026
 
 **The rebuild is live.** The homepage, `/ai-brain` and `/ai-gtm` were rebuilt, the six films were installed, and it was promoted to production on 28 August 2026. The edge rewrite of 5 September 2026 (what the work answers, said once, with no public duration) is the latest promotion.
 
@@ -7057,7 +7057,7 @@ Supabase project `bkyuxvschuwngtcdhsyg`.
 - Retention: unverified brief requests purge after 7 days, rate-limit hashes after 48 hours, verified records at 12 months, sent follow-up rows after 7 days, unsent rows after 60 days, personal reads at 12 months. The privacy notice states the same schedule.
 - `VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED` is `true` in production, so the three dead ends inside the lead dialog exist on the live site rather than only in a build with the flag on.
 
-## Historical verification baselines — 5–7 September 2026
+## Historical verification baselines: 5-7 September 2026
 
 Last measured 5 September 2026, against the built output, for the edge rewrite. The readings that set each gate's floor, and every earlier baseline, are in `history/LOG.md` under the date they were taken.
 
@@ -7098,7 +7098,7 @@ or in the project's own history, and they are listed so nobody has to guess.
 | The enemy pair, the ladder, the fork, the board | Homepage and door-page sections. The enemy pair is the oracle and the mirror cards resolved by one claim (the `mm-enemy` class now carries the three things the work answers on the homepage); the board is the live daily market read on `/ai-gtm` and the homepage. The ladder (the three levels of value, `ClimbLadder`, the site's one pinned climb) and the fork (`ForkBand`, the paper band where a visitor picked a starting point) were deleted from `/ai-brain` on 5 September 2026 because they made the argument the homepage and `/new-age-leadership` already make; the names survive only in the record. |
 | `mm-covered`, `.mm-curtain` | The entrance's root marker and the fifteen ink strips it keys, two names on purpose since 4 September 2026. `var CURTAIN` in `index.html` is the one switch. |
 
-## Historical open-item register — retained from 7 September 2026
+## Historical open-item register: retained from 7 September 2026
 
 These entries retain their original dated context; they are not a claim that only one item remains for the 24 September release. Current release gates and the narrowly scoped physical-AT exception are recorded above and in the release record.
 
@@ -7297,7 +7297,7 @@ Raw SHA-256: `723d4ec3df8ea41aa7d14e16d78997573d830bc185c5da2c88bb2cc2395e4970`
 
 # Deploy runbook: the rebuild's backend
 
-## Current backend release — 24 September 2026
+## Current backend release: 24 September 2026
 
 Backend deployment is complete and frontend R3 is live from PR #170, merge `3ee77cf`, deployment `dpl_EZigNAi6Uc6Apcq75XsFnHETt5W8`. The frontend release authority, gates and public readback are in [RELEASE-2026-09-24](website-redesign/RELEASE-2026-09-24.md). Exact backend evidence, source hashes, canary IDs and cleanup are in [BACKEND-RELEASE-EVIDENCE-2026-09-24](website-redesign/BACKEND-RELEASE-EVIDENCE-2026-09-24.md), whose final addendum records the final versions below.
 
@@ -7320,7 +7320,7 @@ Project: `bkyuxvschuwngtcdhsyg`. Everything below is additive. No existing
 policy was loosened, no anon policy was added to any table, and the four new
 tables are RLS-on with no policies, which means service role only.
 
-## What is deployed — independently read back 24 September 2026
+## What is deployed: independently read back 24 September 2026
 
 | Function | Version | verify_jwt | Called by |
 |---|---|---|---|
@@ -7368,7 +7368,7 @@ It was generated at deploy time and never written to the repository. To rotate
 it, create a new Vault secret under the same name and update the function
 secret to match; the jobs read the newest row.
 
-## Historical verification — August 2026
+## Historical verification: August 2026
 
 - `aa-price-snapshot` rejected a wrong header with 403, then recorded 624 models
   for 2026-08-28.
@@ -8484,7 +8484,7 @@ This was banned outright until that date, and the ban had a real argument: a scr
 
 Until 30 August 2026 paper was used **once in the entire application**, on one band of `/ai-brain`, and the reason was mechanical rather than editorial: the ground redefined five surface tokens while 64 rules read `--mm-tx2`, 56 read `--mm-line` and 31 read `--mm-ink2` directly, so a section moved onto paper kept its dark cards and turned their headings dark on top of them. Both non-default grounds now redefine the raw palette for their own subtree, which is what `.mm-on-raise` had always done and `.mm-on-paper` had not.
 
-**The accent has two roles and only one of them follows the ground.** `--mm-mint-bright` is the accent as a surface — a filled button, a pressed chip, the marquee band, a resolved bar in a figure — and it always carries `--mm-mint-ink` and stays bright on every ground, because a mint button on paper is still a mint button. `--mm-mint` is the accent as text and line, and a ground may redefine it: #7fe3b4 on cream is 1.2:1. One element runs against the grain of its section, the dark head of a fork band, and it puts the ink palette back for its own subtree.
+**The accent has two roles and only one of them follows the ground.** `--mm-mint-bright` is the accent as a surface (a filled button, a pressed chip, the marquee band, a resolved bar in a figure), and it always carries `--mm-mint-ink` and stays bright on every ground, because a mint button on paper is still a mint button. `--mm-mint` is the accent as text and line, and a ground may redefine it: #7fe3b4 on cream is 1.2:1. One element runs against the grain of its section, the dark head of a fork band, and it puts the ink palette back for its own subtree.
 
 **Still banned:** progress bars tied to scroll position, whatever they are filling. A bar that fills is a measurement of the reader rather than of anything on the page.
 
@@ -9151,7 +9151,7 @@ already covers all of it.
 Original raw SHA256: AB2F88C1EBB53328C2594E1DCDC13F3F876C0CD5EE022A469F015909655C9BFC
 
 ```markdown
-# Backend release evidence — 24 September 2026
+# Backend release evidence: 24 September 2026
 
 ## Scope and target
 
@@ -9199,9 +9199,9 @@ Original downloaded source is retained at `C:/Users/krish/.scratch/mindmake-back
 
 ## Executed checks
 
-`deno check supabase/functions/enrich-company/index.ts supabase/functions/submit-mindmake-brief/index.ts supabase/functions/mindmake-personal-read/index.ts` — all pass.
+`deno check supabase/functions/enrich-company/index.ts supabase/functions/submit-mindmake-brief/index.ts supabase/functions/mindmake-personal-read/index.ts`: all pass.
 
-`npm test -- --maxWorkers=2 src/test/enrichment-provenance.test.ts src/test/mindmake-brief-backend-core.test.ts` — 2 files, 31 tests pass after final structural guard (13:44 BST).
+`npm test -- --maxWorkers=2 src/test/enrichment-provenance.test.ts src/test/mindmake-brief-backend-core.test.ts`: 2 files, 31 tests pass after final structural guard (13:44 BST).
 
 Earlier existing lead/intelligence regression suites: 150 tests passed. Full-site regression evidence is owned by the parent release gate, not replaced by this report.
 
@@ -9225,7 +9225,7 @@ Request: `e168a02c-9867-410a-9679-3b46a948c668`.
 1. Send-code returned HTTP 200 `verification_required`.
 2. A real fresh verification email reached the designated Gmail INBOX at 12:38:02 UTC. The code was read and supplied once; no code is stored in this report or a local file.
 3. Confirm returned HTTP 200 `confirmed`, visitor delivery `queued`, operator delivery `queued`.
-4. Both final messages actually arrived in Gmail INBOX at 12:38:52 UTC — provider queued alone was not counted as delivery.
+4. Both final messages actually arrived in Gmail INBOX at 12:38:52 UTC; provider queued alone was not counted as delivery.
 5. Exact database row showed `verified_at=2026-09-24 12:38:51.7112+00`, `assembly_state=ready`, all three delivery statuses queued, and all three provider delivery IDs populated.
 6. Exactly one follow-up row, `fd0da00b-1cbe-4adc-bb1c-8ea8fd1b8dc9`, source brief, due `2026-10-08 12:38:52.625+00`, attempts 0, unsent. The scheduled day-14 email was not sent early.
 7. Completion UI displayed the brief and download control. This canary did not independently inspect the downloaded file.
@@ -9298,7 +9298,7 @@ This tests the real public personal-read API, live providers, actual email and s
 
 The two bounded evidence gaps are closed at the levels stated. No new visual design or approved website copy was changed.
 
-## Final type-only source-parity addendum — 14:46 BST
+## Final type-only source-parity addendum: 14:46 BST
 
 The release lint found two explicit-any annotations introduced by the earlier Deno compatibility repair. Both now use the Supabase package's exported `SupabaseClient` type, imported type-only, with no suppression. No runtime statement or behavior changed. TypeScript-transpiled ES2022/ESNext JavaScript (comments removed) was compared with the independently downloaded v19/v24 files: **byte-identical emitted runtime JavaScript for both entry points**.
 
@@ -9319,7 +9319,7 @@ The two final closures were independently downloaded to `C:/Users/krish/.scratch
 
 Earlier real inbox/persistence/queue receipts remain evidence for the runtime-equivalent backend. No browser or email was run for this type-only increment. A fresh browser canary on the newly published frontend, including its actual success-screen download, is still pending the frontend promotion; the earlier browser receipts exercised the prior live frontend. The prepared QA driver supports both entry layouts and an explicit actual-download action without substituting generated fixtures for that final check.
 
-## Post-publication new-frontend canary — completed 24 September 2026
+## Post-publication new-frontend canary: completed 24 September 2026
 
 This addendum closes the pending new-frontend/browser-download boundary above. The release owner verified production promotion before authorizing this run: PR170 merge `3ee77cf9956f98dd73f69d0b48745930335e74e1`, Vercel production `dpl_EZigNAi6Uc6Apcq75XsFnHETt5W8`, deployment URL `https://mindmake-bh0d8hczk-krish-rajas-projects.vercel.app`, public `https://mindmake.co`, script `/assets/index-CZk5zedf.js`. Publication identity and the separate route/motion/browser matrix are recorded in `RELEASE-2026-09-24.md` by the release owner.
 

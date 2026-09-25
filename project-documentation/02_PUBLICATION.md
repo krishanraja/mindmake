@@ -1,6 +1,6 @@
 # 02. The publication
 
-*Policy reviewed 24 September 2026; channels and mandate unchanged. This is a
+*Policy reviewed 25 September 2026; channels and mandate unchanged. This is a
 publication contract, not evidence of live cadence, hosts or subscriber counts.*
 
 Mindmake's publication is the practice's front door for people who are not ready

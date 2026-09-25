@@ -1,6 +1,6 @@
 # Proof bank
 
-Internal evidence register; publication permissions reviewed 24 September 2026.
+Internal evidence register; publication permissions reviewed 25 September 2026.
 Engagement facts retain their original scope, not new current-client claims.
 
 Internal, anonymised records of real Mindmake engagements. **Every entry is a real engagement that happened**, reduced to sector and role only. The numbers are kept; the names are gone. Only verified engagements belong in this file: if you cannot point at the invoice, it does not go in, and a shorter bank is the correct outcome rather than a problem to solve by topping it back up.

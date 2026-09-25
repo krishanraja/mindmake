@@ -27,11 +27,12 @@ Do not repeat deployment journals here. History lives only in
 [history/LOG.md](project-documentation/history/LOG.md).
 
 Keep the accepted composition, copy, imagery, controls and responsive choices.
-Between the opening and the route, the homepage carries the three new-age
-leadership chapters (r35): the organisation changing shape, the system in
-practice, and what the AI Brain makes possible with the returned hour. They
-share one source with /new-age-leadership and pin by scroll in both
-directions. Generate the adapter from the immutable R3 source, never
+Between the opening and the route, the homepage carries the R3 history
+chapter (four pinned eras, from writing to satnav) and then the three new-age
+leadership chapters (r41): the feeling is familiar and the organisation
+changing shape, the system in practice, and what the AI Brain makes possible
+with the returned hour. They share one source with /new-age-leadership and pin
+by scroll in both directions. Generate the adapter from the immutable R3 source, never
 reconstruct it from older components.
 
 The production company-first lead journey passed through actual verification,

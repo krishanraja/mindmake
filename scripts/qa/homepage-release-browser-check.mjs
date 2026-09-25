@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { chromium, firefox, webkit } from 'playwright';
 import { validateScrollBuildEvidence } from './scroll-build-evidence.mjs';
-import { createHomepageScrollContract, APPROVED_SCROLL_STATES as states, PIN_TOP, CHAPTERS_BY_VIEWPORT, STATIC_REACH_STATE, RETIRED_HOMEPAGE_WORDS } from './homepage-scroll-contract.mjs';
+import { createHomepageScrollContract, APPROVED_SCROLL_STATES as states, PIN_TOP, HISTORY_PIN_TOP, CHAPTERS_BY_VIEWPORT } from './homepage-scroll-contract.mjs';
 
 const root = path.resolve(import.meta.dirname, '../..');
 // Pre-merge (Krish, 2026-09-25): Chromium alone gates a branch. Firefox and
@@ -26,6 +26,12 @@ const geometry = locator => locator.evaluate(node => { const r=node.getBoundingC
 // visible words are the state. Scroll positions come from live geometry; the
 // expected words and pin line come only from the declared contract.
 const chapters = {
+  // The R3 history chapter (reinstated in r41), pinned by pinnedChapters.ts:
+  // each state owns an equal step of the track.
+  history: { track: '[data-chapter="history"]', stage: '[data-component="history"]', state: '[data-story-question]:visible',
+    at: (i, g) => g.start + i * g.travel / 4 + 10 },
+  reach: { track: '.mm-home-leadership .reach-sequence', stage: '.reach-sticky', state: '[data-reach-copy].is-active h2',
+    at: (i, g) => g.start + [0.1, 0.75][i] * g.travel },
   practice: { track: '.mm-home-leadership .work-scroll', stage: '.work-sticky', state: '.work-scene.is-active h3',
     at: (i, g) => g.start + [0.02, 0.5, 0.95][i] * (g.height - g.viewportHeight) },
   benefits: { track: '.mm-home-leadership [data-benefit-track]', stage: '[data-benefits]', state: '.brain-benefit.is-active h2',
@@ -57,20 +63,10 @@ try {
         console.log(`Testing ${label}`);
         assert(await page.locator('.mm-home-approved h1:visible').textContent() === 'Build the business that can think with you.',`${label}: approved opening`);
         // Negative control: the scrapped R3 chapters must not survive anywhere in the page.
-        for (const retired of ['history', 'authority', 'leadership-dividend']) assert(await page.locator(`[data-component="${retired}"]`).count()===0,`${label}: retired ${retired} chapter is gone`);
-        assert(await page.locator('.mm-home-leadership').evaluate(node=>node.previousElementSibling?.id==='opening' && node.nextElementSibling?.id==='route'),`${label}: chapters sit between the opening and the route`);
-        const pinTop = PIN_TOP[size];
-        // The reach chapter is its organisation state alone (r39): one still
-        // screen with the grid, no first state, no stage switch, no scroll track.
-        const reach = await page.locator('.mm-home-leadership .reach-sequence').evaluate((section, retired) => {
-          const heading = section.querySelector('.reach-copy h2');
-          const rect = section.getBoundingClientRect();
-          return { heading: heading?.innerText.replace(/\s+/g, ' ').trim(), states: section.querySelectorAll('[data-reach-copy]').length, grid: !!section.querySelector('.hybrid-organisation.is-active .organisation-grid'), progress: section.querySelectorAll('.reach-progress, [data-reach-jump]').length, height: rect.height, retired: retired.filter(words => document.body.innerText.includes(words)) };
-        }, RETIRED_HOMEPAGE_WORDS);
-        assert(reach.heading===STATIC_REACH_STATE && reach.states===1 && reach.grid && reach.progress===0,`${label}: reach opens on the organisation alone ${JSON.stringify(reach)}`);
-        assert(reach.retired.length===0,`${label}: retired reach words still on the page: ${reach.retired.join(', ')}`);
-        assert(reach.height<=viewport.height*1.05,`${label}: reach is one screen, not a scroll track (${reach.height}px)`);
+        for (const retired of ['authority', 'leadership-dividend']) assert(await page.locator(`[data-component="${retired}"]`).count()===0,`${label}: retired ${retired} chapter is gone`);
+        assert(await page.locator('.mm-home-leadership').evaluate(node=>{ const history=node.previousElementSibling; return history?.matches('[data-chapter="history"]') && !!history.querySelector('[data-component="history"]') && history.previousElementSibling?.id==='opening' && node.nextElementSibling?.id==='route'; }),`${label}: opening, history, the leadership chapters, then the route`);
         for(const chapter of CHAPTERS_BY_VIEWPORT[size]) {
+          const pinTop = chapter==='history' ? HISTORY_PIN_TOP : PIN_TOP[size];
           const expected = states[chapter];
           const spec = chapters[chapter];
           const track = page.locator(spec.track);
@@ -144,6 +140,23 @@ try {
       await page.addInitScript(()=>localStorage.setItem('mindmake_consent','accepted'));
       await page.goto(origin,{waitUntil:'domcontentloaded'});
       await page.waitForSelector('.mm-home-leadership .reach-sequence');
+      // The history chapter falls back to natural flow under reduced motion,
+      // and its era buttons reach every story.
+      await page.waitForSelector('[data-chapter="history"]');
+      assert(await page.locator('[data-chapter="history"]').getAttribute('data-pin-mode')==='natural',`${engine}: reduced-motion history natural flow`);
+      for (let index=0; index<states.history.length; index++) {
+        await page.locator(`[data-era="${index}"]:visible`).click();
+        await settle(page);
+        const visibleState=words(await page.locator('[data-story-question]:visible').innerText());
+        const matched=visibleState===states.history[index];
+        assert(matched,`${engine}: reduced-motion manual history ${index} ("${visibleState}")`);
+        assert(await page.locator(`[data-era="${index}"]:visible`).getAttribute('aria-current')==='true',`${engine}: history ${index} semantic current state`);
+        fallbackTransitions.push({engine,chapter:'history',fallback:'reduced-motion',control:`[data-era="${index}"]`,visibleState,matched});
+      }
+      await page.locator('.mm-home-leadership .reach-sequence').scrollIntoViewIfNeeded();
+      await control(page, '[data-reach-jump="organisation"]','reach',1,'reduced-motion');
+      assert(await page.locator('[data-reach-jump="organisation"]').getAttribute('aria-current')==='step',`${engine}: organisation semantic current state`);
+      await control(page, '[data-reach-jump="boundary"]','reach',0,'reduced-motion');
       await page.locator('.mm-home-leadership .work-scroll').scrollIntoViewIfNeeded();
       for (let index=2; index>=0; index--) await control(page, `[data-work-button="${index}"]`,'practice',index,'reduced-motion');
       await page.locator('.mm-home-leadership [data-benefit-track]').scrollIntoViewIfNeeded();
@@ -165,14 +178,13 @@ try {
         await page.goto(origin,{waitUntil:'domcontentloaded'});
         await page.waitForSelector('.mm-home-leadership .reach-sequence');
         const shortTop = await page.evaluate(()=>parseFloat(getComputedStyle(document.querySelector('.mm-home-leadership')).getPropertyValue('--header')));
-        const reachFit = await page.locator('.mm-home-leadership .reach-sequence').evaluate(section => {
-          scrollTo({ top: scrollY + section.getBoundingClientRect().top, behavior: 'instant' });
-          const heading = section.querySelector('.reach-copy h2').getBoundingClientRect();
-          const grid = section.querySelector('.organisation-grid').getBoundingClientRect();
-          return { headingTop: heading.top, headingBottom: heading.bottom, gridBottom: grid.bottom, height: innerHeight };
-        });
-        assert(reachFit.headingTop>=0 && reachFit.headingBottom<=reachFit.height+3,`${engine}/${fallback}/reach: heading on screen ${JSON.stringify(reachFit)}`);
-        for (const chapter of short.width > 900 ? ['practice','benefits'] : ['benefits']) {
+        // A history frame taller than the screen is not pinned; its era buttons still reach the last story.
+        await page.waitForSelector('[data-chapter="history"]');
+        assert(await page.locator('[data-chapter="history"]').getAttribute('data-pin-mode')==='natural',`${engine}/${fallback}: history natural flow`);
+        await page.locator('[data-era="3"]:visible').click();
+        await settle(page);
+        assert(words(await page.locator('[data-story-question]:visible').innerText())===states.history[3],`${engine}/${fallback}: history manual choice`);
+        for (const chapter of short.width > 900 ? ['reach','practice','benefits'] : ['reach','benefits']) {
           const g = await measure(page, chapter, shortTop);
           await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),Math.round(chapters[chapter].at(1,g)));
           await settle(page); await settle(page);
@@ -191,7 +203,7 @@ try {
   }
 } catch(error){ failures.push(error.stack); }
 finally { server?.kill(); }
-const sourceFiles=['src/pages/Index.tsx','src/components/homepage-release/markup.ts','src/components/homepage-release/runtime.js','src/components/homepage-release/component-styles.css','src/components/homepage-release/page.css','src/components/homepage-release/integration.css','src/components/leadership-chapters/leadershipChapters.ts','src/styles/new-age-leadership-r5.css'];
+const sourceFiles=['src/pages/Index.tsx','src/components/homepage-release/markup.ts','src/components/homepage-release/runtime.js','src/components/homepage-release/component-styles.css','src/components/homepage-release/page.css','src/components/homepage-release/integration.css','src/components/leadership-chapters/leadershipChapters.ts','src/styles/new-age-leadership-r5.css','src/components/homepage-release/pinnedChapters.ts','src/components/homepage-release/pinnedChapters.css'];
 const hashes={};
 for(const file of sourceFiles) hashes[file]=createHash('sha256').update(await readFile(path.join(root,file))).digest('hex');
 const report={at:new Date().toISOString(),origin,built:process.argv.includes('--built'),hashes,cases,screenshots,fallbackTransitions,failures};

@@ -13,11 +13,13 @@ Superseded observations live only in [history/LOG.md](history/LOG.md).
 - Vercel project: prj_GqamX3psD0cGpGCDXRu0ljET7zap; team: team_iXZBozK4Ss7NHuyNk8L9wmO6.
 - Repository: krishanraja/mindmake. A merge to main automatically promotes production.
 
-The approved R3 homepage is live with the r35 chapters: opening, the three
-new-age leadership chapters (reach, practice, and the AI Brain benefits beside
-the returned hour), AI Brain/AI GTM routes and footer. The chapters pin by
-scroll in both directions, release naturally and keep direct controls on
-reduced-motion and short screens. The new-age-leadership route is a separate
+The approved R3 homepage carries: opening, the R3 history chapter (four pinned
+eras), the three new-age leadership chapters (reach in both its states,
+practice, and the AI Brain benefits beside the returned hour), AI Brain/AI GTM
+routes and footer. Every chapter pins by scroll in both directions, releases
+naturally and keeps direct controls on reduced-motion and short screens. The
+r41 candidate below restores history and the reach chapter's first state;
+production shows the r39/r40 page until it is read back. The new-age-leadership route is a separate
 approved companion that shares their source.
 
 [RELEASE-2026-09-24](website-redesign/RELEASE-2026-09-24.md) owns the receipt.
@@ -301,7 +303,12 @@ owns payload, privacy, retention, email and failure-path contracts.
   shape." alone, as one still screen: "The feeling is familiar. The reach
   is new." answered a history chapter `/` no longer has. `/new-age-leadership`
   keeps both states. Recorded in
-  `quality/route-lock/approved-production-r39.json`.
+  `quality/route-lock/approved-production-r39.json`. Reversed by r41
+  (`quality/route-lock/approved-production-r41.json`) on Krish's instruction
+  to reinstate: `/` again carries the R3 history chapter, pinned through its
+  four eras by `src/components/homepage-release/pinnedChapters.ts`, ahead of
+  the leadership chapters, and the reach chapter scrolls from "The feeling is
+  familiar. The reach is new." into "The organisation changes shape.".
 - The homepage opening hero plays the Archive Engine loop
   (`src/assets/films/sep2026/archive-engine-hero-loop-r04-16s-1080p-web-sealed.mp4`)
   with its own WebP poster; the route stage keeps `film-02`. Recorded in

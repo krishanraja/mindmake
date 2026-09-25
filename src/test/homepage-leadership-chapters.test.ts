@@ -16,25 +16,24 @@ describe("homepage leadership chapters", () => {
     for (const words of ["The organisation<br /><em>changes shape.</em>", "The system does not replace your judgement.", "What your AI Brain makes possible", "What will you do with the hours it gives back?"]) {
       expect(rendered).toContain(words);
     }
-    expect(homepageMarkup).toContain('href="#new-age-leadership"');
   });
 
-  it("opens the homepage reach chapter on the organisation alone, and keeps both states on /new-age-leadership", () => {
-    expect(homepageMarkup).toContain("The organisation<br /><em>changes shape.</em>");
-    expect(homepageMarkup).toContain("reach-organisation-only");
-    for (const retired of ["The feeling is familiar.", "The reach is new.", "reach-progress", "data-reach-jump", "capability-instrument", "Plato, Phaedrus"]) {
+  it("no longer carries the retired R3 authority and dividend chapters", () => {
+    for (const retired of ['data-component="authority"', 'data-component="leadership-dividend"', "r3-mode-switch", "data-stage=", "data-practice="]) {
       expect(homepageMarkup).not.toContain(retired);
     }
-    const full = leadershipChaptersMarkup();
-    expect(full).toContain("The feeling is familiar.");
-    expect(full).toContain('data-reach-jump="organisation"');
-    expect(full).not.toContain("reach-organisation-only");
   });
 
-  it("no longer carries the retired R3 chapters", () => {
-    for (const retired of ['data-component="history"', 'data-component="authority"', 'data-component="leadership-dividend"', "r3-mode-switch", "data-era=", "We have felt this before"]) {
-      expect(homepageMarkup).not.toContain(retired);
-    }
+  it("carries the R3 history chapter before the leadership chapters, and the reach chapter's two states (r41)", () => {
+    const history = homepageMarkup.indexOf('data-component="history"');
+    expect(history).toBeGreaterThan(homepageMarkup.indexOf('id="opening"'));
+    expect(history).toBeLessThan(homepageMarkup.indexOf('id="new-age-leadership"'));
+    expect(homepageMarkup).toContain("You are not the first person to wonder what a new tool might take from you.");
+    expect(homepageMarkup.match(/data-era="[0-3]"/g)?.length).toBeGreaterThanOrEqual(4);
+    expect(homepageMarkup).toContain('href="#history"');
+    const chapters = leadershipChaptersMarkup();
+    expect(chapters).toContain("The feeling is familiar.");
+    expect(chapters).toContain('data-reach-jump="organisation"');
   });
 
   it("hides every decorative chapter film from assistive technology", () => {

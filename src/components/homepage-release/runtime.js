@@ -3,9 +3,13 @@ import asset0 from "../../assets/mindmake-mark.svg";
 import asset1 from "../../assets/mindmake-wordmark.svg";
 import asset2 from "../../assets/films/sep2026/archive-engine-hero-poster-r04.webp";
 import asset3 from "../../assets/films/sep2026/archive-engine-hero-loop-r04-16s-1080p-web-sealed.mp4";
-import asset4 from "../../assets/films/film-02-poster.webp";
-import asset5 from "../../assets/films/film-02-loop.mp4";
-import asset6 from "../../assets/films/film-04-loop.mp4";
+import asset4 from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-writing-s2.webp";
+import asset5 from "../../assets/films/film-02-poster.webp";
+import asset6 from "../../assets/films/film-02-loop.mp4";
+import asset7 from "../../assets/films/film-04-loop.mp4";
+import asset8 from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-loom-s2.webp";
+import asset9 from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-calculator-s2.webp";
+import asset10 from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-satnav-s2.webp";
 export function mountHomepageRuntime(root, { onStart }) {
   const abort = new AbortController();
   const observers = new Set();
@@ -81,7 +85,7 @@ export function mountHomepageRuntime(root, { onStart }) {
       source: "Anonymous client outcome · Research and content",
       steps: ["The founder's standards", "A system they own", "Used on real work"],
       result: "Research-backed publishing moved from days to under an hour, and from roughly monthly to most days.",
-      film: asset5,
+      film: asset6,
     },
     gtm: {
       title: "We turn an AI market shift into one tested commercial move.",
@@ -90,7 +94,7 @@ export function mountHomepageRuntime(root, { onStart }) {
       source: "Anonymous client outcome · Media advisory",
       steps: ["Expertise people value", "A clear offer", "A defined plan launched"],
       result: "A respected advisory firm turned its expertise into a clear offer clients could buy.",
-      film: asset6,
+      film: asset7,
     },
   };
   let selectedRoute = "brain";
@@ -128,6 +132,27 @@ export function mountHomepageRuntime(root, { onStart }) {
   }));
   within("route", "[data-start-route]").forEach((button) => listen(button, "click", () => { onStart(button.dataset.startRoute); }));
 
+  const stories = [
+    { era: "370 BC · Writing", image: asset4, alt: "An illustrative historical writing scene", question: "If knowledge lives outside us, will memory grow weaker?", outcome: "Ideas could travel beyond one voice and survive their maker. We changed what memory was for." },
+    { era: "1675 · Engine loom", image: asset8, alt: "An illustrative mechanised loom scene", question: "If the machine can do the work, what happens to the worker?", outcome: "The fear was not foolish. Jobs, wages and status changed. The real fight was over who controlled the gain." },
+    { era: "1970s · Calculator", image: asset9, alt: "An illustrative classroom calculator scene", question: "If the device does the arithmetic, will children stop learning to think?", outcome: "A review of 79 studies found no collapse in basic skills. The question moved from doing every sum to understanding the answer." },
+    { era: "2000s · Satnav", image: asset10, alt: "An illustrative early satellite navigation scene", question: "If the device knows the route, will we lose our sense of direction?", outcome: "That risk turned out to be real. A useful tool still asks us what we choose to keep practising." },
+  ];
+  const selectStory = (index) => {
+    within("history", ".history-frame").forEach((frame) => {
+      const story = stories[index];
+      frame.querySelector("[data-story-question]").textContent = story.question;
+      frame.querySelector("[data-story-outcome]").textContent = story.outcome;
+      frame.querySelector("[data-story-era]").textContent = story.era;
+      frame.querySelector("[data-story-count]").textContent = `0${index + 1}`;
+      const image = frame.querySelector("[data-story-image]");
+      image.src = story.image;
+      image.alt = story.alt;
+      frame.querySelectorAll("[data-era]").forEach((button) => setCurrent(button, Number(button.dataset.era) === index));
+    });
+  };
+  within("history", "[data-era]").forEach((button) => listen(button, "click", () => { const index = Number(button.dataset.era); selectStory(index); choice({ section: "history", index }); }));
+
   if ("IntersectionObserver" in window) new TrackedObserver(([entry], observer) => {
     if (!entry.isIntersecting) return;
     activateRouteMedia();
@@ -149,6 +174,7 @@ export function mountHomepageRuntime(root, { onStart }) {
     reveals.forEach((section) => section.classList.add("is-visible"));
   });
 
+  selectStory(0);
   const syncMotionMedia = () => root.querySelectorAll('video').forEach(video => {
     if (reducedMotion.matches) video.pause();
     else if (video.closest('.r3-opening') && video.closest('.r3-variant')?.offsetParent !== null) video.play().catch(() => {});
@@ -158,6 +184,7 @@ export function mountHomepageRuntime(root, { onStart }) {
   root.querySelectorAll('a[href="/start"]').forEach(link => listen(link, 'click', event => { event.preventDefault(); setNavigation(false); onStart('home'); }));
   selectRoute("brain");
   return {
+    selectStory,
     destroy() {
       abort.abort();
       observers.forEach(observer => observer.disconnect());

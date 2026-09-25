@@ -278,7 +278,7 @@ owns payload, privacy, retention, email and failure-path contracts.
   and Plex Mono 400 labels. The shell pages take it from `--mm-body` and the
   `.mm-site` heading default; the homepage from the type section of
   `src/components/homepage-release/integration.css`. `npm run qa:type-system`
-  passes on all 33 checked routes at 1440x900 and 390x844 (4,788 text nodes)
+  passes on all 32 checked routes at 1440x900 and 390x844 (4,531 text nodes)
   and fails on the previous main. Carried by the generated lock
   `quality/route-lock/approved-production.lock.json`; feedback item
   TYPE-SYSTEM-002.

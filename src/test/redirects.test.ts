@@ -73,6 +73,16 @@ describe("public route contract", () => {
     expect(app).toContain('path="/tool" element={<Navigate to="/ai-brain"');
   });
 
+  it("is committed in the exact form Vercel builds from", () => {
+    /* Vercel writes vercel.json back as compact JSON with a trailing newline
+       before `npm run build` runs, and the build's route-lock gate hashes
+       what it finds. A committed file in any other form passes locally and
+       in CI and then fails the production build: the #208 merge shipped it
+       without the newline, and Vercel refused to deploy (2026-09-25). */
+    const source = readFileSync(resolve(ROOT, "vercel.json"), "utf8");
+    expect(source).toBe(`${JSON.stringify(JSON.parse(source))}\n`);
+  });
+
   it("sends the retired answers index to the ideas page and keeps the answer pages", () => {
     /* Quick AI tips merged into Ideas you can use (Krish, 2026-09-25). The
        index address is permanent history; each answer keeps its own page. */

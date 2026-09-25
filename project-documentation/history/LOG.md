@@ -9509,3 +9509,4 @@ blob ab4347aa8c376867d29895e5ed6d21573b9c4c57) remains in the repository unchang
 Route lock: quality/route-lock/approved-production-r25.json (built on r24). As r18
 requires, the shared commercial Decision Balance is not mounted on /ai-gtm; the
 site action bar carries Start here and the door to /ai-brain.
+- 2026-09-25: the homepage opening hero moved from Archive Engine r04 to r07 (`archive-engine-hero-loop-r07-16s-1080p-review-sealed.mp4`, SHA-256 `bbc314f3…a11354`) on Krish's instruction, with new r07 JPG/WebP posters from the loop's first frame. r04 was the hero from r45 until this change and its files remain.

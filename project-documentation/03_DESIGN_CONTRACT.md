@@ -41,6 +41,8 @@ Ground-aware colors must remain readable on both ink and paper. Mint as a filled
 
 Use approved films/posters and real logo assets, never broken paths or generic stand-ins. Case-study machinery is illustrative, not client footage. Keep essential content independent of successful film loading; paused/reduced-motion states retain the poster and controls. Attendance brands are not advisory clients.
 
+No word and no link may sit alone on a new line, on any page, at the normal desktop (1440x900) or phone (390x844) size (Krish, 2026-09-25). Running text defaults to `text-wrap: pretty` and headings to `balance` at zero specificity (`src/index.css`); `src/lib/keepLastWords.ts` joins the last two words wherever a lone last word still wraps, and a wrapped row of links must not leave one link alone. `npm run qa:line-breaks` measures every indexed page at both sizes against the built site, with a negative control.
+
 ## Motion and scroll behavior
 
 Entrance choreography is sanctioned only when content remains readable if the reveal never fires. Script failure, an unavailable observer and reduced motion must retain readable content and operable controls; choreography cannot be a prerequisite for access.

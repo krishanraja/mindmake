@@ -543,33 +543,32 @@ describe("the conversion contract", () => {
     }
   });
 
-  it("gives the publication its own section, not a consolation line", () => {
+  it("offers the publication as a subscription, not a consolation or a band", () => {
     /* It used to be eleven pixels of muted mono at the foot of the close block,
        reading "Not ready? Take the weekly read instead", which framed it as
-       what you take when you will not take the real thing. It is a separate
-       opt-in that some people want on its own terms, so it has a section, and
-       the close block no longer offers a runner-up prize. */
+       what you take when you will not take the real thing. The close block
+       still offers no runner-up prize. */
     const close = read("src/components/mindmake/CloseBlock.tsx");
     expect(`close offers a consolation: ${close.includes("Not ready")}`)
       .toBe("close offers a consolation: false");
 
-    const band = read("src/components/mindmake/SubscribeBand.tsx");
-    expect(band).toContain("PUBLICATION_URL");
-    /* Exactly two channels, named as the publication names them. */
-    expect(band).toContain("The Money of AI");
-    expect(band).toContain("Built with AI");
-    expect(read("src/lib/publicLinks.ts")).toContain("https://mindmakerlive.substack.com");
+    /* Ruling (Krish, 2026-09-25): the "reading, if you want it separately"
+       band is gone everywhere. Subscribing is offered where it costs the page
+       nothing: the badge beside Media, the footer, and the brief's success
+       step, each saying the same "Subscribe for free". */
+    expect(`band exists: ${existsSync(resolve(process.cwd(), "src/components/mindmake/SubscribeBand.tsx"))}`)
+      .toBe("band exists: false");
+    for (const page of ["src/pages/CaseStudies.tsx", "src/pages/AiGtm.tsx", "src/pages/AiBrainLocked.tsx", "src/pages/Index.tsx"]) {
+      expect(read(page)).not.toContain("SubscribeBand");
+    }
 
-    /* The locked offer routes reveal the publication through the menu instead
-       of restoring another section to either short, decision-led argument. */
-    expect(read("src/pages/AiGtm.tsx")).not.toContain("<SubscribeBand");
-    expect(read("src/pages/AiBrain.tsx")).not.toContain("<SubscribeBand");
-    expect(read("src/pages/Index.tsx")).not.toContain("<SubscribeBand");
+    const links = read("src/lib/publicLinks.ts");
+    expect(links).toContain("https://mindmakerlive.substack.com");
+    expect(links).toContain('SUBSCRIBE_LABEL = "Subscribe for free"');
     const shell = read("src/components/mindmake/MindmakeShell.tsx");
-    expect(shell).toContain("PUBLICATION_URL");
+    expect(shell).toContain("SUBSCRIBE_URL");
     expect(shell).toContain("Media");
-    expect(band).toContain("Open Media");
-    expect(band).not.toContain("Read it free");
+    expect(read("src/components/mindmake/LeadBrief.tsx")).toContain("SUBSCRIBE_LABEL");
   });
 });
 

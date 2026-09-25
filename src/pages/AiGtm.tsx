@@ -9,6 +9,7 @@ import quietWorkshopFilm from "@/assets/films/sep2026/quiet-workshop-growth-loop
 import signalsArriveFilm from "@/assets/films/sep2026/signals-arrive-loop-r01-20s-720p-web-sealed.mp4";
 import quietWorkshopPoster from "../../prototypes/website-redesign-recovery/gtm-market-change/media/quiet-workshop-growth-poster.png";
 import signalsArrivePoster from "../../prototypes/website-redesign-recovery/gtm-market-change/media/signals-arrive-poster.png";
+import { PairingBridge } from "@/components/mindmake/PairingBridge";
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-locked-gtm.css";
 import "@/styles/mindmake-gtm-plain.css";
@@ -489,6 +490,7 @@ export default function AiGtm() {
           </section>
         </div>
       </div>
+      <PairingBridge route="gtm" onStart={() => openBrief("gtm")} />
       <LeadBrief open={briefOpen} onClose={closeBrief} route="gtm" presentation="drawer" journeyKey={briefJourneyKey} initialContext={copy.tab} />
     </MindmakeShell>
   );

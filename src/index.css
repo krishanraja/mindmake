@@ -464,3 +464,11 @@ h1[tabindex="-1"]:focus-visible { outline: 0; box-shadow: none; }
   
 
   }
+/* LINE BREAKS
+   Ruling (Krish, 2026-09-25): one word must never sit alone on a new line, on
+   any page, at the normal desktop or phone size. Running text sets its lines
+   so the last one is never a single word; headings balance their lines.
+   Zero specificity through :where(), so any component that sets its own wrap
+   keeps it. scripts/qa/line-break-check.mjs measures the rendered result. */
+:where(p, li, dd, dt, blockquote, figcaption, small, label, td, th, a, button, span, strong, em) { text-wrap: pretty; }
+:where(h1, h2, h3, h4, h5, h6, legend, caption) { text-wrap: balance; }

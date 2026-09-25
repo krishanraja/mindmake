@@ -2154,32 +2154,6 @@
    about to happen. */
 .mm-try-panel > .mm-i:first-child { width: clamp(54px, 12vw, 76px); height: clamp(54px, 12vw, 76px); margin-bottom: 4px; }
 
-/* A larger button for the one action a section exists to offer. */
-.mm-button-lg { min-height: 54px; padding: 14px 26px; font-size: 12.5px; }
-
-.mm-subscribe-grid { display: grid; gap: 26px; align-items: start; }
-@media (min-width: 900px) {
-  .mm-subscribe-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 48px; }
-}
-.mm-subscribe h2 { max-width: 26ch; }
-.mm-subscribe .mm-lede { margin-top: 12px; max-width: 46ch; }
-.mm-subscribe .mm-button { margin-top: 22px; }
-/* The split-flap film in the publication band. Sized to the copy column rather
-   than the whole band: it belongs to the offer on the left, beside the two
-   channels it publishes into, and full width it would read as a hero. */
-.mm-subscribe-film { margin-top: 20px; aspect-ratio: 16 / 9; border-radius: 3px; overflow: hidden; }
-@media (min-width: 900px) { .mm-subscribe-film { max-width: 420px; } }
-.mm-channels { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
-.mm-channels li {
-  border: 1px solid var(--mm-line);
-  border-left: 2px solid var(--mm-mint-dim);
-  border-radius: 3px;
-  background: var(--mm-ink2);
-  padding: 15px 17px;
-}
-.mm-channels h3 { font-family: var(--mm-serif); font-size: clamp(17px, 1.9vw, 21px); letter-spacing: -.015em; }
-.mm-channels p { margin-top: 7px; color: var(--mm-tx2); font-size: 14px; line-height: 1.55; }
-
 /* ---------- The instrument set ---------- */
 
 /* Six marks, one grid, one stroke weight, one mint part each. Everything here
@@ -2280,7 +2254,6 @@ h1:has(> .mm-head-mark), h2:has(> .mm-head-mark), h3:has(> .mm-head-mark), h4:ha
    `vertical-align: -7px` was doing the same job for one font size only. */
 h1 > .mm-head-mark, h2 > .mm-head-mark { margin-top: -.1em; }
 h3 > .mm-head-mark, h4 > .mm-head-mark { width: 28px; height: 28px; margin-top: -.22em; }
-.mm-channels li .mm-i,
 .mm-principle .mm-i { width: 34px; height: 34px; margin-bottom: 9px; }
 /* A head mark on a small heading scales with it rather than dwarfing it. */
 .mm-attendance h3 .mm-head-mark,
@@ -2423,9 +2396,6 @@ h3 > .mm-head-mark, h4 > .mm-head-mark { width: 28px; height: 28px; margin-top: 
      it before the doors even started. */
   .mm-hero-stage { min-height: clamp(360px, 52vh, 460px); }
   .mm-block { padding-block: 34px; }
-  .mm-subscribe-grid { gap: 20px; }
-  .mm-subscribe .mm-button { margin-top: 18px; }
-  .mm-channels li { padding: 13px 14px; }
   .mm-answer { margin-top: 22px; }
   .mm-door { min-height: 210px; }
   .mm-doors { margin-top: 18px; }

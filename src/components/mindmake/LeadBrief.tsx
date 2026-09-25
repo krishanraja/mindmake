@@ -17,7 +17,8 @@ import { HumanHandoff } from "@/components/mindmake/HumanHandoff";
 import { MindmakeProposal } from "@/components/mindmake/MindmakeProposal";
 import { buildPrivateBriefHtml, type PrivateBriefContent } from "@/components/mindmake/privateBriefHtml";
 import "@/styles/mindmake-brief.css";
-import { CONTACT_EMAIL } from "@/lib/publicLinks";
+import { CONTACT_EMAIL, SUBSCRIBE_LABEL, SUBSCRIBE_URL } from "@/lib/publicLinks";
+import { track } from "@/lib/analytics";
 import opportunitiesFilm from "@/assets/films/sep2026/opportunities-resolve-loop-r01-20s-720p-web-sealed.mp4";
 import opportunitiesPoster from "@/assets/films/sep2026/opportunities-resolve-poster.webp";
 import {
@@ -1658,6 +1659,22 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
                 <a className="mm-text-button" href={`mailto:${CONTACT_EMAIL}?subject=My%20Mindmake%20brief`}>Email us directly</a>
               )}
               <button className="mm-text-button" type="button" onClick={onClose}>Return to the site</button>
+            </div>
+            {/* The warmest moment the site has: the reader has just been given
+                something useful. The invitation checkbox only records interest,
+                so this is where a subscription can actually happen. Below the
+                brief's own actions, never above them. */}
+            <div className="mm-success-subscribe">
+              <p>Between briefs, The Money of AI and Built with AI come free by email.</p>
+              <a
+                className="mm-subscribe-cta"
+                href={SUBSCRIBE_URL}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => track("substack_click", { source: "brief_success" })}
+              >
+                {SUBSCRIBE_LABEL} <span aria-hidden="true">↗</span>
+              </a>
             </div>
           </section>
         )}

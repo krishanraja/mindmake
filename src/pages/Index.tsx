@@ -44,7 +44,19 @@ export default function Index() {
     });
     const motion = matchMedia("(prefers-reduced-motion: reduce)");
     const unmountChapters = mountLeadershipChapters(root, { reduced: motion.matches, media: true, canPlay: () => !motion.matches });
+    /* The generated markup's own links: the hero doors go to their pages and
+       the subscribe links leave for the publication. Measured here because
+       the adapter only owns chapter interaction. */
+    const measure = (event: MouseEvent) => {
+      const target = event.target instanceof Element ? event.target : null;
+      const door = target?.closest<HTMLElement>("[data-route-choice]");
+      if (door) track("door_click", { source: "homepage_hero", route: door.dataset.routeChoice ?? "" });
+      const publication = target?.closest("a[href*='substack.com']");
+      if (publication) track("substack_click", { source: publication.closest(".r3-navigation") ? "menu" : "homepage_footer" });
+    };
+    root.addEventListener("click", measure);
     return () => {
+      root.removeEventListener("click", measure);
       unmountChapters();
       runtime.destroy();
       document.documentElement.classList.remove("mm-homepage-active");

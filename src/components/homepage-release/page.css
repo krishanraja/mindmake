@@ -23,7 +23,7 @@ body.mm-homepage-active.navigation-open{overflow:hidden}
 .r3-opening .preview-desktop .hero-stage,.r3-opening .preview-mobile .hero-stage{inset:var(--masthead) 0 0!important}
 .r3-opening .hero-copy h1{max-width:10.5ch;margin:0;color:var(--paper);font:400 clamp(42px,5vw,76px)/.91 Newsreader,Georgia,serif;letter-spacing:-.055em;text-wrap:balance}
 .r3-opening .menu-control,.r3-navigation .menu-control{min-width:44px;min-height:44px;border:0;background:transparent;cursor:pointer}
-.r3-opening .route-doors button{min-width:44px;min-height:44px}
+.r3-opening .route-doors a{min-width:44px;min-height:44px}
 .r3-opening button:focus-visible,.r3-navigation a:focus-visible,.r3-navigation button:focus-visible,.r3-section .primary:focus-visible,.r3-footer a:focus-visible{outline:3px solid var(--paper)!important;outline-offset:3px!important}
 .r3-route .site-masthead{display:none!important}
 .r3-route .route-stage{inset:0!important}
@@ -56,7 +56,7 @@ body.mm-homepage-active.navigation-open{overflow:hidden}
   .r3-opening>.r3-variant{height:100dvh;min-height:568px}
   .r3-opening .r3-variant>.site-frame{height:100dvh;min-height:568px}
   .r3-opening .hero-copy h1{max-width:9.5ch;font-size:10.25cqi;line-height:.92}
-  .r3-opening .route-doors button{min-height:58px}
+  .r3-opening .route-doors a{min-height:58px}
   .r3-route .preview-mobile .route-copy{padding-top:calc(17cqi + 68px)!important}
   .r3-route .preview-mobile .back{top:30px!important;font-size:11px!important}
   .r3-route{min-height:max(100dvh,900px)}
@@ -73,7 +73,7 @@ body.mm-homepage-active.navigation-open{overflow:hidden}
   .r3-opening .preview-desktop .hero-copy h1{max-width:12ch;font-size:clamp(32px,7.2vh,42px);line-height:.92}
   .r3-opening .preview-desktop .hero-lede{margin-top:8px;font-size:12px}
   .r3-opening .preview-desktop .route-doors{margin-top:10px}
-  .r3-opening .preview-desktop .route-doors button{min-height:54px;padding-block:7px}
+  .r3-opening .preview-desktop .route-doors a{min-height:54px;padding-block:7px}
   .r3-opening .preview-desktop .shared-proof{margin-top:8px}
 }
 

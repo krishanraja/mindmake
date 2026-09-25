@@ -11,6 +11,13 @@ import postcss from 'postcss';
 // are delivered in their place from their shared source.
 // Ruling (Krish, 2026-09-25): the homepage uses the new-age-leadership
 // chapters instead of its own three, which are scrapped.
+//
+// A second authorised correction (Krish, 2026-09-25, recorded in
+// quality/route-lock/approved-production-r38.json): the two hero doors promise
+// a page (their ↗ says so) and are links to it rather than buttons that
+// scrolled to the closing chapter, and Media carries its "Subscribe for free"
+// badge and lands on the subscribe form. `doors` and `subscribe` below are the
+// whole of it; each is counted and the build fails if the source drifts.
 const repo = process.cwd();
 const source = path.join(repo, 'prototypes/website-redesign-recovery/homepage-production-synthesis-r3');
 const output = path.join(repo, 'src/components/homepage-release');
@@ -51,11 +58,25 @@ const register = value => {
 let body = read('index.html').match(/<body>([\s\S]*?)<script src="\.\/script.js"><\/script>/)[1].trim();
 body = cut(body, '<section id="history"', '<section id="route"', leadershipChapters, 'retired chapters');
 body = cut(body, '<a class="skip-link" href="#history">', null, '<a class="skip-link" href="#new-age-leadership">', 'skip link');
+const publication = 'https://mindmakerlive.substack.com';
+const subscribe = { href: `${publication}/subscribe`, label: 'Subscribe for free' };
+const doors = { brain: '/ai-brain', gtm: '/ai-gtm' };
+body = body
+  .replace(/<button type="button" data-route-choice="(brain|gtm)">([\s\S]*?)<\/button>/g, (_, route, inner) => `<a href="${doors[route]}" data-route-choice="${route}">${inner}</a>`)
+  .replace(/(<nav class="primary-routes"[^>]*>[\s\S]*?)<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `$1<a href="${subscribe.href}" target="_blank" rel="noreferrer" class="mm-route-badged" data-badge="${subscribe.label}">Media</a>`)
+  .replace(/<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `<a href="${subscribe.href}" target="_blank" rel="noreferrer">Media</a>`)
+  .replace(/(<p class="footer-statement">[^<]*<\/p>)/g, `$1<a class="mm-subscribe-cta" href="${subscribe.href}" target="_blank" rel="noreferrer" data-subscribe-source="homepage_footer">${subscribe.label} <span aria-hidden="true">↗</span></a>`);
+for (const [pattern, expected, label] of [[/data-route-choice="(?:brain|gtm)"/g, 4, 'hero door'], [/data-badge=/g, 2, 'Media badge'], [/mm-subscribe-cta/g, 2, 'footer subscribe'], [/<button type="button" data-route-choice/g, 0, 'unconverted door']]) {
+  const found = (body.match(pattern) ?? []).length;
+  if (found !== expected) throw new Error(`Authorised correction drifted: ${label} expected ${expected}, found ${found}`);
+}
 const markup = body.replace(/<video muted="" loop="" autoplay=""/g, '<video data-mm-poster="true" muted="" loop=""').replace(/(?:src|poster)="(\.\.\/[^\"]+)"/g, (all, value) => all.replace(value, `\${${register(value)}}`));
 let script = read('script.js');
 script = cut(script, '  const stories = [', '  if ("IntersectionObserver" in window) new IntersectionObserver(([entry], observer) => {', '', 'retired chapter runtime');
 script = cut(script, '    restartBenefitTimer();\n  });', null, '  });', 'retired benefit timer');
 script = cut(script, '  selectStory(0);\n  selectAuthority("work");\n  selectDividend("practice");\n', null, '', 'retired chapter start');
+// The doors are links now; the page they name is where the click goes.
+script = cut(script, '  within("opening", "[data-route-choice]").forEach((button) => button.addEventListener("click", () => selectRoute(button.dataset.routeChoice, true, true)));\n', null, '', 'hero door binding');
 let runtime = script.replace(/^\(\(\) => \{/, 'export function mountHomepageRuntime(root, { onStart }) {').replace(/\}\)\(\);\s*$/, '}');
 runtime = runtime.replace('  const root = document.documentElement;', lifecycle);
 runtime = runtime.replaceAll('document.querySelector', 'root.querySelector').replace('document.getElementById("site")', 'root.querySelector("#site")');
@@ -107,6 +128,9 @@ for (const name of ['component-styles.css', 'page.css']) {
     else if (kept.length !== rule.selectors.length) rule.selectors = kept;
   });
   ast.walkAtRules(rule => { if (rule.nodes && !rule.nodes.length) rule.remove(); });
+  ast.walkRules(rule => {
+    if (rule.selector.includes('.route-doors button')) rule.selectors = rule.selectors.map(selector => selector.replaceAll('.route-doors button', '.route-doors a'));
+  });
   ast.walkDecls(decl => {
     decl.value = decl.value.replace(/url\("(\.\.\/[^\"]+)"\)/g, (_, value) => `url("${path.relative(output, path.resolve(source, value)).replaceAll('\\', '/')}")`);
   });

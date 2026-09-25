@@ -19,7 +19,9 @@ The route redesign is a focused replacement of the AI Brain and AI GTM experienc
 
 ## Publication / Media
 
-The external publication at `https://mindmakerlive.substack.com` is labelled **Media** in the main menu and footer. The homepage publication band names its two actual channels, **The Money of AI** and **Built with AI**, and uses **Open Media** as the action. The navigation label is not a new publication brand; it is the route name for the media library hosted on Substack.
+The external publication at `https://mindmakerlive.substack.com` is labelled **Media** in the main menu and footer. The navigation label is not a new publication brand; it is the route name for the media library hosted on Substack, which runs two channels, **The Money of AI** and **Built with AI**.
+
+Subscribing is the site's low-commitment way to stay close, and it never competes with **Get your free AI brief**. Every subscribe action says **Subscribe for free** and opens the publication's subscribe form (`SUBSCRIBE_URL` in `src/lib/publicLinks.ts`). It appears in three places: a hairline badge beside Media in both menus, one button in every footer, and one line with a button in the brief's success step. There is no publication band, pop-up or modal.
 
 ## Navigation layers
 

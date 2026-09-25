@@ -472,6 +472,17 @@
 }
 .mm-success h2 { margin-top: 22px; }
 .mm-success-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; margin-top: 28px; }
+.mm-success-subscribe {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  margin-top: 26px;
+  padding-top: 22px;
+  border-top: 1px solid var(--mmb-line, var(--mm-line));
+}
+.mm-success-subscribe p { margin: 0; max-width: 40ch; color: var(--mmb-muted, var(--mm-tx2)); font-size: 14px; }
+.mm-brief-panel .mm-success-subscribe .mm-subscribe-cta { color: var(--mmb-accent, var(--mm-mint)); border-color: color-mix(in srgb, var(--mmb-accent, var(--mm-mint)) 45%, transparent); }
 
 /* The phone, where the dialog stops being a card and becomes the screen. The
    backdrop is sized from the visual viewport the dialog measures, so an open

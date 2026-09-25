@@ -147,7 +147,12 @@
       "category": "publication",
       "ruling": "Media must be a thoughtfully placed route into the Substack publication, not an afterthought or a competing primary CTA.",
       "scope": ["navigation", "footer", "publication"],
-      "acceptance": "Media is findable from the shared navigation and an appropriate contextual surface, opens the canonical publication URL and remains visually subordinate to Start here."
+      "acceptance": "Media is findable from the shared navigation and an appropriate contextual surface, opens the canonical publication URL and remains visually subordinate to Start here.",
+      "rulingUpdate": {
+        "date": "2026-09-25",
+        "by": "Krish",
+        "change": "The publication band is removed everywhere. Media carries a 'Subscribe for free' badge in both menus and opens the publication's subscribe form. The contextual surfaces are the footer's 'Subscribe for free' button and the brief's success step. Each stays a hairline action beneath the brief's filled one."
+      }
     },
     {
       "id": "MMR-015",

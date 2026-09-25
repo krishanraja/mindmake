@@ -27,11 +27,15 @@ current instructions. Preserve the deterministic adapter and accepted source.
 
 ## Visitor journey
 
-Homepage and both doors open the same company-first LeadBrief: work email,
+The homepage's AI Brain and AI GTM doors link to `/ai-brain` and `/ai-gtm`;
+each page ends by pointing to the other beside the brief. Every brief button
+opens the same company-first LeadBrief: work email,
 name and business role, corroborated company read, problem, returned-time
 choice, brief preview, explicit keep action, verification and results.
 The delivered brief stays on screen and downloads as self-contained HTML.
 Publication interest is optional and unticked; it does not subscribe anyone.
+"Subscribe for free" does: a badge beside Media in both menus, a footer button
+and the brief's success step all open the publication's subscribe form.
 
 The personal-read API remains deployed, but is not a second form in this
 frontend. GTM uses the plain-English GTM-PLAIN-R2 page (approved 24 September 2026); the retained daily-news
@@ -302,6 +306,19 @@ owns payload, privacy, retention, email and failure-path contracts.
   (`src/assets/films/sep2026/archive-engine-hero-loop-r04-16s-1080p-web-sealed.mp4`)
   with its own WebP poster; the route stage keeps `film-02`. Recorded in
   `quality/route-lock/approved-production-r40.json`.
+- Conversion flow, page changes and line breaks: recorded in
+  `quality/route-lock/approved-production-r38.json`, merged as PR #189,
+  commit `94d1524`. Main's post-merge matrix on that commit passed on
+  Chromium, Firefox and WebKit. Production read back on 25 September 2026 at
+  about 07:40 UTC:
+  - The hero doors reach `/ai-gtm` in the same document, with no loading frame
+    and focus on the page heading. Back restores the scroll position.
+  - Media carries its badge and opens the subscribe form.
+  - `/case-studies` has no publication band. Both pairing blocks are served.
+  - No console errors.
+  - `qa:line-breaks` found no faults on all 26 routes at 1440x900 and 390x844.
+    It ran through a loopback relay that fetches production with TLS verified,
+    because the container's browser does not trust the egress proxy's CA.
 - `/case-studies` is recorded in
   `quality/route-lock/approved-production-r37.json`. A figure whose record
   carries no endpoint labels renders no label row at all, rather than two empty

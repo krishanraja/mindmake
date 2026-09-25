@@ -1,14 +1,14 @@
 {
-  "at": "2026-09-24T18:12:40.551Z",
+  "at": "2026-09-25T00:09:54.715Z",
   "origin": "http://127.0.0.1:4342",
   "built": true,
   "hashes": {
     "src/pages/Index.tsx": "485a04421a98c852d3e8870e9ebf4d49f4d253efc179a10385060efe558a028f",
-    "src/components/homepage-release/markup.ts": "640dde43993f636790e4a71c7a322b10b180482d86f6ce90ef1dd569cb5cd4fe",
+    "src/components/homepage-release/markup.ts": "cde3a109ff746a5091de7f9eb1ddbadcbccbe582b0fa7701b00f457aa466539f",
     "src/components/homepage-release/runtime.js": "455f458d711100018037fa60b6d742570b261d85da143f3dc766d497a5695419",
     "src/components/homepage-release/component-styles.css": "0b514cc3fb6a68369a22865569557b40119506f2785fcf3bace34270a4a15409",
     "src/components/homepage-release/page.css": "3f85787cdc8c72a2086eccf2b0966d729c7257739eb1ea006f903c64bab2775c",
-    "src/components/homepage-release/integration.css": "cb45a23326551c23571096050444ce34dc098090e7bceefa3d4058be697b5848",
+    "src/components/homepage-release/integration.css": "26523479663af72dc39b83c96f71eadbd814d59ce34c503fb0c73c388815edaa",
     "src/components/homepage-release/pinnedChapters.ts": "d3f0c747e3d52cce0054072276ea018e7dc3c04f0173a1f3ab36533092237886",
     "src/components/homepage-release/pinnedChapters.css": "cbd0045559d53625b7e033c6efdc1040e209d12d948d3d54aff61803d382f3c6"
   },
@@ -1843,5 +1843,5 @@
     }
   ],
   "failures": [],
-  "candidateDigest": "8f39d62082bfbd1f1568dfebf29b510dca4ebe677a6d6a1bd176273b59576781"
+  "candidateDigest": "40dfa4a703aa05998d2548f311c1e2ba8d3d7b2688aa82776d751dd79cad4c68"
 }

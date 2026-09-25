@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "candidateId": "homepage-integrated-candidate-r3",
-  "candidateSha256": "ee7b010ae7da6d7748d3504ca47c24fe149b280f815423d36c50b44e9ad241a1",
-  "capturedAt": "2026-09-24T11:11:53.443Z",
-  "expiresAt": "2026-10-01T11:11:53.443Z",
+  "candidateSha256": "b2e48737f691bb5d6fa244efd05a1e523179139e00d0601d5133de8150840701",
+  "capturedAt": "2026-09-25T00:11:21.976Z",
+  "expiresAt": "2026-10-02T00:11:21.976Z",
   "runtime": {
     "selfOwned": true,
     "origin": "http://127.0.0.1:4334"
@@ -15,7 +15,7 @@
       "evidence": [
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json",
-          "sha256": "3bb433cd41816c008b542b6be1b77b9e541324bab8f1610d7f3e9df992cb658a"
+          "sha256": "d0654bcd1980944db60bcc6053af33ba8b35a801abc2b6498e1dd2f656ca3eca"
         }
       ]
     },
@@ -25,7 +25,7 @@
       "evidence": [
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json",
-          "sha256": "3bb433cd41816c008b542b6be1b77b9e541324bab8f1610d7f3e9df992cb658a"
+          "sha256": "d0654bcd1980944db60bcc6053af33ba8b35a801abc2b6498e1dd2f656ca3eca"
         }
       ]
     },
@@ -35,7 +35,7 @@
       "evidence": [
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json",
-          "sha256": "3bb433cd41816c008b542b6be1b77b9e541324bab8f1610d7f3e9df992cb658a"
+          "sha256": "d0654bcd1980944db60bcc6053af33ba8b35a801abc2b6498e1dd2f656ca3eca"
         }
       ]
     },
@@ -45,7 +45,7 @@
       "evidence": [
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json",
-          "sha256": "3bb433cd41816c008b542b6be1b77b9e541324bab8f1610d7f3e9df992cb658a"
+          "sha256": "d0654bcd1980944db60bcc6053af33ba8b35a801abc2b6498e1dd2f656ca3eca"
         }
       ]
     },
@@ -55,7 +55,7 @@
       "evidence": [
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json",
-          "sha256": "3bb433cd41816c008b542b6be1b77b9e541324bab8f1610d7f3e9df992cb658a"
+          "sha256": "d0654bcd1980944db60bcc6053af33ba8b35a801abc2b6498e1dd2f656ca3eca"
         }
       ]
     },
@@ -65,7 +65,7 @@
       "evidence": [
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json",
-          "sha256": "3bb433cd41816c008b542b6be1b77b9e541324bab8f1610d7f3e9df992cb658a"
+          "sha256": "d0654bcd1980944db60bcc6053af33ba8b35a801abc2b6498e1dd2f656ca3eca"
         }
       ]
     },
@@ -75,7 +75,7 @@
       "evidence": [
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json",
-          "sha256": "3bb433cd41816c008b542b6be1b77b9e541324bab8f1610d7f3e9df992cb658a"
+          "sha256": "d0654bcd1980944db60bcc6053af33ba8b35a801abc2b6498e1dd2f656ca3eca"
         }
       ]
     },
@@ -85,7 +85,7 @@
       "evidence": [
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json",
-          "sha256": "3bb433cd41816c008b542b6be1b77b9e541324bab8f1610d7f3e9df992cb658a"
+          "sha256": "d0654bcd1980944db60bcc6053af33ba8b35a801abc2b6498e1dd2f656ca3eca"
         }
       ]
     },
@@ -95,7 +95,7 @@
       "evidence": [
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json",
-          "sha256": "3bb433cd41816c008b542b6be1b77b9e541324bab8f1610d7f3e9df992cb658a"
+          "sha256": "d0654bcd1980944db60bcc6053af33ba8b35a801abc2b6498e1dd2f656ca3eca"
         }
       ]
     },
@@ -105,7 +105,7 @@
       "evidence": [
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json",
-          "sha256": "3bb433cd41816c008b542b6be1b77b9e541324bab8f1610d7f3e9df992cb658a"
+          "sha256": "d0654bcd1980944db60bcc6053af33ba8b35a801abc2b6498e1dd2f656ca3eca"
         }
       ]
     },
@@ -115,7 +115,7 @@
       "evidence": [
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json",
-          "sha256": "3bb433cd41816c008b542b6be1b77b9e541324bab8f1610d7f3e9df992cb658a"
+          "sha256": "d0654bcd1980944db60bcc6053af33ba8b35a801abc2b6498e1dd2f656ca3eca"
         }
       ]
     },
@@ -125,7 +125,7 @@
       "evidence": [
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json",
-          "sha256": "3bb433cd41816c008b542b6be1b77b9e541324bab8f1610d7f3e9df992cb658a"
+          "sha256": "d0654bcd1980944db60bcc6053af33ba8b35a801abc2b6498e1dd2f656ca3eca"
         }
       ]
     },
@@ -135,7 +135,7 @@
       "evidence": [
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json",
-          "sha256": "3bb433cd41816c008b542b6be1b77b9e541324bab8f1610d7f3e9df992cb658a"
+          "sha256": "d0654bcd1980944db60bcc6053af33ba8b35a801abc2b6498e1dd2f656ca3eca"
         }
       ]
     },
@@ -145,7 +145,7 @@
       "evidence": [
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json",
-          "sha256": "3bb433cd41816c008b542b6be1b77b9e541324bab8f1610d7f3e9df992cb658a"
+          "sha256": "d0654bcd1980944db60bcc6053af33ba8b35a801abc2b6498e1dd2f656ca3eca"
         }
       ]
     },
@@ -155,7 +155,7 @@
       "evidence": [
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json",
-          "sha256": "3bb433cd41816c008b542b6be1b77b9e541324bab8f1610d7f3e9df992cb658a"
+          "sha256": "d0654bcd1980944db60bcc6053af33ba8b35a801abc2b6498e1dd2f656ca3eca"
         }
       ]
     },
@@ -165,7 +165,7 @@
       "evidence": [
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json",
-          "sha256": "3bb433cd41816c008b542b6be1b77b9e541324bab8f1610d7f3e9df992cb658a"
+          "sha256": "d0654bcd1980944db60bcc6053af33ba8b35a801abc2b6498e1dd2f656ca3eca"
         }
       ]
     },
@@ -175,7 +175,7 @@
       "evidence": [
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json",
-          "sha256": "3bb433cd41816c008b542b6be1b77b9e541324bab8f1610d7f3e9df992cb658a"
+          "sha256": "d0654bcd1980944db60bcc6053af33ba8b35a801abc2b6498e1dd2f656ca3eca"
         }
       ]
     },
@@ -185,7 +185,7 @@
       "evidence": [
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json",
-          "sha256": "3bb433cd41816c008b542b6be1b77b9e541324bab8f1610d7f3e9df992cb658a"
+          "sha256": "d0654bcd1980944db60bcc6053af33ba8b35a801abc2b6498e1dd2f656ca3eca"
         }
       ]
     },
@@ -195,7 +195,7 @@
       "evidence": [
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json",
-          "sha256": "3bb433cd41816c008b542b6be1b77b9e541324bab8f1610d7f3e9df992cb658a"
+          "sha256": "d0654bcd1980944db60bcc6053af33ba8b35a801abc2b6498e1dd2f656ca3eca"
         }
       ]
     },
@@ -205,7 +205,7 @@
       "evidence": [
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/browser-report.json",
-          "sha256": "3bb433cd41816c008b542b6be1b77b9e541324bab8f1610d7f3e9df992cb658a"
+          "sha256": "d0654bcd1980944db60bcc6053af33ba8b35a801abc2b6498e1dd2f656ca3eca"
         }
       ]
     }
@@ -225,23 +225,23 @@
       "evidence": [
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/chromium-desktop-1440x900-full.png",
-          "sha256": "c0a1ea455acc162bc7d4e5a5bf6e353a1525b246b1d9f3bb86fa611d7b730704"
+          "sha256": "ad4715ab83eb57452f49cf6c33e961f96ff1ca87f6cd8e0895de95c74eaab36e"
         },
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/chromium-desktop-1440x700-full.png",
-          "sha256": "828095ba9f49a3f30b7a0bbe1fdfbd1ab4902e45f3a5e63a968a155508d9a87a"
+          "sha256": "338efe9378e23c3f89ce778958f6c4664bbca3aa00f3a091ff2ad07c12f82ef9"
         },
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/chromium-desktop-200pct-equivalent-720x450-full.png",
-          "sha256": "b3743b92dc907d09b7163d866fd336bafe568e8f6c7ea70da95e5d31368fa25f"
+          "sha256": "e36751b91b36ccb471b067518ed791895b57eb39a7bb15f7649a898375ff21ec"
         },
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/firefox-desktop-1440x900-full.png",
-          "sha256": "6d43853827443c08c72919dc9576f19e785a8eb574b4b7ffc556ef2109f127a6"
+          "sha256": "9cc898212b39376e97ed649b9aa777ee4997f44761c98173ce716f696bad220f"
         },
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/webkit-desktop-1440x900-full.png",
-          "sha256": "846826e2d4015abfba78df95a056a13b88fc3758efe00bef60e601e163d87ac3"
+          "sha256": "25f05817287bc4d40066b7c3cb18aefd9aa2080f5d40bad04b3a7d3a42a82c88"
         }
       ]
     },
@@ -259,19 +259,19 @@
       "evidence": [
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/chromium-mobile-390x844-full.png",
-          "sha256": "2abf5767ddd85b71fff9ae0f67e28026cfd8d1fee1fe2d4d4f12ae24d0b8d2a3"
+          "sha256": "bd13a4279454d9a943f46e246d187735b703ae10c01009805b2838c8078c5b60"
         },
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/chromium-mobile-320x568-full.png",
-          "sha256": "144f1029273c32029e477afb590e75d5d2c9b95c68db72f5ff246cf9aaf29865"
+          "sha256": "91d94c367722e39c71a47eab2e7bcda7e46a09e27706cf44d8bfb818980a6fa0"
         },
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/firefox-mobile-390x844-full.png",
-          "sha256": "0da709154961f51ac24e5d8d8ea0e824b02bbf0a7f109f5351896f5b64fa620d"
+          "sha256": "2c3e9f567f02a1df97c25381bdf70eb04460f23471842f22175bbdb2e3fdd4c1"
         },
         {
           "path": "artifacts/material-review/homepage-integrated-candidate-r3/screenshots/webkit-mobile-390x844-full.png",
-          "sha256": "214a93645d80a4166026a20cf2aa4981e953f74675fea44030ca5c3ac151c928"
+          "sha256": "122d3520603f2dbd424c377bb9cec4f2d2c0ce8904efacaca67dc8acf0eb34f9"
         }
       ]
     }

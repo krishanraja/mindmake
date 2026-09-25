@@ -7,7 +7,13 @@ import { validateScrollBuildEvidence } from './scroll-build-evidence.mjs';
 import { createHomepageScrollContract } from './homepage-scroll-contract.mjs';
 
 const root = path.resolve(import.meta.dirname, '../..');
-const evidence = path.join(root, 'artifacts/homepage-release');
+// Pre-merge (Krish, 2026-09-25): Chromium alone gates a branch. Firefox and
+// WebKit run only in the post-merge matrix on main, which omits the flag and
+// is held to all three. A narrowed run writes its own folder, so it can never
+// replace the three-engine receipts in artifacts/homepage-release/.
+const preMerge = process.argv.includes('--pre-merge');
+const engines = preMerge ? ['chromium'] : ['chromium', 'firefox', 'webkit'];
+const evidence = path.join(root, preMerge ? 'artifacts/homepage-release/pre-merge' : 'artifacts/homepage-release');
 await mkdir(evidence, { recursive: true });
 const external = process.env.MINDMAKE_RELEASE_URL;
 const origin = external || 'http://127.0.0.1:4342';
@@ -22,7 +28,7 @@ const states = {
 };
 try {
   for(let i=0;i<100;i++){ try { if((await fetch(origin)).ok) break; } catch {} await new Promise(r=>setTimeout(r,100)); }
-  for(const [engine, launcher] of Object.entries({chromium,firefox,webkit}).filter(([name])=>!process.env.QA_ENGINE || process.env.QA_ENGINE===name)) {
+  for(const [engine, launcher] of Object.entries({chromium,firefox,webkit}).filter(([name])=>engines.includes(name) && (!process.env.QA_ENGINE || process.env.QA_ENGINE===name))) {
     const browser = await launcher.launch();
     try {
       for(const viewport of [{width:1440,height:900},{width:390,height:844}]) {
@@ -166,10 +172,10 @@ for(const file of sourceFiles) hashes[file]=createHash('sha256').update(await re
 const report={at:new Date().toISOString(),origin,built:process.argv.includes('--built'),hashes,cases,screenshots,fallbackTransitions,failures};
 const traceText=JSON.stringify(report,null,2)+'\n';
 await writeFile(path.join(evidence,'scroll-observations.json'),traceText);
-const traceEvidence={path:'artifacts/homepage-release/scroll-observations.json',sha256:createHash('sha256').update(traceText).digest('hex')};
+const traceEvidence={path:path.relative(root,path.join(evidence,'scroll-observations.json')).split(path.sep).join('/'),sha256:createHash('sha256').update(traceText).digest('hex')};
 const candidateDigest=createHash('sha256').update(JSON.stringify(hashes)).digest('hex');
 const acceptedDecision='quality/website-redesign/homepage-handoff.v1.json';
-const contract=createHomepageScrollContract({candidateDigest,acceptedDecision,acceptedDecisionDigest:createHash('sha256').update(await readFile(path.join(root,acceptedDecision))).digest('hex')});
+const contract=createHomepageScrollContract({engines,candidateDigest,acceptedDecision,acceptedDecisionDigest:createHash('sha256').update(await readFile(path.join(root,acceptedDecision))).digest('hex')});
 const motionReport={candidateDigest,cases:cases.map(c=>({
   id:`${c.label.split('-')[0]}-${c.viewport.width}x${c.viewport.height}-${c.chapter}`,route:'/',viewport:`${c.viewport.width}x${c.viewport.height}`,input:'page-scroll',capture:traceEvidence,
   forward:c.samples.filter(s=>s.direction==='forward').map(s=>({visibleText:s.visibleState,scrollY:s.scrollY,stageTop:s.rect.top,evidence:traceEvidence})),

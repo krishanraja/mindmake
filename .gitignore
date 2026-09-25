@@ -14,6 +14,7 @@ dist-ssr
 
 # Generated blind-judging evidence and verdicts
 artifacts/award-panel/
+artifacts/homepage-release/pre-merge/
 
 # Editor directories and files
 .vscode/*

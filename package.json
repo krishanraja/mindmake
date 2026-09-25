@@ -50,6 +50,7 @@
     "qa:homepage-handoff": "node scripts/qa/homepage-handoff-check.mjs",
     "build:homepage-r3": "node prototypes/website-redesign-recovery/homepage-production-synthesis-r3/build.mjs",
     "qa:homepage-release": "node scripts/qa/build-homepage-release.mjs --check && node scripts/qa/scroll-build-evidence-selftest.mjs && node scripts/qa/homepage-release-browser-check.mjs --built",
+    "qa:homepage-release:pre-merge": "node scripts/qa/build-homepage-release.mjs --check && node scripts/qa/scroll-build-evidence-selftest.mjs && node scripts/qa/homepage-release-browser-check.mjs --built --pre-merge",
     "qa:release-routes": "node scripts/qa/release-route-smoke.mjs",
     "qa:homepage-r3": "node prototypes/website-redesign-recovery/homepage-production-synthesis-r3/build.mjs --check && node prototypes/website-redesign-recovery/homepage-production-synthesis-r3/check.mjs && node scripts/qa/homepage-r3-browser-check.mjs",
     "qa:homepage-r3-specialists": "node scripts/qa/homepage-r3-specialist-receipt.mjs",

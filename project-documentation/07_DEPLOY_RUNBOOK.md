@@ -50,8 +50,9 @@ is never required before landing a change.
 
 For pinned builds verify every visible state, stable geometry, forward/reverse
 traversal, entry and natural release. Test reduced motion, short screens,
-keyboard controls and no-script readability. Run qa:homepage-release and its
-negative evidence controls. Screenshots or attributes alone cannot pass.
+keyboard controls and no-script readability. Before merging, run
+qa:homepage-release:pre-merge (Chromium) and its negative evidence controls;
+the three-engine qa:homepage-release runs on main after the merge. Screenshots or attributes alone cannot pass.
 Review desktop/mobile frames for fixed-chrome clearance, overlap, contrast,
 focus and overflow. Recheck the specific defect, not merely a nearby route.
 

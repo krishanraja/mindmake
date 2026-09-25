@@ -1,0 +1,414 @@
+{
+  "artifact": "mindmake-approved-production-routes-r47",
+  "recordedAt": "2026-09-25",
+  "status": "approved record. The /ai-gtm rebuild on Krish's 2026-09-25 review; approved by Krish the same day (\"I approve the /ai-gtm rebuild\"), approval in quality/ai-gtm/approved-story-r3.json.",
+  "scopeRequested": "Krish, 2026-09-25: \"https://mindmake.co/ai-gtm - this page has the most confusing user experience. As I scroll, I just have no idea where to look. There's no visual hierarchy of sections. There are no scroll builds. It doesn't set up a universal problem that someone will really feel empathically that we understand them. None of this talks to a user one-to-one, so it doesn't really set up the problem that we're solving. The fonts are all over the place. They're not part of a cohesive design system as per the rest of the repository, nor is the rest of the look and feel of this page, to be honest. The content is more or less there in terms of what we're supposed to be saying and offering, but everything else is not up to scratch in terms of: the copywriting, the UX, the aesthetics, the design system, the build of the page, the visual delight etc etc\"",
+  "sessionDecisions": [
+    "/ai-gtm is told as one argument in the order a buyer lives it: the change they already feel, in four places; the easy way out and what it costs; the offer; the 30 days; what their team becomes; one result. Each chapter holds one idea on one screen.",
+    "Opening, problem first: h1 'Your customers have changed how they buy.' with 'how they buy.' in the italic mint the approved chapters use, and 'You still build, price, position and hire by the old playbook.' Beside it the old playbook's four rules (the approved old-way lines) are struck through in amber one after another. No picker and no panel on the first screen, and no mono line above or below the h1.",
+    "A control on the first screen pauses and plays the page's films (WCAG 2.2.2), as /new-age-leadership and /ai-brain can; useLockedMotion reads it.",
+    "Chapter one, 'You can feel it in four places.', pins and steps through Product, Price, Positioning and People. Each felt moment says no more than its dated source in gtm-signals.json: Product and Zendesk (19 May 2026), Price and HubSpot (13 Apr 2026), Positioning and Shopify (24 Mar 2026), People and HubSpot (13 Apr 2026). The product signal (Uber) is no longer cited because it did not support the product line. The approved old way is struck in amber and the new way follows. It reads the same for both kinds of business, because the switch comes after it.",
+    "A screen of its own between the four places and the offer names the easy way out and its cost: 'You could add an AI tool and keep everything else.' / 'The deals would go to whoever changed the rest.'",
+    "The canon headline moves from the h1 to the turn, as the answer to the screens before it, set 'Make your pricing, positioning and team' then 'AI-native.' in italic mint, with the canon promise verbatim. This changes a locked canon placement (01_CANON.md) and is pending Krish's approval of the rendered page.",
+    "The two doors (canon labels) move from the top of the page to the turn, under the visible question 'Where are you starting from?'; established is the default and choosing never moves the page. They drive the promise, the 30 days, the team and the result.",
+    "The founder-specific lever lines move into week 1 of the 30 days, each approved old way struck beside its new line, shown when the reader chooses the AI-native door. No approved line is lost.",
+    "The 30 days pin as the month itself: thirty days that light one by one with scroll, grouped into the three stretches, whose names are the rail. All three stretches stay on screen; the six things the month can build are visible in weeks 2 to 4 with the fee note beneath them. On a phone the month is a document with the thirty days drawn whole.",
+    "The team is an illustrative org chart on an instrument panel that says it is an example on every screen: the lead above a bus the seats hang from, each seat's top rule carrying its kind (person, person with agents, agent-first, new role), a ring that shows it can be picked. Where it pins (desktops, laptops, a tablet held upright) it builds from today to AI-native with scroll, both ways, and picking a seat shows its approved decision beside the chart without moving the page; the panel is held at its tallest decision so a pick never moves the chart. On a phone, where no screen holds the chart and a decision, it is a document: each seat shows today's version struck through, the AI-native one and its decision.",
+    "One result on paper: the quote in quotation marks, the outcome in amber, the attribution beneath in small mono (the r43 ruling), following the chosen door, with a link to that story.",
+    "Drawn only in the house system: Newsreader headlines, Archivo body and actions, IBM Plex Mono labels at 12px or more, one mint (the answer, the selected state), amber for change and evidence, and the warm cream the approved chapter surfaces use. The route takes the shell edge /new-age-leadership and the homepage use (4.4vw, 1,600px), so the wordmark and content share one gutter. The rotated paper leaves, SVG traces, machinery still, numbered eyebrows, badges and the decision slip collage are gone.",
+    "The two films the continuity contract gives this page stay: quiet-workshop-growth behind the opening and signals-arrive behind chapter one, on their existing 9 to 22KB WebP posters instead of 570 to 892KB PNGs. No other imagery.",
+    "A stage pins only where its step fits: the stylesheet unpins short screens, phones held sideways and readers without scripting, and the hook releases any chapter whose content outgrows its stage (a reader's own text spacing or font size, a short laptop) before the reader reaches it, never while they are in it. Released chapters lay every step out. Reduced motion keeps every pin and drops the transitions. A rail press holds its step only until the page arrives.",
+    "On the cream bands the focus ring takes the paper's own mint (--mm-mint-d), because the bright mint ring is under 3:1 on the cream.",
+    "Numbered r47: the candidate was built as r44; main took r44 (the homepage archive engine hero r06, PR #201), r45 (its revert, PR #202) and r46 (benefit headlines and practice, PR #203) first. This record sits on r46; the candidate, its ledger items and its evidence were renamed r47 before main was merged in, and nothing main recorded is rewritten. The gate evidence in artifacts/ai-gtm/scroll-build was captured under the id ai-gtm-r45 on the same /ai-gtm source bytes.",
+    "Correction to r43's retired list: pinnedChapters.ts, pinnedChapters.css and homepage-pin-lifecycle.test.ts were reinstated by r41 and remain locked in files, so r47 does not list them as retired."
+  ],
+  "routes": [
+    "/",
+    "/ai-brain",
+    "/ai-gtm",
+    "/new-age-leadership",
+    "/case-studies",
+    "/blog",
+    "/blog/:slug",
+    "/answers",
+    "/answers/:slug",
+    "/faq",
+    "/contact",
+    "/privacy",
+    "/terms"
+  ],
+  "changePolicy": "This is a new immutable record. Never rewrite r1 through r17, or any candidate or earlier approval manifest. Material routes remain locked. Owner approval, production deployment and publication remain separate authority gates, none of which this record supplies.",
+  "contractSources": {
+    "brain": [
+      "src/pages/AiBrainLocked.tsx",
+      "prototypes/website-redesign-recovery/brain-signature/index-s2-motion-s3.html"
+    ],
+    "gtm": [
+      "src/pages/AiGtm.tsx",
+      "src/components/ai-gtm/Opening.tsx",
+      "src/components/ai-gtm/Workaround.tsx",
+      "src/components/ai-gtm/StepRail.tsx",
+      "src/components/ai-gtm/LeverChapter.tsx",
+      "src/components/ai-gtm/TurnBand.tsx",
+      "src/components/ai-gtm/PlanChapter.tsx",
+      "src/components/ai-gtm/TeamChapter.tsx",
+      "src/components/ai-gtm/ProofBand.tsx"
+    ]
+  },
+  "files": {
+    ".vercelignore": "f162171ded7ff8c1d6032f7cb50317bc19cc4d1bbd4757be9f8ea75cdec540f1",
+    "src/pages/AiBrainLocked.tsx": "e2922bf06cfec67e671010ad99e56d24456af9cf224fc0411507dd2ac9f88e43",
+    "src/styles/mindmake-locked-brain.css": "7ef818a05599b945ff2cdbd1aebf56cf3815f7d4508421963755216539da7b96",
+    "src/data/vnext/brain-fixture.json": "02fa968575d7000874f0f10a09123336ad6ec3f7bf373dcd351fbb7e7ef2b1b9",
+    "prototypes/website-redesign-recovery/brain-signature/index-s2-motion-s3.html": "1040fd54e660e0040f740ce769cee7033957e2a6d79b4bf0389479fd1d590c9e",
+    "src/data/vnext/gtm-signals.json": "5ab7fac6ce8ebdab6b69b73f60e184a7e4df8d923d97edd29c38872648c3bf7f",
+    "src/pages/NewAgeLeadership.tsx": "96a0b024fd35ef96e99f114e7e9427588abeeab49711cd4af0cf3b406c690cc0",
+    "src/styles/new-age-leadership-r5.css": "e57b7b64dae0a490d2f9b7651d0d0ce54979498a94b4c8e490755f0b961e8fd6",
+    "src/components/mindmake/locked/CommercialDecisionBalance.tsx": "f57849b19f5d15ecb5e9fd664833cfcf0d5e07bbd355d71656c243ac5c2a3410",
+    "src/styles/mindmake-commercial-decision-balance.css": "a2fb68466e0835aa4023a2c503c92e66cea3465ac94fdec5ce4d43ec37af3554",
+    "src/components/mindmake/locked/CaseProofField.tsx": "37964c4f93a8046ee86219d1e8b0da985137070d9ff893f363142f33d667e3d5",
+    "src/pages/CaseStudies.tsx": "2f612f3f0d529829f3e200dd2c6511a7459294114651e4afdb0d702beb4336a0",
+    "src/styles/mindmake-instruments.css": "c6cae779a8dc465e1222105c0de712ef708e41c35bab3024b5c32d472ec3895e",
+    "src/pages/Index.tsx": "2b50d7bdc5c9b99b1b3cedf43f98cc3b2a1df0f8188491f2904cf5b781f31986",
+    "src/styles/mindmake-home-vnext.css": "99bfc17c302fb476510452fc029268e85221c8cdcf43b133c9f921c095ac52ca",
+    "src/pages/Blog.tsx": "143437b2a70f9ad13106432e02fdeef9e34f67277d2535c4bc49c266d0952196",
+    "src/pages/BlogPost.tsx": "c63b50eefc00ca13a849c824035a3f1681bf14a74b5b2123cfcdbad4f0015613",
+    "src/pages/Answers.tsx": "0ae2e58102882d84082486c01025a67543a1ad456003292d05d946eb73cfed8c",
+    "src/pages/Answer.tsx": "600c2da20bc0dae3862041785936f35042f9638b44f72453caf1a968a28a0e92",
+    "src/pages/Contact.tsx": "fbc16c3711108d1c98d0069d486222c22851442c4c2235ca30a0bd65a29f3d18",
+    "src/components/mindmake/MindmakeShell.tsx": "1ca80b59803643b6a8285640b2d9be3542a3da36eb45c997c901f8578bf0195c",
+    "src/components/mindmake/LeadBrief.tsx": "2ce4be0a18956febe3ce5edbb9d30ead8631b115b238148d5cc67be64a37b10d",
+    "src/styles/mindmake.css": "55e9da12261f0f59744e0b0da734b020b09b1b13e8526ce8e309b6da5b289911",
+    "src/styles/mindmake-brief.css": "970521eb13dae1aef955ca0bbd0da62353efe8e2c2754607b0b3fee18675ec13",
+    "src/hooks/useLeadBriefHistory.ts": "a782c9c8563b44ee23780742c1cfff703f7a0a362ffd2986405508e42567c427",
+    "src/data/rebuildProof.ts": "bdea57fd6495548e2ea798e9b7056323bb1936c4f4e66c24301aa82c9114884b",
+    "src/data/testimonials.ts": "24466efccdb455aef4698f7e0a4a00e4885ecb43cf6245bf5255e1369e7d0663",
+    "src/App.tsx": "0643615283d8d4ab3083c9867d97e0664701dbf8c0bae692abdf04578195a17d",
+    "src/entry-server.tsx": "ac7a18adfd46748caa2edf69bc577246cb5fd95511a93102745117d7d455dcef",
+    "scripts/qa/approved-route-lock-check.mjs": "5a1468e00d357855b5aa5aba7f1ca3f5eb783dfa4160fbda4722be63083bf676",
+    "scripts/qa/approved-route-lock-self-test.mjs": "880b02515e514a81423691dc423e9d55ee0152f8478054347a13e8fc58c827d2",
+    ".github/workflows/approved-route-lock.yml": "a8436f33851fea66cfb2cc3a4cf3e888a0baa5bd068dd6f82bd7684cab90c61c",
+    "scripts/qa/locked-material-production-check.mjs": "3bc9613c4d56c1b329b4150875a138937c5b05bfb8089e55642e865582b0fc68",
+    "scripts/qa/full-route-continuity-check.mjs": "ea2cff2203d3c94e49e433665cd42a4d7bf75b572207be436cd429b3268acc84",
+    "scripts/qa/plain-language-check.mjs": "639c62446bf7f3a01693ba1fc20e446e23ba8fbc8d17bc429e41da951fafd9a8",
+    "src/components/homepage-release/component-styles.css": "3551589416109510ef10617266d4ead05321cf9bfe452146da27bc59608fd449",
+    "src/components/homepage-release/integration.css": "bd91390b68b62cb65be16ce55c7aa6a77a19c39e6f2eb69608afa91b589e2c7b",
+    "src/components/homepage-release/markup.ts": "8d3b90305ee796c60e71a7571bb88dd7caf70ddc0fbe110954a6648ed33db7e4",
+    "src/components/homepage-release/page.css": "1fffdf5316db0a0c15ff915fc80d928fc809e1a78f9070fc7d409b764a594182",
+    "src/components/homepage-release/runtime.d.ts": "c1aff6ae788422b2bf77c0dfb3f035f07c54b951295b7054f523dbb48545383c",
+    "src/components/homepage-release/runtime.js": "25ed130d2af76ffa2c29816ab71aa35520f833f51db9cf0a63a7b42b6c87bb01",
+    "scripts/qa/build-homepage-release.mjs": "1669df9675840194ee6f79a354932c2db73d7ec1e5c3e23fcbb6fc33e6e45c79",
+    "src/assets/films/sep2026/README.md": "579fe9bb0a9e049c689a7c8291f3b2a23781326ee31d1c80691393c25420a35f",
+    "scripts/qa/homepage-release-browser-check.mjs": "34179e27e969bc7207bead8355886f5fe3c3cd0a515828264205e97f17c4781a",
+    "scripts/qa/homepage-release-adapter-check.mjs": "ae9ea60d107c9a2c137dd4fa3d6427ab29b5b10a373d1946257c35db89141b8e",
+    "scripts/qa/homepage-release-visual-parity-check.mjs": "c45405559cb8a5e3499b5d29e9d9b397dadfaedc48efe409fe8f0cbfc33573ad",
+    "scripts/qa/homepage-scroll-contract.mjs": "4e9700d53d48a351de06a7aa108d72857c6b10115ae3c97541829aab79c2f06c",
+    "scripts/qa/scroll-build-evidence.mjs": "1ae4a330c831d6accbfba3ba869c0c9a1d259e2b8258b524e2aa74408bbbabbc",
+    "scripts/qa/scroll-build-evidence-selftest.mjs": "1e82f4d67511254bdb3e41740d57a4b7b1dff1e6e30790e0f935c6c4bc898e99",
+    "scripts/prerender.mjs": "f0bcb76106e4762595d624c2068636341f4ef8ee4bd39426e9a6c7409d6be867",
+    "scripts/lib/pages.mjs": "2b7bcf0e6f8a98e828da153a4c21aa5e4f34848c72131f3ab2ca5fd3e2af18c4",
+    "src/content/socialPlates.json": "d8d81fae1ef324b62a3acaa24e0cc2e71b9a5d839c5f24782419d70262116ba5",
+    "public/social/home.jpg": "d5bd9ba7b03ba989dbd39e8af93405af7d74de5165beb51f5780e718521b2aaf",
+    "package.json": "f73a99424154617a7baa7dd85aac1a4ec3ae57f09fe15da70aafe9e67f60a3c8",
+    "scripts/qa/website-feedback-ledger-check.mjs": "66520939db0aee662ede06de88ddc777959729ed65a1d6ae031578b85f27abec",
+    "scripts/qa/release-route-smoke.mjs": "4185de113028a507c4fd2038e21e7f77f2e0978d02e2bd0840b1616c3f6cd1de",
+    "src/test/case-proof-hydration.test.tsx": "21818d3aecee30f013b26d90a6f94441f100924e3f53f36046bf0e74b88bd811",
+    "src/test/homepage-navigation-focus.test.ts": "9f4b69a846bcf5db7afe289840363fc08523d68bf10033e8f1ce8f33f67ae07c",
+    "src/pages/AiBrain.tsx": "8cafeb3fd3ea7c85664a6a002cd12a1562c18121d68a81572899ecd7a0c5c250",
+    "package-lock.json": "6a7f43aa68c44c768f2cc01f6fbfd8aa2bb4628bd5b8fdbe1c83a1098ca59261",
+    "vercel.json": "a1be53303da99d3dcb4ff6222c8007bcdc3a088628fe94da387293c5f372a4a1",
+    "index.html": "b6fb79d2ae3a093bd678f2164be46d753d2976747e138123de40dfab8e293312",
+    "src/components/SEO.tsx": "a86c617e64417880af2c2c022ac0e0dc0178930b41447c6a15aaefc8e7ea1043",
+    "src/lib/seoCollector.ts": "cc10e62fdda955aee1fb516207d15ba739f6c2bc616d12ed289c251eb277869f",
+    "scripts/generate-sitemap.mjs": "b87cdcaa8e55e89489bdcbe474cba9e0abb987851d7147ea181f5600b47a131f",
+    "scripts/generate-llms.mjs": "c100fc1a8c9614974484b99679697de3baf6181fffb8b31dd4a24496a11701c5",
+    "scripts/qa/discoverability-check.mjs": "88a1be5190fcfa2b55dc32a985b327fc72d7736f3b5d3bac24427173ae5f343a",
+    "scripts/qa/current-documentation-check.mjs": "8ccfa7ac79df3f956798223a578f18d8162b4c9c3acc8fd18cec1fbfff4bc405",
+    "scripts/qa/website-restart-contract-check.mjs": "728d1fabc3259549bfdacf3244b2f4ac5b50618a93d2081d7e9d43104bc19a00",
+    "src/test/discoverability.test.ts": "679c11150944c99dda0e79240e52bc4dfa15ba335ed50aa385aa3aecaff3d1e6",
+    "src/test/seo-prerender.test.tsx": "a49ddfaea0d4e25b3efcbd7342a40d92d8e8d96a52cf146a3b2468bd63ad674c",
+    "src/test/seo-navigation.test.tsx": "df5fdc636cde34d682bec1b9ed80d5e4e47d412e8ca4af8d64bac2719722bb15",
+    "src/test/brief2-public-contract.test.ts": "7cf8a230af5d668fe9937ae6596a3709aab7f563e2c943a8f15c2a04c80f8b21",
+    "public/sitemap.xml": "4e5859b5c5957b99313f1e506a521ed8fcef501bd17836f0cbf9c327157480ab",
+    "public/llms.txt": "f3deb8ff07f08aa70a9a0343bba4adc83d720cdc79f04cf41494c2e9cb468918",
+    "public/robots.txt": "d655c25315f781de2ff83266a9472f7fdf5e6c8fa0ae91b8f7099e4e3a78831b",
+    "public/site.webmanifest": "6bee8c8f39dfff7ae9238d49043596ccce8609015ea9b51666f4f0fd9bf5ed83",
+    "public/social/ai-brain.jpg": "7875a0b6ab08e8787a010502d4e17c615b2b485aa25dc57d26e17ededcb3b36c",
+    "public/social/ai-gtm.jpg": "8b42284cd1b790544e5118bfb887bbe9e8a5a1339cd40331994d27c952a0f170",
+    "public/social/new-age-leadership.jpg": "d13a3a27c11814059731317f059311f20dec8dcabbfaabd4aebd1574262b9731",
+    "public/favicon.svg": "1b813838a8a80fac0412fbd78ae6676563ac49dc0ace456d9817a49931211303",
+    "public/favicon.ico": "77c728ed9f12e278cdb1839691bc03567a7c2ef6e03108db1d16cd3d5760e6f6",
+    "public/favicon-16x16.png": "76edadb52e8981de23dd6027620218c46fab16b7191d227ea0e59ca5d99243af",
+    "public/favicon-32x32.png": "0a7a72987926794bdd8fada62fdedad1e024ccde79cb76779b51818c54338d6d",
+    "public/favicon-192x192.png": "6cd8702cd58a8f5079d8c590fefd6f21f1b29e7cc2beac85f1ad35ad408bd560",
+    "public/favicon-512x512.png": "a526a6ab7c6478ac94c5f2d15ee54396353545256beb8f6e2ec1290c1909c144",
+    "public/favicon-192x192-maskable.png": "c2bc5545b2f0388921198f5fa0712b9f1d1979fe6e18b9824a7d1f46b3ac660a",
+    "public/favicon-512x512-maskable.png": "afc5c5d2736dd7212f391693f3d525da6cf59488d50288e708cd135a6235c300",
+    "public/apple-touch-icon.png": "af33563c644bddddc61e471dc0c79aa9ee7f6836bb5e2809dcc253ba00f3e09f",
+    "public/safari-pinned-tab.svg": "694cb4a56de28eaf403d3a1f3526ee9e4efc5f689f8b53f5266edee8b4205e83",
+    "public/mindmake-logo-512.png": "7172f1a79ec2c25b5a30274e7212eb21d423591b37ce72efa2ce8582b94e3568",
+    "supabase/functions/submit-mindmake-brief/core.ts": "25a99c005f436aca9b67209ab26debd98a63f8e6e142585189f5a6a8445f2088",
+    "supabase/functions/submit-mindmake-brief/core_test.ts": "8987d3d69412ca06a6b03beef6e3b9f25e932f030fd48ffc34de9435b94f2130",
+    "src/test/mindmake-brief-backend-core.test.ts": "4abd13b98aac8ebd07fc72b9a22a766220eead7351206a031c21b39acaf82494",
+    "scripts/lib/source-hash.mjs": "558f2df12b482c3b7367a90c19bac10aa8771e65590b9b81e41a4089dc007c0e",
+    "src/index.css": "fe3529727ad57664bafcbe3c1eacbc923a450f9d40c26ea632f01ba651321ee6",
+    "vite.config.ts": "4f5c6d757b8d228cc5ada91c37789d1d33bbbc559b939361ed9977461c99fdfe",
+    "src/components/mindmake/SourceRecords.tsx": "6a958fe737ac5b665d83163a095ccd4bda7c098a9d0ba9c38dba9b9ebdbe0f8a",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/index.html": "046d219a9287d70d1e3ed2b534282ce1298f891f842ca89711251fdb99772029",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/styles.css": "2fced1bd0acbda3186f1290a9dabfb461c3660ad706828fca4feb7abd94ed9f0",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/script.js": "6b37f9b58f88cf4fc34ade4cf0421719738675f910e1c54842d4935acd32676e",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/review.html": "b318df0581aa87f00f61891422d7c607e861de4d70d79b360d790c94191da4eb",
+    "prototypes/website-redesign-recovery/case-study-browsing-r2/check.mjs": "7ff2d8d91dccfae045ed9445ed917bd4b87564402745d7a0bbc35f9acf51a136",
+    "scripts/qa/logo-alignment-check.mjs": "c4e3dbd28709a39b75c4bf8c719b2eb992bdddb5aa0ba53864186e7d1a7bee32",
+    "src/styles/new-age-leadership-r6.layer.css": "fb54260235ecfb6773aecf99f0e446219f207da167c9e8c069917f84d7f94abb",
+    "scripts/qa/build-new-age-r5-styles.mjs": "a5cba878c8e6293f7c61fce3b52bce4c3c269d5f4fc6cf9cb2e8c8a607c5d19a",
+    "scripts/qa/new-age-r5-production-check.mjs": "86db61496a4b0ee713c9ad4ac337997895f6f351bb02b29d3a3cf83217448c9b",
+    "src/pages/AiGtm.tsx": "db6e36a8557fee2baa40654239b8b6a8a7a010689313699cb08c4a7347493395",
+    "quality/ai-gtm/approved-plain-r2.json": "b42d8a6e66f822150c6c49d3059aaf09b86d6f92dcb7b243114ae359041578cc",
+    "src/lib/lazyRoute.ts": "24b6b3f403f670143ed84c743c402ceef93e4d3f5e61cd7c3316182205b329ab",
+    "src/components/leadership-chapters/leadershipChapters.ts": "e8935fceb37a34b6dedd38363d4a8e344a4ea29d159f8dd41b2cbf4f33ea4dba",
+    "src/test/homepage-leadership-chapters.test.ts": "63add0d85a3169f8491a3ed3f8fbc118ad2ebc9258abc3a92d38580adb974fad",
+    "src/components/RouteTransitions.tsx": "2ea90affe111da73822be30636456cb6d049503d7abc76dae683bc249edc474b",
+    "src/lib/preloadable.ts": "fee50216ad2139646bb11b172e3779f141049a54d88b1327bbaf8862b65d0a10",
+    "src/styles/route-transition.css": "a36631807614c9a976c610b514526d96e34ed670f71488c6e2bdf6ed7f422154",
+    "src/components/mindmake/PairingBridge.tsx": "488ee1e5372215bdacffd5fcc23f4ce10750ea69cd8086d3bc81735678ad9d65",
+    "src/styles/mindmake-pairing.css": "8a395eb6a2d2355b6be3dd7ce6107c2947ed3669fc27dce44b6ab34b0c2918c8",
+    "src/lib/keepLastWords.ts": "610a02f004cbabba0911e5d820192bd2dcfe39c8033293a74273bf61a2799d91",
+    "src/components/LineBreaks.tsx": "bbac965ae889699a88a94bc5c79e6cc59ae8a255a512e0f0e98e66a51f16a448",
+    "scripts/qa/line-break-check.mjs": "c88328c39b55665639482f78433dea8ff6d99023bfdda81e7f59be42512c566e",
+    "src/components/homepage-release/pinnedChapters.ts": "578fd7d0c728fadd171b550e4d707b96bfbc7aa1d2ef18a0fa561c26b693b156",
+    "src/components/homepage-release/pinnedChapters.css": "cbd0045559d53625b7e033c6efdc1040e209d12d948d3d54aff61803d382f3c6",
+    "src/test/homepage-pin-lifecycle.test.ts": "ecab5c57568c418cc15bc6cdb368a2ce75c8ff09f92c7cd1cb83f2dd351bf4e3",
+    "src/styles/mindmake-brain-refinements.css": "79593cf9ea20a975a0ff5cc813f402158bee269fa93a1dadd557446e99d4614f",
+    "src/components/ai-gtm/Opening.tsx": "568c6ce3c993cdf2bea24a7299b3e8bdd105bc195031a27f8d80fc29f09bfa69",
+    "src/components/ai-gtm/Workaround.tsx": "cdd94858400e75890449928ece3dd5539430410f2d973e7a074c4a49c5869192",
+    "src/components/ai-gtm/StepRail.tsx": "b33fd4602cc2d46418f2114575401a7541e7a38cb8d55f8fdb882e3110cb68e2",
+    "src/components/ai-gtm/LeverChapter.tsx": "01baf5ecd31937895fb197999108430b873e9c98b170cddd4ef10ecee4079a07",
+    "src/components/ai-gtm/TurnBand.tsx": "65834377e8138e30eebdbfcc1b8752ee228ecc7df94108bac12e8b7f8a50d28c",
+    "src/components/ai-gtm/PlanChapter.tsx": "74e17f4184b1cac8a0695d30806ec2a4f60803a326ef91b21ba3fd1b7d93e842",
+    "src/components/ai-gtm/TeamChapter.tsx": "3f4d5a42787119608e7e3f2d9456e2d0b81c61f8f477616028ec0ea3d884450d",
+    "src/components/ai-gtm/ProofBand.tsx": "a57cde2d4de6451fa9003422841049113c43315020560b94a9b3cbff07d19230",
+    "src/components/ai-gtm/Unbroken.tsx": "aebe7ec14c81675ee959551fbe22550cd617d1a783013b1cd688aba83f6332bc",
+    "src/hooks/usePinnedSteps.ts": "6b80101fa2b05f7c5a84b9859a0e5f8e21538354662ebc9a4a00607ba11f58a4",
+    "src/styles/mindmake-ai-gtm.css": "ef9366367bd7cd57a4cc8dbe4632e1d0adee9709c081445262a3a29241b3220d",
+    "src/test/ai-gtm-pinned-steps.test.tsx": "be5345155fa52f723d68572e1c54887f640b83d84b393de1c22be70ad012b2e1",
+    "src/test/ai-gtm-page.test.tsx": "7852455adbc988a9d6dbb1c082283a361412c89e07f1e2f2f3cc04e4f185d464",
+    "scripts/qa/record-route-lock-r47.mjs": "a3687c7a5effe1d4de5a1dac8847178bc253b384df1c8760ccc951f0282be7db"
+  },
+  "newlyLocked": [
+    {
+      "path": "src/components/ai-gtm/Opening.tsx",
+      "reason": "The first screen: the change the reader feels, and the old playbook's four rules struck through beside it, with the control that pauses the page's films."
+    },
+    {
+      "path": "src/components/ai-gtm/Workaround.tsx",
+      "reason": "The easy way out and what it costs, on its own screen between the four places and the offer."
+    },
+    {
+      "path": "src/components/ai-gtm/StepRail.tsx",
+      "reason": "The rail along each pinned chapter; its segments fill with progress and move the page to a step."
+    },
+    {
+      "path": "src/components/ai-gtm/LeverChapter.tsx",
+      "reason": "Chapter one: four felt moments, each with its lever, the old way struck and the new way, and a dated source."
+    },
+    {
+      "path": "src/components/ai-gtm/TurnBand.tsx",
+      "reason": "The turn to the offer, with the two doors after the service is explained."
+    },
+    {
+      "path": "src/components/ai-gtm/PlanChapter.tsx",
+      "reason": "The 30 days as one month filling with scroll, with the work it produces visible."
+    },
+    {
+      "path": "src/components/ai-gtm/TeamChapter.tsx",
+      "reason": "Today's team becoming the AI-native one with scroll, and the decision each seat creates."
+    },
+    {
+      "path": "src/components/ai-gtm/ProofBand.tsx",
+      "reason": "One result: quote, outcome, attribution."
+    },
+    {
+      "path": "src/components/ai-gtm/Unbroken.tsx",
+      "reason": "Keeps hyphenated words whole on a line."
+    },
+    {
+      "path": "src/hooks/usePinnedSteps.ts",
+      "reason": "The pinned-step geometry /new-age-leadership proved, as a hook: step from position only, reverses and releases by itself, controls move the page."
+    },
+    {
+      "path": "src/styles/mindmake-ai-gtm.css",
+      "reason": "The route stylesheet on the house tokens: Newsreader, Archivo, Plex Mono, one mint, amber for change and evidence."
+    },
+    {
+      "path": "src/test/ai-gtm-pinned-steps.test.tsx",
+      "reason": "The pin contract: maths, forward and reverse, controls, reduced motion, unpinned fallback, no input capture."
+    },
+    {
+      "path": "src/test/ai-gtm-page.test.tsx",
+      "reason": "The page contract: problem before offer, every step server-rendered, the switch, the quote, the stylesheet's token and size rules."
+    },
+    {
+      "path": "scripts/qa/record-route-lock-r47.mjs",
+      "reason": "Writes this record from the tree and refuses an undeclared change to a locked file."
+    }
+  ],
+  "minimumContracts": {
+    "brain": {
+      "meanings": 20,
+      "relationships": 18,
+      "sources": 10,
+      "corrections": 3,
+      "states": [
+        "memory",
+        "proof",
+        "correction",
+        "living-record"
+      ],
+      "requiredInstruments": [
+        "brain-object",
+        "brain-field",
+        "proof-machine",
+        "correction-machine",
+        "record-machine"
+      ]
+    },
+    "gtm": {
+      "citedSignals": [
+        "service",
+        "pricing",
+        "commerce"
+      ],
+      "stages": [
+        "Your customers have changed",
+        "You can feel it in four places",
+        "You could add an AI tool",
+        "Make your pricing, positioning and team",
+        "One go-to-market move in 30 days",
+        "Your sales and marketing team gets agents",
+        "Result"
+      ],
+      "requiredInstruments": [
+        "usePinnedSteps",
+        "gtm-rail",
+        "lever-steps",
+        "mode-switch",
+        "plan-days",
+        "team-board",
+        "decision-panel"
+      ]
+    }
+  },
+  "forbiddenPhrases": [
+    "keep the seat",
+    "meter the work",
+    "price the result"
+  ],
+  "verification": {
+    "status": "Pre-merge verification on the merged tree (main r46 merged in), Chromium only per the 2026-09-25 ruling. Main's r45 and r46 did not touch any /ai-gtm candidate file or mindmake.css, so the /ai-gtm scroll-build evidence (captured as candidate ai-gtm-r45, sha256 9815162a...) covers the same page bytes.",
+    "performed": [
+      "typecheck, lint (0 errors, 3 pre-existing warnings), full unit suite 606/606, npm run build",
+      "qa:approved-routes, qa:approved-routes:self-test, qa:homepage-handoff, qa:website-feedback, qa:material-review:self-test, qa:plain-language, qa:docs",
+      "qa:line-breaks at 1440x900 and 390x844: no failures",
+      "qa:homepage-release:pre-merge (Chromium): 8 cases, no failures",
+      "Before main's r45 and r46: qa:nojs (5 pages, 21 answers), qa:oneway on a script-started preview (10 page/width pairs), qa:logo-alignment (565 edges on the wordmark)",
+      "scripts/qa/ai-gtm-scroll-build-check.mjs: 13 viewports forward and reverse, no clipping at 12 fit sizes for both doors and every seat, WCAG 1.4.12 text spacing, rail hold, reduced motion, no-JS, negative control; 0 failures (artifacts/ai-gtm/scroll-build/report.json)",
+      "Not done before merge: the second independent review round was stopped when Krish instructed the merge; the post-merge three-engine matrix runs on main."
+    ]
+  },
+  "supersedes": {
+    "path": "quality/route-lock/approved-production-r46.json",
+    "reason": "Krish's 2026-09-25 rejection of the live /ai-gtm. No earlier record is rewritten."
+  },
+  "textLineEndings": "lf",
+  "browserPlatforms": {
+    "routes": {
+      "chromium": "ubuntu-latest",
+      "firefox": "ubuntu-latest",
+      "webkit": "macos-latest"
+    },
+    "expectedRouteCases": 208,
+    "expectedSupplementalCases": 9,
+    "motion": "All twenty-four ordered-state cases (eight per engine: history, reach, practice and benefits at 1440x900 and 390x844) and the reduced-motion and short-screen fallbacks on both platforms",
+    "rationale": "project-documentation/website-redesign/RELEASE-2026-09-24.md"
+  },
+  "scope": {
+    "baselineCommit": "1462cb0",
+    "allowedExistingChanges": [
+      {
+        "path": "src/styles/mindmake.css",
+        "before": "5911e87036d5a00e771d694960b7340c4a6802c0d02449f1580c0baa75764794",
+        "after": "55e9da12261f0f59744e0b0da734b020b09b1b13e8526ce8e309b6da5b289911",
+        "reason": "The three GTM-only --mm-header-inline overrides for the retired 1,360px shell are removed, so the wordmark, menu and footer take the shell edge that /ai-gtm's content now uses."
+      },
+      {
+        "path": "scripts/qa/approved-route-lock-check.mjs",
+        "before": "2657f3a8b0cb5e7e7cc90d8434d966033e4656ff2d6e0d6022ce1fbae9d18f81",
+        "after": "5a1468e00d357855b5aa5aba7f1ca3f5eb783dfa4160fbda4722be63083bf676",
+        "reason": "Selects r47."
+      },
+      {
+        "path": "scripts/qa/approved-route-lock-self-test.mjs",
+        "before": "a1471b6e3efb779513c516e441ac6ce1eee503af60a6fb5a6b431db0462c12da",
+        "after": "880b02515e514a81423691dc423e9d55ee0152f8478054347a13e8fc58c827d2",
+        "reason": "Selects r47 and names its temporary controls after it."
+      },
+      {
+        "path": "scripts/qa/locked-material-production-check.mjs",
+        "before": "6dbe1dcdfcad99a9c910e13ae02e88fbea7d1fe0295f6dc5f693a5b0fa37960b",
+        "after": "3bc9613c4d56c1b329b4150875a138937c5b05bfb8089e55642e865582b0fc68",
+        "reason": "/ai-gtm leaves the locked-material routes: its cases had asserted the retired signal-and-response design since r25 and read the deleted stylesheet. The Brain checks are unchanged."
+      },
+      {
+        "path": "scripts/qa/full-route-continuity-check.mjs",
+        "before": "baed7b4a3a244a282b383c938a7c79d5cc34ea819328aad027e005fc4566d2e5",
+        "after": "ea2cff2203d3c94e49e433665cd42a4d7bf75b572207be436cd429b3268acc84",
+        "reason": "The 200% reflow case for /ai-gtm measures the decision panel that replaced the test slip."
+      },
+      {
+        "path": "src/test/brief2-public-contract.test.ts",
+        "before": "9e51996473231ec1d5ce8790c3dba3ba5f4815501a0f63ec61de709741ae0dae",
+        "after": "7cf8a230af5d668fe9937ae6596a3709aab7f563e2c943a8f15c2a04c80f8b21",
+        "reason": "Coverage follows the markup that moved from AiGtm.tsx into src/components/ai-gtm/ and src/hooks/usePinnedSteps.ts. No assertion removed or weakened."
+      },
+      {
+        "path": "src/pages/AiGtm.tsx",
+        "before": "bd106257ab8183ae86dbc3d6249a42c935642230c5e7c91f2a1a2c94d987b028",
+        "after": "db6e36a8557fee2baa40654239b8b6a8a7a010689313699cb08c4a7347493395",
+        "reason": "Rebuilt as one argument in the house system: problem-first opening, four felt moments with dated sources, the turn to the offer, the 30 days, the team, one result. The approved copy, levers, plan, team, decisions, proof and brief routing are kept; the chapters live in src/components/ai-gtm/."
+      }
+    ]
+  },
+  "additionalTextExtensions": [
+    ".svg",
+    ".xml",
+    ".webmanifest"
+  ],
+  "retired": [
+    {
+      "path": "src/pages/AiGtmLocked.tsx",
+      "lastHash": "8bc26e6098093e9f5c2cb8b3170f2f15825a2428e48420e37d5eb1801ef81381",
+      "reason": "No longer routed or imported; superseded by GTM-PLAIN-R2. Recorded in project-documentation/history/LOG.md."
+    },
+    {
+      "path": "prototypes/website-redesign-recovery/gtm-market-change/index-motion.html",
+      "lastHash": "8754e189e077ead09728e4e8b78ed26ad9b872a0d8b9d4b3503bc76ee7e98aef",
+      "reason": "No longer routed or imported; superseded by GTM-PLAIN-R2. Recorded in project-documentation/history/LOG.md."
+    },
+    {
+      "path": "src/components/mindmake/SubscribeBand.tsx",
+      "lastHash": "55830e8053d2851e7795d2a34c368997d18b5bb49ca06a8d6a6a7398fadc1bee",
+      "reason": "Removed on Krish's instruction (2026-09-25). Its film and poster remain in use elsewhere. Recorded in project-documentation/history/LOG.md."
+    },
+    {
+      "path": "src/styles/mindmake-locked-gtm.css",
+      "lastHash": "84757e31da19b762a6e48e7e4d81906fa97aec02c2f58e61df9c015d5faf667e",
+      "reason": "GTM-PLAIN-R2's generated private stylesheet (its own palette, three mints, non-variable font names, labels down to 7.7px). Retired in r47 for src/styles/mindmake-ai-gtm.css on the house tokens."
+    },
+    {
+      "path": "src/styles/mindmake-gtm-plain.css",
+      "lastHash": "acfa59021a76674c2170fa2bc84567f7c4576ba8f90c8156532f9bc834953262",
+      "reason": "GTM-PLAIN-R2's override layer on the stylesheet above. Retired with it in r47."
+    }
+  ]
+}

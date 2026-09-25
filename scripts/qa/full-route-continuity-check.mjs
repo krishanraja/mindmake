@@ -592,8 +592,9 @@ async function verifyLockedSurfaceReflow(browser) {
     {
       route: "/ai-gtm",
       viewport: { width: 720, height: 450 },
-      container: ".test-slip",
-      targets: [".test-slip > p:not(.test-label)"],
+      // r47: the decision a seat creates sits on the panel beside the team.
+      container: ".decision-panel",
+      targets: [".decision-panel h3", ".decision-panel .gtm-decision-note"],
     },
   ];
 

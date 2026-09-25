@@ -273,10 +273,15 @@ owns payload, privacy, retention, email and failure-path contracts.
   Newsreader type. `src/test/primary-routes-parity.test.ts` holds them
   together. Recorded in `quality/route-lock/approved-production-r32.json`.
 
-- Type: every route uses the AI Brain page's system, with Newsreader
-  headlines, Archivo body and actions, and Plex Mono 400 labels. The shell
-  pages take it from `--mm-body` and the `.mm-site` heading default. Recorded
-  in `quality/route-lock/approved-production-r33.json`.
+- Type: every route uses the AI Brain page's system as it renders: Newsreader
+  headlines and reading copy, Archivo 700 actions and small interface text,
+  and Plex Mono 400 labels. The shell pages take it from `--mm-body` and the
+  `.mm-site` heading default; the homepage from the type section of
+  `src/components/homepage-release/integration.css`. `npm run qa:type-system`
+  passes on all 32 checked routes at 1440x900 and 390x844 (4,531 text nodes)
+  and fails on the previous main. Carried by the generated lock
+  `quality/route-lock/approved-production.lock.json`; feedback item
+  TYPE-SYSTEM-002.
 
 - Route loading: every client route loads through `lazyRoute`
   (`src/lib/lazyRoute.ts`), so one dropped chunk request costs a single reload

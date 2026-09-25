@@ -286,3 +286,143 @@ body.mm-homepage-active { margin: 0; }
   .mm-homepage-release .r3-opening .preview-mobile .route-doors i { right: 4cqi; bottom: 4cqi; }
   .mm-homepage-release .r3-opening .preview-mobile .shared-proof { margin-top: 5cqi; font-size: clamp(12px, 3.2cqi, 14px); line-height: 1.4; }
 }
+
+/* ---------------------------------------------------------------------------
+   One type system, 2026-09-25 (Krish): "The AI brain page contains all the
+   right fonts and font sizes. The homepage and other pages do not. Audit every
+   single word and standardise the fonts everywhere."
+
+   A computed-style audit of every word against /ai-brain found the delivered
+   R3 speaking a second system: a tracked Archivo lede, door labels and proof
+   line, Archivo capitals for the history dates, an Archivo heading in the
+   history bridge, Archivo 500 for the footer routes and the receipt, faux-bold
+   mono, and a bold "Menu". These rules put each of those words in the role
+   /ai-brain gives it:
+
+   - Newsreader 400 for anything read (ledes, door lines, proof line), at the
+     AI Brain page's reading size: 16px on a phone, about 21px on a desktop.
+   - Newsreader for every heading, including the bridge and the door titles.
+   - IBM Plex Mono 400 for labels, numbers and dates, in capitals.
+   - Archivo 700 in sentence case for the one primary action.
+   - The footer, menu word and Subscribe action as the shell footer sets them.
+
+   The words, their order and the composition are unchanged; only face, weight,
+   tracking and the reading size move. --------------------------------------- */
+.mm-homepage-release { --r3-mono: "IBM Plex Mono", "Plex Mono Fallback", ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+/* The opening. */
+.mm-homepage-release .r3-opening .hero-lede {
+  font-family: var(--r3-serif);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.mm-homepage-release .r3-opening .preview-desktop .hero-lede { font-size: clamp(17px, 1.45vw, 21px); line-height: 1.42; }
+.mm-homepage-release .r3-opening .route-doors span {
+  font-family: var(--r3-mono);
+  font-weight: 400;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.mm-homepage-release .r3-opening .route-doors strong {
+  font-family: var(--r3-serif);
+  font-weight: 450;
+  letter-spacing: -.01em;
+}
+.mm-homepage-release .r3-opening .route-doors small,
+.mm-homepage-release .r3-opening .shared-proof {
+  font-family: var(--r3-serif);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.mm-homepage-release .r3-opening .preview-desktop .route-doors span { font-size: clamp(9px, .68vw, 11px); }
+.mm-homepage-release .r3-opening .preview-desktop .route-doors strong { font-size: clamp(16px, 1.3vw, 20px); }
+.mm-homepage-release .r3-opening .preview-desktop .route-doors small { font-size: clamp(14px, 1.05vw, 16px); line-height: 1.3; }
+.mm-homepage-release .r3-opening .preview-desktop .shared-proof { font-size: clamp(15px, 1.15vw, 17px); line-height: 1.4; }
+@media (max-width: 700px) {
+  .mm-homepage-release .r3-opening .preview-mobile .hero-lede { font-size: 16px; line-height: 1.42; }
+  .mm-homepage-release .r3-route .preview-mobile .lede { font-size: 16px; line-height: 1.42; }
+  .mm-homepage-release .r3-route .preview-mobile figcaption { font-size: clamp(13px, 3.4cqi, 15px); }
+  .mm-homepage-release .r3-route .preview-mobile .receipt ol li { font-size: clamp(11px, 3cqi, 13px); }
+  .mm-homepage-release .r3-route .preview-mobile .receipt blockquote { font-size: clamp(14px, 3.6cqi, 16px); }
+  /* The longest step keeps its last two words together, so it takes the
+     column its words need rather than a third. */
+  .mm-homepage-release .r3-route .preview-mobile .receipt ol li:first-child { flex: 1.4; }
+  .mm-homepage-release .r3-opening .preview-mobile .route-doors span { font-size: 11px; }
+  .mm-homepage-release .r3-opening .preview-mobile .route-doors strong { font-size: clamp(20px, 5.4cqi, 23px); }
+  .mm-homepage-release .r3-opening .preview-mobile .route-doors small { font-size: clamp(15px, 4cqi, 17px); line-height: 1.3; }
+  .mm-homepage-release .r3-opening .preview-mobile .shared-proof { font-size: clamp(15px, 4cqi, 17px); line-height: 1.42; }
+}
+/* The masthead's menu word is Newsreader 500 in capitals everywhere else; the
+   <b> it sits in made it bold here. */
+.mm-homepage-release .menu-control b { font-weight: 500; }
+
+/* The history chapter. */
+.mm-homepage-release .r3-history .history-frame[data-bridge-treatment="contrast"] .bridge h2 {
+  font-family: var(--r3-serif);
+  font-weight: 400;
+  letter-spacing: -.035em;
+  line-height: 1.02;
+}
+.mm-homepage-release .r3-history .device-desktop .history-frame[data-bridge-treatment="contrast"] .bridge h2 { font-size: clamp(19px, 2.6cqw, 36px); }
+.mm-homepage-release .r3-history .device-mobile .history-frame[data-bridge-treatment="contrast"] .bridge h2 { font-size: clamp(21px, 5.6cqw, 26px); }
+.mm-homepage-release .r3-history :is(.story-meta, .story-meta b, .story-meta span, .story-copy p strong, .era-rail button span) {
+  font-family: var(--r3-mono);
+  font-weight: 400;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.mm-homepage-release .r3-history .story-meta { font-size: clamp(10px, .9cqw, 12px); }
+.mm-homepage-release .r3-history .story-copy p strong { font-size: clamp(9px, .75cqw, 11px); }
+.mm-homepage-release .r3-history .era-rail button span { font-size: clamp(9px, .75cqw, 11px); letter-spacing: .04em; }
+/* The bridge's second line is read, so it is Newsreader like the story lines. */
+.mm-homepage-release .r3-history .bridge p { font-family: var(--r3-serif); font-weight: 400; letter-spacing: 0; }
+.mm-homepage-release .r3-history .device-desktop .bridge p { font-size: clamp(14px, 1.3cqw, 18px); }
+.mm-homepage-release .r3-history .device-mobile .bridge p { font-size: clamp(14px, 3.6cqw, 16px); }
+/* The phone story line was 12.7px at 390; the AI Brain page reads nothing under 13. */
+.mm-homepage-release .r3-history .device-mobile .story-copy p { font-size: clamp(14px, 3.6cqw, 16px); }
+
+/* The route stage. */
+.mm-homepage-release .r3-route .route-copy button.primary { font-weight: 700; }
+.mm-homepage-release .r3-route button.back {
+  font-family: var(--r3-mono);
+  font-weight: 400;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.mm-homepage-release .r3-route .lede { font-family: var(--r3-serif); font-weight: 400; letter-spacing: 0; }
+.mm-homepage-release .r3-route .preview-desktop .lede { font-size: clamp(17px, 1.45vw, 21px); line-height: 1.42; }
+.mm-homepage-release .r3-route .receipt h3 { font-family: var(--r3-serif); font-weight: 470; letter-spacing: 0; }
+.mm-homepage-release .r3-route .receipt header p {
+  font-family: var(--r3-mono);
+  font-weight: 400;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.mm-homepage-release .r3-route .receipt ol li { font-family: var(--r3-serif); font-weight: 400; letter-spacing: 0; font-size: max(12px, .86cqi); }
+.mm-homepage-release .r3-route .receipt ol li::before { font-family: var(--r3-mono); font-weight: 400; letter-spacing: .08em; font-size: max(9px, .62cqi); }
+.mm-homepage-release .r3-route .receipt h3 { font-size: max(16px, 1.15cqi); }
+.mm-homepage-release .r3-route .receipt header p { font-size: max(9px, .62cqi); }
+
+/* The footer, as the shell footer sets it on every other page: Plex Mono 400
+   at 11px, the copyright a half step smaller. The earlier 13px to 17px sizes
+   were drawn for Archivo; mono at that size no longer fits two columns on a
+   phone. The selectors repeat the ones that set those sizes, so they win. */
+.mm-homepage-release .r3-footer :is(.footer-routes a, .legal a, .site-footer small) {
+  font-family: var(--r3-mono);
+  font-weight: 400;
+  letter-spacing: .06em;
+}
+.mm-homepage-release .r3-footer .footer-routes a,
+.mm-homepage-release .r3-footer .legal a { font-size: 11px; }
+.mm-homepage-release .r3-footer .site-footer small { font-size: 10.5px; letter-spacing: .05em; }
+@media (min-width: 701px) {
+  .mm-homepage-release .r3-footer .preview-desktop .footer-routes a { font-size: 11px; }
+}
+@media (max-width: 700px) {
+  .mm-homepage-release .r3-footer .preview-mobile .footer-routes a,
+  .mm-homepage-release .r3-footer .preview-mobile .site-footer[data-structure-mobile="compact"] .footer-routes a,
+  .mm-homepage-release .r3-footer .preview-mobile .legal a { font-size: 11px; }
+  .mm-homepage-release .r3-footer .preview-mobile .site-footer small { font-size: 10.5px; }
+}
+.mm-homepage-release .r3-footer .mm-subscribe-cta,
+.mm-homepage-release .mm-route-badged::before { font-family: var(--r3-mono); }

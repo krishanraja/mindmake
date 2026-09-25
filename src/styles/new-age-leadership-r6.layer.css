@@ -564,3 +564,33 @@
     animation: none;
   }
 }
+
+/* ---------------------------------------------------------------------------
+ * One type system (Krish, 2026-09-25: "standardise the fonts everywhere").
+ *
+ * The labels here are Plex Mono, as on /ai-brain, but R5 set them wider
+ * (.15em and .16em against the AI Brain page's .08em to .1em) and set the
+ * capability headings at 650, which Plex Mono does not ship: the site loads
+ * only its 400, so the browser drew a synthetic bold. These chapters appear on
+ * the homepage and on /new-age-leadership, so both take the change.
+ * ------------------------------------------------------------------------- */
+.nal-page .kicker,
+.nal-page .film-mark,
+.nal-page .work-scene small {
+  letter-spacing: .1em;
+}
+.nal-page .capability-head p,
+.nal-page .capability-head p span {
+  font-weight: 400;
+}
+
+/* The finale's kicker is a <p> inside .finale-copy, so R5's
+ * `.finale-copy > p` (the lede's 19px to 27px serif) outranked `.kicker` and
+ * set "The human boundary" as tracked serif capitals, the only kicker on the
+ * page that was not the mint mono label. */
+.nal-page .finale-copy > p.kicker {
+  margin-top: 0;
+  color: var(--mint);
+  font: 10px var(--mono);
+  letter-spacing: .1em;
+}

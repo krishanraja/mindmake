@@ -187,9 +187,9 @@
     "src/components/ai-gtm/TeamChapter.tsx": "3f4d5a42787119608e7e3f2d9456e2d0b81c61f8f477616028ec0ea3d884450d",
     "src/components/ai-gtm/ProofBand.tsx": "a57cde2d4de6451fa9003422841049113c43315020560b94a9b3cbff07d19230",
     "src/components/ai-gtm/Unbroken.tsx": "aebe7ec14c81675ee959551fbe22550cd617d1a783013b1cd688aba83f6332bc",
-    "src/hooks/usePinnedSteps.ts": "5deb06d93ecab50b5d607f22fea504112beee9175dda31f6eb952e0bf7acc85c",
+    "src/hooks/usePinnedSteps.ts": "6b80101fa2b05f7c5a84b9859a0e5f8e21538354662ebc9a4a00607ba11f58a4",
     "src/styles/mindmake-ai-gtm.css": "f438b28d25b82a4691d657ccb449426c2f5ab3019f1d0839342978996ac71ccd",
-    "src/test/ai-gtm-pinned-steps.test.tsx": "9c2beb984110480d21161f12c23e7a53e47bac559fee63d30eaeb40fdb8258c4",
+    "src/test/ai-gtm-pinned-steps.test.tsx": "82f2b9dce4180e2ae2333ec4f05dc59220d88cc51d47327806363305eafc5e7d",
     "src/test/ai-gtm-page.test.tsx": "37d8283ed13b24cffe8d6aa14528a101597febedfe10e376640f5ac24348948f",
     "scripts/qa/record-route-lock-r44.mjs": "74f326b95c4f8656cc85067945e26b95798e3466612553ddaba40f7f9824e348"
   },

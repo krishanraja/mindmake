@@ -2,7 +2,7 @@ import { act, cleanup, render } from "@testing-library/react";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { renderToString } from "react-dom/server";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, onTestFinished, vi } from "vitest";
 import { heldProgress, stepFor, usePinnedSteps } from "@/hooks/usePinnedSteps";
 
 /**
@@ -49,11 +49,14 @@ function mount({ lockMs = 50 }: { lockMs?: number } = {}) {
   const room = stage.querySelector<HTMLElement>(".gtm-stage-body")!;
   const steps = stage.querySelector<HTMLElement>(".steps")!;
   const box = (top: number, height: number) => ({ top, height, bottom: top + height, left: 0, right: 0, width: 0, x: 0, y: top, toJSON: () => ({}) }) as DOMRect;
-  vi.spyOn(room, "getBoundingClientRect").mockImplementation(() => box(HEADER, STAGE - 60));
+  // The room is the stage less its rail, and follows a height the hook sets on the stage.
+  vi.spyOn(room, "getBoundingClientRect").mockImplementation(() => box(HEADER, (Number.parseFloat(stage.style.height) || STAGE) - 60));
   vi.spyOn(steps, "getBoundingClientRect").mockImplementation(() => box(HEADER + 40, content));
   vi.spyOn(section, "getBoundingClientRect").mockImplementation(() => ({ top: trackTop, height: TRACK, bottom: trackTop + TRACK, left: 0, right: 0, width: 0, x: 0, y: trackTop, toJSON: () => ({}) }) as DOMRect);
   Object.defineProperty(section, "offsetHeight", { configurable: true, get: () => TRACK });
   Object.defineProperty(stage, "offsetHeight", { configurable: true, get: () => STAGE });
+  // The layout above is now in place; the hook checks fit on its next frame.
+  window.dispatchEvent(new Event("resize"));
   return { view, section, stage, api: () => api };
 }
 
@@ -183,19 +186,61 @@ describe("usePinnedSteps", () => {
 
   it("lets a step that outgrows its stage flow as a document instead of clipping (WCAG 1.4.12)", async () => {
     stubLayout();
+    const grew: ResizeObserverCallback[] = [];
+    const original = window.ResizeObserver;
+    window.ResizeObserver = class { constructor(callback: ResizeObserverCallback) { grew.push(callback); } observe() {} unobserve() {} disconnect() {} } as unknown as typeof ResizeObserver;
+    onTestFinished(() => { window.ResizeObserver = original; });
     const { api, section } = mount();
     await scrollHeld(450);
     expect(api().pinned).toBe(true);
     expect(section.hasAttribute("data-gtm-flow")).toBe(false);
-    // The reader widens their text spacing: the step no longer fits.
+    // The reader widens their text spacing: the step no longer fits, and grows in place.
     content = STAGE;
+    grew.forEach((callback) => callback([], {} as ResizeObserver));
     await scrollHeld(460);
     expect(section.getAttribute("data-gtm-flow")).toBe("true");
     expect(api().pinned).toBe(false);
     // It does not flip back under the reader when the content shrinks again.
     content = 400;
+    grew.forEach((callback) => callback([], {} as ResizeObserver));
     await scrollHeld(470);
     expect(section.getAttribute("data-gtm-flow")).toBe("true");
+  });
+
+  it("gives the site's action bar its room before the bar arrives, so a stage never releases as it slides in", async () => {
+    stubLayout();
+    const bar = document.createElement("div");
+    bar.className = "mm-action-bar";
+    Object.defineProperty(bar, "offsetHeight", { configurable: true, get: () => 80 });
+    document.body.append(bar);
+    try {
+      // The content fits the room today (STAGE - 60 - 40) but not once 80px goes to the bar.
+      content = STAGE - 60 - 40 - 40;
+      const { section } = mount();
+      await scrollHeld(0);
+      expect(section.getAttribute("data-gtm-flow")).toBe("true");
+    } finally {
+      bar.remove();
+    }
+  });
+
+  it("keeps a stage that fits beside the bar pinned once the bar is showing", async () => {
+    stubLayout();
+    const bar = document.createElement("div");
+    bar.className = "mm-action-bar";
+    Object.defineProperty(bar, "offsetHeight", { configurable: true, get: () => 80 });
+    document.body.append(bar);
+    document.documentElement.classList.add("mm-bar-visible");
+    try {
+      content = STAGE - 60 - 40 - 40;
+      const { section, api } = mount();
+      await scrollHeld(0);
+      expect(section.hasAttribute("data-gtm-flow")).toBe(false);
+      expect(api().pinned).toBe(true);
+    } finally {
+      bar.remove();
+      document.documentElement.classList.remove("mm-bar-visible");
+    }
   });
 
   it("keeps every step under reduced motion, and only jumps rather than glides", async () => {

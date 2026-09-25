@@ -73,13 +73,29 @@ export function usePinnedSteps<T extends HTMLElement = HTMLElement>(count: numbe
     let frame = 0;
     let written = "";
     let flowAt: { width: number; height: number; over: number } | null = null;
-    let changed = false;
+    // Whether fit needs checking again: on mount, and when a size changes.
+    let dirty = true;
 
+    /* The site's action bar arrives once the reader is past the opening, and
+       the stage gives it room. Until it has, fit is judged at the height the
+       stage will have beside it, so a chapter that will not fit is released
+       before the reader reaches it, never as the bar slides in. */
+    const barToCome = () => {
+      if (document.documentElement.classList.contains("mm-bar-visible")) return 0;
+      return document.querySelector<HTMLElement>(".mm-action-bar")?.offsetHeight ?? 0;
+    };
     /* How far the stage's content runs past the room it has, top and bottom,
        read from the body's own children so a step's entrance transform never
-       counts as overflow. */
+       counts as overflow. The stage is shortened for the bar for this one
+       synchronous measurement and restored before anything is painted. */
     const overflow = () => {
       if (!body) return 0;
+      const bar = barToCome();
+      const held = { height: stage.style.height, transition: stage.style.transition };
+      if (bar) {
+        stage.style.transition = "none";
+        stage.style.height = `${stage.offsetHeight - bar}px`;
+      }
       const room = body.getBoundingClientRect();
       let top = Infinity;
       let bottom = -Infinity;
@@ -88,6 +104,10 @@ export function usePinnedSteps<T extends HTMLElement = HTMLElement>(count: numbe
         if (!box.height) continue;
         top = Math.min(top, box.top);
         bottom = Math.max(bottom, box.bottom);
+      }
+      if (bar) {
+        stage.style.height = held.height;
+        stage.style.transition = held.transition;
       }
       if (bottom < top) return 0;
       return Math.max(0, bottom - room.bottom) + Math.max(0, room.top - top);
@@ -102,18 +122,21 @@ export function usePinnedSteps<T extends HTMLElement = HTMLElement>(count: numbe
 
     const measure = () => {
       frame = 0;
-      if (flowAt && changed && track.getBoundingClientRect().top > window.innerHeight) {
-        // Below the screen: try the pinned layout again where no one sees it.
-        flowAt = null;
-        delete track.dataset.gtmFlow;
-      }
-      changed = false;
       let style = window.getComputedStyle(stage);
-      const over = style.position === "sticky" && !flowAt ? overflow() : 0;
-      if (over > 1) {
-        flowAt = { width: window.innerWidth, height: window.innerHeight, over };
-        track.dataset.gtmFlow = "true";
-        style = window.getComputedStyle(stage);
+      if (dirty) {
+        dirty = false;
+        if (flowAt && track.getBoundingClientRect().top > window.innerHeight) {
+          // Below the screen: try the pinned layout again where no one sees it.
+          flowAt = null;
+          delete track.dataset.gtmFlow;
+          style = window.getComputedStyle(stage);
+        }
+        const over = style.position === "sticky" && !flowAt ? overflow() : 0;
+        if (over > 1) {
+          flowAt = { width: window.innerWidth, height: window.innerHeight, over };
+          track.dataset.gtmFlow = "true";
+          style = window.getComputedStyle(stage);
+        }
       }
       const isPinned = style.position === "sticky";
       setPinned(isPinned);
@@ -141,15 +164,20 @@ export function usePinnedSteps<T extends HTMLElement = HTMLElement>(count: numbe
         flowAt = null;
         delete track.dataset.gtmFlow;
       }
+      dirty = true;
       request();
     };
-    // A step that grows in place (text spacing, a font arriving) is measured again.
+    // A step that grows in place (text spacing, a font arriving) or a stage
+    // that changes height (the bar arriving) is measured again.
     const regrow = () => {
-      changed = true;
+      dirty = true;
       request();
     };
     const grown = typeof ResizeObserver === "function" && body ? new ResizeObserver(regrow) : null;
-    if (grown && body) Array.from(body.children).forEach((child) => grown.observe(child));
+    if (grown && body) {
+      Array.from(body.children).forEach((child) => grown.observe(child));
+      grown.observe(stage);
+    }
     let live = true;
     document.fonts?.ready.then(() => live && regrow());
 

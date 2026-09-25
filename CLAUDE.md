@@ -38,8 +38,13 @@ Node22.x >=22.18 and npm ci. Required gates:
 - qa:homepage-handoff, qa:website-feedback, qa:material-review:self-test.
 - qa:plain-language, typecheck, lint, full unit suite and build.
 - qa:homepage-release: rendered scroll/fallback states and negative controls.
-- qa:release-routes: complete Chromium/Firefox/Linux and WebKit/macOS matrix,
-  all against the same build artifact.
+
+qa:release-routes is NOT a pre-merge gate. Ruling (Krish, 2026-09-25): do not
+run the browser matrix before merging and do not wait on it. CI runs the
+complete Chromium/Firefox/Linux and WebKit/macOS matrix on main after the merge,
+against the commit Vercel promotes. Read its result and fix forward or roll
+back. Running it locally before a merge is optional evidence, never a
+requirement, and never a reason to delay landing a change.
 
 Typecheck targets tsconfig.app.json; the empty root config is not a check.
 Use discoverability tests for crawler/head edits and focused proof, no-JS,

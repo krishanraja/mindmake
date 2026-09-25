@@ -69,8 +69,10 @@ jobs:
         run: npm test -- --maxWorkers=2
       - name: Build the approved routes
         run: npm run build
-      - name: Refuse unresolved owner feedback
-        run: node scripts/qa/website-feedback-ledger-check.mjs --release
+      - name: Verify the feedback ledger is well formed
+        # A record of Krish's feedback, not a merge gate (Krish, 2026-09-25).
+        # This fails on a malformed entry; an open item never blocks a branch.
+        run: npm run qa:website-feedback
       - name: Freeze the single built candidate for both platforms
         uses: actions/upload-artifact@v4
         with:

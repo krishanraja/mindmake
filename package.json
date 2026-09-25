@@ -78,6 +78,7 @@
     "qa:plain-language": "node scripts/qa/plain-language-check.mjs",
     "qa:approved-routes": "node scripts/qa/approved-route-lock-check.mjs",
     "qa:approved-routes:self-test": "node scripts/qa/approved-route-lock-self-test.mjs",
+    "qa:approved-routes:update": "node scripts/qa/approved-route-lock-update.mjs",
     "qa:locked-routes": "node scripts/qa/locked-route-regression-audit.mjs",
     "qa:responsive-system-r4": "node scripts/qa/responsive-system-r4-check.mjs",
     "qa:route-lock": "npm run qa:approved-routes && npm run qa:approved-routes:self-test && npm run qa:plain-language && npm run qa:locked-routes && node scripts/qa/route-lock-production-check.mjs"

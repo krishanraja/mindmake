@@ -51,6 +51,45 @@ export interface LeadershipChaptersOptions {
   canPlay?: () => boolean;
 }
 
+const clamp01 = (value: number) => Math.max(0, Math.min(1, value));
+
+/** Where each practice scene rests when its stop on the phone rail is chosen: settled, never mid-sweep. */
+export const practiceRest = [0.06, 0.5, 0.94] as const;
+
+/**
+ * The practice scenes on a phone, read from how far through their pinned
+ * travel the reader is, 0 to 1 (Krish, 2026-09-25: "should really build with
+ * scroll, with that left-to-right green line animation").
+ *
+ * Each of the two changes is a sweep: a mint line crosses the frame from left
+ * to right and uncovers the next scene behind it, over the middle 40% of its
+ * half of the travel, so every scene also holds still long enough to read. The
+ * outgoing words leave as the line sets off and the incoming ones arrive once
+ * it has passed. The rail's fill moves only while a line sweeps, and reaches
+ * each stop as its sweep completes. With reduced motion the scenes change at
+ * the same points, all at once, and nothing sweeps.
+ */
+export function practiceSweep(progress: number, reduced = false) {
+  const t = clamp01(progress) * 2;
+  const sweep = (k: number) => (reduced ? (t >= k - 0.5 ? 1 : 0) : clamp01((t - (k - 0.7)) / 0.4));
+  const one = sweep(1);
+  const two = sweep(2);
+  const moving = two > 0 && two < 1 ? two : one > 0 && one < 1 ? one : null;
+  return {
+    /* Each scene takes over halfway through its sweep, the same point at
+       which reduced motion switches it. */
+    active: t >= 1.5 ? 2 : t >= 0.5 ? 1 : 0,
+    sweeps: [one, two] as const,
+    /* Where the line is across the frame, and how strongly it shows: it fades
+       in and out at the frame's edges rather than appearing whole. */
+    edge: moving ?? 0,
+    line: moving === null ? 0 : Math.min(1, moving / 0.08, (1 - moving) / 0.08),
+    fill: (one + two) / 2,
+    reached: [true, one >= 1, two >= 1] as const,
+    copy: [1 - clamp01(one / 0.3), clamp01((one - 0.6) / 0.4) * (1 - clamp01(two / 0.3)), clamp01((two - 0.6) / 0.4)] as const,
+  };
+}
+
 /**
  * Every chapter reads its state from where the page is, forwards and
  * backwards. Native scrolling owns progression: nothing here intercepts
@@ -109,27 +148,97 @@ export function mountLeadershipChapters(root: HTMLElement, { reduced, media = fa
     if (!benefitTrack || !benefitPanel) return;
     scrollTo({ top: scrollY + benefitTrack.getBoundingClientRect().top + Math.max(1, benefitTrack.offsetHeight - benefitPanel.offsetHeight) * (next / (benefitNodes.length - 1)), behavior: reduced ? "auto" : "smooth" });
   };
-  /* The work scenes are gated to wide screens, because below 900px they are
-     laid out one after another and the reader is already moving through them. */
+  /* Above 900px the whole practice chapter pins and its scenes change at the
+     quarter points. On a phone of ordinary height the stylesheet pins the
+     scenes alone, under the introduction, and they build by the sweep above.
+     A phone held sideways, or a page without scripts, keeps them one after
+     another. The script reads which of these the stylesheet chose from the
+     scenes' computed position rather than restating its media query. */
+  const workSticky = work?.querySelector<HTMLElement>(".work-sticky");
+  const workIntro = work?.querySelector<HTMLElement>(".work-intro");
+  const workScenes = work?.querySelector<HTMLElement>(".work-scenes");
+  const workSceneNodes = [...root.querySelectorAll<HTMLElement>("[data-work-scene]")];
+  const workButtons = [...root.querySelectorAll<HTMLElement>("[data-work-button]")];
+  const workVideos = [...root.querySelectorAll<HTMLVideoElement>(".work-scene video")];
+  let workMode: "wide" | "pinned" | "flow" = "wide";
+  let workPinTop = 0;
+  const measureWork = () => {
+    const style = workScenes ? getComputedStyle(workScenes) : null;
+    const next = innerWidth > 900 ? "wide" : style?.position === "sticky" ? "pinned" : "flow";
+    workPinTop = parseFloat(style?.top ?? "") || 0;
+    if (next === workMode) return;
+    const leftPin = workMode === "pinned";
+    workMode = next;
+    workIndex = -1;
+    /* Laid out one after another, every scene is on the page and none is hidden from a screen reader. */
+    if (workMode === "flow") workSceneNodes.forEach((node) => node.setAttribute("aria-hidden", "false"));
+    /* Leaving the pin (a phone turned on its side), the films the sweep
+       paused go back to playing by visibility. */
+    if (leftPin && media) workVideos.forEach((video) => { const box = video.getBoundingClientRect(); if (box.bottom > 0 && box.top < innerHeight && canPlay()) void video.play().catch(() => undefined); else video.pause(); });
+  };
+  /* Measured from the layout, not from innerHeight, which changes whenever a
+     phone's address bar shows or hides. */
+  const pinnedWork = () => {
+    if (!workSticky || !workIntro || !workScenes) return null;
+    const start = workIntro.offsetTop + workIntro.offsetHeight;
+    return { pinTop: workPinTop, top: workSticky.getBoundingClientRect().top + start, travel: Math.max(1, workSticky.offsetHeight - start - workScenes.offsetHeight) };
+  };
+  const paintPinnedWork = () => {
+    const geometry = pinnedWork();
+    if (!work || !geometry) return;
+    const state = practiceSweep((geometry.pinTop - geometry.top) / geometry.travel, reduced);
+    work.style.setProperty("--work-sweep-1", state.sweeps[0].toFixed(4));
+    work.style.setProperty("--work-sweep-2", state.sweeps[1].toFixed(4));
+    work.style.setProperty("--work-edge", state.edge.toFixed(4));
+    work.style.setProperty("--work-line", state.line.toFixed(3));
+    work.style.setProperty("--work-fill", state.fill.toFixed(4));
+    workSceneNodes.forEach((node, i) => node.style.setProperty("--work-copy", state.copy[i].toFixed(3)));
+    workButtons.forEach((button, i) => button.toggleAttribute("data-work-reached", state.reached[i]));
+    setWork(state.active);
+    /* Only the scene on screen, and the one a line is uncovering, play: a
+       phone never decodes all three films at once. */
+    if (media) {
+      const box = work.getBoundingClientRect();
+      const inView = box.bottom > 0 && box.top < innerHeight;
+      const visible = [state.sweeps[0] < 1, state.sweeps[0] > 0 && state.sweeps[1] < 1, state.sweeps[1] > 0];
+      workVideos.forEach((video, i) => {
+        if (inView && visible[i] && canPlay()) { if (video.paused) void video.play().catch(() => undefined); } else if (!video.paused) video.pause();
+      });
+    }
+  };
   const update = () => {
-    if (work && innerWidth > 900) setWork(Math.round(Math.max(0, Math.min(1, -work.getBoundingClientRect().top / Math.max(1, work.offsetHeight - innerHeight))) * 2));
+    if (work && workMode === "wide") setWork(Math.round(Math.max(0, Math.min(1, -work.getBoundingClientRect().top / Math.max(1, work.offsetHeight - innerHeight))) * 2));
+    if (work && workMode === "pinned") paintPinnedWork();
     if (reach && reachSticky) { const p = Math.max(0, Math.min(1, -reach.getBoundingClientRect().top / Math.max(1, reach.offsetHeight - reachSticky.offsetHeight))); reach.style.setProperty("--reach-progress", String(p)); if (performance.now() >= reachLockUntil) setReach(p < 0.48 ? "boundary" : "organisation"); }
     if (benefitTrack && benefitPanel && performance.now() >= benefitLockUntil) setBenefit(Math.round(Math.max(0, Math.min(1, -benefitTrack.getBoundingClientRect().top / Math.max(1, benefitTrack.offsetHeight - benefitPanel.offsetHeight))) * (benefitNodes.length - 1)));
   };
-  addEventListener("scroll", update, { passive: true, signal }); addEventListener("resize", update, { signal });
-  root.querySelectorAll<HTMLElement>("[data-work-button]").forEach((button, i) => button.addEventListener("click", () => { setWork(i); if (work) scrollTo({ top: scrollY + work.getBoundingClientRect().top + (work.offsetHeight - innerHeight) * (i / 2), behavior: reduced ? "auto" : "smooth" }); }, { signal }));
+  addEventListener("scroll", update, { passive: true, signal }); addEventListener("resize", () => { measureWork(); update(); }, { signal });
+  workButtons.forEach((button, i) => button.addEventListener("click", () => {
+    if (workMode === "pinned") {
+      const geometry = pinnedWork();
+      if (geometry) scrollTo({ top: scrollY + geometry.top - geometry.pinTop + practiceRest[i] * geometry.travel, behavior: reduced ? "auto" : "smooth" });
+      return;
+    }
+    setWork(i);
+    if (work) scrollTo({ top: scrollY + work.getBoundingClientRect().top + (work.offsetHeight - innerHeight) * (i / 2), behavior: reduced ? "auto" : "smooth" });
+  }, { signal }));
   root.querySelectorAll<HTMLElement>("[data-reach-jump]").forEach((button) => button.addEventListener("click", () => { const phase = button.dataset.reachJump || "boundary"; setReach(phase); reachLockUntil = performance.now() + 1200; if (reach && reachSticky) scrollTo({ top: scrollY + reach.getBoundingClientRect().top + (reach.offsetHeight - reachSticky.offsetHeight) * (phase === "organisation" ? 0.68 : 0.12), behavior: reduced ? "auto" : "smooth" }); }, { signal }));
   root.querySelector("[data-benefit-prev]")?.addEventListener("click", () => chooseBenefit(benefit - 1), { signal }); root.querySelector("[data-benefit-next]")?.addEventListener("click", () => chooseBenefit(benefit + 1), { signal });
 
   const videos = media ? [...root.querySelectorAll<HTMLVideoElement>(".reach-sequence video, .work-scroll video")] : [];
   if (media && "IntersectionObserver" in window) {
-    const videoObserver = new IntersectionObserver((entries) => entries.forEach((entry) => { const video = entry.target as HTMLVideoElement; if (entry.isIntersecting && canPlay()) void video.play().catch(() => undefined); else video.pause(); }), { threshold: 0.18 });
+    const videoObserver = new IntersectionObserver((entries) => entries.forEach((entry) => {
+      const video = entry.target as HTMLVideoElement;
+      /* The pinned phone scenes play by the sweep, above, not by visibility: all three are in view at once. */
+      if (workMode === "pinned" && workVideos.includes(video)) return;
+      if (entry.isIntersecting && canPlay()) void video.play().catch(() => undefined); else video.pause();
+    }), { threshold: 0.18 });
     observers.push(videoObserver); videos.forEach((v) => videoObserver.observe(v));
     const reveals = [...root.querySelectorAll<HTMLElement>(".reach-sequence [data-reveal], .work-scroll [data-reveal], .human-proof [data-reveal]")];
     if (reduced) reveals.forEach((x) => x.classList.add("is-revealed"));
     else { const observer = new IntersectionObserver((entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("is-revealed"); observer.unobserve(e.target); } }), { threshold: 0.25 }); observers.push(observer); reveals.forEach((x) => observer.observe(x)); }
   } else if (media) root.querySelectorAll<HTMLElement>("[data-reveal]").forEach((x) => x.classList.add("is-revealed"));
 
-  setWork(0); setBenefit(0); update();
+  setWork(0); setBenefit(0); measureWork(); update();
   return () => { abort.abort(); observers.forEach((o) => o.disconnect()); videos.forEach((v) => v.pause()); };
 }

@@ -34,15 +34,25 @@ const chapters = {
     at: (i, g) => g.start + [0.1, 0.75][i] * g.travel },
   practice: { track: '.mm-home-leadership .work-scroll', stage: '.work-sticky', state: '.work-scene.is-active h3',
     at: (i, g) => g.start + [0.02, 0.5, 0.95][i] * (g.height - g.viewportHeight) },
+  // On a phone (r46) the introduction scrolls, then the scenes pin beneath it
+  // and each state rests where leadershipChapters.ts's rail stops send it.
+  practicePhone: { track: '.mm-home-leadership .work-scroll', stage: '.work-scenes', state: '.work-scene.is-active h3',
+    at: (i, g) => g.scenesStart - g.pinTop + [0.06, 0.5, 0.94][i] * g.pinTravel },
   benefits: { track: '.mm-home-leadership [data-benefit-track]', stage: '[data-benefits]', state: '.brain-benefit.is-active h2',
     at: (i, g) => g.start + Math.max(10, Math.min(i * g.travel / 5, g.travel - g.pinTop - 20)) },
 };
 const words = text => text.replace(/\s+/g, ' ').trim();
-const measure = (page, chapter, pinTop) => page.locator(chapters[chapter].track).evaluate((track, [stageSelector, pinTop]) => {
+const specFor = (chapter, width) => chapter === 'practice' && width <= 900 ? chapters.practicePhone : chapters[chapter];
+const measure = (page, spec, pinTop) => page.locator(spec.track).evaluate((track, [stageSelector, pinTop]) => {
   const stage = track.querySelector(stageSelector);
   const box = track.getBoundingClientRect();
-  return { start: scrollY + box.top, height: box.height, travel: box.height - stage.getBoundingClientRect().height, viewportHeight: innerHeight, pinTop };
-}, [chapters[chapter].stage, pinTop]);
+  // Where a stage that pins below an introduction starts, and how far it travels pinned.
+  const intro = track.querySelector('.work-intro');
+  const lead = intro ? intro.offsetTop + intro.offsetHeight : 0;
+  const frame = stage.parentElement;
+  return { start: scrollY + box.top, height: box.height, travel: box.height - stage.getBoundingClientRect().height, viewportHeight: innerHeight, pinTop,
+    scenesStart: scrollY + frame.getBoundingClientRect().top + lead, pinTravel: frame.offsetHeight - lead - stage.offsetHeight };
+}, [spec.stage, pinTop]);
 const launchOptions = name => name === 'chromium' && process.env.PLAYWRIGHT_CHROMIUM ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM } : {};
 try {
   for(let i=0;i<100;i++){ try { if((await fetch(origin)).ok) break; } catch {} await new Promise(r=>setTimeout(r,100)); }
@@ -68,10 +78,10 @@ try {
         for(const chapter of CHAPTERS_BY_VIEWPORT[size]) {
           const pinTop = chapter==='history' ? HISTORY_PIN_TOP : PIN_TOP[size];
           const expected = states[chapter];
-          const spec = chapters[chapter];
+          const spec = specFor(chapter, viewport.width);
           const track = page.locator(spec.track);
           const stage = track.locator(spec.stage).first();
-          const g = await measure(page, chapter, pinTop);
+          const g = await measure(page, spec, pinTop);
           const samples=[];
           for(const direction of ['forward','reverse']) {
             const indices=direction==='forward'?expected.map((_,i)=>i):expected.map((_,i)=>i).reverse();
@@ -106,10 +116,15 @@ try {
           console.log(`Verified ${label}/${chapter}: forward, reverse, exits and screenshot`);
         }
         if (viewport.width <= 900) {
-          // On a phone the practice scenes are read one after another, never pinned.
-          assert(await page.locator('.mm-home-leadership .work-sticky').evaluate(node=>getComputedStyle(node).position)!=='sticky',`${label}: practice scenes flow naturally`);
-          const scenes = (await page.locator('.mm-home-leadership .work-scene h3').allInnerTexts()).map(words);
-          assert(JSON.stringify(scenes)===JSON.stringify(states.practice),`${label}: every practice scene is in the flow`);
+          // On a phone the practice scenes pin under their introduction (r46),
+          // and the rail's stops are direct controls to each scene.
+          assert(await page.locator('.mm-home-leadership .work-scenes').evaluate(node=>getComputedStyle(node).position)==='sticky',`${label}: practice scenes pin on a phone`);
+          const stops = await page.locator('.mm-home-leadership [data-work-button]').evaluateAll(nodes=>nodes.map(node=>node.getBoundingClientRect().height));
+          assert(stops.length===3 && stops.every(height=>height>=43.5),`${label}: the rail's three stops are 44px targets (${stops.join(', ')})`);
+          await page.locator('.mm-home-leadership [data-work-button="2"]').click();
+          await page.waitForTimeout(1600);
+          assert(words(await page.locator('.mm-home-leadership .work-scene.is-active h3').innerText())===states.practice[2],`${label}: the rail's last stop reaches the last scene`);
+          assert(await page.locator('.mm-home-leadership .work-scroll').evaluate(node=>parseFloat(getComputedStyle(node).getPropertyValue('--work-fill')))===1,`${label}: the rail is full at the last scene`);
         }
         // The returned hour stays in the page after the benefits.
         assert(words(await page.locator('.mm-home-leadership .proof-return h2').innerText())==='What will you do with the hours it gives back?',`${label}: the returned hour`);
@@ -185,14 +200,17 @@ try {
         await settle(page);
         assert(words(await page.locator('[data-story-question]:visible').innerText())===states.history[3],`${engine}/${fallback}: history manual choice`);
         for (const chapter of short.width > 900 ? ['reach','practice','benefits'] : ['reach','benefits']) {
-          const g = await measure(page, chapter, shortTop);
-          await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),Math.round(chapters[chapter].at(1,g)));
+          const spec = specFor(chapter, short.width);
+          const g = await measure(page, spec, shortTop);
+          await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),Math.round(spec.at(1,g)));
           await settle(page); await settle(page);
-          const rect = await geometry(page.locator(`${chapters[chapter].track} ${chapters[chapter].stage}`).first());
+          const rect = await geometry(page.locator(`${spec.track} ${spec.stage}`).first());
           assert(Math.abs(rect.top-shortTop)<3 && rect.bottom<=short.height+3,`${engine}/${fallback}/${chapter}: pinned frame fits (${rect.top}-${rect.bottom})`);
-          const heading = await page.locator(`${chapters[chapter].track} ${chapters[chapter].state}`).boundingBox();
+          const heading = await page.locator(`${spec.track} ${spec.state}`).boundingBox();
           assert(heading && heading.y >= 0 && heading.y + heading.height <= short.height + 3,`${engine}/${fallback}/${chapter}: state heading is on screen`);
         }
+        // A phone held sideways is too short to pin the practice frame: its scenes stay one after another.
+        if (short.width <= 900) assert(await page.locator('.mm-home-leadership .work-scenes').evaluate(node=>getComputedStyle(node).position)!=='sticky',`${engine}/${fallback}: practice scenes flow on a short phone`);
         await page.evaluate(()=>scrollTo({top:scrollY+document.querySelector('.mm-home-leadership [data-benefit-track]').getBoundingClientRect().top+10,behavior:'instant'}));
         await settle(page);
         await control(page, '[data-benefit-next]', 'benefits', 1, fallback);

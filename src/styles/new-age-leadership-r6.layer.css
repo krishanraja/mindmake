@@ -292,11 +292,269 @@
 }
 
 /* ---------------------------------------------------------------------------
+ * 3a. No benefit is ever wider than the stage that shows it.
+ *
+ * The stage stacks all six statements in one grid cell, and an auto column
+ * grows to the widest thing any of them cannot break. The site's line-break
+ * guard keeps the last two words of a heading together, and on a phone the
+ * third statement's "forgotten observation." (8.2em) was wider than the
+ * measure, so the column, and with it every statement, laid out about 15px
+ * wider than the stage that hides its overflow: "A CRO who hates the numbers
+ * can become better at using them." lost the ends of its lines at the right
+ * edge (Krish, 2026-09-25). The column is now exactly the stage, and the phone
+ * size is the one at which the longest kept pair fits the measure at every
+ * width from 320px up.
+ * ------------------------------------------------------------------------- */
+.benefit-stage {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (max-width: 900px) {
+  .human-proof {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 620px) {
+  .brain-benefit h2 {
+    font-size: clamp(34px, 10.5vw, 58px);
+  }
+}
+
+@media (max-height: 650px) and (max-width: 900px) {
+  .brain-benefit h2 {
+    font-size: min(clamp(32px, 7vh, 44px), 10.5vw);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * 3b. On a phone the practice scenes build with the scroll: the signal sweep.
+ *
+ * Below 900px the three scenes used to sit one after another, so the chapter
+ * about noticing, joining and preparing was read as three posters. Krish asked
+ * for it to build with scroll, with the left-to-right green line (2026-09-25).
+ * The introduction still scrolls as it did. The scenes then pin as one frame
+ * under the masthead, and each change is a sweep: a mint line crosses the
+ * frame from left to right and the next scene is uncovered behind it, as a
+ * signal passing through. The stage buttons become a rail along the foot of
+ * the frame whose mint fill travels from stop to stop with the sweep, in the
+ * reach chapter's language, and each stop is still a button to its scene.
+ *
+ * The script sets the variables from the scroll position, both ways. It pins
+ * only on a phone tall enough to hold the frame; held sideways, or without
+ * scripts, the scenes stay one after another.
+ * ------------------------------------------------------------------------- */
+@media (max-width: 900px) and (min-height: 480px) {
+  /* Ink behind the frame: while the scenes are pinned, the translucent
+     masthead shows whatever lies under it, and cream read as a pale bar. The
+     introduction keeps its own paper. */
+  .work-scroll {
+    --work-step: 62svh;
+    --work-rail: 64px;
+    background: var(--ink);
+  }
+
+  /* The scroll the sweeps are read from: two steps, after the frame has pinned. */
+  .work-sticky::after {
+    content: "";
+    display: block;
+    height: calc(2 * var(--work-step));
+  }
+
+  .work-scenes {
+    position: sticky;
+    top: var(--header);
+    height: calc(100svh - var(--header));
+    overflow: hidden;
+    background: var(--ink);
+  }
+
+  .work-scene {
+    position: absolute;
+    inset: 0;
+    display: block;
+    min-height: 0;
+    opacity: 1;
+    transition: none;
+  }
+
+  /* The films carry a pale row along their top edge, which read as a stray
+     line under the masthead once the frame pinned there. */
+  .work-scene video {
+    top: -6px;
+    height: calc(100% + 6px);
+  }
+
+  .work-scene[data-work-scene="1"] {
+    clip-path: inset(0 calc((1 - var(--work-sweep-1, 0)) * 100%) 0 0);
+  }
+
+  .work-scene[data-work-scene="2"] {
+    clip-path: inset(0 calc((1 - var(--work-sweep-2, 0)) * 100%) 0 0);
+  }
+
+  .work-scene > div:last-child {
+    position: absolute;
+    left: var(--edge);
+    right: var(--edge);
+    bottom: calc(var(--work-rail) + 4svh);
+    padding: 0;
+    opacity: var(--work-copy, 0);
+    transform: translateY(calc((1 - var(--work-copy, 0)) * 14px));
+  }
+
+  .work-scene[data-work-scene="0"] > div:last-child {
+    opacity: var(--work-copy, 1);
+    transform: translateY(calc((1 - var(--work-copy, 1)) * 14px));
+  }
+
+  /* The line itself. It shows only while it crosses the frame. */
+  .work-scenes::after {
+    content: "";
+    position: absolute;
+    z-index: 4;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--work-edge, 0) * 100%);
+    width: 1px;
+    background: var(--mint);
+    box-shadow: 0 0 16px 1px rgba(157, 240, 200, .55);
+    opacity: var(--work-line, 0);
+    pointer-events: none;
+  }
+
+  /* The rail: pinned to the frame's foot with it, over the film's darkest
+     band. Its negative margin gives it no height in the flow, so it pins and
+     releases on the same scroll as the scenes. */
+  .work-nav {
+    position: sticky;
+    top: calc(100svh - var(--work-rail));
+    z-index: 5;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: end;
+    height: var(--work-rail);
+    margin-top: calc(-1 * var(--work-rail));
+    padding: 0 var(--edge) 4px;
+    border: 0;
+    background: linear-gradient(0deg, rgba(6, 17, 13, .78), rgba(6, 17, 13, 0));
+  }
+
+  .work-nav::before,
+  .work-nav::after {
+    content: "";
+    position: absolute;
+    left: var(--edge);
+    right: var(--edge);
+    top: 14px;
+    pointer-events: none;
+  }
+
+  .work-nav::before {
+    height: 1px;
+    background: rgba(234, 223, 200, .32);
+  }
+
+  .work-nav::after {
+    top: 13.5px;
+    height: 2px;
+    background: var(--mint);
+    transform-origin: left;
+    transform: scaleX(var(--work-fill, 0));
+  }
+
+  .work-nav button {
+    position: relative;
+    min-height: 44px;
+    padding: 12px 0 8px;
+    border: 0;
+    background: transparent;
+    color: rgba(234, 223, 200, .68);
+    font: 11px var(--mono);
+    letter-spacing: .12em;
+  }
+
+  .work-nav button:nth-child(1) { justify-self: start; text-align: left; }
+  .work-nav button:nth-child(2) { justify-self: center; text-align: center; }
+  .work-nav button:nth-child(3) { justify-self: end; text-align: right; }
+
+  .work-nav button.is-active {
+    background: transparent;
+    color: var(--mint);
+  }
+
+  /* A stop on the rail, lit once the fill has reached it. */
+  .work-nav button::before {
+    content: "";
+    position: absolute;
+    top: -4px;
+    width: 7px;
+    height: 7px;
+    border: 1px solid rgba(234, 223, 200, .5);
+    border-radius: 50%;
+    background: var(--ink);
+  }
+
+  .work-nav button:nth-child(1)::before { left: 0; }
+  .work-nav button:nth-child(2)::before { left: calc(50% - 4.5px); }
+  .work-nav button:nth-child(3)::before { right: 0; }
+
+  .work-nav button[data-work-reached]::before {
+    border-color: var(--mint);
+    background: var(--mint);
+    box-shadow: 0 0 10px rgba(157, 240, 200, .6);
+  }
+}
+
+/* Without scripts nothing would move the sweep, so the scenes stay one after
+ * another, as they were. */
+@media (scripting: none) and (max-width: 900px) {
+  .work-sticky::after,
+  .work-scenes::after,
+  .work-nav {
+    display: none;
+  }
+
+  .work-scenes {
+    position: relative;
+    top: auto;
+    height: auto;
+    overflow: visible;
+  }
+
+  .work-scene,
+  .work-scene[data-work-scene="1"],
+  .work-scene[data-work-scene="2"] {
+    position: relative;
+    inset: auto;
+    display: flex;
+    align-items: flex-end;
+    min-height: 55svh;
+    clip-path: none;
+  }
+
+  .work-scene > div:last-child,
+  .work-scene[data-work-scene="0"] > div:last-child {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    padding: 20vh var(--edge) 5vh;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
  * 4. Reduced motion keeps the pins — the page is a scroll story and removing
  *    them would remove the story — but drops every transition, so each state
  *    arrives already composed rather than animating into place.
  * ------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
+  .work-scenes::after {
+    display: none;
+  }
+
   .benefit-controls > div i,
   .work-scene,
   .reach-copy-state,

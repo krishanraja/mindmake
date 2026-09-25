@@ -1,0 +1,841 @@
+{
+  "gate": "ai-gtm-scroll-build",
+  "at": "2026-09-25T14:15:46.537Z",
+  "engine": "chromium",
+  "origin": "http://127.0.0.1:43783",
+  "selfOwned": true,
+  "candidateId": "ai-gtm-r45",
+  "candidateSha256": "9815162a56f19c12acb760a0440395f21c8acf655bfba5f079e72e2f4e84ceb8",
+  "blankLimitShare": 0.42,
+  "checks": {
+    "broken_links_controls_assets": {
+      "status": "pass",
+      "detail": "2 internal links resolve; 4 dated sources open safely in a new tab"
+    },
+    "single_dom_scroll_context": {
+      "status": "pass",
+      "detail": "one document, one page scroll, no frames and no nested scroller"
+    },
+    "duplicate_components_claims": {
+      "status": "pass",
+      "detail": "no sentence of six or more content words said twice; one closing pair"
+    },
+    "placeholder_debug_backup_singer_copy": {
+      "status": "pass",
+      "detail": "no placeholder, debug or narrating copy on the page"
+    },
+    "section_seam_collision": {
+      "status": "pass",
+      "detail": "grounds alternate: opening rgba(0, 0, 0, 0); levers rgb(10, 16, 13); workaround rgb(30, 44, 38); turn rgb(234, 223, 200); plan rgb(10, 16, 13); team rgb(30, 44, 38); proof rgb(234, 223, 200); pairing rgb(7, 17, 14)"
+    },
+    "keyboard_focus_semantics": {
+      "status": "pass",
+      "detail": "41 focus stops in the page, 0 without a visible ring or on a hidden step; 0 rings under 3:1 on their ground (4 on the cream bands, lowest 4.52:1); one h1; 16 headings, 0 skipped levels"
+    },
+    "viewport_safe_areas_fixed_chrome": {
+      "status": "pass",
+      "detail": "26 pinned states keep the rail clear of the action bar; stages hold at the header height"
+    },
+    "artifact_identity": {
+      "status": "pass",
+      "detail": "candidate 9815162a56f19c12acb760a0440395f21c8acf655bfba5f079e72e2f4e84ceb8 over 18 files"
+    },
+    "runtime_identity": {
+      "status": "pass",
+      "detail": "vite preview of dist/, /ai-gtm/ served from dist/ai-gtm/index.html sha256 b185e3e7a4ed34bcc1dc94d1ed4aa68fb2a9cea94a054710bb89e0cfeaef9789"
+    },
+    "fresh_self_owned_capture": {
+      "status": "pass",
+      "detail": "captured 2026-09-25T14:15:46.537Z from a server this run started at http://127.0.0.1:43783"
+    },
+    "overflow_overlap_clipping": {
+      "status": "pass",
+      "detail": "no horizontal overflow at 13 viewports both ways; no pinned stage clipped at 12 sizes for both doors and every seat, nor with WCAG 1.4.12 text spacing; a chapter that cannot hold its content flows whole; nothing runs off the screen without scripts"
+    },
+    "layout_alignment": {
+      "status": "pass",
+      "detail": "wordmark and content share one left edge at 13 viewports"
+    },
+    "text_wrap_orphans_content_range": {
+      "status": "pass",
+      "detail": "no lone last word in any shown step at 13 viewports, forwards and in reverse"
+    },
+    "contrast": {
+      "status": "pass",
+      "detail": "every visible text node meets WCAG AA on the ground it is drawn on at 1440x900"
+    },
+    "touch_targets": {
+      "status": "pass",
+      "detail": "every visible control at least 44px tall at 13 viewports"
+    },
+    "reduced_motion": {
+      "status": "pass",
+      "detail": "reduced motion keeps every pin and reaches every step at 1440x900 and 390x844"
+    },
+    "section_fit_scroll_contract": {
+      "status": "pass",
+      "detail": "blank bands under 42% of the viewport; each pinned chapter holds one screen and releases; unpinned chapters lay every step out"
+    },
+    "console_network_user_impact": {
+      "status": "pass",
+      "detail": "no page errors, console errors, failed requests or 4xx/5xx responses from the site"
+    },
+    "continuous_forward_reverse_journey": {
+      "status": "pass",
+      "detail": "scrolling alone reaches every state of levers, plan and team forwards and in reverse; controls move the page and the switch does not; a rail press never outlasts the reader scrolling away"
+    },
+    "judge_evidence_identity": {
+      "status": "not_run",
+      "detail": "set by the receipts script once the independent reviewers have reported on this candidate"
+    }
+  },
+  "observations": [
+    {
+      "label": "chromium-320x568",
+      "document": 7910,
+      "samples": 66,
+      "pinned": {
+        "levers": false,
+        "plan": false,
+        "team": false
+      },
+      "worstBlankShare": 0.254,
+      "forward": {
+        "levers": [],
+        "plan": [],
+        "team": []
+      },
+      "reverse": {
+        "levers": [],
+        "plan": [],
+        "team": []
+      }
+    },
+    {
+      "label": "chromium-360x640",
+      "document": 8406,
+      "samples": 62,
+      "pinned": {
+        "levers": true,
+        "plan": false,
+        "team": false
+      },
+      "worstBlankShare": 0.237,
+      "forward": {
+        "levers": [
+          "Product",
+          "Price",
+          "Positioning",
+          "People"
+        ],
+        "plan": [],
+        "team": []
+      },
+      "reverse": {
+        "levers": [
+          "People",
+          "Positioning",
+          "Price",
+          "Product"
+        ],
+        "plan": [],
+        "team": []
+      }
+    },
+    {
+      "label": "chromium-360x780",
+      "document": 9130,
+      "samples": 55,
+      "pinned": {
+        "levers": true,
+        "plan": false,
+        "team": false
+      },
+      "worstBlankShare": 0.237,
+      "forward": {
+        "levers": [
+          "Product",
+          "Price",
+          "Positioning",
+          "People"
+        ],
+        "plan": [],
+        "team": []
+      },
+      "reverse": {
+        "levers": [
+          "People",
+          "Positioning",
+          "Price",
+          "Product"
+        ],
+        "plan": [],
+        "team": []
+      }
+    },
+    {
+      "label": "chromium-390x844",
+      "document": 9298,
+      "samples": 52,
+      "pinned": {
+        "levers": true,
+        "plan": false,
+        "team": false
+      },
+      "worstBlankShare": 0.237,
+      "forward": {
+        "levers": [
+          "Product",
+          "Price",
+          "Positioning",
+          "People"
+        ],
+        "plan": [],
+        "team": []
+      },
+      "reverse": {
+        "levers": [
+          "People",
+          "Positioning",
+          "Price",
+          "Product"
+        ],
+        "plan": [],
+        "team": []
+      }
+    },
+    {
+      "label": "chromium-430x932",
+      "document": 9718,
+      "samples": 49,
+      "pinned": {
+        "levers": true,
+        "plan": false,
+        "team": false
+      },
+      "worstBlankShare": 0.237,
+      "forward": {
+        "levers": [
+          "Product",
+          "Price",
+          "Positioning",
+          "People"
+        ],
+        "plan": [],
+        "team": []
+      },
+      "reverse": {
+        "levers": [
+          "People",
+          "Positioning",
+          "Price",
+          "Product"
+        ],
+        "plan": [],
+        "team": []
+      }
+    },
+    {
+      "label": "chromium-768x1024",
+      "document": 12169,
+      "samples": 56,
+      "pinned": {
+        "levers": true,
+        "plan": true,
+        "team": true
+      },
+      "worstBlankShare": 0.339,
+      "forward": {
+        "levers": [
+          "Product",
+          "Price",
+          "Positioning",
+          "People"
+        ],
+        "plan": [
+          "Week 1",
+          "Weeks 2 to 4",
+          "Day 30"
+        ],
+        "team": [
+          "Today",
+          "AI-native"
+        ]
+      },
+      "reverse": {
+        "levers": [
+          "People",
+          "Positioning",
+          "Price",
+          "Product"
+        ],
+        "plan": [
+          "Day 30",
+          "Weeks 2 to 4",
+          "Week 1"
+        ],
+        "team": [
+          "AI-native",
+          "Today"
+        ]
+      }
+    },
+    {
+      "label": "chromium-844x390",
+      "document": 6722,
+      "samples": 83,
+      "pinned": {
+        "levers": false,
+        "plan": false,
+        "team": false
+      },
+      "worstBlankShare": 0.338,
+      "forward": {
+        "levers": [],
+        "plan": [],
+        "team": []
+      },
+      "reverse": {
+        "levers": [],
+        "plan": [],
+        "team": []
+      }
+    },
+    {
+      "label": "chromium-1024x768",
+      "document": 9471,
+      "samples": 58,
+      "pinned": {
+        "levers": true,
+        "plan": true,
+        "team": true
+      },
+      "worstBlankShare": 0.322,
+      "forward": {
+        "levers": [
+          "Product",
+          "Price",
+          "Positioning",
+          "People"
+        ],
+        "plan": [
+          "Week 1",
+          "Weeks 2 to 4",
+          "Day 30"
+        ],
+        "team": [
+          "Today",
+          "AI-native"
+        ]
+      },
+      "reverse": {
+        "levers": [
+          "People",
+          "Positioning",
+          "Price",
+          "Product"
+        ],
+        "plan": [
+          "Day 30",
+          "Weeks 2 to 4",
+          "Week 1"
+        ],
+        "team": [
+          "AI-native",
+          "Today"
+        ]
+      }
+    },
+    {
+      "label": "chromium-1280x600",
+      "document": 7690,
+      "samples": 61,
+      "pinned": {
+        "levers": true,
+        "plan": true,
+        "team": true
+      },
+      "worstBlankShare": 0.237,
+      "forward": {
+        "levers": [
+          "Product",
+          "Price",
+          "Positioning",
+          "People"
+        ],
+        "plan": [
+          "Week 1",
+          "Weeks 2 to 4",
+          "Day 30"
+        ],
+        "team": [
+          "Today",
+          "AI-native"
+        ]
+      },
+      "reverse": {
+        "levers": [
+          "People",
+          "Positioning",
+          "Price",
+          "Product"
+        ],
+        "plan": [
+          "Day 30",
+          "Weeks 2 to 4",
+          "Week 1"
+        ],
+        "team": [
+          "AI-native",
+          "Today"
+        ]
+      }
+    },
+    {
+      "label": "chromium-1366x657",
+      "document": 8348,
+      "samples": 60,
+      "pinned": {
+        "levers": true,
+        "plan": true,
+        "team": true
+      },
+      "worstBlankShare": 0.254,
+      "forward": {
+        "levers": [
+          "Product",
+          "Price",
+          "Positioning",
+          "People"
+        ],
+        "plan": [
+          "Week 1",
+          "Weeks 2 to 4",
+          "Day 30"
+        ],
+        "team": [
+          "Today",
+          "AI-native"
+        ]
+      },
+      "reverse": {
+        "levers": [
+          "People",
+          "Positioning",
+          "Price",
+          "Product"
+        ],
+        "plan": [
+          "Day 30",
+          "Weeks 2 to 4",
+          "Week 1"
+        ],
+        "team": [
+          "AI-native",
+          "Today"
+        ]
+      }
+    },
+    {
+      "label": "chromium-1366x768",
+      "document": 9529,
+      "samples": 59,
+      "pinned": {
+        "levers": true,
+        "plan": true,
+        "team": true
+      },
+      "worstBlankShare": 0.305,
+      "forward": {
+        "levers": [
+          "Product",
+          "Price",
+          "Positioning",
+          "People"
+        ],
+        "plan": [
+          "Week 1",
+          "Weeks 2 to 4",
+          "Day 30"
+        ],
+        "team": [
+          "Today",
+          "AI-native"
+        ]
+      },
+      "reverse": {
+        "levers": [
+          "People",
+          "Positioning",
+          "Price",
+          "Product"
+        ],
+        "plan": [
+          "Day 30",
+          "Weeks 2 to 4",
+          "Week 1"
+        ],
+        "team": [
+          "AI-native",
+          "Today"
+        ]
+      }
+    },
+    {
+      "label": "chromium-1440x900",
+      "document": 10981,
+      "samples": 58,
+      "pinned": {
+        "levers": true,
+        "plan": true,
+        "team": true
+      },
+      "worstBlankShare": 0.322,
+      "forward": {
+        "levers": [
+          "Product",
+          "Price",
+          "Positioning",
+          "People"
+        ],
+        "plan": [
+          "Week 1",
+          "Weeks 2 to 4",
+          "Day 30"
+        ],
+        "team": [
+          "Today",
+          "AI-native"
+        ]
+      },
+      "reverse": {
+        "levers": [
+          "People",
+          "Positioning",
+          "Price",
+          "Product"
+        ],
+        "plan": [
+          "Day 30",
+          "Weeks 2 to 4",
+          "Week 1"
+        ],
+        "team": [
+          "AI-native",
+          "Today"
+        ]
+      }
+    },
+    {
+      "label": "chromium-1920x1080",
+      "document": 13003,
+      "samples": 57,
+      "pinned": {
+        "levers": true,
+        "plan": true,
+        "team": true
+      },
+      "worstBlankShare": 0.373,
+      "forward": {
+        "levers": [
+          "Product",
+          "Price",
+          "Positioning",
+          "People"
+        ],
+        "plan": [
+          "Week 1",
+          "Weeks 2 to 4",
+          "Day 30"
+        ],
+        "team": [
+          "Today",
+          "AI-native"
+        ]
+      },
+      "reverse": {
+        "levers": [
+          "People",
+          "Positioning",
+          "Price",
+          "Product"
+        ],
+        "plan": [
+          "Day 30",
+          "Weeks 2 to 4",
+          "Week 1"
+        ],
+        "team": [
+          "AI-native",
+          "Today"
+        ]
+      }
+    },
+    {
+      "label": "controls",
+      "rail": {
+        "before": 900,
+        "after": {
+          "y": 2314,
+          "state": "Positioning"
+        }
+      },
+      "switch": {
+        "y": 4503,
+        "head": "Your first commercial team can be mostly agents.",
+        "week": true
+      },
+      "seat": {
+        "y": 8129,
+        "decision": "Is your voice written down clearly enough for an agent to follow it?"
+      }
+    },
+    {
+      "label": "fit-1440x900-established",
+      "levers": "pinned, fits",
+      "plan": "pinned, fits",
+      "team": "pinned, fits"
+    },
+    {
+      "label": "fit-1440x900-founder",
+      "levers": "pinned, fits",
+      "plan": "pinned, fits",
+      "team": "pinned, fits"
+    },
+    {
+      "label": "fit-1366x657-established",
+      "levers": "pinned, fits",
+      "plan": "pinned, fits",
+      "team": "pinned, fits"
+    },
+    {
+      "label": "fit-1366x657-founder",
+      "levers": "pinned, fits",
+      "plan": "pinned, fits",
+      "team": "pinned, fits"
+    },
+    {
+      "label": "fit-1440x700-established",
+      "levers": "pinned, fits",
+      "plan": "pinned, fits",
+      "team": "pinned, fits"
+    },
+    {
+      "label": "fit-1440x700-founder",
+      "levers": "pinned, fits",
+      "plan": "pinned, fits",
+      "team": "pinned, fits"
+    },
+    {
+      "label": "fit-1536x730-established",
+      "levers": "pinned, fits",
+      "plan": "pinned, fits",
+      "team": "pinned, fits"
+    },
+    {
+      "label": "fit-1536x730-founder",
+      "levers": "pinned, fits",
+      "plan": "pinned, fits",
+      "team": "pinned, fits"
+    },
+    {
+      "label": "fit-1280x600-established",
+      "levers": "pinned, fits",
+      "plan": "pinned, fits",
+      "team": "pinned, fits"
+    },
+    {
+      "label": "fit-1280x600-founder",
+      "levers": "pinned, fits",
+      "plan": "pinned, fits",
+      "team": "pinned, fits"
+    },
+    {
+      "label": "fit-1024x600-established",
+      "levers": "pinned, fits",
+      "plan": "pinned, fits",
+      "team": "flows (released by the hook)"
+    },
+    {
+      "label": "fit-1024x600-founder",
+      "levers": "pinned, fits",
+      "plan": "pinned, fits",
+      "team": "pinned, fits"
+    },
+    {
+      "label": "fit-768x1024-established",
+      "levers": "pinned, fits",
+      "plan": "pinned, fits",
+      "team": "pinned, fits"
+    },
+    {
+      "label": "fit-768x1024-founder",
+      "levers": "pinned, fits",
+      "plan": "pinned, fits",
+      "team": "pinned, fits"
+    },
+    {
+      "label": "fit-412x915-established",
+      "levers": "pinned, fits",
+      "plan": "flows",
+      "team": "flows"
+    },
+    {
+      "label": "fit-412x915-founder",
+      "levers": "pinned, fits",
+      "plan": "flows",
+      "team": "flows"
+    },
+    {
+      "label": "fit-390x844-established",
+      "levers": "pinned, fits",
+      "plan": "flows",
+      "team": "flows"
+    },
+    {
+      "label": "fit-390x844-founder",
+      "levers": "pinned, fits",
+      "plan": "flows",
+      "team": "flows"
+    },
+    {
+      "label": "fit-375x740-established",
+      "levers": "pinned, fits",
+      "plan": "flows",
+      "team": "flows"
+    },
+    {
+      "label": "fit-375x740-founder",
+      "levers": "pinned, fits",
+      "plan": "flows",
+      "team": "flows"
+    },
+    {
+      "label": "fit-360x780-established",
+      "levers": "pinned, fits",
+      "plan": "flows",
+      "team": "flows"
+    },
+    {
+      "label": "fit-360x780-founder",
+      "levers": "pinned, fits",
+      "plan": "flows",
+      "team": "flows"
+    },
+    {
+      "label": "fit-360x740-established",
+      "levers": "pinned, fits",
+      "plan": "flows",
+      "team": "flows"
+    },
+    {
+      "label": "fit-360x740-founder",
+      "levers": "pinned, fits",
+      "plan": "flows",
+      "team": "flows"
+    },
+    {
+      "label": "text-spacing-1440x900",
+      "levers": "pinned, fits",
+      "plan": "pinned, fits",
+      "team": "flows"
+    },
+    {
+      "label": "text-spacing-1366x657",
+      "levers": "flows",
+      "plan": "pinned, fits",
+      "team": "flows"
+    },
+    {
+      "label": "text-spacing-390x844",
+      "levers": "flows",
+      "plan": "flows",
+      "team": "flows"
+    },
+    {
+      "label": "rail-hold-1440x900-levers",
+      "progress": 0,
+      "expected": 0,
+      "shown": 0
+    },
+    {
+      "label": "rail-hold-1440x900-plan",
+      "progress": 0,
+      "expected": 0,
+      "shown": 0
+    },
+    {
+      "label": "rail-hold-390x844-levers",
+      "progress": 0,
+      "expected": 0,
+      "shown": 0
+    },
+    {
+      "label": "reduced-1440x900",
+      "forward": {
+        "levers": [
+          "Product",
+          "Price",
+          "Positioning",
+          "People"
+        ],
+        "plan": [
+          "Week 1",
+          "Weeks 2 to 4",
+          "Day 30"
+        ],
+        "team": [
+          "Today",
+          "AI-native"
+        ]
+      },
+      "held": {
+        "levers": true,
+        "plan": true,
+        "team": true
+      }
+    },
+    {
+      "label": "reduced-390x844",
+      "forward": {
+        "levers": [
+          "Product",
+          "Price",
+          "Positioning",
+          "People"
+        ],
+        "plan": [],
+        "team": []
+      },
+      "held": {
+        "levers": true,
+        "plan": false,
+        "team": false
+      }
+    },
+    {
+      "label": "no-js-1440x900",
+      "steps": 7,
+      "hidden": [],
+      "sticky": 0,
+      "clipped": 0,
+      "native": true,
+      "today": true
+    },
+    {
+      "label": "no-js-390x844",
+      "steps": 7,
+      "hidden": [],
+      "sticky": 0,
+      "clipped": 0,
+      "native": true,
+      "today": true
+    },
+    {
+      "label": "negative-control-unpinned",
+      "leversHeld": false,
+      "leversSeen": []
+    }
+  ],
+  "failures": []
+}

@@ -17,7 +17,7 @@ The six original process loops are:
 
 Those six process loops have no WebM or poster derivatives. Generate those only after a placement is chosen. Do not add claims, captions, calls to action or interface labels inside the footage.
 
-The Archive Engine hero package is already placement-ready:
+The Archive Engine r04 hero package is the current recoverable homepage package:
 
 - a 16.167-second, 1920 by 1080 loop at 24 frames per second;
 - silent H.264 MP4 and VP9 WebM sources, both below 4 MB;
@@ -44,7 +44,9 @@ The Archive Engine hero package is already placement-ready:
 - JPG poster: `archive-engine-hero-poster-r04.jpg`
 - WebP poster: `archive-engine-hero-poster-r04.webp`
 
-**Current-site substitution:** The homepage opening currently resolves `src/assets/films/film-02-poster.webp` and `src/assets/films/film-02-loop.mp4` through the generated homepage release. Substitute this Archive Engine package for those two media references in the two opening `hero-stage` videos only. Keep the existing `film-02` media on the later AI Brain route stage unless that surface is being changed deliberately. The accepted source is `prototypes/website-redesign-recovery/homepage-production-synthesis-r3/index.html`; regenerate `src/components/homepage-release/` with `node scripts/qa/build-homepage-release.mjs` rather than hand-editing generated files. Add the WebM source before the MP4 source and use the WebP poster. Do not overwrite the root `film-02` files because the AI Brain page also imports them.
+**Current-site substitution:** The generated homepage release points its two opening `hero-stage` videos at this r04 MP4 and WebP poster. Keep the existing `film-02` media on the later AI Brain route stage unless that surface is being changed deliberately. The accepted source is `prototypes/website-redesign-recovery/homepage-production-synthesis-r3/index.html`; regenerate `src/components/homepage-release/` with `node scripts/qa/build-homepage-release.mjs` rather than hand-editing generated files. The WebM is supplied for later source-set use, but the current generated opening retains its established single-MP4 source. Do not overwrite the root `film-02` files because the AI Brain page also imports them.
+
+The rejected r06 local Blender render and all of its site derivatives were removed from this repository on Krish's instruction. It is not an approved visual reference and must not be restored or used as a production baseline.
 
 ### `quiet-workshop-growth-loop-r01-20s-720p-web-sealed.mp4`
 
@@ -122,7 +124,7 @@ The six loops can form a process sequence, but each is intentionally usable on i
 
 ## Integrity and provenance
 
-The source scenes were generated in Higgsfield and finished locally into sealed web loops. The six process films were verified as silent, 20 seconds long, 24 fps, 480 frames and visually seamless at the join. The Archive Engine package was separately verified as silent, 16.167 seconds long, 1920 by 1080, 24 fps, decodable in both delivery formats and below 4 MB per video. They are generated illustrations. Never describe them as product footage, a live interface, a real client workflow or proof that a particular operation occurred.
+The source scenes were generated in Higgsfield and finished locally into sealed web loops. The six process films were verified as silent, 20 seconds long, 24 fps, 480 frames and visually seamless at the join. The Archive Engine r04 package was separately verified as silent, 16.167 seconds long, 1920 by 1080, 24 fps, decodable in both delivery formats and below 4 MB per video. These films are generated illustrations. Never describe them as product footage, a live interface, a real client workflow or proof that a particular operation occurred.
 
 | File | Bytes | SHA-256 |
 |---|---:|---|

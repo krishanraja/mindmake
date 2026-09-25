@@ -33,6 +33,16 @@ const PUBLIC_SURFACES = [
   "src/pages/Index.tsx",
   "src/pages/AiBrain.tsx",
   "src/pages/AiGtm.tsx",
+  /* r47 moved the page's markup into its chapters; the gates follow it. */
+  "src/components/ai-gtm/Opening.tsx",
+  "src/components/ai-gtm/Workaround.tsx",
+  "src/components/ai-gtm/StepRail.tsx",
+  "src/components/ai-gtm/LeverChapter.tsx",
+  "src/components/ai-gtm/TurnBand.tsx",
+  "src/components/ai-gtm/PlanChapter.tsx",
+  "src/components/ai-gtm/TeamChapter.tsx",
+  "src/components/ai-gtm/ProofBand.tsx",
+  "src/components/ai-gtm/Unbroken.tsx",
   "src/pages/CaseStudies.tsx",
   "src/pages/Contact.tsx",
   "src/pages/Alumni.tsx",
@@ -111,6 +121,17 @@ const MOTION_SURFACES = [
   "src/pages/Index.tsx",
   "src/pages/AiBrain.tsx",
   "src/pages/AiGtm.tsx",
+  "src/components/ai-gtm/Opening.tsx",
+  "src/components/ai-gtm/Workaround.tsx",
+  "src/components/ai-gtm/StepRail.tsx",
+  "src/components/ai-gtm/LeverChapter.tsx",
+  "src/components/ai-gtm/TurnBand.tsx",
+  "src/components/ai-gtm/PlanChapter.tsx",
+  "src/components/ai-gtm/TeamChapter.tsx",
+  "src/components/ai-gtm/ProofBand.tsx",
+  "src/components/ai-gtm/Unbroken.tsx",
+  "src/hooks/usePinnedSteps.ts",
+  "src/styles/mindmake-ai-gtm.css",
   "src/styles/mindmake.css",
   "src/styles/mindmake-instruments.css",
 ];
@@ -287,6 +308,15 @@ describe("the eyebrow ban", () => {
     "src/pages/Index.tsx",
     "src/pages/AiBrain.tsx",
     "src/pages/AiGtm.tsx",
+    "src/components/ai-gtm/Opening.tsx",
+    "src/components/ai-gtm/Workaround.tsx",
+    "src/components/ai-gtm/StepRail.tsx",
+    "src/components/ai-gtm/LeverChapter.tsx",
+    "src/components/ai-gtm/TurnBand.tsx",
+    "src/components/ai-gtm/PlanChapter.tsx",
+    "src/components/ai-gtm/TeamChapter.tsx",
+    "src/components/ai-gtm/ProofBand.tsx",
+    "src/components/ai-gtm/Unbroken.tsx",
     "src/pages/NewAgeLeadership.tsx",
     "src/components/mindmake/ReflexDeck.tsx",
     "src/components/new-age/AgathaStory.tsx",
@@ -347,6 +377,16 @@ describe("the motion gate", () => {
       "src/pages/Index.tsx",
       "src/pages/AiBrain.tsx",
       "src/pages/AiGtm.tsx",
+      "src/components/ai-gtm/Opening.tsx",
+      "src/components/ai-gtm/Workaround.tsx",
+      "src/components/ai-gtm/StepRail.tsx",
+      "src/components/ai-gtm/LeverChapter.tsx",
+      "src/components/ai-gtm/TurnBand.tsx",
+      "src/components/ai-gtm/PlanChapter.tsx",
+      "src/components/ai-gtm/TeamChapter.tsx",
+      "src/components/ai-gtm/ProofBand.tsx",
+      "src/components/ai-gtm/Unbroken.tsx",
+      "src/hooks/usePinnedSteps.ts",
     ])) {
       expect(`${surface}: ${source.includes("framer-motion")}`).toBe(`${surface}: false`);
     }
@@ -722,7 +762,7 @@ describe("the Brain decision proof", () => {
   });
 
   it("keeps the internal engine name out of the public argument", () => {
-    for (const [surface, source] of readAll(["src/pages/Index.tsx", "src/pages/AiBrain.tsx", "src/pages/AiGtm.tsx"])) {
+    for (const [surface, source] of readAll(["src/pages/Index.tsx", "src/pages/AiBrain.tsx", "src/pages/AiGtm.tsx", "src/components/ai-gtm/Opening.tsx", "src/components/ai-gtm/Workaround.tsx", "src/components/ai-gtm/StepRail.tsx", "src/components/ai-gtm/LeverChapter.tsx", "src/components/ai-gtm/TurnBand.tsx", "src/components/ai-gtm/PlanChapter.tsx", "src/components/ai-gtm/TeamChapter.tsx", "src/components/ai-gtm/ProofBand.tsx", "src/components/ai-gtm/Unbroken.tsx"])) {
       expect(`${surface}: ${/\bCTRL\b/.test(source)}`).toBe(`${surface}: false`);
     }
   });

@@ -38,7 +38,7 @@ Publication interest is optional and unticked; it does not subscribe anyone.
 and the brief's success step all open the publication's subscribe form.
 
 The personal-read API remains deployed, but is not a second form in this
-frontend. GTM uses the plain-English GTM-PLAIN-R2 page (approved 24 September 2026); the retained daily-news
+frontend. `/ai-gtm` serves the r47 rebuild (`quality/route-lock/approved-production-r47.json`), merged on Krish's instruction of 25 September 2026; his review of the rebuilt page is open as `AI-GTM-R47-OWNER-REVIEW-001`. The retained daily-news
 API is not evidence that a live board is rendered on the approved homepage.
 
 Navigation labels: Results, Thinking, Questions leaders ask, Before you start,
@@ -249,10 +249,11 @@ owns payload, privacy, retention, email and failure-path contracts.
   `h1` in the document is a zero-size duplicate, so its `h1` wait times out, and
   that reproduces identically on the pre-change commit.
 
-- /ai-gtm is replaced by the owner-approved GTM-PLAIN-R2 page, bounded by
-  `quality/route-lock/approved-production-r25.json`. Production readback of that
-  release is recorded in the history ledger when it lands; until then treat the
-  live deployment as the authority on what /ai-gtm renders.
+- /ai-gtm is replaced by the r47 rebuild, bounded by
+  `quality/route-lock/approved-production-r47.json`; it retires GTM-PLAIN-R2
+  (`quality/route-lock/approved-production-r25.json`). Production readback of
+  that release is recorded in the history ledger when it lands; until then
+  treat the live deployment as the authority on what /ai-gtm renders.
 
 - Analytics: Plausible (cookieless) counts every visit. Google Analytics
   (`G-SMXQH8E4CM`) is consent-gated from `index.html`: nothing is requested from
@@ -323,15 +324,32 @@ owns payload, privacy, retention, email and failure-path contracts.
   route headline is set small enough on phones for "judgement reusable." to
   fit, and the phone footer lays its links in two even columns.
   Recorded in `quality/route-lock/approved-production-r42.json`.
-- The homepage opening hero plays the Archive Engine loop
+- The leadership chapters on `/` and `/new-age-leadership`, from Krish's phone
+  review on 25 September 2026. Recorded in
+  `quality/route-lock/approved-production-r46.json`.
+  - The AI Brain benefits no longer lose the ends of their lines on a phone.
+    The benefits stage's grid column is now exactly the stage, and the phone
+    headline size fits the longest phrase the line-break guard keeps together
+    ("forgotten observation.") at every width from 320px.
+  - `keepLastWords` also takes back a join when the block grew wider than an
+    ancestor that hides its overflow, rather than only when it overflowed its
+    own box.
+  - `qa:line-breaks` fails text cut off by an edge that hides it, and carries a
+    negative control for it.
+  - On a phone at least 480px tall the practice scenes pin under their
+    introduction and build by the signal sweep: a mint line crosses the frame
+    left to right, uncovers the next scene, and the rail's fill travels from
+    stop to stop with it, in both directions. Reduced motion changes scenes at
+    the same points without a sweep. A phone held sideways, and a page without
+    scripts, keep the scenes one after another. On the homepage only the scene
+    on screen, and the one being uncovered, play their films.
+- The homepage opening hero selects the recoverable Archive Engine r04 loop
   (`src/assets/films/sep2026/archive-engine-hero-loop-r04-16s-1080p-web-sealed.mp4`)
   with its own WebP poster; the route stage keeps `film-02`. Recorded in
-  `quality/route-lock/approved-production-r40.json`. Merged as PR #195,
-  commit `08c7434`. Main's post-merge matrix on that commit passed on
-  Chromium, Firefox and WebKit. Production read back on 25 September 2026 at
-  about 08:30 UTC: `/` serves the Archive Engine MP4 in both opening
-  variants (200, `video/mp4`, 3,641,185 bytes) and `film-02-loop` only on the
-  route stage.
+  `quality/route-lock/approved-production-r45.json`. Krish rejected the r06
+  local Blender render after seeing the moving result and ordered its complete
+  removal from the repository. r06 is not an approved visual reference and
+  consumed no Higgsfield generative-video credits.
 - The AI Brain page speaks to the reader (BRAIN-NARRATIVE-S4), approved by
   Krish on 25 September 2026 and recorded in
   `quality/route-lock/approved-production-r48.json`. The hero film,

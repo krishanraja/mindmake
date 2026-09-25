@@ -9,7 +9,8 @@
     "Chapter 02 does not say whose Brain it is ('What a Brain holds.').",
     "Ownership: the Brain belongs to the leader; the business keeps the standards the leader shares with the team (01_CANON). Three answers updated to match.",
     "Canon voice fixes to lines the instruments show: BI-006, BI-012, BI-020, SRC-001, REL-005, REL-015.",
-    "Approval came from captures sent in the session, not review:material, which supports only the homepage candidate."
+    "Approval came from captures sent in the session, not review:material, which supports only the homepage candidate.",
+    "Merged onto main at r47 (the /ai-gtm rebuild); this record keeps r47's GTM contract and files and changes only the Brain."
   ],
   "routes": [
     "/",
@@ -33,7 +34,15 @@
       "prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html"
     ],
     "gtm": [
-      "src/pages/AiGtm.tsx"
+      "src/pages/AiGtm.tsx",
+      "src/components/ai-gtm/Opening.tsx",
+      "src/components/ai-gtm/Workaround.tsx",
+      "src/components/ai-gtm/StepRail.tsx",
+      "src/components/ai-gtm/LeverChapter.tsx",
+      "src/components/ai-gtm/TurnBand.tsx",
+      "src/components/ai-gtm/PlanChapter.tsx",
+      "src/components/ai-gtm/TeamChapter.tsx",
+      "src/components/ai-gtm/ProofBand.tsx"
     ]
   },
   "newlyLocked": [
@@ -67,25 +76,27 @@
     },
     "gtm": {
       "citedSignals": [
-        "product",
+        "service",
         "pricing",
-        "commerce",
-        "service"
+        "commerce"
       ],
       "stages": [
-        "Your business",
-        "What changes",
-        "Your team",
+        "Your customers have changed",
+        "You can feel it in four places",
+        "You could add an AI tool",
+        "Make your pricing, positioning and team",
+        "One go-to-market move in 30 days",
+        "Your sales and marketing team gets agents",
         "Result"
       ],
       "requiredInstruments": [
-        "signal-selector",
-        "outcome-grid",
-        "lever-track",
-        "response-selector",
+        "usePinnedSteps",
+        "gtm-rail",
+        "lever-steps",
+        "mode-switch",
+        "plan-days",
         "team-board",
-        "test-slip",
-        "data-device-variant"
+        "decision-panel"
       ]
     }
   },
@@ -95,7 +106,7 @@
     "price the result"
   ],
   "supersedes": {
-    "path": "quality/route-lock/approved-production-r43.json",
+    "path": "quality/route-lock/approved-production-r47.json",
     "reason": "Krish's 2026-09-25 approval of BRAIN-NARRATIVE-S4. No earlier record is rewritten."
   },
   "textLineEndings": "lf",
@@ -107,12 +118,55 @@
     },
     "expectedRouteCases": 208,
     "expectedSupplementalCases": 9,
-    "motion": "All fifteen ordered-state cases (five per engine) and the reduced-motion and short-screen fallbacks on both platforms",
+    "motion": "All twenty-four ordered-state cases (eight per engine: history, reach, practice and benefits at 1440x900 and 390x844) and the reduced-motion and short-screen fallbacks on both platforms",
     "rationale": "project-documentation/website-redesign/RELEASE-2026-09-24.md"
   },
   "scope": {
-    "baselineCommit": "6ad1138",
-    "allowedExistingChanges": []
+    "baselineCommit": "1462cb0",
+    "allowedExistingChanges": [
+      {
+        "path": "src/styles/mindmake.css",
+        "before": "5911e87036d5a00e771d694960b7340c4a6802c0d02449f1580c0baa75764794",
+        "after": "55e9da12261f0f59744e0b0da734b020b09b1b13e8526ce8e309b6da5b289911",
+        "reason": "The three GTM-only --mm-header-inline overrides for the retired 1,360px shell are removed, so the wordmark, menu and footer take the shell edge that /ai-gtm's content now uses."
+      },
+      {
+        "path": "scripts/qa/approved-route-lock-check.mjs",
+        "before": "2657f3a8b0cb5e7e7cc90d8434d966033e4656ff2d6e0d6022ce1fbae9d18f81",
+        "after": "5a1468e00d357855b5aa5aba7f1ca3f5eb783dfa4160fbda4722be63083bf676",
+        "reason": "Selects r47."
+      },
+      {
+        "path": "scripts/qa/approved-route-lock-self-test.mjs",
+        "before": "a1471b6e3efb779513c516e441ac6ce1eee503af60a6fb5a6b431db0462c12da",
+        "after": "880b02515e514a81423691dc423e9d55ee0152f8478054347a13e8fc58c827d2",
+        "reason": "Selects r47 and names its temporary controls after it."
+      },
+      {
+        "path": "scripts/qa/locked-material-production-check.mjs",
+        "before": "6dbe1dcdfcad99a9c910e13ae02e88fbea7d1fe0295f6dc5f693a5b0fa37960b",
+        "after": "3bc9613c4d56c1b329b4150875a138937c5b05bfb8089e55642e865582b0fc68",
+        "reason": "/ai-gtm leaves the locked-material routes: its cases had asserted the retired signal-and-response design since r25 and read the deleted stylesheet. The Brain checks are unchanged."
+      },
+      {
+        "path": "scripts/qa/full-route-continuity-check.mjs",
+        "before": "baed7b4a3a244a282b383c938a7c79d5cc34ea819328aad027e005fc4566d2e5",
+        "after": "ea2cff2203d3c94e49e433665cd42a4d7bf75b572207be436cd429b3268acc84",
+        "reason": "The 200% reflow case for /ai-gtm measures the decision panel that replaced the test slip."
+      },
+      {
+        "path": "src/test/brief2-public-contract.test.ts",
+        "before": "9e51996473231ec1d5ce8790c3dba3ba5f4815501a0f63ec61de709741ae0dae",
+        "after": "7cf8a230af5d668fe9937ae6596a3709aab7f563e2c943a8f15c2a04c80f8b21",
+        "reason": "Coverage follows the markup that moved from AiGtm.tsx into src/components/ai-gtm/ and src/hooks/usePinnedSteps.ts. No assertion removed or weakened."
+      },
+      {
+        "path": "src/pages/AiGtm.tsx",
+        "before": "bd106257ab8183ae86dbc3d6249a42c935642230c5e7c91f2a1a2c94d987b028",
+        "after": "db6e36a8557fee2baa40654239b8b6a8a7a010689313699cb08c4a7347493395",
+        "reason": "Rebuilt as one argument in the house system: problem-first opening, four felt moments with dated sources, the turn to the offer, the 30 days, the team, one result. The approved copy, levers, plan, team, decisions, proof and brief routing are kept; the chapters live in src/components/ai-gtm/."
+      }
+    ]
   },
   "additionalTextExtensions": [
     ".svg",
@@ -131,24 +185,19 @@
       "reason": "No longer routed or imported; superseded by GTM-PLAIN-R2. Recorded in project-documentation/history/LOG.md."
     },
     {
-      "path": "src/components/homepage-release/pinnedChapters.css",
-      "lastHash": "cbd0045559d53625b7e033c6efdc1040e209d12d948d3d54aff61803d382f3c6",
-      "reason": "The R3 history and leadership-dividend pin controller. Retired with those chapters; the new-age leadership chapters pin with their own sticky tracks."
-    },
-    {
-      "path": "src/components/homepage-release/pinnedChapters.ts",
-      "lastHash": "d3f0c747e3d52cce0054072276ea018e7dc3c04f0173a1f3ab36533092237886",
-      "reason": "The R3 history and leadership-dividend pin controller. Retired with those chapters; the new-age leadership chapters pin with their own sticky tracks."
-    },
-    {
-      "path": "src/test/homepage-pin-lifecycle.test.ts",
-      "lastHash": "35e7790170f6334afc540a6286f14e2e42eb31b8e78d55915bee522764774571",
-      "reason": "The R3 history and leadership-dividend pin controller. Retired with those chapters; the new-age leadership chapters pin with their own sticky tracks."
-    },
-    {
       "path": "src/components/mindmake/SubscribeBand.tsx",
       "lastHash": "55830e8053d2851e7795d2a34c368997d18b5bb49ca06a8d6a6a7398fadc1bee",
       "reason": "Removed on Krish's instruction (2026-09-25). Its film and poster remain in use elsewhere. Recorded in project-documentation/history/LOG.md."
+    },
+    {
+      "path": "src/styles/mindmake-locked-gtm.css",
+      "lastHash": "84757e31da19b762a6e48e7e4d81906fa97aec02c2f58e61df9c015d5faf667e",
+      "reason": "GTM-PLAIN-R2's generated private stylesheet (its own palette, three mints, non-variable font names, labels down to 7.7px). Retired in r47 for src/styles/mindmake-ai-gtm.css on the house tokens."
+    },
+    {
+      "path": "src/styles/mindmake-gtm-plain.css",
+      "lastHash": "acfa59021a76674c2170fa2bc84567f7c4576ba8f90c8156532f9bc834953262",
+      "reason": "GTM-PLAIN-R2's override layer on the stylesheet above. Retired with it in r47."
     }
   ],
   "verification": {
@@ -165,10 +214,9 @@
     "src/styles/mindmake-locked-brain.css": "7ef818a05599b945ff2cdbd1aebf56cf3815f7d4508421963755216539da7b96",
     "src/data/vnext/brain-fixture.json": "6603d5dbb725aad78dcbdd4b2433bb815b45d060be762b79c9c53a4005e7d594",
     "prototypes/website-redesign-recovery/brain-signature/index-s2-motion-s3.html": "1040fd54e660e0040f740ce769cee7033957e2a6d79b4bf0389479fd1d590c9e",
-    "src/styles/mindmake-locked-gtm.css": "84757e31da19b762a6e48e7e4d81906fa97aec02c2f58e61df9c015d5faf667e",
     "src/data/vnext/gtm-signals.json": "5ab7fac6ce8ebdab6b69b73f60e184a7e4df8d923d97edd29c38872648c3bf7f",
     "src/pages/NewAgeLeadership.tsx": "96a0b024fd35ef96e99f114e7e9427588abeeab49711cd4af0cf3b406c690cc0",
-    "src/styles/new-age-leadership-r5.css": "fd3b442e93674e9d3e1cb422cc0d16903a2e747bbb1d62d3fd7d78d2df374ace",
+    "src/styles/new-age-leadership-r5.css": "e57b7b64dae0a490d2f9b7651d0d0ce54979498a94b4c8e490755f0b961e8fd6",
     "src/components/mindmake/locked/CommercialDecisionBalance.tsx": "f57849b19f5d15ecb5e9fd664833cfcf0d5e07bbd355d71656c243ac5c2a3410",
     "src/styles/mindmake-commercial-decision-balance.css": "a2fb68466e0835aa4023a2c503c92e66cea3465ac94fdec5ce4d43ec37af3554",
     "src/components/mindmake/locked/CaseProofField.tsx": "37964c4f93a8046ee86219d1e8b0da985137070d9ff893f363142f33d667e3d5",
@@ -183,18 +231,18 @@
     "src/pages/Contact.tsx": "fbc16c3711108d1c98d0069d486222c22851442c4c2235ca30a0bd65a29f3d18",
     "src/components/mindmake/MindmakeShell.tsx": "1ca80b59803643b6a8285640b2d9be3542a3da36eb45c997c901f8578bf0195c",
     "src/components/mindmake/LeadBrief.tsx": "2ce4be0a18956febe3ce5edbb9d30ead8631b115b238148d5cc67be64a37b10d",
-    "src/styles/mindmake.css": "5911e87036d5a00e771d694960b7340c4a6802c0d02449f1580c0baa75764794",
+    "src/styles/mindmake.css": "55e9da12261f0f59744e0b0da734b020b09b1b13e8526ce8e309b6da5b289911",
     "src/styles/mindmake-brief.css": "970521eb13dae1aef955ca0bbd0da62353efe8e2c2754607b0b3fee18675ec13",
     "src/hooks/useLeadBriefHistory.ts": "a782c9c8563b44ee23780742c1cfff703f7a0a362ffd2986405508e42567c427",
     "src/data/rebuildProof.ts": "bdea57fd6495548e2ea798e9b7056323bb1936c4f4e66c24301aa82c9114884b",
     "src/data/testimonials.ts": "24466efccdb455aef4698f7e0a4a00e4885ecb43cf6245bf5255e1369e7d0663",
     "src/App.tsx": "0643615283d8d4ab3083c9867d97e0664701dbf8c0bae692abdf04578195a17d",
     "src/entry-server.tsx": "ac7a18adfd46748caa2edf69bc577246cb5fd95511a93102745117d7d455dcef",
-    "scripts/qa/approved-route-lock-check.mjs": "92d464f31dabc39eae1d52bf4856a65a05fb94de865244d3f46d73b8e1ac49e1",
-    "scripts/qa/approved-route-lock-self-test.mjs": "4969d8a4f17ea965d395cb5f179df8a001b251d18fabe556cf7a54262344d0f3",
+    "scripts/qa/approved-route-lock-check.mjs": "0bcbf3a37acf140ecc833fd243a3b8ea150672ba779eacef8e1a11473c13db0a",
+    "scripts/qa/approved-route-lock-self-test.mjs": "94f4aa7b0597ca73e675c923f3e07135ecc1284f2a8028eab6cea1dd2b50480d",
     ".github/workflows/approved-route-lock.yml": "a8436f33851fea66cfb2cc3a4cf3e888a0baa5bd068dd6f82bd7684cab90c61c",
-    "scripts/qa/locked-material-production-check.mjs": "6dbe1dcdfcad99a9c910e13ae02e88fbea7d1fe0295f6dc5f693a5b0fa37960b",
-    "scripts/qa/full-route-continuity-check.mjs": "baed7b4a3a244a282b383c938a7c79d5cc34ea819328aad027e005fc4566d2e5",
+    "scripts/qa/locked-material-production-check.mjs": "3bc9613c4d56c1b329b4150875a138937c5b05bfb8089e55642e865582b0fc68",
+    "scripts/qa/full-route-continuity-check.mjs": "ea2cff2203d3c94e49e433665cd42a4d7bf75b572207be436cd429b3268acc84",
     "scripts/qa/plain-language-check.mjs": "639c62446bf7f3a01693ba1fc20e446e23ba8fbc8d17bc429e41da951fafd9a8",
     "src/components/homepage-release/component-styles.css": "3551589416109510ef10617266d4ead05321cf9bfe452146da27bc59608fd449",
     "src/components/homepage-release/integration.css": "bd91390b68b62cb65be16ce55c7aa6a77a19c39e6f2eb69608afa91b589e2c7b",
@@ -202,11 +250,12 @@
     "src/components/homepage-release/page.css": "1fffdf5316db0a0c15ff915fc80d928fc809e1a78f9070fc7d409b764a594182",
     "src/components/homepage-release/runtime.d.ts": "c1aff6ae788422b2bf77c0dfb3f035f07c54b951295b7054f523dbb48545383c",
     "src/components/homepage-release/runtime.js": "25ed130d2af76ffa2c29816ab71aa35520f833f51db9cf0a63a7b42b6c87bb01",
-    "scripts/qa/build-homepage-release.mjs": "2efad9a87effe92b0603c93e324f46eb7e9c09aafd021485162dc18bf242413e",
-    "scripts/qa/homepage-release-browser-check.mjs": "9d41a08065c14b8de9ed0bdbea2d1658f25cf8e014b0e3462c89dd0fc0f425a3",
+    "scripts/qa/build-homepage-release.mjs": "1669df9675840194ee6f79a354932c2db73d7ec1e5c3e23fcbb6fc33e6e45c79",
+    "src/assets/films/sep2026/README.md": "579fe9bb0a9e049c689a7c8291f3b2a23781326ee31d1c80691393c25420a35f",
+    "scripts/qa/homepage-release-browser-check.mjs": "34179e27e969bc7207bead8355886f5fe3c3cd0a515828264205e97f17c4781a",
     "scripts/qa/homepage-release-adapter-check.mjs": "ae9ea60d107c9a2c137dd4fa3d6427ab29b5b10a373d1946257c35db89141b8e",
     "scripts/qa/homepage-release-visual-parity-check.mjs": "c45405559cb8a5e3499b5d29e9d9b397dadfaedc48efe409fe8f0cbfc33573ad",
-    "scripts/qa/homepage-scroll-contract.mjs": "d77ba4202a7dce0a85713ac8cadd1bfd3c822812e0df77c6b55565567f2161de",
+    "scripts/qa/homepage-scroll-contract.mjs": "4e9700d53d48a351de06a7aa108d72857c6b10115ae3c97541829aab79c2f06c",
     "scripts/qa/scroll-build-evidence.mjs": "1ae4a330c831d6accbfba3ba869c0c9a1d259e2b8258b524e2aa74408bbbabbc",
     "scripts/qa/scroll-build-evidence-selftest.mjs": "1e82f4d67511254bdb3e41740d57a4b7b1dff1e6e30790e0f935c6c4bc898e99",
     "scripts/prerender.mjs": "f0bcb76106e4762595d624c2068636341f4ef8ee4bd39426e9a6c7409d6be867",
@@ -232,7 +281,7 @@
     "src/test/discoverability.test.ts": "679c11150944c99dda0e79240e52bc4dfa15ba335ed50aa385aa3aecaff3d1e6",
     "src/test/seo-prerender.test.tsx": "a49ddfaea0d4e25b3efcbd7342a40d92d8e8d96a52cf146a3b2468bd63ad674c",
     "src/test/seo-navigation.test.tsx": "df5fdc636cde34d682bec1b9ed80d5e4e47d412e8ca4af8d64bac2719722bb15",
-    "src/test/brief2-public-contract.test.ts": "9e51996473231ec1d5ce8790c3dba3ba5f4815501a0f63ec61de709741ae0dae",
+    "src/test/brief2-public-contract.test.ts": "7cf8a230af5d668fe9937ae6596a3709aab7f563e2c943a8f15c2a04c80f8b21",
     "public/sitemap.xml": "4e5859b5c5957b99313f1e506a521ed8fcef501bd17836f0cbf9c327157480ab",
     "public/llms.txt": "6d63a86b7647ce7146e78c354d3a77fa64fe676fbcd4251e7055c2b8d0a505fc",
     "public/robots.txt": "d655c25315f781de2ff83266a9472f7fdf5e6c8fa0ae91b8f7099e4e3a78831b",
@@ -264,31 +313,44 @@
     "prototypes/website-redesign-recovery/case-study-browsing-r2/review.html": "b318df0581aa87f00f61891422d7c607e861de4d70d79b360d790c94191da4eb",
     "prototypes/website-redesign-recovery/case-study-browsing-r2/check.mjs": "7ff2d8d91dccfae045ed9445ed917bd4b87564402745d7a0bbc35f9acf51a136",
     "scripts/qa/logo-alignment-check.mjs": "c4e3dbd28709a39b75c4bf8c719b2eb992bdddb5aa0ba53864186e7d1a7bee32",
-    "src/styles/new-age-leadership-r6.layer.css": "546986da7d3b4a6bd23053ed69aa996400db8c4f140b39050a9a11a058be60ca",
+    "src/styles/new-age-leadership-r6.layer.css": "fb54260235ecfb6773aecf99f0e446219f207da167c9e8c069917f84d7f94abb",
     "scripts/qa/build-new-age-r5-styles.mjs": "a5cba878c8e6293f7c61fce3b52bce4c3c269d5f4fc6cf9cb2e8c8a607c5d19a",
     "scripts/qa/new-age-r5-production-check.mjs": "86db61496a4b0ee713c9ad4ac337997895f6f351bb02b29d3a3cf83217448c9b",
-    "src/pages/AiGtm.tsx": "bd106257ab8183ae86dbc3d6249a42c935642230c5e7c91f2a1a2c94d987b028",
-    "src/styles/mindmake-gtm-plain.css": "acfa59021a76674c2170fa2bc84567f7c4576ba8f90c8156532f9bc834953262",
+    "src/pages/AiGtm.tsx": "db6e36a8557fee2baa40654239b8b6a8a7a010689313699cb08c4a7347493395",
     "quality/ai-gtm/approved-plain-r2.json": "b42d8a6e66f822150c6c49d3059aaf09b86d6f92dcb7b243114ae359041578cc",
     "src/lib/lazyRoute.ts": "24b6b3f403f670143ed84c743c402ceef93e4d3f5e61cd7c3316182205b329ab",
-    "src/components/leadership-chapters/leadershipChapters.ts": "ca3df3202fec02644693c16be62029790e3493a642f72352e11cf33c37249bf3",
-    "src/test/homepage-leadership-chapters.test.ts": "adabe281f5076665b7b322a6412ba398c862aee2c421dcda593346b4a21d84f9",
+    "src/components/leadership-chapters/leadershipChapters.ts": "e8935fceb37a34b6dedd38363d4a8e344a4ea29d159f8dd41b2cbf4f33ea4dba",
+    "src/test/homepage-leadership-chapters.test.ts": "63add0d85a3169f8491a3ed3f8fbc118ad2ebc9258abc3a92d38580adb974fad",
     "src/components/RouteTransitions.tsx": "2ea90affe111da73822be30636456cb6d049503d7abc76dae683bc249edc474b",
     "src/lib/preloadable.ts": "fee50216ad2139646bb11b172e3779f141049a54d88b1327bbaf8862b65d0a10",
     "src/styles/route-transition.css": "a36631807614c9a976c610b514526d96e34ed670f71488c6e2bdf6ed7f422154",
     "src/components/mindmake/PairingBridge.tsx": "488ee1e5372215bdacffd5fcc23f4ce10750ea69cd8086d3bc81735678ad9d65",
     "src/styles/mindmake-pairing.css": "8a395eb6a2d2355b6be3dd7ce6107c2947ed3669fc27dce44b6ab34b0c2918c8",
-    "src/lib/keepLastWords.ts": "cd461a3982132f249a5640fb25ec3f07b58c95c4c74420ad01f2cab70e092663",
+    "src/lib/keepLastWords.ts": "610a02f004cbabba0911e5d820192bd2dcfe39c8033293a74273bf61a2799d91",
     "src/components/LineBreaks.tsx": "bbac965ae889699a88a94bc5c79e6cc59ae8a255a512e0f0e98e66a51f16a448",
-    "scripts/qa/line-break-check.mjs": "9ab29ee6bc4ff99312ef7a1ddd05a94538ef5d48999402cbb4d25f4baebd5fe2",
+    "scripts/qa/line-break-check.mjs": "c88328c39b55665639482f78433dea8ff6d99023bfdda81e7f59be42512c566e",
     "src/components/homepage-release/pinnedChapters.ts": "578fd7d0c728fadd171b550e4d707b96bfbc7aa1d2ef18a0fa561c26b693b156",
     "src/components/homepage-release/pinnedChapters.css": "cbd0045559d53625b7e033c6efdc1040e209d12d948d3d54aff61803d382f3c6",
     "src/test/homepage-pin-lifecycle.test.ts": "ecab5c57568c418cc15bc6cdb368a2ce75c8ff09f92c7cd1cb83f2dd351bf4e3",
     "src/styles/mindmake-brain-refinements.css": "e89187966f7bb4016cb2b29b0df64f651b496218126e8357b44d394062a4cf0a",
+    "src/components/ai-gtm/Opening.tsx": "568c6ce3c993cdf2bea24a7299b3e8bdd105bc195031a27f8d80fc29f09bfa69",
+    "src/components/ai-gtm/Workaround.tsx": "cdd94858400e75890449928ece3dd5539430410f2d973e7a074c4a49c5869192",
+    "src/components/ai-gtm/StepRail.tsx": "b33fd4602cc2d46418f2114575401a7541e7a38cb8d55f8fdb882e3110cb68e2",
+    "src/components/ai-gtm/LeverChapter.tsx": "01baf5ecd31937895fb197999108430b873e9c98b170cddd4ef10ecee4079a07",
+    "src/components/ai-gtm/TurnBand.tsx": "65834377e8138e30eebdbfcc1b8752ee228ecc7df94108bac12e8b7f8a50d28c",
+    "src/components/ai-gtm/PlanChapter.tsx": "74e17f4184b1cac8a0695d30806ec2a4f60803a326ef91b21ba3fd1b7d93e842",
+    "src/components/ai-gtm/TeamChapter.tsx": "3f4d5a42787119608e7e3f2d9456e2d0b81c61f8f477616028ec0ea3d884450d",
+    "src/components/ai-gtm/ProofBand.tsx": "a57cde2d4de6451fa9003422841049113c43315020560b94a9b3cbff07d19230",
+    "src/components/ai-gtm/Unbroken.tsx": "aebe7ec14c81675ee959551fbe22550cd617d1a783013b1cd688aba83f6332bc",
+    "src/hooks/usePinnedSteps.ts": "6b80101fa2b05f7c5a84b9859a0e5f8e21538354662ebc9a4a00607ba11f58a4",
+    "src/styles/mindmake-ai-gtm.css": "ef9366367bd7cd57a4cc8dbe4632e1d0adee9709c081445262a3a29241b3220d",
+    "src/test/ai-gtm-pinned-steps.test.tsx": "be5345155fa52f723d68572e1c54887f640b83d84b393de1c22be70ad012b2e1",
+    "src/test/ai-gtm-page.test.tsx": "7852455adbc988a9d6dbb1c082283a361412c89e07f1e2f2f3cc04e4f185d464",
+    "scripts/qa/record-route-lock-r47.mjs": "a3687c7a5effe1d4de5a1dac8847178bc253b384df1c8760ccc951f0282be7db",
     "prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html": "0b4fbd8e5f921b408c4b4cb503adc3dad27d1cde652f6c2267bea274dd357da1",
     "src/styles/mindmake-brain-narrative.css": "74238508d185408f45f48892bfc2b6b2433b3266abe89b68a217f3ab998b90a8",
     "src/components/mindmake/locked/scrollSequence.ts": "e1002efd67ce59f8f82b71daba38cf3d1c2b0d33be84b508a783aa86e5723661",
     "src/test/brain-narrative.test.ts": "56c5d87e04ae393db2074d73867db7133c0431b18da79bfd5168189b200c4606",
-    "quality/ai-brain/approved-narrative-s4.json": "77b443865ce9e4be182b7b6c62a774850f4985c203d6d37a961b362bb1ba088a"
+    "quality/ai-brain/approved-narrative-s4.json": "4601e1203c106813e90ee26687a8c30383540a146ed00d92960f09e9d52e39af"
   }
 }

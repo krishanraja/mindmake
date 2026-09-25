@@ -26,7 +26,8 @@ import postcss from 'postcss';
 // A third (Krish, 2026-09-25, recorded in
 // quality/route-lock/approved-production-r40.json): the two opening hero-stage
 // films play the Archive Engine loop with its own poster. `heroFilm` below is
-// the whole of it; the route stage keeps film-02, as does /ai-brain.
+// the whole of it; the route stage keeps film-02, as does /ai-brain. r45
+// restores r04 after Krish rejected and ordered removal of the r06 render.
 //
 // A fourth (Krish, 2026-09-25): the footer statement breaks before "changes".
 const repo = process.cwd();

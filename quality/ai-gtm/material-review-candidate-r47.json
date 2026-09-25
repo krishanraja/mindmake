@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "ai-gtm-r47",
+  "status": "candidate",
+  "profile": "quality/website-redesign/experience-quality.profile.json",
+  "artifact": {
+    "kind": "integrated-production-candidate",
+    "root": "src",
+    "entry": "src/pages/AiGtm.tsx",
+    "route": "/ai-gtm",
+    "integrationModel": "single-dom-single-scroll-context",
+    "files": [
+      "src/pages/AiGtm.tsx",
+      "src/components/ai-gtm/Opening.tsx",
+      "src/components/ai-gtm/Workaround.tsx",
+      "src/components/ai-gtm/StepRail.tsx",
+      "src/components/ai-gtm/LeverChapter.tsx",
+      "src/components/ai-gtm/TurnBand.tsx",
+      "src/components/ai-gtm/PlanChapter.tsx",
+      "src/components/ai-gtm/TeamChapter.tsx",
+      "src/components/ai-gtm/ProofBand.tsx",
+      "src/components/ai-gtm/Unbroken.tsx",
+      "src/hooks/usePinnedSteps.ts",
+      "src/components/mindmake/locked/useLockedMotion.ts",
+      "src/styles/mindmake-ai-gtm.css",
+      "src/styles/mindmake.css",
+      "src/data/vnext/gtm-signals.json",
+      "src/components/mindmake/MindmakeShell.tsx",
+      "src/components/mindmake/PairingBridge.tsx",
+      "src/styles/mindmake-pairing.css"
+    ],
+    "nonRuntimeFiles": []
+  },
+  "requirements": {
+    "surfaces": [
+      "desktop",
+      "mobile"
+    ],
+    "singleDomScrollContext": true,
+    "noEmbeddedFrames": true,
+    "continuousForwardAndReverse": true,
+    "scrollDrivenSections": [
+      "levers",
+      "plan",
+      "team"
+    ]
+  },
+  "evidence": {
+    "readiness": "artifacts/material-review/ai-gtm-r47/readiness-receipt.json",
+    "continuity": "artifacts/material-review/ai-gtm-r47/continuity-receipt.json",
+    "specialist": "artifacts/material-review/ai-gtm-r47/specialist-receipt.json"
+  },
+  "feedback": {
+    "ledger": "project-documentation/website-redesign/feedback-ledger.json",
+    "applicableIds": [
+      "AI-GTM-R47-SCROLL-BUILD-001"
+    ]
+  },
+  "classification": "The /ai-gtm rebuild (r47) as the production route itself: one React page in the site shell, one DOM and one page scroll, three pinned chapters (levers, plan, team) that step with scroll both ways. Presented to the owner as the protected Vercel preview of the commit whose bytes these receipts identify. Only AI-GTM-R47-SCROLL-BUILD-001 is applicable here, because its acceptance test is mechanical and passed. The hierarchy, empathy, one-to-one and design-system items are matters of taste that FEEDBACK-WORKFLOW.md rule 8 keeps at implemented-awaiting-review until Krish has reviewed this candidate, and AI-GTM-R47-OWNER-REVIEW-001 is met only by his approval; all five hold the release check closed until then."
+}

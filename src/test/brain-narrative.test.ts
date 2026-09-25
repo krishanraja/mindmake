@@ -8,7 +8,7 @@ import fixture from "@/data/vnext/brain-fixture.json";
 /**
  * /ai-brain after the S4 narrative (Krish, 2026-09-25): the hero, then five
  * chapters that speak to the reader. You (the questions only they can
- * answer), Proof (our own Brain), Sharper (one decision), Private (the living
+ * answer), Inside (what a Brain holds), Sharper (one decision), Private (the living
  * record) and Business (one call reaching the four levers). The source-check
  * and correction chapters are retired.
  */
@@ -31,7 +31,7 @@ describe("the Brain narrative", () => {
   it("points every rail link and the opening action at a real chapter", () => {
     const doc = page();
     const links = [...doc.querySelectorAll<HTMLAnchorElement>(".phase-rail a[data-phase-link]")];
-    expect(links.map((link) => link.textContent?.replace(/^\d+/, "").trim())).toEqual(["You", "Proof", "Sharper", "Private", "Business"]);
+    expect(links.map((link) => link.textContent?.replace(/^\d+/, "").trim())).toEqual(["You", "Inside", "Sharper", "Private", "Business"]);
     for (const link of links) {
       const target = doc.querySelector<HTMLElement>(link.getAttribute("href") ?? "#missing");
       expect(target?.dataset.phase, link.getAttribute("href") ?? "").toBe(link.dataset.phaseLink);

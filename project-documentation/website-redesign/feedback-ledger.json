@@ -497,10 +497,12 @@
       "classification": "preference",
       "requiredOutcome": "The page speaks to the leader and carries why the Brain is right for them: private, portable and theirs; for leaders with high standards and a point of view; their strengths amplified, blind spots covered and bar raised; the business and its GTM following. The hero film, the constellation and the living record are kept; the design system is unchanged.",
       "acceptanceTest": "Krish reviews the rendered desktop and mobile candidate (BRAIN-NARRATIVE-S4) and accepts it. Mechanically: the Brain structure and voice tests pass, qa:line-breaks passes at 1440x900 and 390x844, and every stepped instrument builds forward and back and shows whole without script or motion.",
-      "status": "implemented-awaiting-review",
-      "resolution": "Candidate BRAIN-NARRATIVE-S4 r1: prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html, src/styles/mindmake-brain-narrative.css and src/components/mindmake/locked/scrollSequence.ts; the source-check and correction chapters retired; hero film, constellation and living record carried over.",
+      "status": "accepted",
+      "resolution": "Candidate BRAIN-NARRATIVE-S4 r1: prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html, src/styles/mindmake-brain-narrative.css and src/components/mindmake/locked/scrollSequence.ts; the source-check and correction chapters retired; hero film, constellation and living record carried over. Krish accepted the rendered captures on 25 September 2026 (\"yes I like it\"); chapter 02 then dropped the line about whose Brain it is, on his instruction.",
       "evidence": [
-        "quality/route-lock/candidate-production-r6.json"
+        "quality/route-lock/approved-production-r44.json",
+        "quality/ai-brain/approved-narrative-s4.json",
+        "src/test/brain-narrative.test.ts"
       ]
     },
     {
@@ -514,10 +516,12 @@
       "classification": "correction",
       "requiredOutcome": "No banned framing ('agentic', 'AI fluency') and no 'not X' antithesis in any line the constellation or the living record shows, with each line's meaning kept.",
       "acceptanceTest": "The live Brain voice block in src/test/brief2-public-contract.test.ts passes over the Brain page, its markup and the fixture's displayed fields.",
-      "status": "implemented-awaiting-review",
+      "status": "accepted",
       "resolution": "BI-006 drops ', not defend the old one'; BI-020 'more agentic' becomes 'more decisive'; BI-012 'Builder, not persuader' becomes 'Leaders ready to move'; SRC-001 'AI fluency begins' becomes 'Using AI well begins'; REL-005 and REL-015 lose their 'not only' contrasts.",
       "evidence": [
-        "src/test/brief2-public-contract.test.ts"
+        "quality/route-lock/approved-production-r44.json",
+        "quality/ai-brain/approved-narrative-s4.json",
+        "src/test/brain-narrative.test.ts"
       ]
     }
   ]

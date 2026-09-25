@@ -30,6 +30,7 @@ Krish set these on 25 September 2026; `quality/route-lock/approved-production-r3
 - The homepage hero doors are links to their pages. The generator converts them in `scripts/qa/build-homepage-release.mjs`; the R3 source is unchanged. The closing chapter keeps its own AI Brain or AI GTM toggle and the brief.
 - Both offer pages end with `PairingBridge`: the other page (the brain enables the GTM; the GTM runs better on a brain) beside the brief, pre-routed. Its brief button is `data-mm-primary`, so the action bar stands down and one way in holds.
 - Subscribing appears in three places: a hairline badge beside Media in both menus, a footer button, and the brief's success step. There is no band, pop-up or modal. It never outweighs the brief's filled mint.
+- No word or link sits alone on a new line at 1440x900 or 390x844 on any page (`qa:line-breaks`; the rule is in `03_DESIGN_CONTRACT.md`).
 - Page changes use the ruled line (`src/components/RouteTransitions.tsx`). Same-origin links stay in the app, the next page's code is fetched before the swap, and a mint hairline sets the new page in over about 560ms. Back and Forward restore the reader's scroll position. Reduced motion and browsers without view transitions get the same navigation with no animation. The component renders nothing, so hydration is unchanged.
 
 ## Non-regression contract

@@ -28,6 +28,7 @@
     "qa:rhythm": "node scripts/qa/section-rhythm-check.mjs --width 1440 && node scripts/qa/section-rhythm-check.mjs --width 390",
     "qa:cards": "node scripts/qa/card-geometry-check.mjs",
     "qa:oneway": "node scripts/qa/one-way-in-check.mjs",
+    "qa:line-breaks": "node scripts/qa/line-break-check.mjs",
     "build:ssr": "vite build --ssr src/entry-server.tsx --outDir dist-ssr",
     "qa:entrance": "node scripts/qa/first-second-check.mjs",
     "qa:nojs": "node scripts/qa/no-js-check.mjs",

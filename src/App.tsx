@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Navigate, Route, Routes, useLocation, useNavigationType } from "react-router-dom";
 import { lazy, Suspense, useEffect, useRef } from "react";
 import { RouteTransitions } from "@/components/RouteTransitions";
+import { LineBreaks } from "@/components/LineBreaks";
 import { preloadable } from "@/lib/preloadable";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { CookieConsent } from "@/components/CookieConsent";
@@ -212,6 +213,7 @@ function AppRoutes() {
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <ScrollToLocation />
       <RouteTransitions preload={preloadPage} />
+      <LineBreaks />
       <ErrorBoundary>
         <Suspense fallback={<PageLoading />}>
           <Routes>

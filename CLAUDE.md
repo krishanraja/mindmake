@@ -37,6 +37,8 @@ Node22.x >=22.18 and npm ci. Required gates:
 - qa:approved-routes and qa:approved-routes:self-test.
 - qa:homepage-handoff, qa:website-feedback, qa:material-review:self-test.
 - qa:plain-language, typecheck, lint, full unit suite and build.
+- qa:line-breaks on the built site: no lone word or link on its own line at
+  1440x900 or 390x844 (Krish, 2026-09-25).
 - qa:homepage-release:pre-merge: rendered scroll/fallback states and negative
   controls, Chromium only.
 

@@ -7,6 +7,11 @@ in this file is a reading on the date above it, not a baseline.
 
 ## 2026-09-25
 
+- No lone word or link on its own line, site-wide, on Krish's ruling after approving the r33 screens, recorded in `quality/route-lock/approved-production-r34.json`.
+  - The new `qa:line-breaks` measures every word line and every link row on all 26 indexed pages at 1440x900 and 390x844. Before the fix it found 45 faults. The homepage footer was one of them: at 1440 the statement ended on "market." alone.
+  - A zero-specificity `text-wrap` default in `src/index.css` fixed most of them, including that footer.
+  - Chromium 141's `pretty` does not reliably prevent a lone last word; a fixture showed "weaker?" and "sessions" stranded. So `src/lib/keepLastWords.ts` joins the last two words after hydration. Text React owns gets a no-break space in place; generated and prototype markup gets a no-wrap span, so their exact-text checks still hold.
+  - After the fix: 0 faults on every route at both sizes, and the check's negative control is caught.
 - Conversion flow and page changes, on Krish's brief of 25 September, recorded in `quality/route-lock/approved-production-r33.json`.
   - Removed "The reading, if you want it separately.". `SubscribeBand` rendered it, and only on `/case-studies`. Its film and poster stay because other routes use them.
   - Media now carries a "Subscribe for free" badge in both menus and opens `https://mindmakerlive.substack.com/subscribe`. The same action sits in every footer and in the brief's success step.

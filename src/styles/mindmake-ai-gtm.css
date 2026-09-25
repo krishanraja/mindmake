@@ -289,7 +289,9 @@
     linear-gradient(0deg, rgba(10, 16, 13, .72) 0%, transparent 42%);
 }
 .gtm-levers .gtm-stage-body {
-  grid-template-rows: auto minmax(0, 1fr);
+  /* The steps take the room left but never less than they need, so a step
+     that outgrows the stage shows on the body, where the hook measures it. */
+  grid-template-rows: auto 1fr;
   align-content: stretch;
   gap: clamp(18px, 4vh, 48px);
 }
@@ -360,8 +362,7 @@
 .gtm-workaround {
   display: grid;
   align-items: center;
-  min-height: 72svh;
-  padding-block: clamp(80px, 14vh, 160px);
+  padding-block: clamp(72px, 13vh, 144px);
   background: var(--mm-ink-raise);
 }
 .mm-site .gtm-workaround h2 {
@@ -386,7 +387,6 @@
 .gtm-turn {
   display: grid;
   align-items: center;
-  min-height: calc(100svh - var(--mm-header-height));
   padding-block: clamp(64px, 11vh, 128px);
 }
 .gtm-turn-body {
@@ -493,7 +493,7 @@
   background: radial-gradient(ellipse at 18% 0%, var(--gtm-glow), transparent 55%);
 }
 .gtm-plan .gtm-stage-body {
-  grid-template-rows: auto auto minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr;
   align-content: center;
   gap: clamp(20px, 3.6vh, 40px);
 }
@@ -583,7 +583,7 @@
 .gtm-team { background: var(--mm-ink-raise); }
 .gtm-team .gtm-stage-body {
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
   grid-template-areas: "head board" "decision board";
   align-content: center;
   column-gap: clamp(32px, 5vw, 80px);

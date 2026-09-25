@@ -32,7 +32,6 @@ const removedRoutes = [
   "/",
   "/blog",
   "/blog/a-useful-first-30-days-building-with-ai",
-  "/answers",
   "/answers/ai-decision-tool-trustworthy-leadership-team",
   "/ai-brain",
   "/ai-gtm",
@@ -55,7 +54,7 @@ for (const [relativePath, expected] of Object.entries(approvedHashes)) {
 }
 
 const routeSources = ["NewAgeLeadership.tsx"];
-const clearedSources = ["Index.tsx", "Blog.tsx", "BlogPost.tsx", "Answers.tsx", "Answer.tsx", "AiBrainLocked.tsx", "AiGtm.tsx"];
+const clearedSources = ["Index.tsx", "Blog.tsx", "BlogPost.tsx", "Answer.tsx", "AiBrainLocked.tsx", "AiGtm.tsx"];
 for (const source of routeSources) {
   const code = await readFile(new URL(`../../src/pages/${source}`, import.meta.url), "utf8");
   fail(!code.includes("CommercialDecisionBalance"), `${source}: approved production adapter is missing`);

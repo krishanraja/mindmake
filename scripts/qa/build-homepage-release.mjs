@@ -85,15 +85,24 @@ body = body
 // The route labels say what the reader gets, Home leads and About us sits
 // before Media, in every menu and footer (Krish, 2026-09-25). PRIMARY_ROUTES in
 // src/lib/publicLinks.ts carries the same list for every other page.
-const routeLabels = [['/case-studies', 'Success stories'], ['/blog', 'Ideas you can use'], ['/answers', 'Quick AI tips'], ['/faq', 'Questions we get asked']];
+// A fifth (Krish, 2026-09-25): the answer index merged into /blog, "Ideas you
+// can use", so the /answers route leaves every menu and footer, and the phone
+// footer carries no route list at all ("we don't need all the links in the
+// bottom nav bar ... there's a mobile menu that is easily accessible"). The
+// desktop footer keeps its rail.
+const routeLabels = [['/case-studies', 'Success stories'], ['/blog', 'Ideas you can use'], ['/faq', 'Questions we get asked']];
 body = body.replace(/(<nav class="(?:primary|footer)-routes"[^>]*>)([\s\S]*?)(<\/nav>)/g, (_, open, inner, close) => {
   let routes = inner;
   for (const [href, label] of routeLabels) routes = routes.replace(new RegExp(`<a href="${href}">[^<]*</a>`), `<a href="${href}">${label}</a>`);
+  routes = routes.replace(/<a href="\/answers">[^<]*<\/a>/, '');
   routes = routes.replace(/(<a href="https:\/\/mindmakerlive\.substack\.com[^"]*"[^>]*>Media<\/a>)/, '<a href="/about">About us</a>$1');
   return `${open}<a href="/">Home</a>${routes}${close}`;
 });
+const phoneFooterRoutes = /(<div class="r3-variant preview-mobile"><footer class="site-footer"[^>]*>[\s\S]*?)<nav class="footer-routes"[^>]*>[\s\S]*?<\/nav>/;
+if (!phoneFooterRoutes.test(body)) throw new Error('Homepage adapter anchor missing: phone footer routes');
+body = body.replace(phoneFooterRoutes, '$1');
 body = body.replace(/<p class="footer-statement">Keep your edge as AI changes the market\.<\/p>/g, '<p class="footer-statement">Keep your edge as AI<br>changes the market.</p>');
-for (const [pattern, expected, label] of [[/data-route-choice="(?:brain|gtm)"/g, 4, 'hero door'], [/data-badge=/g, 2, 'Media badge'], [/mm-subscribe-cta/g, 2, 'footer subscribe'], [/<button type="button" data-route-choice/g, 0, 'unconverted door'], [/archive-engine-hero-loop-r04/g, 2, 'hero film'], [/archive-engine-hero-poster-r04/g, 2, 'hero poster'], [/Keep your edge as AI<br>changes the market\./g, 2, 'footer statement break'], [/<a href="\/">Home<\/a>/g, 4, 'Home route'], [/<a href="\/about">About us<\/a>/g, 4, 'About route'], [/>(?:Success stories|Ideas you can use|Quick AI tips|Questions we get asked)<\/a>/g, 16, 'renamed routes'], [/>(?:Results|Thinking|Questions leaders ask|Before you start)<\/a>/g, 0, 'retired route labels']]) {
+for (const [pattern, expected, label] of [[/data-route-choice="(?:brain|gtm)"/g, 4, 'hero door'], [/data-badge=/g, 2, 'Media badge'], [/mm-subscribe-cta/g, 2, 'footer subscribe'], [/<button type="button" data-route-choice/g, 0, 'unconverted door'], [/archive-engine-hero-loop-r04/g, 2, 'hero film'], [/archive-engine-hero-poster-r04/g, 2, 'hero poster'], [/Keep your edge as AI<br>changes the market\./g, 2, 'footer statement break'], [/<a href="\/">Home<\/a>/g, 3, 'Home route'], [/<a href="\/about">About us<\/a>/g, 3, 'About route'], [/>(?:Success stories|Ideas you can use|Questions we get asked)<\/a>/g, 9, 'renamed routes'], [/<nav class="footer-routes"/g, 1, 'desktop footer rail'], [/<a href="\/answers">/g, 0, 'merged answers route'], [/>(?:Results|Thinking|Questions leaders ask|Before you start|Quick AI tips)<\/a>/g, 0, 'retired route labels']]) {
   const found = (body.match(pattern) ?? []).length;
   if (found !== expected) throw new Error(`Authorised correction drifted: ${label} expected ${expected}, found ${found}`);
 }

@@ -73,6 +73,16 @@ describe("public route contract", () => {
     expect(app).toContain('path="/tool" element={<Navigate to="/ai-brain"');
   });
 
+  it("sends the retired answers index to the ideas page and keeps the answer pages", () => {
+    /* Quick AI tips merged into Ideas you can use (Krish, 2026-09-25). The
+       index address is permanent history; each answer keeps its own page. */
+    expect(bySource.get("/answers")?.destination).toBe("/blog");
+    expect(bySource.get("/answers")?.permanent).toBe(true);
+    expect([...bySource.keys()].some((source) => source.startsWith("/answers/"))).toBe(false);
+    expect(app).toContain('path="/answers" element={<Navigate to="/blog"');
+    expect(app).toContain('path="/answers/:slug"');
+  });
+
   it("keeps retired public forms and article slugs away from stale surfaces", () => {
     expect(bySource.get("/intake")?.destination).toBe("/?start=1");
     expect(bySource.get("/intake/index.html")?.destination).toBe("/?start=1");

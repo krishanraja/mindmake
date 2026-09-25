@@ -51,8 +51,9 @@ const PUBLIC_SURFACES = [
   "src/pages/NewAgeLeadership.tsx",
   "src/pages/Blog.tsx",
   "src/pages/BlogPost.tsx",
-  "src/pages/Answers.tsx",
   "src/pages/Answer.tsx",
+  /* The one list /blog shows and the words on its entries and filters. */
+  "src/lib/ideaFormat.ts",
   /* Every answer page's markdown, read by directory rather than named one by
      one. Publishing on that surface is dropping a file in, so a list of file
      names here would be a second list to keep in step and the first page
@@ -573,7 +574,6 @@ describe("the conversion contract", () => {
       "Home",
       "Success stories",
       "Ideas you can use",
-      "Quick AI tips",
       "Questions we get asked",
       "About us",
       "Media",

@@ -23,7 +23,7 @@ describe("the real prerendered body behind technical metadata", () => {
   });
 
   it("captures existing structured data for static indexes and articles without inventing schema", () => {
-    for (const route of ["/case-studies", "/blog", "/answers", "/new-age-leadership", `/blog/${blogPosts[0].slug}`, answerPath(answers[0].slug)]) {
+    for (const route of ["/case-studies", "/blog", "/new-age-leadership", `/blog/${blogPosts[0].slug}`, answerPath(answers[0].slug)]) {
       expect(renderWithMetadata(route).metadata?.jsonLd, route).toBeTruthy();
     }
     for (const post of blogPosts) expect(renderWithMetadata(`/blog/${post.slug}`).metadata?.ogType).toBe("article");

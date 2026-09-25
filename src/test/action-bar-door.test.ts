@@ -43,7 +43,7 @@ describe("the action bar's door", () => {
     expect(doors(serverRender(route)), route).toEqual([expected]);
   });
 
-  it.each(["/blog", "/answers", "/case-studies", "/faq", "/contact"])(
+  it.each(["/blog", "/case-studies", "/faq", "/contact"])(
     "offers no door on %s, where neither offer route is the page",
     (route) => {
       expect(doors(serverRender(route)), route).toEqual([]);
@@ -57,7 +57,7 @@ describe("the action bar's door", () => {
   });
 
   it("carries the one shared label on every route that renders a bar", () => {
-    for (const route of ["/ai-brain", "/ai-gtm", "/blog", "/answers", "/faq", "/case-studies"]) {
+    for (const route of ["/ai-brain", "/ai-gtm", "/blog", "/faq", "/case-studies"]) {
       const html = serverRender(route);
       expect(html.includes('class="mm-action-bar'), route).toBe(true);
       expect(html.includes(START_LABEL), route).toBe(true);

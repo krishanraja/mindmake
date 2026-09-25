@@ -10,15 +10,14 @@ Part people. Part agent. Led by judgement. Build your AI brain or your AI native
 - [Build your AI GTM](https://mindmake.co/ai-gtm): Make your pricing, positioning and team AI-native, then test it with real buyers.
 - [Success stories](https://mindmake.co/case-studies): Eight verified stories about the work Mindmake helped customers change and what happened next.
 - [Build the business that can think with you](https://mindmake.co/new-age-leadership): Build a hybrid organisation where AI carries the repeated work and people keep the judgement, relationships and decisions.
-- [Ideas you can use](https://mindmake.co/blog): Useful questions, checks and working methods for leaders making business decisions as AI changes their market.
-- [Quick AI tips](https://mindmake.co/answers): One page per question: the direct answer first, then the case for it, including what the pages already answering that question miss.
+- [Ideas you can use](https://mindmake.co/blog): Quick AI tips and longer reads for leaders making business decisions as AI changes their market, newest first.
 - [Questions we get asked](https://mindmake.co/faq): Straight answers about Mindmake: what the work builds, what it costs, whether anyone needs to know, what happens to your data and what you keep.
 - [About us](https://mindmake.co/about): Who runs Mindmake and why. Sixteen years building commercial teams in media, data and technology, now spent helping leaders use AI to make better decisions.
 - [Contact](https://mindmake.co/contact): Send Mindmake a general message.
 - [Privacy policy](https://mindmake.co/privacy): How Mindmake collects, uses and protects information.
 - [Terms and conditions](https://mindmake.co/terms): Terms for using the Mindmake website and services.
 
-## Quick AI tips
+## Ideas you can use
 
 - [An AI system gets better at your work when every correction is kept with its reason](https://mindmake.co/answers/ai-system-learns-from-corrections): answers "how do I make an AI system learn from our corrections over time". Correcting AI in the moment fixes one answer. Recording the correction and its reason fixes every answer after it. Here is how that works.
 - [People should decide what reaches the outside world, what cannot be undone and what sets the standard](https://mindmake.co/answers/what-humans-should-decide-when-ai-does-the-work): answers "what decisions should humans still make when AI can do most of the work". Let AI do reversible internal work. Keep people accountable for anything that reaches customers, cannot be undone or defines what good looks like.
@@ -29,10 +28,9 @@ Part people. Part agent. Led by judgement. Build your AI brain or your AI native
 - [An AI decision tool earns trust by holding your judgement, not by passing an audit](https://mindmake.co/answers/ai-decision-tool-trustworthy-leadership-team): answers "how do I evaluate whether an AI decision tool is trustworthy enough for my leadership team". Governance tells a leadership team that a tool was built carefully. It cannot tell them it is right for this business. Trust is a question about memory.
 - [An AI center of excellence without an engineering budget is a governance function, not a team](https://mindmake.co/answers/ai-center-of-excellence-without-engineering-budget): answers "how to build an AI center of excellence without a dedicated engineering budget". Every AI CoE framework from Microsoft, Oracle and Tredence assumes engineering headcount. Here's the operating model for the leader who has none.
 - [Total addressable revenue for AI products in publishing: calculate it from your P&L, not a market report](https://mindmake.co/answers/total-addressable-revenue-ai-products-publishing): answers "how do I calculate the total addressable revenue opportunity for AI products in publishing". Calculate an AI publishing product's revenue opportunity from churn, ARPU, ad yield and licensing data instead of a market-sizing report.
-
-## Ideas you can use
-
 - [The start cost: why good AI work gets deferred](https://mindmake.co/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan): How useful context, clear next steps and simple AI systems can make valuable work easier to start.
+- [Put AI inside clear business rules](https://mindmake.co/blog/how-to-control-your-use-of-ai-as-a-leader): Four sets of clear business rules for AI: purpose, decision rights, working checks and ownership.
+- [Use AI to see more without losing your taste](https://mindmake.co/blog/how-to-increase-creative-leadership-with-ai): How leaders can use AI to explore more options while keeping human experience, judgement and taste in the final choice.
 - [Four ways leaders can work better with AI](https://mindmake.co/blog/four-modes-of-ai-literacy-every-leader-needs): Four practical ways leaders can use AI for drafts, checks, repeatable work and better decisions.
 - [Why practice changes more than a training day](https://mindmake.co/blog/why-ai-training-fails-and-building-works): Why practice on real work helps leaders turn AI training into useful habits and systems they can improve.
 - [Find the AI work already happening in your team](https://mindmake.co/blog/shadow-ai-to-strategic-ai-leaders-guide): How to learn where a team already uses AI, check the risks and turn useful experiments into safer shared work.
@@ -41,5 +39,3 @@ Part people. Part agent. Led by judgement. Build your AI brain or your AI native
 - [How to test an AI vendor before you commit](https://mindmake.co/blog/ai-vendor-theatre-how-to-spot-and-avoid-it): Five practical checks for testing an AI vendor on your data, your problem and clear success measures.
 - [A useful first 30 days of building with AI](https://mindmake.co/blog/a-useful-first-30-days-building-with-ai): A practical 30-day plan for testing AI on real work, building a useful first system and recording what changed.
 - [How an executive team can learn AI together](https://mindmake.co/blog/ai-literacy-for-executive-teams-lab-model): A practical way for an executive team to build shared AI judgement through one real decision.
-- [Use AI to see more without losing your taste](https://mindmake.co/blog/how-to-increase-creative-leadership-with-ai): How leaders can use AI to explore more options while keeping human experience, judgement and taste in the final choice.
-- [Put AI inside clear business rules](https://mindmake.co/blog/how-to-control-your-use-of-ai-as-a-leader): Four sets of clear business rules for AI: purpose, decision rights, working checks and ownership.

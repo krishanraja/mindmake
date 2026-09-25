@@ -71,7 +71,7 @@ describe("the prerendered markup and the app that hydrates it", () => {
        against real markup and waits for the chunk instead, which is behaviour
        no string comparison can see and `scripts/qa/first-second-check.mjs`
        measures directly. */
-    for (const path of ["/privacy", "/ai-brain", "/blog", "/answers"]) {
+    for (const path of ["/privacy", "/ai-brain", "/blog", "/about"]) {
       const server = chunks(serverRender(path));
       expect(server[0], path).toBe("<!--$-->");
       expect(serverRender(path), path).toMatch(/class="mm-site(?:\s[^"]*)?"/);

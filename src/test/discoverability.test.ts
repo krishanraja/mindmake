@@ -200,14 +200,14 @@ describe("what the crawlers are told", () => {
 });
 
 /**
- * The answer surface, which exists to be fetched and quoted.
+ * The answer pages, which exist to be fetched and quoted.
  *
- * `/answers` is not the blog and shares nothing with it but the design system:
- * the blog is a curated editorial archive, and these are one page per buyer
- * question, machine-first, published by dropping a markdown file into
- * `src/content/answers/`. Because there is no manifest to keep in step, what
- * has to be checked instead is that the file the author wrote is what every
- * crawler surface ends up carrying.
+ * One page per buyer question, machine-first, published by dropping a markdown
+ * file into `src/content/answers/`. Their index merged into `/blog`, "Ideas
+ * you can use", on 2026-09-25 (Krish), so `/answers` itself redirects there
+ * and only the pages are indexed. Because there is no manifest to keep in
+ * step, what has to be checked instead is that the file the author wrote is
+ * what every crawler surface ends up carrying.
  */
 describe("the answer pages", () => {
   it("publishes at least one, and every one carries what a retriever needs", () => {
@@ -275,24 +275,30 @@ describe("the answer pages", () => {
        hydrates it with `src/App.tsx`. A route in one and not the other is an
        answer page that ships as an empty #root or fails to hydrate. */
     for (const [file, path] of [
-      ["src/App.tsx", "/answers"],
-      ["src/entry-server.tsx", "/answers"],
       ["src/App.tsx", "/answers/:slug"],
       ["src/entry-server.tsx", "/answers/:slug"],
     ]) {
       expect(read(file), `${file} routes ${path}`).toContain(`path="${path}"`);
     }
+    /* The old index address sends the reader to the merged page on the
+       client; the prerender never writes a page for it. */
+    expect(read("src/App.tsx")).toContain('path="/answers" element={<Navigate to="/blog" replace />}');
+    expect(read("src/entry-server.tsx")).not.toContain('path="/answers"');
   });
 
   it("reaches every crawler surface from the one loader", () => {
     for (const script of [
       "scripts/generate-sitemap.mjs",
-      "scripts/generate-llms.mjs",
       "scripts/prerender.mjs",
       "scripts/social-plates.mjs",
     ]) {
       expect(read(script), script).toContain("./lib/answers-loader.mjs");
     }
+    /* llms.txt lists the ideas in the order /blog shows them, so it reads the
+       answers through the ideas loader, which reads them through this one. */
+    expect(read("scripts/generate-llms.mjs")).toContain("./lib/ideas-loader.mjs");
+    expect(read("scripts/lib/ideas-loader.mjs")).toContain("./answers-loader.mjs");
+    expect(read("scripts/lib/ideas-loader.mjs")).toContain("src/lib/ideaFormat.ts");
     /* One parser, compiled for the scripts rather than written twice. */
     expect(read("scripts/lib/answers-loader.mjs")).toContain("src/lib/answerFormat.ts");
   });
@@ -300,7 +306,8 @@ describe("the answer pages", () => {
   it("is in the sitemap, in llms.txt and open to crawlers", () => {
     const sitemap = read("public/sitemap.xml");
     const llms = read("public/llms.txt");
-    expect(sitemap).toContain("<loc>https://mindmake.co/answers</loc>");
+    expect(sitemap).not.toContain("<loc>https://mindmake.co/answers</loc>");
+    expect(sitemap).toContain("<loc>https://mindmake.co/blog</loc>");
     for (const answer of answers) {
       expect(sitemap, answer.slug).toContain(`<loc>https://mindmake.co${answerPath(answer.slug)}</loc>`);
       expect(llms, answer.slug).toContain(answerPath(answer.slug));

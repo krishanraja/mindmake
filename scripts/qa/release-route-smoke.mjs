@@ -302,7 +302,7 @@ async function routerPatterns(browser) {
       if (!['/signal', '/builder-economy'].includes(pattern)) {
         const observed = record.observations.at(-1);
         assert(record, observed.headings.length === 1, `Router pattern ${pattern} has no single heading`);
-        const expected = ['/operator', '/tool'].includes(pattern) ? '/ai-brain' : pattern === '/library' ? '/blog' : pattern === '/blog/10-20x-roi-what-real-ai-implementation-looks-like' ? '/blog/measuring-ai-work-that-pays-back' : pattern === '/blog/building-ai-systems-in-30-days-sprint-approach' ? '/blog/a-useful-first-30-days-building-with-ai' : ['*', '/alumni'].includes(pattern) ? route : '/?start=1';
+        const expected = ['/operator', '/tool'].includes(pattern) ? '/ai-brain' : ['/library', '/answers'].includes(pattern) ? '/blog' : pattern === '/blog/10-20x-roi-what-real-ai-implementation-looks-like' ? '/blog/measuring-ai-work-that-pays-back' : pattern === '/blog/building-ai-systems-in-30-days-sprint-approach' ? '/blog/a-useful-first-30-days-building-with-ai' : ['*', '/alumni'].includes(pattern) ? route : '/?start=1';
         assert(record, observed.actual === expected, `Router pattern ${pattern} expected ${expected}, observed ${observed.actual}`);
       }
     }

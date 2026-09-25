@@ -24,7 +24,6 @@ const routes = [
   { path: "/new-age-leadership", context: "leadership", film: "ready-for-decision" },
   { path: "/blog", context: "editorial", film: "communications-compose" },
   { path: "/blog/a-useful-first-30-days-building-with-ai", context: "editorial", film: "communications-compose" },
-  { path: "/answers", context: "editorial", film: "communications-compose" },
   { path: "/answers/ai-decision-tool-trustworthy-leadership-team", context: "editorial", film: "communications-compose" },
   { path: "/ai-brain", context: "brain", film: "evidence-connects" },
   { path: "/ai-gtm", context: "gtm", film: "quiet-workshop-growth" },

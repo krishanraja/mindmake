@@ -76,8 +76,9 @@ export const PRIMARY_ROUTES: ReadonlyArray<{ label: string; href: string; extern
   /* Plainer labels that say what the reader gets (Krish, 2026-09-25). Each
      page's own title matches its label, so the click lands where it said. */
   { label: "Success stories", href: "/case-studies" },
+  /* Quick AI tips (/answers) merged into this page on 2026-09-25 (Krish);
+     /answers now sends the reader here. */
   { label: "Ideas you can use", href: "/blog" },
-  { label: "Quick AI tips", href: "/answers" },
   { label: "Questions we get asked", href: "/faq" },
   { label: "About us", href: "/about" },
   /* The label stays the approved "Media"; the badge beside it says what the

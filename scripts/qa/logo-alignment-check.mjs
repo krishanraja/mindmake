@@ -94,7 +94,7 @@ const ANCHORS = {
     ".r3-opening .hero-copy > h1",
     ".r3-opening .hero-copy > p",
     ".r3-opening .hero-copy > .route-doors",
-    /* The new-age leadership chapters below the first screen (r34). Their
+    /* The new-age leadership chapters below the first screen (r35). Their
        stages and scenes hang off the right edge, so each chapter's kicker is
        its left edge. */
     ".mm-home-leadership .reach-copy > .kicker",

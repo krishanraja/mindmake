@@ -24,7 +24,7 @@
       "requiredOutcome": "Preserve the R3 composition and copy; native scrolling advances all four history scenes and the leadership sequence before releasing each section. Reverse scrolling restores preceding scenes. Short-height and reduced-motion layouts remain operable without trapping content.",
       "acceptanceTest": "On Chromium, Firefox and WebKit, advance actual document scroll through each state and back while asserting visible copy and stable section geometry, then leave each final state. Check manual controls, reduced motion and short viewports. Verify the same adapter serves the actual homepage and Start here.",
       "status": "superseded",
-      "resolution": "R3 presentation preserved. The built production adapter passed all 12 desktop/mobile history and dividend cases across Chromium, Firefox and WebKit, including actual forward/reverse states, stable pin geometry, both exits, manual reduced-motion controls and real LeadBrief entry. Initial entrance-transition drift was caught and removed; failed R6 measurements are retained, not relabelled as passes. Production promotion remains a separate recorded step. Superseded on 25 September 2026 by HOMEPAGE-NAL-CHAPTERS-001 (r34): the chapter this item governed is retired from the homepage.",
+      "resolution": "R3 presentation preserved. The built production adapter passed all 12 desktop/mobile history and dividend cases across Chromium, Firefox and WebKit, including actual forward/reverse states, stable pin geometry, both exits, manual reduced-motion controls and real LeadBrief entry. Initial entrance-transition drift was caught and removed; failed R6 measurements are retained, not relabelled as passes. Production promotion remains a separate recorded step. Superseded on 25 September 2026 by HOMEPAGE-NAL-CHAPTERS-001 (r35): the chapter this item governed is retired from the homepage.",
       "evidence": [
         "artifacts/homepage-release/browser-report.json",
         "artifacts/homepage-release/scroll-observations.json",
@@ -96,7 +96,7 @@
       "requiredOutcome": "Replace the tall two-column chart with a bounded phone-native composition that communicates the organisation without excessive vertical travel or wasted space.",
       "acceptanceTest": "The selected mobile composition fits inside one phone preview, avoids overlap and clipping, and remains legible at 390x844 and 320x568.",
       "status": "superseded",
-      "resolution": "Krish accepted the One-screen network composition on 2026-09-24. The rejected tall chart remains removed. No decision note or overall note accompanied this correction. Superseded on 25 September 2026 by HOMEPAGE-NAL-CHAPTERS-001 (r34): the chapter this item governed is retired from the homepage.",
+      "resolution": "Krish accepted the One-screen network composition on 2026-09-24. The rejected tall chart remains removed. No decision note or overall note accompanied this correction. Superseded on 25 September 2026 by HOMEPAGE-NAL-CHAPTERS-001 (r35): the chapter this item governed is retired from the homepage.",
       "evidence": [
         "homepage authority console mobile viewport matrix",
         "explicit owner submission: done, 2026-09-24"
@@ -114,7 +114,7 @@
       "requiredOutcome": "The type labels in every visual row share the same top coordinate, regardless of whether a card title wraps.",
       "acceptanceTest": "Measured top coordinates for each row differ by no more than 1 CSS pixel.",
       "status": "superseded",
-      "resolution": "Organisation cards now use fixed label and title rows rather than content-dependent vertical centring. Superseded on 25 September 2026 by HOMEPAGE-NAL-CHAPTERS-001 (r34): the chapter this item governed is retired from the homepage.",
+      "resolution": "Organisation cards now use fixed label and title rows rather than content-dependent vertical centring. Superseded on 25 September 2026 by HOMEPAGE-NAL-CHAPTERS-001 (r35): the chapter this item governed is retired from the homepage.",
       "evidence": [
         "homepage authority checker row-top measurement, tolerance 1 CSS pixel"
       ]
@@ -131,7 +131,7 @@
       "requiredOutcome": "The bridge is visibly subordinate to the historical question and does not compete with it in typeface, scale or authority.",
       "acceptanceTest": "The selected bridge treatment has a distinct type role and smaller measured visual prominence than every story question.",
       "status": "superseded",
-      "resolution": "Krish accepted Compact modern bridge, editorial story on 2026-09-24. The former same-serif treatment remains rejected. No decision note or overall note accompanied this correction. Superseded on 25 September 2026 by HOMEPAGE-NAL-CHAPTERS-001 (r34): the chapter this item governed is retired from the homepage.",
+      "resolution": "Krish accepted Compact modern bridge, editorial story on 2026-09-24. The former same-serif treatment remains rejected. No decision note or overall note accompanied this correction. Superseded on 25 September 2026 by HOMEPAGE-NAL-CHAPTERS-001 (r35): the chapter this item governed is retired from the homepage.",
       "evidence": [
         "homepage history console hierarchy decision and cross-viewport browser check",
         "explicit owner submission: done, 2026-09-24"
@@ -400,9 +400,9 @@
       "requiredOutcome": "The homepage carries the three /new-age-leadership sections in place of its own three, which are removed.",
       "acceptanceTest": "The built homepage has no history, authority or leadership-dividend chapter; the three new-age leadership chapters sit between the opening and the route, with the same words as /new-age-leadership, and prove forward and reverse scroll states, pinning under the masthead and both exits at 1440x900 and 390x844.",
       "status": "verified",
-      "resolution": "One source for both pages, src/components/leadership-chapters/leadershipChapters.ts. The homepage generator cuts the R3 chapters by named anchors and inserts the shared chapters; the R3 source is untouched and /new-age-leadership prerenders unchanged apart from asset hashes and aria-hidden on its decorative chapter films. Recorded in quality/route-lock/approved-production-r34.json.",
+      "resolution": "One source for both pages, src/components/leadership-chapters/leadershipChapters.ts. The homepage generator cuts the R3 chapters by named anchors and inserts the shared chapters; the R3 source is untouched and /new-age-leadership prerenders unchanged apart from asset hashes and aria-hidden on its decorative chapter films. Recorded in quality/route-lock/approved-production-r35.json.",
       "evidence": [
-        "quality/route-lock/approved-production-r34.json",
+        "quality/route-lock/approved-production-r35.json",
         "scripts/qa/homepage-release-browser-check.mjs --built --pre-merge (Chromium): 5 ordered-state cases pass forward and reverse with exits, reduced-motion controls and short screens at 1280x600 and 720x450; the same gate fails closed against main's build.",
         "scripts/qa/logo-alignment-check.mjs: 455 content edges across 15 routes and 5 widths on the wordmark's edge.",
         "src/test/homepage-leadership-chapters.test.ts",

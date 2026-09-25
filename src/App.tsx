@@ -1,26 +1,27 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { lazy, Suspense, useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { CookieConsent } from "@/components/CookieConsent";
 import { PUBLICATION_URL } from "@/lib/publicLinks";
+import { lazyRoute } from "@/lib/lazyRoute";
 import Index from "./pages/Index";
 import { BrandMarks } from "@/components/mindmake/MindmakeBrand";
 
-const CaseStudies = lazy(() => import("./pages/CaseStudies"));
-const NewAgeLeadership = lazy(() => import("./pages/NewAgeLeadership"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-const Privacy = lazy(() => import("./pages/Privacy"));
-const Terms = lazy(() => import("./pages/Terms"));
-const Contact = lazy(() => import("./pages/Contact"));
-const Blog = lazy(() => import("./pages/Blog"));
-const BlogPost = lazy(() => import("./pages/BlogPost"));
-const Questions = lazy(() => import("./pages/Library"));
-const Answers = lazy(() => import("./pages/Answers"));
-const AnswerPage = lazy(() => import("./pages/Answer"));
-const Alumni = lazy(() => import("./pages/Alumni"));
-const AiBrain = lazy(() => import("./pages/AiBrainLocked"));
-const AiGtm = lazy(() => import("./pages/AiGtm"));
+const CaseStudies = lazyRoute(() => import("./pages/CaseStudies"));
+const NewAgeLeadership = lazyRoute(() => import("./pages/NewAgeLeadership"));
+const NotFound = lazyRoute(() => import("./pages/NotFound"));
+const Privacy = lazyRoute(() => import("./pages/Privacy"));
+const Terms = lazyRoute(() => import("./pages/Terms"));
+const Contact = lazyRoute(() => import("./pages/Contact"));
+const Blog = lazyRoute(() => import("./pages/Blog"));
+const BlogPost = lazyRoute(() => import("./pages/BlogPost"));
+const Questions = lazyRoute(() => import("./pages/Library"));
+const Answers = lazyRoute(() => import("./pages/Answers"));
+const AnswerPage = lazyRoute(() => import("./pages/Answer"));
+const Alumni = lazyRoute(() => import("./pages/Alumni"));
+const AiBrain = lazyRoute(() => import("./pages/AiBrainLocked"));
+const AiGtm = lazyRoute(() => import("./pages/AiGtm"));
 
 const queryClient = new QueryClient();
 

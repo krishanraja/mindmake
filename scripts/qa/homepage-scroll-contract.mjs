@@ -1,5 +1,5 @@
 // Expected visible states are the accepted page copy, independent of runtime data.
-// From r34 the homepage carries the three /new-age-leadership chapters in place
+// From r35 the homepage carries the three /new-age-leadership chapters in place
 // of R3's history, authority and leadership dividend (Ruling, Krish, 2026-09-25).
 // Each pins under the homepage's fixed masthead. The practice scenes pin only
 // above 900px; on a phone they are laid out one after another by design, so

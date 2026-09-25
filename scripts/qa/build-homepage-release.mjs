@@ -5,7 +5,7 @@ import postcss from 'postcss';
 
 // The approved R3 is immutable. This adapter changes delivery paths, runtime
 // lifecycle and CSS isolation. It changes approved words or composition in one
-// place only, which is recorded in quality/route-lock/approved-production-r34.json:
+// place only, which is recorded in quality/route-lock/approved-production-r35.json:
 // the three R3 chapters between the opening and the route (history, authority
 // and leadership dividend) are cut, and the three /new-age-leadership chapters
 // are delivered in their place from their shared source.

@@ -17,19 +17,20 @@ The six original process loops are:
 
 Those six process loops have no WebM or poster derivatives. Generate those only after a placement is chosen. Do not add claims, captions, calls to action or interface labels inside the footage.
 
-The Archive Engine hero package is already placement-ready:
+The current Archive Engine hero package is already placement-ready:
 
-- a 16.167-second, 1920 by 1080 loop at 24 frames per second;
+- a 16.5-second, 1280 by 720 loop at 24 frames per second;
 - silent H.264 MP4 and VP9 WebM sources, both below 4 MB;
 - matching JPG and WebP posters taken from the loop's first frame;
 - composed with a dark, quiet field on the left for the homepage copy;
-- sealed as a mechanical forward-and-return cycle so the join is not hidden by a crossfade.
+- sealed as a mechanical forward-and-return cycle so the join is not hidden by a crossfade;
+- physically staged so the drawer opens before the machine begins, the paper follows a constrained path through the real drawer opening, and the mechanism resets without flying or morphing objects.
 
 ## Which film to use
 
-### `archive-engine-hero-loop-r04-16s-1080p-web-sealed.mp4`
+### `archive-engine-hero-loop-r06-16s-720p-web-sealed.mp4`
 
-**What happens:** A recognisable walnut archive cabinet reveals a precision brass mechanism. A request enters in a shallow baize-lined drawer, the cabinet's records and internal machinery work as one governed system, a prepared folio is presented, and the mechanism resets.
+**What happens:** A recognisable walnut archive cabinet and precision brass filing mechanism complete one purposeful cycle. The receiving drawer opens first. A cream document is fed into the machine, impressed with a physical seal, carried on a guided lift and pushed through the drawer's actual opening. The drawer closes and every part returns to its starting position.
 
 **What it represents:** The Mindmake AI brain as owned working memory rather than a generic AI effect: a leader's context, standards, previous decisions and judgement being selected, connected and applied to real work.
 
@@ -39,12 +40,14 @@ The Archive Engine hero package is already placement-ready:
 
 **Ready-to-use package:**
 
-- MP4: `archive-engine-hero-loop-r04-16s-1080p-web-sealed.mp4`
-- WebM: `archive-engine-hero-loop-r04-16s-1080p-web-sealed.webm`
-- JPG poster: `archive-engine-hero-poster-r04.jpg`
-- WebP poster: `archive-engine-hero-poster-r04.webp`
+- MP4: `archive-engine-hero-loop-r06-16s-720p-web-sealed.mp4`
+- WebM: `archive-engine-hero-loop-r06-16s-720p-web-sealed.webm`
+- JPG poster: `archive-engine-hero-poster-r06.jpg`
+- WebP poster: `archive-engine-hero-poster-r06.webp`
 
-**Current-site substitution:** The homepage opening currently resolves `src/assets/films/film-02-poster.webp` and `src/assets/films/film-02-loop.mp4` through the generated homepage release. Substitute this Archive Engine package for those two media references in the two opening `hero-stage` videos only. Keep the existing `film-02` media on the later AI Brain route stage unless that surface is being changed deliberately. The accepted source is `prototypes/website-redesign-recovery/homepage-production-synthesis-r3/index.html`; regenerate `src/components/homepage-release/` with `node scripts/qa/build-homepage-release.mjs` rather than hand-editing generated files. Add the WebM source before the MP4 source and use the WebP poster. Do not overwrite the root `film-02` files because the AI Brain page also imports them.
+**Current-site substitution:** The generated homepage release points its two opening `hero-stage` videos at this r06 MP4 and WebP poster. Keep the existing `film-02` media on the later AI Brain route stage unless that surface is being changed deliberately. The accepted source is `prototypes/website-redesign-recovery/homepage-production-synthesis-r3/index.html`; regenerate `src/components/homepage-release/` with `node scripts/qa/build-homepage-release.mjs` rather than hand-editing generated files. The WebM is supplied for later source-set use, but the current generated opening retains its established single-MP4 source. Do not overwrite the root `film-02` files because the AI Brain page also imports them.
+
+The r04 package remains in this folder only as historical provenance for the previous homepage cut. Do not select it for new placements.
 
 ### `quiet-workshop-growth-loop-r01-20s-720p-web-sealed.mp4`
 
@@ -122,7 +125,7 @@ The six loops can form a process sequence, but each is intentionally usable on i
 
 ## Integrity and provenance
 
-The source scenes were generated in Higgsfield and finished locally into sealed web loops. The six process films were verified as silent, 20 seconds long, 24 fps, 480 frames and visually seamless at the join. The Archive Engine package was separately verified as silent, 16.167 seconds long, 1920 by 1080, 24 fps, decodable in both delivery formats and below 4 MB per video. They are generated illustrations. Never describe them as product footage, a live interface, a real client workflow or proof that a particular operation occurred.
+The source scenes were generated in Higgsfield and finished locally into sealed web loops. The six process films were verified as silent, 20 seconds long, 24 fps, 480 frames and visually seamless at the join. The current Archive Engine r06 package comes from Higgsfield 3D Jutsu project `a11e9ed5-a0a4-4cbb-a833-9182628ef95e`, revision 6, rendered deterministically in Blender 5.2.2. It was separately verified as silent, 16.5 seconds long, 1280 by 720, 24 fps, 396 frames, decodable in both delivery formats and below 4 MB per video. Frame 1 and frame 396 are identical at the loop boundary. These films are generated illustrations. Never describe them as product footage, a live interface, a real client workflow or proof that a particular operation occurred.
 
 | File | Bytes | SHA-256 |
 |---|---:|---|
@@ -136,3 +139,7 @@ The source scenes were generated in Higgsfield and finished locally into sealed 
 | `archive-engine-hero-loop-r04-16s-1080p-web-sealed.webm` | 3,030,164 | `8ECE4A4148DB1037C011D5951E0CB1F0917E3507A4703E428B2EFE797FEF9263` |
 | `archive-engine-hero-poster-r04.jpg` | 340,869 | `FEF7091FE67FF55459F0F9EDBF8050475AA5D651E5D0A59F075720945C44BAAE` |
 | `archive-engine-hero-poster-r04.webp` | 192,134 | `3B8750BE31464016D9E392DADCC75B097B8A0EAF034B23447156E4561AAA1366` |
+| `archive-engine-hero-loop-r06-16s-720p-web-sealed.mp4` | 417,779 | `47B722E19B2C02F6B32C49C59AEB014FE21F7A58825647546A1E28E18BC17FC8` |
+| `archive-engine-hero-loop-r06-16s-720p-web-sealed.webm` | 364,481 | `BB0A2A8C6E8F524A15DA546F0C0517B348F424AA6AFBCAF0E8A4BC8BAC94443D` |
+| `archive-engine-hero-poster-r06.jpg` | 174,363 | `E8E4C5A22781E5A5D7D2034B380E96C6A5C15128A36A1CCA18889D44AAB6C191` |
+| `archive-engine-hero-poster-r06.webp` | 73,106 | `A889CB020662CC473FA7F47137C9CB0266EE9BDB2D97E53FE83FD05BF83A56B2` |

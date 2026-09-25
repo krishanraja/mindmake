@@ -87,7 +87,7 @@ const baselineCommit = execFileSync("git", ["rev-parse", "--short=7", "bde3a78"]
 const record = {
   artifact: "mindmake-approved-production-routes-r45",
   recordedAt: "2026-09-25",
-  status: "approved record. The /ai-gtm rebuild on Krish's 2026-09-25 review, released on his ruling \"merge to main\" (2026-09-25); approval in quality/ai-gtm/approved-story-r3.json.",
+  status: "record of the /ai-gtm rebuild on Krish's 2026-09-25 review. His review of the rebuilt page is tracked by AI-GTM-R45-OWNER-REVIEW-001 in the feedback ledger.",
   scopeRequested: SCOPE,
   sessionDecisions: [
     "/ai-gtm is told as one argument in the order a buyer lives it: the change they already feel, in four places; the easy way out and what it costs; the offer; the 30 days; what their team becomes; one result. Each chapter holds one idea on one screen.",
@@ -147,7 +147,7 @@ const record = {
     status: "Pending: filled from the verification run on the final candidate.",
     performed: [],
   },
-  supersedes: { path: previousPath, reason: "Krish's 2026-09-25 rejection of the live /ai-gtm, and his ruling \"merge to main\" on the rebuilt page. No earlier record is rewritten." },
+  supersedes: { path: previousPath, reason: "Krish's 2026-09-25 rejection of the live /ai-gtm. No earlier record is rewritten." },
   textLineEndings: previous.textLineEndings,
   browserPlatforms: previous.browserPlatforms,
   scope: { baselineCommit, allowedExistingChanges },

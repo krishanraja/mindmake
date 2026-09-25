@@ -323,15 +323,14 @@ owns payload, privacy, retention, email and failure-path contracts.
   route headline is set small enough on phones for "judgement reusable." to
   fit, and the phone footer lays its links in two even columns.
   Recorded in `quality/route-lock/approved-production-r42.json`.
-- The homepage opening hero plays the Archive Engine loop
-  (`src/assets/films/sep2026/archive-engine-hero-loop-r04-16s-1080p-web-sealed.mp4`)
-  with its own WebP poster; the route stage keeps `film-02`. Recorded in
-  `quality/route-lock/approved-production-r40.json`. Merged as PR #195,
-  commit `08c7434`. Main's post-merge matrix on that commit passed on
-  Chromium, Firefox and WebKit. Production read back on 25 September 2026 at
-  about 08:30 UTC: `/` serves the Archive Engine MP4 in both opening
-  variants (200, `video/mp4`, 3,641,185 bytes) and `film-02-loop` only on the
-  route stage.
+- The homepage opening hero selects the Archive Engine r06 loop
+  (`src/assets/films/sep2026/archive-engine-hero-loop-r06-16s-720p-web-sealed.mp4`)
+  with its own WebP poster; the route stage keeps `film-02`. The 16.5-second
+  deterministic cycle opens the drawer before any machinery moves, stamps
+  the paper, moves it on constrained guides through the real drawer opening,
+  closes the drawer and returns to the identical start frame. Recorded in
+  `quality/route-lock/approved-production-r44.json`. The prior r04 package and
+  its PR #195 production receipt remain historical provenance only.
 - Refinements across `/ai-brain`, `/ai-gtm`, `/`, `/case-studies`, `/answers`
   and `/blog`, from Krish's phone review on 25 September 2026. Recorded in
   `quality/route-lock/approved-production-r43.json`, which lists each change.

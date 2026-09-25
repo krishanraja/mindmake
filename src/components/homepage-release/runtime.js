@@ -1,8 +1,8 @@
 // Generated delivery adapter. Approved source remains unchanged.
 import asset0 from "../../assets/mindmake-mark.svg";
 import asset1 from "../../assets/mindmake-wordmark.svg";
-import asset2 from "../../assets/films/sep2026/archive-engine-hero-poster-r04.webp";
-import asset3 from "../../assets/films/sep2026/archive-engine-hero-loop-r04-16s-1080p-web-sealed.mp4";
+import asset2 from "../../assets/films/sep2026/archive-engine-hero-poster-r06.webp";
+import asset3 from "../../assets/films/sep2026/archive-engine-hero-loop-r06-16s-720p-web-sealed.mp4";
 import asset4 from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-writing-s2.webp";
 import asset5 from "../../assets/films/film-02-poster.webp";
 import asset6 from "../../assets/films/film-02-loop.mp4";

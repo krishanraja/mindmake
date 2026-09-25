@@ -266,6 +266,11 @@ owns payload, privacy, retention, email and failure-path contracts.
   Newsreader type. `src/test/primary-routes-parity.test.ts` holds them
   together. Recorded in `quality/route-lock/approved-production-r32.json`.
 
+- Type: every route uses the AI Brain page's system, with Newsreader
+  headlines, Archivo body and actions, and Plex Mono 400 labels. The shell
+  pages take it from `--mm-body` and the `.mm-site` heading default. Recorded
+  in `quality/route-lock/approved-production-r33.json`.
+
 Do not promote old DNS/mailbox, CTRL-host or cache observations into fresh facts
 without new readback. CONTACT_EMAIL in src/lib/publicLinks.ts is the approved
 contact source. Older operational findings remain in the history ledger.

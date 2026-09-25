@@ -38,9 +38,15 @@ normalizes it and exact configuration bytes are release-bound.
 
 ## Browser and journey gates
 
+These run after the merge, not before it. Ruling (Krish, 2026-09-25): the
+browser matrix is not a pre-merge gate and nothing waits on it. CI runs it on
+main against the commit Vercel promotes; a failure there is fixed forward or
+rolled back, both of which take minutes.
+
 Use the exact built artifact. Full route smoke runs Chromium/Firefox on Linux
-and WebKit on macOS. Require expected counts and navigation supplements.
-Do not substitute a smaller matrix; local smoke is additive evidence.
+and WebKit on macOS. Require expected counts and navigation supplements. Do not
+substitute a smaller matrix when it runs; local smoke is additive evidence and
+is never required before landing a change.
 
 For pinned builds verify every visible state, stable geometry, forward/reverse
 traversal, entry and natural release. Test reduced motion, short screens,

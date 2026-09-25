@@ -66,11 +66,21 @@ jobs:
           compression-level: 0
   browser-verification:
     needs: approved-routes
-    # Everything on its way to main, and nothing else. A pull request into main
-    # is verified before it can be merged, and main is verified again after,
-    # against the commit Vercel promotes. A commit on a working branch with no
-    # pull request open is not being released and is covered by the job above.
-    if: github.ref == 'refs/heads/main' || github.base_ref == 'main'
+    # main only, after the merge, against the commit Vercel promotes.
+    #
+    # Ruling (Krish, 2026-09-25): merging does not wait on the browser matrix.
+    # It used to also run on every pull request into main, which cost a second
+    # macOS runner and several minutes per push while changing no decision,
+    # because the merge did not wait for its result. Browsers verify what was
+    # released rather than what might be; a failure here is a signal to fix
+    # forward or roll back, both of which this repository can do in minutes.
+    #
+    # The source gates above still run on every commit and every pull request,
+    # so lint, typecheck, the unit suite, the lock and its self-test, the
+    # language contract and the full build all still gate a branch before it
+    # lands. Nothing about what the matrix checks changed: the same 208 route
+    # cases and the same three engines run on the same frozen artifact.
+    if: github.ref == 'refs/heads/main'
     strategy:
       fail-fast: false
       matrix:

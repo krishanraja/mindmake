@@ -500,7 +500,7 @@
       "status": "accepted",
       "resolution": "Candidate BRAIN-NARRATIVE-S4 r1: prototypes/website-redesign-recovery/brain-signature/index-s4-narrative-r1.html, src/styles/mindmake-brain-narrative.css and src/components/mindmake/locked/scrollSequence.ts; the source-check and correction chapters retired; hero film, constellation and living record carried over. Krish accepted the rendered captures on 25 September 2026 (\"yes I like it\"); chapter 02 then dropped the line about whose Brain it is, on his instruction.",
       "evidence": [
-        "quality/route-lock/approved-production-r44.json",
+        "quality/route-lock/approved-production-r48.json",
         "quality/ai-brain/approved-narrative-s4.json",
         "src/test/brain-narrative.test.ts"
       ]
@@ -519,7 +519,7 @@
       "status": "accepted",
       "resolution": "BI-006 drops ', not defend the old one'; BI-020 'more agentic' becomes 'more decisive'; BI-012 'Builder, not persuader' becomes 'Leaders ready to move'; SRC-001 'AI fluency begins' becomes 'Using AI well begins'; REL-005 and REL-015 lose their 'not only' contrasts.",
       "evidence": [
-        "quality/route-lock/approved-production-r44.json",
+        "quality/route-lock/approved-production-r48.json",
         "quality/ai-brain/approved-narrative-s4.json",
         "src/test/brain-narrative.test.ts"
       ]

@@ -53,5 +53,5 @@
     "src/styles/mindmake-brain-narrative.css",
     "src/components/mindmake/locked/scrollSequence.ts"
   ],
-  "productionLock": "quality/route-lock/approved-production-r44.json"
+  "productionLock": "quality/route-lock/approved-production-r48.json"
 }

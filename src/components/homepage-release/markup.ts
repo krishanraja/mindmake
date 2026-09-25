@@ -54,7 +54,7 @@ export const homepageMarkup = `<a class="skip-link" href="#new-age-leadership">S
                 </div>
               </section>
             </div></div></section>
-      <div id="new-age-leadership" class="nal-page mm-home-leadership" data-component="leadership">${leadershipChaptersMarkup()}</div>
+      <div id="new-age-leadership" class="nal-page mm-home-leadership" data-component="leadership">${leadershipChaptersMarkup({ opening: "organisation" })}</div>
       <section id="route" class="r3-section r3-route r3-reveal" data-component="route">
         <div class="r3-variant preview-desktop"><div class="site-frame" data-composition-desktop="balanced" data-title-desktop="balanced" data-measure-desktop="balanced" data-action="copy" data-back="text" data-caption="show" data-receipt="full" data-steps="numbered" data-reveal="staged">
             

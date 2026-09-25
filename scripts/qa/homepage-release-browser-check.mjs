@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { chromium, firefox, webkit } from 'playwright';
 import { validateScrollBuildEvidence } from './scroll-build-evidence.mjs';
-import { createHomepageScrollContract, APPROVED_SCROLL_STATES as states, PIN_TOP, CHAPTERS_BY_VIEWPORT } from './homepage-scroll-contract.mjs';
+import { createHomepageScrollContract, APPROVED_SCROLL_STATES as states, PIN_TOP, CHAPTERS_BY_VIEWPORT, STATIC_REACH_STATE, RETIRED_HOMEPAGE_WORDS } from './homepage-scroll-contract.mjs';
 
 const root = path.resolve(import.meta.dirname, '../..');
 // Pre-merge (Krish, 2026-09-25): Chromium alone gates a branch. Firefox and
@@ -26,8 +26,6 @@ const geometry = locator => locator.evaluate(node => { const r=node.getBoundingC
 // visible words are the state. Scroll positions come from live geometry; the
 // expected words and pin line come only from the declared contract.
 const chapters = {
-  reach: { track: '.mm-home-leadership .reach-sequence', stage: '.reach-sticky', state: '[data-reach-copy].is-active h2',
-    at: (i, g) => g.start + [0.1, 0.75][i] * g.travel },
   practice: { track: '.mm-home-leadership .work-scroll', stage: '.work-sticky', state: '.work-scene.is-active h3',
     at: (i, g) => g.start + [0.02, 0.5, 0.95][i] * (g.height - g.viewportHeight) },
   benefits: { track: '.mm-home-leadership [data-benefit-track]', stage: '[data-benefits]', state: '.brain-benefit.is-active h2',
@@ -62,6 +60,16 @@ try {
         for (const retired of ['history', 'authority', 'leadership-dividend']) assert(await page.locator(`[data-component="${retired}"]`).count()===0,`${label}: retired ${retired} chapter is gone`);
         assert(await page.locator('.mm-home-leadership').evaluate(node=>node.previousElementSibling?.id==='opening' && node.nextElementSibling?.id==='route'),`${label}: chapters sit between the opening and the route`);
         const pinTop = PIN_TOP[size];
+        // The reach chapter is its organisation state alone (r38): one still
+        // screen with the grid, no first state, no stage switch, no scroll track.
+        const reach = await page.locator('.mm-home-leadership .reach-sequence').evaluate((section, retired) => {
+          const heading = section.querySelector('.reach-copy h2');
+          const rect = section.getBoundingClientRect();
+          return { heading: heading?.innerText.replace(/\s+/g, ' ').trim(), states: section.querySelectorAll('[data-reach-copy]').length, grid: !!section.querySelector('.hybrid-organisation.is-active .organisation-grid'), progress: section.querySelectorAll('.reach-progress, [data-reach-jump]').length, height: rect.height, retired: retired.filter(words => document.body.innerText.includes(words)) };
+        }, RETIRED_HOMEPAGE_WORDS);
+        assert(reach.heading===STATIC_REACH_STATE && reach.states===1 && reach.grid && reach.progress===0,`${label}: reach opens on the organisation alone ${JSON.stringify(reach)}`);
+        assert(reach.retired.length===0,`${label}: retired reach words still on the page: ${reach.retired.join(', ')}`);
+        assert(reach.height<=viewport.height*1.05,`${label}: reach is one screen, not a scroll track (${reach.height}px)`);
         for(const chapter of CHAPTERS_BY_VIEWPORT[size]) {
           const expected = states[chapter];
           const spec = chapters[chapter];
@@ -136,10 +144,6 @@ try {
       await page.addInitScript(()=>localStorage.setItem('mindmake_consent','accepted'));
       await page.goto(origin,{waitUntil:'domcontentloaded'});
       await page.waitForSelector('.mm-home-leadership .reach-sequence');
-      await page.locator('.mm-home-leadership .reach-sequence').scrollIntoViewIfNeeded();
-      await control(page, '[data-reach-jump="organisation"]','reach',1,'reduced-motion');
-      assert(await page.locator('[data-reach-jump="organisation"]').getAttribute('aria-current')==='step',`${engine}: organisation semantic current state`);
-      await control(page, '[data-reach-jump="boundary"]','reach',0,'reduced-motion');
       await page.locator('.mm-home-leadership .work-scroll').scrollIntoViewIfNeeded();
       for (let index=2; index>=0; index--) await control(page, `[data-work-button="${index}"]`,'practice',index,'reduced-motion');
       await page.locator('.mm-home-leadership [data-benefit-track]').scrollIntoViewIfNeeded();
@@ -161,7 +165,14 @@ try {
         await page.goto(origin,{waitUntil:'domcontentloaded'});
         await page.waitForSelector('.mm-home-leadership .reach-sequence');
         const shortTop = await page.evaluate(()=>parseFloat(getComputedStyle(document.querySelector('.mm-home-leadership')).getPropertyValue('--header')));
-        for (const chapter of short.width > 900 ? ['reach','practice','benefits'] : ['reach','benefits']) {
+        const reachFit = await page.locator('.mm-home-leadership .reach-sequence').evaluate(section => {
+          scrollTo({ top: scrollY + section.getBoundingClientRect().top, behavior: 'instant' });
+          const heading = section.querySelector('.reach-copy h2').getBoundingClientRect();
+          const grid = section.querySelector('.organisation-grid').getBoundingClientRect();
+          return { headingTop: heading.top, headingBottom: heading.bottom, gridBottom: grid.bottom, height: innerHeight };
+        });
+        assert(reachFit.headingTop>=0 && reachFit.headingBottom<=reachFit.height+3,`${engine}/${fallback}/reach: heading on screen ${JSON.stringify(reachFit)}`);
+        for (const chapter of short.width > 900 ? ['practice','benefits'] : ['benefits']) {
           const g = await measure(page, chapter, shortTop);
           await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),Math.round(chapters[chapter].at(1,g)));
           await settle(page); await settle(page);

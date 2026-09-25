@@ -193,7 +193,8 @@ const currentDocumentationRequirements = [
   ["state", "scripts/qa/build-homepage-release.mjs"],
   // r35 (Ruling, Krish, 2026-09-25): the homepage carries the three new-age
   // leadership chapters in place of R3's history, authority and dividend.
-  ["state", "the homepage carries the three new-age leadership chapters whole (r35)"],
+  ["state", "the homepage carries the three new-age leadership chapters (r35)"],
+  ["state", "Its reach chapter opens on \"The organisation changes shape.\" alone"],
   ["state", "The AI Brain benefits retain all six beside The returned hour"],
   ["state", "No wheel/touch cancellation"],
   ["state", "Every state stays reachable from its direct controls on reduced-motion and short screens"],
@@ -217,6 +218,7 @@ const obsoleteCurrentClaims = [
   "RELEASE BLOCKED",
   "History retains four reversible states",
   "Leadership dividend retains five stages",
+  "leadership chapters whole (r35)",
 ];
 function validateCurrentDocumentation(documents) {
   const issues = [];

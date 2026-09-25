@@ -19,6 +19,12 @@ body.mm-homepage-active { margin: 0; }
 @media (max-width: 700px) {
   .mm-homepage-release .nal-page.mm-home-leadership { --edge: 5.13vw; }
 }
+/* The homepage's reach chapter is its organisation state alone (r38): one
+   still screen, so it takes one screen of height and no scroll track. The
+   R5 track (210svh, 180svh below 900px) existed to step between two states. */
+.mm-homepage-release .mm-home-leadership .reach-organisation-only { height: auto; }
+.mm-homepage-release .mm-home-leadership .reach-organisation-only > .reach-sticky { position: relative; top: auto; }
+
 /* Two R5 rules leave the reach copy off that edge below 900px. Its phone
    padding is a flat 16px rather than the gutter, and its tablet rule still
    says `justify-content: flex-end`, written when the copy was a flex column

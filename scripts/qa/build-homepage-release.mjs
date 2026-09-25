@@ -10,7 +10,8 @@ import postcss from 'postcss';
 // and leadership dividend) are cut, and the three /new-age-leadership chapters
 // are delivered in their place from their shared source.
 // Ruling (Krish, 2026-09-25): the homepage uses the new-age-leadership
-// chapters instead of its own three, which are scrapped.
+// chapters instead of its own three, which are scrapped, and its reach chapter
+// opens on "The organisation changes shape." alone (r38).
 const repo = process.cwd();
 const source = path.join(repo, 'prototypes/website-redesign-recovery/homepage-production-synthesis-r3');
 const output = path.join(repo, 'src/components/homepage-release');
@@ -39,7 +40,7 @@ const cut = (text, from, to, replacement = '', label = from) => {
   return text.slice(0, start) + replacement + text.slice(end);
 };
 const retiredChapters = /\.r3-(?:history|authority|dividend)\b|\.r3-mode-switch\b|\[data-(?:era|stage|practice|benefit-prev|benefit-next)\]/;
-const leadershipChapters = '<div id="new-age-leadership" class="nal-page mm-home-leadership" data-component="leadership">${leadershipChaptersMarkup()}</div>\n      ';
+const leadershipChapters = '<div id="new-age-leadership" class="nal-page mm-home-leadership" data-component="leadership">${leadershipChaptersMarkup({ opening: "organisation" })}</div>\n      ';
 const assets = new Map();
 const register = value => {
   if (!value.startsWith('../')) return value;

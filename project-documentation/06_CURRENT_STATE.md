@@ -292,7 +292,12 @@ owns payload, privacy, retention, email and failure-path contracts.
   `qa:homepage-release` on all three engines, `qa:release-routes` and
   `qa:logo-alignment`; `qa:new-age-r5-production` failed only its scope-leak
   assertion, which still forbade any `.nal-page` on `/`. r36
-  (`quality/route-lock/approved-production-r36.json`) corrects it.
+  (`quality/route-lock/approved-production-r36.json`) corrects it. On
+  Krish's approval, `/`'s reach chapter opens on "The organisation changes
+  shape." alone, as one still screen: "The feeling is familiar. The reach
+  is new." answered a history chapter `/` no longer has. `/new-age-leadership`
+  keeps both states. Recorded in
+  `quality/route-lock/approved-production-r38.json`.
 - `/case-studies` is recorded in
   `quality/route-lock/approved-production-r37.json`. A figure whose record
   carries no endpoint labels renders no label row at all, rather than two empty

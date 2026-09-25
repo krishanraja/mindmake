@@ -3,12 +3,12 @@
 // of R3's history, authority and leadership dividend (Ruling, Krish, 2026-09-25).
 // Each pins under the homepage's fixed masthead. The practice scenes pin only
 // above 900px; on a phone they are laid out one after another by design, so
-// the phone declares no pinned practice case.
+// the phone declares no pinned practice case. From r38 the reach chapter is its
+// organisation state alone, one still screen with no scroll track, so it is
+// declared below as a single static state rather than an ordered sequence.
+export const STATIC_REACH_STATE = 'The organisation changes shape.';
+export const RETIRED_HOMEPAGE_WORDS = ['The feeling is familiar.', 'The reach is new.'];
 export const APPROVED_SCROLL_STATES = {
-  reach: [
-    'The feeling is familiar. The reach is new.',
-    'The organisation changes shape.',
-  ],
   practice: [
     'It notices what changed.',
     'It joins the evidence.',
@@ -28,8 +28,8 @@ export const APPROVED_SCROLL_STATES = {
 export const PIN_TOP = { '1440x900': 66, '390x844': 64 };
 
 export const CHAPTERS_BY_VIEWPORT = {
-  '1440x900': ['reach', 'practice', 'benefits'],
-  '390x844': ['reach', 'benefits'],
+  '1440x900': ['practice', 'benefits'],
+  '390x844': ['benefits'],
 };
 
 export function createHomepageScrollContract({ engines = ['chromium', 'firefox', 'webkit'], candidateDigest, acceptedDecision, acceptedDecisionDigest }) {

@@ -68,7 +68,8 @@ const scrollEvidence = await evidenceOf(`${gateDir}/scroll-build-evidence.json`)
    reviewers' binding for judge_evidence_identity. */
 const frames = {
   desktop: ["opening-1440x900.jpg", "levers-1440x900-forward-0.jpg", "levers-1440x900-forward-3.jpg", "turn-1440x900.jpg", "plan-1440x900-forward-1.jpg", "team-1440x900-forward-1.jpg", "proof-1440x900.jpg", "no-js-1440x900.jpg"],
-  mobile: ["opening-390x844.jpg", "levers-390x844-forward-0.jpg", "levers-390x844-forward-3.jpg", "turn-390x844.jpg", "plan-390x844-forward-1.jpg", "team-390x844-forward-1.jpg", "proof-390x844.jpg", "no-js-390x844.jpg"],
+  // On a phone the month and the team are documents, so their stills stand in for pinned frames.
+  mobile: ["opening-390x844.jpg", "levers-390x844-forward-0.jpg", "levers-390x844-forward-3.jpg", "turn-390x844.jpg", "founder-plan-390x844.jpg", "founder-team-390x844.jpg", "proof-390x844.jpg", "no-js-390x844.jpg"],
 };
 const frameEvidence = {};
 for (const [surface, list] of Object.entries(frames)) frameEvidence[surface] = await Promise.all(list.map((name) => evidenceOf(`${gateDir}/${name}`)));

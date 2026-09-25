@@ -1,9 +1,11 @@
 // Generated delivery adapter. Approved source remains unchanged.
 import asset0 from "../../assets/mindmake-mark.svg";
 import asset1 from "../../assets/mindmake-wordmark.svg";
-import asset2 from "../../assets/films/film-02-poster.webp";
-import asset3 from "../../assets/films/film-02-loop.mp4";
-import asset4 from "../../assets/films/film-04-loop.mp4";
+import asset2 from "../../assets/films/sep2026/archive-engine-hero-poster-r04.webp";
+import asset3 from "../../assets/films/sep2026/archive-engine-hero-loop-r04-16s-1080p-web-sealed.mp4";
+import asset4 from "../../assets/films/film-02-poster.webp";
+import asset5 from "../../assets/films/film-02-loop.mp4";
+import asset6 from "../../assets/films/film-04-loop.mp4";
 export function mountHomepageRuntime(root, { onStart }) {
   const abort = new AbortController();
   const observers = new Set();
@@ -79,7 +81,7 @@ export function mountHomepageRuntime(root, { onStart }) {
       source: "Anonymous client outcome · Research and content",
       steps: ["The founder's standards", "A system they own", "Used on real work"],
       result: "Research-backed publishing moved from days to under an hour, and from roughly monthly to most days.",
-      film: asset3,
+      film: asset5,
     },
     gtm: {
       title: "We turn an AI market shift into one tested commercial move.",
@@ -88,7 +90,7 @@ export function mountHomepageRuntime(root, { onStart }) {
       source: "Anonymous client outcome · Media advisory",
       steps: ["Expertise people value", "A clear offer", "A defined plan launched"],
       result: "A respected advisory firm turned its expertise into a clear offer clients could buy.",
-      film: asset4,
+      film: asset6,
     },
   };
   let selectedRoute = "brain";

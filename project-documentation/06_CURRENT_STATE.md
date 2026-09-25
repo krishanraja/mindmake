@@ -298,6 +298,10 @@ owns payload, privacy, retention, email and failure-path contracts.
   is new." answered a history chapter `/` no longer has. `/new-age-leadership`
   keeps both states. Recorded in
   `quality/route-lock/approved-production-r39.json`.
+- The homepage opening hero plays the Archive Engine loop
+  (`src/assets/films/sep2026/archive-engine-hero-loop-r04-16s-1080p-web-sealed.mp4`)
+  with its own WebP poster; the route stage keeps `film-02`. Recorded in
+  `quality/route-lock/approved-production-r40.json`.
 - `/case-studies` is recorded in
   `quality/route-lock/approved-production-r37.json`. A figure whose record
   carries no endpoint labels renders no label row at all, rather than two empty

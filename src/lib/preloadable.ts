@@ -1,9 +1,11 @@
-import { createElement, lazy, useState, type ComponentType } from "react";
+import { createElement, useState, type ComponentType } from "react";
+import { lazyRoute } from "@/lib/lazyRoute";
 
 type PageModule = { default: ComponentType<object> };
 
 /**
- * `React.lazy`, with a way to fetch the page before it is asked for.
+ * `lazyRoute` (React.lazy that survives a dropped chunk), with a way to fetch
+ * the page before it is asked for.
  *
  * A route change used to be the moment the page's code was requested, so a
  * reader clicking to a page they had not visited met the Suspense fallback for
@@ -36,7 +38,9 @@ export function preloadable(load: () => Promise<PageModule>) {
     );
     return pending;
   };
-  const Lazy = lazy(preload);
+  /* lazyRoute keeps its one retry and one reload for a dropped chunk; the
+     cached promise is cleared on failure, so its retry fetches again. */
+  const Lazy = lazyRoute(preload);
   function Page(props: object) {
     const [Component] = useState<ComponentType<object>>(() => loaded ?? Lazy);
     return createElement(Component, props);

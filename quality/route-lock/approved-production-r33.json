@@ -1,14 +1,15 @@
 {
   "artifact": "mindmake-approved-production-routes-r33",
   "recordedAt": "2026-09-25",
-  "status": "candidate record. Conversion flow and page changes: the publication band is removed, Media is badged 'Subscribe for free', the hero doors link to their pages, the offer pages pair with each other, and route changes use the ruled-line transition.",
-  "scopeRequested": "Krish, 2026-09-25: \"lets get rid of this section everywhere in this repo [The reading, if you want it separately.], and then add a \\\"Subscribe for free\\\" badge to the Media menu item, and then figure out how we encourage subscriptions on the overall page UX ... the AI GTM and AI Brain buttons in the homepage hero section incorrectly link to the bottom Get my free brief section instead of their respective pages ... the AI Brain enables an AI GTM, and the AI GTM runs better with an AI Brain ... the transitions between pages feel incredibly glitchy and sudden, I want something never seen before but very subtle and classy.\" The plan was approved in session before implementation.",
+  "status": "candidate record. Every page takes the AI Brain page's type system: Newsreader headlines, Archivo body and actions, IBM Plex Mono 400 labels.",
+  "scopeRequested": "Krish, 2026-09-25: \"I am happy with the font system on the AI Brain page of all of them\", then, with a /case-studies screenshot, \"I don't think you completed the job of ensuring every page has the same font system as the AI brain page.\"",
   "sessionDecisions": [
-    "Three intents, three labels: Get your free AI brief (ready), Build your AI brain / Build your AI GTM (exploring), Subscribe for free (not ready). No new label for an existing intent.",
-    "The R3 source stays immutable. The doors and Media change as a counted generator transform, the same mechanism the adapter already uses for delivery.",
-    "Subscription is offered in three places (menu badge, footer, brief success) and never as a band, pop-up or modal. It stays a hairline action beneath the brief's filled mint.",
-    "The LeadBrief's interest checkbox and every lead-delivery boundary are unchanged; the success step only links out.",
-    "Page changes: same-origin links stay in the app, the target's code is fetched first, and a view transition sets the new page in behind a mint hairline. Back and Forward are not animated and restore scroll. Reduced motion and unsupported browsers navigate without animation."
+    "The AI Brain page is the reference and is unchanged; a computed-style audit of every route before and after shows its faces, weights and sizes identical.",
+    "The shell pages (/case-studies, /blog, /answers and their articles, /faq, /contact, /privacy, 404) set headlines in Archivo 800/700 and body in Source Serif 4. Their headlines are now light Newsreader (h1 380, h2 390, h3 420, each step a fifth larger to hold the same presence) and their body Archivo, through --mm-body and the .mm-site heading default rather than per-page rules.",
+    "Actions (.mm-button) are Archivo 700 in sentence case, as AI Brain's are; they had been mono capitals on links and inherited Source Serif capitals on buttons.",
+    "Plex Mono labels are 400, as on AI Brain: the 500 face is no longer declared, so any rule still asking for 500 renders the 400.",
+    "/ai-gtm stays as approved: its lever labels had inherited Archivo from the old heading default and now name their own sans. /new-age-leadership body moves from Source Serif to Archivo through the shared token; its headlines were already Newsreader. The generated R3 homepage is untouched.",
+    "Source Serif 4 is still loaded, because the private brief document sets its brand line in it; it is no longer a page face."
   ],
   "routes": [
     "/",
@@ -37,52 +38,52 @@
   },
   "files": {
     ".vercelignore": "f162171ded7ff8c1d6032f7cb50317bc19cc4d1bbd4757be9f8ea75cdec540f1",
-    "src/pages/AiBrainLocked.tsx": "2e4f24516e77ff9f5da6be699cf67306fb4bafc2460b4661c3b33de9d11793b6",
+    "src/pages/AiBrainLocked.tsx": "4b56a76a1661097c7edff62878e602d138c902298fe23a7704a184f9079fa519",
     "src/styles/mindmake-locked-brain.css": "7ef818a05599b945ff2cdbd1aebf56cf3815f7d4508421963755216539da7b96",
     "src/data/vnext/brain-fixture.json": "02fa968575d7000874f0f10a09123336ad6ec3f7bf373dcd351fbb7e7ef2b1b9",
     "prototypes/website-redesign-recovery/brain-signature/index-s2-motion-s3.html": "423659d864e79a72a55d4fd3ca9450b610e616187929293f1e0a8faaafbff2c6",
-    "src/styles/mindmake-locked-gtm.css": "8c4ee91ad1a96f97efd397668f0742b148fbc4ec820e73daf2ddb4047be58579",
+    "src/styles/mindmake-locked-gtm.css": "84757e31da19b762a6e48e7e4d81906fa97aec02c2f58e61df9c015d5faf667e",
     "src/data/vnext/gtm-signals.json": "5ab7fac6ce8ebdab6b69b73f60e184a7e4df8d923d97edd29c38872648c3bf7f",
     "src/pages/NewAgeLeadership.tsx": "13e976c82d0509c063811a8364aacb7e3d627b73a22f2e68abe8ba943c1aa856",
     "src/styles/new-age-leadership-r5.css": "fd3b442e93674e9d3e1cb422cc0d16903a2e747bbb1d62d3fd7d78d2df374ace",
     "src/components/mindmake/locked/CommercialDecisionBalance.tsx": "f57849b19f5d15ecb5e9fd664833cfcf0d5e07bbd355d71656c243ac5c2a3410",
     "src/styles/mindmake-commercial-decision-balance.css": "a2fb68466e0835aa4023a2c503c92e66cea3465ac94fdec5ce4d43ec37af3554",
     "src/components/mindmake/locked/CaseProofField.tsx": "bb57f13fbbf6bf93485c2e8a1f513a31cd922f5cfaa08ab6e18e7c4aaa98911f",
-    "src/pages/CaseStudies.tsx": "2f612f3f0d529829f3e200dd2c6511a7459294114651e4afdb0d702beb4336a0",
-    "src/styles/mindmake-instruments.css": "cc4256914b7c90006be1df184613687660d322546846cac22ae2b3165e000aa3",
-    "src/pages/Index.tsx": "da4079f3207c1f7fc34377f8701113429d4291a55b75bef9f2a9762fcb3b5b84",
+    "src/pages/CaseStudies.tsx": "6f98157401aeb3d9beff18b8ec17fc167971b6fdf29b80ee5f3e5b3223866f98",
+    "src/styles/mindmake-instruments.css": "d5a358250a736c65011e08bd3221195acb02b9937049d1a11acfb7d7a213f03d",
+    "src/pages/Index.tsx": "485a04421a98c852d3e8870e9ebf4d49f4d253efc179a10385060efe558a028f",
     "src/styles/mindmake-home-vnext.css": "99bfc17c302fb476510452fc029268e85221c8cdcf43b133c9f921c095ac52ca",
     "src/pages/Blog.tsx": "eedb74a049c1eae8ba9dbafa9793029b8076375aee279076797e7e2184cb8ae1",
     "src/pages/BlogPost.tsx": "c63b50eefc00ca13a849c824035a3f1681bf14a74b5b2123cfcdbad4f0015613",
     "src/pages/Answers.tsx": "9cf708e3fb54ce93a663fb4b21f4e9d497189adec457dec24b62dd794b30a036",
     "src/pages/Answer.tsx": "afcb5862874a2efd84fd16ba00c7d4f6250c913379f3cf1ef57deb9fe91c6260",
     "src/pages/Contact.tsx": "fbc16c3711108d1c98d0069d486222c22851442c4c2235ca30a0bd65a29f3d18",
-    "src/components/mindmake/MindmakeShell.tsx": "1ca80b59803643b6a8285640b2d9be3542a3da36eb45c997c901f8578bf0195c",
-    "src/components/mindmake/LeadBrief.tsx": "2ce4be0a18956febe3ce5edbb9d30ead8631b115b238148d5cc67be64a37b10d",
-    "src/styles/mindmake.css": "3c4ddb4b371d078a192ba6321ed3e2aedb759e4038a7307ef47a25d66d08bd56",
-    "src/styles/mindmake-brief.css": "970521eb13dae1aef955ca0bbd0da62353efe8e2c2754607b0b3fee18675ec13",
+    "src/components/mindmake/MindmakeShell.tsx": "9fa9800501948b23f087183f28ced49041b5b49fb622630f0509bdd2f05e0c7f",
+    "src/components/mindmake/LeadBrief.tsx": "433bde43d62dd29cfe19afd96d713d66eda64965a60c3a0ca90e0d4370020d15",
+    "src/styles/mindmake.css": "cc54dba540bc427fa3c5994b084b9149719cbc8bbb03692ad692640db7ac5212",
+    "src/styles/mindmake-brief.css": "05ce4b8c72ef0ac2fa0a85d6264793ff444cd663016a817b376d91a380497b9b",
     "src/hooks/useLeadBriefHistory.ts": "a782c9c8563b44ee23780742c1cfff703f7a0a362ffd2986405508e42567c427",
     "src/data/rebuildProof.ts": "bdea57fd6495548e2ea798e9b7056323bb1936c4f4e66c24301aa82c9114884b",
     "src/data/testimonials.ts": "24466efccdb455aef4698f7e0a4a00e4885ecb43cf6245bf5255e1369e7d0663",
-    "src/App.tsx": "369ecb7d736b4d304b2cea0b01db1740b0dcc2aee711efa0efefaffcdc568ce3",
-    "src/entry-server.tsx": "ec581e6803e27804f8ae7bb92d01b049dd42b54e5e7ce828451eef06bb455739",
+    "src/App.tsx": "33006d91bd74a80429b160ecca2dbe67d21cb976e9a9618678a2ab1474954ec8",
+    "src/entry-server.tsx": "c7b23fef712f8bdba0ef48e32c78761b9313fcdcec06747f61ecf46b15e80126",
     "scripts/qa/approved-route-lock-check.mjs": "17beeea632a7fbb31aeeecb002b379177c5416b2414b8bddc1d83e64443ae528",
     "scripts/qa/approved-route-lock-self-test.mjs": "ead2f5a8a240d84d9517b4c58c95b8a2e40997454cf3a433dff75559b5f38e5d",
     ".github/workflows/approved-route-lock.yml": "a8436f33851fea66cfb2cc3a4cf3e888a0baa5bd068dd6f82bd7684cab90c61c",
     "scripts/qa/locked-material-production-check.mjs": "b021940985b52171064d8cfdb9f439c58b440f433de79f3882329559daeeb61d",
-    "scripts/qa/full-route-continuity-check.mjs": "7e511207cac76747018303820d593500321e67714a4aa5097fe565cc012feba0",
+    "scripts/qa/full-route-continuity-check.mjs": "9e1bbdf0c98453e63392b0ed6cd775e158c6d312e3dab27ccc901b4863929df9",
     "scripts/qa/plain-language-check.mjs": "639c62446bf7f3a01693ba1fc20e446e23ba8fbc8d17bc429e41da951fafd9a8",
-    "src/components/homepage-release/component-styles.css": "0410beec0ae5fc1161c9c950d5d101d2d5aa9a9442a4d01902169f6feb5dc3d7",
-    "src/components/homepage-release/integration.css": "f488b843068a4329ba5c1ceb3fc37e2f945af2684b7ceb204485d218fbcfd813",
-    "src/components/homepage-release/markup.ts": "0f589640210555efe2986b96a544ee382481f0e056e13ce6c84b3038b0c1ce14",
-    "src/components/homepage-release/page.css": "3147e0b867fcc4349f96f79464c34c7dd4c494ce83cf0b4b0184efed40bf37a0",
+    "src/components/homepage-release/component-styles.css": "0b514cc3fb6a68369a22865569557b40119506f2785fcf3bace34270a4a15409",
+    "src/components/homepage-release/integration.css": "26523479663af72dc39b83c96f71eadbd814d59ce34c503fb0c73c388815edaa",
+    "src/components/homepage-release/markup.ts": "cde3a109ff746a5091de7f9eb1ddbadcbccbe582b0fa7701b00f457aa466539f",
+    "src/components/homepage-release/page.css": "3f85787cdc8c72a2086eccf2b0966d729c7257739eb1ea006f903c64bab2775c",
     "src/components/homepage-release/pinnedChapters.css": "cbd0045559d53625b7e033c6efdc1040e209d12d948d3d54aff61803d382f3c6",
     "src/components/homepage-release/pinnedChapters.ts": "d3f0c747e3d52cce0054072276ea018e7dc3c04f0173a1f3ab36533092237886",
     "src/components/homepage-release/runtime.d.ts": "775442011d8988d11986add6b3bdc1e07c9095905f83077b76672d0f0be2103c",
-    "src/components/homepage-release/runtime.js": "bbeac985862c1deccc98565760f28fa3b2d11a4071346afca0ce682211ee8710",
-    "scripts/qa/build-homepage-release.mjs": "736f8f605e56334efa217751ee1efcb9f233515a9d50fcf7d9413e0a5b25c3ae",
+    "src/components/homepage-release/runtime.js": "455f458d711100018037fa60b6d742570b261d85da143f3dc766d497a5695419",
+    "scripts/qa/build-homepage-release.mjs": "25bfdab816dce88af772b9922540d984f4afddd39257600cac887fa84b25fe25",
     "scripts/qa/homepage-release-browser-check.mjs": "d752c10c4767edf6825610e379b7798f49b2e4939cf652b98ff538486b7a4741",
-    "scripts/qa/homepage-release-adapter-check.mjs": "d8c97d1a1dd08cd654b6c0b09cea5dda98d6efd6e0f948abbe53308ef14afab5",
+    "scripts/qa/homepage-release-adapter-check.mjs": "247a946cff44752053ae807edec2a452d82a639ca6cd410caa49c0d3639301d4",
     "scripts/qa/homepage-release-visual-parity-check.mjs": "c45405559cb8a5e3499b5d29e9d9b397dadfaedc48efe409fe8f0cbfc33573ad",
     "scripts/qa/homepage-scroll-contract.mjs": "9928524f2817b259208899a1e9a492454825f9a062f30ae1f4f3c3cd0b877a77",
     "scripts/qa/scroll-build-evidence.mjs": "1ae4a330c831d6accbfba3ba869c0c9a1d259e2b8258b524e2aa74408bbbabbc",
@@ -111,7 +112,7 @@
     "src/test/discoverability.test.ts": "5327fa483bd558580dced126a666e54df427d6664aff614e115bfab0fc8b3b3b",
     "src/test/seo-prerender.test.tsx": "a49ddfaea0d4e25b3efcbd7342a40d92d8e8d96a52cf146a3b2468bd63ad674c",
     "src/test/seo-navigation.test.tsx": "df5fdc636cde34d682bec1b9ed80d5e4e47d412e8ca4af8d64bac2719722bb15",
-    "src/test/brief2-public-contract.test.ts": "9e51996473231ec1d5ce8790c3dba3ba5f4815501a0f63ec61de709741ae0dae",
+    "src/test/brief2-public-contract.test.ts": "a79098a6646f64c5d1ea67a9e7463bf295a2d9c7457b869e9082d3748ef1c32a",
     "public/sitemap.xml": "5721855b87fd7ce63765f373a76a6610c67c032a0a2ca628fbaeea9ee8702b82",
     "public/llms.txt": "3fbf05b005c823de334066becaf069736240617f4d072064a343579f21ff801d",
     "public/robots.txt": "d655c25315f781de2ff83266a9472f7fdf5e6c8fa0ae91b8f7099e4e3a78831b",
@@ -146,22 +147,11 @@
     "src/styles/new-age-leadership-r6.layer.css": "546986da7d3b4a6bd23053ed69aa996400db8c4f140b39050a9a11a058be60ca",
     "scripts/qa/build-new-age-r5-styles.mjs": "a5cba878c8e6293f7c61fce3b52bce4c3c269d5f4fc6cf9cb2e8c8a607c5d19a",
     "scripts/qa/new-age-r5-production-check.mjs": "ae90d891a1b36208d6ec40b862b2916e012adf75749043f317eb1dea634386cf",
-    "src/pages/AiGtm.tsx": "42183ec976b21643375d74f549fe207e72feb7da980ebd79c7ffef0efe856bab",
+    "src/pages/AiGtm.tsx": "7229c390932eb445bedde9b67a72330eb9527304348171f8d02b7dbc300bf687",
     "src/styles/mindmake-gtm-plain.css": "787983312dc8812cdcaecd6c2120a8f3bd636ac9f2e5d8b98c864c5da4b473d9",
-    "quality/ai-gtm/approved-plain-r2.json": "b42d8a6e66f822150c6c49d3059aaf09b86d6f92dcb7b243114ae359041578cc",
-    "src/components/RouteTransitions.tsx": "2ea90affe111da73822be30636456cb6d049503d7abc76dae683bc249edc474b",
-    "src/lib/preloadable.ts": "bceff4b2c15d2963d2d5b261b838d77ab972c01965b27f953f4b074f15f43ce1",
-    "src/styles/route-transition.css": "a36631807614c9a976c610b514526d96e34ed670f71488c6e2bdf6ed7f422154",
-    "src/components/mindmake/PairingBridge.tsx": "8b4a6799f67347b3b3cb74087796251bba480c1cc384e6600ba801947f2e15ef",
-    "src/styles/mindmake-pairing.css": "a92612c651b8c8156e8dae3f9232bdc0790b9cc0cbbb68a05631a272324c3020"
+    "quality/ai-gtm/approved-plain-r2.json": "b42d8a6e66f822150c6c49d3059aaf09b86d6f92dcb7b243114ae359041578cc"
   },
-  "newlyLocked": [
-    "src/components/RouteTransitions.tsx",
-    "src/lib/preloadable.ts",
-    "src/styles/route-transition.css",
-    "src/components/mindmake/PairingBridge.tsx",
-    "src/styles/mindmake-pairing.css"
-  ],
+  "newlyLocked": [],
   "minimumContracts": {
     "brain": {
       "meanings": 20,
@@ -212,24 +202,21 @@
     "price the result"
   ],
   "verification": {
-    "status": "Run on 2026-09-25, Linux, Node 22.22.2, Chromium only.",
+    "status": "Run on 2026-09-25, Linux, Node 22.22.2.",
     "performed": [
-      "qa:approved-routes and its self-test against this record, qa:homepage-handoff, qa:website-feedback, qa:material-review:self-test, qa:plain-language, qa:docs, typecheck, lint (the 3 existing warnings, unchanged), 560 unit tests and the canonical npm run build: pass.",
-      "qa:homepage-release:pre-merge: 4 cases, 4 screenshots, no failures. This container's Playwright expects Chromium build 1223 and ships 1194, so the run pointed PLAYWRIGHT_BROWSERS_PATH at a scratch alias for the installed headless shell; no repository file was changed for it.",
-      "qa:oneway: 10 page/width pairs, never more than one primary action on screen. qa:nojs: 5 pages and 21 answers present.",
-      "homepage-release-adapter-check at 1440 and 390: PASS, including the door navigating to /ai-gtm, Back, and the closing-chapter toggle binding the brief to gtm.",
-      "qa:entrance: the same 8 findings, line for line, as unchanged main 16c876e built and served the same way (curtain requested and never displayed; video elements mounted under reduced motion); no hydration error on any route.",
-      "Built-site browser proof at 1440x900 and 390x844: the hero door is a link to /ai-gtm and stays in the same document, with no loading frame, scroll 0 and focus on the h1. Pairing links cross between the pages. Back restores the scroll position. The Media badge renders in both menus and opens the subscribe form. /case-studies has no publication band. No console errors. Transition frames at 160ms and 320ms show the mint line and the reveal.",
-      "qa:full-route-continuity not run: it launches Google Chrome, Firefox and WebKit, none of which is installed here, and it is not a pre-merge gate."
+      "qa:approved-routes and its self-test against this record: pass.",
+      "qa:homepage-handoff, qa:website-feedback, qa:material-review:self-test, qa:plain-language, qa:docs, typecheck, lint, 556 unit tests, the canonical build and qa:homepage-release:pre-merge: pass.",
+      "Built-site browser proof on /ai-brain at 1440x900 and 390x844: no request to googletagmanager.com on load or after scrolling the notice into view, one after Allow and one on reload with the stored answer, none after Decline or for the older 'accepted', and /privacy's control clears the answer. Notice screenshots reviewed at both widths: one row at 1440; at 390 the text on one row and both answers together on the next, with the action bar stacked above.",
+      "qa:chrome crashes at fixed-chrome-check.mjs:142 (execution context destroyed), identically on unchanged main 114a5f0; not caused by this change."
     ],
     "required": [
-      "Production readback: hero doors link to /ai-brain and /ai-gtm; Media and the footer open the subscribe form; /case-studies has no publication band."
+      "Production readback: no request to googletagmanager.com before Allow; gtag.js and the collect request after it."
     ],
     "physicalException": "VoiceOver on physical iPhone and TalkBack on physical Android not performed."
   },
   "supersedes": {
-    "path": "quality/route-lock/approved-production-r32.json",
-    "reason": "Adds the conversion-flow and page-change record. No earlier record is rewritten."
+    "path": "quality/route-lock/approved-production-r30.json",
+    "reason": "Consent-gates the Google tag added in r29. No earlier record is rewritten."
   },
   "textLineEndings": "lf",
   "browserPlatforms": {
@@ -244,169 +231,31 @@
     "rationale": "project-documentation/website-redesign/RELEASE-2026-09-24.md"
   },
   "scope": {
-    "baselineCommit": "16c876e",
+    "baselineCommit": "114a5f0",
     "allowedExistingChanges": [
       {
-        "path": "src/pages/AiBrainLocked.tsx",
-        "before": "4b56a76a1661097c7edff62878e602d138c902298fe23a7704a184f9079fa519",
-        "after": "2e4f24516e77ff9f5da6be699cf67306fb4bafc2460b4661c3b33de9d11793b6",
-        "reason": "PairingBridge at the foot of the page; the locked prototype markup is unchanged."
-      },
-      {
-        "path": "src/pages/CaseStudies.tsx",
-        "before": "6f98157401aeb3d9beff18b8ec17fc167971b6fdf29b80ee5f3e5b3223866f98",
-        "after": "2f612f3f0d529829f3e200dd2c6511a7459294114651e4afdb0d702beb4336a0",
-        "reason": "SubscribeBand removed."
-      },
-      {
-        "path": "src/styles/mindmake-instruments.css",
-        "before": "740382b622933e23aec214279cae5d6d5bcfb300a66c7cd80b0325cdd47ba7bb",
-        "after": "cc4256914b7c90006be1df184613687660d322546846cac22ae2b3165e000aa3",
-        "reason": "SubscribeBand's rules removed."
-      },
-      {
-        "path": "src/pages/Index.tsx",
-        "before": "485a04421a98c852d3e8870e9ebf4d49f4d253efc179a10385060efe558a028f",
-        "after": "da4079f3207c1f7fc34377f8701113429d4291a55b75bef9f2a9762fcb3b5b84",
-        "reason": "Measures hero door and subscribe clicks in the generated markup."
-      },
-      {
-        "path": "src/components/mindmake/MindmakeShell.tsx",
-        "before": "9fa9800501948b23f087183f28ced49041b5b49fb622630f0509bdd2f05e0c7f",
-        "after": "1ca80b59803643b6a8285640b2d9be3542a3da36eb45c997c901f8578bf0195c",
-        "reason": "Media badge in the menu, subscribe button in the footer, compact-footer Media to the subscribe form."
-      },
-      {
-        "path": "src/components/mindmake/LeadBrief.tsx",
-        "before": "433bde43d62dd29cfe19afd96d713d66eda64965a60c3a0ca90e0d4370020d15",
-        "after": "2ce4be0a18956febe3ce5edbb9d30ead8631b115b238148d5cc67be64a37b10d",
-        "reason": "Subscribe line and button in the success step, below the brief's own actions. Lead capture, data and sending are unchanged."
-      },
-      {
-        "path": "src/styles/mindmake.css",
-        "before": "575983deff1f0d3a20699514cda3d661e709d8828ee28822c515370d18b09b3f",
-        "after": "3c4ddb4b371d078a192ba6321ed3e2aedb759e4038a7307ef47a25d66d08bd56",
-        "reason": "Menu badge and footer subscribe button styles."
-      },
-      {
-        "path": "src/styles/mindmake-brief.css",
-        "before": "05ce4b8c72ef0ac2fa0a85d6264793ff444cd663016a817b376d91a380497b9b",
-        "after": "970521eb13dae1aef955ca0bbd0da62353efe8e2c2754607b0b3fee18675ec13",
-        "reason": "Success-step subscribe styles."
-      },
-      {
-        "path": "src/App.tsx",
-        "before": "33006d91bd74a80429b160ecca2dbe67d21cb976e9a9618678a2ab1474954ec8",
-        "after": "369ecb7d736b4d304b2cea0b01db1740b0dcc2aee711efa0efefaffcdc568ce3",
-        "reason": "Pages load through preloadable(), RouteTransitions is mounted, and ScrollToLocation restores Back/Forward scroll per history entry."
-      },
-      {
-        "path": "src/entry-server.tsx",
-        "before": "c7b23fef712f8bdba0ef48e32c78761b9313fcdcec06747f61ecf46b15e80126",
-        "after": "ec581e6803e27804f8ae7bb92d01b049dd42b54e5e7ce828451eef06bb455739",
-        "reason": "Mounts RouteTransitions in App's order; it renders nothing."
-      },
-      {
         "path": "scripts/qa/approved-route-lock-check.mjs",
-        "before": "5ef2ce2d05579a58f5ff93735bffb9420746d7f60b746f5b301468ee868e503b",
-        "after": "17beeea632a7fbb31aeeecb002b379177c5416b2414b8bddc1d83e64443ae528",
+        "before": "90f58bfcae2f99011e6c9051fc8cfda25314535ca8f3c29f75a16f5b7a287ec3",
+        "after": "b9b84dba87183335e891cb5781eb5d7c4150333d71ae11b594354de5365d3e70",
         "reason": "Selects this new record."
       },
       {
         "path": "scripts/qa/approved-route-lock-self-test.mjs",
-        "before": "b392e4cc13cb4f723e86c2a4223ca641a084b0c3215e4fc0d25d18a12c185811",
-        "after": "ead2f5a8a240d84d9517b4c58c95b8a2e40997454cf3a433dff75559b5f38e5d",
+        "before": "b1262c62384b322732aacd48c47b5dac9fe797ca44ef20113742435f7d35f785",
+        "after": "142998e0b690333a6f1631a7bd487442085317ded2d85a651bc12b8f06a5ed19",
         "reason": "Selects this new record."
       },
       {
-        "path": "scripts/qa/full-route-continuity-check.mjs",
-        "before": "9e1bbdf0c98453e63392b0ed6cd775e158c6d312e3dab27ccc901b4863929df9",
-        "after": "7e511207cac76747018303820d593500321e67714a4aa5097fe565cc012feba0",
-        "reason": "Media's expected href is the subscribe form."
+        "path": "index.html",
+        "before": "f75a14fc6d02bb29a8aa281712377d8b5b2aa70634d26f07dc4f93ddd30fd2a6",
+        "after": "b6fb79d2ae3a093bd678f2164be46d753d2976747e138123de40dfab8e293312",
+        "reason": "The Google tag waits for consent: the config is queued with every storage type denied, and gtag.js is requested only for a stored \"analytics\" choice or from the notice's Allow."
       },
       {
-        "path": "src/components/homepage-release/component-styles.css",
-        "before": "0b514cc3fb6a68369a22865569557b40119506f2785fcf3bace34270a4a15409",
-        "after": "0410beec0ae5fc1161c9c950d5d101d2d5aa9a9442a4d01902169f6feb5dc3d7",
-        "reason": "Regenerated by scripts/qa/build-homepage-release.mjs from the unchanged R3 source."
-      },
-      {
-        "path": "src/components/homepage-release/integration.css",
-        "before": "26523479663af72dc39b83c96f71eadbd814d59ce34c503fb0c73c388815edaa",
-        "after": "f488b843068a4329ba5c1ceb3fc37e2f945af2684b7ceb204485d218fbcfd813",
-        "reason": "Door link, Media badge and footer subscribe styles for the generated homepage."
-      },
-      {
-        "path": "src/components/homepage-release/markup.ts",
-        "before": "cde3a109ff746a5091de7f9eb1ddbadcbccbe582b0fa7701b00f457aa466539f",
-        "after": "0f589640210555efe2986b96a544ee382481f0e056e13ce6c84b3038b0c1ce14",
-        "reason": "Regenerated by scripts/qa/build-homepage-release.mjs from the unchanged R3 source."
-      },
-      {
-        "path": "src/components/homepage-release/page.css",
-        "before": "3f85787cdc8c72a2086eccf2b0966d729c7257739eb1ea006f903c64bab2775c",
-        "after": "3147e0b867fcc4349f96f79464c34c7dd4c494ce83cf0b4b0184efed40bf37a0",
-        "reason": "Regenerated by scripts/qa/build-homepage-release.mjs from the unchanged R3 source."
-      },
-      {
-        "path": "src/components/homepage-release/runtime.js",
-        "before": "455f458d711100018037fa60b6d742570b261d85da143f3dc766d497a5695419",
-        "after": "bbeac985862c1deccc98565760f28fa3b2d11a4071346afca0ce682211ee8710",
-        "reason": "Regenerated by scripts/qa/build-homepage-release.mjs from the unchanged R3 source."
-      },
-      {
-        "path": "scripts/qa/build-homepage-release.mjs",
-        "before": "25bfdab816dce88af772b9922540d984f4afddd39257600cac887fa84b25fe25",
-        "after": "736f8f605e56334efa217751ee1efcb9f233515a9d50fcf7d9413e0a5b25c3ae",
-        "reason": "The authorised correction: hero doors become links to /ai-brain and /ai-gtm (their binding to the closing chapter's scroll is removed, door selectors follow the element), and Media gains its badge, the subscribe URL and the footer's subscribe button. Each is counted and the build fails if the R3 source drifts."
-      },
-      {
-        "path": "scripts/qa/homepage-release-adapter-check.mjs",
-        "before": "247a946cff44752053ae807edec2a452d82a639ca6cd410caa49c0d3639301d4",
-        "after": "d8c97d1a1dd08cd654b6c0b09cea5dda98d6efd6e0f948abbe53308ef14afab5",
-        "reason": "Asserts the door is a link to /ai-gtm and navigates there, then the closing-chapter toggle, in place of the retired scroll. It waits for the GTM page itself, because the URL changes before the transition sets the page in. The cookie notice step names Decline: since r31 the notice has two buttons, and the unqualified locator failed identically on main 16c876e."
-      },
-      {
-        "path": "src/test/brief2-public-contract.test.ts",
-        "before": "a79098a6646f64c5d1ea67a9e7463bf295a2d9c7457b869e9082d3748ef1c32a",
-        "after": "9e51996473231ec1d5ce8790c3dba3ba5f4815501a0f63ec61de709741ae0dae",
-        "reason": "The publication contract now asserts the band is gone and Subscribe for free is offered by the shell, footer and brief success, in place of asserting the band."
-      },
-      {
-        "path": "src/pages/AiGtm.tsx",
-        "before": "7229c390932eb445bedde9b67a72330eb9527304348171f8d02b7dbc300bf687",
-        "after": "42183ec976b21643375d74f549fe207e72feb7da980ebd79c7ffef0efe856bab",
-        "reason": "PairingBridge at the foot of the page."
-      },
-      {
-        "path": "src/components/RouteTransitions.tsx",
-        "before": null,
-        "after": "2ea90affe111da73822be30636456cb6d049503d7abc76dae683bc249edc474b",
-        "reason": "New in this record."
-      },
-      {
-        "path": "src/lib/preloadable.ts",
-        "before": null,
-        "after": "bceff4b2c15d2963d2d5b261b838d77ab972c01965b27f953f4b074f15f43ce1",
-        "reason": "New in this record."
-      },
-      {
-        "path": "src/styles/route-transition.css",
-        "before": null,
-        "after": "a36631807614c9a976c610b514526d96e34ed670f71488c6e2bdf6ed7f422154",
-        "reason": "New in this record."
-      },
-      {
-        "path": "src/components/mindmake/PairingBridge.tsx",
-        "before": null,
-        "after": "8b4a6799f67347b3b3cb74087796251bba480c1cc384e6600ba801947f2e15ef",
-        "reason": "New in this record."
-      },
-      {
-        "path": "src/styles/mindmake-pairing.css",
-        "before": null,
-        "after": "a92612c651b8c8156e8dae3f9232bdc0790b9cc0cbbb68a05631a272324c3020",
-        "reason": "New in this record."
+        "path": "src/styles/mindmake.css",
+        "before": "3b1fc6bd4e6c0529304bf2d439f03b823dfde446ca22cbc4330894960c6f3249",
+        "after": "43cd088bb6b49d800ae9e306cc4b05ab4816b8d009c8797f3a4f62d08aef8f06",
+        "reason": ".mm-cookie-actions groups Allow and Decline, so a narrow notice wraps both answers together rather than stranding Decline on its own line."
       }
     ]
   },
@@ -425,11 +274,6 @@
       "path": "prototypes/website-redesign-recovery/gtm-market-change/index-motion.html",
       "lastHash": "8754e189e077ead09728e4e8b78ed26ad9b872a0d8b9d4b3503bc76ee7e98aef",
       "reason": "No longer routed or imported; superseded by GTM-PLAIN-R2. Recorded in project-documentation/history/LOG.md."
-    },
-    {
-      "path": "src/components/mindmake/SubscribeBand.tsx",
-      "lastHash": "55830e8053d2851e7795d2a34c368997d18b5bb49ca06a8d6a6a7398fadc1bee",
-      "reason": "Removed on Krish's instruction (2026-09-25). Its film and poster remain in use elsewhere. Recorded in project-documentation/history/LOG.md."
     }
   ]
 }

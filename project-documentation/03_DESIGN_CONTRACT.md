@@ -6,9 +6,9 @@ Current at the 24 September 2026 production release. This is a current contract,
 
 The published homepage is the accepted R3 synthesis, compiled from its immutable source, with the two explicitly requested pinned scroll builds. Preserve its approved copy, positioning, layout, imagery, labels and device-specific choices. Do not reconstruct it from these prose rules or use an older generic rule to undo an accepted component. A new visual or commercial decision requires explicit approval and a traceable decision record.
 
-`src/pages/Index.tsx` mounts `src/components/homepage-release/markup.ts`, `runtime.js` and `pinnedChapters.ts`. Their styles are `component-styles.css`, `page.css`, `integration.css` and `pinnedChapters.css`. The compiler, approved-source manifest and route lock are release gates; generated output is not an independent design source.
+`src/pages/Index.tsx` mounts `src/components/homepage-release/markup.ts` and `runtime.js`, and the shared chapters in `src/components/leadership-chapters/leadershipChapters.ts`. Their styles are `component-styles.css`, `page.css` and `integration.css`, with `src/styles/new-age-leadership-r5.css` for the chapters. The compiler, approved-source manifest and route lock are release gates; generated output is not an independent design source.
 
-The homepage contains opening, history, authority, leadership dividend, route choice and footer, with its navigation overlay. `/new-age-leadership` remains a companion route. The homepage itself carries the historical argument and human/AI organisation: these are not companion-only content. Do not add the former founder portrait, logo strip, testimonial deck or other retired homepage sections because an old inventory listed them.
+The homepage contains the opening, the three new-age leadership chapters, route choice and footer, with its navigation overlay. The chapters are the organisation changing shape ("And now, AI"), what this feels like in practice, and what your AI Brain makes possible beside the returned hour. Krish replaced R3's history, authority and leadership-dividend chapters with them on 25 September 2026 (r35). They are one source shared with `/new-age-leadership`, which remains a companion route and keeps the historical argument. Do not add the former founder portrait, logo strip, testimonial deck or other retired homepage sections because an old inventory listed them.
 
 ## Durable visual and editorial rules
 
@@ -35,7 +35,7 @@ One section carries one intelligible idea. A pinned chapter can use extra scroll
 
 The existing system uses ink, raised ink and paper, mint for the selected/answer state and amber for changed/evidence accents. Shared tokens live in `src/styles/mindmake.css`; the approved homepage has its own compiled component styles. Read those actual sources rather than treating an older hexadecimal table as authority to repaint R3.
 
-The self-hosted faces are Archivo, Newsreader, IBM Plex Mono and Source Serif 4. Typeface role and scale in the approved composition are locked. Structural introductory copy and expressive story questions must remain visibly differentiated; a generic “serif only three times” rule must not overwrite the accepted serif headings.
+The self-hosted faces are Archivo, Newsreader, IBM Plex Mono and Source Serif 4. Every page uses the AI Brain page's type system (Krish, 2026-09-25): light Newsreader for headlines, Archivo for body and actions, IBM Plex Mono 400 for labels. The shell carries it through `--mm-body` and the `.mm-site` heading default in `src/styles/mindmake.css`, so a page gets it without its own rules. Source Serif 4 is kept only for the private brief document's brand line and is not a page face. Typeface role and scale in the approved composition are locked. Structural introductory copy and expressive story questions must remain visibly differentiated; a generic “serif only three times” rule must not overwrite the accepted serif headings.
 
 Ground-aware colors must remain readable on both ink and paper. Mint as a filled surface is distinct from mint as text. Meaningful body text meets AA contrast; small labels are not exempt. Source labels and consent/error copy must not become faint decorative captions.
 
@@ -47,7 +47,7 @@ No word and no link may sit alone on a new line, on any page, at the normal desk
 
 Entrance choreography is sanctioned only when content remains readable if the reveal never fires. Script failure, an unavailable observer and reduced motion must retain readable content and operable controls; choreography cannot be a prerequisite for access.
 
-The two approved homepage pins are history and leadership dividend. Their native sticky geometry and scroll-driven state progression live in `pinnedChapters.ts`; the runtime supplies direct controls. They advance through the complete approved sequence, release at the end and reverse naturally. Do not replace them with long stacked story panels or intercept wheel/touch input into an inescapable trap.
+The homepage pins are the three new-age leadership chapters: reach (two states), practice (three, above 900px; below it the scenes flow one after another) and the six AI Brain benefits. Their native sticky geometry and scroll-driven state progression live in `leadershipChapters.ts`, with direct controls that move the page to a state. They pin under the homepage's fixed masthead, advance through the complete approved sequence, release at the end and reverse naturally. Reduced motion keeps the pins and drops transitions and films. Do not replace them with long stacked story panels or intercept wheel/touch input into an inescapable trap.
 
 Test both scroll directions, every intermediate state, entry and exit, rapid navigation, and direct control selection. Verify headings and body fit inside the actual remaining viewport below the fixed masthead. Runtime enhancement must never trap focus or expose hidden duplicate variants to assistive technology.
 

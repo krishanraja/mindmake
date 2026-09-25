@@ -1,12 +1,15 @@
 {
-  "artifact": "mindmake-approved-production-routes-r34",
+  "artifact": "mindmake-approved-production-routes-r35",
   "recordedAt": "2026-09-25",
-  "status": "candidate record. Client routes survive one dropped chunk request instead of replacing the prerendered page with the error boundary.",
-  "scopeRequested": "Krish, 2026-09-25, approving the plan whose follow-up was: a failed lazy chunk must not take the whole route to the error page.",
+  "status": "candidate record. The homepage replaces R3's history, authority and leadership-dividend chapters with the three /new-age-leadership chapters: the organisation changing shape, what this feels like in practice, and what your AI Brain makes possible with the returned hour.",
+  "scopeRequested": "Krish, 2026-09-25, with screenshots of the three /new-age-leadership sections (\"The organisation changes shape.\", \"The system does not replace your judgement. It brings more to it.\" and \"What your AI Brain makes possible\" beside \"The returned hour\"): \"these 3 sections in new-age-leadership should be used on the homepage instead of the 3 sections that are currently there, the existing sections should be scrapped.\"",
   "sessionDecisions": [
-    "Found during the r33 production readback: /ai-brain showed \"Something went wrong\" on the one load where the shared evidence-connects-loop chunk failed to arrive, while every asset served 200.",
-    "src/App.tsx wraps each client route in lazyRoute (src/lib/lazyRoute.ts): one retry after 400ms, then one page reload guarded per path in sessionStorage, then the existing boundary. The server entry imports pages eagerly and is unchanged, so hydration is unchanged.",
-    "Chromium keeps a failed dynamic import for the life of the document, so the reload is what recovers there. Built-site proof with the chunk aborted: before, one drop showed the error page; after, one drop renders the page after one reload, and a chunk that always fails reloads once and then shows the boundary."
+    "The three sections are carried whole, as /new-age-leadership has them, including each one's first state: the reach sequence opens on \"The feeling is familiar. The reach is new.\" before \"The organisation changes shape.\", and the practice sequence runs Notice, Connect, Prepare.",
+    "One source for both pages: src/components/leadership-chapters/leadershipChapters.ts owns the three chapters' markup and scroll behaviour. /new-age-leadership renders from it and its prerendered HTML is unchanged apart from asset hashes and aria-hidden on its four decorative chapter films.",
+    "The homepage generator (scripts/qa/build-homepage-release.mjs) cuts the three R3 chapters from the immutable R3 source's markup, runtime and styles by named anchors that fail the build if missing, and inserts the shared chapters between the opening and the route. The R3 source itself is untouched. The skip link now targets the new chapters.",
+    "The R3 pin controller (pinnedChapters.ts/.css) and its lifecycle test are retired; the new chapters pin with their own R5 sticky tracks, as on /new-age-leadership. Reduced motion keeps the pins and drops transitions and films, which is that page's approved policy.",
+    "Homepage-only integration: the chapters pin under the homepage's fixed masthead (66px, 64px on a phone) and take its gutter (4.4vw, 5.13vw at 700px and below). Below 900px two R5 rules (a flat 16px phone padding and a stale flex justify-content on what is now a grid) put the reach copy off that edge; the homepage corrects both.",
+    "The homepage scroll contract now declares reach (2 states) and benefits (6) at 1440x900 and 390x844, and practice (3) at 1440x900 only, since below 900px the practice scenes flow one after another by design."
   ],
   "routes": [
     "/",
@@ -41,14 +44,14 @@
     "prototypes/website-redesign-recovery/brain-signature/index-s2-motion-s3.html": "423659d864e79a72a55d4fd3ca9450b610e616187929293f1e0a8faaafbff2c6",
     "src/styles/mindmake-locked-gtm.css": "84757e31da19b762a6e48e7e4d81906fa97aec02c2f58e61df9c015d5faf667e",
     "src/data/vnext/gtm-signals.json": "5ab7fac6ce8ebdab6b69b73f60e184a7e4df8d923d97edd29c38872648c3bf7f",
-    "src/pages/NewAgeLeadership.tsx": "13e976c82d0509c063811a8364aacb7e3d627b73a22f2e68abe8ba943c1aa856",
+    "src/pages/NewAgeLeadership.tsx": "96a0b024fd35ef96e99f114e7e9427588abeeab49711cd4af0cf3b406c690cc0",
     "src/styles/new-age-leadership-r5.css": "fd3b442e93674e9d3e1cb422cc0d16903a2e747bbb1d62d3fd7d78d2df374ace",
     "src/components/mindmake/locked/CommercialDecisionBalance.tsx": "f57849b19f5d15ecb5e9fd664833cfcf0d5e07bbd355d71656c243ac5c2a3410",
     "src/styles/mindmake-commercial-decision-balance.css": "a2fb68466e0835aa4023a2c503c92e66cea3465ac94fdec5ce4d43ec37af3554",
     "src/components/mindmake/locked/CaseProofField.tsx": "bb57f13fbbf6bf93485c2e8a1f513a31cd922f5cfaa08ab6e18e7c4aaa98911f",
     "src/pages/CaseStudies.tsx": "6f98157401aeb3d9beff18b8ec17fc167971b6fdf29b80ee5f3e5b3223866f98",
     "src/styles/mindmake-instruments.css": "d5a358250a736c65011e08bd3221195acb02b9937049d1a11acfb7d7a213f03d",
-    "src/pages/Index.tsx": "485a04421a98c852d3e8870e9ebf4d49f4d253efc179a10385060efe558a028f",
+    "src/pages/Index.tsx": "c13f6d753acf1747155e6a4a533fdb4dce17fed6d8764566dcc31e2338b7e0a5",
     "src/styles/mindmake-home-vnext.css": "99bfc17c302fb476510452fc029268e85221c8cdcf43b133c9f921c095ac52ca",
     "src/pages/Blog.tsx": "eedb74a049c1eae8ba9dbafa9793029b8076375aee279076797e7e2184cb8ae1",
     "src/pages/BlogPost.tsx": "c63b50eefc00ca13a849c824035a3f1681bf14a74b5b2123cfcdbad4f0015613",
@@ -64,25 +67,23 @@
     "src/data/testimonials.ts": "24466efccdb455aef4698f7e0a4a00e4885ecb43cf6245bf5255e1369e7d0663",
     "src/App.tsx": "0dacd065479c9d078c7dcac47d1aeecd294a7ac6bc85b3a7c572dc1ea465bd65",
     "src/entry-server.tsx": "c7b23fef712f8bdba0ef48e32c78761b9313fcdcec06747f61ecf46b15e80126",
-    "scripts/qa/approved-route-lock-check.mjs": "a10f4cb1cf050343b0e4ee01680ed353bba191f87c0879025e277d49c60f074e",
-    "scripts/qa/approved-route-lock-self-test.mjs": "d32bb3673771b077123c7bd1ba9554378ff31c3493b233b973504c8454af0284",
+    "scripts/qa/approved-route-lock-check.mjs": "f62db2dfa82f3f969956359b6f4142fc97810cfa67215fb8ba7bc6ec1bcf3668",
+    "scripts/qa/approved-route-lock-self-test.mjs": "abf744bdd38d536970ad2f19b9f8860b75fb27b69bb010ab6d760af6a0fe2bd6",
     ".github/workflows/approved-route-lock.yml": "a8436f33851fea66cfb2cc3a4cf3e888a0baa5bd068dd6f82bd7684cab90c61c",
     "scripts/qa/locked-material-production-check.mjs": "b021940985b52171064d8cfdb9f439c58b440f433de79f3882329559daeeb61d",
     "scripts/qa/full-route-continuity-check.mjs": "9e1bbdf0c98453e63392b0ed6cd775e158c6d312e3dab27ccc901b4863929df9",
     "scripts/qa/plain-language-check.mjs": "639c62446bf7f3a01693ba1fc20e446e23ba8fbc8d17bc429e41da951fafd9a8",
-    "src/components/homepage-release/component-styles.css": "0b514cc3fb6a68369a22865569557b40119506f2785fcf3bace34270a4a15409",
-    "src/components/homepage-release/integration.css": "26523479663af72dc39b83c96f71eadbd814d59ce34c503fb0c73c388815edaa",
-    "src/components/homepage-release/markup.ts": "cde3a109ff746a5091de7f9eb1ddbadcbccbe582b0fa7701b00f457aa466539f",
-    "src/components/homepage-release/page.css": "3f85787cdc8c72a2086eccf2b0966d729c7257739eb1ea006f903c64bab2775c",
-    "src/components/homepage-release/pinnedChapters.css": "cbd0045559d53625b7e033c6efdc1040e209d12d948d3d54aff61803d382f3c6",
-    "src/components/homepage-release/pinnedChapters.ts": "d3f0c747e3d52cce0054072276ea018e7dc3c04f0173a1f3ab36533092237886",
-    "src/components/homepage-release/runtime.d.ts": "775442011d8988d11986add6b3bdc1e07c9095905f83077b76672d0f0be2103c",
-    "src/components/homepage-release/runtime.js": "455f458d711100018037fa60b6d742570b261d85da143f3dc766d497a5695419",
-    "scripts/qa/build-homepage-release.mjs": "25bfdab816dce88af772b9922540d984f4afddd39257600cac887fa84b25fe25",
-    "scripts/qa/homepage-release-browser-check.mjs": "d752c10c4767edf6825610e379b7798f49b2e4939cf652b98ff538486b7a4741",
-    "scripts/qa/homepage-release-adapter-check.mjs": "247a946cff44752053ae807edec2a452d82a639ca6cd410caa49c0d3639301d4",
+    "src/components/homepage-release/component-styles.css": "c5811cf6b5913ef9c63db1355fb330fb99a9553e2804236c33d6093834805b75",
+    "src/components/homepage-release/integration.css": "f1d664b887e6ee5056eb1c11c0de9e5d76a8aa61a4a3221a399d32dd0e022945",
+    "src/components/homepage-release/markup.ts": "517e055eb43662f05d79070b2ae28c714d400614b72ee0bf92c42901dbc52072",
+    "src/components/homepage-release/page.css": "d171a564929bd223093d147acf9c0d7273b0d6f5b042bdcaceceed6d5b2206c7",
+    "src/components/homepage-release/runtime.d.ts": "e2339b4db423e47fb72a13901762a40ab8c7dc665c72ae27cad03c9015c99509",
+    "src/components/homepage-release/runtime.js": "30087b37e5019f3e52639e35db38e925cd68e1c7b9b5f75fa068115367ed746c",
+    "scripts/qa/build-homepage-release.mjs": "3e65c770ed7e3917a7c03a240d68febc68e3110b53bf4f2dd9c00aea64efc19e",
+    "scripts/qa/homepage-release-browser-check.mjs": "fd6bdb6aaaa4c8bb078f9a8be1ade8e8f06a60713979d18db4845fcce3693e75",
+    "scripts/qa/homepage-release-adapter-check.mjs": "8d746eff9258c5b491238e6cbaea41e378c047f340a31b6baaaf0fdad2a512f6",
     "scripts/qa/homepage-release-visual-parity-check.mjs": "c45405559cb8a5e3499b5d29e9d9b397dadfaedc48efe409fe8f0cbfc33573ad",
-    "scripts/qa/homepage-scroll-contract.mjs": "9928524f2817b259208899a1e9a492454825f9a062f30ae1f4f3c3cd0b877a77",
+    "scripts/qa/homepage-scroll-contract.mjs": "4288a56759c3ef772e4ad3c0834b1cbf91624180711ec876648d5aa43d8b17ca",
     "scripts/qa/scroll-build-evidence.mjs": "1ae4a330c831d6accbfba3ba869c0c9a1d259e2b8258b524e2aa74408bbbabbc",
     "scripts/qa/scroll-build-evidence-selftest.mjs": "1e82f4d67511254bdb3e41740d57a4b7b1dff1e6e30790e0f935c6c4bc898e99",
     "scripts/prerender.mjs": "f0bcb76106e4762595d624c2068636341f4ef8ee4bd39426e9a6c7409d6be867",
@@ -93,7 +94,6 @@
     "scripts/qa/website-feedback-ledger-check.mjs": "66520939db0aee662ede06de88ddc777959729ed65a1d6ae031578b85f27abec",
     "scripts/qa/release-route-smoke.mjs": "4185de113028a507c4fd2038e21e7f77f2e0978d02e2bd0840b1616c3f6cd1de",
     "src/test/case-proof-hydration.test.tsx": "21818d3aecee30f013b26d90a6f94441f100924e3f53f36046bf0e74b88bd811",
-    "src/test/homepage-pin-lifecycle.test.ts": "35e7790170f6334afc540a6286f14e2e42eb31b8e78d55915bee522764774571",
     "src/test/homepage-navigation-focus.test.ts": "9f4b69a846bcf5db7afe289840363fc08523d68bf10033e8f1ce8f33f67ae07c",
     "src/pages/AiBrain.tsx": "8cafeb3fd3ea7c85664a6a002cd12a1562c18121d68a81572899ecd7a0c5c250",
     "package-lock.json": "6a7f43aa68c44c768f2cc01f6fbfd8aa2bb4628bd5b8fdbe1c83a1098ca59261",
@@ -105,7 +105,7 @@
     "scripts/generate-llms.mjs": "c100fc1a8c9614974484b99679697de3baf6181fffb8b31dd4a24496a11701c5",
     "scripts/qa/discoverability-check.mjs": "88a1be5190fcfa2b55dc32a985b327fc72d7736f3b5d3bac24427173ae5f343a",
     "scripts/qa/current-documentation-check.mjs": "8ccfa7ac79df3f956798223a578f18d8162b4c9c3acc8fd18cec1fbfff4bc405",
-    "scripts/qa/website-restart-contract-check.mjs": "2c478545c466a1c1284057bd4ae0815b61c0266c493c4ce515a464cf48880742",
+    "scripts/qa/website-restart-contract-check.mjs": "345cf1e64606539bae66d84a5e5b0a3aeb159ece83476937c55f7299d758b633",
     "src/test/discoverability.test.ts": "5327fa483bd558580dced126a666e54df427d6664aff614e115bfab0fc8b3b3b",
     "src/test/seo-prerender.test.tsx": "a49ddfaea0d4e25b3efcbd7342a40d92d8e8d96a52cf146a3b2468bd63ad674c",
     "src/test/seo-navigation.test.tsx": "df5fdc636cde34d682bec1b9ed80d5e4e47d412e8ca4af8d64bac2719722bb15",
@@ -140,16 +140,21 @@
     "prototypes/website-redesign-recovery/case-study-browsing-r2/script.js": "6b37f9b58f88cf4fc34ade4cf0421719738675f910e1c54842d4935acd32676e",
     "prototypes/website-redesign-recovery/case-study-browsing-r2/review.html": "b318df0581aa87f00f61891422d7c607e861de4d70d79b360d790c94191da4eb",
     "prototypes/website-redesign-recovery/case-study-browsing-r2/check.mjs": "7ff2d8d91dccfae045ed9445ed917bd4b87564402745d7a0bbc35f9acf51a136",
-    "scripts/qa/logo-alignment-check.mjs": "1607b5e53ba4d6807e305e20662024c96f48029ed2b47d008979eb147c71db99",
+    "scripts/qa/logo-alignment-check.mjs": "e72e918dfc8ac2019ed423f1a08c37c329c967bf0f958203ef07b95e8d3cce7b",
     "src/styles/new-age-leadership-r6.layer.css": "546986da7d3b4a6bd23053ed69aa996400db8c4f140b39050a9a11a058be60ca",
     "scripts/qa/build-new-age-r5-styles.mjs": "a5cba878c8e6293f7c61fce3b52bce4c3c269d5f4fc6cf9cb2e8c8a607c5d19a",
     "scripts/qa/new-age-r5-production-check.mjs": "ae90d891a1b36208d6ec40b862b2916e012adf75749043f317eb1dea634386cf",
     "src/pages/AiGtm.tsx": "7229c390932eb445bedde9b67a72330eb9527304348171f8d02b7dbc300bf687",
     "src/styles/mindmake-gtm-plain.css": "787983312dc8812cdcaecd6c2120a8f3bd636ac9f2e5d8b98c864c5da4b473d9",
     "quality/ai-gtm/approved-plain-r2.json": "b42d8a6e66f822150c6c49d3059aaf09b86d6f92dcb7b243114ae359041578cc",
-    "src/lib/lazyRoute.ts": "24b6b3f403f670143ed84c743c402ceef93e4d3f5e61cd7c3316182205b329ab"
+    "src/lib/lazyRoute.ts": "24b6b3f403f670143ed84c743c402ceef93e4d3f5e61cd7c3316182205b329ab",
+    "src/components/leadership-chapters/leadershipChapters.ts": "ca3df3202fec02644693c16be62029790e3493a642f72352e11cf33c37249bf3",
+    "src/test/homepage-leadership-chapters.test.ts": "5700fe73fb869ff4a4a53d12e83e2f64c3c5653cf090d9df8b87764a9115df30"
   },
-  "newlyLocked": [],
+  "newlyLocked": [
+    "src/components/leadership-chapters/leadershipChapters.ts",
+    "src/test/homepage-leadership-chapters.test.ts"
+  ],
   "minimumContracts": {
     "brain": {
       "meanings": 20,
@@ -200,21 +205,11 @@
     "price the result"
   ],
   "verification": {
-    "status": "Run on 2026-09-25, Linux, Node 22.22.2.",
-    "performed": [
-      "qa:approved-routes and its self-test against this record: pass.",
-      "qa:homepage-handoff, qa:website-feedback, qa:material-review:self-test, qa:plain-language, qa:docs, typecheck, lint, 556 unit tests, the canonical build and qa:homepage-release:pre-merge: pass.",
-      "Built-site browser proof on /ai-brain at 1440x900 and 390x844: no request to googletagmanager.com on load or after scrolling the notice into view, one after Allow and one on reload with the stored answer, none after Decline or for the older 'accepted', and /privacy's control clears the answer. Notice screenshots reviewed at both widths: one row at 1440; at 390 the text on one row and both answers together on the next, with the action bar stacked above.",
-      "qa:chrome crashes at fixed-chrome-check.mjs:142 (execution context destroyed), identically on unchanged main 114a5f0; not caused by this change."
-    ],
-    "required": [
-      "Production readback: no request to googletagmanager.com before Allow; gtag.js and the collect request after it."
-    ],
-    "physicalException": "VoiceOver on physical iPhone and TalkBack on physical Android not performed."
+    "status": "pending"
   },
   "supersedes": {
-    "path": "quality/route-lock/approved-production-r30.json",
-    "reason": "Consent-gates the Google tag added in r29. No earlier record is rewritten."
+    "path": "quality/route-lock/approved-production-r34.json",
+    "reason": "Replaces the homepage's three R3 chapters with the shared new-age leadership chapters. No earlier record is rewritten."
   },
   "textLineEndings": "lf",
   "browserPlatforms": {
@@ -225,37 +220,12 @@
     },
     "expectedRouteCases": 208,
     "expectedSupplementalCases": 9,
-    "motion": "All twelve ordered-state cases and fallbacks on both platforms",
+    "motion": "All fifteen ordered-state cases (five per engine) and the reduced-motion and short-screen fallbacks on both platforms",
     "rationale": "project-documentation/website-redesign/RELEASE-2026-09-24.md"
   },
   "scope": {
-    "baselineCommit": "114a5f0",
-    "allowedExistingChanges": [
-      {
-        "path": "scripts/qa/approved-route-lock-check.mjs",
-        "before": "90f58bfcae2f99011e6c9051fc8cfda25314535ca8f3c29f75a16f5b7a287ec3",
-        "after": "b9b84dba87183335e891cb5781eb5d7c4150333d71ae11b594354de5365d3e70",
-        "reason": "Selects this new record."
-      },
-      {
-        "path": "scripts/qa/approved-route-lock-self-test.mjs",
-        "before": "b1262c62384b322732aacd48c47b5dac9fe797ca44ef20113742435f7d35f785",
-        "after": "142998e0b690333a6f1631a7bd487442085317ded2d85a651bc12b8f06a5ed19",
-        "reason": "Selects this new record."
-      },
-      {
-        "path": "index.html",
-        "before": "f75a14fc6d02bb29a8aa281712377d8b5b2aa70634d26f07dc4f93ddd30fd2a6",
-        "after": "b6fb79d2ae3a093bd678f2164be46d753d2976747e138123de40dfab8e293312",
-        "reason": "The Google tag waits for consent: the config is queued with every storage type denied, and gtag.js is requested only for a stored \"analytics\" choice or from the notice's Allow."
-      },
-      {
-        "path": "src/styles/mindmake.css",
-        "before": "3b1fc6bd4e6c0529304bf2d439f03b823dfde446ca22cbc4330894960c6f3249",
-        "after": "43cd088bb6b49d800ae9e306cc4b05ab4816b8d009c8797f3a4f62d08aef8f06",
-        "reason": ".mm-cookie-actions groups Allow and Decline, so a narrow notice wraps both answers together rather than stranding Decline on its own line."
-      }
-    ]
+    "baselineCommit": "dd7f68d",
+    "allowedExistingChanges": []
   },
   "additionalTextExtensions": [
     ".svg",
@@ -272,6 +242,21 @@
       "path": "prototypes/website-redesign-recovery/gtm-market-change/index-motion.html",
       "lastHash": "8754e189e077ead09728e4e8b78ed26ad9b872a0d8b9d4b3503bc76ee7e98aef",
       "reason": "No longer routed or imported; superseded by GTM-PLAIN-R2. Recorded in project-documentation/history/LOG.md."
+    },
+    {
+      "path": "src/components/homepage-release/pinnedChapters.css",
+      "lastHash": "cbd0045559d53625b7e033c6efdc1040e209d12d948d3d54aff61803d382f3c6",
+      "reason": "The R3 history and leadership-dividend pin controller. Retired with those chapters; the new-age leadership chapters pin with their own sticky tracks."
+    },
+    {
+      "path": "src/components/homepage-release/pinnedChapters.ts",
+      "lastHash": "d3f0c747e3d52cce0054072276ea018e7dc3c04f0173a1f3ab36533092237886",
+      "reason": "The R3 history and leadership-dividend pin controller. Retired with those chapters; the new-age leadership chapters pin with their own sticky tracks."
+    },
+    {
+      "path": "src/test/homepage-pin-lifecycle.test.ts",
+      "lastHash": "35e7790170f6334afc540a6286f14e2e42eb31b8e78d55915bee522764774571",
+      "reason": "The R3 history and leadership-dividend pin controller. Retired with those chapters; the new-age leadership chapters pin with their own sticky tracks."
     }
   ]
 }

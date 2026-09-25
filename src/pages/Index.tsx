@@ -5,17 +5,19 @@ import { useLeadBriefHistory } from "@/hooks/useLeadBriefHistory";
 import { track } from "@/lib/analytics";
 import { homepageMarkup } from "@/components/homepage-release/markup";
 import { mountHomepageRuntime } from "@/components/homepage-release/runtime";
-import { mountPinnedChapters } from "@/components/homepage-release/pinnedChapters";
+import { mountLeadershipChapters } from "@/components/leadership-chapters/leadershipChapters";
 import "@/styles/mindmake.css";
+import "@/styles/new-age-leadership-r5.css";
 import "@/components/homepage-release/component-styles.css";
 import "@/components/homepage-release/page.css";
 import "@/components/homepage-release/integration.css";
-import "@/components/homepage-release/pinnedChapters.css";
 
 /**
  * Production delivery of the accepted R3, not a reconstruction of it.
  * Markup and styles are compiled from its immutable source. React owns the
- * lead journey; the bounded adapter owns chapter interaction and its cleanup.
+ * lead journey; the bounded adapter owns the opening, route and menu; the
+ * three new-age leadership chapters between them carry their own scroll
+ * behaviour, shared with /new-age-leadership.
  */
 export default function Index() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -40,7 +42,8 @@ export default function Index() {
         startRef.current(route);
       },
     });
-    const unpin = mountPinnedChapters(root, runtime);
+    const motion = matchMedia("(prefers-reduced-motion: reduce)");
+    const unmountChapters = mountLeadershipChapters(root, { reduced: motion.matches, media: true, canPlay: () => !motion.matches });
     /* The generated markup's own links: the hero doors go to their pages and
        the subscribe links leave for the publication. Measured here because
        the adapter only owns chapter interaction. */
@@ -54,7 +57,7 @@ export default function Index() {
     root.addEventListener("click", measure);
     return () => {
       root.removeEventListener("click", measure);
-      unpin();
+      unmountChapters();
       runtime.destroy();
       document.documentElement.classList.remove("mm-homepage-active");
       document.body.classList.remove("mm-homepage-active");

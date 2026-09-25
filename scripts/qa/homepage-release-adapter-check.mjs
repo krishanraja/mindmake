@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
 
 const base = process.env.QA_BASE_URL || 'http://127.0.0.1:64065';
-const browser = await chromium.launch();
+const browser = await chromium.launch(process.env.PLAYWRIGHT_CHROMIUM ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM } : {});
 const checks = [];
 try {
   for (const viewport of [{width:1440,height:900},{width:390,height:844}]) {
@@ -15,24 +15,25 @@ try {
     assert.equal(await page.locator('main').count(), 1, 'One homepage main landmark');
     assert.equal(await page.locator('.r3-opening .site-masthead:visible').count(), 1, 'One visible masthead');
     assert.equal(await page.locator('.hero-copy h1:visible').textContent(), 'Build the business that can think with you.');
-    assert.equal(await page.locator('.homepage-pin-track').count(), 2);
+    assert.equal(await page.locator('.mm-home-leadership :is(.reach-sequence, .work-scroll, .human-proof)').count(), 3, 'The three new-age leadership chapters');
+    assert.equal(await page.locator('[data-component="history"], [data-component="authority"], [data-component="leadership-dividend"]').count(), 0, 'The retired R3 chapters are gone');
     const broken = await page.locator('img').evaluateAll(images => images.filter(image => image.complete && !image.naturalWidth).map(image=>image.src));
     assert.deepEqual(broken, [], 'Imported image URLs resolve');
     await page.evaluate(() => {
-      const section = document.querySelector('[data-component="leadership-dividend"]');
-      const track = section.closest('.homepage-pin-track') || section;
+      const track = document.querySelector('.mm-home-leadership [data-benefit-track]');
       window.scrollTo({top: window.scrollY + track.getBoundingClientRect().top + 1, behavior:'instant'});
     });
     await page.locator('.mm-cookie-notice').waitFor();
     await page.waitForTimeout(300);
-    const clear = await page.locator('[data-practice="0"]:visible').evaluate(element => {
+    const clear = await page.locator('.mm-home-leadership [data-benefit-next]').evaluate(element => {
       const notice = document.querySelector('.mm-cookie-notice').getBoundingClientRect();
       return element.getBoundingClientRect().bottom <= notice.top + 1;
     });
-    assert.equal(clear, true, 'Cookie notice does not cover practice controls');
-    await page.locator('[data-practice="2"]:visible').click();
-    assert.equal(await page.locator('[data-practice="2"]:visible').getAttribute('aria-current'), 'true');
-    await page.locator('.mm-cookie-notice').getByRole('button', {name:'Decline'}).click();
+    assert.equal(clear, true, 'Cookie notice does not cover the benefit controls');
+    await page.locator('.mm-home-leadership [data-benefit-next]').click();
+    await page.waitForTimeout(1300);
+    assert.equal(await page.locator('.mm-home-leadership [data-benefit-count]').textContent(), '02');
+    await page.locator('.mm-cookie-notice').getByRole('button', { name: 'Allow' }).click();
     await page.locator('.mm-cookie-notice').waitFor({state:'detached'});
     await page.evaluate(() => scrollTo({top:0,behavior:'instant'}));
     await page.locator('.r3-opening .menu-control:visible').click();

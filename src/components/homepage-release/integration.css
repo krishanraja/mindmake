@@ -5,9 +5,28 @@
 body.mm-homepage-active { margin: 0; }
 .mm-homepage-release .r3-footer { padding-bottom: var(--mm-cookie-reserve, 0px); }
 .mm-homepage-release .r3-navigation .menu-surface { bottom: var(--mm-cookie-reserve, 0px) !important; }
-.mm-homepage-release :is(.r3-history, .r3-dividend) { padding-bottom: var(--mm-cookie-reserve, 0px); }
-.mm-homepage-release :is(.r3-history, .r3-dividend) > .r3-variant {
-  height: calc(100dvh - var(--masthead) - var(--mm-cookie-reserve, 0px));
+
+/* The new-age leadership chapters. They are delivered from the same source as
+   /new-age-leadership and keep its R5 stylesheet through the .nal-page scope.
+   That page pins them under a 72px shell header; here they pin under the
+   homepage's own fixed masthead, so the pinned frame neither hides beneath it
+   nor leaves a gap above it.
+
+   The same goes for the gutter: that page's is clamp(22px, 4.4vw, 72px),
+   while the homepage wordmark sits on 4.4% of the frame and 5.13% once the
+   phone masthead takes over, so the chapters take the masthead's edge. */
+.mm-homepage-release .nal-page.mm-home-leadership { --header: var(--masthead); --edge: 4.4vw; }
+@media (max-width: 700px) {
+  .mm-homepage-release .nal-page.mm-home-leadership { --edge: 5.13vw; }
+}
+/* Two R5 rules leave the reach copy off that edge below 900px. Its phone
+   padding is a flat 16px rather than the gutter, and its tablet rule still
+   says `justify-content: flex-end`, written when the copy was a flex column
+   and now pushing the copy's grid track against the right edge (114px in at
+   768 against a wordmark at 34px). Vertical placement is untouched: the
+   R6 layer's `align-content: end` owns it. */
+@media (max-width: 900px) {
+  .mm-homepage-release .mm-home-leadership .reach-copy { justify-content: normal; padding-inline: var(--edge); }
 }
 
 /* ---------------------------------------------------------------------------
@@ -114,68 +133,6 @@ body.mm-homepage-active { margin: 0; }
     padding-inline: clamp(16px, 4vw, 22px);
     font-size: clamp(13px, 3.5vw, 15px);
   }
-}
-
-/* One left edge, through the chapters.
-
-   The masthead, the opening and the footer are drawn on 4.4% of the frame, and
-   5.13% once the phone variant takes over. The chapters below them are not: the
-   history, authority and dividend frames were composed on their own insets, and
-   there are five of them. At 1440 the chapter copy sits at 4.5% and the dividend's
-   benefit and return panels at 6% and 5%, so the wordmark, the headline under it
-   and the panel under that start on three different pixels, 1.4px and 23px apart.
-   At 390 it is wider and visible: the copy at 6% is 23.4px, the rails at 5% are
-   19.5px, the dividend's phone panels at 7% are 27.3px, and the mode switch is a
-   flat 12px, against a mark at 20px.
-
-   Everything here takes one of those numbers and gives it the frame's own edge.
-   No width, height, vertical position, type or colour is touched, so each
-   element keeps its drawn proportions and moves at most 23px sideways on a
-   desktop and 7px on a phone. Deleting this block restores the drawn insets
-   exactly.
-
-   Only the variants the approved markup selects are listed. The configurator's
-   other branches (`banded`, `prelude`, `stage-first`, `full-stage`, `copy-first`,
-   `cinematic`, `copy-position="right"`) keep their own numbers, because nothing
-   renders them and a rule for a frame that never appears is a rule nobody can
-   check. ------------------------------------------------------------------- */
-
-/* The desktop frames. Copy and headline on the left edge, rails, stages and
-   controls on the right one. */
-.mm-homepage-release :is(.r3-history, .r3-authority, .r3-dividend) .device-desktop :is(.bridge, .story-copy) { left: 4.4%; }
-.mm-homepage-release :is(.r3-history, .r3-authority, .r3-dividend) .device-desktop :is(.era-rail, .closing-hinge) { right: 4.4%; }
-.mm-homepage-release .r3-authority .device-desktop :is(.authority-copy, .film-label) { left: 4.4%; }
-.mm-homepage-release .r3-authority .device-desktop :is(.authority-stage, .stage-controls) { right: 4.4%; }
-.mm-homepage-release .r3-dividend :is(.practice-panel > header, .benefit-copy, .return-copy) { left: 4.4%; }
-.mm-homepage-release .r3-dividend :is(.practice-copy, .practice-controls, .benefit-controls) { right: 4.4%; }
-.mm-homepage-release .r3-dividend .benefit-controls { left: 4.4%; }
-
-/* The phone frames, where every one of them spans the screen. */
-.mm-homepage-release :is(.r3-history, .r3-authority, .r3-dividend) .device-mobile
-  :is(.bridge, .story-copy, .era-rail, .authority-copy, .authority-stage, .stage-controls,
-      .practice-panel > header, .practice-copy, .practice-controls,
-      .benefit-copy, .benefit-controls, .return-copy) {
-  right: 5.13%;
-  left: 5.13%;
-}
-
-/* The mode switch already takes 4.4vw on a desktop. Its phone rule is a flat
-   12px, which is the one piece of chapter chrome that sat outboard of the mark
-   rather than inboard. The safe-area guards are kept. */
-@media (max-width: 700px) {
-  .mm-homepage-release .r3-mode-switch {
-    right: max(5.13%, env(safe-area-inset-right));
-    left: max(5.13%, env(safe-area-inset-left));
-  }
-  .mm-homepage-release .r3-dividend .r3-mode-switch {
-    right: 5.13%;
-    left: 5.13%;
-  }
-}
-@media (max-width: 700px) and (orientation: landscape) {
-  /* The landscape rule releases the left edge so the switch can shrink to 60%
-     against the right one. That right edge is now the frame's. */
-  .mm-homepage-release .r3-mode-switch { left: auto; }
 }
 
 /* The arrival.

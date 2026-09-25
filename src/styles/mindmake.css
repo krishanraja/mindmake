@@ -18,14 +18,8 @@
   unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
 
-@font-face {
-  font-family: "IBM Plex Mono";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 500;
-  src: url("/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2");
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
-}
+/* No 500 Plex Mono: labels are the 400 weight the AI Brain page uses, and a
+   rule still asking for 500 resolves to it. */
 
 /* The fallback faces, sized to the faces they stand in for.
 
@@ -153,7 +147,10 @@
   /* Type roles */
   --mm-grotesque: "Archivo Variable", "Archivo Fallback", "Archivo Fallback Arial", "Helvetica Neue", Arial, sans-serif;
   --mm-serif: "Newsreader Variable", "Newsreader Fallback", Georgia, serif;
-  --mm-body: "Source Serif 4 Variable", "Source Serif Fallback", Georgia, serif;
+  /* Body and controls are Archivo, headlines Newsreader, labels Plex Mono:
+     the AI Brain page's system, which the owner ruled is the site's
+     (Krish, 2026-09-25). Source Serif 4 is no longer a site face. */
+  --mm-body: var(--mm-grotesque);
   --mm-mono: "IBM Plex Mono", "Plex Mono Fallback", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* Layout */
@@ -336,10 +333,11 @@ html {
   text-wrap: balance;
 }
 .mm-site h1, .mm-site h2, .mm-site h3, .mm-site h4 {
-  font-family: var(--mm-grotesque);
-  font-weight: 700;
-  letter-spacing: -.035em;
-  line-height: 1.04;
+  /* Headlines are the light Newsreader the AI Brain page sets its own in. */
+  font-family: var(--mm-serif);
+  font-weight: 400;
+  letter-spacing: -.04em;
+  line-height: 1;
   /* Balance equalises line lengths instead of filling each line, which is
      exactly what breaks a heading mid-phrase. It earns its place on a wide
      display measure and fights every heading that also carries a tight ch cap,
@@ -348,9 +346,11 @@ html {
   text-wrap: balance;
   color: var(--mm-fg);
 }
-.mm-site h1 { font-size: clamp(38px, 6vw, 62px); font-weight: 800; letter-spacing: -.04em; }
-.mm-site h2 { font-size: clamp(28px, 3.8vw, 44px); }
-.mm-site h3 { font-size: clamp(20px, 2.2vw, 26px); }
+/* Newsreader sets smaller on the body than Archivo did at the same size, so
+   each step is a fifth larger to hold the same presence. */
+.mm-site h1 { font-size: clamp(44px, 7vw, 76px); font-weight: 380; letter-spacing: -.05em; line-height: .96; }
+.mm-site h2 { font-size: clamp(32px, 4.4vw, 52px); font-weight: 390; }
+.mm-site h3 { font-size: clamp(22px, 2.5vw, 30px); font-weight: 420; letter-spacing: -.03em; }
 .mm-site button, .mm-site input, .mm-site textarea, .mm-site select { font: inherit; }
 /* The whole link default for the site, in the file that decides public
    surfaces. It used to be half here and half in the scaffold stylesheet, and
@@ -383,7 +383,7 @@ html {
   display: block;
   font-family: var(--mm-mono);
   font-size: 10px;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: .14em;
   text-transform: uppercase;
   color: var(--mm-muted);
@@ -465,6 +465,11 @@ html {
   .mm-button:hover { background: #96eec5; box-shadow: 0 0 0 4px var(--mm-mint-wash); }
 }
 .mm-button:active { background: var(--mm-mint-dim); transform: translateY(1px); }
+/* The action voice is Archivo in sentence case, as on the AI Brain page and the
+   homepage. Two classes because `.mm-site button { font: inherit }` would
+   otherwise hand a <button> the body setting while an <a> kept the mono. */
+.mm-site .mm-button { font: 700 15px/1.1 var(--mm-grotesque); letter-spacing: -.01em; text-transform: none; }
+.mm-site .mm-button-small { font-size: 13px; }
 .mm-button-quiet {
   border-color: var(--mm-rule);
   background: transparent;
@@ -1120,7 +1125,7 @@ html {
   font-family: var(--mm-mono);
   font-size: 10.5px;
 }
-.mm-blog-featured footer strong, .mm-blog-card footer strong { display: inline-flex; align-items: center; gap: 7px; color: var(--mm-mint); font-weight: 500; }
+.mm-blog-featured footer strong, .mm-blog-card footer strong { display: inline-flex; align-items: center; gap: 7px; color: var(--mm-mint); font-weight: 400; }
 .mm-blog-featured svg, .mm-blog-card svg { width: 15px; height: 15px; }
 .mm-blog-grid { display: grid; gap: 1px; background: var(--mm-line); border: 1px solid var(--mm-line); border-radius: 3px; overflow: hidden; }
 @media (min-width: 700px) { .mm-blog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -1242,7 +1247,7 @@ html {
   letter-spacing: .08em;
   text-transform: uppercase;
 }
-.mm-answer-entry footer strong { display: inline-flex; align-items: center; gap: 7px; color: var(--mm-mint); font-weight: 500; }
+.mm-answer-entry footer strong { display: inline-flex; align-items: center; gap: 7px; color: var(--mm-mint); font-weight: 400; }
 .mm-answer-entry footer svg { width: 15px; height: 15px; }
 @media (hover: hover) {
   .mm-answer-entry:hover h2 { color: var(--mm-mint); }

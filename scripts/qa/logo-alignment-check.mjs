@@ -94,12 +94,12 @@ const ANCHORS = {
     ".r3-opening .hero-copy > h1",
     ".r3-opening .hero-copy > p",
     ".r3-opening .hero-copy > .route-doors",
-    /* The chapters below the first screen, on both the desktop and the phone
-       frame; the hidden one fails the visibility test. Their rails and stages
-       hang off the right edge, so only the copy is a left edge here, and the
-       mode switch is measured by eye because its desktop edge is the right one. */
-    ":is(.r3-history, .r3-authority, .r3-dividend) :is(.bridge, .story-copy, .authority-copy)",
-    ".r3-dividend .practice-panel > header",
+    /* The new-age leadership chapters below the first screen (r35). Their
+       stages and scenes hang off the right edge, so each chapter's kicker is
+       its left edge. */
+    ".mm-home-leadership .reach-copy > .kicker",
+    ".mm-home-leadership .work-intro > .kicker",
+    ".mm-home-leadership .proof-story > .kicker",
     ".r3-footer .site-footer > :first-child",
   ],
   /* The R5 hero's deck is inset against the film on purpose and its action is

@@ -3,14 +3,21 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import postcss from 'postcss';
 
-// The approved R3 is immutable. This adapter only changes delivery paths,
-// runtime lifecycle and CSS isolation, never approved words or composition.
+// The approved R3 is immutable. This adapter changes delivery paths, runtime
+// lifecycle and CSS isolation. It changes approved words or composition in one
+// place only, which is recorded in quality/route-lock/approved-production-r35.json:
+// the three R3 chapters between the opening and the route (history, authority
+// and leadership dividend) are cut, and the three /new-age-leadership chapters
+// are delivered in their place from their shared source.
+// Ruling (Krish, 2026-09-25): the homepage uses the new-age-leadership
+// chapters instead of its own three, which are scrapped.
 //
-// One authorised correction on top of that (Krish, 2026-09-25): the two hero
-// doors promise a page (their ↗ says so) and now are links to it rather than
-// buttons that scrolled to the closing chapter, and Media carries its
-// "Subscribe for free" badge and lands on the subscribe form. Words, order and
-// composition are unchanged; `doors` and `publication` below are the whole of it.
+// A second authorised correction (Krish, 2026-09-25, recorded in
+// quality/route-lock/approved-production-r36.json): the two hero doors promise
+// a page (their ↗ says so) and are links to it rather than buttons that
+// scrolled to the closing chapter, and Media carries its "Subscribe for free"
+// badge and lands on the subscribe form. `doors` and `subscribe` below are the
+// whole of it; each is counted and the build fails if the source drifts.
 const repo = process.cwd();
 const source = path.join(repo, 'prototypes/website-redesign-recovery/homepage-production-synthesis-r3');
 const output = path.join(repo, 'src/components/homepage-release');
@@ -30,6 +37,16 @@ const lifecycle = `  const abort = new AbortController();
   const choice = detail => root.dispatchEvent(new CustomEvent('homepage:choice', {detail}));
   const setCurrent = (element, current) => { if (current) element.setAttribute('aria-current', 'true'); else element.removeAttribute('aria-current'); };`;
 const read = name => fs.readFileSync(path.join(source, name), 'utf8');
+// Every cut names its anchors and fails the build when one is missing, so a
+// change to the source can never leave a chapter half removed.
+const cut = (text, from, to, replacement = '', label = from) => {
+  const start = text.indexOf(from);
+  const end = to === null ? start + from.length : text.indexOf(to, start);
+  if (start < 0 || end < 0 || text.indexOf(from, start + 1) >= 0) throw new Error(`Homepage adapter anchor not unique or missing: ${label}`);
+  return text.slice(0, start) + replacement + text.slice(end);
+};
+const retiredChapters = /\.r3-(?:history|authority|dividend)\b|\.r3-mode-switch\b|\[data-(?:era|stage|practice|benefit-prev|benefit-next)\]/;
+const leadershipChapters = '<div id="new-age-leadership" class="nal-page mm-home-leadership" data-component="leadership">${leadershipChaptersMarkup()}</div>\n      ';
 const assets = new Map();
 const register = value => {
   if (!value.startsWith('../')) return value;
@@ -38,28 +55,32 @@ const register = value => {
   if (!assets.has(value)) assets.set(value, { name: `asset${assets.size}`, absolute });
   return assets.get(value).name;
 };
-const body = read('index.html').match(/<body>([\s\S]*?)<script src="\.\/script.js"><\/script>/)[1].trim();
+let body = read('index.html').match(/<body>([\s\S]*?)<script src="\.\/script.js"><\/script>/)[1].trim();
+body = cut(body, '<section id="history"', '<section id="route"', leadershipChapters, 'retired chapters');
+body = cut(body, '<a class="skip-link" href="#history">', null, '<a class="skip-link" href="#new-age-leadership">', 'skip link');
 const publication = 'https://mindmakerlive.substack.com';
 const subscribe = { href: `${publication}/subscribe`, label: 'Subscribe for free' };
 const doors = { brain: '/ai-brain', gtm: '/ai-gtm' };
-const corrected = body
+body = body
   .replace(/<button type="button" data-route-choice="(brain|gtm)">([\s\S]*?)<\/button>/g, (_, route, inner) => `<a href="${doors[route]}" data-route-choice="${route}">${inner}</a>`)
   .replace(/(<nav class="primary-routes"[^>]*>[\s\S]*?)<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `$1<a href="${subscribe.href}" target="_blank" rel="noreferrer" class="mm-route-badged" data-badge="${subscribe.label}">Media</a>`)
   .replace(/<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `<a href="${subscribe.href}" target="_blank" rel="noreferrer">Media</a>`)
   .replace(/(<p class="footer-statement">[^<]*<\/p>)/g, `$1<a class="mm-subscribe-cta" href="${subscribe.href}" target="_blank" rel="noreferrer" data-subscribe-source="homepage_footer">${subscribe.label} <span aria-hidden="true">↗</span></a>`);
 for (const [pattern, expected, label] of [[/data-route-choice="(?:brain|gtm)"/g, 4, 'hero door'], [/data-badge=/g, 2, 'Media badge'], [/mm-subscribe-cta/g, 2, 'footer subscribe'], [/<button type="button" data-route-choice/g, 0, 'unconverted door']]) {
-  const found = (corrected.match(pattern) ?? []).length;
+  const found = (body.match(pattern) ?? []).length;
   if (found !== expected) throw new Error(`Authorised correction drifted: ${label} expected ${expected}, found ${found}`);
 }
-const markup = corrected.replace(/<video muted="" loop="" autoplay=""/g, '<video data-mm-poster="true" muted="" loop=""').replace(/(?:src|poster)="(\.\.\/[^\"]+)"/g, (all, value) => all.replace(value, `\${${register(value)}}`));
-let runtime = read('script.js').replace(/^\(\(\) => \{/, 'export function mountHomepageRuntime(root, { onStart }) {').replace(/\}\)\(\);\s*$/, '}');
+const markup = body.replace(/<video muted="" loop="" autoplay=""/g, '<video data-mm-poster="true" muted="" loop=""').replace(/(?:src|poster)="(\.\.\/[^\"]+)"/g, (all, value) => all.replace(value, `\${${register(value)}}`));
+let script = read('script.js');
+script = cut(script, '  const stories = [', '  if ("IntersectionObserver" in window) new IntersectionObserver(([entry], observer) => {', '', 'retired chapter runtime');
+script = cut(script, '    restartBenefitTimer();\n  });', null, '  });', 'retired benefit timer');
+script = cut(script, '  selectStory(0);\n  selectAuthority("work");\n  selectDividend("practice");\n', null, '', 'retired chapter start');
 // The doors are links now; the page they name is where the click goes.
-const doorBinding = '  within("opening", "[data-route-choice]").forEach((button) => button.addEventListener("click", () => selectRoute(button.dataset.routeChoice, true, true)));\n';
-if (!runtime.includes(doorBinding)) throw new Error('Hero door binding moved in the approved source');
-runtime = runtime.replace(doorBinding, '');
+script = cut(script, '  within("opening", "[data-route-choice]").forEach((button) => button.addEventListener("click", () => selectRoute(button.dataset.routeChoice, true, true)));\n', null, '', 'hero door binding');
+let runtime = script.replace(/^\(\(\) => \{/, 'export function mountHomepageRuntime(root, { onStart }) {').replace(/\}\)\(\);\s*$/, '}');
 runtime = runtime.replace('  const root = document.documentElement;', lifecycle);
 runtime = runtime.replaceAll('document.querySelector', 'root.querySelector').replace('document.getElementById("site")', 'root.querySelector("#site")');
-runtime = runtime.replace(/\b(button|link|dividendSection|document|reducedMotion)\.addEventListener(?:\?\.)?\(/g, 'listen($1, ');
+runtime = runtime.replace(/\b(button|link|document|reducedMotion)\.addEventListener(?:\?\.)?\(/g, 'listen($1, ');
 runtime = runtime.replaceAll('new IntersectionObserver(', 'new TrackedObserver(');
 runtime = runtime.replace('  const focusNavigationClose = () => {', `  let navigationFocusVersion = 0;
   const focusNavigationClose = (version) => {
@@ -75,18 +96,14 @@ runtime = runtime.replace('    navigation.querySelector(`${variant} .menu-contro
 runtime = runtime.replace('  const setNavigation = (open, opener = null) => {', '  const setNavigation = (open, opener = null) => {\n    const focusVersion = ++navigationFocusVersion;');
 runtime = runtime.replace(/      requestAnimationFrame\(focusNavigationClose\);\r?\n      setTimeout\(focusNavigationClose, 60\);/, '      requestAnimationFrame(() => focusNavigationClose(focusVersion));');
 runtime = runtime.replace('const restoreNavigationFocus = () => navigationReturnFocus?.focus({ preventScroll: true });', 'const restoreNavigationFocus = () => { if (focusVersion === navigationFocusVersion && (document.activeElement === document.body || navigation.contains(document.activeElement))) navigationReturnFocus?.focus({ preventScroll: true }); };');
-runtime = runtime.replace('button.toggleAttribute("aria-current", Number(button.dataset.era) === index)', 'setCurrent(button, Number(button.dataset.era) === index)');
-runtime = runtime.replace('button.toggleAttribute("aria-current", active)', 'setCurrent(button, active)');
-runtime = runtime.replace('button.toggleAttribute("aria-current", index === practiceIndex)', 'setCurrent(button, index === practiceIndex)');
 runtime = runtime.replace('    video.play().catch(() => {});', '    if (!reducedMotion.matches) video.play().catch(() => {});');
-runtime = runtime.replace('  selectStory(0);', `  const syncMotionMedia = () => root.querySelectorAll('video').forEach(video => {
+runtime = cut(runtime, '  selectRoute("brain");', null, `  const syncMotionMedia = () => root.querySelectorAll('video').forEach(video => {
     if (reducedMotion.matches) video.pause();
     else if (video.closest('.r3-opening') && video.closest('.r3-variant')?.offsetParent !== null) video.play().catch(() => {});
   });
   listen(reducedMotion, 'change', syncMotionMedia);
   syncMotionMedia();
-  applyPractice();
-  selectStory(0);`);
+  selectRoute("brain");`, 'motion media');
 runtime = runtime.replace('    if (shouldScroll) scope("route").scrollIntoView', `    if (shouldScroll) {
       const heading = within('route', '.route-copy h2').find(node => node.offsetParent !== null);
       if (heading) { heading.tabIndex = -1; heading.focus({ preventScroll: true }); }
@@ -94,19 +111,23 @@ runtime = runtime.replace('    if (shouldScroll) scope("route").scrollIntoView',
     if (shouldScroll) scope("route").scrollIntoView`);
 runtime = runtime.replace(/"(\.\.\/[^\"]+\.(?:mp4|webp))"/g, (_, value) => register(value));
 runtime = runtime.replace('location.href = `/?start=${button.dataset.startRoute}`;', 'onStart(button.dataset.startRoute);');
-runtime = runtime.replace('() => selectStory(Number(button.dataset.era))', '() => { const index = Number(button.dataset.era); selectStory(index); choice({ section: "history", index }); }');
-runtime = runtime.replace('selectDividend(button.dataset.dividendMode);', 'selectDividend(button.dataset.dividendMode); choice({ section: "dividend", mode: button.dataset.dividendMode });');
-runtime = runtime.replace('practiceIndex = index % 3; applyPractice();', 'practiceIndex = index % 3; applyPractice(); choice({ section: "dividend", index: practiceIndex });');
-runtime = runtime.replace('  selectStory(0);', `  root.querySelectorAll('a[href="/start"]').forEach(link => listen(link, 'click', event => { event.preventDefault(); setNavigation(false); onStart('home'); }));\n  selectStory(0);`);
-runtime = runtime.replace('  selectRoute("brain");', `  selectRoute("brain");\n  return {\n    selectStory,\n    selectDividend,\n    selectPractice(index) { practiceIndex = Math.max(0, Math.min(2, index)); applyPractice(); },\n    selectBenefit(index) { benefitIndex = Math.max(0, Math.min(5, index)); applyBenefit(); },\n    destroy() {\n      abort.abort();\n      observers.forEach(observer => observer.disconnect());\n      timeouts.forEach(id => window.clearTimeout(id));\n      intervals.forEach(id => window.clearInterval(id));\n      frames.forEach(id => window.cancelAnimationFrame(id));\n      root.querySelectorAll('video').forEach(video => video.pause());\n      root.classList.remove('has-motion');\n      document.body.classList.remove('navigation-open');\n      site.removeAttribute('inert');\n    },\n  };`);
+runtime = cut(runtime, '  selectRoute("brain");', null, `  root.querySelectorAll('a[href="/start"]').forEach(link => listen(link, 'click', event => { event.preventDefault(); setNavigation(false); onStart('home'); }));\n  selectRoute("brain");`, 'start links');
+runtime = cut(runtime, '  selectRoute("brain");', null, `  selectRoute("brain");\n  return {\n    destroy() {\n      abort.abort();\n      observers.forEach(observer => observer.disconnect());\n      timeouts.forEach(id => window.clearTimeout(id));\n      intervals.forEach(id => window.clearInterval(id));\n      frames.forEach(id => window.cancelAnimationFrame(id));\n      root.querySelectorAll('video').forEach(video => video.pause());\n      root.classList.remove('has-motion');\n      document.body.classList.remove('navigation-open');\n      site.removeAttribute('inert');\n    },\n  };`, 'lifecycle return');
 const imports = [...assets.values()].map(({name, absolute}) => `import ${name} from ${JSON.stringify(path.relative(output, absolute).replaceAll('\\', '/'))};`).join('\n');
 const files = {
-  'markup.ts': `// Generated from the immutable accepted R3. Run node scripts/qa/build-homepage-release.mjs.\n${imports}\nexport const homepageMarkup = \`${markup}\`;\n`,
+  'markup.ts': `// Generated from the immutable accepted R3. Run node scripts/qa/build-homepage-release.mjs.\n${imports}\nimport { leadershipChaptersMarkup } from "@/components/leadership-chapters/leadershipChapters";\nexport const homepageMarkup = \`${markup}\`;\n`,
   'runtime.js': `// Generated delivery adapter. Approved source remains unchanged.\n${imports}\n${runtime}`,
-  'runtime.d.ts': `export interface HomepageRuntime {\n  selectStory(index: number): void;\n  selectPractice(index: number): void;\n  selectDividend(mode: 'practice' | 'benefits' | 'return'): void;\n  selectBenefit(index: number): void;\n  destroy(): void;\n}\nexport function mountHomepageRuntime(root: HTMLElement, options: { onStart: (route: 'home' | 'brain' | 'gtm') => void }): HomepageRuntime;\n`,
+  'runtime.d.ts': `export interface HomepageRuntime {\n  destroy(): void;\n}\nexport function mountHomepageRuntime(root: HTMLElement, options: { onStart: (route: 'home' | 'brain' | 'gtm') => void }): HomepageRuntime;\n`,
 };
 for (const name of ['component-styles.css', 'page.css']) {
   const ast = postcss.parse(read(name));
+  ast.walkRules(rule => {
+    if (rule.parent.type === 'atrule' && /keyframes/.test(rule.parent.name)) return;
+    const kept = rule.selectors.filter(selector => !retiredChapters.test(selector));
+    if (!kept.length) rule.remove();
+    else if (kept.length !== rule.selectors.length) rule.selectors = kept;
+  });
+  ast.walkAtRules(rule => { if (rule.nodes && !rule.nodes.length) rule.remove(); });
   ast.walkRules(rule => {
     if (rule.selector.includes('.route-doors button')) rule.selectors = rule.selectors.map(selector => selector.replaceAll('.route-doors button', '.route-doors a'));
   });

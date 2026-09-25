@@ -1,18 +1,19 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Navigate, Route, Routes, useLocation, useNavigationType } from "react-router-dom";
-import { lazy, Suspense, useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { RouteTransitions } from "@/components/RouteTransitions";
 import { LineBreaks } from "@/components/LineBreaks";
 import { preloadable } from "@/lib/preloadable";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { CookieConsent } from "@/components/CookieConsent";
 import { PUBLICATION_URL } from "@/lib/publicLinks";
+import { lazyRoute } from "@/lib/lazyRoute";
 import Index from "./pages/Index";
 import { BrandMarks } from "@/components/mindmake/MindmakeBrand";
 
 const CaseStudies = preloadable(() => import("./pages/CaseStudies"));
 const NewAgeLeadership = preloadable(() => import("./pages/NewAgeLeadership"));
-const NotFound = lazy(() => import("./pages/NotFound"));
+const NotFound = lazyRoute(() => import("./pages/NotFound"));
 const Privacy = preloadable(() => import("./pages/Privacy"));
 const Terms = preloadable(() => import("./pages/Terms"));
 const Contact = preloadable(() => import("./pages/Contact"));

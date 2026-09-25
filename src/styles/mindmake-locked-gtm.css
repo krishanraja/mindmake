@@ -853,6 +853,9 @@ summary {
 
 .mm-locked-gtm .paper-leaf h3 {
   margin: 1rem 0 0.45rem;
+  /* A label, not a headline: it set in Archivo by way of the site heading
+     default, and holds it here now that default is Newsreader. */
+  font-family: var(--sans);
   font-size: 0.6rem;
   font-weight: 730;
   letter-spacing: 0.14em;

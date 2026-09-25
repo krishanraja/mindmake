@@ -697,6 +697,26 @@
         "qa:line-breaks on the built site: no findings on 32 routes at 1440x900 or 390x844; it first caught the homepage footer wrapping 9+1 and 3+3+3+1 and the shell footer 11+1, fixed with even footer columns.",
         "Desktop (1440x900) and phone (390x844) screenshots of the open menu on / and /about, /about in full, and /case-studies, /blog, /answers and /faq, reviewed on the built site: every menu link and the start action inside the viewport at both sizes, Privacy and Terms visible, each page's H1 and document title equal to its label."
       ]
+    },
+    {
+      "id": "TYPE-SYSTEM-002",
+      "exactFeedback": "The AI brain page contains all the right fonts and font sizes. The homepage and other pages do not. Audit every single word and standardise the fonts everywhere.",
+      "source": "Krish, 25 September 2026, with a phone screenshot of the homepage opening",
+      "surface": "every public route",
+      "section": "all text",
+      "device": "desktop and mobile",
+      "element": "every visible word: headings, reading copy, labels, actions, footer, menu word",
+      "classification": "correction",
+      "requiredOutcome": "Every word takes the role /ai-brain gives it as rendered: Newsreader headlines and reading copy at the AI Brain page's reading size, Archivo only for actions and small interface text (bold, sentence case, never tracked, never a heading or sentence), Plex Mono 400 for labels, numbers and dates, and no synthetic bold. Words, order and composition unchanged.",
+      "acceptanceTest": "npm run qa:type-system passes on the built site at 1440x900 and 390x844 on every indexed route plus /ai-brain, /ai-gtm, /about, /contact, /privacy, /terms and the 404, and fails on the previous main; qa:line-breaks and qa:homepage-release:pre-merge stay clean; desktop and phone screenshots of the homepage and shell pages reviewed.",
+      "status": "implemented-awaiting-review",
+      "resolution": "--mm-body is Newsreader in src/styles/mindmake.css; the homepage's type section in src/components/homepage-release/integration.css sets the lede, doors, proof line, history bridge and dates, route lede and receipt, footer and menu word in the AI Brain roles; src/styles/new-age-leadership-r6.layer.css fixes label tracking, the synthetic-bold capability labels and the finale kicker; src/styles/mindmake-ai-gtm.css, mindmake-commercial-decision-balance.css, mindmake-instruments.css and mindmake-about.css fix their stragglers. scripts/qa/type-system-check.mjs is the measurement.",
+      "evidence": [
+        "npm run qa:type-system: PASS, 4,788 text nodes on 33 routes at 1440x900 and 390x844; the same check on the previous main (d7e545f) fails with 66 findings on /, /about, /blog and /ai-brain alone",
+        "qa:line-breaks: no findings on 32 routes at 1440x900 or 390x844; qa:homepage-release:pre-merge (Chromium): 8 cases, 8 screenshots, no failures",
+        "quality/route-lock/approved-production.lock.json, regenerated for the intended stylesheet edits",
+        "Desktop (1440x900) and phone (390x844) screenshots of the homepage from opening to footer, /about, /blog, an article, /contact, /case-studies, /ai-gtm and the /new-age-leadership finale, reviewed on the built site"
+      ]
     }
   ]
 }

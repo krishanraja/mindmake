@@ -1,7 +1,7 @@
 /* /ai-gtm, r47: one argument in the site's own system.
 
    Written by hand, for this route only, on the house tokens in mindmake.css:
-   Newsreader headlines, Archivo body and actions, IBM Plex Mono labels, the
+   Newsreader headlines and reading copy, Archivo actions, IBM Plex Mono labels, the
    shell's container, one mint (the answer, the selected state, what is lit)
    and amber (what changed, and the evidence for it). It replaces the page's
    two private stylesheets, which carried their own palette, three different
@@ -114,7 +114,7 @@
 .mm-site .gtm-opening h1 {
   max-width: 11.5ch;
   font-size: clamp(46px, 6.6vw, 104px);
-  font-weight: 360;
+  font-weight: 380;
   line-height: .92;
   letter-spacing: -.052em;
 }
@@ -310,7 +310,7 @@
 .mm-site .gtm-felt {
   max-width: 16.5ch;
   font-size: clamp(34px, 4.1vw, 66px);
-  font-weight: 370;
+  font-weight: 390;
   line-height: .98;
   letter-spacing: -.045em;
 }
@@ -368,7 +368,7 @@
 .mm-site .gtm-workaround h2 {
   max-width: 18ch;
   font-size: clamp(34px, 4.4vw, 68px);
-  font-weight: 370;
+  font-weight: 390;
   line-height: 1;
   letter-spacing: -.045em;
 }
@@ -397,7 +397,7 @@
 .mm-site .gtm-turn-title {
   max-width: 13ch;
   font-size: clamp(44px, 6.2vw, 98px);
-  font-weight: 360;
+  font-weight: 380;
   line-height: .93;
   letter-spacing: -.052em;
 }
@@ -454,7 +454,7 @@
   transition: border-color .18s ease, box-shadow .18s ease;
 }
 .gtm-door-text { display: grid; gap: 4px; }
-.gtm-door-text b { font-size: 16px; font-weight: 600; line-height: 1.25; text-wrap: balance; }
+.gtm-door-text b { font-size: 16px; font-weight: 470; line-height: 1.25; text-wrap: balance; }
 .gtm-door-text small {
   color: var(--mm-tx2-d);
   font: 400 12px/1.3 var(--mm-mono);
@@ -497,7 +497,7 @@
   align-content: center;
   gap: clamp(20px, 3.6vh, 40px);
 }
-.mm-site .gtm-plan-title { font-size: clamp(34px, 3.6vw, 58px); font-weight: 370; }
+.mm-site .gtm-plan-title { font-size: clamp(34px, 3.6vw, 58px); font-weight: 390; }
 /* The month: thirty days that light as the page moves through the chapter,
    in three stretches whose names are the rail beneath them. */
 .plan-month { display: grid; }
@@ -554,7 +554,7 @@
   letter-spacing: .14em;
   text-transform: uppercase;
 }
-.mm-site .gtm-plan-what { font-size: clamp(34px, 3.6vw, 60px); font-weight: 370; line-height: .98; letter-spacing: -.045em; }
+.mm-site .gtm-plan-what { font-size: clamp(34px, 3.6vw, 60px); font-weight: 390; line-height: .98; letter-spacing: -.045em; }
 .gtm-plan-detail { max-width: 34ch; color: var(--gtm-cream-2); font: 400 clamp(19px, 1.6vw, 24px)/1.3 var(--mm-serif); letter-spacing: -.01em; }
 .gtm-plan-list {
   display: grid;
@@ -590,7 +590,7 @@
   row-gap: clamp(20px, 3.5vh, 36px);
 }
 .gtm-team-head { grid-area: head; align-self: end; }
-.mm-site .gtm-team-head h2 { max-width: 13ch; font-size: clamp(34px, 3.8vw, 58px); font-weight: 370; }
+.mm-site .gtm-team-head h2 { max-width: 13ch; font-size: clamp(34px, 3.8vw, 58px); font-weight: 390; }
 /* The chart sits on an instrument panel that says what it is. */
 .team-instrument {
   grid-area: board;
@@ -780,7 +780,9 @@
   /* The paper amber, a step darker so the outcome reads at AA on the cream. */
   color: color-mix(in srgb, var(--mm-amber-d) 78%, var(--mm-tx-d));
   font-size: clamp(17px, 1.4vw, 19px);
-  font-weight: 600;
+  /* Reading copy is Newsreader now, which has no business at 600: the outcome
+     takes the weight the AI Brain page gives a card's title. */
+  font-weight: 470;
   line-height: 1.45;
 }
 .gtm-proof-who {

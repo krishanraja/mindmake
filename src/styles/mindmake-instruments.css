@@ -1810,7 +1810,9 @@
 .mm-shape-line { margin-top: 7px; color: var(--mm-tx); font-family: var(--mm-serif); font-size: 17px; line-height: 1.35; }
 .mm-shape p + p { margin-top: 8px; }
 .mm-objections-title { font-size: clamp(20px, 2.4vw, 27px); margin-bottom: 14px; }
-.mm-references h3, .mm-attendance h3 { font-family: var(--mm-grotesque); font-size: 15px; font-weight: 600; letter-spacing: -.015em; color: var(--mm-tx2); margin-bottom: 12px; }
+/* A small heading in the AI Brain page's voice: Newsreader, as its record
+   cards title themselves, not a sans heading beside serif ones. */
+.mm-references h3, .mm-attendance h3 { font-family: var(--mm-serif); font-size: 19px; font-weight: 420; letter-spacing: -.02em; color: var(--mm-tx2); margin-bottom: 12px; }
 .mm-impact-card h3 { font-size: 17px; margin-bottom: 9px; }
 
 /* ---------- The proof rail: thirty-three voices ---------- */
@@ -2006,7 +2008,7 @@
   font-family: var(--mm-mono);
   font-size: 11px;
 }
-.mm-founder-name b { color: var(--mm-mint); font-weight: 500; letter-spacing: .04em; }
+.mm-founder-name b { color: var(--mm-mint); font-weight: 400; letter-spacing: .04em; }
 .mm-founder-name span { color: var(--mm-mut); }
 .mm-founder-note p:not(.mm-founder-name) {
   max-width: 62ch;
@@ -2346,7 +2348,7 @@ h3 > .mm-head-mark, h4 > .mm-head-mark { width: 28px; height: 28px; margin-top: 
 .mm-fig-marks i.is-kept { background: var(--mm-mint-bright); border-color: var(--mm-mint-bright); }
 .mm-fig-marks i.is-dim { opacity: .32; }
 .mm-fig-pair { display: flex; align-items: baseline; gap: 10px; margin-top: 14px; color: var(--mm-tx2); font-family: var(--mm-mono); font-size: 12px; }
-.mm-fig-pair b { color: var(--mm-tx); font-size: 22px; font-weight: 500; }
+.mm-fig-pair b { color: var(--mm-tx); font-size: 22px; font-weight: 400; }
 .mm-fig-pair b:last-of-type { color: var(--mm-mint); }
 
 .mm-fig-count { text-align: center; }

@@ -159,8 +159,9 @@
   padding: 10px 0 10px 14px;
   color: #c9bfae;
   border-left: 2px solid var(--db-brass);
-  font: 400 9px/1.45 var(--mm-mono);
-  letter-spacing: 0.035em;
+  /* A sentence, so it is read in the reading face; it was Plex Mono at 7.5px
+     on a phone, the only sentence on the site set in the label voice. */
+  font: 400 14px/1.4 var(--mm-body);
 }
 
 .mm-decision-balance-start {
@@ -564,7 +565,7 @@
   .mm-decision-balance-offer-links { grid-column: 1/3; }
   .mm-decision-balance-offer-links a { min-height: 58px; padding: 9px 11px; }
   .mm-decision-balance-contract { grid-column: 1/3; font-size: 14px; line-height: 1.28; }
-  .mm-decision-balance-boundary { grid-column: 1/3; padding: 7px 0 7px 11px; font-size: 7.5px; line-height: 1.35; }
+  .mm-decision-balance-boundary { grid-column: 1/3; padding: 7px 0 7px 11px; font-size: 13px; line-height: 1.3; }
   .mm-decision-balance-start { grid-column: 1/3; width: 100%; min-height: 58px; }
   .mm-decision-balance-instrument { display: grid; grid-template-rows: auto minmax(284px, 1fr) auto auto; min-height: 100svh; padding: calc(var(--mm-header-height) + 10px) var(--db-gutter-right) max(24px, env(safe-area-inset-bottom)) var(--db-gutter-left); scroll-margin-top: var(--mm-header-height); }
   .mm-decision-balance-aperture { top: 48%; width: min(calc(100vw - 2px), 600px); opacity: 0.7; }
@@ -624,7 +625,7 @@
   .mm-decision-balance-lede { font-size: 14px; }
   .mm-decision-balance-contract { font-size: 12.5px; }
   .mm-decision-balance-offer-links a { min-height: 50px; }
-  .mm-decision-balance-boundary { font-size: 6.7px; }
+  .mm-decision-balance-boundary { font-size: 12px; }
   .mm-decision-balance-start { min-height: 54px; }
   .mm-decision-balance-instrument { grid-template-rows: auto minmax(195px, 1fr) auto auto; min-height: 100svh; }
   .mm-decision-balance-assembly { min-height: 190px; }

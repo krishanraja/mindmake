@@ -147,10 +147,13 @@
   /* Type roles */
   --mm-grotesque: "Archivo Variable", "Archivo Fallback", "Archivo Fallback Arial", "Helvetica Neue", Arial, sans-serif;
   --mm-serif: "Newsreader Variable", "Newsreader Fallback", Georgia, serif;
-  /* Body and controls are Archivo, headlines Newsreader, labels Plex Mono:
-     the AI Brain page's system, which the owner ruled is the site's
-     (Krish, 2026-09-25). Source Serif 4 is no longer a site face. */
-  --mm-body: var(--mm-grotesque);
+  /* The AI Brain page's system, which the owner ruled is the site's
+     (Krish, 2026-09-25): Newsreader for headlines and for the words a reader
+     reads, Archivo for actions and small interface text, Plex Mono 400 for
+     labels. Reading copy was Archivo here until a word-by-word audit against
+     /ai-brain showed its paragraphs are Newsreader 400. Source Serif 4 is not
+     a site face. */
+  --mm-body: var(--mm-serif);
   --mm-mono: "IBM Plex Mono", "Plex Mono Fallback", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* Layout */
@@ -1218,6 +1221,12 @@ html {
 .mm-blog-empty h2 { font-size: clamp(24px, 3vw, 34px); }
 .mm-blog-empty p { margin-top: 12px; color: var(--mm-tx2); }
 .mm-blog-continuation { margin-top: 34px; color: var(--mm-tx2); }
+/* `.mm-site button { font: inherit }` outranks a single class, so a <button>
+   wearing a text-link class took the body's face and 17px while an <a> kept
+   the mono label its class asks for. These restore the class's own setting. */
+.mm-site .mm-text-link, .mm-site .mm-text-button { font-family: var(--mm-mono); font-weight: 400; }
+.mm-site button.mm-text-link { font-size: 11px; }
+.mm-site button.mm-text-button { font-size: 11px; }
 .mm-text-button {
   min-height: 44px;
   border: 0;
@@ -1270,6 +1279,8 @@ html {
 .mm-article-body code { font-family: var(--mm-mono); font-size: .88em; background: var(--mm-ink3); padding: 1px 5px; border-radius: 2px; }
 .mm-article-next, .mm-related-ideas { margin-top: var(--mm-section); padding-top: 30px; border-top: 1px solid var(--mm-hair); }
 .mm-article-author a { min-height: 44px; display: inline-flex; align-items: center; }
+/* The name is a label; the line under it is read, so it takes the reading face. */
+.mm-article-author p + p { font-family: var(--mm-body); }
 .mm-article-missing { padding: 60px 0; }
 .mm-share-status { margin-top: 12px; color: var(--mm-mint); font-family: var(--mm-mono); font-size: 11px; }
 
@@ -1414,7 +1425,7 @@ html {
    error copy centred under it: the one page where the mark was neither in a top
    bar nor on the page's left edge. It is a page hero now, under the shell. */
 .mm-not-found { padding: calc(var(--mm-header-height) + clamp(44px, 12vh, 120px)) 0 var(--mm-section); background: var(--mm-ink); color: var(--mm-tx); }
-.mm-error-code { color: var(--mm-mint); font-family: var(--mm-mono); font-size: 12px; letter-spacing: .2em; }
+.mm-error-code { color: var(--mm-mint); font-family: var(--mm-mono); font-size: 12px; letter-spacing: .12em; }
 .mm-not-found h1 { max-width: 14ch; margin-top: 16px; }
 .mm-not-found > .mm-container > p { max-width: 52ch; margin-top: 18px; color: var(--mm-tx2); font-size: clamp(16px, 1.5vw, 19px); }
 .mm-not-found-actions { display: flex; flex-wrap: wrap; gap: 16px 26px; align-items: center; margin-top: 30px; }

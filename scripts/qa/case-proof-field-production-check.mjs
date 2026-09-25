@@ -601,7 +601,7 @@ async function verifyBlindPanelTargetCorrections() {
   try {
     const cases = [
       { route:'/contact', viewport:{ width:390, height:844 }, selector:'.mm-contact-form small a', label:'contact privacy link' },
-      // r45: each lever's dated source is a link on its step in the first
+      // r47: each lever's dated source is a link on its step in the first
       // chapter. The rule is a touch-target one, measured on a phone.
       { route:'/ai-gtm', viewport:{ width:390, height:844 }, selector:'.mm-gtm .gtm-lever[data-active="true"] .gtm-source', label:'GTM evidence source link' },
     ];

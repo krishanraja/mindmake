@@ -1,7 +1,7 @@
 {
-  "artifact": "mindmake-approved-production-routes-r45",
+  "artifact": "mindmake-approved-production-routes-r47",
   "recordedAt": "2026-09-25",
-  "status": "record of the /ai-gtm rebuild on Krish's 2026-09-25 review. His review of the rebuilt page is tracked by AI-GTM-R45-OWNER-REVIEW-001 in the feedback ledger.",
+  "status": "record of the /ai-gtm rebuild on Krish's 2026-09-25 review. His review of the rebuilt page is tracked by AI-GTM-R47-OWNER-REVIEW-001 in the feedback ledger.",
   "scopeRequested": "Krish, 2026-09-25: \"https://mindmake.co/ai-gtm - this page has the most confusing user experience. As I scroll, I just have no idea where to look. There's no visual hierarchy of sections. There are no scroll builds. It doesn't set up a universal problem that someone will really feel empathically that we understand them. None of this talks to a user one-to-one, so it doesn't really set up the problem that we're solving. The fonts are all over the place. They're not part of a cohesive design system as per the rest of the repository, nor is the rest of the look and feel of this page, to be honest. The content is more or less there in terms of what we're supposed to be saying and offering, but everything else is not up to scratch in terms of: the copywriting, the UX, the aesthetics, the design system, the build of the page, the visual delight etc etc\"",
   "sessionDecisions": [
     "/ai-gtm is told as one argument in the order a buyer lives it: the change they already feel, in four places; the easy way out and what it costs; the offer; the 30 days; what their team becomes; one result. Each chapter holds one idea on one screen.",
@@ -19,8 +19,8 @@
     "The two films the continuity contract gives this page stay: quiet-workshop-growth behind the opening and signals-arrive behind chapter one, on their existing 9 to 22KB WebP posters instead of 570 to 892KB PNGs. No other imagery.",
     "A stage pins only where its step fits: the stylesheet unpins short screens, phones held sideways and readers without scripting, and the hook releases any chapter whose content outgrows its stage (a reader's own text spacing or font size, a short laptop) before the reader reaches it, never while they are in it. Released chapters lay every step out. Reduced motion keeps every pin and drops the transitions. A rail press holds its step only until the page arrives.",
     "On the cream bands the focus ring takes the paper's own mint (--mm-mint-d), because the bright mint ring is under 3:1 on the cream.",
-    "Numbered r45: the candidate was built as r44, and main took r44 for the homepage archive engine hero r06 (PR #201) first. This record sits on that one; the candidate, its ledger items and its evidence were renamed r45 before main was merged in, and nothing in main's r44 is rewritten.",
-    "Correction to r43's retired list: pinnedChapters.ts, pinnedChapters.css and homepage-pin-lifecycle.test.ts were reinstated by r41 and remain locked in files, so r45 does not list them as retired."
+    "Numbered r47: the candidate was built as r44, and main took r44 for the homepage archive engine hero r06 (PR #201) first. This record sits on that one; the candidate, its ledger items and its evidence were renamed r47 before main was merged in, and nothing in main's r44 is rewritten.",
+    "Correction to r43's retired list: pinnedChapters.ts, pinnedChapters.css and homepage-pin-lifecycle.test.ts were reinstated by r41 and remain locked in files, so r47 does not list them as retired."
   ],
   "routes": [
     "/",
@@ -197,7 +197,7 @@
     "src/styles/mindmake-ai-gtm.css": "ca5eecedac19ebea80e7fef91e706ec084c070f14c9c402f9f07b4e079a1b1fb",
     "src/test/ai-gtm-pinned-steps.test.tsx": "a97874adfac33f53c4c648ca0fef42c7dcf4582a6d87186da195959c5aec4ed6",
     "src/test/ai-gtm-page.test.tsx": "bab902e2572494385c2b0dd19130b57bae02bfb5ed378058e13b5c7fac215df0",
-    "scripts/qa/record-route-lock-r45.mjs": "a3997730be1570ec1cf075f0263c166bae8deca7378ae77efbbf5494e7bc15a8"
+    "scripts/qa/record-route-lock-r47.mjs": "a3997730be1570ec1cf075f0263c166bae8deca7378ae77efbbf5494e7bc15a8"
   },
   "newlyLocked": [
     {
@@ -253,7 +253,7 @@
       "reason": "The page contract: problem before offer, every step server-rendered, the switch, the quote, the stylesheet's token and size rules."
     },
     {
-      "path": "scripts/qa/record-route-lock-r45.mjs",
+      "path": "scripts/qa/record-route-lock-r47.mjs",
       "reason": "Writes this record from the tree and refuses an undeclared change to a locked file."
     }
   ],
@@ -309,14 +309,14 @@
     "price the result"
   ],
   "verification": {
-    "status": "Pre-merge verification on the merged tree (main r44 merged in), candidate ai-gtm-r45 sha256 9815162a56f19c12acb760a0440395f21c8acf655bfba5f079e72e2f4e84ceb8, Chromium only per the 2026-09-25 ruling.",
+    "status": "Pre-merge verification on the merged tree (main r44 merged in), candidate ai-gtm-r47 sha256 9815162a56f19c12acb760a0440395f21c8acf655bfba5f079e72e2f4e84ceb8, Chromium only per the 2026-09-25 ruling.",
     "performed": [
       "typecheck, lint (0 errors, 3 pre-existing warnings), full unit suite 599/599, npm run build",
       "qa:approved-routes, qa:approved-routes:self-test, qa:homepage-handoff, qa:website-feedback, qa:material-review:self-test, qa:plain-language, qa:docs, build-homepage-release --check",
       "qa:line-breaks at 1440x900 and 390x844: no failures",
       "qa:homepage-release:pre-merge (Chromium): 7 cases, no failures",
       "qa:nojs: 5 pages, 21 answers present, nothing clipped; qa:oneway on a script-started preview: 10 page/width pairs; qa:logo-alignment: 565 edges on the wordmark",
-      "scripts/qa/ai-gtm-scroll-build-check.mjs --candidate quality/ai-gtm/material-review-candidate-r45.json: 13 viewports forward and reverse, no clipping at 12 fit sizes for both doors and every seat, WCAG 1.4.12 text spacing, rail hold, reduced motion, no-JS, negative control; 0 failures (artifacts/ai-gtm/scroll-build/report.json)",
+      "scripts/qa/ai-gtm-scroll-build-check.mjs --candidate quality/ai-gtm/material-review-candidate-r47.json: 13 viewports forward and reverse, no clipping at 12 fit sizes for both doors and every seat, WCAG 1.4.12 text spacing, rail hold, reduced motion, no-JS, negative control; 0 failures (artifacts/ai-gtm/scroll-build/report.json)",
       "Not done before merge: the second independent review round was stopped when Krish instructed the merge; the post-merge three-engine matrix runs on main."
     ]
   },
@@ -349,13 +349,13 @@
         "path": "scripts/qa/approved-route-lock-check.mjs",
         "before": "92d464f31dabc39eae1d52bf4856a65a05fb94de865244d3f46d73b8e1ac49e1",
         "after": "b206014237de90bbb03174f572858ba2270d23b137bb81064fb22b304bbc546b",
-        "reason": "Selects r45."
+        "reason": "Selects r47."
       },
       {
         "path": "scripts/qa/approved-route-lock-self-test.mjs",
         "before": "4969d8a4f17ea965d395cb5f179df8a001b251d18fabe556cf7a54262344d0f3",
         "after": "84698da77fc73b988eb2f7b0612805adc08e3448199e2e457bd7f634b4e185d8",
-        "reason": "Selects r45 and names its temporary controls after it."
+        "reason": "Selects r47 and names its temporary controls after it."
       },
       {
         "path": "scripts/qa/locked-material-production-check.mjs",
@@ -407,12 +407,12 @@
     {
       "path": "src/styles/mindmake-locked-gtm.css",
       "lastHash": "84757e31da19b762a6e48e7e4d81906fa97aec02c2f58e61df9c015d5faf667e",
-      "reason": "GTM-PLAIN-R2's generated private stylesheet (its own palette, three mints, non-variable font names, labels down to 7.7px). Retired in r45 for src/styles/mindmake-ai-gtm.css on the house tokens."
+      "reason": "GTM-PLAIN-R2's generated private stylesheet (its own palette, three mints, non-variable font names, labels down to 7.7px). Retired in r47 for src/styles/mindmake-ai-gtm.css on the house tokens."
     },
     {
       "path": "src/styles/mindmake-gtm-plain.css",
       "lastHash": "acfa59021a76674c2170fa2bc84567f7c4576ba8f90c8156532f9bc834953262",
-      "reason": "GTM-PLAIN-R2's override layer on the stylesheet above. Retired with it in r45."
+      "reason": "GTM-PLAIN-R2's override layer on the stylesheet above. Retired with it in r47."
     }
   ]
 }

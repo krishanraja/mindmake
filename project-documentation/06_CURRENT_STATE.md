@@ -38,7 +38,7 @@ Publication interest is optional and unticked; it does not subscribe anyone.
 and the brief's success step all open the publication's subscribe form.
 
 The personal-read API remains deployed, but is not a second form in this
-frontend. `/ai-gtm` serves the r45 rebuild (`quality/route-lock/approved-production-r45.json`), merged on Krish's instruction of 25 September 2026; his review of the rebuilt page is open as `AI-GTM-R45-OWNER-REVIEW-001`. The retained daily-news
+frontend. `/ai-gtm` serves the r47 rebuild (`quality/route-lock/approved-production-r47.json`), merged on Krish's instruction of 25 September 2026; his review of the rebuilt page is open as `AI-GTM-R47-OWNER-REVIEW-001`. The retained daily-news
 API is not evidence that a live board is rendered on the approved homepage.
 
 Navigation labels: Results, Thinking, Questions leaders ask, Before you start,
@@ -249,8 +249,8 @@ owns payload, privacy, retention, email and failure-path contracts.
   `h1` in the document is a zero-size duplicate, so its `h1` wait times out, and
   that reproduces identically on the pre-change commit.
 
-- /ai-gtm is replaced by the r45 rebuild, bounded by
-  `quality/route-lock/approved-production-r45.json`; it retires GTM-PLAIN-R2
+- /ai-gtm is replaced by the r47 rebuild, bounded by
+  `quality/route-lock/approved-production-r47.json`; it retires GTM-PLAIN-R2
   (`quality/route-lock/approved-production-r25.json`). Production readback of
   that release is recorded in the history ledger when it lands; until then
   treat the live deployment as the authority on what /ai-gtm renders.

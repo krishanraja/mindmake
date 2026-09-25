@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * /ai-gtm (r45): the page has to build as it is scrolled, on a phone as well
+ * /ai-gtm (r47): the page has to build as it is scrolled, on a phone as well
  * as a desktop, in the site's own chrome, and stay whole where it cannot pin.
  *
  * Krish rejected the live page on 25 September 2026 in part because "There
@@ -40,7 +40,7 @@
  *
  * Run after `npm run build`:
  *   PLAYWRIGHT_CHROMIUM=/opt/pw-browsers/chromium node scripts/qa/ai-gtm-scroll-build-check.mjs \
- *     [--candidate quality/ai-gtm/material-review-candidate-r45.json]
+ *     [--candidate quality/ai-gtm/material-review-candidate-r47.json]
  */
 import { createHash } from "node:crypto";
 import { spawn } from "node:child_process";
@@ -612,7 +612,7 @@ for (const [width, height] of [[1440, 900], [390, 844]]) {
 }
 
 /* Evidence in the scroll-build shape, checked by the vendored validator. */
-const contract = { acceptedDecision: "r45 candidate: /ai-gtm pinned chapters", cases: [] };
+const contract = { acceptedDecision: "r47 candidate: /ai-gtm pinned chapters", cases: [] };
 const report = { cases: [] };
 const candidateFiles = ["src/pages/AiGtm.tsx", "src/hooks/usePinnedSteps.ts", "src/styles/mindmake-ai-gtm.css", "src/components/ai-gtm/Opening.tsx", "src/components/ai-gtm/LeverChapter.tsx", "src/components/ai-gtm/Workaround.tsx", "src/components/ai-gtm/PlanChapter.tsx", "src/components/ai-gtm/TeamChapter.tsx", "src/components/ai-gtm/StepRail.tsx"];
 contract.candidateDigest = identity?.sha256 ?? sha256(Buffer.concat(await Promise.all(candidateFiles.map((file) => readFile(path.join(root, file))))));

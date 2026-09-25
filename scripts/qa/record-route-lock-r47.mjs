@@ -1,14 +1,14 @@
 #!/usr/bin/env node
-/* Writes quality/route-lock/approved-production-r45.json from r44 and the
-   working tree: the /ai-gtm rebuild on the house system (r45).
+/* Writes quality/route-lock/approved-production-r47.json from r46 and the
+   working tree: the /ai-gtm rebuild on the house system (r47).
 
-   Every file r44 locks is re-hashed. A locked file whose bytes changed must be
+   Every file r46 locks is re-hashed. A locked file whose bytes changed must be
    named in REASONS below with why, or this refuses to write the record; that
    is what keeps a declared revision from turning into a silent rehash. Files
    new to the lock are listed with their reason too. Run it again after any
    edit to a locked file; the record is only written from the tree as it is.
 
-   Usage: node scripts/qa/record-route-lock-r45.mjs [--check] */
+   Usage: node scripts/qa/record-route-lock-r47.mjs [--check] */
 import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
 import { readFile, writeFile } from "node:fs/promises";
@@ -17,8 +17,8 @@ import { execFileSync } from "node:child_process";
 import { sourceHashBytes } from "../lib/source-hash.mjs";
 
 const root = resolve(import.meta.dirname, "../..");
-const previousPath = "quality/route-lock/approved-production-r44.json";
-const outputPath = "quality/route-lock/approved-production-r45.json";
+const previousPath = "quality/route-lock/approved-production-r46.json";
+const outputPath = "quality/route-lock/approved-production-r47.json";
 const previous = JSON.parse(await readFile(resolve(root, previousPath), "utf8"));
 const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const hashOf = async (path, manifest) => sha256(sourceHashBytes(path, await readFile(resolve(root, path)), manifest));
@@ -26,16 +26,16 @@ const hashOf = async (path, manifest) => sha256(sourceHashBytes(path, await read
 const SCOPE = "Krish, 2026-09-25: \"https://mindmake.co/ai-gtm - this page has the most confusing user experience. As I scroll, I just have no idea where to look. There's no visual hierarchy of sections. There are no scroll builds. It doesn't set up a universal problem that someone will really feel empathically that we understand them. None of this talks to a user one-to-one, so it doesn't really set up the problem that we're solving. The fonts are all over the place. They're not part of a cohesive design system as per the rest of the repository, nor is the rest of the look and feel of this page, to be honest. The content is more or less there in terms of what we're supposed to be saying and offering, but everything else is not up to scratch in terms of: the copywriting, the UX, the aesthetics, the design system, the build of the page, the visual delight etc etc\"";
 
 const RETIRED_GTM_STYLES = [
-  ["src/styles/mindmake-locked-gtm.css", "GTM-PLAIN-R2's generated private stylesheet (its own palette, three mints, non-variable font names, labels down to 7.7px). Retired in r45 for src/styles/mindmake-ai-gtm.css on the house tokens."],
-  ["src/styles/mindmake-gtm-plain.css", "GTM-PLAIN-R2's override layer on the stylesheet above. Retired with it in r45."],
+  ["src/styles/mindmake-locked-gtm.css", "GTM-PLAIN-R2's generated private stylesheet (its own palette, three mints, non-variable font names, labels down to 7.7px). Retired in r47 for src/styles/mindmake-ai-gtm.css on the house tokens."],
+  ["src/styles/mindmake-gtm-plain.css", "GTM-PLAIN-R2's override layer on the stylesheet above. Retired with it in r47."],
 ];
 
 /* Locked files this revision changes, and why. */
 const REASONS = {
   "src/pages/AiGtm.tsx": "Rebuilt as one argument in the house system: problem-first opening, four felt moments with dated sources, the turn to the offer, the 30 days, the team, one result. The approved copy, levers, plan, team, decisions, proof and brief routing are kept; the chapters live in src/components/ai-gtm/.",
   "src/styles/mindmake.css": "The three GTM-only --mm-header-inline overrides for the retired 1,360px shell are removed, so the wordmark, menu and footer take the shell edge that /ai-gtm's content now uses.",
-  "scripts/qa/approved-route-lock-check.mjs": "Selects r45.",
-  "scripts/qa/approved-route-lock-self-test.mjs": "Selects r45 and names its temporary controls after it.",
+  "scripts/qa/approved-route-lock-check.mjs": "Selects r47.",
+  "scripts/qa/approved-route-lock-self-test.mjs": "Selects r47 and names its temporary controls after it.",
   "src/test/brief2-public-contract.test.ts": "Coverage follows the markup that moved from AiGtm.tsx into src/components/ai-gtm/ and src/hooks/usePinnedSteps.ts. No assertion removed or weakened.",
   "scripts/qa/locked-material-production-check.mjs": "/ai-gtm leaves the locked-material routes: its cases had asserted the retired signal-and-response design since r25 and read the deleted stylesheet. The Brain checks are unchanged.",
   "scripts/qa/full-route-continuity-check.mjs": "The 200% reflow case for /ai-gtm measures the decision panel that replaced the test slip.",
@@ -56,7 +56,7 @@ const NEW = {
   "src/styles/mindmake-ai-gtm.css": "The route stylesheet on the house tokens: Newsreader, Archivo, Plex Mono, one mint, amber for change and evidence.",
   "src/test/ai-gtm-pinned-steps.test.tsx": "The pin contract: maths, forward and reverse, controls, reduced motion, unpinned fallback, no input capture.",
   "src/test/ai-gtm-page.test.tsx": "The page contract: problem before offer, every step server-rendered, the switch, the quote, the stylesheet's token and size rules.",
-  "scripts/qa/record-route-lock-r45.mjs": "Writes this record from the tree and refuses an undeclared change to a locked file.",
+  "scripts/qa/record-route-lock-r47.mjs": "Writes this record from the tree and refuses an undeclared change to a locked file.",
 };
 
 const check = process.argv.includes("--check");
@@ -66,14 +66,14 @@ const allowedExistingChanges = [];
 
 for (const [path, before] of Object.entries(previous.files)) {
   if (RETIRED_GTM_STYLES.some(([retired]) => retired === path)) {
-    if (existsSync(resolve(root, path))) failures.push(`${path} is retired in r45 but still exists`);
+    if (existsSync(resolve(root, path))) failures.push(`${path} is retired in r47 but still exists`);
     continue;
   }
   const after = await hashOf(path, previous);
   files[path] = after;
   if (after !== before) {
     const reason = REASONS[path];
-    if (!reason) failures.push(`${path} changed since r44 with no declared reason`);
+    if (!reason) failures.push(`${path} changed since r46 with no declared reason`);
     else allowedExistingChanges.push({ path, before, after, reason });
   }
 }
@@ -82,12 +82,12 @@ for (const [path] of Object.entries(NEW)) {
   files[path] = await hashOf(path, previous);
 }
 
-const baselineCommit = execFileSync("git", ["rev-parse", "--short=7", "bde3a78"], { cwd: root, encoding: "utf8" }).trim();
+const baselineCommit = execFileSync("git", ["rev-parse", "--short=7", "1462cb0"], { cwd: root, encoding: "utf8" }).trim();
 
 const record = {
-  artifact: "mindmake-approved-production-routes-r45",
+  artifact: "mindmake-approved-production-routes-r47",
   recordedAt: "2026-09-25",
-  status: "record of the /ai-gtm rebuild on Krish's 2026-09-25 review. His review of the rebuilt page is tracked by AI-GTM-R45-OWNER-REVIEW-001 in the feedback ledger.",
+  status: "record of the /ai-gtm rebuild on Krish's 2026-09-25 review. His review of the rebuilt page is tracked by AI-GTM-R47-OWNER-REVIEW-001 in the feedback ledger.",
   scopeRequested: SCOPE,
   sessionDecisions: [
     "/ai-gtm is told as one argument in the order a buyer lives it: the change they already feel, in four places; the easy way out and what it costs; the offer; the 30 days; what their team becomes; one result. Each chapter holds one idea on one screen.",
@@ -105,8 +105,8 @@ const record = {
     "The two films the continuity contract gives this page stay: quiet-workshop-growth behind the opening and signals-arrive behind chapter one, on their existing 9 to 22KB WebP posters instead of 570 to 892KB PNGs. No other imagery.",
     "A stage pins only where its step fits: the stylesheet unpins short screens, phones held sideways and readers without scripting, and the hook releases any chapter whose content outgrows its stage (a reader's own text spacing or font size, a short laptop) before the reader reaches it, never while they are in it. Released chapters lay every step out. Reduced motion keeps every pin and drops the transitions. A rail press holds its step only until the page arrives.",
     "On the cream bands the focus ring takes the paper's own mint (--mm-mint-d), because the bright mint ring is under 3:1 on the cream.",
-    "Numbered r45: the candidate was built as r44, and main took r44 for the homepage archive engine hero r06 (PR #201) first. This record sits on that one; the candidate, its ledger items and its evidence were renamed r45 before main was merged in, and nothing in main's r44 is rewritten.",
-    "Correction to r43's retired list: pinnedChapters.ts, pinnedChapters.css and homepage-pin-lifecycle.test.ts were reinstated by r41 and remain locked in files, so r45 does not list them as retired.",
+    "Numbered r47: the candidate was built as r44; main took r44 (the homepage archive engine hero r06, PR #201), r45 (its revert, PR #202) and r46 (benefit headlines and practice, PR #203) first. This record sits on r46; the candidate, its ledger items and its evidence were renamed r47 before main was merged in, and nothing main recorded is rewritten. The gate evidence in artifacts/ai-gtm/scroll-build was captured under the id ai-gtm-r45 on the same /ai-gtm source bytes.",
+    "Correction to r43's retired list: pinnedChapters.ts, pinnedChapters.css and homepage-pin-lifecycle.test.ts were reinstated by r41 and remain locked in files, so r47 does not list them as retired.",
   ],
   routes: previous.routes,
   changePolicy: previous.changePolicy,
@@ -167,7 +167,7 @@ if (check) {
   const current = existsSync(resolve(root, outputPath)) ? await readFile(resolve(root, outputPath), "utf8") : "";
   const stripVerification = (value) => value ? JSON.stringify({ ...JSON.parse(value), verification: null }) : "";
   if (stripVerification(current) !== stripVerification(text)) {
-    console.error(`${outputPath} is stale: run node scripts/qa/record-route-lock-r45.mjs`);
+    console.error(`${outputPath} is stale: run node scripts/qa/record-route-lock-r47.mjs`);
     process.exit(1);
   }
   console.log(`${outputPath} matches the tree`);

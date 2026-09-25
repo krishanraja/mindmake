@@ -31,7 +31,7 @@ const fingerprints = {
   "prototypes/website-redesign-recovery/brain-signature/index-s2-motion-s3.html": "423659d864e79a72a55d4fd3ca9450b610e616187929293f1e0a8faaafbff2c6",
   "src/styles/mindmake-locked-brain.css": "51e0a9a3a351e81d8578f570eaf662d0f6b958acf17551c666caf89ddc5dc4a2",
 };
-/* /ai-gtm left the locked-material routes in r45: it is written by hand on the
+/* /ai-gtm left the locked-material routes in r47: it is written by hand on the
    house tokens and has its own scroll-build gate (scripts/qa/ai-gtm-scroll-build-check.mjs).
    Its checks here had asserted the retired signal-and-response design since r25. */
 const issues = [];

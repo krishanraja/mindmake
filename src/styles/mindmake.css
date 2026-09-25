@@ -647,7 +647,7 @@ html {
    locked brain route, whose chapters are drawn against their own measure,
    `max(4vw, (100vw - 1600px) / 2)`. Measured at 1440 its heading started at
    57.6px while the wordmark sat at 100px, so the mark floated inboard of the
-   page it belongs to. /ai-gtm is drawn on the container since r45 and needs
+   page it belongs to. /ai-gtm is drawn on the container since r47 and needs
    no override.
 
    `--mm-header-inline` lets each surface name its own edge and defaults to the

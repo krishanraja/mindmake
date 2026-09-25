@@ -173,7 +173,7 @@ async function sweep(page, height, direction) {
 
 for (const engineName of asked) {
   if (!engines[engineName]) { failures.push(`unknown engine ${engineName}`); continue; }
-  const browser = await engines[engineName].launch({ headless: true });
+  const browser = await engines[engineName].launch({ headless: true, ...(engineName === "chromium" && process.env.PLAYWRIGHT_CHROMIUM ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM } : {}) });
   for (const [width, height] of VIEWPORTS[engineName]) {
     const label = `${engineName}-${width}x${height}`;
     const page = await browser.newPage({ viewport: { width, height } });
@@ -252,9 +252,17 @@ for (const engineName of asked) {
       await page.screenshot({ path: `${output}/${label}.png`, fullPage: false });
     }
 
-    /* The route's stylesheet is scoped so it cannot follow the reader out. */
+    /* The route's stylesheet is scoped so it cannot follow the reader out.
+       From r35 the homepage carries the three shared leadership chapters in
+       its own `.nal-page.mm-home-leadership` scope, so the check is that
+       nothing else of this page reaches `/`: no other scope, and none of the
+       parts only this route owns (hero, history lens, finale). */
     await page.goto(`${origin}/`, { waitUntil: "domcontentloaded" });
-    fail(await page.locator(".nal-page").count() !== 0, `${label}: page scope survives route navigation`);
+    const leaked = await page.evaluate(() => ({
+      scopes: document.querySelectorAll(".nal-page:not(.mm-home-leadership)").length,
+      routeOnly: document.querySelectorAll(".nal-page .hero, .nal-page .time-lens, .nal-page .finale, .nal-page .old-feeling").length,
+    }));
+    fail(leaked.scopes !== 0 || leaked.routeOnly !== 0, `${label}: page scope survives route navigation (${JSON.stringify(leaked)})`);
     await page.close();
   }
   await browser.close();
@@ -263,7 +271,7 @@ for (const engineName of asked) {
 /* A negative control. With the sticky positioning removed the sequences cannot
    build with scroll and the tracks empty out, which is exactly the shipped
    fault; if the sweep above still passes against that, it is measuring nothing. */
-const control = await chromium.launch({ headless: true });
+const control = await chromium.launch({ headless: true, ...(process.env.PLAYWRIGHT_CHROMIUM ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM } : {}) });
 const controlPage = await control.newPage({ viewport: { width: 1440, height: 900 } });
 await controlPage.goto(`${origin}/new-age-leadership`, { waitUntil: "domcontentloaded" });
 await controlPage.locator("#hero-title").waitFor();

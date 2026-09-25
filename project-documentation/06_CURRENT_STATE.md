@@ -17,9 +17,7 @@ The approved R3 homepage carries: opening, the R3 history chapter (four pinned
 eras), the three new-age leadership chapters (reach in both its states,
 practice, and the AI Brain benefits beside the returned hour), AI Brain/AI GTM
 routes and footer. Every chapter pins by scroll in both directions, releases
-naturally and keeps direct controls on reduced-motion and short screens. The
-r41 candidate below restores history and the reach chapter's first state;
-production shows the r39/r40 page until it is read back. The new-age-leadership route is a separate
+naturally and keeps direct controls on reduced-motion and short screens. The new-age-leadership route is a separate
 approved companion that shares their source.
 
 [RELEASE-2026-09-24](website-redesign/RELEASE-2026-09-24.md) owns the receipt.
@@ -309,6 +307,22 @@ owns payload, privacy, retention, email and failure-path contracts.
   four eras by `src/components/homepage-release/pinnedChapters.ts`, ahead of
   the leadership chapters, and the reach chapter scrolls from "The feeling is
   familiar. The reach is new." into "The organisation changes shape.".
+  Merged as PR #198, commit `3d6339d`; main's post-merge matrix on that
+  commit passed on Chromium, Firefox and WebKit, including the leadership
+  scroll gate. Production read back on 25 September 2026 at about 09:10 UTC:
+  `/` serves the history chapter, "If knowledge lives outside us" and both
+  reach states; `/new-age-leadership` is unchanged.
+- Homepage footer and /ai-brain legibility (r42): the homepage footer
+  statement breaks before "changes", and its eight routes sit on one line from
+  1,024px up. On /ai-brain the chapter headlines inherit their chapter's ink
+  again (the shell heading colour had set them near-white on paper, about
+  1.1:1); the small labels, the living record's lede and the green action
+  labels meet AA; chapters reserve the fixed chapter rail's width; node
+  labels on the right of the field sit to the node's left; and the
+  no-lone-word helper takes back a join that would be clipped. The homepage
+  route headline is set small enough on phones for "judgement reusable." to
+  fit, and the phone footer lays its links in two even columns.
+  Recorded in `quality/route-lock/approved-production-r42.json`.
 - The homepage opening hero plays the Archive Engine loop
   (`src/assets/films/sep2026/archive-engine-hero-loop-r04-16s-1080p-web-sealed.mp4`)
   with its own WebP poster; the route stage keeps `film-02`. Recorded in

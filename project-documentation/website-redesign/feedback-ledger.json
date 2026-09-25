@@ -449,6 +449,42 @@
         "src/test/homepage-pin-lifecycle.test.ts",
         "Desktop and phone screenshots of history and both reach states reviewed on the built site."
       ]
+    },
+    {
+      "id": "HOMEPAGE-FOOTER-LINE-001",
+      "exactFeedback": "in the footer, move the word 'changes' over to the 2nd line, and reduce the size of the links so they all fit on one line. Then on the AI Brain page, fix the colour contrast issues with the text, and the text that falls off the page",
+      "source": "Krish, 25 September 2026, with a screenshot of the homepage footer",
+      "surface": "/",
+      "section": "Footer",
+      "device": "desktop",
+      "element": "the footer statement and the eight footer routes",
+      "classification": "correction",
+      "requiredOutcome": "The statement breaks before \"changes\" and all eight routes sit on one line.",
+      "acceptanceTest": "On the built homepage the statement reads \"Keep your edge as AI\" then \"changes the market.\", and the eight footer routes share one line at 1024, 1280, 1440, 1600 and 1920.",
+      "status": "verified",
+      "resolution": "Generator break (counted) and smaller, tighter footer routes from 701px up. Recorded in quality/route-lock/approved-production-r42.json.",
+      "evidence": [
+        "quality/route-lock/approved-production-r42.json",
+        "Built-site measurement: one row of routes at 1024 to 1920; screenshot at 1440 reviewed."
+      ]
+    },
+    {
+      "id": "AI-BRAIN-LEGIBILITY-001",
+      "exactFeedback": "in the footer, move the word 'changes' over to the 2nd line, and reduce the size of the links so they all fit on one line. Then on the AI Brain page, fix the colour contrast issues with the text, and the text that falls off the page",
+      "source": "Krish, 25 September 2026, with a screenshot of the /ai-brain memory chapter",
+      "surface": "/ai-brain",
+      "section": "Chapters and instruments",
+      "device": "desktop and mobile",
+      "element": "chapter headlines, small labels, the inspector headline, node labels and the chapter rail",
+      "classification": "correction",
+      "requiredOutcome": "All text on /ai-brain meets WCAG AA contrast and none is cut off.",
+      "acceptanceTest": "A built-site scan at 1920, 1800, 1440, 1280, 1024 and 390 finds no text clipped by the viewport or an overflow-hiding ancestor and no text under 4.5:1 (3:1 large); the fixed rail clears every instrument.",
+      "status": "verified",
+      "resolution": "Brain headings inherit their chapter's ink; label colours raised; chapters reserve the rail's width; right-hand node labels flip left; keepLastWords undoes an overflowing join. Recorded in quality/route-lock/approved-production-r42.json.",
+      "evidence": [
+        "quality/route-lock/approved-production-r42.json",
+        "Built-site scans and screenshots at 1800 and 390 reviewed."
+      ]
     }
   ]
 }

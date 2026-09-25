@@ -110,7 +110,14 @@ ${root} .field-intro{grid-template-columns:minmax(0,1fr)}
  * render identically and the stylesheet serves both.
  */
 function storyFigureMarkup(figure: ClientStory["figure"]) {
-  const labels = (from: string, to: string) => `<p><span>${escapeHtml(from)}</span><span>${escapeHtml(to)}</span></p>`;
+  // A record with nothing to say at either end renders no label row, rather
+  // than a row of two empty spans reserving the space where words would go.
+  // business-first is the one that carries none: its endpoints would repeat its
+  // own headline, and the two obvious phrasings are on the field's banned-copy
+  // list. The absence is the decision; this stops it looking like an omission.
+  const labels = (from: string, to: string) => (from || to
+    ? `<p><span>${escapeHtml(from)}</span><span>${escapeHtml(to)}</span></p>`
+    : "");
   if (figure.shape === "span") {
     const resolved = Math.max(3, Math.sqrt(figure.to / figure.from) * 100);
     return `<div class="mm-fig mm-fig-span" data-fig="span" data-resolved="${resolved.toFixed(2)}">

@@ -33,7 +33,7 @@ function Span({ figure, at }: { figure: Extract<Figure, { shape: "span" }>; at: 
         className="mm-fig-bar is-now"
         style={{ width: `${Math.max(3, share * 100 * Math.min(1, at * 1.4))}%` }}
       />
-      <p><span>{figure.fromLabel}</span><span>{figure.toLabel}</span></p>
+      {(figure.fromLabel || figure.toLabel) && <p><span>{figure.fromLabel}</span><span>{figure.toLabel}</span></p>}
     </div>
   );
 }
@@ -93,7 +93,7 @@ function Cadence({ figure, at }: { figure: Extract<Figure, { shape: "cadence" }>
           <i key={index} className={index % 28 < filled ? "is-on" : ""} />
         ))}
       </div>
-      <p><span>{figure.fromLabel}</span><span>{figure.toLabel}</span></p>
+      {(figure.fromLabel || figure.toLabel) && <p><span>{figure.fromLabel}</span><span>{figure.toLabel}</span></p>}
     </div>
   );
 }
@@ -127,7 +127,7 @@ function Offer({ figure, at }: { figure: Extract<Figure, { shape: "offer" }>; at
           );
         })}
       </svg>
-      <p><span>{figure.before}</span><span>{figure.after}</span></p>
+      {(figure.before || figure.after) && <p><span>{figure.before}</span><span>{figure.after}</span></p>}
     </div>
   );
 }

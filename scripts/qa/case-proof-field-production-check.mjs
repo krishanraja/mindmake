@@ -398,6 +398,18 @@ async function exercise(page, label, width, height) {
   fail(await page.locator('.region-copy cite').count() !== 8, `${label}: the cold field does not attribute all eight results`);
   fail(await page.locator('.expanded blockquote').count() !== 8, `${label}: the records do not carry their testimony`);
   fail(await page.locator('.expanded [data-fig]').count() !== 8, `${label}: the records do not carry a figure bound to story.figure`);
+  // A record with nothing to say at either end renders no label row at all. It
+  // used to render two empty spans, which reserved the space where words would
+  // go and read as an omission rather than the decision it is: business-first's
+  // endpoints would repeat its own headline, and both obvious phrasings are on
+  // the prohibited list above.
+  const blankLabelRows = await page.evaluate(() => [...document.querySelectorAll('.mm-fig')].flatMap((fig) => {
+    const story = fig.closest('.region')?.dataset.story ?? '?';
+    return [...fig.querySelectorAll(':scope > p')]
+      .filter((row) => !row.className && row.querySelectorAll(':scope > span').length === 2 && !row.textContent.trim())
+      .map(() => story);
+  }));
+  for (const story of blankLabelRows) fail(true, `${label}: ${story} reserves an empty figure label row`);
   fail(await page.locator('.region-glyph, .mechanism').count() !== 0, `${label}: the retired mechanism glyph survives`);
 
   if (compact && height >= width) {

@@ -1,4 +1,5 @@
 import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import { Check, Download, LoaderCircle, X } from "lucide-react";
 import type { CompanyDossier as Dossier } from "@/components/mindmake/companyRead";
 import { FilmPlate } from "@/components/mindmake/FilmPlate";
@@ -14,6 +15,7 @@ import {
 } from "@/components/mindmake/leadDelivery";
 import type { Details } from "@/components/mindmake/journeys/DetailsJourney";
 import { HumanHandoff } from "@/components/mindmake/HumanHandoff";
+import { BrandMarks } from "@/components/mindmake/MindmakeBrand";
 import { MindmakeProposal } from "@/components/mindmake/MindmakeProposal";
 import { buildPrivateBriefHtml, type PrivateBriefContent } from "@/components/mindmake/privateBriefHtml";
 import "@/styles/mindmake-brief.css";
@@ -25,6 +27,7 @@ import {
   DIVISIONS,
   FREE_EMAIL_PROBLEM,
   domainFromEmail,
+  nameFromEmail,
   workEmailProblem,
   type Division,
 } from "@/lib/workEmail";
@@ -284,6 +287,63 @@ const usesCoarseInteraction = () => {
   return coarsePointer || navigator.maxTouchPoints > 0;
 };
 
+/* How far the visible height has to fall below its resting height, with a
+   field being typed into, before the dialog treats the software keyboard as
+   open. The address bar moves about 56px; a keyboard takes 250 or more. */
+export const KEYBOARD_OPEN_THRESHOLD_PX = 150;
+const REVEAL_GAP_PX = 12;
+
+/* A field that brings up the software keyboard, as opposed to a button, a box
+   or a native selector. */
+const isTextEntry = (element: Element | null): element is HTMLInputElement | HTMLTextAreaElement =>
+  (element instanceof HTMLInputElement && !["checkbox", "radio", "button", "submit", "hidden"].includes(element.type))
+  || element instanceof HTMLTextAreaElement;
+
+/* What has to be on screen for a field to be usable: its label, the field and
+   whatever hint or error it points at. */
+const fieldGroup = (field: HTMLElement): HTMLElement[] => {
+  const labels = "labels" in field && field.labels ? Array.from(field.labels as NodeListOf<HTMLElement>) : [];
+  const described = (field.getAttribute("aria-describedby") ?? "")
+    .split(/\s+/)
+    .map((id) => (id ? document.getElementById(id) : null))
+    .filter((element): element is HTMLElement => element instanceof HTMLElement);
+  return [...labels, field, ...described];
+};
+
+/**
+ * Keeps a group of elements between the dialog's sticky header and the bottom
+ * of what can actually be seen, by scrolling the panel alone.
+ *
+ * It does nothing while the group is already in view, so it can run on every
+ * change of the visible viewport without moving anything that is already
+ * readable. When it does move, it is instant and it scrolls the panel rather
+ * than calling `scrollIntoView`, which would also scroll the page and the
+ * visual viewport the dialog is pinned to.
+ */
+const revealWithinPanel = (panel: HTMLElement, group: HTMLElement[]) => {
+  if (group.length === 0) return;
+  const panelRect = panel.getBoundingClientRect();
+  const viewport = window.visualViewport;
+  const visibleTop = viewport?.offsetTop ?? 0;
+  const visibleBottom = Math.min(panelRect.bottom, viewport ? viewport.offsetTop + viewport.height : window.innerHeight);
+  const chromeBottom = Array.from(panel.querySelectorAll<HTMLElement>(".mm-brief-top, .mm-brief-path"))
+    .filter((element) => {
+      const style = window.getComputedStyle(element);
+      return style.position === "sticky" && style.display !== "none";
+    })
+    .reduce((edge, element) => Math.max(edge, element.getBoundingClientRect().bottom), Math.max(panelRect.top, visibleTop));
+  const upper = chromeBottom + REVEAL_GAP_PX;
+  const lower = visibleBottom - REVEAL_GAP_PX;
+  const rects = group.map((element) => element.getBoundingClientRect());
+  const top = Math.min(...rects.map((rect) => rect.top));
+  const bottom = Math.max(...rects.map((rect) => rect.bottom));
+  if (top >= upper && bottom <= lower) return;
+  /* The label is what says what the field is for, so when the group cannot
+     fit the band its top wins. */
+  const delta = top < upper || bottom - top > lower - upper ? top - upper : bottom - lower;
+  panel.scrollTop += delta;
+};
+
 /* The read is a written brief, not a conversation: any sentence that asks the
    visitor something, or invites a correction, is dropped before display. The
    server applies the same rule before the read is stored or emailed. */
@@ -335,6 +395,10 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
   const [collected, setCollected] = useState<Details | null>(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  /* The names last read from the work email. A field still holding its guess
+     was filled by us and may be refilled when the address changes; anything
+     else was typed and is left alone. */
+  const [autoNames, setAutoNames] = useState({ first: "", last: "" });
   const [division, setDivision] = useState<Division | "">("");
   const [entryError, setEntryError] = useState("");
   const [entryErrorField, setEntryErrorField] = useState<"email" | "name" | "division" | null>(null);
@@ -355,6 +419,8 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
   const [previewAnnouncement, setPreviewAnnouncement] = useState("");
   const [email, setEmail] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
+  const [codeResent, setCodeResent] = useState(false);
+  const [stepAnnouncement, setStepAnnouncement] = useState("");
   const [newsletter, setNewsletter] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [handoffResult, setHandoffResult] = useState<MindmakeConfirmedResponseV2 | null>(null);
@@ -368,6 +434,10 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
   const previewReturnFocusRef = useRef<HTMLElement | null>(null);
   const stepHeadingRef = useRef<HTMLHeadingElement>(null);
   const firstFieldRef = useRef<HTMLInputElement>(null);
+  const lastNameRef = useRef<HTMLInputElement>(null);
+  const choiceActionRef = useRef<HTMLButtonElement>(null);
+  const revealChoiceActionRef = useRef(false);
+  const lastAutoSubmittedRef = useRef("");
   const firstDivisionRef = useRef<HTMLButtonElement>(null);
   const divisionSelectRef = useRef<HTMLSelectElement>(null);
   const previousFocus = useRef<HTMLElement | null>(null);
@@ -430,6 +500,7 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
     setCollected(null);
     setFirstName("");
     setLastName("");
+    setAutoNames({ first: "", last: "" });
     setDivision("");
     setEntryError("");
     setEntryErrorField(null);
@@ -449,6 +520,9 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
     setPreviewAnnouncement("");
     setEmail("");
     setVerificationCode("");
+    setCodeResent(false);
+    setStepAnnouncement("");
+    lastAutoSubmittedRef.current = "";
     setNewsletter(false);
     setSubmitting(false);
     setHandoffResult(null);
@@ -469,6 +543,14 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
     }
     previousFocus.current = document.activeElement as HTMLElement | null;
     document.body.classList.add("mm-dialog-open");
+    /* On a phone the page behind is locked at the root as well, because the
+       body alone does not stop it scrolling there. iOS still moves the page to
+       reveal a focused field, so the position it opened at is put back on
+       close. The class does nothing above phone width (see the stylesheet),
+       which keeps the homepage's pinned chapters from being re-measured
+       behind the drawer. */
+    const openedAtScrollY = window.scrollY;
+    document.documentElement.classList.add("mm-dialog-lock");
     const backdrop = backdropRef.current;
     const main = backdrop?.parentElement;
     const site = backdrop?.closest<HTMLElement>(".mm-site");
@@ -489,6 +571,7 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
     });
     return () => {
       document.body.classList.remove("mm-dialog-open");
+      document.documentElement.classList.remove("mm-dialog-lock");
       previousBackgroundState.forEach(({ element, inert, ariaHidden }) => {
         element.inert = inert;
         if (ariaHidden === null) element.removeAttribute("aria-hidden");
@@ -496,6 +579,8 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
       });
       previousFocus.current?.focus();
       previousFocus.current = null;
+      const phone = typeof window.matchMedia === "function" && window.matchMedia("(max-width: 560px)").matches;
+      if (phone && Math.abs(window.scrollY - openedAtScrollY) > 1) window.scrollTo(0, openedAtScrollY);
     };
   }, [open, resetJourney]);
 
@@ -506,7 +591,8 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
       if (raw) {
         const draft = JSON.parse(raw) as {
           savedAt?: number; step?: Step; door?: BriefRoute; collected?: Details | null;
-          firstName?: string; lastName?: string; division?: Division | ""; domain?: string;
+          firstName?: string; lastName?: string; autoNames?: { first?: unknown; last?: unknown };
+          division?: Division | ""; domain?: string;
           companyReadState?: CompanyReadState; dossier?: Dossier | null; liveRead?: boolean;
           pressure?: string; tailoredChoice?: TailoredPressure | null; showGenericChoices?: boolean;
           capacity?: string; previousCapacity?: string | null; previewLeaf?: number;
@@ -519,6 +605,12 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
           setCollected(draft.collected ?? null);
           setFirstName(draft.firstName ?? "");
           setLastName(draft.lastName ?? "");
+          /* A draft saved before names were read from the address carries no
+             guesses, so its names count as typed and are never overwritten. */
+          setAutoNames({
+            first: typeof draft.autoNames?.first === "string" ? draft.autoNames.first : "",
+            last: typeof draft.autoNames?.last === "string" ? draft.autoNames.last : "",
+          });
           setDivision(draft.division ?? "");
           setDomain(draft.domain ?? "");
           setCompanyReadState(draft.companyReadState === "reading" ? "ready" : (draft.companyReadState ?? "idle"));
@@ -550,11 +642,11 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
       return;
     }
     window.sessionStorage.setItem(draftStorageKey, JSON.stringify({
-      savedAt: Date.now(), step, door, collected, firstName, lastName, division,
+      savedAt: Date.now(), step, door, collected, firstName, lastName, autoNames, division,
       domain, companyReadState, dossier, liveRead, pressure, tailoredChoice,
       showGenericChoices, capacity, previousCapacity, previewLeaf, email, researchIssue,
     }));
-  }, [capacity, collected, companyReadState, domain, dossier, division, door, draftHydratedFor, draftStorageKey, email, firstName, lastName, liveRead, open, pressure, previousCapacity, previewLeaf, researchIssue, showGenericChoices, step, tailoredChoice]);
+  }, [autoNames, capacity, collected, companyReadState, domain, dossier, division, door, draftHydratedFor, draftStorageKey, email, firstName, lastName, liveRead, open, pressure, previousCapacity, previewLeaf, researchIssue, showGenericChoices, step, tailoredChoice]);
 
   useEffect(() => {
     if (!open) return;
@@ -650,11 +742,26 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
   useEffect(() => {
     if (!open) return;
     const focusTimer = window.setTimeout(() => {
-      panelRef.current?.scrollTo?.({ top: 0 });
+      const panel = panelRef.current;
+      const headingText = stepHeadingRef.current?.textContent?.trim() ?? "";
+      /* A field the step change already focused (the name the address could
+         not fill, typed straight on from the email) keeps its focus, and with
+         it the keyboard. Going back to the top and the heading would drop the
+         keyboard or leave the field under it. */
+      const active = document.activeElement;
+      if (panel && isTextEntry(active) && panel.contains(active)) {
+        revealWithinPanel(panel, fieldGroup(active));
+        setStepAnnouncement(headingText);
+        return;
+      }
+      panel?.scrollTo?.({ top: 0 });
       const focusTarget = !usesCoarseInteraction() && (["company", "profile", "contact", "verify"] as Step[]).includes(step)
         ? firstFieldRef.current
         : stepHeadingRef.current;
       focusTarget?.focus({ preventScroll: true });
+      /* Focus on a field names the field, not the step, so the step's title
+         is said once as well. */
+      setStepAnnouncement(focusTarget && focusTarget !== stepHeadingRef.current ? headingText : "");
     }, 30);
     return () => window.clearTimeout(focusTimer);
   }, [open, step]);
@@ -669,48 +776,75 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
       window.innerHeight,
       visualViewport ? visualViewport.height + visualViewport.offsetTop : 0,
     );
+    /* The tallest the visible viewport has been with nothing being typed into.
+       Measuring the keyboard against this, rather than against the layout
+       height, still works when the visual viewport is panned and in in-app
+       browsers that shrink the whole page for the keyboard. */
+    let restingHeight = visualViewport?.height ?? window.innerHeight;
+    let restingWidth = visualViewport?.width ?? window.innerWidth;
 
-    const centreActiveField = () => {
+    const focusedTextField = () => {
+      const active = document.activeElement;
+      return isTextEntry(active) && panelRef.current?.contains(active) ? active : null;
+    };
+
+    /* Runs after the new size has been written, and moves nothing unless the
+       focused field has actually gone out of view. */
+    const revealFocusedField = () => {
       window.cancelAnimationFrame(animationFrame);
       animationFrame = window.requestAnimationFrame(() => {
-        const activeElement = document.activeElement;
-        const isField = activeElement instanceof HTMLInputElement
-          || activeElement instanceof HTMLTextAreaElement
-          || activeElement instanceof HTMLSelectElement;
-        if (isField && panelRef.current?.contains(activeElement)) {
-          activeElement.scrollIntoView?.({ block: "center", inline: "nearest" });
-        }
+        const panel = panelRef.current;
+        const active = document.activeElement;
+        const field = active instanceof HTMLElement && panel?.contains(active)
+          && (isTextEntry(active) || active instanceof HTMLSelectElement)
+          ? active
+          : null;
+        if (panel && field) revealWithinPanel(panel, fieldGroup(field));
       });
     };
 
-    const syncViewport = (centreField: boolean) => {
+    const syncViewport = (reveal: boolean) => {
       const viewport = window.visualViewport;
       const height = viewport?.height ?? window.innerHeight;
       const width = viewport?.width ?? window.innerWidth;
       const offsetTop = viewport?.offsetTop ?? 0;
       const offsetLeft = viewport?.offsetLeft ?? 0;
       const visibleBottom = height + offsetTop;
+      if (Math.abs(width - restingWidth) > 1) {
+        restingWidth = width;
+        restingHeight = height;
+        layoutHeight = Math.max(window.innerHeight, visibleBottom);
+      }
+      const typing = focusedTextField() !== null;
+      if (!typing) restingHeight = Math.max(restingHeight, height);
       layoutHeight = Math.max(layoutHeight, window.innerHeight, visibleBottom);
       const keyboardInset = Math.max(0, layoutHeight - visibleBottom);
+      const keyboardOpen = typing && restingHeight - height > KEYBOARD_OPEN_THRESHOLD_PX;
 
       backdrop.style.setProperty("--mm-brief-viewport-height", `${Math.round(height)}px`);
       backdrop.style.setProperty("--mm-brief-viewport-width", `${Math.round(width)}px`);
       backdrop.style.setProperty("--mm-brief-viewport-top", `${Math.round(offsetTop)}px`);
       backdrop.style.setProperty("--mm-brief-viewport-left", `${Math.round(offsetLeft)}px`);
       backdrop.style.setProperty("--mm-brief-keyboard-inset", `${Math.round(keyboardInset)}px`);
+      if (keyboardOpen) backdrop.setAttribute("data-keyboard", "open");
+      else backdrop.removeAttribute("data-keyboard");
 
-      if (centreField) centreActiveField();
+      if (reveal) revealFocusedField();
     };
 
     const onVisualViewportResize = () => syncViewport(true);
     const onVisualViewportScroll = () => syncViewport(false);
     const onWindowResize = () => syncViewport(true);
+    const onFocusIn = () => syncViewport(true);
+    const onFocusOut = () => window.requestAnimationFrame(() => syncViewport(false));
     const onOrientationChange = () => {
       const viewport = window.visualViewport;
       layoutHeight = Math.max(
         window.innerHeight,
         viewport ? viewport.height + viewport.offsetTop : 0,
       );
+      restingHeight = viewport?.height ?? window.innerHeight;
+      restingWidth = viewport?.width ?? window.innerWidth;
       syncViewport(true);
     };
 
@@ -719,6 +853,8 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
     visualViewport?.addEventListener("scroll", onVisualViewportScroll);
     window.addEventListener("resize", onWindowResize);
     window.addEventListener("orientationchange", onOrientationChange);
+    backdrop.addEventListener("focusin", onFocusIn);
+    backdrop.addEventListener("focusout", onFocusOut);
 
     return () => {
       window.cancelAnimationFrame(animationFrame);
@@ -726,8 +862,27 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
       visualViewport?.removeEventListener("scroll", onVisualViewportScroll);
       window.removeEventListener("resize", onWindowResize);
       window.removeEventListener("orientationchange", onOrientationChange);
+      backdrop.removeEventListener("focusin", onFocusIn);
+      backdrop.removeEventListener("focusout", onFocusOut);
     };
   }, [open]);
+
+  /* On a phone the action under a choice often starts below the fold, and a
+     tap that seems to do nothing reads as broken. After a choice made by
+     touch, the panel moves just far enough to show it. */
+  useEffect(() => {
+    if (!revealChoiceActionRef.current) return;
+    revealChoiceActionRef.current = false;
+    const panel = panelRef.current;
+    const action = choiceActionRef.current;
+    if (!panel || !action) return;
+    const frame = window.requestAnimationFrame(() => revealWithinPanel(panel, [action]));
+    return () => window.cancelAnimationFrame(frame);
+  }, [capacity, pressure]);
+
+  const noteChoiceByTouch = () => {
+    if (usesCoarseInteraction()) revealChoiceActionRef.current = true;
+  };
 
   /* What the offer of a person needs, when the page collected it before opening
      this. The address is the one typed in here rather than the one the page
@@ -809,6 +964,9 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
 
   const submitCompany = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    /* The personal-address offer renders a form of its own inside this one,
+       and React bubbles its submit up to here. Only this form starts a read. */
+    if (event.target !== event.currentTarget) return;
     const nextEmail = email.trim().toLowerCase();
     const problem = workEmailProblem(nextEmail);
     if (problem) {
@@ -818,9 +976,27 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
       return;
     }
     const nextDomain = domainFromEmail(nextEmail);
+    /* first.last@company.com already says who this is. A name the visitor
+       typed is never replaced; one we filled from an earlier address is. */
+    const guess = nameFromEmail(nextEmail);
+    const nextFirst = !firstName.trim() || firstName === autoNames.first ? guess?.firstName ?? "" : firstName;
+    const nextLast = !lastName.trim() || lastName === autoNames.last ? guess?.lastName ?? "" : lastName;
     profileSubmittedRef.current = false;
-    setEmail(nextEmail);
-    void readCompany(nextDomain, "progressive");
+    /* Rendered now rather than after this handler, so the name the address
+       could not fill can take focus while the tap or the keyboard's Go key is
+       still the reason for it. A phone then keeps its keyboard up instead of
+       dropping it and asking for another tap. With both names filled nothing
+       is focused and the keyboard stays down: the rest of the step is one
+       selector. */
+    flushSync(() => {
+      setEmail(nextEmail);
+      setFirstName(nextFirst);
+      setLastName(nextLast);
+      setAutoNames({ first: guess?.firstName ?? "", last: guess?.lastName ?? "" });
+      void readCompany(nextDomain, "progressive");
+    });
+    const unfilled = !nextFirst.trim() ? firstFieldRef.current : !nextLast.trim() ? lastNameRef.current : null;
+    unfilled?.focus({ preventScroll: true });
   };
 
   const submitProfile = (event: FormEvent<HTMLFormElement>) => {
@@ -871,8 +1047,9 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
     if (domain) void readCompany(domain);
   };
 
-  const requestVerification = async () => {
+  const requestVerification = async (resend = false) => {
     setError("");
+    setCodeResent(false);
     const request = buildMindmakeBriefRequestV2({
       domain,
       capacityChoice: capacity as keyof typeof RETURNED_TIME_IDS,
@@ -900,7 +1077,9 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
       }
 
       requestIdRef.current = data.requestId;
+      lastAutoSubmittedRef.current = "";
       setVerificationCode("");
+      setCodeResent(resend);
       setStep("verify");
     } catch {
       if (controller.signal.aborted || journeyVersion !== journeyVersionRef.current) return;
@@ -982,8 +1161,22 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
       firstFieldRef.current?.focus();
       return;
     }
+    lastAutoSubmittedRef.current = verificationCode;
     void confirmVerification();
   };
+
+  /* Six digits is the whole answer, so the sixth sends it, whether typed,
+     pasted or filled in by the phone. Once per code: a code that failed is
+     not sent again until it changes, and the button still retries it. This
+     is an effect rather than part of the change handler so it sends the code
+     as it now is, not as it was when the handler was made. */
+  useEffect(() => {
+    if (!open || step !== "verify" || submitting) return;
+    if (!/^\d{6}$/.test(verificationCode) || lastAutoSubmittedRef.current === verificationCode) return;
+    lastAutoSubmittedRef.current = verificationCode;
+    void confirmVerification();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- confirmVerification is recreated each render and reads this render's code.
+  }, [open, step, submitting, verificationCode]);
 
   const changeVerificationEmail = () => {
     requestIdRef.current = createRequestId();
@@ -995,7 +1188,7 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
   const resendVerification = () => {
     requestIdRef.current = createRequestId();
     setVerificationCode("");
-    void requestVerification();
+    void requestVerification(true);
   };
 
   const keepBrief = () => {
@@ -1166,9 +1359,14 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
     <div ref={backdropRef} className={`mm-brief-backdrop${presentation === "drawer" ? " is-drawer" : ""}`} role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
       <div className={`mm-brief-panel${presentation === "drawer" ? " is-drawer" : ""}`} ref={panelRef} role="dialog" aria-modal="true" aria-labelledby="mm-brief-title" data-tone={STEP_TONES[step]} data-step={step} data-presentation={presentation}>
         <div className="mm-brief-top">
-          <span>{presentation === "drawer" ? "Start here" : "Mindmake"}</span>
+          {/* The real mark and wordmark, as the site header draws them, and
+              not a link: a way home in the middle of a form is a way out of
+              it. The label beside it is the approved S4 header's. */}
+          <span className="mm-brief-brand"><BrandMarks instance="dialog" /></span>
+          <span className="mm-brief-context">{step === "preview" ? "Start here / Private brief" : "Start here"}</span>
           <button type="button" aria-label="Close" onClick={onClose}><X aria-hidden="true" /></button>
         </div>
+        <p className="mm-visually-hidden" aria-live="polite">{stepAnnouncement}</p>
 
         <nav className="mm-brief-path" aria-label="Your progress">
           {pathStages.map((stage, index) => (
@@ -1217,9 +1415,14 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
                   <input
                     ref={firstFieldRef}
                     id="mm-company-email"
+                    name="email"
                     type="email"
                     inputMode="email"
-                    autoComplete="email"
+                    autoComplete="work email"
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    spellCheck={false}
+                    enterKeyHint="go"
                     placeholder="you@company.com"
                     value={email}
                     aria-invalid={entryErrorField === "email" || undefined}
@@ -1233,7 +1436,11 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
                 </p>
                 {entryError && <p id="mm-company-email-error" className="mm-form-error" role="alert">{entryError}</p>}
                 {entryError === FREE_EMAIL_PROBLEM && (
-                  <HumanHandoff reason="personal-email" prefill={{ email }} asTrigger />
+                  <HumanHandoff
+                    reason="personal-email"
+                    prefill={{ email, firstName: nameFromEmail(email)?.firstName || undefined, lastName: nameFromEmail(email)?.lastName || undefined }}
+                    asTrigger
+                  />
                 )}
               </div>
               <footer className="mm-brief-action-rail">
@@ -1261,8 +1468,21 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
                     <input
                       ref={firstFieldRef}
                       id="mm-first-name"
+                      name="given-name"
                       autoComplete="given-name"
+                      autoCapitalize="words"
+                      autoCorrect="off"
+                      spellCheck={false}
+                      enterKeyHint="next"
                       value={firstName}
+                      onKeyDown={(event) => {
+                        /* Return in the first name moves on to the last one
+                           while it is still empty, instead of submitting a
+                           step that can only answer with an error. */
+                        if (event.key !== "Enter" || event.nativeEvent.isComposing || lastName.trim()) return;
+                        event.preventDefault();
+                        lastNameRef.current?.focus();
+                      }}
                       aria-invalid={entryErrorField === "name" || undefined}
                       aria-describedby={entryErrorField === "name" ? "mm-profile-error" : undefined}
                       onChange={(event) => { setFirstName(event.target.value); if (entryError) { setEntryError(""); setEntryErrorField(null); } }}
@@ -1271,8 +1491,14 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
                   <p className="mm-brief-entry-field">
                     <label htmlFor="mm-last-name">Last name</label>
                     <input
+                      ref={lastNameRef}
                       id="mm-last-name"
+                      name="family-name"
                       autoComplete="family-name"
+                      autoCapitalize="words"
+                      autoCorrect="off"
+                      spellCheck={false}
+                      enterKeyHint={division ? "go" : "next"}
                       value={lastName}
                       aria-invalid={entryErrorField === "name" || undefined}
                       onChange={(event) => { setLastName(event.target.value); if (entryError) { setEntryError(""); setEntryErrorField(null); } }}
@@ -1350,7 +1576,7 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
                         key={item.id}
                         type="button"
                         aria-pressed={tailoredChoice?.id === item.id}
-                        onClick={() => { setTailoredChoice(item); setPressure(item.label); }}
+                        onClick={() => { noteChoiceByTouch(); setTailoredChoice(item); setPressure(item.label); }}
                       >
                         {item.label}
                       </button>
@@ -1366,7 +1592,7 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
                       key={item}
                       type="button"
                       aria-pressed={!tailoredChoice && pressure === item}
-                      onClick={() => { setPressure(item); setTailoredChoice(null); }}
+                      onClick={() => { noteChoiceByTouch(); setPressure(item); setTailoredChoice(null); }}
                     >
                       {item}
                     </button>
@@ -1374,7 +1600,7 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
                 </div>
               )}
             </fieldset>
-            <button className="mm-button" type="button" disabled={!pressure} onClick={() => setStep("capacity")}>Use this problem <span aria-hidden="true">→</span></button>
+            <button ref={choiceActionRef} className="mm-button" type="button" disabled={!pressure} onClick={() => setStep("capacity")}>Use this problem <span aria-hidden="true">→</span></button>
           </section>
         )}
 
@@ -1384,11 +1610,12 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
             <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">If you got more of your best time back, where would you put it?</h2>
             <div className="mm-choice-grid mm-capacity-grid">
               {CAPACITY_CHOICES.map((item) => (
-                <button key={item} type="button" aria-pressed={capacity === item} onClick={() => setCapacity(item)}>{item}</button>
+                <button key={item} type="button" aria-pressed={capacity === item} onClick={() => { noteChoiceByTouch(); setCapacity(item); }}>{item}</button>
               ))}
             </div>
             {capacity && <p className="mm-value-preview" aria-live="polite"><strong>What that time could buy</strong>{timeValue}</p>}
             <button
+              ref={choiceActionRef}
               className="mm-button"
               type="button"
               disabled={!capacity}
@@ -1560,15 +1787,21 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
             <button className="mm-step-back" type="button" onClick={() => setStep("preview")}>← Back to the brief</button>
             <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">Email the private brief.</h2>
             <p>A six-digit code comes first. It keeps the brief private and checks the address is yours.</p>
-            <form onSubmit={submitLead}>
+            <form onSubmit={submitLead} noValidate>
               <label htmlFor="mm-work-email">Work email</label>
               <input
                 ref={firstFieldRef}
                 id="mm-work-email"
+                name="email"
+                type="email"
                 value={email}
                 onChange={(event) => { setEmail(event.target.value); if (error) setError(""); }}
                 inputMode="email"
                 autoComplete="email"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
+                enterKeyHint="send"
                 placeholder="you@company.com"
                 aria-invalid={Boolean(error)}
                 aria-describedby={error ? "mm-work-email-error" : undefined}
@@ -1596,20 +1829,38 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
             <button className="mm-step-back" type="button" onClick={changeVerificationEmail}>← Change email</button>
             <h2 ref={stepHeadingRef} tabIndex={-1} id="mm-brief-title">Check your email.</h2>
             <p>Sent to {email}. It expires after 10 minutes.</p>
-            <form onSubmit={submitVerification}>
+            <form onSubmit={submitVerification} noValidate>
               <label htmlFor="mm-verification-code">Six-digit code</label>
               <input
                 ref={firstFieldRef}
                 id="mm-verification-code"
+                name="one-time-code"
                 value={verificationCode}
                 onChange={(event) => {
                   setVerificationCode(event.target.value.replace(/\D/g, "").slice(0, 6));
                   if (error) setError("");
+                  if (codeResent) setCodeResent(false);
+                }}
+                onPaste={(event) => {
+                  /* A pasted " 123456", "123 456" or a whole sentence from
+                     the email still gives the six digits. No length cap on
+                     the field, because the browser applies one before the
+                     digits have been picked out. */
+                  const pasted = event.clipboardData.getData("text");
+                  const digits = pasted.replace(/\D/g, "");
+                  const code = pasted.match(/\d{6}/)?.[0] ?? (digits.length === 6 ? digits : "");
+                  if (!code) return;
+                  event.preventDefault();
+                  setVerificationCode(code);
+                  if (error) setError("");
+                  if (codeResent) setCodeResent(false);
                 }}
                 inputMode="numeric"
                 autoComplete="one-time-code"
+                autoCorrect="off"
+                spellCheck={false}
+                enterKeyHint="done"
                 pattern="[0-9]{6}"
-                maxLength={6}
                 aria-invalid={Boolean(error)}
                 aria-describedby={error ? "mm-verification-code-error" : undefined}
               />
@@ -1617,6 +1868,7 @@ export function LeadBrief({ open, onClose, route = "home", presentation = "modal
               <button className="mm-button" type="submit" disabled={submitting}>{submitting ? "Checking the code..." : "Send my private brief"} <span aria-hidden="true">→</span></button>
             </form>
             <button className="mm-text-button" type="button" disabled={submitting} onClick={resendVerification}>{submitting ? "Sending a new code..." : "Send a new code"}</button>
+            {codeResent && <p className="mm-honesty-note" role="status">A new code is on its way.</p>}
             {error === CODE_NOT_ACCEPTED && (
               <HumanHandoff reason="code-not-accepted" details={handoffDetails} asTrigger />
             )}

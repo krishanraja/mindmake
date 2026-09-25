@@ -58,8 +58,10 @@ try {
     if (action.kind === 'click') await dialog.getByRole('button', { name: new RegExp(action.name, 'i') }).click();
     if (action.kind === 'fill') await dialog.getByLabel(action.label, { exact: true }).fill(action.value);
     if (action.kind === 'code') {
+      // Six digits send themselves; pressing the button as well would spend a
+      // second attempt on the same code. Wait for the outcome instead.
       await dialog.locator('input[inputmode="numeric"]').fill(action.value);
-      await dialog.getByRole('button', { name: /Send my private brief/ }).click();
+      await dialog.locator('.mm-success, .mm-form-error').first().waitFor({ state: 'visible', timeout: 30000 });
     }
     if (action.kind === 'download') {
       // Read expected content from the actual completed visitor brief, not a fixture.

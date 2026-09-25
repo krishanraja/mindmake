@@ -33,6 +33,12 @@ each page ends by pointing to the other beside the brief. Every brief button
 opens the same company-first LeadBrief: work email,
 name and business role, corroborated company read, problem, returned-time
 choice, brief preview, explicit keep action, verification and results.
+A first.last or first_last work address fills both names, editable; the header
+carries the real mark and wordmark. On a phone the focused field stays between
+the header and the keyboard (`npm run qa:lead-keyboard`, 390x844 and 320x568);
+a phone held sideways with the keyboard up has too little height and remains
+a known limit, as does any claim about a physical keyboard until Krish repeats
+his walk on his phone.
 The delivered brief stays on screen and downloads as self-contained HTML.
 Publication interest is optional and unticked; it does not subscribe anyone.
 "Subscribe for free" does: a badge beside Media in both menus, a footer button

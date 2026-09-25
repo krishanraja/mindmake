@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { useState } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
@@ -131,9 +131,14 @@ async function requestCode({ email = "leader@example.com", publication = false }
   await screen.findByLabelText("Six-digit code");
 }
 
+/* Six digits send themselves, typed, pasted or filled in by the phone, so
+   there is nothing to press: the helper enters the code and waits for it to
+   go. */
 async function confirmCode(code = "123456") {
   fireEvent.change(screen.getByLabelText("Six-digit code"), { target: { value: code } });
-  fireEvent.click(screen.getByRole("button", { name: /send my private brief/i }));
+  await waitFor(() => {
+    expect(invoke.mock.calls.some(([name, options]) => name === "submit-mindmake-brief" && options?.body?.action === "confirm")).toBe(true);
+  });
 }
 
 afterEach(() => {
@@ -165,6 +170,19 @@ describe("Mindmake private brief journey", () => {
     } as unknown as VisualViewport;
     const scrollIntoView = vi.fn();
     const originalScrollIntoView = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "scrollIntoView");
+    /* Where things sit on the screen, as a test can say it: the panel spans
+       what is visible, and the field starts wherever `fieldTop` puts it. */
+    const layout = { fieldTop: 120 };
+    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function (this: HTMLElement) {
+      if (this.getAttribute("role") === "dialog") {
+        return { top: 24, bottom: 24 + viewportState.height, left: 0, right: 390, width: 390, height: viewportState.height, x: 0, y: 24, toJSON: () => ({}) } as DOMRect;
+      }
+      if (this.id === "mm-company-email" || this.id === "mm-company-email-hint" || this.tagName === "LABEL") {
+        const top = layout.fieldTop - (screen.queryByRole("dialog")?.scrollTop ?? 0);
+        return { top, bottom: top + 90, left: 0, right: 390, width: 390, height: 90, x: 0, y: top, toJSON: () => ({}) } as DOMRect;
+      }
+      return { top: 0, bottom: 0, left: 0, right: 0, width: 0, height: 0, x: 0, y: 0, toJSON: () => ({}) } as DOMRect;
+    });
 
     vi.stubGlobal("visualViewport", visualViewport);
     vi.stubGlobal("matchMedia", vi.fn((query: string) => ({
@@ -186,22 +204,44 @@ describe("Mindmake private brief journey", () => {
       render(<LeadBrief open onClose={() => undefined} route="gtm" />);
       const heading = screen.getByRole("heading", { name: "Which business should we read?" });
       const field = screen.getByLabelText("Work email");
-      const backdrop = screen.getByRole("dialog").parentElement as HTMLElement;
+      const panel = screen.getByRole("dialog");
+      const backdrop = panel.parentElement as HTMLElement;
       await waitFor(() => expect(heading).toHaveFocus());
       expect(field).not.toHaveFocus();
       expect(backdrop.style.getPropertyValue("--mm-brief-viewport-height")).toBe("480px");
       expect(backdrop.style.getPropertyValue("--mm-brief-viewport-top")).toBe("24px");
+      expect(backdrop).not.toHaveAttribute("data-keyboard");
 
-      field.focus();
+      /* Focused while it is in view: nothing moves. */
+      act(() => field.focus());
+      await act(async () => { await new Promise((resolve) => window.requestAnimationFrame(resolve)); });
+      expect(panel.scrollTop).toBe(0);
+
+      /* The keyboard opens and the field is now below what can be seen. The
+         panel alone scrolls it back into view, just under the header, and the
+         page and the visual viewport are never asked to move. */
+      layout.fieldTop = 400;
       act(() => {
         viewportState.height = 300;
         viewportListeners.get("resize")?.forEach((listener) => listener(new Event("resize")));
       });
 
-      await waitFor(() => expect(scrollIntoView).toHaveBeenCalledWith({ block: "center", inline: "nearest" }));
+      await waitFor(() => expect(panel.scrollTop).toBeGreaterThan(0));
+      const fieldTop = field.getBoundingClientRect().top;
+      expect(fieldTop).toBeGreaterThanOrEqual(24);
+      expect(fieldTop + 90).toBeLessThanOrEqual(24 + 300);
+      expect(scrollIntoView).not.toHaveBeenCalled();
       expect(backdrop.style.getPropertyValue("--mm-brief-viewport-height")).toBe("300px");
+      expect(backdrop).toHaveAttribute("data-keyboard", "open");
       expect(Number.parseInt(backdrop.style.getPropertyValue("--mm-brief-keyboard-inset"), 10)).toBeGreaterThan(0);
       expect(visualViewport.addEventListener).toHaveBeenCalledWith("resize", expect.any(Function));
+
+      /* The same height with nothing being typed into is not a keyboard. */
+      act(() => {
+        field.blur();
+        viewportListeners.get("resize")?.forEach((listener) => listener(new Event("resize")));
+      });
+      await waitFor(() => expect(backdrop).not.toHaveAttribute("data-keyboard"));
     } finally {
       if (originalScrollIntoView) {
         Object.defineProperty(HTMLElement.prototype, "scrollIntoView", originalScrollIntoView);
@@ -382,7 +422,6 @@ describe("Mindmake private brief journey", () => {
     expect(codeField).toHaveAttribute("aria-describedby", "mm-verification-code-error");
 
     fireEvent.change(codeField, { target: { value: "123456" } });
-    fireEvent.click(screen.getByRole("button", { name: /send my private brief/i }));
     const successHeading = await screen.findByRole("heading", { name: "Your brief is on its way. Our copy was queued too." });
     await waitFor(() => expect(successHeading).toHaveFocus());
   });
@@ -641,6 +680,191 @@ describe("Mindmake private brief journey", () => {
 });
 
 /**
+ * A phone, a keyboard and six digits.
+ *
+ * Reported on 25 September 2026 from an Android phone with the Samsung
+ * keyboard: the fields slid under the header, the keyboard came and went
+ * between steps, surnames were "corrected" into words, and a work address of
+ * first.last@company.com still had to be typed out as a name.
+ */
+describe("typing on a phone", () => {
+  const coarsePointer = () => vi.stubGlobal("matchMedia", vi.fn((query: string) => ({
+    matches: query === "(pointer: coarse)",
+    media: query,
+    onchange: null,
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(() => true),
+  })));
+
+  async function submitCompanyEmail(address: string) {
+    fireEvent.change(screen.getByLabelText("Work email"), { target: { value: address } });
+    fireEvent.click(screen.getByRole("button", { name: /read the business/i }));
+    await screen.findByRole("heading", { name: "Who is this for?" });
+  }
+
+  it("reads the name from a first.last address and never replaces a typed one", async () => {
+    vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "false");
+    invoke.mockResolvedValue({ data: dossier, error: null });
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
+
+    await submitCompanyEmail("Anya.Divekar@example.com");
+    expect(screen.getByLabelText("First name")).toHaveValue("Anya");
+    expect(screen.getByLabelText("Last name")).toHaveValue("Divekar");
+
+    fireEvent.change(screen.getByLabelText("Last name"), { target: { value: "Divekar-Rao" } });
+    fireEvent.click(screen.getByRole("button", { name: /change email/i }));
+    await submitCompanyEmail("sam.jones@example.com");
+    expect(screen.getByLabelText("First name")).toHaveValue("Sam");
+    expect(screen.getByLabelText("Last name")).toHaveValue("Divekar-Rao");
+
+    fireEvent.click(screen.getByRole("button", { name: /change email/i }));
+    await submitCompanyEmail("info@example.com");
+    expect(screen.getByLabelText("First name")).toHaveValue("");
+    expect(screen.getByLabelText("Last name")).toHaveValue("Divekar-Rao");
+  });
+
+  it("keeps the keyboard up for the name the address could not give, and leaves it down when both are filled", async () => {
+    vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "false");
+    coarsePointer();
+    invoke.mockResolvedValue({ data: dossier, error: null });
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
+
+    await submitCompanyEmail("ada@example.com");
+    const firstName = screen.getByLabelText("First name");
+    expect(firstName).toHaveFocus();
+    /* The step change's own focus pass comes after, and must not take it
+       back to the heading and drop the keyboard. */
+    await act(async () => { await new Promise((resolve) => window.setTimeout(resolve, 80)); });
+    expect(firstName).toHaveFocus();
+
+    fireEvent.click(screen.getByRole("button", { name: /change email/i }));
+    await submitCompanyEmail("ada.lovelace@example.com");
+    const heading = screen.getByRole("heading", { name: "Who is this for?" });
+    await waitFor(() => expect(heading).toHaveFocus());
+  });
+
+  it("moves from first name to last name on return instead of failing the step", async () => {
+    vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "false");
+    invoke.mockResolvedValue({ data: dossier, error: null });
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
+    await submitCompanyEmail("ada@example.com");
+
+    const firstName = screen.getByLabelText("First name");
+    fireEvent.change(firstName, { target: { value: "Ada" } });
+    fireEvent.keyDown(firstName, { key: "Enter" });
+    expect(screen.getByLabelText("Last name")).toHaveFocus();
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  });
+
+  it("gives every text field the keyboard it needs and switches off correction", async () => {
+    vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "false");
+    invoke.mockResolvedValue({ data: dossier, error: null });
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
+
+    const email = screen.getByLabelText("Work email");
+    expect(email).toHaveAttribute("type", "email");
+    expect(email).toHaveAttribute("autocapitalize", "none");
+    expect(email).toHaveAttribute("autocorrect", "off");
+    expect(email).toHaveAttribute("spellcheck", "false");
+    expect(email).toHaveAttribute("enterkeyhint", "go");
+
+    await submitCompanyEmail("ada@example.com");
+    for (const label of ["First name", "Last name"]) {
+      const field = screen.getByLabelText(label);
+      expect(field).toHaveAttribute("autocapitalize", "words");
+      expect(field).toHaveAttribute("autocorrect", "off");
+      expect(field).toHaveAttribute("spellcheck", "false");
+    }
+    expect(screen.getByLabelText("First name")).toHaveAttribute("enterkeyhint", "next");
+  });
+
+  it("takes a pasted code, sends six digits once, and resends only a changed code", async () => {
+    vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "true");
+    let confirmCalls = 0;
+    invoke.mockImplementation((name: string, options?: { body?: Record<string, unknown> }) => {
+      if (name === "enrich-company") return Promise.resolve({ data: dossier, error: null });
+      if (options?.body?.action === "request") {
+        return Promise.resolve({ data: verificationResponse(String(options.body.requestId)), error: null });
+      }
+      if (options?.body?.action === "confirm") {
+        confirmCalls += 1;
+        return confirmCalls === 1
+          ? Promise.resolve({ data: null, error: new Error("wrong-code") })
+          : Promise.resolve({ data: confirmedResponse(), error: null });
+      }
+      return Promise.resolve({ data: null, error: new Error("unexpected-call") });
+    });
+
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
+    await reachContact();
+    await requestCode();
+
+    const codeField = screen.getByLabelText("Six-digit code");
+    expect(codeField).not.toHaveAttribute("maxlength");
+    fireEvent.paste(codeField, { clipboardData: { getData: () => "Your code: 123 456" } });
+    expect(codeField).toHaveValue("123456");
+    expect(await screen.findByText(/That code was not accepted/)).toBeInTheDocument();
+    expect(confirmCalls).toBe(1);
+
+    /* The same six digits are not sent again by themselves. */
+    fireEvent.change(codeField, { target: { value: "123456" } });
+    await act(async () => { await Promise.resolve(); });
+    expect(confirmCalls).toBe(1);
+
+    fireEvent.change(codeField, { target: { value: "654321" } });
+    await screen.findByRole("heading", { name: "Your brief is on its way. Our copy was queued too." });
+    expect(confirmCalls).toBe(2);
+  });
+
+  it("says when a new code has been sent, until the visitor types", async () => {
+    vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "true");
+    mockWorkingV2Flow();
+    render(<LeadBrief open onClose={() => undefined} route="gtm" />);
+    await reachContact();
+    await requestCode();
+    expect(screen.queryByText("A new code is on its way.")).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: /send a new code/i }));
+    expect(await screen.findByRole("status", { name: "" })).toHaveTextContent("A new code is on its way.");
+    fireEvent.change(screen.getByLabelText("Six-digit code"), { target: { value: "1" } });
+    expect(screen.queryByText("A new code is on its way.")).not.toBeInTheDocument();
+  });
+
+  it("keeps the names it filled, and knows they were filled, across a resumed draft", async () => {
+    vi.stubEnv("VITE_MINDMAKE_BRIEF_HANDOFF_ENABLED", "false");
+    window.sessionStorage.clear();
+    invoke.mockResolvedValue({ data: dossier, error: null });
+    render(<ResumeHarness />);
+
+    await submitCompanyEmail("anya.divekar@example.com");
+    await waitFor(() => expect(window.sessionStorage.getItem("mindmake-brief-draft:folio-resume")).toContain('"autoNames":{"first":"Anya","last":"Divekar"}'));
+    fireEvent.click(screen.getByRole("button", { name: "Close" }));
+    fireEvent.click(screen.getByRole("button", { name: "Resume brief" }));
+
+    await screen.findByRole("heading", { name: "Who is this for?" });
+    expect(screen.getByLabelText("First name")).toHaveValue("Anya");
+    fireEvent.click(screen.getByRole("button", { name: /change email/i }));
+    await submitCompanyEmail("sam.jones@example.com");
+    expect(screen.getByLabelText("First name")).toHaveValue("Sam");
+    expect(screen.getByLabelText("Last name")).toHaveValue("Jones");
+    window.sessionStorage.clear();
+  });
+
+  it("wears the real logo in its header, with gradient ids of its own", () => {
+    render(<LeadBrief open onClose={() => undefined} />);
+    const header = screen.getByRole("dialog").querySelector(".mm-brief-top") as HTMLElement;
+    expect(within(header).getByRole("img", { name: "Mindmake" })).toBeInTheDocument();
+    expect(header.querySelector("[id^='mm-dialog-']")).not.toBeNull();
+    expect(header.querySelector("[id^='mm-head-']")).toBeNull();
+    expect(within(header).getByText("Start here")).toBeInTheDocument();
+    expect(header.querySelector("a")).toBeNull();
+  });
+});
+
+/**
  * The dialog has a shape, and the stylesheet is where it lives.
  *
  * On 28 August 2026 the strip commit rewrote `mindmake.css` and took the whole
@@ -669,6 +893,8 @@ describe("the dialog's structure", () => {
       ".mm-brief-backdrop",
       ".mm-brief-panel",
       ".mm-brief-top",
+      ".mm-brief-brand",
+      ".mm-brief-context",
       ".mm-brief-path",
       ".mm-brief-step",
       ".mm-brief-start-step",

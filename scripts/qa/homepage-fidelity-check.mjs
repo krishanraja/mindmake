@@ -124,7 +124,7 @@ async function startStepMetrics(page) {
         return bounds.left >= -1 && bounds.right <= window.innerWidth + 1
           && bounds.top >= -1 && bounds.bottom <= window.innerHeight + 1;
       }),
-      header: panel.querySelector(".mm-brief-top span")?.textContent?.trim(),
+      header: panel.querySelector(".mm-brief-context")?.textContent?.trim(),
       progress: [...path.querySelectorAll("button")].map((button) => button.textContent.trim()),
       backgroundInert: (() => {
         const backdrop = panel.parentElement;

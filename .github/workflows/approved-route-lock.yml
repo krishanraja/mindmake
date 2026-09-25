@@ -24,7 +24,21 @@ on:
 # verifying a commit that is already public: cancelling it because the next
 # merge arrived would leave a live deployment with no verification at all.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  # Branch runs share a group and supersede each other. Main runs do not: the
+  # group carries the commit, so every push to main gets its own group and there
+  # is never an in-progress run for it to cancel.
+  #
+  # cancel-in-progress alone did not hold. Twice on 2026-09-24/25 a run on main
+  # was cancelled one second after the next merge created its run, with the
+  # expression evaluating on a push whose ref was refs/heads/main: run
+  # 36073810620 on 8b62c3b, and run 36076822553 on 9a22323, which was a commit
+  # Vercel had already promoted. Keying the group instead of trusting the
+  # expression cannot be silently wrong.
+  #
+  # This matters more now the browser matrix runs only after the merge: a
+  # cancelled run on main is a released commit with no browser verification at
+  # all, which is the one thing the post-merge design must not do.
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.ref == 'refs/heads/main' && github.sha || 'branch' }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 permissions:

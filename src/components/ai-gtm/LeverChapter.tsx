@@ -40,7 +40,6 @@ export function LeverChapter({ heading, steps, backdrop }: { heading: string; st
               <article key={item.key} className="gtm-step gtm-lever" data-gtm-step={index} data-active={index === step}>
                 <h3 className="gtm-felt"><Unbroken text={item.felt} /></h3>
                 <div className="gtm-lever-card">
-                  <p className="gtm-lever-name">{item.name}</p>
                   <p className="gtm-lever-was"><s>{item.was}</s></p>
                   <p className="gtm-lever-now"><Unbroken text={item.now} /></p>
                   <a className="gtm-source" href={item.source.href} target="_blank" rel="noreferrer">

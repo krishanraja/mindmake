@@ -4,7 +4,9 @@ import { LeadBrief } from "@/components/mindmake/LeadBrief";
 import { MindmakeShell } from "@/components/mindmake/MindmakeShell";
 import { PairingBridge } from "@/components/mindmake/PairingBridge";
 import { useLockedMotion } from "@/components/mindmake/locked/useLockedMotion";
+import { Opening } from "@/components/ai-gtm/Opening";
 import { LeverChapter, type LeverStep } from "@/components/ai-gtm/LeverChapter";
+import { Workaround } from "@/components/ai-gtm/Workaround";
 import { TurnBand } from "@/components/ai-gtm/TurnBand";
 import { PlanChapter } from "@/components/ai-gtm/PlanChapter";
 import { TeamChapter, type TeamCopy } from "@/components/ai-gtm/TeamChapter";
@@ -21,9 +23,9 @@ import "@/styles/mindmake-ai-gtm.css";
 /* The AI GTM page (r44, awaiting the owner's review of the rendered page).
 
    Told as one argument, in the order a buyer lives it: the change they already
-   feel, in four places; the workaround they would reach for and why it leaves
-   the problem where it was; the offer as the answer; the 30 days; what their
-   team becomes; one result. Each chapter holds one idea on one screen, and the
+   feel, in four places; the workaround they would reach for and what it would
+   cost them; the offer as the answer; the 30 days; what their team becomes;
+   one result. Each chapter holds one idea on one screen, and the
    three with more than one state pin and build with scroll in both directions.
    It is drawn in the site's own system (Newsreader headlines, Archivo body,
    Plex Mono labels, the house palette and container), with the two films the
@@ -32,17 +34,25 @@ import "@/styles/mindmake-ai-gtm.css";
 type Mode = "established" | "founder";
 
 /* The four levers, the moment each one is felt, and the dated public source
-   that shows it moving. Chapter one reads the same for both kinds of business. */
+   that shows it moving. Chapter one reads the same for both kinds of business.
+
+   Each lever cites the source whose recorded observation supports it, and each
+   felt line says no more than that source does (gtm-signals.json carries the
+   observation and its limit): Zendesk sells software as a workforce that does
+   the service job; HubSpot's agents answer customers and recommend leads, and
+   are paid for per resolved conversation and per lead; Shopify puts merchants'
+   products inside AI assistants. The People line is where the page first says
+   "agents", so it says what one is. */
 const LEVERS = ["product", "price", "positioning", "people"] as const;
 const LEVER_NAMES = { product: "Product", price: "Price", positioning: "Positioning", people: "People" } as const;
-const SIGNAL_FOR = { product: signals.product, price: signals.pricing, positioning: signals.commerce, people: signals.service } as const;
-const SOURCE_NAME = { product: "Uber", price: "HubSpot", positioning: "Shopify", people: "Zendesk" } as const;
+const SIGNAL_FOR = { product: signals.service, price: signals.pricing, positioning: signals.commerce, people: signals.pricing } as const;
+const SOURCE_NAME = { product: "Zendesk", price: "HubSpot", positioning: "Shopify", people: "HubSpot" } as const;
 
 const FELT = {
-  product: "Your customers want the job done, and they expect the software to do it.",
-  price: "Your buyers are starting to ask why they pay for every seat.",
+  product: "Your buyers are being offered software that does the whole job.",
+  price: "Your buyers can already pay some software for each result it delivers.",
   positioning: "Your next buyer may ask an AI assistant for a shortlist before they visit your website.",
-  people: "You keep hiring to grow, and each new hire takes months to pay back.",
+  people: "Agents, software that works on its own, now answer customers and find leads.",
 } as const;
 
 const SHIFT = {
@@ -62,23 +72,29 @@ const LEVER_STEPS: LeverStep[] = LEVERS.map((key) => ({
 }));
 
 const OPENING = {
-  title: "Your customers have changed how they buy.",
-  deck: "You built your pricing, positioning and team for how they used to.",
-  name: "Build your AI go-to-market (GTM)",
+  lead: "Your customers have changed",
+  accent: "how they buy.",
+  deck: "You still build, price, position and hire by the old playbook.",
+};
+
+const WORKAROUND = {
+  easy: "You could add an AI tool and keep everything else.",
+  cost: "The deals would go to whoever changed the rest.",
 };
 
 const TURN = {
-  lede: "You could add an AI tool and keep everything else. Your price, pitch and team would still be built for the old way.",
-  heading: "Make your pricing, positioning and team AI-native.",
+  heading: "Make your pricing, positioning and team",
+  accent: "AI-native.",
+  question: "Where are you starting from?",
 };
 
 const MODES: Record<Mode, {
   tab: string;
   tabSmall: string;
   lede: string;
-  levers: Record<(typeof LEVERS)[number], string> | null;
+  levers: Record<(typeof LEVERS)[number], { was: string; now: string }> | null;
   team: TeamCopy;
-  proof: { result: string; quote: string; who: string };
+  proof: { result: string; quote: string; who: string; story: string };
 }> = {
   established: {
     tab: "I run an established business",
@@ -124,6 +140,7 @@ const MODES: Record<Mode, {
       result: "A new sales path led to a paid test with a major US publisher.",
       quote: "We set up an AI-native go-to-market system that made us rethink who we hire and what they do.",
       who: "Chief Revenue Officer, data-infrastructure company",
+      story: "market-moves",
     },
   },
   founder: {
@@ -131,10 +148,10 @@ const MODES: Record<Mode, {
     tabSmall: "Starting from scratch",
     lede: "AI is changing what customers pay for, how they choose and who does the work. We help you build a go-to-market that starts AI-native, then test it with real buyers.",
     levers: {
-      product: "Build around the job AI can finish.",
-      price: "Charge for work done from the first customer.",
-      positioning: "One clear job buyers and AI assistants can repeat.",
-      people: "The founder plus agents until the model is proven.",
+      product: { now: "Build around the job AI can finish.", was: "Match the leader's feature list" },
+      price: { now: "Charge for work done from the first customer.", was: "Borrow seat pricing from SaaS" },
+      positioning: { now: "One clear job buyers and AI assistants can repeat.", was: "Another AI tool in a crowded list" },
+      people: { now: "The founder plus agents until the model is proven.", was: "Hire sales, then marketing, then support" },
     },
     team: {
       heading: "Your first commercial team can be mostly agents.",
@@ -168,14 +185,15 @@ const MODES: Record<Mode, {
       result: "Position and price rebuilt in 30 days. Two pilots signed during the work.",
       quote: "We had a brilliant product nobody could buy, because nobody could explain it. We're now clear on who we are in the new world.",
       who: "Founder, adtech firm",
+      story: "simple-product",
     },
   },
 };
 
 const PLAN = [
-  { when: "Week 1", what: "We map all four", detail: "What AI changes for your product, price, positioning and people." },
-  { when: "Weeks 2 to 4", what: "We build the move worth most", detail: "And test it with real buyers." },
-  { when: "Day 30", what: "You keep it", detail: "The model, the evidence and anything we built." },
+  { when: "Week 1", what: "We map all four", detail: "What AI changes for your product, price, positioning and people.", days: [1, 7] as const },
+  { when: "Weeks 2 to 4", what: "We build the move worth most", detail: "And test it with real buyers.", days: [8, 28] as const },
+  { when: "Day 30", what: "You keep it", detail: "The model, the evidence and anything we built.", days: [29, 30] as const },
 ];
 
 const MENU = [
@@ -194,27 +212,39 @@ export default function AiGtm() {
 
   const [mode, setMode] = useState<Mode>("established");
   const [picked, setPicked] = useState("lead");
+  const [paused, setPaused] = useState(false);
+  const toggleMotion = () => {
+    const next = !paused;
+    setPaused(next);
+    const root = rootRef.current;
+    if (!root) return;
+    root.dataset.motionPaused = String(next);
+    root.dispatchEvent(new Event("mm:motion"));
+  };
   const copy = MODES[mode];
   const chooseMode = (next: Mode) => {
     setMode(next);
     setPicked("lead");
   };
-  const mapped = copy.levers ? LEVERS.map((key) => ({ name: LEVER_NAMES[key], line: copy.levers![key] })) : null;
+  const mapped = copy.levers ? LEVERS.map((key) => ({ name: LEVER_NAMES[key], ...copy.levers![key] })) : null;
 
   return (
     <MindmakeShell onStart={() => openBrief("gtm")} siteClassName="mm-route-gtm" compactFooter>
       <SEO title="Build your AI GTM" description="Make your pricing, positioning and team AI-native, then test it with real buyers." canonical="/ai-gtm" />
       <div ref={rootRef} className="mm-gtm" data-mode={mode}>
-        <section className="gtm-opening" data-gtm-chapter="opening" aria-labelledby="page-title">
-          <figure className="gtm-film" aria-hidden="true" data-motion-scene="threshold">
-            <video aria-hidden="true" data-motion-video="threshold" data-src={quietWorkshopFilm} poster={quietWorkshopPoster} preload="none" muted loop playsInline />
-          </figure>
-          <div className="gtm-opening-body mm-container">
-            <h1 id="page-title">{OPENING.title}</h1>
-            <p className="gtm-opening-deck">{OPENING.deck}</p>
-            <p className="gtm-opening-name"><span aria-hidden="true" />{OPENING.name}</p>
-          </div>
-        </section>
+        <Opening
+          lead={OPENING.lead}
+          accent={OPENING.accent}
+          deck={OPENING.deck}
+          rules={LEVERS.map((key) => ({ name: LEVER_NAMES[key], was: SHIFT[key].was }))}
+          paused={paused}
+          onToggleMotion={toggleMotion}
+          film={(
+            <figure className="gtm-film" aria-hidden="true" data-motion-scene="threshold">
+              <video aria-hidden="true" data-motion-video="threshold" data-src={quietWorkshopFilm} poster={quietWorkshopPoster} preload="none" muted loop playsInline />
+            </figure>
+          )}
+        />
 
         <LeverChapter
           heading="You can feel it in four places."
@@ -226,9 +256,12 @@ export default function AiGtm() {
           )}
         />
 
+        <Workaround easy={WORKAROUND.easy} cost={WORKAROUND.cost} />
+
         <TurnBand
-          lede={TURN.lede}
           heading={TURN.heading}
+          accent={TURN.accent}
+          question={TURN.question}
           promise={copy.lede}
           doors={(Object.keys(MODES) as Mode[]).map((key) => ({ mode: key, label: MODES[key].tab, small: MODES[key].tabSmall }))}
           mode={mode}
@@ -249,10 +282,10 @@ export default function AiGtm() {
           onPick={setPicked}
           decisionLabel="The decision you'll face"
           decisionNote="We work through decisions like this with you in week 1."
-          footnote="Illustrative team"
+          instrumentLabel="Illustrative team"
         />
 
-        <ProofBand heading="Result" quote={copy.proof.quote} result={copy.proof.result} who={copy.proof.who} />
+        <ProofBand heading="Result" quote={copy.proof.quote} result={copy.proof.result} who={copy.proof.who} story={copy.proof.story} />
       </div>
       <PairingBridge route="gtm" onStart={() => openBrief("gtm")} />
       <LeadBrief open={briefOpen} onClose={closeBrief} route="gtm" presentation="drawer" journeyKey={briefJourneyKey} initialContext={copy.tab} />

@@ -262,6 +262,8 @@ describe("the motion law, as it now stands", () => {
       "src/pages/Index.tsx",
       "src/pages/AiBrain.tsx",
       "src/pages/AiGtm.tsx",
+      "src/components/ai-gtm/Opening.tsx",
+      "src/components/ai-gtm/Workaround.tsx",
       "src/components/ai-gtm/StepRail.tsx",
       "src/components/ai-gtm/LeverChapter.tsx",
       "src/components/ai-gtm/TurnBand.tsx",

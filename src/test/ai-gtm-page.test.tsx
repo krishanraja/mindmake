@@ -39,13 +39,16 @@ describe("/ai-gtm on the server", () => {
 
   it("has one h1, and it names the reader's problem rather than the offer", () => {
     expect(html.match(/<h1\b/g)).toHaveLength(1);
-    expect(text(html)).toContain("Your customers have changed how they buy.");
-    const first = body.indexOf("Your customers have changed how they buy.");
+    const h1 = html.slice(html.indexOf("<h1"), html.indexOf("</h1>"));
+    expect(text(h1).trim()).toBe("Your customers have changed how they buy.");
+    const first = body.indexOf("<h1");
     const offer = body.indexOf("Make your pricing, positioning and team");
     expect(first).toBeGreaterThan(-1);
     expect(offer).toBeGreaterThan(first);
-    // The four felt moments come before the offer.
+    // The four felt moments, and the easy way out and its cost, come before the offer.
     expect(body.indexOf("You can feel it in four places.")).toBeLessThan(offer);
+    expect(body.indexOf("You could add an AI tool and keep everything else.")).toBeLessThan(offer);
+    expect(body.indexOf("The deals would go to whoever changed the rest.")).toBeLessThan(offer);
   });
 
   it("lays out every step of every chapter, with the first one active and nothing hidden from assistive technology", () => {
@@ -55,7 +58,12 @@ describe("/ai-gtm on the server", () => {
       expect(section).toMatch(/data-gtm-step="0" data-active="true"/);
       expect(section).not.toContain('aria-hidden="true" data-gtm-step');
     }
-    for (const felt of ["expect the software to do it", "why they pay for every seat", "a shortlist before they visit your website", "each new hire takes months to pay back"]) {
+    for (const felt of [
+      "Your buyers are being offered software that does the whole job.",
+      "Your buyers can already pay some software for each result it delivers.",
+      "Your next buyer may ask an AI assistant for a shortlist before they visit your website.",
+      "Agents, software that works on its own, now answer customers and find leads.",
+    ]) {
       expect(text(body)).toContain(felt);
     }
     for (const step of ["Week 1", "Weeks 2 to 4", "Day 30"]) expect(text(body)).toContain(step);
@@ -75,10 +83,29 @@ describe("/ai-gtm on the server", () => {
     expect(text(body)).toContain("11 people · 5 agent roles");
   });
 
+  it("writes each seat's decision into the seat, so a reader who cannot pick one still reads them all", () => {
+    const start = body.indexOf('data-gtm-chapter="team"');
+    const board = body.slice(start, body.indexOf("decision-panel", start));
+    for (const decision of [
+      "How do you set targets when part of the team is software?",
+      "Who is accountable when an agent turns away a lead that would have bought?",
+      "Per task or per result: which can your buyers forecast and your finance team bill?",
+    ]) expect(text(board)).toContain(decision);
+    // The copies that hold the panel at its tallest decision are unseen and unheard.
+    const sizers = body.match(/class="decision-copy decision-sizer"[^>]*>/g) ?? [];
+    expect(sizers.length).toBeGreaterThan(0);
+    for (const sizer of sizers) expect(sizer).toContain('aria-hidden="true"');
+  });
+
   it("cites a dated public source for every lever", () => {
-    for (const source of ["Uber · 15 Apr 2026", "HubSpot · 13 Apr 2026", "Shopify · 24 Mar 2026", "Zendesk · 19 May 2026"]) {
-      expect(text(body)).toContain(source);
-    }
+    const start = body.indexOf('data-gtm-chapter="levers"');
+    const levers = text(body.slice(start, body.indexOf("</section>", start)));
+    expect(levers.match(/(Zendesk|HubSpot|Shopify) · \d{1,2} [A-Z][a-z]{2} 2026/g)).toEqual([
+      "Zendesk · 19 May 2026",
+      "HubSpot · 13 Apr 2026",
+      "Shopify · 24 Mar 2026",
+      "HubSpot · 13 Apr 2026",
+    ]);
   });
 
   it("quotes the result in quotation marks, with the outcome and the attribution beneath", () => {
@@ -91,7 +118,7 @@ describe("/ai-gtm on the server", () => {
     const outcome = after.indexOf("A new sales path led to a paid test");
     expect(outcome).toBeGreaterThan(at);
     expect(who).toBeGreaterThan(outcome);
-    expect(body).toContain('href="/case-studies"');
+    expect(body).toContain('href="/case-studies#story=market-moves"');
   });
 
   it("names go-to-market in full before it says GTM", () => {
@@ -141,6 +168,13 @@ describe("/ai-gtm in the browser", () => {
   });
 
   it("shows the decision a seat creates beside the board, without moving the page", () => {
+    // The board is a chart to pick from only where the chapter pins.
+    const computed = window.getComputedStyle;
+    vi.spyOn(window, "getComputedStyle").mockImplementation((element, pseudo) => {
+      const style = computed(element, pseudo);
+      if (!(element as Element).classList?.contains("gtm-stage")) return style;
+      return new Proxy(style, { get: (target, key) => (key === "position" ? "sticky" : key === "top" ? "68px" : Reflect.get(target, key)) });
+    });
     renderPage();
     fireEvent.click(screen.getAllByRole("button", { name: /Lead qualification/ })[0]);
     expect(document.querySelector(".decision-panel h3")!.textContent).toBe("Who is accountable when an agent turns away a lead that would have bought?");
@@ -166,8 +200,9 @@ describe("/ai-gtm's stylesheet", () => {
     expect(css).not.toMatch(/font-family:\s*["'A-Z]/);
     expect(css).not.toMatch(/font:[^;]*"[^"]+"/);
     /* Set on the element by the chapter that owns it: the step count, a rail
-       segment's count and index, and the progress the hook writes. */
-    const fromMarkup = new Set(["--gtm-steps", "--gtm-n", "--gtm-i", "--gtm-progress"]);
+       segment's count and index, the progress the hook writes, a day of the
+       month and the board's column count. */
+    const fromMarkup = new Set(["--gtm-steps", "--gtm-n", "--gtm-i", "--gtm-progress", "--gtm-day", "--gtm-cols"]);
     for (const [, name] of css.matchAll(/var\((--[a-z0-9-]+)/g)) {
       const defined = name.startsWith("--mm-") || fromMarkup.has(name) || new RegExp(`${name}\\s*:`).test(css);
       expect(`${name}: ${defined}`).toBe(`${name}: true`);

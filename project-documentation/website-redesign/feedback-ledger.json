@@ -500,7 +500,7 @@
       "status": "implemented-awaiting-review",
       "resolution": "Rebuilt as full-screen chapters with one heading each, a mono step rail and no section eyebrows or competing bordered panels (quality/route-lock/approved-production-r44.json). Hierarchy is a matter of taste: awaiting Krish's review of the rendered page.",
       "evidence": [
-        "artifacts/ai-gtm/scroll-build/report.json (Chromium gate, ten viewports forward and reverse, reduced motion, no-JS, negative control)",
+        "artifacts/ai-gtm/scroll-build/report.json (Chromium gate: thirteen viewports forward and reverse; no clipping at twelve sizes for both doors and every seat, and with WCAG 1.4.12 text spacing; rail hold; reduced motion; no-JS; negative control)",
         "src/test/brief2-public-contract.test.ts (eyebrow ban covers the chapter components)"
       ]
     },
@@ -516,9 +516,9 @@
       "requiredOutcome": "The lever, 30-day and team chapters pin, advance step by step with scroll, reverse naturally and release at the end, as /new-age-leadership does.",
       "acceptanceTest": "A Chromium sweep forward and in reverse at 1440x900, 1366x768, 390x844, 360x640, 320x568 and 844x390 records every step in order both ways, the stage pinned at the header height, and release at both ends; reduced motion keeps the pins; with scripting off every step is visible.",
       "status": "verified",
-      "resolution": "The four places, the 30 days and the team pin under the masthead and step with scroll in both directions, from position alone (src/hooks/usePinnedSteps.ts), and release at either end; reduced motion keeps every pin; short screens, landscape phones and no-JS readers get every step in flow. Recorded in quality/route-lock/approved-production-r44.json.",
+      "resolution": "The four places, the 30 days and the team pin under the masthead and step with scroll in both directions, from position alone (src/hooks/usePinnedSteps.ts), and release at either end; a rail press holds its step only until the page arrives; reduced motion keeps every pin. A stage pins only where its step fits: on a phone the four places pin and the 30 days and the team are documents with every step and seat laid out, and short screens, landscape phones, no-JS readers and readers whose own text spacing outgrows a stage get every step in flow, released before they reach it. Recorded in quality/route-lock/approved-production-r44.json.",
       "evidence": [
-        "artifacts/ai-gtm/scroll-build/report.json (Chromium gate, ten viewports forward and reverse, reduced motion, no-JS, negative control)",
+        "artifacts/ai-gtm/scroll-build/report.json (Chromium gate: thirteen viewports forward and reverse; no clipping at twelve sizes for both doors and every seat, and with WCAG 1.4.12 text spacing; rail hold; reduced motion; no-JS; negative control)",
         "artifacts/ai-gtm/scroll-build/scroll-build-evidence.json (validated by scripts/qa/scroll-build-evidence.mjs)",
         "src/test/ai-gtm-pinned-steps.test.tsx"
       ]
@@ -535,10 +535,10 @@
       "requiredOutcome": "The page opens on the change the buyer already feels, and names it in four recognisable moments before it presents the service.",
       "acceptanceTest": "The first screen states the buyer's problem and no offer; the first chapter shows four felt moments, each paired with a dated public source; the offer headline appears only after them.",
       "status": "implemented-awaiting-review",
-      "resolution": "The page opens on 'Your customers have changed how they buy.' and walks four felt moments, each with a dated public source, before the offer appears. Awaiting Krish's review of the rendered page.",
+      "resolution": "The page opens on 'Your customers have changed how they buy.' beside the old playbook's four rules struck through, then walks four felt moments, each saying no more than its dated public source, and the easy way out and its cost, before the offer appears. Awaiting Krish's review of the rendered page.",
       "evidence": [
         "src/test/ai-gtm-page.test.tsx (problem before offer)",
-        "artifacts/ai-gtm/scroll-build/report.json (Chromium gate, ten viewports forward and reverse, reduced motion, no-JS, negative control)"
+        "artifacts/ai-gtm/scroll-build/report.json (Chromium gate: thirteen viewports forward and reverse; no clipping at twelve sizes for both doors and every seat, and with WCAG 1.4.12 text spacing; rail hold; reduced motion; no-JS; negative control)"
       ]
     },
     {
@@ -553,7 +553,7 @@
       "requiredOutcome": "The copy addresses the reader as you, in plain British English, and names the common workaround and what it costs before the offer.",
       "acceptanceTest": "Opening, felt moments and the turn are written in the second person; the turn names the workaround; copy-restraint, brief2-public-contract and plain-language checks pass.",
       "status": "implemented-awaiting-review",
-      "resolution": "Opening, felt moments and the turn are written to the reader as you; the turn names the workaround ('You could add an AI tool and keep everything else') and its cost. Awaiting Krish's review of the words.",
+      "resolution": "Opening, felt moments and the turn are written to the reader as you; a screen of its own before the offer names the workaround ('You could add an AI tool and keep everything else.') and its cost ('The deals would go to whoever changed the rest.'), and the doors sit under the question 'Where are you starting from?'. Awaiting Krish's review of the words.",
       "evidence": [
         "src/pages/AiGtm.tsx",
         "src/test/copy-restraint.test.ts",
@@ -572,10 +572,10 @@
       "requiredOutcome": "/ai-gtm uses only the site's type roles (Newsreader headlines, Archivo body and actions, IBM Plex Mono labels) and the house palette and container, and looks like the same product as /new-age-leadership and the homepage.",
       "acceptanceTest": "The route stylesheet reads only --mm-* tokens and its own documented --gtm-* aliases, names no literal font family, sets no text under 12px, and the page no longer imports mindmake-locked-gtm.css or mindmake-gtm-plain.css; the wordmark and content share one left edge.",
       "status": "implemented-awaiting-review",
-      "resolution": "One route stylesheet on the house tokens (src/styles/mindmake-ai-gtm.css) replaces the two private GTM sheets; Newsreader, Archivo and Plex Mono only, nothing under 12px, one mint, AA contrast, the shell's container and edge. Mechanically checked; whether it reads as the same product is Krish's call.",
+      "resolution": "One route stylesheet on the house tokens (src/styles/mindmake-ai-gtm.css) replaces the two private GTM sheets; Newsreader, Archivo and Plex Mono only, the italic mint accent the approved chapters use, nothing under 12px, one mint, AA contrast, a focus ring that clears 3:1 on every ground, and the shell edge /new-age-leadership and the homepage use. Mechanically checked; whether it reads as the same product is Krish's call.",
       "evidence": [
         "src/test/ai-gtm-page.test.tsx (stylesheet contract)",
-        "artifacts/ai-gtm/scroll-build/report.json (Chromium gate, ten viewports forward and reverse, reduced motion, no-JS, negative control)",
+        "artifacts/ai-gtm/scroll-build/report.json (Chromium gate: thirteen viewports forward and reverse; no clipping at twelve sizes for both doors and every seat, and with WCAG 1.4.12 text spacing; rail hold; reduced motion; no-JS; negative control)",
         "scripts/qa/logo-alignment-check.mjs run: 560 edges on the wordmark's edge"
       ]
     },

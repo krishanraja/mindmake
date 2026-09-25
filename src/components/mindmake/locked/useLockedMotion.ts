@@ -23,7 +23,10 @@ export function useLockedMotion(rootRef: RefObject<HTMLElement>) {
     const visibility = new Map(scenes.map((scene) => [scene, 0]));
     let activeVideo: HTMLVideoElement | null = null;
 
-    const motionAllowed = () => !reducedMotion.matches && !connection?.saveData;
+    /* A page may offer the reader a pause (WCAG 2.2.2). It sets
+       data-motion-paused on the root and dispatches mm:motion on it; the
+       films then hold on their posters until the reader plays them again. */
+    const motionAllowed = () => !reducedMotion.matches && !connection?.saveData && root.dataset.motionPaused !== "true";
     const pauseAll = (policy = "motion") => {
       for (const video of videos) {
         video.pause();
@@ -94,6 +97,7 @@ export function useLockedMotion(rootRef: RefObject<HTMLElement>) {
     reducedMotion.addEventListener?.("change", onPolicyChange);
     connection?.addEventListener?.("change", onPolicyChange);
     document.addEventListener("visibilitychange", onPolicyChange);
+    root.addEventListener("mm:motion", onPolicyChange);
 
     return () => {
       observer.disconnect();
@@ -101,6 +105,7 @@ export function useLockedMotion(rootRef: RefObject<HTMLElement>) {
       reducedMotion.removeEventListener?.("change", onPolicyChange);
       connection?.removeEventListener?.("change", onPolicyChange);
       document.removeEventListener("visibilitychange", onPolicyChange);
+      root.removeEventListener("mm:motion", onPolicyChange);
       pauseAll("poster");
     };
   }, [rootRef]);

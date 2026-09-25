@@ -4,18 +4,21 @@
   "status": "candidate record. The /ai-gtm rebuild on Krish's 2026-09-25 review, awaiting his review of the rendered page. Not an approval.",
   "scopeRequested": "Krish, 2026-09-25: \"https://mindmake.co/ai-gtm - this page has the most confusing user experience. As I scroll, I just have no idea where to look. There's no visual hierarchy of sections. There are no scroll builds. It doesn't set up a universal problem that someone will really feel empathically that we understand them. None of this talks to a user one-to-one, so it doesn't really set up the problem that we're solving. The fonts are all over the place. They're not part of a cohesive design system as per the rest of the repository, nor is the rest of the look and feel of this page, to be honest. The content is more or less there in terms of what we're supposed to be saying and offering, but everything else is not up to scratch in terms of: the copywriting, the UX, the aesthetics, the design system, the build of the page, the visual delight etc etc\"",
   "sessionDecisions": [
-    "/ai-gtm is told as one argument in the order a buyer lives it: the change they already feel (four places), the workaround and why it leaves the problem where it was, the offer, the 30 days, what their team becomes, one result. Each chapter holds one idea on one screen.",
-    "Opening, problem first: 'Your customers have changed how they buy.' / 'You built your pricing, positioning and team for how they used to.' / 'Build your AI go-to-market (GTM)', which also expands GTM on first use. No picker and no panel on the first screen.",
-    "The canon headline 'Make your pricing, positioning and team AI-native.' moves from the h1 to the turn, as the answer to the chapter before it, with the canon promise verbatim. This changes a locked canon placement (01_CANON.md) and is pending Krish's approval of the rendered page.",
-    "Chapter one, 'You can feel it in four places.', pins and steps through Product, Price, Positioning and People: a felt moment in the reader's terms, the approved old way struck in amber and new way, and the dated source from gtm-signals.json. It reads the same for both kinds of business, because the switch comes after it.",
-    "The two doors (canon labels) move from the top of the page to the turn, after the service is explained; established is the default and choosing never moves the page. They drive the promise, the 30 days, the team and the result.",
-    "The founder-specific lever lines move from the lever leaves into week 1 of the 30 days, shown when the reader chooses the AI-native door. No approved line is lost.",
-    "The 30 days pin as one month filling left to right; all three stretches stay on screen and the reached ones take full ink (colour, not opacity, so the ones ahead still read at AA). The six things the month can build are visible in weeks 2 to 4 instead of a closed drawer.",
-    "The team pins and builds from today to AI-native with scroll, both ways; each seat holds both states in place, and a seat that does not exist yet is an empty dashed seat until the AI-native team fills it. Picking a seat shows its approved decision on a paper panel beside the board and never moves the page.",
-    "One result on paper: the quote in quotation marks, the outcome in amber, the attribution beneath in small mono (the r43 ruling), following the chosen door.",
-    "Drawn only in the house system: Newsreader headlines, Archivo body and actions, IBM Plex Mono labels at 12px or more, the shell container and gutter, one mint (the answer, the selected state), amber for change and evidence, and the warm cream the approved chapter surfaces use. The rotated paper leaves, SVG traces, machinery still, numbered eyebrows, badges and the decision slip collage are gone.",
+    "/ai-gtm is told as one argument in the order a buyer lives it: the change they already feel, in four places; the easy way out and what it costs; the offer; the 30 days; what their team becomes; one result. Each chapter holds one idea on one screen.",
+    "Opening, problem first: h1 'Your customers have changed how they buy.' with 'how they buy.' in the italic mint the approved chapters use, and 'You still build, price, position and hire by the old playbook.' Beside it the old playbook's four rules (the approved old-way lines) are struck through in amber one after another. No picker and no panel on the first screen, and no mono line above or below the h1.",
+    "A control on the first screen pauses and plays the page's films (WCAG 2.2.2), as /new-age-leadership and /ai-brain can; useLockedMotion reads it.",
+    "Chapter one, 'You can feel it in four places.', pins and steps through Product, Price, Positioning and People. Each felt moment says no more than its dated source in gtm-signals.json: Product and Zendesk (19 May 2026), Price and HubSpot (13 Apr 2026), Positioning and Shopify (24 Mar 2026), People and HubSpot (13 Apr 2026). The product signal (Uber) is no longer cited because it did not support the product line. The approved old way is struck in amber and the new way follows. It reads the same for both kinds of business, because the switch comes after it.",
+    "A screen of its own between the four places and the offer names the easy way out and its cost: 'You could add an AI tool and keep everything else.' / 'The deals would go to whoever changed the rest.'",
+    "The canon headline moves from the h1 to the turn, as the answer to the screens before it, set 'Make your pricing, positioning and team' then 'AI-native.' in italic mint, with the canon promise verbatim. This changes a locked canon placement (01_CANON.md) and is pending Krish's approval of the rendered page.",
+    "The two doors (canon labels) move from the top of the page to the turn, under the visible question 'Where are you starting from?'; established is the default and choosing never moves the page. They drive the promise, the 30 days, the team and the result.",
+    "The founder-specific lever lines move into week 1 of the 30 days, each approved old way struck beside its new line, shown when the reader chooses the AI-native door. No approved line is lost.",
+    "The 30 days pin as the month itself: thirty days that light one by one with scroll, grouped into the three stretches, whose names are the rail. All three stretches stay on screen; the six things the month can build are visible in weeks 2 to 4 with the fee note beneath them. On a phone the month is a document with the thirty days drawn whole.",
+    "The team is an illustrative org chart on an instrument panel that says it is an example on every screen: the lead above a bus the seats hang from, each seat's top rule carrying its kind (person, person with agents, agent-first, new role), a ring that shows it can be picked. Where it pins (desktops, laptops, a tablet held upright) it builds from today to AI-native with scroll, both ways, and picking a seat shows its approved decision beside the chart without moving the page; the panel is held at its tallest decision so a pick never moves the chart. On a phone, where no screen holds the chart and a decision, it is a document: each seat shows today's version struck through, the AI-native one and its decision.",
+    "One result on paper: the quote in quotation marks, the outcome in amber, the attribution beneath in small mono (the r43 ruling), following the chosen door, with a link to that story.",
+    "Drawn only in the house system: Newsreader headlines, Archivo body and actions, IBM Plex Mono labels at 12px or more, one mint (the answer, the selected state), amber for change and evidence, and the warm cream the approved chapter surfaces use. The route takes the shell edge /new-age-leadership and the homepage use (4.4vw, 1,600px), so the wordmark and content share one gutter. The rotated paper leaves, SVG traces, machinery still, numbered eyebrows, badges and the decision slip collage are gone.",
     "The two films the continuity contract gives this page stay: quiet-workshop-growth behind the opening and signals-arrive behind chapter one, on their existing 9 to 22KB WebP posters instead of 570 to 892KB PNGs. No other imagery.",
-    "Stages pin where one step fits one screen: chapter one down to 560px of height, the month and the team from 740px on a phone. Shorter screens, phones held sideways and readers without scripting get every step in flow; reduced motion keeps every pin and drops the transitions.",
+    "A stage pins only where its step fits: the stylesheet unpins short screens, phones held sideways and readers without scripting, and the hook releases any chapter whose content outgrows its stage (a reader's own text spacing or font size, a short laptop) before the reader reaches it, never while they are in it. Released chapters lay every step out. Reduced motion keeps every pin and drops the transitions. A rail press holds its step only until the page arrives.",
+    "On the cream bands the focus ring takes the paper's own mint (--mm-mint-d), because the bright mint ring is under 3:1 on the cream.",
     "Correction to r43's retired list: pinnedChapters.ts, pinnedChapters.css and homepage-pin-lifecycle.test.ts were reinstated by r41 and remain locked in files, so r44 does not list them as retired."
   ],
   "routes": [
@@ -41,6 +44,8 @@
     ],
     "gtm": [
       "src/pages/AiGtm.tsx",
+      "src/components/ai-gtm/Opening.tsx",
+      "src/components/ai-gtm/Workaround.tsx",
       "src/components/ai-gtm/StepRail.tsx",
       "src/components/ai-gtm/LeverChapter.tsx",
       "src/components/ai-gtm/TurnBand.tsx",
@@ -121,7 +126,7 @@
     "src/test/discoverability.test.ts": "679c11150944c99dda0e79240e52bc4dfa15ba335ed50aa385aa3aecaff3d1e6",
     "src/test/seo-prerender.test.tsx": "a49ddfaea0d4e25b3efcbd7342a40d92d8e8d96a52cf146a3b2468bd63ad674c",
     "src/test/seo-navigation.test.tsx": "df5fdc636cde34d682bec1b9ed80d5e4e47d412e8ca4af8d64bac2719722bb15",
-    "src/test/brief2-public-contract.test.ts": "20042941a8c5f4baa78497e68d41225edc65618f2298a5f6f1fdcfd9e360d7c5",
+    "src/test/brief2-public-contract.test.ts": "32016db437a9c4f4cffd4c5a48cb708f8b098049badd932227285e2ab20200e7",
     "public/sitemap.xml": "4e5859b5c5957b99313f1e506a521ed8fcef501bd17836f0cbf9c327157480ab",
     "public/llms.txt": "f3deb8ff07f08aa70a9a0343bba4adc83d720cdc79f04cf41494c2e9cb468918",
     "public/robots.txt": "d655c25315f781de2ff83266a9472f7fdf5e6c8fa0ae91b8f7099e4e3a78831b",
@@ -156,7 +161,7 @@
     "src/styles/new-age-leadership-r6.layer.css": "546986da7d3b4a6bd23053ed69aa996400db8c4f140b39050a9a11a058be60ca",
     "scripts/qa/build-new-age-r5-styles.mjs": "a5cba878c8e6293f7c61fce3b52bce4c3c269d5f4fc6cf9cb2e8c8a607c5d19a",
     "scripts/qa/new-age-r5-production-check.mjs": "86db61496a4b0ee713c9ad4ac337997895f6f351bb02b29d3a3cf83217448c9b",
-    "src/pages/AiGtm.tsx": "9aba96848f33a00ad4ab3e31e00fc4d821604637a9cdf4b49ed310239a5b3cdc",
+    "src/pages/AiGtm.tsx": "3dbd5bd4ca76f9f30de9f8c7e4a814c26c315f3194dd82d72dc87cc57a8edd27",
     "quality/ai-gtm/approved-plain-r2.json": "b42d8a6e66f822150c6c49d3059aaf09b86d6f92dcb7b243114ae359041578cc",
     "src/lib/lazyRoute.ts": "24b6b3f403f670143ed84c743c402ceef93e4d3f5e61cd7c3316182205b329ab",
     "src/components/leadership-chapters/leadershipChapters.ts": "ca3df3202fec02644693c16be62029790e3493a642f72352e11cf33c37249bf3",
@@ -173,20 +178,30 @@
     "src/components/homepage-release/pinnedChapters.css": "cbd0045559d53625b7e033c6efdc1040e209d12d948d3d54aff61803d382f3c6",
     "src/test/homepage-pin-lifecycle.test.ts": "ecab5c57568c418cc15bc6cdb368a2ce75c8ff09f92c7cd1cb83f2dd351bf4e3",
     "src/styles/mindmake-brain-refinements.css": "79593cf9ea20a975a0ff5cc813f402158bee269fa93a1dadd557446e99d4614f",
-    "src/components/ai-gtm/StepRail.tsx": "8d5b6f32a239a36ab4a17ead390cdb14192e99fab2abcf3c7339040089a06408",
-    "src/components/ai-gtm/LeverChapter.tsx": "089fcc08bf7194f7fdaa45a1a47f6cc7ce53efc045a31d48d1a41ee734b68dda",
-    "src/components/ai-gtm/TurnBand.tsx": "54029a5e9778e2747874736fdbc4e4dafd137753c5ac14cff783b9690bc50e3c",
-    "src/components/ai-gtm/PlanChapter.tsx": "ed5adfb8c50157a8cf6187cfccb2bdbf38651ae41a08faf0432da7eec09ea7d6",
-    "src/components/ai-gtm/TeamChapter.tsx": "6b6a142da3499d5b8c91146e881e2d26ae8b97ee7df1544f347004c40cd8c0d5",
-    "src/components/ai-gtm/ProofBand.tsx": "ed492c06f5b7c0ff0714eea292729282abca194e39e22399894e58209e9848be",
+    "src/components/ai-gtm/Opening.tsx": "568c6ce3c993cdf2bea24a7299b3e8bdd105bc195031a27f8d80fc29f09bfa69",
+    "src/components/ai-gtm/Workaround.tsx": "cdd94858400e75890449928ece3dd5539430410f2d973e7a074c4a49c5869192",
+    "src/components/ai-gtm/StepRail.tsx": "b33fd4602cc2d46418f2114575401a7541e7a38cb8d55f8fdb882e3110cb68e2",
+    "src/components/ai-gtm/LeverChapter.tsx": "01baf5ecd31937895fb197999108430b873e9c98b170cddd4ef10ecee4079a07",
+    "src/components/ai-gtm/TurnBand.tsx": "65834377e8138e30eebdbfcc1b8752ee228ecc7df94108bac12e8b7f8a50d28c",
+    "src/components/ai-gtm/PlanChapter.tsx": "74e17f4184b1cac8a0695d30806ec2a4f60803a326ef91b21ba3fd1b7d93e842",
+    "src/components/ai-gtm/TeamChapter.tsx": "3f4d5a42787119608e7e3f2d9456e2d0b81c61f8f477616028ec0ea3d884450d",
+    "src/components/ai-gtm/ProofBand.tsx": "a57cde2d4de6451fa9003422841049113c43315020560b94a9b3cbff07d19230",
     "src/components/ai-gtm/Unbroken.tsx": "aebe7ec14c81675ee959551fbe22550cd617d1a783013b1cd688aba83f6332bc",
-    "src/hooks/usePinnedSteps.ts": "bd3d83538099940749a25d20776179f2fe580f7d249f34a3628262a038fd029a",
-    "src/styles/mindmake-ai-gtm.css": "60e381d5d5f593184865f301e3fc3c1e008d2e7d5275aa31a66e11cb115dbcd2",
-    "src/test/ai-gtm-pinned-steps.test.tsx": "308392902cf20b733102fc1fcba8c1ab8d2235a10c9f51140ce526ef278eccf6",
-    "src/test/ai-gtm-page.test.tsx": "e2239eed966fbab138fdf46b1118916069b567d221a562aec664efda02a9f5ad",
-    "scripts/qa/record-route-lock-r44.mjs": "3219182d277e033ab6d7e7712af2ba6710bb9c8b7a9892b15b10fdd8d4d0e2f6"
+    "src/hooks/usePinnedSteps.ts": "5deb06d93ecab50b5d607f22fea504112beee9175dda31f6eb952e0bf7acc85c",
+    "src/styles/mindmake-ai-gtm.css": "17cfa3becb027e2c63677af319774c8df856654fbebd1a2d80a91d3e041f59ba",
+    "src/test/ai-gtm-pinned-steps.test.tsx": "9c2beb984110480d21161f12c23e7a53e47bac559fee63d30eaeb40fdb8258c4",
+    "src/test/ai-gtm-page.test.tsx": "37d8283ed13b24cffe8d6aa14528a101597febedfe10e376640f5ac24348948f",
+    "scripts/qa/record-route-lock-r44.mjs": "74f326b95c4f8656cc85067945e26b95798e3466612553ddaba40f7f9824e348"
   },
   "newlyLocked": [
+    {
+      "path": "src/components/ai-gtm/Opening.tsx",
+      "reason": "The first screen: the change the reader feels, and the old playbook's four rules struck through beside it, with the control that pauses the page's films."
+    },
+    {
+      "path": "src/components/ai-gtm/Workaround.tsx",
+      "reason": "The easy way out and what it costs, on its own screen between the four places and the offer."
+    },
     {
       "path": "src/components/ai-gtm/StepRail.tsx",
       "reason": "The rail along each pinned chapter; its segments fill with progress and move the page to a step."
@@ -258,15 +273,15 @@
     },
     "gtm": {
       "citedSignals": [
-        "product",
+        "service",
         "pricing",
-        "commerce",
-        "service"
+        "commerce"
       ],
       "stages": [
-        "Your customers have changed how they buy",
+        "Your customers have changed",
         "You can feel it in four places",
-        "Make your pricing, positioning and team AI-native",
+        "You could add an AI tool",
+        "Make your pricing, positioning and team",
         "One go-to-market move in 30 days",
         "Your sales and marketing team gets agents",
         "Result"
@@ -276,7 +291,7 @@
         "gtm-rail",
         "lever-steps",
         "mode-switch",
-        "plan-rule",
+        "plan-days",
         "team-board",
         "decision-panel"
       ]
@@ -343,13 +358,13 @@
       {
         "path": "src/test/brief2-public-contract.test.ts",
         "before": "9e51996473231ec1d5ce8790c3dba3ba5f4815501a0f63ec61de709741ae0dae",
-        "after": "20042941a8c5f4baa78497e68d41225edc65618f2298a5f6f1fdcfd9e360d7c5",
+        "after": "32016db437a9c4f4cffd4c5a48cb708f8b098049badd932227285e2ab20200e7",
         "reason": "Coverage follows the markup that moved from AiGtm.tsx into src/components/ai-gtm/ and src/hooks/usePinnedSteps.ts. No assertion removed or weakened."
       },
       {
         "path": "src/pages/AiGtm.tsx",
         "before": "bd106257ab8183ae86dbc3d6249a42c935642230c5e7c91f2a1a2c94d987b028",
-        "after": "9aba96848f33a00ad4ab3e31e00fc4d821604637a9cdf4b49ed310239a5b3cdc",
+        "after": "3dbd5bd4ca76f9f30de9f8c7e4a814c26c315f3194dd82d72dc87cc57a8edd27",
         "reason": "Rebuilt as one argument in the house system: problem-first opening, four felt moments with dated sources, the turn to the offer, the 30 days, the team, one result. The approved copy, levers, plan, team, decisions, proof and brief routing are kept; the chapters live in src/components/ai-gtm/."
       }
     ]

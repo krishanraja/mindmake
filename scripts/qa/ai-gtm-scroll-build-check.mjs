@@ -16,7 +16,13 @@
  * gate only sees visible elements, so the steps a pinned chapter is not
  * showing go unmeasured there. Here each step is measured while it is shown.
  *
- * Also checked: the reader without scripts gets every step in flow; reduced
+ * Also checked: nothing in a pinned stage is clipped, at twelve screen sizes,
+ * for both doors and every seat, and a chapter that cannot hold its content
+ * flows instead, before the reader reaches it and never while they are in it;
+ * the same holds with WCAG 1.4.12 text spacing applied; a rail press followed
+ * by the reader scrolling away leaves the step the position says, not the one
+ * pressed; the focus ring clears 3:1 on the cream bands;
+ * the reader without scripts gets every step in flow; reduced
  * motion keeps every pin; the rail moves the page and the state follows it;
  * the door switch and a seat pick never move the page; controls are 44px; one
  * visible h1; the wordmark shares the content's left edge; small text meets
@@ -60,7 +66,11 @@ const checks = {};
 const note = (id, ok, detail) => { checks[id] = { status: ok ? "pass" : "fail", detail }; if (!ok) failures.push(`${id}: ${detail}`); };
 const launch = () => chromium.launch({ headless: true, ...(process.env.PLAYWRIGHT_CHROMIUM ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM } : {}) });
 
-const VIEWPORTS = [[320, 568], [360, 640], [390, 844], [430, 932], [768, 1024], [844, 390], [1024, 768], [1366, 768], [1440, 900], [1920, 1080]];
+const VIEWPORTS = [[320, 568], [360, 640], [360, 780], [390, 844], [430, 932], [768, 1024], [844, 390], [1024, 768], [1280, 600], [1366, 657], [1366, 768], [1440, 900], [1920, 1080]];
+/* Sizes where a stage is closest to its content: laptops a browser's chrome
+   has shortened, and the phones reviewers found clipping on. */
+const FIT = [[1440, 900], [1366, 657], [1440, 700], [1536, 730], [1280, 600], [1024, 600], [768, 1024], [412, 915], [390, 844], [375, 740], [360, 780], [360, 740]];
+const TEXT_SPACING = "* { line-height: 1.5 !important; letter-spacing: .12em !important; word-spacing: .16em !important; } p { margin-bottom: 2em !important; }";
 const CHAPTERS = { levers: ["Product", "Price", "Positioning", "People"], plan: ["Week 1", "Weeks 2 to 4", "Day 30"], team: ["Today", "AI-native"] };
 const BLANK_LIMIT = 0.42;
 const STRIDE_SHARE = 0.2;
@@ -141,6 +151,37 @@ const PROBE = `(() => {
   }
   return { chapters, blank: Math.round((worst * innerHeight) / 59), overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth, lone, scrollY: Math.round(scrollY) };
 })()`;
+
+/* How far a pinned chapter's visible content runs past the room above its
+   rail, or, where it flows, which of its steps and seats are missing. */
+const FIT_PROBE = `((name) => {
+  const section = document.querySelector('[data-gtm-chapter="' + name + '"]');
+  const stage = section.querySelector(".gtm-stage");
+  const body = stage.querySelector(".gtm-stage-body");
+  const pinned = getComputedStyle(stage).position === "sticky";
+  const shown = (el) => el.checkVisibility({ visibilityProperty: true, opacityProperty: true });
+  if (!pinned) {
+    const steps = [...section.querySelectorAll("[data-gtm-step]")];
+    const missing = steps.filter((step) => !shown(step)).map((step) => step.textContent.trim().slice(0, 30));
+    if (name === "team") {
+      for (const seat of section.querySelectorAll(".role-cell")) {
+        const layers = [...seat.querySelectorAll(".role-layer:not(.role-empty)")];
+        if (layers.some((layer) => !shown(layer)) || !shown(seat.querySelector(".role-decision"))) missing.push("seat " + seat.textContent.trim().slice(0, 30));
+      }
+    }
+    return { pinned, missing, flow: section.hasAttribute("data-gtm-flow") };
+  }
+  const room = body.getBoundingClientRect();
+  let over = 0; let who = "";
+  for (const el of body.querySelectorAll("*")) {
+    if (!shown(el)) continue;
+    const r = el.getBoundingClientRect();
+    if (!r.height) continue;
+    const past = Math.max(r.bottom - room.bottom, room.top - r.top);
+    if (past > over) { over = past; who = (el.className || el.tagName) + " " + el.textContent.trim().slice(0, 30); }
+  }
+  return { pinned, over: Math.round(over), who, flow: section.hasAttribute("data-gtm-flow") };
+})`;
 
 async function openPage(browser, width, height, options = {}) {
   const context = await browser.newContext({ viewport: { width, height }, hasTouch: width < 900, isMobile: width < 600, reducedMotion: options.reduced ? "reduce" : "no-preference", javaScriptEnabled: options.javaScript !== false });
@@ -237,9 +278,12 @@ for (const [width, height] of VIEWPORTS) {
     return [name, { pinned, steps: steps.length, shown }];
   })), CHAPTERS);
   for (const [name, state] of Object.entries(flow)) {
-    if (name === "team") continue;
-    fail(!state.pinned && state.shown !== state.steps, `${label}: ${name} is unpinned but shows ${state.shown} of ${state.steps} steps`);
+    if (name !== "team") fail(!state.pinned && state.shown !== state.steps, `${label}: ${name} is unpinned but shows ${state.shown} of ${state.steps} steps`);
     fail(state.pinned && !forward.held[name], `${label}: ${name} is sticky but never held under the masthead`);
+  }
+  if (!flow.team.pinned) {
+    const team = await page.evaluate(`${FIT_PROBE}("team")`);
+    fail(team.missing.length > 0, `${label}: team is unpinned but hides ${team.missing.join(" | ")}`);
   }
 
   /* Every visible control is at least 44px tall. */
@@ -301,6 +345,112 @@ for (const [width, height] of VIEWPORTS) {
   fail(afterPick.y !== atTeam, `seat: picking a seat moved the page from ${atTeam} to ${afterPick.y}`);
   fail(afterPick.decision !== "Is your voice written down clearly enough for an agent to follow it?", `seat: the decision beside the board is ${afterPick.decision}`);
   observations.push({ label: "controls", rail: { before, after }, switch: afterSwitch, seat: afterPick });
+  await context.close();
+}
+
+/* Nothing in a pinned stage is clipped, for either door or any seat; a
+   chapter that cannot hold its content flows before the reader gets there,
+   and never flips under them while they are in it. */
+for (const [width, height] of FIT) {
+  for (const door of ["established", "founder"]) {
+    const label = `fit-${width}x${height}-${door}`;
+    const { page, context } = await openPage(browser, width, height);
+    if (door === "founder") {
+      await page.evaluate(() => document.querySelector("[data-gtm-chapter=turn] input[value=founder]").click());
+      await page.waitForTimeout(300);
+    }
+    const summary = {};
+    for (const [name, states] of Object.entries(CHAPTERS)) {
+      const geometry = await page.evaluate((chapter) => {
+        const section = document.querySelector(`[data-gtm-chapter="${chapter}"]`);
+        const stage = section.querySelector(".gtm-stage");
+        return { top: section.getBoundingClientRect().top + scrollY, held: section.offsetHeight - stage.offsetHeight, pinned: getComputedStyle(stage).position === "sticky", header: document.querySelector(".mm-header").getBoundingClientRect().height };
+      }, name);
+      if (!geometry.pinned) {
+        const state = await page.evaluate(`${FIT_PROBE}(${JSON.stringify(name)})`);
+        fail(state.missing.length > 0, `${label}: ${name} flows but hides ${state.missing.join(" | ")}`);
+        summary[name] = state.flow ? "flows (released by the hook)" : "flows";
+        continue;
+      }
+      let worst = 0; let where = "";
+      for (let index = 0; index < states.length; index += 1) {
+        const y = Math.round(geometry.top - geometry.header + (geometry.held * (index + 0.5)) / states.length);
+        await scrollToY(page, y);
+        await page.waitForTimeout(450);
+        const seats = name === "team" ? await page.locator(".team-board .role-cell:not([disabled])").count() : 1;
+        for (let seat = 0; seat < seats; seat += 1) {
+          if (name === "team") {
+            await page.locator(".team-board .role-cell:not([disabled])").nth(seat).click();
+            await page.waitForTimeout(120);
+          }
+          const state = await page.evaluate(`${FIT_PROBE}(${JSON.stringify(name)})`);
+          if (!state.pinned) { fail(true, `${label}: ${name} released its pin while the reader was in it (step ${index}, seat ${seat})`); break; }
+          if (state.over > worst) { worst = state.over; where = `step ${index}${name === "team" ? `, seat ${seat}` : ""}: ${state.who}`; }
+        }
+      }
+      fail(worst > 1, `${label}: ${name} is clipped by ${worst}px at ${where}`);
+      summary[name] = worst > 1 ? `clipped ${worst}px` : "pinned, fits";
+    }
+    observations.push({ label, ...summary });
+    await context.close();
+  }
+}
+
+/* WCAG 1.4.12: with text spacing widened, a pinned chapter either still
+   holds its content or flows; nothing is clipped. */
+for (const [width, height] of [[1440, 900], [1366, 657], [390, 844]]) {
+  const label = `text-spacing-${width}x${height}`;
+  const { page, context } = await openPage(browser, width, height);
+  await page.addStyleTag({ content: TEXT_SPACING });
+  await page.waitForTimeout(600);
+  const summary = {};
+  for (const [name, states] of Object.entries(CHAPTERS)) {
+    const geometry = await page.evaluate((chapter) => {
+      const section = document.querySelector(`[data-gtm-chapter="${chapter}"]`);
+      const stage = section.querySelector(".gtm-stage");
+      return { top: section.getBoundingClientRect().top + scrollY, held: section.offsetHeight - stage.offsetHeight, header: document.querySelector(".mm-header").getBoundingClientRect().height };
+    }, name);
+    let worst = 0; let flowed = false; const missing = [];
+    for (let index = 0; index < states.length; index += 1) {
+      await scrollToY(page, Math.round(geometry.top - geometry.header + (geometry.held * (index + 0.5)) / states.length));
+      await page.waitForTimeout(350);
+      const state = await page.evaluate(`${FIT_PROBE}(${JSON.stringify(name)})`);
+      if (state.pinned) worst = Math.max(worst, state.over);
+      else { flowed = true; missing.push(...state.missing); }
+    }
+    fail(worst > 1, `${label}: ${name} is clipped by ${worst}px with widened text spacing`);
+    fail(missing.length > 0, `${label}: ${name} flows but hides ${[...new Set(missing)].join(" | ")}`);
+    summary[name] = flowed ? "flows" : worst > 1 ? `clipped ${worst}px` : "pinned, fits";
+  }
+  observations.push({ label, ...summary });
+  await context.close();
+}
+
+/* A rail press holds its step only until the page arrives: a reader who
+   scrolls away first is shown the step their position says. */
+for (const [width, height] of [[1440, 900], [390, 844]]) {
+  const label = `rail-hold-${width}x${height}`;
+  const { page, context } = await openPage(browser, width, height);
+  for (const name of ["levers", "plan"]) {
+    const pinned = await page.evaluate((chapter) => getComputedStyle(document.querySelector(`[data-gtm-chapter="${chapter}"] .gtm-stage`)).position === "sticky", name);
+    if (!pinned) continue;
+    const top = await page.evaluate((chapter) => document.querySelector(`[data-gtm-chapter="${chapter}"]`).getBoundingClientRect().top + scrollY, name);
+    await scrollToY(page, top);
+    await page.locator(`[data-gtm-chapter="${name}"] .gtm-rail-step`).last().click();
+    await page.waitForTimeout(150);
+    await page.evaluate((h) => scrollBy({ top: -h * 0.6, behavior: "instant" }), height);
+    await page.waitForTimeout(1700);
+    const state = await page.evaluate((chapter) => {
+      const section = document.querySelector(`[data-gtm-chapter="${chapter}"]`);
+      const count = section.querySelectorAll(".gtm-rail-step").length;
+      const progress = Number(section.style.getPropertyValue("--gtm-progress"));
+      const expected = Math.max(0, Math.min(count - 1, Math.floor(progress * count)));
+      const shown = [...section.querySelectorAll(".gtm-rail-step")].findIndex((step) => step.dataset.active === "true");
+      return { progress, expected, shown };
+    }, name);
+    fail(state.shown !== state.expected, `${label}: after a rail press and a scroll back, ${name} shows step ${state.shown} where its position says ${state.expected}`);
+    observations.push({ label: `${label}-${name}`, ...state });
+  }
   await context.close();
 }
 
@@ -421,12 +571,21 @@ for (const [width, height] of [[1440, 900], [390, 844]]) {
       const label = el.closest("label");
       const ring = label ? getComputedStyle(label) : s;
       const shows = (style) => (style.outlineStyle !== "none" && parseFloat(style.outlineWidth) > 0) || style.boxShadow !== "none";
-      return { name: (el.getAttribute("aria-label") || el.textContent || el.value || "").trim().slice(0, 40), inGtm: Boolean(el.closest(".mm-gtm")), visible: shows(s) || shows(ring), hidden: !el.checkVisibility?.({ visibilityProperty: true }) };
+      /* The ring is drawn outside the control, on its band's ground. */
+      const rgb = (value) => (value.match(/[\d.]+/g) || []).slice(0, 3).map(Number);
+      const lum = ([r, g, b]) => { const c = [r, g, b].map((v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
+      let band = (label || el).parentElement;
+      while (band && getComputedStyle(band).backgroundColor.replace(/\s/g, "").match(/rgba\(.*,0\)|transparent/)) band = band.parentElement;
+      const pair = [lum(rgb(ring.outlineColor)), lum(rgb(band ? getComputedStyle(band).backgroundColor : "rgb(10,16,13)"))].sort((x, y) => y - x);
+      const ringContrast = (pair[0] + 0.05) / (pair[1] + 0.05);
+      return { name: (el.getAttribute("aria-label") || el.textContent || el.value || "").trim().slice(0, 40), inGtm: Boolean(el.closest(".mm-gtm")), onPaper: Boolean(el.closest(".mm-on-paper")), ringContrast, visible: shows(s) || shows(ring), hidden: !el.checkVisibility?.({ visibilityProperty: true }) };
     });
     if (state?.inGtm) focus.push(state);
   }
   const unseen = focus.filter((state) => !state.visible || state.hidden);
-  note("keyboard_focus_semantics", focus.length >= 8 && unseen.length === 0 && structure.h1 === 1 && structure.skips === 0, `${focus.length} focus stops in the page, ${unseen.length} without a visible ring or on a hidden step; one h1; ${structure.headings} headings, ${structure.skips} skipped levels`);
+  const faint = focus.filter((state) => state.ringContrast < 3);
+  const paper = focus.filter((state) => state.onPaper);
+  note("keyboard_focus_semantics", focus.length >= 8 && unseen.length === 0 && faint.length === 0 && paper.length > 0 && structure.h1 === 1 && structure.skips === 0, `${focus.length} focus stops in the page, ${unseen.length} without a visible ring or on a hidden step; ${faint.length} rings under 3:1 on their ground (${paper.length} on the cream bands, lowest ${Math.min(...focus.map((state) => state.ringContrast)).toFixed(2)}:1${faint.length ? `: ${faint.map((state) => state.name).join(", ")}` : ""}); one h1; ${structure.headings} headings, ${structure.skips} skipped levels`);
   fail(errors.length > 0, `readiness 1440x900: runtime errors ${errors.join(" | ")}`);
   await context.close();
 }
@@ -455,7 +614,7 @@ for (const [width, height] of [[1440, 900], [390, 844]]) {
 /* Evidence in the scroll-build shape, checked by the vendored validator. */
 const contract = { acceptedDecision: "r44 candidate: /ai-gtm pinned chapters", cases: [] };
 const report = { cases: [] };
-const candidateFiles = ["src/pages/AiGtm.tsx", "src/hooks/usePinnedSteps.ts", "src/styles/mindmake-ai-gtm.css", "src/components/ai-gtm/LeverChapter.tsx", "src/components/ai-gtm/PlanChapter.tsx", "src/components/ai-gtm/TeamChapter.tsx", "src/components/ai-gtm/StepRail.tsx"];
+const candidateFiles = ["src/pages/AiGtm.tsx", "src/hooks/usePinnedSteps.ts", "src/styles/mindmake-ai-gtm.css", "src/components/ai-gtm/Opening.tsx", "src/components/ai-gtm/LeverChapter.tsx", "src/components/ai-gtm/Workaround.tsx", "src/components/ai-gtm/PlanChapter.tsx", "src/components/ai-gtm/TeamChapter.tsx", "src/components/ai-gtm/StepRail.tsx"];
 contract.candidateDigest = identity?.sha256 ?? sha256(Buffer.concat(await Promise.all(candidateFiles.map((file) => readFile(path.join(root, file))))));
 report.candidateDigest = contract.candidateDigest;
 contract.acceptedDecisionDigest = sha256(contract.acceptedDecision);
@@ -532,15 +691,15 @@ Object.assign(checks, {
   artifact_identity: { status: identity ? "pass" : "not_run", detail: identity ? `candidate ${identity.sha256} over ${identity.files.length} files` : "no candidate manifest given" },
   runtime_identity: { status: "pass", detail: `vite preview of dist/, /ai-gtm/ served from dist/ai-gtm/index.html sha256 ${sha256(builtPage)}` },
   fresh_self_owned_capture: { status: "pass", detail: `captured ${new Date().toISOString()} from a server this run started at ${origin}` },
-  overflow_overlap_clipping: { status: none(/overflow|clipped|run off/) ? "pass" : "fail", detail: "no horizontal overflow at ten viewports both ways; nothing runs off the screen without scripts" },
-  layout_alignment: { status: none(/gutter/) ? "pass" : "fail", detail: "wordmark and content share one left edge at ten viewports" },
-  text_wrap_orphans_content_range: { status: none(/lone word/) ? "pass" : "fail", detail: "no lone last word in any shown step at ten viewports, forwards and in reverse" },
+  overflow_overlap_clipping: { status: none(/overflow|clipped|run off|released its pin|flows but hides|unpinned but hides/) ? "pass" : "fail", detail: `no horizontal overflow at ${VIEWPORTS.length} viewports both ways; no pinned stage clipped at ${FIT.length} sizes for both doors and every seat, nor with WCAG 1.4.12 text spacing; a chapter that cannot hold its content flows whole; nothing runs off the screen without scripts` },
+  layout_alignment: { status: none(/gutter/) ? "pass" : "fail", detail: `wordmark and content share one left edge at ${VIEWPORTS.length} viewports` },
+  text_wrap_orphans_content_range: { status: none(/lone word/) ? "pass" : "fail", detail: `no lone last word in any shown step at ${VIEWPORTS.length} viewports, forwards and in reverse` },
   contrast: { status: none(/^contrast/) ? "pass" : "fail", detail: "every visible text node meets WCAG AA on the ground it is drawn on at 1440x900" },
-  touch_targets: { status: none(/under 44px/) ? "pass" : "fail", detail: "every visible control at least 44px tall at ten viewports" },
+  touch_targets: { status: none(/under 44px/) ? "pass" : "fail", detail: `every visible control at least 44px tall at ${VIEWPORTS.length} viewports` },
   reduced_motion: { status: none(/^reduced/) ? "pass" : "fail", detail: "reduced motion keeps every pin and reaches every step at 1440x900 and 390x844" },
   section_fit_scroll_contract: { status: none(/of nothing|never held|unpinned but|still pin/) ? "pass" : "fail", detail: `blank bands under ${BLANK_LIMIT * 100}% of the viewport; each pinned chapter holds one screen and releases; unpinned chapters lay every step out` },
   console_network_user_impact: { status: none(/runtime errors/) ? "pass" : "fail", detail: "no page errors, console errors, failed requests or 4xx/5xx responses from the site" },
-  continuous_forward_reverse_journey: { status: none(/scroll showed|scroll-build evidence|negative control|rail:|switch:|seat:/) ? "pass" : "fail", detail: "scrolling alone reaches every state of levers, plan and team forwards and in reverse; controls move the page and the switch does not" },
+  continuous_forward_reverse_journey: { status: none(/scroll showed|scroll-build evidence|negative control|rail:|rail-hold|switch:|seat:/) ? "pass" : "fail", detail: "scrolling alone reaches every state of levers, plan and team forwards and in reverse; controls move the page and the switch does not; a rail press never outlasts the reader scrolling away" },
   judge_evidence_identity: { status: "not_run", detail: "set by the receipts script once the independent reviewers have reported on this candidate" },
 });
 const result = { gate: "ai-gtm-scroll-build", at: new Date().toISOString(), engine: "chromium", origin, selfOwned: true, candidateId: candidate?.candidateId ?? null, candidateSha256: identity?.sha256 ?? null, blankLimitShare: BLANK_LIMIT, checks, observations, failures };

@@ -22,24 +22,35 @@ const TRACK = STAGE + HELD;
 
 let trackTop = 900;
 let position = "sticky";
+/* How tall the stage's content is; the room it has is STAGE less a rail. */
+let content = 400;
 
-function Probe({ onReady }: { onReady: (api: ReturnType<typeof usePinnedSteps<HTMLElement>>) => void }) {
-  const api = usePinnedSteps<HTMLElement>(COUNT, { lockMs: 50 });
+function Probe({ onReady, lockMs = 50 }: { onReady: (api: ReturnType<typeof usePinnedSteps<HTMLElement>>) => void; lockMs?: number }) {
+  const api = usePinnedSteps<HTMLElement>(COUNT, { lockMs });
   onReady(api);
   return (
     <section ref={api.trackRef}>
       <div ref={api.stageRef}>
-        {[0, 1, 2, 3].map((index) => <p key={index} data-gtm-step={index} data-active={index === api.step}>{index}</p>)}
+        <div className="gtm-stage-body">
+          <div className="steps">
+            {[0, 1, 2, 3].map((index) => <p key={index} data-gtm-step={index} data-active={index === api.step}>{index}</p>)}
+          </div>
+        </div>
       </div>
     </section>
   );
 }
 
-function mount() {
+function mount({ lockMs = 50 }: { lockMs?: number } = {}) {
   let api!: ReturnType<typeof usePinnedSteps<HTMLElement>>;
-  const view = render(<Probe onReady={(next) => { api = next; }} />);
+  const view = render(<Probe lockMs={lockMs} onReady={(next) => { api = next; }} />);
   const section = view.container.querySelector("section")!;
   const stage = section.querySelector("div")!;
+  const room = stage.querySelector<HTMLElement>(".gtm-stage-body")!;
+  const steps = stage.querySelector<HTMLElement>(".steps")!;
+  const box = (top: number, height: number) => ({ top, height, bottom: top + height, left: 0, right: 0, width: 0, x: 0, y: top, toJSON: () => ({}) }) as DOMRect;
+  vi.spyOn(room, "getBoundingClientRect").mockImplementation(() => box(HEADER, STAGE - 60));
+  vi.spyOn(steps, "getBoundingClientRect").mockImplementation(() => box(HEADER + 40, content));
   vi.spyOn(section, "getBoundingClientRect").mockImplementation(() => ({ top: trackTop, height: TRACK, bottom: trackTop + TRACK, left: 0, right: 0, width: 0, x: 0, y: trackTop, toJSON: () => ({}) }) as DOMRect);
   Object.defineProperty(section, "offsetHeight", { configurable: true, get: () => TRACK });
   Object.defineProperty(stage, "offsetHeight", { configurable: true, get: () => STAGE });
@@ -61,10 +72,16 @@ afterEach(() => {
   vi.unstubAllGlobals();
   trackTop = 900;
   position = "sticky";
+  content = 400;
+  Object.defineProperty(window, "scrollY", { configurable: true, value: 0 });
 });
 
 function stubLayout() {
-  vi.spyOn(window, "getComputedStyle").mockImplementation(() => ({ position, top: `${HEADER}px` }) as CSSStyleDeclaration);
+  // A chapter the hook has marked to flow is unpinned, as the stylesheet does.
+  vi.spyOn(window, "getComputedStyle").mockImplementation((element) => ({
+    position: (element as Element).closest?.("section")?.hasAttribute("data-gtm-flow") ? "static" : position,
+    top: `${HEADER}px`,
+  }) as CSSStyleDeclaration);
 }
 
 describe("the pinned-step maths", () => {
@@ -131,6 +148,54 @@ describe("usePinnedSteps", () => {
     await act(async () => { await new Promise((done) => setTimeout(done, 80)); });
     await scrollHeld(10);
     expect(api().step).toBe(0);
+  });
+
+  it("reads position again when a control's hold lapses, even if the reader has stopped scrolling", async () => {
+    stubLayout();
+    vi.stubGlobal("scrollTo", vi.fn());
+    vi.stubGlobal("matchMedia", (query: string) => ({ matches: false, media: query, addEventListener: () => undefined, removeEventListener: () => undefined }));
+    const { api } = mount();
+    await scrollHeld(0);
+    await act(async () => api().goTo(3));
+    // The reader scrolls back before the page arrives, then stops.
+    await scrollHeld(10);
+    expect(api().step).toBe(3);
+    await act(async () => { await new Promise((done) => setTimeout(done, 120)); });
+    expect(api().step).toBe(0);
+  });
+
+  it("ends a control's hold as soon as the page arrives, so the next scroll counts at once", async () => {
+    stubLayout();
+    const scrollTo = vi.fn();
+    vi.stubGlobal("scrollTo", scrollTo);
+    vi.stubGlobal("matchMedia", (query: string) => ({ matches: false, media: query, addEventListener: () => undefined, removeEventListener: () => undefined }));
+    const { api } = mount({ lockMs: 5000 });
+    await scrollHeld(0);
+    await act(async () => api().goTo(2));
+    const { top } = scrollTo.mock.calls[0][0] as ScrollToOptions;
+    Object.defineProperty(window, "scrollY", { configurable: true, value: top });
+    await scrollHeld(top!);
+    expect(api().step).toBe(2);
+    Object.defineProperty(window, "scrollY", { configurable: true, value: 450 });
+    await scrollHeld(450);
+    expect(api().step).toBe(1);
+  });
+
+  it("lets a step that outgrows its stage flow as a document instead of clipping (WCAG 1.4.12)", async () => {
+    stubLayout();
+    const { api, section } = mount();
+    await scrollHeld(450);
+    expect(api().pinned).toBe(true);
+    expect(section.hasAttribute("data-gtm-flow")).toBe(false);
+    // The reader widens their text spacing: the step no longer fits.
+    content = STAGE;
+    await scrollHeld(460);
+    expect(section.getAttribute("data-gtm-flow")).toBe("true");
+    expect(api().pinned).toBe(false);
+    // It does not flip back under the reader when the content shrinks again.
+    content = 400;
+    await scrollHeld(470);
+    expect(section.getAttribute("data-gtm-flow")).toBe("true");
   });
 
   it("keeps every step under reduced motion, and only jumps rather than glides", async () => {

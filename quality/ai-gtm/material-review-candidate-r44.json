@@ -11,6 +11,8 @@
     "integrationModel": "single-dom-single-scroll-context",
     "files": [
       "src/pages/AiGtm.tsx",
+      "src/components/ai-gtm/Opening.tsx",
+      "src/components/ai-gtm/Workaround.tsx",
       "src/components/ai-gtm/StepRail.tsx",
       "src/components/ai-gtm/LeverChapter.tsx",
       "src/components/ai-gtm/TurnBand.tsx",
@@ -19,6 +21,7 @@
       "src/components/ai-gtm/ProofBand.tsx",
       "src/components/ai-gtm/Unbroken.tsx",
       "src/hooks/usePinnedSteps.ts",
+      "src/components/mindmake/locked/useLockedMotion.ts",
       "src/styles/mindmake-ai-gtm.css",
       "src/styles/mindmake.css",
       "src/data/vnext/gtm-signals.json",

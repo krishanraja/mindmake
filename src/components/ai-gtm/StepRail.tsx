@@ -22,6 +22,7 @@ export function StepRail({ label, steps, active, onGo, className = "" }: {
           className="gtm-rail-step"
           data-active={index === active}
           aria-current={index === active ? "step" : undefined}
+          aria-label={name}
           onClick={() => onGo(index)}
           style={{ "--gtm-i": index } as CSSProperties}
         >

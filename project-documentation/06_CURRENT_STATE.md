@@ -370,10 +370,10 @@ owns payload, privacy, retention, email and failure-path contracts.
     the same points without a sweep. A phone held sideways, and a page without
     scripts, keep the scenes one after another. On the homepage only the scene
     on screen, and the one being uncovered, play their films.
-- The homepage opening hero selects the recoverable Archive Engine r04 loop
-  (`src/assets/films/sep2026/archive-engine-hero-loop-r04-16s-1080p-web-sealed.mp4`)
-  with its own WebP poster; the route stage keeps `film-02`. Recorded in
-  `quality/route-lock/approved-production-r45.json`. Krish rejected the r06
+- The homepage opening hero plays the Archive Engine r07 loop
+  (`src/assets/films/sep2026/archive-engine-hero-loop-r07-16s-1080p-review-sealed.mp4`,
+  Krish, 2026-09-25) with a WebP poster taken from its first frame; the route
+  stage keeps `film-02`. The r04 package remains as the recoverable fallback. Krish rejected the r06
   local Blender render after seeing the moving result and ordered its complete
   removal from the repository. r06 is not an approved visual reference and
   consumed no Higgsfield generative-video credits.

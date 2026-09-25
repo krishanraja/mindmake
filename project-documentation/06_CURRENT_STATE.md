@@ -144,6 +144,14 @@ owns payload, privacy, retention, email and failure-path contracts.
     is untouched and is the one surface still reading "Start here".
   - r21: the door keys on the route without its trailing slash, and is hidden
     below 768px.
+- Production readback, 2026-09-25, after the r26 promotion (merge `9a22323`):
+  `https://mindmake.co/` carries "Get your free AI brief" six times and "Start
+  here" none. `/ai-brain` and `/ai-gtm` carry the label, the action bar and the
+  door to the other offer route, with no Decision Balance. `/blog` carries the
+  label and the bar. `/new-age-leadership` carries the Decision Balance, and now
+  also the action bar, having moved inside the shell in PR #177; `qa:oneway`
+  reads never more than one way in on screen there at either width, because the
+  bar stands down wherever the Decision Balance's own action is visible.
 - Production readback, 2026-09-24, after promotion: `/ai-brain`, `/ai-gtm` and
   `/blog` serve "Get your free AI brief" and the action bar and carry no
   Decision Balance; `/new-age-leadership` carries the Decision Balance and no

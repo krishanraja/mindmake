@@ -1,5 +1,5 @@
 /* Pin the approved composition without changing its internal layout. */
-.mm-home-approved .homepage-pin-track { position: relative; }
+.mm-home-approved .homepage-pin-track { position: relative; background: #020a07; }
 .mm-home-approved .homepage-pin-track > .r3-section { height: auto; }
 .mm-home-approved .homepage-pin-track.is-pinned > .r3-section {
   position: sticky;
@@ -9,4 +9,27 @@
   /* A CSS transition outranks even !important during interpolation. The
      pinned frame must not retain the chapter's entrance translation. */
   transition: none !important;
+}
+
+/* Size the history frame to the small viewport. With dvh a phone's address
+   bar resized the pinned frame mid-scroll, and every cqh-placed line and the
+   picture jumped with it. svh holds still; when the bar hides, the track's
+   ground fills the strip beneath. Desktop is unchanged (svh = dvh there). */
+.mm-home-approved .homepage-pin-track > .r3-history { min-height: 100svh; }
+.mm-home-approved .homepage-pin-track > .r3-history > .r3-variant {
+  height: calc(100svh - var(--masthead) - var(--mm-cookie-reserve, 0px));
+}
+.mm-home-approved .homepage-pin-track > .r3-history .r3-variant > .device-frame {
+  height: calc(100svh - var(--masthead));
+}
+
+/* The outgoing picture held over the incoming one during an era change. */
+.mm-home-approved .homepage-pin-track .story-image .homepage-pin-ghost {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition: none;
+}
+.mm-home-approved .homepage-pin-track.is-pinned .era-rail button {
+  transition: color .35s ease, background-color .35s ease;
 }

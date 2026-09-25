@@ -1,7 +1,7 @@
 {
-  "candidateDigest": "8f39d62082bfbd1f1568dfebf29b510dca4ebe677a6d6a1bd176273b59576781",
+  "candidateDigest": "40dfa4a703aa05998d2548f311c1e2ba8d3d7b2688aa82776d751dd79cad4c68",
   "acceptedDecision": "quality/website-redesign/homepage-handoff.v1.json",
-  "acceptedDecisionDigest": "876e95cb3df0f9ea51c9f544abd2339d644ce44bdedb40626e7caf0e3fc08292",
+  "acceptedDecisionDigest": "a0a53d96b407235d5b60fed8a9c1dbb385a35ab3b890a2f6f5f84db768adf349",
   "cases": [
     {
       "id": "chromium-1440x900-history",

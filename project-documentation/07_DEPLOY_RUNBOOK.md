@@ -65,8 +65,8 @@ retain verification codes/full private bodies. Head/docs-only edits need no send
 1. Freeze the exact candidate commit; require its CI, independent review and
    applicable material approval. Keep failed runs as failures.
 2. Preserve frontend deployment and affected backend rollback closures.
-3. Merge the approved PR to main; Vercel auto-promotes. Do not deploy an arbitrary
-   local worktree. Match build/commit and production alias.
+3. Merge to main; Vercel auto-promotes. Do not deploy an arbitrary local
+   worktree. Match build/commit and production alias.
 4. Read public HTML, assets, redirects and runtime behavior. For discoverability,
    include head, robots, sitemap, icons and social images.
 5. Update current state/receipts; put chronology only in history/LOG.md.

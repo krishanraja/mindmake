@@ -317,6 +317,13 @@ function populateRoute(frame, mobile) {
   const primary = byClass(frame, "primary");
   removeAttr(primary, "tabindex");
   setAttr(primary, "data-start-route", "brain");
+  /* The route stage's action takes the same shared-language label as the footer
+     entry and the navigation action, so the homepage says one thing in three
+     places and the wording lives in one decision rather than in three markup
+     files. The component-selection tree is integrity-locked by the handoff, so
+     the label could not be edited there and should not have been: this is where
+     the generator already resolves every other piece of shared language. */
+  setHtml(primary, `${decisions.sharedLanguage.selection.start} <span>&rarr;</span>`);
   const receipt = byClass(frame, "receipt");
   setText(receipt.childNodes.find((node) => node.tagName === "header")?.childNodes.find((node) => node.tagName === "h3"), decisions.message.selection.receiptHeading);
   setText(receipt.childNodes.find((node) => node.tagName === "header")?.childNodes.find((node) => node.tagName === "p"), copy.source);

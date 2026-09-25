@@ -3,7 +3,7 @@
   "candidateId": "homepage-integrated-candidate-r3",
   "handoffArtifact": "mindmake-homepage-handoff-v1",
   "handoffStatus": "handoff-baseline-not-production-candidate",
-  "generatedAt": "2026-09-24T11:09:45.168Z",
+  "generatedAt": "2026-09-25T00:09:57.444Z",
   "compiler": "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/build.mjs",
   "sourceIntegrity": {
     "algorithm": "sha256-path-nul-file-sha256-ordinal-v1",
@@ -669,7 +669,7 @@
     {
       "id": "sharedLanguage.start",
       "source": "prototypes/website-redesign-recovery/component-selection/shared-language-configurator/index.html",
-      "contract": "locked value is present: Start here",
+      "contract": "locked value is present: Get your free AI brief",
       "status": "pass"
     },
     {
@@ -725,7 +725,7 @@
   "files": [
     {
       "path": "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/index.html",
-      "sha256": "46be2e145f8175399e724bbaf80bc2014a8bf6ab5ce7184b6243a5bdae9a7007"
+      "sha256": "93c5869e8f189e47dde62ff1770fc3e32f03d27be50111b525456f4a756e42bd"
     },
     {
       "path": "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/page.css",
@@ -741,7 +741,7 @@
     },
     {
       "path": "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/build.mjs",
-      "sha256": "58449c1053520839ad45d162290a390c6934f23979a630a9cb11942b3fbe9d64"
+      "sha256": "966f4bf3d59605329ccb9ff0b1c53526994f3358b89f02d2c3caee4ce6e93eb8"
     }
   ]
 }

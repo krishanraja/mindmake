@@ -1,0 +1,437 @@
+{
+  "at": "2026-09-25T00:14:31.610Z",
+  "origin": "http://127.0.0.1:4344",
+  "built": true,
+  "selfOwnedRuntime": true,
+  "indexSha256": "b0c212dc428f145f0032a78d4f1245492ceba105c790bb9f90a0f9e4c7335621",
+  "endSha256": "b0c212dc428f145f0032a78d4f1245492ceba105c790bb9f90a0f9e4c7335621",
+  "scriptSha256": "4185de113028a507c4fd2038e21e7f77f2e0978d02e2bd0840b1616c3f6cd1de",
+  "routes": [
+    "/",
+    "/ai-brain",
+    "/ai-gtm",
+    "/case-studies",
+    "/new-age-leadership",
+    "/blog",
+    "/answers",
+    "/faq",
+    "/contact",
+    "/privacy",
+    "/terms",
+    "/blog/the-execution-gap-why-ai-literate-leaders-ship-while-others-plan",
+    "/blog/four-modes-of-ai-literacy-every-leader-needs",
+    "/blog/why-ai-training-fails-and-building-works",
+    "/blog/shadow-ai-to-strategic-ai-leaders-guide",
+    "/blog/measuring-ai-work-that-pays-back",
+    "/blog/builder-vs-consumer-mindset-in-ai",
+    "/blog/ai-vendor-theatre-how-to-spot-and-avoid-it",
+    "/blog/a-useful-first-30-days-building-with-ai",
+    "/blog/ai-literacy-for-executive-teams-lab-model",
+    "/blog/how-to-increase-creative-leadership-with-ai",
+    "/blog/how-to-control-your-use-of-ai-as-a-leader",
+    "/answers/adtech-compete-ai-targeting-models-defensibility-audit",
+    "/answers/ai-decision-tool-trustworthy-leadership-team",
+    "/answers/ai-center-of-excellence-without-engineering-budget",
+    "/answers/total-addressable-revenue-ai-products-publishing"
+  ],
+  "literalRoutePatterns": [
+    "/",
+    "/ai-brain",
+    "/ai-gtm",
+    "/case-studies",
+    "/operator",
+    "/start",
+    "/decision",
+    "/signal",
+    "/builder-economy",
+    "/blog",
+    "/blog/10-20x-roi-what-real-ai-implementation-looks-like",
+    "/blog/building-ai-systems-in-30-days-sprint-approach",
+    "/blog/:slug",
+    "/library",
+    "/answers",
+    "/answers/:slug",
+    "/new-age-leadership",
+    "/contact",
+    "/privacy",
+    "/terms",
+    "/alumni",
+    "/sprint",
+    "/teardown",
+    "/handover",
+    "/capital",
+    "/tool",
+    "/faq",
+    "/workshops/:slug",
+    "*"
+  ],
+  "expectedCounts": {
+    "routeCases": 4,
+    "coreNavigation": 0,
+    "routerPatterns": 0,
+    "supplemental": 0
+  },
+  "actualCounts": {
+    "routeCases": 4,
+    "coreNavigation": 0,
+    "routerPatterns": 0,
+    "supplemental": 0
+  },
+  "filters": {
+    "engine": "chromium",
+    "width": null,
+    "route": "/"
+  },
+  "limitations": [
+    "Public read-only UI only; no live lead, email, provider or payment mutation.",
+    "External requests and non-GET/HEAD requests were blocked; live integrations are outside this smoke.",
+    "Vite untrailed native links use exact built directory-index responses, matching documented deployment behavior.",
+    "Non-prerendered and retired route patterns are CSR coverage only; direct-navigation hydration is not certified.",
+    "Geometry, DOM identity and errors are automated observations, not a visual design or physical assistive-technology audit.",
+    "Cookie notice is dismissed to isolate route geometry; first-visit cookie clearance is a separate release check."
+  ],
+  "cases": [
+    {
+      "id": "chromium-320x568-/",
+      "engine": "chromium",
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "route": "/",
+      "at": "2026-09-25T00:14:27.858Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/",
+          "startedAt": "2026-09-25T00:14:28.097Z",
+          "completedMs": 51
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/",
+          "startedAt": "2026-09-25T00:14:28.148Z",
+          "completedMs": 2
+        },
+        {
+          "name": "curtain-released",
+          "path": "/",
+          "startedAt": "2026-09-25T00:14:28.151Z",
+          "completedMs": 3
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "b0c212dc428f145f0032a78d4f1245492ceba105c790bb9f90a0f9e4c7335621",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Build the business that can think with you."
+      ],
+      "heading": {
+        "x": 16.40625,
+        "y": 91.49577331542969,
+        "width": 180.5,
+        "height": 120.6875
+      },
+      "fixedHeaderBottom": 64,
+      "initialOverflow": {
+        "width": 320,
+        "document": 320
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 13,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 7,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 178.18603515625,
+        "width": 320,
+        "height": 395.90625
+      },
+      "footerLink": {
+        "x": 65.703125,
+        "y": 491.1982421875,
+        "width": 37,
+        "height": 32
+      },
+      "fixedBottomTop": 568,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 320,
+        "document": 320
+      }
+    },
+    {
+      "id": "chromium-390x844-/",
+      "engine": "chromium",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/",
+      "at": "2026-09-25T00:14:28.783Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/",
+          "startedAt": "2026-09-25T00:14:28.984Z",
+          "completedMs": 51
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/",
+          "startedAt": "2026-09-25T00:14:29.036Z",
+          "completedMs": 2
+        },
+        {
+          "name": "curtain-released",
+          "path": "/",
+          "startedAt": "2026-09-25T00:14:29.038Z",
+          "completedMs": 9
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "b0c212dc428f145f0032a78d4f1245492ceba105c790bb9f90a0f9e4c7335621",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Build the business that can think with you."
+      ],
+      "heading": {
+        "x": 20,
+        "y": 96.96762084960938,
+        "width": 218.5,
+        "height": 147.0625
+      },
+      "fixedHeaderBottom": 64,
+      "initialOverflow": {
+        "width": 390,
+        "document": 390
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 18,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 9,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 475.0361328125,
+        "width": 390,
+        "height": 375
+      },
+      "footerLink": {
+        "x": 70.25,
+        "y": 760.8916015625,
+        "width": 37,
+        "height": 32
+      },
+      "fixedBottomTop": 844,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "chromium-1108x574-/",
+      "engine": "chromium",
+      "viewport": {
+        "width": 1108,
+        "height": 574
+      },
+      "route": "/",
+      "at": "2026-09-25T00:14:29.662Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/",
+          "startedAt": "2026-09-25T00:14:29.845Z",
+          "completedMs": 53
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/",
+          "startedAt": "2026-09-25T00:14:29.898Z",
+          "completedMs": 3
+        },
+        {
+          "name": "curtain-released",
+          "path": "/",
+          "startedAt": "2026-09-25T00:14:29.900Z",
+          "completedMs": 13
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "b0c212dc428f145f0032a78d4f1245492ceba105c790bb9f90a0f9e4c7335621",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Build the business that can think with you."
+      ],
+      "heading": {
+        "x": 48.75,
+        "y": 210.91744995117188,
+        "width": 325.5,
+        "height": 201.625
+      },
+      "fixedHeaderBottom": 66,
+      "initialOverflow": {
+        "width": 1108,
+        "document": 1108
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 18,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 6,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 352.48291015625,
+        "width": 1108,
+        "height": 225.90625
+      },
+      "footerLink": {
+        "x": 101.90625,
+        "y": 489.083740234375,
+        "width": 31,
+        "height": 32
+      },
+      "fixedBottomTop": 574,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1108,
+        "document": 1108
+      }
+    },
+    {
+      "id": "chromium-1440x900-/",
+      "engine": "chromium",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "route": "/",
+      "at": "2026-09-25T00:14:30.547Z",
+      "failures": [],
+      "pageerrors": [],
+      "hydrationConsoleErrors": [],
+      "blockedRequests": [],
+      "directoryIndexMappings": [],
+      "readiness": [
+        {
+          "name": "react-root-and-heading",
+          "path": "/",
+          "startedAt": "2026-09-25T00:14:30.717Z",
+          "completedMs": 76
+        },
+        {
+          "name": "fonts-ready",
+          "path": "/",
+          "startedAt": "2026-09-25T00:14:30.793Z",
+          "completedMs": 3
+        },
+        {
+          "name": "curtain-released",
+          "path": "/",
+          "startedAt": "2026-09-25T00:14:30.796Z",
+          "completedMs": 2
+        }
+      ],
+      "pendingRequests": [],
+      "status": 200,
+      "documentSha256": "b0c212dc428f145f0032a78d4f1245492ceba105c790bb9f90a0f9e4c7335621",
+      "hydration": {
+        "serverHeadingCaptured": true,
+        "serverHeadingPreserved": true
+      },
+      "visibleHeadings": [
+        "Build the business that can think with you."
+      ],
+      "heading": {
+        "x": 63.359375,
+        "y": 271.5137939453125,
+        "width": 430.5,
+        "height": 262.0625
+      },
+      "fixedHeaderBottom": 66,
+      "initialOverflow": {
+        "width": 1440,
+        "document": 1440
+      },
+      "menu": {
+        "open": true,
+        "focusInside": true,
+        "openReadyWithinBound": true,
+        "openWaitMs": 63,
+        "closeReadyWithinBound": true,
+        "closeWaitMs": 17,
+        "closed": true,
+        "focusRestored": true
+      },
+      "footer": {
+        "x": 0,
+        "y": 644.974609375,
+        "width": 1440,
+        "height": 259.421875
+      },
+      "footerLink": {
+        "x": 127.046875,
+        "y": 803.677734375,
+        "width": 36,
+        "height": 32
+      },
+      "fixedBottomTop": 900,
+      "brokenImages": [],
+      "pendingImages": [],
+      "finalOverflow": {
+        "width": 1440,
+        "document": 1440
+      }
+    }
+  ],
+  "supplemental": [],
+  "failures": []
+}

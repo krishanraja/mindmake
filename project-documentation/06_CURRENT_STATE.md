@@ -17,7 +17,9 @@ The approved R3 homepage is live: opening, historical stories, work and
 organisation, leadership dividend, AI Brain/AI GTM routes and footer. History
 has four native pinned states; leadership dividend has five. Both are reversible,
 release naturally and retain direct controls for reduced motion or insufficient
-height. The new-age-leadership route is a separate approved companion.
+height. The new-age-leadership route is a separate approved companion. The
+r34 candidate below replaces those three chapters; this paragraph describes
+production until it is read back.
 
 [RELEASE-2026-09-24](website-redesign/RELEASE-2026-09-24.md) owns the receipt.
 The active immutable source lock is selected by
@@ -270,6 +272,15 @@ owns payload, privacy, retention, email and failure-path contracts.
   headlines, Archivo body and actions, and Plex Mono 400 labels. The shell
   pages take it from `--mm-body` and the `.mm-site` heading default. Recorded
   in `quality/route-lock/approved-production-r33.json`.
+
+- Homepage chapters: between the opening and the route, `/` carries the three
+  `/new-age-leadership` chapters (the organisation changing shape, the system
+  in practice, and the AI Brain's benefits beside the returned hour) in place
+  of R3's history, authority and leadership dividend. One source,
+  `src/components/leadership-chapters/leadershipChapters.ts`, serves both
+  pages; the homepage generator cuts the R3 chapters by named anchors. The R3
+  pin controller is retired. Recorded in
+  `quality/route-lock/approved-production-r34.json`.
 
 Do not promote old DNS/mailbox, CTRL-host or cache observations into fresh facts
 without new readback. CONTACT_EMAIL in src/lib/publicLinks.ts is the approved

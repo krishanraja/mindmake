@@ -3,15 +3,7 @@ import asset0 from "../../assets/mindmake-mark.svg";
 import asset1 from "../../assets/mindmake-wordmark.svg";
 import asset2 from "../../assets/films/film-02-poster.webp";
 import asset3 from "../../assets/films/film-02-loop.mp4";
-import asset4 from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-writing-s2.webp";
-import asset5 from "../../../prototypes/website-redesign-recovery/case-study-browsing/media/ready-for-decision-loop-r01-20s-720p-web-sealed-poster.webp";
-import asset6 from "../../../prototypes/website-redesign-recovery/case-study-browsing/media/signals-arrive-loop-r01-20s-720p-web-sealed-poster.webp";
-import asset7 from "../../../prototypes/website-redesign-recovery/case-study-browsing/media/evidence-connects-loop-r01-20s-720p-web-sealed-poster.webp";
-import asset8 from "../../assets/films/film-04-loop.mp4";
-import asset9 from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-loom-s2.webp";
-import asset10 from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-calculator-s2.webp";
-import asset11 from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-satnav-s2.webp";
-import asset12 from "../../../prototypes/website-redesign-recovery/case-study-browsing/media/communications-compose-loop-r01-20s-720p-web-sealed-poster.webp";
+import asset4 from "../../assets/films/film-04-loop.mp4";
 export function mountHomepageRuntime(root, { onStart }) {
   const abort = new AbortController();
   const observers = new Set();
@@ -96,7 +88,7 @@ export function mountHomepageRuntime(root, { onStart }) {
       source: "Anonymous client outcome · Media advisory",
       steps: ["Expertise people value", "A clear offer", "A defined plan launched"],
       result: "A respected advisory firm turned its expertise into a clear offer clients could buy.",
-      film: asset8,
+      film: asset4,
     },
   };
   let selectedRoute = "brain";
@@ -135,103 +127,6 @@ export function mountHomepageRuntime(root, { onStart }) {
   }));
   within("route", "[data-start-route]").forEach((button) => listen(button, "click", () => { onStart(button.dataset.startRoute); }));
 
-  const stories = [
-    { era: "370 BC · Writing", image: asset4, alt: "An illustrative historical writing scene", question: "If knowledge lives outside us, will memory grow weaker?", outcome: "Ideas could travel beyond one voice and survive their maker. We changed what memory was for." },
-    { era: "1675 · Engine loom", image: asset9, alt: "An illustrative mechanised loom scene", question: "If the machine can do the work, what happens to the worker?", outcome: "The fear was not foolish. Jobs, wages and status changed. The real fight was over who controlled the gain." },
-    { era: "1970s · Calculator", image: asset10, alt: "An illustrative classroom calculator scene", question: "If the device does the arithmetic, will children stop learning to think?", outcome: "A review of 79 studies found no collapse in basic skills. The question moved from doing every sum to understanding the answer." },
-    { era: "2000s · Satnav", image: asset11, alt: "An illustrative early satellite navigation scene", question: "If the device knows the route, will we lose our sense of direction?", outcome: "That risk turned out to be real. A useful tool still asks us what we choose to keep practising." },
-  ];
-  const selectStory = (index) => {
-    within("history", ".history-frame").forEach((frame) => {
-      const story = stories[index];
-      frame.querySelector("[data-story-question]").textContent = story.question;
-      frame.querySelector("[data-story-outcome]").textContent = story.outcome;
-      frame.querySelector("[data-story-era]").textContent = story.era;
-      frame.querySelector("[data-story-count]").textContent = `0${index + 1}`;
-      const image = frame.querySelector("[data-story-image]");
-      image.src = story.image;
-      image.alt = story.alt;
-      frame.querySelectorAll("[data-era]").forEach((button) => setCurrent(button, Number(button.dataset.era) === index));
-    });
-  };
-  within("history", "[data-era]").forEach((button) => listen(button, "click", () => { const index = Number(button.dataset.era); selectStory(index); choice({ section: "history", index }); }));
-
-  const selectAuthority = (phase) => {
-    within("authority", ".authority-frame").forEach((frame) => {
-      frame.dataset.phaseView = phase;
-      frame.querySelectorAll("[data-stage]").forEach((button) => {
-        const active = button.dataset.stage === phase;
-        setCurrent(button, active);
-        button.setAttribute("aria-pressed", String(active));
-      });
-      frame.querySelectorAll("[data-stage-panel]").forEach((panel) => panel.setAttribute("aria-hidden", String(panel.dataset.stagePanel !== phase)));
-    });
-  };
-  within("authority", "[data-stage]").forEach((button) => listen(button, "click", () => {
-    selectAuthority(button.dataset.stage);
-  }));
-
-  const practiceScenes = [
-    ["It notices what changed.", "Signals arrive before someone asks for a report.", asset6],
-    ["It joins the evidence.", "New information meets what the business already knows.", asset7],
-    ["It prepares the next move.", "Useful work reaches you ready for a decision.", asset12],
-  ];
-  const benefits = [
-    ["Leadership updates become consistent, even when the week was not.", "Your decisions, risks and priorities stay connected from one update to the next."],
-    ["Work nobody owns becomes visible before it becomes a problem.", "The Brain joins the gaps across reports, meetings and decisions."],
-    ["A change in market pricing becomes a decision, not a forgotten observation.", "It connects the signal to what your commercial team already knows."],
-    ["A CEO who hates writing can still publish ideas worth following.", "The blank page goes. Their judgement and voice stay."],
-    ["A CRO who hates the numbers can become better at using them.", "The Brain prepares what changed, why it matters and where to look next."],
-    ["Founder-led content can begin with the work, not another content calendar.", "Useful thinking already inside the business becomes something people can see."],
-  ];
-  let dividendMode = "practice";
-  let practiceIndex = 0;
-  let benefitIndex = 0;
-  let benefitTimer = 0;
-  let dividendInView = false;
-  let dividendHasFocus = false;
-  const applyPractice = () => within("leadership-dividend", ".dividend-frame").forEach((frame) => {
-    const scene = practiceScenes[practiceIndex];
-    frame.querySelector("[data-practice-image]").src = scene[2];
-    frame.querySelector("[data-practice-count]").textContent = `0${practiceIndex + 1} / 03`;
-    frame.querySelector("[data-practice-title]").textContent = scene[0];
-    frame.querySelector("[data-practice-copy]").textContent = scene[1];
-    frame.querySelectorAll("[data-practice]").forEach((button, index) => setCurrent(button, index === practiceIndex));
-  });
-  const applyBenefit = () => within("leadership-dividend", ".dividend-frame").forEach((frame) => {
-    frame.querySelector("[data-benefit-title]").textContent = benefits[benefitIndex][0];
-    frame.querySelector("[data-benefit-copy]").textContent = benefits[benefitIndex][1];
-    frame.querySelector("[data-benefit-count]").textContent = `${String(benefitIndex + 1).padStart(2, "0")} / 06`;
-  });
-  const restartBenefitTimer = () => {
-    clearInterval(benefitTimer);
-    benefitTimer = 0;
-    if (dividendMode === "benefits" && dividendInView && !dividendHasFocus && !reducedMotion.matches && !document.hidden) benefitTimer = setInterval(() => { benefitIndex = (benefitIndex + 1) % benefits.length; applyBenefit(); }, 6200);
-  };
-  const selectDividend = (mode) => {
-    dividendMode = mode;
-    within("leadership-dividend", ".dividend-frame").forEach((frame) => { frame.dataset.modeView = mode; });
-    root.querySelectorAll("[data-dividend-mode]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.dividendMode === mode)));
-    restartBenefitTimer();
-  };
-  root.querySelectorAll("[data-dividend-mode]").forEach((button) => listen(button, "click", () => {
-    selectDividend(button.dataset.dividendMode); choice({ section: "dividend", mode: button.dataset.dividendMode });
-  }));
-  within("leadership-dividend", "[data-practice]").forEach((button, index) => listen(button, "click", () => { practiceIndex = index % 3; applyPractice(); choice({ section: "dividend", index: practiceIndex }); }));
-  within("leadership-dividend", "[data-benefit-prev]").forEach((button) => listen(button, "click", () => { benefitIndex = (benefitIndex + benefits.length - 1) % benefits.length; applyBenefit(); restartBenefitTimer(); }));
-  within("leadership-dividend", "[data-benefit-next]").forEach((button) => listen(button, "click", () => { benefitIndex = (benefitIndex + 1) % benefits.length; applyBenefit(); restartBenefitTimer(); }));
-  const dividendSection = scope("leadership-dividend");
-  listen(dividendSection, "focusin", () => { dividendHasFocus = true; restartBenefitTimer(); });
-  listen(dividendSection, "focusout", () => setTimeout(() => {
-    dividendHasFocus = dividendSection.contains(document.activeElement);
-    restartBenefitTimer();
-  }));
-  if ("IntersectionObserver" in window) new TrackedObserver(([entry]) => {
-    dividendInView = entry.isIntersecting;
-    restartBenefitTimer();
-  }, { threshold: .12 }).observe(dividendSection);
-  else dividendInView = true;
-  listen(document, "visibilitychange", restartBenefitTimer);
   if ("IntersectionObserver" in window) new TrackedObserver(([entry], observer) => {
     if (!entry.isIntersecting) return;
     activateRouteMedia();
@@ -251,7 +146,6 @@ export function mountHomepageRuntime(root, { onStart }) {
   listen(reducedMotion, "change", (event) => {
     root.classList.toggle("has-motion", !event.matches);
     reveals.forEach((section) => section.classList.add("is-visible"));
-    restartBenefitTimer();
   });
 
   const syncMotionMedia = () => root.querySelectorAll('video').forEach(video => {
@@ -260,17 +154,9 @@ export function mountHomepageRuntime(root, { onStart }) {
   });
   listen(reducedMotion, 'change', syncMotionMedia);
   syncMotionMedia();
-  applyPractice();
   root.querySelectorAll('a[href="/start"]').forEach(link => listen(link, 'click', event => { event.preventDefault(); setNavigation(false); onStart('home'); }));
-  selectStory(0);
-  selectAuthority("work");
-  selectDividend("practice");
   selectRoute("brain");
   return {
-    selectStory,
-    selectDividend,
-    selectPractice(index) { practiceIndex = Math.max(0, Math.min(2, index)); applyPractice(); },
-    selectBenefit(index) { benefitIndex = Math.max(0, Math.min(5, index)); applyBenefit(); },
     destroy() {
       abort.abort();
       observers.forEach(observer => observer.disconnect());

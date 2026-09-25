@@ -3,16 +3,9 @@ import asset0 from "../../assets/mindmake-mark.svg";
 import asset1 from "../../assets/mindmake-wordmark.svg";
 import asset2 from "../../assets/films/film-02-poster.webp";
 import asset3 from "../../assets/films/film-02-loop.mp4";
-import asset4 from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-writing-s2.webp";
-import asset5 from "../../../prototypes/website-redesign-recovery/case-study-browsing/media/ready-for-decision-loop-r01-20s-720p-web-sealed-poster.webp";
-import asset6 from "../../../prototypes/website-redesign-recovery/case-study-browsing/media/signals-arrive-loop-r01-20s-720p-web-sealed-poster.webp";
-import asset7 from "../../../prototypes/website-redesign-recovery/case-study-browsing/media/evidence-connects-loop-r01-20s-720p-web-sealed-poster.webp";
-import asset8 from "../../assets/films/film-04-loop.mp4";
-import asset9 from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-loom-s2.webp";
-import asset10 from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-calculator-s2.webp";
-import asset11 from "../../../prototypes/website-redesign-recovery/new-age-leadership/media/history-satnav-s2.webp";
-import asset12 from "../../../prototypes/website-redesign-recovery/case-study-browsing/media/communications-compose-loop-r01-20s-720p-web-sealed-poster.webp";
-export const homepageMarkup = `<a class="skip-link" href="#history">Skip to the story</a>
+import asset4 from "../../assets/films/film-04-loop.mp4";
+import { leadershipChaptersMarkup } from "@/components/leadership-chapters/leadershipChapters";
+export const homepageMarkup = `<a class="skip-link" href="#new-age-leadership">Skip to the story</a>
     <main id="site" data-release="homepage-integrated-candidate-r3" aria-label="Mindmake homepage">
       <section id="opening" class="r3-section r3-opening" data-component="opening"><div class="r3-variant preview-desktop"><div class="site-frame" data-composition-desktop="editorial" data-title-desktop="balanced" data-measure-desktop="balanced" data-position-desktop="middle" data-crop-desktop="center" data-contrast="cinema" data-lede="show" data-doors="paired" data-proof="show" data-reveal="staged">
               <header class="site-masthead">
@@ -61,127 +54,7 @@ export const homepageMarkup = `<a class="skip-link" href="#history">Skip to the 
                 </div>
               </section>
             </div></div></section>
-      <section id="history" class="r3-section r3-history r3-reveal" data-component="history"><div class="r3-variant device-desktop"><article class="device-frame device-desktop" aria-label="Desktop historical story preview">
-              <section class="history-frame" data-desktop-composition="editorial" data-mobile-composition="integrated" data-desktop-copy-position="left" data-desktop-headline-scale="balanced" data-mobile-headline-scale="balanced" data-control-treatment="era" data-story-transition="dissolve" data-bridge-treatment="contrast">
-                <div class="bridge" data-focus-region="bridge"><h2 data-copy="bridgeHeadline">You are not the first person to wonder what a new tool might take from you.</h2><p data-optional-copy="bridgeLine">We have been asking that question for centuries.</p></div>
-                <figure class="story-image"><img data-story-image="" alt="An illustrative historical writing scene" src="${asset4}"><div class="image-wash"></div></figure>
-                <article class="story-copy" data-focus-region="story"><div class="story-meta"><span data-story-count="">01</span><b data-story-era="">370 BC · Writing</b></div><h3 data-story-question="" data-focus-region="question" aria-live="polite">If knowledge lives outside us, will memory grow weaker?</h3><p data-focus-region="outcome"><strong data-copy="outcomeLabel">What changed</strong><span data-story-outcome="" aria-live="polite">Ideas could travel beyond one voice and survive their maker. We changed what memory was for.</span></p></article>
-                <nav class="era-rail" data-focus-region="controls" aria-label="Choose a historical story"><button type="button" data-era="0" aria-current="true"><span>370 BC</span><b>Writing</b></button><button type="button" data-era="1"><span>1675</span><b>Engine loom</b></button><button type="button" data-era="2"><span>1970s</span><b>Calculator</b></button><button type="button" data-era="3"><span>2000s</span><b>Satnav</b></button></nav>
-                <p class="closing-hinge" data-focus-region="hinge" data-optional-copy="closingHinge">The feeling is familiar. The reach is new.</p>
-              </section>
-            </article></div><div class="r3-variant device-mobile"><article class="device-frame device-mobile" aria-label="Mobile historical story preview">
-              <section class="history-frame" data-desktop-composition="editorial" data-mobile-composition="integrated" data-desktop-copy-position="left" data-desktop-headline-scale="balanced" data-mobile-headline-scale="balanced" data-control-treatment="era" data-story-transition="dissolve" data-bridge-treatment="contrast">
-                <div class="bridge" data-focus-region="bridge"><h2 data-copy="bridgeHeadline">You are not the first person to wonder what a new tool might take from you.</h2><p data-optional-copy="bridgeLine">We have been asking that question for centuries.</p></div>
-                <figure class="story-image"><img data-story-image="" alt="An illustrative historical writing scene" src="${asset4}"><div class="image-wash"></div></figure>
-                <article class="story-copy" data-focus-region="story"><div class="story-meta"><span data-story-count="">01</span><b data-story-era="">370 BC · Writing</b></div><h3 data-story-question="" data-focus-region="question" aria-live="polite">If knowledge lives outside us, will memory grow weaker?</h3><p data-focus-region="outcome"><strong data-copy="outcomeLabel">What changed</strong><span data-story-outcome="" aria-live="polite">Ideas could travel beyond one voice and survive their maker. We changed what memory was for.</span></p></article>
-                <nav class="era-rail" data-focus-region="controls" aria-label="Choose a historical story"><button type="button" data-era="0" aria-current="true"><span>370 BC</span><b>Writing</b></button><button type="button" data-era="1"><span>1675</span><b>Loom</b></button><button type="button" data-era="2"><span>1970s</span><b>Calculator</b></button><button type="button" data-era="3"><span>2000s</span><b>Satnav</b></button></nav>
-                <p class="closing-hinge" data-focus-region="hinge" data-optional-copy="closingHinge">The feeling is familiar. The reach is new.</p>
-              </section>
-            </article></div></section>
-      <section id="authority" class="r3-section r3-authority r3-reveal" data-component="authority"><div class="r3-variant device-desktop"><article class="device-frame device-desktop" aria-label="Desktop authority chapter preview">
-              <section class="authority-frame" data-phase-view="work" data-desktop-layout="balanced" data-mobile-layout="network" data-desktop-headline="balanced" data-mobile-headline="balanced" data-desktop-instrument-scale="balanced" data-mobile-instrument-scale="balanced" data-control-style="buttons" data-default-phase="work" data-ai-list="long" data-human-list="long" data-reel-motion="moving" data-organisation-detail="concise">
-                <figure class="authority-film"><img src="${asset5}" alt="Illustrative decision machinery"><div></div></figure>
-                <div class="authority-copy" data-focus-region="copy">
-                  <p class="chapter-label" data-optional-copy="chapterLabel">And now, AI</p>
-                  <div data-copy-state="work"><h2 data-copy="workHeadline">The feeling is familiar. The reach is new.</h2><p data-optional-copy="workPromise">AI can carry work that used to look like thinking, across the business from one decision to the next.</p></div>
-                  <div data-copy-state="organisation"><h2 data-copy="organisationHeadline">The organisation changes shape.</h2><p data-optional-copy="organisationPromise">People hold judgement. The AI Brain connects the work.</p></div>
-                </div>
-                <div class="authority-stage" data-focus-region="instrument">
-                  <div class="capability-instrument" data-stage-panel="work" aria-label="The changing division of work" id="authority-desktop-work" aria-hidden="false">
-                    <header><p><span>01</span><b data-copy="aiLabel">AI carries</b></p><i></i><p><span>02</span><b data-copy="humanLabel">You keep</b></p></header>
-                    <div class="capability-window"><div class="capability-reel reel-ai" data-ai-list=""><span>Gather</span><span>Connect</span><span>Compare</span><span>Monitor</span><span>Model</span><span>Reconcile</span><span>Prepare</span><span>Retrieve</span><span>Route</span><span>Update</span></div><div class="capability-core"><i></i><b></b></div><div class="capability-reel reel-human" data-human-list=""><span>Intent</span><span>Taste</span><span>Judgement</span><span>Method</span><span>Relationships</span><span>Context</span><span>Accountability</span><span>Exceptions</span><span>Ethics</span><span>Decision</span></div></div>
-                  </div>
-                  <div class="hybrid-organisation" data-stage-panel="organisation" aria-label="A hybrid organisation made from people, an AI Brain and shared roles" id="authority-desktop-organisation" aria-hidden="true">
-                    <p class="organisation-label" data-optional-copy="organisationLabel">New-age leadership</p>
-                    <div class="organisation-grid">
-                      <article><small>Human</small><strong>Leader</strong><span data-detail="leader">Direction · judgement</span></article>
-                      <article><small>Human</small><strong>Chief of Staff</strong><span data-detail="chief">Trust · context</span></article>
-                      <article><small>System</small><strong>AI Brain</strong><span data-detail="brain">Memory · links</span></article>
-                      <article><small>Agent</small><strong>Market signals</strong><span data-detail="signals">Watches change</span></article>
-                      <article><small>Hybrid</small><strong>Marketing</strong><span data-detail="marketing">Person leads</span></article>
-                      <article><small>Hybrid</small><strong>Research</strong><span data-detail="research">People listen</span></article>
-                      <article><small>Agent</small><strong>Sales research</strong><span data-detail="sales">People build trust</span></article>
-                      <article><small>New role</small><strong>Executive brief</strong><span data-detail="brief">One view</span></article>
-                    </div>
-                  </div>
-                </div>
-                <nav class="stage-controls" data-focus-region="controls" aria-label="Sequence stages"><i></i><button type="button" data-stage="work" aria-current="step" aria-controls="authority-desktop-work" aria-pressed="true">Work</button><button type="button" data-stage="organisation" aria-controls="authority-desktop-organisation" aria-pressed="false">Organisation</button></nav>
-                <p class="film-label" data-optional-copy="filmLabel">Illustrative machinery</p>
-              </section>
-            </article></div><div class="r3-variant device-mobile"><article class="device-frame device-mobile" aria-label="Mobile authority chapter preview">
-              <section class="authority-frame" data-phase-view="work" data-desktop-layout="balanced" data-mobile-layout="network" data-desktop-headline="balanced" data-mobile-headline="balanced" data-desktop-instrument-scale="balanced" data-mobile-instrument-scale="balanced" data-control-style="buttons" data-default-phase="work" data-ai-list="long" data-human-list="long" data-reel-motion="moving" data-organisation-detail="concise">
-                <figure class="authority-film"><img src="${asset5}" alt="Illustrative decision machinery"><div></div></figure>
-                <div class="authority-copy" data-focus-region="copy">
-                  <p class="chapter-label" data-optional-copy="chapterLabel">And now, AI</p>
-                  <div data-copy-state="work"><h2 data-copy="workHeadline">The feeling is familiar. The reach is new.</h2><p data-optional-copy="workPromise">AI can carry work that used to look like thinking, across the business from one decision to the next.</p></div>
-                  <div data-copy-state="organisation"><h2 data-copy="organisationHeadline">The organisation changes shape.</h2><p data-optional-copy="organisationPromise">People hold judgement. The AI Brain connects the work.</p></div>
-                </div>
-                <div class="authority-stage" data-focus-region="instrument">
-                  <div class="capability-instrument" data-stage-panel="work" aria-label="The changing division of work" id="authority-mobile-work" aria-hidden="false">
-                    <header><p><span>01</span><b data-copy="aiLabel">AI carries</b></p><i></i><p><span>02</span><b data-copy="humanLabel">You keep</b></p></header>
-                    <div class="capability-window"><div class="capability-reel reel-ai" data-ai-list=""><span>Gather</span><span>Connect</span><span>Compare</span><span>Monitor</span><span>Model</span><span>Reconcile</span><span>Prepare</span><span>Retrieve</span><span>Route</span><span>Update</span></div><div class="capability-core"><i></i><b></b></div><div class="capability-reel reel-human" data-human-list=""><span>Intent</span><span>Taste</span><span>Judgement</span><span>Method</span><span>Relationships</span><span>Context</span><span>Accountability</span><span>Exceptions</span><span>Ethics</span><span>Decision</span></div></div>
-                  </div>
-                  <div class="hybrid-organisation" data-stage-panel="organisation" aria-label="A hybrid organisation made from people, an AI Brain and shared roles" id="authority-mobile-organisation" aria-hidden="true">
-                    <p class="organisation-label" data-optional-copy="organisationLabel">New-age leadership</p>
-                    <div class="organisation-grid">
-                      <article><small>Human</small><strong>Leader</strong><span data-detail="leader">Direction · judgement</span></article>
-                      <article><small>Human</small><strong>Chief of Staff</strong><span data-detail="chief">Trust · context</span></article>
-                      <article><small>System</small><strong>AI Brain</strong><span data-detail="brain">Memory · links</span></article>
-                      <article><small>Agent</small><strong>Market signals</strong><span data-detail="signals">Watches change</span></article>
-                      <article><small>Hybrid</small><strong>Marketing</strong><span data-detail="marketing">Person leads</span></article>
-                      <article><small>Hybrid</small><strong>Research</strong><span data-detail="research">People listen</span></article>
-                      <article><small>Agent</small><strong>Sales research</strong><span data-detail="sales">People build trust</span></article>
-                      <article><small>New role</small><strong>Executive brief</strong><span data-detail="brief">One view</span></article>
-                    </div>
-                  </div>
-                </div>
-                <nav class="stage-controls" data-focus-region="controls" aria-label="Sequence stages"><i></i><button type="button" data-stage="work" aria-current="step" aria-controls="authority-mobile-work" aria-pressed="true">Work</button><button type="button" data-stage="organisation" aria-controls="authority-mobile-organisation" aria-pressed="false">Organisation</button></nav>
-                <p class="film-label" data-optional-copy="filmLabel">Illustrative machinery</p>
-              </section>
-            </article></div></section>
-      <section id="leadership-dividend" class="r3-section r3-dividend r3-reveal" data-component="leadership-dividend">
-        <nav class="r3-mode-switch" aria-label="Leadership dividend chapters">
-          <button type="button" data-dividend-mode="practice" aria-pressed="true">In practice</button>
-          <button type="button" data-dividend-mode="benefits" aria-pressed="false">What becomes possible</button>
-          <button type="button" data-dividend-mode="return" aria-pressed="false">The returned hour</button>
-        </nav><div class="r3-variant device-desktop"><article class="device-frame device-desktop" aria-label="Desktop leadership-dividend preview">
-              <section class="dividend-frame" data-mode-view="practice" data-desktop-layout="balanced" data-mobile-layout="overlay" data-desktop-title="balanced" data-mobile-title="balanced" data-default-mode="practice" data-practice-controls="tabs" data-benefit-controls="arrows" data-benefit-motion="rotate-entry" data-scene-order="notice-connect-prepare" data-scene-copy="show" data-benefit-order="leadership-first" data-benefit-copy="show" data-benefit-count="fraction" data-return-list="all">
-                <article class="dividend-panel practice-panel" data-panel="practice">
-                  <figure><img data-practice-image="" alt="Illustrative decision machinery" src="${asset6}"><div></div></figure>
-                  <header data-focus-region="intro"><p data-optional-copy="practiceLabel">What this feels like in practice</p><h2 data-copy="practiceHeadline">The system does not replace your judgement. It brings more to it.</h2></header>
-                  <div class="practice-copy" data-focus-region="story"><span data-practice-count="">01 / 03</span><h3 data-practice-title="">It notices what changed.</h3><p data-practice-copy="">Signals arrive before someone asks for a report.</p></div>
-                  <nav class="practice-controls" data-focus-region="controls" aria-label="Practice stages"><button type="button" data-practice="0" aria-current="true">Notice</button><button type="button" data-practice="1">Connect</button><button type="button" data-practice="2">Prepare</button></nav>
-                </article>
-                <article class="dividend-panel benefits-panel" data-panel="benefits">
-                  <figure><img src="${asset7}" alt="Illustrative connecting machinery"><div></div></figure>
-                  <div class="benefit-copy" data-focus-region="benefit"><p data-optional-copy="benefitLabel">What your AI Brain makes possible</p><span data-benefit-count="">01 / 06</span><h2 data-benefit-title="" aria-live="polite">Leadership updates become consistent, even when the week was not.</h2><div data-benefit-copy="">Your decisions, risks and priorities stay connected from one update to the next.</div></div>
-                  <nav class="benefit-controls" data-focus-region="controls" aria-label="AI Brain benefits"><button type="button" data-benefit-prev="" aria-label="Previous benefit">←</button><i></i><button type="button" data-benefit-next="" aria-label="Next benefit">→</button></nav>
-                </article>
-                <article class="dividend-panel return-panel" data-panel="return">
-                  <div class="return-copy" data-focus-region="return"><p data-optional-copy="returnLabel">The returned hour</p><h2 data-copy="returnHeadline">What will you do with the hours it gives back?</h2><ul data-return-list=""><li>Ask the harder question.</li><li>Spend more time with people.</li><li>Make the consequential call earlier.</li></ul><div data-optional-copy="returnLine">A hybrid organisation does not ask you to think less. It helps you act on more of what you know.</div></div>
-                  <figure><img src="${asset5}" alt="Illustrative ready-for-decision machinery"><div></div></figure>
-                </article>
-              </section>
-            </article></div><div class="r3-variant device-mobile"><article class="device-frame device-mobile" aria-label="Mobile leadership-dividend preview">
-              <section class="dividend-frame" data-mode-view="practice" data-desktop-layout="balanced" data-mobile-layout="overlay" data-desktop-title="balanced" data-mobile-title="balanced" data-default-mode="practice" data-practice-controls="tabs" data-benefit-controls="arrows" data-benefit-motion="rotate-entry" data-scene-order="notice-connect-prepare" data-scene-copy="show" data-benefit-order="leadership-first" data-benefit-copy="show" data-benefit-count="fraction" data-return-list="all">
-                <article class="dividend-panel practice-panel" data-panel="practice">
-                  <figure><img data-practice-image="" alt="Illustrative decision machinery" src="${asset6}"><div></div></figure>
-                  <header data-focus-region="intro"><p data-optional-copy="practiceLabel">What this feels like in practice</p><h2 data-copy="practiceHeadline">The system does not replace your judgement. It brings more to it.</h2></header>
-                  <div class="practice-copy" data-focus-region="story"><span data-practice-count="">01 / 03</span><h3 data-practice-title="">It notices what changed.</h3><p data-practice-copy="">Signals arrive before someone asks for a report.</p></div>
-                  <nav class="practice-controls" data-focus-region="controls" aria-label="Practice stages"><button type="button" data-practice="0" aria-current="true">Notice</button><button type="button" data-practice="1">Connect</button><button type="button" data-practice="2">Prepare</button></nav>
-                </article>
-                <article class="dividend-panel benefits-panel" data-panel="benefits">
-                  <figure><img src="${asset7}" alt="Illustrative connecting machinery"><div></div></figure>
-                  <div class="benefit-copy" data-focus-region="benefit"><p data-optional-copy="benefitLabel">What your AI Brain makes possible</p><span data-benefit-count="">01 / 06</span><h2 data-benefit-title="" aria-live="polite">Leadership updates become consistent, even when the week was not.</h2><div data-benefit-copy="">Your decisions, risks and priorities stay connected from one update to the next.</div></div>
-                  <nav class="benefit-controls" data-focus-region="controls" aria-label="AI Brain benefits"><button type="button" data-benefit-prev="" aria-label="Previous benefit">←</button><i></i><button type="button" data-benefit-next="" aria-label="Next benefit">→</button></nav>
-                </article>
-                <article class="dividend-panel return-panel" data-panel="return">
-                  <div class="return-copy" data-focus-region="return"><p data-optional-copy="returnLabel">The returned hour</p><h2 data-copy="returnHeadline">What will you do with the hours it gives back?</h2><ul data-return-list=""><li>Ask the harder question.</li><li>Spend more time with people.</li><li>Make the consequential call earlier.</li></ul><div data-optional-copy="returnLine">A hybrid organisation does not ask you to think less. It helps you act on more of what you know.</div></div>
-                  <figure><img src="${asset5}" alt="Illustrative ready-for-decision machinery"><div></div></figure>
-                </article>
-              </section>
-            </article></div>
-      </section>
+      <div id="new-age-leadership" class="nal-page mm-home-leadership" data-component="leadership">${leadershipChaptersMarkup()}</div>
       <section id="route" class="r3-section r3-route r3-reveal" data-component="route">
         <div class="r3-variant preview-desktop"><div class="site-frame" data-composition-desktop="balanced" data-title-desktop="balanced" data-measure-desktop="balanced" data-action="copy" data-back="text" data-caption="show" data-receipt="full" data-steps="numbered" data-reveal="staged">
             

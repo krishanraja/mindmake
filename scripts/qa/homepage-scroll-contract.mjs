@@ -1,27 +1,43 @@
 // Expected visible states are the accepted page copy, independent of runtime data.
-// Only these two chapters are authorized to gain pinning in this release.
+// From r34 the homepage carries the three /new-age-leadership chapters in place
+// of R3's history, authority and leadership dividend (Ruling, Krish, 2026-09-25).
+// Each pins under the homepage's fixed masthead. The practice scenes pin only
+// above 900px; on a phone they are laid out one after another by design, so
+// the phone declares no pinned practice case.
 export const APPROVED_SCROLL_STATES = {
-  history: [
-    'If knowledge lives outside us, will memory grow weaker?',
-    'If the machine can do the work, what happens to the worker?',
-    'If the device does the arithmetic, will children stop learning to think?',
-    'If the device knows the route, will we lose our sense of direction?',
+  reach: [
+    'The feeling is familiar. The reach is new.',
+    'The organisation changes shape.',
   ],
-  'leadership-dividend': [
+  practice: [
     'It notices what changed.',
     'It joins the evidence.',
     'It prepares the next move.',
-    'Leadership updates become consistent, even when the week was not.',
-    'What will you do with the hours it gives back?',
   ],
+  benefits: [
+    'Leadership updates become consistent, even when the week was not.',
+    'Work nobody owns becomes visible before it becomes a problem.',
+    'A change in market pricing becomes a decision, not a forgotten observation.',
+    'A CEO who hates writing can still publish ideas worth following.',
+    'A CRO who hates the numbers can become better at using them.',
+    'Founder-led content can begin with the work, not another content calendar.',
+  ],
+};
+
+// The masthead the chapters pin beneath, in CSS px, per declared viewport.
+export const PIN_TOP = { '1440x900': 66, '390x844': 64 };
+
+export const CHAPTERS_BY_VIEWPORT = {
+  '1440x900': ['reach', 'practice', 'benefits'],
+  '390x844': ['reach', 'benefits'],
 };
 
 export function createHomepageScrollContract({ engines = ['chromium', 'firefox', 'webkit'], candidateDigest, acceptedDecision, acceptedDecisionDigest }) {
   const cases = [];
   for (const engine of engines) {
-    for (const viewport of ['1440x900', '390x844']) {
-      for (const [chapter, states] of Object.entries(APPROVED_SCROLL_STATES)) {
-        cases.push({ id: `${engine}-${viewport}-${chapter}`, route: '/', viewport, states, pinTop: 0, tolerance: 2 });
+    for (const [viewport, chapters] of Object.entries(CHAPTERS_BY_VIEWPORT)) {
+      for (const chapter of chapters) {
+        cases.push({ id: `${engine}-${viewport}-${chapter}`, route: '/', viewport, states: APPROVED_SCROLL_STATES[chapter], pinTop: PIN_TOP[viewport], tolerance: 2 });
       }
     }
   }

@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { chromium, firefox, webkit } from 'playwright';
 import { validateScrollBuildEvidence } from './scroll-build-evidence.mjs';
-import { createHomepageScrollContract } from './homepage-scroll-contract.mjs';
+import { createHomepageScrollContract, APPROVED_SCROLL_STATES as states, PIN_TOP, CHAPTERS_BY_VIEWPORT } from './homepage-scroll-contract.mjs';
 
 const root = path.resolve(import.meta.dirname, '../..');
 // Pre-merge (Krish, 2026-09-25): Chromium alone gates a branch. Firefox and
@@ -22,66 +22,93 @@ const failures = [], cases = [], screenshots = [], fallbackTransitions = [];
 const assert = (condition, message) => { if (!condition) failures.push(message); };
 const settle = page => page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
 const geometry = locator => locator.evaluate(node => { const r=node.getBoundingClientRect(); return {top:r.top,height:r.height,bottom:r.bottom}; });
-const states = {
-  history: ['If knowledge lives outside us, will memory grow weaker?', 'If the machine can do the work, what happens to the worker?', 'If the device does the arithmetic, will children stop learning to think?', 'If the device knows the route, will we lose our sense of direction?'],
-  'leadership-dividend': ['It notices what changed.', 'It joins the evidence.', 'It prepares the next move.', 'Leadership updates become consistent, even when the week was not.', 'What will you do with the hours it gives back?'],
+// Each chapter names its scroll track, the frame that pins and the node whose
+// visible words are the state. Scroll positions come from live geometry; the
+// expected words and pin line come only from the declared contract.
+const chapters = {
+  reach: { track: '.mm-home-leadership .reach-sequence', stage: '.reach-sticky', state: '[data-reach-copy].is-active h2',
+    at: (i, g) => g.start + [0.1, 0.75][i] * g.travel },
+  practice: { track: '.mm-home-leadership .work-scroll', stage: '.work-sticky', state: '.work-scene.is-active h3',
+    at: (i, g) => g.start + [0.02, 0.5, 0.95][i] * (g.height - g.viewportHeight) },
+  benefits: { track: '.mm-home-leadership [data-benefit-track]', stage: '[data-benefits]', state: '.brain-benefit.is-active h2',
+    at: (i, g) => g.start + Math.max(10, Math.min(i * g.travel / 5, g.travel - g.pinTop - 20)) },
 };
+const words = text => text.replace(/\s+/g, ' ').trim();
+const measure = (page, chapter, pinTop) => page.locator(chapters[chapter].track).evaluate((track, [stageSelector, pinTop]) => {
+  const stage = track.querySelector(stageSelector);
+  const box = track.getBoundingClientRect();
+  return { start: scrollY + box.top, height: box.height, travel: box.height - stage.getBoundingClientRect().height, viewportHeight: innerHeight, pinTop };
+}, [chapters[chapter].stage, pinTop]);
+const launchOptions = name => name === 'chromium' && process.env.PLAYWRIGHT_CHROMIUM ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM } : {};
 try {
   for(let i=0;i<100;i++){ try { if((await fetch(origin)).ok) break; } catch {} await new Promise(r=>setTimeout(r,100)); }
   for(const [engine, launcher] of Object.entries({chromium,firefox,webkit}).filter(([name])=>engines.includes(name) && (!process.env.QA_ENGINE || process.env.QA_ENGINE===name))) {
-    const browser = await launcher.launch();
+    const browser = await launcher.launch(launchOptions(engine));
     try {
       for(const viewport of [{width:1440,height:900},{width:390,height:844}]) {
         const page = await browser.newPage({viewport});
         page.setDefaultTimeout(15000);
+        const size = `${viewport.width}x${viewport.height}`;
         const label = `${engine}-${viewport.width}`;
         const errors=[];
         page.on('pageerror', error=>errors.push(error.message));
         await page.addInitScript(()=>localStorage.setItem('mindmake_consent','accepted'));
         await page.goto(origin,{waitUntil:'domcontentloaded',timeout:60000});
         await page.evaluate(()=>document.fonts.ready);
-        await page.waitForSelector('.homepage-pin-track',{timeout:60000});
+        await page.waitForSelector('.mm-home-leadership .reach-sequence',{timeout:60000});
         console.log(`Testing ${label}`);
         assert(await page.locator('.mm-home-approved h1:visible').textContent() === 'Build the business that can think with you.',`${label}: approved opening`);
-        for(const [chapter, expected] of Object.entries(states)) {
-          const track = page.locator(`[data-chapter="${chapter}"]`);
-          const section = page.locator(`[data-component="${chapter}"]`);
-          const box=await track.boundingBox();
-          const start=box.y + await page.evaluate(()=>scrollY);
-          const step=Math.max(220,Math.round(viewport.height*.6));
-          assert(await track.getAttribute('data-pin-mode')==='scroll',`${label}/${chapter}: pin enabled`);
+        // Negative control: the scrapped R3 chapters must not survive anywhere in the page.
+        for (const retired of ['history', 'authority', 'leadership-dividend']) assert(await page.locator(`[data-component="${retired}"]`).count()===0,`${label}: retired ${retired} chapter is gone`);
+        assert(await page.locator('.mm-home-leadership').evaluate(node=>node.previousElementSibling?.id==='opening' && node.nextElementSibling?.id==='route'),`${label}: chapters sit between the opening and the route`);
+        const pinTop = PIN_TOP[size];
+        for(const chapter of CHAPTERS_BY_VIEWPORT[size]) {
+          const expected = states[chapter];
+          const spec = chapters[chapter];
+          const track = page.locator(spec.track);
+          const stage = track.locator(spec.stage).first();
+          const g = await measure(page, chapter, pinTop);
           const samples=[];
           for(const direction of ['forward','reverse']) {
             const indices=direction==='forward'?expected.map((_,i)=>i):expected.map((_,i)=>i).reverse();
             for(const index of indices) {
-              await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),start+index*step+10);
-              await settle(page);
-              const rect=await geometry(section);
-              const stateSelector=chapter==='history'?'[data-story-question]:visible':index<3?'[data-practice-title]:visible':index===3?'[data-benefit-title]:visible':'.return-copy h2:visible';
-              const visibleText=await section.locator(stateSelector).innerText();
-              const matched=visibleText.includes(expected[index]);
-              samples.push({direction,index,scrollY:await page.evaluate(()=>scrollY),rect,visibleState:visibleText.trim(),expected:expected[index],matched});
-              assert(matched,`${label}/${chapter}/${direction}/${index}: visible state`);
-              assert(Math.abs(rect.top)<3,`${label}/${chapter}/${direction}/${index}: stays pinned (top ${rect.top})`);
+              await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),Math.round(spec.at(index,g)));
+              await settle(page); await settle(page);
+              const rect=await geometry(stage);
+              const visibleText=words(await track.locator(spec.state).innerText());
+              const matched=visibleText===expected[index];
+              samples.push({direction,index,scrollY:await page.evaluate(()=>scrollY),rect,visibleState:visibleText,expected:expected[index],matched});
+              assert(matched,`${label}/${chapter}/${direction}/${index}: visible state "${visibleText}"`);
+              assert(Math.abs(rect.top-pinTop)<3,`${label}/${chapter}/${direction}/${index}: stays pinned (top ${rect.top})`);
               assert(rect.bottom<=viewport.height+3,`${label}/${chapter}/${index}: fits viewport`);
             }
           }
-          await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),start+expected.length*step+100);
+          await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),Math.round(g.start-pinTop+g.travel+120));
           await settle(page);
-          const exitAfter={scrollY:await page.evaluate(()=>scrollY),rect:await geometry(section)};
-          assert(exitAfter.rect.top < -50,`${label}/${chapter}: exit after completion`);
-          await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),start-100);
+          const exitAfter={scrollY:await page.evaluate(()=>scrollY),rect:await geometry(stage)};
+          assert(exitAfter.rect.top < pinTop-50,`${label}/${chapter}: exit after completion`);
+          await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),Math.round(g.start-pinTop-120));
           await settle(page);
-          const exitBefore={scrollY:await page.evaluate(()=>scrollY),rect:await geometry(section)};
-          assert(exitBefore.rect.top > 50,`${label}/${chapter}: reverse exit`);
+          const exitBefore={scrollY:await page.evaluate(()=>scrollY),rect:await geometry(stage)};
+          assert(exitBefore.rect.top > pinTop+50,`${label}/${chapter}: reverse exit`);
           cases.push({label,chapter,viewport,samples,exitAfter,exitBefore});
-          await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),start+step+10);
-          await settle(page);
+          await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),Math.round(spec.at(1,g)));
+          await settle(page); await settle(page);
+          // Let the state's crossfade finish so the evidence shows the words, not the fade.
+          await page.waitForTimeout(800);
           const file=`${label}-${chapter}.png`;
           await page.screenshot({path:path.join(evidence,file)});
           screenshots.push(file);
           console.log(`Verified ${label}/${chapter}: forward, reverse, exits and screenshot`);
         }
+        if (viewport.width <= 900) {
+          // On a phone the practice scenes are read one after another, never pinned.
+          assert(await page.locator('.mm-home-leadership .work-sticky').evaluate(node=>getComputedStyle(node).position)!=='sticky',`${label}: practice scenes flow naturally`);
+          const scenes = (await page.locator('.mm-home-leadership .work-scene h3').allInnerTexts()).map(words);
+          assert(JSON.stringify(scenes)===JSON.stringify(states.practice),`${label}: every practice scene is in the flow`);
+        }
+        // The returned hour stays in the page after the benefits.
+        assert(words(await page.locator('.mm-home-leadership .proof-return h2').innerText())==='What will you do with the hours it gives back?',`${label}: the returned hour`);
         // Full real homepage CTA to the existing lead journey, not a prototype stub.
         console.log(`Checking ${label}: real lead entry`);
         await page.locator('[data-component="route"] [data-start-route]:visible').click();
@@ -93,80 +120,67 @@ try {
         await page.close();
         console.log(`Completed ${label}`);
       }
-      // Accessibility/short-height fallbacks retain every manual scene.
-      const page=await browser.newPage({viewport:{width:720,height:450},reducedMotion:'reduce'});
+      const control = async (page, selector, chapter, index, fallback) => {
+        await page.locator(selector).click();
+        await settle(page); await settle(page);
+        const visibleState = words(await page.locator(`${chapters[chapter].track} ${chapters[chapter].state}`).innerText());
+        const matched = visibleState===states[chapter][index];
+        assert(matched,`${engine}/${fallback}: ${selector} shows ${chapter} ${index} ("${visibleState}")`);
+        fallbackTransitions.push({engine,chapter,fallback,control:selector,visibleState,matched});
+      };
+      // Reduced motion keeps the pins, as it does on /new-age-leadership, and
+      // drops every transition and film. The direct controls reach each state.
+      const page=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'reduce'});
       page.setDefaultTimeout(15000);
-      console.log(`Checking ${engine}: manual accessibility fallbacks`);
+      console.log(`Checking ${engine}: reduced motion and direct controls`);
       await page.addInitScript(()=>localStorage.setItem('mindmake_consent','accepted'));
       await page.goto(origin,{waitUntil:'domcontentloaded'});
-      await page.waitForSelector('.homepage-pin-track');
-      assert(await page.locator('.homepage-pin-track.is-pinned').count()===0,`${engine}: reduced-motion natural flow`);
-      for (let index=0; index<states.history.length; index++) {
-        await page.locator(`[data-era="${index}"]:visible`).click();
-        assert((await page.locator('[data-story-question]:visible').innerText()).includes(states.history[index]),`${engine}: reduced-motion manual history ${index}`);
-        assert(await page.locator(`[data-era="${index}"]:visible`).getAttribute('aria-current')==='true',`${engine}: history ${index} semantic current state`);
-      }
-      for (let index=0; index<3; index++) {
-        await page.locator('[data-practice]:visible').nth(index).click();
-        assert((await page.locator('[data-practice-title]:visible').innerText()).includes(states['leadership-dividend'][index]),`${engine}: reduced-motion manual practice ${index}`);
-      }
-      for (const [mode,index] of [['benefits',3],['return',4]]) {
-        await page.locator(`[data-dividend-mode="${mode}"]:visible`).click();
-        const text=await page.locator(mode==='benefits'?'[data-benefit-title]:visible':'.return-copy h2:visible').innerText();
-        assert(text.includes(states['leadership-dividend'][index]),`${engine}: reduced-motion manual ${mode}`);
-      }
-      assert(await page.locator('video').evaluateAll(videos=>videos.every(video=>video.paused)),`${engine}: reduced-motion videos paused`);
-      await page.emulateMedia({reducedMotion:'no-preference'});
+      await page.waitForSelector('.mm-home-leadership .reach-sequence');
+      await page.locator('.mm-home-leadership .reach-sequence').scrollIntoViewIfNeeded();
+      await control(page, '[data-reach-jump="organisation"]','reach',1,'reduced-motion');
+      assert(await page.locator('[data-reach-jump="organisation"]').getAttribute('aria-current')==='step',`${engine}: organisation semantic current state`);
+      await control(page, '[data-reach-jump="boundary"]','reach',0,'reduced-motion');
+      await page.locator('.mm-home-leadership .work-scroll').scrollIntoViewIfNeeded();
+      for (let index=2; index>=0; index--) await control(page, `[data-work-button="${index}"]`,'practice',index,'reduced-motion');
+      await page.locator('.mm-home-leadership [data-benefit-track]').scrollIntoViewIfNeeded();
+      await page.evaluate(()=>scrollTo({top:scrollY+document.querySelector('.mm-home-leadership [data-benefit-track]').getBoundingClientRect().top+10,behavior:'instant'}));
       await settle(page);
-      assert(await page.locator('.homepage-pin-track.is-pinned').count()===0,`${engine}: short viewport natural flow`);
-      // A natural-flow manual selection must not leave the pin controller's
-      // cached stage stale when the user restores motion or viewport height.
-      for (const fallback of ['reduced-motion', 'short-height']) {
-        for (const chapter of ['history', 'leadership-dividend']) {
-          await page.setViewportSize({width:720,height:900});
-          await page.emulateMedia({reducedMotion:'no-preference'});
-          await settle(page);
-          const track=page.locator(`[data-chapter="${chapter}"]`);
-          const section=page.locator(`[data-component="${chapter}"]`);
-          const start=await track.evaluate(node=>scrollY+node.getBoundingClientRect().top);
-          const cachedIndex=1;
-          await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),start+540*cachedIndex+10);
-          await settle(page);
-          assert(await section.getAttribute('data-scroll-stage')==='1',`${engine}/${chapter}/${fallback}: cached pinned stage`);
-          if(fallback==='reduced-motion') await page.emulateMedia({reducedMotion:'reduce'});
-          else await page.setViewportSize({width:720,height:450});
-          await settle(page);
-          assert(await track.getAttribute('data-pin-mode')==='natural',`${engine}/${chapter}/${fallback}: natural mode`);
-          assert(await section.getAttribute('data-scroll-stage')===null,`${engine}/${chapter}/${fallback}: stale stage cleared`);
-          if(chapter==='history') {
-            await section.locator('[data-era="3"]:visible').click();
-            assert((await section.locator('[data-story-question]:visible').innerText()).includes(states.history[3]),`${engine}/${chapter}/${fallback}: natural manual choice`);
-          } else {
-            await section.locator('[data-dividend-mode="return"]:visible').click();
-            assert((await section.locator('.return-copy h2:visible').innerText()).includes(states[chapter][4]),`${engine}/${chapter}/${fallback}: natural manual choice`);
-          }
-          await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),start+540*cachedIndex+10);
-          if(fallback==='reduced-motion') await page.emulateMedia({reducedMotion:'no-preference'});
-          else await page.setViewportSize({width:720,height:900});
-          await settle(page);
-          const restoredStart=await track.evaluate(node=>scrollY+node.getBoundingClientRect().top);
-          await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),restoredStart+540*cachedIndex+10);
-          await settle(page);
-          const selector=chapter==='history'?'[data-story-question]:visible':'[data-practice-title]:visible';
-          const visibleState=(await section.locator(selector).innerText()).trim();
-          const restoredStage=await section.getAttribute('data-scroll-stage');
-          const matched=visibleState.includes(states[chapter][cachedIndex]);
-          assert(await track.getAttribute('data-pin-mode')==='scroll',`${engine}/${chapter}/${fallback}: pin restored`);
-          assert(restoredStage==='1' && matched,`${engine}/${chapter}/${fallback}: restored visible state agrees with scroll`);
-          fallbackTransitions.push({engine,chapter,fallback,restoredStage,visibleState,matched});
-        }
-      }
+      for (let index=1; index<states.benefits.length; index++) await control(page, '[data-benefit-next]','benefits',index,'reduced-motion');
+      for (let index=states.benefits.length-2; index>=0; index--) await control(page, '[data-benefit-prev]','benefits',index,'reduced-motion');
+      assert(await page.locator('.mm-home-leadership .work-scene').first().evaluate(node=>{ const style=getComputedStyle(node); return style.transitionProperty==='none' || style.transitionDuration.split(',').every(value=>parseFloat(value)<0.001); }),`${engine}: reduced motion drops scene transitions`);
+      assert(await page.locator('video').evaluateAll(videos=>videos.every(video=>video.paused)),`${engine}: reduced-motion videos paused`);
       await page.close();
+      // Short screens keep every pinned frame inside the viewport and every
+      // state reachable from its controls.
+      for (const short of [{width:1280,height:600},{width:720,height:450}]) {
+        const page=await browser.newPage({viewport:short});
+        page.setDefaultTimeout(15000);
+        const fallback = `short-${short.width}x${short.height}`;
+        console.log(`Checking ${engine}: ${fallback}`);
+        await page.addInitScript(()=>localStorage.setItem('mindmake_consent','accepted'));
+        await page.goto(origin,{waitUntil:'domcontentloaded'});
+        await page.waitForSelector('.mm-home-leadership .reach-sequence');
+        const shortTop = await page.evaluate(()=>parseFloat(getComputedStyle(document.querySelector('.mm-home-leadership')).getPropertyValue('--header')));
+        for (const chapter of short.width > 900 ? ['reach','practice','benefits'] : ['reach','benefits']) {
+          const g = await measure(page, chapter, shortTop);
+          await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),Math.round(chapters[chapter].at(1,g)));
+          await settle(page); await settle(page);
+          const rect = await geometry(page.locator(`${chapters[chapter].track} ${chapters[chapter].stage}`).first());
+          assert(Math.abs(rect.top-shortTop)<3 && rect.bottom<=short.height+3,`${engine}/${fallback}/${chapter}: pinned frame fits (${rect.top}-${rect.bottom})`);
+          const heading = await page.locator(`${chapters[chapter].track} ${chapters[chapter].state}`).boundingBox();
+          assert(heading && heading.y >= 0 && heading.y + heading.height <= short.height + 3,`${engine}/${fallback}/${chapter}: state heading is on screen`);
+        }
+        await page.evaluate(()=>scrollTo({top:scrollY+document.querySelector('.mm-home-leadership [data-benefit-track]').getBoundingClientRect().top+10,behavior:'instant'}));
+        await settle(page);
+        await control(page, '[data-benefit-next]', 'benefits', 1, fallback);
+        assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`${engine}/${fallback}: horizontal overflow`);
+        await page.close();
+      }
     } finally { await browser.close(); }
   }
 } catch(error){ failures.push(error.stack); }
 finally { server?.kill(); }
-const sourceFiles=['src/pages/Index.tsx','src/components/homepage-release/markup.ts','src/components/homepage-release/runtime.js','src/components/homepage-release/component-styles.css','src/components/homepage-release/page.css','src/components/homepage-release/integration.css','src/components/homepage-release/pinnedChapters.ts','src/components/homepage-release/pinnedChapters.css'];
+const sourceFiles=['src/pages/Index.tsx','src/components/homepage-release/markup.ts','src/components/homepage-release/runtime.js','src/components/homepage-release/component-styles.css','src/components/homepage-release/page.css','src/components/homepage-release/integration.css','src/components/leadership-chapters/leadershipChapters.ts','src/styles/new-age-leadership-r5.css'];
 const hashes={};
 for(const file of sourceFiles) hashes[file]=createHash('sha256').update(await readFile(path.join(root,file))).digest('hex');
 const report={at:new Date().toISOString(),origin,built:process.argv.includes('--built'),hashes,cases,screenshots,fallbackTransitions,failures};

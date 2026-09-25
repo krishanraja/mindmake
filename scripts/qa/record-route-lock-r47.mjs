@@ -87,7 +87,7 @@ const baselineCommit = execFileSync("git", ["rev-parse", "--short=7", "1462cb0"]
 const record = {
   artifact: "mindmake-approved-production-routes-r47",
   recordedAt: "2026-09-25",
-  status: "record of the /ai-gtm rebuild on Krish's 2026-09-25 review. His review of the rebuilt page is tracked by AI-GTM-R47-OWNER-REVIEW-001 in the feedback ledger.",
+  status: "approved record. The /ai-gtm rebuild on Krish's 2026-09-25 review; approved by Krish the same day (\"I approve the /ai-gtm rebuild\"), approval in quality/ai-gtm/approved-story-r3.json.",
   scopeRequested: SCOPE,
   sessionDecisions: [
     "/ai-gtm is told as one argument in the order a buyer lives it: the change they already feel, in four places; the easy way out and what it costs; the offer; the 30 days; what their team becomes; one result. Each chapter holds one idea on one screen.",

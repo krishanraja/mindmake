@@ -1,0 +1,57 @@
+{
+  "artifact": "ai-gtm-story-r3",
+  "approvedAt": "2026-09-25",
+  "approval": "I approve the /ai-gtm rebuild",
+  "approvalNote": "Quoted verbatim from Krish's message of 25 September 2026, given on PR #204 after the branch previews were live.",
+  "approvalScope": "The r47 /ai-gtm rebuild in PR #204 (branch claude/exciting-allen-suqaxy), as verified on the merged tree and recorded in quality/route-lock/approved-production-r47.json. Merge to main is authorised; main promotes to production.",
+  "rejectedBefore": "GTM-PLAIN-R2 (quality/ai-gtm/approved-plain-r2.json), rejected by Krish on 25 September 2026.",
+  "lockedExperience": {
+    "opening": "Your customers have changed how they buy. (h1), beside the old playbook's four rules struck through",
+    "fourPlaces": [
+      "Product",
+      "Price",
+      "Positioning",
+      "People"
+    ],
+    "workaround": [
+      "You could add an AI tool and keep everything else.",
+      "The deals would go to whoever changed the rest."
+    ],
+    "offerHeadline": "Make your pricing, positioning and team AI-native.",
+    "kicker": "One go-to-market move in 30 days",
+    "audienceSwitch": [
+      "I run an established business",
+      "I'm building an AI-native business"
+    ],
+    "plan": [
+      "Week 1: We map all four",
+      "Weeks 2 to 4: We build the move worth most",
+      "Day 30: You keep it"
+    ],
+    "team": "Illustrative team that builds from today to AI-native with scroll where it pins; a document with each seat's decision on phones",
+    "proof": [
+      "market-moves (Chief Revenue Officer, data-infrastructure company)",
+      "simple-product (Founder, adtech firm)"
+    ],
+    "publicDuration": "30 days, owner-approved exception to the canon duration rule, /ai-gtm only"
+  },
+  "prohibitedRegressions": [
+    "a signal or response picker the reader must operate before the page explains the service",
+    "a public price",
+    "a public duration anywhere other than the 30-day shape on /ai-gtm",
+    "Keep the seat",
+    "Meter the work",
+    "Price the result",
+    "a compressed desktop matrix on a phone",
+    "a pinned stage that clips its content",
+    "text under 12px or a font outside Newsreader, Archivo and IBM Plex Mono"
+  ],
+  "sources": {
+    "page": "src/pages/AiGtm.tsx",
+    "chapters": "src/components/ai-gtm/",
+    "pin": "src/hooks/usePinnedSteps.ts",
+    "styles": "src/styles/mindmake-ai-gtm.css",
+    "evidence": "src/data/vnext/gtm-signals.json"
+  },
+  "productionLock": "quality/route-lock/approved-production-r47.json"
+}

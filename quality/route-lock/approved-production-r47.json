@@ -1,7 +1,7 @@
 {
   "artifact": "mindmake-approved-production-routes-r47",
   "recordedAt": "2026-09-25",
-  "status": "record of the /ai-gtm rebuild on Krish's 2026-09-25 review. His review of the rebuilt page is tracked by AI-GTM-R47-OWNER-REVIEW-001 in the feedback ledger.",
+  "status": "approved record. The /ai-gtm rebuild on Krish's 2026-09-25 review; approved by Krish the same day (\"I approve the /ai-gtm rebuild\"), approval in quality/ai-gtm/approved-story-r3.json.",
   "scopeRequested": "Krish, 2026-09-25: \"https://mindmake.co/ai-gtm - this page has the most confusing user experience. As I scroll, I just have no idea where to look. There's no visual hierarchy of sections. There are no scroll builds. It doesn't set up a universal problem that someone will really feel empathically that we understand them. None of this talks to a user one-to-one, so it doesn't really set up the problem that we're solving. The fonts are all over the place. They're not part of a cohesive design system as per the rest of the repository, nor is the rest of the look and feel of this page, to be honest. The content is more or less there in terms of what we're supposed to be saying and offering, but everything else is not up to scratch in terms of: the copywriting, the UX, the aesthetics, the design system, the build of the page, the visual delight etc etc\"",
   "sessionDecisions": [
     "/ai-gtm is told as one argument in the order a buyer lives it: the change they already feel, in four places; the easy way out and what it costs; the offer; the 30 days; what their team becomes; one result. Each chapter holds one idea on one screen.",
@@ -193,7 +193,7 @@
     "src/styles/mindmake-ai-gtm.css": "ef9366367bd7cd57a4cc8dbe4632e1d0adee9709c081445262a3a29241b3220d",
     "src/test/ai-gtm-pinned-steps.test.tsx": "be5345155fa52f723d68572e1c54887f640b83d84b393de1c22be70ad012b2e1",
     "src/test/ai-gtm-page.test.tsx": "7852455adbc988a9d6dbb1c082283a361412c89e07f1e2f2f3cc04e4f185d464",
-    "scripts/qa/record-route-lock-r47.mjs": "5f0e922fc2a752476f0a057f329fad09eaa38c7ebb3c5d918904cf9924a772e4"
+    "scripts/qa/record-route-lock-r47.mjs": "a3687c7a5effe1d4de5a1dac8847178bc253b384df1c8760ccc951f0282be7db"
   },
   "newlyLocked": [
     {

@@ -37,10 +37,14 @@ Node22.x >=22.18 and npm ci. Required gates:
 - qa:approved-routes and qa:approved-routes:self-test.
 - qa:homepage-handoff, qa:website-feedback, qa:material-review:self-test.
 - qa:plain-language, typecheck, lint, full unit suite and build.
-- qa:homepage-release: rendered scroll/fallback states and negative controls.
+- qa:homepage-release:pre-merge: rendered scroll/fallback states and negative
+  controls, Chromium only.
 
-qa:release-routes is NOT a pre-merge gate. Ruling (Krish, 2026-09-25): do not
-run the browser matrix before merging and do not wait on it. CI runs the
+Firefox and WebKit are NOT pre-merge requirements, in any script. Ruling
+(Krish, 2026-09-25): Chromium alone gates a branch. Do not install, run or wait
+on Firefox or WebKit before merging, and never block a merge on their absence.
+Neither qa:release-routes nor the full three-engine qa:homepage-release is a
+pre-merge gate. CI runs the
 complete Chromium/Firefox/Linux and WebKit/macOS matrix on main after the merge,
 against the commit Vercel promotes. Read its result and fix forward or roll
 back. Running it locally before a merge is optional evidence, never a

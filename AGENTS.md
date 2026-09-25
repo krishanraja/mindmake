@@ -31,9 +31,10 @@ The subsequent R3 approval and production authority are recorded in STATE.md and
 an immutable recovery baseline, not the latest approval status. Preserve the R3
 source and generate the homepage delivery adapter with
 `node scripts/qa/build-homepage-release.mjs`; never reconstruct it from memory.
-Run `npm run qa:homepage-release` and `npm run qa:release-routes` against the built
-candidate, and `node scripts/qa/website-feedback-ledger-check.mjs --release` before
-publication. Scroll-build evidence must show actual states, pin geometry, reverse
+Before merging, run `npm run qa:homepage-release:pre-merge` (Chromium only) against
+the built candidate and `node scripts/qa/website-feedback-ledger-check.mjs --release`.
+Firefox and WebKit are never pre-merge requirements: `qa:homepage-release` across
+all three engines and `qa:release-routes` run on main after the merge. Scroll-build evidence must show actual states, pin geometry, reverse
 progression and exits. An entrance animation or still screenshot is not proof.
 
 Never present a material website candidate from a direct Vite, file, prototype or

@@ -16,9 +16,9 @@ export const APPROVED_SCROLL_STATES = {
   ],
 };
 
-export function createHomepageScrollContract({ candidateDigest, acceptedDecision, acceptedDecisionDigest }) {
+export function createHomepageScrollContract({ engines = ['chromium', 'firefox', 'webkit'], candidateDigest, acceptedDecision, acceptedDecisionDigest }) {
   const cases = [];
-  for (const engine of ['chromium', 'firefox', 'webkit']) {
+  for (const engine of engines) {
     for (const viewport of ['1440x900', '390x844']) {
       for (const [chapter, states] of Object.entries(APPROVED_SCROLL_STATES)) {
         cases.push({ id: `${engine}-${viewport}-${chapter}`, route: '/', viewport, states, pinTop: 0, tolerance: 2 });

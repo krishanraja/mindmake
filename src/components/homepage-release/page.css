@@ -23,8 +23,9 @@ body.mm-homepage-active.navigation-open{overflow:hidden}
 .r3-opening .preview-desktop .hero-stage,.r3-opening .preview-mobile .hero-stage{inset:var(--masthead) 0 0!important}
 .r3-opening .hero-copy h1{max-width:10.5ch;margin:0;color:var(--paper);font:400 clamp(42px,5vw,76px)/.91 Newsreader,Georgia,serif;letter-spacing:-.055em;text-wrap:balance}
 .r3-opening .menu-control,.r3-navigation .menu-control{min-width:44px;min-height:44px;border:0;background:transparent;cursor:pointer}
-.r3-opening .route-doors a{min-width:44px;min-height:44px}
-.r3-opening button:focus-visible,.r3-navigation a:focus-visible,.r3-navigation button:focus-visible,.r3-section .primary:focus-visible,.r3-footer a:focus-visible{outline:3px solid var(--paper)!important;outline-offset:3px!important}
+.r3-opening .route-doors a,.r3-history [data-era]{min-width:44px;min-height:44px}
+.r3-opening button:focus-visible,.r3-navigation a:focus-visible,.r3-navigation button:focus-visible,.r3-section [data-era]:focus-visible,.r3-section .primary:focus-visible,.r3-footer a:focus-visible{outline:3px solid var(--paper)!important;outline-offset:3px!important}
+.r3-history .device-frame{display:block!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;aspect-ratio:auto!important}
 .r3-route .site-masthead{display:none!important}
 .r3-route .route-stage{inset:0!important}
 .r3-route .site-frame{height:100%!important;aspect-ratio:auto!important}

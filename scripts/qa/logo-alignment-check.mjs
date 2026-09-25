@@ -94,6 +94,9 @@ const ANCHORS = {
     ".r3-opening .hero-copy > h1",
     ".r3-opening .hero-copy > p",
     ".r3-opening .hero-copy > .route-doors",
+    /* The R3 history chapter (reinstated in r41), on both the desktop and the
+       phone frame; the hidden one fails the visibility test. */
+    ".r3-history :is(.bridge, .story-copy)",
     /* The new-age leadership chapters below the first screen (r35). Their
        stages and scenes hang off the right edge, so each chapter's kicker is
        its left edge. */

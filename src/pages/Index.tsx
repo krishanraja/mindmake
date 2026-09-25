@@ -6,11 +6,13 @@ import { track } from "@/lib/analytics";
 import { homepageMarkup } from "@/components/homepage-release/markup";
 import { mountHomepageRuntime } from "@/components/homepage-release/runtime";
 import { mountLeadershipChapters } from "@/components/leadership-chapters/leadershipChapters";
+import { mountPinnedChapters } from "@/components/homepage-release/pinnedChapters";
 import "@/styles/mindmake.css";
 import "@/styles/new-age-leadership-r5.css";
 import "@/components/homepage-release/component-styles.css";
 import "@/components/homepage-release/page.css";
 import "@/components/homepage-release/integration.css";
+import "@/components/homepage-release/pinnedChapters.css";
 
 /**
  * Production delivery of the accepted R3, not a reconstruction of it.
@@ -43,6 +45,7 @@ export default function Index() {
       },
     });
     const motion = matchMedia("(prefers-reduced-motion: reduce)");
+    const unpin = mountPinnedChapters(root, runtime);
     const unmountChapters = mountLeadershipChapters(root, { reduced: motion.matches, media: true, canPlay: () => !motion.matches });
     /* The generated markup's own links: the hero doors go to their pages and
        the subscribe links leave for the publication. Measured here because
@@ -58,6 +61,7 @@ export default function Index() {
     return () => {
       root.removeEventListener("click", measure);
       unmountChapters();
+      unpin();
       runtime.destroy();
       document.documentElement.classList.remove("mm-homepage-active");
       document.body.classList.remove("mm-homepage-active");

@@ -1,15 +1,14 @@
 {
-  "artifact": "mindmake-approved-production-routes-r41",
+  "artifact": "mindmake-approved-production-routes-r42",
   "recordedAt": "2026-09-25",
-  "status": "candidate record. The homepage reinstates the R3 history chapter, pinned through its four eras, ahead of the new-age leadership chapters, and the reach chapter's scroll transition from \"The feeling is familiar. The reach is new.\" into \"The organisation changes shape.\".",
-  "scopeRequested": "Krish, 2026-09-25, with screenshots of both: \"we lost the 'The feeling is familiar' section that transitions with scroll from the home page, and we totally lost the scroll build version of the 'If knowledge lives outside us' section, both screen shotted for clarity. reinstate\"",
+  "status": "candidate record. The homepage footer statement breaks before \"changes\" and its routes share one line; /ai-brain text meets AA contrast and none of it is cut off.",
+  "scopeRequested": "Krish, 2026-09-25, with screenshots: \"in the footer, move the word 'changes' over to the 2nd line, and reduce the size of the links so they all fit on one line. Then on the AI Brain page, fix the colour contrast issues with the text, and the text that falls off the page\"",
   "sessionDecisions": [
-    "The homepage generator cuts only R3's authority and leadership-dividend chapters. The history chapter (bridge, four eras, closing hinge), its runtime (selectStory, era buttons with aria-current) and its CSS return from the immutable R3 source; nothing is reconstructed.",
-    "src/components/homepage-release/pinnedChapters.ts and .css and src/test/homepage-pin-lifecycle.test.ts return from 381a2da, narrowed to the history chapter, and are locked again. History pins at the top of the viewport, four equal steps, and falls back to natural flow with era controls under reduced motion or when its frame is taller than the screen, as before r35.",
-    "r39 is reversed: the shared chapters render the reach chapter's two states on the homepage again, and leadershipChapters.ts is byte-identical to its r35/r36 form.",
-    "The history chapter's left edges take the masthead gutter again (4.4% desktop, 5.13% phone), and its padding reserves the cookie notice, as before r35.",
-    "Order on /: opening, history, the leadership chapters (reach, practice, benefits with the returned hour), route, footer. Skip link targets #history again.",
-    "The homepage scroll contract declares history (4 states, pin 0) and reach (2 states) again beside practice and benefits; the browser gate adds history's reduced-motion and short-screen era controls."
+    "Footer: scripts/qa/build-homepage-release.mjs inserts a counted <br> before \"changes\" in both footer statements; integration.css sets the desktop routes in one flex row at clamp(11px, .95vw, 16px) with a clamp(12px, 1.25vw, 26px) gap, one line from 1,024px up.",
+    "/ai-brain headlines: .mm-site h2 { color: var(--mm-fg) } outranked the ink each paper chapter sets for its headings to inherit; inside .mm-locked-brain the headings inherit again. Scoped to the Brain, so no other route's heading colour changes.",
+    "/ai-brain labels: paper at 40-50% on the dark panels becomes 62% (5.5:1 or better); the living record's lede ink 62% becomes 85% on amber (5.2:1); the green action labels become rgb(24,104,75) (5.1:1). Colour only.",
+    "/ai-brain clipping: chapters reserve 4.5rem at the inline end from 761px so the fixed chapter rail clears every instrument; node labels at --x 60% and beyond sit to the node's left; src/lib/keepLastWords.ts undoes a join that makes its block overflow and skips that block until the next resize.",
+    "Also carries the r41 production receipt: merged as PR #198 (3d6339d), post-merge matrix green on three engines, production read back."
   ],
   "routes": [
     "/",
@@ -60,26 +59,26 @@
     "src/pages/Contact.tsx": "fbc16c3711108d1c98d0069d486222c22851442c4c2235ca30a0bd65a29f3d18",
     "src/components/mindmake/MindmakeShell.tsx": "1ca80b59803643b6a8285640b2d9be3542a3da36eb45c997c901f8578bf0195c",
     "src/components/mindmake/LeadBrief.tsx": "2ce4be0a18956febe3ce5edbb9d30ead8631b115b238148d5cc67be64a37b10d",
-    "src/styles/mindmake.css": "e820640517c34be922e5953289a6b76787c9aab144aa204b7e40deda08b58d74",
+    "src/styles/mindmake.css": "a0404097a6cd0b240f537ef9e82061dcd94c776fa4877f79b096ad38a427c3f8",
     "src/styles/mindmake-brief.css": "970521eb13dae1aef955ca0bbd0da62353efe8e2c2754607b0b3fee18675ec13",
     "src/hooks/useLeadBriefHistory.ts": "a782c9c8563b44ee23780742c1cfff703f7a0a362ffd2986405508e42567c427",
     "src/data/rebuildProof.ts": "bdea57fd6495548e2ea798e9b7056323bb1936c4f4e66c24301aa82c9114884b",
     "src/data/testimonials.ts": "24466efccdb455aef4698f7e0a4a00e4885ecb43cf6245bf5255e1369e7d0663",
     "src/App.tsx": "0643615283d8d4ab3083c9867d97e0664701dbf8c0bae692abdf04578195a17d",
     "src/entry-server.tsx": "ac7a18adfd46748caa2edf69bc577246cb5fd95511a93102745117d7d455dcef",
-    "scripts/qa/approved-route-lock-check.mjs": "61f46e5afb2f1dd4defd6dd7b61b5b3ecdd6d5f43f045416ddb43913e587aded",
-    "scripts/qa/approved-route-lock-self-test.mjs": "4140e92d307e51fb704bb8ef9977da1be4153334df9497752b97812d6781a830",
+    "scripts/qa/approved-route-lock-check.mjs": "a2897d8c1abcc05d62b106f97f5372b72b154c291e9809b1fdb2ed375453a31b",
+    "scripts/qa/approved-route-lock-self-test.mjs": "386507a1f1093e9034acb365b7adf59524edc497cff546b814e0a6cb8a781bc3",
     ".github/workflows/approved-route-lock.yml": "a8436f33851fea66cfb2cc3a4cf3e888a0baa5bd068dd6f82bd7684cab90c61c",
     "scripts/qa/locked-material-production-check.mjs": "b021940985b52171064d8cfdb9f439c58b440f433de79f3882329559daeeb61d",
     "scripts/qa/full-route-continuity-check.mjs": "7e511207cac76747018303820d593500321e67714a4aa5097fe565cc012feba0",
     "scripts/qa/plain-language-check.mjs": "639c62446bf7f3a01693ba1fc20e446e23ba8fbc8d17bc429e41da951fafd9a8",
     "src/components/homepage-release/component-styles.css": "3551589416109510ef10617266d4ead05321cf9bfe452146da27bc59608fd449",
-    "src/components/homepage-release/integration.css": "3b6b88840fcd70ef381c107a8f8d93d36601112517fc7e3749481418f7cbe9d8",
-    "src/components/homepage-release/markup.ts": "0755e95291f8356ffc13723b36211b1623d5cd1773bb46872a09eb2c4b68555e",
+    "src/components/homepage-release/integration.css": "87f0c871a37f18350dfffafa8dae2083b6b3c61439d1acfe5fec71b9c2a36948",
+    "src/components/homepage-release/markup.ts": "8d3b90305ee796c60e71a7571bb88dd7caf70ddc0fbe110954a6648ed33db7e4",
     "src/components/homepage-release/page.css": "1fffdf5316db0a0c15ff915fc80d928fc809e1a78f9070fc7d409b764a594182",
     "src/components/homepage-release/runtime.d.ts": "c1aff6ae788422b2bf77c0dfb3f035f07c54b951295b7054f523dbb48545383c",
     "src/components/homepage-release/runtime.js": "25ed130d2af76ffa2c29816ab71aa35520f833f51db9cf0a63a7b42b6c87bb01",
-    "scripts/qa/build-homepage-release.mjs": "9358fdc487adf356c3998f2fa9b18618183b15e60d4811bf5581e805ec2474dd",
+    "scripts/qa/build-homepage-release.mjs": "2efad9a87effe92b0603c93e324f46eb7e9c09aafd021485162dc18bf242413e",
     "scripts/qa/homepage-release-browser-check.mjs": "9d41a08065c14b8de9ed0bdbea2d1658f25cf8e014b0e3462c89dd0fc0f425a3",
     "scripts/qa/homepage-release-adapter-check.mjs": "ae9ea60d107c9a2c137dd4fa3d6427ab29b5b10a373d1946257c35db89141b8e",
     "scripts/qa/homepage-release-visual-parity-check.mjs": "c45405559cb8a5e3499b5d29e9d9b397dadfaedc48efe409fe8f0cbfc33573ad",
@@ -155,18 +154,14 @@
     "src/styles/route-transition.css": "a36631807614c9a976c610b514526d96e34ed670f71488c6e2bdf6ed7f422154",
     "src/components/mindmake/PairingBridge.tsx": "8b4a6799f67347b3b3cb74087796251bba480c1cc384e6600ba801947f2e15ef",
     "src/styles/mindmake-pairing.css": "a92612c651b8c8156e8dae3f9232bdc0790b9cc0cbbb68a05631a272324c3020",
-    "src/lib/keepLastWords.ts": "43adcbb2907b140a85f912ea5bac298ed79d4021964e7e323d3b9d182e4ca907",
+    "src/lib/keepLastWords.ts": "cd461a3982132f249a5640fb25ec3f07b58c95c4c74420ad01f2cab70e092663",
     "src/components/LineBreaks.tsx": "bbac965ae889699a88a94bc5c79e6cc59ae8a255a512e0f0e98e66a51f16a448",
     "scripts/qa/line-break-check.mjs": "9ab29ee6bc4ff99312ef7a1ddd05a94538ef5d48999402cbb4d25f4baebd5fe2",
     "src/components/homepage-release/pinnedChapters.ts": "578fd7d0c728fadd171b550e4d707b96bfbc7aa1d2ef18a0fa561c26b693b156",
     "src/components/homepage-release/pinnedChapters.css": "cbd0045559d53625b7e033c6efdc1040e209d12d948d3d54aff61803d382f3c6",
     "src/test/homepage-pin-lifecycle.test.ts": "ecab5c57568c418cc15bc6cdb368a2ce75c8ff09f92c7cd1cb83f2dd351bf4e3"
   },
-  "newlyLocked": [
-    "src/components/homepage-release/pinnedChapters.ts",
-    "src/components/homepage-release/pinnedChapters.css",
-    "src/test/homepage-pin-lifecycle.test.ts"
-  ],
+  "newlyLocked": [],
   "minimumContracts": {
     "brain": {
       "meanings": 20,
@@ -219,17 +214,17 @@
   "verification": {
     "status": "Run on 2026-09-25, Linux, Node 22.22.2, Chromium from /opt/pw-browsers.",
     "performed": [
-      "qa:approved-routes and its self-test against this record, qa:docs, qa:homepage-handoff, qa:website-feedback --release, qa:material-review:self-test, qa:plain-language, typecheck, lint, unit suite, the canonical build, qa:line-breaks, qa:homepage-release:pre-merge, qa:new-age-r5-production and qa:logo-alignment (Chromium).",
-      "Built-site screenshots of history (Writing, Satnav) and both reach states at 1440x900 and 390x844 reviewed; each scrolls through every state with no runtime errors."
+      "qa:approved-routes and its self-test against this record, qa:docs, qa:homepage-handoff, qa:website-feedback --release, qa:material-review:self-test, qa:plain-language, typecheck, lint, unit suite, the canonical build, qa:line-breaks, qa:homepage-release:pre-merge and qa:logo-alignment (Chromium).",
+      "Footer measured on the built homepage: one row of routes at 1024, 1280, 1440, 1600 and 1920. /ai-brain scanned at 1920x1080, 1800x900, 1440x900, 1280x720, 1024x768 and 390x844: no clipped text and no AA failure outside the correction chapter's copy, which sits on its red panel. Node labels inside the field at 1024 to 1920; the rail clears every instrument at 1280 to 2560. Two DOM mutations in four seconds at rest after load. qa:line-breaks reports no findings at 1440x900 and 390x844; the homepage route headline keeps \"judgement reusable.\" inside its column at 320 to 430. Screenshots of the footer at 1440, the inspector at 1440 and 390, the route headline at 390 and the /case-studies footer at 390 reviewed."
     ],
     "required": [
-      "Main's post-merge matrix green on the merge commit, and a production readback that / shows the history chapter and \"The feeling is familiar.\""
+      "Main's post-merge matrix green on the merge commit, and a production readback of the footer statement break and the /ai-brain heading colour."
     ],
     "physicalException": "VoiceOver on physical iPhone and TalkBack on physical Android not performed."
   },
   "supersedes": {
-    "path": "quality/route-lock/approved-production-r40.json",
-    "reason": "Reinstates the homepage history chapter and the reach chapter's first state. No earlier record is rewritten."
+    "path": "quality/route-lock/approved-production-r41.json",
+    "reason": "Footer statement break and single-line routes; /ai-brain contrast and clipping. No earlier record is rewritten."
   },
   "textLineEndings": "lf",
   "browserPlatforms": {
@@ -244,7 +239,7 @@
     "rationale": "project-documentation/website-redesign/RELEASE-2026-09-24.md"
   },
   "scope": {
-    "baselineCommit": "6ad1138",
+    "baselineCommit": "3d6339d",
     "allowedExistingChanges": []
   },
   "additionalTextExtensions": [

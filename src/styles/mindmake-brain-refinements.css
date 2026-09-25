@@ -114,7 +114,14 @@
 }
 @media (max-width: 760px) {
   .mm-locked-brain .plain-inspector { display: flex; gap: 0; }
-  .mm-locked-brain .plain-inspector h3 { font-size: var(--inspector-title-size, 1.35rem); }
+}
+/* The fitted size wins over the shell's column-relative headline size (r42),
+   which assumed a wrapping title; without a fit it falls back to that size. */
+.mm-site .mm-locked-brain .memory .plain-inspector > h3 {
+  font-size: var(--inspector-title-size, min(clamp(1.8rem, 2.5vw, 2.8rem), 14cqi));
+}
+@media (max-width: 760px) {
+  .mm-site .mm-locked-brain .memory .plain-inspector > h3 { font-size: var(--inspector-title-size, 1.35rem); }
 }
 .mm-stable-frame { display: grid; }
 .mm-stable-frame > * { grid-area: 1 / 1; }

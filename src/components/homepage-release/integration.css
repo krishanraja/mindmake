@@ -5,6 +5,10 @@
 body.mm-homepage-active { margin: 0; }
 .mm-homepage-release .r3-footer { padding-bottom: var(--mm-cookie-reserve, 0px); }
 .mm-homepage-release .r3-navigation .menu-surface { bottom: var(--mm-cookie-reserve, 0px) !important; }
+.mm-homepage-release .r3-history { padding-bottom: var(--mm-cookie-reserve, 0px); }
+.mm-homepage-release .r3-history > .r3-variant {
+  height: calc(100dvh - var(--masthead) - var(--mm-cookie-reserve, 0px));
+}
 
 /* The new-age leadership chapters. They are delivered from the same source as
    /new-age-leadership and keep its R5 stylesheet through the .nal-page scope.
@@ -19,12 +23,6 @@ body.mm-homepage-active { margin: 0; }
 @media (max-width: 700px) {
   .mm-homepage-release .nal-page.mm-home-leadership { --edge: 5.13vw; }
 }
-/* The homepage's reach chapter is its organisation state alone (r39): one
-   still screen, so it takes one screen of height and no scroll track. The
-   R5 track (210svh, 180svh below 900px) existed to step between two states. */
-.mm-homepage-release .mm-home-leadership .reach-organisation-only { height: auto; }
-.mm-homepage-release .mm-home-leadership .reach-organisation-only > .reach-sticky { position: relative; top: auto; }
-
 /* Two R5 rules leave the reach copy off that edge below 900px. Its phone
    padding is a flat 16px rather than the gutter, and its tablet rule still
    says `justify-content: flex-end`, written when the copy was a flex column
@@ -112,6 +110,27 @@ body.mm-homepage-active { margin: 0; }
   font-size: clamp(14px, 1.15vw, 18px);
 }
 .mm-homepage-release .r3-footer .footer-routes a { font-size: clamp(13px, 1.1vw, 17px); }
+/* All eight footer routes on one line (Krish, 2026-09-25): at 1440 they
+   needed about 1,019px against a 1,007px column, so the last route wrapped
+   onto a line of its own. Smaller type and a tighter gap fit them from
+   1,024px up; below that the row still wraps rather than shrink the type
+   under 11px. */
+@media (min-width: 701px) {
+  .mm-homepage-release .r3-footer .preview-desktop .footer-routes {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: clamp(12px, 1.25vw, 26px);
+  }
+  .mm-homepage-release .r3-footer .preview-desktop .footer-routes a {
+    font-size: clamp(11px, 0.95vw, 16px);
+    white-space: nowrap;
+  }
+}
+/* "Make your judgement reusable." on a phone: at 13cqi, "judgement reusable."
+   is about 96cqi wide against an 89.7cqi column, so keeping the last two words
+   together ran the full stop off the screen, and letting them part left
+   "reusable." alone. At 11.8cqi the pair fits the column at every phone width. */
+.mm-homepage-release .r3-route .preview-mobile .site-frame .route-copy h2 { font-size: 11.8cqi; }
 .mm-homepage-release .r3-footer .legal a { font-size: clamp(11px, 0.9vw, 14px); }
 .mm-homepage-release .r3-footer .site-footer small { font-size: clamp(10px, 0.7vw, 12px); }
 
@@ -139,6 +158,16 @@ body.mm-homepage-active { margin: 0; }
     padding-inline: clamp(16px, 4vw, 22px);
     font-size: clamp(13px, 3.5vw, 15px);
   }
+}
+
+/* One left edge through the history chapter (reinstated in r41). Its frames
+   were composed on their own insets; these give the copy and rails the
+   masthead's edge, 4.4% on a desktop and 5.13% on a phone, as before r35. */
+.mm-homepage-release .r3-history .device-desktop :is(.bridge, .story-copy) { left: 4.4%; }
+.mm-homepage-release .r3-history .device-desktop :is(.era-rail, .closing-hinge) { right: 4.4%; }
+.mm-homepage-release .r3-history .device-mobile :is(.bridge, .story-copy, .era-rail) {
+  right: 5.13%;
+  left: 5.13%;
 }
 
 /* The arrival.

@@ -191,10 +191,11 @@ const currentDocumentationRequirements = [
   ["state", "quality/route-lock/approved-production-r14.json"],
   ["state", "prototypes/website-redesign-recovery/homepage-production-synthesis-r3/"],
   ["state", "scripts/qa/build-homepage-release.mjs"],
-  // r35 (Ruling, Krish, 2026-09-25): the homepage carries the three new-age
-  // leadership chapters in place of R3's history, authority and dividend.
-  ["state", "the homepage carries the three new-age leadership chapters (r35)"],
-  ["state", "Its reach chapter opens on \"The organisation changes shape.\" alone"],
+  // r41 (Ruling, Krish, 2026-09-25): the homepage carries the R3 history
+  // chapter and then the three new-age leadership chapters, reach in both states.
+  ["state", "the homepage carries the R3 history chapter and then the three new-age leadership chapters (r41)"],
+  ["state", "History retains four reversible states"],
+  ["state", "The reach chapter retains both states"],
   ["state", "The AI Brain benefits retain all six beside The returned hour"],
   ["state", "No wheel/touch cancellation"],
   ["state", "Every state stays reachable from its direct controls on reduced-motion and short screens"],
@@ -216,9 +217,8 @@ const obsoleteCurrentClaims = [
   "Exact next-session prompt",
   "Exact r1 source parity is not currently recovered",
   "RELEASE BLOCKED",
-  "History retains four reversible states",
   "Leadership dividend retains five stages",
-  "leadership chapters whole (r35)",
+  "opens on \"The organisation changes shape.\" alone",
 ];
 function validateCurrentDocumentation(documents) {
   const issues = [];

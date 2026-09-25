@@ -8,10 +8,13 @@ import postcss from 'postcss';
 // place only, which is recorded in quality/route-lock/approved-production-r35.json:
 // the three R3 chapters between the opening and the route (history, authority
 // and leadership dividend) are cut, and the three /new-age-leadership chapters
-// are delivered in their place from their shared source.
+// are delivered in their place from their shared source. From r41 the history
+// chapter is back (Krish, 2026-09-25: "reinstate"), pinned by
+// src/components/homepage-release/pinnedChapters.ts; only authority and the
+// leadership dividend stay cut.
 // Ruling (Krish, 2026-09-25): the homepage uses the new-age-leadership
-// chapters instead of its own three, which are scrapped, and its reach chapter
-// opens on "The organisation changes shape." alone (r39).
+// chapters instead of its own three, which are scrapped. r39 opened the reach
+// chapter on the organisation alone; r41 restores both of its states.
 //
 // A second authorised correction (Krish, 2026-09-25, recorded in
 // quality/route-lock/approved-production-r38.json): the two hero doors promise
@@ -24,6 +27,8 @@ import postcss from 'postcss';
 // quality/route-lock/approved-production-r40.json): the two opening hero-stage
 // films play the Archive Engine loop with its own poster. `heroFilm` below is
 // the whole of it; the route stage keeps film-02, as does /ai-brain.
+//
+// A fourth (Krish, 2026-09-25): the footer statement breaks before "changes".
 const repo = process.cwd();
 const source = path.join(repo, 'prototypes/website-redesign-recovery/homepage-production-synthesis-r3');
 const output = path.join(repo, 'src/components/homepage-release');
@@ -51,8 +56,8 @@ const cut = (text, from, to, replacement = '', label = from) => {
   if (start < 0 || end < 0 || text.indexOf(from, start + 1) >= 0) throw new Error(`Homepage adapter anchor not unique or missing: ${label}`);
   return text.slice(0, start) + replacement + text.slice(end);
 };
-const retiredChapters = /\.r3-(?:history|authority|dividend)\b|\.r3-mode-switch\b|\[data-(?:era|stage|practice|benefit-prev|benefit-next)\]/;
-const leadershipChapters = '<div id="new-age-leadership" class="nal-page mm-home-leadership" data-component="leadership">${leadershipChaptersMarkup({ opening: "organisation" })}</div>\n      ';
+const retiredChapters = /\.r3-(?:authority|dividend)\b|\.r3-mode-switch\b|\[data-(?:stage|practice|benefit-prev|benefit-next)\]/;
+const leadershipChapters = '<div id="new-age-leadership" class="nal-page mm-home-leadership" data-component="leadership">${leadershipChaptersMarkup()}</div>\n      ';
 const assets = new Map();
 const register = value => {
   if (!value.startsWith('../')) return value;
@@ -62,8 +67,7 @@ const register = value => {
   return assets.get(value).name;
 };
 let body = read('index.html').match(/<body>([\s\S]*?)<script src="\.\/script.js"><\/script>/)[1].trim();
-body = cut(body, '<section id="history"', '<section id="route"', leadershipChapters, 'retired chapters');
-body = cut(body, '<a class="skip-link" href="#history">', null, '<a class="skip-link" href="#new-age-leadership">', 'skip link');
+body = cut(body, '<section id="authority"', '<section id="route"', leadershipChapters, 'retired chapters');
 const publication = 'https://mindmakerlive.substack.com';
 const subscribe = { href: `${publication}/subscribe`, label: 'Subscribe for free' };
 const doors = { brain: '/ai-brain', gtm: '/ai-gtm' };
@@ -77,15 +81,16 @@ body = body
   .replace(/(<nav class="primary-routes"[^>]*>[\s\S]*?)<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `$1<a href="${subscribe.href}" target="_blank" rel="noreferrer" class="mm-route-badged" data-badge="${subscribe.label}">Media</a>`)
   .replace(/<a href="https:\/\/mindmakerlive\.substack\.com" target="_blank" rel="noreferrer">Media<\/a>/g, `<a href="${subscribe.href}" target="_blank" rel="noreferrer">Media</a>`)
   .replace(/(<p class="footer-statement">[^<]*<\/p>)/g, `$1<a class="mm-subscribe-cta" href="${subscribe.href}" target="_blank" rel="noreferrer" data-subscribe-source="homepage_footer">${subscribe.label} <span aria-hidden="true">↗</span></a>`);
-for (const [pattern, expected, label] of [[/data-route-choice="(?:brain|gtm)"/g, 4, 'hero door'], [/data-badge=/g, 2, 'Media badge'], [/mm-subscribe-cta/g, 2, 'footer subscribe'], [/<button type="button" data-route-choice/g, 0, 'unconverted door'], [/archive-engine-hero-loop-r04/g, 2, 'hero film'], [/archive-engine-hero-poster-r04/g, 2, 'hero poster']]) {
+body = body.replace(/<p class="footer-statement">Keep your edge as AI changes the market\.<\/p>/g, '<p class="footer-statement">Keep your edge as AI<br>changes the market.</p>');
+for (const [pattern, expected, label] of [[/data-route-choice="(?:brain|gtm)"/g, 4, 'hero door'], [/data-badge=/g, 2, 'Media badge'], [/mm-subscribe-cta/g, 2, 'footer subscribe'], [/<button type="button" data-route-choice/g, 0, 'unconverted door'], [/archive-engine-hero-loop-r04/g, 2, 'hero film'], [/archive-engine-hero-poster-r04/g, 2, 'hero poster'], [/Keep your edge as AI<br>changes the market\./g, 2, 'footer statement break']]) {
   const found = (body.match(pattern) ?? []).length;
   if (found !== expected) throw new Error(`Authorised correction drifted: ${label} expected ${expected}, found ${found}`);
 }
 const markup = body.replace(/<video muted="" loop="" autoplay=""/g, '<video data-mm-poster="true" muted="" loop=""').replace(/(?:src|poster)="(\.\.\/[^\"]+)"/g, (all, value) => all.replace(value, `\${${register(value)}}`));
 let script = read('script.js');
-script = cut(script, '  const stories = [', '  if ("IntersectionObserver" in window) new IntersectionObserver(([entry], observer) => {', '', 'retired chapter runtime');
+script = cut(script, '  const selectAuthority = (phase) => {', '  if ("IntersectionObserver" in window) new IntersectionObserver(([entry], observer) => {', '', 'retired chapter runtime');
 script = cut(script, '    restartBenefitTimer();\n  });', null, '  });', 'retired benefit timer');
-script = cut(script, '  selectStory(0);\n  selectAuthority("work");\n  selectDividend("practice");\n', null, '', 'retired chapter start');
+script = cut(script, '  selectAuthority("work");\n  selectDividend("practice");\n', null, '', 'retired chapter start');
 // The doors are links now; the page they name is where the click goes.
 script = cut(script, '  within("opening", "[data-route-choice]").forEach((button) => button.addEventListener("click", () => selectRoute(button.dataset.routeChoice, true, true)));\n', null, '', 'hero door binding');
 let runtime = script.replace(/^\(\(\) => \{/, 'export function mountHomepageRuntime(root, { onStart }) {').replace(/\}\)\(\);\s*$/, '}');
@@ -107,6 +112,8 @@ runtime = runtime.replace('    navigation.querySelector(`${variant} .menu-contro
 runtime = runtime.replace('  const setNavigation = (open, opener = null) => {', '  const setNavigation = (open, opener = null) => {\n    const focusVersion = ++navigationFocusVersion;');
 runtime = runtime.replace(/      requestAnimationFrame\(focusNavigationClose\);\r?\n      setTimeout\(focusNavigationClose, 60\);/, '      requestAnimationFrame(() => focusNavigationClose(focusVersion));');
 runtime = runtime.replace('const restoreNavigationFocus = () => navigationReturnFocus?.focus({ preventScroll: true });', 'const restoreNavigationFocus = () => { if (focusVersion === navigationFocusVersion && (document.activeElement === document.body || navigation.contains(document.activeElement))) navigationReturnFocus?.focus({ preventScroll: true }); };');
+runtime = cut(runtime, 'button.toggleAttribute("aria-current", Number(button.dataset.era) === index)', null, 'setCurrent(button, Number(button.dataset.era) === index)', 'history current state');
+runtime = cut(runtime, '() => selectStory(Number(button.dataset.era))', null, '() => { const index = Number(button.dataset.era); selectStory(index); choice({ section: "history", index }); }', 'history choice');
 runtime = runtime.replace('    video.play().catch(() => {});', '    if (!reducedMotion.matches) video.play().catch(() => {});');
 runtime = cut(runtime, '  selectRoute("brain");', null, `  const syncMotionMedia = () => root.querySelectorAll('video').forEach(video => {
     if (reducedMotion.matches) video.pause();
@@ -123,12 +130,12 @@ runtime = runtime.replace('    if (shouldScroll) scope("route").scrollIntoView',
 runtime = runtime.replace(/"(\.\.\/[^\"]+\.(?:mp4|webp))"/g, (_, value) => register(value));
 runtime = runtime.replace('location.href = `/?start=${button.dataset.startRoute}`;', 'onStart(button.dataset.startRoute);');
 runtime = cut(runtime, '  selectRoute("brain");', null, `  root.querySelectorAll('a[href="/start"]').forEach(link => listen(link, 'click', event => { event.preventDefault(); setNavigation(false); onStart('home'); }));\n  selectRoute("brain");`, 'start links');
-runtime = cut(runtime, '  selectRoute("brain");', null, `  selectRoute("brain");\n  return {\n    destroy() {\n      abort.abort();\n      observers.forEach(observer => observer.disconnect());\n      timeouts.forEach(id => window.clearTimeout(id));\n      intervals.forEach(id => window.clearInterval(id));\n      frames.forEach(id => window.cancelAnimationFrame(id));\n      root.querySelectorAll('video').forEach(video => video.pause());\n      root.classList.remove('has-motion');\n      document.body.classList.remove('navigation-open');\n      site.removeAttribute('inert');\n    },\n  };`, 'lifecycle return');
+runtime = cut(runtime, '  selectRoute("brain");', null, `  selectRoute("brain");\n  return {\n    selectStory,\n    destroy() {\n      abort.abort();\n      observers.forEach(observer => observer.disconnect());\n      timeouts.forEach(id => window.clearTimeout(id));\n      intervals.forEach(id => window.clearInterval(id));\n      frames.forEach(id => window.cancelAnimationFrame(id));\n      root.querySelectorAll('video').forEach(video => video.pause());\n      root.classList.remove('has-motion');\n      document.body.classList.remove('navigation-open');\n      site.removeAttribute('inert');\n    },\n  };`, 'lifecycle return');
 const imports = [...assets.values()].map(({name, absolute}) => `import ${name} from ${JSON.stringify(path.relative(output, absolute).replaceAll('\\', '/'))};`).join('\n');
 const files = {
   'markup.ts': `// Generated from the immutable accepted R3. Run node scripts/qa/build-homepage-release.mjs.\n${imports}\nimport { leadershipChaptersMarkup } from "@/components/leadership-chapters/leadershipChapters";\nexport const homepageMarkup = \`${markup}\`;\n`,
   'runtime.js': `// Generated delivery adapter. Approved source remains unchanged.\n${imports}\n${runtime}`,
-  'runtime.d.ts': `export interface HomepageRuntime {\n  destroy(): void;\n}\nexport function mountHomepageRuntime(root: HTMLElement, options: { onStart: (route: 'home' | 'brain' | 'gtm') => void }): HomepageRuntime;\n`,
+  'runtime.d.ts': `export interface HomepageRuntime {\n  selectStory(index: number): void;\n  destroy(): void;\n}\nexport function mountHomepageRuntime(root: HTMLElement, options: { onStart: (route: 'home' | 'brain' | 'gtm') => void }): HomepageRuntime;\n`,
 };
 for (const name of ['component-styles.css', 'page.css']) {
   const ast = postcss.parse(read(name));

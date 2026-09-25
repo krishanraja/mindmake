@@ -53,16 +53,22 @@ function top(word: Word): number | null {
   return rect ? rect.top : null;
 }
 
-function join(before: Word, last: Word) {
+/* Returns an undo, so a join that would push the pair past an edge that hides
+   it can be taken back. On /ai-brain "release judgement" at 44.8px is 311px, in
+   a 226px heading inside a panel that hides overflow, so joining it cut the
+   headline off (Krish, 2026-09-25). A lone last word is better than lost text. */
+function join(before: Word, last: Word): (() => void) | null {
   /* Only a plain gap inside one text node is joined; a gap that crosses an
      element boundary (a link, an emphasis) is left as written. */
-  if (before.node !== last.node) return;
+  if (before.node !== last.node) return null;
   const gap = before.node.data.slice(before.end, last.start);
-  if (!/^[ \t\n\r]+$/.test(gap)) return;
+  if (!/^[ \t\n\r]+$/.test(gap)) return null;
   const parent = before.node.parentElement;
   if (ownedByReact(parent)) {
-    before.node.data = before.node.data.slice(0, before.end) + NBSP + before.node.data.slice(last.start);
-    return;
+    const node = before.node;
+    const original = node.data;
+    node.data = node.data.slice(0, before.end) + NBSP + node.data.slice(last.start);
+    return () => { node.data = original; };
   }
   const tail = before.node.splitText(before.start);
   const rest = tail.splitText(last.end - before.start);
@@ -71,7 +77,29 @@ function join(before: Word, last: Word) {
   keep.style.whiteSpace = "nowrap";
   tail.parentNode?.insertBefore(keep, rest);
   keep.append(tail);
+  const host = keep.parentNode;
+  return () => { keep.replaceWith(...keep.childNodes); host?.normalize(); };
 }
+
+/* Whether the joined block now runs past an edge that hides it: an ancestor
+   that clips its overflow, or the viewport. A pair that merely overhangs its
+   own box, with nothing clipping it, still reads in full and stays joined. */
+function clipped(el: Element): boolean {
+  if (el.scrollWidth <= el.clientWidth + 1) return false;
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const right = Math.max(...[...range.getClientRects()].map((r) => r.right), el.getBoundingClientRect().right);
+  if (right > window.innerWidth + 1) return true;
+  for (let node = el.parentElement; node && node !== document.body; node = node.parentElement) {
+    if (/hidden|clip|auto|scroll/.test(getComputedStyle(node).overflowX) && right > node.getBoundingClientRect().right + 1) return true;
+  }
+  return false;
+}
+
+/* Blocks whose join was taken back. Undoing is itself a mutation, so without
+   this the observer below would join and undo them for ever. A resize clears
+   it, since a wider column may fit the pair. */
+let declined = new WeakSet<Element>();
 
 function repair(root: ParentNode) {
   for (const el of root.querySelectorAll(BLOCK_TEXT)) {
@@ -81,13 +109,15 @@ function repair(root: ParentNode) {
     if (!blockish(el) && el.tagName !== "A" && el.tagName !== "BUTTON") continue;
     if ([...el.children].some((child) => child.tagName !== "BR" && blockish(child) && child.textContent?.trim())) continue;
     if (el.querySelector("br")) continue;
+    if (declined.has(el)) continue;
     const pair = lastTwoWords(el);
     if (!pair) continue;
     const [before, last] = pair;
     const a = top(before);
     const b = top(last);
     if (a === null || b === null || b - a < 1) continue;
-    join(before, last);
+    const undo = join(before, last);
+    if (undo && clipped(el)) { undo(); declined.add(el); }
   }
 }
 
@@ -106,6 +136,7 @@ export function keepLastWords(): () => void {
   const onResize = () => {
     if (window.innerWidth === width) return;
     width = window.innerWidth;
+    declined = new WeakSet<Element>();
     schedule();
   };
   const observer = new MutationObserver((records) => {

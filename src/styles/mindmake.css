@@ -346,6 +346,54 @@ html {
   text-wrap: balance;
   color: var(--mm-fg);
 }
+/* The AI Brain page sets each chapter's ink on the chapter and lets its
+   headings inherit it: near-black on the paper chapters, paper on the dark
+   ones. The shell colour above outranks inheritance, so on /ai-brain the
+   paper chapters' headlines rendered in the shell's near-white on cream, at a
+   contrast of about 1.1:1 (Krish, 2026-09-25). Inside the Brain the headings
+   inherit again; the page's own heading colours still win where it sets one. */
+.mm-site .mm-locked-brain :is(h1, h2, h3, h4) { color: inherit; }
+/* The chapter rail (01 to 04) is fixed 1rem from the right edge and 44px
+   wide, but each chapter's inline padding is max(4vw, ...), which is 58px at
+   1440 and 51px at 1280: the rail sat on top of the right edge of every
+   instrument panel (Krish, 2026-09-25). Chapters reserve the rail's width. */
+@media (min-width: 761px) {
+  .mm-site .mm-locked-brain .chapter { padding-inline-end: max(4vw, calc((100vw - 1600px) / 2), 4.5rem); }
+}
+/* Text below WCAG AA on /ai-brain (Krish, 2026-09-25). The small mono labels
+   and captions on the dark panels were paper at 40 to 50% opacity, 3.1 to
+   4.3:1; at 62% they are 5.5:1 or better on every panel ground. The living
+   record's lede was ink at 62% on amber, 3.4:1, now 85%, 5.2:1. The green
+   action labels on paper were 3.8:1, now 5.1:1. Colour only: size, weight
+   and placement are the page's own. */
+.mm-site .mm-locked-brain :is(.opening-note, .plain-inspector > small, .honesty-note, .record-counts > span, .record-card small, .record-controls small, .truth-bar span, .meaning-node-s2 > span) {
+  color: rgba(234, 223, 201, .62);
+}
+.mm-site .mm-locked-brain .living-record .chapter-copy > p { color: rgba(7, 17, 14, .85); }
+.mm-site .mm-locked-brain .machine-action > b { color: rgb(24, 104, 75); }
+/* The inspector headline was sized to the viewport, not to its column: at
+   1440 it was 36px in a 182px column, so "information" alone (196px) ran out
+   of the panel, and a title's last two words ("release judgement", 311px at
+   1800 in 227px) could not share a line without being cut. It now fills its
+   column rather than the page's 10ch display measure, and is capped at 14% of
+   the inspector's width, which fits every title's longest word and
+   the default title's last two words together; wide panels keep more of the
+   original size. On a phone the headline shares a row with its label, so it
+   steps down from 1.45rem to 1.15rem. */
+.mm-site .mm-locked-brain .plain-inspector { container-type: inline-size; }
+.mm-site .mm-locked-brain .plain-inspector > h3 { max-inline-size: none; font-size: min(clamp(1.8rem, 2.5vw, 2.8rem), 14cqi); }
+@media (max-width: 760px) {
+  .mm-site .mm-locked-brain .plain-inspector > h3 { font-size: 1.15rem; }
+}
+/* A node's label always sat to its right, so every node in the right-hand
+   third of the Brain field (--x of 62% and more) ran its label past the
+   field's edge, where the field hides it: "Human release judgement" lost
+   its last word at 1024 and 1100. Those labels sit to the node's left. */
+.mm-site .mm-locked-brain .meaning-node-s2:is([style*="--x: 6"], [style*="--x: 7"], [style*="--x: 8"], [style*="--x: 9"]) span {
+  left: auto;
+  right: 30px;
+  text-align: right;
+}
 /* Newsreader sets smaller on the body than Archivo did at the same size, so
    each step is a fifth larger to hold the same presence. */
 .mm-site h1 { font-size: clamp(44px, 7vw, 76px); font-weight: 380; letter-spacing: -.05em; line-height: .96; }
@@ -860,6 +908,12 @@ html {
 }
 @media (hover: hover) and (pointer: fine) {
   .mm-footer nav a:hover { color: var(--mm-mint); }
+}
+/* On a phone the full footer's ten links, being uneven in width, fell
+   2+3+4+1 and left "Terms" alone on the last row (/case-studies). Two even
+   columns keep every row paired, for the four-link footer too. */
+@media (max-width: 520px) {
+  .mm-footer nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 .mm-footer small { color: var(--mm-mut); font-family: var(--mm-mono); font-size: 10.5px; letter-spacing: .05em; }
 

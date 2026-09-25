@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* Writes the material-review receipts for the /ai-gtm candidate (r44) from
+/* Writes the material-review receipts for the /ai-gtm candidate (r45) from
    evidence that already exists, and refuses when that evidence does not
    support them.
 
@@ -23,7 +23,7 @@ import path from "node:path";
 import { computeCandidateIdentity } from "./material-review-firewall-lib.mjs";
 
 const root = path.resolve(import.meta.dirname, "../..");
-const manifestPath = process.argv[2] ?? "quality/ai-gtm/material-review-candidate-r44.json";
+const manifestPath = process.argv[2] ?? "quality/ai-gtm/material-review-candidate-r45.json";
 const manifest = JSON.parse(await readFile(path.resolve(root, manifestPath), "utf8"));
 const profile = JSON.parse(await readFile(path.resolve(root, manifest.profile), "utf8"));
 const identity = await computeCandidateIdentity(root, manifest);

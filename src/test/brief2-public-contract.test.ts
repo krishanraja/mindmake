@@ -33,7 +33,7 @@ const PUBLIC_SURFACES = [
   "src/pages/Index.tsx",
   "src/pages/AiBrain.tsx",
   "src/pages/AiGtm.tsx",
-  /* r44 moved the page's markup into its chapters; the gates follow it. */
+  /* r45 moved the page's markup into its chapters; the gates follow it. */
   "src/components/ai-gtm/Opening.tsx",
   "src/components/ai-gtm/Workaround.tsx",
   "src/components/ai-gtm/StepRail.tsx",

@@ -487,7 +487,7 @@
       ]
     },
     {
-      "id": "AI-GTM-R44-HIERARCHY-001",
+      "id": "AI-GTM-R45-HIERARCHY-001",
       "exactFeedback": "https://mindmake.co/ai-gtm - this page has the most confusing user experience. As I scroll, I just have no idea where to look. There's no visual hierarchy of sections. There are no scroll builds. It doesn't set up a universal problem that someone will really feel empathically that we understand them. None of this talks to a user one-to-one, so it doesn't really set up the problem that we're solving. The fonts are all over the place. They're not part of a cohesive design system as per the rest of the repository, nor is the rest of the look and feel of this page, to be honest. The content is more or less there in terms of what we're supposed to be saying and offering, but everything else is not up to scratch in terms of:\n\n* the copywriting\n* the UX\n* the aesthetics\n* the design system\n* the build of the page\n* the visual delight etc etc",
       "source": "Krish, 25 September 2026, review of live /ai-gtm (production 6076bfd, GTM-PLAIN-R2 with r43 refinements)",
       "surface": "/ai-gtm",
@@ -498,14 +498,14 @@
       "requiredOutcome": "Each section carries one idea on one readable screen, with one heading, and the eye has one obvious place to land at every scroll position.",
       "acceptanceTest": "At 1440x900 and 390x844, every scroll position shows exactly one chapter heading or pinned step in the primary position; no two bordered panels compete; no section eyebrow sits above a heading.",
       "status": "implemented-awaiting-review",
-      "resolution": "Rebuilt as full-screen chapters with one heading each, a mono step rail and no section eyebrows or competing bordered panels (quality/route-lock/approved-production-r44.json). Hierarchy is a matter of taste: awaiting Krish's review of the rendered page.",
+      "resolution": "Rebuilt as full-screen chapters with one heading each, a mono step rail and no section eyebrows or competing bordered panels (quality/route-lock/approved-production-r45.json). Hierarchy is a matter of taste: awaiting Krish's review of the rendered page.",
       "evidence": [
         "artifacts/ai-gtm/scroll-build/report.json (Chromium gate: thirteen viewports forward and reverse; no clipping at twelve sizes for both doors and every seat, and with WCAG 1.4.12 text spacing; rail hold; reduced motion; no-JS; negative control)",
         "src/test/brief2-public-contract.test.ts (eyebrow ban covers the chapter components)"
       ]
     },
     {
-      "id": "AI-GTM-R44-SCROLL-BUILD-001",
+      "id": "AI-GTM-R45-SCROLL-BUILD-001",
       "exactFeedback": "https://mindmake.co/ai-gtm - this page has the most confusing user experience. As I scroll, I just have no idea where to look. There's no visual hierarchy of sections. There are no scroll builds. It doesn't set up a universal problem that someone will really feel empathically that we understand them. None of this talks to a user one-to-one, so it doesn't really set up the problem that we're solving. The fonts are all over the place. They're not part of a cohesive design system as per the rest of the repository, nor is the rest of the look and feel of this page, to be honest. The content is more or less there in terms of what we're supposed to be saying and offering, but everything else is not up to scratch in terms of:\n\n* the copywriting\n* the UX\n* the aesthetics\n* the design system\n* the build of the page\n* the visual delight etc etc",
       "source": "Krish, 25 September 2026, review of live /ai-gtm (production 6076bfd, GTM-PLAIN-R2 with r43 refinements)",
       "surface": "/ai-gtm",
@@ -516,7 +516,7 @@
       "requiredOutcome": "The lever, 30-day and team chapters pin, advance step by step with scroll, reverse naturally and release at the end, as /new-age-leadership does.",
       "acceptanceTest": "A Chromium sweep forward and in reverse at 1440x900, 1366x768, 390x844, 360x640, 320x568 and 844x390 records every step in order both ways, the stage pinned at the header height, and release at both ends; reduced motion keeps the pins; with scripting off every step is visible.",
       "status": "verified",
-      "resolution": "The four places, the 30 days and the team pin under the masthead and step with scroll in both directions, from position alone (src/hooks/usePinnedSteps.ts), and release at either end; a rail press holds its step only until the page arrives; reduced motion keeps every pin. A stage pins only where its step fits: on a phone the four places pin and the 30 days and the team are documents with every step and seat laid out, and short screens, landscape phones, no-JS readers and readers whose own text spacing outgrows a stage get every step in flow, released before they reach it. Recorded in quality/route-lock/approved-production-r44.json.",
+      "resolution": "The four places, the 30 days and the team pin under the masthead and step with scroll in both directions, from position alone (src/hooks/usePinnedSteps.ts), and release at either end; a rail press holds its step only until the page arrives; reduced motion keeps every pin. A stage pins only where its step fits: on a phone the four places pin and the 30 days and the team are documents with every step and seat laid out, and short screens, landscape phones, no-JS readers and readers whose own text spacing outgrows a stage get every step in flow, released before they reach it. Recorded in quality/route-lock/approved-production-r45.json.",
       "evidence": [
         "artifacts/ai-gtm/scroll-build/report.json (Chromium gate: thirteen viewports forward and reverse; no clipping at twelve sizes for both doors and every seat, and with WCAG 1.4.12 text spacing; rail hold; reduced motion; no-JS; negative control)",
         "artifacts/ai-gtm/scroll-build/scroll-build-evidence.json (validated by scripts/qa/scroll-build-evidence.mjs)",
@@ -524,7 +524,7 @@
       ]
     },
     {
-      "id": "AI-GTM-R44-EMPATHY-001",
+      "id": "AI-GTM-R45-EMPATHY-001",
       "exactFeedback": "https://mindmake.co/ai-gtm - this page has the most confusing user experience. As I scroll, I just have no idea where to look. There's no visual hierarchy of sections. There are no scroll builds. It doesn't set up a universal problem that someone will really feel empathically that we understand them. None of this talks to a user one-to-one, so it doesn't really set up the problem that we're solving. The fonts are all over the place. They're not part of a cohesive design system as per the rest of the repository, nor is the rest of the look and feel of this page, to be honest. The content is more or less there in terms of what we're supposed to be saying and offering, but everything else is not up to scratch in terms of:\n\n* the copywriting\n* the UX\n* the aesthetics\n* the design system\n* the build of the page\n* the visual delight etc etc",
       "source": "Krish, 25 September 2026, review of live /ai-gtm (production 6076bfd, GTM-PLAIN-R2 with r43 refinements)",
       "surface": "/ai-gtm",
@@ -542,7 +542,7 @@
       ]
     },
     {
-      "id": "AI-GTM-R44-ONE-TO-ONE-001",
+      "id": "AI-GTM-R45-ONE-TO-ONE-001",
       "exactFeedback": "https://mindmake.co/ai-gtm - this page has the most confusing user experience. As I scroll, I just have no idea where to look. There's no visual hierarchy of sections. There are no scroll builds. It doesn't set up a universal problem that someone will really feel empathically that we understand them. None of this talks to a user one-to-one, so it doesn't really set up the problem that we're solving. The fonts are all over the place. They're not part of a cohesive design system as per the rest of the repository, nor is the rest of the look and feel of this page, to be honest. The content is more or less there in terms of what we're supposed to be saying and offering, but everything else is not up to scratch in terms of:\n\n* the copywriting\n* the UX\n* the aesthetics\n* the design system\n* the build of the page\n* the visual delight etc etc",
       "source": "Krish, 25 September 2026, review of live /ai-gtm (production 6076bfd, GTM-PLAIN-R2 with r43 refinements)",
       "surface": "/ai-gtm",
@@ -561,7 +561,7 @@
       ]
     },
     {
-      "id": "AI-GTM-R44-DESIGN-SYSTEM-001",
+      "id": "AI-GTM-R45-DESIGN-SYSTEM-001",
       "exactFeedback": "https://mindmake.co/ai-gtm - this page has the most confusing user experience. As I scroll, I just have no idea where to look. There's no visual hierarchy of sections. There are no scroll builds. It doesn't set up a universal problem that someone will really feel empathically that we understand them. None of this talks to a user one-to-one, so it doesn't really set up the problem that we're solving. The fonts are all over the place. They're not part of a cohesive design system as per the rest of the repository, nor is the rest of the look and feel of this page, to be honest. The content is more or less there in terms of what we're supposed to be saying and offering, but everything else is not up to scratch in terms of:\n\n* the copywriting\n* the UX\n* the aesthetics\n* the design system\n* the build of the page\n* the visual delight etc etc",
       "source": "Krish, 25 September 2026, review of live /ai-gtm (production 6076bfd, GTM-PLAIN-R2 with r43 refinements)",
       "surface": "/ai-gtm",
@@ -580,7 +580,7 @@
       ]
     },
     {
-      "id": "AI-GTM-R44-OWNER-REVIEW-001",
+      "id": "AI-GTM-R45-OWNER-REVIEW-001",
       "exactFeedback": "https://mindmake.co/ai-gtm - this page has the most confusing user experience. As I scroll, I just have no idea where to look. There's no visual hierarchy of sections. There are no scroll builds. It doesn't set up a universal problem that someone will really feel empathically that we understand them. None of this talks to a user one-to-one, so it doesn't really set up the problem that we're solving. The fonts are all over the place. They're not part of a cohesive design system as per the rest of the repository, nor is the rest of the look and feel of this page, to be honest. The content is more or less there in terms of what we're supposed to be saying and offering, but everything else is not up to scratch in terms of:\n\n* the copywriting\n* the UX\n* the aesthetics\n* the design system\n* the build of the page\n* the visual delight etc etc",
       "source": "Krish, 25 September 2026, review of live /ai-gtm (production 6076bfd, GTM-PLAIN-R2 with r43 refinements)",
       "surface": "/ai-gtm",

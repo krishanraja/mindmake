@@ -20,7 +20,7 @@ import signalsArrivePoster from "../../prototypes/website-redesign-recovery/case
 import "@/styles/mindmake.css";
 import "@/styles/mindmake-ai-gtm.css";
 
-/* The AI GTM page (r44, awaiting the owner's review of the rendered page).
+/* The AI GTM page (r45, awaiting the owner's review of the rendered page).
 
    Told as one argument, in the order a buyer lives it: the change they already
    feel, in four places; the workaround they would reach for and what it would

@@ -6,7 +6,7 @@ import { afterEach, describe, expect, it, onTestFinished, vi } from "vitest";
 import { heldProgress, stepFor, usePinnedSteps } from "@/hooks/usePinnedSteps";
 
 /**
- * The /ai-gtm chapters pin and step with scroll (r44). The step is derived
+ * The /ai-gtm chapters pin and step with scroll (r45). The step is derived
  * from position and nothing else, which is what makes the chapter reverse on
  * the way back up and release by itself at either end. These tests hold that
  * contract without a browser: the geometry is stubbed the way the homepage

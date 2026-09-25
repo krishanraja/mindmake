@@ -10,7 +10,7 @@ const root = resolve(import.meta.dirname, "../..");
 const sha256 = (content) => createHash("sha256").update(content).digest("hex");
 
 const surfaces = [
-  /* The GTM surface was retired in r44: /ai-gtm is written by hand on the
+  /* The GTM surface was retired in r45: /ai-gtm is written by hand on the
      house tokens in src/styles/mindmake-ai-gtm.css, and nothing may generate
      the old sheet back. */
   {

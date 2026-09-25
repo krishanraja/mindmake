@@ -7,7 +7,7 @@ import { render as serverRender } from "@/entry-server";
 import AiGtm from "@/pages/AiGtm";
 
 /**
- * /ai-gtm as one argument (r44): the change the reader feels, in four places;
+ * /ai-gtm as one argument (r45): the change the reader feels, in four places;
  * the turn to the offer; the 30 days; the team; one result. These read the
  * server render for what every reader gets before scripts run, and the client
  * render for what the one switch on the page changes.

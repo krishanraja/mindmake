@@ -1,14 +1,31 @@
 <!doctype html>
 <html lang="en-GB">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SMXQH8E4CM"></script>
+    <!-- Google tag (gtag.js)
+
+         Loaded only once the visitor allows it. Until then
+         nothing is requested from Google and no cookie is set: the queue below
+         holds the config, and gtag.js is added by mmLoadGoogleTag, which runs
+         here for a stored "analytics" choice and from the notice's Allow.
+         "accepted" is the old Plausible-only answer and never counts as a yes
+         to Google, which is also what keeps every QA run out of the property. -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied'});
       gtag('js', new Date());
 
       gtag('config', 'G-SMXQH8E4CM');
+      window.mmLoadGoogleTag = function(){
+        if (window.mmGoogleTagLoaded) return;
+        window.mmGoogleTagLoaded = true;
+        gtag('consent', 'update', {analytics_storage: 'granted'});
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-SMXQH8E4CM';
+        document.head.appendChild(s);
+      };
+      try { if (localStorage.getItem('mindmake_consent') === 'analytics') window.mmLoadGoogleTag(); } catch (e) {}
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />

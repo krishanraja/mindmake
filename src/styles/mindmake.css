@@ -1287,6 +1287,7 @@ html {
    of the same problem: a visitor whose text is scaled up gets two tidy lines
    rather than a button reading GOT / IT. */
 .mm-cookie-notice button { white-space: nowrap; }
+.mm-cookie-actions { display: flex; gap: 8px; margin-left: auto; }
 
 /* Flush to the bottom of the screen, and the action bar stacks on top of it
    from the height this publishes. It used to sit at `76px`, the bar's height,

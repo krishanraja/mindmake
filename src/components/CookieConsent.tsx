@@ -1,6 +1,53 @@
 import { useState, useEffect, useLayoutEffect, useRef } from "react";
 
 const CONSENT_KEY = "mindmake_consent";
+/* "analytics" allows Google Analytics and "essential" declines it. Any stored
+   value means the visitor has answered, including the older "accepted", which
+   was given to a Plausible-only notice and is never read as a yes to Google. */
+const ALLOW = "analytics";
+const DECLINE = "essential";
+
+declare global {
+  interface Window {
+    mmLoadGoogleTag?: () => void;
+  }
+}
+
+function remember(choice: string) {
+  try {
+    localStorage.setItem(CONSENT_KEY, choice);
+  } catch {
+    // Keep the choice for this page view when storage is unavailable.
+  }
+}
+
+/**
+ * Withdrawing is as easy as allowing: forget the answer, remove the Google
+ * Analytics cookies and reload, so the page starts without the tag and the
+ * notice asks again.
+ */
+export function resetAnalyticsChoice() {
+  try {
+    localStorage.removeItem(CONSENT_KEY);
+  } catch {
+    // Nothing stored to forget.
+  }
+  const host = window.location.hostname.split(".").slice(-2).join(".");
+  for (const cookie of document.cookie.split(";")) {
+    const name = cookie.split("=")[0].trim();
+    if (name !== "_ga" && !name.startsWith("_ga_")) continue;
+    for (const domain of ["", `; domain=.${host}`]) {
+      document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/${domain}`;
+    }
+  }
+  window.location.reload();
+}
+
+export const AnalyticsChoiceReset = () => (
+  <button className="mm-text-button" type="button" onClick={resetAnalyticsChoice}>
+    Change your analytics choice
+  </button>
+);
 
 /* useLayoutEffect on the server does nothing and React says so, once per page,
    which was twenty-one stack traces in a build log where a real warning has to
@@ -81,12 +128,14 @@ export const CookieConsent = () => {
     };
   }, [visible]);
 
-  const accept = () => {
-    try {
-      localStorage.setItem(CONSENT_KEY, "accepted");
-    } catch {
-      // Keep the choice for this page view when storage is unavailable.
-    }
+  const allow = () => {
+    remember(ALLOW);
+    window.mmLoadGoogleTag?.();
+    setVisible(false);
+  };
+
+  const decline = () => {
+    remember(DECLINE);
     setVisible(false);
   };
 
@@ -104,11 +153,18 @@ export const CookieConsent = () => {
       {/* One line. It was three on a phone, plus a button, floating over the
           reading on every screen of the visit until dismissed. */}
       <p>
-        Private analytics only. <a href="/privacy">Privacy</a>
+        Allow Google Analytics? <a href="/privacy">Privacy</a>
       </p>
-      <button className="mm-button mm-button-small" type="button" onClick={accept}>
-        Got it
-      </button>
+      {/* One group, so a narrow row moves both answers down together rather
+          than leaving Decline alone on a line of its own. */}
+      <div className="mm-cookie-actions">
+        <button className="mm-button mm-button-small" type="button" onClick={allow}>
+          Allow
+        </button>
+        <button className="mm-button mm-button-small" type="button" onClick={decline}>
+          Decline
+        </button>
+      </div>
     </div>
   );
 };
